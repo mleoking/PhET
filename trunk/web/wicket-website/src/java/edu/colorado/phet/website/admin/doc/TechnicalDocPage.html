@@ -13,6 +13,11 @@
             .admin-panel {
                 padding: 10px;
             }
+
+            .tech-doc pre {
+                margin-left: 4em;
+                color: #006666;
+            }
         </style>
     </wicket:head>
 </head>
@@ -20,7 +25,418 @@
 
 <wicket:extend>
 
-    <div class="admin-panel">
+    <div class="admin-panel tech-doc standard-content">
+
+        <h1>Technical Website Documentation</h1>
+
+        <h2>Introduction</h2>
+
+        A brief introduction about the technologies used, directory structures and organization.
+
+        <h3>Technologies</h3>
+
+        <ul>
+            <li><a href="http://httpd.apache.org/">Apache HTTPD 2.2.x</a> (web server)</li>
+            <li><a href="http://tomcat.apache.org/">Apache Tomcat 6.x</a> (servlet container, web server)</li>
+            <li><a href="http://wicket.apache.org/">Apache Wicket 1.3</a> (web framework)</li>
+            <li><a href="http://www.postgresql.org/">PostgreSQL 8.x</a> (database)</li>
+            <li><a href="https://www.hibernate.org/">Hibernate 3.1 Core</a> (maps database entries into objects)</li>
+        </ul>
+
+        <h3>Important Directory Structures</h3>
+
+        <table>
+            <tr>
+                <td>assets/</td>
+                <td>Any development files needed but not deployed. PSD images, etc. should go here.</td>
+            </tr>
+            <tr>
+                <td>contrib/</td>
+                <td>External Sources and Libraries</td>
+            </tr>
+            <tr>
+                <td>data/</td>
+                <td>Website deployment properties and credits</td>
+            </tr>
+            <tr>
+                <td>deploy/</td>
+                <td>Holds the built ROOT.war application file, and any other files to be deployed</td>
+            </tr>
+            <tr>
+                <td>root/</td>
+                <td>
+                    The content root, everything under here is deployed to the web server. Includes any necessary CSS,
+                    images, Javascript, etc.
+                </td>
+            </tr>
+            <tr>
+                <td>root/META-INF/context.xml</td>
+                <td>Tomcat-specific configuration</td>
+            </tr>
+            <tr>
+                <td>root/WEB-INF/web.xml</td>
+                <td>
+                    Application Servlet configuration. Add servlet changes or filters here
+                </td>
+            </tr>
+            <tr>
+                <td>root/WEB-INF/lib/</td>
+                <td>External libraries used that are bundled inside the ROOT.war that is deployed</td>
+            </tr>
+            <tr>
+                <td>src/flash/</td>
+                <td>Flash sources, used for the front-page rotator. Includes FLV animations</td>
+            </tr>
+            <tr>
+                <td>src/java/</td>
+                <td>Main source root for the website</td>
+            </tr>
+            <tr>
+                <td>src/test/</td>
+                <td>Various test applications and unit tests associated with the website, but not deployed</td>
+            </tr>
+            <tr>
+                <td>template-files/</td>
+                <td>Files that are not deployed to the website, but used in HTML previews</td>
+            </tr>
+        </table>
+
+        <h3>Source Code Organization</h3>
+
+        The following paths are under src/java with package edu.colorado.phet.website.
+
+        <table>
+            <tr>
+                <td>admin/</td>
+                <td>
+                    Administrative section of the website, that also includes deployment code (admin/deploy/) and
+                    documentation (admin/doc/)
+                </td>
+            </tr>
+            <tr>
+                <td>authentication/</td>
+                <td>
+                    Code that deals with authentication and registering / logging in / logging out / editing profiles
+                </td>
+            </tr>
+            <tr>
+                <td>borders/</td>
+                <td>Wicket borders (HTML that is wrapped around inner content seamlessly)</td>
+            </tr>
+            <tr>
+                <td>cache/</td>
+                <td>Most things related to caching. See CacheUtils for info on what is cached</td>
+            </tr>
+            <tr>
+                <td>components/</td>
+                <td>Customized Wicket components that are in use in different areas</td>
+            </tr>
+            <tr>
+                <td>constants/</td>
+                <td>Various constants used throughout the website</td>
+            </tr>
+            <tr>
+                <td>content/</td>
+                <td>Pages and corresponding content panels</td>
+            </tr>
+            <tr>
+                <td>data/</td>
+                <td>Hibernate data models, along with related enums, utilities, and event handling</td>
+            </tr>
+            <tr>
+                <td>menu/</td>
+                <td>Navigation menu code</td>
+            </tr>
+            <tr>
+                <td>notification/</td>
+                <td>Email notification code</td>
+            </tr>
+            <tr>
+                <td>panels/</td>
+                <td>Panels meant to be used in multiple places</td>
+            </tr>
+            <tr>
+                <td>services/</td>
+                <td>XML-based query services, along with the Servlet filters that support them</td>
+            </tr>
+            <tr>
+                <td>templates/</td>
+                <td>Pages that are used for either static pages or markup inheritance</td>
+            </tr>
+            <tr>
+                <td>translation/</td>
+                <td>Everything having to do with website translation</td>
+            </tr>
+            <tr>
+                <td>util/</td>
+                <td>Various utility classes</td>
+            </tr>
+            <tr>
+                <td>PhetWicketApplication</td>
+                <td>The website entry point, called on Wicket filter startup and shutdown</td>
+            </tr>
+        </table>
+
+        <h3>Overall Server Organization</h3>
+
+        <p>
+            Apache HTTPD is used as the front end. HTTPD serves the static content directly (sims directories,
+            publications, etc.) All other requests are forwarded to Tomcat, which runs Java code written for the Wicket
+            framework. They are forwarded using the Tomcat Connector (mod_jk), and should be running on the same machine
+            so that the Wicket code can have read/write access to the HTTPD content.
+        </p>
+
+        <h2>Setup of a Production / Development Server</h2>
+
+        <h3>Software requirements</h3>
+
+        <ul>
+            <li>Currently some variant of linux, but advanced users could probably get it running on windows or mac</li>
+            <li>
+                Apache Tomcat 6.x (could in the future be moved to different server software, but this is used right now
+            </li>
+            <li>Postgresql 8.x (tested with 8.4+)</li>
+            <li>Apache HTTPD 2.2.x (untested on the 2.0.x series)</li>
+            <li>Apache Tomcat Connector (mod_jk, http://tomcat.apache.org/connectors-doc/ and tested with 1.2.28)</li>
+            <li>Apache GZip compression (mod_deflate)</li>
+        </ul>
+
+        <p>
+            Installation of Tomcat, Postgresql, Apache and the connector not covered here. Used
+            http://www.ubuntugeek.com/tomcat-6-installation-on-ubuntu-feisty.html for Tomcat (ignoring the
+            installing-java part), and used PostgreSQL's default installer. Thus $CATALINA_HOME$ is /usr/share/tomcat6
+            on
+            phet-server and my development machines, and PostgreSQL is installed in /opt/PostgreSQL/8.4. Apache HTTPD
+            can also use
+            a standard installation, many documents are available online (or for linux, just install the packages).
+            mod_jk can be downloaded from the above mentioned website, installed as mod_jk.so what is usually
+            /usr/lib/apache2/modules/ and loaded as a module in httpd.conf.
+        </p>
+
+
+        <h3>Postgresql Configuration</h3>
+
+        <p>I will use "website" for now as the name of the database.</p>
+
+        <p>
+            Create the database:
+        </p>
+        <pre>/opt/PostgreSQL/8.4/bin/createdb --encoding=UTF-8 website</pre>
+
+        <p>
+            You can also create a specific user to access the database with, or use the default "postgres" user.
+        </p>
+
+        <p>
+            To initialize the database with a dump file:
+        </p>
+        <pre>/opt/PostgreSQL/8.4/bin/psql -U [username] website &lt; /path/to/dump.sql</pre>
+
+        <p>
+            Dump files can be found on figaro at /data/web/htdocs/phetsims/website-backup/website-database/backups, or
+            can be produced with the following command:
+        </p>
+
+        <pre>pg_dump --clean website_production -h figaro.colorado.edu &gt; postgresql-dump.sql</pre>
+
+
+        <h3>Apache Configuration</h3>
+
+        <p>
+            Apache needs to be configured to send certain requests to Tomcat, but for other requests to handle them
+            itself. First create a workers.properties file and place with Apache configuration
+            (example of /etc/apache2/workers.properties) with the following contents:
+        </p>
+
+        <pre>
+worker.list=worker1
+worker.worker1.type=ajp13
+worker.worker1.host=localhost
+worker.worker1.port=8009
+        </pre>
+
+        <p>
+            Port 8009 will be used to communicate between Apache and Tomcat. When a request comes into Apache that it
+            needs to process, a request will be sent through this port.
+        </p>
+
+        <p>
+            In an Apache configuration file (in this case httpd.conf, but could be elsewhere) add the following or
+            equivalents:
+        </p>
+
+        <pre>
+LoadModule jk_module /usr/lib/apache2/modules/mod_jk.so
+
+JkWorkersFile /etc/apache2/workers.properties
+JkShmFile /var/log/apache2/mod_jk.shm
+JkLogFile /var/log/apache2/mod_jk.log
+JkLogLevel info
+JkLogStampFormat "[%a %b %d %H:%M:%S %Y] "
+        </pre>
+
+        <p>
+            In the same place or in a separate VirtualHost declaration, we need to specify a DocumentRoot, mod_jk mounts
+            and compression settings.
+        </p>
+
+        <pre>
+DocumentRoot /var/phet
+JkMount /* worker1
+JkUnMount /sims/* worker1
+JkUnMount /publications/* worker1
+JkUnMount /workshops/* worker1
+JkUnMount /files/* worker1
+JkUnMount /installer/* worker1
+JkUnMount /newsletters/* worker1
+JkUnMount /statistics/* worker1
+
+&lt;Location/&gt;
+# mod_deflate (compress output for browsers that support it)
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css application/x-javascript text/javascript text/x-js application/json application/xml application/javascript
+    BrowserMatch ^Mozilla/4 gzip-only-text/html
+    BrowserMatch ^Mozilla/4\.0[678] no-gzip
+    BrowserMatch \bMSIE\s7 !no-gzip !gzip-only-text/html
+    BrowserMatch \bMSIE\s8 !no-gzip !gzip-only-text/html
+&lt;/Location&gt;
+        </pre>
+
+        <p>
+            Whether using straight hosting or virtual hosts, a particular document root should be chosen that will hold
+            all of the "static" files, like the sims, publications and workshops directories. The DocumentRoot is
+            important and needs to be configured in a few places. /var/phet will be used in this example.
+        </p>
+
+        <p>
+            Apache HTTPD will need to be restarted after these changes. Usually "sudo /etc/init.d/apache2 restart" works
+        </p>
+
+        <h3>Copy document root files</h3>
+
+        <p>
+            Now we need to copy over certain data files that are stored within the DocumentRoot on figaro. Figaro's
+            document root is /data/web/htdocs/phetsims. All files under that (except for possibly website-backup) should
+            be copied to our new document root. Be aware that even without the website-backup directory it currently
+            runs about 5 GB. Best way is to tar it with:
+        </p>
+
+        <pre>tar -czf ~/docroot.tar.gz /data/web/htdocs/phetsims</pre>
+
+        <p>And then use SCP to transfer the compressed archive</p>
+
+
+        <h3>Tomcat Configuration</h3>
+
+        <p>
+            Tomcat configuration is usually stored under $CATALINA_HOME$/conf/, or /etc/tomcat6.
+        </p>
+
+        <p>
+            First, copy in a build-local.properties with the jarsigner info, and the code certificate and place in the
+            configuration directory. Make sure non-phet members do not have access to these files (chmod o-rw).
+        </p>
+
+        <h4>server.xml</h4>
+
+        <p>
+            Under $CATALINA_HOME$/conf/ there should be a server.xml. Inside, there should be a few Connector elements.
+            Append the following attribute to all connectors:
+        </p>
+
+        <pre>useBodyEncodingForURI="true"</pre>
+
+        <p>
+            This will ensure that the website translation AJAX queries work with UTF-8 characters. Additionally, verify
+            that we have one Connector element for our port specified above (8009):
+        </p>
+
+        <pre>&lt;Connector port="8009" protocol="AJP/1.3" redirectPort="8443" useBodyEncodingForURI="true" /&gt;</pre>
+
+        <h4>context.xml</h4>
+
+        <p>
+            This context file (also under $CATALINA_HOME$/conf/ is used to pass in data and connections specific to this
+            running instance of the website
+        </p>
+
+        <p>
+            First we need to set up the JNDI datasource for context.xml. Add the following inside the &lt;Context&gt;
+            element in context.xml, and replace the username, password, and any other settings for correct access to the
+            database (like in this example "website" with the database name, "localhost" with the location of the
+            database).
+        </p>
+
+        <pre>
+&lt;Resource name="jdbc/phet"
+          global="jdbc/phet"
+          auth="Container"
+          type="javax.sql.DataSource"
+          username="XXXXX"
+          password="YYYYY"
+          driverClassName="org.postgresql.Driver"
+          url="jdbc:postgresql://localhost/website"
+          maxActive="30"
+          maxIdle="10"/&gt;
+        </pre>
+
+        <p>For a development machine, add this line to the Context element:</p>
+        <pre>&lt;Parameter name="configuration" value="development" override="false"/&gt;</pre>
+
+        <p>For a production machine, use this line instead:</p>
+        <pre>&lt;Parameter name="configuration" value="deployment" override="false"/&gt;</pre>
+
+        <p>The configuration parameter above will trigger either the "development" or "deployment" mode for Wicket.</p>
+
+        <p>We need to add the location of the build-local.properties in:</p>
+        <pre>&lt;Parameter name="build-local-properties" value="/usr/share/tomcat6/conf/build-local.properties" override="true"/&gt;</pre>
+
+        <p>Furthermore, we need to configure a few more paths. The document root should be provided directly</p>
+        <pre>&lt;Parameter name="phet-document-root" value="/var/phet" override="true" /&gt;</pre>
+
+        <p>
+            The download root is where other miscellaneous files could be. This is separated out so it could be located
+            under another virtual host for added security
+        </p>
+        <pre>&lt;Parameter name="phet-download-root" value="/var/phet/files" override="true" /&gt;</pre>
+
+        <p>We also need to specify an absolute URL for the location of the download root for outside sources</p>
+        <pre>&lt;Parameter name="phet-download-location" value="http://localhost/files" override="true" /&gt;</pre>
+
+        <p>
+            Additionally, the temp dir (usually $CATALINA_HOME$/temp) should definitely be writable by the Tomcat
+            daemon, since
+            this is the location of EHCache's temporary files and the search index.
+        </p>
+
+        <p>
+            Also the appropriate JDBC driver should be copied into $CATALINA_HOME$/lib/
+            (ie trunk/web/wicket-website/contrib/postgresql-8.3-604.jdbc4.jar).
+        </p>
+
+        <p>
+            Further parameters starting with "transfer-" to context.xml and the MySQL connector to lib/ can be added for
+            use transferring data from a copy of the MySQL database used with the PHP site.
+        </p>
+
+
+        <h3>IDE Setup</h3>
+
+        <p>
+            Not terribly critical, because PBG can build and deploy the website. It is also recommended for deploying
+            test versions
+        </p>
+
+        <p>Add sources of trunk/web/wicket-website/src/java and if desired trunk/web/wicket-website/src/test</p>
+
+        <p>
+            Add the following JARs to your classpath (along with any others for phetcommon and build-tools):
+        </p>
+
+        <ul>
+            <li>Everything under trunk/web/wicket-website/root/WEB-INF/lib/</li>
+            <li>Java EE (stored at trunk/web/wicket-website/contrib/javaee.jar)</li>
+            <li>For tests, JUnit (trunk/simulations-java/contrib/junit)</li>
+        </ul>
 
     </div>
 </wicket:extend>
