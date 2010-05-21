@@ -1,3 +1,4 @@
+# 1.22.00 (40974) May 21, 2010
 # 1.21.01 (40761) May 14, 2010
 > 5/14/2010 Removed the duplicate help button, see #2342
 > 5/14/2010 Made the sim start up at the standard screen size 1024x768, see #2341
