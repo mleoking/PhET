@@ -1,3 +1,5 @@
+# 1.01.03 (40996) May 21, 2010
+5/21/10 Fix (I think) for issue where a little blue circle appears in the play area at startup on Macs.
 # 1.01.02 (40994) May 21, 2010
 5/21/10 Set color of background panel for controller on lactose injector, needed on Mac platform.
 # 1.01.01 (40992) May 21, 2010
