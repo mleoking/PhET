@@ -10,6 +10,7 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.model.Model;
 import org.hibernate.Session;
 
+import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.content.simulations.CategoryPage;
 import edu.colorado.phet.website.content.simulations.SimulationPage;
 import edu.colorado.phet.website.data.LocalizedSimulation;
@@ -39,6 +40,7 @@ public class RotatorPanel extends PhetPanel {
         StringBuffer buf = new StringBuffer();
         buf.append( "dir=" + getPhetLocalizer().getBestString( getHibernateSession(), "language.dir", getMyLocale() ) + "&" );
         buf.append( "quantity=" + Integer.toString( featured.size() ) + "&" );
+        buf.append( "offlineInstaller=" + getPhetCycle().isOfflineInstaller() + "&" );
         try {
             buf.append( "next=" + URLEncoder.encode( getPhetLocalizer().getString( "home.rotator.next", this ), "UTF-8" ) + "&" );
             buf.append( "previous=" + URLEncoder.encode( getPhetLocalizer().getString( "home.rotator.previous", this ), "UTF-8" ) + "&" );
