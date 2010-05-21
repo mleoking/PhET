@@ -5,7 +5,6 @@ import edu.colorado.phet.reids.admin.util.FileUtils;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.StringTokenizer;
 
 /**
@@ -75,8 +74,8 @@ class TimesheetModel {
         //todo: notify somebody?
     }
 
-    public void loadTSV( File file) throws IOException {
-        loadTSV( FileUtils.loadFileAsString( file ) );
+    public void loadTSV(File file) throws IOException {
+        loadTSV(FileUtils.loadFileAsString(file));
     }
 
     public static interface ClockedInListener {
@@ -87,10 +86,10 @@ class TimesheetModel {
         getLastEntry().clockOut();
     }
 
-    public long getTotalTime() {
+    public long getTotalTimeSeconds() {
         long sum = 0;
         for (Entry entry : entries) {
-            sum += entry.getElapsedTime();
+            sum += entry.getElapsedSeconds();
         }
         return sum;
     }
@@ -133,10 +132,10 @@ class TimesheetModel {
     }
 
     public void startNewEntry(String category) {
-        boolean wasClockedIn = isClockedIn();
+        boolean clockedIn = isClockedIn();
         if (getEntryCount() > 0)
             getLastEntry().clockOut();
-        Entry e = new Entry(wasClockedIn ? getLastEntry().getEnd() : new Date(), new Date(), category, "", false, true);
+        Entry e = new Entry(clockedIn ? getLastEntry().getEndSeconds() : Util.currentTimeSeconds(), Util.currentTimeSeconds(), category, "", false, true);
         addEntry(e);
         for (ClockedInListener clockedInListener : clockedInListeners) {
             clockedInListener.clockedInChanged();//todo: could rewrite this so no clocked-out notifications are sent

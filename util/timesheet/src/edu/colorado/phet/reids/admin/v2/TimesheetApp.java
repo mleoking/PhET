@@ -37,8 +37,8 @@ public class TimesheetApp {
     private String WINDOW_X = "window.x";
     private String RECENT_FILES = "recentFiles";
     private String CURRENT_FILE = "currentFile";
-    private JMenu fileMenu = new JMenu( "File" );
-    private File PREFERENCES_FILE = new File( System.getProperty( "user.home", "." ), ".timesheet/timesheet-app.properties" );
+    private JMenu fileMenu = new JMenu("File");
+    private File PREFERENCES_FILE = new File(System.getProperty("user.home", "."), ".timesheet/timesheet-app.properties");
 
     private void updateIconImage() throws IOException {
         BufferedImage image = new PhetResources("timesheet").getImage((timesheetModel.isClockedIn() ? "x-office-running.png" : "x-office-calendar.png"));
@@ -94,8 +94,8 @@ public class TimesheetApp {
                 entry.addTimeListener(new TimesheetModel.TimeListener() {
                     public void timeChanged() {
                         //update end and elapsed time
-                        tableModel.setValueAt(entry.getEnd(), rowCount - 1, 1);
-                        tableModel.setValueAt(entry.getElapsedTime(), rowCount - 1, 2);
+                        tableModel.setValueAt(entry.getEndDate(), rowCount - 1, 1);
+                        tableModel.setValueAt(entry.getElapsedSeconds(), rowCount - 1, 2);
                     }
                 });
             }
@@ -137,7 +137,7 @@ public class TimesheetApp {
         table.setDefaultRenderer(Long.class, new DefaultTableCellRenderer() {
             protected void setValue(Object value) {
                 long v = ((Long) value).longValue();
-                String text = Util.millisecondsToElapsedTimeString(v);
+                String text = Util.secondsToElapsedTimeString(v);
                 super.setValue(text);
             }
 
@@ -160,7 +160,7 @@ public class TimesheetApp {
     }
 
     private Object[] toRow(Entry entry) {
-        return new Object[]{entry.getStart(), entry.getEnd(), entry.getElapsedTime(), entry.getCategory(), entry.getNotes(), entry.isReport()};
+        return new Object[]{entry.getStartDate(), entry.getEndDate(), entry.getElapsedSeconds(), entry.getCategory(), entry.getNotes(), entry.isReport()};
     }
 
     static class ControlPanel extends JPanel {
@@ -210,7 +210,7 @@ public class TimesheetApp {
         }
 
         private void updateTimeReadout() {
-            totalTime.setText("Time: " + Util.millisecondsToElapsedTimeString(timesheetModel.getTotalTime()));
+            totalTime.setText("Time: " + Util.secondsToElapsedTimeString(timesheetModel.getTotalTimeSeconds()));
         }
     }
 
@@ -297,27 +297,29 @@ public class TimesheetApp {
             }
         });
     }
+
     private void savePreferences() throws IOException {
 //        System.out.println( "prefFile.getAbsolutePath() = " + prefFile.getAbsolutePath() );
         Properties properties = new Properties();
-        properties.put( WINDOW_X, frame.getX() + "" );
-        properties.put( WINDOW_Y, frame.getY() + "" );
-        properties.put( WINDOW_WIDTH, frame.getWidth() + "" );
-        properties.put( WINDOW_HEIGHT, frame.getHeight() + "" );
+        properties.put(WINDOW_X, frame.getX() + "");
+        properties.put(WINDOW_Y, frame.getY() + "");
+        properties.put(WINDOW_WIDTH, frame.getWidth() + "");
+        properties.put(WINDOW_HEIGHT, frame.getHeight() + "");
 
-        properties.put( RECENT_FILES, getRecentFileListString() );
-        properties.put( CURRENT_FILE, currentFile == null ? "null" : currentFile.getAbsolutePath() );
+        properties.put(RECENT_FILES, getRecentFileListString());
+        properties.put(CURRENT_FILE, currentFile == null ? "null" : currentFile.getAbsolutePath());
 
         PREFERENCES_FILE.getParentFile().mkdirs();
-        properties.store( new FileOutputStream( PREFERENCES_FILE ), "auto-generated on " + new Date() );
-        System.out.println( "Stored prefs: " + properties );
+        properties.store(new FileOutputStream(PREFERENCES_FILE), "auto-generated on " + new Date());
+        System.out.println("Stored prefs: " + properties);
     }
-        private String getRecentFileListString() {
+
+    private String getRecentFileListString() {
         String s = "";
-        for ( int i = 0; i < recentFiles.size(); i++ ) {
-            File file = (File) recentFiles.get( i );
+        for (int i = 0; i < recentFiles.size(); i++) {
+            File file = (File) recentFiles.get(i);
             s += file.getAbsolutePath();
-            if ( i < recentFiles.size() - 1 ) {
+            if (i < recentFiles.size() - 1) {
                 s += ",";
             }
         }
@@ -326,41 +328,41 @@ public class TimesheetApp {
 
     private void loadPreferences() throws IOException {
 
-        if (!PREFERENCES_FILE.exists()){
+        if (!PREFERENCES_FILE.exists()) {
             savePreferences();
         }
         Properties p = new Properties();
-        p.load( new FileInputStream( PREFERENCES_FILE ) );
+        p.load(new FileInputStream(PREFERENCES_FILE));
         Rectangle r = new Rectangle();
-        r.x = Integer.parseInt( p.getProperty( WINDOW_X ,"100") );
-        r.y = Integer.parseInt( p.getProperty( WINDOW_Y ,"100") );
-        r.width = Integer.parseInt( p.getProperty( WINDOW_WIDTH,"800" ) );
-        r.height = Integer.parseInt( p.getProperty( WINDOW_HEIGHT,"600" ) );
-        frame.setSize( r.width, r.height );
-        frame.setLocation( r.x, r.y );
+        r.x = Integer.parseInt(p.getProperty(WINDOW_X, "100"));
+        r.y = Integer.parseInt(p.getProperty(WINDOW_Y, "100"));
+        r.width = Integer.parseInt(p.getProperty(WINDOW_WIDTH, "800"));
+        r.height = Integer.parseInt(p.getProperty(WINDOW_HEIGHT, "600"));
+        frame.setSize(r.width, r.height);
+        frame.setLocation(r.x, r.y);
 
 
-        String recentFiles = p.getProperty( RECENT_FILES,"" );
-        System.out.println( "Loaded prefs from "+PREFERENCES_FILE.getAbsolutePath()+", r=" + r + ", recent=" + recentFiles );
-        StringTokenizer stringTokenizer = new StringTokenizer( recentFiles, "," );
+        String recentFiles = p.getProperty(RECENT_FILES, "");
+        System.out.println("Loaded prefs from " + PREFERENCES_FILE.getAbsolutePath() + ", r=" + r + ", recent=" + recentFiles);
+        StringTokenizer stringTokenizer = new StringTokenizer(recentFiles, ",");
         this.recentFiles.clear();
-        while ( stringTokenizer.hasMoreTokens() ) {
-            final File file = new File( stringTokenizer.nextToken() );
-            if ( !this.recentFiles.contains( file ) ) {
-                this.recentFiles.add( file );
+        while (stringTokenizer.hasMoreTokens()) {
+            final File file = new File(stringTokenizer.nextToken());
+            if (!this.recentFiles.contains(file)) {
+                this.recentFiles.add(file);
             }
         }
 //        updateMenuWithRecent();
-        String currentFile = p.getProperty( CURRENT_FILE,"" );
+        String currentFile = p.getProperty(CURRENT_FILE, "");
         System.out.println("currentFile = " + currentFile);
-        if ( new File( currentFile ).exists() ) {
-            load( new File( currentFile ) );
+        if (new File(currentFile).exists()) {
+            load(new File(currentFile));
         }
     }
-    
+
     private void start() throws IOException {
         frame.pack();
-        new FrameSetup.CenteredWithInsets( 200, 200 ).initialize(frame);
+        new FrameSetup.CenteredWithInsets(200, 200).initialize(frame);
         loadPreferences();
         frame.setVisible(true);
     }

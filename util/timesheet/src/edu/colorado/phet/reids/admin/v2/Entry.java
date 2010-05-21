@@ -19,8 +19,9 @@ import java.util.StringTokenizer;
  * To change this template use File | Settings | File Templates.
  */
 public class Entry {
-    private Date start;
-    private Date end;
+    private long startSeconds;
+    private long endSeconds;
+    private String category;
     private String notes;
     private boolean report;//should the item be indicated in a progress report?
 
@@ -28,19 +29,18 @@ public class Entry {
     private ArrayList<TimesheetModel.TimeListener> timeListeners = new ArrayList<TimesheetModel.TimeListener>();
     private Timer timer = new Timer(30, new ActionListener() {
         public void actionPerformed(ActionEvent e) {
-            if (running) setEndTime(new Date());
+            if (running) setEndTime(Util.newDateToNearestSecond().getTime() / 1000);
         }
     });
     private ArrayList<TimesheetModel.ClockedInListener> clockedInListeners = new ArrayList<TimesheetModel.ClockedInListener>();
-    private String category;
-    public static final DateFormat STORAGE_FORMAT = new SimpleDateFormat("M/d/yyyy h:mm:ss.SSS a");
+    public static final DateFormat STORAGE_FORMAT = new SimpleDateFormat("M/d/yyyy h:mm:ss a");
 
-    public Date getStart() {
-        return start;
+    public Date getStartDate() {
+        return new Date(startSeconds * 1000);
     }
 
-    public Date getEnd() {
-        return end;
+    public Date getEndDate() {
+        return new Date(endSeconds * 1000);
     }
 
     public String getNotes() {
@@ -51,9 +51,9 @@ public class Entry {
         return report;
     }
 
-    public Entry(Date start, Date end, String category, String notes, boolean report, boolean running) {
-        this.start = start;
-        this.end = end;
+    public Entry(long startSeconds, long endSeconds, String category, String notes, boolean report, boolean running) {
+        this.startSeconds = startSeconds;
+        this.endSeconds = endSeconds;
         this.category = category;
         this.notes = notes;
         this.report = report;
@@ -62,18 +62,18 @@ public class Entry {
             timer.start();
     }
 
-    public Entry(Date start, Date end, String category, String notes, boolean report) {
-        this(start, end, category, notes, report, false);
+    public Entry(long startSeconds, long endSeconds, String category, String notes, boolean report) {
+        this(startSeconds, endSeconds, category, notes, report, false);
     }
 
-    public long getElapsedTime() {
-        return end.getTime() - start.getTime();
+    public long getElapsedSeconds() {
+        return endSeconds - startSeconds;
     }
 
     public void clockOut() {
         if (running) {
             timer.stop();
-            setEndTime(new Date());
+            setEndTime(Util.newDateToNearestSecond().getTime() / 1000);
         }
         running = false;
         for (TimesheetModel.ClockedInListener clockedInListener : clockedInListeners) {
@@ -81,9 +81,9 @@ public class Entry {
         }
     }
 
-    private void setEndTime(Date date) {
-        if (date.getTime() != end.getTime()) {
-            end = date;
+    private void setEndTime(long seconds) {
+        if (seconds != endSeconds) {
+            endSeconds = seconds;
             for (TimesheetModel.TimeListener timeListener : timeListeners) {
                 timeListener.timeChanged();
             }
@@ -107,7 +107,7 @@ public class Entry {
     }
 
     public String toCSV() {
-        return STORAGE_FORMAT.format(start) + "," + STORAGE_FORMAT.format(end) + "," + Util.millisecondsToElapsedTimeString(getElapsedTime()) + "," + category + ",\"" + notes + "\"" + "," + report;
+        return STORAGE_FORMAT.format(getStartDate()) + "," + STORAGE_FORMAT.format(getEndDate()) + "," + category + ",\"" + notes + "\"" + "," + report;
     }
 
     public static Entry parseCSV(String line) {
@@ -116,7 +116,6 @@ public class Entry {
         try {
             final Date start = STORAGE_FORMAT.parse(st.nextToken());
             final Date end = STORAGE_FORMAT.parse(st.nextToken());
-            st.nextToken();//skip elapsed time
             //everything inside the quotes is notes
             int startQuote = line.indexOf('"');
             int endQuote = line.indexOf('"', startQuote + 1);
@@ -130,11 +129,15 @@ public class Entry {
             catch (NoSuchElementException e) {
             }
             boolean report = Boolean.parseBoolean(line.substring(line.lastIndexOf('"')));
-            return new Entry(start, end, category, line.substring(startQuote + 1, endQuote), report);
+            return new Entry(start.getTime() / 1000, end.getTime() / 1000, category, line.substring(startQuote + 1, endQuote), report);
         }
         catch (ParseException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
+    }
+
+    public long getEndSeconds() {
+        return endSeconds;
     }
 }
