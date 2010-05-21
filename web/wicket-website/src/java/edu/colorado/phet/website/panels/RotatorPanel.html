@@ -144,13 +144,17 @@
                pluginspage="http://www.macromedia.com/go/getflashplayer"/>
     </object>
     <div id="rotator-noscript" style="display: none;">
-        <a href="#" wicket:id="fallback-link">
+        <a href="#" wicket:id="fallback-link" id="rotator-fallback">
             <img src="/images/mass-spring-lab-animated-screenshot.gif" alt="Simulation screenshot" style="border: none;"/>
         </a>
     </div>
     <script language="JavaScript" type="text/javascript">
         <!--
         var hasRightVersion = DetectFlashVer(9, 0, 0);
+
+        if( hasRightVersion && document.getElementById( "rotator-fallback").attributes['class'] == 'installer' ) {
+            hasRightVersion = !hasRightVersion;
+        }
 
         if ( !hasRightVersion ) {
             document.getElementById("rotator").style.display = "none";

@@ -5,8 +5,10 @@ import java.net.URLEncoder;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.Model;
 import org.hibernate.Session;
 
@@ -69,6 +71,10 @@ public class RotatorPanel extends PhetPanel {
         embedLabel.add( new AttributeAppender( "FlashVars", flashvarsModel, " " ) );
         add( embedLabel );
 
-        add( CategoryPage.getLinker().getLink( "fallback-link", context, getPhetCycle() ) );
+        Link fallbackLink = CategoryPage.getLinker().getLink( "fallback-link", context, getPhetCycle() );
+        add( fallbackLink );
+        if ( getPhetCycle().isOfflineInstaller() ) {
+            fallbackLink.add( new AttributeModifier( "class", true, new Model( "installer" ) ) );
+        }
     }
 }
