@@ -11,18 +11,12 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Properties;
@@ -42,6 +36,7 @@ public class TimesheetApp {
     private String CURRENT_FILE = "currentFile";
     private JMenu fileMenu = new JMenu("File");
     private File PREFERENCES_FILE = new File(System.getProperty("user.home", "."), ".timesheet/timesheet-app.properties");
+    private final JTable table;
 
     private void updateIconImage() throws IOException {
         BufferedImage image = new PhetResources("timesheet").getImage((timesheetModel.isClockedIn() ? "x-office-running.png" : "x-office-calendar.png"));
@@ -121,7 +116,7 @@ public class TimesheetApp {
 
         tableModel.setColumnIdentifiers(columnNames);
 
-        final JTable table = new JTable(tableModel);
+        table = new JTable(tableModel);
 //        table.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
         table.getColumnModel().getColumn(0).setPreferredWidth(70);
         table.getColumnModel().getColumn(1).setPreferredWidth(70);
@@ -131,12 +126,11 @@ public class TimesheetApp {
         table.getColumnModel().getColumn(5).setPreferredWidth(10);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         table.setDefaultRenderer(Date.class, new DefaultTableCellRenderer() {
-            public final DateFormat DISPLAY_FORMAT = new SimpleDateFormat("M/d/yyyy h:mm:ss a");
-
             protected void setValue(Object value) {
-                setText(DISPLAY_FORMAT.format(value));
+                setText(Entry.LOAD_FORMAT.format(value));
             }
         });
+        table.setDefaultEditor(Date.class, new DateEditor());
         table.setDefaultRenderer(Long.class, new DefaultTableCellRenderer() {
             protected void setValue(Object value) {
                 long v = ((Long) value).longValue();
@@ -158,11 +152,21 @@ public class TimesheetApp {
                 int column = e.getColumn();
                 if (row >= 0 && column >= 0) {
                     Object data = table.getModel().getValueAt(row, column);
-                    if (column == 0) getEntry(row).setStartTime(parseStartTime(data.toString()));
-                    if (column == 1) getEntry(row).setEndTime(parseStartTime(data.toString()));
+                    if (column == 0) getEntry(row).setStartTime(parseStartTime(data));
+                    if (column == 1) getEntry(row).setEndTime(parseStartTime(data));
                     if (column == 3) getEntry(row).setCategory(data.toString());
                     if (column == 4) getEntry(row).setNotes(data.toString());
                     if (column == 5) getEntry(row).setReport((Boolean) data);
+                }
+            }
+        });
+        table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                int row = table.rowAtPoint(e.getPoint());
+                int col = table.columnAtPoint(e.getPoint());
+                if (e.isControlDown()) {
+                    getEntry(row).setEndTime(Util.currentTimeSeconds());
                 }
             }
         });
@@ -193,12 +197,15 @@ public class TimesheetApp {
 //        table.setDefaultRenderer(Date.class, renderer);
     }
 
-    private long parseStartTime(String s) {
-        try {
-            return Entry.LOAD_FORMAT.parse(s).getTime() / 1000;
-        } catch (ParseException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+    private long parseStartTime(Object data) {
+        if (data instanceof Date) {
+            return ((Date) data).getTime() / 1000;
+        } else if (data instanceof String) {
+            String s = data.toString();
+            System.out.println("parsing string: " + s);
             return 0;
+        } else {
+            return -1;
         }
     }
 
@@ -302,6 +309,9 @@ public class TimesheetApp {
     }
 
     public void save() throws IOException {
+        if (table.getCellEditor() != null) {
+            table.getCellEditor().stopCellEditing();
+        }
         File selected = currentFile;
         if (currentFile == null) {
             selected = selectSaveFile();
