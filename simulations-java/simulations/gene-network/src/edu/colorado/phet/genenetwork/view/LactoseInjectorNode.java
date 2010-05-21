@@ -9,6 +9,7 @@ import java.awt.Stroke;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -76,21 +77,30 @@ public class LactoseInjectorNode extends PNode {
 	private static final int FADE_IN_DELAY_TIME = 40; // In milliseconds.
     private static final float FADE_INCREMENT = 0.05f;
     
+    // Debug controls.
+    private static final boolean DEBUG_INJECTION_POINT = true;
+    
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
 
+    double rotationAngle;
 	private PNode injectorBodyImageNode;
 	private PNode unpressedButtonImageNode;
 	private PNode pressedButtonImageNode;
 	private PNode autoInjectionControl;
+	private PNode injectorNode;
 	private IGeneNetworkModelControl model;
 	private ModelViewTransform2D mvt;
-	private Dimension2D injectionPointOffset = new PDimension();
+	private Point2D injectionPoint = new Point2D.Double();
 	private float transparency;  // For fading.  0 is transparent, 1 is opaque.
 	private Point2D injectionPointInModelCoords = new Point2D.Double();
 	private Vector2D nominalInjectionVelocityVector = new Vector2D.Double(NOMINAL_LACTOSE_INJECTION_VELOCITY, 0);
     private final Timer fadeInTimer = new Timer( FADE_IN_DELAY_TIME, null );
+    
+    // For debug.
+    private PNode injectPtNode;
+
 	
     //------------------------------------------------------------------------
     // Constructor
@@ -110,10 +120,11 @@ public class LactoseInjectorNode extends PNode {
 		
 		this.model = model;
 		this.mvt = mvt;
+		this.rotationAngle = rotationAngle;
 		
 		nominalInjectionVelocityVector.rotate(rotationAngle);
 
-		PNode injectorNode = new PNode();
+		injectorNode = new PNode();
 		
 		// Load the graphic images for this device.  These are offset in order
 		// to make the center of rotation be the center of the bulb.
@@ -149,13 +160,10 @@ public class LactoseInjectorNode extends PNode {
         injectorNode.setOffset(-Math.abs(Math.sin(rotationAngle * 2)) * 30, 0);
         addChild(injectorNode);
         
-        // Set up the injection point offset. This makes some assumptions
-        // about the nature of the image, and will need to be updated if the
-        // image is changed.
-        double distanceCenterToTip = 0.7 * INJECTOR_HEIGHT;
-        double centerOffsetX = 0.4 * INJECTOR_HEIGHT;
-        injectionPointOffset.setSize(distanceCenterToTip * Math.cos(rotationAngle) + centerOffsetX,
-        		distanceCenterToTip * Math.sin(-rotationAngle));
+        if (DEBUG_INJECTION_POINT){
+        	injectPtNode = new PhetPPath(new Ellipse2D.Double(-6, -6, 12, 12), Color.PINK);
+        	addChild(injectPtNode);
+        }
         
         // Set the point for automatic injection to be at the tip of the
         // injector.
@@ -274,9 +282,20 @@ public class LactoseInjectorNode extends PNode {
 	}
 	
 	private void updateInjectionPoint(){
-		double injectionPointX = mvt.viewToModelX(getFullBoundsReference().getCenter2D().getX() + injectionPointOffset.getWidth());
-		double injectionPointY = mvt.viewToModelY(getFullBoundsReference().getCenter2D().getY() + injectionPointOffset.getHeight());
-		injectionPointInModelCoords.setLocation(injectionPointX, injectionPointY);
+
+		// Set up the injection point. This makes some assumptions about the
+        // nature of the image, and will need to be updated if the image is
+        // changed.
+        double distanceCenterToTip = 0.7 * INJECTOR_HEIGHT;
+        Point2D centerOfInjector = injectorNode.getFullBoundsReference().getCenter2D();
+        injectionPoint.setLocation(distanceCenterToTip * Math.cos(rotationAngle) + centerOfInjector.getX(),
+        		distanceCenterToTip * Math.sin(-rotationAngle) + centerOfInjector.getY());
+		Point2D injectionPointInGlobalCoords =
+			localToGlobal(new Point2D.Double(injectionPoint.getX(), injectionPoint.getY()));
+		injectionPointInModelCoords.setLocation(mvt.viewToModel(injectionPointInGlobalCoords));
+		if (DEBUG_INJECTION_POINT){
+			injectPtNode.setOffset(injectionPoint);
+		}
 	}
 	
 	private static class AutomaticInjectionSelector extends PNode {
