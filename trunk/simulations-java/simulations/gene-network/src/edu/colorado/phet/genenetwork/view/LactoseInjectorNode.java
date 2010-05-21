@@ -78,7 +78,7 @@ public class LactoseInjectorNode extends PNode {
     private static final float FADE_INCREMENT = 0.05f;
     
     // Debug controls.
-    private static final boolean DEBUG_INJECTION_POINT = true;
+    private static final boolean DEBUG_INJECTION_POINT = false;
     
     //------------------------------------------------------------------------
     // Instance Data
