@@ -15,6 +15,7 @@ import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.cache.CacheableUrlStaticPanel;
 import edu.colorado.phet.website.cache.SimplePanelCacheEntry;
 import edu.colorado.phet.website.components.InvisibleComponent;
+import edu.colorado.phet.website.components.RawBodyLabel;
 import edu.colorado.phet.website.components.RawLabel;
 import edu.colorado.phet.website.menu.NavLocation;
 import edu.colorado.phet.website.panels.PhetPanel;
@@ -84,9 +85,7 @@ public class StaticPage extends PhetRegularPage {
             initializeLocation( navLocation );
 
             if ( PhetWicketApplication.get().isDevelopment() ) {
-                RawLabel debugClassLabel = new RawLabel( "debug-static-page-class", "<!-- static page " + panelClass.getCanonicalName() + " -->" );
-                add( debugClassLabel );
-                debugClassLabel.setRenderBodyOnly( true );
+                add( new RawBodyLabel( "debug-static-page-class", "<!-- static page " + panelClass.getCanonicalName() + " -->" ) );
             }
             else {
                 add( new InvisibleComponent( "debug-static-page-class" ) );

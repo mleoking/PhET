@@ -17,10 +17,7 @@ import org.apache.wicket.model.IModel;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.PhetWicketApplication;
-import edu.colorado.phet.website.components.InvisibleComponent;
-import edu.colorado.phet.website.components.RawLink;
-import edu.colorado.phet.website.components.StaticImage;
-import edu.colorado.phet.website.components.RawLabel;
+import edu.colorado.phet.website.components.*;
 import edu.colorado.phet.website.constants.CSS;
 import edu.colorado.phet.website.constants.Images;
 import edu.colorado.phet.website.content.IndexPage;
@@ -137,16 +134,12 @@ public abstract class PhetPage extends WebPage implements Stylable {
         logger.debug( "request cycle is a : " + getRequestCycle().getClass().getSimpleName() );
 
         if ( PhetWicketApplication.get().isDevelopment() ) {
-            RawLabel debugClassLabel = new RawLabel( "debug-page-class", "<!-- class " + getClass().getCanonicalName() + " -->" );
-            add( debugClassLabel );
-            debugClassLabel.setRenderBodyOnly( true );
+            add( new RawBodyLabel( "debug-page-class", "<!-- class " + getClass().getCanonicalName() + " -->" ) );
         }
         else {
             add( new InvisibleComponent( "debug-page-class" ) );
         }
-        RawLabel debugPageHostLabel = new RawLabel( "debug-page-host", "<!-- host " + getPhetCycle().getWebRequest().getHttpServletRequest().getServerName() + " -->" );
-        debugPageHostLabel.setRenderBodyOnly( true );
-        add( debugPageHostLabel );
+        add( new RawBodyLabel( "debug-page-host", "<!-- host " + getPhetCycle().getWebRequest().getHttpServletRequest().getServerName() + " -->" ) );
     }
 
     public Locale getMyLocale() {
