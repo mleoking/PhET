@@ -33,11 +33,7 @@ class TimesheetModel {
     };
 
     public String toTSV() {
-        String s = "";
-        for (Object elm : TimesheetApp.columnNames) {
-            s += elm + ",";
-        }
-        s = s.substring(0, s.length() - 1) + "\n";
+        String s = "Start,End,Category,Notes,Report\n";
         for (Entry entry : entries) {
             s += entry.toCSV() + "\n";
         }
