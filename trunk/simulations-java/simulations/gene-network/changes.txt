@@ -1,3 +1,5 @@
+# 1.01.01 (40992) May 21, 2010
+5/21/10 > Fixed an issue where injector was not sized properly on Mac.
 # 1.01.00 (40511) May 7, 2010
 5/7/10 Redeploying due to error in name of screenshot file.
 # 1.00.00 (40507) May 7, 2010
