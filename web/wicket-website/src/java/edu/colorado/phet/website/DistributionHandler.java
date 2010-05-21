@@ -46,6 +46,9 @@ public class DistributionHandler {
         else if ( cycle.isYoungAndFreedmanRipperRequest() ) {
             return localeString.equals( "en" );
         }
+        else if ( cycle.isOfflineInstaller() ) {
+            return false;
+        }
         else {
             return true;
         }
