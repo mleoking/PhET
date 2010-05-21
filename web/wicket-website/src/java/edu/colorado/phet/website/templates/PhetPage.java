@@ -227,6 +227,14 @@ public abstract class PhetPage extends WebPage implements Stylable {
     }
 
     public String getStyle( String key ) {
+        if ( key.equals( "style.body.id" ) ) {
+            if ( getPhetCycle().isOfflineInstaller() ) {
+                return "offline-installer-body";
+            }
+            else {
+                return "other-body";
+            }
+        }
         return "";
     }
 
