@@ -17,10 +17,12 @@ import java.awt.image.BufferedImage;
 import java.util.Random;
 
 import javax.swing.ButtonGroup;
+import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.Timer;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -34,6 +36,7 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -53,6 +56,11 @@ public class LactoseInjectorNode extends PNode {
 	// is close to pixels (but not quite exactly due to all that transform
 	// craziness).
 	private static final double INJECTOR_HEIGHT = 130;
+	
+	// Size of the panel that allows the user to select either manual or
+	// automatic injection mode.
+	private static final double SELECTOR_WIDTH = INJECTOR_HEIGHT * 0.9;
+	private static final double SELECTOR_HEIGHT = INJECTOR_HEIGHT * 0.7;
 	
 	// Offset of button within this node.  This was determined by trial and
 	// error and will need to be tweaked if the images change.
@@ -129,7 +137,7 @@ public class LactoseInjectorNode extends PNode {
         injectorNode.scale(scale);
         
         // Add the node that allows control of automatic injection.
-        autoInjectionControl = new AutomaticInjectionSelector(model, INJECTOR_HEIGHT * 0.7);
+        autoInjectionControl = new AutomaticInjectionSelector(model, SELECTOR_WIDTH, SELECTOR_HEIGHT);
         autoInjectionControl.setOffset(
         	injectorNode.getFullBoundsReference().getMinX() - autoInjectionControl.getFullBoundsReference().width + 5,
         	injectorNode.getFullBoundsReference().getCenterY() - autoInjectionControl.getFullBoundsReference().height / 2);
@@ -275,7 +283,8 @@ public class LactoseInjectorNode extends PNode {
 		
 		private static final Font AUTO_INJECT_CTRL_LABEL_FONT = new PhetFont(14);
 		private static final Color BACKGROUND_COLOR = new Color(248, 236, 84);
-		private static final Stroke BORDER_STROKE = new BasicStroke(2f);
+		private static final float BORDER_STROKE_WIDTH = 2;
+		private static final Stroke BORDER_STROKE = new BasicStroke(BORDER_STROKE_WIDTH);
 		private static final Stroke CONNECTOR_STROKE = new BasicStroke(8f);
 		private static final double CONNECTOR_LENGTH = 20;  // In screen coords, which is roughly pixels.
 		
@@ -284,13 +293,16 @@ public class LactoseInjectorNode extends PNode {
 		private JRadioButton autoButton;
 		
 		/**
-		 * Constructor.  The height is specified, and the width is then
-		 * determined as a function of the height and the string lengths.
+		 * Constructor.  The height and width are specified, and the buttons
+		 * and labels are scaled to fit the specification.  This is done so
+		 * that translations don't end up changing the overall size of this
+		 * node.  The down side is that long names for these labels will end
+		 * up looking small.
 		 * 
 		 * @param model
 		 * @param height
 		 */
-		public AutomaticInjectionSelector(final IGeneNetworkModelControl model, double height){
+		public AutomaticInjectionSelector(final IGeneNetworkModelControl model, double width, double height){
 		
 			this.model = model;
 			
@@ -330,27 +342,29 @@ public class LactoseInjectorNode extends PNode {
 				}
 			});
 			
-			// Wrap the buttons in PSwings so that they can be added to this
-			// pnode.
-			PSwing autoButtonPSwing = new PSwing(autoButton);
-			PSwing manualButtonPSwing = new PSwing(manualButton);
+			// Create a panel for placing the buttons.
+			JPanel buttonPanel = new VerticalLayoutPanel();
+			buttonPanel.add(manualButton);
+			buttonPanel.add(autoButton);
 			
-			// Create the body of the node based on the button size.
-			double bodyWidth = Math.max(autoButtonPSwing.getFullBoundsReference().width,
-					manualButtonPSwing.getFullBoundsReference().width);
-			bodyWidth *= 1.1;
-			double bodyHeight = autoButtonPSwing.getHeight() * 2.5;
-			PhetPPath body = new PhetPPath(new RoundRectangle2D.Double(0, 0, bodyWidth, bodyHeight, 7, 7), 
+			// Wrap the panel in a PSwing so that it can be added to this
+			// PNode.
+			PSwing buttonPanelPSwing = new PSwing(buttonPanel);
+			
+			// Scale the button panel so that it will fit.
+			PBounds buttonPanelBounds = buttonPanelPSwing.getFullBoundsReference();
+			double buttonPanelScaleFactor = Math.min((width - 4 * BORDER_STROKE_WIDTH) / buttonPanelBounds.getWidth(),
+					(height - 4 * BORDER_STROKE_WIDTH) / buttonPanelBounds.getHeight());
+			buttonPanelPSwing.setScale(buttonPanelScaleFactor);
+			
+			// Create the body of the node.
+			PhetPPath body = new PhetPPath(new RoundRectangle2D.Double(0, 0, width, height, 7, 7), 
 					BACKGROUND_COLOR, BORDER_STROKE, Color.black);
 			
-			// Add the buttons to the body.
-			body.addChild(manualButtonPSwing);
-			manualButtonPSwing.setOffset(3, 3);
-			body.addChild(autoButtonPSwing);
-			autoButtonPSwing.setOffset(3, manualButtonPSwing.getFullBoundsReference().getMaxY());
-			
-			// Scale the body to match the specified height.
-			body.scale(height / body.getFullBoundsReference().height);
+			// Add the button panel to the body such that the are centered.
+			body.addChild(buttonPanelPSwing);
+			buttonPanelPSwing.setOffset(width / 2 - buttonPanelPSwing.getFullBoundsReference().width / 2,
+					height / 2 - buttonPanelPSwing.getFullBoundsReference().height / 2);
 			
 			// Create the line that will visually connect this node to the
 			// main injector node.
