@@ -1,3 +1,4 @@
+5-21-2010: Forces in 1 Dimension (1.22) - minor user interface improvements
 5-17-2010: Wave Interference (1.09) - removed extraneous controls and switched to standardized window size
 5-5-2010: Electric Field Hockey (1.08) - fixed bugs in goal detection and control panel layout
 4-28-2010: Quantum Bound States (1.07) - restore time display
