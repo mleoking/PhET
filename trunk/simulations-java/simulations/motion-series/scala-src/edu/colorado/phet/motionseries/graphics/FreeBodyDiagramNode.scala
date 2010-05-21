@@ -12,11 +12,10 @@ import javax.swing.JFrame
 import layout.SwingLayoutNode
 import edu.colorado.phet.scalacommon.math.Vector2D
 import edu.colorado.phet.scalacommon.util.Observable
-import edu.colorado.phet.scalacommon.view.ToggleListener
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
 
 import edu.umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
-import edu.umd.cs.piccolo.nodes.{PImage, PText}
+import edu.umd.cs.piccolo.nodes.{PImage}
 import edu.umd.cs.piccolo.PNode
 import edu.colorado.phet.scalacommon.Predef._
 import java.lang.Math._
@@ -90,7 +89,7 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel,
                           rampAngle: () => Double,
                           vectors: Vector*)
         extends PNode with VectorDisplay {
-	addInputEventListener(new CursorHandler)
+  addInputEventListener(new CursorHandler)
   def addVector(vector: Vector with PointOfOriginVector, offsetFBD: VectorValue, maxOffset: Int, offsetPlayArea: Double): Unit =
     addVector(vector, offsetFBD, maxOffset)
 
@@ -267,6 +266,11 @@ class BodyVectorNode(transform: ModelViewTransform2D, vector: Vector, offset: Ve
 }
 
 //todo: could improve performance by passing isContainerVisible:()=>Boolean and addContainerVisibleListener:(()=>Unit)=>Unit
+
+/**
+ * The VectorNode is the PNode that draws the Vector (e.g. a force vector) either in the free body diagram or directly on the object itself.
+ * @author Sam Reid
+ */
 class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val tailLocation: VectorValue, maxDistToLabel: Double) extends PNode {
   val headWidth = MotionSeriesConfig.VectorHeadWidth.value
   val arrowNode = new ArrowNode(new Point2D.Double(0, 0), new Point2D.Double(0, 1), headWidth, headWidth, MotionSeriesConfig.VectorTailWidth.value, 0.5, true)
@@ -279,10 +283,10 @@ class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val ta
   arrowNode.setPaint(vector.getPaint)
   addChild(arrowNode)
   private val abbreviatonTextNode = {
-    val html = new ShadowHTMLNode(vector.html, vector.color)//buggy constructor, see ShadowHTMLNode
+    val html = new ShadowHTMLNode(vector.html, vector.color) //buggy constructor, see ShadowHTMLNode
     html.setShadowColor(vector.color)
     html.setColor(Color.black)
-    html.setShadowOffset(2,2)
+    html.setShadowOffset(2, 2)
     html.setFont(new PhetFont(22, false))
     //for performance, buffer these outlines; htmlnodes are very processor intensive, each outline is 5 htmlnodes and there are many per sim
     new PImage(html.toImage)
@@ -299,18 +303,18 @@ class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val ta
       arrowNode.setTipAndTailLocations(viewTip, viewTail)
 
       val proposedLocation = vector.getValue * 0.6
-      
-      val minDistToLabel = maxDistToLabel/2.0//todo: improve heuristics for this, or make it settable in the constructor
-      
+
+      val minDistToLabel = maxDistToLabel / 2.0 //todo: improve heuristics for this, or make it settable in the constructor
+
       var vectorToLabel = if (proposedLocation.magnitude > maxDistToLabel) new Vector2D(vector.getValue.getAngle) * maxDistToLabel
-      	else if (proposedLocation.magnitude < minDistToLabel && proposedLocation.magnitude>1E-2) new Vector2D(vector.getValue.getAngle ) * minDistToLabel
-      	else proposedLocation 
-      
+      else if (proposedLocation.magnitude < minDistToLabel && proposedLocation.magnitude > 1E-2) new Vector2D(vector.getValue.getAngle) * minDistToLabel
+      else proposedLocation
+
       val textLocation = {
-      		val centeredPt = transform.modelToViewDouble(vectorToLabel + tailLocation.getValue)
-      		val deltaArrow = new Vector2D(vector.getValue.getAngle + PI/2) * abbreviatonTextNode.getFullBounds.getWidth*0.75//move orthogonal to the vector itself
-      		deltaArrow + centeredPt
-      	}
+        val centeredPt = transform.modelToViewDouble(vectorToLabel + tailLocation.getValue)
+        val deltaArrow = new Vector2D(vector.getValue.getAngle + PI / 2) * abbreviatonTextNode.getFullBounds.getWidth * 0.75 //move orthogonal to the vector itself
+        deltaArrow + centeredPt
+      }
       abbreviatonTextNode.setOffset(textLocation.x - abbreviatonTextNode.getFullBounds.getWidth / 2, textLocation.y - abbreviatonTextNode.getFullBounds.getHeight / 2)
       abbreviatonTextNode.setVisible(vectorToLabel.magnitude > 1E-2)
     }
@@ -332,7 +336,7 @@ object TestFBD extends Application {
   val frame = new JFrame
   val canvas = new PhetPCanvas
   val vector = new Vector(Color.blue, "Test Vector".literal, "Fv".literal, () => new Vector2D(5, 5), (a, b) => b)
-  canvas.addScreenChild(new FreeBodyDiagramNode(new FreeBodyDiagramModel(false), 200, 200, 20, 20, new CoordinateFrameModel(new RampSegment(new Point2D.Double(0,0),new Point2D.Double(10,10))), new AdjustableCoordinateModel,
+  canvas.addScreenChild(new FreeBodyDiagramNode(new FreeBodyDiagramModel(false), 200, 200, 20, 20, new CoordinateFrameModel(new RampSegment(new Point2D.Double(0, 0), new Point2D.Double(10, 10))), new AdjustableCoordinateModel,
     PhetCommonResources.getImage("buttons/maximizeButton.png".literal), () => PI / 4, vector))
   frame.setContentPane(canvas)
   frame.setSize(800, 600)
