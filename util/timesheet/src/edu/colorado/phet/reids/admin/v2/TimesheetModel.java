@@ -18,11 +18,16 @@ class TimesheetModel {
     private ArrayList<TimeListener> timeListeners = new ArrayList<TimeListener>();
     private TimeListener timeListenerAdapter = new TimeListener() {
         public void timeChanged() {
-            for (TimeListener timeListener : timeListeners) {
-                timeListener.timeChanged();
-            }
+            notifyTimeChanged();
         }
     };
+
+    private void notifyTimeChanged() {
+        for (TimeListener timeListener : timeListeners) {
+            timeListener.timeChanged();
+        }
+    }
+
     private ArrayList<ClockedInListener> clockedInListeners = new ArrayList<ClockedInListener>();
     private ClockedInListener clockedInListenerAdapter = new ClockedInListener() {
         public void clockedInChanged() {
@@ -121,6 +126,7 @@ class TimesheetModel {
         for (ItemAddedListener itemAddedListener : itemAddedListeners) {
             itemAddedListener.itemAdded(entry);
         }//todo: remove listeners after item is closed?
+        notifyTimeChanged();
     }
 
     public Entry getLastEntry() {

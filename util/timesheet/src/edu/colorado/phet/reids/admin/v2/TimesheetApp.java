@@ -152,7 +152,17 @@ public class TimesheetApp {
         });
         JPanel contentPane = new JPanel();
         contentPane.setLayout(new BorderLayout());
-        contentPane.add(new JScrollPane(table), BorderLayout.CENTER);
+        final JScrollPane scrollPane = new JScrollPane(table);
+        timesheetModel.addItemAddedListener(new TimesheetModel.ItemAddedListener() {
+            public void itemAdded(Entry entry) {
+                SwingUtilities.invokeLater(new Runnable() {
+                    public void run() {
+                        scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getMaximum());
+                    }
+                });
+            }
+        });
+        contentPane.add(scrollPane, BorderLayout.CENTER);
         contentPane.add(new ControlPanel(timesheetModel), BorderLayout.SOUTH);
         frame.setContentPane(contentPane);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
