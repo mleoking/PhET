@@ -3,6 +3,9 @@ TODO list for capacitor-lab
 QUESTIONS FOR NOAH
 
 HIGH PRIORITY
+- add cables and drag behavior to voltmeter, see CCK's VoltmeterNode
+- voltmeter notifiers for moving probes or meter body
+- subclass of voltmeter that is specific to this sim, knows about model
 - autoscale button with tooltip on Charge, Energy, Capacitance meters, make max value text blink red
 - arrow above meters to indicate overload
 - solve coordinate frame conversion issues for drag handles

@@ -1,3 +1,4 @@
+5/21/10 started work on a model-independent voltmeter (incomplete, see TODO.txt)
 5/20/10 copy voltmeter image files from CCK, confirmed licensing with Sam R.
 5/20/10 capacitance meter
 5/20/10 create base class for bar meters, refactor existing meters
