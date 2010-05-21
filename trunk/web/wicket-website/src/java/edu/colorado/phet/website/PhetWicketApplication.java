@@ -25,6 +25,7 @@ import edu.colorado.phet.common.phetcommon.util.PhetLocales;
 import edu.colorado.phet.website.admin.AdminMainPage;
 import edu.colorado.phet.website.admin.AdminNewInstallerPage;
 import edu.colorado.phet.website.admin.deploy.AdminDeployProjectPage;
+import edu.colorado.phet.website.admin.doc.TechnicalDocPage;
 import edu.colorado.phet.website.authentication.*;
 import edu.colorado.phet.website.cache.InstallerCache;
 import edu.colorado.phet.website.content.*;
@@ -153,6 +154,7 @@ public class PhetWicketApplication extends WebApplication {
         mountBookmarkablePage( "admin", AdminMainPage.class );
         mountBookmarkablePage( "admin/deploy", AdminDeployProjectPage.class );
         mountBookmarkablePage( "admin/new-installer", AdminNewInstallerPage.class );
+        mountBookmarkablePage( "admin/tech-docs", TechnicalDocPage.class );
 
         // services
         mountBookmarkablePage( "services/phet-info", PhetInfoServicePage.class );
