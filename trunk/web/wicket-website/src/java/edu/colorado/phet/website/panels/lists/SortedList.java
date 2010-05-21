@@ -8,14 +8,17 @@ import org.apache.log4j.Logger;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.model.ResourceModel;
 
 import edu.colorado.phet.website.panels.PhetPanel;
+import edu.colorado.phet.website.translation.PhetLocalizer;
 import edu.colorado.phet.website.util.PageContext;
 
 /**
@@ -27,6 +30,7 @@ public abstract class SortedList<Item extends SortableListItem> extends PhetPane
     public DropDownChoice dropDownChoice;
     private List<Item> items;
     private List<Item> allItems;
+    private Label listEmpty;
 
     public abstract boolean onAdd( Item item );
 
@@ -48,6 +52,9 @@ public abstract class SortedList<Item extends SortableListItem> extends PhetPane
         Form form = new Form( "form" );
         add( form );
 
+        listEmpty = new Label( "list-empty", new Model( getPhetLocalizer().getString( "list.empty", this ) ) );
+        form.add( listEmpty );
+
         form.add( new ListView( "items", items ) {
             protected void populateItem( final ListItem listItem ) {
                 final Item item = (Item) listItem.getModel().getObject();
@@ -57,6 +64,7 @@ public abstract class SortedList<Item extends SortableListItem> extends PhetPane
                         boolean success = onRemove( item, listItem.getIndex() );
                         if ( success ) {
                             items.remove( item );
+                            updateEmpty();
                             target.addComponent( SortedList.this );
                         }
                     }
@@ -91,11 +99,17 @@ public abstract class SortedList<Item extends SortableListItem> extends PhetPane
                     sortItems( items );
                 }
 
+                updateEmpty();
+
                 // redraw the whole list, but nothing else
                 target.addComponent( SortedList.this );
             }
         };
         form.add( link );
+    }
+
+    private void updateEmpty() {
+        listEmpty.setVisible( items.isEmpty() );
     }
 
     private void sortItems( List<Item> list ) {

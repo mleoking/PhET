@@ -25,13 +25,22 @@
                             <option>This is an option</option>
                             <option>Another option</option>
                         </select>
-                        <a href="#" wicket:id="button"><wicket:message key="list.add">add</wicket:message></a>
+                        <a href="#" wicket:id="button">
+                            <wicket:message key="list.add">add</wicket:message>
+                        </a>
                     </td>
                 </tr>
                 <tr wicket:id="items">
                     <td wicket:id="item-component">Mechanics</td>
                     <td style="text-align: right;"><a href="OrderList.html#" wicket:id="remove">remove</a></td>
                 </tr>
+                <wicket:enclosure child="list-empty">
+                    <tr>
+                        <td wicket:id="list-empty" style="color: gray; font-size: 10px;">
+                            Please add at least one item from the list.
+                        </td>
+                    </tr>
+                </wicket:enclosure>
             </table>
         </form>
     </div>
