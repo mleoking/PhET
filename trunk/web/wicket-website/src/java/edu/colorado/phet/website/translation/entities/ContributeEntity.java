@@ -89,6 +89,7 @@ public class ContributeEntity extends TranslationEntity {
         addString( "contribution.manage.pageTitle" );
 
         addString( "list.add" );
+        addString( "list.empty" );
 
         addString( "contribution.browse.title" );
         addString( "contribution.browse.authors" );
