@@ -8,12 +8,14 @@ import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.colorado.phet.motionseries.swing.ScalaValueControl
 import edu.colorado.phet.motionseries.model.{ForceBead}
+import javax.swing.BorderFactory
 
 class AppliedForceSlider(getter: () => Double,
                          setter: Double => Unit,
                          addListener: (() => Unit) => Unit,
                          mousePressHandler: () => Unit)
         extends ScalaValueControl(-MotionSeriesDefaults.MAX_APPLIED_FORCE, MotionSeriesDefaults.MAX_APPLIED_FORCE, "controls.applied-force-x".translate, "0.0".literal, "units.abbr.newtons".translate, getter, setter, addListener) {
+  setBorder(BorderFactory.createRaisedBevelBorder)
   setTextFieldColumns(5)
   //set applied force to zero on slider mouse release
   getSlider.addMouseListener(new MouseAdapter {
