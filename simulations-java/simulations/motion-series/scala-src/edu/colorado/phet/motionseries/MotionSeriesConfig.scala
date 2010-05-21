@@ -11,6 +11,8 @@ class ObservableDouble(initialValue: Double) extends Observable {
     _value = v
     notifyListeners()
   }
+
+  def apply() = _value
 }
 
 object MotionSeriesConfig {
