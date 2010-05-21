@@ -34,6 +34,7 @@ public class Entry {
     });
     private ArrayList<TimesheetModel.ClockedInListener> clockedInListeners = new ArrayList<TimesheetModel.ClockedInListener>();
     public static final DateFormat STORAGE_FORMAT = new SimpleDateFormat("M/d/yyyy h:mm:ss a");
+    public static final DateFormat LOAD_FORMAT = STORAGE_FORMAT;
 
     public Date getStartDate() {
         return new Date(startSeconds * 1000);
@@ -114,8 +115,8 @@ public class Entry {
 //        System.out.println( "line = " + line );
         StringTokenizer st = new StringTokenizer(line, ",");
         try {
-            final Date start = STORAGE_FORMAT.parse(st.nextToken());
-            final Date end = STORAGE_FORMAT.parse(st.nextToken());
+            final Date start = LOAD_FORMAT.parse(st.nextToken());
+            final Date end = LOAD_FORMAT.parse(st.nextToken());
             //everything inside the quotes is notes
             int startQuote = line.indexOf('"');
             int endQuote = line.indexOf('"', startQuote + 1);
@@ -128,7 +129,8 @@ public class Entry {
             }
             catch (NoSuchElementException e) {
             }
-            boolean report = Boolean.parseBoolean(line.substring(line.lastIndexOf('"')));
+            String s = line.substring(line.lastIndexOf('"')).trim();
+            boolean report = s.length() > 0 ? Boolean.parseBoolean(s) : false;
             return new Entry(start.getTime() / 1000, end.getTime() / 1000, category, line.substring(startQuote + 1, endQuote), report);
         }
         catch (ParseException e) {
