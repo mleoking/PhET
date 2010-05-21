@@ -1,11 +1,16 @@
--Autocomplete for categories
+-Report against standardized categories
+-Generate monthly reports
+-Generate weekly reports
+-Ensure saving on exit
+-Provide visualization for remaining time
+-Make it easier to type in times
+-Save/Load of report markers
+-Autocomplete/combobox for categories
+-Automatically capture and parse a commit message from the clipboard
+-Make singleton app
 -Match start time to previous end time
 -Undo
--Key Traversal
 -Checks to verify no time overlapping
 -Sort By Time
--Automatic Backups
 -Check for changes on disk when app receiving focus
--"Continue Selected Category" button
--Display break for days/weeks
 -Show current system time (with seconds)
