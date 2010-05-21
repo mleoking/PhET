@@ -87,7 +87,7 @@ public class WebsiteProject extends JavaProject {
 
             System.out.println( "Finished uploading, executing undeploy and deploy on Tomcat" );
             success = SshUtils.executeCommands( new String[]{
-                    host.equals( "phetsims.colorado.edu" ) || host.equals( "figaro.colorado.edu" ) ? "" : "cp /tmp/ROOT.war /data/web/htdocs/phetsims/website-backup/website-code/ROOT-`date +%s`-`date | sed -e 's/ /_/g'`.war",
+                    host.equals( "phetsims.colorado.edu" ) || host.equals( "figaro.colorado.edu" ) ? "cp /tmp/ROOT.war /data/web/htdocs/phetsims/website-backup/website-code/ROOT-`date +%s`-`date | sed -e 's/ /_/g'`.war" : "",
                     "curl -k -u " + managerInfo.getUsername() + ":" + managerInfo.getPassword() + " '" + protocol + "://" + host + "/manager/undeploy?path=/'",
                     "curl -k -u " + managerInfo.getUsername() + ":" + managerInfo.getPassword() + " '" + protocol + "://" + host + "/manager/deploy?war=/tmp/ROOT.war&path=/'"
             }, host, userInfo );
