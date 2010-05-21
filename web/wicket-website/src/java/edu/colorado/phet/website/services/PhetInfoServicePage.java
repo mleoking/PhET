@@ -14,6 +14,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import edu.colorado.phet.common.phetcommon.view.util.XMLUtils;
+import edu.colorado.phet.website.components.RawBodyLabel;
 import edu.colorado.phet.website.data.Project;
 import edu.colorado.phet.website.data.Simulation;
 import edu.colorado.phet.website.util.HibernateTask;
@@ -92,9 +93,7 @@ public class PhetInfoServicePage extends WebPage {
         root.setAttribute( "success", String.valueOf( overallSuccess ) );
 
         try {
-            RawLabel xml = new RawLabel( "response", XMLUtils.toString( outDocument ) );
-            xml.setRenderBodyOnly( true );
-            add( xml );
+            add( new RawBodyLabel( "response", XMLUtils.toString( outDocument ) ) );
         }
         catch( TransformerException e ) {
             logger.error( "error converting XML into a string" );
