@@ -25,7 +25,7 @@ public class LactoseRegulationCanvas extends GeneNetworkCanvas {
         // Add the lactose injector.
         LactoseInjectorNode lactoseInjector = 
         	new LactoseInjectorNode(model, getMvt(), -Math.PI/6, GeneNetworkStrings.LACTOSE_INJECTOR_LABEL);
-        lactoseInjector.setOffset(-40, 120);
+        lactoseInjector.setOffset(50, 120);
         setLactoseInjector(lactoseInjector);
         
         // Add the legend.
