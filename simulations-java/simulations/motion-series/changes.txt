@@ -1,3 +1,4 @@
+Added tick marks to the applied force slider to make the knob bigger
 Added a raised bevel border to the applied force slider
 Limited coordinate frame angle to 80 degrees
 Limited ramp angle to 80 degrees

@@ -24,7 +24,8 @@ class AppliedForceSlider(getter: () => Double,
     override def mouseReleased(e: MouseEvent) = setModelValue(0)
   })
 
-  getSlider.setPaintTicks(false) //CM indicated that the without-ticks-and-labels knob renders properly on Mac, see #689
+  //CM indicated that the without-ticks-and-labels knob renders properly on Mac, see #689; though based on the ticket description this looks fixed in a java update
+  getSlider.setPaintTicks(true)
   getSlider.setPaintLabels(false)
 
   //allow showing values outside the settable range
