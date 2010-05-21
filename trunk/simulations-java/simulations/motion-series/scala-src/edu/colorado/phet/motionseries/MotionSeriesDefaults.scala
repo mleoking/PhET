@@ -13,7 +13,7 @@ object MotionSeriesDefaults {
   val FBD_DIALOG_NODE_WIDTH = FBD_DIALOG_WIDTH
   val FBD_DIALOG_NODE_HEIGHT = FBD_DIALOG_NODE_WIDTH
   val FBD_INSET = 10
-  
+
   val MAX_ANGLE = 80.toRadians
 
   def rampIndicatorFont = new PhetFont(13, true)

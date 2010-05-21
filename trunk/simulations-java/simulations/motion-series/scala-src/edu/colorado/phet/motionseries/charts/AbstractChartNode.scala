@@ -35,14 +35,13 @@ object Defaults {
 }
 
 abstract class AbstractChartNode(canvas: MotionSeriesCanvas, model: MotionSeriesModel) extends PNode {
-
   def createVariable(getter: () => Double) = {
     val variable = new MotionSeriesDefaultTemporalVariable(model)
     model.stepListeners += (() => variable.doAddValue(getter(), model.getTime))
     model.resetListeners_+=(() => variable.doSetValue(getter()))
     model.playbackListeners += (() => variable.doSetValue(getter()))
-    model.addObserver(new SimpleObserver(){
-      def update = variable.doSetValue(getter())//todo: does this ever get called when it shouldn't, such as too many times or duplicate of stepListener above? 
+    model.addObserver(new SimpleObserver() {
+      def update = variable.doSetValue(getter()) //todo: does this ever get called when it shouldn't, such as too many times or duplicate of stepListener above?
     })
 
     variable
