@@ -144,6 +144,9 @@ public abstract class PhetPage extends WebPage implements Stylable {
         else {
             add( new InvisibleComponent( "debug-page-class" ) );
         }
+        RawLabel debugPageHostLabel = new RawLabel( "debug-page-host", "<!-- host " + getPhetCycle().getWebRequest().getHttpServletRequest().getServerName() + " -->" );
+        debugPageHostLabel.setRenderBodyOnly( true );
+        add( debugPageHostLabel );
     }
 
     public Locale getMyLocale() {
