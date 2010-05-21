@@ -1,3 +1,4 @@
+-Global hotkey for Save
 -Report against standardized categories
 -Generate monthly reports
 -Generate weekly reports
