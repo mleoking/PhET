@@ -90,3 +90,11 @@ div.ltr .nav1 .selected, div.ltr .nav2 .selected, div.ltr .nav3 .selected {
     background-position: 7px 50%;
     background-image: url("/images/arrow-right.gif");
 }
+
+body#offline-installer-body .get-phet-item {
+    display: none;
+}
+
+body#offline-installer-body .teacher-ideas-item {
+    display: none;
+}

@@ -275,3 +275,11 @@ ul.see-below-links li {
 .see-below a {
     text-decoration: none;
 }
+
+body#offline-installer-body .sim-kb {
+    visibility: hidden;
+}
+
+body#offline-installer-body .sim-download {
+    visibility: hidden;
+}
