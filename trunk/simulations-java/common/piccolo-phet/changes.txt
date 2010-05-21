@@ -1,3 +1,4 @@
+5-21-2010: Fixed constructor arg name in ShadowHTMLNode, resolves #2368
 3-23-2010: Disable fractional metrics rendering hint which was causing rendering artifacts, resolves #2178
 10-20-2009: Change RegisterablePNode exception handling to support Piccolo 1.3, no big change in functionality
 10-1-2009: Cache image thumbnails in AbstractMediaButton and PlayPauseButton, see #1809
