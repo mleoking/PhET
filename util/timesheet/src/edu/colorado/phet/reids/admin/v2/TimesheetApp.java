@@ -6,6 +6,8 @@ import edu.colorado.phet.reids.admin.util.FileUtils;
 import edu.colorado.phet.reids.admin.util.FrameSetup;
 
 import javax.swing.*;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -19,6 +21,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -140,13 +143,26 @@ public class TimesheetApp {
                 String text = Util.secondsToElapsedTimeString(v);
                 super.setValue(text);
             }
-
         });
         table.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_SPACE && e.isControlDown()) {
                     System.out.println("table.row() = " + table.getSelectedRow() + ", col = " + table.getSelectedColumn());
                     tableModel.setValueAt(new Long(System.currentTimeMillis()), table.getSelectedRow(), table.getSelectedColumn());
+                }
+            }
+        });
+        table.getModel().addTableModelListener(new TableModelListener() {
+            public void tableChanged(TableModelEvent e) {
+                int row = e.getFirstRow();
+                int column = e.getColumn();
+                if (row >= 0 && column >= 0) {
+                    Object data = table.getModel().getValueAt(row, column);
+                    if (column == 0) getEntry(row).setStartTime(parseStartTime(data.toString()));
+                    if (column == 1) getEntry(row).setEndTime(parseStartTime(data.toString()));
+                    if (column == 3) getEntry(row).setCategory(data.toString());
+                    if (column == 4) getEntry(row).setNotes(data.toString());
+                    if (column == 5) getEntry(row).setReport((Boolean) data);
                 }
             }
         });
@@ -163,10 +179,31 @@ public class TimesheetApp {
             }
         });
         contentPane.add(scrollPane, BorderLayout.CENTER);
-        contentPane.add(new ControlPanel(timesheetModel), BorderLayout.SOUTH);
+        contentPane.add(new ControlPanel(timesheetModel, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    save();
+                } catch (IOException e1) {
+                    e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+            }
+        }), BorderLayout.SOUTH);
         frame.setContentPane(contentPane);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //        table.setDefaultRenderer(Date.class, renderer);
+    }
+
+    private long parseStartTime(String s) {
+        try {
+            return Entry.LOAD_FORMAT.parse(s).getTime() / 1000;
+        } catch (ParseException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            return 0;
+        }
+    }
+
+    private Entry getEntry(int row) {
+        return timesheetModel.getEntry(row);
     }
 
     private Object[] toRow(Entry entry) {
@@ -177,7 +214,7 @@ public class TimesheetApp {
         private JLabel totalTime;
         private TimesheetModel timesheetModel;
 
-        ControlPanel(final TimesheetModel timesheetModel) {
+        ControlPanel(final TimesheetModel timesheetModel, final ActionListener saveAction) {
             this.timesheetModel = timesheetModel;
             JButton clockIn = new JButton("Clock In");
             clockIn.addActionListener(new ActionListener() {
@@ -209,6 +246,15 @@ public class TimesheetApp {
                 }
             });
             add(monthlyReport);
+
+            final JButton save = new JButton("Save");
+            save.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    saveAction.actionPerformed(e);
+                }
+            });
+            add(save);
+
             totalTime = new JLabel();
             add(totalTime);
             updateTimeReadout();
@@ -256,7 +302,6 @@ public class TimesheetApp {
     }
 
     public void save() throws IOException {
-        //TODO: save over last save file, if exists
         File selected = currentFile;
         if (currentFile == null) {
             selected = selectSaveFile();

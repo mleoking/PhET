@@ -79,6 +79,10 @@ class TimesheetModel {
         loadTSV(FileUtils.loadFileAsString(file));
     }
 
+    public Entry getEntry(int index) {
+        return entries.get(index);
+    }
+
     public static interface ClockedInListener {
         public void clockedInChanged();
     }
