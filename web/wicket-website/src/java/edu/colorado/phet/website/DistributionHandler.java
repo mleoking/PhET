@@ -40,6 +40,9 @@ public class DistributionHandler {
         if ( cycle.getUserAgent().equals( PhetRequestCycle.HIDE_TRANSLATIONS_USER_AGENT ) ) {
             return true;
         }
+        if( cycle.isOfflineInstaller() ) {
+            return true;
+        }
         return cycle.getWebRequest().getHttpServletRequest().getServerName().equals( PhetWicketApplication.getProductionServerName() );
     }
 
