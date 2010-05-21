@@ -20,19 +20,17 @@ import edu.colorado.phet.common.phetcommon.util.StreamReaderThread;
  */
 public class TranslationDeployServer {
     private String jarCommand;
-    private File buildLocalProperties;
+    private BuildLocalProperties buildLocalProperties;
     private File pathToSimsDir;
 
-    public TranslationDeployServer( String jarCommand, File buildLocalProperties, File pathToSimsDir ) {
+    public TranslationDeployServer( String jarCommand, BuildLocalProperties buildLocalProperties, File pathToSimsDir ) {
         this.jarCommand = jarCommand;
         this.buildLocalProperties = buildLocalProperties;
         this.pathToSimsDir = pathToSimsDir;
-
-        BuildLocalProperties.initFromPropertiesFile( buildLocalProperties );
     }
 
     public static void main( String[] args ) throws IOException, InterruptedException {
-        new TranslationDeployServer( args[0], new File( args[1] ), new File( args[2] ) ).integrateTranslations( new File( args[3] ) );
+        new TranslationDeployServer( args[0], BuildLocalProperties.initFromPropertiesFile( new File( args[1] ) ), new File( args[2] ) ).integrateTranslations( new File( args[3] ) );
     }
 
     public void integrateTranslations( File translationDir ) throws IOException, InterruptedException {
@@ -219,7 +217,7 @@ public class TranslationDeployServer {
     }
 
     private void createOfflineJARFiles( File translationDir, String project ) throws IOException, InterruptedException {
-        new JARGenerator().generateOfflineJARs( getLocalCopyOfAllJAR( translationDir, project ), jarCommand, BuildLocalProperties.getProperties( buildLocalProperties ) );
+        new JARGenerator().generateOfflineJARs( getLocalCopyOfAllJAR( translationDir, project ), jarCommand, buildLocalProperties );
     }
 
     private void createTestJNLPFiles( File translationDir, String project ) {
@@ -265,7 +263,7 @@ public class TranslationDeployServer {
     public static class Test {
 
         public static void main( String[] args ) throws IOException, InterruptedException {
-            TranslationDeployServer server = new TranslationDeployServer( "C:\\j2sdk1.4.2_17\\bin\\jar.exe", new File( "C:\\reid\\phet\\svn\\trunk\\build-tools\\build-local.properties" ), new File( "C:\\reid\\phet\\sims" ) );
+            TranslationDeployServer server = new TranslationDeployServer( "C:\\j2sdk1.4.2_17\\bin\\jar.exe", BuildLocalProperties.getProperties( new File( "C:\\reid\\phet\\svn\\trunk\\build-tools\\build-local.properties" ) ), new File( "C:\\reid\\phet\\sims" ) );
             server.integrateTranslations( new File( "C:\\Users\\Sam\\Desktop\\tx" ) );
         }
     }
