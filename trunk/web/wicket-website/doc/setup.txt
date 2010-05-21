@@ -69,6 +69,11 @@ JkMount /* worker1
 JkUnMount /sims/* worker1
 JkUnMount /publications/* worker1
 JkUnMount /workshops/* worker1
+JkUnMount /files/* worker1
+JkUnMount /installer/* worker1
+JkUnMount /newsletters/* worker1
+JkUnMount /statistics/* worker1
+JkUnMount /logs/* worker1
 
 Apache HTTPD will need to be restarted after those changes.
 
