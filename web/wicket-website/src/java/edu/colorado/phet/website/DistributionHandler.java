@@ -31,6 +31,19 @@ public class DistributionHandler {
     }
 
     /**
+     * Whether or not to show anything related to website translations on the website
+     *
+     * @param cycle
+     * @return
+     */
+    public static boolean hideWebsiteTranslations( PhetRequestCycle cycle ) {
+        if ( cycle.getUserAgent().equals( PhetRequestCycle.HIDE_TRANSLATIONS_USER_AGENT ) ) {
+            return true;
+        }
+        return cycle.getWebRequest().getHttpServletRequest().getServerName().equals( PhetWicketApplication.getProductionServerName() );
+    }
+
+    /**
      * Whether or not to display links for non-English (or non-Arabic for KSU) JARs. Thus we don't have all of the
      * translation JARs ripped in certain instances
      *
@@ -61,6 +74,9 @@ public class DistributionHandler {
      * @return Whether or not to display links to other translations
      */
     public static boolean displayTranslationLinksPanel( PhetRequestCycle cycle ) {
+        if ( hideWebsiteTranslations( cycle ) ) {
+            return false;
+        }
         return !cycle.isYoungAndFreedmanRipperRequest() && !cycle.isOfflineInstaller();
     }
 
@@ -71,6 +87,9 @@ public class DistributionHandler {
      * @return Whether or not to display the link to edit translations
      */
     public static boolean displayTranslationEditLink( PhetRequestCycle cycle ) {
+        if ( hideWebsiteTranslations( cycle ) ) {
+            return false;
+        }
         return !cycle.isInstaller();
     }
 
@@ -169,13 +188,4 @@ public class DistributionHandler {
         return cycle.isYoungAndFreedmanRipperRequest();
     }
 
-    /**
-     * Whether or not to show anything related to website translations on the website
-     *
-     * @param cycle
-     * @return
-     */
-    public static boolean displayWebsiteTranslations( PhetRequestCycle cycle ) {
-        return !cycle.getWebRequest().getHttpServletRequest().getServerName().equals( PhetWicketApplication.getProductionServerName() );
-    }
 }

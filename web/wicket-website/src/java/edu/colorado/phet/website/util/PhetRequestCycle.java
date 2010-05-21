@@ -27,6 +27,7 @@ public class PhetRequestCycle extends WebRequestCycle {
     public static final String YOUNG_AND_FREEDMAN_USER_AGENT = "httrack-web-mirror-yf";
     public static final String RIPPER_USER_AGENT_SUBSTRING = "httrack-web";
     public static final String OFFLINE_USER_AGENT = "httrack-web-offline"; // example of full would be httrack-web-offline-en
+    public static final String HIDE_TRANSLATIONS_USER_AGENT = "hide-translations";
 
     private static Logger logger = Logger.getLogger( PhetRequestCycle.class.getName() );
 
