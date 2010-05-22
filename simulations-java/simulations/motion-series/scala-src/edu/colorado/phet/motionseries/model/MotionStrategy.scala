@@ -131,7 +131,7 @@ class Airborne(private var _position2D: Vector2D, private var _velocity2D: Vecto
     bead.notifyListeners() //to get the new normalforce
 
     //todo: make sure energy conserved on crash
-//    println("bead's energy = " + bead.getTotalEnergy)
+    //    println("bead's energy = " + bead.getTotalEnergy)
   }
 
   override def position2D = _position2D
@@ -326,7 +326,7 @@ class Grounded(bead: ForceBead) extends MotionStrategy(bead) {
       val patch = stateAfterThermalEnergy.setThermalEnergy(origState.thermalEnergy).setVelocity(patchedVelocity)
       val dEPatch = stateAfterThermalEnergy.totalEnergy - origEnergy
       if (dEPatch.abs > 1E-8) {
-        println("applied energy = ".literal + appliedEnergy + ", dT = ".literal + dT + ", velocity=".literal + stateAfterThermalEnergy.velocity + ", newV=".literal + patchedVelocity + ", dE=".literal + dEPatch)
+//        println("applied energy = ".literal + appliedEnergy + ", dT = ".literal + dT + ", velocity=".literal + stateAfterThermalEnergy.velocity + ", newV=".literal + patchedVelocity + ", dE=".literal + dEPatch)
         //accept some problem here
         //todo: should the state be changed, given that energy is problematic?
         patch
@@ -356,6 +356,11 @@ class Grounded(bead: ForceBead) extends MotionStrategy(bead) {
 
     //    println()
     val stateAfterPatchingUpThermalEnergy = stateAfterFixingPosition.setThermalEnergy(bead.getThermalEnergy(stateAfterFixingPosition.thermalEnergy))
+
+    if (stateAfterPatchingUpThermalEnergy.thermalEnergy < origState.thermalEnergy) {
+      println("lost thermal energy.  original = " + origState.thermalEnergy + ", final = " + stateAfterPatchingUpThermalEnergy.thermalEnergy)
+    }
+
     stateAfterPatchingUpThermalEnergy
   }
 }
