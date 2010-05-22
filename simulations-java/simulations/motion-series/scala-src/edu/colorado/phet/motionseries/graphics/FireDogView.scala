@@ -7,10 +7,10 @@ import edu.colorado.phet.motionseries.MotionSeriesResources._
 //todo: factor out common code
 class FireDogView(rampModel: MotionSeriesModel, canvas: MotionSeriesCanvas) extends PNode {
   rampModel.fireDogAddedListeners += ((added: FireDog) => {
-    val node = new BeadNode(added.dogbead, canvas.transform, "firedog.gif".literal)
+    val node = new BeadNode(added.dog, canvas.transform, "firedog.gif".literal)
     addChild(node)
 
-    added.removedListeners += (() => removeChild(node)) //eleganter than ever
+    added.removalListeners += (() => removeChild(node)) //eleganter than ever
   })
 }
 

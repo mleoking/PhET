@@ -238,7 +238,7 @@
       <excludeFolder url="file://$MODULE_DIR$/build-tools/ant_output" />
       <excludeFolder url="file://$MODULE_DIR$/simulations-flash/ant_output" />
       <excludeFolder url="file://$MODULE_DIR$/simulations-java/ant_output" />
-      <excludeFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d-1.3" />
+      <excludeFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d" />
     </content>
     <content url="file://$MODULE_DIR$/../../samreid-unfuddle" />
     <orderEntry type="inheritedJdk" />

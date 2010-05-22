@@ -5,11 +5,17 @@ import edu.colorado.phet.common.phetcommon.math.MathUtil
 import edu.colorado.phet.scalacommon.math.Vector2D
 import java.lang.Math._
 
+/**
+ * The fire dog is the character that appears when the user presses "clear heat" to remove heat from the ramp and object
+ * by spraying it with a fire hose.
+ *
+ * @author Sam Reid
+ */
 class FireDog(rampModel: MotionSeriesModel) {
-  val removedListeners = new ArrayBuffer[() => Unit]
+  val removalListeners = new ArrayBuffer[() => Unit]
   val height = 2
   val width = 2
-  val dogbead = rampModel.createBead(-15, height, width)
+  val dog = rampModel.createBead(-15, height, width)
   private var raindropCount = 0
   private val incomingSpeed = 0.5 * 1.25
   private val outgoingSpeed = 1.0 * 1.25
@@ -17,15 +23,15 @@ class FireDog(rampModel: MotionSeriesModel) {
   private val stoppingDist = -5 + random.nextDouble * 5 - 2.5
 
   def stepInTime(dt: Double) = {
-    if (dogbead.position < stoppingDist && raindropCount < rampModel.maxDrops) {
-      dogbead.setPosition(dogbead.position + incomingSpeed)
+    if (dog.position < stoppingDist && raindropCount < rampModel.maxDrops) {
+      dog.setPosition(dog.position + incomingSpeed)
     } else if (raindropCount < rampModel.maxDrops) {
-      val raindrop = new Raindrop(dogbead.position2D + new Vector2D(width / 2.0, height / 3.0), 10 + random.nextGaussian * 3, PI / 4 + random.nextGaussian() * PI / 16, rampModel)
+      val raindrop = new Raindrop(dog.position2D + new Vector2D(width / 2.0, height / 3.0), 10 + random.nextGaussian * 3, PI / 4 + random.nextGaussian() * PI / 16, rampModel)
       rampModel.raindrops += raindrop
       raindropCount = raindropCount + 1
       rampModel.raindropAddedListeners.foreach(_(raindrop))
-    } else if (dogbead.position > -15) {
-      dogbead.setPosition(dogbead.position - outgoingSpeed)
+    } else if (dog.position > -15) {
+      dog.setPosition(dog.position - outgoingSpeed)
     } else {
       remove()
     }
@@ -33,7 +39,7 @@ class FireDog(rampModel: MotionSeriesModel) {
 
   def remove() = {
     rampModel.fireDogs -= this
-    removedListeners.foreach(_())
+    removalListeners.foreach(_())
   }
 }
 
@@ -41,6 +47,7 @@ class Raindrop(p: Vector2D, rainSpeed: Double, angle: Double, rampModel: MotionS
   val removedListeners = new ArrayBuffer[() => Unit]
   val rainbead = rampModel.createBead(0.0, 0.3, 0.5)
   private var _angle = 0.0
+  rainbead.setVelocity(rainSpeed)//have to set the speed here so that energy conservation in Airborne.step won't make the water drops appear underground
   rainbead.motionStrategy = new Airborne(p, new Vector2D(angle) * rainSpeed, 0.0, rainbead) {
     override def getAngle = velocity2D.getAngle + PI / 2
   }
