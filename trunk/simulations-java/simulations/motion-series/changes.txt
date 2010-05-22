@@ -1,3 +1,4 @@
+Add energy conservation on airbone -> ground crash by dissipating extra energy into heat
 Fixed: Object remains broken after crashing when you hit playback
 Added a "sec" label to the time charts
 Show friction force below applied force when they would otherwise overlap

@@ -114,24 +114,33 @@ class Airborne(private var _position2D: Vector2D, private var _velocity2D: Vecto
     val accel = totalForce / mass
     _velocity2D = _velocity2D + accel * dt
     _position2D = _position2D + _velocity2D * dt
+    bead.setTime(bead.time + dt)
     if (_position2D.y <= airborneFloor) {
       bead.motionStrategy = new Crashed(new Vector2D(_position2D.x, bead.airborneFloor), _angle, bead)
       crashListeners.foreach(_())
+      //todo: make sure energy conserved on crash
+      val newEnergy = bead.getTotalEnergy
+      val energyDifference = bead.getTotalEnergy - originalEnergy
+//      println("Energy difference on crash: "+energyDifference)
+      if (bead.getTotalEnergy < originalEnergy){
+        //the rest is lost to heat
+        bead.thermalEnergy = bead.thermalEnergy + energyDifference.abs
+      }
+      else if (bead.getTotalEnergy >= originalEnergy){
+        //todo: what to do here?  does this ever happen?
+        println("energy gained on crash")
+      }
+//      println("final energy difference: "+(bead.getTotalEnergy-originalEnergy))
+    } else {
+      bead.setVelocity(_velocity2D.magnitude)
+
+      //ensure that energy is exactly conserved by fine-tuning the vertical position of the object; note that this wouldn't work in low g
+      val dy = (bead.getTotalEnergy - originalEnergy) / bead.mass / bead.gravity
+      _position2D = new Vector2D(_position2D.x, _position2D.y + dy)
     }
-    bead.setTime(bead.time + dt)
-    bead.setVelocity(_velocity2D.magnitude)
-
-    //ensure that energy is exactly conserved by fine-tuning the vertical position of the object; note that this wouldn't work in low g
-    val energy = bead.getTotalEnergy
-    val energyDifference = energy - originalEnergy
-    val dy = energyDifference / bead.mass / bead.gravity
-    _position2D = new Vector2D(_position2D.x, _position2D.y + dy)
-
     normalForceVector.notifyListeners() //since ramp segment or motion state might have changed; could improve performance on this by only sending notifications when we are sure the ramp segment has changed
     bead.notifyListeners() //to get the new normalforce
 
-    //todo: make sure energy conserved on crash
-    //    println("bead's energy = " + bead.getTotalEnergy)
   }
 
   override def position2D = _position2D
@@ -326,7 +335,7 @@ class Grounded(bead: ForceBead) extends MotionStrategy(bead) {
       val patch = stateAfterThermalEnergy.setThermalEnergy(origState.thermalEnergy).setVelocity(patchedVelocity)
       val dEPatch = stateAfterThermalEnergy.totalEnergy - origEnergy
       if (dEPatch.abs > 1E-8) {
-//        println("applied energy = ".literal + appliedEnergy + ", dT = ".literal + dT + ", velocity=".literal + stateAfterThermalEnergy.velocity + ", newV=".literal + patchedVelocity + ", dE=".literal + dEPatch)
+        //        println("applied energy = ".literal + appliedEnergy + ", dT = ".literal + dT + ", velocity=".literal + stateAfterThermalEnergy.velocity + ", newV=".literal + patchedVelocity + ", dE=".literal + dEPatch)
         //accept some problem here
         //todo: should the state be changed, given that energy is problematic?
         patch
