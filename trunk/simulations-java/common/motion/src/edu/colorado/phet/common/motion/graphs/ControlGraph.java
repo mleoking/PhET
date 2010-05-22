@@ -3,10 +3,13 @@ package edu.colorado.phet.common.motion.graphs;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
 import javax.swing.*;
 
+import edu.umd.cs.piccolo.nodes.PText;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.PlotOrientation;
@@ -755,5 +758,22 @@ public class ControlGraph extends PNode {
                 handleDataAdded( i, controlGraphSeries.getTemporalVariable().getData( k ) );
             }
         }
+    }
+
+    /**
+     * Adds a "sec" label to the right side of the domain axis
+     * @param label the text to display
+     */
+    public void addTimeAxisLabel(String label){//label specified by client so we don't have to put it in phetcommon (could make it harder for translators to find), and so it can vary (e.g. msec, sec, etc).
+        final PText timeAxisLabel = new PText(label);
+        final int dy = 4;
+        final int dx = 2;
+        timeAxisLabel.setFont(dynamicJFreeChartNode.getChart().getXYPlot().getDomainAxis().getTickLabelFont());
+        dynamicJFreeChartNode.addPropertyChangeListener(PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
+            public void propertyChange(PropertyChangeEvent evt) {
+                timeAxisLabel.setOffset(dynamicJFreeChartNode.getFullBounds().getMaxX() + dx, dynamicJFreeChartNode.getFullBounds().getMaxY() - timeAxisLabel.getFullBounds().getHeight() - dy);
+            }
+        });
+        addChild(timeAxisLabel);
     }
 }
