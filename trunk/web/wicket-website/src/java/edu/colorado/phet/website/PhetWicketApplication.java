@@ -247,7 +247,7 @@ public class PhetWicketApplication extends WebApplication {
     }
 
     public File getStagingRoot() {
-        return new File( getSimulationsRoot(), "staging" );
+        return new File( getWebsiteProperties().getPhetDocumentRoot(), "staging" );
     }
 
     public String getActivitiesLocation() {
