@@ -17,7 +17,7 @@ public class IndexLetterLinks extends PhetPanel {
 
         add( new ListView( "letter-links", letters ) {
             protected void populateItem( ListItem item ) {
-                String letter = item.getModelObjectAsString();
+                String letter = item.getModelObject().toString();
                 Link link = new RawLink( "letter-link", "#" + HibernateUtils.encodeCharacterId( letter ) );
                 link.add( new Label( "letter", letter ) );
                 item.add( link );

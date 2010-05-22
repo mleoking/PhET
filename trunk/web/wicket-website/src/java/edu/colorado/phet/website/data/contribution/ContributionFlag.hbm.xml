@@ -8,7 +8,8 @@
             <generator class="increment"/>
         </id>
 
-        <many-to-one name="contribution" class="edu.colorado.phet.website.data.contribution.Contribution" not-null="true"
+        <many-to-one name="contribution" class="edu.colorado.phet.website.data.contribution.Contribution"
+                     not-null="true"
                      lazy="false"/>
         <property name="dateCreated" type="timestamp"/>
         <many-to-one name="phetUser" class="edu.colorado.phet.website.data.PhetUser" not-null="true" lazy="false"/>

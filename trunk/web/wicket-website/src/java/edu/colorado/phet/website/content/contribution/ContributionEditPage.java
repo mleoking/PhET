@@ -30,7 +30,7 @@ public class ContributionEditPage extends PhetRegularPage {
         String contributionIdString = parameters.getString( "contributionId" );
         final int contributionId = Integer.parseInt( contributionIdString );
 
-        addTitle( new ResourceModel( "contribution.edit.pageTitle") );
+        addTitle( new ResourceModel( "contribution.edit.pageTitle" ) );
 
         initializeLocation( getNavMenu().getLocationByKey( "teacherIdeas.edit" ) );
 

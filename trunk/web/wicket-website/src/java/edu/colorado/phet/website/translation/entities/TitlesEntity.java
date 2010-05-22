@@ -9,7 +9,7 @@ import edu.colorado.phet.website.util.PhetRequestCycle;
 public class TitlesEntity extends TranslationEntity {
     public TitlesEntity() {
         // TODO: figure out a better way than grouping all titles together
-        
+
         addString( "home.title", "Title of the home page." );
         addString( "simulations.translated.title", "Title of the Translated Sims page." );
         addString( "simulationPage.title", "Title for a particular simulation. {0} will be replaced by the simulation title, and {1} {2} and {3} will be replaced by keywords." );

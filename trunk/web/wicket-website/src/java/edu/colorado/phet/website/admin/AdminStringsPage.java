@@ -7,9 +7,9 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
-import org.apache.wicket.markup.html.basic.Label;
 import org.hibernate.Session;
 
 import edu.colorado.phet.website.PhetWicketApplication;

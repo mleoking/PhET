@@ -7,7 +7,6 @@ import javax.xml.transform.TransformerException;
 
 import org.apache.log4j.Logger;
 import org.apache.wicket.markup.html.WebPage;
-import org.apache.wicket.markup.html.basic.Label;
 import org.hibernate.Session;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -21,7 +20,6 @@ import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.HtmlUtils;
 import edu.colorado.phet.website.util.PhetRequestCycle;
-import edu.colorado.phet.website.components.RawLabel;
 
 /**
  * Replacement phet-info service

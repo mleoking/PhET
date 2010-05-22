@@ -12,345 +12,379 @@
 <body>
 
 <wicket:panel>
-<div class="troubleshooting standard-content" wicket:message="dir:language.dir">
-<p wicket:id="intro">
-    PhET's Java-based simulations use Sun Microsystems' Java Web Start technology to launch the simulations. This
-    page will help you ensure that you have Java installed properly, and address some of the problems people
-    might have running our programs. If you can't solve your problem here, please notify us by email at the
-    following address: <a href="mailto:phethelp@colorado.edu"><span class="red">phethelp@colorado.edu</span></a>.
-</p>
+    <div class="troubleshooting standard-content" wicket:message="dir:language.dir">
+        <p wicket:id="intro">
+            PhET's Java-based simulations use Sun Microsystems' Java Web Start technology to launch the simulations.
+            This
+            page will help you ensure that you have Java installed properly, and address some of the problems people
+            might have running our programs. If you can't solve your problem here, please notify us by email at the
+            following address: <a href="mailto:phethelp@colorado.edu"><span class="red">phethelp@colorado.edu</span></a>.
+        </p>
 
-<h2 id="faq_top">
-    <wicket:message key="troubleshooting.java.faqs">FAQs</wicket:message>
-</h2>
+        <h2 id="faq_top">
+            <wicket:message key="troubleshooting.java.faqs">FAQs</wicket:message>
+        </h2>
 
-<div id="faq">
-    <ul id="nav">
-        <li class="faq"><a href="#q1">
+        <div id="faq">
+            <ul id="nav">
+                <li class="faq"><a href="#q1">
+                    <wicket:message key="troubleshooting.java.q1.title">
+                        (Mac users) When I click "run now" to start the simulation all I get is a text file that opens?
+                    </wicket:message>
+                </a></li>
+
+                <li class="faq"><a href="#q2">
+                    <wicket:message key="troubleshooting.java.q2.title">
+                        How do I get Java?
+                    </wicket:message>
+                </a></li>
+
+                <li class="faq"><a href="#q3">
+                    <wicket:message key="troubleshooting.java.q3.title">
+                        Why do you use Java Web Start instead of Java?
+                    </wicket:message>
+                </a></li>
+
+                <li class="faq"><a href="#q4">
+                    <wicket:message key="troubleshooting.java.q4.title">
+                        Are there any problems running the simulations on a Mac?
+                    </wicket:message>
+                </a></li>
+
+                <li class="faq"><a href="#q5">
+                    <wicket:message key="troubleshooting.java.q5.title">
+                        How do I check my computer's current version of Java?
+                    </wicket:message>
+                </a></li>
+
+                <li class="faq"><a href="#q6">
+                    <wicket:message key="troubleshooting.java.q6.title">
+                        I have Windows 2000 and I can only get the Flash based simulations to work.
+                    </wicket:message>
+                </a></li>
+
+                <li class="faq"><a href="#q7">
+                    <wicket:message key="troubleshooting.java.q7.title">
+                        General Java troubleshooting
+                    </wicket:message>
+                </a></li>
+
+                <li class="faq"><a href="#q8">
+                    <wicket:message key="troubleshooting.java.q8.title">
+                        Troubleshooting tips for networked computers
+                    </wicket:message>
+                </a></li>
+            </ul>
+        </div>
+        <br/>
+        <br/>
+
+        <h3 id="q1">
             <wicket:message key="troubleshooting.java.q1.title">
                 (Mac users) When I click "run now" to start the simulation all I get is a text file that opens?
             </wicket:message>
-        </a></li>
+        </h3>
 
-        <li class="faq"><a href="#q2">
-            <wicket:message key="troubleshooting.java.q2.title">
-                How do I get Java?
+        <div wicket:id="troubleshooting-java-q1-answer">
+            <p>
+                <img style="float: left;" src="/images/unhappy-mac-jnlp-logo-small.jpg" alt="Unhappy JNLP Mac Logo"/>
+
+                This problem will affect mac users who recently installed Apple's "Java for Mac OS X 10.5 Update 4". The
+                update will typically be done via Software Update, or automatically. After installing this update, the
+                problem appears: clicking on JNLP files in Safari or FireFox caused the JNLP file to open in TextEdit,
+                instead of starting Java Web Start.
+
+            </p>
+
+            <p>
+                The fix is:<br/>
+                1. Go to http://support.apple.com/downloads/Java_for_Mac_OS_X_10_5_Update_4<br/>
+                2. Click Download to download a .dmg file<br/>
+                3. When the .dmg has downloaded, double-click on it (if it doesn't mount automatically)<br/>
+
+                4. Quit all applications<br/>
+                5. Run the update installer
+            </p>
+        </div>
+
+        <p class="to-top">
+            <a href="#faq_top"><span class="to-top-text"><wicket:message key="troubleshooting.top">top
+            </wicket:message></span><span
+                    class="to-top-arrow">&#9650;</span></a>
+        </p>
+
+        <h3 id="q2">
+            <wicket:message key="troubleshooting.java.q2.title">How do I get Java?</wicket:message>
+        </h3>
+
+        <div wicket:id="troubleshooting-java-q2-answer">
+            <p>
+                To run the Java-based simulations you must have Java version 1.5 or higher installed on your computer.
+                You
+                can obtain the free downloads by clicking on the button below:<br/>
+                <a href="http://www.java.com/en/index.jsp"><img src="/images/java-jump.gif" alt="Java Jump"/></a>
+            </p>
+
+            <p><strong>Note for Netscape Users</strong></p>
+
+            <p>
+                After you have installed Java Web Start, you will need to close and re-open your browser for Java Web
+                Start to
+                work.
+            </p>
+        </div>
+
+        <p class="to-top">
+            <a href="#faq_top"><span class="to-top-text"><wicket:message key="troubleshooting.top">top
+            </wicket:message></span><span
+                    class="to-top-arrow">&#9650;</span></a>
+        </p>
+
+        <h3 id="q3">
+            <wicket:message key="troubleshooting.java.q3.title">Why do you use Java Web Start instead of Java?
             </wicket:message>
-        </a></li>
+        </h3>
 
-        <li class="faq"><a href="#q3">
-            <wicket:message key="troubleshooting.java.q3.title">
-                Why do you use Java Web Start instead of Java?
+        <div wicket:id="troubleshooting-java-q3-answer">
+            <p>
+                We use Java Web Start technology rather than Java Applets. Java Web Start, which is a free mechanism
+                from
+                Sun, is a more robust way of launching Java programs over the Web than applets. If you have had problems
+                running applets in the past, you may well find that Java Web Start works much better. If you should have
+                any
+                problems, we will be happy to help you solve them. If the information on this page doesnít help, just
+                send
+                us email at <a href="mailto:phethelp@colorado.edu">phethelp@colorado.edu</a>.
+            </p>
+        </div>
+
+        <p class="to-top">
+            <a href="#faq_top"><span class="to-top-text"><wicket:message key="troubleshooting.top">top
+            </wicket:message></span><span
+                    class="to-top-arrow">&#9650;</span></a>
+        </p>
+
+        <h3 id="q4">
+            <wicket:message key="troubleshooting.java.q4.title">Are there any problems running the simulations on a Mac?
             </wicket:message>
-        </a></li>
+        </h3>
 
-        <li class="faq"><a href="#q4">
-            <wicket:message key="troubleshooting.java.q4.title">
-                Are there any problems running the simulations on a Mac?
+        <div wicket:id="troubleshooting-java-q4-answer">
+            <p>
+                Macintosh OS X 10.4 or higher is required to run our Java programs. You must have the latest version of
+                Java
+                (which will already be installed if you are using the auto-update feature of OS X). See
+                http://www.apple.com/java/ for details.
+            </p>
+
+            <p>
+                Versions of Apple's Safari browser below 2.0 (included with OS X 10.4) do not launch our Java-based
+                applications
+                reliably.
+            </p>
+
+            <p>
+                If when you click "Run Now" to start a simulation and all you get is a text file that opens, see <a
+                    href="#q1">this
+                answer</a>.
+            </p>
+        </div>
+
+        <p class="to-top">
+            <a href="#faq_top"><span class="to-top-text"><wicket:message key="troubleshooting.top">top
+            </wicket:message></span><span
+                    class="to-top-arrow">&#9650;</span></a>
+        </p>
+
+        <h3 id="q5">
+            <wicket:message key="troubleshooting.java.q5.title">How do I check my computer's current version of Java?
             </wicket:message>
-        </a></li>
+        </h3>
 
-        <li class="faq"><a href="#q5">
-            <wicket:message key="troubleshooting.java.q5.title">
-                How do I check my computer's current version of Java?
+        <div wicket:id="troubleshooting-java-q5-answer">
+            <p><strong><em>Windows Vista users:</em></strong><br/>
+                From a command line (Start&nbsp;menu-&gt;All&nbsp;Programs-&gt;Accessories-&gt;Command&nbsp;Prompt),
+                type:
+                <strong>javaws&nbsp;-viewer</strong> followed by the enter key. You should see some text which will
+                include
+                something like "(build 1.4.2_05_05-b04)"; this number is the version of Java you are using. If you
+                receive
+                an error, Java is not properly installed (see above to reinstall).</p>
+
+            <p><strong><em>Windows 2000/XP users:</em></strong><br/>
+                From a command line (Start&nbsp;menu-&gt;All&nbsp;Programs-&gt;Accessories-&gt;Command&nbsp;Prompt),
+                type:
+                <strong>java&nbsp;-version</strong> followed by the enter key. You should see some text which will
+                include
+                something like "(build 1.4.2_05_05-b04)"; this number is the version of Java you are using. If you
+                receive
+                an error, Java is not properly installed (see above to reinstall).</p>
+
+            <p><strong><em>Macintosh users:</em></strong><br/>
+                From the Apple menu, click on "About this Mac", then on "More Info...". You will find the Java software
+                version under "Software-&gt;Applications".</p>
+        </div>
+
+        <p class="to-top">
+            <a href="#faq_top"><span class="to-top-text"><wicket:message key="troubleshooting.top">top
+            </wicket:message></span><span
+                    class="to-top-arrow">&#9650;</span></a>
+        </p>
+
+        <h3 id="q6">
+            <wicket:message key="troubleshooting.java.q6.title">I have Windows 2000 and I can only get the Flash based
+                simulations to work.
             </wicket:message>
-        </a></li>
+        </h3>
 
-        <li class="faq"><a href="#q6">
-            <wicket:message key="troubleshooting.java.q6.title">
-                I have Windows 2000 and I can only get the Flash based simulations to work.
+        <div wicket:id="troubleshooting-java-q6-answer">
+            <p>Some Windows 2000 systems have been reported to lack part of the necessary Java configuration. These
+                systems
+                will typically start our Flash-based simulations reliably, but will appear to do nothing when launching
+                our
+                Java-based simulations.</p>
+
+            <p><strong>To resolve this situation, please perform the following steps:</strong></p>
+
+            <ol>
+                <li>From the desktop or start menu, open "My Computer"</li>
+                <li>Click on the "Folder Options" item in the "Tools" menu</li>
+                <li>Click on the "File Types" tab at the top of the window that appears</li>
+                <li>Locate "JNLP" in the "extensions" column, and click once on it to select the item</li>
+
+                <li>Click on the "change" button</li>
+                <li>When asked to choose which program to use to open JNLP files, select "Browse"</li>
+                <li>Locate the program "javaws" or "javaws.exe" in your Java installation folder (typically "C:\Program
+                    Files\Java\j2re1.xxxx\javaws", where "xxxx" is a series of numbers indicating the software version;
+                    choose the latest version)
+                </li>
+                <li>Select the program file and then click "Open" to use the "javaws" program to open JNLP files.</li>
+            </ol>
+        </div>
+
+        <p class="to-top">
+            <a href="#faq_top"><span class="to-top-text"><wicket:message key="troubleshooting.top">top
+            </wicket:message></span><span
+                    class="to-top-arrow">&#9650;</span></a>
+        </p>
+
+        <h3 id="q7">
+            <wicket:message key="troubleshooting.java.q7.title">General Java troubleshooting</wicket:message>
+        </h3>
+
+        <div wicket:id="troubleshooting-java-q7-answer">
+            <p>The following are some general steps that you may wish to perform when attempting to solve Java-related
+                problems:</p>
+
+            <ul>
+                <li><strong>Empty Your Browser's Cache</strong>
+
+                    <br/>
+
+                    <table>
+                        <thead>
+                        <tr>
+                            <td>Internet Explorer</td>
+                            <td>Firefox</td>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr>
+                            <td>Select "Tools-&gt;Options", then click on the "Delete Files..." button under "Temporary
+                                Internet Files"
+                            </td>
+
+                            <td>Select "Tools-&gt;Options-&gt;Privacy", then click the "Clear" button next to "Cache".
+                            </td>
+                        </tr>
+                        </tbody>
+
+                    </table>
+
+                </li>
+
+                <li><strong>Empty Java Web Start's Cache</strong><br/>
+                    From Windows' Start menu, select "Java Web Start", then select "Preferences" from the File menu.
+                    Click
+                    "Advanced", then click the "Clear Folder" button.
+                </li>
+
+                <li><strong>Make Sure Windows can find Java and Java Web Start</strong><br/>
+                    From a command line (Start menu-&gt;Accessories-&gt;Command Prompt), type <em>java -version</em>
+                    followed by the enter key. If you receive an error, Java is not properly installed. Please try
+                    reinstalling Java (see above) after uninstalling any Java entries in your list of installed programs
+                    (Control Panel -&gt;Add/Remove Programs).
+                </li>
+
+            </ul>
+        </div>
+
+        <p class="to-top">
+            <a href="#faq_top"><span class="to-top-text"><wicket:message key="troubleshooting.top">top
+            </wicket:message></span><span
+                    class="to-top-arrow">&#9650;</span></a>
+        </p>
+
+        <h3 id="q8">
+            <wicket:message key="troubleshooting.java.q8.title">Troubleshooting tips for networked computers
             </wicket:message>
-        </a></li>
+        </h3>
 
-        <li class="faq"><a href="#q7">
-            <wicket:message key="troubleshooting.java.q7.title">
-                General Java troubleshooting
-            </wicket:message>
-        </a></li>
+        <div wicket:id="troubleshooting-java-q8-answer">
+            <p><strong>Why do simulations run for admin but not all users?</strong></p>
 
-        <li class="faq"><a href="#q8">
-            <wicket:message key="troubleshooting.java.q8.title">
-                Troubleshooting tips for networked computers
-            </wicket:message>
-        </a></li>
-    </ul>
-</div>
-<br/>
-<br/>
+            <p>Java simulations may also fail to start on networked computers running Windows for some users while
+                running
+                properly for administrators. When Java Web Start tries to launch a simulation, it attempts to cache
+                certain
+                files in a "cache folder". This folder (or "directory") is determined when Java is installed, and may
+                point
+                to a folder that non-administrator accounts do not have access to, resulting in a launch failure.
+                Correct
+                this problem by setting the cache directory to one of your own choosing: Log on as an administrator.</p>
 
-<h3 id="q1">
-    <wicket:message key="troubleshooting.java.q1.title">
-        (Mac users) When I click "run now" to start the simulation all I get is a text file that opens?
-    </wicket:message>
-</h3>
+            <p>Launch the Java Web Start Application Manager. This can be done in one of two ways. a) If the Java
+                installation placed an icon either on your desktop or in the Start Menu -&gt; All Programs list titled
+                "Java
+                Web Start", click it to start the application. b) Use the Windows search function (located in the Start
+                Menu) to search for the program "javaws.exe". Once it is found, click on the file to run the
+                application.
+                Once the Java Web Start Application Manager is up and running, choose File&gt;Preferences. In the
+                Preferences dialog that appears, click on the Advanced tab. In this tab, you will find a text field
+                labeled
+                "Applications Folder". In this text field, put the name of an empty directory to which all users have
+                write
+                privileges. Note: This directory MUST be empty. All users should now be able to launch the Java
+                simulations.</p>
 
-<div wicket:id="troubleshooting-java-q1-answer">
-    <p>
-        <img style="float: left;" src="/images/unhappy-mac-jnlp-logo-small.jpg" alt="Unhappy JNLP Mac Logo"/>
+            <p><strong>Issue 3: Web Proxy Settings</strong><br/>
+                Java simulations may fail to start if the proxy settings in Java Web Start's configuration panel (Start
+                Menu-&gt;Java Web Start, File Menu-&gt;Preferences) do not match those your system is currently using.
+                To
+                identify settings being used on your system, see your web browser's proxy settings, or contact you
+                network
+                administrator.</p>
 
-        This problem will affect mac users who recently installed Apple's "Java for Mac OS X 10.5 Update 4". The
-        update will typically be done via Software Update, or automatically. After installing this update, the
-        problem appears: clicking on JNLP files in Safari or FireFox caused the JNLP file to open in TextEdit,
-        instead of starting Java Web Start.
+            <p><strong>Local Install on Boot Drive Only</strong><br/>
+                If you are operating in a networked environment, please ensure that both Java and the PhET simulations
+                (if
+                installed locally rather than running from our web site) are installed on local, non-networked drives.
+                The
+                PhET simulations must be installed on the boot drive.</p>
 
-    </p>
+            <p><strong>Network Firewalls</strong><br/>
+                Please ensure that your firewall is configured to allow both Java and Java Web Start to communicate
+                through
+                the firewall.</p>
+        </div>
 
-    <p>
-        The fix is:<br/>
-        1. Go to http://support.apple.com/downloads/Java_for_Mac_OS_X_10_5_Update_4<br/>
-        2. Click Download to download a .dmg file<br/>
-        3. When the .dmg has downloaded, double-click on it (if it doesn't mount automatically)<br/>
-
-        4. Quit all applications<br/>
-        5. Run the update installer
-    </p>
-</div>
-
-<p class="to-top">
-    <a href="#faq_top"><span class="to-top-text"><wicket:message key="troubleshooting.top">top
-    </wicket:message></span><span
-            class="to-top-arrow">&#9650;</span></a>
-</p>
-
-<h3 id="q2">
-    <wicket:message key="troubleshooting.java.q2.title">How do I get Java?</wicket:message>
-</h3>
-
-<div wicket:id="troubleshooting-java-q2-answer">
-    <p>
-        To run the Java-based simulations you must have Java version 1.5 or higher installed on your computer. You
-        can obtain the free downloads by clicking on the button below:<br/>
-        <a href="http://www.java.com/en/index.jsp"><img src="/images/java-jump.gif" alt="Java Jump"/></a>
-    </p>
-
-    <p><strong>Note for Netscape Users</strong></p>
-
-    <p>
-        After you have installed Java Web Start, you will need to close and re-open your browser for Java Web Start to
-        work.
-    </p>
-</div>
-
-<p class="to-top">
-    <a href="#faq_top"><span class="to-top-text"><wicket:message key="troubleshooting.top">top
-    </wicket:message></span><span
-            class="to-top-arrow">&#9650;</span></a>
-</p>
-
-<h3 id="q3">
-    <wicket:message key="troubleshooting.java.q3.title">Why do you use Java Web Start instead of Java?</wicket:message>
-</h3>
-
-<div wicket:id="troubleshooting-java-q3-answer">
-    <p>
-        We use Java Web Start technology rather than Java Applets. Java Web Start, which is a free mechanism from
-        Sun, is a more robust way of launching Java programs over the Web than applets. If you have had problems
-        running applets in the past, you may well find that Java Web Start works much better. If you should have any
-        problems, we will be happy to help you solve them. If the information on this page doesnít help, just send
-        us email at <a href="mailto:phethelp@colorado.edu">phethelp@colorado.edu</a>.
-    </p>
-</div>
-
-<p class="to-top">
-    <a href="#faq_top"><span class="to-top-text"><wicket:message key="troubleshooting.top">top
-    </wicket:message></span><span
-            class="to-top-arrow">&#9650;</span></a>
-</p>
-
-<h3 id="q4">
-    <wicket:message key="troubleshooting.java.q4.title">Are there any problems running the simulations on a Mac?
-    </wicket:message>
-</h3>
-
-<div wicket:id="troubleshooting-java-q4-answer">
-    <p>
-        Macintosh OS X 10.4 or higher is required to run our Java programs. You must have the latest version of Java
-        (which will already be installed if you are using the auto-update feature of OS X). See
-        http://www.apple.com/java/ for details.
-    </p>
-
-    <p>
-        Versions of Apple's Safari browser below 2.0 (included with OS X 10.4) do not launch our Java-based applications
-        reliably.
-    </p>
-
-    <p>
-        If when you click "Run Now" to start a simulation and all you get is a text file that opens, see <a href="#q1">this
-        answer</a>.
-    </p>
-</div>
-
-<p class="to-top">
-    <a href="#faq_top"><span class="to-top-text"><wicket:message key="troubleshooting.top">top
-    </wicket:message></span><span
-            class="to-top-arrow">&#9650;</span></a>
-</p>
-
-<h3 id="q5">
-    <wicket:message key="troubleshooting.java.q5.title">How do I check my computer's current version of Java?
-    </wicket:message>
-</h3>
-
-<div wicket:id="troubleshooting-java-q5-answer">
-    <p><strong><em>Windows Vista users:</em></strong><br/>
-        From a command line (Start&nbsp;menu-&gt;All&nbsp;Programs-&gt;Accessories-&gt;Command&nbsp;Prompt), type:
-        <strong>javaws&nbsp;-viewer</strong> followed by the enter key. You should see some text which will include
-        something like "(build 1.4.2_05_05-b04)"; this number is the version of Java you are using. If you receive
-        an error, Java is not properly installed (see above to reinstall).</p>
-
-    <p><strong><em>Windows 2000/XP users:</em></strong><br/>
-        From a command line (Start&nbsp;menu-&gt;All&nbsp;Programs-&gt;Accessories-&gt;Command&nbsp;Prompt), type:
-        <strong>java&nbsp;-version</strong> followed by the enter key. You should see some text which will include
-        something like "(build 1.4.2_05_05-b04)"; this number is the version of Java you are using. If you receive
-        an error, Java is not properly installed (see above to reinstall).</p>
-
-    <p><strong><em>Macintosh users:</em></strong><br/>
-        From the Apple menu, click on "About this Mac", then on "More Info...". You will find the Java software
-        version under "Software-&gt;Applications".</p>
-</div>
-
-<p class="to-top">
-    <a href="#faq_top"><span class="to-top-text"><wicket:message key="troubleshooting.top">top
-    </wicket:message></span><span
-            class="to-top-arrow">&#9650;</span></a>
-</p>
-
-<h3 id="q6">
-    <wicket:message key="troubleshooting.java.q6.title">I have Windows 2000 and I can only get the Flash based
-        simulations to work.
-    </wicket:message>
-</h3>
-
-<div wicket:id="troubleshooting-java-q6-answer">
-    <p>Some Windows 2000 systems have been reported to lack part of the necessary Java configuration. These systems
-        will typically start our Flash-based simulations reliably, but will appear to do nothing when launching our
-        Java-based simulations.</p>
-
-    <p><strong>To resolve this situation, please perform the following steps:</strong></p>
-
-    <ol>
-        <li>From the desktop or start menu, open "My Computer"</li>
-        <li>Click on the "Folder Options" item in the "Tools" menu</li>
-        <li>Click on the "File Types" tab at the top of the window that appears</li>
-        <li>Locate "JNLP" in the "extensions" column, and click once on it to select the item</li>
-
-        <li>Click on the "change" button</li>
-        <li>When asked to choose which program to use to open JNLP files, select "Browse"</li>
-        <li>Locate the program "javaws" or "javaws.exe" in your Java installation folder (typically "C:\Program
-            Files\Java\j2re1.xxxx\javaws", where "xxxx" is a series of numbers indicating the software version;
-            choose the latest version)
-        </li>
-        <li>Select the program file and then click "Open" to use the "javaws" program to open JNLP files.</li>
-    </ol>
-</div>
-
-<p class="to-top">
-    <a href="#faq_top"><span class="to-top-text"><wicket:message key="troubleshooting.top">top
-    </wicket:message></span><span
-            class="to-top-arrow">&#9650;</span></a>
-</p>
-
-<h3 id="q7">
-    <wicket:message key="troubleshooting.java.q7.title">General Java troubleshooting</wicket:message>
-</h3>
-
-<div wicket:id="troubleshooting-java-q7-answer">
-    <p>The following are some general steps that you may wish to perform when attempting to solve Java-related
-        problems:</p>
-
-    <ul>
-        <li><strong>Empty Your Browser's Cache</strong>
-
-            <br/>
-
-            <table>
-                <thead>
-                <tr>
-                    <td>Internet Explorer</td>
-                    <td>Firefox</td>
-                </tr>
-                </thead>
-
-                <tbody>
-                <tr>
-                    <td>Select "Tools-&gt;Options", then click on the "Delete Files..." button under "Temporary
-                        Internet Files"
-                    </td>
-
-                    <td>Select "Tools-&gt;Options-&gt;Privacy", then click the "Clear" button next to "Cache".</td>
-                </tr>
-                </tbody>
-
-            </table>
-
-        </li>
-
-        <li><strong>Empty Java Web Start's Cache</strong><br/>
-            From Windows' Start menu, select "Java Web Start", then select "Preferences" from the File menu. Click
-            "Advanced", then click the "Clear Folder" button.
-        </li>
-
-        <li><strong>Make Sure Windows can find Java and Java Web Start</strong><br/>
-            From a command line (Start menu-&gt;Accessories-&gt;Command Prompt), type <em>java -version</em>
-            followed by the enter key. If you receive an error, Java is not properly installed. Please try
-            reinstalling Java (see above) after uninstalling any Java entries in your list of installed programs
-            (Control Panel -&gt;Add/Remove Programs).
-        </li>
-
-    </ul>
-</div>
-
-<p class="to-top">
-    <a href="#faq_top"><span class="to-top-text"><wicket:message key="troubleshooting.top">top
-    </wicket:message></span><span
-            class="to-top-arrow">&#9650;</span></a>
-</p>
-
-<h3 id="q8">
-    <wicket:message key="troubleshooting.java.q8.title">Troubleshooting tips for networked computers</wicket:message>
-</h3>
-
-<div wicket:id="troubleshooting-java-q8-answer">
-    <p><strong>Why do simulations run for admin but not all users?</strong></p>
-
-    <p>Java simulations may also fail to start on networked computers running Windows for some users while running
-        properly for administrators. When Java Web Start tries to launch a simulation, it attempts to cache certain
-        files in a "cache folder". This folder (or "directory") is determined when Java is installed, and may point
-        to a folder that non-administrator accounts do not have access to, resulting in a launch failure. Correct
-        this problem by setting the cache directory to one of your own choosing: Log on as an administrator.</p>
-
-    <p>Launch the Java Web Start Application Manager. This can be done in one of two ways. a) If the Java
-        installation placed an icon either on your desktop or in the Start Menu -&gt; All Programs list titled "Java
-        Web Start", click it to start the application. b) Use the Windows search function (located in the Start
-        Menu) to search for the program "javaws.exe". Once it is found, click on the file to run the application.
-        Once the Java Web Start Application Manager is up and running, choose File&gt;Preferences. In the
-        Preferences dialog that appears, click on the Advanced tab. In this tab, you will find a text field labeled
-        "Applications Folder". In this text field, put the name of an empty directory to which all users have write
-        privileges. Note: This directory MUST be empty. All users should now be able to launch the Java
-        simulations.</p>
-
-    <p><strong>Issue 3: Web Proxy Settings</strong><br/>
-        Java simulations may fail to start if the proxy settings in Java Web Start's configuration panel (Start
-        Menu-&gt;Java Web Start, File Menu-&gt;Preferences) do not match those your system is currently using. To
-        identify settings being used on your system, see your web browser's proxy settings, or contact you network
-        administrator.</p>
-
-    <p><strong>Local Install on Boot Drive Only</strong><br/>
-        If you are operating in a networked environment, please ensure that both Java and the PhET simulations (if
-        installed locally rather than running from our web site) are installed on local, non-networked drives. The
-        PhET simulations must be installed on the boot drive.</p>
-
-    <p><strong>Network Firewalls</strong><br/>
-        Please ensure that your firewall is configured to allow both Java and Java Web Start to communicate through
-        the firewall.</p>
-</div>
-
-<p class="to-top">
-    <a href="#faq_top"><span class="to-top-text"><wicket:message key="troubleshooting.top">top
-    </wicket:message></span><span
-            class="to-top-arrow">&#9650;</span></a>
-</p>
-</div>
+        <p class="to-top">
+            <a href="#faq_top"><span class="to-top-text"><wicket:message key="troubleshooting.top">top
+            </wicket:message></span><span
+                    class="to-top-arrow">&#9650;</span></a>
+        </p>
+    </div>
 </wicket:panel>
 
 </body>

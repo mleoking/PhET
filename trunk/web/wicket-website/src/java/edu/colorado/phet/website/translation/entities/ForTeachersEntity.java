@@ -1,12 +1,12 @@
 package edu.colorado.phet.website.translation.entities;
 
-import edu.colorado.phet.website.translation.PhetPanelFactory;
+import edu.colorado.phet.website.content.ClassroomUsePanel;
+import edu.colorado.phet.website.content.TeacherIdeasPanel;
+import edu.colorado.phet.website.content.contribution.ContributionGuidelinesPanel;
 import edu.colorado.phet.website.panels.PhetPanel;
+import edu.colorado.phet.website.translation.PhetPanelFactory;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetRequestCycle;
-import edu.colorado.phet.website.content.TeacherIdeasPanel;
-import edu.colorado.phet.website.content.ClassroomUsePanel;
-import edu.colorado.phet.website.content.contribution.ContributionGuidelinesPanel;
 
 public class ForTeachersEntity extends TranslationEntity {
     public ForTeachersEntity() {
@@ -64,7 +64,7 @@ public class ForTeachersEntity extends TranslationEntity {
                 return new ClassroomUsePanel( id, context );
             }
         }, "Classroom Use" );
-        
+
     }
 
     public String getDisplayName() {

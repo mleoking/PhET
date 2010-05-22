@@ -116,6 +116,16 @@ public class TranslationUrlStrategy implements IRequestTargetUrlCodingStrategy {
         return mapper.containsClass( target.getClass() );
     }
 
+    public boolean matches( String path, boolean caseSensitive ) {
+        if ( caseSensitive ) {
+            return matches( path );
+        }
+        else {
+            logger.warn( "matching without case sensitivity on " + path );
+            return matches( path.toLowerCase() );
+        }
+    }
+
     public boolean matches( String str ) {
         try {
             String halfPath = stripPath( str );

@@ -122,10 +122,11 @@ public class TranslateEntityPanel extends PhetPanel {
                                 map.put( translationId, old - 1 );
                             }
                             add( new AttributeModifier( "class", new Model( "string-value" ) ) );
-                        } else {
+                        }
+                        else {
                             // mostly preventative measure to prevent attacks
                             String oldValue = StringUtils.getStringDirect( getHibernateSession(), tString.getKey(), translationId );
-                            if( oldValue == null ) {
+                            if ( oldValue == null ) {
                                 oldValue = StringUtils.getDefaultStringDirect( getHibernateSession(), tString.getKey() );
                             }
                             model.setObject( oldValue );

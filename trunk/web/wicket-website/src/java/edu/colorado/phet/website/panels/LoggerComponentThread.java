@@ -9,7 +9,6 @@ import org.apache.log4j.PatternLayout;
 import org.apache.log4j.WriterAppender;
 import org.apache.wicket.Component;
 
-import edu.colorado.phet.website.admin.deploy.WebsiteTranslationDeployServer;
 import edu.colorado.phet.website.components.RawLabel;
 import edu.colorado.phet.website.util.HtmlUtils;
 import edu.colorado.phet.website.util.PageContext;

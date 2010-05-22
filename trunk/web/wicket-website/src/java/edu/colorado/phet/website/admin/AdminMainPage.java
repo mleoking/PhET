@@ -128,8 +128,8 @@ public class AdminMainPage extends AdminPage {
 
         public final void onSubmit() {
             // TODO: important before deploy: add authorization or remove (for specific translation)
-            String key = keyText.getModelObjectAsString();
-            String value = valueText.getModelObjectAsString();
+            String key = keyText.getModelObject().toString();
+            String value = valueText.getModelObject().toString();
             logger.info( "Submitted new string: " + key + " = " + value );
             StringUtils.setEnglishString( getHibernateSession(), key, value );
         }

@@ -27,11 +27,11 @@ public abstract class OrderList<Item extends OrderListItem> extends PhetPanel {
     private List<Item> allItems;
     private OrderForm form;
 
-    public abstract boolean onAdd( Item item );
+    public abstract boolean onItemAdd( Item item );
 
-    public abstract boolean onRemove( Item item, int index );
+    public abstract boolean onItemRemove( Item item, int index );
 
-    public abstract boolean onSwap( Item a, Item b, int aIndex, int bIndex );
+    public abstract boolean onItemSwap( Item a, Item b, int aIndex, int bIndex );
 
     public abstract Component getHeaderComponent( String id );
 
@@ -50,7 +50,7 @@ public abstract class OrderList<Item extends OrderListItem> extends PhetPanel {
                 listItem.add( item.getDisplayComponent( "item-component" ) );
                 listItem.add( new Link( "remove" ) {
                     public void onClick() {
-                        boolean success = onRemove( item, listItem.getIndex() );
+                        boolean success = onItemRemove( item, listItem.getIndex() );
                         if ( success ) {
                             items.remove( item );
                         }
@@ -87,7 +87,7 @@ public abstract class OrderList<Item extends OrderListItem> extends PhetPanel {
     }
 
     private void swapItemOrder( int a, int b ) {
-        boolean success = onSwap( items.get( a ), items.get( b ), a, b );
+        boolean success = onItemSwap( items.get( a ), items.get( b ), a, b );
         if ( success ) {
             Collections.swap( items, a, b );
         }
@@ -110,7 +110,7 @@ public abstract class OrderList<Item extends OrderListItem> extends PhetPanel {
             }
             boolean success = item != null;
             if ( success ) {
-                success = onAdd( item );
+                success = onItemAdd( item );
             }
             if ( success ) {
                 items.add( item );

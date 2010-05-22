@@ -64,7 +64,7 @@ public class AdminUsersPage extends AdminPage {
         @Override
         protected void onSubmit() {
             PageParameters params = new PageParameters();
-            params.add( "userEmail", emailField.getModelObjectAsString() );
+            params.add( "userEmail", emailField.getModelObject().toString() );
             setResponsePage( AdminEditProfilePage.class, params );
         }
     }

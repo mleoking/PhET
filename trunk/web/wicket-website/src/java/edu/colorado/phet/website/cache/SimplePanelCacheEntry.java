@@ -1,8 +1,8 @@
 package edu.colorado.phet.website.cache;
 
+import java.io.Serializable;
 import java.util.Locale;
 import java.util.Map;
-import java.io.Serializable;
 
 import org.apache.log4j.Logger;
 

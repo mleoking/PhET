@@ -482,8 +482,8 @@ public class AdminSimPage extends AdminPage {
 
         @Override
         protected void onSubmit() {
-            final String key = keyText.getModelObjectAsString();
-            final String value = valueText.getModelObjectAsString();
+            final String key = keyText.getModelObject().toString();
+            final String value = valueText.getModelObject().toString();
             final String localizationKey = "keyword." + key;
             boolean success = StringUtils.setEnglishString( getHibernateSession(), localizationKey, value );
             if ( success ) {
@@ -627,7 +627,7 @@ public class AdminSimPage extends AdminPage {
         @Override
         protected void onSubmit() {
             super.onSubmit();
-            String text = value.getModelObjectAsString();
+            String text = value.getModelObject().toString();
 
             List<String> strings = new LinkedList<String>();
             String str;
@@ -782,7 +782,7 @@ public class AdminSimPage extends AdminPage {
         protected void onSubmit() {
             super.onSubmit();
             try {
-                final int kilobytes = Integer.valueOf( textfield.getModelObjectAsString() );
+                final int kilobytes = Integer.valueOf( textfield.getModelObject().toString() );
                 HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
                     public boolean run( Session session ) {
                         Simulation sim = (Simulation) session.load( Simulation.class, simulation.getId() );
@@ -818,8 +818,8 @@ public class AdminSimPage extends AdminPage {
         protected void onSubmit() {
             super.onSubmit();
 
-            final Locale locale = LocaleUtils.stringToLocale( localeField.getModelObjectAsString() );
-            final String title = titleField.getModelObjectAsString();
+            final Locale locale = LocaleUtils.stringToLocale( localeField.getModelObject().toString() );
+            final String title = titleField.getModelObject().toString();
 
             HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
                 public boolean run( Session session ) {
@@ -858,7 +858,7 @@ public class AdminSimPage extends AdminPage {
         public FileUploadForm( String id ) {
             super( id );
 
-            add( field = new FileUploadField( "file" ) );
+            add( field = new FileUploadField( "file", new Model<FileUpload>() ) );
 
             setMultiPart( true );
 

@@ -1,8 +1,8 @@
 package edu.colorado.phet.website.content.about;
 
 import edu.colorado.phet.website.DistributionHandler;
-import edu.colorado.phet.website.constants.Images;
 import edu.colorado.phet.website.components.StaticImage;
+import edu.colorado.phet.website.constants.Images;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetRequestCycle;

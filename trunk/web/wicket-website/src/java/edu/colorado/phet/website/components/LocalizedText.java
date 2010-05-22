@@ -51,7 +51,7 @@ public class LocalizedText extends WebComponent {
     *----------------------------------------------------------------------------*/
 
     protected void onComponentTagBody( final MarkupStream markupStream, final ComponentTag openTag ) {
-        String key = getModelObjectAsString();
+        String key = getDefaultModelObject().toString();
         String body = getLocalizer().getString( key, this );
         if ( args != null ) {
             try {

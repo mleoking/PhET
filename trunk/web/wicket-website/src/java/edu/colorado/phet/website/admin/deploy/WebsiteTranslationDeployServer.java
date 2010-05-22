@@ -3,7 +3,10 @@ package edu.colorado.phet.website.admin.deploy;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Locale;
 
 import org.apache.log4j.Logger;
 

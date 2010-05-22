@@ -2,7 +2,10 @@ package edu.colorado.phet.website.notification;
 
 import it.sauronsoftware.cron4j.Scheduler;
 
-import java.util.*;
+import java.util.Calendar;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Properties;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -15,10 +18,9 @@ import org.hibernate.event.PostUpdateEvent;
 
 import edu.colorado.phet.website.data.NotificationEvent;
 import edu.colorado.phet.website.data.PhetUser;
-import edu.colorado.phet.website.notification.NotificationEventType;
 import edu.colorado.phet.website.data.contribution.Contribution;
-import edu.colorado.phet.website.data.contribution.ContributionNomination;
 import edu.colorado.phet.website.data.contribution.ContributionComment;
+import edu.colorado.phet.website.data.contribution.ContributionNomination;
 import edu.colorado.phet.website.data.util.AbstractChangeListener;
 import edu.colorado.phet.website.data.util.HibernateEventListener;
 import edu.colorado.phet.website.util.HibernateTask;
@@ -84,7 +86,7 @@ public class NotificationHandler {
         HibernateUtils.wrapSession( new HibernateTask() {
             public boolean run( org.hibernate.Session session ) {
                 addEventsToList( session, events );
-                List list = session.createQuery( "select u from PhetUser as u where u.teamMember = true and u.receiveWebsiteNotifications = true").list();
+                List list = session.createQuery( "select u from PhetUser as u where u.teamMember = true and u.receiveWebsiteNotifications = true" ).list();
                 for ( Object o : list ) {
                     usersToNotify.add( (PhetUser) o );
                 }
@@ -141,7 +143,6 @@ public class NotificationHandler {
         }
     }
 
-    
 
     private static void addEventsToList( org.hibernate.Session session, List<NotificationEvent> events ) {
         Calendar cal = Calendar.getInstance();

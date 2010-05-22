@@ -14,7 +14,6 @@ public class AuthenticatedPage extends PhetPage {
             throw new RestartResponseAtInterceptPageException( SignInPage.class );
         }
 
-
     }
 
     public PhetUser getUser() {

@@ -15,7 +15,6 @@ import edu.colorado.phet.website.authentication.SignInPage;
 import edu.colorado.phet.website.content.NotFoundPage;
 import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.data.contribution.Contribution;
-import edu.colorado.phet.website.data.contribution.ContributionComment;
 import edu.colorado.phet.website.data.contribution.ContributionNomination;
 import edu.colorado.phet.website.templates.PhetRegularPage;
 import edu.colorado.phet.website.util.HibernateTask;
@@ -28,7 +27,7 @@ import edu.colorado.phet.website.util.links.RawLinkable;
 public class NominateContributionPage extends PhetRegularPage {
 
     private static final Logger logger = Logger.getLogger( NominateContributionPage.class.getName() );
-                                                                 
+
     private int contributionId;
     private Contribution contribution;
 

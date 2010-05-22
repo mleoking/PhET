@@ -52,299 +52,300 @@
 <body wicket:message="dir:language.dir">
 
 <wicket:extend>
-<h2>Simulation: <span wicket:id="simulation-name">Simulation Name</span></h2>
+    <h2>Simulation: <span wicket:id="simulation-name">Simulation Name</span></h2>
 
-<wicket:link>
-    <a href="AdminSimsPage.html">Back to simulations</a>
-</wicket:link>
+    <wicket:link>
+        <a href="AdminSimsPage.html">Back to simulations</a>
+    </wicket:link>
 
-<div class="topics-holder">
-    <h3>Main Topics</h3>
+    <div class="topics-holder">
+        <h3>Main Topics</h3>
 
-    <p>
-        These keywords will appear under "Main Topics" on simulation pages.
-    </p>
+        <p>
+            These keywords will appear under "Main Topics" on simulation pages.
+        </p>
 
-    <form wicket:id="add-topic">
-        <table class="admin">
-            <tr>
-                <th>keyword</th>
-                <th/>
-                <th>Move up</th>
-                <th>Move down</th>
-            </tr>
-            <tr wicket:id="keywords">
-                <td wicket:id="keyword-english">Mechanics</td>
-                <td><a href="#" wicket:id="keyword-remove">remove</a></td>
-                <td><a href="#" wicket:id="keyword-move-up">up</a></td>
-                <td><a href="#" wicket:id="keyword-move-down">down</a></td>
-            </tr>
-            <tr>
-                <td>
-                    <select wicket:id="current-keywords">
-                        <option>This is an option</option>
-                        <option>Another option</option>
-                    </select>
-                </td>
-                <td>
-                    <input type="submit" name="submit" value="add keyword"/>
-                </td>
-                <td/>
-                <td/>
-            </tr>
-        </table>
-    </form>
-</div>
-<div class="keywords-holder">
-    <h3>Related Topics</h3>
+        <form wicket:id="add-topic">
+            <table class="admin">
+                <tr>
+                    <th>keyword</th>
+                    <th/>
+                    <th>Move up</th>
+                    <th>Move down</th>
+                </tr>
+                <tr wicket:id="keywords">
+                    <td wicket:id="keyword-english">Mechanics</td>
+                    <td><a href="#" wicket:id="keyword-remove">remove</a></td>
+                    <td><a href="#" wicket:id="keyword-move-up">up</a></td>
+                    <td><a href="#" wicket:id="keyword-move-down">down</a></td>
+                </tr>
+                <tr>
+                    <td>
+                        <select wicket:id="current-keywords">
+                            <option>This is an option</option>
+                            <option>Another option</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="submit" name="submit" value="add keyword"/>
+                    </td>
+                    <td/>
+                    <td/>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <div class="keywords-holder">
+        <h3>Related Topics</h3>
 
-    <p>
-        These keywords will appear under "Related Topics" on simulation pages. They should make it easy to find
-        related simulations based on keywords (and in the future will be used for searches)
-    </p>
+        <p>
+            These keywords will appear under "Related Topics" on simulation pages. They should make it easy to find
+            related simulations based on keywords (and in the future will be used for searches)
+        </p>
 
-    <form wicket:id="add-keyword">
-        <table class="admin">
-            <tr>
-                <th>Keyword</th>
-                <th/>
-                <th>Move up</th>
-                <th>Move down</th>
-            </tr>
-            <tr wicket:id="keywords">
-                <td wicket:id="keyword-english">Mechanics</td>
-                <td><a href="#" wicket:id="keyword-remove">remove</a></td>
-                <td><a href="#" wicket:id="keyword-move-up">up</a></td>
-                <td><a href="#" wicket:id="keyword-move-down">down</a></td>
-            </tr>
-            <tr>
-                <td>
-                    <select wicket:id="current-keywords">
-                        <option>This is an option</option>
-                        <option>Another option</option>
-                    </select>
-                </td>
-                <td>
-                    <input type="submit" name="submit" value="add keyword"/>
-                </td>
-                <td/>
-                <td/>
-            </tr>
-        </table>
-    </form>
-    <h4>Create keyword</h4>
+        <form wicket:id="add-keyword">
+            <table class="admin">
+                <tr>
+                    <th>Keyword</th>
+                    <th/>
+                    <th>Move up</th>
+                    <th>Move down</th>
+                </tr>
+                <tr wicket:id="keywords">
+                    <td wicket:id="keyword-english">Mechanics</td>
+                    <td><a href="#" wicket:id="keyword-remove">remove</a></td>
+                    <td><a href="#" wicket:id="keyword-move-up">up</a></td>
+                    <td><a href="#" wicket:id="keyword-move-down">down</a></td>
+                </tr>
+                <tr>
+                    <td>
+                        <select wicket:id="current-keywords">
+                            <option>This is an option</option>
+                            <option>Another option</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="submit" name="submit" value="add keyword"/>
+                    </td>
+                    <td/>
+                    <td/>
+                </tr>
+            </table>
+        </form>
+        <h4>Create keyword</h4>
 
-    <p>
-        If you cannot find a suitable keyword in the list above, a keyword can be created. <strong>note: this will
-        create a string that others will need to translate, so try not to duplicate keywords!</strong> The
-        translation key should be something in "camel" notation like "electricity" for Electricity, or "newtonsLaws"
-        for Newton's Laws.
-    </p>
+        <p>
+            If you cannot find a suitable keyword in the list above, a keyword can be created. <strong>note: this will
+            create a string that others will need to translate, so try not to duplicate keywords!</strong> The
+            translation key should be something in "camel" notation like "electricity" for Electricity, or "newtonsLaws"
+            for Newton's Laws.
+        </p>
 
-    <form wicket:id="create-keyword">
+        <form wicket:id="create-keyword">
+            <table>
+                <tr>
+                    <td align="right">English version</td>
+                    <td>
+                        <input wicket:id="value" type="text" value=""/>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">Translation key</td>
+                    <td>
+                        <input wicket:id="key" type="text" value=""/>
+                    </td>
+                </tr>
+                <tr>
+                    <td/>
+                    <td>
+                        <input type="submit" name="submit" value="create keyword"/>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <div class="categories-holder">
+        <h3>Categories</h3>
+
+        <form wicket:id="category-form">
+            <table class="admin">
+                <tr>
+                    <th>category</th>
+                    <th/>
+                </tr>
+                <tr wicket:id="categories">
+                    <td wicket:id="category-english">Mechanics</td>
+                    <td><a href="#" wicket:id="category-remove">remove</a></td>
+                </tr>
+                <tr>
+                    <td>
+                        <select wicket:id="all-categories">
+                            <option>This is an option</option>
+                            <option>Another option</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="submit" name="submit" value="add to category"/>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <div class="credits-holder">
+        <h3>Credits</h3>
         <table>
             <tr>
-                <td align="right">English version</td>
-                <td>
-                    <input wicket:id="value" type="text" value=""/>
-                </td>
+                <th>Design Team</th>
+                <th>Third-party Libraries</th>
+                <th>Thanks to</th>
             </tr>
             <tr>
-                <td align="right">Translation key</td>
                 <td>
-                    <input wicket:id="key" type="text" value=""/>
+                    <form wicket:id="design-team" style="text-align: center;">
+                        <textarea rows="7" cols="30" wicket:id="value"></textarea><br/>
+                        <input type="submit" name="submit" value="submit"/>
+                    </form>
                 </td>
-            </tr>
-            <tr>
-                <td/>
                 <td>
-                    <input type="submit" name="submit" value="create keyword"/>
+                    <form wicket:id="libraries" style="text-align: center;">
+                        <textarea rows="7" cols="30" wicket:id="value"></textarea><br/>
+                        <input type="submit" name="submit" value="submit"/>
+                    </form>
+                </td>
+                <td>
+                    <form wicket:id="thanks-to" style="text-align: center;">
+                        <textarea rows="7" cols="30" wicket:id="value"></textarea><br/>
+                        <input type="submit" name="submit" value="submit"/>
+                    </form>
                 </td>
             </tr>
         </table>
-    </form>
-</div>
-<div class="categories-holder">
-    <h3>Categories</h3>
-    <form wicket:id="category-form">
+    </div>
+    <div class="strings-holder">
+        <h3>English Description and Learning Goals</h3>
+        <table>
+            <tr>
+                <th>Description</th>
+                <th>Learning Goals</th>
+            </tr>
+            <tr>
+                <td>
+                    <form wicket:id="description" style="text-align: center;">
+                        <textarea rows="7" cols="30" wicket:id="value"></textarea><br/>
+                        <input type="submit" name="submit" value="submit"/>
+                    </form>
+                </td>
+                <td>
+                    <form wicket:id="learning-goals" style="text-align: center;">
+                        <textarea rows="7" cols="60" wicket:id="value"></textarea><br/>
+                        <input type="submit" name="submit" value="submit"/>
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="ratings-holder">
+        <h3>Ratings</h3>
+        <table>
+            <tr>
+                <td>Under Construction</td>
+                <td>
+                    <form wicket:id="under-construction" style="text-align: center;">
+                        <input type="checkbox" wicket:id="value"/>
+                        <input type="submit" name="submit" value="submit"/>
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <td>Guidance Recommended</td>
+                <td>
+                    <form wicket:id="guidance-recommended" style="text-align: center;">
+                        <input type="checkbox" wicket:id="value"/>
+                        <input type="submit" name="submit" value="submit"/>
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <td>Classroom Tested</td>
+                <td>
+                    <form wicket:id="classroom-tested" style="text-align: center;">
+                        <input type="checkbox" wicket:id="value"/>
+                        <input type="submit" name="submit" value="submit"/>
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="visibility-holder">
+        <h3>Simulation Visibility (not project visibility)</h3>
+
+        <form wicket:id="simulation-visibility">
+            <input type="checkbox" wicket:id="value"/>
+            <input type="submit" name="submit" value="submit"/>
+        </form>
+    </div>
+    <div class="guide-holder">
+        <h3>Teacher's Guide</h3>
+        <wicket:enclosure child="guide-link">
+            <div style="padding-bottom: 10px;">
+                <a href="#" wicket:id="guide-link">open the current guide</a> or <a href="#" wicket:id="remove-guide">remove
+                the guide</a>
+            </div>
+        </wicket:enclosure>
+        <form wicket:id="upload-guide-form">
+            Add or replace: <input wicket:id="file" type="file"/>
+            <input type="submit" name="submit" value="submit"/>
+        </form>
+    </div>
+    <div class="files-holder">
+        <h3>Files</h3>
+
+        <form wicket:id="kilobytes" style="text-align: left;">
+            Kilobytes:
+            <input type="text" wicket:id="value"/>
+            <input type="submit" name="submit" value="submit"/>
+        </form>
+    </div>
+    <div class="translations-holder">
+        <h3>Translated Versions</h3>
         <table class="admin">
             <tr>
-                <th>category</th>
-                <th/>
+                <th>Locale</th>
+                <th>Language</th>
+                <th>Language (native)</th>
+                <th>Title (native)</th>
+                <th>Remove</th>
             </tr>
-            <tr wicket:id="categories">
-                <td wicket:id="category-english">Mechanics</td>
-                <td><a href="#" wicket:id="category-remove">remove</a></td>
-            </tr>
-            <tr>
-                <td>
-                    <select wicket:id="all-categories">
-                        <option>This is an option</option>
-                        <option>Another option</option>
-                    </select>
-                </td>
-                <td>
-                    <input type="submit" name="submit" value="add to category"/>
-                </td>
-            </tr>
+            <wicket:container wicket:id="translation-list">
+                <tr>
+                    <td wicket:id="locale">es</td>
+                    <td wicket:id="lang-en">Spanish</td>
+                    <td wicket:id="lang-locale">Espa&ntilde;ol</td>
+                    <td wicket:id="title">Some sim title</td>
+                    <td><a href="#" wicket:id="remove">remove</a></td>
+                </tr>
+            </wicket:container>
         </table>
-    </form>
-</div>
-<div class="credits-holder">
-    <h3>Credits</h3>
-    <table>
-        <tr>
-            <th>Design Team</th>
-            <th>Third-party Libraries</th>
-            <th>Thanks to</th>
-        </tr>
-        <tr>
-            <td>
-                <form wicket:id="design-team" style="text-align: center;">
-                    <textarea rows="7" cols="30" wicket:id="value"></textarea><br/>
-                    <input type="submit" name="submit" value="submit"/>
-                </form>
-            </td>
-            <td>
-                <form wicket:id="libraries" style="text-align: center;">
-                    <textarea rows="7" cols="30" wicket:id="value"></textarea><br/>
-                    <input type="submit" name="submit" value="submit"/>
-                </form>
-            </td>
-            <td>
-                <form wicket:id="thanks-to" style="text-align: center;">
-                    <textarea rows="7" cols="30" wicket:id="value"></textarea><br/>
-                    <input type="submit" name="submit" value="submit"/>
-                </form>
-            </td>
-        </tr>
-    </table>
-</div>
-<div class="strings-holder">
-    <h3>English Description and Learning Goals</h3>
-    <table>
-        <tr>
-            <th>Description</th>
-            <th>Learning Goals</th>
-        </tr>
-        <tr>
-            <td>
-                <form wicket:id="description" style="text-align: center;">
-                    <textarea rows="7" cols="30" wicket:id="value"></textarea><br/>
-                    <input type="submit" name="submit" value="submit"/>
-                </form>
-            </td>
-            <td>
-                <form wicket:id="learning-goals" style="text-align: center;">
-                    <textarea rows="7" cols="60" wicket:id="value"></textarea><br/>
-                    <input type="submit" name="submit" value="submit"/>
-                </form>
-            </td>
-        </tr>
-    </table>
-</div>
-<div class="ratings-holder">
-    <h3>Ratings</h3>
-    <table>
-        <tr>
-            <td>Under Construction</td>
-            <td>
-                <form wicket:id="under-construction" style="text-align: center;">
-                    <input type="checkbox" wicket:id="value"/>
-                    <input type="submit" name="submit" value="submit"/>
-                </form>
-            </td>
-        </tr>
-        <tr>
-            <td>Guidance Recommended</td>
-            <td>
-                <form wicket:id="guidance-recommended" style="text-align: center;">
-                    <input type="checkbox" wicket:id="value"/>
-                    <input type="submit" name="submit" value="submit"/>
-                </form>
-            </td>
-        </tr>
-        <tr>
-            <td>Classroom Tested</td>
-            <td>
-                <form wicket:id="classroom-tested" style="text-align: center;">
-                    <input type="checkbox" wicket:id="value"/>
-                    <input type="submit" name="submit" value="submit"/>
-                </form>
-            </td>
-        </tr>
-    </table>
-</div>
-<div class="visibility-holder">
-    <h3>Simulation Visibility (not project visibility)</h3>
+    </div>
+    <div>
+        <h3>Add / Modify a Translated Version</h3>
 
-    <form wicket:id="simulation-visibility">
-        <input type="checkbox" wicket:id="value"/>
-        <input type="submit" name="submit" value="submit"/>
-    </form>
-</div>
-<div class="guide-holder">
-    <h3>Teacher's Guide</h3>
-    <wicket:enclosure child="guide-link">
-        <div style="padding-bottom: 10px;">
-            <a href="#" wicket:id="guide-link">open the current guide</a> or <a href="#" wicket:id="remove-guide">remove
-            the guide</a>
-        </div>
-    </wicket:enclosure>
-    <form wicket:id="upload-guide-form">
-        Add or replace: <input wicket:id="file" type="file"/>
-        <input type="submit" name="submit" value="submit"/>
-    </form>
-</div>
-<div class="files-holder">
-    <h3>Files</h3>
-
-    <form wicket:id="kilobytes" style="text-align: left;">
-        Kilobytes:
-        <input type="text" wicket:id="value"/>
-        <input type="submit" name="submit" value="submit"/>
-    </form>
-</div>
-<div class="translations-holder">
-    <h3>Translated Versions</h3>
-    <table class="admin">
-        <tr>
-            <th>Locale</th>
-            <th>Language</th>
-            <th>Language (native)</th>
-            <th>Title (native)</th>
-            <th>Remove</th>
-        </tr>
-        <wicket:container wicket:id="translation-list">
-            <tr>
-                <td wicket:id="locale">es</td>
-                <td wicket:id="lang-en">Spanish</td>
-                <td wicket:id="lang-locale">Espa&ntilde;ol</td>
-                <td wicket:id="title">Some sim title</td>
-                <td><a href="#" wicket:id="remove">remove</a></td>
-            </tr>
-        </wicket:container>
-    </table>
-</div>
-<div>
-    <h3>Add / Modify a Translated Version</h3>
-
-    <form wicket:id="add-set-translation" style="vertical-align: top;">
-        <table class="admin">
-            <tr>
-                <td>Locale</td>
-                <td><input type="text" wicket:id="locale"/></td>
-            </tr>
-            <tr>
-                <td>Title</td>
-                <td><input type="text" wicket:id="title"/></td>
-            </tr>
-            <tr>
-                <td colspan="2" style="text-align: center;"><input type="submit" name="submit" value="submit"/></td>
-            </tr>
-        </table>
-    </form>
-</div>
+        <form wicket:id="add-set-translation" style="vertical-align: top;">
+            <table class="admin">
+                <tr>
+                    <td>Locale</td>
+                    <td><input type="text" wicket:id="locale"/></td>
+                </tr>
+                <tr>
+                    <td>Title</td>
+                    <td><input type="text" wicket:id="title"/></td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: center;"><input type="submit" name="submit" value="submit"/></td>
+                </tr>
+            </table>
+        </form>
+    </div>
 </wicket:extend>
 
 </body>

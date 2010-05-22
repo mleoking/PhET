@@ -174,7 +174,7 @@ public class AdminCategoryPage extends AdminPage {
         } );
 
         add( new OrderList<SimOrderItem>( "simulations", getPageContext(), items, allItems ) {
-            public boolean onAdd( final SimOrderItem item ) {
+            public boolean onItemAdd( final SimOrderItem item ) {
                 for ( SimOrderItem curItem : items ) {
                     if ( curItem.getId() == item.getId() ) {
                         return false;
@@ -195,7 +195,7 @@ public class AdminCategoryPage extends AdminPage {
                 return success;
             }
 
-            public boolean onRemove( final SimOrderItem item, int index ) {
+            public boolean onItemRemove( final SimOrderItem item, int index ) {
                 boolean success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
                     public boolean run( Session session ) {
                         Category cat = (Category) session.load( Category.class, category.getId() );
@@ -211,7 +211,7 @@ public class AdminCategoryPage extends AdminPage {
                 return success;
             }
 
-            public boolean onSwap( SimOrderItem a, SimOrderItem b, final int aIndex, final int bIndex ) {
+            public boolean onItemSwap( SimOrderItem a, SimOrderItem b, final int aIndex, final int bIndex ) {
                 boolean success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
                     public boolean run( Session session ) {
                         Category cat = (Category) session.load( Category.class, category.getId() );

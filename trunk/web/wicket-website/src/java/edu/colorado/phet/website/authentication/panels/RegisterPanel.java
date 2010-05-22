@@ -3,7 +3,6 @@ package edu.colorado.phet.website.authentication.panels;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.PasswordTextField;
@@ -17,9 +16,9 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import edu.colorado.phet.website.authentication.PhetSession;
+import edu.colorado.phet.website.components.RawLabel;
 import edu.colorado.phet.website.components.StringPasswordTextField;
 import edu.colorado.phet.website.components.StringTextField;
-import edu.colorado.phet.website.components.RawLabel;
 import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
@@ -82,11 +81,11 @@ public class RegisterPanel extends PhetPanel {
             String errorString = "";
             String err = null;
 
-            String nom = name.getModelObjectAsString();
-            String org = organization.getModelObjectAsString();
-            String email = username.getModelObjectAsString();
+            String nom = name.getModelObject().toString();
+            String org = organization.getModelObject().toString();
+            String email = username.getModelObject().toString();
             String pass = password.getInput();
-            String desc = description.getModelObjectAsString();
+            String desc = description.getModelObject().toString();
 
             logger.debug( "name: " + nom );
             logger.debug( "org: " + org );
@@ -166,7 +165,7 @@ public class RegisterPanel extends PhetPanel {
             }
             else {
                 errorModel.setObject( "" );
-                PhetSession.get().signIn( (PhetRequestCycle) getRequestCycle(), username.getModelObjectAsString(), password.getInput() );
+                PhetSession.get().signIn( (PhetRequestCycle) getRequestCycle(), username.getModelObject().toString(), password.getInput() );
                 if ( destination != null ) {
                     getRequestCycle().setRequestTarget( new RedirectRequestTarget( destination ) );
                 }

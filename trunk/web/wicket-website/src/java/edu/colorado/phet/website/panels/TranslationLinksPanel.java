@@ -14,9 +14,9 @@ import org.apache.wicket.model.ResourceModel;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.PhetWicketApplication;
-import edu.colorado.phet.website.constants.CSS;
 import edu.colorado.phet.website.components.LocalizedLabel;
 import edu.colorado.phet.website.components.RawLink;
+import edu.colorado.phet.website.constants.CSS;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetRequestCycle;
 

@@ -1,11 +1,9 @@
 package edu.colorado.phet.website.content;
 
 import org.apache.wicket.markup.html.WebPage;
-import org.apache.wicket.markup.html.basic.Label;
 
 import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.components.RawBodyLabel;
-import edu.colorado.phet.website.components.RawLabel;
 import edu.colorado.phet.website.util.PhetRequestCycle;
 
 /**

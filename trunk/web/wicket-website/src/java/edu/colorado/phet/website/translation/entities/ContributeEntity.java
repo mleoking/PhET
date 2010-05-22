@@ -5,8 +5,6 @@ import java.util.List;
 import org.apache.wicket.PageParameters;
 import org.hibernate.Session;
 
-import edu.colorado.phet.website.content.TeacherIdeasPanel;
-import edu.colorado.phet.website.content.contribution.ContributionGuidelinesPanel;
 import edu.colorado.phet.website.data.contribution.Contribution;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.panels.contribution.ContributionEditPanel;
@@ -85,7 +83,7 @@ public class ContributeEntity extends TranslationEntity {
 
         addString( "contribution.create.pageTitle" );
         addString( "contribution.create.checkGuidelines" );
-        
+
         addString( "contribution.manage.pageTitle" );
 
         addString( "list.add" );

@@ -66,7 +66,7 @@ public class SignInPanel extends PhetPanel {
         }
 
         public final void onSubmit() {
-            if ( PhetSession.get().signIn( (PhetRequestCycle) getRequestCycle(), username.getModelObjectAsString(), password.getInput() ) ) {
+            if ( PhetSession.get().signIn( (PhetRequestCycle) getRequestCycle(), username.getModelObject().toString(), password.getInput() ) ) {
                 if ( destination != null ) {
                     getRequestCycle().setRequestTarget( new RedirectRequestTarget( destination ) );
                 }

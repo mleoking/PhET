@@ -42,6 +42,7 @@ import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.panels.contribution.ContributionBrowsePanel;
 import edu.colorado.phet.website.translation.PhetLocalizer;
 import edu.colorado.phet.website.util.*;
+
 import static edu.colorado.phet.website.util.HtmlUtils.encode;
 
 public class SimulationMainPanel extends PhetPanel {
@@ -284,7 +285,7 @@ public class SimulationMainPanel extends PhetPanel {
         ListView topicList = new ListView( "topic-list", topics ) {
             protected void populateItem( ListItem item ) {
                 Keyword keyword = (Keyword) item.getModel().getObject();
-                item.add( new Label( "topic-label", new ResourceModel( keyword.getKey() ) ) );
+                item.add( new RawLabel( "topic-label", new ResourceModel( keyword.getKey() ) ) );
             }
         };
         add( topicList );
@@ -301,7 +302,7 @@ public class SimulationMainPanel extends PhetPanel {
 //                        // TODO: fill in keyword links!
 //                    }
 //                };
-                link.add( new Label( "keyword-label", new ResourceModel( keyword.getKey() ) ) );
+                link.add( new RawLabel( "keyword-label", new ResourceModel( keyword.getKey() ) ) );
                 item.add( link );
             }
         };
@@ -411,7 +412,7 @@ public class SimulationMainPanel extends PhetPanel {
 
         ListView designView = new ListView( "design-list", designTeam ) {
             protected void populateItem( ListItem item ) {
-                String str = item.getModelObjectAsString();
+                String str = item.getModelObject().toString();
                 item.add( new Label( "design-item", str ) );
             }
         };
@@ -422,7 +423,7 @@ public class SimulationMainPanel extends PhetPanel {
 
         ListView libraryView = new ListView( "library-list", libraries ) {
             protected void populateItem( ListItem item ) {
-                String str = item.getModelObjectAsString();
+                String str = item.getModelObject().toString();
                 item.add( new Label( "library-item", str ) );
             }
         };
@@ -433,7 +434,7 @@ public class SimulationMainPanel extends PhetPanel {
 
         ListView thanksView = new ListView( "thanks-list", thanks ) {
             protected void populateItem( ListItem item ) {
-                String str = item.getModelObjectAsString();
+                String str = item.getModelObject().toString();
                 item.add( new Label( "thanks-item", str ) );
             }
         };
@@ -445,7 +446,7 @@ public class SimulationMainPanel extends PhetPanel {
         // TODO: consolidate common behavior for these lists
         ListView learningGoalsView = new ListView( "learning-goals", learningGoals ) {
             protected void populateItem( ListItem item ) {
-                String str = item.getModelObjectAsString();
+                String str = item.getModelObject().toString();
                 item.add( new RawLabel( "goal", str ) );
             }
         };

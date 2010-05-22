@@ -17,9 +17,9 @@ import org.hibernate.Session;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.common.phetcommon.util.PhetLocales;
 import edu.colorado.phet.website.PhetWicketApplication;
-import edu.colorado.phet.website.constants.CSS;
 import edu.colorado.phet.website.cache.SimulationCache;
 import edu.colorado.phet.website.components.LocalizedText;
+import edu.colorado.phet.website.constants.CSS;
 import edu.colorado.phet.website.data.LocalizedSimulation;
 import edu.colorado.phet.website.data.contribution.ContributionLevel;
 import edu.colorado.phet.website.data.contribution.ContributionType;
@@ -206,6 +206,18 @@ public class ContributionSearchPanel extends PhetPanel {
                 return;
             }
         }
+    }
+
+    @Override
+    public String getStyle( String key ) {
+        /*
+         * we need to override the action attribute on the form. Wicket 1.4 seems to muck up the action attribute in an
+         * attempt to help 
+         */
+        if ( key.equals( "style.action" ) ) {
+            return getPanelPath();
+        }
+        return super.getStyle( key );
     }
 
     private static class Option<E> implements Serializable {

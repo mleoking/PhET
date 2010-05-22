@@ -8,12 +8,12 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 
+import edu.colorado.phet.website.constants.CSS;
 import edu.colorado.phet.website.content.simulations.SimulationPage;
 import edu.colorado.phet.website.data.LocalizedSimulation;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
-import edu.colorado.phet.website.constants.CSS;
 
 public class SimulationIndexPanel extends PhetPanel {
     private List<String> letters;
@@ -47,7 +47,7 @@ public class SimulationIndexPanel extends PhetPanel {
 
         add( new ListView( "sim-group", letters ) {
             protected void populateItem( ListItem item ) {
-                String letter = item.getModelObjectAsString();
+                String letter = item.getModelObject().toString();
                 item.setOutputMarkupId( true );
                 item.setMarkupId( HibernateUtils.encodeCharacterId( letter ) );
                 item.add( new Label( "letter", letter ) );

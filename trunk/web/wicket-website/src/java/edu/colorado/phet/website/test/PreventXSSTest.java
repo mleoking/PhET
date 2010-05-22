@@ -6,7 +6,6 @@ import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.model.Model;
-import org.apache.wicket.model.ResourceModel;
 
 import edu.colorado.phet.website.templates.PhetPage;
 

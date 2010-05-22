@@ -78,7 +78,7 @@ public class TranslationDeployServerFinishedPanel extends PhetPanel {
                     }
                 };
 
-                Component newPublisher =  new ComponentThreadStatusPanel( "publisher", context, thread, 1000 );
+                Component newPublisher = new ComponentThreadStatusPanel( "publisher", context, thread, 1000 );
                 newPublisher.setOutputMarkupId( true );
                 newPublisher.setMarkupId( "deploy-publisher" );
                 publisher.replaceWith( newPublisher );
