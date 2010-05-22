@@ -50,10 +50,7 @@ public class MiscMenu extends JMenu {
                 try {
                     DependencyReport report = new DependencyReport( trunk );
                     report.start();
-                    String browser = BuildLocalProperties.getInstance().getBrowser();
-                    String path = report.getIndexFile().getAbsolutePath();
-                    System.out.println( "command=" + browser + " " + path );
-                    Process p = Runtime.getRuntime().exec( new String[]{browser, path} );
+                    PhetWebsite.openBrowser( report.getIndexFile().getAbsolutePath() );
                 }
                 catch( IOException ex ) {
                     ex.printStackTrace();
