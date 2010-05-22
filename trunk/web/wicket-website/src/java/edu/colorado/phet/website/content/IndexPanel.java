@@ -87,7 +87,6 @@ public class IndexPanel extends PhetPanel {
             add( new RawLink( "submit-activity-link", "http://phet.colorado.edu/teacher_ideas/index.php" ) );
         }
         else {
-            // TODO: what to do when we use a distribution that doesn't want this link?
             add( TeacherIdeasPanel.getLinker().getLink( "activities-link", context, getPhetCycle() ) );
             add( ContributionBrowsePage.getLinker().getLink( "browse-activities-link", context, getPhetCycle() ) );
             add( TeacherIdeasPanel.getLinker().getLink( "submit-activity-link", context, getPhetCycle() ) );
