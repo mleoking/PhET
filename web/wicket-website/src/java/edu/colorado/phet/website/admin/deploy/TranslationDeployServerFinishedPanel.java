@@ -14,8 +14,12 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 
+import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.components.RawLabel;
 import edu.colorado.phet.website.components.RawLink;
+import edu.colorado.phet.website.panels.ComponentThread;
+import edu.colorado.phet.website.panels.ComponentThreadStatusPanel;
+import edu.colorado.phet.website.panels.LoggerComponentThread;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
 
@@ -23,7 +27,7 @@ public class TranslationDeployServerFinishedPanel extends PhetPanel {
 
     private Component publisher;
 
-    public TranslationDeployServerFinishedPanel( String id, PageContext context, String finalText, File translationDir ) {
+    public TranslationDeployServerFinishedPanel( String id, final PageContext context, String finalText, final File translationDir ) {
         super( id, context );
 
         add( new RawLabel( "text", finalText ) );
@@ -60,11 +64,27 @@ public class TranslationDeployServerFinishedPanel extends PhetPanel {
                 target.addComponent( this );
                 setVisible( false );
 
-                Label newPublisher = new Label( "publisher", "BOO!!!" );
+                final File simsDir = PhetWicketApplication.get().getSimulationsRoot();
+                final File docRoot = PhetWicketApplication.get().getWebsiteProperties().getPhetDocumentRoot();
+
+                ComponentThread thread = new LoggerComponentThread( WebsiteTranslationDeployPublisher.getLogger() ) {
+                    @Override
+                    public boolean process() throws IOException, InterruptedException {
+                        WebsiteTranslationDeployPublisher runner = new WebsiteTranslationDeployPublisher( simsDir, docRoot );
+
+                        runner.publishTranslations( translationDir );
+
+                        return true;
+                    }
+                };
+
+                Component newPublisher =  new ComponentThreadStatusPanel( "publisher", context, thread, 1000 );
                 newPublisher.setOutputMarkupId( true );
                 newPublisher.setMarkupId( "deploy-publisher" );
                 publisher.replaceWith( newPublisher );
                 target.addComponent( newPublisher );
+
+                thread.start();
             }
         };
         publishLink.setOutputMarkupId( true );
