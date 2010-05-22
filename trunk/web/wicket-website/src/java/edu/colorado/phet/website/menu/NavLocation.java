@@ -47,7 +47,7 @@ public class NavLocation implements Serializable {
      */
     private boolean hidden = false;
 
-    private static Logger logger = Logger.getLogger( NavLocation.class.getName() );
+    private static final Logger logger = Logger.getLogger( NavLocation.class.getName() );
 
     public NavLocation( NavLocation parent, String key, Linkable linker ) {
         this.parent = parent;

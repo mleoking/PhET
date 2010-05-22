@@ -14,7 +14,7 @@ import edu.colorado.phet.website.cache.PanelCache;
 
 public class AdminDebugCachePage extends AdminPage {
 
-    private static Logger logger = Logger.getLogger( AdminDebugCachePage.class.getName() );
+    private static final Logger logger = Logger.getLogger( AdminDebugCachePage.class.getName() );
 
     public AdminDebugCachePage( PageParameters parameters ) {
         super( parameters );

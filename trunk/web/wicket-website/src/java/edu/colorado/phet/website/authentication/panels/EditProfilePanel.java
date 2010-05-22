@@ -27,7 +27,7 @@ public class EditProfilePanel extends PhetPanel {
 
     private static final String ERROR_SEPARATOR = "<br/>";
 
-    private static Logger logger = Logger.getLogger( EditProfilePanel.class.getName() );
+    private static final Logger logger = Logger.getLogger( EditProfilePanel.class.getName() );
 
     public EditProfilePanel( String id, PageContext context ) {
         this( id, context, PhetSession.get().getUser() );

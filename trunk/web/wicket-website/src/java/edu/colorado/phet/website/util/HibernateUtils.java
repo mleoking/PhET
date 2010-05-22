@@ -24,7 +24,7 @@ public class HibernateUtils {
 
     private static org.hibernate.SessionFactory sessionFactory;
 
-    private static Logger logger = Logger.getLogger( HibernateUtils.class.getName() );
+    private static final Logger logger = Logger.getLogger( HibernateUtils.class.getName() );
 
     private HibernateUtils() {
         // don't instantiate

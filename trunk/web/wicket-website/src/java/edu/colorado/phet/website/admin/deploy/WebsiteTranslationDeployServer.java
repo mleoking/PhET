@@ -25,7 +25,7 @@ public class WebsiteTranslationDeployServer {
     private BuildLocalProperties buildLocalProperties;
     private File pathToSimsDir;
 
-    private static Logger logger = Logger.getLogger( WebsiteTranslationDeployServer.class.getName() );
+    private static final Logger logger = Logger.getLogger( WebsiteTranslationDeployServer.class.getName() );
 
     public WebsiteTranslationDeployServer( String jarCommand, BuildLocalProperties buildLocalProperties, File pathToSimsDir ) {
         this.jarCommand = jarCommand;

@@ -32,7 +32,7 @@ public class SignInPanel extends PhetPanel {
      */
     private boolean remember = true;
 
-    private static Logger logger = Logger.getLogger( SignInPanel.class.getName() );
+    private static final Logger logger = Logger.getLogger( SignInPanel.class.getName() );
 
     public SignInPanel( String id, PageContext context, String destination ) {
         super( id, context );

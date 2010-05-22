@@ -13,6 +13,7 @@ import org.hibernate.Session;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.PhetWicketApplication;
+import edu.colorado.phet.website.constants.Linkers;
 import edu.colorado.phet.website.content.TranslationUtilityPanel;
 import edu.colorado.phet.website.content.contribution.ContributionPage;
 import edu.colorado.phet.website.content.getphet.FullInstallPanel;
@@ -34,7 +35,7 @@ import edu.colorado.phet.website.data.contribution.ContributionFile;
  */
 public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
 
-    private static Logger logger = Logger.getLogger( RedirectionStrategy.class.getName() );
+    private static final Logger logger = Logger.getLogger( RedirectionStrategy.class.getName() );
 
     /**
      * Maps relative URLs (minus query strings) to either a specific relative URL (string), or null. If null, the case
@@ -555,7 +556,7 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         postWicketMap.put( "/newsletters", "/newsletters/" );
         postWicketMap.put( "/statistics", "/statistics/" );
 
-        postWicketMap.put( "/contribute/get-translation-utility.php", TranslationUtilityPanel.TRANSLATION_UTILITY_PATH );
+        postWicketMap.put( "/contribute/get-translation-utility.php", Linkers.PHET_TRANSLATION_UTILITY_JAR.getDefaultRawUrl() );
 
         // TODO: add all URLs (pretty much everything useful on tigercat has been mapped)
     }

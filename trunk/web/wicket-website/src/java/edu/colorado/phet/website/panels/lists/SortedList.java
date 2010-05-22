@@ -36,7 +36,7 @@ public abstract class SortedList<Item extends SortableListItem> extends PhetPane
 
     public abstract boolean onRemove( Item item, int index );
 
-    private static Logger logger = Logger.getLogger( SortedList.class.getName() );
+    private static final Logger logger = Logger.getLogger( SortedList.class.getName() );
 
     public SortedList( String id, PageContext context, final List<Item> items, final List<Item> allItems ) {
         super( id, context );

@@ -14,7 +14,7 @@ public class ContributionSubject implements Serializable, IntId {
     private Subject subject;
     private Contribution contribution;
 
-    private static Logger logger = Logger.getLogger( ContributionSubject.class.getName() );
+    private static final Logger logger = Logger.getLogger( ContributionSubject.class.getName() );
 
 
     public ContributionSubject() {

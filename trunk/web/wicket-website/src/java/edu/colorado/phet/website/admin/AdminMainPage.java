@@ -32,7 +32,7 @@ public class AdminMainPage extends AdminPage {
     private TextField keyText;
     private TextField valueText;
 
-    private static Logger logger = Logger.getLogger( AdminMainPage.class.getName() );
+    private static final Logger logger = Logger.getLogger( AdminMainPage.class.getName() );
 
     public AdminMainPage( PageParameters parameters ) {
         super( parameters );

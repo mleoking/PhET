@@ -30,7 +30,7 @@ import edu.colorado.phet.website.util.links.RawLinkable;
  */
 public class AddContributionCommentPage extends PhetRegularPage {
 
-    private static Logger logger = Logger.getLogger( AddContributionCommentPage.class.getName() );
+    private static final Logger logger = Logger.getLogger( AddContributionCommentPage.class.getName() );
 
     private int contributionId;
     private Contribution contribution;

@@ -20,7 +20,7 @@ public class PhetSession extends WebSession {
     private boolean signedIn = false;
     private PhetUser user = null;
 
-    private static Logger logger = Logger.getLogger( PhetSession.class.getName() );
+    private static final Logger logger = Logger.getLogger( PhetSession.class.getName() );
 
     public static PhetSession get() {
         return (PhetSession) Session.get();

@@ -22,7 +22,7 @@ public class TranslationEditPage extends TranslationPage {
     private Locale testLocale;
     private String selectedEntityName = null;
 
-    private static Logger logger = Logger.getLogger( TranslationEditPage.class.getName() );
+    private static final Logger logger = Logger.getLogger( TranslationEditPage.class.getName() );
 
     public TranslationEditPage( PageParameters parameters ) {
         super( parameters );

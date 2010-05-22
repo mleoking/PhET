@@ -48,7 +48,7 @@ public class SimulationMainPanel extends PhetPanel {
 
     private String title;
 
-    private static Logger logger = Logger.getLogger( SimulationMainPanel.class.getName() );
+    private static final Logger logger = Logger.getLogger( SimulationMainPanel.class.getName() );
 
     public SimulationMainPanel( String id, final LocalizedSimulation simulation, final PageContext context ) {
         super( id, context );

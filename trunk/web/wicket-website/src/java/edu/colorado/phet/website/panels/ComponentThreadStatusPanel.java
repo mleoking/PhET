@@ -23,7 +23,7 @@ public class ComponentThreadStatusPanel extends PhetPanel {
 
     private Component status;
 
-    private static Logger logger = Logger.getLogger( ComponentThreadStatusPanel.class.getName() );
+    private static final Logger logger = Logger.getLogger( ComponentThreadStatusPanel.class.getName() );
 
     public ComponentThreadStatusPanel( String id, final PageContext context, ComponentThread thread, int milliseconds ) {
         super( id, context );

@@ -2,23 +2,22 @@ package edu.colorado.phet.website.admin.deploy;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.apache.log4j.PatternLayout;
-import org.apache.log4j.WriterAppender;
 import org.apache.wicket.Component;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.basic.Label;
 
 import edu.colorado.phet.buildtools.BuildLocalProperties;
+import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.admin.AdminPage;
-import edu.colorado.phet.website.components.RawLabel;
 import edu.colorado.phet.website.panels.ComponentThread;
 import edu.colorado.phet.website.panels.ComponentThreadStatusPanel;
-import edu.colorado.phet.website.util.HtmlUtils;
+import edu.colorado.phet.website.panels.LoggerComponentThread;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.links.AbstractLinker;
 import edu.colorado.phet.website.util.links.RawLinkable;
@@ -28,7 +27,9 @@ import edu.colorado.phet.website.util.links.RawLinkable;
  */
 public class DeployTranslationPage extends AdminPage {
 
-    private static Logger logger = Logger.getLogger( DeployTranslationPage.class.getName() );
+    private static final Logger logger = Logger.getLogger( DeployTranslationPage.class.getName() );
+    private static final Set<File> usedDirs = new HashSet<File>();
+    private static final Object usedLock = new Object();
 
     public DeployTranslationPage( PageParameters parameters ) {
         super( parameters );
@@ -49,79 +50,69 @@ public class DeployTranslationPage extends AdminPage {
             e.printStackTrace();
         }
 
+        if ( !translationDir.exists() ) {
+            add( new Label( "response", "PATH error, directory does not exist" ) );
+            return;
+        }
+
+        if ( new File( translationDir, "finished.txt" ).exists() ) {
+            add( new TranslationDeployServerFinishedPanel( "response", getPageContext(), "Ready for testing", translationDir ) );
+        }
+        else if ( new File( translationDir, "error.txt" ).exists() ) {
+            add( new Label( "response", "There was an error encountered in the processing" ) );
+        }
+        else {
+            boolean ok;
+            synchronized( usedLock ) {
+                ok = !usedDirs.contains( translationDir );
+                if ( ok ) {
+                    usedDirs.add( translationDir );
+                }
+            }
+            if ( ok ) {
+                startServer( translationDir );
+            }
+            else {
+                add( new Label( "response", "This directory is being processed or another error has occurred. " +
+                                            "Please refer to the original window." ) );
+            }
+        }
+    }
+
+    private void startServer( final File translationDir ) {
         final String jarPath = PhetWicketApplication.get().getWebsiteProperties().getPathToJarUtility();
         final File simsDir = PhetWicketApplication.get().getSimulationsRoot();
 
-        ComponentThread thread = new ComponentThread() {
-
-            private StringWriter writer = new StringWriter();
-            private boolean error = false;
-
+        ComponentThread thread = new LoggerComponentThread( WebsiteTranslationDeployServer.getLogger() ) {
             @Override
-            public Component getComponent( String id, PageContext context ) {
-                String output = writer.toString();
-                output = HtmlUtils.encode( output ).replace( "\n", "<br/>" );
+            public boolean process() throws IOException, InterruptedException {
+                WebsiteTranslationDeployServer runner = new WebsiteTranslationDeployServer(
+                        jarPath,
+                        BuildLocalProperties.getInstance(),
+                        simsDir
+                );
 
-                String header;
+                runner.integrateTranslations( translationDir );
 
-                if ( isDone() ) {
-                    if ( error ) {
-                        header = "<strong style=\"color: #FF0000;\">Errors encountered</strong><br/>";
-                    }
-                    else {
-                        header = "<strong style=\"color: #008800;\">Completed without errors</strong><br/>";
-                    }
-                }
-                else {
-                    header = "<strong style=\"color: #0000FF;\">Processing, please wait.</strong><br/>updated";
-                }
-
-                header += " at " + ( new Date() ).toString() + "<br/>";
-
-                String text = header + output;
-
-                if ( isDone() ) {
-                    return new TranslationDeployServerFinishedPanel( id, context, text, translationDir.listFiles() );
-                }
-                else {
-                    return new RawLabel( id, text );
-                }
+                FileUtils.writeString( new File( translationDir, "finished.txt" ), "finished at " + new Date() );
+                return true;
             }
 
             @Override
-            public void run() {
-                // add an appender so we can capture the info
-                WriterAppender appender = new WriterAppender( new PatternLayout(), writer );
-                WebsiteTranslationDeployServer.getLogger().addAppender( appender );
-                try {
-                    WebsiteTranslationDeployServer runner = new WebsiteTranslationDeployServer(
-                            jarPath,
-                            BuildLocalProperties.getInstance(),
-                            simsDir
-                    );
+            public Component getFinishedComponent( String id, String rawText ) {
+                return new TranslationDeployServerFinishedPanel( id, getPageContext(), rawText, translationDir );
+            }
 
-                    runner.integrateTranslations( translationDir );
+            @Override
+            public void onError() {
+                try {
+                    FileUtils.writeString( new File( translationDir, "error.txt" ), "errored at " + new Date() );
                 }
                 catch( IOException e ) {
                     e.printStackTrace();
-                    WebsiteTranslationDeployServer.getLogger().error( "IOException", e );
-                    error = true;
                 }
-                catch( InterruptedException e ) {
-                    e.printStackTrace();
-                    WebsiteTranslationDeployServer.getLogger().error( "InterruptedException", e );
-                    error = true;
-                }
-                catch( RuntimeException e ) {
-                    e.printStackTrace();
-                    WebsiteTranslationDeployServer.getLogger().error( "RuntimeException", e );
-                    error = true;
-                }
-                finish();
-                WebsiteTranslationDeployServer.getLogger().info( "Finishing" );
-
-                WebsiteTranslationDeployServer.getLogger().removeAppender( appender );
             }
+
         };
 
         add( new ComponentThreadStatusPanel( "response", getPageContext(), thread, 1000 ) );

@@ -26,7 +26,7 @@ public class PhetLocalizer extends Localizer {
 
     private static final String UNTRANSLATED_VALUE = "<!-- untranslated value -->";
 
-    private static Logger logger = Logger.getLogger( PhetLocalizer.class.getName() );
+    private static final Logger logger = Logger.getLogger( PhetLocalizer.class.getName() );
 
     private static PhetLocalizer instance = null;
 

@@ -17,7 +17,7 @@ public class PhetBorder extends Border {
 
     private Locale myLocale;
 
-    private static Logger logger = Logger.getLogger( PhetBorder.class.getName() );
+    private static final Logger logger = Logger.getLogger( PhetBorder.class.getName() );
 
     //----------------------------------------------------------------------------
     // constructor

@@ -20,7 +20,7 @@ public class TranslationUrlStrategy implements IRequestTargetUrlCodingStrategy {
     private String prefix;
     private PhetUrlMapper mapper;
 
-    private static Logger logger = Logger.getLogger( TranslationUrlStrategy.class.getName() );
+    private static final Logger logger = Logger.getLogger( TranslationUrlStrategy.class.getName() );
 
     public TranslationUrlStrategy( String prefix, PhetUrlMapper mapper ) {
         this.mapper = mapper;

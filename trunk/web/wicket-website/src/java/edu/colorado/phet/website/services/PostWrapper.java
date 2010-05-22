@@ -25,7 +25,7 @@ public class PostWrapper extends HttpServletResponseWrapper {
      */
     private String notFoundMessage = null;
 
-    private static Logger logger = Logger.getLogger( PostWrapper.class.getName() );
+    private static final Logger logger = Logger.getLogger( PostWrapper.class.getName() );
 
     public PostWrapper( HttpServletResponse httpServletResponse ) {
         super( httpServletResponse );

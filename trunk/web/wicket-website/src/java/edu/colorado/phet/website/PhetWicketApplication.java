@@ -65,7 +65,7 @@ public class PhetWicketApplication extends WebApplication {
     // TODO: flesh out and improve thread-safeness of translations part
     private List<Translation> translations = new LinkedList<Translation>();
 
-    private static Logger logger = Logger.getLogger( PhetWicketApplication.class.getName() );
+    private static final Logger logger = Logger.getLogger( PhetWicketApplication.class.getName() );
 
     /**
      * Wicket likes to hardwire the home page in

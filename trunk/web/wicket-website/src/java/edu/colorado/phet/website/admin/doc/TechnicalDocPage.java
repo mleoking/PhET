@@ -11,7 +11,7 @@ public class TechnicalDocPage extends AdminPage {
     private TextField keyText;
     private TextField valueText;
 
-    private static Logger logger = Logger.getLogger( TechnicalDocPage.class.getName() );
+    private static final Logger logger = Logger.getLogger( TechnicalDocPage.class.getName() );
 
     public TechnicalDocPage( PageParameters parameters ) {
         super( parameters );

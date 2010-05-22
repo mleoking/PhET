@@ -27,7 +27,7 @@ public class PanelCache {
      */
     private HashMap<IPanelCacheEntry, CacheItem> cache = new HashMap<IPanelCacheEntry, CacheItem>();
 
-    private static Logger logger = Logger.getLogger( PanelCache.class.getName() );
+    private static final Logger logger = Logger.getLogger( PanelCache.class.getName() );
 
     private PanelCache() {
         // singleton

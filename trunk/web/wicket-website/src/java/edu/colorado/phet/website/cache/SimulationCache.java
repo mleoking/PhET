@@ -25,7 +25,7 @@ public class SimulationCache {
     private static Map<Locale, Map<Integer, Integer>> preferredSims = new HashMap<Locale, Map<Integer, Integer>>();
     private static Map<Locale, List<Integer>> fullSortedLocalizedMap = new HashMap<Locale, List<Integer>>();
 
-    private static Logger logger = Logger.getLogger( SimulationCache.class.getName() );
+    private static final Logger logger = Logger.getLogger( SimulationCache.class.getName() );
 
     static {
         AbstractChangeListener invalidator = new AbstractChangeListener() {

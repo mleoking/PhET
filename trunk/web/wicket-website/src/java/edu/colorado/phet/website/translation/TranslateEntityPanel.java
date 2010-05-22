@@ -46,7 +46,7 @@ public class TranslateEntityPanel extends PhetPanel {
     private Map<String, IModel> stringModelMap = new HashMap<String, IModel>();
     private TranslationEditPage page;
 
-    private static Logger logger = Logger.getLogger( TranslateEntityPanel.class.getName() );
+    private static final Logger logger = Logger.getLogger( TranslateEntityPanel.class.getName() );
 
     public TranslateEntityPanel( String id, final PageContext context, final TranslationEditPage page, final TranslationEntity entity, final int translationId, final Locale testLocale ) {
         super( id, context );

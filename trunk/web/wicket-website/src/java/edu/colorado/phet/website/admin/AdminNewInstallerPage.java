@@ -11,7 +11,7 @@ import edu.colorado.phet.website.templates.PhetPage;
  */
 public class AdminNewInstallerPage extends PhetPage {
 
-    private static Logger logger = Logger.getLogger( AdminNewInstallerPage.class.getName() );
+    private static final Logger logger = Logger.getLogger( AdminNewInstallerPage.class.getName() );
 
     private static final Object lock = new Object();
 

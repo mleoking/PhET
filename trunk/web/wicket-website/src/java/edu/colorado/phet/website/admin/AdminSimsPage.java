@@ -20,7 +20,7 @@ import edu.colorado.phet.website.util.HibernateUtils;
 
 public class AdminSimsPage extends AdminPage {
 
-    private static Logger logger = Logger.getLogger( AdminSimsPage.class.getName() );
+    private static final Logger logger = Logger.getLogger( AdminSimsPage.class.getName() );
 
     public AdminSimsPage( PageParameters parameters ) {
         super( parameters );

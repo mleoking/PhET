@@ -22,7 +22,7 @@ import edu.colorado.phet.website.util.links.RawLinkable;
  */
 public class DeployProjectPage extends PhetPage {
 
-    private static Logger logger = Logger.getLogger( DeployProjectPage.class.getName() );
+    private static final Logger logger = Logger.getLogger( DeployProjectPage.class.getName() );
 
     private static final Object lock = new Object();
 

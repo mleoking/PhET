@@ -10,7 +10,7 @@ import org.apache.wicket.request.target.coding.IRequestTargetUrlCodingStrategy;
  */
 public class PhetRequestCodingStrategy extends WebRequestCodingStrategy {
 
-    private static Logger logger = Logger.getLogger( PhetRequestCodingStrategy.class.getName() );
+    private static final Logger logger = Logger.getLogger( PhetRequestCodingStrategy.class.getName() );
 
     public PhetRequestCodingStrategy() {
     }

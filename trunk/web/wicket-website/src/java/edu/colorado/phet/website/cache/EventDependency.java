@@ -44,7 +44,7 @@ public abstract class EventDependency {
      */
     private IChangeListener anyChangeListener;
 
-    private static Logger logger = Logger.getLogger( EventDependency.class.getName() );
+    private static final Logger logger = Logger.getLogger( EventDependency.class.getName() );
 
     protected EventDependency() {
     }

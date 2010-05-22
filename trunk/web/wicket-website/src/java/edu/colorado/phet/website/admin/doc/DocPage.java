@@ -33,7 +33,7 @@ public class DocPage extends AdminPage {
     private TextField keyText;
     private TextField valueText;
 
-    private static Logger logger = Logger.getLogger( DocPage.class.getName() );
+    private static final Logger logger = Logger.getLogger( DocPage.class.getName() );
 
     public DocPage( PageParameters parameters ) {
         super( parameters );

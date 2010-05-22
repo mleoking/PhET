@@ -13,7 +13,7 @@ import edu.colorado.phet.website.util.PhetUrlMapper;
 
 public class NotFoundPage extends PhetMenuPage {
 
-    private static Logger logger = Logger.getLogger( NotFoundPage.class.getName() );
+    private static final Logger logger = Logger.getLogger( NotFoundPage.class.getName() );
 
     public NotFoundPage( PageParameters parameters ) {
         super( parameters );

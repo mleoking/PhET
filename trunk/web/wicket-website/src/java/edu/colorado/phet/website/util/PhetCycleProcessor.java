@@ -7,7 +7,7 @@ import org.apache.wicket.request.IRequestCodingStrategy;
 
 public class PhetCycleProcessor extends WebRequestCycleProcessor {
 
-    private static Logger logger = Logger.getLogger( PhetCycleProcessor.class.getName() );
+    private static final Logger logger = Logger.getLogger( PhetCycleProcessor.class.getName() );
 
     public PhetCycleProcessor() {
         super();

@@ -16,7 +16,7 @@ public class ContributionNomination implements Serializable, IntId {
     private PhetUser phetUser;
     private String reason;
 
-    private static Logger logger = Logger.getLogger( ContributionNomination.class.getName() );
+    private static final Logger logger = Logger.getLogger( ContributionNomination.class.getName() );
 
     public ContributionNomination() {
     }

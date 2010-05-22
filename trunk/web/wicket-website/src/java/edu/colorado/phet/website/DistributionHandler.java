@@ -23,7 +23,7 @@ import edu.colorado.phet.website.util.PhetRequestCycle;
  */
 public class DistributionHandler {
 
-    private static Logger logger = Logger.getLogger( DistributionHandler.class.getName() );
+    private static final Logger logger = Logger.getLogger( DistributionHandler.class.getName() );
 
     private DistributionHandler() {
         // don't instantiate

@@ -37,7 +37,7 @@ public class AdminCategoryPage extends AdminPage {
 
     private Model autoModel;
 
-    private static Logger logger = Logger.getLogger( AdminCategoryPage.class.getName() );
+    private static final Logger logger = Logger.getLogger( AdminCategoryPage.class.getName() );
     private Label autoLabel;
 
     public AdminCategoryPage( PageParameters parameters ) {

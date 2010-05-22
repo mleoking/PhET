@@ -12,7 +12,7 @@ import org.apache.wicket.util.io.IOUtils;
  */
 public class PreFilter implements Filter {
 
-    private static Logger logger = Logger.getLogger( PreFilter.class.getName() );
+    private static final Logger logger = Logger.getLogger( PreFilter.class.getName() );
 
     public void init( FilterConfig filterConfig ) throws ServletException {
 

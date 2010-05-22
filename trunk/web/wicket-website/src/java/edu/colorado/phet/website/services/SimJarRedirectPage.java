@@ -18,7 +18,7 @@ import edu.colorado.phet.website.data.Simulation;
  */
 public class SimJarRedirectPage extends WebPage {
 
-    private static Logger logger = Logger.getLogger( SimJarRedirectPage.class.getName() );
+    private static final Logger logger = Logger.getLogger( SimJarRedirectPage.class.getName() );
 
     public SimJarRedirectPage( PageParameters parameters ) {
         super( parameters );

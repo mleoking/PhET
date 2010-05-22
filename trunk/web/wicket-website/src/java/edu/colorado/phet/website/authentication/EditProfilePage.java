@@ -13,7 +13,7 @@ import edu.colorado.phet.website.util.links.Linkable;
 
 public class EditProfilePage extends PhetPage {
 
-    private static Logger logger = Logger.getLogger( EditProfilePage.class.getName() );
+    private static final Logger logger = Logger.getLogger( EditProfilePage.class.getName() );
 
     public EditProfilePage( PageParameters parameters ) {
         super( parameters );

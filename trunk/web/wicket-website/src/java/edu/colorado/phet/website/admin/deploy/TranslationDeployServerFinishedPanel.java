@@ -7,12 +7,12 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import org.apache.wicket.behavior.AttributeAppender;
-import org.apache.wicket.markup.html.WebMarkupContainerWithAssociatedMarkup;
+import org.apache.wicket.Component;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
-import org.apache.wicket.model.Model;
 
 import edu.colorado.phet.website.components.RawLabel;
 import edu.colorado.phet.website.components.RawLink;
@@ -20,12 +20,15 @@ import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
 
 public class TranslationDeployServerFinishedPanel extends PhetPanel {
-    public TranslationDeployServerFinishedPanel( String id, PageContext context, String finalText, File[] files ) {
+
+    private Component publisher;
+
+    public TranslationDeployServerFinishedPanel( String id, PageContext context, String finalText, File translationDir ) {
         super( id, context );
 
         add( new RawLabel( "text", finalText ) );
 
-        List<File> fileList = Arrays.asList( files );
+        List<File> fileList = Arrays.asList( translationDir.listFiles() );
 
         Collections.sort( fileList, new Comparator<File>() {
             public int compare( File a, File b ) {
@@ -50,5 +53,26 @@ public class TranslationDeployServerFinishedPanel extends PhetPanel {
                 }
             }
         } );
+
+        AjaxLink publishLink = new AjaxLink( "publish-link" ) {
+            @Override
+            public void onClick( AjaxRequestTarget target ) {
+                target.addComponent( this );
+                setVisible( false );
+
+                Label newPublisher = new Label( "publisher", "BOO!!!" );
+                newPublisher.setOutputMarkupId( true );
+                newPublisher.setMarkupId( "deploy-publisher" );
+                publisher.replaceWith( newPublisher );
+                target.addComponent( newPublisher );
+            }
+        };
+        publishLink.setOutputMarkupId( true );
+        add( publishLink );
+
+        publisher = new Label( "publisher", "" );
+        publisher.setOutputMarkupId( true );
+        publisher.setMarkupId( "deploy-publisher" );
+        add( publisher );
     }
 }

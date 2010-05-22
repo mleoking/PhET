@@ -9,7 +9,7 @@ import org.apache.log4j.Logger;
 
 public class SqlUtils {
 
-    private static Logger logger = Logger.getLogger( SqlUtils.class.getName() );
+    private static final Logger logger = Logger.getLogger( SqlUtils.class.getName() );
 
     private static Connection getConnection( ServletContext context ) throws IOException, SQLException, ClassNotFoundException {
         String user = context.getInitParameter( "transfer-user" );

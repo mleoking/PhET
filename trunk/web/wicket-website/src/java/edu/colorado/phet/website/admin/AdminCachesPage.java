@@ -13,7 +13,7 @@ import edu.colorado.phet.website.util.SearchUtils;
  */
 public class AdminCachesPage extends AdminPage {
 
-    private static Logger logger = Logger.getLogger( AdminCachesPage.class.getName() );
+    private static final Logger logger = Logger.getLogger( AdminCachesPage.class.getName() );
 
     public AdminCachesPage( PageParameters parameters ) {
         super( parameters );

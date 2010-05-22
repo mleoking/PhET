@@ -13,7 +13,7 @@ import edu.colorado.phet.website.util.links.RawLinkable;
 
 public class ByGradeLevelPage extends PhetRegularPage {
 
-    private static Logger logger = Logger.getLogger( ByGradeLevelPage.class.getName() );
+    private static final Logger logger = Logger.getLogger( ByGradeLevelPage.class.getName() );
 
     public ByGradeLevelPage( final PageParameters parameters ) {
         super( parameters );

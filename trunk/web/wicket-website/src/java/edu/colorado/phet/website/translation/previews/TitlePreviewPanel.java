@@ -16,7 +16,7 @@ import edu.colorado.phet.website.util.PageContext;
 
 public class TitlePreviewPanel extends PhetPanel {
 
-    private static Logger logger = Logger.getLogger( TitlePreviewPanel.class.getName() );
+    private static final Logger logger = Logger.getLogger( TitlePreviewPanel.class.getName() );
 
     public TitlePreviewPanel( String id, PageContext context ) {
         super( id, context );

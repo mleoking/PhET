@@ -27,7 +27,7 @@ public abstract class AbstractPanelCacheEntry implements IPanelCacheEntry {
     private Locale locale;
     private List<EventDependency> dependencies = new LinkedList<EventDependency>();
 
-    private static Logger logger = Logger.getLogger( AbstractPanelCacheEntry.class.getName() );
+    private static final Logger logger = Logger.getLogger( AbstractPanelCacheEntry.class.getName() );
 
     protected AbstractPanelCacheEntry( Class panelClass, Class parentClass, Locale locale, String parentCacheId ) {
         this.panelClass = panelClass;

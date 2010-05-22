@@ -17,7 +17,7 @@ public class LocalizedText extends WebComponent {
 
     private Object[] args = null;
 
-    private static Logger logger = Logger.getLogger( LocalizedText.class.getName() );
+    private static final Logger logger = Logger.getLogger( LocalizedText.class.getName() );
 
     /**
      * Create a block of unescaped text with the specified Wicket ID and translatable string key

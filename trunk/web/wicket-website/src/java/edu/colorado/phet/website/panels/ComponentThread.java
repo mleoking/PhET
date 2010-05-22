@@ -13,7 +13,7 @@ public abstract class ComponentThread extends Thread {
 
     private boolean done = false;
 
-    private static Logger logger = Logger.getLogger( ComponentThread.class.getName() );
+    private static final Logger logger = Logger.getLogger( ComponentThread.class.getName() );
 
     /**
      * @return A Wicket component that represents the current status of this thread

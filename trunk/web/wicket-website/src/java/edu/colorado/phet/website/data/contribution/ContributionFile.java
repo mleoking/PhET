@@ -30,7 +30,7 @@ public class ContributionFile implements Serializable, IntId {
 
     private int oldId;
 
-    private static Logger logger = Logger.getLogger( ContributionFile.class.getName() );
+    private static final Logger logger = Logger.getLogger( ContributionFile.class.getName() );
 
     //----------------------------------------------------------------------------
     // constructor

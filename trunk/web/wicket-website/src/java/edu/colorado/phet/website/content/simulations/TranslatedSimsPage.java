@@ -20,7 +20,7 @@ import edu.colorado.phet.website.util.links.AbstractLinker;
 
 public class TranslatedSimsPage extends PhetRegularPage {
 
-    private static Logger logger = Logger.getLogger( TranslatedSimsPage.class.getName() );
+    private static final Logger logger = Logger.getLogger( TranslatedSimsPage.class.getName() );
 
     public TranslatedSimsPage( PageParameters parameters ) {
         super( parameters );

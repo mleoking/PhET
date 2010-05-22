@@ -43,7 +43,7 @@ public abstract class SimplePanelCacheEntry extends AbstractPanelCacheEntry impl
 
     private Map<Object, Object> map;
 
-    private static Logger logger = Logger.getLogger( SimplePanelCacheEntry.class.getName() );
+    private static final Logger logger = Logger.getLogger( SimplePanelCacheEntry.class.getName() );
 
     /**
      * @param panelClass    The class of the panel to be cached

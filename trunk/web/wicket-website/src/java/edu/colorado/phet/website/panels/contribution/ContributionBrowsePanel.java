@@ -35,7 +35,7 @@ public class ContributionBrowsePanel extends PhetPanel {
 
     private final List<Contribution> newContributions;
 
-    private static Logger logger = Logger.getLogger( ContributionBrowsePanel.class.getName() );
+    private static final Logger logger = Logger.getLogger( ContributionBrowsePanel.class.getName() );
 
     /**
      * NOTE: ALWAYS preload the levels, types, simulations, and those simulations' localizedSimulations. They are all
@@ -69,12 +69,8 @@ public class ContributionBrowsePanel extends PhetPanel {
 
         logger.debug( System.currentTimeMillis() + " A" );
 
-        // TODO: localize
-
         // TODO: sort things like level and type, and maybe simulations (if not done already)
-
         // TODO: add sortability of columns
-
         // TODO: add locale (language) for main page
 
         final DateFormat format = DateFormat.getDateInstance( DateFormat.SHORT, getLocale() );

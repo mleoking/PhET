@@ -32,7 +32,7 @@ import edu.colorado.phet.website.util.*;
 
 public class TranslationListPanel extends PhetPanel implements CacheableUrlStaticPanel {
 
-    private static Logger logger = Logger.getLogger( TranslationListPanel.class.getName() );
+    private static final Logger logger = Logger.getLogger( TranslationListPanel.class.getName() );
 
     public TranslationListPanel( String id, final PageContext context, final Locale locale ) {
         super( id, context );

@@ -34,7 +34,7 @@ public class SearchUtils {
 
     // TODO: catch index exceptions to try triggering re-building or fail-out?
 
-    private static Logger logger = Logger.getLogger( SearchUtils.class.getName() );
+    private static final Logger logger = Logger.getLogger( SearchUtils.class.getName() );
 
     private static Directory directory = null;
 

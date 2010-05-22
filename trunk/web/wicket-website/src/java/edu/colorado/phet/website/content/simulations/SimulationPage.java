@@ -26,7 +26,7 @@ import edu.colorado.phet.website.util.links.AbstractLinker;
 
 public class SimulationPage extends PhetMenuPage {
 
-    private static Logger logger = Logger.getLogger( SimulationPage.class.getName() );
+    private static final Logger logger = Logger.getLogger( SimulationPage.class.getName() );
 
     public SimulationPage( PageParameters parameters ) {
         super( parameters );
