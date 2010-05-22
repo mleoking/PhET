@@ -16,6 +16,7 @@ import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.*;
+import org.apache.wicket.validation.validator.StringValidator;
 
 public class NestedFormTest extends WebPage {
 
@@ -41,7 +42,7 @@ public class NestedFormTest extends WebPage {
 
             setModel( model );
 
-            add( new TextField( "name" ) );
+            add( new TextField<String>( "name" ).add( StringValidator.maximumLength( 3 ) ) );
 
             add( new InnerForm( "inner-form", model ) );
         }
