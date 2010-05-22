@@ -4,8 +4,9 @@ import org.apache.wicket.markup.html.link.Link;
 
 import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.components.InvisibleComponent;
-import edu.colorado.phet.website.constants.Images;
+import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.components.StaticImage;
+import edu.colorado.phet.website.constants.Images;
 import edu.colorado.phet.website.content.about.AboutMainPanel;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.translation.TranslationMainPage;
@@ -17,24 +18,35 @@ import edu.colorado.phet.website.util.links.RawLinkable;
 public class ForTranslatorsPanel extends PhetPanel {
     public ForTranslatorsPanel( String id, PageContext context ) {
 
-        // TODO: i18nize
-
         super( id, context );
 
-        add( TranslationUtilityPanel.getLinker().getLink( "translation-utility-link", context, getPhetCycle() ) );
-        Link screenLink = TranslationUtilityPanel.getLinker().getLink( "translation-utility-link-2", context, getPhetCycle() );
+        //add( TranslationUtilityPanel.getLinker().getLink( "translation-utility-link", context, getPhetCycle() ) );
+        Link screenLink = TranslationUtilityPanel.getLinker().getLink( "translation-utility-link", context, getPhetCycle() );
         add( screenLink );
 
-        screenLink.add( new StaticImage( "translation-utility-screenshot", Images.TRANSLATION_UTILITY_SMALL, "Translation Utility Screenshot" ) );
+        screenLink.add( new StaticImage( "translation-utility-screenshot", Images.TRANSLATION_UTILITY_SMALL, getPhetLocalizer().getString( "forTranslators.translationUtilityScreenshot", this ) ) );
 
-        add( AboutMainPanel.getLinker().getLink( "about-phet-link", context, getPhetCycle() ) );
+        //add( AboutMainPanel.getLinker().getLink( "about-phet-link", context, getPhetCycle() ) );
 
         if ( DistributionHandler.hideWebsiteTranslations( getPhetCycle() ) ) {
             add( new InvisibleComponent( "translate-website" ) );
         }
         else {
-            add( TranslationMainPage.getLinker().getLink( "translate-website", context, getPhetCycle() ) );
+            //add( TranslationMainPage.getLinker().getLink( "translate-website", context, getPhetCycle() ) );
+            add( new LocalizedText( "translate-website", "forTranslators.websiteText", new Object[]{
+                    TranslationMainPage.getLinker().getHref( context, getPhetCycle() )
+            } ) );
         }
+
+        add( new LocalizedText( "forTranslators-simulationsTranslatable", "forTranslators.simulationsTranslatable", new Object[]{
+                TranslationUtilityPanel.getLinker().getHref( context, getPhetCycle() )
+        } ) );
+
+        add( new LocalizedText( "forTranslators-translatingMission", "forTranslators.translatingMission", new Object[]{
+                AboutMainPanel.getLinker().getHref( context, getPhetCycle() )
+        } ) );
+
+
     }
 
     public static String getKey() {
