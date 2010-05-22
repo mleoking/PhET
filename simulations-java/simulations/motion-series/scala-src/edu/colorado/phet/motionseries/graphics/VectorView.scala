@@ -20,8 +20,8 @@ class VectorView(bead: Bead,
 
     val parallelComponent = new ParallelComponent(beadVector, bead)
     val perpComponent = new PerpendicularComponent(beadVector, bead)
-    val xComponent = new XComponent(beadVector, bead, coordinateFrameModel)
-    val yComponent = new YComponent(beadVector, bead, coordinateFrameModel)
+    val xComponent = new XComponent(beadVector, bead, coordinateFrameModel,beadVector.labelAngle)
+    val yComponent = new YComponent(beadVector, bead, coordinateFrameModel,beadVector.labelAngle)
     def update() = {
       yComponent.visible = vectorViewModel.xyComponentsVisible && selectedVectorVisible()
       xComponent.visible = vectorViewModel.xyComponentsVisible && selectedVectorVisible()
@@ -92,7 +92,7 @@ class PlayAreaVectorNode(transform: ModelViewTransform2D, bead: ForceBead, vecto
 
 //todo: make sure this adapter overrides other methods as well such as addListener
 class PlayAreaVector(vector: Vector, scale: Double)
-        extends Vector(vector.color, vector.name, vector.abbreviation, () => vector.getValue * scale, vector.painter) {
+        extends Vector(vector.color, vector.name, vector.abbreviation, () => vector.getValue * scale, vector.painter,vector.labelAngle) {
   vector.addListener(notifyListeners)
   override def visible = vector.visible
 

@@ -26,7 +26,8 @@ class Vector(val color: Color,
              val name: String,
              val abbreviation: String,
              val valueAccessor: () => Vector2D,
-             val painter: (Vector2D, Color) => Paint) extends Observable with VectorValue {
+             val painter: (Vector2D, Color) => Paint,
+             val labelAngle: Double) extends Observable with VectorValue {
   private var _visible = true
 
   def getValue = valueAccessor()
@@ -257,7 +258,7 @@ trait VectorValue {
 object TestFBD extends Application {
   val frame = new JFrame
   val canvas = new PhetPCanvas
-  val vector = new Vector(Color.blue, "Test Vector".literal, "Fv".literal, () => new Vector2D(5, 5), (a, b) => b)
+  val vector = new Vector(Color.blue, "Test Vector".literal, "Fv".literal, () => new Vector2D(5, 5), (a, b) => b,PI/2)
   canvas.addScreenChild(new FreeBodyDiagramNode(new FreeBodyDiagramModel(false), 200, 200, 20, 20, new CoordinateFrameModel(new RampSegment(new Point2D.Double(0, 0), new Point2D.Double(10, 10))), new AdjustableCoordinateModel,
     PhetCommonResources.getImage("buttons/maximizeButton.png".literal), () => PI / 4, vector))
   frame.setContentPane(canvas)

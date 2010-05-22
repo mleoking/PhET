@@ -10,7 +10,6 @@ import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.umd.cs.piccolo.nodes.{PImage}
 import edu.umd.cs.piccolo.PNode
 import edu.colorado.phet.scalacommon.Predef._
-import java.lang.Math._
 import edu.colorado.phet.motionseries.MotionSeriesConfig
 import java.awt.{Color}
 import edu.colorado.phet.motionseries.model._
@@ -60,23 +59,24 @@ class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val ta
       arrowNode.setTipAndTailLocations(viewTip, viewTail)
 
       //Update the location of the textual label
-      val proposedLabelLocation = vector() * 0.6
-      val minLabelDistance = maxLabelDistance / 2.0 //todo: improve heuristics for min label distance, or make it settable in the constructor
-
-      var labelVector = if (proposedLabelLocation.magnitude > maxLabelDistance)
-        new Vector2D(vector.angle) * maxLabelDistance
-      else if (proposedLabelLocation.magnitude < minLabelDistance && proposedLabelLocation.magnitude > 1E-2)
-        new Vector2D(vector.angle) * minLabelDistance
-      else
-        proposedLabelLocation
-
       val textLocation = {
-        val centeredPt = transform.modelToViewDouble(labelVector + tailLocation())
-        val deltaArrow = new Vector2D(vector.angle + PI / 2) * abbreviatonTextNode.getFullBounds.getWidth * 0.75 //move orthogonal to the vector itself
-        deltaArrow + centeredPt
+        val proposedLabelLocation = vector() * 0.6
+        val minLabelDistance = maxLabelDistance / 2.0 //todo: improve heuristics for min label distance, or make it settable in the constructor
+        var labelVector = if (proposedLabelLocation.magnitude > maxLabelDistance)
+          new Vector2D(vector.angle) * maxLabelDistance
+        else if (proposedLabelLocation.magnitude < minLabelDistance && proposedLabelLocation.magnitude > 1E-2)
+          new Vector2D(vector.angle) * minLabelDistance
+        else
+          proposedLabelLocation
+
+        val viewPt = transform.modelToViewDouble(labelVector + tailLocation())
+
+        //vector.angle is negative since the coordinate frame is flipped going from model to view
+        val deltaArrow = new Vector2D(-vector.angle - vector.labelAngle) * abbreviatonTextNode.getFullBounds.getWidth * 0.8 //move orthogonal to the vector itself
+        deltaArrow + viewPt
       }
       abbreviatonTextNode.setOffset(textLocation.x - abbreviatonTextNode.getFullBounds.getWidth / 2, textLocation.y - abbreviatonTextNode.getFullBounds.getHeight / 2)
-      abbreviatonTextNode.setVisible(labelVector.magnitude > 1E-2)
+      abbreviatonTextNode.setVisible(viewTail.distance(viewTip) > 1)
     }
   }
   update()
