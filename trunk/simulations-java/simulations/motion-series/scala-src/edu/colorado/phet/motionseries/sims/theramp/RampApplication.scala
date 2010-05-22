@@ -16,6 +16,7 @@ import edu.colorado.phet.recordandplayback.gui.{RecordAndPlaybackControlPanel}
 import edu.umd.cs.piccolox.pswing.PSwing
 import java.awt.event.{ComponentEvent, ComponentAdapter}
 import edu.colorado.phet.motionseries.{StageContainerArea, MotionSeriesDefaults, MotionSeriesModule}
+import edu.umd.cs.piccolo.util.PDebug
 
 /**
  * This is the parent class for the various Modules for the ramp simulation.
@@ -152,5 +153,9 @@ class RampApplication(config: PhetApplicationConfig) extends PiccoloPhetApplicat
  * @author Sam Reid
  */
 object RampApplicationMain {
-  def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "the-ramp".literal, classOf[RampApplication])
+  def main(args: Array[String]) = {
+//    PDebug.debugBounds=true
+//    PDebug.debugFullBounds=true
+    new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "the-ramp".literal, classOf[RampApplication])
+  }
 }
