@@ -93,11 +93,19 @@ class RampControlPanelBody(model: MotionSeriesModel,
     //    add(new MyRadioButton("vectors.point-of-origin".translate, vectorViewModel.centered = false, !vectorViewModel.centered, vectorViewModel.addListener).peer)
     //    add(Box.createRigidArea(new Dimension(10, 10)))
 
-    add(new MyCheckBox("vectors.force-vectors".translate, vectorViewModel.originalVectors_=, vectorViewModel.originalVectors, vectorViewModel.addListener).peer)
-
     if (coordinateSystemFeaturesEnabled) {
-      addWithIcon("parallel_components_icon.gif".literal, new MyCheckBox("vectors.parallel-components".translate, vectorViewModel.parallelComponents_=, vectorViewModel.parallelComponents, vectorViewModel.addListener).peer)
-      addWithIcon("xy_components_icon.gif".literal, new MyCheckBox("vectors.x-y-components".translate, vectorViewModel.xyComponentsVisible = _, vectorViewModel.xyComponentsVisible, vectorViewModel.addListener).peer)
+      //in coordinates frame mode, you have to show one of the vector choices
+      def setVectorVisibility(original:Boolean,parallel:Boolean,xy:Boolean) = {
+        vectorViewModel.originalVectors = original
+        vectorViewModel.parallelComponents = parallel
+        vectorViewModel.xyComponentsVisible = xy
+      }
+      add(new MyRadioButton("vectors.force-vectors".translate, setVectorVisibility(true,false,false), vectorViewModel.originalVectors, vectorViewModel.addListener).peer)
+      addWithIcon("parallel_components_icon.gif".literal, new MyRadioButton("vectors.parallel-components".translate, setVectorVisibility(false,true,false), vectorViewModel.parallelComponents, vectorViewModel.addListener).peer)
+      addWithIcon("xy_components_icon.gif".literal, new MyRadioButton("vectors.x-y-components".translate, setVectorVisibility(false,false,true), vectorViewModel.xyComponentsVisible, vectorViewModel.addListener).peer)
+    }else{
+      //show a check box that allows you to turn off viewing the vectors
+      add(new MyCheckBox("vectors.force-vectors".translate, vectorViewModel.originalVectors_=, vectorViewModel.originalVectors, vectorViewModel.addListener).peer)
     }
     add(Box.createRigidArea(new Dimension(10, 10)))
     addWithIcon(createSumForceIcon, new MyCheckBox("vectors.sum-of-forces".translate, vectorViewModel.sumOfForcesVector_=, vectorViewModel.sumOfForcesVector, vectorViewModel.addListener).peer)
