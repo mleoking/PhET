@@ -131,6 +131,10 @@ class BeadNode(bead: Bead,
     imageNode.rotateAboutPoint(flipY.getAngle,
       imageNode.getFullBounds.getCenter2D.getX - (viewPosition.x - delta.x / 2),
       imageNode.getFullBounds.getMaxY - (viewPosition.y - delta.y))
+
+    if (imageNode.getImage==crashImage && !bead.isCrashed){
+      imageNode.setImage(image)
+    }
   }
   bead.addListener(update)
   update()
