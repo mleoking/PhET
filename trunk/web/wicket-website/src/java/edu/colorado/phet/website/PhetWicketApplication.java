@@ -242,6 +242,14 @@ public class PhetWicketApplication extends WebApplication {
         return new File( getWebsiteProperties().getPhetDownloadRoot(), "teachers-guide" );
     }
 
+    public File getSimulationsRoot() {
+        return new File( getWebsiteProperties().getPhetDocumentRoot(), "sims" );
+    }
+
+    public File getStagingRoot() {
+        return new File( getSimulationsRoot(), "staging" );
+    }
+
     public String getActivitiesLocation() {
         return getWebsiteProperties().getPhetDownloadLocation() + "/activities";
     }

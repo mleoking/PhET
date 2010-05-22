@@ -5,6 +5,8 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.*;
 
+import org.apache.log4j.Logger;
+
 import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.buildtools.JARGenerator;
 import edu.colorado.phet.buildtools.util.FileUtils;
@@ -13,59 +15,59 @@ import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.common.phetcommon.util.StreamReaderThread;
 
 /**
- * Takes translation files for Java and Flash in a temporary translation dir (under htdocs/sims/translations),
+ * Takes translation files for Java and Flash in a temporary translation dir
  * and does the necessary tasks to construct testable JARs, JNLPs and HTMLs for translations to test, plus all
  * other files necessary.
- * NOTE: run on the server, so do not rename / move this without making the corresponding changes in TranslationDeployClient
  */
-public class TranslationDeployServer {
+public class WebsiteTranslationDeployServer {
+
     private String jarCommand;
     private BuildLocalProperties buildLocalProperties;
     private File pathToSimsDir;
 
-    public TranslationDeployServer( String jarCommand, BuildLocalProperties buildLocalProperties, File pathToSimsDir ) {
+    private static Logger logger = Logger.getLogger( WebsiteTranslationDeployServer.class.getName() );
+
+    public WebsiteTranslationDeployServer( String jarCommand, BuildLocalProperties buildLocalProperties, File pathToSimsDir ) {
         this.jarCommand = jarCommand;
         this.buildLocalProperties = buildLocalProperties;
         this.pathToSimsDir = pathToSimsDir;
     }
 
-    public static void main( String[] args ) throws IOException, InterruptedException {
-        new TranslationDeployServer( args[0], BuildLocalProperties.initFromPropertiesFile( new File( args[1] ) ), new File( args[2] ) ).integrateTranslations( new File( args[3] ) );
+    public void integrateTranslations( File translationDir ) throws IOException, InterruptedException {
+        // java projects
+        for ( Object o : getJavaProjectNameList( translationDir ) ) {
+            integrateJavaTranslations( translationDir, (String) o );
+        }
+
+        // flash projects
+        for ( Object o : getFlashProjectNameList( translationDir ) ) {
+            integrateFlashTranslations( translationDir, (String) o );
+        }
     }
 
-    public void integrateTranslations( File translationDir ) throws IOException, InterruptedException {
-        ArrayList javaList = getJavaProjectNameList( translationDir );
-        for ( int i = 0; i < javaList.size(); i++ ) {
-            integrateJavaTranslations( translationDir, (String) javaList.get( i ) );
-        }
-
-        ArrayList flashList = getFlashProjectNameList( translationDir );
-        for ( int i = 0; i < flashList.size(); i++ ) {
-            integrateFlashTranslations( translationDir, (String) flashList.get( i ) );
-        }
-
-        signifyReadyForTesting( translationDir );
+    public static Logger getLogger() {
+        return logger;
     }
 
     private void integrateJavaTranslations( File translationDir, String project ) throws IOException, InterruptedException {
-        System.out.println( "**********************************" );
-        System.out.println( "**** Integrating java translations for: " + project );
-        System.out.println( "**********************************" );
+        logger.info( "**********************************" );
+        logger.info( "**** Integrating java translations for: " + project );
+        logger.info( "**********************************" );
 
-        System.out.println( "Copying sim JAR" );
+        logger.info( "Copying sim JAR" );
         copySimJAR( translationDir, project );
 
-        System.out.println( "Creating backup of JAR" );
+        logger.info( "Creating backup of JAR" );
         createBackupOfJAR( getLocalCopyOfAllJAR( translationDir, project ) );
 
-        System.out.println( "Updating sim JAR" );
+        logger.info( "Updating sim JAR" );
         updateSimJAR( translationDir, project );
 
-        System.out.println( "Signing JAR" );
+        logger.info( "Signing JAR" );
         signJAR( translationDir, project );
 //        createTestJNLPFiles( translationDir, project );//todo: implement optional JNLP test
 
-        System.out.println( "Creating offline JARs" );
+        logger.info( "Creating offline JARs" );
         createOfflineJARFiles( translationDir, project );//todo: only create JARs for new submissions
         //todo: clean up JARs when done testing
     }
@@ -142,29 +144,24 @@ public class TranslationDeployServer {
         return list;
     }
 
-    private void signifyReadyForTesting( File translationDir ) throws IOException {
-        //could use "touch" but this should work on non-unix machines too
-        FileUtils.writeString( new File( translationDir, "finished.txt" ), "finished at " + new Date() );
-    }
-
     private void updateSimJAR( File translationDir, String project ) throws IOException, InterruptedException {
         //integrate translations with jar -uf
-        //System.out.println( "Getting translated locales" );
+        //logger.info( "Getting translated locales" );
         String[] locales = getJavaTranslatedLocales( translationDir, project );
         for ( int i = 0; i < locales.length; i++ ) {
-            //System.out.println( "Updating sim JAR for locale: " + locales[i] );
+            //logger.info( "Updating sim JAR for locale: " + locales[i] );
             copyTranslationSubDir( translationDir, project, locales[i] );
-            //System.out.println( "Copied translation sub dir" );
+            //logger.info( "Copied translation sub dir" );
             File dst = getLocalCopyOfAllJAR( translationDir, project );
 
             String command = jarCommand + " uf " + dst.getAbsolutePath() + " -C " + translationDir.getAbsolutePath() + " " + project + "/localization/" + propertiesFilename( project, locales[i] );
-            System.out.println( "Updating sim JAR for " + project + " (" + locales[i] + ")" );
+            logger.info( "Updating sim JAR for " + project + " (" + locales[i] + ")" );
             runStringCommand( command );
         }
     }
 
     private void runStringCommand( String command ) throws IOException, InterruptedException {
-        System.out.println( "Running command: " + command );
+        logger.info( "Running command: " + command );
         Process p = Runtime.getRuntime().exec( command );
         new StreamReaderThread( p.getErrorStream(), "err>" ).start();
         new StreamReaderThread( p.getInputStream(), "" ).start();
@@ -173,7 +170,7 @@ public class TranslationDeployServer {
 
     private void copyTranslationSubDir( File translationDir, String project, String locale ) throws IOException {
         File translation = new File( translationDir, propertiesFilename( project, locale ) );
-        //System.out.println( "Translation file copy for: " + translation.getAbsolutePath() );
+        //logger.info( "Translation file copy for: " + translation.getAbsolutePath() );
         FileUtils.copyToDir( translation, new File( translationDir, project + "/localization" ) );
     }
 
@@ -254,17 +251,10 @@ public class TranslationDeployServer {
         for ( int i = 0; i < f.length; i++ ) {
             File file = f[i];
             String projectName = file.getName().substring( 0, file.getName().indexOf( "-strings_" ) );
-            System.out.println( "Found " + typeString + " project: " + projectName );
+            logger.info( "Found " + typeString + " project: " + projectName );
             set.add( projectName );
         }
         return set;
     }
 
-    public static class Test {
-
-        public static void main( String[] args ) throws IOException, InterruptedException {
-            TranslationDeployServer server = new TranslationDeployServer( "C:\\j2sdk1.4.2_17\\bin\\jar.exe", BuildLocalProperties.getProperties( new File( "C:\\reid\\phet\\svn\\trunk\\build-tools\\build-local.properties" ) ), new File( "C:\\reid\\phet\\sims" ) );
-            server.integrateTranslations( new File( "C:\\Users\\Sam\\Desktop\\tx" ) );
-        }
-    }
 }

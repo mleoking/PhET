@@ -5,46 +5,46 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
+import org.apache.log4j.Logger;
+
 import edu.colorado.phet.buildtools.BuildScript;
 import edu.colorado.phet.buildtools.JARGenerator;
 import edu.colorado.phet.buildtools.util.FileUtils;
 
 /**
- * Publishes a translation deployment from the temporary dir (under htdocs/sims/translations/) to the live sim dir
- * NOTE: this is called on the server side, so do not rename / move without changing TranslationDeployClient
+ * Publishes a translation deployment from the temporary dir to the live sim dir
  */
-public class TranslationDeployPublisher {
+public class WebsiteTranslationDeployPublisher {
+
     private File sims;
 
-    public TranslationDeployPublisher( File sims ) {
+    private static Logger logger = Logger.getLogger( WebsiteTranslationDeployPublisher.class.getName() );
+
+    public WebsiteTranslationDeployPublisher( File sims ) {
         this.sims = sims;
     }
 
-    public static void main( String[] args ) throws IOException, InterruptedException {
-        new TranslationDeployPublisher( new File( args[0] ) ).publishTranslations( new File( args[1] ) );
-    }
-
     private void publishTranslations( File translationDir ) throws IOException {
-        ArrayList javaProjectNameList = TranslationDeployServer.getJavaProjectNameList( translationDir );
+        ArrayList javaProjectNameList = WebsiteTranslationDeployServer.getJavaProjectNameList( translationDir );
         for ( int i = 0; i < javaProjectNameList.size(); i++ ) {
             String project = (String) javaProjectNameList.get( i );
-            String[] locales = TranslationDeployServer.getJavaTranslatedLocales( translationDir, project );
+            String[] locales = WebsiteTranslationDeployServer.getJavaTranslatedLocales( translationDir, project );
 
             copyToSimsDir( translationDir, project, locales );
             generateJNLPs( translationDir, project, locales );
 
         }
 
-        ArrayList flashProjectNameList = TranslationDeployServer.getFlashProjectNameList( translationDir );
+        ArrayList flashProjectNameList = WebsiteTranslationDeployServer.getFlashProjectNameList( translationDir );
         for ( int i = 0; i < flashProjectNameList.size(); i++ ) {
             String project = (String) flashProjectNameList.get( i );
 
             if ( project.equals( "common" ) ) {
-                System.out.println( "Not publishing common strings XML directly" );
+                logger.info( "Not publishing common strings XML directly" );
                 continue;
             }
 
-            String[] locales = TranslationDeployServer.getFlashTranslatedLocales( translationDir, project );
+            String[] locales = WebsiteTranslationDeployServer.getFlashTranslatedLocales( translationDir, project );
 
             copyFlashFiles( translationDir, project, locales );
 
