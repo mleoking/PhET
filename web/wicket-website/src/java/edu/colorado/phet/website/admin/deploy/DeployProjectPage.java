@@ -20,14 +20,14 @@ import edu.colorado.phet.website.util.links.RawLinkable;
 /**
  * Called during the deployment process from within the server, meant to synchronize a particular project
  */
-public class AdminDeployProjectPage extends PhetPage {
+public class DeployProjectPage extends PhetPage {
 
-    private static Logger logger = Logger.getLogger( AdminDeployProjectPage.class.getName() );
+    private static Logger logger = Logger.getLogger( DeployProjectPage.class.getName() );
 
     private static final Object lock = new Object();
 
 
-    public AdminDeployProjectPage( PageParameters parameters ) {
+    public DeployProjectPage( PageParameters parameters ) {
         super( parameters );
 
         synchronized( lock ) {

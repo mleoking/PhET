@@ -1,8 +1,5 @@
 package edu.colorado.phet.website;
 
-import net.sf.ehcache.CacheManager;
-import net.sf.ehcache.distribution.MulticastKeepaliveHeartbeatSender;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -24,8 +21,8 @@ import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.common.phetcommon.util.PhetLocales;
 import edu.colorado.phet.website.admin.AdminMainPage;
 import edu.colorado.phet.website.admin.AdminNewInstallerPage;
-import edu.colorado.phet.website.admin.deploy.AdminDeployProjectPage;
-import edu.colorado.phet.website.admin.deploy.AdminDeployTranslationPage;
+import edu.colorado.phet.website.admin.deploy.DeployProjectPage;
+import edu.colorado.phet.website.admin.deploy.DeployTranslationPage;
 import edu.colorado.phet.website.admin.doc.TechnicalDocPage;
 import edu.colorado.phet.website.authentication.*;
 import edu.colorado.phet.website.cache.InstallerCache;
@@ -153,8 +150,8 @@ public class PhetWicketApplication extends WebApplication {
         mount( new TranslationUrlStrategy( "translation", mapper ) );
 
         mountBookmarkablePage( "admin", AdminMainPage.class );
-        mountBookmarkablePage( "admin/deploy", AdminDeployProjectPage.class );
-        mountBookmarkablePage( "admin/deploy-translation", AdminDeployTranslationPage.class );
+        mountBookmarkablePage( "admin/deploy", DeployProjectPage.class );
+        mountBookmarkablePage( "admin/deploy-translation", DeployTranslationPage.class );
         mountBookmarkablePage( "admin/new-installer", AdminNewInstallerPage.class );
         mountBookmarkablePage( "admin/tech-docs", TechnicalDocPage.class );
 
