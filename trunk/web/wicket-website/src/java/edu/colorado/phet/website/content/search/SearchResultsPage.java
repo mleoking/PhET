@@ -36,8 +36,7 @@ public class SearchResultsPage extends PhetRegularPage {
     }
 
     public static void addToMapper( PhetUrlMapper mapper ) {
-        // TODO: fix subtle ugliness. is query parameter included in map => q, or does wicket auto-put-it into the parameters?
-        mapper.addMap( "^search(\\?q=(.+))?$", SearchResultsPage.class, new String[]{null, "q"} );
+        mapper.addMap( "^search$", SearchResultsPage.class, new String[]{null, "q"} );
     }
 
     public static RawLinkable getLinker( final String query ) {
