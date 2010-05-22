@@ -14,7 +14,7 @@ public class ContributionType implements Serializable, IntId {
     private Type type;
     private Contribution contribution;
 
-    private static Logger logger = Logger.getLogger( ContributionType.class.getName() );
+    private static final Logger logger = Logger.getLogger( ContributionType.class.getName() );
 
 
     public ContributionType() {

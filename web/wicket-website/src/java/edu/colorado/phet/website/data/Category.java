@@ -53,7 +53,7 @@ public class Category implements Serializable, IntId {
      */
     private Category parent;
 
-    private static Logger logger = Logger.getLogger( Category.class.getName() );
+    private static final Logger logger = Logger.getLogger( Category.class.getName() );
 
     public Category() {
     }

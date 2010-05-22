@@ -39,7 +39,7 @@ public class PhetPanel extends Panel implements Stylable {
 
     private Map<Object, Object> cacheMap;
 
-    private static Logger logger = Logger.getLogger( PhetPanel.class.getName() );
+    private static final Logger logger = Logger.getLogger( PhetPanel.class.getName() );
 
     //----------------------------------------------------------------------------
     // constructor

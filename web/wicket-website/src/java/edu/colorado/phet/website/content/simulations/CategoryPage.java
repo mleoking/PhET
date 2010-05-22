@@ -22,7 +22,7 @@ import edu.colorado.phet.website.util.links.RawLinkable;
  */
 public class CategoryPage extends PhetRegularPage {
 
-    private static Logger logger = Logger.getLogger( CategoryPage.class.getName() );
+    private static final Logger logger = Logger.getLogger( CategoryPage.class.getName() );
 
     public CategoryPage( final PageParameters parameters ) {
         super( parameters );

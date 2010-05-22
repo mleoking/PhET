@@ -11,7 +11,7 @@ import org.hibernate.persister.entity.EntityPersister;
 
 public class HibernateEventListener implements PostInsertEventListener, PostUpdateEventListener, PostDeleteEventListener {
 
-    private static Logger logger = Logger.getLogger( HibernateEventListener.class.getName() );
+    private static final Logger logger = Logger.getLogger( HibernateEventListener.class.getName() );
 
     private static Map<Class, List<IChangeListener>> listenermap = new HashMap<Class, List<IChangeListener>>();
 

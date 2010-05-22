@@ -20,7 +20,7 @@ import edu.colorado.phet.website.util.HibernateUtils;
 
 public class AdminUsersPage extends AdminPage {
 
-    private static Logger logger = Logger.getLogger( AdminUsersPage.class.getName() );
+    private static final Logger logger = Logger.getLogger( AdminUsersPage.class.getName() );
 
     public AdminUsersPage( PageParameters parameters ) {
         super( parameters );

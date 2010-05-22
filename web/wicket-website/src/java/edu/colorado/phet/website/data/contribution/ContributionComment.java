@@ -17,7 +17,7 @@ public class ContributionComment implements Serializable, IntId {
     private Contribution contribution;
     private PhetUser phetUser;
 
-    private static Logger logger = Logger.getLogger( ContributionComment.class.getName() );
+    private static final Logger logger = Logger.getLogger( ContributionComment.class.getName() );
 
     public ContributionComment() {
     }

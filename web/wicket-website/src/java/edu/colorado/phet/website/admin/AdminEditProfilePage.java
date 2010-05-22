@@ -16,7 +16,7 @@ import edu.colorado.phet.website.util.links.Linkable;
 
 public class AdminEditProfilePage extends AdminPage {
 
-    private static Logger logger = Logger.getLogger( AdminEditProfilePage.class.getName() );
+    private static final Logger logger = Logger.getLogger( AdminEditProfilePage.class.getName() );
 
     private PhetUser user;
 

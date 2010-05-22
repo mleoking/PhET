@@ -13,7 +13,7 @@ import edu.colorado.phet.website.util.links.Linkable;
 
 public class SignOutPage extends PhetPage {
 
-    private static Logger logger = Logger.getLogger( SignOutPage.class.getName() );
+    private static final Logger logger = Logger.getLogger( SignOutPage.class.getName() );
 
     public SignOutPage( PageParameters parameters ) {
         super( parameters, true );

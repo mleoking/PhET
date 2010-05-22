@@ -29,7 +29,7 @@ public class TeachersGuide implements Serializable, IntId {
     // in the future it would be possible to add the locale. not done now, since it should be doable later with
     // minimal effort
 
-    private static Logger logger = Logger.getLogger( TeachersGuide.class.getName() );
+    private static final Logger logger = Logger.getLogger( TeachersGuide.class.getName() );
 
     //----------------------------------------------------------------------------
     // constructor

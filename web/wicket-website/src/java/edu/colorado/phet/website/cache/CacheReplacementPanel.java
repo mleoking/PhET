@@ -18,7 +18,7 @@ public class CacheReplacementPanel extends PhetPanel {
     private CharSequence header;
     private CharSequence body;
 
-    private static Logger logger = Logger.getLogger( CacheReplacementPanel.class.getName() );
+    private static final Logger logger = Logger.getLogger( CacheReplacementPanel.class.getName() );
 
     /**
      * @param id      The Wicket id for the panel to use

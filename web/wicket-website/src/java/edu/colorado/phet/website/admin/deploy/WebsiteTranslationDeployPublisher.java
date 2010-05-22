@@ -18,7 +18,7 @@ public class WebsiteTranslationDeployPublisher {
 
     private File sims;
 
-    private static Logger logger = Logger.getLogger( WebsiteTranslationDeployPublisher.class.getName() );
+    private static final Logger logger = Logger.getLogger( WebsiteTranslationDeployPublisher.class.getName() );
 
     public WebsiteTranslationDeployPublisher( File sims ) {
         this.sims = sims;

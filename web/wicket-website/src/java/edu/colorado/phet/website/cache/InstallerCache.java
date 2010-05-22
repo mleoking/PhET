@@ -7,7 +7,7 @@ import org.apache.log4j.Logger;
 public class InstallerCache {
     private static long t;
 
-    private static Logger logger = Logger.getLogger( InstallerCache.class.getName() );
+    private static final Logger logger = Logger.getLogger( InstallerCache.class.getName() );
 
     /**
      * @param timestamp Seconds since epoch

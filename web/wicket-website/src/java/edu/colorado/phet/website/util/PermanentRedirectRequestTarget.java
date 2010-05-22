@@ -14,7 +14,7 @@ import org.apache.wicket.request.target.basic.RedirectRequestTarget;
  */
 public class PermanentRedirectRequestTarget extends RedirectRequestTarget {
 
-    private static Logger logger = Logger.getLogger( PermanentRedirectRequestTarget.class.getName() );
+    private static final Logger logger = Logger.getLogger( PermanentRedirectRequestTarget.class.getName() );
 
     private String url;
 

@@ -21,7 +21,7 @@ import edu.colorado.phet.website.util.links.RawLinkable;
  */
 public class SignInPage extends PhetPage {
 
-    private static Logger logger = Logger.getLogger( SignInPage.class.getName() );
+    private static final Logger logger = Logger.getLogger( SignInPage.class.getName() );
 
     public SignInPage( PageParameters parameters ) {
         super( parameters, true );

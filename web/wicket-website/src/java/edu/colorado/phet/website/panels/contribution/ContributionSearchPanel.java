@@ -38,7 +38,7 @@ import edu.colorado.phet.website.util.StringUtils;
  */
 public class ContributionSearchPanel extends PhetPanel {
 
-    private static Logger logger = Logger.getLogger( ContributionSearchPanel.class.getName() );
+    private static final Logger logger = Logger.getLogger( ContributionSearchPanel.class.getName() );
 
     public ContributionSearchPanel( String id, final PageContext context, final PageParameters params ) {
         super( id, context );

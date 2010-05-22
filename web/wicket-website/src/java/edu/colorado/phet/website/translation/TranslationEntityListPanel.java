@@ -29,7 +29,7 @@ public class TranslationEntityListPanel extends PhetPanel {
 
     private int translationId;
 
-    private static Logger logger = Logger.getLogger( TranslationEntityListPanel.class.getName() );
+    private static final Logger logger = Logger.getLogger( TranslationEntityListPanel.class.getName() );
 
     public TranslationEntityListPanel( String id, PageContext context, final TranslationEditPage page ) {
         super( id, context );

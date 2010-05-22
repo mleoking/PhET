@@ -42,7 +42,7 @@ public class Project implements Serializable, IntId {
 
     private Set simulations = new HashSet();
 
-    private static Logger logger = Logger.getLogger( Project.class.getName() );
+    private static final Logger logger = Logger.getLogger( Project.class.getName() );
     private static Logger syncLogger = Logger.getLogger( Project.class.getName() + ".sync" );
 
     public Project() {

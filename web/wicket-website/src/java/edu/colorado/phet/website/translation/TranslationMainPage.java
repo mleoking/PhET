@@ -37,7 +37,7 @@ public class TranslationMainPage extends TranslationPage {
 
     private PhetLocales phetLocales;
 
-    private static Logger logger = Logger.getLogger( TranslationMainPage.class.getName() );
+    private static final Logger logger = Logger.getLogger( TranslationMainPage.class.getName() );
 
     public TranslationMainPage( PageParameters parameters ) {
         super( parameters );

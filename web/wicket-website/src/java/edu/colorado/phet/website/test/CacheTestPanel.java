@@ -11,7 +11,7 @@ import edu.colorado.phet.website.constants.CSS;
 
 public class CacheTestPanel extends PhetPanel {
 
-    private static Logger logger = Logger.getLogger( CacheTestPanel.class.getName() );
+    private static final Logger logger = Logger.getLogger( CacheTestPanel.class.getName() );
 
     private static StringResponse fakeResponse;
 

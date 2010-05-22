@@ -24,7 +24,7 @@ import edu.colorado.phet.website.util.PhetUrlMapper;
 
 public class StaticPage extends PhetRegularPage {
 
-    private static Logger logger = Logger.getLogger( StaticPage.class.getName() );
+    private static final Logger logger = Logger.getLogger( StaticPage.class.getName() );
 
     public StaticPage( PageParameters parameters ) {
         super( parameters );

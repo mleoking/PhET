@@ -38,7 +38,7 @@ public class AdminSimPage extends AdminPage {
     private Simulation simulation = null;
     private List<LocalizedSimulation> localizedSimulations;
 
-    private static Logger logger = Logger.getLogger( AdminSimPage.class.getName() );
+    private static final Logger logger = Logger.getLogger( AdminSimPage.class.getName() );
 
     public AdminSimPage( PageParameters parameters ) {
         super( parameters );

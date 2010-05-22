@@ -24,7 +24,7 @@ import edu.colorado.phet.website.util.PageContext;
 
 public class SimulationListViewPanel extends PhetPanel {
 
-    private static Logger logger = Logger.getLogger( SimulationListViewPanel.class.getName() );
+    private static final Logger logger = Logger.getLogger( SimulationListViewPanel.class.getName() );
     private Category category;
 
     public SimulationListViewPanel( String id, String pagePath, final String categories, boolean showIndex, final PageContext context ) {

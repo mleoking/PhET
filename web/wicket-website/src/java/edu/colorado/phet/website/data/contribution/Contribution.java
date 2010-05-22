@@ -83,7 +83,7 @@ public class Contribution implements Serializable, DataListener, IntId {
     private boolean standard58G;
     private boolean standard912G;
 
-    private static Logger logger = Logger.getLogger( Contribution.class.getName() );
+    private static final Logger logger = Logger.getLogger( Contribution.class.getName() );
 
     public Contribution() {
     }

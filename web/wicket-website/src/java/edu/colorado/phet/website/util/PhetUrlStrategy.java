@@ -14,7 +14,7 @@ public class PhetUrlStrategy implements IRequestTargetUrlCodingStrategy {
     private String prefix;
     private PhetUrlMapper mapper;
 
-    private static Logger logger = Logger.getLogger( PhetUrlStrategy.class.getName() );
+    private static final Logger logger = Logger.getLogger( PhetUrlStrategy.class.getName() );
 
     public PhetUrlStrategy( String prefix, PhetUrlMapper mapper ) {
         this.mapper = mapper;

@@ -16,7 +16,7 @@ import edu.colorado.phet.website.util.RedirectionStrategy;
  */
 public class PostFilter implements Filter {
 
-    private static Logger logger = Logger.getLogger( PostFilter.class.getName() );
+    private static final Logger logger = Logger.getLogger( PostFilter.class.getName() );
 
     public void init( FilterConfig filterConfig ) throws ServletException {
 

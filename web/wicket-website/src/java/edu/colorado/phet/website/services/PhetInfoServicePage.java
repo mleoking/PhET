@@ -39,7 +39,7 @@ public class PhetInfoServicePage extends WebPage {
     // TODO: fix when we have a system to identify which is the latest installer timestamp
     public static final int TIMESTAMP = 1255450853;
 
-    private static Logger logger = Logger.getLogger( PhetInfoServicePage.class.getName() );
+    private static final Logger logger = Logger.getLogger( PhetInfoServicePage.class.getName() );
 
 
     public PhetInfoServicePage() {

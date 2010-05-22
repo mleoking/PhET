@@ -12,7 +12,7 @@ import edu.colorado.phet.website.util.links.AbstractLinker;
 
 public class RegisterPage extends PhetPage {
 
-    private static Logger logger = Logger.getLogger( RegisterPage.class.getName() );
+    private static final Logger logger = Logger.getLogger( RegisterPage.class.getName() );
 
     public RegisterPage( PageParameters parameters ) {
         super( parameters, true );

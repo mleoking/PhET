@@ -46,7 +46,7 @@ public abstract class PhetPage extends WebPage implements Stylable {
 
     private Long initStart;
 
-    private static Logger logger = Logger.getLogger( PhetPage.class.getName() );
+    private static final Logger logger = Logger.getLogger( PhetPage.class.getName() );
 
     public PhetPage( PageParameters parameters ) {
         this( parameters, true );

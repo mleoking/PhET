@@ -15,7 +15,7 @@ public class ContributionFlag implements Serializable, IntId {
     private Contribution contribution;
     private PhetUser phetUser;
 
-    private static Logger logger = Logger.getLogger( ContributionFlag.class.getName() );
+    private static final Logger logger = Logger.getLogger( ContributionFlag.class.getName() );
 
     public ContributionFlag() {
     }

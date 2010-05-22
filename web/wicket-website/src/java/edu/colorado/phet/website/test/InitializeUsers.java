@@ -11,7 +11,7 @@ import edu.colorado.phet.website.util.HibernateUtils;
 
 public class InitializeUsers {
 
-    private static Logger logger = Logger.getLogger( InitializeUsers.class.getName() );
+    private static final Logger logger = Logger.getLogger( InitializeUsers.class.getName() );
 
     public static void main( String[] args ) {
 

@@ -15,7 +15,7 @@ import edu.colorado.phet.website.util.PhetRequestCycle;
 
 public class SimulationMainEntity extends TranslationEntity {
 
-    private static Logger logger = Logger.getLogger( SimulationMainEntity.class.getName() );
+    private static final Logger logger = Logger.getLogger( SimulationMainEntity.class.getName() );
 
     public SimulationMainEntity() {
         addString( "simulationMainPanel.translatedVersions" );

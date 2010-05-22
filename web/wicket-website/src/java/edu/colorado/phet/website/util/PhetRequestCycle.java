@@ -29,7 +29,7 @@ public class PhetRequestCycle extends WebRequestCycle {
     public static final String OFFLINE_USER_AGENT = "httrack-web-offline"; // example of full would be httrack-web-offline-en
     public static final String HIDE_TRANSLATIONS_USER_AGENT = "hide-translations";
 
-    private static Logger logger = Logger.getLogger( PhetRequestCycle.class.getName() );
+    private static final Logger logger = Logger.getLogger( PhetRequestCycle.class.getName() );
 
     public PhetRequestCycle( WebApplication webApplication, WebRequest webRequest, Response response ) {
         this( webApplication, webRequest, response, webRequest.getHttpServletRequest().getRequestURI() );

@@ -14,7 +14,7 @@ public class ContributionLevel implements Serializable, IntId {
     private Level level;
     private Contribution contribution;
 
-    private static Logger logger = Logger.getLogger( ContributionLevel.class.getName() );
+    private static final Logger logger = Logger.getLogger( ContributionLevel.class.getName() );
 
 
     public ContributionLevel() {

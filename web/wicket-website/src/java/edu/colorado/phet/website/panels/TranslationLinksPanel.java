@@ -26,7 +26,7 @@ import edu.colorado.phet.website.util.PhetRequestCycle;
  */
 public class TranslationLinksPanel extends PhetPanel {
 
-    private static Logger logger = Logger.getLogger( TranslationLinksPanel.class.getName() );
+    private static final Logger logger = Logger.getLogger( TranslationLinksPanel.class.getName() );
 
     public TranslationLinksPanel( String id, final PageContext context ) {
         super( id, context );

@@ -31,7 +31,7 @@ import edu.colorado.phet.website.util.HibernateUtils;
  */
 public class TransferData {
 
-    private static Logger logger = Logger.getLogger( TransferData.class.getName() );
+    private static final Logger logger = Logger.getLogger( TransferData.class.getName() );
 
     public static boolean transferTeachersGuides( Session session, final ServletContext servletContext ) {
         boolean success = HibernateUtils.wrapTransaction( session, new HibernateTask() {

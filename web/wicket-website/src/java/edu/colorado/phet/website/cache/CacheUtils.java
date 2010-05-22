@@ -9,7 +9,7 @@ import edu.colorado.phet.website.util.HibernateUtils;
 
 public class CacheUtils {
 
-    private static Logger logger = Logger.getLogger( CacheUtils.class.getName() );
+    private static final Logger logger = Logger.getLogger( CacheUtils.class.getName() );
 
     /**
      * Clears all of the caches

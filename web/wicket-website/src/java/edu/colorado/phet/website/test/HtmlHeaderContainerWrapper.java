@@ -19,7 +19,7 @@ public class HtmlHeaderContainerWrapper extends HtmlHeaderContainer {
 
     private HtmlHeaderContainer host;
 
-    private static Logger logger = Logger.getLogger( HtmlHeaderContainerWrapper.class.getName() );
+    private static final Logger logger = Logger.getLogger( HtmlHeaderContainerWrapper.class.getName() );
 
     public HtmlHeaderContainerWrapper( HtmlHeaderContainer host ) {
         super( host.getId() );

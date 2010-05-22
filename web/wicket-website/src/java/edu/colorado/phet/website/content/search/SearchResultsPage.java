@@ -15,7 +15,7 @@ import edu.colorado.phet.website.util.links.RawLinkable;
 
 public class SearchResultsPage extends PhetRegularPage {
 
-    private static Logger logger = Logger.getLogger( SearchResultsPage.class.getName() );
+    private static final Logger logger = Logger.getLogger( SearchResultsPage.class.getName() );
 
     public SearchResultsPage( PageParameters parameters ) {
         super( parameters );

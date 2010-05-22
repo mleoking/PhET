@@ -48,7 +48,7 @@ public class ContributionEditPanel extends PhetPanel {
 
     private PageContext context;
 
-    private static Logger logger = Logger.getLogger( ContributionEditPanel.class.getName() );
+    private static final Logger logger = Logger.getLogger( ContributionEditPanel.class.getName() );
 
     private SimSetManager simManager;
     private TypeSetManager typeManager;

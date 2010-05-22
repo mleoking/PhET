@@ -41,7 +41,7 @@ public class RegisterPanel extends PhetPanel {
 
     private static final String ERROR_SEPARATOR = "<br/>";
 
-    private static Logger logger = Logger.getLogger( RegisterPanel.class.getName() );
+    private static final Logger logger = Logger.getLogger( RegisterPanel.class.getName() );
 
     public RegisterPanel( String id, PageContext context, String destination ) {
         super( id, context );

@@ -45,7 +45,7 @@ public class ContributionMainPanel extends PhetPanel {
 
     private String title;
 
-    private static Logger logger = Logger.getLogger( ContributionMainPanel.class.getName() );
+    private static final Logger logger = Logger.getLogger( ContributionMainPanel.class.getName() );
 
     public ContributionMainPanel( String id, final Contribution contribution, final PageContext context ) {
         super( id, context );

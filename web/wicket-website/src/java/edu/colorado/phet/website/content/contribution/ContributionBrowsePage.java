@@ -26,7 +26,7 @@ import edu.colorado.phet.website.util.links.RawLinkable;
 
 public class ContributionBrowsePage extends PhetRegularPage {
 
-    private static Logger logger = Logger.getLogger( ContributionBrowsePage.class.getName() );
+    private static final Logger logger = Logger.getLogger( ContributionBrowsePage.class.getName() );
 
     public ContributionBrowsePage( PageParameters parameters ) {
         super( parameters );

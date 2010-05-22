@@ -2,6 +2,8 @@ package edu.colorado.phet.website.content;
 
 import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.components.LocalizedText;
+import edu.colorado.phet.website.constants.Linkers;
+import edu.colorado.phet.website.constants.WebsiteConstants;
 import edu.colorado.phet.website.content.simulations.SimulationPage;
 import edu.colorado.phet.website.content.simulations.TranslatedSimsPage;
 import edu.colorado.phet.website.panels.PhetPanel;
@@ -12,21 +14,16 @@ import edu.colorado.phet.website.util.links.RawLinkable;
 
 public class TranslationUtilityPanel extends PhetPanel {
 
-    // TODO: turn into linker? (make a page for misc linkers to things like installers)
-    public static final String TRANSLATION_UTILITY_PATH = "/files/translation-utility/translation-utility.jar";
-
     public TranslationUtilityPanel( String id, PageContext context ) {
 
         super( id, context );
-
-        // TODO: separate out paths for files that need to be in apache's htdocs
 
         add( new LocalizedText( "checkAlreadyTranslated", "translationUtility.checkAlreadyTranslated", new Object[]{
                 TranslatedSimsPage.getLinker().getHref( context, getPhetCycle() )
         } ) );
 
         add( new LocalizedText( "step-download", "translationUtility.general.download", new Object[]{
-                "href=\"" + TRANSLATION_UTILITY_PATH + "\""
+                Linkers.PHET_TRANSLATION_UTILITY_JAR.getHref( context, getPhetCycle() )
         } ) );
 
         add( new LocalizedText( "step-selectLanguage", "translationUtility.general.selectLanguage", new Object[]{
@@ -38,12 +35,13 @@ public class TranslationUtilityPanel extends PhetPanel {
         } ) );
 
         add( new LocalizedText( "common-howTo", "translationUtility.common.howTo", new Object[]{
-                "href=\"/sims/java-common-strings/java-common-strings_en.jar\"",
-                "href=\"/sims/flash-common-strings/flash-common-strings_en.jar\""
+                Linkers.JAVA_COMMON_STRINGS_JAR.getHref( context, getPhetCycle() ),
+                Linkers.FLASH_COMMON_STRINGS_JAR.getHref( context, getPhetCycle() )
         } ) );
 
         add( new LocalizedText( "bug-reports", "translationUtility.bugReports.whatToDo", new Object[]{
-                "<a href=\"mailto:phethelp@colorado.edu?subject=Translation%20Utility\"><span class=\"red\">phethelp@colorado.edu</span></a>"
+                "<a " + new Linkers.HelpMailer( "Translation Utility" ).getHref( context, getPhetCycle() ) +
+                "><span class=\"red\">" + WebsiteConstants.HELP_EMAIL + "</span></a>"
         } ) );
     }
 

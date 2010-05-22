@@ -45,7 +45,7 @@ public abstract class EnumSetManager<E extends Enum> implements Serializable {
      */
     private List<ListItem<E>> allItems;
 
-    private static Logger logger = Logger.getLogger( EnumSetManager.class.getName() );
+    private static final Logger logger = Logger.getLogger( EnumSetManager.class.getName() );
 
     /**
      * NOTE: already in transaction, so throw all exceptions!

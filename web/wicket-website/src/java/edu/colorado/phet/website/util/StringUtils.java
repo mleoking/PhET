@@ -25,7 +25,7 @@ public class StringUtils {
 
     public static final String LIST_SEPARATOR_KEY = "listSeparator";
 
-    private static Logger logger = Logger.getLogger( StringUtils.class.getName() );
+    private static final Logger logger = Logger.getLogger( StringUtils.class.getName() );
 
     /**
      * Returns a default (English) string from the database

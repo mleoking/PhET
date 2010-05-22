@@ -36,7 +36,7 @@ public class AdminProjectPage extends AdminPage {
 
     private List<Simulation> simulations = new LinkedList<Simulation>();
 
-    private static Logger logger = Logger.getLogger( AdminProjectPage.class.getName() );
+    private static final Logger logger = Logger.getLogger( AdminProjectPage.class.getName() );
     private AdminProjectPage.ProjectForm projectForm;
 
     public AdminProjectPage( PageParameters parameters ) {

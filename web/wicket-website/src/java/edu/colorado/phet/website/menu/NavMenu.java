@@ -68,7 +68,7 @@ public class NavMenu {
      */
     private NavLocation simulations;
 
-    private static Logger logger = Logger.getLogger( NavMenu.class.getName() );
+    private static final Logger logger = Logger.getLogger( NavMenu.class.getName() );
 
     // TODO: now that we have possible runtime modification of locations with changes of categories, something must be done about synchronization
 
