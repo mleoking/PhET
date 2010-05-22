@@ -73,11 +73,10 @@ class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2
     paintColor = new Color(r2, g2, b2)
   }
 
-  val iceX = java.lang.Math.random * 0.8
-
   def updateDecorations() = {
     if (getChildrenReference.contains(icicleImageNode)) {
       val delta = (rampSegment.endPoint - rampSegment.startPoint).normalize
+      val iceX = java.lang.Math.random * 0.8
       val alpha = iceX * rampSegment.length
       val pt = rampSegment.startPoint + delta * alpha
       icicleImageNode.setOffset(mytransform.modelToView(pt))
@@ -90,76 +89,6 @@ class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2
   def paintColor_=(p: Paint) = line.setPaint(p)
 
   def paintColor = line.getPaint
-}
-
-trait Rotatable extends Observable with RotationModel {
-  def startPoint: Vector2D
-
-  def endPoint_=(newPt: Vector2D)
-
-  def length: Double
-
-  def getUnitVector: Vector2D
-
-  def endPoint: Vector2D
-
-  def startPoint_=(newPt: Vector2D)
-
-  def angle_=(a: Double) = {
-    endPoint = new Vector2D(a) * length
-  }
-}
-
-trait RotationModel {
-  def getPivot: Vector2D
-
-  def angle: Double = 0.0
-
-  def angle_=(a: Double)
-}
-
-class RotationHandler(val transform: ModelViewTransform2D,
-                      val node: PNode,
-                      val rotatable: RotationModel,
-                      min: Double,
-                      max: Double)
-        extends PBasicInputEventHandler {
-  //TODO: it seems like these fields and computations should be moved to model objects
-  private var totalDelta = 0.0
-  private var origAngle = 0.0
-
-  override def mouseDragged(event: PInputEvent) = {
-    val modelPt = transform.viewToModel(event.getPositionRelativeTo(node.getParent))
-
-    val deltaView = event.getDeltaRelativeTo(node.getParent)
-    val deltaModel = transform.viewToModelDifferential(deltaView.width, deltaView.height)
-
-    val oldPtModel = modelPt - deltaModel
-
-    val oldAngle = (rotatable.getPivot - oldPtModel).getAngle
-    val newAngle = (rotatable.getPivot - modelPt).getAngle
-
-    //should be a small delta
-    var deltaAngle = newAngle - oldAngle
-    while (deltaAngle > PI) deltaAngle = deltaAngle - PI * 2
-    while (deltaAngle < -PI) deltaAngle = deltaAngle + PI * 2
-
-    totalDelta += deltaAngle
-    val proposedAngle = origAngle + totalDelta
-
-    val angle = getSnapAngle(if (proposedAngle > max) max else if (proposedAngle < min) min else proposedAngle)
-    rotatable.angle = angle
-  }
-
-  def getSnapAngle(proposedAngle: Double) = proposedAngle
-
-  override def mousePressed(event: PInputEvent) = {
-    totalDelta = 0
-
-    val modelPt = transform.viewToModel(event.getPositionRelativeTo(node.getParent))
-    val oldAngle = (modelPt - rotatable.getPivot).getAngle
-    origAngle = oldAngle
-  }
 }
 
 class RotatableSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2D, rampSurfaceModel: RampSurfaceModel) extends RampSegmentNode(rampSegment, mytransform, rampSurfaceModel) {
