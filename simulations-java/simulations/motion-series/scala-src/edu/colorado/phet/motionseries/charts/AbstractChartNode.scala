@@ -200,6 +200,7 @@ class MotionSeriesGraph(defaultSeries: ControlGraphSeries,
   getJFreeChartNode.getChart.getXYPlot.setRangeGridlinePaint(Color.gray)
   getJFreeChartNode.setBuffered(false)
   getJFreeChartNode.setPiccoloSeries() //works better on an unbuffered chart
+  addTimeAxisLabel("units.sec".translate)
 
   def reset() = {
     setDomainUpperBound(MotionSeriesDefaults.MAX_CHART_DISPLAY_TIME)

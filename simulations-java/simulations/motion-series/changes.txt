@@ -1,3 +1,4 @@
+Added a "sec" label to the time charts
 Show friction force below applied force when they would otherwise overlap
 Made it possible to set vector label offset orientations
 Added tick marks to the applied force slider to make the knob bigger
