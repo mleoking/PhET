@@ -18,16 +18,11 @@ import java.lang.Math._
 import edu.colorado.phet.motionseries.Predef._
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
 
-trait HasPaint extends PNode {
-  def paintColor_=(p: Paint): Unit
-
-  def paintColor: Paint
-}
-
-trait RampSurfaceModel extends Observable {
-  def frictionless: Boolean
-}
-
+/**
+ * The RampSegmentNode is the graphical depiction (with Piccolo) of the traversible parts of the ramp, both the ground segment
+ * and the angled segment.
+ * @author Sam Reid
+ */
 class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2D, rampSurfaceModel: RampSurfaceModel) extends PNode with HasPaint {
   val woodColor = new Color(184, 131, 24)
   val woodStrokeColor = new Color(91, 78, 49)
@@ -41,11 +36,12 @@ class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2
   val hotColor = new Color(255, 0, 0)
   val line = new PhetPPath(baseColor, new BasicStroke(2f), woodStrokeColor)
   addChild(line)
-  rampSurfaceModel.addListener(() => {
+  def updateAll() = {
     updateBaseColor()
     updateColor()
     updateDecorations()
-  })
+  }
+  rampSurfaceModel.addListener(() => updateAll())
   val icicleImageNode = new PImage(BufferedImageUtils.multiScaleToHeight(MotionSeriesResources.getImage("icicles.gif".literal), 80))
 
   def updateBaseColor() = {
@@ -62,9 +58,7 @@ class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2
   }
   rampSegment.wetnessListeners += (() => updateColor())
   rampSegment.addListener(() => updateDecorations())
-  updateBaseColor()
-  updateColor()
-  updateDecorations()
+  updateAll()
   def updateColor() = {
     val r = new LinearFunction(0, 1, baseColor.getRed, wetColor.getRed).evaluate(rampSegment.wetness).toInt
     val g = new LinearFunction(0, 1, baseColor.getGreen, wetColor.getGreen).evaluate(rampSegment.wetness).toInt
@@ -112,7 +106,7 @@ trait Rotatable extends Observable with RotationModel {
   def startPoint_=(newPt: Vector2D)
 
   def angle_=(a: Double) = {
-	  endPoint = new Vector2D(a) * length
+    endPoint = new Vector2D(a) * length
   }
 }
 
@@ -123,6 +117,7 @@ trait RotationModel {
 
   def angle_=(a: Double)
 }
+
 class RotationHandler(val transform: ModelViewTransform2D,
                       val node: PNode,
                       val rotatable: RotationModel,
@@ -172,35 +167,12 @@ class RotatableSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTrans
   line.addInputEventListener(new RotationHandler(mytransform, line, rampSegment, 0, MotionSeriesDefaults.MAX_ANGLE))
 }
 
-//class ReverseRotatableSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2D, rampSurfaceModel: RampSurfaceModel) extends RampSegmentNode(rampSegment, mytransform, rampSurfaceModel) {
-//  line.addInputEventListener(new CursorHandler)
-//  line.addInputEventListener(new RotationHandler(mytransform, line, new Reverse(rampSegment).reverse, PI / 2 + 1E-6, PI - (1E-6))) //todo: atan2 returns angle between -pi and +pi, so end behavior is incorrect
-//}
+trait HasPaint extends PNode {
+  def paintColor_=(p: Paint): Unit
 
-//class Reverse(target: Rotatable) {
-//  //this one rotates about the end point, facilitates reuse of some view classes while still allowing generalized model objects
-//  object reverse extends Rotatable {
-//    def length = target.length
-//
-//    def startPoint = target.endPoint
-//
-//    def endPoint = target.startPoint
-//
-//    def getUnitVector = target.getUnitVector * -1
-//
-//    def endPoint_=(newPt: Vector2D) = target.startPoint = newPt
-//
-//    def startPoint_=(newPt: Vector2D) = target.endPoint = newPt
-//
-//    override def addListenerByName(listener: => Unit) = target.addListenerByName(listener)
-//
-//    override def notifyListeners() = target.notifyListeners()
-//
-//    override def removeListener(listener: () => Unit) = target.removeListener(listener)
-//
-//    override def addListener(listener: () => Unit) = target.addListener(listener)
-//  }
-//}
+  def paintColor: Paint //couldn't name this method paint because it collides with PNode.paint
+}
 
-
-
+trait RampSurfaceModel extends Observable {
+  def frictionless: Boolean
+}
