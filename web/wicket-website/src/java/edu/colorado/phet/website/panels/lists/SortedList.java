@@ -6,8 +6,11 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
+import org.apache.wicket.ajax.markup.html.form.AjaxSubmitButton;
+import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
@@ -74,7 +77,7 @@ public abstract class SortedList<Item extends SortableListItem> extends PhetPane
 
         form.add( dropDownChoice );
 
-        AjaxButton link = new AjaxButton( "button" ) {
+        form.add( new AjaxButton( "button" ) {
             protected void onSubmit( AjaxRequestTarget target, Form form ) {
                 dropDownChoice.updateModel();
                 int itemId = Integer.valueOf( dropDownChoice.getModelValue() );
@@ -102,8 +105,7 @@ public abstract class SortedList<Item extends SortableListItem> extends PhetPane
                 // redraw the whole list, but nothing else
                 target.addComponent( SortedList.this );
             }
-        };
-        form.add( link );
+        } );
     }
 
     private void updateEmpty() {
