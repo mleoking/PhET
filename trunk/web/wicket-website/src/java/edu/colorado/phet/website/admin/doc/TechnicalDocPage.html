@@ -438,6 +438,100 @@ JkUnMount /statistics/* worker1
             <li>For tests, JUnit (trunk/simulations-java/contrib/junit)</li>
         </ul>
 
+
+        <h3>PBG Deployment Setup</h3>
+
+        <p>
+            To support deployment from PBG to the server, it is necessary to install the Tomcat Manager application.
+            It may already be installed in default configurations.
+        </p>
+
+        <p>Then, edit $CATALINA_HOME$/conf/tomcat-users.xml to add the following line:</p>
+
+        <pre>&lt;user username="USER" password="PASSWORD" roles="admin,manager"/&gt;</pre>
+
+        <p>
+            Where USER and PASSWORD are replaced with a secure username and password for each user that should have
+            the ability to deploy.
+        </p>
+
+        <p>
+            Then each user should add the following values to their build-local.properties:
+        </p>
+
+        <table>
+            <tr>
+                <td>website.prod.host</td>
+                <td>SSH hostname of the server</td>
+            </tr>
+            <tr>
+                <td>website.prod.protocol</td>
+                <td>
+                    Either 'http' or 'https' depending on whether encryption is used for Tomcat Manager. Try going to
+                    /manager/html on the target machine and looking at the protocol used.
+                </td>
+            </tr>
+            <tr>
+                <td>website.prod.username</td>
+                <td>SSH username</td>
+            </tr>
+            <tr>
+                <td>website.prod.password</td>
+                <td>SSH password</td>
+            </tr>
+            <tr>
+                <td>website.prod.manager.username</td>
+                <td>The Tomcat Manager username mentioned above</td>
+            </tr>
+            <tr>
+                <td>website.prod.manager.password</td>
+                <td>The Tomcat Manager password mentioned above</td>
+            </tr>
+        </table>
+
+        <p>
+            The above settings are for a production server, and "Deploy Prod" in PBG. For the development server
+            ("Deploy Dev"), replace 'prod' with 'dev'. Settings for both one production and one development server can
+            be included currently in build-local.properties.
+        </p>
+
+        <p>
+            Then to deploy, open PBG, navigate to the "wicket-website" project (currently conveniently located at the
+            bottom) and click either "Deploy Dev" or "Deploy Prod".
+        </p>
+
+
+        <h2>Backup System</h2>
+
+        <p>
+            There are a number of automated backups on figaro and phet-server. Figaro backups are stored under
+            $DOCROOT$/website-backup, and consist of the following backups:
+        </p>
+
+        <table>
+            <tr>
+                <td>sims</td>
+                <td>Backups of simulation directories before they are overwritten by any type of deployment</td>
+            </tr>
+            <tr>
+                <td>statistics-code</td>
+                <td>A backup of the previous version of the PHP offline statistics code</td>
+            </tr>
+            <tr>
+                <td>statistics-database</td>
+                <td>Nightly backups of the statistics database</td>
+            </tr>
+            <tr>
+                <td>website-code</td>
+                <td>Backups of ROOT.war (the application code) upon deployment</td>
+            </tr>
+            <tr>
+                <td>website-database</td>
+                <td>Nightly backups of the local Postgresql website database</td>
+            </tr>
+        </table>
+
+
     </div>
 </wicket:extend>
 
