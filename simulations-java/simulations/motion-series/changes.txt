@@ -1,3 +1,4 @@
+Converted vector component selection controls from checkboxes to radio buttons in Coordinate Frames tab
 Fixed: Fire dog water drops appear below the fire dog
 Fixed: when dragging the rightmost wall, it snaps the ramp to be at the mouse location
 Add energy conservation on airbone -> ground crash by dissipating extra energy into heat
