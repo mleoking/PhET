@@ -6,6 +6,7 @@ import java.io.File;
 
 import javax.swing.*;
 
+import edu.colorado.phet.buildtools.PhetServer;
 import edu.colorado.phet.buildtools.translate.CommonTranslationDeployClient;
 import edu.colorado.phet.buildtools.translate.TranslationDeployClient;
 
@@ -25,7 +26,7 @@ public class TranslationsMenu extends JMenu {
         deployItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 try {
-                    TranslationDeployClient translationDeployClient = new TranslationDeployClient( trunk );
+                    TranslationDeployClient translationDeployClient = new TranslationDeployClient( trunk, PhetServer.PRODUCTION );
                     translationDeployClient.startClient();
                 }
                 catch( Exception e1 ) {

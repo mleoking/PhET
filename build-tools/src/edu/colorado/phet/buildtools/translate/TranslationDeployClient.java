@@ -75,20 +75,28 @@ import com.jcraft.jsch.JSchException;
  *
  */
 public class TranslationDeployClient {
-    private File trunk;
+    private final File trunk;
+    private final PhetServer server;
+    private final AuthenticationInfo authenticationInfo;
 
-    public TranslationDeployClient( File trunk ) {
+    public TranslationDeployClient( File trunk, PhetServer server ) {
         this.trunk = trunk;
+        this.server = server;
+        this.authenticationInfo =
+                server.equals( PhetServer.PRODUCTION )
+                ? BuildLocalProperties.getInstance().getProdAuthenticationInfo()
+                : BuildLocalProperties.getInstance().getWebsiteProdAuthenticationInfo();
     }
 
     public static void main( String[] args ) throws IOException {
-        new TranslationDeployClient( new File( args[0] ) ).startClient();
-    }
-
-    public void startClient() throws IOException {
+        File trunk = new File( args[0] );
         if ( BuildLocalProperties.getInstance() == null ) {
             BuildLocalProperties.initRelativeToTrunk( trunk );
         }
+        new TranslationDeployClient( trunk, PhetServer.PRODUCTION ).startClient();
+    }
+
+    public void startClient() throws IOException {
         giveInstructions();
         String dirname = JOptionPane.showInputDialog( "Enter the name of the directory where your localization files are:" );
         // import the translations into the IDE workspace
@@ -106,23 +114,21 @@ public class TranslationDeployClient {
         File srcDir = new File( dirname );
         String deployDirName = new SimpleDateFormat( "M-d-yyyy_h-ma" ).format( new Date() );
         System.out.println( "Deploying to: " + deployDirName );
-        String translationDir = BuildToolsPaths.TIGERCAT_TRANSLATIONS_TEMP_DIR + "/" + deployDirName;
+        String translationDir = getServerTempDir() + "/" + deployDirName;
 
-        AuthenticationInfo authenticationInfo = BuildLocalProperties.getInstance().getProdAuthenticationInfo();
-        PhetServer server = PhetServer.PRODUCTION;
-        boolean dirSuccess = mkdir( server, authenticationInfo, translationDir );
+        boolean dirSuccess = mkdir(  translationDir );
         if ( !dirSuccess ) {
             System.out.println( "Error was encountered while trying to create dirs on the server. Stopping process, please see console output" );
             return;
         }
-        transfer( server, authenticationInfo, srcDir, translationDir );
+        transfer( srcDir, translationDir );
 
         // TODO: refactor into PhetProductionServer ?
         openBrowser( "http://phet.colorado.edu/sims/translations/" + deployDirName );
 
-        transferFlashHTMLs( trunk, srcDir, server, authenticationInfo, translationDir );
+        transferFlashHTMLs( trunk, srcDir, translationDir );
 
-        boolean deployServerSuccess = invokeTranslationDeployServer( translationDir, authenticationInfo, server );
+        boolean deployServerSuccess = invokeTranslationDeployServer( translationDir );
         if ( !deployServerSuccess ) {
             System.out.println( "Errors encountered, process has been stopped" );
             return;
@@ -137,9 +143,19 @@ public class TranslationDeployClient {
                      "<br>After this tedious, manual process has been completed," +
                      "<br>it's safe to deploy the translations to the PhET website" +
                      "<br>by pressing the Publish button below." +
-                     "</html>" + deployDirName, translationDir, authenticationInfo, server );
+                     "</html>" + deployDirName, translationDir );
 
         //launch remote TranslationDeployServer
+    }
+
+    private String getServerTempDir() {
+        if( server.equals( PhetServer.PRODUCTION )) {
+            return BuildToolsPaths.TIGERCAT_TRANSLATIONS_TEMP_DIR;
+        } else if( server.equals( PhetServer.FIGARO )){
+            return "/data/web/htdocs/phetsims/staging/translations";
+        } else {
+            return BuildToolsPaths.TIGERCAT_TRANSLATIONS_TEMP_DIR;
+        }
     }
 
     private void buildMetaXML( File dir ) {
@@ -203,7 +219,7 @@ public class TranslationDeployClient {
         query.send();
     }
 
-    private void transferFlashHTMLs( File trunk, File srcDir, final PhetServer server, final AuthenticationInfo authenticationInfo, final String remotePathDir ) throws IOException {
+    private void transferFlashHTMLs( File trunk, File srcDir, final String remotePathDir ) throws IOException {
 
         File[] files = srcDir.listFiles();
 
@@ -267,7 +283,7 @@ public class TranslationDeployClient {
                                        "You will be prompted for the directory name.</html>" );
     }
 
-    private boolean invokeTranslationDeployServer( String translationDir, AuthenticationInfo authenticationInfo, PhetServer server ) {
+    private boolean invokeTranslationDeployServer( String translationDir ) {
         boolean success = true;
         try {
             BuildToolsProject buildToolsProject = new BuildToolsProject( new File( trunk, "build-tools" ) );
@@ -294,7 +310,7 @@ public class TranslationDeployClient {
         return success;
     }
 
-    private void showMessage( String html, final String translationDir, final AuthenticationInfo authenticationInfo, final PhetServer phetServer ) {
+    private void showMessage( String html, final String translationDir ) {
         JEditorPane jEditorPane = new HTMLUtils.HTMLEditorPane( html );
 
         JPanel contentPane = new JPanel();
@@ -309,7 +325,7 @@ public class TranslationDeployClient {
         jButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 frame.dispose();
-                publish( translationDir, authenticationInfo, phetServer );
+                publish( translationDir, authenticationInfo, server );
             }
         } );
 
@@ -355,11 +371,11 @@ public class TranslationDeployClient {
         }
     }
 
-    public static boolean mkdir( PhetServer server, AuthenticationInfo authenticationInfo, String serverDir ) {
+    private boolean mkdir( String serverDir ) {
         return SshUtils.executeCommand( "mkdir -p -m 775 " + serverDir, server.getHost(), authenticationInfo );
     }
 
-    public static void transfer( PhetServer server, AuthenticationInfo authenticationInfo, File srcDir, String remotePathDir ) {
+    private void transfer( File srcDir, String remotePathDir ) {
 
         //for some reason, the securechannelfacade fails with a "server didn't expect this file" error
         //the failure is on tigercat, but scf works properly on spot
