@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import edu.colorado.phet.buildtools.BuildScript;
 import edu.colorado.phet.buildtools.JARGenerator;
 import edu.colorado.phet.buildtools.util.FileUtils;
+import edu.colorado.phet.website.data.Project;
 
 /**
  * Publishes a translation deployment from the temporary dir to the live sim dir
@@ -17,17 +18,22 @@ import edu.colorado.phet.buildtools.util.FileUtils;
 public class WebsiteTranslationDeployPublisher {
 
     private File sims;
+    private File docRoot;
 
     private static final Logger logger = Logger.getLogger( WebsiteTranslationDeployPublisher.class.getName() );
 
-    public WebsiteTranslationDeployPublisher( File sims ) {
+    public WebsiteTranslationDeployPublisher( File sims, File docRoot ) {
         this.sims = sims;
+        this.docRoot = docRoot;
     }
 
-    private void publishTranslations( File translationDir ) throws IOException {
+    public void publishTranslations( File translationDir ) throws IOException {
         ArrayList javaProjectNameList = WebsiteTranslationDeployServer.getJavaProjectNameList( translationDir );
         for ( int i = 0; i < javaProjectNameList.size(); i++ ) {
             String project = (String) javaProjectNameList.get( i );
+            
+            logger.info( "backing up " + project );
+            Project.backupProject( docRoot, project );
             String[] locales = WebsiteTranslationDeployServer.getJavaTranslatedLocales( translationDir, project );
 
             copyToSimsDir( translationDir, project, locales );
@@ -44,6 +50,9 @@ public class WebsiteTranslationDeployPublisher {
                 continue;
             }
 
+            logger.info( "backing up " + project );
+            Project.backupProject( docRoot, project );
+
             String[] locales = WebsiteTranslationDeployServer.getFlashTranslatedLocales( translationDir, project );
 
             copyFlashFiles( translationDir, project, locales );
@@ -54,6 +63,10 @@ public class WebsiteTranslationDeployPublisher {
         copyMetaXML( translationDir, flashProjectNameList );
 
         BuildScript.clearWebCaches();
+    }
+
+    public static Logger getLogger() {
+        return logger;
     }
 
     private void copyMetaXML( File translationDir, ArrayList projectNameList ) {

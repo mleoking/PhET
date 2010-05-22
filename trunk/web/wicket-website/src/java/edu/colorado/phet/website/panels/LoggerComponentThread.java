@@ -90,17 +90,17 @@ public abstract class LoggerComponentThread extends ComponentThread {
         }
         catch( IOException e ) {
             e.printStackTrace();
-            WebsiteTranslationDeployServer.getLogger().error( "IOException", e );
+            logger.error( "IOException", e );
             error = true;
         }
         catch( InterruptedException e ) {
             e.printStackTrace();
-            WebsiteTranslationDeployServer.getLogger().error( "InterruptedException", e );
+            logger.error( "InterruptedException", e );
             error = true;
         }
         catch( RuntimeException e ) {
             e.printStackTrace();
-            WebsiteTranslationDeployServer.getLogger().error( "RuntimeException", e );
+            logger.error( "RuntimeException", e );
             error = true;
         }
 

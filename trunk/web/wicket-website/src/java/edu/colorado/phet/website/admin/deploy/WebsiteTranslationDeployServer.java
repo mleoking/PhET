@@ -43,6 +43,8 @@ public class WebsiteTranslationDeployServer {
         for ( Object o : getFlashProjectNameList( translationDir ) ) {
             integrateFlashTranslations( translationDir, (String) o );
         }
+
+        runStringCommand( "chmod -R g+w " + translationDir.getCanonicalPath() );
     }
 
     public static Logger getLogger() {

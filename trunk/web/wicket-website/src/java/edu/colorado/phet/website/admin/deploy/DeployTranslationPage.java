@@ -117,12 +117,7 @@ public class DeployTranslationPage extends AdminPage {
 
         add( new ComponentThreadStatusPanel( "response", getPageContext(), thread, 1000 ) );
 
-        try {
-            thread.start();
-        }
-        catch( RuntimeException e ) {
-            e.printStackTrace();
-        }
+        thread.start();
     }
 
     public static RawLinkable getLinker( final String dir ) {
