@@ -73,7 +73,9 @@ public class WebsiteTranslationDeployClient {
 
         transferFlashHTMLs( trunk, srcDir, translationDir );
 
-        PhetWebsite.openBrowser( server.getDeployTranslationUrl( translationDir ));
+        SshUtils.executeCommand( "chmod o+rw " + translationDir, server.getServerHost(), authenticationInfo );
+
+        PhetWebsite.openBrowser( server.getDeployTranslationUrl( translationDir ) );
 
     }
 
@@ -204,7 +206,7 @@ public class WebsiteTranslationDeployClient {
 
     private boolean mkdir( String serverDir ) {
         return SshUtils.executeCommands( new String[]{
-                "mkdir -p -m 775 " + serverDir
+                "mkdir -p -m 777 " + serverDir
         }, server.getServerHost(), authenticationInfo );
     }
 
