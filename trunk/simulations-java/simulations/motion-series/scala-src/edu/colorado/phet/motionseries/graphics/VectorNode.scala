@@ -22,7 +22,7 @@ import MotionSeriesConfig._
  * todo: could improve performance by passing isContainerVisible:()=>Boolean and addContainerVisibleListener:(()=>Unit)=>Unit
  * @author Sam Reid
  */
-class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val tailLocation: VectorValue, maxDistToLabel: Double) extends PNode {
+class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val tailLocation: VectorValue, maxLabelDistance: Double) extends PNode {
   val arrowNode = new ArrowNode(new Point2D.Double(0, 0), new Point2D.Double(0, 1), VectorHeadWidth(), VectorHeadWidth(), VectorTailWidth(), 0.5, true) {
     setPaint(vector.getPaint)
   }
@@ -45,30 +45,32 @@ class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val ta
   }
   addChild(abbreviatonTextNode)
 
-  //can't use def since eta-expansion makes == and array -= impossible
+  //can't use def since eta-expansion makes == and array -= impossible, and we need to be able to remove this callback
   //todo: see if def eta-expansion causes problems elsewhere
   val update = () => {
     setVisible(vector.visible)
     if (vector.visible) { //skip expensive updates if not visible
-      val viewTip = transform.modelToViewDouble(vector.getValue + tailLocation.getValue)
-      val viewTail = transform.modelToViewDouble(tailLocation.getValue)
+      val viewTail = transform.modelToViewDouble(tailLocation())
+      val viewTip = transform.modelToViewDouble(vector() + tailLocation())
       arrowNode.setTipAndTailLocations(viewTip, viewTail)
 
-      val proposedLocation = vector.getValue * 0.6
+      val proposedLabelLocation = vector() * 0.6
+      val minLabelDistance = maxLabelDistance / 2.0 //todo: improve heuristics for min label distance, or make it settable in the constructor
 
-      val minDistToLabel = maxDistToLabel / 2.0 //todo: improve heuristics for this, or make it settable in the constructor
-
-      var vectorToLabel = if (proposedLocation.magnitude > maxDistToLabel) new Vector2D(vector.getValue.getAngle) * maxDistToLabel
-      else if (proposedLocation.magnitude < minDistToLabel && proposedLocation.magnitude > 1E-2) new Vector2D(vector.getValue.getAngle) * minDistToLabel
-      else proposedLocation
+      var labelVector = if (proposedLabelLocation.magnitude > maxLabelDistance)
+        new Vector2D(vector.angle) * maxLabelDistance
+      else if (proposedLabelLocation.magnitude < minLabelDistance && proposedLabelLocation.magnitude > 1E-2)
+        new Vector2D(vector.angle) * minLabelDistance
+      else
+        proposedLabelLocation
 
       val textLocation = {
-        val centeredPt = transform.modelToViewDouble(vectorToLabel + tailLocation.getValue)
-        val deltaArrow = new Vector2D(vector.getValue.getAngle + PI / 2) * abbreviatonTextNode.getFullBounds.getWidth * 0.75 //move orthogonal to the vector itself
+        val centeredPt = transform.modelToViewDouble(labelVector + tailLocation())
+        val deltaArrow = new Vector2D(vector.angle + PI / 2) * abbreviatonTextNode.getFullBounds.getWidth * 0.75 //move orthogonal to the vector itself
         deltaArrow + centeredPt
       }
       abbreviatonTextNode.setOffset(textLocation.x - abbreviatonTextNode.getFullBounds.getWidth / 2, textLocation.y - abbreviatonTextNode.getFullBounds.getHeight / 2)
-      abbreviatonTextNode.setVisible(vectorToLabel.magnitude > 1E-2)
+      abbreviatonTextNode.setVisible(labelVector.magnitude > 1E-2)
     }
   }
   update()

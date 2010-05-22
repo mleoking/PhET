@@ -31,6 +31,8 @@ class Vector(val color: Color,
 
   def getValue = valueAccessor()
 
+  def angle = getValue.getAngle
+
   def visible = _visible
 
   def visible_=(vis: Boolean) = {
@@ -248,6 +250,8 @@ trait VectorValue {
   def addListener(listener: () => Unit): Unit
 
   def removeListener(listener: () => Unit): Unit
+
+  def apply() = getValue
 }
 
 object TestFBD extends Application {
