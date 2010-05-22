@@ -18,8 +18,6 @@ public class NotFoundPage extends PhetMenuPage {
     public NotFoundPage( PageParameters parameters ) {
         super( parameters );
 
-        // TODO: make prettier
-
         addTitle( getLocalizer().getString( "error.pageNotFound", this ) );
 
         logger.info( "Not found: " + getWebRequestCycle().getWebRequest().getHttpServletRequest().getRequestURI() );
