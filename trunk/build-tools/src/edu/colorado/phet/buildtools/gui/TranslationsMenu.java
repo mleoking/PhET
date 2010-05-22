@@ -7,8 +7,10 @@ import java.io.File;
 import javax.swing.*;
 
 import edu.colorado.phet.buildtools.PhetServer;
+import edu.colorado.phet.buildtools.PhetWebsite;
 import edu.colorado.phet.buildtools.translate.CommonTranslationDeployClient;
 import edu.colorado.phet.buildtools.translate.TranslationDeployClient;
+import edu.colorado.phet.buildtools.translate.WebsiteTranslationDeployClient;
 
 /**
  * Translations menu that holds options for deploying simualtion and common translations
@@ -35,6 +37,20 @@ public class TranslationsMenu extends JMenu {
             }
         } );
         add( deployItem );
+
+        JMenuItem deployItemX = new JMenuItem( "Deploy Wicket Simulation Translations..." );
+        deployItemX.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent event ) {
+                try {
+                    WebsiteTranslationDeployClient client = new WebsiteTranslationDeployClient( trunk, PhetWebsite.FIGARO );
+                    client.startClient();
+                }
+                catch( Exception e ) {
+                    e.printStackTrace();
+                }
+            }
+        } );
+        add( deployItemX );
 
         JMenuItem deployCommonItem = new JMenuItem( "Deploy Common Translations..." );
         deployCommonItem.addActionListener( new ActionListener() {

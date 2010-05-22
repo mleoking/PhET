@@ -124,7 +124,7 @@ public class TranslationDeployClient {
         transfer( srcDir, translationDir );
 
         // TODO: refactor into PhetProductionServer ?
-        openBrowser( "http://phet.colorado.edu/sims/translations/" + deployDirName );
+        PhetWebsite.openBrowser( "http://phet.colorado.edu/sims/translations/" + deployDirName );
 
         transferFlashHTMLs( trunk, srcDir, translationDir );
 
@@ -356,18 +356,6 @@ public class TranslationDeployClient {
         }
         catch( IOException e ) {
             e.printStackTrace();
-        }
-    }
-
-    private void openBrowser( String deployPath ) {
-        String browser = BuildLocalProperties.getInstance().getBrowser();
-        if ( browser != null ) {
-            try {
-                Runtime.getRuntime().exec( new String[]{browser, deployPath} );
-            }
-            catch( IOException e ) {
-                e.printStackTrace();
-            }
         }
     }
 

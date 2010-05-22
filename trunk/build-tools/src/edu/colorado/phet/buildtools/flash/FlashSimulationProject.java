@@ -478,15 +478,7 @@ public class FlashSimulationProject extends PhetProject {
 
     public void runSim( Locale locale, String simulationName ) {
         System.out.println( "Running the flash sim: " + simulationName );
-        String browser = BuildLocalProperties.getInstance().getBrowser();
-        String path = getHTMLFile( locale ).getAbsolutePath();
-        System.out.println( "command=" + browser + " " + path );
-        try {
-            Process p = Runtime.getRuntime().exec( new String[]{browser, path} );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
+        PhetWebsite.openBrowser( getHTMLFile( locale ).getAbsolutePath() );
     }
 
     private File getHTMLFile( Locale locale ) {

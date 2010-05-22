@@ -228,7 +228,7 @@ public class BuildScript {
         postDeployTask.invoke();
 
         System.out.println( "Opening Browser." );
-        openBrowser( server.getCodebase( project ) );
+        PhetWebsite.openBrowser( server.getCodebase( project ) );
 
         System.out.println( "Finished deploy to: " + server.getHost() );
 
@@ -296,18 +296,6 @@ public class BuildScript {
         }
         catch( IOException e ) {
             e.printStackTrace();
-        }
-    }
-
-    private void openBrowser( String deployPath ) {
-        String browser = buildLocalProperties.getBrowser();
-        if ( browser != null ) {
-            try {
-                Runtime.getRuntime().exec( new String[]{browser, deployPath} );
-            }
-            catch( IOException e ) {
-                e.printStackTrace();
-            }
         }
     }
 
@@ -607,7 +595,7 @@ public class BuildScript {
             sendSSH( PhetServer.DEVELOPMENT, devAuth );
             generateOfflineJars( project, PhetServer.DEVELOPMENT, devAuth );
         }
-        openBrowser( PhetServer.DEVELOPMENT.getCodebase( project ) );
+        PhetWebsite.openBrowser( PhetServer.DEVELOPMENT.getCodebase( project ) );
         //TODO #2143, delete <project>_en.production.jnlp files, since they shouldn't go to tigercat
     }
 
