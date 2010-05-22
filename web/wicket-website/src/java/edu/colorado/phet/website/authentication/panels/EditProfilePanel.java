@@ -134,8 +134,8 @@ public class EditProfilePanel extends PhetPanel {
             String errorString = "";
             String err = null;
 
-            String nom = name.getModelObjectAsString();
-            String desc = description.getModelObjectAsString();
+            String nom = name.getModelObject().toString();
+            String desc = description.getModelObject().toString();
 
             if ( nom == null || nom.length() == 0 ) {
                 error = true;
@@ -151,19 +151,19 @@ public class EditProfilePanel extends PhetPanel {
                 boolean success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
                     public boolean run( Session session ) {
                         PhetUser user = (PhetUser) session.load( PhetUser.class, userId );
-                        user.setName( name.getModelObjectAsString() );
-                        user.setOrganization( organization.getModelObjectAsString() );
-                        user.setDescription( description.getModelObjectAsString() );
-                        user.setJobTitle( jobTitle.getModelObjectAsString() );
-                        user.setAddress1( address1.getModelObjectAsString() );
-                        user.setAddress2( address2.getModelObjectAsString() );
-                        user.setCity( city.getModelObjectAsString() );
-                        user.setState( state.getModelObjectAsString() );
-                        user.setCountry( country.getModelObjectAsString() );
-                        user.setZipcode( zipcode.getModelObjectAsString() );
-                        user.setPhone1( phone1.getModelObjectAsString() );
-                        user.setPhone2( phone2.getModelObjectAsString() );
-                        user.setFax( fax.getModelObjectAsString() );
+                        user.setName( name.getModelObject().toString() );
+                        user.setOrganization( organization.getModelObject().toString() );
+                        user.setDescription( description.getModelObject().toString() );
+                        user.setJobTitle( jobTitle.getModelObject().toString() );
+                        user.setAddress1( address1.getModelObject().toString() );
+                        user.setAddress2( address2.getModelObject().toString() );
+                        user.setCity( city.getModelObject().toString() );
+                        user.setState( state.getModelObject().toString() );
+                        user.setCountry( country.getModelObject().toString() );
+                        user.setZipcode( zipcode.getModelObject().toString() );
+                        user.setPhone1( phone1.getModelObject().toString() );
+                        user.setPhone2( phone2.getModelObject().toString() );
+                        user.setFax( fax.getModelObject().toString() );
                         user.setReceiveEmail( (Boolean) receiveEmail.getModelObject() );
                         if ( PhetSession.get().getUser().isTeamMember() ) {
                             user.setReceiveWebsiteNotifications( (Boolean) receiveWebsiteNotifications.getModelObject() );
@@ -178,19 +178,19 @@ public class EditProfilePanel extends PhetPanel {
                 if ( success && currentUserId == PhetSession.get().getUser().getId() ) {
                     // synchronize the user data for the session instance
                     PhetUser user = PhetSession.get().getUser();
-                    user.setName( name.getModelObjectAsString() );
-                    user.setOrganization( organization.getModelObjectAsString() );
-                    user.setDescription( description.getModelObjectAsString() );
-                    user.setJobTitle( jobTitle.getModelObjectAsString() );
-                    user.setAddress1( address1.getModelObjectAsString() );
-                    user.setAddress2( address2.getModelObjectAsString() );
-                    user.setCity( city.getModelObjectAsString() );
-                    user.setState( state.getModelObjectAsString() );
-                    user.setCountry( country.getModelObjectAsString() );
-                    user.setZipcode( zipcode.getModelObjectAsString() );
-                    user.setPhone1( phone1.getModelObjectAsString() );
-                    user.setPhone2( phone2.getModelObjectAsString() );
-                    user.setFax( fax.getModelObjectAsString() );
+                    user.setName( name.getModelObject().toString() );
+                    user.setOrganization( organization.getModelObject().toString() );
+                    user.setDescription( description.getModelObject().toString() );
+                    user.setJobTitle( jobTitle.getModelObject().toString() );
+                    user.setAddress1( address1.getModelObject().toString() );
+                    user.setAddress2( address2.getModelObject().toString() );
+                    user.setCity( city.getModelObject().toString() );
+                    user.setState( state.getModelObject().toString() );
+                    user.setCountry( country.getModelObject().toString() );
+                    user.setZipcode( zipcode.getModelObject().toString() );
+                    user.setPhone1( phone1.getModelObject().toString() );
+                    user.setPhone2( phone2.getModelObject().toString() );
+                    user.setFax( fax.getModelObject().toString() );
                     user.setReceiveEmail( (Boolean) receiveEmail.getModelObject() );
                     if ( PhetSession.get().getUser().isTeamMember() ) {
                         user.setReceiveWebsiteNotifications( (Boolean) receiveWebsiteNotifications.getModelObject() );

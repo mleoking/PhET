@@ -2,11 +2,11 @@ package edu.colorado.phet.website.content.contribution;
 
 import org.apache.wicket.behavior.HeaderContributor;
 
+import edu.colorado.phet.website.constants.CSS;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.links.AbstractLinker;
 import edu.colorado.phet.website.util.links.RawLinkable;
-import edu.colorado.phet.website.constants.CSS;
 
 public class ContributionGuidelinesPanel extends PhetPanel {
     public ContributionGuidelinesPanel( String id, PageContext context ) {

@@ -12,8 +12,8 @@ import org.hibernate.Session;
 
 import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.authentication.PhetSession;
-import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.components.InvisibleComponent;
+import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.content.ResearchPanel;
 import edu.colorado.phet.website.content.troubleshooting.TroubleshootingFlashPanel;
 import edu.colorado.phet.website.content.troubleshooting.TroubleshootingJavaPanel;
@@ -71,13 +71,14 @@ public class AboutMainPanel extends PhetPanel {
                 PhetUser user = (PhetUser) item.getModel().getObject();
                 item.add( new Label( "name", user.getName() ) );
                 item.add( new Label( "title", user.getJobTitle() ) );
-                if( isAdmin ) {
+                if ( isAdmin ) {
                     Label marker = new Label( "show-admin", "" );
                     marker.setRenderBodyOnly( true );
                     item.add( marker );
-                    item.add( new Label( "primary-phone", user.getPhone1()));
-                    item.add( new Label( "secondary-phone", user.getPhone2()));
-                } else {
+                    item.add( new Label( "primary-phone", user.getPhone1() ) );
+                    item.add( new Label( "secondary-phone", user.getPhone2() ) );
+                }
+                else {
                     item.add( new InvisibleComponent( "show-admin" ) );
                     item.add( new InvisibleComponent( "primary-phone" ) );
                     item.add( new InvisibleComponent( "secondary-phone" ) );

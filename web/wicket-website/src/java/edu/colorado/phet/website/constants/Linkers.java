@@ -8,7 +8,6 @@ public class Linkers {
     public static final RawLinkable JAVA_COMMON_STRINGS_JAR = new RawLinker( "/sims/java-common-strings/java-common-strings_en.jar" );
     public static final RawLinkable FLASH_COMMON_STRINGS_JAR = new RawLinker( "/sims/flash-common-strings/flash-common-strings_en.jar" );
 
-
     
     public static final class HelpMailer extends RawLinker {
 

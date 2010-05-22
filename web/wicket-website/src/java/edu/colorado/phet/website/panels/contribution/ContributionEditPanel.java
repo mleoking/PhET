@@ -25,9 +25,9 @@ import org.apache.wicket.validation.validator.EmailAddressValidator;
 import org.hibernate.Session;
 
 import edu.colorado.phet.website.PhetWicketApplication;
-import edu.colorado.phet.website.constants.CSS;
 import edu.colorado.phet.website.authentication.AuthenticatedPage;
 import edu.colorado.phet.website.authentication.PhetSession;
+import edu.colorado.phet.website.constants.CSS;
 import edu.colorado.phet.website.content.contribution.ContributionPage;
 import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.data.Simulation;
@@ -361,12 +361,12 @@ public class ContributionEditPanel extends PhetPanel {
                 public boolean run( Session session ) {
 
                     // pull out values
-                    String authors = authorsText.getModelObjectAsString();
-                    String org = organizationText.getModelObjectAsString();
-                    String email = emailText.getModelObjectAsString();
-                    String title = titleText.getModelObjectAsString();
-                    String keywords = keywordsText.getModelObjectAsString();
-                    String description = descriptionText.getModelObjectAsString();
+                    String authors = authorsText.getModelObject().toString();
+                    String org = organizationText.getModelObject().toString();
+                    String email = emailText.getModelObject().toString();
+                    String title = titleText.getModelObject().toString();
+                    String keywords = keywordsText.getModelObject().toString();
+                    String description = descriptionText.getModelObject().toString();
                     int duration = ( (DurationItem) durationChoice.getModelObject() ).getDuration();
                     boolean answers = (Boolean) answersCheck.getModelObject();
                     Locale locale = localeChoice.getLocale() == null ? PhetWicketApplication.getDefaultLocale() : localeChoice.getLocale();

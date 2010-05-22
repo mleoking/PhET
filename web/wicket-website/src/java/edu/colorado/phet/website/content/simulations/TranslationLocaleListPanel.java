@@ -13,6 +13,7 @@ import org.hibernate.event.PostUpdateEvent;
 
 import edu.colorado.phet.website.cache.CacheableUrlStaticPanel;
 import edu.colorado.phet.website.cache.EventDependency;
+import edu.colorado.phet.website.constants.CSS;
 import edu.colorado.phet.website.data.LocalizedSimulation;
 import edu.colorado.phet.website.data.Project;
 import edu.colorado.phet.website.data.Simulation;
@@ -23,7 +24,6 @@ import edu.colorado.phet.website.data.util.IChangeListener;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.translation.PhetLocalizer;
 import edu.colorado.phet.website.util.*;
-import edu.colorado.phet.website.constants.CSS;
 
 public class TranslationLocaleListPanel extends PhetPanel implements CacheableUrlStaticPanel {
 

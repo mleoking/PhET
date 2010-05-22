@@ -14,7 +14,6 @@ import org.hibernate.Session;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.constants.Linkers;
-import edu.colorado.phet.website.content.TranslationUtilityPanel;
 import edu.colorado.phet.website.content.contribution.ContributionPage;
 import edu.colorado.phet.website.content.getphet.FullInstallPanel;
 import edu.colorado.phet.website.content.search.SearchResultsPage;
@@ -962,6 +961,16 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
 
     public boolean matches( IRequestTarget requestTarget ) {
         return requestTarget instanceof RedirectRequestTarget;
+    }
+
+    public boolean matches( String path, boolean caseSensitive ) {
+        if ( caseSensitive ) {
+            return matches( path );
+        }
+        else {
+            logger.warn( "testing non-case-sensitive path: " + path );
+            return matches( path.toLowerCase() );
+        }
     }
 
     /**

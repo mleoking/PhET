@@ -14,13 +14,14 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
 import edu.colorado.phet.website.components.StaticImage;
+import edu.colorado.phet.website.constants.CSS;
 import edu.colorado.phet.website.content.simulations.SimulationPage;
 import edu.colorado.phet.website.data.LocalizedSimulation;
 import edu.colorado.phet.website.panels.PhetPanel;
-import static edu.colorado.phet.website.util.HtmlUtils.encode;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.StringUtils;
-import edu.colorado.phet.website.constants.CSS;
+
+import static edu.colorado.phet.website.util.HtmlUtils.encode;
 
 public class SimulationDisplayPanel extends PhetPanel {
 

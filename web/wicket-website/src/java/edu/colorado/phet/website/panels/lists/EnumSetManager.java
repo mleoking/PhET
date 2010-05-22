@@ -122,7 +122,7 @@ public abstract class EnumSetManager<E extends Enum> implements Serializable {
 
     public SortedList<ListItem<E>> getComponent( String id, PageContext context ) {
         return new SortedList<ListItem<E>>( id, context, items, allItems ) {
-            public boolean onAdd( final ListItem item ) {
+            public boolean onItemAdd( final ListItem item ) {
                 for ( ListItem oldItem : items ) {
                     if ( oldItem.getId() == item.getId() ) {
                         // already in list. don't want duplicates!
@@ -132,7 +132,7 @@ public abstract class EnumSetManager<E extends Enum> implements Serializable {
                 return true;
             }
 
-            public boolean onRemove( final ListItem item, int index ) {
+            public boolean onItemRemove( final ListItem item, int index ) {
                 return true;
             }
 

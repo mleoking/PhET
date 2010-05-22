@@ -1,6 +1,5 @@
 package edu.colorado.phet.website.content.simulations;
 
-import java.text.MessageFormat;
 import java.util.Locale;
 
 import org.apache.log4j.Logger;

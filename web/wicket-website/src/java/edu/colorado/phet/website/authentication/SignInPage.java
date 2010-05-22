@@ -48,7 +48,7 @@ public class SignInPage extends PhetPage {
                 try {
                     // always encode the destination because special characters might be hidden
                     String finalDestination = destination;
-                    if( finalDestination.equals( "/en/" ) ) {
+                    if ( finalDestination.equals( "/en/" ) ) {
                         finalDestination = "/";
                     }
                     return "sign-in?dest=" + URLEncoder.encode( finalDestination, "UTF-8" );

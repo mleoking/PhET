@@ -14,11 +14,11 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.response.StringResponse;
 
 import edu.colorado.phet.website.PhetWicketApplication;
-import edu.colorado.phet.website.templates.Stylable;
 import edu.colorado.phet.website.cache.EventDependency;
 import edu.colorado.phet.website.cache.PanelCache;
 import edu.colorado.phet.website.cache.SimplePanelCacheEntry;
 import edu.colorado.phet.website.menu.NavMenu;
+import edu.colorado.phet.website.templates.Stylable;
 import edu.colorado.phet.website.translation.PhetLocalizer;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetRequestCycle;
@@ -38,21 +38,28 @@ public class PhetPanel extends Panel implements Stylable {
     private SimplePanelCacheEntry cacheEntry;
 
     private Map<Object, Object> cacheMap;
+    private String panelPath;
 
     private static final Logger logger = Logger.getLogger( PhetPanel.class.getName() );
 
-    //----------------------------------------------------------------------------
-    // constructor
-    //----------------------------------------------------------------------------
+    /*---------------------------------------------------------------------------*
+    * constructor
+    *----------------------------------------------------------------------------*/
 
     public PhetPanel( String id, PageContext context ) {
         super( id );
         this.myLocale = context.getLocale();
+        this.panelPath = context.getPrefix() + context.getPath();
     }
 
-    //----------------------------------------------------------------------------
-    // public getters
-    //----------------------------------------------------------------------------
+    /*---------------------------------------------------------------------------*
+    * public getters
+    *----------------------------------------------------------------------------*/
+
+
+    public String getPanelPath() {
+        return panelPath;
+    }
 
     /**
      * Considered immutable
@@ -111,9 +118,9 @@ public class PhetPanel extends Panel implements Stylable {
         return ( (PhetWicketApplication) getApplication() ).getServletContext();
     }
 
-    //----------------------------------------------------------------------------
-    // caching implementation
-    //----------------------------------------------------------------------------
+    /*---------------------------------------------------------------------------*
+    * caching implementation
+    *----------------------------------------------------------------------------*/
 
     @Override
     public void renderHead( final HtmlHeaderContainer container ) {

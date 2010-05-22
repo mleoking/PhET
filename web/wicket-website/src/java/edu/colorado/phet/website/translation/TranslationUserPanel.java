@@ -95,7 +95,7 @@ public class TranslationUserPanel extends PhetPanel {
                 protected void onSubmit( AjaxRequestTarget target, Form form ) {
                     final PhetUser[] phetUsers = new PhetUser[]{null};
 
-                    final String email = userField.getModelObjectAsString();
+                    final String email = userField.getModelObject().toString();
 
                     HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
                         public boolean run( Session session ) {
@@ -126,10 +126,10 @@ public class TranslationUserPanel extends PhetPanel {
                     if ( phetUsers[0] != null ) {
                         PhetUser user = phetUsers[0];
                         users.add( user );
-                        errorLabel.getModel().setObject( "" );
+                        errorLabel.setDefaultModelObject( "" );
                     }
                     else {
-                        errorLabel.getModel().setObject( "Error adding user!" );
+                        errorLabel.setDefaultModelObject( "Error adding user!" );
                     }
 
                     target.addComponent( TranslationUserPanel.this );

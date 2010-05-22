@@ -12,237 +12,244 @@
 <body>
 
 <wicket:panel>
-<div class="run-our-simulations standard-content" wicket:message="dir:language.dir">
-<h2>
-    <wicket:message key="get-phet.header">Three Ways to Run Our Free Simulations</wicket:message>
-</h2>
+    <div class="run-our-simulations standard-content" wicket:message="dir:language.dir">
+        <h2>
+            <wicket:message key="get-phet.header">Three Ways to Run Our Free Simulations</wicket:message>
+        </h2>
 
-<div id="get_phet">
-<table>
+        <div id="get_phet">
+            <table>
 
-<tr>
-    <th scope="row" abbr="" class="spec-none" style="border: none;"></th>
+                <tr>
+                    <th scope="row" abbr="" class="spec-none" style="border: none;"></th>
 
-    <th scope="row" abbr="" class="specalt-none">
-        <p>
-            <wicket:message key="get-phet.online.header">
-                Use the PhET website while connected to the web
-            </wicket:message>
-        </p>
-    </th>
+                    <th scope="row" abbr="" class="specalt-none">
+                        <p>
+                            <wicket:message key="get-phet.online.header">
+                                Use the PhET website while connected to the web
+                            </wicket:message>
+                        </p>
+                    </th>
 
-    <th scope="row" abbr="" class="specalt-none">
-        <p wicket:id="get-phet-install-header">
-            Download the <strong>entire</strong> website onto your computer, USB, or CD
-        </p>
+                    <th scope="row" abbr="" class="specalt-none">
+                        <p wicket:id="get-phet-install-header">
+                            Download the <strong>entire</strong> website onto your computer, USB, or CD
+                        </p>
 
-    </th>
+                    </th>
 
-    <th scope="row" abbr="" class="specalt-none">
-        <p wicket:id="get-phet-offline-header">
-            Download <strong>one or more</strong> simulations to your computer, USB, or CD
-        </p>
-    </th>
-</tr>
+                    <th scope="row" abbr="" class="specalt-none">
+                        <p wicket:id="get-phet-offline-header">
+                            Download <strong>one or more</strong> simulations to your computer, USB, or CD
+                        </p>
+                    </th>
+                </tr>
 
-<tr>
+                <tr>
 
-    <th scope="row" abbr="" class="spec-none" style="border: none"></th>
+                    <th scope="row" abbr="" class="spec-none" style="border: none"></th>
 
-    <th scope="row" abbr="" class="specalt-none click-here">
-        <p>
-            <a href="#" wicket:id="online-link"><strong>
-                <wicket:message key="get-phet.clickHere">Click Here &gt;&gt;</wicket:message>
-            </strong></a>
-        </p>
-    </th>
+                    <th scope="row" abbr="" class="specalt-none click-here">
+                        <p>
+                            <a href="#" wicket:id="online-link"><strong>
+                                <wicket:message key="get-phet.clickHere">Click Here &gt;&gt;</wicket:message>
+                            </strong></a>
+                        </p>
+                    </th>
 
-    <th scope="row" abbr="" class="specalt-none click-here">
-        <p>
-            <a href="#" wicket:id="install-link"><strong>
-                <wicket:message key="get-phet.clickHere">Click Here &gt;&gt;</wicket:message>
-            </strong></a>
-        </p>
-    </th>
+                    <th scope="row" abbr="" class="specalt-none click-here">
+                        <p>
+                            <a href="#" wicket:id="install-link"><strong>
+                                <wicket:message key="get-phet.clickHere">Click Here &gt;&gt;</wicket:message>
+                            </strong></a>
+                        </p>
+                    </th>
 
-    <th scope="row" abbr="" class="specalt-none click-here">
-        <p>
-            <a href="#" wicket:id="offline-link"><strong>
-                <wicket:message key="get-phet.clickHere">Click Here &gt;&gt;</wicket:message>
-            </strong></a>
-        </p>
-    </th>
-</tr>
+                    <th scope="row" abbr="" class="specalt-none click-here">
+                        <p>
+                            <a href="#" wicket:id="offline-link"><strong>
+                                <wicket:message key="get-phet.clickHere">Click Here &gt;&gt;</wicket:message>
+                            </strong></a>
+                        </p>
+                    </th>
+                </tr>
 
-<tr>
-    <th scope="row" abbr="" class="spec-none">
-        <p>
-            <wicket:message key="get-phet.row.howToGet">How do I get the simulations?</wicket:message>
-        </p>
-    </th>
+                <tr>
+                    <th scope="row" abbr="" class="spec-none">
+                        <p>
+                            <wicket:message key="get-phet.row.howToGet">How do I get the simulations?</wicket:message>
+                        </p>
+                    </th>
 
-    <th scope="row" abbr="" class="specalt">
-        <p>
-            <wicket:message key="get-phet.online.howToGet">
-                Click on the simulation icon on the web page of the simulation you want to run.
-            </wicket:message>
-        </p>
-    </th>
+                    <th scope="row" abbr="" class="specalt">
+                        <p>
+                            <wicket:message key="get-phet.online.howToGet">
+                                Click on the simulation icon on the web page of the simulation you want to run.
+                            </wicket:message>
+                        </p>
+                    </th>
 
-    <th scope="row" abbr="" class="specalt"><p wicket:id="get-phet-install-howToGet">
-        <a href="#">Click here</a> to go to the download page.
-    </p></th>
+                    <th scope="row" abbr="" class="specalt"><p wicket:id="get-phet-install-howToGet">
+                        <a href="#">Click here</a> to go to the download page.
+                    </p></th>
 
-    <th scope="row" abbr="" class="specalt"><p wicket:id="get-phet-offline-howToGet">
-        <a href="#">Click here</a> to go to the all-simulations download page.
-    </p></th>
-</tr>
+                    <th scope="row" abbr="" class="specalt"><p wicket:id="get-phet-offline-howToGet">
+                        <a href="#">Click here</a> to go to the all-simulations download page.
+                    </p></th>
+                </tr>
 
-<tr>
+                <tr>
 
-    <th scope="row" abbr="" class="spec-none">
-        <p>
-            <wicket:message key="get-phet.row.whatSims">What simulations are installed?</wicket:message>
-        </p>
-    </th>
+                    <th scope="row" abbr="" class="spec-none">
+                        <p>
+                            <wicket:message key="get-phet.row.whatSims">What simulations are installed?</wicket:message>
+                        </p>
+                    </th>
 
-    <th scope="row" abbr="" class="spec">
-        <p>
-            <wicket:message key="get-phet.online.whatSims">The simulations you use are temporarily installed.
-            </wicket:message>
-        </p>
-    </th>
+                    <th scope="row" abbr="" class="spec">
+                        <p>
+                            <wicket:message key="get-phet.online.whatSims">The simulations you use are temporarily
+                                installed.
+                            </wicket:message>
+                        </p>
+                    </th>
 
-    <th scope="row" abbr="" class="spec">
-        <p>
-            <wicket:message key="get-phet.install.whatSims">All simulations.</wicket:message>
-        </p>
-    </th>
+                    <th scope="row" abbr="" class="spec">
+                        <p>
+                            <wicket:message key="get-phet.install.whatSims">All simulations.</wicket:message>
+                        </p>
+                    </th>
 
-    <th scope="row" abbr="" class="spec">
-        <p>
-            <wicket:message key="get-phet.offline.whatSims">Only the ones you want.</wicket:message>
-        </p>
-    </th>
-</tr>
+                    <th scope="row" abbr="" class="spec">
+                        <p>
+                            <wicket:message key="get-phet.offline.whatSims">Only the ones you want.</wicket:message>
+                        </p>
+                    </th>
+                </tr>
 
-<tr>
-    <th scope="row" abbr="" class="spec-none">
-        <p>
-            <wicket:message key="get-phet.row.howLarge">How large is the download?</wicket:message>
-        </p>
-    </th>
+                <tr>
+                    <th scope="row" abbr="" class="spec-none">
+                        <p>
+                            <wicket:message key="get-phet.row.howLarge">How large is the download?</wicket:message>
+                        </p>
+                    </th>
 
-    <th scope="row" abbr="" class="specalt">
-        <p>
-            <wicket:message key="get-phet.online.howLarge">Under 1.5 MB for each simulation.</wicket:message>
-        </p>
-    </th>
+                    <th scope="row" abbr="" class="specalt">
+                        <p>
+                            <wicket:message key="get-phet.online.howLarge">Under 1.5 MB for each simulation.
+                            </wicket:message>
+                        </p>
+                    </th>
 
-    <th scope="row" abbr="" class="specalt">
-        <p>
-            <wicket:message key="get-phet.install.howLarge">
-                Approximately 40MB if you already have Java, or 65MB if you do not.
-            </wicket:message>
-        </p>
-    </th>
+                    <th scope="row" abbr="" class="specalt">
+                        <p>
+                            <wicket:message key="get-phet.install.howLarge">
+                                Approximately 40MB if you already have Java, or 65MB if you do not.
+                            </wicket:message>
+                        </p>
+                    </th>
 
-    <th scope="row" abbr="" class="specalt">
-        <p>
-            <wicket:message key="get-phet.offline.howLarge">Under 1.5 MB for each simulation.</wicket:message>
-        </p>
-    </th>
+                    <th scope="row" abbr="" class="specalt">
+                        <p>
+                            <wicket:message key="get-phet.offline.howLarge">Under 1.5 MB for each simulation.
+                            </wicket:message>
+                        </p>
+                    </th>
 
-</tr>
+                </tr>
 
-<tr>
-    <th scope="row" abbr="" class="spec-none">
-        <p>
-            <wicket:message key="get-phet.row.howOften">How often are updates made available?</wicket:message>
-        </p>
-    </th>
+                <tr>
+                    <th scope="row" abbr="" class="spec-none">
+                        <p>
+                            <wicket:message key="get-phet.row.howOften">How often are updates made available?
+                            </wicket:message>
+                        </p>
+                    </th>
 
-    <th scope="row" abbr="" class="spec">
-        <p>
-            <wicket:message key="get-phet.online.howOften">
-                As soon as new or updated simulations are posted on the web site.
-            </wicket:message>
-        </p>
-    </th>
+                    <th scope="row" abbr="" class="spec">
+                        <p>
+                            <wicket:message key="get-phet.online.howOften">
+                                As soon as new or updated simulations are posted on the web site.
+                            </wicket:message>
+                        </p>
+                    </th>
 
-    <th scope="row" abbr="" class="spec">
-        <p>
-            <wicket:message key="get-phet.install.howOften">Three or four times a year.</wicket:message>
-        </p>
-    </th>
+                    <th scope="row" abbr="" class="spec">
+                        <p>
+                            <wicket:message key="get-phet.install.howOften">Three or four times a year.</wicket:message>
+                        </p>
+                    </th>
 
-    <th scope="row" abbr="" class="spec">
-        <p>
-            <wicket:message key="get-phet.offline.howOften">
-                If you connect to the Internet, new or updated simulations are available.
-            </wicket:message>
-        </p>
-    </th>
-</tr>
+                    <th scope="row" abbr="" class="spec">
+                        <p>
+                            <wicket:message key="get-phet.offline.howOften">
+                                If you connect to the Internet, new or updated simulations are available.
+                            </wicket:message>
+                        </p>
+                    </th>
+                </tr>
 
-<tr>
-    <th scope="row" abbr="" class="spec-none">
-        <p>
-            <wicket:message key="get-phet.row.needInternet">Is an Internet connection required to run simulations?
-            </wicket:message>
-        </p>
-    </th>
+                <tr>
+                    <th scope="row" abbr="" class="spec-none">
+                        <p>
+                            <wicket:message key="get-phet.row.needInternet">Is an Internet connection required to run
+                                simulations?
+                            </wicket:message>
+                        </p>
+                    </th>
 
-    <th scope="row" abbr="" class="specalt">
-        <p>
-            <wicket:message key="get-phet.online.needInternet">Yes</wicket:message>
-        </p>
-    </th>
+                    <th scope="row" abbr="" class="specalt">
+                        <p>
+                            <wicket:message key="get-phet.online.needInternet">Yes</wicket:message>
+                        </p>
+                    </th>
 
-    <th scope="row" abbr="" class="specalt">
-        <p>
-            <wicket:message key="get-phet.install.needInternet">No</wicket:message>
-        </p>
-    </th>
+                    <th scope="row" abbr="" class="specalt">
+                        <p>
+                            <wicket:message key="get-phet.install.needInternet">No</wicket:message>
+                        </p>
+                    </th>
 
-    <th scope="row" abbr="" class="specalt">
-        <p>
-            <wicket:message key="get-phet.offline.needInternet">No</wicket:message>
-        </p>
-    </th>
-</tr>
+                    <th scope="row" abbr="" class="specalt">
+                        <p>
+                            <wicket:message key="get-phet.offline.needInternet">No</wicket:message>
+                        </p>
+                    </th>
+                </tr>
 
-<tr>
-    <th scope="row" abbr="" class="spec-none">
-        <p>
-            <wicket:message key="get-phet.row.whereCanISave">Where can I save them to on my computer?</wicket:message>
-        </p>
-    </th>
+                <tr>
+                    <th scope="row" abbr="" class="spec-none">
+                        <p>
+                            <wicket:message key="get-phet.row.whereCanISave">Where can I save them to on my computer?
+                            </wicket:message>
+                        </p>
+                    </th>
 
-    <th scope="row" abbr="" class="spec">
-        <p>
-            <wicket:message key="get-phet.online.whereCanISave">
-                Flash applets cannot be saved. Java applications are automatically stored in your computer's WebStart
-                cache, but cannot be moved.
-            </wicket:message>
-        </p>
-    </th>
+                    <th scope="row" abbr="" class="spec">
+                        <p>
+                            <wicket:message key="get-phet.online.whereCanISave">
+                                Flash applets cannot be saved. Java applications are automatically stored in your
+                                computer's WebStart
+                                cache, but cannot be moved.
+                            </wicket:message>
+                        </p>
+                    </th>
 
-    <th scope="row" abbr="" class="spec">
-        <p>
-            <wicket:message key="get-phet.install.whereCanISave">CD, USB or hard drive.</wicket:message>
-        </p>
-    </th>
+                    <th scope="row" abbr="" class="spec">
+                        <p>
+                            <wicket:message key="get-phet.install.whereCanISave">CD, USB or hard drive.</wicket:message>
+                        </p>
+                    </th>
 
-    <th scope="row" abbr="" class="spec">
-        <p>
-            <wicket:message key="get-phet.offline.whereCanISave">CD, USB or hard drive.</wicket:message>
-        </p>
-    </th>
-</tr>
-</table>
-</div>
-</div>
+                    <th scope="row" abbr="" class="spec">
+                        <p>
+                            <wicket:message key="get-phet.offline.whereCanISave">CD, USB or hard drive.</wicket:message>
+                        </p>
+                    </th>
+                </tr>
+            </table>
+        </div>
+    </div>
 </wicket:panel>
 </body>
 </html>

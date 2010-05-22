@@ -5,9 +5,9 @@ import org.apache.wicket.behavior.HeaderContributor;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.response.StringResponse;
 
+import edu.colorado.phet.website.constants.CSS;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
-import edu.colorado.phet.website.constants.CSS;
 
 public class CacheTestPanel extends PhetPanel {
 

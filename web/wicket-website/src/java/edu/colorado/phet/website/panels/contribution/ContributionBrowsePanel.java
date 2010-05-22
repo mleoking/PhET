@@ -13,8 +13,10 @@ import org.apache.wicket.markup.html.list.ListView;
 
 import edu.colorado.phet.website.cache.EventDependency;
 import edu.colorado.phet.website.components.InvisibleComponent;
-import edu.colorado.phet.website.components.StaticImage;
 import edu.colorado.phet.website.components.RawLabel;
+import edu.colorado.phet.website.components.StaticImage;
+import edu.colorado.phet.website.constants.CSS;
+import edu.colorado.phet.website.constants.Images;
 import edu.colorado.phet.website.content.contribution.ContributionPage;
 import edu.colorado.phet.website.content.simulations.SimulationPage;
 import edu.colorado.phet.website.data.LocalizedSimulation;
@@ -28,8 +30,6 @@ import edu.colorado.phet.website.translation.PhetLocalizer;
 import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.WicketUtils;
-import edu.colorado.phet.website.constants.Images;
-import edu.colorado.phet.website.constants.CSS;
 
 public class ContributionBrowsePanel extends PhetPanel {
 

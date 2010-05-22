@@ -4,16 +4,15 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.wicket.behavior.HeaderContributor;
-import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.ResourceModel;
 
+import edu.colorado.phet.website.components.RawLabel;
 import edu.colorado.phet.website.constants.CSS;
 import edu.colorado.phet.website.menu.NavLocation;
 import edu.colorado.phet.website.util.PageContext;
-import edu.colorado.phet.website.components.RawLabel;
 
 public class NavBreadCrumbs extends PhetPanel {
     public NavBreadCrumbs( String id, final PageContext context, NavLocation location ) {

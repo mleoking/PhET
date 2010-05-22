@@ -31,7 +31,7 @@ public class WebsiteTranslationDeployPublisher {
         ArrayList javaProjectNameList = WebsiteTranslationDeployServer.getJavaProjectNameList( translationDir );
         for ( int i = 0; i < javaProjectNameList.size(); i++ ) {
             String project = (String) javaProjectNameList.get( i );
-            
+
             logger.info( "backing up " + project );
             Project.backupProject( docRoot, project );
             String[] locales = WebsiteTranslationDeployServer.getJavaTranslatedLocales( translationDir, project );
@@ -82,6 +82,7 @@ public class WebsiteTranslationDeployPublisher {
     }
 
     // copy the necessary flash HTML files in translationDir (with project and locales) to the main location
+
     private void copyFlashFiles( File translationDir, String project, String[] locales ) {
         for ( int i = 0; i < locales.length; i++ ) {
             try {
@@ -104,6 +105,7 @@ public class WebsiteTranslationDeployPublisher {
     }
 
     //copy new translated JARs and project_all.jar to the sims directory
+
     private void copyToSimsDir( File translationDir, String project, String[] locales ) throws IOException {
         String[] flavors = JARGenerator.getFlavors( getAllJAR( translationDir, project ) );
         for ( int i = 0; i < flavors.length; i++ ) {
@@ -121,6 +123,7 @@ public class WebsiteTranslationDeployPublisher {
 
     //generate new JNLPs in sims directory
     //TODO: this is currently very brittle, no parser for the JNLP and just using string matching
+
     private void generateJNLPs( File translationDir, String project, String[] locales ) throws IOException {
         //TODO generate fresh JNLPs instead?
         //might be safer to copy existing JNLP to make sure main class is right, etc.

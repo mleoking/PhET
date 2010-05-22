@@ -168,8 +168,9 @@ public class PhetWicketApplication extends WebApplication {
         // this will remove the default string resource loader. essentially this new one has better locale-handling,
         // so that if a string is not found for a more specific locale (es_MX), it would try "es", then the default
         // properties file
-        // NOTE: This may break in Wicket 1.4
-        getResourceSettings().addStringResourceLoader( new ClassStringResourceLoader( PhetWicketApplication.class ) );
+        // NOTE: This may break in Wicket 1.4 (hopefully fixed?)
+        assert( getResourceSettings().getStringResourceLoaders().size() == 1 );
+        getResourceSettings().addStringResourceLoader( 0, new ClassStringResourceLoader( PhetWicketApplication.class ) );
 
         // initialize the navigation menu
         menu = new NavMenu();

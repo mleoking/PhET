@@ -121,8 +121,8 @@ public class AdminCategoriesPage extends AdminPage {
 
         @Override
         protected void onSubmit() {
-            final String name = nameText.getModelObjectAsString();
-            final String key = keyText.getModelObjectAsString();
+            final String name = nameText.getModelObject().toString();
+            final String key = keyText.getModelObject().toString();
             final int catId = Integer.valueOf( dropDownChoice.getModelValue() );
             if ( name.isEmpty() || key.isEmpty() || catId == 0 ) {
                 return;

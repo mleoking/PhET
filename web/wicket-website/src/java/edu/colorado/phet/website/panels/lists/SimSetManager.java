@@ -73,7 +73,7 @@ public abstract class SimSetManager implements Serializable {
 
     public SortedList<SimOrderItem> getComponent( String id, PageContext context ) {
         return new SortedList<SimOrderItem>( id, context, items, allItems ) {
-            public boolean onAdd( final SimOrderItem item ) {
+            public boolean onItemAdd( final SimOrderItem item ) {
                 for ( SimOrderItem oldItem : items ) {
                     if ( oldItem.getId() == item.getId() ) {
                         // already in list. don't want duplicates!
@@ -83,7 +83,7 @@ public abstract class SimSetManager implements Serializable {
                 return true;
             }
 
-            public boolean onRemove( final SimOrderItem item, int index ) {
+            public boolean onItemRemove( final SimOrderItem item, int index ) {
                 return true;
             }
 

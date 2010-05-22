@@ -116,7 +116,7 @@ public class AdminProjectsPage extends AdminPage {
         }
 
         public final void onSubmit() {
-            String projectName = projectText.getModelObjectAsString();
+            String projectName = projectText.getModelObject().toString();
 
             Project.synchronizeProject( ( (PhetWicketApplication) getApplication() ).getWebsiteProperties().getPhetDocumentRoot(), getHibernateSession(), projectName );
         }

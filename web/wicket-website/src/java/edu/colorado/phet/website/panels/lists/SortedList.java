@@ -15,10 +15,8 @@ import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.Model;
-import org.apache.wicket.model.ResourceModel;
 
 import edu.colorado.phet.website.panels.PhetPanel;
-import edu.colorado.phet.website.translation.PhetLocalizer;
 import edu.colorado.phet.website.util.PageContext;
 
 /**
@@ -32,9 +30,9 @@ public abstract class SortedList<Item extends SortableListItem> extends PhetPane
     private List<Item> allItems;
     private Label listEmpty;
 
-    public abstract boolean onAdd( Item item );
+    public abstract boolean onItemAdd( Item item );
 
-    public abstract boolean onRemove( Item item, int index );
+    public abstract boolean onItemRemove( Item item, int index );
 
     private static final Logger logger = Logger.getLogger( SortedList.class.getName() );
 
@@ -61,7 +59,7 @@ public abstract class SortedList<Item extends SortableListItem> extends PhetPane
                 listItem.add( item.getDisplayComponent( "item-component" ) );
                 listItem.add( new AjaxFallbackLink( "remove" ) {
                     public void onClick( AjaxRequestTarget target ) {
-                        boolean success = onRemove( item, listItem.getIndex() );
+                        boolean success = onItemRemove( item, listItem.getIndex() );
                         if ( success ) {
                             items.remove( item );
                             updateEmpty();
@@ -89,7 +87,7 @@ public abstract class SortedList<Item extends SortableListItem> extends PhetPane
                 }
                 boolean success = item != null;
                 if ( success ) {
-                    success = onAdd( item );
+                    success = onItemAdd( item );
                 }
                 else {
                     logger.warn( "item was null. itemId=" + itemId );

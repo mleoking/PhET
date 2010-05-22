@@ -20,13 +20,15 @@ import org.hibernate.Session;
 import edu.colorado.phet.website.authentication.PhetSession;
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.components.LocalizedText;
-import edu.colorado.phet.website.components.StaticImage;
 import edu.colorado.phet.website.components.RawLabel;
-import edu.colorado.phet.website.content.search.SearchResultsPage;
+import edu.colorado.phet.website.components.StaticImage;
+import edu.colorado.phet.website.constants.CSS;
+import edu.colorado.phet.website.constants.Images;
 import edu.colorado.phet.website.content.contribution.AddContributionCommentPage;
 import edu.colorado.phet.website.content.contribution.ContributionGuidelinesPanel;
 import edu.colorado.phet.website.content.contribution.ContributionPage;
 import edu.colorado.phet.website.content.contribution.NominateContributionPage;
+import edu.colorado.phet.website.content.search.SearchResultsPage;
 import edu.colorado.phet.website.content.simulations.SimulationPage;
 import edu.colorado.phet.website.data.LocalizedSimulation;
 import edu.colorado.phet.website.data.PhetUser;
@@ -35,8 +37,6 @@ import edu.colorado.phet.website.data.contribution.*;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.translation.PhetLocalizer;
 import edu.colorado.phet.website.util.*;
-import edu.colorado.phet.website.constants.Images;
-import edu.colorado.phet.website.constants.CSS;
 
 /**
  * Panel for showing a single contribution (most information about it), and then comments below

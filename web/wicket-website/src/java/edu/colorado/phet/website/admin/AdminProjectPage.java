@@ -19,8 +19,8 @@ import org.hibernate.Session;
 
 import edu.colorado.phet.buildtools.util.ProjectPropertiesFile;
 import edu.colorado.phet.website.PhetWicketApplication;
-import edu.colorado.phet.website.components.StringTextField;
 import edu.colorado.phet.website.components.RawLabel;
+import edu.colorado.phet.website.components.StringTextField;
 import edu.colorado.phet.website.data.Project;
 import edu.colorado.phet.website.data.Simulation;
 import edu.colorado.phet.website.util.HibernateTask;
@@ -84,7 +84,7 @@ public class AdminProjectPage extends AdminPage {
                 simulations.clear();
                 HibernateUtils.wrapTransaction( getHibernateSession(), new StartTask() );
                 projectForm.update( project );
-                title.setModel( new Model( getTitleString() ) );
+                title.setDefaultModel( new Model( getTitleString() ) );
 
                 PageParameters params = new PageParameters();
                 params.put( "projectId", projectId );
@@ -166,11 +166,11 @@ public class AdminProjectPage extends AdminPage {
 
             logger.info( "setting project values for " + project.getName() );
             logger.info( "visible: " + visible.getModelValue() );
-            logger.info( "major: " + major.getModelObjectAsString() );
-            logger.info( "minor: " + minor.getModelObjectAsString() );
-            logger.info( "dev: " + dev.getModelObjectAsString() );
-            logger.info( "revision: " + revision.getModelObjectAsString() );
-            logger.info( "timestamp: " + timestamp.getModelObjectAsString() );
+            logger.info( "major: " + major.getModelObject().toString() );
+            logger.info( "minor: " + minor.getModelObject().toString() );
+            logger.info( "dev: " + dev.getModelObject().toString() );
+            logger.info( "revision: " + revision.getModelObject().toString() );
+            logger.info( "timestamp: " + timestamp.getModelObject().toString() );
 
             HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
                 public boolean run( Session session ) {
@@ -188,15 +188,15 @@ public class AdminProjectPage extends AdminPage {
                         throw new RuntimeException( "True or False?" );
                     }
 
-                    project.setVersionMajor( Integer.valueOf( major.getModelObjectAsString() ) );
-                    project.setVersionMinor( Integer.valueOf( minor.getModelObjectAsString() ) );
-                    project.setVersionDev( Integer.valueOf( dev.getModelObjectAsString() ) );
-                    project.setVersionRevision( Integer.valueOf( revision.getModelObjectAsString() ) );
-                    project.setVersionTimestamp( Long.valueOf( timestamp.getModelObjectAsString() ) );
+                    project.setVersionMajor( Integer.valueOf( major.getModelObject().toString() ) );
+                    project.setVersionMinor( Integer.valueOf( minor.getModelObject().toString() ) );
+                    project.setVersionDev( Integer.valueOf( dev.getModelObject().toString() ) );
+                    project.setVersionRevision( Integer.valueOf( revision.getModelObject().toString() ) );
+                    project.setVersionTimestamp( Long.valueOf( timestamp.getModelObject().toString() ) );
 
                     session.update( project );
 
-                    title.getModel().setObject( getTitleString() );
+                    title.setDefaultModelObject( getTitleString() );
 
                     return true;
                 }
@@ -229,7 +229,7 @@ public class AdminProjectPage extends AdminPage {
 
         @Override
         protected void onSubmit() {
-            final String name = nameField.getModelObjectAsString();
+            final String name = nameField.getModelObject().toString();
 
             HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
                 public boolean run( Session session ) {

@@ -2,9 +2,9 @@ package edu.colorado.phet.website.panels;
 
 import org.apache.wicket.behavior.HeaderContributor;
 
+import edu.colorado.phet.website.constants.CSS;
 import edu.colorado.phet.website.content.about.AboutSponsorsPanel;
 import edu.colorado.phet.website.util.PageContext;
-import edu.colorado.phet.website.constants.CSS;
 
 public class SponsorsPanel extends PhetPanel {
     public SponsorsPanel( String id, PageContext context ) {

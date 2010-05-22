@@ -10,12 +10,12 @@ import edu.colorado.phet.website.util.PhetRequestCycle;
 public class TranslationUtilityEntity extends TranslationEntity {
     public TranslationUtilityEntity() {
 
-addString( "forTranslators.translatingSimulations" );
-addString( "forTranslators.simulationsTranslatable" );
-addString( "forTranslators.translationUtilityScreenshot" );
-addString( "forTranslators.translatingMission" );
-addString( "forTranslators.translatingTheWebsite" );
-addString( "forTranslators.websiteText" );
+        addString( "forTranslators.translatingSimulations" );
+        addString( "forTranslators.simulationsTranslatable" );
+        addString( "forTranslators.translationUtilityScreenshot" );
+        addString( "forTranslators.translatingMission" );
+        addString( "forTranslators.translatingTheWebsite" );
+        addString( "forTranslators.websiteText" );
 
         addString( "translationUtility.checkAlreadyTranslated" );
         addString( "translationUtility.pleaseRead" );

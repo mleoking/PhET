@@ -18,55 +18,56 @@
 <body>
 
 <wicket:panel>
-<div class="simulation-main-container" wicket:message="dir:language.dir">
+    <div class="simulation-main-container" wicket:message="dir:language.dir">
 
-<h1 wicket:id="simulation-main-title" class="simulation-main-title">
-    Simulation Title
-</h1>
+        <h1 wicket:id="simulation-main-title" class="simulation-main-title">
+            Simulation Title
+        </h1>
 
-<div class="rating-holder">
-    <a href="SimulationMainPanel.html#" wicket:id="rating-under-construction-link">
-        <img src="../../../../../../../../root/images/ratings/under-construction-small.png"
-             alt="Under Construction icon" class="noborder" wicket:id="rating-under-construction-image"
-             wicket:message="title:tooltip.legend.underConstruction">
-    </a>
-    <a href="SimulationMainPanel.html#" wicket:id="rating-guidance-recommended-link">
-        <img src="../../../../../../../../root/images/ratings/guidance-recommended-small.png"
-             alt="Guidance Recommended icon" class="noborder" wicket:id="rating-guidance-recommended-image"
-             wicket:message="title:tooltip.legend.guidanceRecommended">
-    </a>
-    <a href="SimulationMainPanel.html#" wicket:id="rating-classroom-tested-link">
-        <img src="../../../../../../../../root/images/ratings/classroom-tested-small.png"
-             alt="Classroom Tested icon" class="noborder" wicket:id="rating-classroom-tested-image"
-             wicket:message="title:tooltip.legend.classroomTested">
-    </a>
-</div>
+        <div class="rating-holder">
+            <a href="SimulationMainPanel.html#" wicket:id="rating-under-construction-link">
+                <img src="../../../../../../../../root/images/ratings/under-construction-small.png"
+                     alt="Under Construction icon" class="noborder" wicket:id="rating-under-construction-image"
+                     wicket:message="title:tooltip.legend.underConstruction">
+            </a>
+            <a href="SimulationMainPanel.html#" wicket:id="rating-guidance-recommended-link">
+                <img src="../../../../../../../../root/images/ratings/guidance-recommended-small.png"
+                     alt="Guidance Recommended icon" class="noborder" wicket:id="rating-guidance-recommended-image"
+                     wicket:message="title:tooltip.legend.guidanceRecommended">
+            </a>
+            <a href="SimulationMainPanel.html#" wicket:id="rating-classroom-tested-link">
+                <img src="../../../../../../../../root/images/ratings/classroom-tested-small.png"
+                     alt="Classroom Tested icon" class="noborder" wicket:id="rating-classroom-tested-image"
+                     wicket:message="title:tooltip.legend.classroomTested">
+            </a>
+        </div>
 
-<p wicket:id="untranslated-sim-text" class="untranslated-sim-text">
-    This simulation has not been translated into this language. You can still access the English version below.
-</p>
+        <p wicket:id="untranslated-sim-text" class="untranslated-sim-text">
+            This simulation has not been translated into this language. You can still access the English version below.
+        </p>
 
-<table class="simulation-main-table">
-    <tr>
-        <td width="300px" valign="top">
-            <div class="simulation-main-image-panel">
-                <a href="SimulationMainPanel.html#" wicket:id="simulation-main-link-run-main"
-                   class="simulation-main-link-run-main">
-                    <img wicket:id="simulation-main-screenshot" class="simulation-main-screenshot"
-                         src="../../../../../../../../template-files/images/arithmetic-screenshot.png"
-                         width="300"/>
-                </a>
-                <a class="sim-download sim-button" href="SimulationMainPanel.html#" wicket:id="run-offline-link">
-                    <wicket:message key="simulationMainPanel.runOffline">Download</wicket:message>
-                </a>
-                <a class="sim-run-now sim-button" href="SimulationMainPanel.html#" wicket:id="run-online-link">
-                    <wicket:message key="simulationMainPanel.runOnline">Run Now!</wicket:message>
-                </a>
-                <span class="sim-version" wicket:id="simulationMainPanel.version">Version: 2.0</span>
-                <span class="sim-kb" wicket:id="simulationMainPanel.kilobytes">308 kB</span>
-            </div>
-        </td>
-        <td class="simulation-main-description">
+        <table class="simulation-main-table">
+            <tr>
+                <td width="300px" valign="top">
+                    <div class="simulation-main-image-panel">
+                        <a href="SimulationMainPanel.html#" wicket:id="simulation-main-link-run-main"
+                           class="simulation-main-link-run-main">
+                            <img wicket:id="simulation-main-screenshot" class="simulation-main-screenshot"
+                                 src="../../../../../../../../template-files/images/arithmetic-screenshot.png"
+                                 width="300"/>
+                        </a>
+                        <a class="sim-download sim-button" href="SimulationMainPanel.html#"
+                           wicket:id="run-offline-link">
+                            <wicket:message key="simulationMainPanel.runOffline">Download</wicket:message>
+                        </a>
+                        <a class="sim-run-now sim-button" href="SimulationMainPanel.html#" wicket:id="run-online-link">
+                            <wicket:message key="simulationMainPanel.runOnline">Run Now!</wicket:message>
+                        </a>
+                        <span class="sim-version" wicket:id="simulationMainPanel.version">Version: 2.0</span>
+                        <span class="sim-kb" wicket:id="simulationMainPanel.kilobytes">308 kB</span>
+                    </div>
+                </td>
+                <td class="simulation-main-description">
             <span wicket:id="simulation-main-description">
                 Play with one or two pendulums and discover how the period of a simple pendulum depends on the
                 length of the string, the mass of the pendulum bob, and the amplitude of the swing. It's easy to
@@ -74,236 +75,251 @@
                 the pendulum to find the value of g on planet X. Notice the anharmonic behavior at large amplitude.
             </span>
 
-            <div wicket:id="orange-button" class="simulation-main-support-button">
-                <a href="#" wicket:id="support-link" style="font-size: 12px;">
-                    <wicket:message key="simulationMainPanel.supportPhetButton">Support PhET &gt;</wicket:message>
-                </a>
-            </div>
+                    <div wicket:id="orange-button" class="simulation-main-support-button">
+                        <a href="#" wicket:id="support-link" style="font-size: 12px;">
+                            <wicket:message key="simulationMainPanel.supportPhetButton">Support PhET
+                                &gt;</wicket:message>
+                        </a>
+                    </div>
 
-            <div wicket:id="pearson-sponsor" style="padding-top: 10px;"></div>
+                    <div wicket:id="pearson-sponsor" style="padding-top: 10px;"></div>
 
-        </td>
-    </tr>
-</table>
-
-
-<div>
-
-    <div class="see-below">
-        <h3><wicket:message key="simulationMainPanel.seeBelow">See Below</wicket:message></h3>
-        <ul class="see-below-links">
-            <li><a href="#content"><wicket:message key="simulationMainPanel.seeBelow.content">
-                Content &gt;&gt;
-            </wicket:message></a></li>
-            <wicket:enclosure child="teacher-ideas-visible">
-                <li><a href="#teaching-ideas"><wicket:message key="simulationMainPanel.seeBelow.teachingIdeas">
-                    Teaching Ideas &gt;&gt;
-                </wicket:message></a></li>
-                <span wicket:id="teacher-ideas-visible"></span>
-            </wicket:enclosure>
-            <li><a href="#software-requirements"><wicket:message key="simulationMainPanel.seeBelow.softwareRequirements">
-                Software Requirements &gt;&gt;
-            </wicket:message></a></li>
-            <li><a href="#translated-versions"><wicket:message key="simulationMainPanel.seeBelow.translatedVersions">
-                Translated Versions &gt;&gt;
-            </wicket:message></a></li>
-            <li><a href="#credits"><wicket:message key="simulationMainPanel.seeBelow.credits">
-                Credits &gt;&gt;
-            </wicket:message></a></li>
-        </ul>
-    </div>
-
-    <wicket:enclosure child="guide-text">
-        <h2>
-            <wicket:message key="simulationMainPanel.tipsForTeachers">Tips for Teachers</wicket:message>
-        </h2>
-        <div wicket:id="guide-text">
-            The <a href="SimulationMainPanel.html#">teacher's guide</a> (pdf) contains tips created by the PhET team.
-        </div>
-    </wicket:enclosure>
-
-    <a name="content"></a>
-
-    <h2>
-        <wicket:message key="simulationMainPanel.topics">Topics</wicket:message>
-    </h2>
-
-    <wicket:enclosure child="topic-list">
-        <h3>
-            <wicket:message key="simulationMainPanel.mainTopics">Main Topics</wicket:message>
-        </h3>
-        <ul>
-            <li wicket:id="topic-list">
-                        <span wicket:id="topic-label">
-                        </span>
-            </li>
-        </ul>
-    </wicket:enclosure>
-
-
-    <wicket:enclosure child="keyword-list">
-        <h3>
-            <wicket:message key="simulationMainPanel.keywords">Related Topics</wicket:message>
-        </h3>
-        <ul class="keyword-list-holder">
-            <li class="keyword" wicket:id="keyword-list">
-                <a wicket:id="keyword-link" href="SimulationMainPanel.html#">
-                    <span wicket:id="keyword-label">Keyword</span>
-                </a>
-            </li>
-        </ul>
-    </wicket:enclosure>
-
-    <wicket:enclosure child="learning-goals">
-        <h3>
-            <wicket:message key="simulationMainPanel.sampleLearningGoals">Sample Learning Goals</wicket:message>
-        </h3>
-        <ul>
-            <li wicket:id="learning-goals"><span wicket:id="goal">Some library</span></li>
-        </ul>
-    </wicket:enclosure>
-
-    <a name="teaching-ideas"></a>
-
-    <h2>
-        <wicket:message key="simulationMainPanel.teachingIdeas">Teaching Ideas</wicket:message>
-    </h2>
-    
-    <wicket:enclosure child="contributions-panel">
-
-        <div wicket:id="contributions-panel" class="simulation-contributions-pane"></div>
-
-    </wicket:enclosure>
-
-    <p style="text-align: center;" wicket:id="submit-a">You can <a href="#">submit your own ideas and activities</a></p>
-
-    <h2>
-        <wicket:message key="simulationMainPanel.softwareRequirements">Software Requirements</wicket:message>
-    </h2>
-
-    <a name="software-requirements"></a>
-
-    <table class="system-requirements-table">
-        <tr>
-            <th>Windows</th>
-            <th>Macintosh</th>
-            <th>Linux</th>
-        </tr>
-        <tr>
-            <td>
-                Microsoft Windows
-                <br/>
-                XP/Vista/7
-                <br/>
-                <span wicket:id="windows-req">Sun Java 1.5.0_15 or later</span>
-            </td>
-            <td>
-                OS 10.4 or later
-                <br/>
-                <span wicket:id="mac-req">Apple Java 1.5.0_19 or later</span>
-            </td>
-            <td>
-                <span wicket:id="linux-req">Sun Java 1.5.0_15 or later</span>
-            </td>
-        </tr>
-    </table>
-
-    <a name="translated-versions"></a>
-
-    <h2>
-        <wicket:message key="simulationMainPanel.translatedVersions">Translated versions</wicket:message>
-    </h2>
-
-    <wicket:enclosure child="simulation-main-translation-list">
-        <table class="translations-table">
-            <tr>
-                <th>
-                    <wicket:message key="simulationMainPanel.language">Language</wicket:message>
-                </th>
-                <th>
-                    <wicket:message key="simulationMainPanel.languageTranslated">Language (Translated)
-                    </wicket:message>
-                </th>
-                <th>
-                    <wicket:message key="simulationMainPanel.simulationTitleTranslated">Simulation Title
-                    </wicket:message>
-                </th>
-                <th></th>
-                <th></th>
-            </tr>
-            <tr wicket:id="simulation-main-translation-list" class="simulation-main-translation-list">
-                <td>
-                    <a href="#" wicket:id="language-link-1">
-                        <span wicket:id="simulation-main-translation-locale-name">Pig Latin</span>
-                    </a>
-                </td>
-                <td>
-                    <a href="#" wicket:id="language-link-2">
-                        <span wicket:id="simulation-main-translation-locale-translated-name">Ig-pay Atin-lay</span>
-                    </a>
-                </td>
-                <td>
-                    <span wicket:id="simulation-main-translation-title">Arithmetic-ay</span>
-                </td>
-                <td>
-                    <a href="#" wicket:id="simulation-main-translation-link">
-                        <wicket:message key="simulations.translated.runNow">Run Now</wicket:message>
-                    </a>
-                </td>
-                <td>
-                    <a href="#" wicket:id="simulation-main-translation-download">
-                        <wicket:message key="simulations.translated.download">Download</wicket:message>
-                    </a>
                 </td>
             </tr>
         </table>
-    </wicket:enclosure>
 
-    <a name="credits"></a>
 
-    <h2>
-        <wicket:message key="simulationMainPanel.credits">Credits</wicket:message>
-    </h2>
+        <div>
 
-    <table class="credits-table">
-        <tr>
-            <th>
-                <wicket:message key="simulationMainPanel.designTeam">Design Team</wicket:message>
-            </th>
-            <th>
-                <wicket:message key="simulationMainPanel.thirdPartyLibraries">Third-party Libraries
-                </wicket:message>
-            </th>
-            <th>
-                <wicket:message key="simulationMainPanel.thanksTo">Thanks To</wicket:message>
-            </th>
-        </tr>
-        <tr>
-            <td>
-                <wicket:enclosure child="design-list">
-                    <ul>
-                        <li wicket:id="design-list"><span wicket:id="design-item">A person</span></li>
-                    </ul>
-                </wicket:enclosure>
-            </td>
-            <td>
-                <wicket:enclosure child="library-list">
-                    <ul>
-                        <li wicket:id="library-list"><span wicket:id="library-item">Some library</span></li>
-                    </ul>
-                </wicket:enclosure>
-            </td>
-            <td>
-                <wicket:enclosure child="thanks-list">
-                    <ul>
-                        <li wicket:id="thanks-list"><span wicket:id="thanks-item">Everyone</span></li>
-                    </ul>
-                </wicket:enclosure>
-            </td>
-        </tr>
-    </table>
-</div>
-</div>
+            <div class="see-below">
+                <h3>
+                    <wicket:message key="simulationMainPanel.seeBelow">See Below</wicket:message>
+                </h3>
+                <ul class="see-below-links">
+                    <li><a href="#content">
+                        <wicket:message key="simulationMainPanel.seeBelow.content">
+                            Content &gt;&gt;
+                        </wicket:message>
+                    </a></li>
+                    <wicket:enclosure child="teacher-ideas-visible">
+                        <li><a href="#teaching-ideas">
+                            <wicket:message key="simulationMainPanel.seeBelow.teachingIdeas">
+                                Teaching Ideas &gt;&gt;
+                            </wicket:message>
+                        </a></li>
+                        <span wicket:id="teacher-ideas-visible"></span>
+                    </wicket:enclosure>
+                    <li><a href="#software-requirements">
+                        <wicket:message key="simulationMainPanel.seeBelow.softwareRequirements">
+                            Software Requirements &gt;&gt;
+                        </wicket:message>
+                    </a></li>
+                    <li><a href="#translated-versions">
+                        <wicket:message key="simulationMainPanel.seeBelow.translatedVersions">
+                            Translated Versions &gt;&gt;
+                        </wicket:message>
+                    </a></li>
+                    <li><a href="#credits">
+                        <wicket:message key="simulationMainPanel.seeBelow.credits">
+                            Credits &gt;&gt;
+                        </wicket:message>
+                    </a></li>
+                </ul>
+            </div>
+
+            <wicket:enclosure child="guide-text">
+                <h2>
+                    <wicket:message key="simulationMainPanel.tipsForTeachers">Tips for Teachers</wicket:message>
+                </h2>
+                <div wicket:id="guide-text">
+                    The <a href="SimulationMainPanel.html#">teacher's guide</a> (pdf) contains tips created by the PhET
+                    team.
+                </div>
+            </wicket:enclosure>
+
+            <a name="content"></a>
+
+            <h2>
+                <wicket:message key="simulationMainPanel.topics">Topics</wicket:message>
+            </h2>
+
+            <wicket:enclosure child="topic-list">
+                <h3>
+                    <wicket:message key="simulationMainPanel.mainTopics">Main Topics</wicket:message>
+                </h3>
+                <ul>
+                    <li wicket:id="topic-list">
+                        <span wicket:id="topic-label">
+                        </span>
+                    </li>
+                </ul>
+            </wicket:enclosure>
+
+
+            <wicket:enclosure child="keyword-list">
+                <h3>
+                    <wicket:message key="simulationMainPanel.keywords">Related Topics</wicket:message>
+                </h3>
+                <ul class="keyword-list-holder">
+                    <li class="keyword" wicket:id="keyword-list">
+                        <a wicket:id="keyword-link" href="SimulationMainPanel.html#">
+                            <span wicket:id="keyword-label">Keyword</span>
+                        </a>
+                    </li>
+                </ul>
+            </wicket:enclosure>
+
+            <wicket:enclosure child="learning-goals">
+                <h3>
+                    <wicket:message key="simulationMainPanel.sampleLearningGoals">Sample Learning Goals</wicket:message>
+                </h3>
+                <ul>
+                    <li wicket:id="learning-goals"><span wicket:id="goal">Some library</span></li>
+                </ul>
+            </wicket:enclosure>
+
+            <a name="teaching-ideas"></a>
+
+            <h2>
+                <wicket:message key="simulationMainPanel.teachingIdeas">Teaching Ideas</wicket:message>
+            </h2>
+
+            <wicket:enclosure child="contributions-panel">
+
+                <div wicket:id="contributions-panel" class="simulation-contributions-pane"></div>
+
+            </wicket:enclosure>
+
+            <p style="text-align: center;" wicket:id="submit-a">You can <a href="#">submit your own ideas and
+                activities</a></p>
+
+            <h2>
+                <wicket:message key="simulationMainPanel.softwareRequirements">Software Requirements</wicket:message>
+            </h2>
+
+            <a name="software-requirements"></a>
+
+            <table class="system-requirements-table">
+                <tr>
+                    <th>Windows</th>
+                    <th>Macintosh</th>
+                    <th>Linux</th>
+                </tr>
+                <tr>
+                    <td>
+                        Microsoft Windows
+                        <br/>
+                        XP/Vista/7
+                        <br/>
+                        <span wicket:id="windows-req">Sun Java 1.5.0_15 or later</span>
+                    </td>
+                    <td>
+                        OS 10.4 or later
+                        <br/>
+                        <span wicket:id="mac-req">Apple Java 1.5.0_19 or later</span>
+                    </td>
+                    <td>
+                        <span wicket:id="linux-req">Sun Java 1.5.0_15 or later</span>
+                    </td>
+                </tr>
+            </table>
+
+            <a name="translated-versions"></a>
+
+            <h2>
+                <wicket:message key="simulationMainPanel.translatedVersions">Translated versions</wicket:message>
+            </h2>
+
+            <wicket:enclosure child="simulation-main-translation-list">
+                <table class="translations-table">
+                    <tr>
+                        <th>
+                            <wicket:message key="simulationMainPanel.language">Language</wicket:message>
+                        </th>
+                        <th>
+                            <wicket:message key="simulationMainPanel.languageTranslated">Language (Translated)
+                            </wicket:message>
+                        </th>
+                        <th>
+                            <wicket:message key="simulationMainPanel.simulationTitleTranslated">Simulation Title
+                            </wicket:message>
+                        </th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    <tr wicket:id="simulation-main-translation-list" class="simulation-main-translation-list">
+                        <td>
+                            <a href="#" wicket:id="language-link-1">
+                                <span wicket:id="simulation-main-translation-locale-name">Pig Latin</span>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="#" wicket:id="language-link-2">
+                                <span wicket:id="simulation-main-translation-locale-translated-name">Ig-pay Atin-lay</span>
+                            </a>
+                        </td>
+                        <td>
+                            <span wicket:id="simulation-main-translation-title">Arithmetic-ay</span>
+                        </td>
+                        <td>
+                            <a href="#" wicket:id="simulation-main-translation-link">
+                                <wicket:message key="simulations.translated.runNow">Run Now</wicket:message>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="#" wicket:id="simulation-main-translation-download">
+                                <wicket:message key="simulations.translated.download">Download</wicket:message>
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+            </wicket:enclosure>
+
+            <a name="credits"></a>
+
+            <h2>
+                <wicket:message key="simulationMainPanel.credits">Credits</wicket:message>
+            </h2>
+
+            <table class="credits-table">
+                <tr>
+                    <th>
+                        <wicket:message key="simulationMainPanel.designTeam">Design Team</wicket:message>
+                    </th>
+                    <th>
+                        <wicket:message key="simulationMainPanel.thirdPartyLibraries">Third-party Libraries
+                        </wicket:message>
+                    </th>
+                    <th>
+                        <wicket:message key="simulationMainPanel.thanksTo">Thanks To</wicket:message>
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        <wicket:enclosure child="design-list">
+                            <ul>
+                                <li wicket:id="design-list"><span wicket:id="design-item">A person</span></li>
+                            </ul>
+                        </wicket:enclosure>
+                    </td>
+                    <td>
+                        <wicket:enclosure child="library-list">
+                            <ul>
+                                <li wicket:id="library-list"><span wicket:id="library-item">Some library</span></li>
+                            </ul>
+                        </wicket:enclosure>
+                    </td>
+                    <td>
+                        <wicket:enclosure child="thanks-list">
+                            <ul>
+                                <li wicket:id="thanks-list"><span wicket:id="thanks-item">Everyone</span></li>
+                            </ul>
+                        </wicket:enclosure>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
 </wicket:panel>
 
 </body>

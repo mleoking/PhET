@@ -3,12 +3,12 @@ package edu.colorado.phet.website.content.getphet;
 import org.apache.wicket.behavior.HeaderContributor;
 
 import edu.colorado.phet.website.components.LocalizedText;
+import edu.colorado.phet.website.constants.CSS;
 import edu.colorado.phet.website.content.simulations.CategoryPage;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.links.AbstractLinker;
 import edu.colorado.phet.website.util.links.RawLinkable;
-import edu.colorado.phet.website.constants.CSS;
 
 public class RunOurSimulationsPanel extends PhetPanel {
     public RunOurSimulationsPanel( String id, PageContext context ) {

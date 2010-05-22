@@ -31,7 +31,7 @@ public class PhetRequestCodingStrategy extends WebRequestCodingStrategy {
         IRequestTargetUrlCodingStrategy testStrategy = new RedirectionStrategy();
         IRequestTargetUrlCodingStrategy strategy;
 
-        if ( testStrategy.matches( path ) ) {
+        if ( testStrategy.matches( path, true ) ) {
             strategy = testStrategy;
         }
         else {

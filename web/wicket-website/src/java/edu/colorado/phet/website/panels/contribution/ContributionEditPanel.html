@@ -24,13 +24,17 @@
             <span wicket:id="feedback"></span>
         </div>
         <form wicket:id="contributionform">
-            <h2><wicket:message key="contribution.edit.requiredInformation">Required Information</wicket:message></h2>
+            <h2>
+                <wicket:message key="contribution.edit.requiredInformation">Required Information</wicket:message>
+            </h2>
 
             <table class="contribution-edit-table">
                 <tr>
-                    <td class="contribution-edit-label"><wicket:message key="contribution.edit.authors">
-                        Author(s)
-                    </wicket:message></td>
+                    <td class="contribution-edit-label">
+                        <wicket:message key="contribution.edit.authors">
+                            Author(s)
+                        </wicket:message>
+                    </td>
                     <td class="contribution-edit-input">
                         <input wicket:id="contribution.edit.authors" type="text" value="" size="40"/>
                         <br/>
@@ -40,33 +44,41 @@
                     </td>
                 </tr>
                 <tr>
-                    <td class="contribution-edit-label"><wicket:message key="contribution.edit.organization">
-                        1st author's organization
-                    </wicket:message></td>
+                    <td class="contribution-edit-label">
+                        <wicket:message key="contribution.edit.organization">
+                            1st author's organization
+                        </wicket:message>
+                    </td>
                     <td class="contribution-edit-input">
                         <input wicket:id="contribution.edit.organization" type="text" value="" size="40"/>
                     </td>
                 </tr>
                 <tr>
-                    <td class="contribution-edit-label"><wicket:message key="contribution.edit.email">
-                        Contact email
-                    </wicket:message></td>
+                    <td class="contribution-edit-label">
+                        <wicket:message key="contribution.edit.email">
+                            Contact email
+                        </wicket:message>
+                    </td>
                     <td class="contribution-edit-input">
                         <input wicket:id="contribution.edit.email" type="text" value="" size="40"/>
                     </td>
                 </tr>
                 <tr>
-                    <td class="contribution-edit-label"><wicket:message key="contribution.edit.title">
-                        Title
-                    </wicket:message></td>
+                    <td class="contribution-edit-label">
+                        <wicket:message key="contribution.edit.title">
+                            Title
+                        </wicket:message>
+                    </td>
                     <td class="contribution-edit-input">
                         <input wicket:id="contribution.edit.title" type="text" value="" size="40"/>
                     </td>
                 </tr>
                 <tr>
-                    <td class="contribution-edit-label"><wicket:message key="contribution.edit.keywords">
-                        Keywords
-                    </wicket:message></td>
+                    <td class="contribution-edit-label">
+                        <wicket:message key="contribution.edit.keywords">
+                            Keywords
+                        </wicket:message>
+                    </td>
                     <td class="contribution-edit-input">
                         <input wicket:id="contribution.edit.keywords" type="text" value="" size="40"/>
                         <br/>
@@ -76,79 +88,99 @@
                     </td>
                 </tr>
                 <tr>
-                    <td class="contribution-edit-label" style="vertical-align: top"><wicket:message key="contribution.edit.simulations">
-                        Simulation(s)
-                    </wicket:message></td>
+                    <td class="contribution-edit-label" style="vertical-align: top">
+                        <wicket:message key="contribution.edit.simulations">
+                            Simulation(s)
+                        </wicket:message>
+                    </td>
                     <td class="contribution-edit-input">
                         <div wicket:id="simulations"></div>
                     </td>
                 </tr>
                 <tr>
-                    <td class="contribution-edit-label" style="vertical-align: top"><wicket:message key="contribution.edit.types">
-                        type(s)
-                    </wicket:message></td>
+                    <td class="contribution-edit-label" style="vertical-align: top">
+                        <wicket:message key="contribution.edit.types">
+                            type(s)
+                        </wicket:message>
+                    </td>
                     <td class="contribution-edit-input">
                         <div wicket:id="types"></div>
                     </td>
                 </tr>
                 <tr>
-                    <td class="contribution-edit-label" style="vertical-align: top"><wicket:message key="contribution.edit.levels">
-                        grade level(s)
-                    </wicket:message></td>
+                    <td class="contribution-edit-label" style="vertical-align: top">
+                        <wicket:message key="contribution.edit.levels">
+                            grade level(s)
+                        </wicket:message>
+                    </td>
                     <td class="contribution-edit-input">
                         <div wicket:id="levels"></div>
                     </td>
                 </tr>
                 <tr>
-                    <td class="contribution-edit-label" style="vertical-align: top"><wicket:message key="contribution.edit.existingFiles">
-                        existing file(s)
-                    </wicket:message></td>
+                    <td class="contribution-edit-label" style="vertical-align: top">
+                        <wicket:message key="contribution.edit.existingFiles">
+                            existing file(s)
+                        </wicket:message>
+                    </td>
                     <td class="contribution-edit-input">
                         <div wicket:id="file-markup-container">
                             <table style="width: 100%">
                                 <tr wicket:id="existing-files">
                                     <td wicket:id="file-name"></td>
-                                    <td><a href="#" wicket:id="remove-link"><wicket:message key="contribution.edit.removeFile">
-                                        remove
-                                    </wicket:message></a></td>
+                                    <td><a href="#" wicket:id="remove-link">
+                                        <wicket:message key="contribution.edit.removeFile">
+                                            remove
+                                        </wicket:message>
+                                    </a></td>
                                 </tr>
                             </table>
                         </div>
                     </td>
                 </tr>
                 <tr>
-                    <td class="contribution-edit-label" style="vertical-align: top"><wicket:message key="contribution.edit.newFiles">
-                        new file(s)
-                    </wicket:message></td>
+                    <td class="contribution-edit-label" style="vertical-align: top">
+                        <wicket:message key="contribution.edit.newFiles">
+                            new file(s)
+                        </wicket:message>
+                    </td>
                     <td class="contribution-edit-input">
                         <div wicket:id="file-upload"></div>
                     </td>
                 </tr>
             </table>
 
-            <h2><wicket:message key="contribution.edit.optionalInformation">Optional Information</wicket:message></h2>
+            <h2>
+                <wicket:message key="contribution.edit.optionalInformation">Optional Information</wicket:message>
+            </h2>
 
             <table class="contribution-edit-table">
                 <tr>
-                    <td class="contribution-edit-label" style="vertical-align: top"><wicket:message key="contribution.edit.description">
-                        description
-                    </wicket:message></td>
+                    <td class="contribution-edit-label" style="vertical-align: top">
+                        <wicket:message key="contribution.edit.description">
+                            description
+                        </wicket:message>
+                    </td>
                     <td class="contribution-edit-input">
                         <textarea rows="5" cols="40" wicket:id="contribution.edit.description"></textarea>
                     </td>
                 </tr>
                 <tr>
-                    <td class="contribution-edit-label"><wicket:message key="contribution.edit.subjects">
-                        subject areas
-                    </wicket:message></td>
+                    <td class="contribution-edit-label">
+                        <wicket:message key="contribution.edit.subjects">
+                            subject areas
+                        </wicket:message>
+                    </td>
                     <td class="contribution-edit-input">
                         <div wicket:id="subjects"></div>
                     </td>
                 </tr>
                 <tr>
-                    <td class="contribution-edit-label"><wicket:message key="contribution.edit.duration">
-                        duration
-                    </wicket:message></td>
+                    <td class="contribution-edit-label">
+                        <wicket:message key="contribution.edit.duration">
+                            duration
+                        </wicket:message>
+                    </td>
                     <td class="contribution-edit-input">
                         <select wicket:id="duration">
 
@@ -156,17 +188,21 @@
                     </td>
                 </tr>
                 <tr>
-                    <td class="contribution-edit-label"><wicket:message key="contribution.edit.answers">
-                        answers included
-                    </wicket:message></td>
+                    <td class="contribution-edit-label">
+                        <wicket:message key="contribution.edit.answers">
+                            answers included
+                        </wicket:message>
+                    </td>
                     <td class="contribution-edit-input">
                         <input type="checkbox" wicket:id="answers"/>
                     </td>
                 </tr>
                 <tr>
-                    <td class="contribution-edit-label"><wicket:message key="contribution.edit.language">
-                        language
-                    </wicket:message></td>
+                    <td class="contribution-edit-label">
+                        <wicket:message key="contribution.edit.language">
+                            language
+                        </wicket:message>
+                    </td>
                     <td class="contribution-edit-input">
                         <div wicket:id="locale"></div>
                     </td>
@@ -176,75 +212,100 @@
             <table class="contribute-standards-table">
                 <tr>
                     <td></td>
-                    <td colspan="3"><wicket:message key="contribution.standards.contentLevel">
-                        Content Level</wicket:message></td>
+                    <td colspan="3">
+                        <wicket:message key="contribution.standards.contentLevel">
+                            Content Level
+                        </wicket:message>
+                    </td>
                 </tr>
                 <tr>
-                    <td class="contribute-standard-label">&nbsp;<wicket:message key="contribution.standards.contentStandard">
-                        Content Standard
-                        </wicket:message>&nbsp;</td>
-                    <td class="contribute-level-label"><wicket:message key="contribution.standards.k4">
-                        K-4
-                    </wicket:message></td>
-                    <td class="contribute-level-label"><wicket:message key="contribution.standards.58">
-                        5-8
-                    </wicket:message></td>
-                    <td class="contribute-level-label"><wicket:message key="contribution.standards.912">
-                        9-12
-                    </wicket:message></td>
+                    <td class="contribute-standard-label">&nbsp;
+                        <wicket:message key="contribution.standards.contentStandard">
+                            Content Standard
+                        </wicket:message>
+                        &nbsp;</td>
+                    <td class="contribute-level-label">
+                        <wicket:message key="contribution.standards.k4">
+                            K-4
+                        </wicket:message>
+                    </td>
+                    <td class="contribute-level-label">
+                        <wicket:message key="contribution.standards.58">
+                            5-8
+                        </wicket:message>
+                    </td>
+                    <td class="contribute-level-label">
+                        <wicket:message key="contribution.standards.912">
+                            9-12
+                        </wicket:message>
+                    </td>
                 </tr>
                 <tr>
-                    <td class="contribute-standard-label">&nbsp;<wicket:message key="contribution.standards.A">
-                        Science as Inquiry - A
-                        </wicket:message>&nbsp;</td>
+                    <td class="contribute-standard-label">&nbsp;
+                        <wicket:message key="contribution.standards.A">
+                            Science as Inquiry - A
+                        </wicket:message>
+                        &nbsp;</td>
                     <td class="contribute-standard-checkbox"><input type="checkbox" wicket:id="stdK4A"/></td>
                     <td class="contribute-standard-checkbox"><input type="checkbox" wicket:id="std58A"/></td>
                     <td class="contribute-standard-checkbox"><input type="checkbox" wicket:id="std912A"/></td>
                 </tr>
                 <tr>
-                    <td class="contribute-standard-label">&nbsp;<wicket:message key="contribution.standards.B">
-                        Physical Science - B
-                        </wicket:message>&nbsp;</td>
+                    <td class="contribute-standard-label">&nbsp;
+                        <wicket:message key="contribution.standards.B">
+                            Physical Science - B
+                        </wicket:message>
+                        &nbsp;</td>
                     <td class="contribute-standard-checkbox"><input type="checkbox" wicket:id="stdK4B"/></td>
                     <td class="contribute-standard-checkbox"><input type="checkbox" wicket:id="std58B"/></td>
                     <td class="contribute-standard-checkbox"><input type="checkbox" wicket:id="std912B"/></td>
                 </tr>
                 <tr>
-                    <td class="contribute-standard-label">&nbsp;<wicket:message key="contribution.standards.C">
-                        Life Science - C
-                        </wicket:message>&nbsp;</td>
+                    <td class="contribute-standard-label">&nbsp;
+                        <wicket:message key="contribution.standards.C">
+                            Life Science - C
+                        </wicket:message>
+                        &nbsp;</td>
                     <td class="contribute-standard-checkbox"><input type="checkbox" wicket:id="stdK4C"/></td>
                     <td class="contribute-standard-checkbox"><input type="checkbox" wicket:id="std58C"/></td>
                     <td class="contribute-standard-checkbox"><input type="checkbox" wicket:id="std912C"/></td>
                 </tr>
                 <tr>
-                    <td class="contribute-standard-label">&nbsp;<wicket:message key="contribution.standards.D">
-                        Earth &amp; Space Science - D
-                        </wicket:message>&nbsp;</td>
+                    <td class="contribute-standard-label">&nbsp;
+                        <wicket:message key="contribution.standards.D">
+                            Earth &amp; Space Science - D
+                        </wicket:message>
+                        &nbsp;</td>
                     <td class="contribute-standard-checkbox"><input type="checkbox" wicket:id="stdK4D"/></td>
                     <td class="contribute-standard-checkbox"><input type="checkbox" wicket:id="std58D"/></td>
                     <td class="contribute-standard-checkbox"><input type="checkbox" wicket:id="std912D"/></td>
                 </tr>
                 <tr>
-                    <td class="contribute-standard-label">&nbsp;<wicket:message key="contribution.standards.E">
-                        Science &amp; Technology - E
-                        </wicket:message>&nbsp;</td>
+                    <td class="contribute-standard-label">&nbsp;
+                        <wicket:message key="contribution.standards.E">
+                            Science &amp; Technology - E
+                        </wicket:message>
+                        &nbsp;</td>
                     <td class="contribute-standard-checkbox"><input type="checkbox" wicket:id="stdK4E"/></td>
                     <td class="contribute-standard-checkbox"><input type="checkbox" wicket:id="std58E"/></td>
                     <td class="contribute-standard-checkbox"><input type="checkbox" wicket:id="std912E"/></td>
                 </tr>
                 <tr>
-                    <td class="contribute-standard-label">&nbsp;<wicket:message key="contribution.standards.F">
-                        Science in Personal and Social Perspective - F
-                        </wicket:message>&nbsp;</td>
+                    <td class="contribute-standard-label">&nbsp;
+                        <wicket:message key="contribution.standards.F">
+                            Science in Personal and Social Perspective - F
+                        </wicket:message>
+                        &nbsp;</td>
                     <td class="contribute-standard-checkbox"><input type="checkbox" wicket:id="stdK4F"/></td>
                     <td class="contribute-standard-checkbox"><input type="checkbox" wicket:id="std58F"/></td>
                     <td class="contribute-standard-checkbox"><input type="checkbox" wicket:id="std912F"/></td>
                 </tr>
                 <tr>
-                    <td class="contribute-standard-label">&nbsp;<wicket:message key="contribution.standards.G">
-                        History and Nature of Science - G
-                        </wicket:message>&nbsp;</td>
+                    <td class="contribute-standard-label">&nbsp;
+                        <wicket:message key="contribution.standards.G">
+                            History and Nature of Science - G
+                        </wicket:message>
+                        &nbsp;</td>
                     <td class="contribute-standard-checkmark"><input type="checkbox" wicket:id="stdK4G"/></td>
                     <td class="contribute-standard-checkmark"><input type="checkbox" wicket:id="std58G"/></td>
                     <td class="contribute-standard-checkmark"><input type="checkbox" wicket:id="std912G"/></td>

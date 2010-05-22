@@ -38,7 +38,7 @@ public class TranslationEntityListPanel extends PhetPanel {
 
         initializeEntities();
 
-        setModel( new StringMapModel( page.getTranslationId() ) );
+        setDefaultModel( new StringMapModel( page.getTranslationId() ) );
 
         setOutputMarkupId( true );
 

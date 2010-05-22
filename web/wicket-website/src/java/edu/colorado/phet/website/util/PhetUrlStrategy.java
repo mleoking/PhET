@@ -75,6 +75,16 @@ public class PhetUrlStrategy implements IRequestTargetUrlCodingStrategy {
         return mapper.containsClass( target.getClass() );
     }
 
+    public boolean matches( String path, boolean caseSensitive ) {
+        if ( caseSensitive ) {
+            return matches( path );
+        }
+        else {
+            logger.warn( "testing non-case-sensitive path " + path );
+            return matches( path.toLowerCase() );
+        }
+    }
+
     public boolean matches( String str ) {
         Class clazz = mapper.getMappedClass( stripPath( str ) );
         boolean ret = clazz != null;

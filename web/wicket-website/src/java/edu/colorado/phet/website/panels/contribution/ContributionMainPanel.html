@@ -24,11 +24,14 @@
         <div wicket:id="admin-contrib-panel"></div>
 
         <h2 class="contribution-title" style="vertical-align: middle;"><span wicket:id="contribution-title">Contribution Title</span>
-            <img wicket:id="gold-star-contribution" src="../../../../../../../../root/images/contributions/gold-star.jpg"
+            <img wicket:id="gold-star-contribution"
+                 src="../../../../../../../../root/images/contributions/gold-star.jpg"
                  alt="Gold Star Contribution" wicket:message="title:tooltip.legend.goldStar"/>
         </h2>
 
-        <h3><wicket:message key="contribution.view.downloadableFiles">Downloadable files</wicket:message></h3>
+        <h3>
+            <wicket:message key="contribution.view.downloadableFiles">Downloadable files</wicket:message>
+        </h3>
 
         <ul>
             <li wicket:id="file"><a wicket:id="file-link" href="#"><span wicket:id="file-name"></span></a> - <span
@@ -39,146 +42,199 @@
 
         <table>
             <tr>
-                <td colspan="2"><h3><wicket:message key="contribution.view.submissionInformation">
-                    Submission Information
-                </wicket:message></h3></td>
+                <td colspan="2">
+                    <h3>
+                        <wicket:message key="contribution.view.submissionInformation">
+                            Submission Information
+                        </wicket:message>
+                    </h3>
+                </td>
             </tr>
             <tr valign="top">
-                <td><strong><wicket:message key="contribution.view.authors">
-                    Authors
-                </wicket:message></strong></td>
+                <td><strong>
+                    <wicket:message key="contribution.view.authors">
+                        Authors
+                    </wicket:message>
+                </strong></td>
                 <td wicket:id="authors"></td>
             </tr>
             <tr valign="top">
-                <td><strong><wicket:message key="contribution.view.email">
-                    Contact Email
-                </wicket:message></strong></td>
+                <td><strong>
+                    <wicket:message key="contribution.view.email">
+                        Contact Email
+                    </wicket:message>
+                </strong></td>
                 <td wicket:id="contact-email"></td>
             </tr>
             <tr valign="top">
-                <td><strong><wicket:message key="contribution.view.organization">
-                    School / Organization
-                </wicket:message></strong></td>
+                <td><strong>
+                    <wicket:message key="contribution.view.organization">
+                        School / Organization
+                    </wicket:message>
+                </strong></td>
                 <td wicket:id="organization"></td>
             </tr>
             <tr valign="top">
-                <td><strong><wicket:message key="contribution.view.submitted">
-                    Submitted
-                </wicket:message></strong></td>
+                <td><strong>
+                    <wicket:message key="contribution.view.submitted">
+                        Submitted
+                    </wicket:message>
+                </strong></td>
                 <td wicket:id="created"></td>
             </tr>
             <tr valign="top">
-                <td><strong><wicket:message key="contribution.view.updated">
-                    Updated
-                </wicket:message></strong></td>
+                <td><strong>
+                    <wicket:message key="contribution.view.updated">
+                        Updated
+                    </wicket:message>
+                </strong></td>
                 <td wicket:id="updated"></td>
             </tr>
             <tr>
-                <td colspan="2"><h3><wicket:message key="contribution.view.descriptionSection">
-                    Contribution Description
-                </wicket:message></h3></td>
+                <td colspan="2">
+                    <h3>
+                        <wicket:message key="contribution.view.descriptionSection">
+                            Contribution Description
+                        </wicket:message>
+                    </h3>
+                </td>
             </tr>
             <tr valign="top">
-                <td><strong><wicket:message key="contribution.view.title">
-                    Title
-                </wicket:message></strong></td>
+                <td><strong>
+                    <wicket:message key="contribution.view.title">
+                        Title
+                    </wicket:message>
+                </strong></td>
                 <td wicket:id="title"></td>
             </tr>
             <tr valign="top">
-                <td><strong><wicket:message key="contribution.view.simulations">
-                    Simulations
-                </wicket:message></strong></td>
+                <td><strong>
+                    <wicket:message key="contribution.view.simulations">
+                        Simulations
+                    </wicket:message>
+                </strong></td>
                 <td wicket:id="simulations"></td>
             </tr>
             <wicket:enclosure child="keywords">
                 <tr valign="top">
-                    <td><strong><wicket:message key="contribution.view.keywords">
-                        Keywords
-                    </wicket:message></strong></td>
+                    <td><strong>
+                        <wicket:message key="contribution.view.keywords">
+                            Keywords
+                        </wicket:message>
+                    </strong></td>
                     <td wicket:id="keywords"></td>
                 </tr>
             </wicket:enclosure>
             <wicket:enclosure child="description">
                 <tr valign="top">
-                    <td><strong><wicket:message key="contribution.view.description">
-                        Description
-                    </wicket:message></strong></td>
+                    <td><strong>
+                        <wicket:message key="contribution.view.description">
+                            Description
+                        </wicket:message>
+                    </strong></td>
                     <td wicket:id="description"></td>
                 </tr>
             </wicket:enclosure>
             <wicket:enclosure child="level">
                 <tr valign="top">
-                    <td><strong><wicket:message key="contribution.view.level">
-                        Level
-                    </wicket:message></strong></td>
+                    <td><strong>
+                        <wicket:message key="contribution.view.level">
+                            Level
+                        </wicket:message>
+                    </strong></td>
                     <td wicket:id="level"></td>
                 </tr>
             </wicket:enclosure>
             <wicket:enclosure child="type">
                 <tr valign="top">
-                    <td><strong><wicket:message key="contribution.view.type">
-                        Type
-                    </wicket:message></strong></td>
+                    <td><strong>
+                        <wicket:message key="contribution.view.type">
+                            Type
+                        </wicket:message>
+                    </strong></td>
                     <td wicket:id="type"></td>
                 </tr>
             </wicket:enclosure>
             <wicket:enclosure child="subject">
                 <tr valign="top">
-                    <td><strong><wicket:message key="contribution.view.subject">
-                        Subject
-                    </wicket:message></strong></td>
+                    <td><strong>
+                        <wicket:message key="contribution.view.subject">
+                            Subject
+                        </wicket:message>
+                    </strong></td>
                     <td wicket:id="subject"></td>
                 </tr>
             </wicket:enclosure>
             <wicket:enclosure child="duration">
                 <tr valign="top">
-                    <td><strong><wicket:message key="contribution.view.duration">
-                        Duration
-                    </wicket:message></strong></td>
+                    <td><strong>
+                        <wicket:message key="contribution.view.duration">
+                            Duration
+                        </wicket:message>
+                    </strong></td>
                     <td wicket:id="duration"></td>
                 </tr>
             </wicket:enclosure>
             <tr valign="top">
-                <td><strong><wicket:message key="contribution.view.answers">
-                    Answers Included
-                </wicket:message></strong></td>
+                <td><strong>
+                    <wicket:message key="contribution.view.answers">
+                        Answers Included
+                    </wicket:message>
+                </strong></td>
                 <td wicket:id="answers"></td>
             </tr>
             <tr valign="top">
-                <td><strong><wicket:message key="contribution.view.language">
-                    Language
-                </wicket:message></strong></td>
+                <td><strong>
+                    <wicket:message key="contribution.view.language">
+                        Language
+                    </wicket:message>
+                </strong></td>
                 <td wicket:id="language"></td>
             </tr>
         </table>
 
         <wicket:enclosure child="standards">
-            <h3><wicket:message key="contribution.standards.header">Standards Compliance</wicket:message></h3>
+            <h3>
+                <wicket:message key="contribution.standards.header">Standards Compliance</wicket:message>
+            </h3>
 
             <table class="contribute-standards-table">
                 <tr>
                     <td></td>
-                    <td colspan="3"><wicket:message key="contribution.standards.contentLevel">
-                        Content Level</wicket:message></td>
+                    <td colspan="3">
+                        <wicket:message key="contribution.standards.contentLevel">
+                            Content Level
+                        </wicket:message>
+                    </td>
                 </tr>
                 <tr>
-                    <td class="contribute-standard-label">&nbsp;<wicket:message key="contribution.standards.contentStandard">
-                        Content Standard
-                        </wicket:message>&nbsp;</td>
-                    <td class="contribute-level-label"><wicket:message key="contribution.standards.k4">
-                        K-4
-                    </wicket:message></td>
-                    <td class="contribute-level-label"><wicket:message key="contribution.standards.58">
-                        5-8
-                    </wicket:message></td>
-                    <td class="contribute-level-label"><wicket:message key="contribution.standards.912">
-                        9-12
-                    </wicket:message></td>
+                    <td class="contribute-standard-label">&nbsp;
+                        <wicket:message key="contribution.standards.contentStandard">
+                            Content Standard
+                        </wicket:message>
+                        &nbsp;</td>
+                    <td class="contribute-level-label">
+                        <wicket:message key="contribution.standards.k4">
+                            K-4
+                        </wicket:message>
+                    </td>
+                    <td class="contribute-level-label">
+                        <wicket:message key="contribution.standards.58">
+                            5-8
+                        </wicket:message>
+                    </td>
+                    <td class="contribute-level-label">
+                        <wicket:message key="contribution.standards.912">
+                            9-12
+                        </wicket:message>
+                    </td>
                 </tr>
                 <tr>
-                    <td class="contribute-standard-label">&nbsp;<wicket:message key="contribution.standards.A">
-                        Science as Inquiry - A
-                        </wicket:message>&nbsp;</td>
+                    <td class="contribute-standard-label">&nbsp;
+                        <wicket:message key="contribution.standards.A">
+                            Science as Inquiry - A
+                        </wicket:message>
+                        &nbsp;</td>
                     <td class="contribute-standard-checkmark"><img wicket:id="stdK4A"
                                                                    src="../../../../../../../../root/images/checkmark.gif"
                                                                    alt=""/></td>
@@ -190,9 +246,11 @@
                                                                    alt=""/></td>
                 </tr>
                 <tr>
-                    <td class="contribute-standard-label">&nbsp;<wicket:message key="contribution.standards.B">
-                        Physical Science - B
-                        </wicket:message>&nbsp;</td>
+                    <td class="contribute-standard-label">&nbsp;
+                        <wicket:message key="contribution.standards.B">
+                            Physical Science - B
+                        </wicket:message>
+                        &nbsp;</td>
                     <td class="contribute-standard-checkmark"><img wicket:id="stdK4B"
                                                                    src="../../../../../../../../root/images/checkmark.gif"
                                                                    alt=""/></td>
@@ -204,9 +262,11 @@
                                                                    alt=""/></td>
                 </tr>
                 <tr>
-                    <td class="contribute-standard-label">&nbsp;<wicket:message key="contribution.standards.C">
-                        Life Science - C
-                        </wicket:message>&nbsp;</td>
+                    <td class="contribute-standard-label">&nbsp;
+                        <wicket:message key="contribution.standards.C">
+                            Life Science - C
+                        </wicket:message>
+                        &nbsp;</td>
                     <td class="contribute-standard-checkmark"><img wicket:id="stdK4C"
                                                                    src="../../../../../../../../root/images/checkmark.gif"
                                                                    alt=""/></td>
@@ -218,9 +278,11 @@
                                                                    alt=""/></td>
                 </tr>
                 <tr>
-                    <td class="contribute-standard-label">&nbsp;<wicket:message key="contribution.standards.D">
-                        Earth &amp; Space Science - D
-                        </wicket:message>&nbsp;</td>
+                    <td class="contribute-standard-label">&nbsp;
+                        <wicket:message key="contribution.standards.D">
+                            Earth &amp; Space Science - D
+                        </wicket:message>
+                        &nbsp;</td>
                     <td class="contribute-standard-checkmark"><img wicket:id="stdK4D"
                                                                    src="../../../../../../../../root/images/checkmark.gif"
                                                                    alt=""/></td>
@@ -232,9 +294,11 @@
                                                                    alt=""/></td>
                 </tr>
                 <tr>
-                    <td class="contribute-standard-label">&nbsp;<wicket:message key="contribution.standards.E">
-                        Science &amp; Technology - E
-                        </wicket:message>&nbsp;</td>
+                    <td class="contribute-standard-label">&nbsp;
+                        <wicket:message key="contribution.standards.E">
+                            Science &amp; Technology - E
+                        </wicket:message>
+                        &nbsp;</td>
                     <td class="contribute-standard-checkmark"><img wicket:id="stdK4E"
                                                                    src="../../../../../../../../root/images/checkmark.gif"
                                                                    alt=""/></td>
@@ -246,9 +310,11 @@
                                                                    alt=""/></td>
                 </tr>
                 <tr>
-                    <td class="contribute-standard-label">&nbsp;<wicket:message key="contribution.standards.F">
-                        Science in Personal and Social Perspective - F
-                        </wicket:message>&nbsp;</td>
+                    <td class="contribute-standard-label">&nbsp;
+                        <wicket:message key="contribution.standards.F">
+                            Science in Personal and Social Perspective - F
+                        </wicket:message>
+                        &nbsp;</td>
                     <td class="contribute-standard-checkmark"><img wicket:id="stdK4F"
                                                                    src="../../../../../../../../root/images/checkmark.gif"
                                                                    alt=""/></td>
@@ -260,9 +326,11 @@
                                                                    alt=""/></td>
                 </tr>
                 <tr>
-                    <td class="contribute-standard-label">&nbsp;<wicket:message key="contribution.standards.G">
-                        History and Nature of Science - G
-                        </wicket:message>&nbsp;</td>
+                    <td class="contribute-standard-label">&nbsp;
+                        <wicket:message key="contribution.standards.G">
+                            History and Nature of Science - G
+                        </wicket:message>
+                        &nbsp;</td>
                     <td class="contribute-standard-checkmark"><img wicket:id="stdK4G"
                                                                    src="../../../../../../../../root/images/checkmark.gif"
                                                                    alt=""/></td>
@@ -278,12 +346,13 @@
             <span wicket:id="standards"></span>
         </wicket:enclosure>
 
-        <h3><wicket:message key="contribution.view.nominateHeader">Nominations for Gold Star</wicket:message>
+        <h3>
+            <wicket:message key="contribution.view.nominateHeader">Nominations for Gold Star</wicket:message>
             <img wicket:id="gold-star-nominate" src="../../../../../../../../root/images/contributions/gold-star.jpg"
                  alt="Gold Star Contribution"/></h3>
 
         <p wicket:id="contribution-nominate-text">
-             Gold Star contributions are high quality inquiry-based activities that follow the PhET design guidelines
+            Gold Star contributions are high quality inquiry-based activities that follow the PhET design guidelines
             (PDF) and that teachers find useful. (this is not translated)
         </p>
 
@@ -294,7 +363,8 @@
                     <th>
                         <wicket:message key="contribution.view.nominationReason">Reason for nomination:</wicket:message>
                     </th>
-                </tr><tr>
+                </tr>
+                <tr>
                     <td>
                         <textarea rows="3" cols="30" name="reason"></textarea>
                     </td>
@@ -307,12 +377,16 @@
             </table>
         </form>
 
-        <h3><wicket:message key="contribution.view.comments">Comments</wicket:message></h3>
+        <h3>
+            <wicket:message key="contribution.view.comments">Comments</wicket:message>
+        </h3>
 
-        <p><wicket:message key="contribution.view.commentsHeader">
-            What do you think about this activity? How did you use it or change it for your class? Professionally
-            constructive comments welcome.
-        </wicket:message></p>
+        <p>
+            <wicket:message key="contribution.view.commentsHeader">
+                What do you think about this activity? How did you use it or change it for your class? Professionally
+                constructive comments welcome.
+            </wicket:message>
+        </p>
 
         <wicket:enclosure child="contribution-comment">
             <ul class="contribution-comments-holder">
