@@ -4,17 +4,22 @@
       xmlns:wicket="http://svn.apache.org/repos/asf/wicket/trunk/wicket/wicket-xhtml1-strict.dtd" xml:lang="en"
       lang="en">
 <head>
-    <title wicket:id="page-title">[PREVIEW] DeployTranslationPage</title>
+    <title>[PREVIEW] TranslationDeployServerFinishedPanel</title>
     <wicket:remove>
-        <link rel="stylesheet" type="text/css" href="../../../../../../../../root/css/preview.css"/>
+        <link rel="stylesheet" type="text/css" href="../../../../../../../root/css/preview.css"/>
     </wicket:remove>
 </head>
 <body>
 
-<wicket:extend>
-    <h2 wicket:id="dir"></h2>
-    <div wicket:id="response"></div>
-</wicket:extend>
+<wicket:panel>
+    <p wicket:id="text"></p>
+
+    <h2>Files to test</h2>
+
+    <ul>
+        <li wicket:id="file"><a href="#" wicket:id="link"><span wicket:id="name"></span></a></li>
+    </ul>
+</wicket:panel>
 
 </body>
 </html>

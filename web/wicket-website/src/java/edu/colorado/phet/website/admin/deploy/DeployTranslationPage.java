@@ -30,82 +30,107 @@ public class DeployTranslationPage extends AdminPage {
 
     private static Logger logger = Logger.getLogger( DeployTranslationPage.class.getName() );
 
-    private static final Object lock = new Object();
-
-
     public DeployTranslationPage( PageParameters parameters ) {
         super( parameters );
 
-        synchronized( lock ) {
-            add( new Label( "dir", parameters.getString( "dir" ) ) );
+        add( new Label( "dir", parameters.getString( "dir" ) ) );
 
-            final File translationDir = new File( parameters.getString( "dir" ) );
+        final File translationDir = new File( parameters.getString( "dir" ) );
 
-            try {
-                if ( !translationDir.getCanonicalPath().startsWith( PhetWicketApplication.get().getStagingRoot().getCanonicalPath() ) ) {
-                    logger.warn( "unacceptable translation dir path: " + translationDir.getCanonicalPath() );
-                    logger.warn( "not under " + PhetWicketApplication.get().getStagingRoot().getCanonicalPath() );
+        try {
+            if ( !translationDir.getCanonicalPath().startsWith( PhetWicketApplication.get().getStagingRoot().getCanonicalPath() ) ) {
+                logger.error( "unacceptable translation dir path: " + translationDir.getCanonicalPath() );
+                logger.error( "not under " + PhetWicketApplication.get().getStagingRoot().getCanonicalPath() );
+                add( new Label( "response", "PATH error, see logger" ) );
+                return;
+            }
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+
+        final String jarPath = PhetWicketApplication.get().getWebsiteProperties().getPathToJarUtility();
+        final File simsDir = PhetWicketApplication.get().getSimulationsRoot();
+
+        ComponentThread thread = new ComponentThread() {
+
+            private StringWriter writer = new StringWriter();
+            private boolean error = false;
+
+            @Override
+            public Component getComponent( String id, PageContext context ) {
+                String output = writer.toString();
+                output = HtmlUtils.encode( output ).replace( "\n", "<br/>" );
+
+                String header;
+
+                if ( isDone() ) {
+                    if ( error ) {
+                        header = "<strong style=\"color: #FF0000;\">Errors encountered</strong><br/>";
+                    }
+                    else {
+                        header = "<strong style=\"color: #008800;\">Completed without errors</strong><br/>";
+                    }
+                }
+                else {
+                    header = "<strong style=\"color: #0000FF;\">Processing, please wait.</strong><br/>updated";
+                }
+
+                header += " at " + ( new Date() ).toString() + "<br/>";
+
+                String text = header + output;
+
+                if ( isDone() ) {
+                    return new TranslationDeployServerFinishedPanel( id, context, text, translationDir.listFiles() );
+                }
+                else {
+                    return new RawLabel( id, text );
                 }
             }
-            catch( IOException e ) {
-                e.printStackTrace();
+
+            @Override
+            public void run() {
+                // add an appender so we can capture the info
+                WriterAppender appender = new WriterAppender( new PatternLayout(), writer );
+                WebsiteTranslationDeployServer.getLogger().addAppender( appender );
+                try {
+                    WebsiteTranslationDeployServer runner = new WebsiteTranslationDeployServer(
+                            jarPath,
+                            BuildLocalProperties.getInstance(),
+                            simsDir
+                    );
+
+                    runner.integrateTranslations( translationDir );
+                }
+                catch( IOException e ) {
+                    e.printStackTrace();
+                    WebsiteTranslationDeployServer.getLogger().error( "IOException", e );
+                    error = true;
+                }
+                catch( InterruptedException e ) {
+                    e.printStackTrace();
+                    WebsiteTranslationDeployServer.getLogger().error( "InterruptedException", e );
+                    error = true;
+                }
+                catch( RuntimeException e ) {
+                    e.printStackTrace();
+                    WebsiteTranslationDeployServer.getLogger().error( "RuntimeException", e );
+                    error = true;
+                }
+                finish();
+                WebsiteTranslationDeployServer.getLogger().info( "Finishing" );
+
+                WebsiteTranslationDeployServer.getLogger().removeAppender( appender );
             }
+        };
 
-            final String jarPath = PhetWicketApplication.get().getWebsiteProperties().getPathToJarUtility();
-            final File simsDir = PhetWicketApplication.get().getSimulationsRoot();
+        add( new ComponentThreadStatusPanel( "response", getPageContext(), thread, 1000 ) );
 
-            ComponentThread thread = new ComponentThread() {
-
-                private StringWriter writer = new StringWriter();
-
-                @Override
-                public Component getComponent( String id, PageContext context ) {
-                    String output = writer.toString();
-                    output = HtmlUtils.encode( output ).replace( "\n", "<br/>" );
-
-                    if ( isDone() ) {
-                        // TODO: check for errors!
-                        output = "<h2>Complete, check for errors?</h2><br/>" + output;
-                    }
-                    
-                    return new RawLabel( id, output );
-                }
-
-                @Override
-                public void run() {
-                    // add an appender so we can capture the info
-                    WriterAppender appender = new WriterAppender( new PatternLayout(), writer );
-                    WebsiteTranslationDeployServer.getLogger().addAppender( appender );
-                    try {
-                        WebsiteTranslationDeployServer runner = new WebsiteTranslationDeployServer(
-                                jarPath,
-                                BuildLocalProperties.getInstance(),
-                                simsDir
-                        );
-
-                        runner.integrateTranslations( translationDir );
-                    }
-                    catch( IOException e ) {
-                        e.printStackTrace();
-                        WebsiteTranslationDeployServer.getLogger().error( "IOException", e );
-                    }
-                    catch( InterruptedException e ) {
-                        e.printStackTrace();
-                        WebsiteTranslationDeployServer.getLogger().error( "InterruptedException", e );
-                    }
-                    catch( RuntimeException e ) {
-                        e.printStackTrace();
-                        WebsiteTranslationDeployServer.getLogger().error( "RuntimeException", e );
-                    }
-                    finish();
-
-                    WebsiteTranslationDeployServer.getLogger().removeAppender( appender );
-                }
-            };
-
-            add( new ComponentThreadStatusPanel( "test", getPageContext(), thread, 1000 ) );
-
+        try {
             thread.start();
+        }
+        catch( RuntimeException e ) {
+            e.printStackTrace();
         }
     }
 
