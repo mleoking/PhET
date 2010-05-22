@@ -45,15 +45,21 @@ class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val ta
   }
   addChild(abbreviatonTextNode)
 
-  //can't use def since eta-expansion makes == and array -= impossible, and we need to be able to remove this callback
-  //todo: see if def eta-expansion causes problems elsewhere
+  /**
+   * Method object that updates the graphics for the arrow node and the corresponding textual label.
+   * Note that we use val instead of def since eta-expansion makes == and array -= impossible, and we need to be able
+   * to remove this callback to avoid memory leaks.
+   */
   val update = () => {
     setVisible(vector.visible)
     if (vector.visible) { //skip expensive updates if not visible
+
+      //Update the arrow node itself
       val viewTail = transform.modelToViewDouble(tailLocation())
       val viewTip = transform.modelToViewDouble(vector() + tailLocation())
       arrowNode.setTipAndTailLocations(viewTip, viewTail)
 
+      //Update the location of the textual label
       val proposedLabelLocation = vector() * 0.6
       val minLabelDistance = maxLabelDistance / 2.0 //todo: improve heuristics for min label distance, or make it settable in the constructor
 
@@ -86,6 +92,9 @@ class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val ta
   }
 }
 
+/**
+ * This VectorNode subclass is located directly on a Bead
+ */
 class BodyVectorNode(transform: ModelViewTransform2D,
                      vector: Vector,
                      offset: VectorValue,
