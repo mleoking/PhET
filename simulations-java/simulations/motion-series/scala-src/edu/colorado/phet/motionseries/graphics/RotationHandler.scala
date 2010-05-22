@@ -8,6 +8,7 @@ import edu.umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
 import edu.colorado.phet.scalacommon.Predef._
 import java.lang.Math._
 
+//TODO: why is Rotatble needed, can't we just use RotationModel?
 trait Rotatable extends Observable with RotationModel {
   def startPoint: Vector2D
 
@@ -44,16 +45,21 @@ class RotationHandler(val transform: ModelViewTransform2D,
   private var totalDelta = 0.0
   private var origAngle = 0.0
 
+  override def mousePressed(event: PInputEvent) = {
+    totalDelta = 0
+    origAngle = (toModelPoint(event) - pivot).getAngle
+  }
+
   override def mouseDragged(event: PInputEvent) = {
-    val modelPt = transform.viewToModel(event.getPositionRelativeTo(node.getParent))
+    val modelPt = toModelPoint(event)
 
     val deltaView = event.getDeltaRelativeTo(node.getParent)
     val deltaModel = transform.viewToModelDifferential(deltaView.width, deltaView.height)
 
     val oldPtModel = modelPt - deltaModel
 
-    val oldAngle = (rotatable.getPivot - oldPtModel).getAngle
-    val newAngle = (rotatable.getPivot - modelPt).getAngle
+    val oldAngle = (pivot - oldPtModel).getAngle
+    val newAngle = (pivot - modelPt).getAngle
 
     //should be a small delta
     var deltaAngle = newAngle - oldAngle
@@ -69,11 +75,7 @@ class RotationHandler(val transform: ModelViewTransform2D,
 
   def getSnapAngle(proposedAngle: Double) = proposedAngle
 
-  override def mousePressed(event: PInputEvent) = {
-    totalDelta = 0
+  def pivot = rotatable.getPivot
 
-    val modelPt = transform.viewToModel(event.getPositionRelativeTo(node.getParent))
-    val oldAngle = (modelPt - rotatable.getPivot).getAngle
-    origAngle = oldAngle
-  }
+  def toModelPoint(event: PInputEvent) = transform.viewToModel(event.getPositionRelativeTo(node.getParent))
 }
