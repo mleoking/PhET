@@ -6,8 +6,6 @@ import edu.umd.cs.piccolo.PNode
 import edu.colorado.phet.scalacommon.math.Vector2D
 import edu.umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
 import edu.colorado.phet.scalacommon.Predef._
-import java.lang.Math._
-
 //TODO: why is Rotatble needed, can't we just use RotationModel?
 trait Rotatable extends Observable with RotationModel {
   def startPoint: Vector2D
@@ -35,40 +33,28 @@ trait RotationModel {
   def angle_=(a: Double)
 }
 
+/**
+ * This PInputEventHandler handles drag events on rotatable objects such as the liftable ramp segment
+ * and the rotatable coorindate frames.
+ * @author Sam Reid
+ */
 class RotationHandler(val transform: ModelViewTransform2D,
                       val node: PNode,
                       val rotatable: RotationModel,
                       min: Double,
                       max: Double)
         extends PBasicInputEventHandler {
-  //TODO: it seems like these fields and computations should be moved to model objects
-  private var totalDelta = 0.0
-  private var origAngle = 0.0
+  private var relativeAngle = 0.0
 
   override def mousePressed(event: PInputEvent) = {
-    totalDelta = 0
-    origAngle = (toModelPoint(event) - pivot).getAngle
+    val pointerAngle = (toModelPoint(event) - pivot).getAngle
+    val modelAngle = rotatable.angle
+    relativeAngle = modelAngle - pointerAngle
   }
 
   override def mouseDragged(event: PInputEvent) = {
-    val modelPt = toModelPoint(event)
-
-    val deltaView = event.getDeltaRelativeTo(node.getParent)
-    val deltaModel = transform.viewToModelDifferential(deltaView.width, deltaView.height)
-
-    val oldPtModel = modelPt - deltaModel
-
-    val oldAngle = (pivot - oldPtModel).getAngle
-    val newAngle = (pivot - modelPt).getAngle
-
-    //should be a small delta
-    var deltaAngle = newAngle - oldAngle
-    while (deltaAngle > PI) deltaAngle = deltaAngle - PI * 2
-    while (deltaAngle < -PI) deltaAngle = deltaAngle + PI * 2
-
-    totalDelta += deltaAngle
-    val proposedAngle = origAngle + totalDelta
-
+    val pointerAngle = (toModelPoint(event) - pivot).getAngle
+    val proposedAngle = pointerAngle + relativeAngle
     val angle = getSnapAngle(if (proposedAngle > max) max else if (proposedAngle < min) min else proposedAngle)
     rotatable.angle = angle
   }
