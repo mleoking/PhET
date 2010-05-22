@@ -1,5 +1,6 @@
 package edu.colorado.phet.website.translation.entities;
 
+import edu.colorado.phet.website.content.ForTranslatorsPanel;
 import edu.colorado.phet.website.content.TranslationUtilityPanel;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.translation.PhetPanelFactory;
@@ -8,6 +9,14 @@ import edu.colorado.phet.website.util.PhetRequestCycle;
 
 public class TranslationUtilityEntity extends TranslationEntity {
     public TranslationUtilityEntity() {
+
+addString( "forTranslators.translatingSimulations" );
+addString( "forTranslators.simulationsTranslatable" );
+addString( "forTranslators.translationUtilityScreenshot" );
+addString( "forTranslators.translatingMission" );
+addString( "forTranslators.translatingTheWebsite" );
+addString( "forTranslators.websiteText" );
+
         addString( "translationUtility.checkAlreadyTranslated" );
         addString( "translationUtility.pleaseRead" );
         addString( "translationUtility.newOrEdit" );
@@ -45,12 +54,18 @@ public class TranslationUtilityEntity extends TranslationEntity {
 
         addPreview( new PhetPanelFactory() {
             public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {
+                return new ForTranslatorsPanel( id, context );
+            }
+        }, "For Translators" );
+
+        addPreview( new PhetPanelFactory() {
+            public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {
                 return new TranslationUtilityPanel( id, context );
             }
         }, "Translation Utility" );
     }
 
     public String getDisplayName() {
-        return "Translation Utility";
+        return "Translations";
     }
 }

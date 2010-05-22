@@ -19,33 +19,35 @@
 
 <wicket:panel>
     <div class="contribute standard-content" wicket:message="dir:language.dir">
-        <h2>Translating Simulations</h2>
+        <h2><wicket:message key="forTranslators.translatingSimulations">Translating Simulations</wicket:message></h2>
 
-        <p>
+        <p wicket:id="forTranslators-simulationsTranslatable">
             The PhET simulations have been written so that they are easily translated to languages other than English.
-            The process uses a simple tool called the <a href="#" wicket:id="translation-utility-link">PhET
+            The process uses a simple tool called the <a href="#">PhET
             Translation Utility</a>, and requires no programming skills.
         </p>
 
         <p style="text-align: center;">
-            <a href="#" wicket:id="translation-utility-link-2">
+            <a href="#" wicket:id="translation-utility-link">
                 <img src="../../../../../../../root/images/screenshots/translation-utility-small.png"
                      alt="Translation Utility Screenshot" style="border: none;"
                      wicket:id="translation-utility-screenshot"/>
             </a>
         </p>
 
-        <p>
+        <p wicket:id="forTranslators-translatingMission">
             Translating the PhET simulations into other languages greatly expands our target audience, and helps us
-            accomplish the <a href="#" wicket:id="about-phet-link">PhET mission</a>.
+            accomplish the <a href="#">PhET mission</a>.
         </p>
 
         <wicket:enclosure child="translate-website">
-            <h2>Translating the Website</h2>
+            <h2><wicket:message key="forTranslators.translatingTheWebsite">
+                Translating the Website
+            </wicket:message></h2>
 
-            <p>
+            <p wicket:id="translate-website">
                 This website has been written so that it can be translated into other languages. The website can be
-                <a href="#" wicket:id="translate-website">translated online through the browser</a>, and offers instant
+                <a href="#">translated online through the browser</a>, and offers instant
                 previews of the translated result. As with translating simulations, it requires no programming skills.
                 The online translation interface is only currently available in English.
             </p>
