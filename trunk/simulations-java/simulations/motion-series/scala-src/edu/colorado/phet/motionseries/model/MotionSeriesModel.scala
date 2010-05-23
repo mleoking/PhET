@@ -60,13 +60,13 @@ class MotionSeriesModel(defaultBeadPosition: Double,
   val wallsBounce = () => bounce
 
   val defaultManPosition = defaultBeadPosition - 1
-  val leftWall = createBead(-10, MotionSeriesDefaults.wall.width, MotionSeriesDefaults.wall.height)
-  val rightWall = createBead(10, MotionSeriesDefaults.wall.width, MotionSeriesDefaults.wall.height)
+  val leftWall = MovingManBead(this,-10, MotionSeriesDefaults.wall.width, MotionSeriesDefaults.wall.height)
+  val rightWall = MovingManBead(this,10, MotionSeriesDefaults.wall.width, MotionSeriesDefaults.wall.height)
 
-  val leftWallRightEdge = createBead(-10 + MotionSeriesDefaults.wall.width / 2, MotionSeriesDefaults.SPRING_WIDTH, MotionSeriesDefaults.SPRING_HEIGHT)
-  val rightWallLeftEdge = createBead(10 - MotionSeriesDefaults.wall.width / 2, MotionSeriesDefaults.SPRING_WIDTH, MotionSeriesDefaults.SPRING_HEIGHT)
+  val leftWallRightEdge = MovingManBead(this,-10 + MotionSeriesDefaults.wall.width / 2, MotionSeriesDefaults.SPRING_WIDTH, MotionSeriesDefaults.SPRING_HEIGHT)
+  val rightWallLeftEdge = MovingManBead(this,10 - MotionSeriesDefaults.wall.width / 2, MotionSeriesDefaults.SPRING_WIDTH, MotionSeriesDefaults.SPRING_HEIGHT)
 
-  val manBead = createBead(defaultManPosition, 1, 3)
+  val manBead = MovingManBead(this,defaultManPosition, 1, 3)
 
   val wallRange = () => new Range(-rampSegments(0).length, rampSegments(1).length)
   
@@ -92,11 +92,6 @@ class MotionSeriesModel(defaultBeadPosition: Double,
 
   val _goButtonModel = new GoButtonVisibilityModel(this)//Todo: since passes this, must be initialized after much of the above state
   def goButtonModel = _goButtonModel
-
-  def createBead(x: Double, width: Double, height: Double) =
-    new MovingManBead(new BeadState(x, 0, 10, 0, 0, 0.0, 0.0, 0.0), height, width, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction, wallsBounce, surfaceFrictionStrategy, walls, wallRange, thermalEnergyStrategy)
-
-  def createBead(x: Double, width: Double): MovingManBead = createBead(x, width, 3)
 
   def stepRecord(): Unit = stepRecord(MotionSeriesDefaults.DT_DEFAULT)
 
