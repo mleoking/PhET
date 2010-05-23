@@ -1,11 +1,9 @@
 package edu.colorado.phet.motionseries.sims.theramp.robotmovingcompany
 
 import edu.colorado.phet.common.piccolophet.nodes.{HTMLNode}
-import java.awt.{Color}
 import edu.colorado.phet.common.phetcommon.view.util.{BufferedImageUtils, PhetFont}
 import edu.colorado.phet.common.piccolophet.nodes.layout.SwingLayoutNode
 import edu.colorado.phet.common.piccolophet.PhetPCanvas
-import java.awt._
 import edu.colorado.phet.scalacommon.ScalaClock
 import edu.umd.cs.piccolo.nodes.{PImage, PText}
 import edu.umd.cs.piccolo.PNode
@@ -13,9 +11,11 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 import edu.colorado.phet.motionseries.model._
 import edu.umd.cs.piccolox.pswing.PSwing
 import edu.colorado.phet.motionseries.MotionSeriesResources._
-import geom.{Line2D, RoundRectangle2D}
 import javax.swing._
 import edu.colorado.phet.motionseries.{MotionSeriesDefaults, MotionSeriesResources}
+import swing.Button
+import java.awt._
+import geom.{RoundRectangle2D, Line2D}
 
 /**
  * The PlayAreaDialog is a piccolo node that looks like a window in the play area, used for instructions
@@ -84,10 +84,11 @@ class SummaryScreenNode(gameModel: RobotMovingCompanyGameModel,
   image.setOffset(background.getFullBounds.getCenterX - image.getFullBounds.width / 2, pText.getFullBounds.getMaxY + 20)
   addChild(image)
 
-  val doneButton = new JButton(okButtonText)
-  val donePSwing = new PSwing(doneButton)
+  val doneButton = Button(okButtonText){
+    okPressed(SummaryScreenNode.this)
+  }
+  val donePSwing = new PSwing(doneButton.peer)
   donePSwing.setOffset(background.getFullBounds.getCenterX - donePSwing.getFullBounds.width / 2, background.getFullBounds.getMaxY - donePSwing.getFullBounds.height - 20)
-  doneButton.addActionListener(() => {okPressed(this)})
 
   val layoutNode = new SwingLayoutNode(new GridBagLayout)
 
