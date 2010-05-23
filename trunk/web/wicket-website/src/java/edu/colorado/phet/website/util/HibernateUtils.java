@@ -149,14 +149,24 @@ public class HibernateUtils {
         return ret;
     }
 
-    public static LocalizedSimulation getBestSimulation( Session session, Locale locale, String project, String flavor ) {
+    /**
+     * Find the best LocalizedSimulation that matches the given locale and simulation name.
+     * <p/>
+     * NOTE: Simulation names should be unique. Matches exact locale, then language, then English.
+     * NOTE: Session must be within a transaction
+     *
+     * @param session    Hibernate session (in a transaction)
+     * @param locale     Desired locale
+     * @param simulation Simulation name
+     * @return The best LocalizedSimulation
+     */
+    public static LocalizedSimulation getBestSimulation( Session session, Locale locale, String simulation ) {
         Locale englishLocale = LocaleUtils.stringToLocale( "en" );
         Locale languageLocale = LocaleUtils.stringToLocale( locale.getLanguage() );
         boolean useLanguage = !languageLocale.equals( locale );
 
-        Query query = session.createQuery( "select l from LocalizedSimulation as l, Simulation as s, Project as p where (l.simulation = s AND s.project = p AND p.name = :project AND s.name = :flavor AND (l.locale = :english OR l.locale = :locale" + ( useLanguage ? " OR l.locale = :lang" : "" ) + "))" );
-        query.setString( "project", project );
-        query.setString( "flavor", flavor );
+        Query query = session.createQuery( "select l from LocalizedSimulation as l, Simulation as s, Project as p where (l.simulation = s AND s.project = p AND s.name = :flavor AND (l.locale = :english OR l.locale = :locale" + ( useLanguage ? " OR l.locale = :lang" : "" ) + "))" );
+        query.setString( "flavor", simulation );
         query.setLocale( "locale", locale );
         if ( useLanguage ) {
             query.setLocale( "lang", languageLocale );
