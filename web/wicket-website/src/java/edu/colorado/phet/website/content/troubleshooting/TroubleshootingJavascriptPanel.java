@@ -6,6 +6,7 @@ import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.components.RawLabel;
 import edu.colorado.phet.website.constants.CSS;
+import edu.colorado.phet.website.constants.Linkers;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.HtmlUtils;
 import edu.colorado.phet.website.util.PageContext;
@@ -24,7 +25,7 @@ public class TroubleshootingJavascriptPanel extends PhetPanel {
         } ) );
 
         add( new LocalizedText( "troubleshooting-javascript-notify", "troubleshooting.javascript.notify", new Object[]{
-                "<a href=\"mailto:phethelp@colorado.edu\"><span class=\"red\">phethelp@colorado.edu</span></a>"
+                Linkers.PHET_HELP_LINK
         } ) );
 
         add( new RawLabel( "troubleshooting-javascript-q1-yes",

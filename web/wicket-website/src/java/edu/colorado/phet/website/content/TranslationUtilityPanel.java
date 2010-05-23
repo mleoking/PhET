@@ -18,6 +18,9 @@ public class TranslationUtilityPanel extends PhetPanel {
 
         super( id, context );
 
+        String mailString = "<a " + new Linkers.HelpMailer( "Translation Utility" ).getHref( context, getPhetCycle() ) +
+                            "><span class=\"red\">" + WebsiteConstants.HELP_EMAIL + "</span></a>";
+
         add( new LocalizedText( "checkAlreadyTranslated", "translationUtility.checkAlreadyTranslated", new Object[]{
                 TranslatedSimsPage.getLinker().getHref( context, getPhetCycle() )
         } ) );
@@ -27,7 +30,7 @@ public class TranslationUtilityPanel extends PhetPanel {
         } ) );
 
         add( new LocalizedText( "step-selectLanguage", "translationUtility.general.selectLanguage", new Object[]{
-                "<a href=\"mailto:phethelp@colorado.edu?subject=Translation%20Utility\"><span class=\"red\">phethelp@colorado.edu</span></a>"
+                mailString
         } ) );
 
         add( new LocalizedText( "example-hydrogen", "translationUtility.example.downloadHydrogen", new Object[]{
@@ -40,8 +43,7 @@ public class TranslationUtilityPanel extends PhetPanel {
         } ) );
 
         add( new LocalizedText( "bug-reports", "translationUtility.bugReports.whatToDo", new Object[]{
-                "<a " + new Linkers.HelpMailer( "Translation Utility" ).getHref( context, getPhetCycle() ) +
-                "><span class=\"red\">" + WebsiteConstants.HELP_EMAIL + "</span></a>"
+                mailString
         } ) );
     }
 

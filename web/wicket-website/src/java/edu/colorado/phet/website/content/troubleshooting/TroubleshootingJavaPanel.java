@@ -5,6 +5,7 @@ import org.apache.wicket.behavior.HeaderContributor;
 import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.constants.CSS;
+import edu.colorado.phet.website.constants.Linkers;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetRequestCycle;
@@ -19,7 +20,7 @@ public class TroubleshootingJavaPanel extends PhetPanel {
 
 
         add( new LocalizedText( "intro", "troubleshooting.java.intro", new Object[]{
-                "href=\"mailto:phethelp@colorado.edu\""
+                new Linkers.HelpMailer().getHref( context, getPhetCycle() )
         } ) );
 
         add( new LocalizedText( "troubleshooting-java-q1-answer", "troubleshooting.java.q1.answer", new Object[]{
@@ -31,7 +32,7 @@ public class TroubleshootingJavaPanel extends PhetPanel {
         } ) );
 
         add( new LocalizedText( "troubleshooting-java-q3-answer", "troubleshooting.java.q3.answer", new Object[]{
-                "<a href=\"mailto:phethelp@colorado.edu\">phethelp@colorado.edu</a>"
+                Linkers.PHET_HELP_LINK
         } ) );
 
         add( new LocalizedText( "troubleshooting-java-q4-answer", "troubleshooting.java.q4.answer", new Object[]{

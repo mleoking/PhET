@@ -17,6 +17,8 @@ import edu.colorado.phet.website.data.Simulation;
 import edu.colorado.phet.website.data.util.DataListener;
 import edu.colorado.phet.website.data.util.IntId;
 import edu.colorado.phet.website.util.StringUtils;
+import edu.colorado.phet.website.util.links.RawLinkable;
+import edu.colorado.phet.website.util.links.RawLinker;
 
 public class Contribution implements Serializable, DataListener, IntId {
 
@@ -112,6 +114,10 @@ public class Contribution implements Serializable, DataListener, IntId {
 
     public String getZipLocation() {
         return PhetWicketApplication.get().getActivitiesLocation() + "/zip/" + getZipName() + ".zip";
+    }
+
+    public RawLinkable getZipLinker() {
+        return new RawLinker( getZipLocation() );
     }
 
     public void createZipFile() throws IOException {

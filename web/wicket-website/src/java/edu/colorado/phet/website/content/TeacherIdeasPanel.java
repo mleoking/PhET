@@ -1,6 +1,7 @@
 package edu.colorado.phet.website.content;
 
 import edu.colorado.phet.website.components.LocalizedText;
+import edu.colorado.phet.website.constants.Linkers;
 import edu.colorado.phet.website.content.contribution.ContributionBrowsePage;
 import edu.colorado.phet.website.content.contribution.ContributionCreatePage;
 import edu.colorado.phet.website.content.contribution.ContributionGuidelinesPanel;
@@ -29,7 +30,7 @@ public class TeacherIdeasPanel extends PhetPanel {
 
         add( new LocalizedText( "guidelines", "teacherIdeas.guidelines", new Object[]{
                 ContributionGuidelinesPanel.getLinker().getHref( context, getPhetCycle() ),
-                "href=\"/publications/activities-guide/contribution-guidelines.pdf\""
+                Linkers.CONTRIBUTION_GUIDELINES_PDF.getHref( context, getPhetCycle() )
         } ) );
 
     }

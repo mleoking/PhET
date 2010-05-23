@@ -14,6 +14,7 @@ import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.authentication.PhetSession;
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.components.LocalizedText;
+import edu.colorado.phet.website.content.IndexPage;
 import edu.colorado.phet.website.content.ResearchPanel;
 import edu.colorado.phet.website.content.troubleshooting.TroubleshootingFlashPanel;
 import edu.colorado.phet.website.content.troubleshooting.TroubleshootingJavaPanel;
@@ -37,11 +38,11 @@ public class AboutMainPanel extends PhetPanel {
         add( new LocalizedText( "about-p2", "about.p2" ) );
 
         add( new LocalizedText( "about-p3", "about.p3", new Object[]{
-                "href=\"http://phet.colorado.edu/about/legend.php\""
+                AboutLegendPanel.getLinker().getHref( context, getPhetCycle() )
         } ) );
 
         add( new LocalizedText( "about-p4", "about.p4", new Object[]{
-                "href=\"http://phet.colorado.edu/index.php\"",
+                IndexPage.getLinker().getHref( context, getPhetCycle() ),
                 TroubleshootingJavaPanel.getLinker().getHref( context, getPhetCycle() ),
                 TroubleshootingFlashPanel.getLinker().getHref( context, getPhetCycle() )
         } ) );
