@@ -202,7 +202,7 @@ class RampControlPanelBody(model: MotionSeriesModel,
   moreControlsPanel.add(positionSlider)
 
   if (showAngleSlider) {
-    val angleSlider = new ScalaValueControl(0, 90, "property.ramp-angle".translate, "0.0".literal, "units.degrees".translate,
+    val angleSlider = new ScalaValueControl(0, MotionSeriesDefaults.MAX_ANGLE.toDegrees, "property.ramp-angle".translate, "0.0".literal, "units.degrees".translate,
       () => model.rampSegments(1).getUnitVector.getAngle.toDegrees, value => model.setRampAngle(value.toRadians), model.rampSegments(1).addListener)
     moreControlsPanel.add(angleSlider)
   }
