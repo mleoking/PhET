@@ -32,16 +32,12 @@ public class ContributionFile implements Serializable, IntId {
 
     private static final Logger logger = Logger.getLogger( ContributionFile.class.getName() );
 
-    //----------------------------------------------------------------------------
-    // constructor
-    //----------------------------------------------------------------------------
-
     public ContributionFile() {
     }
 
-    //----------------------------------------------------------------------------
-    // public methods
-    //----------------------------------------------------------------------------
+    /*---------------------------------------------------------------------------*
+    * public methods
+    *----------------------------------------------------------------------------*/
 
     public File getFileLocation() {
         return new File( PhetWicketApplication.get().getActivitiesRoot(), getRelativeLocation() );
@@ -111,9 +107,9 @@ public class ContributionFile implements Serializable, IntId {
         return new File( PhetWicketApplication.get().getActivitiesRoot(), "tmp" + getRelativeLocation( id ) );
     }
 
-    //----------------------------------------------------------------------------
-    // getters and setters
-    //----------------------------------------------------------------------------
+    /*---------------------------------------------------------------------------*
+    * getters and setters
+    *----------------------------------------------------------------------------*/
 
     public int getId() {
         return id;

@@ -49,9 +49,9 @@ public abstract class EventDependency {
     protected EventDependency() {
     }
 
-    //----------------------------------------------------------------------------
-    // abstract methods to implement
-    //----------------------------------------------------------------------------
+    /*---------------------------------------------------------------------------*
+    * abstract methods to implement
+    *----------------------------------------------------------------------------*/
 
     /**
      * Should add any necessary listeners that could later call invalidate()
@@ -63,9 +63,9 @@ public abstract class EventDependency {
      */
     protected abstract void removeListeners();
 
-    //----------------------------------------------------------------------------
-    // register / deregister for cache control
-    //----------------------------------------------------------------------------
+    /*---------------------------------------------------------------------------*
+    * register / deregister for cache control
+    *----------------------------------------------------------------------------*/
 
     /**
      * Called when the parent cache entry is put into the cache. Responsible for setting everything up so listeners can
@@ -106,9 +106,9 @@ public abstract class EventDependency {
         }
     }
 
-    //----------------------------------------------------------------------------
-    // methods for subclasses
-    //----------------------------------------------------------------------------
+    /*---------------------------------------------------------------------------*
+    * methods for subclasses
+    *----------------------------------------------------------------------------*/
 
     /**
      * Invalidates the parent cache entry. Do not call deregister() on ourself, as the entry should take care of that.
