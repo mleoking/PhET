@@ -121,7 +121,7 @@ public class Changelog {
         Entry lastEntry = null;
 
         for ( Entry entry : entries ) {
-            if ( entry.getDevVersion() == 0 ) {
+            if ( entry.getDevVersion() == null || entry.getDevVersion() == 0 ) {
                 lastEntry = entry.cloneWithoutLines();
                 log.getEntries().add( lastEntry );
             }
