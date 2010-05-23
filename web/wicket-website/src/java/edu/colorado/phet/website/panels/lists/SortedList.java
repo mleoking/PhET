@@ -2,15 +2,14 @@ package edu.colorado.phet.website.panels.lists;
 
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
-import org.apache.wicket.ajax.markup.html.form.AjaxButton;
-import org.apache.wicket.ajax.markup.html.form.AjaxSubmitButton;
-import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
+import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
@@ -39,7 +38,7 @@ public abstract class SortedList<Item extends SortableListItem> extends PhetPane
 
     private static final Logger logger = Logger.getLogger( SortedList.class.getName() );
 
-    public SortedList( String id, PageContext context, final List<Item> items, final List<Item> allItems ) {
+    public SortedList( String id, PageContext context, final LinkedList<Item> items, final LinkedList<Item> allItems ) {
         super( id, context );
         this.items = items;
         this.allItems = allItems;
@@ -53,12 +52,15 @@ public abstract class SortedList<Item extends SortableListItem> extends PhetPane
         Form form = new Form( "form" );
         add( form );
 
-        listEmpty = new Label( "list-empty", new Model( getPhetLocalizer().getString( "list.empty", this ) ) );
+        listEmpty = new Label( "list-empty", new Model<String>( getPhetLocalizer().getString( "list.empty", this ) ) );
         form.add( listEmpty );
 
-        form.add( new ListView( "items", items ) {
-            protected void populateItem( final ListItem listItem ) {
-                final Item item = (Item) listItem.getModel().getObject();
+        Model<LinkedList<Item>> itemsModel = new Model<LinkedList<Item>>( items );
+
+        form.add( new ListView<Item>( "items", itemsModel ) {
+            @Override
+            protected void populateItem( final ListItem<Item> listItem ) {
+                final Item item = listItem.getModelObject();
                 listItem.add( item.getDisplayComponent( "item-component" ) );
                 listItem.add( new AjaxFallbackLink( "remove" ) {
                     public void onClick( AjaxRequestTarget target ) {
@@ -77,9 +79,9 @@ public abstract class SortedList<Item extends SortableListItem> extends PhetPane
 
         form.add( dropDownChoice );
 
-        form.add( new AjaxButton( "button" ) {
-            protected void onSubmit( AjaxRequestTarget target, Form form ) {
-                dropDownChoice.updateModel();
+        form.add( new AjaxLink( "button" ) {
+            public void onClick( AjaxRequestTarget target ) {
+                //dropDownChoice.updateModel();
                 int itemId = Integer.valueOf( dropDownChoice.getModelValue() );
                 Item item = null;
                 for ( Item allItem : allItems ) {
@@ -104,6 +106,14 @@ public abstract class SortedList<Item extends SortableListItem> extends PhetPane
 
                 // redraw the whole list, but nothing else
                 target.addComponent( SortedList.this );
+            }
+        } );
+
+        // when the drop down choice selection is changed, update the model
+        dropDownChoice.add( new AjaxFormComponentUpdatingBehavior( "onchange" ) {
+            @Override
+            protected void onUpdate( AjaxRequestTarget target ) {
+                dropDownChoice.updateModel();
             }
         } );
     }
