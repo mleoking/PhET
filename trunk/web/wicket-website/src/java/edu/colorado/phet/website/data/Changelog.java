@@ -144,7 +144,7 @@ public class Changelog {
         StringBuilder lines = new StringBuilder();
 
         while ( ( line = reader.readLine() ) != null ) {
-            if ( line.startsWith( "#" ) && lines.length() > 0 ) {
+            if ( line.startsWith( "# " ) && lines.length() > 0 ) {
                 entries.add( new Entry( lines.toString() ) );
                 lines = new StringBuilder();
             }
@@ -228,8 +228,10 @@ public class Changelog {
             StringBuilder builder = new StringBuilder();
             builder.append( "# " );
             appendVersion( builder );
-            builder.append( " " );
-            builder.append( FORMAT_VERSION_TIMESTAMP.format( date ) );
+            if ( date != null ) {
+                builder.append( " " );
+                builder.append( FORMAT_VERSION_TIMESTAMP.format( date ) );
+            }
             builder.append( "\n" );
             for ( Line line : lines ) {
                 builder.append( line.toString() ).append( "\n" );
