@@ -31,6 +31,7 @@ import edu.colorado.phet.website.content.DonatePanel;
 import edu.colorado.phet.website.content.about.AboutLegendPanel;
 import edu.colorado.phet.website.content.contribution.ContributionCreatePage;
 import edu.colorado.phet.website.content.simulations.SimsByKeywordPage;
+import edu.colorado.phet.website.content.simulations.SimulationChangelogPage;
 import edu.colorado.phet.website.content.simulations.TranslatedSimsPage;
 import edu.colorado.phet.website.data.*;
 import edu.colorado.phet.website.data.contribution.Contribution;
@@ -74,8 +75,13 @@ public class SimulationMainPanel extends PhetPanel {
 
         //add( new Label( "simulation-main-description", simulation.getDescription() ) );
         add( new LocalizedText( "simulation-main-description", simulation.getSimulation().getDescriptionKey() ) );
-        add( new Label( "simulationMainPanel.version", new StringResourceModel( "simulationMainPanel.version", this, null, new String[]{simulationVersionString} ) ) );
-        add( new Label( "simulationMainPanel.kilobytes", new StringResourceModel( "simulationMainPanel.kilobytes", this, null, new Object[]{simulation.getSimulation().getKilobytes()} ) ) );
+        add( new LocalizedText( "simulationMainPanel.version", "simulationMainPanel.version", new Object[]{
+                HtmlUtils.encode( simulationVersionString ),
+                SimulationChangelogPage.getLinker( simulation ).getHref( context, getPhetCycle() )
+        } ) );
+        add( new LocalizedText( "simulationMainPanel.kilobytes", "simulationMainPanel.kilobytes", new Object[]{
+                simulation.getSimulation().getKilobytes()
+        } ) );
 
         SmallOrangeButtonBorder orangeButton = new SmallOrangeButtonBorder( "orange-button", context );
         add( orangeButton );
