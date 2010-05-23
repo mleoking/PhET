@@ -9,7 +9,7 @@ import edu.colorado.phet.website.templates.PhetPage;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetRequestCycle;
 import edu.colorado.phet.website.util.PhetUrlMapper;
-import edu.colorado.phet.website.util.links.Linkable;
+import edu.colorado.phet.website.util.links.RawLinkable;
 
 public class IndexPage extends PhetPage {
     public IndexPage( PageParameters parameters ) {
@@ -34,10 +34,27 @@ public class IndexPage extends PhetPage {
         }
     }
 
-    public static Linkable getLinker() {
-        return new Linkable() {
+    public static RawLinkable getLinker() {
+        return new RawLinkable() {
+            public String getRawUrl( PageContext context, PhetRequestCycle cycle ) {
+                if ( context.getPrefix().equals( "/en/" ) ) {
+                    return "/";
+                }
+                else {
+                    return context.getPrefix();
+                }
+            }
+
+            public String getHref( PageContext context, PhetRequestCycle cycle ) {
+                return "href=\"" + getRawUrl(context, cycle ) + "\"";
+            }
+
+            public String getDefaultRawUrl() {
+                return "/";
+            }
+
             public Link getLink( String id, PageContext context, PhetRequestCycle cycle ) {
-                return createLink( id, context );
+                return new RawLink( id, getRawUrl( context, cycle ));
             }
         };
     }

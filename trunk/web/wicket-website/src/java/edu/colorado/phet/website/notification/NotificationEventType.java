@@ -8,6 +8,7 @@ import java.util.Date;
 import org.apache.wicket.util.value.ValueMap;
 import org.hibernate.Session;
 
+import edu.colorado.phet.website.constants.WebsiteConstants;
 import edu.colorado.phet.website.content.contribution.ContributionPage;
 import edu.colorado.phet.website.data.NotificationEvent;
 import edu.colorado.phet.website.data.contribution.Contribution;
@@ -56,7 +57,7 @@ public enum NotificationEventType {
     }
 
     private String getContributionString( final int id ) {
-        final String contribhref = "href=\"http://phetsims.colorado.edu" + ContributionPage.getLinker( id ).getDefaultRawUrl() + "\"";
+        final String contribhref = "href=\"http://" + WebsiteConstants.WEB_SERVER + ContributionPage.getLinker( id ).getDefaultRawUrl() + "\"";
         final String[] ret = new String[1];
         boolean success = HibernateUtils.wrapSession( new HibernateTask() {
             public boolean run( Session session ) {

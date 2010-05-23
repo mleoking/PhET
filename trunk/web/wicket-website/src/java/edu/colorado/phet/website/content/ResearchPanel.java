@@ -5,6 +5,7 @@ import org.apache.wicket.behavior.HeaderContributor;
 import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.constants.CSS;
+import edu.colorado.phet.website.constants.Linkers;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetRequestCycle;
@@ -22,8 +23,8 @@ public class ResearchPanel extends PhetPanel {
         add( new LocalizedText( "research-top", "research.top" ) );
 
         add( new LocalizedText( "research-intro", "research.intro", new Object[]{
-                "href=\"/publications/phet_design_process.pdf\"",
-                "href=\"/publications/PhET%20Look%20and%20Feel.pdf\"",
+                Linkers.PHET_DESIGN_PROCESS_PDF.getHref( context, getPhetCycle() ),
+                Linkers.PHET_LOOK_AND_FEEL_PDF.getHref( context, getPhetCycle() ),
                 "href=\"#pub_1\""
         } ) );
 

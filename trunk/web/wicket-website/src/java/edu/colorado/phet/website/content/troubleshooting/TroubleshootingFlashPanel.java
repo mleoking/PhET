@@ -5,6 +5,7 @@ import org.apache.wicket.behavior.HeaderContributor;
 import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.constants.CSS;
+import edu.colorado.phet.website.constants.Linkers;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetRequestCycle;
@@ -18,7 +19,7 @@ public class TroubleshootingFlashPanel extends PhetPanel {
         add( HeaderContributor.forCss( CSS.TROUBLESHOOTING ) );
 
         add( new LocalizedText( "troubleshooting-flash-intro", "troubleshooting.flash.intro", new Object[]{
-                "<a href=\"mailto:phethelp@colorado.edu\"><span class=\"red\">phethelp@colorado.edu</span></a>"
+                Linkers.PHET_HELP_LINK
         } ) );
 
         add( new LocalizedText( "troubleshooting-flash-q1-answer", "troubleshooting.flash.q1.answer" ) );

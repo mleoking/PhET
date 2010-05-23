@@ -220,13 +220,11 @@ public class TranslationMainPage extends TranslationPage {
                 } );
             }
             else {
-                // TODO: find compact way of adding an invisible item?
-                Label invisibleLabel = new Label( "visible-toggle", "unseen" );
-                invisibleLabel.setVisible( false );
-                item.add( invisibleLabel );
+                item.add( new InvisibleComponent( "visible-toggle" ) );
             }
 
-            Link popupLink = IndexPage.createLink( "preview", new PageContext( "/translation/" + String.valueOf( translation.getId() ) + "/", "", translation.getLocale() ) );
+            PageContext newContext = new PageContext( "/translation/" + String.valueOf( translation.getId() ) + "/", "", translation.getLocale() );
+            Link popupLink = IndexPage.getLinker().getLink( "preview", newContext, getPhetCycle() );
             popupLink.setPopupSettings( new PopupSettings( PopupSettings.LOCATION_BAR | PopupSettings.MENU_BAR | PopupSettings.RESIZABLE
                                                            | PopupSettings.SCROLLBARS | PopupSettings.STATUS_BAR | PopupSettings.TOOL_BAR ) );
             item.add( popupLink );

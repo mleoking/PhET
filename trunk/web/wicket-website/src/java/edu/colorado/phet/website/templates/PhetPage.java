@@ -97,7 +97,7 @@ public abstract class PhetPage extends WebPage implements Stylable {
         // visual display
         if ( addTemplateBindings ) {
             // TODO: refactor static images to a single location, so paths / names can be quickly changed
-            Link link = IndexPage.createLink( "page-header-home-link", getPageContext() );
+            Link link = IndexPage.getLinker().getLink( "page-header-home-link", getPageContext(), getPhetCycle() );
             if ( DistributionHandler.redirectHeaderToProduction( (PhetRequestCycle) getRequestCycle() ) ) {
                 link = new RawLink( "page-header-home-link", "http://phet.colorado.edu" );
             }

@@ -24,6 +24,7 @@ import edu.colorado.phet.website.components.RawLabel;
 import edu.colorado.phet.website.components.StaticImage;
 import edu.colorado.phet.website.constants.CSS;
 import edu.colorado.phet.website.constants.Images;
+import edu.colorado.phet.website.constants.Linkers;
 import edu.colorado.phet.website.content.contribution.AddContributionCommentPage;
 import edu.colorado.phet.website.content.contribution.ContributionGuidelinesPanel;
 import edu.colorado.phet.website.content.contribution.ContributionPage;
@@ -94,7 +95,7 @@ public class ContributionMainPanel extends PhetPanel {
         } );
 
         add( new LocalizedText( "zip-link", "contribution.view.zipDownload", new Object[]{
-                "href=\"" + contribution.getZipLocation() + "\""
+                contribution.getZipLinker().getHref( context, getPhetCycle() )
         } ) );
 
         add( new Label( "authors", contribution.getAuthors() ) );
@@ -243,7 +244,7 @@ public class ContributionMainPanel extends PhetPanel {
         add( new StaticImage( "gold-star-nominate", Images.GOLD_STAR, "Gold Star Contribution" ) );
         add( new LocalizedText( "contribution-nominate-text", "contribution.view.nominateText", new Object[]{
                 ContributionGuidelinesPanel.getLinker().getHref( context, getPhetCycle() ),
-                "href=\"/publications/activities-guide/contribution-guidelines.pdf\""
+                Linkers.CONTRIBUTION_GUIDELINES_PDF.getHref( context, getPhetCycle() )
         } ) );
     }
 

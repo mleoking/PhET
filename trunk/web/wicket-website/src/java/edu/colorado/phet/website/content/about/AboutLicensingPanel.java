@@ -2,6 +2,8 @@ package edu.colorado.phet.website.content.about;
 
 import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.components.LocalizedText;
+import edu.colorado.phet.website.constants.Linkers;
+import edu.colorado.phet.website.content.IndexPage;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetRequestCycle;
@@ -13,7 +15,7 @@ public class AboutLicensingPanel extends PhetPanel {
         super( id, context );
 
         add( new LocalizedText( "about-licensing-contact-phet", "about.licensing.contactPhet", new Object[]{
-                "<a href=\"mailto:phethelp@colorado.edu\">phethelp@colorado.edu</a>"
+                Linkers.PHET_HELP_LINK
         } ) );
 
         add( new LocalizedText( "about-licensing-cca-intro", "about.licensing.cca.intro", new Object[]{
@@ -42,7 +44,7 @@ public class AboutLicensingPanel extends PhetPanel {
         } ) );
 
         add( new LocalizedText( "about-licensing-alternative-license-options", "about.licensing.alternativeLicenseOptions", new Object[]{
-                "<a href=\"mailto:phethelp@colorado.edu\">phethelp@colorado.edu</a>"
+                Linkers.PHET_HELP_LINK
         } ) );
 
         add( new LocalizedText( "about-licensing-source-code-link", "about.licensing.sourceCodeLink", new Object[]{
@@ -50,7 +52,7 @@ public class AboutLicensingPanel extends PhetPanel {
         } ) );
 
         add( new LocalizedText( "about-licensing-agreement-full-text", "about.licensing.softwareAgreementFullText", new Object[]{
-                "href=\"/about/software-agreement_v7.htm\""
+                Linkers.SOFTWARE_AGREEMENT.getHref( context, getPhetCycle() )
         } ) );
 
     }

@@ -184,7 +184,7 @@ public class TranslateEntityPanel extends PhetPanel {
         add( stringList );
 
 
-        Link popupLink = IndexPage.createLink( "translation-popup", externalContext );
+        Link popupLink = IndexPage.getLinker().getLink( "translation-popup", externalContext, getPhetCycle() );
         popupLink.setPopupSettings( new PopupSettings( PopupSettings.LOCATION_BAR | PopupSettings.MENU_BAR | PopupSettings.RESIZABLE
                                                        | PopupSettings.SCROLLBARS | PopupSettings.STATUS_BAR | PopupSettings.TOOL_BAR ) );
         add( popupLink );

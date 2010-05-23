@@ -2,6 +2,7 @@ package edu.colorado.phet.website.content.about;
 
 import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.components.LocalizedText;
+import edu.colorado.phet.website.constants.Linkers;
 import edu.colorado.phet.website.content.DonatePanel;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
@@ -18,7 +19,7 @@ public class AboutContactPanel extends PhetPanel {
         } ) );
 
         add( new LocalizedText( "about-contact-correspondence", "about.contact.correspondence", new Object[]{
-                "<a href=\"mailto:phethelp@colorado.edu\">phethelp@colorado.edu</a>",
+                Linkers.PHET_HELP_LINK,
                 DonatePanel.getLinker().getHref( context, getPhetCycle() )
         } ) );
     }
