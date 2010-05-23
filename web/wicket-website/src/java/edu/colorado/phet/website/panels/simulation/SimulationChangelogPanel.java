@@ -6,7 +6,6 @@ import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 
 import edu.colorado.phet.website.PhetWicketApplication;
-import edu.colorado.phet.website.authentication.PhetSession;
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.data.Changelog;
 import edu.colorado.phet.website.data.LocalizedSimulation;
@@ -26,7 +25,7 @@ public class SimulationChangelogPanel extends PhetPanel {
         // TODO: refactor so we don't have that long docroot access string
         Changelog log = new Changelog( simulation.getSimulation().getProject().getChangelogFile( PhetWicketApplication.get().getWebsiteProperties().getPhetDocumentRoot() ) );
 
-        if( !displayDevEntries ) {
+        if ( !displayDevEntries ) {
             log = log.getNonDevChangelog();
         }
 
@@ -51,6 +50,8 @@ public class SimulationChangelogPanel extends PhetPanel {
                 }
             }
         } );
+
+        add( simulation.getSimulation().getProject().getRawChangelogLinker().getLink( "raw-link", context, getPhetCycle() ) );
     }
 
 }

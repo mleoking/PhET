@@ -24,6 +24,8 @@ import edu.colorado.phet.flashlauncher.util.XMLUtils;
 import edu.colorado.phet.website.data.util.IntId;
 import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
+import edu.colorado.phet.website.util.links.RawLinkable;
+import edu.colorado.phet.website.util.links.RawLinker;
 
 public class Project implements Serializable, IntId {
 
@@ -84,6 +86,10 @@ public class Project implements Serializable, IntId {
 
     public File getChangelogFile( File docRoot ) {
         return new File( getProjectRoot( docRoot ), "changes.txt" );
+    }
+
+    public RawLinkable getRawChangelogLinker() {
+        return new RawLinker( "/sims/" + name + "/changes.txt" );
     }
 
     private void appendWarning( StringBuilder builder, String message ) {
