@@ -46,7 +46,7 @@ public class IndexPage extends PhetPage {
             }
 
             public String getHref( PageContext context, PhetRequestCycle cycle ) {
-                return "href=\"" + getRawUrl(context, cycle ) + "\"";
+                return "href=\"" + getRawUrl( context, cycle ) + "\"";
             }
 
             public String getDefaultRawUrl() {
@@ -54,7 +54,7 @@ public class IndexPage extends PhetPage {
             }
 
             public Link getLink( String id, PageContext context, PhetRequestCycle cycle ) {
-                return new RawLink( id, getRawUrl( context, cycle ));
+                return new RawLink( id, getRawUrl( context, cycle ) );
             }
         };
     }

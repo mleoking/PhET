@@ -13,7 +13,9 @@
 
 <wicket:panel>
     <form method="get" wicket:id="search-form">
-        <label for="search-text-id"><wicket:message key="search.search">Search</wicket:message></label>
+        <label for="search-text-id">
+            <wicket:message key="search.search">Search</wicket:message>
+        </label>
         <input type="text" size="15" name="q" wicket:message="title:search.enterText"
                title="Enter the text to search for"
                class="always-enabled" id="search-text-id"/>

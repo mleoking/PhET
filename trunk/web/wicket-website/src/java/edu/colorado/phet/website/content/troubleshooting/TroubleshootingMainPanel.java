@@ -23,7 +23,7 @@ public class TroubleshootingMainPanel extends PhetPanel {
         add( TroubleshootingJavascriptPanel.getLinker().getLink( "to-javascript", context, getPhetCycle() ) );
 
         add( new LocalizedText( "troubleshooting-main-intro", "troubleshooting.main.intro", new Object[]{
-                Linkers.getHelpLink( "Help",context, getPhetCycle() ),
+                Linkers.getHelpLink( "Help", context, getPhetCycle() ),
                 ""
         } ) );
 
@@ -38,21 +38,21 @@ public class TroubleshootingMainPanel extends PhetPanel {
         add( new LocalizedText( "troubleshooting-main-q4-answer", "troubleshooting.main.q4.answer" ) );
 
         add( new LocalizedText( "troubleshooting-main-q5-answer", "troubleshooting.main.q5.answer", new Object[]{
-                Linkers.getHelpLink( "Flash Simulations",context, getPhetCycle() )
+                Linkers.getHelpLink( "Flash Simulations", context, getPhetCycle() )
         } ) );
 
         add( new LocalizedText( "troubleshooting-main-q6-answer", "troubleshooting.main.q6.answer" ) );
 
         add( new LocalizedText( "troubleshooting-main-q7-answer", "troubleshooting.main.q7.answer", new Object[]{
-                Linkers.getHelpLink( "Windows 2000 Issues",context, getPhetCycle() )
+                Linkers.getHelpLink( "Windows 2000 Issues", context, getPhetCycle() )
         } ) );
 
         add( new LocalizedText( "troubleshooting-main-q8-answer", "troubleshooting.main.q8.answer", new Object[]{
-                Linkers.getHelpLink( "Laptop Performance Issues",context, getPhetCycle() )
+                Linkers.getHelpLink( "Laptop Performance Issues", context, getPhetCycle() )
         } ) );
 
         add( new LocalizedText( "troubleshooting-main-q9-answer", "troubleshooting.main.q9.answer", new Object[]{
-                Linkers.getHelpLink( "Sound Issues",context, getPhetCycle() )
+                Linkers.getHelpLink( "Sound Issues", context, getPhetCycle() )
         } ) );
 
         add( new LocalizedText( "troubleshooting-main-q10-answer", "troubleshooting.main.q10.answer", new Object[]{

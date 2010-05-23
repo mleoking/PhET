@@ -4,7 +4,7 @@ package edu.colorado.phet.website.constants;
  * Global website constants
  */
 public class WebsiteConstants {
-    
+
     /**
      * General help email address
      */
