@@ -87,6 +87,7 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
     private static final String SIM_REDIRECTION_PHP = "/services/sim-website-redirect.php";
     private static final String GET_MEMBER_FILE = "/admin/get-member-file.php";
     private static final String SIM_SEARCH = "/simulations/search.php";
+    private static final String CHANGELOG = "/simulations/changelog.php";
 
     /*---------------------------------------------------------------------------*
     * base locations that should have everything underneath redirected
@@ -169,6 +170,7 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         map.put( SIM_REDIRECTION_PHP, null );
         map.put( GET_MEMBER_FILE, null );
         map.put( SIM_SEARCH, null );
+        map.put( CHANGELOG, null );
 
         /*---------------------------------------------------------------------------*
         * file page mappings
@@ -623,6 +625,9 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         else if ( path.startsWith( SIM_SEARCH ) ) {
             return redirectSimSearch( parameters );
         }
+        else if ( path.startsWith( CHANGELOG ) ) {
+            return redirectChangelog( parameters );
+        }
         return null;
     }
 
@@ -872,6 +877,24 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         }
         String query = ( (String[]) parameters.get( "search_for" ) )[0];
         return SearchResultsPage.getLinker( query ).getDefaultRawUrl();
+    }
+
+    private static String redirectChangelog( Map parameters ) {
+        // /simulations/changelog.php?sim=Wave_Interference
+        if ( parameters.get( "sim" ) == null ) {
+            return NOT_FOUND;
+        }
+        String sim = ( (String[]) parameters.get( "sim" ) )[0];
+        String newsim = simMap.get( sim );
+        if ( newsim == null ) {
+            newsim = badSimMap.get( processSimName( sim ) );
+        }
+
+        if ( newsim != null ) {
+            return "/en/simulation/" + newsim + "/changelog";
+        }
+
+        return NOT_FOUND;
     }
 
     private static String redirectOldWeb( String path ) {
