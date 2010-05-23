@@ -264,25 +264,25 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         * simulation mappings
         *----------------------------------------------------------------------------*/
 
-        simMap.put( "Alpha_Decay", "nuclear-physics/alpha-decay" );
+        simMap.put( "Alpha_Decay", "alpha-decay" );
         simMap.put( "Arithmetic", "arithmetic" );
-        simMap.put( "Atomic_Interactions", "states-of-matter/atomic-interactions" );
-        simMap.put( "Balloons_and_Buoyancy", "ideal-gas/balloons-and-buoyancy" );
+        simMap.put( "Atomic_Interactions", "atomic-interactions" );
+        simMap.put( "Balloons_and_Buoyancy", "balloons-and-buoyancy" );
         simMap.put( "Balloons_and_Static_Electricity", "balloons" );
-        simMap.put( "Band_Structure", "bound-states/band-structure" );
+        simMap.put( "Band_Structure", "band-structure" );
         simMap.put( "Battery_Voltage", "battery-voltage" );
         simMap.put( "BatteryResistor_Circuit", "battery-resistor-circuit" );
-        simMap.put( "Beta_Decay", "nuclear-physics/beta-decay" );
+        simMap.put( "Beta_Decay", "beta-decay" );
         simMap.put( "Blackbody_Spectrum", "blackbody-spectrum" );
         simMap.put( "Calculus_Grapher", "calculus-grapher" );
         simMap.put( "Charges_and_Fields", "charges-and-fields" );
-        simMap.put( "Circuit_Construction_Kit_ACDC", "circuit-construction-kit/circuit-construction-kit-ac" );
-        simMap.put( "Circuit_Construction_Kit_DC_Only", "circuit-construction-kit/circuit-construction-kit-dc" );
+        simMap.put( "Circuit_Construction_Kit_ACDC", "circuit-construction-kit-ac" );
+        simMap.put( "Circuit_Construction_Kit_DC_Only", "circuit-construction-kit-dc" );
         simMap.put( "Color_Vision", "color-vision" );
         simMap.put( "Conductivity", "conductivity" );
         simMap.put( "Curve_Fitting", "curve-fitting" );
-        simMap.put( "DavissonGermer_Electron_Diffraction", "quantum-wave-interference/davisson-germer" );
-        simMap.put( "Double_Wells_and_Covalent_Bonds", "bound-states/covalent-bonds" );
+        simMap.put( "DavissonGermer_Electron_Diffraction", "davisson-germer" );
+        simMap.put( "Double_Wells_and_Covalent_Bonds", "covalent-bonds" );
         simMap.put( "Eating_and_Exercise", "eating-and-exercise" );
         simMap.put( "Electric_Field_Hockey", "electric-hockey" );
         simMap.put( "Electric_Field_of_Dreams", "efield" );
@@ -294,31 +294,31 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         simMap.put( "Forces_in_1_Dimension", "forces-1d" );
         simMap.put( "Fourier_Making_Waves", "fourier" );
         simMap.put( "Friction", "friction" );
-        simMap.put( "Gas_Properties", "ideal-gas/gas-properties" );
-        simMap.put( "Gene_Machine_The_Lac_Operon", "gene-network/gene-machine-lac-operon" );
-        simMap.put( "Generator", "faraday/generator" );
+        simMap.put( "Gas_Properties", "gas-properties" );
+        simMap.put( "Gene_Machine_The_Lac_Operon", "gene-machine-lac-operon" );
+        simMap.put( "Generator", "generator" );
         simMap.put( "Geometric_Optics", "geometric-optics" );
         simMap.put( "Glaciers", "glaciers" );
-        simMap.put( "Gravity_Force_Lab", "force-law-lab/gravity-force-lab" );
+        simMap.put( "Gravity_Force_Lab", "gravity-force-lab" );
         simMap.put( "The_Greenhouse_Effect", "greenhouse" );
         simMap.put( "John_Travoltage", "travoltage" );
         simMap.put( "Ladybug_Motion_2D", "ladybug-motion-2d" );
         simMap.put( "Ladybug_Revolution", "rotation" );
         simMap.put( "Lasers", "lasers" );
         simMap.put( "Lunar_Lander", "lunar-lander" );
-        simMap.put( "Magnet_and_Compass", "faraday/magnet-and-compass" );
-        simMap.put( "Magnets_and_Electromagnets", "faraday/magnets-and-electromagnets" );
+        simMap.put( "Magnet_and_Compass", "magnet-and-compass" );
+        simMap.put( "Magnets_and_Electromagnets", "magnets-and-electromagnets" );
         simMap.put( "Masses_and_Springs", "mass-spring-lab" );
         simMap.put( "Maze_Game", "maze-game" );
         simMap.put( "Microwaves", "microwaves" );
         simMap.put( "Models_of_the_Hydrogen_Atom", "hydrogen-atom" );
-        simMap.put( "Molecular_Motors", "optical-tweezers/molecular-motors" );
+        simMap.put( "Molecular_Motors", "molecular-motors" );
         simMap.put( "Motion_in_2D", "motion-2d" );
         simMap.put( "The_Moving_Man", "moving-man" );
         simMap.put( "My_Solar_System", "my-solar-system" );
         simMap.put( "Natural_Selection", "natural-selection" );
         simMap.put( "Neon_Lights_and_Other_Discharge_Lamps", "discharge-lamps" );
-        simMap.put( "Nuclear_Fission", "nuclear-physics/nuclear-fission" );
+        simMap.put( "Nuclear_Fission", "nuclear-fission" );
         simMap.put( "Ohms_Law", "ohms-law" );
         simMap.put( "Optical_Quantum_Control", "optical-quantum-control" );
         simMap.put( "Optical_Tweezers_and_Applications", "optical-tweezers" );
@@ -331,12 +331,12 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         simMap.put( "Quantum_Tunneling_and_Wave_Packets", "quantum-tunneling" );
         simMap.put( "Quantum_Wave_Interference", "quantum-wave-interference" );
         simMap.put( "Radio_Waves_and_Electromagnetic_Fields", "radio-waves" );
-        simMap.put( "Radioactive_Dating_Game", "nuclear-physics/radioactive-dating-game" );
+        simMap.put( "Radioactive_Dating_Game", "radioactive-dating-game" );
         simMap.put( "The_Ramp", "the-ramp" );
         simMap.put( "Reactants_Products_and_Leftovers", "reactants-products-and-leftovers" );
         simMap.put( "Reactions_and_Rates", "reactions-and-rates" );
         simMap.put( "Resistance_in_a_Wire", "resistance-in-a-wire" );
-        simMap.put( "Reversible_Reactions", "ideal-gas/reversible-reactions" );
+        simMap.put( "Reversible_Reactions", "reversible-reactions" );
         simMap.put( "Rutherford_Scattering", "rutherford-scattering" );
         simMap.put( "Salts_and_Solubility", "soluble-salts" );
         simMap.put( "SelfDriven_Particle_Model", "self-driven-particle-model" );
@@ -346,15 +346,15 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         simMap.put( "Sound", "sound" );
         simMap.put( "States_of_Matter", "states-of-matter" );
         simMap.put( "SternGerlach_Experiment", "stern-gerlach" );
-        simMap.put( "Stretching_DNA", "optical-tweezers/stretching-dna" );
-        simMap.put( "Torque", "rotation/torque" );
+        simMap.put( "Stretching_DNA", "stretching-dna" );
+        simMap.put( "Torque", "torque" );
         simMap.put( "Vector_Addition", "vector-addition" );
         simMap.put( "Wave_Interference", "wave-interference" );
         simMap.put( "Wave_on_a_String", "wave-on-a-string" );
 
         // temporary. TODO: replace after virtual lab versions are in
-        simMap.put( "Circuit_Construction_Kit_ACDC_Virtual_Lab_Version", "circuit-construction-kit/circuit-construction-kit-ac" );
-        simMap.put( "Circuit_Construction_Kit_Virtual_Lab_Version_DC_Only", "circuit-construction-kit/circuit-construction-kit-dc" );
+        simMap.put( "Circuit_Construction_Kit_ACDC_Virtual_Lab_Version", "circuit-construction-kit-ac" );
+        simMap.put( "Circuit_Construction_Kit_Virtual_Lab_Version_DC_Only", "circuit-construction-kit-dc" );
 
         for ( String key : simMap.keySet() ) {
             badSimMap.put( processSimName( key ), simMap.get( key ) );

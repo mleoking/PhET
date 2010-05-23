@@ -30,8 +30,7 @@ public class SimulationChangelogPage extends PhetMenuPage {
     public SimulationChangelogPage( PageParameters parameters ) {
         super( parameters );
 
-        String projectName = parameters.getString( "project" );
-        String flavorName = parameters.getString( "flavor", projectName );
+        String flavorName = parameters.getString( "simulation" );
 
         LocalizedSimulation simulation = null;
         Set<NavLocation> locations = new HashSet<NavLocation>();
@@ -41,7 +40,7 @@ public class SimulationChangelogPage extends PhetMenuPage {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            simulation = HibernateUtils.getBestSimulation( session, getMyLocale(), projectName, flavorName );
+            simulation = HibernateUtils.getBestSimulation( session, getMyLocale(), flavorName );
             if ( simulation != null ) {
                 for ( Object o : simulation.getSimulation().getCategories() ) {
                     Category category = (Category) o;
@@ -78,8 +77,7 @@ public class SimulationChangelogPage extends PhetMenuPage {
     }
 
     public static void addToMapper( PhetUrlMapper mapper ) {
-        // TODO: change URLS so this doesn't get gobbled by SimulationPage
-        mapper.addMap( "^simulation/changelog/([^/]+)(/([^/]+))?", SimulationChangelogPage.class, new String[]{"project", null, "flavor"} );
+        mapper.addMap( "^simulation/([^/]+)/changelog", SimulationChangelogPage.class, new String[]{"simulation"} );
     }
 
     public static AbstractLinker getLinker( final String projectName, final String simulationName ) {
@@ -87,11 +85,7 @@ public class SimulationChangelogPage extends PhetMenuPage {
         return new AbstractLinker() {
             @Override
             public String getSubUrl( PageContext context ) {
-                String str = "simulation/changelog/" + projectName;
-                if ( !projectName.equals( simulationName ) ) {
-                    str += "/" + simulationName;
-                }
-                return str;
+                return "simulation/" + simulationName + "/changelog";
             }
         };
     }

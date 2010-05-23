@@ -31,8 +31,7 @@ public class SimulationPage extends PhetMenuPage {
     public SimulationPage( PageParameters parameters ) {
         super( parameters );
 
-        String projectName = parameters.getString( "project" );
-        String flavorName = parameters.getString( "flavor", projectName );
+        String flavorName = parameters.getString( "simulation" );
 
         LocalizedSimulation simulation = null;
         Set<NavLocation> locations = new HashSet<NavLocation>();
@@ -41,7 +40,7 @@ public class SimulationPage extends PhetMenuPage {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            simulation = HibernateUtils.getBestSimulation( session, getMyLocale(), projectName, flavorName );
+            simulation = HibernateUtils.getBestSimulation( session, getMyLocale(), flavorName );
             if ( simulation != null ) {
                 for ( Object o : simulation.getSimulation().getCategories() ) {
                     Category category = (Category) o;
@@ -84,7 +83,7 @@ public class SimulationPage extends PhetMenuPage {
     }
 
     public static void addToMapper( PhetUrlMapper mapper ) {
-        mapper.addMap( "^simulation/([^/]+)(/([^/]+))?$", SimulationPage.class, new String[]{"project", null, "flavor"} );
+        mapper.addMap( "^simulation/([^/]+)$", SimulationPage.class, new String[]{"simulation"} );
     }
 
     public static AbstractLinker getLinker( final String projectName, final String simulationName ) {
@@ -92,11 +91,7 @@ public class SimulationPage extends PhetMenuPage {
         return new AbstractLinker() {
             @Override
             public String getSubUrl( PageContext context ) {
-                String str = "simulation/" + projectName;
-                if ( !projectName.equals( simulationName ) ) {
-                    str += "/" + simulationName;
-                }
-                return str;
+                return "simulation/" + simulationName;
             }
         };
     }

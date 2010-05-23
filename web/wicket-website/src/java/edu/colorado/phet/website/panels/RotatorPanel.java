@@ -31,9 +31,9 @@ public class RotatorPanel extends PhetPanel {
 
         HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
             public boolean run( Session session ) {
-                featured.add( HibernateUtils.getBestSimulation( session, getMyLocale(), "mass-spring-lab", "mass-spring-lab" ) );
-                featured.add( HibernateUtils.getBestSimulation( session, getMyLocale(), "circuit-construction-kit", "circuit-construction-kit-dc" ) );
-                featured.add( HibernateUtils.getBestSimulation( session, getMyLocale(), "soluble-salts", "soluble-salts" ) );
+                featured.add( HibernateUtils.getBestSimulation( session, getMyLocale(), "mass-spring-lab" ) );
+                featured.add( HibernateUtils.getBestSimulation( session, getMyLocale(), "circuit-construction-kit-dc" ) );
+                featured.add( HibernateUtils.getBestSimulation( session, getMyLocale(), "soluble-salts" ) );
                 return true;
             }
         } );
