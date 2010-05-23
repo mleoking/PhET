@@ -934,7 +934,8 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
      * if not found, otherwise return a relative path that starts with "/". Do NOT include a query string in the final
      * result
      *
-     * @param path Relative path starting with "/" of a non-existant path or file
+     * @param path        Relative path starting with "/" of a non-existant path or file
+     * @param queryString The passed in query string
      * @return Null or a path starting with "/"
      */
     public static String redirectFile( String path, String queryString ) {
@@ -954,6 +955,9 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
             return path.substring( "/simulations".length() );
         }
         else if ( path.startsWith( "/teacher_ideas/login-and-redirect.php" ) ) {
+            if ( queryString.startsWith( "url=" ) ) {
+                return queryString.substring( "url=".length() );
+            }
             return queryString;
         }
         return null;
