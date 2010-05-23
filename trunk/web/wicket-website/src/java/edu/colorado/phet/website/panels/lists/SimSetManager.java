@@ -17,8 +17,8 @@ public abstract class SimSetManager implements Serializable {
     private List<Simulation> simulations;
     private List<Simulation> allSimulations;
     private Map<Simulation, String> titleMap;
-    private List<SimOrderItem> items;
-    private List<SimOrderItem> allItems;
+    private LinkedList<SimOrderItem> items;
+    private LinkedList<SimOrderItem> allItems;
 
     /**
      * NOTE: already in transaction, so throw all exceptions!

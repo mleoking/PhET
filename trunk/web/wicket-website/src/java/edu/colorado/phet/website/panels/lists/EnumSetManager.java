@@ -38,12 +38,12 @@ public abstract class EnumSetManager<E extends Enum> implements Serializable {
     /**
      * Current list of selected items
      */
-    private List<ListItem<E>> items;
+    private LinkedList<ListItem<E>> items;
 
     /**
      * List of all possible items
      */
-    private List<ListItem<E>> allItems;
+    private LinkedList<ListItem<E>> allItems;
 
     private static final Logger logger = Logger.getLogger( EnumSetManager.class.getName() );
 
