@@ -9,6 +9,8 @@ import java.util.*;
 
 import org.apache.log4j.Logger;
 
+import edu.colorado.phet.website.PhetWicketApplication;
+
 /**
  * Represents the content of a single changelog
  */
@@ -210,7 +212,10 @@ public class Changelog {
             appendVersion( builder );
 
             if ( date != null ) {
-                final DateFormat format = DateFormat.getDateInstance( DateFormat.SHORT, locale );
+                DateFormat format = DateFormat.getDateInstance( DateFormat.SHORT, locale );
+                if ( locale.equals( PhetWicketApplication.getDefaultLocale() ) ) {
+                    format = FORMAT_VERSION_TIMESTAMP;
+                }
 
                 builder.append( " (" );
                 builder.append( format.format( date ) );
