@@ -213,7 +213,7 @@ public class Changelog {
                 final DateFormat format = DateFormat.getDateInstance( DateFormat.SHORT, locale );
 
                 builder.append( " (" );
-                format.format( date );
+                builder.append( format.format( date ) );
                 builder.append( ")" );
             }
 
