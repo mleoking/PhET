@@ -195,6 +195,56 @@ public class TimesheetApp {
         frame.setContentPane(contentPane);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //        table.setDefaultRenderer(Date.class, renderer);
+        frame.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                try {
+                    exit();
+                    SwingUtilities.invokeLater(new Runnable() {
+                        public void run() {
+                            frame.setVisible(true);
+                        }
+                    });
+
+                }
+                catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
+    }
+
+    private void exit() throws IOException {
+        //save prefs
+        savePreferences();
+
+        //todo: save dialog, if changed
+        if (ifChangedAskToSaveOrCancel()) {
+            return;
+        }
+        JIntellitypeSupport.close();
+        System.exit(0);
+    }
+
+    /**
+     * return true if cancelled
+     *
+     * @return
+     * @throws IOException
+     */
+    private boolean ifChangedAskToSaveOrCancel() throws IOException {
+        if (hasUnsavedChanges()) {
+            int option = JOptionPane.showConfirmDialog(frame, "You have made unsaved changes.  Save first?");
+            if (option == JOptionPane.OK_OPTION) {
+                save();
+            } else if (option == JOptionPane.CANCEL_OPTION) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean hasUnsavedChanges() {
+        return timesheetModel.isDirty();
     }
 
     private long parseStartTime(Object data) {
@@ -261,6 +311,12 @@ public class TimesheetApp {
                 }
             });
             add(save);
+            timesheetModel.addDirtyListener(new TimesheetModel.DirtyListener(){
+                public void dirtyChanged() {
+                    save.setEnabled(timesheetModel.isDirty());
+                }
+            });
+            save.setEnabled(timesheetModel.isDirty());
 
             totalTime = new JLabel();
             add(totalTime);
@@ -294,18 +350,7 @@ public class TimesheetApp {
         timesheetModel.loadTSV(currentFile);
 //        addCurrentToRecent();
         frame.setTitle("Timesheet: " + selectedFile.getName() + " [" + selectedFile.getAbsolutePath() + "]");
-        timesheetModel.clearChanges();
-    }
-
-
-    public void saveAs() throws IOException {
-        File selected = selectSaveFile();
-        if (selected != null) {
-            save(selected);
-        } else {
-
-            System.out.println("Didn't save");
-        }
+        timesheetModel.setClean();
     }
 
     public void save() throws IOException {
@@ -348,7 +393,7 @@ public class TimesheetApp {
         String s = timesheetModel.toTSV();
         FileUtils.writeString(currentFile, s);
         System.out.println("Saved to: " + currentFile.getAbsolutePath());
-        timesheetModel.clearChanges();
+        timesheetModel.setClean();
     }
 
     public static void main(String[] args) {
