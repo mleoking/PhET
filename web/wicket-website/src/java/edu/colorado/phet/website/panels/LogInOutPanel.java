@@ -34,7 +34,7 @@ public class LogInOutPanel extends PhetPanel {
             add( new InvisibleComponent( "sign-in" ) );
             add( new Label( "current-email", psession.getUser().getEmail() ) );
             if ( PhetSession.get().getUser().isTeamMember() ) {
-                BookmarkablePageLink link = new BookmarkablePageLink( "admin-link", AdminMainPage.class );
+                BookmarkablePageLink link = new BookmarkablePageLink<Void>( "admin-link", AdminMainPage.class );
                 add( link );
             }
             else {
@@ -48,12 +48,22 @@ public class LogInOutPanel extends PhetPanel {
             add( new InvisibleComponent( "edit-profile" ) );
             add( new InvisibleComponent( "sign-out" ) );
             if ( DistributionHandler.displayLogin( getPhetCycle() ) ) {
-                add( SignInPage.getLinker( context.getPrefix() + context.getPath() ).getLink( "sign-in", context, getPhetCycle() ) );
+                String path = getFullPath( context );
+                add( SignInPage.getLinker( path ).getLink( "sign-in", context, getPhetCycle() ) );
             }
             else {
                 add( new InvisibleComponent( "sign-in" ) );
             }
             add( new InvisibleComponent( "team-member" ) );
         }
+    }
+
+    private String getFullPath( PageContext context ) {
+        String path = context.getPrefix() + context.getPath();
+        String queryString = getPhetCycle().getQueryString();
+        if( queryString != null ) {
+            path += "?" + queryString;
+        }
+        return path;
     }
 }
