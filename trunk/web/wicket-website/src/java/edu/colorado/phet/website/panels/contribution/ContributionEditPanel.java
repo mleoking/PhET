@@ -424,9 +424,9 @@ public class ContributionEditPanel extends PhetPanel {
 
                     int contribId = !creating ? contribution.getId() : (Integer) session.save( contribution );
 
-                    //----------------------------------------------------------------------------
-                    // sync simulations
-                    //----------------------------------------------------------------------------
+                    /*---------------------------------------------------------------------------*
+                    * sync simulations
+                    *----------------------------------------------------------------------------*/
 
                     Set sims = contribution.getSimulations();
                     Set iterSims = new HashSet( sims );
@@ -452,9 +452,9 @@ public class ContributionEditPanel extends PhetPanel {
                         }
                     }
 
-                    //----------------------------------------------------------------------------
-                    // sync types
-                    //----------------------------------------------------------------------------
+                    /*---------------------------------------------------------------------------*
+                    * sync types
+                    *----------------------------------------------------------------------------*/
 
                     Set types = contribution.getTypes();
                     Set iterTypes = new HashSet( types );
@@ -485,9 +485,9 @@ public class ContributionEditPanel extends PhetPanel {
                         }
                     }
 
-                    //----------------------------------------------------------------------------
-                    // sync levels
-                    //----------------------------------------------------------------------------
+                    /*---------------------------------------------------------------------------*
+                    * sync levels
+                    *----------------------------------------------------------------------------*/
 
                     Set levels = contribution.getLevels();
                     Set iterLevels = new HashSet( levels );
@@ -518,9 +518,9 @@ public class ContributionEditPanel extends PhetPanel {
                         }
                     }
 
-                    //----------------------------------------------------------------------------
-                    // sync subjects
-                    //----------------------------------------------------------------------------
+                    /*---------------------------------------------------------------------------*
+                    * sync subjects
+                    *----------------------------------------------------------------------------*/
 
                     Set subjects = contribution.getSubjects();
                     Set iterSubjects = new HashSet( subjects );
@@ -551,9 +551,9 @@ public class ContributionEditPanel extends PhetPanel {
                         }
                     }
 
-                    //----------------------------------------------------------------------------
-                    // file removal
-                    //----------------------------------------------------------------------------
+                    /*---------------------------------------------------------------------------*
+                    * file removal
+                    *----------------------------------------------------------------------------*/
 
                     for ( Object o : filesToRemove ) {
                         ContributionFile x = (ContributionFile) o;
@@ -566,9 +566,9 @@ public class ContributionEditPanel extends PhetPanel {
                     contribution.setId( contribId );
                     ids[0] = contribId;
 
-                    //----------------------------------------------------------------------------
-                    // file uploads
-                    //----------------------------------------------------------------------------
+                    /*---------------------------------------------------------------------------*
+                    * file uploads
+                    *----------------------------------------------------------------------------*/
 
                     for ( FileUpload upload : uploadPanel.getUploadedFiles() ) {
                         ContributionFile cfile = new ContributionFile();

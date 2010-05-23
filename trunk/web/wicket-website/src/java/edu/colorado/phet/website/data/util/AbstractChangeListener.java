@@ -9,10 +9,9 @@ import org.hibernate.event.PostUpdateEvent;
  */
 public abstract class AbstractChangeListener implements IChangeListener {
 
-
-    //----------------------------------------------------------------------------
-    // default implementations
-    //----------------------------------------------------------------------------
+    /*---------------------------------------------------------------------------*
+    * default implementations
+    *----------------------------------------------------------------------------*/
 
     public void onInsert( Object object, PostInsertEvent event ) {
 

@@ -88,9 +88,9 @@ public class Contribution implements Serializable, DataListener, IntId {
     public Contribution() {
     }
 
-    //----------------------------------------------------------------------------
-    // public instance functions
-    //----------------------------------------------------------------------------
+    /*---------------------------------------------------------------------------*
+    * public instance functions
+    *----------------------------------------------------------------------------*/
 
     public boolean isVisible() {
         return isApproved();
@@ -235,9 +235,9 @@ public class Contribution implements Serializable, DataListener, IntId {
         }
     }
 
-    //----------------------------------------------------------------------------
-    // utilities to add related data
-    //----------------------------------------------------------------------------
+    /*---------------------------------------------------------------------------*
+    * utilities to add related data
+    *----------------------------------------------------------------------------*/
 
     public void addComment( ContributionComment comment ) {
         comment.setContribution( this );
@@ -279,18 +279,18 @@ public class Contribution implements Serializable, DataListener, IntId {
         simulations.add( simulation );
     }
 
-    //----------------------------------------------------------------------------
-    // utilities to remove related data
-    //----------------------------------------------------------------------------
+    /*---------------------------------------------------------------------------*
+    * utilities to remove related data
+    *----------------------------------------------------------------------------*/
 
     public void removeSimulation( Simulation simulation ) {
         simulation.getContributions().remove( this );
         simulations.remove( simulation );
     }
 
-    //----------------------------------------------------------------------------
-    // getters and setters
-    //----------------------------------------------------------------------------
+    /*---------------------------------------------------------------------------*
+    * getters and setters
+    *----------------------------------------------------------------------------*/
 
     public int getId() {
         return id;

@@ -19,18 +19,14 @@ public class PhetBorder extends Border {
 
     private static final Logger logger = Logger.getLogger( PhetBorder.class.getName() );
 
-    //----------------------------------------------------------------------------
-    // constructor
-    //----------------------------------------------------------------------------
-
     public PhetBorder( String id, PageContext context ) {
         super( id );
         this.myLocale = context.getLocale();
     }
 
-    //----------------------------------------------------------------------------
-    // public getters
-    //----------------------------------------------------------------------------
+    /*---------------------------------------------------------------------------*
+    * public getters
+    *----------------------------------------------------------------------------*/
 
     /**
      * Considered immutable

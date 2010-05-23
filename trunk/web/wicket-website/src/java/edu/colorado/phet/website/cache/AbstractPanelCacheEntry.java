@@ -82,9 +82,9 @@ public abstract class AbstractPanelCacheEntry implements IPanelCacheEntry {
         return ret;
     }
 
-    //----------------------------------------------------------------------------
-    // equals / hashcode implementation
-    //----------------------------------------------------------------------------
+    /*---------------------------------------------------------------------------*
+    * equals / hashcode implementation
+    *----------------------------------------------------------------------------*/
 
     @Override
     public boolean equals( Object o ) {

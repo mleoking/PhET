@@ -81,9 +81,9 @@ public class SimulationMainPanel extends PhetPanel {
         add( orangeButton );
         orangeButton.add( DonatePanel.getLinker().getLink( "support-link", context, getPhetCycle() ) );
 
-        //----------------------------------------------------------------------------
-        // rating icons
-        //----------------------------------------------------------------------------
+        /*---------------------------------------------------------------------------*
+        * rating icons
+        *----------------------------------------------------------------------------*/
 
         if ( simulation.getSimulation().isUnderConstruction() ) {
             Link uclink = AboutLegendPanel.getLinker().getLink( "rating-under-construction-link", context, getPhetCycle() );
@@ -112,9 +112,9 @@ public class SimulationMainPanel extends PhetPanel {
             add( new InvisibleComponent( "rating-classroom-tested-link" ) );
         }
 
-        //----------------------------------------------------------------------------
-        // teacher's guide
-        //----------------------------------------------------------------------------
+        /*---------------------------------------------------------------------------*
+        * teacher's guide
+        *----------------------------------------------------------------------------*/
 
         final List<TeachersGuide> guides = new LinkedList<TeachersGuide>();
         HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
@@ -137,9 +137,9 @@ public class SimulationMainPanel extends PhetPanel {
             add( new InvisibleComponent( "guide-text" ) );
         }
 
-        //----------------------------------------------------------------------------
-        // contributions
-        //----------------------------------------------------------------------------
+        /*---------------------------------------------------------------------------*
+        * contributions
+        *----------------------------------------------------------------------------*/
 
         if ( DistributionHandler.displayContributions( getPhetCycle() ) ) {
             final List<Contribution> contributions = new LinkedList<Contribution>();
@@ -177,9 +177,9 @@ public class SimulationMainPanel extends PhetPanel {
             add( new InvisibleComponent( "teacher-ideas-visible" ) );
         }
 
-        //----------------------------------------------------------------------------
-        // translations
-        //----------------------------------------------------------------------------
+        /*---------------------------------------------------------------------------*
+        * translations
+        *----------------------------------------------------------------------------*/
 
         List<LocalizedSimulation> simulations = HibernateUtils.getLocalizedSimulationsMatching( getHibernateSession(), null, simulation.getSimulation().getName(), null );
         HibernateUtils.orderSimulations( simulations, context.getLocale() );
@@ -234,17 +234,17 @@ public class SimulationMainPanel extends PhetPanel {
         };
         add( simulationList );
 
-        //----------------------------------------------------------------------------
-        // run / download links
-        //----------------------------------------------------------------------------
+        /*---------------------------------------------------------------------------*
+        * run / download links
+        *----------------------------------------------------------------------------*/
 
         // TODO: move from direct links to page redirections, so bookmarkables will be minimized
         add( new RawLink( "run-online-link", simulation.getRunUrl() ) );
         add( new RawLink( "run-offline-link", simulation.getDownloadUrl() ) );
 
-        //----------------------------------------------------------------------------
-        // keywords / topics
-        //----------------------------------------------------------------------------
+        /*---------------------------------------------------------------------------*
+        * keywords / topics
+        *----------------------------------------------------------------------------*/
 
         List<Keyword> keywords = new LinkedList<Keyword>();
         List<Keyword> topics = new LinkedList<Keyword>();
@@ -311,9 +311,9 @@ public class SimulationMainPanel extends PhetPanel {
             keywordList.setVisible( false );
         }
 
-        //----------------------------------------------------------------------------
-        // system requirements
-        //----------------------------------------------------------------------------
+        /*---------------------------------------------------------------------------*
+        * system requirements
+        *----------------------------------------------------------------------------*/
 
         if ( simulation.getSimulation().isJava() ) {
             add( new Label( "windows-req", "Sun Java 1.5.0_15 or later" ) );
@@ -338,9 +338,9 @@ public class SimulationMainPanel extends PhetPanel {
 
         PhetLocalizer localizer = (PhetLocalizer) getLocalizer();
 
-        //----------------------------------------------------------------------------
-        // title
-        //----------------------------------------------------------------------------
+        /*---------------------------------------------------------------------------*
+        * title
+        *----------------------------------------------------------------------------*/
 
         // we initialize the title in the panel. then whatever page that wants to adopt this panel's "title" as the page
         // title can
@@ -365,9 +365,9 @@ public class SimulationMainPanel extends PhetPanel {
 
         addCacheParameter( "title", title );
 
-        //----------------------------------------------------------------------------
-        // more info (design team, libraries, thanks, etc)
-        //----------------------------------------------------------------------------
+        /*---------------------------------------------------------------------------*
+        * more info (design team, libraries, thanks, etc
+        *----------------------------------------------------------------------------*/
 
         List<String> designTeam = new LinkedList<String>();
         List<String> libraries = new LinkedList<String>();

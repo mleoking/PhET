@@ -31,9 +31,9 @@ public class TranslationEntityString implements Serializable {
         this.notes = notes;
     }
 
-    //----------------------------------------------------------------------------
-    // override equals to be key equality
-    //----------------------------------------------------------------------------
+    /*---------------------------------------------------------------------------*
+    * override equals to be key equality
+    *----------------------------------------------------------------------------*/
 
     @Override
     public int hashCode() {

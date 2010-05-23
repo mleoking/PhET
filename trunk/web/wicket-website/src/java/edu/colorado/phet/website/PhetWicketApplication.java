@@ -238,9 +238,9 @@ public class PhetWicketApplication extends WebApplication {
         return getConfigurationType().equals( Application.DEVELOPMENT );
     }
 
-    //----------------------------------------------------------------------------
-    // server-specific configuration locations
-    //----------------------------------------------------------------------------
+    /*---------------------------------------------------------------------------*
+    * server-specific configuration locations
+    *----------------------------------------------------------------------------*/
 
     public File getActivitiesRoot() {
         return new File( getWebsiteProperties().getPhetDownloadRoot(), "activities" );
@@ -270,9 +270,9 @@ public class PhetWicketApplication extends WebApplication {
         return websiteProperties;
     }
 
-    //----------------------------------------------------------------------------
-    // supported locales and translations
-    //----------------------------------------------------------------------------
+    /*---------------------------------------------------------------------------*
+    * supported locales and translations
+    *----------------------------------------------------------------------------*/
 
     private PhetLocales supportedLocales = null;
 
