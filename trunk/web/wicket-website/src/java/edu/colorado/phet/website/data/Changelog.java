@@ -279,7 +279,7 @@ public class Changelog {
                     if ( devVersion != null && devVersion != 0 ) {
                         builder.append( "." ).append( FORMAT_VERSION_DEV.format( devVersion ) );
                         if ( revision != null ) {
-                            builder.append( " ( " ).append( revision ).append( ")" );
+                            builder.append( " (" ).append( revision ).append( ")" );
                         }
                     }
                 }
@@ -406,7 +406,6 @@ public class Changelog {
                     token = tokenizer.nextToken();
                 }
                 catch( ParseException e ) {
-                    e.printStackTrace();
                 }
             }
 
