@@ -82,8 +82,12 @@ public class Project implements Serializable, IntId {
         return new File( getProjectRoot( docRoot ), simulationName + "_" + LocaleUtils.localeToString( locale ) + ".jar" );
     }
 
+    public File getChangelogFile( File docRoot ) {
+        return new File( getProjectRoot( docRoot ), "changes.txt" );
+    }
+
     private void appendWarning( StringBuilder builder, String message ) {
-        builder.append( "<br/><font color='#FF0000'>WARNING: " + message + "</font>" );
+        builder.append( "<br/><font color='#FF0000'>WARNING: " ).append( message ).append( "</font>" );
     }
 
     /**

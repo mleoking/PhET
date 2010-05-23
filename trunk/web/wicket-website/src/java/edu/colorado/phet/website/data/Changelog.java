@@ -1,13 +1,11 @@
 package edu.colorado.phet.website.data;
 
 import java.io.*;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.util.*;
 
 import org.apache.log4j.Logger;
 
@@ -38,6 +36,10 @@ public class Changelog {
     private static final DecimalFormat FORMAT_VERSION_DEV = new DecimalFormat( "00" );
 
     private static final Logger logger = Logger.getLogger( Changelog.class.getName() );
+
+    /*---------------------------------------------------------------------------*
+    * constructors
+    *----------------------------------------------------------------------------*/
 
     /**
      * Parse the changelog from the log file
@@ -87,22 +89,9 @@ public class Changelog {
 
     }
 
-    private void parseChangelog( BufferedReader reader ) throws IOException {
-        String line;
-        StringBuilder lines = new StringBuilder();
-
-        while ( ( line = reader.readLine() ) != null ) {
-            if ( line.startsWith( "#" ) && lines.length() > 0 ) {
-                entries.add( new Entry( lines.toString() ) );
-                lines = new StringBuilder();
-            }
-            lines.append( line ).append( "\n" );
-        }
-
-        if ( lines.length() > 0 ) {
-            entries.add( new Entry( lines.toString() ) );
-        }
-    }
+    /*---------------------------------------------------------------------------*
+    * public functions
+    *----------------------------------------------------------------------------*/
 
     public List<Entry> getEntries() {
         return entries;
@@ -134,6 +123,27 @@ public class Changelog {
         return log;
     }
 
+    /*---------------------------------------------------------------------------*
+    * implementation
+    *----------------------------------------------------------------------------*/
+
+    private void parseChangelog( BufferedReader reader ) throws IOException {
+        String line;
+        StringBuilder lines = new StringBuilder();
+
+        while ( ( line = reader.readLine() ) != null ) {
+            if ( line.startsWith( "#" ) && lines.length() > 0 ) {
+                entries.add( new Entry( lines.toString() ) );
+                lines = new StringBuilder();
+            }
+            lines.append( line ).append( "\n" );
+        }
+
+        if ( lines.length() > 0 ) {
+            entries.add( new Entry( lines.toString() ) );
+        }
+    }
+
     /**
      * Represents a header (starts with #) and the lines that follow until the next header
      */
@@ -144,6 +154,10 @@ public class Changelog {
         private Integer revision;
         private Date date;
         private List<Line> lines = new LinkedList<Line>();
+
+        /*---------------------------------------------------------------------------*
+        * constructors
+        *----------------------------------------------------------------------------*/
 
         public Entry( String str ) {
             StringTokenizer tokenizer = new StringTokenizer( str, "\n" );
@@ -165,6 +179,78 @@ public class Changelog {
             this.date = date;
             this.lines = lines;
         }
+
+        /*---------------------------------------------------------------------------*
+        * public functions
+        *----------------------------------------------------------------------------*/
+
+        /**
+         * Header string.
+         * <p/>
+         * NOTE: shouldn't contain XML entity characters
+         *
+         * @param locale The locale in which to print dates
+         * @return A string representing the header of this entry
+         */
+        public String headerString( Locale locale ) {
+            StringBuilder builder = new StringBuilder();
+
+            if ( majorVersion != null ) {
+                builder.append( FORMAT_VERSION_MAJOR.format( majorVersion ) );
+                if ( minorVersion != null ) {
+                    builder.append( "." ).append( FORMAT_VERSION_MINOR.format( minorVersion ) );
+                    if ( devVersion != null && devVersion != 0 ) {
+                        builder.append( "." ).append( FORMAT_VERSION_DEV.format( devVersion ) );
+                        if ( revision != null ) {
+                            builder.append( " ( " ).append( revision ).append( ")" );
+                        }
+                    }
+                }
+            }
+
+            if ( date != null ) {
+                final DateFormat format = DateFormat.getDateInstance( DateFormat.SHORT, locale );
+
+                builder.append( " (" );
+                format.format( date );
+                builder.append( ")" );
+            }
+
+
+            return builder.toString();
+        }
+
+        /*---------------------------------------------------------------------------*
+        * public getters
+        *----------------------------------------------------------------------------*/
+
+        public Integer getMajorVersion() {
+            return majorVersion;
+        }
+
+        public Integer getMinorVersion() {
+            return minorVersion;
+        }
+
+        public Integer getDevVersion() {
+            return devVersion;
+        }
+
+        public Integer getRevision() {
+            return revision;
+        }
+
+        public Date getDate() {
+            return date;
+        }
+
+        public List<Line> getLines() {
+            return lines;
+        }
+
+        /*---------------------------------------------------------------------------*
+        * implementation
+        *----------------------------------------------------------------------------*/
 
         private Entry cloneWithoutLines() {
             return new Entry( majorVersion, minorVersion, devVersion, revision, date, new LinkedList<Line>() );
@@ -247,42 +333,30 @@ public class Changelog {
             }
         }
 
-        /*---------------------------------------------------------------------------*
-        * getters
-        *----------------------------------------------------------------------------*/
-
-        public Integer getMajorVersion() {
-            return majorVersion;
-        }
-
-        public Integer getMinorVersion() {
-            return minorVersion;
-        }
-
-        public Integer getDevVersion() {
-            return devVersion;
-        }
-
-        public Integer getRevision() {
-            return revision;
-        }
-
-        public Date getDate() {
-            return date;
-        }
-
-        public List<Line> getLines() {
-            return lines;
-        }
     }
 
     /**
      * Represents a line entry (not starting with #) in the changelog.
      */
     public static class Line {
+        /**
+         * The date when this line was added
+         */
         private Date date;
+
+        /**
+         * Whether this line is visible. Lines are visible if they start with a ">".
+         */
         private boolean visible = false;
+
+        /**
+         * The message of this line
+         */
         private String message;
+
+        /*---------------------------------------------------------------------------*
+        * constructors
+        *----------------------------------------------------------------------------*/
 
         public Line( String str ) {
             StringTokenizer tokenizer = new StringTokenizer( str, " " );
@@ -302,9 +376,17 @@ public class Changelog {
                 }
             }
 
+            // discard the ">" if it exists
             if ( token.startsWith( ">" ) ) {
                 visible = true;
+
+                // chop it off in case there is no space before the message
                 token = token.substring( 1 );
+
+                // but if there is a space before the next message, grab the next token
+                if ( token.trim().length() == 0 && tokenizer.hasMoreTokens() ) {
+                    token = tokenizer.nextToken();
+                }
             }
 
             StringBuilder builder = new StringBuilder();
@@ -323,7 +405,7 @@ public class Changelog {
         }
 
         /*---------------------------------------------------------------------------*
-        * getters
+        * public getters
         *----------------------------------------------------------------------------*/
 
         public Date getDate() {

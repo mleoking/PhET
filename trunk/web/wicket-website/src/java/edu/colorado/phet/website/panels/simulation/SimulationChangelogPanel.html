@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd" xml:lang="en"
+      lang="en">
+<head>
+    <title>[PREVIEW] SimulationChangelogPanel</title>
+    <wicket:remove>
+        <link rel="stylesheet" type="text/css" href="../../../../../../../../root/css/preview.css"/>
+        <style type="text/css">
+        </style>
+    </wicket:remove>
+</head>
+<body>
+
+<wicket:panel>
+    <span class="simulation-changelog-container" wicket:message="dir:language.dir">
+        <ul>
+            <li wicket:id="entry">
+                <strong wicket:id="header"></strong>
+
+                <wicket:enclosure child="line">
+                    <ul>
+                        <li wicket:id="line">
+                            <span wicket:id="text"></span>
+                        </li>
+                    </ul>
+                </wicket:enclosure>
+            </li>
+        </ul>
+    </span>
+</wicket:panel>
+
+</body>
+</html>
+
