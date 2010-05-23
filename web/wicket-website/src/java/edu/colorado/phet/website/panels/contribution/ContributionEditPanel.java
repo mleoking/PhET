@@ -61,6 +61,8 @@ public class ContributionEditPanel extends PhetPanel {
     public ContributionEditPanel( String id, PageContext context, Contribution preContribution ) {
         super( id, context );
 
+        // TODO: add labels to the form components that aren't easy to label
+
         AuthenticatedPage.checkSignedIn();
 
         this.context = context;
