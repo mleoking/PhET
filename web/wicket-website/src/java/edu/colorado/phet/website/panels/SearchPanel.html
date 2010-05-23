@@ -13,15 +13,13 @@
 
 <wicket:panel>
     <form method="get" wicket:id="search-form">
-        <fieldset>
-            <span><wicket:message key="search.search">Search</wicket:message></span>
-            <input type="text" size="15" name="q" wicket:message="title:search.enterText"
-                   title="Enter the text to search for"
-                   class="always-enabled"/>
-            <input type="submit" value="Go" wicket:message="title:search.clickSearch,value:search.go"
-                   title="Click here to search the PhET website"
-                   class="always-enabled"/>
-        </fieldset>
+        <span><wicket:message key="search.search">Search</wicket:message></span>
+        <input type="text" size="15" name="q" wicket:message="title:search.enterText"
+               title="Enter the text to search for"
+               class="always-enabled"/>
+        <input type="submit" value="Go" wicket:message="title:search.clickSearch,value:search.go"
+               title="Click here to search the PhET website"
+               class="always-enabled"/>
     </form>
 </wicket:panel>
 
