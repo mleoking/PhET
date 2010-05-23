@@ -9,6 +9,8 @@ import java.util.*;
 
 import org.apache.log4j.Logger;
 
+import edu.colorado.phet.website.PhetWicketApplication;
+
 /**
  * Represents the content of a single changelog
  */
@@ -181,7 +183,7 @@ public class Changelog {
         }
 
         /*---------------------------------------------------------------------------*
-        * public functions
+        * public methods
         *----------------------------------------------------------------------------*/
 
         /**
@@ -216,7 +218,16 @@ public class Changelog {
                 builder.append( ")" );
             }
 
+            return builder.toString();
+        }
 
+        @Override
+        public String toString() {
+            StringBuilder builder = new StringBuilder();
+            builder.append( headerString( PhetWicketApplication.getDefaultLocale() ) );
+            for ( Line line : lines ) {
+                builder.append( line.toString() );
+            }
             return builder.toString();
         }
 
@@ -402,6 +413,25 @@ public class Changelog {
             this.date = date;
             this.visible = visible;
             this.message = message;
+        }
+
+        /*---------------------------------------------------------------------------*
+        * public methods
+        *----------------------------------------------------------------------------*/
+
+        @Override
+        public String toString() {
+            StringBuilder builder = new StringBuilder();
+            if ( date != null ) {
+                builder.append( FORMAT_ENTRY_STAMP.format( date ) ).append( " " );
+            }
+            if ( visible ) {
+                builder.append( "> " );
+            }
+            if ( message != null ) {
+                builder.append( message );
+            }
+            return builder.toString();
         }
 
         /*---------------------------------------------------------------------------*
