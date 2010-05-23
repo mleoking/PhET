@@ -31,12 +31,14 @@
             <table class="contribution-edit-table">
                 <tr>
                     <td class="contribution-edit-label">
-                        <wicket:message key="contribution.edit.authors">
-                            Author(s)
-                        </wicket:message>
+                        <label for="cep-author">
+                            <wicket:message key="contribution.edit.authors">
+                                Author(s)
+                            </wicket:message>
+                        </label>
                     </td>
                     <td class="contribution-edit-input">
-                        <input wicket:id="contribution.edit.authors" type="text" value="" size="40"/>
+                        <input wicket:id="contribution.edit.authors" type="text" value="" size="40" id="cep-author"/>
                         <br/>
                         <span class="contribution-form-tip"><wicket:message key="contribution.edit.authors.tip">
                             e.g. John Smith, Mary Jane
@@ -45,42 +47,50 @@
                 </tr>
                 <tr>
                     <td class="contribution-edit-label">
-                        <wicket:message key="contribution.edit.organization">
-                            1st author's organization
-                        </wicket:message>
+                        <label for="cep-org">
+                            <wicket:message key="contribution.edit.organization">
+                                1st author's organization
+                            </wicket:message>
+                        </label>
                     </td>
                     <td class="contribution-edit-input">
-                        <input wicket:id="contribution.edit.organization" type="text" value="" size="40"/>
+                        <input wicket:id="contribution.edit.organization" type="text" value="" size="40" id="cep-org"/>
                     </td>
                 </tr>
                 <tr>
                     <td class="contribution-edit-label">
-                        <wicket:message key="contribution.edit.email">
-                            Contact email
-                        </wicket:message>
+                        <label for="cep-email">
+                            <wicket:message key="contribution.edit.email">
+                                Contact email
+                            </wicket:message>
+                        </label>
                     </td>
                     <td class="contribution-edit-input">
-                        <input wicket:id="contribution.edit.email" type="text" value="" size="40"/>
+                        <input wicket:id="contribution.edit.email" type="text" value="" size="40" id="cep-email"/>
                     </td>
                 </tr>
                 <tr>
                     <td class="contribution-edit-label">
-                        <wicket:message key="contribution.edit.title">
-                            Title
-                        </wicket:message>
+                        <label for="cep-title">
+                            <wicket:message key="contribution.edit.title">
+                                Title
+                            </wicket:message>
+                        </label>
                     </td>
                     <td class="contribution-edit-input">
-                        <input wicket:id="contribution.edit.title" type="text" value="" size="40"/>
+                        <input wicket:id="contribution.edit.title" type="text" value="" size="40" id="cep-title"/>
                     </td>
                 </tr>
                 <tr>
                     <td class="contribution-edit-label">
-                        <wicket:message key="contribution.edit.keywords">
-                            Keywords
-                        </wicket:message>
+                        <label for="cep-keywords">
+                            <wicket:message key="contribution.edit.keywords">
+                                Keywords
+                            </wicket:message>
+                        </label>
                     </td>
                     <td class="contribution-edit-input">
-                        <input wicket:id="contribution.edit.keywords" type="text" value="" size="40"/>
+                        <input wicket:id="contribution.edit.keywords" type="text" value="" size="40" id="cep-keywords"/>
                         <br/>
                         <span class="contribution-form-tip"><wicket:message key="contribution.edit.keywords.tip">
                             keywords should be seperated by commas
@@ -157,12 +167,14 @@
             <table class="contribution-edit-table">
                 <tr>
                     <td class="contribution-edit-label" style="vertical-align: top">
-                        <wicket:message key="contribution.edit.description">
-                            description
-                        </wicket:message>
+                        <label for="cep-desc">
+                            <wicket:message key="contribution.edit.description">
+                                description
+                            </wicket:message>
+                        </label>
                     </td>
                     <td class="contribution-edit-input">
-                        <textarea rows="5" cols="40" wicket:id="contribution.edit.description"></textarea>
+                        <textarea rows="5" cols="40" wicket:id="contribution.edit.description" id="cep-desc"></textarea>
                     </td>
                 </tr>
                 <tr>
@@ -177,24 +189,28 @@
                 </tr>
                 <tr>
                     <td class="contribution-edit-label">
-                        <wicket:message key="contribution.edit.duration">
-                            duration
-                        </wicket:message>
+                        <label for="cep-duration">
+                            <wicket:message key="contribution.edit.duration">
+                                duration
+                            </wicket:message>
+                        </label>
                     </td>
                     <td class="contribution-edit-input">
-                        <select wicket:id="duration">
+                        <select wicket:id="duration" id="cep-duration">
 
                         </select>
                     </td>
                 </tr>
                 <tr>
                     <td class="contribution-edit-label">
-                        <wicket:message key="contribution.edit.answers">
-                            answers included
-                        </wicket:message>
+                        <label for="cep-answers">
+                            <wicket:message key="contribution.edit.answers">
+                                answers included
+                            </wicket:message>
+                        </label>
                     </td>
                     <td class="contribution-edit-input">
-                        <input type="checkbox" wicket:id="answers"/>
+                        <input type="checkbox" wicket:id="answers" id="cep-answers"/>
                     </td>
                 </tr>
                 <tr>

@@ -361,12 +361,16 @@
             <table class="nominate-table">
                 <tr>
                     <th>
-                        <wicket:message key="contribution.view.nominationReason">Reason for nomination:</wicket:message>
+                        <label for="contribution-nomination-text-id">
+                            <wicket:message key="contribution.view.nominationReason">
+                                Reason for nomination:
+                            </wicket:message>
+                        </label>
                     </th>
                 </tr>
                 <tr>
                     <td>
-                        <textarea rows="3" cols="30" name="reason"></textarea>
+                        <textarea rows="3" cols="30" name="reason" id="contribution-nomination-text-id"></textarea>
                     </td>
                 </tr>
                 <tr>
@@ -413,7 +417,10 @@
         <form wicket:id="add-comment-form" method="get">
             <div class="add-comment-holder">
                 <input type="hidden" name="contribution_id" wicket:id="contrib-id-holder"/>
-                <textarea rows="7" cols="50" name="text"></textarea>
+                <label for="contribution-comment-text-id" style="display: none;">
+                    <wicket:message key="contribution.view.comments">Comments</wicket:message>
+                </label>
+                <textarea rows="7" cols="50" name="text" id="contribution-comment-text-id"></textarea>
                 <br/>
                 <input type="submit" name="submit" wicket:message="value:contribution.view.addComment"/>
             </div>
