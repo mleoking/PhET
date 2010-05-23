@@ -22,55 +22,67 @@
             <table>
                 <tr>
                     <th class="contribution-search-header">
-                        <wicket:message key="contribution.search.simulations">
-                            Simulations
-                        </wicket:message>
+                        <label for="contrib-search-sims">
+                            <wicket:message key="contribution.search.simulations">
+                                Simulations
+                            </wicket:message>
+                        </label>
                     </th>
                     <th class="contribution-search-header">
-                        <wicket:message key="contribution.search.types">
-                            Types
-                        </wicket:message>
+                        <label for="contrib-search-types">
+                            <wicket:message key="contribution.search.types">
+                                Types
+                            </wicket:message>
+                        </label>
                     </th>
                     <th class="contribution-search-header">
-                        <wicket:message key="contribution.search.levels">
-                            Levels
-                        </wicket:message>
+                        <label for="contrib-search-levels">
+                            <wicket:message key="contribution.search.levels">
+                                Levels
+                            </wicket:message>
+                        </label>
                     </th>
                     <th class="contribution-search-header">
-                        <wicket:message key="contribution.search.languages">
-                            Languages
-                        </wicket:message>
+                        <label for="contrib-search-locales">
+                            <wicket:message key="contribution.search.languages">
+                                Languages
+                            </wicket:message>
+                        </label>
                     </th>
                 </tr>
                 <tr>
                     <td>
-                        <select class="simulations" name="sims" multiple="multiple" size="8">
+                        <select class="simulations" name="sims" multiple="multiple" size="8" id="contrib-search-sims">
                             <option wicket:id="simulations"><span wicket:id="simulation-title"></span></option>
                         </select>
                     </td>
                     <td>
-                        <select class="types" name="types" multiple="multiple" size="8">
+                        <select class="types" name="types" multiple="multiple" size="8" id="contrib-search-types">
                             <option wicket:id="types"><span wicket:id="type"></span></option>
                         </select>
                     </td>
 
                     <td>
 
-                        <select class="levels" name="levels" multiple="multiple" size="8">
+                        <select class="levels" name="levels" multiple="multiple" size="8" id="contrib-search-levels">
                             <option wicket:id="levels"><span wicket:id="level"></span></option>
                         </select>
                     </td>
 
                     <td>
-                        <select class="locales" name="locales" multiple="multiple" size="8">
+                        <select class="locales" name="locales" multiple="multiple" size="8" id="contrib-search-locales">
                             <option wicket:id="locales"><span wicket:id="locale"></span></option>
                         </select>
                     </td>
                 </tr>
             </table>
             <div class="contribution-text-submit-row">
-                <wicket:message key="contribution.search.text">Optional text search</wicket:message>
-                <input type="text" name="query" value="" wicket:id="query-text"/>
+                <label for="contrib-search-text">
+                    <wicket:message key="contribution.search.text">
+                        Optional text search
+                    </wicket:message>
+                </label>
+                <input type="text" name="query" value="" wicket:id="query-text" id="contrib-search-text"/>
                 <span style="padding-left: 10px;"></span>
                 <input type="submit" wicket:message="value:contribution.search.browse"/>
             </div>
