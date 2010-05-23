@@ -2,6 +2,7 @@ Ensure saving on exit
 Add row selection model
 Generate custom reports based on selection
 Highlight regions based on day and/or time of day
+Make it easier to launch outside of IDE
 Global hotkey for Save
 Report against standardized categories
 Generate monthly reports
