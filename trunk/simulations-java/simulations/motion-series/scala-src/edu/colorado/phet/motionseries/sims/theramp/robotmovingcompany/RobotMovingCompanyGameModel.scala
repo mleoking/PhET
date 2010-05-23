@@ -9,6 +9,11 @@ import java.lang.Math._
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.colorado.phet.motionseries.model._
 
+/**
+ * The main model class for the game mode of the Ramps II and Forces and Motion sims.
+ * This contains the game logic, not the physical model.
+ * @author Sam Reid 
+ */
 class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
                                   clock: ScalaClock,
                                   initAngle: Double,
@@ -44,6 +49,28 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
   clock.addClockListener(dt => if (!model.isPaused && _bead != null) _bead.stepInTime(dt))
   resetAll()
 
+  def bead = _bead
+
+  def robotEnergy = _robotEnergy
+
+  def _inFrontOfDoor(b: Bead) = {
+    val range = 1.15 //NP: I would simply make the grabbing area smaller - maybe 10-15% beyond the door border.
+    val leftSide = door.position - door.width / 2.0 * range
+    val rightSide = door.position + door.width / 2.0 * range
+    b.position >= leftSide && b.position <= rightSide
+  }
+
+  val doorHandler = () => {
+    val inFrontOfDoor = _inFrontOfDoor(bead)
+    if (inFrontOfDoor)
+      _doorOpenAmount = _doorOpenAmount + 0.1
+    else
+      _doorOpenAmount = _doorOpenAmount - 0.1
+    _doorOpenAmount = MathUtil.clamp(0, _doorOpenAmount, 1.0)
+    doorListeners.foreach(_())
+  }
+  model.stepListeners += doorHandler
+
   def resetAll() = {
     model.rampSegments(1).setAngle(0)
     model.walls = false
@@ -55,10 +82,9 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
     surfaceModel.resetAll()
   }
 
-  def bead = _bead
-
-  def robotEnergy = _robotEnergy
-
+  /**
+   * Switches to the specified object.
+   */
   def setObjectIndex(newIndex: Int) = {
     if (_bead != null) {
       //todo: use remove listener paradigm
@@ -73,7 +99,7 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
     val sel = selectedObject
     model.setPaused(true)
 
-    _bead = model.createBead(-model.rampSegments(0).length+sel.width/2.0+model.leftWall.width/2.0, sel.width)
+    _bead = model.createBead(-model.rampSegments(0).length + sel.width / 2.0 + model.leftWall.width / 2.0, sel.width)
 
     bead.mass = sel.mass
     bead.staticFriction = sel.staticFriction
@@ -82,39 +108,18 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
     bead.airborneFloor = airborneFloor
     bead.surfaceFrictionStrategy = surfaceModel
     bead.crashListeners += (() => itemLostOffCliff(sel))
-    val beadRef = _bead //use a reference for closures below
-
-    def _inFrontOfDoor(b: Bead) = {
-      val range = 1.15 //NP: I would simply make the grabbing area smaller - maybe 10-15% beyond the door border.
-      val leftSide = door.position - door.width / 2.0 * range
-      val rightSide = door.position + door.width / 2.0 * range
-      b.position >= leftSide && b.position <= rightSide
-    }
-
-    model.stepListeners += (() => {
-      if (!containsKey(sel)) { //todo: this line is a workaround that makes sure the following logic only happesn if this object hasn't been scored already
-        //todo: it should be rewritten to remove listeners when an object is scored
-        val inFrontOfDoor = _inFrontOfDoor(beadRef)
-        if (inFrontOfDoor)
-          _doorOpenAmount = _doorOpenAmount + 0.1
-        else
-          _doorOpenAmount = _doorOpenAmount - 0.1
-        _doorOpenAmount = MathUtil.clamp(0, _doorOpenAmount, 1.0)
-        doorListeners.foreach(_())
-      }
-    })
 
     object listener extends Function0[Unit] {
       def apply() = {
         if (!containsKey(sel)) {
-          val pushing = abs(beadRef.parallelAppliedForce) > 0
-          val atRest = abs(beadRef.velocity) < 1E-6
-          val inFrontOfDoor = _inFrontOfDoor(beadRef)
+          val pushing = abs(bead.parallelAppliedForce) > 0
+          val atRest = abs(bead.velocity) < 1E-6
+          val inFrontOfDoor = _inFrontOfDoor(bead)
           val stoppedAtHouse = inFrontOfDoor && atRest //okay to be pushing
           val stoppedAndOutOfEnergy = atRest && _robotEnergy == 0
-          val crashed = atRest && beadRef.position2D.y < 0 //todo: won't this be wrong if the object falls off slowly?  What about checking for Crashed strategy?
+          val crashed = atRest && bead.position2D.y < 0 //todo: won't this be wrong if the object falls off slowly?  What about checking for Crashed strategy?
           if (stoppedAtHouse) {
-            itemDelivered(sel, beadRef)
+            itemDelivered(sel, bead)
             bead.removeListener(this)
           }
           else if (stoppedAndOutOfEnergy || crashed) {
@@ -221,12 +226,15 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
   }
 }
 
+/**
+ * This class represents the results from a single run, including points and success/failure.
+ */
 case class Result(success: Boolean, cliff: Boolean, objectPoints: Int, robotEnergy: Int) {
-  def score = totalObjectPoints + totalEnergyPoints
-
-  def scoreMultiplier = if (success) 1 else 0
-
   val pointsPerJoule = scoreMultiplier * 0.1
   val totalObjectPoints = objectPoints * scoreMultiplier
   val totalEnergyPoints = (robotEnergy * pointsPerJoule).toInt
+
+  def score = totalObjectPoints + totalEnergyPoints
+
+  def scoreMultiplier = if (success) 1 else 0
 }

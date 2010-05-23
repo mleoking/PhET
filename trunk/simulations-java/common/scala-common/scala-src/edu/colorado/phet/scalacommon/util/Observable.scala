@@ -17,4 +17,6 @@ trait Observable {
   }
 
   def removeListener(listener: () => Unit):Unit = listeners -= listener
+
+  def removeAllListeners() = listeners.clear()
 }

@@ -1,3 +1,4 @@
+Fixed: Door only partly opens on second play through
 Set ramp angle slider maximum to 80 degrees
 Converted vector component selection controls from checkboxes to radio buttons in Coordinate Frames tab
 Fixed: Fire dog water drops appear below the fire dog
