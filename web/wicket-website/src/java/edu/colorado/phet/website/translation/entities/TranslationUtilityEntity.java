@@ -49,6 +49,7 @@ public class TranslationUtilityEntity extends TranslationEntity {
         addString( "translationUtility.common.description" );
         addString( "translationUtility.common.howTo" );
         addString( "translationUtility.header.caveats" );
+        addString( "translationUtility.caveat" );
         addString( "translationUtility.header.bugReports" );
         addString( "translationUtility.bugReports.whatToDo" );
 
