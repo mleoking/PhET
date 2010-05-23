@@ -9,8 +9,6 @@ import java.util.*;
 
 import org.apache.log4j.Logger;
 
-import edu.colorado.phet.website.PhetWicketApplication;
-
 /**
  * Represents the content of a single changelog
  */
@@ -197,18 +195,7 @@ public class Changelog {
         public String headerString( Locale locale ) {
             StringBuilder builder = new StringBuilder();
 
-            if ( majorVersion != null ) {
-                builder.append( FORMAT_VERSION_MAJOR.format( majorVersion ) );
-                if ( minorVersion != null ) {
-                    builder.append( "." ).append( FORMAT_VERSION_MINOR.format( minorVersion ) );
-                    if ( devVersion != null && devVersion != 0 ) {
-                        builder.append( "." ).append( FORMAT_VERSION_DEV.format( devVersion ) );
-                        if ( revision != null ) {
-                            builder.append( " ( " ).append( revision ).append( ")" );
-                        }
-                    }
-                }
-            }
+            appendVersion( builder );
 
             if ( date != null ) {
                 final DateFormat format = DateFormat.getDateInstance( DateFormat.SHORT, locale );
@@ -224,9 +211,13 @@ public class Changelog {
         @Override
         public String toString() {
             StringBuilder builder = new StringBuilder();
-            builder.append( headerString( PhetWicketApplication.getDefaultLocale() ) );
+            builder.append( "# " );
+            appendVersion( builder );
+            builder.append( " " );
+            builder.append( FORMAT_VERSION_TIMESTAMP.format( date ) );
+            builder.append( "\n" );
             for ( Line line : lines ) {
-                builder.append( line.toString() );
+                builder.append( line.toString() ).append( "\n" );
             }
             return builder.toString();
         }
@@ -262,6 +253,21 @@ public class Changelog {
         /*---------------------------------------------------------------------------*
         * implementation
         *----------------------------------------------------------------------------*/
+
+        private void appendVersion( StringBuilder builder ) {
+            if ( majorVersion != null ) {
+                builder.append( FORMAT_VERSION_MAJOR.format( majorVersion ) );
+                if ( minorVersion != null ) {
+                    builder.append( "." ).append( FORMAT_VERSION_MINOR.format( minorVersion ) );
+                    if ( devVersion != null && devVersion != 0 ) {
+                        builder.append( "." ).append( FORMAT_VERSION_DEV.format( devVersion ) );
+                        if ( revision != null ) {
+                            builder.append( " ( " ).append( revision ).append( ")" );
+                        }
+                    }
+                }
+            }
+        }
 
         private Entry cloneWithoutLines() {
             return new Entry( majorVersion, minorVersion, devVersion, revision, date, new LinkedList<Line>() );
