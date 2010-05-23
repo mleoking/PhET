@@ -3,24 +3,25 @@ package edu.colorado.phet.motionseries.sims.theramp.robotmovingcompany
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import edu.colorado.phet.common.phetcommon.view.util.{BufferedImageUtils, PhetFont}
 import edu.colorado.phet.common.piccolophet.nodes.layout.SwingLayoutNode
-import edu.colorado.phet.common.piccolophet.PhetPCanvas
 import java.awt._
 import java.awt.event.{KeyEvent, KeyAdapter}
-import edu.colorado.phet.scalacommon.ScalaClock
 import edu.umd.cs.piccolo.nodes.{PImage, PText}
 import edu.umd.cs.piccolo.PNode
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 import edu.colorado.phet.scalacommon.math.Vector2D
 import edu.colorado.phet.motionseries.graphics._
 import edu.colorado.phet.motionseries.model._
-import edu.umd.cs.piccolox.pswing.PSwing
 import edu.colorado.phet.scalacommon.Predef._
 import edu.colorado.phet.motionseries.MotionSeriesResources._
-import geom.{Point2D, AffineTransform, Line2D, RoundRectangle2D}
+import geom.{Point2D, AffineTransform, RoundRectangle2D}
 import edu.colorado.phet.scalacommon.util.Observable
 import javax.swing._
 import edu.colorado.phet.motionseries.{StageContainerArea, MotionSeriesDefaults, MotionSeriesResources}
 
+/**
+ * This class represents the play area for the Robot Moving Company games for Ramps II and Forces and Motion.
+ * @author Sam Reid
+ */
 class RobotMovingCompanyCanvas(model: MotionSeriesModel,
                                coordinateSystemModel: AdjustableCoordinateModel,
                                freeBodyDiagramModel: FreeBodyDiagramModel,
@@ -34,11 +35,6 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
   beadNode.setVisible(false)
   playAreaVectorNode.setVisible(false)
   pusherNode.setVisible(false)
-
-  def showGameSummary() = {
-    JOptionPane.showMessageDialog(RobotMovingCompanyCanvas.this, "game.summary.pattern.score".messageformat(gameModel.score))
-    gameModel.resetAll()
-  }
 
   gameModel.itemFinishedListeners += ((scalaRampObject: MotionSeriesObject, result: Result) => {
     val summaryScreen = new SummaryScreenNode(gameModel, scalaRampObject, result, node => {
@@ -54,14 +50,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
     summaryScreen.requestFocus()
   })
 
-  override def updateFBDLocation() = {
-    if (fbdNode != null) {
-      val pt = transform.modelToView(0, -1)
-      fbdNode.setOffset(pt.x - fbdNode.getFullBounds.getWidth / 2, pt.y)
-    }
-  }
   updateFBDLocation()
-
   vectorViewModel.sumOfForcesVector = true
   freeBodyDiagramModel.visible = true
   freeBodyDiagramModel.closable = false
@@ -78,11 +67,11 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
       scale(0.4)
     }
     addChild(iconSet)
-    val textNode = new PText("game.instructions.press-arrow-keys".translate){
+    val textNode = new PText("game.instructions.press-arrow-keys".translate) {
       setOffset(iconSet.getFullBounds.getCenterX - getFullBounds.getWidth / 2, iconSet.getFullBounds.getMaxY)
     }
     addChild(textNode)
-    setOffset(getStage.getWidth-getFullBounds.getWidth,5)
+    setOffset(getStage.getWidth - getFullBounds.getWidth, 5)
   }
   addStageNode(new InstructionsNode)
 
@@ -197,11 +186,24 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
     textNode.setOffset(0, pImage.getFullBounds.getMaxY)
     addChild(textNode)
   }
+
+  def showGameSummary() = {
+    JOptionPane.showMessageDialog(RobotMovingCompanyCanvas.this, "game.summary.pattern.score".messageformat(gameModel.score))
+    gameModel.resetAll()
+  }
+
+  override def updateFBDLocation() = {
+    if (fbdNode != null) {
+      val pt = transform.modelToView(0, -1)
+      fbdNode.setOffset(pt.x - fbdNode.getFullBounds.getWidth / 2, pt.y)
+    }
+  }
+
   def init(bead: ForceBead, a: MotionSeriesObject) = {
     val lastBead = _currentBead
     _currentBead = bead
 
-    val beadNode = new BeadNode(bead, transform, a.imageFilename,a.crashImageFilename)
+    val beadNode = new BeadNode(bead, transform, a.imageFilename, a.crashImageFilename)
     addStageNode(beadNode)
     val icon = new ObjectIcon(a)
     val pt = transform.modelToView(-10, -1)
@@ -209,7 +211,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
     icon.setOffset(pt)
     addStageNode(icon)
 
-    val roboBead = model.createBead(-10 - a.width / 2, 1, 3)
+    val roboBead = MovingManBead(model,-10 - a.width / 2, 1, 3)
 
     val pusherNode = new RobotPusherNode(transform, bead, roboBead)
     addStageNode(pusherNode)
@@ -254,15 +256,11 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
 
   override def addWallsAndDecorations() = {}
 
-  //  override def createLeftSegmentNode = new ReverseRotatableSegmentNode(model.rampSegments(0), transform, model)
   override def createLeftSegmentNode = new RampSegmentNode(model.rampSegments(0), transform, model)
 
   override def createRightSegmentNode = new RampSegmentNode(model.rampSegments(1), transform, model)
 
-  override def addHeightAndAngleIndicators() = {
-    //    addStageNode(new RampHeightIndicator(new Reverse(model.rampSegments(0)).reverse, transform))
-    //    addStageNode(new RampAngleIndicator(new Reverse(model.rampSegments(0)).reverse, transform))
-  }
+  override def addHeightAndAngleIndicators() = {}
 
   override def createEarthNode = new EarthNodeWithCliff(transform, model.rampSegments(1).length, gameModel.airborneFloor)
 }

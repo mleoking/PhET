@@ -11,11 +11,11 @@ import java.lang.Math._
  *
  * @author Sam Reid
  */
-class FireDog(rampModel: MotionSeriesModel) {
+class FireDog(model: MotionSeriesModel) {
   val removalListeners = new ArrayBuffer[() => Unit]
   val height = 2
   val width = 2
-  val dog = rampModel.createBead(-15, height, width)
+  val dog = MovingManBead(model,-15, height, width)
   private var raindropCount = 0
   private val incomingSpeed = 0.5 * 1.25
   private val outgoingSpeed = 1.0 * 1.25
@@ -23,13 +23,13 @@ class FireDog(rampModel: MotionSeriesModel) {
   private val stoppingDist = -5 + random.nextDouble * 5 - 2.5
 
   def stepInTime(dt: Double) = {
-    if (dog.position < stoppingDist && raindropCount < rampModel.maxDrops) {
+    if (dog.position < stoppingDist && raindropCount < model.maxDrops) {
       dog.setPosition(dog.position + incomingSpeed)
-    } else if (raindropCount < rampModel.maxDrops) {
-      val raindrop = new Raindrop(dog.position2D + new Vector2D(width / 2.0, height / 3.0), 10 + random.nextGaussian * 3, PI / 4 + random.nextGaussian() * PI / 16, rampModel)
-      rampModel.raindrops += raindrop
+    } else if (raindropCount < model.maxDrops) {
+      val raindrop = new Raindrop(dog.position2D + new Vector2D(width / 2.0, height / 3.0), 10 + random.nextGaussian * 3, PI / 4 + random.nextGaussian() * PI / 16, model)
+      model.raindrops += raindrop
       raindropCount = raindropCount + 1
-      rampModel.raindropAddedListeners.foreach(_(raindrop))
+      model.raindropAddedListeners.foreach(_(raindrop))
     } else if (dog.position > -15) {
       dog.setPosition(dog.position - outgoingSpeed)
     } else {
@@ -38,14 +38,14 @@ class FireDog(rampModel: MotionSeriesModel) {
   }
 
   def remove() = {
-    rampModel.fireDogs -= this
+    model.fireDogs -= this
     removalListeners.foreach(_())
   }
 }
 
 class Raindrop(p: Vector2D, rainSpeed: Double, angle: Double, rampModel: MotionSeriesModel) {
   val removedListeners = new ArrayBuffer[() => Unit]
-  val rainbead = rampModel.createBead(0.0, 0.3, 0.5)
+  val rainbead = MovingManBead(rampModel,0.0, 0.3, 0.5)
   private var _angle = 0.0
   rainbead.setVelocity(rainSpeed)//have to set the speed here so that energy conservation in Airborne.step won't make the water drops appear underground
   rainbead.motionStrategy = new Airborne(p, new Vector2D(angle) * rainSpeed, 0.0, rainbead) {

@@ -36,14 +36,14 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
   val gameFinishListeners = new ArrayBuffer[() => Unit]
 
   val housePosition = 6
-  val house = model.createBead(housePosition, MotionSeriesDefaults.house.width, MotionSeriesDefaults.house.height)
-  val door = model.createBead(housePosition, MotionSeriesDefaults.door.width, MotionSeriesDefaults.door.height)
+  val house = MovingManBead(model,housePosition, MotionSeriesDefaults.house.width, MotionSeriesDefaults.house.height)
+  val door = MovingManBead(model,housePosition, MotionSeriesDefaults.door.width, MotionSeriesDefaults.door.height)
   private var _doorOpenAmount = 0.0
 
   def doorOpenAmount = _doorOpenAmount
 
   val doorListeners = new ArrayBuffer[() => Unit]
-  val doorBackground = model.createBead(housePosition, MotionSeriesDefaults.doorBackground.width, MotionSeriesDefaults.doorBackground.height)
+  val doorBackground = MovingManBead(model,housePosition, MotionSeriesDefaults.doorBackground.width, MotionSeriesDefaults.doorBackground.height)
   private var _bead: ForceBead = null
 
   clock.addClockListener(dt => if (!model.isPaused && _bead != null) _bead.stepInTime(dt))
@@ -99,7 +99,7 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
     val sel = selectedObject
     model.setPaused(true)
 
-    _bead = model.createBead(-model.rampSegments(0).length + sel.width / 2.0 + model.leftWall.width / 2.0, sel.width)
+    _bead = MovingManBead(model,-model.rampSegments(0).length + sel.width / 2.0 + model.leftWall.width / 2.0, sel.width,3)
 
     bead.mass = sel.mass
     bead.staticFriction = sel.staticFriction

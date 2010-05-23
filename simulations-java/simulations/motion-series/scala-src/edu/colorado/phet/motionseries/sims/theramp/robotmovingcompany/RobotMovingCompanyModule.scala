@@ -79,8 +79,9 @@ class RobotMovingCompanyModule(frame: PhetFrame,
           canvas.addScreenNode(overlayNode)
 
           MotionSeriesResources.getAudioClip("game/robot-moving-company-us8mon.wav".literal).play()
-          val intro = new IntroScreen()
-          intro.centerWithin(canvas.getWidth, canvas.getHeight)
+          val intro = new IntroScreen{
+            centerWithin(canvas.getWidth, canvas.getHeight)
+          }
           canvas.addScreenNode(intro)
 
           canvas.addKeyListener(new KeyAdapter {
