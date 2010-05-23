@@ -68,7 +68,19 @@ abstract class Bead(private var _state: BeadState,
   //notified when the bead is being removed
   val removalListeners = new ArrayBuffer[() => Unit]
 
-  def remove() = removalListeners.foreach(_())
+  /**
+   * Notify that the bead is being removed, and clear all listeners.
+   */
+  def remove() = {
+    removalListeners.foreach(_())
+    removeAllListeners()
+  }
+
+  override def removeAllListeners() = {
+    super.removeAllListeners()
+    crashListeners.clear()
+    workListeners.clear()
+  }
 
   def width = _width
 
@@ -216,5 +228,5 @@ abstract class Bead(private var _state: BeadState,
     sum / velocities.size
   }
 
-  def isCrashed:Boolean
+  def isCrashed: Boolean
 }
