@@ -121,6 +121,7 @@ public class PhetWicketApplication extends WebApplication {
         ByGradeLevelPage.addToMapper( mapper ); // always add this before CategoryPage so it can display the icons
         CategoryPage.addToMapper( mapper );
         SimulationPage.addToMapper( mapper );
+        SimulationChangelogPage.addToMapper( mapper );
         StaticPage.addToMapper( mapper );
         IndexPage.addToMapper( mapper );
         SimsByKeywordPage.addToMapper( mapper );
