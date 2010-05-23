@@ -1,22 +1,22 @@
 package edu.colorado.phet.motionseries.sims.theramp.robotmovingcompany
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont
-import edu.colorado.phet.common.piccolophet.nodes.{ArrowNode, HTMLNode, PhetPPath}
+import edu.colorado.phet.common.piccolophet.nodes.{PhetPPath}
 import edu.colorado.phet.common.phetcommon.view.PhetFrame
 import edu.colorado.phet.scalacommon.ScalaClock
 import edu.colorado.phet.motionseries.Predef._
 import edu.colorado.phet.motionseries.{MotionSeriesResources, MotionSeriesDefaults, MotionSeriesModule}
 import java.awt.event.{KeyEvent, KeyAdapter}
-import java.awt.geom.Point2D
-import java.awt.{BasicStroke, Rectangle, Color}
+import java.awt.{Rectangle, Color}
 import javax.swing.{SwingUtilities}
-import edu.umd.cs.piccolo.nodes.{PText, PImage}
-import edu.umd.cs.piccolo.PNode
 import edu.colorado.phet.motionseries.model.{MotionSeriesObject, MotionSeriesModel}
 import MotionSeriesDefaults._
 
+/**
+ * The RobotMovingCompanyModule is the main game mode for the Ramp II and Forces and Motion simulations.
+ * @author Sam Reid
+ */
 class RobotMovingCompanyModule(frame: PhetFrame,
-                               initAngle: Double = defaultRampAngle, 
+                               initAngle: Double = defaultRampAngle,
                                appliedForce: Double = rampRobotForce,
                                objectList: List[MotionSeriesObject] = objects)
         extends MotionSeriesModule(frame, new ScalaClock(MotionSeriesDefaults.DELAY, MotionSeriesDefaults.DT_DEFAULT), "module.robotMovingCompany".translate, 5, false, MotionSeriesDefaults.defaultRampAngle, false) {
@@ -38,11 +38,11 @@ class RobotMovingCompanyModule(frame: PhetFrame,
       //beyond the left edge of the leftmost ramp segment in the game modes.
       //This solves the problem by enabling walls whenever the bead is to the left of the origin.
       //A better designed way would be to always have the left wall enabled.
-      stepListeners += (()=> walls = gameModel.bead.position < 0 )
+      stepListeners += (() => walls = gameModel.bead.position < 0)
     }
   }
 
-  val gameModel = new RobotMovingCompanyGameModel(motionSeriesModel, getClock.asInstanceOf[ScalaClock], initAngle, appliedForce, objectList)//todo: fix cast
+  val gameModel = new RobotMovingCompanyGameModel(motionSeriesModel, getClock.asInstanceOf[ScalaClock], initAngle, appliedForce, objectList) //todo: fix cast
 
   gameModel.itemFinishedListeners += ((scalaRampObject, result) => {
     val audioClip = result match {
@@ -96,35 +96,4 @@ class RobotMovingCompanyModule(frame: PhetFrame,
       })
     }
   }
-}
-
-class IntroScreen extends PlayAreaDialog(400, 500) {
-  val titleNode = new HTMLNode("game.intro.robot-moving-company".translate, Color.blue,new PhetFont(52, true)) //todo: translate
-  titleNode.setOffset(getFullBounds.getWidth / 2 - titleNode.getFullBounds.getWidth / 2, 20)
-  addChild(titleNode)
-
-  val text = new PNode {
-    val mottoBorder = new PText("game.intro.our-motto".translate)
-
-    addChild(mottoBorder)
-    val mottoBody = new HTMLNode("game.intro.motto-text".translate) {
-      setFont(new PhetFont(25, true))
-    }
-    addChild(mottoBody)
-    mottoBody.setOffset(0, mottoBorder.getFullBounds.getHeight)
-  }
-  val buttonCluster = new KeyboardButtonIcons
-
-  val labeledButtonCluster = new PNode {
-    addChild(text)
-    addChild(buttonCluster)
-    buttonCluster.setOffset(text.getFullBounds.getWidth / 2 - buttonCluster.getFullBounds.getWidth / 2, text.getFullBounds.getHeight + 5)
-  }
-  addChild(labeledButtonCluster)
-
-  val pressToBegin = new PText("game.intro.press-to-begin".translate)
-  addChild(pressToBegin)
-  pressToBegin.setOffset(background.getFullBounds.getWidth / 2 - pressToBegin.getFullBounds.getWidth / 2, background.getFullBounds.getHeight - pressToBegin.getFullBounds.getHeight - 10)
-
-  labeledButtonCluster.setOffset(background.getFullBounds.getWidth / 2 - labeledButtonCluster.getFullBounds.getWidth / 2, pressToBegin.getFullBounds.getY - labeledButtonCluster.getFullBounds.getHeight - 10)
 }
