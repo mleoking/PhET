@@ -191,3 +191,11 @@ div.rtl .text-right-classic {
 .list-highlight-background {
     background-color: #eeeeee;
 }
+
+#skipNav {
+    position: absolute;
+    left: -9999px;
+    width: 9000px;
+    font-size: 1px;
+    letter-spacing: -1px;
+}
