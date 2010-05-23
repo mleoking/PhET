@@ -11,18 +11,18 @@
 </head>
 <body>
 <wicket:panel>
-    <div wicket:message="dir:language.dir">
-        <div wicket:id="items">
-            <div class="link-holder">
+    <ul wicket:message="dir:language.dir" class="nav-ul">
+        <li wicket:id="items" class="nav-li">
+            <span class="link-holder">
                 <a href="NavMenuList.html#" wicket:id="link" class="nml-link">
                 <span wicket:id="link-label" class="nml-link-label">
                 </span>
                 </a>
 
-                <div wicket:id="children"></div>
-            </div>
-        </div>
-    </div>
+                <span wicket:id="children"></span>
+            </span>
+        </li>
+    </ul>
 </wicket:panel>
 
 <wicket:remove>

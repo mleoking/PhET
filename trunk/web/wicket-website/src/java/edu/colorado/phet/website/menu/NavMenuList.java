@@ -24,7 +24,7 @@ public class NavMenuList extends PhetPanel {
     public NavMenuList( String id, final PageContext context, List<NavLocation> locations, final Set<NavLocation> currentLocations, final int level ) {
         super( id, context );
 
-        ListView listView = new ListView( "items", locations ) {
+        ListView listView = new ListView<NavLocation>( "items", locations ) {
             protected void populateItem( ListItem item ) {
                 NavLocation location = (NavLocation) item.getModel().getObject();
                 Link link = location.getLink( "link", context, (PhetRequestCycle) getRequestCycle() );
@@ -39,17 +39,17 @@ public class NavMenuList extends PhetPanel {
                             open = currentLocation.isUnderLocation( location );
                         }
                         if ( currentLocation.getBaseKey().equals( location.getKey() ) || currentLocation.getKey().equals( location.getKey() ) ) {
-                            label.add( new AttributeAppender( "class", new Model( "selected" ), " " ) );
+                            label.add( new AttributeAppender( "class", new Model<String>( "selected" ), " " ) );
                         }
                     }
                 }
 
                 // adds class so we can remove these for things like the installer and whatnot in CSS
                 if ( location.isUnderLocationKey( "get-phet" ) ) {
-                    label.add( new AttributeAppender( "class", new Model( "get-phet-item" ), " " ) );
+                    label.add( new AttributeAppender( "class", new Model<String>( "get-phet-item" ), " " ) );
                 }
                 if ( location.isUnderLocationKey( "teacherIdeas" ) ) {
-                    label.add( new AttributeAppender( "class", new Model( "teacher-ideas-item" ), " " ) );
+                    label.add( new AttributeAppender( "class", new Model<String>( "teacher-ideas-item" ), " " ) );
                     if ( !DistributionHandler.displayContributions( getPhetCycle() ) ) {
                         item.setVisible( false );
                     }
@@ -70,10 +70,12 @@ public class NavMenuList extends PhetPanel {
                     item.add( placeholder );
                 }
                 else {
-                    item.add( new NavMenuList( "children", context, location.getVisibleChildren( currentLocations ), currentLocations, level + 1 ) );
+                    NavMenuList children = new NavMenuList( "children", context, location.getVisibleChildren( currentLocations ), currentLocations, level + 1 );
+                    children.setRenderBodyOnly( true );
+                    item.add( children );
                 }
 
-                link.add( new AttributeAppender( "class", new Model( "nav" + level ), " " ) );
+                link.add( new AttributeAppender( "class", new Model<String>( "nav" + level ), " " ) );
 
             }
         };
