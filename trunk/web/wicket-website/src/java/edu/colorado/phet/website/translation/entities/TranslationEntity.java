@@ -76,6 +76,9 @@ public abstract class TranslationEntity implements Serializable {
 
     private static List<TranslationEntity> cachedEntities = null;
 
+    /**
+     * @return The list (in order) of the entities that should be shown in the translation area
+     */
     public static synchronized List<TranslationEntity> getTranslationEntities() {
         if ( cachedEntities == null ) {
             cachedEntities = new LinkedList<TranslationEntity>();
@@ -105,6 +108,7 @@ public abstract class TranslationEntity implements Serializable {
             cachedEntities.add( new UserEntity() );
             cachedEntities.add( new ErrorEntity() );
             cachedEntities.add( new TranslationUtilityEntity() );
+            cachedEntities.add( new MiscellaneousEntity() );
         }
         return cachedEntities;
     }
