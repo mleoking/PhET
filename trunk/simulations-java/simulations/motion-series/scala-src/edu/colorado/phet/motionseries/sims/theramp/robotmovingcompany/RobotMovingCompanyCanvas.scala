@@ -32,9 +32,14 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
                                energyScale: Double)
         extends RampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel,
           frame, false, false, true, MotionSeriesDefaults.robotMovingCompanyRampViewport, stageContainerArea) {
+
+  //Configure visibility and usability of different features for game mode
   beadNode.setVisible(false)
   playAreaVectorNode.setVisible(false)
   pusherNode.setVisible(false)
+  vectorViewModel.sumOfForcesVector = true
+  freeBodyDiagramModel.visible = true
+  freeBodyDiagramModel.closable = false
 
   gameModel.itemFinishedListeners += ((scalaRampObject: MotionSeriesObject, result: Result) => {
     val summaryScreen = new SummaryScreenNode(gameModel, scalaRampObject, result, node => {
@@ -51,9 +56,6 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
   })
 
   updateFBDLocation()
-  vectorViewModel.sumOfForcesVector = true
-  freeBodyDiagramModel.visible = true
-  freeBodyDiagramModel.closable = false
 
   val houseNode = new BeadNode(gameModel.house, transform, MotionSeriesDefaults.house.imageFilename)
   addStageNode(houseNode)
