@@ -7,6 +7,8 @@ import javax.servlet.ServletContext;
 public class WebsiteProperties {
     private ServletContext servletContext;
 
+    // TODO: start caching parameters
+
     public static final String PHET_DOCUMENT_ROOT = "phet-document-root";
     public static final String PHET_DOWNLOAD_ROOT = "phet-download-root";
     public static final String PHET_DOWNLOAD_LOCATION = "phet-download-location";
