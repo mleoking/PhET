@@ -47,7 +47,6 @@ public class Changelog {
      * @param logFile The 'changes.txt' changelog file
      */
     public Changelog( File logFile ) {
-        // TODO: add unit tests
         try {
             BufferedReader reader = new BufferedReader( new FileReader( logFile ) );
             try {
@@ -97,6 +96,18 @@ public class Changelog {
         return entries;
     }
 
+    @Override
+    /**
+     * NOT guaranteed to be in the same format (may leave off dev versions, add spaces after >'s, etc)
+     */
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        for ( Entry entry : entries ) {
+            builder.append( entry.toString() ).append( "\n" );
+        }
+        return builder.toString();
+    }
+
     /**
      * @return A changelog where the only entries are non-development entries (with dev version == 0). Only visible
      *         log lines are included, and log lines of dev entries are added to the next non-dev entry.
@@ -110,6 +121,7 @@ public class Changelog {
         for ( Entry entry : entries ) {
             if ( entry.getDevVersion() == 0 ) {
                 lastEntry = entry.cloneWithoutLines();
+                log.getEntries().add( lastEntry );
             }
             if ( lastEntry != null ) {
                 for ( Line line : entry.getLines() ) {
@@ -209,6 +221,9 @@ public class Changelog {
         }
 
         @Override
+        /**
+         * NOT guaranteed to be the same format. Useful for debugging
+         */
         public String toString() {
             StringBuilder builder = new StringBuilder();
             builder.append( "# " );
@@ -409,7 +424,7 @@ public class Changelog {
             StringBuilder builder = new StringBuilder();
             builder.append( token );
             while ( tokenizer.hasMoreTokens() ) {
-                builder.append( tokenizer.nextToken() );
+                builder.append( " " ).append( tokenizer.nextToken() );
             }
 
             message = builder.toString();
