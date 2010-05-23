@@ -176,7 +176,7 @@ public class PhetWicketApplication extends WebApplication {
         // so that if a string is not found for a more specific locale (es_MX), it would try "es", then the default
         // properties file
         // NOTE: This may break in Wicket 1.4 (hopefully fixed?)
-        assert( getResourceSettings().getStringResourceLoaders().size() == 1 );
+        assert ( getResourceSettings().getStringResourceLoaders().size() == 1 );
         getResourceSettings().addStringResourceLoader( 0, new ClassStringResourceLoader( PhetWicketApplication.class ) );
 
         // initialize the navigation menu
