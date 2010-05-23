@@ -11,6 +11,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import edu.colorado.phet.website.authentication.PhetSession;
+import edu.colorado.phet.website.components.RawLabel;
 import edu.colorado.phet.website.content.NotFoundPage;
 import edu.colorado.phet.website.data.Category;
 import edu.colorado.phet.website.data.LocalizedSimulation;
@@ -18,9 +19,7 @@ import edu.colorado.phet.website.data.Simulation;
 import edu.colorado.phet.website.menu.NavLocation;
 import edu.colorado.phet.website.panels.simulation.SimulationChangelogPanel;
 import edu.colorado.phet.website.templates.PhetMenuPage;
-import edu.colorado.phet.website.util.HibernateUtils;
-import edu.colorado.phet.website.util.PageContext;
-import edu.colorado.phet.website.util.PhetUrlMapper;
+import edu.colorado.phet.website.util.*;
 import edu.colorado.phet.website.util.links.AbstractLinker;
 
 public class SimulationChangelogPage extends PhetMenuPage {
@@ -69,8 +68,13 @@ public class SimulationChangelogPage extends PhetMenuPage {
         boolean displayDev = PhetSession.get().isSignedIn() && PhetSession.get().getUser().isTeamMember();
         add( new SimulationChangelogPanel( "simulation-changelog-panel", simulation, getPageContext(), displayDev ) );
 
-        // TODO: localize title
-        addTitle( "Changelog for PhET Simulation " + simulation.getTitle() );
+        addTitle( StringUtils.messageFormat( getPhetLocalizer().getString("changelog.title", this ), new Object[]{
+                HtmlUtils.encode( simulation.getTitle() )
+        }) );
+
+        add( new RawLabel( "changelog-header", StringUtils.messageFormat( getPhetLocalizer().getString("changelog.header", this ), new Object[]{
+                HtmlUtils.encode( simulation.getTitle() )
+        }) ) );
 
         initializeLocationWithSet( locations );
 
