@@ -222,7 +222,7 @@ public class PhetLocalizer extends Localizer {
 
         // at this point, we know it is not in the first translation we looked at
 
-        if ( !checkDefault ) {
+        if ( !checkDefault && defaultValue != null ) {
             // return either null or the default value, since we won't check the default language
             logger.info( "Shortcut default value on " + key + ": " + defaultValue );
             return defaultValue;
