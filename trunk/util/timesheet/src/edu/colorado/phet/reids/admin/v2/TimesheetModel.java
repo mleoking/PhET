@@ -16,9 +16,23 @@ import java.util.StringTokenizer;
  */
 class TimesheetModel {
     private ArrayList<TimeListener> timeListeners = new ArrayList<TimeListener>();
+    private boolean dirty = false;
+
+    public void addDirtyListener(DirtyListener dirtyListener) {
+        dirtyListeners.add(dirtyListener);
+    }
+
+    //dirty if changes haven't been saved
+
+    public static interface DirtyListener {
+        void dirtyChanged();
+    }
+
+    private ArrayList<DirtyListener> dirtyListeners = new ArrayList<DirtyListener>();
     private TimeListener timeListenerAdapter = new TimeListener() {
         public void timeChanged() {
             notifyTimeChanged();
+            setDirty();
         }
     };
 
@@ -46,10 +60,6 @@ class TimesheetModel {
         return s.substring(0, s.length() - 1);
     }
 
-    public void clearChanges() {
-//        sz//todo: change model
-    }
-
     public void loadTSV(String str) {
         clear();
         StringTokenizer stringTokenizer = new StringTokenizer(str, "\n");
@@ -72,15 +82,39 @@ class TimesheetModel {
 
     private void removeEntry(int index) {
         entries.remove(index);
+        setDirty();
         //todo: notify somebody?
+    }
+
+    private void setDirty() {
+        if (!isDirty()) {
+            dirty = true;
+            for (DirtyListener dirtyListener : dirtyListeners) {
+                dirtyListener.dirtyChanged();
+            }
+        }
     }
 
     public void loadTSV(File file) throws IOException {
         loadTSV(FileUtils.loadFileAsString(file));
+        setClean();
     }
 
     public Entry getEntry(int index) {
         return entries.get(index);
+    }
+
+    public boolean isDirty() {
+        return dirty;
+    }
+
+    public void setClean() {
+        if (dirty) {
+            dirty = false;
+            for (DirtyListener dirtyListener : dirtyListeners) {
+                dirtyListener.dirtyChanged();
+            }
+        }
     }
 
     public static interface ClockedInListener {
@@ -89,6 +123,7 @@ class TimesheetModel {
 
     public void clockOut() {
         getLastEntry().clockOut();
+        setDirty();
     }
 
     public long getTotalTimeSeconds() {
@@ -131,6 +166,7 @@ class TimesheetModel {
             itemAddedListener.itemAdded(entry);
         }//todo: remove listeners after item is closed?
         notifyTimeChanged();
+        setDirty();
     }
 
     public Entry getLastEntry() {
@@ -146,6 +182,7 @@ class TimesheetModel {
         for (ClockedInListener clockedInListener : clockedInListeners) {
             clockedInListener.clockedInChanged();//todo: could rewrite this so no clocked-out notifications are sent
         }
+        setDirty();
     }
 
     public void startNewCategory() {

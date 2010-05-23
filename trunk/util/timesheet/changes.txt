@@ -1,3 +1,4 @@
+5-23-2009: Ensure saving on exit, if changes have been made
 > 12-31-2009 Added a display for the total time for a selection in Summarize
 > 11-8-2009 added global hotkeys for clocking in and out (windows only)
 # 1.00.02 (32797) Jun 27, 2009

@@ -1,4 +1,3 @@
-Ensure saving on exit
 Add row selection model
 Generate custom reports based on selection
 Highlight regions based on day and/or time of day
