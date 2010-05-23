@@ -4,14 +4,20 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.RestartResponseAtInterceptPageException;
+import org.apache.wicket.behavior.HeaderContributor;
+import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.model.ResourceModel;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import edu.colorado.phet.website.authentication.PhetSession;
 import edu.colorado.phet.website.components.RawLabel;
+import edu.colorado.phet.website.constants.CSS;
 import edu.colorado.phet.website.content.NotFoundPage;
 import edu.colorado.phet.website.data.Category;
 import edu.colorado.phet.website.data.LocalizedSimulation;
@@ -28,6 +34,8 @@ public class SimulationChangelogPage extends PhetMenuPage {
 
     public SimulationChangelogPage( PageParameters parameters ) {
         super( parameters );
+
+        add( HeaderContributor.forCss( CSS.SIMULATION_MAIN ) );
 
         String flavorName = parameters.getString( "simulation" );
 
@@ -68,13 +76,18 @@ public class SimulationChangelogPage extends PhetMenuPage {
         boolean displayDev = PhetSession.get().isSignedIn() && PhetSession.get().getUser().isTeamMember();
         add( new SimulationChangelogPanel( "simulation-changelog-panel", simulation, getPageContext(), displayDev ) );
 
-        addTitle( StringUtils.messageFormat( getPhetLocalizer().getString("changelog.title", this ), new Object[]{
+        addTitle( StringUtils.messageFormat( getPhetLocalizer().getString( "changelog.title", this ), new Object[]{
                 HtmlUtils.encode( simulation.getTitle() )
-        }) );
+        } ) );
 
-        add( new RawLabel( "changelog-header", StringUtils.messageFormat( getPhetLocalizer().getString("changelog.header", this ), new Object[]{
+        add( new RawLabel( "changelog-header", StringUtils.messageFormat( getPhetLocalizer().getString( "changelog.header", this ), new Object[]{
                 HtmlUtils.encode( simulation.getTitle() )
-        }) ) );
+        } ) ) );
+
+        Link simLink = SimulationPage.getLinker( simulation ).getLink( "simulation-link", getPageContext(), getPhetCycle() );
+        simLink.add( new Label( "simulation-title", simulation.getTitle() ) );
+        simLink.add( new AttributeModifier( "title", true, new ResourceModel( "changelog.backToSimulation" ) ) );
+        add( simLink );
 
         initializeLocationWithSet( locations );
 
