@@ -167,12 +167,14 @@ public class Rotator extends MovieClip {
                 }
                 if ( x < WIDTH ) {
                     loaders[i].x = x;
-                    loaders[i].visible = true;
+                    //loaders[i].visible = true;
+                    loaders[i].enable();
                     //debug.text += " " + String(i) + "V";
                 }
                 else {
                     loaders[i].x = -5000;
-                    loaders[i].visible = false;
+                    //loaders[i].visible = false;
+                    loaders[i].disable();
                     //debug.text += " " + String(i) + "I";
                 }
             }
@@ -186,18 +188,18 @@ public class Rotator extends MovieClip {
 
     private function next() : void {
         resetTimer();
-        if ( !nextPreview().isLoaded() ) {
-            return;
-        }
+//        if ( !nextPreview().isLoaded() ) {
+//            return;
+//        }
         idx = nextIdx(idx);
         offset += WIDTH;
     }
 
     private function previous() : void {
         resetTimer();
-        if ( !prevPreview().isLoaded() ) {
-            return;
-        }
+//        if ( !prevPreview().isLoaded() ) {
+//            return;
+//        }
         idx = prevIdx(idx);
         offset -= WIDTH;
     }

@@ -57,5 +57,23 @@ public class StreamPreview extends Preview {
         netStream.play("http://" + domain + "/files/rotator/" + getSim() + ".flv");
     }
 
+
+    override protected function pause():void {
+        if ( !isLoaded() ) {
+            return;
+        }
+        setPaused(true);
+        netStream.pause();
+        video.visible = false;
+    }
+
+    override protected function resume():void {
+        if ( !isLoaded() ) {
+            return;
+        }
+        setPaused(false);
+        video.visible = true;
+        netStream.resume();
+    }
 }
 }

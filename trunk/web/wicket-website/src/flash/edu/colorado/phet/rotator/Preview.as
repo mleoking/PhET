@@ -1,6 +1,5 @@
 package edu.colorado.phet.rotator {
 import flash.display.MovieClip;
-import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.MouseEvent;
 import flash.net.URLRequest;
@@ -15,6 +14,7 @@ public class Preview extends MovieClip{
     private var sim : String;
     private var started : Boolean = false;
     private var loaded : Boolean = false;
+    private var paused : Boolean = false;
 
     public static var LOADED : String = "previewLoaded";
 
@@ -51,7 +51,7 @@ public class Preview extends MovieClip{
     }
 
     public function finish() : void {
-        if( loaded ) { return; }
+        if ( loaded ) { return; }
         loaded = true;
         this.dispatchEvent(new Event(LOADED));
     }
@@ -70,6 +70,36 @@ public class Preview extends MovieClip{
 
     public function isStarted():Boolean {
         return started;
+    }
+
+    public function isPaused() : Boolean {
+        return paused;
+    }
+
+    protected function pause() : void {
+
+    }
+
+    protected function resume() : void {
+
+    }
+
+    protected function setPaused( p : Boolean ) : void {
+        paused = p;
+    }
+
+    public function enable() : void {
+        this.visible = true;
+        if ( paused ) {
+            resume();
+        }
+    }
+
+    public function disable() : void {
+        this.visible = false;
+        if ( !paused ) {
+            pause();
+        }
     }
 }
 }
