@@ -403,11 +403,16 @@ public class PhetWicketApplication extends WebApplication {
 
     @Override
     protected void onDestroy() {
-        logger.info( "Shutting down PhetWicketApplication" );
-        NotificationHandler.destroy();
-        SearchUtils.destroy();
+        try {
+            logger.info( "Shutting down PhetWicketApplication" );
+            NotificationHandler.destroy();
+            SearchUtils.destroy();
 
-        logger.info( HibernateUtils.getInstance().getCache().getClass().getCanonicalName() );
+            logger.info( HibernateUtils.getInstance().getCache().getClass().getCanonicalName() );
+        }
+        catch( Exception e ) {
+            logger.error( e );
+        }
     }
 
     public static String getProductionServerName() {
