@@ -17,11 +17,6 @@ public class ReportFrame {
     private JFrame frame = new JFrame();
 
     public ReportFrame(TimesheetModel selection) {
-        String text = "Report on selection\n";
-//        text += selection.toCSV();
-
-        text += "\n";
-
         final Hashtable<String, Long> table = new Hashtable<String, Long>();
         for (int i = 0; i < selection.getEntryCount(); i++) {
             Entry e = selection.getEntry(i);
@@ -33,15 +28,21 @@ public class ReportFrame {
 //        text += table;
 
         ArrayList<String> keys = new ArrayList<String>(table.keySet());
-        Collections.sort(keys,new Comparator<String>() {
+        Collections.sort(keys, new Comparator<String>() {
             public int compare(String o1, String o2) {
-                return -Double.compare(table.get(o1),table.get(o2));//reverse so most used appear first
+                return -Double.compare(table.get(o1), table.get(o2));//reverse so most used appear first
             }
         });
 
+        String text = "Total time: " + Util.secondsToElapsedTimeString(selection.getTotalTimeSeconds()) + "\n";
+        text += "Number of entries: " + selection.getEntryCount() + "\n";
+        text += "Numer of categories: " + keys.size() + "\n";
+//        text += selection.toCSV();
+
+        text += "\n";
         for (String key : keys) {
-            System.out.println(key+": "+Util.secondsToElapsedTimeString(table.get(key)));
-            text+=key+": "+Util.secondsToElapsedTimeString(table.get(key))+"\n";
+            System.out.println(key + ": " + Util.secondsToElapsedTimeString(table.get(key)));
+            text += key + ": " + Util.secondsToElapsedTimeString(table.get(key)) + "\n";
         }
 
         frame.setContentPane(new JScrollPane(new JTextArea(text)));
