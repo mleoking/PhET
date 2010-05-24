@@ -73,24 +73,21 @@ class RobotMovingCompanyModule(frame: PhetFrame,
       SwingUtilities.invokeLater(new Runnable {
         def run = {
 
-          var removed = false
-          //gray out everything else
+          //gray out the play area to help focus on the instruction panel
           val overlayNode = new PhetPPath(new Rectangle(canvas.getWidth, canvas.getHeight), new Color(100, 120, 100, 240))
           canvas.addScreenNode(overlayNode)
 
-          MotionSeriesResources.getAudioClip("game/robot-moving-company-us8mon.wav".literal).play()
-          val intro = new IntroScreen{
+          MotionSeriesResources.getAudioClip("game/robot-moving-company-us8mon.wav".literal).play() //Play startup sound "Robot moving company"
+          val intro = new IntroScreen {
             centerWithin(canvas.getWidth, canvas.getHeight)
           }
           canvas.addScreenNode(intro)
 
           canvas.addKeyListener(new KeyAdapter {
             override def keyPressed(e: KeyEvent) = {
-              if (!removed) {
-                canvas.removeScreenNode(intro)
-                canvas.removeScreenNode(overlayNode)
-                removed = true
-              }
+              canvas.removeKeyListener(this)
+              canvas.removeScreenNode(intro)
+              canvas.removeScreenNode(overlayNode)
             }
           })
         }
