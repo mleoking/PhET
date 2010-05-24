@@ -517,8 +517,7 @@ public class SimulationMainPanel extends PhetPanel {
             }
         } );
 
-        if ( simulation.getSimulation().getName().equals( "mass-spring-lab" ) ) {
-            // TODO: improve for RTL if we keep this
+        if ( false ) {
             add( new PearsonSponsorPanel( "pearson-sponsor", context ) );
         }
         else {
