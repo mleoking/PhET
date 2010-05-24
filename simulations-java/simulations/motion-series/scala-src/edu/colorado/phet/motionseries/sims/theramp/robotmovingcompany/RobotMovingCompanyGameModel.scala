@@ -29,6 +29,10 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
   val surfaceModel = new SurfaceModel
   val airborneFloor = -9.0
 
+  def hasUserAppliedForce = {
+    robotEnergy>DEFAULT_ROBOT_ENERGY*0.92
+  }
+
   private var _launched = false
   private var _objectIndex = 0
   private val resultMap = new HashMap[MotionSeriesObject, Result]

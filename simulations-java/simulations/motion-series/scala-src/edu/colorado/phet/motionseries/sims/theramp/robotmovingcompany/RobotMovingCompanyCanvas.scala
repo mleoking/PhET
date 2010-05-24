@@ -41,6 +41,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
   vectorViewModel.sumOfForcesVector = true
   freeBodyDiagramModel.visible = true
   freeBodyDiagramModel.closable = false
+  private var numClockTicksWithUserApplication = 0//for determining if they need a wiggle me
 
   private var currentBeadNode:PNode = null //keep track of the current bead graphic for layering purposes
 
@@ -148,8 +149,14 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
   }
 
   userInputModel.addListener(() => {
+    numClockTicksWithUserApplication = numClockTicksWithUserApplication + 1
+//    println("num clock ticks with user input = "+numClockTicksWithUserApplication)
     gameModel.bead.parallelAppliedForce = if (gameModel.robotEnergy > 0) userInputModel.appliedForce else 0.0
   }) //todo: when robot energy hits zero, applied force should disappear
+
+  def hasUserAppliedForce = {
+    numClockTicksWithUserApplication > 5
+  }
 
   addKeyListener(new KeyAdapter {
     override def keyPressed(e: KeyEvent) = {
