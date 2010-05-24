@@ -7,6 +7,9 @@ import flash.net.LocalConnection;
 import flash.net.URLRequest;
 import flash.net.navigateToURL;
 
+/**
+ * A preview that holds an arbitrary SWF
+ */
 public class SwfPreview extends Preview {
 
     private var loader : Loader = new Loader();
@@ -37,7 +40,7 @@ public class SwfPreview extends Preview {
         if ( domain == "localhost" ) {
             domain = "192.168.1.64";
         }
-        var request : URLRequest = new URLRequest("http://" + domain + "/files/rotator/" + getSim() + "-anim.swf");
+        var request : URLRequest = new URLRequest("http://" + domain + "/files/rotator/" + getSim() + ".swf");
         loader.load(request);
 
         loader.addEventListener(MouseEvent.CLICK, function( evt : Event ) {
