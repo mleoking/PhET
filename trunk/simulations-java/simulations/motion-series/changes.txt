@@ -1,3 +1,4 @@
+After 10 seconds of no arrows key pressing, pop up the "press arrow keys icon"
 Removed workaround that checked the result hashmap before applying game logic
 Move object into house (between layers) on successful delivery
 Fixed: Door only partly opens on second play through

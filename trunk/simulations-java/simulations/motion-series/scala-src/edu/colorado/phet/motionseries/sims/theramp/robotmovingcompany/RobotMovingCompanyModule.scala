@@ -5,11 +5,11 @@ import edu.colorado.phet.common.phetcommon.view.PhetFrame
 import edu.colorado.phet.scalacommon.ScalaClock
 import edu.colorado.phet.motionseries.Predef._
 import edu.colorado.phet.motionseries.{MotionSeriesResources, MotionSeriesDefaults, MotionSeriesModule}
-import java.awt.event.{KeyEvent, KeyAdapter}
 import java.awt.{Rectangle, Color}
-import javax.swing.{SwingUtilities}
 import edu.colorado.phet.motionseries.model.{MotionSeriesObject, MotionSeriesModel}
 import MotionSeriesDefaults._
+import javax.swing.{Timer, SwingUtilities}
+import java.awt.event.{ActionEvent, ActionListener, KeyEvent, KeyAdapter}
 
 /**
  * The RobotMovingCompanyModule is the main game mode for the Ramp II and Forces and Motion simulations.
@@ -88,6 +88,17 @@ class RobotMovingCompanyModule(frame: PhetFrame,
               canvas.removeKeyListener(this)
               canvas.removeScreenNode(intro)
               canvas.removeScreenNode(overlayNode)
+              val wiggleMeTimer = new Timer(5000,new ActionListener{
+                def actionPerformed(e: ActionEvent) = {
+                  //no keys pressed=> no energy used, remind the user they should use keyboard
+                  //but the intro screen keypress may have leaked over, so use a heuristic 92%
+                  if (gameModel.robotEnergy>gameModel.DEFAULT_ROBOT_ENERGY*0.92)
+                    canvas.showWiggleMe()
+                }
+              }){
+                setRepeats(false)
+                start()
+              }
             }
           })
         }
