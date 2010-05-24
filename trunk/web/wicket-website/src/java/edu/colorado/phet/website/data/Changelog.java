@@ -203,13 +203,14 @@ public class Changelog {
          * <p/>
          * NOTE: shouldn't contain XML entity characters
          *
-         * @param locale The locale in which to print dates
+         * @param locale       The locale in which to print dates
+         * @param showRevision Whether to show revisions
          * @return A string representing the header of this entry
          */
-        public String headerString( Locale locale ) {
+        public String headerString( Locale locale, boolean showRevision ) {
             StringBuilder builder = new StringBuilder();
 
-            appendVersion( builder );
+            appendVersion( builder, showRevision );
 
             if ( date != null ) {
                 DateFormat format = DateFormat.getDateInstance( DateFormat.SHORT, locale );
@@ -232,7 +233,7 @@ public class Changelog {
         public String toString() {
             StringBuilder builder = new StringBuilder();
             builder.append( "# " );
-            appendVersion( builder );
+            appendVersion( builder, true );
             if ( date != null ) {
                 builder.append( " " );
                 builder.append( FORMAT_VERSION_TIMESTAMP.format( date ) );
@@ -276,16 +277,16 @@ public class Changelog {
         * implementation
         *----------------------------------------------------------------------------*/
 
-        private void appendVersion( StringBuilder builder ) {
+        private void appendVersion( StringBuilder builder, boolean showRevision ) {
             if ( majorVersion != null ) {
                 builder.append( FORMAT_VERSION_MAJOR.format( majorVersion ) );
                 if ( minorVersion != null ) {
                     builder.append( "." ).append( FORMAT_VERSION_MINOR.format( minorVersion ) );
                     if ( devVersion != null && devVersion != 0 ) {
                         builder.append( "." ).append( FORMAT_VERSION_DEV.format( devVersion ) );
-                        if ( revision != null ) {
-                            builder.append( " (" ).append( revision ).append( ")" );
-                        }
+                    }
+                    if ( showRevision && revision != null ) {
+                        builder.append( " (" ).append( revision ).append( ")" );
                     }
                 }
             }

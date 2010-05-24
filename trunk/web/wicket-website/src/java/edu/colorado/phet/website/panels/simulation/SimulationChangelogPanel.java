@@ -19,7 +19,7 @@ public class SimulationChangelogPanel extends PhetPanel {
 
     private static final Logger logger = Logger.getLogger( SimulationChangelogPanel.class.getName() );
 
-    public SimulationChangelogPanel( String id, final LocalizedSimulation simulation, final PageContext context, boolean displayDevEntries ) {
+    public SimulationChangelogPanel( String id, final LocalizedSimulation simulation, final PageContext context, final boolean displayDevEntries ) {
         super( id, context );
 
         // TODO: refactor so we don't have that long docroot access string
@@ -33,7 +33,7 @@ public class SimulationChangelogPanel extends PhetPanel {
             @Override
             protected void populateItem( ListItem<Changelog.Entry> entryItem ) {
                 Changelog.Entry entry = entryItem.getModelObject();
-                entryItem.add( new Label( "header", entry.headerString( getLocale() ) ) );
+                entryItem.add( new Label( "header", entry.headerString( getLocale(), displayDevEntries ) ) );
 
                 if ( entry.getLines().isEmpty() ) {
                     entryItem.add( new InvisibleComponent( "line" ) );
