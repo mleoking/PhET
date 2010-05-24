@@ -80,7 +80,8 @@ class SummaryScreenNode(gameModel: RobotMovingCompanyGameModel,
   addChild(pText)
   pText.setOffset(background.getFullBounds.getCenterX - pText.getFullBounds.width / 2, 20)
 
-  val image = new PImage(BufferedImageUtils.rescaleYMaintainAspectRatio(MotionSeriesResources.getImage(scalaRampObject.imageFilename), 150))
+  val imageFilename = if (result.cliff) scalaRampObject.crashImageFilename else scalaRampObject.imageFilename
+  val image = new PImage(BufferedImageUtils.rescaleYMaintainAspectRatio(MotionSeriesResources.getImage(imageFilename), 150))
   image.setOffset(background.getFullBounds.getCenterX - image.getFullBounds.width / 2, pText.getFullBounds.getMaxY + 20)
   addChild(image)
 
