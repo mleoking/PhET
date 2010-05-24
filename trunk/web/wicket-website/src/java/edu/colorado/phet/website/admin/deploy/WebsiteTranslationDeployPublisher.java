@@ -3,11 +3,12 @@ package edu.colorado.phet.website.admin.deploy;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.StringTokenizer;
 
 import org.apache.log4j.Logger;
 
-import edu.colorado.phet.buildtools.BuildScript;
 import edu.colorado.phet.buildtools.JARGenerator;
 import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.website.data.Project;
@@ -19,6 +20,8 @@ public class WebsiteTranslationDeployPublisher {
 
     private File sims;
     private File docRoot;
+
+    private List<String> deployedProjectNames = new LinkedList<String>();
 
     private static final Logger logger = Logger.getLogger( WebsiteTranslationDeployPublisher.class.getName() );
 
@@ -62,11 +65,17 @@ public class WebsiteTranslationDeployPublisher {
         copyMetaXML( translationDir, javaProjectNameList );
         copyMetaXML( translationDir, flashProjectNameList );
 
-        BuildScript.clearWebCaches();
+        deployedProjectNames.addAll( javaProjectNameList );
+        deployedProjectNames.addAll( flashProjectNameList );
+
     }
 
     public static Logger getLogger() {
         return logger;
+    }
+
+    public List<String> getDeployedProjectNames() {
+        return deployedProjectNames;
     }
 
     private void copyMetaXML( File translationDir, ArrayList projectNameList ) {

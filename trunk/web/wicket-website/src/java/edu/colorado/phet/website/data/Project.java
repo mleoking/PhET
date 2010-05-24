@@ -45,7 +45,7 @@ public class Project implements Serializable, IntId {
     private Set simulations = new HashSet();
 
     private static final Logger logger = Logger.getLogger( Project.class.getName() );
-    private static Logger syncLogger = Logger.getLogger( Project.class.getName() + ".sync" );
+    private static Logger defaultSyncLogger = Logger.getLogger( Project.class.getName() + ".sync" );
 
     public Project() {
     }
@@ -139,6 +139,20 @@ public class Project implements Serializable, IntId {
      * @param projectName The project name to synchronize
      */
     public static void synchronizeProject( final File docRoot, final Session session, final String projectName ) {
+        synchronizeProject( docRoot, session, projectName, defaultSyncLogger );
+    }
+
+    /**
+     * Synchronizes the in-database projects, simulations, and translations to correspond to the files in the project
+     * directory
+     *
+     * @param docRoot     The document root
+     * @param session     A Hibernate session (preferably the one in the request cycle, but you can pull one out of other
+     *                    sources)
+     * @param projectName The project name to synchronize
+     * @param syncLogger  The logger to output messages to
+     */
+    public static void synchronizeProject( final File docRoot, final Session session, final String projectName, final Logger syncLogger ) {
 
         syncLogger.info( "Synchronizing project " + projectName + " with docroot " + docRoot.getAbsolutePath() );
 
@@ -171,10 +185,10 @@ public class Project implements Serializable, IntId {
                         project = (Project) plist.get( 0 );
                     }
                     else {
-                        syncLogger.info( "Project doesn't exit. Creating" );
+                        syncLogger.info( "Project doesn't exit. Creating and setting visibility to false" );
                         project = new Project();
                         project.setName( projectName );
-                        project.setVisible( true );
+                        project.setVisible( false );
                         project.setType( type );
                     }
 
