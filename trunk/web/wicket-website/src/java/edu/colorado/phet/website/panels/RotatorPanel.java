@@ -33,6 +33,7 @@ public class RotatorPanel extends PhetPanel {
 
         final List<LocalizedSimulation> featured = new LinkedList<LocalizedSimulation>();
 
+        // TODO: start caching these best simulations?
         HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
             public boolean run( Session session ) {
                 featured.add( HibernateUtils.getBestSimulation( session, getMyLocale(), "mass-spring-lab" ) );
