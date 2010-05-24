@@ -77,18 +77,9 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
 //  val doorBackgroundNode = new BeadNode(gameModel.doorBackground, transform, MotionSeriesDefaults.doorBackground.imageFilename)
 //  addStageNode(doorBackgroundNode)
 
-  class InstructionsNode extends PNode {
-    val iconSet = new KeyboardButtonIcons {
-      scale(0.4)
-    }
-    addChild(iconSet)
-    val textNode = new PText("game.instructions.press-arrow-keys".translate) {
-      setOffset(iconSet.getFullBounds.getCenterX - getFullBounds.getWidth / 2, iconSet.getFullBounds.getMaxY)
-    }
-    addChild(textNode)
+  addStageNode(new InstructionsNode{
     setOffset(getStage.getWidth - getFullBounds.getWidth, 5)
-  }
-  addStageNode(new InstructionsNode)
+  })
 
   val doorNode = new PNode() {
     val bead = new BeadNode(gameModel.door, getModelStageTransform, MotionSeriesDefaults.door.imageFilename)
@@ -277,6 +268,20 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
   override def addHeightAndAngleIndicators() = {}
 
   override def createEarthNode = new EarthNodeWithCliff(transform, model.rampSegments(1).length, gameModel.airborneFloor)
+
+  def showWiggleMe(){
+    val instructionsNode = new InstructionsNode {
+      scale(2.0)
+      setOffset(RobotMovingCompanyCanvas.this.getWidth / 2-getFullBounds.getWidth/2, RobotMovingCompanyCanvas.this.getHeight / 4)
+    }
+    addScreenNode(instructionsNode)
+    addKeyListener(new KeyAdapter(){
+      override def keyPressed(e: KeyEvent) = {
+        removeKeyListener(this)
+        removeScreenNode(instructionsNode)
+      }
+    })
+  }
 }
 
 class ItemReadout(text: String, gameModel: RobotMovingCompanyGameModel, counter: () => Int) extends PNode {
