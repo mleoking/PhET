@@ -311,7 +311,19 @@ public class ModifiedHodgkinHuxleyModel implements IHodgkinHuxleyModel
     		// New values tried by Noah P on 3/10/10
     		n4 = 0.55 * Math.exp( -1 / 0.55 * Math.pow(timeSinceActionPotential - 1.75, 2));
     		m3h = 0.3 * Math.exp( -1 / 0.2 * Math.pow(timeSinceActionPotential - 1.0, 2));
-
+    		
+    		// If the n4 and m3h values are below a certain level, go ahead
+    		// and set them to zero.  This helps other parts of the simulation
+    		// determine when an action potential has ended.  The values used
+    		// are empirically determined.
+    		if (n4 < 1E-5){
+    			n4 = 0;
+    		}
+    		if (m3h < 1E-5){
+    			m3h = 0;
+    		}
+    		
+    		// Calculate the currents based on the conductance values.
     		na_current = gna * m3h * (v-vna);
     		k_current = gk * n4 * (v-vk);
     		l_current = gl * (v-vl);
