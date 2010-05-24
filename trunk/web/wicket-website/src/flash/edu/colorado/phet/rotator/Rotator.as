@@ -3,8 +3,6 @@ package edu.colorado.phet.rotator {
 import flash.display.*;
 import flash.events.Event;
 import flash.events.MouseEvent;
-import flash.net.URLRequest;
-import flash.net.navigateToURL;
 import flash.system.Security;
 import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
@@ -14,7 +12,7 @@ public class Rotator extends MovieClip {
 
     public static var WIDTH : Number = 300;
     public static var HEIGHT : Number = 200;
-    public static var FRAMES_BETWEEN_SWITCH : Number = 5 * 30;
+    public static var FRAMES_BETWEEN_SWITCH : Number = 7 * 30;
 
     private var loaders : Array = new Array();
     private var quantity : Number;
@@ -38,8 +36,8 @@ public class Rotator extends MovieClip {
         if ( !li.parameters.quantity ) {
             // TODO: remove after dev
             quantity = 2;
-            loaders.push(new Preview("Masses & Springs", "/en/simulation/mass-spring-lab", "mass-spring-lab"));
-            loaders.push(new Preview("Circuit Construction Kit (DC Only)", "/en/simulation/circuit-construction-kit/circuit-construction-kit-dc", "circuit-construction-kit-dc"));
+            loaders.push(Preview.createPreview("Masses & Springs", "/en/simulation/mass-spring-lab", "mass-spring-lab"));
+            loaders.push(Preview.createPreview("Circuit Construction Kit (DC Only)", "/en/simulation/circuit-construction-kit-dc", "circuit-construction-kit-dc"));
             loaderHolder.addChild(loaders[0]);
             loaderHolder.addChild(loaders[1]);
             loaders[1].visible = false;
@@ -50,15 +48,10 @@ public class Rotator extends MovieClip {
                 var title : String = li.parameters["title" + String(i)];
                 var url : String = li.parameters["url" + String(i)];
                 var sim : String = li.parameters["sim" + String(i)];
-                var loader:Preview = new Preview(title, url, sim);
+                var loader:Preview = Preview.createPreview(title, url, sim);
                 loaders.push(loader);
                 loaderHolder.addChild(loader);
-                if ( i == 1 ) {
-                    loader.visible = true;
-                }
-                else {
-                    loader.visible = false;
-                }
+                loader.visible = i == 1;
             }
         }
 
@@ -102,12 +95,6 @@ public class Rotator extends MovieClip {
         prevHolder.x = farRight ? WIDTH - prevText.width - 1 - nextText.width : WIDTH / 2 - prevText.width;
         prevHolder.y = HEIGHT;
         addChild(prevHolder);
-
-        //        var featuredText : TextField = new TextField();
-        //        featuredText.text = "Featured Sims";
-        //        featuredText.mouseEnabled = false;
-        //        styleText( featuredText, 14, 0xd36a04 );
-        //        addChild( featuredText );
 
         nextHolder.addEventListener(MouseEvent.CLICK, function( evt:Event ) {
             next();
@@ -226,7 +213,8 @@ public class Rotator extends MovieClip {
     private function startLoad() : void {
         loadidx++;
         if ( loadidx < quantity ) {
-            loaders[loadidx].getLoader().contentLoaderInfo.addEventListener(Event.COMPLETE, loadEvt);
+            //loaders[loadidx].getLoader().contentLoaderInfo.addEventListener(Event.COMPLETE, loadEvt);
+            loaders[loadidx].addEventListener(Preview.LOADED, loadEvt);
             loaders[loadidx].load();
         }
     }
