@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.behavior.AttributeAppender;
@@ -12,7 +13,6 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.Model;
 import org.hibernate.Session;
 
-import edu.colorado.phet.website.content.simulations.CategoryPage;
 import edu.colorado.phet.website.content.simulations.SimulationPage;
 import edu.colorado.phet.website.data.LocalizedSimulation;
 import edu.colorado.phet.website.util.HibernateTask;
@@ -26,6 +26,8 @@ public class RotatorPanel extends PhetPanel {
      */
     private StringBuilder builder = new StringBuilder();
 
+    private static final Random random = new Random();
+
     public RotatorPanel( String id, PageContext context ) {
         super( id, context );
 
@@ -36,6 +38,12 @@ public class RotatorPanel extends PhetPanel {
                 featured.add( HibernateUtils.getBestSimulation( session, getMyLocale(), "mass-spring-lab" ) );
                 featured.add( HibernateUtils.getBestSimulation( session, getMyLocale(), "circuit-construction-kit-dc" ) );
                 featured.add( HibernateUtils.getBestSimulation( session, getMyLocale(), "soluble-salts" ) );
+                featured.add( HibernateUtils.getBestSimulation( session, getMyLocale(), "my-solar-system" ) );
+                featured.add( HibernateUtils.getBestSimulation( session, getMyLocale(), "lunar-lander" ) );
+                featured.add( HibernateUtils.getBestSimulation( session, getMyLocale(), "projectile-motion" ) );
+                featured.add( HibernateUtils.getBestSimulation( session, getMyLocale(), "friction" ) );
+                featured.add( HibernateUtils.getBestSimulation( session, getMyLocale(), "wave-on-a-string" ) );
+                featured.add( HibernateUtils.getBestSimulation( session, getMyLocale(), "pendulum-lab" ) );
                 return true;
             }
         } );
@@ -45,6 +53,7 @@ public class RotatorPanel extends PhetPanel {
         appendParameter( "offlineInstaller", String.valueOf( getPhetCycle().isOfflineInstaller() ) );
         appendParameter( "next", getPhetLocalizer().getString( "home.rotator.next", this ) );
         appendParameter( "previous", getPhetLocalizer().getString( "home.rotator.previous", this ) );
+        appendParameter( "startIndex", String.valueOf( random.nextInt( featured.size() ) ) );
         int idx = 1;
         for ( LocalizedSimulation lsim : featured ) {
             String ids = Integer.toString( idx++ );
@@ -63,7 +72,7 @@ public class RotatorPanel extends PhetPanel {
         paramLabel2.add( new AttributeAppender( "value", flashvarsModel, " " ) );
         add( paramLabel2 );
 
-        Link fallbackLink = CategoryPage.getLinker().getLink( "fallback-link", context, getPhetCycle() );
+        Link fallbackLink = SimulationPage.getLinker( "mass-spring-lab", "mass-spring-lab" ).getLink( "fallback-link", context, getPhetCycle() );
         add( fallbackLink );
         if ( getPhetCycle().isOfflineInstaller() ) {
             fallbackLink.add( new AttributeModifier( "class", true, new Model<String>( "installer" ) ) );
@@ -72,7 +81,8 @@ public class RotatorPanel extends PhetPanel {
 
     /**
      * Append a flashvar variable to the string builder
-     * @param key Key
+     *
+     * @param key   Key
      * @param value Value
      */
     private void appendParameter( String key, String value ) {
