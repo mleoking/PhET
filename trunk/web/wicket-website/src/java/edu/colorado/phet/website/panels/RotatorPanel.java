@@ -20,13 +20,15 @@ import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
 
 public class RotatorPanel extends PhetPanel {
+
+    /**
+     * Used to build the flashvars
+     */
+    private StringBuilder builder = new StringBuilder();
+
     public RotatorPanel( String id, PageContext context ) {
         super( id, context );
 
-//        setMarkupId( "rotator-holder-id" );
-//        setOutputMarkupId( true );
-
-        //String flashvars = "dir=ltr&quantity=2&project1=mass-spring-lab&sim1=mass-spring-lab&title1=Masses+%26+Springs&url1=%2Fen%2Fsimulation%2Fmass-spring-lab&project2=circuit-construction-kit&sim2=circuit-construction-kit-dc&title2=Circuit+Construction+Kit+%28DC+Only%29&url2=%2Fen%2Fsimulation%2Fcircuit-construction-kit%2Fcircuit-construction-kit-dc";
         final List<LocalizedSimulation> featured = new LinkedList<LocalizedSimulation>();
 
         HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
@@ -38,42 +40,53 @@ public class RotatorPanel extends PhetPanel {
             }
         } );
 
-        StringBuffer buf = new StringBuffer();
-        buf.append( "dir=" + getPhetLocalizer().getBestString( getHibernateSession(), "language.dir", getMyLocale() ) + "&" );
-        buf.append( "quantity=" + Integer.toString( featured.size() ) + "&" );
-        buf.append( "offlineInstaller=" + getPhetCycle().isOfflineInstaller() + "&" );
-        try {
-            buf.append( "next=" + URLEncoder.encode( getPhetLocalizer().getString( "home.rotator.next", this ), "UTF-8" ) + "&" );
-            buf.append( "previous=" + URLEncoder.encode( getPhetLocalizer().getString( "home.rotator.previous", this ), "UTF-8" ) + "&" );
-
-            int idx = 1;
-            for ( LocalizedSimulation lsim : featured ) {
-                String ids = Integer.toString( idx++ );
-                buf.append( "sim" + ids + "=" + URLEncoder.encode( lsim.getSimulation().getName(), "UTF-8" ) + "&" );
-                buf.append( "title" + ids + "=" + URLEncoder.encode( lsim.getTitle(), "UTF-8" ) + "&" );
-                buf.append( "url" + ids + "=" + URLEncoder.encode( SimulationPage.getLinker( lsim ).getRawUrl( context, getPhetCycle() ), "UTF-8" ) + "&" );
-            }
-        }
-        catch( UnsupportedEncodingException e ) {
-            e.printStackTrace();
+        appendParameter( "dir", getPhetLocalizer().getBestString( getHibernateSession(), "language.dir", getMyLocale() ) );
+        appendParameter( "quantity", Integer.toString( featured.size() ) );
+        appendParameter( "offlineInstaller", String.valueOf( getPhetCycle().isOfflineInstaller() ) );
+        appendParameter( "next", getPhetLocalizer().getString( "home.rotator.next", this ) );
+        appendParameter( "previous", getPhetLocalizer().getString( "home.rotator.previous", this ) );
+        int idx = 1;
+        for ( LocalizedSimulation lsim : featured ) {
+            String ids = Integer.toString( idx++ );
+            appendParameter( "sim" + ids, lsim.getSimulation().getName() );
+            appendParameter( "title" + ids, lsim.getTitle() );
+            appendParameter( "url" + ids, SimulationPage.getLinker( lsim ).getRawUrl( context, getPhetCycle() ) );
         }
 
-        // TODO: separate out rotator panel
-
-        Model flashvarsModel = new Model( buf.toString() );
+        Model flashvarsModel = new Model<String>( builder.toString() );
 
         Label paramLabel = new Label( "flash-param" );
         paramLabel.add( new AttributeAppender( "value", flashvarsModel, " " ) );
         add( paramLabel );
 
-        Label embedLabel = new Label( "flash-embed" );
-        embedLabel.add( new AttributeAppender( "FlashVars", flashvarsModel, " " ) );
-        add( embedLabel );
+        Label paramLabel2 = new Label( "flash-param-2" );
+        paramLabel2.add( new AttributeAppender( "value", flashvarsModel, " " ) );
+        add( paramLabel2 );
 
         Link fallbackLink = CategoryPage.getLinker().getLink( "fallback-link", context, getPhetCycle() );
         add( fallbackLink );
         if ( getPhetCycle().isOfflineInstaller() ) {
-            fallbackLink.add( new AttributeModifier( "class", true, new Model( "installer" ) ) );
+            fallbackLink.add( new AttributeModifier( "class", true, new Model<String>( "installer" ) ) );
         }
     }
+
+    /**
+     * Append a flashvar variable to the string builder
+     * @param key Key
+     * @param value Value
+     */
+    private void appendParameter( String key, String value ) {
+        try {
+            builder.append( key );
+            builder.append( "=" );
+
+            // encode it
+            builder.append( URLEncoder.encode( value, "UTF-8" ) );
+            builder.append( "&" );
+        }
+        catch( UnsupportedEncodingException e ) {
+            e.printStackTrace();
+        }
+    }
+
 }
