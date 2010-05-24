@@ -17,7 +17,6 @@ public class Rotator extends MovieClip {
     private var loaders : Array = new Array();
     private var quantity : Number;
     private var idx : Number = 0;
-    private var loadidx : Number = -1;
     private var loaderHolder : MovieClip = new MovieClip();
     private var offset : Number = 0;
     private var timer : Number = FRAMES_BETWEEN_SWITCH;
@@ -97,11 +96,11 @@ public class Rotator extends MovieClip {
         addChild(prevHolder);
 
         nextHolder.addEventListener(MouseEvent.CLICK, function( evt:Event ) {
-            next();
+            next(true);
         });
 
         prevHolder.addEventListener(MouseEvent.CLICK, function( evt:Event ) {
-            previous();
+            previous(true);
         });
 
         //addChild(debug);
@@ -186,22 +185,33 @@ public class Rotator extends MovieClip {
         timer = FRAMES_BETWEEN_SWITCH;
     }
 
-    private function next() : void {
+    private function next( force : Boolean = false ) : void {
         resetTimer();
-//        if ( !nextPreview().isLoaded() ) {
-//            return;
-//        }
+        if ( !force && !nextPreview().isLoaded() ) {
+            // sanity check to try triggering the load
+            triggerLoad(nextPreview());
+            return;
+        }
         idx = nextIdx(idx);
         offset += WIDTH;
+        triggerLoad(loaders[nextIdx(idx)]);
     }
 
-    private function previous() : void {
+    private function previous( force : Boolean = false ) : void {
         resetTimer();
-//        if ( !prevPreview().isLoaded() ) {
-//            return;
-//        }
+        if ( !force && !prevPreview().isLoaded() ) {
+            // sanity check to try triggering the load
+            triggerLoad(prevPreview());
+            return;
+        }
         idx = prevIdx(idx);
         offset -= WIDTH;
+
+        // if going backwards, might have to load the current one
+        triggerLoad(loaders[idx]);
+
+        // start loading the next one if they keep going back
+        triggerLoad(loaders[prevIdx(idx)]);
     }
 
     private function nextIdx( i : Number ) : Number { return (i + 1) < quantity ? i + 1 : 0;}
@@ -213,17 +223,18 @@ public class Rotator extends MovieClip {
     private function prevPreview() : Preview { return loaders[prevIdx(idx)]; }
 
     private function startLoad() : void {
-        loadidx++;
-        if ( loadidx < quantity ) {
-            //loaders[loadidx].getLoader().contentLoaderInfo.addEventListener(Event.COMPLETE, loadEvt);
-            loaders[loadidx].addEventListener(Preview.LOADED, loadEvt);
-            loaders[loadidx].load();
-        }
+        triggerLoad(loaders[0]);
+        loaders[0].addEventListener(Preview.LOADED, function loadEvt( evt : Event ) : void {
+            if ( loaders[1] != null ) {
+                triggerLoad(loaders[1]);
+            }
+        });
     }
 
-    private function loadEvt( evt : Event ) : void {
-        //debug.text += "L";
-        startLoad();
+    private function triggerLoad( preview : Preview ) : void {
+        if ( !preview.isStarted() ) {
+            preview.load();
+        }
     }
 
     public static function styleText( tf : TextField, size : Number = 12, color : Number = 0x555555 ) : void {
