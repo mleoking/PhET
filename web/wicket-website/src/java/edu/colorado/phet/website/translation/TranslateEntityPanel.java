@@ -54,6 +54,8 @@ public class TranslateEntityPanel extends PhetPanel {
         this.translationId = translationId;
         this.page = page;
 
+        // TODO: really start caching stuff or something. throwing TONS of queries at postgresql
+
         final PageContext externalContext = new PageContext( "/translation/" + String.valueOf( translationId ) + "/", "", testLocale );
 
         setOutputMarkupId( true );
