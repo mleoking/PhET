@@ -9,160 +9,30 @@
         <link rel="stylesheet" type="text/css" href="../../../../../../../root/css/preview.css"/>
     </wicket:remove>
     <wicket:head>
-        <script language="JavaScript" type="text/javascript">
-            <!--
-            var jsVersion = 1.0;
-            var detectedMajorVersion = 0;
-            // -->
-        </script>
-        <script language="VBScript" type="text/vbscript">
-            <!-- // Visual basic helper required to detect Flash Player ActiveX control version information
-           Function VBGetSwfVer(i)
-             on error resume next
-             Dim swControl, swVersion
-             swVersion = 0
-
-             set swControl = CreateObject("ShockwaveFlash.ShockwaveFlash." + CStr(i))
-             if (IsObject(swControl)) then
-               swVersion = swControl.GetVariable("$version")
-             end if
-             VBGetSwfVer = swVersion
-           End Function
-           // -->
-        </script>
-        <script language="JavaScript1.1" type="text/javascript">
-            <!-- // Detect Client Browser type
-            var isIE = (navigator.appVersion.indexOf( "MSIE" ) != -1) ? true : false;
-            var isWin = (navigator.appVersion.toLowerCase().indexOf( "win" ) != -1) ? true : false;
-            var isOpera = (navigator.userAgent.indexOf( "Opera" ) != -1) ? true : false;
-            jsVersion = 1.1;
-            // JavaScript helper required to detect Flash Player PlugIn version information
-            function JSGetSwfVer( i ) {
-                // NS/Opera version >= 3 check for Flash plugin in plugin array
-                if ( navigator.plugins != null && navigator.plugins.length > 0 ) {
-                    if ( navigator.plugins["Shockwave Flash 2.0"] || navigator.plugins["Shockwave Flash"] ) {
-                        var swVer2 = navigator.plugins["Shockwave Flash 2.0"] ? " 2.0" : "";
-                        var flashDescription = navigator.plugins["Shockwave Flash" + swVer2].description;
-                        descArray = flashDescription.split( " " );
-                        tempArrayMajor = descArray[2].split( "." );
-                        versionMajor = tempArrayMajor[0];
-                        versionMinor = tempArrayMajor[1];
-                        if ( descArray[3] != "" ) {
-                            tempArrayMinor = descArray[3].split( "r" );
-                        }
-                        else {
-                            tempArrayMinor = descArray[4].split( "r" );
-                        }
-                        versionRevision = tempArrayMinor[1] > 0 ? tempArrayMinor[1] : 0;
-                        flashVer = versionMajor + "." + versionMinor + "." + versionRevision;
-                    }
-                    else {
-                        flashVer = -1;
-                    }
-                }
-                // MSN/WebTV 2.6 supports Flash 4
-                else if ( navigator.userAgent.toLowerCase().indexOf( "webtv/2.6" ) != -1 ) flashVer = 4;
-                // WebTV 2.5 supports Flash 3
-                else if ( navigator.userAgent.toLowerCase().indexOf( "webtv/2.5" ) != -1 ) flashVer = 3;
-                // older WebTV supports Flash 2
-                else if ( navigator.userAgent.toLowerCase().indexOf( "webtv" ) != -1 ) flashVer = 2;
-                // Can't detect in all other cases
-                else {
-
-                    flashVer = -1;
-                }
-                return flashVer;
-            }
-            // If called with no parameters this function returns a floating point value
-            // which should be the version of the Flash Player or 0.0
-            // ex: Flash Player 7r14 returns 7.14
-            // If called with reqMajorVer, reqMinorVer, reqRevision returns true if that version or greater is available
-            function DetectFlashVer( reqMajorVer, reqMinorVer, reqRevision )
-            {
-                reqVer = parseFloat( reqMajorVer + "." + reqRevision );
-                // loop backwards through the versions until we find the newest version
-                for ( i = 25; i > 0; i-- ) {
-                    if ( isIE && isWin && !isOpera ) {
-                        versionStr = VBGetSwfVer( i );
-                    }
-                    else {
-                        versionStr = JSGetSwfVer( i );
-                    }
-                    if ( versionStr == -1 ) {
-                        return false;
-                    }
-                    else if ( versionStr != 0 ) {
-                        if ( isIE && isWin && !isOpera ) {
-                            tempArray = versionStr.split( " " );
-                            tempString = tempArray[1];
-                            versionArray = tempString.split( "," );
-                        }
-                        else {
-                            versionArray = versionStr.split( "." );
-                        }
-                        versionMajor = versionArray[0];
-
-                        detectedMajorVersion = versionMajor;
-
-                        versionMinor = versionArray[1];
-                        versionRevision = versionArray[2];
-
-                        versionString = versionMajor + "." + versionRevision;   // 7.0r24 == 7.24
-                        versionNum = parseFloat( versionString );
-                        // is the major.revision >= requested major.revision AND the minor version >= requested minor
-                        if ( (versionMajor > reqMajorVer) && (versionNum >= reqVer) ) {
-                            return true;
-                        }
-                        else {
-                            return ((versionNum >= reqVer && versionMinor >= reqMinorVer) ? true : false );
-                        }
-                    }
-                }
-                return (reqVer ? false : 0.0);
-            }
-            // -->
+        <script type="text/javascript" src="/js/swfobject.js"></script>
+        <script type="text/javascript">
+            swfobject.registerObject( "rotator-id", "9.0.0" );
         </script>
     </wicket:head>
 </head>
 <body>
 
 <wicket:panel>
-    <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="300" height="220" id="rotator" align="middle">
-        <param name="allowScriptAccess" value="always"/>
+    <object id="rotator-id" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="300" height="220">
         <param name="movie" value="/files/rotator/home-rotator.swf"/>
-        <param name="quality" value="high"/>
-        <param name="bgcolor" value="#cccccc"/>
-        <param name="SeamlessTabbing" value="false"/>
-        <param name="wmode" value="transparent"/>
         <param wicket:id="flash-param" name="FlashVars"/>
-        <embed id="x_projectile-motion" src="/files/rotator/home-rotator.swf" quality="high"
-               bgcolor="#cccccc"
-               width="300" height="220" name="rotator" align="middle" allowScriptAccess="always"
-               wmode="transparent"
-               wicket:id="flash-embed"
-               type="application/x-shockwave-flash"
-               pluginspage="http://www.macromedia.com/go/getflashplayer"/>
+        <!--[if !IE]>-->
+        <object type="application/x-shockwave-flash" data="/files/rotator/home-rotator.swf" width="300" height="220">
+            <param wicket:id="flash-param-2" name="FlashVars"/>
+            <!--<![endif]-->
+            <a href="#" wicket:id="fallback-link">
+                <img src="/images/mass-spring-lab-animated-screenshot.gif" alt="Simulation screenshot"
+                     style="border: none;"/>
+            </a>
+            <!--[if !IE]>-->
+        </object>
+        <!--<![endif]-->
     </object>
-    <div id="rotator-noscript" style="display: none;">
-        <a href="#" wicket:id="fallback-link" id="rotator-fallback">
-            <img src="/images/mass-spring-lab-animated-screenshot.gif" alt="Simulation screenshot"
-                 style="border: none;"/>
-        </a>
-    </div>
-    <script language="JavaScript" type="text/javascript">
-        <!--
-        var hasRightVersion = DetectFlashVer( 9, 0, 0 );
-
-        if ( hasRightVersion && document.getElementById( "rotator-fallback" ).className == 'installer' ) {
-            hasRightVersion = !hasRightVersion;
-        }
-
-        if ( !hasRightVersion ) {
-            document.getElementById( "rotator" ).style.display = "none";
-            document.getElementById( "rotator-noscript" ).style.display = "block";
-        }
-        // -->
-    </script>
 </wicket:panel>
 
 </body>
