@@ -20,8 +20,11 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
                                   val appliedForceAmount: Double,
                                   val objectList: List[MotionSeriesObject])
         extends Observable {
+
+  //The robot energy and applied force amounts have to be chosen so that the robot has enough energy
+  //to push the heavy objects, and doesn't have so much energy that the small objects fly offscreen too fast
   val DEFAULT_ROBOT_ENERGY = appliedForceAmount * 6
-  val energyScale = MotionSeriesDefaults.rampRobotForce / appliedForceAmount / 10.0
+  val energyScale = MotionSeriesDefaults.rampRobotForce / appliedForceAmount / 10.0 //the scale at which to display remaining energy
   private var _robotEnergy = DEFAULT_ROBOT_ENERGY
   val surfaceModel = new SurfaceModel
   val airborneFloor = -9.0
@@ -36,14 +39,14 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
   val gameFinishListeners = new ArrayBuffer[() => Unit]
 
   val housePosition = 6
-  val house = MovingManBead(model,housePosition, MotionSeriesDefaults.house.width, MotionSeriesDefaults.house.height)
-  val door = MovingManBead(model,housePosition, MotionSeriesDefaults.door.width, MotionSeriesDefaults.door.height)
+  val house = MovingManBead(model, housePosition, MotionSeriesDefaults.house.width, MotionSeriesDefaults.house.height)
+  val door = MovingManBead(model, housePosition, MotionSeriesDefaults.door.width, MotionSeriesDefaults.door.height)
   private var _doorOpenAmount = 0.0
 
   def doorOpenAmount = _doorOpenAmount
 
   val doorListeners = new ArrayBuffer[() => Unit]
-  val doorBackground = MovingManBead(model,housePosition, MotionSeriesDefaults.doorBackground.width, MotionSeriesDefaults.doorBackground.height)
+  val doorBackground = MovingManBead(model, housePosition, MotionSeriesDefaults.doorBackground.width, MotionSeriesDefaults.doorBackground.height)
   private var _bead: ForceBead = null
 
   clock.addClockListener(dt => if (!model.isPaused && _bead != null) _bead.stepInTime(dt))
@@ -99,7 +102,7 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
     val sel = selectedObject
     model.setPaused(true)
 
-    _bead = MovingManBead(model,-model.rampSegments(0).length + sel.width / 2.0 + model.leftWall.width / 2.0, sel.width,3)
+    _bead = MovingManBead(model, -model.rampSegments(0).length + sel.width / 2.0 + model.leftWall.width / 2.0, sel.width, 3)
 
     bead.mass = sel.mass
     bead.staticFriction = sel.staticFriction
@@ -111,21 +114,19 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
 
     object listener extends Function0[Unit] {
       def apply() = {
-        if (!containsKey(sel)) {
-          val pushing = abs(bead.parallelAppliedForce) > 0
-          val atRest = abs(bead.velocity) < 1E-6
-          val inFrontOfDoor = _inFrontOfDoor(bead)
-          val stoppedAtHouse = inFrontOfDoor && atRest //okay to be pushing
-          val stoppedAndOutOfEnergy = atRest && _robotEnergy == 0
-          val crashed = atRest && bead.position2D.y < 0 //todo: won't this be wrong if the object falls off slowly?  What about checking for Crashed strategy?
-          if (stoppedAtHouse) {
-            itemDelivered(sel, bead)
-            bead.removeListener(this)
-          }
-          else if (stoppedAndOutOfEnergy || crashed) {
-            itemLost(sel)
-            bead.removeListener(this)
-          }
+        val pushing = abs(bead.parallelAppliedForce) > 0
+        val atRest = abs(bead.velocity) < 1E-6
+        val inFrontOfDoor = _inFrontOfDoor(bead)
+        val stoppedAtHouse = inFrontOfDoor && atRest //okay to be pushing
+        val stoppedAndOutOfEnergy = atRest && _robotEnergy == 0
+        val crashed = atRest && bead.position2D.y < 0 //todo: won't this be wrong if the object falls off slowly?  What about checking for Crashed strategy?
+        if (stoppedAtHouse) {
+          itemDelivered(sel, bead)
+          bead.removeListener(this)
+        }
+        else if (stoppedAndOutOfEnergy || crashed) {
+          itemLost(sel)
+          bead.removeListener(this)
         }
       }
     }
@@ -145,8 +146,6 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
     beadCreatedListeners.foreach(_(bead, sel))
     bead.parallelAppliedForce = 0 //make sure applied force slider sets to zero, have to do this after listeners are attached
   }
-
-  def containsKey(a: MotionSeriesObject) = resultMap.contains(a)
 
   def launched_=(b: Boolean) = {_launched = b; notifyListeners()}
 
