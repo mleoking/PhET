@@ -48,6 +48,7 @@ import edu.colorado.phet.website.services.PhetInfoServicePage;
 import edu.colorado.phet.website.services.SimJarRedirectPage;
 import edu.colorado.phet.website.templates.StaticPage;
 import edu.colorado.phet.website.test.NestedFormTest;
+import edu.colorado.phet.website.test.PublicChangelogTest;
 import edu.colorado.phet.website.translation.PhetLocalizer;
 import edu.colorado.phet.website.translation.TranslationMainPage;
 import edu.colorado.phet.website.translation.TranslationUrlStrategy;
@@ -172,6 +173,7 @@ public class PhetWicketApplication extends WebApplication {
 
         // For nested for mtesting
         mountBookmarkablePage( "nested-form-test", NestedFormTest.class );
+        mountBookmarkablePage( "changelog-test", PublicChangelogTest.class );
 
         // this will remove the default string resource loader. essentially this new one has better locale-handling,
         // so that if a string is not found for a more specific locale (es_MX), it would try "es", then the default
