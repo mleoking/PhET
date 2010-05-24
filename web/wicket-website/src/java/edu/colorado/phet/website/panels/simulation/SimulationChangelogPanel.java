@@ -22,6 +22,7 @@ public class SimulationChangelogPanel extends PhetPanel {
     public SimulationChangelogPanel( String id, final LocalizedSimulation simulation, final PageContext context, final boolean displayDevEntries ) {
         super( id, context );
 
+        // if necessary, cache these results in SimulationCache
         // TODO: refactor so we don't have that long docroot access string
         Changelog log = new Changelog( simulation.getSimulation().getProject().getChangelogFile( PhetWicketApplication.get().getWebsiteProperties().getPhetDocumentRoot() ) );
 
