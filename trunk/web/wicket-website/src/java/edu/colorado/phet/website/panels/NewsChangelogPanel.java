@@ -1,9 +1,8 @@
-package edu.colorado.phet.website.test;
+package edu.colorado.phet.website.panels;
 
 import java.util.*;
 
 import org.apache.log4j.Logger;
-import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
@@ -11,21 +10,26 @@ import org.apache.wicket.markup.html.list.ListView;
 import org.hibernate.Session;
 
 import edu.colorado.phet.website.PhetWicketApplication;
+import edu.colorado.phet.website.cache.EventDependency;
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.content.simulations.SimulationPage;
-import edu.colorado.phet.website.data.Changelog;
-import edu.colorado.phet.website.data.Project;
-import edu.colorado.phet.website.data.Simulation;
+import edu.colorado.phet.website.data.*;
+import edu.colorado.phet.website.data.util.HibernateEventListener;
+import edu.colorado.phet.website.data.util.IChangeListener;
 import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetRequestCycle;
 
-public class PublicChangelogTest extends WebPage {
+public class NewsChangelogPanel extends PhetPanel {
 
-    private static final Logger logger = Logger.getLogger( PublicChangelogTest.class.getName() );
+    private static final Logger logger = Logger.getLogger( NewsChangelogPanel.class.getName() );
 
-    public PublicChangelogTest() {
+    public NewsChangelogPanel( String id, final PageContext context ) {
+        super( id, context );
+
+        // TODO: localize
+
         final List<ProjectEntry> entries = new LinkedList<ProjectEntry>();
 
         // store titles for later so we don't have to open multiple hibernate transactions
@@ -46,7 +50,7 @@ public class PublicChangelogTest extends WebPage {
                     // load lazy hibernate simulations
                     for ( Object ox : project.getSimulations() ) {
                         Simulation sim = (Simulation) ox;
-                        titleMap.put( sim, sim.getBestLocalizedSimulation( PhetWicketApplication.getDefaultLocale() ).getTitle() );
+                        titleMap.put( sim, sim.getBestLocalizedSimulation( getLocale() ).getTitle() );
                     }
                 }
                 return true;
@@ -70,7 +74,7 @@ public class PublicChangelogTest extends WebPage {
             protected void populateItem( ListItem<ProjectEntry> entryItem ) {
                 Changelog.Entry entry = entryItem.getModelObject().getEntry();
                 Project project = entryItem.getModelObject().getProject();
-                entryItem.add( new Label( "header", project.getName() + " " + entry.headerString( PhetWicketApplication.getDefaultLocale(), true ) ) );
+                entryItem.add( new Label( "header", project.getName() + " " + entry.headerString( getLocale(), false ) ) );
 
                 entryItem.add( new ListView<Simulation>( "sim", new LinkedList<Simulation>( project.getSimulations() ) ) {
                     @Override
@@ -98,6 +102,30 @@ public class PublicChangelogTest extends WebPage {
                 }
             }
         } );
+
+        // TODO: refactor to make these dependencies fixed
+        addDependency( new EventDependency() {
+
+            private IChangeListener stringListener;
+
+            @Override
+            protected void addListeners() {
+                logger.debug( " added" );
+                stringListener = createTranslationChangeInvalidator( context.getLocale() );
+                HibernateEventListener.addListener( Project.class, getAnyChangeInvalidator() );
+                HibernateEventListener.addListener( TranslatedString.class, stringListener );
+                HibernateEventListener.addListener( Simulation.class, getAnyChangeInvalidator() );
+                HibernateEventListener.addListener( LocalizedSimulation.class, getAnyChangeInvalidator() );
+            }
+
+            @Override
+            protected void removeListeners() {
+                HibernateEventListener.removeListener( Project.class, getAnyChangeInvalidator() );
+                HibernateEventListener.removeListener( TranslatedString.class, stringListener );
+                HibernateEventListener.removeListener( Simulation.class, getAnyChangeInvalidator() );
+                HibernateEventListener.removeListener( LocalizedSimulation.class, getAnyChangeInvalidator() );
+            }
+        } );
     }
 
     public static class ProjectEntry {
@@ -117,5 +145,4 @@ public class PublicChangelogTest extends WebPage {
             return entry;
         }
     }
-
 }
