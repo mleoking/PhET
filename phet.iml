@@ -137,10 +137,8 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/java2doverlay/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/jmonkeyengine/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d/core/src/main/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d/core/src/test/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d/examples/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d/extras/src/main/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d/extras/src/test/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/acid-base-solutions/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/balloons/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/battery-resistor-circuit/src" isTestSource="false" />
@@ -225,6 +223,17 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/motion-series/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/capacitor-lab/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/record-and-playback/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d-1.2.1/core/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d-1.2.1/examples/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d-1.2.1/core/src/test/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d-1.2.1/examples/src/test/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d-1.2.1/extras/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d-1.2.1/extras/src/test/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d/examples/src/test/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d/core/src/test/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d/extras/src/test/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d/swt/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d/swt/src/test/java" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/.manager" />
       <excludeFolder url="file://$MODULE_DIR$/bin" />
       <excludeFolder url="file://$MODULE_DIR$/build-tools/ant_output" />

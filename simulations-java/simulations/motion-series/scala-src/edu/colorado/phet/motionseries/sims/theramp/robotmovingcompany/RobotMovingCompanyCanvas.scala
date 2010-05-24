@@ -17,6 +17,7 @@ import geom.{Point2D, AffineTransform, RoundRectangle2D}
 import edu.colorado.phet.scalacommon.util.Observable
 import javax.swing._
 import edu.colorado.phet.motionseries.{StageContainerArea, MotionSeriesDefaults, MotionSeriesResources}
+import edu.colorado.phet.motionseries.javastage.stage.StageNode
 
 /**
  * This class represents the play area for the Robot Moving Company games for Ramps II and Forces and Motion.
@@ -41,6 +42,8 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
   freeBodyDiagramModel.visible = true
   freeBodyDiagramModel.closable = false
 
+  private var currentBeadNode:PNode = null //keep track of the current bead graphic for layering purposes
+
   gameModel.itemFinishedListeners += ((scalaRampObject: MotionSeriesObject, result: Result) => {
     val summaryScreen = new SummaryScreenNode(gameModel, scalaRampObject, result, node => {
       removeStageNode(node)
@@ -53,16 +56,26 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
     summaryScreen.centerWithin(stage.getWidth, stage.getHeight)
     addStageNode(summaryScreen)
     summaryScreen.requestFocus()
+
+    //Move the object into the house, by putting it in between the back and front layers
+    removeScreenNode(currentBeadNode)
+    intermediateNode.addChild(new StageNode(stage, RobotMovingCompanyCanvas.this, currentBeadNode))
   })
 
   updateFBDLocation()
 
+  val houseBackNode = new BeadNode(gameModel.house, transform, MotionSeriesDefaults.houseBack.imageFilename)
+  addStageNode(houseBackNode)
+
+  val intermediateNode = new PNode
+  addScreenNode(intermediateNode)
+  
   val houseNode = new BeadNode(gameModel.house, transform, MotionSeriesDefaults.house.imageFilename)
   addStageNode(houseNode)
 
   //layer that shows what's behind the door.
-  val doorBackgroundNode = new BeadNode(gameModel.doorBackground, transform, MotionSeriesDefaults.doorBackground.imageFilename)
-  addStageNode(doorBackgroundNode)
+//  val doorBackgroundNode = new BeadNode(gameModel.doorBackground, transform, MotionSeriesDefaults.doorBackground.imageFilename)
+//  addStageNode(doorBackgroundNode)
 
   class InstructionsNode extends PNode {
     val iconSet = new KeyboardButtonIcons {
@@ -206,6 +219,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
     _currentBead = bead
 
     val beadNode = new BeadNode(bead, transform, a.imageFilename, a.crashImageFilename)
+    currentBeadNode = beadNode
     addStageNode(beadNode)
     val icon = new ObjectIcon(a)
     val pt = transform.modelToView(-10, -1)
@@ -230,9 +244,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
     def removeTheListener(listener: () => Unit) {
       if (lastBead == null) gameModel.removeListener(listener) else lastBead.removeListener(listener)
     }
-    //    def removeListenerFunction():Unit = if (lastBead == null) gameModel.removeListener _ else lastBead.removeListener _
     def setter(x: Double) = if (gameModel.robotEnergy > 0) bead.parallelAppliedForce = x else {}
-    //    appliedForceControl.setModel(() => bead.parallelAppliedForce, setter, removeTheListener, bead.addListener)
 
     //todo: why are these 2 lines necessary?
     vectorView.addAllVectors(bead, fbdNode)

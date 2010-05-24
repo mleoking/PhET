@@ -117,7 +117,8 @@ object MotionSeriesDefaults {
   val wall = new MotionSeriesObject("wall".literal, 1000, 1000, 1000, 3.5, "wall.jpg".literal, 100)
   val SPRING_HEIGHT = 0.6
   val SPRING_WIDTH = 1.0
-  val house = new MotionSeriesObject("house".literal, 1000, 1000, 1000, 5, "robotmovingcompany/house.gif".literal, 100)
+  val houseBack = new MotionSeriesObject("house".literal, 1000, 1000, 1000, 5, "robotmovingcompany/house-back.png".literal, 100)//back layer of house graphic
+  val house = new MotionSeriesObject("house".literal, 1000, 1000, 1000, 5, "robotmovingcompany/house3.png".literal, 100)
   val door = new MotionSeriesObject("door".literal, 1000, 1000, 1000, 2, "robotmovingcompany/door.gif".literal, 100)
   val doorBackground = new MotionSeriesObject("door.background".literal, 1000, 1000, 1000, 2, "robotmovingcompany/door-background.gif".literal, 100)
 
