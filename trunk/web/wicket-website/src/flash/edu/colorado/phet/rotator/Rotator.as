@@ -17,6 +17,7 @@ public class Rotator extends MovieClip {
     private var loaders : Array = new Array();
     private var quantity : Number;
     private var idx : Number = 0;
+    private var startIdx : Number = 0;
     private var loaderHolder : MovieClip = new MovieClip();
     private var offset : Number = 0;
     private var timer : Number = FRAMES_BETWEEN_SWITCH;
@@ -32,6 +33,11 @@ public class Rotator extends MovieClip {
 
         var li : LoaderInfo = this.root.loaderInfo;
 
+        if ( li.parameters.startIndex != null && li.parameters.startIndex != undefined ) {
+            startIdx = Number(li.parameters.startIndex);
+            idx = startIdx;
+        }
+
         if ( !li.parameters.quantity ) {
             // TODO: remove after dev
             quantity = 2;
@@ -40,6 +46,8 @@ public class Rotator extends MovieClip {
             loaderHolder.addChild(loaders[0]);
             loaderHolder.addChild(loaders[1]);
             loaders[1].visible = false;
+            startIdx = 1;
+            idx = 1;
         }
         else {
             quantity = Number(li.parameters.quantity);
@@ -54,7 +62,9 @@ public class Rotator extends MovieClip {
             }
         }
 
-        loaders[0].alpha = 0;
+        reposition();
+
+        loaders[startIdx].alpha = 0;
 
         startLoad();
 
@@ -106,11 +116,11 @@ public class Rotator extends MovieClip {
         //addChild(debug);
 
         this.addEventListener(Event.ENTER_FRAME, function( evt:Event ) {
-            if ( !loaders[0].isLoaded() ) {
+            if ( !loaders[startIdx].isLoaded() ) {
                 return;
             }
-            if ( loaders[0].alpha < 1 ) {
-                loaders[0].alpha += 0.1;
+            if ( loaders[startIdx].alpha < 1 ) {
+                loaders[startIdx].alpha += 0.1;
             }
             timer--;
             if ( timer == 0 ) {
@@ -120,19 +130,6 @@ public class Rotator extends MovieClip {
             if ( offset == 0 ) {
                 return;
             }
-
-            //            var LOWER : Number = 5;
-            //
-            //            var bounce : Number = 3 * Math.sqrt(Math.abs(offset));
-            //            bounce *= (offset > 0 ? 1 : -1);
-            //            if ( Math.abs(bounce) < LOWER ) {
-            //                bounce = offset > 0 ? LOWER : -LOWER;
-            //            }
-            //            if ( Math.abs(offset) < LOWER ) {
-            //                bounce = offset;
-            //            }
-            //
-            //            offset -= bounce;
 
             var c0 : Number = 0.2;
             var c1 : Number = 0.015;
@@ -156,29 +153,33 @@ public class Rotator extends MovieClip {
 
             offset += bounce;
 
-            var totalWidth : Number = WIDTH * quantity;
-
-            for ( var i : Number = 0; i < quantity; i++ ) {
-                var x : Number = ((i - idx) * WIDTH + offset) % totalWidth;
-                if ( x < 0 ) { x += totalWidth; }
-                if ( totalWidth - x < WIDTH ) {
-                    x -= totalWidth;
-                }
-                if ( x < WIDTH ) {
-                    loaders[i].x = x;
-                    //loaders[i].visible = true;
-                    loaders[i].enable();
-                    //debug.text += " " + String(i) + "V";
-                }
-                else {
-                    loaders[i].x = -5000;
-                    //loaders[i].visible = false;
-                    loaders[i].disable();
-                    //debug.text += " " + String(i) + "I";
-                }
-            }
+            reposition();
         });
 
+    }
+
+    private function reposition() : void {
+        var totalWidth : Number = WIDTH * quantity;
+
+        for ( var i : Number = 0; i < quantity; i++ ) {
+            var x : Number = ((i - idx) * WIDTH + offset) % totalWidth;
+            if ( x < 0 ) { x += totalWidth; }
+            if ( totalWidth - x < WIDTH ) {
+                x -= totalWidth;
+            }
+            if ( x < WIDTH ) {
+                loaders[i].x = x;
+                //loaders[i].visible = true;
+                loaders[i].enable();
+                //debug.text += " " + String(i) + "V";
+            }
+            else {
+                loaders[i].x = -5000;
+                //loaders[i].visible = false;
+                loaders[i].disable();
+                //debug.text += " " + String(i) + "I";
+            }
+        }
     }
 
     private function resetTimer() : void {
@@ -223,10 +224,10 @@ public class Rotator extends MovieClip {
     private function prevPreview() : Preview { return loaders[prevIdx(idx)]; }
 
     private function startLoad() : void {
-        triggerLoad(loaders[0]);
-        loaders[0].addEventListener(Preview.LOADED, function loadEvt( evt : Event ) : void {
-            if ( loaders[1] != null ) {
-                triggerLoad(loaders[1]);
+        triggerLoad(loaders[startIdx]);
+        loaders[startIdx].addEventListener(Preview.LOADED, function loadEvt( evt : Event ) : void {
+            if ( loaders[nextIdx(startIdx)] != null ) {
+                triggerLoad(loaders[nextIdx(startIdx)]);
             }
         });
     }
