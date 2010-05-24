@@ -1,5 +1,4 @@
-Add row selection model
-Generate custom reports based on selection
+Report tasks within a category, sorted by most time taken
 Highlight regions based on day and/or time of day
 Make it easier to launch outside of IDE
 Global hotkey for Save
