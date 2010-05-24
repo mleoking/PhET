@@ -51,7 +51,7 @@ class TimesheetModel {
         }
     };
 
-    public String toTSV() {
+    public String toCSV() {
         String s = "Start,End,Category,Notes,Report\n";
         for (Entry entry : entries) {
             s += entry.toCSV() + "\n";
@@ -185,15 +185,11 @@ class TimesheetModel {
         setDirty();
     }
 
-    public void startNewCategory() {
-        startNewEntry("");
-    }
-
     public boolean isClockedIn() {
         return getEntryCount() > 0 && getLastEntry().isRunning();
     }
 
-    private int getEntryCount() {
+    public int getEntryCount() {
         return entries.size();
     }
 

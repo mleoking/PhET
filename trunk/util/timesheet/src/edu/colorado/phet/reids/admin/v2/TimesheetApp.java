@@ -6,6 +6,8 @@ import edu.colorado.phet.reids.admin.util.FileUtils;
 import edu.colorado.phet.reids.admin.util.FrameSetup;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -37,6 +39,7 @@ public class TimesheetApp {
     private JMenu fileMenu = new JMenu("File");
     private File PREFERENCES_FILE = new File(System.getProperty("user.home", "."), ".timesheet/timesheet-app.properties");
     private final JTable table;
+    private SelectionModel selectionModel = new SelectionModel();
 
     private void updateIconImage() throws IOException {
         BufferedImage image = new PhetResources("timesheet").getImage((timesheetModel.isClockedIn() ? "x-office-running.png" : "x-office-calendar.png"));
@@ -124,7 +127,15 @@ public class TimesheetApp {
         table.getColumnModel().getColumn(3).setPreferredWidth(60);
         table.getColumnModel().getColumn(4).setPreferredWidth(400);
         table.getColumnModel().getColumn(5).setPreferredWidth(10);
-        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        table.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        table.setCellSelectionEnabled(false);
+        table.setColumnSelectionAllowed(false);
+        table.setRowSelectionAllowed(true);
+        table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent e) {
+                selectionModel.setSelectedRows(table.getSelectedRows());
+            }
+        });
         table.setDefaultRenderer(Date.class, new DefaultTableCellRenderer() {
             protected void setValue(Object value) {
                 setText(Entry.LOAD_FORMAT.format(value));
@@ -191,7 +202,7 @@ public class TimesheetApp {
                     e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }
             }
-        }), BorderLayout.SOUTH);
+        }, selectionModel), BorderLayout.SOUTH);
         frame.setContentPane(contentPane);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //        table.setDefaultRenderer(Date.class, renderer);
@@ -271,7 +282,7 @@ public class TimesheetApp {
         private JLabel totalTime;
         private TimesheetModel timesheetModel;
 
-        ControlPanel(final TimesheetModel timesheetModel, final ActionListener saveAction) {
+        ControlPanel(final TimesheetModel timesheetModel, final ActionListener saveAction, final SelectionModel selectionModel) {
             this.timesheetModel = timesheetModel;
             JButton clockIn = new JButton("Clock In");
             clockIn.addActionListener(new ActionListener() {
@@ -296,10 +307,11 @@ public class TimesheetApp {
             });
             add(clockOut);
 
-            JButton monthlyReport = new JButton("Monthly Report");
+            JButton monthlyReport = new JButton("Report on Selection");
             monthlyReport.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-
+                    ReportFrame reportFrame = new ReportFrame(selectionModel.getSelection(timesheetModel));
+                    reportFrame.setVisible(true);
                 }
             });
             add(monthlyReport);
@@ -311,7 +323,7 @@ public class TimesheetApp {
                 }
             });
             add(save);
-            timesheetModel.addDirtyListener(new TimesheetModel.DirtyListener(){
+            timesheetModel.addDirtyListener(new TimesheetModel.DirtyListener() {
                 public void dirtyChanged() {
                     save.setEnabled(timesheetModel.isDirty());
                 }
@@ -390,7 +402,7 @@ public class TimesheetApp {
         this.currentFile = selected;
 //        addCurrentToRecent();
         currentFile.getParentFile().mkdirs();
-        String s = timesheetModel.toTSV();
+        String s = timesheetModel.toCSV();
         FileUtils.writeString(currentFile, s);
         System.out.println("Saved to: " + currentFile.getAbsolutePath());
         timesheetModel.setClean();
@@ -475,5 +487,21 @@ public class TimesheetApp {
         new FrameSetup.CenteredWithInsets(200, 200).initialize(frame);
         loadPreferences();
         frame.setVisible(true);
+    }
+
+    private static class SelectionModel {
+        private int[] selectedRows;
+
+        public void setSelectedRows(int[] selectedRows) {
+            this.selectedRows = selectedRows;
+        }
+
+        public TimesheetModel getSelection(TimesheetModel timesheetModel) {
+            TimesheetModel selection = new TimesheetModel();
+            for (int selectedRow : selectedRows) {
+                selection.addEntry(timesheetModel.getEntry(selectedRow));
+            }
+            return selection;
+        }
     }
 }
