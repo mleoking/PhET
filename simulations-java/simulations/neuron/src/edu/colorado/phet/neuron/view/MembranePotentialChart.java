@@ -102,21 +102,13 @@ public class MembranePotentialChart extends PNode {
         	axonModel.addListener(new AxonModel.Adapter(){
         		
         		public void stimulusPulseInitiated() {
-        			if (MembranePotentialChart.this.axonModel.isPotentialChartVisible()){
-        				// The chart is visible and a stimulus has been
-        				// initiated.  Time to start recording (if we aren't
-        				// already).
-        				recording = true;
-        			}
-        		}
-        		
-        		public void potentialChartVisibilityChanged() {
-        			if (!MembranePotentialChart.this.axonModel.isPotentialChartVisible() && recording){
-        				// The chart is being hidden, so clear it and stop
+        			if (!MembranePotentialChart.this.axonModel.isPotentialChartVisible()){
+        				// If the chart is not visible, we clear any previous
         				// recording.
-        				recording = false;
         				clearChart();
         			}
+        			// Start recording, if it isn't already happening.
+        			recording = true;
         		}
         	});
         }
@@ -251,7 +243,7 @@ public class MembranePotentialChart extends PNode {
     		if (!chartIsFull()){
     			updateCountdownTimer -= clockEvent.getSimulationTimeChange();
     			
-    			double timeInMilliseconds = clockEvent.getSimulationTime() * 1000; 
+    			double timeInMilliseconds = clockEvent.getSimulationTime() * 1000;
     			
     			if (updateCountdownTimer <= 0){
     				addDataPoint(timeInMilliseconds, axonModel.getMembranePotential(), true);
@@ -288,7 +280,6 @@ public class MembranePotentialChart extends PNode {
      */
     private void clearChart(){
     	dataSeries.clear();
-    	updateCountdownTimer = 0;
     }
     
 	/**
