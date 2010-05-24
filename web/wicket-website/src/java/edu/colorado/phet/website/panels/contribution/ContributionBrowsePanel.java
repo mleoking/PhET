@@ -172,6 +172,7 @@ public class ContributionBrowsePanel extends PhetPanel {
 
         }
 
+        // TODO: fix dependencies on strings
         addDependency( new EventDependency() {
 
             @Override
