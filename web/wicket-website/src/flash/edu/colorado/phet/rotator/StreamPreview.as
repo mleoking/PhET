@@ -5,16 +5,26 @@ import flash.net.LocalConnection;
 import flash.net.NetConnection;
 import flash.net.NetStream;
 
+/**
+ * A preview that loads a FLV video using streaming
+ */
 public class StreamPreview extends Preview {
 
+    /**
+     * Video object node in scene graph
+     */
     private var video : Video;
+
+    /**
+     * stream responsible for handling the FLV video itself
+     */
     private var netStream : NetStream;
 
     public function StreamPreview( title : String, url : String, sim : String ) {
 
         video = new Video();
-        video.width = 300;
-        video.height = 200;
+        video.width = Rotator.PREVIEW_WIDTH;
+        video.height = Rotator.PREVIEW_HEIGHT;
         addChild(video);
 
         var customClient:Object = new Object();
@@ -29,11 +39,12 @@ public class StreamPreview extends Preview {
         video.attachNetStream(netStream);
 
         netStream.addEventListener(NetStatusEvent.NET_STATUS, function( event:NetStatusEvent ) {
-            //trace(event.info.code);
             if ( event.info.code == "NetStream.Play.Stop" ) {
+                // seeking to 0 when it is stopped keeps this preview repeating the video
                 netStream.seek(0);
             }
             else if ( event.info.code == "NetStream.Buffer.Full" ) {
+                // this signifies that the buffer is full enough to start playing the animation. we call finish here
                 finish();
             }
         });
