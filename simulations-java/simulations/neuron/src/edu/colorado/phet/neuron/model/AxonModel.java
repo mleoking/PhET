@@ -344,6 +344,9 @@ public class AxonModel implements IParticleCapture {
     	// Set the membrane chart to its initial state.
     	setPotentialChartVisible(DEFAULT_FOR_MEMBRANE_CHART_VISIBILITY);
     	
+    	// Set the concentration readout visibility to its initial state.
+    	setConcentrationReadoutVisible(DEFAULT_FOR_CONCENTRATION_READOUT_SHOWN);
+    	
     	// Set the boolean that controls whether all ions are simulated to its
     	// original state.
     	setAllIonsSimulated(DEFAULT_FOR_SHOW_ALL_IONS);

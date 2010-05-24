@@ -84,6 +84,11 @@ public class AxonCrossSectionControlPanel extends ControlPanel {
         		// which would be tricky.
         		showAllIonsCheckBox.setEnabled(!model.isStimulusInitiationLockedOut());
         	}
+        	
+        	@Override
+    		public void concentrationReadoutVisibilityChanged() {
+        		updateShowConcentrationReadoutCheckBox();
+        	}
         });
         
         // Set the control panel's minimum width.
