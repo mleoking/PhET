@@ -75,7 +75,12 @@ public class WebsiteTranslationDeployClient {
 
         SshUtils.executeCommand( "chmod o+rw " + translationDir, server.getServerHost(), authenticationInfo );
 
-        PhetWebsite.openBrowser( server.getDeployTranslationUrl( translationDir ) );
+        String url = server.getDeployTranslationUrl( translationDir );
+
+        PhetWebsite.openBrowser( url );
+
+        System.out.println( "Opening browser to " + url );
+        System.out.println( "If this does not succeed, please open elsewhere" );
 
     }
 
