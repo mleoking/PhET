@@ -92,7 +92,7 @@ class RobotMovingCompanyModule(frame: PhetFrame,
                 def actionPerformed(e: ActionEvent) = {
                   //no keys pressed=> no energy used, remind the user they should use keyboard
                   //but the intro screen keypress may have leaked over, so use a heuristic 92%
-                  if (gameModel.robotEnergy>gameModel.DEFAULT_ROBOT_ENERGY*0.92)
+                  if (!canvas.hasUserAppliedForce)
                     canvas.showWiggleMe()
                 }
               }){
