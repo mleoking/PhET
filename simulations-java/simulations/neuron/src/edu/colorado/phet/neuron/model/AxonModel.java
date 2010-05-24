@@ -347,6 +347,9 @@ public class AxonModel implements IParticleCapture {
     	// Set the concentration readout visibility to its initial state.
     	setConcentrationReadoutVisible(DEFAULT_FOR_CONCENTRATION_READOUT_SHOWN);
     	
+    	// Set the visibility of the charge symbols to its initial state.
+    	setChargesShown(DEFAULT_FOR_CHARGES_SHOWN);
+    	
     	// Set the boolean that controls whether all ions are simulated to its
     	// original state.
     	setAllIonsSimulated(DEFAULT_FOR_SHOW_ALL_IONS);
