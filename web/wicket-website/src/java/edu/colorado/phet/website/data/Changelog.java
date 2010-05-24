@@ -345,7 +345,7 @@ public class Changelog {
                 devVersion = Integer.parseInt( tokenizer.nextToken() );
             }
             catch( RuntimeException e ) {
-                logger.warn( "changelog failure at parsing version " + str, e );
+                //logger.warn( "changelog failure at parsing version " + str, e );
             }
         }
 
@@ -354,7 +354,7 @@ public class Changelog {
                 revision = Integer.parseInt( str.replace( "(", "" ).replace( ")", "" ) );
             }
             catch( RuntimeException e ) {
-                logger.warn( "changelog failure at parsing revision " + str, e );
+                //logger.warn( "changelog failure at parsing revision " + str, e );
             }
         }
 
@@ -368,7 +368,7 @@ public class Changelog {
                 }
                 catch( ParseException e1 ) {
                     e1.printStackTrace();
-                    logger.warn( "changelog failure at parsing date " + str );
+                    //logger.warn( "changelog failure at parsing date " + str );
                 }
             }
         }
