@@ -69,6 +69,9 @@ public class AxonModel implements IParticleCapture {
 	private static final double INTERIOR_CONCENTRATION_CHANGE_RATE_POTASSIUM = 2.0;
 	private static final double EXTERIOR_CONCENTRATION_CHANGE_RATE_POTASSIUM = 0.05;
 	
+	// Threshold of significant difference for concentration values.
+	private static final double CONCENTRATION_DIFF_THRESHOLD = 0.000001;
+	
 	// Rate at which the concentration moves toward the nominal value when
 	// changed.  These are in mM per second of simulation time, and simulation
 	// time is slower than real time.
@@ -569,18 +572,26 @@ public class AxonModel implements IParticleCapture {
     	}
     	else{
     		if (potassiumExteriorConcentration != NOMINAL_POTASSIUM_EXTERIOR_CONCENTRATION){
-    			// Move back towards the nominal concentration.
-    			potassiumExteriorConcentration -= EXTERIOR_CONCENTRATION_RECOVERY_RATE_FOR_POTASSIUM * dt;
-    			if (potassiumExteriorConcentration < NOMINAL_POTASSIUM_EXTERIOR_CONCENTRATION){
+    			double difference = Math.abs(potassiumExteriorConcentration - NOMINAL_POTASSIUM_EXTERIOR_CONCENTRATION);
+    			if (difference < CONCENTRATION_DIFF_THRESHOLD){
+    				// Close enough to consider it fully restored.
     				potassiumExteriorConcentration = NOMINAL_POTASSIUM_EXTERIOR_CONCENTRATION;
+    			}
+    			else{
+    				// Move closer to the nominal value.
+    				potassiumExteriorConcentration -= difference * 1000 * dt; 
     			}
     			concentrationChanged = true;
     		}
     		if (potassiumInteriorConcentration != NOMINAL_POTASSIUM_INTERIOR_CONCENTRATION){
-    			// Move back towards the nominal concentration.
-    			potassiumInteriorConcentration += INTERIOR_CONCENTRATION_RECOVERY_RATE_FOR_POTASSIUM * dt;
-    			if (potassiumInteriorConcentration > NOMINAL_POTASSIUM_INTERIOR_CONCENTRATION){
+    			double difference = Math.abs(potassiumInteriorConcentration - NOMINAL_POTASSIUM_INTERIOR_CONCENTRATION);
+    			if (difference < CONCENTRATION_DIFF_THRESHOLD){
+    				// Close enough to consider it fully restored.
     				potassiumInteriorConcentration = NOMINAL_POTASSIUM_INTERIOR_CONCENTRATION;
+    			}
+    			else{
+    				// Move closer to the nominal value.
+    				potassiumInteriorConcentration += difference * 1000 * dt; 
     			}
     			concentrationChanged = true;
     		}
