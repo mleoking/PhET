@@ -1,3 +1,4 @@
+Show crashed image icons in summary windows during game mode, if object crashed
 After 10 seconds of no arrows key pressing, pop up the "press arrow keys icon"
 Removed workaround that checked the result hashmap before applying game logic
 Move object into house (between layers) on successful delivery
