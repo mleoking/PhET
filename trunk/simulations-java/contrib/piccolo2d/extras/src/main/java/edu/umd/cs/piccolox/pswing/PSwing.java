@@ -189,6 +189,7 @@ import edu.umd.cs.piccolo.util.PPaintContext;
  * </p>
  * 
  * @author Sam R. Reid
+ * @author Chris Malley (cmalley@pixelzoom.com)
  * @author Benjamin B. Bederson
  * @author Lance E. Good
  * 

@@ -69,6 +69,7 @@ import edu.umd.cs.piccolo.util.PBounds;
  * @author Benjamin B. Bederson
  * @author Lance E. Good
  * @author Sam R. Reid
+ * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class PSwingRepaintManager extends RepaintManager {
 
