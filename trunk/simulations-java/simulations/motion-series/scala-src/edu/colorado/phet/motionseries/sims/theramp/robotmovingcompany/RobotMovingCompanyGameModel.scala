@@ -121,12 +121,12 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
         val stoppedAndOutOfEnergy = atRest && _robotEnergy == 0
         val crashed = atRest && bead.position2D.y < 0 //todo: won't this be wrong if the object falls off slowly?  What about checking for Crashed strategy?
         if (stoppedAtHouse) {
+          bead.removeListener(this)//remove listener first, in case itemDelivered causes any notifications (it currently doesn't)
           itemDelivered(sel, bead)
-          bead.removeListener(this)
         }
         else if (stoppedAndOutOfEnergy || crashed) {
+          bead.removeListener(this) //see note above on ordering
           itemLost(sel)
-          bead.removeListener(this)
         }
       }
     }
