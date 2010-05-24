@@ -17,6 +17,7 @@ import org.apache.wicket.markup.html.list.ListView;
 import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.components.RawLabel;
 import edu.colorado.phet.website.components.RawLink;
+import edu.colorado.phet.website.data.Project;
 import edu.colorado.phet.website.panels.ComponentThread;
 import edu.colorado.phet.website.panels.ComponentThreadStatusPanel;
 import edu.colorado.phet.website.panels.LoggerComponentThread;
@@ -40,11 +41,11 @@ public class TranslationDeployServerFinishedPanel extends PhetPanel {
             }
         } );
 
-        add( new ListView( "file", fileList ) {
+        add( new ListView<File>( "file", fileList ) {
             @Override
-            protected void populateItem( ListItem item ) {
+            protected void populateItem( ListItem<File> item ) {
                 try {
-                    File file = (File) item.getModelObject();
+                    File file = item.getModelObject();
                     String path = file.getCanonicalPath().substring( file.getCanonicalPath().indexOf( "/staging/translations" ) );
 
                     RawLink link = new RawLink( "link", path );
@@ -73,6 +74,15 @@ public class TranslationDeployServerFinishedPanel extends PhetPanel {
                         WebsiteTranslationDeployPublisher runner = new WebsiteTranslationDeployPublisher( simsDir, docRoot );
 
                         runner.publishTranslations( translationDir );
+
+                        for ( String projectName : runner.getDeployedProjectNames() ) {
+                            Project.synchronizeProject(
+                                    PhetWicketApplication.get().getWebsiteProperties().getPhetDocumentRoot(),
+                                    getHibernateSession(),
+                                    projectName,
+                                    WebsiteTranslationDeployPublisher.getLogger()
+                            );
+                        }
 
                         return true;
                     }
