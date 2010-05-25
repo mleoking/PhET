@@ -30,10 +30,10 @@ class PlayAreaDialog(width: Double, height: Double) extends PNode {
 }
 
 /**
- * The IntroScreen is a welcome and instruction screen that introduces the Robot Moving Company game.
+ * The IntroDialog is a welcome and instruction dialog that introduces the Robot Moving Company game.
  * @author Sam Reid
  */
-class IntroScreen extends PlayAreaDialog(400, 500) {
+class IntroDialog extends PlayAreaDialog(400, 500) {
   val titleNode = new HTMLNode("game.intro.robot-moving-company".translate, Color.blue, new PhetFont(52, true)) //todo: translate
   titleNode.setOffset(getFullBounds.getWidth / 2 - titleNode.getFullBounds.getWidth / 2, 20)
   addChild(titleNode)
@@ -64,10 +64,10 @@ class IntroScreen extends PlayAreaDialog(400, 500) {
   labeledButtonCluster.setOffset(background.getFullBounds.getWidth / 2 - labeledButtonCluster.getFullBounds.getWidth / 2, pressToBegin.getFullBounds.getY - labeledButtonCluster.getFullBounds.getHeight - 10)
 }
 
-class SummaryScreenNode(gameModel: RobotMovingCompanyGameModel,
+class ItemFinishedDialog(gameModel: RobotMovingCompanyGameModel,
                         scalaRampObject: MotionSeriesObject,
                         result: Result,
-                        okPressed: SummaryScreenNode => Unit,
+                        okPressed: ItemFinishedDialog => Unit,
                         okButtonText: String) extends PlayAreaDialog(400, 400) {
   val text = result match {
     case Result(_, true, _, _) => "game.result.crashed".translate
@@ -86,7 +86,7 @@ class SummaryScreenNode(gameModel: RobotMovingCompanyGameModel,
   addChild(image)
 
   val doneButton = Button(okButtonText) {
-    okPressed(SummaryScreenNode.this)
+    okPressed(ItemFinishedDialog.this)
   }
   val donePSwing = new PSwing(doneButton.peer)
   donePSwing.setOffset(background.getFullBounds.getCenterX - donePSwing.getFullBounds.width / 2, background.getFullBounds.getMaxY - donePSwing.getFullBounds.height - 20)
@@ -113,7 +113,7 @@ class SummaryScreenNode(gameModel: RobotMovingCompanyGameModel,
   def requestFocus() = doneButton.requestFocus()
 }
 
-class GameFinishedScreen(gameModel: RobotMovingCompanyGameModel) extends PlayAreaDialog(500, 500) {
+class GameFinishedDialog(gameModel: RobotMovingCompanyGameModel) extends PlayAreaDialog(500, 500) {
   def okButtonPressed() = {}
   val text = new HTMLNode("game.summary.pattern.score".messageformat(gameModel.score)) {
     setFont(new PhetFont(22, true))
@@ -142,36 +142,36 @@ class GameFinishedScreen(gameModel: RobotMovingCompanyGameModel) extends PlayAre
   addChild(playAgainButton)
 }
 
-object TestScreenNode {
-  def test(summaryScreen: PNode) = {
+object TestDialog {
+  def test(dialog: PNode) = {
     val frame = new JFrame
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
     frame.setSize(800, 600)
     val canvas = new PhetPCanvas()
-    canvas.addScreenChild(summaryScreen)
+    canvas.addScreenChild(dialog)
     frame.setContentPane(canvas)
     frame.setVisible(true)
   }
 }
 
-object TestSummaryScreen {
+object TestItemFinishedDialog {
   def main(args: Array[String]) {
     val robotMovingCompanyGameModel = new RobotMovingCompanyGameModel(new MotionSeriesModel(5, true, MotionSeriesDefaults.defaultRampAngle), new ScalaClock(30, 30 / 1000.0), MotionSeriesDefaults.defaultRampAngle, 500.0, MotionSeriesDefaults.objects)
-    val summaryScreenNode = new SummaryScreenNode(robotMovingCompanyGameModel,
+    val itemFinishedDialog = new ItemFinishedDialog(robotMovingCompanyGameModel,
       MotionSeriesDefaults.objects(0), new Result(true, false, 64, 100), a => {
         a.setVisible(false)
       }, "Ok".literal)
-    TestScreenNode.test(summaryScreenNode);
+    TestDialog.test(itemFinishedDialog);
   }
 }
 
-object TestGameOverScreen {
+object TestGameFinishedDialog {
   def main(args: Array[String]) {
     val robotMovingCompanyGameModel = new RobotMovingCompanyGameModel(new MotionSeriesModel(5, true, MotionSeriesDefaults.defaultRampAngle), new ScalaClock(30, 30 / 1000.0), MotionSeriesDefaults.defaultRampAngle, 500.0, MotionSeriesDefaults.objects)
     for (obj <- robotMovingCompanyGameModel.objectList){
       robotMovingCompanyGameModel.resultMap(obj) = new Result(false,true,123,555)
     }
-    val gameFinishedScreen = new GameFinishedScreen(robotMovingCompanyGameModel)
-    TestScreenNode.test(gameFinishedScreen);
+    val gameFinishedDialog = new GameFinishedDialog(robotMovingCompanyGameModel)
+    TestDialog.test(gameFinishedDialog);
   }
 }
