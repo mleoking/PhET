@@ -10,6 +10,7 @@ import org.apache.wicket.markup.html.list.ListView;
 
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.components.LocalizedText;
+import edu.colorado.phet.website.components.VisListView;
 import edu.colorado.phet.website.content.contribution.ContributionPage;
 import edu.colorado.phet.website.content.simulations.SimulationPage;
 import edu.colorado.phet.website.data.LocalizedSimulation;
@@ -18,6 +19,9 @@ import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.SearchUtils;
 
+/**
+ * A panel that displays search results 
+ */
 public class SearchResultsPanel extends PhetPanel {
     public SearchResultsPanel( String id, final PageContext context, String query ) {
         super( id, context );
@@ -26,21 +30,21 @@ public class SearchResultsPanel extends PhetPanel {
         List<Contribution> contributions = new LinkedList<Contribution>();
 
         if ( query != null ) {
-            lsims = SearchUtils.simulationSearch( getHibernateSession(), query, context.getLocale() );
-            contributions = SearchUtils.contributionSearch( getHibernateSession(), query, context.getLocale() );
+            lsims = SearchUtils.simulationSearch( getHibernateSession(), query.toLowerCase( getLocale() ), context.getLocale() );
+            contributions = SearchUtils.contributionSearch( getHibernateSession(), query.toLowerCase( getLocale() ), context.getLocale() );
         }
 
-        add( new ListView( "sims", lsims ) {
-            protected void populateItem( ListItem item ) {
-                LocalizedSimulation lsim = (LocalizedSimulation) item.getModel().getObject();
+        add( new VisListView<LocalizedSimulation>( "sims", lsims ) {
+            protected void populateItem( ListItem<LocalizedSimulation> item ) {
+                LocalizedSimulation lsim = item.getModelObject();
                 Link link = SimulationPage.getLinker( lsim ).getLink( "sim-link", context, getPhetCycle() );
                 item.add( link );
                 link.add( new Label( "sim-title", lsim.getTitle() ) );
             }
         } );
-        add( new ListView( "contribs", contributions ) {
-            protected void populateItem( ListItem item ) {
-                Contribution contribution = (Contribution) item.getModel().getObject();
+        add( new VisListView<Contribution>( "contribs", contributions ) {
+            protected void populateItem( ListItem<Contribution> item ) {
+                Contribution contribution = item.getModelObject();
                 Link link = ContributionPage.getLinker( contribution ).getLink( "contrib-link", context, getPhetCycle() );
                 item.add( link );
                 link.add( new Label( "contrib-title", contribution.getTitle() ) );
