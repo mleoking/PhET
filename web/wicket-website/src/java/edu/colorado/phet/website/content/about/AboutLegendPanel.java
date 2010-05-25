@@ -14,9 +14,9 @@ public class AboutLegendPanel extends PhetPanel {
     public AboutLegendPanel( String id, PageContext context ) {
         super( id, context );
 
-        add( new StaticImage( "guidance-recommended-image", Images.GUIDANCE_RECOMMENDED, null ) );
-        add( new StaticImage( "under-construction-image", Images.UNDER_CONSTRUCTION, null ) );
-        add( new StaticImage( "classroom-tested-image", Images.CLASSROOM_TESTED, null ) );
+        add( new StaticImage( "guidance-recommended-image", Images.GUIDANCE_RECOMMENDED, getPhetLocalizer().getString( "tooltip.legend.guidanceRecommended", this ) ) );
+        add( new StaticImage( "under-construction-image", Images.UNDER_CONSTRUCTION, getPhetLocalizer().getString( "tooltip.legend.underConstruction", this ) ) );
+        add( new StaticImage( "classroom-tested-image", Images.CLASSROOM_TESTED, getPhetLocalizer().getString( "tooltip.legend.classroomTested", this ) ) );
 
         add( new LocalizedText( "about-legend-guidance-recommended", "about.legend.guidance-recommended" ) );
         add( new LocalizedText( "about-legend-under-construction", "about.legend.under-construction" ) );

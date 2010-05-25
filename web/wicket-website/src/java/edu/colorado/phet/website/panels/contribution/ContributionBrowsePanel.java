@@ -95,12 +95,12 @@ public class ContributionBrowsePanel extends PhetPanel {
                 add( new InvisibleComponent( "sim-col-1" ) );
             }
 
-            add( new ListView( "contributions", contributions ) {
+            add( new ListView<Contribution>( "contributions", contributions ) {
                 private HashMap<Simulation, LocalizedSimulation> mapCache = new HashMap<Simulation, LocalizedSimulation>();
 
-                protected void populateItem( ListItem item ) {
+                protected void populateItem( ListItem<Contribution> item ) {
                     //logger.debug( "start item" );
-                    Contribution contribution = (Contribution) item.getModel().getObject();
+                    Contribution contribution = item.getModelObject();
                     Link link = ContributionPage.getLinker( contribution ).getLink( "contribution-link", context, getPhetCycle() );
                     link.add( new Label( "contribution-title", contribution.getTitle() ) );
                     item.add( link );
@@ -129,18 +129,14 @@ public class ContributionBrowsePanel extends PhetPanel {
                     HibernateUtils.orderSimulations( lsims, getLocale() );
 
                     if ( contribution.isFromPhet() ) {
-                        // TODO: localize alt
-                        // TODO: add title?
-                        item.add( new StaticImage( "phet-contribution", Images.PHET_LOGO_ICON_SMALL, "Contribution by the PhET team" ) );
+                        item.add( new StaticImage( "phet-contribution", Images.PHET_LOGO_ICON_SMALL, getPhetLocalizer().getString( "tooltip.legend.phetDesigned", this ) ) );
                     }
                     else {
                         item.add( new InvisibleComponent( "phet-contribution" ) );
                     }
 
                     if ( contribution.isGoldStar() ) {
-                        // TODO: localize alt
-                        // TODO: add title?
-                        item.add( new StaticImage( "gold-star-contribution", Images.GOLD_STAR_SMALL, "Gold Star Contribution" ) );
+                        item.add( new StaticImage( "gold-star-contribution", Images.GOLD_STAR_SMALL, getPhetLocalizer().getString( "tooltip.legend.goldStar", this ) ) );
                     }
                     else {
                         item.add( new InvisibleComponent( "gold-star-contribution" ) );
@@ -150,9 +146,9 @@ public class ContributionBrowsePanel extends PhetPanel {
                     if ( simulationColumnVisible ) {
                         WebMarkupContainer container = new WebMarkupContainer( "contribution-simulation-list" );
                         item.add( container );
-                        container.add( new ListView( "contribution-simulations", lsims ) {
-                            protected void populateItem( ListItem item ) {
-                                LocalizedSimulation lsim = (LocalizedSimulation) item.getModel().getObject();
+                        container.add( new ListView<LocalizedSimulation>( "contribution-simulations", lsims ) {
+                            protected void populateItem( ListItem<LocalizedSimulation> item ) {
+                                LocalizedSimulation lsim = item.getModelObject();
                                 Link link = SimulationPage.getLinker( lsim ).getLink( "simulation-link", context, getPhetCycle() );
                                 link.add( new Label( "simulation-title", lsim.getTitle() ) );
                                 item.add( link );
