@@ -299,7 +299,6 @@ public class ValidationChecker {
         check( "http://phetsims.colorado.edu/en/simulations/category/chemistry/quantum" );
         check( "http://phetsims.colorado.edu/en/simulations/category/cutting-edge-research" );
         check( "http://phetsims.colorado.edu/en/simulations/category/earth-science" );
-        check( "http://phetsims.colorado.edu/en/simulations/category/featured" );
         check( "http://phetsims.colorado.edu/en/simulations/category/math" );
         check( "http://phetsims.colorado.edu/en/simulations/category/math/applications" );
         check( "http://phetsims.colorado.edu/en/simulations/category/math/applications/index" );
