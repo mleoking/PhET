@@ -60,6 +60,10 @@
 
         <mapping resource="edu/colorado/phet/website/data/NotificationEvent.hbm.xml"/>
 
+        <collection-cache collection="edu.colorado.phet.website.data.Project.simulations" usage="nonstrict-read-write"/>
+        <collection-cache collection="edu.colorado.phet.website.data.Simulation.localizedSimulations" usage="nonstrict-read-write"/>
+        <collection-cache collection="edu.colorado.phet.website.data.Translation.translatedStrings" usage="read-write"/>
+
         <event type="post-insert">
             <listener class="edu.colorado.phet.website.data.util.HibernateEventListener"/>
         </event>
