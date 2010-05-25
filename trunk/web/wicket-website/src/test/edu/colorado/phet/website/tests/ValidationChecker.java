@@ -82,13 +82,11 @@ public class ValidationChecker {
         check( "http://phetsims.colorado.edu/ar/get-phet" );
         check( "http://phetsims.colorado.edu/ar/get-phet/full-install" );
         check( "http://phetsims.colorado.edu/ar/get-phet/one-at-a-time" );
-        check( "http://phetsims.colorado.edu/ar/#main-content" );
         check( "http://phetsims.colorado.edu/ar/research" );
         check( "http://phetsims.colorado.edu/ar_SA/" );
         check( "http://phetsims.colorado.edu/ar_SA/about" );
         check( "http://phetsims.colorado.edu/ar_SA/about/contact" );
         check( "http://phetsims.colorado.edu/ar_SA/about/licensing" );
-        check( "http://phetsims.colorado.edu/ar_SA/about/#main-content" );
         check( "http://phetsims.colorado.edu/ar_SA/about/news" );
         check( "http://phetsims.colorado.edu/ar_SA/about/source-code" );
         check( "http://phetsims.colorado.edu/ar_SA/about/sponsors" );
@@ -104,7 +102,6 @@ public class ValidationChecker {
         check( "http://phetsims.colorado.edu/ar_SA/get-phet" );
         check( "http://phetsims.colorado.edu/ar_SA/get-phet/full-install" );
         check( "http://phetsims.colorado.edu/ar_SA/get-phet/one-at-a-time" );
-        check( "http://phetsims.colorado.edu/ar_SA/#main-content" );
         check( "http://phetsims.colorado.edu/ar_SA/research" );
         check( "http://phetsims.colorado.edu/ar_SA/sign-in?dest=%2F" );
         check( "http://phetsims.colorado.edu/ar_SA/simulation/aphid-maze" );
@@ -129,7 +126,6 @@ public class ValidationChecker {
         check( "http://phetsims.colorado.edu/ar_SA/simulations/keyword/force" );
         check( "http://phetsims.colorado.edu/ar_SA/simulations/keyword/springs" );
         check( "http://phetsims.colorado.edu/ar_SA/simulations/keyword/thermalEnergy" );
-        check( "http://phetsims.colorado.edu/ar_SA/simulation/#software-requirements" );
         check( "http://phetsims.colorado.edu/ar_SA/simulations/translated" );
         check( "http://phetsims.colorado.edu/ar_SA/simulations/translated/ar" );
         check( "http://phetsims.colorado.edu/ar_SA/simulations/translated/fr" );
@@ -137,8 +133,6 @@ public class ValidationChecker {
         check( "http://phetsims.colorado.edu/ar_SA/simulations/translated/vi" );
         check( "http://phetsims.colorado.edu/ar_SA/simulations/translated/zh_CN" );
         check( "http://phetsims.colorado.edu/ar_SA/simulations/translated/zh_TW" );
-        check( "http://phetsims.colorado.edu/ar_SA/simulation/#teaching-ideas" );
-        check( "http://phetsims.colorado.edu/ar_SA/simulation/#translated-versions" );
         check( "http://phetsims.colorado.edu/ar_SA/simulation/travoltage" );
         check( "http://phetsims.colorado.edu/ar_SA/troubleshooting" );
         check( "http://phetsims.colorado.edu/ar_SA/?wicket:bookmarkablePage=:edu.colorado.phet.website.authentication.SignInPage" );
@@ -175,18 +169,15 @@ public class ValidationChecker {
         check( "http://phetsims.colorado.edu/ar/simulations/translated/vi" );
         check( "http://phetsims.colorado.edu/ar/simulations/translated/zh_CN" );
         check( "http://phetsims.colorado.edu/ar/simulations/translated/zh_TW" );
-        check( "http://phetsims.colorado.edu/ar/simulation/#translated-versions" );
         check( "http://phetsims.colorado.edu/ar/simulation/travoltage" );
         check( "http://phetsims.colorado.edu/ar/?wicket:bookmarkablePage=:edu.colorado.phet.website.authentication.SignInPage" );
         check( "http://phetsims.colorado.edu/en/about" );
         check( "http://phetsims.colorado.edu/en/about/contact" );
         check( "http://phetsims.colorado.edu/en/about/licensing" );
-        check( "http://phetsims.colorado.edu/en/about/#main-content" );
         check( "http://phetsims.colorado.edu/en/about/news" );
         check( "http://phetsims.colorado.edu/en/about/source-code" );
         check( "http://phetsims.colorado.edu/en/about/sponsors" );
         check( "http://phetsims.colorado.edu/en/contributions/view/2708" );
-        check( "http://phetsims.colorado.edu/en/contributions/view/#main-content" );
         check( "http://phetsims.colorado.edu/en/donate" );
         check( "http://phetsims.colorado.edu/en/for-teachers" );
         check( "http://phetsims.colorado.edu/en/for-teachers/activity-guide" );
@@ -196,15 +187,11 @@ public class ValidationChecker {
         check( "http://phetsims.colorado.edu/en/for-teachers/submit-activity" );
         check( "http://phetsims.colorado.edu/en/for-teachers/workshops" );
         check( "http://phetsims.colorado.edu/en/for-translators" );
-        check( "http://phetsims.colorado.edu/en/for-translators/#main-content" );
         check( "http://phetsims.colorado.edu/en/for-translators/translation-utility" );
         check( "http://phetsims.colorado.edu/en/for-translators/website" );
         check( "http://phetsims.colorado.edu/en/get-phet" );
         check( "http://phetsims.colorado.edu/en/get-phet/full-install" );
-        check( "http://phetsims.colorado.edu/en/get-phet/#main-content" );
         check( "http://phetsims.colorado.edu/en/get-phet/one-at-a-time" );
-        check( "http://phetsims.colorado.edu/en/#main-content" );
-        check( "http://phetsims.colorado.edu/en/#pub_1" );
         check( "http://phetsims.colorado.edu/en/register?dest=/" );
         check( "http://phetsims.colorado.edu/en/research" );
         check( "http://phetsims.colorado.edu/en/search?q=Energy" );
@@ -234,9 +221,7 @@ public class ValidationChecker {
         check( "http://phetsims.colorado.edu/en/simulation/circuit-construction-kit-dc" );
         check( "http://phetsims.colorado.edu/en/simulation/color-vision" );
         check( "http://phetsims.colorado.edu/en/simulation/conductivity" );
-        check( "http://phetsims.colorado.edu/en/simulation/#content" );
         check( "http://phetsims.colorado.edu/en/simulation/covalent-bonds" );
-        check( "http://phetsims.colorado.edu/en/simulation/#credits" );
         check( "http://phetsims.colorado.edu/en/simulation/curve-fitting" );
         check( "http://phetsims.colorado.edu/en/simulation/curve-fitting/changelog" );
         check( "http://phetsims.colorado.edu/en/simulation/davisson-germer" );
@@ -269,7 +254,6 @@ public class ValidationChecker {
         check( "http://phetsims.colorado.edu/en/simulation/magnet-and-compass" );
         check( "http://phetsims.colorado.edu/en/simulation/magnets-and-electromagnets" );
         check( "http://phetsims.colorado.edu/en/simulation/magnets-and-electromagnets/changelog" );
-        check( "http://phetsims.colorado.edu/en/simulation/#main-content" );
         check( "http://phetsims.colorado.edu/en/simulation/mass-spring-lab" );
         check( "http://phetsims.colorado.edu/en/simulation/mass-spring-lab/changelog" );
         check( "http://phetsims.colorado.edu/en/simulation/maze-game" );
@@ -307,7 +291,6 @@ public class ValidationChecker {
         check( "http://phetsims.colorado.edu/en/simulations/category/by-level/elementary-school" );
         check( "http://phetsims.colorado.edu/en/simulations/category/by-level/elementary-school/index" );
         check( "http://phetsims.colorado.edu/en/simulations/category/by-level/high-school" );
-        check( "http://phetsims.colorado.edu/en/simulations/category/by-level/#main-content" );
         check( "http://phetsims.colorado.edu/en/simulations/category/by-level/middle-school" );
         check( "http://phetsims.colorado.edu/en/simulations/category/by-level/university" );
         check( "http://phetsims.colorado.edu/en/simulations/category/by-level/university/index" );
@@ -317,11 +300,9 @@ public class ValidationChecker {
         check( "http://phetsims.colorado.edu/en/simulations/category/cutting-edge-research" );
         check( "http://phetsims.colorado.edu/en/simulations/category/earth-science" );
         check( "http://phetsims.colorado.edu/en/simulations/category/featured" );
-        check( "http://phetsims.colorado.edu/en/simulations/category/#main-content" );
         check( "http://phetsims.colorado.edu/en/simulations/category/math" );
         check( "http://phetsims.colorado.edu/en/simulations/category/math/applications" );
         check( "http://phetsims.colorado.edu/en/simulations/category/math/applications/index" );
-        check( "http://phetsims.colorado.edu/en/simulations/category/math/#main-content" );
         check( "http://phetsims.colorado.edu/en/simulations/category/math/tools" );
         check( "http://phetsims.colorado.edu/en/simulations/category/new" );
         check( "http://phetsims.colorado.edu/en/simulations/category/new/index" );
@@ -331,7 +312,6 @@ public class ValidationChecker {
         check( "http://phetsims.colorado.edu/en/simulations/category/physics/heat-and-thermodynamics" );
         check( "http://phetsims.colorado.edu/en/simulations/category/physics/heat-and-thermodynamics/index" );
         check( "http://phetsims.colorado.edu/en/simulations/category/physics/light-and-radiation" );
-        check( "http://phetsims.colorado.edu/en/simulations/category/physics/#main-content" );
         check( "http://phetsims.colorado.edu/en/simulations/category/physics/motion" );
         check( "http://phetsims.colorado.edu/en/simulations/category/physics/motion/index" );
         check( "http://phetsims.colorado.edu/en/simulations/category/physics/quantum-phenomena" );
@@ -352,7 +332,6 @@ public class ValidationChecker {
         check( "http://phetsims.colorado.edu/en/simulations/keyword/angularPosition" );
         check( "http://phetsims.colorado.edu/en/simulations/keyword/angularVelocity" );
         check( "http://phetsims.colorado.edu/en/simulations/keyword/astronomy" );
-        check( "http://phetsims.colorado.edu/en/simulation/#software-requirements" );
         check( "http://phetsims.colorado.edu/en/simulation/soluble-salts" );
         check( "http://phetsims.colorado.edu/en/simulation/sound" );
         check( "http://phetsims.colorado.edu/en/simulation/states-of-matter" );
@@ -381,7 +360,6 @@ public class ValidationChecker {
         check( "http://phetsims.colorado.edu/en/simulations/translated/km" );
         check( "http://phetsims.colorado.edu/en/simulations/translated/ko" );
         check( "http://phetsims.colorado.edu/en/simulations/translated/lt" );
-        check( "http://phetsims.colorado.edu/en/simulations/translated/#main-content" );
         check( "http://phetsims.colorado.edu/en/simulations/translated/mk" );
         check( "http://phetsims.colorado.edu/en/simulations/translated/mn" );
         check( "http://phetsims.colorado.edu/en/simulations/translated/nb" );
@@ -401,10 +379,8 @@ public class ValidationChecker {
         check( "http://phetsims.colorado.edu/en/simulations/translated/zh_CN" );
         check( "http://phetsims.colorado.edu/en/simulations/translated/zh_TW" );
         check( "http://phetsims.colorado.edu/en/simulation/stretching-dna" );
-        check( "http://phetsims.colorado.edu/en/simulation/#teaching-ideas" );
         check( "http://phetsims.colorado.edu/en/simulation/the-ramp" );
         check( "http://phetsims.colorado.edu/en/simulation/torque" );
-        check( "http://phetsims.colorado.edu/en/simulation/#translated-versions" );
         check( "http://phetsims.colorado.edu/en/simulation/travoltage" );
         check( "http://phetsims.colorado.edu/en/simulation/travoltage/changelog" );
         check( "http://phetsims.colorado.edu/en/simulation/vector-addition" );
