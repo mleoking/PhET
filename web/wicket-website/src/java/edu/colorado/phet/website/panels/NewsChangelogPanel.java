@@ -11,7 +11,7 @@ import org.hibernate.Session;
 
 import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.cache.EventDependency;
-import edu.colorado.phet.website.components.InvisibleComponent;
+import edu.colorado.phet.website.components.VisListView;
 import edu.colorado.phet.website.content.simulations.SimulationPage;
 import edu.colorado.phet.website.data.*;
 import edu.colorado.phet.website.data.util.HibernateEventListener;
@@ -87,19 +87,14 @@ public class NewsChangelogPanel extends PhetPanel {
                     }
                 } );
 
-                if ( entry.getLines().isEmpty() ) {
-                    entryItem.add( new InvisibleComponent( "line" ) );
-                }
-                else {
-                    entryItem.add( new ListView<Changelog.Line>( "line", entry.getLines() ) {
-                        @Override
-                        protected void populateItem( ListItem<Changelog.Line> lineItem ) {
-                            Changelog.Line line = lineItem.getModelObject();
+                entryItem.add( new VisListView<Changelog.Line>( "line", entry.getLines() ) {
+                    @Override
+                    protected void populateItem( ListItem<Changelog.Line> lineItem ) {
+                        Changelog.Line line = lineItem.getModelObject();
 
-                            lineItem.add( new Label( "text", line.getMessage() ) );
-                        }
-                    } );
-                }
+                        lineItem.add( new Label( "text", line.getMessage() ) );
+                    }
+                } );
             }
         } );
 
