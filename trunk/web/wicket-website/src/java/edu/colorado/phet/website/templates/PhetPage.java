@@ -104,6 +104,7 @@ public abstract class PhetPage extends WebPage implements Stylable {
                 link = new RawLink( "page-header-home-link", "http://phet.colorado.edu" );
             }
             add( link );
+            // TODO: localize alt attributes
             link.add( new StaticImage( "page-header-logo-image", Images.PHET_LOGO, null ) );
             add( new StaticImage( "page-header-title-image", Images.LOGO_TITLE, null ) );
 

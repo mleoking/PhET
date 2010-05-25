@@ -93,7 +93,7 @@ public class SimulationMainPanel extends PhetPanel {
 
         if ( simulation.getSimulation().isUnderConstruction() ) {
             Link uclink = AboutLegendPanel.getLinker().getLink( "rating-under-construction-link", context, getPhetCycle() );
-            uclink.add( new StaticImage( "rating-under-construction-image", Images.UNDER_CONSTRUCTION_SMALL, null ) );
+            uclink.add( new StaticImage( "rating-under-construction-image", Images.UNDER_CONSTRUCTION_SMALL, getPhetLocalizer().getString( "tooltip.legend.underConstruction", this ) ) );
             add( uclink );
         }
         else {
@@ -102,7 +102,7 @@ public class SimulationMainPanel extends PhetPanel {
 
         if ( simulation.getSimulation().isGuidanceRecommended() ) {
             Link uclink = AboutLegendPanel.getLinker().getLink( "rating-guidance-recommended-link", context, getPhetCycle() );
-            uclink.add( new StaticImage( "rating-guidance-recommended-image", Images.GUIDANCE_RECOMMENDED_SMALL, null ) );
+            uclink.add( new StaticImage( "rating-guidance-recommended-image", Images.GUIDANCE_RECOMMENDED_SMALL, getPhetLocalizer().getString( "tooltip.legend.guidanceRecommended", this ) ) );
             add( uclink );
         }
         else {
@@ -111,7 +111,7 @@ public class SimulationMainPanel extends PhetPanel {
 
         if ( simulation.getSimulation().isClassroomTested() ) {
             Link uclink = AboutLegendPanel.getLinker().getLink( "rating-classroom-tested-link", context, getPhetCycle() );
-            uclink.add( new StaticImage( "rating-classroom-tested-image", Images.CLASSROOM_TESTED_SMALL, null ) );
+            uclink.add( new StaticImage( "rating-classroom-tested-image", Images.CLASSROOM_TESTED_SMALL, getPhetLocalizer().getString( "tooltip.legend.classroomTested", this ) ) );
             add( uclink );
         }
         else {
