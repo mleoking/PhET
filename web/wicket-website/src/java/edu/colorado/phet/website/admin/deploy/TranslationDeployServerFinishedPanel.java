@@ -13,6 +13,7 @@ import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import org.hibernate.Session;
 
 import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.components.RawLabel;
@@ -22,6 +23,7 @@ import edu.colorado.phet.website.panels.ComponentThread;
 import edu.colorado.phet.website.panels.ComponentThreadStatusPanel;
 import edu.colorado.phet.website.panels.LoggerComponentThread;
 import edu.colorado.phet.website.panels.PhetPanel;
+import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
 
 public class TranslationDeployServerFinishedPanel extends PhetPanel {
@@ -75,14 +77,19 @@ public class TranslationDeployServerFinishedPanel extends PhetPanel {
 
                         runner.publishTranslations( translationDir );
 
+                        // open a custom session
+                        Session session = HibernateUtils.getInstance().openSession();
+
                         for ( String projectName : runner.getDeployedProjectNames() ) {
                             Project.synchronizeProject(
                                     docRoot,
-                                    getHibernateSession(),
+                                    session,
                                     projectName,
                                     WebsiteTranslationDeployPublisher.getLogger()
                             );
                         }
+
+                        session.close();
 
                         return true;
                     }
