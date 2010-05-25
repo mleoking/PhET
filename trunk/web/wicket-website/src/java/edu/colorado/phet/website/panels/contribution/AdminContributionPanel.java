@@ -18,11 +18,16 @@ import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
 
+/**
+ * A small control panel that is displayed above a contribution if a user is logged in as a PhET team member. Useful for
+ * quick editing options for administrators.
+ */
 public class AdminContributionPanel extends PhetPanel {
 
-    private Model approvedLabelModel;
-    private Model colorModel;
-    private Model toggleModel;
+    private Model<String> approvedLabelModel = new Model<String>();
+    private Model<String> colorModel = new Model<String>();
+    private Model<String> toggleApproveModel = new Model<String>();
+    private Model<String> toggleGoldStarModel = new Model<String>();
 
     public AdminContributionPanel( String id, PageContext context, final Contribution contribution ) {
         super( id, context );
@@ -31,10 +36,7 @@ public class AdminContributionPanel extends PhetPanel {
 
         add( HeaderContributor.forCss( CSS.CONTRIBUTION_MAIN ) );
 
-        approvedLabelModel = new Model();
-        colorModel = new Model();
-        toggleModel = new Model();
-        updateModels( contribution.isApproved() );
+        updateModels( contribution.isApproved(), contribution.isGoldStar() );
 
         Label approvedLabel = new Label( "approved", approvedLabelModel );
         approvedLabel.add( new AttributeAppender( "class", colorModel, " " ) );
@@ -42,26 +44,49 @@ public class AdminContributionPanel extends PhetPanel {
 
         add( ContributionEditPage.getLinker( contribution ).getLink( "admin-edit-link", context, getPhetCycle() ) );
 
-        Link toggleLink = new AjaxFallbackLink( "toggle-approve-link" ) {
+        Link toggleApprovedLink = new AjaxFallbackLink( "toggle-approve-link" ) {
             public void onClick( AjaxRequestTarget target ) {
-                final Boolean[] ret = new Boolean[1];
+                final Boolean[] ret = new Boolean[2];
                 boolean success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
                     public boolean run( Session session ) {
                         Contribution contrib = (Contribution) session.load( Contribution.class, contribution.getId() );
                         contrib.setApproved( !contrib.isApproved() );
                         ret[0] = contrib.isApproved();
+                        ret[1] = contrib.isGoldStar();
                         session.update( contrib );
                         return true;
                     }
                 } );
                 if ( success ) {
-                    updateModels( ret[0] );
+                    updateModels( ret[0], ret[1] );
                 }
                 target.addComponent( AdminContributionPanel.this );
             }
         };
-        toggleLink.add( new Label( "toggle-approve-label", toggleModel ) );
-        add( toggleLink );
+        toggleApprovedLink.add( new Label( "toggle-approve-label", toggleApproveModel ) );
+        add( toggleApprovedLink );
+
+        Link toggleGoldStarLink = new AjaxFallbackLink( "toggle-gold-star-link" ) {
+            public void onClick( AjaxRequestTarget target ) {
+                final Boolean[] ret = new Boolean[2];
+                boolean success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+                    public boolean run( Session session ) {
+                        Contribution contrib = (Contribution) session.load( Contribution.class, contribution.getId() );
+                        contrib.setGoldStar( !contrib.isGoldStar() );
+                        ret[0] = contrib.isApproved();
+                        ret[1] = contrib.isGoldStar();
+                        session.update( contrib );
+                        return true;
+                    }
+                } );
+                if ( success ) {
+                    updateModels( ret[0], ret[1] );
+                }
+                target.addComponent( AdminContributionPanel.this );
+            }
+        };
+        toggleGoldStarLink.add( new Label( "toggle-gold-star-label", toggleGoldStarModel ) );
+        add( toggleGoldStarLink );
 
         add( new Link( "delete-link" ) {
             public void onClick() {
@@ -81,9 +106,10 @@ public class AdminContributionPanel extends PhetPanel {
 
     }
 
-    private void updateModels( boolean approved ) {
+    private void updateModels( boolean approved, boolean goldStar ) {
         approvedLabelModel.setObject( approved ? "approved" : "unapproved" );
         colorModel.setObject( approved ? "contribution-approved" : "contribution-unapproved" );
-        toggleModel.setObject( approved ? "Unapprove" : "Approve" );
+        toggleApproveModel.setObject( approved ? "Unapprove" : "Approve" );
+        toggleGoldStarModel.setObject( goldStar ? "Remove gold star" : "Add gold star" + " (reload to see effect)" );
     }
 }
