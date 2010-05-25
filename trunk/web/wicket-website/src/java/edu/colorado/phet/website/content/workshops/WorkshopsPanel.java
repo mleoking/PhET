@@ -11,12 +11,8 @@ public class WorkshopsPanel extends PhetPanel {
     public WorkshopsPanel( String id, PageContext context ) {
         super( id, context );
 
-        // example of caching for regular panels
-//        add( new SimplePanelCacheEntry( CacheTestPanel.class, this.getClass(), context.getLocale(), "tester" ) {
-//            public PhetPanel constructPanel( String id, PageContext context ) {
-//                return new CacheTestPanel( id, context );
-//            }
-//        }.instantiate( "test-panel", context ) );
+        add( UgandaWorkshopsPanel.getLinker().getLink( "workshop-uganda-link", context, getPhetCycle() ) );
+
     }
 
     public static String getKey() {
