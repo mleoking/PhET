@@ -103,6 +103,9 @@ public class ModifiedHodgkinHuxleyModel implements IHodgkinHuxleyModel
 	 */
 	public double get_n4() { return n4; }
 	
+	/* (non-Javadoc)
+	 * @see edu.colorado.phet.neuron.model.IHodgkinHuxleyModel#get_delayed_n4()
+	 */
 	public double get_delayed_n4(double delayAmount){
 		if (delayAmount <= 0){
 			return n4;
