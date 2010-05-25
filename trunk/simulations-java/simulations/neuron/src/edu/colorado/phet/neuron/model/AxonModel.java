@@ -899,11 +899,11 @@ public class AxonModel implements IParticleCapture {
     	}
     	
     	// Set all new particles to exhibit simple Brownian motion.
-//    	for (Particle particle : particles){
-//    		if (!preExistingParticles.contains(particle)){
-//    			particle.setMotionStrategy(new SlowBrownianMotionStrategy(particle.getPositionReference()));
-//    		}
-//    	}
+    	for (Particle particle : particles){
+    		if (!preExistingParticles.contains(particle)){
+    			particle.setMotionStrategy(new SlowBrownianMotionStrategy(particle.getPositionReference()));
+    		}
+    	}
     }
     
     /**
