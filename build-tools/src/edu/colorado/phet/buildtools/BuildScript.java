@@ -549,7 +549,7 @@ public class BuildScript {
                 new Task() {
                     public boolean invoke() {
                         //generate files for dev
-                        sendCopyToDev( devAuth );
+                        //sendCopyToDev( devAuth );
                         boolean success = prepareStagingArea( PhetServer.FIGARO, prodAuth );
                         return success;
                     }
