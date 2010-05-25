@@ -150,7 +150,7 @@ public class GreenhouseEffectCanvas extends PhetPCanvas {
      * @param photon
      */
     private void handlePhotonAdded(Photon photon){
-    	PhotonNode photonNode = new PhotonNode(photon);
+    	PhotonNode photonNode = new PhotonNode(photon, mvt);
     	addWorldChild(photonNode);
     }
 }
