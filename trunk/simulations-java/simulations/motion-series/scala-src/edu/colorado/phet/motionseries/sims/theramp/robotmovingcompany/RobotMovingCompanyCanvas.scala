@@ -58,9 +58,11 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
     addStageNode(summaryScreen)
     summaryScreen.requestFocus()
 
-    //Move the object into the house, by putting it in between the back and front layers
-    removeScreenNode(currentBeadNode)
-    intermediateNode.addChild(new StageNode(stage, RobotMovingCompanyCanvas.this, currentBeadNode))
+    //If successfully delivered to house, move the object into the house by putting it in between the back and front layers
+    if (result.success) {
+      removeScreenNode(currentBeadNode)
+      intermediateNode.addChild(new StageNode(stage, RobotMovingCompanyCanvas.this, currentBeadNode))
+    }
   })
 
   updateFBDLocation()
@@ -216,6 +218,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
       }
     }
     addScreenNode(gameFinishedDialog)
+    gameFinishedDialog.requestFocus()
   }
 
   override def updateFBDLocation() = {

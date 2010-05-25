@@ -139,7 +139,7 @@ class GameFinishedDialog(gameModel: RobotMovingCompanyGameModel) extends PlayAre
   resultList.addChild(new PNode)
   resultList.addChild(new PNode)
   resultList.addChild(new PNode)
-//
+
 //  //last line
   resultList.addChild(new PText("game.final-score".translate+"         "){setFont(new PhetFont(18))})//todo: fix layout here
   resultList.addChild(new PText(gameModel.score+""){setFont(new PhetFont(18))})
@@ -148,9 +148,12 @@ class GameFinishedDialog(gameModel: RobotMovingCompanyGameModel) extends PlayAre
   resultList.setOffset(getFullBounds.getWidth / 2 - resultList.getFullBounds.getWidth / 2, text.getFullBounds.getMaxY + 10)
   addChild(resultList)
 
-  val playAgainButton = new PSwing(Button("game.play-again".translate) {okButtonPressed()}.peer)
+  val playAgainSwingButton = Button("game.play-again".translate) {okButtonPressed()}.peer
+  val playAgainButton = new PSwing(playAgainSwingButton)
   playAgainButton.setOffset(getFullBounds.getWidth / 2 - playAgainButton.getFullBounds.getWidth / 2, getFullBounds.getHeight - playAgainButton.getFullBounds.getHeight - 5)
   addChild(playAgainButton)
+
+  def requestFocus() = playAgainSwingButton.requestFocus()
 }
 
 object TestDialog {
