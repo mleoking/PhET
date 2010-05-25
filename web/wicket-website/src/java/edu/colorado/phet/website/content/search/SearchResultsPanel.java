@@ -6,7 +6,6 @@ import java.util.List;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
-import org.apache.wicket.markup.html.list.ListView;
 
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.components.LocalizedText;
@@ -20,7 +19,7 @@ import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.SearchUtils;
 
 /**
- * A panel that displays search results 
+ * A panel that displays search results
  */
 public class SearchResultsPanel extends PhetPanel {
     public SearchResultsPanel( String id, final PageContext context, String query ) {

@@ -7,6 +7,7 @@ import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.constants.CSS;
 import edu.colorado.phet.website.constants.Linkers;
 import edu.colorado.phet.website.content.ForTranslatorsPanel;
+import edu.colorado.phet.website.content.about.AboutLicensingPanel;
 import edu.colorado.phet.website.content.getphet.FullInstallPanel;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
@@ -66,6 +67,8 @@ public class TroubleshootingMainPanel extends PhetPanel {
         add( new LocalizedText( "troubleshooting-main-q12-answer", "troubleshooting.main.q12.answer" ) );
 
         add( new LocalizedText( "troubleshooting-main-q13-answer", "troubleshooting.main.q13.answer" ) );
+
+        add( AboutLicensingPanel.getLinker().getLink( "licensing-link", context, getPhetCycle() ) );
 
         add( HeaderContributor.forCss( CSS.TROUBLESHOOTING ) );
 
