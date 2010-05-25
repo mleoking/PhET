@@ -37,10 +37,24 @@ public interface IHodgkinHuxleyModel {
 
 	public abstract double get_n4();
 	
+	/**
+	 * Get a delayed version of the n^4 amount, which is the variable factor
+	 * that governs the potassium channel conductance.
+	 * 
+	 * @param delayAmount - Time delay in seconds.
+	 * @return
+	 */
 	public abstract double get_delayed_n4(double delayAmount);
 
 	public abstract double get_m3h();
 
+	/**
+	 * Get a delayed version of the m3h amount, which is the variable factor
+	 * that governs the sodium channel conductance.
+	 * 
+	 * @param delayAmount - Time delay in seconds.
+	 * @return
+	 */
 	public abstract double get_delayed_m3h(double delayAmount);
 	
 	public abstract double get_na_current();
