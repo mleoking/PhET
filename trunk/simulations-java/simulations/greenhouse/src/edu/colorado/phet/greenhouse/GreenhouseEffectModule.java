@@ -14,6 +14,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 import edu.colorado.phet.greenhouse.model.GreenhouseClock;
+import edu.colorado.phet.greenhouse.model.GreenhouseEffectModel;
 import edu.colorado.phet.greenhouse.view.GreenhouseEffectCanvas;
 
 /**
@@ -35,6 +36,7 @@ public class GreenhouseEffectModule extends PiccoloModule {
     // Instance Data
     //----------------------------------------------------------------------------
 
+	private GreenhouseEffectModel model;
     private PhetPCanvas canvas;
     private PiccoloClockControlPanel clockControlPanel;
 
@@ -46,10 +48,10 @@ public class GreenhouseEffectModule extends PiccoloModule {
         super( GreenhouseResources.getString("ModuleTitle.GreenHouseModule"), new GreenhouseClock());
         
         // Physical model
-//        _model = new XxxModel();
+        model = new GreenhouseEffectModel((GreenhouseClock)getClock());
 
         // Canvas
-        canvas = new GreenhouseEffectCanvas();
+        canvas = new GreenhouseEffectCanvas(model);
         setSimulationPanel( canvas );
         
         // Control panel
@@ -62,9 +64,9 @@ public class GreenhouseEffectModule extends PiccoloModule {
     	PiccoloClockControlPanel clockControlPanel = new PiccoloClockControlPanel( getClock() );
     	final ClockDelaySlider timeSpeedSlider = new ClockDelaySlider(150, 30, "0.00", clock, null);
         timeSpeedSlider.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
+			public void stateChanged(ChangeEvent e) {
                 clock.setDelay((int)Math.round(MAX_TIME_BETWEEN_TICKS/timeSpeedSlider.getValue()));
-            }
+			}
         } );
     	clockControlPanel.addBetweenTimeDisplayAndButtons(timeSpeedSlider);
         setClockControlPanel( clockControlPanel );
