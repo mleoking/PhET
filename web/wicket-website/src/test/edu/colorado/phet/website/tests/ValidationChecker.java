@@ -122,7 +122,6 @@ public class ValidationChecker {
         check( "http://phetsims.colorado.edu/ar_SA/simulations/category/physics/electricity-magnets-and-circuits" );
         check( "http://phetsims.colorado.edu/ar_SA/simulation/signal-circuit" );
         check( "http://phetsims.colorado.edu/ar_SA/simulations/index" );
-        check( "http://phetsims.colorado.edu/ar_SA/simulations/index.php" );
         check( "http://phetsims.colorado.edu/ar_SA/simulations/keyword/conservationOfEnergy" );
         check( "http://phetsims.colorado.edu/ar_SA/simulations/keyword/force" );
         check( "http://phetsims.colorado.edu/ar_SA/simulations/keyword/springs" );
@@ -160,7 +159,6 @@ public class ValidationChecker {
         check( "http://phetsims.colorado.edu/ar/simulations/category/physics/sound-and-waves" );
         check( "http://phetsims.colorado.edu/ar/simulations/category/physics/work-energy-and-power" );
         check( "http://phetsims.colorado.edu/ar/simulation/signal-circuit" );
-        check( "http://phetsims.colorado.edu/ar/simulations/index.php" );
         check( "http://phetsims.colorado.edu/ar/simulations/keyword/force" );
         check( "http://phetsims.colorado.edu/ar/simulations/keyword/harmonicMotion" );
         check( "http://phetsims.colorado.edu/ar/simulations/keyword/springs" );
