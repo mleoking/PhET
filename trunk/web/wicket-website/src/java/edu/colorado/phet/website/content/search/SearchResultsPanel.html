@@ -17,22 +17,27 @@
             32 results matching <strong>test search</strong>
         </p>
 
-        <h2>
-            <wicket:message key="search.simulations">Simulations</wicket:message>
-        </h2>
-        <ul>
-            <li wicket:id="sims"><a href="#" wicket:id="sim-link"><span wicket:id="sim-title">
+        <wicket:enclosure child="sims">
+            <h2>
+                <wicket:message key="search.simulations">Simulations</wicket:message>
+            </h2>
+            <ul>
+                <li wicket:id="sims"><a href="#" wicket:id="sim-link"><span wicket:id="sim-title">
                 Simulation Title
             </span></a></li>
-        </ul>
-        <h2>
-            <wicket:message key="search.activities">Activities</wicket:message>
-        </h2>
-        <ul>
-            <li wicket:id="contribs"><a href="#" wicket:id="contrib-link"><span wicket:id="contrib-title">
+            </ul>
+        </wicket:enclosure>
+
+        <wicket:enclosure child="contribs">
+            <h2>
+                <wicket:message key="search.activities">Activities</wicket:message>
+            </h2>
+            <ul>
+                <li wicket:id="contribs"><a href="#" wicket:id="contrib-link"><span wicket:id="contrib-title">
                 Contribution Title
             </span></a></li>
-        </ul>
+            </ul>
+        </wicket:enclosure>
     </div>
 </wicket:panel>
 
