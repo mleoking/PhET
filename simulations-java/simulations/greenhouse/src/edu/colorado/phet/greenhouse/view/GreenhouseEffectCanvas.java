@@ -14,6 +14,8 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.greenhouse.GreenhouseDefaults;
 import edu.colorado.phet.greenhouse.GreenhouseResources;
+import edu.colorado.phet.greenhouse.model.GreenhouseEffectModel;
+import edu.colorado.phet.greenhouse.model.Photon;
 import edu.colorado.phet.neuron.module.NeuronDefaults;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -32,6 +34,9 @@ public class GreenhouseEffectCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
+	
+	// Model that is being viewed.
+	GreenhouseEffectModel model;
 
     // Model-view transform.
     private ModelViewTransform2D mvt;
@@ -49,7 +54,9 @@ public class GreenhouseEffectCanvas extends PhetPCanvas {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public GreenhouseEffectCanvas(  ) {
+    public GreenhouseEffectCanvas( GreenhouseEffectModel model ) {
+    	
+    	this.model = model;
 
     	// Set up the canvas-screen transform.
     	setWorldTransformStrategy(new PhetPCanvas.CenteringBoxStrategy(this, GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE));
@@ -63,6 +70,15 @@ public class GreenhouseEffectCanvas extends PhetPCanvas {
         				true);
 
         setBackground( Color.BLACK );
+        
+        // Register to listen to the model for events that we need to know
+        // about.
+        model.addListener(new GreenhouseEffectModel.Adapter(){
+    		public void photonAdded(Photon photon) {
+    			// A photon has come into existence, so add it to the view.
+    			handlePhotonAdded(photon);
+    		};
+        });
 
         // Create the node that will be the root for all the world children on
         // this canvas.  This is done to make it easier to zoom in and out on
@@ -76,23 +92,6 @@ public class GreenhouseEffectCanvas extends PhetPCanvas {
         background.setScale(GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE.height / background.getFullBoundsReference().height);
         background.setOffset(GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE.width / 2 - background.getFullBoundsReference().width / 2, 0);
         myWorldNode.addChild(background);
-        
-        // TODO: Temp code for demo.  Add some photons.
-        PNode photon = new PhotonNode();
-        photon.setOffset(10, 100);
-        myWorldNode.addChild(photon);
-        photon = new PhotonNode();
-        photon.setOffset(300, 120);
-        myWorldNode.addChild(photon);
-        photon = new PhotonNode();
-        photon.setOffset(60, 300);
-        myWorldNode.addChild(photon);
-        photon = new PhotonNode();
-        photon.setOffset(100, 220);
-        myWorldNode.addChild(photon);
-        photon = new PhotonNode();
-        photon.setOffset(500, 211);
-        myWorldNode.addChild(photon);
         
         // Update the layout.
         updateLayout();
@@ -143,5 +142,15 @@ public class GreenhouseEffectCanvas extends PhetPCanvas {
 				e.printStackTrace();
 			}
         }
+    }
+    
+    /**
+     * Handle the addition of a new photon.
+     * 
+     * @param photon
+     */
+    private void handlePhotonAdded(Photon photon){
+    	PhotonNode photonNode = new PhotonNode(photon);
+    	addWorldChild(photonNode);
     }
 }
