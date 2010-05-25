@@ -110,13 +110,15 @@
                         </wicket:message>
                     </a>
                 </dt>
-                <dd>
-                    <a href="#" wicket:id="browse-activities-link">
-                        <wicket:message key="home.browseActivities">Search for lessons created by teachers using PhET
-                            simulations.
-                        </wicket:message>
-                    </a>
-                </dd>
+                <wicket:enclosure child="browse-activities-link">
+                    <dd>
+                        <a href="#" wicket:id="browse-activities-link">
+                            <wicket:message key="home.browseActivities">
+                                Search for lessons created by teachers using PhET simulations.
+                            </wicket:message>
+                        </a>
+                    </dd>
+                </wicket:enclosure>
                 <dd>
                     <a href="#" wicket:id="workshops-link">
                         <wicket:message key="home.workshops">Workshops</wicket:message>
