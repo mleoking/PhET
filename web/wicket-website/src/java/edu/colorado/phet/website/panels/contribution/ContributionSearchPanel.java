@@ -5,6 +5,7 @@ import java.util.*;
 
 import org.apache.log4j.Logger;
 import org.apache.wicket.AttributeModifier;
+import org.apache.wicket.Component;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.behavior.HeaderContributor;
 import org.apache.wicket.markup.html.basic.Label;
@@ -71,19 +72,22 @@ public class ContributionSearchPanel extends PhetPanel {
 
         simulations.add( 0, null ); // will indicate all simulations in the selection panel
 
-        add( new ListView( "simulations", simulations ) {
-            protected void populateItem( ListItem item ) {
-                LocalizedSimulation lsim = (LocalizedSimulation) item.getModel().getObject();
+        add( new ListView<LocalizedSimulation>( "simulations", simulations ) {
+            protected void populateItem( ListItem<LocalizedSimulation> item ) {
+                LocalizedSimulation lsim = item.getModelObject();
                 String value;
+                Component optionComponent;
                 if ( lsim == null ) {
-                    item.add( new LocalizedText( "simulation-title", "contribution.search.allSimulations" ) );
+                    optionComponent = new LocalizedText( "simulation-title", "contribution.search.allSimulations" );
                     value = "all";
                 }
                 else {
-                    item.add( new Label( "simulation-title", lsim.getTitle() ) );
-                    item.add( new AttributeModifier( "title", true, new Model( lsim.getTitle() ) ) );
+                    optionComponent = new Label( "simulation-title", lsim.getTitle() );
+                    item.add( new AttributeModifier( "title", true, new Model<String>( lsim.getTitle() ) ) );
                     value = Integer.toString( lsim.getSimulation().getId() );
                 }
+                optionComponent.setRenderBodyOnly( true );
+                item.add( optionComponent );
                 setValueAndSelection( item, value, simStrings );
             }
         } );
@@ -95,19 +99,22 @@ public class ContributionSearchPanel extends PhetPanel {
             types.add( new Option<Type>( type ) );
         }
 
-        add( new ListView( "types", types ) {
-            protected void populateItem( ListItem item ) {
-                Option<Type> type = (Option<Type>) item.getModel().getObject();
+        add( new ListView<Option<Type>>( "types", types ) {
+            protected void populateItem( ListItem<Option<Type>> item ) {
+                Option<Type> type = item.getModelObject();
                 String value;
+                Component optionComponent;
                 if ( !type.hasValue() ) {
-                    item.add( new LocalizedText( "type", "contribution.search.allTypes" ) );
+                    optionComponent = new LocalizedText( "type", "contribution.search.allTypes" );
                     value = "all";
                 }
                 else {
-                    item.add( new LocalizedText( "type", type.getValue().getAbbreviatedTranslationKey() ) );
+                    optionComponent = new LocalizedText( "type", type.getValue().getAbbreviatedTranslationKey() );
                     item.add( new AttributeModifier( "title", true, new ResourceModel( type.getValue().getTranslationKey() ) ) );
                     value = type.getValue().toString();
                 }
+                optionComponent.setRenderBodyOnly( true );
+                item.add( optionComponent );
                 setValueAndSelection( item, value, typeStrings );
             }
         } );
@@ -119,19 +126,22 @@ public class ContributionSearchPanel extends PhetPanel {
             levels.add( new Option<Level>( level ) );
         }
 
-        add( new ListView( "levels", levels ) {
-            protected void populateItem( ListItem item ) {
-                Option<Level> level = (Option<Level>) item.getModel().getObject();
+        add( new ListView<Option<Level>>( "levels", levels ) {
+            protected void populateItem( ListItem<Option<Level>> item ) {
+                Option<Level> level = item.getModelObject();
                 String value;
+                Component optionComponent;
                 if ( !level.hasValue() ) {
-                    item.add( new LocalizedText( "level", "contribution.search.allLevels" ) );
+                    optionComponent = new LocalizedText( "level", "contribution.search.allLevels" );
                     value = "all";
                 }
                 else {
-                    item.add( new LocalizedText( "level", level.getValue().getAbbreviatedTranslationKey() ) );
+                    optionComponent = new LocalizedText( "level", level.getValue().getAbbreviatedTranslationKey() );
                     item.add( new AttributeModifier( "title", true, new ResourceModel( level.getValue().getTranslationKey() ) ) );
                     value = level.getValue().toString();
                 }
+                optionComponent.setRenderBodyOnly( true );
+                item.add( optionComponent );
                 setValueAndSelection( item, value, levelStrings );
             }
         } );
@@ -157,20 +167,23 @@ public class ContributionSearchPanel extends PhetPanel {
 
         locales.add( 0, null );
 
-        add( new ListView( "locales", locales ) {
-            protected void populateItem( ListItem item ) {
-                Locale locale = (Locale) item.getModel().getObject();
+        add( new ListView<Locale>( "locales", locales ) {
+            protected void populateItem( ListItem<Locale> item ) {
+                Locale locale = item.getModelObject();
                 String value;
+                Component optionComponent;
                 if ( locale == null ) {
-                    item.add( new LocalizedText( "locale", "contribution.search.allLocales" ) );
+                    optionComponent = new LocalizedText( "locale", "contribution.search.allLocales" );
                     value = "all";
                 }
                 else {
                     String localeTitle = names.get( locale );
-                    item.add( new Label( "locale", localeTitle ) );
-                    item.add( new AttributeModifier( "title", true, new Model( localeTitle ) ) );
+                    optionComponent = new Label( "locale", localeTitle );
+                    item.add( new AttributeModifier( "title", true, new Model<String>( localeTitle ) ) );
                     value = LocaleUtils.localeToString( locale );
                 }
+                optionComponent.setRenderBodyOnly( true );
+                item.add( optionComponent );
                 setValueAndSelection( item, value, localeStrings );
             }
         } );
@@ -179,7 +192,7 @@ public class ContributionSearchPanel extends PhetPanel {
 
         String textValue = queryString != null && queryString.length() > 0 ? queryString : "";
         Label queryLabel = new Label( "query-text", "" );
-        queryLabel.add( new AttributeModifier( "value", true, new Model( textValue ) ) );
+        queryLabel.add( new AttributeModifier( "value", true, new Model<String>( textValue ) ) );
         add( queryLabel );
 
     }
@@ -193,16 +206,16 @@ public class ContributionSearchPanel extends PhetPanel {
      * @param selectedValues Selected values
      */
     private void setValueAndSelection( ListItem item, String value, String[] selectedValues ) {
-        item.add( new AttributeModifier( "value", true, new Model( value ) ) );
+        item.add( new AttributeModifier( "value", true, new Model<String>( value ) ) );
         if ( selectedValues == null || selectedValues.length == 0 ) {
             if ( value.equals( "all" ) ) {
-                item.add( new AttributeModifier( "selected", true, new Model( "selected" ) ) );
+                item.add( new AttributeModifier( "selected", true, new Model<String>( "selected" ) ) );
             }
             return;
         }
         for ( String possibleValue : selectedValues ) {
             if ( value.equals( possibleValue ) ) {
-                item.add( new AttributeModifier( "selected", true, new Model( "selected" ) ) );
+                item.add( new AttributeModifier( "selected", true, new Model<String>( "selected" ) ) );
                 return;
             }
         }
