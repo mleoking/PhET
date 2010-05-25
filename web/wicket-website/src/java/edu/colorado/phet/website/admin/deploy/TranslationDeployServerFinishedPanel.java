@@ -28,7 +28,7 @@ public class TranslationDeployServerFinishedPanel extends PhetPanel {
 
     private Component publisher;
 
-    public TranslationDeployServerFinishedPanel( String id, final PageContext context, String finalText, final File translationDir ) {
+    public TranslationDeployServerFinishedPanel( String id, final PageContext context, String finalText, final File translationDir, final File docRoot ) {
         super( id, context );
 
         add( new RawLabel( "text", finalText ) );
@@ -77,7 +77,7 @@ public class TranslationDeployServerFinishedPanel extends PhetPanel {
 
                         for ( String projectName : runner.getDeployedProjectNames() ) {
                             Project.synchronizeProject(
-                                    PhetWicketApplication.get().getWebsiteProperties().getPhetDocumentRoot(),
+                                    docRoot,
                                     getHibernateSession(),
                                     projectName,
                                     WebsiteTranslationDeployPublisher.getLogger()
