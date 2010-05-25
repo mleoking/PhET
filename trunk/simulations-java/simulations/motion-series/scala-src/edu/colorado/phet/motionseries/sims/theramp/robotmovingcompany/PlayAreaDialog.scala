@@ -65,10 +65,10 @@ class IntroDialog extends PlayAreaDialog(400, 500) {
 }
 
 class ItemFinishedDialog(gameModel: RobotMovingCompanyGameModel,
-                        scalaRampObject: MotionSeriesObject,
-                        result: Result,
-                        okPressed: ItemFinishedDialog => Unit,
-                        okButtonText: String) extends PlayAreaDialog(400, 400) {
+                         scalaRampObject: MotionSeriesObject,
+                         result: Result,
+                         okPressed: ItemFinishedDialog => Unit,
+                         okButtonText: String) extends PlayAreaDialog(400, 400) {
   val text = result match {
     case Result(_, true, _, _) => "game.result.crashed".translate
     case Result(true, false, _, _) => "game.result.delivered-successfully".translate
@@ -115,30 +115,40 @@ class ItemFinishedDialog(gameModel: RobotMovingCompanyGameModel,
 
 class GameFinishedDialog(gameModel: RobotMovingCompanyGameModel) extends PlayAreaDialog(500, 500) {
   def okButtonPressed() = {}
-  val text = new HTMLNode("game.summary.pattern.score".messageformat(gameModel.score)) {
-    setFont(new PhetFont(22, true))
-  }
-  text.setOffset(getFullBounds.getWidth/2-text.getFullBounds.getWidth/2,5)
+
+  val text = new PText("game.summary.message".translate) {setFont(new PhetFont(22, true))}
+  text.setOffset(getFullBounds.getWidth / 2 - text.getFullBounds.getWidth / 2, 5)
   addChild(text)
 
-  val resultList = new PNode {
-    for (obj <- gameModel.objectList) {
-      val icon = new PNode {
-        addChild(new PText(obj.name){setFont(new PhetFont(24))})
-        val result = gameModel.resultMap(obj)
-        val imageFilename = if (result.cliff) obj.crashImageFilename else obj.imageFilename
-        val image = new PImage(BufferedImageUtils.multiScaleToHeight(MotionSeriesResources.getImage(imageFilename),50))
-        image.setOffset(getFullBounds.getWidth+5,0)
-        addChild(image)
-      }
-      icon.setOffset(0,getFullBounds.getHeight+2)
-      addChild(icon)
-    }
+  val gridLayout = new GridLayout(gameModel.objectList.length + 3, 3)
+  val resultList = new SwingLayoutNode(gridLayout)
+  resultList.addChild(new PText("game.object".translate){setFont(new PhetFont(24))})
+  resultList.addChild(new PText("game.score".translate){setFont(new PhetFont(24))})
+  resultList.addChild(new PText(""))
+
+  for (obj <- gameModel.objectList) {
+    val result = gameModel.resultMap(obj)
+    resultList.addChild(new PText(obj.name){setFont(new PhetFont(18))})
+    resultList.addChild(new PText(result.score + ""){setFont(new PhetFont(18))})
+    val imageFilename = if (result.cliff) obj.crashImageFilename else obj.imageFilename
+    val image = new PImage(BufferedImageUtils.multiScaleToHeight(MotionSeriesResources.getImage(imageFilename), 40))
+    resultList.addChild(image)
   }
-  resultList.setOffset(getFullBounds.getWidth/2-resultList.getFullBounds.getWidth/2,text.getFullBounds.getMaxY+10)
+
+//  //empty line
+  resultList.addChild(new PNode)
+  resultList.addChild(new PNode)
+  resultList.addChild(new PNode)
+//
+//  //last line
+  resultList.addChild(new PText("game.final-score".translate+"         "){setFont(new PhetFont(18))})//todo: fix layout here
+  resultList.addChild(new PText(gameModel.score+""){setFont(new PhetFont(18))})
+  resultList.addChild(new PNode())
+
+  resultList.setOffset(getFullBounds.getWidth / 2 - resultList.getFullBounds.getWidth / 2, text.getFullBounds.getMaxY + 10)
   addChild(resultList)
 
-  val playAgainButton = new PSwing(Button("Play Again") {okButtonPressed()}.peer)
+  val playAgainButton = new PSwing(Button("game.play-again".translate) {okButtonPressed()}.peer)
   playAgainButton.setOffset(getFullBounds.getWidth / 2 - playAgainButton.getFullBounds.getWidth / 2, getFullBounds.getHeight - playAgainButton.getFullBounds.getHeight - 5)
   addChild(playAgainButton)
 }
@@ -169,8 +179,8 @@ object TestItemFinishedDialog {
 object TestGameFinishedDialog {
   def main(args: Array[String]) {
     val robotMovingCompanyGameModel = new RobotMovingCompanyGameModel(new MotionSeriesModel(5, true, MotionSeriesDefaults.defaultRampAngle), new ScalaClock(30, 30 / 1000.0), MotionSeriesDefaults.defaultRampAngle, 500.0, MotionSeriesDefaults.objects)
-    for (obj <- robotMovingCompanyGameModel.objectList){
-      robotMovingCompanyGameModel.resultMap(obj) = new Result(false,true,123,555)
+    for (obj <- robotMovingCompanyGameModel.objectList) {
+      robotMovingCompanyGameModel.resultMap(obj) = new Result(false, true, 123, 555)
     }
     val gameFinishedDialog = new GameFinishedDialog(robotMovingCompanyGameModel)
     TestDialog.test(gameFinishedDialog);
