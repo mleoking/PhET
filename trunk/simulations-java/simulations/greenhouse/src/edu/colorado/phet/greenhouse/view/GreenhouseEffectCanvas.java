@@ -45,9 +45,10 @@ public class GreenhouseEffectCanvas extends PhetPCanvas {
     PNode myWorldNode;
     
     // Layers for the canvas.
-    private PNode imageLayer;
+    private PNode photonLayer;
+    private PNode backgroundLayer;
     
-    // Nodes on the canvas.
+    // Background node.
     private PNode background;
     
     //----------------------------------------------------------------------------
@@ -86,12 +87,19 @@ public class GreenhouseEffectCanvas extends PhetPCanvas {
         myWorldNode = new PNode();
         addWorldChild(myWorldNode);
         
+        // Create and add the layers that will be used.  The order in which
+        // these are added effectively defines the layering.
+        backgroundLayer = new PNode();
+        myWorldNode.addChild(backgroundLayer);
+        photonLayer = new PNode();
+        myWorldNode.addChild(photonLayer);
+        
         // Add the background image.  Scale the image so that it fits the
         // height of the intermediate coordinates.
         background = new PImage(GreenhouseResources.getImage("today-2.gif"));
         background.setScale(GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE.height / background.getFullBoundsReference().height);
         background.setOffset(GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE.width / 2 - background.getFullBoundsReference().width / 2, 0);
-        myWorldNode.addChild(background);
+        backgroundLayer.addChild(background);
         
         // Update the layout.
         updateLayout();
@@ -151,6 +159,6 @@ public class GreenhouseEffectCanvas extends PhetPCanvas {
      */
     private void handlePhotonAdded(Photon photon){
     	PhotonNode photonNode = new PhotonNode(photon, mvt);
-    	addWorldChild(photonNode);
+    	photonLayer.addChild(photonNode);
     }
 }
