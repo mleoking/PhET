@@ -94,6 +94,7 @@ public class MembranePotentialChart extends PNode {
         	    	updateChart(clockEvent);
         	    }
         	    public void simulationTimeReset( ClockEvent clockEvent ) {
+        	    	recording = false;
         	    	clearChart();
         	    }
         	});
@@ -150,8 +151,15 @@ public class MembranePotentialChart extends PNode {
         clearButton.setFont(new PhetFont(14));
         clearButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// Stop recording and clear the chart.
-				recording = false;
+				// If an action potential is in progress, start or continue
+				// recording.
+				if (axonModel.isStimulusInitiationLockedOut()){
+					recording = true;
+				}
+				else{
+					recording = false;
+				}
+				// Clear the chart.
 				clearChart();
 			}
 		});
