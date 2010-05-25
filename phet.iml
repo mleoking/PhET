@@ -108,8 +108,6 @@
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
-    <content url="file://C:/local" />
-    <content url="file://C:/reid/svn-working-copy/trunk/projects/phet" />
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/build-tools/contrib/securechannelfacade/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/build-tools/src" isTestSource="false" />
@@ -234,10 +232,8 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d/extras/src/test/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d/swt/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d/swt/src/test/java" isTestSource="true" />
-      <excludeFolder url="file://$MODULE_DIR$/.manager" />
       <excludeFolder url="file://$MODULE_DIR$/bin" />
       <excludeFolder url="file://$MODULE_DIR$/build-tools/ant_output" />
-      <excludeFolder url="file://$MODULE_DIR$/simulations-flash/ant_output" />
       <excludeFolder url="file://$MODULE_DIR$/simulations-java/ant_output" />
       <excludeFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d-1.2.1" />
     </content>
