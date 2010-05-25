@@ -109,7 +109,12 @@ public abstract class PhetPage extends WebPage implements Stylable {
 
             add( HeaderContributor.forCss( CSS.PHET_PAGE ) );
 
-            add( new SearchPanel( "search-panel", getPageContext() ) );
+            if ( getPhetCycle().isOfflineInstaller() ) {
+                add( new InvisibleComponent( "search-panel" ) );
+            }
+            else {
+                add( new SearchPanel( "search-panel", getPageContext() ) );
+            }
 
             if ( prefix.startsWith( "/translation" ) && getVariation() != null ) {
                 final Translation translation = new Translation();

@@ -88,7 +88,12 @@ public class IndexPanel extends PhetPanel {
         }
         else {
             add( TeacherIdeasPanel.getLinker().getLink( "activities-link", context, getPhetCycle() ) );
-            add( ContributionBrowsePage.getLinker().getLink( "browse-activities-link", context, getPhetCycle() ) );
+            if ( getPhetCycle().isOfflineInstaller() ) {
+                add( new InvisibleComponent( "browse-activities-link" ) );
+            }
+            else {
+                add( ContributionBrowsePage.getLinker().getLink( "browse-activities-link", context, getPhetCycle() ) );
+            }
             add( TeacherIdeasPanel.getLinker().getLink( "submit-activity-link", context, getPhetCycle() ) );
         }
 
