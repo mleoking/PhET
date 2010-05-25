@@ -72,17 +72,15 @@ public class AxonModel implements IParticleCapture {
 	// Threshold of significant difference for concentration values.
 	private static final double CONCENTRATION_DIFF_THRESHOLD = 0.000001;
 	
-	// Rate at which the concentration moves toward the nominal value when
-	// changed.  These are in mM per second of simulation time, and simulation
-	// time is slower than real time.
-	private static final double INTERIOR_CONCENTRATION_RECOVERY_RATE_FOR_SODIUM = 0.01;     // mM / sec
-	private static final double EXTERIOR_CONCENTRATION_RECOVERY_RATE_FOR_SODIUM = 0.2;       // mM / sec
-	private static final double INTERIOR_CONCENTRATION_RECOVERY_RATE_FOR_POTASSIUM = 0.2;    // mM / sec
-	private static final double EXTERIOR_CONCENTRATION_RECOVERY_RATE_FOR_POTASSIUM = 0.005;  // mM / sec
-	
 	// Rate at which concentration is restored to nominal value.  Higher value
 	// means quicker restoration.
 	private static final double CONCENTRATION_RESTORATION_FACTOR = 1000;
+	
+	// Delay between the values in the HH model to the concentration readouts.
+	// This is needed to make sure that the concentration readouts don't
+	// change before visible potassium or sodium ions have crossed the
+	//membrane.
+	private static final double CONCENTRATION_READOUT_DELAY = 0.001;  // In seconds of sim time.
 	
 	// Countdown used for preventing the axon from receiving stimuli that
 	// are too close together.
@@ -571,7 +569,7 @@ public class AxonModel implements IParticleCapture {
     	// that can be displayed to the user, and are not used for anything
     	// else in the model.
     	boolean concentrationChanged = false;
-    	double potassiumConductance = hodgkinHuxleyModel.get_n4();
+    	double potassiumConductance = hodgkinHuxleyModel.get_delayed_n4(CONCENTRATION_READOUT_DELAY);
     	if (potassiumConductance != 0){
     		// Potassium is moving out of the cell as part of the process of
     		// an action potential, so adjust the interior and exterior
@@ -606,7 +604,7 @@ public class AxonModel implements IParticleCapture {
     			concentrationChanged = true;
     		}
     	}
-    	double sodiumConductance = hodgkinHuxleyModel.get_m3h();
+    	double sodiumConductance = hodgkinHuxleyModel.get_delayed_m3h(CONCENTRATION_READOUT_DELAY);
     	if (hodgkinHuxleyModel.get_m3h() != 0){
     		// Sodium is moving in to the cell as part of the process of an
     		// action potential, so adjust the interior and exterior
