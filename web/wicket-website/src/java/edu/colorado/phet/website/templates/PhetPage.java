@@ -17,6 +17,8 @@ import org.apache.wicket.model.IModel;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.PhetWicketApplication;
+import edu.colorado.phet.website.authentication.RegisterPage;
+import edu.colorado.phet.website.authentication.SignInPage;
 import edu.colorado.phet.website.components.*;
 import edu.colorado.phet.website.constants.CSS;
 import edu.colorado.phet.website.constants.Images;
@@ -128,7 +130,12 @@ public abstract class PhetPage extends WebPage implements Stylable {
                 add( new InvisibleComponent( "translation-preview-notification" ) );
             }
 
-            add( new LogInOutPanel( "log-in-out-panel", getPageContext() ) );
+            if ( this instanceof SignInPage || this instanceof RegisterPage ) {
+                add( new InvisibleComponent( "log-in-out-panel" ) );
+            }
+            else {
+                add( new LogInOutPanel( "log-in-out-panel", getPageContext() ) );
+            }
         }
 
         logger.debug( "request cycle is a : " + getRequestCycle().getClass().getSimpleName() );
