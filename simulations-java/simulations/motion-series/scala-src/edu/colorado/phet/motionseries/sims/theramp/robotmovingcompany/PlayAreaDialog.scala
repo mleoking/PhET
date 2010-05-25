@@ -5,7 +5,6 @@ import edu.colorado.phet.common.phetcommon.view.util.{BufferedImageUtils, PhetFo
 import edu.colorado.phet.common.piccolophet.nodes.layout.SwingLayoutNode
 import edu.colorado.phet.common.piccolophet.PhetPCanvas
 import edu.colorado.phet.scalacommon.ScalaClock
-import edu.umd.cs.piccolo.nodes.{PImage, PText}
 import edu.umd.cs.piccolo.PNode
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 import edu.colorado.phet.motionseries.model._
@@ -16,6 +15,7 @@ import edu.colorado.phet.motionseries.{MotionSeriesDefaults, MotionSeriesResourc
 import swing.Button
 import java.awt._
 import geom.{RoundRectangle2D, Line2D}
+import edu.umd.cs.piccolo.nodes.{PImage, PText}
 
 /**
  * The PlayAreaDialog is a piccolo node that looks like a window in the play area, used for instructions
@@ -85,7 +85,7 @@ class SummaryScreenNode(gameModel: RobotMovingCompanyGameModel,
   image.setOffset(background.getFullBounds.getCenterX - image.getFullBounds.width / 2, pText.getFullBounds.getMaxY + 20)
   addChild(image)
 
-  val doneButton = Button(okButtonText){
+  val doneButton = Button(okButtonText) {
     okPressed(SummaryScreenNode.this)
   }
   val donePSwing = new PSwing(doneButton.peer)
@@ -113,6 +113,47 @@ class SummaryScreenNode(gameModel: RobotMovingCompanyGameModel,
   def requestFocus() = doneButton.requestFocus()
 }
 
+class GameFinishedScreen(gameModel: RobotMovingCompanyGameModel) extends PlayAreaDialog(500, 500) {
+  def okButtonPressed() = {}
+  val text = new HTMLNode("game.summary.pattern.score".messageformat(gameModel.score)) {
+    setFont(new PhetFont(22, true))
+  }
+  addChild(text)
+
+  val resultList = new PNode {
+    for (obj <- gameModel.objectList) {
+      val icon = new PNode {
+        addChild(new PText(obj.name){setFont(new PhetFont(24))})
+        val result = gameModel.resultMap(obj)
+        val imageFilename = if (result.cliff) obj.crashImageFilename else obj.imageFilename
+        val image = new PImage(BufferedImageUtils.multiScaleToHeight(MotionSeriesResources.getImage(imageFilename),50))
+        image.setOffset(getFullBounds.getWidth+5,0)
+        addChild(image)
+      }
+      icon.setOffset(0,getFullBounds.getHeight+2)
+      addChild(icon)
+    }
+  }
+  resultList.setOffset(getFullBounds.getWidth/2-resultList.getFullBounds.getWidth/2,text.getFullBounds.getMaxY)
+  addChild(resultList)
+
+  val playAgainButton = new PSwing(Button("Play Again") {okButtonPressed()}.peer)
+  playAgainButton.setOffset(getFullBounds.getWidth / 2 - playAgainButton.getFullBounds.getWidth / 2, getFullBounds.getHeight - playAgainButton.getFullBounds.getHeight - 5)
+  addChild(playAgainButton)
+}
+
+object TestScreenNode {
+  def test(summaryScreen: PNode) = {
+    val frame = new JFrame
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
+    frame.setSize(800, 600)
+    val canvas = new PhetPCanvas()
+    canvas.addScreenChild(summaryScreen)
+    frame.setContentPane(canvas)
+    frame.setVisible(true)
+  }
+}
+
 object TestSummaryScreen {
   def main(args: Array[String]) {
     val robotMovingCompanyGameModel = new RobotMovingCompanyGameModel(new MotionSeriesModel(5, true, MotionSeriesDefaults.defaultRampAngle), new ScalaClock(30, 30 / 1000.0), MotionSeriesDefaults.defaultRampAngle, 500.0, MotionSeriesDefaults.objects)
@@ -120,12 +161,17 @@ object TestSummaryScreen {
       MotionSeriesDefaults.objects(0), new Result(true, false, 64, 100), a => {
         a.setVisible(false)
       }, "Ok".literal)
-    val frame = new JFrame
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
-    frame.setSize(800, 600)
-    val canvas = new PhetPCanvas()
-    canvas.addScreenChild(summaryScreenNode)
-    frame.setContentPane(canvas)
-    frame.setVisible(true)
+    TestScreenNode.test(summaryScreenNode);
+  }
+}
+
+object TestGameOverScreen {
+  def main(args: Array[String]) {
+    val robotMovingCompanyGameModel = new RobotMovingCompanyGameModel(new MotionSeriesModel(5, true, MotionSeriesDefaults.defaultRampAngle), new ScalaClock(30, 30 / 1000.0), MotionSeriesDefaults.defaultRampAngle, 500.0, MotionSeriesDefaults.objects)
+    for (obj <- robotMovingCompanyGameModel.objectList){
+      robotMovingCompanyGameModel.resultMap(obj) = new Result(false,true,123,555)
+    }
+    val gameFinishedScreen = new GameFinishedScreen(robotMovingCompanyGameModel)
+    TestScreenNode.test(gameFinishedScreen);
   }
 }

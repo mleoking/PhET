@@ -35,7 +35,7 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
 
   private var _launched = false
   private var _objectIndex = 0
-  private val resultMap = new HashMap[MotionSeriesObject, Result]
+  val resultMap = new HashMap[MotionSeriesObject, Result]
 
   //Event notifications
   val beadCreatedListeners = new ArrayBuffer[(ForceBead, MotionSeriesObject) => Unit]
@@ -170,8 +170,6 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
     if (resultMap.size == objectList.length) {
       gameFinishListeners.foreach(_())
     }
-    //    else //  automatically go to next object when you score or lose the object (instead of hitting next object button)
-    //      nextObject()
     notifyListeners()
   }
 

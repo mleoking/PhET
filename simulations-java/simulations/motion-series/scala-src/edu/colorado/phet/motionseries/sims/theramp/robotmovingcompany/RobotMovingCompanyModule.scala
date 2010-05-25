@@ -70,39 +70,36 @@ class RobotMovingCompanyModule(frame: PhetFrame,
     })
     if (!inited) {
       inited = true
-      SwingUtilities.invokeLater(new Runnable {
-        def run = {
+      inSwingThread {
+        //gray out the play area to help focus on the instruction panel
+        val overlayNode = new PhetPPath(new Rectangle(canvas.getWidth, canvas.getHeight), new Color(100, 120, 100, 240))
+        canvas.addScreenNode(overlayNode)
 
-          //gray out the play area to help focus on the instruction panel
-          val overlayNode = new PhetPPath(new Rectangle(canvas.getWidth, canvas.getHeight), new Color(100, 120, 100, 240))
-          canvas.addScreenNode(overlayNode)
-
-          MotionSeriesResources.getAudioClip("game/robot-moving-company-us8mon.wav".literal).play() //Play startup sound "Robot moving company"
-          val intro = new IntroScreen {
-            centerWithin(canvas.getWidth, canvas.getHeight)
-          }
-          canvas.addScreenNode(intro)
-
-          canvas.addKeyListener(new KeyAdapter {
-            override def keyPressed(e: KeyEvent) = {
-              canvas.removeKeyListener(this)
-              canvas.removeScreenNode(intro)
-              canvas.removeScreenNode(overlayNode)
-              val wiggleMeTimer = new Timer(5000,new ActionListener{
-                def actionPerformed(e: ActionEvent) = {
-                  //no keys pressed=> no energy used, remind the user they should use keyboard
-                  //but the intro screen keypress may have leaked over, so use a heuristic 92%
-                  if (!canvas.hasUserAppliedForce)
-                    canvas.showWiggleMe()
-                }
-              }){
-                setRepeats(false)
-                start()
-              }
-            }
-          })
+        MotionSeriesResources.getAudioClip("game/robot-moving-company-us8mon.wav".literal).play() //Play startup sound "Robot moving company"
+        val intro = new IntroScreen {
+          centerWithin(canvas.getWidth, canvas.getHeight)
         }
-      })
+        canvas.addScreenNode(intro)
+
+        canvas.addKeyListener(new KeyAdapter {
+          override def keyPressed(e: KeyEvent) = {
+            canvas.removeKeyListener(this)
+            canvas.removeScreenNode(intro)
+            canvas.removeScreenNode(overlayNode)
+            val wiggleMeTimer = new Timer(5000, new ActionListener {
+              def actionPerformed(e: ActionEvent) = {
+                //no keys pressed=> no energy used, remind the user they should use keyboard
+                //but the intro screen keypress may have leaked over, so use a heuristic 92%
+                if (!canvas.hasUserAppliedForce)
+                  canvas.showWiggleMe()
+              }
+            }) {
+              setRepeats(false)
+              start()
+            }
+          }
+        })
+      }
     }
   }
 }
