@@ -46,7 +46,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
   private var currentBeadNode: PNode = null //keep track of the current bead graphic for layering purposes
 
   gameModel.itemFinishedListeners += ((scalaRampObject: MotionSeriesObject, result: Result) => {
-    val summaryScreen = new SummaryScreenNode(gameModel, scalaRampObject, result, node => {
+    val summaryScreen = new ItemFinishedDialog(gameModel, scalaRampObject, result, node => {
       removeStageNode(node)
       requestFocus()
       if (gameModel.isLastObject(scalaRampObject))
@@ -205,7 +205,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
     val overlayNode = new PhetPPath(new Rectangle(getWidth, getHeight), new Color(100, 120, 100, 240))
     addScreenNode(overlayNode)
 
-    val gameFinishedDialog = new GameFinishedScreen(gameModel) {
+    val gameFinishedDialog = new GameFinishedDialog(gameModel) {
       centerWithin(RobotMovingCompanyCanvas.this.getWidth, RobotMovingCompanyCanvas.this.getHeight)
 
       override def okButtonPressed() = {
