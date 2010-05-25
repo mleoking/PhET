@@ -58,16 +58,25 @@
                             <origin>../../temp/website/phetsims.colorado.edu/css</origin>
                         </distributionDirectory>
                         <distributionDirectory>
+                            <origin>../../temp/website/phetsims.colorado.edu/files</origin>
+                        </distributionDirectory>
+                        <distributionDirectory>
                             <origin>../../temp/website/phetsims.colorado.edu/images</origin>
+                        </distributionDirectory>
+                        <distributionDirectory>
+                            <origin>../../temp/website/phetsims.colorado.edu/newsletters</origin>
+                        </distributionDirectory>
+                        <distributionDirectory>
+                            <origin>../../temp/website/phetsims.colorado.edu/publications</origin>
+                        </distributionDirectory>
+                        <distributionDirectory>
+                            <origin>../../temp/website/phetsims.colorado.edu/sims</origin>
                         </distributionDirectory>
                         <distributionDirectory>
                             <origin>../../temp/website/phetsims.colorado.edu/index.html</origin>
                         </distributionDirectory>
                         <distributionDirectory>
                             <origin>../../temp/website/phetsims.colorado.edu/version.html</origin>
-                        </distributionDirectory>
-                        <distributionDirectory>
-                            <origin>../../temp/website/phetsims.colorado.edu/sims</origin>
                         </distributionDirectory>
                     </distributionFileList>
 
