@@ -93,7 +93,7 @@ public class RotatorPanel extends PhetPanel {
 
             // encode it
             builder.append( URLEncoder.encode( value, "UTF-8" ) );
-            builder.append( "&" );
+            builder.append( "&amp;" );
         }
         catch( UnsupportedEncodingException e ) {
             e.printStackTrace();
