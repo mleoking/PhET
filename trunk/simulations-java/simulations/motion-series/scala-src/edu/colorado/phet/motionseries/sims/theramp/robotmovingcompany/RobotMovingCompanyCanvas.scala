@@ -41,9 +41,9 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
   vectorViewModel.sumOfForcesVector = true
   freeBodyDiagramModel.visible = true
   freeBodyDiagramModel.closable = false
-  private var numClockTicksWithUserApplication = 0//for determining if they need a wiggle me
+  private var numClockTicksWithUserApplication = 0 //for determining if they need a wiggle me
 
-  private var currentBeadNode:PNode = null //keep track of the current bead graphic for layering purposes
+  private var currentBeadNode: PNode = null //keep track of the current bead graphic for layering purposes
 
   gameModel.itemFinishedListeners += ((scalaRampObject: MotionSeriesObject, result: Result) => {
     val summaryScreen = new SummaryScreenNode(gameModel, scalaRampObject, result, node => {
@@ -70,15 +70,15 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
 
   val intermediateNode = new PNode
   addScreenNode(intermediateNode)
-  
+
   val houseNode = new BeadNode(gameModel.house, transform, MotionSeriesDefaults.house.imageFilename)
   addStageNode(houseNode)
 
   //layer that shows what's behind the door.
-//  val doorBackgroundNode = new BeadNode(gameModel.doorBackground, transform, MotionSeriesDefaults.doorBackground.imageFilename)
-//  addStageNode(doorBackgroundNode)
+  //  val doorBackgroundNode = new BeadNode(gameModel.doorBackground, transform, MotionSeriesDefaults.doorBackground.imageFilename)
+  //  addStageNode(doorBackgroundNode)
 
-  addStageNode(new InstructionsNode{
+  addStageNode(new InstructionsNode {
     setOffset(getStage.getWidth - getFullBounds.getWidth, 5)
   })
 
@@ -150,7 +150,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
 
   userInputModel.addListener(() => {
     numClockTicksWithUserApplication = numClockTicksWithUserApplication + 1
-//    println("num clock ticks with user input = "+numClockTicksWithUserApplication)
+    //    println("num clock ticks with user input = "+numClockTicksWithUserApplication)
     gameModel.bead.parallelAppliedForce = if (gameModel.robotEnergy > 0) userInputModel.appliedForce else 0.0
   }) //todo: when robot energy hits zero, applied force should disappear
 
@@ -201,8 +201,21 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
   }
 
   def showGameSummary() = {
-    JOptionPane.showMessageDialog(RobotMovingCompanyCanvas.this, "game.summary.pattern.score".messageformat(gameModel.score))
-    gameModel.resetAll()
+    //gray out the play area to help focus on the results
+    val overlayNode = new PhetPPath(new Rectangle(getWidth, getHeight), new Color(100, 120, 100, 240))
+    addScreenNode(overlayNode)
+
+    val gameFinishedDialog = new GameFinishedScreen(gameModel) {
+      centerWithin(RobotMovingCompanyCanvas.this.getWidth, RobotMovingCompanyCanvas.this.getHeight)
+
+      override def okButtonPressed() = {
+        removeScreenNode(overlayNode)
+        removeScreenNode(this)
+        gameModel.resetAll()
+        RobotMovingCompanyCanvas.this.requestFocus()
+      }
+    }
+    addScreenNode(gameFinishedDialog)
   }
 
   override def updateFBDLocation() = {
@@ -225,7 +238,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
     icon.setOffset(pt)
     addStageNode(icon)
 
-    val roboBead = MovingManBead(model,-10 - a.width / 2, 1, 3)
+    val roboBead = MovingManBead(model, -10 - a.width / 2, 1, 3)
 
     val pusherNode = new RobotPusherNode(transform, bead, roboBead)
     addStageNode(pusherNode)
@@ -276,13 +289,13 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
 
   override def createEarthNode = new EarthNodeWithCliff(transform, model.rampSegments(1).length, gameModel.airborneFloor)
 
-  def showWiggleMe(){
+  def showWiggleMe() {
     val instructionsNode = new InstructionsNode {
       scale(2.0)
-      setOffset(RobotMovingCompanyCanvas.this.getWidth / 2-getFullBounds.getWidth/2, RobotMovingCompanyCanvas.this.getHeight / 4)
+      setOffset(RobotMovingCompanyCanvas.this.getWidth / 2 - getFullBounds.getWidth / 2, RobotMovingCompanyCanvas.this.getHeight / 4)
     }
     addScreenNode(instructionsNode)
-    addKeyListener(new KeyAdapter(){
+    addKeyListener(new KeyAdapter() {
       override def keyPressed(e: KeyEvent) = {
         removeKeyListener(this)
         removeScreenNode(instructionsNode)
