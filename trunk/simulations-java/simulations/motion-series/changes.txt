@@ -1,3 +1,4 @@
+# 1.03.65 (41163) May 25, 2010
 Fixed: Object shouldn't go behind house if it misses the door
 Show crashed image icons in summary windows during game mode, if object crashed
 After 10 seconds of no arrows key pressing, pop up the "press arrow keys icon"
