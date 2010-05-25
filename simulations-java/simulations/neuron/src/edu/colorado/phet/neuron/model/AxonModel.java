@@ -80,6 +80,10 @@ public class AxonModel implements IParticleCapture {
 	private static final double INTERIOR_CONCENTRATION_RECOVERY_RATE_FOR_POTASSIUM = 0.2;    // mM / sec
 	private static final double EXTERIOR_CONCENTRATION_RECOVERY_RATE_FOR_POTASSIUM = 0.005;  // mM / sec
 	
+	// Rate at which concentration is restored to nominal value.  Higher value
+	// means quicker restoration.
+	private static final double CONCENTRATION_RESTORATION_FACTOR = 1000;
+	
 	// Countdown used for preventing the axon from receiving stimuli that
 	// are too close together.
 	private static final double STIM_LOCKOUT_TIME = 0.01;  // Seconds of sim time.
@@ -585,7 +589,7 @@ public class AxonModel implements IParticleCapture {
     			}
     			else{
     				// Move closer to the nominal value.
-    				potassiumExteriorConcentration -= difference * 1000 * dt; 
+    				potassiumExteriorConcentration -= difference * CONCENTRATION_RESTORATION_FACTOR * dt; 
     			}
     			concentrationChanged = true;
     		}
@@ -597,7 +601,7 @@ public class AxonModel implements IParticleCapture {
     			}
     			else{
     				// Move closer to the nominal value.
-    				potassiumInteriorConcentration += difference * 1000 * dt; 
+    				potassiumInteriorConcentration += difference * CONCENTRATION_RESTORATION_FACTOR * dt; 
     			}
     			concentrationChanged = true;
     		}
@@ -612,18 +616,27 @@ public class AxonModel implements IParticleCapture {
     		concentrationChanged = true;
     	}
     	else{
-    		// Move back towards the nominal concentrations.
     		if (sodiumExteriorConcentration != NOMINAL_SODIUM_EXTERIOR_CONCENTRATION){
-    			sodiumExteriorConcentration += EXTERIOR_CONCENTRATION_RECOVERY_RATE_FOR_SODIUM * dt;
-    			if (sodiumExteriorConcentration > NOMINAL_SODIUM_EXTERIOR_CONCENTRATION){
+    			double difference = Math.abs(sodiumExteriorConcentration - NOMINAL_SODIUM_EXTERIOR_CONCENTRATION);
+    			if (difference < CONCENTRATION_DIFF_THRESHOLD){
+    				// Close enough to consider it fully restored.
     				sodiumExteriorConcentration = NOMINAL_SODIUM_EXTERIOR_CONCENTRATION;
+    			}
+    			else{
+    				// Move closer to the nominal value.
+    				sodiumExteriorConcentration += difference * CONCENTRATION_RESTORATION_FACTOR * dt; 
     			}
     			concentrationChanged = true;
     		}
     		if (sodiumInteriorConcentration != NOMINAL_SODIUM_INTERIOR_CONCENTRATION){
-    			sodiumInteriorConcentration -= INTERIOR_CONCENTRATION_RECOVERY_RATE_FOR_SODIUM * dt;
-    			if (sodiumInteriorConcentration < NOMINAL_SODIUM_INTERIOR_CONCENTRATION){
+    			double difference = Math.abs(sodiumInteriorConcentration - NOMINAL_SODIUM_INTERIOR_CONCENTRATION);
+    			if (difference < CONCENTRATION_DIFF_THRESHOLD){
+    				// Close enough to consider it fully restored.
     				sodiumInteriorConcentration = NOMINAL_SODIUM_INTERIOR_CONCENTRATION;
+    			}
+    			else{
+    				// Move closer to the nominal value.
+    				sodiumInteriorConcentration -= difference * CONCENTRATION_RESTORATION_FACTOR * dt; 
     			}
     			concentrationChanged = true;
     		}
