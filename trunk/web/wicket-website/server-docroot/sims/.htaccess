@@ -1,0 +1,110 @@
+#
+# HTACCESS file for remapping old simulations to new
+#
+#
+# This has been refactored to use the rewrite engine, which is more
+# powerful and gives the flexibility needed to handle the various
+# redirects needed during the IOM transition period, as well as pre
+# and post.
+#
+# The engine is engine is extremely powerful at the cost of being
+# extremely complex.  Be *very* careful when making edits in here.  A
+# badly formed command can stop everything from working at best, and
+# hork things in a not-so-immediately-obvious fashion.  It is
+# recommended to add new items to the bottom, and only if you must.
+#
+# Many of the file checks should be removed after all the sims have
+# been redeployed for IOM and deemed "safe" (will not be reverted).
+#
+
+# Put in a quarter and...
+RewriteEngine on
+
+# Base directory that the rules direct to
+
+# This should be relative to the DOCUMENT_ROOT, which means /sims on
+# tigercat.  On your dev machine it will probably be something
+# different.  If you change this, DO NOT check it back in!
+RewriteBase /sims
+
+# If the request is a file or directory and it exists, we're done
+# These add overhead but are important for a seamless pre->post IOM release
+# Remove these after ALL sims have been re-released
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule .* %{REQUEST_FILENAME} [L]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule .* %{REQUEST_FILENAME} [L]
+
+# Convert all requests for old project names, check the new file exists
+# ex: balloons.jar -> balloons_all.jar
+RewriteCond %{DOCUMENT_ROOT}/sims/$1_all.jar -f
+RewriteRule ^([-a-z0-9/]+)\.jar$ $1_all.jar [L,R=permanent]
+
+#ex: balloons.jnlp -> balloons_en.jnlp
+RewriteCond %{DOCUMENT_ROOT}/sims/$1_en.jnlp -f
+RewriteRule ^([-a-z0-9/]+)\.jnlp$ $1_en.jnlp [L,R=permanent]
+
+# Convert requests for old simulation names to English versions, check the new file exists
+RewriteCond %{DOCUMENT_ROOT}/sims/$1_en.jar -f
+RewriteRule ^([-a-z0-9/]+)\.jar$ $1_en.jar [L,R=permanent]
+
+# ohm-1d changed to batter-resistor-circuit
+RewriteCond %{DOCUMENT_ROOT}/sims/battery-resistor-circuit/battery-resistor-circuit$1 -f
+RewriteRule ^ohm-1d/ohm-1d(.*)$ battery-resistor-circuit/battery-resistor-circuit$1 [L,R=permanent]
+RewriteCond %{DOCUMENT_ROOT}/sims/battery-resistor-circuit/battery-resistor-circuit_all.jar -f
+RewriteRule ^ohm-1d/ohm-1d.jar$ battery-resistor-circuit/battery-resistor-circuit_all.jar [L,R=permanent]
+RewriteCond %{DOCUMENT_ROOT}/sims/battery-resistor-circuit/battery-resistor-circuit_en.jnlp -f
+RewriteRule ^ohm-1d/ohm-1d.jnlp$ battery-resistor-circuit/battery-resistor-circuit_en.jnlp [L,R=permanent]
+RewriteCond %{DOCUMENT_ROOT}/sims/battery-resistor-circuit/ -d
+RewriteRule ^ohm-1d/?$ battery-resistor-circuit/ [L,R=permanent]
+
+# fluorescent-lights changed to discharge-lamps
+RewriteRule ^fluorescent-lights/fluorescent-lights.jar$ discharge-lamps/discharge-lamps.jar [L,R=permanent]
+RewriteRule ^fluorescent-lights/fluorescent-lights.jnlp$ discharge-lamps/discharge-lamps.jnlp [L,R=permanent]
+RewriteRule ^fluorescent-lights/fluorescent-lights_all.jar$ discharge-lamps/discharge-lamps.jar [L,R=permanent]
+RewriteRule ^fluorescent-lights/fluorescent-lights_es.jnlp$ discharge-lamps/discharge-lamps_es.jnlp [L,R=permanent]
+RewriteRule ^fluorescent-lights/fluorescent-lights_pt.jnlp$ discharge-lamps/discharge-lamps_pt.jnlp [L,R=permanent]
+RewriteRule ^fluorescent-lights(.*)$ discharge-lamps$1 [L,R=permanent]
+
+# qwi changed to quantum-wave-interference
+RewriteRule ^qwi/qwi-dg.jar$ quantum-wave-interference/davisson-germer.jar [L,R=permanent]
+RewriteRule ^qwi/qwi-dg.jnlp$ quantum-wave-interference/davisson-germer.jnlp [L,R=permanent]
+RewriteRule ^qwi/qwi-dg_el.jnlp$ quantum-wave-interference/davisson-germer_el.jnlp [L,R=permanent]
+RewriteRule ^qwi/qwi-dg_pt.jnlp$ quantum-wave-interference/davisson-germer_pt.jnlp [L,R=permanent]
+RewriteRule ^qwi/qwi.jar$ quantum-wave-interference/quantum-wave-interference.jar [L,R=permanent]
+RewriteRule ^qwi/qwi.jnlp$ quantum-wave-interference/quantum-wave-interference.jnlp [L,R=permanent]
+RewriteRule ^qwi/qwi_all.jar$ quantum-wave-interference/quantum-wave-interference.jar [L,R=permanent]
+RewriteRule ^qwi/qwi_el.jnlp$ quantum-wave-interference/quantum-wave-interference_el.jnlp [L,R=permanent]
+RewriteRule ^qwi/qwi_pt.jnlp$ quantum-wave-interference/quantum-wave-interference_pt.jnlp [L,R=permanent]
+RewriteRule ^qwi(.*)$ quantum-wave-interference$1 [L,R=permanent]
+
+# waveinterference changed to wave-interference
+RewriteRule ^waveinterference/waveinterference.jar$ wave-interference/wave-interference.jar [L,R=permanent]
+RewriteRule ^waveinterference/waveinterference.jnlp$ wave-interference/wave-interference.jnlp [L,R=permanent]
+RewriteRule ^waveinterference/waveinterference_all.jar$ wave-interference/wave-interference.jar [L,R=permanent]
+RewriteRule ^waveinterference/waveinterference_es.jnlp$ wave-interference/wave-interference_es.jnlp [L,R=permanent]
+RewriteRule ^waveinterference/waveinterference_pt.jnlp$ wave-interference/wave-interference_pt.jnlp [L,R=permanent]
+RewriteRule ^waveinterference/waveinterference_sr.jnlp$ wave-interference/wave-interference_sr.jnlp [L,R=permanent]
+RewriteRule ^waveinterference/waveinterference_sv.jnlp$ wave-interference/wave-interference_sv.jnlp [L,R=permanent]
+RewriteRule ^waveinterference(.*)$ wave-interference$1 [L,R=permanent]
+
+# cck changed to circuit-construction-kit
+RewriteRule ^cck/cck.jar$ circuit-construction-kit/circuit-construction-kit.jar [L,R=permanent]
+RewriteRule ^cck/cck_all.jar$ circuit-construction-kit/circuit-construction-kit.jar [L,R=permanent]
+RewriteRule ^cck/cck(.*)$ circuit-construction-kit/circuit-construction-kit$1 [L,R=permanent]
+RewriteRule ^cck(.*)$ circuit-construction-kit$1 [L,R=permanent]
+
+# Redirects for Nuclear Physics, which was split into Nuclear Fission and Alpha Decay in September 2008.
+# Adaped and enhanced from their original versions, they were causing problems with the new project names
+RewriteRule ^nuclear-physics/nuclear-physics.jnlp$ nuclear-physics/nuclear-fission.jnlp [L,R=permanent]
+RewriteRule ^nuclear-physics/nuclear-physics_(..)\.(.*)$ nuclear-physics/nuclear-fission_$1.$2 [L,R=permanent]
+
+# Misc really really old sims that still get requests, take them to the sim page rather than the sim
+RewriteRule ^black-body-radiation/black-body-radiation.swf$ http://phet.colorado.edu/simulations/sims.php?sim=Blackbody_Spectrum [L,R=permanent]
+RewriteRule ^lens/lens.swf$ http://phet.colorado.edu/simulations/sims.php?sim=Geometric_Optics [L,R=permanent]
+RewriteRule ^veqir/veqir.swf$ http://phet.colorado.edu/simulations/sims.php?sim=Ohms_Law [L,R=permanent]
+RewriteRule ^curve-fit/curve-fit.swf$ http://phet.colorado.edu/simulations/sims.php?sim=Curve_Fitting [L,R=permanent]
+RewriteRule ^faraday-mx/faraday-mx.swf$ http://phet.colorado.edu/simulations/sims.php?sim=Faradays_Law [L,R=permanent]
+RewriteRule ^stern-gerlacher/stern-gerlach.swf$ http://phet.colorado.edu/simulations/sims.php?sim=Stern_Gerlach [L,R=permanent]
+RewriteRule ^string-wave/string-wave.swf$ http://phet.colorado.edu/simulations/sims.php?sim=Wave_on_a_String [L,R=permanent]
+RewriteRule ^vector-math/vector-math.swf$ http://phet.colorado.edu/simulations/sims.php?sim=Vector_Addition [L,R=permanent]
