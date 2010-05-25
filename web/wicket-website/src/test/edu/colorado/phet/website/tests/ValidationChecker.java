@@ -19,7 +19,7 @@ public class ValidationChecker {
             URL url = new URL( "http://validator.w3.org/check?uri=" + URLEncoder.encode( uri, "UTF-8" ) );
             conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod( "GET" );
-            conn.setReadTimeout( 60000 );
+            conn.setReadTimeout( 30000 );
             conn.setInstanceFollowRedirects( false );
             conn.setDoInput( true );
             conn.connect();
@@ -45,6 +45,7 @@ public class ValidationChecker {
         }
         catch( IOException e ) {
             e.printStackTrace();
+            System.out.println( "Throw in checking url: " + uri );
         }
         finally {
             if ( conn != null ) {
