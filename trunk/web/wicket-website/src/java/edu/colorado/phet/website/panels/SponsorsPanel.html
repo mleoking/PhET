@@ -20,15 +20,16 @@
 
         <div class="header">
         </div>
-        <dl>
-            <dt>
+        <div class="sponsors-fake-dl">
+            <div class="sponsors-fake-dt">
                 <a class="sponsor-text-link" href="http://www.hewlett.org/">The William and Flora Hewlett Foundation</a>
 
-            </dt>
+            </div>
 
-            <dd>
+            <div class="sponsors-fake-dd">
                 <a href="http://www.hewlett.org/">
-                    <img src="/images/sponsors/hewlett-logo.jpg" alt="The Hewlett Logo" class="spons"/>
+                    <img wicket:id="hewlett-logo" src="../../../../../../../root/images/sponsors/hewlett-logo.jpg"
+                         alt="The Hewlett Logo" class="spons"/>
                 </a>
                 <br/>
 
@@ -37,15 +38,17 @@
                     problems facing society, where risk
                     capital, responsibly invested, may make a difference over time.
                 </wicket:message>
-            </dd>
+            </div>
 
-            <dt>
+            <div class="sponsors-fake-dt">
                 <a href="http://www.nsf.gov/">
-                    <img class="spons" src="/images/sponsors/nsf-logo.gif" alt="The NSF Logo"/>National Science
-                    Foundation</a>
-            </dt>
+                    <img wicket:id="nsf-logo" class="spons" src="../../../../../../../root/images/sponsors/nsf-logo.gif"
+                         alt="The NSF Logo"/>
+                    National Science Foundation
+                </a>
+            </div>
 
-            <dd>
+            <div class="sponsors-fake-dd">
                 <br/>
                 <wicket:message key="sponsors.nsf">An independent federal agency created by Congress in 1950 to promote
                     the progress of science.
@@ -53,18 +56,18 @@
                 <br/>
 
                 <br/>
-            </dd>
+            </div>
 
-            <dt>
-                <!-- TODO: turn into StaticImage components-->
+            <div class="sponsors-fake-dt">
                 <a href="http://www.ksu.edu.sa/">
                     Excellence Center of Science and Mathematics Education at King Saud University
                 </a>
-            </dt>
+            </div>
 
-            <dd>
+            <div class="sponsors-fake-dd">
                 <a href="http://www.ksu.edu.sa/">
-                    <img class="spons" src="/images/sponsors/ECSME-combined-logo-med.jpg"
+                    <img wicket:id="ecsme-logo" class="spons"
+                         src="../../../../../../../root/images/sponsors/ECSME-combined-logo-med.jpg"
                          alt="The King Saud (ESCME) Logo"/>
                 </a>
                 <br/>
@@ -75,28 +78,29 @@
                 </wicket:message>
                 <br/>
                 <br/>
-            </dd>
-            <dt>
-            <div class="other-sponsors-holder" dir="ltr">
-                <table class="other-sponsors-table" cellpadding="0" cellspacing="0">
-                    <tr>
-                        <td class="other-sponsors-left">
-
-                        </td>
-                        <td class="other-sponsors-middle">
-                            <a href="../sponsors/index.php" wicket:id="sponsors-link">
-                                <wicket:message key="sponsors.otherSponsors">Other Sponsors &gt;&gt;</wicket:message>
-                            </a>
-                        </td>
-                        <td class="other-sponsors-right">
-
-                        </td>
-                    </tr>
-                </table>
             </div>
-            </dt>
+            <div class="sponsors-fake-dt">
+                <div class="other-sponsors-holder" dir="ltr">
+                    <table class="other-sponsors-table" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td class="other-sponsors-left">
 
-        </dl>
+                            </td>
+                            <td class="other-sponsors-middle">
+                                <a href="#" wicket:id="sponsors-link" id="sponsors-panel-link">
+                                    <wicket:message key="sponsors.otherSponsors">Other Sponsors
+                                        &gt;&gt;</wicket:message>
+                                </a>
+                            </td>
+                            <td class="other-sponsors-right">
+
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+        </div>
     </div>
 </wicket:panel>
 

@@ -33,7 +33,7 @@ a img.spons {
     border: medium none;
 }
 
-#spons dl {
+#spons div.sponsors-fake-dl {
     width: 158px;
     background-image: url(../images/relatedLinksBTTM_BG.gif);
     background-repeat: no-repeat;
@@ -46,12 +46,12 @@ a img.spons {
     border: medium none;
 }
 
-#spons dt, #spons dd {
+#spons div.sponsors-fake-dt, #spons div.sponsors-fake-dd {
     margin: 0pt;
     padding: 0pt 0pt 4px 18px;
 }
 
-#spons dd {
+#spons div.sponsors-fake-dd {
     border-bottom: 1px solid #cccccc;
     color: #313131;
     line-height: 1.2em;
@@ -59,17 +59,17 @@ a img.spons {
     padding-bottom: 15px;
 }
 
-dl a:hover {
+#spons div.sponsors-fake-dd a:hover {
     color: #cc6600;
 }
 
-#spons dt a, #spons dd a {
+#spons div.sponsors-fake-dt a, #spons div.sponsors-fake-dd a {
     color: #294ca8;
     font-weight: bold;
     text-decoration: underline;
 }
 
-#spons dt {
+#spons div.sponsors-fake-dt {
     background-color: transparent;
     background-image: url(../images/circleArrow_Icon.gif);
     background-repeat: no-repeat;
@@ -104,7 +104,7 @@ dl a:hover {
     background-image: url(../images/small-button-middle.gif);
 }
 
-#spons .other-sponsors-middle a {
+#spons a#sponsors-panel-link {
     height: 24px;
     font-size: 10px;
     line-height: 19px;
