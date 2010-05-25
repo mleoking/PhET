@@ -27,10 +27,7 @@ import edu.colorado.phet.website.data.contribution.ContributionType;
 import edu.colorado.phet.website.data.contribution.Level;
 import edu.colorado.phet.website.data.contribution.Type;
 import edu.colorado.phet.website.panels.PhetPanel;
-import edu.colorado.phet.website.util.HibernateTask;
-import edu.colorado.phet.website.util.HibernateUtils;
-import edu.colorado.phet.website.util.PageContext;
-import edu.colorado.phet.website.util.StringUtils;
+import edu.colorado.phet.website.util.*;
 
 /**
  * Displays 4 multiple-choices boxes to select from simulations, types, levels, and languages, and has a text box to
@@ -83,7 +80,7 @@ public class ContributionSearchPanel extends PhetPanel {
                 }
                 else {
                     optionComponent = new Label( "simulation-title", lsim.getTitle() );
-                    item.add( new AttributeModifier( "title", true, new Model<String>( lsim.getTitle() ) ) );
+                    item.add( new AttributeModifier( "title", true, new Model<String>( HtmlUtils.encode( lsim.getTitle() ) ) ) );
                     value = Integer.toString( lsim.getSimulation().getId() );
                 }
                 optionComponent.setRenderBodyOnly( true );
