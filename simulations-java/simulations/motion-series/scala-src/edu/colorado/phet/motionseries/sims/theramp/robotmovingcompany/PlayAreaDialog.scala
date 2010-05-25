@@ -118,6 +118,7 @@ class GameFinishedDialog(gameModel: RobotMovingCompanyGameModel) extends PlayAre
   val text = new HTMLNode("game.summary.pattern.score".messageformat(gameModel.score)) {
     setFont(new PhetFont(22, true))
   }
+  text.setOffset(getFullBounds.getWidth/2-text.getFullBounds.getWidth/2,5)
   addChild(text)
 
   val resultList = new PNode {
@@ -134,7 +135,7 @@ class GameFinishedDialog(gameModel: RobotMovingCompanyGameModel) extends PlayAre
       addChild(icon)
     }
   }
-  resultList.setOffset(getFullBounds.getWidth/2-resultList.getFullBounds.getWidth/2,text.getFullBounds.getMaxY)
+  resultList.setOffset(getFullBounds.getWidth/2-resultList.getFullBounds.getWidth/2,text.getFullBounds.getMaxY+10)
   addChild(resultList)
 
   val playAgainButton = new PSwing(Button("Play Again") {okButtonPressed()}.peer)
