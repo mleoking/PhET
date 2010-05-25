@@ -95,9 +95,9 @@ public class TranslationListPanel extends PhetPanel implements CacheableUrlStati
         HibernateUtils.orderSimulations( localizedSimulations, context.getLocale() );
 
         add( new Label( "locale-header", locale.getDisplayName( locale ) + " " + StringUtils.getLocaleTitle( locale, context.getLocale(), (PhetLocalizer) getLocalizer() ) ) );
-        add( new ListView( "translations", localizedSimulations ) {
-            protected void populateItem( ListItem item ) {
-                LocalizedSimulation lsim = (LocalizedSimulation) item.getModel().getObject();
+        add( new ListView<LocalizedSimulation>( "translations", localizedSimulations ) {
+            protected void populateItem( ListItem<LocalizedSimulation> item ) {
+                LocalizedSimulation lsim = item.getModelObject();
 
                 Link simLink = SimulationPage.getLinker( lsim ).getLink( "sim-link", context, getPhetCycle() );
                 simLink.add( new Label( "title-translated", lsim.getTitle() ) );
@@ -125,9 +125,9 @@ public class TranslationListPanel extends PhetPanel implements CacheableUrlStati
             add( new InvisibleComponent( "untranslated-list" ) );
         }
         else {
-            add( new ListView( "untranslated-list", untranslatedSimulations ) {
-                protected void populateItem( ListItem item ) {
-                    LocalizedSimulation lsim = (LocalizedSimulation) item.getModel().getObject();
+            add( new ListView<LocalizedSimulation>( "untranslated-list", untranslatedSimulations ) {
+                protected void populateItem( ListItem<LocalizedSimulation> item ) {
+                    LocalizedSimulation lsim = item.getModelObject();
                     Link link = SimulationPage.getLinker( lsim ).getLink( "untranslated-link", context, getPhetCycle() );
                     link.add( new Label( "untranslated-title", lsim.getTitle() ) );
                     item.add( link );
