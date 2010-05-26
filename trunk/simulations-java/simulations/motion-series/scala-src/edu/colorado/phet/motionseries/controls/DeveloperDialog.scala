@@ -3,7 +3,6 @@ package edu.colorado.phet.motionseries.controls
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils
 import edu.colorado.phet.common.phetcommon.view.{VerticalLayoutPanel, PhetFrame}
 import javax.swing.{JDialog}
-import swing.ScalaValueControl
 import edu.colorado.phet.motionseries.Predef._
 import edu.colorado.phet.motionseries.MotionSeriesConfig
 import edu.colorado.phet.motionseries.swing.ScalaValueControl

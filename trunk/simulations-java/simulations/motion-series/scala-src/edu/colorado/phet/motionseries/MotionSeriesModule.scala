@@ -19,7 +19,6 @@ class MotionSeriesModule(frame: PhetFrame,
     new MotionSeriesModel(defaultBeadPosition, pausedOnReset, initialAngle)
 
   val motionSeriesModel = createMotionSeriesModel(defaultBeadPosition, pausedOnReset, initialAngle)
-  val wordModel = new WordModel
   val fbdModel = new FreeBodyDiagramModel(fbdPopupOnly)
   val coordinateSystemModel = new AdjustableCoordinateModel
   val vectorViewModel = new VectorViewModel
@@ -51,7 +50,6 @@ class MotionSeriesModule(frame: PhetFrame,
 
   def resetRampModule(): Unit = {
     motionSeriesModel.resetAll()
-    wordModel.resetAll()
     fbdModel.resetAll()
     coordinateSystemModel.resetAll()
     vectorViewModel.resetAll()

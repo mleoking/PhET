@@ -35,7 +35,7 @@ class ForcesAndMotionModule(frame: PhetFrame,
   val canvas = new ForcesAndMotionCanvas(motionSeriesModel, coordinateSystemModel, fbdModel, vectorViewModel, frame,
     showObjectSelectionNode, showAppliedForceSlider, initialAngle != 0.0, modelViewport, stageContainerArea)
   setSimulationPanel(canvas)
-  val controlPanel = new RampControlPanel(motionSeriesModel, wordModel, fbdModel, coordinateSystemModel, vectorViewModel,
+  val controlPanel = new RampControlPanel(motionSeriesModel, fbdModel, coordinateSystemModel, vectorViewModel,
     resetRampModule, coordinateSystemFeaturesEnabled, useObjectComboBox, motionSeriesModel, false, showFrictionControl, showBounceControl)
   setControlPanel(controlPanel)
   setClockControlPanel(new RecordAndPlaybackControlPanel(motionSeriesModel, canvas, 20))
