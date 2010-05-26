@@ -1,6 +1,5 @@
 package edu.colorado.phet.website.translation;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -43,7 +42,7 @@ public class TranslationMainPage extends TranslationPage {
         add( new CreateTranslationForm( "create-new-translation-form" ) );
 
         TranslationListPanel translationList = new TranslationListPanel( "translation-list-panel", getPageContext() );
-        
+
         add( translationList );
 
         add( new CopyTranslationForm( "create-version-translation-form", translationList.getTranslations() ) );
