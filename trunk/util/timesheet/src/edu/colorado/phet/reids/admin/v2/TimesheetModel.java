@@ -23,6 +23,14 @@ class TimesheetModel {
         dirtyListeners.add(dirtyListener);
     }
 
+    public Entry[] getEntriesForCategory(String category) {
+        ArrayList<Entry> e= new ArrayList<Entry>();
+        for (Entry entry : entries) {
+            if (entry.getCategory().equals(category))e.add(entry);
+        }
+        return e.toArray(new Entry[0]);
+    }
+
     //dirty if changes haven't been saved
 
     public static interface DirtyListener {

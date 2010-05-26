@@ -1,10 +1,7 @@
 package edu.colorado.phet.reids.admin.v2;
 
 import javax.swing.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Hashtable;
+import java.util.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -15,8 +12,10 @@ import java.util.Hashtable;
  */
 public class ReportFrame {
     private JFrame frame = new JFrame();
+    private TimesheetModel selection;
 
     public ReportFrame(TimesheetModel selection) {
+        this.selection = selection;
         final Hashtable<String, Long> table = new Hashtable<String, Long>();
         for (int i = 0; i < selection.getEntryCount(); i++) {
             Entry e = selection.getEntry(i);
@@ -27,8 +26,8 @@ public class ReportFrame {
         }
 //        text += table;
 
-        ArrayList<String> keys = new ArrayList<String>(table.keySet());
-        Collections.sort(keys, new Comparator<String>() {
+        ArrayList<String> sortedKeys = new ArrayList<String>(table.keySet());
+        Collections.sort(sortedKeys, new Comparator<String>() {
             public int compare(String o1, String o2) {
                 return -Double.compare(table.get(o1), table.get(o2));//reverse so most used appear first
             }
@@ -36,17 +35,38 @@ public class ReportFrame {
 
         String text = "Total time: " + Util.secondsToElapsedTimeString(selection.getTotalTimeSeconds()) + "\n";
         text += "Number of entries: " + selection.getEntryCount() + "\n";
-        text += "Numer of categories: " + keys.size() + "\n";
+        text += "Numer of categories: " + sortedKeys.size() + "\n";
 //        text += selection.toCSV();
 
         text += "\n";
-        for (String key : keys) {
+        for (String key : sortedKeys) {
             System.out.println(key + ": " + Util.secondsToElapsedTimeString(table.get(key)));
             text += key + ": " + Util.secondsToElapsedTimeString(table.get(key)) + "\n";
+        }
+        text+="\n";
+        for (String key : sortedKeys) {
+            System.out.println(key + ": " + Util.secondsToElapsedTimeString(table.get(key)));
+            text += key + ": " + Util.secondsToElapsedTimeString(table.get(key)) + "\n";
+            Entry[] taskLines = getTaskLines(key);
+            for (Entry taskLine : taskLines) {
+                if (taskLine.getNotes().trim().length()>0)
+                    text+="\t"+Util.secondsToElapsedTimeString(taskLine.getElapsedSeconds())+": "+taskLine.getNotes()+"\n";
+            }
         }
 
         frame.setContentPane(new JScrollPane(new JTextArea(text)));
         frame.setSize(800, 600);
+    }
+
+    //Gets the tasks completed in the specified category, sorted by time taken
+    private Entry[] getTaskLines(String category) {
+        Entry[] entries = selection.getEntriesForCategory(category);
+        Arrays.sort(entries,new Comparator<Entry>() {
+            public int compare(Entry o1, Entry o2) {
+                return -Double.compare(o1.getElapsedSeconds(), o2.getElapsedSeconds());
+            }
+        });
+        return entries;
     }
 
     public void setVisible(boolean b) {
