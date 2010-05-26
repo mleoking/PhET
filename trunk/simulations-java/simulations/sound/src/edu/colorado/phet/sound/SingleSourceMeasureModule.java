@@ -85,7 +85,7 @@ public class SingleSourceMeasureModule extends SingleSourceModule {
         apparatusPanel.addGraphic( guideline2, 10 );
 
         // Control Panel
-        setControlPanel( new MeasureControlPanel( this, clock ) );
+        setControlPanel( new MeasureControlPanel( this) );
 
         // Stopwatch window
         stopwatchDlg = new JDialog( application.getPhetFrame(), "Stopwatch", false );
@@ -135,6 +135,15 @@ public class SingleSourceMeasureModule extends SingleSourceModule {
 
     public void setStopwatchVisible( boolean isVisible ) {
         stopwatchDlg.setVisible( isVisible );
+    }
+
+    public void clearWaves() {
+        resetWaveMediumGraphic();
+        
+        //if the sim is paused, needs to sync.  This small change in time shows up on the stopwatch,
+        // but hopefully is not too disturbing.  This line is necessary to update the graphics while the sim is paused.
+        if (clock.isPaused())
+            clock.stepClockWhilePaused();
     }
 
     //-----------------------------------------------------------
