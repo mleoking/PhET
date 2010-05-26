@@ -5,6 +5,7 @@ import java.util.Locale;
 import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.authorization.AuthorizationException;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.pages.AccessDeniedPage;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -37,6 +38,8 @@ public class TranslationEditPage extends TranslationPage {
             tx = session.beginTransaction();
 
             Translation translation = (Translation) session.load( Translation.class, translationId );
+
+            add( new Label( "translation", translation.toString() ) );
 
             if ( !translation.isAuthorizedUser( getUser() ) ) {
                 throw new AuthorizationException( "You are not authorized to edit this translation" ) {

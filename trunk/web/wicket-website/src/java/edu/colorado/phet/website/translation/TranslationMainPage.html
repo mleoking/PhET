@@ -25,18 +25,30 @@
 
         <strong>PLEASE READ THIS PAGE COMPLETELY BEFORE USING</strong>
 
-        <h2>Create a New Translation</h2>
+        <wicket:enclosure child="translation-list-panel">
+            <h2>Translations to which you have access</h2>
 
-        <form wicket:id="create-translation-form">
+            <div wicket:id="translation-list-panel"></div>
+        </wicket:enclosure>
+
+        <h2>Create a new translation</h2>
+
+        <form wicket:id="create-new-translation-form">
             Create a translation:
-            <div wicket:id="locales">
+            <span wicket:id="locales">
 
-            </div>
+            </span>
             <input type="submit" value="create"/>
         </form>
 
-        <h2>Editable Translations</h2>
-        <div wicket:id="translation-list-panel"></div>
+        <h2>Create a new version of an existing translation</h2>
+
+        <form wicket:id="create-version-translation-form">
+            Pick an existing translation:
+            <select wicket:id="translations"></select>
+
+            <input type="submit" value="create"/>
+        </form>
 
         <h2>Instructions</h2>
 

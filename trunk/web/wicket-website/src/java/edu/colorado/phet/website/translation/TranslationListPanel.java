@@ -64,6 +64,10 @@ public class TranslationListPanel extends PhetPanel {
             }
         } );
 
+        if ( translations.isEmpty() ) {
+            setVisible( false );
+        }
+
         add( new TranslationListView( "translation-list", translations, sizes ) );
 
         if ( PhetSession.get().getUser().isTeamMember() ) {
@@ -202,7 +206,7 @@ public class TranslationListPanel extends PhetPanel {
                     tr.setVisible( !tr.isVisible() );
                     ret[0] = tr.isVisible();
                     session.update( tr );
-                    
+
                     return true;
                 }
             } );
