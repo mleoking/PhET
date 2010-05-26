@@ -13,6 +13,9 @@
             .admin-panel {
                 padding: 10px;
             }
+            .view-edit li {
+                padding: 2px;
+            }
         </style>
     </wicket:head>
 </head>
@@ -24,12 +27,13 @@
 
         <wicket:link>
             <h2>View / Edit</h2>
-            <ul>
+            <ul class="view-edit">
                 <li><a href="AdminSimsPage.html">Simulations</a></li>
                 <li><a href="AdminProjectsPage.html">Projects</a></li>
                 <li><a href="AdminCategoriesPage.html">Categories</a></li>
                 <li><a href="AdminNotificationsPage.html">Notifications</a></li>
                 <li><a href="AdminUsersPage.html">Users</a></li>
+                <li><a href="AdminTranslationsPage.html">Translations</a></li>
                 <li><a href="AdminStringsPage.html">Strings</a></li>
                 <li><a href="AdminCachesPage.html">Caches and Search Index</a></li>
                 <li><a href="doc/DocPage.html">Documentation and Help</a></li>
