@@ -1,25 +1,10 @@
 package edu.colorado.phet.motionseries
 
-import edu.colorado.phet.common.phetcommon.view.util.SwingUtils
-import edu.colorado.phet.common.phetcommon.view.{VerticalLayoutPanel, PhetFrame}
+import edu.colorado.phet.common.phetcommon.view.{PhetFrame}
 import edu.colorado.phet.common.phetcommon.application.Module
 import edu.colorado.phet.scalacommon.ScalaClock
 import edu.colorado.phet.motionseries.model._
-import java.awt.event.{ActionEvent, ActionListener}
-import javax.swing.{JDialog, JMenuItem, RepaintManager}
-import swing.ScalaValueControl
-import edu.colorado.phet.motionseries.Predef._
-
-class MotionSeriesConfigDialog(phetFrame: PhetFrame) extends JDialog(phetFrame, false) {
-  val layoutPanel = new VerticalLayoutPanel
-  layoutPanel.add(new ScalaValueControl(1, 100, "tail width".literal, "0.0".literal, "px".literal,
-    () => MotionSeriesConfig.VectorTailWidth.value, MotionSeriesConfig.VectorTailWidth.value_=, MotionSeriesConfig.VectorTailWidth.addListener))
-  layoutPanel.add(new ScalaValueControl(1, 100, "head width".literal, "0.0".literal, "px".literal,
-    () => MotionSeriesConfig.VectorHeadWidth.value, MotionSeriesConfig.VectorHeadWidth.value_=, MotionSeriesConfig.VectorHeadWidth.addListener))
-  setContentPane(layoutPanel)
-  pack()
-  SwingUtils.centerWindowOnScreen(this)
-}
+import javax.swing.{RepaintManager}
 
 //TODO: improve inheritance/composition scheme for different applications/modules/canvases/models
 class MotionSeriesModule(frame: PhetFrame,
