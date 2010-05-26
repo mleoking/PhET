@@ -27,8 +27,8 @@ class BasicRampModule(frame: PhetFrame,
                       coordinateSystemEnabled: Boolean, //true if the coordinate frame should be shown
                       objectComboBoxEnabled: Boolean,   //true if the objects should be selectable via combo box in the play area
                       showAppliedForceSlider: Boolean,  //true if the applied force should be shown as a slider in the play area
-                      initialBeadPosition: Double,      //the start locaiton of the bead
-                      pausedOnReset: Boolean,           
+                      initialBeadPosition: Double,      //the start location of the bead
+                      pausedOnReset: Boolean,
                       initialAngle: Double,
                       rampLayoutArea: Rectangle2D,
                       stageContainerArea: StageContainerArea,
@@ -66,7 +66,7 @@ class IntroRampModule(frame: PhetFrame) extends BasicRampModule(frame, "module.i
 class CoordinatesRampModule(frame: PhetFrame)
         extends BasicRampModule(frame, "module.coordinates".translate, true, false, true, -3, false,
           MotionSeriesDefaults.defaultRampAngle, MotionSeriesDefaults.rampIntroViewport, MotionSeriesDefaults.fullScreenArea, false) {
-  coordinateSystemModel.adjustable = true
+  coordinateSystemModel.adjustable = true //user is allowed to reorient the coordinate frames in this tab
 }
 
 /**
@@ -78,7 +78,7 @@ class GraphingModule(frame: PhetFrame,
                      rampLayoutArea: Rectangle2D,
                      stageContainerArea: StageContainerArea)
         extends BasicRampModule(frame, name, false, true, false, -6, true, MotionSeriesDefaults.defaultRampAngle, rampLayoutArea, stageContainerArea, true) {
-  coordinateSystemModel.adjustable = false
+  coordinateSystemModel.adjustable = false //user is not allowed to reorient the coordinate frames in this tab
 }
 
 /**
