@@ -21,6 +21,9 @@ public class Translation implements Serializable, IntId {
         if ( user.isTeamMember() && ( !visible || !PhetWicketApplication.getDefaultLocale().equals( locale ) ) ) {
             return true;
         }
+        if ( isLocked() ) {
+            return false;
+        }
         for ( Object authorizedUser : authorizedUsers ) {
             if ( ( (PhetUser) authorizedUser ).getId() == user.getId() ) {
                 return true;

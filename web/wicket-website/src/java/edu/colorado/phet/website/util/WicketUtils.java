@@ -13,7 +13,7 @@ public class WicketUtils {
      */
     public static void highlightListItem( ListItem item ) {
         if ( item.getIndex() % 2 == 0 ) {
-            item.add( new AttributeAppender( "class", new Model( "list-highlight-background" ), " " ) );
+            item.add( new AttributeAppender( "class", new Model<String>( "list-highlight-background" ), " " ) );
         }
     }
 }

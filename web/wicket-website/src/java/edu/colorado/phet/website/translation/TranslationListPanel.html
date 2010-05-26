@@ -11,6 +11,40 @@
         <style type="text/css">
         </style>
     </wicket:remove>
+    <wicket:head>
+        <style type="text/css">
+            table.translation-table {
+                border: 1px outset gray;
+                border-spacing: 2px;
+                border-collapse: collapse;
+                /*margin: 0 auto;*/
+                width: 100%;
+            }
+
+            table.translation-table th {
+                border: 1px dotted gray;
+                padding: 3px 3px 3px 3px;
+            }
+
+            table.translation-table td {
+                border: 1px dotted gray;
+                padding: 3px 3px 3px 3px;
+                text-align: center;
+            }
+
+            /*table.translation-table tr.head td {*/
+                /*background-color: lightgray;*/
+            /*}*/
+
+            span.translation-visible {
+                color: green;
+            }
+
+            span.translation-locked {
+                color: red;
+            }
+        </style>
+    </wicket:head>
 </head>
 <body>
 
@@ -21,9 +55,12 @@
             <td>locale</td>
             <td># translated strings</td>
             <td>visible</td>
-            <td>click to preview</td>
-            <td>click to edit</td>
-            <td>click to delete</td>
+            <td></td>
+            <td></td>
+            <td>locked</td>
+            <wicket:enclosure child="admin-cols">
+                <td wicket:id="admin-cols"></td>
+            </wicket:enclosure>
         </tr>
         <tr wicket:id="translation-list">
             <td wicket:id="id">
@@ -36,8 +73,10 @@
 
             </td>
             <td>
-                <span wicket:id="visible-label">yes</span>
-                <a href="#" wicket:id="visible-toggle">(toggle)</a>
+                <span wicket:id="visible-label">true</span>
+                <wicket:enclosure child="visible-toggle">
+                    (<a href="#" wicket:id="visible-toggle">toggle</a>)
+                </wicket:enclosure>
             </td>
             <td>
                 <a href="TranslationMainPage.html#" wicket:id="preview">preview</a>
@@ -45,8 +84,16 @@
             <td>
                 <a href="TranslationMainPage.html#" wicket:id="edit">edit</a>
             </td>
+            <wicket:enclosure child="delete">
+                <td>
+                    <a href="TranslationMainPage.html#" wicket:id="delete">delete</a>
+                </td>
+            </wicket:enclosure>
             <td>
-                <a href="TranslationMainPage.html#" wicket:id="delete">delete</a>
+                <span wicket:id="locked-label">yes</span>
+                <wicket:enclosure child="lock-toggle">
+                    (<a href="#" wicket:id="lock-toggle">toggle</a>)
+                </wicket:enclosure>
             </td>
         </tr>
     </table>
