@@ -24,14 +24,17 @@ class MotionSeriesModule(frame: PhetFrame,
   coordinateSystemModel.addListener(() => if (coordinateSystemModel.fixed) motionSeriesModel.coordinateFrameModel.proposedAngle = 0)
 
   private var lastTickTime = System.currentTimeMillis
+  private var clockTickIndex = 0
 
   //This clock is always running; pausing just pauses the physics
   clock.addClockListener(dt => {
+//    println("Started clock tick: " + clockTickIndex)
     val paintAndInputTime = System.currentTimeMillis - lastTickTime
 
     val startTime = System.currentTimeMillis
     motionSeriesModel.stepInTime(dt)
     //    RepaintManager.currentManager(getSimulationPanel).paintDirtyRegions() //todo: this still shows clipping of incorrect regions, maybe we need to repaint the entire area
+//    getSimulationPanel.paintImmediately(0, 0, getSimulationPanel.getWidth, getSimulationPanel.getHeight)
     val modelTime = System.currentTimeMillis - startTime
 
     val elapsed = paintAndInputTime + modelTime
@@ -42,6 +45,8 @@ class MotionSeriesModule(frame: PhetFrame,
     //      Thread.sleep(toSleep) //todo: blocks swing event handler thread and paint thread, should run this clock loop in another thread
     //    }
     lastTickTime = System.currentTimeMillis
+//    println("Ended   clock tick: " + clockTickIndex + ": elapsed time = " + (System.currentTimeMillis - startTime) + " ms")
+    clockTickIndex = clockTickIndex + 1
   })
 
   //pause on start/reset, and unpause (and start recording) when the user applies a force
