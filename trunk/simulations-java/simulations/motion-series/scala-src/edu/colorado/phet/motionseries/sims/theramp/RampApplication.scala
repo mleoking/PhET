@@ -16,7 +16,6 @@ import edu.colorado.phet.recordandplayback.gui.{RecordAndPlaybackControlPanel}
 import edu.umd.cs.piccolox.pswing.PSwing
 import java.awt.event.{ComponentEvent, ComponentAdapter}
 import edu.colorado.phet.motionseries.{StageContainerArea, MotionSeriesDefaults, MotionSeriesModule}
-import edu.umd.cs.piccolo.util.PDebug
 
 /**
  * This is the parent class for the various Modules for the ramp simulation.
@@ -24,12 +23,12 @@ import edu.umd.cs.piccolo.util.PDebug
  * @author Sam Reid
  */
 class BasicRampModule(frame: PhetFrame,
-                      name: String,
-                      coordinateSystemEnabled: Boolean,
-                      objectComboBoxEnabled: Boolean,
-                      showAppliedForceSlider: Boolean,
-                      initialBeadPosition: Double,
-                      pausedOnReset: Boolean,
+                      name: String,                     //the name of the module
+                      coordinateSystemEnabled: Boolean, //true if the coordinate frame should be shown
+                      objectComboBoxEnabled: Boolean,   //true if the objects should be selectable via combo box in the play area
+                      showAppliedForceSlider: Boolean,  //true if the applied force should be shown as a slider in the play area
+                      initialBeadPosition: Double,      //the start locaiton of the bead
+                      pausedOnReset: Boolean,           
                       initialAngle: Double,
                       rampLayoutArea: Rectangle2D,
                       stageContainerArea: StageContainerArea,
@@ -102,15 +101,17 @@ class WorkEnergyModule(frame: PhetFrame) extends GraphingModule(frame, "module.e
   }
   val showEnergyButtonPSwing = new PSwing(showEnergyChartButton.peer)
   rampCanvas.getLayer.addChild(showEnergyButtonPSwing) //todo: why doesn't addScreenChild work here?  It seems like it has the wrong transform.
-  def updateButtonLocation() = {
+
+  //update the location of the "Show energy chart" button when the screen changes size
+  def updateEnergyButtonLocation() = {
     val insetX = 4
     val insetY = insetX
     showEnergyButtonPSwing.setOffset(rampCanvas.getWidth / 2 - showEnergyButtonPSwing.getWidth - insetX, insetY)
   }
   rampCanvas.addComponentListener(new ComponentAdapter {
-    override def componentResized(e: ComponentEvent) = updateButtonLocation()
+    override def componentResized(e: ComponentEvent) = updateEnergyButtonLocation()
   })
-  updateButtonLocation()
+  updateEnergyButtonLocation()
   workEnergyChartVisibilityModel.addListener(() => showEnergyButtonPSwing.setVisible(!workEnergyChartVisibilityModel.visible))
 
   //create the work-energy chart; its visibility is determined by the visibility model
@@ -154,8 +155,8 @@ class RampApplication(config: PhetApplicationConfig) extends PiccoloPhetApplicat
  */
 object RampApplication {
   def main(args: Array[String]) = {
-//    PDebug.debugBounds=true
-//    PDebug.debugFullBounds=true
+    //    PDebug.debugBounds=true
+    //    PDebug.debugFullBounds=true
     new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "the-ramp".literal, classOf[RampApplication])
   }
 }
