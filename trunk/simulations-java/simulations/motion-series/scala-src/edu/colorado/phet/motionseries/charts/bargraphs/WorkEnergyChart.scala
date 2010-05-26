@@ -88,9 +88,9 @@ class WorkEnergyChart(visibilityModel: WorkEnergyChartVisibilityModel, model: Mo
   val bead = model.bead
   bead.addListenerByName {
     totalEnergyVariable.setValue(bead.getTotalEnergy)
-    kineticEnergyVariable.setValue(bead.getKineticEnergy)
-    potentialEnergyVariable.setValue(bead.getPotentialEnergy)
-    thermalEnergyVariable.setValue(bead.getThermalEnergy)
+    kineticEnergyVariable.setValue(bead.kineticEnergy)
+    potentialEnergyVariable.setValue(bead.potentialEnergy)
+    thermalEnergyVariable.setValue(bead.thermalEnergy)
 
     //    appliedWorkVariable.setValue(bead.getAppliedWork)
     //    frictionWorkVariable.setValue(bead.getFrictiveWork)

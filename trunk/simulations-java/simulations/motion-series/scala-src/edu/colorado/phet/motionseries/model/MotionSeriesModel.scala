@@ -88,7 +88,7 @@ class MotionSeriesModel(defaultBeadPosition: Double,
   def stepRecording(simulationTimeChange: Double) = {
     stepRecord()
     val mode = bead.motionStrategy.getMemento
-    new RecordedState(new RampState(getRampAngle, rampSegments(1).heat, rampSegments(1).wetness),
+    new RecordedState(new RampState(rampAngle, rampSegments(1).heat, rampSegments(1).wetness),
       selectedObject.state, bead.state, manBead.state, bead.parallelAppliedForce, walls, mode)
   }
 
@@ -104,7 +104,7 @@ class MotionSeriesModel(defaultBeadPosition: Double,
 
   def resetBead() = {
     returnBead()
-    bead.setCrashEnergy(0.0)
+    bead.crashEnergy = 0.0
     bead.thermalEnergy = 0.0
   }
 
@@ -121,18 +121,20 @@ class MotionSeriesModel(defaultBeadPosition: Double,
     resetBead()
     manBead.setPosition(defaultManPosition)
 
-    rampSegments(1).setAngle(initialAngle)
-
     rampSegments(0).setWetness(0.0)
     rampSegments(0).setHeat(0.0)
     rampSegments(1).setWetness(0.0)
     rampSegments(1).setHeat(0.0)
+    rampSegments(1).setAngle(initialAngle)
 
     resetListeners.foreach(_())
 
     setPaused(pausedOnReset)
   }
 
+  /**
+   * Instantly clear the heat from the ramps.
+   */
   def clearHeatInstantly() {
     rampSegments(0).setWetness(0.0)
     rampSegments(0).setHeat(0.0)
@@ -141,6 +143,9 @@ class MotionSeriesModel(defaultBeadPosition: Double,
     bead.thermalEnergy = 0.0
   }
 
+  /**
+   * Requests that the fire dog clear the heat over a period of time.
+   */
   def clearHeat() = {
     if (isPaused) {
       clearHeatInstantly()
@@ -159,16 +164,16 @@ class MotionSeriesModel(defaultBeadPosition: Double,
     rampSegments(1).dropHit()
     val reducedEnergy = totalThermalEnergyOnClear / (maxDrops / 2.0)
     bead.thermalEnergy = bead.thermalEnergy - reducedEnergy
-    bead.setCrashEnergy(java.lang.Math.max(bead.getCrashEnergy - reducedEnergy, 0))
+    bead.crashEnergy = java.lang.Math.max(bead.crashEnergy - reducedEnergy, 0)
     if (bead.thermalEnergy < 1) bead.thermalEnergy = 0.0
   }
 
   def setPlaybackState(state: RecordedState) = {
-    setRampAngle(state.rampState.angle)
+    rampAngle = state.rampState.angle
     rampSegments(0).setHeat(state.rampState.heat)
-    rampSegments(1).setHeat(state.rampState.heat)
-
     rampSegments(0).setWetness(state.rampState.wetness)
+    
+    rampSegments(1).setHeat(state.rampState.heat)
     rampSegments(1).setWetness(state.rampState.wetness)
 
     selectedObject = state.selectedObject.toObject
@@ -262,11 +267,9 @@ class MotionSeriesModel(defaultBeadPosition: Double,
     notifyListeners()
   }
 
-  def setRampAngle(angle: Double) = {
-    rampSegments(1).setAngle(angle)
-  }
+  def rampAngle_=(angle: Double) = rampSegments(1).setAngle(angle)
 
-  def getRampAngle = rampSegments(1).angle
+  def rampAngle = rampSegments(1).angle
 
   //TODO: this may need to be more general if/when there are more/less ramp segments
   def positionMapper(particleLocation: Double) = {
@@ -290,7 +293,7 @@ class MotionSeriesModel(defaultBeadPosition: Double,
     bead.stepInTime(dt)
     for (f <- fireDogs) f.stepInTime(dt)
     for (r <- raindrops) r.stepInTime(dt)
-    val rampHeat = bead.getRampThermalEnergy
+    val rampHeat = bead.rampThermalEnergy
     rampSegments(0).setHeat(rampHeat)
     rampSegments(1).setHeat(rampHeat)
     rampSegments(0).stepInTime(dt)

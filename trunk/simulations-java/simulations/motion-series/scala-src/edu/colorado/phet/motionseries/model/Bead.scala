@@ -160,13 +160,13 @@ abstract class Bead(private var _state: BeadState,
     this._airborneFloor = airborneFloor
   }
 
-  def getTotalEnergy = getPotentialEnergy + getKineticEnergy + getThermalEnergy
+  def getTotalEnergy = potentialEnergy + kineticEnergy + thermalEnergy
 
-  def getPotentialEnergy = mass * gravity.abs * position2D.y
+  def potentialEnergy = mass * gravity.abs * position2D.y
 
   def getAppliedWork = 0.0
 
-  def setCrashEnergy(value: Double) = {
+  def crashEnergy_=(value: Double) = {
     if (value != state.crashEnergy) {
       state = state.setCrashEnergy(value)
       notifyListeners()
@@ -182,21 +182,19 @@ abstract class Bead(private var _state: BeadState,
 
   def thermalEnergy = state.thermalEnergy
 
-  def getThermalEnergy = state.thermalEnergy
+  def rampThermalEnergy = thermalEnergy - crashEnergy
 
-  def getRampThermalEnergy = getThermalEnergy - getCrashEnergy
+  def crashEnergy = state.crashEnergy
 
-  def getCrashEnergy = state.crashEnergy
+  def getFrictiveWork = -thermalEnergy
 
-  def getFrictiveWork = -getThermalEnergy
-
-  def getGravityWork = -getPotentialEnergy
+  def getGravityWork = -potentialEnergy
 
   def getWallWork = 0.0
 
   def getNormalWork = 0.0
 
-  def getKineticEnergy = 1.0 / 2.0 * mass * velocity * velocity
+  def kineticEnergy = 1.0 / 2.0 * mass * velocity * velocity
 
   def getAngle: Double
 

@@ -266,7 +266,7 @@ class Grounded(bead: ForceBead) extends MotionStrategy(bead) {
     bead.setPosition(newState.position)
     bead.setVelocity(newState.velocity)
     bead.thermalEnergy = newState.thermalEnergy
-    bead.setCrashEnergy(newState.crashEnergy)
+    bead.crashEnergy = newState.crashEnergy
 
     bead.notificationsEnabled = true
     bead.notifyListeners() //do as a batch, since it's a performance problem to do this several times in this method call
