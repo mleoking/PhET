@@ -159,13 +159,6 @@ class RampControlPanelBody(model: MotionSeriesModel,
     add(frictionPanel)
   }
 
-  if (coordinateSystemFeaturesEnabled) {
-    add(new TitleLabel("coordinates.coordinate-system".translate))
-    add(boxLayout(
-      new MyRadioButton("coordinates.fixed".translate, coordinateSystemModel.fixed = true, coordinateSystemModel.fixed, coordinateSystemModel.addListener).peer,
-      new MyRadioButton("coordinates.adjustable".translate, coordinateSystemModel.adjustable = true, coordinateSystemModel.adjustable, coordinateSystemModel.addListener).peer
-      ))
-  }
   add(vectorPanel)
 
   if (showBounceControl) {
