@@ -149,7 +149,8 @@ class RampApplication(config: PhetApplicationConfig) extends PiccoloPhetApplicat
 }
 
 /**
- * Main application for The Ramp simulation.
+ * Main application for The Ramp simulation.  This is named RampApplicationMain instead of RampApplication
+ * because the latter confuses the Eclipse Scala plugin
  * @author Sam Reid
  */
 object RampApplicationMain {
