@@ -71,6 +71,7 @@ public class ContributionEditPanel extends PhetPanel {
     private List filesToRemove;
 
     private static final Logger logger = Logger.getLogger( ContributionEditPanel.class.getName() );
+    private FeedbackPanel feedback;
 
     public ContributionEditPanel( String id, PageContext context, Contribution preContribution ) {
         super( id, context );
@@ -186,7 +187,9 @@ public class ContributionEditPanel extends PhetPanel {
 
         add( new ContributionForm( "contributionform" ) );
 
-        add( new FeedbackPanel( "feedback" ) );
+        feedback = new FeedbackPanel( "feedback" );
+        feedback.setVisible( false );
+        add( feedback );
     }
 
     public final class ContributionForm extends Form<Contribution> {
@@ -236,10 +239,11 @@ public class ContributionEditPanel extends PhetPanel {
             localeChoice = new LocaleDropDownChoice( "locale", context );
             add( localeChoice );
 
-            if( PhetSession.get().getUser().isTeamMember() ) {
+            if ( PhetSession.get().getUser().isTeamMember() ) {
                 add( new CheckBox( "fromPhet" ) );
                 add( new CheckBox( "goldStar" ) );
-            } else {
+            }
+            else {
                 add( new InvisibleComponent( "fromPhet" ) );
                 add( new InvisibleComponent( "goldStar" ) );
             }
@@ -299,6 +303,12 @@ public class ContributionEditPanel extends PhetPanel {
                 }
             } );
 
+        }
+
+        @Override
+        protected void onValidate() {
+            super.onValidate();
+            feedback.setVisible( feedback.anyMessage() );
         }
 
         @Override
