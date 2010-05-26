@@ -1,4 +1,4 @@
-Report tasks within a category, sorted by most time taken
+In reporting, assume empty notes means same task as previous non-empty notes in same category
 Highlight regions based on day and/or time of day
 Make it easier to launch outside of IDE
 Global hotkey for Save
