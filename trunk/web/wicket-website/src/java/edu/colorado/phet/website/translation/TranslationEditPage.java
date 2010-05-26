@@ -5,6 +5,7 @@ import java.util.Locale;
 import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.authorization.AuthorizationException;
+import org.apache.wicket.markup.html.pages.AccessDeniedPage;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -43,6 +44,9 @@ public class TranslationEditPage extends TranslationPage {
             }
 
             tx.commit();
+        }
+        catch( AuthorizationException e ) {
+            setResponsePage( AccessDeniedPage.class );
         }
         catch( RuntimeException e ) {
             logger.warn( e );

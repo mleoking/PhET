@@ -14,9 +14,7 @@ import org.apache.wicket.markup.html.link.PopupSettings;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.Model;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.common.phetcommon.util.PhetLocales;
@@ -30,6 +28,7 @@ import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
+import edu.colorado.phet.website.util.WicketUtils;
 
 public class TranslationListPanel extends PhetPanel {
 
@@ -66,6 +65,13 @@ public class TranslationListPanel extends PhetPanel {
         } );
 
         add( new TranslationListView( "translation-list", translations, sizes ) );
+
+        if ( PhetSession.get().getUser().isTeamMember() ) {
+            add( new Label( "admin-cols", "" ) );
+        }
+        else {
+            add( new InvisibleComponent( "admin-cols" ) );
+        }
     }
 
     private class TranslationListView extends ListView<Translation> {
@@ -80,17 +86,26 @@ public class TranslationListPanel extends PhetPanel {
 
         protected void populateItem( ListItem<Translation> item ) {
             final Translation translation = item.getModelObject();
+            final PhetUser user = PhetSession.get().getUser();
+
+            // whether this is the main English translation
+            boolean isDefaultEnglish = translation.isVisible() && translation.getLocale().equals( PhetWicketApplication.getDefaultLocale() );
+
+            boolean visibleToggleShown = user.isTeamMember() && !isDefaultEnglish;
+            boolean editShown = user.isTeamMember() || !translation.isLocked();
+            boolean deleteShown = user.isTeamMember() && !isDefaultEnglish;
+
             item.add( new Label( "id", String.valueOf( translation.getId() ) ) );
             item.add( new Label( "locale", phetLocales.getName( translation.getLocale() ) + " (" + LocaleUtils.localeToString( translation.getLocale() ) + ")" ) );
             item.add( new Label( "num-strings", String.valueOf( sizes.get( translation ) ) ) );
-            Label visibleLabel = new Label( "visible-label", String.valueOf( translation.isVisible() ) );
+            Label visibleLabel = new Label( "visible-label", String.valueOf( translation.isVisible() ? "visible" : "hidden" ) );
             if ( translation.isVisible() ) {
                 visibleLabel.add( new AttributeAppender( "class", true, new Model<String>( "translation-visible" ), " " ) );
             }
             item.add( visibleLabel );
 
-
-            if ( PhetSession.get().getUser().isTeamMember() && !( translation.isVisible() && translation.getLocale().equals( PhetWicketApplication.getDefaultLocale() ) ) ) {
+            // TODO: add visibility switcher component
+            if ( visibleToggleShown ) {
                 item.add( new Link( "visible-toggle" ) {
                     public void onClick() {
                         toggleVisibility( translation );
@@ -106,100 +121,120 @@ public class TranslationListPanel extends PhetPanel {
             popupLink.setPopupSettings( new PopupSettings( PopupSettings.LOCATION_BAR | PopupSettings.MENU_BAR | PopupSettings.RESIZABLE
                                                            | PopupSettings.SCROLLBARS | PopupSettings.STATUS_BAR | PopupSettings.TOOL_BAR ) );
             item.add( popupLink );
-            item.add( new Link( "edit" ) {
-                public void onClick() {
-                    PageParameters params = new PageParameters();
-                    params.put( "translationId", translation.getId() );
-                    params.put( "translationLocale", LocaleUtils.localeToString( translation.getLocale() ) );
-                    setResponsePage( TranslationEditPage.class, params );
-                }
-            } );
 
-            if ( PhetSession.get().getUser().isTeamMember() && !( translation.isVisible() && translation.getLocale().equals( PhetWicketApplication.getDefaultLocale() ) ) ) {
-                item.add( new Link( "delete" ) {
+            if ( editShown ) {
+                item.add( new Link( "edit" ) {
                     public void onClick() {
-                        delete( translation );
+                        PageParameters params = new PageParameters();
+                        params.put( "translationId", translation.getId() );
+                        params.put( "translationLocale", LocaleUtils.localeToString( translation.getLocale() ) );
+                        setResponsePage( TranslationEditPage.class, params );
                     }
                 } );
             }
             else {
-                item.add( new InvisibleComponent( "delete" ) );
+                item.add( new InvisibleComponent( "edit" ) );
             }
-        }
 
-        public void toggleVisibility( Translation translation ) {
-            Session session = getHibernateSession();
-            Transaction tx = null;
-            try {
-                tx = session.beginTransaction();
+            Label lockLabel = new Label( "locked-label", String.valueOf( translation.isLocked() ? "locked" : "editable" ) );
+            if ( translation.isLocked() ) {
+                lockLabel.add( new AttributeAppender( "class", true, new Model<String>( "translation-locked" ), " " ) );
+            }
+            item.add( lockLabel );
 
-                Translation tr = (Translation) session.load( Translation.class, translation.getId() );
-                List otherTranslations = session.createQuery( "select t from Translation as t where t.visible = true and t.locale = :locale" ).setLocale( "locale", translation.getLocale() ).list();
-
-                if ( !tr.isVisible() && !otherTranslations.isEmpty() ) {
-                    throw new RuntimeException( "There is already a visible translation of that locale" );
-                }
-
-                tr.setVisible( !tr.isVisible() );
-                translation.setVisible( !translation.isVisible() );
-                session.update( tr );
-
-                tx.commit();
-
-                if ( translation.isVisible() ) {
-                    ( (PhetWicketApplication) getApplication() ).addTranslation( tr );
+            if ( user.isTeamMember() ) {
+                if ( deleteShown ) {
+                    item.add( new Link( "delete" ) {
+                        public void onClick() {
+                            delete( translation );
+                        }
+                    } );
                 }
                 else {
-                    ( (PhetWicketApplication) getApplication() ).removeTranslation( tr );
+                    item.add( new Label( "delete", "" ) );
                 }
+                item.add( new Link( "lock-toggle" ) {
+                    @Override
+                    public void onClick() {
+                        toggleLock( translation );
+                    }
+                } );
+
             }
-            catch( RuntimeException e ) {
-                logger.warn( "Exception: " + e );
-                if ( tx != null && tx.isActive() ) {
-                    try {
-                        tx.rollback();
+            else {
+                item.add( new InvisibleComponent( "lock-toggle" ) );
+                item.add( new InvisibleComponent( "delete" ) );
+            }
+
+            WicketUtils.highlightListItem( item );
+        }
+
+        public void toggleLock( final Translation translation ) {
+            final boolean[] ret = new boolean[1];
+            boolean success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+                public boolean run( Session session ) {
+                    Translation tr = (Translation) session.load( Translation.class, translation.getId() );
+
+                    tr.setLocked( !tr.isLocked() );
+                    ret[0] = tr.isLocked();
+                    session.update( tr );
+
+                    return true;
+                }
+            } );
+
+            if ( success ) {
+                translation.setLocked( ret[0] );
+            }
+        }
+
+        public void toggleVisibility( final Translation translation ) {
+            final boolean[] ret = new boolean[1];
+            boolean success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+                public boolean run( Session session ) {
+                    Translation tr = (Translation) session.load( Translation.class, translation.getId() );
+                    List otherTranslations = session.createQuery( "select t from Translation as t where t.visible = true and t.locale = :locale" ).setLocale( "locale", translation.getLocale() ).list();
+
+                    if ( !tr.isVisible() && !otherTranslations.isEmpty() ) {
+                        throw new RuntimeException( "There is already a visible translation of that locale" );
                     }
-                    catch( HibernateException e1 ) {
-                        logger.error( "ERROR: Error rolling back transaction", e1 );
-                    }
-                    throw e;
+
+                    tr.setVisible( !tr.isVisible() );
+                    ret[0] = tr.isVisible();
+                    session.update( tr );
+                    
+                    return true;
+                }
+            } );
+            if ( success ) {
+                translation.setVisible( ret[0] );
+                if ( translation.isVisible() ) {
+                    ( (PhetWicketApplication) getApplication() ).addTranslation( translation );
+                }
+                else {
+                    ( (PhetWicketApplication) getApplication() ).removeTranslation( translation );
                 }
             }
         }
 
-        public void delete( Translation translation ) {
-            Session session = TranslationListPanel.this.getHibernateSession();
-            Transaction tx = null;
-            try {
-                tx = session.beginTransaction();
+        public void delete( final Translation translation ) {
+            HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+                public boolean run( Session session ) {
+                    session.load( translation, translation.getId() );
 
-                session.load( translation, translation.getId() );
-
-                translations.remove( translation );
-                for ( Object o : translation.getTranslatedStrings() ) {
-                    session.delete( o );
-                }
-                for ( Object o : translation.getAuthorizedUsers() ) {
-                    PhetUser user = (PhetUser) o;
-                    user.getTranslations().remove( translation );
-                    session.update( user );
-                }
-                session.delete( translation );
-
-                tx.commit();
-            }
-            catch( RuntimeException e ) {
-                logger.warn( "Exception: " + e );
-                if ( tx != null && tx.isActive() ) {
-                    try {
-                        tx.rollback();
+                    translations.remove( translation );
+                    for ( Object o : translation.getTranslatedStrings() ) {
+                        session.delete( o );
                     }
-                    catch( HibernateException e1 ) {
-                        logger.error( "ERROR: Error rolling back transaction", e1 );
+                    for ( Object o : translation.getAuthorizedUsers() ) {
+                        PhetUser user = (PhetUser) o;
+                        user.getTranslations().remove( translation );
+                        session.update( user );
                     }
-                    throw e;
+                    session.delete( translation );
+                    return true;
                 }
-            }
+            } );
         }
     }
 
