@@ -35,11 +35,11 @@ public class TranslationListPanel extends PhetPanel {
     private PhetLocales phetLocales;
 
     private static final Logger logger = Logger.getLogger( TranslationListPanel.class.getName() );
+    private List<Translation> translations = new LinkedList<Translation>();
 
     public TranslationListPanel( String id, PageContext context ) {
         super( id, context );
 
-        final List<Translation> translations = new LinkedList<Translation>();
         final Map<Translation, Integer> sizes = new HashMap<Translation, Integer>();
 
         phetLocales = ( (PhetWicketApplication) getApplication() ).getSupportedLocales();
@@ -68,17 +68,19 @@ public class TranslationListPanel extends PhetPanel {
             setVisible( false );
         }
 
-        add( new TranslationListView( "translation-list", translations, sizes ) );
+        add( new TranslationListView( "translation-list", sizes ) );
 
     }
 
+    public List<Translation> getTranslations() {
+        return translations;
+    }
+
     private class TranslationListView extends ListView<Translation> {
-        private final List<Translation> translations;
         private final Map<Translation, Integer> sizes;
 
-        public TranslationListView( String id, List<Translation> translations, Map<Translation, Integer> sizes ) {
+        public TranslationListView( String id, Map<Translation, Integer> sizes ) {
             super( id, translations );
-            this.translations = translations;
             this.sizes = sizes;
         }
 
