@@ -114,10 +114,10 @@ class RampControlPanelBody(model: MotionSeriesModel,
 
     def createSumForceIcon = {
       val rect = new Rectangle2D.Double(0, 0, 1, 1)
-      val vector = new Vector(MotionSeriesDefaults.totalForceColor, "total-force".literal, "force.abbrev.total".translate, () => new Vector2D(50, 0), (v: Vector2D, c: Color) => {c},0.0)
-      val vectorNode = new VectorNode(new ModelViewTransform2D(rect, rect), vector, new ConstantVectorValue(new Vector2D(50, 0)), 10)
+      val vector = new Vector(MotionSeriesDefaults.totalForceColor, "total-force".literal, "force.abbrev.total".translate, () => new Vector2D(42, 0), (v: Vector2D, c: Color) => {c},0.0)
+      val vectorNode = new VectorNode(new ModelViewTransform2D(rect, rect), vector, new ConstantVectorValue(new Vector2D(-42, 0)), 75)
       val bufIm = BufferedImageUtils.toBufferedImage(vectorNode.toImage)
-      BufferedImageUtils.multiScaleToHeight(bufIm, 40)
+      BufferedImageUtils.multiScaleToHeight(bufIm, 35)
     }
   }
 
