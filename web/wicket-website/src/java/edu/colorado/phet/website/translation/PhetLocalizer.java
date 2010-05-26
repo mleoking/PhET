@@ -12,6 +12,8 @@ import org.hibernate.Session;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.PhetWicketApplication;
+import edu.colorado.phet.website.content.contribution.ContributionCreatePage;
+import edu.colorado.phet.website.content.contribution.ContributionEditPage;
 import edu.colorado.phet.website.data.Translation;
 import edu.colorado.phet.website.templates.Stylable;
 import edu.colorado.phet.website.util.PhetRequestCycle;
@@ -197,6 +199,7 @@ public class PhetLocalizer extends Localizer {
             }
             logger.warn( "missed style: " + key + " with component of " + component, new RuntimeException() );
         }
+        key = mapStrings( key, component, model, defaultValue, checkDefault );
 
         String lookup = null;
         Integer translationId = null;
@@ -229,6 +232,38 @@ public class PhetLocalizer extends Localizer {
         }
 
         return getDefaultString( null, key, defaultValue, false );
+    }
+
+    /**
+     * Map various automatically-created keys (like validation keys) to better named keys
+     *
+     * @param key          The translation key
+     * @param component    The component to translate this key
+     * @param model        The model (if applicable)
+     * @param defaultValue The default value (if applicable)
+     * @param checkDefault Whether to check defaults
+     * @return The new string key
+     */
+    private String mapStrings( String key, Component component, IModel model, String defaultValue, boolean checkDefault ) {
+        if ( key.endsWith( "Required" ) && ( component.getPage() instanceof ContributionCreatePage || component.getPage() instanceof ContributionEditPage ) ) {
+            // technically should check for a ContributionEditPanel below, but that would be expensive and ugly
+            if ( key.equals( "authors.Required" ) ) {
+                return "contribution.edit.authors.Required";
+            }
+            else if ( key.equals( "authorOrganization.Required" ) ) {
+                return "contribution.edit.organization.Required";
+            }
+            else if ( key.equals( "contactEmail.Required" ) ) {
+                return "contribution.edit.email.Required";
+            }
+            else if ( key.equals( "title.Required" ) ) {
+                return "contribution.edit.title.Required";
+            }
+            else if ( key.equals( "keywords.Required" ) ) {
+                return "contribution.edit.keywords.Required";
+            }
+        }
+        return key;
     }
 
     private Stylable closestStylableComponent( Component component ) {
