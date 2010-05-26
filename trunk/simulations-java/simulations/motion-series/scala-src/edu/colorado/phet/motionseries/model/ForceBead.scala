@@ -28,14 +28,14 @@ class ForceBead(_state: BeadState,
   def getThermalEnergy(x: Double) = thermalEnergyStrategy(x)
 
   private var _parallelAppliedForce = 0.0
-  val gravityForceVector = new BeadVector(MotionSeriesDefaults.gravityForceColor, "Gravity Force".literal, "force.abbrev.gravity".translate, false, () => gravityForce, (a, b) => b,PI/2)
-  val normalForceVector = new BeadVector(MotionSeriesDefaults.normalForceColor, "Normal Force".literal, "force.abbrev.normal".translate, true, () => normalForce, (a, b) => b,PI/2)
-  val totalForceVector = new BeadVector(MotionSeriesDefaults.totalForceColor, "Sum of Forces".literal, "force.abbrev.total".translate, false, () => totalForce, (a, b) => b,PI/2)
-  val appliedForceVector = new BeadVector(MotionSeriesDefaults.appliedForceColor, "Applied Force".literal, "force.abbrev.applied".translate, false, () => appliedForce, (a, b) => b,PI/2)
-  val frictionForceVector = new BeadVector(MotionSeriesDefaults.frictionForceColor, "Friction Force".literal, "force.abbrev.friction".translate, true, () => frictionForce, (a, b) => b,-PI/2)
-  val wallForceVector = new BeadVector(MotionSeriesDefaults.wallForceColor, "Wall Force".literal, "force.abbrev.wall".translate, false, () => wallForce, (a, b) => b,PI/2)
-  val velocityVector = new BeadVector(MotionSeriesDefaults.velocityColor, "Velocity".literal, "properties.velocity".translate, false, () => getRampUnitVector * velocity, (a, b) => b,PI/2) //todo: translate
-  val accelerationVector = new BeadVector(MotionSeriesDefaults.accelerationColor, "Acceleration".literal, "properties.acceleration".translate, false, () => getRampUnitVector * acceleration, (a, b) => b,PI/2) //todo: translate
+  val gravityForceVector = new BeadVector(MotionSeriesDefaults.gravityForceColor, "Gravity Force".literal, "force.abbrev.gravity".translate, false, () => gravityForce, (a, b) => b, PI / 2)
+  val normalForceVector = new BeadVector(MotionSeriesDefaults.normalForceColor, "Normal Force".literal, "force.abbrev.normal".translate, true, () => normalForce, (a, b) => b, PI / 2)
+  val totalForceVector = new BeadVector(MotionSeriesDefaults.totalForceColor, "Sum of Forces".literal, "force.abbrev.total".translate, false, () => totalForce, (a, b) => b, PI / 2)
+  val appliedForceVector = new BeadVector(MotionSeriesDefaults.appliedForceColor, "Applied Force".literal, "force.abbrev.applied".translate, false, () => appliedForce, (a, b) => b, PI / 2)
+  val frictionForceVector = new BeadVector(MotionSeriesDefaults.frictionForceColor, "Friction Force".literal, "force.abbrev.friction".translate, true, () => frictionForce, (a, b) => b, -PI / 2)
+  val wallForceVector = new BeadVector(MotionSeriesDefaults.wallForceColor, "Wall Force".literal, "force.abbrev.wall".translate, false, () => wallForce, (a, b) => b, PI / 2)
+  val velocityVector = new BeadVector(MotionSeriesDefaults.velocityColor, "Velocity".literal, "properties.velocity".translate, false, () => getRampUnitVector * velocity, (a, b) => b, PI / 2) //todo: translate
+  val accelerationVector = new BeadVector(MotionSeriesDefaults.accelerationColor, "Acceleration".literal, "properties.acceleration".translate, false, () => getRampUnitVector * acceleration, (a, b) => b, PI / 2) //todo: translate
   //chain listeners
   normalForceVector.addListenerByName(frictionForceVector.notifyListeners())
   //todo: add normalForceVector notification when changing friction coefficients
@@ -121,11 +121,16 @@ class ForceBead(_state: BeadState,
   }
 
   override def setPosition(position: Double) = {
+    val originalPosition = super.position //have to record the position here since the next line changes the super.position
     super.setPosition(position)
-    //todo: maybe this could be omitted during batch updates for performance
-    normalForceVector.notifyListeners() //since ramp segment or motion state might have changed; could improve performance on this by only sending notifications when we are sure the ramp segment has changed
-    frictionForceVector.notifyListeners() //todo: omit this call since it's probably covered by the normal force call above
-    wallForceVector.notifyListeners()
+    if (position != originalPosition) {
+      //todo: maybe this could be omitted during batch updates for performance
+      normalForceVector.notifyListeners() //since ramp segment or motion state might have changed; could improve performance on this by only sending notifications when we are sure the ramp segment has changed
+      frictionForceVector.notifyListeners() //todo: omit this call since it's probably covered by the normal force call above
+      wallForceVector.notifyListeners()
+    }else{
+//      println("omitting setPosition notification, position was the same: "+position)
+    }
   }
 
   override def gravity_=(value: Double) = {
