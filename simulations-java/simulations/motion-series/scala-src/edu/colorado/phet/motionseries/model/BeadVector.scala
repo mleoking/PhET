@@ -66,6 +66,13 @@ object Paints {
 
 //Vector Components
 
+class XComponent(target: BeadVector, bead: Bead, coordinateFrame: CoordinateFrameModel, labelAngle: Double) extends VectorComponent(target, bead, () => new Vector2D(1, 0).rotate(coordinateFrame.angle), Paints.horizontalStripes, "coordinates.x".translate, labelAngle) {
+  coordinateFrame.addListener( ()=> notifyListeners())
+}
+class YComponent(target: BeadVector, bead: Bead, coordinateFrame: CoordinateFrameModel, labelAngle: Double) extends VectorComponent(target, bead, () => new Vector2D(0, 1).rotate(coordinateFrame.angle), Paints.verticalStripes, "coordinates.y".translate, labelAngle) {
+  coordinateFrame.addListener( ()=> notifyListeners())
+}
+
 class AngleBasedComponent(target: BeadVector,
                           bead: Bead,
                           getComponentUnitVector: () => Vector2D,
@@ -75,11 +82,7 @@ class AngleBasedComponent(target: BeadVector,
   //When the bead changes its angle, we should notify our listeners, since they depend on the angle
   bead.addListener(() => notifyListeners())
 }
+
 class ParallelComponent(target: BeadVector, bead: Bead) extends AngleBasedComponent(target, bead, () => new Vector2D(bead.getAngle), (a, b) => b, "symbols.parallel".translate, target.labelAngle) //http://www.fileformat.info/info/unicode/char/2225/index.htm
+
 class PerpendicularComponent(target: BeadVector, bead: Bead) extends AngleBasedComponent(target, bead, () => new Vector2D(bead.getAngle + PI / 2), (a, b) => b, "symbols.perpendicular".translate, target.labelAngle) //http://www.fileformat.info/info/unicode/char/22a5/index.htm
-class XComponent(target: BeadVector, bead: Bead, coordinateFrame: CoordinateFrameModel, labelAngle: Double) extends VectorComponent(target, bead, () => new Vector2D(1, 0).rotate(coordinateFrame.angle), Paints.horizontalStripes, "coordinates.x".translate, labelAngle) {
-  coordinateFrame.addListener( ()=> notifyListeners())
-}
-class YComponent(target: BeadVector, bead: Bead, coordinateFrame: CoordinateFrameModel, labelAngle: Double) extends VectorComponent(target, bead, () => new Vector2D(0, 1).rotate(coordinateFrame.angle), Paints.verticalStripes, "coordinates.y".translate, labelAngle) {
-  coordinateFrame.addListener( ()=> notifyListeners())
-}
