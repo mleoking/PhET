@@ -38,7 +38,7 @@
                         </label>
                     </td>
                     <td class="contribution-edit-input">
-                        <input wicket:id="contribution.edit.authors" type="text" value="" size="40" id="cep-author"/>
+                        <input wicket:id="authors" type="text" value="" size="40" id="cep-author"/>
                         <br/>
                         <span class="contribution-form-tip"><wicket:message key="contribution.edit.authors.tip">
                             e.g. John Smith, Mary Jane
@@ -54,7 +54,7 @@
                         </label>
                     </td>
                     <td class="contribution-edit-input">
-                        <input wicket:id="contribution.edit.organization" type="text" value="" size="40" id="cep-org"/>
+                        <input wicket:id="authorOrganization" type="text" value="" size="40" id="cep-org"/>
                     </td>
                 </tr>
                 <tr>
@@ -66,7 +66,7 @@
                         </label>
                     </td>
                     <td class="contribution-edit-input">
-                        <input wicket:id="contribution.edit.email" type="text" value="" size="40" id="cep-email"/>
+                        <input wicket:id="contactEmail" type="text" value="" size="40" id="cep-email"/>
                     </td>
                 </tr>
                 <tr>
@@ -78,7 +78,7 @@
                         </label>
                     </td>
                     <td class="contribution-edit-input">
-                        <input wicket:id="contribution.edit.title" type="text" value="" size="40" id="cep-title"/>
+                        <input wicket:id="title" type="text" value="" size="40" id="cep-title"/>
                     </td>
                 </tr>
                 <tr>
@@ -90,7 +90,7 @@
                         </label>
                     </td>
                     <td class="contribution-edit-input">
-                        <input wicket:id="contribution.edit.keywords" type="text" value="" size="40" id="cep-keywords"/>
+                        <input wicket:id="keywords" type="text" value="" size="40" id="cep-keywords"/>
                         <br/>
                         <span class="contribution-form-tip"><wicket:message key="contribution.edit.keywords.tip">
                             keywords should be seperated by commas
@@ -174,7 +174,7 @@
                         </label>
                     </td>
                     <td class="contribution-edit-input">
-                        <textarea rows="5" cols="40" wicket:id="contribution.edit.description" id="cep-desc"></textarea>
+                        <textarea rows="5" cols="40" wicket:id="description" id="cep-desc"></textarea>
                     </td>
                 </tr>
                 <tr>
@@ -210,7 +210,7 @@
                         </label>
                     </td>
                     <td class="contribution-edit-input">
-                        <input type="checkbox" wicket:id="answers" id="cep-answers"/>
+                        <input type="checkbox" wicket:id="answersIncluded" id="cep-answers"/>
                     </td>
                 </tr>
                 <tr>
@@ -223,6 +223,30 @@
                         <div wicket:id="locale"></div>
                     </td>
                 </tr>
+                <wicket:enclosure child="fromPhet">
+                    <tr>
+                        <td class="contribution-edit-label">
+                            <label for="cep-fromPhet">
+                                From PhET
+                            </label>
+                        </td>
+                        <td class="contribution-edit-input">
+                            <input type="checkbox" wicket:id="fromPhet" id="cep-fromPhet"/>
+                        </td>
+                    </tr>
+                </wicket:enclosure>
+                <wicket:enclosure child="goldStar">
+                    <tr>
+                        <td class="contribution-edit-label">
+                            <label for="cep-goldStar">
+                                Gold Star
+                            </label>
+                        </td>
+                        <td class="contribution-edit-input">
+                            <input type="checkbox" wicket:id="goldStar" id="cep-goldStar"/>
+                        </td>
+                    </tr>
+                </wicket:enclosure>
             </table>
 
             <table class="contribute-standards-table">
@@ -262,9 +286,9 @@
                             Science as Inquiry - A
                         </wicket:message>
                         &nbsp;</td>
-                    <td class="contribute-standard-checkbox"><input type="checkbox" wicket:id="stdK4A"/></td>
-                    <td class="contribute-standard-checkbox"><input type="checkbox" wicket:id="std58A"/></td>
-                    <td class="contribute-standard-checkbox"><input type="checkbox" wicket:id="std912A"/></td>
+                    <td class="contribute-standard-checkbox"><input type="checkbox" wicket:id="standardK4A"/></td>
+                    <td class="contribute-standard-checkbox"><input type="checkbox" wicket:id="standard58A"/></td>
+                    <td class="contribute-standard-checkbox"><input type="checkbox" wicket:id="standard912A"/></td>
                 </tr>
                 <tr>
                     <td class="contribute-standard-label">&nbsp;
@@ -272,9 +296,9 @@
                             Physical Science - B
                         </wicket:message>
                         &nbsp;</td>
-                    <td class="contribute-standard-checkbox"><input type="checkbox" wicket:id="stdK4B"/></td>
-                    <td class="contribute-standard-checkbox"><input type="checkbox" wicket:id="std58B"/></td>
-                    <td class="contribute-standard-checkbox"><input type="checkbox" wicket:id="std912B"/></td>
+                    <td class="contribute-standard-checkbox"><input type="checkbox" wicket:id="standardK4B"/></td>
+                    <td class="contribute-standard-checkbox"><input type="checkbox" wicket:id="standard58B"/></td>
+                    <td class="contribute-standard-checkbox"><input type="checkbox" wicket:id="standard912B"/></td>
                 </tr>
                 <tr>
                     <td class="contribute-standard-label">&nbsp;
@@ -282,9 +306,9 @@
                             Life Science - C
                         </wicket:message>
                         &nbsp;</td>
-                    <td class="contribute-standard-checkbox"><input type="checkbox" wicket:id="stdK4C"/></td>
-                    <td class="contribute-standard-checkbox"><input type="checkbox" wicket:id="std58C"/></td>
-                    <td class="contribute-standard-checkbox"><input type="checkbox" wicket:id="std912C"/></td>
+                    <td class="contribute-standard-checkbox"><input type="checkbox" wicket:id="standardK4C"/></td>
+                    <td class="contribute-standard-checkbox"><input type="checkbox" wicket:id="standard58C"/></td>
+                    <td class="contribute-standard-checkbox"><input type="checkbox" wicket:id="standard912C"/></td>
                 </tr>
                 <tr>
                     <td class="contribute-standard-label">&nbsp;
@@ -292,9 +316,9 @@
                             Earth &amp; Space Science - D
                         </wicket:message>
                         &nbsp;</td>
-                    <td class="contribute-standard-checkbox"><input type="checkbox" wicket:id="stdK4D"/></td>
-                    <td class="contribute-standard-checkbox"><input type="checkbox" wicket:id="std58D"/></td>
-                    <td class="contribute-standard-checkbox"><input type="checkbox" wicket:id="std912D"/></td>
+                    <td class="contribute-standard-checkbox"><input type="checkbox" wicket:id="standardK4D"/></td>
+                    <td class="contribute-standard-checkbox"><input type="checkbox" wicket:id="standard58D"/></td>
+                    <td class="contribute-standard-checkbox"><input type="checkbox" wicket:id="standard912D"/></td>
                 </tr>
                 <tr>
                     <td class="contribute-standard-label">&nbsp;
@@ -302,9 +326,9 @@
                             Science &amp; Technology - E
                         </wicket:message>
                         &nbsp;</td>
-                    <td class="contribute-standard-checkbox"><input type="checkbox" wicket:id="stdK4E"/></td>
-                    <td class="contribute-standard-checkbox"><input type="checkbox" wicket:id="std58E"/></td>
-                    <td class="contribute-standard-checkbox"><input type="checkbox" wicket:id="std912E"/></td>
+                    <td class="contribute-standard-checkbox"><input type="checkbox" wicket:id="standardK4E"/></td>
+                    <td class="contribute-standard-checkbox"><input type="checkbox" wicket:id="standard58E"/></td>
+                    <td class="contribute-standard-checkbox"><input type="checkbox" wicket:id="standard912E"/></td>
                 </tr>
                 <tr>
                     <td class="contribute-standard-label">&nbsp;
@@ -312,9 +336,9 @@
                             Science in Personal and Social Perspective - F
                         </wicket:message>
                         &nbsp;</td>
-                    <td class="contribute-standard-checkbox"><input type="checkbox" wicket:id="stdK4F"/></td>
-                    <td class="contribute-standard-checkbox"><input type="checkbox" wicket:id="std58F"/></td>
-                    <td class="contribute-standard-checkbox"><input type="checkbox" wicket:id="std912F"/></td>
+                    <td class="contribute-standard-checkbox"><input type="checkbox" wicket:id="standardK4F"/></td>
+                    <td class="contribute-standard-checkbox"><input type="checkbox" wicket:id="standard58F"/></td>
+                    <td class="contribute-standard-checkbox"><input type="checkbox" wicket:id="standard912F"/></td>
                 </tr>
                 <tr>
                     <td class="contribute-standard-label">&nbsp;
@@ -322,9 +346,9 @@
                             History and Nature of Science - G
                         </wicket:message>
                         &nbsp;</td>
-                    <td class="contribute-standard-checkmark"><input type="checkbox" wicket:id="stdK4G"/></td>
-                    <td class="contribute-standard-checkmark"><input type="checkbox" wicket:id="std58G"/></td>
-                    <td class="contribute-standard-checkmark"><input type="checkbox" wicket:id="std912G"/></td>
+                    <td class="contribute-standard-checkmark"><input type="checkbox" wicket:id="standardK4G"/></td>
+                    <td class="contribute-standard-checkmark"><input type="checkbox" wicket:id="standard58G"/></td>
+                    <td class="contribute-standard-checkmark"><input type="checkbox" wicket:id="standard912G"/></td>
                 </tr>
             </table>
 

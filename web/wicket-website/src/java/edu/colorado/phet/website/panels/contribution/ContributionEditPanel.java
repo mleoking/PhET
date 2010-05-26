@@ -19,6 +19,7 @@ import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.pages.RedirectPage;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.util.lang.Bytes;
 import org.apache.wicket.validation.validator.EmailAddressValidator;
@@ -27,6 +28,7 @@ import org.hibernate.Session;
 import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.authentication.AuthenticatedPage;
 import edu.colorado.phet.website.authentication.PhetSession;
+import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.constants.CSS;
 import edu.colorado.phet.website.content.contribution.ContributionPage;
 import edu.colorado.phet.website.data.PhetUser;
@@ -41,14 +43,24 @@ import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
 
+/**
+ * This panel presents the user with a form that either creates a new contribution or modifies an existing one.
+ */
 public class ContributionEditPanel extends PhetPanel {
 
+    /**
+     * The contribution itself. We create it upon loading this panel, and when the user submits successful changes it
+     * should be filled with most of its parameters automatically. The others have set models that are integrated in
+     * and synchronized (like levels and type, which can have multiples of each).
+     */
     private final Contribution contribution;
+
+    /**
+     * Whether we are creating a new contribution, or otherwise modifying an existing one
+     */
     private boolean creating;
 
     private PageContext context;
-
-    private static final Logger logger = Logger.getLogger( ContributionEditPanel.class.getName() );
 
     private SimSetManager simManager;
     private TypeSetManager typeManager;
@@ -57,6 +69,8 @@ public class ContributionEditPanel extends PhetPanel {
 
     private List existingFiles;
     private List filesToRemove;
+
+    private static final Logger logger = Logger.getLogger( ContributionEditPanel.class.getName() );
 
     public ContributionEditPanel( String id, PageContext context, Contribution preContribution ) {
         super( id, context );
@@ -105,6 +119,11 @@ public class ContributionEditPanel extends PhetPanel {
                 // TODO: possibly bail out here? investigate wicket options
                 setResponsePage( PhetWicketApplication.get().getApplicationSettings().getAccessDeniedPage() );
             }
+        }
+        else {
+            // initialize defaults for a new contribution
+            contribution.setFromPhet( currentUser.isTeamMember() );
+            contribution.setLocale( PhetWicketApplication.getDefaultLocale() );
         }
 
         // initialize selectors
@@ -170,48 +189,19 @@ public class ContributionEditPanel extends PhetPanel {
         add( new FeedbackPanel( "feedback" ) );
     }
 
-    public final class ContributionForm extends Form {
-
-        private RequiredTextField authorsText;
-        private RequiredTextField organizationText;
-        private RequiredTextField emailText;
-        private RequiredTextField titleText;
-        private RequiredTextField keywordsText;
+    public final class ContributionForm extends Form<Contribution> {
 
         private MultipleFileUploadPanel uploadPanel;
 
-        private TextArea descriptionText;
-
         private DurationDropDownChoice durationChoice;
-
-        private CheckBox answersCheck;
-
-        private CheckBox stdK4A;
-        private CheckBox stdK4B;
-        private CheckBox stdK4C;
-        private CheckBox stdK4D;
-        private CheckBox stdK4E;
-        private CheckBox stdK4F;
-        private CheckBox stdK4G;
-        private CheckBox std58A;
-        private CheckBox std58B;
-        private CheckBox std58C;
-        private CheckBox std58D;
-        private CheckBox std58E;
-        private CheckBox std58F;
-        private CheckBox std58G;
-        private CheckBox std912A;
-        private CheckBox std912B;
-        private CheckBox std912C;
-        private CheckBox std912D;
-        private CheckBox std912E;
-        private CheckBox std912F;
-        private CheckBox std912G;
 
         private LocaleDropDownChoice localeChoice;
 
         public ContributionForm( String id ) {
             super( id );
+
+            CompoundPropertyModel<Contribution> model = new CompoundPropertyModel<Contribution>( contribution );
+            setModel( model );
 
             // for ajax fallback link
             setOutputMarkupId( true );
@@ -219,24 +209,12 @@ public class ContributionEditPanel extends PhetPanel {
             setMultiPart( true );
             setMaxSize( Bytes.megabytes( 64 ) );
 
-            authorsText = new RequiredTextField( "contribution.edit.authors", new Model( creating ? "" : contribution.getAuthors() ) );
-            add( authorsText );
-
-            organizationText = new RequiredTextField( "contribution.edit.organization", new Model( creating ? "" : contribution.getAuthorOrganization() ) );
-            add( organizationText );
-
-            emailText = new RequiredTextField( "contribution.edit.email", new Model( creating ? "" : contribution.getContactEmail() ) );
-            emailText.add( EmailAddressValidator.getInstance() );
-            add( emailText );
-
-            titleText = new RequiredTextField( "contribution.edit.title", new Model( creating ? "" : contribution.getTitle() ) );
-            add( titleText );
-
-            keywordsText = new RequiredTextField( "contribution.edit.keywords", new Model( creating ? "" : contribution.getKeywords() ) );
-            add( keywordsText );
-
-            descriptionText = new TextArea( "contribution.edit.description", new Model( creating ? "" : contribution.getDescription() ) );
-            add( descriptionText );
+            add( new RequiredTextField<String>( "authors" ) );
+            add( new RequiredTextField<String>( "authorOrganization" ) );
+            add( new RequiredTextField<String>( "contactEmail" ).add( EmailAddressValidator.getInstance() ) );
+            add( new RequiredTextField<String>( "title" ) );
+            add( new RequiredTextField<String>( "keywords" ) );
+            add( new TextArea<String>( "description" ) );
 
             uploadPanel = new MultipleFileUploadPanel( "file-upload", context );
             add( uploadPanel );
@@ -253,56 +231,26 @@ public class ContributionEditPanel extends PhetPanel {
             durationChoice = new DurationDropDownChoice( "duration", creating ? 0 : contribution.getDuration() );
             add( durationChoice );
 
-            answersCheck = new CheckBox( "answers", new Model( creating ? Boolean.FALSE : new Boolean( contribution.isAnswersIncluded() ) ) );
-            add( answersCheck );
+            add( new CheckBox( "answersIncluded" ) );
 
             localeChoice = new LocaleDropDownChoice( "locale", context );
             add( localeChoice );
 
+            if( PhetSession.get().getUser().isTeamMember() ) {
+                add( new CheckBox( "fromPhet" ) );
+                add( new CheckBox( "goldStar" ) );
+            } else {
+                add( new InvisibleComponent( "fromPhet" ) );
+                add( new InvisibleComponent( "goldStar" ) );
+            }
+
             //stdK4A = new CheckBox( "stdK4A", new Model( creating ? Boolean.FALSE : new Boolean( contribution.isStandardK4A() ) ) ); add( stdK4A );
 
-            stdK4A = new CheckBox( "stdK4A", new Model( creating ? Boolean.FALSE : new Boolean( contribution.isStandardK4A() ) ) );
-            add( stdK4A );
-            stdK4B = new CheckBox( "stdK4B", new Model( creating ? Boolean.FALSE : new Boolean( contribution.isStandardK4B() ) ) );
-            add( stdK4B );
-            stdK4C = new CheckBox( "stdK4C", new Model( creating ? Boolean.FALSE : new Boolean( contribution.isStandardK4C() ) ) );
-            add( stdK4C );
-            stdK4D = new CheckBox( "stdK4D", new Model( creating ? Boolean.FALSE : new Boolean( contribution.isStandardK4D() ) ) );
-            add( stdK4D );
-            stdK4E = new CheckBox( "stdK4E", new Model( creating ? Boolean.FALSE : new Boolean( contribution.isStandardK4E() ) ) );
-            add( stdK4E );
-            stdK4F = new CheckBox( "stdK4F", new Model( creating ? Boolean.FALSE : new Boolean( contribution.isStandardK4F() ) ) );
-            add( stdK4F );
-            stdK4G = new CheckBox( "stdK4G", new Model( creating ? Boolean.FALSE : new Boolean( contribution.isStandardK4G() ) ) );
-            add( stdK4G );
-            std58A = new CheckBox( "std58A", new Model( creating ? Boolean.FALSE : new Boolean( contribution.isStandard58A() ) ) );
-            add( std58A );
-            std58B = new CheckBox( "std58B", new Model( creating ? Boolean.FALSE : new Boolean( contribution.isStandard58B() ) ) );
-            add( std58B );
-            std58C = new CheckBox( "std58C", new Model( creating ? Boolean.FALSE : new Boolean( contribution.isStandard58C() ) ) );
-            add( std58C );
-            std58D = new CheckBox( "std58D", new Model( creating ? Boolean.FALSE : new Boolean( contribution.isStandard58D() ) ) );
-            add( std58D );
-            std58E = new CheckBox( "std58E", new Model( creating ? Boolean.FALSE : new Boolean( contribution.isStandard58E() ) ) );
-            add( std58E );
-            std58F = new CheckBox( "std58F", new Model( creating ? Boolean.FALSE : new Boolean( contribution.isStandard58F() ) ) );
-            add( std58F );
-            std58G = new CheckBox( "std58G", new Model( creating ? Boolean.FALSE : new Boolean( contribution.isStandard58G() ) ) );
-            add( std58G );
-            std912A = new CheckBox( "std912A", new Model( creating ? Boolean.FALSE : new Boolean( contribution.isStandard912A() ) ) );
-            add( std912A );
-            std912B = new CheckBox( "std912B", new Model( creating ? Boolean.FALSE : new Boolean( contribution.isStandard912B() ) ) );
-            add( std912B );
-            std912C = new CheckBox( "std912C", new Model( creating ? Boolean.FALSE : new Boolean( contribution.isStandard912C() ) ) );
-            add( std912C );
-            std912D = new CheckBox( "std912D", new Model( creating ? Boolean.FALSE : new Boolean( contribution.isStandard912D() ) ) );
-            add( std912D );
-            std912E = new CheckBox( "std912E", new Model( creating ? Boolean.FALSE : new Boolean( contribution.isStandard912E() ) ) );
-            add( std912E );
-            std912F = new CheckBox( "std912F", new Model( creating ? Boolean.FALSE : new Boolean( contribution.isStandard912F() ) ) );
-            add( std912F );
-            std912G = new CheckBox( "std912G", new Model( creating ? Boolean.FALSE : new Boolean( contribution.isStandard912G() ) ) );
-            add( std912G );
+            for ( String level : new String[]{"K4", "58", "912"} ) {
+                for ( String standard : new String[]{"A", "B", "C", "D", "E", "F", "G"} ) {
+                    add( new CheckBox( "standard" + level + standard ) );
+                }
+            }
 
             // wrap the existing files in a container so we can refresh it via ajax without wiping other form changes.
             // particularly significant, since if would wipe any files to be uploaded otherwise
@@ -363,64 +311,22 @@ public class ContributionEditPanel extends PhetPanel {
                 public boolean run( Session session ) {
 
                     // pull out values
-                    String authors = authorsText.getModelObject().toString();
-                    String org = organizationText.getModelObject().toString();
-                    String email = emailText.getModelObject().toString();
-                    String title = titleText.getModelObject().toString();
-                    String keywords = keywordsText.getModelObject().toString();
-                    String description = descriptionText.getModelObject().toString();
                     int duration = ( (DurationItem) durationChoice.getModelObject() ).getDuration();
-                    boolean answers = (Boolean) answersCheck.getModelObject();
+                    boolean answers = getModelObject().isAnswersIncluded();
                     Locale locale = localeChoice.getLocale() == null ? PhetWicketApplication.getDefaultLocale() : localeChoice.getLocale();
 
-                    Contribution contribution;
+                    //Contribution contribution;
                     PhetUser user = (PhetUser) session.load( PhetUser.class, PhetSession.get().getUser().getId() );
 
                     // set up the contribution
                     if ( creating ) {
-                        contribution = new Contribution();
                         contribution.setDateCreated( new Date() );
-                        contribution.setApproved( false );
-                        contribution.setFromPhet( user.isTeamMember() );
-                        contribution.setGoldStar( false );
-                        contribution.setOldId( 0 );
-                    }
-                    else {
-                        contribution = (Contribution) session.load( Contribution.class, getContribution().getId() );
                     }
 
                     contribution.setDateUpdated( new Date() );
 
                     // set simple fields
-                    contribution.setAuthors( authors );
-                    contribution.setAuthorOrganization( org );
-                    contribution.setContactEmail( email );
-                    contribution.setTitle( title );
-                    contribution.setKeywords( keywords );
-                    contribution.setDescription( description );
                     contribution.setDuration( duration );
-                    contribution.setAnswersIncluded( answers );
-                    contribution.setStandardK4A( (Boolean) stdK4A.getModelObject() );
-                    contribution.setStandardK4B( (Boolean) stdK4B.getModelObject() );
-                    contribution.setStandardK4C( (Boolean) stdK4C.getModelObject() );
-                    contribution.setStandardK4D( (Boolean) stdK4D.getModelObject() );
-                    contribution.setStandardK4E( (Boolean) stdK4E.getModelObject() );
-                    contribution.setStandardK4F( (Boolean) stdK4F.getModelObject() );
-                    contribution.setStandardK4G( (Boolean) stdK4G.getModelObject() );
-                    contribution.setStandard58A( (Boolean) std58A.getModelObject() );
-                    contribution.setStandard58B( (Boolean) std58B.getModelObject() );
-                    contribution.setStandard58C( (Boolean) std58C.getModelObject() );
-                    contribution.setStandard58D( (Boolean) std58D.getModelObject() );
-                    contribution.setStandard58E( (Boolean) std58E.getModelObject() );
-                    contribution.setStandard58F( (Boolean) std58F.getModelObject() );
-                    contribution.setStandard58G( (Boolean) std58G.getModelObject() );
-                    contribution.setStandard912A( (Boolean) std912A.getModelObject() );
-                    contribution.setStandard912B( (Boolean) std912B.getModelObject() );
-                    contribution.setStandard912C( (Boolean) std912C.getModelObject() );
-                    contribution.setStandard912D( (Boolean) std912D.getModelObject() );
-                    contribution.setStandard912E( (Boolean) std912E.getModelObject() );
-                    contribution.setStandard912F( (Boolean) std912F.getModelObject() );
-                    contribution.setStandard912G( (Boolean) std912G.getModelObject() );
                     contribution.setPhetUser( user );
                     contribution.setLocale( locale );
 
