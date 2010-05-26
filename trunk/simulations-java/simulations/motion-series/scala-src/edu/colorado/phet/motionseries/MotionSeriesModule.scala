@@ -10,11 +10,6 @@ import javax.swing.{JDialog, JMenuItem, RepaintManager}
 import swing.ScalaValueControl
 import edu.colorado.phet.motionseries.Predef._
 
-//todo: remove the need for this global, perhaps by overriding PhetFrame
-object global {
-  var inited = false
-}
-
 class MotionSeriesConfigDialog(phetFrame: PhetFrame) extends JDialog(phetFrame, false) {
   val layoutPanel = new VerticalLayoutPanel
   layoutPanel.add(new ScalaValueControl(1, 100, "tail width".literal, "0.0".literal, "px".literal,
@@ -35,14 +30,6 @@ class MotionSeriesModule(frame: PhetFrame,
                          initialAngle: Double,
                          fbdPopupOnly: Boolean)
         extends Module(name, clock) {
-  if (!global.inited) {
-    val item = new JMenuItem("Configure Motion Series".literal)
-    item.addActionListener(new ActionListener() {
-      def actionPerformed(e: ActionEvent) = new MotionSeriesConfigDialog(frame).setVisible(true)
-    })
-    frame.getDeveloperMenu.add(item)
-    global.inited = true
-  }
   def createMotionSeriesModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngle: Double) =
     new MotionSeriesModel(defaultBeadPosition, pausedOnReset, initialAngle)
 
