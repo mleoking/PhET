@@ -24,7 +24,6 @@ import edu.umd.cs.piccolo.{PNode}
 import edu.umd.cs.piccolox.pswing.{PSwingCanvas, PSwing}
 
 class RampControlPanel(model: MotionSeriesModel,
-                       wordModel: WordModel,
                        freeBodyDiagramModel: FreeBodyDiagramModel,
                        coordinateSystemModel: AdjustableCoordinateModel,
                        vectorViewModel: VectorViewModel,
@@ -36,7 +35,7 @@ class RampControlPanel(model: MotionSeriesModel,
                        showFrictionControl: Boolean,
                        showBounceControl: Boolean)
         extends ControlPanel {
-  val body = new RampControlPanelBody(model, wordModel, freeBodyDiagramModel, coordinateSystemModel, vectorViewModel, resetHandler,
+  val body = new RampControlPanelBody(model, freeBodyDiagramModel, coordinateSystemModel, vectorViewModel, resetHandler,
     coordinateSystemFeaturesEnabled, useObjectComboBox, objectModel, showAngleSlider, showFrictionControl, showBounceControl)
 
   addControl(body)
@@ -48,7 +47,6 @@ class RampControlPanel(model: MotionSeriesModel,
 }
 
 class RampControlPanelBody(model: MotionSeriesModel,
-                           wordModel: WordModel,
                            freeBodyDiagramModel: FreeBodyDiagramModel,
                            coordinateSystemModel: AdjustableCoordinateModel,
                            vectorViewModel: VectorViewModel,

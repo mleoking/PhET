@@ -4,7 +4,6 @@ import edu.colorado.phet.common.phetcommon.view.PhetFrame
 import edu.colorado.phet.motionseries.graphics.{RampCanvas}
 import java.awt.geom.Rectangle2D
 import edu.colorado.phet.common.piccolophet.{PiccoloPhetApplication}
-import edu.colorado.phet.motionseries.controls.RampControlPanel
 import robotmovingcompany.{RobotMovingCompanyModule}
 
 import edu.colorado.phet.scalacommon.ScalaClock
@@ -16,7 +15,8 @@ import edu.umd.cs.piccolox.pswing.PSwing
 import edu.colorado.phet.common.phetcommon.application.{ApplicationConstructor, PhetApplicationLauncher, PhetApplicationConfig, Module}
 import javax.swing.JMenuItem
 import java.awt.event.{ActionListener, ActionEvent, ComponentEvent, ComponentAdapter}
-import edu.colorado.phet.motionseries.{DeveloperDialog, StageContainerArea, MotionSeriesDefaults, MotionSeriesModule}
+import edu.colorado.phet.motionseries.{StageContainerArea, MotionSeriesDefaults, MotionSeriesModule}
+import edu.colorado.phet.motionseries.controls.{DeveloperDialog, RampControlPanel}
 
 /**
  * This is the parent class for the various Modules for the ramp simulation.
@@ -40,7 +40,7 @@ class BasicRampModule(frame: PhetFrame,
   setSimulationPanel(rampCanvas)
 
   //Create the control panel and set it as the simulation control panel
-  val rampControlPanel = new RampControlPanel(motionSeriesModel, wordModel, fbdModel, coordinateSystemModel, vectorViewModel, resetRampModule, coordinateSystemEnabled, objectComboBoxEnabled, motionSeriesModel, true, true, true)
+  val rampControlPanel = new RampControlPanel(motionSeriesModel, fbdModel, coordinateSystemModel, vectorViewModel, resetRampModule, coordinateSystemEnabled, objectComboBoxEnabled, motionSeriesModel, true, true, true)
   setControlPanel(rampControlPanel)
 
   //Set the clock control panel

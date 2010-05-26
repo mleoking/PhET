@@ -3,35 +3,7 @@ package edu.colorado.phet.motionseries.model
 import edu.colorado.phet.scalacommon.util.Observable
 import edu.colorado.phet.common.phetcommon.math.MathUtil
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
-import java.lang.Math._
 
-class WordModel extends Observable {
-  private var _physicsWords = true
-  private var _everydayWords = false
-
-  resetAll()
-  def resetAll() = {
-    physicsWords = true
-    everydayWords = false
-  }
-
-  def physicsWords_=(v: Boolean) = {
-    _physicsWords = v
-    _everydayWords = !_physicsWords
-
-    notifyListeners()
-  }
-
-  def physicsWords = _physicsWords
-
-  def everydayWords = _everydayWords
-
-  def everydayWords_=(v: Boolean) = {
-    _everydayWords = v
-    _physicsWords = !v
-    notifyListeners()
-  }
-}
 class FreeBodyDiagramModel(val popupDialogOnly: Boolean) extends Observable {
   private var _windowed = false
   private var _visible = false
