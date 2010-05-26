@@ -50,7 +50,7 @@ public class TranslationListPanel extends PhetPanel {
                 for ( Object tran : trans ) {
                     Translation translation = (Translation) tran;
 
-                    if ( !translation.isAuthorizedUser( PhetSession.get().getUser() ) ) {
+                    if ( !translation.allowView( PhetSession.get().getUser() ) ) {
                         // don't show translations that the user doesn't have access to
                         continue;
                     }
@@ -70,12 +70,6 @@ public class TranslationListPanel extends PhetPanel {
 
         add( new TranslationListView( "translation-list", translations, sizes ) );
 
-        if ( PhetSession.get().getUser().isTeamMember() ) {
-            add( new Label( "admin-cols", "" ) );
-        }
-        else {
-            add( new InvisibleComponent( "admin-cols" ) );
-        }
     }
 
     private class TranslationListView extends ListView<Translation> {
@@ -95,9 +89,9 @@ public class TranslationListPanel extends PhetPanel {
             // whether this is the main English translation
             boolean isDefaultEnglish = translation.isVisible() && translation.getLocale().equals( PhetWicketApplication.getDefaultLocale() );
 
-            boolean visibleToggleShown = user.isTeamMember() && !isDefaultEnglish;
-            boolean editShown = user.isTeamMember() || !translation.isLocked();
-            boolean deleteShown = user.isTeamMember() && !isDefaultEnglish;
+            boolean visibleToggleShown = translation.allowToggleVisibility( user );
+            boolean editShown = translation.allowEdit( user );
+            boolean deleteShown = translation.allowDelete( user );
 
             item.add( new Label( "id", String.valueOf( translation.getId() ) ) );
             item.add( new Label( "locale", phetLocales.getName( translation.getLocale() ) + " (" + LocaleUtils.localeToString( translation.getLocale() ) + ")" ) );
@@ -120,10 +114,22 @@ public class TranslationListPanel extends PhetPanel {
                 item.add( new InvisibleComponent( "visible-toggle" ) );
             }
 
-            PageContext newContext = new PageContext( "/translation/" + String.valueOf( translation.getId() ) + "/", "", translation.getLocale() );
+            PageContext newContext;
+            String type;
+            if ( translation.isVisible() ) {
+                type = "view";
+                newContext = new PageContext( PageContext.getStandardPrefix( translation.getLocale() ), "", translation.getLocale() );
+            }
+            else {
+                type = "preview";
+                newContext = new PageContext( PageContext.getTranslationPrefix( translation.getId() ), "", translation.getLocale() );
+            }
+
+            // make a popuplink class
             Link popupLink = IndexPage.getLinker().getLink( "preview", newContext, getPhetCycle() );
             popupLink.setPopupSettings( new PopupSettings( PopupSettings.LOCATION_BAR | PopupSettings.MENU_BAR | PopupSettings.RESIZABLE
                                                            | PopupSettings.SCROLLBARS | PopupSettings.STATUS_BAR | PopupSettings.TOOL_BAR ) );
+            popupLink.add( new Label( "type", type ) );
             item.add( popupLink );
 
             if ( editShown ) {
@@ -140,33 +146,37 @@ public class TranslationListPanel extends PhetPanel {
                 item.add( new InvisibleComponent( "edit" ) );
             }
 
-            Label lockLabel = new Label( "locked-label", String.valueOf( translation.isLocked() ? "locked" : "editable" ) );
-            if ( translation.isLocked() ) {
-                lockLabel.add( new AttributeAppender( "class", true, new Model<String>( "translation-locked" ), " " ) );
+            if ( user.isTeamMember() || translation.isUserAuthorized( user ) ) {
+                Label lockLabel = new Label( "locked-label", String.valueOf( translation.isLocked() ? "locked" : "editable" ) );
+                if ( translation.isLocked() ) {
+                    lockLabel.add( new AttributeAppender( "class", true, new Model<String>( "translation-locked" ), " " ) );
+                }
+                item.add( lockLabel );
             }
-            item.add( lockLabel );
+            else {
+                item.add( new InvisibleComponent( "locked-label" ) );
+            }
 
-            if ( user.isTeamMember() ) {
-                if ( deleteShown ) {
-                    item.add( new Link( "delete" ) {
-                        public void onClick() {
-                            delete( translation );
-                        }
-                    } );
-                }
-                else {
-                    item.add( new Label( "delete", "" ) );
-                }
+            if ( translation.allowToggleLocking( user ) ) {
                 item.add( new Link( "lock-toggle" ) {
                     @Override
                     public void onClick() {
                         toggleLock( translation );
                     }
                 } );
-
             }
             else {
                 item.add( new InvisibleComponent( "lock-toggle" ) );
+            }
+
+            if ( deleteShown ) {
+                item.add( new Link( "delete" ) {
+                    public void onClick() {
+                        delete( translation );
+                    }
+                } );
+            }
+            else {
                 item.add( new InvisibleComponent( "delete" ) );
             }
 

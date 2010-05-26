@@ -64,7 +64,7 @@ public class TranslationMainPage extends TranslationPage {
                     List trans = session.createQuery( "select t from Translation as t" ).list();
                     for ( Object o : trans ) {
                         Translation translation = (Translation) o;
-                        if ( translation.isAuthorizedUser( user ) || translation.isVisible() ) {
+                        if ( translation.allowView( user ) ) {
                             translations.add( translation );
                         }
                     }
