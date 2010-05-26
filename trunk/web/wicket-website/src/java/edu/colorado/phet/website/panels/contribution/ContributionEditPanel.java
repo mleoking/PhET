@@ -242,10 +242,12 @@ public class ContributionEditPanel extends PhetPanel {
             if ( PhetSession.get().getUser().isTeamMember() ) {
                 add( new CheckBox( "fromPhet" ) );
                 add( new CheckBox( "goldStar" ) );
+                add( new CheckBox( "approved" ) );
             }
             else {
                 add( new InvisibleComponent( "fromPhet" ) );
                 add( new InvisibleComponent( "goldStar" ) );
+                add( new InvisibleComponent( "approved" ) );
             }
 
             //stdK4A = new CheckBox( "stdK4A", new Model( creating ? Boolean.FALSE : new Boolean( contribution.isStandardK4A() ) ) ); add( stdK4A );
