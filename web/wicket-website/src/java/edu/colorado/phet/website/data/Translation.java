@@ -14,6 +14,7 @@ public class Translation implements Serializable, IntId {
     private Set translatedStrings = new HashSet();
     private Set authorizedUsers = new HashSet();
     private boolean visible;
+    private boolean locked;
 
     public boolean isAuthorizedUser( PhetUser user ) {
         // must be specifically authorized to change main English translation strings
@@ -96,4 +97,11 @@ public class Translation implements Serializable, IntId {
         this.visible = visible;
     }
 
+    public boolean isLocked() {
+        return locked;
+    }
+
+    public void setLocked( boolean locked ) {
+        this.locked = locked;
+    }
 }
