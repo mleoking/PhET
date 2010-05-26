@@ -33,6 +33,11 @@ div.rtl #page-header-logo {
     color: white;
 }
 
+#page-header-search a {
+    /* for the current version link */
+    color: white;
+}
+
 #page-header-search form {
     padding: 0;
     margin: 0;
