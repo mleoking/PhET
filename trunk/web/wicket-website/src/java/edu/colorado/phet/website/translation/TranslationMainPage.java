@@ -42,9 +42,11 @@ public class TranslationMainPage extends TranslationPage {
 
         add( new CreateTranslationForm( "create-new-translation-form" ) );
 
-        add( new TranslationListPanel( "translation-list-panel", getPageContext() ) );
+        TranslationListPanel translationList = new TranslationListPanel( "translation-list-panel", getPageContext() );
+        
+        add( translationList );
 
-        add( new CopyTranslationForm( "create-version-translation-form" ) );
+        add( new CopyTranslationForm( "create-version-translation-form", translationList.getTranslations() ) );
 
     }
 
@@ -52,25 +54,8 @@ public class TranslationMainPage extends TranslationPage {
 
         private Translation translation;
 
-        public CopyTranslationForm( String id ) {
+        public CopyTranslationForm( String id, final List<Translation> translations ) {
             super( id );
-
-            final List<Translation> translations = new LinkedList<Translation>();
-
-            final PhetUser user = PhetSession.get().getUser();
-
-            HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
-                public boolean run( Session session ) {
-                    List trans = session.createQuery( "select t from Translation as t" ).list();
-                    for ( Object o : trans ) {
-                        Translation translation = (Translation) o;
-                        if ( translation.allowView( user ) ) {
-                            translations.add( translation );
-                        }
-                    }
-                    return true;
-                }
-            } );
 
             add( new DropDownChoice<Translation>( "translations", new PropertyModel<Translation>( this, "translation" ), translations ) );
         }
