@@ -1,6 +1,6 @@
 img.spons {
     float: left;
-    margin: 0px 3px 0px 0px;
+    margin: 0 3px 0 0;
 }
 
 a img.spons {
@@ -15,8 +15,8 @@ a img.spons {
 #spons div.principalSponsors {
     color: #0d2973;
     font-size: 14px;
-    margin: 1ex 0pt;
-    padding: 0pt;
+    margin: 1ex 0;
+    padding: 0;
     font-weight: bold;
 }
 
@@ -28,8 +28,8 @@ a img.spons {
     background-repeat: no-repeat;
     background-attachment: scroll;
     background-position: bottom left;
-    padding: 0pt;
-    margin: 0pt auto;
+    padding: 0;
+    margin: 0 auto;
     border: medium none;
 }
 
@@ -41,14 +41,14 @@ a img.spons {
     background-position: bottom left;
     background-color: #d8eaf4;
     font-size: 0.9em;
-    padding: 0pt 10px 10px;
-    margin: 0pt auto;
+    padding: 0 10px 10px;
+    margin: 0 auto;
     border: medium none;
 }
 
 #spons div.sponsors-fake-dt, #spons div.sponsors-fake-dd {
-    margin: 0pt;
-    padding: 0pt 0pt 4px 18px;
+    margin: 0;
+    padding: 0 0 4px 18px;
 }
 
 #spons div.sponsors-fake-dd {

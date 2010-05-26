@@ -22,15 +22,12 @@ div.index-holder {
 }
 
 #right-middle {
-/*margin-left: 310px;*/
-/*position: relative;*/
     position: absolute;
     width: 425px;
-    left: 310px; /*left: 300px;*/
+    left: 310px;
 }
 
 #index-middle-div {
-/*height: 199px;*/
     position: relative;
     height: 222px;
     background-image: url(../images/home-background-1.png);
@@ -53,13 +50,12 @@ div.index-holder {
 #index-play-sims {
     width: 153px;
     height: 38px;
-    margin: 0 auto;
+    margin: 5px auto 0;
     text-align: center;
     vertical-align: middle;
     text-decoration: none;
     display: block;
     color: #FFFFFF;
-    margin-top: 5px;
     background-image: url(../images/blank-button.gif);
 }
 
@@ -271,7 +267,7 @@ div.practices dd a:hover {
     position: absolute;
     top: 199px;
     height: 23px;
-    left: 0px;
+    left: 0;
     width: 425px;
     font-size: 12px;
 }
