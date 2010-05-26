@@ -279,7 +279,8 @@ public class TimesheetApp {
     }
 
     static class ControlPanel extends JPanel {
-        private JLabel totalTime;
+        private JLabel totalTimeLabel;
+        private JLabel timeTodayLabel;
         private TimesheetModel timesheetModel;
 
         ControlPanel(final TimesheetModel timesheetModel, final ActionListener saveAction, final SelectionModel selectionModel) {
@@ -330,18 +331,30 @@ public class TimesheetApp {
             });
             save.setEnabled(timesheetModel.isDirty());
 
-            totalTime = new JLabel();
-            add(totalTime);
+            totalTimeLabel = new JLabel();
+            add(totalTimeLabel);
             updateTimeReadout();
             timesheetModel.addTimeListener(new TimesheetModel.TimeListener() {
                 public void timeChanged() {
                     updateTimeReadout();
                 }
             });
+
+            timeTodayLabel=new JLabel();
+            add(timeTodayLabel);
+            updateTimeTodayReadout();
+            timesheetModel.addTimeListener(new TimesheetModel.TimeListener() {
+                public void timeChanged() {
+                    updateTimeTodayReadout();
+                }
+            });
         }
 
         private void updateTimeReadout() {
-            totalTime.setText("Time: " + Util.secondsToElapsedTimeString(timesheetModel.getTotalTimeSeconds()));
+            totalTimeLabel.setText("Total: " + Util.secondsToElapsedTimeString(timesheetModel.getTotalTimeSeconds()));
+        }
+        private void updateTimeTodayReadout() {
+            timeTodayLabel.setText("Today: " + Util.secondsToElapsedTimeString(timesheetModel.getSecondsToday()));
         }
     }
 
