@@ -149,11 +149,10 @@ class RampApplication(config: PhetApplicationConfig) extends PiccoloPhetApplicat
 }
 
 /**
- * Main application for The Ramp simulation.  This is named RampApplicationMain instead of RampApplication
- * because the latter confuses the Eclipse Scala plugin
+ * Main application for The Ramp simulation.
  * @author Sam Reid
  */
-object RampApplicationMain {
+object RampApplication {
   def main(args: Array[String]) = {
 //    PDebug.debugBounds=true
 //    PDebug.debugFullBounds=true
