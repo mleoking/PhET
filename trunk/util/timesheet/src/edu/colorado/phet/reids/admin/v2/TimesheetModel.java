@@ -146,8 +146,13 @@ class TimesheetModel {
     public long getSecondsToday() {
         GregorianCalendar cal = new GregorianCalendar();
         cal.set(GregorianCalendar.HOUR_OF_DAY, 0);
-        long time = cal.getTimeInMillis();
-        return getTimeInInterval(time/1000, System.currentTimeMillis()/1000);
+        cal.set(GregorianCalendar.MINUTE, 0);
+        cal.set(GregorianCalendar.SECOND, 0);
+        cal.set(GregorianCalendar.MILLISECOND, 0);
+        long secondsAtDayStart = cal.getTimeInMillis() / 1000;
+        long currentSeconds = System.currentTimeMillis() / 1000;
+        //System.out.println("secondsAtDayStart = " + secondsAtDayStart+", currentSec = "+currentSeconds);
+        return getTimeInInterval(secondsAtDayStart, currentSeconds);
     }
 
     public void addTimeListener(TimeListener timeListener) {
