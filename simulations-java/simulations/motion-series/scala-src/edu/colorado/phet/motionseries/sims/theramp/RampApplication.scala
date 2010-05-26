@@ -112,7 +112,9 @@ class WorkEnergyModule(frame: PhetFrame) extends GraphingModule(frame, "module.e
   rampCanvas.addComponentListener(new ComponentAdapter {
     override def componentResized(e: ComponentEvent) = updateEnergyButtonLocation()
   })
-  updateEnergyButtonLocation()
+  updateEnergyButtonLocation() //initialize the location correctly on startup
+
+  //make sure the visibility of the "show energy" button is correct
   workEnergyChartVisibilityModel.addListener(() => showEnergyButtonPSwing.setVisible(!workEnergyChartVisibilityModel.visible))
 
   //create the work-energy chart; its visibility is determined by the visibility model
