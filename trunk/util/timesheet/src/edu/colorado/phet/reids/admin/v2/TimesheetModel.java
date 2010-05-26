@@ -5,6 +5,7 @@ import edu.colorado.phet.reids.admin.util.FileUtils;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.StringTokenizer;
 
 /**
@@ -132,6 +133,21 @@ class TimesheetModel {
             sum += entry.getElapsedSeconds();
         }
         return sum;
+    }
+
+    public long getTimeInInterval(long start, long end) {
+        long sum = 0;
+        for (Entry entry : entries) {
+            sum += entry.getTimeInInterval(start, end);
+        }
+        return sum;
+    }
+
+    public long getSecondsToday() {
+        GregorianCalendar cal = new GregorianCalendar();
+        cal.set(GregorianCalendar.HOUR_OF_DAY, 0);
+        long time = cal.getTimeInMillis();
+        return getTimeInInterval(time/1000, System.currentTimeMillis()/1000);
     }
 
     public void addTimeListener(TimeListener timeListener) {
