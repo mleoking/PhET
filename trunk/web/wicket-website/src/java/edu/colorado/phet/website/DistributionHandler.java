@@ -125,7 +125,7 @@ public class DistributionHandler {
      * @return Whether or not to display pages under Teacher Ideas & Activities
      */
     public static boolean displayContributions( PhetRequestCycle cycle ) {
-        return !cycle.isInstaller();
+        return cycle.isOfflineInstaller() || !cycle.isInstaller();
     }
 
     /**
