@@ -9,6 +9,7 @@
         </id>
         <property name="locale" type="locale"/>
         <property name="visible"/>
+        <property name="locked"/>
         <set name="translatedStrings" inverse="true" cascade="all">
             <key column="translation" on-delete="cascade"/>
             <one-to-many class="edu.colorado.phet.website.data.TranslatedString"/>

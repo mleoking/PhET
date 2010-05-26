@@ -54,7 +54,7 @@
 
         <strong>PLEASE READ THIS PAGE COMPLETELY BEFORE USING</strong>
 
-        <h2>Create a Translation</h2>
+        <h2>Create a New Translation</h2>
 
         <form wicket:id="create-translation-form">
             Create a translation:
@@ -65,41 +65,7 @@
         </form>
 
         <h2>Editable Translations</h2>
-        <table class="translation-table">
-            <tr class="head">
-                <td>id</td>
-                <td>locale</td>
-                <td># translated strings</td>
-                <td>visible</td>
-                <td>click to preview</td>
-                <td>click to edit</td>
-                <td>click to delete</td>
-            </tr>
-            <tr wicket:id="translation-list">
-                <td wicket:id="id">
-
-                </td>
-                <td wicket:id="locale">
-
-                </td>
-                <td wicket:id="num-strings">
-
-                </td>
-                <td>
-                    <span wicket:id="visible-label">yes</span>
-                    <a href="#" wicket:id="visible-toggle">(toggle)</a>
-                </td>
-                <td>
-                    <a href="TranslationMainPage.html#" wicket:id="preview">preview</a>
-                </td>
-                <td>
-                    <a href="TranslationMainPage.html#" wicket:id="edit">edit</a>
-                </td>
-                <td>
-                    <a href="TranslationMainPage.html#" wicket:id="delete">delete</a>
-                </td>
-            </tr>
-        </table>
+        <div wicket:id="translation-list-panel"></div>
 
         <h2>Instructions</h2>
 

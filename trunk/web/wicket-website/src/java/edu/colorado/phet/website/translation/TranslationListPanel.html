@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd" xml:lang="en"
+      lang="en">
+<head>
+    <title>[PREVIEW] TranslationListPanel</title>
+    <wicket:remove>
+        <!-- for preview purposes only -->
+        <link rel="stylesheet" type="text/css" href="../../../../../../../root/css/preview.css"/>
+        <style type="text/css">
+        </style>
+    </wicket:remove>
+</head>
+<body>
+
+<wicket:panel>
+    <table class="translation-table">
+        <tr class="head">
+            <td>id</td>
+            <td>locale</td>
+            <td># translated strings</td>
+            <td>visible</td>
+            <td>click to preview</td>
+            <td>click to edit</td>
+            <td>click to delete</td>
+        </tr>
+        <tr wicket:id="translation-list">
+            <td wicket:id="id">
+
+            </td>
+            <td wicket:id="locale">
+
+            </td>
+            <td wicket:id="num-strings">
+
+            </td>
+            <td>
+                <span wicket:id="visible-label">yes</span>
+                <a href="#" wicket:id="visible-toggle">(toggle)</a>
+            </td>
+            <td>
+                <a href="TranslationMainPage.html#" wicket:id="preview">preview</a>
+            </td>
+            <td>
+                <a href="TranslationMainPage.html#" wicket:id="edit">edit</a>
+            </td>
+            <td>
+                <a href="TranslationMainPage.html#" wicket:id="delete">delete</a>
+            </td>
+        </tr>
+    </table>
+</wicket:panel>
+
+</body>
+</html>
+
