@@ -16,7 +16,7 @@ import edu.umd.cs.piccolox.pswing.PSwing
 import edu.colorado.phet.common.phetcommon.application.{ApplicationConstructor, PhetApplicationLauncher, PhetApplicationConfig, Module}
 import javax.swing.JMenuItem
 import java.awt.event.{ActionListener, ActionEvent, ComponentEvent, ComponentAdapter}
-import edu.colorado.phet.motionseries.{MotionSeriesConfigDialog, StageContainerArea, MotionSeriesDefaults, MotionSeriesModule}
+import edu.colorado.phet.motionseries.{DeveloperDialog, StageContainerArea, MotionSeriesDefaults, MotionSeriesModule}
 
 /**
  * This is the parent class for the various Modules for the ramp simulation.
@@ -163,7 +163,7 @@ object RampApplication {
         //Add an item to the PhETFrame's developer menu
         val item = new JMenuItem("Configure Motion Series".literal) {
           addActionListener(new ActionListener() {
-            def actionPerformed(e: ActionEvent) = new MotionSeriesConfigDialog(getPhetFrame).setVisible(true)
+            def actionPerformed(e: ActionEvent) = new DeveloperDialog(getPhetFrame).setVisible(true)
           })
         }
         getPhetFrame.getDeveloperMenu.add(item)
