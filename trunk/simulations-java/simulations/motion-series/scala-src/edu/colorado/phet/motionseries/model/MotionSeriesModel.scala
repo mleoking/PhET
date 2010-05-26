@@ -9,7 +9,7 @@ import edu.colorado.phet.scalacommon.util.Observable
 import java.lang.Math._
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.colorado.phet.motionseries.charts.GoButtonVisibilityModel
-import edu.colorado.phet.recordandplayback.model.{DataPoint, RecordAndPlaybackModel}
+import edu.colorado.phet.recordandplayback.model.{RecordAndPlaybackModel}
 
 case class RampState(angle: Double, heat: Double, wetness: Double)
 
@@ -26,16 +26,6 @@ class MotionSeriesModel(defaultBeadPosition: Double,
                         pausedOnReset: Boolean,
                         initialAngle: Double)
         extends RecordAndPlaybackModel[RecordedState](1000) with ObjectModel with RampSurfaceModel {
-  def stepRecording(simulationTimeChange: Double) = {
-    stepRecord()
-//    if (getTime < MotionSeriesDefaults.MAX_RECORD_TIME) {
-      val mode = bead.motionStrategy.getMemento
-      new RecordedState(new RampState(getRampAngle, rampSegments(1).heat, rampSegments(1).wetness),
-        selectedObject.state, bead.state, manBead.state, bead.parallelAppliedForce, walls, mode)
-//    }
-    
-  }
-
   private var _walls = true
   private var _frictionless = MotionSeriesDefaults.FRICTIONLESS_DEFAULT
   private var _bounce = MotionSeriesDefaults.BOUNCE_DEFAULT
@@ -60,16 +50,16 @@ class MotionSeriesModel(defaultBeadPosition: Double,
   val wallsBounce = () => bounce
 
   val defaultManPosition = defaultBeadPosition - 1
-  val leftWall = MovingManBead(this,-10, MotionSeriesDefaults.wall.width, MotionSeriesDefaults.wall.height)
-  val rightWall = MovingManBead(this,10, MotionSeriesDefaults.wall.width, MotionSeriesDefaults.wall.height)
+  val leftWall = MovingManBead(this, -10, MotionSeriesDefaults.wall.width, MotionSeriesDefaults.wall.height)
+  val rightWall = MovingManBead(this, 10, MotionSeriesDefaults.wall.width, MotionSeriesDefaults.wall.height)
 
-  val leftWallRightEdge = MovingManBead(this,-10 + MotionSeriesDefaults.wall.width / 2, MotionSeriesDefaults.SPRING_WIDTH, MotionSeriesDefaults.SPRING_HEIGHT)
-  val rightWallLeftEdge = MovingManBead(this,10 - MotionSeriesDefaults.wall.width / 2, MotionSeriesDefaults.SPRING_WIDTH, MotionSeriesDefaults.SPRING_HEIGHT)
+  val leftWallRightEdge = MovingManBead(this, -10 + MotionSeriesDefaults.wall.width / 2, MotionSeriesDefaults.SPRING_WIDTH, MotionSeriesDefaults.SPRING_HEIGHT)
+  val rightWallLeftEdge = MovingManBead(this, 10 - MotionSeriesDefaults.wall.width / 2, MotionSeriesDefaults.SPRING_WIDTH, MotionSeriesDefaults.SPRING_HEIGHT)
 
-  val manBead = MovingManBead(this,defaultManPosition, 1, 3)
+  val manBead = MovingManBead(this, defaultManPosition, 1, 3)
 
   val wallRange = () => new Range(-rampSegments(0).length, rampSegments(1).length)
-  
+
   val surfaceFrictionStrategy = new SurfaceFrictionStrategy() {
     //todo: allow different values for different segments
     def getTotalFriction(objectFriction: Double) = new LinearFunction(0, 1, objectFriction, objectFriction * 0.75).evaluate(rampSegments(0).wetness)
@@ -90,10 +80,17 @@ class MotionSeriesModel(defaultBeadPosition: Double,
   val maxDrops = (60 * 0.75).toInt
   val elapsedTimeHistory = new ArrayBuffer[Long]
 
-  val _goButtonModel = new GoButtonVisibilityModel(this)//Todo: since passes this, must be initialized after much of the above state
+  val _goButtonModel = new GoButtonVisibilityModel(this) //Todo: since passes this, must be initialized after much of the above state
   def goButtonModel = _goButtonModel
 
   def stepRecord(): Unit = stepRecord(MotionSeriesDefaults.DT_DEFAULT)
+
+  def stepRecording(simulationTimeChange: Double) = {
+    stepRecord()
+    val mode = bead.motionStrategy.getMemento
+    new RecordedState(new RampState(getRampAngle, rampSegments(1).heat, rampSegments(1).wetness),
+      selectedObject.state, bead.state, manBead.state, bead.parallelAppliedForce, walls, mode)
+  }
 
   def beadInModelViewportRange = bead.position2D.x < MotionSeriesDefaults.MIN_X || bead.position2D.x > MotionSeriesDefaults.MAX_X
 
@@ -229,11 +226,11 @@ class MotionSeriesModel(defaultBeadPosition: Double,
   def walls = _walls
 
   def walls_=(b: Boolean) = {
-	  if (b != walls){
-		  	_walls = b
-    		updateSegmentLengths()
-    		notifyListeners()
-	  }
+    if (b != walls) {
+      _walls = b
+      updateSegmentLengths()
+      notifyListeners()
+    }
   }
 
   //duplicates some work with wallrange
@@ -300,11 +297,11 @@ class MotionSeriesModel(defaultBeadPosition: Double,
     rampSegments(1).stepInTime(dt)
 
     //todo: move this logic to the record-and-playback library
-//    if (getTime < MotionSeriesDefaults.MAX_RECORD_TIME) {
-//      val mode = bead.motionStrategy.getMemento
-//      addRecordedPoint(new DataPoint(getTime, new RecordedState(new RampState(getRampAngle, rampSegments(1).heat, rampSegments(1).wetness),
-//        selectedObject.state, bead.state, manBead.state, bead.parallelAppliedForce, walls, mode)))
-//    }
+    //    if (getTime < MotionSeriesDefaults.MAX_RECORD_TIME) {
+    //      val mode = bead.motionStrategy.getMemento
+    //      addRecordedPoint(new DataPoint(getTime, new RecordedState(new RampState(getRampAngle, rampSegments(1).heat, rampSegments(1).wetness),
+    //        selectedObject.state, bead.state, manBead.state, bead.parallelAppliedForce, walls, mode)))
+    //    }
     stepListeners.foreach(_())
     notifyListeners() //signify to the Timeline that more data has been added
   }

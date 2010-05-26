@@ -4,7 +4,6 @@ import edu.colorado.phet.common.phetcommon.view.{PhetFrame}
 import edu.colorado.phet.common.phetcommon.application.Module
 import edu.colorado.phet.scalacommon.ScalaClock
 import edu.colorado.phet.motionseries.model._
-import javax.swing.{RepaintManager}
 
 //TODO: improve inheritance/composition scheme for different applications/modules/canvases/models
 class MotionSeriesModule(frame: PhetFrame,
@@ -22,7 +21,8 @@ class MotionSeriesModule(frame: PhetFrame,
   val fbdModel = new FreeBodyDiagramModel(fbdPopupOnly)
   val coordinateSystemModel = new AdjustableCoordinateModel
   val vectorViewModel = new VectorViewModel
-  coordinateSystemModel.addListenerByName(if (coordinateSystemModel.fixed) motionSeriesModel.coordinateFrameModel.proposedAngle = 0)
+  coordinateSystemModel.addListener(() => if (coordinateSystemModel.fixed) motionSeriesModel.coordinateFrameModel.proposedAngle = 0)
+
   private var lastTickTime = System.currentTimeMillis
 
   //This clock is always running; pausing just pauses the physics
@@ -31,7 +31,7 @@ class MotionSeriesModule(frame: PhetFrame,
 
     val startTime = System.currentTimeMillis
     motionSeriesModel.stepInTime(dt)
-//    RepaintManager.currentManager(getSimulationPanel).paintDirtyRegions() //todo: this still shows clipping of incorrect regions, maybe we need to repaint the entire area
+    //    RepaintManager.currentManager(getSimulationPanel).paintDirtyRegions() //todo: this still shows clipping of incorrect regions, maybe we need to repaint the entire area
     val modelTime = System.currentTimeMillis - startTime
 
     val elapsed = paintAndInputTime + modelTime
@@ -45,15 +45,15 @@ class MotionSeriesModule(frame: PhetFrame,
   })
 
   //pause on start/reset, and unpause (and start recording) when the user applies a force
-  def initPauseValue() = motionSeriesModel.setPaused(true)
-  initPauseValue()
+  def resetPauseValue() = motionSeriesModel.setPaused(true)
+  resetPauseValue()
 
   def resetRampModule(): Unit = {
     motionSeriesModel.resetAll()
     fbdModel.resetAll()
     coordinateSystemModel.resetAll()
     vectorViewModel.resetAll()
-    initPauseValue()
+    resetPauseValue()
     resetAll()
   }
 
