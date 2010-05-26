@@ -128,7 +128,7 @@ class BeadNode(bead: Bead,
     val vec = new Vector2D(angle)
     val flipY = new Vector2D(vec.x, -vec.y)
 
-    imageNode.rotateAboutPoint(flipY.getAngle,
+    imageNode.rotateAboutPoint(flipY.angle,
       imageNode.getFullBounds.getCenter2D.getX - (viewPosition.x - delta.x / 2),
       imageNode.getFullBounds.getMaxY - (viewPosition.y - delta.y))
 

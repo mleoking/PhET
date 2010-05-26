@@ -34,7 +34,7 @@ object LadybugMotionModel {
 
 
       def step() = {
-        model.ladybug.setVelocity(new Vector2D(model.ladybug.getVelocity.getAngle) * speed)
+        model.ladybug.setVelocity(new Vector2D(model.ladybug.getVelocity.angle) * speed)
         model.ladybug.translate(model.ladybug.getVelocity * dt)
       }
       step
@@ -71,7 +71,7 @@ object LadybugMotionModel {
 
       model.ladybug.setPosition(new Vector2D(x, y))
       model.ladybug.setVelocity(new Vector2D(vx, vy))
-      model.ladybug.setAngle(model.ladybug.getVelocity.getAngle)
+      model.ladybug.setAngle(model.ladybug.getVelocity.angle)
       model.ladybug.setAcceleration(model.average(model.getNumRecordedPoints - 15, model.getNumRecordedPoints - 1, model.estimateAcceleration))
       model.setSamplePoint(model.ladybug.getPosition)
     }
@@ -85,7 +85,7 @@ object LadybugMotionModel {
       val dx = radius - distFromCenter;
       val speed = 0.12 * 0.7
       if (distFromRing > speed + 1E-6) {
-        val velocity = new Vector2D(model.ladybug.getPosition.getAngle) * speed * (if (dx < 0) -1 else 1)
+        val velocity = new Vector2D(model.ladybug.getPosition.angle) * speed * (if (dx < 0) -1 else 1)
         //        model.ladybug.translate(velocity)
         model.setPenDown(true)
         model.setSamplePoint(model.ladybug.getPosition + velocity / dt)
@@ -93,7 +93,7 @@ object LadybugMotionModel {
       } else {
         model.setPenDown(false)
         //move in a circle
-        val angle = model.ladybug.getPosition.getAngle
+        val angle = model.ladybug.getPosition.angle
         val r = model.ladybug.getPosition.magnitude
 
         val delta0 = PI / 64 * 1.3 * dt * 30.0 * 0.7 * 2 * 0.85 * 0.5 //desired approximate deltaTheta
@@ -102,7 +102,7 @@ object LadybugMotionModel {
         model.ladybug.setPosition(new Vector2D(newAngle) * r)
         val velocity = new Vector2D(newAngle + PI / 2) * (newAngle - angle) / dt * r
         model.ladybug.setVelocity(velocity)
-        model.ladybug.setAngle(velocity.getAngle)
+        model.ladybug.setAngle(velocity.angle)
 
         val accel = new Vector2D(newAngle + PI) * velocity.magnitude * velocity.magnitude / r
         model.ladybug.setAcceleration(accel)
@@ -135,7 +135,7 @@ object LadybugMotionModel {
       model.ladybug.setPosition(getPosition(t))
 
       model.ladybug.setVelocity(getVelocity(t))
-      model.ladybug.setAngle(model.ladybug.getVelocity.getAngle)
+      model.ladybug.setAngle(model.ladybug.getVelocity.angle)
 
       model.ladybug.setAcceleration(getAcceleration(t))
     }

@@ -47,13 +47,13 @@ class RotationHandler(val transform: ModelViewTransform2D,
   private var relativeAngle = 0.0
 
   override def mousePressed(event: PInputEvent) = {
-    val pointerAngle = (toModelPoint(event) - pivot).getAngle
+    val pointerAngle = (toModelPoint(event) - pivot).angle
     val modelAngle = rotatable.angle
     relativeAngle = modelAngle - pointerAngle
   }
 
   override def mouseDragged(event: PInputEvent) = {
-    val pointerAngle = (toModelPoint(event) - pivot).getAngle
+    val pointerAngle = (toModelPoint(event) - pivot).angle
     val proposedAngle = pointerAngle + relativeAngle
     val angle = getSnapAngle(if (proposedAngle > max) max else if (proposedAngle < min) min else proposedAngle)
     rotatable.angle = angle

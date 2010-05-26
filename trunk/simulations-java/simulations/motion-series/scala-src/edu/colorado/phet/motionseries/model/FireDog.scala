@@ -49,7 +49,7 @@ class Raindrop(p: Vector2D, rainSpeed: Double, angle: Double, rampModel: MotionS
   private var _angle = 0.0
   rainbead.setVelocity(rainSpeed)//have to set the speed here so that energy conservation in Airborne.step won't make the water drops appear underground
   rainbead.motionStrategy = new Airborne(p, new Vector2D(angle) * rainSpeed, 0.0, rainbead) {
-    override def getAngle = velocity2D.getAngle + PI / 2
+    override def getAngle = velocity2D.angle + PI / 2
   }
   def stepInTime(dt: Double) = {
     val origPosition = rainbead.position2D

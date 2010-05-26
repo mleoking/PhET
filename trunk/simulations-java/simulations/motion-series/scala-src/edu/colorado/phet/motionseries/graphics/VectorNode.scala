@@ -58,7 +58,7 @@ class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val ta
       val viewTip = transform.modelToViewDouble(vector() + tailLocation())
       arrowNode.setTipAndTailLocations(viewTip, viewTail)
 
-      //Update the location of the textual label
+      //Update the location of the text label
       val textLocation = {
         val proposedLabelLocation = vector() * 0.6
         val minLabelDistance = maxLabelDistance / 2.0 //todo: improve heuristics for min label distance, or make it settable in the constructor

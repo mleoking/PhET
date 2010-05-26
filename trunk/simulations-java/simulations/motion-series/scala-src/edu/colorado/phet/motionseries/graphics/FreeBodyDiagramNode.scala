@@ -32,7 +32,7 @@ class Vector(val color: Color,
 
   def getValue = valueAccessor()
 
-  def angle = getValue.getAngle
+  def angle = getValue.angle
 
   def visible = _visible
 
@@ -61,7 +61,7 @@ class AxisModel(private var _angle: Double,
   def getUnitVector = (getEndPoint - startPoint).normalize
 
   def endPoint_=(newPt: Vector2D) = {
-    angle = newPt.getAngle
+    angle = newPt.angle
     notifyListeners()
   }
 

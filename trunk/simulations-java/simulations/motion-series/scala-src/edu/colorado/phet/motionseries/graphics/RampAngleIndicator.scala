@@ -19,7 +19,7 @@ class RampAngleIndicator(rampSegment: Rotatable, transform: ModelViewTransform2D
   readout.setFont(MotionSeriesDefaults.rampIndicatorFont)
   addChild(line)
   addChild(readout)
-  def getDegrees = rampSegment.getUnitVector.getAngle.toDegrees
+  def getDegrees = rampSegment.getUnitVector.angle.toDegrees
 
   def getPath = new Arc2D.Double(rampSegment.startPoint.x - 3, rampSegment.startPoint.y - 3, 6, 6, 0, -getDegrees, Arc2D.OPEN)
   defineInvokeAndPass(rampSegment.addListenerByName) {

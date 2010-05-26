@@ -97,8 +97,8 @@ class AxisRotator(transform: ModelViewTransform2D,
 
     val oldPtModel = modelPt - deltaModel
 
-    val oldAngle = (pivot - oldPtModel).getAngle
-    val newAngle = (pivot - modelPt).getAngle
+    val oldAngle = (pivot - oldPtModel).angle
+    val newAngle = (pivot - modelPt).angle
 
     //should be a small delta
     var deltaAngle = newAngle - oldAngle

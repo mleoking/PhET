@@ -109,6 +109,7 @@ class ForceBead(_state: BeadState,
 
   def netForceToParallelVelocity(f: Vector2D, dt: Double) = velocity + forceToParallelAcceleration(f) * dt
 
+  //todo: switch to property based notifications so we don't have to remember to do this kind of fine-grained notification
   override def setVelocity(velocity: Double) = {
     super.setVelocity(velocity)
     frictionForceVector.notifyListeners() //todo: maybe this could be omitted during batch updates for performance
