@@ -131,6 +131,6 @@ class MovingManApplication(config: PhetApplicationConfig) extends PiccoloPhetApp
   //  addModule(new MovingManGameModule(getPhetFrame, newClock))
 }
 
-object MovingManApplicationMain {
+object MovingManApplication {
   def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "moving-man".literal, classOf[MovingManApplication])
 }

@@ -85,6 +85,6 @@ class ForcesAndMotionApplication(config: PhetApplicationConfig) extends PiccoloP
   addModule(new RobotMovingCompanyModule(getPhetFrame, 1E-8.toRadians, MotionSeriesDefaults.forcesAndMotionRobotForce, MotionSeriesDefaults.objectsForForce1DGame)) //todo: this 1E-8 workaround seems necessary to avoid problems, we should find out why
 }
 
-object ForcesAndMotionApplicationMain {
+object ForcesAndMotionApplication{
   def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "forces-and-motion".literal, classOf[ForcesAndMotionApplication])
 }
