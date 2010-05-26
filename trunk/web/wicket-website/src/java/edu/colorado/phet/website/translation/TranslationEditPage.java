@@ -41,7 +41,7 @@ public class TranslationEditPage extends TranslationPage {
 
             add( new Label( "translation", translation.toString() ) );
 
-            if ( !translation.isAuthorizedUser( getUser() ) ) {
+            if ( !translation.allowEdit( getUser() ) ) {
                 throw new AuthorizationException( "You are not authorized to edit this translation" ) {
                 };
             }

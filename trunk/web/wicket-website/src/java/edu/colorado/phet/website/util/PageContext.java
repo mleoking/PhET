@@ -60,6 +60,10 @@ public class PageContext implements Serializable {
         return "/" + LocaleUtils.localeToString( locale ) + "/";
     }
 
+    public static String getTranslationPrefix( int translationId ) {
+        return "/translation/" + String.valueOf( translationId ) + "/";
+    }
+
     public String getPrefix() {
         return prefix;
     }
