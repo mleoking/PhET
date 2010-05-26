@@ -1,3 +1,5 @@
+Fixed: The F_sum label in the control panel overlaps the arrow symbol
+Internal improvements, performance optimizations and improved documentation
 # 1.03.65 (41163) May 25, 2010
 Fixed: Object shouldn't go behind house if it misses the door
 Show crashed image icons in summary windows during game mode, if object crashed
