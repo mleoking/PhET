@@ -1,3 +1,4 @@
+Removed the "Fixed/Adjustable" radio buttons from the coordinates tab
 Fixed: The F_sum label in the control panel overlaps the arrow symbol
 Internal improvements, performance optimizations and improved documentation
 # 1.03.65 (41163) May 25, 2010
