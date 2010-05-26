@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 
+import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.data.util.IntId;
 
@@ -30,6 +31,11 @@ public class Translation implements Serializable, IntId {
             }
         }
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return PhetWicketApplication.get().getSupportedLocales().getName( locale ) + " (" + LocaleUtils.localeToString( getLocale() ) + ", #" + id + ")";
     }
 
     public void addString( TranslatedString str ) {
