@@ -9,7 +9,7 @@
         <!-- for preview purposes only -->
         <link rel="stylesheet" type="text/css" href="../../../../../../../../root/css/preview.css"/>
         <style type="text/css">
-            .contribution-main-container {
+            .contribution-edit {
                 width: 525px;
                 margin: 0 auto;
             }
@@ -20,9 +20,16 @@
 
 <wicket:panel>
     <div class="contribution-edit" wicket:message="dir:language.dir">
-        <div id="contribution-feedback">
-            <span wicket:id="feedback"></span>
-        </div>
+        <wicket:enclosure child="feedback">
+            <div id="contribution-feedback">
+                <span style="font-weight: bold; color: red;">
+                    <wicket:message key="contribution.edit.validation.pleaseCorrect">
+                        Please correct the following:
+                    </wicket:message>
+                </span>
+                <span wicket:id="feedback"></span>
+            </div>
+        </wicket:enclosure>
         <form wicket:id="contributionform">
             <h2>
                 <wicket:message key="contribution.edit.requiredInformation">Required Information</wicket:message>
