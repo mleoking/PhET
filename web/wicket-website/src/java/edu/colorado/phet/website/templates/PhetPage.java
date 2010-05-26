@@ -112,7 +112,8 @@ public abstract class PhetPage extends WebPage implements Stylable {
 
             if ( getPhetCycle().isOfflineInstaller() ) {
                 //add( new InvisibleComponent( "search-panel" ) );
-                add( new RawLabel( "search-panel", "For the most up-to-date version, see <a href=\"http://phet.colorado.edu\" onclick=\"document.location='http://phet.colorado.edu'; return false;\">http://phet.colorado.edu</a>" ) );
+                // TODO: fill with actual values, and make translatable!!!
+                add( new RawLabel( "search-panel", "Created 05/25/2010. For the most up-to-date version, see <a href=\"http://phet.colorado.edu\" onclick=\"document.location='http://phet.colorado.edu'; return false;\">http://phet.colorado.edu</a>" ) );
             }
             else {
                 add( new SearchPanel( "search-panel", getPageContext() ) );
