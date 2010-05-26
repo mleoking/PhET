@@ -26,9 +26,9 @@ public class ContributionManageListPanel extends PhetPanel {
         // the parent
         setRenderBodyOnly( true );
 
-        add( new ListView( "contributions", contributions ) {
-            protected void populateItem( ListItem item ) {
-                Contribution contribution = (Contribution) item.getModel().getObject();
+        add( new ListView<Contribution>( "contributions", contributions ) {
+            protected void populateItem( ListItem<Contribution> item ) {
+                Contribution contribution = item.getModelObject();
                 Link link = ContributionPage.getLinker( contribution ).getLink( "contribution-link", context, getPhetCycle() );
                 link.add( new Label( "contribution-title", contribution.getTitle() ) );
                 item.add( link );
