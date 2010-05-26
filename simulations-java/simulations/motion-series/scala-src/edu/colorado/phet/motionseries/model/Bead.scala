@@ -90,7 +90,7 @@ abstract class Bead(private var _state: BeadState,
 
   def getVelocityVectorDirection: Double = getVelocityVectorDirection(velocity)
 
-  def getVelocityVectorDirection(v: Double): Double = (positionMapper(position + v * 1E-6) - positionMapper(position - v * 1E-6)).getAngle
+  def getVelocityVectorDirection(v: Double): Double = (positionMapper(position + v * 1E-6) - positionMapper(position - v * 1E-6)).angle
 
   def getVelocityVectorUnitVector: Vector2D = new Vector2D(getVelocityVectorDirection)
 

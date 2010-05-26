@@ -201,7 +201,7 @@ class LadybugModel extends RecordAndPlaybackModel[LadybugState]((LadybugDefaults
     recording || isDonePlayback
   }
 
-  def estimateAngle(): Double = estimateVelocity(modelHistory.length - 1).getAngle
+  def estimateAngle(): Double = estimateVelocity(modelHistory.length - 1).angle
 
   def getPosition(index: Int): Vector2D = modelHistory(index).getState.position
 

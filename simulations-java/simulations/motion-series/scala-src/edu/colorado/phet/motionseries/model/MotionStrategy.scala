@@ -165,11 +165,11 @@ class Grounded(bead: ForceBead) extends MotionStrategy(bead) {
 
   def position2D = positionMapper(position)
 
-  def getAngle = rampSegmentAccessor(position).getUnitVector.getAngle
+  def getAngle = rampSegmentAccessor(position).getUnitVector.angle
 
   override def normalForce = {
     val magnitude = (gravityForce * -1) dot getRampUnitVector.rotate(PI / 2)
-    val angle = getRampUnitVector.getAngle + PI / 2
+    val angle = getRampUnitVector.angle + PI / 2
     new Vector2D(angle) * magnitude
   }
 
@@ -221,12 +221,12 @@ class Grounded(bead: ForceBead) extends MotionStrategy(bead) {
         val netForceWithoutFriction = appliedForce + gravityForce + normalForce + wallForce
 
         val magnitude = if (netForceWithoutFriction.magnitude >= fMax) fMax else netForceWithoutFriction.magnitude
-        new Vector2D(netForceWithoutFriction.getAngle + PI) * magnitude
+        new Vector2D(netForceWithoutFriction.angle + PI) * magnitude
       }
       else {
         //object is moving, just use kinetic friction
         val vel = (positionMapper(position) - positionMapper(position - velocity * 1E-6))
-        new Vector2D(vel.getAngle + PI) * normalForce.magnitude * multiBodyFriction(kineticFriction)
+        new Vector2D(vel.angle + PI) * normalForce.magnitude * multiBodyFriction(kineticFriction)
       }
     }
     else new Vector2D

@@ -63,7 +63,7 @@ class Ladybug extends Bug with Observable {
 
   def getAngleInvertY: Double = {
     val curAng = new Vector2D(state.angle)
-    new Vector2D(curAng.x, -curAng.y).getAngle
+    new Vector2D(curAng.x, -curAng.y).angle
   }
 
   def getAngleInFrame = if (LadybugDefaults.POSITIVE_Y_IS_UP) getAngleInvertY else getAngle
