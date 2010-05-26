@@ -166,12 +166,15 @@ public class Entry {
         long a = getStartSeconds();
         long b = getEndSeconds();
 
-        if (y <= a) return 0;
+        if (y <= a)
+            return 0;
         else if (y <= b) {
             return y - Math.max(x, a);
         } else {//y >b
-            if (x > b) return 0;
-            else return b - Math.max(x, a);
+            if (x > b)
+                return 0;
+            else
+                return b - Math.max(x, a);
         }
     }
 
