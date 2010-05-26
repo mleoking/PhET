@@ -35,10 +35,3 @@ div.menu-page-content {
     /* width specified in element style attribute during runtime */
     margin: 0 auto;
 }
-
-div.copyright {
-    margin: 0 auto;
-    text-align: center;
-    font-size: 12px;
-    padding-top: 5px;
-}

@@ -204,3 +204,10 @@ div.rtl .text-right-classic {
     font-size: 1px;
     letter-spacing: -1px;
 }
+
+div.copyright {
+    margin: 0 auto;
+    text-align: center;
+    font-size: 12px;
+    padding-top: 5px;
+}
