@@ -43,7 +43,7 @@ public class DistributionHandler {
         if ( cycle.isOfflineInstaller() ) {
             return true;
         }
-        return cycle.isProductionServer();
+        return cycle.isForProductionServer();
     }
 
     /**
@@ -192,7 +192,7 @@ public class DistributionHandler {
     }
 
     public static boolean showPearsonPreview( PhetRequestCycle cycle ) {
-        return !cycle.isProductionServer();
+        return !cycle.isForProductionServer();
     }
 
 }

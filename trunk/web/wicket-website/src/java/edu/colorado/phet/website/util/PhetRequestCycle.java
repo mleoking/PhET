@@ -90,7 +90,11 @@ public class PhetRequestCycle extends WebRequestCycle {
         return getUserAgent().equals( YOUNG_AND_FREEDMAN_USER_AGENT );
     }
 
-    public boolean isProductionServer() {
+    /**
+     * @return Whether we are being accessed from the production server URL (or a separate URL). Note that this can
+     *         return various values for the same website instance depending on the name used to access it.
+     */
+    public boolean isForProductionServer() {
         return getWebRequest().getHttpServletRequest().getServerName().equals( PhetWicketApplication.getProductionServerName() );
     }
 
