@@ -119,7 +119,7 @@
 
         // Write the timestamp into an HTML file that can be used to determine
         // the version of the sim installed.
-        $version_info_file_name = RIPPED_WEBSITE_SIMS_PARENT_DIR.VERSION_INFO_FILE_NAME;
+        $version_info_file_name = RIPPED_WEBSITE_SIMS_PARENT_DIR.VERSION_INFO_HTML_FILE_NAME;
         if (isset($distribution_tag)){
             $version_info_html = "<html>\n<body>\n\n<p>Timestamp: ".$time."</p>\n<p>Date: ".$date.
                 "</p>\n<p>Distribution: ".$distribution_tag."</p>\n\n</body>\n</html>";
@@ -138,6 +138,37 @@
             fwrite( $fp, $time );
             flushing_echo( 'Successfully created timestamp file '.CREATION_TIMESTAMP_FILE_NAME );
         }
+    }
+
+
+    //--------------------------------------------------------------------------
+    // Create the version information file that is used by the PhET web site to
+    // determine the creation date of the installers.
+    //
+    // IMPORTANT: This uses the time stamp value that is put into a temporary
+    // file when the marker file is created, so the marker file must be
+    // created prior to calling this function for the creation time to be
+    // accurate.
+    //--------------------------------------------------------------------------
+    function installer_create_version_info_file(){
+
+        $version_info_file_path = OUTPUT_DIR.VERSION_INFO_FILE_NAME;
+        flushing_echo( "Creating version information file, destination = ".$version_info_file_path );
+
+        // Make sure that the file containing the creation time stamp exists.
+        if (!file_exists(CREATION_TIMESTAMP_FILE_NAME)){
+           flushing_echo( "Error: Timestamp file does not exist, file name = ".CREATION_TIMESTAMP_FILE_NAME);
+           return;
+        }
+        
+        // Get the value of the time stamp.
+        $time = file_get_contents(CREATION_TIMESTAMP_FILE_NAME);
+        flushing_echo( "Creation Timestamp used in version file = $time" );
+
+        // Write the value into the version info file.
+        $creation_time_property = 'timestamp='.$time;
+        flushing_echo( "Contents of version info file: $creation_time_property" );
+        file_put_contents_anywhere( $version_info_file_path, $creation_time_property );
     }
 
     //-------------------------------------------------------------------------
