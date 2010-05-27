@@ -41,7 +41,11 @@ class SeriesSelectionControl(title: String, numRows: Int) extends VerticalLayout
   }
 
   def createLabel(series: ControlGraphSeries) = {
-    val label = new JLabel()
+    //Switching from a JLabel to a JTextField makes the entire application run smoothly on the chart tabs
+    //I'm not sure why JLabels were a problem.
+    val label = new JTextField()
+    label.setBorder(null)
+    label.setEditable(false)
     label.setBackground(EARTH_COLOR)
     label.setFont(Defaults.createFont)
     label.setForeground(series.getColor)
