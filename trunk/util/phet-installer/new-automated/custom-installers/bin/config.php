@@ -18,7 +18,7 @@
     define("PARENT_DIR",                file_cleanup_local_filename(dirname(ROOT_DIR))."/");
     define("TEMP_DIR",                  file_cleanup_local_filename(ROOT_DIR."temp/"));
     define("OUTPUT_DIR",                file_cleanup_local_filename(TEMP_DIR."installer-output/"));
-    define("DEPLOY_DIR",                "/web/htdocs/phet/phet-dist/installers/");
+    define("DEPLOY_DIR",                "/data/web/htdocs/phetsims/installer/");
     define("TRANSLATED_JAR_TEMP_DIR",   file_cleanup_local_filename(TEMP_DIR."translated-jar-tmp/"));
 
     function GET_OS_BOUND_REL_PATH($constantPrefix) {
