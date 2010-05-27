@@ -140,37 +140,6 @@
         }
     }
 
-
-    //--------------------------------------------------------------------------
-    // Create the version information file that is used by the PhET web site to
-    // determine the creation date of the installers.
-    //
-    // IMPORTANT: This uses the time stamp value that is put into a temporary
-    // file when the marker file is created, so the marker file must be
-    // created prior to calling this function for the creation time to be
-    // accurate.
-    //--------------------------------------------------------------------------
-    function installer_create_version_info_file(){
-
-        $version_info_file_path = OUTPUT_DIR.VERSION_INFO_FILE_NAME;
-        flushing_echo( "Creating version information file, destination = ".$version_info_file_path );
-
-        // Make sure that the file containing the creation time stamp exists.
-        if (!file_exists(CREATION_TIMESTAMP_FILE_NAME)){
-           flushing_echo( "Error: Timestamp file does not exist, file name = ".CREATION_TIMESTAMP_FILE_NAME);
-           return;
-        }
-        
-        // Get the value of the time stamp.
-        $time = file_get_contents(CREATION_TIMESTAMP_FILE_NAME);
-        flushing_echo( "Creation Timestamp used in version file = $time" );
-
-        // Write the value into the version info file.
-        $creation_time_property = 'timestamp='.$time;
-        flushing_echo( "Contents of version info file: $creation_time_property" );
-        file_put_contents_anywhere( $version_info_file_path, $creation_time_property );
-    }
-
     //-------------------------------------------------------------------------
     // Function for inserting the distribution tag in all simulations, i.e.
     // both Java and Flash sims.  The distribution tag is reported with the
@@ -313,62 +282,6 @@
         else{
             // No JNLP files, must not be a Java sim.
             return false;
-        }
-    }
-
-    //--------------------------------------------------------------------------
-    // Deploy the installers to the production web site by copying them to the
-    // appropriate directory.
-    //--------------------------------------------------------------------------
-    function deploy_installers() {
-
-        // Verify that the installer files exist.
-        flushing_echo("Attempting to deploy the installers.");
-        if ( !file_exists( file_cleanup_local_filename( OUTPUT_DIR ) ) ) {
-            flushing_echo("Error: Directory containing installers not found, aborting deployment.");
-            return;
-        }
-        else {
-            flushing_echo("Found the installer files.");
-        }
-
-        // Create a back of the existing files.
-        // Note: This invokes an existing shell script.  At some point, it may
-        // make sense to incorporate the functionality of this script into the
-        // PHP code.
-        exec( DEPLOY_DIR."create-backup.sh ".DEPLOY_DIR, $output, $return );
-        flushing_echo( $output[1] );
-        if ( $return == 0 ){
-            flushing_echo( "Backup of previous installers succeeded." );
-        }
-        else{
-            flushing_echo( "WARNING: Backup of previous installers failed." );
-        }
-
-        // Copy the files to the distribution directory.
-        if ( copy( OUTPUT_DIR.LINUX_INSTALLER_FILE_NAME, DEPLOY_DIR.LINUX_INSTALLER_FILE_NAME ) ){
-            flushing_echo( "Linux installer successfully copied to: ".DEPLOY_DIR );
-        }
-        else {
-            flushing_echo( "Error: Unable to successfully copy linux installer to: ".DEPLOY_DIR );
-        }
-        if ( copy( OUTPUT_DIR.WINDOWS_INSTALLER_FILE_NAME, DEPLOY_DIR.WINDOWS_INSTALLER_FILE_NAME) ){
-            flushing_echo( "Windows installer successfully copied to: ".DEPLOY_DIR );
-        }
-        else {
-            flushing_echo( "Error: Unable to successfully copy windows installer to: ".DEPLOY_DIR );
-        }
-        if ( copy( OUTPUT_DIR.OSX_INSTALLER_FILE_NAME, DEPLOY_DIR.OSX_INSTALLER_FILE_NAME ) ){
-            flushing_echo( "OSX installer successfully copied to: ".DEPLOY_DIR );
-        }
-        else {
-            flushing_echo( "Error: Unable to successfully copy OSX installer to: ".DEPLOY_DIR );
-        }
-        if ( copy( OUTPUT_DIR.CD_ROM_INSTALLER_FILE_NAME, DEPLOY_DIR.CD_ROM_INSTALLER_FILE_NAME ) ){
-            flushing_echo( "CD ROM installer successfully copied to: ".DEPLOY_DIR );
-        }
-        else {
-            flushing_echo( "Error: Unable to successfully copy CD ROM installer to: ".DEPLOY_DIR );
         }
     }
 
