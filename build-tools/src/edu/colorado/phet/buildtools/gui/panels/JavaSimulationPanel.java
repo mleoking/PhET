@@ -183,7 +183,12 @@ public class JavaSimulationPanel extends JPanel {
             versionIncrement = new VersionIncrement.UpdateProdMajor();
         }
 
-        new BuildScript( trunk, project ).deployProd( buildLocalProperties.getDevAuthenticationInfo(), buildLocalProperties.getProdAuthenticationInfo(), versionIncrement );
+        new BuildScript( trunk, project ).deploySpotTigercatFigaro(
+                buildLocalProperties.getDevAuthenticationInfo(),
+                buildLocalProperties.getProdAuthenticationInfo(),
+                buildLocalProperties.getWebsiteProdAuthenticationInfo(),
+                versionIncrement
+        );
     }
 
     private void doWicketTest() {

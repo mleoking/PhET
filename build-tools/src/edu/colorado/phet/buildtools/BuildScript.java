@@ -258,13 +258,14 @@ public class BuildScript {
     }
 
     //This message disables the dialog for change log messages, using the batch message instead
+
     public void setBatchMessage( String batchMessage ) {
         this.batchMessage = batchMessage;
     }
 
     private void addMessagesToChangeFile() {
         String message = batchMessage;
-        if (message == null && buildLocalProperties.isPromptUserForChangeMessage()) {
+        if ( message == null && buildLocalProperties.isPromptUserForChangeMessage() ) {
             message = JOptionPane.showInputDialog( "Enter a message to add to the change log\n(or Cancel or Enter a blank line if change log is up to date)" );
         }
         if ( message != null && message.trim().length() > 0 ) {
@@ -543,6 +544,37 @@ public class BuildScript {
                 } );
     }
 
+    public void deploySpotTigercatFigaro( final AuthenticationInfo devAuth, final AuthenticationInfo tigercatAuth, final AuthenticationInfo figaroAuth, VersionIncrement versionIncrement ) {
+        deploy(
+                new Task() {
+                    public boolean invoke() {
+                        sendCopyToDev( devAuth );
+                        return prepareStagingArea( PhetServer.PRODUCTION, tigercatAuth );
+                    }
+                }, PhetServer.PRODUCTION, tigercatAuth, versionIncrement, new Task() {
+                    public boolean invoke() {
+                        System.out.println( "Invoking server side scripts to generate simulation and language JAR files" );
+                        if ( !debugDryRun ) {
+                            generateOfflineJars( project, PhetServer.PRODUCTION, tigercatAuth );
+                        }
+                        copyFromStagingAreaToSimDir( PhetServer.PRODUCTION, tigercatAuth );
+                        clearWebCaches();
+
+                        boolean success = prepareStagingArea( PhetServer.FIGARO, figaroAuth );
+                        if ( !success ) { return false; }
+                        success = sendSSH( PhetServer.FIGARO, figaroAuth );
+                        if ( !success ) { return false; }
+                        boolean genjars = project instanceof JavaProject && ( (JavaProject) project ).getSignJar() && generateJARs;
+                        SshUtils.executeCommand( "chmod -R a+rw " + PhetServer.FIGARO.getStagingArea() + "/" + project.getName(), PhetServer.FIGARO.getHost(), figaroAuth );
+
+                        // TODO: instead, should be more like the translation deployment where the user's browser is redirected to a page that shows the progress or error messages
+                        SshUtils.executeCommand( "curl 'http://phetsims.colorado.edu/admin/deploy?project=" + project.getName() + "&generate-jars=" + genjars + "'", PhetServer.FIGARO.getHost(), figaroAuth );
+
+                        return true;
+                    }
+                } );
+    }
+
     public void deployTestProd( final AuthenticationInfo devAuth, final AuthenticationInfo prodAuth, VersionIncrement versionIncrement ) {
         deploy(
                 //send a copy to dev
@@ -571,6 +603,7 @@ public class BuildScript {
     }
 
     //Run "rm" on the server to remove the phet/staging/sims/<project> directory contents, see #1529
+
     private boolean prepareStagingArea( PhetServer server, AuthenticationInfo authenticationInfo ) {
         assert project.getName().length() >= 2;//reduce probability of a scary rm
         return SshUtils.executeCommands( new String[]{
@@ -584,6 +617,7 @@ public class BuildScript {
         > a. mv phet/sims/<project> phet/backup/sims/<project>-<timestamp>
         > b. mv phet/staging/sims/<project> phet/sims/<project>
      */
+
     private void copyFromStagingAreaToSimDir( PhetServer server, AuthenticationInfo authenticationInfo ) {
         SshUtils.executeCommand( BuildToolsPaths.TIGERCAT_STAGING_SWAP_SCRIPT + " " + project.getName(), server.getHost(), authenticationInfo );
     }
@@ -628,6 +662,7 @@ public class BuildScript {
     }
 
     //regenerate server HTML caches so new material will appear
+
     public static void clearWebCaches() {
         System.out.println( "Clearing website cache" );
         try {
