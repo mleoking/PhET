@@ -218,10 +218,14 @@ public class PhetWicketApplication extends WebApplication {
             File propsFile = new File( getWebsiteProperties().getPhetDocumentRoot(), "installer/version.properties" );
             Properties props = new Properties();
             FileInputStream stream = new FileInputStream( propsFile );
-            props.load( stream );
-            long ver = Long.valueOf( props.getProperty( "timestamp" ) );
-            InstallerCache.setTimestamp( ver );
-            stream.close();
+            try {
+                props.load( stream );
+                long ver = Long.valueOf( props.getProperty( "timestamp" ) );
+                InstallerCache.setTimestamp( ver );
+            }
+            finally {
+                stream.close();
+            }
         }
         catch( RuntimeException e ) {
             logger.error( "setInstallerTimestamp runtime exception" );
