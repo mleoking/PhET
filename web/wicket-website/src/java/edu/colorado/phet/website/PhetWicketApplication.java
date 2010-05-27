@@ -213,7 +213,6 @@ public class PhetWicketApplication extends WebApplication {
     }
 
     private void setInstallerTimestampFromFile() {
-        InstallerCache.setDefault();
         try {
             File propsFile = new File( getWebsiteProperties().getPhetDocumentRoot(), "installer/version.properties" );
             Properties props = new Properties();
@@ -229,9 +228,11 @@ public class PhetWicketApplication extends WebApplication {
         }
         catch( RuntimeException e ) {
             logger.error( "setInstallerTimestamp runtime exception" );
+            InstallerCache.setDefault();
         }
         catch( IOException e ) {
             logger.error( "setInstallerTimestamp IO exception" );
+            InstallerCache.setDefault();
         }
     }
 
