@@ -51,9 +51,15 @@
     // the rip.  These filters are meant to capture the entire web site as
     // needed for either the PhET installers or customized for a specific
     // customer.  So far, that generally means getting it for a particular language.
-    define("PHET_RIPPER_FILTER_PHET", '"-*wickettest*"'.' '.CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'ar/*'));
-    define("PHET_RIPPER_FILTER_YF",   '"-*wickettest*"'.' '.CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'ar/*'));
-    define("PHET_RIPPER_FILTER_KSU",  '"-*wickettest*"'.' '.CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/*'));
+    define("PHET_RIPPER_FILTER_PHET", '"-*wickettest*"'.' '.CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'ar/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'files/activities/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'installer/*'));
+    define("PHET_RIPPER_FILTER_YF",   '"-*wickettest*"'.' '.CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'ar/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'files/activities/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'installer/*'));
+    define("PHET_RIPPER_FILTER_KSU",  '"-*wickettest*"'.' '.CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'files/activities/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'installer/*'));
 
     // Filter definition for a "lite" rip, meaning one that rips less than
     // the full web site.  This is generally swapped in for the full rip
