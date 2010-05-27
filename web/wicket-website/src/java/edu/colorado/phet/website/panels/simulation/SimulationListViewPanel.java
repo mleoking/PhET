@@ -85,10 +85,9 @@ public class SimulationListViewPanel extends PhetPanel {
                 categoryListener = new AbstractCategoryListener() {
                     @Override
                     public void anyChange( Category category ) {
-                        if ( category.getId() == categoryId || categoryId == 0 ) {
-                            logger.debug( "invalidated" );
-                            invalidate();
-                        }
+                        // just invalidate all categories for now, due to auto-categories
+                        logger.debug( "invalidated" );
+                        invalidate();
                     }
                 };
                 HibernateEventListener.addListener( Project.class, getAnyChangeInvalidator() );
