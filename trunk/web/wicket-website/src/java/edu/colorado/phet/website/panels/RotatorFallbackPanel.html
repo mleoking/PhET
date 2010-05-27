@@ -18,18 +18,10 @@
 <body>
 
 <wicket:panel>
-    <object id="rotator-id" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="300" height="220">
-        <param name="movie" value="/files/rotator/home-rotator.swf"/>
-        <param wicket:id="flash-param" name="FlashVars"/>
-        <!--[if !IE]>-->
-        <object type="application/x-shockwave-flash" data="/files/rotator/home-rotator.swf" width="300" height="220">
-            <param wicket:id="flash-param-2" name="FlashVars"/>
-            <!--<![endif]-->
-            <span wicket:id="rotator-fallback-panel"></span>
-            <!--[if !IE]>-->
-        </object>
-        <!--<![endif]-->
-    </object>
+    <a href="#" wicket:id="fallback-link">
+        <img src="/images/mass-spring-lab-animated-screenshot.gif" alt="Simulation screenshot"
+             style="border: none;"/>
+    </a>
 </wicket:panel>
 
 </body>

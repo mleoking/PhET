@@ -17,6 +17,7 @@ import edu.colorado.phet.website.content.getphet.RunOurSimulationsPanel;
 import edu.colorado.phet.website.content.simulations.CategoryPage;
 import edu.colorado.phet.website.content.workshops.WorkshopsPanel;
 import edu.colorado.phet.website.panels.PhetPanel;
+import edu.colorado.phet.website.panels.RotatorFallbackPanel;
 import edu.colorado.phet.website.panels.RotatorPanel;
 import edu.colorado.phet.website.panels.TranslationLinksPanel;
 import edu.colorado.phet.website.translation.TranslationMainPage;
@@ -100,7 +101,12 @@ public class IndexPanel extends PhetPanel {
         //add( miniLink );
         //miniLink.add( new StaticImage( "mini-screenshot", "/images/geometric-optics-screenshot.png", null ) );
 
-        add( new RotatorPanel( "rotator-panel", context ) );
+        if ( getPhetCycle().isOfflineInstaller() ) {
+            add( new RotatorFallbackPanel( "rotator-panel", context ) );
+        }
+        else {
+            add( new RotatorPanel( "rotator-panel", context ) );
+        }
 
         add( AboutLicensingPanel.getLinker().getLink( "some-rights-link", context, getPhetCycle() ) );
     }
