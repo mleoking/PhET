@@ -220,7 +220,7 @@ public class PhetWicketApplication extends WebApplication {
             try {
                 props.load( stream );
                 long ver = Long.valueOf( props.getProperty( "timestamp" ) );
-                InstallerCache.setTimestamp( ver );
+                InstallerCache.updateTimestamp( ver );
             }
             finally {
                 stream.close();

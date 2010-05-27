@@ -24,7 +24,7 @@ public class AdminNewInstallerPage extends PhetPage {
             if ( getPhetCycle().isLocalRequest() ) {
                 String timestampString = parameters.getString( "timestamp" );
                 long timestamp = Long.valueOf( timestampString );
-                InstallerCache.setTimestamp( timestamp );
+                InstallerCache.updateTimestamp( timestamp );
 
                 addTitle( "updated timestamp to " + timestamp );
             }
