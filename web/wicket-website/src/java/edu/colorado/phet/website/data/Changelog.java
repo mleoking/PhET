@@ -367,7 +367,7 @@ public class Changelog {
                     date = FORMAT_VERSION_BACKUP_TIMESTAMP.parse( str );
                 }
                 catch( ParseException e1 ) {
-                    e1.printStackTrace();
+                    //e1.printStackTrace();
                     //logger.warn( "changelog failure at parsing date " + str );
                 }
             }
