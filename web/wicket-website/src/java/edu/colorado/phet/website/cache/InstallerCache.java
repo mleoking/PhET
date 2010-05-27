@@ -20,8 +20,12 @@ public class InstallerCache {
         return new Date( t * 1000 );
     }
 
-    public static synchronized int getTimestamp() {
+    public static synchronized int getTimestampSeconds() {
         return (int) t;
+    }
+
+    public static synchronized long getTimestampMilliseconds() {
+        return ((long) t) * 1000;
     }
 
     public static synchronized void setDefault() {

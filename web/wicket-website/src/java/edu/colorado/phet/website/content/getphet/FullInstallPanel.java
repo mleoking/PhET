@@ -58,7 +58,7 @@ public class FullInstallPanel extends PhetPanel {
         } ) );
 
         add( new LocalizedText( "updatedFrequently", "get-phet.full-install.updatedFrequently", new Object[]{
-                new Date( (long) InstallerCache.getTimestamp() )
+                new Date( (long) InstallerCache.getTimestampMilliseconds() )
         } ) );
 
         add( new RawLink( "win-link", WINDOWS_INSTALLER_LOCATION ) );
