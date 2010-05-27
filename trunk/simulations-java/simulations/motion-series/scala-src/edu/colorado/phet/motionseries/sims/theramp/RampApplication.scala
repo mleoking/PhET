@@ -158,8 +158,6 @@ class RampApplication(config: PhetApplicationConfig) extends PiccoloPhetApplicat
  */
 object RampApplication {
   def main(args: Array[String]) = {
-    //    PDebug.debugBounds=true
-    //    PDebug.debugFullBounds=true
     new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "the-ramp".literal, new ApplicationConstructor {
       def getApplication(config: PhetApplicationConfig) = new RampApplication(config) {
         //Add an item to the PhETFrame's developer menu
