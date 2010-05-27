@@ -1,5 +1,6 @@
 package edu.colorado.phet.website.templates;
 
+import java.util.Date;
 import java.util.Locale;
 
 import javax.servlet.ServletContext;
@@ -113,7 +114,11 @@ public abstract class PhetPage extends WebPage implements Stylable {
             if ( getPhetCycle().isOfflineInstaller() ) {
                 //add( new InvisibleComponent( "search-panel" ) );
                 // TODO: fill with actual values, and make translatable!!!
-                add( new RawLabel( "search-panel", "Created 05/25/2010. For the most up-to-date version, see <a href=\"http://phet.colorado.edu\" onclick=\"document.location='http://phet.colorado.edu'; return false;\">http://phet.colorado.edu</a>" ) );
+                String linkToMainSite = "<a href=\"http://phet.colorado.edu\" onclick=\"document.location='http://phet.colorado.edu'; return false;\">http://phet.colorado.edu</a>";
+                add( new LocalizedText( "search-panel", "installer.mostUpToDate", new Object[]{
+                        new Date(),
+                        linkToMainSite
+                } ) );
             }
             else {
                 add( new SearchPanel( "search-panel", getPageContext() ) );
