@@ -160,7 +160,7 @@ object RampApplication {
   def main(args: Array[String]) = {
     new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "the-ramp".literal, new ApplicationConstructor {
       def getApplication(config: PhetApplicationConfig) = new RampApplication(config) {
-        //Add an item to the PhETFrame's developer menu
+        //Add a menu item that shows the developer dialog to the PhETFrame's developer menu
         val item = new JMenuItem("Configure Motion Series".literal) {
           addActionListener(new ActionListener() {
             def actionPerformed(e: ActionEvent) = new DeveloperDialog(getPhetFrame).setVisible(true)
