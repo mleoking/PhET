@@ -40,13 +40,13 @@ public class RotatorPanel extends PhetPanel {
                 featured.add( new Entry( HibernateUtils.getBestSimulation( session, getMyLocale(), "circuit-construction-kit-dc" ), 1 ) );
                 featured.add( new Entry( HibernateUtils.getBestSimulation( session, getMyLocale(), "soluble-salts" ), 1 ) );
                 featured.add( new Entry( HibernateUtils.getBestSimulation( session, getMyLocale(), "my-solar-system" ), 1 ) );
+                featured.add( new Entry( HibernateUtils.getBestSimulation( session, getMyLocale(), "wave-on-a-string" ), 1 ) );
                 featured.add( new Entry( HibernateUtils.getBestSimulation( session, getMyLocale(), "glaciers" ), 1 ) );
                 featured.add( new Entry( HibernateUtils.getBestSimulation( session, getMyLocale(), "lunar-lander" ), 1 ) );
-                featured.add( new Entry( HibernateUtils.getBestSimulation( session, getMyLocale(), "projectile-motion" ), 1 ) );
-                featured.add( new Entry( HibernateUtils.getBestSimulation( session, getMyLocale(), "friction" ), 1 ) );
-                featured.add( new Entry( HibernateUtils.getBestSimulation( session, getMyLocale(), "wave-on-a-string" ), 1 ) );
                 featured.add( new Entry( HibernateUtils.getBestSimulation( session, getMyLocale(), "curve-fitting" ), 1 ) );
+                featured.add( new Entry( HibernateUtils.getBestSimulation( session, getMyLocale(), "projectile-motion" ), 1 ) );
                 featured.add( new Entry( HibernateUtils.getBestSimulation( session, getMyLocale(), "equation-grapher" ), 1 ) );
+                featured.add( new Entry( HibernateUtils.getBestSimulation( session, getMyLocale(), "friction" ), 1 ) );
                 return true;
             }
         } );
