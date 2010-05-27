@@ -43,7 +43,7 @@ public class DistributionHandler {
         if ( cycle.isOfflineInstaller() ) {
             return true;
         }
-        return cycle.getWebRequest().getHttpServletRequest().getServerName().equals( PhetWicketApplication.getProductionServerName() );
+        return cycle.isProductionServer();
     }
 
     /**
@@ -189,6 +189,10 @@ public class DistributionHandler {
      */
     public static boolean redirectHeaderToProduction( PhetRequestCycle cycle ) {
         return cycle.isYoungAndFreedmanRipperRequest();
+    }
+
+    public static boolean showPearsonPreview( PhetRequestCycle cycle ) {
+        return !cycle.isProductionServer();
     }
 
 }

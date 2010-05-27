@@ -8,6 +8,8 @@ import org.apache.wicket.protocol.http.WebRequestCycle;
 import org.apache.wicket.protocol.http.request.WebClientInfo;
 import org.hibernate.Session;
 
+import edu.colorado.phet.website.PhetWicketApplication;
+
 /**
  * A request cycle is created for each HTTP request, and is available at any point from pages or components by calling
  * (PhetRequestCycle) getRequestCycle(). Only PhetRequestCycles should be returned.
@@ -86,6 +88,10 @@ public class PhetRequestCycle extends WebRequestCycle {
 
     public boolean isYoungAndFreedmanRipperRequest() {
         return getUserAgent().equals( YOUNG_AND_FREEDMAN_USER_AGENT );
+    }
+
+    public boolean isProductionServer() {
+        return getWebRequest().getHttpServletRequest().getServerName().equals( PhetWicketApplication.getProductionServerName() );
     }
 
     public boolean isLocalRequest() {
