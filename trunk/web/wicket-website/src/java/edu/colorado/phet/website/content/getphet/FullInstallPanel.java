@@ -6,6 +6,7 @@ import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.cache.InstallerCache;
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.components.RawLink;
+import edu.colorado.phet.website.constants.Linkers;
 import edu.colorado.phet.website.content.about.AboutContactPanel;
 import edu.colorado.phet.website.content.troubleshooting.TroubleshootingMainPanel;
 import edu.colorado.phet.website.panels.PhetPanel;
@@ -51,19 +52,29 @@ public class FullInstallPanel extends PhetPanel {
                 AboutContactPanel.getLinker().getHref( context, getPhetCycle() )
         } ) );
 
-        // TODO: 246 constant?
         add( new LocalizedText( "step1", "get-phet.full-install.creatingInstallationCD.step1", new Object[]{
-                "href=\"" + CD_INSTALLER_LOCATION + "\"",
-                "246"
+                Linkers.CD_INSTALLER.getHref( context, getPhetCycle() ),
+                InstallerCache.getCdSize() / 1000000
         } ) );
 
         add( new LocalizedText( "updatedFrequently", "get-phet.full-install.updatedFrequently", new Object[]{
                 new Date( (long) InstallerCache.getTimestampMilliseconds() )
         } ) );
 
-        add( new RawLink( "win-link", WINDOWS_INSTALLER_LOCATION ) );
-        add( new RawLink( "mac-link", MAC_INSTALLER_LOCATION ) );
-        add( new RawLink( "linux-link", LINUX_INSTALLER_LOCATION ) );
+        add( new LocalizedText( "download-win", "get-phet.full-install.downloadWindows", new Object[]{
+                Linkers.WINDOWS_INSTALLER.getHref( context, getPhetCycle() ),
+                InstallerCache.getWinSize() / 1000000
+        }));
+
+        add( new LocalizedText( "download-mac", "get-phet.full-install.downloadMac", new Object[]{
+                Linkers.MAC_INSTALLER.getHref( context, getPhetCycle() ),
+                InstallerCache.getMacSize() / 1000000
+        }));
+
+        add( new LocalizedText( "download-linux", "get-phet.full-install.downloadLinux", new Object[]{
+                Linkers.LINUX_INSTALLER.getHref( context, getPhetCycle() ),
+                InstallerCache.getLinuxSize() / 1000000
+        }));
 
     }
 
