@@ -1,3 +1,4 @@
+# 1.03.66 (41240) May 26, 2010
 Improved performance on chart tabs by switching from JLabel to JTextField
 Removed the "Fixed/Adjustable" radio buttons from the coordinates tab
 Fixed: The F_sum label in the control panel overlaps the arrow symbol
