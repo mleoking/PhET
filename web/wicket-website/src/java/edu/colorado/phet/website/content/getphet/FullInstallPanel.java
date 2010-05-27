@@ -1,6 +1,9 @@
 package edu.colorado.phet.website.content.getphet;
 
+import java.util.Date;
+
 import edu.colorado.phet.website.DistributionHandler;
+import edu.colorado.phet.website.cache.InstallerCache;
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.components.RawLink;
 import edu.colorado.phet.website.content.about.AboutContactPanel;
@@ -48,9 +51,14 @@ public class FullInstallPanel extends PhetPanel {
                 AboutContactPanel.getLinker().getHref( context, getPhetCycle() )
         } ) );
 
+        // TODO: 246 constant?
         add( new LocalizedText( "step1", "get-phet.full-install.creatingInstallationCD.step1", new Object[]{
                 "href=\"" + CD_INSTALLER_LOCATION + "\"",
                 "246"
+        } ) );
+
+        add( new LocalizedText( "updatedFrequently", "get-phet.full-install.updatedFrequently", new Object[]{
+                new Date( (long) InstallerCache.getTimestamp() )
         } ) );
 
         add( new RawLink( "win-link", WINDOWS_INSTALLER_LOCATION ) );

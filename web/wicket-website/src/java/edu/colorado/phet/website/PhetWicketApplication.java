@@ -224,12 +224,10 @@ public class PhetWicketApplication extends WebApplication {
             stream.close();
         }
         catch( RuntimeException e ) {
-            //e.printStackTrace();
-            logger.warn( "setInstallerTimestamp runtime exception" );
+            logger.error( "setInstallerTimestamp runtime exception" );
         }
         catch( IOException e ) {
-            //e.printStackTrace();
-            logger.warn( "setInstallerTimestamp IO exception" );
+            logger.error( "setInstallerTimestamp IO exception" );
         }
     }
 
