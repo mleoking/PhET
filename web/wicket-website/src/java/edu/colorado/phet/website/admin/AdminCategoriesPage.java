@@ -51,9 +51,9 @@ public class AdminCategoriesPage extends AdminPage {
             }
         } );
 
-        add( new ListView( "categories", categories ) {
-            protected void populateItem( ListItem item ) {
-                final Category category = (Category) item.getModel().getObject();
+        add( new ListView<Category>( "categories", categories ) {
+            protected void populateItem( ListItem<Category> item ) {
+                final Category category = item.getModelObject();
 
                 Component titleComponent;
                 if ( category.isRoot() ) {
@@ -96,8 +96,8 @@ public class AdminCategoriesPage extends AdminPage {
         public AddCategoryForm( String id ) {
             super( id );
 
-            add( nameText = new TextField( "name", new Model( "" ) ) );
-            add( keyText = new TextField( "key", new Model( "" ) ) );
+            add( nameText = new TextField<String>( "name", new Model<String>( "" ) ) );
+            add( keyText = new TextField<String>( "key", new Model<String>( "" ) ) );
 
             HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
                 public boolean run( Session session ) {
@@ -123,13 +123,23 @@ public class AdminCategoriesPage extends AdminPage {
         protected void onSubmit() {
             final String name = nameText.getModelObject().toString();
             final String key = keyText.getModelObject().toString();
+            final String navKey = "nav." + key;
+
             final int catId = Integer.valueOf( dropDownChoice.getModelValue() );
             if ( name.isEmpty() || key.isEmpty() || catId == 0 ) {
                 return;
             }
             final Category[] cats = new Category[1];
+
             boolean success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
                 public boolean run( Session session ) {
+                    List matchingNavStrings = session.createQuery( "select ts from TranslatedString as ts where ts.key = :key" )
+                            .setString( "key", navKey ).list();
+                    if ( !matchingNavStrings.isEmpty() ) {
+                        // if the nav key already exists, we don't want to create a category by that name and obliterate it
+                        return false;
+                    }
+
                     Category category = new Category();
                     category.setAuto( false );
                     category.setRoot( false );
@@ -144,7 +154,7 @@ public class AdminCategoriesPage extends AdminPage {
                 }
             } );
             if ( success ) {
-                StringUtils.setEnglishString( getHibernateSession(), "nav." + key, name );
+                StringUtils.setEnglishString( getHibernateSession(), navKey, name );
 
                 CategoryChangeHandler.notifyAdded( cats[0] );
 
