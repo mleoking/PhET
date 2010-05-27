@@ -76,7 +76,7 @@ class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2
   def updateDecorations() = {
     if (getChildrenReference.contains(icicleImageNode)) {
       val delta = (rampSegment.endPoint - rampSegment.startPoint).normalize
-      val iceX = java.lang.Math.random * 0.8
+      val iceX = 0.4
       val alpha = iceX * rampSegment.length
       val pt = rampSegment.startPoint + delta * alpha
       icicleImageNode.setOffset(mytransform.modelToView(pt))
