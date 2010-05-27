@@ -91,8 +91,8 @@ public class Rotator extends MovieClip {
         if ( !li.parameters.quantity ) {
             // TODO: remove after dev
             quantity = 2;
-            previews.push(Preview.createPreview("Masses & Springs", "/en/simulation/mass-spring-lab", "mass-spring-lab"));
-            previews.push(Preview.createPreview("Circuit Construction Kit (DC Only)", "/en/simulation/circuit-construction-kit-dc", "circuit-construction-kit-dc"));
+            previews.push(Preview.createPreview("Masses & Springs", "/en/simulation/mass-spring-lab", "mass-spring-lab", ""));
+            previews.push(Preview.createPreview("Circuit Construction Kit (DC Only)", "/en/simulation/circuit-construction-kit-dc", "circuit-construction-kit-dc", ""));
             previewHolder.addChild(previews[0]);
             previewHolder.addChild(previews[1]);
             previews[1].visible = false;
@@ -106,7 +106,8 @@ public class Rotator extends MovieClip {
                 var title : String = li.parameters["title" + String(i)];
                 var url : String = li.parameters["url" + String(i)];
                 var sim : String = li.parameters["sim" + String(i)];
-                var preview:Preview = Preview.createPreview(title, url, sim);
+                var version : String = li.parameters["v" + String(i)];
+                var preview:Preview = Preview.createPreview(title, url, sim, version);
                 previews.push(preview);
                 previewHolder.addChild(preview);
                 preview.visible = i == 1;

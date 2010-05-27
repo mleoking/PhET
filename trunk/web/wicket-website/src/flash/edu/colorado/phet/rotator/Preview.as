@@ -28,6 +28,11 @@ public class Preview extends MovieClip{
     private var sim : String;
 
     /**
+     * The version of the file to display (so that we don't display cached results instead of updated content)
+     */
+    private var version : String;
+
+    /**
      * Whether we have started the downloading (loading) process
      */
     private var started : Boolean = false;
@@ -44,16 +49,17 @@ public class Preview extends MovieClip{
 
     public static var LOADED : String = "previewLoaded";
 
-    public static function createPreview( title : String, url : String, sim : String ) : Preview {
-        return new StreamPreview(title, url, sim);
-        //return new SwfPreview(title, url, sim);
+    public static function createPreview( title : String, url : String, sim : String, version : String ) : Preview {
+        return new StreamPreview(title, url, sim, version);
+        //return new SwfPreview(title, url, sim, version);
     }
 
-    public function Preview( title : String, url : String, sim : String ) {
+    public function Preview( title : String, url : String, sim : String, version : String ) {
         super();
         this.title = title;
         this.url = url;
         this.sim = sim;
+        this.version = version;
 
         // add a text label for the simulation title
 
@@ -100,6 +106,10 @@ public class Preview extends MovieClip{
 
     public function getSim():String {
         return sim;
+    }
+
+    public function getVersion():String {
+        return version;
     }
 
     public function isStarted():Boolean {

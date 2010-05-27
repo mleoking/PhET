@@ -20,7 +20,7 @@ public class StreamPreview extends Preview {
      */
     private var netStream : NetStream;
 
-    public function StreamPreview( title : String, url : String, sim : String ) {
+    public function StreamPreview( title : String, url : String, sim : String, version : String ) {
 
         video = new Video();
         video.width = Rotator.PREVIEW_WIDTH;
@@ -49,7 +49,7 @@ public class StreamPreview extends Preview {
             }
         });
 
-        super(title, url, sim);
+        super(title, url, sim, version);
     }
 
     override public function load() : void {
@@ -65,7 +65,7 @@ public class StreamPreview extends Preview {
             domain = "192.168.1.64";
         }
 
-        netStream.play("http://" + domain + "/files/rotator/" + getSim() + ".flv");
+        netStream.play("http://" + domain + "/files/rotator/" + getSim() + getVersion() + ".flv");
     }
 
 

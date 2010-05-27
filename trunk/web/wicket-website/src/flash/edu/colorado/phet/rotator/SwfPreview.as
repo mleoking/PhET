@@ -14,7 +14,7 @@ public class SwfPreview extends Preview {
 
     private var loader : Loader = new Loader();
 
-    public function SwfPreview( title : String, url : String, sim : String ) {
+    public function SwfPreview( title : String, url : String, sim : String, version : String ) {
 
         addChild(loader);
 
@@ -26,7 +26,7 @@ public class SwfPreview extends Preview {
 
         loader.mouseEnabled = false;
 
-        super(title, url, sim);
+        super(title, url, sim, version);
     }
 
     override public function load() : void {
