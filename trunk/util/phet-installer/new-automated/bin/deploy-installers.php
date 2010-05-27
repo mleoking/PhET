@@ -1,8 +1,8 @@
 <?php
 
     //============================================================================
-    // This file contains script that simply copies the installers from the
-    // temporary directory where they should end up after being built to the
+    // This file contains functions that copy the installers from the temporary
+    // directory where they should end up after initially being built to the
     // directory used by the main PhET web site.
     //============================================================================
 
