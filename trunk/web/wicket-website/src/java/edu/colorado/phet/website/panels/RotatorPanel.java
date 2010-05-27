@@ -31,20 +31,22 @@ public class RotatorPanel extends PhetPanel {
     public RotatorPanel( String id, PageContext context ) {
         super( id, context );
 
-        final List<LocalizedSimulation> featured = new LinkedList<LocalizedSimulation>();
+        final List<Entry> featured = new LinkedList<Entry>();
 
         // TODO: start caching these best simulations?
         HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
             public boolean run( Session session ) {
-                featured.add( HibernateUtils.getBestSimulation( session, getMyLocale(), "mass-spring-lab" ) );
-                featured.add( HibernateUtils.getBestSimulation( session, getMyLocale(), "circuit-construction-kit-dc" ) );
-                featured.add( HibernateUtils.getBestSimulation( session, getMyLocale(), "soluble-salts" ) );
-                featured.add( HibernateUtils.getBestSimulation( session, getMyLocale(), "my-solar-system" ) );
-                featured.add( HibernateUtils.getBestSimulation( session, getMyLocale(), "lunar-lander" ) );
-                featured.add( HibernateUtils.getBestSimulation( session, getMyLocale(), "projectile-motion" ) );
-                featured.add( HibernateUtils.getBestSimulation( session, getMyLocale(), "friction" ) );
-                featured.add( HibernateUtils.getBestSimulation( session, getMyLocale(), "wave-on-a-string" ) );
-                featured.add( HibernateUtils.getBestSimulation( session, getMyLocale(), "pendulum-lab" ) );
+                featured.add( new Entry( HibernateUtils.getBestSimulation( session, getMyLocale(), "mass-spring-lab" ), 1 ) );
+                featured.add( new Entry( HibernateUtils.getBestSimulation( session, getMyLocale(), "circuit-construction-kit-dc" ), 1 ) );
+                featured.add( new Entry( HibernateUtils.getBestSimulation( session, getMyLocale(), "soluble-salts" ), 1 ) );
+                featured.add( new Entry( HibernateUtils.getBestSimulation( session, getMyLocale(), "my-solar-system" ), 1 ) );
+                featured.add( new Entry( HibernateUtils.getBestSimulation( session, getMyLocale(), "glaciers" ), 1 ) );
+                featured.add( new Entry( HibernateUtils.getBestSimulation( session, getMyLocale(), "lunar-lander" ), 1 ) );
+                featured.add( new Entry( HibernateUtils.getBestSimulation( session, getMyLocale(), "projectile-motion" ), 1 ) );
+                featured.add( new Entry( HibernateUtils.getBestSimulation( session, getMyLocale(), "friction" ), 1 ) );
+                featured.add( new Entry( HibernateUtils.getBestSimulation( session, getMyLocale(), "wave-on-a-string" ), 1 ) );
+                featured.add( new Entry( HibernateUtils.getBestSimulation( session, getMyLocale(), "curve-fitting" ), 1 ) );
+                featured.add( new Entry( HibernateUtils.getBestSimulation( session, getMyLocale(), "equation-grapher" ), 1 ) );
                 return true;
             }
         } );
@@ -56,11 +58,13 @@ public class RotatorPanel extends PhetPanel {
         appendParameter( "previous", getPhetLocalizer().getString( "home.rotator.previous", this ) );
         appendParameter( "startIndex", String.valueOf( random.nextInt( featured.size() ) ) );
         int idx = 1;
-        for ( LocalizedSimulation lsim : featured ) {
+        for ( Entry entry : featured ) {
+            LocalizedSimulation lsim = entry.getLocalizedSimulation();
             String ids = Integer.toString( idx++ );
             appendParameter( "sim" + ids, lsim.getSimulation().getName() );
             appendParameter( "title" + ids, lsim.getTitle() );
             appendParameter( "url" + ids, SimulationPage.getLinker( lsim ).getRawUrl( context, getPhetCycle() ) );
+            appendParameter( "v" + ids, Integer.toString( entry.getVersion() ) );
         }
 
         Model flashvarsModel = new Model<String>( builder.toString() );
@@ -97,6 +101,24 @@ public class RotatorPanel extends PhetPanel {
         }
         catch( UnsupportedEncodingException e ) {
             e.printStackTrace();
+        }
+    }
+
+    private static class Entry {
+        private LocalizedSimulation localizedSimulation;
+        private int version;
+
+        private Entry( LocalizedSimulation localizedSimulation, int version ) {
+            this.localizedSimulation = localizedSimulation;
+            this.version = version;
+        }
+
+        public LocalizedSimulation getLocalizedSimulation() {
+            return localizedSimulation;
+        }
+
+        public int getVersion() {
+            return version;
         }
     }
 
