@@ -16,11 +16,27 @@
     require_once("file-util.php");
     require_once("installer-util.php");
     require_once("ripper-util.php");
+    require_once("deploy-util.php");
 
     //-------------------------------------------------------------------------
     // Rip the web site and rebuild the installer.
     //-------------------------------------------------------------------------
     function full_rip_and_rebuild() {
+
+        $args = $_SERVER['argv'];
+
+        if ( count( $args ) == 1 ){
+            // Deploy flag is not present.
+            $deploy = false;
+        }   
+        else if ( count( $args >= 2 ) ){
+            // Verify that the only accepted option is the 2nd argument.
+            if ( ( $args[1] != "--deploy" ) || ( count( $args ) > 2 ) ) { 
+                flushing_echo("Usage: $args[0] [--deploy]");
+                exit( 1 );
+            }   
+            $deploy = true;
+        }   
 
         // Grab a file lock to prevent multiple simultaneous executions.
         if ( !file_lock( LOCK_FILE_STEM_NAME ) ){
@@ -64,6 +80,11 @@
         // Build the local installers, meaning installers that can be used to
         // install a local mirror of the PhET web site.
         installer_build_local_mirror_installers(BITROCK_PHET_LOCAL_MIRROR_BUILDFILE);
+
+        // If specified, deploy the sims to the production web site.
+        if ($deploy){
+           deploy_all();
+        }
 
         // Output the time of completion.
         $end_time = exec("date");
