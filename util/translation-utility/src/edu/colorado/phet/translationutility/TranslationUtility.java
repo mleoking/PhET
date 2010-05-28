@@ -100,7 +100,7 @@ public class TranslationUtility extends JFrame {
     }
 
     public static void main( final String[] args ) {
-        if( StringUtil.contains( args, "-log" ) ) {
+        if ( StringUtil.contains( args, "-log" ) ) {
             Logger.getLogger( "edu.colorado.phet.translationutility" ).setLevel( Level.DEBUG );
         }
         /*
