@@ -9,6 +9,7 @@ import org.apache.wicket.model.ResourceModel;
 
 import edu.colorado.phet.website.authentication.panels.SignInPanel;
 import edu.colorado.phet.website.panels.TranslationLinksPanel;
+import edu.colorado.phet.website.templates.PhetMenuPage;
 import edu.colorado.phet.website.templates.PhetPage;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetUrlMapper;
@@ -19,12 +20,12 @@ import edu.colorado.phet.website.util.links.RawLinkable;
  * The page to send people to if they need to sign in. Specify a destination that they will be taken to after signing
  * in (even after registering)
  */
-public class SignInPage extends PhetPage {
+public class SignInPage extends PhetMenuPage {
 
     private static final Logger logger = Logger.getLogger( SignInPage.class.getName() );
 
     public SignInPage( PageParameters parameters ) {
-        super( parameters, true );
+        super( parameters );
 
         String destination = null;
 
@@ -35,8 +36,6 @@ public class SignInPage extends PhetPage {
         addTitle( new ResourceModel( "signIn.title" ) );
 
         add( new SignInPanel( "sign-in-panel", getPageContext(), destination ) );
-
-        add( new TranslationLinksPanel( "translation-links-panel", getPageContext() ) );
 
     }
 

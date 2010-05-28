@@ -3,10 +3,13 @@ package edu.colorado.phet.website.templates;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.behavior.HeaderContributor;
 
 import edu.colorado.phet.website.DistributionHandler;
+import edu.colorado.phet.website.authentication.AuthenticatedPage;
 import edu.colorado.phet.website.cache.SimplePanelCacheEntry;
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.constants.CSS;
@@ -25,6 +28,12 @@ import edu.colorado.phet.website.util.PhetRequestCycle;
 public abstract class PhetMenuPage extends PhetPage {
 
     private int contentWidth = 765;
+    private boolean initializedLocations = false;
+    private Set<NavLocation> navLocations;
+
+    private static final Logger logger = Logger.getLogger( PhetMenuPage.class.getName() );
+
+    static { logger.setLevel( Level.DEBUG ); }
 
     public PhetMenuPage( PageParameters parameters ) {
         super( parameters, true );
@@ -45,6 +54,20 @@ public abstract class PhetMenuPage extends PhetPage {
 
         add( AboutLicensingPanel.getLinker().getLink( "some-rights-link", getPageContext(), getPhetCycle() ) );
 
+        checkNavLocationParameters( parameters );
+
+    }
+
+    /**
+     * If the user is not signed in, redirect them to the sign-in page but keep the correct navigation locations
+     */
+    public void verifySignedIn() {
+        if ( initializedLocations ) {
+            AuthenticatedPage.checkSignedIn( navLocations );
+        }
+        else {
+            AuthenticatedPage.checkSignedIn();
+        }
     }
 
     public void initializeLocation( NavLocation currentLocation ) {
@@ -54,6 +77,11 @@ public abstract class PhetMenuPage extends PhetPage {
     }
 
     public void initializeLocationWithSet( Set<NavLocation> currentLocations ) {
+        if ( initializedLocations ) {
+            throw new RuntimeException( "Initialized locations twice!" );
+        }
+        navLocations = currentLocations;
+        initializedLocations = true;
         add( new SideNavMenu( "side-navigation", getPageContext(), currentLocations ) );
     }
 
@@ -69,9 +97,41 @@ public abstract class PhetMenuPage extends PhetPage {
     public String getStyle( String key ) {
         // be able to override the width so we can increase it for specific pages
         if ( key.equals( "style.menu-page-content" ) ) {
-            return "width: " + contentWidth + "px;";
+            return "width: " + getContentWidth() + "px;";
         }
 
         return super.getStyle( key );
+    }
+
+    /**
+     * If nav locations were passed in through the page parameters, we use those instead. Useful for things like the
+     * sign-in page which ideally would have the menu continue.
+     *
+     * @param parameters Initial page parameters
+     */
+    private void checkNavLocationParameters( PageParameters parameters ) {
+        Object locations = parameters.get( "navLocations" );
+        if ( locations != null ) {
+            Set<NavLocation> defaultLocations = (Set<NavLocation>) locations;
+            if ( logger.isDebugEnabled() ) {
+                logger.debug( "initializing with default locations:" );
+                for ( NavLocation navLocation : defaultLocations ) {
+                    logger.debug( navLocation.getKey() );
+                }
+            }
+            initializeLocationWithSet( defaultLocations );
+        }
+    }
+
+    private void initializeDefaultLocations() {
+        initializeLocationWithSet( new HashSet<NavLocation>() );
+    }
+
+    @Override
+    protected void onBeforeRender() {
+        super.onBeforeRender();
+        if ( !initializedLocations ) {
+            initializeDefaultLocations();
+        }
     }
 }

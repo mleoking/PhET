@@ -1,5 +1,8 @@
 package edu.colorado.phet.website.util;
 
+import java.util.Set;
+
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.wicket.Response;
 import org.apache.wicket.protocol.http.WebApplication;
@@ -9,6 +12,7 @@ import org.apache.wicket.protocol.http.request.WebClientInfo;
 import org.hibernate.Session;
 
 import edu.colorado.phet.website.PhetWicketApplication;
+import edu.colorado.phet.website.menu.NavLocation;
 
 /**
  * A request cycle is created for each HTTP request, and is available at any point from pages or components by calling
@@ -112,7 +116,6 @@ public class PhetRequestCycle extends WebRequestCycle {
     }
 
     public static PhetRequestCycle get() {
-        // TODO: verify
         return (PhetRequestCycle) WebRequestCycle.get();
     }
 
