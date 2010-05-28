@@ -8,9 +8,12 @@ import org.apache.wicket.PageParameters;
 import org.apache.wicket.model.ResourceModel;
 
 import edu.colorado.phet.website.authentication.panels.SignInPanel;
+import edu.colorado.phet.website.menu.NavLocation;
+import edu.colorado.phet.website.panels.NavBreadCrumbs;
 import edu.colorado.phet.website.panels.TranslationLinksPanel;
 import edu.colorado.phet.website.templates.PhetMenuPage;
 import edu.colorado.phet.website.templates.PhetPage;
+import edu.colorado.phet.website.templates.PhetRegularPage;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetUrlMapper;
 import edu.colorado.phet.website.util.links.AbstractLinker;
