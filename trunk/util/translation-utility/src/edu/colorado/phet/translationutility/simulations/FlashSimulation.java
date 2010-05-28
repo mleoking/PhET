@@ -37,7 +37,7 @@ public class FlashSimulation extends AbstractSimulation {
     private static final String COMMON_STRINGS_PROJECT = "flash-common-strings";
     private static final String COMMON_STRINGS_BASENAME = "common";
 
-    private static final Logger logger = LoggerFactory.getLogger( FlashSimulation.class );
+    private static final Logger LOGGER = LoggerFactory.getLogger( FlashSimulation.class );
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -65,7 +65,7 @@ public class FlashSimulation extends AbstractSimulation {
     public Properties getStrings( Locale locale ) throws SimulationException {
         String xmlFilename = getStringPath( getProjectName(), locale );
         Properties p = readDocumentFromJar( getJarFileName(), xmlFilename );
-        logger.debug( "loaded strings from {}", xmlFilename );
+        LOGGER.debug( "loaded strings from {}", xmlFilename );
         return p;
     }
 
@@ -292,7 +292,7 @@ public class FlashSimulation extends AbstractSimulation {
                     testOutputStream.closeEntry();
                 }
                 else {
-                    logger.debug( "copying jar, skipping {}", jarEntry.getName() );
+                    LOGGER.debug( "copying jar, skipping {}", jarEntry.getName() );
                 }
                 jarEntry = jarInputStream.getNextJarEntry();
             }

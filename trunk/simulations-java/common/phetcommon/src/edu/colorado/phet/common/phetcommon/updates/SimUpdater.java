@@ -50,7 +50,7 @@ public class SimUpdater {
     private static final String ERROR_MISSING_JAR = PhetCommonResources.getString( "Common.updates.errorMissingJar" );
     private static final String ERROR_NOT_A_JAR = PhetCommonResources.getString( "Common.updates.errorNotAJar" );
 
-    private static final Logger logger = LoggerFactory.getLogger( SimUpdater.class );
+    private static final Logger LOGGER = LoggerFactory.getLogger( SimUpdater.class );
     
     private final File tmpDir;
     
@@ -233,7 +233,7 @@ public class SimUpdater {
     }
 
     private void log( String message ) {
-        logger.debug( message );
+        LOGGER.debug( message );
     }
 
     private static void handleErrorSimJar( File file ) {

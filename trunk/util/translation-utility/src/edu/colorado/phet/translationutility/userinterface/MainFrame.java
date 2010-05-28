@@ -48,7 +48,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
     private FindDialog _findDialog;
     private String _previousFindText;
 
-    private static final Logger logger = LoggerFactory.getLogger( MainFrame.class );
+    private static final Logger LOGGER = LoggerFactory.getLogger( MainFrame.class );
     
     /**
      * Constructor.
@@ -232,7 +232,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
             }
             else {
                 // file suffix is inappropriate, tell the user and try again
-                logger.debug( "Save attempted with bogus filename: {}", outFile.getAbsolutePath() );
+                LOGGER.debug( "Save attempted with bogus filename: {}", outFile.getAbsolutePath() );
                 Object[] args = { _simulation.getStringFileSuffix() };
                 String message = MessageFormat.format( TUStrings.ERROR_SAVE_SUFFIX, args );
                 JOptionPane.showMessageDialog( this, message, TUStrings.ERROR_TITLE, JOptionPane.ERROR_MESSAGE );
@@ -300,7 +300,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
                 return;
             }
         }
-        logger.debug( "submit is saving to {}", outFile.getAbsolutePath() );
+        LOGGER.debug( "submit is saving to {}", outFile.getAbsolutePath() );
         
         try {
             _simulation.saveStrings( properties, outFile );

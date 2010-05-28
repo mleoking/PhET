@@ -39,7 +39,7 @@ public class TranslationPanel extends JPanel implements FindListener {
     private static final int SOURCE_COLUMN = 1;
     private static final int TARGET_COLUMN = 2;
 
-    private static final Logger logger = LoggerFactory.getLogger( TranslationPanel.class );
+    private static final Logger LOGGER = LoggerFactory.getLogger( TranslationPanel.class );
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -77,8 +77,8 @@ public class TranslationPanel extends JPanel implements FindListener {
         // get locale-specific fonts
         final Font sourceFont = PhetFont.getPreferredFont( sourceLocale );
         final Font targetFont = PhetFont.getPreferredFont( targetLocale );
-        logger.debug( "TranslationPanel, sourceFont=" + sourceFont + " (" + sourceFont.getFontName() + ")" );
-        logger.debug( "TranslationPanel, targetFont=" + targetFont + " (" + targetFont.getFontName() + ")");
+        LOGGER.debug( "TranslationPanel, sourceFont=" + sourceFont + " (" + sourceFont.getFontName() + ")" );
+        LOGGER.debug( "TranslationPanel, targetFont=" + targetFont + " (" + targetFont.getFontName() + ")");
         
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         setLayout( layout );
