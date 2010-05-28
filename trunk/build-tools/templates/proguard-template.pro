@@ -47,13 +47,6 @@
     public protected *;
 }
 
--keep class org.apache.log4j.Layout { public *; }
--keep class org.apache.log4j.Level { public *; }
--keep class org.apache.log4j.Category { public *; }
--keep class org.apache.log4j.Priority { public *; }
--keep class org.apache.log4j.spi.LoggingEvent { public *; }
--keep class org.apache.log4j.spi.ThrowableInformation { public *; }
--keep class org.apache.log4j.spi.LocationInfo { public *; }
 -keep class org.apache.log4j.PatternLayout { public *; }
 -keep class org.apache.log4j.FileAppender { public *; }
 -keep class org.apache.log4j.ConsoleAppender { public *; }
