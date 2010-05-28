@@ -24,13 +24,14 @@ class WorkshopsPage extends SitePage {
 
         <h2>Upcoming Workshops</h2>
         <ul>
-	<li><em>Chemistry Modeling using PhET Free Simulations</em>; 21st Biennial Conference on Chemical EducationUniversity of North Texas, Denton, TX <strong>August 4, 2010</strong></li>
+	<li><em>PhET Simulations - Fun Tools to Help Your Students</em>; AAPT Summer National 2010 Meeting, Portland, OR <strong>July 18, 2010</strong></li>
+	<li><em>Chemistry Modeling using PhET Free Simulations</em>; 21st Biennial Conference on Chemical Education, University of North Texas, Denton, TX <strong>August 4, 2010</strong></li>
         </ul>
 
         <h2>Workshop Materials:</h2>
         <ul>
 	<li>NSTA 2009 Workshop Materials (<a href="{$workshop_materials_location}Phet_Workshop_AAPT_2009.zip">ZIP</a>)</li>
-        <li>4 hour workshop Teacher and Researcher: designing research Studies around PhET's Interactive Simulaitons; AAPT Summer 2009 Meeting (<a href="{$workshop_materials_location}Phet_Workshop_AAPT_Summer2009.pptx">PPTX</a>)</li>
+        <li>4 hour workshop Teacher and Researcher: designing research Studies around PhET's Interactive Simulations; AAPT Summer 2009 Meeting (<a href="{$workshop_materials_location}Phet_Workshop_AAPT_Summer2009.pptx">PPTX</a>)</li>
         <li>Handouts used in PhET researcher and teacher workshops (<a href="{$workshop_materials_location}PhETResearcherAndTeacherWorkshopHandouts.zip">ZIP</a>)</li>
         <li>4 hour workshop for creating activities given at the American Association of Physics Teachers meetings (<a href="{$workshop_materials_location}Phet_Workshop_AAPT_Summer2007.pdf">PDF</a> or <a href="{$workshop_materials_location}Phet_Workshop_AAPT_Summer2007.ppt">PPT</a>)</li>
         <li>Handouts used in PhET activity creation workshops (<a href="{$workshop_materials_location}PhETWorkshopHandouts.zip">ZIP</a>)</li>
@@ -41,6 +42,7 @@ class WorkshopsPage extends SitePage {
 
         <h2>Schedule of Past Workshops</h2>
         <ul>
+	<li><em>What's New with PhET in Chemistry</em>; Colorado Science Convention, Denver, CO <strong>Nov 20, 2009</strong></li>
 	<li><em>Exploring Easy and Effective Ways to Use PhET's Web-Based Interactive Simulations in your Science Course</em>; NSTA Conferences on Science Educations, Minneapolis, MN <strong>Oct 28-31, 2009, </strong>Fort Lauderdale, FL <strong>Nov 12-14, 2009, </strong>Phoenix, AZ <strong>Dec 3-5, 2009</strong> (<a href="{$workshop_materials_location}flyer_for_NSTA.pdf">PDF flyer</a>)</li>
         <li><em>Teacher and Researcher: Designing Research Studies around PhET's Interactive Simulations</em>; AAPT Summer 2009 Meeting, Ann Arbor, MI, <strong>July 25-29, 2009</strong></li>
 	<li><em>Using PhET simulations for Science Inquiry; Technology in Education (TIE)</em> Colorado, Copper Mountain Resort, CO <strong>Jun 2009</strong> (<a href="{$workshop_materials_location}PhET_Workshop_Flyer_TIE_2009-06-24.pdf">PDF flyer</a>).<!-- <br /> Materials available at <a href="http://tieconference.wikispaces.com/2114">http://tieconference.wikispaces.com/2114</a> --></li>
