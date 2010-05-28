@@ -61,12 +61,12 @@ public abstract class PhetMenuPage extends PhetPage {
     /**
      * If the user is not signed in, redirect them to the sign-in page but keep the correct navigation locations
      */
-    public void verifySignedIn() {
+    protected void verifySignedIn() {
         if ( initializedLocations ) {
             AuthenticatedPage.checkSignedIn( navLocations );
         }
         else {
-            AuthenticatedPage.checkSignedIn();
+            super.verifySignedIn();
         }
     }
 

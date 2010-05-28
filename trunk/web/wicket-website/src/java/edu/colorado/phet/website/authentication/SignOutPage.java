@@ -20,7 +20,7 @@ public class SignOutPage extends PhetPage {
 
         addTitle( new ResourceModel( "signOut.title" ) );
 
-        AuthenticatedPage.checkSignedIn();
+        verifySignedIn();
 
         PhetSession.get().signOut();
 

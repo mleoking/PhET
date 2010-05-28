@@ -18,6 +18,7 @@ import org.apache.wicket.model.IModel;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.PhetWicketApplication;
+import edu.colorado.phet.website.authentication.AuthenticatedPage;
 import edu.colorado.phet.website.authentication.RegisterPage;
 import edu.colorado.phet.website.authentication.SignInPage;
 import edu.colorado.phet.website.components.*;
@@ -50,7 +51,8 @@ public abstract class PhetPage extends WebPage implements Stylable {
     private Long initStart;
 
     private static final Logger logger = Logger.getLogger( PhetPage.class.getName() );
-    static{ logger.setLevel( Level.DEBUG );}
+
+    static { logger.setLevel( Level.DEBUG );}
 
     public PhetPage( PageParameters parameters ) {
         this( parameters, true );
@@ -253,6 +255,13 @@ public abstract class PhetPage extends WebPage implements Stylable {
             }
         }
         return "";
+    }
+
+    /**
+     * If the user is not signed in, redirect them to the sign-in page.
+     */
+    protected void verifySignedIn() {
+        AuthenticatedPage.checkSignedIn();
     }
 
 }

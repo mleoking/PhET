@@ -10,6 +10,9 @@ import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.menu.NavLocation;
 import edu.colorado.phet.website.templates.PhetPage;
 
+/**
+ * Class and methods for requiring authentication (user log in) before viewing a page
+ */
 public class AuthenticatedPage extends PhetPage {
 
     private static final Logger logger = Logger.getLogger( AuthenticatedPage.class.getName() );
@@ -23,16 +26,30 @@ public class AuthenticatedPage extends PhetPage {
 
     }
 
+    /**
+     * Shortcut for getting the user
+     *
+     * @return The logged-in phet user
+     */
     public PhetUser getUser() {
         return PhetSession.get().getUser();
     }
 
+    /**
+     * Check whether the user is signed in. If not, redirect to the sign-in page.
+     */
     public static void checkSignedIn() {
         if ( !PhetSession.get().isSignedIn() ) {
             throw new RestartResponseAtInterceptPageException( SignInPage.class );
         }
     }
 
+    /**
+     * Check whether the user is signed in. If not, redirect to the sign-in page with the following nav locations for
+     * the navigation menu
+     *
+     * @param navLocations Navigation locations for the navigation menu
+     */
     public static void checkSignedIn( Set<NavLocation> navLocations ) {
         // TODO: change to collection?
         if ( !PhetSession.get().isSignedIn() ) {

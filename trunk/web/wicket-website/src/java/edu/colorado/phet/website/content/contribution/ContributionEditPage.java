@@ -25,14 +25,13 @@ public class ContributionEditPage extends PhetRegularPage {
     public ContributionEditPage( PageParameters parameters ) {
         super( parameters );
 
-        AuthenticatedPage.checkSignedIn();
+        initializeLocation( getNavMenu().getLocationByKey( "teacherIdeas.edit" ) );
+        verifySignedIn();
 
         String contributionIdString = parameters.getString( "contributionId" );
         final int contributionId = Integer.parseInt( contributionIdString );
 
         addTitle( new ResourceModel( "contribution.edit.pageTitle" ) );
-
-        initializeLocation( getNavMenu().getLocationByKey( "teacherIdeas.edit" ) );
 
         HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
             public boolean run( Session session ) {
