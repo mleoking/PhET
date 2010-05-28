@@ -44,7 +44,7 @@ public class PhetResources {
     //----------------------------------------------------------------------------
     
     // to turn logging on, modify log4j.properties or call setLevel( Level.DEBUG ) on this instance
-    private static final Logger logger = LoggerFactory.getLogger( PhetResources.class );
+    private static final Logger LOGGER = LoggerFactory.getLogger( PhetResources.class );
     
     // Standard localized properties:
     private static final String PROPERTY_NAME = "name";
@@ -129,13 +129,13 @@ public class PhetResources {
     public static Locale readLocale() {
         
         Locale locale = Locale.getDefault();
-        logger.debug( "readLocale: default locale={}", locale.toString() );
+        LOGGER.debug( "readLocale: default locale={}", locale.toString() );
         
         String language = System.getProperty( PhetCommonConstants.PROPERTY_PHET_LANGUAGE );
         String country = System.getProperty( PhetCommonConstants.PROPERTY_PHET_COUNTRY ); // optional, may be null
         if ( language != null ) {
             if ( country != null ) {
-                logger.debug( "readLocale: overriding locale via {}={} {}={}", new Object[]{
+                LOGGER.debug( "readLocale: overriding locale via {}={} {}={}", new Object[]{
                         PhetCommonConstants.PROPERTY_PHET_LANGUAGE,
                         language,
                         PhetCommonConstants.PROPERTY_PHET_COUNTRY,
@@ -144,16 +144,16 @@ public class PhetResources {
                 locale = new Locale( language, country );
             }
             else {
-                logger.debug( "readLocale: overriding locale via {}={}", PhetCommonConstants.PROPERTY_PHET_LANGUAGE, language );
+                LOGGER.debug( "readLocale: overriding locale via {}={}", PhetCommonConstants.PROPERTY_PHET_LANGUAGE, language );
                 locale = new Locale( language );
             }
         }
         else if ( country != null ) {
             //System.err.println( "PhetResources.locale: ignoring locale properties, they are in an illegal state, country specified without language" );
-            logger.warn( "readLocale: ignoring locale properties, they are in an illegal state, country specified without language" );
+            LOGGER.warn( "readLocale: ignoring locale properties, they are in an illegal state, country specified without language" );
         }
         
-        logger.debug( "readLocale: returning locale={}", locale.toString() );
+        LOGGER.debug( "readLocale: returning locale={}", locale.toString() );
         return locale;
     }
     

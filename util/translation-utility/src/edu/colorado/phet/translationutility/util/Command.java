@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
  */
 public class Command {
 
-    private static final Logger logger = LoggerFactory.getLogger( Command.class );
+    private static final Logger LOGGER = LoggerFactory.getLogger( Command.class );
     
     /**
      * All exceptions caught by Command will be mapped to CommandException.
@@ -53,12 +53,12 @@ public class Command {
                 command += " ";
             }
         }
-        logger.debug( "run: " + command );
+        LOGGER.debug( "run: " + command );
         
         try {
             Process process = Runtime.getRuntime().exec( cmdArray );
             
-            if ( logger.isDebugEnabled() ) {
+            if ( LOGGER.isDebugEnabled() ) {
                 InputStream in = process.getInputStream();
                 int c;
                 while ( ( c = in.read() ) != -1 ) {

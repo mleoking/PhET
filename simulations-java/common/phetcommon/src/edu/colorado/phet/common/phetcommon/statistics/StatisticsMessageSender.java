@@ -66,7 +66,7 @@ public class StatisticsMessageSender {
     private static final String WARNING_TAG = "warning";
     private static final String TRUE_VALUE = "true";
 
-    private static final Logger logger = LoggerFactory.getLogger( StatisticsMessageSender.class );
+    private static final Logger LOGGER = LoggerFactory.getLogger( StatisticsMessageSender.class );
 
     /**
      * Sends a statistics message to PhET.
@@ -127,8 +127,8 @@ public class StatisticsMessageSender {
      */
     private HttpURLConnection postDocument( Document document ) throws ParserConfigurationException, TransformerException, IOException {
         final String url = PhetCommonConstants.STATISTICS_SERVICE_URL;
-        logger.debug( "posting to url={}", url );
-        logger.debug( "query={}", XMLUtils.toString( document ));
+        LOGGER.debug( "posting to url={}", url );
+        LOGGER.debug( "query={}", XMLUtils.toString( document ));
         return XMLUtils.post( url, document );
     }
 
@@ -137,7 +137,7 @@ public class StatisticsMessageSender {
      */
     private boolean parseResponse( Document document ) throws IOException, SAXException, ParserConfigurationException, TransformerException {
 
-        logger.debug( "response={}", XMLUtils.toString( document ) );
+        LOGGER.debug( "response={}", XMLUtils.toString( document ) );
 
         // look for warnings
         NodeList warnings = document.getElementsByTagName( WARNING_TAG );

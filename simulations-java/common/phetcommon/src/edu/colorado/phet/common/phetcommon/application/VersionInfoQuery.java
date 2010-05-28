@@ -90,7 +90,7 @@ public class VersionInfoQuery {
     
     private final boolean hasSimQuery, hasInstallerQuery;
 
-    private static final Logger logger = LoggerFactory.getLogger( VersionInfoQuery.class );
+    private static final Logger LOGGER = LoggerFactory.getLogger( VersionInfoQuery.class );
 
     /**
      * Use this constructor to get both sim and installer version info.
@@ -163,13 +163,13 @@ public class VersionInfoQuery {
         try {
             // query
             Document queryDocument = buildQueryDocument();
-            logger.debug( "posting to url={}", url );
-            logger.debug( "query={}", XMLUtils.toString( queryDocument ) );
+            LOGGER.debug( "posting to url={}", url );
+            LOGGER.debug( "query={}", XMLUtils.toString( queryDocument ) );
             HttpURLConnection connection = XMLUtils.post( url, queryDocument );
             
             // response
             Document responseDocument = XMLUtils.readDocument( connection );
-            logger.debug( "response={}", XMLUtils.toString( responseDocument ) );
+            LOGGER.debug( "response={}", XMLUtils.toString( responseDocument ) );
             Response response = parseResponse( responseDocument, this );
             
             // notification

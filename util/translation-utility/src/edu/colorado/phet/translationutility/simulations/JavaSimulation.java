@@ -40,7 +40,7 @@ public class JavaSimulation extends AbstractSimulation {
     private static final String PROJECT_NAME_PROPERTY = "project.name";
     private static final String PREFERRED_FONTS = "phetcommon/localization/phetcommon-fonts.properties";
 
-    private static final Logger logger = LoggerFactory.getLogger( JavaSimulation.class );
+    private static final Logger LOGGER = LoggerFactory.getLogger( JavaSimulation.class );
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -77,7 +77,7 @@ public class JavaSimulation extends AbstractSimulation {
             properties = readPropertiesFromJar( getJarFileName(), propertiesFileName );
         }
         
-        logger.debug( "loaded strings from {}", propertiesFileName );
+        LOGGER.debug( "loaded strings from {}", propertiesFileName );
         return properties;
     }
 
@@ -271,7 +271,7 @@ public class JavaSimulation extends AbstractSimulation {
                     testOutputStream.closeEntry();
                 }
                 else {
-                    logger.debug( "copying jar, skipping {}", jarEntry.getName() );
+                    LOGGER.debug( "copying jar, skipping {}", jarEntry.getName() );
                 }
                 jarEntry = jarInputStream.getNextJarEntry();
             }

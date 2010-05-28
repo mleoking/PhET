@@ -53,7 +53,7 @@ public class PhetApplicationConfig implements ISimInfo {
     private FrameSetup frameSetup;
     private PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel(); // the look and feel to be initialized in launchSim
 
-    private static final org.slf4j.Logger logger = LoggerFactory.getLogger( PhetApplicationConfig.class );
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger( PhetApplicationConfig.class );
 
     //----------------------------------------------------------------------------
     // Constructors
