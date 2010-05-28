@@ -10,6 +10,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -17,7 +19,6 @@ import org.w3c.dom.Text;
 import org.xml.sax.SAXException;
 
 import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
-import edu.colorado.phet.common.phetcommon.util.logging.USLogger;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.SessionCounter;
 import edu.colorado.phet.common.phetcommon.view.util.XMLUtils;
@@ -65,6 +66,8 @@ public class StatisticsMessageSender {
     private static final String WARNING_TAG = "warning";
     private static final String TRUE_VALUE = "true";
 
+    private static final Logger logger = LoggerFactory.getLogger( StatisticsMessageSender.class );
+
     /**
      * Sends a statistics message to PhET.
      *
@@ -96,7 +99,7 @@ public class StatisticsMessageSender {
         }
         return success;
     }
-    
+
     /*
      * Converts a message to an XML Document.
      */
@@ -109,7 +112,7 @@ public class StatisticsMessageSender {
 
         Element root = document.createElement( ROOT_TAG );
         document.appendChild( root );
-        
+
         Element statisticsMessageElement = document.createElement( STATISTICS_MESSAGE_TAG );
         for ( int i = 0; i < message.getFieldCount(); i++ ) {
             statisticsMessageElement.setAttribute( message.getField( i ).getName(), message.getField( i ).getValue() );
@@ -118,14 +121,14 @@ public class StatisticsMessageSender {
 
         return document;
     }
-    
+
     /*
      * Sends the message by posting it as an XML document.
      */
     private HttpURLConnection postDocument( Document document ) throws ParserConfigurationException, TransformerException, IOException {
         final String url = PhetCommonConstants.STATISTICS_SERVICE_URL;
-        USLogger.log( getClass().getName() + " posting to url=" + url );
-        USLogger.log( getClass().getName() + " query=\n" + XMLUtils.toString( document ) );
+        logger.debug( "posting to url={}", url );
+        logger.debug( "query={}", XMLUtils.toString( document ));
         return XMLUtils.post( url, document );
     }
 
@@ -134,8 +137,8 @@ public class StatisticsMessageSender {
      */
     private boolean parseResponse( Document document ) throws IOException, SAXException, ParserConfigurationException, TransformerException {
 
-        USLogger.log( getClass().getName() + " response=\n" + XMLUtils.toString( document ) );
-        
+        logger.debug( "response={}", XMLUtils.toString( document ) );
+
         // look for warnings
         NodeList warnings = document.getElementsByTagName( WARNING_TAG );
         for ( int i = 0; i < warnings.getLength(); i++ ) {
@@ -148,7 +151,7 @@ public class StatisticsMessageSender {
                 }
             }
         }
-        
+
         // look for errors
         NodeList errors = document.getElementsByTagName( ERROR_TAG );
         for ( int i = 0; i < errors.getLength(); i++ ) {
@@ -161,13 +164,13 @@ public class StatisticsMessageSender {
                 }
             }
         }
-        
+
         // determine success
         String elementName = getResponseTag( STATISTICS_MESSAGE_TAG );
         String attributeValue = getAttribute( document, elementName, SUCCESS_ATTRIBUTE );
         return attributeValue.equals( TRUE_VALUE );
     }
-    
+
     /*
      * Convention for naming a response tag.
      * For example, request "foo" has response "foo_response".
@@ -175,7 +178,7 @@ public class StatisticsMessageSender {
     private static String getResponseTag( String tag ) {
         return tag + "_response";
     }
-    
+
     /*
      * Gets the first occurrence of an attribute.
      */

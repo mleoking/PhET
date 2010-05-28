@@ -16,6 +16,9 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.html.HTMLEditorKit;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -28,7 +31,6 @@ import edu.colorado.phet.translationutility.simulations.ISimulation.SimulationEx
 import edu.colorado.phet.translationutility.userinterface.FindDialog.FindListener;
 import edu.colorado.phet.translationutility.userinterface.ToolBar.ToolBarListener;
 import edu.colorado.phet.translationutility.util.ExceptionHandler;
-import edu.colorado.phet.translationutility.util.TULogger;
 
 /**
  * MainFrame is the application's main window.
@@ -45,6 +47,8 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
     private File _saveLoadDirectory;
     private FindDialog _findDialog;
     private String _previousFindText;
+
+    private static final Logger logger = LoggerFactory.getLogger( MainFrame.class );
     
     /**
      * Constructor.
@@ -228,7 +232,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
             }
             else {
                 // file suffix is inappropriate, tell the user and try again
-                TULogger.log( "Save attempted with bogus filename: " + outFile.getAbsolutePath() );
+                logger.debug( "Save attempted with bogus filename: {}", outFile.getAbsolutePath() );
                 Object[] args = { _simulation.getStringFileSuffix() };
                 String message = MessageFormat.format( TUStrings.ERROR_SAVE_SUFFIX, args );
                 JOptionPane.showMessageDialog( this, message, TUStrings.ERROR_TITLE, JOptionPane.ERROR_MESSAGE );
@@ -296,7 +300,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
                 return;
             }
         }
-        TULogger.log( "MainFrame: submit is saving to " + outFile.getAbsolutePath() );
+        logger.debug( "submit is saving to {}", outFile.getAbsolutePath() );
         
         try {
             _simulation.saveStrings( properties, outFile );

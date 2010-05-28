@@ -5,12 +5,17 @@ package edu.colorado.phet.translationutility.util;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Command runs an external command via Runtime.exec.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class Command {
+
+    private static final Logger logger = LoggerFactory.getLogger( Command.class );
     
     /**
      * All exceptions caught by Command will be mapped to CommandException.
@@ -48,12 +53,12 @@ public class Command {
                 command += " ";
             }
         }
-        TULogger.log( "Command.run: " + command );
+        logger.debug( "run: " + command );
         
         try {
             Process process = Runtime.getRuntime().exec( cmdArray );
             
-            if ( TULogger.isEnabled() ) {
+            if ( logger.isDebugEnabled() ) {
                 InputStream in = process.getInputStream();
                 int c;
                 while ( ( c = in.read() ) != -1 ) {

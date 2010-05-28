@@ -9,6 +9,9 @@ import java.util.jar.*;
 
 import javax.swing.JFileChooser;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import edu.colorado.phet.common.phetcommon.application.JARLauncher;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.common.phetcommon.view.util.StringUtil;
@@ -16,7 +19,6 @@ import edu.colorado.phet.translationutility.TUConstants;
 import edu.colorado.phet.translationutility.util.Command;
 import edu.colorado.phet.translationutility.util.FileChooserFactory;
 import edu.colorado.phet.translationutility.util.PropertiesIO;
-import edu.colorado.phet.translationutility.util.TULogger;
 import edu.colorado.phet.translationutility.util.Command.CommandException;
 import edu.colorado.phet.translationutility.util.PropertiesIO.PropertiesIOException;
 
@@ -37,6 +39,8 @@ public class JavaSimulation extends AbstractSimulation {
     private static final String COMMON_STRINGS_BASENAME = "phetcommon";
     private static final String PROJECT_NAME_PROPERTY = "project.name";
     private static final String PREFERRED_FONTS = "phetcommon/localization/phetcommon-fonts.properties";
+
+    private static final Logger logger = LoggerFactory.getLogger( JavaSimulation.class );
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -73,7 +77,7 @@ public class JavaSimulation extends AbstractSimulation {
             properties = readPropertiesFromJar( getJarFileName(), propertiesFileName );
         }
         
-        TULogger.log( "JavaSimulation: loaded strings from " + propertiesFileName );
+        logger.debug( "loaded strings from {}", propertiesFileName );
         return properties;
     }
 
@@ -267,7 +271,7 @@ public class JavaSimulation extends AbstractSimulation {
                     testOutputStream.closeEntry();
                 }
                 else {
-                    TULogger.log( "JavaSimulation: copying jar, skipping " + jarEntry.getName() );
+                    logger.debug( "copying jar, skipping {}", jarEntry.getName() );
                 }
                 jarEntry = jarInputStream.getNextJarEntry();
             }

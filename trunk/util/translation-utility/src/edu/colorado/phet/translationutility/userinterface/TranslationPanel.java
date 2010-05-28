@@ -10,12 +10,14 @@ import java.util.*;
 
 import javax.swing.*;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import edu.colorado.phet.common.phetcommon.util.PhetLocales;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.translationutility.TUStrings;
 import edu.colorado.phet.translationutility.userinterface.FindDialog.FindListener;
-import edu.colorado.phet.translationutility.util.TULogger;
 
 /**
  * TranslationPanel is a panel that consists of 3 columns for localizing strings.
@@ -36,6 +38,8 @@ public class TranslationPanel extends JPanel implements FindListener {
     private static final int KEY_COLUMN = 0;
     private static final int SOURCE_COLUMN = 1;
     private static final int TARGET_COLUMN = 2;
+
+    private static final Logger logger = LoggerFactory.getLogger( TranslationPanel.class );
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -73,8 +77,8 @@ public class TranslationPanel extends JPanel implements FindListener {
         // get locale-specific fonts
         final Font sourceFont = PhetFont.getPreferredFont( sourceLocale );
         final Font targetFont = PhetFont.getPreferredFont( targetLocale );
-        TULogger.log( "TranslationPanel, sourceFont=" + sourceFont + " (" + sourceFont.getFontName() + ")" );
-        TULogger.log( "TranslationPanel, targetFont=" + targetFont + " (" + targetFont.getFontName() + ")");
+        logger.debug( "TranslationPanel, sourceFont=" + sourceFont + " (" + sourceFont.getFontName() + ")" );
+        logger.debug( "TranslationPanel, targetFont=" + targetFont + " (" + targetFont.getFontName() + ")");
         
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         setLayout( layout );

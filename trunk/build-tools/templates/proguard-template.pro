@@ -47,15 +47,19 @@
     public protected *;
 }
 
+-keep class org.apache.log4j.**{
+    public protected *;
+}
+
+-keep class org.slf4j.**{
+    public protected *;
+}
+
 -keep class org.jfree.chart.resources.JFreeChartResources
 
 -keep class org.jfree.resources.JCommonResources
 
 -keep class org.jfree.ui.about.Licenses
-
--keep class org.apache.log4j
-
--keep class org.slf4j
 
 # Keep names - Native method names. Keep all native class/method names.
 -keepclasseswithmembernames class * {

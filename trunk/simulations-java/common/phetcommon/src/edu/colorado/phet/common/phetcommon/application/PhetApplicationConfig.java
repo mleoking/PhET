@@ -4,11 +4,14 @@ package edu.colorado.phet.common.phetcommon.application;
 
 import java.util.Locale;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.util.DeploymentScenario;
-import edu.colorado.phet.common.phetcommon.util.logging.USLogger;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.StringUtil;
@@ -50,6 +53,8 @@ public class PhetApplicationConfig implements ISimInfo {
     private FrameSetup frameSetup;
     private PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel(); // the look and feel to be initialized in launchSim
 
+    private static final org.slf4j.Logger logger = LoggerFactory.getLogger( PhetApplicationConfig.class );
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -71,7 +76,9 @@ public class PhetApplicationConfig implements ISimInfo {
      */
     public PhetApplicationConfig( String[] commandLineArgs, String project, String flavor ) {
         this.commandLineArgs = commandLineArgs;
-        USLogger.setLoggingEnabled( hasCommandLineArg( "-log" ) );
+        if( hasCommandLineArg( "-log" ) ) {
+            Logger.getLogger( "edu.colorado.phet.common.phetcommon" ).setLevel( Level.DEBUG );
+        }
         this.flavor = flavor;
         this.resourceLoader = new PhetResources( project );
         this.frameSetup = DEFAULT_FRAME_SETUP;

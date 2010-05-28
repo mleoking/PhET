@@ -11,6 +11,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -22,7 +24,6 @@ import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.resources.PhetInstallerVersion;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.statistics.StatisticsMessageSender;
-import edu.colorado.phet.common.phetcommon.util.logging.USLogger;
 import edu.colorado.phet.common.phetcommon.view.util.XMLUtils;
 
 /**
@@ -88,6 +89,8 @@ public class VersionInfoQuery {
     private final ArrayList listeners;
     
     private final boolean hasSimQuery, hasInstallerQuery;
+
+    private static final Logger logger = LoggerFactory.getLogger( VersionInfoQuery.class );
 
     /**
      * Use this constructor to get both sim and installer version info.
@@ -160,13 +163,13 @@ public class VersionInfoQuery {
         try {
             // query
             Document queryDocument = buildQueryDocument();
-            USLogger.log( getClass().getName() + " posting to url=" + url );
-            USLogger.log( getClass().getName() + " query=\n" + XMLUtils.toString( queryDocument ) );
+            logger.debug( "posting to url={}", url );
+            logger.debug( "query={}", XMLUtils.toString( queryDocument ) );
             HttpURLConnection connection = XMLUtils.post( url, queryDocument );
             
             // response
             Document responseDocument = XMLUtils.readDocument( connection );
-            USLogger.log( getClass().getName() + " response=\n" + XMLUtils.toString( responseDocument ) );
+            logger.debug( "response={}", XMLUtils.toString( responseDocument ) );
             Response response = parseResponse( responseDocument, this );
             
             // notification
