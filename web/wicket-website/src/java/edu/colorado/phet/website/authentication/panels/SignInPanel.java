@@ -39,6 +39,8 @@ public class SignInPanel extends PhetPanel {
 
         this.destination = destination;
 
+        setRenderBodyOnly( true );
+
         add( new SignInForm( "sign-in-form" ) );
 
         add( new LocalizedText( "to-register", "signIn.toRegister", new Object[]{

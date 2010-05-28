@@ -11,12 +11,17 @@
     <wicket:head>
         <style type="text/css">
             .sign-in-holder {
-                margin: 0 auto;
+                margin-left: auto;
+                margin-right: auto;
             }
 
             .to-register {
                 text-align: center;
                 font-size: 14px;
+            }
+
+            .sign-in-content {
+                margin-top: 10px;
             }
         </style>
     </wicket:head>
@@ -24,11 +29,11 @@
 <body>
 
 <wicket:panel>
-    <div class="sign-in-content" wicket:message="dir:language.dir">
+    <div class="sign-in-content standard-content" wicket:message="dir:language.dir">
         <div class="sign-in-holder">
-            <h3>
+            <h2>
                 <wicket:message key="signIn.signIn">Sign in:</wicket:message>
-            </h3>
+            </h2>
 
             <form wicket:id="sign-in-form">
                 <table>
