@@ -1,3 +1,4 @@
+5/28/10 adhoc logging replaced with log4j by JO
 4/1/10 changed "Brazilian Portuguese" to "Portuguese, Brazil" to be consistent with website (see #2250)
 # 2.08.00 (39581) Apr 1, 2010
 4/1/10 added locale "es_CO" for "Spanish, Colombia" (see #2244)
