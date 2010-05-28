@@ -1,3 +1,5 @@
+# 00.03.01 (41304) May 28, 2010
+5/28/10 deploying to dev to check now log4j has changed jar file size
 # 00.03.00 (29109) Mar 1, 2009
 Redeploy after removing 1.5 dependency on URL.toURI
 # 00.02.00 (29098) Feb 27, 2009
