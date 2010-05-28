@@ -70,10 +70,17 @@ public abstract class ToolBoxItemNode extends PComposite {
     			Point2D mouseModelPos = mvt.viewToModel(mouseWorldPos);
         		
         		if (modelElement == null){
-        			// Add the new model element to the model.
-        			handleAddRequest(mouseCanvasPos);
-        			modelElement.setDragging(true);
-        			modelElement.setPosition(mouseModelPos);
+        			if (okToAddElement()){
+        				// Add the new model element to the model.
+        				handleAddRequest(mouseCanvasPos);
+        				modelElement.setDragging(true);
+        				modelElement.setPosition(mouseModelPos);
+        			}
+        			else{
+        				// Ignore this request, since it is not okay to add
+        				// another element (probably because the model already
+        				// has one and another isn't allowed).
+        			}
         		}
         		else{
         			// This isn't expected to happen.  If it does, we need to
@@ -91,16 +98,6 @@ public abstract class ToolBoxItemNode extends PComposite {
     			canvas.getPhetRootNode().screenToWorld(mouseWorldPos);
     			Point2D mouseModelPos = mvt.viewToModel(mouseWorldPos);
         		
-        		if (modelElement == null){
-        			// Add the new model element to the model.
-        			System.out.println(getClass().getName() + " - Warning: Drag event received but no model element yet, adding it.");
-        			handleAddRequest(mouseCanvasPos);
-        			modelElement.setDragging(true);
-        		}
-        		else{
-    				// If a model element was added, it is now being dragged.
-        		}
-        		
        			// Move the model element (if it exists).
         		if (modelElement != null){
         			modelElement.setPosition(mouseModelPos);
@@ -114,8 +111,7 @@ public abstract class ToolBoxItemNode extends PComposite {
     			canvas.getPhetRootNode().screenToWorld(mouseWorldPos);
             	if (modelElement != null){
             		modelElement.setDragging(false);
-            		// Release our reference to the model element so that we will
-            		// create a new one if clicked again.
+            		// Release our reference to the model element.
             		modelElement = null;
             	}
             }
@@ -146,6 +142,14 @@ public abstract class ToolBoxItemNode extends PComposite {
 	 * by subclasses for implementing the appropriate behavior.
 	 */
 	protected abstract void handleAddRequest(Point2D position);
+	
+	/**
+	 * Obtain a boolean value that indicates whether it is okay to add an
+	 * instance of the corresponding model element to the model.  The most
+	 * common reason for this to return false is when only one such model
+	 * element is allowed and it has already been added.
+	 */
+	protected abstract boolean okToAddElement();
 	
 	/**
 	 * Called when a new simple model element is added to the model.  This

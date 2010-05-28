@@ -23,11 +23,16 @@ public class LacYGeneToolBoxNode extends ToolBoxItemNode {
 
 	@Override
 	protected void handleAddRequest(Point2D position) {
-		if (getModel().getLacYGene() == null){
+		if (okToAddElement()){
 			// No corresponding model element currently exists, so go ahead
 			// and add one.
 			setModelElement(getModel().createAndAddLacYGene(position));
 		}
+	}
+	
+	@Override
+	protected boolean okToAddElement() {
+		return (getModel().getLacYGene() == null);
 	}
 
 	@Override

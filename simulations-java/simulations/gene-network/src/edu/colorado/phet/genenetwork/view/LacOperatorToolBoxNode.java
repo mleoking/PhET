@@ -25,11 +25,16 @@ public class LacOperatorToolBoxNode extends ToolBoxItemNode {
 
 	@Override
 	protected void handleAddRequest(Point2D position) {
-		if (getModel().getLacOperator() == null){
+		if (okToAddElement()){
 			// No corresponding model element currently exists, so go ahead
 			// and add one.
 			setModelElement(getModel().createAndAddLacOperator(position));
 		}
+	}
+	
+	@Override
+	protected boolean okToAddElement() {
+		return (getModel().getLacOperator() == null);
 	}
 
 	@Override
