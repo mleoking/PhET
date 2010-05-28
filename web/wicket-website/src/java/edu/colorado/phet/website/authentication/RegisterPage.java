@@ -5,17 +5,18 @@ import org.apache.wicket.PageParameters;
 import org.apache.wicket.model.ResourceModel;
 
 import edu.colorado.phet.website.authentication.panels.RegisterPanel;
+import edu.colorado.phet.website.templates.PhetMenuPage;
 import edu.colorado.phet.website.templates.PhetPage;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetUrlMapper;
 import edu.colorado.phet.website.util.links.AbstractLinker;
 
-public class RegisterPage extends PhetPage {
+public class RegisterPage extends PhetMenuPage {
 
     private static final Logger logger = Logger.getLogger( RegisterPage.class.getName() );
 
     public RegisterPage( PageParameters parameters ) {
-        super( parameters, true );
+        super( parameters );
 
         String destination = null;
 

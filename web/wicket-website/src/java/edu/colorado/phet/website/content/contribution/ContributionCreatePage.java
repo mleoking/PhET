@@ -22,11 +22,11 @@ public class ContributionCreatePage extends PhetRegularPage {
     public ContributionCreatePage( PageParameters parameters ) {
         super( parameters );
 
-        AuthenticatedPage.checkSignedIn();
+        initializeLocation( getNavMenu().getLocationByKey( "teacherIdeas.submit" ) );
+
+        verifySignedIn();
 
         addTitle( new ResourceModel( "contribution.create.pageTitle" ) );
-
-        initializeLocation( getNavMenu().getLocationByKey( "teacherIdeas.submit" ) );
 
         add( new ContributionEditPanel( "contribution-edit-panel", getPageContext(), new Contribution() ) );
 
