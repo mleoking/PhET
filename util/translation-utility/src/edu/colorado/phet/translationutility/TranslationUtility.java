@@ -5,7 +5,6 @@ package edu.colorado.phet.translationutility;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
-import java.util.Date;
 import java.util.Locale;
 
 import javax.swing.JFrame;
@@ -36,15 +35,15 @@ public class TranslationUtility extends JFrame {
     // NOTE: untested for languages other than English
     private static final Locale SOURCE_LOCALE = TUConstants.ENGLISH_LOCALE;
 
-    private static final org.slf4j.Logger logger = LoggerFactory.getLogger( TranslationUtility.class );
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger( TranslationUtility.class );
     
     private TranslationUtility() {}
     
     public static void start() {
         
-        logger.debug( "version = {}", TUResources.getVersion() );
-        logger.debug( "os = {}", TUResources.getOSVersion() );
-        logger.debug( "java = {}", TUResources.getJREVersion() );
+        LOGGER.debug( "version = {}", TUResources.getVersion() );
+        LOGGER.debug( "os = {}", TUResources.getOSVersion() );
+        LOGGER.debug( "java = {}", TUResources.getJREVersion() );
         
         // check for a more recent version on the server
         UpdateManager.checkForUpdate();
@@ -58,8 +57,8 @@ public class TranslationUtility extends JFrame {
         }
         String jarFileName = initDialog.getJarFileName();
         Locale targetLocale = initDialog.getTargetLocale();
-        logger.debug( "jar={}", jarFileName );
-        logger.debug( "targetLocale={}", targetLocale.toString() );
+        LOGGER.debug( "jar={}", jarFileName );
+        LOGGER.debug( "targetLocale={}", targetLocale.toString() );
         
         // create a Simulation
         ISimulation simulation = null;
@@ -69,7 +68,7 @@ public class TranslationUtility extends JFrame {
         catch ( SimulationException e ) {
             ExceptionHandler.handleFatalException( e );
         }
-        logger.debug( "simulation type is {}", simulation.getClass().getName() );
+        LOGGER.debug( "simulation type is {}", simulation.getClass().getName() );
         
         String jarDirName = new File( jarFileName ).getParent();
         if ( jarDirName == null || jarDirName.length() == 0 ) {
