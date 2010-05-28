@@ -84,9 +84,6 @@
                             <origin>../../temp/website/phetsims.colorado.edu/sims</origin>
                         </distributionDirectory>
                         <distributionDirectory>
-                            <origin>../../temp/website/phetsims.colorado.edu/workshops</origin>
-                        </distributionDirectory>
-                        <distributionDirectory>
                             <origin>../../temp/website/phetsims.colorado.edu/index.html</origin>
                         </distributionDirectory>
                         <distributionDirectory>
