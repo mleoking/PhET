@@ -20,16 +20,11 @@ public class SoundApplication extends PiccoloPhetApplication {
         getPhetFrame().setResizable( false );
         
         // Set up the modules
-        Module singleSourceModule = new SingleSourceListenModule( );
-        addModule( singleSourceModule );
-        Module measureModule = new SingleSourceMeasureModule( this );
-        addModule( measureModule );
-        Module twoSourceIntereferenceModule = new TwoSpeakerInterferenceModule();
-        addModule( twoSourceIntereferenceModule );
-        Module wallInterferenceModule = new WallInterferenceModule();
-        addModule( wallInterferenceModule );
-        Module evacuatedBoxModule = new SingleSourceWithBoxModule();
-        addModule( evacuatedBoxModule );
+        addModule( new SingleSourceListenModule( ) );
+        addModule( new SingleSourceMeasureModule( this ) );
+        addModule( new TwoSpeakerInterferenceModule() );
+        addModule( new WallInterferenceModule() );
+        addModule( new SingleSourceWithBoxModule() );
     }
     
     public static void main( final String[] args ) {
