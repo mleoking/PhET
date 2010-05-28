@@ -23,11 +23,16 @@ public class LacZGeneToolBoxNode extends ToolBoxItemNode {
 
 	@Override
 	protected void handleAddRequest(Point2D position) {
-		if (getModel().getLacZGene() == null){
+		if (okToAddElement()){
 			// No corresponding model element currently exists, so go ahead
 			// and add one.
 			setModelElement(getModel().createAndAddLacZGene(position));
 		}
+	}
+	
+	@Override
+	protected boolean okToAddElement() {
+		return (getModel().getLacZGene() == null);
 	}
 
 	@Override

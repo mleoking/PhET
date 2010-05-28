@@ -25,11 +25,16 @@ public class LacIPromoterToolBoxNode extends ToolBoxItemNode {
 
 	@Override
 	protected void handleAddRequest(Point2D position) {
-		if (getModel().getLacIPromoter() == null){
+		if (okToAddElement()){
 			// No corresponding model element currently exists, so go ahead
 			// and add one.
 			setModelElement(getModel().createAndAddLacIPromoter(position));
 		}
+	}
+	
+	@Override
+	protected boolean okToAddElement() {
+		return (getModel().getLacIPromoter() == null);
 	}
 
 	@Override
