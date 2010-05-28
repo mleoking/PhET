@@ -1,3 +1,5 @@
+# 1.01.04 (41287) May 28, 2010
+5/28/10 Release candidate for production.
 >5/24/10 Fixed an issue where exceptions where thrown when the user clicked an empty element in the tool box.
 >5/24/10 Fixed an issue where the lactose injector was not well positioned on Macs due to font size differences.
 # 1.01.03 (40996) May 21, 2010
