@@ -2,16 +2,16 @@
 
 package edu.colorado.phet.greenhouse.model;
 
+import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 import java.util.EventListener;
+import java.util.Random;
 
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
-import edu.colorado.phet.neuron.model.Particle;
-import edu.colorado.phet.neuron.model.AxonModel.Listener;
 
 /**
  * Main model for the Greenhouse Effect.  This class is the central point
@@ -24,12 +24,18 @@ import edu.colorado.phet.neuron.model.AxonModel.Listener;
  */
 public class GreenhouseEffectModel {
 
-	private static final double PHOTON_EXISTENCE_TIME = 100;
+	private static final int MAX_NUM_CLOUDS = 3;
+	
+	private static final double PHOTON_EXISTENCE_TIME = 400;
+	private static final Random RAND = new Random();
 	
 	private ArrayList<Photon> photons = new ArrayList<Photon>();
+	private ArrayList<Cloud> clouds = new ArrayList<Cloud>();
+	private EventListenerList listeners = new EventListenerList();
+	
+	// TODO: Temp for debug.
 	private double photonExistenceCounter = PHOTON_EXISTENCE_TIME;
 	private Photon photon = null;
-    private EventListenerList listeners = new EventListenerList();
 
 	public GreenhouseEffectModel(GreenhouseClock clock){
 		clock.addClockListener(new ClockAdapter(){
@@ -43,8 +49,9 @@ public class GreenhouseEffectModel {
 		
 		if (photon == null){
 			photon = new Photon(GreenhouseConfig.irWavelength, null);
-			photon.setLocation(0, 0);
-			photon.setVelocity(1f, 0);
+			double xPos = (RAND.nextDouble() - 0.5) * 200;
+			photon.setLocation(xPos, -70);
+			photon.setVelocity(0, 0.2f);
 			notifyPhotonAdded(photon);
 		}
 		else{
@@ -53,11 +60,76 @@ public class GreenhouseEffectModel {
 				photon.stepInTime(dt);
 			}
 			else{
-				photon = null;
 				photonExistenceCounter = PHOTON_EXISTENCE_TIME;
+				notifyPhotonRemoved(photon);
+				photon = null;
 				// TODO - Absorb the photon.
 			}
 		}
+	}
+	
+	public int addCloud(){
+		if (clouds.size() <= MAX_NUM_CLOUDS){
+			// Add a cloud.
+			Cloud cloud = createCloud(clouds.size());
+			clouds.add(cloud);
+			notifyCloudAdded(cloud);
+		}
+		else{
+			System.out.println(getClass().getName() + " - Warning: Attempt to add too many clouds, ignoring.");
+		}
+		
+		return clouds.size();
+	}
+	
+	public int removeCloud(){
+		
+		if (clouds.size() > 0){
+			Cloud cloudToRemove = clouds.get(clouds.size() - 1);
+			clouds.remove(clouds.remove(clouds.size() - 1));
+			notifyCloudRemoved(cloudToRemove);
+		}
+		else{
+			System.out.println(getClass().getName() + " - Warning: Attempt to remove non-existent cloud, ignoring.");
+		}
+		
+		return clouds.size();
+	}
+	
+	public int getMaxNumClouds(){
+		return MAX_NUM_CLOUDS;
+	}
+	
+	public int getNumClouds(){
+		return clouds.size();
+	}
+	
+	/**
+	 * Create clouds based on the number of clouds present.  This ensures
+	 * consistent behavior when clouds are added.
+	 * 
+	 * @return
+	 */
+	private Cloud createCloud(int index){
+		assert index >= 0 && index < MAX_NUM_CLOUDS - 1;
+		Ellipse2D.Double cloudBounds = new Ellipse2D.Double();
+		switch (index){
+		case 0:
+			cloudBounds.setFrame(-100, -50, 200, 100);
+			break;
+		case 1:
+			cloudBounds.setFrame(-100, -50, 200, 100);
+			break;
+		case 2:
+			cloudBounds.setFrame(-100, -50, 200, 100);
+			break;
+		default:
+			System.out.println(getClass().getName() + " - Error: Cloud creation index out of range.");
+			cloudBounds.setFrame(-200, -200, 100, 100);
+			break;
+		}
+		
+		return new Cloud(cloudBounds);
 		
 	}
 	
@@ -75,11 +147,35 @@ public class GreenhouseEffectModel {
 		}
 	}
 	
+	private void notifyPhotonRemoved(Photon photon){
+		for (Listener listener : listeners.getListeners(Listener.class)){
+			listener.photonRemoved(photon);
+		}
+	}
+	
+	private void notifyCloudAdded(Cloud cloud){
+		for (Listener listener : listeners.getListeners(Listener.class)){
+			listener.cloudAdded(cloud);
+		}
+	}
+	
+	private void notifyCloudRemoved(Cloud cloud){
+		for (Listener listener : listeners.getListeners(Listener.class)){
+			listener.cloudRemoved(cloud);
+		}
+	}
+	
 	public static class Adapter implements Listener{
 		public void photonAdded(Photon photon) {};
+		public void photonRemoved(Photon photon) {}
+		public void cloudAdded(Cloud cloud) {}
+		public void cloudRemoved(Cloud cloud) {};
 	}
 	
 	public interface Listener extends EventListener {
 		public void photonAdded(Photon photon);
+		public void photonRemoved(Photon photon);
+		public void cloudAdded(Cloud cloud);
+		public void cloudRemoved(Cloud cloud);
 	}
 }
