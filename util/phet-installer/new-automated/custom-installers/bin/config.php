@@ -275,7 +275,7 @@
     define("DISTRIBUTION_TAG_KSU", "ksu-custom");
     define("DISTRIBUTION_TAG_YF",  "yf-custom");
     define("MARKER_FILE_NAME", "phet-installation.properties");
-    define("CREATION_TIMESTAMP_FILE_NAME", "installer-creation-timestamp.txt");
+    define("CREATION_TIMESTAMP_FILE_NAME", "/tmp/installer-creation-timestamp.txt");
     define("VERSION_INFO_FILE_NAME", "version.properties");
     define("VERSION_INFO_HTML_FILE_NAME", "version.html");
     define("LINUX_INSTALLER_FILE_NAME", "PhET-Installer_linux.bin");
