@@ -58,6 +58,7 @@ public class JFrameAppender extends AppenderSkeleton {
         JFrameAppender appender = new JFrameAppender( "test log" );
         appender.setVisible( true );
         appender.setLayout( new PatternLayout( "%d{DATE} %5p %25c{1} - %m%n" ) );
+        appender.getFrame().setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
         Logger mainLogger = Logger.getLogger( JFrameAppender.class );
         mainLogger.addAppender( appender );
