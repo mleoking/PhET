@@ -6,7 +6,6 @@ import java.util.Locale;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
@@ -52,8 +51,6 @@ public class PhetApplicationConfig implements ISimInfo {
     // mutable
     private FrameSetup frameSetup;
     private PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel(); // the look and feel to be initialized in launchSim
-
-    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger( PhetApplicationConfig.class );
 
     //----------------------------------------------------------------------------
     // Constructors
