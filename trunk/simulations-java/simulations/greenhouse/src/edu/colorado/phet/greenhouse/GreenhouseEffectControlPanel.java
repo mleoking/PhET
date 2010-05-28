@@ -42,6 +42,7 @@ import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.greenhouse.model.GreenhouseEffectModel;
 import edu.colorado.phet.greenhouse.util.ModelViewTx1D;
 
 // TODO: Copied from GreenhouseControlPanel, needs to be cleaned and commented.
@@ -57,6 +58,7 @@ public class GreenhouseEffectControlPanel extends ControlPanel implements Resett
     private static Color todayColor = new Color( 11, 142, 0 );
     private static Color panelForeground = Color.black;
 
+    private GreenhouseEffectModel model;
     private ModelSlider greenhouseGasConcentrationControl;
     String[] iceAgeConcentrations = new String[]{" ?",
             "200 " + GreenhouseResources.getString( "GreenhouseControlPanel.PPMAbreviation" ),
@@ -95,15 +97,18 @@ public class GreenhouseEffectControlPanel extends ControlPanel implements Resett
 
     /**
      * Constructor
+     * @param model TODO
      *
      */
-    public GreenhouseEffectControlPanel() {
+    public GreenhouseEffectControlPanel(final GreenhouseEffectModel model) {
+    	
+    	this.model = model;
 
         //--------------------------------------------------------------------------------------------------
         // Create the controls
         //--------------------------------------------------------------------------------------------------
 
-        // Incident photon's from the sun
+        // Incident photons from the sun
         final SliderWithReadout sunRateControl = new SliderWithReadout( GreenhouseResources.getString( "GreenhouseControlPanel.SunRateSlider" ),
                                                                         "", 0,
                                                                         GreenhouseConfig.maxIncomingRate,
@@ -145,7 +150,7 @@ public class GreenhouseEffectControlPanel extends ControlPanel implements Resett
         // Add/remove clouds
         JPanel cloudPanel = new JPanel();
         int min = 0;
-        int max = 3;
+        int max = GreenhouseEffectModel.getMaxNumClouds();
         int step = 1;
         int initValue = 0;
         SpinnerModel cloudSpinnerModel = new SpinnerNumberModel( initValue, min, max, step );
@@ -154,7 +159,12 @@ public class GreenhouseEffectControlPanel extends ControlPanel implements Resett
             public void stateChanged( ChangeEvent e ) {
                 JSpinner spinner = (JSpinner) e.getSource();
                 int i = ( (Integer) spinner.getValue() ).intValue();
-//                module.numCloudsEnabled( i );
+                if (i > model.getNumClouds()){
+                	model.addCloud();
+                }
+                else if (i < model.getNumClouds()){
+                	model.removeCloud();
+                }
             }
         } );
         JFormattedTextField tf = ( (JSpinner.DefaultEditor) cloudsSpinner.getEditor() ).getTextField();

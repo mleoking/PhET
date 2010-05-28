@@ -96,7 +96,7 @@ public class GreenhouseEffectModel {
 		return clouds.size();
 	}
 	
-	public int getMaxNumClouds(){
+	public static int getMaxNumClouds(){
 		return MAX_NUM_CLOUDS;
 	}
 	

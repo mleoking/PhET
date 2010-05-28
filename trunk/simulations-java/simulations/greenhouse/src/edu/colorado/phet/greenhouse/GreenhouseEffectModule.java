@@ -55,7 +55,7 @@ public class GreenhouseEffectModule extends PiccoloModule {
         setSimulationPanel( canvas );
         
         // Control panel
-        GreenhouseEffectControlPanel greenhouseEffectControlPanel = new GreenhouseEffectControlPanel();
+        GreenhouseEffectControlPanel greenhouseEffectControlPanel = new GreenhouseEffectControlPanel(model);
         setControlPanel(greenhouseEffectControlPanel);
 
         // Clock controls.
