@@ -22,10 +22,9 @@ public class AudioControlPanel extends JPanel {
     private JRadioButton listenerRB;
     private SoundModule module;
 
-    public AudioControlPanel( final SoundModule module ) {
+    public AudioControlPanel( final SoundModule module,boolean showListenerTypePanel ) {
         this.module = module;
         this.setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
-        this.setPreferredSize( new Dimension( 150, 100 ) );
 
         // On/off check box
         JPanel audioOnOffPanel = new JPanel();
@@ -49,7 +48,9 @@ public class AudioControlPanel extends JPanel {
         audioSourceBG.add( listenerRB );
         audioSourcePanel.add( speakerRB );
         audioSourcePanel.add( listenerRB );
-        this.add( audioSourcePanel );
+        if (showListenerTypePanel){
+            add( audioSourcePanel );
+        }
 
         speakerRB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

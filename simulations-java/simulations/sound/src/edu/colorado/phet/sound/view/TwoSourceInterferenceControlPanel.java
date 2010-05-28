@@ -12,8 +12,7 @@ public class TwoSourceInterferenceControlPanel extends SoundControlPanel {
 
     public TwoSourceInterferenceControlPanel( SoundModule module ) {
         super( module );
-//        this.module = module;
-        this.addPanel( new AudioControlPanel( module ) );
+        this.addPanel( new AudioControlPanel( module, false ));
         setAmplitude( 1.0 );
     }
 }

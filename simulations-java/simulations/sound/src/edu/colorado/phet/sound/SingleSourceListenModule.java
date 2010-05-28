@@ -72,7 +72,7 @@ public class SingleSourceListenModule extends SingleSourceModule {
 
         // Set up the control panel
         SoundControlPanel controlPanel = (SoundControlPanel)getControlPanel();
-        audioControlPanel = new AudioControlPanel( this );
+        audioControlPanel = new AudioControlPanel( this, true );
         controlPanel.addPanel( audioControlPanel );
     }
 
