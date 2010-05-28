@@ -12,6 +12,10 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.StringUtil;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
@@ -21,7 +25,6 @@ import edu.colorado.phet.translationutility.simulations.ISimulation.SimulationEx
 import edu.colorado.phet.translationutility.userinterface.InitializationDialog;
 import edu.colorado.phet.translationutility.userinterface.MainFrame;
 import edu.colorado.phet.translationutility.util.ExceptionHandler;
-import edu.colorado.phet.translationutility.util.TULogger;
 
 /**
  * TranslationUtility is the main class for the translation utility.
@@ -32,14 +35,16 @@ public class TranslationUtility extends JFrame {
     
     // NOTE: untested for languages other than English
     private static final Locale SOURCE_LOCALE = TUConstants.ENGLISH_LOCALE;
+
+    private static final org.slf4j.Logger logger = LoggerFactory.getLogger( TranslationUtility.class );
     
     private TranslationUtility() {}
     
     public static void start() {
         
-        TULogger.log( "Translation Utility: version " + TUResources.getVersion() );
-        TULogger.log( "Translation Utility: " + TUResources.getOSVersion() + ", " + TUResources.getJREVersion() );
-        TULogger.log( "Translation Utility: started " + new Date().toString() );
+        logger.debug( "version {}", TUResources.getVersion() );
+        logger.debug( TUResources.getOSVersion() + ", " + TUResources.getJREVersion() );
+        logger.debug( "started {}", new Date().toString() );
         
         // check for a more recent version on the server
         UpdateManager.checkForUpdate();
@@ -53,8 +58,8 @@ public class TranslationUtility extends JFrame {
         }
         String jarFileName = initDialog.getJarFileName();
         Locale targetLocale = initDialog.getTargetLocale();
-        TULogger.log( "TranslationUtility: jar=" + jarFileName );
-        TULogger.log( "TranslationUtility: targetLocale=" + targetLocale.toString() );
+        logger.debug( "jar={}", jarFileName );
+        logger.debug( "targetLocale={}", targetLocale.toString() );
         
         // create a Simulation
         ISimulation simulation = null;
@@ -64,7 +69,7 @@ public class TranslationUtility extends JFrame {
         catch ( SimulationException e ) {
             ExceptionHandler.handleFatalException( e );
         }
-        TULogger.log( "TranslationUtility: simulation type is " + simulation.getClass().getName() );
+        logger.debug( "simulation type is {}", simulation.getClass().getName() );
         
         String jarDirName = new File( jarFileName ).getParent();
         if ( jarDirName == null || jarDirName.length() == 0 ) {
@@ -95,6 +100,9 @@ public class TranslationUtility extends JFrame {
     }
 
     public static void main( final String[] args ) {
+        if( StringUtil.contains( args, "-log" ) ) {
+            Logger.getLogger( "edu.colorado.phet.translationutility" ).setLevel( Level.DEBUG );
+        }
         /*
          * Wrap the body of main in invokeLater, so that all initialization occurs
          * in the event dispatch thread. Sun now recommends doing all Swing init in
@@ -102,7 +110,6 @@ public class TranslationUtility extends JFrame {
          */
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
-                TULogger.setEnabled( StringUtil.contains( args, "-log" ) );
                 TranslationUtility.start();
             }
         } );

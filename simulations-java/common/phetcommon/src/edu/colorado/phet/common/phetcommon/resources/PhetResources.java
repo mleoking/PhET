@@ -9,10 +9,11 @@ import java.util.Locale;
 import java.util.Properties;
 import java.text.MessageFormat;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 import edu.colorado.phet.common.phetcommon.audio.PhetAudioClip;
-import edu.colorado.phet.common.phetcommon.util.logging.ILogger;
-import edu.colorado.phet.common.phetcommon.util.logging.NullLogger;
 
 /**
  * PhetResources provides the facilities for accessing JAR resources.
@@ -42,7 +43,8 @@ public class PhetResources {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final ILogger LOGGER = new NullLogger(); // use NullLogger to turn off, ConsoleLogger to turn on
+    // to turn logging on, modify log4j.properties or call setLevel( Level.DEBUG ) on this instance
+    private static final Logger logger = LoggerFactory.getLogger( PhetResources.class );
     
     // Standard localized properties:
     private static final String PROPERTY_NAME = "name";
@@ -127,25 +129,31 @@ public class PhetResources {
     public static Locale readLocale() {
         
         Locale locale = Locale.getDefault();
-        LOGGER.log( "PhetResources.readLocale: default locale=" + locale.toString() );
+        logger.debug( "readLocale: default locale={}", locale.toString() );
         
         String language = System.getProperty( PhetCommonConstants.PROPERTY_PHET_LANGUAGE );
         String country = System.getProperty( PhetCommonConstants.PROPERTY_PHET_COUNTRY ); // optional, may be null
         if ( language != null ) {
             if ( country != null ) {
-                LOGGER.log( "PhetResources.readLocale: overriding locale via " + PhetCommonConstants.PROPERTY_PHET_LANGUAGE + "=" + language + " " + PhetCommonConstants.PROPERTY_PHET_COUNTRY + "=" + country );
+                logger.debug( "readLocale: overriding locale via {}={} {}={}", new Object[]{
+                        PhetCommonConstants.PROPERTY_PHET_LANGUAGE,
+                        language,
+                        PhetCommonConstants.PROPERTY_PHET_COUNTRY,
+                        country
+                } );
                 locale = new Locale( language, country );
             }
             else {
-                LOGGER.log( "PhetResources.readLocale: overriding locale via " + PhetCommonConstants.PROPERTY_PHET_LANGUAGE + "=" + language );
+                logger.debug( "readLocale: overriding locale via {}={}", PhetCommonConstants.PROPERTY_PHET_LANGUAGE, language );
                 locale = new Locale( language );
             }
         }
         else if ( country != null ) {
-            System.err.println( "PhetResources.locale: ignoring locale properties, they are in an illegal state, country specified without language" );
+            //System.err.println( "PhetResources.locale: ignoring locale properties, they are in an illegal state, country specified without language" );
+            logger.warn( "readLocale: ignoring locale properties, they are in an illegal state, country specified without language" );
         }
         
-        LOGGER.log( "PhetResources.readLocale: returning locale=" + locale.toString() );
+        logger.debug( "readLocale: returning locale={}", locale.toString() );
         return locale;
     }
     

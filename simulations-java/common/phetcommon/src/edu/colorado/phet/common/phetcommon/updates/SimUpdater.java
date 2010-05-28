@@ -10,6 +10,9 @@ import java.util.Arrays;
 
 import javax.swing.JDialog;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import edu.colorado.phet.common.phetcommon.application.ISimInfo;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.dialogs.DownloadProgressDialog;
@@ -22,7 +25,6 @@ import edu.colorado.phet.common.phetcommon.util.DeploymentScenario;
 import edu.colorado.phet.common.phetcommon.util.DownloadThread;
 import edu.colorado.phet.common.phetcommon.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
-import edu.colorado.phet.common.phetcommon.util.logging.USLogger;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
@@ -47,6 +49,8 @@ public class SimUpdater {
     private static final String ERROR_WRITE_PERMISSIONS = PhetCommonResources.getString( "Common.updates.errorWritePermissions" );
     private static final String ERROR_MISSING_JAR = PhetCommonResources.getString( "Common.updates.errorMissingJar" );
     private static final String ERROR_NOT_A_JAR = PhetCommonResources.getString( "Common.updates.errorNotAJar" );
+
+    private static final Logger logger = LoggerFactory.getLogger( SimUpdater.class );
     
     private final File tmpDir;
     
@@ -229,7 +233,7 @@ public class SimUpdater {
     }
 
     private void log( String message ) {
-        USLogger.log( getClass().getName() + ": " + message );
+        logger.debug( message );
     }
 
     private static void handleErrorSimJar( File file ) {

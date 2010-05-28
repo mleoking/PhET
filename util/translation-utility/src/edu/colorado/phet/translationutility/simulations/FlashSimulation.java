@@ -10,12 +10,14 @@ import java.util.jar.*;
 
 import javax.swing.JFileChooser;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import edu.colorado.phet.common.phetcommon.view.util.StringUtil;
 import edu.colorado.phet.flashlauncher.FlashLauncher;
 import edu.colorado.phet.translationutility.util.Command;
 import edu.colorado.phet.translationutility.util.DocumentAdapter;
 import edu.colorado.phet.translationutility.util.FileChooserFactory;
-import edu.colorado.phet.translationutility.util.TULogger;
 import edu.colorado.phet.translationutility.util.Command.CommandException;
 import edu.colorado.phet.translationutility.util.DocumentIO.DocumentIOException;
 
@@ -34,6 +36,8 @@ public class FlashSimulation extends AbstractSimulation {
     
     private static final String COMMON_STRINGS_PROJECT = "flash-common-strings";
     private static final String COMMON_STRINGS_BASENAME = "common";
+
+    private static final Logger logger = LoggerFactory.getLogger( FlashSimulation.class );
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -61,7 +65,7 @@ public class FlashSimulation extends AbstractSimulation {
     public Properties getStrings( Locale locale ) throws SimulationException {
         String xmlFilename = getStringPath( getProjectName(), locale );
         Properties p = readDocumentFromJar( getJarFileName(), xmlFilename );
-        TULogger.log( "FlashSimulation: loaded strings from " + xmlFilename );
+        logger.debug( "loaded strings from {}", xmlFilename );
         return p;
     }
 
@@ -288,7 +292,7 @@ public class FlashSimulation extends AbstractSimulation {
                     testOutputStream.closeEntry();
                 }
                 else {
-                    TULogger.log( "FlashSimulation: copying jar, skipping " + jarEntry.getName() );
+                    logger.debug( "copying jar, skipping {}", jarEntry.getName() );
                 }
                 jarEntry = jarInputStream.getNextJarEntry();
             }
