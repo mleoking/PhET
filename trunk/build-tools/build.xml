@@ -59,6 +59,9 @@
     <property name="scala-library.jar" location="${dir.build-tools}/contrib/scala/scala-library.jar"/>
     <property name="junit.jar" location="${dir.contrib}/junit/junit.jar"/>
     <property name="jnlp.jar" location="${dir.contrib}/javaws/jnlp.jar"/>
+    <property name="log4j.jar" location="${dir.contrib}/log4j/log4j-1.2.16.jar"/>
+    <property name="slf4j-api.jar" location="${dir.contrib}/slf4j/slf4j-api-1.6.0.jar"/>
+    <property name="slf4j-log4j.jar" location="${dir.contrib}/slf4j/slf4j-log4j12-1.6.0.jar"/>
 
     <!-- build tools dependencies -->
     <property name="dir.build-contrib" value="${dir.build-tools}/contrib"/>
@@ -100,7 +103,7 @@
     <!-- PhET task implementations -->
     <property name="phet-build-gui-classname" value="edu.colorado.phet.buildtools.gui.PhetBuildGUITask"/>
     <property name="phetbuild-classpath-jars"
-              value="${proguard.jar}:${apache.commons.lang.jar}:${jsch.jar}:${scala-compiler.jar}:${scala-library.jar}:${junit.jar}:${jnlp.jar}"/>
+              value="${proguard.jar}:${apache.commons.lang.jar}:${jsch.jar}:${scala-compiler.jar}:${scala-library.jar}:${junit.jar}:${jnlp.jar}:${log4j.jar}:${slf4j-api.jar}:${slf4j-log4j.jar}"/>
     <property name="phetbuild-classpath" value="${phetbuild-classes-dir}:${phetbuild-classpath-jars}"/>
 
     <!-- =================================================================== -->
