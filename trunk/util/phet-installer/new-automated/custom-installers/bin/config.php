@@ -53,12 +53,15 @@
     // customer.  So far, that generally means getting it for a particular language.
     define("PHET_RIPPER_FILTER_PHET", CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'ar/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'files/activities/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'workshops/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'installer/*'));
     define("PHET_RIPPER_FILTER_YF",   CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'ar/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'files/activities/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'workshops/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'installer/*'));
     define("PHET_RIPPER_FILTER_KSU",  CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/*').' '.
-        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'files/activities/*'));
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'files/activities/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'workshops/*'));
 
     // Filter definition for a "lite" rip, meaning one that rips less than
     // the full web site.  This is generally swapped in for the full rip
