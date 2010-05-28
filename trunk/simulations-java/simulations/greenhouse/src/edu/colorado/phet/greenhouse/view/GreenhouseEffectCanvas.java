@@ -9,6 +9,7 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.HashMap;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -51,6 +52,10 @@ public class GreenhouseEffectCanvas extends PhetPCanvas {
     // Background node.
     private PNode background;
     
+    // Map for relating photons in the model to their graphical
+    // representations in the view.
+    private final HashMap<Photon, PhotonNode> photonToGraphicMap = new HashMap<Photon, PhotonNode>();
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -78,6 +83,10 @@ public class GreenhouseEffectCanvas extends PhetPCanvas {
     		public void photonAdded(Photon photon) {
     			// A photon has come into existence, so add it to the view.
     			handlePhotonAdded(photon);
+    		};
+    		public void photonRemoved(Photon photon) {
+    			// A photon has been removed.
+    			handlePhotonRemoved(photon);
     		};
         });
 
@@ -160,5 +169,14 @@ public class GreenhouseEffectCanvas extends PhetPCanvas {
     private void handlePhotonAdded(Photon photon){
     	PhotonNode photonNode = new PhotonNode(photon, mvt);
     	photonLayer.addChild(photonNode);
+    	photonToGraphicMap.put(photon, photonNode);
+    }
+    
+    private void handlePhotonRemoved(Photon photon){
+    	PhotonNode photonNode = photonToGraphicMap.get(photon);
+    	if (!(photonNode != null && photonLayer.removeChild(photonNode) != null)){
+   			System.out.println(getClass().getName() + " - Error: Unable to locate graphical representation of photon.");
+   			assert false;
+    	}
     }
 }
