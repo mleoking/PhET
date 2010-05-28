@@ -82,6 +82,48 @@ public class PhetWicketApplication extends WebApplication {
     protected void init() {
         super.init();
 
+        if ( getConfigurationType().equals( Application.DEPLOYMENT ) ) {
+            Logger.getLogger( "edu.colorado.phet.website" ).setLevel( Level.WARN );
+        }
+        else {
+            Logger.getLogger( "edu.colorado.phet.website" ).setLevel( Level.INFO );
+        }
+
+        Logger.getLogger( "edu.colorado.phet.website.PhetWicketApplication" ).setLevel( Level.INFO );
+        Logger.getLogger( "edu.colorado.phet.website.admin" ).setLevel( Level.INFO );
+        Logger.getLogger( "edu.colorado.phet.website.admin.deploy" ).setLevel( Level.DEBUG );
+
+        Logger.getLogger( "edu.colorado.phet.website.data.Project.sync" ).setLevel( Level.DEBUG );
+        Logger.getLogger( "edu.colorado.phet.website.data.transfer" ).setLevel( Level.DEBUG );
+
+        /*
+            ### Hibernate logging ###
+
+            # log HQL query parser activity
+            #log4j.logger.org.hibernate.hql.ast.AST=debug
+
+            # log just the SQL
+            #log4j.logger.org.hibernate.SQL=debug
+
+            # log JDBC bind parameters ###
+            #log4j.logger.org.hibernate.type=info
+
+            # log schema export/update ###
+            #log4j.logger.org.hibernate.tool.hbm2ddl=info
+
+            # log HQL parse trees
+            #log4j.logger.org.hibernate.hql=debug
+
+            # log cache activity ###
+            #log4j.logger.org.hibernate.cache=info
+
+            # log transaction activity
+            #log4j.logger.org.hibernate.transaction=debug
+
+            # log JDBC resource acquisition
+            #log4j.logger.org.hibernate.jdbc=debug
+        */
+
         websiteProperties = new WebsiteProperties( getServletContext() );
 
         // set up error pages
@@ -194,13 +236,6 @@ public class PhetWicketApplication extends WebApplication {
 
         logger.info( "Running as: " + getConfigurationType() );
         logger.debug( "Detected phet-document-root: " + getWebsiteProperties().getPhetDocumentRoot().getAbsolutePath() );
-
-        if ( getConfigurationType().equals( Application.DEPLOYMENT ) ) {
-            Level loggerLevel = Level.WARN;
-            logger.info( "Setting logging level for edu.colorado.phet.website to " + loggerLevel );
-            Logger baseLogger = Logger.getLogger( "edu.colorado.phet.website" );
-            baseLogger.setLevel( loggerLevel );
-        }
 
         NotificationHandler.initialize();
 
