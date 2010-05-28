@@ -1,3 +1,7 @@
+Add special handling of different leave types: sick-leave, vacation-leave, paid-vacation
+    These should just be entered manually as time entries, but (unlike other entry types)
+    it's okay for them to overlap with work times.  These categories can be treated differently in reports,
+    but handling them explicitly in the timesheet may simplify organization (instead of tracking these in a different way/place).
 In reporting, assume empty notes means same task as previous non-empty notes in same category
 Highlight regions based on day and/or time of day
 Make it easier to launch outside of IDE
