@@ -92,7 +92,10 @@
 	<classpathentry kind="lib" path="simulations-java/contrib/jmonkeyengine/lib/lwjgl/lwjgl_util_applet.jar"/>
 	<classpathentry kind="lib" path="simulations-java/contrib/JSci/classes/jsci-core.jar"/>
 	<classpathentry kind="lib" path="simulations-java/contrib/junit/junit.jar"/>
+	<classpathentry kind="lib" path="simulations-java/contrib/log4j/log4j-1.2.16.jar"/>
 	<classpathentry kind="lib" path="simulations-java/contrib/nanoxml/nanoxml.jar"/>
+	<classpathentry kind="lib" path="simulations-java/contrib/slf4j/slf4j-api-1.6.0.jar"/>
+	<classpathentry kind="lib" path="simulations-java/contrib/slf4j/slf4j-log4j12-1.6.0.jar"/>
     <classpathentry kind="src" path="simulations-java/contrib/piccolo2d/core/src/main/java"/>
 	<classpathentry kind="src" path="simulations-java/contrib/piccolo2d/core/src/test/java"/>
 	<classpathentry excluding="edu/umd/cs/piccolox/swt/" kind="src" path="simulations-java/contrib/piccolo2d/extras/src/main/java"/>
