@@ -52,7 +52,6 @@ public class AuthenticatedPage extends PhetPage {
      * @param navLocations Navigation locations for the navigation menu
      */
     public static void checkSignedIn( Collection<NavLocation> navLocations ) {
-        // TODO: change to collection?
         if ( !PhetSession.get().isSignedIn() ) {
             PageParameters params = new PageParameters();
             params.put( "navLocations", navLocations );
