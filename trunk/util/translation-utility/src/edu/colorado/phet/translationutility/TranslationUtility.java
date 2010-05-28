@@ -42,9 +42,9 @@ public class TranslationUtility extends JFrame {
     
     public static void start() {
         
-        logger.debug( "version {}", TUResources.getVersion() );
-        logger.debug( TUResources.getOSVersion() + ", " + TUResources.getJREVersion() );
-        logger.debug( "started {}", new Date().toString() );
+        logger.debug( "version = {}", TUResources.getVersion() );
+        logger.debug( "os = {}", TUResources.getOSVersion() );
+        logger.debug( "java = {}", TUResources.getJREVersion() );
         
         // check for a more recent version on the server
         UpdateManager.checkForUpdate();
