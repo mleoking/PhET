@@ -19,11 +19,10 @@ public class ContributionManagePage extends PhetRegularPage {
     public ContributionManagePage( PageParameters parameters ) {
         super( parameters );
 
-        AuthenticatedPage.checkSignedIn();
+        initializeLocation( getNavMenu().getLocationByKey( "teacherIdeas.manage" ) );
+        verifySignedIn();
 
         addTitle( new ResourceModel( "contribution.manage.pageTitle" ) );
-
-        initializeLocation( getNavMenu().getLocationByKey( "teacherIdeas.manage" ) );
 
         add( new ContributionManagePanel( "contribution-manage-panel", getPageContext() ) );
     }

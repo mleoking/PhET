@@ -18,7 +18,7 @@ public class EditProfilePage extends PhetPage {
     public EditProfilePage( PageParameters parameters ) {
         super( parameters );
 
-        AuthenticatedPage.checkSignedIn();
+        verifySignedIn();
 
         addTitle( new ResourceModel( "editProfile.title" ) );
 
