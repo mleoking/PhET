@@ -1,6 +1,5 @@
 package edu.colorado.phet.buildtools;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -9,6 +8,28 @@ import java.net.URLEncoder;
  * Represents a Wicket-able website configuration that can have things deployed
  */
 public abstract class PhetWebsite {
+
+    /*---------------------------------------------------------------------------*
+    * static methods
+    *----------------------------------------------------------------------------*/
+
+    public static void openBrowser( String path ) {
+        String browser = BuildLocalProperties.getInstance().getBrowser();
+        if ( browser != null ) {
+            try {
+                System.out.println( "command = " + browser + " " + path );
+                Runtime.getRuntime().exec( new String[]{browser, path} );
+            }
+            catch( IOException e ) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /*---------------------------------------------------------------------------*
+    * abstract methods
+    *----------------------------------------------------------------------------*/
+
     /**
      * @return The hostname for SSH access
      */
@@ -39,6 +60,10 @@ public abstract class PhetWebsite {
      */
     public abstract AuthenticationInfo getTomcatAuthenticationInfo( BuildLocalProperties properties );
 
+    /*---------------------------------------------------------------------------*
+    * default getters (that used the provided abstract methods)
+    *----------------------------------------------------------------------------*/
+
     /**
      * @param translationDir Directory where the translation has been prepared on the server
      * @return The URL to which a user should be directed to initiate the translation deployment server
@@ -46,6 +71,20 @@ public abstract class PhetWebsite {
     public String getDeployTranslationUrl( String translationDir ) {
         try {
             return getWebBaseURL() + "/admin/deploy-translation?dir=" + URLEncoder.encode( translationDir, "UTF-8" );
+        }
+        catch( UnsupportedEncodingException e ) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * @param resourceDir Directory where the translation has been prepared on the server
+     * @return The URL to which a user should be directed to initiate the resource deployment server
+     */
+    public String getDeployResourceUrl( String resourceDir ) {
+        try {
+            return getWebBaseURL() + "/admin/deploy-resource?dir=" + URLEncoder.encode( resourceDir, "UTF-8" );
         }
         catch( UnsupportedEncodingException e ) {
             e.printStackTrace();
@@ -66,6 +105,14 @@ public abstract class PhetWebsite {
     public String getTranslationStagingPath() {
         return getStagingPath() + "/translations";
     }
+
+    public String getResourceStagingPath() {
+        return getStagingPath() + "/resources";
+    }
+
+    /*---------------------------------------------------------------------------*
+    * available websites
+    *----------------------------------------------------------------------------*/
 
     public static PhetWebsite FIGARO = new PhetWebsite() {
         @Override
@@ -100,16 +147,4 @@ public abstract class PhetWebsite {
 
     };
 
-    public static void openBrowser( String path ) {
-        String browser = BuildLocalProperties.getInstance().getBrowser();
-        if ( browser != null ) {
-            try {
-                System.out.println( "command = " + browser + " " + path );
-                Runtime.getRuntime().exec( new String[]{browser, path} );
-            }
-            catch( IOException e ) {
-                e.printStackTrace();
-            }
-        }
-    }
 }
