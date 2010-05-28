@@ -1,5 +1,6 @@
 package edu.colorado.phet.website.menu;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -21,7 +22,7 @@ import edu.colorado.phet.website.util.PhetRequestCycle;
 
 public class NavMenuList extends PhetPanel {
 
-    public NavMenuList( String id, final PageContext context, List<NavLocation> locations, final Set<NavLocation> currentLocations, final int level ) {
+    public NavMenuList( String id, final PageContext context, List<NavLocation> locations, final Collection<NavLocation> currentLocations, final int level ) {
         super( id, context );
 
         add( new VisListView<NavLocation>( "items", locations ) {

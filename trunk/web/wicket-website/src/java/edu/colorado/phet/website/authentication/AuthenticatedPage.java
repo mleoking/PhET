@@ -1,5 +1,6 @@
 package edu.colorado.phet.website.authentication;
 
+import java.util.Collection;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
@@ -50,7 +51,7 @@ public class AuthenticatedPage extends PhetPage {
      *
      * @param navLocations Navigation locations for the navigation menu
      */
-    public static void checkSignedIn( Set<NavLocation> navLocations ) {
+    public static void checkSignedIn( Collection<NavLocation> navLocations ) {
         // TODO: change to collection?
         if ( !PhetSession.get().isSignedIn() ) {
             PageParameters params = new PageParameters();

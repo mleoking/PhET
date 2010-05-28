@@ -1,5 +1,6 @@
 package edu.colorado.phet.website.templates;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -29,7 +30,7 @@ public abstract class PhetMenuPage extends PhetPage {
 
     private int contentWidth = 765;
     private boolean initializedLocations = false;
-    private Set<NavLocation> navLocations;
+    private Collection<NavLocation> navLocations;
 
     private static final Logger logger = Logger.getLogger( PhetMenuPage.class.getName() );
 
@@ -71,12 +72,12 @@ public abstract class PhetMenuPage extends PhetPage {
     }
 
     public void initializeLocation( NavLocation currentLocation ) {
-        Set<NavLocation> currentLocations = new HashSet<NavLocation>();
+        HashSet<NavLocation> currentLocations = new HashSet<NavLocation>();
         currentLocations.add( currentLocation );
         initializeLocationWithSet( currentLocations );
     }
 
-    public void initializeLocationWithSet( Set<NavLocation> currentLocations ) {
+    public void initializeLocationWithSet( Collection<NavLocation> currentLocations ) {
         if ( initializedLocations ) {
             throw new RuntimeException( "Initialized locations twice!" );
         }
@@ -112,7 +113,7 @@ public abstract class PhetMenuPage extends PhetPage {
     private void checkNavLocationParameters( PageParameters parameters ) {
         Object locations = parameters.get( "navLocations" );
         if ( locations != null ) {
-            Set<NavLocation> defaultLocations = (Set<NavLocation>) locations;
+            Collection<NavLocation> defaultLocations = (Collection<NavLocation>) locations;
             if ( logger.isDebugEnabled() ) {
                 logger.debug( "initializing with default locations:" );
                 for ( NavLocation navLocation : defaultLocations ) {
