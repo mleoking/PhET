@@ -13,7 +13,7 @@ import edu.colorado.phet.website.util.links.RawLinkable;
 
 public class IndexPage extends PhetPage {
     public IndexPage( PageParameters parameters ) {
-        super( parameters, true );
+        super( parameters );
 
         addTitle( new ResourceModel( "home.title" ) );
 

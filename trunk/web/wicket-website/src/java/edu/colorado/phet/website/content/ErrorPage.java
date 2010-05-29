@@ -7,7 +7,7 @@ import edu.colorado.phet.website.util.PhetUrlMapper;
 
 public class ErrorPage extends PhetPage {
     public ErrorPage( PageParameters parameters ) {
-        super( parameters, true );
+        super( parameters );
 
         addTitle( getLocalizer().getString( "error.pageNotFound", this ) );
     }

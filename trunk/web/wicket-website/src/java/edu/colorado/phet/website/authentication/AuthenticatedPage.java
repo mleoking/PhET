@@ -19,7 +19,7 @@ public class AuthenticatedPage extends PhetPage {
     private static final Logger logger = Logger.getLogger( AuthenticatedPage.class.getName() );
 
     public AuthenticatedPage( PageParameters parameters ) {
-        super( parameters, true );
+        super( parameters );
 
         if ( !PhetSession.get().isSignedIn() ) {
             throw new RestartResponseAtInterceptPageException( SignInPage.class );
