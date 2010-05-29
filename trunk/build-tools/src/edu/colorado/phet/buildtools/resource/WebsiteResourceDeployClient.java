@@ -93,19 +93,22 @@ public class WebsiteResourceDeployClient {
      * @throws java.io.IOException
      */
     public boolean uploadResourceFile() throws JSchException, IOException {
-        AuthenticationInfo authenticationInfo = BuildLocalProperties.getInstance().getProdAuthenticationInfo();
+        AuthenticationInfo authenticationInfo = BuildLocalProperties.getInstance().getWebsiteProdAuthenticationInfo();
         String temporaryDirPath = getTemporaryDirPath();
 
-        boolean success = dirtyExecute( "mkdir -p -m 777 " + temporaryDirPath + "/resource" );
+        boolean success = dirtyExecute( "mkdir -p -m 775 " + temporaryDirPath + "/resource" );
         if ( !success ) {
             System.out.println( "Error creating the path for the resource file, aborting the upload" );
             return false;
         }
 
-        uploadFile( resourceFile, authenticationInfo, PhetServer.PRODUCTION.getHost(),
+        uploadFile( resourceFile, authenticationInfo, website.getServerHost(),
                     temporaryDirPath + "/resource/" + resourceFile.getName() );
-        uploadFile( propertiesFile, authenticationInfo, PhetServer.PRODUCTION.getHost(),
+        uploadFile( propertiesFile, authenticationInfo, website.getServerHost(),
                     temporaryDirPath + "/resource/resource.properties" );
+
+        dirtyExecute( "chmod g+w,a+rw " + temporaryDirPath );
+
         return true;
     }
 
@@ -124,12 +127,12 @@ public class WebsiteResourceDeployClient {
 
         String temporarySimExtrasDir = temporaryDirPath + "/extras/" + sim;
 
-        boolean success = dirtyExecute( "mkdir -p -m 777 " + temporarySimExtrasDir );
+        boolean success = dirtyExecute( "mkdir -p -m 775 " + temporarySimExtrasDir );
         if ( !success ) {
             System.out.println( "Error attempting to upload extra file!" );
             return false;
         }
-        uploadFile( extraFile, authenticationInfo, PhetServer.PRODUCTION.getHost(),
+        uploadFile( extraFile, authenticationInfo, website.getServerHost(),
                     temporarySimExtrasDir + "/" + extraFile.getName() );
         return true;
     }
@@ -151,7 +154,7 @@ public class WebsiteResourceDeployClient {
     }
 
     public String getTemporaryDirPath() {
-        return website.getStagingPath() + "/" + getTemporaryDirName();
+        return website.getResourceStagingPath() + "/" + getTemporaryDirName();
     }
 
     private boolean dirtyExecute( String command ) {
