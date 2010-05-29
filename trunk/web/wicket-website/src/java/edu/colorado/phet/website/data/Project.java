@@ -113,8 +113,10 @@ public class Project implements Serializable, IntId {
         ProjectPropertiesFile props = getProjectPropertiesFile( docRoot, projectName );
 
         String versionString = props.getMajorVersionString() + "." + props.getMinorVersionString() + "." + props.getDevVersionString() + "-r" + props.getSVNVersion();
-        DateFormat format = new SimpleDateFormat( "yyMMdd" );
-        File backupDir = new File( docRoot, "website-backup/sims/" + projectName + "-" + versionString + "-" + format.format( new Date() ) );
+        DateFormat format = new SimpleDateFormat( "EEE_dd_MMM_yyyy" );
+        Date date = new Date();
+        String dateString = date.getTime() + "-" + format.format( date );
+        File backupDir = new File( docRoot, "website-backup/sims/" + projectName + "-" + versionString + "-" + dateString );
 
         backupDir.mkdirs();
 
