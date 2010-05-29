@@ -6,11 +6,9 @@ import java.io.*;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.jar.*;
+import java.util.logging.Logger;
 
 import javax.swing.JFileChooser;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import edu.colorado.phet.common.phetcommon.application.JARLauncher;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
@@ -40,7 +38,7 @@ public class JavaSimulation extends AbstractSimulation {
     private static final String PROJECT_NAME_PROPERTY = "project.name";
     private static final String PREFERRED_FONTS = "phetcommon/localization/phetcommon-fonts.properties";
 
-    private static final Logger LOGGER = LoggerFactory.getLogger( JavaSimulation.class );
+    private static final Logger LOGGER = Logger.getLogger( JavaSimulation.class.getCanonicalName() );
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -77,7 +75,7 @@ public class JavaSimulation extends AbstractSimulation {
             properties = readPropertiesFromJar( getJarFileName(), propertiesFileName );
         }
         
-        LOGGER.debug( "loaded strings from {}", propertiesFileName );
+        LOGGER.fine( "loaded strings from " + propertiesFileName );
         return properties;
     }
 
@@ -271,7 +269,7 @@ public class JavaSimulation extends AbstractSimulation {
                     testOutputStream.closeEntry();
                 }
                 else {
-                    LOGGER.debug( "copying jar, skipping {}", jarEntry.getName() );
+                    LOGGER.fine( "copying jar, skipping " + jarEntry.getName() );
                 }
                 jarEntry = jarInputStream.getNextJarEntry();
             }

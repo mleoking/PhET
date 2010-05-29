@@ -4,9 +4,8 @@ package edu.colorado.phet.translationutility.util;
 
 import java.io.IOException;
 import java.io.InputStream;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Command runs an external command via Runtime.exec.
@@ -15,7 +14,7 @@ import org.slf4j.LoggerFactory;
  */
 public class Command {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger( Command.class );
+    private static final Logger LOGGER = Logger.getLogger( Command.class.getCanonicalName() );
     
     /**
      * All exceptions caught by Command will be mapped to CommandException.
@@ -53,12 +52,12 @@ public class Command {
                 command += " ";
             }
         }
-        LOGGER.debug( "run: " + command );
+        LOGGER.fine( "run: " + command );
         
         try {
             Process process = Runtime.getRuntime().exec( cmdArray );
             
-            if ( LOGGER.isDebugEnabled() ) {
+            if ( LOGGER.isLoggable( Level.FINE )) {
                 InputStream in = process.getInputStream();
                 int c;
                 while ( ( c = in.read() ) != -1 ) {

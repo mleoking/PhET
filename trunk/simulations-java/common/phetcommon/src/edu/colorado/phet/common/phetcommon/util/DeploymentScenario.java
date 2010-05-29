@@ -3,9 +3,7 @@
 package edu.colorado.phet.common.phetcommon.util;
 
 import java.net.URL;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Logger;
 
 import edu.colorado.phet.common.phetcommon.files.PhetInstallation;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
@@ -42,7 +40,7 @@ public class DeploymentScenario {
     private static final String PHET_PRODUCTION_CODEBASE_PREFIX = PhetCommonConstants.PHET_HOME_SERVER; // prefix!
     private static final String PHET_DEVELOPMENT_CODEBASE_SUBSTRING = "colorado.edu"; // substring!
 
-    private static final Logger LOGGER = LoggerFactory.getLogger( DeploymentScenario.class );
+    private static final Logger LOGGER = Logger.getLogger( DeploymentScenario.class.getCanonicalName() );
 
     // singleton
     private static DeploymentScenario instance = null;
@@ -127,7 +125,7 @@ public class DeploymentScenario {
 
                     // web-started sims are differentiated base on the codebase attribute specified in the JNLP file
 
-                    LOGGER.debug( "codebase={}", codeBase );
+                    LOGGER.fine( "codebase=" + codeBase );
                     String codebaseFragment = codeBase.getAuthority() + codeBase.getPath();
 
                     if ( codebaseFragment.startsWith( PHET_PRODUCTION_CODEBASE_PREFIX ) ) {
@@ -153,7 +151,7 @@ public class DeploymentScenario {
             scenario = DeploymentScenario.DEVELOPER_IDE;
         }
 
-        LOGGER.debug( "determineScenario {}", scenario.getName() );
+        LOGGER.fine( "determineScenario " + scenario.getName() );
         return scenario;
     }
     

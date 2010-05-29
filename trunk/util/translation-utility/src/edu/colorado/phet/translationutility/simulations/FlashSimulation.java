@@ -7,11 +7,9 @@ import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.jar.*;
+import java.util.logging.Logger;
 
 import javax.swing.JFileChooser;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import edu.colorado.phet.common.phetcommon.view.util.StringUtil;
 import edu.colorado.phet.flashlauncher.FlashLauncher;
@@ -37,7 +35,7 @@ public class FlashSimulation extends AbstractSimulation {
     private static final String COMMON_STRINGS_PROJECT = "flash-common-strings";
     private static final String COMMON_STRINGS_BASENAME = "common";
 
-    private static final Logger LOGGER = LoggerFactory.getLogger( FlashSimulation.class );
+    private static final Logger LOGGER = Logger.getLogger( FlashSimulation.class.getCanonicalName() );
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -65,7 +63,7 @@ public class FlashSimulation extends AbstractSimulation {
     public Properties getStrings( Locale locale ) throws SimulationException {
         String xmlFilename = getStringPath( getProjectName(), locale );
         Properties p = readDocumentFromJar( getJarFileName(), xmlFilename );
-        LOGGER.debug( "loaded strings from {}", xmlFilename );
+        LOGGER.fine( "loaded strings from " + xmlFilename );
         return p;
     }
 
@@ -292,7 +290,7 @@ public class FlashSimulation extends AbstractSimulation {
                     testOutputStream.closeEntry();
                 }
                 else {
-                    LOGGER.debug( "copying jar, skipping {}", jarEntry.getName() );
+                    LOGGER.fine( "copying jar, skipping " + jarEntry.getName() );
                 }
                 jarEntry = jarInputStream.getNextJarEntry();
             }

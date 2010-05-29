@@ -5,14 +5,13 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -90,7 +89,7 @@ public class VersionInfoQuery {
     
     private final boolean hasSimQuery, hasInstallerQuery;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger( VersionInfoQuery.class );
+    private static final Logger LOGGER = Logger.getLogger( VersionInfoQuery.class.getCanonicalName() );
 
     /**
      * Use this constructor to get both sim and installer version info.
@@ -163,13 +162,13 @@ public class VersionInfoQuery {
         try {
             // query
             Document queryDocument = buildQueryDocument();
-            LOGGER.debug( "posting to url={}", url );
-            LOGGER.debug( "query={}", XMLUtils.toString( queryDocument ) );
+            LOGGER.fine( "posting to url=" + url );
+            LOGGER.fine( "query=" + XMLUtils.toString( queryDocument ) );
             HttpURLConnection connection = XMLUtils.post( url, queryDocument );
             
             // response
             Document responseDocument = XMLUtils.readDocument( connection );
-            LOGGER.debug( "response={}", XMLUtils.toString( responseDocument ) );
+            LOGGER.fine( "response=" + XMLUtils.toString( responseDocument ) );
             Response response = parseResponse( responseDocument, this );
             
             // notification
