@@ -1,115 +1,44 @@
 package edu.colorado.phet.website.panels;
 
-import java.io.IOException;
 import java.io.StringWriter;
-import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 import org.apache.log4j.WriterAppender;
-import org.apache.wicket.Component;
-
-import edu.colorado.phet.website.components.RawLabel;
-import edu.colorado.phet.website.util.HtmlUtils;
-import edu.colorado.phet.website.util.PageContext;
 
 /**
- * A ComponentThread, but captures output on a logger and displays that as the default component.
+ * A ComponentThread, but captures output from multiple loggers and displays that as the default component.
  */
-public abstract class LoggerComponentThread extends ComponentThread {
+public abstract class LoggerComponentThread extends ObjectComponentThread {
 
     private StringWriter writer = new StringWriter();
-    private boolean error = false;
-    private final Logger logger;
+    private WriterAppender appender = new WriterAppender( new PatternLayout( "%d{DATE} %5p %25c{1} - %m%n" ), writer );
+    private final List<Logger> loggers;
 
     protected LoggerComponentThread( Logger logger ) {
-        this.logger = logger;
+        loggers = new LinkedList<Logger>();
+        loggers.add( logger );
+        setObject( writer );
     }
 
-    /**
-     * Process what needs to be processed in this thread.
-     *
-     * @return True on success, false on failure
-     * @throws IOException          Possibly
-     * @throws InterruptedException Possibly
-     */
-    public abstract boolean process() throws IOException, InterruptedException;
-
-    public Component getProgressComponent( String id, String rawText ) {
-        return new RawLabel( id, rawText );
-    }
-
-    public Component getFinishedComponent( String id, String rawText ) {
-        return new RawLabel( id, rawText );
-    }
-
-    public void onError() {
-
+    protected LoggerComponentThread( List<Logger> loggers ) {
+        this.loggers = loggers;
+        setObject( writer );
     }
 
     @Override
-    public Component getComponent( String id, PageContext context ) {
-        String output = writer.toString();
-        output = HtmlUtils.encode( output ).replace( "\n", "<br/>" );
-
-        String header;
-
-        if ( isDone() ) {
-            if ( error ) {
-                header = "<strong style=\"color: #FF0000;\">Errors encountered</strong><br/>";
-            }
-            else {
-                header = "<strong style=\"color: #008800;\">Completed without errors</strong><br/>";
-            }
-        }
-        else {
-            header = "<strong style=\"color: #0000FF;\">Processing, please wait.</strong><br/>updated";
-        }
-
-        header += " at " + ( new Date() ).toString() + "<br/>";
-
-        String text = header + "<br/>" + output;
-
-        if ( isDone() ) {
-            return getFinishedComponent( id, text );
-        }
-        else {
-            return getProgressComponent( id, text );
+    public void startListening() {
+        for ( Logger logger : loggers ) {
+            logger.addAppender( appender );
         }
     }
 
     @Override
-    public void run() {
-        // add an appender so we can capture the info
-        WriterAppender appender = new WriterAppender( new PatternLayout(), writer );
-        logger.addAppender( appender );
-
-        try {
-            error = !process();
+    public void stopListening() {
+        for ( Logger logger : loggers ) {
+            logger.removeAppender( appender );
         }
-        catch( IOException e ) {
-            e.printStackTrace();
-            logger.error( "IOException", e );
-            error = true;
-        }
-        catch( InterruptedException e ) {
-            e.printStackTrace();
-            logger.error( "InterruptedException", e );
-            error = true;
-        }
-        catch( RuntimeException e ) {
-            e.printStackTrace();
-            logger.error( "RuntimeException", e );
-            error = true;
-        }
-
-        if ( error ) {
-            onError();
-        }
-
-        finish();
-
-        logger.info( "Finishing" );
-        logger.removeAppender( appender );
     }
 }

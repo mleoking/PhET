@@ -3,6 +3,7 @@
 package edu.colorado.phet.buildtools.util;
 
 import java.io.File;
+import java.util.logging.Logger;
 
 import org.apache.tools.ant.taskdefs.SignJar;
 import org.apache.tools.ant.taskdefs.VerifyJar;
@@ -22,6 +23,8 @@ public class PhetJarSigner {
 
     private final BuildLocalProperties buildProperties;
     private final AntTaskRunner antTaskRunner;
+
+    private static final Logger logger = Logger.getLogger( PhetJarSigner.class.getName() );
 
     /**
      * Constructor
@@ -43,12 +46,12 @@ public class PhetJarSigner {
 
         // Make sure that the specified JAR file can be located.
         if ( !jarFile.exists() ) {
-            System.err.println( "Error: jar does not exist: " + jarFile.getAbsolutePath() );
+            logger.severe( "Error: jar does not exist: " + jarFile.getAbsolutePath() );
             return false;
         }
 
         // Sign the JAR using the ant task
-        System.out.println( "Signing JAR " + jarFile.getAbsolutePath() + "..." );
+        logger.info( "Signing JAR " + jarFile.getAbsolutePath() + "..." );
         JarsignerInfo jarsignerInfo = buildProperties.getJarsignerInfo();
         SignJar signer = new SignJar();
         signer.setKeystore( jarsignerInfo.getKeystore() );
@@ -73,7 +76,7 @@ public class PhetJarSigner {
         }
 
         // If we made it to this point, signing succeeded.
-        System.out.println( "Signing succeeded." );
+        logger.info( "Signing succeeded." );
 
         // Verify the JAR.
         return verifyJar( jarFile );
