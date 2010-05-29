@@ -31,7 +31,7 @@ public class TroubleshootingJavascriptPanel extends PhetPanel {
         add( new RawLabel( "troubleshooting-javascript-q1-yes",
                            "\n/* <![CDATA[ */\n" +
                            "document.getElementById( \"javascript-ok\" ).style.display = \"block\";\n" +
-                           "document.getElementById( \"javascript-ok\" ).innerHTML = \"" + HtmlUtils.encode( getLocalizer().getString( "troubleshooting.javascript.q1.yes", this ) ).replace( "\"", "&quot;" ) + "\";\n"
+                           "document.getElementById( \"javascript-ok\" ).innerHTML = \"" + getLocalizer().getString( "troubleshooting.javascript.q1.yes", this ).replace( "\"", "&quot;" ) + "\";\n"
                            + "\n/* ]]> */\n" ) );
 
         add( new LocalizedText( "troubleshooting-javascript-q2-answer", "troubleshooting.javascript.q2.answer" ) );
