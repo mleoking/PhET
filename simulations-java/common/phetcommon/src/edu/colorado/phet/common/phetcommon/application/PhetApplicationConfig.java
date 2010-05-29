@@ -4,13 +4,11 @@ package edu.colorado.phet.common.phetcommon.application;
 
 import java.util.Locale;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
-
 import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.util.DeploymentScenario;
+import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.StringUtil;
@@ -58,6 +56,7 @@ public class PhetApplicationConfig implements ISimInfo {
 
     /**
      * Constructor where project & flavor names are identical.
+     *
      * @param commandLineArgs
      * @param project
      */
@@ -67,14 +66,15 @@ public class PhetApplicationConfig implements ISimInfo {
 
     /**
      * Constructor where project & flavor names are different.
+     *
      * @param commandLineArgs
      * @param project
      * @param flavor
      */
     public PhetApplicationConfig( String[] commandLineArgs, String project, String flavor ) {
         this.commandLineArgs = commandLineArgs;
-        if( hasCommandLineArg( "-log" ) ) {
-            Logger.getLogger( "edu.colorado.phet.common.phetcommon" ).setLevel( Level.DEBUG );
+        if ( hasCommandLineArg( "-log" ) ) {
+            LoggingUtils.enableAllLogging( "edu.colorado.phet.common.phetcommon" );
         }
         this.flavor = flavor;
         this.resourceLoader = new PhetResources( project );
@@ -93,7 +93,7 @@ public class PhetApplicationConfig implements ISimInfo {
     public boolean hasCommandLineArg( String arg ) {
         return StringUtil.contains( commandLineArgs, arg );
     }
-    
+
     public void setFrameSetup( FrameSetup frameSetup ) {
         this.frameSetup = frameSetup;
     }
@@ -125,19 +125,19 @@ public class PhetApplicationConfig implements ISimInfo {
     public boolean isPreferencesEnabled() {
         return isStatisticsFeatureIncluded() || isUpdatesFeatureIncluded();
     }
-    
+
     /**
      * Returns the distribution identifier associated with the sim's JAR file.
-     * This is used to identify specific distributions of a sim, for example 
+     * This is used to identify specific distributions of a sim, for example
      * as bundled with a textbook.
-     * 
+     *
      * @return
      */
-    
+
     public String getDistributionTag() {
         return resourceLoader.getDistributionTag();
     }
-    
+
     //----------------------------------------------------------------------------
     // Standard properties
     //----------------------------------------------------------------------------
@@ -163,7 +163,7 @@ public class PhetApplicationConfig implements ISimInfo {
     public PhetVersion getVersion() {
         return resourceLoader.getVersion();
     }
-    
+
     public boolean isDev() {
         return hasCommandLineArg( PhetApplication.DEVELOPER_CONTROLS_COMMAND_LINE_ARG );
     }
@@ -171,31 +171,33 @@ public class PhetApplicationConfig implements ISimInfo {
     public Locale getLocale() {
         return PhetResources.readLocale();
     }
-    
+
     /**
      * Should the updates feature be included at runtime?
+     *
      * @return
      */
     public boolean isUpdatesFeatureIncluded() {
-        return (!hasCommandLineArg( "-updates-off" )) && DeploymentScenario.getInstance().isUpdatesEnabled();
+        return ( !hasCommandLineArg( "-updates-off" ) ) && DeploymentScenario.getInstance().isUpdatesEnabled();
     }
-    
+
     /**
      * Should the statistics feature be included at runtime?
+     *
      * @return
      */
     public boolean isStatisticsFeatureIncluded() {
-        return (!hasCommandLineArg( "-statistics-off" )) && DeploymentScenario.getInstance().isStatisticsEnabled();
+        return ( !hasCommandLineArg( "-statistics-off" ) ) && DeploymentScenario.getInstance().isStatisticsEnabled();
     }
 
     public boolean isUpdatesEnabled() {
         return isUpdatesFeatureIncluded() && PhetPreferences.getInstance().isUpdatesEnabled();
     }
-    
+
     public boolean isStatisticsEnabled() {
         return isStatisticsFeatureIncluded() && PhetPreferences.getInstance().isStatisticsEnabled();
     }
-    
+
     /**
      * Project JAR file is named <project>_all.jar
      */

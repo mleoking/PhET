@@ -11,13 +11,11 @@ import java.io.File;
 import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.Properties;
+import java.util.logging.Logger;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.html.HTMLEditorKit;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
@@ -48,7 +46,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
     private FindDialog _findDialog;
     private String _previousFindText;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger( MainFrame.class );
+    private static final Logger LOGGER = Logger.getLogger( MainFrame.class.getCanonicalName() );
     
     /**
      * Constructor.
@@ -232,7 +230,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
             }
             else {
                 // file suffix is inappropriate, tell the user and try again
-                LOGGER.debug( "Save attempted with bogus filename: {}", outFile.getAbsolutePath() );
+                LOGGER.fine( "Save attempted with bogus filename: " + outFile.getAbsolutePath() );
                 Object[] args = { _simulation.getStringFileSuffix() };
                 String message = MessageFormat.format( TUStrings.ERROR_SAVE_SUFFIX, args );
                 JOptionPane.showMessageDialog( this, message, TUStrings.ERROR_TITLE, JOptionPane.ERROR_MESSAGE );
@@ -300,7 +298,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
                 return;
             }
         }
-        LOGGER.debug( "submit is saving to {}", outFile.getAbsolutePath() );
+        LOGGER.fine( "submit is saving to " + outFile.getAbsolutePath() );
         
         try {
             _simulation.saveStrings( properties, outFile );

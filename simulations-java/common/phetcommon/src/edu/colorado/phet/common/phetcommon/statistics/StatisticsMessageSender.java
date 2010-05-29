@@ -4,14 +4,13 @@ package edu.colorado.phet.common.phetcommon.statistics;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.UnknownHostException;
+import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -66,7 +65,7 @@ public class StatisticsMessageSender {
     private static final String WARNING_TAG = "warning";
     private static final String TRUE_VALUE = "true";
 
-    private static final Logger LOGGER = LoggerFactory.getLogger( StatisticsMessageSender.class );
+    private static final Logger LOGGER = Logger.getLogger( StatisticsMessageSender.class.getCanonicalName() );
 
     /**
      * Sends a statistics message to PhET.
@@ -127,8 +126,8 @@ public class StatisticsMessageSender {
      */
     private HttpURLConnection postDocument( Document document ) throws ParserConfigurationException, TransformerException, IOException {
         final String url = PhetCommonConstants.STATISTICS_SERVICE_URL;
-        LOGGER.debug( "posting to url={}", url );
-        LOGGER.debug( "query={}", XMLUtils.toString( document ));
+        LOGGER.fine( "posting to url=" + url );
+        LOGGER.fine( "query=" + XMLUtils.toString( document ));
         return XMLUtils.post( url, document );
     }
 
@@ -137,7 +136,7 @@ public class StatisticsMessageSender {
      */
     private boolean parseResponse( Document document ) throws IOException, SAXException, ParserConfigurationException, TransformerException {
 
-        LOGGER.debug( "response={}", XMLUtils.toString( document ) );
+        LOGGER.fine( "response=" + XMLUtils.toString( document ) );
 
         // look for warnings
         NodeList warnings = document.getElementsByTagName( WARNING_TAG );

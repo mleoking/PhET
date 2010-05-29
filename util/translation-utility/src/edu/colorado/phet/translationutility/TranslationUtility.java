@@ -6,21 +6,17 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.Locale;
+import java.util.logging.Logger;
 
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.StringUtil;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.translationutility.simulations.ISimulation;
-import edu.colorado.phet.translationutility.simulations.SimulationFactory;
 import edu.colorado.phet.translationutility.simulations.ISimulation.SimulationException;
+import edu.colorado.phet.translationutility.simulations.SimulationFactory;
 import edu.colorado.phet.translationutility.userinterface.InitializationDialog;
 import edu.colorado.phet.translationutility.userinterface.MainFrame;
 import edu.colorado.phet.translationutility.util.ExceptionHandler;
@@ -31,23 +27,24 @@ import edu.colorado.phet.translationutility.util.ExceptionHandler;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class TranslationUtility extends JFrame {
-    
+
     // NOTE: untested for languages other than English
     private static final Locale SOURCE_LOCALE = TUConstants.ENGLISH_LOCALE;
 
-    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger( TranslationUtility.class );
-    
-    private TranslationUtility() {}
-    
+    private static final Logger LOGGER = Logger.getLogger( TranslationUtility.class.getName() );
+
+    private TranslationUtility() {
+    }
+
     public static void start() {
-        
-        LOGGER.debug( "version = {}", TUResources.getVersion() );
-        LOGGER.debug( "os = {}", TUResources.getOSVersion() );
-        LOGGER.debug( "java = {}", TUResources.getJREVersion() );
-        
+
+        LOGGER.fine( "version = " + TUResources.getVersion() );
+        LOGGER.fine( "os = " + TUResources.getOSVersion() );
+        LOGGER.fine( "java = " + TUResources.getJREVersion() );
+
         // check for a more recent version on the server
         UpdateManager.checkForUpdate();
-        
+
         // prompt the user for initialization info
         InitializationDialog initDialog = new InitializationDialog( SOURCE_LOCALE );
         SwingUtils.centerWindowOnScreen( initDialog );
@@ -57,24 +54,24 @@ public class TranslationUtility extends JFrame {
         }
         String jarFileName = initDialog.getJarFileName();
         Locale targetLocale = initDialog.getTargetLocale();
-        LOGGER.debug( "jar={}", jarFileName );
-        LOGGER.debug( "targetLocale={}", targetLocale.toString() );
-        
+        LOGGER.fine( "jar=" + jarFileName );
+        LOGGER.fine( "targetLocale=" + targetLocale.toString() );
+
         // create a Simulation
         ISimulation simulation = null;
         try {
             simulation = SimulationFactory.createSimulation( jarFileName );
         }
-        catch ( SimulationException e ) {
+        catch( SimulationException e ) {
             ExceptionHandler.handleFatalException( e );
         }
-        LOGGER.debug( "simulation type is {}", simulation.getClass().getName() );
-        
+        LOGGER.fine( "simulation type is " + simulation.getClass().getName() );
+
         String jarDirName = new File( jarFileName ).getParent();
         if ( jarDirName == null || jarDirName.length() == 0 ) {
             jarDirName = ".";
         }
-        
+
         // primary user interface
         final MainFrame mainFrame = new MainFrame( simulation, SOURCE_LOCALE, targetLocale, jarDirName );
         mainFrame.setDefaultCloseOperation( JFrame.DO_NOTHING_ON_CLOSE );
@@ -100,8 +97,9 @@ public class TranslationUtility extends JFrame {
 
     public static void main( final String[] args ) {
         if ( StringUtil.contains( args, "-log" ) ) {
-            Logger.getLogger( "edu.colorado.phet.translationutility" ).setLevel( Level.DEBUG );
+            LoggingUtils.enableAllLogging( TranslationUtility.class.getPackage().getName() );
         }
+
         /*
          * Wrap the body of main in invokeLater, so that all initialization occurs
          * in the event dispatch thread. Sun now recommends doing all Swing init in

@@ -47,14 +47,6 @@
     public protected *;
 }
 
--keep class org.apache.log4j.PatternLayout { public *; }
--keep class org.apache.log4j.FileAppender { public *; }
--keep class org.apache.log4j.ConsoleAppender { public *; }
-
--keep class org.slf4j.**{
-    public protected *;
-}
-
 -keep class org.jfree.chart.resources.JFreeChartResources
 
 -keep class org.jfree.resources.JCommonResources

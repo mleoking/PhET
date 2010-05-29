@@ -7,11 +7,9 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.util.*;
+import java.util.logging.Logger;
 
 import javax.swing.*;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import edu.colorado.phet.common.phetcommon.util.PhetLocales;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
@@ -39,7 +37,7 @@ public class TranslationPanel extends JPanel implements FindListener {
     private static final int SOURCE_COLUMN = 1;
     private static final int TARGET_COLUMN = 2;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger( TranslationPanel.class );
+    private static final Logger LOGGER = Logger.getLogger( TranslationPanel.class.getCanonicalName() );
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -77,8 +75,8 @@ public class TranslationPanel extends JPanel implements FindListener {
         // get locale-specific fonts
         final Font sourceFont = PhetFont.getPreferredFont( sourceLocale );
         final Font targetFont = PhetFont.getPreferredFont( targetLocale );
-        LOGGER.debug( "TranslationPanel, sourceFont=" + sourceFont + " (" + sourceFont.getFontName() + ")" );
-        LOGGER.debug( "TranslationPanel, targetFont=" + targetFont + " (" + targetFont.getFontName() + ")");
+        LOGGER.fine( "TranslationPanel, sourceFont=" + sourceFont + " (" + sourceFont.getFontName() + ")" );
+        LOGGER.fine( "TranslationPanel, targetFont=" + targetFont + " (" + targetFont.getFontName() + ")");
         
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         setLayout( layout );

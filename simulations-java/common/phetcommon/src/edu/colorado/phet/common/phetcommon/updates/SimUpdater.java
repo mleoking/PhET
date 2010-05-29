@@ -7,11 +7,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Arrays;
+import java.util.logging.Logger;
 
 import javax.swing.JDialog;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import edu.colorado.phet.common.phetcommon.application.ISimInfo;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
@@ -50,7 +48,7 @@ public class SimUpdater {
     private static final String ERROR_MISSING_JAR = PhetCommonResources.getString( "Common.updates.errorMissingJar" );
     private static final String ERROR_NOT_A_JAR = PhetCommonResources.getString( "Common.updates.errorNotAJar" );
 
-    private static final Logger LOGGER = LoggerFactory.getLogger( SimUpdater.class );
+    private static final Logger LOGGER = Logger.getLogger( SimUpdater.class.getCanonicalName() );
     
     private final File tmpDir;
     
@@ -233,7 +231,7 @@ public class SimUpdater {
     }
 
     private void log( String message ) {
-        LOGGER.debug( message );
+        LOGGER.fine( message );
     }
 
     private static void handleErrorSimJar( File file ) {
