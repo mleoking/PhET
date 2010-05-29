@@ -15,6 +15,7 @@ import org.apache.wicket.request.target.coding.HybridUrlCodingStrategy;
 import org.apache.wicket.resource.loader.ClassStringResourceLoader;
 import org.hibernate.HibernateException;
 import org.hibernate.Transaction;
+import org.slf4j.bridge.SLF4JBridgeHandler;
 
 import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
@@ -81,6 +82,9 @@ public class PhetWicketApplication extends WebApplication {
     @Override
     protected void init() {
         super.init();
+
+        // move JUL logging statements to slf4j
+        SLF4JBridgeHandler.install();
 
         if ( getConfigurationType().equals( Application.DEPLOYMENT ) ) {
             Logger.getLogger( "edu.colorado.phet.website" ).setLevel( Level.WARN );
