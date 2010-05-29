@@ -13,6 +13,7 @@ import org.apache.wicket.markup.html.internal.HtmlHeaderContainer;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.response.StringResponse;
 
+import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.cache.EventDependency;
 import edu.colorado.phet.website.cache.PanelCache;
@@ -33,7 +34,7 @@ public class PhetPanel extends Panel implements Stylable {
     private List<EventDependency> dependencies = new LinkedList<EventDependency>();
 
     /**
-     * If set, this will cause the panel to be cached.
+     * If set, (and the distribution is cacheable) this will cause the panel to be cached.
      */
     private SimplePanelCacheEntry cacheEntry;
 
@@ -124,7 +125,7 @@ public class PhetPanel extends Panel implements Stylable {
 
     @Override
     public void renderHead( final HtmlHeaderContainer container ) {
-        if ( cacheEntry == null ) {
+        if ( cacheEntry == null || !DistributionHandler.allowCaching( getPhetCycle() ) ) {
             // we are not caching, so render like normal
             super.renderHead( container );
         }
@@ -141,7 +142,7 @@ public class PhetPanel extends Panel implements Stylable {
             super.renderHead( container );
 
             // render all of the heads below
-            visitChildren( new IVisitor() {
+            visitChildren( new IVisitor<Component>() {
                 public Object component( Component component ) {
                     if ( component.isVisible() ) {
                         component.renderHead( container );
@@ -168,7 +169,7 @@ public class PhetPanel extends Panel implements Stylable {
 
     @Override
     protected void onRender( MarkupStream markupStream ) {
-        if ( cacheEntry == null ) {
+        if ( cacheEntry == null || !DistributionHandler.allowCaching( getPhetCycle() ) ) {
             // not caching the component. render as normal
             super.onRender( markupStream );
         }

@@ -195,4 +195,32 @@ public class DistributionHandler {
         return !cycle.isForProductionServer();
     }
 
+    /**
+     * Whether caching should be enabled for this distribution.
+     *
+     * @param cycle
+     * @return
+     */
+    public static boolean allowCaching( PhetRequestCycle cycle ) {
+        //return !cycle.isInstaller() && !cycle.getUserAgent().equals( PhetRequestCycle.HIDE_TRANSLATIONS_USER_AGENT );
+        return !cycle.isKsuRipperRequest() && !cycle.isKsuRipperRequest();
+    }
+
+    /**
+     * Returns a unique identifier that represents what distribution is being used. This should have the contract that
+     * given two separate PhetRequestCycles, if this function returns the same value, all other DistributionHandler
+     * functions should return the same value.
+     *
+     * @param cycle The request cycle
+     * @return
+     */
+    public static String getDistributionCacheKey( PhetRequestCycle cycle ) {
+        if ( cycle.isInstaller() || cycle.getUserAgent().equals( PhetRequestCycle.HIDE_TRANSLATIONS_USER_AGENT ) ) {
+            return cycle.getUserAgent();
+        }
+        else {
+            return "regular";
+        }
+    }
+
 }

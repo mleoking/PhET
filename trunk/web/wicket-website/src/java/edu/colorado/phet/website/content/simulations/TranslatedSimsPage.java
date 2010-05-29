@@ -45,11 +45,11 @@ public class TranslatedSimsPage extends PhetRegularPage {
             String title = StringUtils.messageFormat( getPhetLocalizer().getString( "simulations.translated.language.title", this ), new Object[]{getPhetLocalizer().getString( localeKey, this )} );
             addTitle( title );
 
-            PhetPanel panel = new SimplePanelCacheEntry( TranslationListPanel.class, null, getPageContext().getLocale(), getMyPath() ) {
+            PhetPanel panel = new SimplePanelCacheEntry( TranslationListPanel.class, null, getPageContext().getLocale(), getMyPath(), getPhetCycle() ) {
                 public PhetPanel constructPanel( String id, PageContext context ) {
                     return new TranslationListPanel( id, context, locale );
                 }
-            }.instantiate( "panel", getPageContext() );
+            }.instantiate( "panel", getPageContext(), getPhetCycle() );
             add( panel );
         }
         else {
@@ -58,11 +58,11 @@ public class TranslatedSimsPage extends PhetRegularPage {
             addTitle( new ResourceModel( "simulations.translated.title" ) );
 
             //add( new TranslationLocaleListPanel( "panel", getPageContext() ) );
-            PhetPanel panel = new SimplePanelCacheEntry( TranslationLocaleListPanel.class, null, getPageContext().getLocale(), getMyPath() ) {
+            PhetPanel panel = new SimplePanelCacheEntry( TranslationLocaleListPanel.class, null, getPageContext().getLocale(), getMyPath(), getPhetCycle() ) {
                 public PhetPanel constructPanel( String id, PageContext context ) {
                     return new TranslationLocaleListPanel( id, context );
                 }
-            }.instantiate( "panel", getPageContext() );
+            }.instantiate( "panel", getPageContext(), getPhetCycle() );
             add( panel );
         }
 

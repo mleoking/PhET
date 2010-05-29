@@ -1,8 +1,5 @@
 package edu.colorado.phet.website.util;
 
-import java.util.Set;
-
-import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.wicket.Response;
 import org.apache.wicket.protocol.http.WebApplication;
@@ -12,7 +9,6 @@ import org.apache.wicket.protocol.http.request.WebClientInfo;
 import org.hibernate.Session;
 
 import edu.colorado.phet.website.PhetWicketApplication;
-import edu.colorado.phet.website.menu.NavLocation;
 
 /**
  * A request cycle is created for each HTTP request, and is available at any point from pages or components by calling
@@ -28,6 +24,12 @@ public class PhetRequestCycle extends WebRequestCycle {
 
     private Session session;
     private Long start;
+
+    private String cachedUserAgent;
+    private boolean installer;
+    private boolean offlineInstaller;
+    private boolean ksu;
+    private boolean youngAndFreeman;
 
     public static final String KSU_RIPPER_USER_AGENT = "httrack-web-mirror-ar";
     public static final String YOUNG_AND_FREEDMAN_USER_AGENT = "httrack-web-mirror-yf";
@@ -74,24 +76,49 @@ public class PhetRequestCycle extends WebRequestCycle {
     }
 
     public String getUserAgent() {
-        String userAgent = ( (WebClientInfo) getClientInfo() ).getUserAgent();
-        return userAgent == null ? "" : userAgent;
+        if ( cachedUserAgent == null ) {
+            readUserAgent();
+        }
+        return cachedUserAgent;
     }
 
     public boolean isInstaller() {
-        return getUserAgent().startsWith( RIPPER_USER_AGENT_SUBSTRING );
+        if ( cachedUserAgent == null ) {
+            readUserAgent();
+        }
+        return installer;
     }
 
     public boolean isOfflineInstaller() {
-        return getUserAgent().startsWith( OFFLINE_USER_AGENT );
+        if ( cachedUserAgent == null ) {
+            readUserAgent();
+        }
+        return offlineInstaller;
     }
 
     public boolean isKsuRipperRequest() {
-        return getUserAgent().equals( KSU_RIPPER_USER_AGENT );
+        if ( cachedUserAgent == null ) {
+            readUserAgent();
+        }
+        return ksu;
     }
 
     public boolean isYoungAndFreedmanRipperRequest() {
-        return getUserAgent().equals( YOUNG_AND_FREEDMAN_USER_AGENT );
+        if ( cachedUserAgent == null ) {
+            readUserAgent();
+        }
+        return youngAndFreeman;
+    }
+
+    private void readUserAgent() {
+        cachedUserAgent = ( (WebClientInfo) getClientInfo() ).getUserAgent();
+        if ( cachedUserAgent == null ) {
+            cachedUserAgent = "";
+        }
+        installer = getUserAgent().startsWith( RIPPER_USER_AGENT_SUBSTRING );
+        offlineInstaller = getUserAgent().startsWith( OFFLINE_USER_AGENT );
+        ksu = getUserAgent().equals( KSU_RIPPER_USER_AGENT );
+        youngAndFreeman = getUserAgent().equals( YOUNG_AND_FREEDMAN_USER_AGENT );
     }
 
     /**
