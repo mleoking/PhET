@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarOutputStream;
 import java.util.jar.Manifest;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -17,6 +18,8 @@ import java.util.zip.ZipOutputStream;
 
 public class FileUtils {
     private static String DEFAULT_ENCODING = "utf-8";
+
+    private static final Logger logger = Logger.getLogger( FileUtils.class.getName() );
 
     public static File getTmpDir() {
         File file = new File( System.getProperty( "java.io.tmpdir" ) );
@@ -329,7 +332,7 @@ public class FileUtils {
             //never copy .svn metadata
             if ( !src.getName().equals( ".svn" ) ) {
                 dest.mkdirs();
-                System.out.println( "Created: " + dest.getAbsolutePath() );
+                logger.fine( "Created: " + dest.getAbsolutePath() );
                 File[] f = src.listFiles();
                 for ( int i = 0; i < f.length; i++ ) {
                     File child = f[i];
@@ -339,7 +342,7 @@ public class FileUtils {
         }
         else {
             copyTo( src, dest );
-            System.out.println( "Copied to: " + dest.getAbsolutePath() );
+            logger.fine( "Copied to: " + dest.getAbsolutePath() );
         }
     }
 
