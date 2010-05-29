@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.model.ResourceModel;
 
+import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.cache.CacheableUrlStaticPanel;
 import edu.colorado.phet.website.cache.SimplePanelCacheEntry;
@@ -41,12 +42,17 @@ public class StaticPage extends PhetRegularPage {
                 }
             }
 
+            if( cacheable ) {
+                // we don't want to have caching enabled on the installer ripper or other things of that nature
+                cacheable = DistributionHandler.allowCaching( getPhetCycle() );
+            }
+
             Method getKeyMethod = panelClass.getMethod( "getKey" );
             String key = (String) getKeyMethod.invoke( null );
 
             if ( cacheable ) {
                 logger.debug( "cacheable static panel: " + panelClass.getSimpleName() );
-                add( new SimplePanelCacheEntry( panelClass, this.getClass(), getPageContext().getLocale(), path ) {
+                add( new SimplePanelCacheEntry( panelClass, this.getClass(), getPageContext().getLocale(), path, getPhetCycle() ) {
                     public PhetPanel constructPanel( String id, PageContext context ) {
                         try {
                             Constructor ctor = panelClass.getConstructor( String.class, PageContext.class );
@@ -67,7 +73,7 @@ public class StaticPage extends PhetRegularPage {
                         }
                         throw new RuntimeException( "failed to construct panel!" );
                     }
-                }.instantiate( "panel", getPageContext() ) );
+                }.instantiate( "panel", getPageContext(), getPhetCycle() ) );
             }
             else {
                 Constructor ctor = panelClass.getConstructor( String.class, PageContext.class );

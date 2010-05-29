@@ -6,8 +6,10 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
+import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
+import edu.colorado.phet.website.util.PhetRequestCycle;
 
 /**
  * Cacheable panel entry. Upon the first non-cached request, it will deliver the panel specified in
@@ -50,9 +52,10 @@ public abstract class SimplePanelCacheEntry extends AbstractPanelCacheEntry impl
      * @param parentClass   The (optionally null) class of the component where the panel will be placed.
      * @param locale        The locale being used
      * @param parentCacheId A parent-specific string to identify this particular construction of the panel
+     * @param cycle         The request cycle
      */
-    public SimplePanelCacheEntry( Class panelClass, Class parentClass, Locale locale, String parentCacheId ) {
-        super( panelClass, parentClass, locale, parentCacheId );
+    public SimplePanelCacheEntry( Class panelClass, Class parentClass, Locale locale, String parentCacheId, PhetRequestCycle cycle ) {
+        super( panelClass, parentClass, locale, parentCacheId + "_" + DistributionHandler.getDistributionCacheKey( cycle ) );
     }
 
     public final PhetPanel fabricate( String id, PageContext context ) {
@@ -77,13 +80,16 @@ public abstract class SimplePanelCacheEntry extends AbstractPanelCacheEntry impl
      *
      * @param id      The Wicket id to use
      * @param context The page context
+     * @param cycle   The request cycle;
      * @return A (possibly cached) PhetPanel
      */
-    public final PhetPanel instantiate( String id, PageContext context ) {
+    public final PhetPanel instantiate( String id, PageContext context, PhetRequestCycle cycle ) {
         PanelCache cache = PanelCache.get();
         IPanelCacheEntry entry = cache.getMatching( this );
 
-        if ( entry == null || !context.isCacheable() ) {
+        boolean cacheable = context.isCacheable() && DistributionHandler.allowCaching( cycle );
+
+        if ( entry == null || !cacheable ) {
             if ( entry == null ) {
                 logger.debug( "not cached, constructing original content for " + this );
             }
@@ -91,7 +97,10 @@ public abstract class SimplePanelCacheEntry extends AbstractPanelCacheEntry impl
                 logger.debug( "not cacheable, constructing original content for " + this );
             }
             PhetPanel panel = constructPanel( id, context );
-            panel.setCacheEntry( this );
+            if ( cacheable ) {
+                // sanity check, we could probably call setCacheEntry if it wasn't cacheable. not worth the debugging pain
+                panel.setCacheEntry( this );
+            }
             return panel;
         }
         else {

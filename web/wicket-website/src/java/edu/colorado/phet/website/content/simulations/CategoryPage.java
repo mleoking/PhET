@@ -46,7 +46,7 @@ public class CategoryPage extends PhetRegularPage {
         final boolean index = showIndex;
 
         // create a cacheable panel for the simulation list
-        PhetPanel viewPanel = new SimplePanelCacheEntry( SimulationListViewPanel.class, this.getClass(), getPageContext().getLocale(), getMyPath() ) {
+        PhetPanel viewPanel = new SimplePanelCacheEntry( SimulationListViewPanel.class, this.getClass(), getPageContext().getLocale(), getMyPath(), getPhetCycle() ) {
             public PhetPanel constructPanel( String id, PageContext context ) {
                 return new SimulationListViewPanel(
                         id,
@@ -56,7 +56,7 @@ public class CategoryPage extends PhetRegularPage {
                         context
                 );
             }
-        }.instantiate( "view-panel", getPageContext() );
+        }.instantiate( "view-panel", getPageContext(), getPhetCycle() );
         add( viewPanel );
 
         NavLocation location = (NavLocation) viewPanel.getCacheParameter( "location" );

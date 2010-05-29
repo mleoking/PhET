@@ -67,11 +67,11 @@ public class SimulationPage extends PhetMenuPage {
         }
 
         final LocalizedSimulation finalSim = simulation;
-        PhetPanel simPanel = new SimplePanelCacheEntry( SimulationMainPanel.class, null, getPageContext().getLocale(), getMyPath() ) {
+        PhetPanel simPanel = new SimplePanelCacheEntry( SimulationMainPanel.class, null, getPageContext().getLocale(), getMyPath(), getPhetCycle() ) {
             public PhetPanel constructPanel( String id, PageContext context ) {
                 return new SimulationMainPanel( id, finalSim, context );
             }
-        }.instantiate( "simulation-main-panel", getPageContext() );
+        }.instantiate( "simulation-main-panel", getPageContext(), getPhetCycle() );
 
         //SimulationMainPanel simPanel = new SimulationMainPanel( "simulation-main-panel", simulation, getPageContext() );
         add( simPanel );

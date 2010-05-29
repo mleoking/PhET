@@ -34,16 +34,14 @@ public abstract class PhetMenuPage extends PhetPage {
 
     private static final Logger logger = Logger.getLogger( PhetMenuPage.class.getName() );
 
-    static { logger.setLevel( Level.DEBUG ); }
-
     public PhetMenuPage( PageParameters parameters ) {
         super( parameters, true );
 
-        add( new SimplePanelCacheEntry( SponsorsPanel.class, null, getPageContext().getLocale(), "tester" ) {
+        add( new SimplePanelCacheEntry( SponsorsPanel.class, null, getPageContext().getLocale(), "tester", getPhetCycle() ) {
             public PhetPanel constructPanel( String id, PageContext context ) {
                 return new SponsorsPanel( id, context );
             }
-        }.instantiate( "sponsors-panel", getPageContext() ) );
+        }.instantiate( "sponsors-panel", getPageContext(), getPhetCycle() ) );
 
         if ( DistributionHandler.displayTranslationLinksPanel( (PhetRequestCycle) getRequestCycle() ) ) {
             add( new TranslationLinksPanel( "translation-links", getPageContext() ) );
