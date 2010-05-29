@@ -16,7 +16,7 @@ public class SignOutPage extends PhetPage {
     private static final Logger logger = Logger.getLogger( SignOutPage.class.getName() );
 
     public SignOutPage( PageParameters parameters ) {
-        super( parameters, true );
+        super( parameters );
 
         addTitle( new ResourceModel( "signOut.title" ) );
 

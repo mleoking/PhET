@@ -35,7 +35,7 @@ public abstract class PhetMenuPage extends PhetPage {
     private static final Logger logger = Logger.getLogger( PhetMenuPage.class.getName() );
 
     public PhetMenuPage( PageParameters parameters ) {
-        super( parameters, true );
+        super( parameters );
 
         add( new SimplePanelCacheEntry( SponsorsPanel.class, null, getPageContext().getLocale(), "tester", getPhetCycle() ) {
             public PhetPanel constructPanel( String id, PageContext context ) {
