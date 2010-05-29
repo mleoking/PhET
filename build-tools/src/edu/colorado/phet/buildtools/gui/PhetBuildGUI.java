@@ -11,6 +11,7 @@ import javax.swing.*;
 import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.PhetServer;
+import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 
 /**
  * Main entry point for the PhET Build GUI (currently TestGUI)
@@ -36,6 +37,8 @@ public class PhetBuildGUI {
     public PhetBuildGUI( final File trunk ) {
 
         BuildLocalProperties.initRelativeToTrunk( trunk );
+
+        LoggingUtils.enableAllLogging( "edu.colorado.phet.buildtools" );
 
         frame = new JFrame( "PhET Build GUI" );
 
