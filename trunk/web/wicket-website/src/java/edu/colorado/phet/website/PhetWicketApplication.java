@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.*;
+import java.util.logging.Handler;
+import java.util.logging.LogManager;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -84,7 +86,7 @@ public class PhetWicketApplication extends WebApplication {
         super.init();
 
         // move JUL logging statements to slf4j
-        SLF4JBridgeHandler.install();
+        setupJulSfl4j();
 
         if ( getConfigurationType().equals( Application.DEPLOYMENT ) ) {
             Logger.getLogger( "edu.colorado.phet.website" ).setLevel( Level.WARN );
@@ -92,41 +94,6 @@ public class PhetWicketApplication extends WebApplication {
         else {
             Logger.getLogger( "edu.colorado.phet.website" ).setLevel( Level.INFO );
         }
-
-        Logger.getLogger( "edu.colorado.phet.website.PhetWicketApplication" ).setLevel( Level.INFO );
-        Logger.getLogger( "edu.colorado.phet.website.admin" ).setLevel( Level.INFO );
-        Logger.getLogger( "edu.colorado.phet.website.admin.deploy" ).setLevel( Level.DEBUG );
-
-        Logger.getLogger( "edu.colorado.phet.website.data.Project.sync" ).setLevel( Level.DEBUG );
-        Logger.getLogger( "edu.colorado.phet.website.data.transfer" ).setLevel( Level.DEBUG );
-
-        /*
-            ### Hibernate logging ###
-
-            # log HQL query parser activity
-            #log4j.logger.org.hibernate.hql.ast.AST=debug
-
-            # log just the SQL
-            #log4j.logger.org.hibernate.SQL=debug
-
-            # log JDBC bind parameters ###
-            #log4j.logger.org.hibernate.type=info
-
-            # log schema export/update ###
-            #log4j.logger.org.hibernate.tool.hbm2ddl=info
-
-            # log HQL parse trees
-            #log4j.logger.org.hibernate.hql=debug
-
-            # log cache activity ###
-            #log4j.logger.org.hibernate.cache=info
-
-            # log transaction activity
-            #log4j.logger.org.hibernate.transaction=debug
-
-            # log JDBC resource acquisition
-            #log4j.logger.org.hibernate.jdbc=debug
-        */
 
         websiteProperties = new WebsiteProperties( getServletContext() );
 
@@ -249,6 +216,19 @@ public class PhetWicketApplication extends WebApplication {
 
         setInstallerTimestampFromFile();
 
+    }
+
+    private void setupJulSfl4j() {
+        java.util.logging.Logger rootLogger = LogManager.getLogManager().getLogger( "" );
+        rootLogger.setLevel( java.util.logging.Level.ALL );
+        Handler[] handlers = rootLogger.getHandlers();
+        for ( Handler handler : handlers ) {
+            rootLogger.removeHandler( handler );
+        }
+        //SLF4JBridgeHandler.install();
+        SLF4JBridgeHandler handler = new SLF4JBridgeHandler();
+        LogManager.getLogManager().getLogger( "" ).addHandler( handler );
+        handler.setLevel( java.util.logging.Level.ALL );
     }
 
     private void setInstallerTimestampFromFile() {
