@@ -10,6 +10,7 @@ import edu.colorado.phet.buildtools.PhetServer;
 import edu.colorado.phet.buildtools.PhetWebsite;
 import edu.colorado.phet.buildtools.translate.CommonTranslationDeployClient;
 import edu.colorado.phet.buildtools.translate.TranslationDeployClient;
+import edu.colorado.phet.buildtools.translate.WebsiteCommonTranslationDeployClient;
 import edu.colorado.phet.buildtools.translate.WebsiteTranslationDeployClient;
 
 /**
@@ -71,5 +72,23 @@ public class TranslationsMenu extends JMenu {
             }
         } );
         add( deployCommonItem );
+
+        JMenuItem deployWebsiteCommonItem = new JMenuItem( "Deploy (Wicket website) Common Translations..." );
+        deployWebsiteCommonItem.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                final JFileChooser fileChooser = new JFileChooser();
+                fileChooser.setDialogTitle( "Choose a common translation to deploy" );
+                int ret = fileChooser.showOpenDialog( null );
+                if ( ret != JFileChooser.APPROVE_OPTION ) {
+                    System.out.println( "File was not selected, aborting" );
+                    return;
+                }
+
+                File resourceFile = fileChooser.getSelectedFile();
+
+                new WebsiteCommonTranslationDeployClient( resourceFile, trunk ).deployCommonTranslation( PhetWebsite.FIGARO );
+            }
+        } );
+        add( deployWebsiteCommonItem );
     }
 }
