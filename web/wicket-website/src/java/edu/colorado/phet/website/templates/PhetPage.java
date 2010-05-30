@@ -87,8 +87,8 @@ public abstract class PhetPage extends WebPage implements Stylable {
         Session wicketSession = getSession();
         wicketSession.setLocale( myLocale );
 
-        logger.info( "Loading " + this.getClass().getCanonicalName() + " with Locale: " + LocaleUtils.localeToString( myLocale ) );
-        logger.info( "path of this page is: " + path );
+        logger.debug( "Loading " + this.getClass().getCanonicalName() + " with Locale: " + LocaleUtils.localeToString( myLocale ) );
+        logger.debug( "path of this page is: " + path );
         logger.debug( "prefix of this page is: " + prefix );
         logger.debug( "Session id is: " + wicketSession.getId() );
 
@@ -209,7 +209,7 @@ public abstract class PhetPage extends WebPage implements Stylable {
     protected void onBeforeRender() {
         super.onBeforeRender();
         renderStart = System.currentTimeMillis();
-        logger.info( "Pre-render: " + ( renderStart - initStart ) + " ms" );
+        logger.debug( "Pre-render: " + ( renderStart - initStart ) + " ms" );
         //logger.debug( "stack trace: ", new Exception() );
         logger.debug( "Debug: page stateless = " + isPageStateless() );
     }
@@ -217,7 +217,7 @@ public abstract class PhetPage extends WebPage implements Stylable {
     @Override
     protected void onAfterRender() {
         super.onAfterRender();
-        logger.info( "Render: " + ( System.currentTimeMillis() - renderStart ) + " ms" );
+        logger.debug( "Render: " + ( System.currentTimeMillis() - renderStart ) + " ms" );
     }
 
     @Override
