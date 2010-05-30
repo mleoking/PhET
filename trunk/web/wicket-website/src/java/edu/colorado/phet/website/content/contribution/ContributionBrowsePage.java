@@ -14,10 +14,10 @@ import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Restrictions;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
-import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.data.Simulation;
 import edu.colorado.phet.website.data.contribution.*;
 import edu.colorado.phet.website.panels.contribution.ContributionBrowsePanel;
+import edu.colorado.phet.website.panels.contribution.ContributionEmptyPanel;
 import edu.colorado.phet.website.panels.contribution.ContributionSearchPanel;
 import edu.colorado.phet.website.templates.PhetRegularPage;
 import edu.colorado.phet.website.util.*;
@@ -52,7 +52,8 @@ public class ContributionBrowsePage extends PhetRegularPage {
         logger.debug( "AfterSearch" );
 
         if ( noCriteria ) {
-            add( new InvisibleComponent( "contribution-browse-panel" ) );
+            //add( new InvisibleComponent( "contribution-browse-panel" ) );
+            add( new ContributionEmptyPanel( "contribution-browse-panel", getPageContext() ) );
         }
         else {
             final List<Contribution> contributions = new LinkedList<Contribution>();
