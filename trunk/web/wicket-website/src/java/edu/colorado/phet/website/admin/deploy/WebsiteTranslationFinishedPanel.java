@@ -26,11 +26,11 @@ import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
 
-public class TranslationDeployServerFinishedPanel extends PhetPanel {
+public class WebsiteTranslationFinishedPanel extends PhetPanel {
 
     private Component publisher;
 
-    public TranslationDeployServerFinishedPanel( String id, final PageContext context, String finalText, final File translationDir, final File docRoot ) {
+    public WebsiteTranslationFinishedPanel( String id, final PageContext context, String finalText, final File translationDir, final File docRoot ) {
         super( id, context );
 
         add( new RawLabel( "text", finalText ) );

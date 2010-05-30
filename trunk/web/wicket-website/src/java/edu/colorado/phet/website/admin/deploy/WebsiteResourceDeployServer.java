@@ -1,9 +1,6 @@
 package edu.colorado.phet.website.admin.deploy;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FilenameFilter;
-import java.io.IOException;
+import java.io.*;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
@@ -32,6 +29,8 @@ public class WebsiteResourceDeployServer implements IProguardKeepClass {
     private String jarCommand;
     private File resourceDir;
 
+    private boolean ready = false;
+
     private File resourceFile;
     private String resourceDestination;
     private String[] sims;
@@ -43,7 +42,8 @@ public class WebsiteResourceDeployServer implements IProguardKeepClass {
     private boolean copyJNLPs;
     private File testDir;
     private List<String> existingSims;
-    
+    private File liveSimsDir;
+
     private static final boolean localBackup = false;
 
     private static final Logger logger = Logger.getLogger( WebsiteResourceDeployServer.class.getName() );
@@ -56,51 +56,74 @@ public class WebsiteResourceDeployServer implements IProguardKeepClass {
         Properties properties = new Properties();
 
         try {
-            properties.load( new FileInputStream( propertiesFile ) );
+            FileInputStream inputStream = new FileInputStream( propertiesFile );
+            try {
+                properties.load( inputStream );
+                String resourceFilename = properties.getProperty( "resourceFile" );
+                resourceFile = new File( ResourceDeployUtils.getResourceSubDir( resourceDir ), resourceFilename );
 
-            String resourceFilename = properties.getProperty( "resourceFile" );
-            resourceFile = new File( ResourceDeployUtils.getResourceSubDir( resourceDir ), resourceFilename );
-
-            if ( !resourceFile.exists() ) {
-                logger.info( "Cannot locate resource file, aborting" );
-                return;
-            }
-
-            resourceDestination = properties.getProperty( "resourceDestination" );
-            if ( resourceDestination.startsWith( "/" ) ) {
-                resourceDestination = resourceDestination.substring( 1 );
-            }
-
-            mode = properties.getProperty( "mode" );
-            if ( mode.equals( "java" ) ) {
-                onlyAllJARs = true;
-                generateJARs = true;
-                copySWFs = false;
-                copyJNLPs = true;
-            }
-            else if ( mode.equals( "flash" ) ) {
-                onlyAllJARs = false;
-                generateJARs = false;
-                copySWFs = true;
-                copyJNLPs = false;
-            }
-
-            String simsString = properties.getProperty( "sims" );
-            sims = simsString.split( "," );
-
-            // prune sims list so it only includes sims deployed to the server
-            existingSims = new LinkedList<String>();
-            for ( String sim : sims ) {
-                File simDir = new File( getLiveSimsDir(), sim );
-                if ( simDir.exists() ) {
-                    existingSims.add( sim );
+                if ( !resourceFile.exists() ) {
+                    logger.info( "Cannot locate resource file, aborting" );
+                    return;
                 }
-                else {
-                    logger.warn( "project " + sim + " was not found on the production server" );
-                }
-            }
-            sims = existingSims.toArray( new String[]{} );
 
+                resourceDestination = properties.getProperty( "resourceDestination" );
+                if ( resourceDestination.startsWith( "/" ) ) {
+                    resourceDestination = resourceDestination.substring( 1 );
+                }
+
+                mode = properties.getProperty( "mode" );
+                if ( mode.equals( "java" ) ) {
+                    onlyAllJARs = true;
+                    generateJARs = true;
+                    copySWFs = false;
+                    copyJNLPs = true;
+                }
+                else if ( mode.equals( "flash" ) ) {
+                    onlyAllJARs = false;
+                    generateJARs = false;
+                    copySWFs = true;
+                    copyJNLPs = false;
+                }
+
+                String simsString = properties.getProperty( "sims" );
+                sims = simsString.split( "," );
+
+                // prune sims list so it only includes sims deployed to the server
+                existingSims = new LinkedList<String>();
+                for ( String sim : sims ) {
+                    File simDir = new File( getLiveSimsDir(), sim );
+                    if ( simDir.exists() ) {
+                        existingSims.add( sim );
+                    }
+                    else {
+                        logger.warn( "project " + sim + " was not found on the production server" );
+                    }
+                }
+                sims = existingSims.toArray( new String[]{} );
+
+                ready = true;
+            }
+            finally {
+                inputStream.close();
+            }
+        }
+        catch( FileNotFoundException e ) {
+            e.printStackTrace();
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean process( File liveSimsDir ) {
+        this.liveSimsDir = liveSimsDir;
+
+        if ( !ready ) {
+            logger.error( "did not initialize correctly, cannot process" );
+            return false;
+        }
+        try {
             if ( localBackup ) {
                 backupDir = new File( resourceDir, "backup" );
                 backupDir.mkdir();
@@ -154,14 +177,16 @@ public class WebsiteResourceDeployServer implements IProguardKeepClass {
         }
         catch( IOException e ) {
             e.printStackTrace();
-            return;
+            return false;
         }
         catch( InterruptedException e ) {
             e.printStackTrace();
-            return;
+            return false;
         }
 
         logger.info( "All successful!" );
+
+        return true;
 
     }
 
@@ -403,7 +428,7 @@ public class WebsiteResourceDeployServer implements IProguardKeepClass {
             String sim = testSimDir.getName();
             logger.info( "  processing " + sim );
 
-            File liveSimDir = new File( ResourceDeployUtils.getLiveSimsDir( resourceDir ), sim );
+            File liveSimDir = new File( liveSimsDir, sim );
 
             File swfFile = new File( liveSimDir, sim + ".swf" );
 

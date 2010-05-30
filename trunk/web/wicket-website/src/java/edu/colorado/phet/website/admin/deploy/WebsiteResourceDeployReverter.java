@@ -18,33 +18,21 @@ import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
  * edu.colorado.phet.buildtools.resource
  */
 public class WebsiteResourceDeployReverter implements IProguardKeepClass {
-    private File resourceDir;
-    private File liveSimsDir;
 
     private static final Logger logger = Logger.getLogger( WebsiteResourceDeployReverter.class.getName() );
 
-    public WebsiteResourceDeployReverter( File resourceDir ) {
-        this.resourceDir = resourceDir;
+    public WebsiteResourceDeployReverter( File resourceDir, File liveSimsDir ) {
 
-        liveSimsDir = ResourceDeployUtils.getLiveSimsDir( resourceDir );
-
-        File[] testDirs = ResourceDeployUtils.getTestDir( resourceDir ).listFiles();
-
-        for ( int i = 0; i < testDirs.length; i++ ) {
-            File testDir = testDirs[i];
+        for ( File testDir : ResourceDeployUtils.getTestDir( resourceDir ).listFiles() ) {
             String sim = testDir.getName();
 
             File liveSimDir = new File( liveSimsDir, sim );
             File backupSimDir = new File( ResourceDeployUtils.getBackupDir( resourceDir ), sim );
 
-            File[] testFiles = testDir.listFiles();
-
-            for ( int j = 0; j < testFiles.length; j++ ) {
-                File testFile = testFiles[j];
-
+            for ( File testFile : testDir.listFiles() ) {
                 if ( ResourceDeployUtils.ignoreTestFile( testFile ) ) {
                     try {
-                        System.out.println( "Ignoring: " + testFile.getCanonicalPath() );
+                        logger.info( "Ignoring: " + testFile.getCanonicalPath() );
                     }
                     catch( IOException e ) {
                         e.printStackTrace();
@@ -56,7 +44,7 @@ public class WebsiteResourceDeployReverter implements IProguardKeepClass {
 
                 if ( backupFile.exists() ) {
                     try {
-                        System.out.println( "Copying " + backupFile.getCanonicalPath() + " to " + liveSimDir.getCanonicalPath() );
+                        logger.info( "Copying " + backupFile.getCanonicalPath() + " to " + liveSimDir.getCanonicalPath() );
 
                         FileUtils.copyToDir( backupFile, liveSimDir );
                     }
@@ -65,22 +53,12 @@ public class WebsiteResourceDeployReverter implements IProguardKeepClass {
                     }
                 }
                 else {
-                    System.out.println( "WARNING: backup file for " + sim + "/" + testFile.getName() + " does not exist." );
-                    System.out.println( "\tPossibly it was created by the resource deployment and should be deleted? (no action taken)" );
+                    logger.warn( "backup file for " + sim + "/" + testFile.getName() + " does not exist." );
+                    logger.warn( "    Possibly it was created by the resource deployment and should be deleted? (no action taken)" );
                 }
             }
 
         }
     }
 
-    /**
-     * Reverts the live sim dir to what was there before
-     *
-     * @param args First argument should be the temporary resource directory
-     */
-    public static void main( String[] args ) {
-        new WebsiteResourceDeployReverter( new File( args[0] ) );
-
-        System.out.println( "Resource reverted. Please verify on phet.colorado.edu" );
-    }
 }
