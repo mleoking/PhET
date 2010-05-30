@@ -19,13 +19,13 @@ public class Images {
 
     public static final String NEWSLETTER_SUMMER_09 = "/images/phet_newsletter_summer_09_thumbnail.png";
 
-    public static final String PEARSON_LOGO = "/images/sponsors/pearson.png";
+    public static final String PEARSON_LOGO = "/images/support/pearson.png";
 
     public static final String PHET_LOGO_ICON_SMALL = "/images/contributions/phet-logo-icon-small.jpg";
     public static final String GOLD_STAR_SMALL = "/images/contributions/gold-star-small.jpg";
     public static final String GOLD_STAR = "/images/contributions/gold-star.jpg";
 
-    public static final String LOGO_HEWLETT = "/images/sponsors/hewlett-logo.jpg";
-    public static final String LOGO_NSF = "/images/sponsors/nsf-logo.gif";
-    public static final String LOGO_ECSME = "/images/sponsors/ECSME-combined-logo-med.jpg";
+    public static final String LOGO_HEWLETT = "/images/support/hewlett-logo.jpg";
+    public static final String LOGO_NSF = "/images/support/nsf-logo.gif";
+    public static final String LOGO_ECSME = "/images/support/ECSME-combined-logo-med.jpg";
 }

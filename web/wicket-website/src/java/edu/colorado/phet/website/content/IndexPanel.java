@@ -31,10 +31,11 @@ public class IndexPanel extends PhetPanel {
     public IndexPanel( String id, PageContext context ) {
         super( id, context );
 
-        add( new StaticImage( "ksu-logo", "/images/sponsors/ECSME-combined-logo-small.jpg", null ) );
-        //add( new StaticImage( "jila-logo", "/images/sponsors/jila_logo_small.gif", null ) );
-        add( new StaticImage( "nsf-logo", "/images/sponsors/nsf-logo-small.gif", null ) );
-        add( new StaticImage( "hewlett-logo", "/images/sponsors/hewlett-logo-small.jpg", null ) );
+        // TODO: link these image URLs from the constants area
+        add( new StaticImage( "ksu-logo", "/images/support/ECSME-combined-logo-small.jpg", null ) );
+        //add( new StaticImage( "jila-logo", "/images/support/jila_logo_small.gif", null ) );
+        add( new StaticImage( "nsf-logo", "/images/support/nsf-logo-small.gif", null ) );
+        add( new StaticImage( "hewlett-logo", "/images/support/hewlett-logo-small.jpg", null ) );
 
         add( new LocalizedText( "index-main-text", "home.subheader", new Object[]{
                 ResearchPanel.getLinker().getHref( context, getPhetCycle() )
