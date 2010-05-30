@@ -2,12 +2,15 @@ package edu.colorado.phet.website.admin.deploy;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 
 import edu.colorado.phet.buildtools.resource.ResourceDeployUtils;
 import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
+import edu.colorado.phet.website.data.Project;
 
 /**
  * Prints instructions on how to revert to standard output
@@ -21,54 +24,41 @@ public class WebsiteResourceDeployPublisher implements IProguardKeepClass {
     private File resourceDir;
     private File liveSimsDir;
 
+    private List<String> deployedProjectNames = new LinkedList<String>();
+
     private static final Logger logger = Logger.getLogger( WebsiteResourceDeployPublisher.class.getName() );
 
-    public WebsiteResourceDeployPublisher( File resourceDir ) throws IOException {
+    public WebsiteResourceDeployPublisher( File resourceDir, File liveSimsDir, File docRoot ) throws IOException {
         this.resourceDir = resourceDir;
 
-        liveSimsDir = ResourceDeployUtils.getLiveSimsDir( resourceDir );
+        this.liveSimsDir = liveSimsDir;
 
         File[] testDirs = ResourceDeployUtils.getTestDir( resourceDir ).listFiles();
 
-        for ( int i = 0; i < testDirs.length; i++ ) {
-            File dir = testDirs[i];
+        for ( File dir : testDirs ) {
+            String projectName = dir.getName();
 
-            String sim = dir.getName();
+            deployedProjectNames.add( projectName );
 
-            File liveSimDir = new File( liveSimsDir, sim );
+            Project.backupProject( docRoot, projectName );
 
-            File[] testFiles = dir.listFiles();
+            File liveSimDir = new File( liveSimsDir, projectName );
 
-            for ( int j = 0; j < testFiles.length; j++ ) {
-                File testFile = testFiles[j];
-
+            for ( File testFile : dir.listFiles() ) {
                 if ( ResourceDeployUtils.ignoreTestFile( testFile ) ) {
-                    System.out.println( "Ignoring: " + testFile.getCanonicalPath() );
+                    logger.info( "Ignoring: " + testFile.getCanonicalPath() );
                     continue;
                 }
 
-                System.out.println( "Copying " + testFile.getCanonicalPath() + " to " + liveSimDir.getCanonicalPath() );
+                logger.info( "Copying " + testFile.getCanonicalPath() + " to " + liveSimDir.getCanonicalPath() );
                 FileUtils.copyToDir( testFile, liveSimDir );
             }
 
         }
     }
 
-    /**
-     * Run the resource deploy publisher
-     *
-     * @param args First argument should be the path to the temporary resource directory
-     */
-    public static void main( String[] args ) {
-        try {
-            new WebsiteResourceDeployPublisher( new File( args[0] ) );
-
-            System.out.println( "Resource Deployment successfully completed." );
-        }
-        catch( IOException e ) {
-            System.out.println( "\n\nWARNING:\nAn error was detected during the execution of WebsiteResourceDeployPublisher!:" );
-            e.printStackTrace();
-            System.out.println( "Please roll back the changes with WebsiteResourceDeployReverter" );
-        }
+    public List<String> getDeployedProjectNames() {
+        return deployedProjectNames;
     }
+
 }

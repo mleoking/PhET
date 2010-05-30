@@ -120,4 +120,8 @@ public abstract class ObjectComponentThread extends ComponentThread {
 
         stopListening();
     }
+
+    public boolean didError() {
+        return error;
+    }
 }

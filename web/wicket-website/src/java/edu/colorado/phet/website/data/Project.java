@@ -118,6 +118,8 @@ public class Project implements Serializable, IntId {
         String dateString = date.getTime() + "-" + format.format( date );
         File backupDir = new File( docRoot, "website-backup/sims/" + projectName + "-" + versionString + "-" + dateString );
 
+        logger.info( "backing up project " + projectName + " to " + backupDir.getAbsolutePath() );
+
         backupDir.mkdirs();
 
         try {

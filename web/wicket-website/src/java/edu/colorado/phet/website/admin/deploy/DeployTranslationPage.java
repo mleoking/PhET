@@ -56,7 +56,7 @@ public class DeployTranslationPage extends AdminPage {
         }
 
         if ( new File( translationDir, "finished.txt" ).exists() ) {
-            add( new TranslationDeployServerFinishedPanel( "response", getPageContext(), "Ready for testing", translationDir, PhetWicketApplication.get().getWebsiteProperties().getPhetDocumentRoot() ) );
+            add( new WebsiteTranslationFinishedPanel( "response", getPageContext(), "Ready for testing", translationDir, PhetWicketApplication.get().getWebsiteProperties().getPhetDocumentRoot() ) );
         }
         else if ( new File( translationDir, "error.txt" ).exists() ) {
             add( new Label( "response", "There was an error encountered in the processing" ) );
@@ -100,7 +100,7 @@ public class DeployTranslationPage extends AdminPage {
 
             @Override
             public Component getFinishedComponent( String id, String rawText ) {
-                return new TranslationDeployServerFinishedPanel( id, getPageContext(), rawText, translationDir, PhetWicketApplication.get().getWebsiteProperties().getPhetDocumentRoot() );
+                return new WebsiteTranslationFinishedPanel( id, getPageContext(), rawText, translationDir, PhetWicketApplication.get().getWebsiteProperties().getPhetDocumentRoot() );
             }
 
             @Override

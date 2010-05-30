@@ -4,7 +4,7 @@
       xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd" xml:lang="en"
       lang="en">
 <head>
-    <title>[PREVIEW] TranslationDeployServerFinishedPanel</title>
+    <title>[PREVIEW] WebsiteResourceFinishedPanel</title>
     <wicket:remove>
         <link rel="stylesheet" type="text/css" href="../../../../../../../root/css/preview.css"/>
     </wicket:remove>
@@ -14,17 +14,17 @@
 <wicket:panel>
     <p wicket:id="text"></p>
 
-    <h2>Files to test</h2>
+    <h2>Please test simulations under this directory</h2>
 
-    <ul>
-        <li wicket:id="file"><a href="#" wicket:id="link"><span wicket:id="name"></span></a></li>
-    </ul>
+    <a href="#" wicket:id="link"><span wicket:id="name"></span></a>
 
-    <h2>Publish these translations</h2>
+    <h2>Publish the resource</h2>
 
     <a href="#" wicket:id="publish-link">publish now</a>
 
     <div wicket:id="publisher"></div>
+
+    <a wicket:id="reverter" href="#">Revert</a>
 </wicket:panel>
 
 </body>

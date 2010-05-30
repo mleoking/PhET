@@ -7,6 +7,8 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 import org.apache.log4j.WriterAppender;
+import org.apache.log4j.spi.Filter;
+import org.apache.log4j.spi.LoggingEvent;
 
 /**
  * A ComponentThread, but captures output from multiple loggers and displays that as the default component.
@@ -20,12 +22,18 @@ public abstract class LoggerComponentThread extends ObjectComponentThread {
     protected LoggerComponentThread( Logger logger ) {
         loggers = new LinkedList<Logger>();
         loggers.add( logger );
-        setObject( writer );
+        init();
     }
 
     protected LoggerComponentThread( List<Logger> loggers ) {
         this.loggers = loggers;
         setObject( writer );
+        init();
+    }
+
+    private void init() {
+        setObject( writer );
+        appender.addFilter( new ThreadFilter() );
     }
 
     @Override
@@ -39,6 +47,18 @@ public abstract class LoggerComponentThread extends ObjectComponentThread {
     public void stopListening() {
         for ( Logger logger : loggers ) {
             logger.removeAppender( appender );
+        }
+    }
+
+    private class ThreadFilter extends Filter {
+        @Override
+        public int decide( LoggingEvent event ) {
+            if ( Thread.currentThread().getName().equals( event.getThreadName() ) ) {
+                return Filter.NEUTRAL;
+            }
+            else {
+                return Filter.DENY;
+            }
         }
     }
 }
