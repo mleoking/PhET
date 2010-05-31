@@ -1,2 +1,3 @@
+5/31/2010 Fixed a bug that caused charts in motion-series only to clear after clearing the model twice.
 5/17/2010 document public API, refactor, simplify constructor
 5/13/2010 Started initial port of recording-and-playback system from trunk/simulations-java/common/scala-common/scala-src/edu/colorado/phet/scalacommon/record, see #2092

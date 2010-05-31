@@ -309,11 +309,6 @@ class MotionSeriesModel(defaultBeadPosition: Double,
     notifyListeners() //signify to the Timeline that more data has been added
   }
 
-  override def clearHistory() = {
-    super.clearHistory()
-    setTime(0.0)
-  }
-
   override def stepInTime(dt: Double) = {
     val startTime = System.nanoTime
     super.stepInTime(dt)
