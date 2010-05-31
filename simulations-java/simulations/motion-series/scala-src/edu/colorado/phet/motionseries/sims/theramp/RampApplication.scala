@@ -12,7 +12,7 @@ import swing.Button
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.colorado.phet.recordandplayback.gui.{RecordAndPlaybackControlPanel}
 import edu.umd.cs.piccolox.pswing.PSwing
-import edu.colorado.phet.common.phetcommon.application.{ApplicationConstructor, PhetApplicationLauncher, PhetApplicationConfig, Module}
+import edu.colorado.phet.common.phetcommon.application.{PhetApplicationLauncher, PhetApplicationConfig, Module}
 import javax.swing.JMenuItem
 import java.awt.event.{ActionListener, ActionEvent, ComponentEvent, ComponentAdapter}
 import edu.colorado.phet.motionseries.{StageContainerArea, MotionSeriesDefaults, MotionSeriesModule}
@@ -24,11 +24,11 @@ import edu.colorado.phet.motionseries.controls.{DeveloperDialog, RampControlPane
  * @author Sam Reid
  */
 class BasicRampModule(frame: PhetFrame,
-                      name: String,                     //the name of the module
+                      name: String, //the name of the module
                       coordinateSystemEnabled: Boolean, //true if the coordinate frame should be shown
-                      objectComboBoxEnabled: Boolean,   //true if the objects should be selectable via combo box in the play area
-                      showAppliedForceSlider: Boolean,  //true if the applied force should be shown as a slider in the play area
-                      initialBeadPosition: Double,      //the start location of the bead
+                      objectComboBoxEnabled: Boolean, //true if the objects should be selectable via combo box in the play area
+                      showAppliedForceSlider: Boolean, //true if the applied force should be shown as a slider in the play area
+                      initialBeadPosition: Double, //the start location of the bead
                       pausedOnReset: Boolean,
                       initialAngle: Double,
                       rampLayoutArea: Rectangle2D,
@@ -141,6 +141,15 @@ class WorkEnergyModule(frame: PhetFrame) extends GraphingModule(frame, "module.e
   })
 }
 
+//For debugging, just shows the force graphs tab
+class ForceGraphsApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
+  addModule(new ForceGraphsModule(getPhetFrame))
+}
+
+object ForceGraphsApplication {
+  def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "the-ramp".literal, classOf[ForceGraphsApplication])
+}
+
 /**
  * Main class for the Ramp application and all its modules.
  */
@@ -150,6 +159,13 @@ class RampApplication(config: PhetApplicationConfig) extends PiccoloPhetApplicat
   addModule(new CoordinatesRampModule(getPhetFrame))
   addModule(new WorkEnergyModule(getPhetFrame))
   addModule(new RobotMovingCompanyModule(getPhetFrame))
+  
+  //Add a menu item that shows the developer dialog to the PhETFrame's developer menu
+  getPhetFrame.getDeveloperMenu.add(new JMenuItem("Configure Motion Series".literal) {
+    addActionListener(new ActionListener() {
+      def actionPerformed(e: ActionEvent) = new DeveloperDialog(getPhetFrame).setVisible(true)
+    })
+  })
 }
 
 /**
@@ -158,16 +174,6 @@ class RampApplication(config: PhetApplicationConfig) extends PiccoloPhetApplicat
  */
 object RampApplication {
   def main(args: Array[String]) = {
-    new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "the-ramp".literal, new ApplicationConstructor {
-      def getApplication(config: PhetApplicationConfig) = new RampApplication(config) {
-        //Add a menu item that shows the developer dialog to the PhETFrame's developer menu
-        val item = new JMenuItem("Configure Motion Series".literal) {
-          addActionListener(new ActionListener() {
-            def actionPerformed(e: ActionEvent) = new DeveloperDialog(getPhetFrame).setVisible(true)
-          })
-        }
-        getPhetFrame.getDeveloperMenu.add(item)
-      }
-    })
+    new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "the-ramp".literal, classOf[RampApplication])
   }
 }
