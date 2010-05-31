@@ -1,3 +1,4 @@
+5-30-2010: Sound (2.14) - Added a way to clear the waves in the measurement tab, and fixed a bug in the control panel of the wave interference tab.
 5-21-2010: Moving Man (1.28) - Bugfixes in motion creation and record/playback
 5-21-2010: Forces in 1 Dimension (1.22) - Minor user interface improvements
 5-17-2010: Wave Interference (1.09) - Removed extraneous controls and switched to standardized window size
