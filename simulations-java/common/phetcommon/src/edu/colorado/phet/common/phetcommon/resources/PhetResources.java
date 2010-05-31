@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 
 import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 import edu.colorado.phet.common.phetcommon.audio.PhetAudioClip;
+import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 
 /**
  * PhetResources provides the facilities for accessing JAR resources.
@@ -45,7 +46,7 @@ public class PhetResources {
     private static final Logger LOGGER = Logger.getLogger( PhetResources.class.getCanonicalName() );
     static {
         // get rid of this to log all of the resource messages
-        LOGGER.setLevel( Level.WARNING );
+        LoggingUtils.setLevel(LOGGER,Level.WARNING);
     }
     
     // Standard localized properties:
