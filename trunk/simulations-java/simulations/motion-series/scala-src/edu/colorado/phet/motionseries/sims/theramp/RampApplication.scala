@@ -43,8 +43,8 @@ class BasicRampModule(frame: PhetFrame,
   val rampControlPanel = new RampControlPanel(motionSeriesModel, fbdModel, coordinateSystemModel, vectorViewModel, resetRampModule, coordinateSystemEnabled, objectComboBoxEnabled, motionSeriesModel, true, true, true)
   setControlPanel(rampControlPanel)
 
-  //Set the clock control panel
-  setClockControlPanel(new RecordAndPlaybackControlPanel(motionSeriesModel, rampCanvas, 20))
+  //Set the clock control panel to use one that has record and playback capabilities
+  setClockControlPanel(new RecordAndPlaybackControlPanel(motionSeriesModel, rampCanvas, MotionSeriesDefaults.MAX_CHART_DISPLAY_TIME))
 }
 
 /**
