@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 import edu.colorado.phet.common.phetcommon.files.PhetInstallation;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
+import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 
 /**
  * PhET simulations can be deployed in several different ways.
@@ -40,7 +41,7 @@ public class DeploymentScenario {
     private static final String PHET_PRODUCTION_CODEBASE_PREFIX = PhetCommonConstants.PHET_HOME_SERVER; // prefix!
     private static final String PHET_DEVELOPMENT_CODEBASE_SUBSTRING = "colorado.edu"; // substring!
 
-    private static final Logger LOGGER = Logger.getLogger( DeploymentScenario.class.getCanonicalName() );
+    private static final Logger LOGGER = LoggingUtils.getLogger( DeploymentScenario.class.getCanonicalName() );
 
     // singleton
     private static DeploymentScenario instance = null;

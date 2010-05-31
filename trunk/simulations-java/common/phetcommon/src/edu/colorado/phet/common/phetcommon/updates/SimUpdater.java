@@ -23,6 +23,7 @@ import edu.colorado.phet.common.phetcommon.util.DeploymentScenario;
 import edu.colorado.phet.common.phetcommon.util.DownloadThread;
 import edu.colorado.phet.common.phetcommon.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
+import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
@@ -48,7 +49,7 @@ public class SimUpdater {
     private static final String ERROR_MISSING_JAR = PhetCommonResources.getString( "Common.updates.errorMissingJar" );
     private static final String ERROR_NOT_A_JAR = PhetCommonResources.getString( "Common.updates.errorNotAJar" );
 
-    private static final Logger LOGGER = Logger.getLogger( SimUpdater.class.getCanonicalName() );
+    private static final Logger LOGGER = LoggingUtils.getLogger( SimUpdater.class.getCanonicalName() );
     
     private final File tmpDir;
     

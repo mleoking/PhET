@@ -12,6 +12,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
+import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -89,7 +90,7 @@ public class VersionInfoQuery {
     
     private final boolean hasSimQuery, hasInstallerQuery;
 
-    private static final Logger LOGGER = Logger.getLogger( VersionInfoQuery.class.getCanonicalName() );
+    private static final Logger LOGGER = LoggingUtils.getLogger( VersionInfoQuery.class.getCanonicalName() );
 
     /**
      * Use this constructor to get both sim and installer version info.
