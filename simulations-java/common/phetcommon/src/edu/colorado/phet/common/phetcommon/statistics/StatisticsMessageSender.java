@@ -11,6 +11,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
+import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -65,7 +66,7 @@ public class StatisticsMessageSender {
     private static final String WARNING_TAG = "warning";
     private static final String TRUE_VALUE = "true";
 
-    private static final Logger LOGGER = Logger.getLogger( StatisticsMessageSender.class.getCanonicalName() );
+    private static final Logger LOGGER = LoggingUtils.getLogger( StatisticsMessageSender.class.getCanonicalName() );
 
     /**
      * Sends a statistics message to PhET.

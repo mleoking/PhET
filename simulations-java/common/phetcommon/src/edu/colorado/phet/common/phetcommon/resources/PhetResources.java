@@ -43,10 +43,10 @@ public class PhetResources {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final Logger LOGGER = Logger.getLogger( PhetResources.class.getCanonicalName() );
+    private static final Logger LOGGER = LoggingUtils.getLogger( PhetResources.class.getCanonicalName() );
     static {
         // get rid of this to log all of the resource messages
-        LoggingUtils.setLevel(LOGGER,Level.WARNING);
+        LOGGER.setLevel(Level.WARNING);
     }
     
     // Standard localized properties:
