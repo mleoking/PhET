@@ -15,6 +15,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.greenhouse.GreenhouseDefaults;
 import edu.colorado.phet.greenhouse.GreenhouseResources;
+import edu.colorado.phet.greenhouse.model.Cloud;
 import edu.colorado.phet.greenhouse.model.GreenhouseEffectModel;
 import edu.colorado.phet.greenhouse.model.Photon;
 import edu.colorado.phet.neuron.module.NeuronDefaults;
@@ -46,8 +47,9 @@ public class GreenhouseEffectCanvas extends PhetPCanvas {
     PNode myWorldNode;
     
     // Layers for the canvas.
-    private PNode photonLayer;
     private PNode backgroundLayer;
+    private PNode photonLayer;
+    private PNode cloudLayer;
     
     // Background node.
     private PNode background;
@@ -55,6 +57,10 @@ public class GreenhouseEffectCanvas extends PhetPCanvas {
     // Map for relating photons in the model to their graphical
     // representations in the view.
     private final HashMap<Photon, PhotonNode> photonToGraphicMap = new HashMap<Photon, PhotonNode>();
+    
+    // Map for relating clouds in the model to their graphical
+    // representations in the view.
+    private final HashMap<Cloud, CloudNode> cloudToGraphicMap = new HashMap<Cloud, CloudNode>();
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -88,6 +94,14 @@ public class GreenhouseEffectCanvas extends PhetPCanvas {
     			// A photon has been removed.
     			handlePhotonRemoved(photon);
     		};
+    		public void cloudAdded(Cloud cloud) {
+    			// A cloud has come into existence, so add it to the view.
+    			handleCloudAdded(cloud);
+    		};
+    		public void cloudRemoved(Cloud cloud) {
+    			// A cloud has been removed.
+    			handleCloudRemoved(cloud);
+    		};
         });
 
         // Create the node that will be the root for all the world children on
@@ -102,6 +116,8 @@ public class GreenhouseEffectCanvas extends PhetPCanvas {
         myWorldNode.addChild(backgroundLayer);
         photonLayer = new PNode();
         myWorldNode.addChild(photonLayer);
+        cloudLayer = new PNode();
+        myWorldNode.addChild(cloudLayer);
         
         // Add the background image.  Scale the image so that it fits the
         // height of the intermediate coordinates.
@@ -161,11 +177,6 @@ public class GreenhouseEffectCanvas extends PhetPCanvas {
         }
     }
     
-    /**
-     * Handle the addition of a new photon.
-     * 
-     * @param photon
-     */
     private void handlePhotonAdded(Photon photon){
     	PhotonNode photonNode = new PhotonNode(photon, mvt);
     	photonLayer.addChild(photonNode);
@@ -177,6 +188,42 @@ public class GreenhouseEffectCanvas extends PhetPCanvas {
     	if (!(photonNode != null && photonLayer.removeChild(photonNode) != null)){
    			System.out.println(getClass().getName() + " - Error: Unable to locate graphical representation of photon.");
    			assert false;
+   			return;
     	}
+    	photonToGraphicMap.remove(photon);
+    }
+
+    private void handleCloudAdded(Cloud cloud){
+    	// Used fixed seeds in order to create consistently good-looking
+    	// clouds.  The seed values were determined empirically.
+    	long seed;
+    	switch (cloudToGraphicMap.size()){
+    	case 0:
+    		seed = 11223354;
+    		break;
+    	case 1:
+    		seed = 25;
+    		break;
+    	case 2:
+    		seed = 22;
+    		break;
+		default:
+			System.out.println(getClass().getName() + " - Waring: Unexpected number of clouds in existence.");
+			assert false;
+			seed = 12345;
+    	}
+    	CloudNode cloudNode = new CloudNode(cloud, mvt, seed);
+    	cloudLayer.addChild(cloudNode);
+    	cloudToGraphicMap.put(cloud, cloudNode);
+    }
+    
+    private void handleCloudRemoved(Cloud cloud){
+    	CloudNode cloudNode = cloudToGraphicMap.get(cloud);
+    	if (!(cloudNode != null && cloudLayer.removeChild(cloudNode) != null)){
+   			System.out.println(getClass().getName() + " - Error: Unable to locate graphical representation of cloud.");
+   			assert false;
+   			return;
+    	}
+    	cloudToGraphicMap.remove(cloud);
     }
 }
