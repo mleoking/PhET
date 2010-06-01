@@ -20,7 +20,7 @@ function send_email_notification {
    echo "Below are the final $LINES_TO_SEND lines from the installer build log file:"> $EMAIL_MSG
    echo "">> $EMAIL_MSG
    tail -n $LINES_TO_SEND $LOG >> $EMAIL_MSG
-   EMAIL_SUBJECT="Automated installer build completed"
+   EMAIL_SUBJECT="Automated installer build completed on `hostname`"
    /bin/mail -s "$EMAIL_SUBJECT" "$EMAIL_ADDR" < $EMAIL_MSG
    rm $EMAIL_MSG
 }
