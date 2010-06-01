@@ -35,17 +35,58 @@
 
     // *****************************************************************************
     // Locale-specific configuration.
+
     define("ENGLISH_LOCALE_STRING",     "en");
     define("ARABIC_LOCALE_STRING",     "ar");
     
     // *****************************************************************************
     // PhET Website Configuration
+
     define("PHET_VERSION",                      "1.0");
     define("PHET_HOSTNAME",                     "phetsims.colorado.edu");
     define("PHET_ROOT_URL",                     "http://".PHET_HOSTNAME."/");
     define("PHET_ENGLISH_WEBSITE_URL",          PHET_ROOT_URL.ENGLISH_LOCALE_STRING."/");
     define("PHET_ARABIC_WEBSITE_URL",           PHET_ROOT_URL.ARABIC_LOCALE_STRING."/");
     define("PHET_SIMS_SUBDIR",                  "sims/");
+    define("PHET_WEBSITE_ROOT_PARTIAL_PATTERN", '[^"]+colorado\.edu');
+    define("PHET_WEBSITE_ROOT_PATTERN",         '/'.PHET_WEBSITE_ROOT_PARTIAL_PATTERN.'/');
+
+    // *****************************************************************************
+    // CD-ROM Configuration
+
+    define("AUTORUN_FILENAME",                     'autorun.inf');
+    define("AUTORUN_ICON_NAME",                 'phet-icon.ico');
+    define("AUTORUN_ICON_SRC",                     file_cleanup_local_filename(PARENT_DIR."Installer-Resources/Install-Path/".AUTORUN_ICON_NAME));
+    define("AUTORUN_ICON_DEST",                 file_cleanup_local_filename(OUTPUT_DIR.AUTORUN_ICON_NAME));
+    define("AUTORUN_FILE_DEST",                 file_cleanup_local_filename(OUTPUT_DIR.AUTORUN_FILENAME));
+
+    define("CDROM_FILE_NAME",                   "PhET-Installer_cdrom.zip");
+    define("CDROM_FILE_DEST",                   OUTPUT_DIR.CDROM_FILE_NAME);
+
+    // *****************************************************************************
+    // Website Ripper Configuration
+
+    define("PHET_HOSTNAME_NO_COLONS", preg_replace('/:/', '_', PHET_HOSTNAME)); // Needed for cases where URL contains
+                                                                                // something like ":8080".
+    define("RIPPED_WEBSITE_ROOT", file_cleanup_local_filename(TEMP_DIR."website/"));
+    define("RIPPED_WEBSITE_SIMS_PARENT_DIR",  file_cleanup_local_filename(RIPPED_WEBSITE_ROOT.PHET_HOSTNAME_NO_COLONS.'/'));
+    define("RIPPED_WEBSITE_INSTALLER_DIR",  file_cleanup_local_filename(RIPPED_WEBSITE_ROOT.PHET_HOSTNAME_NO_COLONS.'/installer/'));
+
+    // The ripper executables per OS:
+    define("RIPPER_EXE_Linux",   "httrack");
+    define("RIPPER_EXE_WINNT",   "httrack.exe");
+    define("RIPPER_EXE_Darwin",  "httrack");
+
+    // The location of the httrack executable.
+    define("RIPPER_DIR",  file_cleanup_local_filename("/usr/local/httrack/bin/"));
+    define("RIPPER_EXE",  RIPPER_DIR.GET_OS_BOUND_NAME("RIPPER_EXE"));
+
+    // User agent to use when ripping.  These are used to make the web site
+    // react somewhat differently (generally filtering out some links) when it
+    // is being ripped for the installers.
+    define("RIPPER_USER_AGENT_PHET",  '"httrack-web-offline-en"');
+    define("RIPPER_USER_AGENT_YF",    '"httrack-web-mirror-yf"');
+    define("RIPPER_USER_AGENT_KSU",   '"httrack-web-mirror-ar"');
 
     // Definition of the filters, which specify what to include/exclude from
     // the rip.  These filters are meant to capture the entire web site as
@@ -151,47 +192,6 @@
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/wave-interference/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/wave-on-a-string/*'));
 
-    define("PHET_WEBSITE_ROOT_PARTIAL_PATTERN", '[^"]+colorado\.edu');
-    define("PHET_WEBSITE_ROOT_PATTERN",         '/'.PHET_WEBSITE_ROOT_PARTIAL_PATTERN.'/');
-
-    // *****************************************************************************
-    // CD-ROM Configuration
-    define("AUTORUN_FILENAME",                     'autorun.inf');
-    define("AUTORUN_ICON_NAME",                 'phet-icon.ico');
-    define("AUTORUN_ICON_SRC",                     file_cleanup_local_filename(PARENT_DIR."Installer-Resources/Install-Path/".AUTORUN_ICON_NAME));
-    define("AUTORUN_ICON_DEST",                 file_cleanup_local_filename(OUTPUT_DIR.AUTORUN_ICON_NAME));
-    define("AUTORUN_FILE_DEST",                 file_cleanup_local_filename(OUTPUT_DIR.AUTORUN_FILENAME));
-
-    define("CDROM_FILE_NAME",                   "PhET-Installer_cdrom.zip");
-    define("CDROM_FILE_DEST",                   OUTPUT_DIR.CDROM_FILE_NAME);
-
-    // *****************************************************************************
-    // Website Ripper Configuration
-
-    define("PHET_HOSTNAME_NO_COLONS", preg_replace('/:/', '_', PHET_HOSTNAME)); // Needed for cases where URL contains
-                                                                                // something like ":8080".
-    define("RIPPED_WEBSITE_ROOT", file_cleanup_local_filename(TEMP_DIR."website/"));
-    define("RIPPED_WEBSITE_SIMS_PARENT_DIR",  file_cleanup_local_filename(RIPPED_WEBSITE_ROOT.PHET_HOSTNAME_NO_COLONS.'/'));
-    define("RIPPED_WEBSITE_INSTALLER_DIR",  file_cleanup_local_filename(RIPPED_WEBSITE_ROOT.PHET_HOSTNAME_NO_COLONS.'/installer/'));
-
-    // The ripper executable itself:
-
-    // The ripper executables per OS:
-    define("RIPPER_EXE_Linux",   "httrack");
-    define("RIPPER_EXE_WINNT",   "httrack.exe");
-    define("RIPPER_EXE_Darwin",  "httrack");
-
-    // The location of the httrack executable.
-    define("RIPPER_DIR",  file_cleanup_local_filename("/usr/local/httrack/bin/"));
-    define("RIPPER_EXE",  RIPPER_DIR.GET_OS_BOUND_NAME("RIPPER_EXE"));
-
-    // User agent to indicate when ripping.  These are used to make the web site
-    // react somewhat differently (generally filtering out some links) when it
-    // is being ripped for the installers.
-    define("RIPPER_USER_AGENT_PHET",  '"httrack-web-offline-en"');
-    define("RIPPER_USER_AGENT_YF",    '"httrack-web-mirror-yf"');
-    define("RIPPER_USER_AGENT_KSU",   '"httrack-web-mirror-ar"');
-
     // Command-line args for the ripper.
     define("RIPPER_OPTIONS", " -j %q0 -%e0 -r10 -s0 -A10000000000 --disable-security-limits ");
     define("RIPPER_ARGS_PHET", '"'.PHET_ROOT_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.PHET_RIPPER_FILTER_PHET." -F ".RIPPER_USER_AGENT_PHET.RIPPER_OPTIONS);
@@ -213,7 +213,7 @@
 
     define("BITROCK_PLATFORM_EXEC_SUFFIX_OSX",         ".app");
     define("BITROCK_PLATFORM_EXEC_SUFFIX_WINDOWS",     ".exe");
-    define("BITROCK_PLATFORM_EXEC_SUFFIX_LINUX",     ".bin");
+    define("BITROCK_PLATFORM_EXEC_SUFFIX_LINUX",       ".bin");
 
     define("BITROCK_PRODUCT_SHORTNAME", "PhET");
     define("BITROCK_PLATFORM_OSX",      "osx");
@@ -226,10 +226,11 @@
     // Custom Installer Note: Some of the bitrock files - such as the executable
     // itself - are maintained in the main installer directory, and some of the
     // custom-specific files are maintained in a separate location.  Hence, some
-    // of the contants below point to one place and some point to another.
+    // of the constants below point to one place and some point to another.
     define("BITROCK_DIR",               file_cleanup_local_filename(PARENT_DIR."BitRock/"));
     define("BITROCK_CUSTOM_DIR",        file_cleanup_local_filename(ROOT_DIR."BitRock/"));
     define("BITROCK_BUILDFILE_DIR",     file_cleanup_local_filename(BITROCK_CUSTOM_DIR."projects/"));
+
     // Project files for building the "web mirror installer", meaning the
     // installer that allows for installation on a server that can then serve
     // the mirror's contents to the web.
@@ -270,7 +271,7 @@
     );
 
     // *****************************************************************************
-    // Installation Configuration
+    // Installer Configuration
 
     define("DISTRIBUTION_TAG_KSU", "ksu-custom");
     define("DISTRIBUTION_TAG_YF",  "yf-custom");
@@ -284,6 +285,12 @@
     define("CD_ROM_INSTALLER_FILE_NAME", "PhET-Installer_cdrom.zip");
 
     // *****************************************************************************
+    // Information for the creation of backups of previous installers.
+
+    define("INSTALLER_BACKUP_ROOT_DIR", "/data/web/htdocs/website-backup/installers/");
+
+    // *****************************************************************************
     // JAR file signing config information.
+
     define("CONFIG_FILE", "signing-config.ini");
 ?>
