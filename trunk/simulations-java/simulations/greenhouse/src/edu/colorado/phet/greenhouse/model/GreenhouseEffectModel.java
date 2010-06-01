@@ -115,13 +115,13 @@ public class GreenhouseEffectModel {
 		Ellipse2D.Double cloudBounds = new Ellipse2D.Double();
 		switch (index){
 		case 0:
-			cloudBounds.setFrame(-100, -50, 200, 100);
+			cloudBounds.setFrame(35, -12, 80, 10);
 			break;
 		case 1:
-			cloudBounds.setFrame(-100, -50, 200, 100);
+			cloudBounds.setFrame(-95, -20, 80, 10);
 			break;
 		case 2:
-			cloudBounds.setFrame(-100, -50, 200, 100);
+			cloudBounds.setFrame(-10, 10, 50, 8);
 			break;
 		default:
 			System.out.println(getClass().getName() + " - Error: Cloud creation index out of range.");
