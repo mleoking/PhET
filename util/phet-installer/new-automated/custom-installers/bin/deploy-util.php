@@ -110,6 +110,7 @@
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, "http://phetsims.colorado.edu/admin/new-installer?timestamp=$timestamp");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_FILE, "installer_curl_output.txt");
         $output = curl_exec($ch);
         flushing_echo($output);
         curl_close($ch);
