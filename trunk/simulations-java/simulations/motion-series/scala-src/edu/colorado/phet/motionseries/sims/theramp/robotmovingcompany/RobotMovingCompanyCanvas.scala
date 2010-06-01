@@ -255,9 +255,6 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
     fbdNode.clearVectors()
     windowFBDNode.clearVectors()
 
-    def removeTheListener(listener: () => Unit) {
-      if (lastBead == null) gameModel.removeListener(listener) else lastBead.removeListener(listener)
-    }
     def setter(x: Double) = if (gameModel.robotEnergy > 0) bead.parallelAppliedForce = x else {}
 
     //todo: why are these 2 lines necessary?
