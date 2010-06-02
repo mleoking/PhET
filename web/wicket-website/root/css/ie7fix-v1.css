@@ -5,3 +5,7 @@ div.rtl #sponsors-people ul li {
 .see-below {
     margin-top: 10px;
 }
+
+.nml-link {
+    cursor: default;
+}
