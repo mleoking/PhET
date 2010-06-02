@@ -116,10 +116,19 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
     bead.surfaceFrictionStrategy = surfaceModel
     bead.crashListeners += (() => itemLostOffCliff(sel))
 
+    var lastPushTime = 0L //flag to indicate push + at rest hasn't started yet
+
     object listener extends Function0[Unit] {
       def apply() = {
-        val pushing = abs(bead.parallelAppliedForce) > 0
-        val atRest = abs(bead.velocity) < 1E-6
+        val pushing = bead.parallelAppliedForce.abs > 0
+        val atRest = bead.velocity.abs < 1E-6
+
+        val netForce = bead.totalForce
+//        println("net force mag = "+netForce.magnitude)
+        if (pushing && netForce.magnitude < 1E-8 && lastPushTime == 0) {
+          lastPushTime = System.currentTimeMillis
+          println("started timer")
+        }
         val inFrontOfDoor = _inFrontOfDoor(bead)
         val stoppedAtHouse = inFrontOfDoor && atRest //okay to be pushing
         val stoppedAndOutOfEnergy = atRest && _robotEnergy == 0
@@ -132,8 +141,11 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
           bead.removeListener(this) //see note above on ordering
           itemLost(sel)
         }
-
-        //todo: if pushing for 5 seconds and still have energy, then should be NotEnoughEnergyToPush
+        //if pushing for 5 seconds and still have energy, then should be NotEnoughEnergyToPush
+        if (lastPushTime != 0 && System.currentTimeMillis - lastPushTime >= 5000) {
+          bead.removeListener(this)
+          itemStuck(sel)
+        }
       }
     }
 
@@ -180,6 +192,8 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
   def itemLostOffCliff(o: MotionSeriesObject) = itemFinished(o, Cliff(o.points, robotEnergy.toInt))
 
   def itemLost(o: MotionSeriesObject) = itemFinished(o, OutOfEnergy(o.points, robotEnergy.toInt))
+
+  def itemStuck(o: MotionSeriesObject) = itemFinished(o, NotEnoughEnergyToPush(o.points, robotEnergy.toInt))
 
   val deliverList = new ArrayBuffer[Bead]
 
