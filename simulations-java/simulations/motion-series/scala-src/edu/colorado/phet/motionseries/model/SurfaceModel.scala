@@ -8,6 +8,9 @@ case class SurfaceType(name: String, imageFilename: String, strategy: Double => 
   def getTotalFriction(objectFriction: Double) = strategy(objectFriction)
 }
 
+/**
+ * Not all surface model functionality is used in current version of the game, but I'll leave it here in case it comes back later.
+ */
 class SurfaceModel extends Observable with SurfaceFrictionStrategy {
   val surfaceTypes = SurfaceType("surface.ice".translate, "robotmovingcompany/ice.gif".literal, x => 0.0, new Color(154, 183, 205)) ::
           SurfaceType("surface.concrete".translate, "robotmovingcompany/concrete.gif".literal, x => x, new Color(146, 154, 160)) ::
