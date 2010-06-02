@@ -13,11 +13,10 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
 import edu.colorado.phet.neuron.model.Particle;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
- * Class that represents atoms in the view.
+ * Class that represents particles (generally ions) in the view.
  */
 public class ParticleNode extends PNode {
 	
