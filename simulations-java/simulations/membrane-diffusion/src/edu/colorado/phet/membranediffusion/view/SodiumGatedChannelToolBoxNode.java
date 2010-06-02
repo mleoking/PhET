@@ -8,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.membranediffusion.model.MembraneChannel;
 import edu.colorado.phet.membranediffusion.model.MembraneDiffusionModel;
-import edu.colorado.phet.membranediffusion.model.SodiumDualGatedChannel;
+import edu.colorado.phet.membranediffusion.model.SodiumGatedChannel;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -17,15 +17,15 @@ import edu.umd.cs.piccolo.PNode;
  * 
  * @author John Blanco
  */
-public class SodiumDualGatedChannelToolBoxNode extends ToolBoxItem {
+public class SodiumGatedChannelToolBoxNode extends ToolBoxItem {
 
-	public SodiumDualGatedChannelToolBoxNode(MembraneDiffusionModel model, ModelViewTransform2D mvt, PhetPCanvas canvas) {
+	public SodiumGatedChannelToolBoxNode(MembraneDiffusionModel model, ModelViewTransform2D mvt, PhetPCanvas canvas) {
 		super(model, mvt, canvas);
 	}
 
 	@Override
 	protected void handleAddRequest(Point2D position) {
-		setMembraneChannel(new SodiumDualGatedChannel(getModel(), getModel().getHodgkinHuxleyModel()));
+		setMembraneChannel(new SodiumGatedChannel(getModel(), getModel().getHodgkinHuxleyModel()));
 		getMembraneChannel().setRotationalAngle(Math.PI / 2);
 		getMembraneChannel().setCenterLocation(getMvt().viewToModel(position));
 		getModel().addUserControlledMembraneChannel(getMembraneChannel());
@@ -33,7 +33,7 @@ public class SodiumDualGatedChannelToolBoxNode extends ToolBoxItem {
 
 	@Override
 	protected void initializeSelectionNode() {
-		MembraneChannel channel = new SodiumDualGatedChannel();
+		MembraneChannel channel = new SodiumGatedChannel();
 		channel.setRotationalAngle(Math.PI / 2);
 		PNode representation = new MembraneChannelNode(channel, SCALING_MVT);
 		setSelectionNode(representation);
