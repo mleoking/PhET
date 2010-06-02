@@ -4,7 +4,6 @@ package edu.colorado.phet.membranediffusion.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Stroke;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Line2D;
@@ -15,11 +14,9 @@ import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.membranediffusion.MembraneDiffusionResources;
-import edu.colorado.phet.membranediffusion.MembraneDiffusionStrings;
 import edu.colorado.phet.membranediffusion.model.InjectionMotionStrategy;
 import edu.colorado.phet.membranediffusion.model.MembraneDiffusionModel;
 import edu.colorado.phet.membranediffusion.model.Particle;
@@ -30,7 +27,6 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
-import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -116,7 +112,7 @@ public class ParticleInjectorNode extends PNode {
         injectorNode.scale(scale);
         
         // Add the node that allows control of automatic injection.
-        particleTypeLabel = new InjectorLabelNode(INJECTOR_HEIGHT * 0.25, particleType);
+        particleTypeLabel = new ParticleTypeSelectorNode(INJECTOR_HEIGHT * 0.25, particleType);
         particleTypeLabel.setOffset(
         	injectorNode.getFullBoundsReference().getMinX() - particleTypeLabel.getFullBoundsReference().width + 5,
         	injectorNode.getFullBoundsReference().getCenterY() - particleTypeLabel.getFullBoundsReference().height / 2);
@@ -183,11 +179,13 @@ public class ParticleInjectorNode extends PNode {
 		updateInjectionPoint();
 	}
 
-
-
-	private static class InjectorLabelNode extends PNode {
+	/**
+	 * Class that defines the box that sits off to the side of the injector
+	 * and that controls what type of particle is injected.
+	 *
+	 */
+	private static class ParticleTypeSelectorNode extends PNode {
 		
-		private static final Font LABEL_FONT = new PhetFont(14);
 		private static final Color BACKGROUND_COLOR = new Color(248, 236, 84);
 		private static final Stroke BORDER_STROKE = new BasicStroke(1f);
 		private static final Color BORDER_COLOR = BACKGROUND_COLOR;
@@ -204,20 +202,16 @@ public class ParticleInjectorNode extends PNode {
 		 * @param model
 		 * @param height
 		 */
-		public InjectorLabelNode(double height, ParticleType particleType){
+		public ParticleTypeSelectorNode(double height, ParticleType particleType){
 			
-			PText label = new PText();
-			label.setFont(LABEL_FONT);
 			ParticleNode particleNode;
 			
 			switch (particleType){
 			case SODIUM_ION:
-				label.setText(MembraneDiffusionStrings.SODIUM_CHEMICAL_SYMBOL);
 				particleNode = new ParticleNode(new SodiumIon(), PARTICLE_MVT);
 				break;
 				
 			case POTASSIUM_ION:
-				label.setText(MembraneDiffusionStrings.POTASSIUM_CHEMICAL_SYMBOL);
 				particleNode = new ParticleNode(new PotassiumIon(), PARTICLE_MVT);
 				break;
 				
@@ -226,7 +220,6 @@ public class ParticleInjectorNode extends PNode {
 				System.out.println(getClass().getName() + " - Error: Unhandled particle type.");
 				assert false;
 				// Use an arbitrary default.
-				label.setText(MembraneDiffusionStrings.POTASSIUM_CHEMICAL_SYMBOL);
 				particleNode = new ParticleNode(new PotassiumIon(), PARTICLE_MVT);
 				break;
 			}
@@ -234,24 +227,16 @@ public class ParticleInjectorNode extends PNode {
 			particleNode.setScale(height * 0.8 / particleNode.getFullBoundsReference().height);
 			particleNode.setOffset(particleNode.getFullBoundsReference().width / 2,
 					particleNode.getFullBoundsReference().height / 2);
-			label.setScale(height * 0.8 / label.getFullBoundsReference().height);
-			label.setOffset(
-					particleNode.getFullBoundsReference().getMaxX() + particleNode.getFullBoundsReference().width * 0.05,
-					particleNode.getFullBoundsReference().getCenterY() - label.getFullBoundsReference().height / 2);
-			PNode imageAndLabel = new PNode();
-			imageAndLabel.addChild(particleNode);
-			imageAndLabel.addChild(label);
 		
 			// Create the body of the node.
 			double bodyHeight = height;
-			double bodyWidth = imageAndLabel.getFullBoundsReference().width * 1.2;
-			imageAndLabel.setOffset(bodyWidth / 2 - imageAndLabel.getFullBoundsReference().width / 2,
-					bodyHeight / 2 - imageAndLabel.getFullBoundsReference().height / 2);
+			double bodyWidth = particleNode.getFullBoundsReference().width * 1.2;
+			particleNode.setOffset(bodyWidth / 2, bodyHeight / 2);
 			PhetPPath body = new PhetPPath(new RoundRectangle2D.Double(0, 0, bodyWidth, bodyHeight, 7, 7), 
 					BACKGROUND_COLOR, BORDER_STROKE, BORDER_COLOR);
 			
-			// Put the label, which includes the image and the label, on the tag.
-			body.addChild(imageAndLabel);
+			// Put the particle on the tag.
+			body.addChild(particleNode);
 			
 			// Create the line that will visually connect this node to the
 			// main injector node.
