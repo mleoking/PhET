@@ -1,3 +1,4 @@
+Moved the pusher character behind the play area vectors
 Fixed: Friction force should enter into the system before wall force, since the object would have to move before "communicating" with the wall.
 Removed an orphaned string 'sound'
 Fixed a bug that caused charts only to clear after clearing the model twice.
