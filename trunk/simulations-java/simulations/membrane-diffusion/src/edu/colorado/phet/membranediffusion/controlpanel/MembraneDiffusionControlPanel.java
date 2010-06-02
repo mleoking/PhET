@@ -81,7 +81,7 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
    		imageNode.rotate(-Math.PI / 2);
    		ImageIcon icon = new ImageIcon(imageNode.toImage());
         // TODO: i18n
-        final JButton activateSodiumChannelsButton = new JButton("Open Sodium Gates", icon);
+        final JButton activateSodiumChannelsButton = new JButton("Open Red Gates", icon);
         activateSodiumChannelsButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				model.forceActivationOfSodiumChannels();
@@ -92,7 +92,7 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
    		imageNode.rotate(-Math.PI / 2);
    		icon = new ImageIcon(imageNode.toImage());
         // TODO: i18n
-        final JButton activatePotassiumChannelsButton = new JButton("Open Potassium Gates", icon);
+        final JButton activatePotassiumChannelsButton = new JButton("Open Blue Gates", icon);
         activatePotassiumChannelsButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				model.forceActivationOfPotassiumChannels();
