@@ -73,8 +73,9 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
         int minimumWidth = MembraneDiffusionResources.getInt( "int.minControlPanelWidth", 215 );
         setMinimumWidth( minimumWidth );
         
-        addControlFullWidth(new IonsLegendPanel());
-        
+        // Put some space at the top of the panel.
+        addControlFullWidth(createVerticalSpacingPanel(20));
+
         // Create the buttons for stimulating the channels.
    		PNode imageNode = new MembraneChannelNode(new SodiumDualGatedChannel(), CHANNEL_ICON_MVT);
    		imageNode.rotate(-Math.PI / 2);
@@ -107,7 +108,7 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
         activateSodiumChannelsButton.setPreferredSize(buttonPreferredSize);
         activatePotassiumChannelsButton.setPreferredSize(buttonPreferredSize);
         buttonPanel.add(activateSodiumChannelsButton);
-        buttonPanel.add(createVerticalSpacingPanel(5));
+        buttonPanel.add(createVerticalSpacingPanel(15));
         buttonPanel.add(activatePotassiumChannelsButton);
 
         // Add the button panel to the control panel.
