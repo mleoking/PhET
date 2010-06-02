@@ -126,7 +126,7 @@ public class Entry {
             final Date end = LOAD_FORMAT.parse(st.nextToken());
             //everything inside the quotes is notes
             int startQuote = line.indexOf('"');
-            int endQuote = line.indexOf('"', startQuote + 1);
+            int endQuote = line.lastIndexOf('"');
             String category = "";
             try {
                 category = st.nextToken();

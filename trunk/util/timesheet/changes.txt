@@ -1,3 +1,4 @@
+6-2-2010: Allow quotes to appear in notes
 6-1-2010: Filter categories through standard category set
 5-26-2010: Report tasks within a category, sorted by most time taken
 5-25-2010: Added indicator for elapsed time in day

@@ -69,7 +69,7 @@ class TimesheetModel {
         return s.substring(0, s.length() - 1);
     }
 
-    public void loadTSV(String str) {
+    public void loadCSV(String str) {
         clear();
         StringTokenizer stringTokenizer = new StringTokenizer(str, "\n");
         String header = stringTokenizer.nextToken();
@@ -104,8 +104,8 @@ class TimesheetModel {
         }
     }
 
-    public void loadTSV(File file) throws IOException {
-        loadTSV(FileUtils.loadFileAsString(file));
+    public void loadCSV(File file) throws IOException {
+        loadCSV(FileUtils.loadFileAsString(file));
         setClean();
     }
 
