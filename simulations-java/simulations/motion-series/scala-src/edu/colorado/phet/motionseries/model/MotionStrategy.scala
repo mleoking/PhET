@@ -23,7 +23,11 @@ abstract class MotionStrategy(val bead: ForceBead) {
 
   def wallForce = new Vector2D
 
-  def frictionForce = new Vector2D
+  //This method has to include a parameter for whether the wall force should be included to avoid an infinite recursive loop
+  //in computing the wall force
+  def frictionForce(includeWallForce:Boolean):Vector2D = new Vector2D
+
+  def frictionForce:Vector2D = frictionForce(true)
 
   def normalForce = new Vector2D
 
@@ -188,8 +192,8 @@ class Grounded(bead: ForceBead) extends MotionStrategy(bead) {
 
     val epsilon = 1E-4 //this is a physics workaround to help reduce or resolve the flickering problem by enabling the 'pressing' wall force a bit sooner
 
-    //todo: net force without wall force should include friction force, but creates a loop (in which friction force depends on wall force and vice versa
-    val netForceWithoutWallForce = appliedForce + gravityForce + normalForce //+ frictionForce
+    //Friction force should enter into the system before wall force, since the object would have to move before "communicating" with the wall.
+    val netForceWithoutWallForce = appliedForce + gravityForce + normalForce + frictionForce(false)
     val pressingLeft = position <= leftBound + epsilon && bead.forceToParallelAcceleration(netForceWithoutWallForce) < 0 && wallsExist
     val pressingRight = position >= rightBound - epsilon && bead.forceToParallelAcceleration(netForceWithoutWallForce) > 0 && wallsExist
     val pressing = pressingLeft || pressingRight
@@ -197,6 +201,7 @@ class Grounded(bead: ForceBead) extends MotionStrategy(bead) {
     if (pressing)
       netForceWithoutWallForce * -1
     else if (collide) {
+      //create a large instantaneous impulse force during a collision
       val finalVelocity = if (bounce) -velocity else 0.0
       val deltaV = finalVelocity - velocity
       //Fnet = m dv/dt = Fw + F_{-w}
@@ -210,7 +215,8 @@ class Grounded(bead: ForceBead) extends MotionStrategy(bead) {
 
   def multiBodyFriction(f: Double) = bead.surfaceFrictionStrategy.getTotalFriction(f)
 
-  override def frictionForce = {
+  //see super notes regarding the includeWallForce
+  override def frictionForce(includeWallForce:Boolean) = {
     if (surfaceFriction()) {
       //stepInTime samples at least one value less than 1E-12 on direction change to handle static friction
       if (velocity.abs < 1E-12) {
@@ -218,7 +224,7 @@ class Grounded(bead: ForceBead) extends MotionStrategy(bead) {
         //use up to fMax in preventing the object from moving
         //see static friction discussion here: http://en.wikipedia.org/wiki/Friction
         val fMax = abs(multiBodyFriction(staticFriction) * normalForce.magnitude)
-        val netForceWithoutFriction = appliedForce + gravityForce + normalForce + wallForce
+        val netForceWithoutFriction = appliedForce + gravityForce + normalForce + (if (includeWallForce) wallForce else new Vector2D())
 
         val magnitude = if (netForceWithoutFriction.magnitude >= fMax) fMax else netForceWithoutFriction.magnitude
         new Vector2D(netForceWithoutFriction.angle + PI) * magnitude
