@@ -157,7 +157,6 @@ public class DistributionHandler {
      * @return Whether or not to change links to pages to point to the phet.colorado.edu versions
      */
     public static boolean redirectPageClassToProduction( PhetRequestCycle cycle, Class pageClass ) {
-        // TODO: update to reflect new pages and structure
         if ( cycle.isYoungAndFreedmanRipperRequest() ) {
             for ( Class c : yfPageRedirects ) {
                 if ( pageClass == c ) {
