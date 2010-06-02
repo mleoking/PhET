@@ -189,7 +189,7 @@ abstract class MotionSeriesCanvasDecorator(model: MotionSeriesModel,
                                            stageContainerArea: StageContainerArea)
         extends MotionSeriesCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame, modelViewport, stageContainerArea) {
   val pusherNode = new PusherNode(transform, model.bead, model.manBead)
-  playAreaNode.addChild(pusherNode)
+  playAreaNode.addChild(playAreaNode.indexOfChild(playAreaVectorNode)-1,pusherNode)//put the pusher behind the vector nodes because otherwise he gets in the way 
 
   if (showAppliedForceSlider) {
     val appliedForceSliderNode = new AppliedForceSliderNode(model.bead, () => model.setPaused(false))
