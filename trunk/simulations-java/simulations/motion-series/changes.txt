@@ -1,4 +1,5 @@
-Remove an orphaned string 'sound'
+Fixed: Friction force should enter into the system before wall force, since the object would have to move before "communicating" with the wall.
+Removed an orphaned string 'sound'
 Fixed a bug that caused charts only to clear after clearing the model twice.
 Fixed: icicle graphics move around on the ramp while the sim is running
 # 1.03.66 (41240) May 26, 2010
