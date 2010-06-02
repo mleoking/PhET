@@ -1,3 +1,4 @@
+# 1.03.67 (41358) Jun 2, 2010
 Fixed: FBD has a hand but is not interactive in the game mode
 Fixed: Ramp color wrong on startup between games
 Added a new failure mode: Not Enough Energy to Overcome Static Friction
