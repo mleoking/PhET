@@ -357,7 +357,7 @@ class Grounded(bead: ForceBead) extends MotionStrategy(bead) {
       stateAfterFixingThermal
     }
 
-    val stateAfterFixingPosition = if (abs(stateAfterFixingVelocity.totalEnergy - origEnergy) > 1E-8 && getAngle != 0.0) {
+    val stateAfterFixingPosition = if (abs(stateAfterFixingVelocity.totalEnergy - origEnergy) > 1E-8 && getAngle >1E-8) {//todo: angle is greater than 1E-8 instead of 0 for compatibility with workaround for forces and motion game tab, see ForcesAndMotionApplication
       val x = (origEnergy + appliedEnergy - stateAfterFixingVelocity.thermalEnergy - stateAfterFixingVelocity.ke) / mass / gravity.abs / sin(getAngle)
       stateAfterFixingThermal.setPosition(x)
     } else {
