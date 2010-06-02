@@ -156,6 +156,8 @@
 	<classpathentry kind="src" path="simulations-java/simulations/lasers/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/maze-game/src"/>
 	<classpathentry kind="src" path="simulations-java/simulations/maze-game/data"/>
+	<classpathentry kind="src" path="simulations-java/simulations/membrane-diffusion/src"/>
+	<classpathentry kind="src" path="simulations-java/simulations/membrane-diffusion/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/microwaves/src"/>
 	<classpathentry kind="src" path="simulations-java/simulations/microwaves/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/motion-2d/src"/>
