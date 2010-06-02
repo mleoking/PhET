@@ -287,7 +287,8 @@
     // *****************************************************************************
     // Information for the creation of backups of previous installers.
 
-    define("INSTALLER_BACKUP_ROOT_DIR", "/data/web/htdocs/website-backup/installers/");
+    //define("INSTALLER_BACKUP_ROOT_DIR", "/data/web/htdocs/website-backup/installers/");
+    define("INSTALLER_BACKUP_ROOT_DIR", "/home/phet/jblanco/website-backup/installers/");
 
     // *****************************************************************************
     // JAR file signing config information.

@@ -117,6 +117,73 @@
     }
 
     //--------------------------------------------------------------------------
+    // Function to copy the currently deployed installers to a back up
+    // directory.
+    //--------------------------------------------------------------------------
+    function deploy_back_up_current_installers(){
+
+        // Make sure that the root directory for storing backups of previous
+        // installers exists.
+        if ( !is_dir( INSTALLER_BACKUP_ROOT_DIR ) ){
+            flushing_echo( "Error: Root directory for installer backups does not exist, dirname = ".INSTALLER_BACKUP_ROOT_DIR );
+            flushing_echo( "Aborting backup of current installers, NO BACKUPS HAVE BEEN CREATED." );
+            return;
+        }
+        else{
+            flushing_echo( "Root directory for installer backups found, proceeding with backup." );
+        }
+
+        // Create the subdirectory where the backups will be stored.  The
+        // directory name will be based on today's date, as opposed to the
+        // date when the installers were initially created.
+        $backup_dir_stem_name = INSTALLER_BACKUP_ROOT_DIR."backup";
+        $backup_dir_name = $backup_dir_stem_name.date("-Y-m-d").'/';
+        flushing_echo( "DBG dirname = ".$backup_dir_name );
+        if ( is_dir( $backup_dir_name ) ){
+            // The backup directory already exists, which generally means that
+            // the installers have already been built at least once today.  It
+            // is probably better to keep the old ones rather than overwriting
+            // them, so abort here.
+            flushing_echo( "Warning: Backup directory already exists, ABORTING BACKUP OF CURRENT INSTALLERS." );
+            return;
+        }
+        elseif( !mkdir( $backup_dir_name ) ){
+            // Unable to create the backup directory.  Log a warning and abort.
+            flushing_echo( "Error: Unable to create backup directory, ABORTING BACKUP OF CURRENT INSTALLERS." );
+            return;
+        }
+        else{
+            flushing_echo( "Successfully created backup directory, name = ".$backup_dir_name );
+        }
+
+        // Copy the existing installers into the backup directory.
+        flushing_echo( "Copying currently deployed installers to backup directory." );
+        back_up_file( DEPLOY_DIR.WINDOWS_INSTALLER_FILE_NAME, $backup_dir_name.WINDOWS_INSTALLER_FILE_NAME );
+        back_up_file( DEPLOY_DIR.OSX_INSTALLER_FILE_NAME, $backup_dir_name.OSX_INSTALLER_FILE_NAME );
+        back_up_file( DEPLOY_DIR.LINUX_INSTALLER_FILE_NAME, $backup_dir_name.LINUX_INSTALLER_FILE_NAME );
+        back_up_file( DEPLOY_DIR.CD_ROM_INSTALLER_FILE_NAME, $backup_dir_name.CD_ROM_INSTALLER_FILE_NAME );
+
+        // Copy the version file over too.
+        back_up_file( DEPLOY_DIR.VERSION_INFO_FILE_NAME, $backup_dir_name.VERSION_INFO_FILE_NAME );
+
+        // Delete any backups that have outlived their usefulness.
+        // TODO
+    }
+
+    //--------------------------------------------------------------------------
+    // Function to back up the specified file by copying it to the specified
+    // directory, printing out status information as appropriate.
+    //--------------------------------------------------------------------------
+    function back_up_file( $src_file, $dest_file ){
+        if ( copy( $src_file, $dest_file ) ){
+            flushing_echo( "Successfully copied ".$src_file." to ".$dest_file );
+        }
+        else{
+            flushing_echo( "Error: Unable to copy ".$src_file." to ".$dest_file );
+        }
+    }
+
+    //--------------------------------------------------------------------------
     // Function to deploy the installers and insert the creation date into the
     // database.
     //--------------------------------------------------------------------------
