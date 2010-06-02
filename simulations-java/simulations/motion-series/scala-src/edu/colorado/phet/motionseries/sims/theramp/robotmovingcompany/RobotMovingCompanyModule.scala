@@ -42,13 +42,13 @@ class RobotMovingCompanyModule(frame: PhetFrame,
     }
   }
 
-  val gameModel = new RobotMovingCompanyGameModel(motionSeriesModel, getClock.asInstanceOf[ScalaClock], initAngle, appliedForce, objectList) //todo: fix cast
+  val gameModel = new RobotMovingCompanyGameModel(motionSeriesModel, clock, initAngle, appliedForce, objectList)
 
   gameModel.itemFinishedListeners += ((scalaRampObject, result) => {
     val audioClip = result match {
-      case Result(_, true, _, _) => Some("smash0.wav".literal)
-      case Result(true, false, _, _) => Some("tintagel/DIAMOND.WAV".literal)
-      case Result(false, false, _, _) => Some("tintagel/PERSONAL.WAV".literal)
+      case Cliff(_, _) => Some("smash0.wav".literal)
+      case Success(_,_) => Some("tintagel/DIAMOND.WAV".literal)
+      case OutOfEnergy(_,_) => Some("tintagel/PERSONAL.WAV".literal)
       case _ => None
     }
     if (!audioClip.isEmpty) MotionSeriesResources.getAudioClip(audioClip.get).play()

@@ -7,7 +7,6 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas
 import edu.colorado.phet.scalacommon.ScalaClock
 import edu.umd.cs.piccolo.PNode
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
-import edu.colorado.phet.motionseries.model._
 import edu.umd.cs.piccolox.pswing.PSwing
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 import javax.swing._
@@ -16,6 +15,7 @@ import swing.Button
 import java.awt._
 import geom.{RoundRectangle2D, Line2D}
 import edu.umd.cs.piccolo.nodes.{PImage, PText}
+import edu.colorado.phet.motionseries.model._
 
 /**
  * The PlayAreaDialog is a piccolo node that looks like a window in the play area, used for instructions
@@ -70,9 +70,9 @@ class ItemFinishedDialog(gameModel: RobotMovingCompanyGameModel,
                          okPressed: ItemFinishedDialog => Unit,
                          okButtonText: String) extends PlayAreaDialog(400, 400) {
   val text = result match {
-    case Result(_, true, _, _) => "game.result.crashed".translate
-    case Result(true, false, _, _) => "game.result.delivered-successfully".translate
-    case Result(false, false, _, _) => "game.result.missed-the-house".translate
+    case Cliff(_, _) => "game.result.crashed".translate
+    case Success(_, _) => "game.result.delivered-successfully".translate
+    case OutOfEnergy(_, _) => "game.result.missed-the-house".translate
     case _ => "Disappeared?".literal //should never happen
   }
   val pText = new PText("game.result.description.pattern.name-text".messageformat(scalaRampObject.name, text))
@@ -80,7 +80,7 @@ class ItemFinishedDialog(gameModel: RobotMovingCompanyGameModel,
   addChild(pText)
   pText.setOffset(background.getFullBounds.getCenterX - pText.getFullBounds.width / 2, 20)
 
-  val imageFilename = if (result.cliff) scalaRampObject.crashImageFilename else scalaRampObject.imageFilename
+  val imageFilename = if (result.isInstanceOf[Cliff]) scalaRampObject.crashImageFilename else scalaRampObject.imageFilename
   val image = new PImage(BufferedImageUtils.rescaleYMaintainAspectRatio(MotionSeriesResources.getImage(imageFilename), 150))
   image.setOffset(background.getFullBounds.getCenterX - image.getFullBounds.width / 2, pText.getFullBounds.getMaxY + 20)
   addChild(image)
@@ -130,7 +130,7 @@ class GameFinishedDialog(gameModel: RobotMovingCompanyGameModel) extends PlayAre
     val result = gameModel.resultMap(obj)
     resultList.addChild(new PText(obj.name){setFont(new PhetFont(18))})
     resultList.addChild(new PText(result.score + ""){setFont(new PhetFont(18))})
-    val imageFilename = if (result.cliff) obj.crashImageFilename else obj.imageFilename
+    val imageFilename = if (result.isInstanceOf[Cliff]) obj.crashImageFilename else obj.imageFilename
     val image = new PImage(BufferedImageUtils.multiScaleToHeight(MotionSeriesResources.getImage(imageFilename), 40))
     resultList.addChild(image)
   }
@@ -172,7 +172,7 @@ object TestItemFinishedDialog {
   def main(args: Array[String]) {
     val robotMovingCompanyGameModel = new RobotMovingCompanyGameModel(new MotionSeriesModel(5, true, MotionSeriesDefaults.defaultRampAngle), new ScalaClock(30, 30 / 1000.0), MotionSeriesDefaults.defaultRampAngle, 500.0, MotionSeriesDefaults.objects)
     val itemFinishedDialog = new ItemFinishedDialog(robotMovingCompanyGameModel,
-      MotionSeriesDefaults.objects(0), new Result(true, false, 64, 100), a => {
+      MotionSeriesDefaults.objects(0),  Cliff(64, 100), a => {
         a.setVisible(false)
       }, "Ok".literal)
     TestDialog.test(itemFinishedDialog);
@@ -183,7 +183,7 @@ object TestGameFinishedDialog {
   def main(args: Array[String]) {
     val robotMovingCompanyGameModel = new RobotMovingCompanyGameModel(new MotionSeriesModel(5, true, MotionSeriesDefaults.defaultRampAngle), new ScalaClock(30, 30 / 1000.0), MotionSeriesDefaults.defaultRampAngle, 500.0, MotionSeriesDefaults.objects)
     for (obj <- robotMovingCompanyGameModel.objectList) {
-      robotMovingCompanyGameModel.resultMap(obj) = new Result(false, true, 123, 555)
+      robotMovingCompanyGameModel.resultMap(obj) = Cliff(123, 555)
     }
     val gameFinishedDialog = new GameFinishedDialog(robotMovingCompanyGameModel)
     TestDialog.test(gameFinishedDialog);

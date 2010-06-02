@@ -30,7 +30,7 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
   val airborneFloor = -9.0
 
   def hasUserAppliedForce = {
-    robotEnergy>DEFAULT_ROBOT_ENERGY*0.92
+    robotEnergy > DEFAULT_ROBOT_ENERGY * 0.92
   }
 
   private var _launched = false
@@ -125,13 +125,15 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
         val stoppedAndOutOfEnergy = atRest && _robotEnergy == 0
         val crashed = atRest && bead.position2D.y < 0 //todo: won't this be wrong if the object falls off slowly?  What about checking for Crashed strategy?
         if (stoppedAtHouse) {
-          bead.removeListener(this)//remove listener first, in case itemDelivered causes any notifications (it currently doesn't)
+          bead.removeListener(this) //remove listener first, in case itemDelivered causes any notifications (it currently doesn't)
           itemDelivered(sel, bead)
         }
         else if (stoppedAndOutOfEnergy || crashed) {
           bead.removeListener(this) //see note above on ordering
           itemLost(sel)
         }
+
+        //todo: if pushing for 5 seconds and still have energy, then should be NotEnoughEnergyToPush
       }
     }
 
@@ -175,9 +177,9 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
 
   def isLastObject(o: MotionSeriesObject) = objectList(objectList.length - 1) eq o
 
-  def itemLostOffCliff(o: MotionSeriesObject) = itemFinished(o, Result(false, true, o.points, robotEnergy.toInt))
+  def itemLostOffCliff(o: MotionSeriesObject) = itemFinished(o, Cliff(o.points, robotEnergy.toInt))
 
-  def itemLost(o: MotionSeriesObject) = itemFinished(o, Result(false, false, o.points, robotEnergy.toInt))
+  def itemLost(o: MotionSeriesObject) = itemFinished(o, OutOfEnergy(o.points, robotEnergy.toInt))
 
   val deliverList = new ArrayBuffer[Bead]
 
@@ -198,7 +200,7 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
           beadRef.setPosition(beadRef.position + vel)
           if ((beadRef.position - house.position).abs <= vel.abs) {
             model.stepListeners -= this
-            itemFinished(o, Result(true, false, o.points, robotEnergy.toInt))
+            itemFinished(o, Success(o.points, robotEnergy.toInt))
             _inputAllowed = true
           }
         }
@@ -230,7 +232,7 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
 /**
  * This class represents the results from a single run, including points and success/failure.
  */
-case class Result(success: Boolean, cliff: Boolean, objectPoints: Int, robotEnergy: Int) {
+abstract class Result(val objectPoints: Int, val robotEnergy: Int) {
   val pointsPerJoule = scoreMultiplier * 0.1
   val totalObjectPoints = objectPoints * scoreMultiplier
   val totalEnergyPoints = (robotEnergy * pointsPerJoule).toInt
@@ -238,4 +240,15 @@ case class Result(success: Boolean, cliff: Boolean, objectPoints: Int, robotEner
   def score = totalObjectPoints + totalEnergyPoints
 
   def scoreMultiplier = if (success) 1 else 0
+
+  def success: Boolean
 }
+
+case class Success(_objectPoints: Int, _robotEnergy: Int) extends Result(_objectPoints, _robotEnergy) {def success = true}
+case class Cliff(_objectPoints: Int, _robotEnergy: Int) extends Result(_objectPoints, _robotEnergy) {def success = false}
+
+//This case occurs when the object missed the door, but the robot is out of energy
+case class OutOfEnergy(_objectPoints: Int, _robotEnergy: Int) extends Result(_objectPoints, _robotEnergy) {def success = false} //object can't be moved any further
+
+//This case occurs when the robot has some energy, but not enough to move the object
+case class NotEnoughEnergyToPush(_objectPoints: Int, _robotEnergy: Int) extends Result(_objectPoints, _robotEnergy) {def success = false} //object can't be moved any further
