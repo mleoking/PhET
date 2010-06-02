@@ -13,12 +13,12 @@ import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManage
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
-import edu.colorado.phet.simtemplate.module.SimTemplateModule;
+import edu.colorado.phet.membranediffusion.module.MembraneDiffusionModule;
 
 /**
  * The main application for this simulation.
  */
-public class SimTemplateApplication extends PiccoloPhetApplication {
+public class MembraneDiffusionApplication extends PiccoloPhetApplication {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -36,7 +36,7 @@ public class SimTemplateApplication extends PiccoloPhetApplication {
      *
      * @param config the configuration for this application
      */
-    public SimTemplateApplication( PhetApplicationConfig config )
+    public MembraneDiffusionApplication( PhetApplicationConfig config )
     {
         super( config );
         initModules();
@@ -54,12 +54,8 @@ public class SimTemplateApplication extends PiccoloPhetApplication {
         
         Frame parentFrame = getPhetFrame();
 
-        Module firstModule = new SimTemplateModule( parentFrame );
+        Module firstModule = new MembraneDiffusionModule( parentFrame );
         addModule( firstModule );
-
-        Module secondModule = new SimTemplateModule( parentFrame );
-        secondModule.setName( "Another Example" );
-        addModule( secondModule );
     }
 
     /*
@@ -95,6 +91,6 @@ public class SimTemplateApplication extends PiccoloPhetApplication {
          * If you want to customize your application (look-&-feel, window size, etc) 
          * create your own PhetApplicationConfig and use one of the other launchSim methods
          */
-        new PhetApplicationLauncher().launchSim( args, SimTemplateConstants.PROJECT_NAME, SimTemplateApplication.class );
+        new PhetApplicationLauncher().launchSim( args, MembraneDiffusionConstants.PROJECT_NAME, MembraneDiffusionApplication.class );
     }
 }

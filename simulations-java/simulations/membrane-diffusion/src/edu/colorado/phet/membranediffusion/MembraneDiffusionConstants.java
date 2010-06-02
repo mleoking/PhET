@@ -14,10 +14,10 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
  * A collection of constants that configure global properties.
  * If you change something here, it will change *everywhere* in this simulation.
  */
-public class SimTemplateConstants {
+public class MembraneDiffusionConstants {
 
     /* Not intended for instantiation. */
-    private SimTemplateConstants() {}
+    private MembraneDiffusionConstants() {}
     
     //----------------------------------------------------------------------------
     // Debugging
@@ -30,7 +30,7 @@ public class SimTemplateConstants {
     // Application
     //----------------------------------------------------------------------------
     
-    public static final String PROJECT_NAME = "sim-template";
+    public static final String PROJECT_NAME = "membrane-diffusion";
 
     //----------------------------------------------------------------------------
     // Fonts
@@ -74,4 +74,11 @@ public class SimTemplateConstants {
     // Cursors
     //----------------------------------------------------------------------------
 
+    //----------------------------------------------------------------------------
+    // Et Cetera
+    //----------------------------------------------------------------------------
+
+    // Colors to use when representing various atoms.
+    public static final Color SODIUM_COLOR = new Color( 240, 0, 0);
+    public static final Color POTASSIUM_COLOR = new Color(0, 240, 100);
 }
