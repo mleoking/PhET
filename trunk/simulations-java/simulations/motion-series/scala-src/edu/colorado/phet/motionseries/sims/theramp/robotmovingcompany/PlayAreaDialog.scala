@@ -73,7 +73,7 @@ class ItemFinishedDialog(gameModel: RobotMovingCompanyGameModel,
     case Cliff(_, _) => "game.result.crashed".translate
     case Success(_, _) => "game.result.delivered-successfully".translate
     case OutOfEnergy(_, _) => "game.result.missed-the-house".translate
-    case NotEnoughEnergyToPush(_,_) => "game.result.not-enough-energy-to-push".translate 
+    case NotEnoughEnergyToPush(_,_) => "game.result.stuck".translate 
     case _ => "Disappeared?".literal //should never happen
   }
   val pText = new PText("game.result.description.pattern.name-text".messageformat(scalaRampObject.name, text))
