@@ -38,6 +38,6 @@ public class SodiumLeakageChannelToolBoxNode extends ToolBoxItem {
 		PNode representation = new MembraneChannelNode(channel, SCALING_MVT);
 		setSelectionNode(representation);
 		// TODO i18n
-		setCaption("<html><center>Sodium Leak<br>Channel</center></html>");
+		setCaption("<html><center>Leak Channel</center></html>");
 	}
 }

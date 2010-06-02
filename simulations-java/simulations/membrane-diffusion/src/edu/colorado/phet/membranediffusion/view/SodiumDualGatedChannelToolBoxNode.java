@@ -38,6 +38,6 @@ public class SodiumDualGatedChannelToolBoxNode extends ToolBoxItem {
 		PNode representation = new MembraneChannelNode(channel, SCALING_MVT);
 		setSelectionNode(representation);
 		// TODO i18n
-		setCaption("<html><center>Sodium Gated<br>Channel</center></html>");
+		setCaption("<html><center>Gated Channel</center></html>");
 	}
 }
