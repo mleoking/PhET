@@ -138,22 +138,21 @@
         // date when the installers were initially created.
         $backup_dir_stem_name = INSTALLER_BACKUP_ROOT_DIR."backup";
         $backup_dir_name = $backup_dir_stem_name.date("-Y-m-d").'/';
-        flushing_echo( "DBG dirname = ".$backup_dir_name );
         if ( is_dir( $backup_dir_name ) ){
             // The backup directory already exists, which generally means that
             // the installers have already been built at least once today.  It
             // is probably better to keep the old ones rather than overwriting
             // them, so abort here.
-            flushing_echo( "Warning: Backup directory already exists, ABORTING BACKUP OF CURRENT INSTALLERS." );
+            flushing_echo( "Warning: Backup directory already exists for today's date, ABORTING BACKUP OF CURRENT INSTALLERS." );
             return;
         }
         elseif( !mkdir( $backup_dir_name ) ){
             // Unable to create the backup directory.  Log a warning and abort.
-            flushing_echo( "Error: Unable to create backup directory, ABORTING BACKUP OF CURRENT INSTALLERS." );
+            flushing_echo( "Error: Unable to create backup subdirectory, ABORTING BACKUP OF CURRENT INSTALLERS." );
             return;
         }
         else{
-            flushing_echo( "Successfully created backup directory, name = ".$backup_dir_name );
+            flushing_echo( "Successfully created backup subdirectory, name = ".$backup_dir_name );
         }
 
         // Copy the existing installers into the backup directory.
@@ -167,7 +166,7 @@
         back_up_file( DEPLOY_DIR.VERSION_INFO_FILE_NAME, $backup_dir_name.VERSION_INFO_FILE_NAME );
 
         // Delete any backups that have outlived their usefulness.
-        // TODO
+        remove_older_installer_backups();
     }
 
     //--------------------------------------------------------------------------
@@ -180,6 +179,43 @@
         }
         else{
             flushing_echo( "Error: Unable to copy ".$src_file." to ".$dest_file );
+        }
+    }
+
+    //--------------------------------------------------------------------------
+    // Function to remove backups that are no longer needed.
+    //--------------------------------------------------------------------------
+    define("NUM_BACKUPS_TO_MAINTAIN", 5); // Roughly a month's worth.
+    function remove_older_installer_backups(){
+
+        // Make a list of all backup diretories that exist.
+        $backup_dir_list = glob(INSTALLER_BACKUP_ROOT_DIR."backup*", GLOB_ONLYDIR);
+
+        // Are there more than enough backups?
+        flushing_echo("Detected ".count( $backup_dir_list ). " existing installer backups.");
+        $num_excess_backups = count( $backup_dir_list ) - NUM_BACKUPS_TO_MAINTAIN;
+        if ( $num_excess_backups > 0 ){
+
+            // Yes, there are.  We should delete the oldest ones.  BTW, this
+            // loop assums that the directories are supplied in the same order
+            // as an 'ls' command, which was found to always be true during
+            // testing, but I (jblanco) don't know whether PHP guarantees this.
+
+            flushing_echo( "Preparing to remove ".$num_excess_backups." excess backup(s)." );
+
+            foreach($backup_dir_list as $backup_dir){
+                flushing_echo("Removing backup dir = ".$backup_dir);
+                rmdir($backup_dir);
+                $num_excess_backups--;
+                if ( $num_excess_backups <= 0 ){
+                    // We now have the correct number of backups, so bail out
+                    // of the loop.
+                    break;
+                }
+            }
+        }
+        else{
+            flushing_echo("Not removing any excess backups.");
         }
     }
 
