@@ -90,7 +90,11 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel,
                           rampAngle: () => Double,
                           vectors: Vector*)
         extends PNode with VectorDisplay {
-  addInputEventListener(new CursorHandler)
+  private val cursorHandler = new CursorHandler
+  addInputEventListener(cursorHandler)
+  def removeCursorHand() = {
+    removeInputEventListener(cursorHandler)
+  }
   def addVector(vector: Vector with PointOfOriginVector, offsetFBD: VectorValue, maxOffset: Int, offsetPlayArea: Double): Unit =
     addVector(vector, offsetFBD, maxOffset)
 

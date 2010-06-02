@@ -44,6 +44,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
   private var numClockTicksWithUserApplication = 0 //for determining if they need a wiggle me
 
   private var currentBeadNode: PNode = null //keep track of the current bead graphic for layering purposes
+  fbdNode.removeCursorHand()//User is not allowed to create forces by clicking in the FBD area
 
   gameModel.itemFinishedListeners += ((scalaRampObject: MotionSeriesObject, result: Result) => {
     val summaryScreen = new ItemFinishedDialog(gameModel, scalaRampObject, result, node => {
