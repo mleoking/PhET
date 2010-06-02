@@ -47,18 +47,16 @@ class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2
   def updateBaseColor() = {
     baseColor = if (rampSurfaceModel.frictionless) iceColor else woodColor
     line.setStrokePaint(if (rampSurfaceModel.frictionless) iceStrokeColor else woodStrokeColor)
-
-    if (rampSurfaceModel.frictionless && !getChildrenReference.contains(icicleImageNode))
-      addChild(icicleImageNode)
-    else if (!rampSurfaceModel.frictionless && getChildrenReference.contains(icicleImageNode))
-      removeChild(icicleImageNode)
+//    println("set base color: "+baseColor.getRed+", "+baseColor.getGreen+", "+baseColor.getBlue)
   }
   defineInvokeAndPass(rampSegment.addListenerByName) {
     line.setPathTo(mytransform.createTransformedShape(new BasicStroke(0.4f).createStrokedShape(rampSegment.toLine2D)))
   }
-  rampSegment.wetnessListeners += (() => updateColor())
-  rampSegment.addListener(() => updateDecorations())
+  rampSegment.wetnessListeners += (() => updateAll())
+  rampSegment.addListener(() => updateAll())
+  rampSegment.heatListeners += (()=>updateAll())
   updateAll()
+
   def updateColor() = {
     val r = new LinearFunction(0, 1, baseColor.getRed, wetColor.getRed).evaluate(rampSegment.wetness).toInt
     val g = new LinearFunction(0, 1, baseColor.getGreen, wetColor.getGreen).evaluate(rampSegment.wetness).toInt
@@ -74,6 +72,10 @@ class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2
   }
 
   def updateDecorations() = {
+    if (rampSurfaceModel.frictionless && !getChildrenReference.contains(icicleImageNode))
+      addChild(icicleImageNode)
+    else if (!rampSurfaceModel.frictionless && getChildrenReference.contains(icicleImageNode))
+      removeChild(icicleImageNode)
     if (getChildrenReference.contains(icicleImageNode)) {
       val delta = (rampSegment.endPoint - rampSegment.startPoint).normalize
       val iceX = 0.4

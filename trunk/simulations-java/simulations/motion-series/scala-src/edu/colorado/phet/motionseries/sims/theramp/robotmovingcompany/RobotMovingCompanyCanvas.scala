@@ -117,12 +117,15 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
   gameModel.beadCreatedListeners += init
   init(gameModel.bead, gameModel.selectedObject)
 
-  gameModel.surfaceModel.addListener(updateRampColor)
-  def updateRampColor() = {
-    rightSegmentNode.paintColor = gameModel.surfaceModel.surfaceType.color
-    leftSegmentNode.paintColor = gameModel.surfaceModel.surfaceType.color
-  }
-  updateRampColor()
+  //TODO: the following code caused incorrect ramp color to be shown on startup
+  //We are leaving out surface model functionality for now, but I'll leave this here in case we add it back later.
+  
+//  gameModel.surfaceModel.addListener(updateRampColor)
+//  def updateRampColor() = {
+//    rightSegmentNode.paintColor = gameModel.surfaceModel.surfaceType.color
+//    leftSegmentNode.paintColor = gameModel.surfaceModel.surfaceType.color
+//  }
+//  updateRampColor()
 
   private var _currentBead: Bead = null
 
@@ -280,8 +283,6 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
   }
 
   override def addWallsAndDecorations() = {}
-
-  override def createLeftSegmentNode = new RampSegmentNode(model.rampSegments(0), transform, model)
 
   override def createRightSegmentNode = new RampSegmentNode(model.rampSegments(1), transform, model)
 

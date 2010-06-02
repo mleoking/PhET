@@ -26,8 +26,8 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
   val DEFAULT_ROBOT_ENERGY = appliedForceAmount * 6
   val energyScale = MotionSeriesDefaults.rampRobotForce / appliedForceAmount / 10.0 //the scale at which to display remaining energy
   private var _robotEnergy = DEFAULT_ROBOT_ENERGY
-  val surfaceModel = new SurfaceModel
-  val airborneFloor = -9.0
+  private val surfaceModel = new SurfaceModel
+  val airborneFloor = -9.0//how far objects fall off the cliff before hitting ground
 
   def hasUserAppliedForce = {
     robotEnergy > DEFAULT_ROBOT_ENERGY * 0.92
@@ -86,7 +86,6 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
     _launched = false
     resultMap.clear()
     setObjectIndex(0)
-    surfaceModel.resetAll()
   }
 
   /**

@@ -1,3 +1,4 @@
+Fixed: Ramp color wrong on startup between games
 Added a new failure mode: Not Enough Energy to Overcome Static Friction
 Moved the pusher character behind the play area vectors
 Fixed: Friction force should enter into the system before wall force, since the object would have to move before "communicating" with the wall.
