@@ -17,7 +17,6 @@ import edu.colorado.phet.motionseries.{StageContainerArea, MotionSeriesModule, M
 import edu.colorado.phet.recordandplayback.gui.{RecordAndPlaybackControlPanel, PlaybackSpeedSlider}
 
 class ForcesAndMotionModule(frame: PhetFrame,
-                            clock: ScalaClock,
                             name: String,
                             coordinateSystemFeaturesEnabled: Boolean,
                             showObjectSelectionNode: Boolean,
@@ -31,7 +30,7 @@ class ForcesAndMotionModule(frame: PhetFrame,
                             modelViewport: Rectangle2D,
                             stageContainerArea: StageContainerArea,
                             fbdPopupOnly: Boolean)
-        extends MotionSeriesModule(frame, clock, name, defaultBeadPosition, pausedOnReset, initialAngle, fbdPopupOnly) {
+        extends MotionSeriesModule(frame, new ScalaClock(MotionSeriesDefaults.DELAY, MotionSeriesDefaults.DT_DEFAULT), name, defaultBeadPosition, pausedOnReset, initialAngle, fbdPopupOnly) {
   val canvas = new ForcesAndMotionCanvas(motionSeriesModel, coordinateSystemModel, fbdModel, vectorViewModel, frame,
     showObjectSelectionNode, showAppliedForceSlider, initialAngle != 0.0, modelViewport, stageContainerArea)
   setSimulationPanel(canvas)
@@ -58,10 +57,10 @@ class ForcesAndMotionCanvas(model: MotionSeriesModel,
   override def createRightSegmentNode: HasPaint = new RampSegmentNode(model.rampSegments(1), transform, model)
 }
 
-class IntroModule(frame: PhetFrame, clock: ScalaClock) extends ForcesAndMotionModule(frame, clock, "forces-and-motion.module.intro.title".translate, false, true, false, true, -3, false, 0.0, true, true, MotionSeriesDefaults.forceMotionViewport, MotionSeriesDefaults.forceMotionArea, false)
+class IntroModule(frame: PhetFrame) extends ForcesAndMotionModule(frame, "forces-and-motion.module.intro.title".translate, false, true, false, true, -3, false, 0.0, true, true, MotionSeriesDefaults.forceMotionViewport, MotionSeriesDefaults.forceMotionArea, false)
 
-class FrictionModule(frame: PhetFrame, clock: ScalaClock)
-        extends ForcesAndMotionModule(frame, clock, "forces-and-motion.module.friction.title".translate,
+class FrictionModule(frame: PhetFrame)
+        extends ForcesAndMotionModule(frame, "forces-and-motion.module.friction.title".translate,
           false, false, false, true, -6, false, 0.0, false, true, MotionSeriesDefaults.forceMotionFrictionViewport, MotionSeriesDefaults.forceMotionFrictionArea, false) {
   motionSeriesModel.selectedObject = MotionSeriesDefaults.custom // so that it resizes
   val frictionPlayAreaControlPanel = new PSwing(new FrictionPlayAreaControlPanel(motionSeriesModel.bead))
@@ -70,18 +69,17 @@ class FrictionModule(frame: PhetFrame, clock: ScalaClock)
   motionSeriesModel.frictionless = false
 }
 
-class GraphingModule(frame: PhetFrame, clock: ScalaClock)
-        extends ForcesAndMotionModule(frame, clock, "forces-and-motion.module.graphing.title".translate,
+class GraphingModule(frame: PhetFrame)
+        extends ForcesAndMotionModule(frame, "forces-and-motion.module.graphing.title".translate,
           false, false, true, false, -6, false, 0.0, true, true, MotionSeriesDefaults.forceMotionGraphViewport, MotionSeriesDefaults.forceEnergyGraphArea, true) {
   coordinateSystemModel.adjustable = false
   canvas.addScreenNode(new ForcesAndMotionChartNode(canvas, motionSeriesModel))
 }
 
 class ForcesAndMotionApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
-  def newClock = new ScalaClock(MotionSeriesDefaults.DELAY, MotionSeriesDefaults.DT_DEFAULT)
-  addModule(new IntroModule(getPhetFrame, newClock))
-  addModule(new FrictionModule(getPhetFrame, newClock))
-  addModule(new GraphingModule(getPhetFrame, newClock))
+  addModule(new IntroModule(getPhetFrame))
+  addModule(new FrictionModule(getPhetFrame))
+  addModule(new GraphingModule(getPhetFrame))
   addModule(new RobotMovingCompanyModule(getPhetFrame, 1E-8.toRadians, MotionSeriesDefaults.forcesAndMotionRobotForce, MotionSeriesDefaults.objectsForForce1DGame)) //todo: this 1E-8 workaround seems necessary to avoid problems, we should find out why
 }
 
