@@ -40,17 +40,17 @@ public class ReportFrame {
 
         text += "\n";
         for (String key : sortedKeys) {
-            System.out.println(key + ": \t" + Util.secondsToElapsedTimeString(table.get(key)));
-            text += key + ": \t" + Util.secondsToElapsedTimeString(table.get(key)) + "\n";
+            System.out.println(key + "\t" + Util.secondsToElapsedTimeString(table.get(key)));
+            text += key + "\t" + Util.secondsToElapsedTimeString(table.get(key)) + "\n";
         }
         text+="\n";
         for (String key : sortedKeys) {
-            System.out.println(key + ": \t" + Util.secondsToElapsedTimeString(table.get(key)));
-            text += key + ": \t" + Util.secondsToElapsedTimeString(table.get(key)) + "\n";
+            System.out.println(key + "\t" + Util.secondsToElapsedTimeString(table.get(key)));
+            text += key + "\t" + Util.secondsToElapsedTimeString(table.get(key)) + "\n";
             Entry[] taskLines = getTaskLines(key);
             for (Entry taskLine : taskLines) {
                 if (taskLine.getNotes().trim().length()>0)
-                    text+="\t"+Util.secondsToElapsedTimeString(taskLine.getElapsedSeconds())+": \t"+taskLine.getNotes()+"\n";
+                    text+="\t"+Util.secondsToElapsedTimeString(taskLine.getElapsedSeconds())+"\t"+taskLine.getNotes()+"\n";
             }
         }
 
