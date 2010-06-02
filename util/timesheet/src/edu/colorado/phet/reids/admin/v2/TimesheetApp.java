@@ -381,7 +381,7 @@ public class TimesheetApp {
 
     private void load(File selectedFile) throws IOException {
         currentFile = selectedFile;
-        timesheetModel.loadTSV(currentFile);
+        timesheetModel.loadCSV(currentFile);
 //        addCurrentToRecent();
         frame.setTitle("Timesheet: " + selectedFile.getName() + " [" + selectedFile.getAbsolutePath() + "]");
         timesheetModel.setClean();
