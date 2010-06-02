@@ -301,16 +301,16 @@ public class PhetWicketApplication extends WebApplication {
     * supported locales and translations
     *----------------------------------------------------------------------------*/
 
-    private PhetLocales supportedLocales = null;
+    private PhetLocales supportedLocales = PhetLocales.getInstance();
 
     public PhetLocales getSupportedLocales() {
-        if ( supportedLocales == null ) {
-            supportedLocales = PhetLocales.getInstance();
-        }
+//        if ( supportedLocales == null ) {
+//            supportedLocales = PhetLocales.getInstance();
+//        }
         return supportedLocales;
     }
 
-    private void initializeTranslations() {
+    private synchronized void initializeTranslations() {
         org.hibernate.Session session = HibernateUtils.getInstance().openSession();
         Transaction tx = null;
         try {
@@ -337,7 +337,7 @@ public class PhetWicketApplication extends WebApplication {
         sortTranslations();
     }
 
-    private void sortTranslations() {
+    private synchronized void sortTranslations() {
         Collections.sort( translations, new Comparator<Translation>() {
             public int compare( Translation a, Translation b ) {
                 return a.getLocale().getDisplayName().compareTo( b.getLocale().getDisplayName() );
@@ -345,7 +345,7 @@ public class PhetWicketApplication extends WebApplication {
         } );
     }
 
-    public List<String> getTranslationLocaleStrings() {
+    public synchronized List<String> getTranslationLocaleStrings() {
         // TODO: maybe cache this list if it's called a lot?
         List<String> ret = new LinkedList<String>();
         for ( Translation translation : translations ) {
@@ -354,7 +354,7 @@ public class PhetWicketApplication extends WebApplication {
         return ret;
     }
 
-    public boolean isVisibleLocale( Locale locale ) {
+    public synchronized boolean isVisibleLocale( Locale locale ) {
         if ( locale.equals( getDefaultLocale() ) ) {
             return true;
         }
@@ -366,7 +366,7 @@ public class PhetWicketApplication extends WebApplication {
         return false;
     }
 
-    public synchronized NavMenu getMenu() {
+    public NavMenu getMenu() {
         return menu;
     }
 
@@ -386,7 +386,7 @@ public class PhetWicketApplication extends WebApplication {
         return defaultLocale;
     }
 
-    public void addTranslation( Translation translation ) {
+    public synchronized void addTranslation( Translation translation ) {
         String localeString = LocaleUtils.localeToString( translation.getLocale() );
         logger.info( "Adding translation for " + localeString );
         getResourceSettings().getLocalizer().clearCache();
@@ -395,7 +395,7 @@ public class PhetWicketApplication extends WebApplication {
         sortTranslations();
     }
 
-    public void removeTranslation( Translation translation ) {
+    public synchronized void removeTranslation( Translation translation ) {
         String localeString = LocaleUtils.localeToString( translation.getLocale() );
         logger.info( "Removing translation for " + localeString );
         getResourceSettings().getLocalizer().clearCache();
