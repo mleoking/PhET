@@ -308,14 +308,23 @@ public class TimesheetApp {
             });
             add(clockOut);
 
-            JButton monthlyReport = new JButton("Report on Selection");
-            monthlyReport.addActionListener(new ActionListener() {
+            JButton generateReport = new JButton("Report on Selection");
+            generateReport.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     ReportFrame reportFrame = new ReportFrame(selectionModel.getSelection(timesheetModel));
                     reportFrame.setVisible(true);
                 }
             });
-            add(monthlyReport);
+            add(generateReport);
+
+            JButton filteredReport = new JButton("Filtered Report");
+            filteredReport.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    ReportFrame reportFrame = new ReportFrame(new MonthlyReportFilter().filter(selectionModel.getSelection(timesheetModel)));
+                    reportFrame.setVisible(true);
+                }
+            });
+            add(filteredReport);
 
             final JButton save = new JButton("Save");
             save.addActionListener(new ActionListener() {
