@@ -68,7 +68,7 @@ class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2
     val r2 = new LinearFunction(0, 1, wetnessColor.getRed, hotColor.getRed).evaluate(heatBetweenZeroAndOne).toInt
     val g2 = new LinearFunction(0, 1, wetnessColor.getGreen, hotColor.getGreen).evaluate(heatBetweenZeroAndOne).toInt
     val b2 = new LinearFunction(0, 1, wetnessColor.getBlue, hotColor.getBlue).evaluate(heatBetweenZeroAndOne).toInt
-    paintColor = new Color(r2, g2, b2)
+    paintColor = new Color(r2, g2, b2)  //TODO: how about making it so that this mutator isn't being called all the time?
   }
 
   def updateDecorations() = {

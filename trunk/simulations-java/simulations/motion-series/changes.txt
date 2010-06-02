@@ -1,3 +1,4 @@
+Fixed: FBD has a hand but is not interactive in the game mode
 Fixed: Ramp color wrong on startup between games
 Added a new failure mode: Not Enough Energy to Overcome Static Friction
 Moved the pusher character behind the play area vectors
