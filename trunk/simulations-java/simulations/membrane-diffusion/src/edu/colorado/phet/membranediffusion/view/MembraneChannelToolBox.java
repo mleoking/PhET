@@ -42,7 +42,7 @@ public class MembraneChannelToolBox extends PNode {
 	private PotassiumLeakChannelToolBoxNode potassiumLeakChannelNode;
 	private SodiumLeakageChannelToolBoxNode sodiumLeakageChannelToolBoxNode;
 	private PotassiumGatedChannelToolBoxNode potassiumGatedChannelToolBoxNode;
-	private SodiumDualGatedChannelToolBoxNode sodiumGatedChannelToolBoxNode;
+	private SodiumGatedChannelToolBoxNode sodiumGatedChannelToolBoxNode;
 	
 	// Reference to the model.
 	protected MembraneDiffusionModel model;
@@ -83,10 +83,10 @@ public class MembraneChannelToolBox extends PNode {
 				boxNode.getFullBoundsReference().getMinY() + boxNode.getFullBoundsReference().height * 0.3);
 		addChild(potassiumGatedChannelToolBoxNode);
 
-		sodiumGatedChannelToolBoxNode = new SodiumDualGatedChannelToolBoxNode(model, mvt, canvas);
+		sodiumGatedChannelToolBoxNode = new SodiumGatedChannelToolBoxNode(model, mvt, canvas);
 		sodiumGatedChannelToolBoxNode.setOffset(
 				boxNode.getFullBoundsReference().getMinX() + boxNode.getFullBoundsReference().width * 0.8, 
-				boxNode.getFullBoundsReference().getMinY() + boxNode.getFullBoundsReference().height * 0.2);
+				boxNode.getFullBoundsReference().getMinY() + boxNode.getFullBoundsReference().height * 0.3);
 		addChild(sodiumGatedChannelToolBoxNode);
 	}
 	

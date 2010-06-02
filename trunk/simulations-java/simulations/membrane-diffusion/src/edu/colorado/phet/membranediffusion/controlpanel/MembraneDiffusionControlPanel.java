@@ -24,7 +24,7 @@ import edu.colorado.phet.membranediffusion.MembraneDiffusionConstants;
 import edu.colorado.phet.membranediffusion.MembraneDiffusionResources;
 import edu.colorado.phet.membranediffusion.model.MembraneDiffusionModel;
 import edu.colorado.phet.membranediffusion.model.PotassiumGatedChannel;
-import edu.colorado.phet.membranediffusion.model.SodiumDualGatedChannel;
+import edu.colorado.phet.membranediffusion.model.SodiumGatedChannel;
 import edu.colorado.phet.membranediffusion.view.MembraneChannelNode;
 import edu.umd.cs.piccolo.PNode;
 
@@ -77,7 +77,7 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
         addControlFullWidth(createVerticalSpacingPanel(20));
 
         // Create the buttons for stimulating the channels.
-   		PNode imageNode = new MembraneChannelNode(new SodiumDualGatedChannel(), CHANNEL_ICON_MVT);
+   		PNode imageNode = new MembraneChannelNode(new SodiumGatedChannel(), CHANNEL_ICON_MVT);
    		imageNode.rotate(-Math.PI / 2);
    		ImageIcon icon = new ImageIcon(imageNode.toImage());
         // TODO: i18n
