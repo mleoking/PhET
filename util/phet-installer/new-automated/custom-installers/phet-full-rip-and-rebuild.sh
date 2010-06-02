@@ -1,10 +1,11 @@
 #!/bin/sh
 
 #############################################################################
-# This script kicks off a full rebuild of the standard PhET installers.
+# This script kicks off a full rebuild of the standard PhET installers,
+# meaning the installers that are available for download from the web site.
 #############################################################################
 
-LOG=./custom-installer-builder-log.txt
+LOG=./installer-builder-log.txt
 
 #----------------------------------------------------------------------------
 # Subroutine for sending email notification of results.
