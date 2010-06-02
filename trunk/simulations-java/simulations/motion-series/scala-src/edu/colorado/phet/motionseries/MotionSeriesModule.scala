@@ -7,7 +7,7 @@ import edu.colorado.phet.motionseries.model._
 
 //TODO: improve inheritance/composition scheme for different applications/modules/canvases/models
 class MotionSeriesModule(frame: PhetFrame,
-                         clock: ScalaClock,
+                         val clock: ScalaClock,
                          name: String,
                          defaultBeadPosition: Double,
                          pausedOnReset: Boolean,
