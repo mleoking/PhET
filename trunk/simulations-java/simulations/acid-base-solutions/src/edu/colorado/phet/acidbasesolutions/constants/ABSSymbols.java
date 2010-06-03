@@ -1,6 +1,6 @@
 /* Copyright 2009, University of Colorado */
 
-package edu.colorado.phet.acidbasesolutions;
+package edu.colorado.phet.acidbasesolutions.constants;
 
 /**
  * Collection of symbols used in this sim.

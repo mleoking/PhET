@@ -6,7 +6,7 @@ import java.util.EventListener;
 
 import javax.swing.event.EventListenerList;
 
-import edu.colorado.phet.acidbasesolutions.ABSConstants;
+import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 
 /** 
