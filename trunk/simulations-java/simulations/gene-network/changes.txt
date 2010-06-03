@@ -1,3 +1,5 @@
+# 1.02.00 (41395) Jun 3, 2010
+6/3/10 > New production version containing fixes for two recently identified issues.
 # 1.01.05 (41289) May 28, 2010
 5/28/10 Candidate for release to production server
 # 1.01.04 (41287) May 28, 2010
