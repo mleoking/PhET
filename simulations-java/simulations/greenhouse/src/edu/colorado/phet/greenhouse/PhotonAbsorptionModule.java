@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
+import edu.colorado.phet.greenhouse.controlpanel.PhotonAbsorptionControlPanel;
 import edu.colorado.phet.greenhouse.model.GreenhouseClock;
 import edu.colorado.phet.greenhouse.view.PhotonAbsorptionCanvas;
 
@@ -27,6 +28,7 @@ public class PhotonAbsorptionModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     private PhetPCanvas canvas;
+    private PhotonAbsorptionControlPanel controlPanel;
     private PiccoloClockControlPanel clockControlPanel;
 
     //----------------------------------------------------------------------------
@@ -43,6 +45,10 @@ public class PhotonAbsorptionModule extends PiccoloModule {
         // Canvas
         canvas = new PhotonAbsorptionCanvas();
         setSimulationPanel( canvas );
+        
+        // Control panel.
+        controlPanel = new PhotonAbsorptionControlPanel(this);
+        setControlPanel(controlPanel);
         
         // Help
         if ( hasHelp() ) {

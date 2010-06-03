@@ -5,12 +5,10 @@ package edu.colorado.phet.greenhouse.view;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.geom.Dimension2D;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.greenhouse.GreenhouseDefaults;
 import edu.colorado.phet.greenhouse.GreenhouseResources;
 import edu.colorado.phet.neuron.module.NeuronDefaults;
@@ -58,7 +56,7 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
         				4,  // Scale factor - smaller numbers "zoom out", bigger ones "zoom in".
         				true);
 
-        setBackground( new Color(153, 204, 255) );
+        setBackground( Color.BLACK );
 
         // Create the node that will be the root for all the world children on
         // this canvas.  This is done to make it easier to zoom in and out on
@@ -69,8 +67,8 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
         // TODO: This is temporary.  Add a node that is a sketch of what this
         // will really look like at some point.
         PImage sketchNode = new PImage(GreenhouseResources.getImage("photon-absorption-sketch-01.png"));
-        sketchNode.setScale(1300 / sketchNode.getFullBoundsReference().width);
-        sketchNode.setOffset(-200, 0);
+        sketchNode.setScale(1100 / sketchNode.getFullBoundsReference().width);
+        sketchNode.setOffset(-160, 0);
         myWorldNode.addChild(sketchNode);
         
         // Update the layout.
