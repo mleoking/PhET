@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.neuron.module;
 
+import java.awt.Dimension;
 import java.awt.Frame;
 
 import javax.swing.event.ChangeEvent;
@@ -9,8 +10,10 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.clock.TimeSpeedSlider;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
+import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.StepButton;
 import edu.colorado.phet.neuron.NeuronStrings;
 import edu.colorado.phet.neuron.controlpanel.AxonCrossSectionControlPanel;
 import edu.colorado.phet.neuron.model.AxonModel;
@@ -59,11 +62,23 @@ public class AxonCrossSectionModule extends PiccoloModule {
     	final TimeSpeedSlider timeSpeedSlider = new TimeSpeedSlider(NeuronDefaults.MIN_ACTION_POTENTIAL_CLOCK_DT, 
     			NeuronDefaults.MAX_ACTION_POTENTIAL_CLOCK_DT, "0.00", (ConstantDtClock)getClock(), " ");
         timeSpeedSlider.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
+			public void stateChanged(ChangeEvent e) {
                 ((ConstantDtClock)getClock()).setDt( timeSpeedSlider.getValue() );
-            }
+			}
         } );
-    	clockControlPanel.addBetweenTimeDisplayAndButtons(timeSpeedSlider);
+        clockControlPanel.addBetweenTimeDisplayAndButtons(timeSpeedSlider);
+    	
+    	// TODO: Trying out ways to add the "step back" button.
+    	int buttonHeight = (int)(clockControlPanel.getPlayPauseButton().getFullBoundsReference().getHeight() * 0.8);
+    	PhetPCanvas stepBackButtonCanvas = new PhetPCanvas();
+    	int canvasHeightAndWidth = (int)Math.round(buttonHeight * 1.1);
+    	stepBackButtonCanvas.setPreferredSize(new Dimension(canvasHeightAndWidth, canvasHeightAndWidth));
+    	stepBackButtonCanvas.setBorder(null);
+    	StepButton stepBackButton = new StepButton(buttonHeight);
+    	stepBackButton.setOffset((canvasHeightAndWidth - buttonHeight) / 2, (canvasHeightAndWidth - buttonHeight) / 2);
+    	stepBackButtonCanvas.addScreenChild(stepBackButton);
+    	clockControlPanel.addBetweenTimeDisplayAndButtons(stepBackButtonCanvas);
+    	
         setClockControlPanel( clockControlPanel );
 
         // Help
