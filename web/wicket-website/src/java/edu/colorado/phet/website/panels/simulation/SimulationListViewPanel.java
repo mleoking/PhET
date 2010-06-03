@@ -38,6 +38,9 @@ public class SimulationListViewPanel extends PhetPanel {
                     category = Category.getCategoryFromPath( getHibernateSession(), categories );
                     if ( category != null ) {
                         addSimulationsFromCategory( simulations, getMyLocale(), category );
+                        if ( category.isAlphabetize() ) {
+                            HibernateUtils.orderSimulations( simulations, context.getLocale() );
+                        }
                     }
                 }
                 else {
@@ -131,6 +134,9 @@ public class SimulationListViewPanel extends PhetPanel {
                 continue;
             }
             LocalizedSimulation lsim = HibernateUtils.pickBestTranslation( sim, locale );
+            if ( simulations.contains( lsim ) ) {
+                continue;
+            }
             simulations.add( lsim );
             used.add( lsim.getId() );
 //            LocalizedSimulation englishSim = null;
