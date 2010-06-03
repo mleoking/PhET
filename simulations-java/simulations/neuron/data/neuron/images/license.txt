@@ -1,0 +1,3 @@
+button_pressed.png source=PhET
+button_unpressed.png source=PhET
+squeezer_background.png source=PhET
