@@ -1,4 +1,4 @@
-package edu.colorado.phet.reids.admin.v2;
+package edu.colorado.phet.reids.admin;
 
 import javax.swing.*;
 import java.util.*;
