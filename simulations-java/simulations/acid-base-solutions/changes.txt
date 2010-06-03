@@ -1,3 +1,4 @@
+6/3/10 implement model base classes
 # 0.00.08 (40783) May 15, 2010
 5/15/10 prototype: dev version with smaller beaker and more typical control panel width
 5/15/10 prototype: get rid of flashing white rectangle behind magnifying glass that started with 5/13 changes

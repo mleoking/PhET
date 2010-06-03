@@ -4,6 +4,8 @@ package edu.colorado.phet.acidbasesolutions;
 
 import java.awt.Dimension;
 
+import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+
 /**
  * A collection of constants that configure global properties.
  * If you change something here, it will change *everywhere* in this simulation.
@@ -30,6 +32,15 @@ public class ABSConstants {
     
     public static final String FLAVOR_MAGNIFYING_GLASS_PROTOTYPE = "magnifying-glass-prototype";
 
+    //----------------------------------------------------------------------------
+    // Model
+    //----------------------------------------------------------------------------
+    
+    public static final double AVOGADROS_NUMBER = 6.022E23;
+    
+    public static final DoubleRange ACID_CONCENTRATION_RANGE = new DoubleRange( 0.001, 1, 0.001 );
+    public static final DoubleRange WEAK_BASE_CONCENTRATION_RANGE = new DoubleRange( 0.001, 1, 0.001 );
+    
     //----------------------------------------------------------------------------
     // View
     //----------------------------------------------------------------------------
