@@ -1,3 +1,5 @@
+/* Copyright 2010, University of Colorado */
+
 package edu.colorado.phet.advancedacidbasesolutions.model;
 
 import java.awt.Color;
