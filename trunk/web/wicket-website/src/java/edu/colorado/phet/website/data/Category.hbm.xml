@@ -10,6 +10,7 @@
         <property name="name"/>
         <property name="auto"/>
         <property name="root"/>
+        <property name="alphabetize"/>
         <list name="subcategories">
             <key column="parent_id" not-null="false"/>
             <list-index column="subcategory_idx"/>

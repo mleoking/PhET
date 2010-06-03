@@ -36,9 +36,11 @@ public class AdminCategoryPage extends AdminPage {
     private Map<Simulation, String> titleMap;
 
     private Model autoModel;
+    private Model alphaModel;
 
     private static final Logger logger = Logger.getLogger( AdminCategoryPage.class.getName() );
     private Label autoLabel;
+    private Label alphaLabel;
 
     public AdminCategoryPage( PageParameters parameters ) {
         super( parameters );
@@ -52,6 +54,7 @@ public class AdminCategoryPage extends AdminPage {
             public boolean run( Session session ) {
                 category = (Category) session.load( Category.class, categoryId );
                 autoModel = new Model( category.isAuto() );
+                alphaModel = new Model( category.isAlphabetize() );
                 for ( Object o : category.getSimulations() ) {
                     simulations.add( (Simulation) o );
                 }
@@ -74,6 +77,10 @@ public class AdminCategoryPage extends AdminPage {
         autoLabel.setOutputMarkupId( true );
         add( autoLabel );
 
+        alphaLabel = new Label( "toggle-alpha-label", alphaModel );
+        alphaLabel.setOutputMarkupId( true );
+        add( alphaLabel );
+
         add( new AjaxFallbackLink( "toggle-auto-link" ) {
             public void onClick( AjaxRequestTarget target ) {
                 final Boolean[] ret = new Boolean[1];
@@ -88,8 +95,29 @@ public class AdminCategoryPage extends AdminPage {
                 } );
                 if ( success ) {
                     autoModel.setObject( ret[0] );
+                    CategoryChangeHandler.notifyChildrenReordered( category );
                 }
                 target.addComponent( autoLabel );
+            }
+        } );
+
+        add( new AjaxFallbackLink( "toggle-alpha-link" ) {
+            public void onClick( AjaxRequestTarget target ) {
+                final Boolean[] ret = new Boolean[1];
+                boolean success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+                    public boolean run( Session session ) {
+                        Category cat = (Category) session.load( Category.class, category.getId() );
+                        cat.setAlphabetize( !cat.isAlphabetize() );
+                        ret[0] = cat.isAlphabetize();
+                        session.update( cat );
+                        return true;
+                    }
+                } );
+                if ( success ) {
+                    alphaModel.setObject( ret[0] );
+                    CategoryChangeHandler.notifyChildrenReordered( category );
+                }
+                target.addComponent( alphaLabel );
             }
         } );
 

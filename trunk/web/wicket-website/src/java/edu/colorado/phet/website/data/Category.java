@@ -33,6 +33,11 @@ public class Category implements Serializable, IntId {
     private boolean auto;
 
     /**
+     * Whether this category should override the ordering and alphabetize the listed simulations.
+     */
+    private boolean alphabetize;
+
+    /**
      * Whether this is the root category. Consider it immutable! BAD THINGS will happen if this goes haywire, and checks
      * require there is only 1 root category.
      */
@@ -198,6 +203,14 @@ public class Category implements Serializable, IntId {
 
     public void setAuto( boolean auto ) {
         this.auto = auto;
+    }
+
+    public boolean isAlphabetize() {
+        return alphabetize;
+    }
+
+    public void setAlphabetize( boolean alphabetize ) {
+        this.alphabetize = alphabetize;
     }
 
     public boolean isRoot() {
