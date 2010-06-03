@@ -28,7 +28,9 @@ public class SimulationIndexPanel extends PhetPanel {
             String name = simulation.getTitle();
             String chr = HibernateUtils.getLeadingSimCharacter( name, context.getLocale() );
             if ( lettermap.containsKey( chr ) ) {
-                lettermap.get( chr ).add( simulation );
+                if ( !lettermap.get( chr ).contains( simulation ) ) {
+                    lettermap.get( chr ).add( simulation );
+                }
             }
             else {
                 List<LocalizedSimulation> li = new LinkedList<LocalizedSimulation>();
@@ -45,15 +47,15 @@ public class SimulationIndexPanel extends PhetPanel {
         } );
 
 
-        add( new ListView( "sim-group", letters ) {
-            protected void populateItem( ListItem item ) {
-                String letter = item.getModelObject().toString();
+        add( new ListView<String>( "sim-group", letters ) {
+            protected void populateItem( ListItem<String> item ) {
+                String letter = item.getModelObject();
                 item.setOutputMarkupId( true );
                 item.setMarkupId( HibernateUtils.encodeCharacterId( letter ) );
                 item.add( new Label( "letter", letter ) );
-                item.add( new ListView( "sim-entry", lettermap.get( letter ) ) {
-                    protected void populateItem( ListItem subItem ) {
-                        LocalizedSimulation simulation = (LocalizedSimulation) subItem.getModel().getObject();
+                item.add( new ListView<LocalizedSimulation>( "sim-entry", lettermap.get( letter ) ) {
+                    protected void populateItem( ListItem<LocalizedSimulation> subItem ) {
+                        LocalizedSimulation simulation = subItem.getModelObject();
                         Link link = SimulationPage.getLinker( simulation ).getLink( "sim-link", context, getPhetCycle() );
                         link.add( new Label( "sim-title", simulation.getTitle() ) );
                         subItem.add( link );
