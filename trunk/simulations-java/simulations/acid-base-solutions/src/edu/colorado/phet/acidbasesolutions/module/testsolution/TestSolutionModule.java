@@ -15,6 +15,6 @@ public class TestSolutionModule extends ABSModule {
     public TestSolutionModule() {
         super( ABSStrings.TEST_SOLUTION );
         setSimulationPanel( new TestSolutionCanvas() );
-        setControlPanel( new TestSolutionControlPanel() );
+        setControlPanel( new TestSolutionControlPanel( this ) );
     }
 }

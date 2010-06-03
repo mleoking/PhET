@@ -14,15 +14,17 @@ public class ABSStrings {
     /* not intended for instantiation */
     private ABSStrings() {}
     
-    public static final String PATTERN_VALUE_UNITS = "{0}{1}";
+    public static final String PATTERN_VALUE_UNITS = getString( "pattern.0value.1units" );
+    public static final String PATTERN_STRENGTH_STRONG = getString( "pattern.strengthStrong.0KSymbol" ); 
+    public static final String PATTERN_STRENGTH_WEAK = getString( "pattern.strengthWeak.0KSymbol" ); 
     
     public static final String SHOW_WATER = getString( "showWater" ); 
     public static final String SOLUTION = getString( "solution" ); 
     public static final String TOOLS = getString( "tools" ); 
-    public static final String TEST_CONDUCTIVITY = getString( "testConductivity" ); 
-    public static final String MEASURE_PH = getString( "measurePH" ); 
+    public static final String CONDUCTIVITY_TESTER = getString( "conductivityTester" ); 
+    public static final String PH_PAPER = getString( "pHPaper" ); 
+    public static final String PH_METER = getString( "pHMeter" ); 
     public static final String VIEW_PARTICLES = getString( "viewParticles" ); 
-    public static final String STRENGTH = getString( "strength" ); 
     public static final String CONCENTRATION = getString( "concentration" ); 
     public static final String WEAK = getString( "weak" ); 
     public static final String STRONG = getString( "strong" ); 
@@ -39,6 +41,8 @@ public class ABSStrings {
     public static final String CUSTOM_SOLUTION = getString( "customSolution" ); 
     public static final String MOLAR = getString( "molar" );
     public static final String LITERS = getString( "liters" );
+    public static final String MAGNIFYING_GLASS = getString( "magnifyingGlass" );
+    public static final String BAR_GRAPH = getString( "barGraph" );
     
     private static final String getString( String key ) {
         return ABSResources.getString( key );

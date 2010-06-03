@@ -1,3 +1,4 @@
+6/3/10 added simple versions of all controls to control panels (no fancy icons)
 6/3/10 skeletons for control panels
 6/3/10 skeletons for modules and canvases
 6/3/10 localize all strings shown in design doc
