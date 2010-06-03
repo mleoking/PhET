@@ -4,8 +4,8 @@ package edu.colorado.phet.acidbasesolutions.module;
 
 import java.awt.geom.Dimension2D;
 
-import edu.colorado.phet.advancedacidbasesolutions.AABSColors;
-import edu.colorado.phet.advancedacidbasesolutions.AABSConstants;
+import edu.colorado.phet.acidbasesolutions.constants.ABSColors;
+import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -22,8 +22,8 @@ public abstract class ABSCanvas extends PhetPCanvas {
     private final PNode rootNode;
     
     public ABSCanvas() {
-        super( AABSConstants.CANVAS_RENDERING_SIZE );
-        setBackground( AABSColors.CANVAS_BACKGROUND );
+        super( ABSConstants.CANVAS_RENDERING_SIZE );
+        setBackground( ABSColors.CANVAS_BACKGROUND );
         
         // Root of our scene graph
         rootNode = new PNode();
