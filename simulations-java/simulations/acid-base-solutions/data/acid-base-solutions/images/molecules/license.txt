@@ -1,5 +1,9 @@
 A_minus.png source=PhET
+B.png source=PhET
+BH_plus.png source=PhET
 H2O.png source=PhET
 H3O_plus.png source=PhET
 HA.png source=PhET
+MOH.png source=PhET
+M_plus.png source=PhET
 OH_minus.png source=PhET
