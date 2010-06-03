@@ -11,6 +11,9 @@ public class ABSColors {
     
     /* not intended for instantiation */
     private ABSColors() {}
+    
+    // Color of the "play area"
+    public static final Color CANVAS_BACKGROUND = new Color( 230, 230, 230 );
 
     // molecule colors
     public static final Color H2O = new Color( 193, 222, 227 );
