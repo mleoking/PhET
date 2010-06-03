@@ -15,6 +15,6 @@ public class CustomSolutionModule extends ABSModule {
     public CustomSolutionModule() {
         super( ABSStrings.CUSTOM_SOLUTION );
         setSimulationPanel( new CustomSolutionCanvas() );
-        setControlPanel( new CustomSolutionControlPanel() );
+        setControlPanel( new CustomSolutionControlPanel( this ) );
     }
 }

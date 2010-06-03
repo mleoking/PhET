@@ -2,9 +2,12 @@
 
 package edu.colorado.phet.acidbasesolutions;
 
+import javax.swing.Box;
+
 import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.module.customsolution.CustomSolutionModule;
 import edu.colorado.phet.acidbasesolutions.module.testsolution.TestSolutionModule;
+import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
@@ -50,8 +53,18 @@ public class AcidBaseSolutionsApplication extends PiccoloPhetApplication {
      * Initializes the modules.
      */
     private void initModules() {
+        
         addModule( new TestSolutionModule() );
         addModule( new CustomSolutionModule() );
+        
+        // make all control panels the same width
+        int maxWidth = 0;
+        for ( Module module : getModules() ) {
+            maxWidth = Math.max( maxWidth, module.getControlPanel().getPreferredSize().width );
+        }
+        for ( Module module : getModules() ) {
+            module.getControlPanel().addControlFullWidth( Box.createHorizontalStrut( maxWidth ) );
+        }
     }
 
     /*

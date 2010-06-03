@@ -3,8 +3,10 @@
 package edu.colorado.phet.acidbasesolutions.constants;
 
 import java.awt.Dimension;
+import java.awt.Font;
 
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 /**
  * A collection of constants that configure global properties.
@@ -38,8 +40,8 @@ public class ABSConstants {
     
     public static final double AVOGADROS_NUMBER = 6.022E23;
     
-    public static final DoubleRange ACID_CONCENTRATION_RANGE = new DoubleRange( 0.001, 1, 0.001 );
-    public static final DoubleRange WEAK_BASE_CONCENTRATION_RANGE = new DoubleRange( 0.001, 1, 0.001 );
+    public static final DoubleRange CONCENTRATION_RANGE = new DoubleRange( 1E-3, 1 );
+    public static final DoubleRange WEAK_STRENGTH_RANGE = new DoubleRange( 1E-7, 1 );
     
     //----------------------------------------------------------------------------
     // View
@@ -47,4 +49,10 @@ public class ABSConstants {
     
     // reference coordinate frame size for world nodes
     public static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 1024, 768 );
+    
+    //----------------------------------------------------------------------------
+    // Control
+    //----------------------------------------------------------------------------
+    
+    public static final Font TITLED_BORDER_FONT = new PhetFont( PhetFont.getDefaultFontSize() + 4 );
 }
