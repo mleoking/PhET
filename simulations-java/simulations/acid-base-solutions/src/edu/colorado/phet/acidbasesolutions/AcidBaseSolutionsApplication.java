@@ -2,13 +2,13 @@
 
 package edu.colorado.phet.acidbasesolutions;
 
-import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
+import edu.colorado.phet.acidbasesolutions.module.customsolution.CustomSolutionModule;
+import edu.colorado.phet.acidbasesolutions.module.testsolution.TestSolutionModule;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
-import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
 /**
@@ -46,20 +46,12 @@ public class AcidBaseSolutionsApplication extends PiccoloPhetApplication {
     // Initialization
     //----------------------------------------------------------------------------
 
-    //TODO delete this
-    private static class DummyModule extends Module {
-        public DummyModule() {
-            super( "dummy", new ConstantDtClock( 1000, 1 ) );
-            setSimulationPanel( new PhetPCanvas( ABSConstants.CANVAS_RENDERING_SIZE ) );
-        }
-    }
-    
     /*
      * Initializes the modules.
      */
     private void initModules() {
-        //TODO add modules
-        addModule( new DummyModule() ); //TODO remove dummy module
+        addModule( new TestSolutionModule() );
+        addModule( new CustomSolutionModule() );
     }
 
     /*

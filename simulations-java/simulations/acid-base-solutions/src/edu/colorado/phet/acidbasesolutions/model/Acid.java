@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.acidbasesolutions.model;
 
-import edu.colorado.phet.acidbasesolutions.ABSSymbols;
+import edu.colorado.phet.acidbasesolutions.constants.ABSSymbols;
 
 /**
  * Base class for all solutes that are acids.

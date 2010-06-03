@@ -5,10 +5,10 @@ package edu.colorado.phet.acidbasesolutions.model;
 import java.awt.Color;
 import java.awt.Image;
 
-import edu.colorado.phet.acidbasesolutions.ABSColors;
-import edu.colorado.phet.acidbasesolutions.ABSImages;
-import edu.colorado.phet.acidbasesolutions.ABSStrings;
-import edu.colorado.phet.acidbasesolutions.ABSSymbols;
+import edu.colorado.phet.acidbasesolutions.constants.ABSColors;
+import edu.colorado.phet.acidbasesolutions.constants.ABSImages;
+import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
+import edu.colorado.phet.acidbasesolutions.constants.ABSSymbols;
 import edu.colorado.phet.advancedacidbasesolutions.AABSSymbols;
 
 /**

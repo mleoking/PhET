@@ -7,7 +7,7 @@ import java.awt.Dimension;
 import java.awt.geom.Dimension2D;
 import java.awt.image.BufferedImage;
 
-import edu.colorado.phet.acidbasesolutions.ABSConstants;
+import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
