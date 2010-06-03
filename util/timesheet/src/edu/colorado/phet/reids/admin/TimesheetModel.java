@@ -1,4 +1,4 @@
-package edu.colorado.phet.reids.admin.v2;
+package edu.colorado.phet.reids.admin;
 
 import edu.colorado.phet.reids.admin.util.FileUtils;
 
