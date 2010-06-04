@@ -1,8 +1,0 @@
-#This file identifies licenses of contibuted libraries
-java-look-and-feel-graphics license=Sun Graphics License licensefile=sun-graphics-license.txt name=Java Look and Feel Graphics Repository description=a collection of toolbar button graphics copyright=2000 Sun Microsystems website=http://java.sun.com/developer/techDocs/hi/repository/
-piccolo2d license=Piccolo2D License licensefile=license-piccolo.txt name=Piccolo2D description=a structured 2D graphics framework copyright=University of Maryland website=http://piccolo2d.org
-jass name=JASS description=JASS (Java Audio Synthesis System) is a unit generator based audio synthesis programming environment written in pure Java website=http://www.cs.ubc.ca/~kvdoel/jass/ copyright=Kees van den Doel licensefile=jass-license.txt license=JASS License
-javasound name=JavaSound OscillatorPlayer description=OscillatorPlayer used from www.jsresources.org copyright=Copyright (c) 1999 -2001 by Matthias Pfisterer <Matthias.Pfisterer@web.de> website=http://www.jsresources.org/examples/OscillatorPlayer.java.html license=LGPL licensefile=javasound-header.txt
-junit license=common public license 1.0 licensefile=cpl-v10.html name=JUnit description=A test-driven development library copyright=Object Mentor website=http://www.junit.org/
-javaws license=Sun Binary Code License notes=What is MPL-1.1.html in this directory for? also, (later bundled into Java 1.5...?) licensefile=license.txt name=JNLP API description=Java Web Start API copyright=Sun Microsystems website=http://java.sun.com/javase/technologies/desktop/javawebstart/download-jnlp.html
-swt license=Common Public License licensefile=cpl-v10.html name=SWT description=The Standard Widget Toolkit copyright=http://www.eclipse.org/swt/ website=http://www.eclipse.org/swt/
