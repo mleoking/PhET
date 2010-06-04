@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.genenetwork.view;
 
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.geom.Point2D;
 
@@ -47,6 +48,7 @@ public abstract class ToolBoxItemNode extends PComposite {
 	private SimpleModelElementNode selectionNode = null;
 	private HTMLNode caption = null;
 	private SimpleModelElement modelElement = null;
+	private CursorHandler cursorHandler = new CursorHandler(Cursor.HAND_CURSOR);
 
     //----------------------------------------------------------------------------
     // Constructor(s)
@@ -59,7 +61,7 @@ public abstract class ToolBoxItemNode extends PComposite {
 		updateLayout();
 		
 		// Set up handling of mouse events.
-        addInputEventListener(new CursorHandler());
+        addInputEventListener(cursorHandler);
         addInputEventListener(new PBasicInputEventHandler(){
         	@Override
             public void mousePressed(PInputEvent event) {
@@ -189,6 +191,14 @@ public abstract class ToolBoxItemNode extends PComposite {
 			caption.setOffset(-caption.getFullBoundsReference().getWidth() / 2,
 					selectionNode.getFullBoundsReference().getMaxY() + CAPTION_OFFSET_FROM_SELECTION_NODE);
 		}
+	}
+	
+	protected void removeCursorHandler(){
+		removeInputEventListener(cursorHandler);
+	}
+	
+	protected void restoreCursorHandler(){
+		addInputEventListener(cursorHandler);
 	}
 	
 	protected IGeneNetworkModelControl getModel(){
