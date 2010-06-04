@@ -64,6 +64,9 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
         myWorldNode = new PNode();
         addWorldChild(myWorldNode);
         
+        // Add the flashlight.
+        myWorldNode.addChild(new FlashlightNode(mvt));
+        
         // Update the layout.
         updateLayout();
         
