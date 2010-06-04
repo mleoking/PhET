@@ -11,6 +11,8 @@ public interface TimeControlListener {
 
     void pausePressed();
 
+    void stepBackPressed();
+
     void restartPressed();
     
     public static class TimeControlAdapter implements TimeControlListener {
@@ -20,6 +22,8 @@ public interface TimeControlListener {
         public void playPressed() {}
 
         public void pausePressed() {}
+
+        public void stepBackPressed() {}
 
         public void restartPressed() {}
     }

@@ -19,6 +19,7 @@ public class PhetCommonResources {
     public static final String STRING_CLOCK_PLAY = "Common.ClockControlPanel.Play";
     public static final String STRING_CLOCK_PAUSE = "Common.ClockControlPanel.Pause";
     public static final String STRING_CLOCK_STEP = "Common.ClockControlPanel.Step";
+    public static final String STRING_CLOCK_STEP_BACK = "Common.ClockControlPanel.StepBack";
     public static final String STRING_CLOCK_RESTART = "Common.ClockControlPanel.Restart";
     public static final String STRING_CLOCK_REWIND = "Common.ClockControlPanel.Rewind";
     public static final String STRING_RESET_ALL = "ControlPanel.button.resetAll";

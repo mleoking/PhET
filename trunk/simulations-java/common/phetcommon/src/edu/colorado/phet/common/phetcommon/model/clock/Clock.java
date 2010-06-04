@@ -90,6 +90,13 @@ public abstract class Clock implements IClock {
         tick( timingStrategy.getSimulationTimeChangeForPausedClock() );
     }
 
+    /**
+     * Move the clock backwards by the tickOnceTimeChange.
+     */
+    public void stepClockBackWhilePaused() {
+        tick( -timingStrategy.getSimulationTimeChangeForPausedClock() );
+    }
+
     private void setSimulationTimeNoUpdate( double simulationTime ) {
         lastSimulationTime = this.simulationTime;
         this.simulationTime = simulationTime;
