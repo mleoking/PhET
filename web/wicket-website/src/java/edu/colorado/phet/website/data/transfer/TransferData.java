@@ -169,6 +169,16 @@ public class TransferData {
                 File acts = PhetWicketApplication.get().getActivitiesRoot();
                 FileUtils.delete( acts );
                 acts.mkdir();
+                try {
+                    // add htaccess properties that force downloading
+                    File htaccess = new File( acts, ".htaccess" );
+                    FileUtils.writeString( htaccess, "ForceType application/octet-stream\n" +
+                                                     "Header set Content-Disposition attachment\n" );
+                }
+                catch( IOException e ) {
+                    logger.error( e );
+                    return false;
+                }
 
                 final List<Object> newObs = new LinkedList<Object>();
 
