@@ -64,13 +64,6 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
         myWorldNode = new PNode();
         addWorldChild(myWorldNode);
         
-        // TODO: This is temporary.  Add a node that is a sketch of what this
-        // will really look like at some point.
-        PImage sketchNode = new PImage(GreenhouseResources.getImage("photon-absorption-sketch-01.png"));
-        sketchNode.setScale(1100 / sketchNode.getFullBoundsReference().width);
-        sketchNode.setOffset(-160, 0);
-        myWorldNode.addChild(sketchNode);
-        
         // Update the layout.
         updateLayout();
         
