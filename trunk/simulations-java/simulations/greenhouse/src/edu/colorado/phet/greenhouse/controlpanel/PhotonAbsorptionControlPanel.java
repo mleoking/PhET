@@ -15,8 +15,7 @@ import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
-import edu.colorado.phet.membranediffusion.MembraneDiffusionResources;
-import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
+import edu.colorado.phet.greenhouse.GreenhouseResources;
 
 /**
  * Control panel for the Photon Absorption tab of this application.
@@ -28,7 +27,7 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
 	public PhotonAbsorptionControlPanel (PiccoloModule module){
 
     	// Set the control panel's minimum width.
-        int minimumWidth = MembraneDiffusionResources.getInt( "int.minControlPanelWidth", 215 );
+        int minimumWidth = GreenhouseResources.getInt( "int.minControlPanelWidth", 215 );
         setMinimumWidth( minimumWidth );
         
         // Put some space at the top of the panel.
