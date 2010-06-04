@@ -137,7 +137,7 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
         		new Point2D.Double(0, 0), 
         		new Point((int)Math.round(NeuronDefaults.INTERMEDIATE_RENDERING_SIZE.width * 0.5), 
         				(int)Math.round(NeuronDefaults.INTERMEDIATE_RENDERING_SIZE.height * 0.5 )),
-        		4,  // Scale factor - smaller numbers "zoom out", bigger ones "zoom in".
+        		3.9,  // Scale factor - smaller numbers "zoom out", bigger ones "zoom in".
         		true);
 
         // Register for events from the model.
@@ -525,10 +525,11 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     		// Skew the zoom a little so that when zoomed in the membrane
     		// is in a reasonable place and there is room for the chart below
     		// it.
-    		if (zoomFactor > 2){
+    		double skewThreshold = 1.5;
+    		if (zoomFactor > skewThreshold){
     			myWorldNode.scaleAboutPoint(zoomFactor, 
     					(int)(Math.round(NeuronDefaults.INTERMEDIATE_RENDERING_SIZE.width / 2)),
-    					(zoomFactor - 2) * model.getAxonMembrane().getCrossSectionDiameter() * 0.1);
+    					(zoomFactor - skewThreshold) * model.getAxonMembrane().getCrossSectionDiameter() * 0.11);
     		}
     		else{
     			myWorldNode.scaleAboutPoint(zoomFactor, 
