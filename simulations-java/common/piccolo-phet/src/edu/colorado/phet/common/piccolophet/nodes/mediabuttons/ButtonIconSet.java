@@ -85,7 +85,6 @@ public class ButtonIconSet {
     		(buttonWidth - stepForwardIconShape.getBounds2D().getMaxX());
     	AffineTransform tx = new AffineTransform(-1, 0, 0, 1, xTranslation, 1);
     	Shape flippedTranslatedShape = tx.createTransformedShape(stepForwardIconShape);
-    	System.out.println("4: " + flippedTranslatedShape.getBounds2D());
     	return (flippedTranslatedShape);
     }
 

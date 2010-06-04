@@ -39,6 +39,10 @@ public class PiccoloClockControlPanel extends PiccoloTimeControlPanel{
             public void restartPressed() {
                 clock.resetSimulationTime();
             }
+
+			public void stepBackPressed() {
+                clock.stepClockBackWhilePaused();
+			}
         } );
 
         // Update the control panel when the clock changes
