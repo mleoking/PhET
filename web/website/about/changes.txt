@@ -1,3 +1,4 @@
+6-4-2010: Sound (2.16) - Minor improvements for the frequency control
 6-3-2010: Gene Machine: The Lac Operon (1.02) - Fixed some issues with placement of lactose injector on Mac, fixed bug with grabbing empty items in tool box.
 5-30-2010: Sound (2.14) - Added a way to clear the waves in the measurement tab, and fixed a bug in the control panel of the wave interference tab.
 5-21-2010: Moving Man (1.28) - Bugfixes in motion creation and record/playback
