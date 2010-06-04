@@ -33,4 +33,8 @@ public class GreenhouseResources {
     public static final BufferedImage getCommonImage( String name ) {
         return PhetCommonResources.getInstance().getImage( name );
     }
+    
+    public static final int getInt( String name, int defaultValue ) {
+        return RESOURCES.getLocalizedInt( name, defaultValue );
+    }
 }
