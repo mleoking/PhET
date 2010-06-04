@@ -16,7 +16,6 @@ public class NeuronStrings {
     /* not intended for instantiation */
     private NeuronStrings() {}
     
-    public static final String TITLE_MEMBRANE_DIFFUSION_MODULE = getString( "ModuleTitle.MembraneDiffusionModule" );
     public static final String TITLE_AXON_CROSS_SECTION_MODULE = getString( "ModuleTitle.AxonCrossSection" );
 
     public static final String POTASSIUM_CHEMICAL_SYMBOL = getString( "PotassiumChemicalSymbol" );
