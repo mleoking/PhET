@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.view.clock.TimeSpeedSlider;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
+import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.StepBackButton;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.StepButton;
 import edu.colorado.phet.neuron.NeuronStrings;
 import edu.colorado.phet.neuron.controlpanel.AxonCrossSectionControlPanel;
@@ -67,17 +68,9 @@ public class AxonCrossSectionModule extends PiccoloModule {
 			}
         } );
         clockControlPanel.addBetweenTimeDisplayAndButtons(timeSpeedSlider);
-    	
-    	// TODO: Trying out ways to add the "step back" button.
-    	int buttonHeight = (int)(clockControlPanel.getPlayPauseButton().getFullBoundsReference().getHeight() * 0.8);
-    	PhetPCanvas stepBackButtonCanvas = new PhetPCanvas();
-    	int canvasHeightAndWidth = (int)Math.round(buttonHeight * 1.1);
-    	stepBackButtonCanvas.setPreferredSize(new Dimension(canvasHeightAndWidth, canvasHeightAndWidth));
-    	stepBackButtonCanvas.setBorder(null);
-    	StepButton stepBackButton = new StepButton(buttonHeight);
-    	stepBackButton.setOffset((canvasHeightAndWidth - buttonHeight) / 2, (canvasHeightAndWidth - buttonHeight) / 2);
-    	stepBackButtonCanvas.addScreenChild(stepBackButton);
-    	clockControlPanel.addBetweenTimeDisplayAndButtons(stepBackButtonCanvas);
+        
+        // Enable the "Step Back" button.
+        clockControlPanel.setStepBackButtonVisible(true);
     	
         setClockControlPanel( clockControlPanel );
 
