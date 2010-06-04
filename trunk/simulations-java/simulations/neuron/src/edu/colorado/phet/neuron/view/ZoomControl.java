@@ -128,7 +128,9 @@ public class ZoomControl extends PNode {
 		addChild(sliderKnob);
 		
 		// Add the buttons for zooming in and out.
-		// TODO: i18n of plus and minus symbols?
+		// Note: The plus and minus symbols are not internationlized, and I'm
+		// assuming that it isn't necessary to do so.  If it is ever needed,
+		// this is where it would be fixed.
 		zoomInButton = createZoomButton(size.getWidth(), '+');
 		zoomInButton.setOffset(0, 0);
 		zoomInButton.addInputEventListener(new PBasicInputEventHandler(){
