@@ -21,7 +21,7 @@ public class ContributionFile implements Serializable, IntId {
      * File types that are allowed to be uploaded. Older ones are grandfathered in, but currently not gracefully.
      * (contributions with non-compliant files cannot be updated)
      */
-    private static final String[] FILE_TYPE_WHITELIST = new String[]{"pdf", "doc", "docx", "ppt", "xls", "txt", "pptx", "xlsx"};
+    private static final String[] FILE_TYPE_WHITELIST = new String[]{"pdf", "doc", "docx", "ppt", "xls", "txt", "pptx", "xlsx", "cck", "esp"};
 
     private int id;
     private Contribution contribution;
