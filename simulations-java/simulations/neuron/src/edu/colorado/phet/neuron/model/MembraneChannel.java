@@ -239,18 +239,6 @@ public abstract class MembraneChannel {
 		particle.setMotionStrategy(new TraverseChannelAndFadeMotionStrategy(this, particle.getPositionReference(), maxVelocity));
 	}
 	
-	/**
-	 * Set the motion strategy for a particle that will cause the particle to
-	 * traverse the channel.  This version is the one that implements the
-	 * behavior for crossing through the generic membrane.
-	 * 
-	 * @param particle
-	 * @param maxVelocity
-	 */
-	public void moveParticleThroughGenericMembrane(Particle particle, Rectangle2D postTraversalBounds, double maxVelocity){
-		particle.setMotionStrategy(new TraverseChannelAndWalkStrategy(this, particle.getPositionReference(), postTraversalBounds, maxVelocity));
-	}
-	
 	protected double getParticleVelocity() {
 		return particleVelocity;
 	}
