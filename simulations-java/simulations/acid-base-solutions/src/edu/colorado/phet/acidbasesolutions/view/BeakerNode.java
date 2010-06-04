@@ -1,15 +1,16 @@
 /* Copyright 2010, University of Colorado */
 
-package edu.colorado.phet.acidbasesolutions.prototype;
+package edu.colorado.phet.acidbasesolutions.view;
 
 import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
+import java.text.MessageFormat;
 
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
+import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
+import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
+import edu.colorado.phet.acidbasesolutions.model.Beaker;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -17,11 +18,11 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Visual representation of a beaker that is filled to the top with a solution.
- * Origin is at the bottom center of the beaker.
+ * Origin is at the bottom center.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class BeakerNode extends PComposite {
+public class BeakerNode extends PComposite {
     
     private static final double MAX_VOLUME = 1; // L
     
@@ -41,29 +42,16 @@ class BeakerNode extends PComposite {
     private static final double RIM_OFFSET = 20;
     
     private final Beaker beaker;
-    private final WeakAcid solution;
     private final PPath outlineNode, solutionNode;
     private final GeneralPath outlinePath; 
     private final Rectangle2D solutionRectangle;
     private final PComposite ticksNode;
     
-    public BeakerNode( Beaker beaker, WeakAcid solution, MagnifyingGlassNode magnifyingGlassNode, boolean dev ) {
+    public BeakerNode( Beaker beaker, AqueousSolution solution ) {
         super();
         
         this.beaker = beaker;
-        beaker.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                update();
-            }
-        });
-        
-        this.solution = solution;
-        solution.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                update();
-            }
-        } );
-        
+
         solutionRectangle = new Rectangle2D.Double();
         solutionNode = new PPath();
         solutionNode.setPaint( solution.getColor() );
@@ -90,36 +78,49 @@ class BeakerNode extends PComposite {
     }
     
     /*
+     * Where the beaker's origin is in relation to its width.
+     */
+    private double getOriginXOffset() {
+        return beaker.getWidth() / 2; // origin a midpoint
+    }
+    
+    /*
+     * Where the beaker's origin is in relation to its height.
+     */
+    private double getOriginYOffset() {
+        return beaker.getHeight(); // origin at bottom
+    }
+    
+    /*
      * Creates the shape for the beaker.
      * Origin is at the bottom center.
      * Start drawing the shape at the upper-left corner.
      */
     private void updateBeaker() {
-        double width = beaker.getWidth();
-        double height = beaker.getHeight();
         outlinePath.reset();
-        outlinePath.moveTo( (float) ( -width / 2 - RIM_OFFSET ), (float) ( -height - RIM_OFFSET ) );
-        outlinePath.lineTo( (float) -width / 2, (float) -height );
-        outlinePath.lineTo( (float) -width / 2, 0f );
-        outlinePath.lineTo( (float) +width / 2, 0f );
-        outlinePath.lineTo( (float) +width / 2, (float) -height );
-        outlinePath.lineTo( (float) ( +width / 2 + RIM_OFFSET ), (float) ( -height - RIM_OFFSET ) );
+        double xOffset = getOriginXOffset();
+        double yOffset = getOriginYOffset();
+        outlinePath.moveTo( (float) ( -xOffset - RIM_OFFSET ), (float) ( -yOffset - RIM_OFFSET ) );
+        outlinePath.lineTo( (float) -xOffset, (float) -yOffset );
+        outlinePath.lineTo( (float) -xOffset, (float)( beaker.getHeight() - yOffset ) );
+        outlinePath.lineTo( (float) ( beaker.getWidth() - xOffset ), (float)( beaker.getHeight() - yOffset )  );
+        outlinePath.lineTo( (float) ( beaker.getWidth() - xOffset ), (float) -yOffset );
+        outlinePath.lineTo( (float) ( beaker.getWidth() - xOffset + RIM_OFFSET ), (float) ( -yOffset - RIM_OFFSET ) );
         outlineNode.setPathTo( outlinePath );
     }
     
     private void updateSolution() {
-        solutionNode.setPaint( solution.getColor() );
-        double width = beaker.getWidth();
-        double height = beaker.getHeight();
-        solutionRectangle.setRect( -width/2, -height/2, width, height );
+        double xOffset = getOriginXOffset();
+        double yOffset = getOriginYOffset();
+        solutionRectangle.setRect( -xOffset, -yOffset, beaker.getWidth(), beaker.getHeight() );
         solutionNode.setPathTo( solutionRectangle );
     }
     
     private void updateTicks() {
         ticksNode.removeAllChildren();
         int numberOfTicks = (int) Math.round( MAX_VOLUME / MINOR_TICK_SPACING );
-        final double rightX = beaker.getWidth() / 2; // don't use bounds or position will be off because of stroke width
-        final double bottomY = beaker.getHeight() / 2; // don't use bounds or position will be off because of stroke width
+        final double rightX = getOriginXOffset(); // don't use bounds or position will be off because of stroke width
+        final double bottomY = beaker.getHeight() - getOriginYOffset(); // don't use bounds or position will be off because of stroke width
         double deltaY = beaker.getHeight() / numberOfTicks;
         for ( int i = 1; i <= numberOfTicks; i++ ) {
             final double y = bottomY - ( i * deltaY );
@@ -133,7 +134,7 @@ class BeakerNode extends PComposite {
                 
                 int labelIndex = ( i / MINOR_TICKS_PER_MAJOR_TICK ) - 1;
                 if ( labelIndex < MAJOR_TICK_LABELS.length && MAJOR_TICK_LABELS[ labelIndex ] != null ) {
-                    String label = MAJOR_TICK_LABELS[ labelIndex ] + MGPConstants.UNITS_LITERS;
+                    String label = MessageFormat.format( ABSStrings.PATTERN_VALUE_UNITS, MAJOR_TICK_LABELS[ labelIndex ], ABSStrings.LITERS );
                     PText textNode = new PText( label );
                     textNode.setFont( TICK_LABEL_FONT );
                     textNode.setTextPaint( TICK_COLOR );

@@ -2,10 +2,12 @@
 
 package edu.colorado.phet.acidbasesolutions.model;
 
+import java.awt.Color;
 import java.util.EventListener;
 
 import javax.swing.event.EventListenerList;
 
+import edu.colorado.phet.acidbasesolutions.constants.ABSColors;
 import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 
@@ -29,6 +31,10 @@ public abstract class AqueousSolution {
         this.solute = solute;
         this.initialConcentration = initialConcentration;
         listeners = new EventListenerList();
+    }
+    
+    public Color getColor() {
+        return ABSColors.AQUEOUS_SOLUTION;
     }
 
     public Solute getSolute() {
