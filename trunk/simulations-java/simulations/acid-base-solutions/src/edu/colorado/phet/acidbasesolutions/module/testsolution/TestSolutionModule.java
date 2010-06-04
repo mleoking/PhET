@@ -3,6 +3,7 @@
 package edu.colorado.phet.acidbasesolutions.module.testsolution;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
+import edu.colorado.phet.acidbasesolutions.model.ABSModel;
 import edu.colorado.phet.acidbasesolutions.module.ABSModule;
 
 /**
@@ -11,10 +12,25 @@ import edu.colorado.phet.acidbasesolutions.module.ABSModule;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class TestSolutionModule extends ABSModule {
-
+    
+    private final ABSModel model;
+    private final TestSolutionCanvas canvas;
+    private final TestSolutionControlPanel controlPanel;
+    
     public TestSolutionModule() {
         super( ABSStrings.TEST_SOLUTION );
-        setSimulationPanel( new TestSolutionCanvas() );
-        setControlPanel( new TestSolutionControlPanel( this ) );
+        
+        model = new ABSModel();
+        
+        canvas = new TestSolutionCanvas( model );
+        setSimulationPanel( canvas );
+        
+        controlPanel = new TestSolutionControlPanel( this );
+        setControlPanel( controlPanel );
+    }
+    
+    @Override
+    public void reset() {
+        //XXX
     }
 }

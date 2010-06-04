@@ -1,3 +1,4 @@
+6/4/10 beaker model and view
 6/4/10 javadoc controls
 6/4/10 convenience subclass for radio buttons
 6/4/10 add tick marks to concentration slider, doc oddities with this

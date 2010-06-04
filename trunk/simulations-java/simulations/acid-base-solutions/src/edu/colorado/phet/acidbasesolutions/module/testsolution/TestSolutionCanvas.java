@@ -2,7 +2,9 @@
 
 package edu.colorado.phet.acidbasesolutions.module.testsolution;
 
+import edu.colorado.phet.acidbasesolutions.model.ABSModel;
 import edu.colorado.phet.acidbasesolutions.module.ABSCanvas;
+import edu.colorado.phet.acidbasesolutions.view.BeakerNode;
 
 /**
  * Canvas for the "Test Solution" module.
@@ -11,7 +13,15 @@ import edu.colorado.phet.acidbasesolutions.module.ABSCanvas;
  */
 public class TestSolutionCanvas extends ABSCanvas {
 
-    public TestSolutionCanvas() {
+    private final ABSModel model;
+    
+    public TestSolutionCanvas( ABSModel model ) {
+        
+        this.model = model;
+        
+        BeakerNode beakerNode = new BeakerNode( model.getBeaker(), model.getSolution() );
+        addNode( beakerNode );
+        beakerNode.setOffset( model.getBeaker().getLocationReference() );
     }
 
 }

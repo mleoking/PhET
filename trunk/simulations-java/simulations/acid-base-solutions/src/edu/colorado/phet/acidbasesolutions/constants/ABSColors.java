@@ -14,7 +14,7 @@ public class ABSColors {
     
     // Color of the "play area"
     public static final Color CANVAS_BACKGROUND = new Color( 230, 230, 230 );
-
+    
     // molecule colors
     public static final Color H2O = new Color( 193, 222, 227 );
     public static final Color H3O_PLUS = new Color( 222, 2, 0 );
@@ -25,4 +25,7 @@ public class ABSColors {
     public static final Color BH_PLUS = new Color( 192, 178, 60 );
     public static final Color MOH = B;
     public static final Color M_PLUS = BH_PLUS;
+    
+    // solution color
+    public static final Color AQUEOUS_SOLUTION = new Color( 193, 222, 227 ); // light blue
 }
