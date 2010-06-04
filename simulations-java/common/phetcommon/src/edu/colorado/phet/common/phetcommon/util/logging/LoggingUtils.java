@@ -1,34 +1,41 @@
-
 package edu.colorado.phet.common.phetcommon.util.logging;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import java.util.logging.*;
 
+/**
+ * Keeps track of loggers and handles enabling logging levels for those loggers
+ */
 public class LoggingUtils {
 
     /**
-     * Enable logging of all levels for the particular package name
+     * A map of logger name => logger
      */
-    public static void enableAllLogging( String packageName ) {
-        /*
-        The process for enabling log levels is a bit complicated. setting levels on the logger and all of its handlers
-        does not seem to enable the FINE level. The only way I have found that works is adding another handler to it.
-         */
+    private static Map<String, Logger> loggers = new HashMap<String, Logger>();
 
-        Logger logger = getLogger( packageName );
+    /**
+     * A set of all package names that by default will output log messages at all levels
+     */
+    private static Set<String> fullLoggingPackages = new HashSet<String>();
 
-        // the logger should receive all messages
-        logger.setLevel( Level.ALL );
+    /**
+     * A dedicated logging handler that will print out messages at level FINE or lower to the console. This is used in
+     * addition to the default handler which prints out messages at level INFO or higher.
+     */
+    private static Handler handler = new ConsoleHandler();
 
-        ConsoleHandler handler = new ConsoleHandler();
-
-        // add the handler before mutating it so it gets the anonymous logger permissons, according to http://www.velocityreviews.com/forums/t302488-logger-info.html
-        logger.addHandler( handler );
-
+    /**
+     * Initialize the handler
+     */
+    static {
         // the handler should output all messages
         handler.setLevel( Level.ALL );
-        // that even is not enough, we need to set a filter that won't double the log messages
-        handler.setFilter( new Filter() {
 
+        // that even is not enough, we need to set a filter that won't double the log messages at level INFO or higher
+        handler.setFilter( new Filter() {
             public boolean isLoggable( LogRecord logRecord ) {
                 return logRecord.getLevel() == Level.FINE || logRecord.getLevel() == Level.FINER || logRecord.getLevel() == Level.FINEST;
             }
@@ -36,13 +43,81 @@ public class LoggingUtils {
     }
 
     /**
-     * Obtain a logger, ignoring the specified namespace.  This method centralizes log creation to make it easy to
+     * Enable logging of all levels for all loggers whose names start with the specified package name.
+     * Calling .setLevel() on a logger (even just once) will override this statement.
+     *
+     * @param packageName The package name, period-delimited.
+     */
+    public static synchronized void enableAllLogging( String packageName ) {
+        fullLoggingPackages.add( packageName );
+        for ( String loggerName : loggers.keySet() ) {
+            if ( loggerName.startsWith( packageName ) ) {
+                enableLogging( loggers.get( loggerName ) );
+            }
+        }
+    }
+
+    /**
+     * Obtain a logger.  This method centralizes log creation to make it easy to
      * specify configuration such as whether it is anonymous or not, see #2386
      *
-     * @param name the name of the log to create or access, currently ignored.
-     * @return the log
+     * @param name The name of the logger. Generally, use the full name of the calling class so enabling logging by
+     *             package is easier.
+     * @return The logger
      */
-    public static Logger getLogger( String name ) {
-        return Logger.getAnonymousLogger( null );
+    public static synchronized Logger getLogger( String name ) {
+        if ( loggers.containsKey( name ) ) {
+            return loggers.get( name );
+        }
+        else {
+            // grab an anonymous logger with the specific name
+            Logger logger = Logger.getAnonymousLogger();
+
+            // store it so we can distribute the same copy
+            loggers.put( name, logger );
+
+            // if we have already enabled logging for a package (or subpackage), enable this logger
+            if ( hasAllLevelsEnabled( name ) ) {
+                enableLogging( logger );
+            }
+            return logger;
+        }
+    }
+
+    /**
+     * Whether a logger by this name should have all levels output.
+     *
+     * @param loggerName The name of the logger
+     * @return Whether all levels are enabled
+     */
+    public static synchronized boolean hasAllLevelsEnabled( String loggerName ) {
+        for ( String fullLoggingPackage : fullLoggingPackages ) {
+            if ( loggerName.startsWith( fullLoggingPackage ) ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Enable logging of all messages for the specified logger.
+     *
+     * @param logger The logger. Should be an anonymous logger.
+     */
+    private static void enableLogging( Logger logger ) {
+        // allow directly setting level on the logger to override this
+        if ( logger.getLevel() == null ) {
+            // enable passing of all levels through the logger itself
+            logger.setLevel( Level.ALL );
+        }
+
+        for ( Handler h : logger.getHandlers() ) {
+            if ( h == handler ) {
+                return;
+            }
+        }
+
+        // default console appender doesn't handle levels at FINE or under. we add our custom handler to output these levels 
+        logger.addHandler( handler );
     }
 }
