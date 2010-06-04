@@ -8,7 +8,6 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.EventListener;
-import java.util.HashMap;
 import java.util.Random;
 
 import javax.swing.event.EventListenerList;
@@ -111,7 +110,6 @@ public class AxonModel implements IParticleCapture {
     private final double crossSectionInnerRadius;
     private final double crossSectionOuterRadius;
     private EventListenerList listeners = new EventListenerList();
-    private ConcentrationTracker concentrationTracker = new ConcentrationTracker();
     private IHodgkinHuxleyModel hodgkinHuxleyModel = new ModifiedHodgkinHuxleyModel();
     private boolean potentialChartVisible = DEFAULT_FOR_MEMBRANE_CHART_VISIBILITY;
     private boolean allIonsSimulated = DEFAULT_FOR_SHOW_ALL_IONS; // Controls whether all ions, or just those near membrane, are simulated.
@@ -175,10 +173,6 @@ public class AxonModel implements IParticleCapture {
     
     public AxonMembrane getAxonMembrane(){
     	return axonMembrane;
-    }
-    
-    public Shape getBodyShape(){
-    	return new GeneralPath();
     }
     
     public ArrayList<MembraneChannel> getMembraneChannels(){
@@ -382,8 +376,6 @@ public class AxonModel implements IParticleCapture {
     		else {
     			newParticle.setOpaqueness(BACKGROUND_PARTICLE_DEFAULT_OPAQUENESS);
     		}
-    		
-        	concentrationTracker.updateParticleCount(newParticle.getType(), position, 1);
     	}
     }
 
@@ -935,76 +927,6 @@ public class AxonModel implements IParticleCapture {
     // Inner Classes and Interfaces
     //----------------------------------------------------------------------------
     
-    /**
-     * This is a "convenience class" that is used to track the relative
-     * concentration of the different particle types.  This was created so that
-     * the concentration doesn't need to be completely recalculated at every
-     * time step, which would be computationally expensive.
-     */
-    public static class ConcentrationTracker {
-
-    	HashMap<ParticleType, Integer> mapParticleTypeToNumOutside = new HashMap<ParticleType, Integer>();
-    	HashMap<ParticleType, Integer> mapParticleTypeToNumInside = new HashMap<ParticleType, Integer>();
-    	
-    	public void updateParticleCount(ParticleType particleType, ParticlePosition position, int delta){
-    		HashMap<ParticleType, Integer> map = position == ParticlePosition.INSIDE_MEMBRANE ? mapParticleTypeToNumInside :
-    			mapParticleTypeToNumOutside;
-    		Integer currentCount = map.get(particleType);
-    		if (currentCount == null){
-    			currentCount = new Integer(0);
-    		}
-    		Integer newCount = new Integer(currentCount.intValue() + delta);
-    		if (newCount.intValue() < 0){
-    			System.err.println(getClass().getName()+ "- Error: Negative count for particles in a position.");
-    			assert false;
-    			newCount = new Integer(0);
-    		}
-    		map.put(particleType, newCount);
-    	}
-    	
-    	public void resetParticleCount(ParticleType particleType, ParticlePosition position){
-    		HashMap<ParticleType, Integer> map = position == ParticlePosition.INSIDE_MEMBRANE ? mapParticleTypeToNumInside :
-    			mapParticleTypeToNumOutside;
-    		map.put(particleType, new Integer(0));
-    	}
-    	
-    	public int getNumParticlesInPosition(ParticleType particleType, ParticlePosition position){
-    		HashMap<ParticleType, Integer> map = position == ParticlePosition.INSIDE_MEMBRANE ? mapParticleTypeToNumInside :
-    			mapParticleTypeToNumOutside;
-    		Integer currentCount = map.get(particleType);
-    		if (currentCount == null){
-    			currentCount = new Integer(0);
-    		}
-    		return currentCount.intValue();
-    	}
-    	
-    	public int getTotalNumParticles(ParticleType particleType){
-    		return (getNumParticlesInPosition(particleType, ParticlePosition.INSIDE_MEMBRANE) + 
-    				getNumParticlesInPosition(particleType, ParticlePosition.OUTSIDE_MEMBRANE));
-    	}
-    	
-    	public double getProportion(ParticleType particleType, ParticlePosition position){
-    		Integer insideCount = mapParticleTypeToNumInside.get(particleType);
-    		if (insideCount == null){
-    			insideCount = new Integer(0);
-    		}
-    		Integer outsideCount = mapParticleTypeToNumOutside.get(particleType);
-    		if (outsideCount == null){
-    			outsideCount = new Integer(0);
-    		}
-
-    		if (insideCount.intValue() == outsideCount.intValue() && insideCount.intValue() == 0){
-    			return 0;
-    		}
-    		else if (position == ParticlePosition.INSIDE_MEMBRANE){
-    			return insideCount.doubleValue() / (insideCount.doubleValue() + outsideCount.doubleValue());
-    		}
-    		else {
-    			return outsideCount.doubleValue() / (insideCount.doubleValue() + outsideCount.doubleValue());
-    		}
-    	}
-    }
-
     /**
      * A class for reporting the closest particle to the origin in a capture
      * zone and the total number of particles in the zone.
