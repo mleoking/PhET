@@ -1,3 +1,4 @@
+# 2.15.04 (41423) Jun 4, 2010
 6/5/10 fixed #2389, replaced JTextField with JLabel in Frequency control panel to remove graphics artifacts
 6/5/10 use PhetFont instead of Font in Frequency control panel
 6/5/10 remove dead code from SoundControlPanel.FrequencyControlPanel
