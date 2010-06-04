@@ -20,7 +20,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class WeakAcidReactionEquationNode extends PComposite {
+class WeakAcidReactionEquationNode extends PComposite {
     
     private static final Font SYMBOL_FONT = new PhetFont( 20 );
     

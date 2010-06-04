@@ -15,7 +15,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PHMeterNode extends PText {
+class PHMeterNode extends PText {
 
     private static final DecimalFormat PH_FORMAT = new DecimalFormat( "0.00" );
     
