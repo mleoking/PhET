@@ -13,15 +13,18 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JCheckBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
-import javax.swing.JTextField;
 import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.sound.SoundConfig;
 import edu.colorado.phet.sound.SoundModule;
 import edu.colorado.phet.sound.SoundResources;
@@ -81,45 +84,44 @@ public class SoundControlPanel extends ControlPanel {
         }
     }
 
-    private static class FrequencyControlPanel extends JPanel {
-        private JTextField frequencyTF;
+    private static class FrequencyControlPanel extends VerticalLayoutPanel {
+        private JLabel frequencyLabel;
         private JSlider frequencySlider;
         private String Hertz = SoundResources.getString( "SoundControlPanel.Hertz" );
 
         FrequencyControlPanel( final SoundModel model ) {
-            this.setLayout( new GridLayout( 2, 1 ) );
+            
             this.setPreferredSize( new Dimension( 125, 80 ) );
 
-            JPanel frequencyReadoutPanel = new JPanel( new BorderLayout() );
-            frequencyTF = new JTextField( 4 );
-            frequencyTF.setEditable( false );
-            frequencyTF.setHorizontalAlignment( JTextField.RIGHT );
-            Font clockFont = frequencyTF.getFont();
-            frequencyTF.setFont( new Font( clockFont.getName(), Font.BOLD, 12 ) );
-            frequencyTF.setText( Integer.toString( SoundConfig.s_defaultFrequency ) + " " + Hertz );
-            frequencySlider = new JSlider( JSlider.HORIZONTAL,
-                                           0,
-                                           SoundConfig.s_maxFrequency,
-                                           SoundConfig.s_defaultFrequency );
+            // value
+            frequencyLabel = new JLabel();
+            frequencyLabel.setFont( new PhetFont( Font.BOLD, 12 ) );
+            frequencyLabel.setText( Integer.toString( SoundConfig.s_defaultFrequency ) + " " + Hertz );
+            
+            // slider
+            frequencySlider = new JSlider( JSlider.HORIZONTAL, 0, SoundConfig.s_maxFrequency, SoundConfig.s_defaultFrequency );
             frequencySlider.setPreferredSize( new Dimension( 20, 60 ) );
             frequencySlider.setPaintTicks( true );
             frequencySlider.setMajorTickSpacing( 100 );
-            frequencySlider.addMouseListener( new MouseAdapter() {
-                public void mouseReleased( MouseEvent e ) {
-                    //                updateFrequency( frequencySlider.getValue() );
-                }
-            } );
             frequencySlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     updateFrequency( model, frequencySlider.getValue() );
-                    frequencyTF.setText( Integer.toString( frequencySlider.getValue() ) + " " + Hertz );
+                    frequencyLabel.setText( Integer.toString( frequencySlider.getValue() ) + " " + Hertz );
                 }
             } );
             updateFrequency( model, frequencySlider.getValue() );
 
-            frequencyReadoutPanel.add( frequencyTF, BorderLayout.CENTER );
-            this.add( frequencyReadoutPanel );
-            this.add( frequencySlider );
+            // layout
+            /*
+             * This labelPanel is a bit of a hack to make the value right justified.
+             * Since this is a VerticalLayoutPanel, I should be able to call setAnchor(GridBagConstants.EAST)
+             * and add(labelPanel).  But this doesn't work, probably something broken in VerticalLayoutPanel.
+             */
+            JPanel labelPanel = new JPanel( new BorderLayout() );
+            labelPanel.setBorder( new EmptyBorder( 0, 0, 0, 10 ) );
+            labelPanel.add( frequencyLabel, BorderLayout.EAST );
+            add( labelPanel );
+            add( frequencySlider );
 
             Border frequencyBorder = new TitledBorder( SoundResources.getString( "SoundControlPanel.BorderTitle" ) );
             this.setBorder( frequencyBorder );
@@ -129,7 +131,7 @@ public class SoundControlPanel extends ControlPanel {
          *
          */
         private void updateFrequency( SoundModel model, int sliderValue ) {
-            frequencyTF.setText( Integer.toString( sliderValue ) + " " + Hertz );
+            frequencyLabel.setText( Integer.toString( sliderValue ) + " " + Hertz );
             model.setFrequency( sliderValue );
         }
 
