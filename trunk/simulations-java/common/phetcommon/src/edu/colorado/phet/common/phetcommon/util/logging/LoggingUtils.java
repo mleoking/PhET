@@ -31,15 +31,20 @@ public class LoggingUtils {
      * Initialize the handler
      */
     static {
-        // the handler should output all messages
-        handler.setLevel( Level.ALL );
+        try {
+            // the handler should output all messages
+            handler.setLevel( Level.ALL );
 
-        // that even is not enough, we need to set a filter that won't double the log messages at level INFO or higher
-        handler.setFilter( new Filter() {
-            public boolean isLoggable( LogRecord logRecord ) {
-                return logRecord.getLevel() == Level.FINE || logRecord.getLevel() == Level.FINER || logRecord.getLevel() == Level.FINEST;
-            }
-        } );
+            // that even is not enough, we need to set a filter that won't double the log messages at level INFO or higher
+            handler.setFilter( new Filter() {
+                public boolean isLoggable( LogRecord logRecord ) {
+                    return logRecord.getLevel() == Level.FINE || logRecord.getLevel() == Level.FINER || logRecord.getLevel() == Level.FINEST;
+                }
+            } );
+        }
+        catch( SecurityException e ) {
+
+        }
     }
 
     /**
@@ -105,19 +110,24 @@ public class LoggingUtils {
      * @param logger The logger. Should be an anonymous logger.
      */
     private static void enableLogging( Logger logger ) {
-        // allow directly setting level on the logger to override this
-        if ( logger.getLevel() == null ) {
-            // enable passing of all levels through the logger itself
-            logger.setLevel( Level.ALL );
-        }
-
-        for ( Handler h : logger.getHandlers() ) {
-            if ( h == handler ) {
-                return;
+        try {
+            // allow directly setting level on the logger to override this
+            if ( logger.getLevel() == null ) {
+                // enable passing of all levels through the logger itself
+                logger.setLevel( Level.ALL );
             }
-        }
 
-        // default console appender doesn't handle levels at FINE or under. we add our custom handler to output these levels 
-        logger.addHandler( handler );
+            for ( Handler h : logger.getHandlers() ) {
+                if ( h == handler ) {
+                    return;
+                }
+            }
+
+            // default console appender doesn't handle levels at FINE or under. we add our custom handler to output these levels
+            logger.addHandler( handler );
+        }
+        catch( SecurityException e ) {
+
+        }
     }
 }
