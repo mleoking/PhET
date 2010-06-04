@@ -91,6 +91,7 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     private PNode channelLayer;
     private PNode channelEdgeLayer;
     private PNode chartLayer;
+    private PNode concentrationReadoutLayer;
     private PNode chargeSymbolLayer;
     
     // Chart for showing membrane potential.
@@ -188,7 +189,9 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
         myWorldNode.addChild(channelEdgeLayer);
         myWorldNode.addChild(chargeSymbolLayer);
 
+        concentrationReadoutLayer = new PNode();
         chartLayer = new PNode();
+        addScreenChild(concentrationReadoutLayer);
         addScreenChild(chartLayer);
         
         // Add the button for stimulating the neuron.
@@ -225,6 +228,18 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
         // Add the charge symbols.
         addChargeSymbols();
         
+        // Add the concentration readouts.
+        sodiumExteriorConcentrationReadout = new ConcentrationReadout(new SodiumIon().getRepresentationColor());
+        concentrationReadoutLayer.addChild(sodiumExteriorConcentrationReadout);
+        sodiumInteriorConcentrationReadout = new ConcentrationReadout(new SodiumIon().getRepresentationColor());
+        concentrationReadoutLayer.addChild(sodiumInteriorConcentrationReadout);
+        potassiumExteriorConcentrationReadout = new ConcentrationReadout(
+        		ColorUtils.darkerColor(new PotassiumIon().getRepresentationColor(), 0.5));
+        concentrationReadoutLayer.addChild(potassiumExteriorConcentrationReadout);
+        potassiumInteriorConcentrationReadout = new ConcentrationReadout(
+        	ColorUtils.darkerColor(new PotassiumIon().getRepresentationColor(), 0.5));
+        concentrationReadoutLayer.addChild(potassiumInteriorConcentrationReadout);
+        
         // Add the membrane potential chart.
         membranePotentialChart = new MembranePotentialChart(POTENTIAL_CHART_SIZE, 
         		NeuronStrings.MEMBRANE_POTENTIAL_CHART_TITLE, model);
@@ -236,18 +251,6 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
         zoomSlider.setOffset(stimulateNeuronButton.getXOffset(),
         		stimulateNeuronButton.getFullBoundsReference().getMaxY() + 10);
         chartLayer.addChild(zoomSlider);
-        
-        // Add the concentration readouts.
-        sodiumExteriorConcentrationReadout = new ConcentrationReadout(new SodiumIon().getRepresentationColor());
-        addScreenChild(sodiumExteriorConcentrationReadout);
-        sodiumInteriorConcentrationReadout = new ConcentrationReadout(new SodiumIon().getRepresentationColor());
-        addScreenChild(sodiumInteriorConcentrationReadout);
-        potassiumExteriorConcentrationReadout = new ConcentrationReadout(
-        		ColorUtils.darkerColor(new PotassiumIon().getRepresentationColor(), 0.5));
-        addScreenChild(potassiumExteriorConcentrationReadout);
-        potassiumInteriorConcentrationReadout = new ConcentrationReadout(
-        	ColorUtils.darkerColor(new PotassiumIon().getRepresentationColor(), 0.5));
-        addScreenChild(potassiumInteriorConcentrationReadout);
         
         // Add the depiction of the particle motion bounds, if enabled.
         if (SHOW_PARTICLE_BOUNDS){
