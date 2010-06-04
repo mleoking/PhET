@@ -1,11 +1,15 @@
+/* Copyright 2010, University of Colorado */
+
 package edu.colorado.phet.acidbasesolutions.controls;
 
-import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Hashtable;
 
-import javax.swing.*;
+import javax.swing.ButtonGroup;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
@@ -13,19 +17,31 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
+import edu.colorado.phet.acidbasesolutions.view.ABSRadioButton;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.AbstractValueControl;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.ILayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LogarithmicValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 
-
+/**
+ * Control used to set the properties of a custom solution.
+ * Mutable properties include the type of solute (acid or base),
+ * the concentration of the solution in solution, and the 
+ * strength (weak or strong) of the solute.  For weak solutes,
+ * the strength can be specified.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class CustomSolutionControl extends JPanel {
     
     public CustomSolutionControl() {
+        
+        // border
         TitledBorder titledBorder = new TitledBorder( ABSStrings.SOLUTION );
         titledBorder.setTitleFont( ABSConstants.TITLED_BORDER_FONT );
         setBorder( titledBorder );
         
+        // subpanels
         TypePanel typePanel = new TypePanel();
         ConcentrationPanel concentrationPanel = new ConcentrationPanel();
         StrengthPanel strengthPanel = new StrengthPanel();
@@ -40,27 +56,24 @@ public class CustomSolutionControl extends JPanel {
         layout.addComponent( strengthPanel, row++, column );
     }
     
-    public static class TypePanel extends JPanel {
+    /*
+     * Panel for setting the solute type.
+     */
+    private static class TypePanel extends JPanel {
         
         private final JRadioButton acidRadioButton, baseRadioButton;
         
         public TypePanel() { 
             
-            acidRadioButton = new JRadioButton( ABSStrings.ACID );
-            acidRadioButton.addActionListener( new ActionListener() {
+            // radio buttons
+            ButtonGroup group = new ButtonGroup();
+            ActionListener listener = new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     //XXX update model
                 }
-            });
-            baseRadioButton = new JRadioButton( ABSStrings.BASE );
-            baseRadioButton.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    //XXX update model
-                }
-            });
-            ButtonGroup typeButtonGroup = new ButtonGroup();
-            typeButtonGroup.add( acidRadioButton );
-            typeButtonGroup.add( baseRadioButton );
+            };
+            acidRadioButton = new ABSRadioButton( ABSStrings.ACID, group, listener );
+            baseRadioButton = new ABSRadioButton( ABSStrings.BASE, group, listener );
             
             // type panel
             EasyGridBagLayout layout = new EasyGridBagLayout( this );
@@ -75,29 +88,50 @@ public class CustomSolutionControl extends JPanel {
         }
     }
     
-    public static class ConcentrationPanel extends JPanel {
+    /* 
+     * Panel for setting the concentration.
+     */
+    private static class ConcentrationPanel extends JPanel {
         
         private final LogarithmicValueControl concentrationControl;
         
         public ConcentrationPanel() {
 
+            // logarithmic control
             double min = ABSConstants.CONCENTRATION_RANGE.getMin();
             double max = ABSConstants.CONCENTRATION_RANGE.getMax();
             String label = ABSStrings.CONCENTRATION;
             String textFieldPattern = "0.000";
             String units = ABSStrings.MOLAR;
             concentrationControl = new LogarithmicValueControl( min, max, label, textFieldPattern, units );
-            // label at each 10x interval
-            Hashtable<Double, JLabel> concentrationLabelTable = new Hashtable<Double, JLabel>();
-            for ( double c = concentrationControl.getMinimum(); c <= concentrationControl.getMaximum(); c *= 10 ) {
-                concentrationLabelTable.put( new Double( c ), new JLabel( String.valueOf( c ) ) );
+            
+            // labels on the slider
+            {
+                // labels at each 10x interval
+                Hashtable<Double, JLabel> concentrationLabelTable = new Hashtable<Double, JLabel>();
+                int numberOfLabels = 0;
+                for ( double c = concentrationControl.getMinimum(); c <= concentrationControl.getMaximum(); c *= 10 ) {
+                    concentrationLabelTable.put( new Double( c ), new JLabel( String.valueOf( c ) ) );
+                    numberOfLabels++;
+                }
+                concentrationControl.setTickLabels( concentrationLabelTable );
+                
+                /*
+                 * Setting tick marks for a LogarithmicValueControl is unfortunately a bit of a hack.
+                 * The underlying JSlider is linear and has an integer range, and we need to set the
+                 * tick spacing based on this range, not our logarithmic "model" range.
+                 * Here we assume that the ticks are evenly spaced, and compute the tick spacing
+                 * based on the integer range of the underlying JSlider.
+                 */
+                int tickSpacing = ( concentrationControl.getSlider().getMaximum() - concentrationControl.getSlider().getMinimum() ) / ( numberOfLabels - 1 );
+                concentrationControl.getSlider().setMajorTickSpacing( tickSpacing );
             }
-            concentrationControl.setTickLabels( concentrationLabelTable );
+            
             concentrationControl.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     //XXX update model
                 }
-            });
+            } );
             
             // layout
             setBorder( new EtchedBorder() );
@@ -112,7 +146,12 @@ public class CustomSolutionControl extends JPanel {
         }
     }
     
-    public static class StrengthPanel extends JPanel {
+    /*
+     * Panel for setting the strength.
+     * For strong solutes, the strength is fixed.
+     * For weak solutes, the strength can be adjusted via a slider.
+     */
+    private static class StrengthPanel extends JPanel {
         
         private final JLabel strengthLabel;
         private final JRadioButton weakRadioButton, strongRadioButton;
@@ -123,22 +162,15 @@ public class CustomSolutionControl extends JPanel {
             // dynamic strength label
             strengthLabel = new JLabel( ABSStrings.PATTERN_STRENGTH_STRONG ); //XXX
             
-            // choice of weak or strong
-            weakRadioButton = new JRadioButton( ABSStrings.WEAK );
-            weakRadioButton.addActionListener( new ActionListener() {
+            // radio buttons
+            ButtonGroup group = new ButtonGroup();
+            ActionListener listener = new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     //XXX update model
                 }
-            });
-            strongRadioButton = new JRadioButton( ABSStrings.STRONG );
-            strongRadioButton.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    //XXX update model
-                }
-            });
-            ButtonGroup strengthButtonGroup = new ButtonGroup();
-            strengthButtonGroup.add( weakRadioButton );
-            strengthButtonGroup.add( strongRadioButton );
+            };
+            weakRadioButton = new ABSRadioButton( ABSStrings.WEAK, group, listener );
+            strongRadioButton = new ABSRadioButton( ABSStrings.STRONG, group, listener );
             
             // strength
             double min = ABSConstants.WEAK_STRENGTH_RANGE.getMin();
@@ -155,7 +187,7 @@ public class CustomSolutionControl extends JPanel {
                 public void stateChanged( ChangeEvent e ) {
                     //XXX update model
                 }
-            });
+            } );
             
             // strength panel
             setBorder( new EtchedBorder() );
@@ -171,25 +203,20 @@ public class CustomSolutionControl extends JPanel {
             
             // default layout
             weakRadioButton.setSelected( true ); //XXX
+            weakStrengthControl.setValue( weakStrengthControl.getMinimum() ); //XXX
         }
     }
     
-    /**
+    /*
      * Value control layout that has only the slider.
      * The label, text field and units are omitted.
      */
-    public static class SliderLayoutStrategy implements ILayoutStrategy {
+    private static class SliderLayoutStrategy implements ILayoutStrategy {
 
         public SliderLayoutStrategy() {}
         
         public void doLayout( AbstractValueControl valueControl ) {
-
-            // Get the components that will be part of the layout
-            JComponent slider = valueControl.getSlider();
-
-            EasyGridBagLayout layout = new EasyGridBagLayout( valueControl );
-            valueControl.setLayout( layout );
-            layout.addFilledComponent( slider, 1, 0, GridBagConstraints.HORIZONTAL );
+            valueControl.add( valueControl.getSlider() );
         }
     }
 }
