@@ -223,10 +223,14 @@
     //--------------------------------------------------------------------------
     function deploy_all(){
 
-        // Copy the installers to the appropriate directory.
+        // Back up the current set of installers.
+        deploy_back_up_current_installers();
+
+        // Copy the new installers to the appropriate directory.
         deploy_installers();
 
-        // Create the version file and copy it into place too.
+        // Create the version file that specifies when the installers were
+        // created.
         deploy_create_version_info_file();
 
         // Inform the web site that the update has occured.
