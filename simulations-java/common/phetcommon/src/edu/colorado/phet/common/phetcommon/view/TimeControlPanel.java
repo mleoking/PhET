@@ -12,7 +12,13 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
@@ -369,6 +375,10 @@ public class TimeControlPanel extends JPanel {
 
             public void restartPressed() {
                 System.out.println( "TimeControlPanel.restartPressed" );
+            }
+
+            public void stepBackPressed() {
+                System.out.println( "TimeControlPanel.stepBackPressed" );
             }
         } );
         frame.setContentPane( pane );

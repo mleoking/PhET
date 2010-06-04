@@ -46,6 +46,10 @@ public class ClockControlPanel extends TimeControlPanel {
             public void restartPressed() {
                 clock.resetSimulationTime();
             }
+            
+            public void stepBackPressed() {
+                clock.stepClockWhilePaused();
+            }
         } );
 
         // Update the control panel when the clock changes

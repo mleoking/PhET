@@ -124,5 +124,16 @@ public interface IClock {
      */
     void stepClockWhilePaused();
 
+    /**
+     * Manually moves the clock one tick backwards, usually called when the clock is paused, and the user presses the 'step back' button.
+     * <p/>
+     * ClockListeners will have their clockTicked method called.
+     * If the simulation time changes, then ClockListeners will
+     * also have their simulationTimeChanged method called.
+     * <p/>
+     * If this is called while the clock is running, it is not an error, the clock will simply report this tick concurrently with its normal ticks.
+     */
+    void stepClockBackWhilePaused();
+
     boolean containsClockListener( ClockListener clockListener );
 }
