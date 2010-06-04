@@ -81,7 +81,8 @@ public class ButtonIconSet {
     	// of one another.  Note that translation is also needed, since the
     	// icon shape is not centered about (0,0).
     	Shape stepForwardIconShape = createStepIconShape();
-    	double xTranslation = stepForwardIconShape.getBounds2D().getMinX() + stepForwardIconShape.getBounds2D().getMaxX();
+    	double xTranslation = stepForwardIconShape.getBounds2D().getMaxX() + 
+    		(buttonWidth - stepForwardIconShape.getBounds2D().getMaxX());
     	AffineTransform tx = new AffineTransform(-1, 0, 0, 1, xTranslation, 1);
     	Shape flippedTranslatedShape = tx.createTransformedShape(stepForwardIconShape);
     	System.out.println("4: " + flippedTranslatedShape.getBounds2D());
