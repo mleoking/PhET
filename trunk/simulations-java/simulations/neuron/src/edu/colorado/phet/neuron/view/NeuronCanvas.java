@@ -345,11 +345,17 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     }
 
 	private void updateConcentrationReadoutPositions() {
-		// Set the exterior cell readouts to be next to the button.
+		// Set the exterior cell readouts to be next to the button but
+		// aligned on the right side.
 		PBounds buttonBounds = stimulateNeuronButton.getFullBounds();
-		potassiumExteriorConcentrationReadout.setOffset(buttonBounds.getMaxX() + 4, buttonBounds.getY());
+		double maxExteriorReadoutWidth = Math.max(
+				potassiumExteriorConcentrationReadout.getFullBoundsReference().width, 
+				sodiumExteriorConcentrationReadout.getFullBoundsReference().width);
+		potassiumExteriorConcentrationReadout.setOffset(
+				buttonBounds.getMaxX() + maxExteriorReadoutWidth - potassiumExteriorConcentrationReadout.getFullBoundsReference().width + 4, 
+				buttonBounds.getY());
 		sodiumExteriorConcentrationReadout.setOffset(
-				potassiumExteriorConcentrationReadout.getFullBoundsReference().getX(), 
+				buttonBounds.getMaxX() + maxExteriorReadoutWidth - sodiumExteriorConcentrationReadout.getFullBoundsReference().width + 4, 
 				potassiumExteriorConcentrationReadout.getFullBoundsReference().getMaxY());
 		
 		// Set the interior cell readouts to be in a location that will always
