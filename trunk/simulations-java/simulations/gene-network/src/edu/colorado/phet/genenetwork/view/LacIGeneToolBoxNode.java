@@ -47,14 +47,12 @@ public class LacIGeneToolBoxNode extends ToolBoxItemNode {
 			// model at once, when one comes into existence this node should
 			// change state to indicate that another one can not be added.
 			getSelectionNode().setGhostMode(true);
-			removeCursorHandler();
 			
 			// Listen for when this element is removed from the model and exit
 			// "ghost mode" when it does.
 			modelElement.addListener(new ModelElementListenerAdapter(){
 				public void removedFromModel() {
 					getSelectionNode().setGhostMode(false);
-					restoreCursorHandler();
 				};
 			});
 		}
