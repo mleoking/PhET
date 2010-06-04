@@ -116,7 +116,7 @@ public class NeuronApplication extends PiccoloPhetApplication {
     		hhInternalDynamicsDlg.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
     		
     		// Center the window on the screen (initially - it will retain its
-    		// position if moved after that.
+    		// position if moved after that).
     		hhInternalDynamicsDlg.setLocationRelativeTo(null);
     		
     		// Clear the check box if the user closes this by closing the
