@@ -27,11 +27,6 @@ public class NeuronDefaults {
     public static final double DEFAULT_ACTION_POTENTIAL_CLOCK_DT = 
     	(MIN_ACTION_POTENTIAL_CLOCK_DT + MAX_ACTION_POTENTIAL_CLOCK_DT) * 0.55;
     
-    public static final double MIN_MEMBRANE_DIFFUSION_CLOCK_DT = (1 / (double)CLOCK_FRAME_RATE) / 3000;
-    public static final double MAX_MEMBRANE_DIFFUSION_CLOCK_DT = (1 / (double)CLOCK_FRAME_RATE) / 1000;
-    public static final double DEFAULT_MEMBRANE_DIFFUSION_CLOCK_DT = 
-    	(MIN_ACTION_POTENTIAL_CLOCK_DT + MAX_MEMBRANE_DIFFUSION_CLOCK_DT) / 2; 
-    
     // Model-view transform
     public static final PDimension INTERMEDIATE_RENDERING_SIZE = new PDimension( 786, 786 );
 
