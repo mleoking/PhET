@@ -296,7 +296,7 @@ JkUnMount /newsletters/* worker1
 JkUnMount /statistics/* worker1
 JkUnMount /staging/* worker1            
 
-&lt;Location/&gt;
+&lt;Location /&gt;
 # mod_deflate (compress output for browsers that support it)
     AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css application/x-javascript text/javascript text/x-js application/json application/xml application/javascript
     BrowserMatch ^Mozilla/4 gzip-only-text/html
@@ -311,6 +311,15 @@ JkUnMount /staging/* worker1
             all of the "static" files, like the sims, publications and workshops directories. The DocumentRoot is
             important and needs to be configured in a few places. /var/phet will be used in this example.
         </p>
+
+        <p>
+            Furthermore, the following Apache modules should be enabled:
+        </p>
+        <ul>
+            <li>mod_deflate</li>
+            <li>mod_headers</li>
+            <li>mod_rewrite</li>
+        </ul>
 
         <p>
             Apache HTTPD will need to be restarted after these changes. Usually "sudo /etc/init.d/apache2 restart" works
