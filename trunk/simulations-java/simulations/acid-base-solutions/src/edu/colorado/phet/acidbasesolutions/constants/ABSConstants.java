@@ -44,6 +44,7 @@ public class ABSConstants {
     
     public static final PDimension BEAKER_SIZE = new PDimension( 600, 500 );
     public static final Point2D BEAKER_LOCATION = new Point2D.Double( ( BEAKER_SIZE.getWidth() / 2 ) + 150, BEAKER_SIZE.getHeight() + 300 );
+    public static final double PH_METER_HEIGHT = 200;
     
     public static final DoubleRange CONCENTRATION_RANGE = new DoubleRange( 1E-3, 1 );
     public static final DoubleRange WEAK_STRENGTH_RANGE = new DoubleRange( 1E-7, 1 );

@@ -7,7 +7,7 @@ package edu.colorado.phet.acidbasesolutions.model;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class WeakAcidSolution extends AqueousSolution {
+public class WeakAcidSolution extends AqueousSolution {
     
     // Marker class for solutes that are weak acids.
     public static abstract class WeakAcid extends Acid {

@@ -9,7 +9,7 @@ import edu.colorado.phet.acidbasesolutions.model.StrongBaseSolution.StrongBase;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class WeakBaseSolution extends AqueousSolution {
+public class WeakBaseSolution extends AqueousSolution {
 
     // Marker class for solutes that are weak bases.
     public static abstract class WeakBase extends Base {
