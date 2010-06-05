@@ -158,11 +158,11 @@ public abstract class AqueousSolution {
         public void initialConcentrationChanged();
     }
     
-    public void addAqueousSolutionChangeListenerChangeListener( AqueousSolutionChangeListener listener ) {
+    public void addAqueousSolutionChangeListener( AqueousSolutionChangeListener listener ) {
         listeners.add( AqueousSolutionChangeListener.class, listener );
     }
     
-    public void removeAqueousSolutionChangeListenerChangeListener( AqueousSolutionChangeListener listener ) {
+    public void removeAqueousSolutionChangeListener( AqueousSolutionChangeListener listener ) {
         listeners.remove( AqueousSolutionChangeListener.class, listener );
     }
     

@@ -7,7 +7,7 @@ package edu.colorado.phet.acidbasesolutions.model;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class StrongBaseSolution extends AqueousSolution {
+public class StrongBaseSolution extends AqueousSolution {
 
     // Marker class for solutes that are strong bases.
     public static abstract class StrongBase extends Base {
