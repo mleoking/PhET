@@ -282,6 +282,8 @@ public class TimesheetApp {
         private JLabel totalTimeLabel;
         private JLabel timeTodayLabel;
         private TimesheetModel timesheetModel;
+        private JLabel remainingInTarget;
+        private JTextField targetTextField;
 
         ControlPanel(final TimesheetModel timesheetModel, final ActionListener saveAction, final SelectionModel selectionModel) {
             this.timesheetModel = timesheetModel;
@@ -357,6 +359,39 @@ public class TimesheetApp {
                     updateTimeTodayReadout();
                 }
             });
+
+            targetTextField = new JTextField(10);
+            targetTextField.setBorder(BorderFactory.createTitledBorder("target.hours"));
+            targetTextField.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    updateRemainingInTarget();
+                }
+            });
+            add(targetTextField);
+            timesheetModel.addTimeListener(new TimesheetModel.TimeListener() {
+                public void timeChanged() {
+                    updateRemainingInTarget();
+                }
+            });
+
+            remainingInTarget = new JLabel();
+            add(remainingInTarget);
+            updateRemainingInTarget();
+        }
+
+        private void updateRemainingInTarget() {
+            double hours = 0;
+            try{
+            hours = Double.parseDouble(targetTextField.getText());
+            } catch (Exception e){
+//                e.printStackTrace();
+            }
+            double minutes = hours * 60;
+            double sec = minutes * 60;
+
+            double elapsed = timesheetModel.getTotalTimeSeconds();
+            double remaining = sec-elapsed;
+            remainingInTarget.setText("Remaining: "+Util.secondsToElapsedTimeString((long) remaining));
         }
 
         private void updateTimeReadout() {
