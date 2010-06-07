@@ -3,11 +3,7 @@ package edu.colorado.phet.movingmanii;
 import java.util.ArrayList;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Sam
- * Date: Jun 7, 2010
- * Time: 9:18:23 AM
- * To change this template use File | Settings | File Templates.
+ * @author Sam Reid
  */
 public class MovingMan {
     private MotionStrategy motionStrategy = new PositionBased();

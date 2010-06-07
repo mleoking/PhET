@@ -40,6 +40,7 @@ public class MovingManChart extends PNode {
 
     private class LineSeriesNode extends PNode {
         private PhetPPath path;
+        private ModelViewTransform2D modelViewTransform2D;
 
         public LineSeriesNode(final MovingManDataSeries dataSeries) {
             path = new PhetPPath(new BasicStroke(2), Color.black);
@@ -62,10 +63,10 @@ public class MovingManChart extends PNode {
                     path.setPathTo(generalPath.getGeneralPath());
                 }
             });
+            modelViewTransform2D = new ModelViewTransform2D(dataModelBounds, new Rectangle2D.Double(0, 0, dataAreaWidth, dataAreaHeight));//todo: update when dependencies change
         }
 
         private Point2D map(TimeData point) {
-            ModelViewTransform2D modelViewTransform2D = new ModelViewTransform2D(dataModelBounds, new Rectangle2D.Double(0, 0, dataAreaWidth, dataAreaHeight));
             return modelViewTransform2D.modelToViewDouble(point.getTime(), point.getValue());
         }
     }
