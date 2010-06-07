@@ -1,10 +1,9 @@
-package edu.colorado.phet.motionseries.sims.theramp
+package edu.colorado.phet.rampiiforcesin2d
 
 import edu.colorado.phet.common.phetcommon.view.PhetFrame
 import edu.colorado.phet.motionseries.graphics.{RampCanvas}
 import java.awt.geom.Rectangle2D
 import edu.colorado.phet.common.piccolophet.{PiccoloPhetApplication}
-import robotmovingcompany.{RobotMovingCompanyModule}
 
 import edu.colorado.phet.scalacommon.ScalaClock
 import edu.colorado.phet.motionseries.charts.bargraphs._
@@ -17,6 +16,7 @@ import javax.swing.JMenuItem
 import java.awt.event.{ActionListener, ActionEvent, ComponentEvent, ComponentAdapter}
 import edu.colorado.phet.motionseries.{StageContainerArea, MotionSeriesDefaults, MotionSeriesModule}
 import edu.colorado.phet.motionseries.controls.{DeveloperDialog, RampControlPanel}
+import edu.colorado.phet.motionseries.sims.theramp.robotmovingcompany.RobotMovingCompanyModule
 
 /**
  * This is the parent class for the various Modules for the ramp simulation.

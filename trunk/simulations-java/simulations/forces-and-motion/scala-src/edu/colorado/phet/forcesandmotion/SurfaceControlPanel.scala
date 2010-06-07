@@ -1,4 +1,4 @@
-package edu.colorado.phet.motionseries.sims.forcesandmotion
+package edu.colorado.phet.forcesandmotion
 
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl
 import java.awt.Dimension
