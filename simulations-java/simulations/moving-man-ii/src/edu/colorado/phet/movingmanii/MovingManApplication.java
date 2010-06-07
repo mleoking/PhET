@@ -69,14 +69,14 @@ public class MovingManApplication extends PhetApplication {
             positionChart.addDataSeries(model.getPositionSeries());
             addScreenChild(positionChart);
 
-            double vMax = 60;
+            double vMax = 60/5;
 
             final MovingManChart velocityChart = new MovingManChart(new Rectangle2D.Double(0, -vMax, 20, vMax * 2), chartWidth, chartHeight);
             velocityChart.setOffset(0, 100 + chartHeight);
             velocityChart.addDataSeries(model.getVelocitySeries());
             addScreenChild(velocityChart);
 
-            double aMax = 200;
+            double aMax = 200/5;
             final MovingManChart accelerationChart = new MovingManChart(new Rectangle2D.Double(0, -aMax, 20, aMax * 2), chartWidth, chartHeight);
             accelerationChart.setOffset(0, 100 + chartHeight * 2);
             accelerationChart.addDataSeries(model.getAccelerationSeries());
