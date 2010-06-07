@@ -2,16 +2,11 @@ package edu.colorado.phet.movingmanii;
 
 import edu.colorado.phet.common.motion.model.TimeData;
 
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Sam
- * Date: Jun 7, 2010
- * Time: 9:33:59 AM
- * To change this template use File | Settings | File Templates.
+ * @author Sam Reid
  */
 public class MovingManDataSeries {
     private ArrayList<TimeData> data = new ArrayList<TimeData>();
@@ -48,12 +43,13 @@ public class MovingManDataSeries {
 
     public TimeData[] getPointsInRange(int min, int max) {
         ArrayList<TimeData> points = new ArrayList<TimeData>();
+        int size = getNumPoints();//moved here for performance improvements, was taking 15% of application in inner loop
         for (int i = min; i <= max; i++) {
-            if (i >= 0 && i < getNumPoints()) {
-                points.add(new TimeData(data.get(i).getValue(), data.get(i).getTime()));
+            if (i >= 0 && i < size) {
+                points.add(data.get(i));
             }
         }
-        return points.toArray(new TimeData[0]);
+        return points.toArray(new TimeData[points.size()]);
     }
 
     public static interface Listener {
