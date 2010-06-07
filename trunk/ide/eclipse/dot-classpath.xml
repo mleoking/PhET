@@ -162,8 +162,6 @@
 	<classpathentry kind="src" path="simulations-java/simulations/microwaves/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/motion-2d/src"/>
 	<classpathentry kind="src" path="simulations-java/simulations/motion-2d/data"/>
-    <classpathentry kind="src" path="simulations-java/simulations/motion-series/src"/>
-	<classpathentry kind="src" path="simulations-java/simulations/motion-series/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/moving-man/src"/>
 	<classpathentry kind="src" path="simulations-java/simulations/moving-man/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/mri/src"/>
