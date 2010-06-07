@@ -1,4 +1,4 @@
-package edu.colorado.phet.motionseries.sims.forcesandmotion
+package edu.colorado.phet.forcesandmotion
 
 import edu.colorado.phet.common.phetcommon.view.PhetFrame
 import java.awt.geom.Rectangle2D
@@ -12,9 +12,9 @@ import edu.colorado.phet.scalacommon.ScalaClock
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.umd.cs.piccolox.pswing.PSwing
 import edu.colorado.phet.motionseries.controls.RampControlPanel
-import edu.colorado.phet.motionseries.sims.theramp.robotmovingcompany.RobotMovingCompanyModule
 import edu.colorado.phet.motionseries.{StageContainerArea, MotionSeriesModule, MotionSeriesDefaults}
 import edu.colorado.phet.recordandplayback.gui.{RecordAndPlaybackControlPanel, PlaybackSpeedSlider}
+import edu.colorado.phet.motionseries.sims.theramp.robotmovingcompany.RobotMovingCompanyModule
 
 class ForcesAndMotionModule(frame: PhetFrame,
                             name: String,

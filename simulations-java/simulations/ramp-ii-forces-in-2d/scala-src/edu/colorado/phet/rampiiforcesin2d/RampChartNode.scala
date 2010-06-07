@@ -1,4 +1,4 @@
-package edu.colorado.phet.motionseries.sims.theramp
+package edu.colorado.phet.rampiiforcesin2d
 
 import edu.colorado.phet.motionseries.graphics.MotionSeriesCanvas
 import edu.colorado.phet.motionseries.model.{MotionSeriesModel}
