@@ -6,14 +6,21 @@ MILESTONES
 - 8/1/10, sim showable for BCCE
 
 HIGH PRIORITY
-- prototype: add bar graphs ala advanced-acid-base-solutions
-- prototype: add weak and strong base models (use models from advanced-acid-base-solutions)
-- range of "weak" Ka or Kb: 1e-7 to 1e2
-- range of "strong" Ka or Kb: 1e2 to 1e3
+- wire up controls that select solution
+- add locations to model (no need for MVT, only needed for tool interactions with solution & beaker)
+- drag behavior for pH meter
+- magnifying glass from prototype
+- bar graph, adapt from advanced-acid-base-solutions
+- conductivity tester
 
 MEDUIUM PRIORITY
+- resolve design issues with exclusivity of tools
 
 LOW PRIORITY
+- icons for tools
+- better images for molecules
+- export design doc from Google, check into SVN
+- model.txt
 
 MIGRATE TO COMMON
 - PrecisionDecimal (also appears in ph-scale, advanced-acid-base-solutions)
