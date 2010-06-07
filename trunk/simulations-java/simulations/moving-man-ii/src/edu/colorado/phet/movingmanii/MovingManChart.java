@@ -1,5 +1,6 @@
 package edu.colorado.phet.movingmanii;
 
+import edu.colorado.phet.common.motion.model.TimeData;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -45,7 +46,7 @@ public class MovingManChart extends PNode {
             addChild(path);
             dataSeries.addListener(new MovingManDataSeries.Listener() {
                 public void changed() {
-                    Point2D[] points = dataSeries.getData();
+                    TimeData[] points = dataSeries.getData();
 
                     DoubleGeneralPath generalPath = new DoubleGeneralPath();
                     for (int i = 0; i < points.length; i++) {
@@ -63,9 +64,9 @@ public class MovingManChart extends PNode {
             });
         }
 
-        private Point2D map(Point2D point) {
+        private Point2D map(TimeData point) {
             ModelViewTransform2D modelViewTransform2D = new ModelViewTransform2D(dataModelBounds, new Rectangle2D.Double(0, 0, dataAreaWidth, dataAreaHeight));
-            return modelViewTransform2D.modelToViewDouble(point);
+            return modelViewTransform2D.modelToViewDouble(point.getTime(), point.getValue());
         }
     }
 }
