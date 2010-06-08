@@ -21,6 +21,10 @@ public class PlayAreaVector extends PNode {
     }
 
     public void setArrow(double x, double y, double x2, double y2) {
-        path.setPathTo(new Arrow(new Point2D.Double(x, y), new Point2D.Double(x2, y2), 10, 10, tailWidth, 4.0, false).getShape());
+        if (Math.abs(x - x2) < 1) {
+            path.setPathTo(new Rectangle(0, 0, 0, 0));
+        } else {
+            path.setPathTo(new Arrow(new Point2D.Double(x, y), new Point2D.Double(x2, y2), 10, 10, tailWidth, 4.0, true).getShape());
+        }
     }
 }
