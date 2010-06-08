@@ -15,11 +15,6 @@ public class MovingManModel {
 
     public MovingManModel() {
         this.movingMan = new MovingMan();
-//        clock.addClockListener(new ClockAdapter() {
-//            public void simulationTimeChanged(ClockEvent clockEvent) {
-//                MovingManModel.this.simulationTimeChanged(clockEvent.getSimulationTimeChange(), clockEvent.getSimulationTime());
-//            }
-//        });
     }
 
     public void simulationTimeChanged(double dt) {
@@ -107,5 +102,16 @@ public class MovingManModel {
         positionSeries.clear();
         velocitySeries.clear();
         accelerationSeries.clear();
+    }
+
+    public MovingManState getRecordingState() {
+        return new MovingManState(time, movingMan.getState());
+    }
+
+    public void setPlaybackState(MovingManState state) {
+        this.time = state.getTime();
+        this.movingMan.setState(state.getMovingManState());
+        this.chartCursor.setTime(time);
+        //todo: notify time changed?
     }
 }

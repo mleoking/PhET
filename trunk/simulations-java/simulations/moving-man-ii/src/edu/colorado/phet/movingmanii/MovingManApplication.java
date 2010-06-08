@@ -21,14 +21,14 @@ public class MovingManApplication extends PhetApplication {
         public MyModule() {
             super("test", new ConstantDtClock(30, 1.0 / 30.0));
             final MovingManModel model = new MovingManModel();
-            setControlPanel(null);
             final RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel = new RecordAndPlaybackModel<MovingManState>(1000) {
                 public MovingManState stepRecording(double simulationTimeChange) {
                     model.simulationTimeChanged(simulationTimeChange);
-                    return new MovingManState();
+                    return model.getRecordingState();
                 }
 
                 public void setPlaybackState(MovingManState state) {
+                    model.setPlaybackState(state);
                 }
             };
             getClock().addClockListener(new ClockAdapter(){
@@ -41,6 +41,7 @@ public class MovingManApplication extends PhetApplication {
                     model.clear();
                 }
             });
+            setControlPanel(null);
             setSimulationPanel(new MovingManSimulationPanel(model,recordAndPlaybackModel));
             setClockControlPanel(new RecordAndPlaybackControlPanel<MovingManState>(recordAndPlaybackModel, getSimulationPanel(), 20.0));
             setLogoPanelVisible(false);

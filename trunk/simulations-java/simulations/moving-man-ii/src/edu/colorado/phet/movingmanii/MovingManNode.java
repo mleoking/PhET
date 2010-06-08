@@ -1,6 +1,5 @@
 package edu.colorado.phet.movingmanii;
 
-import edu.colorado.phet.common.motion.model.TimeData;
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -58,17 +57,13 @@ public class MovingManNode extends PNode {
 
     private void updateMan(PImage movingMan, MovingMan man) {
         movingMan.setOffset(modelToView.evaluate(man.getPosition()), 0);
-        if (model.getVelocitySeries().getNumPoints() == 0) {
-            movingMan.setImage(imageStanding);
+        double velocity = man.getVelocity();
+        if (velocity > 0.1) {
+            movingMan.setImage(imageRight);
+        } else if (velocity < -0.1) {
+            movingMan.setImage(imageLeft);
         } else {
-            TimeData lastPoint = model.getVelocitySeries().getDataPoint(model.getVelocitySeries().getNumPoints() - 1);
-            if (lastPoint.getValue() > 0.1) {
-                movingMan.setImage(imageRight);
-            } else if (lastPoint.getValue() < -0.1) {
-                movingMan.setImage(imageLeft);
-            } else {
-                movingMan.setImage(imageStanding);
-            }
+            movingMan.setImage(imageStanding);
         }
     }
 
