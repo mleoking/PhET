@@ -23,7 +23,7 @@ import java.awt.geom.Rectangle2D;
  * @author Sam Reid
  */
 public class MovingManSimulationPanel extends PhetPCanvas {
-    MovingManSimulationPanel(final MovingManModel model, final RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel) {
+    public MovingManSimulationPanel(final MovingManModel model, final RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel) {
         setBackground(new Color(200, 240, 200));
         int chartHeight = 130;
         int xMax = 10;
