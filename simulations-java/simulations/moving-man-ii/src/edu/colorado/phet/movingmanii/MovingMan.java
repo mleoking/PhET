@@ -57,7 +57,8 @@ public class MovingMan {
     public boolean isVelocityDriven() {
         return motionStrategy instanceof VelocityDriven;
     }
-    public boolean isAccelerationDriven(){
+
+    public boolean isAccelerationDriven() {
         return motionStrategy instanceof AccelerationDriven;
     }
 
@@ -73,6 +74,22 @@ public class MovingMan {
 
     public void setAccelerationDriven() {
         this.motionStrategy = new AccelerationDriven();
+        notifyListeners();
+    }
+
+    public ManState getState() {
+        return new ManState(position, velocity, acceleration, motionStrategy);
+    }
+
+    public void setState(ManState manState) {
+        setPosition(manState.getPosition());
+        setVelocity(manState.getVelocity());
+        setAcceleration(manState.getAcceleration());
+        setMotionStrategy(manState.getMotionStrategy());//todo: could bundle listener notifications if necessary
+    }
+
+    private void setMotionStrategy(MotionStrategy motionStrategy) {
+        this.motionStrategy = motionStrategy;
         notifyListeners();
     }
 
