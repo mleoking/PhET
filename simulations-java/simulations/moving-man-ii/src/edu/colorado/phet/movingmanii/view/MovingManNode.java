@@ -60,7 +60,6 @@ public class MovingManNode extends PNode {
     }
 
     private void updateMan(PImage movingMan, MovingMan man) {
-        movingMan.setOffset(modelToView.evaluate(man.getPosition()), 0);
         double velocity = man.getVelocity();
         if (velocity > 0.1) {
             movingMan.setImage(imageRight);
@@ -69,10 +68,26 @@ public class MovingManNode extends PNode {
         } else {
             movingMan.setImage(imageStanding);
         }
+        movingMan.setOffset(modelToView.evaluate(man.getPosition()) - movingMan.getFullBounds().getWidth() / 2, 0);
+    }
+
+    public double viewToModel(double x) {
+        return modelToView.createInverse().evaluate(x);
     }
 
     public MovingMan getMan() {
         return man;
+    }
+
+    private double viewToModelDifferential(double canvasDelta) {
+        double mappedDelta1 = viewToModel(canvasDelta);
+        double mappedDelta0 = viewToModel(0);
+        double mappedDelta = mappedDelta1 - mappedDelta0;
+        return mappedDelta;
+    }
+
+    public double modelToView(double x) {
+        return modelToView.evaluate(x);
     }
 
     private static class MovingManDragger extends PBasicInputEventHandler {
@@ -85,10 +100,7 @@ public class MovingManNode extends PNode {
         @Override
         public void mouseDragged(PInputEvent event) {
             super.mouseDragged(event);
-            double canvasDelta = event.getCanvasDelta().width;
-            double mappedDelta1 = movingManNode.modelToView.createInverse().evaluate(canvasDelta);
-            double mappedDelta0 = movingManNode.modelToView.createInverse().evaluate(0);
-            double mappedDelta = mappedDelta1 - mappedDelta0;
+            double mappedDelta = movingManNode.viewToModelDifferential(event.getCanvasDelta().width);
 //            System.out.println("canvas delta = " + canvasDelta + ", mapped delta = " + mappedDelta);
             movingManNode.model.setMousePosition(movingManNode.model.getMousePosition() + mappedDelta);
 //            movingManNode.man.setPosition(movingManNode.man.getPosition() + mappedDelta);

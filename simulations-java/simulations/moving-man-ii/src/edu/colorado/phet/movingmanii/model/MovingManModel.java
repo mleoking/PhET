@@ -45,8 +45,8 @@ public class MovingManModel {
 
             //set instantaneous values
             movingMan.setPosition(averagePosition);
-            movingMan.setVelocity(velocitySeries.getDataPoint(velocitySeries.getNumPoints() - 1).getValue());
-            movingMan.setAcceleration(accelerationSeries.getDataPoint(accelerationSeries.getNumPoints() - 1).getValue());
+            movingMan.setVelocity(velocitySeries.getDataPoint(velocitySeries.getNumPoints() - 1).getValue());//TODO: subtract off derivative radius so that the last value showed on chart is the same as the value on the man
+            movingMan.setAcceleration(accelerationSeries.getDataPoint(accelerationSeries.getNumPoints() - 1).getValue()); //- DERIVATIVE_RADIUS * 2
         } else if (movingMan.isVelocityDriven()) {
             //record set point
             velocitySeries.addPoint(movingMan.getVelocity(), time);
@@ -60,7 +60,7 @@ public class MovingManModel {
 
             //set instantaneous values
             movingMan.setPosition(newPosition);
-            movingMan.setAcceleration(accelerationSeries.getDataPoint(accelerationSeries.getNumPoints() - 1).getValue());
+            movingMan.setAcceleration(accelerationSeries.getDataPoint(accelerationSeries.getNumPoints() - 1 - DERIVATIVE_RADIUS).getValue());
         } else if (movingMan.isAccelerationDriven()) {
             //record set point
             accelerationSeries.addPoint(movingMan.getAcceleration(), time);
