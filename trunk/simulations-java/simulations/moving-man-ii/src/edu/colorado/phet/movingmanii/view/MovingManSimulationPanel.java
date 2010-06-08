@@ -1,8 +1,15 @@
-package edu.colorado.phet.movingmanii;
+package edu.colorado.phet.movingmanii.view;
 
 import edu.colorado.phet.common.motion.tests.ColorArrows;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.movingmanii.charts.ChartSliderNode;
+import edu.colorado.phet.movingmanii.charts.CursorNode;
+import edu.colorado.phet.movingmanii.charts.MovingManChart;
+import edu.colorado.phet.movingmanii.charts.TextBox;
+import edu.colorado.phet.movingmanii.model.MovingMan;
+import edu.colorado.phet.movingmanii.model.MovingManModel;
+import edu.colorado.phet.movingmanii.model.MovingManState;
 import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;

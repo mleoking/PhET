@@ -8,6 +8,10 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.movingmanii.charts.ChartCursor;
+import edu.colorado.phet.movingmanii.model.MovingManModel;
+import edu.colorado.phet.movingmanii.model.MovingManState;
+import edu.colorado.phet.movingmanii.view.MovingManSimulationPanel;
 import edu.colorado.phet.recordandplayback.gui.RecordAndPlaybackControlPanel;
 import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel;
 
