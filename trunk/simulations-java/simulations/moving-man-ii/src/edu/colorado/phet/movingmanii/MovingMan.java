@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * @author Sam Reid
  */
 public class MovingMan {
-    private MotionStrategy motionStrategy = new PositionBased();
+    private MotionStrategy motionStrategy = new PositionDriven();
     private ArrayList<Listener> listeners = new ArrayList<Listener>();
     private double position;
     private double velocity;
@@ -14,10 +14,8 @@ public class MovingMan {
 
     public void setPosition(double x) {
         this.position = x;
-        System.out.println("x = " + x);
-        for (Listener listener : listeners) {
-            listener.changed();
-        }
+//        System.out.println("x = " + x);
+        notifyListeners();
     }
 
     public void addListener(Listener listener) {
@@ -28,6 +26,56 @@ public class MovingMan {
         return position;
     }
 
+    public double getVelocity() {
+        return velocity;
+    }
+
+    public void setVelocity(double velocity) {
+        this.velocity = velocity;
+        notifyListeners();
+    }
+
+    private void notifyListeners() {
+        for (Listener listener : listeners) {
+            listener.changed();
+        }
+    }
+
+    public void setAcceleration(double value) {
+        this.acceleration = value;
+        notifyListeners();
+    }
+
+    public double getAcceleration() {
+        return acceleration;
+    }
+
+    public boolean isPositionDriven() {
+        return motionStrategy instanceof PositionDriven;
+    }
+
+    public boolean isVelocityDriven() {
+        return motionStrategy instanceof VelocityDriven;
+    }
+    public boolean isAccelerationDriven(){
+        return motionStrategy instanceof AccelerationDriven;
+    }
+
+    public void setVelocityDriven() {
+        this.motionStrategy = new VelocityDriven();
+        notifyListeners();
+    }
+
+    public void setPositionDriven() {
+        this.motionStrategy = new PositionDriven();
+        notifyListeners();
+    }
+
+    public void setAccelerationDriven() {
+        this.motionStrategy = new AccelerationDriven();
+        notifyListeners();
+    }
+
     static interface Listener {
         void changed();
     }
@@ -35,6 +83,12 @@ public class MovingMan {
     public static class MotionStrategy {
     }
 
-    private class PositionBased extends MotionStrategy {
+    public static class VelocityDriven extends MotionStrategy {
+    }
+
+    private class PositionDriven extends MotionStrategy {
+    }
+
+    private class AccelerationDriven extends MotionStrategy {
     }
 }
