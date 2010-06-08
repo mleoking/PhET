@@ -184,7 +184,7 @@ public class MovingManSimulationPanel extends PhetPCanvas {
         }
 
         MovingManNode manNode = new MovingManNode(model.getMovingMan(), model);
-        manNode.addInputEventListener(new PBasicInputEventHandler(){
+        manNode.addInputEventListener(new PBasicInputEventHandler() {
             public void mousePressed(PInputEvent event) {
                 recordAndPlaybackModel.startRecording();
             }

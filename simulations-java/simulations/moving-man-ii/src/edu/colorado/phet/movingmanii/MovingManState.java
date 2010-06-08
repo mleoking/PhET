@@ -16,6 +16,9 @@ public class MovingManState {
         return time;
     }
 
+    //TODO: recording just the state of the man but smoothing the data series afterwards is problematic; there will be discrepancies between the restored values and the values displayed in the chart.
+    //One potential solution: record a pointer into the array of data instead of a deep copy of data, so the value will match.
+
     public ManState getMovingManState() {
         return manState;
     }
