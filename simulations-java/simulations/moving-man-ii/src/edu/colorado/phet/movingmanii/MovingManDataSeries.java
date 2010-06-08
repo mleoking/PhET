@@ -52,6 +52,11 @@ public class MovingManDataSeries {
         return points.toArray(new TimeData[points.size()]);
     }
 
+    public void clear() {
+        data.clear();
+        notifyDataChanged();
+    }
+
     public static interface Listener {
         void changed();
     }

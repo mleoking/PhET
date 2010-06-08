@@ -2,9 +2,6 @@ package edu.colorado.phet.movingmanii;
 
 import edu.colorado.phet.common.motion.MotionMath;
 import edu.colorado.phet.common.motion.model.TimeData;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 
 import java.util.ArrayList;
 
@@ -13,20 +10,65 @@ public class MovingManModel {
     private MovingManDataSeries positionSeries = new MovingManDataSeries();
     private MovingManDataSeries velocitySeries = new MovingManDataSeries();
     private MovingManDataSeries accelerationSeries = new MovingManDataSeries();
+    private ChartCursor chartCursor = new ChartCursor();
+    private double time = 0.0;
 
-    public MovingManModel(IClock clock) {
+    public MovingManModel() {
         this.movingMan = new MovingMan();
-        clock.addClockListener(new ClockAdapter() {
-            public void simulationTimeChanged(ClockEvent clockEvent) {
-                positionSeries.addPoint(movingMan.getPosition(), clockEvent.getSimulationTime());
-                updateDerivatives();
-            }
-        });
+//        clock.addClockListener(new ClockAdapter() {
+//            public void simulationTimeChanged(ClockEvent clockEvent) {
+//                MovingManModel.this.simulationTimeChanged(clockEvent.getSimulationTimeChange(), clockEvent.getSimulationTime());
+//            }
+//        });
     }
 
-    private void updateDerivatives() {
-        velocitySeries.setData(estimateCenteredDerivatives(positionSeries));
-        accelerationSeries.setData(estimateCenteredDerivatives(velocitySeries));
+    public void simulationTimeChanged(double dt) {
+        time = time + dt;
+        if (movingMan.isPositionDriven()) {
+            //record set point
+            positionSeries.addPoint(movingMan.getPosition(), time);
+
+            //update derivatives
+            velocitySeries.setData(estimateCenteredDerivatives(positionSeries));
+            accelerationSeries.setData(estimateCenteredDerivatives(velocitySeries));
+
+            //no integrals
+
+            //set instantaneous values
+            movingMan.setVelocity(velocitySeries.getDataPoint(velocitySeries.getNumPoints() - 1).getValue());
+            movingMan.setAcceleration(accelerationSeries.getDataPoint(accelerationSeries.getNumPoints() - 1).getValue());
+        } else if (movingMan.isVelocityDriven()) {
+            //record set point
+            velocitySeries.addPoint(movingMan.getVelocity(), time);
+
+            //update derivatives
+            accelerationSeries.setData(estimateCenteredDerivatives(velocitySeries));
+
+            //update integrals
+            double newPosition = movingMan.getPosition() + movingMan.getVelocity() * dt;
+            positionSeries.addPoint(newPosition, time);
+
+            //set instantaneous values
+            movingMan.setPosition(newPosition);
+            movingMan.setAcceleration(accelerationSeries.getDataPoint(accelerationSeries.getNumPoints() - 1).getValue());
+        } else if (movingMan.isAccelerationDriven()) {
+            //record set point
+            accelerationSeries.addPoint(movingMan.getAcceleration(), time);
+
+            //no derivatives
+
+            //update integrals
+            double newVelocity = movingMan.getVelocity() + movingMan.getAcceleration() * dt;
+            velocitySeries.addPoint(newVelocity, time);
+
+            double estVel = (movingMan.getVelocity() + newVelocity) / 2.0;//todo: just use newVelocity?
+            double newPosition = movingMan.getPosition() + estVel * dt;
+            positionSeries.addPoint(newPosition, time);
+
+            //set instantaneous values
+            movingMan.setPosition(newPosition);
+            movingMan.setVelocity(newVelocity);
+        }
     }
 
     private TimeData[] estimateCenteredDerivatives(MovingManDataSeries series) {
@@ -39,26 +81,6 @@ public class MovingManModel {
         }
         return points.toArray(new TimeData[points.size()]);
     }
-//
-//    private double estimateAcceleration() {
-//        ArrayList<TimeData> timeData = new ArrayList<TimeData>();
-//        for (int i = velocitySeries.getNumPoints() - 10; i >= 0 && i < velocitySeries.getNumPoints(); i++) {
-//            Point2D pt = velocitySeries.getDataPoint(i);
-//            timeData.add(new TimeData(pt.getY(), pt.getX()));
-//        }
-//        double velocity = MotionMath.estimateDerivative(timeData.toArray(new TimeData[0]));
-//        return velocity;
-//    }
-//
-//    private double estimateVelocity() {
-//        ArrayList<TimeData> timeData = new ArrayList<TimeData>();
-//        for (int i = positionSeries.getNumPoints() - 10; i >= 0 && i < positionSeries.getNumPoints(); i++) {
-//            Point2D pt = positionSeries.getDataPoint(i);
-//            timeData.add(new TimeData(pt.getY(), pt.getX()));
-//        }
-//        double velocity = MotionMath.estimateDerivative(timeData.toArray(new TimeData[0]));
-//        return velocity;
-//    }
 
     public MovingMan getMovingMan() {
         return movingMan;
@@ -74,5 +96,16 @@ public class MovingManModel {
 
     public MovingManDataSeries getAccelerationSeries() {
         return accelerationSeries;
+    }
+
+    public ChartCursor getChartCursor() {
+        return chartCursor;
+    }
+
+    public void clear() {
+        time = 0.0;
+        positionSeries.clear();
+        velocitySeries.clear();
+        accelerationSeries.clear();
     }
 }
