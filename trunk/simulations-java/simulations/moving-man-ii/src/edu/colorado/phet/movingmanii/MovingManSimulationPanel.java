@@ -24,7 +24,7 @@ public class MovingManSimulationPanel extends PhetPCanvas {
         int chartX = 150;
         int chartInsetY = 30;
         {
-            Color positionColor = Color.red;
+            Color positionColor = Color.blue;
             final MovingManChart positionChart = new MovingManChart(new Rectangle2D.Double(0, -xMax, 20, xMax * 2), chartWidth, chartHeight);
             {
                 positionChart.setOffset(chartX, 100);
@@ -81,7 +81,7 @@ public class MovingManSimulationPanel extends PhetPCanvas {
 
         {//add the velocity chart
             double vMax = 60 / 5;
-            Color velocityColor = Color.green;
+            Color velocityColor = Color.red;
             final MovingManChart velocityChart = new MovingManChart(new Rectangle2D.Double(0, -vMax, 20, vMax * 2), chartWidth, chartHeight);
             velocityChart.setOffset(chartX, 100 + chartHeight + chartInsetY);
             velocityChart.addDataSeries(model.getVelocitySeries(), velocityColor);
@@ -133,7 +133,7 @@ public class MovingManSimulationPanel extends PhetPCanvas {
         //Add the acceleration chart
         {
             double aMax = 200 / 5;
-            Color accelColor = Color.blue;
+            Color accelColor = Color.magenta;
             final MovingManChart accelerationChart = new MovingManChart(new Rectangle2D.Double(0, -aMax, 20, aMax * 2), chartWidth, chartHeight);
             accelerationChart.setOffset(chartX, 100 + (chartHeight + chartInsetY) * 2);
             accelerationChart.addDataSeries(model.getAccelerationSeries(), accelColor);
