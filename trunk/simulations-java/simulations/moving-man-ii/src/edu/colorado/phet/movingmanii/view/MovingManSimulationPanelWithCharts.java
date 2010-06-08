@@ -47,14 +47,14 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
             final ChartSliderNode chartSliderNode = new ChartSliderNode(positionChart, positionThumb, MovingManColorScheme.POSITION_COLOR);
             addScreenChild(chartSliderNode);
             chartSliderNode.setOffset(positionChart.getOffset().getX() - chartSliderNode.getFullBounds().getWidth() - 20, positionChart.getOffset().getY());
-            model.getMovingMan().addListener(new MovingMan.Listener() {
-                public void changed() {
-                    chartSliderNode.setValue(model.getMovingMan().getPosition());
+            model.addListener(new MovingManModel.Listener() {
+                public void mousePositionChanged() {
+                    chartSliderNode.setValue(model.getMousePosition());
                 }
             });
             chartSliderNode.addListener(new ChartSliderNode.Adapter() {
                 public void sliderDragged(double value) {
-                    model.getMovingMan().setPosition(value);
+                    model.setMousePosition(value);
                 }
 
                 public void sliderThumbGrabbed() {
