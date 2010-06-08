@@ -17,6 +17,7 @@ public class MovingManModel {
     private double mousePosition;
     public static final int DERIVATIVE_RADIUS = 1;//Kathy chose this value because it is a good balance betweenw
     private static final int NUMBER_MOUSE_POINTS_TO_AVERAGE = 4;//Kathy chose this value because it smoothes well enough, but without creating too much of a lag between the mouse and the character
+    private ArrayList<Listener> listeners = new ArrayList<Listener>();
 
     public MovingManModel() {
         this.movingMan = new MovingMan();
@@ -136,11 +137,23 @@ public class MovingManModel {
      * @param mousePosition
      */
     public void setMousePosition(double mousePosition) {
-        this.mousePosition = mousePosition;
-//        System.out.println("mousePosition = " + mousePosition);
+        if (this.mousePosition != mousePosition) {
+            this.mousePosition = mousePosition;
+            for (Listener listener : listeners) {
+                listener.mousePositionChanged();
+            }
+        }
     }
 
     public double getMousePosition() {
         return mousePosition;
+    }
+
+    public void addListener(Listener listener) {
+        listeners.add(listener);
+    }
+
+    public static interface Listener {
+        void mousePositionChanged();
     }
 }

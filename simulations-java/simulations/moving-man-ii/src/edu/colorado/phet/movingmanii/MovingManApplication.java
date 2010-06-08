@@ -35,7 +35,7 @@ public class MovingManApplication extends PiccoloPhetApplication {
 
         @Override
         protected JComponent createSimulationPanel(MovingManModel model, RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel) {
-            return new MovingManSimulationPanel(model, recordAndPlaybackModel);
+            return new MovingManSimulationPanelWithPlayAreaSliders(model, recordAndPlaybackModel);
         }
     }
 

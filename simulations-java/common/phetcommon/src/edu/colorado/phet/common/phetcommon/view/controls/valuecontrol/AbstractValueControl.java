@@ -101,7 +101,7 @@ public abstract class AbstractValueControl extends JPanel {
      * @param layoutStrategy
      * @throws IllegalArgumentException
      */
-    public AbstractValueControl( AbstractSlider slider, String label, String textFieldPattern, String units, ILayoutStrategy layoutStrategy ) {
+    public AbstractValueControl(AbstractSlider slider, String label, String textFieldPattern, String units, ILayoutStrategy layoutStrategy) {
         super();
 
         _slider = slider;
@@ -111,8 +111,8 @@ public abstract class AbstractValueControl extends JPanel {
         _minorTickSpacing = 0;
         _upDownArrowDelta = _slider.getModelRange() / 100;
 
-        _textFieldFormat = new DecimalFormat( textFieldPattern );
-        _tickFormat = new DecimalFormat( textFieldPattern ); // use same format for ticks and textfield
+        _textFieldFormat = new DecimalFormat(textFieldPattern);
+        _tickFormat = new DecimalFormat(textFieldPattern); // use same format for ticks and textfield
         _majorTicksVisible = true; // major tick labels visible
         _minorTicksVisible = false; // minor tick labels are typically not visible
         _labelTable = null; // instantiated when addTickLabel is called
@@ -125,30 +125,30 @@ public abstract class AbstractValueControl extends JPanel {
         _listenerList = new EventListenerList();
 
         // Labels
-        _valueLabel = new JLabel( label );
-        _unitsLabel = new JLabel( units );
+        _valueLabel = new JLabel(label);
+        _unitsLabel = new JLabel(units);
 
         // Textfield
-        _textField = new JFormattedTextField( _textFieldFormat );
-        _textField.setValue( new Double( _value ) );
-        _textField.setHorizontalAlignment( JTextField.RIGHT );
-        _textField.setColumns( textFieldPattern.length() );
+        _textField = new JFormattedTextField(_textFieldFormat);
+        _textField.setValue(new Double(_value));
+        _textField.setHorizontalAlignment(JTextField.RIGHT);
+        _textField.setColumns(textFieldPattern.length());
 
         // Layout the components
-        layoutStrategy.doLayout( this );
+        layoutStrategy.doLayout(this);
 
         // Listeners
         _sliderListener = new SliderListener();
-        _slider.addChangeListener( _sliderListener );
+        _slider.addChangeListener(_sliderListener);
         _textFieldListener = new TextFieldListener();
-        _textField.addActionListener( _textFieldListener );
-        _textField.addFocusListener( _textFieldListener );
-        _textField.addKeyListener( _textFieldListener );
+        _textField.addActionListener(_textFieldListener);
+        _textField.addFocusListener(_textFieldListener);
+        _textField.addKeyListener(_textFieldListener);
 
         updateTickLabels();
 
         _value = _slider.getModelMin() - 1; // force setValue to initalize the components
-        setValue( _value );
+        setValue(_value);
 
         _initialized = true;
     }
@@ -188,16 +188,18 @@ public abstract class AbstractValueControl extends JPanel {
     public JLabel getValueLabel() {
         return _valueLabel;
     }
-    
+
     /**
      * Convenience method for adding an icon to the left of the textual value label.
      * If you need some other type of layout, use getValueLabel to access the JLabel directly.
+     *
      * @param icon
      */
-    public void setValueLabelIcon( Icon icon ) {
-        _valueLabel.setIcon( icon );;
-        _valueLabel.setVerticalTextPosition( JLabel.CENTER );
-        _valueLabel.setHorizontalTextPosition( JLabel.RIGHT );
+    public void setValueLabelIcon(Icon icon) {
+        _valueLabel.setIcon(icon);
+        ;
+        _valueLabel.setVerticalTextPosition(JLabel.CENTER);
+        _valueLabel.setHorizontalTextPosition(JLabel.RIGHT);
     }
 
     /**
@@ -218,9 +220,9 @@ public abstract class AbstractValueControl extends JPanel {
      *
      * @param value
      */
-    public void setValue( double value ) {
-        if ( value != _value ) {
-            setValue( value, true );
+    public void setValue(double value) {
+        if (value != _value) {
+            setValue(value, true);
         }
     }
 
@@ -230,19 +232,20 @@ public abstract class AbstractValueControl extends JPanel {
      * @param value
      * @param notify
      */
-    private void setValue( double value, boolean notify ) {
-        if ( isValueInRange( value ) ) {
+
+    private void setValue(double value, boolean notify) {
+        if (isValueInRange(value)) {
             _value = value;
+            System.out.println("_value = " + _value);
             updateView();
-            if ( notify ) {
-                fireChangeEvent( new ChangeEvent( this ) );
+            if (notify) {
+                fireChangeEvent(new ChangeEvent(this));
             }
-        }
-        else {
-            if ( _signifyOutOfBounds ) {
+        } else {
+            if (_signifyOutOfBounds) {
                 Toolkit.getDefaultToolkit().beep();
                 String message = getClass().getName() + ".setValue: ignoring invalid value for slider labeled \"" + _valueLabel.getText() + "\", " + "range is " + getMinimum() + " to " + getMaximum() + ", tried to set " + value;
-                new IllegalArgumentException( message ).printStackTrace();
+                new IllegalArgumentException(message).printStackTrace();
             }
             updateView(); // revert
         }
@@ -252,7 +255,8 @@ public abstract class AbstractValueControl extends JPanel {
      * Returns true if the specified value is in the allowed range of this control.
      * This method can be overriden (e.g. to always return true) to allow all values 
      */
-    protected boolean isValueInRange( double value ) {
+
+    protected boolean isValueInRange(double value) {
         return value >= getMinimum() && value <= getMaximum();
     }
 
@@ -271,29 +275,28 @@ public abstract class AbstractValueControl extends JPanel {
      * @param min
      * @param max
      */
-    public void setRange( double min, double max ) {
-        _slider.setModelRange( min, max );
-        if ( _value < min ) {
-            setValue( min );
-        }
-        else if ( _value > max ) {
-            setValue( max );
-        }
-        else {
+    public void setRange(double min, double max) {
+        _slider.setModelRange(min, max);
+        if (_value < min) {
+            setValue(min);
+        } else if (_value > max) {
+            setValue(max);
+        } else {
             // use this form of setValue to reset the existing value
-            setValue( _value, true );
+            setValue(_value, true);
         }
         updateTickLabels();
     }
 
     /**
      * Set a range and value simultaneously; this method should be used if the new range doesn't contain the old value.
-     * @param min the new minimum
-     * @param max the new maximum
+     *
+     * @param min   the new minimum
+     * @param max   the new maximum
      * @param value the new value
      */
-    public void setRangeAndValue( double min, double max,double value ) {
-        _slider.setModelRange( min, max );
+    public void setRangeAndValue(double min, double max, double value) {
+        _slider.setModelRange(min, max);
         setValue(value);
         updateTickLabels();
     }
@@ -321,7 +324,7 @@ public abstract class AbstractValueControl extends JPanel {
      *
      * @param delta
      */
-    public void setUpDownArrowDelta( double delta ) {
+    public void setUpDownArrowDelta(double delta) {
         _upDownArrowDelta = delta;
     }
 
@@ -330,12 +333,12 @@ public abstract class AbstractValueControl extends JPanel {
      *
      * @param enabled true or false
      */
-    public void setEnabled( boolean enabled ) {
-        super.setEnabled( enabled );
-        _valueLabel.setEnabled( enabled );
-        _textField.setEnabled( enabled );
-        _unitsLabel.setEnabled( enabled );
-        _slider.setEnabled( enabled );
+    public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
+        _valueLabel.setEnabled(enabled);
+        _textField.setEnabled(enabled);
+        _unitsLabel.setEnabled(enabled);
+        _slider.setEnabled(enabled);
     }
 
     /**
@@ -343,14 +346,14 @@ public abstract class AbstractValueControl extends JPanel {
      *
      * @param font
      */
-    public void setFont( Font font ) {
-        super.setFont( font );
-        if ( _initialized ) {
+    public void setFont(Font font) {
+        super.setFont(font);
+        if (_initialized) {
             _font = font;
-            _valueLabel.setFont( font );
-            _textField.setFont( font );
-            _unitsLabel.setFont( font );
-            _slider.setFont( font );
+            _valueLabel.setFont(font);
+            _textField.setFont(font);
+            _unitsLabel.setFont(font);
+            _slider.setFont(font);
             updateTickLabels();
         }
     }
@@ -362,12 +365,12 @@ public abstract class AbstractValueControl extends JPanel {
      *
      * @param text
      */
-    public void setToolTipText( String text ) {
-        super.setToolTipText( text );
-        _valueLabel.setToolTipText( text );
-        _textField.setToolTipText( text );
-        _unitsLabel.setToolTipText( text );
-        _slider.setToolTipText( text );
+    public void setToolTipText(String text) {
+        super.setToolTipText(text);
+        _valueLabel.setToolTipText(text);
+        _textField.setToolTipText(text);
+        _unitsLabel.setToolTipText(text);
+        _slider.setToolTipText(text);
     }
 
     //----------------------------------------------------------------------------
@@ -379,8 +382,8 @@ public abstract class AbstractValueControl extends JPanel {
      *
      * @param editable
      */
-    public void setTextFieldEditable( boolean editable ) {
-        _textField.setEditable( editable );
+    public void setTextFieldEditable(boolean editable) {
+        _textField.setEditable(editable);
     }
 
     /**
@@ -388,8 +391,8 @@ public abstract class AbstractValueControl extends JPanel {
      *
      * @param visible true or false
      */
-    public void setTextFieldVisible( boolean visible ) {
-        _textField.setVisible( visible );
+    public void setTextFieldVisible(boolean visible) {
+        _textField.setVisible(visible);
     }
 
     /**
@@ -397,21 +400,22 @@ public abstract class AbstractValueControl extends JPanel {
      *
      * @param pattern see DecimalFormat
      */
-    public void setTextFieldPattern( String pattern ) {
-        _textFieldFormat = new DecimalFormat( pattern );
-        _textField.setColumns( pattern.length() );
+    public void setTextFieldPattern(String pattern) {
+        _textFieldFormat = new DecimalFormat(pattern);
+        _textField.setColumns(pattern.length());
         updateView();
     }
 
     /**
      * Sets the NumberFormat to be used in the text field.
-     *
+     * <p/>
      * This NumberFormat will replace any value set by setTextFieldPattern
+     *
      * @param format the format to use
      */
-    protected void setTextFieldFormat( NumberFormat format){
-        _textFieldFormat=format;
-        _textField.setFormatterFactory( new DefaultFormatterFactory( new NumberFormatter( format )) );
+    protected void setTextFieldFormat(NumberFormat format) {
+        _textFieldFormat = format;
+        _textField.setFormatterFactory(new DefaultFormatterFactory(new NumberFormatter(format)));
         updateView();
     }
 
@@ -421,21 +425,22 @@ public abstract class AbstractValueControl extends JPanel {
      *
      * @param columns
      */
-    public void setTextFieldColumns( int columns ) {
-        _textField.setColumns( columns );
+    public void setTextFieldColumns(int columns) {
+        _textField.setColumns(columns);
     }
 
     /*
      * Gets the double value from the text field.
      */
+
     private double getTextFieldValue() {
         String text = _textField.getText();
         double value = 0;
         try {
-            Number number = _textFieldFormat.parse( text );
+            Number number = _textFieldFormat.parse(text);
             value = number.doubleValue();
         }
-        catch ( ParseException e ) {
+        catch (ParseException e) {
             e.printStackTrace();
             //TODO Is this the best way to recover?...
             value = _value;
@@ -445,10 +450,11 @@ public abstract class AbstractValueControl extends JPanel {
 
     /**
      * Changes the text value of the units label.
+     *
      * @param units the new units label string
      */
-    public void setUnits( String units ) {
-        _unitsLabel.setText( units );
+    public void setUnits(String units) {
+        _unitsLabel.setText(units);
     }
 
     //----------------------------------------------------------------------------
@@ -460,9 +466,9 @@ public abstract class AbstractValueControl extends JPanel {
      *
      * @param width
      */
-    public void setSliderWidth( int width ) {
+    public void setSliderWidth(int width) {
         Dimension currentSize = _slider.getPreferredSize();
-        _slider.setPreferredSize( new Dimension( width, currentSize.height ) );
+        _slider.setPreferredSize(new Dimension(width, currentSize.height));
     }
 
     /**
@@ -480,7 +486,7 @@ public abstract class AbstractValueControl extends JPanel {
      *
      * @param b true or false
      */
-    public void setNotifyWhileAdjusting( boolean b ) {
+    public void setNotifyWhileAdjusting(boolean b) {
         _notifyWhileAdjusting = b;
     }
 
@@ -503,8 +509,8 @@ public abstract class AbstractValueControl extends JPanel {
      *
      * @param pattern see DecimalFormat
      */
-    public void setTickPattern( String pattern ) {
-        _tickFormat = new DecimalFormat( pattern );
+    public void setTickPattern(String pattern) {
+        _tickFormat = new DecimalFormat(pattern);
         updateTickLabels();
     }
 
@@ -513,8 +519,8 @@ public abstract class AbstractValueControl extends JPanel {
      *
      * @param tickSpacing in model coordinates
      */
-    public void setMajorTickSpacing( double tickSpacing ) {
-        if ( tickSpacing != _minorTickSpacing ) {
+    public void setMajorTickSpacing(double tickSpacing) {
+        if (tickSpacing != _minorTickSpacing) {
             _majorTickSpacing = tickSpacing;
             updateTickLabels();
         }
@@ -526,8 +532,8 @@ public abstract class AbstractValueControl extends JPanel {
      *
      * @param paintTickLabels true if the labels should be visible.
      */
-    public void setPaintTickLabels( boolean paintTickLabels ) {
-        if ( paintTickLabels != _paintTickLabels ) {
+    public void setPaintTickLabels(boolean paintTickLabels) {
+        if (paintTickLabels != _paintTickLabels) {
             _paintTickLabels = paintTickLabels;
             updateTickLabels();
         }
@@ -538,8 +544,8 @@ public abstract class AbstractValueControl extends JPanel {
      *
      * @param tickSpacing in model coordinates
      */
-    public void setMinorTickSpacing( double tickSpacing ) {
-        if ( tickSpacing != _minorTickSpacing ) {
+    public void setMinorTickSpacing(double tickSpacing) {
+        if (tickSpacing != _minorTickSpacing) {
             _minorTickSpacing = tickSpacing;
             updateTickLabels();
         }
@@ -550,8 +556,8 @@ public abstract class AbstractValueControl extends JPanel {
      *
      * @param visible true or false
      */
-    public void setMajorTicksVisible( boolean visible ) {
-        if ( visible != _majorTicksVisible ) {
+    public void setMajorTicksVisible(boolean visible) {
+        if (visible != _majorTicksVisible) {
             _majorTicksVisible = visible;
             updateTickLabels();
         }
@@ -562,8 +568,8 @@ public abstract class AbstractValueControl extends JPanel {
      *
      * @param visible true or false
      */
-    public void setMinorTicksVisible( boolean visible ) {
-        if ( visible != _minorTicksVisible ) {
+    public void setMinorTicksVisible(boolean visible) {
+        if (visible != _minorTicksVisible) {
             _minorTicksVisible = visible;
             updateTickLabels();
         }
@@ -577,19 +583,18 @@ public abstract class AbstractValueControl extends JPanel {
      * @param labelTable
      * @throws IllegalArgumentException if any key in labelTable is not of type Number
      */
-    public void setTickLabels( Hashtable labelTable ) {
+    public void setTickLabels(Hashtable labelTable) {
         clearTickLabels();
         Set keys = labelTable.keySet();
         Iterator i = keys.iterator();
-        while ( i.hasNext() ) {
+        while (i.hasNext()) {
             Object o = i.next();
-            if ( o instanceof Number ) {
-                double modelValue = ( (Number) o ).doubleValue();
-                Object label = labelTable.get( o );
-                addTickLabel( modelValue, label );
-            }
-            else {
-                throw new IllegalArgumentException( "labelTable contains a key that is not a Number: " + o.getClass().getName() );
+            if (o instanceof Number) {
+                double modelValue = ((Number) o).doubleValue();
+                Object label = labelTable.get(o);
+                addTickLabel(modelValue, label);
+            } else {
+                throw new IllegalArgumentException("labelTable contains a key that is not a Number: " + o.getClass().getName());
             }
         }
         updateTickLabels();
@@ -601,10 +606,10 @@ public abstract class AbstractValueControl extends JPanel {
      * @param value
      * @param string
      */
-    public void addTickLabel( double value, String string ) {
-        JLabel label = new JLabel( string );
-        label.setFont( _font );
-        addTickLabel( value, label );
+    public void addTickLabel(double value, String string) {
+        JLabel label = new JLabel(string);
+        label.setFont(_font);
+        addTickLabel(value, label);
     }
 
     /**
@@ -613,12 +618,12 @@ public abstract class AbstractValueControl extends JPanel {
      * @param value
      * @param label
      */
-    public void addTickLabel( double value, Object label ) {
-        if ( _labelTable == null ) {
+    public void addTickLabel(double value, Object label) {
+        if (_labelTable == null) {
             _labelTable = new Hashtable();
         }
-        int sliderValue = _slider.modelToSlider( value );
-        _labelTable.put( new Integer( sliderValue ), label );
+        int sliderValue = _slider.modelToSlider(value);
+        _labelTable.put(new Integer(sliderValue), label);
         updateTickLabels();
     }
 
@@ -635,8 +640,8 @@ public abstract class AbstractValueControl extends JPanel {
      *
      * @param b true or false
      */
-    public void setSnapToTicks( boolean b ) {
-        _slider.setSnapToTicks( b );
+    public void setSnapToTicks(boolean b) {
+        _slider.setSnapToTicks(b);
     }
 
     //----------------------------------------------------------------------------
@@ -649,14 +654,14 @@ public abstract class AbstractValueControl extends JPanel {
 
     private void updateView() {
 
-        _slider.removeChangeListener( _sliderListener );
-        _slider.setModelValue( _value );
-        _slider.addChangeListener( _sliderListener );
+        _slider.removeChangeListener(_sliderListener);
+        _slider.setModelValue(_value);
+        _slider.addChangeListener(_sliderListener);
 
-        _textField.removeActionListener( _textFieldListener );
-        String text = _textFieldFormat.format( _value );
-        _textField.setText( text );
-        _textField.addActionListener( _textFieldListener );
+        _textField.removeActionListener(_textFieldListener);
+        String text = _textFieldFormat.format(_value);
+        _textField.setText(text);
+        _textField.addActionListener(_textFieldListener);
     }
 
     /*
@@ -664,51 +669,51 @@ public abstract class AbstractValueControl extends JPanel {
      * If labels were specified via addTickLabel, use them.
      * Otherwise, generate numberic labels for the major and minor tick marks.
      */
+
     private void updateTickLabels() {
 
         final double min = getMinimum();
         final double max = getMaximum();
 
         // Slider properties related to ticks
-        _slider.setMajorTickSpacing( _slider.modelToSlider( min + _majorTickSpacing ) );
-        if ( _minorTickSpacing > 0 ) {
-            _slider.setMinorTickSpacing( _slider.modelToSlider( min + _minorTickSpacing ) );
+        _slider.setMajorTickSpacing(_slider.modelToSlider(min + _majorTickSpacing));
+        if (_minorTickSpacing > 0) {
+            _slider.setMinorTickSpacing(_slider.modelToSlider(min + _minorTickSpacing));
         }
-        _slider.setPaintTicks( _minorTicksVisible || _majorTicksVisible );
-        _slider.setPaintLabels( ( _minorTicksVisible || _majorTicksVisible ) && _paintTickLabels );
+        _slider.setPaintTicks(_minorTicksVisible || _majorTicksVisible);
+        _slider.setPaintLabels((_minorTicksVisible || _majorTicksVisible) && _paintTickLabels);
 
-        if ( _labelTable != null ) {
+        if (_labelTable != null) {
             // Use the labels provided via addTickLabel.
-            _slider.setLabelTable( _labelTable );
-        }
-        else {
+            _slider.setLabelTable(_labelTable);
+        } else {
             // Generate numeric labels for major and minor tick marks.
             Hashtable labelTable = new Hashtable();
 
             // Major ticks
-            if ( _majorTicksVisible ) {
+            if (_majorTicksVisible) {
                 double value = min;
-                while ( value <= max ) {
-                    JLabel label = new JLabel( _tickFormat.format( value ) );
-                    label.setFont( _font );
-                    labelTable.put( new Integer( _slider.modelToSlider( value ) ), label );
+                while (value <= max) {
+                    JLabel label = new JLabel(_tickFormat.format(value));
+                    label.setFont(_font);
+                    labelTable.put(new Integer(_slider.modelToSlider(value)), label);
                     value += _majorTickSpacing;
                 }
             }
 
             // Minor ticks
-            if ( _minorTicksVisible && _minorTickSpacing > 0 ) {
+            if (_minorTicksVisible && _minorTickSpacing > 0) {
                 double value = min + _minorTickSpacing;
-                while ( value < max ) {
-                    JLabel label = new JLabel( _tickFormat.format( value ) );
-                    label.setFont( _font );
-                    labelTable.put( new Integer( _slider.modelToSlider( value ) ), label );
+                while (value < max) {
+                    JLabel label = new JLabel(_tickFormat.format(value));
+                    label.setFont(_font);
+                    labelTable.put(new Integer(_slider.modelToSlider(value)), label);
                     value += _minorTickSpacing;
                 }
             }
 
-            if ( labelTable.size() != 0 ) {
-                _slider.setLabelTable( labelTable );
+            if (labelTable.size() != 0) {
+                _slider.setLabelTable(labelTable);
             }
         }
     }
@@ -725,12 +730,13 @@ public abstract class AbstractValueControl extends JPanel {
         /*
          * Slider was changed.
          */
-        public void stateChanged( ChangeEvent e ) {
-            if ( e.getSource() == _slider ) {
+
+        public void stateChanged(ChangeEvent e) {
+            if (e.getSource() == _slider) {
                 _isAdjusting = _slider.getValueIsAdjusting();
-                boolean notify = ( _notifyWhileAdjusting || !_isAdjusting );
+                boolean notify = (_notifyWhileAdjusting || !_isAdjusting);
                 double modelValue = _slider.getModelValue();
-                setValue( modelValue, notify );
+                setValue(modelValue, notify);
             }
         }
     }
@@ -738,23 +744,24 @@ public abstract class AbstractValueControl extends JPanel {
     /*
     * Handles events related to the textfield.
     */
+
     private class TextFieldListener extends KeyAdapter implements ActionListener, FocusListener {
 
         /*
          * Use the up/down arrow keys to change the value.
          */
-        public void keyPressed( KeyEvent e ) {
-            if ( e.getSource() == _textField ) {
-                if ( e.getKeyCode() == KeyEvent.VK_UP ) {
+
+        public void keyPressed(KeyEvent e) {
+            if (e.getSource() == _textField) {
+                if (e.getKeyCode() == KeyEvent.VK_UP) {
                     final double value = getValue() + _upDownArrowDelta;
-                    if ( value <= getMaximum() ) {
-                        setValue( value );
+                    if (value <= getMaximum()) {
+                        setValue(value);
                     }
-                }
-                else if ( e.getKeyCode() == KeyEvent.VK_DOWN ) {
+                } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
                     final double value = getValue() - _upDownArrowDelta;
-                    if ( value >= getMinimum() ) {
-                        setValue( value );
+                    if (value >= getMinimum()) {
+                        setValue(value);
                     }
                 }
             }
@@ -763,26 +770,27 @@ public abstract class AbstractValueControl extends JPanel {
         /*
          * User pressed enter in text field.
          */
-        public void actionPerformed( ActionEvent e ) {
-            if ( e.getSource() == _textField ) {
+
+        public void actionPerformed(ActionEvent e) {
+            if (e.getSource() == _textField) {
                 double value = getTextFieldValue();
-                if ( value < getMinimum() ) {
+                if (value < getMinimum()) {
                     value = getMinimum();
                     Toolkit.getDefaultToolkit().beep();
-                }
-                else if ( value > getMaximum() ) {
+                } else if (value > getMaximum()) {
                     value = getMaximum();
                     Toolkit.getDefaultToolkit().beep();
                 }
-                setValue( value );
+                setValue(value);
             }
         }
 
         /*
          * Selects the entire value text field when it gains focus.
          */
-        public void focusGained( FocusEvent e ) {
-            if ( e.getSource() == _textField ) {
+
+        public void focusGained(FocusEvent e) {
+            if (e.getSource() == _textField) {
                 _textField.selectAll();
             }
         }
@@ -790,14 +798,15 @@ public abstract class AbstractValueControl extends JPanel {
         /*
          * Processes the contents of the value text field when it loses focus.
          */
-        public void focusLost( FocusEvent e ) {
-            if ( e.getSource() == _textField ) {
+
+        public void focusLost(FocusEvent e) {
+            if (e.getSource() == _textField) {
                 try {
                     _textField.commitEdit();
                     double value = getTextFieldValue();
-                    setValue( value );
+                    setValue(value);
                 }
-                catch( ParseException pe ) {
+                catch (ParseException pe) {
                     Toolkit.getDefaultToolkit().beep();
                     updateView(); // revert
                 }
@@ -814,9 +823,9 @@ public abstract class AbstractValueControl extends JPanel {
      *
      * @param listener the listener
      */
-    public void addChangeListener( ChangeListener listener ) {
+    public void addChangeListener(ChangeListener listener) {
 
-        _listenerList.add( ChangeListener.class, listener );
+        _listenerList.add(ChangeListener.class, listener);
     }
 
     /**
@@ -824,9 +833,9 @@ public abstract class AbstractValueControl extends JPanel {
      *
      * @param listener the listener
      */
-    public void removeChangeListener( ChangeListener listener ) {
+    public void removeChangeListener(ChangeListener listener) {
 
-        _listenerList.remove( ChangeListener.class, listener );
+        _listenerList.remove(ChangeListener.class, listener);
     }
 
     /**
@@ -834,21 +843,22 @@ public abstract class AbstractValueControl extends JPanel {
      *
      * @param event the event
      */
-    private void fireChangeEvent( ChangeEvent event ) {
+    private void fireChangeEvent(ChangeEvent event) {
 
         Object[] listeners = _listenerList.getListenerList();
-        for ( int i = 0; i < listeners.length; i += 2 ) {
-            if ( listeners[i] == ChangeListener.class ) {
-                ( (ChangeListener) listeners[i + 1] ).stateChanged( event );
+        for (int i = 0; i < listeners.length; i += 2) {
+            if (listeners[i] == ChangeListener.class) {
+                ((ChangeListener) listeners[i + 1]).stateChanged(event);
             }
         }
     }
 
     /**
      * Sets whether the system should beep when out of bounds value is requested
+     *
      * @param signifyOutOfBounds true if the system should beep when out of bounds value is requested
      */
-    public void setSignifyOutOfBounds( boolean signifyOutOfBounds ) {
+    public void setSignifyOutOfBounds(boolean signifyOutOfBounds) {
         this._signifyOutOfBounds = signifyOutOfBounds;
     }
 }
