@@ -22,7 +22,7 @@ public class TextBox extends PNode {
 
     public TextBox(String title, Color color) {
         PText titleNode = new PText(title);
-        titleNode.setFont(new PhetFont(12,true));
+        titleNode.setFont(new PhetFont(12, true));
         titleNode.setTextPaint(color);
         addChild(titleNode);
         swingTextField = new JTextField(4);

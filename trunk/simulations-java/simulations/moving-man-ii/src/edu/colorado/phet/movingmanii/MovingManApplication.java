@@ -31,7 +31,7 @@ public class MovingManApplication extends PhetApplication {
                     model.setPlaybackState(state);
                 }
             };
-            getClock().addClockListener(new ClockAdapter(){
+            getClock().addClockListener(new ClockAdapter() {
                 public void simulationTimeChanged(ClockEvent clockEvent) {
                     recordAndPlaybackModel.stepInTime(clockEvent.getSimulationTimeChange());
                 }
@@ -42,7 +42,7 @@ public class MovingManApplication extends PhetApplication {
                 }
             });
             setControlPanel(null);
-            setSimulationPanel(new MovingManSimulationPanel(model,recordAndPlaybackModel));
+            setSimulationPanel(new MovingManSimulationPanel(model, recordAndPlaybackModel));
             setClockControlPanel(new RecordAndPlaybackControlPanel<MovingManState>(recordAndPlaybackModel, getSimulationPanel(), 20.0));
             setLogoPanelVisible(false);
         }

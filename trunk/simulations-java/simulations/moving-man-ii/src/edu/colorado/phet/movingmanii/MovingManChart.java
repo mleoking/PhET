@@ -56,8 +56,8 @@ public class MovingManChart extends PNode {
             DomainGridLine gridLine = new DomainGridLine(x, this);
             addChild(gridLine);
         }
-        DomainTickMark last = domainTickMarks.get(domainTickMarks.size()-1);
-        last.setTickText(last.getTickText()+" sec");
+        DomainTickMark last = domainTickMarks.get(domainTickMarks.size() - 1);
+        last.setTickText(last.getTickText() + " sec");
 
         int numRangeMarks = 4;
         Function.LinearFunction rangeFunction = new Function.LinearFunction(0, numRangeMarks, dataModelBounds.getY(), dataModelBounds.getMaxY());
