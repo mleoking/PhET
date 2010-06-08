@@ -61,7 +61,7 @@ public class MovingManModel {
 
             //set instantaneous values
             movingMan.setPosition(newPosition);
-            movingMan.setAcceleration(accelerationSeries.getDataPoint(accelerationSeries.getNumPoints() - 1 - DERIVATIVE_RADIUS).getValue());
+            movingMan.setAcceleration(accelerationSeries.getDataPoint(accelerationSeries.getNumPoints() - 1).getValue());//todo: subtract - DERIVATIVE_RADIUS if possible
         } else if (movingMan.isAccelerationDriven()) {
             //record set point
             accelerationSeries.addPoint(movingMan.getAcceleration(), time);

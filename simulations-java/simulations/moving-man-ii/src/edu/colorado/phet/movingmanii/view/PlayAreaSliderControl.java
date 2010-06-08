@@ -10,9 +10,10 @@ import javax.swing.event.ChangeListener;
  * @author Sam Reid
  */
 public class PlayAreaSliderControl extends PNode {
-    private final LinearValueControl linearValueControl = new LinearValueControl(-10, 10, "Position", "0.00", "m");
+    private final LinearValueControl linearValueControl;
 
-    public PlayAreaSliderControl() {
+    public PlayAreaSliderControl(double min, double max, String title, String units) {
+        linearValueControl = new LinearValueControl(-10, 10, title, "0.00", units);
         addChild(new PSwing(linearValueControl));
     }
 
