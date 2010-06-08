@@ -21,11 +21,17 @@ public class CursorNode extends PNode {
     public CursorNode(final ChartCursor cursor, final MovingManChart chart) {
         this.cursor = cursor;
         this.chart = chart;
-        cursor.addListener(new ChartCursor.Listener() {
+        cursor.addListener(new ChartCursor.Adapter() {
             public void positionChanged() {
                 update();
             }
         });
+        cursor.addListener(new ChartCursor.Adapter() {
+            public void visibilityChanged() {
+                updateVisibility();
+            }
+        });
+        updateVisibility();
         path = new PhetPPath(new Color(50, 50, 200, 45), new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1, new float[]{4, 2}, 0), new Color(20, 20, 120, 100));
         addChild(path);
 
@@ -40,6 +46,10 @@ public class CursorNode extends PNode {
                 cursor.setTime(cursor.getTime() + w);
             }
         });
+    }
+
+    private void updateVisibility() {
+        setVisible(cursor.isVisible());
     }
 
     private void update() {
