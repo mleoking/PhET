@@ -7,6 +7,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.recordandplayback.gui.RecordAndPlaybackControlPanel;
 import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel;
 
@@ -21,6 +22,8 @@ public class MovingManApplication extends PhetApplication {
         public MyModule() {
             super("test", new ConstantDtClock(30, 1.0 / 30.0));
             final MovingManModel model = new MovingManModel();
+
+            //TODO: make MovingManModel extend RecordAndPlaybackModel<MovingManState>? 
             final RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel = new RecordAndPlaybackModel<MovingManState>(1000) {
                 public MovingManState stepRecording(double simulationTimeChange) {
                     model.simulationTimeChanged(simulationTimeChange);
@@ -41,10 +44,26 @@ public class MovingManApplication extends PhetApplication {
                     model.clear();
                 }
             });
-            setControlPanel(null);
+            model.getChartCursor().addListener(new ChartCursor.Adapter() {
+                public void positionChanged() {
+                    //TODO: this is buggy
+//                    recordAndPlaybackModel.setPlaybackTime(model.getChartCursor().getTime());
+                }
+            });
+            recordAndPlaybackModel.addObserver(new SimpleObserver() {
+                public void update() {
+                    updateCursorVisibility(model, recordAndPlaybackModel);
+                }
+            });
+            updateCursorVisibility(model, recordAndPlaybackModel);
+
             setSimulationPanel(new MovingManSimulationPanel(model, recordAndPlaybackModel));
             setClockControlPanel(new RecordAndPlaybackControlPanel<MovingManState>(recordAndPlaybackModel, getSimulationPanel(), 20.0));
             setLogoPanelVisible(false);
+        }
+
+        private void updateCursorVisibility(MovingManModel model, RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel) {
+            model.getChartCursor().setVisible(recordAndPlaybackModel.isPlayback() && recordAndPlaybackModel.getNumRecordedPoints() > 0);
         }
     }
 
