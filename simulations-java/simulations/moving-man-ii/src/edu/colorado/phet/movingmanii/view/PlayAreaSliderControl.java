@@ -7,6 +7,11 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 import javax.swing.event.ChangeListener;
 
 /**
+ * These sliders should be Piccolo sliders for the following reasons:
+ * 1. So we can color the thumbs
+ * 2. So we can indicate when the value is out of range
+ * 3. So we can easily identify when a change event is caused by the user vs. by a callback from the model.
+ *
  * @author Sam Reid
  */
 public class PlayAreaSliderControl extends PNode {
