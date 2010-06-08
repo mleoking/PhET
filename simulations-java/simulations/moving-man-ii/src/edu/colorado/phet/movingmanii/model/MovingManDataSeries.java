@@ -1,4 +1,4 @@
-package edu.colorado.phet.movingmanii;
+package edu.colorado.phet.movingmanii.model;
 
 import edu.colorado.phet.common.motion.model.TimeData;
 

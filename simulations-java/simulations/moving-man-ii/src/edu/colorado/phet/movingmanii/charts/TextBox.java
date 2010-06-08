@@ -1,4 +1,4 @@
-package edu.colorado.phet.movingmanii;
+package edu.colorado.phet.movingmanii.charts;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.PNode;

@@ -1,8 +1,10 @@
-package edu.colorado.phet.movingmanii;
+package edu.colorado.phet.movingmanii.charts;
 
 import edu.colorado.phet.common.motion.model.TimeData;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.movingmanii.charts.ChartCursor;
+import edu.colorado.phet.movingmanii.charts.MovingManChart;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;

@@ -1,4 +1,4 @@
-package edu.colorado.phet.movingmanii;
+package edu.colorado.phet.movingmanii.model;
 
 import java.util.ArrayList;
 
@@ -93,7 +93,7 @@ public class MovingMan {
         notifyListeners();
     }
 
-    static interface Listener {
+    public static interface Listener {
         void changed();
     }
 

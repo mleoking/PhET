@@ -1,8 +1,12 @@
-package edu.colorado.phet.movingmanii;
+package edu.colorado.phet.movingmanii.view;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.movingmanii.MovingManIIResources;
+import edu.colorado.phet.movingmanii.model.MovingMan;
+import edu.colorado.phet.movingmanii.model.MovingManDataSeries;
+import edu.colorado.phet.movingmanii.model.MovingManModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;

@@ -1,7 +1,8 @@
-package edu.colorado.phet.movingmanii;
+package edu.colorado.phet.movingmanii.model;
 
 import edu.colorado.phet.common.motion.MotionMath;
 import edu.colorado.phet.common.motion.model.TimeData;
+import edu.colorado.phet.movingmanii.charts.ChartCursor;
 
 import java.util.ArrayList;
 
