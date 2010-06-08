@@ -7,11 +7,15 @@ import java.util.ArrayList;
 
 public class MovingManModel {
     private MovingMan movingMan;
+    private MovingManDataSeries mouseDataSeries = new MovingManDataSeries();
     private MovingManDataSeries positionSeries = new MovingManDataSeries();
     private MovingManDataSeries velocitySeries = new MovingManDataSeries();
     private MovingManDataSeries accelerationSeries = new MovingManDataSeries();
     private ChartCursor chartCursor = new ChartCursor();
     private double time = 0.0;
+    private double mousePosition;
+    public static final int DERIVATIVE_RADIUS = 1;//Kathy chose this value because it is a good balance betweenw
+    private static final int NUMBER_MOUSE_POINTS_TO_AVERAGE = 4;//Kathy chose this value because it smoothes well enough, but without creating too much of a lag between the mouse and the character
 
     public MovingManModel() {
         this.movingMan = new MovingMan();
@@ -20,8 +24,17 @@ public class MovingManModel {
     public void simulationTimeChanged(double dt) {
         time = time + dt;
         if (movingMan.isPositionDriven()) {
-            //record set point
-            positionSeries.addPoint(movingMan.getPosition(), time);
+            mouseDataSeries.addPoint(mousePosition, time);
+//            //take the position as the average of the latest mouseDataSeries points.
+            TimeData[] position = mouseDataSeries.getPointsInRange(mouseDataSeries.getNumPoints() - NUMBER_MOUSE_POINTS_TO_AVERAGE, mouseDataSeries.getNumPoints());
+            double sum = 0;
+            for (TimeData timeData : position) {
+                sum += timeData.getValue();
+            }
+            double averagePosition = sum / position.length;
+
+            //record set point based on derivatives
+            positionSeries.addPoint(averagePosition, time);
 
             //update derivatives
             velocitySeries.setData(estimateCenteredDerivatives(positionSeries));
@@ -30,6 +43,7 @@ public class MovingManModel {
             //no integrals
 
             //set instantaneous values
+            movingMan.setPosition(averagePosition);
             movingMan.setVelocity(velocitySeries.getDataPoint(velocitySeries.getNumPoints() - 1).getValue());
             movingMan.setAcceleration(accelerationSeries.getDataPoint(accelerationSeries.getNumPoints() - 1).getValue());
         } else if (movingMan.isVelocityDriven()) {
@@ -67,7 +81,7 @@ public class MovingManModel {
     }
 
     private TimeData[] estimateCenteredDerivatives(MovingManDataSeries series) {
-        int radius = 12;
+        int radius = DERIVATIVE_RADIUS;
         ArrayList<TimeData> points = new ArrayList<TimeData>();
         for (int i = 0; i < series.getNumPoints(); i++) {
             TimeData[] range = series.getPointsInRange(i - radius, i + radius);
@@ -113,5 +127,19 @@ public class MovingManModel {
         this.movingMan.setState(state.getMovingManState());
         this.chartCursor.setTime(time);
         //todo: notify time changed?
+    }
+
+    /**
+     * This method allows recording the mouse position separately, so that it can be smoothed out before stored as data on the man character.
+     *
+     * @param mousePosition
+     */
+    public void setMousePosition(double mousePosition) {
+        this.mousePosition = mousePosition;
+//        System.out.println("mousePosition = " + mousePosition);
+    }
+
+    public double getMousePosition() {
+        return mousePosition;
     }
 }

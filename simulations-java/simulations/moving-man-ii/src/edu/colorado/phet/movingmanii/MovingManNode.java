@@ -72,22 +72,22 @@ public class MovingManNode extends PNode {
     }
 
     private static class MovingManDragger extends PBasicInputEventHandler {
-        private MovingManNode man;
+        private MovingManNode movingManNode;
 
-        private MovingManDragger(MovingManNode man) {
-            this.man = man;
+        private MovingManDragger(MovingManNode movingManNode) {
+            this.movingManNode = movingManNode;
         }
 
         @Override
         public void mouseDragged(PInputEvent event) {
             super.mouseDragged(event);
             double canvasDelta = event.getCanvasDelta().width;
-            double mappedDelta1 = man.modelToView.createInverse().evaluate(canvasDelta);
-            double mappedDelta0 = man.modelToView.createInverse().evaluate(0);
+            double mappedDelta1 = movingManNode.modelToView.createInverse().evaluate(canvasDelta);
+            double mappedDelta0 = movingManNode.modelToView.createInverse().evaluate(0);
             double mappedDelta = mappedDelta1 - mappedDelta0;
 //            System.out.println("canvas delta = " + canvasDelta + ", mapped delta = " + mappedDelta);
-            man.getMan().setPosition(man.getMan().getPosition() + mappedDelta);
+            movingManNode.model.setMousePosition(movingManNode.model.getMousePosition() + mappedDelta);
+//            movingManNode.man.setPosition(movingManNode.man.getPosition() + mappedDelta);
         }
     }
-
 }
