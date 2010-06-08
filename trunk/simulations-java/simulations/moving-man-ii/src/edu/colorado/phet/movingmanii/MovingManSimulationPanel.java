@@ -28,7 +28,7 @@ public class MovingManSimulationPanel extends PhetPCanvas {
             final MovingManChart positionChart = new MovingManChart(new Rectangle2D.Double(0, -xMax, 20, xMax * 2), chartWidth, chartHeight);
             {
                 positionChart.setOffset(chartX, 100);
-                positionChart.addDataSeries(model.getPositionSeries(), positionColor);
+                positionChart.addDataSeries(model.getPositionSeries(), positionColor, 0);
                 positionChart.addChild(new CursorNode(model.getChartCursor(), positionChart));
                 positionChart.addInputEventListener(new PBasicInputEventHandler() {
                     public void mouseDragged(PInputEvent event) {
@@ -74,7 +74,8 @@ public class MovingManSimulationPanel extends PhetPCanvas {
             textBox.addListener(new TextBox.Listener() {
                 public void changed() {
                     model.getMovingMan().setPositionDriven();
-                    model.getMovingMan().setPosition(Double.parseDouble(textBox.getText()));
+//                    model.getMovingMan().setPosition(Double.parseDouble(textBox.getText()));
+                    model.setMousePosition(Double.parseDouble(textBox.getText()));
                 }
             });
         }
@@ -84,7 +85,7 @@ public class MovingManSimulationPanel extends PhetPCanvas {
             Color velocityColor = Color.red;
             final MovingManChart velocityChart = new MovingManChart(new Rectangle2D.Double(0, -vMax, 20, vMax * 2), chartWidth, chartHeight);
             velocityChart.setOffset(chartX, 100 + chartHeight + chartInsetY);
-            velocityChart.addDataSeries(model.getVelocitySeries(), velocityColor);
+            velocityChart.addDataSeries(model.getVelocitySeries(), velocityColor, MovingManModel.DERIVATIVE_RADIUS);
             velocityChart.addChild(new CursorNode(model.getChartCursor(), velocityChart));
             addScreenChild(velocityChart);
 
@@ -132,11 +133,11 @@ public class MovingManSimulationPanel extends PhetPCanvas {
 
         //Add the acceleration chart
         {
-            double aMax = 200 / 5;
+            double aMax = 60;
             Color accelColor = Color.magenta;
             final MovingManChart accelerationChart = new MovingManChart(new Rectangle2D.Double(0, -aMax, 20, aMax * 2), chartWidth, chartHeight);
             accelerationChart.setOffset(chartX, 100 + (chartHeight + chartInsetY) * 2);
-            accelerationChart.addDataSeries(model.getAccelerationSeries(), accelColor);
+            accelerationChart.addDataSeries(model.getAccelerationSeries(), accelColor, MovingManModel.DERIVATIVE_RADIUS * 2);
             accelerationChart.addChild(new CursorNode(model.getChartCursor(), accelerationChart));
             addScreenChild(accelerationChart);
 
