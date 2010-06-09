@@ -23,9 +23,15 @@ public class MovingManModel {
     private MutableBoolean accelerationVectorVisible = new MutableBoolean(false);
     private MutableBoolean walls = new MutableBoolean(true);
     private Range range = new Range(-10, 10);
+    private BooleanGetter isPaused;
 
-    public MovingManModel() {
+    public static interface BooleanGetter {
+        boolean isTrue();
+    }
+
+    public MovingManModel(BooleanGetter isPaused) {//need to be able to update position immediately when paused instead of smoothing through the mouse data series
         this.movingMan = new MovingMan();
+        this.isPaused = isPaused;
     }
 
     public static class WallResult {
@@ -173,6 +179,9 @@ public class MovingManModel {
     public void setMousePosition(double mousePosition) {
         if (this.mousePosition != mousePosition) {
             this.mousePosition = clampIfWalled(mousePosition).position;
+            if (isPaused.isTrue()) {
+                movingMan.setPosition(mousePosition);
+            }
             for (Listener listener : listeners) {
                 listener.mousePositionChanged();
             }
