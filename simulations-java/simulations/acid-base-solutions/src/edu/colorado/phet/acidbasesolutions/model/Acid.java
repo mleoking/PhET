@@ -32,14 +32,14 @@ public abstract class Acid extends Solute {
     public static class TestWeakAcid extends GenericAcid {
 
         public TestWeakAcid() {
-            super( 0.1 );
+            super( 0.01 );
         }
     }
     
     public static class TestStrongAcid extends GenericAcid {
 
         public TestStrongAcid() {
-            super( 2 );
+            super( 1.5 );
         }
     }
     

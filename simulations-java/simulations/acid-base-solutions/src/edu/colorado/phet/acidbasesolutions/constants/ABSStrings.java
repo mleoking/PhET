@@ -15,9 +15,11 @@ public class ABSStrings {
     private ABSStrings() {}
     
     public static final String PATTERN_VALUE_UNITS = getString( "pattern.0value.1units" );
+    public static final String PATTERN_LABEL_VALUE = getString( "pattern.0label.1value" );
     public static final String PATTERN_STRENGTH_STRONG = getString( "pattern.strengthStrong.0KSymbol" ); 
     public static final String PATTERN_STRENGTH_WEAK = getString( "pattern.strengthWeak.0KSymbol" ); 
     
+    public static final String PH = getString( "pH" ); 
     public static final String SHOW_WATER = getString( "showWater" ); 
     public static final String SOLUTION = getString( "solution" ); 
     public static final String TOOLS = getString( "tools" ); 

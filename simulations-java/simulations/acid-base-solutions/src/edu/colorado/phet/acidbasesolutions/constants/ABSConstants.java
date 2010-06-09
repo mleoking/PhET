@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -44,6 +45,7 @@ public class ABSConstants {
     
     public static final PDimension BEAKER_SIZE = new PDimension( 600, 500 );
     public static final Point2D BEAKER_LOCATION = new Point2D.Double( ( BEAKER_SIZE.getWidth() / 2 ) + 150, BEAKER_SIZE.getHeight() + 300 );
+    public static final double MAGNIFYING_GLASS_DIAMETER = 500;
     public static final double PH_METER_HEIGHT = 200;
     
     public static final DoubleRange CONCENTRATION_RANGE = new DoubleRange( 1E-3, 1 );
@@ -55,6 +57,11 @@ public class ABSConstants {
     
     // reference coordinate frame size for world nodes
     public static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 1024, 768 );
+    
+    public static final IntegerRange MAX_IMAGES_RANGE = new IntegerRange( 100, 2000, 200 );;
+    public static final IntegerRange MAX_H2O_IMAGES_RANGE = new IntegerRange( 300, 10000, 2000 );;
+    public static final DoubleRange IMAGE_SCALE_RANGE = new DoubleRange( 0.25, 2.5, 1 );
+    public static final boolean SHOW_H2O = false;
     
     //----------------------------------------------------------------------------
     // Control
