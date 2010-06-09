@@ -22,6 +22,12 @@ public class MovingManSimulationPanelWithPlayAreaSliders extends MovingManSimula
         super(model, recordAndPlaybackModel);
         {
             final PlayAreaSliderControl positionSlider = new PlayAreaSliderControl(-10, 10, model.getMousePosition(), "Position", "m", MovingManColorScheme.POSITION_COLOR);
+            model.getMovingMan().addListener(new MovingMan.Listener() {
+                public void changed() {
+                    positionSlider.setHighlighted(model.getMovingMan().isPositionDriven());
+                }
+            });
+            positionSlider.setHighlighted(model.getMovingMan().isPositionDriven());
             model.addListener(new MovingManModel.Listener() {
                 public void mousePositionChanged() {
                     positionSlider.setValue(model.getMousePosition());
@@ -42,6 +48,7 @@ public class MovingManSimulationPanelWithPlayAreaSliders extends MovingManSimula
             model.getMovingMan().addListener(new MovingMan.Listener() {
                 public void changed() {
                     velocitySlider.setValue(model.getMovingMan().getVelocity());
+                    velocitySlider.setHighlighted(model.getMovingMan().isVelocityDriven());
                 }
             });
             velocitySlider.addListener(new MovingManSliderNode.Adapter() {
@@ -75,6 +82,7 @@ public class MovingManSimulationPanelWithPlayAreaSliders extends MovingManSimula
             model.getMovingMan().addListener(new MovingMan.Listener() {
                 public void changed() {
                     accelerationSlider.setValue(model.getMovingMan().getAcceleration());
+                    accelerationSlider.setHighlighted(model.getMovingMan().isAccelerationDriven());
                 }
             });
             accelerationSlider.addListener(new MovingManSliderNode.Adapter() {
