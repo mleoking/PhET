@@ -94,14 +94,14 @@ public class MovingManChart extends PNode {
         return modelViewTransform2D.viewToModelDifferentialY(dy);
     }
 
-    private static class DomainTickMark extends PNode {
+    public static class DomainTickMark extends PNode {
         private PText text;
 
-        private DomainTickMark(double x) {
+        public DomainTickMark(double x) {
             double tickWidth = 1.0;
             PhetPPath tick = new PhetPPath(new Rectangle2D.Double(-tickWidth / 2, 0, tickWidth, 4), Color.black);
             addChild(tick);
-            text = new PText(new DecimalFormat("0.0").format(x));
+            text = new PText(new DecimalFormat("0").format(x));
             text.setFont(new PhetFont(14, true));
             addChild(text);
             text.setOffset(tick.getFullBounds().getCenterX() - text.getFullBounds().getWidth() / 2, tick.getFullBounds().getHeight());

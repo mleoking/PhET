@@ -1,6 +1,7 @@
 package edu.colorado.phet.movingmanii.charts;
 
 import edu.colorado.phet.movingmanii.view.MovingManSliderNode;
+import edu.colorado.phet.movingmanii.view.Range;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.*;

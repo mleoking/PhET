@@ -13,6 +13,8 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.geom.Rectangle2D;
 
 /**
@@ -21,14 +23,25 @@ import java.awt.geom.Rectangle2D;
 public class MovingManSimulationPanel extends PhetPCanvas {
     private MovingManModel model;
     private double earthOffset;
+    private final Range viewRange;
 
     public MovingManSimulationPanel(final MovingManModel model, final RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel, int earthOffset) {
         this.model = model;
         this.earthOffset = earthOffset;
         addScreenChild(new SkyNode());
         addScreenChild(new EarthNode());
+        viewRange = new Range(0, 1000);
+        PlayAreaRulerNode playAreaRulerNode = new PlayAreaRulerNode(new Range(-10, 10), viewRange);
+        playAreaRulerNode.setOffset(0, earthOffset);
+        addScreenChild(playAreaRulerNode);
+        addComponentListener(new ComponentAdapter() {
+            public void componentResized(ComponentEvent e) {
+                updateViewRange();
+            }
+        });
+        updateViewRange();
 
-        final MovingManNode manNode = new MovingManNode(model.getMovingMan(), model);
+        final MovingManNode manNode = new MovingManNode(model.getMovingMan(), model, viewRange);
         manNode.addInputEventListener(new PBasicInputEventHandler() {
             public void mousePressed(PInputEvent event) {
                 recordAndPlaybackModel.startRecording();
@@ -74,6 +87,12 @@ public class MovingManSimulationPanel extends PhetPCanvas {
             }
         });
         updateAccelerationVectorVisible(accelerationVector, model);
+    }
+
+    private void updateViewRange() {
+        final int inset = 100;
+        viewRange.setMin(inset);
+        viewRange.setMax(getWidth() - inset);
     }
 
     private void updateAccelerationVectorVisible(PlayAreaVector accelerationVector, MovingManModel model) {
