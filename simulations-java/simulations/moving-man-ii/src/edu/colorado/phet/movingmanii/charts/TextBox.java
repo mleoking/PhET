@@ -1,14 +1,12 @@
 package edu.colorado.phet.movingmanii.charts;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusListener;
 import java.util.ArrayList;
 
 /**
@@ -19,15 +17,12 @@ import java.util.ArrayList;
 public class TextBox extends PNode {
     private JTextField swingTextField;
     private ArrayList<Listener> listeners = new ArrayList<Listener>();
+    protected final PSwing textField;
 
-    public TextBox(String title, Color color) {
-        PText titleNode = new PText(title);
-        titleNode.setFont(new PhetFont(12, true));
-        titleNode.setTextPaint(color);
-        addChild(titleNode);
+    public TextBox() {
         swingTextField = new JTextField(4);
-        PSwing textField = new PSwing(swingTextField);
-        textField.setOffset(titleNode.getFullBounds().getX(), titleNode.getFullBounds().getMaxY());
+        swingTextField.setHorizontalAlignment(JTextField.RIGHT);
+        textField = new PSwing(swingTextField);
         addChild(textField);
         swingTextField.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -50,6 +45,10 @@ public class TextBox extends PNode {
 
     public String getText() {
         return swingTextField.getText();
+    }
+
+    public void addFocusListener(FocusListener focusListener) {
+        swingTextField.addFocusListener(focusListener);
     }
 
     public static interface Listener {

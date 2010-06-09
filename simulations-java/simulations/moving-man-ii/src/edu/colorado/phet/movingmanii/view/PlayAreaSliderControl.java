@@ -2,11 +2,10 @@ package edu.colorado.phet.movingmanii.view;
 
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.movingmanii.charts.TextBox;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolox.pswing.PSwing;
 
-import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -19,19 +18,21 @@ import java.awt.*;
  */
 public class PlayAreaSliderControl extends PNode {
     private MovingManSliderNode slider;
-    private final JTextField textField;
+    private TextBox textBox;
+//    private final JTextField textField;
 
-    public PlayAreaSliderControl(double min, double max, double value, String title, String units, Color color) {
+    public PlayAreaSliderControl(double min, double max, double value, String title, String units, Color color, TextBox textBox) {
+        this.textBox = textBox;
         PText text = new PText(title);
         text.setTextPaint(color);
         text.setFont(new PhetFont(20, true));
         addChild(text);
 
-        textField = new JTextField(4);
-        textField.setHorizontalAlignment(JTextField.RIGHT);
-        PSwing swing = new PSwing(textField);
-        addChild(swing);
-        swing.setOffset(200, text.getFullBounds().getCenterY() - swing.getFullBounds().getHeight() / 2);//todo: align with other controls but make sure doesn't overlap text
+//        textField = new JTextField(4);
+//        textField.setHorizontalAlignment(JTextField.RIGHT);
+//        PSwing swing = new PSwing(textField);
+        addChild(textBox);
+        textBox.setOffset(200, text.getFullBounds().getCenterY() - textBox.getFullBounds().getHeight() / 2);//todo: align with other controls but make sure doesn't overlap text
 
         slider = new MovingManSliderNode.Horizontal(new Range(min, max), 0.0, new Range(0, 350), color);
         addChild(slider);
@@ -41,14 +42,14 @@ public class PlayAreaSliderControl extends PNode {
         unitsPText.setTextPaint(color);
         unitsPText.setFont(new PhetFont(20, true));
         addChild(unitsPText);
-        unitsPText.setOffset(swing.getFullBounds().getMaxX() + 2, 0);
+        unitsPText.setOffset(textBox.getFullBounds().getMaxX() + 2, 0);
 
         setValue(value);
     }
 
     public void setValue(double value) {
         slider.setValue(value);
-        textField.setText(new DefaultDecimalFormat("0.00").format(value));
+        textBox.setText(new DefaultDecimalFormat("0.00").format(value));
     }
 
     public void addListener(MovingManSliderNode.Listener listener) {
