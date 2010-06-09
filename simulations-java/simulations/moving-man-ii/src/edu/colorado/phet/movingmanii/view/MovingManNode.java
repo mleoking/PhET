@@ -26,8 +26,11 @@ public class MovingManNode extends PNode {
     private BufferedImage imageStanding;
     private BufferedImage imageLeft;
     private BufferedImage imageRight;
+    private MovingMan man;
+    private final PImage imageNode;
 
     public MovingManNode(final MovingMan man, MovingManModel model, Range viewRange) {
+        this.man = man;
         this.model = model;
         this.viewRange = viewRange;
         viewRange.addObserver(new SimpleObserver() {
@@ -35,7 +38,6 @@ public class MovingManNode extends PNode {
                 updateTransform();
             }
         });
-        updateTransform();
         try {
             imageStanding = BufferedImageUtils.multiScaleToHeight(MovingManIIResources.loadBufferedImage("stand-ii.gif"), 100);//todo: need our own resource loader
             imageLeft = BufferedImageUtils.multiScaleToHeight(MovingManIIResources.loadBufferedImage("left-ii.gif"), 100);
@@ -43,19 +45,20 @@ public class MovingManNode extends PNode {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        final PImage movingMan = new PImage(imageStanding);
-        addChild(movingMan);
+        imageNode = new PImage(imageStanding);
+        updateTransform();
+        addChild(imageNode);
         man.addListener(new MovingMan.Listener() {
             public void changed() {
-                updateMan(movingMan, man);
+                updateMan();
             }
         });
         model.getVelocitySeries().addListener(new MovingManDataSeries.Listener() {
             public void changed() {
-                updateMan(movingMan, man);
+                updateMan();
             }
         });
-        updateMan(movingMan, man);
+        updateMan();
 
         addInputEventListener(new CursorHandler());
         addInputEventListener(new MovingManDragger(this));
@@ -68,18 +71,19 @@ public class MovingManNode extends PNode {
 
     private void updateTransform() {
         modelToView.setOutput(viewRange.getMin(), viewRange.getMax());
+        updateMan();
     }
 
-    private void updateMan(PImage movingMan, MovingMan man) {
+    private void updateMan() {
         double velocity = man.getVelocity();
         if (velocity > 0.1) {
-            movingMan.setImage(imageRight);
+            imageNode.setImage(imageRight);
         } else if (velocity < -0.1) {
-            movingMan.setImage(imageLeft);
+            imageNode.setImage(imageLeft);
         } else {
-            movingMan.setImage(imageStanding);
+            imageNode.setImage(imageStanding);
         }
-        movingMan.setOffset(modelToView.evaluate(man.getPosition()) - movingMan.getFullBounds().getWidth() / 2, 0);
+        imageNode.setOffset(modelToView.evaluate(man.getPosition()) - imageNode.getFullBounds().getWidth() / 2, 0);
     }
 
     public double viewToModel(double x) {
