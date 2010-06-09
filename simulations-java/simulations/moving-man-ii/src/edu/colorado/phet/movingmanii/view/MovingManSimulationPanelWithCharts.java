@@ -24,7 +24,7 @@ import java.awt.geom.Rectangle2D;
 public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel {
 
     public MovingManSimulationPanelWithCharts(final MovingManModel model, final RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel) {
-        super(model, recordAndPlaybackModel);
+        super(model, recordAndPlaybackModel, 100);
         int chartHeight = 130;
         int xMax = 10;
         int chartWidth = 780;
