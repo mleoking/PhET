@@ -1,10 +1,17 @@
 package edu.colorado.phet.movingmanii.view;
 
+import edu.colorado.phet.common.motion.tests.ColorArrows;
+import edu.colorado.phet.common.phetcommon.math.Function;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.nodes.PImage;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -12,39 +19,85 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 /**
- * This component contains both a MovingManChart (supplied by the caller) and a vertical Slider node,
- * which spans the data range of the JFreeChart.
- * This component can be used to display and control an xy dataset.
- *
  * @author Sam Reid
  */
-public class MovingManSliderNode extends PNode {
+public abstract class MovingManSliderNode extends PNode {
     protected PhetPPath trackPPath;
     protected PNode sliderThumb;
-    private Color highlightColor;
     protected double value = 0.0;
     private ArrayList<Listener> listeners = new ArrayList<Listener>();
-    private boolean selected = false;//highlight
+    private boolean highlighted = false;
+    private Color highlightColor;
+    private Function.LinearFunction transform;
+    private Range modelRange;
+    private Range viewRange;
 
-    public MovingManSliderNode(final PNode sliderThumb, Color highlightColor) {
+    public static class Range extends SimpleObservable {
+        private double min;
+        private double max;
+
+        public Range(double min, double max) {
+            this.min = min;
+            this.max = max;
+        }
+
+        public double getMin() {
+            return min;
+        }
+
+        public void setMin(double min) {
+            this.min = min;
+            notifyObservers();
+        }
+
+        public double getMax() {
+            return max;
+        }
+
+        public void setMax(double max) {
+            this.max = max;
+            notifyObservers();
+        }
+    }
+
+    public MovingManSliderNode(Range modelRange, double value, Range viewRange, Color color) {
+        this(modelRange, value, viewRange, new PImage(ColorArrows.createArrow(color)), color);
+    }
+
+    public MovingManSliderNode(final Range modelRange, final double _value, final Range viewRange, final PNode sliderThumb, Color highlightColor) {
+        this.modelRange = modelRange;
+        this.viewRange = viewRange;
+        this.value = _value;
+        transform = new Function.LinearFunction(modelRange.getMin(), modelRange.getMax(), viewRange.getMax(), viewRange.getMin());//top should be positive, so min and max are switched
+        modelRange.addObserver(new SimpleObserver() {
+            public void update() {
+                transform.setInput(modelRange.getMin(), modelRange.getMax());
+            }
+        });
+        viewRange.addObserver(new SimpleObserver() {
+            public void update() {
+                updateTransform(viewRange);
+            }
+        });
+        updateTransform(viewRange);
         this.sliderThumb = sliderThumb;
         this.highlightColor = highlightColor;
         this.sliderThumb.addInputEventListener(new CursorHandler());
-        trackPPath = new PhetPPath(new BasicStroke(1), Color.black);
+        trackPPath = new PhetPPath(Color.white, new BasicStroke(1), Color.black);
         addChild(trackPPath);
         addChild(sliderThumb);
         sliderThumb.addInputEventListener(new PBasicInputEventHandler() {
             Point2D initDragPoint = null;
-            double origY;
+            double origValue;
 
             public void mousePressed(PInputEvent event) {
                 initDragPoint = event.getPositionRelativeTo(sliderThumb.getParent());
-                if (value < getMinRangeValue()) {
-                    origY = getMinRangeValue();
-                } else if (value > getMaxRangeValue()) {
-                    origY = getMaxRangeValue();
+                if (value < modelRange.getMin()) {
+                    origValue = modelRange.getMin();
+                } else if (value > modelRange.getMax()) {
+                    origValue = modelRange.getMax();
                 } else {
-                    origY = value;
+                    origValue = value;
                 }
                 notifySliderThumbGrabbed();
             }
@@ -57,34 +110,41 @@ public class MovingManSliderNode extends PNode {
                 if (initDragPoint == null) {
                     mousePressed(event);
                 }
-                double yCurrent = event.getPositionRelativeTo(sliderThumb.getParent()).getY();
-                double nodeDY = yCurrent - initDragPoint.getY();
-                double plotDY = viewToModelDY(nodeDY);
-                double value = clamp(origY + plotDY);
+                double nodeDY = getDragViewDelta(event, initDragPoint);
+                double modelDY = viewToModelDelta(nodeDY);
+                double value = clamp(origValue + modelDY);
                 notifySliderDragged(value);
             }
+
         });
 
         //todo: catch layout changes
-//        updateLayout();
-//        updateTrackPPath();
+        updateLayout();
+        updateTrackPPath();
+    }
+
+    protected abstract void updateTransform(Range viewRange);
+
+    protected abstract double getDragViewDelta(PInputEvent event, Point2D initDragPoint);
+
+    private double viewToModelDelta(double dy) {
+        double x0 = transform.createInverse().evaluate(0);
+        double x1 = transform.createInverse().evaluate(dy);
+        return x1 - x0;
+    }
+
+    public void setViewRange(double min, double max) {
+        viewRange.setMin(min);
+        viewRange.setMax(max);
+        updateLayout();
     }
 
     protected void updateLayout() {
-        //To change body of created methods use File | Settings | File Templates.
+        updateTrackPath();
+        updateThumbLocation();
     }
 
-    protected double viewToModelDY(double nodeDY) {
-        return 0;//TODO: implement
-    }
-
-    protected double getMaxRangeValue() {
-        return 100;//TODO: Make field
-    }
-
-    protected double getMinRangeValue() {
-        return -100;  //TODO: make a field
-    }
+    protected abstract void updateTrackPath();
 
     private void notifySliderDragged(double value) {
         for (Listener listener : listeners) {
@@ -99,13 +159,7 @@ public class MovingManSliderNode extends PNode {
     }
 
     public double clamp(double v) {
-        if (v > getMaxRangeValue()) {
-            v = getMaxRangeValue();
-        }
-        if (v < getMinRangeValue()) {
-            v = getMinRangeValue();
-        }
-        return v;
+        return MathUtil.clamp(modelRange.getMin(), v, modelRange.getMax());
     }
 
     /**
@@ -122,7 +176,13 @@ public class MovingManSliderNode extends PNode {
     }
 
     protected void updateThumbLocation() {
-        //To change body of created methods use File | Settings | File Templates.
+        setThumbLocation(modelToView(clamp(value)));
+    }
+
+    protected abstract void setThumbLocation(double location);
+
+    private double modelToView(double v) {
+        return transform.evaluate(v);
     }
 
     /**
@@ -134,22 +194,18 @@ public class MovingManSliderNode extends PNode {
         return value;
     }
 
-    public void setSelected(boolean selected) {
-        this.selected = selected;
+    public void setHighlighted(boolean highlighted) {
+        this.highlighted = highlighted;
         updateTrackPPath();
     }
 
     private void updateTrackPPath() {
-        trackPPath.setStroke(new BasicStroke(selected ? 2 : 1));
-        trackPPath.setStrokePaint(selected ? highlightColor : Color.black);
+        trackPPath.setStroke(new BasicStroke(highlighted ? 2 : 1));
+        trackPPath.setStrokePaint(highlighted ? highlightColor : Color.black);
     }
 
-    public Rectangle2D.Double getTrackFullBounds() {
-        return trackPPath.getFullBounds();
-    }
-
-    public Rectangle2D.Double getThumbFullBounds() {
-        return sliderThumb.getFullBounds();
+    public void setTrackPath(Shape shape) {
+        trackPPath.setPathTo(shape);
     }
 
     /**
@@ -187,6 +243,88 @@ public class MovingManSliderNode extends PNode {
     private void notifyValueChanged() {
         for (Listener listener : listeners) {
             listener.valueChanged();
+        }
+    }
+
+    public double getMin() {
+        return modelRange.getMin();
+    }
+
+    public double getMax() {
+        return modelRange.getMax();
+    }
+
+    public double getViewMin() {
+        return viewRange.getMin();
+    }
+
+    public double getViewMax() {
+        return viewRange.getMax();
+    }
+
+    public static class Vertical extends MovingManSliderNode {
+        public Vertical(Range modelRange, double value, Range viewRange, Color color) {
+            super(modelRange, value, viewRange, color);
+        }
+
+        public Vertical(final Range modelRange, final double _value, final Range viewRange, final PNode sliderThumb, Color highlightColor) {
+            super(modelRange, _value, viewRange, sliderThumb, highlightColor);
+        }
+
+        @Override
+        protected void updateTransform(Range viewRange) {
+            super.transform.setOutput(viewRange.getMax(), viewRange.getMin());
+        }
+
+        @Override
+        protected double getDragViewDelta(PInputEvent event, Point2D initDragPoint) {
+            double y = event.getPositionRelativeTo(sliderThumb.getParent()).getY();
+            double delta = y - initDragPoint.getY();
+            return delta;
+        }
+
+        @Override
+        protected void updateTrackPath() {
+            setTrackPath(new Rectangle2D.Double(0, getViewMin(), 5, getViewMax()));
+        }
+
+        @Override
+        protected void setThumbLocation(double location) {
+            sliderThumb.setOffset(trackPPath.getFullBounds().getCenterX() - sliderThumb.getFullBounds().getWidth() / 2.0,
+                    location - sliderThumb.getFullBounds().getHeight() / 2.0);
+        }
+    }
+
+    public static class Horizontal extends MovingManSliderNode {
+        public Horizontal(Range modelRange, double value, Range viewRange, Color color) {
+            this(modelRange, value, viewRange, new PImage(BufferedImageUtils.getRotatedImage(ColorArrows.createArrow(color), Math.PI / 2)), color);
+        }
+
+        public Horizontal(final Range modelRange, final double _value, final Range viewRange, final PNode sliderThumb, Color highlightColor) {
+            super(modelRange, _value, viewRange, sliderThumb, highlightColor);
+        }
+
+        @Override
+        protected void updateTransform(Range viewRange) {
+            super.transform.setOutput(viewRange.getMin(), viewRange.getMax());
+        }
+
+        @Override
+        protected void updateTrackPath() {
+            setTrackPath(new Rectangle2D.Double(getViewMin(), 0, getViewMax(), 5));
+        }
+
+        @Override
+        protected void setThumbLocation(double location) {
+            sliderThumb.setOffset(location - sliderThumb.getFullBounds().getWidth() / 2.0,
+                    trackPPath.getFullBounds().getCenterY() - sliderThumb.getFullBounds().getHeight() / 2.0);
+        }
+
+        @Override
+        protected double getDragViewDelta(PInputEvent event, Point2D initDragPoint) {
+            double x = event.getPositionRelativeTo(sliderThumb.getParent()).getX();
+            double delta = x - initDragPoint.getX();
+            return delta;
         }
     }
 }
