@@ -1,5 +1,6 @@
 package edu.colorado.phet.movingmanii.view;
 
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 
 /**
@@ -34,5 +35,9 @@ public class Range extends SimpleObservable {
 
     public double getRange() {
         return max - min;
+    }
+
+    public double clamp(double x) {
+        return MathUtil.clamp(min, x, max);
     }
 }
