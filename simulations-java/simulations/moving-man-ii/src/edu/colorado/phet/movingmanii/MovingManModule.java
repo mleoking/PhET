@@ -17,12 +17,20 @@ import javax.swing.*;
  * @author Sam Reid
  */
 public abstract class MovingManModule extends Module {
+    protected RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel;
+
     public MovingManModule(String name) {
         super(name, new ConstantDtClock(30, 1.0 / 30.0));
-        final MovingManModel model = new MovingManModel();
+
+        //Need different behavior when paused, currently the main clock is always running, and the RecordAndPlaybackModel determines whether the sim is running.
+        final MovingManModel model = new MovingManModel(new MovingManModel.BooleanGetter() {
+            public boolean isTrue() {
+                return recordAndPlaybackModel.isPaused();
+            }
+        });
 
         //TODO: make MovingManModel extend RecordAndPlaybackModel<MovingManState>?
-        final RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel = new RecordAndPlaybackModel<MovingManState>(1000) {
+        recordAndPlaybackModel = new RecordAndPlaybackModel<MovingManState>(1000) {
             public MovingManState stepRecording(double simulationTimeChange) {
                 model.simulationTimeChanged(simulationTimeChange);
                 return model.getRecordingState();
@@ -32,6 +40,13 @@ public abstract class MovingManModule extends Module {
                 model.setPlaybackState(state);
             }
         };
+
+        //TODO: When unpausing, if user set velocity or acceleration to be nonzero, need to switch to vel or acc-driven
+        recordAndPlaybackModel.addObserver(new SimpleObserver() {
+            public void update() {
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+        });
         getClock().addClockListener(new ClockAdapter() {
             public void simulationTimeChanged(ClockEvent clockEvent) {
                 recordAndPlaybackModel.stepInTime(clockEvent.getSimulationTimeChange());
