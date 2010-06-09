@@ -6,6 +6,8 @@ MILESTONES
 - 8/1/10, sim showable for BCCE
 
 HIGH PRIORITY
+- strengths and concentrations for "Test" solutions?
+- default strength and concentration for "Custom" solutions?
 - wire up controls that select solution
 - add locations to model (no need for MVT, only needed for tool interactions with solution & beaker)
 - drag behavior for pH meter

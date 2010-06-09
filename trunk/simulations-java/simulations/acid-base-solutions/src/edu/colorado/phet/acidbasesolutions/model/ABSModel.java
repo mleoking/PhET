@@ -14,17 +14,23 @@ import javax.swing.event.EventListenerList;
 public class ABSModel {
 
     private final Beaker beaker;
+    private final MagnifyingGlass magnifyingGlass;
     private AqueousSolution solution;
     private EventListenerList listeners;
     
     public ABSModel() {
         beaker = new Beaker();
+        magnifyingGlass = new MagnifyingGlass();
         solution = new PureWaterSolution();
         listeners = new EventListenerList();
     }
     
     public Beaker getBeaker() {
         return beaker;
+    }
+    
+    public MagnifyingGlass getMagnifyingGlass() {
+        return magnifyingGlass;
     }
     
     public void setSolution( AqueousSolution solution ) {

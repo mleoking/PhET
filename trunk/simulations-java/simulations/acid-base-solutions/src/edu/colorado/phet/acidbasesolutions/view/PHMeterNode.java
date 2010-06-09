@@ -1,4 +1,4 @@
-/* Copyright 2009, University of Colorado */
+/* Copyright 2010, University of Colorado */
 
 package edu.colorado.phet.acidbasesolutions.view;
 
@@ -8,10 +8,13 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.text.DecimalFormat;
+import java.text.MessageFormat;
 
+import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
+import edu.colorado.phet.acidbasesolutions.model.ABSModel;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
+import edu.colorado.phet.acidbasesolutions.model.ABSModel.ModelListener;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.AqueousSolutionChangeListener;
-import edu.colorado.phet.advancedacidbasesolutions.AABSStrings;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -38,22 +41,29 @@ public class PHMeterNode extends PComposite {
     
     private static final Font DISPLAY_FONT = new PhetFont( Font.BOLD, 24 );
     private static final DecimalFormat DISPLAY_FORMAT = new DecimalFormat( "#0.00" );
-    private static final double DISPLAY_X_SPACING = 8;
     private static final Color DISPLAY_BACKGROUND = Color.LIGHT_GRAY;
 
     private AqueousSolution solution;
-    private AqueousSolutionChangeListener changeListener;
+    private AqueousSolutionChangeListener listener;
     private final DisplayNode displayNode;
     
-    public PHMeterNode( double height, AqueousSolution solution ) {
+    public PHMeterNode( double height, final ABSModel model ) {
         this( height );
-        this.solution = solution;
-        this.changeListener = new AqueousSolutionChangeListener() {
+        
+        model.addModelListener( new ModelListener() {
+            public void solutionChanged() {
+                setSolution( model.getSolution() );
+            }
+        });
+        
+        this.solution = model.getSolution();
+        this.listener = new AqueousSolutionChangeListener() {
             public void initialConcentrationChanged() {
                 update();
             }
         };
-        solution.addAqueousSolutionChangeListener( changeListener );
+        solution.addAqueousSolutionChangeListener( listener );
+        
         update();
     }
     
@@ -91,11 +101,11 @@ public class PHMeterNode extends PComposite {
         displayNode.setValue( value );
     }
     
-    public void setSolution( AqueousSolution solution ) {
+    private void setSolution( AqueousSolution solution ) {
         if ( solution != this.solution ) {
-            this.solution.removeAqueousSolutionChangeListener( changeListener );
+            this.solution.removeAqueousSolutionChangeListener( listener );
             this.solution = solution;
-            this.solution.addAqueousSolutionChangeListener( changeListener );
+            this.solution.addAqueousSolutionChangeListener( listener );
             update();
         }
     }
@@ -105,22 +115,18 @@ public class PHMeterNode extends PComposite {
      */
     private static class DisplayNode extends PComposite {
         
-        private PText _valueNode;
+        private PText valueNode;
         
         public DisplayNode() {
             super();
             
-            PText labelNode = new PText( AABSStrings.LABEL_PH );
-            labelNode.setFont( DISPLAY_FONT );
-            
-            _valueNode = new PText( "XXX.XX" );
-            _valueNode.setFont( DISPLAY_FONT );
+            valueNode = new PText();
+            valueNode.setFont( DISPLAY_FONT );
+            setValue( new PHValue( 15 ) ); // initialize before layout
             
             PComposite parentNode = new PComposite();
-            parentNode.addChild( labelNode );
-            parentNode.addChild( _valueNode );
-            labelNode.setOffset( 0, 0 );
-            _valueNode.setOffset( labelNode.getFullBoundsReference().getWidth() + DISPLAY_X_SPACING, 0 );
+            parentNode.addChild( valueNode );
+            valueNode.setOffset( 0, 0 );
             
             PBounds pb = parentNode.getFullBoundsReference();
             Shape backgroundShape = new RoundRectangle2D.Double( 0, 0, pb.getWidth() + 2 * DISPLAY_BORDER_MARGIN, pb.getHeight() + 2 * DISPLAY_BORDER_MARGIN, 10, 10 );
@@ -136,11 +142,11 @@ public class PHMeterNode extends PComposite {
         public void setValue( PHValue pH ) {
             if ( pH != null ) {
                 final double doubleValue = pH.getValue();
-                String stringValue = DISPLAY_FORMAT.format( doubleValue );
-                _valueNode.setText( stringValue );
+                String stringValue = MessageFormat.format( ABSStrings.PATTERN_LABEL_VALUE, ABSStrings.PH, DISPLAY_FORMAT.format( doubleValue ) );
+                valueNode.setText( stringValue );
             }
             else {
-                _valueNode.setText( "" );  
+                valueNode.setText( "" );  
             }
         }
     }

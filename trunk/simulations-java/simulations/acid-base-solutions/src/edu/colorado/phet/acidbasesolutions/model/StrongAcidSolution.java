@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.acidbasesolutions.model;
 
+
 /**
  * An aqueous solution whose solute is a strong acid.
  *
@@ -9,14 +10,7 @@ package edu.colorado.phet.acidbasesolutions.model;
  */
 public class StrongAcidSolution extends AqueousSolution {
 
-    // Marker class for solutes that are strong acids.
-    public static abstract class StrongAcid extends Acid {
-        public StrongAcid( Molecule molecule, Molecule conjugateMolecule, double strength ) {
-            super( molecule, conjugateMolecule, strength );
-        }
-    }
-    
-    public StrongAcidSolution( StrongAcid solute, double concentration ) {
+    public StrongAcidSolution( Solute solute, double concentration ) {
         super( solute, concentration );
     }
 

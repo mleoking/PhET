@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.acidbasesolutions.model;
 
-import edu.colorado.phet.acidbasesolutions.model.StrongBaseSolution.StrongBase;
 
 /**
  * An aqueous solution whose solute is a weak base.
@@ -11,14 +10,7 @@ import edu.colorado.phet.acidbasesolutions.model.StrongBaseSolution.StrongBase;
  */
 public class WeakBaseSolution extends AqueousSolution {
 
-    // Marker class for solutes that are weak bases.
-    public static abstract class WeakBase extends Base {
-        public WeakBase( Molecule molecule, Molecule conjugateMolecule, double strength ) {
-            super( molecule, conjugateMolecule, strength );
-        }
-    }
-    
-    public WeakBaseSolution( StrongBase solute, double concentration ) {
+    public WeakBaseSolution( Solute solute, double concentration ) {
         super( solute, concentration );
     }
     

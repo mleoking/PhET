@@ -27,14 +27,14 @@ public class Base extends Solute {
     public static class TestWeakBase extends Base {
 
         public TestWeakBase() {
-            super( new GenericWeakBaseMolecule(), new GenericWeakBaseProductMolecule(), 0.1 );
+            super( new GenericWeakBaseMolecule(), new GenericWeakBaseProductMolecule(), 0.01 );
         }
     }
     
     public static class TestStrongBase extends Base {
 
         public TestStrongBase() {
-            super( new GenericStrongBaseMolecule(), new GenericStrongBaseProductMolecule(), 2 );
+            super( new GenericStrongBaseMolecule(), new GenericStrongBaseProductMolecule(), 1.5 );
         }
     }
     

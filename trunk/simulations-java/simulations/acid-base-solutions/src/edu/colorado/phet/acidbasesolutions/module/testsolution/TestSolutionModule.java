@@ -25,7 +25,7 @@ public class TestSolutionModule extends ABSModule {
         canvas = new TestSolutionCanvas( model );
         setSimulationPanel( canvas );
         
-        controlPanel = new TestSolutionControlPanel( this );
+        controlPanel = new TestSolutionControlPanel( this, model );
         setControlPanel( controlPanel );
     }
     
