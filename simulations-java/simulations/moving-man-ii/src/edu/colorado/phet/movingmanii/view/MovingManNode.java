@@ -1,6 +1,7 @@
 package edu.colorado.phet.movingmanii.view;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.movingmanii.MovingManIIResources;
@@ -20,15 +21,21 @@ import java.io.IOException;
  */
 public class MovingManNode extends PNode {
     private Function.LinearFunction modelToView = new Function.LinearFunction(-10, 10, 0, 975);
-    private MovingMan man;
     private MovingManModel model;
+    private final Range viewRange;
     private BufferedImage imageStanding;
     private BufferedImage imageLeft;
     private BufferedImage imageRight;
 
-    public MovingManNode(final MovingMan man, MovingManModel model) {
-        this.man = man;
+    public MovingManNode(final MovingMan man, MovingManModel model, Range viewRange) {
         this.model = model;
+        this.viewRange = viewRange;
+        viewRange.addObserver(new SimpleObserver() {
+            public void update() {
+                updateTransform();
+            }
+        });
+        updateTransform();
         try {
             imageStanding = BufferedImageUtils.multiScaleToHeight(MovingManIIResources.loadBufferedImage("stand-ii.gif"), 100);//todo: need our own resource loader
             imageLeft = BufferedImageUtils.multiScaleToHeight(MovingManIIResources.loadBufferedImage("left-ii.gif"), 100);
@@ -59,6 +66,10 @@ public class MovingManNode extends PNode {
         });
     }
 
+    private void updateTransform() {
+        modelToView.setOutput(viewRange.getMin(), viewRange.getMax());
+    }
+
     private void updateMan(PImage movingMan, MovingMan man) {
         double velocity = man.getVelocity();
         if (velocity > 0.1) {
@@ -73,10 +84,6 @@ public class MovingManNode extends PNode {
 
     public double viewToModel(double x) {
         return modelToView.createInverse().evaluate(x);
-    }
-
-    public MovingMan getMan() {
-        return man;
     }
 
     private double viewToModelDifferential(double canvasDelta) {
@@ -101,9 +108,7 @@ public class MovingManNode extends PNode {
         public void mouseDragged(PInputEvent event) {
             super.mouseDragged(event);
             double mappedDelta = movingManNode.viewToModelDifferential(event.getCanvasDelta().width);
-//            System.out.println("canvas delta = " + canvasDelta + ", mapped delta = " + mappedDelta);
             movingManNode.model.setMousePosition(movingManNode.model.getMousePosition() + mappedDelta);
-//            movingManNode.man.setPosition(movingManNode.man.getPosition() + mappedDelta);
         }
     }
 }

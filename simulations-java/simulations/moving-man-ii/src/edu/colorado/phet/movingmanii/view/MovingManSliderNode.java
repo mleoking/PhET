@@ -3,7 +3,6 @@ package edu.colorado.phet.movingmanii.view;
 import edu.colorado.phet.common.motion.tests.ColorArrows;
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -31,34 +30,6 @@ public abstract class MovingManSliderNode extends PNode {
     private Function.LinearFunction transform;
     private Range modelRange;
     private Range viewRange;
-
-    public static class Range extends SimpleObservable {
-        private double min;
-        private double max;
-
-        public Range(double min, double max) {
-            this.min = min;
-            this.max = max;
-        }
-
-        public double getMin() {
-            return min;
-        }
-
-        public void setMin(double min) {
-            this.min = min;
-            notifyObservers();
-        }
-
-        public double getMax() {
-            return max;
-        }
-
-        public void setMax(double max) {
-            this.max = max;
-            notifyObservers();
-        }
-    }
 
     public MovingManSliderNode(Range modelRange, double value, Range viewRange, Color color) {
         this(modelRange, value, viewRange, new PImage(ColorArrows.createArrow(color)), color);
