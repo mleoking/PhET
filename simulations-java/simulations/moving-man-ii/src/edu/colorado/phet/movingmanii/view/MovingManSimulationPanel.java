@@ -51,10 +51,10 @@ public class MovingManSimulationPanel extends PhetPCanvas {
 
         int arrowTailWidth = 7;
         //Add Velocity vector to play area
-        final PlayAreaVector velocityVector = new PlayAreaVector("Velocity", MovingManColorScheme.VELOCITY_COLOR, arrowTailWidth);
+        final PlayAreaVector velocityVector = new PlayAreaVector(MovingManColorScheme.VELOCITY_COLOR, arrowTailWidth);
         addScreenChild(velocityVector);
-        final double arrowY = 100;
         final double arrowDY = arrowTailWidth / 2 + 2;
+        final double arrowY = 100 - arrowDY * 2;//don't let the arrows overlap the ruler
         model.getMovingMan().addListener(new MovingMan.Listener() {
             public void changed() {
                 double startX = manNode.modelToView(model.getMovingMan().getPosition());
@@ -71,7 +71,7 @@ public class MovingManSimulationPanel extends PhetPCanvas {
         updateVelocityVectorVisibility(model, velocityVector);
 
         //Add Acceleration vector to play area
-        final PlayAreaVector accelerationVector = new PlayAreaVector("Velocity", MovingManColorScheme.ACCELERATION_COLOR, arrowTailWidth);
+        final PlayAreaVector accelerationVector = new PlayAreaVector(MovingManColorScheme.ACCELERATION_COLOR, arrowTailWidth);
         addScreenChild(accelerationVector);
         model.getMovingMan().addListener(new MovingMan.Listener() {
             public void changed() {

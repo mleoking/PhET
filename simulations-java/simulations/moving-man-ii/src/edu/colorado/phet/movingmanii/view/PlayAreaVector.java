@@ -14,7 +14,7 @@ public class PlayAreaVector extends PNode {
     private final PhetPPath path;
     private final double tailWidth;
 
-    public PlayAreaVector(String name, Color color, double tailWidth) {
+    public PlayAreaVector(Color color, double tailWidth) {
         this.tailWidth = tailWidth;
         path = new PhetPPath(color, new BasicStroke(1), Color.black);
         addChild(path);
@@ -24,7 +24,7 @@ public class PlayAreaVector extends PNode {
         if (Math.abs(x - x2) < 1) {
             path.setPathTo(new Rectangle(0, 0, 0, 0));
         } else {
-            path.setPathTo(new Arrow(new Point2D.Double(x, y), new Point2D.Double(x2, y2), 10, 10, tailWidth, 4.0, true).getShape());
+            path.setPathTo(new Arrow(new Point2D.Double(x, y), new Point2D.Double(x2, y2), 15, 15, tailWidth, 4.0, true).getShape());
         }
     }
 }
