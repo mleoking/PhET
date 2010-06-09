@@ -236,7 +236,6 @@ public abstract class AbstractValueControl extends JPanel {
     private void setValue(double value, boolean notify) {
         if (isValueInRange(value)) {
             _value = value;
-            System.out.println("_value = " + _value);
             updateView();
             if (notify) {
                 fireChangeEvent(new ChangeEvent(this));
