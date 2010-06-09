@@ -24,6 +24,7 @@ public class MovingManSimulationPanel extends PhetPCanvas {
     private MovingManModel model;
     private double earthOffset;
     private final Range viewRange;
+    private final PlayAreaRulerNode playAreaRulerNode;
 
     public MovingManSimulationPanel(final MovingManModel model, final RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel, int earthOffset) {
         this.model = model;
@@ -31,7 +32,7 @@ public class MovingManSimulationPanel extends PhetPCanvas {
         addScreenChild(new SkyNode());
         addScreenChild(new EarthNode());
         viewRange = new Range(0, 1000);
-        PlayAreaRulerNode playAreaRulerNode = new PlayAreaRulerNode(new Range(-10, 10), viewRange);
+        playAreaRulerNode = new PlayAreaRulerNode(new Range(-10, 10), viewRange);
         playAreaRulerNode.setOffset(0, earthOffset);
         addScreenChild(playAreaRulerNode);
         addComponentListener(new ComponentAdapter() {
@@ -115,5 +116,9 @@ public class MovingManSimulationPanel extends PhetPCanvas {
             PhetPPath skyNode = new PhetPPath(new Rectangle2D.Double(-100, 0, 10000, 10000), new Color(174, 217, 255));
             addChild(skyNode);
         }
+    }
+
+    protected PlayAreaRulerNode getPlayAreaRulerNode() {
+        return playAreaRulerNode;
     }
 }
