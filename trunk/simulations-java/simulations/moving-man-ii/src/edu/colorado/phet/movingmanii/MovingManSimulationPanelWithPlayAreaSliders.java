@@ -19,8 +19,9 @@ import java.awt.event.ActionListener;
  */
 public class MovingManSimulationPanelWithPlayAreaSliders extends MovingManSimulationPanel {
     public MovingManSimulationPanelWithPlayAreaSliders(final MovingManModel model, final RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel) {
-        super(model, recordAndPlaybackModel);
+        super(model, recordAndPlaybackModel, 100);
         {
+            //TODO: factor out code with the sliders + text boxes used in the chart module
             final PlayAreaSliderControl positionSlider = new PlayAreaSliderControl(-10, 10, model.getMousePosition(), "Position", "m", MovingManColorScheme.POSITION_COLOR);
             model.getMovingMan().addListener(new MovingMan.Listener() {
                 public void changed() {

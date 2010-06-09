@@ -2,25 +2,31 @@ package edu.colorado.phet.movingmanii.view;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.movingmanii.MovingManColorScheme;
 import edu.colorado.phet.movingmanii.model.MovingMan;
 import edu.colorado.phet.movingmanii.model.MovingManModel;
 import edu.colorado.phet.movingmanii.model.MovingManState;
 import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 
 /**
  * @author Sam Reid
  */
 public class MovingManSimulationPanel extends PhetPCanvas {
     private MovingManModel model;
+    private double earthOffset;
 
-    public MovingManSimulationPanel(final MovingManModel model, final RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel) {
+    public MovingManSimulationPanel(final MovingManModel model, final RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel, int earthOffset) {
         this.model = model;
-        setBackground(new Color(200, 240, 200));
+        this.earthOffset = earthOffset;
+        addScreenChild(new SkyNode());
+        addScreenChild(new EarthNode());
 
         final MovingManNode manNode = new MovingManNode(model.getMovingMan(), model);
         manNode.addInputEventListener(new PBasicInputEventHandler() {
@@ -76,5 +82,19 @@ public class MovingManSimulationPanel extends PhetPCanvas {
 
     private void updateVelocityVectorVisibility(MovingManModel model, PlayAreaVector velocityVector) {
         velocityVector.setVisible(model.getVelocityVectorVisible().getValue());
+    }
+
+    private class EarthNode extends PNode {
+        private EarthNode() {
+            PhetPPath earthNode = new PhetPPath(new Rectangle2D.Double(-100, 100, 10000, 10000), new Color(200, 240, 200));
+            addChild(earthNode);
+        }
+    }
+
+    private class SkyNode extends PNode {
+        private SkyNode() {
+            PhetPPath skyNode = new PhetPPath(new Rectangle2D.Double(-100, 0, 10000, 10000), new Color(174, 217, 255));
+            addChild(skyNode);
+        }
     }
 }
