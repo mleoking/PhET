@@ -13,6 +13,8 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 /**
  * @author Sam Reid
@@ -22,44 +24,56 @@ public class MovingManSimulationPanelWithPlayAreaSliders extends MovingManSimula
         super(model, recordAndPlaybackModel, 100);
         {
             //TODO: factor out code with the sliders + text boxes used in the chart module
-            final PlayAreaSliderControl positionSlider = new PlayAreaSliderControl(-10, 10, model.getMousePosition(), "Position", "m", MovingManColorScheme.POSITION_COLOR);
+            final PlayAreaSliderControl slider = new PlayAreaSliderControl(-10, 10, model.getMousePosition(), "Position", "m", MovingManColorScheme.POSITION_COLOR);
             model.getMovingMan().addListener(new MovingMan.Listener() {
                 public void changed() {
-                    positionSlider.setHighlighted(model.getMovingMan().isPositionDriven());
+                    slider.setHighlighted(model.getMovingMan().isPositionDriven());
                 }
             });
-            positionSlider.setHighlighted(model.getMovingMan().isPositionDriven());
+            slider.setHighlighted(model.getMovingMan().isPositionDriven());
             model.addListener(new MovingManModel.Listener() {
                 public void mousePositionChanged() {
-                    positionSlider.setValue(model.getMousePosition());
+                    slider.setValue(model.getMousePosition());
                 }
             });
-            positionSlider.addListener(new MovingManSliderNode.Adapter() {
+            slider.addListener(new MovingManSliderNode.Adapter() {
                 public void sliderDragged(double value) {
                     model.getMovingMan().setPositionDriven();
                     model.setMousePosition(value);
                 }
             });
-            positionSlider.setOffset(400, 200);
-            addScreenChild(positionSlider);
+            slider.setOffset(getWidth() / 2 - slider.getFullBounds().getWidth() / 2, 200);
+            addComponentListener(new ComponentAdapter() {
+                @Override
+                public void componentResized(ComponentEvent e) {
+                    slider.setOffset(getWidth() / 2 - slider.getFullBounds().getWidth() / 2, 200);
+                }
+            });
+            addScreenChild(slider);
         }
 
         {
-            final PlayAreaSliderControl velocitySlider = new PlayAreaSliderControl(-50, 50, model.getMovingMan().getVelocity(), "Velocity", "m/s", MovingManColorScheme.VELOCITY_COLOR);
+            final PlayAreaSliderControl slider = new PlayAreaSliderControl(-50, 50, model.getMovingMan().getVelocity(), "Velocity", "m/s", MovingManColorScheme.VELOCITY_COLOR);
             model.getMovingMan().addListener(new MovingMan.Listener() {
                 public void changed() {
-                    velocitySlider.setValue(model.getMovingMan().getVelocity());
-                    velocitySlider.setHighlighted(model.getMovingMan().isVelocityDriven());
+                    slider.setValue(model.getMovingMan().getVelocity());
+                    slider.setHighlighted(model.getMovingMan().isVelocityDriven());
                 }
             });
-            velocitySlider.addListener(new MovingManSliderNode.Adapter() {
+            slider.addListener(new MovingManSliderNode.Adapter() {
                 public void sliderDragged(double value) {
                     model.getMovingMan().setVelocityDriven();//todo: only if user caused the change, not if model caused the change
                     model.getMovingMan().setVelocity(value);
                 }
             });
-            velocitySlider.setOffset(400, 300);
-            addScreenChild(velocitySlider);
+            slider.setOffset(getWidth() / 2 - slider.getFullBounds().getWidth() / 2, 300);
+            addComponentListener(new ComponentAdapter() {
+                @Override
+                public void componentResized(ComponentEvent e) {
+                    slider.setOffset(getWidth() / 2 - slider.getFullBounds().getWidth() / 2, 300);
+                }
+            });
+            addScreenChild(slider);
 
             final JCheckBox showVectorBox = new JCheckBox("Velocity Vector", model.getVelocityVectorVisible().getValue());
             showVectorBox.addActionListener(new ActionListener() {
@@ -73,27 +87,38 @@ public class MovingManSimulationPanelWithPlayAreaSliders extends MovingManSimula
                 }
             });
             showVectorBox.setOpaque(false);//todo: does this work on mac?
-            PSwing pSwing = new PSwing(showVectorBox);
-            pSwing.setOffset(velocitySlider.getFullBounds().getMaxX() + 10, velocitySlider.getFullBounds().getCenterY() - pSwing.getFullBounds().getHeight() / 2);
+            final PSwing pSwing = new PSwing(showVectorBox);
+            pSwing.setOffset(slider.getFullBounds().getMaxX() + 10, slider.getFullBounds().getCenterY() - pSwing.getFullBounds().getHeight() / 2);
+            addComponentListener(new ComponentAdapter() {
+                @Override
+                public void componentResized(ComponentEvent e) {
+                    pSwing.setOffset(slider.getFullBounds().getMaxX() + 10, slider.getFullBounds().getCenterY() - pSwing.getFullBounds().getHeight() / 2);
+                }
+            });
             addScreenChild(pSwing);
         }
 
         {
-            final PlayAreaSliderControl accelerationSlider = new PlayAreaSliderControl(-50, 50, model.getMovingMan().getAcceleration(), "Acceleration", "m/s/s", MovingManColorScheme.ACCELERATION_COLOR);
+            final PlayAreaSliderControl slider = new PlayAreaSliderControl(-50, 50, model.getMovingMan().getAcceleration(), "Acceleration", "m/s/s", MovingManColorScheme.ACCELERATION_COLOR);
             model.getMovingMan().addListener(new MovingMan.Listener() {
                 public void changed() {
-                    accelerationSlider.setValue(model.getMovingMan().getAcceleration());
-                    accelerationSlider.setHighlighted(model.getMovingMan().isAccelerationDriven());
+                    slider.setValue(model.getMovingMan().getAcceleration());
+                    slider.setHighlighted(model.getMovingMan().isAccelerationDriven());
                 }
             });
-            accelerationSlider.addListener(new MovingManSliderNode.Adapter() {
+            slider.addListener(new MovingManSliderNode.Adapter() {
                 public void sliderDragged(double value) {
                     model.getMovingMan().setAccelerationDriven();
                     model.getMovingMan().setAcceleration(value);
                 }
             });
-            accelerationSlider.setOffset(400, 400);
-            addScreenChild(accelerationSlider);
+            slider.setOffset(getWidth() / 2 - slider.getFullBounds().getWidth() / 2, 400);
+            addComponentListener(new ComponentAdapter() {
+                public void componentResized(ComponentEvent e) {
+                    slider.setOffset(getWidth() / 2 - slider.getFullBounds().getWidth() / 2, 400);
+                }
+            });
+            addScreenChild(slider);
 
             final JCheckBox showVectorBox = new JCheckBox("Acceleration Vector", model.getAccelerationVectorVisible().getValue());
             showVectorBox.addActionListener(new ActionListener() {
@@ -107,8 +132,14 @@ public class MovingManSimulationPanelWithPlayAreaSliders extends MovingManSimula
                 }
             });
             showVectorBox.setOpaque(false);
-            PSwing pSwing = new PSwing(showVectorBox);
-            pSwing.setOffset(accelerationSlider.getFullBounds().getMaxX() + 10, accelerationSlider.getFullBounds().getCenterY() - pSwing.getFullBounds().getHeight() / 2);
+            final PSwing pSwing = new PSwing(showVectorBox);
+            pSwing.setOffset(slider.getFullBounds().getMaxX() + 10, slider.getFullBounds().getCenterY() - pSwing.getFullBounds().getHeight() / 2);
+            addComponentListener(new ComponentAdapter() {
+                @Override
+                public void componentResized(ComponentEvent e) {
+                    pSwing.setOffset(slider.getFullBounds().getMaxX() + 10, slider.getFullBounds().getCenterY() - pSwing.getFullBounds().getHeight() / 2);
+                }
+            });
             addScreenChild(pSwing);
         }
     }
