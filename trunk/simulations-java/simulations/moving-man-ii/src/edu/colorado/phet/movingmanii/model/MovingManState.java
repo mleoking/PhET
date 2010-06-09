@@ -6,10 +6,12 @@ package edu.colorado.phet.movingmanii.model;
 public class MovingManState {
     private double time;
     private ManState manState;
+    private boolean walls;
 
-    public MovingManState(double time, ManState manState) {
+    public MovingManState(double time, ManState manState, boolean walls) {
         this.time = time;
         this.manState = manState;
+        this.walls = walls;
     }
 
     public double getTime() {
@@ -21,5 +23,9 @@ public class MovingManState {
 
     public ManState getMovingManState() {
         return manState;
+    }
+
+    public boolean getWalls() {
+        return walls;
     }
 }

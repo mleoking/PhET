@@ -171,7 +171,6 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
                 }
             });
 
-
             final TextBox textBox = new TextBox("Acceleration", MovingManColorScheme.ACCELERATION_COLOR);
             textBox.setOffset(chartSliderNode.getFullBounds().getX() - textBox.getFullBounds().getWidth() - 10, chartSliderNode.getOffset().getY());
             addScreenChild(textBox);
