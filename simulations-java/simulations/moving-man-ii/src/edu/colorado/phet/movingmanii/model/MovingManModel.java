@@ -41,7 +41,7 @@ public class MovingManModel {
     public WallResult clampIfWalled(double x) {
         double clamped = range.clamp(x);
         if (walls.getValue()) return new WallResult(clamped, clamped != x);
-        else return new WallResult(clamped, false);
+        else return new WallResult(x, false);
     }
 
     public void simulationTimeChanged(double dt) {

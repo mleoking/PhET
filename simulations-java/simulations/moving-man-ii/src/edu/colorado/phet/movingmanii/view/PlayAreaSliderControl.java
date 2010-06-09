@@ -19,7 +19,6 @@ import java.awt.*;
 public class PlayAreaSliderControl extends PNode {
     private MovingManSliderNode slider;
     private TextBox textBox;
-//    private final JTextField textField;
 
     public PlayAreaSliderControl(double min, double max, double value, String title, String units, Color color, TextBox textBox) {
         this.textBox = textBox;
@@ -27,10 +26,6 @@ public class PlayAreaSliderControl extends PNode {
         text.setTextPaint(color);
         text.setFont(new PhetFont(20, true));
         addChild(text);
-
-//        textField = new JTextField(4);
-//        textField.setHorizontalAlignment(JTextField.RIGHT);
-//        PSwing swing = new PSwing(textField);
         addChild(textBox);
         textBox.setOffset(200, text.getFullBounds().getCenterY() - textBox.getFullBounds().getHeight() / 2);//todo: align with other controls but make sure doesn't overlap text
 
