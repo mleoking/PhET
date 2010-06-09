@@ -50,6 +50,9 @@ public class MovingManSimulationPanel extends PhetPCanvas {
         });
         addScreenChild(manNode);
 
+        addScreenChild(new WallNode(model.getRange(), viewRange, -10, model.getWalls()));
+        addScreenChild(new WallNode(model.getRange(), viewRange, +10, model.getWalls()));
+
         int arrowTailWidth = 7;
         //Add Velocity vector to play area
         final PlayAreaVector velocityVector = new PlayAreaVector(MovingManColorScheme.VELOCITY_COLOR, arrowTailWidth);

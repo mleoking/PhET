@@ -3,6 +3,7 @@ package edu.colorado.phet.movingmanii.model;
 import edu.colorado.phet.common.motion.MotionMath;
 import edu.colorado.phet.common.motion.model.TimeData;
 import edu.colorado.phet.movingmanii.charts.ChartCursor;
+import edu.colorado.phet.movingmanii.view.Range;
 
 import java.util.ArrayList;
 
@@ -20,6 +21,8 @@ public class MovingManModel {
     private ArrayList<Listener> listeners = new ArrayList<Listener>();
     private MutableBoolean velocityVectorVisible = new MutableBoolean(false);
     private MutableBoolean accelerationVectorVisible = new MutableBoolean(false);
+    private MutableBoolean walls = new MutableBoolean(true);
+    private Range range = new Range(-10, 10);
 
     public MovingManModel() {
         this.movingMan = new MovingMan();
@@ -123,11 +126,12 @@ public class MovingManModel {
     }
 
     public MovingManState getRecordingState() {
-        return new MovingManState(time, movingMan.getState());
+        return new MovingManState(time, movingMan.getState(), walls.getValue());
     }
 
     public void setPlaybackState(MovingManState state) {
         this.time = state.getTime();
+        this.walls.setValue(state.getWalls());
         this.movingMan.setState(state.getMovingManState());
         this.chartCursor.setTime(time);
         //todo: notify time changed?
@@ -153,6 +157,14 @@ public class MovingManModel {
 
     public void addListener(Listener listener) {
         listeners.add(listener);
+    }
+
+    public Range getRange() {
+        return range;
+    }
+
+    public MutableBoolean getWalls() {
+        return walls;
     }
 
     public static interface Listener {

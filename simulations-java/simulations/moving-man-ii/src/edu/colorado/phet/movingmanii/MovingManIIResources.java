@@ -10,7 +10,7 @@ import java.io.IOException;
  */
 public class MovingManIIResources {
 
-    private static PhetResources INSTANCE = new PhetResources("moving-man");
+    private static PhetResources INSTANCE = new PhetResources("moving-man-ii");
 
     /* not intended for instantiation */
 
