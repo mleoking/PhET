@@ -58,4 +58,8 @@ public class PlayAreaSliderControl extends PNode {
     public double getValue() {
         return slider.getValue();
     }
+
+    public void setHighlighted(boolean positionDriven) {
+        slider.setHighlighted(positionDriven);
+    }
 }
