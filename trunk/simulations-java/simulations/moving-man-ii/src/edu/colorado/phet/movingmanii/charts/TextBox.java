@@ -33,6 +33,8 @@ public class TextBox extends PNode {
         });
     }
 
+    //TODO: need a way for model-propagated values to still update the text field, e.g. for collisions with wall
+
     public void setText(String s) {
         if (!s.equals(swingTextField.getText()) && !swingTextField.hasFocus()) {
             swingTextField.setText(s);

@@ -106,7 +106,7 @@ public class MovingManModel {
             movingMan.setVelocity(newVelocity);
             if (wallResult.collided) {
                 movingMan.setVelocity(0.0);
-                movingMan.setAcceleration(0.0);
+                movingMan.setAcceleration(0.0);//todo: should have brief burst of acceleration against the wall in a collision.
             }
         }
     }
