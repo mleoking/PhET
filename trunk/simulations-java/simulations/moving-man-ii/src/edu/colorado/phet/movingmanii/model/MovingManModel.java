@@ -28,17 +28,22 @@ public class MovingManModel {
         this.movingMan = new MovingMan();
     }
 
+    public double clampIfWalled(double x) {
+        if (walls.getValue()) return range.clamp(x);
+        else return x;
+    }
+
     public void simulationTimeChanged(double dt) {
         time = time + dt;
         if (movingMan.isPositionDriven()) {
-            mouseDataSeries.addPoint(mousePosition, time);
+            mouseDataSeries.addPoint(clampIfWalled(mousePosition), time);
 //            //take the position as the average of the latest mouseDataSeries points.
             TimeData[] position = mouseDataSeries.getPointsInRange(mouseDataSeries.getNumPoints() - NUMBER_MOUSE_POINTS_TO_AVERAGE, mouseDataSeries.getNumPoints());
             double sum = 0;
             for (TimeData timeData : position) {
                 sum += timeData.getValue();
             }
-            double averagePosition = sum / position.length;
+            double averagePosition = clampIfWalled(sum / position.length);
 
             //record set point based on derivatives
             positionSeries.addPoint(averagePosition, time);
@@ -144,7 +149,7 @@ public class MovingManModel {
      */
     public void setMousePosition(double mousePosition) {
         if (this.mousePosition != mousePosition) {
-            this.mousePosition = mousePosition;
+            this.mousePosition = clampIfWalled(mousePosition);
             for (Listener listener : listeners) {
                 listener.mousePositionChanged();
             }
