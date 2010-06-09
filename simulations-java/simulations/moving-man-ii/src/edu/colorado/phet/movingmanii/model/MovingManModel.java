@@ -16,7 +16,7 @@ public class MovingManModel {
     private ChartCursor chartCursor = new ChartCursor();
     private double time = 0.0;
     private double mousePosition;
-    public static final int DERIVATIVE_RADIUS = 1;//Kathy chose this value because it is a good balance betweenw
+    public static final int DERIVATIVE_RADIUS = 1;//Kathy chose this value because it is a good balance between derivative sharpness and responsiveness
     private static final int NUMBER_MOUSE_POINTS_TO_AVERAGE = 4;//Kathy chose this value because it smoothes well enough, but without creating too much of a lag between the mouse and the character
     private ArrayList<Listener> listeners = new ArrayList<Listener>();
     private MutableBoolean velocityVectorVisible = new MutableBoolean(false);
@@ -70,6 +70,7 @@ public class MovingManModel {
             movingMan.setVelocity(velocitySeries.getDataPoint(velocitySeries.getNumPoints() - 1).getValue());//TODO: subtract off derivative radius so that the last value showed on chart is the same as the value on the man
             movingMan.setAcceleration(accelerationSeries.getDataPoint(accelerationSeries.getNumPoints() - 1).getValue()); //- DERIVATIVE_RADIUS * 2
         } else if (movingMan.isVelocityDriven()) {
+            mouseDataSeries.clear();//so that if the user switches to mouse-driven, it won't remember the wrong location.
             //record set point
             velocitySeries.addPoint(movingMan.getVelocity(), time);
 
@@ -82,12 +83,14 @@ public class MovingManModel {
             positionSeries.addPoint(wallResult.position, time);
 
             //set instantaneous values
+            mousePosition = wallResult.position;//so that if the user switches to mouse-driven, it will have the right location
             movingMan.setPosition(wallResult.position);
             movingMan.setAcceleration(accelerationSeries.getDataPoint(accelerationSeries.getNumPoints() - 1).getValue());//todo: subtract - DERIVATIVE_RADIUS if possible
             if (wallResult.collided) {
                 movingMan.setVelocity(0.0);
             }
         } else if (movingMan.isAccelerationDriven()) {
+            mouseDataSeries.clear();//so that if the user switches to mouse-driven, it won't remember the wrong location.
             //record set point
             accelerationSeries.addPoint(movingMan.getAcceleration(), time);
 
@@ -102,6 +105,7 @@ public class MovingManModel {
             positionSeries.addPoint(wallResult.position, time);
 
             //set instantaneous values
+            mousePosition = wallResult.position;//so that if the user switches to mouse-driven, it will have the right location
             movingMan.setPosition(wallResult.position);
             movingMan.setVelocity(newVelocity);
             if (wallResult.collided) {
