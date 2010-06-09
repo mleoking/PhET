@@ -203,14 +203,14 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
     }
 
     private void updateAccelerationModeSelected(MovingManModel model, MovingManSliderNode chartSliderNode) {
-        chartSliderNode.setSelected(model.getMovingMan().isAccelerationDriven());
+        chartSliderNode.setHighlighted(model.getMovingMan().isAccelerationDriven());
     }
 
     private void updateVelocityModeSelected(MovingManModel model, MovingManSliderNode chartSliderNode) {
-        chartSliderNode.setSelected(model.getMovingMan().isVelocityDriven());
+        chartSliderNode.setHighlighted(model.getMovingMan().isVelocityDriven());
     }
 
     private void updatePositionModeSelected(MovingManModel model, MovingManSliderNode chartSliderNode) {
-        chartSliderNode.setSelected(model.getMovingMan().isPositionDriven());
+        chartSliderNode.setHighlighted(model.getMovingMan().isPositionDriven());
     }
 }
