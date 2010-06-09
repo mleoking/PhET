@@ -25,15 +25,16 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
 
     public MovingManSimulationPanelWithCharts(final MovingManModel model, final RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel) {
         super(model, recordAndPlaybackModel, 100);
-        int chartHeight = 130;
+        int chartHeight = 115;
         int xMax = 10;
         int chartWidth = 780;
         int chartX = 150;
-        int chartInsetY = 30;
+        int chartInsetY = 30;//distance between chart bodies, not including labels
+        double chartsY = getPlayAreaRulerNode().getFullBounds().getMaxY() + 10;//top of 1st chart
         {
             final MovingManChart positionChart = new MovingManChart(new Rectangle2D.Double(0, -xMax, 20, xMax * 2), chartWidth, chartHeight);
             {
-                positionChart.setOffset(chartX, 100);
+                positionChart.setOffset(chartX, chartsY);
                 positionChart.addDataSeries(model.getPositionSeries(), MovingManColorScheme.POSITION_COLOR, 0);
                 positionChart.addChild(new CursorNode(model.getChartCursor(), positionChart));
                 positionChart.addInputEventListener(new PBasicInputEventHandler() {
@@ -89,7 +90,7 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
         {//add the velocity chart
             double vMax = 60 / 5;
             final MovingManChart velocityChart = new MovingManChart(new Rectangle2D.Double(0, -vMax, 20, vMax * 2), chartWidth, chartHeight);
-            velocityChart.setOffset(chartX, 100 + chartHeight + chartInsetY);
+            velocityChart.setOffset(chartX, chartsY + chartHeight + chartInsetY);
             velocityChart.addDataSeries(model.getVelocitySeries(), MovingManColorScheme.VELOCITY_COLOR, MovingManModel.DERIVATIVE_RADIUS);
             velocityChart.addChild(new CursorNode(model.getChartCursor(), velocityChart));
             addScreenChild(velocityChart);
@@ -140,7 +141,7 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
         {
             double aMax = 60;
             final MovingManChart accelerationChart = new MovingManChart(new Rectangle2D.Double(0, -aMax, 20, aMax * 2), chartWidth, chartHeight);
-            accelerationChart.setOffset(chartX, 100 + (chartHeight + chartInsetY) * 2);
+            accelerationChart.setOffset(chartX, chartsY + (chartHeight + chartInsetY) * 2);
             accelerationChart.addDataSeries(model.getAccelerationSeries(), MovingManColorScheme.ACCELERATION_COLOR, MovingManModel.DERIVATIVE_RADIUS * 2);
             accelerationChart.addChild(new CursorNode(model.getChartCursor(), accelerationChart));
             addScreenChild(accelerationChart);
