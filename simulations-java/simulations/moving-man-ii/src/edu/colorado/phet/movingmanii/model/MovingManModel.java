@@ -18,6 +18,8 @@ public class MovingManModel {
     public static final int DERIVATIVE_RADIUS = 1;//Kathy chose this value because it is a good balance betweenw
     private static final int NUMBER_MOUSE_POINTS_TO_AVERAGE = 4;//Kathy chose this value because it smoothes well enough, but without creating too much of a lag between the mouse and the character
     private ArrayList<Listener> listeners = new ArrayList<Listener>();
+    private MutableBoolean velocityVectorVisible = new MutableBoolean(false);
+    private MutableBoolean accelerationVectorVisible = new MutableBoolean(false);
 
     public MovingManModel() {
         this.movingMan = new MovingMan();
@@ -155,5 +157,13 @@ public class MovingManModel {
 
     public static interface Listener {
         void mousePositionChanged();
+    }
+
+    public MutableBoolean getVelocityVectorVisible() {
+        return velocityVectorVisible;
+    }
+
+    public MutableBoolean getAccelerationVectorVisible() {
+        return accelerationVectorVisible;
     }
 }
