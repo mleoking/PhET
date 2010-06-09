@@ -8,7 +8,6 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 import javax.swing.*;
 import java.awt.*;
-import java.text.DecimalFormat;
 
 /**
  * These sliders should be Piccolo sliders for the following reasons:
@@ -25,7 +24,7 @@ public class PlayAreaSliderControl extends PNode {
     public PlayAreaSliderControl(double min, double max, double value, String title, String units, Color color) {
         PText text = new PText(title);
         text.setTextPaint(color);
-        text.setFont(new PhetFont(24, true));
+        text.setFont(new PhetFont(20, true));
         addChild(text);
 
         textField = new JTextField(4);
@@ -34,16 +33,15 @@ public class PlayAreaSliderControl extends PNode {
         addChild(swing);
         swing.setOffset(200, text.getFullBounds().getCenterY() - swing.getFullBounds().getHeight() / 2);//todo: align with other controls but make sure doesn't overlap text
 
-        slider = new MovingManSliderNode.Horizontal(new MovingManSliderNode.Range(min, max), 0.0, new MovingManSliderNode.Range(0, 300), color);
+        slider = new MovingManSliderNode.Horizontal(new MovingManSliderNode.Range(min, max), 0.0, new MovingManSliderNode.Range(0, 350), color);
         addChild(slider);
         slider.setOffset(0, text.getFullBounds().getHeight() + 10);
 
         PText unitsPText = new PText(units);
         unitsPText.setTextPaint(color);
-        unitsPText.setFont(new PhetFont(24, true));
+        unitsPText.setFont(new PhetFont(20, true));
         addChild(unitsPText);
         unitsPText.setOffset(swing.getFullBounds().getMaxX() + 2, 0);
-
 
         setValue(value);
     }

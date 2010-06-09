@@ -1,5 +1,6 @@
 package edu.colorado.phet.movingmanii.view;
 
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.movingmanii.MovingManColorScheme;
 import edu.colorado.phet.movingmanii.model.MovingMan;
@@ -43,6 +44,12 @@ public class MovingManSimulationPanel extends PhetPCanvas {
                 velocityVector.setArrow(startX, arrowY - arrowDY, endX, arrowY - arrowDY);
             }
         });
+        model.getVelocityVectorVisible().addObserver(new SimpleObserver() {
+            public void update() {
+                updateVelocityVectorVisibility(model, velocityVector);
+            }
+        });
+        updateVelocityVectorVisibility(model, velocityVector);
 
         //Add Acceleration vector to play area
         final PlayAreaVector accelerationVector = new PlayAreaVector("Velocity", MovingManColorScheme.ACCELERATION_COLOR, arrowTailWidth);
@@ -55,5 +62,19 @@ public class MovingManSimulationPanel extends PhetPCanvas {
                 accelerationVector.setArrow(startX, arrowY + arrowDY, endX, arrowY + arrowDY);
             }
         });
+        model.getAccelerationVectorVisible().addObserver(new SimpleObserver() {
+            public void update() {
+                updateAccelerationVectorVisible(accelerationVector, model);
+            }
+        });
+        updateAccelerationVectorVisible(accelerationVector, model);
+    }
+
+    private void updateAccelerationVectorVisible(PlayAreaVector accelerationVector, MovingManModel model) {
+        accelerationVector.setVisible(model.getAccelerationVectorVisible().getValue());
+    }
+
+    private void updateVelocityVectorVisibility(MovingManModel model, PlayAreaVector velocityVector) {
+        velocityVector.setVisible(model.getVelocityVectorVisible().getValue());
     }
 }
