@@ -1,12 +1,14 @@
 package edu.colorado.phet.movingmanii;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.movingmanii.charts.TextBox;
 import edu.colorado.phet.movingmanii.model.MovingMan;
 import edu.colorado.phet.movingmanii.model.MovingManModel;
 import edu.colorado.phet.movingmanii.model.MovingManState;
 import edu.colorado.phet.movingmanii.view.MovingManSimulationPanel;
 import edu.colorado.phet.movingmanii.view.MovingManSliderNode;
 import edu.colorado.phet.movingmanii.view.PlayAreaSliderControl;
+import edu.colorado.phet.movingmanii.view.TextBoxListener;
 import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -24,7 +26,11 @@ public class MovingManSimulationPanelWithPlayAreaSliders extends MovingManSimula
         super(model, recordAndPlaybackModel, 100);
         {
             //TODO: factor out code with the sliders + text boxes used in the chart module
-            final PlayAreaSliderControl slider = new PlayAreaSliderControl(-10, 10, model.getMousePosition(), "Position", "m", MovingManColorScheme.POSITION_COLOR);
+
+            final TextBox positionTextBox = new TextBox();
+            new TextBoxListener.Position(model).addListeners(positionTextBox);
+
+            final PlayAreaSliderControl slider = new PlayAreaSliderControl(-10, 10, model.getMousePosition(), "Position", "m", MovingManColorScheme.POSITION_COLOR, positionTextBox);
             model.getMovingMan().addListener(new MovingMan.Listener() {
                 public void changed() {
                     slider.setHighlighted(model.getMovingMan().isPositionDriven());
@@ -53,7 +59,11 @@ public class MovingManSimulationPanelWithPlayAreaSliders extends MovingManSimula
         }
 
         {
-            final PlayAreaSliderControl slider = new PlayAreaSliderControl(-50, 50, model.getMovingMan().getVelocity(), "Velocity", "m/s", MovingManColorScheme.VELOCITY_COLOR);
+            final TextBox textBox = new TextBox();
+            {
+                new TextBoxListener.Velocity(model).addListeners(textBox);
+            }
+            final PlayAreaSliderControl slider = new PlayAreaSliderControl(-50, 50, model.getMovingMan().getVelocity(), "Velocity", "m/s", MovingManColorScheme.VELOCITY_COLOR, textBox);
             model.getMovingMan().addListener(new MovingMan.Listener() {
                 public void changed() {
                     slider.setValue(model.getMovingMan().getVelocity());
@@ -99,7 +109,11 @@ public class MovingManSimulationPanelWithPlayAreaSliders extends MovingManSimula
         }
 
         {
-            final PlayAreaSliderControl slider = new PlayAreaSliderControl(-50, 50, model.getMovingMan().getAcceleration(), "Acceleration", "m/s/s", MovingManColorScheme.ACCELERATION_COLOR);
+            final TextBox box = new TextBox();
+            {
+                new TextBoxListener.Acceleration(model).addListeners(box);
+            }
+            final PlayAreaSliderControl slider = new PlayAreaSliderControl(-50, 50, model.getMovingMan().getAcceleration(), "Acceleration", "m/s/s", MovingManColorScheme.ACCELERATION_COLOR, box);
             model.getMovingMan().addListener(new MovingMan.Listener() {
                 public void changed() {
                     slider.setValue(model.getMovingMan().getAcceleration());

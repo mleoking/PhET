@@ -1,12 +1,8 @@
 package edu.colorado.phet.movingmanii.view;
 
 import edu.colorado.phet.common.motion.tests.ColorArrows;
-import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.movingmanii.MovingManColorScheme;
-import edu.colorado.phet.movingmanii.charts.CursorNode;
-import edu.colorado.phet.movingmanii.charts.MovingManChart;
-import edu.colorado.phet.movingmanii.charts.MovingManChartSliderNode;
-import edu.colorado.phet.movingmanii.charts.TextBox;
+import edu.colorado.phet.movingmanii.charts.*;
 import edu.colorado.phet.movingmanii.model.MovingMan;
 import edu.colorado.phet.movingmanii.model.MovingManModel;
 import edu.colorado.phet.movingmanii.model.MovingManState;
@@ -69,22 +65,10 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
                 }
             });
 
-            final TextBox textBox = new TextBox("Position", MovingManColorScheme.POSITION_COLOR);
+            final LabeledTextBox textBox = new LabeledTextBox("Position", MovingManColorScheme.POSITION_COLOR);
+            new TextBoxListener.Position(model).addListeners(textBox);
             textBox.setOffset(chartSliderNode.getFullBounds().getX() - textBox.getFullBounds().getWidth() - 10, chartSliderNode.getOffset().getY());
             addScreenChild(textBox);
-            model.getMovingMan().addListener(new MovingMan.Listener() {
-                public void changed() {
-                    updatePositionTextBox(textBox, model);
-                }
-            });
-            updatePositionTextBox(textBox, model);
-            textBox.addListener(new TextBox.Listener() {
-                public void changed() {
-                    model.getMovingMan().setPositionDriven();
-//                    model.getMovingMan().setPosition(Double.parseDouble(textBox.getText()));
-                    model.setMousePosition(Double.parseDouble(textBox.getText()));
-                }
-            });
         }
 
         {//add the velocity chart
@@ -120,21 +104,10 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
                 }
             });
 
-            final TextBox textBox = new TextBox("Velocity", MovingManColorScheme.VELOCITY_COLOR);
+            final TextBox textBox = new LabeledTextBox("Velocity", MovingManColorScheme.VELOCITY_COLOR);
+            new TextBoxListener.Velocity(model).addListeners(textBox);
             textBox.setOffset(chartSliderNode.getFullBounds().getX() - textBox.getFullBounds().getWidth() - 10, chartSliderNode.getOffset().getY());
             addScreenChild(textBox);
-            model.getMovingMan().addListener(new MovingMan.Listener() {
-                public void changed() {
-                    updateVelocityTextBox(textBox, model);
-                }
-            });
-            updateVelocityTextBox(textBox, model);
-            textBox.addListener(new TextBox.Listener() {
-                public void changed() {
-                    model.getMovingMan().setVelocityDriven();
-                    model.getMovingMan().setVelocity(Double.parseDouble(textBox.getText()));
-                }
-            });
         }
 
         //Add the acceleration chart
@@ -171,35 +144,12 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
                 }
             });
 
-            final TextBox textBox = new TextBox("Acceleration", MovingManColorScheme.ACCELERATION_COLOR);
+            final TextBox textBox = new LabeledTextBox("Acceleration", MovingManColorScheme.ACCELERATION_COLOR);
+            new TextBoxListener.Acceleration(model).addListeners(textBox);
             textBox.setOffset(chartSliderNode.getFullBounds().getX() - textBox.getFullBounds().getWidth() - 10, chartSliderNode.getOffset().getY());
             addScreenChild(textBox);
-            model.getMovingMan().addListener(new MovingMan.Listener() {
-                public void changed() {
-                    updateAccelerationTextBox(textBox, model);
-                }
-            });
-            updateAccelerationTextBox(textBox, model);
-            textBox.addListener(new TextBox.Listener() {
-                public void changed() {
-                    model.getMovingMan().setAccelerationDriven();
-                    model.getMovingMan().setAcceleration(Double.parseDouble(textBox.getText()));
-                }
-            });
         }
 
-    }
-
-    private void updateAccelerationTextBox(TextBox textBox, MovingManModel model) {
-        textBox.setText(new DefaultDecimalFormat("0.00").format(model.getMovingMan().getAcceleration()));
-    }
-
-    private void updateVelocityTextBox(TextBox textBox, MovingManModel model) {
-        textBox.setText(new DefaultDecimalFormat("0.00").format(model.getMovingMan().getVelocity()));
-    }
-
-    private void updatePositionTextBox(TextBox textBox, MovingManModel model) {
-        textBox.setText(new DefaultDecimalFormat("0.00").format(model.getMovingMan().getPosition()));
     }
 
     private void updateAccelerationModeSelected(MovingManModel model, MovingManSliderNode chartSliderNode) {
