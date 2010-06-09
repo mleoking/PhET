@@ -69,6 +69,10 @@ public class MovingManNode extends PNode {
         });
     }
 
+    public BufferedImage getImageStanding() {
+        return imageStanding;
+    }
+
     private void updateTransform() {
         modelToView.setOutput(viewRange.getMin(), viewRange.getMax());
         updateMan();

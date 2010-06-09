@@ -50,8 +50,8 @@ public class MovingManSimulationPanel extends PhetPCanvas {
         });
         addScreenChild(manNode);
 
-        addScreenChild(new WallNode(model.getRange(), viewRange, -10, model.getWalls()));
-        addScreenChild(new WallNode(model.getRange(), viewRange, +10, model.getWalls()));
+        addScreenChild(new WallNode(model.getRange(), viewRange, -10, model.getWalls(), -manNode.getImageStanding().getWidth() / 2 - WallNode.wallImage.getWidth()));
+        addScreenChild(new WallNode(model.getRange(), viewRange, +10, model.getWalls(), +manNode.getImageStanding().getWidth() / 2 + WallNode.wallImage.getWidth()));
 
         int arrowTailWidth = 7;
         //Add Velocity vector to play area

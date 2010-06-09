@@ -12,6 +12,7 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 /**
@@ -21,19 +22,27 @@ public class WallNode extends PNode {
     private final Function.LinearFunction linearFunction;
     private final double x;
     private MutableBoolean walls;
+    private final double offsetX;
     private final PImage minimizeButton;
     private final PImage maximizeButton;
     private PImage wallNode;
+    public static BufferedImage wallImage;
 
-    public WallNode(Range modelRange, final Range viewRange, double x, final MutableBoolean walls) {
-        this.x = x;
-        this.walls = walls;
+    static {
         try {
-            wallNode = new PImage(BufferedImageUtils.multiScaleToHeight(MovingManIIResources.loadBufferedImage("wall.jpg"), 100));
-            addChild(wallNode);
+            wallImage = BufferedImageUtils.multiScaleToHeight(MovingManIIResources.loadBufferedImage("wall.jpg"), 100);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public WallNode(Range modelRange, final Range viewRange, double x, final MutableBoolean walls,
+                    double offsetX) {//so that the edge of the man touches the edge of the wall when they collide instead of overlapping
+        this.x = x;
+        this.walls = walls;
+        this.offsetX = offsetX;
+        wallNode = new PImage(wallImage);
+        addChild(wallNode);
         linearFunction = new Function.LinearFunction(modelRange.getMin(), modelRange.getMax(), viewRange.getMin(), viewRange.getMax());
         viewRange.addObserver(new SimpleObserver() {
             public void update() {
@@ -79,6 +88,6 @@ public class WallNode extends PNode {
     }
 
     private void updateLocation() {
-        setOffset(linearFunction.evaluate(x) - getFullBounds().getWidth() / 2, 0);
+        setOffset(linearFunction.evaluate(x) - getFullBounds().getWidth() / 2 + offsetX, 0);
     }
 }
