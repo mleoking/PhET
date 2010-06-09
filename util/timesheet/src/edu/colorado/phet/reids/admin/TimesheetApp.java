@@ -1,6 +1,7 @@
 package edu.colorado.phet.reids.admin;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.reids.admin.jintellitype.JIntellitypeSupport;
 import edu.colorado.phet.reids.admin.util.FileUtils;
 import edu.colorado.phet.reids.admin.util.FrameSetup;
@@ -36,10 +37,12 @@ public class TimesheetApp {
     private String WINDOW_X = "window.x";
     private String RECENT_FILES = "recentFiles";
     private String CURRENT_FILE = "currentFile";
+    private String TARGET_HOURS = "target.hours";
     private JMenu fileMenu = new JMenu("File");
     private File PREFERENCES_FILE = new File(System.getProperty("user.home", "."), ".timesheet/timesheet-app.properties");
     private final JTable table;
     private SelectionModel selectionModel = new SelectionModel();
+    private MutableInt targetHours = new MutableInt(0);
 
     private void updateIconImage() throws IOException {
         BufferedImage image = new PhetResources("timesheet").getImage((timesheetModel.isClockedIn() ? "x-office-running.png" : "x-office-calendar.png"));
@@ -202,7 +205,7 @@ public class TimesheetApp {
                     e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }
             }
-        }, selectionModel), BorderLayout.SOUTH);
+        }, selectionModel, targetHours), BorderLayout.SOUTH);
         frame.setContentPane(contentPane);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //        table.setDefaultRenderer(Date.class, renderer);
@@ -284,8 +287,10 @@ public class TimesheetApp {
         private TimesheetModel timesheetModel;
         private JLabel remainingInTarget;
         private JTextField targetTextField;
+        private MutableInt targetHours;
 
-        ControlPanel(final TimesheetModel timesheetModel, final ActionListener saveAction, final SelectionModel selectionModel) {
+        ControlPanel(final TimesheetModel timesheetModel, final ActionListener saveAction, final SelectionModel selectionModel, final MutableInt targetHours) {
+            this.targetHours = targetHours;
             this.timesheetModel = timesheetModel;
             JButton clockIn = new JButton("Clock In");
             clockIn.addActionListener(new ActionListener() {
@@ -351,7 +356,7 @@ public class TimesheetApp {
                 }
             });
 
-            timeTodayLabel=new JLabel();
+            timeTodayLabel = new JLabel();
             add(timeTodayLabel);
             updateTimeTodayReadout();
             timesheetModel.addTimeListener(new TimesheetModel.TimeListener() {
@@ -361,9 +366,16 @@ public class TimesheetApp {
             });
 
             targetTextField = new JTextField(10);
+            targetTextField.setText(targetHours.getValue() + "");
             targetTextField.setBorder(BorderFactory.createTitledBorder("target.hours"));
             targetTextField.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
+                    targetHours.setValue(Integer.parseInt(targetTextField.getText()));
+                }
+            });
+            targetHours.addObserver(new SimpleObserver() {
+                public void update() {
+                    targetTextField.setText(targetHours.getValue() + "");
                     updateRemainingInTarget();
                 }
             });
@@ -380,23 +392,19 @@ public class TimesheetApp {
         }
 
         private void updateRemainingInTarget() {
-            double hours = 0;
-            try{
-            hours = Double.parseDouble(targetTextField.getText());
-            } catch (Exception e){
-//                e.printStackTrace();
-            }
+            int hours = targetHours.getValue();
             double minutes = hours * 60;
             double sec = minutes * 60;
 
             double elapsed = timesheetModel.getTotalTimeSeconds();
-            double remaining = sec-elapsed;
-            remainingInTarget.setText("Remaining: "+Util.secondsToElapsedTimeString((long) remaining));
+            double remaining = sec - elapsed;
+            remainingInTarget.setText("Remaining: " + Util.secondsToElapsedTimeString((long) remaining));
         }
 
         private void updateTimeReadout() {
             totalTimeLabel.setText("Total: " + Util.secondsToElapsedTimeString(timesheetModel.getTotalTimeSeconds()));
         }
+
         private void updateTimeTodayReadout() {
             timeTodayLabel.setText("Today: " + Util.secondsToElapsedTimeString(timesheetModel.getSecondsToday()));
         }
@@ -487,6 +495,7 @@ public class TimesheetApp {
 
         properties.put(RECENT_FILES, getRecentFileListString());
         properties.put(CURRENT_FILE, currentFile == null ? "null" : currentFile.getAbsolutePath());
+        properties.put(TARGET_HOURS, targetHours.getValue() + "");
 
         PREFERENCES_FILE.getParentFile().mkdirs();
         properties.store(new FileOutputStream(PREFERENCES_FILE), "auto-generated on " + new Date());
@@ -517,6 +526,7 @@ public class TimesheetApp {
         r.y = Integer.parseInt(p.getProperty(WINDOW_Y, "100"));
         r.width = Integer.parseInt(p.getProperty(WINDOW_WIDTH, "800"));
         r.height = Integer.parseInt(p.getProperty(WINDOW_HEIGHT, "600"));
+        targetHours.setValue(Integer.parseInt(p.getProperty(TARGET_HOURS, "176")));
         frame.setSize(r.width, r.height);
         frame.setLocation(r.x, r.y);
 
@@ -532,7 +542,7 @@ public class TimesheetApp {
             }
         }
 //        updateMenuWithRecent();
-        String currentFile = p.getProperty(CURRENT_FILE, "");
+        String currentFile = p.getProperty(CURRENT_FILE, "C:\\workingcopy\\samreid-unfuddle\\trunk\\phet-timesheet-2010.csv");
         System.out.println("currentFile = " + currentFile);
         if (new File(currentFile).exists()) {
             load(new File(currentFile));
