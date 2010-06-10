@@ -1,12 +1,12 @@
 package edu.colorado.phet.motionseries.charts
 
-import edu.colorado.phet.motionseries.Predef._
 import edu.colorado.phet.scalacommon.util.Observable
 import edu.colorado.phet.scalacommon.Predef._
-import javax.swing.{JButton}
 import edu.colorado.phet.motionseries.model.MotionSeriesModel
 import java.awt.Graphics
 import java.awt.event.{ActionEvent, ActionListener}
+import javax.swing.{ImageIcon, JButton}
+import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PlayPauseButton
 
 class GoButtonVisibilityModel(model: MotionSeriesModel) extends Observable {
   private var _visible = false
@@ -23,7 +23,7 @@ class GoButtonVisibilityModel(model: MotionSeriesModel) extends Observable {
   def visible = _visible
 }
 
-class GoButton(model: GoButtonVisibilityModel, goAction: () => Unit) extends JButton("controls.go".translate) {
+class GoButton(model: GoButtonVisibilityModel, goAction: () => Unit) extends JButton(new ImageIcon(new PlayPauseButton(25) {setPlaying(false)}.toImage)) {
   addActionListener(new ActionListener {
     def actionPerformed(e: ActionEvent) = goAction()
   })
