@@ -1,10 +1,7 @@
-Value should be accepted (not dropped) on focus lost
 If the user sets acceleration and velocity then presses go, should switch to acceleration mode so the acceleration is not overwritten.
+    SR: Improved rule: if it is paused and the user modifies a lower parameter (x < v < a), then do not move "driving" control to the lower parameter. 
 Dragging man should be absolute, not relative, so the mouse doesn't get offset after wall collision
-Add chart zoom buttons
-Test that record/playback works
 Stop recording data after 20 seconds to avoid leaking
-Borders for play area sliders on 1st tab?
 Add a deceleration spike when accelerating into a wall.
 Can't always type in text box values during recording
     When the text box gains focus, it should become the controlling variable and no longer a readout of changing values
@@ -13,6 +10,14 @@ We will also need a new name for the new Moving Man, and I need to know whether 
 Why is acceleration magenta?  Won't that confuse with red?
 Record and playback timeline doesn't synchronize size at the right time (seems one behind)
     When switching back and forth tabs in moving man, the playback timeline changes size.
+Test that record/playback works
+
+Here are some notes from the 6-8-2010 minutes regarding the go button:
+    Trish had suggested getting rid of “Go” button.  Noah p had suggested removing the go button.  Moving man one go button for each editable field.  Kathy suggested interview on.  Is it required? Noah p suggested a wiggle me after edit if don’t press play.  Could the go buttons dynamically appear?  Sam asked if should replace “go” with a mini version of the play button.  Kathy likes the mini icon.  Should Sam go back and remove extraneous go buttons from old one?  No.
+    Also, it seems like one of Trish's main complaints was that the moving man has so many go buttons, and the students think they all do something different, so the students try to figure out what is different about the different "go buttons" instead of learning from the sim.  That is why I suggested instead using the same "play" icon that appears in the bottom center of the screen, so that students will maybe think it is not something different.  We also discussed just having one button appear at a time (in whichever chart the user is manipulating), not all 3 go buttonsat the same time. 
 
 For discussion:
 Current resize rule is that charts get more area as screen gets bigger, but maybe moving man play area should get bigger too?
+Add chart zoom buttons
+    SR: Waiting for NP's feedback on how chart zoom buttons should look before working on this.
+Should we add borders for play area sliders on 1st tab?  I was planning on it, but think they look pretty good without, so I thought I'd ask.
