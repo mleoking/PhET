@@ -1,3 +1,4 @@
+Updated slider ranges on intro panel so that motion is constrained to a reasonable speed
 Added "Show vector" checkboxes to chart tab
 Made graphs minimizable/maximizable
 Made it so that you can change position while paused.
