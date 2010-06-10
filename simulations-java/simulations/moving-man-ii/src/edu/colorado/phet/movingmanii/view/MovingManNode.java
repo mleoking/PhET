@@ -94,29 +94,46 @@ public class MovingManNode extends PNode {
         return modelToView.createInverse().evaluate(x);
     }
 
-    private double viewToModelDifferential(double canvasDelta) {
-        double mappedDelta1 = viewToModel(canvasDelta);
-        double mappedDelta0 = viewToModel(0);
-        double mappedDelta = mappedDelta1 - mappedDelta0;
-        return mappedDelta;
-    }
-
     public double modelToView(double x) {
         return modelToView.evaluate(x);
     }
 
+    /**
+     * This is the mouse handler for the man graphic, which allows the user to set the "mouse position" property on the
+     * model, from which smoother position values are obtained.
+     */
     private static class MovingManDragger extends PBasicInputEventHandler {
         private MovingManNode movingManNode;
+        private double relativeGrabPoint = Double.NaN;//mouse location within the man graphic
 
         private MovingManDragger(MovingManNode movingManNode) {
             this.movingManNode = movingManNode;
         }
 
-        @Override
+        public void mousePressed(PInputEvent event) {
+            super.mousePressed(event);
+            updateRelativeGrabPoint(event);
+        }
+
+        private void updateRelativeGrabPoint(PInputEvent event) {
+            relativeGrabPoint = getModelPoint(event) - movingManNode.getOffset().getX();
+        }
+
         public void mouseDragged(PInputEvent event) {
             super.mouseDragged(event);
-            double mappedDelta = movingManNode.viewToModelDifferential(event.getCanvasDelta().width);
-            movingManNode.model.setMousePosition(movingManNode.model.getMousePosition() + mappedDelta);
+            if (Double.isNaN(relativeGrabPoint)) {
+                updateRelativeGrabPoint(event);
+            }
+            movingManNode.model.setMousePosition(getModelPoint(event) + relativeGrabPoint);
+        }
+
+        public void mouseReleased(PInputEvent event) {
+            relativeGrabPoint = Double.NaN;
+        }
+
+        private double getModelPoint(PInputEvent event) {
+            double mappedPoint = movingManNode.viewToModel(event.getCanvasPosition().getX());
+            return mappedPoint;
         }
     }
 }
