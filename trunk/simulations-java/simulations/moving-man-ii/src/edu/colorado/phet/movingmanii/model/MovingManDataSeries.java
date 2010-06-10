@@ -64,4 +64,21 @@ public class MovingManDataSeries {
     public void addListener(Listener listener) {
         listeners.add(listener);
     }
+
+    /**
+     * The MovingManDataSeries.Limited ignores any data points that fall outside its maximum time range.
+     */
+    public static class Limited extends MovingManDataSeries {
+        private double maxTime;
+
+        public Limited(double maxTime) {
+            this.maxTime = maxTime;
+        }
+
+        public void addPoint(double value, double time) {
+            if (time <= maxTime) {
+                super.addPoint(value, time);
+            }
+        }
+    }
 }

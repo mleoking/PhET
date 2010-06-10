@@ -1,3 +1,4 @@
+Fixed: Stop recording data after 20 seconds to avoid leaking
 Fixed: Dragging man should be absolute, not relative, so the mouse doesn't get offset after wall collision
 # 0.00.01 (41532) Jun 10, 2010
 Fixed: If the user sets acceleration and velocity then presses go, should switch to acceleration mode so the acceleration is not overwritten (and same for velocity)
