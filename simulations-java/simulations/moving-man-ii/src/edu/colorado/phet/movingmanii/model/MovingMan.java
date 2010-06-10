@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * @author Sam Reid
  */
 public class MovingMan {
-    private MotionStrategy motionStrategy = new PositionDriven();
+    private MotionStrategy motionStrategy = POSITION_DRIVEN;
     private ArrayList<Listener> listeners = new ArrayList<Listener>();
     private double position;
     private double velocity;
@@ -51,29 +51,29 @@ public class MovingMan {
     }
 
     public boolean isPositionDriven() {
-        return motionStrategy instanceof PositionDriven;
+        return motionStrategy == POSITION_DRIVEN;
     }
 
     public boolean isVelocityDriven() {
-        return motionStrategy instanceof VelocityDriven;
+        return motionStrategy == VELOCITY_DRIVEN;
     }
 
     public boolean isAccelerationDriven() {
-        return motionStrategy instanceof AccelerationDriven;
+        return motionStrategy == ACCELERATION_DRIVEN;
     }
 
     public void setVelocityDriven() {
-        this.motionStrategy = new VelocityDriven();
+        this.motionStrategy = VELOCITY_DRIVEN;
         notifyListeners();
     }
 
     public void setPositionDriven() {
-        this.motionStrategy = new PositionDriven();
+        this.motionStrategy = POSITION_DRIVEN;
         notifyListeners();
     }
 
     public void setAccelerationDriven() {
-        this.motionStrategy = new AccelerationDriven();
+        this.motionStrategy = ACCELERATION_DRIVEN;
         notifyListeners();
     }
 
@@ -93,19 +93,49 @@ public class MovingMan {
         notifyListeners();
     }
 
+    public MotionStrategy getMotionStrategy() {
+        return motionStrategy;
+    }
+
     public static interface Listener {
         void changed();
     }
 
-    public static class MotionStrategy {
+    /**
+     * Mostly used as an object ID for type purposes, but can be used to configure the MovingMan
+     */
+    public static interface MotionStrategy {
+        void apply(MovingMan man);
     }
 
-    public static class VelocityDriven extends MotionStrategy {
-    }
+    public static MotionStrategy POSITION_DRIVEN = new MotionStrategy() {
+        public void apply(MovingMan man) {
+            man.setPositionDriven();
+        }
 
-    private class PositionDriven extends MotionStrategy {
-    }
+        public String toString() {
+            return "Position driven";
+        }
+    };
 
-    private class AccelerationDriven extends MotionStrategy {
-    }
+
+    public static MotionStrategy VELOCITY_DRIVEN = new MotionStrategy() {
+        public void apply(MovingMan man) {
+            man.setVelocityDriven();
+        }
+
+        public String toString() {
+            return "Velocity driven";
+        }
+    };
+
+    public static MotionStrategy ACCELERATION_DRIVEN = new MotionStrategy() {
+        public void apply(MovingMan man) {
+            man.setAccelerationDriven();
+        }
+
+        public String toString() {
+            return "Acceleration driven";
+        }
+    };
 }
