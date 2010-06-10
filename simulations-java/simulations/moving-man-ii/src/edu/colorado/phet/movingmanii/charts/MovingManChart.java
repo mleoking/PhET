@@ -36,39 +36,64 @@ import java.util.ArrayList;
  */
 public class MovingManChart extends PNode {
     private Rectangle2D.Double dataModelBounds;
-    private double dataAreaWidth;
-    private double dataAreaHeight;
+    private MutableDimension viewDimension;
     private PNode chartContents;//layer for chart pnodes, for minimize/maximize support
     private PImage minimizeButton;
     private PImage maximizeButton;
     private MutableBoolean maximized = new MutableBoolean(true);
+    private ModelViewTransform2D modelViewTransform2D;
+
+    public MovingManChart(Rectangle2D.Double dataModelBounds) {
+        this(dataModelBounds, 100, 100);//useful for layout code that updates size later instead of at construction and later
+    }
 
     public MovingManChart(Rectangle2D.Double dataModelBounds,
-                          double dataAreaWidth,//Width of the chart area
-                          double dataAreaHeight) {
+                          final double dataAreaWidth,//Width of the chart area
+                          final double dataAreaHeight) {
         this.dataModelBounds = dataModelBounds;
-        this.dataAreaWidth = dataAreaWidth;
-        this.dataAreaHeight = dataAreaHeight;
+        this.viewDimension = new MutableDimension(dataAreaWidth, dataAreaHeight);
         chartContents = new PNode();
         addChild(chartContents);
-        PhetPPath background = new PhetPPath(new Rectangle2D.Double(0, 0, dataAreaWidth, dataAreaHeight), Color.white, new BasicStroke(1), Color.black);
+        final PhetPPath background = new PhetPPath(Color.white, new BasicStroke(1), Color.black);
+        SimpleObserver backgroundUpdate = new SimpleObserver() {
+            public void update() {
+                background.setPathTo(new Rectangle2D.Double(0, 0, viewDimension.getWidth(), viewDimension.getHeight()));
+            }
+        };
+        backgroundUpdate.update();
+        viewDimension.addObserver(backgroundUpdate);
         chartContents.addChild(background);
 
-        modelViewTransform2D = new ModelViewTransform2D(dataModelBounds, new Rectangle2D.Double(0, 0, dataAreaWidth, dataAreaHeight));//todo: update when dependencies change
+        modelViewTransform2D = new ModelViewTransform2D(dataModelBounds, new Rectangle2D.Double(0, 0, dataAreaWidth, dataAreaHeight));//todo: attach listeners to the mvt2d
+        SimpleObserver mvtUpdate = new SimpleObserver() {
+            public void update() {
+                if (viewDimension.getWidth() > 0 && viewDimension.getHeight() > 0)
+                    modelViewTransform2D.setViewBounds(new Rectangle2D.Double(0, 0, viewDimension.getWidth(), viewDimension.getHeight()));
+            }
+        };
+        mvtUpdate.update();
+        viewDimension.addObserver(mvtUpdate);
 
         int numDomainMarks = 10;
         Function.LinearFunction domainFunction = new Function.LinearFunction(0, numDomainMarks, dataModelBounds.getX(), dataModelBounds.getMaxX());
         ArrayList<DomainTickMark> domainTickMarks = new ArrayList<DomainTickMark>();
         for (int i = 0; i < numDomainMarks + 1; i++) {
-            double x = domainFunction.evaluate(i);
-            DomainTickMark tickMark = new DomainTickMark(x);
-            Point2D location = modelToView(new TimeData(0, x));
-            tickMark.setOffset(location.getX(), dataAreaHeight);
+            final double x = domainFunction.evaluate(i);
+            final DomainTickMark tickMark = new DomainTickMark(x);
             domainTickMarks.add(tickMark);
             chartContents.addChild(tickMark);
 
             DomainGridLine gridLine = new DomainGridLine(x, this);
             chartContents.addChild(gridLine);
+
+            SimpleObserver domainTickMarkUpdate = new SimpleObserver() {
+                public void update() {
+                    Point2D location = modelToView(new TimeData(0, x));
+                    tickMark.setOffset(location.getX(), viewDimension.getHeight());
+                }
+            };
+            domainTickMarkUpdate.update();
+            viewDimension.addObserver(domainTickMarkUpdate);
         }
         DomainTickMark last = domainTickMarks.get(domainTickMarks.size() - 1);
         last.setTickText(last.getTickText() + " sec");
@@ -76,17 +101,24 @@ public class MovingManChart extends PNode {
         int numRangeMarks = 4;
         Function.LinearFunction rangeFunction = new Function.LinearFunction(0, numRangeMarks, dataModelBounds.getY(), dataModelBounds.getMaxY());
         for (int i = 0; i < numRangeMarks + 1; i++) {
-            double y = rangeFunction.evaluate(i);
-            RangeTickMark tickMark = new RangeTickMark(y);
-            Point2D location = modelToView(new TimeData(y, 0));
-            tickMark.setOffset(0, location.getY());
+            final double y = rangeFunction.evaluate(i);
+            final RangeTickMark tickMark = new RangeTickMark(y);
             chartContents.addChild(tickMark);
 
             RangeGridLine gridLine = new RangeGridLine(y, this);
             chartContents.addChild(gridLine);
+
+            SimpleObserver rangeTickMarkUpdate = new SimpleObserver() {
+                public void update() {
+                    Point2D location = modelToView(new TimeData(y, 0));
+                    tickMark.setOffset(0, location.getY());
+                }
+            };
+            rangeTickMarkUpdate.update();
+            viewDimension.addObserver(rangeTickMarkUpdate);
         }
 
-        int iconButtonInset = 2;
+        final int iconButtonInset = 2;
         {
             minimizeButton = new PImage(PhetCommonResources.getImage(PhetCommonResources.IMAGE_MINIMIZE_BUTTON)) {
                 public void setVisible(boolean isVisible) {
@@ -95,13 +127,19 @@ public class MovingManChart extends PNode {
                 }
             };
             addChild(minimizeButton);
-            minimizeButton.setOffset(dataAreaWidth - minimizeButton.getFullBounds().getWidth() - iconButtonInset, iconButtonInset);
             minimizeButton.addInputEventListener(new CursorHandler());
             minimizeButton.addInputEventListener(new PBasicInputEventHandler() {
                 public void mouseReleased(PInputEvent event) {
                     maximized.setValue(false);
                 }
             });
+            SimpleObserver locationUpdate = new SimpleObserver() {
+                public void update() {
+                    minimizeButton.setOffset(viewDimension.getWidth() - minimizeButton.getFullBounds().getWidth() - iconButtonInset, iconButtonInset);
+                }
+            };
+            locationUpdate.update();
+            viewDimension.addObserver(locationUpdate);
         }
         {
             maximizeButton = new PImage(PhetCommonResources.getImage(PhetCommonResources.IMAGE_MAXIMIZE_BUTTON)) {
@@ -111,13 +149,19 @@ public class MovingManChart extends PNode {
                 }
             };
             addChild(maximizeButton);
-            maximizeButton.setOffset(dataAreaWidth - maximizeButton.getFullBounds().getWidth() - iconButtonInset, iconButtonInset);
             maximizeButton.addInputEventListener(new CursorHandler());
             maximizeButton.addInputEventListener(new PBasicInputEventHandler() {
                 public void mouseReleased(PInputEvent event) {
                     maximized.setValue(true);
                 }
             });
+            SimpleObserver locationUpdate = new SimpleObserver() {
+                public void update() {
+                    maximizeButton.setOffset(viewDimension.getWidth() - maximizeButton.getFullBounds().getWidth() - iconButtonInset, iconButtonInset);
+                }
+            };
+            locationUpdate.update();
+            viewDimension.addObserver(locationUpdate);
         }
         final SimpleObserver observer = new SimpleObserver() {
             public void update() {
@@ -154,8 +198,13 @@ public class MovingManChart extends PNode {
         return modelViewTransform2D.viewToModelDifferentialY(dy);
     }
 
-    public double getDataAreaHeight() {
-        return dataAreaHeight;
+    public void setViewDimension(double dataAreaWidth, double dataAreaHeight) {
+        viewDimension.setDimension(dataAreaWidth, dataAreaHeight);
+        //todo: update everything that needs updating
+    }
+
+    public MutableDimension getViewDimension() {
+        return viewDimension;
     }
 
     public static class DomainTickMark extends PNode {
@@ -194,37 +243,53 @@ public class MovingManChart extends PNode {
     }
 
     private static class DomainGridLine extends PNode {
-        private DomainGridLine(double x, MovingManChart chart) {
-            double chartX = chart.modelToView(new TimeData(0, x)).getX();
-            PhetPPath tick = new PhetPPath(new Line2D.Double(chartX, chart.dataAreaHeight, chartX, 0), new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 0, new float[]{10, 3}, 0), Color.lightGray);
+        private DomainGridLine(final double x, final MovingManChart chart) {
+            final PhetPPath tick = new PhetPPath(new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 0, new float[]{10, 3}, 0), Color.lightGray);
+            final SimpleObserver so = new SimpleObserver() {
+                public void update() {
+                    final double chartX = chart.modelToView(new TimeData(0, x)).getX();
+                    tick.setPathTo(new Line2D.Double(chartX, chart.viewDimension.getHeight(), chartX, 0));
+                }
+            };
+            so.update();
+            chart.viewDimension.addObserver(so);
             addChild(tick);
         }
     }
 
     private static class RangeGridLine extends PNode {
-        private RangeGridLine(double y, MovingManChart chart) {
-            double chartY = chart.modelToView(new TimeData(y, 0)).getY();
-            PhetPPath tick = new PhetPPath(new Line2D.Double(0, chartY, chart.dataAreaWidth, chartY), new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 0, new float[]{10, 3}, 0), Color.lightGray);
+        private RangeGridLine(final double y, final MovingManChart chart) {
+            final PhetPPath tick = new PhetPPath(new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 0, new float[]{10, 3}, 0), Color.lightGray);
             addChild(tick);
+            final SimpleObserver pathUpdate = new SimpleObserver() {
+                public void update() {
+                    final double chartY = chart.modelToView(new TimeData(y, 0)).getY();
+                    tick.setPathTo(new Line2D.Double(0, chartY, chart.viewDimension.getWidth(), chartY));
+                }
+            };
+            chart.viewDimension.addObserver(pathUpdate);
+            pathUpdate.update();
         }
     }
 
     public void addDataSeries(MovingManDataSeries dataSeries, Color color, int numPointsToSkip) {
         chartContents.addChild(new LineSeriesNode(dataSeries, color, numPointsToSkip));
-//        serieses.add(dataSeries);
     }
-
-    private ModelViewTransform2D modelViewTransform2D;
 
     public Point2D modelToView(TimeData point) {
         return modelViewTransform2D.modelToViewDouble(point.getTime(), point.getValue());
     }
 
     private class LineSeriesNode extends PNode {
-
         public LineSeriesNode(final MovingManDataSeries dataSeries, Color color, final int numPointsToSkip) {
-            PClip clip = new PClip();
-            clip.setPathTo(new Rectangle2D.Double(0, 0, dataAreaWidth, dataAreaHeight));
+            final PClip clip = new PClip();
+            final SimpleObserver so = new SimpleObserver() {
+                public void update() {
+                    clip.setPathTo(new Rectangle2D.Double(0, 0, viewDimension.getWidth(), viewDimension.getHeight()));
+                }
+            };
+            viewDimension.addObserver(so);
+            so.update();
             final PhetPPath path = new PhetPPath(new BasicStroke(2), color);
             clip.addChild(path);
             addChild(clip);

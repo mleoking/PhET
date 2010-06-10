@@ -1,7 +1,7 @@
+Current resize rule is that charts get more area as screen gets bigger, but maybe moving man play area should get bigger too?
 If the user sets acceleration and velocity then presses go, should switch to acceleration mode so the acceleration is not overwritten.
 Dragging man should be absolute, not relative, so the mouse doesn't get offset after wall collision
 Add chart zoom buttons
-Fix layout so screen size can change
 Test that record/playback works
 Stop recording data after 20 seconds to avoid leaking
 Borders for play area sliders on 1st tab?
@@ -11,4 +11,5 @@ Can't always type in text box values during recording
 Text boxes should be moved down and indented (see screenshots)
 We will also need a new name for the new Moving Man, and I need to know whether we are also keeping the old one (as we are for forces-1d and ramp)
 Why is acceleration magenta?  Won't that confuse with red?
-Record and playback timeline doesn't synchronize at the right time (seems one behind)
+Record and playback timeline doesn't synchronize size at the right time (seems one behind)
+    When switching back and forth tabs in moving man, the playback timeline changes size.
