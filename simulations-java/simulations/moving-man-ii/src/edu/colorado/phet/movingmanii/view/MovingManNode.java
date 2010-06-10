@@ -39,8 +39,8 @@ public class MovingManNode extends PNode {
             }
         });
         try {
-            imageStanding = BufferedImageUtils.multiScaleToHeight(MovingManIIResources.loadBufferedImage("stand-ii.gif"), 100);//todo: need our own resource loader
-            imageLeft = BufferedImageUtils.multiScaleToHeight(MovingManIIResources.loadBufferedImage("left-ii.gif"), 100);
+            imageStanding = BufferedImageUtils.multiScaleToHeight(MovingManIIResources.loadBufferedImage("man-standing.gif"), 100);//todo: need our own resource loader
+            imageLeft = BufferedImageUtils.multiScaleToHeight(MovingManIIResources.loadBufferedImage("man-left.gif"), 100);
             imageRight = BufferedImageUtils.flipX(imageLeft);
         } catch (IOException e) {
             e.printStackTrace();
