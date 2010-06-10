@@ -1,3 +1,4 @@
+Arrows should indicate out-of-range, not in-range maxima
 If the user sets acceleration and velocity then presses go, should switch to acceleration mode so the acceleration is not overwritten.
     SR: Improved rule: if it is paused and the user modifies a lower parameter (x < v < a), then do not move "driving" control to the lower parameter.
     SR: Another rule: on pause, clear list.  When user enters a value, add to list.  When unpausing, choose highest modified property to be "driving".  This seems safer.
