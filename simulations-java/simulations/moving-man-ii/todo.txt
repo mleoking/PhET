@@ -1,0 +1,12 @@
+Dragging man should be absolute, not relative, so the mouse doesn't get offset after wall collision
+Add chart zoom buttons
+Fix layout so screen size can change
+Test that record/playback works
+Stop recording data after 20 seconds to avoid leaking
+Borders for play area sliders on 1st tab?
+Add a deceleration spike when accelerating into a wall.
+Can't always type in text box values during recording
+    When the text box gains focus, it should become the controlling variable and no longer a readout of changing values
+Text boxes should be moved down and indented (see screenshots)
+We will also need a new name for the new Moving Man, and I need to know whether we are also keeping the old one (as we are for forces-1d and ramp)
+Why is acceleration magenta?  Won't that confuse with red?

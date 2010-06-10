@@ -26,6 +26,6 @@ public class MovingManChartSliderNode extends MovingManSliderNode.Vertical {
     }
 
     public void updateLayoutBasedOnChart() {
-        setViewRange(0, movingManChart.dataAreaHeight);
+        setViewRange(0, movingManChart.getDataAreaHeight());
     }
 }

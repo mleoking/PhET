@@ -89,7 +89,7 @@ public class MovingManModel {
             positionSeries.addPoint(wallResult.position, time);
 
             //set instantaneous values
-            mousePosition = wallResult.position;//so that if the user switches to mouse-driven, it will have the right location
+            setMousePosition(wallResult.position);//so that if the user switches to mouse-driven, it will have the right location
             movingMan.setPosition(wallResult.position);
             movingMan.setAcceleration(accelerationSeries.getDataPoint(accelerationSeries.getNumPoints() - 1).getValue());//todo: subtract - DERIVATIVE_RADIUS if possible
             if (wallResult.collided) {
@@ -111,7 +111,7 @@ public class MovingManModel {
             positionSeries.addPoint(wallResult.position, time);
 
             //set instantaneous values
-            mousePosition = wallResult.position;//so that if the user switches to mouse-driven, it will have the right location
+            setMousePosition(wallResult.position);//so that if the user switches to mouse-driven, it will have the right location
             movingMan.setPosition(wallResult.position);
             movingMan.setVelocity(newVelocity);
             if (wallResult.collided) {

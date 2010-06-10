@@ -1,6 +1,7 @@
 package edu.colorado.phet.movingmanii.view;
 
 import edu.colorado.phet.common.motion.tests.ColorArrows;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.movingmanii.MovingManColorScheme;
 import edu.colorado.phet.movingmanii.charts.*;
 import edu.colorado.phet.movingmanii.model.MovingMan;
@@ -43,6 +44,13 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
             PNode positionThumb = new PImage(ColorArrows.createArrow(MovingManColorScheme.POSITION_COLOR));
             final MovingManSliderNode chartSliderNode = new MovingManChartSliderNode(positionChart, positionThumb, MovingManColorScheme.POSITION_COLOR);
             addScreenChild(chartSliderNode);
+            final SimpleObserver sliderVisibleSetter = new SimpleObserver() {
+                public void update() {
+                    chartSliderNode.setVisible(positionChart.getMaximized().getValue());
+                }
+            };
+            sliderVisibleSetter.update();
+            positionChart.getMaximized().addObserver(sliderVisibleSetter);
             chartSliderNode.setOffset(positionChart.getOffset().getX() - chartSliderNode.getFullBounds().getWidth() - 20, positionChart.getOffset().getY());
             model.addListener(new MovingManModel.Listener() {
                 public void mousePositionChanged() {
@@ -69,6 +77,13 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
             new TextBoxListener.Position(model).addListeners(textBox);
             textBox.setOffset(chartSliderNode.getFullBounds().getX() - textBox.getFullBounds().getWidth() - 10, chartSliderNode.getOffset().getY());
             addScreenChild(textBox);
+            SimpleObserver simpleObserver = new SimpleObserver() {
+                public void update() {
+                    textBox.setVisible(positionChart.getMaximized().getValue());
+                }
+            };
+            simpleObserver.update();
+            positionChart.getMaximized().addObserver(simpleObserver);
         }
 
         {//add the velocity chart
@@ -82,6 +97,13 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
             PNode positionThumb = new PImage(ColorArrows.createArrow(MovingManColorScheme.VELOCITY_COLOR));
             final MovingManSliderNode chartSliderNode = new MovingManChartSliderNode(velocityChart, positionThumb, MovingManColorScheme.VELOCITY_COLOR);
             addScreenChild(chartSliderNode);
+            final SimpleObserver sliderVisibleSetter = new SimpleObserver() {
+                public void update() {
+                    chartSliderNode.setVisible(velocityChart.getMaximized().getValue());
+                }
+            };
+            velocityChart.getMaximized().addObserver(sliderVisibleSetter);
+            sliderVisibleSetter.update();
             chartSliderNode.setOffset(velocityChart.getOffset().getX() - chartSliderNode.getFullBounds().getWidth() - 20, velocityChart.getOffset().getY());
             model.getMovingMan().addListener(new MovingMan.Listener() {
                 public void changed() {
@@ -108,6 +130,13 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
             new TextBoxListener.Velocity(model).addListeners(textBox);
             textBox.setOffset(chartSliderNode.getFullBounds().getX() - textBox.getFullBounds().getWidth() - 10, chartSliderNode.getOffset().getY());
             addScreenChild(textBox);
+            SimpleObserver simpleObserver = new SimpleObserver() {
+                public void update() {
+                    textBox.setVisible(velocityChart.getMaximized().getValue());
+                }
+            };
+            simpleObserver.update();
+            velocityChart.getMaximized().addObserver(simpleObserver);
         }
 
         //Add the acceleration chart
@@ -121,6 +150,13 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
 
             PNode positionThumb = new PImage(ColorArrows.createArrow(MovingManColorScheme.ACCELERATION_COLOR));
             final MovingManSliderNode chartSliderNode = new MovingManChartSliderNode(accelerationChart, positionThumb, MovingManColorScheme.ACCELERATION_COLOR);
+            final SimpleObserver sliderVisibleSetter = new SimpleObserver() {
+                public void update() {
+                    chartSliderNode.setVisible(accelerationChart.getMaximized().getValue());
+                }
+            };
+            accelerationChart.getMaximized().addObserver(sliderVisibleSetter);
+            sliderVisibleSetter.update();
             addScreenChild(chartSliderNode);
             chartSliderNode.setOffset(accelerationChart.getOffset().getX() - chartSliderNode.getFullBounds().getWidth() - 20, accelerationChart.getOffset().getY());
             model.getMovingMan().addListener(new MovingMan.Listener() {
@@ -148,6 +184,13 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
             new TextBoxListener.Acceleration(model).addListeners(textBox);
             textBox.setOffset(chartSliderNode.getFullBounds().getX() - textBox.getFullBounds().getWidth() - 10, chartSliderNode.getOffset().getY());
             addScreenChild(textBox);
+            SimpleObserver simpleObserver = new SimpleObserver() {
+                public void update() {
+                    textBox.setVisible(accelerationChart.getMaximized().getValue());
+                }
+            };
+            simpleObserver.update();
+            accelerationChart.getMaximized().addObserver(simpleObserver);
         }
 
     }
