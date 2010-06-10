@@ -56,7 +56,7 @@ public class MovingManSimulationPanelWithPlayAreaSliders extends MovingManSimula
             {
                 new TextBoxListener.Velocity(model).addListeners(textBox);
             }
-            final PlayAreaSliderControl slider = new PlayAreaSliderControl(-50, 50, model.getMovingMan().getVelocity(), "Velocity", "m/s", MovingManColorScheme.VELOCITY_COLOR, textBox);
+            final PlayAreaSliderControl slider = new PlayAreaSliderControl(-10, 10, model.getMovingMan().getVelocity(), "Velocity", "m/s", MovingManColorScheme.VELOCITY_COLOR, textBox);
             model.getMovingMan().addListener(new MovingMan.Listener() {
                 public void changed() {
                     slider.setValue(model.getMovingMan().getVelocity());
@@ -95,7 +95,7 @@ public class MovingManSimulationPanelWithPlayAreaSliders extends MovingManSimula
             {
                 new TextBoxListener.Acceleration(model).addListeners(box);
             }
-            final PlayAreaSliderControl slider = new PlayAreaSliderControl(-50, 50, model.getMovingMan().getAcceleration(), "Acceleration", "m/s/s", MovingManColorScheme.ACCELERATION_COLOR, box);
+            final PlayAreaSliderControl slider = new PlayAreaSliderControl(-10, 10, model.getMovingMan().getAcceleration(), "Acceleration", "m/s/s", MovingManColorScheme.ACCELERATION_COLOR, box);
             model.getMovingMan().addListener(new MovingMan.Listener() {
                 public void changed() {
                     slider.setValue(model.getMovingMan().getAcceleration());
@@ -116,7 +116,7 @@ public class MovingManSimulationPanelWithPlayAreaSliders extends MovingManSimula
             });
             addScreenChild(slider);
 
-            final PSwing pSwing = new PSwing(new ShowVelocityVectorCheckBox("Acceleration Vector", model.getVelocityVectorVisible()));
+            final PSwing pSwing = new PSwing(new ShowVelocityVectorCheckBox("Acceleration Vector", model.getAccelerationVectorVisible()));
             pSwing.setOffset(slider.getFullBounds().getMaxX() + 10, slider.getFullBounds().getCenterY() - pSwing.getFullBounds().getHeight() / 2);
             addComponentListener(new ComponentAdapter() {
                 @Override
