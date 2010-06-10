@@ -1,3 +1,4 @@
+Text-box improvements, accept value on focus lost and select all on focus gained so the user doesn't have to delete text before typing a new value
 Fixed layout so that charts resize to take up additional space when window resized
 Updated slider ranges on intro panel so that motion is constrained to a reasonable speed
 Added "Show vector" checkboxes to chart tab
