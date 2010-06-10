@@ -6,6 +6,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.movingmanii.model.MovingManModel;
 import edu.colorado.phet.movingmanii.model.MovingManState;
 import edu.colorado.phet.movingmanii.view.MovingManSimulationPanelWithCharts;
+import edu.colorado.phet.movingmanii.view.MovingManSimulationPanelWithPlayAreaSliders;
 import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel;
 
 import javax.swing.*;

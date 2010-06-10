@@ -12,6 +12,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 import java.awt.geom.Rectangle2D;
 
@@ -137,6 +138,10 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
             };
             simpleObserver.update();
             velocityChart.getMaximized().addObserver(simpleObserver);
+
+            final PSwing pSwing = new PSwing(new ShowVelocityVectorCheckBox("<html>Show<br>Vector<html>", model.getVelocityVectorVisible()));
+            addScreenChild(pSwing);
+            pSwing.setOffset(textBox.getFullBounds().getX(), textBox.getFullBounds().getMaxY());
         }
 
         //Add the acceleration chart
@@ -191,6 +196,10 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
             };
             simpleObserver.update();
             accelerationChart.getMaximized().addObserver(simpleObserver);
+
+            final PSwing pSwing = new PSwing(new ShowVelocityVectorCheckBox("<html>Show<br>Vector<html>", model.getAccelerationVectorVisible()));
+            addScreenChild(pSwing);
+            pSwing.setOffset(textBox.getFullBounds().getX(), textBox.getFullBounds().getMaxY());
         }
 
     }

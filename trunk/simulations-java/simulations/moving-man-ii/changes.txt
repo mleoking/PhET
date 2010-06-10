@@ -1,2 +1,3 @@
+Added "Show vector" checkboxes to chart tab
 Made graphs minimizable/maximizable
 Made it so that you can change position while paused.

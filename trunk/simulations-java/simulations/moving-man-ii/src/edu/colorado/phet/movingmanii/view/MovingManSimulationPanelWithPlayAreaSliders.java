@@ -1,20 +1,13 @@
-package edu.colorado.phet.movingmanii;
+package edu.colorado.phet.movingmanii.view;
 
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.movingmanii.MovingManColorScheme;
 import edu.colorado.phet.movingmanii.charts.TextBox;
 import edu.colorado.phet.movingmanii.model.MovingMan;
 import edu.colorado.phet.movingmanii.model.MovingManModel;
 import edu.colorado.phet.movingmanii.model.MovingManState;
-import edu.colorado.phet.movingmanii.view.MovingManSimulationPanel;
-import edu.colorado.phet.movingmanii.view.MovingManSliderNode;
-import edu.colorado.phet.movingmanii.view.PlayAreaSliderControl;
-import edu.colorado.phet.movingmanii.view.TextBoxListener;
 import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
@@ -85,19 +78,8 @@ public class MovingManSimulationPanelWithPlayAreaSliders extends MovingManSimula
             });
             addScreenChild(slider);
 
-            final JCheckBox showVectorBox = new JCheckBox("Velocity Vector", model.getVelocityVectorVisible().getValue());
-            showVectorBox.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    model.getVelocityVectorVisible().setValue(showVectorBox.isSelected());
-                }
-            });
-            model.getVelocityVectorVisible().addObserver(new SimpleObserver() {
-                public void update() {
-                    showVectorBox.setSelected(model.getVelocityVectorVisible().getValue());
-                }
-            });
-            showVectorBox.setOpaque(false);//todo: does this work on mac?
-            final PSwing pSwing = new PSwing(showVectorBox);
+
+            final PSwing pSwing = new PSwing(new ShowVelocityVectorCheckBox("Velocity Vector", model.getVelocityVectorVisible()));
             pSwing.setOffset(slider.getFullBounds().getMaxX() + 10, slider.getFullBounds().getCenterY() - pSwing.getFullBounds().getHeight() / 2);
             addComponentListener(new ComponentAdapter() {
                 @Override
@@ -134,19 +116,7 @@ public class MovingManSimulationPanelWithPlayAreaSliders extends MovingManSimula
             });
             addScreenChild(slider);
 
-            final JCheckBox showVectorBox = new JCheckBox("Acceleration Vector", model.getAccelerationVectorVisible().getValue());
-            showVectorBox.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    model.getAccelerationVectorVisible().setValue(showVectorBox.isSelected());
-                }
-            });
-            model.getAccelerationVectorVisible().addObserver(new SimpleObserver() {
-                public void update() {
-                    showVectorBox.setSelected(model.getAccelerationVectorVisible().getValue());
-                }
-            });
-            showVectorBox.setOpaque(false);
-            final PSwing pSwing = new PSwing(showVectorBox);
+            final PSwing pSwing = new PSwing(new ShowVelocityVectorCheckBox("Acceleration Vector", model.getVelocityVectorVisible()));
             pSwing.setOffset(slider.getFullBounds().getMaxX() + 10, slider.getFullBounds().getCenterY() - pSwing.getFullBounds().getHeight() / 2);
             addComponentListener(new ComponentAdapter() {
                 @Override
