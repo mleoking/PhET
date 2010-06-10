@@ -58,6 +58,6 @@ public class CursorNode extends PNode {
         double time = cursor.getTime();
         double chartX = chart.modelToView(new TimeData(0, time)).getX();//todo: provide mapValue and mapTime
         double width = 5.0;
-        path.setPathTo(new Rectangle2D.Double(chartX - width / 2, 0, width, chart.dataAreaHeight));
+        path.setPathTo(new Rectangle2D.Double(chartX - width / 2, 0, width, chart.getDataAreaHeight()));
     }
 }

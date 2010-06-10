@@ -2,12 +2,19 @@ package edu.colorado.phet.movingmanii.charts;
 
 import edu.colorado.phet.common.motion.model.TimeData;
 import edu.colorado.phet.common.phetcommon.math.Function;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.movingmanii.model.MovingManDataSeries;
+import edu.colorado.phet.movingmanii.model.MutableBoolean;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PClip;
 
@@ -29,8 +36,12 @@ import java.util.ArrayList;
  */
 public class MovingManChart extends PNode {
     private Rectangle2D.Double dataModelBounds;
-    public double dataAreaWidth;
-    public double dataAreaHeight;
+    private double dataAreaWidth;
+    private double dataAreaHeight;
+    private PNode chartContents;//layer for chart pnodes, for minimize/maximize support
+    private PImage minimizeButton;
+    private PImage maximizeButton;
+    private MutableBoolean maximized = new MutableBoolean(true);
 
     public MovingManChart(Rectangle2D.Double dataModelBounds,
                           double dataAreaWidth,//Width of the chart area
@@ -38,8 +49,10 @@ public class MovingManChart extends PNode {
         this.dataModelBounds = dataModelBounds;
         this.dataAreaWidth = dataAreaWidth;
         this.dataAreaHeight = dataAreaHeight;
+        chartContents = new PNode();
+        addChild(chartContents);
         PhetPPath background = new PhetPPath(new Rectangle2D.Double(0, 0, dataAreaWidth, dataAreaHeight), Color.white, new BasicStroke(1), Color.black);
-        addChild(background);
+        chartContents.addChild(background);
 
         modelViewTransform2D = new ModelViewTransform2D(dataModelBounds, new Rectangle2D.Double(0, 0, dataAreaWidth, dataAreaHeight));//todo: update when dependencies change
 
@@ -52,10 +65,10 @@ public class MovingManChart extends PNode {
             Point2D location = modelToView(new TimeData(0, x));
             tickMark.setOffset(location.getX(), dataAreaHeight);
             domainTickMarks.add(tickMark);
-            addChild(tickMark);
+            chartContents.addChild(tickMark);
 
             DomainGridLine gridLine = new DomainGridLine(x, this);
-            addChild(gridLine);
+            chartContents.addChild(gridLine);
         }
         DomainTickMark last = domainTickMarks.get(domainTickMarks.size() - 1);
         last.setTickText(last.getTickText() + " sec");
@@ -67,11 +80,58 @@ public class MovingManChart extends PNode {
             RangeTickMark tickMark = new RangeTickMark(y);
             Point2D location = modelToView(new TimeData(y, 0));
             tickMark.setOffset(0, location.getY());
-            addChild(tickMark);
+            chartContents.addChild(tickMark);
 
             RangeGridLine gridLine = new RangeGridLine(y, this);
-            addChild(gridLine);
+            chartContents.addChild(gridLine);
         }
+
+        int iconButtonInset = 2;
+        {
+            minimizeButton = new PImage(PhetCommonResources.getImage(PhetCommonResources.IMAGE_MINIMIZE_BUTTON)) {
+                public void setVisible(boolean isVisible) {
+                    super.setVisible(isVisible);
+                    setPickable(isVisible);
+                }
+            };
+            addChild(minimizeButton);
+            minimizeButton.setOffset(dataAreaWidth - minimizeButton.getFullBounds().getWidth() - iconButtonInset, iconButtonInset);
+            minimizeButton.addInputEventListener(new CursorHandler());
+            minimizeButton.addInputEventListener(new PBasicInputEventHandler() {
+                public void mouseReleased(PInputEvent event) {
+                    maximized.setValue(false);
+                }
+            });
+        }
+        {
+            maximizeButton = new PImage(PhetCommonResources.getImage(PhetCommonResources.IMAGE_MAXIMIZE_BUTTON)) {
+                public void setVisible(boolean isVisible) {
+                    super.setVisible(isVisible);
+                    setPickable(isVisible);
+                }
+            };
+            addChild(maximizeButton);
+            maximizeButton.setOffset(dataAreaWidth - maximizeButton.getFullBounds().getWidth() - iconButtonInset, iconButtonInset);
+            maximizeButton.addInputEventListener(new CursorHandler());
+            maximizeButton.addInputEventListener(new PBasicInputEventHandler() {
+                public void mouseReleased(PInputEvent event) {
+                    maximized.setValue(true);
+                }
+            });
+        }
+        final SimpleObserver observer = new SimpleObserver() {
+            public void update() {
+                minimizeButton.setVisible(maximized.getValue());
+                chartContents.setVisible(maximized.getValue());
+                maximizeButton.setVisible(!maximized.getValue());
+            }
+        };
+        maximized.addObserver(observer);
+        observer.update();
+    }
+
+    public MutableBoolean getMaximized() {
+        return maximized;
     }
 
     public double viewToModelDeltaX(double dx) {
@@ -92,6 +152,10 @@ public class MovingManChart extends PNode {
 
     public double viewToModelDY(double dy) {
         return modelViewTransform2D.viewToModelDifferentialY(dy);
+    }
+
+    public double getDataAreaHeight() {
+        return dataAreaHeight;
     }
 
     public static class DomainTickMark extends PNode {
@@ -146,7 +210,7 @@ public class MovingManChart extends PNode {
     }
 
     public void addDataSeries(MovingManDataSeries dataSeries, Color color, int numPointsToSkip) {
-        addChild(new LineSeriesNode(dataSeries, color, numPointsToSkip));
+        chartContents.addChild(new LineSeriesNode(dataSeries, color, numPointsToSkip));
 //        serieses.add(dataSeries);
     }
 

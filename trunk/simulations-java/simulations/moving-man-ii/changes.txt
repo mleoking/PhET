@@ -1,0 +1,2 @@
+Made graphs minimizable/maximizable
+Made it so that you can change position while paused.
