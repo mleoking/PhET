@@ -10,3 +10,4 @@ Can't always type in text box values during recording
 Text boxes should be moved down and indented (see screenshots)
 We will also need a new name for the new Moving Man, and I need to know whether we are also keeping the old one (as we are for forces-1d and ramp)
 Why is acceleration magenta?  Won't that confuse with red?
+Record and playback timeline doesn't synchronize at the right time (seems one behind)
