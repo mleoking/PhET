@@ -27,7 +27,7 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
   val energyScale = MotionSeriesDefaults.rampRobotForce / appliedForceAmount / 10.0 //the scale at which to display remaining energy
   private var _robotEnergy = DEFAULT_ROBOT_ENERGY
   private val surfaceModel = new SurfaceModel
-  val airborneFloor = -9.0//how far objects fall off the cliff before hitting ground
+  val airborneFloor = -9.0 //how far objects fall off the cliff before hitting ground
 
   def hasUserAppliedForce = {
     robotEnergy > DEFAULT_ROBOT_ENERGY * 0.92
@@ -123,7 +123,7 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
         val atRest = bead.velocity.abs < 1E-6
 
         val netForce = bead.totalForce
-//        println("net force mag = "+netForce.magnitude)
+        //        println("net force mag = "+netForce.magnitude)
         if (pushing && netForce.magnitude < 1E-8 && lastPushTime == 0) {
           lastPushTime = System.currentTimeMillis
           println("started timer")
@@ -136,7 +136,10 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
           bead.removeListener(this) //remove listener first, in case itemDelivered causes any notifications (it currently doesn't)
           itemDelivered(sel, bead)
         }
-        else if (stoppedAndOutOfEnergy || crashed) {
+        //TODO: need to make sure object is not about to start sliding back down the ramp
+        else if ((stoppedAndOutOfEnergy || crashed) &&
+                bead.acceleration <= 1E-6) { //make sure object isn't about to start sliding back down the ramp
+          println("item lost, acceleration = " + bead.acceleration)
           bead.removeListener(this) //see note above on ordering
           itemLost(sel)
         }
