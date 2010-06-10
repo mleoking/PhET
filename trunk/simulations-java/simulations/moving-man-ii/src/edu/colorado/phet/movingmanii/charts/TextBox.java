@@ -4,9 +4,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusListener;
+import java.awt.event.*;
 import java.util.ArrayList;
 
 /**
@@ -26,11 +24,24 @@ public class TextBox extends PNode {
         addChild(textField);
         swingTextField.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                for (Listener listener : listeners) {
-                    listener.changed();
-                }
+                notifyListeners();
             }
         });
+        swingTextField.addFocusListener(new FocusAdapter() {
+            public void focusLost(FocusEvent e) {
+                notifyListeners();//Accept value on focus lost.
+            }
+
+            public void focusGained(FocusEvent e) {
+                swingTextField.selectAll();//Automatically select all text so the user doesn't have to delete it to type new values.
+            }
+        });
+    }
+
+    private void notifyListeners() {
+        for (Listener listener : listeners) {
+            listener.changed();
+        }
     }
 
     //TODO: need a way for model-propagated values to still update the text field, e.g. for collisions with wall

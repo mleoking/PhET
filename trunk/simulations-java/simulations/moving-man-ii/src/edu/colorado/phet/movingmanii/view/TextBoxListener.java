@@ -31,8 +31,9 @@ public class TextBoxListener {
 
             textBox.addListener(new TextBox.Listener() {
                 public void changed() {
+                    String text = textBox.getText();//have to store it since the next line modifies it
                     model.getMovingMan().setPositionDriven();
-                    model.setMousePosition(Double.parseDouble(textBox.getText()));
+                    model.setMousePosition(Double.parseDouble(text));
                 }
             });
             textBox.addFocusListener(new FocusAdapter() {
@@ -60,8 +61,9 @@ public class TextBoxListener {
             listener.changed();
             textBox.addListener(new TextBox.Listener() {
                 public void changed() {
+                    String text = textBox.getText();//have to store it since the next line modifies it
                     model.getMovingMan().setVelocityDriven();
-                    model.getMovingMan().setVelocity(Double.parseDouble(textBox.getText()));
+                    model.getMovingMan().setVelocity(Double.parseDouble(text));
                 }
             });
             textBox.addFocusListener(new FocusAdapter() {
@@ -90,8 +92,9 @@ public class TextBoxListener {
             listener.changed();
             textBox.addListener(new TextBox.Listener() {
                 public void changed() {
+                    String text = textBox.getText();//have to store it since the next line modifies it
                     model.getMovingMan().setAccelerationDriven();
-                    model.getMovingMan().setAcceleration(Double.parseDouble(textBox.getText()));
+                    model.getMovingMan().setAcceleration(Double.parseDouble(text));
                 }
             });
             textBox.addFocusListener(new FocusAdapter() {
