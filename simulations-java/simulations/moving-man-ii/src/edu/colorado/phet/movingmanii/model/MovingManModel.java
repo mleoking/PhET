@@ -9,10 +9,10 @@ import java.util.ArrayList;
 
 public class MovingManModel {
     private MovingMan movingMan;
-    private MovingManDataSeries mouseDataSeries = new MovingManDataSeries();
-    private MovingManDataSeries positionSeries = new MovingManDataSeries();
-    private MovingManDataSeries velocitySeries = new MovingManDataSeries();
-    private MovingManDataSeries accelerationSeries = new MovingManDataSeries();
+    private MovingManDataSeries mouseDataSeries = new MovingManDataSeries.Limited(20.0);
+    private MovingManDataSeries positionSeries = new MovingManDataSeries.Limited(20.0);
+    private MovingManDataSeries velocitySeries = new MovingManDataSeries.Limited(20.0);
+    private MovingManDataSeries accelerationSeries = new MovingManDataSeries.Limited(20.0);
     private ChartCursor chartCursor = new ChartCursor();
     private double time = 0.0;
     private double mousePosition;
