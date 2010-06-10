@@ -1,3 +1,4 @@
+# 0.00.01 (41532) Jun 10, 2010
 Fixed: If the user sets acceleration and velocity then presses go, should switch to acceleration mode so the acceleration is not overwritten (and same for velocity)
 Added slider arrow rotation to indicate value-out-of-slider-range, while still enabling control over the values
 Text-box improvements, accept value on focus lost and select all on focus gained so the user doesn't have to delete text before typing a new value
