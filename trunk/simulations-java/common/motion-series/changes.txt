@@ -1,3 +1,4 @@
+Fixed: Made it so that losing an object in the game mode requires the acceleration to be zero, so that an object at the peak of a trajectory up the ramp won't end the round
 # 1.03.67 (41358) Jun 2, 2010
 Fixed: FBD has a hand but is not interactive in the game mode
 Fixed: Ramp color wrong on startup between games
