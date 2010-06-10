@@ -21,9 +21,9 @@ import java.util.ArrayList;
  * @author Sam Reid
  */
 public abstract class MovingManSliderNode extends PNode {
-    protected PhetPPath trackPPath;
-    protected PNode sliderThumb;
-    protected double value = 0.0;
+    private PhetPPath trackPPath;
+    private PNode sliderThumb;
+    private double value = 0.0;
     private ArrayList<Listener> listeners = new ArrayList<Listener>();
     private boolean highlighted = false;
     private Color highlightColor;
@@ -112,7 +112,7 @@ public abstract class MovingManSliderNode extends PNode {
 
     protected void updateLayout() {
         updateTrackPath();
-        updateThumbLocation();
+        updateThumb();
     }
 
     protected abstract void updateTrackPath();
@@ -141,14 +141,25 @@ public abstract class MovingManSliderNode extends PNode {
     public void setValue(double value) {
         if (this.value != value) {
             this.value = value;
-            updateThumbLocation();
+            updateThumb();
             notifyValueChanged();
         }
+    }
+
+    protected void updateThumb() {
+        updateThumbLocation();
+        updateThumbAngle();
     }
 
     protected void updateThumbLocation() {
         setThumbLocation(modelToView(clamp(value)));
     }
+
+    /**
+     * The angle of the arrow slider is used to indicate when a value is out of range, by pointing to
+     * the out-of-range point location.  Needs to be tested with team members and during interviews.
+     */
+    protected abstract void updateThumbAngle();
 
     protected abstract void setThumbLocation(double location);
 
@@ -177,6 +188,10 @@ public abstract class MovingManSliderNode extends PNode {
 
     public void setTrackPath(Shape shape) {
         trackPPath.setPathTo(shape);
+    }
+
+    public PNode getSliderThumb() {
+        return sliderThumb;
     }
 
     /**
@@ -249,7 +264,7 @@ public abstract class MovingManSliderNode extends PNode {
 
         @Override
         protected double getDragViewDelta(PInputEvent event, Point2D initDragPoint) {
-            double y = event.getPositionRelativeTo(sliderThumb.getParent()).getY();
+            double y = event.getPositionRelativeTo(super.getSliderThumb().getParent()).getY();
             double delta = y - initDragPoint.getY();
             return delta;
         }
@@ -260,10 +275,19 @@ public abstract class MovingManSliderNode extends PNode {
         }
 
         @Override
-        protected void setThumbLocation(double location) {
-            sliderThumb.setOffset(trackPPath.getFullBounds().getCenterX() - sliderThumb.getFullBounds().getWidth() / 2.0,
-                    location - sliderThumb.getFullBounds().getHeight() / 2.0);
+        protected void updateThumbAngle() {
+            //To change body of implemented methods use File | Settings | File Templates.
         }
+
+        @Override
+        protected void setThumbLocation(double location) {
+            getSliderThumb().setOffset(super.getTrackNode().getFullBounds().getCenterX() - getSliderThumb().getFullBounds().getWidth() / 2.0,
+                    location - getSliderThumb().getFullBounds().getHeight() / 2.0);
+        }
+    }
+
+    protected PNode getTrackNode() {
+        return trackPPath;
     }
 
     public static class Horizontal extends MovingManSliderNode {
@@ -286,14 +310,31 @@ public abstract class MovingManSliderNode extends PNode {
         }
 
         @Override
+        protected void updateThumbAngle() {
+            getSliderThumb().setRotation(0.0);
+            if (clamp(getValue()) < getValue()) {//exceeded max
+                double distanceBeyondMax = getValue() - getMax();
+                double pivotSize = getSliderThumb().getFullBounds().getHeight() / 2;
+                double angle = -Math.atan(distanceBeyondMax / pivotSize);//negative since vertical axis is flipped
+                getSliderThumb().rotateAboutPoint(angle, getSliderThumb().getFullBounds().getWidth() / 2, getSliderThumb().getFullBounds().getHeight() / 2);
+            } else if (clamp(getValue()) > getValue()) {//exceeded min
+                double distanceBeneathMin = getMin() - getValue();
+                double pivotSize = getSliderThumb().getFullBounds().getHeight() / 2;
+                double angle = Math.atan(distanceBeneathMin / pivotSize);
+                getSliderThumb().rotateAboutPoint(angle, getSliderThumb().getFullBounds().getWidth() / 2, getSliderThumb().getFullBounds().getHeight() / 2);
+            }
+        }
+
+        @Override
         protected void setThumbLocation(double location) {
-            sliderThumb.setOffset(location - sliderThumb.getFullBounds().getWidth() / 2.0,
-                    trackPPath.getFullBounds().getCenterY() - sliderThumb.getFullBounds().getHeight() / 2.0);
+            getSliderThumb().setRotation(0.0);
+            getSliderThumb().setOffset(location - getSliderThumb().getFullBounds().getWidth() / 2.0,
+                    getTrackNode().getFullBounds().getCenterY() - getSliderThumb().getFullBounds().getHeight() / 2.0);
         }
 
         @Override
         protected double getDragViewDelta(PInputEvent event, Point2D initDragPoint) {
-            double x = event.getPositionRelativeTo(sliderThumb.getParent()).getX();
+            double x = event.getPositionRelativeTo(getSliderThumb().getParent()).getX();
             double delta = x - initDragPoint.getX();
             return delta;
         }
