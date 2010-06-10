@@ -1,4 +1,3 @@
-Current resize rule is that charts get more area as screen gets bigger, but maybe moving man play area should get bigger too?
 If the user sets acceleration and velocity then presses go, should switch to acceleration mode so the acceleration is not overwritten.
 Dragging man should be absolute, not relative, so the mouse doesn't get offset after wall collision
 Add chart zoom buttons
@@ -13,3 +12,6 @@ We will also need a new name for the new Moving Man, and I need to know whether 
 Why is acceleration magenta?  Won't that confuse with red?
 Record and playback timeline doesn't synchronize size at the right time (seems one behind)
     When switching back and forth tabs in moving man, the playback timeline changes size.
+
+For discussion:
+Current resize rule is that charts get more area as screen gets bigger, but maybe moving man play area should get bigger too?
