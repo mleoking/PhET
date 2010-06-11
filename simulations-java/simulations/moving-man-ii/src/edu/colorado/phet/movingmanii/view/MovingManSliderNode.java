@@ -159,7 +159,20 @@ public abstract class MovingManSliderNode extends PNode {
      * The angle of the arrow slider is used to indicate when a value is out of range, by pointing to
      * the out-of-range point location.  Needs to be tested with team members and during interviews.
      */
-    protected abstract void updateThumbAngle();
+    protected void updateThumbAngle() {
+        getSliderThumb().setRotation(0.0);
+        if (clamp(getValue()) < getValue()) {//exceeded max
+            double distanceBeyondMax = getValue() - getMax();
+            double pivotSize = getSliderThumb().getFullBounds().getHeight() / 2;
+            double angle = -Math.atan(distanceBeyondMax / pivotSize);//negative since vertical axis is flipped
+            getSliderThumb().rotateAboutPoint(angle, getSliderThumb().getFullBounds().getWidth() / 2, getSliderThumb().getFullBounds().getHeight() / 2);
+        } else if (clamp(getValue()) > getValue()) {//exceeded min
+            double distanceBeneathMin = getMin() - getValue();
+            double pivotSize = getSliderThumb().getFullBounds().getHeight() / 2;
+            double angle = Math.atan(distanceBeneathMin / pivotSize);
+            getSliderThumb().rotateAboutPoint(angle, getSliderThumb().getFullBounds().getWidth() / 2, getSliderThumb().getFullBounds().getHeight() / 2);
+        }
+    }
 
     protected abstract void setThumbLocation(double location);
 
@@ -275,12 +288,8 @@ public abstract class MovingManSliderNode extends PNode {
         }
 
         @Override
-        protected void updateThumbAngle() {
-            //To change body of implemented methods use File | Settings | File Templates.
-        }
-
-        @Override
         protected void setThumbLocation(double location) {
+            getSliderThumb().setRotation(0.0);
             getSliderThumb().setOffset(super.getTrackNode().getFullBounds().getCenterX() - getSliderThumb().getFullBounds().getWidth() / 2.0,
                     location - getSliderThumb().getFullBounds().getHeight() / 2.0);
         }
@@ -307,22 +316,6 @@ public abstract class MovingManSliderNode extends PNode {
         @Override
         protected void updateTrackPath() {
             setTrackPath(new Rectangle2D.Double(getViewMin(), 0, getViewMax(), 5));
-        }
-
-        @Override
-        protected void updateThumbAngle() {
-            getSliderThumb().setRotation(0.0);
-            if (clamp(getValue()) < getValue()) {//exceeded max
-                double distanceBeyondMax = getValue() - getMax();
-                double pivotSize = getSliderThumb().getFullBounds().getHeight() / 2;
-                double angle = -Math.atan(distanceBeyondMax / pivotSize);//negative since vertical axis is flipped
-                getSliderThumb().rotateAboutPoint(angle, getSliderThumb().getFullBounds().getWidth() / 2, getSliderThumb().getFullBounds().getHeight() / 2);
-            } else if (clamp(getValue()) > getValue()) {//exceeded min
-                double distanceBeneathMin = getMin() - getValue();
-                double pivotSize = getSliderThumb().getFullBounds().getHeight() / 2;
-                double angle = Math.atan(distanceBeneathMin / pivotSize);
-                getSliderThumb().rotateAboutPoint(angle, getSliderThumb().getFullBounds().getWidth() / 2, getSliderThumb().getFullBounds().getHeight() / 2);
-            }
         }
 
         @Override
