@@ -29,6 +29,7 @@ import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.authentication.AuthenticatedPage;
 import edu.colorado.phet.website.authentication.PhetSession;
 import edu.colorado.phet.website.components.InvisibleComponent;
+import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.constants.CSS;
 import edu.colorado.phet.website.content.contribution.ContributionPage;
 import edu.colorado.phet.website.data.PhetUser;
@@ -39,9 +40,11 @@ import edu.colorado.phet.website.panels.MultipleFileUploadPanel;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.panels.lists.*;
 import edu.colorado.phet.website.translation.LocaleDropDownChoice;
+import edu.colorado.phet.website.translation.PhetLocalizer;
 import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
+import edu.colorado.phet.website.util.StringUtils;
 
 /**
  * This panel presents the user with a form that either creates a new contribution or modifies an existing one.
@@ -226,6 +229,10 @@ public class ContributionEditPanel extends PhetPanel {
             uploadPanel = new MultipleFileUploadPanel( "file-upload", context );
             add( uploadPanel );
 
+            add( new LocalizedText( "contribution-file-tip", "contribution.edit.newfiles.tip", new Object[]{
+                    ContributionFile.getFiletypes( ContributionEditPanel.this )
+            } ) );
+
             final SortedList<SimOrderItem> simList = simManager.getComponent( "simulations", context );
             add( simList );
             final SortedList<EnumSetManager.ListItem<Type>> typeList = typeManager.getComponent( "types", context );
@@ -285,6 +292,7 @@ public class ContributionEditPanel extends PhetPanel {
                             // TODO: verify that everything is properly escaped
                             HashMap map = new HashMap();
                             map.put( "0", fileUpload.getClientFileName() );
+                            map.put( "1", ContributionFile.getFiletypes( ContributionEditPanel.this ) );
                             error( uploadPanel.getField(), "contribution.edit.validation.fileType", map );
                         }
                     }
