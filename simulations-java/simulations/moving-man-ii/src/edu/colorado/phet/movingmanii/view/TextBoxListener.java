@@ -11,8 +11,10 @@ import java.awt.event.FocusEvent;
 /**
  * @author Sam Reid
  */
-public class TextBoxListener {
-    public static class Position {
+public interface TextBoxListener {
+    void addListeners(final TextBox textBox);
+
+    public static class Position implements TextBoxListener {
         MovingManModel model;
 
         public Position(MovingManModel model) {
@@ -44,7 +46,7 @@ public class TextBoxListener {
         }
     }
 
-    public static class Velocity {
+    public static class Velocity implements TextBoxListener {
         private final MovingManModel model;
 
         public Velocity(MovingManModel model) {
@@ -75,7 +77,7 @@ public class TextBoxListener {
 
     }
 
-    public static class Acceleration {
+    public static class Acceleration implements TextBoxListener {
         private final MovingManModel model;
 
         public Acceleration(MovingManModel model) {

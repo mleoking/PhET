@@ -4,6 +4,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 
@@ -62,6 +63,10 @@ public class TextBox extends PNode {
 
     public void addFocusListener(FocusListener focusListener) {
         swingTextField.addFocusListener(focusListener);
+    }
+
+    public Font getFont() {
+        return swingTextField.getFont();
     }
 
     public static interface Listener {
