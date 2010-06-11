@@ -13,7 +13,7 @@ public class MovingManDataSeries {
     private ArrayList<Listener> listeners = new ArrayList<Listener>();
 
     public TimeData[] getData() {
-        return data.toArray(new TimeData[0]);
+        return data.toArray(new TimeData[data.size()]);
     }
 
     public void addPoint(double value, double time) {
@@ -22,12 +22,14 @@ public class MovingManDataSeries {
 
     public void addPoint(TimeData point) {
         data.add(point);
-        notifyDataChanged();
+        for (Listener listener : listeners) {
+            listener.dataPointAdded(point);
+        }
     }
 
-    private void notifyDataChanged() {
+    private void notifyEntrireSeriesChanged() {
         for (Listener listener : listeners) {
-            listener.changed();
+            listener.entireSeriesChanged();
         }
     }
 
@@ -42,7 +44,7 @@ public class MovingManDataSeries {
     public void setData(TimeData[] point2Ds) {
         data.clear();
         data.addAll(Arrays.asList(point2Ds));
-        notifyDataChanged();
+        notifyEntrireSeriesChanged();
     }
 
     public TimeData[] getPointsInRange(int min, int max) {
@@ -58,7 +60,7 @@ public class MovingManDataSeries {
 
     public void clear() {
         data.clear();
-        notifyDataChanged();
+        notifyEntrireSeriesChanged();
     }
 
     public TimeData getLastPoint() {
@@ -70,7 +72,9 @@ public class MovingManDataSeries {
     }
 
     public static interface Listener {
-        void changed();
+        void entireSeriesChanged();
+
+        void dataPointAdded(TimeData point);
     }
 
     public void addListener(Listener listener) {
@@ -117,6 +121,6 @@ public class MovingManDataSeries {
 
     private void removePoint(int i) {
         data.remove(i);
-        notifyDataChanged();
+        notifyEntrireSeriesChanged();
     }
 }
