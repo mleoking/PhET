@@ -1,3 +1,5 @@
+6/11/10 use strengths and concentrations for "Test" solutions as specified by KL
+6/11/10 refinement of Solution and Solute model hierarchies
 6/9/10 adapt magnifying glass from prototype
 6/9/10 wire up controls to set "test" solutions
 6/9/10 fix i18n of pH meter display

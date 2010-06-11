@@ -27,6 +27,10 @@ public abstract class AqueousSolution {
     private double initialConcentration; // initial concentration of the solute, at start of reaction
     private final EventListenerList listeners;
     
+    public interface ICustomSolution {
+        public void setInitialConcentration( double initialConcentration );
+    }
+    
     public AqueousSolution( Solute solute, double initialConcentration ) {
         this.solute = solute;
         this.initialConcentration = initialConcentration;
@@ -43,9 +47,11 @@ public abstract class AqueousSolution {
     
     /**
      * Sets the initial concentration of the solute, at the start of the reaction.
+     * Initial concentration is immutable for real solutions.
+     * This method is provided by use by "custom" solutions whose concentration is mutable.
      * @param initialConcentration
      */
-    public void setInitialConcentration( double initialConcentration ) {
+    protected void setInitialConcentration( double initialConcentration ) {
         if ( initialConcentration != this.initialConcentration ) {
             this.initialConcentration = initialConcentration;
             fireInitialConcentrationChanged();

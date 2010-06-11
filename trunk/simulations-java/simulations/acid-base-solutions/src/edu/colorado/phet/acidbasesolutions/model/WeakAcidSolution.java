@@ -2,15 +2,18 @@
 
 package edu.colorado.phet.acidbasesolutions.model;
 
+import edu.colorado.phet.acidbasesolutions.model.Acid.CustomWeakAcid;
+import edu.colorado.phet.acidbasesolutions.model.Acid.TestWeakAcid;
+
 /**
  * An aqueous solution whose solute is a weak acid.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class WeakAcidSolution extends AqueousSolution {
+public abstract class WeakAcidSolution extends AqueousSolution {
     
-    public WeakAcidSolution( Solute solute, double concentration ) {
-        super( solute, concentration );
+    public WeakAcidSolution( Solute solute, double initialConcentration ) {
+        super( solute, initialConcentration );
     }
 
     // [HA] = c - [H3O+]
@@ -38,5 +41,23 @@ public class WeakAcidSolution extends AqueousSolution {
     // [H2O] = W - [A-]
     public double getH2OConcentration() {
         return getWaterConcentration() - getProductConcentration();
+    }
+    
+    public static class TestWeakAcidSolution extends WeakAcidSolution {
+        public TestWeakAcidSolution() {
+            super( new TestWeakAcid(), 1E-2 /* concentration */ );
+        }
+    }
+    
+    public static class CustomWeakAcidSolution extends WeakAcidSolution implements ICustomSolution {
+        
+        public CustomWeakAcidSolution( double strength, double initialConcentration ) {
+            super( new CustomWeakAcid( strength ), initialConcentration );
+        }
+        
+        @Override
+        public void setInitialConcentration( double initialConcentration ) {
+            super.setInitialConcentration( initialConcentration );
+        }
     }
 }
