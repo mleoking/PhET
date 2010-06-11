@@ -198,6 +198,7 @@ public class MovingManModel {
         this.time = state.getTime();
         this.walls.setValue(state.getWalls());
         this.movingMan.setState(state.getMovingManState());
+        setMousePosition(state.getMovingManState().getPosition());
         this.chartCursor.setTime(time);
         //todo: notify time changed?
     }

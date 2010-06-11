@@ -1,3 +1,4 @@
+Fixed: position slider does not play back values
 Added a workaround to prevent high frequency oscillation of derivatives around +/- 1E-12
 Performance improvements in model
 Added a go button icon to the driving variable, when the sim is paused
