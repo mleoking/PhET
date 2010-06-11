@@ -26,11 +26,13 @@ public class LogInOutPanel extends PhetPanel {
 
         final PhetSession psession = PhetSession.get();
 
+        String path = getFullPath( context );
+
         if ( psession != null && psession.isSignedIn() ) {
             // user is signed in
 
             add( SignOutPage.getLinker().getLink( "sign-out", context, getPhetCycle() ) );
-            add( EditProfilePage.getLinker().getLink( "edit-profile", context, getPhetCycle() ) );
+            add( EditProfilePage.getLinker( path ).getLink( "edit-profile", context, getPhetCycle() ) );
             add( new InvisibleComponent( "sign-in" ) );
             add( new Label( "current-email", psession.getUser().getEmail() ) );
             if ( PhetSession.get().getUser().isTeamMember() ) {
@@ -48,7 +50,7 @@ public class LogInOutPanel extends PhetPanel {
             add( new InvisibleComponent( "edit-profile" ) );
             add( new InvisibleComponent( "sign-out" ) );
             if ( DistributionHandler.displayLogin( getPhetCycle() ) ) {
-                String path = getFullPath( context );
+
                 add( SignInPage.getLinker( path ).getLink( "sign-in", context, getPhetCycle() ) );
             }
             else {

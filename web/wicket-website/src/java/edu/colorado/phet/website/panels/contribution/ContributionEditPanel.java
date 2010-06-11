@@ -126,6 +126,9 @@ public class ContributionEditPanel extends PhetPanel {
             // initialize defaults for a new contribution
             contribution.setFromPhet( currentUser.isTeamMember() );
             contribution.setLocale( PhetWicketApplication.getDefaultLocale() );
+            contribution.setAuthors( currentUser.getName() );
+            contribution.setAuthorOrganization( currentUser.getOrganization() );
+            contribution.setContactEmail( currentUser.getEmail() );
         }
 
         // initialize selectors

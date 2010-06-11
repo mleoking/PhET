@@ -40,7 +40,7 @@ public class AdminEditProfilePage extends AdminPage {
             }
         } );
 
-        add( new EditProfilePanel( "edit-profile-panel", getPageContext(), user ) );
+        add( new EditProfilePanel( "edit-profile-panel", getPageContext(), user, null ) );
 
         add( new Label( "user-email", user.getEmail() ) );
 
