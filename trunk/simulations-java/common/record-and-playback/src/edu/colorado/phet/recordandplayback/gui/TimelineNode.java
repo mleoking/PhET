@@ -72,8 +72,31 @@ public class TimelineNode<T> extends PNode {
 
         handle.addInputEventListener(new CursorHandler());
         handle.addInputEventListener(new PBasicInputEventHandler() {
+            double relativeGrabPoint = Double.NaN;
+
             public void mouseDragged(PInputEvent event) {
-                handleDrag(event);
+                super.mouseDragged(event);
+                if (Double.isNaN(relativeGrabPoint))
+                    updateRelativeGrabLocation(event);
+                model.setTime(MathUtil.clamp(model.getMinRecordedTime(), getModelPoint(event) - relativeGrabPoint, model.getMaxRecordedTime()));
+            }
+
+            private void updateRelativeGrabLocation(PInputEvent event) {
+                relativeGrabPoint = getModelPoint(event) - model.getTime();
+            }
+
+            private double getModelPoint(PInputEvent event) {
+                return xToTime(event.getCanvasPosition().getX());
+            }
+
+            public void mousePressed(PInputEvent event) {
+                super.mousePressed(event);
+                updateRelativeGrabLocation(event);
+            }
+
+            public void mouseReleased(PInputEvent event) {
+                super.mouseReleased(event);
+                relativeGrabPoint = Double.NaN;
             }
         });
 
@@ -84,8 +107,11 @@ public class TimelineNode<T> extends PNode {
                 model.setTime(MathUtil.clamp(model.getMinRecordedTime(), t, model.getMaxRecordedTime()));
             }
 
+            /**Relative drag when just clicking in the timeline track*/
             public void mouseDragged(PInputEvent event) {
-                handleDrag(event);
+                model.setPaused(true);
+                double dx = event.getCanvasDelta().width;
+                model.setTime(MathUtil.clamp(model.getMinRecordedTime(), model.getTime() + deltaXtoDeltaTime(dx), model.getMaxRecordedTime()));
             }
         });
 
@@ -99,12 +125,6 @@ public class TimelineNode<T> extends PNode {
 
     private static Color darker(Color c, int delta) {
         return new Color(c.getRed() - delta, c.getGreen() - delta, c.getBlue() - delta);
-    }
-
-    private void handleDrag(PInputEvent event) {
-        model.setPaused(true);
-        double dx = event.getCanvasDelta().width;
-        model.setTime(MathUtil.clamp(model.getMinRecordedTime(), model.getTime() + deltaXtoDeltaTime(dx), model.getMaxRecordedTime()));
     }
 
     private double deltaXtoDeltaTime(double dx) {

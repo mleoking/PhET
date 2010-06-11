@@ -1,3 +1,4 @@
+6/10/2010 Made timeline thumb node remain close to mouse, even after hitting boundary
 6/10/2010 Converted RecordAndPlaybackModel to use time parameter instead of playback indices
 6/10/2010 Fixed: Record and playback timeline doesn't synchronize size at the right time (seems one behind); When switching back and forth tabs in moving man, the playback timeline changes size.
 5/31/2010 Fixed a bug that caused charts in motion-series only to clear after clearing the model twice.
