@@ -39,7 +39,7 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
             positionChart = new MovingManChart(new Rectangle2D.Double(0, -xMax, 20, xMax * 2));
             {
                 positionChart.addDataSeries(model.getPositionSeries(), MovingManColorScheme.POSITION_COLOR, 0);
-                positionChart.addChild(new CursorNode(model.getChartCursor(), positionChart));
+                positionChart.addChartChild(new CursorNode(model.getChartCursor(), positionChart));
                 positionChart.addInputEventListener(new PBasicInputEventHandler() {
                     public void mouseDragged(PInputEvent event) {
                         //todo: make it possible to draw a curve
@@ -94,7 +94,7 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
             double vMax = 60 / 5;
             velocityChart = new MovingManChart(new Rectangle2D.Double(0, -vMax, 20, vMax * 2));
             velocityChart.addDataSeries(model.getVelocitySeries(), MovingManColorScheme.VELOCITY_COLOR, MovingManModel.DERIVATIVE_RADIUS);
-            velocityChart.addChild(new CursorNode(model.getChartCursor(), velocityChart));
+            velocityChart.addChartChild(new CursorNode(model.getChartCursor(), velocityChart));
             addScreenChild(velocityChart);
 
             PNode positionThumb = new PImage(ColorArrows.createArrow(MovingManColorScheme.VELOCITY_COLOR));
@@ -147,7 +147,7 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
             double aMax = 60;
             accelerationChart = new MovingManChart(new Rectangle2D.Double(0, -aMax, 20, aMax * 2));
             accelerationChart.addDataSeries(model.getAccelerationSeries(), MovingManColorScheme.ACCELERATION_COLOR, MovingManModel.DERIVATIVE_RADIUS * 2);
-            accelerationChart.addChild(new CursorNode(model.getChartCursor(), accelerationChart));
+            accelerationChart.addChartChild(new CursorNode(model.getChartCursor(), accelerationChart));
             addScreenChild(accelerationChart);
 
             PNode positionThumb = new PImage(ColorArrows.createArrow(MovingManColorScheme.ACCELERATION_COLOR));

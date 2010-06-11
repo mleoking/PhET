@@ -207,6 +207,14 @@ public class MovingManChart extends PNode {
         return viewDimension;
     }
 
+    public double viewToModel(double x) {
+        return modelViewTransform2D.viewToModelDifferentialX(x);
+    }
+
+    public void addChartChild(PNode child) {
+        chartContents.addChild(child);
+    }
+
     public static class DomainTickMark extends PNode {
         private PText text;
 
