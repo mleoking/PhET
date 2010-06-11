@@ -115,10 +115,6 @@ public class MovingManNode extends PNode {
             updateRelativeGrabPoint(event);
         }
 
-        private void updateRelativeGrabPoint(PInputEvent event) {
-            relativeGrabPoint = getModelPoint(event) - movingManNode.model.getMousePosition();
-        }
-
         public void mouseDragged(PInputEvent event) {
             super.mouseDragged(event);
             if (Double.isNaN(relativeGrabPoint)) {
@@ -131,9 +127,12 @@ public class MovingManNode extends PNode {
             relativeGrabPoint = Double.NaN;
         }
 
+        private void updateRelativeGrabPoint(PInputEvent event) {
+            relativeGrabPoint = getModelPoint(event) - movingManNode.model.getMousePosition();
+        }
+
         private double getModelPoint(PInputEvent event) {
-            double mappedPoint = movingManNode.viewToModel(event.getCanvasPosition().getX());
-            return mappedPoint;
+            return movingManNode.viewToModel(event.getCanvasPosition().getX());
         }
     }
 }
