@@ -4,6 +4,7 @@ package edu.colorado.phet.acidbasesolutions.model;
 
 import edu.colorado.phet.acidbasesolutions.model.Acid.CustomStrongAcid;
 import edu.colorado.phet.acidbasesolutions.model.Acid.TestStrongAcid;
+import edu.colorado.phet.acidbasesolutions.model.Solute.ICustomSolute;
 
 
 /**
@@ -42,16 +43,28 @@ public abstract class StrongAcidSolution extends AqueousSolution {
         return getWaterConcentration() - getInitialConcentration();
     }
     
+    /**
+     * A generic "test" solution whose solute is a strong acid.
+     * Strength and concentration are immutable.
+     */
     public static class TestStrongAcidSolution extends StrongAcidSolution {
         public TestStrongAcidSolution() {
             super( new TestStrongAcid(), 1E-2 /* concentration */ );
         }
     }
     
+    /**
+     * A generic "custom" solution whose solute is a strong acid.
+     * Strength and concentration are mutable.
+     */
     public static class CustomStrongAcidSolution extends StrongAcidSolution implements ICustomSolution {
         
         public CustomStrongAcidSolution( double strength, double initialConcentration ) {
             super( new CustomStrongAcid( strength ), initialConcentration );
+        }
+        
+        public void setSoluteStrength( double strength ) {
+            ( (ICustomSolute) getSolute() ).setStrength( strength );
         }
         
         @Override
