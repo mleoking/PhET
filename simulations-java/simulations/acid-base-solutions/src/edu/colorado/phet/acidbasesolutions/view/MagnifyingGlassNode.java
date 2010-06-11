@@ -38,7 +38,7 @@ public class MagnifyingGlassNode extends PhetPNode {
     private final Ellipse2D circlePath;
     private final MoleculesNode moleculesNode;
     
-    public MagnifyingGlassNode( ABSModel model ) {
+    public MagnifyingGlassNode( ABSModel model, boolean waterVisible ) {
         super();
         
         this.model = model;
@@ -66,7 +66,7 @@ public class MagnifyingGlassNode extends PhetPNode {
         circleNode.setStrokePaint( GLASS_STROKE_COLOR );
         addChild( circleNode );
         
-        moleculesNode = new MoleculesNode( model );
+        moleculesNode = new MoleculesNode( model, waterVisible );
         circleNode.addChild( moleculesNode ); // clip images to circle
         
         updateGeometry();

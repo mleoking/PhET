@@ -2,9 +2,9 @@
 
 package edu.colorado.phet.acidbasesolutions.model;
 
-import edu.colorado.phet.acidbasesolutions.model.Base.CustomWeakBase;
-import edu.colorado.phet.acidbasesolutions.model.Base.TestWeakBase;
-import edu.colorado.phet.acidbasesolutions.model.Solute.ICustomSolute;
+import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
+import edu.colorado.phet.acidbasesolutions.model.Molecule.GenericWeakBaseMolecule;
+import edu.colorado.phet.acidbasesolutions.model.Molecule.GenericWeakBaseProductMolecule;
 
 /**
  * An aqueous solution whose solute is a weak base.
@@ -13,19 +13,19 @@ import edu.colorado.phet.acidbasesolutions.model.Solute.ICustomSolute;
  */
 public abstract class WeakBaseSolution extends AqueousSolution {
 
-    public WeakBaseSolution( Solute solute, double initialConcentration ) {
-        super( solute, initialConcentration );
+    public WeakBaseSolution( Molecule solute, Molecule product, double strength, double initialConcentration ) {
+        super( solute, product, strength, initialConcentration );
     }
     
     // [B] = c - [BH+]
-    public double getReactantConcentration() {
-        return getInitialConcentration() - getProductConcentration();
+    public double getSoluteConcentration() {
+        return getConcentration() - getProductConcentration();
     }
     
     // [BH+] = ( -Kb + sqrt( Kb*Kb + 4*Kb*c ) ) / 2 
     public double getProductConcentration() {
-        final double Kb = getSolute().getStrength();
-        final double c = getInitialConcentration();
+        final double Kb = getStrength();
+        final double c = getConcentration();
         return (-Kb + Math.sqrt( ( Kb * Kb ) + ( 4 * Kb * c ) ) ) / 2;
     }
     
@@ -44,13 +44,26 @@ public abstract class WeakBaseSolution extends AqueousSolution {
         return getWaterConcentration() - getProductConcentration();
     }
     
+    protected boolean isValidStrength( double strength ) {
+        return ABSConstants.WEAK_STRENGTH_RANGE.contains( strength );
+    }
+    
+    /**
+     * A generic weak base has solute B, product BH+.
+     */
+    public static abstract class GenericWeakBaseSolution extends WeakBaseSolution {
+        public GenericWeakBaseSolution( double strength, double concentration ) {
+            super( new GenericWeakBaseMolecule(), new GenericWeakBaseProductMolecule(), strength, concentration );
+        }
+    }
+    
     /**
      * A generic "test" solution whose solute is a weak base.
      * Strength and concentration are immutable.
      */
-    public static class TestWeakBaseSolution extends WeakBaseSolution {
+    public static class TestWeakBaseSolution extends GenericWeakBaseSolution {
         public TestWeakBaseSolution() {
-            super( new TestWeakBase(), 1E-2 /* concentration */ );
+            super( 1E-4 /* strength */, 1E-2 /* concentration */ );
         }
     }
 
@@ -58,19 +71,20 @@ public abstract class WeakBaseSolution extends AqueousSolution {
      * A generic "custom" solution whose solute is a weak base.
      * Strength and concentration are mutable.
      */
-    public static class CustomWeakBaseSolution extends WeakBaseSolution implements ICustomSolution {
+    public static class CustomWeakBaseSolution extends GenericWeakBaseSolution implements ICustomSolution {
 
-        public CustomWeakBaseSolution( double strength, double initialConcentration ) {
-            super( new CustomWeakBase( strength ), initialConcentration );
-        }
-        
-        public void setSoluteStrength( double strength ) {
-            ( (ICustomSolute) getSolute() ).setStrength( strength );
+        public CustomWeakBaseSolution( double strength, double concentration ) {
+            super( strength, concentration );
         }
         
         @Override
-        public void setInitialConcentration( double initialConcentration ) {
-            super.setInitialConcentration( initialConcentration );
+        public void setStrength( double strength ) {
+            super.setStrength( strength );
+        }
+        
+        @Override
+        public void setConcentration( double concentration ) {
+            super.setConcentration( concentration );
         }
     }
 }

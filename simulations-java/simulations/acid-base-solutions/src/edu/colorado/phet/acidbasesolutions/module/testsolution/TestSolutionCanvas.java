@@ -32,7 +32,7 @@ public class TestSolutionCanvas extends ABSCanvas {
         pHMeterNode = new PHMeterNode( ABSConstants.PH_METER_HEIGHT, model );
         addNode( pHMeterNode );
         
-        magnifyingGlassNode = new MagnifyingGlassNode( model );
+        magnifyingGlassNode = new MagnifyingGlassNode( model, ABSConstants.WATER_VISIBLE );
         addNode( magnifyingGlassNode );
         
         doStaticLayout();

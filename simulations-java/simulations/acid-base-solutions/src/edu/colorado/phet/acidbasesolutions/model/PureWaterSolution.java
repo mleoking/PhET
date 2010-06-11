@@ -10,13 +10,17 @@ package edu.colorado.phet.acidbasesolutions.model;
 public class PureWaterSolution extends AqueousSolution {
 
     public PureWaterSolution() {
-        super( null, 0 );
+        super( null, null, 0, 0 );
     }
 
-    public double getH2OConcentration() {
-        return getWaterConcentration();
+    public double getSoluteConcentration() {
+        return 0;
     }
-
+    
+    public double getProductConcentration() {
+        return 0;
+    }
+    
     public double getH3OConcentration() {
         return Math.sqrt( getWaterEquilibriumConstant() ); // Kw = [H30] * [OH-]
     }
@@ -25,11 +29,11 @@ public class PureWaterSolution extends AqueousSolution {
         return getH3OConcentration();
     }
 
-    public double getProductConcentration() {
-        return 0;
+    public double getH2OConcentration() {
+        return getWaterConcentration();
     }
 
-    public double getReactantConcentration() {
-        return 0;
+    protected boolean isValidStrength( double strength ) {
+        return false;
     }
 }

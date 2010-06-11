@@ -61,7 +61,7 @@ public class ABSConstants {
     public static final IntegerRange MAX_IMAGES_RANGE = new IntegerRange( 100, 2000, 200 );;
     public static final IntegerRange MAX_H2O_IMAGES_RANGE = new IntegerRange( 300, 10000, 2000 );;
     public static final DoubleRange IMAGE_SCALE_RANGE = new DoubleRange( 0.25, 2.5, 1 );
-    public static final boolean SHOW_H2O = false;
+    public static final boolean WATER_VISIBLE = false;
     
     //----------------------------------------------------------------------------
     // Control

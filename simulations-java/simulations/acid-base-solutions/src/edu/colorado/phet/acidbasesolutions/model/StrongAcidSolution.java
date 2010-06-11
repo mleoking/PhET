@@ -2,10 +2,9 @@
 
 package edu.colorado.phet.acidbasesolutions.model;
 
-import edu.colorado.phet.acidbasesolutions.model.Acid.CustomStrongAcid;
-import edu.colorado.phet.acidbasesolutions.model.Acid.TestStrongAcid;
-import edu.colorado.phet.acidbasesolutions.model.Solute.ICustomSolute;
-
+import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
+import edu.colorado.phet.acidbasesolutions.model.Molecule.GenericAcidMolecule;
+import edu.colorado.phet.acidbasesolutions.model.Molecule.GenericAcidProductMolecule;
 
 /**
  * An aqueous solution whose solute is a strong acid.
@@ -14,23 +13,23 @@ import edu.colorado.phet.acidbasesolutions.model.Solute.ICustomSolute;
  */
 public abstract class StrongAcidSolution extends AqueousSolution {
 
-    public StrongAcidSolution( Solute solute, double initialConcentration ) {
-        super( solute, initialConcentration );
+    public StrongAcidSolution( Molecule solute, Molecule product, double strength, double initialConcentration ) {
+        super( solute, product, strength, initialConcentration );
     }
 
     // [HA] = 0
-    public double getReactantConcentration() {
+    public double getSoluteConcentration() {
         return 0;
     }
     
     // [A-] = c
     public double getProductConcentration() {
-        return getInitialConcentration();
+        return getConcentration();
     }
     
     // [H3O+] = c
     public double getH3OConcentration() {
-        return getInitialConcentration();
+        return getConcentration();
     }
     
     // [OH-] = Kw / [H3O+]
@@ -40,16 +39,29 @@ public abstract class StrongAcidSolution extends AqueousSolution {
     
     // [H2O] = W - c
     public double getH2OConcentration() {
-        return getWaterConcentration() - getInitialConcentration();
+        return getWaterConcentration() - getConcentration();
+    }
+
+    protected boolean isValidStrength( double strength ) {
+        return strength > ABSConstants.WEAK_STRENGTH_RANGE.getMax();
+    }
+    
+    /**
+     * A generic strong acid has solute HA, product A-.
+     */
+    public static abstract class GenericStrongAcidSolution extends StrongAcidSolution {
+        public GenericStrongAcidSolution( double strength, double concentration ) {
+            super( new GenericAcidMolecule(), new GenericAcidProductMolecule(), strength, concentration );
+        }
     }
     
     /**
      * A generic "test" solution whose solute is a strong acid.
      * Strength and concentration are immutable.
      */
-    public static class TestStrongAcidSolution extends StrongAcidSolution {
+    public static class TestStrongAcidSolution extends GenericStrongAcidSolution {
         public TestStrongAcidSolution() {
-            super( new TestStrongAcid(), 1E-2 /* concentration */ );
+            super( 2 /* strength */, 1E-2 /* concentration */ );
         }
     }
     
@@ -57,19 +69,20 @@ public abstract class StrongAcidSolution extends AqueousSolution {
      * A generic "custom" solution whose solute is a strong acid.
      * Strength and concentration are mutable.
      */
-    public static class CustomStrongAcidSolution extends StrongAcidSolution implements ICustomSolution {
+    public static class CustomStrongAcidSolution extends GenericStrongAcidSolution implements ICustomSolution {
         
-        public CustomStrongAcidSolution( double strength, double initialConcentration ) {
-            super( new CustomStrongAcid( strength ), initialConcentration );
-        }
-        
-        public void setSoluteStrength( double strength ) {
-            ( (ICustomSolute) getSolute() ).setStrength( strength );
+        public CustomStrongAcidSolution( double strength, double concentration ) {
+            super( strength, concentration );
         }
         
         @Override
-        public void setInitialConcentration( double initialConcentration ) {
-            super.setInitialConcentration( initialConcentration );
+        public void setStrength( double strength ) {
+            super.setStrength( strength );
+        }
+        
+        @Override
+        public void setConcentration( double concentration ) {
+            super.setConcentration( concentration );
         }
     }
 }
