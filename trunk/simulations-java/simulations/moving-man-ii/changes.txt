@@ -1,3 +1,4 @@
+Performance improvements in model
 Added a go button icon to the driving variable, when the sim is paused
 Fixed: Chart cursor drag + display should respect dynamic chart size
 Fixed: Chart cursor node should disappear when chart minimized
