@@ -19,6 +19,7 @@ import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.authentication.AuthenticatedPage;
+import edu.colorado.phet.website.authentication.EditProfilePage;
 import edu.colorado.phet.website.authentication.RegisterPage;
 import edu.colorado.phet.website.authentication.SignInPage;
 import edu.colorado.phet.website.components.*;
@@ -144,7 +145,7 @@ public abstract class PhetPage extends WebPage implements Stylable {
                 add( new InvisibleComponent( "translation-preview-notification" ) );
             }
 
-            if ( this instanceof SignInPage || this instanceof RegisterPage ) {
+            if ( this instanceof SignInPage || this instanceof RegisterPage || this instanceof EditProfilePage ) {
                 add( new InvisibleComponent( "log-in-out-panel" ) );
             }
             else {
