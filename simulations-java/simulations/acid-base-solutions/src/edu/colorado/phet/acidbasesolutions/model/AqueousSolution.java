@@ -12,9 +12,10 @@ import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 
 /** 
- * In chemistry, a solution is a homogeneous mixture composed of two or more
- * substances. In such a mixture, a solute is dissolved in another substance,
- * known as a solvent. In an aqueous solution, the solvent is water.
+ * A solution is a homogeneous mixture composed of two or more substances.
+ * In such a mixture, a solute is dissolved in another substance, known as a solvent.
+ * In an aqueous solution, the solvent is water.  The substance that is produced as 
+ * the result of the solute dissolving is called the product.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -29,11 +30,24 @@ public abstract class AqueousSolution {
     private double concentration; // initial concentration of the solute, at the start of the reaction
     private final EventListenerList listeners;
     
+    /**
+     * In real solutions, solute strength and initial concentration of the solute are immuatable. 
+     * For make-believe "custom" solutions, strength and concentration may be made mutable by 
+     * implementing this interface.
+     */
     public interface ICustomSolution {
         public void setStrength( double strength );
         public void setConcentration( double concentration );
     }
     
+    /**
+     * Constructor.
+     * 
+     * @param solute the substance dissolved in water
+     * @param product the substance produced by dissolving the solute
+     * @param strength the strength of the solute
+     * @param concentration the initial concentration of the solute, at the start of the reaction
+     */
     public AqueousSolution( Molecule solute, Molecule product, double strength, double concentration ) {
         this.solute = solute;
         this.product = product;
