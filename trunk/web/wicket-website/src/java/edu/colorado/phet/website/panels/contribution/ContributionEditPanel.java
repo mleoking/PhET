@@ -294,6 +294,7 @@ public class ContributionEditPanel extends PhetPanel {
                             map.put( "0", fileUpload.getClientFileName() );
                             map.put( "1", ContributionFile.getFiletypes( ContributionEditPanel.this ) );
                             error( uploadPanel.getField(), "contribution.edit.validation.fileType", map );
+                            logger.warn( "Attempt to upload unaccepted file type for file: " + fileUpload.getClientFileName() );
                         }
                     }
                 }
