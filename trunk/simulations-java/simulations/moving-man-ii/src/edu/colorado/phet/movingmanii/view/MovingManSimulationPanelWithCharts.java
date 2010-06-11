@@ -3,7 +3,9 @@ package edu.colorado.phet.movingmanii.view;
 import edu.colorado.phet.common.motion.tests.ColorArrows;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.movingmanii.MovingManColorScheme;
-import edu.colorado.phet.movingmanii.charts.*;
+import edu.colorado.phet.movingmanii.charts.CursorNode;
+import edu.colorado.phet.movingmanii.charts.MovingManChart;
+import edu.colorado.phet.movingmanii.charts.MovingManChartSliderNode;
 import edu.colorado.phet.movingmanii.model.MovingMan;
 import edu.colorado.phet.movingmanii.model.MovingManModel;
 import edu.colorado.phet.movingmanii.model.MovingManState;
@@ -17,8 +19,6 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.Rectangle2D;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 /**
  * @author Sam Reid
@@ -27,12 +27,15 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
     protected MovingManChart positionChart;
     protected MovingManChart velocityChart;
     protected MovingManChart accelerationChart;
+    protected ChartControl positionChartControl;
+    protected ChartControl velocityChartControl;
+    protected ChartControl accelerationChartControl;
 
     public MovingManSimulationPanelWithCharts(final MovingManModel model, final RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel) {
         super(model, recordAndPlaybackModel, 100);
         int xMax = 10;
-        final int chartX = 150;
         {
+            //TODO: Factor out chart code if possible
             positionChart = new MovingManChart(new Rectangle2D.Double(0, -xMax, 20, xMax * 2));
             {
                 positionChart.addDataSeries(model.getPositionSeries(), MovingManColorScheme.POSITION_COLOR, 0);
@@ -83,23 +86,8 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
                 }
             });
 
-            final LabeledTextBox textBox = new LabeledTextBox("Position", MovingManColorScheme.POSITION_COLOR);
-            new TextBoxListener.Position(model).addListeners(textBox);
-            final PropertyChangeListener textBoxLocationUpdate = new PropertyChangeListener() {
-                public void propertyChange(PropertyChangeEvent evt) {
-                    textBox.setOffset(chartSliderNode.getFullBounds().getX() - textBox.getFullBounds().getWidth() - 10, chartSliderNode.getOffset().getY());
-                }
-            };
-            textBoxLocationUpdate.propertyChange(null);
-            chartSliderNode.addPropertyChangeListener(PNode.PROPERTY_FULL_BOUNDS, textBoxLocationUpdate);
-            addScreenChild(textBox);
-            SimpleObserver simpleObserver = new SimpleObserver() {
-                public void update() {
-                    textBox.setVisible(positionChart.getMaximized().getValue());
-                }
-            };
-            simpleObserver.update();
-            positionChart.getMaximized().addObserver(simpleObserver);
+            positionChartControl = new ChartControl("Position", MovingManColorScheme.POSITION_COLOR, new TextBoxListener.Position(model), chartSliderNode, positionChart, "m");
+            addScreenChild(positionChartControl);
         }
 
         {//add the velocity chart
@@ -147,33 +135,11 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
                 }
             });
 
-            final TextBox textBox = new LabeledTextBox("Velocity", MovingManColorScheme.VELOCITY_COLOR);
-            new TextBoxListener.Velocity(model).addListeners(textBox);
-            final PropertyChangeListener textBoxLocationUpdate = new PropertyChangeListener() {
-                public void propertyChange(PropertyChangeEvent evt) {
-                    textBox.setOffset(chartSliderNode.getFullBounds().getX() - textBox.getFullBounds().getWidth() - 10, chartSliderNode.getOffset().getY());
-                }
-            };
-            textBoxLocationUpdate.propertyChange(null);
-            chartSliderNode.addPropertyChangeListener(PNode.PROPERTY_FULL_BOUNDS, textBoxLocationUpdate);
-            addScreenChild(textBox);
-            SimpleObserver simpleObserver = new SimpleObserver() {
-                public void update() {
-                    textBox.setVisible(velocityChart.getMaximized().getValue());
-                }
-            };
-            simpleObserver.update();
-            velocityChart.getMaximized().addObserver(simpleObserver);
-
-            final PSwing pSwing = new PSwing(new ShowVelocityVectorCheckBox("<html>Show<br>Vector<html>", model.getVelocityVectorVisible()));
-            addScreenChild(pSwing);
-            final PropertyChangeListener checkBoxLayout = new PropertyChangeListener() {
-                public void propertyChange(PropertyChangeEvent evt) {
-                    pSwing.setOffset(textBox.getFullBounds().getX(), textBox.getFullBounds().getMaxY());
-                }
-            };
-            checkBoxLayout.propertyChange(null);
-            textBox.addPropertyChangeListener(PNode.PROPERTY_FULL_BOUNDS, checkBoxLayout);
+            velocityChartControl = new ChartControl("Velocity", MovingManColorScheme.VELOCITY_COLOR, new TextBoxListener.Velocity(model), chartSliderNode, velocityChart, "m/s");
+            final PSwing pSwing = new PSwing(new ShowVectorCheckBox("Show Vector", model.getVelocityVectorVisible()));
+            pSwing.setOffset(0, velocityChartControl.getFullBounds().getHeight());
+            velocityChartControl.addChild(pSwing);
+            addScreenChild(velocityChartControl);
         }
 
         //Add the acceleration chart
@@ -223,41 +189,23 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
                 }
             });
 
-            final TextBox textBox = new LabeledTextBox("Acceleration", MovingManColorScheme.ACCELERATION_COLOR);
-            new TextBoxListener.Acceleration(model).addListeners(textBox);
-            final PropertyChangeListener textBoxLocationUpdate = new PropertyChangeListener() {
-                public void propertyChange(PropertyChangeEvent evt) {
-                    textBox.setOffset(chartSliderNode.getFullBounds().getX() - textBox.getFullBounds().getWidth() - 10, chartSliderNode.getOffset().getY());
-                }
-            };
-            textBoxLocationUpdate.propertyChange(null);
-            chartSliderNode.addPropertyChangeListener(PNode.PROPERTY_FULL_BOUNDS, textBoxLocationUpdate);
-            addScreenChild(textBox);
-            SimpleObserver simpleObserver = new SimpleObserver() {
-                public void update() {
-                    textBox.setVisible(accelerationChart.getMaximized().getValue());
-                }
-            };
-            simpleObserver.update();
-            accelerationChart.getMaximized().addObserver(simpleObserver);
-
-            final PSwing pSwing = new PSwing(new ShowVelocityVectorCheckBox("<html>Show<br>Vector<html>", model.getAccelerationVectorVisible()));
-            addScreenChild(pSwing);
-            final PropertyChangeListener checkBoxLayout = new PropertyChangeListener() {
-                public void propertyChange(PropertyChangeEvent evt) {
-                    pSwing.setOffset(textBox.getFullBounds().getX(), textBox.getFullBounds().getMaxY());
-                }
-            };
-            checkBoxLayout.propertyChange(null);
-            textBox.addPropertyChangeListener(PNode.PROPERTY_FULL_BOUNDS, checkBoxLayout);
+            accelerationChartControl = new ChartControl("Acceleration", MovingManColorScheme.ACCELERATION_COLOR, new TextBoxListener.Acceleration(model), chartSliderNode, accelerationChart, "m/s/s");
+            final PSwing pSwing = new PSwing(new ShowVectorCheckBox("Show Vector", model.getAccelerationVectorVisible()));
+            pSwing.setOffset(0, accelerationChartControl.getFullBounds().getHeight());
+            accelerationChartControl.addChild(pSwing);
+            addScreenChild(accelerationChartControl);
         }
 
         ComponentAdapter updateLayout = new ComponentAdapter() {
             public void componentResized(ComponentEvent e) {
+                double maxChartControlWidth = Math.max(Math.max(positionChartControl.getFullBounds().getWidth(), velocityChartControl.getFullBounds().getWidth()), accelerationChartControl.getFullBounds().getWidth());
+                double padding = 75;//width of slider plus graph range labels
+                final double chartX = maxChartControlWidth + padding;
                 final double chartsY = getPlayAreaRulerNode().getFullBounds().getMaxY() + 10;//top of 1st chart
                 double availableHeightForCharts = getHeight() - chartsY;
                 double sizePerChart = availableHeightForCharts / 3;
-                double chartWidth = getWidth() - 200;
+                double roomForZoomButtons = 55;
+                double chartWidth = getWidth() - chartX - roomForZoomButtons;
                 double chartHeight = sizePerChart - 24;//for inset
 
                 positionChart.setOffset(chartX, chartsY);

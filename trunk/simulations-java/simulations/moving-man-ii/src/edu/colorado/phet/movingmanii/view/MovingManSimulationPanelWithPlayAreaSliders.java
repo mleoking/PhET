@@ -79,7 +79,7 @@ public class MovingManSimulationPanelWithPlayAreaSliders extends MovingManSimula
             addScreenChild(slider);
 
 
-            final PSwing pSwing = new PSwing(new ShowVelocityVectorCheckBox("Velocity Vector", model.getVelocityVectorVisible()));
+            final PSwing pSwing = new PSwing(new ShowVectorCheckBox("Velocity Vector", model.getVelocityVectorVisible()));
             pSwing.setOffset(slider.getFullBounds().getMaxX() + 10, slider.getFullBounds().getCenterY() - pSwing.getFullBounds().getHeight() / 2);
             addComponentListener(new ComponentAdapter() {
                 @Override
@@ -116,7 +116,7 @@ public class MovingManSimulationPanelWithPlayAreaSliders extends MovingManSimula
             });
             addScreenChild(slider);
 
-            final PSwing pSwing = new PSwing(new ShowVelocityVectorCheckBox("Acceleration Vector", model.getAccelerationVectorVisible()));
+            final PSwing pSwing = new PSwing(new ShowVectorCheckBox("Acceleration Vector", model.getAccelerationVectorVisible()));
             pSwing.setOffset(slider.getFullBounds().getMaxX() + 10, slider.getFullBounds().getCenterY() - pSwing.getFullBounds().getHeight() / 2);
             addComponentListener(new ComponentAdapter() {
                 @Override

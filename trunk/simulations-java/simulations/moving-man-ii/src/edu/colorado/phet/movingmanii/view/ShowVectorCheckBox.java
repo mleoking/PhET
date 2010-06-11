@@ -10,8 +10,8 @@ import java.awt.event.ActionListener;
 /**
  * @author Sam Reid
  */
-public class ShowVelocityVectorCheckBox extends JCheckBox {
-    public ShowVelocityVectorCheckBox(String title, final MutableBoolean visibleProperty) {
+public class ShowVectorCheckBox extends JCheckBox {
+    public ShowVectorCheckBox(String title, final MutableBoolean visibleProperty) {
         super(title, visibleProperty.getValue());
         addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
