@@ -136,14 +136,10 @@ public class RecordAndPlaybackControlPanel<T> extends PhetPCanvas {
 
         setPreferredSize(preferredSize);
 
-        //todo: this seems like it could suffer from the problem CM & I discovered that Component resize events are not synchronous
+        //todo: this seems like it could suffer from the problem CM & I discovered that Component resize events are neither synchronous nor immediate
         simPanel.addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent e) {
-                SwingUtilities.invokeLater(new Runnable() {
-                    public void run() {
-                        updateSize();
-                    }
-                });
+                updateSize();
             }
         });
 
@@ -204,7 +200,9 @@ public class RecordAndPlaybackControlPanel<T> extends PhetPCanvas {
         if (simPanel.getWidth() > 0) {
             Dimension pref = new Dimension(simPanel.getWidth(), preferredSize.height);
             setPreferredSize(pref);
-            updateLayout();
+            if (getParent() != null) {
+                getParent().doLayout(); //This is necessary to solve this problem: 6/10/2010 Fixed: Record and playback timeline doesn't synchronize size at the right time (seems one behind); When switching back and forth tabs in moving man, the playback timeline changes size.
+            }
         }
     }
 }
