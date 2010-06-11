@@ -13,6 +13,8 @@ import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
+import edu.colorado.phet.acidbasesolutions.model.ABSModel;
+import edu.colorado.phet.acidbasesolutions.model.ABSModel.ModelChangeAdapter;
 import edu.colorado.phet.acidbasesolutions.view.ABSRadioButton;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 
@@ -32,13 +34,22 @@ public class ToolsControl extends JPanel {
      * Subclass that hides some of the tools.
      */
     public static class FewerToolsControlPanel extends ToolsControl {
-        public FewerToolsControlPanel() {
+        public FewerToolsControlPanel( ABSModel model ) {
+            super( model );
             setPHPaperControlVisible( false );
             setCondutivityTesterControlVisible( false );
         }
     }
     
-    public ToolsControl() {
+    public ToolsControl( final ABSModel model ) {
+        
+        // model
+        model.addModelChangeListener( new ModelChangeAdapter() {
+            @Override
+            public void waterVisibleChanged() {
+                showWaterCheckBox.setSelected( model.isWaterVisible() );
+            }
+        });
         
         // border
         TitledBorder titledBorder = new TitledBorder( ABSStrings.TOOLS );
@@ -62,7 +73,7 @@ public class ToolsControl extends JPanel {
         showWaterCheckBox = new JCheckBox( ABSStrings.SHOW_WATER );
         showWaterCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                //XXX update
+                model.setWaterVisible( showWaterCheckBox.isSelected() );
             }
         });
         

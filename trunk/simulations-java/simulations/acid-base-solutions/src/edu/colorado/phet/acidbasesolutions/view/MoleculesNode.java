@@ -10,7 +10,7 @@ import edu.colorado.phet.acidbasesolutions.constants.ABSImages;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.model.PureWaterSolution;
-import edu.colorado.phet.acidbasesolutions.model.ABSModel.ModelListener;
+import edu.colorado.phet.acidbasesolutions.model.ABSModel.ModelChangeListener;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.AqueousSolutionChangeListener;
 import edu.colorado.phet.acidbasesolutions.model.MagnifyingGlass.MagnifyingGlassListener;
 import edu.colorado.phet.acidbasesolutions.view.IMoleculeCountStrategy.ConcentrationMoleculeCountStrategy;
@@ -50,7 +50,7 @@ public class MoleculesNode extends PComposite {
     // marker class for parents of MoleculeImageNode
     protected static class MoleculeImageParentNode extends PComposite {}
     
-    public MoleculesNode( final ABSModel model, boolean waterVisible ) {
+    public MoleculesNode( final ABSModel model ) {
         super();
         setPickable( false );
         
@@ -62,9 +62,12 @@ public class MoleculesNode extends PComposite {
         this.layeringStrategy = new FixedMoleculeLayeringStrategy();
         
         this.model = model;
-        model.addModelListener( new ModelListener() {
+        model.addModelChangeListener( new ModelChangeListener() {
             public void solutionChanged() {
                 setSolution( model.getSolution() );
+            }
+            public void waterVisibleChanged() {
+                setWaterVisible( model.isWaterVisible() );
             }
         });
         
@@ -100,18 +103,18 @@ public class MoleculesNode extends PComposite {
         addChild( parentOH );
         
         // default state
-        parentH2O.setVisible( waterVisible );
+        parentH2O.setVisible( model.isWaterVisible() );
         updateNumberOfMolecules();
     }
     
-    public boolean isH2OVisible() {
-        return parentH2O.getVisible();
-    }
-    
-    public void setH2OVisible( boolean visible ) {
-        if ( visible != isH2OVisible() ) {
+    private void setWaterVisible( boolean visible ) {
+        if ( visible != isWaterVisible() ) {
             parentH2O.setVisible( visible );
         }
+    }
+    
+    private boolean isWaterVisible() {
+        return parentH2O.getVisible();
     }
     
     public int getMaxMolecules() {

@@ -1,3 +1,4 @@
+6/11/10 wire up "Show Water" control
 6/11/10 big simplifications to model, eliminate Solute class hierarchy
 6/11/10 use strengths and concentrations for "Test" solutions as specified by KL
 6/11/10 refinement of Solution and Solute model hierarchies

@@ -6,6 +6,8 @@ import java.util.EventListener;
 
 import javax.swing.event.EventListenerList;
 
+import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
+
 /**
  * Model for the "Acid-Base Solutions" simulation.
  *
@@ -16,12 +18,15 @@ public class ABSModel {
     private final Beaker beaker;
     private final MagnifyingGlass magnifyingGlass;
     private AqueousSolution solution;
+    private boolean waterVisible; // water visibility, a global property, included in model for convenience
+    
     private EventListenerList listeners;
     
     public ABSModel() {
         beaker = new Beaker();
         magnifyingGlass = new MagnifyingGlass();
         solution = new PureWaterSolution();
+        waterVisible = ABSConstants.WATER_VISIBLE;
         listeners = new EventListenerList();
     }
     
@@ -44,21 +49,44 @@ public class ABSModel {
         return solution;
     }
     
-    public interface ModelListener extends EventListener {
+    public void setWaterVisible( boolean waterVisible ) {
+        if ( waterVisible != this.waterVisible ) {
+            this.waterVisible = waterVisible;
+            fireWaterVisibleChanged();
+        }
+    }
+    
+    public boolean isWaterVisible() {
+        return waterVisible;
+    }
+    
+    public interface ModelChangeListener extends EventListener {
         public void solutionChanged();
+        public void waterVisibleChanged();
     }
     
-    public void addModelListener( ModelListener listener ) {
-        listeners.add(  ModelListener.class, listener );
+    public static class ModelChangeAdapter implements ModelChangeListener {
+        public void solutionChanged() {}
+        public void waterVisibleChanged() {}
     }
     
-    public void removeModelListener( ModelListener listener ) {
-        listeners.remove(  ModelListener.class, listener );
+    public void addModelChangeListener( ModelChangeListener listener ) {
+        listeners.add( ModelChangeListener.class, listener );
+    }
+    
+    public void removeModelChangeListener( ModelChangeListener listener ) {
+        listeners.remove( ModelChangeListener.class, listener );
     }
     
     private void fireSolutionChanged() {
-        for ( ModelListener listener : listeners.getListeners( ModelListener.class ) ) {
+        for ( ModelChangeListener listener : listeners.getListeners( ModelChangeListener.class ) ) {
             listener.solutionChanged();
+        }
+    }
+    
+    private void fireWaterVisibleChanged() {
+        for ( ModelChangeListener listener : listeners.getListeners( ModelChangeListener.class ) ) {
+            listener.waterVisibleChanged();
         }
     }
 }
