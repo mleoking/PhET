@@ -12,6 +12,8 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 /**
+ * This is the panel to the left side of a chart with readouts and controls pertaining to the chart variables.
+ *
  * @author Sam Reid
  */
 public class ChartControl extends PNode {
