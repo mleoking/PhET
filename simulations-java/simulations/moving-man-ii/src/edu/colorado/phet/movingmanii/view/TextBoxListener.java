@@ -12,6 +12,8 @@ import java.awt.event.FocusEvent;
  * @author Sam Reid
  */
 public interface TextBoxListener {
+    final DefaultDecimalFormat decimalFormat = new DefaultDecimalFormat("0.00");
+
     void addListeners(final TextBox textBox);
 
     public static class Position implements TextBoxListener {
@@ -25,7 +27,7 @@ public interface TextBoxListener {
         public void addListeners(final TextBox textBox) {
             final MovingMan.Listener listener = new MovingMan.Listener() {
                 public void changed() {
-                    textBox.setText(new DefaultDecimalFormat("0.00").format(model.getMovingMan().getPosition()));
+                    textBox.setText(decimalFormat.format(model.getMovingMan().getPosition()));
                 }
             };
             listener.changed();//synchronize state on initialization
@@ -56,7 +58,7 @@ public interface TextBoxListener {
         public void addListeners(final TextBox textBox) {
             final MovingMan.Listener listener = new MovingMan.Listener() {
                 public void changed() {
-                    textBox.setText(new DefaultDecimalFormat("0.00").format(model.getMovingMan().getVelocity()));
+                    textBox.setText(decimalFormat.format(model.getMovingMan().getVelocity()));
                 }
             };
             model.getMovingMan().addListener(listener);
@@ -87,7 +89,7 @@ public interface TextBoxListener {
         public void addListeners(final TextBox textBox) {
             final MovingMan.Listener listener = new MovingMan.Listener() {
                 public void changed() {
-                    textBox.setText(new DefaultDecimalFormat("0.00").format(model.getMovingMan().getAcceleration()));
+                    textBox.setText(decimalFormat.format(model.getMovingMan().getAcceleration()));
                 }
             };
             model.getMovingMan().addListener(listener);
