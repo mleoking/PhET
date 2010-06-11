@@ -1,3 +1,5 @@
+Fixed: Chart cursor drag + display should respect dynamic chart size
+Fixed: Chart cursor node should disappear when chart minimized
 Added out-of-range sliders for vertical sliders (with thumb rotation) on chart tab
 Fixed a bug in the man drag handler
 Fixed: Stop recording data after 20 seconds to avoid leaking
