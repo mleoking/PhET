@@ -1,3 +1,4 @@
+6-11-2010: Store preferences after changing target number of hours, instead of just on shutdown
 6-8-2010: Store and restore target number of hours
 6-2-2010: Allow quotes to appear in notes
 6-1-2010: Filter categories through standard category set
