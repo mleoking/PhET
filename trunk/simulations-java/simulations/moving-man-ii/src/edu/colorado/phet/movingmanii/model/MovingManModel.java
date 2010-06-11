@@ -88,8 +88,15 @@ public class MovingManModel {
 
             //set instantaneous values
             movingMan.setPosition(averagePosition);
-            movingMan.setVelocity(velocityGraphSeries.getDataPoint(velocityGraphSeries.getNumPoints() - 1).getValue());//TODO: subtract off derivative radius so that the last value showed on chart is the same as the value on the man
-            movingMan.setAcceleration(accelerationGraphSeries.getDataPoint(accelerationGraphSeries.getNumPoints() - 1).getValue()); //- DERIVATIVE_RADIUS * 2
+            double instantVelocity = velocityGraphSeries.getLastPoint().getValue();
+            if (Math.abs(instantVelocity) < 1E-6)
+                instantVelocity = 0.0;//added a prevent high frequency wiggling around +/- 1E-12
+            movingMan.setVelocity(instantVelocity);//TODO: subtract off derivative radius so that the last value showed on chart is the same as the value on the man
+
+            double instantAcceleration = accelerationGraphSeries.getLastPoint().getValue();
+            if (Math.abs(instantAcceleration) < 1E-6)
+                instantAcceleration = 0.0;//prevent high frequency wiggling around +/- 1E-12
+            movingMan.setAcceleration(instantAcceleration); //- DERIVATIVE_RADIUS * 2
         } else if (movingMan.isVelocityDriven()) {
             mouseDataModelSeries.clear();//so that if the user switches to mouse-driven, it won't remember the wrong location.
             //record set point
@@ -109,7 +116,10 @@ public class MovingManModel {
             //set instantaneous values
             setMousePosition(wallResult.position);//so that if the user switches to mouse-driven, it will have the right location
             movingMan.setPosition(wallResult.position);
-            movingMan.setAcceleration(accelerationGraphSeries.getDataPoint(accelerationGraphSeries.getNumPoints() - 1).getValue());//todo: subtract - DERIVATIVE_RADIUS if possible
+            double instantAcceleration = accelerationGraphSeries.getLastPoint().getValue();
+            if (Math.abs(instantAcceleration) < 1E-6)
+                instantAcceleration = 0.0;//workaround to prevent high frequency wiggling around +/- 1E-12
+            movingMan.setAcceleration(instantAcceleration);//todo: subtract - DERIVATIVE_RADIUS if possible
             if (wallResult.collided) {
                 movingMan.setVelocity(0.0);
             }
