@@ -116,7 +116,7 @@ public class MovingManNode extends PNode {
         }
 
         private void updateRelativeGrabPoint(PInputEvent event) {
-            relativeGrabPoint = getModelPoint(event) - movingManNode.getOffset().getX();
+            relativeGrabPoint = getModelPoint(event) - movingManNode.model.getMousePosition();
         }
 
         public void mouseDragged(PInputEvent event) {
