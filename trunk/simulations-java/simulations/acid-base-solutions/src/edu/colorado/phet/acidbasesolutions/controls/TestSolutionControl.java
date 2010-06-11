@@ -13,13 +13,9 @@ import javax.swing.border.TitledBorder;
 import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel;
+import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.model.PureWaterSolution;
-import edu.colorado.phet.acidbasesolutions.model.Solute;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel.ModelListener;
-import edu.colorado.phet.acidbasesolutions.model.Acid.StrongAcid;
-import edu.colorado.phet.acidbasesolutions.model.Acid.WeakAcid;
-import edu.colorado.phet.acidbasesolutions.model.Base.TestStrongBase;
-import edu.colorado.phet.acidbasesolutions.model.Base.TestWeakBase;
 import edu.colorado.phet.acidbasesolutions.model.StrongAcidSolution.TestStrongAcidSolution;
 import edu.colorado.phet.acidbasesolutions.model.StrongBaseSolution.TestStrongBaseSolution;
 import edu.colorado.phet.acidbasesolutions.model.WeakAcidSolution.TestWeakAcidSolution;
@@ -28,9 +24,7 @@ import edu.colorado.phet.acidbasesolutions.view.ABSRadioButton;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 
 /**
- * Control used to set the properties of a "test" solution.
- * The solute can be changed.
- * The properties of the solute, and the solute's concentration in solution, are fixed.
+ * Control used to select a "test" solution.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -43,10 +37,12 @@ public class TestSolutionControl extends JPanel {
 
     public TestSolutionControl( ABSModel model ) {
         
+        // model
         this.model = model;
         this.model.addModelListener( new ModelListener()  {
             public void solutionChanged() {
-                updateControls();
+                // when the model changes, update this control
+                updateControl();
             }
         } );
         
@@ -59,6 +55,7 @@ public class TestSolutionControl extends JPanel {
         ButtonGroup buttonGroup = new ButtonGroup();
         ActionListener actionListener = new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
+                // when a radio button is pressed, update the model
                 updateModel();
             }
         };
@@ -80,31 +77,37 @@ public class TestSolutionControl extends JPanel {
         layout.addComponent( weakBaseRadioButton, row++, column );
         
         // default state
-        updateControls();
+        updateControl();
     }
     
-    private void updateControls() {
-        Solute solute = model.getSolution().getSolute();
-        if ( solute == null ) {
+    /*
+     * Updates this control to match the model.
+     */
+    private void updateControl() {
+        AqueousSolution solution = model.getSolution();
+        if ( solution instanceof PureWaterSolution ) {
             waterRadioButton.setSelected( true );
         }
-        else if ( solute instanceof StrongAcid ) {
+        else if ( solution instanceof TestStrongAcidSolution ) {
             strongAcidRadioButton.setSelected( true );
         }
-        else if ( solute instanceof WeakAcid ) {
+        else if ( solution instanceof TestWeakAcidSolution ) {
             weakAcidRadioButton.setSelected( true );
         }
-        else if ( solute instanceof TestStrongBase ) {
+        else if ( solution instanceof TestStrongBaseSolution ) {
             strongBaseRadioButton.setSelected( true );
         }
-        else if ( solute instanceof TestWeakBase ) {
+        else if ( solution instanceof TestWeakBaseSolution ) {
             weakBaseRadioButton.setSelected( true );
         }
         else {
-            throw new UnsupportedOperationException( "solute type not supported: " + solute.getClass().getName() );
+            throw new UnsupportedOperationException( "unsupported solution type: " + solution.getClass().getName() );
         }
     }
     
+    /*
+     * Updates the model to match this control.
+     */
     private void updateModel() {
         if ( waterRadioButton.isSelected() ) {
             model.setSolution( new PureWaterSolution() );
@@ -120,6 +123,9 @@ public class TestSolutionControl extends JPanel {
         }
         else if ( weakBaseRadioButton.isSelected() ) {
             model.setSolution( new TestWeakBaseSolution() );
+        }
+        else {
+            throw new IllegalStateException( "illegal state, no radio button selected" );
         }
     }
 }
