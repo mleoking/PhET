@@ -18,14 +18,12 @@ import org.apache.wicket.model.IModel;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.PhetWicketApplication;
-import edu.colorado.phet.website.authentication.AuthenticatedPage;
-import edu.colorado.phet.website.authentication.EditProfilePage;
-import edu.colorado.phet.website.authentication.RegisterPage;
-import edu.colorado.phet.website.authentication.SignInPage;
+import edu.colorado.phet.website.authentication.*;
 import edu.colorado.phet.website.components.*;
 import edu.colorado.phet.website.constants.CSS;
 import edu.colorado.phet.website.constants.Images;
 import edu.colorado.phet.website.content.IndexPage;
+import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.data.Translation;
 import edu.colorado.phet.website.menu.NavMenu;
 import edu.colorado.phet.website.panels.LogInOutPanel;
@@ -145,7 +143,9 @@ public abstract class PhetPage extends WebPage implements Stylable {
                 add( new InvisibleComponent( "translation-preview-notification" ) );
             }
 
-            if ( this instanceof SignInPage || this instanceof RegisterPage || this instanceof EditProfilePage ) {
+            boolean isAdmin = PhetSession.get().isSignedIn() && PhetSession.get().getUser().isTeamMember();
+
+            if ( !isAdmin && ( this instanceof SignInPage || this instanceof RegisterPage || this instanceof EditProfilePage ) ) {
                 add( new InvisibleComponent( "log-in-out-panel" ) );
             }
             else {
