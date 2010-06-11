@@ -75,23 +75,17 @@ public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
     }
 
     /**
-     * Sets the model state to reflect the current playback index.
+     * Look up a recorded state based on the specified time
      */
-    private void updateModelPlaybackState() {
-        setPlaybackState(getPlaybackState().getState());
-    }
-
-    //Look up a recorded state based on the specified time
-
     private DataPoint<T> getPlaybackState() {
-        //binary search?  Or use better heuristics, such as points are equally spaced
+        //todo: binary search?  Or use better heuristics, such as assuming that points are equally spaced?
         ArrayList<DataPoint<T>> sorted = new ArrayList<DataPoint<T>>(recordHistory);
         Collections.sort(sorted, new Comparator<DataPoint<T>>() {
             public int compare(DataPoint<T> o1, DataPoint<T> o2) {
-                return Double.compare(Math.abs(o1.getTime() - time), Math.abs(o2.getTime() - time));//todo: this is horribly inefficient
+                return Double.compare(Math.abs(o1.getTime() - time), Math.abs(o2.getTime() - time));//todo: this is horribly inefficient, but hasn't caused noticeable slowdown during testing
             }
         });
-        return sorted.get(0);//todo: also inefficient
+        return sorted.get(0);
     }
 
     /**
@@ -110,8 +104,8 @@ public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
 
     public void setTime(double t) {
         time = t;
-        if (isPlayback()) {
-            updateModelPlaybackState();
+        if (isPlayback() && getNumRecordedPoints() > 0) {//Only restore state if during playback and state has been recorded
+            setPlaybackState(getPlaybackState().getState()); //Sets the model state to reflect the current playback index.
         }
         notifyObservers();
     }
