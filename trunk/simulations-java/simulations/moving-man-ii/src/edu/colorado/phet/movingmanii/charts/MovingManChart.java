@@ -299,7 +299,16 @@ public class MovingManChart extends PNode {
             };
             viewDimension.addObserver(so);
             so.update();
-            final PhetPPath path = new PhetPPath(new GeneralPath(), new BasicStroke(2), color);
+            final PhetPPath path = new PhetPPath(new GeneralPath(), new BasicStroke(3), color) {//todo: is performance dependent on stroke width here?
+
+                //Stroke.createStrokedPath was by far the highest allocation in JProfiler
+                //And severe lag during GC suggested this workaround
+                //I'm not sure whether/how much this helps, perhaps GC's are less frequent or less severe?
+                //Fixing this really changes the distribution of memory allocation as seen by JProfiler
+                public Rectangle2D getPathBoundsWithStroke() {
+                    return new Rectangle2D.Double(0, 0, viewDimension.getWidth(), viewDimension.getHeight()); //always return max bounds
+                }
+            };
             clip.addChild(path);
             addChild(clip);
             dataSeries.addListener(new MovingManDataSeries.Listener() {

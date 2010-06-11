@@ -19,6 +19,7 @@ import java.awt.*;
 public class PlayAreaSliderControl extends PNode {
     private MovingManSliderNode slider;
     private TextBox textBox;
+    final DefaultDecimalFormat decimalFormat = new DefaultDecimalFormat("0.00");
 
     public PlayAreaSliderControl(double min, double max, double value, String title, String units, Color color, TextBox textBox) {
         this.textBox = textBox;
@@ -44,7 +45,7 @@ public class PlayAreaSliderControl extends PNode {
 
     public void setValue(double value) {
         slider.setValue(value);
-        textBox.setText(new DefaultDecimalFormat("0.00").format(value));
+        textBox.setText(decimalFormat.format(value));
     }
 
     public void addListener(MovingManSliderNode.Listener listener) {
