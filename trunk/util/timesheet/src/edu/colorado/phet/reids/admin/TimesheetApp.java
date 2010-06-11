@@ -205,7 +205,15 @@ public class TimesheetApp {
                     e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }
             }
-        }, selectionModel, targetHours), BorderLayout.SOUTH);
+        }, selectionModel, targetHours, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    savePreferences();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        }), BorderLayout.SOUTH);
         frame.setContentPane(contentPane);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //        table.setDefaultRenderer(Date.class, renderer);
@@ -289,7 +297,7 @@ public class TimesheetApp {
         private JTextField targetTextField;
         private MutableInt targetHours;
 
-        ControlPanel(final TimesheetModel timesheetModel, final ActionListener saveAction, final SelectionModel selectionModel, final MutableInt targetHours) {
+        ControlPanel(final TimesheetModel timesheetModel, final ActionListener saveAction, final SelectionModel selectionModel, final MutableInt targetHours, final ActionListener savePreferences) {
             this.targetHours = targetHours;
             this.timesheetModel = timesheetModel;
             JButton clockIn = new JButton("Clock In");
@@ -371,6 +379,7 @@ public class TimesheetApp {
             targetTextField.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     targetHours.setValue(Integer.parseInt(targetTextField.getText()));
+                    savePreferences.actionPerformed(null);
                 }
             });
             targetHours.addObserver(new SimpleObserver() {
