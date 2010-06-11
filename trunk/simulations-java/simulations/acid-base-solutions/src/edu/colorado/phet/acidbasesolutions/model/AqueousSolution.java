@@ -23,17 +23,22 @@ public abstract class AqueousSolution {
     private static final double W = 55.6; // H2O concentration, mol/L
     private static final double Kw = 1E-14; // H2O equilibrium constant
 
-    private final Solute solute;
-    private double initialConcentration; // initial concentration of the solute, at start of reaction
+    private final Molecule solute; // the substance that is dissolved in a solution
+    private final Molecule product; // the substance that is produced as the result of the solute dissolving 
+    private double strength; // strength of the solute
+    private double concentration; // initial concentration of the solute, at the start of the reaction
     private final EventListenerList listeners;
     
     public interface ICustomSolution {
-        public void setInitialConcentration( double initialConcentration );
+        public void setStrength( double strength );
+        public void setConcentration( double concentration );
     }
     
-    public AqueousSolution( Solute solute, double initialConcentration ) {
+    public AqueousSolution( Molecule solute, Molecule product, double strength, double concentration ) {
         this.solute = solute;
-        this.initialConcentration = initialConcentration;
+        this.product = product;
+        this.strength = strength;
+        this.concentration = concentration;
         listeners = new EventListenerList();
     }
     
@@ -41,33 +46,84 @@ public abstract class AqueousSolution {
         return ABSColors.AQUEOUS_SOLUTION;
     }
 
-    public Solute getSolute() {
+    public  Molecule getSolute() {
         return solute;
     }
+    
+    public Molecule getProduct() {
+        return product;
+    }
+    
+    /**
+     * Sets the solute strength.
+     * Strength is immutable for real solutions.
+     * This method is provided by use by "custom" solutions whose solute strength is mutable.
+     * 
+     * @param concentration
+     */
+    protected void setStrength( double strength ) {
+        if ( !isValidStrength( strength ) ) {
+            throw new IllegalArgumentException( "invalid strength: " + strength );
+        }
+        if ( strength != this.strength ) {
+            this.strength = strength;
+            fireStrengthChanged();
+        }
+    }
+    
+    public double getStrength() {
+        return strength;
+    }
+    
+    /**
+     * For solutions with mutable strength, subclasses must implement this method
+     * to enforce range constraints on the value of strength. This method is called 
+     * to valid the argument provided to setStrength. 
+     * 
+     * @param strength
+     * @return
+     */
+    protected abstract boolean isValidStrength( double strength );
     
     /**
      * Sets the initial concentration of the solute, at the start of the reaction.
      * Initial concentration is immutable for real solutions.
      * This method is provided by use by "custom" solutions whose concentration is mutable.
-     * @param initialConcentration
+     * 
+     * @param concentration
      */
-    protected void setInitialConcentration( double initialConcentration ) {
-        if ( initialConcentration != this.initialConcentration ) {
-            this.initialConcentration = initialConcentration;
-            fireInitialConcentrationChanged();
+    protected void setConcentration( double concentration ) {
+        if ( !isValidConcentration( concentration ) ) {
+            throw new IllegalArgumentException( "invalid concentration: " + concentration );
+        }
+        if ( concentration != this.concentration ) {
+            this.concentration = concentration;
+            fireConcentrationChanged();
         }
     }
     
     /**
      * Gets the initial concentration of the solute, at the start of the reaction.
-     * @param initialConcentration
+     * @param concentration
      */
-    public double getInitialConcentration() {
-        return initialConcentration;
+    public double getConcentration() {
+        return concentration;
     }
 
     /**
-     * Gets the pH of the solutoion at equilibrium.
+     * For solutions with mutable concentration, this method enforces range constrains 
+     * on the concentration value. This method is called to valid the argument provided
+     * to setConcentration. 
+     * 
+     * @param concentration
+     * @return
+     */
+    protected boolean isValidConcentration( double concentration ) {
+        return ABSConstants.CONCENTRATION_RANGE.contains( concentration );
+    }
+    
+    /**
+     * Gets the pH of the solution at equilibrium.
      * @return
      */
     public double getPH() {
@@ -75,10 +131,10 @@ public abstract class AqueousSolution {
     }
 
     /**
-     * Gets the reactant concentration at equilibrium.
+     * Gets the solute concentration at equilibrium.
      * @return
      */
-    public abstract double getReactantConcentration();
+    public abstract double getSoluteConcentration();
 
     /**
      * Gets the product concentration at equilibrium.
@@ -105,11 +161,11 @@ public abstract class AqueousSolution {
     public abstract double getH2OConcentration();
 
     /**
-     * Gets the reactant molecule count at equilibrium.
+     * Gets the solute molecule count at equilibrium.
      * @return
      */
-    public double getReactantMoleculeCount() {
-        return getMoleculeCount( getReactantConcentration() );
+    public double getSoluteMoleculeCount() {
+        return getMoleculeCount( getSoluteConcentration() );
     }
 
     /**
@@ -160,8 +216,16 @@ public abstract class AqueousSolution {
     }
     
     public interface AqueousSolutionChangeListener extends EventListener {
-        // The initial concentration of the solute has changed.
-        public void initialConcentrationChanged();
+        
+        /**
+         * The strength of the solute has changed.
+         */
+        public void strengthChanged();
+        
+        /** 
+         * The initial concentration of the solute has changed.
+         */
+        public void concentrationChanged();
     }
     
     public void addAqueousSolutionChangeListener( AqueousSolutionChangeListener listener ) {
@@ -172,9 +236,15 @@ public abstract class AqueousSolution {
         listeners.remove( AqueousSolutionChangeListener.class, listener );
     }
     
-    private void fireInitialConcentrationChanged() {
+    private void fireStrengthChanged() {
         for ( AqueousSolutionChangeListener listener : listeners.getListeners( AqueousSolutionChangeListener.class ) ) {
-            listener.initialConcentrationChanged();
+            listener.strengthChanged();
+        }
+    }
+    
+    private void fireConcentrationChanged() {
+        for ( AqueousSolutionChangeListener listener : listeners.getListeners( AqueousSolutionChangeListener.class ) ) {
+            listener.concentrationChanged();
         }
     }
 }

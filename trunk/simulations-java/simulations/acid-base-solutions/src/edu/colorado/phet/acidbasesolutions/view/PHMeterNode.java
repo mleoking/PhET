@@ -58,7 +58,10 @@ public class PHMeterNode extends PComposite {
         
         this.solution = model.getSolution();
         this.listener = new AqueousSolutionChangeListener() {
-            public void initialConcentrationChanged() {
+            public void strengthChanged() {
+                update();
+            }
+            public void concentrationChanged() {
                 update();
             }
         };

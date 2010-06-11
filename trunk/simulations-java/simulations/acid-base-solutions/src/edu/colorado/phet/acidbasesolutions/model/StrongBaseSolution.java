@@ -2,9 +2,9 @@
 
 package edu.colorado.phet.acidbasesolutions.model;
 
-import edu.colorado.phet.acidbasesolutions.model.Base.CustomStrongBase;
-import edu.colorado.phet.acidbasesolutions.model.Base.TestStrongBase;
-import edu.colorado.phet.acidbasesolutions.model.Solute.ICustomSolute;
+import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
+import edu.colorado.phet.acidbasesolutions.model.Molecule.GenericStrongBaseMolecule;
+import edu.colorado.phet.acidbasesolutions.model.Molecule.GenericStrongBaseProductMolecule;
 
 /**
  * An aqueous solution whose solute is a strong base.
@@ -13,18 +13,18 @@ import edu.colorado.phet.acidbasesolutions.model.Solute.ICustomSolute;
  */
 public abstract class StrongBaseSolution extends AqueousSolution {
 
-    public StrongBaseSolution( Solute solute, double initialConcentration ) {
-        super( solute, initialConcentration );
+    public StrongBaseSolution( Molecule solute, Molecule product, double strength, double initialConcentration ) {
+        super( solute, product, strength, initialConcentration );
     }
     
     // [MOH] = 0
-    public double getReactantConcentration() {
+    public double getSoluteConcentration() {
         return 0;
     }
     
     // [M+] = c
     public double getProductConcentration() {
-        return getInitialConcentration();
+        return getConcentration();
     }
     
     // [H3O+] = Kw / [OH-]
@@ -34,7 +34,7 @@ public abstract class StrongBaseSolution extends AqueousSolution {
     
     // [OH-] = c
     public double getOHConcentration() {
-        return getInitialConcentration();
+        return getConcentration();
     }
     
     // [H2O] = W
@@ -42,13 +42,26 @@ public abstract class StrongBaseSolution extends AqueousSolution {
         return getWaterConcentration();
     }
     
+    protected boolean isValidStrength( double strength ) {
+        return strength > ABSConstants.WEAK_STRENGTH_RANGE.getMax();
+    }
+    
+    /**
+     * A generic strong base has solute MOH, product M+.
+     */
+    public static abstract class GenericStrongBaseSolution extends StrongBaseSolution {
+        public GenericStrongBaseSolution( double strength, double concentration ) {
+            super( new GenericStrongBaseMolecule(), new GenericStrongBaseProductMolecule(), strength, concentration );
+        }
+    }
+    
     /**
      * A generic "test" solution whose solute is a strong base.
      * Strength and concentration are immutable.
      */
-    public static class TestStrongBaseSolution extends StrongBaseSolution {
+    public static class TestStrongBaseSolution extends GenericStrongBaseSolution {
         public TestStrongBaseSolution() {
-            super( new TestStrongBase(), 1E-2 /* concentration */ );
+            super( 2 /* strength */, 1E-2 /* concentration */ );
         }
     }
 
@@ -56,19 +69,20 @@ public abstract class StrongBaseSolution extends AqueousSolution {
      * A generic "custom" solution whose solute is a strong base.
      * Strength and concentration are mutable.
      */
-    public static class CustomStrongBaseSolution extends StrongBaseSolution implements ICustomSolution {
+    public static class CustomStrongBaseSolution extends GenericStrongBaseSolution implements ICustomSolution {
         
         public CustomStrongBaseSolution( double strength, double initialConcentration ) {
-            super( new CustomStrongBase( strength ), initialConcentration );
-        }
-        
-        public void setSoluteStrength( double strength ) {
-            ( (ICustomSolute) getSolute() ).setStrength( strength );
+            super( strength, initialConcentration );
         }
         
         @Override
-        public void setInitialConcentration( double initialConcentration ) {
-            super.setInitialConcentration( initialConcentration );
+        public void setStrength( double strength ) {
+            super.setStrength( strength );
+        }
+        
+        @Override
+        public void setConcentration( double initialConcentration ) {
+            super.setConcentration( initialConcentration );
         }
     }
 }

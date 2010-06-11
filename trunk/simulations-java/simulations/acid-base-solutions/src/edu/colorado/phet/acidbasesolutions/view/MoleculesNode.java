@@ -9,7 +9,7 @@ import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.constants.ABSImages;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
-import edu.colorado.phet.acidbasesolutions.model.Solute;
+import edu.colorado.phet.acidbasesolutions.model.PureWaterSolution;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel.ModelListener;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.AqueousSolutionChangeListener;
 import edu.colorado.phet.acidbasesolutions.model.MagnifyingGlass.MagnifyingGlassListener;
@@ -50,7 +50,7 @@ public class MoleculesNode extends PComposite {
     // marker class for parents of MoleculeImageNode
     protected static class MoleculeImageParentNode extends PComposite {}
     
-    public MoleculesNode( final ABSModel model ) {
+    public MoleculesNode( final ABSModel model, boolean waterVisible ) {
         super();
         setPickable( false );
         
@@ -77,7 +77,10 @@ public class MoleculesNode extends PComposite {
         
         this.solution = model.getSolution();
         solutionChangeListener = new AqueousSolutionChangeListener() {
-            public void initialConcentrationChanged() {
+            public void strengthChanged() {
+                updateNumberOfMolecules();
+            }
+            public void concentrationChanged() {
                 updateNumberOfMolecules();
             }
         };
@@ -97,7 +100,8 @@ public class MoleculesNode extends PComposite {
         addChild( parentOH );
         
         // default state
-        parentH2O.setVisible( ABSConstants.SHOW_H2O );
+        parentH2O.setVisible( waterVisible );
+        updateNumberOfMolecules();
     }
     
     public boolean isH2OVisible() {
@@ -209,7 +213,7 @@ public class MoleculesNode extends PComposite {
     }
     
     protected void updateNumberOfMolecules() {
-        countReactant = moleculeCountStrategy.getNumberOfMolecules( solution.getReactantConcentration(), maxMolecules );
+        countReactant = moleculeCountStrategy.getNumberOfMolecules( solution.getSoluteConcentration(), maxMolecules );
         countProduct = moleculeCountStrategy.getNumberOfMolecules( solution.getProductConcentration(), maxMolecules );
         countH3O = moleculeCountStrategy.getNumberOfMolecules( solution.getH3OConcentration(), maxMolecules );
         countOH = moleculeCountStrategy.getNumberOfMolecules( solution.getOHConcentration(), maxMolecules );
@@ -223,10 +227,9 @@ public class MoleculesNode extends PComposite {
      * Images are distributed at random locations throughout the container.
      */
     protected void updateNumberOfMoleculeNodes() {
-        Solute solute = solution.getSolute();
-        if ( solute != null ) {
-            updateNumberOfMoleculeNodes( getParentReactant(), getCountReactant(), getImageScale(), solute.getMolecule().getIcon() );
-            updateNumberOfMoleculeNodes( getParentProduct(), getCountProduct(), getImageScale(), solute.getProduct().getIcon() );
+        if ( !( solution instanceof PureWaterSolution ) ) {
+            updateNumberOfMoleculeNodes( getParentReactant(), getCountReactant(), getImageScale(), solution.getSolute().getIcon() );
+            updateNumberOfMoleculeNodes( getParentProduct(), getCountProduct(), getImageScale(), solution.getProduct().getIcon() );
         }
         updateNumberOfMoleculeNodes( getParentH3O(), getCountH3O(), getImageScale(), ABSImages.H3O_PLUS_MOLECULE );
         updateNumberOfMoleculeNodes( getParentOH(), getCountOH(), getImageScale(), ABSImages.OH_MINUS_MOLECULE );
