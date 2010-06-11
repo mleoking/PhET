@@ -28,12 +28,14 @@ public class RegisterPanel extends PhetPanel {
 
     // TODO: i18n (align the fields correctly within the table!)
 
+    // TODO: use regular form validation, not this hacked version that was done before I knew about form validation feedback
+
     private TextField name;
     private TextField organization;
     private TextField username;
     private PasswordTextField password;
     private PasswordTextField passwordCopy;
-    private DropDownChoice description;
+    private DropDownChoice<String> description;
     private Model errorModel;
 
     private String destination = null;
@@ -49,7 +51,7 @@ public class RegisterPanel extends PhetPanel {
 
         add( new RegisterForm( "register-form" ) );
 
-        errorModel = new Model( "" );
+        errorModel = new Model<String>( "" );
 
         add( new RawLabel( "register-errors", errorModel ) );
     }
@@ -64,7 +66,7 @@ public class RegisterPanel extends PhetPanel {
 
             add( name = new StringTextField( "name", new PropertyModel( properties, "name" ) ) );
             add( organization = new StringTextField( "organization", new PropertyModel( properties, "organization" ) ) );
-            add( description = new DropDownChoice( "description", new PropertyModel( properties, "description" ), PhetUser.getDescriptionOptions() ) );
+            add( description = new DropDownChoice<String>( "description", new PropertyModel<String>( properties, "description" ), PhetUser.getDescriptionOptions() ) );
             add( username = new StringTextField( "username", new PropertyModel( properties, "username" ) ) );
             add( password = new StringPasswordTextField( "password", new PropertyModel( properties, "password" ) ) );
             add( passwordCopy = new StringPasswordTextField( "passwordCopy", new PropertyModel( properties, "passwordCopy" ) ) );
@@ -85,7 +87,7 @@ public class RegisterPanel extends PhetPanel {
             String org = organization.getModelObject().toString();
             String email = username.getModelObject().toString();
             String pass = password.getInput();
-            String desc = description.getModelObject().toString();
+            String desc = description.getModelObject();
 
             logger.debug( "name: " + nom );
             logger.debug( "org: " + org );
