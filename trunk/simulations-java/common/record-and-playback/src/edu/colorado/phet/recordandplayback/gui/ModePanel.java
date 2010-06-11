@@ -37,7 +37,7 @@ public class ModePanel<T> extends JPanel {
         playbackButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 model.setRecord(false);
-                model.setPlaybackIndexFloat(0.0);
+                model.rewind();
                 model.setPaused(true);
             }
         });

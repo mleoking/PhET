@@ -81,7 +81,7 @@ public class TimelineNode<T> extends PNode {
             public void mousePressed(PInputEvent event) {
                 //todo: should pressing the timeline put the model in playback mode?
                 double t = xToTime(event.getCanvasPosition().getX());
-                model.setPlaybackTime(MathUtil.clamp(model.getMinRecordedTime(), t, model.getMaxRecordedTime()));
+                model.setTime(MathUtil.clamp(model.getMinRecordedTime(), t, model.getMaxRecordedTime()));
             }
 
             public void mouseDragged(PInputEvent event) {
@@ -104,7 +104,7 @@ public class TimelineNode<T> extends PNode {
     private void handleDrag(PInputEvent event) {
         model.setPaused(true);
         double dx = event.getCanvasDelta().width;
-        model.setPlaybackTime(MathUtil.clamp(model.getMinRecordedTime(), model.getFloatTime() + deltaXtoDeltaTime(dx), model.getMaxRecordedTime()));
+        model.setTime(MathUtil.clamp(model.getMinRecordedTime(), model.getTime() + deltaXtoDeltaTime(dx), model.getMaxRecordedTime()));
     }
 
     private double deltaXtoDeltaTime(double dx) {

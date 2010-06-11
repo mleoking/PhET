@@ -80,7 +80,7 @@ public class RecordAndPlaybackControlPanel<T> extends PhetPCanvas {
         rewind.addListener(new DefaultIconButton.Listener() {
             public void buttonPressed() {
                 model.setRecord(false);
-                model.setPlaybackIndexFloat(0.0);
+                model.rewind();
                 model.setPaused(true);
             }
         });
@@ -113,7 +113,7 @@ public class RecordAndPlaybackControlPanel<T> extends PhetPCanvas {
         stepButton.addInputEventListener(new ToolTipHandler(PhetCommonResources.getString("Common.ClockControlPanel.Step"), this));
         model.addObserver(new SimpleObserver() {
             public void update() {
-                boolean isLastStep = model.getPlaybackIndex() == model.getNumRecordedPoints();
+                boolean isLastStep = model.getTime() == model.getMaxRecordedTime();
                 stepButton.setEnabled(model.isPaused() && !isLastStep);
             }
         });

@@ -93,8 +93,8 @@ public abstract class MovingManModule extends Module {
         });
         model.getChartCursor().addListener(new ChartCursor.Adapter() {
             public void positionChanged() {
-                //TODO: this is buggy
-//                    recordAndPlaybackModel.setPlaybackTime(model.getChartCursor().getTime());
+                final double setTime = model.getChartCursor().getTime();
+                recordAndPlaybackModel.setTime(setTime);
             }
         });
         recordAndPlaybackModel.addObserver(new SimpleObserver() {
