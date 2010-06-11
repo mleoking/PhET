@@ -8,11 +8,13 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.apache.wicket.Component;
 
 import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.data.util.IntId;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetRequestCycle;
+import edu.colorado.phet.website.util.StringUtils;
 import edu.colorado.phet.website.util.links.AbstractLinker;
 
 public class ContributionFile implements Serializable, IntId {
@@ -21,7 +23,7 @@ public class ContributionFile implements Serializable, IntId {
      * File types that are allowed to be uploaded. Older ones are grandfathered in, but currently not gracefully.
      * (contributions with non-compliant files cannot be updated)
      */
-    private static final String[] FILE_TYPE_WHITELIST = new String[]{"pdf", "doc", "docx", "ppt", "xls", "txt", "pptx", "xlsx", "cck", "esp"};
+    public static final String[] FILE_TYPE_WHITELIST = new String[]{"pdf", "doc", "docx", "ppt", "xls", "txt", "pptx", "xlsx", "cck", "esp"};
 
     private int id;
     private Contribution contribution;
@@ -105,6 +107,26 @@ public class ContributionFile implements Serializable, IntId {
      */
     public File getTmpFileLocation( String id ) {
         return new File( PhetWicketApplication.get().getActivitiesRoot(), "tmp" + getRelativeLocation( id ) );
+    }
+
+    /**
+     * Retrieve a list of filetypes, using the file separator in the style and locale of the component
+     *
+     * @param component The component
+     * @return List of file extensions
+     */
+    public static String getFiletypes( Component component ) {
+        String separator = StringUtils.getSeparator( component );
+        StringBuilder ret = new StringBuilder();
+        boolean started = false;
+        for ( String fileExtension : ContributionFile.FILE_TYPE_WHITELIST ) {
+            if ( started ) {
+                ret.append( separator );
+            }
+            started = true;
+            ret.append( fileExtension );
+        }
+        return ret.toString();
     }
 
     /*---------------------------------------------------------------------------*
