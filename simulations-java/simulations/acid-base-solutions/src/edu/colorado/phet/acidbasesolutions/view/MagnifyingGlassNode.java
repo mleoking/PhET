@@ -9,7 +9,7 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.acidbasesolutions.model.ABSModel;
-import edu.colorado.phet.acidbasesolutions.model.ABSModel.ModelListener;
+import edu.colorado.phet.acidbasesolutions.model.ABSModel.ModelChangeAdapter;
 import edu.colorado.phet.acidbasesolutions.model.MagnifyingGlass.MagnifyingGlassListener;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -38,11 +38,12 @@ public class MagnifyingGlassNode extends PhetPNode {
     private final Ellipse2D circlePath;
     private final MoleculesNode moleculesNode;
     
-    public MagnifyingGlassNode( ABSModel model, boolean waterVisible ) {
+    public MagnifyingGlassNode( ABSModel model ) {
         super();
         
         this.model = model;
-        model.addModelListener( new ModelListener() {
+        model.addModelChangeListener( new ModelChangeAdapter() {
+            @Override
             public void solutionChanged() {
                 updateColor();
             }
@@ -66,7 +67,7 @@ public class MagnifyingGlassNode extends PhetPNode {
         circleNode.setStrokePaint( GLASS_STROKE_COLOR );
         addChild( circleNode );
         
-        moleculesNode = new MoleculesNode( model, waterVisible );
+        moleculesNode = new MoleculesNode( model  );
         circleNode.addChild( moleculesNode ); // clip images to circle
         
         updateGeometry();

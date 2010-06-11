@@ -3,6 +3,7 @@
 package edu.colorado.phet.acidbasesolutions.module.customsolution;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
+import edu.colorado.phet.acidbasesolutions.model.ABSModel;
 import edu.colorado.phet.acidbasesolutions.module.ABSModule;
 
 /**
@@ -12,9 +13,24 @@ import edu.colorado.phet.acidbasesolutions.module.ABSModule;
  */
 public class CustomSolutionModule extends ABSModule {
 
+    private final ABSModel model;
+    private final CustomSolutionCanvas canvas;
+    private final CustomSolutionControlPanel controlPanel;
+    
     public CustomSolutionModule() {
         super( ABSStrings.CUSTOM_SOLUTION );
-        setSimulationPanel( new CustomSolutionCanvas() );
-        setControlPanel( new CustomSolutionControlPanel( this ) );
+        
+        model = new ABSModel();
+        
+        canvas = new CustomSolutionCanvas( model );
+        setSimulationPanel( canvas );
+        
+        controlPanel = new CustomSolutionControlPanel( this, model );
+        setControlPanel( controlPanel );
+    }
+    
+    @Override
+    public void reset() {
+        //XXX
     }
 }

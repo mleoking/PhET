@@ -13,7 +13,7 @@ import java.text.MessageFormat;
 import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
-import edu.colorado.phet.acidbasesolutions.model.ABSModel.ModelListener;
+import edu.colorado.phet.acidbasesolutions.model.ABSModel.ModelChangeAdapter;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.AqueousSolutionChangeListener;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -50,7 +50,8 @@ public class PHMeterNode extends PComposite {
     public PHMeterNode( double height, final ABSModel model ) {
         this( height );
         
-        model.addModelListener( new ModelListener() {
+        model.addModelChangeListener( new ModelChangeAdapter() {
+            @Override
             public void solutionChanged() {
                 setSolution( model.getSolution() );
             }

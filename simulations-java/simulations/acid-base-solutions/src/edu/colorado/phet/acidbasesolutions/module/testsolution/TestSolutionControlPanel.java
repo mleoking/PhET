@@ -17,7 +17,7 @@ public class TestSolutionControlPanel extends ControlPanel {
 
     public TestSolutionControlPanel( Resettable resettable, ABSModel model ) {
         addControlFullWidth( new TestSolutionControl( model ) );
-        addControlFullWidth( new ToolsControl() );
+        addControlFullWidth( new ToolsControl( model ) );
         addResetAllButton( resettable );
     }
 }
