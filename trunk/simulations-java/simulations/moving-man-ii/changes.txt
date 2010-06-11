@@ -1,3 +1,4 @@
+Added out-of-range sliders for vertical sliders (with thumb rotation) on chart tab
 Fixed a bug in the man drag handler
 Fixed: Stop recording data after 20 seconds to avoid leaking
 Fixed: Dragging man should be absolute, not relative, so the mouse doesn't get offset after wall collision
