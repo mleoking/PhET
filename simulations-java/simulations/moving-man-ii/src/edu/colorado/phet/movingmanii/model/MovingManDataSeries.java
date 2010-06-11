@@ -17,7 +17,11 @@ public class MovingManDataSeries {
     }
 
     public void addPoint(double value, double time) {
-        data.add(new TimeData(value, time));
+        addPoint(new TimeData(value, time));
+    }
+
+    public void addPoint(TimeData point) {
+        data.add(point);
         notifyDataChanged();
     }
 
@@ -57,6 +61,14 @@ public class MovingManDataSeries {
         notifyDataChanged();
     }
 
+    public TimeData getLastPoint() {
+        return data.get(getNumPoints() - 1);
+    }
+
+    public TimeData getMidPoint() {
+        return data.get(getNumPoints() / 2);
+    }
+
     public static interface Listener {
         void changed();
     }
@@ -66,19 +78,45 @@ public class MovingManDataSeries {
     }
 
     /**
-     * The MovingManDataSeries.Limited ignores any data points that fall outside its maximum time range.
+     * The MovingManDataSeries.Limited ignores any data points that fall outside its maximum time range, while still keeping enough points
+     * to estimate derivatives properly.  The point is to avoid memory and processor leaks while still being able to estimate derivatives.
      */
-    public static class Limited extends MovingManDataSeries {
+    public static class LimitedTime extends MovingManDataSeries {
         private double maxTime;
 
-        public Limited(double maxTime) {
+        public LimitedTime(double maxTime) {
             this.maxTime = maxTime;
         }
 
         public void addPoint(double value, double time) {
+            super.addPoint(value, time);
             if (time <= maxTime) {
                 super.addPoint(value, time);
             }
         }
+    }
+
+    /**
+     * The MovingManDataSeries.Limited ignores any data points that fall outside its maximum time range, while still keeping enough points
+     * to estimate derivatives properly.  The point is to avoid memory and processor leaks while still being able to estimate derivatives.
+     */
+    public static class LimitedSize extends MovingManDataSeries {
+        private int maxSize;
+
+        public LimitedSize(int maxSize) {
+            this.maxSize = maxSize;
+        }
+
+        public void addPoint(double value, double time) {
+            super.addPoint(value, time);
+            while (getNumPoints() > maxSize) {
+                super.removePoint(0);
+            }
+        }
+    }
+
+    private void removePoint(int i) {
+        data.remove(i);
+        notifyDataChanged();
     }
 }

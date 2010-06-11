@@ -53,7 +53,7 @@ public class MovingManNode extends PNode {
                 updateMan();
             }
         });
-        model.getVelocitySeries().addListener(new MovingManDataSeries.Listener() {
+        model.getVelocityGraphSeries().addListener(new MovingManDataSeries.Listener() {
             public void changed() {
                 updateMan();
             }

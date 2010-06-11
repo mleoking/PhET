@@ -29,7 +29,7 @@ public abstract class MovingManModule extends Module {
     private boolean lastPauseState;
 
     public MovingManModule(String name) {
-        super(name, new ConstantDtClock(30, 1.0 / 30.0));
+        super(name, new ConstantDtClock(30, MovingManModel.DT));
 
         //Need different behavior when paused, currently the main clock is always running, and the RecordAndPlaybackModel determines whether the sim is running.
         final MovingManModel model = new MovingManModel(new MovingManModel.BooleanGetter() {

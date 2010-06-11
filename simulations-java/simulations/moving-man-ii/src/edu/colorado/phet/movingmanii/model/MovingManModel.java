@@ -8,16 +8,27 @@ import edu.colorado.phet.movingmanii.view.Range;
 import java.util.ArrayList;
 
 public class MovingManModel {
+    public static final double DT = 1.0 / 30.0;
     private MovingMan movingMan;
-    private MovingManDataSeries mouseDataSeries = new MovingManDataSeries.Limited(20.0);
-    private MovingManDataSeries positionSeries = new MovingManDataSeries.Limited(20.0);
-    private MovingManDataSeries velocitySeries = new MovingManDataSeries.Limited(20.0);
-    private MovingManDataSeries accelerationSeries = new MovingManDataSeries.Limited(20.0);
+
+    public static final int DERIVATIVE_RADIUS = 1;//Kathy chose this value because it is a good balance between derivative sharpness and responsiveness
+    public static final int NUMBER_MOUSE_POINTS_TO_AVERAGE = 4;//Kathy chose this value because it smoothes well enough, but without creating too much of a lag between the mouse and the character
+
+    //These serieses are used for computing derivatives.  Must be size limited to avoid processor/memory leaks
+    private static final int sizeLimit = Math.max(NUMBER_MOUSE_POINTS_TO_AVERAGE, (DERIVATIVE_RADIUS * 2 + 1) * 2);
+    private MovingManDataSeries mouseDataModelSeries = new MovingManDataSeries.LimitedSize(sizeLimit);
+    private MovingManDataSeries positionModelSeries = new MovingManDataSeries.LimitedSize(sizeLimit);
+    private MovingManDataSeries velocityModelSeries = new MovingManDataSeries.LimitedSize(sizeLimit);
+    private MovingManDataSeries accelerationModelSeries = new MovingManDataSeries.LimitedSize(sizeLimit);
+
+    //These serieses are displayed in the graphs
+    private MovingManDataSeries positionGraphSeries = new MovingManDataSeries.LimitedTime(20.0);
+    private MovingManDataSeries velocityGraphSeries = new MovingManDataSeries.LimitedTime(20.0);
+    private MovingManDataSeries accelerationGraphSeries = new MovingManDataSeries.LimitedTime(20.0);
+
     private ChartCursor chartCursor = new ChartCursor();
     private double time = 0.0;
     private double mousePosition;
-    public static final int DERIVATIVE_RADIUS = 1;//Kathy chose this value because it is a good balance between derivative sharpness and responsiveness
-    private static final int NUMBER_MOUSE_POINTS_TO_AVERAGE = 4;//Kathy chose this value because it smoothes well enough, but without creating too much of a lag between the mouse and the character
     private ArrayList<Listener> listeners = new ArrayList<Listener>();
     private MutableBoolean velocityVectorVisible = new MutableBoolean(false);
     private MutableBoolean accelerationVectorVisible = new MutableBoolean(false);
@@ -53,62 +64,70 @@ public class MovingManModel {
     public void simulationTimeChanged(double dt) {
         time = time + dt;
         if (movingMan.isPositionDriven()) {
-            mouseDataSeries.addPoint(clampIfWalled(mousePosition).position, time);
+            mouseDataModelSeries.addPoint(clampIfWalled(mousePosition).position, time);
 //            //take the position as the average of the latest mouseDataSeries points.
-            TimeData[] position = mouseDataSeries.getPointsInRange(mouseDataSeries.getNumPoints() - NUMBER_MOUSE_POINTS_TO_AVERAGE, mouseDataSeries.getNumPoints());
+            TimeData[] position = mouseDataModelSeries.getPointsInRange(mouseDataModelSeries.getNumPoints() - NUMBER_MOUSE_POINTS_TO_AVERAGE, mouseDataModelSeries.getNumPoints());
             double sum = 0;
             for (TimeData timeData : position) {
                 sum += timeData.getValue();
             }
             double averagePosition = clampIfWalled(sum / position.length).position;
+            positionModelSeries.addPoint(averagePosition, time);
 
-            //record set point based on derivatives
-            positionSeries.addPoint(averagePosition, time);
+            //update model derivatives
+            velocityModelSeries.setData(estimateCenteredDerivatives(positionModelSeries));
+            accelerationModelSeries.setData(estimateCenteredDerivatives(velocityModelSeries));
 
-            //update derivatives
-            velocitySeries.setData(estimateCenteredDerivatives(positionSeries));
-            accelerationSeries.setData(estimateCenteredDerivatives(velocitySeries));
+            positionGraphSeries.addPoint(averagePosition, time);
+            velocityGraphSeries.addPoint(velocityModelSeries.getMidPoint());
+            accelerationGraphSeries.addPoint(accelerationModelSeries.getMidPoint());
 
             //no integrals
 
             //set instantaneous values
             movingMan.setPosition(averagePosition);
-            movingMan.setVelocity(velocitySeries.getDataPoint(velocitySeries.getNumPoints() - 1).getValue());//TODO: subtract off derivative radius so that the last value showed on chart is the same as the value on the man
-            movingMan.setAcceleration(accelerationSeries.getDataPoint(accelerationSeries.getNumPoints() - 1).getValue()); //- DERIVATIVE_RADIUS * 2
+            movingMan.setVelocity(velocityGraphSeries.getDataPoint(velocityGraphSeries.getNumPoints() - 1).getValue());//TODO: subtract off derivative radius so that the last value showed on chart is the same as the value on the man
+            movingMan.setAcceleration(accelerationGraphSeries.getDataPoint(accelerationGraphSeries.getNumPoints() - 1).getValue()); //- DERIVATIVE_RADIUS * 2
         } else if (movingMan.isVelocityDriven()) {
-            mouseDataSeries.clear();//so that if the user switches to mouse-driven, it won't remember the wrong location.
+            mouseDataModelSeries.clear();//so that if the user switches to mouse-driven, it won't remember the wrong location.
             //record set point
-            velocitySeries.addPoint(movingMan.getVelocity(), time);
+            velocityModelSeries.addPoint(movingMan.getVelocity(), time);
+            velocityGraphSeries.addPoint(movingMan.getVelocity(), time);
 
             //update derivatives
-            accelerationSeries.setData(estimateCenteredDerivatives(velocitySeries));
+            accelerationModelSeries.setData(estimateCenteredDerivatives(velocityModelSeries));
+            accelerationGraphSeries.addPoint(accelerationModelSeries.getMidPoint());
 
             //update integrals
             final double targetPosition = movingMan.getPosition() + movingMan.getVelocity() * dt;
             WallResult wallResult = clampIfWalled(targetPosition);
-            positionSeries.addPoint(wallResult.position, time);
+            positionModelSeries.addPoint(wallResult.position, time);
+            positionGraphSeries.addPoint(wallResult.position, time);
 
             //set instantaneous values
             setMousePosition(wallResult.position);//so that if the user switches to mouse-driven, it will have the right location
             movingMan.setPosition(wallResult.position);
-            movingMan.setAcceleration(accelerationSeries.getDataPoint(accelerationSeries.getNumPoints() - 1).getValue());//todo: subtract - DERIVATIVE_RADIUS if possible
+            movingMan.setAcceleration(accelerationGraphSeries.getDataPoint(accelerationGraphSeries.getNumPoints() - 1).getValue());//todo: subtract - DERIVATIVE_RADIUS if possible
             if (wallResult.collided) {
                 movingMan.setVelocity(0.0);
             }
         } else if (movingMan.isAccelerationDriven()) {
-            mouseDataSeries.clear();//so that if the user switches to mouse-driven, it won't remember the wrong location.
+            mouseDataModelSeries.clear();//so that if the user switches to mouse-driven, it won't remember the wrong location.
             //record set point
-            accelerationSeries.addPoint(movingMan.getAcceleration(), time);
+            accelerationModelSeries.addPoint(movingMan.getAcceleration(), time);
+            accelerationGraphSeries.addPoint(movingMan.getAcceleration(), time);
 
             //no derivatives
 
             //update integrals
             double newVelocity = movingMan.getVelocity() + movingMan.getAcceleration() * dt;
-            velocitySeries.addPoint(newVelocity, time);
+            velocityGraphSeries.addPoint(newVelocity, time);
+            velocityModelSeries.addPoint(newVelocity, time);
 
             double estVel = (movingMan.getVelocity() + newVelocity) / 2.0;//todo: just use newVelocity?
             WallResult wallResult = clampIfWalled(movingMan.getPosition() + estVel * dt);
-            positionSeries.addPoint(wallResult.position, time);
+            positionGraphSeries.addPoint(wallResult.position, time);
+            positionModelSeries.addPoint(wallResult.position, time);
 
             //set instantaneous values
             setMousePosition(wallResult.position);//so that if the user switches to mouse-driven, it will have the right location
@@ -136,16 +155,16 @@ public class MovingManModel {
         return movingMan;
     }
 
-    public MovingManDataSeries getPositionSeries() {
-        return positionSeries;
+    public MovingManDataSeries getPositionGraphSeries() {
+        return positionGraphSeries;
     }
 
-    public MovingManDataSeries getVelocitySeries() {
-        return velocitySeries;
+    public MovingManDataSeries getVelocityGraphSeries() {
+        return velocityGraphSeries;
     }
 
-    public MovingManDataSeries getAccelerationSeries() {
-        return accelerationSeries;
+    public MovingManDataSeries getAccelerationGraphSeries() {
+        return accelerationGraphSeries;
     }
 
     public ChartCursor getChartCursor() {
@@ -154,9 +173,9 @@ public class MovingManModel {
 
     public void clear() {
         time = 0.0;
-        positionSeries.clear();
-        velocitySeries.clear();
-        accelerationSeries.clear();
+        positionGraphSeries.clear();
+        velocityGraphSeries.clear();
+        accelerationGraphSeries.clear();
     }
 
     public MovingManState getRecordingState() {
