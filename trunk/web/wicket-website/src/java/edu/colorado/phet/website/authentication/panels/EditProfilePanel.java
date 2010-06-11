@@ -8,6 +8,7 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.request.target.basic.RedirectRequestTarget;
 import org.apache.wicket.util.value.ValueMap;
 import org.hibernate.Session;
 
@@ -23,20 +24,24 @@ import edu.colorado.phet.website.util.PageContext;
 
 public class EditProfilePanel extends PhetPanel {
 
-    private Model errorModel;
+    private Model<String> errorModel;
 
     private static final String ERROR_SEPARATOR = "<br/>";
 
+    private String destination = null;
+
     private static final Logger logger = Logger.getLogger( EditProfilePanel.class.getName() );
 
-    public EditProfilePanel( String id, PageContext context ) {
-        this( id, context, PhetSession.get().getUser() );
+    public EditProfilePanel( String id, PageContext context, String destination ) {
+        this( id, context, PhetSession.get().getUser(), destination);
     }
 
-    public EditProfilePanel( String id, PageContext context, PhetUser user ) {
+    public EditProfilePanel( String id, PageContext context, PhetUser user, String destination ) {
         super( id, context );
 
-        errorModel = new Model( "" );
+        this.destination = destination;
+
+        errorModel = new Model<String>( "" );
         add( new RawLabel( "profile-errors", errorModel ) );
 
         add( new EditProfileForm( "edit-profile-form", user ) );
@@ -112,18 +117,19 @@ public class EditProfilePanel extends PhetPanel {
             add( phone1 = new StringTextField( "phone1", new PropertyModel( properties, "phone1" ) ) );
             add( phone2 = new StringTextField( "phone2", new PropertyModel( properties, "phone2" ) ) );
             add( fax = new StringTextField( "fax", new PropertyModel( properties, "fax" ) ) );
-            add( receiveEmail = new CheckBox( "receiveEmail", new Model( new Boolean( user.isReceiveEmail() ) ) ) );
-            add( receiveWebsiteNotifications = new CheckBox( "receiveWebsiteNotifications", new Model( new Boolean( user.isReceiveWebsiteNotifications() ) ) ) );
-            add( teamMember = new CheckBox( "phetTeamMember", new Model( new Boolean( user.isTeamMember() ) ) ) );
+            add( receiveEmail = new CheckBox( "receiveEmail", new Model<Boolean>( user.isReceiveEmail() ) ) );
             if ( currentUser.isTeamMember() ) {
                 Label label = new Label( "rwn-phet", "" );
                 add( label );
                 // make it effectively invisible
                 label.setRenderBodyOnly( true );
+                add( receiveWebsiteNotifications = new CheckBox( "receiveWebsiteNotifications", new Model<Boolean>( user.isReceiveWebsiteNotifications() ) ) );
+                add( teamMember = new CheckBox( "phetTeamMember", new Model<Boolean>( user.isTeamMember() ) ) );
             }
             else {
                 add( new InvisibleComponent( "rwn-phet" ) );
                 add( new InvisibleComponent( "phetTeamMember" ) );
+                add( new InvisibleComponent( "receiveWebsiteNotifications" ) );
             }
 
         }
@@ -207,6 +213,11 @@ public class EditProfilePanel extends PhetPanel {
             }
             else {
                 errorModel.setObject( "" );
+
+                // success
+                if ( destination != null ) {
+                    getRequestCycle().setRequestTarget( new RedirectRequestTarget( destination ) );
+                }
             }
         }
     }

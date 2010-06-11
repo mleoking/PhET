@@ -73,7 +73,7 @@ public class UserEntity extends TranslationEntity {
 
         addPreview( new PhetPanelFactory() {
             public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {
-                return new EditProfilePanel( id, context );
+                return new EditProfilePanel( id, context, null );
             }
         }, "Edit Profile Page" );
 
