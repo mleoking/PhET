@@ -15,7 +15,7 @@ import edu.colorado.phet.scalacommon.util.Observable
  * The smoothing of motion is done by leading the ladybug (with an abstraction called the pen),
  * and using the same model as Motion2D for interpolation.
  */
-class LadybugModel extends RecordAndPlaybackModel[LadybugState]((LadybugDefaults.timelineLengthSeconds / LadybugDefaults.defaultDT).toInt) with Observable{
+class LadybugModel extends RecordAndPlaybackModel[LadybugState]((LadybugDefaults.timelineLengthSeconds / LadybugDefaults.defaultDT).toInt) with Observable {
   def stepRecording(simulationTimeChange: Double) = stepRecord(LadybugDefaults.defaultDT)
 
   val ladybug = new Ladybug
@@ -161,7 +161,7 @@ class LadybugModel extends RecordAndPlaybackModel[LadybugState]((LadybugDefaults
       ladybugMotionModel.update(dt, this)
 
       modelHistory += new DataPoint(getTime, ladybug.getState)
-//      addRecordedPoint(new DataPoint(time, ladybug.getState))
+      //      addRecordedPoint(new DataPoint(time, ladybug.getState))
       penPath += new PenSample(getTime, penPoint)
 
       while (modelHistory.length > 100) {
@@ -197,7 +197,7 @@ class LadybugModel extends RecordAndPlaybackModel[LadybugState]((LadybugDefaults
 
   def readyForInteraction(): Boolean = {
     val recording = isRecord
-    val isDonePlayback = (getPlaybackIndex() >= getNumRecordedPoints - 1) && isPaused
+    val isDonePlayback = (getTime >= getMaxRecordedTime - 1) && isPaused
     recording || isDonePlayback
   }
 

@@ -33,7 +33,6 @@ public class MovingManApplication extends PiccoloPhetApplication {
             super("Introduction");
         }
 
-        @Override
         protected JComponent createSimulationPanel(MovingManModel model, RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel) {
             return new MovingManSimulationPanelWithPlayAreaSliders(model, recordAndPlaybackModel);
         }
@@ -44,7 +43,6 @@ public class MovingManApplication extends PiccoloPhetApplication {
             super("Charts");
         }
 
-        @Override
         protected JComponent createSimulationPanel(MovingManModel model, RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel) {
             return new MovingManSimulationPanelWithCharts(model, recordAndPlaybackModel);
         }

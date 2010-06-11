@@ -1,9 +1,10 @@
 package edu.colorado.phet.recordandplayback.model;
 
-import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * This is the main model class for sims that support recording and playing back.  This is done by recording discrete states,
@@ -29,8 +30,7 @@ public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
     private boolean record = true;//True if the sim is in record mode instead of playback mode (may be paused too)
     private boolean paused = true;//True if the current mode is paused 
     private double time = 0.0;//Current time of recording or playback
-    private double playbackIndexFloat = 0.0; //floor this to get playbackIndex //todo: remove this and replace with time usages only?
-    private double playbackSpeed = 1.0;//The speed at which playback will occur.
+    private double playbackSpeed = 1;//1 is full speed; i.e. the time between the original samples
 
     private ArrayList<HistoryClearListener> historyClearListeners = new ArrayList<HistoryClearListener>();
     private ArrayList<HistoryRemainderClearListener> historyRemainderClearListeners = new ArrayList<HistoryRemainderClearListener>();
@@ -77,12 +77,21 @@ public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
     /**
      * Sets the model state to reflect the current playback index.
      */
-    private void setStateToPlaybackIndex() {
-        int playbackIndex = getPlaybackIndex();
-        if (playbackIndex >= 0 && playbackIndex < recordHistory.size()) {
-            setPlaybackState(recordHistory.get(getPlaybackIndex()).getState());
-            time = recordHistory.get(getPlaybackIndex()).getTime();
-        }
+    private void updateModelPlaybackState() {
+        setPlaybackState(getPlaybackState().getState());
+    }
+
+    //Look up a recorded state based on the specified time
+
+    private DataPoint<T> getPlaybackState() {
+        //binary search?  Or use better heuristics, such as points are equally spaced
+        ArrayList<DataPoint<T>> sorted = new ArrayList<DataPoint<T>>(recordHistory);
+        Collections.sort(sorted, new Comparator<DataPoint<T>>() {
+            public int compare(DataPoint<T> o1, DataPoint<T> o2) {
+                return Double.compare(Math.abs(o1.getTime() - time), Math.abs(o2.getTime() - time));//todo: this is horribly inefficient
+            }
+        });
+        return sorted.get(0);//todo: also inefficient
     }
 
     /**
@@ -96,18 +105,20 @@ public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
     }
 
     public void rewind() {
-        setPlaybackIndexFloat(0.0);
+        setTime(getMinRecordedTime());
     }
 
     public void setTime(double t) {
         time = t;
-        //todo: shouldn't there be a notification here?
+        if (isPlayback()) {
+            updateModelPlaybackState();
+        }
+        notifyObservers();
     }
 
     public void resetAll() {
         record = true;
         paused = true;
-        playbackIndexFloat = 0.0;
         playbackSpeed = 1.0;
         recordHistory.clear();
         time = 0;
@@ -143,10 +154,6 @@ public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
         }
     }
 
-    public double getPlaybackIndexFloat() {
-        return playbackIndexFloat;
-    }
-
     public void setRecord(boolean rec) {
         if (record != rec) {
             record = rec;
@@ -179,10 +186,8 @@ public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
     }
 
     public void stepPlayback() {
-        if (getPlaybackIndex() < recordHistory.size()) {
-            setStateToPlaybackIndex();
-            time = recordHistory.get(getPlaybackIndex()).getTime();
-            playbackIndexFloat = playbackIndexFloat + playbackSpeed;
+        if (getPlaybackState().getTime() < getMaxRecordedTime()) {
+            setTime(time + playbackSpeed * getPlaybackDT());
             notifyObservers();
         } else {
             if (RecordAndPlaybackModel.recordAtEndOfPlayback) {
@@ -192,6 +197,16 @@ public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
                 setPaused(true);
             }
         }
+    }
+
+    //Estimates what DT should be by the spacing of the data points.
+    //This should provide some support for non-equal spaced samples, but other algorithms may be better
+
+    private double getPlaybackDT() {
+        if (getNumRecordedPoints() == 0) return 0;
+        else if (getNumRecordedPoints() == 1) return recordHistory.get(0).getTime();
+        else
+            return (recordHistory.get(recordHistory.size() - 1).getTime() - recordHistory.get(0).getTime()) / recordHistory.size();
     }
 
     public void addHistoryClearListener(HistoryClearListener listener) {
@@ -215,12 +230,6 @@ public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
         return record;
     }
 
-    public void setPlaybackIndexFloat(double index) {
-        playbackIndexFloat = index;
-        setStateToPlaybackIndex();
-        notifyObservers();
-    }
-
     public void setPaused(boolean p) {
         if (paused != p) {
             paused = p;
@@ -230,10 +239,6 @@ public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
 
     public boolean isPaused() {
         return paused;
-    }
-
-    public int getPlaybackIndex() {
-        return (int) Math.floor(playbackIndexFloat);
     }
 
     public boolean isRecordingFull() {
@@ -260,16 +265,6 @@ public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
     public double getMinRecordedTime() {
         if (recordHistory.size() == 0) return 0.0;
         else return recordHistory.get(0).getTime();
-    }
-
-    public void setPlaybackTime(double time) {
-        Function.LinearFunction f = new Function.LinearFunction(getMinRecordedTime(), getMaxRecordedTime(), 0, recordHistory.size() - 1);
-        setPlaybackIndexFloat(f.evaluate(time));
-    }
-
-    public double getFloatTime() {
-        Function.LinearFunction f = new Function.LinearFunction(0, recordHistory.size() - 1, getMinRecordedTime(), getMaxRecordedTime());
-        return f.evaluate(playbackIndexFloat);
     }
 
     public static interface HistoryClearListener {

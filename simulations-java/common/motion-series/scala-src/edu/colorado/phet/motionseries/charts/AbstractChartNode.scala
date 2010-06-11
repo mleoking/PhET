@@ -57,13 +57,13 @@ abstract class AbstractChartNode(canvas: MotionSeriesCanvas, model: MotionSeries
 
     def clear = {}
 
-    def setState(o: Any) = model.setPlaybackTime(o.asInstanceOf[Double])
+    def setState(o: Any) = model.setTime(o.asInstanceOf[Double])
 
     def stepInTime(simulationTimeChange: Double) = {}
   }
 
   val timeseriesModel = new TimeSeriesModel(recordableModel, new ConstantDtClock(30, 1.0)) { //todo: remove dummy clock
-    override def setPlaybackTime(requestedTime: Double) = model.setPlaybackTime(requestedTime) //skip bounds checking in parent
+    override def setPlaybackTime(requestedTime: Double) = model.setTime(requestedTime) //skip bounds checking in parent
   }
   model.addHistoryClearListener(new HistoryClearListener {
     def historyCleared = timeseriesModel.clear(true)
