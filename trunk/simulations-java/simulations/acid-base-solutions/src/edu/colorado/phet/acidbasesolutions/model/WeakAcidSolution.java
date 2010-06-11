@@ -4,6 +4,7 @@ package edu.colorado.phet.acidbasesolutions.model;
 
 import edu.colorado.phet.acidbasesolutions.model.Acid.CustomWeakAcid;
 import edu.colorado.phet.acidbasesolutions.model.Acid.TestWeakAcid;
+import edu.colorado.phet.acidbasesolutions.model.Solute.ICustomSolute;
 
 /**
  * An aqueous solution whose solute is a weak acid.
@@ -43,16 +44,28 @@ public abstract class WeakAcidSolution extends AqueousSolution {
         return getWaterConcentration() - getProductConcentration();
     }
     
+    /**
+     * A generic "test" solution whose solute is a weak acid.
+     * Strength and concentration are immutable.
+     */
     public static class TestWeakAcidSolution extends WeakAcidSolution {
         public TestWeakAcidSolution() {
             super( new TestWeakAcid(), 1E-2 /* concentration */ );
         }
     }
     
+    /**
+     * A generic "custom" solution whose solute is a weak acid.
+     * Strength and concentration are mutable.
+     */
     public static class CustomWeakAcidSolution extends WeakAcidSolution implements ICustomSolution {
         
         public CustomWeakAcidSolution( double strength, double initialConcentration ) {
             super( new CustomWeakAcid( strength ), initialConcentration );
+        }
+        
+        public void setSoluteStrength( double strength ) {
+            ( (ICustomSolute) getSolute() ).setStrength( strength );
         }
         
         @Override
