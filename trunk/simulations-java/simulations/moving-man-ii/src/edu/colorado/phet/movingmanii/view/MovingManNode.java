@@ -1,5 +1,6 @@
 package edu.colorado.phet.movingmanii.view;
 
+import edu.colorado.phet.common.motion.model.TimeData;
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
@@ -54,8 +55,12 @@ public class MovingManNode extends PNode {
             }
         });
         model.getVelocityGraphSeries().addListener(new MovingManDataSeries.Listener() {
-            public void changed() {
+            public void entireSeriesChanged() {
                 updateMan();
+            }
+
+            public void dataPointAdded(TimeData point) {
+
             }
         });
         updateMan();

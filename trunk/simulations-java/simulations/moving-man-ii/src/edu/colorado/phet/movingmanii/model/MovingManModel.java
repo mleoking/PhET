@@ -8,7 +8,9 @@ import edu.colorado.phet.movingmanii.view.Range;
 import java.util.ArrayList;
 
 public class MovingManModel {
-    public static final double DT = 1.0 / 30.0;
+    public static final double FPS = 24.0;
+    public static final int CLOCK_DELAY_MS = (int) (1.0 / FPS * 1000);
+    public static final double DT = 1.0 / FPS;
     private MovingMan movingMan;
 
     public static final int DERIVATIVE_RADIUS = 1;//Kathy chose this value because it is a good balance between derivative sharpness and responsiveness

@@ -11,6 +11,7 @@ import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.util.PPaintContext;
 
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
@@ -91,6 +92,10 @@ public class MovingManSimulationPanel extends PhetPCanvas {
             }
         });
         updateAccelerationVectorVisible(accelerationVector, model);
+
+        setInteractingRenderQuality(PPaintContext.LOW_QUALITY_RENDERING);
+        setDefaultRenderQuality(PPaintContext.LOW_QUALITY_RENDERING);
+        setAnimatingRenderQuality(PPaintContext.LOW_QUALITY_RENDERING);
     }
 
     private void updateViewRange() {

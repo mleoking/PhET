@@ -19,6 +19,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PClip;
 
 import java.awt.*;
+import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -298,11 +299,12 @@ public class MovingManChart extends PNode {
             };
             viewDimension.addObserver(so);
             so.update();
-            final PhetPPath path = new PhetPPath(new BasicStroke(2), color);
+            final PhetPPath path = new PhetPPath(new GeneralPath(), new BasicStroke(2), color);
             clip.addChild(path);
             addChild(clip);
             dataSeries.addListener(new MovingManDataSeries.Listener() {
-                public void changed() {
+                public void entireSeriesChanged() {
+                    System.out.println("MovingManChart$LineSeriesNode.entireSeriesChanged");
                     TimeData[] points = dataSeries.getData();
 
                     DoubleGeneralPath generalPath = new DoubleGeneralPath();
@@ -316,6 +318,22 @@ public class MovingManChart extends PNode {
                     }
 
                     path.setPathTo(generalPath.getGeneralPath());
+                }
+
+                public void dataPointAdded(TimeData point) {
+                    GeneralPath ref = path.getPathReference();
+                    final Point2D mapped = modelToView(point);
+                    float x = (float) mapped.getX();
+                    float y = (float) mapped.getY();
+                    if (ref.getCurrentPoint() == null) {
+                        ref.moveTo(x, y);
+                    } else {
+                        ref.lineTo(x, y);
+                    }
+                    //TODO: signify a change, see path.setPathTo
+//                    path.firePropertyChange(PPath.PROPERTY_CODE_PATH, PPath.PROPERTY_PATH, null, path);
+                    path.updateBoundsFromPath();
+                    path.invalidatePaint();
                 }
             });
         }
