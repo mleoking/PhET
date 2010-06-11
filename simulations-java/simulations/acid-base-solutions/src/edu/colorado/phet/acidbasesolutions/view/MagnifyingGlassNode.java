@@ -90,7 +90,7 @@ public class MagnifyingGlassNode extends PhetPNode {
         handleNode.setPathTo( handlePath );
         handleNode.getTransform().setToIdentity();
         PAffineTransform transform = new PAffineTransform();
-        transform.rotate(  -Math.PI / 4 );
+        transform.rotate(  -Math.PI / 3 );
         transform.translate( 0, diameter / 2 );
         handleNode.setTransform( transform );
     }
