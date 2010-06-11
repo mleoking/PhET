@@ -12,12 +12,18 @@ import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
-import edu.colorado.phet.acidbasesolutions.model.*;
+import edu.colorado.phet.acidbasesolutions.model.ABSModel;
+import edu.colorado.phet.acidbasesolutions.model.PureWaterSolution;
+import edu.colorado.phet.acidbasesolutions.model.Solute;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel.ModelListener;
-import edu.colorado.phet.acidbasesolutions.model.Acid.TestStrongAcid;
-import edu.colorado.phet.acidbasesolutions.model.Acid.TestWeakAcid;
+import edu.colorado.phet.acidbasesolutions.model.Acid.StrongAcid;
+import edu.colorado.phet.acidbasesolutions.model.Acid.WeakAcid;
 import edu.colorado.phet.acidbasesolutions.model.Base.TestStrongBase;
 import edu.colorado.phet.acidbasesolutions.model.Base.TestWeakBase;
+import edu.colorado.phet.acidbasesolutions.model.StrongAcidSolution.TestStrongAcidSolution;
+import edu.colorado.phet.acidbasesolutions.model.StrongBaseSolution.TestStrongBaseSolution;
+import edu.colorado.phet.acidbasesolutions.model.WeakAcidSolution.TestWeakAcidSolution;
+import edu.colorado.phet.acidbasesolutions.model.WeakBaseSolution.TestWeakBaseSolution;
 import edu.colorado.phet.acidbasesolutions.view.ABSRadioButton;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 
@@ -82,10 +88,10 @@ public class TestSolutionControl extends JPanel {
         if ( solute == null ) {
             waterRadioButton.setSelected( true );
         }
-        else if ( solute instanceof TestStrongAcid ) {
+        else if ( solute instanceof StrongAcid ) {
             strongAcidRadioButton.setSelected( true );
         }
-        else if ( solute instanceof TestWeakAcid ) {
+        else if ( solute instanceof WeakAcid ) {
             weakAcidRadioButton.setSelected( true );
         }
         else if ( solute instanceof TestStrongBase ) {
@@ -104,16 +110,16 @@ public class TestSolutionControl extends JPanel {
             model.setSolution( new PureWaterSolution() );
         }
         else if ( strongAcidRadioButton.isSelected() ) {
-            model.setSolution( new StrongAcidSolution( new TestStrongAcid(), ABSConstants.CONCENTRATION_RANGE.getMax() ) );
+            model.setSolution( new TestStrongAcidSolution() );
         }
         else if ( weakAcidRadioButton.isSelected() ) {
-            model.setSolution( new WeakAcidSolution( new TestWeakAcid(), ABSConstants.CONCENTRATION_RANGE.getMin() ) );
+            model.setSolution( new TestWeakAcidSolution() );
         }
         else if ( strongBaseRadioButton.isSelected() ) {
-            model.setSolution( new StrongBaseSolution( new TestStrongBase(), ABSConstants.CONCENTRATION_RANGE.getMax() ) );
+            model.setSolution( new TestStrongBaseSolution() );
         }
         else if ( weakBaseRadioButton.isSelected() ) {
-            model.setSolution( new WeakBaseSolution( new TestWeakBase(), ABSConstants.CONCENTRATION_RANGE.getMin() ) );
+            model.setSolution( new TestWeakBaseSolution() );
         }
     }
 }

@@ -9,12 +9,12 @@ import edu.colorado.phet.acidbasesolutions.model.Molecule.GenericStrongBaseProdu
 import edu.colorado.phet.acidbasesolutions.model.Molecule.GenericWeakBaseMolecule;
 import edu.colorado.phet.acidbasesolutions.model.Molecule.GenericWeakBaseProductMolecule;
 
-/**
- * Base class for all solutes that are bases.
- *
+/** 
+ * Class hierarchy for all base solutes.
+ * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class Base extends Solute {
+public abstract class Base extends Solute {
 
     public Base( Molecule molecule, Molecule conjugate, double strength ) {
         super( molecule, conjugate, strength );
@@ -23,43 +23,93 @@ public class Base extends Solute {
     public String getStrengthSymbol() {
         return ABSSymbols.Kb;
     }
-    
-    public static class TestWeakBase extends Base {
 
-        public TestWeakBase() {
-            super( new GenericWeakBaseMolecule(), new GenericWeakBaseProductMolecule(), 0.01 );
+    protected abstract boolean isValidStrength( double strength );
+
+    //------------------------------------------------------------------------------
+    // Strong
+    //------------------------------------------------------------------------------
+
+    public static abstract class StrongBase extends Base {
+
+        public StrongBase( Molecule molecule, Molecule conjugate, double strength ) {
+            super( molecule, conjugate, strength );
+        }
+
+        protected boolean isValidStrength( double strength ) {
+            return ( strength > ABSConstants.WEAK_STRENGTH_RANGE.getMax() );
         }
     }
-    
-    public static class TestStrongBase extends Base {
+
+    public static abstract class GenericStrongBase extends StrongBase {
+
+        public GenericStrongBase( double strength ) {
+            super( new GenericStrongBaseMolecule(), new GenericStrongBaseProductMolecule(), strength );
+        }
+    }
+
+    public static class TestStrongBase extends GenericStrongBase {
 
         public TestStrongBase() {
-            super( new GenericStrongBaseMolecule(), new GenericStrongBaseProductMolecule(), 1.5 );
+            super( 2 /* strength */);
         }
     }
-    
-    public static class CustomWeakBase extends Base implements ICustomSolute {
-        
-        public CustomWeakBase( double strength ) {
-            super( new GenericWeakBaseMolecule(), new GenericWeakBaseProductMolecule(), strength );
+
+    public static class CustomStrongBase extends GenericStrongBase implements ICustomSolute {
+
+        public CustomStrongBase( double strength ) {
+            super( strength );
         }
-        
+
         @Override
         public void setStrength( double strength ) {
-            assert( ABSConstants.WEAK_STRENGTH_RANGE.contains( strength ) );
+            if ( !isValidStrength( strength ) ) {
+                throw new IllegalArgumentException( "strength out of range: " + strength );
+            }
             super.setStrength( strength );
         }
     }
-    
-    public static class CustomStrongBase extends Base implements ICustomSolute {
-        
-        public CustomStrongBase( double strength ) {
-            super( new GenericStrongBaseMolecule(), new GenericStrongBaseProductMolecule(), strength );
+
+    //------------------------------------------------------------------------------
+    // Weak
+    //------------------------------------------------------------------------------
+
+    public static abstract class WeakBase extends Base {
+
+        public WeakBase( Molecule molecule, Molecule conjugate, double strength ) {
+            super( molecule, conjugate, strength );
         }
-        
+
+        protected boolean isValidStrength( double strength ) {
+            return ( ABSConstants.WEAK_STRENGTH_RANGE.contains( strength ) );
+        }
+    }
+
+    public static class GenericWeakBase extends WeakBase {
+
+        public GenericWeakBase( double strength ) {
+            super( new GenericWeakBaseMolecule(), new GenericWeakBaseProductMolecule(), strength );
+        }
+    }
+
+    public static class TestWeakBase extends GenericWeakBase {
+
+        public TestWeakBase() {
+            super( 1E-4 /* strength */);
+        }
+    }
+
+    public static class CustomWeakBase extends GenericWeakBase implements ICustomSolute {
+
+        public CustomWeakBase( double strength ) {
+            super( strength );
+        }
+
         @Override
         public void setStrength( double strength ) {
-            assert( strength > ABSConstants.WEAK_STRENGTH_RANGE.getMax() );
+            if ( !isValidStrength( strength ) ) {
+                throw new IllegalArgumentException( "strength out of range: " + strength );
+            }
             super.setStrength( strength );
         }
     }
