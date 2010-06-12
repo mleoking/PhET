@@ -338,7 +338,8 @@ public class CustomSolutionControl extends JPanel {
             layout.addComponent( strongRadioButton, row++, column, 1, 1 );
             column = 0;
             layout.addComponent( weakStrengthControl, row, column++, 2, 1 );
-            layout.addComponent( Box.createVerticalStrut( weakStrengthControl.getPreferredSize().height ), row, column );
+            // maintain panel height when weakStrengthControl is made invisible
+            layout.addComponent( Box.createVerticalStrut( weakStrengthControl.getPreferredSize().height ), row, column ); 
         }
         
         public void setLabelText( String text ) {
