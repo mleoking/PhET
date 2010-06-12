@@ -17,6 +17,10 @@ import edu.colorado.phet.acidbasesolutions.model.ABSModel.ModelChangeAdapter;
 import edu.colorado.phet.acidbasesolutions.model.ABSModelElement.ModelElementChangeListener;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.AqueousSolutionChangeListener;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.umd.cs.piccolo.event.PDragEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -28,7 +32,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PHMeterNode extends PComposite {
+public class PHMeterNode extends PhetPNode {
     
     private static final Color SHAFT_COLOR = Color.LIGHT_GRAY;
     private static final Color SHAFT_STROKE_COLOR = Color.BLACK;
@@ -45,6 +49,7 @@ public class PHMeterNode extends PComposite {
     private static final DecimalFormat DISPLAY_FORMAT = new DecimalFormat( "#0.00" );
     private static final Color DISPLAY_BACKGROUND = Color.LIGHT_GRAY;
 
+    private ABSModel model;
     private AqueousSolution solution;
     private AqueousSolutionChangeListener listener;
     private final DisplayNode displayNode;
@@ -52,6 +57,7 @@ public class PHMeterNode extends PComposite {
     public PHMeterNode( final ABSModel model ) {
         this( model.getPHMeter().getShaftLength() );
         
+        this.model = model;
         model.addModelChangeListener( new ModelChangeAdapter() {
             @Override
             public void solutionChanged() {
@@ -63,6 +69,7 @@ public class PHMeterNode extends PComposite {
 
             public void locationChanged() {
                 setOffset( model.getPHMeter().getLocationReference() );
+                updateDisplay();
             }
 
             public void visibilityChanged() {
@@ -74,17 +81,44 @@ public class PHMeterNode extends PComposite {
         this.solution = model.getSolution();
         this.listener = new AqueousSolutionChangeListener() {
             public void strengthChanged() {
-                update();
+                updateDisplay();
             }
             public void concentrationChanged() {
-                update();
+                updateDisplay();
             }
         };
         solution.addAqueousSolutionChangeListener( listener );
         
+        addInputEventListener( new CursorHandler( Cursor.N_RESIZE_CURSOR ) );
+        addInputEventListener( new PDragEventHandler() {
+            
+            private double clickYOffset; // y offset of mouse click from meter's origin
+            
+            protected void startDrag( PInputEvent event ) {
+                super.startDrag( event );
+                // note the offset between the mouse click and the meter's origin
+                clickYOffset = event.getPosition().getY() - model.getPHMeter().getLocationReference().getY();
+            }
+            
+            protected void drag( final PInputEvent event ) {
+                double x = getXOffset();
+                double y = event.getPosition().getY() - clickYOffset;
+                model.getPHMeter().setLocation( x, y );
+            }
+        });
+        
         setOffset( model.getPHMeter().getLocationReference() );
         setVisible( model.getPHMeter().isVisible() );
-        update();
+        updateDisplay();
+    }
+    
+    private void updateDisplay() {
+        if ( model.getBeaker().inSolution( model.getPHMeter().getLocationReference() ) ) {
+            displayNode.setValue( new PHValue( model.getSolution().getPH() ) );
+        }
+        else {
+            displayNode.setValue( null );
+        }
     }
     
     /*
@@ -92,8 +126,6 @@ public class PHMeterNode extends PComposite {
      */
     private PHMeterNode( double shaftHeight ) {
         super();
-        setPickable( false );
-        setChildrenPickable( false );
         
         this.displayNode = new DisplayNode();
         
@@ -107,20 +139,16 @@ public class PHMeterNode extends PComposite {
         addChild( displayNode );
         
         // layout, origin at tip of probe
+        double yOverlap = 5;
         double x = -tipNode.getFullBoundsReference().getWidth() / 2;
         double y = -tipNode.getFullBoundsReference().getHeight();
         tipNode.setOffset( x, y );
         x = -shaftNode.getFullBoundsReference().getWidth() / 2; 
-        y = tipNode.getFullBoundsReference().getMinY() - shaftNode.getFullBoundsReference().getHeight();
+        y = tipNode.getFullBoundsReference().getMinY() - shaftNode.getFullBoundsReference().getHeight() + yOverlap;
         shaftNode.setOffset( x, y );
         x = -0.85 * displayNode.getFullBoundsReference().getWidth();
-        y = shaftNode.getFullBoundsReference().getMinY() - displayNode.getFullBoundsReference().getHeight();
+        y = shaftNode.getFullBoundsReference().getMinY() - displayNode.getFullBoundsReference().getHeight() + yOverlap;
         displayNode.setOffset( x, y );
-    }
-    
-    private void update() {
-        PHValue value = new PHValue( solution.getPH() );
-        displayNode.setValue( value );
     }
     
     private void setSolution( AqueousSolution solution ) {
@@ -128,7 +156,7 @@ public class PHMeterNode extends PComposite {
             this.solution.removeAqueousSolutionChangeListener( listener );
             this.solution = solution;
             this.solution.addAqueousSolutionChangeListener( listener );
-            update();
+            updateDisplay();
         }
     }
     
@@ -162,14 +190,15 @@ public class PHMeterNode extends PComposite {
         }
         
         public void setValue( PHValue pH ) {
+            String text = null;
             if ( pH != null ) {
                 final double doubleValue = pH.getValue();
-                String stringValue = MessageFormat.format( ABSStrings.PATTERN_LABEL_VALUE, ABSStrings.PH, DISPLAY_FORMAT.format( doubleValue ) );
-                valueNode.setText( stringValue );
+                text = MessageFormat.format( ABSStrings.PATTERN_LABEL_VALUE, ABSStrings.PH, DISPLAY_FORMAT.format( doubleValue ) );
             }
             else {
-                valueNode.setText( "" );  
+                text = MessageFormat.format( ABSStrings.PATTERN_LABEL_VALUE, ABSStrings.PH, ABSStrings.PH_METER_NO_VALUE );
             }
+            valueNode.setText( text ); 
         }
     }
     

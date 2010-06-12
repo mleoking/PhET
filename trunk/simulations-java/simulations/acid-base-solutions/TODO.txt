@@ -6,13 +6,10 @@ MILESTONES
 - 8/1/10, sim showable for BCCE
 
 HIGH PRIORITY
-- default strength and concentration for "Custom" solutions?
-- wire up controls that select solution
-- add locations to model (no need for MVT, only needed for tool interactions with solution & beaker)
-- drag behavior for pH meter
-- magnifying glass from prototype
+- fix drag behavior for pH meter, constrain, errors in coordinate frame transforms
 - bar graph, adapt from advanced-acid-base-solutions
 - conductivity tester
+- pH paper
 
 MEDUIUM PRIORITY
 - resolve design issues with exclusivity of tools

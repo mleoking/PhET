@@ -25,8 +25,12 @@ public abstract class ABSModelElement {
     }
     
     public void setLocation( Point2D location ) {
-        if ( !location.equals( this.location ) ) {
-            this.location.setLocation( location );
+        setLocation( location.getX(), location.getY() );
+    }
+    
+    public void setLocation( double x, double y ) {
+        if ( x != location.getX() || y != location.getY() ) {
+            this.location.setLocation( x, y );
             fireLocationChanged();
         }
     }

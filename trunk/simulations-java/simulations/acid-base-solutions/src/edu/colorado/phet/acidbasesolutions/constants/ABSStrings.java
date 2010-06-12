@@ -45,6 +45,7 @@ public class ABSStrings {
     public static final String LITERS = getString( "liters" );
     public static final String MAGNIFYING_GLASS = getString( "magnifyingGlass" );
     public static final String BAR_GRAPH = getString( "barGraph" );
+    public static final String PH_METER_NO_VALUE = getString( "phMeter.noValue" );
     
     private static final String getString( String key ) {
         return ABSResources.getString( key );
