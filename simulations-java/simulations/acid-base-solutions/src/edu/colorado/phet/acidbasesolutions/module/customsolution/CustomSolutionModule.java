@@ -4,6 +4,7 @@ package edu.colorado.phet.acidbasesolutions.module.customsolution;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel;
+import edu.colorado.phet.acidbasesolutions.model.WeakAcidSolution.CustomWeakAcidSolution;
 import edu.colorado.phet.acidbasesolutions.module.ABSModule;
 
 /**
@@ -20,7 +21,7 @@ public class CustomSolutionModule extends ABSModule {
     public CustomSolutionModule() {
         super( ABSStrings.CUSTOM_SOLUTION );
         
-        model = new ABSModel();
+        model = new ABSModel( new CustomWeakAcidSolution() );
         
         canvas = new CustomSolutionCanvas( model );
         setSimulationPanel( canvas );

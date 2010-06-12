@@ -1,3 +1,7 @@
+6/12/10 move some constants to ABSConstants
+6/12/10 model refinements
+6/12/10 make solution color transparent, put pH meter behind solution
+6/12/10 move common canvas code into base class
 6/11/10 wire up "Show Water" control
 6/11/10 big simplifications to model, eliminate Solute class hierarchy
 6/11/10 use strengths and concentrations for "Test" solutions as specified by KL

@@ -48,8 +48,12 @@ public class ABSConstants {
     public static final double MAGNIFYING_GLASS_DIAMETER = 500;
     public static final double PH_METER_HEIGHT = 200;
     
-    public static final DoubleRange CONCENTRATION_RANGE = new DoubleRange( 1E-3, 1 );
-    public static final DoubleRange WEAK_STRENGTH_RANGE = new DoubleRange( 1E-7, 1 );
+    public static final double WATER_CONCENTRATION = 55.6; // water concentration when it's used as a solvent, mol/L
+    public static final double WATER_EQUILIBRIUM_CONSTANT = 1E-14;
+    
+    public static final DoubleRange CONCENTRATION_RANGE = new DoubleRange( 1E-3, 1, 1E-2 );
+    public static final DoubleRange WEAK_STRENGTH_RANGE = new DoubleRange( 1E-7, 1, 1E-4 );
+    public static final double STRONG_STRENGTH = WEAK_STRENGTH_RANGE.getMax() + 1;
     
     //----------------------------------------------------------------------------
     // View

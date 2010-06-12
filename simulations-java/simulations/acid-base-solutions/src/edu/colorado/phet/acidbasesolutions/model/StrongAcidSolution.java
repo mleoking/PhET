@@ -61,7 +61,7 @@ public abstract class StrongAcidSolution extends AqueousSolution {
      */
     public static class TestStrongAcidSolution extends GenericStrongAcidSolution {
         public TestStrongAcidSolution() {
-            super( 2 /* strength */, 1E-2 /* concentration */ );
+            super( ABSConstants.STRONG_STRENGTH, ABSConstants.CONCENTRATION_RANGE.getDefault() );
         }
     }
     
@@ -70,6 +70,10 @@ public abstract class StrongAcidSolution extends AqueousSolution {
      * Strength and concentration are mutable.
      */
     public static class CustomStrongAcidSolution extends GenericStrongAcidSolution implements ICustomSolution {
+        
+        public CustomStrongAcidSolution() {
+            this( ABSConstants.STRONG_STRENGTH, ABSConstants.CONCENTRATION_RANGE.getDefault() );
+        }
         
         public CustomStrongAcidSolution( double strength, double concentration ) {
             super( strength, concentration );

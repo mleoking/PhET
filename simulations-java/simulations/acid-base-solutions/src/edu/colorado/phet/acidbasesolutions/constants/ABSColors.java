@@ -27,5 +27,5 @@ public class ABSColors {
     public static final Color M_PLUS = BH_PLUS;
     
     // solution color
-    public static final Color AQUEOUS_SOLUTION = new Color( 193, 222, 227 ); // light blue
+    public static final Color AQUEOUS_SOLUTION = new Color( 193, 222, 227, 180 ); // transparent light blue
 }

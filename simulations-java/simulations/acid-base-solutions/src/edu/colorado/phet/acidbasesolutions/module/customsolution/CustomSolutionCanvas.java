@@ -13,6 +13,6 @@ import edu.colorado.phet.acidbasesolutions.module.ABSCanvas;
 public class CustomSolutionCanvas extends ABSCanvas {
 
     public CustomSolutionCanvas( ABSModel model ) {
+        super( model );
     }
-
 }
