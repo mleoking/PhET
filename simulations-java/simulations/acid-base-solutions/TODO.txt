@@ -10,6 +10,7 @@ HIGH PRIORITY
 - bar graph, adapt from advanced-acid-base-solutions
 - conductivity tester
 - pH paper
+- reaction equations below beaker
 
 MEDUIUM PRIORITY
 - resolve design issues with exclusivity of tools
