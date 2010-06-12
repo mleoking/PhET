@@ -21,9 +21,6 @@ import edu.colorado.phet.common.phetcommon.math.MathUtil;
  */
 public abstract class AqueousSolution {
     
-    private static final double W = 55.6; // H2O concentration, mol/L
-    private static final double Kw = 1E-14; // H2O equilibrium constant
-
     private final Molecule solute; // the substance that is dissolved in a solution
     private final Molecule product; // the substance that is produced as the result of the solute dissolving 
     private double strength; // strength of the solute
@@ -222,11 +219,11 @@ public abstract class AqueousSolution {
     }
     
     protected static double getWaterConcentration() {
-        return W;
+        return ABSConstants.WATER_CONCENTRATION;
     }
     
     protected static double getWaterEquilibriumConstant() {
-        return Kw;
+        return ABSConstants.WATER_EQUILIBRIUM_CONSTANT;
     }
     
     public interface AqueousSolutionChangeListener extends EventListener {

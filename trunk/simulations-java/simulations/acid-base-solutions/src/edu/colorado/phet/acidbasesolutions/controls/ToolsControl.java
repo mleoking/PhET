@@ -90,7 +90,7 @@ public class ToolsControl extends JPanel {
         layout.addComponent( showWaterCheckBox, row++, column );
         
         // default state
-        pHPaperRadioButton.setSelected( true );
+        pHMeterRadioButton.setSelected( true ); //XXX
         showWaterCheckBox.setSelected( false );
     }
     

@@ -15,17 +15,17 @@ import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
  */
 public class ABSModel {
 
+    private AqueousSolution solution;
     private final Beaker beaker;
     private final MagnifyingGlass magnifyingGlass;
-    private AqueousSolution solution;
     private boolean waterVisible; // water visibility, a global property, included in model for convenience
     
     private EventListenerList listeners;
     
-    public ABSModel() {
+    public ABSModel( AqueousSolution solution ) {
+        this.solution = solution;
         beaker = new Beaker();
         magnifyingGlass = new MagnifyingGlass();
-        solution = new PureWaterSolution();
         waterVisible = ABSConstants.WATER_VISIBLE;
         listeners = new EventListenerList();
     }

@@ -17,6 +17,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
+import edu.colorado.phet.acidbasesolutions.model.ABSModel;
 import edu.colorado.phet.acidbasesolutions.view.ABSRadioButton;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.AbstractValueControl;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.ILayoutStrategy;
@@ -34,7 +35,7 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
  */
 public class CustomSolutionControl extends JPanel {
     
-    public CustomSolutionControl() {
+    public CustomSolutionControl( ABSModel model ) {
         
         // border
         TitledBorder titledBorder = new TitledBorder( ABSStrings.SOLUTION );

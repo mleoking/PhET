@@ -16,7 +16,7 @@ import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 public class CustomSolutionControlPanel extends ControlPanel {
 
     public CustomSolutionControlPanel( Resettable resettable, ABSModel model ) {
-        addControlFullWidth( new CustomSolutionControl() );
+        addControlFullWidth( new CustomSolutionControl( model ) );
         addControlFullWidth( new FewerToolsControlPanel( model ) );
         addResetAllButton( resettable );
     }

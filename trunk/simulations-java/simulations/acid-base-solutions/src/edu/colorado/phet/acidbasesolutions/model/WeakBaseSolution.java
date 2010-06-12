@@ -63,7 +63,7 @@ public abstract class WeakBaseSolution extends AqueousSolution {
      */
     public static class TestWeakBaseSolution extends GenericWeakBaseSolution {
         public TestWeakBaseSolution() {
-            super( 1E-4 /* strength */, 1E-2 /* concentration */ );
+            super( ABSConstants.WEAK_STRENGTH_RANGE.getDefault(), ABSConstants.CONCENTRATION_RANGE.getDefault() );
         }
     }
 
@@ -73,6 +73,10 @@ public abstract class WeakBaseSolution extends AqueousSolution {
      */
     public static class CustomWeakBaseSolution extends GenericWeakBaseSolution implements ICustomSolution {
 
+        public CustomWeakBaseSolution() {
+            this( ABSConstants.WEAK_STRENGTH_RANGE.getDefault(), ABSConstants.CONCENTRATION_RANGE.getDefault() );
+        }
+        
         public CustomWeakBaseSolution( double strength, double concentration ) {
             super( strength, concentration );
         }

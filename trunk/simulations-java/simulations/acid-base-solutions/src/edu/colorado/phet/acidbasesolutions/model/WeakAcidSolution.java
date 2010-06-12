@@ -63,7 +63,7 @@ public abstract class WeakAcidSolution extends AqueousSolution {
      */
     public static class TestWeakAcidSolution extends GenericWeakAcidSolution {
         public TestWeakAcidSolution() {
-            super( 1E-4 /* strength */, 1E-2 /* concentration */ );
+            super( ABSConstants.WEAK_STRENGTH_RANGE.getDefault(), ABSConstants.CONCENTRATION_RANGE.getDefault() );
         }
     }
     
@@ -72,6 +72,10 @@ public abstract class WeakAcidSolution extends AqueousSolution {
      * Strength and concentration are mutable.
      */
     public static class CustomWeakAcidSolution extends GenericWeakAcidSolution implements ICustomSolution {
+        
+        public CustomWeakAcidSolution() {
+            this( ABSConstants.WEAK_STRENGTH_RANGE.getDefault(), ABSConstants.CONCENTRATION_RANGE.getDefault() );
+        }
         
         public CustomWeakAcidSolution( double strength, double initialConcentration ) {
             super( strength, initialConcentration );

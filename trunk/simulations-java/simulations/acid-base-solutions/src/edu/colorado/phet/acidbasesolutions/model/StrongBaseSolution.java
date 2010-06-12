@@ -61,7 +61,7 @@ public abstract class StrongBaseSolution extends AqueousSolution {
      */
     public static class TestStrongBaseSolution extends GenericStrongBaseSolution {
         public TestStrongBaseSolution() {
-            super( 2 /* strength */, 1E-2 /* concentration */ );
+            super( ABSConstants.STRONG_STRENGTH, ABSConstants.CONCENTRATION_RANGE.getDefault() );
         }
     }
 
@@ -70,6 +70,10 @@ public abstract class StrongBaseSolution extends AqueousSolution {
      * Strength and concentration are mutable.
      */
     public static class CustomStrongBaseSolution extends GenericStrongBaseSolution implements ICustomSolution {
+        
+        public CustomStrongBaseSolution() {
+            this( ABSConstants.STRONG_STRENGTH, ABSConstants.CONCENTRATION_RANGE.getDefault() );
+        }
         
         public CustomStrongBaseSolution( double strength, double initialConcentration ) {
             super( strength, initialConcentration );
