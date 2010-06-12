@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.RestartResponseAtInterceptPageException;
 import org.apache.wicket.markup.html.pages.RedirectPage;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 
 import edu.colorado.phet.website.authentication.PhetSession;
@@ -71,6 +72,7 @@ public class AddContributionCommentPage extends PhetRegularPage {
                 comment.setDateUpdated( new Date() );
                 comment.setContribution( contrib );
                 comment.setPhetUser( phetuser );
+                Hibernate.initialize( phetuser.getTranslations() ); // hopefully stops an assertion that says this is not processed by flush(). see http://opensource.atlassian.com/projects/hibernate/browse/HHH-1663
                 session.save( comment );
                 return true;
             }
