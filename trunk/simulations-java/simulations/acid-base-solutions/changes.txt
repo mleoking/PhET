@@ -1,3 +1,4 @@
+6/12/10 move origin of PHMeterNode to tip of probe
 6/12/10 red foreground color for controls that aren't implemented
 6/12/10 wire up visiblity controls for pH meter and magnifying glass
 6/12/10 add base class model element for things that have location and visibility

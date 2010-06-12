@@ -24,6 +24,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * pH meter, displays the pH of a solution.
+ * Origin is at the tip of the probe.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -105,13 +106,16 @@ public class PHMeterNode extends PComposite {
         addChild( tipNode );
         addChild( displayNode );
         
-        PBounds db = displayNode.getFullBoundsReference();
-        PBounds sb = shaftNode.getFullBoundsReference();
-        displayNode.setOffset( 0, 0 );
-        shaftNode.setOffset( 0.85 * ( db.getWidth() - sb.getWidth() ), db.getHeight() - 0.5 * DISPLAY_BORDER_WIDTH );
-        sb = shaftNode.getFullBoundsReference();
-        PBounds tb = tipNode.getFullBoundsReference();
-        tipNode.setOffset( sb.getX() + ( sb.getWidth() - tb.getWidth() ) / 2, sb.getY() + sb.getHeight() );
+        // layout, origin at tip of probe
+        double x = -tipNode.getFullBoundsReference().getWidth() / 2;
+        double y = -tipNode.getFullBoundsReference().getHeight();
+        tipNode.setOffset( x, y );
+        x = -shaftNode.getFullBoundsReference().getWidth() / 2; 
+        y = tipNode.getFullBoundsReference().getMinY() - shaftNode.getFullBoundsReference().getHeight();
+        shaftNode.setOffset( x, y );
+        x = -0.85 * displayNode.getFullBoundsReference().getWidth();
+        y = shaftNode.getFullBoundsReference().getMinY() - displayNode.getFullBoundsReference().getHeight();
+        displayNode.setOffset( x, y );
     }
     
     private void update() {
@@ -129,7 +133,7 @@ public class PHMeterNode extends PComposite {
     }
     
     /*
-     * Read-out that displays the pH value.
+     * Read-out that displays the pH value, origin at upper left.
      */
     private static class DisplayNode extends PComposite {
         
