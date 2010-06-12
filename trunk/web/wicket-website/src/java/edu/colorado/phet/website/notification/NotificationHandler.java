@@ -113,11 +113,9 @@ public class NotificationHandler {
 
         try {
             Properties props = System.getProperties();
-            //props.put( "mail.smtp.host", "mx.colorado.edu" );
-
             props.put( "mail.smtp.host", websiteProperties.getMailHost() );
 
-            props.put( "mail.debug", "true" );
+            //props.put( "mail.debug", "true" );
             props.put( "mail.smtp.starttls.enable", "true" ); //necessary if you use cu or google, otherwise you receive an error:
 
             props.put( "mail.smtp.auth", "true" );
