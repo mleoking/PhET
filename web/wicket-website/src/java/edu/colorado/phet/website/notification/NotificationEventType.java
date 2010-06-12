@@ -70,7 +70,7 @@ public enum NotificationEventType {
             }
         } );
         if ( !success ) {
-            ret[0] = "Contribution #" + id + " does not exist anymore, try <a href=\"" + contribhref + "\">this link</a>";
+            ret[0] = "<a " + contribhref + ">#" + id + " (does not exist anymore)</a>";
         }
         return ret[0];
     }
