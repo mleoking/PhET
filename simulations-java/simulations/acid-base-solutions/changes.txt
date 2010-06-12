@@ -1,3 +1,5 @@
+6/12/10 make pH meter "on" by default
+6/12/10 remove magnifying-glass-prototype from build properties
 6/12/10 add drag handler to pH meter, unconstrained vertical dragging, some error in coordinate frame transforms
 6/12/10 move origin of PHMeterNode to tip of probe
 6/12/10 red foreground color for controls that aren't implemented
