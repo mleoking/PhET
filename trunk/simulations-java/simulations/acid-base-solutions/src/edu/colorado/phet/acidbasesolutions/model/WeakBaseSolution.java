@@ -2,7 +2,11 @@
 
 package edu.colorado.phet.acidbasesolutions.model;
 
+import java.text.MessageFormat;
+
 import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
+import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
+import edu.colorado.phet.acidbasesolutions.constants.ABSSymbols;
 import edu.colorado.phet.acidbasesolutions.model.Molecule.GenericWeakBaseMolecule;
 import edu.colorado.phet.acidbasesolutions.model.Molecule.GenericWeakBaseProductMolecule;
 
@@ -15,6 +19,10 @@ public abstract class WeakBaseSolution extends AqueousSolution {
 
     public WeakBaseSolution( Molecule solute, Molecule product, double strength, double initialConcentration ) {
         super( solute, product, strength, initialConcentration );
+    }
+    
+    public String getStrengthLabel() {
+        return MessageFormat.format( ABSStrings.PATTERN_STRENGTH_WEAK, ABSSymbols.Kb );
     }
     
     // [B] = c - [BH+]

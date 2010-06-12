@@ -53,6 +53,8 @@ public abstract class AqueousSolution {
         listeners = new EventListenerList();
     }
     
+    public abstract String getStrengthLabel();
+    
     public Color getColor() {
         return ABSColors.AQUEOUS_SOLUTION;
     }

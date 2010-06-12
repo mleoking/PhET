@@ -12,6 +12,10 @@ public class PureWaterSolution extends AqueousSolution {
     public PureWaterSolution() {
         super( null, null, 0, 0 );
     }
+    
+    public String getStrengthLabel() {
+        return null;
+    }
 
     public double getSoluteConcentration() {
         return 0;
