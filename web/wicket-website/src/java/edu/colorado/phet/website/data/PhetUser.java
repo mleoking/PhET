@@ -50,6 +50,9 @@ public class PhetUser implements Serializable, IntId {
 
     @Override
     public boolean equals( Object o ) {
+        if( this == o ) {
+            return true;
+        }
         return o != null && o instanceof PhetUser && ( (PhetUser) o ).getId() == getId();
     }
 

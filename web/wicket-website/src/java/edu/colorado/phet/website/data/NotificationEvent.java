@@ -19,6 +19,9 @@ public class NotificationEvent implements Serializable, IntId {
 
     @Override
     public boolean equals( Object o ) {
+        if( this == o ) {
+            return true;
+        }
         return ( o instanceof NotificationEvent ) && id == ( (NotificationEvent) o ).id;
     }
 

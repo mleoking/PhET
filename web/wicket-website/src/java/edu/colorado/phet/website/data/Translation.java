@@ -96,6 +96,9 @@ public class Translation implements Serializable, IntId {
 
     @Override
     public boolean equals( Object o ) {
+        if( this == o ) {
+            return true;
+        }
         return o != null && o instanceof Translation && ( (Translation) o ).getId() == getId();
     }
 
