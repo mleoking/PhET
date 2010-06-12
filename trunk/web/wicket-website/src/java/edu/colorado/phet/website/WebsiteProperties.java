@@ -7,8 +7,6 @@ import javax.servlet.ServletContext;
 public class WebsiteProperties {
     private ServletContext servletContext;
 
-    // TODO: start caching parameters
-
     public static final String PHET_DOCUMENT_ROOT = "phet-document-root";
     public static final String PHET_DOWNLOAD_ROOT = "phet-download-root";
     public static final String PHET_DOWNLOAD_LOCATION = "phet-download-location";
@@ -16,28 +14,48 @@ public class WebsiteProperties {
     public static final String PATH_TO_JAR_UTILITY = "path-to-jar-utility";
     public static final String SIM_STAGING_AREA = "sim-staging-area";
 
+    public static final String MAIL_HOST = "mail-host";
+    public static final String MAIL_USER = "mail-user";
+    public static final String MAIL_PASSWORD = "mail-password";
+
     public WebsiteProperties( ServletContext servletContext ) {
         this.servletContext = servletContext;
     }
 
     public File getPhetDocumentRoot() {
-        return getFileFromLocation( servletContext.getInitParameter( PHET_DOCUMENT_ROOT ) );
+        return getFileFromLocation( getParameter( PHET_DOCUMENT_ROOT ) );
     }
 
     public File getPhetDownloadRoot() {
-        return getFileFromLocation( servletContext.getInitParameter( PHET_DOWNLOAD_ROOT ) );
+        return getFileFromLocation( getParameter( PHET_DOWNLOAD_ROOT ) );
     }
 
     public File getBuildLocalPropertiesFile() {
-        return new File( servletContext.getInitParameter( BUILD_LOCAL_PROPERTIES ) );
+        return new File( getParameter( BUILD_LOCAL_PROPERTIES ) );
     }
 
     public String getPhetDownloadLocation() {
-        return servletContext.getInitParameter( PHET_DOWNLOAD_LOCATION );
+        return getParameter( PHET_DOWNLOAD_LOCATION );
     }
 
     public String getPathToJarUtility() {
-        return servletContext.getInitParameter( PATH_TO_JAR_UTILITY );
+        return getParameter( PATH_TO_JAR_UTILITY );
+    }
+
+    public boolean hasMailParameters() {
+        return hasParameter( MAIL_HOST ) && hasParameter( MAIL_USER ) && hasParameter( MAIL_PASSWORD );
+    }
+
+    public String getMailHost() {
+        return getParameter( MAIL_HOST );
+    }
+
+    public String getMailUser() {
+        return getParameter( MAIL_USER );
+    }
+
+    public String getMailPassword() {
+        return getParameter( MAIL_PASSWORD );
     }
 
     /**
@@ -45,7 +63,15 @@ public class WebsiteProperties {
      *         subdirectories named after their respective projects
      */
     public File getSimStagingArea() {
-        return new File( servletContext.getInitParameter( SIM_STAGING_AREA ) );
+        return new File( getParameter( SIM_STAGING_AREA ) );
+    }
+
+    private String getParameter( String paramName ) {
+        return servletContext.getInitParameter( paramName );
+    }
+
+    private boolean hasParameter( String paramName ) {
+        return getParameter( paramName ) != null;
     }
 
     private static File getFileFromLocation( String location ) {
