@@ -2,7 +2,11 @@
 
 package edu.colorado.phet.acidbasesolutions.model;
 
+import java.text.MessageFormat;
+
 import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
+import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
+import edu.colorado.phet.acidbasesolutions.constants.ABSSymbols;
 import edu.colorado.phet.acidbasesolutions.model.Molecule.GenericStrongBaseMolecule;
 import edu.colorado.phet.acidbasesolutions.model.Molecule.GenericStrongBaseProductMolecule;
 
@@ -15,6 +19,10 @@ public abstract class StrongBaseSolution extends AqueousSolution {
 
     public StrongBaseSolution( Molecule solute, Molecule product, double strength, double initialConcentration ) {
         super( solute, product, strength, initialConcentration );
+    }
+    
+    public String getStrengthLabel() {
+        return MessageFormat.format( ABSStrings.PATTERN_STRENGTH_STRONG, ABSSymbols.Kb );
     }
     
     // [MOH] = 0
@@ -72,11 +80,11 @@ public abstract class StrongBaseSolution extends AqueousSolution {
     public static class CustomStrongBaseSolution extends GenericStrongBaseSolution implements ICustomSolution {
         
         public CustomStrongBaseSolution() {
-            this( ABSConstants.STRONG_STRENGTH, ABSConstants.CONCENTRATION_RANGE.getDefault() );
+            this( ABSConstants.CONCENTRATION_RANGE.getDefault() );
         }
         
-        public CustomStrongBaseSolution( double strength, double initialConcentration ) {
-            super( strength, initialConcentration );
+        public CustomStrongBaseSolution( double initialConcentration ) {
+            super( ABSConstants.STRONG_STRENGTH, initialConcentration );
         }
         
         @Override

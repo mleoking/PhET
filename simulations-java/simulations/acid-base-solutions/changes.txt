@@ -1,3 +1,4 @@
+6/12/10 wire up controls for custom solutions (type, concentration, strength)
 6/12/10 move some constants to ABSConstants
 6/12/10 model refinements
 6/12/10 make solution color transparent, put pH meter behind solution
