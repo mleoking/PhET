@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.RestartResponseAtInterceptPageException;
 import org.apache.wicket.markup.html.pages.RedirectPage;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 
 import edu.colorado.phet.website.authentication.PhetSession;
@@ -62,11 +63,13 @@ public class NominateContributionPage extends PhetRegularPage {
                 Contribution contrib = (Contribution) session.load( Contribution.class, contribution.getId() );
                 PhetUser phetuser = (PhetUser) session.load( PhetUser.class, user.getId() );
                 ContributionNomination nomination = new ContributionNomination();
-                nomination.setContribution( contrib );
                 nomination.setDateCreated( new Date() );
                 nomination.setPhetUser( phetuser );
                 nomination.setReason( reason );
+                contrib.addNomination( nomination );
+                Hibernate.initialize( phetuser.getTranslations() ); // hopefully stops an assertion that says this is not processed by flush(). see http://opensource.atlassian.com/projects/hibernate/browse/HHH-1663 and http://opensource.atlassian.com/projects/hibernate/browse/HHH-2763
                 session.save( nomination );
+                session.update( contrib );
                 return true;
             }
         } );

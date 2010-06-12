@@ -70,10 +70,11 @@ public class AddContributionCommentPage extends PhetRegularPage {
                 comment.setText( text );
                 comment.setDateCreated( new Date() );
                 comment.setDateUpdated( new Date() );
-                comment.setContribution( contrib );
                 comment.setPhetUser( phetuser );
-                Hibernate.initialize( phetuser.getTranslations() ); // hopefully stops an assertion that says this is not processed by flush(). see http://opensource.atlassian.com/projects/hibernate/browse/HHH-1663
+                contrib.addComment( comment );
+                Hibernate.initialize( phetuser.getTranslations() ); // hopefully stops an assertion that says this is not processed by flush(). see http://opensource.atlassian.com/projects/hibernate/browse/HHH-1663 and http://opensource.atlassian.com/projects/hibernate/browse/HHH-2763
                 session.save( comment );
+                session.update( contrib );
                 return true;
             }
         } );
