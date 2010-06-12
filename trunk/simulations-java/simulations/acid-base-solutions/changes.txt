@@ -1,3 +1,5 @@
+6/12/10 wire up visiblity controls for pH meter and magnifying glass
+6/12/10 add base class model element for things that have location and visibility
 6/12/10 wire up controls for custom solutions (type, concentration, strength)
 6/12/10 move some constants to ABSConstants
 6/12/10 model refinements

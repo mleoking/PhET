@@ -14,6 +14,7 @@ import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel.ModelChangeAdapter;
+import edu.colorado.phet.acidbasesolutions.model.ABSModelElement.ModelElementChangeListener;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.AqueousSolutionChangeListener;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -47,8 +48,8 @@ public class PHMeterNode extends PComposite {
     private AqueousSolutionChangeListener listener;
     private final DisplayNode displayNode;
     
-    public PHMeterNode( double height, final ABSModel model ) {
-        this( height );
+    public PHMeterNode( final ABSModel model ) {
+        this( model.getPHMeter().getShaftLength() );
         
         model.addModelChangeListener( new ModelChangeAdapter() {
             @Override
@@ -56,6 +57,18 @@ public class PHMeterNode extends PComposite {
                 setSolution( model.getSolution() );
             }
         });
+        
+        model.getPHMeter().addModelElementChangeListener( new ModelElementChangeListener() {
+
+            public void locationChanged() {
+                setOffset( model.getPHMeter().getLocationReference() );
+            }
+
+            public void visibilityChanged() {
+                setVisible( model.getPHMeter().isVisible() );
+            }
+            
+        } );
         
         this.solution = model.getSolution();
         this.listener = new AqueousSolutionChangeListener() {
@@ -68,13 +81,15 @@ public class PHMeterNode extends PComposite {
         };
         solution.addAqueousSolutionChangeListener( listener );
         
+        setOffset( model.getPHMeter().getLocationReference() );
+        setVisible( model.getPHMeter().isVisible() );
         update();
     }
     
     /*
      * Private constructor, has no knowledge of the model.
      */
-    private PHMeterNode( double height ) {
+    private PHMeterNode( double shaftHeight ) {
         super();
         setPickable( false );
         setChildrenPickable( false );
@@ -84,7 +99,6 @@ public class PHMeterNode extends PComposite {
         TipNode tipNode = new TipNode();
         tipNode.scale( 25 );
         
-        final double shaftHeight = height - displayNode.getFullBoundsReference().getHeight() - tipNode.getFullBoundsReference().getHeight();
         ShaftNode shaftNode = new ShaftNode( SHAFT_WIDTH, shaftHeight );
 
         addChild( shaftNode );

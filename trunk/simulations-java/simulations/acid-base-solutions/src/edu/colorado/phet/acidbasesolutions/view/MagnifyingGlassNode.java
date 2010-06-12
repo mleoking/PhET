@@ -10,6 +10,7 @@ import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.acidbasesolutions.model.ABSModel;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel.ModelChangeAdapter;
+import edu.colorado.phet.acidbasesolutions.model.ABSModelElement.ModelElementChangeListener;
 import edu.colorado.phet.acidbasesolutions.model.MagnifyingGlass.MagnifyingGlassListener;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -38,7 +39,7 @@ public class MagnifyingGlassNode extends PhetPNode {
     private final Ellipse2D circlePath;
     private final MoleculesNode moleculesNode;
     
-    public MagnifyingGlassNode( ABSModel model ) {
+    public MagnifyingGlassNode( final ABSModel model ) {
         super();
         
         this.model = model;
@@ -51,6 +52,16 @@ public class MagnifyingGlassNode extends PhetPNode {
         model.getMagnifyingGlass().addMagnifyingGlassListener( new MagnifyingGlassListener() {
             public void diameterChanged() {
                 updateGeometry();
+            }
+        });
+        model.getMagnifyingGlass().addModelElementChangeListener( new ModelElementChangeListener() {
+
+            public void locationChanged() {
+                setOffset( model.getMagnifyingGlass().getLocationReference() );
+            }
+
+            public void visibilityChanged() {
+                setVisible( model.getMagnifyingGlass().isVisible() );
             }
         });
         
@@ -72,6 +83,8 @@ public class MagnifyingGlassNode extends PhetPNode {
         
         updateGeometry();
         updateColor();
+        setOffset( model.getMagnifyingGlass().getLocationReference() );
+        setVisible( model.getMagnifyingGlass().isVisible() );
     }
     
     public MoleculesNode getMoleculesNode() {
