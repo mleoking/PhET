@@ -25,6 +25,7 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
  */
 public class ToolsControl extends JPanel {
 
+    private final ABSModel model;
     private final JRadioButton pHPaperRadioButton, pHMeterRadioButton;
     private final JRadioButton conductivityTesterRadioButton;
     private final JRadioButton magnifyingGlassRadioButton, barGraphRadioButton;
@@ -41,13 +42,14 @@ public class ToolsControl extends JPanel {
         }
     }
     
-    public ToolsControl( final ABSModel model ) {
+    public ToolsControl( ABSModel model ) {
         
         // model
+        this.model = model;
         model.addModelChangeListener( new ModelChangeAdapter() {
             @Override
             public void waterVisibleChanged() {
-                showWaterCheckBox.setSelected( model.isWaterVisible() );
+                updateControl();
             }
         });
         
@@ -60,7 +62,7 @@ public class ToolsControl extends JPanel {
         ButtonGroup group = new ButtonGroup();
         ActionListener listener = new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                //XXX update model
+                updateModel();
             }
         };
         pHPaperRadioButton = new ABSRadioButton( ABSStrings.PH_PAPER, group, listener );
@@ -73,7 +75,7 @@ public class ToolsControl extends JPanel {
         showWaterCheckBox = new JCheckBox( ABSStrings.SHOW_WATER );
         showWaterCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                model.setWaterVisible( showWaterCheckBox.isSelected() );
+                updateModel();
             }
         });
         
@@ -90,8 +92,7 @@ public class ToolsControl extends JPanel {
         layout.addComponent( showWaterCheckBox, row++, column );
         
         // default state
-        pHMeterRadioButton.setSelected( true ); //XXX
-        showWaterCheckBox.setSelected( false );
+        updateControl();
     }
     
     protected void setPHPaperControlVisible( boolean visible ) {
@@ -100,5 +101,17 @@ public class ToolsControl extends JPanel {
     
     protected void setCondutivityTesterControlVisible( boolean visible ) {
         conductivityTesterRadioButton.setVisible( visible );
+    }
+    
+    private void updateControl() {
+        pHMeterRadioButton.setSelected( model.getPHMeter().isVisible() );
+        magnifyingGlassRadioButton.setSelected( model.getMagnifyingGlass().isVisible() );
+        showWaterCheckBox.setSelected( model.isWaterVisible() );
+    }
+    
+    private void updateModel() {
+        model.getPHMeter().setVisible( pHMeterRadioButton.isSelected() );
+        model.getMagnifyingGlass().setVisible( magnifyingGlassRadioButton.isSelected() );
+        model.setWaterVisible( showWaterCheckBox.isSelected() );
     }
 }

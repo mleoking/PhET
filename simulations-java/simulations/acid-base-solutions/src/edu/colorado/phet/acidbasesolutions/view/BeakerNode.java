@@ -9,7 +9,7 @@ import java.awt.geom.Rectangle2D;
 import java.text.MessageFormat;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
-import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
+import edu.colorado.phet.acidbasesolutions.model.ABSModel;
 import edu.colorado.phet.acidbasesolutions.model.Beaker;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -47,14 +47,14 @@ public class BeakerNode extends PComposite {
     private final Rectangle2D solutionRectangle;
     private final PComposite ticksNode;
     
-    public BeakerNode( Beaker beaker, AqueousSolution solution ) {
+    public BeakerNode( ABSModel model ) {
         super();
         
-        this.beaker = beaker;
+        this.beaker = model.getBeaker();
 
         solutionRectangle = new Rectangle2D.Double();
         solutionNode = new PPath();
-        solutionNode.setPaint( solution.getColor() );
+        solutionNode.setPaint( model.getSolution().getColor() );
         solutionNode.setStroke( null );
         addChild( solutionNode );
         
@@ -68,6 +68,8 @@ public class BeakerNode extends PComposite {
         ticksNode = new PComposite();
         addChild( ticksNode );
         
+        setOffset( beaker.getLocationReference() );
+        setVisible( beaker.isVisible() );
         update();
     }
     

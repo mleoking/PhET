@@ -45,8 +45,15 @@ public class ABSConstants {
     
     public static final PDimension BEAKER_SIZE = new PDimension( 600, 500 );
     public static final Point2D BEAKER_LOCATION = new Point2D.Double( ( BEAKER_SIZE.getWidth() / 2 ) + 150, BEAKER_SIZE.getHeight() + 300 );
+    public static final boolean BEAKER_VISIBLE = true;
+    
+    public static final Point2D MAGNIFYING_GLASS_LOCATION = new Point2D.Double( BEAKER_LOCATION.getX(), BEAKER_LOCATION.getY() - ( BEAKER_SIZE.getHeight() / 2 ) );
+    public static final boolean MAGNIFYING_GLASS_VISIBLE = false;
     public static final double MAGNIFYING_GLASS_DIAMETER = 500;
-    public static final double PH_METER_HEIGHT = 200;
+    
+    public static final Point2D PH_METER_LOCATION = new Point2D.Double( BEAKER_LOCATION.getX(), BEAKER_LOCATION.getY() - BEAKER_SIZE.getHeight() );
+    public static final boolean PH_METER_VISIBLE = false;
+    public static final double PH_METER_SHAFT_LENGTH = 125;
     
     public static final double WATER_CONCENTRATION = 55.6; // water concentration when it's used as a solvent, mol/L
     public static final double WATER_EQUILIBRIUM_CONSTANT = 1E-14;

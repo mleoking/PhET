@@ -23,7 +23,6 @@ public abstract class ABSCanvas extends PhetPCanvas {
     
     private static final double MIN_MARGIN = 10;
 
-    private final ABSModel model;
     private final PNode rootNode;
     private final BeakerNode beakerNode;
     private final PHMeterNode pHMeterNode;
@@ -33,37 +32,22 @@ public abstract class ABSCanvas extends PhetPCanvas {
         super( ABSConstants.CANVAS_RENDERING_SIZE );
         setBackground( ABSColors.CANVAS_BACKGROUND );
         
-        this.model = model;
-        
         // Root of our scene graph, added to "world" so that we get automatic scaling
         rootNode = new PNode();
         addWorldChild( rootNode );
         
         // nodes
-        beakerNode = new BeakerNode( model.getBeaker(), model.getSolution() );
+        beakerNode = new BeakerNode( model );
         magnifyingGlassNode = new MagnifyingGlassNode( model );
-        pHMeterNode = new PHMeterNode( ABSConstants.PH_METER_HEIGHT, model );
+        pHMeterNode = new PHMeterNode( model );
         
         // rendering order
         addNode( pHMeterNode );
         addNode( beakerNode );
         addNode( magnifyingGlassNode );
         
-        // layout
-        doStaticLayout();
+        // layout is handled via locations of model elements
     }    
-    
-    private void doStaticLayout() {
-        double x = 0;
-        double y = 0;
-        beakerNode.setOffset( model.getBeaker().getLocationReference() );
-        x = beakerNode.getXOffset();
-        y = beakerNode.getYOffset() - ( model.getMagnifyingGlass().getDiameter() / 2 );
-        magnifyingGlassNode.setOffset( x, y );
-        x = model.getBeaker().getLocationReference().getX() + ( model.getBeaker().getWidth() / 6 );
-        y = model.getBeaker().getLocationReference().getY() - model.getBeaker().getHeight() - ( 0.5 * pHMeterNode.getFullBoundsReference().getHeight() );
-        pHMeterNode.setOffset( x, y );
-    }
     
     protected void addNode( PNode node ) {
         rootNode.addChild( node );

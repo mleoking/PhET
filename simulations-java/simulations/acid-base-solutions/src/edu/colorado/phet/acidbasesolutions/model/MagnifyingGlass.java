@@ -2,27 +2,23 @@
 
 package edu.colorado.phet.acidbasesolutions.model;
 
+import java.awt.geom.Point2D;
 import java.util.EventListener;
 
 import javax.swing.event.EventListenerList;
-
-import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
 
 /**
  * Model of a magnifying glass.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class MagnifyingGlass {
+public class MagnifyingGlass extends ABSModelElement {
     
     private double diameter;
     private final EventListenerList listeners;
     
-    public MagnifyingGlass() {
-        this( ABSConstants.MAGNIFYING_GLASS_DIAMETER );
-    }
-    
-    public MagnifyingGlass( double diameter ) {
+    public MagnifyingGlass( Point2D location, boolean visible, double diameter ) {
+        super( location, visible );
         this.diameter = diameter;
         listeners = new EventListenerList();
     }
