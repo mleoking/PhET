@@ -61,7 +61,7 @@ public enum NotificationEventType {
         final String[] ret = new String[1];
         boolean success = HibernateUtils.wrapSession( new HibernateTask() {
             public boolean run( Session session ) {
-                Contribution cont = (Contribution) session.load( Contribution.class, id );
+                Contribution cont = (Contribution) session.get( Contribution.class, id );
                 if ( cont == null ) {
                     return false;
                 }
