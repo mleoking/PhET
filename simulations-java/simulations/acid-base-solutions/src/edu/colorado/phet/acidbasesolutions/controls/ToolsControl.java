@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.acidbasesolutions.controls;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -93,6 +94,11 @@ public class ToolsControl extends JPanel {
         
         // default state
         updateControl();
+        
+        //XXX red foreground for things that aren't implemented
+        pHPaperRadioButton.setForeground( Color.RED );
+        conductivityTesterRadioButton.setForeground( Color.RED );
+        barGraphRadioButton.setForeground( Color.RED );
     }
     
     protected void setPHPaperControlVisible( boolean visible ) {
