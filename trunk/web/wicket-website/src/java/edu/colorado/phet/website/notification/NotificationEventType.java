@@ -62,12 +62,15 @@ public enum NotificationEventType {
         boolean success = HibernateUtils.wrapSession( new HibernateTask() {
             public boolean run( Session session ) {
                 Contribution cont = (Contribution) session.load( Contribution.class, id );
+                if ( cont == null ) {
+                    return false;
+                }
                 ret[0] = "<a " + contribhref + ">" + cont.getTitle() + "</a> by user " + cont.getPhetUser().getEmail();
                 return true;
             }
         } );
         if ( !success ) {
-            ret[0] = "Contribution #" + id + " error, try <a href=\"" + contribhref + "\">this link</a>";
+            ret[0] = "Contribution #" + id + " does not exist anymore, try <a href=\"" + contribhref + "\">this link</a>";
         }
         return ret[0];
     }
