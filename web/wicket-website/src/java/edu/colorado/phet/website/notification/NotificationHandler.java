@@ -13,9 +13,11 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
+import org.apache.log4j.Logger;
 import org.hibernate.event.PostInsertEvent;
 import org.hibernate.event.PostUpdateEvent;
 
+import edu.colorado.phet.website.WebsiteProperties;
 import edu.colorado.phet.website.data.NotificationEvent;
 import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.data.contribution.Contribution;
@@ -32,7 +34,21 @@ import edu.colorado.phet.website.util.HibernateUtils;
 public class NotificationHandler {
     private static Scheduler notificationScheduler;
 
-    public static synchronized void initialize() {
+    /**
+     * We need to grab the mail handler configuration from the server parameters
+     */
+    private static WebsiteProperties websiteProperties;
+
+    private static final Logger logger = Logger.getLogger( NotificationHandler.class.getName() );
+
+    public static synchronized void initialize( WebsiteProperties properties ) {
+        websiteProperties = properties;
+
+        if ( !properties.hasMailParameters() ) {
+            logger.warn( "Was unable to find mail server credentials. Will not start the notification handler" );
+            return;
+        }
+
         if ( notificationScheduler != null ) {
             // don't initialize first
             return;
@@ -75,11 +91,12 @@ public class NotificationHandler {
     }
 
     public static synchronized void destroy() {
-        notificationScheduler.stop();
+        if ( notificationScheduler != null ) {
+            notificationScheduler.stop();
+        }
     }
 
     public static void sendNotifications() {
-
         final List<NotificationEvent> events = new LinkedList<NotificationEvent>();
         final List<PhetUser> usersToNotify = new LinkedList<PhetUser>();
 
@@ -96,9 +113,22 @@ public class NotificationHandler {
 
         try {
             Properties props = System.getProperties();
-            props.put( "mail.smtp.host", "mx.colorado.edu" );
+            //props.put( "mail.smtp.host", "mx.colorado.edu" );
 
-            Session session = Session.getDefaultInstance( props, null );
+            props.put( "mail.smtp.host", websiteProperties.getMailHost() );
+
+            props.put( "mail.debug", "true" );
+            props.put( "mail.smtp.starttls.enable", "true" ); //necessary if you use cu or google, otherwise you receive an error:
+
+            props.put( "mail.smtp.auth", "true" );
+            props.put( "mail.smtp.user", websiteProperties.getMailUser() );
+            props.put( "password", websiteProperties.getMailPassword() );
+
+            Session session = Session.getInstance( props, new Authenticator() {
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication( websiteProperties.getMailUser(), websiteProperties.getMailPassword() );
+                }
+            } );
 
             Message message = new MimeMessage( session );
             message.setFrom( new InternetAddress( "phetnoreply@phetsims.colorado.edu" ) );

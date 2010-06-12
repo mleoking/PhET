@@ -210,7 +210,7 @@ public class PhetWicketApplication extends WebApplication {
         logger.info( "Running as: " + getConfigurationType() );
         logger.debug( "Detected phet-document-root: " + getWebsiteProperties().getPhetDocumentRoot().getAbsolutePath() );
 
-        NotificationHandler.initialize();
+        NotificationHandler.initialize( websiteProperties );
 
         SearchUtils.initialize();
 
