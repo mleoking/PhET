@@ -30,6 +30,8 @@ public class FullInstallEntity extends TranslationEntity {
         addString( "get-phet.full-install.creatingInstallationCD.step3" );
         addString( "get-phet.full-install.creatingInstallationCD.step4" );
 
+        addString( "installer.mostUpToDate" );
+
         addPreview( new PhetPanelFactory() {
             public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {
                 return new FullInstallPanel( id, context );

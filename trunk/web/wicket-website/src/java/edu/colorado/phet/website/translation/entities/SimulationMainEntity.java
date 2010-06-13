@@ -53,6 +53,9 @@ public class SimulationMainEntity extends TranslationEntity {
 
         addString( "simulationDisplay.indexView" );
         addString( "simulationDisplay.thumbnailView" );
+
+        addString( "changelog.backToSimulation" );
+        
         addPreview( new PhetPanelFactory() {
             public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {
 
