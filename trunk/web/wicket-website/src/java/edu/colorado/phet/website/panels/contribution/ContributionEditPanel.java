@@ -97,10 +97,8 @@ public class ContributionEditPanel extends PhetPanel {
 
         final PhetUser currentUser = PhetSession.get().getUser();
 
-        boolean success = true;
-
         if ( !creating ) {
-            success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+            boolean success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
                 public boolean run( Session session ) {
                     List list = session.createQuery( "select f from ContributionFile as f where f.contribution.id = :cid" )
                             .setInteger( "cid", contribution.getId() ).list();
@@ -132,6 +130,7 @@ public class ContributionEditPanel extends PhetPanel {
             contribution.setAuthors( currentUser.getName() );
             contribution.setAuthorOrganization( currentUser.getOrganization() );
             contribution.setContactEmail( currentUser.getEmail() );
+            contribution.setApproved( true );
         }
 
         // initialize selectors
