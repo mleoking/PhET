@@ -80,7 +80,8 @@ public class AddContributionCommentPage extends PhetRegularPage {
         } );
 
         // redirect back to contribution page
-        setResponsePage( new RedirectPage( ContributionPage.getLinker( contributionId ).getRawUrl( getPageContext(), getPhetCycle() ) ) );
+        //setResponsePage( new RedirectPage( ContributionPage.getLinker( contributionId ).getRawUrl( getPageContext(), getPhetCycle() ) ) );
+        setResponsePage( new RedirectPage( ContributionCommentSuccessPage.getLinker( contributionId ).getRawUrl( getPageContext(), getPhetCycle() ) ) );
 
     }
 

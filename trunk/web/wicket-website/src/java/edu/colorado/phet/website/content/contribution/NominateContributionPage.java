@@ -75,7 +75,8 @@ public class NominateContributionPage extends PhetRegularPage {
         } );
 
         // redirect back to contribution page
-        setResponsePage( new RedirectPage( ContributionPage.getLinker( contributionId ).getRawUrl( getPageContext(), getPhetCycle() ) ) );
+        //setResponsePage( new RedirectPage( ContributionPage.getLinker( contributionId ).getRawUrl( getPageContext(), getPhetCycle() ) ) );
+        setResponsePage( new RedirectPage( ContributionNominationSuccessPage.getLinker( contributionId ).getRawUrl( getPageContext(), getPhetCycle() ) ) );
 
     }
 
