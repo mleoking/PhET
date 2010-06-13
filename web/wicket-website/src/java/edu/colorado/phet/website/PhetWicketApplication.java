@@ -150,6 +150,9 @@ public class PhetWicketApplication extends WebApplication {
         ContributionCreatePage.addToMapper( mapper );
         ContributionEditPage.addToMapper( mapper );
         ContributionManagePage.addToMapper( mapper );
+        ContributionSuccessPage.addToMapper( mapper );
+        ContributionCommentSuccessPage.addToMapper( mapper );
+        ContributionNominationSuccessPage.addToMapper( mapper );
         TranslatedSimsPage.addToMapper( mapper );
         TranslationMainPage.addToMapper( mapper );
         AddContributionCommentPage.addToMapper( mapper );

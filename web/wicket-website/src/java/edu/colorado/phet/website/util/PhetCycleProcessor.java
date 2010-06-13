@@ -19,7 +19,7 @@ public class PhetCycleProcessor extends WebRequestCycleProcessor {
     @Override
     public void respond( RuntimeException e, RequestCycle requestCycle ) {
 
-        logger.warn( "error encountered!" );
+        logger.warn( "error encountered!", e );
 
         super.respond( e, requestCycle );
     }

@@ -7,6 +7,7 @@ import java.util.*;
 
 import org.apache.log4j.Logger;
 import org.apache.wicket.Component;
+import org.apache.wicket.PageParameters;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
 import org.apache.wicket.behavior.HeaderContributor;
@@ -32,6 +33,7 @@ import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.constants.CSS;
 import edu.colorado.phet.website.content.contribution.ContributionPage;
+import edu.colorado.phet.website.content.contribution.ContributionSuccessPage;
 import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.data.Simulation;
 import edu.colorado.phet.website.data.contribution.*;
@@ -532,7 +534,11 @@ public class ContributionEditPanel extends PhetPanel {
             } );
 
             if ( success ) {
-                setResponsePage( new RedirectPage( ContributionPage.getLinker( ids[0] ).getRawUrl( context, getPhetCycle() ) ) );
+                //PageParameters params = new PageParameters();
+                //params.add( "contribution", Integer.toString( ids[0] ) );
+                //setResponsePage( new RedirectPage( new ContributionSuccessPage( params ) ) );
+                setResponsePage( new RedirectPage( ContributionSuccessPage.getLinker( ids[0] ).getRawUrl( context, getPhetCycle() ) ) );
+
                 // should redirect us. not the pretty way, however it passes in all of the correct page parameters
                 // and reduces the dependencies
 //                ContributionBrowsePage.getLinker().getLink( "id", context, getPhetCycle() ).onClick();
