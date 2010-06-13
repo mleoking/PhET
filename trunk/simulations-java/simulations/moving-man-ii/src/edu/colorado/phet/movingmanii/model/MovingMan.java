@@ -12,6 +12,17 @@ public class MovingMan {
     private double velocity;
     private double acceleration;
 
+    public MovingMan() {
+        resetAll();
+    }
+
+    public void resetAll() {
+        setPosition(0.0);
+        setVelocity(0.0);
+        setAcceleration(0.0);
+        setPositionDriven();
+    }
+
     public void setPosition(double x) {
         this.position = x;
 //        System.out.println("x = " + x);

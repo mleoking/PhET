@@ -1,5 +1,7 @@
 package edu.colorado.phet.movingmanii.view;
 
+import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
 import edu.colorado.phet.movingmanii.MovingManColorScheme;
 import edu.colorado.phet.movingmanii.charts.TextBox;
 import edu.colorado.phet.movingmanii.model.MovingMan;
@@ -15,7 +17,7 @@ import java.awt.event.ComponentEvent;
  * @author Sam Reid
  */
 public class MovingManSimulationPanelWithPlayAreaSliders extends MovingManSimulationPanel {
-    public MovingManSimulationPanelWithPlayAreaSliders(final MovingManModel model, final RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel) {
+    public MovingManSimulationPanelWithPlayAreaSliders(final MovingManModel model, final RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel, Resettable resettable) {
         super(model, recordAndPlaybackModel, 100);
         {
             //TODO: factor out code with the sliders + text boxes used in the chart module
@@ -126,5 +128,14 @@ public class MovingManSimulationPanelWithPlayAreaSliders extends MovingManSimula
             });
             addScreenChild(pSwing);
         }
+        final PSwing resetAllButton = new PSwing(new ResetAllButton(resettable, this));
+        addScreenChild(resetAllButton);
+        ComponentAdapter adapter = new ComponentAdapter() {
+            public void componentResized(ComponentEvent e) {
+                resetAllButton.setOffset(getWidth() - resetAllButton.getFullBounds().getWidth() - 2, getHeight() - resetAllButton.getFullBounds().getHeight() - 2);
+            }
+        };
+        adapter.componentResized(null);
+        addComponentListener(adapter);
     }
 }

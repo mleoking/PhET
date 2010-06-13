@@ -32,9 +32,12 @@ public class MovingManModel {
     private double time = 0.0;
     private double mousePosition;
     private ArrayList<Listener> listeners = new ArrayList<Listener>();
-    private MutableBoolean velocityVectorVisible = new MutableBoolean(false);
-    private MutableBoolean accelerationVectorVisible = new MutableBoolean(false);
-    private MutableBoolean walls = new MutableBoolean(true);
+    private boolean VELOCITY_VECTOR_VISIBLE_BY_DEFAULT = false;
+    private boolean ACCELERATION_VECTOR_VISIBLE_BY_DEFAULT = false;
+    private boolean WALLS_BY_DEFAULT = true;
+    private MutableBoolean velocityVectorVisible = new MutableBoolean(VELOCITY_VECTOR_VISIBLE_BY_DEFAULT);
+    private MutableBoolean accelerationVectorVisible = new MutableBoolean(ACCELERATION_VECTOR_VISIBLE_BY_DEFAULT);
+    private MutableBoolean walls = new MutableBoolean(WALLS_BY_DEFAULT);
     private Range range = new Range(-10, 10);
     private BooleanGetter isPaused;
 
@@ -45,6 +48,23 @@ public class MovingManModel {
     public MovingManModel(BooleanGetter isPaused) {//need to be able to update position immediately when paused instead of smoothing through the mouse data series
         this.movingMan = new MovingMan();
         this.isPaused = isPaused;
+    }
+
+    public void resetAll() {
+        movingMan.resetAll();
+        walls.setValue(WALLS_BY_DEFAULT);
+        velocityVectorVisible.setValue(VELOCITY_VECTOR_VISIBLE_BY_DEFAULT);
+        accelerationVectorVisible.setValue(ACCELERATION_VECTOR_VISIBLE_BY_DEFAULT);
+        setMousePosition(movingMan.getPosition());
+
+        mouseDataModelSeries.clear();
+        positionModelSeries.clear();
+        velocityModelSeries.clear();
+        accelerationModelSeries.clear();
+
+        positionGraphSeries.clear();
+        velocityGraphSeries.clear();
+        accelerationGraphSeries.clear();
     }
 
     public static class WallResult {

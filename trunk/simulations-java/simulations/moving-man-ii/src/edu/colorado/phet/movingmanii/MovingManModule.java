@@ -27,25 +27,25 @@ public abstract class MovingManModule extends Module {
      */
     private ArrayList<MovingMan.MotionStrategy> actionList = new ArrayList<MovingMan.MotionStrategy>();
     private boolean lastPauseState;
+    protected final MovingManModel movingManModel = new MovingManModel(new MovingManModel.BooleanGetter() {
+        public boolean isTrue() {
+            return recordAndPlaybackModel.isPaused();
+        }
+    });
 
     public MovingManModule(String name) {
         super(name, new ConstantDtClock(MovingManModel.CLOCK_DELAY_MS, MovingManModel.DT));
 
         //Need different behavior when paused, currently the main clock is always running, and the RecordAndPlaybackModel determines whether the sim is running.
-        final MovingManModel model = new MovingManModel(new MovingManModel.BooleanGetter() {
-            public boolean isTrue() {
-                return recordAndPlaybackModel.isPaused();
-            }
-        });
         //TODO: make MovingManModel extend RecordAndPlaybackModel<MovingManState>?
         recordAndPlaybackModel = new RecordAndPlaybackModel<MovingManState>(1000) {
             public MovingManState stepRecording(double simulationTimeChange) {
-                model.simulationTimeChanged(simulationTimeChange);
-                return model.getRecordingState();
+                movingManModel.simulationTimeChanged(simulationTimeChange);
+                return movingManModel.getRecordingState();
             }
 
             public void setPlaybackState(MovingManState state) {
-                model.setPlaybackState(state);
+                movingManModel.setPlaybackState(state);
             }
         };
 
@@ -58,21 +58,21 @@ public abstract class MovingManModule extends Module {
                     } else {
 //                        System.out.println("using actionList = " + actionList);
                         if (actionList.contains(MovingMan.POSITION_DRIVEN))
-                            MovingMan.POSITION_DRIVEN.apply(model.getMovingMan());
+                            MovingMan.POSITION_DRIVEN.apply(movingManModel.getMovingMan());
                         if (actionList.contains(MovingMan.VELOCITY_DRIVEN))
-                            MovingMan.VELOCITY_DRIVEN.apply(model.getMovingMan());
+                            MovingMan.VELOCITY_DRIVEN.apply(movingManModel.getMovingMan());
                         if (actionList.contains(MovingMan.ACCELERATION_DRIVEN))
-                            MovingMan.ACCELERATION_DRIVEN.apply(model.getMovingMan());//highest precedence
+                            MovingMan.ACCELERATION_DRIVEN.apply(movingManModel.getMovingMan());//highest precedence
                     }
                     lastPauseState = recordAndPlaybackModel.isPaused();
                 }
             }
         });
-        model.getMovingMan().addListener(new MovingMan.Listener() {
+        movingManModel.getMovingMan().addListener(new MovingMan.Listener() {
             public void changed() {
                 if (recordAndPlaybackModel.isPaused()) {
-                    if (!actionList.contains(model.getMovingMan().getMotionStrategy())) {
-                        actionList.add(model.getMovingMan().getMotionStrategy());
+                    if (!actionList.contains(movingManModel.getMovingMan().getMotionStrategy())) {
+                        actionList.add(movingManModel.getMovingMan().getMotionStrategy());
 //                        System.out.println("updated actionList = " + actionList);
                     }
                 }
@@ -88,23 +88,23 @@ public abstract class MovingManModule extends Module {
         });
         recordAndPlaybackModel.addHistoryClearListener(new RecordAndPlaybackModel.HistoryClearListener() {
             public void historyCleared() {
-                model.clear();
+                movingManModel.clear();
             }
         });
-        model.getChartCursor().addListener(new ChartCursor.Adapter() {
+        movingManModel.getChartCursor().addListener(new ChartCursor.Adapter() {
             public void positionChanged() {
-                final double setTime = model.getChartCursor().getTime();
+                final double setTime = movingManModel.getChartCursor().getTime();
                 recordAndPlaybackModel.setTime(setTime);
             }
         });
         recordAndPlaybackModel.addObserver(new SimpleObserver() {
             public void update() {
-                updateCursorVisibility(model, recordAndPlaybackModel);
+                updateCursorVisibility(movingManModel, recordAndPlaybackModel);
             }
         });
-        updateCursorVisibility(model, recordAndPlaybackModel);
+        updateCursorVisibility(movingManModel, recordAndPlaybackModel);
 
-        setSimulationPanel(createSimulationPanel(model, recordAndPlaybackModel));
+        setSimulationPanel(createSimulationPanel(movingManModel, recordAndPlaybackModel));
         setClockControlPanel(new RecordAndPlaybackControlPanel<MovingManState>(recordAndPlaybackModel, getSimulationPanel(), 20.0));
         setLogoPanelVisible(false);
     }
@@ -113,5 +113,11 @@ public abstract class MovingManModule extends Module {
 
     private void updateCursorVisibility(MovingManModel model, RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel) {
         model.getChartCursor().setVisible(recordAndPlaybackModel.isPlayback() && recordAndPlaybackModel.getNumRecordedPoints() > 0);
+    }
+
+    public void resetAll() {
+        recordAndPlaybackModel.clearHistory();
+        movingManModel.resetAll();
+        recordAndPlaybackModel.setPaused(true);
     }
 }
