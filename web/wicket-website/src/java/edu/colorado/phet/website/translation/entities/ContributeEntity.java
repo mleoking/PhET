@@ -74,12 +74,17 @@ public class ContributeEntity extends TranslationEntity {
         addString( "contribution.edit.existingFiles" );
         addString( "contribution.edit.removeFile" );
         addString( "contribution.edit.newFiles" );
+        addString( "contribution.edit.newfiles.tip" );
         addString( "contribution.edit.optionalInformation" );
         addString( "contribution.edit.description" );
         addString( "contribution.edit.subjects" );
         addString( "contribution.edit.duration" );
         addString( "contribution.edit.answers" );
         addString( "contribution.edit.language" );
+
+        addString( "contribution.edit.continueToActivity" );
+        addString( "contribution.edit.successHeader" );
+        addString( "contribution.edit.success" );
 
         addString( "contribution.create.pageTitle" );
         addString( "contribution.create.checkGuidelines" );
@@ -95,6 +100,7 @@ public class ContributeEntity extends TranslationEntity {
         addString( "contribution.browse.type" );
         addString( "contribution.browse.simulations" );
         addString( "contribution.browse.updated" );
+        addString( "contribution.browse.pleaseSelect" );
 
         addString( "contribution.search.simulations" );
         addString( "contribution.search.types" );
@@ -162,6 +168,13 @@ public class ContributeEntity extends TranslationEntity {
         addString( "contribution.edit.validation.mustHaveTypes" );
         addString( "contribution.edit.validation.mustHaveLevels" );
         addString( "contribution.edit.validation.fileType" );
+        addString( "contribution.edit.validation.pleaseCorrect" );
+
+        addString( "contribution.comment.successRedirection" );
+        addString( "contribution.comment.success" );
+        addString( "contribution.nomination.successCriteria" );
+        addString( "contribution.nomination.success" );
+        addString( "contribution.nomination.successRedirection" );
 
         addPreview( new PhetPanelFactory() {
             public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {
