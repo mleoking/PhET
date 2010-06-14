@@ -1,4 +1,5 @@
-Hide the blue timeline bar when chart playback cursor can be used instead 
+Fixed: Play area arrows look incorrect at small magnitudes
+Hide the blue timeline bar when chart playback cursor can be used instead
 Added a deceleration spike when accelerating into a wall
 Fixed: Clicking on a slider with value 10000+ causes blocky areas to turn white, transform or NaN exception?
 Aligned chart go button with right edge of other controls instead of centered
