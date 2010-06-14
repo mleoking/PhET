@@ -50,6 +50,7 @@ public class MovingManChart extends PNode {
     private PImage maximizeButton;
     private MutableBoolean maximized = new MutableBoolean(true);
     private ModelViewTransform2D modelViewTransform2D;
+    private PNode tickMarksAndGridLines;
 
     public MovingManChart(Rectangle2D.Double dataModelBounds) {
         this(dataModelBounds, 100, 100);//useful for layout code that updates size later instead of at construction and later
@@ -62,6 +63,7 @@ public class MovingManChart extends PNode {
         this.viewDimension = new MutableDimension(dataAreaWidth, dataAreaHeight);
         chartContents = new PNode();
         addChild(chartContents);
+
         final PhetPPath background = new PhetPPath(Color.white, new BasicStroke(1), Color.black);
         SimpleObserver backgroundUpdate = new SimpleObserver() {
             public void update() {
@@ -70,7 +72,10 @@ public class MovingManChart extends PNode {
         };
         backgroundUpdate.update();
         viewDimension.addObserver(backgroundUpdate);
-        chartContents.addChild(background);
+        addChartChild(background);
+
+        tickMarksAndGridLines = new PNode();
+        addChartChild(tickMarksAndGridLines);
 
         modelViewTransform2D = new ModelViewTransform2D(dataModelBounds, new Rectangle2D.Double(0, 0, dataAreaWidth, dataAreaHeight));//todo: attach listeners to the mvt2d
         SimpleObserver updateBasedOnViewBoundsChange = new SimpleObserver() {
@@ -90,50 +95,12 @@ public class MovingManChart extends PNode {
         updateBasedOnModelViewChange.update();
         this.dataModelBounds.addObserver(updateBasedOnModelViewChange);
 
-        int numDomainMarks = 10;
-        Function.LinearFunction domainFunction = new Function.LinearFunction(0, numDomainMarks, dataModelBounds.getX(), dataModelBounds.getMaxX());
-        ArrayList<DomainTickMark> domainTickMarks = new ArrayList<DomainTickMark>();
-        for (int i = 0; i < numDomainMarks + 1; i++) {
-            final double x = domainFunction.evaluate(i);
-            final DomainTickMark tickMark = new DomainTickMark(x);
-            domainTickMarks.add(tickMark);
-            chartContents.addChild(tickMark);
-
-            DomainGridLine gridLine = new DomainGridLine(x, this);
-            chartContents.addChild(gridLine);
-
-            SimpleObserver domainTickMarkUpdate = new SimpleObserver() {
-                public void update() {
-                    Point2D location = modelToView(new TimeData(0, x));
-                    tickMark.setOffset(location.getX(), viewDimension.getHeight());
-                }
-            };
-            domainTickMarkUpdate.update();
-            viewDimension.addObserver(domainTickMarkUpdate);
-        }
-        DomainTickMark last = domainTickMarks.get(domainTickMarks.size() - 1);
-        last.setTickText(last.getTickText() + " sec");
-
-        int numRangeMarks = 4;
-        Function.LinearFunction rangeFunction = new Function.LinearFunction(0, numRangeMarks, dataModelBounds.getY(), dataModelBounds.getMaxY());
-        for (int i = 0; i < numRangeMarks + 1; i++) {
-            final double y = rangeFunction.evaluate(i);
-            final RangeTickMark tickMark = new RangeTickMark(y);
-            chartContents.addChild(tickMark);
-
-            RangeGridLine gridLine = new RangeGridLine(y, this);
-            chartContents.addChild(gridLine);
-
-            SimpleObserver rangeTickMarkUpdate = new SimpleObserver() {
-                public void update() {
-                    Point2D location = modelToView(new TimeData(y, 0));
-                    tickMark.setOffset(0, location.getY());
-                }
-            };
-            rangeTickMarkUpdate.update();
-            viewDimension.addObserver(rangeTickMarkUpdate);
-            this.dataModelBounds.addObserver(rangeTickMarkUpdate);
-        }
+        modelViewTransform2D.addTransformListener(new TransformListener() {
+            public void transformChanged(ModelViewTransform2D mvt) {
+                updateTickMarksAndGridLines();
+            }
+        });
+        updateTickMarksAndGridLines();
 
         final int iconButtonInset = 2;
         {
@@ -199,6 +166,54 @@ public class MovingManChart extends PNode {
         getViewDimension().addObserver(relayout);
         relayout.update();
         addChartChild(verticalZoomButtons);
+    }
+
+    private void updateTickMarksAndGridLines() {
+        tickMarksAndGridLines.removeAllChildren();
+        int numDomainMarks = 10;
+        Function.LinearFunction domainFunction = new Function.LinearFunction(0, numDomainMarks, dataModelBounds.getX(), dataModelBounds.getMaxX());
+        ArrayList<DomainTickMark> domainTickMarks = new ArrayList<DomainTickMark>();
+        for (int i = 0; i < numDomainMarks + 1; i++) {
+            final double x = domainFunction.evaluate(i);
+            final DomainTickMark tickMark = new DomainTickMark(x);
+            domainTickMarks.add(tickMark);
+            tickMarksAndGridLines.addChild(tickMark);
+
+            DomainGridLine gridLine = new DomainGridLine(x, this);
+            tickMarksAndGridLines.addChild(gridLine);
+
+            SimpleObserver domainTickMarkUpdate = new SimpleObserver() {
+                public void update() {
+                    Point2D location = modelToView(new TimeData(0, x));
+                    tickMark.setOffset(location.getX(), viewDimension.getHeight());
+                }
+            };
+            domainTickMarkUpdate.update();
+            viewDimension.addObserver(domainTickMarkUpdate);
+        }
+        DomainTickMark last = domainTickMarks.get(domainTickMarks.size() - 1);
+        last.setTickText(last.getTickText() + " sec");
+
+        int numRangeMarks = 4;
+        Function.LinearFunction rangeFunction = new Function.LinearFunction(0, numRangeMarks, dataModelBounds.getY(), dataModelBounds.getMaxY());
+        for (int i = 0; i < numRangeMarks + 1; i++) {
+            final double y = rangeFunction.evaluate(i);
+            final RangeTickMark tickMark = new RangeTickMark(y);
+            tickMarksAndGridLines.addChild(tickMark);
+
+            RangeGridLine gridLine = new RangeGridLine(y, this);
+            tickMarksAndGridLines.addChild(gridLine);
+
+            SimpleObserver rangeTickMarkUpdate = new SimpleObserver() {
+                public void update() {
+                    Point2D location = modelToView(new TimeData(y, 0));
+                    tickMark.setOffset(0, location.getY());
+                }
+            };
+            rangeTickMarkUpdate.update();
+            viewDimension.addObserver(rangeTickMarkUpdate);
+            this.dataModelBounds.addObserver(rangeTickMarkUpdate);
+        }
     }
 
     public MutableBoolean getMaximized() {
@@ -280,14 +295,15 @@ public class MovingManChart extends PNode {
     private static class DomainGridLine extends PNode {
         private DomainGridLine(final double x, final MovingManChart chart) {
             final PhetPPath tick = new PhetPPath(new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 0, new float[]{10, 3}, 0), Color.lightGray);
-            final SimpleObserver so = new SimpleObserver() {
+            //TODO: memory leak here, since grid lines are recreated sometimes
+            final SimpleObserver update = new SimpleObserver() {
                 public void update() {
                     final double chartX = chart.modelToView(new TimeData(0, x)).getX();
                     tick.setPathTo(new Line2D.Double(chartX, chart.viewDimension.getHeight(), chartX, 0));
                 }
             };
-            so.update();
-            chart.viewDimension.addObserver(so);
+            update.update();
+            chart.viewDimension.addObserver(update);
             addChild(tick);
         }
     }
@@ -442,5 +458,9 @@ public class MovingManChart extends PNode {
 
     private void zoomInVertical() {
         dataModelBounds.setVerticalRange(dataModelBounds.getMinY() + 5, dataModelBounds.getMaxY() - 5);
+    }
+
+    public MutableRectangle getDataModelBounds() {
+        return dataModelBounds;
     }
 }

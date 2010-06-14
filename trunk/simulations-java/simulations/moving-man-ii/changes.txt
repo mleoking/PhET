@@ -1,3 +1,4 @@
+Update charts and indicator arrows when zoom changes
 Added initial version of vertical zoom buttons
 Fixed: Play area arrows look incorrect at small magnitudes
 Hide the blue timeline bar when chart playback cursor can be used instead

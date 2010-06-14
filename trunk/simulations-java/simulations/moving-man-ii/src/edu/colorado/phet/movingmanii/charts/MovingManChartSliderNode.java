@@ -1,5 +1,6 @@
 package edu.colorado.phet.movingmanii.charts;
 
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.movingmanii.view.MovingManSliderNode;
 import edu.colorado.phet.movingmanii.view.Range;
 import edu.umd.cs.piccolo.PNode;
@@ -14,7 +15,7 @@ import java.beans.PropertyChangeListener;
 public class MovingManChartSliderNode extends MovingManSliderNode.Vertical {
     private final MovingManChart movingManChart;
 
-    public MovingManChartSliderNode(MovingManChart movingManChart, final PNode sliderThumb, Color highlightColor) {
+    public MovingManChartSliderNode(final MovingManChart movingManChart, final PNode sliderThumb, Color highlightColor) {
         super(new Range(movingManChart.getMinRangeValue(), movingManChart.getMaxRangeValue()), 0.0, new Range(0, 100), sliderThumb, highlightColor);
         this.movingManChart = movingManChart;
         movingManChart.addPropertyChangeListener(new PropertyChangeListener() {
@@ -23,6 +24,11 @@ public class MovingManChartSliderNode extends MovingManSliderNode.Vertical {
             }
         });
         updateLayoutBasedOnChart();
+        movingManChart.getDataModelBounds().addObserver(new SimpleObserver() {
+            public void update() {
+                setModelRange(movingManChart.getMinRangeValue(), movingManChart.getMaxRangeValue());
+            }
+        });
     }
 
     public void updateLayoutBasedOnChart() {

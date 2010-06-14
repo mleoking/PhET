@@ -57,6 +57,7 @@ public abstract class MovingManSliderNode extends PNode {
         modelRange.addObserver(new SimpleObserver() {
             public void update() {
                 transform.setInput(modelRange.getMin(), modelRange.getMax());
+                updateLayout();
             }
         });
         viewRange.addObserver(new SimpleObserver() {
@@ -350,5 +351,10 @@ public abstract class MovingManSliderNode extends PNode {
             double delta = x - initDragPoint.getX();
             return delta;
         }
+    }
+
+    public void setModelRange(double min, double max) {
+        modelRange.setMin(min);
+        modelRange.setMax(max);
     }
 }
