@@ -2,7 +2,6 @@ package edu.colorado.phet.movingmanii;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
-import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.movingmanii.model.MovingManModel;
 import edu.colorado.phet.movingmanii.model.MovingManState;
@@ -35,11 +34,7 @@ public class MovingManApplication extends PiccoloPhetApplication {
         }
 
         protected JComponent createSimulationPanel(MovingManModel model, RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel) {
-            return new MovingManSimulationPanelWithPlayAreaSliders(model, recordAndPlaybackModel, new Resettable() {
-                public void reset() {
-                    resetAll();
-                }
-            });
+            return new MovingManSimulationPanelWithPlayAreaSliders(model, recordAndPlaybackModel);
         }
     }
 

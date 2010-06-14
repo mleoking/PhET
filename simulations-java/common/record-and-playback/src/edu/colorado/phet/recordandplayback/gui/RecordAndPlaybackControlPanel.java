@@ -151,6 +151,7 @@ public class RecordAndPlaybackControlPanel<T> extends PhetPCanvas {
 
     public void addControl(PNode node) {
         controlLayer.addChild(node);
+        relayout();
     }
 
     private double getControlLayerHeight() {

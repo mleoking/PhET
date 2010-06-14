@@ -13,11 +13,9 @@ import edu.colorado.phet.movingmanii.model.MovingManModel;
 import edu.colorado.phet.movingmanii.model.MovingManState;
 import edu.colorado.phet.recordandplayback.gui.RecordAndPlaybackControlPanel;
 import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import javax.swing.*;
-import java.awt.*;
 import java.util.ArrayList;
 
 /**
@@ -110,7 +108,13 @@ public abstract class MovingManModule extends Module {
         updateCursorVisibility(movingManModel, recordAndPlaybackModel);
 
         setSimulationPanel(createSimulationPanel(movingManModel, recordAndPlaybackModel));
-        setClockControlPanel(new RecordAndPlaybackControlPanel<MovingManState>(recordAndPlaybackModel, getSimulationPanel(), 20.0));
+        RecordAndPlaybackControlPanel<MovingManState> panel = new RecordAndPlaybackControlPanel<MovingManState>(recordAndPlaybackModel, getSimulationPanel(), 20.0);
+        panel.addControl(new PSwing(new ResetAllButton(new Resettable() {
+            public void reset() {
+                MovingManModule.this.resetAll();
+            }
+        }, getSimulationPanel())));
+        setClockControlPanel(panel);
         setLogoPanelVisible(false);
     }
 

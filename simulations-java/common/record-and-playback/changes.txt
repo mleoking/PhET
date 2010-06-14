@@ -1,3 +1,5 @@
+6/13/2010 Update playback speed slider visibility on startup
+6/13/2010 Relayout clock control panel when controls are added
 6/13/2010 Layout improvements for RecordAndPlaybackControlPanel
 6/11/2010 Fixed an index out of bounds exception on clear during playback; only restore state if state has been recorded
 6/10/2010 Made timeline thumb node remain close to mouse, even after hitting boundary
