@@ -7,6 +7,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
 import java.awt.*;
+import java.io.IOException;
 
 /**
  * These sliders should be Piccolo sliders for the following reasons:
@@ -30,7 +31,11 @@ public class PlayAreaSliderControl extends PNode {
         addChild(textBox);
         textBox.setOffset(200, text.getFullBounds().getCenterY() - textBox.getFullBounds().getHeight() / 2);//todo: align with other controls but make sure doesn't overlap text
 
-        slider = new MovingManSliderNode.Horizontal(new Range(min, max), 0.0, new Range(0, 350), color);
+        try {
+            slider = new MovingManSliderNode.Horizontal(new Range(min, max), 0.0, new Range(0, 350), color);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         addChild(slider);
         slider.setOffset(0, text.getFullBounds().getHeight() + 10);
 

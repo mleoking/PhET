@@ -1,5 +1,6 @@
 package edu.colorado.phet.movingmanii.view;
 
+import edu.colorado.phet.common.motion.MotionResources;
 import edu.colorado.phet.common.motion.tests.ColorArrows;
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
@@ -15,6 +16,8 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -33,6 +36,17 @@ public abstract class MovingManSliderNode extends PNode {
 
     public MovingManSliderNode(Range modelRange, double value, Range viewRange, Color color) {
         this(modelRange, value, viewRange, new PImage(ColorArrows.createArrow(color)), color);
+    }
+
+    /**
+     * This sim uses bar images for slider thumbs in the intro panel, and arrows in the chart panel.
+     *
+     * @param color
+     * @return
+     * @throws IOException
+     */
+    private static BufferedImage getBarImage(Color color) throws IOException {
+        return ColorArrows.filter(MotionResources.loadBufferedImage("bar-template.png"), color);
     }
 
     public MovingManSliderNode(final Range modelRange, final double _value, final Range viewRange, final PNode sliderThumb, Color highlightColor) {
@@ -262,7 +276,7 @@ public abstract class MovingManSliderNode extends PNode {
     }
 
     public static class Vertical extends MovingManSliderNode {
-        public Vertical(Range modelRange, double value, Range viewRange, Color color) {
+        public Vertical(Range modelRange, double value, Range viewRange, Color color) throws IOException {
             super(modelRange, value, viewRange, color);
         }
 
@@ -300,8 +314,8 @@ public abstract class MovingManSliderNode extends PNode {
     }
 
     public static class Horizontal extends MovingManSliderNode {
-        public Horizontal(Range modelRange, double value, Range viewRange, Color color) {
-            this(modelRange, value, viewRange, new PImage(BufferedImageUtils.getRotatedImage(ColorArrows.createArrow(color), Math.PI / 2)), color);
+        public Horizontal(Range modelRange, double value, Range viewRange, Color color) throws IOException {
+            this(modelRange, value, viewRange, new PImage(BufferedImageUtils.flipY(BufferedImageUtils.getRotatedImage(getBarImage(color), -Math.PI / 2))), color);
         }
 
         public Horizontal(final Range modelRange, final double _value, final Range viewRange, final PNode sliderThumb, Color highlightColor) {
