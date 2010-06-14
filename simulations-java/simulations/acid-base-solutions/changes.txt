@@ -1,3 +1,4 @@
+6/13/10 pH meter checkbox instead of radio button, on by default
 6/13/10 concentration slider tick labels: 0.001 0.01 0.1 1
 # 0.00.09 (41585) Jun 12, 2010
 6/12/10 dev version to demonstrate progress
