@@ -22,10 +22,12 @@ public class StretchingPanel extends JPanel {
             public void timeChanged() {
                 long time = getTimeSinceBeginningOfLast(timesheetModel);
                 textField.setText(Util.secondsToElapsedTimeString(time));
-                if (entryMatches(timesheetModel.getLastEntry()) && time == 5 * 60)
-                    playNotification("C:\\workingcopy\\phet-svn\\trunk\\simulations-java\\simulations\\electric-hockey\\data\\electric-hockey\\audio\\cork.wav");//todo: take out absolute paths
-                if (time == 60 * 60) {
-                    playNotification("C:\\workingcopy\\phet-svn\\trunk\\simulations-java\\simulations\\electric-hockey\\data\\electric-hockey\\audio\\tada.WAV");
+                if (timesheetModel.getEntryCount() > 0) {
+                    if (entryMatches(timesheetModel.getLastEntry()) && time == 5 * 60)//TODO: this plays sound during loading CSV
+                        playNotification("C:\\workingcopy\\phet-svn\\trunk\\simulations-java\\simulations\\electric-hockey\\data\\electric-hockey\\audio\\cork.wav");//todo: take out absolute paths
+                    if (time == 60 * 60) {
+                        playNotification("C:\\workingcopy\\phet-svn\\trunk\\simulations-java\\simulations\\electric-hockey\\data\\electric-hockey\\audio\\tada.WAV");
+                    }
                 }
             }
         };
