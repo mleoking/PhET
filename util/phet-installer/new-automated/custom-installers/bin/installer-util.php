@@ -307,7 +307,12 @@
             return false;
         }
 
+        // Replace some macros in the BitRock project file.  This allows us
+        // to keep some things consistent between BitRock and the installer-
+        // builder scripts.
         $macro_map['VERSION'] = BITROCK_PRODUCT_VERSION;
+        $macro_map['RIP_BASE_DIR'] = RIPPED_WEBSITE_ROOT.PHET_HOSTNAME_NO_COLONS;
+        $macro_map['INSTALLER_RESOURCES_DIR'] = INSTALLER_RESOURCES_DIR;
 
         if (!file_replace_macros_in_file($new_buildfile, $macro_map)) {
             return false;
