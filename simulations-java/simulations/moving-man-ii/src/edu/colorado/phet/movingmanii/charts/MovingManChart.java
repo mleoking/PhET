@@ -21,6 +21,7 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PPaintContext;
 import edu.umd.cs.piccolox.nodes.PClip;
 
 import java.awt.*;
@@ -29,6 +30,8 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -51,6 +54,8 @@ public class MovingManChart extends PNode {
     private MutableBoolean maximized = new MutableBoolean(true);
     private ModelViewTransform2D modelViewTransform2D;
     private PNode tickMarksAndGridLines;
+    protected VerticalZoomControl verticalZoomControl;
+    protected HorizontalZoomControl horizontalZoomControl;
 
     public MovingManChart(Rectangle2D.Double dataModelBounds) {
         this(dataModelBounds, 100, 100);//useful for layout code that updates size later instead of at construction and later
@@ -157,15 +162,29 @@ public class MovingManChart extends PNode {
         maximized.addObserver(observer);
         observer.update();
 
-        final VerticalZoomControl verticalZoomButtons = new VerticalZoomControl(this);
-        SimpleObserver relayout = new SimpleObserver() {
+        verticalZoomControl = new VerticalZoomControl(this);
+        SimpleObserver relayoutVerticalZoomControl = new SimpleObserver() {
             public void update() {
-                verticalZoomButtons.setOffset(viewDimension.getWidth(), viewDimension.getHeight() / 2 - verticalZoomButtons.getFullBounds().getHeight() / 2);
+                verticalZoomControl.setOffset(viewDimension.getWidth(), viewDimension.getHeight() / 2 - verticalZoomControl.getFullBounds().getHeight() / 2);
             }
         };
-        getViewDimension().addObserver(relayout);
-        relayout.update();
-        addChartChild(verticalZoomButtons);
+        getViewDimension().addObserver(relayoutVerticalZoomControl);
+        relayoutVerticalZoomControl.update();
+        addChartChild(verticalZoomControl);
+
+        horizontalZoomControl = new HorizontalZoomControl(this);
+        final SimpleObserver relayoutHorizontalZoomControl = new SimpleObserver() {
+            public void update() {
+                horizontalZoomControl.setOffset(verticalZoomControl.getFullBounds().getMaxX(), 0);
+            }
+        };
+        relayoutHorizontalZoomControl.update();
+        verticalZoomControl.addPropertyChangeListener(PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
+            public void propertyChange(PropertyChangeEvent evt) {
+                relayoutHorizontalZoomControl.update();
+            }
+        });
+        addChartChild(horizontalZoomControl);
     }
 
     private void updateTickMarksAndGridLines() {
@@ -257,6 +276,16 @@ public class MovingManChart extends PNode {
         chartContents.addChild(child);
     }
 
+    public double getZoomControlWidth() {
+        return horizontalZoomControl.getFullBounds().getWidth() + verticalZoomControl.getFullBounds().getWidth();
+    }
+
+    public void setHorizontalZoomButtonsVisible(boolean visible) {
+        horizontalZoomControl.setVisible(visible);
+        horizontalZoomControl.setPickable(visible);
+        horizontalZoomControl.setChildrenPickable(visible);
+    }
+
     public static class DomainTickMark extends PNode {
         private PText text;
 
@@ -264,10 +293,13 @@ public class MovingManChart extends PNode {
             double tickWidth = 1.0;
             PhetPPath tick = new PhetPPath(new Rectangle2D.Double(-tickWidth / 2, 0, tickWidth, 4), Color.black);
             addChild(tick);
-            text = new PText(new DecimalFormat("0").format(x));
-            text.setFont(new PhetFont(14, true));
-            addChild(text);
-            text.setOffset(tick.getFullBounds().getCenterX() - text.getFullBounds().getWidth() / 2, tick.getFullBounds().getHeight());
+            String text = new DecimalFormat("0.0").format(x);
+            //hide the decimal point where possible, but don't trim for series like 4.0, 4.5, etc.
+            if (text.endsWith(".0")) text = text.substring(0, text.indexOf(".0"));//TODO handle comma for il8n
+            this.text = new PText(text);
+            this.text.setFont(new PhetFont(14, true));
+            addChild(this.text);
+            this.text.setOffset(tick.getFullBounds().getCenterX() - this.text.getFullBounds().getWidth() / 2, tick.getFullBounds().getHeight());
         }
 
         public String getTickText() {
@@ -402,10 +434,10 @@ public class MovingManChart extends PNode {
         void actionPerformed();
     }
 
-    private static class VerticalZoomButton extends PNode {
+    private static class ZoomButton extends PNode {
         protected AbstractMediaButton button;
 
-        private VerticalZoomButton(final String imageName, final Listener zoomListener) {
+        private ZoomButton(final String imageName, final Listener zoomListener) {
             button = new AbstractMediaButton(30) {
                 protected BufferedImage createImage() {
                     try {
@@ -438,7 +470,7 @@ public class MovingManChart extends PNode {
 
     private static class VerticalZoomControl extends PNode {
         private VerticalZoomControl(final MovingManChart chart) {
-            final VerticalZoomButton zoomInButton = new VerticalZoomButton("magnify-plus.png", new Listener() {
+            final ZoomButton zoomInButton = new ZoomButton("magnify-plus.png", new Listener() {
                 public void actionPerformed() {
                     chart.zoomInVertical();
                 }
@@ -452,7 +484,7 @@ public class MovingManChart extends PNode {
             });
             addChild(zoomInButton);
 
-            VerticalZoomButton zoomOutButton = new VerticalZoomButton("magnify-minus.png", new Listener() {
+            ZoomButton zoomOutButton = new ZoomButton("magnify-minus.png", new Listener() {
                 public void actionPerformed() {
                     chart.zoomOutVertical();
                 }
@@ -461,6 +493,91 @@ public class MovingManChart extends PNode {
 
             zoomInButton.setOffset(0, zoomOutButton.getFullBounds().getHeight());
         }
+    }
+
+    private static class HorizontalZoomControl extends PNode {
+        private double triangleHeight = 6;
+        private double triangleWidth = 6;
+
+        private HorizontalZoomControl(final MovingManChart chart) {
+            final ZoomButton zoomInButton = new ZoomButton("magnify-plus.png", new Listener() {
+                public void actionPerformed() {
+                    chart.zoomInHorizontal();
+                }
+            });
+            addChild(zoomInButton);
+
+            final ZoomButton zoomOutButton = new ZoomButton("magnify-minus.png", new Listener() {
+                public void actionPerformed() {
+                    chart.zoomOutHorizontal();
+                }
+            });
+            addChild(zoomOutButton);
+            SimpleObserver updateButtonsEnabled = new SimpleObserver() {
+                public void update() {
+                    zoomInButton.setEnabled(chart.getDataModelBounds().getWidth() > 5.0 + 1E-6);
+                    zoomOutButton.setEnabled(chart.getDataModelBounds().getWidth() < 20.0 - 1E-6);
+                    //TODO: cursor hand never goes away
+                }
+            };
+            chart.getDataModelBounds().addObserver(updateButtonsEnabled);
+            updateButtonsEnabled.update();
+
+            zoomInButton.setOffset(0, 5);
+            zoomOutButton.setOffset(zoomInButton.getFullBounds().getMaxX(), 5);
+
+            PhetPPath pathLeft = new HighQualityPhetPPath(getTrianglePathLeft(), Color.black);
+            addChild(pathLeft);
+            PhetPPath pathRight = new HighQualityPhetPPath(getTrianglePathRight(), Color.black);
+            addChild(pathRight);
+            pathLeft.setOffset(zoomInButton.getFullBounds().getMaxX() - pathLeft.getFullBounds().getWidth() - 0.5, 0);
+            pathRight.setOffset(pathLeft.getFullBounds().getMaxX() + 1.5, 0);
+        }
+
+        public static class HighQualityPhetPPath extends PhetPPath {
+
+            public HighQualityPhetPPath(Shape shape, Color color) {
+                super(shape, color);
+            }
+
+            /**
+             * These small triangles look terrible without good rendering hints.
+             *
+             * @param paintContext
+             */
+            protected void paint(PPaintContext paintContext) {
+                int rq = paintContext.getRenderQuality();
+                paintContext.setRenderQuality(PPaintContext.HIGH_QUALITY_RENDERING);
+                super.paint(paintContext);
+                paintContext.setRenderQuality(rq);
+            }
+        }
+
+        private GeneralPath getTrianglePathLeft() {
+            DoubleGeneralPath trianglePath = new DoubleGeneralPath(0, triangleHeight / 2);
+            trianglePath.lineToRelative(triangleWidth, -triangleHeight / 2);
+            trianglePath.lineToRelative(0, triangleHeight);
+            trianglePath.lineTo(0, triangleHeight / 2);
+            GeneralPath path1 = trianglePath.getGeneralPath();
+            return path1;
+        }
+
+        private GeneralPath getTrianglePathRight() {
+            DoubleGeneralPath trianglePath = new DoubleGeneralPath(triangleWidth, triangleHeight / 2);
+            trianglePath.lineToRelative(-triangleWidth, -triangleHeight / 2);
+            trianglePath.lineToRelative(0, triangleHeight);
+            trianglePath.lineTo(triangleWidth, triangleHeight / 2);
+            GeneralPath path1 = trianglePath.getGeneralPath();
+            return path1;
+        }
+    }
+
+    private void zoomInHorizontal() {
+        dataModelBounds.setHorizontalRange(dataModelBounds.getMinX(), dataModelBounds.getMaxX() - 5);
+    }
+
+    private void zoomOutHorizontal() {
+        dataModelBounds.setHorizontalRange(dataModelBounds.getMinX(), dataModelBounds.getMaxX() + 5);
     }
 
     private void zoomOutVertical() {

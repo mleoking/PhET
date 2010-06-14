@@ -235,7 +235,7 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
                 final double chartsY = getPlayAreaRulerNode().getFullBounds().getMaxY() + 10;//top of 1st chart
                 double availableHeightForCharts = getHeight() - chartsY;
                 double sizePerChart = availableHeightForCharts / 3;
-                double roomForZoomButtons = 55;
+                double roomForZoomButtons = Math.max(Math.max(positionChart.getZoomControlWidth(), velocityChart.getZoomControlWidth()), accelerationChart.getZoomControlWidth());
                 double chartWidth = getWidth() - chartX - roomForZoomButtons;
                 double chartHeight = sizePerChart - 24;//for inset
 
@@ -251,6 +251,53 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
         };
         updateLayout.componentResized(null);
         addComponentListener(updateLayout);
+
+        /**
+         * Synchronize the chart domains.
+         */
+        positionChart.getDataModelBounds().addObserver(new SimpleObserver() {
+            public void update() {
+                velocityChart.getDataModelBounds().setHorizontalRange(positionChart.getDataModelBounds().getMinX(), positionChart.getDataModelBounds().getMaxX());
+                accelerationChart.getDataModelBounds().setHorizontalRange(positionChart.getDataModelBounds().getMinX(), positionChart.getDataModelBounds().getMaxX());
+            }
+        });
+
+        velocityChart.getDataModelBounds().addObserver(new SimpleObserver() {
+            public void update() {
+                positionChart.getDataModelBounds().setHorizontalRange(velocityChart.getDataModelBounds().getMinX(), velocityChart.getDataModelBounds().getMaxX());
+                accelerationChart.getDataModelBounds().setHorizontalRange(velocityChart.getDataModelBounds().getMinX(), velocityChart.getDataModelBounds().getMaxX());
+            }
+        });
+
+        accelerationChart.getDataModelBounds().addObserver(new SimpleObserver() {
+            public void update() {
+                positionChart.getDataModelBounds().setHorizontalRange(accelerationChart.getDataModelBounds().getMinX(), accelerationChart.getDataModelBounds().getMaxX());
+                velocityChart.getDataModelBounds().setHorizontalRange(accelerationChart.getDataModelBounds().getMinX(), accelerationChart.getDataModelBounds().getMaxX());
+            }
+        });
+
+        //Only show the topmost horizontal zoom button
+        SimpleObserver updateHorizontalZoomVisibility = new SimpleObserver() {
+            public void update() {
+                if (positionChart.getMaximized().getValue()) {
+                    positionChart.setHorizontalZoomButtonsVisible(true);
+                    velocityChart.setHorizontalZoomButtonsVisible(false);
+                    accelerationChart.setHorizontalZoomButtonsVisible(false);
+                } else if (velocityChart.getMaximized().getValue()) {
+                    positionChart.setHorizontalZoomButtonsVisible(false);
+                    velocityChart.setHorizontalZoomButtonsVisible(true);
+                    accelerationChart.setHorizontalZoomButtonsVisible(false);
+                } else {
+                    positionChart.setHorizontalZoomButtonsVisible(false);
+                    velocityChart.setHorizontalZoomButtonsVisible(false);
+                    accelerationChart.setHorizontalZoomButtonsVisible(true);
+                }
+            }
+        };
+        positionChart.getMaximized().addObserver(updateHorizontalZoomVisibility);
+        velocityChart.getMaximized().addObserver(updateHorizontalZoomVisibility);
+        accelerationChart.getMaximized().addObserver(updateHorizontalZoomVisibility);
+        updateHorizontalZoomVisibility.update();
     }
 
     private void updateAccelerationModeSelected(MovingManModel model, MovingManSliderNode chartSliderNode) {

@@ -83,11 +83,24 @@ public class MutableRectangle extends SimpleObservable {
         notifyObservers();
     }
 
-    public Rectangle2D.Double toRectangle2D(){
-        return new Rectangle2D.Double(x,y,width, height);
+    public Rectangle2D.Double toRectangle2D() {
+        return new Rectangle2D.Double(x, y, width, height);
     }
 
     public double getMaxX() {
-        return x+width;
+        return x + width;
+    }
+
+    public double getMinX() {
+        return x;
+    }
+
+    public void setHorizontalRange(double minX, double maxX) {
+        assert maxX > minX;
+        if (this.x != minX || this.width != (maxX - minX)) {
+            this.x = minX;
+            this.width = maxX - minX;
+            notifyObservers();
+        }
     }
 }
