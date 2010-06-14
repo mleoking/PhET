@@ -6,6 +6,7 @@ MILESTONES
 - 8/1/10, sim showable for BCCE
 
 HIGH PRIORITY
+- pH meter checkbox instead of radio button
 - fix drag behavior for pH meter, constrain, errors in coordinate frame transforms
 - bar graph, adapt from advanced-acid-base-solutions
 - conductivity tester

@@ -5,6 +5,7 @@ package edu.colorado.phet.acidbasesolutions.controls;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import java.util.Hashtable;
 
 import javax.swing.*;
@@ -239,9 +240,10 @@ public class CustomSolutionControl extends JPanel {
             {
                 // labels at each 10x interval
                 Hashtable<Double, JLabel> concentrationLabelTable = new Hashtable<Double, JLabel>();
+                DecimalFormat format = new DecimalFormat( "#.###" );
                 int numberOfLabels = 0;
                 for ( double c = concentrationControl.getMinimum(); c <= concentrationControl.getMaximum(); c *= 10 ) {
-                    concentrationLabelTable.put( new Double( c ), new JLabel( String.valueOf( c ) ) );
+                    concentrationLabelTable.put( new Double( c ), new JLabel( format.format( c )) );
                     numberOfLabels++;
                 }
                 concentrationControl.setTickLabels( concentrationLabelTable );
