@@ -21,7 +21,7 @@ public class MovingManApplication extends PiccoloPhetApplication {
 
     public MovingManApplication(PhetApplicationConfig config) {
         super(config);
-//        addModule(new IntroModule());
+        addModule(new IntroModule());
         addModule(new ChartingModule());
     }
 
