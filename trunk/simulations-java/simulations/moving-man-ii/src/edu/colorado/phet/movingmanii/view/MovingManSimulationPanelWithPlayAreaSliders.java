@@ -17,7 +17,7 @@ import java.awt.event.ComponentEvent;
  * @author Sam Reid
  */
 public class MovingManSimulationPanelWithPlayAreaSliders extends MovingManSimulationPanel {
-    public MovingManSimulationPanelWithPlayAreaSliders(final MovingManModel model, final RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel, Resettable resettable) {
+    public MovingManSimulationPanelWithPlayAreaSliders(final MovingManModel model, final RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel) {
         super(model, recordAndPlaybackModel, 100);
         {
             //TODO: factor out code with the sliders + text boxes used in the chart module
@@ -128,14 +128,5 @@ public class MovingManSimulationPanelWithPlayAreaSliders extends MovingManSimula
             });
             addScreenChild(pSwing);
         }
-        final PSwing resetAllButton = new PSwing(new ResetAllButton(resettable, this));
-        addScreenChild(resetAllButton);
-        ComponentAdapter adapter = new ComponentAdapter() {
-            public void componentResized(ComponentEvent e) {
-                resetAllButton.setOffset(getWidth() - resetAllButton.getFullBounds().getWidth() - 2, getHeight() - resetAllButton.getFullBounds().getHeight() - 2);
-            }
-        };
-        adapter.componentResized(null);
-        addComponentListener(adapter);
     }
 }

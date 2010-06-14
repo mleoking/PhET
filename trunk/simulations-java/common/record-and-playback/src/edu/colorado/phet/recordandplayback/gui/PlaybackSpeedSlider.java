@@ -46,14 +46,12 @@ public class PlaybackSpeedSlider<T> extends PNode {
             }
         });
 
-        model.addObserver(new SimpleObserver() {
+        SimpleObserver updatePlaybackSliderVisible = new SimpleObserver() {
             public void update() {
-                updatePlaybackSliderVisible();
+                setVisible(model.isPlayback());
             }
-        });
-    }
-
-    private void updatePlaybackSliderVisible() {
-        setVisible(model.isPlayback());
+        };
+        model.addObserver(updatePlaybackSliderVisible);
+        updatePlaybackSliderVisible.update();
     }
 }
