@@ -71,6 +71,18 @@ public class MovingManDataSeries {
         return data.get(getNumPoints() / 2);
     }
 
+    public void clearPointsAfter(double time) {
+        ArrayList<TimeData> newPoints = new ArrayList<TimeData>();
+        for (TimeData timeData : data) {
+            if (timeData.getTime()<time){
+                newPoints.add(timeData);
+            }
+        }
+        data.clear();
+        data.addAll(newPoints);
+        notifyEntrireSeriesChanged();
+    }
+
     public static interface Listener {
         void entireSeriesChanged();
 

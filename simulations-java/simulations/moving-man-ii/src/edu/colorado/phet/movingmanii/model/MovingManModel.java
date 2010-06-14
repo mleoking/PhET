@@ -41,6 +41,17 @@ public class MovingManModel {
     private Range range = new Range(-10, 10);
     private BooleanGetter isPaused;
 
+    public void historyRemainderCleared(double time) {
+        mouseDataModelSeries.clearPointsAfter(time);
+        positionModelSeries.clearPointsAfter(time);
+        velocityModelSeries.clearPointsAfter(time);
+        accelerationModelSeries.clearPointsAfter(time);
+
+        positionGraphSeries.clearPointsAfter(time);
+        velocityGraphSeries.clearPointsAfter(time);
+        accelerationGraphSeries.clearPointsAfter(time);
+    }
+
     public static interface BooleanGetter {
         boolean isTrue();
     }

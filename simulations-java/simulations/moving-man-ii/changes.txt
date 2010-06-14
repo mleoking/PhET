@@ -1,3 +1,4 @@
+Added handling for starting recording halfway through playback.
 Fixed: Horizontal line drawn when clearing velocity and acceleration curves
 Fixed: Chart series needs to be re-transformed on component resize event
 Added horizontal zoom buttons
