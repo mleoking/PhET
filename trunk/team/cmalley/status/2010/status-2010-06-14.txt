@@ -13,6 +13,7 @@ Acid-Base Solutions:
 - adapted concentration bar graph from advanced-acid-base-solutions
 - design discussions with Kelly
 - published 0.00.09, 0.00.10, 0.00.11
+- in good shape for Kelly's interviews deadline (6/21/10)
 
 Capacitor Lab:
 - no progress, on hold to meet Acid-Base deadline
@@ -42,8 +43,8 @@ common:
 
 WHAT'S NEXT:
 
- - Capacitor Lab design & implementation 
  - Acid-Base Solutions design & implementation 
+ - Capacitor Lab design & implementation 
  - Faraday fix for dipole magnet, #2236 (waiting for info from Mike)
  - Lasers fix for lifetime sliders, #2190 (waiting for instructions from Kathy)
 
