@@ -3,10 +3,23 @@
 package edu.colorado.phet.greenhouse.view;
 
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.geom.Rectangle2D;
+
+import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.greenhouse.GreenhouseResources;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * PNode that represents a flashlight in the view.  This node is set up such
@@ -17,7 +30,9 @@ import edu.umd.cs.piccolo.nodes.PImage;
  * @author John Blanco
  */
 public class FlashlightNode extends PNode {
-
+	
+	private static final Font LABEL_FONT = new PhetFont(24);
+	
 	private PImage flashlightImage;
 	private ModelViewTransform2D mvt;
 	
@@ -35,11 +50,48 @@ public class FlashlightNode extends PNode {
 		
 		this.mvt = mvt;
 		
+		// Add the flashlight image, setting the offset such that the center
+		// right side of the image is the origin.  This assumes that photons
+		// will be emitted to the right.
 		flashlightImage = new PImage(GreenhouseResources.getImage("flashlight.png"));
 		flashlightImage.scale(flashlightWidth / flashlightImage.getFullBoundsReference().width);
-		// Set the offset such that the center right side of the image is the
-		// origin.  This assumes that photons will be emitted to the right.
 		flashlightImage.setOffset(-flashlightWidth, -flashlightImage.getFullBoundsReference().height / 2);
 		addChild(flashlightImage);
+		
+		// Calculate the vertical distance between the center of the
+		// flashlight image and the control box.  This is a function of the
+		// flashlight width.  The multiplier is arbitrary and can be adjusted
+		// as desired.
+		double distanceBetweeImageAndControl = flashlightWidth * 0.8;
+		
+		// Create the control box for selecting the type of photon that will
+		// be emitted.
+		JPanel emissionTypeSelectionPanel = new VerticalLayoutPanel();
+		emissionTypeSelectionPanel.setBorder(BorderFactory.createRaisedBevelBorder());
+		JRadioButton infraredPhotonRadioButton = new JRadioButton("Infrared"); // TODO: i18n
+		infraredPhotonRadioButton.setFont(LABEL_FONT);
+		JRadioButton visiblePhotonRadioButton = new JRadioButton("Visible");   // TODO: i18n
+		visiblePhotonRadioButton.setFont(LABEL_FONT);
+		ButtonGroup buttonGroup = new ButtonGroup();
+		buttonGroup.add(infraredPhotonRadioButton);
+		buttonGroup.add(visiblePhotonRadioButton);
+		emissionTypeSelectionPanel.add(infraredPhotonRadioButton);
+		emissionTypeSelectionPanel.add(visiblePhotonRadioButton);
+		PSwing selectionPanelPSwing = new PSwing(emissionTypeSelectionPanel);
+		selectionPanelPSwing.setOffset(
+				flashlightImage.getFullBoundsReference().getCenterX() - selectionPanelPSwing.getFullBoundsReference().width / 2,
+				flashlightImage.getFullBoundsReference().getCenterY() + distanceBetweeImageAndControl - selectionPanelPSwing.getFullBoundsReference().height / 2);
+		addChild(selectionPanelPSwing);
+		
+		// Create the "connecting rod" that will visually connect the
+		// selection panel to the flashlight image.
+		Rectangle2D connectingRodShape = new Rectangle2D.Double(0, 0, flashlightWidth * 0.1, distanceBetweeImageAndControl);
+		PNode connectingRod = new PhetPPath(connectingRodShape);
+		connectingRod.setPaint(Color.gray);
+		connectingRod.setOffset(
+				flashlightImage.getFullBoundsReference().getCenterX() - connectingRodShape.getWidth() / 2,
+				flashlightImage.getFullBoundsReference().getCenterY());
+		addChild(connectingRod);
+		
 	}
 }
