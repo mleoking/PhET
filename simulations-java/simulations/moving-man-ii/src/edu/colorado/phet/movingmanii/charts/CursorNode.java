@@ -1,6 +1,7 @@
 package edu.colorado.phet.movingmanii.charts;
 
 import edu.colorado.phet.common.motion.model.TimeData;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
@@ -34,6 +35,14 @@ public class CursorNode extends PNode {
         };
         pathUpdater.positionChanged();
         cursor.addListener(pathUpdater);
+
+        //Update the in-chart cursor location during zoom in/out
+        chart.getDataModelBounds().addObserver(new SimpleObserver() {
+            public void update() {
+                pathUpdater.positionChanged();
+            }
+        });
+
         final ChartCursor.Adapter visibilityUpdater = new ChartCursor.Adapter() {
             public void visibilityChanged() {
                 setVisible(cursor.isVisible());
