@@ -11,6 +11,7 @@ HIGH PRIORITY
 - conductivity tester
 - pH paper
 - don't show other tools in magnifying glass
+- control panel layout issues
 
 MEDUIUM PRIORITY
 - resolve design issues with exclusivity of tools

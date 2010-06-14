@@ -329,7 +329,7 @@ public class CustomSolutionControl extends JPanel {
                 }
             } );
             
-            // strength panel
+            // inner panel
             setBorder( new EtchedBorder() );
             EasyGridBagLayout layout = new EasyGridBagLayout( this );
             setLayout( layout );
@@ -340,8 +340,10 @@ public class CustomSolutionControl extends JPanel {
             layout.addComponent( strongRadioButton, row++, column, 1, 1 );
             column = 0;
             layout.addComponent( weakStrengthControl, row, column++, 2, 1 );
-            // maintain panel height when weakStrengthControl is made invisible
-            layout.addComponent( Box.createVerticalStrut( weakStrengthControl.getPreferredSize().height ), row, column ); 
+            // add struts to maintain panel size when weakStrengthControl is made invisible
+            layout.addComponent( Box.createVerticalStrut( weakStrengthControl.getPreferredSize().height ), row++, column ); 
+            column = 0;
+            layout.addComponent( Box.createHorizontalStrut( weakStrengthControl.getPreferredSize().width ), row, column, 2, 1 ); 
         }
         
         public void setLabelText( String text ) {
