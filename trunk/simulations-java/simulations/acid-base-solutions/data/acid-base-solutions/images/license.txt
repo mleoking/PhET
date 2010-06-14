@@ -1,1 +1,2 @@
 arrow_double.png source=PhET
+arrow_single.png source=PhET
