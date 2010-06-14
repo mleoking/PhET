@@ -1,8 +1,6 @@
 package edu.colorado.phet.website.content.contribution;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
@@ -50,6 +48,8 @@ public class ContributionBrowsePage extends PhetRegularPage {
         boolean noCriteria = simStrings == null && typeStrings == null && levelStrings == null & localeStrings == null & queryString == null;
 
         logger.debug( "AfterSearch" );
+
+        // TODO: document this code
 
         if ( noCriteria ) {
             //add( new InvisibleComponent( "contribution-browse-panel" ) );
@@ -180,6 +180,14 @@ public class ContributionBrowsePage extends PhetRegularPage {
             }
 
             logger.debug( "C" );
+
+            Collections.sort( finalContributions, new Comparator<Contribution>() {
+                public int compare( Contribution a, Contribution b ) {
+                    return a.displayCompareTo( b, getLocale() );
+                }
+            } );
+
+            logger.debug( "D" );
 
             add( new ContributionBrowsePanel( "contribution-browse-panel", getPageContext(), finalContributions ) );
         }
