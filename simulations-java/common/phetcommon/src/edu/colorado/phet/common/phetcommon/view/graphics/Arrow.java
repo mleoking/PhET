@@ -67,7 +67,7 @@ public class Arrow {
      * @param headHeight
      * @param headWidth
      * @param tailWidth
-     * @param fractionalHeadHeight When the head size is less than fractionalHeadHeight*total Arrow size,
+     * @param fractionalHeadHeight When the head size is less than fractionalHeadHeight * arrow length,
      *                             the head will be scaled.
      * @param scaleTailToo
      */
