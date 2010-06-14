@@ -89,16 +89,16 @@ public class ReactionEquationNode extends PComposite {
             imageLHS1 = new PImage( solution.getSolute().getIcon() );
             symbolLHS1 = new SymbolNode( solution.getSolute().getSymbol() );
             if ( isAcid ) {
-                imageLHS2 = isStrong ? null : new PImage( ABSImages.H2O_MOLECULE );
-                symbolLHS2 = isStrong ? null : new SymbolNode( ABSSymbols.H2O );
+                imageLHS2 = new PImage( ABSImages.H2O_MOLECULE );
+                symbolLHS2 = new SymbolNode( ABSSymbols.H2O );
                 imageRHS1 = new PImage( ABSImages.H3O_PLUS_MOLECULE );
                 symbolRHS1 = new SymbolNode( ABSSymbols.H3O_PLUS );
                 imageRHS2 = new PImage( solution.getProduct().getIcon() );
                 symbolRHS2 = new SymbolNode( solution.getProduct().getSymbol() );
             }
             else {
-                imageLHS2 = new PImage( ABSImages.H2O_MOLECULE );
-                symbolLHS2 = new SymbolNode( ABSSymbols.H2O );
+                imageLHS2 = isStrong ? null : new PImage( ABSImages.H2O_MOLECULE );
+                symbolLHS2 = isStrong ? null : new SymbolNode( ABSSymbols.H2O );
                 imageRHS1 = new PImage( solution.getProduct().getIcon() );
                 symbolRHS1 = new SymbolNode( solution.getProduct().getSymbol() );
                 imageRHS2 = new PImage( ABSImages.OH_MINUS_MOLECULE );
