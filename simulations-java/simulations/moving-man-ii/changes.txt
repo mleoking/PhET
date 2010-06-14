@@ -1,3 +1,4 @@
+Added initial version of vertical zoom buttons
 Fixed: Play area arrows look incorrect at small magnitudes
 Hide the blue timeline bar when chart playback cursor can be used instead
 Added a deceleration spike when accelerating into a wall
