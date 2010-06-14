@@ -21,7 +21,6 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolo.util.PPaintContext;
 import edu.umd.cs.piccolox.nodes.PClip;
 
 import java.awt.*;
@@ -526,31 +525,13 @@ public class MovingManChart extends PNode {
             zoomInButton.setOffset(0, 5);
             zoomOutButton.setOffset(zoomInButton.getFullBounds().getMaxX(), 5);
 
+            //These small triangles look terrible without good rendering hints.
             PhetPPath pathLeft = new HighQualityPhetPPath(getTrianglePathLeft(), Color.black);
             addChild(pathLeft);
             PhetPPath pathRight = new HighQualityPhetPPath(getTrianglePathRight(), Color.black);
             addChild(pathRight);
             pathLeft.setOffset(zoomInButton.getFullBounds().getMaxX() - pathLeft.getFullBounds().getWidth() - 0.5, 0);
             pathRight.setOffset(pathLeft.getFullBounds().getMaxX() + 1.5, 0);
-        }
-
-        public static class HighQualityPhetPPath extends PhetPPath {
-
-            public HighQualityPhetPPath(Shape shape, Color color) {
-                super(shape, color);
-            }
-
-            /**
-             * These small triangles look terrible without good rendering hints.
-             *
-             * @param paintContext
-             */
-            protected void paint(PPaintContext paintContext) {
-                int rq = paintContext.getRenderQuality();
-                paintContext.setRenderQuality(PPaintContext.HIGH_QUALITY_RENDERING);
-                super.paint(paintContext);
-                paintContext.setRenderQuality(rq);
-            }
         }
 
         private GeneralPath getTrianglePathLeft() {
@@ -591,4 +572,5 @@ public class MovingManChart extends PNode {
     public MutableRectangle getDataModelBounds() {
         return dataModelBounds;
     }
+
 }
