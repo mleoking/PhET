@@ -172,7 +172,7 @@ public class RecordAndPlaybackControlPanel<T> extends PhetPCanvas {
             x = x + child.getFullBounds().getWidth() + insetDX;
         }//TODO: center so that play button is in the very middle
         double playButtonCenter = playPause.getFullBounds().getCenterX();
-        controlLayer.setOffset(simPanel.getWidth() / 2 - playButtonCenter, timelineNode.getFullBounds().getHeight());
+        controlLayer.setOffset(simPanel.getWidth() / 2 - playButtonCenter, timelineNode.getVisible() ? timelineNode.getFullBounds().getHeight() : 0.0);
 
         backgroundNode.setSize((int) controlLayer.getFullBounds().getWidth() + 4, (int) controlLayer.getFullBounds().getHeight() + 2);
         backgroundNode.setOffset(controlLayer.getOffset().getX() - 2, controlLayer.getOffset().getY() - 1);
@@ -184,5 +184,10 @@ public class RecordAndPlaybackControlPanel<T> extends PhetPCanvas {
                 getParent().doLayout(); //This is necessary to solve this problem: 6/10/2010 Fixed: Record and playback timeline doesn't synchronize size at the right time (seems one behind); When switching back and forth tabs in moving man, the playback timeline changes size.
             }
         }
+    }
+
+    public void setTimelineNodeVisible(boolean timelineNodeVisible) {
+        timelineNode.setVisible(timelineNodeVisible);
+        relayout();
     }
 }
