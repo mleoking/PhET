@@ -63,6 +63,7 @@ public class ConcentrationGraphNode extends AbstractConcentrationGraphNode {
         double y = model.getConcentrationGraph().getLocationReference().getY() - ( getFullBoundsReference().getHeight() / 2 ) - PNodeLayoutUtils.getOriginYOffset( this );
         setOffset( x, y );
         setVisible( model.getConcentrationGraph().isVisible() );
+        setWaterVisible( model.isWaterVisible() );
         update();
     }
     
@@ -73,10 +74,6 @@ public class ConcentrationGraphNode extends AbstractConcentrationGraphNode {
             this.solution.addAqueousSolutionChangeListener( solutionChangeListener );
             update();
         }
-    }
-    
-    private void setWaterVisible( boolean visible ) {
-        //XXXX
     }
     
     private void update() {
