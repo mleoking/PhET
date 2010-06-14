@@ -5,29 +5,28 @@ import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PlayPauseButton;
 import edu.colorado.phet.movingmanii.model.MutableBoolean;
 import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
  * @author Sam Reid
  */
 public class GoButton extends PNode {
     public GoButton(final RecordAndPlaybackModel recordAndPlaybackModel, PNode parent, final MutableBoolean modeSelected) {
-        final PlayPauseButton button = new PlayPauseButton(30) {
-            public void setPlaying(boolean b) {
-                super.setPlaying(false);
-                //override so it always looks like a play button
+        final PlayPauseButton button = new PlayPauseButton(30);
+        SimpleObserver updateButtonState = new SimpleObserver() {
+            public void update() {
+                button.setPlaying(!recordAndPlaybackModel.isPaused());
             }
         };
-        button.setPlaying(false);
-        button.addInputEventListener(new PBasicInputEventHandler() {
-            public void mousePressed(PInputEvent event) {
-                recordAndPlaybackModel.setPaused(false);
+        recordAndPlaybackModel.addObserver(updateButtonState);
+        updateButtonState.update();
+        button.addListener(new PlayPauseButton.Listener() {
+            public void playbackStateChanged() {
+                recordAndPlaybackModel.setPaused(!button.isPlaying());
             }
         });
         final SimpleObserver observer = new SimpleObserver() {
             public void update() {
-                button.setVisible(recordAndPlaybackModel.isPaused() && modeSelected.getValue());
+                button.setVisible(modeSelected.getValue());
             }
         };
         observer.update();
