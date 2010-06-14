@@ -55,16 +55,8 @@ public class MovingManModel {
         walls.setValue(WALLS_BY_DEFAULT);
         velocityVectorVisible.setValue(VELOCITY_VECTOR_VISIBLE_BY_DEFAULT);
         accelerationVectorVisible.setValue(ACCELERATION_VECTOR_VISIBLE_BY_DEFAULT);
-        setMousePosition(movingMan.getPosition());
 
-        mouseDataModelSeries.clear();
-        positionModelSeries.clear();
-        velocityModelSeries.clear();
-        accelerationModelSeries.clear();
-
-        positionGraphSeries.clear();
-        velocityGraphSeries.clear();
-        accelerationGraphSeries.clear();
+        clear();
     }
 
     public static class WallResult {
@@ -217,6 +209,13 @@ public class MovingManModel {
 
     public void clear() {
         time = 0.0;
+        setMousePosition(movingMan.getPosition());
+
+        mouseDataModelSeries.clear();
+        positionModelSeries.clear();
+        velocityModelSeries.clear();
+        accelerationModelSeries.clear();
+
         positionGraphSeries.clear();
         velocityGraphSeries.clear();
         accelerationGraphSeries.clear();
