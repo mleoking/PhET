@@ -1,3 +1,4 @@
+record-and-playback: 6/13/2010 Layout improvements for RecordAndPlaybackControlPanel
 Added a reset all button
 # 0.00.02 (41563) Jun 11, 2010
 Fixed: position slider does not play back values

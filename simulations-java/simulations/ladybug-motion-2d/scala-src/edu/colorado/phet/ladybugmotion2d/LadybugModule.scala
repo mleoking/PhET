@@ -38,9 +38,9 @@ class LadybugModule[ModelType <: LadybugModel](name: String, clock: ScalaClock,
 
   clock.addClockListener(model.stepInTime(_))
 
-  setClockControlPanel(new RecordAndPlaybackControlPanel(model, canvas, new RecordAndPlaybackControlPanel.Function{
-    def createControl = createRightControl(LadybugModule.this)
-  }, LadybugColorSet.position, LadybugDefaults.timelineLengthSeconds))
+  setClockControlPanel(new RecordAndPlaybackControlPanel(model, canvas, LadybugColorSet.position, LadybugDefaults.timelineLengthSeconds) {
+    addControl(createRightControl(LadybugModule.this))
+  })
 
   def getLadybugMotionModel = model.getLadybugMotionModel()
 

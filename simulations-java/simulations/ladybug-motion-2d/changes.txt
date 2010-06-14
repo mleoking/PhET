@@ -1,3 +1,4 @@
+record-and-playback: 6/13/2010 Layout improvements for RecordAndPlaybackControlPanel
 # 1.01.00 (38007) Jan 10, 2010
 1/10/10 public version for milestone "full redeploy, 2010 Q1"
 # 1.00.01 (37360) Dec 11, 2009
