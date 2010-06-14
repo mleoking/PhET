@@ -286,7 +286,7 @@
     }
 
     function installer_get_full_dist_name($dist) {
-        return "PhET-dist-$dist";
+        return "temp-phet-dist-$dist";
     }
 
     function installer_get_zipped_mac_bundle_name($distfile) {
