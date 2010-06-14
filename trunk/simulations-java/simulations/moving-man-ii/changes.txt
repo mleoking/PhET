@@ -1,3 +1,4 @@
+Switched out-of-range slider indication from thumb rotation to thumb transparency
 Switched play area slider thumbs from arrows to bars
 Centered play area in introduction control panel
 Fixed: Chart control "go" button should have correct behavior during playback (instead of just recording)
