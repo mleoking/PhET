@@ -1,3 +1,5 @@
+Added a deceleration spike when accelerating into a wall
+Fixed: Clicking on a slider with value 10000+ causes blocky areas to turn white, transform or NaN exception?
 Aligned chart go button with right edge of other controls instead of centered
 Switched out-of-range slider indication from thumb rotation to thumb transparency
 Switched play area slider thumbs from arrows to bars

@@ -87,7 +87,7 @@ public class MovingManModel {
         time = time + dt;
         if (movingMan.isPositionDriven()) {
             mouseDataModelSeries.addPoint(clampIfWalled(mousePosition).position, time);
-//            //take the position as the average of the latest mouseDataSeries points.
+            //take the position as the average of the latest mouseDataSeries points.
             TimeData[] position = mouseDataModelSeries.getPointsInRange(mouseDataModelSeries.getNumPoints() - NUMBER_MOUSE_POINTS_TO_AVERAGE, mouseDataModelSeries.getNumPoints());
             double sum = 0;
             for (TimeData timeData : position) {
@@ -145,6 +145,21 @@ public class MovingManModel {
             }
         } else if (movingMan.isAccelerationDriven()) {
             mouseDataModelSeries.clear();//so that if the user switches to mouse-driven, it won't remember the wrong location.
+            double newVelocity = movingMan.getVelocity() + movingMan.getAcceleration() * dt;
+            double estVel = (movingMan.getVelocity() + newVelocity) / 2.0;//todo: just use newVelocity?
+            WallResult wallResult = clampIfWalled(movingMan.getPosition() + estVel * dt);
+
+            //This ensures that there is a deceleration spike when crashing into a wall.  Without this code,
+            //the acceleration remains at the user specified value or falls to 0.0, but it is essential to
+            //show that crashing into a wall entails a suddent deceleration.
+            if (wallResult.collided) {
+                movingMan.setVelocityDriven();
+                movingMan.setVelocity(newVelocity);
+                time = time - dt;//roll back errant update
+                simulationTimeChanged(dt); //move forward in velocity mode, since it is constrained
+                return;
+            }
+
             //record set point
             accelerationModelSeries.addPoint(movingMan.getAcceleration(), time);
             accelerationGraphSeries.addPoint(movingMan.getAcceleration(), time);
@@ -152,12 +167,9 @@ public class MovingManModel {
             //no derivatives
 
             //update integrals
-            double newVelocity = movingMan.getVelocity() + movingMan.getAcceleration() * dt;
             velocityGraphSeries.addPoint(newVelocity, time);
             velocityModelSeries.addPoint(newVelocity, time);
 
-            double estVel = (movingMan.getVelocity() + newVelocity) / 2.0;//todo: just use newVelocity?
-            WallResult wallResult = clampIfWalled(movingMan.getPosition() + estVel * dt);
             positionGraphSeries.addPoint(wallResult.position, time);
             positionModelSeries.addPoint(wallResult.position, time);
 
