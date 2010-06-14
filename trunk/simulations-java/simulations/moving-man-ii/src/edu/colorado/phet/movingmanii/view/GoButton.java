@@ -32,7 +32,7 @@ public class GoButton extends PNode {
         observer.update();
         modeSelected.addObserver(observer);
         recordAndPlaybackModel.addObserver(observer);
-        button.setOffset(parent.getFullBounds().getCenterX() - button.getFullBounds().getWidth() / 2, parent.getFullBounds().getMaxY());
+        button.setOffset(parent.getFullBounds().getMaxX() - button.getFullBounds().getWidth(), parent.getFullBounds().getMaxY());
         addChild(button);
     }
 }
