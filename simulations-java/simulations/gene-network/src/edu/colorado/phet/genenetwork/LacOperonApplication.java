@@ -4,14 +4,11 @@ package edu.colorado.phet.genenetwork;
 
 import java.awt.Frame;
 
-import javax.swing.JMenu;
-
 import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
-import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
@@ -27,9 +24,6 @@ public class LacOperonApplication extends PiccoloPhetApplication {
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-
-    // PersistanceManager is used to save/load simulation configurations.
-    private XMLPersistenceManager persistenceManager;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -66,16 +60,11 @@ public class LacOperonApplication extends PiccoloPhetApplication {
     }
 
     /*
-     * Initializes the menubar.
+     * Initializes the menu bar.
      */
     private void initMenubar( String[] args ) {
 
-        // File->Save/Load
         final PhetFrame frame = getPhetFrame();
-        frame.addFileSaveLoadMenuItems();
-        if ( persistenceManager == null ) {
-            persistenceManager = new XMLPersistenceManager( frame );
-        }
 
         // Options menu
         OptionsMenu optionsMenu = new OptionsMenu();
@@ -84,8 +73,8 @@ public class LacOperonApplication extends PiccoloPhetApplication {
             frame.addMenu( optionsMenu );
         }
 
-        // Developer menu
-        JMenu developerMenu = frame.getDeveloperMenu();
+        // Developer menu, uncomment if needed.
+        // JMenu developerMenu = frame.getDeveloperMenu();
         // add items to the Developer menu here...
     }
 
