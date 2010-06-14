@@ -1,7 +1,5 @@
 package edu.colorado.phet.movingmanii.view;
 
-import edu.colorado.phet.common.phetcommon.model.Resettable;
-import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
 import edu.colorado.phet.movingmanii.MovingManColorScheme;
 import edu.colorado.phet.movingmanii.charts.TextBox;
 import edu.colorado.phet.movingmanii.model.MovingMan;
@@ -17,6 +15,11 @@ import java.awt.event.ComponentEvent;
  * @author Sam Reid
  */
 public class MovingManSimulationPanelWithPlayAreaSliders extends MovingManSimulationPanel {
+    protected PlayAreaSliderControl positonSlider;
+    protected PlayAreaSliderControl velocitySlider;
+    protected PlayAreaSliderControl accelerationSlider;
+    public static int DISTANCE_BETWEEN_SLIDERS = 20;
+
     public MovingManSimulationPanelWithPlayAreaSliders(final MovingManModel model, final RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel) {
         super(model, recordAndPlaybackModel, 100);
         {
@@ -25,32 +28,33 @@ public class MovingManSimulationPanelWithPlayAreaSliders extends MovingManSimula
             final TextBox positionTextBox = new TextBox();
             new TextBoxListener.Position(model).addListeners(positionTextBox);
 
-            final PlayAreaSliderControl slider = new PlayAreaSliderControl(-10, 10, model.getMousePosition(), "Position", "m", MovingManColorScheme.POSITION_COLOR, positionTextBox);
+            positonSlider = new PlayAreaSliderControl(-10, 10, model.getMousePosition(), "Position", "m", MovingManColorScheme.POSITION_COLOR, positionTextBox);
             model.getMovingMan().addListener(new MovingMan.Listener() {
                 public void changed() {
-                    slider.setHighlighted(model.getMovingMan().isPositionDriven());
+                    positonSlider.setHighlighted(model.getMovingMan().isPositionDriven());
                 }
             });
-            slider.setHighlighted(model.getMovingMan().isPositionDriven());
+            positonSlider.setHighlighted(model.getMovingMan().isPositionDriven());
             model.addListener(new MovingManModel.Listener() {
                 public void mousePositionChanged() {
-                    slider.setValue(model.getMousePosition());
+                    positonSlider.setValue(model.getMousePosition());
                 }
             });
-            slider.addListener(new MovingManSliderNode.Adapter() {
+            positonSlider.addListener(new MovingManSliderNode.Adapter() {
                 public void sliderDragged(double value) {
                     model.getMovingMan().setPositionDriven();
                     model.setMousePosition(value);
                 }
             });
-            slider.setOffset(getWidth() / 2 - slider.getFullBounds().getWidth() / 2, 200);
-            addComponentListener(new ComponentAdapter() {
+            ComponentAdapter relayout = new ComponentAdapter() {
                 @Override
                 public void componentResized(ComponentEvent e) {
-                    slider.setOffset(getWidth() / 2 - slider.getFullBounds().getWidth() / 2, 200);
+                    positonSlider.setOffset(getWidth() / 2 - positonSlider.getFullBounds().getWidth() / 2, 100 + getRulerHeight() + DISTANCE_BETWEEN_SLIDERS);
                 }
-            });
-            addScreenChild(slider);
+            };
+            addComponentListener(relayout);
+            relayout.componentResized(null);
+            addScreenChild(positonSlider);
         }
 
         {
@@ -58,35 +62,34 @@ public class MovingManSimulationPanelWithPlayAreaSliders extends MovingManSimula
             {
                 new TextBoxListener.Velocity(model).addListeners(textBox);
             }
-            final PlayAreaSliderControl slider = new PlayAreaSliderControl(-10, 10, model.getMovingMan().getVelocity(), "Velocity", "m/s", MovingManColorScheme.VELOCITY_COLOR, textBox);
+            velocitySlider = new PlayAreaSliderControl(-10, 10, model.getMovingMan().getVelocity(), "Velocity", "m/s", MovingManColorScheme.VELOCITY_COLOR, textBox);
             model.getMovingMan().addListener(new MovingMan.Listener() {
                 public void changed() {
-                    slider.setValue(model.getMovingMan().getVelocity());
-                    slider.setHighlighted(model.getMovingMan().isVelocityDriven());
+                    velocitySlider.setValue(model.getMovingMan().getVelocity());
+                    velocitySlider.setHighlighted(model.getMovingMan().isVelocityDriven());
                 }
             });
-            slider.addListener(new MovingManSliderNode.Adapter() {
+            velocitySlider.addListener(new MovingManSliderNode.Adapter() {
                 public void sliderDragged(double value) {
                     model.getMovingMan().setVelocityDriven();//todo: only if user caused the change, not if model caused the change
                     model.getMovingMan().setVelocity(value);
                 }
             });
-            slider.setOffset(getWidth() / 2 - slider.getFullBounds().getWidth() / 2, 300);
-            addComponentListener(new ComponentAdapter() {
-                @Override
+            ComponentAdapter relayout = new ComponentAdapter() {
                 public void componentResized(ComponentEvent e) {
-                    slider.setOffset(getWidth() / 2 - slider.getFullBounds().getWidth() / 2, 300);
+                    velocitySlider.setOffset(getWidth() / 2 - velocitySlider.getFullBounds().getWidth() / 2, positonSlider.getFullBounds().getMaxY() + DISTANCE_BETWEEN_SLIDERS);
                 }
-            });
-            addScreenChild(slider);
-
+            };
+            relayout.componentResized(null);
+            addComponentListener(relayout);
+            addScreenChild(velocitySlider);
 
             final PSwing pSwing = new PSwing(new ShowVectorCheckBox("Velocity Vector", model.getVelocityVectorVisible()));
-            pSwing.setOffset(slider.getFullBounds().getMaxX() + 10, slider.getFullBounds().getCenterY() - pSwing.getFullBounds().getHeight() / 2);
+            pSwing.setOffset(velocitySlider.getFullBounds().getMaxX() + 10, velocitySlider.getFullBounds().getCenterY() - pSwing.getFullBounds().getHeight() / 2);
             addComponentListener(new ComponentAdapter() {
                 @Override
                 public void componentResized(ComponentEvent e) {
-                    pSwing.setOffset(slider.getFullBounds().getMaxX() + 10, slider.getFullBounds().getCenterY() - pSwing.getFullBounds().getHeight() / 2);
+                    pSwing.setOffset(velocitySlider.getFullBounds().getMaxX() + 10, velocitySlider.getFullBounds().getCenterY() - pSwing.getFullBounds().getHeight() / 2);
                 }
             });
             addScreenChild(pSwing);
@@ -97,36 +100,44 @@ public class MovingManSimulationPanelWithPlayAreaSliders extends MovingManSimula
             {
                 new TextBoxListener.Acceleration(model).addListeners(box);
             }
-            final PlayAreaSliderControl slider = new PlayAreaSliderControl(-10, 10, model.getMovingMan().getAcceleration(), "Acceleration", "m/s/s", MovingManColorScheme.ACCELERATION_COLOR, box);
+            accelerationSlider = new PlayAreaSliderControl(-10, 10, model.getMovingMan().getAcceleration(), "Acceleration", "m/s/s", MovingManColorScheme.ACCELERATION_COLOR, box);
             model.getMovingMan().addListener(new MovingMan.Listener() {
                 public void changed() {
-                    slider.setValue(model.getMovingMan().getAcceleration());
-                    slider.setHighlighted(model.getMovingMan().isAccelerationDriven());
+                    accelerationSlider.setValue(model.getMovingMan().getAcceleration());
+                    accelerationSlider.setHighlighted(model.getMovingMan().isAccelerationDriven());
                 }
             });
-            slider.addListener(new MovingManSliderNode.Adapter() {
+            accelerationSlider.addListener(new MovingManSliderNode.Adapter() {
                 public void sliderDragged(double value) {
                     model.getMovingMan().setAccelerationDriven();
                     model.getMovingMan().setAcceleration(value);
                 }
             });
-            slider.setOffset(getWidth() / 2 - slider.getFullBounds().getWidth() / 2, 400);
-            addComponentListener(new ComponentAdapter() {
+            ComponentAdapter relayout = new ComponentAdapter() {
                 public void componentResized(ComponentEvent e) {
-                    slider.setOffset(getWidth() / 2 - slider.getFullBounds().getWidth() / 2, 400);
+                    accelerationSlider.setOffset(getWidth() / 2 - accelerationSlider.getFullBounds().getWidth() / 2, velocitySlider.getFullBounds().getMaxY() + DISTANCE_BETWEEN_SLIDERS);
                 }
-            });
-            addScreenChild(slider);
+            };
+            relayout.componentResized(null);
+            addComponentListener(relayout);
+            addScreenChild(accelerationSlider);
 
             final PSwing pSwing = new PSwing(new ShowVectorCheckBox("Acceleration Vector", model.getAccelerationVectorVisible()));
-            pSwing.setOffset(slider.getFullBounds().getMaxX() + 10, slider.getFullBounds().getCenterY() - pSwing.getFullBounds().getHeight() / 2);
+            pSwing.setOffset(accelerationSlider.getFullBounds().getMaxX() + 10, accelerationSlider.getFullBounds().getCenterY() - pSwing.getFullBounds().getHeight() / 2);
             addComponentListener(new ComponentAdapter() {
                 @Override
                 public void componentResized(ComponentEvent e) {
-                    pSwing.setOffset(slider.getFullBounds().getMaxX() + 10, slider.getFullBounds().getCenterY() - pSwing.getFullBounds().getHeight() / 2);
+                    pSwing.setOffset(accelerationSlider.getFullBounds().getMaxX() + 10, accelerationSlider.getFullBounds().getCenterY() - pSwing.getFullBounds().getHeight() / 2);
                 }
             });
             addScreenChild(pSwing);
         }
+        ComponentAdapter relayout = new ComponentAdapter() {
+            public void componentResized(ComponentEvent e) {
+                getLayer().setOffset(0, getHeight() / 2 - 100);//100 is height of play area
+            }
+        };
+        addComponentListener(relayout);
+        relayout.componentResized(null);
     }
 }
