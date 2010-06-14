@@ -6,11 +6,12 @@ MILESTONES
 - 8/1/10, sim showable for BCCE
 
 HIGH PRIORITY
+- reaction equations below beaker
 - fix drag behavior for pH meter, constrain, errors in coordinate frame transforms
 - bar graph, adapt from advanced-acid-base-solutions
 - conductivity tester
 - pH paper
-- reaction equations below beaker
+- don't show other tools in magnifying glass
 
 MEDUIUM PRIORITY
 - resolve design issues with exclusivity of tools
