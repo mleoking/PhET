@@ -1,0 +1,61 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: June 1-14, 2010 (Wed-Mon)
+
+ACCOMPLISHMENTS:
+
+Acid-Base Solutions:
+- implemented model
+- implemented basic versions of all control panels
+- reused many elements from Magnifying Glass prototype
+- adapted molecules view from prototype
+- adapted concentration bar graph from advanced-acid-base-solutions
+- design discussions with Kelly
+- published 0.00.09, 0.00.10, 0.00.11
+
+Capacitor Lab:
+- no progress, on hold to meet Acid-Base deadline
+
+common:
+- removed white border around phetcommon buttons, #2396
+- discussed Save/Load enforement of .xml extension, #2404
+ 
+ Translation Utility:
+ - discuss web-based sim translation editor, #2388
+ - investigated issue with Translation Utility window size on multi-display systems, #2406
+  
+ mis sims:
+ - discuss how to organize motion-series, #2387
+ - confirmed sound fix on Mac, #2386
+ - fixed artifact in sound control panel, #2389
+ - discussed Scala issues related to motion-series
+ - discussed name for new version of The Ramp, #2054
+ - reported wiggle-me problem in motion-2d, #2401
+ - reported bogus Save/Load menu items in Lac Operon, #2403
+  
+ misc:
+ - review Sam's example code documentation, #2347
+ - resolved customer issue with PhET installation on Mac, #2352 
+ - discussed issue of allowing older sim version to be accessed from website, #2400
+ - resolved another customer issue with PhET installation on Mac, #2402
+
+WHAT'S NEXT:
+
+ - Capacitor Lab design & implementation 
+ - Acid-Base Solutions design & implementation 
+ - Faraday fix for dipole magnet, #2236 (waiting for info from Mike)
+ - Lasers fix for lifetime sliders, #2190 (waiting for instructions from Kathy)
+
+ISSUES:
+
+ - We haven't received feedback on Acid-Base Solutions design from the Chem Advisory Board, and 
+   I'm now 60% done with the sim.  Given our experience with the previous Acid-Base sim, this concerns me.
+
+DATES UNAVAILABLE:
+
+  June 14-24
+  July 24-31
+  August 1-6
+
+--
