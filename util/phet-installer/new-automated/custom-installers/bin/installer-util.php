@@ -366,7 +366,7 @@
     
     function installer_build_windows_web_mirror_installer($buildfile_name, $macro_map = array()) {
 
-        $build_prefix  = "PhET-web-mirror-windows";
+        $build_prefix  = "temp-phet-web-mirror-windows";
         $buildfile_ext = file_get_extension($buildfile_name);
 
         $new_buildfile = BITROCK_BUILDFILE_DIR."${build_prefix}.${buildfile_ext}";
@@ -430,7 +430,7 @@
 
     function installer_build_linux_web_mirror_installer($buildfile_name, $macro_map = array()) {
 
-        $build_prefix  = "PhET-web-mirror-linux";
+        $build_prefix  = "temp-phet-web-mirror-linux";
         $buildfile_ext = file_get_extension($buildfile_name);
 
         $new_buildfile = BITROCK_BUILDFILE_DIR."${build_prefix}.${buildfile_ext}";
