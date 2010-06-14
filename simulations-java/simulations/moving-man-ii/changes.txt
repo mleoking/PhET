@@ -1,3 +1,4 @@
+Fixed: Chart series needs to be re-transformed on component resize event
 Added horizontal zoom buttons
 Improvements for vertical zoom buttons
 Update charts and indicator arrows when zoom changes
