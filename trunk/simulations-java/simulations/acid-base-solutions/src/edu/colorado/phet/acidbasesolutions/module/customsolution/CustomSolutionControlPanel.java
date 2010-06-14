@@ -5,7 +5,6 @@ package edu.colorado.phet.acidbasesolutions.module.customsolution;
 import edu.colorado.phet.acidbasesolutions.controls.CustomSolutionControl;
 import edu.colorado.phet.acidbasesolutions.controls.ToolsControl.FewerToolsControl;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel;
-import edu.colorado.phet.acidbasesolutions.module.ABSCanvas;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 

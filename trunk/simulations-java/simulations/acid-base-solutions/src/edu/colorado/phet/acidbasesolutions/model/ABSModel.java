@@ -17,8 +17,9 @@ public class ABSModel {
 
     private AqueousSolution solution;
     private final Beaker beaker;
-    private final MagnifyingGlass magnifyingGlass;
     private final PHMeter pHMeter;
+    private final MagnifyingGlass magnifyingGlass;
+    private final ConcentrationGraph concentrationGraph;
     private boolean waterVisible; // water visibility, a global property, included in model for convenience
     
     private EventListenerList listeners;
@@ -28,6 +29,7 @@ public class ABSModel {
         beaker = new Beaker( ABSConstants.BEAKER_LOCATION, ABSConstants.BEAKER_VISIBLE, ABSConstants.BEAKER_SIZE );
         magnifyingGlass = new MagnifyingGlass( ABSConstants.MAGNIFYING_GLASS_LOCATION, ABSConstants.MAGNIFYING_GLASS_VISIBLE, ABSConstants.MAGNIFYING_GLASS_DIAMETER );
         pHMeter = new PHMeter( ABSConstants.PH_METER_LOCATION, ABSConstants.PH_METER_VISIBLE, ABSConstants.PH_METER_SHAFT_LENGTH );
+        concentrationGraph = new ConcentrationGraph( ABSConstants.CONCENTRATION_GRAPH_LOCATION, ABSConstants.CONCENTRATION_GRAPH_VISIBLE, ABSConstants.CONCENTRATION_GRAPH_SIZE );
         waterVisible = ABSConstants.WATER_VISIBLE;
         listeners = new EventListenerList();
     }
@@ -42,6 +44,10 @@ public class ABSModel {
     
     public PHMeter getPHMeter() {
         return pHMeter;
+    }
+    
+    public ConcentrationGraph getConcentrationGraph() {
+        return concentrationGraph;
     }
     
     public void setSolution( AqueousSolution solution ) {

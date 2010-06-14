@@ -27,7 +27,7 @@ public class ToolsControl extends JPanel {
     private final ABSModel model;
     private final JCheckBox pHMeterCheckBox, showWaterCheckBox;
     private final JRadioButton pHPaperRadioButton, conductivityTesterRadioButton;
-    private final JRadioButton magnifyingGlassRadioButton, barGraphRadioButton;
+    private final JRadioButton magnifyingGlassRadioButton, concentrationGraphRadioButton;
     
     /**
      * Subclass that hides some of the tools.
@@ -75,7 +75,7 @@ public class ToolsControl extends JPanel {
         pHPaperRadioButton = new ABSRadioButton( ABSStrings.PH_PAPER, group, actionListener );
         conductivityTesterRadioButton = new ABSRadioButton( ABSStrings.CONDUCTIVITY_TESTER, group, actionListener );
         magnifyingGlassRadioButton = new ABSRadioButton( ABSStrings.MAGNIFYING_GLASS, group, actionListener );
-        barGraphRadioButton = new ABSRadioButton( ABSStrings.BAR_GRAPH, group, actionListener );
+        concentrationGraphRadioButton = new ABSRadioButton( ABSStrings.BAR_GRAPH, group, actionListener );
         
         // layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
@@ -88,7 +88,7 @@ public class ToolsControl extends JPanel {
         layout.addComponent( pHPaperRadioButton, row++, column );
         layout.addComponent( conductivityTesterRadioButton, row++, column );
         layout.addComponent( magnifyingGlassRadioButton, row++, column );
-        layout.addComponent( barGraphRadioButton, row++, column );
+        layout.addComponent( concentrationGraphRadioButton, row++, column );
         
         // default state
         updateControl();
@@ -96,7 +96,6 @@ public class ToolsControl extends JPanel {
         //XXX red foreground for things that aren't implemented
         pHPaperRadioButton.setForeground( Color.RED );
         conductivityTesterRadioButton.setForeground( Color.RED );
-        barGraphRadioButton.setForeground( Color.RED );
     }
     
     protected void setPHPaperControlVisible( boolean visible ) {
@@ -110,12 +109,14 @@ public class ToolsControl extends JPanel {
     private void updateControl() {
         pHMeterCheckBox.setSelected( model.getPHMeter().isVisible() );
         magnifyingGlassRadioButton.setSelected( model.getMagnifyingGlass().isVisible() );
+        concentrationGraphRadioButton.setSelected( model.getConcentrationGraph().isVisible() );
         showWaterCheckBox.setSelected( model.isWaterVisible() );
     }
     
     private void updateModel() {
         model.getPHMeter().setVisible( pHMeterCheckBox.isSelected() );
         model.getMagnifyingGlass().setVisible( magnifyingGlassRadioButton.isSelected() );
+        model.getConcentrationGraph().setVisible( concentrationGraphRadioButton.isSelected() );
         model.setWaterVisible( showWaterCheckBox.isSelected() );
     }
 }

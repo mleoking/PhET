@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.acidbasesolutions.constants;
 
+
 /**
  * Collection of localized strings used by this simulations.
  * We load all strings statically so that we will be warned at startup time of any missing strings.
@@ -46,6 +47,8 @@ public class ABSStrings {
     public static final String MAGNIFYING_GLASS = getString( "magnifyingGlass" );
     public static final String BAR_GRAPH = getString( "barGraph" );
     public static final String PH_METER_NO_VALUE = getString( "phMeter.noValue" );
+    public static final String CONCENTRATION_GRAPH_Y_AXIS = ABSResources.getString( "concentrationGraph.yAxis" );
+    public static final String NEGLIGIBLE = ABSResources.getString( "negligible" );
     
     private static final String getString( String key ) {
         return ABSResources.getString( key );

@@ -13,6 +13,7 @@ import edu.colorado.phet.acidbasesolutions.view.BeakerNode;
 import edu.colorado.phet.acidbasesolutions.view.MagnifyingGlassNode;
 import edu.colorado.phet.acidbasesolutions.view.PHMeterNode;
 import edu.colorado.phet.acidbasesolutions.view.ReactionEquationNode;
+import edu.colorado.phet.acidbasesolutions.view.graph.ConcentrationGraphNode;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -30,6 +31,7 @@ public abstract class ABSCanvas extends PhetPCanvas {
     private final BeakerNode beakerNode;
     private final PHMeterNode pHMeterNode;
     private final MagnifyingGlassNode magnifyingGlassNode;
+    private final ConcentrationGraphNode concentrationGraphNode;
     private final ReactionEquationNode reactionEquationNode;
     
     public ABSCanvas( ABSModel model ) {
@@ -42,19 +44,19 @@ public abstract class ABSCanvas extends PhetPCanvas {
         
         // nodes
         beakerNode = new BeakerNode( model );
-        magnifyingGlassNode = new MagnifyingGlassNode( model );
         pHMeterNode = new PHMeterNode( model );
+        magnifyingGlassNode = new MagnifyingGlassNode( model );
+        concentrationGraphNode = new ConcentrationGraphNode( model );
         reactionEquationNode = new ReactionEquationNode( model );
         
         // rendering order
         addNode( pHMeterNode );
         addNode( beakerNode );
         addNode( magnifyingGlassNode );
+        addNode( concentrationGraphNode );
         addNode( reactionEquationNode );
         
-        // most layout is handled via locations of model elements.
-        
-        // non-model layout
+        // update the reaction equation's position when its bounds change
         reactionEquationNode.addPropertyChangeListener( new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent event ) {
                 if ( event.getPropertyName().equals( PNode.PROPERTY_FULL_BOUNDS ) ) {
@@ -63,6 +65,8 @@ public abstract class ABSCanvas extends PhetPCanvas {
             }
         });
         updateReactionEquationLayout();
+        
+        // NOTE: all other layout is handled via locations of model elements.
     }    
     
     /*

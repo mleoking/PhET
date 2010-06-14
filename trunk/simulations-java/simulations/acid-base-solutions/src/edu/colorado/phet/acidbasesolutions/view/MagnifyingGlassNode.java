@@ -10,7 +10,7 @@ import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.acidbasesolutions.model.ABSModel;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel.ModelChangeAdapter;
-import edu.colorado.phet.acidbasesolutions.model.ABSModelElement.ModelElementChangeListener;
+import edu.colorado.phet.acidbasesolutions.model.ABSModelElement.ModelElementChangeAdapter;
 import edu.colorado.phet.acidbasesolutions.model.MagnifyingGlass.MagnifyingGlassListener;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -54,12 +54,8 @@ public class MagnifyingGlassNode extends PhetPNode {
                 updateGeometry();
             }
         });
-        model.getMagnifyingGlass().addModelElementChangeListener( new ModelElementChangeListener() {
-
-            public void locationChanged() {
-                setOffset( model.getMagnifyingGlass().getLocationReference() );
-            }
-
+        model.getMagnifyingGlass().addModelElementChangeListener( new ModelElementChangeAdapter() {
+            @Override
             public void visibilityChanged() {
                 setVisible( model.getMagnifyingGlass().isVisible() );
             }
