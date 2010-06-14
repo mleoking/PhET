@@ -24,6 +24,7 @@ public class Images {
     public static final String PHET_LOGO_ICON_SMALL = "/images/contributions/phet-logo-icon-small.jpg";
     public static final String GOLD_STAR_SMALL = "/images/contributions/gold-star-small.jpg";
     public static final String GOLD_STAR = "/images/contributions/gold-star.jpg";
+    public static final String GOLD_STAR_LARGE = "/images/contributions/gold-star-large.jpg";
 
     public static final String LOGO_HEWLETT = "/images/support/hewlett-logo.jpg";
     public static final String LOGO_NSF = "/images/support/nsf-logo.gif";
