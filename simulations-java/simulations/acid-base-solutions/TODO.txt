@@ -6,8 +6,8 @@ MILESTONES
 - 8/1/10, sim showable for BCCE
 
 HIGH PRIORITY
+- changes to bar graph? (4 bars, order of bars)
 - fix drag behavior for pH meter, constrain, errors in coordinate frame transforms
-- bar graph, adapt from advanced-acid-base-solutions
 - don't show other tools in magnifying glass
 - control panel layout issues
 
