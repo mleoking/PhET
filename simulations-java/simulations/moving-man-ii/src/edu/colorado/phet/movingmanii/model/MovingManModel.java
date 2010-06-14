@@ -232,6 +232,12 @@ public class MovingManModel {
         accelerationGraphSeries.clear();
     }
 
+    /**
+     * TODO: we'll probably return the state from a few time steps ago so that the readouts match the charts, because
+     * TODO: the derivatives cannot be reliably estimated at t=t0 until t=t0+ndt has been computed.
+     *
+     * @return
+     */
     public MovingManState getRecordingState() {
         return new MovingManState(time, movingMan.getState(), walls.getValue());
     }
