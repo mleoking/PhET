@@ -3,12 +3,12 @@
     <fullName>PhET</fullName>
     <version>$VERSION$</version>
     <installerFilename>${product_shortname}-Installer_${platform_name}.${platform_exec_suffix}</installerFilename>
-    <readmeFile>../../../Installer-Resources/Install-Path/${platform_name}/readme.txt</readmeFile>
-    <licenseFile>../../../Installer-Resources/Install-Path/license.txt</licenseFile>
+    <readmeFile>$INSTALLER_RESOURCES_DIR$/${platform_name}/readme.txt</readmeFile>
+    <licenseFile>$INSTALLER_RESOURCES_DIR$/license.txt</licenseFile>
     <installationLogFile>${installdir}/install_log.txt</installationLogFile>
     <wrapLicenseFileText>1</wrapLicenseFileText>
     <leftImage></leftImage>
-    <logoImage>../../../Installer-Resources/Install-Path/phet-logo-48x48.png</logoImage>
+    <logoImage>$INSTALLER_RESOURCES_DIR$/phet-logo-48x48.png</logoImage>
     <splashImage></splashImage>
     <defaultLanguage>en</defaultLanguage>
     <allowLanguageSelection>0</allowLanguageSelection>
@@ -146,7 +146,7 @@
                     <platforms>windows</platforms>
                     <distributionFileList>
                         <distributionFile>
-                            <origin>../../../Installer-Resources/Install-Path/jre-windows.exe</origin>
+                            <origin>$INSTALLER_RESOURCES_DIR$/jre-windows.exe</origin>
                         </distributionFile>
                     </distributionFileList>
                 </folder>

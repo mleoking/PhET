@@ -4,11 +4,11 @@
     <version>$VERSION$</version>
     <installerFilename>${product_shortname}-Installer-yf_${platform_name}.${platform_exec_suffix}</installerFilename>
     <readmeFile>../../resources/yf-windows-readme.txt</readmeFile>
-    <licenseFile>../../../Installer-Resources/Install-Path/license.txt</licenseFile>
+    <licenseFile>$INSTALLER_RESOURCES_DIR$/license.txt</licenseFile>
     <installationLogFile>${installdir}/install_log.txt</installationLogFile>
     <wrapLicenseFileText>1</wrapLicenseFileText>
     <leftImage></leftImage>
-    <logoImage>../../../Installer-Resources/Install-Path/phet-logo-48x48.png</logoImage>
+    <logoImage>$INSTALLER_RESOURCES_DIR$/phet-logo-48x48.png</logoImage>
     <splashImage></splashImage>
     <defaultLanguage>en</defaultLanguage>
     <allowLanguageSelection>0</allowLanguageSelection>
@@ -52,31 +52,31 @@
                     <platforms>all</platforms>
                     <distributionFileList>
                         <distributionDirectory>
-                            <origin>../../temp/website/phetsims.colorado.edu/en</origin>
+                            <origin>$RIP_BASE_DIR$/en</origin>
                         </distributionDirectory>
                         <distributionDirectory>
-                            <origin>../../temp/website/phetsims.colorado.edu/css</origin>
+                            <origin>$RIP_BASE_DIR$/css</origin>
                         </distributionDirectory>
                         <distributionDirectory>
-                            <origin>../../temp/website/phetsims.colorado.edu/files</origin>
+                            <origin>$RIP_BASE_DIR$/files</origin>
                         </distributionDirectory>
                         <distributionDirectory>
-                            <origin>../../temp/website/phetsims.colorado.edu/images</origin>
+                            <origin>$RIP_BASE_DIR$/images</origin>
                         </distributionDirectory>
                         <distributionDirectory>
-                            <origin>../../temp/website/phetsims.colorado.edu/newsletters</origin>
+                            <origin>$RIP_BASE_DIR$/newsletters</origin>
                         </distributionDirectory>
                         <distributionDirectory>
-                            <origin>../../temp/website/phetsims.colorado.edu/publications</origin>
+                            <origin>$RIP_BASE_DIR$/publications</origin>
                         </distributionDirectory>
                         <distributionDirectory>
-                            <origin>../../temp/website/phetsims.colorado.edu/sims</origin>
+                            <origin>$RIP_BASE_DIR$/sims</origin>
                         </distributionDirectory>
                         <distributionDirectory>
-                            <origin>../../temp/website/phetsims.colorado.edu/index.html</origin>
+                            <origin>$RIP_BASE_DIR$/index.html</origin>
                         </distributionDirectory>
                         <distributionDirectory>
-                            <origin>../../temp/website/phetsims.colorado.edu/version.html</origin>
+                            <origin>$RIP_BASE_DIR$/version.html</origin>
                         </distributionDirectory>
                     </distributionFileList>
 

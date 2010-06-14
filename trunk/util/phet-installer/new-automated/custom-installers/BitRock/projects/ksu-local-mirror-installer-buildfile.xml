@@ -3,12 +3,12 @@
     <fullName>PhET</fullName>
     <version>$VERSION$</version>
     <installerFilename>${product_shortname}-Installer_${platform_name}.${platform_exec_suffix}</installerFilename>
-    <readmeFile>../../../Installer-Resources/Install-Path/${platform_name}/readme.txt</readmeFile>
-    <licenseFile>../../../Installer-Resources/Install-Path/license.txt</licenseFile>
+    <readmeFile>$INSTALLER_RESOURCES_DIR$/${platform_name}/readme.txt</readmeFile>
+    <licenseFile>$INSTALLER_RESOURCES_DIR$/license.txt</licenseFile>
     <installationLogFile>${installdir}/install_log.txt</installationLogFile>
     <wrapLicenseFileText>1</wrapLicenseFileText>
     <leftImage></leftImage>
-    <logoImage>../../../Installer-Resources/Install-Path/phet-logo-48x48.png</logoImage>
+    <logoImage>$INSTALLER_RESOURCES_DIR$/phet-logo-48x48.png</logoImage>
     <splashImage></splashImage>
     <defaultLanguage>en</defaultLanguage>
     <allowLanguageSelection>0</allowLanguageSelection>
@@ -63,37 +63,37 @@
                     <platforms>all</platforms>
                     <distributionFileList>
                         <distributionDirectory>
-                            <origin>../../temp/website/phetsims.colorado.edu/ar</origin>
+                            <origin>$RIP_BASE_DIR$/ar</origin>
                         </distributionDirectory>
                         <distributionDirectory>
-                            <origin>../../temp/website/phetsims.colorado.edu/css</origin>
+                            <origin>$RIP_BASE_DIR$/css</origin>
                         </distributionDirectory>
                         <distributionDirectory>
-                            <origin>../../temp/website/phetsims.colorado.edu/files</origin>
+                            <origin>$RIP_BASE_DIR$/files</origin>
                         </distributionDirectory>
                         <distributionDirectory>
-                            <origin>../../temp/website/phetsims.colorado.edu/images</origin>
+                            <origin>$RIP_BASE_DIR$/images</origin>
                         </distributionDirectory>
                         <distributionDirectory>
-                            <origin>../../temp/website/phetsims.colorado.edu/newsletters</origin>
+                            <origin>$RIP_BASE_DIR$/newsletters</origin>
                         </distributionDirectory>
                         <distributionDirectory>
-                            <origin>../../temp/website/phetsims.colorado.edu/publications</origin>
+                            <origin>$RIP_BASE_DIR$/publications</origin>
                         </distributionDirectory>
                         <distributionDirectory>
-                            <origin>../../temp/website/phetsims.colorado.edu/sims</origin>
+                            <origin>$RIP_BASE_DIR$/sims</origin>
                         </distributionDirectory>
                         <distributionDirectory>
-                            <origin>../../temp/website/phetsims.colorado.edu/index.html</origin>
+                            <origin>$RIP_BASE_DIR$/index.html</origin>
                         </distributionDirectory>
                         <distributionDirectory>
-                            <origin>../../temp/website/phetsims.colorado.edu/version.html</origin>
+                            <origin>$RIP_BASE_DIR$/ar</origin>
                         </distributionDirectory>
                         <distributionFile>
-                            <origin>../../../Installer-Resources/Install-Path/phet-icon.ico</origin>
+                            <origin>$INSTALLER_RESOURCES_DIR/phet-icon.ico</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../../../Installer-Resources/Install-Path/phet-logo-48x48.png</origin>
+                            <origin>$INSTALLER_RESOURCES_DIR/phet-logo-48x48.png</origin>
                         </distributionFile>
                     </distributionFileList>
                     <shortcutList>
@@ -146,7 +146,7 @@
                     <platforms>windows</platforms>
                     <distributionFileList>
                         <distributionFile>
-                            <origin>../../../Installer-Resources/Install-Path/jre-windows.exe</origin>
+                            <origin>$INSTALLER_RESOURCES_DIR$/jre-windows.exe</origin>
                         </distributionFile>
                     </distributionFileList>
                 </folder>
