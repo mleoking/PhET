@@ -3,7 +3,7 @@
 package edu.colorado.phet.acidbasesolutions.module.customsolution;
 
 import edu.colorado.phet.acidbasesolutions.controls.CustomSolutionControl;
-import edu.colorado.phet.acidbasesolutions.controls.ToolsControl.FewerToolsControlPanel;
+import edu.colorado.phet.acidbasesolutions.controls.ToolsControl.FewerToolsControl;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel;
 import edu.colorado.phet.acidbasesolutions.module.ABSCanvas;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
@@ -18,7 +18,7 @@ public class CustomSolutionControlPanel extends ControlPanel {
 
     public CustomSolutionControlPanel( Resettable resettable, ABSModel model ) {
         addControlFullWidth( new CustomSolutionControl( model ) );
-        addControlFullWidth( new FewerToolsControlPanel( model ) );
+        addControlFullWidth( new FewerToolsControl( model ) );
         addResetAllButton( resettable );
     }
 }
