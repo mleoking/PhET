@@ -5,10 +5,15 @@ import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformListener;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.AbstractMediaButton;
+import edu.colorado.phet.movingmanii.MovingManIIResources;
 import edu.colorado.phet.movingmanii.model.MovingManDataSeries;
 import edu.colorado.phet.movingmanii.model.MutableBoolean;
 import edu.umd.cs.piccolo.PNode;
@@ -23,6 +28,8 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -36,7 +43,7 @@ import java.util.ArrayList;
  * 4. Improved performance.
  */
 public class MovingManChart extends PNode {
-    private Rectangle2D.Double dataModelBounds;
+    private MutableRectangle dataModelBounds;
     private MutableDimension viewDimension;
     private PNode chartContents;//layer for chart pnodes, for minimize/maximize support
     private PImage minimizeButton;
@@ -48,10 +55,10 @@ public class MovingManChart extends PNode {
         this(dataModelBounds, 100, 100);//useful for layout code that updates size later instead of at construction and later
     }
 
-    public MovingManChart(Rectangle2D.Double dataModelBounds,
+    public MovingManChart(final Rectangle2D.Double dataModelBounds,
                           final double dataAreaWidth,//Width of the chart area
                           final double dataAreaHeight) {
-        this.dataModelBounds = dataModelBounds;
+        this.dataModelBounds = new MutableRectangle(dataModelBounds);
         this.viewDimension = new MutableDimension(dataAreaWidth, dataAreaHeight);
         chartContents = new PNode();
         addChild(chartContents);
@@ -66,14 +73,22 @@ public class MovingManChart extends PNode {
         chartContents.addChild(background);
 
         modelViewTransform2D = new ModelViewTransform2D(dataModelBounds, new Rectangle2D.Double(0, 0, dataAreaWidth, dataAreaHeight));//todo: attach listeners to the mvt2d
-        SimpleObserver mvtUpdate = new SimpleObserver() {
+        SimpleObserver updateBasedOnViewBoundsChange = new SimpleObserver() {
             public void update() {
                 if (viewDimension.getWidth() > 0 && viewDimension.getHeight() > 0)
                     modelViewTransform2D.setViewBounds(new Rectangle2D.Double(0, 0, viewDimension.getWidth(), viewDimension.getHeight()));
             }
         };
-        mvtUpdate.update();
-        viewDimension.addObserver(mvtUpdate);
+        updateBasedOnViewBoundsChange.update();
+        viewDimension.addObserver(updateBasedOnViewBoundsChange);
+
+        SimpleObserver updateBasedOnModelViewChange = new SimpleObserver() {
+            public void update() {
+                modelViewTransform2D.setModelBounds(MovingManChart.this.dataModelBounds.toRectangle2D());
+            }
+        };
+        updateBasedOnModelViewChange.update();
+        this.dataModelBounds.addObserver(updateBasedOnModelViewChange);
 
         int numDomainMarks = 10;
         Function.LinearFunction domainFunction = new Function.LinearFunction(0, numDomainMarks, dataModelBounds.getX(), dataModelBounds.getMaxX());
@@ -117,6 +132,7 @@ public class MovingManChart extends PNode {
             };
             rangeTickMarkUpdate.update();
             viewDimension.addObserver(rangeTickMarkUpdate);
+            this.dataModelBounds.addObserver(rangeTickMarkUpdate);
         }
 
         final int iconButtonInset = 2;
@@ -173,6 +189,16 @@ public class MovingManChart extends PNode {
         };
         maximized.addObserver(observer);
         observer.update();
+
+        final VerticalZoomControl verticalZoomButtons = new VerticalZoomControl(this);
+        SimpleObserver relayout = new SimpleObserver() {
+            public void update() {
+                verticalZoomButtons.setOffset(viewDimension.getWidth(), viewDimension.getHeight() / 2 - verticalZoomButtons.getFullBounds().getHeight() / 2);
+            }
+        };
+        getViewDimension().addObserver(relayout);
+        relayout.update();
+        addChartChild(verticalZoomButtons);
     }
 
     public MutableBoolean getMaximized() {
@@ -299,6 +325,7 @@ public class MovingManChart extends PNode {
             };
             viewDimension.addObserver(so);
             so.update();
+
             final PhetPPath path = new PhetPPath(new GeneralPath(), new BasicStroke(3), color) {//todo: is performance dependent on stroke width here?
 
                 //Stroke.createStrokedPath was by far the highest allocation in JProfiler
@@ -311,9 +338,8 @@ public class MovingManChart extends PNode {
             };
             clip.addChild(path);
             addChild(clip);
-            dataSeries.addListener(new MovingManDataSeries.Listener() {
+            final MovingManDataSeries.Listener seriesListener = new MovingManDataSeries.Listener() {
                 public void entireSeriesChanged() {
-                    System.out.println("MovingManChart$LineSeriesNode.entireSeriesChanged");
                     TimeData[] points = dataSeries.getData();
 
                     DoubleGeneralPath generalPath = new DoubleGeneralPath();
@@ -344,7 +370,77 @@ public class MovingManChart extends PNode {
                     path.updateBoundsFromPath();
                     path.invalidatePaint();
                 }
+            };
+            dataSeries.addListener(seriesListener);
+
+            //Redraw entire path when transform changes
+            TransformListener listener = new TransformListener() {
+                public void transformChanged(ModelViewTransform2D mvt) {
+                    seriesListener.entireSeriesChanged();
+                }
+            };
+            modelViewTransform2D.addTransformListener(listener);
+            listener.transformChanged(null);
+
+        }
+    }
+
+    private static class VerticalZoomControl extends PNode {
+        private VerticalZoomControl(final MovingManChart chart) {
+            AbstractMediaButton zoomInVertical = new AbstractMediaButton(30) {
+                protected BufferedImage createImage() {
+                    try {
+                        return BufferedImageUtils.multiScaleToHeight(MovingManIIResources.loadBufferedImage("magnify-plus.png"), 30);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        throw new RuntimeException(e);
+                    }
+                }
+            };
+
+            // this handler ensures that the button won't fire unless the mouse is released while inside the button
+            //see DefaultIconButton
+            ButtonEventHandler verticalZoomInListener = new ButtonEventHandler();
+            zoomInVertical.addInputEventListener(verticalZoomInListener);
+            verticalZoomInListener.addButtonEventListener(new ButtonEventHandler.ButtonEventAdapter() {
+                public void fire() {
+                    chart.zoomInVertical();
+                }
+            });
+
+            addChild(zoomInVertical);
+
+            AbstractMediaButton zoomOutVertical = new AbstractMediaButton(30) {
+                protected BufferedImage createImage() {
+                    try {
+                        return BufferedImageUtils.multiScaleToHeight(MovingManIIResources.loadBufferedImage("magnify-minus.png"), 30);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        throw new RuntimeException(e);
+                    }
+                }
+            };
+
+            zoomOutVertical.addInputEventListener(new CursorHandler());
+            addChild(zoomOutVertical);
+
+            zoomOutVertical.setOffset(0, 0);
+            zoomInVertical.setOffset(0, zoomOutVertical.getFullBounds().getHeight());
+            ButtonEventHandler verticalZoomOutHandler = new ButtonEventHandler();
+            zoomOutVertical.addInputEventListener(verticalZoomOutHandler);
+            verticalZoomOutHandler.addButtonEventListener(new ButtonEventHandler.ButtonEventAdapter() {
+                public void fire() {
+                    chart.zoomOutVertical();
+                }
             });
         }
+    }
+
+    private void zoomOutVertical() {
+        dataModelBounds.setVerticalRange(dataModelBounds.getMinY() - 5, dataModelBounds.getMaxY() + 5);
+    }
+
+    private void zoomInVertical() {
+        dataModelBounds.setVerticalRange(dataModelBounds.getMinY() + 5, dataModelBounds.getMaxY() - 5);
     }
 }
