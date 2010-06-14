@@ -283,6 +283,7 @@
     define("WINDOWS_INSTALLER_FILE_NAME", "PhET-Installer_windows.exe");
     define("OSX_INSTALLER_FILE_NAME", "PhET-Installer_osx.zip");
     define("CD_ROM_INSTALLER_FILE_NAME", "PhET-Installer_cdrom.zip");
+    define("INSTALLER_RESOURCES_DIR", file_cleanup_local_filename(PARENT_DIR."Installer-Resources/Install-Path"));
 
     // *****************************************************************************
     // Information for the creation of backups of previous installers.
