@@ -3,13 +3,11 @@
 package edu.colorado.phet.acidbasesolutions.controls;
 
 import java.awt.Color;
+import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.ButtonGroup;
-import javax.swing.JCheckBox;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
+import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
@@ -27,10 +25,9 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 public class ToolsControl extends JPanel {
 
     private final ABSModel model;
-    private final JRadioButton pHPaperRadioButton, pHMeterRadioButton;
-    private final JRadioButton conductivityTesterRadioButton;
+    private final JCheckBox pHMeterCheckBox, showWaterCheckBox;
+    private final JRadioButton pHPaperRadioButton, conductivityTesterRadioButton;
     private final JRadioButton magnifyingGlassRadioButton, barGraphRadioButton;
-    private final JCheckBox showWaterCheckBox;
     
     /**
      * Subclass that hides some of the tools.
@@ -59,38 +56,39 @@ public class ToolsControl extends JPanel {
         titledBorder.setTitleFont( ABSConstants.TITLED_BORDER_FONT );
         setBorder( titledBorder );
         
-        // radio buttons
-        ButtonGroup group = new ButtonGroup();
-        ActionListener listener = new ActionListener() {
+        ActionListener actionListener = new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 updateModel();
             }
         };
-        pHPaperRadioButton = new ABSRadioButton( ABSStrings.PH_PAPER, group, listener );
-        pHMeterRadioButton = new ABSRadioButton( ABSStrings.PH_METER, group, listener );
-        conductivityTesterRadioButton = new ABSRadioButton( ABSStrings.CONDUCTIVITY_TESTER, group, listener );
-        magnifyingGlassRadioButton = new ABSRadioButton( ABSStrings.MAGNIFYING_GLASS, group, listener );
-        barGraphRadioButton = new ABSRadioButton( ABSStrings.BAR_GRAPH, group, listener );
+        
+        // pH Meter check box
+        pHMeterCheckBox = new JCheckBox( ABSStrings.PH_METER );
+        pHMeterCheckBox.addActionListener( actionListener );
         
         // "Show Water" check box
         showWaterCheckBox = new JCheckBox( ABSStrings.SHOW_WATER );
-        showWaterCheckBox.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                updateModel();
-            }
-        });
+        showWaterCheckBox.addActionListener( actionListener );
+        
+        // radio buttons
+        ButtonGroup group = new ButtonGroup();
+        pHPaperRadioButton = new ABSRadioButton( ABSStrings.PH_PAPER, group, actionListener );
+        conductivityTesterRadioButton = new ABSRadioButton( ABSStrings.CONDUCTIVITY_TESTER, group, actionListener );
+        magnifyingGlassRadioButton = new ABSRadioButton( ABSStrings.MAGNIFYING_GLASS, group, actionListener );
+        barGraphRadioButton = new ABSRadioButton( ABSStrings.BAR_GRAPH, group, actionListener );
         
         // layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         setLayout( layout );
         int row = 0;
         int column = 0;
+        layout.addComponent( pHMeterCheckBox, row++, column );
+        layout.addComponent( showWaterCheckBox, row++, column );
+        layout.addFilledComponent( new JSeparator(), row++, column, GridBagConstraints.HORIZONTAL );
         layout.addComponent( pHPaperRadioButton, row++, column );
-        layout.addComponent( pHMeterRadioButton, row++, column );
         layout.addComponent( conductivityTesterRadioButton, row++, column );
         layout.addComponent( magnifyingGlassRadioButton, row++, column );
         layout.addComponent( barGraphRadioButton, row++, column );
-        layout.addComponent( showWaterCheckBox, row++, column );
         
         // default state
         updateControl();
@@ -110,13 +108,13 @@ public class ToolsControl extends JPanel {
     }
     
     private void updateControl() {
-        pHMeterRadioButton.setSelected( model.getPHMeter().isVisible() );
+        pHMeterCheckBox.setSelected( model.getPHMeter().isVisible() );
         magnifyingGlassRadioButton.setSelected( model.getMagnifyingGlass().isVisible() );
         showWaterCheckBox.setSelected( model.isWaterVisible() );
     }
     
     private void updateModel() {
-        model.getPHMeter().setVisible( pHMeterRadioButton.isSelected() );
+        model.getPHMeter().setVisible( pHMeterCheckBox.isSelected() );
         model.getMagnifyingGlass().setVisible( magnifyingGlassRadioButton.isSelected() );
         model.setWaterVisible( showWaterCheckBox.isSelected() );
     }
