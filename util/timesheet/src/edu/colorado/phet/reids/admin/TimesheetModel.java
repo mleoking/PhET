@@ -24,9 +24,9 @@ class TimesheetModel {
     }
 
     public Entry[] getEntriesForCategory(String category) {
-        ArrayList<Entry> e= new ArrayList<Entry>();
+        ArrayList<Entry> e = new ArrayList<Entry>();
         for (Entry entry : entries) {
-            if (entry.getCategory().equals(category))e.add(entry);
+            if (entry.getCategory().equals(category)) e.add(entry);
         }
         return e.toArray(new Entry[0]);
     }
@@ -203,10 +203,14 @@ class TimesheetModel {
     }
 
     public void startNewEntry(String category) {
+        startNewEntry(category, "");
+    }
+
+    public void startNewEntry(String category, String notes) {
         boolean clockedIn = isClockedIn();
         if (getEntryCount() > 0)
             getLastEntry().clockOut();
-        Entry e = new Entry(clockedIn ? getLastEntry().getEndSeconds() : Util.currentTimeSeconds(), Util.currentTimeSeconds(), category, "", false, true);
+        Entry e = new Entry(clockedIn ? getLastEntry().getEndSeconds() : Util.currentTimeSeconds(), Util.currentTimeSeconds(), category, notes, false, true);
         addEntry(e);
         for (ClockedInListener clockedInListener : clockedInListeners) {
             clockedInListener.clockedInChanged();//todo: could rewrite this so no clocked-out notifications are sent
