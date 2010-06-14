@@ -8,8 +8,6 @@ MILESTONES
 HIGH PRIORITY
 - fix drag behavior for pH meter, constrain, errors in coordinate frame transforms
 - bar graph, adapt from advanced-acid-base-solutions
-- conductivity tester
-- pH paper
 - don't show other tools in magnifying glass
 - control panel layout issues
 
@@ -17,6 +15,8 @@ MEDUIUM PRIORITY
 - resolve design issues with exclusivity of tools
 - nodes below the beaker are not visible if main frame is resized wider 
 - baseline alignment of reaction equations (impossible?)
+- conductivity tester (CAB feedback required)
+- pH paper (CAB feedback required)
 
 LOW PRIORITY
 - icons for tools
