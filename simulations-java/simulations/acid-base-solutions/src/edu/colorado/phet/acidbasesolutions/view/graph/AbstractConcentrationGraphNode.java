@@ -195,6 +195,10 @@ abstract class AbstractConcentrationGraphNode extends PComposite {
         setVisible( PRODUCT_INDEX, visible );
     }
     
+    public void setWaterVisible( boolean visible ) {
+        setVisible( H2O_INDEX, visible );
+    }
+    
     public void setSoluteConcentration( double concentration ) {
         setConcentration( SOLUTE_INDEX, concentration );
     }

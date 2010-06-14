@@ -1,6 +1,7 @@
-6/13/10 add concentration bar graph, mostly adapted from advanced-acid-base-solutions
-6/13/10 hide pH paper and conductivity test features for interviews
-6/13/10 fix strong reaction equations
+6/14/10 connect "show water" control to concentration bar graph
+6/14/10 add concentration bar graph, mostly adapted from advanced-acid-base-solutions
+6/14/10 hide pH paper and conductivity test features for interviews
+6/14/10 fix strong reaction equations
 # 0.00.10 (41603) Jun 13, 2010
 6/13/10 prevent strength controls from jumping around when slider is hidden
 6/13/10 add reaction equations below beaker
