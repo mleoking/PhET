@@ -32,8 +32,8 @@ public class ToolsControl extends JPanel {
     /**
      * Subclass that hides some of the tools.
      */
-    public static class FewerToolsControlPanel extends ToolsControl {
-        public FewerToolsControlPanel( ABSModel model ) {
+    public static class FewerToolsControl extends ToolsControl {
+        public FewerToolsControl( ABSModel model ) {
             super( model );
             setPHPaperControlVisible( false );
             setCondutivityTesterControlVisible( false );
