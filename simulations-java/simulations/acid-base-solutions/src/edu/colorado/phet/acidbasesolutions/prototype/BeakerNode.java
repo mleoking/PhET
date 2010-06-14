@@ -17,7 +17,6 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Visual representation of a beaker that is filled to the top with a solution.
- * Origin is at the bottom center of the beaker.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -38,7 +37,6 @@ class BeakerNode extends PComposite {
     private static final Stroke MINOR_TICK_STROKE = new BasicStroke( 2f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL );
     private static final Font TICK_LABEL_FONT = new PhetFont( 24 );
     private static final double TICK_LABEL_X_SPACING = 8;
-    private static final double RIM_OFFSET = 20;
     
     private final Beaker beaker;
     private final WeakAcid solution;
@@ -89,21 +87,17 @@ class BeakerNode extends PComposite {
         updateSolution();
     }
     
-    /*
-     * Creates the shape for the beaker.
-     * Origin is at the bottom center.
-     * Start drawing the shape at the upper-left corner.
-     */
     private void updateBeaker() {
         double width = beaker.getWidth();
         double height = beaker.getHeight();
+        double rimOffset = 20;
         outlinePath.reset();
-        outlinePath.moveTo( (float) ( -width / 2 - RIM_OFFSET ), (float) ( -height - RIM_OFFSET ) );
-        outlinePath.lineTo( (float) -width / 2, (float) -height );
-        outlinePath.lineTo( (float) -width / 2, 0f );
-        outlinePath.lineTo( (float) +width / 2, 0f );
-        outlinePath.lineTo( (float) +width / 2, (float) -height );
-        outlinePath.lineTo( (float) ( +width / 2 + RIM_OFFSET ), (float) ( -height - RIM_OFFSET ) );
+        outlinePath.moveTo( (float) ( -width/2 - rimOffset ), (float) ( -height/2 - rimOffset ) ); // origin at center
+        outlinePath.lineTo( (float) -width/2, (float) -height/2 );
+        outlinePath.lineTo( (float) -width/2, (float) +height/2 );
+        outlinePath.lineTo( (float) +width/2, (float) +height/2 );
+        outlinePath.lineTo( (float) +width/2, (float) -height/2 );
+        outlinePath.lineTo( (float) ( +width/2 + rimOffset ), (float) ( -height/2 - rimOffset ) );
         outlineNode.setPathTo( outlinePath );
     }
     
