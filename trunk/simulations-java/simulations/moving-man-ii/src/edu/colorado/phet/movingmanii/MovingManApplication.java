@@ -7,6 +7,7 @@ import edu.colorado.phet.movingmanii.model.MovingManModel;
 import edu.colorado.phet.movingmanii.model.MovingManState;
 import edu.colorado.phet.movingmanii.view.MovingManSimulationPanelWithCharts;
 import edu.colorado.phet.movingmanii.view.MovingManSimulationPanelWithPlayAreaSliders;
+import edu.colorado.phet.recordandplayback.gui.RecordAndPlaybackControlPanel;
 import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel;
 
 import javax.swing.*;
@@ -45,6 +46,12 @@ public class MovingManApplication extends PiccoloPhetApplication {
 
         protected JComponent createSimulationPanel(MovingManModel model, RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel) {
             return new MovingManSimulationPanelWithCharts(model, recordAndPlaybackModel);
+        }
+
+        protected RecordAndPlaybackControlPanel<MovingManState> createRecordAndPlaybackPanel() {
+            RecordAndPlaybackControlPanel<MovingManState> panel = super.createRecordAndPlaybackPanel();
+            panel.setTimelineNodeVisible(false);//Hide timeline panel in chart panel, since it is redundant with in-chart cursor bar
+            return panel;
         }
     }
 }

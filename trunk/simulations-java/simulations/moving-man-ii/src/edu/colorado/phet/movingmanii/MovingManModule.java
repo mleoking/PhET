@@ -108,14 +108,18 @@ public abstract class MovingManModule extends Module {
         updateCursorVisibility(movingManModel, recordAndPlaybackModel);
 
         setSimulationPanel(createSimulationPanel(movingManModel, recordAndPlaybackModel));
-        RecordAndPlaybackControlPanel<MovingManState> panel = new RecordAndPlaybackControlPanel<MovingManState>(recordAndPlaybackModel, getSimulationPanel(), 20.0);
-        panel.addControl(new PSwing(new ResetAllButton(new Resettable() {
+        setClockControlPanel(createRecordAndPlaybackPanel());
+        setLogoPanelVisible(false);
+    }
+
+    protected RecordAndPlaybackControlPanel<MovingManState> createRecordAndPlaybackPanel() {
+        RecordAndPlaybackControlPanel<MovingManState> recordAndPlaybackControlPanel = new RecordAndPlaybackControlPanel<MovingManState>(recordAndPlaybackModel, getSimulationPanel(), 20.0);
+        recordAndPlaybackControlPanel.addControl(new PSwing(new ResetAllButton(new Resettable() {
             public void reset() {
                 MovingManModule.this.resetAll();
             }
         }, getSimulationPanel())));
-        setClockControlPanel(panel);
-        setLogoPanelVisible(false);
+        return recordAndPlaybackControlPanel;
     }
 
     protected abstract JComponent createSimulationPanel(MovingManModel model, RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel);
