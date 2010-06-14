@@ -295,7 +295,6 @@ public class MovingManChart extends PNode {
     private static class DomainGridLine extends PNode {
         private DomainGridLine(final double x, final MovingManChart chart) {
             final PhetPPath tick = new PhetPPath(new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 0, new float[]{10, 3}, 0), Color.lightGray);
-            //TODO: memory leak here, since grid lines are recreated sometimes
             final SimpleObserver update = new SimpleObserver() {
                 public void update() {
                     final double chartX = chart.modelToView(new TimeData(0, x)).getX();
@@ -303,7 +302,6 @@ public class MovingManChart extends PNode {
                 }
             };
             update.update();
-            chart.viewDimension.addObserver(update);
             addChild(tick);
         }
     }
@@ -318,7 +316,6 @@ public class MovingManChart extends PNode {
                     tick.setPathTo(new Line2D.Double(0, chartY, chart.viewDimension.getWidth(), chartY));
                 }
             };
-            chart.viewDimension.addObserver(pathUpdate);
             pathUpdate.update();
         }
     }
@@ -401,12 +398,18 @@ public class MovingManChart extends PNode {
         }
     }
 
-    private static class VerticalZoomControl extends PNode {
-        private VerticalZoomControl(final MovingManChart chart) {
-            AbstractMediaButton zoomInVertical = new AbstractMediaButton(30) {
+    public static interface Listener {
+        void actionPerformed();
+    }
+
+    private static class VerticalZoomButton extends PNode {
+        protected AbstractMediaButton button;
+
+        private VerticalZoomButton(final String imageName, final Listener zoomListener) {
+            button = new AbstractMediaButton(30) {
                 protected BufferedImage createImage() {
                     try {
-                        return BufferedImageUtils.multiScaleToHeight(MovingManIIResources.loadBufferedImage("magnify-plus.png"), 30);
+                        return BufferedImageUtils.multiScaleToHeight(MovingManIIResources.loadBufferedImage(imageName), 30);
                     } catch (IOException e) {
                         e.printStackTrace();
                         throw new RuntimeException(e);
@@ -417,38 +420,46 @@ public class MovingManChart extends PNode {
             // this handler ensures that the button won't fire unless the mouse is released while inside the button
             //see DefaultIconButton
             ButtonEventHandler verticalZoomInListener = new ButtonEventHandler();
-            zoomInVertical.addInputEventListener(verticalZoomInListener);
+            button.addInputEventListener(verticalZoomInListener);
             verticalZoomInListener.addButtonEventListener(new ButtonEventHandler.ButtonEventAdapter() {
                 public void fire() {
+                    if (button.isEnabled())
+                        zoomListener.actionPerformed();
+                }
+            });
+
+            addChild(button);
+        }
+
+        public void setEnabled(boolean enabled) {
+            button.setEnabled(enabled);
+        }
+    }
+
+    private static class VerticalZoomControl extends PNode {
+        private VerticalZoomControl(final MovingManChart chart) {
+            final VerticalZoomButton zoomInButton = new VerticalZoomButton("magnify-plus.png", new Listener() {
+                public void actionPerformed() {
                     chart.zoomInVertical();
                 }
             });
-
-            addChild(zoomInVertical);
-
-            AbstractMediaButton zoomOutVertical = new AbstractMediaButton(30) {
-                protected BufferedImage createImage() {
-                    try {
-                        return BufferedImageUtils.multiScaleToHeight(MovingManIIResources.loadBufferedImage("magnify-minus.png"), 30);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        throw new RuntimeException(e);
-                    }
+            chart.getDataModelBounds().addObserver(new SimpleObserver() {
+                public void update() {
+                    boolean enabled = chart.getDataModelBounds().getHeight() > 10.0 + 1E-6;
+                    zoomInButton.setEnabled(enabled);
+                    //TODO: cursor hand never goes away
                 }
-            };
+            });
+            addChild(zoomInButton);
 
-            zoomOutVertical.addInputEventListener(new CursorHandler());
-            addChild(zoomOutVertical);
-
-            zoomOutVertical.setOffset(0, 0);
-            zoomInVertical.setOffset(0, zoomOutVertical.getFullBounds().getHeight());
-            ButtonEventHandler verticalZoomOutHandler = new ButtonEventHandler();
-            zoomOutVertical.addInputEventListener(verticalZoomOutHandler);
-            verticalZoomOutHandler.addButtonEventListener(new ButtonEventHandler.ButtonEventAdapter() {
-                public void fire() {
+            VerticalZoomButton zoomOutButton = new VerticalZoomButton("magnify-minus.png", new Listener() {
+                public void actionPerformed() {
                     chart.zoomOutVertical();
                 }
             });
+            addChild(zoomOutButton);
+
+            zoomInButton.setOffset(0, zoomOutButton.getFullBounds().getHeight());
         }
     }
 
