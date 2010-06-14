@@ -1,4 +1,5 @@
-Fixed: Chart control "go" button should also behave as a pause button instead of disappearing. 
+Fixed: Chart control "go" button should have correct behavior during playback (instead of just recording)
+Fixed: Chart control "go" button should also behave as a pause button instead of disappearing.
 record-and-playback: 6/13/2010 Layout improvements for RecordAndPlaybackControlPanel
 Added a reset all button
 # 0.00.02 (41563) Jun 11, 2010
