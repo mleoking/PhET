@@ -3,6 +3,8 @@
 package edu.colorado.phet.acidbasesolutions.module;
 
 import java.awt.geom.Dimension2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSColors;
 import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
@@ -10,6 +12,7 @@ import edu.colorado.phet.acidbasesolutions.model.ABSModel;
 import edu.colorado.phet.acidbasesolutions.view.BeakerNode;
 import edu.colorado.phet.acidbasesolutions.view.MagnifyingGlassNode;
 import edu.colorado.phet.acidbasesolutions.view.PHMeterNode;
+import edu.colorado.phet.acidbasesolutions.view.ReactionEquationNode;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -27,6 +30,7 @@ public abstract class ABSCanvas extends PhetPCanvas {
     private final BeakerNode beakerNode;
     private final PHMeterNode pHMeterNode;
     private final MagnifyingGlassNode magnifyingGlassNode;
+    private final ReactionEquationNode reactionEquationNode;
     
     public ABSCanvas( ABSModel model ) {
         super( ABSConstants.CANVAS_RENDERING_SIZE );
@@ -40,14 +44,35 @@ public abstract class ABSCanvas extends PhetPCanvas {
         beakerNode = new BeakerNode( model );
         magnifyingGlassNode = new MagnifyingGlassNode( model );
         pHMeterNode = new PHMeterNode( model );
+        reactionEquationNode = new ReactionEquationNode( model );
         
         // rendering order
         addNode( pHMeterNode );
         addNode( beakerNode );
         addNode( magnifyingGlassNode );
+        addNode( reactionEquationNode );
         
-        // layout is handled via locations of model elements
+        // most layout is handled via locations of model elements.
+        
+        // non-model layout
+        reactionEquationNode.addPropertyChangeListener( new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent event ) {
+                if ( event.getPropertyName().equals( PNode.PROPERTY_FULL_BOUNDS ) ) {
+                    updateReactionEquationLayout();
+                }
+            }
+        });
+        updateReactionEquationLayout();
     }    
+    
+    /*
+     * Centers the reaction equation below the beaker.
+     */
+    private void updateReactionEquationLayout() {
+        double x = beakerNode.getFullBoundsReference().getCenterX() - ( reactionEquationNode.getFullBoundsReference().getWidth() / 2 );
+        double y = beakerNode.getFullBoundsReference().getMaxY() + 20;
+        reactionEquationNode.setOffset( x, y );
+    }
     
     protected void addNode( PNode node ) {
         rootNode.addChild( node );

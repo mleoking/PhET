@@ -25,6 +25,9 @@ public class ABSImages {
     public static final BufferedImage MOH_MOLECULE = getBufferedImage( "molecules/MOH.png" );
     public static final BufferedImage OH_MINUS_MOLECULE = getBufferedImage( "molecules/OH_minus.png" );
     
+    public static final BufferedImage ARROW_DOUBLE = getBufferedImage( "arrow_double.png" );
+    public static final BufferedImage ARROW_SINGLE = getBufferedImage( "arrow_single.png" );
+    
     private static final BufferedImage getBufferedImage( String resourceName ) {
         return ABSResources.getBufferedImage( resourceName );
     }
