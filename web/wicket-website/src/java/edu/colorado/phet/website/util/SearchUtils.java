@@ -206,11 +206,21 @@ public class SearchUtils {
         Document doc = new Document();
         doc.add( new Field( "droppable", "true", Field.Store.NO, Field.Index.NOT_ANALYZED ) );
         doc.add( new Field( "contribution_id", String.valueOf( contribution.getId() ), Field.Store.YES, Field.Index.NOT_ANALYZED ) );
-        doc.add( new Field( "contribution_title", contribution.getTitle(), Field.Store.YES, Field.Index.ANALYZED ) );
-        doc.add( new Field( "contribution_authors", contribution.getAuthors(), Field.Store.NO, Field.Index.ANALYZED ) );
-        doc.add( new Field( "contribution_organization", contribution.getAuthorOrganization(), Field.Store.NO, Field.Index.ANALYZED ) );
-        doc.add( new Field( "contribution_keywords", contribution.getKeywords(), Field.Store.NO, Field.Index.ANALYZED ) );
-        doc.add( new Field( "contribution_description", contribution.getDescription(), Field.Store.NO, Field.Index.ANALYZED ) );
+        if ( contribution.getTitle() != null ) {
+            doc.add( new Field( "contribution_title", contribution.getTitle(), Field.Store.YES, Field.Index.ANALYZED ) );
+        }
+        if ( contribution.getAuthors() != null ) {
+            doc.add( new Field( "contribution_authors", contribution.getAuthors(), Field.Store.NO, Field.Index.ANALYZED ) );
+        }
+        if ( contribution.getAuthorOrganization() != null ) {
+            doc.add( new Field( "contribution_organization", contribution.getAuthorOrganization(), Field.Store.NO, Field.Index.ANALYZED ) );
+        }
+        if ( contribution.getKeywords() != null ) {
+            doc.add( new Field( "contribution_keywords", contribution.getKeywords(), Field.Store.NO, Field.Index.ANALYZED ) );
+        }
+        if ( contribution.getDescription() != null ) {
+            doc.add( new Field( "contribution_description", contribution.getDescription(), Field.Store.NO, Field.Index.ANALYZED ) );
+        }
         doc.add( new Field( "contribution_locale", contribution.getLocale().toString(), Field.Store.NO, Field.Index.NOT_ANALYZED ) );
         Map<Locale, String> titleMap = new HashMap<Locale, String>();
         for ( Object o : contribution.getSimulations() ) {
