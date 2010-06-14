@@ -51,6 +51,12 @@ public abstract class MovingManModule extends Module {
                 movingManModel.setPlaybackState(state);
             }
         };
+        //When the user presses "record" in the middle of a playback sequence, we clear the remaining data and keep going from the playback point.
+        recordAndPlaybackModel.addHistoryRemainderClearListener(new RecordAndPlaybackModel.HistoryRemainderClearListener() {
+            public void historyRemainderCleared() {
+                movingManModel.historyRemainderCleared(recordAndPlaybackModel.getTime());
+            }
+        });
 
         //When unpausing, if user set velocity or acceleration to be nonzero, need to switch to vel or acc-driven
         recordAndPlaybackModel.addObserver(new SimpleObserver() {

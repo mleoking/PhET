@@ -179,6 +179,10 @@ public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
         }
     }
 
+    public void addHistoryRemainderClearListener(HistoryRemainderClearListener historyRemainderClearListener) {
+        historyRemainderClearListeners.add(historyRemainderClearListener);
+    }
+
     public void stepPlayback() {
         if (getPlaybackState().getTime() < getMaxRecordedTime()) {
             setTime(time + playbackSpeed * getPlaybackDT());
