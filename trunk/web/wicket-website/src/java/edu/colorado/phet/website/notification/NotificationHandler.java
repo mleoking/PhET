@@ -134,7 +134,7 @@ public class NotificationHandler {
                 message.addRecipient( Message.RecipientType.TO, new InternetAddress( user.getEmail() ) );
             }
             message.addRecipient( Message.RecipientType.TO, new InternetAddress( "phetadmin@gmail.com" ) );
-            message.setSubject( "[PhET Website] Events" );
+            message.setSubject( "[PhET Website] Notifications for Teaching Ideas" );
 
             BodyPart messageBodyPart = new MimeBodyPart();
             String body = eventsToString( events );
