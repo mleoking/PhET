@@ -25,6 +25,8 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
     // Class Data
     //----------------------------------------------------------------------------
+	
+	private static final double FLASHLIGHT_WIDTH = 200;
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -65,7 +67,9 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
         addWorldChild(myWorldNode);
         
         // Add the flashlight.
-        myWorldNode.addChild(new FlashlightNode(mvt));
+        PNode flashlightNode = new FlashlightNode(FLASHLIGHT_WIDTH, mvt);
+        flashlightNode.setOffset(200, 300);
+        myWorldNode.addChild(flashlightNode);
         
         // Update the layout.
         updateLayout();
