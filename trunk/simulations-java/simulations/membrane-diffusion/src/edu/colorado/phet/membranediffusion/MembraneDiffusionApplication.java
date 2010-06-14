@@ -4,12 +4,9 @@ package edu.colorado.phet.membranediffusion;
 
 import java.awt.Frame;
 
-import javax.swing.JMenu;
-
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
-import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
@@ -23,9 +20,6 @@ public class MembraneDiffusionApplication extends PiccoloPhetApplication {
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-
-    // PersistanceManager is used to save/load simulation configurations.
-    private XMLPersistenceManager persistenceManager;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -63,12 +57,7 @@ public class MembraneDiffusionApplication extends PiccoloPhetApplication {
      */
     private void initMenubar() {
 
-        // File->Save/Load
         final PhetFrame frame = getPhetFrame();
-        frame.addFileSaveLoadMenuItems();
-        if ( persistenceManager == null ) {
-            persistenceManager = new XMLPersistenceManager( frame );
-        }
 
         // Options menu
         OptionsMenu optionsMenu = new OptionsMenu();
@@ -77,8 +66,8 @@ public class MembraneDiffusionApplication extends PiccoloPhetApplication {
             frame.addMenu( optionsMenu );
         }
 
-        // Developer menu
-        JMenu developerMenu = frame.getDeveloperMenu();
+        // Developer menu, uncomment if needed.
+        // JMenu developerMenu = frame.getDeveloperMenu();
         // add items to the Developer menu here...
     }
 
