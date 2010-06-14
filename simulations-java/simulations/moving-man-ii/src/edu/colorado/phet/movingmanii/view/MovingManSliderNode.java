@@ -162,7 +162,7 @@ public abstract class MovingManSliderNode extends PNode {
 
     protected void updateThumb() {
         updateThumbLocation();
-        updateThumbAngle();
+        updateThumbToIndicateOutOfRange();
     }
 
     protected void updateThumbLocation() {
@@ -170,22 +170,27 @@ public abstract class MovingManSliderNode extends PNode {
     }
 
     /**
-     * The angle of the arrow slider is used to indicate when a value is out of range, by pointing to
-     * the out-of-range point location.  Needs to be tested with team members and during interviews.
+     * The transparency of the thumb is used to indicate when a value is out of range.  Needs to be tested with team members and during interviews.
      */
-    protected void updateThumbAngle() {
+    protected void updateThumbToIndicateOutOfRange() {
         getSliderThumb().setRotation(0.0);
-        if (clamp(getValue()) < getValue()) {//exceeded max
-            double distanceBeyondMax = getValue() - getMax();
-            double pivotSize = getSliderThumb().getFullBounds().getHeight() / 2;
-            double angle = -Math.atan(distanceBeyondMax / pivotSize);//negative since vertical axis is flipped
-            getSliderThumb().rotateAboutPoint(angle, getSliderThumb().getFullBounds().getWidth() / 2, getSliderThumb().getFullBounds().getHeight() / 2);
-        } else if (clamp(getValue()) > getValue()) {//exceeded min
-            double distanceBeneathMin = getMin() - getValue();
-            double pivotSize = getSliderThumb().getFullBounds().getHeight() / 2;
-            double angle = Math.atan(distanceBeneathMin / pivotSize);
-            getSliderThumb().rotateAboutPoint(angle, getSliderThumb().getFullBounds().getWidth() / 2, getSliderThumb().getFullBounds().getHeight() / 2);
+        double distanceOutOfRange = getDistanceOutOfRange();
+        if (distanceOutOfRange > 0) {
+            Function.LinearFunction linearFunction = new Function.LinearFunction(0, 20, 1.0, 0.2);
+            double v = MathUtil.clamp(0.2, linearFunction.evaluate(distanceOutOfRange), 1.0);
+            getSliderThumb().setTransparency((float) v);
+        } else {
+            getSliderThumb().setTransparency(1);
         }
+    }
+
+    private double getDistanceOutOfRange() {
+        if (clamp(getValue()) < getValue()) {//exceeded max
+            return getValue() - getMax();
+
+        } else if (clamp(getValue()) > getValue()) {//exceeded min
+            return getMin() - getValue();
+        } else return 0.0;
     }
 
     protected abstract void setThumbLocation(double location);
