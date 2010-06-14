@@ -16,6 +16,7 @@ HIGH PRIORITY
 MEDUIUM PRIORITY
 - resolve design issues with exclusivity of tools
 - nodes below the beaker are not visible if main frame is resized wider 
+- baseline alignment of reaction equations (impossible?)
 
 LOW PRIORITY
 - icons for tools
