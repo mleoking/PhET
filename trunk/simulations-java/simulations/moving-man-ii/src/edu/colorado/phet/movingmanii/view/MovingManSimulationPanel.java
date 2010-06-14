@@ -105,6 +105,10 @@ public class MovingManSimulationPanel extends PhetPCanvas {
         viewRange.setMax(getWidth() - inset);
     }
 
+    public double getRulerHeight() {
+        return playAreaRulerNode.getFullBounds().getHeight();
+    }
+
     private void updateAccelerationVectorVisible(PlayAreaVector accelerationVector, MovingManModel model) {
         accelerationVector.setVisible(model.getAccelerationVectorVisible().getValue());
     }
@@ -122,7 +126,7 @@ public class MovingManSimulationPanel extends PhetPCanvas {
 
     private class SkyNode extends PNode {
         private SkyNode() {
-            PhetPPath skyNode = new PhetPPath(new Rectangle2D.Double(-100, 0, 10000, 10000), new Color(174, 217, 255));
+            PhetPPath skyNode = new PhetPPath(new Rectangle2D.Double(-100, -500, 10000, 10000), new Color(174, 217, 255));
             addChild(skyNode);
         }
     }
