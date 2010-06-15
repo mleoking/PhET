@@ -135,8 +135,7 @@ public abstract class MovingManModule extends Module {
     }
 
     public void resetAll() {
-        recordAndPlaybackModel.clearHistory();
         movingManModel.resetAll();
-        recordAndPlaybackModel.setPaused(true);
+        recordAndPlaybackModel.resetAll();
     }
 }

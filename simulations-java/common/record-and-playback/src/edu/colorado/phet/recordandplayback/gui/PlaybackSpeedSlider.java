@@ -48,6 +48,7 @@ public class PlaybackSpeedSlider<T> extends PNode {
 
         SimpleObserver updatePlaybackSliderVisible = new SimpleObserver() {
             public void update() {
+                slider.setValue((int) transform.createInverse().evaluate(model.getPlaybackSpeed()));
                 setVisible(model.isPlayback());
             }
         };
