@@ -39,7 +39,7 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
             //TODO: Factor out chart code if possible
             positionChart = new MovingManChart(new Rectangle2D.Double(0, -xMax, 20, xMax * 2));
             {
-                positionChart.addDataSeries(model.getPositionGraphSeries(), MovingManColorScheme.POSITION_COLOR, 0);
+                positionChart.addDataSeries(model.getPositionGraphSeries(), MovingManColorScheme.POSITION_COLOR);
                 positionChart.addChartChild(new CursorNode(model.getChartCursor(), positionChart));
                 positionChart.addInputEventListener(new PBasicInputEventHandler() {
                     public void mouseDragged(PInputEvent event) {
@@ -103,7 +103,7 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
         {//add the velocity chart
             double vMax = 60 / 5;
             velocityChart = new MovingManChart(new Rectangle2D.Double(0, -vMax, 20, vMax * 2));
-            velocityChart.addDataSeries(model.getVelocityGraphSeries(), MovingManColorScheme.VELOCITY_COLOR, MovingManModel.DERIVATIVE_RADIUS);
+            velocityChart.addDataSeries(model.getVelocityGraphSeries(), MovingManColorScheme.VELOCITY_COLOR);
             velocityChart.addChartChild(new CursorNode(model.getChartCursor(), velocityChart));
             addScreenChild(velocityChart);
 
@@ -165,7 +165,7 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
         {
             double aMax = 60;
             accelerationChart = new MovingManChart(new Rectangle2D.Double(0, -aMax, 20, aMax * 2));
-            accelerationChart.addDataSeries(model.getAccelerationGraphSeries(), MovingManColorScheme.ACCELERATION_COLOR, MovingManModel.DERIVATIVE_RADIUS * 2);
+            accelerationChart.addDataSeries(model.getAccelerationGraphSeries(), MovingManColorScheme.ACCELERATION_COLOR);
             accelerationChart.addChartChild(new CursorNode(model.getChartCursor(), accelerationChart));
             addScreenChild(accelerationChart);
 

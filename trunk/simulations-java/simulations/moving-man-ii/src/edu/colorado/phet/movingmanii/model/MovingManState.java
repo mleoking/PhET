@@ -4,7 +4,7 @@ package edu.colorado.phet.movingmanii.model;
  * @author Sam Reid
  */
 public class MovingManState {
-    private double time;
+    private double time;//Note this time is different than the time in the recordandplaybackmodel, it will lag since we don't record a point until we have good estimates of the derivatives
     private ManState manState;
     private boolean walls;
 

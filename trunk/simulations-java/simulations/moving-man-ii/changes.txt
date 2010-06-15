@@ -1,3 +1,5 @@
+Fixed record and playback so that chart readouts match up with the chart curve graphics
+Made it so that the chart serieses are sampled at the same time, so that derivatives don't lag
 # 0.00.03 (41640) Jun 14, 2010
 Improved the visibility of the in-chart cursor node
 Added handling for starting recording halfway through playback

@@ -351,8 +351,8 @@ public class MovingManChart extends PNode {
         }
     }
 
-    public void addDataSeries(MovingManDataSeries dataSeries, Color color, int numPointsToSkip) {
-        chartContents.addChild(new LineSeriesNode(dataSeries, color, numPointsToSkip));
+    public void addDataSeries(MovingManDataSeries dataSeries, Color color) {
+        chartContents.addChild(new LineSeriesNode(dataSeries, color));
     }
 
     public Point2D modelToView(TimeData point) {
@@ -360,7 +360,7 @@ public class MovingManChart extends PNode {
     }
 
     private class LineSeriesNode extends PNode {
-        public LineSeriesNode(final MovingManDataSeries dataSeries, Color color, final int numPointsToSkip) {
+        public LineSeriesNode(final MovingManDataSeries dataSeries, Color color) {
             final PClip clip = new PClip();
             final SimpleObserver so = new SimpleObserver() {
                 public void update() {
@@ -387,7 +387,7 @@ public class MovingManChart extends PNode {
                     TimeData[] points = dataSeries.getData();
 
                     DoubleGeneralPath generalPath = new DoubleGeneralPath();
-                    for (int i = 0; i < points.length - numPointsToSkip; i++) {
+                    for (int i = 0; i < points.length; i++) {
                         Point2D mapped = modelToView(points[i]);
                         if (i == 0) {
                             generalPath.moveTo(mapped);
