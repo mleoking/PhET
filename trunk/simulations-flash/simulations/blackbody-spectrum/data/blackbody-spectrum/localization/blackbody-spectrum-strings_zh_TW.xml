@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--blackbody-spectrum-strings_zh_TW.xml created Fri Jun 05 12:40:56 CST 2009 using: blackbody-spectrum 2.00.00 (30671), translation-utility 2.01.00 (31673) 五月 15, 2009-->
+<!--blackbody-spectrum-strings_zh_TW.xml created Mon Jun 14 12:36:10 CST 2010 using: blackbody-spectrum 2.01.00 (39582), translation-utility 2.08.00 (39581) 四月 2, 2010-->
 <SimStrings>
 <string key="r" value="R"/>
 <string key="zoomIn" value="放大 \n"/>
@@ -12,7 +12,7 @@
 <string key="tempInK" value="溫度 (K)"/>
 <string key="save" value="存檔"/>
 <string key="showRuler" value="顯示尺規"/>
-<string key="wavelength" value="度長"/>
+<string key="wavelength" value="波長"/>
 <string key="b" value="B"/>
 <string key="oven" value="火爐"/>
 <string key="earth" value="地球"/>
