@@ -4,17 +4,18 @@ import edu.colorado.phet.common.motion.model.TimeData;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolox.nodes.PClip;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 /**
  * @author Sam Reid
  */
-public class CursorNode extends PNode {
+public class CursorNode extends PClip {
     private ChartCursor cursor;
     private MovingManChart chart;
     private PhetPPath path;
@@ -22,6 +23,19 @@ public class CursorNode extends PNode {
     public CursorNode(final ChartCursor cursor, final MovingManChart chart) {
         this.cursor = cursor;
         this.chart = chart;
+
+        //TODO: add a clipping layer in the chart
+        final SimpleObserver updateClip = new SimpleObserver() {
+            public void update() {
+                Point2D pt = chart.modelToView(new TimeData(chart.getDataModelBounds().getMaxY(), chart.getDataModelBounds().getMinX()));
+                Rectangle2D.Double clipPath = new Rectangle2D.Double(pt.getX(), pt.getY(), chart.getViewDimension().getWidth(), chart.getViewDimension().getHeight());
+                setPathTo(clipPath);
+            }
+        };
+        //TODO: listen to chart origin, not just size
+        chart.getViewDimension().addObserver(updateClip);
+        updateClip.update();
+
         path = new HighQualityPhetPPath(new Color(50, 50, 200, 83), new BasicStroke(1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1, new float[]{5, 2}, 0), new Color(20, 20, 30, 160));
         addChild(path);
 
