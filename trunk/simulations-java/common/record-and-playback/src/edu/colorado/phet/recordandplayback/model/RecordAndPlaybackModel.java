@@ -27,10 +27,11 @@ public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
     //The history of data points that have been recorded from the model.
     private final ArrayList<DataPoint<T>> recordHistory = new ArrayList<DataPoint<T>>();
 
-    private boolean record = true;//True if the sim is in record mode instead of playback mode (may be paused too)
-    private boolean paused = true;//True if the current mode is paused 
-    private double time = 0.0;//Current time of recording or playback
-    private double playbackSpeed = 1;//1 is full speed; i.e. the time between the original samples
+    //See resetAll() for default values
+    private boolean record ;//True if the sim is in record mode instead of playback mode (may be paused too)
+    private boolean paused ;//True if the current mode is paused
+    private double time ;//Current time of recording or playback
+    private double playbackSpeed ;//1 is full speed; i.e. the time between the original samples
 
     private ArrayList<HistoryClearListener> historyClearListeners = new ArrayList<HistoryClearListener>();
     private ArrayList<HistoryRemainderClearListener> historyRemainderClearListeners = new ArrayList<HistoryRemainderClearListener>();
@@ -60,6 +61,7 @@ public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
 
     protected RecordAndPlaybackModel(int maxRecordPoints) {
         this.maxRecordPoints = maxRecordPoints;
+        resetAll();
     }
 
     public int getMaxRecordPoints() {

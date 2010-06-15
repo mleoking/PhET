@@ -42,7 +42,7 @@ public class PlaybackSpeedSlider<T> extends PNode {
         addChild(playbackSpeedSlider);
         slider.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
-                model.setPlayback(transform.evaluate(slider.getValue()));
+                model.setPlaybackSpeed(transform.evaluate(slider.getValue()));
             }
         });
 

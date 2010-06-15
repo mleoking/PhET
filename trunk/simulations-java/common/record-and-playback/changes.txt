@@ -1,3 +1,4 @@
+6/14/2010 Simplify defaults and bugfix in time speed slider
 6/14/2010 Added the ability to remove the timeline node
 6/13/2010 Update playback speed slider visibility on startup
 6/13/2010 Relayout clock control panel when controls are added
