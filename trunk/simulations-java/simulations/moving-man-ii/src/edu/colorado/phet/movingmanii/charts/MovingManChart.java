@@ -490,7 +490,7 @@ public class MovingManChart extends PNode {
             });
             addChild(zoomOutButton);
 
-            zoomInButton.setOffset(0, zoomOutButton.getFullBounds().getHeight());
+            zoomOutButton.setOffset(0, zoomInButton.getFullBounds().getHeight());
         }
     }
 
@@ -522,15 +522,15 @@ public class MovingManChart extends PNode {
             chart.getDataModelBounds().addObserver(updateButtonsEnabled);
             updateButtonsEnabled.update();
 
-            zoomInButton.setOffset(0, 5);
-            zoomOutButton.setOffset(zoomInButton.getFullBounds().getMaxX(), 5);
+            zoomOutButton.setOffset(0, 5);
+            zoomInButton.setOffset(zoomOutButton.getFullBounds().getMaxX(), 5);
 
             //These small triangles look terrible without good rendering hints.
             PhetPPath pathLeft = new HighQualityPhetPPath(getTrianglePathLeft(), Color.black);
             addChild(pathLeft);
             PhetPPath pathRight = new HighQualityPhetPPath(getTrianglePathRight(), Color.black);
             addChild(pathRight);
-            pathLeft.setOffset(zoomInButton.getFullBounds().getMaxX() - pathLeft.getFullBounds().getWidth() - 0.5, 0);
+            pathLeft.setOffset(zoomOutButton.getFullBounds().getMaxX() - pathLeft.getFullBounds().getWidth() - 0.5, 0);
             pathRight.setOffset(pathLeft.getFullBounds().getMaxX() + 1.5, 0);
         }
 
