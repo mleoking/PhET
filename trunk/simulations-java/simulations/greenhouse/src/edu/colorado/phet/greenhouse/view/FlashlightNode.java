@@ -5,6 +5,7 @@ package edu.colorado.phet.greenhouse.view;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GradientPaint;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.BorderFactory;
@@ -50,13 +51,12 @@ public class FlashlightNode extends PNode {
 		
 		this.mvt = mvt;
 		
-		// Add the flashlight image, setting the offset such that the center
-		// right side of the image is the origin.  This assumes that photons
-		// will be emitted to the right.
+		// Create the flashlight image node, setting the offset such that the
+		// center right side of the image is the origin.  This assumes that
+		// photons will be emitted horizontally to the right.
 		flashlightImage = new PImage(GreenhouseResources.getImage("flashlight.png"));
 		flashlightImage.scale(flashlightWidth / flashlightImage.getFullBoundsReference().width);
 		flashlightImage.setOffset(-flashlightWidth, -flashlightImage.getFullBoundsReference().height / 2);
-		addChild(flashlightImage);
 		
 		// Calculate the vertical distance between the center of the
 		// flashlight image and the control box.  This is a function of the
@@ -81,17 +81,20 @@ public class FlashlightNode extends PNode {
 		selectionPanelPSwing.setOffset(
 				flashlightImage.getFullBoundsReference().getCenterX() - selectionPanelPSwing.getFullBoundsReference().width / 2,
 				flashlightImage.getFullBoundsReference().getCenterY() + distanceBetweeImageAndControl - selectionPanelPSwing.getFullBoundsReference().height / 2);
-		addChild(selectionPanelPSwing);
 		
 		// Create the "connecting rod" that will visually connect the
 		// selection panel to the flashlight image.
 		Rectangle2D connectingRodShape = new Rectangle2D.Double(0, 0, flashlightWidth * 0.1, distanceBetweeImageAndControl);
 		PNode connectingRod = new PhetPPath(connectingRodShape);
-		connectingRod.setPaint(Color.gray);
+		connectingRod.setPaint(new GradientPaint(0f, 0f, Color.WHITE, (float)connectingRodShape.getWidth(), 0f, Color.DARK_GRAY));
 		connectingRod.setOffset(
 				flashlightImage.getFullBoundsReference().getCenterX() - connectingRodShape.getWidth() / 2,
 				flashlightImage.getFullBoundsReference().getCenterY());
+
+		// Add all the nodes in the order needed to achieve the desired
+		// layering.
 		addChild(connectingRod);
-		
+		addChild(flashlightImage);
+		addChild(selectionPanelPSwing);
 	}
 }
