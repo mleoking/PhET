@@ -1,9 +1,11 @@
 package edu.colorado.phet.movingmanii.view;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.movingmanii.MovingManColorScheme;
+import edu.colorado.phet.movingmanii.MovingManIIResources;
 import edu.colorado.phet.movingmanii.model.MovingMan;
 import edu.colorado.phet.movingmanii.model.MovingManModel;
 import edu.colorado.phet.movingmanii.model.MovingManState;
@@ -17,6 +19,8 @@ import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 /**
  * @author Sam Reid
@@ -43,6 +47,19 @@ public class MovingManSimulationPanel extends PhetPCanvas {
         });
         updateViewRange();
 
+        BufferedImage wallImage = null;
+        try {
+            wallImage = BufferedImageUtils.multiScaleToHeight(MovingManIIResources.loadBufferedImage("wall.jpg"), 100);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            addScreenChild(new PlayAreaObjectNode(BufferedImageUtils.multiScaleToHeight(MovingManIIResources.loadBufferedImage("tree.gif"), 100), model.getRange(), viewRange, -8, 0));
+            addScreenChild(new PlayAreaObjectNode(BufferedImageUtils.multiScaleToHeight(MovingManIIResources.loadBufferedImage("cottage.gif"), 100), model.getRange(), viewRange, +8, 0));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         final MovingManNode manNode = new MovingManNode(model.getMovingMan(), model, viewRange);
         manNode.addInputEventListener(new PBasicInputEventHandler() {
             public void mousePressed(PInputEvent event) {
@@ -51,8 +68,8 @@ public class MovingManSimulationPanel extends PhetPCanvas {
         });
         addScreenChild(manNode);
 
-        addScreenChild(new WallNode(model.getRange(), viewRange, -10, model.getWalls(), -manNode.getImageStanding().getWidth() / 2 - WallNode.wallImage.getWidth()));
-        addScreenChild(new WallNode(model.getRange(), viewRange, +10, model.getWalls(), +manNode.getImageStanding().getWidth() / 2 + WallNode.wallImage.getWidth()));
+        addScreenChild(new WallNode(wallImage, model.getRange(), viewRange, -10, model.getWalls(), -manNode.getImageStanding().getWidth() / 2 - wallImage.getWidth()));
+        addScreenChild(new WallNode(wallImage, model.getRange(), viewRange, +10, model.getWalls(), +manNode.getImageStanding().getWidth() / 2 + wallImage.getWidth()));
 
         int arrowTailWidth = 7;
         //Add Velocity vector to play area
@@ -97,6 +114,8 @@ public class MovingManSimulationPanel extends PhetPCanvas {
         setInteractingRenderQuality(PPaintContext.LOW_QUALITY_RENDERING);
         setDefaultRenderQuality(PPaintContext.LOW_QUALITY_RENDERING);
         setAnimatingRenderQuality(PPaintContext.LOW_QUALITY_RENDERING);
+
+
     }
 
     private void updateViewRange() {
