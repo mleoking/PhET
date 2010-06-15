@@ -164,6 +164,8 @@
 	<classpathentry kind="src" path="simulations-java/simulations/motion-2d/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/moving-man/src"/>
 	<classpathentry kind="src" path="simulations-java/simulations/moving-man/data"/>
+	<classpathentry kind="src" path="simulations-java/simulations/moving-man-ii/src"/>
+	<classpathentry kind="src" path="simulations-java/simulations/moving-man-ii/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/mri/src"/>
 	<classpathentry kind="src" path="simulations-java/simulations/mri/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/mvc-example/src"/>
