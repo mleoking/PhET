@@ -104,8 +104,8 @@ public class MovingManModel {
             accelerationModelSeries.setData(estimateCenteredDerivatives(velocityModelSeries));
 
             positionGraphSeries.addPoint(averagePosition, time);
-            velocityGraphSeries.addPoint(velocityModelSeries.getMidPoint());
-            accelerationGraphSeries.addPoint(accelerationModelSeries.getMidPoint());
+            velocityGraphSeries.addPoint(getPointAtTime(velocityModelSeries, time));
+            accelerationGraphSeries.addPoint(getPointAtTime(accelerationModelSeries, time));
 
             //no integrals
 
@@ -187,6 +187,18 @@ public class MovingManModel {
         }
     }
 
+    //To get the serieses to match up, look up the value at the specified time in the derivative model
+    //Note, if interpolation is added for derivatives, a better lookup algorithm will be needed
+
+    private TimeData getPointAtTime(MovingManDataSeries series, double time) {
+        for (int i = 0; i < series.getNumPoints(); i++) {
+            if (series.getDataPoint(i).getTime() == time) {
+                return series.getDataPoint(i);
+            }
+        }
+        throw new RuntimeException("Couldn't find exact match");
+    }
+
     private TimeData[] estimateCenteredDerivatives(MovingManDataSeries series) {
         int radius = DERIVATIVE_RADIUS;
         ArrayList<TimeData> points = new ArrayList<TimeData>();
@@ -233,17 +245,18 @@ public class MovingManModel {
     }
 
     /**
-     * TODO: we'll probably return the state from a few time steps ago so that the readouts match the charts, because
-     * TODO: the derivatives cannot be reliably estimated at t=t0 until t=t0+ndt has been computed.
+     * Construct a recorded state from the values shown on the charts, which should be consistent.
+     * Note that this does not record the current time (because we don't yet have good estimates for the derivatives).
      *
      * @return
      */
     public MovingManState getRecordingState() {
-        return new MovingManState(time, movingMan.getState(), walls.getValue());
+        return new MovingManState(positionGraphSeries.getLastPoint().getTime(), new ManState(positionGraphSeries.getLastPoint().getValue(),
+                velocityGraphSeries.getLastPoint().getValue(), accelerationGraphSeries.getLastPoint().getValue(), movingMan.getMotionStrategy()), walls.getValue());
     }
 
     public void setPlaybackState(MovingManState state) {
-        this.time = state.getTime();
+        this.time = state.getTime();//recording and playing back the state time ensures that the user cannot put the cursor in a time between two samples, thus we don't need to interpolate
         this.walls.setValue(state.getWalls());
         this.movingMan.setState(state.getMovingManState());
         setMousePosition(state.getMovingManState().getPosition());
