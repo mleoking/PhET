@@ -13,6 +13,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
+import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartCursorNode;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
@@ -329,4 +330,8 @@ public class MembranePotentialChart extends PNode {
         frame.setContentPane(phetPCanvas);
         frame.setVisible(true);
 	}
+
+    public JFreeChartNode getJFreeChartNode() {
+        return jFreeChartNode;
+    }
 }
