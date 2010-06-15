@@ -2,18 +2,19 @@
 
 package edu.colorado.phet.greenhouse.view;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.greenhouse.GreenhouseDefaults;
-import edu.colorado.phet.greenhouse.GreenhouseResources;
 import edu.colorado.phet.neuron.module.NeuronDefaults;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
  * Canvas on which the neuron simulation is depicted.
@@ -26,7 +27,7 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
     // Class Data
     //----------------------------------------------------------------------------
 	
-	private static final double FLASHLIGHT_WIDTH = 200;
+	private static final double FLASHLIGHT_WIDTH = 300;
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -66,9 +67,15 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
         myWorldNode = new PNode();
         addWorldChild(myWorldNode);
         
+        // Add the chamber.
+        // TODO: Shape and location of chamber will eventually be determined by the model.
+        PhetPPath chamberNode = new PhetPPath(new Rectangle2D.Double(-350, -350, 700, 700), new BasicStroke(6), Color.LIGHT_GRAY);
+        chamberNode.setOffset(500, 400);
+        myWorldNode.addChild(chamberNode);
+        
         // Add the flashlight.
         PNode flashlightNode = new FlashlightNode(FLASHLIGHT_WIDTH, mvt);
-        flashlightNode.setOffset(200, 300);
+        flashlightNode.setOffset(200, 380); // TODO: Position will be determined by model eventually.
         myWorldNode.addChild(flashlightNode);
         
         // Update the layout.
