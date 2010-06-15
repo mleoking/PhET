@@ -6,6 +6,8 @@ package edu.colorado.phet.greenhouse.view;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GradientPaint;
+import java.awt.geom.Dimension2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.BorderFactory;
@@ -16,10 +18,14 @@ import javax.swing.JRadioButton;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.greenhouse.GreenhouseResources;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -58,6 +64,33 @@ public class FlashlightNode extends PNode {
 		flashlightImage.scale(flashlightWidth / flashlightImage.getFullBoundsReference().width);
 		flashlightImage.setOffset(-flashlightWidth, -flashlightImage.getFullBoundsReference().height / 2);
 		
+		// Create the button that the user presses to fire a photon.  This
+		// is comprised of two images, one over the other, and the one becomes
+		// invisible when pressed.
+		double buttonDiameter = flashlightImage.getFullBoundsReference().height * 0.3; // Note: Adjust multiplier as needed.
+		final PImage unpressedButtonImage = new PImage(GreenhouseResources.getImage("button_unpressed.png"));
+		unpressedButtonImage.scale(buttonDiameter / unpressedButtonImage.getFullBoundsReference().width);
+		Point2D buttonOffset = new Point2D.Double(
+				flashlightImage.getFullBoundsReference().getCenterX() - buttonDiameter / 2, 
+				flashlightImage.getFullBoundsReference().getCenterY() + flashlightImage.getFullBoundsReference().getHeight() * 0.05 - buttonDiameter / 2);
+		unpressedButtonImage.setOffset(buttonOffset);
+        unpressedButtonImage.addInputEventListener(new CursorHandler());
+        unpressedButtonImage.addInputEventListener(new PBasicInputEventHandler(){
+        	@Override
+            public void mousePressed( PInputEvent event ) {
+                unpressedButtonImage.setVisible(false);
+            }
+        	
+        	@Override
+            public void mouseReleased( PInputEvent event ) {
+                unpressedButtonImage.setVisible(true);
+            }
+        });
+		PImage pressedButtonImage = new PImage(GreenhouseResources.getImage("button_pressed.png"));
+		pressedButtonImage.scale(buttonDiameter / pressedButtonImage.getFullBoundsReference().width);
+		pressedButtonImage.setOffset(buttonOffset);
+        pressedButtonImage.addInputEventListener(new CursorHandler());
+		
 		// Calculate the vertical distance between the center of the
 		// flashlight image and the control box.  This is a function of the
 		// flashlight width.  The multiplier is arbitrary and can be adjusted
@@ -95,6 +128,8 @@ public class FlashlightNode extends PNode {
 		// layering.
 		addChild(connectingRod);
 		addChild(flashlightImage);
+		addChild(pressedButtonImage);
+		addChild(unpressedButtonImage);
 		addChild(selectionPanelPSwing);
 	}
 }
