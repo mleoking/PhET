@@ -111,13 +111,11 @@ public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
     }
 
     public void resetAll() {
-        record = true;
-        paused = true;
-        playbackSpeed = 1.0;
-        recordHistory.clear();
-        time = 0;
-
-        notifyObservers();
+        setPlaybackSpeed(1.0);
+        clearHistory();
+        setTime(0.0);
+        setRecord(true);
+        setPaused(true);
     }
 
     public void addRecordedPoint(DataPoint<T> point) {
@@ -263,6 +261,10 @@ public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
     public double getMinRecordedTime() {
         if (recordHistory.size() == 0) return 0.0;
         else return recordHistory.get(0).getTime();
+    }
+
+    public double getPlaybackSpeed() {
+        return playbackSpeed;
     }
 
     public static interface HistoryClearListener {
