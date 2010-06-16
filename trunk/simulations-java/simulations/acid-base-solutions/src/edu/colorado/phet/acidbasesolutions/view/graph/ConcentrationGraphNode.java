@@ -3,7 +3,7 @@
 package edu.colorado.phet.acidbasesolutions.view.graph;
 
 import edu.colorado.phet.acidbasesolutions.model.*;
-import edu.colorado.phet.acidbasesolutions.model.ABSModel.ModelChangeListener;
+import edu.colorado.phet.acidbasesolutions.model.ABSModel.ModelChangeAdapter;
 import edu.colorado.phet.acidbasesolutions.model.ABSModelElement.ModelElementChangeAdapter;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.AqueousSolutionChangeListener;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
@@ -26,14 +26,10 @@ public class ConcentrationGraphNode extends AbstractConcentrationGraphNode {
         setPickable( false );
         
         // model changes
-        model.addModelChangeListener( new ModelChangeListener() {
-
+        model.addModelChangeListener( new ModelChangeAdapter() {
+            @Override
             public void solutionChanged() {
                 setSolution( model.getSolution() );
-            }
-
-            public void waterVisibleChanged() {
-                setWaterVisible( model.isWaterVisible() );
             }
         });
         
@@ -63,7 +59,6 @@ public class ConcentrationGraphNode extends AbstractConcentrationGraphNode {
         double y = model.getConcentrationGraph().getLocationReference().getY() - ( getFullBoundsReference().getHeight() / 2 ) - PNodeLayoutUtils.getOriginYOffset( this );
         setOffset( x, y );
         setVisible( model.getConcentrationGraph().isVisible() );
-        setWaterVisible( model.isWaterVisible() );
         update();
     }
     
