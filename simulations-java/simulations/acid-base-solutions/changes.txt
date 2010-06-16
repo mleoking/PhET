@@ -1,3 +1,7 @@
+6/15/10 increase height of concentration graph to fill the beaker
+6/15/10 make order of bars in concentration graph match to order of reaction equations
+6/15/10 change range of concentration graph's y axis to 1e-8 to 1e2
+6/15/10 hide molecule symbols & icons below bars in concentration graph
 6/15/10 disconnect concentration graph from "Show Water" control, always show H2O bar in graph
 6/15/10 change order of reaction equations
 6/15/10 use strength=1e-7 for weak acid and weak base in "Test Solution" tab

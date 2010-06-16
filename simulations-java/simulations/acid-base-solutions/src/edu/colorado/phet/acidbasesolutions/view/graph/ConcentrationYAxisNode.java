@@ -24,7 +24,7 @@ class ConcentrationYAxisNode extends PComposite {
     
     private static final Font AXIS_LABEL_FONT = new PhetFont( 16 );
     private static final Color AXIS_LABEL_COLOR = Color.BLACK;
-    private static final double AXIS_LABEL_X_MARGIN = 4;
+    private static final double AXIS_LABEL_X_SPACING = 20;
     
     private final double tickSpacing;
     
@@ -80,7 +80,7 @@ class ConcentrationYAxisNode extends PComposite {
         addChild( labelNode );
         
         // center the label on the axis
-        double xOffset = axisNode.getFullBoundsReference().getX() - labelNode.getFullBoundsReference().getWidth() - AXIS_LABEL_X_MARGIN;
+        double xOffset = axisNode.getFullBoundsReference().getX() - labelNode.getFullBoundsReference().getWidth() - AXIS_LABEL_X_SPACING;
         double yOffset = axisNode.getFullBoundsReference().getCenterY() + ( labelNode.getFullBoundsReference().getHeight() / 2 );
         labelNode.setOffset( xOffset, yOffset );
     }

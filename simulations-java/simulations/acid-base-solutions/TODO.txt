@@ -6,9 +6,6 @@ MILESTONES
 - 8/1/10, sim showable for BCCE
 
 HIGH PRIORITY
-- remove molecule symbols & icons below bars in concentration graph
-- make order of bars in concentration graph match to order of reaction equations
-- changes to bar graph? (4 bars, order of bars)
 - fix drag behavior for pH meter, constrain, errors in coordinate frame transforms
 - don't show other tools in magnifying glass
 - control panel layout issues
