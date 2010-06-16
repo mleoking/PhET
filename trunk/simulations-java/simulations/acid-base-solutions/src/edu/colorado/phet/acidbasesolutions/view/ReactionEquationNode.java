@@ -77,9 +77,9 @@ public class ReactionEquationNode extends PComposite {
         SymbolNode symbolLHS1, symbolLHS2, symbolRHS1, symbolRHS2;
         if ( isPureWater ) {
             imageLHS1 = new PImage( ABSImages.H2O_MOLECULE );
-            symbolLHS1 = new SymbolNode( ABSSymbols.H2O );
-            imageLHS2 = new PImage( ABSImages.H2O_MOLECULE );
-            symbolLHS2 = new SymbolNode( ABSSymbols.H2O );
+            symbolLHS1 = new SymbolNode( "2" + ABSSymbols.H2O );
+            imageLHS2 = null;
+            symbolLHS2 = null;
             imageRHS1 = new PImage( ABSImages.H3O_PLUS_MOLECULE );
             symbolRHS1 = new SymbolNode( ABSSymbols.H3O_PLUS );
             imageRHS2 = new PImage( ABSImages.OH_MINUS_MOLECULE );
@@ -91,10 +91,10 @@ public class ReactionEquationNode extends PComposite {
             if ( isAcid ) {
                 imageLHS2 = new PImage( ABSImages.H2O_MOLECULE );
                 symbolLHS2 = new SymbolNode( ABSSymbols.H2O );
-                imageRHS1 = new PImage( ABSImages.H3O_PLUS_MOLECULE );
-                symbolRHS1 = new SymbolNode( ABSSymbols.H3O_PLUS );
-                imageRHS2 = new PImage( solution.getProduct().getIcon() );
-                symbolRHS2 = new SymbolNode( solution.getProduct().getSymbol() );
+                imageRHS1 = new PImage( solution.getProduct().getIcon() );
+                symbolRHS1 = new SymbolNode( solution.getProduct().getSymbol() );
+                imageRHS2 = new PImage( ABSImages.H3O_PLUS_MOLECULE );
+                symbolRHS2 = new SymbolNode( ABSSymbols.H3O_PLUS );
             }
             else {
                 imageLHS2 = isStrong ? null : new PImage( ABSImages.H2O_MOLECULE );
