@@ -3,17 +3,20 @@
 package edu.colorado.phet.neuron.view;
 
 import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Stroke;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
-import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartCursorNode;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
@@ -35,6 +38,7 @@ import edu.colorado.phet.neuron.NeuronStrings;
 import edu.colorado.phet.neuron.model.AxonModel;
 import edu.colorado.phet.neuron.module.NeuronDefaults;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -130,6 +134,13 @@ public class MembranePotentialChart extends PNode {
 
         // Add the chart to this node.
         addChild( jFreeChartNode );
+        
+        // Add the chart cursor, which will allow the user to move back and
+        // forth through time.
+        ChartCursor chartCursor = new ChartCursor(jFreeChartNode);
+        Point2D topLeftOfPlotArea = jFreeChartNode.plotToNode( new Point2D.Double( 0, jFreeChartNode.getChart().getXYPlot().getRangeAxis().getRange().getUpperBound() ) );
+        chartCursor.setOffset(topLeftOfPlotArea);
+        addChild(chartCursor);
         
 		// Add the button that will allow the user to close the chart.
 		ImageIcon imageIcon = new ImageIcon( 
@@ -333,5 +344,34 @@ public class MembranePotentialChart extends PNode {
 
     public JFreeChartNode getJFreeChartNode() {
         return jFreeChartNode;
+    }
+    
+	//----------------------------------------------------------------------------
+	// Inner Classes and Interfaces
+	//----------------------------------------------------------------------------
+    
+    private static class ChartCursor extends PPath {
+
+    	private static final double WIDTH_PROPORTION = 0.01;
+    	private static final Color FILL_COLOR = new Color( 50, 50, 200, 80 );
+    	private static final Color STROKE_COLOR = Color.DARK_GRAY;
+    	private static final Stroke STROKE = new BasicStroke( 1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1.0f, new float[]{10.0f, 5.0f}, 0 );
+    	
+		public ChartCursor(JFreeChartNode jFreeChartNode) {
+			
+			// Set up the general appearance.
+			setStroke(STROKE);
+			setStrokePaint(STROKE_COLOR);
+			setPaint(FILL_COLOR);
+			
+	        Point2D topOfPlotArea = jFreeChartNode.plotToNode( new Point2D.Double( 0, jFreeChartNode.getChart().getXYPlot().getRangeAxis().getRange().getUpperBound() ) );
+	        Point2D bottomOfPlotArea = jFreeChartNode.plotToNode( new Point2D.Double( 0, jFreeChartNode.getChart().getXYPlot().getRangeAxis().getRange().getLowerBound() ) );
+	        
+			// Set the shape.  The shape is created so that it is centered
+			// around an offset of 0 in the x direction and the top edge is
+			// at 0 in the y direction.
+			double width = jFreeChartNode.getFullBoundsReference().width * WIDTH_PROPORTION;
+			setPathTo(new Rectangle2D.Double(-width / 2, 0, width, bottomOfPlotArea.getY() - topOfPlotArea.getY()));
+		}
     }
 }

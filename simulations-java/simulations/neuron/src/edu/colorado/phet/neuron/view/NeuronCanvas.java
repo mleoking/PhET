@@ -254,15 +254,6 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
             }
         });
 
-        model.getClock().addClockListener(new ClockAdapter(){
-            @Override
-            public void simulationTimeChanged(ClockEvent clockEvent) {
-                super.simulationTimeChanged(clockEvent);
-                System.out.println("clockEvent.getSimulationTime() = " + clockEvent.getSimulationTime());
-                chartCursorNode.setTime(clockEvent.getSimulationTime()*1000.0);
-            }
-        });
-
         AxonModel.Adapter updateCursorNodeVisibility = new AxonModel.Adapter() {
             @Override
             public void potentialChartVisibilityChanged() {
