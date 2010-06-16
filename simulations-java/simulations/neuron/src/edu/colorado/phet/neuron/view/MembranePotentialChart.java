@@ -27,7 +27,9 @@ import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
+import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartCursorNode;
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
@@ -38,6 +40,8 @@ import edu.colorado.phet.neuron.NeuronStrings;
 import edu.colorado.phet.neuron.model.AxonModel;
 import edu.colorado.phet.neuron.module.NeuronDefaults;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -148,6 +152,41 @@ public class MembranePotentialChart extends PNode {
         chartCursor = new ChartCursor(jFreeChartNode);
         addChild(chartCursor);
         
+		// Add a handler to the chart cursor that will track when it is moved
+        // by the user and will set the model time accordingly.
+        
+        addInputEventListener( new PBasicInputEventHandler() {
+        	
+            Point2D pressPoint;
+            double pressTime;
+
+            public void mousePressed( PInputEvent event ) {
+                pressPoint = event.getPositionRelativeTo( MembranePotentialChart.this );
+                pressTime = jFreeChartNode.nodeToPlot(chartCursor.getOffset()).getX();
+            }
+
+            public Point2D localToPlotDifferential( double dx, double dy ) {
+                Point2D pt1 = new Point2D.Double( 0, 0 );
+                Point2D pt2 = new Point2D.Double( dx, dy );
+                localToGlobal( pt1 );
+                localToGlobal( pt2 );
+                jFreeChartNode.globalToLocal( pt1 );
+                jFreeChartNode.globalToLocal( pt2 );
+                pt1 = jFreeChartNode.nodeToPlot( pt1 );
+                pt2 = jFreeChartNode.nodeToPlot( pt2 );
+                return new Point2D.Double( pt2.getX() - pt1.getX(), pt2.getY() - pt1.getY() );
+            }
+
+            public void mouseDragged( PInputEvent event ) {
+                Point2D d = event.getPositionRelativeTo( MembranePotentialChart.this );
+                Point2D dx = new Point2D.Double( d.getX() - pressPoint.getX(), d.getY() - pressPoint.getY() );
+                Point2D diff = localToPlotDifferential( dx.getX(), dx.getY() );
+                double time = pressTime + diff.getX();
+                time = MathUtil.clamp(0, time, getLastTimeValue());
+                moveChartCursorToTime(time);
+            }
+        } );
+        
 		// Add the button that will allow the user to close the chart.
 		ImageIcon imageIcon = new ImageIcon( 
 				PhetCommonResources.getInstance().getImage(PhetCommonResources.IMAGE_CLOSE_BUTTON) );
@@ -189,7 +228,7 @@ public class MembranePotentialChart extends PNode {
         
         // Final initialization steps.
         updateChartCursorVisibility();
-        updateChartCursorPosition();
+        moveCursorToEndOfData();
     }
     
     //----------------------------------------------------------------------------
@@ -216,8 +255,21 @@ public class MembranePotentialChart extends PNode {
     	assert (time - timeIndexOfFirstDataPt >= 0);
     	if (time - timeIndexOfFirstDataPt <= TIME_SPAN){
     		dataSeries.add(time - timeIndexOfFirstDataPt, voltage * 1000, update);
-    		updateChartCursorPosition();
+    		moveCursorToEndOfData();
     	}
+    }
+    
+    /**
+     * Get the last time value in the data series.  This is assumed to be the
+     * highest time value, since data points are expected to be added in order
+     * of increasing time.  If no data is present, 0 is returned.
+     */
+    private double getLastTimeValue(){
+    	double timeOfLastDataPoint = 0;
+    	if (dataSeries.getItemCount() > 0){
+    		timeOfLastDataPoint = dataSeries.getX(dataSeries.getItemCount() - 1).doubleValue(); 
+    	}
+    	return timeOfLastDataPoint;
     }
     
     /**
@@ -324,12 +376,11 @@ public class MembranePotentialChart extends PNode {
     /**
      * Position the chart cursor at the end of the collected data.
      */
-    private void updateChartCursorPosition(){
-    	double time = 0;
-    	if (dataSeries.getItemCount() > 0){
-    		time = dataSeries.getX(dataSeries.getItemCount() - 1).doubleValue(); 
-    	}
-    	
+    private void moveCursorToEndOfData(){
+    	moveChartCursorToTime(getLastTimeValue());
+    }
+    
+    private void moveChartCursorToTime(double time){
         Point2D cursorPos = jFreeChartNode.plotToNode( new Point2D.Double( time, jFreeChartNode.getChart().getXYPlot().getRangeAxis().getRange().getUpperBound() ) );
         chartCursor.setOffset(cursorPos);
     }
