@@ -21,9 +21,6 @@ import java.util.ArrayList;
 
 import javax.swing.event.EventListenerList;
 
-import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartCursorNode;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -247,22 +244,22 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
         membranePotentialChart = new MembranePotentialChart(POTENTIAL_CHART_SIZE, 
         		NeuronStrings.MEMBRANE_POTENTIAL_CHART_TITLE, model);
 
-        final JFreeChartCursorNode chartCursorNode = new JFreeChartCursorNode(membranePotentialChart.getJFreeChartNode());
-        chartCursorNode.addListener(new JFreeChartCursorNode.Listener() {
-            public void cursorTimeChanged() {
-                System.out.println("Time: "+chartCursorNode.getTime());
-            }
-        });
-
-        AxonModel.Adapter updateCursorNodeVisibility = new AxonModel.Adapter() {
-            @Override
-            public void potentialChartVisibilityChanged() {
-                chartCursorNode.setVisible(model.isPotentialChartVisible());
-            }
-        };
-        updateCursorNodeVisibility.potentialChartVisibilityChanged();
-        model.addListener(updateCursorNodeVisibility);
-        addScreenChild(chartCursorNode);
+//        final JFreeChartCursorNode chartCursorNode = new JFreeChartCursorNode(membranePotentialChart.getJFreeChartNode());
+//        chartCursorNode.addListener(new JFreeChartCursorNode.Listener() {
+//            public void cursorTimeChanged() {
+//                System.out.println("Time: "+chartCursorNode.getTime());
+//            }
+//        });
+//
+//        AxonModel.Adapter updateCursorNodeVisibility = new AxonModel.Adapter() {
+//            @Override
+//            public void potentialChartVisibilityChanged() {
+//                chartCursorNode.setVisible(model.isPotentialChartVisible());
+//            }
+//        };
+//        updateCursorNodeVisibility.potentialChartVisibilityChanged();
+//        model.addListener(updateCursorNodeVisibility);
+//        addScreenChild(chartCursorNode);
 
         membranePotentialChart.setVisible(false);
         chartLayer.addChild(membranePotentialChart);
