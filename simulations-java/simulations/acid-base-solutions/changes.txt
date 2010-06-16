@@ -1,3 +1,4 @@
+6/15/10 remove "K" from strength control, model, and strings file
 # 0.00.11 (41670) Jun 14, 2010
 6/14/10 first version presented to design team
 6/14/10 connect "show water" control to concentration bar graph

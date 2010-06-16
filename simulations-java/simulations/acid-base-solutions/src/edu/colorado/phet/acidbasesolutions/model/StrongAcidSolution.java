@@ -2,11 +2,7 @@
 
 package edu.colorado.phet.acidbasesolutions.model;
 
-import java.text.MessageFormat;
-
 import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
-import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
-import edu.colorado.phet.acidbasesolutions.constants.ABSSymbols;
 import edu.colorado.phet.acidbasesolutions.model.Molecule.GenericAcidMolecule;
 import edu.colorado.phet.acidbasesolutions.model.Molecule.GenericAcidProductMolecule;
 
@@ -21,10 +17,6 @@ public abstract class StrongAcidSolution extends AqueousSolution {
         super( solute, product, strength, initialConcentration );
     }
     
-    public String getStrengthLabel() {
-        return MessageFormat.format( ABSStrings.PATTERN_STRENGTH_STRONG, ABSSymbols.Ka );
-    }
-
     // [HA] = 0
     public double getSoluteConcentration() {
         return 0;

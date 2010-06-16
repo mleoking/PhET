@@ -17,8 +17,6 @@ public class ABSStrings {
     
     public static final String PATTERN_VALUE_UNITS = getString( "pattern.0value.1units" );
     public static final String PATTERN_LABEL_VALUE = getString( "pattern.0label.1value" );
-    public static final String PATTERN_STRENGTH_STRONG = getString( "pattern.strengthStrong.0KSymbol" ); 
-    public static final String PATTERN_STRENGTH_WEAK = getString( "pattern.strengthWeak.0KSymbol" ); 
     
     public static final String PH = getString( "pH" ); 
     public static final String SHOW_WATER = getString( "showWater" ); 
@@ -29,6 +27,7 @@ public class ABSStrings {
     public static final String PH_METER = getString( "pHMeter" ); 
     public static final String VIEW_PARTICLES = getString( "viewParticles" ); 
     public static final String CONCENTRATION = getString( "concentration" ); 
+    public static final String STRENGTH = getString( "strength" ); 
     public static final String WEAK = getString( "weak" ); 
     public static final String STRONG = getString( "strong" ); 
     public static final String WEAKER = getString( "weaker" ); 

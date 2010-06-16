@@ -28,7 +28,6 @@ import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.AbstractVa
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.ILayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LogarithmicValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
-import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 
 /**
  * Control used to set the properties of a custom solution.
@@ -93,7 +92,6 @@ public class CustomSolutionControl extends JPanel {
         AqueousSolution solution = model.getSolution();
         typePanel.setAcidSelected( ( solution instanceof StrongAcidSolution ) || ( solution instanceof WeakAcidSolution ) );
         concentrationPanel.setConcentration( model.getSolution().getConcentration() );
-        strengthPanel.setLabelText( model.getSolution().getStrengthLabel() );
         strengthPanel.setWeakSelected( ( solution instanceof WeakAcidSolution ) || ( solution instanceof WeakBaseSolution ) );
         strengthPanel.setStrength( model.getSolution().getStrength() );
     }
@@ -290,7 +288,6 @@ public class CustomSolutionControl extends JPanel {
      */
     private static class StrengthPanel extends ChangeablePanel {
         
-        private final JLabel strengthLabel;
         private final JRadioButton weakRadioButton, strongRadioButton;
         private final LogarithmicValueControl weakStrengthControl;
         
@@ -298,7 +295,7 @@ public class CustomSolutionControl extends JPanel {
             super( changeListener );
             
             // dynamic strength label
-            strengthLabel = new JLabel();
+            JLabel strengthLabel = new JLabel( ABSStrings.STRENGTH );
             
             // radio buttons
             ButtonGroup group = new ButtonGroup();
@@ -344,10 +341,6 @@ public class CustomSolutionControl extends JPanel {
             layout.addComponent( Box.createVerticalStrut( weakStrengthControl.getPreferredSize().height ), row++, column ); 
             column = 0;
             layout.addComponent( Box.createHorizontalStrut( weakStrengthControl.getPreferredSize().width ), row, column, 2, 1 ); 
-        }
-        
-        public void setLabelText( String text ) {
-            strengthLabel.setText( HTMLUtils.toHTMLString( text ) );
         }
         
         public void setWeakSelected( boolean selected ) {
