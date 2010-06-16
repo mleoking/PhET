@@ -1,86 +1,86 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--common-strings_zh_TW.xml created Sun Jun 28 20:42:17 CST 2009 using: flash-common-strings 2.00.00 (30671), translation-utility 2.01.00 (31673) 五月 15, 2009-->
+<!--common-strings_zh_TW.xml created Wed May 12 23:47:17 CST 2010 using: flash-common-strings 2.02.00 (38663), translation-utility 2.08.00 (39581) 四月 2, 2010-->
 <SimStrings>
 <string key="About..." value="關於…"/>
-<string key="SoftwareDevelopment" value="軟體發展"/>
+<string key="SoftwareDevelopment" value="軟體開發"/>
 <string key="Cancel" value="取消"/>
-<string key="StatisticsField-host_flash_accessibility" value="使用可存取的裝置？"/>
+<string key="StatisticsField-host_flash_accessibility" value="使用可存取的裝置？："/>
 <string key="Privacy" value="隱私權"/>
 <string key="Version" value="版本"/>
-<string key="NewVersionAvailable" value="新版可供使用"/>
+<string key="NewVersionAvailable" value="新版可供取用"/>
 <string key="SoftwareAgreement" value="軟體合約"/>
-<string key="PhETInstallation" value="下載新的安裝程式，內含最新的模擬程式，請瀏覽&lt;a href='{0}'&gt;PhET離線網站安裝程式頁面&lt;/a&gt;。"/>
-<string key="StatisticsField-sim_version_timestamp" value="模擬程式版本(時間戳)"/>
-<string key="StatisticsField-sim_dev_version" value="模擬程式版本 (開發版)"/>
+<string key="PhETInstallation" value="下載最新的模擬程式安裝檔，請瀏覽&lt;a href='{0}'&gt;PhET離線網站安裝檔頁面&lt;/a&gt;。"/>
+<string key="StatisticsField-sim_version_timestamp" value="模擬程式版本(時間戳)："/>
+<string key="StatisticsField-sim_dev_version" value="模擬程式版本 (開發版)："/>
 <string key="AskLater" value="稍後詢問我"/>
 <string key="AcceptContinue" value="同意並繼續"/>
 <string key="BuildDate" value="編譯日期"/>
-<string key="TellMore" value="告訴我更多..."/>
+<string key="TellMore" value="告訴我更多…"/>
 <string key="FlashVersion" value="Flash 版本"/>
 <string key="PhetSoftwareAgreement" value="PhET軟體合約"/>
-<string key="NoUpdatesAvailable" value="沒有更新可使用"/>
-<string key="StatisticsField-message_type" value="訊息類型"/>
-<string key="InstallationDated" value="你的PhET離線網站安裝程式是舊版的{0}。"/>
+<string key="NoUpdatesAvailable" value="沒有更新可供取用"/>
+<string key="StatisticsField-message_type" value="訊息類型："/>
+<string key="InstallationDated" value="你的PhET離線網站安裝檔是舊版的{0}。"/>
 <string key="CheckUpdates" value="自動檢查是否可更新"/>
 <string key="UpToDate" value="最新的"/>
-<string key="StatisticsField-sim_major_version" value="模擬程式版本 (主版次)"/>
-<string key="StatisticsField-user_total_sessions" value="所有模擬程式總執行次數"/>
-<string key="InstallationNewer" value="舊版本{0}，有提供新版可使用。"/>
-<string key="StatisticsField-sim_sessions_since" value="自上回連線以來，此模擬程式已執行次數"/>
-<string key="StatisticsField-sim_distribution_tag" value="模擬程式版本 (散佈版)"/>
+<string key="StatisticsField-sim_major_version" value="模擬程式版本 (主版次)："/>
+<string key="StatisticsField-user_total_sessions" value="所有模擬程式總執行次數："/>
+<string key="InstallationNewer" value="舊版本{0}，有新版可供取用。"/>
+<string key="StatisticsField-sim_sessions_since" value="自上回連線以來，此模擬程式已執行次數："/>
+<string key="StatisticsField-sim_distribution_tag" value="模擬程式版本 (散佈版)："/>
 <string key="Yes!" value="是！"/>
-<string key="StatisticsField-host_flash_domain" value="模擬領域"/>
+<string key="StatisticsField-host_flash_domain" value="模擬領域："/>
 <string key="DesignTeam" value="設計團隊"/>
 <string key="PhETPreferences" value="PhET偏好設定"/>
-<string key="Preferences" value="偏好設定..."/>
+<string key="Preferences" value="偏好設定…"/>
 <string key="AllowMessages" value="允許送出訊息至PhET"/>
 <string key="Updates" value="更新"/>
-<string key="StatisticsField-sim_revision" value="模擬程式版本（修正版）"/>
-<string key="StatisticsField-user_preference_file_creation_time" value="偏好設定檔建立時間"/>
+<string key="StatisticsField-sim_revision" value="模擬程式版本（修正版）："/>
+<string key="StatisticsField-user_preference_file_creation_time" value="偏好設定檔建立時間："/>
 <string key="Interviews" value="訪談"/>
-<string key="StatisticsField-host_flash_time_offset" value="時區"/>
-<string key="MostCurrentVersion" value="({0}) 你有目前最新的版本 {1}。"/>
-<string key="StatisticsField-sim_deployment" value="部署類型"/>
-<string key="PrivacyRequirement" value="在贊助經費補助下，&lt;a href='{0}'&gt;PhET&lt;/a&gt; 可以自由的取得。贊助經費要求我們收集最少量的匿名訊息，用以記錄PhET 模擬程式的使用量及提供使用者更新所需的較好服務。"/>
-<string key="StatisticsField-sim_type" value="模擬類型"/>
+<string key="StatisticsField-host_flash_time_offset" value="時區："/>
+<string key="MostCurrentVersion" value="你有目前最新的版本 ({0}) of {1}。"/>
+<string key="StatisticsField-sim_deployment" value="部署類型："/>
+<string key="PrivacyRequirement" value="在贊助經費補助下，&lt;a href='{0}'&gt;PhET&lt;/a&gt; 可以自由的取得。贊助經費要求我們收集最少量的匿名訊息，用以記錄PhET模擬程式的使用量及提供使用者更新所需的較好服務。"/>
+<string key="StatisticsField-sim_type" value="模擬類型："/>
 <string key="Close" value="關閉"/>
-<string key="StatisticsField-sim_dev" value="這是開發者版本嗎？"/>
-<string key="InstallerAsk" value="想要取得最新的PhET離線網站安裝程式嗎？"/>
+<string key="StatisticsField-sim_dev" value="這是開發者版本嗎？："/>
+<string key="InstallerAsk" value="想要取得最新的PhET離線網站安裝檔嗎？"/>
 <string key="PrivacyMessage2" value="對此和每個你執行的模擬程式，當按下「同意並繼續」時，你同意包含隱私權原則在內的PhET軟體合約。（更多詳情， &lt;a href='{0}'&gt;請按此&lt;/a&gt;）。"/>
-<string key="StatisticsField-sim_total_sessions" value="此模擬程式總執行次數"/>
-<string key="PrivacyMessage1" value="在所有的PhET模擬程式，每次模擬程式啟動時，我們收集最少量匿名的&lt;a href='{0}'&gt;訊息&lt;/a&gt;（如：模擬程式版本，作業系統）。任何時候你可藉由偏好設定按鈕，取消送出此訊息。"/>
-<string key="StatisticsField-user_installation_timestamp" value="PhET安裝時間戳"/>
-<string key="StatisticsField-sim_name" value="模擬程式名稱"/>
-<string key="UpdateOptionsAvailable" value="在&lt;i&gt;偏好設定&lt;/i&gt;下可設定更新選項。"/>
+<string key="StatisticsField-sim_total_sessions" value="此模擬程式總執行次數："/>
+<string key="PrivacyMessage1" value="在所有的PhET模擬程式，每次模擬程式啟動時，我們收集最少量的匿名&lt;a href='{0}'&gt;訊息&lt;/a&gt;（如：模擬程式版本，作業系統）。任何時候，你可藉由偏好設定按鈕，取消送出此訊息。"/>
+<string key="StatisticsField-user_installation_timestamp" value="PhET安裝檔時間戳："/>
+<string key="StatisticsField-sim_name" value="模擬程式名稱："/>
+<string key="UpdateOptionsAvailable" value="在&lt;i&gt;偏好設定&lt;/i&gt;項下可設定更新選項。"/>
 <string key="PhetDevelopmentTeam" value="PhET發展團隊"/>
-<string key="InstallerInfo2" value="如果你選擇要取得最新版本，瀏覽器將打開PhET網站，在此你可以下載PhET離線網站安裝程式。"/>
-<string key="InstallerInfo1" value="確認你已使用最新的PhET模擬程式與補充包，以保持PhET離線網站安裝程式是最新的。"/>
-<string key="StatisticsField-sim_minor_version" value="模擬程式版本 (次版次)"/>
+<string key="InstallerInfo2" value="如果你想要取得最新版本，瀏覽器將開啟PhET網站，在此你可以下載PhET離線網站安裝檔。"/>
+<string key="InstallerInfo1" value="確認你已取得最新的PhET模擬程式與補充包，以確保PhET離線網站安裝檔是最新版的。"/>
+<string key="StatisticsField-sim_minor_version" value="模擬程式版本 (次版次)："/>
 <string key="Credits" value="成員名單"/>
-<string key="StatisticsField-host_flash_version" value="Flash播放器版本"/>
+<string key="StatisticsField-host_flash_version" value="Flash播放器版本："/>
 <string key="TryNow" value="馬上試用"/>
 <string key="PrivacySkip" value="略過這版本"/>
-<string key="CheckInstallationUpdates" value="檢查PhET離線網站安裝程式更新狀態..."/>
-<string key="StatisticsField-sim_locale_language" value="語言"/>
-<string key="Distribution" value="散佈"/>
+<string key="CheckInstallationUpdates" value="檢查PhET離線網站安裝檔更新狀態..."/>
+<string key="StatisticsField-sim_locale_language" value="語言："/>
+<string key="Distribution" value="發佈"/>
 <string key="LicenseLibraries" value="使用的程式庫授權資訊："/>
 <string key="PrivacyDetails" value="隱私權詳情"/>
 <string key="NotUpdateSim" value="模擬程式無法自動更新。"/>
 <string key="CurrentVersionIs" value="{0}目前的版本是 {1}。"/>
-<string key="StatisticsField-host_flash_os" value="作業系統與名稱"/>
+<string key="StatisticsField-host_flash_os" value="作業系統與名稱："/>
 <string key="OK" value="好的"/>
 <string key="Error" value="錯誤"/>
 <string key="CheckSimUpdates" value="檢查模擬程式更新狀態…"/>
-<string key="StatisticsField-sim_project" value="專案名稱"/>
-<string key="NewerVersionIs" value="{0}有新版可供使用"/>
+<string key="StatisticsField-sim_project" value="專案名稱："/>
+<string key="NewerVersionIs" value="有新版{0}可供取用。"/>
 <string key="SentInformation" value="當模擬程式開啟時，下列訊息將被傳送至PhET。"/>
 <string key="OSVersion" value="作業系統"/>
 <string key="Details" value="詳情"/>
-<string key="StatisticsField-message_version" value="訊息版本"/>
+<string key="StatisticsField-message_version" value="訊息版本："/>
 <string key="LeadDesign" value="主要設計者"/>
-<string key="StatisticsField-host_locale_language" value="主要語言"/>
+<string key="StatisticsField-host_locale_language" value="主要語言："/>
 <string key="AboutSim" value="關於 {0}"/>
 <string key="VersionError2" value="請稍後再試，或瀏覽&lt;a href='{0}'&gt;http://phet.colorado.edu&lt;/a&gt;"/>
 <string key="VersionError1" value="嘗試取得版本訊息時遭遇錯誤。"/>
-<string key="StatisticsField-sim_locale_country" value="國家"/>
+<string key="StatisticsField-sim_locale_country" value="國家："/>
 </SimStrings>
