@@ -352,7 +352,7 @@ public class MembranePotentialChart extends PNode {
     
     private static class ChartCursor extends PPath {
 
-    	private static final double WIDTH_PROPORTION = 0.01;
+    	private static final double WIDTH_PROPORTION = 0.013;
     	private static final Color FILL_COLOR = new Color( 50, 50, 200, 80 );
     	private static final Color STROKE_COLOR = Color.DARK_GRAY;
     	private static final Stroke STROKE = new BasicStroke( 1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1.0f, new float[]{10.0f, 5.0f}, 0 );
@@ -372,6 +372,9 @@ public class MembranePotentialChart extends PNode {
 			// at 0 in the y direction.
 			double width = jFreeChartNode.getFullBoundsReference().width * WIDTH_PROPORTION;
 			setPathTo(new Rectangle2D.Double(-width / 2, 0, width, bottomOfPlotArea.getY() - topOfPlotArea.getY()));
+			
+			// Set a cursor handler for this node.
+			addInputEventListener(new CursorHandler());
 		}
     }
 }
