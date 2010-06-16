@@ -90,44 +90,42 @@ public class MembranePotentialChart extends PNode {
 	
     public MembranePotentialChart( Dimension2D size, String title, final AxonModel axonModel ) {
     	
+    	assert axonModel != null;
         this.axonModel = axonModel;
         
-        if (axonModel != null){
-        	
-        	// Register for clock ticks so that we can update.
-        	axonModel.getClock().addClockListener(new ClockAdapter(){
-        	    public void clockTicked( ClockEvent clockEvent ) {
-        	    	updateChart(clockEvent);
-        	    }
-        	    public void simulationTimeReset( ClockEvent clockEvent ) {
-        	    	recording = false;
-        	    	clearChart();
-        	    	updateChartCursorVisibility();
-        	    }
-        	    public void clockPaused( ClockEvent clockEvent ) {
-        	    	updateChartCursorVisibility();
-        	    }
-        	    public void clockStarted( ClockEvent clockEvent ) {
-        	    	updateChartCursorVisibility();
-        	    }
-        	});
-        	
-        	// Register for model events that are important to us.
-        	axonModel.addListener(new AxonModel.Adapter(){
-        		
-        		public void stimulusPulseInitiated() {
-        			if (!MembranePotentialChart.this.axonModel.isPotentialChartVisible()){
-        				// If the chart is not visible, we clear any previous
-        				// recording.
-        				clearChart();
-        			}
-        			// Start recording, if it isn't already happening.
-        			recording = true;
-        		}
-        	});
-        }
+    	// Register for clock ticks so that we can update.
+    	axonModel.getClock().addClockListener(new ClockAdapter(){
+    	    public void clockTicked( ClockEvent clockEvent ) {
+    	    	updateChart(clockEvent);
+    	    }
+    	    public void simulationTimeReset( ClockEvent clockEvent ) {
+    	    	recording = false;
+    	    	clearChart();
+    	    	updateChartCursorVisibility();
+    	    }
+    	    public void clockPaused( ClockEvent clockEvent ) {
+    	    	updateChartCursorVisibility();
+    	    }
+    	    public void clockStarted( ClockEvent clockEvent ) {
+    	    	updateChartCursorVisibility();
+    	    }
+    	});
+    	
+    	// Register for model events that are important to us.
+    	axonModel.addListener(new AxonModel.Adapter(){
+    		
+    		public void stimulusPulseInitiated() {
+    			if (!MembranePotentialChart.this.axonModel.isPotentialChartVisible()){
+    				// If the chart is not visible, we clear any previous
+    				// recording.
+    				clearChart();
+    			}
+    			// Start recording, if it isn't already happening.
+    			recording = true;
+    		}
+    	});
         
-        // Create the chart.
+        // Create the chart itself, i.e. the place where date will be shown.
         XYDataset dataset = new XYSeriesCollection( dataSeries );
         chart = createXYLineChart( title, NeuronStrings.MEMBRANE_POTENTIAL_X_AXIS_LABEL,
         		NeuronStrings.MEMBRANE_POTENTIAL_Y_AXIS_LABEL, dataset, PlotOrientation.VERTICAL);
@@ -135,9 +133,7 @@ public class MembranePotentialChart extends PNode {
         chart.getXYPlot().getRangeAxis().setRange( -100, 100 );
         jFreeChartNode = new JFreeChartNode( chart, false );
         jFreeChartNode.setBounds( 0, 0, size.getWidth(), size.getHeight() );
-
         chart.getXYPlot().getDomainAxis().setRange( 0, TIME_SPAN );
-
         jFreeChartNode.updateChartRenderingInfo();
 
         // Add the chart to this node.
@@ -180,10 +176,13 @@ public class MembranePotentialChart extends PNode {
                 double time = pressTime + diff.getX();
                 time = MathUtil.clamp(0, time, getLastTimeValue());
                 moveChartCursorToTime(time);
+                // TODO: Set the new time on the model.
             }
         } );
         
-		// Add the button that will allow the user to close the chart.
+		// Add the button that will allow the user to close the chart.  This
+        // will look like a red 'x' in the corner of the chart, much like the
+        // one seen on standard MS Windows apps.
 		ImageIcon imageIcon = new ImageIcon( 
 				PhetCommonResources.getInstance().getImage(PhetCommonResources.IMAGE_CLOSE_BUTTON) );
 		JButton closeButton = new JButton( imageIcon );
@@ -199,7 +198,7 @@ public class MembranePotentialChart extends PNode {
 		closePSwing.addInputEventListener( new CursorHandler(Cursor.HAND_CURSOR) );
 		addChild(closePSwing);
 		
-        // Create a button for clearing the chart.
+        // Add the button for clearing the chart.
         JButton clearButton = new JButton(NeuronStrings.MEMBRANE_POTENTIAL_CLEAR_CHART);
         clearButton.setFont(new PhetFont(14));
         clearButton.addActionListener(new ActionListener() {
