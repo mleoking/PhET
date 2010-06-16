@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.common.phetcommon.application;
 
+import java.awt.Color;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
@@ -354,6 +355,18 @@ public class PhetApplication
                 }
             } );
             aboutDialog.setVisible( true );
+        }
+    }
+    
+    /**
+     * Sets the background color of the standard control panels.
+     * @param color
+     */
+    public void setControlPanelBackground( Color color ) {
+        for ( Module module : getModules() ) {
+            module.setControlPanelBackground( color );
+            module.setClockControlPanelBackground( color );
+            module.setHelpPanelBackground( color );
         }
     }
 
