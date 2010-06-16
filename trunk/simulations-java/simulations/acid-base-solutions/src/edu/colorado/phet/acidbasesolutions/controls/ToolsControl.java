@@ -25,9 +25,9 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 public class ToolsControl extends JPanel {
 
     private final ABSModel model;
-    private final JCheckBox pHMeterCheckBox, showWaterCheckBox;
     private final JRadioButton pHPaperRadioButton, conductivityTesterRadioButton;
     private final JRadioButton magnifyingGlassRadioButton, concentrationGraphRadioButton;
+    private final JCheckBox pHMeterCheckBox, showWaterCheckBox;
     
     /**
      * Subclass that hides some of the tools.
@@ -62,6 +62,13 @@ public class ToolsControl extends JPanel {
             }
         };
         
+        // radio buttons
+        ButtonGroup group = new ButtonGroup();
+        pHPaperRadioButton = new ABSRadioButton( ABSStrings.PH_PAPER, group, actionListener );
+        conductivityTesterRadioButton = new ABSRadioButton( ABSStrings.CONDUCTIVITY_TESTER, group, actionListener );
+        magnifyingGlassRadioButton = new ABSRadioButton( ABSStrings.MAGNIFYING_GLASS, group, actionListener );
+        concentrationGraphRadioButton = new ABSRadioButton( ABSStrings.BAR_GRAPH, group, actionListener );
+        
         // pH Meter check box
         pHMeterCheckBox = new JCheckBox( ABSStrings.PH_METER );
         pHMeterCheckBox.addActionListener( actionListener );
@@ -70,25 +77,18 @@ public class ToolsControl extends JPanel {
         showWaterCheckBox = new JCheckBox( ABSStrings.SHOW_WATER );
         showWaterCheckBox.addActionListener( actionListener );
         
-        // radio buttons
-        ButtonGroup group = new ButtonGroup();
-        pHPaperRadioButton = new ABSRadioButton( ABSStrings.PH_PAPER, group, actionListener );
-        conductivityTesterRadioButton = new ABSRadioButton( ABSStrings.CONDUCTIVITY_TESTER, group, actionListener );
-        magnifyingGlassRadioButton = new ABSRadioButton( ABSStrings.MAGNIFYING_GLASS, group, actionListener );
-        concentrationGraphRadioButton = new ABSRadioButton( ABSStrings.BAR_GRAPH, group, actionListener );
-        
         // layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         setLayout( layout );
         int row = 0;
         int column = 0;
-        layout.addComponent( pHMeterCheckBox, row++, column );
-        layout.addComponent( showWaterCheckBox, row++, column );
-        layout.addFilledComponent( new JSeparator(), row++, column, GridBagConstraints.HORIZONTAL );
         layout.addComponent( pHPaperRadioButton, row++, column );
         layout.addComponent( conductivityTesterRadioButton, row++, column );
         layout.addComponent( magnifyingGlassRadioButton, row++, column );
         layout.addComponent( concentrationGraphRadioButton, row++, column );
+        layout.addFilledComponent( new JSeparator(), row++, column, GridBagConstraints.HORIZONTAL );
+        layout.addComponent( pHMeterCheckBox, row++, column );
+        layout.addComponent( showWaterCheckBox, row++, column );
         
         // default state
         updateControl();
