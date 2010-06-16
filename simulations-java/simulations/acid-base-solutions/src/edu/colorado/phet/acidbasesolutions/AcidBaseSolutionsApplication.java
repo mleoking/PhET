@@ -4,6 +4,7 @@ package edu.colorado.phet.acidbasesolutions;
 
 import javax.swing.Box;
 
+import edu.colorado.phet.acidbasesolutions.constants.ABSColors;
 import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.module.customsolution.CustomSolutionModule;
 import edu.colorado.phet.acidbasesolutions.module.testsolution.TestSolutionModule;
@@ -56,6 +57,9 @@ public class AcidBaseSolutionsApplication extends PiccoloPhetApplication {
         
         addModule( new TestSolutionModule() );
         addModule( new CustomSolutionModule() );
+        
+        // set color of control panels after adding all modules
+        setControlPanelBackground( ABSColors.CONTROL_PANEL_BACKGROUND );
         
         // make all control panels the same width
         int maxWidth = 0;
