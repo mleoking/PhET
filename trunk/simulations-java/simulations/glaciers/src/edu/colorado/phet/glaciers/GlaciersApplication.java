@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
-import javax.swing.JOptionPane;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
