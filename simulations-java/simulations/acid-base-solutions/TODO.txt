@@ -6,13 +6,13 @@ MILESTONES
 - 8/1/10, sim showable for BCCE
 
 HIGH PRIORITY
+- fix resize behavior of main frame, nodes below the beaker are not visible if main frame is resized wider 
 - fix drag behavior for pH meter, constrain, errors in coordinate frame transforms
 - don't show other tools in magnifying glass
 - control panel layout issues
 
 MEDUIUM PRIORITY
 - resolve design issues with exclusivity of tools
-- nodes below the beaker are not visible if main frame is resized wider 
 - baseline alignment of reaction equations (impossible?)
 - conductivity tester (CAB feedback required)
 - pH paper (CAB feedback required)
