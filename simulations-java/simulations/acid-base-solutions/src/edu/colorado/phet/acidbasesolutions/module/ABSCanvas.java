@@ -74,7 +74,7 @@ public abstract class ABSCanvas extends PhetPCanvas {
      */
     private void updateReactionEquationLayout() {
         double x = beakerNode.getFullBoundsReference().getCenterX() - ( reactionEquationNode.getFullBoundsReference().getWidth() / 2 );
-        double y = beakerNode.getFullBoundsReference().getMaxY() + 20;
+        double y = beakerNode.getFullBoundsReference().getMaxY() + 10;
         reactionEquationNode.setOffset( x, y );
     }
     
