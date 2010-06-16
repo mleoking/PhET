@@ -1,3 +1,4 @@
+6/15/10 dev version with all change requests from 6/15/10 meeting
 6/15/10 increase height of concentration graph to fill the beaker
 6/15/10 make order of bars in concentration graph match order of molecules in reaction equations
 6/15/10 change range of concentration graph's y axis to 1e-8 to 1e2
