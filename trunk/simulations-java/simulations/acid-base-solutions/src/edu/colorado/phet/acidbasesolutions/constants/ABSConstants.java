@@ -57,7 +57,7 @@ public class ABSConstants {
     
     public static final Point2D CONCENTRATION_GRAPH_LOCATION = new Point2D.Double( BEAKER_LOCATION.getX(), BEAKER_LOCATION.getY() - ( BEAKER_SIZE.getHeight() / 2 ) ); // center of beaker
     public static final boolean CONCENTRATION_GRAPH_VISIBLE = false;
-    public static final PDimension CONCENTRATION_GRAPH_SIZE = new PDimension( 360, 380 );
+    public static final PDimension CONCENTRATION_GRAPH_SIZE = new PDimension( 360, BEAKER_SIZE.getHeight() - 50 );
     
     public static final double WATER_CONCENTRATION = 55.6; // water concentration when it's used as a solvent, mol/L
     public static final double WATER_EQUILIBRIUM_CONSTANT = 1E-14;
