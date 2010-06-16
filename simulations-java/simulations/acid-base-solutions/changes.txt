@@ -1,3 +1,4 @@
+6/15/10 disconnect concentration graph from "Show Water" control, always show H2O bar in graph
 6/15/10 change order of reaction equations
 6/15/10 use strength=1e-7 for weak acid and weak base in "Test Solution" tab
 6/15/10 remove "K" from strength control, model, and strings file
