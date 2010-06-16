@@ -24,7 +24,7 @@ public class ControlPanelPropertiesDialog extends PaintImmediateDialog {
     private PhetApplication app;
     private final ColorControl colorControl;
 
-    public ControlPanelPropertiesDialog( PhetApplication app ) {
+    public ControlPanelPropertiesDialog( final PhetApplication app ) {
         super( app.getPhetFrame() );
         setTitle( "Control Panel properties" );
         
@@ -33,7 +33,7 @@ public class ControlPanelPropertiesDialog extends PaintImmediateDialog {
         colorControl = new ColorControl( app.getPhetFrame(), "background color: ", Color.WHITE );
         colorControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
-                setControlPanelBackground( colorControl.getColor() );
+                app.setControlPanelBackground( colorControl.getColor() );
             }
         } );
         
@@ -46,6 +46,11 @@ public class ControlPanelPropertiesDialog extends PaintImmediateDialog {
         SwingUtils.centerDialogInParent( this );
     }
     
+    /**
+     * When this dialog is made visible, use the color of the app's first module to 
+     * initial the color control. We can't do this initialization in the constructor,
+     * because the app may not have any modules when this dialog is constructed.
+     */
     @Override 
     public void setVisible( boolean visible ) {
         if ( app.getModules().length > 0 ) {
@@ -55,14 +60,5 @@ public class ControlPanelPropertiesDialog extends PaintImmediateDialog {
             }
         }
         super.setVisible( visible );
-    }
-    
-    private void setControlPanelBackground( Color color ) {
-        Module[] modules = app.getModules();
-        for ( int i = 0; i < modules.length; i++ ) {
-            modules[i].setControlPanelBackground( color );
-            modules[i].setClockControlPanelBackground( color );
-            modules[i].setHelpPanelBackground( color );
-        }
     }
 }
