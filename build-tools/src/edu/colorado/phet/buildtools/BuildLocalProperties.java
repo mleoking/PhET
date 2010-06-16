@@ -432,7 +432,8 @@ public class BuildLocalProperties {
     private String getRequiredString( String key, String prompt ) {
         String value = properties.getProperty( key );
         if ( value == null || value.length() == 0 ) {
-            value = prompt( prompt );
+            value = prompt( prompt +
+                    " ("+key+")" );//report the missing key name, not just the description, to facilitate adding it to a build-local.properties file
             properties.setProperty( key, value );
         }
         return value;
