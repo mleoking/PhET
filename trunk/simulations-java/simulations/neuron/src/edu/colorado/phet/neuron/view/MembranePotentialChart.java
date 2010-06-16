@@ -74,6 +74,7 @@ public class MembranePotentialChart extends PNode {
     private JFreeChartNode jFreeChartNode;
     private AxonModel axonModel;
 	private XYSeries dataSeries = new XYSeries("0");
+	private ChartCursor chartCursor;
 
 	private static NumberAxis xAxis;
 	private static NumberAxis yAxis;
@@ -101,6 +102,13 @@ public class MembranePotentialChart extends PNode {
         	    public void simulationTimeReset( ClockEvent clockEvent ) {
         	    	recording = false;
         	    	clearChart();
+        	    	updateChartCursorVisibility();
+        	    }
+        	    public void clockPaused( ClockEvent clockEvent ) {
+        	    	updateChartCursorVisibility();
+        	    }
+        	    public void clockStarted( ClockEvent clockEvent ) {
+        	    	updateChartCursorVisibility();
         	    }
         	});
         	
@@ -137,9 +145,7 @@ public class MembranePotentialChart extends PNode {
         
         // Add the chart cursor, which will allow the user to move back and
         // forth through time.
-        ChartCursor chartCursor = new ChartCursor(jFreeChartNode);
-        Point2D topLeftOfPlotArea = jFreeChartNode.plotToNode( new Point2D.Double( 0, jFreeChartNode.getChart().getXYPlot().getRangeAxis().getRange().getUpperBound() ) );
-        chartCursor.setOffset(topLeftOfPlotArea);
+        chartCursor = new ChartCursor(jFreeChartNode);
         addChild(chartCursor);
         
 		// Add the button that will allow the user to close the chart.
@@ -180,6 +186,10 @@ public class MembranePotentialChart extends PNode {
         		closePSwing.getFullBoundsReference().getMinX() - clearButtonPSwing.getFullBoundsReference().width - 10,
         		0);
         addChild(clearButtonPSwing);
+        
+        // Final initialization steps.
+        updateChartCursorVisibility();
+        updateChartCursorPosition();
     }
     
     //----------------------------------------------------------------------------
@@ -206,6 +216,7 @@ public class MembranePotentialChart extends PNode {
     	assert (time - timeIndexOfFirstDataPt >= 0);
     	if (time - timeIndexOfFirstDataPt <= TIME_SPAN){
     		dataSeries.add(time - timeIndexOfFirstDataPt, voltage * 1000, update);
+    		updateChartCursorPosition();
     	}
     }
     
@@ -302,54 +313,35 @@ public class MembranePotentialChart extends PNode {
     	dataSeries.clear();
     }
     
-	/**
-	 * Test framework, do whatever is needed here to test the behavior of
-	 * this node.
-	 * 
-	 * @param args
-	 */
-    public static void main(String[] args) {
-    	
-    	// Set up the main frame for the application.
-    	Dimension2D size = new PDimension(800, 600);
-		JFrame frame = new JFrame();
-        frame.setSize( (int)size.getWidth(), (int)size.getHeight() );
-        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-
-        // Create the chart.
-        final MembranePotentialChart membranePotentialChart = 
-        	new MembranePotentialChart(size, "Test Chart", null);
-
-        // Create the canvas and add the chart to it.
-        PhetPCanvas phetPCanvas = new PhetPCanvas();
-        phetPCanvas.addScreenChild( membranePotentialChart );
-        
-        // Create and add a button that will add a new data point each time
-        // when it is pressed.
-        JButton button = new JButton("Add Data Point");
-        button.addActionListener(new ActionListener() {
-			
-			public void actionPerformed(ActionEvent e) {
-				membranePotentialChart.addDataPoint(200, 70, true);
-				membranePotentialChart.addDataPoint(300, -20, true);
-			}
-		});
-        PSwing buttonPSwing = new PSwing(button);
-        phetPCanvas.addScreenChild(buttonPSwing);
-        
-        // Associate the canvas and the frame and display it.
-        frame.setContentPane(phetPCanvas);
-        frame.setVisible(true);
-	}
-
     public JFreeChartNode getJFreeChartNode() {
         return jFreeChartNode;
+    }
+    
+    private void updateChartCursorVisibility(){
+    	chartCursor.setVisible(axonModel.getClock().isPaused());
+    }
+    
+    /**
+     * Position the chart cursor at the end of the collected data.
+     */
+    private void updateChartCursorPosition(){
+    	double time = 0;
+    	if (dataSeries.getItemCount() > 0){
+    		time = dataSeries.getX(dataSeries.getItemCount() - 1).doubleValue(); 
+    	}
+    	
+        Point2D cursorPos = jFreeChartNode.plotToNode( new Point2D.Double( time, jFreeChartNode.getChart().getXYPlot().getRangeAxis().getRange().getUpperBound() ) );
+        chartCursor.setOffset(cursorPos);
     }
     
 	//----------------------------------------------------------------------------
 	// Inner Classes and Interfaces
 	//----------------------------------------------------------------------------
     
+    /**
+     * This class represents the cursor that the user can grab and move around
+     * in order to move the sim back and forth in time.
+     */
     private static class ChartCursor extends PPath {
 
     	private static final double WIDTH_PROPORTION = 0.013;
