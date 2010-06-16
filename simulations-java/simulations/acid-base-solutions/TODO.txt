@@ -13,6 +13,7 @@ HIGH PRIORITY
 
 MEDUIUM PRIORITY
 - resolve design issues with exclusivity of tools
+- not obvious what "Show Water" check box pertains to
 - baseline alignment of reaction equations (impossible?)
 - conductivity tester (CAB feedback required)
 - pH paper (CAB feedback required)
