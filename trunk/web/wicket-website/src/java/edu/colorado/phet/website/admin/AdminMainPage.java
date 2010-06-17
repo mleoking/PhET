@@ -79,6 +79,12 @@ public class AdminMainPage extends AdminPage {
             }
         } );
 
+        add( new Link( "debug-error" ) {
+            public void onClick() {
+                throw new RuntimeException( "test" );
+            }
+        } );
+
         add( new Link( "debug-sign" ) {
             public void onClick() {
                 File tmpDir = new File( System.getProperty( "java.io.tmpdir" ) );

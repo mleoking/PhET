@@ -21,6 +21,9 @@ public class PhetCycleProcessor extends WebRequestCycleProcessor {
 
         logger.warn( "error encountered!", e );
 
+        if ( requestCycle instanceof PhetRequestCycle ) {
+            logger.warn( "occurred in " + ( (PhetRequestCycle) requestCycle ).getRequestURI() );
+        }
         super.respond( e, requestCycle );
     }
 

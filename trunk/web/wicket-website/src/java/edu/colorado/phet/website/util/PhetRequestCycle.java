@@ -71,6 +71,10 @@ public class PhetRequestCycle extends WebRequestCycle {
         return session;
     }
 
+    public String getRequestURI() {
+       return getWebRequest().getHttpServletRequest().getRequestURI();
+    }
+
     public String getQueryString() {
         return getWebRequest().getHttpServletRequest().getQueryString();
     }
