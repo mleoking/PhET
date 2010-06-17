@@ -23,6 +23,7 @@ import edu.colorado.phet.website.components.*;
 import edu.colorado.phet.website.constants.CSS;
 import edu.colorado.phet.website.constants.Images;
 import edu.colorado.phet.website.content.IndexPage;
+import edu.colorado.phet.website.content.getphet.FullInstallPanel;
 import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.data.Translation;
 import edu.colorado.phet.website.menu.NavMenu;
@@ -113,7 +114,8 @@ public abstract class PhetPage extends WebPage implements Stylable {
 
             if ( getPhetCycle().isOfflineInstaller() ) {
                 //add( new InvisibleComponent( "search-panel" ) );
-                // TODO: fill with actual values, and make translatable!!!
+                //String installURL = FullInstallPanel.getLinker().getHref( getPageContext(), getPhetCycle() );
+                //String linkToMainSite = "<a " + installURL + " onclick=\"document.location='http://phet.colorado.edu'; return false;\">http://phet.colorado.edu</a>";
                 String linkToMainSite = "<a href=\"http://phet.colorado.edu\" onclick=\"document.location='http://phet.colorado.edu'; return false;\">http://phet.colorado.edu</a>";
                 add( new LocalizedText( "search-panel", "installer.mostUpToDate", new Object[]{
                         new Date(),
