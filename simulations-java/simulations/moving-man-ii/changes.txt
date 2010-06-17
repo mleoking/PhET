@@ -1,3 +1,4 @@
+# 0.00.05 (41764) Jun 17, 2010
 Fixed: Chart cursor goes off chart when zoomed in
 Fixed: zoom button should have plus on top and right
 Added tree and house graphics
