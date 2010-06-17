@@ -172,6 +172,8 @@ public class PhetWicketApplication extends WebApplication {
         }
         mount( new TranslationUrlStrategy( "translation", mapper ) );
 
+        mountBookmarkablePage( "index.php", TempIndexPage.class );
+
         mountBookmarkablePage( "admin", AdminMainPage.class );
         mountBookmarkablePage( "admin/deploy", DeployProjectPage.class );
         mountBookmarkablePage( "admin/deploy-translation", DeployTranslationPage.class );

@@ -127,7 +127,7 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         map.put( "/get_phet/index.php", "/en/get-phet" );
         map.put( "/get_phet/simlauncher.php", "/en/get-phet/one-at-a-time" );
         map.put( "/index.html", "/" );
-        map.put( "/index.php", "/" );
+        //map.put( "/index.php", "/" );
         map.put( "/installers/PhET-windows-installer.exe", FullInstallPanel.WINDOWS_INSTALLER_LOCATION );
         map.put( "/phet-dist/installers/PhET-1.0-windows-installer.exe", FullInstallPanel.WINDOWS_INSTALLER_LOCATION );
         map.put( "/random-thumbnail.php", "/images/mass-spring-lab-animated-screenshot.gif" );
