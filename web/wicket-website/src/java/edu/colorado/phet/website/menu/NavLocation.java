@@ -53,6 +53,9 @@ public class NavLocation implements Serializable {
         this.parent = parent;
         this.key = key;
         this.linker = linker;
+        if ( linker == null ) {
+            logger.warn( "null linker :" + key );
+        }
     }
 
     public String getLocalizationKey() {
