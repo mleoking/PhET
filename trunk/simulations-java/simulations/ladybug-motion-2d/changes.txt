@@ -19,11 +19,11 @@ Added the ability to step during recording, instead of only during playback
 # 0.00.48 (30393) Apr 14, 2009
 4/14/09 Only paint every other dot node
 # 0.00.47 (30345) Apr 10, 2009
-> added caching for performance improvements in dot path graphics
-> Updated speeds and vector scales
+added caching for performance improvements in dot path graphics
+Updated speeds and vector scales
 # 0.00.46 (30273) Apr 7, 2009
-> update remote control arrows on mode change
-> make sure velocity-acceleration proportion ratios match those in the play area
+update remote control arrows on mode change
+make sure velocity-acceleration proportion ratios match those in the play area
 # 0.00.45 (30270) Apr 7, 2009
 4/7/09 Added internationalization
 # 0.00.44 (30207) Apr 1, 2009
@@ -31,32 +31,32 @@ Added the ability to step during recording, instead of only during playback
 # 0.00.43 (30156) Apr 1, 2009
 4/1/09 Initial deploy of ladybug-2d simulation independent of moving-man
 # 1.20.42 (30144) Mar 31, 2009
-> Fixed: path doesn't clear on reset
-> reduced radius in circular mode so the acceleration vector is longer
+Fixed: path doesn't clear on reset
+reduced radius in circular mode so the acceleration vector is longer
 # 1.20.41 (30131) Mar 31, 2009
 3/31/09 added caching to the default trace graphics for performance improvements
 # 1.20.40 (29629) Mar 22, 2009
 3/22/09 Batch deploy for Alpha Simulation Tests 2, svn 29628
 # 1.20.39 (29352) Mar 10, 2009
-> Switch to position mode when dragging ladybug
+Switch to position mode when dragging ladybug
 # 1.20.38 (29343) Mar 10, 2009
 3/10/09 change the latest Ladybug back to the behavior where the trace continues (and erases the beginning)
 # 1.20.37 (29341) Mar 10, 2009
 3/10/09 change the latest Ladybug back to the behavior where the trace continues (and erases the beginning)
 # 1.20.36 (29139) Mar 2, 2009
-> Removed bounding box from graphics
-> Workaround for faded out buttons in time control panel
+Removed bounding box from graphics
+Workaround for faded out buttons in time control panel
 
 # 1.20.35 (28935) Feb 22, 2009
-> Fixed: when you drive the bug with the remote using velocity or acceleration, the bug does not face the direction of velocity (always faces the same direction)
-> Fixed: Rewind button should be disabled when the timeline knob is at t=0
-> Fixed: Slowest mode should be slower (maybe 1/2 this speed)
-> Fixed: Switching from playback mode to record should clear the vectors on the bug
-> Fixed: Clear button should put the sim in record mode if it was in playback mode
-> Reduced speed of all preset motions by 30%
-> Fixed: Exception when switching back and forth between record and playback
-> Fixed: Recording should stop when timeline is full. "Record" label should go from red to black when it stops recording. You can still move the bug, but it does not record any more. (In order to record more, you need to hit clear.)
-> Fixed: the trace should stop when it stops recording, since the trace and timeline are coupled
+Fixed: when you drive the bug with the remote using velocity or acceleration, the bug does not face the direction of velocity (always faces the same direction)
+Fixed: Rewind button should be disabled when the timeline knob is at t=0
+Fixed: Slowest mode should be slower (maybe 1/2 this speed)
+Fixed: Switching from playback mode to record should clear the vectors on the bug
+Fixed: Clear button should put the sim in record mode if it was in playback mode
+Reduced speed of all preset motions by 30%
+Fixed: Exception when switching back and forth between record and playback
+Fixed: Recording should stop when timeline is full. "Record" label should go from red to black when it stops recording. You can still move the bug, but it does not record any more. (In order to record more, you need to hit clear.)
+Fixed: the trace should stop when it stops recording, since the trace and timeline are coupled
 
 # 1.20.33 (28801) Feb 19, 2009
 Batch deploy for alpha Simulation Tests, svn 28773
@@ -66,137 +66,137 @@ Deploy aphid maze
 Deploy first version of Aphid Maze
 # 1.20.30 (28721) Feb 18, 2009
 Improvements for Aphid Maze
-> Fixed: open sim > click frictionless > click circular. Bug will not move.
+Fixed: open sim click frictionless click circular. Bug will not move.
 
 # 1.20.29 (28260) Feb 8, 2009
-> Bugfixes for remote control
-> Ladybug comes to rest when turning friction on
-> Increased size of return ladybug button
-> Click-Drag from the center dot in Remote Control creates a vector
-> Fixed: Manually moving the ladybug out of the frame, then clicking on return ladybug causes her to run offscreen again; her motion and position should be cleared on reset.
-> Improved layout of time control panel
-> Sim pauses when selecting playback mode, rather than automatically playing when you click the radio button.
+Bugfixes for remote control
+Ladybug comes to rest when turning friction on
+Increased size of return ladybug button
+Click-Drag from the center dot in Remote Control creates a vector
+Fixed: Manually moving the ladybug out of the frame, then clicking on return ladybug causes her to run offscreen again; her motion and position should be cleared on reset.
+Improved layout of time control panel
+Sim pauses when selecting playback mode, rather than automatically playing when you click the radio button.
 
 # 1.20.28 (28207) Feb 6, 2009
-> Fixed: Remote control arrow node captures mouse input
-> Fixed: Switching to manual mode doesn't work after timeline is full.
-> Fixed: remote control does not work if you click inside of the arrow (you have to click outside of the arrow, or very near the tip it seems).
-> Fixed: "Throwable" box should be labeled "Frictionless".
-> Fixed: Reset All does not return "Throwable" to default (off) state.
-> Fixed: "Throwable" checkbox should be moved to right above remote control.
-> Fixed: "Reset All" should be centered in the bottom of control panel.
-> Fixed: Changed "Recording" to "Record" in mode indicator
+Fixed: Remote control arrow node captures mouse input
+Fixed: Switching to manual mode doesn't work after timeline is full.
+Fixed: remote control does not work if you click inside of the arrow (you have to click outside of the arrow, or very near the tip it seems).
+Fixed: "Throwable" box should be labeled "Frictionless".
+Fixed: Reset All does not return "Throwable" to default (off) state.
+Fixed: "Throwable" checkbox should be moved to right above remote control.
+Fixed: "Reset All" should be centered in the bottom of control panel.
+Fixed: Changed "Recording" to "Record" in mode indicator
 
 # 1.20.27 (28186) Feb 5, 2009
-> Rewind works when in playback mode.
-> If you select "Playback" radio button it rewinds and puts you in playback mode.
-> Fixed: If you move the bug and then hit "reset all", when you move the bug again it goes to its start position, but jumps
-> Put the remote and the controls for remote on a raised section of control panel, so that it is clear that these controls go with remote, and to separate it (somewhat) from other controls.
-> Trace label and controls moved left to align with other controls in control panel.
-> Removed clear button by trace
-> Added clear button by recording controls
-> Blue timeline color matches the trace color
-> Timeline blue line thinner so that it looks more like "inside" the timeline
-> When you hit "clear" button for trace, recording should not begin until you move the bug (like start up state). Bug will stay in last position, and clear the trace and recording, but not begin recording until bug is moved.
-> Removed checkbox for "Hide mouse during drag"
-> Added the label "Vectors" above the controls for showing/hiding vectors.
-> Added radio buttons in the play controls box for "Recording" and "Playback" modes. These will double as indicators of the current mode.
-> Rewind button is always grayed out in record mode
-> If you switch to record mode (from playback) it erases the remainder of the timeline after thumb position and starts recording from where the thumb was.
-> Decreased sensitivity of remote control
-> Added throwable checkbox to the control panel; allows "frictionless" manual mode
+Rewind works when in playback mode.
+If you select "Playback" radio button it rewinds and puts you in playback mode.
+Fixed: If you move the bug and then hit "reset all", when you move the bug again it goes to its start position, but jumps
+Put the remote and the controls for remote on a raised section of control panel, so that it is clear that these controls go with remote, and to separate it (somewhat) from other controls.
+Trace label and controls moved left to align with other controls in control panel.
+Removed clear button by trace
+Added clear button by recording controls
+Blue timeline color matches the trace color
+Timeline blue line thinner so that it looks more like "inside" the timeline
+When you hit "clear" button for trace, recording should not begin until you move the bug (like start up state). Bug will stay in last position, and clear the trace and recording, but not begin recording until bug is moved.
+Removed checkbox for "Hide mouse during drag"
+Added the label "Vectors" above the controls for showing/hiding vectors.
+Added radio buttons in the play controls box for "Recording" and "Playback" modes. These will double as indicators of the current mode.
+Rewind button is always grayed out in record mode
+If you switch to record mode (from playback) it erases the remainder of the timeline after thumb position and starts recording from where the thumb was.
+Decreased sensitivity of remote control
+Added throwable checkbox to the control panel; allows "frictionless" manual mode
 
 # 1.20.26 (28105) Feb 5, 2009
-> Added fade feature on dot trace
-> Removed invisible and solid line traces
-> Improve thumb handle on timeline
-> Improve graphics for timeline track
-> Timeline doesn't disappear during record
+Added fade feature on dot trace
+Removed invisible and solid line traces
+Improve thumb handle on timeline
+Improve graphics for timeline track
+Timeline doesn't disappear during record
 
 # 1.20.25 (28043) Feb 03 2009
-> Added fudge factors to improve velocity and acceleration scales
-> Inverted Y Axis so that positive Y is up
-> Major performance improvements
-> Should show acceleration and velocity while moving to circle.
-> Should have smooth transition between linear and circular motion modes.
+Added fudge factors to improve velocity and acceleration scales
+Inverted Y Axis so that positive Y is up
+Major performance improvements
+Should show acceleration and velocity while moving to circle.
+Should have smooth transition between linear and circular motion modes.
 
 # 1.20.24 (27822) 01-31-2009
-> Fixed: Remote control doesn't show correct initial position
-> Fixed: When switching to manual from a premade motion, don't jump to old last recorded position.
-> Fixed: Return ladybug is broken
-> Added fade trace option, works during record and playback
-> Set fade path to default
-> Fixed remote control to use new position mode sampling
-> Added partial fade path
-> Added faint blue background for timeline
+Fixed: Remote control doesn't show correct initial position
+Fixed: When switching to manual from a premade motion, don't jump to old last recorded position.
+Fixed: Return ladybug is broken
+Added fade trace option, works during record and playback
+Set fade path to default
+Fixed remote control to use new position mode sampling
+Added partial fade path
+Added faint blue background for timeline
 
 # 1.20.23 (27797) 01-30-2009
-> Changed to Motion2D model
-> Put black outlines on the vel and acc vectors to help them stand out
-> Reduce speed of preset motions
+Changed to Motion2D model
+Put black outlines on the vel and acc vectors to help them stand out
+Reduce speed of preset motions
 
 # 1.20.22 (27694) 01-26-2009
 # 1.20.21 (27692) 01-26-2009
-> Added developer controls for motion behavior
-> Added cursor to playback speed slider
+Added developer controls for motion behavior
+Added cursor to playback speed slider
 
 # 1.20.20 (27683) 01-26-2009
-> Use analytic values for velocity and acceleration in circular motion
-> Use analytic values for velocity and acceleration in ellipse
+Use analytic values for velocity and acceleration in circular motion
+Use analytic values for velocity and acceleration in ellipse
 
 # 1.20.19 (27680) 01-26-2009
-> Changed default recording time from 30 to 15 seconds
-> Removed the "Stop/Go" button below the remote control
-> Added playback speed slider
-> Compute velocity and acceleration as averages over 6 data points with slope of linear fit (as in rotation sim)
-> Start the ladybug somewhere other than (0,0) so that the Remote Control position vector will be visible on startup
-> Added return ladybug button
-> Bigger circle in middle of remote control. Clicking anywhere on this circle sets vel or acc exactly to zero.
-> Sim starts paused; starts recording when bug is moved
-> Show acceleration and velocity even before 20 history points have been recorded
-> The sim should be running on startup but not recording until the user moves the bug, uses the remote control or chooses a preset motion.
-> Renamed "clear trace" to "clear" and made it clear history instead of just the graphical trace.
-> The Ladybug should be smaller - more similar to size of bugs in Rotation.
-> Fixed: - Vectors in remote are not sized to the same relative proportions as they are on the bug. For example, accel vector is very small on bug, very large in remote.
-> Set circular motion speed so that dots match up exactly in trace
-> Set elliptical motion speed so that dots match up exactly in trace
-> Fixed: In linear mode, bug bounces off the walls at the wrong angles. Should bounce off at the same angle of incidence. That is, if it hits at 30 deg from perpendicular, it should bounce off at 30 deg from perpendicular in the other direction.
-> Only record once bug is moved. So once out of playback mode, do not record until bug is grabbed. Regardless of how we handle the functionality of buttons.
-> Centered coordinate frame, and added dynamic model bounds
-> Fixed: (0,0) should be the middle of the screen instead of the middle of the box that fits on the left portion of the screen
-> Fixed: Bug sometimes changes direction in the middle of the play area for no apparent reason.
-> Improved clock control panel layout
-> Fixed: Don't allow "Rewind" when there is no stored data.
+Changed default recording time from 30 to 15 seconds
+Removed the "Stop/Go" button below the remote control
+Added playback speed slider
+Compute velocity and acceleration as averages over 6 data points with slope of linear fit (as in rotation sim)
+Start the ladybug somewhere other than (0,0) so that the Remote Control position vector will be visible on startup
+Added return ladybug button
+Bigger circle in middle of remote control. Clicking anywhere on this circle sets vel or acc exactly to zero.
+Sim starts paused; starts recording when bug is moved
+Show acceleration and velocity even before 20 history points have been recorded
+The sim should be running on startup but not recording until the user moves the bug, uses the remote control or chooses a preset motion.
+Renamed "clear trace" to "clear" and made it clear history instead of just the graphical trace.
+The Ladybug should be smaller - more similar to size of bugs in Rotation.
+Fixed: - Vectors in remote are not sized to the same relative proportions as they are on the bug. For example, accel vector is very small on bug, very large in remote.
+Set circular motion speed so that dots match up exactly in trace
+Set elliptical motion speed so that dots match up exactly in trace
+Fixed: In linear mode, bug bounces off the walls at the wrong angles. Should bounce off at the same angle of incidence. That is, if it hits at 30 deg from perpendicular, it should bounce off at 30 deg from perpendicular in the other direction.
+Only record once bug is moved. So once out of playback mode, do not record until bug is grabbed. Regardless of how we handle the functionality of buttons.
+Centered coordinate frame, and added dynamic model bounds
+Fixed: (0,0) should be the middle of the screen instead of the middle of the box that fits on the left portion of the screen
+Fixed: Bug sometimes changes direction in the middle of the play area for no apparent reason.
+Improved clock control panel layout
+Fixed: Don't allow "Rewind" when there is no stored data.
 
 # 1.20.18 (27515) 01-21-2009
-> Changed velocity color to green
-> Changed acceleration color to pink
-> Changed position to blue
-> Changed line trace to have same color as position
-> Added a dot to the center of the Remote Control
-> Made ladybug arrow vectors 1/4 as wide
-> Removed clock from RecordingControl
-> Fixed trace to only show last 30 seconds
-> Increased play area acceleration vector length (by factor of 1.2)
-> Decreased play area velocity vector length (multiplied by 0.55)
-> Disabled motions during playback
-> (add developer control for investigation) Should be able to set a value to the Remote Control, and have it remain even after releasing mouse button.
-> (add dev control) Remote Control should act as an indicator as well as controller
-> Added dev control for timeline length
-> Added developer controls to simulate options for returning to record mode
-> Improved performance during record, motion is much smoother
-> Made aspect ratio square
+Changed velocity color to green
+Changed acceleration color to pink
+Changed position to blue
+Changed line trace to have same color as position
+Added a dot to the center of the Remote Control
+Made ladybug arrow vectors 1/4 as wide
+Removed clock from RecordingControl
+Fixed trace to only show last 30 seconds
+Increased play area acceleration vector length (by factor of 1.2)
+Decreased play area velocity vector length (multiplied by 0.55)
+Disabled motions during playback
+(add developer control for investigation) Should be able to set a value to the Remote Control, and have it remain even after releasing mouse button.
+(add dev control) Remote Control should act as an indicator as well as controller
+Added dev control for timeline length
+Added developer controls to simulate options for returning to record mode
+Improved performance during record, motion is much smoother
+Made aspect ratio square
 
 # 1.20.17 (27410) 01-17-2009
 # 1.20.16 (27408) 01-17-2009
 # 1.20.15 (27365) 01-16-2009
 # 1.20.14 (27363) 01-16-2009
-> Added stubs for control panel, graphics for vectors & path
+Added stubs for control panel, graphics for vectors & path
 # 1.20.13 (27304) 01-14-2009
 # 1.20.12 (27302) 01-14-2009
 # 1.20.11 (27301) 01-14-2009
 # 1.20.10 (27300) 01-14-2009
-> Improved coordinate frames, updated Java Version Checker
+Improved coordinate frames, updated Java Version Checker
 # 1.20.09 (27226) 01-13-2009
 Added test simulation for ladybug-2d
 10-08-2008: use PhetApplicationConfig.launchSim

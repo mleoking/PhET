@@ -47,9 +47,9 @@ Batch deploy for alpha Simulation Tests, svn 28773
 # 1.00.00 (27715) 01-27-2009
 Updated version number to 1.0, no functional changes.
 # 0.05.00 (27620) 01-23-2009
-> Set control panel color back to gray, made gas particles spread instantly around container again.
+Set control panel color back to gray, made gas particles spread instantly around container again.
 # 0.04.18 (27529) 01-21-2009
-> Modified the colors of the menu bar, the tab panel, and the selected tabs.
+Modified the colors of the menu bar, the tab panel, and the selected tabs.
 # 0.04.17 (27491) 01-20-2009
 Modified the behavior for transitioning to the gaseous state for oxygen and water, changed the control panel color.
 # 0.04.16 (27440) 01-19-2009
@@ -59,28 +59,28 @@ Accidental deployment - please disregard.
 # 0.04.14 (27257) 01-14-2009
 Made the phase indicator on the phase diagram follow the demarcation line when epsilon changes.
 # 0.04.13 (27234) 01-13-2009
-> Revised the way that changing epsilon affects the phase indication on the phase diagram.
+Revised the way that changing epsilon affects the phase indication on the phase diagram.
 # 0.04.12 (27231) 01-13-2009
-> Added the ability to change the phase indication on the phase diagram when the epsilon value is changed.
->Modified the look and behavior of the graphs on the Phase Changes tab so that they would appear more consistent.
->Changed the way that "triple point" and "critical point" are labeled in the phase changes graph so that they would translate better.
->Made the stove control get wider for longer string labels.  This was done to improve translation support.
->Added an atom with adjustable interaction potential to the Phase Changes tab, modified the way the users shows and hides the graphs.
->Made the controls on the side panel for adjusting the atom size and interaction strength only appear for the adjustable atom.
->Made the resizing of the adjustable atom on the Interaction Potential tab work better.
-> Removed the Interaction Potential diagram from the 2nd tab (Phase Changes).
+Added the ability to change the phase indication on the phase diagram when the epsilon value is changed.
+Modified the look and behavior of the graphs on the Phase Changes tab so that they would appear more consistent.
+Changed the way that "triple point" and "critical point" are labeled in the phase changes graph so that they would translate better.
+Made the stove control get wider for longer string labels.  This was done to improve translation support.
+Added an atom with adjustable interaction potential to the Phase Changes tab, modified the way the users shows and hides the graphs.
+Made the controls on the side panel for adjusting the atom size and interaction strength only appear for the adjustable atom.
+Made the resizing of the adjustable atom on the Interaction Potential tab work better.
+Removed the Interaction Potential diagram from the 2nd tab (Phase Changes).
 12/3/2008 - Removed many of the old classes that had been created when John De Goes started this sim long ago.
 ******* 0.04.03
->Made container explode at a given pressure rather than waiting until the simulation algorithm couldn't keep up.
->Adjusted the time constant for pressure calculations to make the pressure gauge change more rapidly.  This was done because the pressure was still showing a positive value when the molecules has been cooled to stillness.
->Changed the behavior of the 2nd tab (Phase Changes) such that switching between chemicals places the molecules into the solid form.
->Fixed a problem where reset or switching molecules would not turn the stove off if it had been set to be turned on via the arrow keys.
->Fixed a problem where the pressure on the second tab was not getting set to zero when Reset All was pushed or when switching between molecules.
->Fixed a problem where neon would not get set back to the solid form if it had been heated to a gas and then the Reset All button was pressed.
->Fixed a problem where a molecule that was injected in the container would appear briefly outside the container (at point 0,0) before being moved to the correct position.
->Made the minimum allowable size smaller for multi-atom molecules so that they could be more easily crushed if desired.
+Made container explode at a given pressure rather than waiting until the simulation algorithm couldn't keep up.
+Adjusted the time constant for pressure calculations to make the pressure gauge change more rapidly.  This was done because the pressure was still showing a positive value when the molecules has been cooled to stillness.
+Changed the behavior of the 2nd tab (Phase Changes) such that switching between chemicals places the molecules into the solid form.
+Fixed a problem where reset or switching molecules would not turn the stove off if it had been set to be turned on via the arrow keys.
+Fixed a problem where the pressure on the second tab was not getting set to zero when Reset All was pushed or when switching between molecules.
+Fixed a problem where neon would not get set back to the solid form if it had been heated to a gas and then the Reset All button was pressed.
+Fixed a problem where a molecule that was injected in the container would appear briefly outside the container (at point 0,0) before being moved to the correct position.
+Made the minimum allowable size smaller for multi-atom molecules so that they could be more easily crushed if desired.
 11/2008 - Did a major refactoring of the muliple-particle model, which underlies the first two tabs.  This was done to improve maintainability and performance.
 ******* 0.04.00 (2629) 
->Cleaned up a lot of things in preparation for deployment to the "Under Construction" area of the web site.
+Cleaned up a lot of things in preparation for deployment to the "Under Construction" area of the web site.
 10/14/2008 - Changed the composite thermometer node to have the digital readout on top rather than on the side in order to make room for more things on the top of the container.
 ******* 0.00.57 (25266) 
