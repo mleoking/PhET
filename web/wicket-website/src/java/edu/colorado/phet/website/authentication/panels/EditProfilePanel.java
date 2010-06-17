@@ -181,7 +181,7 @@ public class EditProfilePanel extends PhetPanel {
                 } );
 
                 int currentUserId = PhetSession.get().getUser().getId();
-                if ( success && currentUserId == PhetSession.get().getUser().getId() ) {
+                if ( success && currentUserId == userId ) {
                     // synchronize the user data for the session instance
                     PhetUser user = PhetSession.get().getUser();
                     user.setName( name.getModelObject().toString() );
