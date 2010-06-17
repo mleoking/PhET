@@ -296,36 +296,6 @@ public class AxonModel implements IParticleCapture {
     	}
     }
     
-    /**
-     * Start or resume recording of the simulation activity.  When recording,
-     * the sim will capture enough state information at each time to allow it
-     * to play back a visual representation of everything that happened.
-     */
-    public void startRecording(){
-    	System.out.println("startRecording called.");
-    	recordingState = RecordingState.RECORDING;
-    }
-    
-    /**
-     * Stop the current recording, i.e. the collecting of state information
-     * that will allow playback later.
-     */
-    public void stopRecording(){
-    	System.out.println("stopRecording called.");
-    	recordingState = RecordingState.IDLE;
-    }
-    
-    /**
-     * Clear out the current recording.  This means that the data that was
-     * collected that represents the state of the sim at various time indices
-     * will simply be discarded.  Note that the recording state does NOT
-     * change, so if a recording was in progress it will continue, starting
-     * anew at the next time step.
-     */
-    public void clearRecording(){
-    	System.out.println("clearRecording called.");
-    	// TODO.
-    }
     //----------------------------------------------------------------------------
     // Other Methods
     //----------------------------------------------------------------------------
@@ -673,6 +643,38 @@ public class AxonModel implements IParticleCapture {
     	if (concentrationChanged){
     		notifyConcentrationChanged();
     	}
+    }
+    
+    /**
+     * Start or resume recording of the simulation activity.  When recording,
+     * the sim will capture enough state information at each time step to
+     * allow it to play back a visual representation of everything that
+     * happened.
+     */
+    public void startRecording(){
+    	System.out.println("startRecording called.");
+    	recordingState = RecordingState.RECORDING;
+    }
+    
+    /**
+     * Stop the current recording, i.e. the collecting of state information
+     * that will allow playback later.
+     */
+    public void stopRecording(){
+    	System.out.println("stopRecording called.");
+    	recordingState = RecordingState.IDLE;
+    }
+    
+    /**
+     * Clear out the current recording.  This means that the data that was
+     * collected that represents the state of the sim at various time indices
+     * will simply be discarded.  Note that the recording state does NOT
+     * change, so if a recording was in progress it will continue, starting
+     * anew at the next time step.
+     */
+    public void clearRecording(){
+    	System.out.println("clearRecording called.");
+    	// TODO.
     }
     
     /**
@@ -1062,7 +1064,25 @@ public class AxonModel implements IParticleCapture {
 		public void concentrationReadoutVisibilityChanged() {}
     }
     
-    public static class RecordingSnapshot {
+    /**
+     * This class contains state information about the model at a given point
+     * in time.  However, these snapshots contain just enough information to
+     * allow the model to portray the particular moment in time, but not
+     * enough to actually resume simulating from that point.  
+     */
+    private static class RecordingSnapshot {
     	// TODO: Stubbed for now.
+    }
+
+    /**
+     * This class contains state information about the model for a given point
+     * in time.  This contains enough information that, if restored to the
+     * model, the model will be able to resume the simulation.
+     */
+    private static class ModelState {
+    	
+    	public ModelState(AxonModel model){
+    		
+    	}
     }
 }
