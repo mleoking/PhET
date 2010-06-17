@@ -13,6 +13,7 @@ import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.content.NotFoundPage;
 import edu.colorado.phet.website.data.contribution.Contribution;
 import edu.colorado.phet.website.templates.PhetMenuPage;
+import edu.colorado.phet.website.translation.PhetLocalizer;
 import edu.colorado.phet.website.util.*;
 import edu.colorado.phet.website.util.links.AbstractLinker;
 import edu.colorado.phet.website.util.links.RawLinkable;
@@ -61,7 +62,10 @@ public class ContributionNominationSuccessPage extends PhetMenuPage {
         redirector.add( new AttributeModifier( "content", true, new Model<String>( REDIRECTION_DELAY_SECONDS + ";url=" + ContributionPage.getLinker( contributionId ).getRawUrl( getPageContext(), getPhetCycle() ) ) ) );
         add( redirector );
 
-        addTitle( new ResourceModel( "contribution.nomination.success" ) );
+        addTitle( StringUtils.messageFormat( PhetLocalizer.get().getString( "contribution.nomination.success", this ), new Object[]{
+                HtmlUtils.encode( contribution.getTitle() )
+        } ) );
+
 
     }
 
