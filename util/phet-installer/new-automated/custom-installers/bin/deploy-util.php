@@ -108,7 +108,7 @@
 
         // Send the HTTP request that updates the web site.
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "http://phetsims.colorado.edu/admin/new-installer?timestamp=$timestamp");
+        curl_setopt($ch, CURLOPT_URL, "http://phet.colorado.edu/admin/new-installer?timestamp=$timestamp");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $output = curl_exec($ch);
         curl_close($ch);

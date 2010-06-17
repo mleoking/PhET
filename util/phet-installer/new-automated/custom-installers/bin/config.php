@@ -43,7 +43,7 @@
     // PhET Website Configuration
 
     define("PHET_VERSION",                      "1.0");
-    define("PHET_HOSTNAME",                     "phetsims.colorado.edu");
+    define("PHET_HOSTNAME",                     "phet.colorado.edu");
     define("PHET_ROOT_URL",                     "http://".PHET_HOSTNAME."/");
     define("PHET_ENGLISH_WEBSITE_URL",          PHET_ROOT_URL.ENGLISH_LOCALE_STRING."/");
     define("PHET_ARABIC_WEBSITE_URL",           PHET_ROOT_URL.ARABIC_LOCALE_STRING."/");
