@@ -37,7 +37,7 @@ public class MovingManSimulationPanel extends PhetPCanvas {
         addScreenChild(new SkyNode());
         addScreenChild(new EarthNode());
         viewRange = new Range(0, 1000);
-        playAreaRulerNode = new PlayAreaRulerNode(new Range(-10, 10), viewRange);
+        playAreaRulerNode = new PlayAreaRulerNode(model.getModelRange(), viewRange);
         playAreaRulerNode.setOffset(0, earthOffset);
         addScreenChild(playAreaRulerNode);
         addComponentListener(new ComponentAdapter() {
@@ -115,8 +115,23 @@ public class MovingManSimulationPanel extends PhetPCanvas {
         setDefaultRenderQuality(PPaintContext.LOW_QUALITY_RENDERING);
         setAnimatingRenderQuality(PPaintContext.LOW_QUALITY_RENDERING);
 
-
+//        Timer timer = new Timer(30,new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//                updateViewRange();
+//            }
+//        });
+//        timer.start();
     }
+
+//    long start = System.currentTimeMillis();
+//    private void updateViewRange() {
+//        long time = System.currentTimeMillis();
+//
+//        final int inset = 100;
+//        double width = Math.cos(time/1000.0)* getWidth()- inset *2;
+//        viewRange.setMin(inset);
+//        viewRange.setMax(width);
+//    }
 
     private void updateViewRange() {
         final int inset = 100;

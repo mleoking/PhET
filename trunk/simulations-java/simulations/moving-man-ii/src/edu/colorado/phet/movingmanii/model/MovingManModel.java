@@ -17,13 +17,15 @@ public class MovingManModel {
     public static final int NUMBER_MOUSE_POINTS_TO_AVERAGE = 4;//Kathy chose this value because it smoothes well enough, but without creating too much of a lag between the mouse and the character
 
     //These serieses are used for computing derivatives.  Must be size limited to avoid processor/memory leaks
+    //These serieses do not all obtain data at the same times, derivatives are centered, so v and a values are obtained
+    //after obtaining new x values.
     private static final int sizeLimit = Math.max(NUMBER_MOUSE_POINTS_TO_AVERAGE, (DERIVATIVE_RADIUS * 2 + 1) * 2);
     private MovingManDataSeries mouseDataModelSeries = new MovingManDataSeries.LimitedSize(sizeLimit);
     private MovingManDataSeries positionModelSeries = new MovingManDataSeries.LimitedSize(sizeLimit);
     private MovingManDataSeries velocityModelSeries = new MovingManDataSeries.LimitedSize(sizeLimit);
     private MovingManDataSeries accelerationModelSeries = new MovingManDataSeries.LimitedSize(sizeLimit);
 
-    //These serieses are displayed in the graphs
+    //These serieses are displayed in the graphs.
     private MovingManDataSeries positionGraphSeries = new MovingManDataSeries.LimitedTime(20.0);
     private MovingManDataSeries velocityGraphSeries = new MovingManDataSeries.LimitedTime(20.0);
     private MovingManDataSeries accelerationGraphSeries = new MovingManDataSeries.LimitedTime(20.0);
@@ -38,7 +40,9 @@ public class MovingManModel {
     private MutableBoolean velocityVectorVisible = new MutableBoolean(VELOCITY_VECTOR_VISIBLE_BY_DEFAULT);
     private MutableBoolean accelerationVectorVisible = new MutableBoolean(ACCELERATION_VECTOR_VISIBLE_BY_DEFAULT);
     private MutableBoolean walls = new MutableBoolean(WALLS_BY_DEFAULT);
-    private Range range = new Range(-10, 10);
+    protected final Range modelRange = new Range(-10, 10);
+//    protected final Range modelRange = new Range(10, -10);
+    private Range range = modelRange;
     private BooleanGetter isPaused;
 
     public void historyRemainderCleared(double time) {
@@ -50,6 +54,10 @@ public class MovingManModel {
         positionGraphSeries.clearPointsAfter(time);
         velocityGraphSeries.clearPointsAfter(time);
         accelerationGraphSeries.clearPointsAfter(time);
+    }
+
+    public Range getModelRange() {
+        return modelRange;
     }
 
     public static interface BooleanGetter {
