@@ -22,67 +22,67 @@ Added dragging to the character and rope
 Added shadows below characters
 Reduced character node size to 1/2 previous size
 # 0.01.13 (34832) Sep 3, 2009
-> Converted to use character graphics to indicate force strength
+Converted to use character graphics to indicate force strength
 # 0.01.12 (33442) Jul 19, 2009
-> Ensure the spring is hidden if the first mass is left of the wall
+Ensure the spring is hidden if the first mass is left of the wall
 # 0.01.11 (33435) Jul 18, 2009
-> Added thousands separator for ruler
-> Set spring resting length to 0.0
-> Recalibrated spring constants
-> Added a dot to indicate the center of mass for each mass
-> Have mass labels offset up and down, so they don't overlap
-> Renamed "Actual Size" to "Lifelike"
-> Renamed to Gravity Force Lab
-> Renamed "enlarged" to "cartoon"
-> Removed distance slider in second tab
-> Made one mass red in the first tab
-> Made the sun yellow
+Added thousands separator for ruler
+Set spring resting length to 0.0
+Recalibrated spring constants
+Added a dot to indicate the center of mass for each mass
+Have mass labels offset up and down, so they don't overlap
+Renamed "Actual Size" to "Lifelike"
+Renamed to Gravity Force Lab
+Renamed "enlarged" to "cartoon"
+Removed distance slider in second tab
+Made one mass red in the first tab
+Made the sun yellow
 # 0.01.10 (33289) Jul 13, 2009
-> added a missing translation string
+added a missing translation string
 # 0.01.09 (33287) Jul 13, 2009
-> Custom checkbox becomes disabled when it's not selectable
-> Fixed: The two sliders are off set from each other.  Both should be centered.
-> Fixed: There should be a divider or box for the sliders
-> Put Earth/Custom radio buttons at the top.
-> Fixed: When I switch between kilometers and light minutes the control panel shifts over. 
-> Added a pic of the Earth next to the earth radio button.
-> Fixed: Control panel Radio buttons should be aligned left.
-> Fixed: The control panel boxes should expand to the width of the control panel.
-> Removed the dialog box that explains the units.
-> Added reset all button
-> Ruler is always enabled in the Sun-Planet tab
+Custom checkbox becomes disabled when it's not selectable
+Fixed: The two sliders are off set from each other.  Both should be centered.
+Fixed: There should be a divider or box for the sliders
+Put Earth/Custom radio buttons at the top.
+Fixed: When I switch between kilometers and light minutes the control panel shifts over. 
+Added a pic of the Earth next to the earth radio button.
+Fixed: Control panel Radio buttons should be aligned left.
+Fixed: The control panel boxes should expand to the width of the control panel.
+Removed the dialog box that explains the units.
+Added reset all button
+Ruler is always enabled in the Sun-Planet tab
 # 0.01.08 (33237) Jul 11, 2009
-> Increased font for text boxes
+Increased font for text boxes
 # 0.01.07 (33235) Jul 11, 2009
-> Improved control panel text to indicate enlargement is per object, not for entire scale
-> Increased font size on ruler
+Improved control panel text to indicate enlargement is per object, not for entire scale
+Increased font size on ruler
 # 0.01.06 (33216) Jul 10, 2009
-> Fixed: Planet size should be a function of mass
-> reduced the range of the distance slider in the 2nd tab
+Fixed: Planet size should be a function of mass
+reduced the range of the distance slider in the 2nd tab
 # 0.01.05 (33213) Jul 10, 2009
-> made the slider drag the sun instead of the planet
-> added units controls and explanation
-> added a link to My Solar System sim
-> added scale control for magnified or actual size
+made the slider drag the sun instead of the planet
+added units controls and explanation
+added a link to My Solar System sim
+added scale control for magnified or actual size
 # 0.01.04 (33175) Jul 8, 2009
-> constrained drag to lie within play area
-> added control panel to sun planet module
+constrained drag to lie within play area
+added control panel to sun planet module
 # 0.01.03 (33142) Jul 8, 2009
 # 0.01.03 (33132) Jul 8, 2009
-> added whitespace every 3 digits after the decimal place
-> internationalized
-> renamed cavendish-experiment to force-law-lab
+added whitespace every 3 digits after the decimal place
+internationalized
+renamed cavendish-experiment to force-law-lab
 # 0.01.02 (33086) Jul 6, 2009
-> Use a space character to separate thousands for sun-planet system
-> Increased font size for scale disclaimer on second panel
-> Increased and bolded the ruler font, particularly for units
-> Moved the ruler graphic in front of the wall graphic
-> Fixed: The rulers should be longer at least as long as the white space
-> Added a graphical display for the force on m2 by m1
+Use a space character to separate thousands for sun-planet system
+Increased font size for scale disclaimer on second panel
+Increased and bolded the ruler font, particularly for units
+Moved the ruler graphic in front of the wall graphic
+Fixed: The rulers should be longer at least as long as the white space
+Added a graphical display for the force on m2 by m1
 # 0.01.01 (31358) May 5, 2009
-> Added a sun-earth module.
+Added a sun-earth module.
 # 0.01.00 (30589) Apr 20, 2009
 4/20/09 Batch deploy as part of IOM milestone with revision 30588
-> Show spring graphic in front of mass graphic
+Show spring graphic in front of mass graphic
 # 0.00.01 (30287) Apr 8, 2009
 4/8/09 Initial version of Cavendish experiment
