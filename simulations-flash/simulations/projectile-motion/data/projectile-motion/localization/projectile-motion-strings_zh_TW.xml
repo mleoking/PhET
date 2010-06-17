@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--projectile-motion-strings_zh_TW.xml created Mon Jul 20 19:18:52 CST 2009 using: projectile-motion 2.00.00 (30671), translation-utility 2.01.00 (31673) 五月 15, 2009-->
+<!--projectile-motion-strings_zh_TW.xml created Mon Jun 14 22:22:51 CST 2010 using: projectile-motion 2.02.00 (37323), translation-utility 2.08.00 (39581) 四月 2, 2010-->
 <SimStrings>
-<string key="dragLabel" value="拖曳係數"/>
-<string key="userChoice" value="使用選擇"/>
+<string key="dragLabel" value="阻力係數"/>
+<string key="userChoice" value="使用者選擇"/>
 <string key="altitudeLabel" value="高度(公尺)"/>
 <string key="football" value="足球"/>
 <string key="golfball" value="高爾夫球"/>
 <string key="simTitle" value="拋物線運動"/>
-<string key="collision" value="碰撞"/>
+<string key="collision" value="碰撞！"/>
 <string key="adultHuman" value="成人"/>
 <string key="time" value="時間(秒)"/>
 <string key="buick" value="別克汽車"/>
 <string key="diameter" value="直徑(公尺)"/>
-<string key="initSpeed" value="起始速度(公尺/每秒)"/>
+<string key="initSpeed" value="初速率(公尺/每秒)"/>
 <string key="bowlingball" value="保齡球"/>
 <string key="piano" value="鋼琴"/>
 <string key="sound" value="聲音"/>
 <string key="range" value="範圍(公尺)"/>
-<string key="mass" value="重量(公斤)"/>
+<string key="mass" value="質量(公斤)"/>
 <string key="height" value="高度(公尺)"/>
 <string key="pumpkin" value="南瓜"/>
 <string key="score" value="命中得分！"/>
-<string key="angle" value="角度(度數)"/>
+<string key="angle" value="角度(度)"/>
 <string key="baseball" value="棒球"/>
 <string key="airResistance" value="空氣阻力"/>
 <string key="fire" value="發射"/>
-<string key="erase" value="清空"/>
+<string key="erase" value="清除"/>
 <string key="tankshell" value="砲彈射擊"/>
 </SimStrings>
