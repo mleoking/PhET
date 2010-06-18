@@ -14,6 +14,7 @@ import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel.ModelChangeAdapter;
+import edu.colorado.phet.acidbasesolutions.model.ABSModelElement.ModelElementChangeAdapter;
 import edu.colorado.phet.acidbasesolutions.view.ABSRadioButton;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 
@@ -23,6 +24,8 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class ToolsControl extends JPanel {
+    
+    private static final Color SEPARATOR_COLOR = new Color( 150, 150, 150 );
 
     private final ABSModel model;
     private final JRadioButton pHPaperRadioButton, conductivityTesterRadioButton;
@@ -40,7 +43,7 @@ public class ToolsControl extends JPanel {
         }
     }
     
-    public ToolsControl( ABSModel model ) {
+    public ToolsControl( final ABSModel model ) {
         
         // model
         this.model = model;
@@ -48,6 +51,12 @@ public class ToolsControl extends JPanel {
             @Override
             public void waterVisibleChanged() {
                 updateControl();
+            }
+        });
+        model.getMagnifyingGlass().addModelElementChangeListener( new ModelElementChangeAdapter() {
+            @Override
+            public void visibilityChanged() {
+                showWaterCheckBox.setEnabled( model.getMagnifyingGlass().isVisible() );
             }
         });
         
@@ -86,7 +95,9 @@ public class ToolsControl extends JPanel {
         layout.addComponent( conductivityTesterRadioButton, row++, column );
         layout.addComponent( magnifyingGlassRadioButton, row++, column );
         layout.addComponent( concentrationGraphRadioButton, row++, column );
-        layout.addFilledComponent( new JSeparator(), row++, column, GridBagConstraints.HORIZONTAL );
+        JSeparator separator = new JSeparator();
+        separator.setForeground( SEPARATOR_COLOR );
+        layout.addFilledComponent( separator, row++, column, GridBagConstraints.HORIZONTAL );
         layout.addComponent( pHMeterCheckBox, row++, column );
         layout.addComponent( showWaterCheckBox, row++, column );
         
