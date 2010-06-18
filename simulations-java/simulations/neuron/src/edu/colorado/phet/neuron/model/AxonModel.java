@@ -2,8 +2,6 @@
 
 package edu.colorado.phet.neuron.model;
 
-import java.awt.Shape;
-import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -345,6 +343,10 @@ public class AxonModel implements IParticleCapture {
     	if (wasLockedOut){
     		notifyStimulusLockoutStateChanged();
     	}
+    	
+    	// Clear any previous recording and discontinue recording.
+    	stopRecording();
+    	clearRecording();
     	
     	// Set the membrane chart to its initial state.
     	setPotentialChartVisible(DEFAULT_FOR_MEMBRANE_CHART_VISIBILITY);
