@@ -75,12 +75,10 @@ public class MembranePotentialChart extends PNode {
     private AxonModel axonModel;
 	private XYSeries dataSeries = new XYSeries("0");
 	private ChartCursor chartCursor;
-
 	private static NumberAxis xAxis;
 	private static NumberAxis yAxis;
-	
+	private boolean chartIsFull = false;
 	private double updateCountdownTimer = 0;  // Init to zero to an update occurs right away.
-	
 	private boolean recording = false;
 	private double timeIndexOfFirstDataPt = 0;
 	
@@ -122,6 +120,7 @@ public class MembranePotentialChart extends PNode {
     			}
     			// Start recording, if it isn't already happening.
     			recording = true;
+    			axonModel.startRecording();
     		}
     	});
         
@@ -206,10 +205,16 @@ public class MembranePotentialChart extends PNode {
 				// If an action potential is in progress, start or continue
 				// recording.
 				if (axonModel.isStimulusInitiationLockedOut()){
+					// Note: Using isStimulusInitiationLockedOut is a bit of
+					// an indirect way to figure out if an AP is in progress,
+					// but it works.
 					recording = true;
+					axonModel.startRecording();
 				}
-				else{
+				else if (recording){
+					// Stop recording if one is in progress.
 					recording = false;
+					axonModel.stopRecording();
 				}
 				// Clear the chart.
 				clearChart();
@@ -250,7 +255,11 @@ public class MembranePotentialChart extends PNode {
     	assert (time - timeIndexOfFirstDataPt >= 0);
     	if (time - timeIndexOfFirstDataPt <= TIME_SPAN){
     		dataSeries.add(time - timeIndexOfFirstDataPt, voltage * 1000, update);
+    		chartIsFull = false;
     		moveCursorToEndOfData();
+    	}
+    	else{
+    		chartIsFull = true;
     	}
     }
     
@@ -318,7 +327,7 @@ public class MembranePotentialChart extends PNode {
     private void updateChart(ClockEvent clockEvent){
     	
     	if (recording){
-    		if (!chartIsFull()){
+    		if (!chartIsFull){
     			updateCountdownTimer -= clockEvent.getSimulationTimeChange();
     			
     			double timeInMilliseconds = clockEvent.getSimulationTime() * 1000;
@@ -331,26 +340,21 @@ public class MembranePotentialChart extends PNode {
     				addDataPoint(timeInMilliseconds, axonModel.getMembranePotential(), false);
     			}
     		}
-    	}
-    	else{
-    		// The chart is not currently recording.  Is there data?
-    		if (dataSeries.getItemCount() > 0){
-    			// Yes there is, so it should be cleared.
-    			dataSeries.clear();
+    		else{
+    			// The chart is full, so it is time to stop recording.
+    			recording = false;
+    			axonModel.stopRecording();
     		}
     	}
+//    	else{
+//    		// The chart is not currently recording.  Is there data?
+//    		if (dataSeries.getItemCount() > 0){
+//    			// Yes there is, so it should be cleared.
+//    			dataSeries.clear();
+//    		}
+//    	}
     }
     
-    private boolean chartIsFull(){
-    	boolean chartIsFull = false;
-    	if (dataSeries.getItemCount() >= 2){
-    		if (dataSeries.getDataItem(dataSeries.getItemCount() - 1).getX().doubleValue() >= TIME_SPAN){
-    			chartIsFull = true;
-    		}
-    	}
-    	return chartIsFull;
-    }
-
     /**
      * Clear all data from the chart.
      *  
@@ -358,6 +362,8 @@ public class MembranePotentialChart extends PNode {
      */
     private void clearChart(){
     	dataSeries.clear();
+    	chartIsFull = false;
+    	axonModel.clearRecording();
     }
     
     public JFreeChartNode getJFreeChartNode() {
