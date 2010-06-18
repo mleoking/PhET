@@ -1551,7 +1551,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/simulations-java/simulations/moving-man-ii/data" />
+          <root url="file://$MODULE_DIR$/simulations-java/simulations/moving-man/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
