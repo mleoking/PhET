@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--wave-on-a-string-strings_zh_TW.xml created Sun Jun 21 12:57:24 CST 2009 using: wave-on-a-string 2.00.00 (30671), translation-utility 2.01.00 (31673) 五月 15, 2009-->
+<!--wave-on-a-string-strings_zh_TW.xml created Mon Jun 14 22:23:55 CST 2010 using: wave-on-a-string 2.01.00 (37327), translation-utility 2.08.00 (39581) 四月 2, 2010-->
 <SimStrings>
-<string key="manual" value="操作手冊"/>
+<string key="manual" value="手動"/>
 <string key="resetTimer" value="重置"/>
 <string key="damping" value="阻尼"/>
-<string key="simTitle" value="弦波"/>
-<string key="showHelp" value="顯示輔助"/>
-<string key="pulse" value="脈衝"/>
+<string key="simTitle" value="繩波"/>
+<string key="showHelp" value="顯示說明"/>
+<string key="pulse" value="脈波"/>
 <string key="amplitude" value="振幅"/>
 <string key="pausePlay" value="暫停/播放"/>
 <string key="step" value="下一步"/>
 <string key="tension" value="張力"/>
 <string key="startTimer" value="開始/暫停"/>
-<string key="pulseWidth" value="脈衝寬度"/>
+<string key="pulseWidth" value="脈波寬度"/>
 <string key="rulerHelp" value="可拖曳的尺規"/>
 <string key="high" value="高"/>
-<string key="wiggleWrench" value="扳手"/>
+<string key="wiggleWrench" value="擺動扳手！"/>
 <string key="timer" value="計時器"/>
 <string key="oscillate" value="振盪"/>
 <string key="rulers" value="尺規"/>
@@ -23,12 +23,12 @@
 <string key="wrenchHelp" value="可拖曳的扳手"/>
 <string key="fixedEnd" value="固定端"/>
 <string key="refLineHelp" value="可拖曳的參考線"/>
-<string key="hideHelp" value="輔助隱藏"/>
+<string key="hideHelp" value="隱藏說明"/>
 <string key="timerHelp" value="可拖曳的計時器"/>
-<string key="looseEnd" value="自由端"/>
+<string key="looseEnd" value="鬆弛端"/>
 <string key="noEnd" value="無邊界"/>
 <string key="paused" value="暫停"/>
 <string key="reset" value="重置"/>
-<string key="pulse2" value="脈衝"/>
+<string key="pulse2" value="脈波"/>
 <string key="low" value="低"/>
 </SimStrings>
