@@ -116,10 +116,10 @@ public abstract class PhetPage extends WebPage implements Stylable {
                 //add( new InvisibleComponent( "search-panel" ) );
                 //String installURL = FullInstallPanel.getLinker().getHref( getPageContext(), getPhetCycle() );
                 //String linkToMainSite = "<a " + installURL + " onclick=\"document.location='http://phet.colorado.edu'; return false;\">http://phet.colorado.edu</a>";
-                String linkToMainSite = "<a href=\"http://phet.colorado.edu\" onclick=\"document.location='http://phet.colorado.edu'; return false;\">http://phet.colorado.edu</a>";
+                //String linkToMainSite = "<a href=\"http://phet.colorado.edu\" onclick=\"document.location='http://phet.colorado.edu'; return false;\">http://phet.colorado.edu</a>";
                 add( new LocalizedText( "search-panel", "installer.mostUpToDate", new Object[]{
                         new Date(),
-                        linkToMainSite
+                        FullInstallPanel.getLinker().getHref( getPageContext(), getPhetCycle() )
                 } ) );
             }
             else {
