@@ -1,6 +1,9 @@
 package edu.colorado.phet.movingmanii.model;
 
 /**
+ * The ManState records the state of the man character for purposes of record and playback.
+ * It is immutable since you should not be able to modify a recorded sample.
+ *
  * @author Sam Reid
  */
 public class ManState {
