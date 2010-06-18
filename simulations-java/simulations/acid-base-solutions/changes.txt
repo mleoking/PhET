@@ -1,3 +1,5 @@
+# 0.00.13 (41783) Jun 17, 2010
+6/17/10 dev version with 6/17/10 change requests
 6/17/10 enable "Show Water" check box only when Magnifying Glass is selected
 6/17/10 show 2 water molecules above "2H2O" symbol in water reaction equation
 6/17/10 change strength range: 1e-10 to 1e2
