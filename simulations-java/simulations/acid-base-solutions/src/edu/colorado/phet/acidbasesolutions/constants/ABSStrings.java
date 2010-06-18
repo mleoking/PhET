@@ -41,7 +41,7 @@ public class ABSStrings {
     public static final String BASE = getString( "base" );
     public static final String TEST_SOLUTION = getString( "testSolution" ); 
     public static final String CUSTOM_SOLUTION = getString( "customSolution" ); 
-    public static final String MOLAR = getString( "molar" );
+    public static final String MOLES_PER_LITER = getString( "molesPerLiter" );
     public static final String LITERS = getString( "liters" );
     public static final String MAGNIFYING_GLASS = getString( "magnifyingGlass" );
     public static final String BAR_GRAPH = getString( "barGraph" );

@@ -230,7 +230,7 @@ public class CustomSolutionControl extends JPanel {
             double value = ABSConstants.CONCENTRATION_RANGE.getDefault();
             String label = ABSStrings.CONCENTRATION;
             String textFieldPattern = "0.000";
-            String units = ABSStrings.MOLAR;
+            String units = ABSStrings.MOLES_PER_LITER;
             concentrationControl = new LogarithmicValueControl( min, max, label, textFieldPattern, units );
             concentrationControl.setValue( value );
             
