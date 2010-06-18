@@ -12,7 +12,7 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.neuron.model.AxonModel;
+import edu.colorado.phet.neuron.model.NeuronModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -30,7 +30,7 @@ public class ChargeSymbolNode extends PNode {
 	// less than 1.
 	private static final double THICKNESS_FACTOR = 0.4;
 	
-	private final AxonModel axonModel;
+	private final NeuronModel axonModel;
 	private final double maxPotential;
 	private final double maxWidth;
 	private final boolean polarityReversed;
@@ -44,14 +44,14 @@ public class ChargeSymbolNode extends PNode {
      * @param polarityReversed - Whether the polarity is reversed, meaning that
      * a plus is shown for a negative value and vice versa. 
      */
-    public ChargeSymbolNode( AxonModel axonModel, double maxWidth, double maxPotential, boolean polarityReversed ) {
+    public ChargeSymbolNode( NeuronModel axonModel, double maxWidth, double maxPotential, boolean polarityReversed ) {
     	
 		this.axonModel = axonModel;
 		this.maxWidth = maxWidth;
 		this.polarityReversed = polarityReversed;
 		this.maxPotential = maxPotential;
 
-        axonModel.addListener(new AxonModel.Adapter(){
+        axonModel.addListener(new NeuronModel.Adapter(){
     		public void membranePotentialChanged() {
     			updateRepresentation();
     		}

@@ -34,7 +34,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.neuron.NeuronStrings;
-import edu.colorado.phet.neuron.model.AxonModel;
+import edu.colorado.phet.neuron.model.NeuronModel;
 import edu.colorado.phet.neuron.module.NeuronDefaults;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -72,7 +72,7 @@ public class MembranePotentialChart extends PNode {
 	
     private JFreeChart chart;
     private JFreeChartNode jFreeChartNode;
-    private AxonModel axonModel;
+    private NeuronModel axonModel;
 	private XYSeries dataSeries = new XYSeries("0");
 	private ChartCursor chartCursor;
 	private static NumberAxis xAxis;
@@ -86,7 +86,7 @@ public class MembranePotentialChart extends PNode {
     // Constructor(s)
     //----------------------------------------------------------------------------
 	
-    public MembranePotentialChart( Dimension2D size, String title, final AxonModel axonModel ) {
+    public MembranePotentialChart( Dimension2D size, String title, final NeuronModel axonModel ) {
     	
     	assert axonModel != null;
         this.axonModel = axonModel;
@@ -110,7 +110,7 @@ public class MembranePotentialChart extends PNode {
     	});
     	
     	// Register for model events that are important to us.
-    	axonModel.addListener(new AxonModel.Adapter(){
+    	axonModel.addListener(new NeuronModel.Adapter(){
     		
     		public void stimulusPulseInitiated() {
     			if (!MembranePotentialChart.this.axonModel.isPotentialChartVisible()){

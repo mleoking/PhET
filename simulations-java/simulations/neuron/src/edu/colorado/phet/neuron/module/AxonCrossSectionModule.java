@@ -17,7 +17,7 @@ import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.StepBackButton;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.StepButton;
 import edu.colorado.phet.neuron.NeuronStrings;
 import edu.colorado.phet.neuron.controlpanel.AxonCrossSectionControlPanel;
-import edu.colorado.phet.neuron.model.AxonModel;
+import edu.colorado.phet.neuron.model.NeuronModel;
 import edu.colorado.phet.neuron.model.IHodgkinHuxleyModel;
 import edu.colorado.phet.neuron.model.NeuronClock;
 import edu.colorado.phet.neuron.view.NeuronCanvas;
@@ -33,7 +33,7 @@ public class AxonCrossSectionModule extends PiccoloModule {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private AxonModel model;
+    private NeuronModel model;
     private NeuronCanvas canvas;
     private AxonCrossSectionControlPanel controlPanel;
     private PiccoloClockControlPanel clockControlPanel;
@@ -48,7 +48,7 @@ public class AxonCrossSectionModule extends PiccoloModule {
 
         // Model
         NeuronClock clock = (NeuronClock) getClock();
-        model = new AxonModel( clock );
+        model = new NeuronModel( clock );
         
         // Canvas
         canvas = new NeuronCanvas( model );
