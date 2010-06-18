@@ -78,7 +78,7 @@ public class AcidBaseSolutionsApplication extends PiccoloPhetApplication {
 
         // File->Save/Load
         final PhetFrame frame = getPhetFrame();
-        frame.addFileSaveLoadMenuItems();
+//        frame.addFileSaveLoadMenuItems();  //XXX does this sim have Save/Load?
         if ( persistenceManager == null ) {
             persistenceManager = new XMLPersistenceManager( frame );
         }
