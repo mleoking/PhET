@@ -2,10 +2,7 @@
 
 package edu.colorado.phet.acidbasesolutions.view;
 
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import java.awt.*;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSImages;
 import edu.colorado.phet.acidbasesolutions.constants.ABSSymbols;
@@ -27,6 +24,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public class ReactionEquationNode extends PComposite {
     
     private static final Font SYMBOL_FONT = new PhetFont( 20 );
+    private static final Image TWO_H2O_IMAGE = create2H2OImage();
     
     private static class SymbolNode extends HTMLNode {
         public SymbolNode( String html ) {
@@ -76,7 +74,7 @@ public class ReactionEquationNode extends PComposite {
         PImage imageLHS1, imageLHS2, imageRHS1, imageRHS2;
         SymbolNode symbolLHS1, symbolLHS2, symbolRHS1, symbolRHS2;
         if ( isPureWater ) {
-            imageLHS1 = new PImage( ABSImages.H2O_MOLECULE );
+            imageLHS1 = new PImage( TWO_H2O_IMAGE );
             symbolLHS1 = new SymbolNode( "2" + ABSSymbols.H2O );
             imageLHS2 = null;
             symbolLHS2 = null;
@@ -150,5 +148,25 @@ public class ReactionEquationNode extends PComposite {
         constraints.gridx++;
         layoutNode.addChild( symbolRHS2, constraints );
         constraints.gridx++;
+    }
+    
+    /*
+     * For the water reaction equation, the first term is "2H2O",
+     * so we need 2 water molecules side by side.
+     */
+    private static Image create2H2OImage() {
+        // create 2 identical image nodes
+        PImage node1 = new PImage( ABSImages.H2O_MOLECULE );
+        PImage node2 = new PImage( ABSImages.H2O_MOLECULE );
+        // give them a common parent
+        PComposite parent = new PComposite();
+        parent.addChild( node1 );
+        parent.addChild( node2 );
+        // position the nodes side-by-side
+        node1.setOffset( 0, 0 );
+        final double xSpacing = 2;
+        node2.setOffset( node1.getFullBoundsReference().getMaxX() + xSpacing, node1.getYOffset() );
+        // convert the parent to an image
+        return parent.toImage();
     }
 }
