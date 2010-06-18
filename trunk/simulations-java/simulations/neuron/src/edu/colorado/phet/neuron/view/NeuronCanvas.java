@@ -29,7 +29,7 @@ import edu.colorado.phet.common.piccolophet.PhetRootPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.neuron.NeuronConstants;
 import edu.colorado.phet.neuron.NeuronStrings;
-import edu.colorado.phet.neuron.model.AxonModel;
+import edu.colorado.phet.neuron.model.NeuronModel;
 import edu.colorado.phet.neuron.model.MembraneChannel;
 import edu.colorado.phet.neuron.model.Particle;
 import edu.colorado.phet.neuron.model.PotassiumIon;
@@ -79,7 +79,7 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     //----------------------------------------------------------------------------
 
     // Model
-    private AxonModel model;
+    private NeuronModel model;
     
     // Model-view transform.
     private ModelViewTransform2D mvt;
@@ -126,7 +126,7 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public NeuronCanvas( final AxonModel model ) {
+    public NeuronCanvas( final NeuronModel model ) {
 
     	this.model = model;
 
@@ -142,7 +142,7 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
         		true);
 
         // Register for events from the model.
-        this.model.addListener(new AxonModel.Adapter() {
+        this.model.addListener(new NeuronModel.Adapter() {
 			public void channelAdded(MembraneChannel channel) {
 				addChannelNode(channel);
 			}

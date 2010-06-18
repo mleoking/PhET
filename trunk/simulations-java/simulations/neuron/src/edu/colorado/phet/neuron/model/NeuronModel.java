@@ -21,7 +21,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
  *
  * @author John Blanco
  */
-public class AxonModel implements IParticleCapture {
+public class NeuronModel implements IParticleCapture {
     
     //----------------------------------------------------------------------------
     // Class Data
@@ -137,7 +137,7 @@ public class AxonModel implements IParticleCapture {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public AxonModel( NeuronClock clock ) {
+    public NeuronModel( NeuronClock clock ) {
     	
         this.clock = clock;
         
@@ -1128,7 +1128,7 @@ public class AxonModel implements IParticleCapture {
      */
     private static class ModelState {
     	
-    	public ModelState(AxonModel model){
+    	public ModelState(NeuronModel model){
     		
     	}
     }

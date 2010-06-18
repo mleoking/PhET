@@ -21,7 +21,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.neuron.NeuronConstants;
 import edu.colorado.phet.neuron.NeuronResources;
 import edu.colorado.phet.neuron.NeuronStrings;
-import edu.colorado.phet.neuron.model.AxonModel;
+import edu.colorado.phet.neuron.model.NeuronModel;
 
 /**
  * Control panel for the axon cross section module.
@@ -37,7 +37,7 @@ public class AxonCrossSectionControlPanel extends ControlPanel {
 	//----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
-	private AxonModel axonModel;
+	private NeuronModel axonModel;
 	
 	private JCheckBox showAllIonsCheckBox;
 	private JCheckBox chartControlCheckbox;
@@ -54,13 +54,13 @@ public class AxonCrossSectionControlPanel extends ControlPanel {
      * @param module
      * @param parentFrame parent frame, for creating dialogs
      */
-    public AxonCrossSectionControlPanel( PiccoloModule module, Frame parentFrame, final AxonModel model ) {
+    public AxonCrossSectionControlPanel( PiccoloModule module, Frame parentFrame, final NeuronModel model ) {
         super();
         
         this.axonModel = model;
 
         // Listen to the model for changes that affect this control panel.
-        model.addListener(new AxonModel.Adapter(){
+        model.addListener(new NeuronModel.Adapter(){
         	@Override
     		public void potentialChartVisibilityChanged() {
     			updateChartVisibilityCheckBox();
