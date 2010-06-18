@@ -63,7 +63,7 @@ public class ABSConstants {
     public static final double WATER_EQUILIBRIUM_CONSTANT = 1E-14;
     
     public static final DoubleRange CONCENTRATION_RANGE = new DoubleRange( 1E-3, 1, 1E-2 );
-    public static final DoubleRange WEAK_STRENGTH_RANGE = new DoubleRange( 1E-7, 1, 1E-7 );
+    public static final DoubleRange WEAK_STRENGTH_RANGE = new DoubleRange( 1E-10, 1E2, 1E-7 );
     public static final double STRONG_STRENGTH = WEAK_STRENGTH_RANGE.getMax() + 1;
     
     //----------------------------------------------------------------------------
