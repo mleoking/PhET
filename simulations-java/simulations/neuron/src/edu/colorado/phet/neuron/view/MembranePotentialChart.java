@@ -214,7 +214,7 @@ public class MembranePotentialChart extends PNode {
 				else if (recording){
 					// Stop recording if one is in progress.
 					recording = false;
-					axonModel.stopRecording();
+//					axonModel.stopRecording();
 				}
 				// Clear the chart.
 				clearChart();
@@ -343,7 +343,7 @@ public class MembranePotentialChart extends PNode {
     		else{
     			// The chart is full, so it is time to stop recording.
     			recording = false;
-    			axonModel.stopRecording();
+//    			axonModel.stopRecording();
     		}
     	}
 //    	else{

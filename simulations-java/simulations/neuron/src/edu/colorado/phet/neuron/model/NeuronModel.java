@@ -13,6 +13,8 @@ import javax.swing.event.EventListenerList;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.neuron.model.AxonMembrane.AxonMembraneState;
+import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel;
 
 /**
  * This class represents the main class for modeling the axon.  It acts as the
@@ -21,7 +23,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
  *
  * @author John Blanco
  */
-public class NeuronModel implements IParticleCapture {
+public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelState> implements IParticleCapture {
     
     //----------------------------------------------------------------------------
     // Class Data
@@ -127,17 +129,14 @@ public class NeuronModel implements IParticleCapture {
     private double potassiumInteriorConcentration = NOMINAL_POTASSIUM_INTERIOR_CONCENTRATION;
     private double potassiumExteriorConcentration = NOMINAL_POTASSIUM_EXTERIOR_CONCENTRATION;
     
-    // Variables associated with record-and-playback functionality.
-    private RecordingState recordingState = RecordingState.IDLE;
-    private double recordingStartTimeIndex = 0;
-    private double recordingEndTimeIndex = 0;
-    private ModelState modelStateWhenPlaybackStarted = null;
-
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
     public NeuronModel( NeuronClock clock ) {
+    	// TODO: Should derive the max points based on the chart and the
+    	// min clock speed.
+    	super(Integer.MAX_VALUE);
     	
         this.clock = clock;
         
@@ -301,6 +300,9 @@ public class NeuronModel implements IParticleCapture {
     //----------------------------------------------------------------------------
     
     public void reset(){
+
+    	// Reset the superclass, which contains the recording state & data.
+    	super.resetAll();
     	
     	// Reset the axon membrane.
     	axonMembrane.reset();
@@ -345,10 +347,6 @@ public class NeuronModel implements IParticleCapture {
     	if (wasLockedOut){
     		notifyStimulusLockoutStateChanged();
     	}
-    	
-    	// Clear any previous recording and discontinue recording.
-    	stopRecording();
-    	clearRecording();
     	
     	// Set the membrane chart to its initial state.
     	setPotentialChartVisible(DEFAULT_FOR_MEMBRANE_CHART_VISIBILITY);
@@ -535,181 +533,13 @@ public class NeuronModel implements IParticleCapture {
     	channel.moveParticleThroughNeuronMembrane(particleToCapture, maxVelocity);
     }
     
-    private void stepInTime(double dt){
-    	
-    	if (dt > 0){
-    		if (recordingState == RecordingState.PLAYING_BACK){
-    			// A positive time value was received when we were playing
-    			// back previously recorded model states.  For this
-    			// simulation, this means that we restore the last model state
-    			// previously recorded and start from there (as opposed to
-    			// starting from the current previously-recorded point).
-    			assert modelStateWhenPlaybackStarted != null;
-    			restoreFullModelState(modelStateWhenPlaybackStarted);
-    		}
-    		// This is a step forward in time.  Update the value of the
-    		// membrane potential by stepping the Hodgkins-Huxley model.
-    		hodgkinHuxleyModel.stepInTime( dt );
-    		if (Math.abs(previousMembranePotential - hodgkinHuxleyModel.getMembraneVoltage()) > MEMBRANE_POTENTIAL_CHANGE_THRESHOLD){
-    			previousMembranePotential = hodgkinHuxleyModel.getMembraneVoltage();
-    			notifyMembranePotentialChanged();
-    		}
-    		
-    		// Step the membrane in time.
-    		axonMembrane.stepInTime( dt );
-    		
-    		// Update the stimulus lockout timer.
-    		if (stimLockoutCountdownTime >= 0){
-    			stimLockoutCountdownTime -= dt;
-    			if (stimLockoutCountdownTime <= 0){
-    				notifyStimulusLockoutStateChanged();
-    			}
-    		}
-    		
-    		// Step the channels.
-    		for (MembraneChannel channel : membraneChannels){
-    			channel.stepInTime( dt );
-    		}
-    		
-    		// Step the particles.  Since particles may remove themselves as a
-    		// result of being stepped, we need to copy the list in order to avoid
-    		// concurrent modification exceptions.
-    		ArrayList<Particle> particlesCopy = new ArrayList<Particle>(particles);
-    		for (Particle particle : particlesCopy){
-    			particle.stepInTime( dt );
-    		}
-    		
-    		// Adjust the overall potassium and sodium concentration levels based
-    		// parameters of the HH model.  This is done solely to provide values
-    		// that can be displayed to the user, and are not used for anything
-    		// else in the model.
-    		boolean concentrationChanged = false;
-    		double potassiumConductance = hodgkinHuxleyModel.get_delayed_n4(CONCENTRATION_READOUT_DELAY);
-    		if (potassiumConductance != 0){
-    			// Potassium is moving out of the cell as part of the process of
-    			// an action potential, so adjust the interior and exterior
-    			// concentration values.
-    			potassiumExteriorConcentration += potassiumConductance * dt * EXTERIOR_CONCENTRATION_CHANGE_RATE_POTASSIUM;
-    			potassiumInteriorConcentration -= potassiumConductance * dt * INTERIOR_CONCENTRATION_CHANGE_RATE_POTASSIUM;
-    			concentrationChanged = true;
-    		}
-    		else{
-    			if (potassiumExteriorConcentration != NOMINAL_POTASSIUM_EXTERIOR_CONCENTRATION){
-    				double difference = Math.abs(potassiumExteriorConcentration - NOMINAL_POTASSIUM_EXTERIOR_CONCENTRATION);
-    				if (difference < CONCENTRATION_DIFF_THRESHOLD){
-    					// Close enough to consider it fully restored.
-    					potassiumExteriorConcentration = NOMINAL_POTASSIUM_EXTERIOR_CONCENTRATION;
-    				}
-    				else{
-    					// Move closer to the nominal value.
-    					potassiumExteriorConcentration -= difference * CONCENTRATION_RESTORATION_FACTOR * dt; 
-    				}
-    				concentrationChanged = true;
-    			}
-    			if (potassiumInteriorConcentration != NOMINAL_POTASSIUM_INTERIOR_CONCENTRATION){
-    				double difference = Math.abs(potassiumInteriorConcentration - NOMINAL_POTASSIUM_INTERIOR_CONCENTRATION);
-    				if (difference < CONCENTRATION_DIFF_THRESHOLD){
-    					// Close enough to consider it fully restored.
-    					potassiumInteriorConcentration = NOMINAL_POTASSIUM_INTERIOR_CONCENTRATION;
-    				}
-    				else{
-    					// Move closer to the nominal value.
-    					potassiumInteriorConcentration += difference * CONCENTRATION_RESTORATION_FACTOR * dt; 
-    				}
-    				concentrationChanged = true;
-    			}
-    		}
-    		double sodiumConductance = hodgkinHuxleyModel.get_delayed_m3h(CONCENTRATION_READOUT_DELAY);
-    		if (hodgkinHuxleyModel.get_m3h() != 0){
-    			// Sodium is moving in to the cell as part of the process of an
-    			// action potential, so adjust the interior and exterior
-    			// concentration values.
-    			sodiumExteriorConcentration -= sodiumConductance * dt * EXTERIOR_CONCENTRATION_CHANGE_RATE_SODIUM;
-    			sodiumInteriorConcentration += sodiumConductance * dt * INTERIOR_CONCENTRATION_CHANGE_RATE_SODIUM;
-    			concentrationChanged = true;
-    		}
-    		else{
-    			if (sodiumExteriorConcentration != NOMINAL_SODIUM_EXTERIOR_CONCENTRATION){
-    				double difference = Math.abs(sodiumExteriorConcentration - NOMINAL_SODIUM_EXTERIOR_CONCENTRATION);
-    				if (difference < CONCENTRATION_DIFF_THRESHOLD){
-    					// Close enough to consider it fully restored.
-    					sodiumExteriorConcentration = NOMINAL_SODIUM_EXTERIOR_CONCENTRATION;
-    				}
-    				else{
-    					// Move closer to the nominal value.
-    					sodiumExteriorConcentration += difference * CONCENTRATION_RESTORATION_FACTOR * dt; 
-    				}
-    				concentrationChanged = true;
-    			}
-    			if (sodiumInteriorConcentration != NOMINAL_SODIUM_INTERIOR_CONCENTRATION){
-    				double difference = Math.abs(sodiumInteriorConcentration - NOMINAL_SODIUM_INTERIOR_CONCENTRATION);
-    				if (difference < CONCENTRATION_DIFF_THRESHOLD){
-    					// Close enough to consider it fully restored.
-    					sodiumInteriorConcentration = NOMINAL_SODIUM_INTERIOR_CONCENTRATION;
-    				}
-    				else{
-    					// Move closer to the nominal value.
-    					sodiumInteriorConcentration -= difference * CONCENTRATION_RESTORATION_FACTOR * dt; 
-    				}
-    				concentrationChanged = true;
-    			}
-    		}
-    		if (concentrationChanged){
-    			notifyConcentrationChanged();
-    		}
-    	}
-    	else if (dt < 0){
-    		// This is a step backwards in time.  Are we already in playback
-    		// mode?
-    		if (recordingState == RecordingState.PLAYING_BACK){
-    			// Yes we are, so just set the playback index to the current
-    			// clock time.
-    			setPlaybackState(getClock().getSimulationTime());
-    		}
-    		else{
-    			// No, we are not yet in playback mode.  We need to capture
-    			// the current full model state (for later restoration) and
-    			// switch into playback mode.
-    			modelStateWhenPlaybackStarted = captureFullModelState();
-    			recordingState = RecordingState.PLAYING_BACK;
-    			setPlaybackState(getClock().getSimulationTime());
-    		}
-    	}
-    }
+//    public void stepInTime(double dt){
+//    	
+//    }
     
-    private void setPlaybackState(double playbackTime) {
-    	System.out.println("setPlaybackState called, playbackTime = " + playbackTime);
-		// TODO Auto-generated method stub
-	}
-
-	private ModelState captureFullModelState(){
+	private NeuronModelState getState(){
     	// TODO: Stubbed for now.
-    	return new ModelState(this);
-    }
-    
-    private void restoreFullModelState(ModelState state){
-    	// TODO: Stubbed for now.
-    }
-    
-    /**
-     * Start or resume recording of the simulation activity.  When recording,
-     * the sim will capture enough state information at each time step to
-     * allow it to play back a visual representation of everything that
-     * happened.
-     */
-    public void startRecording(){
-    	recordingState = RecordingState.RECORDING;
-    	recordingStartTimeIndex = getClock().getSimulationTime();
-    	System.out.println("startRecording called, recording start time = " + recordingStartTimeIndex);
-    }
-    
-    /**
-     * Stop the current recording, i.e. the collecting of state information
-     * that will allow playback later.
-     */
-    public void stopRecording(){
-    	System.out.println("stopRecording called.");
-    	recordingState = RecordingState.IDLE;
+    	return new NeuronModelState(axonMembrane.getState());
     }
     
     /**
@@ -1112,24 +942,142 @@ public class NeuronModel implements IParticleCapture {
     }
     
     /**
-     * This class contains state information about the model at a given point
-     * in time.  However, these snapshots contain just enough information to
-     * allow the model to portray the particular moment in time, but not
-     * enough to actually resume simulating from that point.  
-     */
-    private static class RecordingSnapshot {
-    	// TODO: Stubbed for now.
-    }
-
-    /**
      * This class contains state information about the model for a given point
      * in time.  This contains enough information that, if restored to the
      * model, the model will be able to resume the simulation.
      */
-    private static class ModelState {
+    public static class NeuronModelState {
     	
-    	public ModelState(NeuronModel model){
-    		
+    	private final AxonMembraneState axonMembraneState;
+
+		public NeuronModelState(AxonMembraneState axonMembraneState){
+    		this.axonMembraneState = axonMembraneState;
     	}
+		
+		protected AxonMembraneState getAxonMembraneState() {
+			return axonMembraneState;
+		}
     }
+
+	@Override
+	public void setPlaybackState(NeuronModelState state) {
+		axonMembrane.setState(state.getAxonMembraneState());
+	}
+
+	@Override
+	public NeuronModelState stepRecording(double dt) {
+		// This is a step forward in time.  Update the value of the
+		// membrane potential by stepping the Hodgkins-Huxley model.
+		hodgkinHuxleyModel.stepInTime( dt );
+		if (Math.abs(previousMembranePotential - hodgkinHuxleyModel.getMembraneVoltage()) > MEMBRANE_POTENTIAL_CHANGE_THRESHOLD){
+			previousMembranePotential = hodgkinHuxleyModel.getMembraneVoltage();
+			notifyMembranePotentialChanged();
+		}
+		
+		// Step the membrane in time.
+		axonMembrane.stepInTime( dt );
+		
+		// Update the stimulus lockout timer.
+		if (stimLockoutCountdownTime >= 0){
+			stimLockoutCountdownTime -= dt;
+			if (stimLockoutCountdownTime <= 0){
+				notifyStimulusLockoutStateChanged();
+			}
+		}
+		
+		// Step the channels.
+		for (MembraneChannel channel : membraneChannels){
+			channel.stepInTime( dt );
+		}
+		
+		// Step the particles.  Since particles may remove themselves as a
+		// result of being stepped, we need to copy the list in order to avoid
+		// concurrent modification exceptions.
+		ArrayList<Particle> particlesCopy = new ArrayList<Particle>(particles);
+		for (Particle particle : particlesCopy){
+			particle.stepInTime( dt );
+		}
+		
+		// Adjust the overall potassium and sodium concentration levels based
+		// parameters of the HH model.  This is done solely to provide values
+		// that can be displayed to the user, and are not used for anything
+		// else in the model.
+		boolean concentrationChanged = false;
+		double potassiumConductance = hodgkinHuxleyModel.get_delayed_n4(CONCENTRATION_READOUT_DELAY);
+		if (potassiumConductance != 0){
+			// Potassium is moving out of the cell as part of the process of
+			// an action potential, so adjust the interior and exterior
+			// concentration values.
+			potassiumExteriorConcentration += potassiumConductance * dt * EXTERIOR_CONCENTRATION_CHANGE_RATE_POTASSIUM;
+			potassiumInteriorConcentration -= potassiumConductance * dt * INTERIOR_CONCENTRATION_CHANGE_RATE_POTASSIUM;
+			concentrationChanged = true;
+		}
+		else{
+			if (potassiumExteriorConcentration != NOMINAL_POTASSIUM_EXTERIOR_CONCENTRATION){
+				double difference = Math.abs(potassiumExteriorConcentration - NOMINAL_POTASSIUM_EXTERIOR_CONCENTRATION);
+				if (difference < CONCENTRATION_DIFF_THRESHOLD){
+					// Close enough to consider it fully restored.
+					potassiumExteriorConcentration = NOMINAL_POTASSIUM_EXTERIOR_CONCENTRATION;
+				}
+				else{
+					// Move closer to the nominal value.
+					potassiumExteriorConcentration -= difference * CONCENTRATION_RESTORATION_FACTOR * dt; 
+				}
+				concentrationChanged = true;
+			}
+			if (potassiumInteriorConcentration != NOMINAL_POTASSIUM_INTERIOR_CONCENTRATION){
+				double difference = Math.abs(potassiumInteriorConcentration - NOMINAL_POTASSIUM_INTERIOR_CONCENTRATION);
+				if (difference < CONCENTRATION_DIFF_THRESHOLD){
+					// Close enough to consider it fully restored.
+					potassiumInteriorConcentration = NOMINAL_POTASSIUM_INTERIOR_CONCENTRATION;
+				}
+				else{
+					// Move closer to the nominal value.
+					potassiumInteriorConcentration += difference * CONCENTRATION_RESTORATION_FACTOR * dt; 
+				}
+				concentrationChanged = true;
+			}
+		}
+		double sodiumConductance = hodgkinHuxleyModel.get_delayed_m3h(CONCENTRATION_READOUT_DELAY);
+		if (hodgkinHuxleyModel.get_m3h() != 0){
+			// Sodium is moving in to the cell as part of the process of an
+			// action potential, so adjust the interior and exterior
+			// concentration values.
+			sodiumExteriorConcentration -= sodiumConductance * dt * EXTERIOR_CONCENTRATION_CHANGE_RATE_SODIUM;
+			sodiumInteriorConcentration += sodiumConductance * dt * INTERIOR_CONCENTRATION_CHANGE_RATE_SODIUM;
+			concentrationChanged = true;
+		}
+		else{
+			if (sodiumExteriorConcentration != NOMINAL_SODIUM_EXTERIOR_CONCENTRATION){
+				double difference = Math.abs(sodiumExteriorConcentration - NOMINAL_SODIUM_EXTERIOR_CONCENTRATION);
+				if (difference < CONCENTRATION_DIFF_THRESHOLD){
+					// Close enough to consider it fully restored.
+					sodiumExteriorConcentration = NOMINAL_SODIUM_EXTERIOR_CONCENTRATION;
+				}
+				else{
+					// Move closer to the nominal value.
+					sodiumExteriorConcentration += difference * CONCENTRATION_RESTORATION_FACTOR * dt; 
+				}
+				concentrationChanged = true;
+			}
+			if (sodiumInteriorConcentration != NOMINAL_SODIUM_INTERIOR_CONCENTRATION){
+				double difference = Math.abs(sodiumInteriorConcentration - NOMINAL_SODIUM_INTERIOR_CONCENTRATION);
+				if (difference < CONCENTRATION_DIFF_THRESHOLD){
+					// Close enough to consider it fully restored.
+					sodiumInteriorConcentration = NOMINAL_SODIUM_INTERIOR_CONCENTRATION;
+				}
+				else{
+					// Move closer to the nominal value.
+					sodiumInteriorConcentration -= difference * CONCENTRATION_RESTORATION_FACTOR * dt; 
+				}
+				concentrationChanged = true;
+			}
+		}
+		if (concentrationChanged){
+			notifyConcentrationChanged();
+		}
+		
+		// Return model state after each time step.
+		return getState();
+	}
 }
