@@ -10,6 +10,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.ReversePathIterator;
+import edu.colorado.phet.neuron.model.AxonMembrane.TravelingActionPotential.TravelingActionPotentialState;
 
 
 /**
@@ -95,6 +96,33 @@ public class AxonMembrane {
 	
 	public CubicCurve2D getCurveB(){
 		return curveB;
+	}
+	
+	public AxonMembraneState getState(){
+		if (travelingActionPotential == null){
+			return new AxonMembraneState(null);
+		}
+		else{
+			return new AxonMembraneState(travelingActionPotential.getState());
+		}
+	}
+	
+	public void setState(AxonMembraneState axonMembraneState){
+		if (axonMembraneState.getTravelingActionPotentialState() == null && travelingActionPotential != null){
+			// Get rid of the existing TAP.
+			// TODO: Clean up the asymmetry between adding and removing action potential.
+			travelingActionPotential.removeAllListeners();
+			travelingActionPotential = null;
+			notifyTravelingActionPotentialEnded();
+		}
+		else if (axonMembraneState.getTravelingActionPotentialState() != null && travelingActionPotential == null){
+			// A traveling action potential needs to be added.
+			initiateTravelingActionPotential();
+		}
+		if (travelingActionPotential != null){
+			// Set the state to match the new given state.
+			travelingActionPotential.setState(axonMembraneState.getTravelingActionPotentialState());
+		}
 	}
 	
     /**
@@ -262,6 +290,24 @@ public class AxonMembrane {
 		}
 	}
     
+	public class AxonMembraneState {
+		private final TravelingActionPotentialState travelingActionPotentialState;
+
+		public AxonMembraneState( TravelingActionPotentialState travelingActionPotentialState) {
+			this.travelingActionPotentialState = travelingActionPotentialState;
+		}
+		
+		/**
+		 * Return the state of the traveling action potential.  If null, no
+		 * travling action potential exists.
+		 * @return
+		 */
+		protected TravelingActionPotentialState getTravelingActionPotentialState() {
+			return travelingActionPotentialState;
+		}
+		
+	}
+	
     /**
      * Interface for listening to notifications from the axon membrane.
      *
@@ -313,7 +359,6 @@ public class AxonMembrane {
     		if (travelTimeCountdownTimer > 0){
     			travelTimeCountdownTimer -= dt;
     			updateShape();
-    			notifyShapeChanged();
     			if (travelTimeCountdownTimer <= 0){
     				// We've reached the cross section and will now linger
     				// there for a bit.
@@ -329,9 +374,26 @@ public class AxonMembrane {
     			}
     			else{
     				updateShape();
-    				notifyShapeChanged();
     			}
     		}
+    	}
+    	
+    	/**
+    	 * Set the state from a (probably previously captured) version of
+    	 * the interal state.
+    	 */
+    	public void setState(TravelingActionPotentialState state){
+    		this.travelTimeCountdownTimer = state.getTravelTimeCountdownTimer();
+    		this.lingerCountdownTimer = state.getLingerCountdownTimer();
+    		updateShape();
+    	}
+    	
+    	/**
+    	 * Get the state, generally for use in setting the state later for
+    	 * some sort of playback.
+    	 */
+    	public TravelingActionPotentialState getState(){
+    		return new TravelingActionPotentialState(travelTimeCountdownTimer, lingerCountdownTimer);
     	}
     	
     	/**
@@ -349,6 +411,7 @@ public class AxonMembrane {
     			// moving down the axon.  Start by calculating the start and
     			// end points.
     			double travelAmtFactor = 1 - travelTimeCountdownTimer / TRAVELING_TIME;
+    			System.out.println("travelAmtFactor = " + travelAmtFactor);
     			Point2D startPoint = AxonMembrane.evaluateCurve(axonMembrane.getCurveA(), travelAmtFactor);
     			Point2D endPoint = AxonMembrane.evaluateCurve(axonMembrane.getCurveB(), travelAmtFactor);
     			Point2D midPoint = new Point2D.Double((startPoint.getX() + endPoint.getX()) / 2, (startPoint.getY() + endPoint.getY()) / 2);
@@ -380,6 +443,7 @@ public class AxonMembrane {
     			double newHeight = crossSectionEllipse.getHeight() * growthFactor;
     			shape = new Ellipse2D.Double( -newWidth / 2, -newHeight / 2, newWidth, newHeight );
     		}
+    		notifyShapeChanged();
     	}
     	
 		public Shape getShape(){
@@ -392,6 +456,10 @@ public class AxonMembrane {
     	
     	public void removeListener(Listener listener){
     		listeners.remove(listener);
+    	}
+    	
+    	public void removeAllListeners(){
+    		listeners.clear();
     	}
     	
     	private void notifyLingeringCompleted(){
@@ -436,6 +504,26 @@ public class AxonMembrane {
 			public void shapeChanged() {}
     		public void crossSectionReached() {}
     		public void lingeringCompleted() {}
+    	}
+    	
+    	public static class TravelingActionPotentialState {
+    		
+        	private final double travelTimeCountdownTimer;
+			private final double lingerCountdownTimer;
+        	
+			public TravelingActionPotentialState(
+					double travelTimeCountdownTimer, double lingerCountdownTimer) {
+				this.travelTimeCountdownTimer = travelTimeCountdownTimer;
+				this.lingerCountdownTimer = lingerCountdownTimer;
+			}
+        	
+			protected double getLingerCountdownTimer() {
+				return lingerCountdownTimer;
+			}
+
+        	protected double getTravelTimeCountdownTimer() {
+				return travelTimeCountdownTimer;
+			}
     	}
     }
 }
