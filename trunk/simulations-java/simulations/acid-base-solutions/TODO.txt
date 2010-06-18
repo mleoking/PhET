@@ -21,6 +21,8 @@ MEDUIUM PRIORITY
 - pH paper (CAB feedback required)
 
 LOW PRIORITY
+- change "Bar Graph" to "Concentration Graph" ?
+- change "Show Water" to "Show H2O Molecules" ?
 - icons for tools
 - better images for molecules
 - export design doc from Google, check into SVN
