@@ -96,7 +96,7 @@ public class MovingMan {
         setPosition(manState.getPosition());
         setVelocity(manState.getVelocity());
         setAcceleration(manState.getAcceleration());
-        setMotionStrategy(manState.getMotionStrategy());//todo: could bundle listener notifications if necessary
+        setMotionStrategy(manState.getMotionStrategy());//todo: could bundle listener notifications for performance improvements, if necessary
     }
 
     private void setMotionStrategy(MotionStrategy motionStrategy) {
