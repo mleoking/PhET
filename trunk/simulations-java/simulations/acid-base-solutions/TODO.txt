@@ -6,8 +6,7 @@ MILESTONES
 - 8/1/10, sim showable for BCCE
 
 HIGH PRIORITY
-- for a weaker "weak acid", OH- molecules should not be visible (one is visible)
-- for a weaker "weak base", H3O+ molecules should not be visible (one is visible)
+- minor species should never be visible for weakest acid (OH-) and weakest base (H3O+)
 - change "Bar Graph" to "Concentration Graph" ?
 - change "Show Water" to "Show H2O Molecules" ?
 - fix resize behavior of main frame, nodes below the beaker are not visible if main frame is resized wider 
