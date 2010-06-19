@@ -1,3 +1,5 @@
+6/19/10 change "Bar Graph" to "Concentration Graph"
+6/19/10 change "Show Water" to "Show H2O Molecules"
 # 0.00.13 (41783) Jun 17, 2010
 6/17/10 dev version with 6/17/10 change requests
 6/17/10 enable "Show Water" check box only when Magnifying Glass is selected

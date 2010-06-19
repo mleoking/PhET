@@ -6,17 +6,20 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.MessageFormat;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
+import edu.colorado.phet.acidbasesolutions.constants.ABSSymbols;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel.ModelChangeAdapter;
 import edu.colorado.phet.acidbasesolutions.model.ABSModelElement.ModelElementChangeAdapter;
 import edu.colorado.phet.acidbasesolutions.view.ABSRadioButton;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
+import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 
 /**
  * Control panel that provides access to various "tools".
@@ -76,14 +79,15 @@ public class ToolsControl extends JPanel {
         pHPaperRadioButton = new ABSRadioButton( ABSStrings.PH_PAPER, group, actionListener );
         conductivityTesterRadioButton = new ABSRadioButton( ABSStrings.CONDUCTIVITY_TESTER, group, actionListener );
         magnifyingGlassRadioButton = new ABSRadioButton( ABSStrings.MAGNIFYING_GLASS, group, actionListener );
-        concentrationGraphRadioButton = new ABSRadioButton( ABSStrings.BAR_GRAPH, group, actionListener );
+        concentrationGraphRadioButton = new ABSRadioButton( ABSStrings.CONCENTRATION_GRAPH, group, actionListener );
         
         // pH Meter check box
         pHMeterCheckBox = new JCheckBox( ABSStrings.PH_METER );
         pHMeterCheckBox.addActionListener( actionListener );
         
         // "Show Water" check box
-        showWaterCheckBox = new JCheckBox( ABSStrings.SHOW_WATER );
+        String html = HTMLUtils.toHTMLString( MessageFormat.format( ABSStrings.PATTERN_SHOW_WATER_MOLECULES, ABSSymbols.H2O ) );
+        showWaterCheckBox = new JCheckBox( html );
         showWaterCheckBox.addActionListener( actionListener );
         
         // layout
