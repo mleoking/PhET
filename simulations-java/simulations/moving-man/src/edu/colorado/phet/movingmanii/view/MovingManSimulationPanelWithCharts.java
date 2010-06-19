@@ -32,8 +32,8 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
     protected ChartControl velocityChartControl;
     protected ChartControl accelerationChartControl;
 
-    public MovingManSimulationPanelWithCharts(final MovingManModel model, final RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel) {
-        super(model, recordAndPlaybackModel, 100);
+    public MovingManSimulationPanelWithCharts(final MovingManModel model, final RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel, MutableBoolean positiveToTheRight) {
+        super(model, recordAndPlaybackModel, 100, positiveToTheRight);
         int xMax = 10;
         {
             //TODO: Factor out chart code if possible
