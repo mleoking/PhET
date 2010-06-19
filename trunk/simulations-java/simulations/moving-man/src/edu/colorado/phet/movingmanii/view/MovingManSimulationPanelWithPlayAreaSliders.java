@@ -5,6 +5,7 @@ import edu.colorado.phet.movingmanii.charts.TextBox;
 import edu.colorado.phet.movingmanii.model.MovingMan;
 import edu.colorado.phet.movingmanii.model.MovingManModel;
 import edu.colorado.phet.movingmanii.model.MovingManState;
+import edu.colorado.phet.movingmanii.model.MutableBoolean;
 import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -20,8 +21,8 @@ public class MovingManSimulationPanelWithPlayAreaSliders extends MovingManSimula
     protected PlayAreaSliderControl accelerationSlider;
     public static int DISTANCE_BETWEEN_SLIDERS = 20;
 
-    public MovingManSimulationPanelWithPlayAreaSliders(final MovingManModel model, final RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel) {
-        super(model, recordAndPlaybackModel, 100);
+    public MovingManSimulationPanelWithPlayAreaSliders(final MovingManModel model, final RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel, MutableBoolean positiveToTheRight) {
+        super(model, recordAndPlaybackModel, 100, positiveToTheRight);
         {
             //TODO: factor out code with the sliders + text boxes used in the chart module
 

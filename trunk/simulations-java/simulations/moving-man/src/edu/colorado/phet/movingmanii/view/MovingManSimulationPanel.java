@@ -9,6 +9,7 @@ import edu.colorado.phet.movingmanii.MovingManIIResources;
 import edu.colorado.phet.movingmanii.model.MovingMan;
 import edu.colorado.phet.movingmanii.model.MovingManModel;
 import edu.colorado.phet.movingmanii.model.MovingManState;
+import edu.colorado.phet.movingmanii.model.MutableBoolean;
 import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -30,10 +31,12 @@ public class MovingManSimulationPanel extends PhetPCanvas {
     private double earthOffset;
     private final Range viewRange;
     private final PlayAreaRulerNode playAreaRulerNode;
+    private MutableBoolean positiveToTheRight;
 
-    public MovingManSimulationPanel(final MovingManModel model, final RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel, int earthOffset) {
+    public MovingManSimulationPanel(final MovingManModel model, final RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel, int earthOffset, final MutableBoolean positiveToTheRight) {
         this.model = model;
         this.earthOffset = earthOffset;
+        this.positiveToTheRight = positiveToTheRight;
         addScreenChild(new SkyNode());
         addScreenChild(new EarthNode());
         viewRange = new Range(0, 1000);
@@ -115,28 +118,24 @@ public class MovingManSimulationPanel extends PhetPCanvas {
         setDefaultRenderQuality(PPaintContext.LOW_QUALITY_RENDERING);
         setAnimatingRenderQuality(PPaintContext.LOW_QUALITY_RENDERING);
 
-//        Timer timer = new Timer(30,new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                updateViewRange();
-//            }
-//        });
-//        timer.start();
+        positiveToTheRight.addObserver(new SimpleObserver() {
+            public void update() {
+                updateViewRange();
+            }
+        });
     }
-
-//    long start = System.currentTimeMillis();
-//    private void updateViewRange() {
-//        long time = System.currentTimeMillis();
-//
-//        final int inset = 100;
-//        double width = Math.cos(time/1000.0)* getWidth()- inset *2;
-//        viewRange.setMin(inset);
-//        viewRange.setMax(width);
-//    }
 
     private void updateViewRange() {
         final int inset = 100;
-        viewRange.setMin(inset);
-        viewRange.setMax(getWidth() - inset);
+        double min = inset;
+        double max = getWidth() - inset;
+        if (positiveToTheRight.getValue()) {
+            viewRange.setMin(min);
+            viewRange.setMax(max);
+        } else {
+            viewRange.setMin(max);
+            viewRange.setMax(min);
+        }
     }
 
     public double getRulerHeight() {

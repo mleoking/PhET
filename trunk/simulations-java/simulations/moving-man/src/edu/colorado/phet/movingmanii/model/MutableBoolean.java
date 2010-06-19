@@ -17,7 +17,9 @@ public class MutableBoolean extends SimpleObservable {
     }
 
     public void setValue(boolean value) {
-        this.value = value;
-        notifyObservers();
+        if (this.value != value) {
+            this.value = value;
+            notifyObservers();
+        }
     }
 }
