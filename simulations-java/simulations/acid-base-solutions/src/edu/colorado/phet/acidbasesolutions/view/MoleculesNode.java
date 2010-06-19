@@ -7,9 +7,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.constants.ABSImages;
-import edu.colorado.phet.acidbasesolutions.model.ABSModel;
-import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
-import edu.colorado.phet.acidbasesolutions.model.PureWaterSolution;
+import edu.colorado.phet.acidbasesolutions.model.*;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel.ModelChangeListener;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.AqueousSolutionChangeListener;
 import edu.colorado.phet.acidbasesolutions.model.MagnifyingGlass.MagnifyingGlassListener;
@@ -105,6 +103,7 @@ public class MoleculesNode extends PComposite {
         // default state
         parentH2O.setVisible( model.isWaterVisible() );
         updateNumberOfMolecules();
+        updateMinoritySpeciesVisibility();
     }
     
     private void setWaterVisible( boolean visible ) {
@@ -172,7 +171,18 @@ public class MoleculesNode extends PComposite {
             this.solution.addAqueousSolutionChangeListener( solutionChangeListener );
             deleteAllMolecules();
             updateNumberOfMolecules();
+            updateMinoritySpeciesVisibility();
         }
+    }
+    
+    /*
+     * Our implementation (borrowed from advanced-acid-base-solutions) will always show
+     * at least 1 of the minor species of molecules.  But in this sim, we never want to 
+     * show the minor species.
+     */
+    private void updateMinoritySpeciesVisibility() {
+        parentOH.setVisible( !( solution instanceof StrongAcidSolution || solution instanceof WeakAcidSolution ) ); // hide OH- for acids
+        parentH3O.setVisible( !( solution instanceof StrongBaseSolution || solution instanceof WeakBaseSolution ) ); // hide H3O for bases
     }
     
     public int getCountReactant() {
