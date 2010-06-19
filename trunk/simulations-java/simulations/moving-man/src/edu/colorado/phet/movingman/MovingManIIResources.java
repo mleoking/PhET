@@ -1,4 +1,4 @@
-package edu.colorado.phet.movingmanii;
+package edu.colorado.phet.movingman;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 
@@ -10,7 +10,7 @@ import java.io.IOException;
  */
 public class MovingManIIResources {
 
-    private static PhetResources INSTANCE = new PhetResources("moving-man-ii");
+    private static PhetResources INSTANCE = new PhetResources("moving-man");
 
     /* not intended for instantiation */
 

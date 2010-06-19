@@ -1,8 +1,8 @@
 package edu.colorado.phet.movingman.view;
 
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
-import edu.colorado.phet.movingmanii.charts.TextBox;
-import edu.colorado.phet.movingmanii.model.MovingMan;
+import edu.colorado.phet.movingman.charts.TextBox;
+import edu.colorado.phet.movingman.model.MovingMan;
 import edu.colorado.phet.movingman.model.MovingManModel;
 
 import java.awt.event.FocusAdapter;

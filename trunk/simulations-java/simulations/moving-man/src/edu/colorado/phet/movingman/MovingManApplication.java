@@ -7,8 +7,8 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.movingman.model.MovingManModel;
-import edu.colorado.phet.movingmanii.model.MovingManState;
-import edu.colorado.phet.movingmanii.model.MutableBoolean;
+import edu.colorado.phet.movingman.model.MovingManState;
+import edu.colorado.phet.movingman.model.MutableBoolean;
 import edu.colorado.phet.movingman.view.MovingManSimulationPanelWithCharts;
 import edu.colorado.phet.movingman.view.MovingManSimulationPanelWithPlayAreaSliders;
 import edu.colorado.phet.recordandplayback.gui.RecordAndPlaybackControlPanel;
@@ -71,7 +71,7 @@ public class MovingManApplication extends PiccoloPhetApplication {
     }
 
     public static void main(String[] args) {
-        new PhetApplicationLauncher().launchSim(args, "moving-man-ii", MovingManApplication.class);
+        new PhetApplicationLauncher().launchSim(args, "moving-man", MovingManApplication.class);
     }
 
     private class IntroModule extends MovingManModule {
