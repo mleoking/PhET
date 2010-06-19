@@ -1,4 +1,4 @@
-package edu.colorado.phet.movingmanii.view;
+package edu.colorado.phet.movingman.view;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
