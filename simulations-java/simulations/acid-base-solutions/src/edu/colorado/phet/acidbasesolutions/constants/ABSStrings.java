@@ -17,9 +17,9 @@ public class ABSStrings {
     
     public static final String PATTERN_VALUE_UNITS = getString( "pattern.0value.1units" );
     public static final String PATTERN_LABEL_VALUE = getString( "pattern.0label.1value" );
+    public static final String PATTERN_SHOW_WATER_MOLECULES = getString( "pattern.showH2OMolecules" ); 
     
     public static final String PH = getString( "pH" ); 
-    public static final String SHOW_WATER = getString( "showWater" ); 
     public static final String SOLUTION = getString( "solution" ); 
     public static final String TOOLS = getString( "tools" ); 
     public static final String CONDUCTIVITY_TESTER = getString( "conductivityTester" ); 
@@ -44,7 +44,7 @@ public class ABSStrings {
     public static final String MOLES_PER_LITER = getString( "molesPerLiter" );
     public static final String LITERS = getString( "liters" );
     public static final String MAGNIFYING_GLASS = getString( "magnifyingGlass" );
-    public static final String BAR_GRAPH = getString( "barGraph" );
+    public static final String CONCENTRATION_GRAPH = getString( "concentrationGraph" );
     public static final String PH_METER_NO_VALUE = getString( "phMeter.noValue" );
     public static final String CONCENTRATION_GRAPH_Y_AXIS = ABSResources.getString( "concentrationGraph.yAxis" );
     public static final String NEGLIGIBLE = ABSResources.getString( "negligible" );
