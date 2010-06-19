@@ -15,6 +15,8 @@ interface IMoleculeCountStrategy {
    
     /**
      * Returns maxMolecules regardless of the concentration.
+     * This strategy is used for H2O.  Since water has a much larger concentration than
+     * other molecules, we always show a constant (fixed) number of molecules.
      */
     public static class ConstantMoleculeCountStrategy implements IMoleculeCountStrategy {
 
@@ -24,9 +26,10 @@ interface IMoleculeCountStrategy {
     }
     
     /**
-     * Algorithm used in advanced-acid-base-solutions, see RatioDotsNode.getNumberOfDots.
      * Number of molecules is based on concentration and an upper bound.
-     * This algorithm is documented in advanced-acid-base-solutions/doc/HA_A-_ratio_model.pdf.
+     * This strategy is used for all molecules except H2O.
+     * This algorithm was borrowed from advanced-acid-base-solutions, 
+     * and is documented in advanced-acid-base-solutions/doc/HA_A-_ratio_model.pdf.
      */
     public static class ConcentrationMoleculeCountStrategy implements IMoleculeCountStrategy {
 
