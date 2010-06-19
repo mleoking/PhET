@@ -9,10 +9,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
 import edu.colorado.phet.movingman.charts.ChartCursor;
-import edu.colorado.phet.movingman.model.MovingMan;
-import edu.colorado.phet.movingman.model.MovingManModel;
-import edu.colorado.phet.movingman.model.MovingManState;
-import edu.colorado.phet.movingman.model.MutableBoolean;
+import edu.colorado.phet.movingman.model.*;
 import edu.colorado.phet.recordandplayback.gui.RecordAndPlaybackControlPanel;
 import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -63,13 +60,13 @@ public abstract class MovingManModule extends Module {
         });
 
         //When unpausing, if user set velocity or acceleration to be nonzero, need to switch to vel or acc-driven
+        //so that values are not overwritten to zero in the first time step (by differentiating a constant)
         recordAndPlaybackModel.addObserver(new SimpleObserver() {
             public void update() {
                 if (recordAndPlaybackModel.isPaused() != lastPauseState) {
                     if (recordAndPlaybackModel.isPaused()) {//Just paused
                         actionList.clear();
                     } else {
-//                        System.out.println("using actionList = " + actionList);
                         if (actionList.contains(MovingMan.POSITION_DRIVEN))
                             MovingMan.POSITION_DRIVEN.apply(movingManModel.getMovingMan());
                         if (actionList.contains(MovingMan.VELOCITY_DRIVEN))
@@ -163,6 +160,7 @@ public abstract class MovingManModule extends Module {
     @Override
     public void deactivate() {
         super.deactivate();
+        this.expressionDialogVisibleOnDeactivate = expressionDialog.isVisible();
         expressionDialog.setVisible(false);
     }
 
@@ -174,5 +172,17 @@ public abstract class MovingManModule extends Module {
 
     public MovingManModel getMovingManModel() {
         return movingManModel;
+    }
+
+    public void setPaused(boolean b) {
+        recordAndPlaybackModel.setPaused(b);
+    }
+
+    public boolean getEvaluateExpressionDialogVisible() {
+        return expressionDialog.isVisible();
+    }
+
+    public void setExpression(ExpressionEvaluator expressionEvaluator) {
+        movingManModel.setExpression(expressionEvaluator);
     }
 }

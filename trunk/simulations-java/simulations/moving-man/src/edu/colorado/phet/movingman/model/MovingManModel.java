@@ -45,6 +45,7 @@ public class MovingManModel {
     private Range range = modelRange;
     private BooleanGetter isPaused;
     protected MutableBoolean positionMode;
+    private ExpressionEvaluator expressionEvaluator;
 
     public void historyRemainderCleared(double time) {
         mouseDataModelSeries.clearPointsAfter(time);
@@ -63,6 +64,10 @@ public class MovingManModel {
 
     public MutableBoolean getPositionMode() {
         return positionMode;
+    }
+
+    public void setExpression(ExpressionEvaluator expressionEvaluator) {
+        this.expressionEvaluator = expressionEvaluator;
     }
 
     public static interface BooleanGetter {
@@ -111,15 +116,23 @@ public class MovingManModel {
     public void simulationTimeChanged(double dt) {
         time = time + dt;
         if (movingMan.isPositionDriven()) {
-            mouseDataModelSeries.addPoint(clampIfWalled(mousePosition).position, time);
-            //take the position as the average of the latest mouseDataSeries points.
-            TimeData[] position = mouseDataModelSeries.getPointsInRange(mouseDataModelSeries.getNumPoints() - NUMBER_MOUSE_POINTS_TO_AVERAGE, mouseDataModelSeries.getNumPoints());
-            double sum = 0;
-            for (TimeData timeData : position) {
-                sum += timeData.getValue();
+            double averagePosition;
+            if (expressionEvaluator == null) {//Average samples from the mouse
+                mouseDataModelSeries.addPoint(clampIfWalled(mousePosition).position, time);
+                //take the position as the average of the latest mouseDataSeries points.
+                TimeData[] position = mouseDataModelSeries.getPointsInRange(mouseDataModelSeries.getNumPoints() - NUMBER_MOUSE_POINTS_TO_AVERAGE, mouseDataModelSeries.getNumPoints());
+                double sum = 0;
+                for (TimeData timeData : position) {
+                    sum += timeData.getValue();
+                }
+                averagePosition = clampIfWalled(sum / position.length).position;
+                positionModelSeries.addPoint(averagePosition, time);
+            } else {//use expression evaluator
+                averagePosition = clampIfWalled(expressionEvaluator.evaluate(time)).position;
+                setMousePosition(averagePosition);
+                mouseDataModelSeries.addPoint(averagePosition, time);
+                positionModelSeries.addPoint(averagePosition, time);
             }
-            double averagePosition = clampIfWalled(sum / position.length).position;
-            positionModelSeries.addPoint(averagePosition, time);
 
             //update model derivatives
             velocityModelSeries.setData(estimateCenteredDerivatives(positionModelSeries));

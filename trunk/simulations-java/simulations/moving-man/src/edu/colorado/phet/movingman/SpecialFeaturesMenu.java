@@ -37,7 +37,12 @@ public class SpecialFeaturesMenu extends JMenu {
 
         add(new JMenuItem(new AbstractAction("Evaluate Expression") {
             public void actionPerformed(ActionEvent e) {
-                ((MovingManModule)movingManApplication.getActiveModule()).setEvaluateExpressionDialogVisible(true);
+                MovingManModule module = (MovingManModule) movingManApplication.getActiveModule();
+                if (!module.getEvaluateExpressionDialogVisible()) {
+                    module.setEvaluateExpressionDialogVisible(true);
+                    //First time showing the dialog should pause the system instead of switching to expression mode immediately while playing
+                    module.setPaused(true);
+                }
             }
         }));
     }

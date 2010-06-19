@@ -8,7 +8,11 @@ import bsh.Interpreter;
  */
 public class ExpressionEvaluator {
     private Interpreter interpreter = new Interpreter();
-    private String expression = "sin(t)";
+    private String expression;
+
+    public ExpressionEvaluator(String expression) {
+        this.expression = expression;
+    }
 
     public double evaluate(double time) {
         String timeString = "(" + time + ")";
@@ -31,6 +35,6 @@ public class ExpressionEvaluator {
     }
 
     public static void main(String[] args) {
-        System.out.println("new ExpressionEvaluator().evaluate(0.1) = " + new ExpressionEvaluator().evaluate(0.1));
+        System.out.println("new ExpressionEvaluator().evaluate(0.1) = " + new ExpressionEvaluator("sin(t)").evaluate(0.1));
     }
 }
