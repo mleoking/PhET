@@ -50,20 +50,14 @@ public class MovingManSimulationPanel extends PhetPCanvas {
         });
         updateViewRange();
 
-        BufferedImage wallImage = null;
         try {
-            wallImage = BufferedImageUtils.multiScaleToHeight(MovingManIIResources.loadBufferedImage("wall.jpg"), 100);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            addScreenChild(new PlayAreaObjectNode(BufferedImageUtils.multiScaleToHeight(MovingManIIResources.loadBufferedImage("tree.gif"), 100), model.getRange(), viewRange, -8, 0));
-            addScreenChild(new PlayAreaObjectNode(BufferedImageUtils.multiScaleToHeight(MovingManIIResources.loadBufferedImage("cottage.gif"), 100), model.getRange(), viewRange, +8, 0));
+            addScreenChild(new PlayAreaObjectNode(BufferedImageUtils.multiScaleToHeight(MovingManIIResources.loadBufferedImage("tree.gif"), 100), model.getRange(), viewRange, -8, 0, positiveToTheRight));
+            addScreenChild(new PlayAreaObjectNode(BufferedImageUtils.multiScaleToHeight(MovingManIIResources.loadBufferedImage("cottage.gif"), 100), model.getRange(), viewRange, +8, 0, positiveToTheRight));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        final MovingManNode manNode = new MovingManNode(model.getMovingMan(), model, viewRange);
+        final MovingManNode manNode = new MovingManNode(model.getMovingMan(), model, viewRange, positiveToTheRight);
         manNode.addInputEventListener(new PBasicInputEventHandler() {
             public void mousePressed(PInputEvent event) {
                 recordAndPlaybackModel.startRecording();
@@ -71,8 +65,14 @@ public class MovingManSimulationPanel extends PhetPCanvas {
         });
         addScreenChild(manNode);
 
-        addScreenChild(new WallNode(wallImage, model.getRange(), viewRange, -10, model.getWalls(), -manNode.getImageStanding().getWidth() / 2 - wallImage.getWidth()));
-        addScreenChild(new WallNode(wallImage, model.getRange(), viewRange, +10, model.getWalls(), +manNode.getImageStanding().getWidth() / 2 + wallImage.getWidth()));
+        BufferedImage wallImage = null;
+        try {
+            wallImage = BufferedImageUtils.multiScaleToHeight(MovingManIIResources.loadBufferedImage("wall.jpg"), 100);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        addScreenChild(new WallNode(wallImage, model.getRange(), viewRange, -10, model.getWalls(), -manNode.getImageStanding().getWidth() / 2 - wallImage.getWidth(), positiveToTheRight));
+        addScreenChild(new WallNode(wallImage, model.getRange(), viewRange, +10, model.getWalls(), +manNode.getImageStanding().getWidth() / 2 + wallImage.getWidth(), positiveToTheRight));
 
         int arrowTailWidth = 7;
         //Add Velocity vector to play area

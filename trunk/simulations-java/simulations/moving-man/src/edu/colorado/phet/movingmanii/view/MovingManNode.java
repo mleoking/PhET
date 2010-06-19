@@ -9,6 +9,7 @@ import edu.colorado.phet.movingmanii.MovingManIIResources;
 import edu.colorado.phet.movingmanii.model.MovingMan;
 import edu.colorado.phet.movingmanii.model.MovingManDataSeries;
 import edu.colorado.phet.movingmanii.model.MovingManModel;
+import edu.colorado.phet.movingmanii.model.MutableBoolean;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -24,16 +25,18 @@ public class MovingManNode extends PNode {
     private Function.LinearFunction modelToView = new Function.LinearFunction(-10, 10, 0, 975);
     private MovingManModel model;
     private final Range viewRange;
+    private final MutableBoolean positiveToTheRight;
     private BufferedImage imageStanding;
     private BufferedImage imageLeft;
     private BufferedImage imageRight;
     private MovingMan man;
     private final PImage imageNode;
 
-    public MovingManNode(final MovingMan man, MovingManModel model, Range viewRange) {
+    public MovingManNode(final MovingMan man, MovingManModel model, Range viewRange, MutableBoolean positiveToTheRight) {
         this.man = man;
         this.model = model;
         this.viewRange = viewRange;
+        this.positiveToTheRight = positiveToTheRight;
         viewRange.addObserver(new SimpleObserver() {
             public void update() {
                 updateTransform();
@@ -60,7 +63,6 @@ public class MovingManNode extends PNode {
             }
 
             public void dataPointAdded(TimeData point) {
-
             }
         });
         updateMan();
@@ -86,9 +88,9 @@ public class MovingManNode extends PNode {
     private void updateMan() {
         double velocity = man.getVelocity();
         if (velocity > 0.1) {
-            imageNode.setImage(imageRight);
+            imageNode.setImage(positiveToTheRight.getValue() ? imageRight : imageLeft);//make sure the man changes direction if the play area is flipped horizontally
         } else if (velocity < -0.1) {
-            imageNode.setImage(imageLeft);
+            imageNode.setImage(positiveToTheRight.getValue() ? imageLeft : imageRight);
         } else {
             imageNode.setImage(imageStanding);
         }

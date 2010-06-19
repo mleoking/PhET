@@ -20,8 +20,8 @@ public class WallNode extends PlayAreaObjectNode {
     private final PImage minimizeButton;
     private final PImage maximizeButton;
 
-    public WallNode(BufferedImage image, Range modelRange, final Range viewRange, double x, final MutableBoolean walls, double offsetX) {
-        super(image, modelRange, viewRange, x, offsetX);//so that the edge of the man touches the edge of the wall when they collide instead of overlapping
+    public WallNode(BufferedImage image, Range modelRange, final Range viewRange, double x, final MutableBoolean walls, double offsetX, MutableBoolean positiveToTheRight) {
+        super(image, modelRange, viewRange, x, offsetX, positiveToTheRight);//so that the edge of the man touches the edge of the wall when they collide instead of overlapping
         this.walls = walls;
 
         {//close button

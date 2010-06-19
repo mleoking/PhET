@@ -43,17 +43,14 @@ public class PlayAreaRulerNode extends PNode {
     }
 
     private void updateShape() {
-        int faceHeight = 20;
-        int rulerInsetWidth = 12;
-        final double rulerX = viewRange.getMin() - rulerInsetWidth;
-        final double rulerWidth = viewRange.getMax() - viewRange.getMin() + rulerInsetWidth * 2;
+        int faceHeight = 20;//pixels
+        int rulerInsetWidth = 12;//pixels
 
         //Support for flipped coordinate frame
-        if (rulerWidth < 0) {
-            face.setPathTo(new Rectangle2D.Double(rulerX+rulerWidth, 0, -rulerWidth, faceHeight));
-        } else {
-            face.setPathTo(new Rectangle2D.Double(rulerX, 0, rulerWidth, faceHeight));
-        }                      
+        final double rulerWidth = Math.abs(viewRange.getMax() - viewRange.getMin()) + rulerInsetWidth * 2;
+        final double rulerX = viewRange.getMin() < viewRange.getMax() ? viewRange.getMin() - rulerInsetWidth  : viewRange.getMin() + rulerInsetWidth - rulerWidth;
+
+        face.setPathTo(new Rectangle2D.Double(rulerX, 0, rulerWidth, faceHeight));
 
         DoubleGeneralPath basePath = new DoubleGeneralPath(rulerX, faceHeight);
         basePath.lineToRelative(rulerWidth, 0);
