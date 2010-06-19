@@ -6,6 +6,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
 import edu.colorado.phet.movingman.charts.ChartCursor;
 import edu.colorado.phet.movingman.model.MovingMan;
@@ -37,8 +38,9 @@ public abstract class MovingManModule extends Module {
         }
     });
     private MutableBoolean positiveToTheRight = new MutableBoolean(true);//True if positive meters is to the right in the play area view
+    final ExpressionDialog expressionDialog;//one expression dialog per module
 
-    public MovingManModule(String name) {
+    public MovingManModule(PhetFrame frame, String name) {
         super(name, new ConstantDtClock(MovingManModel.CLOCK_DELAY_MS, MovingManModel.DT));
 
         //Need different behavior when paused, currently the main clock is always running, and the RecordAndPlaybackModel determines whether the sim is running.
@@ -118,6 +120,8 @@ public abstract class MovingManModule extends Module {
         setSimulationPanel(createSimulationPanel(movingManModel, recordAndPlaybackModel));
         setClockControlPanel(createRecordAndPlaybackPanel());
         setLogoPanelVisible(false);
+
+        expressionDialog = new ExpressionDialog(frame, this);
     }
 
     protected RecordAndPlaybackControlPanel<MovingManState> createRecordAndPlaybackPanel() {
@@ -148,5 +152,27 @@ public abstract class MovingManModule extends Module {
 
     public MutableBoolean getPositiveToTheRight() {
         return positiveToTheRight;
+    }
+
+    public void setEvaluateExpressionDialogVisible(boolean visible) {
+        expressionDialog.setVisible(visible);
+    }
+
+    boolean expressionDialogVisibleOnDeactivate = false;
+
+    @Override
+    public void deactivate() {
+        super.deactivate();
+        expressionDialog.setVisible(false);
+    }
+
+    @Override
+    public void activate() {
+        super.activate();
+        setEvaluateExpressionDialogVisible(expressionDialogVisibleOnDeactivate);
+    }
+
+    public MovingManModel getMovingManModel() {
+        return movingManModel;
     }
 }

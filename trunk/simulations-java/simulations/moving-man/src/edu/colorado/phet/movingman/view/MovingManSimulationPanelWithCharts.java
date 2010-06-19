@@ -88,15 +88,7 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
             });
 
             positionChartControl = new ChartControl("Position", MovingManColorScheme.POSITION_COLOR, new TextBoxListener.Position(model), chartSliderNode, positionChart, "m");
-            final MutableBoolean positionMode = new MutableBoolean(false);
-            final MovingMan.Listener listener = new MovingMan.Listener() {
-                public void changed() {
-                    positionMode.setValue(model.getMovingMan().getMotionStrategy() == MovingMan.POSITION_DRIVEN);
-                }
-            };
-            model.getMovingMan().addListener(listener);
-            listener.changed();
-            positionChartControl.addChild(new GoButton(recordAndPlaybackModel, positionChartControl, positionMode));
+            positionChartControl.addChild(new GoButton(recordAndPlaybackModel, positionChartControl, model.getPositionMode()));
             addScreenChild(positionChartControl);
         }
 
@@ -149,6 +141,7 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
             final PSwing pSwing = new PSwing(new ShowVectorCheckBox("Show Vector", model.getVelocityVectorVisible()));
             pSwing.setOffset(0, velocityChartControl.getFullBounds().getHeight());
             velocityChartControl.addChild(pSwing);
+            //TODO: move this and acceleration mode to the model, as we did for position
             final MutableBoolean velocityMode = new MutableBoolean(false);
             final MovingMan.Listener listener = new MovingMan.Listener() {
                 public void changed() {

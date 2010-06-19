@@ -1,3 +1,4 @@
+Added initial support for expression evaluation
 Added support for flipped coordinate frame
 Refactoring and documentation for MovingManState and related classes.
 # 0.00.05 (41764) Jun 17, 2010

@@ -32,5 +32,13 @@ public class SpecialFeaturesMenu extends JMenu {
         };
         movingManApplication.getPositiveToTheRight().addObserver(updateButtonStates);
         updateButtonStates.update();
+
+        addSeparator();
+
+        add(new JMenuItem(new AbstractAction("Evaluate Expression") {
+            public void actionPerformed(ActionEvent e) {
+                ((MovingManModule)movingManApplication.getActiveModule()).setEvaluateExpressionDialogVisible(true);
+            }
+        }));
     }
 }

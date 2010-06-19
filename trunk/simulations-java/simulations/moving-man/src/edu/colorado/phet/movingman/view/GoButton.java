@@ -10,7 +10,13 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class GoButton extends PNode {
-    public GoButton(final RecordAndPlaybackModel recordAndPlaybackModel, PNode parent, final MutableBoolean modeSelected) {
+    public GoButton(final RecordAndPlaybackModel recordAndPlaybackModel, final MutableBoolean modeSelected) {
+        this(recordAndPlaybackModel, null, modeSelected);
+    }
+
+    public GoButton(final RecordAndPlaybackModel recordAndPlaybackModel,
+                    PNode parent,//To be centered in, null if none  
+                    final MutableBoolean modeSelected) {
         final PlayPauseButton button = new PlayPauseButton(30);
         SimpleObserver updateButtonState = new SimpleObserver() {
             public void update() {
@@ -32,7 +38,9 @@ public class GoButton extends PNode {
         observer.update();
         modeSelected.addObserver(observer);
         recordAndPlaybackModel.addObserver(observer);
-        button.setOffset(parent.getFullBounds().getMaxX() - button.getFullBounds().getWidth(), parent.getFullBounds().getMaxY());
+        if (parent != null) {
+            button.setOffset(parent.getFullBounds().getMaxX() - button.getFullBounds().getWidth(), parent.getFullBounds().getMaxY());
+        }
         addChild(button);
     }
 }
