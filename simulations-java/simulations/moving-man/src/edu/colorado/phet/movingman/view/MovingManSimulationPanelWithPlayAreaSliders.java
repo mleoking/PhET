@@ -1,11 +1,11 @@
 package edu.colorado.phet.movingman.view;
 
-import edu.colorado.phet.movingmanii.MovingManColorScheme;
+import edu.colorado.phet.movingman.MovingManColorScheme;
 import edu.colorado.phet.movingman.charts.TextBox;
 import edu.colorado.phet.movingman.model.MovingMan;
 import edu.colorado.phet.movingman.model.MovingManModel;
 import edu.colorado.phet.movingman.model.MovingManState;
-import edu.colorado.phet.movingmanii.model.MutableBoolean;
+import edu.colorado.phet.movingman.model.MutableBoolean;
 import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel;
 import edu.umd.cs.piccolox.pswing.PSwing;
 

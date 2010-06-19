@@ -8,7 +8,7 @@ import edu.colorado.phet.movingman.MovingManColorScheme;
 import edu.colorado.phet.movingman.MovingManIIResources;
 import edu.colorado.phet.movingman.model.MovingMan;
 import edu.colorado.phet.movingman.model.MovingManModel;
-import edu.colorado.phet.movingmanii.model.MovingManState;
+import edu.colorado.phet.movingman.model.MovingManState;
 import edu.colorado.phet.movingman.model.MutableBoolean;
 import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel;
 import edu.umd.cs.piccolo.PNode;
