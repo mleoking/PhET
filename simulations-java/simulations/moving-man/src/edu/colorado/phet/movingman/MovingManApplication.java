@@ -5,6 +5,7 @@ import edu.colorado.phet.common.phetcommon.application.ModuleObserver;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.movingman.model.MovingManModel;
 import edu.colorado.phet.movingman.model.MovingManState;
@@ -28,7 +29,7 @@ public class MovingManApplication extends PiccoloPhetApplication {
 
     public MovingManApplication(PhetApplicationConfig config) {
         super(config);
-        final IntroModule introModule = new IntroModule();
+        final IntroModule introModule = new IntroModule(getPhetFrame());
         introModule.getPositiveToTheRight().addObserver(new SimpleObserver() {
             public void update() {
                 if (getActiveModule() == introModule) {
@@ -37,7 +38,7 @@ public class MovingManApplication extends PiccoloPhetApplication {
             }
         });
         addModule(introModule);
-        final ChartingModule chartingModule = new ChartingModule();
+        final ChartingModule chartingModule = new ChartingModule(getPhetFrame());
         chartingModule.getPositiveToTheRight().addObserver(new SimpleObserver() {
             public void update() {
                 if (getActiveModule() == chartingModule) {
@@ -75,8 +76,8 @@ public class MovingManApplication extends PiccoloPhetApplication {
     }
 
     private class IntroModule extends MovingManModule {
-        private IntroModule() {
-            super("Introduction");
+        private IntroModule(PhetFrame frame) {
+            super(frame, "Introduction");
         }
 
         protected JComponent createSimulationPanel(MovingManModel model, RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel) {
@@ -86,8 +87,8 @@ public class MovingManApplication extends PiccoloPhetApplication {
 
     private class ChartingModule extends MovingManModule {
 
-        public ChartingModule() {
-            super("Charts");
+        public ChartingModule(PhetFrame frame) {
+            super(frame, "Charts");
         }
 
         protected JComponent createSimulationPanel(MovingManModel model, RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel) {

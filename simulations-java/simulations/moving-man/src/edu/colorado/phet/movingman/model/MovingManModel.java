@@ -44,6 +44,7 @@ public class MovingManModel {
 //    protected final Range modelRange = new Range(10, -10);
     private Range range = modelRange;
     private BooleanGetter isPaused;
+    protected MutableBoolean positionMode;
 
     public void historyRemainderCleared(double time) {
         mouseDataModelSeries.clearPointsAfter(time);
@@ -60,6 +61,10 @@ public class MovingManModel {
         return modelRange;
     }
 
+    public MutableBoolean getPositionMode() {
+        return positionMode;
+    }
+
     public static interface BooleanGetter {
         boolean isTrue();
     }
@@ -67,6 +72,15 @@ public class MovingManModel {
     public MovingManModel(BooleanGetter isPaused) {//need to be able to update position immediately when paused instead of smoothing through the mouse data series
         this.movingMan = new MovingMan();
         this.isPaused = isPaused;
+
+        positionMode = new MutableBoolean(false);
+        final MovingMan.Listener listener = new MovingMan.Listener() {
+            public void changed() {
+                positionMode.setValue(getMovingMan().getMotionStrategy() == MovingMan.POSITION_DRIVEN);
+            }
+        };
+        getMovingMan().addListener(listener);
+        listener.changed();
     }
 
     public void resetAll() {
