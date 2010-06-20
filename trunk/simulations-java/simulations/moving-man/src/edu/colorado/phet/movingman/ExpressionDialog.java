@@ -135,9 +135,11 @@ public class ExpressionDialog extends JDialog {
             evaluator.evaluate(0);
             evaluator.evaluate(1.0);
             errorLabel.setVisible(false);
+            expressionTextField.setBorder(BorderFactory.createLineBorder(Color.gray));
         } catch (EvalError evalError) {
             evalError.printStackTrace();
             errorLabel.setVisible(true);
+            expressionTextField.setBorder(BorderFactory.createLineBorder(Color.red));
         }
         module.setExpression(evaluator);
     }
