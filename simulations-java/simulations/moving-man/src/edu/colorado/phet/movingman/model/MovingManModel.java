@@ -1,5 +1,6 @@
 package edu.colorado.phet.movingman.model;
 
+import bsh.EvalError;
 import edu.colorado.phet.common.motion.MotionMath;
 import edu.colorado.phet.common.motion.model.TimeData;
 import edu.colorado.phet.movingman.charts.ChartCursor;
@@ -46,6 +47,7 @@ public class MovingManModel {
     private BooleanGetter isPaused;
     protected MutableBoolean positionMode;
     private ExpressionEvaluator expressionEvaluator;
+    private ArrayList<EvalErrorListener> evalErrorListeners = new ArrayList<EvalErrorListener>();
 
     public void historyRemainderCleared(double time) {
         mouseDataModelSeries.clearPointsAfter(time);
@@ -128,7 +130,15 @@ public class MovingManModel {
                 averagePosition = clampIfWalled(sum / position.length).position;
                 positionModelSeries.addPoint(averagePosition, time);
             } else {//use expression evaluator
-                averagePosition = clampIfWalled(expressionEvaluator.evaluate(time)).position;
+                double v = 0;
+                try {
+                    v = expressionEvaluator.evaluate(time);
+                } catch (EvalError evalError) {
+                    evalError.printStackTrace();
+                    for (EvalErrorListener evalErrorListener : evalErrorListeners)
+                        evalErrorListener.errorOccurred(evalError);
+                }
+                averagePosition = clampIfWalled(v).position;
                 setMousePosition(averagePosition);
                 mouseDataModelSeries.addPoint(averagePosition, time);
                 positionModelSeries.addPoint(averagePosition, time);
@@ -342,5 +352,12 @@ public class MovingManModel {
 
     public MutableBoolean getAccelerationVectorVisible() {
         return accelerationVectorVisible;
+    }
+
+    /**
+     * Signify an error when beanshell evaluation fails.
+     */
+    public static interface EvalErrorListener {
+        void errorOccurred(EvalError evalError);
     }
 }

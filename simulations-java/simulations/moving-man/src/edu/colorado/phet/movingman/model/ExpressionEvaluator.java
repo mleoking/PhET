@@ -14,7 +14,7 @@ public class ExpressionEvaluator {
         this.expression = expression;
     }
 
-    public double evaluate(double time) {
+    public double evaluate(double time) throws EvalError {
         String timeString = "(" + time + ")";
 
         String equation = expression.replaceAll("cos", "Math.cos");
@@ -23,18 +23,11 @@ public class ExpressionEvaluator {
         equation = equation.replaceAll("log", "Math.log");
         equation = equation.replaceAll("pow", "Math.pow");
 
-        double x = 0;
-        try {
-            Object value = interpreter.eval("t=" + timeString + "; y=" + equation);
-            x = ((Number) value).doubleValue();
-        }
-        catch (EvalError evalError) {
-            evalError.printStackTrace();
-        }
-        return x;
+        Object value = interpreter.eval("t=" + timeString + "; y=" + equation);
+        return ((Number) value).doubleValue();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws EvalError {
         System.out.println("new ExpressionEvaluator().evaluate(0.1) = " + new ExpressionEvaluator("sin(t)").evaluate(0.1));
     }
 }
