@@ -1,6 +1,6 @@
 Fixed: Axis rotation fails for charts tab
 Added expression evaluation dialog
-Added menu item to flip coordinate frame
+Added menu item to flip x-axis
 Refactoring and documentation for MovingManState and related classes.
 # 0.00.05 (41764) Jun 17, 2010
 Fixed: Chart cursor goes off chart when zoomed in
