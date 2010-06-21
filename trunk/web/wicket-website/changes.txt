@@ -1,0 +1,1 @@
+Added a potential solution for incorrect background color for the phet logo

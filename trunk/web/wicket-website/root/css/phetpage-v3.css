@@ -24,6 +24,10 @@ div.rtl #page-header-logo {
     right: 0 !important;
 }
 
+.header-logo-image {
+    background-color: #18388c;
+}
+
 #page-header-search {
     position: absolute;
     right: 10px;
