@@ -174,6 +174,6 @@ class RampApplication(config: PhetApplicationConfig) extends PiccoloPhetApplicat
  */
 object RampApplication {
   def main(args: Array[String]) = {
-    new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "ramp-ii-forces-in-2d".literal, classOf[RampApplication])
+    new PhetApplicationLauncher().launchSim(args, "ramp-ii-forces-in-2d".literal, classOf[RampApplication])
   }
 }
