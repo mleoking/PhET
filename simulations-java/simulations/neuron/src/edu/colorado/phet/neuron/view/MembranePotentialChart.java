@@ -347,7 +347,7 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
     				addDataPoint(timeInMilliseconds, neuronModel.getMembranePotential(), false);
     			}
     		}
-    		else{
+    		else if (chartIsFull){
     			// The chart is full, so it is time to stop recording.
     			recording = false;
 //    			axonModel.stopRecording();
