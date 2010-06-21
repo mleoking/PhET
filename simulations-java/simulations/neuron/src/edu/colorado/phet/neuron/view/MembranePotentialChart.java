@@ -180,7 +180,7 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
                 Point2D diff = localToPlotDifferential( dx.getX(), dx.getY() );
                 double time = pressTime + diff.getX();
                 time = MathUtil.clamp(0, time, getLastTimeValue());
-                moveChartCursorToTime(time);
+//                moveChartCursorToTime(time);
                 axonModel.setTime(time/1000);
                 System.out.println("Time = " + time);
             }
@@ -235,7 +235,7 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
         
         // Final initialization steps.
         updateChartCursorVisibility();
-        moveCursorToEndOfData();
+        updateChartCursorPos();
     }
     
     //----------------------------------------------------------------------------
@@ -263,7 +263,7 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
     	if (time - timeIndexOfFirstDataPt <= TIME_SPAN){
     		dataSeries.add(time - timeIndexOfFirstDataPt, voltage * 1000, update);
     		chartIsFull = false;
-    		moveCursorToEndOfData();
+    		updateChartCursorPos();
     	}
     	else{
     		chartIsFull = true;
@@ -381,15 +381,7 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
     	chartCursor.setVisible(axonModel.getClock().isPaused());
     }
     
-    /**
-     * Position the chart cursor at the end of the collected data.
-     */
-    private void moveCursorToEndOfData(){
-    	moveChartCursorToTime(getLastTimeValue());
-    }
-    
     private void moveChartCursorToTime(double time){
-    	System.out.println("Time = " + time);
         Point2D cursorPos = jFreeChartNode.plotToNode( new Point2D.Double( time, jFreeChartNode.getChart().getXYPlot().getRangeAxis().getRange().getUpperBound() ) );
         chartCursor.setOffset(cursorPos);
     }
@@ -429,16 +421,20 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
 			addInputEventListener(new CursorHandler());
 		}
     }
+    
+    private void updateChartCursorPos(){
+		double recordingStartTime = axonModel.getMinRecordedTime();
+		double recordingCurrentTime = axonModel.getTime();
+		moveChartCursorToTime( ( recordingCurrentTime - recordingStartTime ) * 1000 );
+    }
 
     /**
      * Handle change notifications from the record-and-playback portion of the
      * model.
      */
 	public void update() {
-		if (chartCursor.getVisible()){
-			double recordingStartTime = axonModel.getMinRecordedTime();
-			double recordingCurrentTime = axonModel.getTime();
-			moveChartCursorToTime( ( recordingCurrentTime - recordingStartTime ) * 1000 );
+		if (axonModel.isPlayback()){
+			updateChartCursorPos();
 		}
 	}
 }
