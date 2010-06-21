@@ -154,6 +154,7 @@ public class MembranePotentialChart extends PNode {
             public void mousePressed( PInputEvent event ) {
                 pressPoint = event.getPositionRelativeTo( MembranePotentialChart.this );
                 pressTime = jFreeChartNode.nodeToPlot(chartCursor.getOffset()).getX();
+                axonModel.setPlayback(1); // Set into playback mode.
             }
 
             public Point2D localToPlotDifferential( double dx, double dy ) {
@@ -175,7 +176,8 @@ public class MembranePotentialChart extends PNode {
                 double time = pressTime + diff.getX();
                 time = MathUtil.clamp(0, time, getLastTimeValue());
                 moveChartCursorToTime(time);
-                // TODO: Set the new time on the model.
+                axonModel.setTime(time/1000);
+                System.out.println("Time = " + time);
             }
         } );
         
