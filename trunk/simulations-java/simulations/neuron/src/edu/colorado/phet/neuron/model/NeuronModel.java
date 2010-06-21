@@ -121,6 +121,7 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
 	private double sodiumExteriorConcentration = NOMINAL_SODIUM_EXTERIOR_CONCENTRATION;
     private double potassiumInteriorConcentration = NOMINAL_POTASSIUM_INTERIOR_CONCENTRATION;
     private double potassiumExteriorConcentration = NOMINAL_POTASSIUM_EXTERIOR_CONCENTRATION;
+    private double simulationPauseTime = 0;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -140,6 +141,26 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
 			@Override
 			public void clockTicked(ClockEvent clockEvent) {
 				stepInTime( clockEvent.getSimulationTimeChange() );
+			}
+
+			@Override
+			public void clockPaused(ClockEvent clockEvent) {
+				// Retain the time at which this occurred so that it can be
+				// restored when we resume.
+				simulationPauseTime = clockEvent.getSimulationTime();
+			}
+
+			@Override
+			public void clockStarted(ClockEvent clockEvent) {
+				// Pick up from wherever we left off when the clock was paused.
+				// TODO: The if statement below is essentially a workaround
+				// for the absence of the ability to set the record-and-
+				// playback mode to "don't record but keep clocking the model".
+				if (getRecordedTimeRange() > 0){
+					getClock().setSimulationTime(simulationPauseTime);
+					setTime(getMaxRecordedTime());
+					startRecording();
+				}
 			}
         });
         
@@ -952,6 +973,7 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
 
 	@Override
 	public void setPlaybackState(NeuronModelState state) {
+		// TODO: Need to expand to cover all aspects of state.
 		axonMembrane.setState(state.getAxonMembraneState());
 	}
 	
@@ -963,7 +985,7 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
     		// backwards stepping.
     		setPlayback(-1);  // The -1 indicates playing in reverse.
     	}
-    	else if (getPlaybackSpeed() < 0 && simulationTimeChange > 0){
+    	else if (getPlaybackSpeed() < 0 && simulationTimeChange > 0 && isPlayback()){
     		// This is a step forward in time but the record-and-playback
     		// model is set up for backwards stepping, so straighten it out.
     		setPlayback(1);
