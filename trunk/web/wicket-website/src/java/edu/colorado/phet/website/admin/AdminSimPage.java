@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.*;
 
+import edu.colorado.phet.website.components.RawLabel;
 import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.basic.Label;
@@ -358,7 +359,7 @@ public class AdminSimPage extends AdminPage {
             add( new ListView( "keywords", simKeywords ) {
                 protected void populateItem( final ListItem item ) {
                     final Keyword keyword = (Keyword) item.getModel().getObject();
-                    item.add( new Label( "keyword-english", new ResourceModel( keyword.getKey() ) ) );
+                    item.add( new RawLabel( "keyword-english", new ResourceModel( keyword.getKey() ) ) );//Have to use RawLabel instead of Label eg. because apostrophes render as the unescaped "&#039;"
                     item.add( new Link( "keyword-remove" ) {
                         public void onClick() {
                             boolean success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
