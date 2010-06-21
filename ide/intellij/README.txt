@@ -4,3 +4,5 @@ To create an IntelliJ project for phet:
 1. Create a new empty IntelliJ project.
 2. When prompted for a module, add the intellij-idea-all.iml module file (or use Project Settings -> Project Settings -> Modules -> +)
 3. Change the Project Settings -> Compiler memory to 512MB
+
+phet-code-format.prefs #This file was constructed from C:\workingcopy\phet-svn\trunk\ide\eclipse\org.eclipse.jdt.core.prefs, but using a format that the intellij external formatter plugin uses
