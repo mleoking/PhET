@@ -54,14 +54,14 @@
     // *****************************************************************************
     // CD-ROM Configuration
 
-    define("AUTORUN_FILENAME",                     'autorun.inf');
-    define("AUTORUN_ICON_NAME",                 'phet-icon.ico');
-    define("AUTORUN_ICON_SRC",                     file_cleanup_local_filename(PARENT_DIR."Installer-Resources/Install-Path/".AUTORUN_ICON_NAME));
-    define("AUTORUN_ICON_DEST",                 file_cleanup_local_filename(OUTPUT_DIR.AUTORUN_ICON_NAME));
-    define("AUTORUN_FILE_DEST",                 file_cleanup_local_filename(OUTPUT_DIR.AUTORUN_FILENAME));
+    define("AUTORUN_FILENAME",     'autorun.inf');
+    define("AUTORUN_ICON_NAME",    'phet-icon.ico');
+    define("AUTORUN_ICON_SRC",     file_cleanup_local_filename(PARENT_DIR."Installer-Resources/Install-Path/".AUTORUN_ICON_NAME));
+    define("AUTORUN_ICON_DEST",    file_cleanup_local_filename(OUTPUT_DIR.AUTORUN_ICON_NAME));
+    define("AUTORUN_FILE_DEST",    file_cleanup_local_filename(OUTPUT_DIR.AUTORUN_FILENAME));
 
-    define("CDROM_FILE_NAME",                   "PhET-Installer_cdrom.zip");
-    define("CDROM_FILE_DEST",                   OUTPUT_DIR.CDROM_FILE_NAME);
+    define("CDROM_FILE_NAME",      "PhET-Installer_cdrom.zip");
+    define("CDROM_FILE_DEST",      OUTPUT_DIR.CDROM_FILE_NAME);
 
     // *****************************************************************************
     // Website Ripper Configuration
