@@ -149,7 +149,6 @@ public class AxonBodyNode extends PNode {
     	private void updateShape(){
     		foreground.setPathTo(mvt.createTransformedShape(travelingActionPotential.getShape()));
     		background.setPathTo(mvt.createTransformedShape(travelingActionPotential.getShape()));
-    		System.out.println("bounds = " + this.getGlobalFullBounds());
     	}
     }
 }

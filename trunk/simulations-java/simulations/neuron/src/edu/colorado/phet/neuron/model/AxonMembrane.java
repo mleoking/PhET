@@ -411,7 +411,6 @@ public class AxonMembrane {
     			// moving down the axon.  Start by calculating the start and
     			// end points.
     			double travelAmtFactor = 1 - travelTimeCountdownTimer / TRAVELING_TIME;
-    			System.out.println("travelAmtFactor = " + travelAmtFactor);
     			Point2D startPoint = AxonMembrane.evaluateCurve(axonMembrane.getCurveA(), travelAmtFactor);
     			Point2D endPoint = AxonMembrane.evaluateCurve(axonMembrane.getCurveB(), travelAmtFactor);
     			Point2D midPoint = new Point2D.Double((startPoint.getX() + endPoint.getX()) / 2, (startPoint.getY() + endPoint.getY()) / 2);
