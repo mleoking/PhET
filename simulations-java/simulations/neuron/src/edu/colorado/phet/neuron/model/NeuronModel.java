@@ -99,13 +99,6 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
 	// occur before a notification is sent out.
 	private static final double MEMBRANE_POTENTIAL_CHANGE_THRESHOLD = 0.005;
 	
-	// Enum that defines the recording state.
-	private enum RecordingState {
-		IDLE,         // The model is neither recording nor playing back.
-		RECORDING,    // The model is recording the current activity.
-		PLAYING_BACK       // The model is playing back previously recorded content.
-	}
-	
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
