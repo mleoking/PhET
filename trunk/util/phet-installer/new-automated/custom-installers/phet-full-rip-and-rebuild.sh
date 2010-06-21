@@ -36,7 +36,7 @@ echo " Rip and rebuild of standard PhET installers initiated by `whoami` on: " |
 echo " `date`" | tee --append $LOG
 echo "================================================================" | tee --append $LOG
 
-if [ "$1" = "--deploy" ]; then
+if [ "$1" = "--deploy" -o "$2" = "--deploy" ]; then
    echo "Sims will be deployed after they are built." | tee --append $LOG
    /usr/local/php/bin/php ./bin/phet-full-rip-and-rebuild.php --deploy | tee --append $LOG
 else
@@ -44,7 +44,11 @@ else
    /usr/local/php/bin/php ./bin/phet-full-rip-and-rebuild.php | tee --append $LOG
 fi
 
-if [ "$2" = "--email" ]; then
+if [ "$1" = "--email" -o "$2" = "--email" ]; then
+   echo "Seding email notification for this build." | tee --append $LOG
    send_email_notification
+else
+   echo "No email notification is being sent for this build." | tee --append $LOG
 fi
+
 
