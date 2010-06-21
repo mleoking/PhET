@@ -958,10 +958,15 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
 	@Override
 	public void stepInTime(double simulationTimeChange) {
     	if (simulationTimeChange < 0 && getPlaybackSpeed() > 0){
-    		// This is a step backwards in time.  This can only occur in
-    		// playback mode, and we should enter this mode automatically
-    		// if we are not already there.
+    		// This is a step backwards in time but the record-and-playback
+    		// model is not set up for backstepping, so set it up for
+    		// backwards stepping.
     		setPlayback(-1);  // The -1 indicates playing in reverse.
+    	}
+    	else if (getPlaybackSpeed() < 0 && simulationTimeChange > 0){
+    		// This is a step forward in time but the record-and-playback
+    		// model is set up for backwards stepping, so straighten it out.
+    		setPlayback(1);
     	}
 
 		super.stepInTime(simulationTimeChange);
