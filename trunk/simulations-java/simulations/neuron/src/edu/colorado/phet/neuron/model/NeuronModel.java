@@ -531,16 +531,14 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
 //    }
     
 	private NeuronModelState getState(){
-    	// TODO: Stubbed for now.
+    	// TODO: Need to fill out for all elements of the model.
     	return new NeuronModelState(axonMembrane.getState());
     }
     
     /**
      * Clear out the current recording.  This means that the data that was
      * collected that represents the state of the sim at various time indices
-     * will simply be discarded.  Note that the recording state does NOT
-     * change, so if a recording was in progress it will continue, starting
-     * anew at the next time step.
+     * will simply be discarded.
      */
     public void clearRecording(){
     	System.out.println("clearRecording called.");
@@ -955,6 +953,18 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
 	@Override
 	public void setPlaybackState(NeuronModelState state) {
 		axonMembrane.setState(state.getAxonMembraneState());
+	}
+	
+	@Override
+	public void stepInTime(double simulationTimeChange) {
+    	if (simulationTimeChange < 0 && getPlaybackSpeed() > 0){
+    		// This is a step backwards in time.  This can only occur in
+    		// playback mode, and we should enter this mode automatically
+    		// if we are not already there.
+    		setPlayback(-1);  // The -1 indicates playing in reverse.
+    	}
+
+		super.stepInTime(simulationTimeChange);
 	}
 
 	@Override
