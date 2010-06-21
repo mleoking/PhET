@@ -42,7 +42,7 @@ public class MovingManApplication extends PiccoloPhetApplication {
         chartingModule.getPositiveToTheRight().addObserver(new SimpleObserver() {
             public void update() {
                 if (getActiveModule() == chartingModule) {
-                    positiveToTheRight.setValue(introModule.getPositiveToTheRight().getValue());
+                    positiveToTheRight.setValue(chartingModule.getPositiveToTheRight().getValue());
                 }
             }
         });
@@ -53,7 +53,7 @@ public class MovingManApplication extends PiccoloPhetApplication {
             }
 
             public void activeModuleChanged(ModuleEvent event) {
-                positiveToTheRight.setValue(((MovingManModule) getActiveModule()).getPositiveToTheRight().getValue());
+                positiveToTheRight.setValue(getActiveMovingManModule().getPositiveToTheRight().getValue());
             }
 
             public void moduleRemoved(ModuleEvent event) {
@@ -62,17 +62,17 @@ public class MovingManApplication extends PiccoloPhetApplication {
         getPhetFrame().addMenu(new SpecialFeaturesMenu(this));
         positiveToTheRight.addObserver(new SimpleObserver() {
             public void update() {
-                ((MovingManModule) getActiveModule()).setPositiveToTheRight(positiveToTheRight.getValue());
+                getActiveMovingManModule().setPositiveToTheRight(positiveToTheRight.getValue());
             }
         });
     }
 
-    public MutableBoolean getPositiveToTheRight() {
-        return positiveToTheRight;
+    private MovingManModule getActiveMovingManModule() {
+        return (MovingManModule) getActiveModule();
     }
 
-    public static void main(String[] args) {
-        new PhetApplicationLauncher().launchSim(args, "moving-man", MovingManApplication.class);
+    public MutableBoolean getPositiveToTheRight() {
+        return positiveToTheRight;
     }
 
     private class IntroModule extends MovingManModule {
@@ -100,5 +100,9 @@ public class MovingManApplication extends PiccoloPhetApplication {
             panel.setTimelineNodeVisible(false);//Hide timeline panel in chart panel, since it is redundant with in-chart cursor bar
             return panel;
         }
+    }
+
+    public static void main(String[] args) {
+        new PhetApplicationLauncher().launchSim(args, "moving-man", MovingManApplication.class);
     }
 }

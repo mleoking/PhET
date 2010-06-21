@@ -1,3 +1,4 @@
+Fixed: Axis rotation fails for charts tab
 Added expression evaluation dialog
 Added menu item to flip coordinate frame
 Refactoring and documentation for MovingManState and related classes.

@@ -1,6 +1,7 @@
 package edu.colorado.phet.movingman;
 
 import bsh.EvalError;
+
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -10,6 +11,7 @@ import edu.colorado.phet.movingman.model.ExpressionEvaluator;
 import edu.colorado.phet.movingman.view.GoButton;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -91,8 +93,9 @@ public class ExpressionDialog extends JDialog {
     }
 
     private void showHelp() {
-        if (helpDialog == null)
+        if (helpDialog == null) {
             helpDialog = createHelpDialog();
+        }
         helpDialog.setVisible(true);
     }
 
@@ -103,7 +106,7 @@ public class ExpressionDialog extends JDialog {
             {
                 contentPane.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
                 JEditorPane helpArea = new JEditorPane("text/html", "<html>Here are some examples of valid expressions:<br>" +
-                        " x = 3 * t <br>" +
+                        " x = 3 * t + 2<br>" +
                         " x = 2*sin(t)<br>" +
                         " x = pow(t,2)<br>" +
                         "<br>" +
@@ -136,7 +139,8 @@ public class ExpressionDialog extends JDialog {
             evaluator.evaluate(1.0);
             errorLabel.setVisible(false);
             expressionTextField.setBorder(BorderFactory.createLineBorder(Color.gray));
-        } catch (EvalError evalError) {
+        }
+        catch (EvalError evalError) {
             evalError.printStackTrace();
             errorLabel.setVisible(true);
             expressionTextField.setBorder(BorderFactory.createLineBorder(Color.red));
