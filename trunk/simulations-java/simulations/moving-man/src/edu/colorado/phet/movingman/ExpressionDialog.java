@@ -33,10 +33,10 @@ public class ExpressionDialog extends JDialog {
         VerticalLayoutPanel contentPane = new VerticalLayoutPanel();
         {
             contentPane.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-            contentPane.add(new JLabel("Enter an expression as a function of time t"));
+            contentPane.add(new JLabel("Enter an expression for position x as a function of time t"));
             JPanel expressionPanel = new JPanel();
             {
-                expressionPanel.add(new JLabel("x = "));
+                expressionPanel.add(new JLabel("x(t) = "));
                 expressionTextField = new JTextField("7 * sin(t) + 2", 14);
                 expressionTextField.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
@@ -141,7 +141,6 @@ public class ExpressionDialog extends JDialog {
             expressionTextField.setBorder(BorderFactory.createLineBorder(Color.gray));
         }
         catch (EvalError evalError) {
-            evalError.printStackTrace();
             errorLabel.setVisible(true);
             expressionTextField.setBorder(BorderFactory.createLineBorder(Color.red));
         }
