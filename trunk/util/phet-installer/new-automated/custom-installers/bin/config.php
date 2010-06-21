@@ -96,17 +96,17 @@
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'files/activities/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'workshops/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'installer/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/get-phet/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/for-teachers/submit-activity').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/for-teachers/manage-activities'));
     define("PHET_RIPPER_FILTER_YF",   CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'ar/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'files/activities/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'workshops/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'installer/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/get-phet/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/for-teachers/submit-activity').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/for-teachers/manage-activities'));
     define("PHET_RIPPER_FILTER_KSU",  CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/*').' '.
-        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'files/activities/*').' '.
-        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'workshops/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'ar/for-teachers/submit-activity').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'ar/for-teachers/manage-activities'));
 
