@@ -31,6 +31,7 @@ import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.neuron.NeuronStrings;
@@ -54,7 +55,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * Author: John Blanco
  */
 
-public class MembranePotentialChart extends PNode {
+public class MembranePotentialChart extends PNode implements SimpleObserver {
 	
 	//----------------------------------------------------------------------------
 	// Class Data
@@ -123,6 +124,10 @@ public class MembranePotentialChart extends PNode {
     			axonModel.startRecording();
     		}
     	});
+    	
+    	// Register as an observer of model events related to record and
+    	// playback.
+    	axonModel.addObserver(this);
         
         // Create the chart itself, i.e. the place where date will be shown.
         XYDataset dataset = new XYSeriesCollection( dataSeries );
@@ -329,7 +334,7 @@ public class MembranePotentialChart extends PNode {
     private void updateChart(ClockEvent clockEvent){
     	
     	if (recording){
-    		if (!chartIsFull){
+    		if (!chartIsFull && clockEvent.getSimulationTimeChange() > 0){
     			updateCountdownTimer -= clockEvent.getSimulationTimeChange();
     			
     			double timeInMilliseconds = clockEvent.getSimulationTime() * 1000;
@@ -384,6 +389,7 @@ public class MembranePotentialChart extends PNode {
     }
     
     private void moveChartCursorToTime(double time){
+    	System.out.println("Time = " + time);
         Point2D cursorPos = jFreeChartNode.plotToNode( new Point2D.Double( time, jFreeChartNode.getChart().getXYPlot().getRangeAxis().getRange().getUpperBound() ) );
         chartCursor.setOffset(cursorPos);
     }
@@ -423,4 +429,16 @@ public class MembranePotentialChart extends PNode {
 			addInputEventListener(new CursorHandler());
 		}
     }
+
+    /**
+     * Handle change notifications from the record-and-playback portion of the
+     * model.
+     */
+	public void update() {
+		if (chartCursor.getVisible()){
+			double recordingStartTime = axonModel.getMinRecordedTime();
+			double recordingCurrentTime = axonModel.getTime();
+			moveChartCursorToTime( ( recordingCurrentTime - recordingStartTime ) * 1000 );
+		}
+	}
 }
