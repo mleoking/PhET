@@ -250,6 +250,7 @@
       <excludeFolder url="file://$MODULE_DIR$/build-tools/ant_output" />
       <excludeFolder url="file://$MODULE_DIR$/simulations-java/ant_output" />
       <excludeFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d-1.2.1" />
+      <excludeFolder url="file://$MODULE_DIR$/web/wicket-website/deploy/ROOT" />
     </content>
     <content url="file://$MODULE_DIR$/../../samreid-unfuddle" />
     <orderEntry type="inheritedJdk" />
