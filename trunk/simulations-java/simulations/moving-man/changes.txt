@@ -1,3 +1,4 @@
+# 1.28.01 (41829) Jun 21, 2010
 Fixed: Axis rotation fails for charts tab
 Added expression evaluation dialog
 Added menu item to flip x-axis
