@@ -73,7 +73,7 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
 	
     private JFreeChart chart;
     private JFreeChartNode jFreeChartNode;
-    private NeuronModel axonModel;
+    private NeuronModel neuronModel;
 	private XYSeries dataSeries = new XYSeries("0");
 	private ChartCursor chartCursor;
 	private static NumberAxis xAxis;
@@ -90,7 +90,7 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
     public MembranePotentialChart( Dimension2D size, String title, final NeuronModel axonModel ) {
     	
     	assert axonModel != null;
-        this.axonModel = axonModel;
+        this.neuronModel = axonModel;
         
     	// Register for clock ticks so that we can update.
     	axonModel.getClock().addClockListener(new ClockAdapter(){
@@ -114,7 +114,7 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
     	axonModel.addListener(new NeuronModel.Adapter(){
     		
     		public void stimulusPulseInitiated() {
-    			if (!MembranePotentialChart.this.axonModel.isPotentialChartVisible()){
+    			if (!MembranePotentialChart.this.neuronModel.isPotentialChartVisible()){
     				// If the chart is not visible, we clear any previous
     				// recording.
     				clearChart();
@@ -340,11 +340,11 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
     			double timeInMilliseconds = clockEvent.getSimulationTime() * 1000;
     			
     			if (updateCountdownTimer <= 0){
-    				addDataPoint(timeInMilliseconds, axonModel.getMembranePotential(), true);
+    				addDataPoint(timeInMilliseconds, neuronModel.getMembranePotential(), true);
     				updateCountdownTimer = UPDATE_PERIOD;
     			}
     			else{
-    				addDataPoint(timeInMilliseconds, axonModel.getMembranePotential(), false);
+    				addDataPoint(timeInMilliseconds, neuronModel.getMembranePotential(), false);
     			}
     		}
     		else{
@@ -370,7 +370,7 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
     private void clearChart(){
     	dataSeries.clear();
     	chartIsFull = false;
-    	axonModel.clearRecording();
+    	neuronModel.clearRecording();
     }
     
     public JFreeChartNode getJFreeChartNode() {
@@ -378,7 +378,7 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
     }
     
     private void updateChartCursorVisibility(){
-    	chartCursor.setVisible(axonModel.getClock().isPaused());
+    	chartCursor.setVisible(neuronModel.getClock().isPaused());
     }
     
     private void moveChartCursorToTime(double time){
@@ -423,8 +423,8 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
     }
     
     private void updateChartCursorPos(){
-		double recordingStartTime = axonModel.getMinRecordedTime();
-		double recordingCurrentTime = axonModel.getTime();
+		double recordingStartTime = neuronModel.getMinRecordedTime();
+		double recordingCurrentTime = neuronModel.getTime();
 		moveChartCursorToTime( ( recordingCurrentTime - recordingStartTime ) * 1000 );
     }
 
@@ -433,7 +433,7 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
      * model.
      */
 	public void update() {
-		if (axonModel.isPlayback()){
+		if (neuronModel.isPlayback()){
 			updateChartCursorPos();
 		}
 	}
