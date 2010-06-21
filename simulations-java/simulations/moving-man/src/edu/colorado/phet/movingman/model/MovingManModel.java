@@ -134,7 +134,7 @@ public class MovingManModel {
                 try {
                     v = expressionEvaluator.evaluate(time);
                 } catch (EvalError evalError) {
-                    evalError.printStackTrace();
+//                    evalError.printStackTrace();
                     for (EvalErrorListener evalErrorListener : evalErrorListeners)
                         evalErrorListener.errorOccurred(evalError);
                 }
