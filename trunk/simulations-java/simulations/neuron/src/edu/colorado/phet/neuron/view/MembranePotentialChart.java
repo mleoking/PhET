@@ -180,9 +180,7 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
                 Point2D diff = localToPlotDifferential( dx.getX(), dx.getY() );
                 double time = pressTime + diff.getX();
                 time = MathUtil.clamp(0, time, getLastTimeValue());
-//                moveChartCursorToTime(time);
                 neuronModel.setTime(time/1000);
-                System.out.println("Time = " + time);
             }
         } );
         
