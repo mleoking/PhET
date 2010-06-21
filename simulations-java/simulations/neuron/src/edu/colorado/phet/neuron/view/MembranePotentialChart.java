@@ -370,7 +370,8 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
     private void clearChart(){
     	dataSeries.clear();
     	chartIsFull = false;
-    	neuronModel.clearRecording();
+    	neuronModel.clearHistory();
+    	updateChartCursorVisibility();
     }
     
     public JFreeChartNode getJFreeChartNode() {
@@ -378,7 +379,7 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
     }
     
     private void updateChartCursorVisibility(){
-    	chartCursor.setVisible(neuronModel.getClock().isPaused());
+    	chartCursor.setVisible(neuronModel.getClock().isPaused() && dataSeries.getItemCount() > 0);
     }
     
     private void moveChartCursorToTime(double time){
