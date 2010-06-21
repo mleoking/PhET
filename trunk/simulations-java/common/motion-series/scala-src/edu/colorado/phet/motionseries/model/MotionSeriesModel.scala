@@ -114,22 +114,24 @@ class MotionSeriesModel(defaultBeadPosition: Double,
 
   override def resetAll() = {
     super.resetAll()
-    clearHistory()
-    selectedObject = MotionSeriesDefaults.objects(0)
-    frictionless = MotionSeriesDefaults.FRICTIONLESS_DEFAULT
-    walls = true
-    resetBead()
-    manBead.setPosition(defaultManPosition)
+    if (resetListeners != null) {//resetAll() is called from super's constructor, so have to make sure our data is inited before proceeding
+      clearHistory()
+      selectedObject = MotionSeriesDefaults.objects(0)
+      frictionless = MotionSeriesDefaults.FRICTIONLESS_DEFAULT
+      walls = true
+      resetBead()
+      manBead.setPosition(defaultManPosition)
 
-    rampSegments(0).setWetness(0.0)
-    rampSegments(0).setHeat(0.0)
-    rampSegments(1).setWetness(0.0)
-    rampSegments(1).setHeat(0.0)
-    rampSegments(1).setAngle(initialAngle)
+      rampSegments(0).setWetness(0.0)
+      rampSegments(0).setHeat(0.0)
+      rampSegments(1).setWetness(0.0)
+      rampSegments(1).setHeat(0.0)
+      rampSegments(1).setAngle(initialAngle)
 
-    resetListeners.foreach(_())
+      resetListeners.foreach(_())
 
-    setPaused(pausedOnReset)
+      setPaused(pausedOnReset)
+    }
   }
 
   /**
@@ -172,7 +174,7 @@ class MotionSeriesModel(defaultBeadPosition: Double,
     rampAngle = state.rampState.angle
     rampSegments(0).setHeat(state.rampState.heat)
     rampSegments(0).setWetness(state.rampState.wetness)
-    
+
     rampSegments(1).setHeat(state.rampState.heat)
     rampSegments(1).setWetness(state.rampState.wetness)
 
