@@ -87,13 +87,13 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
     // Constructor(s)
     //----------------------------------------------------------------------------
 	
-    public MembranePotentialChart( Dimension2D size, String title, final NeuronModel axonModel ) {
+    public MembranePotentialChart( Dimension2D size, String title, final NeuronModel neuronModel ) {
     	
-    	assert axonModel != null;
-        this.neuronModel = axonModel;
+    	assert neuronModel != null;
+        this.neuronModel = neuronModel;
         
     	// Register for clock ticks so that we can update.
-    	axonModel.getClock().addClockListener(new ClockAdapter(){
+    	neuronModel.getClock().addClockListener(new ClockAdapter(){
     	    public void clockTicked( ClockEvent clockEvent ) {
     	    	updateChart(clockEvent);
     	    }
@@ -111,7 +111,7 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
     	});
     	
     	// Register for model events that are important to us.
-    	axonModel.addListener(new NeuronModel.Adapter(){
+    	neuronModel.addListener(new NeuronModel.Adapter(){
     		
     		public void stimulusPulseInitiated() {
     			if (!MembranePotentialChart.this.neuronModel.isPotentialChartVisible()){
@@ -121,13 +121,13 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
     			}
     			// Start recording, if it isn't already happening.
     			recording = true;
-    			axonModel.startRecording();
+    			neuronModel.startRecording();
     		}
     	});
     	
     	// Register as an observer of model events related to record and
     	// playback.
-    	axonModel.addObserver(this);
+    	neuronModel.addObserver(this);
         
         // Create the chart itself, i.e. the place where date will be shown.
         XYDataset dataset = new XYSeriesCollection( dataSeries );
@@ -159,7 +159,7 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
             public void mousePressed( PInputEvent event ) {
                 pressPoint = event.getPositionRelativeTo( MembranePotentialChart.this );
                 pressTime = jFreeChartNode.nodeToPlot(chartCursor.getOffset()).getX();
-                axonModel.setPlayback(1); // Set into playback mode.
+                neuronModel.setPlayback(1); // Set into playback mode.
             }
 
             public Point2D localToPlotDifferential( double dx, double dy ) {
@@ -181,7 +181,7 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
                 double time = pressTime + diff.getX();
                 time = MathUtil.clamp(0, time, getLastTimeValue());
 //                moveChartCursorToTime(time);
-                axonModel.setTime(time/1000);
+                neuronModel.setTime(time/1000);
                 System.out.println("Time = " + time);
             }
         } );
@@ -195,7 +195,7 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
 		closeButton.setPreferredSize(new Dimension(imageIcon.getIconWidth(), imageIcon.getIconHeight()));
 		closeButton.addActionListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
-				axonModel.setPotentialChartVisible(false);
+				neuronModel.setPotentialChartVisible(false);
 			}
 		} );
 		
@@ -211,12 +211,12 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
 			public void actionPerformed(ActionEvent e) {
 				// If an action potential is in progress, start or continue
 				// recording.
-				if (axonModel.isStimulusInitiationLockedOut()){
+				if (neuronModel.isStimulusInitiationLockedOut()){
 					// Note: Using isStimulusInitiationLockedOut is a bit of
 					// an indirect way to figure out if an AP is in progress,
 					// but it works.
 					recording = true;
-					axonModel.startRecording();
+					neuronModel.startRecording();
 				}
 				else if (recording){
 					// Stop recording if one is in progress.
