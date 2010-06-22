@@ -1,0 +1,47 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: June 15-21, 2010 (Tue-Mon)
+
+ACCOMPLISHMENTS:
+
+Acid-Base Solutions:
+- met the 6/21/10 deadline for "interviews version"
+- many change requests and fixes, including:
+- remove all references to Ka and Kb
+- change strength range
+- new reaction equation for water
+- change order of molecules in reaction equations
+- order bars in concentration graph to match reaction equations
+- hide minor species in magnifying glass
+- misc label changes
+- published 0.00.12 - 0.00.14
+- added Reset All feature (unpublished)
+
+Capacitor Lab:
+- no progress, on hold to meet Acid-Base deadline
+
+common:
+- migrated control panel background feature to PhetApplication, #2410
+ 
+translations:
+ - discussed multi-file translations, #2033
+  
+WHAT'S NEXT:
+
+ - Acid-Base Solutions design & implementation 
+ - Capacitor Lab design & implementation 
+ - Faraday fix for dipole magnet, #2236 (waiting for info from Mike)
+ - Lasers fix for lifetime sliders, #2190 (waiting for instructions from Kathy)
+
+ISSUES:
+
+ - need feedback on Acid-Base Solutions design from the Chem Advisory Board
+
+DATES UNAVAILABLE:
+
+  June 22-24
+  July 24-31
+  August 1-6
+
+--
