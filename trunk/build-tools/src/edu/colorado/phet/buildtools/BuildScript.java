@@ -520,68 +520,13 @@ public class BuildScript {
         } );
     }
 
-    public void deployProd( final AuthenticationInfo devAuth, final AuthenticationInfo prodAuth, VersionIncrement versionIncrement ) {
+    public void deployToDevelopmentAndProductionServers( final AuthenticationInfo devAuth, final AuthenticationInfo prodAuth, VersionIncrement versionIncrement ) {
         deploy(
                 //send a copy to dev
                 new Task() {
                     public boolean invoke() {
                         //generate files for dev
                         sendCopyToDev( devAuth );
-                        boolean success = prepareStagingArea( PhetServer.PRODUCTION, prodAuth );
-                        return success;
-                    }
-                }, PhetServer.PRODUCTION, prodAuth, versionIncrement, new Task() {
-                    public boolean invoke() {
-                        System.out.println( "Invoking server side scripts to generate simulation and language JAR files" );
-                        if ( !debugDryRun ) {
-                            generateOfflineJars( project, PhetServer.PRODUCTION, prodAuth );
-                        }
-                        copyFromStagingAreaToSimDir( PhetServer.PRODUCTION, prodAuth );
-                        clearWebCaches();
-
-                        return true;
-                    }
-                } );
-    }
-
-    public void deploySpotTigercatFigaro( final AuthenticationInfo devAuth, final AuthenticationInfo tigercatAuth, final AuthenticationInfo figaroAuth, VersionIncrement versionIncrement ) {
-        deploy(
-                new Task() {
-                    public boolean invoke() {
-                        sendCopyToDev( devAuth );
-                        return prepareStagingArea( PhetServer.PRODUCTION, tigercatAuth );
-                    }
-                }, PhetServer.PRODUCTION, tigercatAuth, versionIncrement, new Task() {
-                    public boolean invoke() {
-                        System.out.println( "Invoking server side scripts to generate simulation and language JAR files" );
-                        if ( !debugDryRun ) {
-                            generateOfflineJars( project, PhetServer.PRODUCTION, tigercatAuth );
-                        }
-                        copyFromStagingAreaToSimDir( PhetServer.PRODUCTION, tigercatAuth );
-                        clearWebCaches();
-
-                        boolean success = prepareStagingArea( PhetServer.FIGARO, figaroAuth );
-                        if ( !success ) { return false; }
-                        success = sendSSH( PhetServer.FIGARO, figaroAuth );
-                        if ( !success ) { return false; }
-                        boolean genjars = project instanceof JavaProject && ( (JavaProject) project ).getSignJar() && generateJARs;
-                        SshUtils.executeCommand( "chmod -R a+rw " + PhetServer.FIGARO.getStagingArea() + "/" + project.getName(), PhetServer.FIGARO.getHost(), figaroAuth );
-
-                        // TODO: instead, should be more like the translation deployment where the user's browser is redirected to a page that shows the progress or error messages
-                        SshUtils.executeCommand( "curl 'http://phetsims.colorado.edu/admin/deploy?project=" + project.getName() + "&generate-jars=" + genjars + "'", PhetServer.FIGARO.getHost(), figaroAuth );
-
-                        return true;
-                    }
-                } );
-    }
-
-    public void deployTestProd( final AuthenticationInfo devAuth, final AuthenticationInfo prodAuth, VersionIncrement versionIncrement ) {
-        deploy(
-                //send a copy to dev
-                new Task() {
-                    public boolean invoke() {
-                        //generate files for dev
-                        //sendCopyToDev( devAuth );
                         boolean success = prepareStagingArea( PhetServer.FIGARO, prodAuth );
                         return success;
                     }
@@ -599,7 +544,7 @@ public class BuildScript {
     }
 
     public void deployProd( final AuthenticationInfo devAuth, final AuthenticationInfo prodAuth ) {
-        deployProd( devAuth, prodAuth, new VersionIncrement.UpdateProdMinor() );
+        deployToDevelopmentAndProductionServers( devAuth, prodAuth, new VersionIncrement.UpdateProdMinor() );
     }
 
     //Run "rm" on the server to remove the phet/staging/sims/<project> directory contents, see #1529

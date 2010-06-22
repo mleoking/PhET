@@ -124,15 +124,6 @@ public class BuildLocalProperties {
     }
 
     /**
-     * Gets authentication information for the production server.
-     *
-     * @return
-     */
-    public AuthenticationInfo getProdAuthenticationInfo() {
-        return new AuthenticationInfo( getProdUsername(), getProdPassword() );
-    }
-
-    /**
      * Gets authentication information for the development server.
      *
      * @return

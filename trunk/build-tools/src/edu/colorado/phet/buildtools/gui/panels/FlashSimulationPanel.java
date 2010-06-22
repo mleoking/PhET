@@ -186,9 +186,8 @@ public class FlashSimulationPanel extends JPanel {
             versionIncrement = new VersionIncrement.UpdateProdMajor();
         }
 
-        new BuildScript( trunk, project ).deploySpotTigercatFigaro(
+        new BuildScript( trunk, project ).deployToDevelopmentAndProductionServers(
                 buildLocalProperties.getDevAuthenticationInfo(),
-                buildLocalProperties.getProdAuthenticationInfo(),
                 buildLocalProperties.getWebsiteProdAuthenticationInfo(),
                 versionIncrement
         );
@@ -212,6 +211,6 @@ public class FlashSimulationPanel extends JPanel {
             versionIncrement = new VersionIncrement.UpdateProdMajor();
         }
 
-        new BuildScript( trunk, project ).deployTestProd( buildLocalProperties.getDevAuthenticationInfo(), buildLocalProperties.getWebsiteProdAuthenticationInfo(), versionIncrement );
+        new BuildScript( trunk, project ).deployToDevelopmentAndProductionServers( buildLocalProperties.getDevAuthenticationInfo(), buildLocalProperties.getWebsiteProdAuthenticationInfo(), versionIncrement );
     }
 }

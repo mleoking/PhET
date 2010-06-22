@@ -95,7 +95,7 @@ public class ResourceDeployClient {
      * @throws IOException
      */
     public boolean uploadResourceFile() throws JSchException, IOException {
-        AuthenticationInfo authenticationInfo = BuildLocalProperties.getInstance().getProdAuthenticationInfo();
+        AuthenticationInfo authenticationInfo = BuildLocalProperties.getInstance().getWebsiteProdAuthenticationInfo();
         String temporaryDirPath = getTemporaryDirPath();
 
         boolean success = dirtyExecute( "mkdir -p -m 775 " + temporaryDirPath + "/resource" );
@@ -121,7 +121,7 @@ public class ResourceDeployClient {
      * @throws IOException
      */
     public boolean uploadExtraFile( File extraFile, String sim ) throws JSchException, IOException {
-        AuthenticationInfo authenticationInfo = BuildLocalProperties.getInstance().getProdAuthenticationInfo();
+        AuthenticationInfo authenticationInfo = BuildLocalProperties.getInstance().getWebsiteProdAuthenticationInfo();
         String temporaryDirPath = getTemporaryDirPath();
 
         String temporarySimExtrasDir = temporaryDirPath + "/extras/" + sim;
@@ -205,7 +205,7 @@ public class ResourceDeployClient {
     private boolean dirtyExecute( String command ) {
         System.out.println( "# " + command );
         PhetServer server = PhetServer.PRODUCTION;
-        AuthenticationInfo authenticationInfo = BuildLocalProperties.getInstance().getProdAuthenticationInfo();
+        AuthenticationInfo authenticationInfo = BuildLocalProperties.getInstance().getWebsiteProdAuthenticationInfo();
         return SshUtils.executeCommand( command, server.getHost(), authenticationInfo );
     }
 

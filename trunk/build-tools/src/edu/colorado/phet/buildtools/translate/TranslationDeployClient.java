@@ -82,10 +82,7 @@ public class TranslationDeployClient {
     public TranslationDeployClient( File trunk, PhetServer server ) {
         this.trunk = trunk;
         this.server = server;
-        this.authenticationInfo =
-                server.equals( PhetServer.PRODUCTION )
-                ? BuildLocalProperties.getInstance().getProdAuthenticationInfo()
-                : BuildLocalProperties.getInstance().getWebsiteProdAuthenticationInfo();
+        this.authenticationInfo = BuildLocalProperties.getInstance().getWebsiteProdAuthenticationInfo();//TODO: This will be broken 
     }
 
     public static void main( String[] args ) throws IOException {
