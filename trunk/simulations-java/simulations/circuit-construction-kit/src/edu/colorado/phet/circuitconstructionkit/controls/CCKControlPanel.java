@@ -290,8 +290,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
         catch (UnavailableServiceException e) {
             e.printStackTrace();
         }
-        FileContents open = fos.openFileDialog(CCKResources.getString("CCK3ControlPanel.OpenFileDialog"),
-                new String[]{CCKResources.getString("CCK3ControlPanel.FileExtension")});
+        FileContents open = fos.openFileDialog(null, new String[]{"cck"});
         if (open == null) {
             return;
         }
@@ -373,9 +372,8 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
         String circuitxml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + sw.toString();
         InputStream stream = new ByteArrayInputStream(circuitxml.getBytes());
         FileContents data = new InputStreamFileContents("circuitxml", stream);
-        FileContents out = fos.saveAsFileDialog(CCKResources.getString("CCK3ControlPanel.DefaultFileName"),
-                null, data);
-        System.out.println("out = " + out);
+        FileContents out = fos.saveFileDialog(null, new String[]{"cck"}, data.getInputStream(), null);
+        System.out.println("Saved to "+out.getName()+" as: " + out);
     }
 
     public void showHelpGIF() {
