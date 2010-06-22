@@ -1,4 +1,4 @@
-package edu.colorado.phet.movingman.model;
+package edu.colorado.phet.common.motion.charts;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 

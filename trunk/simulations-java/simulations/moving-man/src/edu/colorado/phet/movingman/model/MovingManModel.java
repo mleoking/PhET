@@ -3,7 +3,9 @@ package edu.colorado.phet.movingman.model;
 import bsh.EvalError;
 import edu.colorado.phet.common.motion.MotionMath;
 import edu.colorado.phet.common.motion.model.TimeData;
-import edu.colorado.phet.movingman.charts.ChartCursor;
+import edu.colorado.phet.common.motion.charts.ChartCursor;
+import edu.colorado.phet.common.motion.charts.MovingManDataSeries;
+import edu.colorado.phet.common.motion.charts.MutableBoolean;
 import edu.colorado.phet.movingman.view.Range;
 
 import java.util.ArrayList;

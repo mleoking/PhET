@@ -5,11 +5,11 @@ import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.movingman.MovingManIIResources;
+import edu.colorado.phet.movingman.MovingManResources;
+import edu.colorado.phet.common.motion.charts.MovingManDataSeries;
 import edu.colorado.phet.movingman.model.MovingMan;
-import edu.colorado.phet.movingman.model.MovingManDataSeries;
 import edu.colorado.phet.movingman.model.MovingManModel;
-import edu.colorado.phet.movingman.model.MutableBoolean;
+import edu.colorado.phet.common.motion.charts.MutableBoolean;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -43,8 +43,8 @@ public class MovingManNode extends PNode {
             }
         });
         try {
-            imageStanding = BufferedImageUtils.multiScaleToHeight(MovingManIIResources.loadBufferedImage("man-standing.gif"), 100);//todo: need our own resource loader
-            imageLeft = BufferedImageUtils.multiScaleToHeight(MovingManIIResources.loadBufferedImage("man-left.gif"), 100);
+            imageStanding = BufferedImageUtils.multiScaleToHeight(MovingManResources.loadBufferedImage("man-standing.gif"), 100);//todo: need our own resource loader
+            imageLeft = BufferedImageUtils.multiScaleToHeight(MovingManResources.loadBufferedImage("man-left.gif"), 100);
             imageRight = BufferedImageUtils.flipX(imageLeft);
         } catch (IOException e) {
             e.printStackTrace();

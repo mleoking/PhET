@@ -2,7 +2,7 @@ package edu.colorado.phet.movingman.view;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PlayPauseButton;
-import edu.colorado.phet.movingman.model.MutableBoolean;
+import edu.colorado.phet.common.motion.charts.MutableBoolean;
 import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel;
 import edu.umd.cs.piccolo.PNode;
 

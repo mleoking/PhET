@@ -1,4 +1,4 @@
-package edu.colorado.phet.movingman.charts;
+package edu.colorado.phet.common.motion.charts;
 
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;

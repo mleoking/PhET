@@ -1,7 +1,7 @@
 package edu.colorado.phet.movingman.view;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.movingman.model.MutableBoolean;
+import edu.colorado.phet.common.motion.charts.MutableBoolean;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

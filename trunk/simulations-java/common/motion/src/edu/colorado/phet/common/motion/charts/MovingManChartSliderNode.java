@@ -1,4 +1,4 @@
-package edu.colorado.phet.movingman.charts;
+package edu.colorado.phet.common.motion.charts;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.movingman.view.MovingManSliderNode;

@@ -1,4 +1,4 @@
-package edu.colorado.phet.movingman.charts;
+package edu.colorado.phet.common.motion.charts;
 
 import java.util.ArrayList;
 

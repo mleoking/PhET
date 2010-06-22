@@ -8,13 +8,13 @@ import java.io.IOException;
 /**
  * @author Sam Reid
  */
-public class MovingManIIResources {
+public class MovingManResources {
 
     private static PhetResources INSTANCE = new PhetResources("moving-man");
 
     /* not intended for instantiation */
 
-    private MovingManIIResources() {
+    private MovingManResources() {
     }
 
     public static PhetResources getInstance() {

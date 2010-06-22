@@ -1,4 +1,4 @@
-package edu.colorado.phet.movingman.charts;
+package edu.colorado.phet.common.motion.charts;
 
 import edu.colorado.phet.common.motion.model.TimeData;
 import edu.colorado.phet.common.phetcommon.math.Function;
@@ -13,9 +13,7 @@ import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.AbstractMediaButton;
-import edu.colorado.phet.movingman.MovingManIIResources;
-import edu.colorado.phet.movingman.model.MovingManDataSeries;
-import edu.colorado.phet.movingman.model.MutableBoolean;
+import edu.colorado.phet.movingman.MovingManResources;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -440,7 +438,7 @@ public class MovingManChart extends PNode {
             button = new AbstractMediaButton(30) {
                 protected BufferedImage createImage() {
                     try {
-                        return BufferedImageUtils.multiScaleToHeight(MovingManIIResources.loadBufferedImage(imageName), 30);
+                        return BufferedImageUtils.multiScaleToHeight(MovingManResources.loadBufferedImage(imageName), 30);
                     } catch (IOException e) {
                         e.printStackTrace();
                         throw new RuntimeException(e);
