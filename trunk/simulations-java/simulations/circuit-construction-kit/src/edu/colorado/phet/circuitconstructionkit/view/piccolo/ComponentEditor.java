@@ -52,6 +52,11 @@ public abstract class ComponentEditor extends PaintImmediateDialog {
         this.circuit = circuit;
         DecimalFormat formatter = new DecimalFormat("0.0#");
         slider = new ModelSlider(name, units, min, max, startvalue, formatter);
+        slider.getTextField().addFocusListener(new FocusAdapter() {
+            public void focusLost(FocusEvent e) {
+            	slider.testCommit();
+            }
+		});
         slider.setTitleFont(slider.getTitleLabel().getFont().deriveFont(24.0f));
         slider.setNumMajorTicks(5);
         contentPane = new VerticalLayoutPanel();
