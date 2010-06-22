@@ -1,4 +1,4 @@
-package edu.colorado.phet.movingman.view;
+package edu.colorado.phet.common.motion.charts;
 
 import edu.colorado.phet.common.motion.MotionResources;
 import edu.colorado.phet.common.motion.tests.ColorArrows;
@@ -23,7 +23,7 @@ import java.util.ArrayList;
 /**
  * @author Sam Reid
  */
-public abstract class MovingManSliderNode extends PNode {
+public abstract class MotionSliderNode extends PNode {
     private PhetPPath trackPPath;
     private PNode sliderThumb;
     private double value = 0.0;
@@ -34,7 +34,7 @@ public abstract class MovingManSliderNode extends PNode {
     private Range modelRange;
     private Range viewRange;
 
-    public MovingManSliderNode(Range modelRange, double value, Range viewRange, Color color) {
+    public MotionSliderNode(Range modelRange, double value, Range viewRange, Color color) {
         this(modelRange, value, viewRange, new PImage(ColorArrows.createArrow(color)), color);
     }
 
@@ -49,7 +49,7 @@ public abstract class MovingManSliderNode extends PNode {
         return ColorArrows.filter(MotionResources.loadBufferedImage("bar-template.png"), color);
     }
 
-    public MovingManSliderNode(final Range modelRange, final double _value, final Range viewRange, final PNode sliderThumb, Color highlightColor) {
+    public MotionSliderNode(final Range modelRange, final double _value, final Range viewRange, final PNode sliderThumb, Color highlightColor) {
         this.modelRange = modelRange;
         this.viewRange = viewRange;
         this.value = _value;
@@ -255,7 +255,7 @@ public abstract class MovingManSliderNode extends PNode {
      *
      * @param listener the value change listener.
      */
-    public void addListener(MovingManSliderNode.Listener listener) {
+    public void addListener(MotionSliderNode.Listener listener) {
         listeners.add(listener);
     }
 
@@ -281,7 +281,7 @@ public abstract class MovingManSliderNode extends PNode {
         return viewRange.getMax();
     }
 
-    public static class Vertical extends MovingManSliderNode {
+    public static class Vertical extends MotionSliderNode {
         public Vertical(Range modelRange, double value, Range viewRange, Color color) throws IOException {
             super(modelRange, value, viewRange, color);
         }
@@ -319,7 +319,7 @@ public abstract class MovingManSliderNode extends PNode {
         return trackPPath;
     }
 
-    public static class Horizontal extends MovingManSliderNode {
+    public static class Horizontal extends MotionSliderNode {
         public Horizontal(Range modelRange, double value, Range viewRange, Color color) throws IOException {
             this(modelRange, value, viewRange, new PImage(BufferedImageUtils.flipY(BufferedImageUtils.getRotatedImage(getBarImage(color), -Math.PI / 2))), color);
         }

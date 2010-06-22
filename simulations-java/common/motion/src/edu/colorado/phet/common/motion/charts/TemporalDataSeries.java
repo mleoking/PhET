@@ -8,7 +8,7 @@ import java.util.Arrays;
 /**
  * @author Sam Reid
  */
-public class MovingManDataSeries {
+public class TemporalDataSeries {
     private ArrayList<TimeData> data = new ArrayList<TimeData>();
     private ArrayList<Listener> listeners = new ArrayList<Listener>();
 
@@ -94,10 +94,10 @@ public class MovingManDataSeries {
     }
 
     /**
-     * The MovingManDataSeries.Limited ignores any data points that fall outside its maximum time range, while still keeping enough points
+     * The TemporalDataSeries.Limited ignores any data points that fall outside its maximum time range, while still keeping enough points
      * to estimate derivatives properly.  The point is to avoid memory and processor leaks while still being able to estimate derivatives.
      */
-    public static class LimitedTime extends MovingManDataSeries {
+    public static class LimitedTime extends TemporalDataSeries {
         private double maxTime;
 
         public LimitedTime(double maxTime) {
@@ -113,10 +113,10 @@ public class MovingManDataSeries {
     }
 
     /**
-     * The MovingManDataSeries.Limited ignores any data points that fall outside its maximum time range, while still keeping enough points
+     * The TemporalDataSeries.Limited ignores any data points that fall outside its maximum time range, while still keeping enough points
      * to estimate derivatives properly.  The point is to avoid memory and processor leaks while still being able to estimate derivatives.
      */
-    public static class LimitedSize extends MovingManDataSeries {
+    public static class LimitedSize extends TemporalDataSeries {
         private int maxSize;
 
         public LimitedSize(int maxSize) {

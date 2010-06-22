@@ -1,8 +1,9 @@
 package edu.colorado.phet.movingman.view;
 
+import edu.colorado.phet.common.motion.charts.MotionSliderNode;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.motion.charts.MovingManChart;
+import edu.colorado.phet.common.motion.charts.TemporalChart;
 import edu.colorado.phet.common.motion.charts.TextBox;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -17,7 +18,7 @@ import java.beans.PropertyChangeListener;
  * @author Sam Reid
  */
 public class ChartControl extends PNode {
-    public ChartControl(String title, Color color, TextBoxListener textBoxDecorator, final MovingManSliderNode chartSliderNode, final MovingManChart chart, String units) {
+    public ChartControl(String title, Color color, TextBoxListener textBoxDecorator, final MotionSliderNode chartSliderNode, final TemporalChart chart, String units) {
         PText titleNode = new PText(title);
         titleNode.setFont(new PhetFont(12, true));
         titleNode.setTextPaint(color);

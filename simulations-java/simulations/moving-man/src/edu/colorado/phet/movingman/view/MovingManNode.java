@@ -1,12 +1,13 @@
 package edu.colorado.phet.movingman.view;
 
+import edu.colorado.phet.common.motion.charts.Range;
+import edu.colorado.phet.common.motion.charts.TemporalDataSeries;
 import edu.colorado.phet.common.motion.model.TimeData;
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.movingman.MovingManResources;
-import edu.colorado.phet.common.motion.charts.MovingManDataSeries;
 import edu.colorado.phet.movingman.model.MovingMan;
 import edu.colorado.phet.movingman.model.MovingManModel;
 import edu.colorado.phet.common.motion.charts.MutableBoolean;
@@ -57,7 +58,7 @@ public class MovingManNode extends PNode {
                 updateMan();
             }
         });
-        model.getVelocityGraphSeries().addListener(new MovingManDataSeries.Listener() {
+        model.getVelocityGraphSeries().addListener(new TemporalDataSeries.Listener() {
             public void entireSeriesChanged() {
                 updateMan();
             }
