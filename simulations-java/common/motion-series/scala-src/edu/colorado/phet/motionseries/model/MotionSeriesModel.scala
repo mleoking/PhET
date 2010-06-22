@@ -85,7 +85,7 @@ class MotionSeriesModel(defaultBeadPosition: Double,
 
   def stepRecord(): Unit = stepRecord(MotionSeriesDefaults.DT_DEFAULT)
 
-  def stepRecording(simulationTimeChange: Double) = {
+  def step(simulationTimeChange: Double) = {
     stepRecord()
     val mode = bead.motionStrategy.getMemento
     new RecordedState(new RampState(rampAngle, rampSegments(1).heat, rampSegments(1).wetness),
@@ -286,8 +286,8 @@ class MotionSeriesModel(defaultBeadPosition: Double,
 
   def rampSegmentAccessor(particleLocation: Double) = if (particleLocation <= 0) rampSegments(0) else rampSegments(1)
 
-  override def stepPlayback() = {
-    super.stepPlayback()
+  override def step() = {
+    super.step()
     playbackListeners.foreach(_())
   }
 

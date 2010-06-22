@@ -995,7 +995,7 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
 	}
 
 	@Override
-	public NeuronModelState stepRecording(double dt) {
+	public NeuronModelState step(double dt) {
 		// This is a step forward in time.  Update the value of the
 		// membrane potential by stepping the Hodgkins-Huxley model.
 		hodgkinHuxleyModel.stepInTime( dt );

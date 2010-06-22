@@ -16,7 +16,7 @@ import edu.colorado.phet.scalacommon.util.Observable
  * and using the same model as Motion2D for interpolation.
  */
 class LadybugModel extends RecordAndPlaybackModel[LadybugState]((LadybugDefaults.timelineLengthSeconds / LadybugDefaults.defaultDT).toInt) with Observable {
-  def stepRecording(simulationTimeChange: Double) = stepRecord(LadybugDefaults.defaultDT)
+  def step(simulationTimeChange: Double) = stepRecord(LadybugDefaults.defaultDT)
 
   val ladybug = new Ladybug
   private val ladybugMotionModel = new LadybugMotionModel(this)
@@ -236,19 +236,22 @@ class LadybugModel extends RecordAndPlaybackModel[LadybugState]((LadybugDefaults
   }
 
   override def handleRecordStartedDuringPlayback() {
-    ladybug.setVelocity(new Vector2D)
-    ladybug.setAcceleration(new Vector2D)
+    if (ladybug != null) { //null check since called from super's constructor
+      ladybug.setVelocity(new Vector2D)
+      ladybug.setAcceleration(new Vector2D)
+    }
   }
 
   override def clearHistoryRemainder() = {
     super.clearHistoryRemainder()
+    if (modelHistory != null) { //Null check since this method is called during super constructor
+      val earlyEnough = modelHistory.filter(_.getTime < getTime)
+      modelHistory.clear
+      modelHistory.appendAll(earlyEnough)
 
-    val earlyEnough = modelHistory.filter(_.getTime < getTime)
-    modelHistory.clear
-    modelHistory.appendAll(earlyEnough)
-
-    clearSampleHistory()
-    resetMotion2DModel
+      clearSampleHistory()
+      resetMotion2DModel
+    }
   }
 
   override def startRecording() = {
@@ -258,22 +261,23 @@ class LadybugModel extends RecordAndPlaybackModel[LadybugState]((LadybugDefaults
 
   override def resetAll() = {
     super.resetAll()
+    if (modelHistory != null) {
+      modelHistory.clear()
+      penPath.clear()
 
-    modelHistory.clear()
-    penPath.clear()
+      ladybugMotionModel.resetAll()
 
-    ladybugMotionModel.resetAll()
+      ladybug.resetAll()
+      frictionless = false
+      resetMotion2DModel
 
-    ladybug.resetAll()
-    frictionless = false
-    resetMotion2DModel
-
-    notifyObservers()
+      notifyObservers()
+    }
   }
 
   override def clearHistory() = {
-    modelHistory.clear()
-    penPath.clear()
+    if (modelHistory != null) modelHistory.clear() //have to do null check since this is called from super constructor
+    if (penPath != null) penPath.clear()
 
     super.clearHistory() //do super last to call notifyListeners
   }
