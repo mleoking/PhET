@@ -1,3 +1,4 @@
+Fixed research links
 Added debugging to determine source of phetinfo service errors - missing sim messages
 Fixed old links for curve fitting / eating and exercise offline JARs.
 Fixed old contribution redirections when done through a request for login
