@@ -27,7 +27,7 @@ import edu.colorado.phet.neuron.view.NeuronCanvas;
  *
  * @author John Blanco
  */
-public class AxonCrossSectionModule extends PiccoloModule {
+public class NeuronModule extends PiccoloModule {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -42,7 +42,7 @@ public class AxonCrossSectionModule extends PiccoloModule {
     // Constructors
     //----------------------------------------------------------------------------
 
-    public AxonCrossSectionModule( Frame parentFrame ) {
+    public NeuronModule( Frame parentFrame ) {
         super( NeuronStrings.TITLE_AXON_CROSS_SECTION_MODULE, new NeuronClock( NeuronDefaults.CLOCK_FRAME_RATE,
         		NeuronDefaults.DEFAULT_ACTION_POTENTIAL_CLOCK_DT ) );
 
