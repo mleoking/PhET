@@ -18,6 +18,7 @@ import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.model.*;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel.ModelChangeAdapter;
+import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.AqueousSolutionChangeListener;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.ICustomSolution;
 import edu.colorado.phet.acidbasesolutions.model.StrongAcidSolution.CustomStrongAcidSolution;
 import edu.colorado.phet.acidbasesolutions.model.StrongBaseSolution.CustomStrongBaseSolution;
@@ -41,9 +42,11 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 public class CustomSolutionControl extends JPanel {
     
     private final ABSModel model;
+    private AqueousSolution solution;
     private final TypePanel typePanel;
     private final ConcentrationPanel concentrationPanel;
     private final StrengthPanel strengthPanel;
+    private final AqueousSolutionChangeListener solutionChangeListener;
     
     public CustomSolutionControl( ABSModel model ) {
         
@@ -55,6 +58,18 @@ public class CustomSolutionControl extends JPanel {
                 updateControl();
             }
         } );
+        this.solution = model.getSolution();
+        solutionChangeListener = new AqueousSolutionChangeListener() {
+
+            public void concentrationChanged() {
+                updateControl();
+            }
+
+            public void strengthChanged() {
+                updateControl();
+            }
+        };
+        solution.addAqueousSolutionChangeListener( solutionChangeListener );
         
         // border
         TitledBorder titledBorder = new TitledBorder( ABSStrings.SOLUTION );
@@ -89,7 +104,13 @@ public class CustomSolutionControl extends JPanel {
      * Updates this control to match the model.
      */
     private void updateControl() {
-        AqueousSolution solution = model.getSolution();
+        
+        // move the solution listener
+        solution.removeAqueousSolutionChangeListener( solutionChangeListener );
+        solution = model.getSolution();
+        solution.addAqueousSolutionChangeListener( solutionChangeListener );
+        
+        // adjust control settings
         typePanel.setAcidSelected( ( solution instanceof StrongAcidSolution ) || ( solution instanceof WeakAcidSolution ) );
         concentrationPanel.setConcentration( model.getSolution().getConcentration() );
         strengthPanel.setWeakSelected( ( solution instanceof WeakAcidSolution ) || ( solution instanceof WeakBaseSolution ) );
