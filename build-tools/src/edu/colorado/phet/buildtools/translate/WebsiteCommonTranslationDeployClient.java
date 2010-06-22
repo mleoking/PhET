@@ -10,7 +10,6 @@ import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.buildtools.BuildToolsPaths;
 import edu.colorado.phet.buildtools.PhetWebsite;
 import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
-import edu.colorado.phet.buildtools.resource.ResourceDeployClient;
 import edu.colorado.phet.buildtools.resource.ResourceDeployUtils;
 import edu.colorado.phet.buildtools.resource.WebsiteResourceDeployClient;
 import edu.colorado.phet.buildtools.util.FileUtils;
@@ -24,28 +23,28 @@ import com.jcraft.jsch.JSchException;
  * TODO: redo docs for figaro update
  * Deploying a common simulation has four phases:
  * <p/>
- * (A) Run CommonTranslationDeployClient on your machine
+ * (A) Run WebsiteCommonTranslationDeployClient on your machine
  * (1) A dialog will open. Select the common strings file that you want to deploy and hit "open"
  * (2) This will create a new directory on tigercat under htdocs/sims/resources/
  * (3) The translation, related metadata, and if applicable new Flash HTML files will be uploaded
  * (4) Instructions will be printed for the steps below
- * (B) Run ResourceDeployServer on tigercat
+ * (B) Run WebsiteResourceDeployServer on tigercat
  * shortcut: "htdocs/sims/resources/server (absolute-path-to-tmp-dir)"
  * This will not modify the live sim directory, just the temporary directory under resources.
  * Necessary files will be copied, backed up, poked with files, signed and/or generated
  * (C) Thoroughly test everything under htdocs/sims/resources/(tmp-dir)/test/
  * Every file under test/ will replace its live counterpart during publishing (except for SWFs, which are not changed)
- * (D) Run ResourceDeployPublisher on tigercat
+ * (D) Run WebsiteResourceDeployPublisher on tigercat
  * shortcut: "htdocs/sims/resources/publish (absolute-path-to-tmp-dir)"
  * This will copy over the necessary files from the test/ dir to the live sim dirs.
  * <p/>
  * If something goes wrong with publishing (or some time after publishing) due to the deployment, this can be reverted:
- * (E) Run ResourceDeployReverter on tigercat
+ * (E) Run WebsiteResourceDeployReverter on tigercat
  * shortcut: "htdocs/sims/resources/revert (absolute-path-to-tmp-dir)"
  * This will replace any files copied into the live sim dirs with what was previously there (from the backup dir)
  * If the deployment created a new file, this file will not be automatically deleted (but you will be notified of its existence)
  * <p/>
- * For more details on the process, see ResourceDeployClient for an explanation of the temporary directory and storage
+ * For more details on the process, see WebsiteResourceDeployClient for an explanation of the temporary directory and storage
  */
 public class WebsiteCommonTranslationDeployClient {
 

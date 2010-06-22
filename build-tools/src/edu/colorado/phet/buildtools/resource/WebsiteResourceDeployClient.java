@@ -15,6 +15,7 @@ import edu.colorado.phet.buildtools.util.SshUtils;
 import com.jcraft.jsch.JSchException;
 
 /**
+ * TODO: update docs for new version (may be out of date)
  * This class is used to log into a website, create the necessary temporary directory structure, and upload the necessary
  * files.
  * <p/>
@@ -42,11 +43,11 @@ import com.jcraft.jsch.JSchException;
  * sims (comma-separated list of sims to add the resource into)
  * mode (either 'java' or 'flash')
  * <p/>
- * ResourceDeployClient is used to first upload resource.properties and the resource file.
+ * WebsiteResourceDeployClient is used to first upload resource.properties and the resource file.
  * Then optionally extra files (in extras) can be added. Extras were created to handle the Flash HTMLs that need to be regenerated
  * for a common translation.
  * <p/>
- * ResourceDeployServer, when activated, follows the following steps:
+ * WebsiteResourceDeployServer, when activated, follows the following steps:
  * (1) loads resource.properties (contains list of sims), locates the resource file, and creates the backup directory
  * (2) copies all JARs for each sim from their live directory into their subdirectory in the backup directory
  * ex: copies htdocs/sims/pendulum-lab/pendulum-lab_en.jar to
@@ -63,12 +64,12 @@ import com.jcraft.jsch.JSchException;
  * (9) if flash mode, SWFs are copied from their live directories into both the test and backup directories
  * NOTE: during publishing, the SWFs in the live directory will not be replaced.
  * <p/>
- * ResourceDeployPublisher, when activated, follows the following steps:
+ * WebsiteResourceDeployPublisher, when activated, follows the following steps:
  * (1) If an exception occurs in any of the following steps, it will immediately stop and print instructions to revert
  * (2) Each non-SWF file in the test directories is copied into the corresponding live sim directories (most likely replacing
  * what was there)
  * <p/>
- * ResourceDeployReverter, when activated, follows the following steps:
+ * WebsiteResourceDeployReverter, when activated, follows the following steps:
  * (1) For each non-SWF file in the test directory that also exists in the backup directory, the backup file is copied into the live sim directory
  */
 public class WebsiteResourceDeployClient {
@@ -185,7 +186,7 @@ public class WebsiteResourceDeployClient {
      * the rest of the steps on the production server
      * <p/>
      * NOTE: This alone will not update Flash HTML files. If these files need to be changed, please use
-     * an instance of ResourceDeployClient with extra files (extras)
+     * an instance of WebsiteResourceDeployClient with extra files (extras)
      *
      * @param website             The website to which we want to deploy
      * @param trunk               A reference to the trunk directory

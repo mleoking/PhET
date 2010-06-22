@@ -16,7 +16,7 @@ import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
 import edu.colorado.phet.buildtools.java.JavaBuildCommand;
 import edu.colorado.phet.buildtools.java.JavaProject;
 import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
-import edu.colorado.phet.buildtools.resource.ResourceDeployClient;
+import edu.colorado.phet.buildtools.resource.WebsiteResourceDeployClient;
 import edu.colorado.phet.licensing.reports.DependencyReport;
 
 import com.jcraft.jsch.JSchException;
@@ -186,7 +186,7 @@ public class MiscMenu extends JMenu {
                 File resourceFile = fileChooser.getSelectedFile();
                 String path = JOptionPane.showInputDialog( "Please input the desired deployment path into JARs (should start and end with '/'):" );
                 try {
-                    ResourceDeployClient.deployJavaResourceFile( trunk, resourceFile, path );
+                    WebsiteResourceDeployClient.deployJavaResourceFile( PhetWebsite.FIGARO, trunk, resourceFile, path );
                 }
                 catch( IOException e1 ) {
                     e1.printStackTrace();
@@ -213,7 +213,7 @@ public class MiscMenu extends JMenu {
                 File resourceFile = fileChooser.getSelectedFile();
                 String path = JOptionPane.showInputDialog( "Please input the desired deployment path into JARs (should start and end with '/'):" );
                 try {
-                    ResourceDeployClient.deployFlashResourceFile( trunk, resourceFile, path );
+                    WebsiteResourceDeployClient.deployFlashResourceFile( PhetWebsite.FIGARO, trunk, resourceFile, path );
                 }
                 catch( IOException e1 ) {
                     e1.printStackTrace();
