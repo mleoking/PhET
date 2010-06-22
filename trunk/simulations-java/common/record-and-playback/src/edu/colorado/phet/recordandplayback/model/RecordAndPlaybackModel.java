@@ -286,21 +286,21 @@ public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
         mode.step(getPlaybackDT());
     }
 
-    public void setMode(Mode mode) {
+    protected void setMode(Mode mode) {
         this.mode = mode;
         notifyObservers();
     }
-
-    public Live getLiveMode() {
-        return liveMode;
+    
+    public void setModeLive(){
+    	setMode(liveMode);
     }
 
-    public Playback getPlaybackMode() {
-        return playbackMode;
+    public void setModeRecord(){
+    	setMode(recordMode);
     }
 
-    public Record getRecordMode() {
-        return recordMode;
+    public void setModePlayback(){
+    	setMode(playbackMode);
     }
 
     public static interface Mode {
@@ -328,17 +328,27 @@ public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
         }
 
         public void step(double simulationTimeChange) {
-            if (getPlaybackState().getTime() < getMaxRecordedTime()) {
-                setTime(time + speed * getPlaybackDT());
-                notifyObservers();
-            } else {
-                if (RecordAndPlaybackModel.recordAtEndOfPlayback) {
-                    setRecord(true);
-                }
-                if (RecordAndPlaybackModel.pauseAtEndOfPlayback) {
-                    setPaused(true);
-                }
-            }
+        	if (speed > 0){
+        		// Playing forwards.
+        		if (getPlaybackState().getTime() < getMaxRecordedTime()) {
+        			setTime(time + speed * getPlaybackDT());
+        			notifyObservers();
+        		} else {
+        			if (RecordAndPlaybackModel.recordAtEndOfPlayback) {
+        				setRecord(true);
+        			}
+        			if (RecordAndPlaybackModel.pauseAtEndOfPlayback) {
+        				setPaused(true);
+        			}
+        		}
+        	}
+        	else if (speed < 0){
+        		// Playing backwards.
+        		if (getPlaybackState().getTime() > getMinRecordedTime()) {
+        			setTime(time + speed * getPlaybackDT());
+        			notifyObservers();
+        		}
+        	}
         }
     }
 
