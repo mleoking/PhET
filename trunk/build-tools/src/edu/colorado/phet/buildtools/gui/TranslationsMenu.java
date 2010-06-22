@@ -7,7 +7,6 @@ import java.io.File;
 import javax.swing.*;
 
 import edu.colorado.phet.buildtools.PhetWebsite;
-import edu.colorado.phet.buildtools.translate.CommonTranslationDeployClient;
 import edu.colorado.phet.buildtools.translate.WebsiteCommonTranslationDeployClient;
 import edu.colorado.phet.buildtools.translate.WebsiteTranslationDeployClient;
 
@@ -50,7 +49,7 @@ public class TranslationsMenu extends JMenu {
 
                 File resourceFile = fileChooser.getSelectedFile();
 
-                new CommonTranslationDeployClient( resourceFile, trunk ).deployCommonTranslation();
+                new WebsiteCommonTranslationDeployClient( resourceFile, trunk ).deployCommonTranslation( PhetWebsite.FIGARO );
 
                 JOptionPane.showMessageDialog( null, "The instructions to complete the common translation deployment have been printed to the console", "Instructions", JOptionPane.INFORMATION_MESSAGE );
             }
