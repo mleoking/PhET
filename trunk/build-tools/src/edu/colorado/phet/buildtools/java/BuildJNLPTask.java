@@ -16,7 +16,7 @@ import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 
 /*
- * Do not change this task without changing the TranslationDeployPublisher, which makes
+ * Do not change this task without changing the WebsiteTranslationDeployPublisher, which makes
   * assumptions about the structure of the generated JNLP files. 
  */
 public class BuildJNLPTask {

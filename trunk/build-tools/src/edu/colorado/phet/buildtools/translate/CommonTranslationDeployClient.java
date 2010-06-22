@@ -140,7 +140,7 @@ public class CommonTranslationDeployClient {
         }
     }
 
-    // TODO: refactor this from TranslationDeployClient and here into somewhere common!
+    // TODO: refactor this from WebsiteTranslationDeployClient and here into somewhere common!
     private void buildAndSendFlashHTML( final String simName, final Locale locale, final FlashSimulationProject project ) {
         System.out.println( "*** Building and sending HTML for " + simName + " " + LocaleUtils.localeToString( locale ) );
 

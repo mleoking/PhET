@@ -26,11 +26,55 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 import com.jcraft.jsch.JSchException;
 
-/**
- * The updated Wicket translation deployment client
- * <p/>
- * TODO: docs
- * TODO: remove old versions when switchover complete
+/*
+ * This has been re-written to work with the Wicket website and has been transferred over on 6.21.10.
+ * TODO: Review and redo documentation here.
+ * This is the 3-27-2009 rewrite of translation deploying.
+ * Here's the basic technique:
+ * 1. Client identifies new localization files to integrate, by putting them in a directory and telling the program which directory.
+ * 2. Client uploads localization files to a new, unique folder on tigercat
+ * 3. Client runs server side integration program, passing
+ *          the path to "jar" utility
+ *          the path to build-local.properties (for signing)
+ *          the directory containing new localization files
+ * 4. Client opens a browser in the unique directory
+ * 5. User is instructed to wait for a "finished.txt" file to appear; this signifies that server side code is finished.
+ * 4. For each project in the unique-dir, the server
+ *      a. Copies the project_all.jar to the unique directory
+ *      b. Runs java -jar to integrate the new translations into the project_all.jar
+ *      c. Signs the modified project_all.jar
+ *      d. Create the language JARs for testing (must be signed)
+ *      e. (Optional) create JNLPs for testing (will need to be rewritten for actual codebase)
+ * 5. Notifies completion with a file finished.txt or creates an error log error.txt
+ * 6. User tests the new project_all.jar files and/or JNLP files
+ * 7. User signifies to server that testing is complete
+ * 8. Server copies the new project_all.jar file to the sim directory
+ * 9. Server copies the language JARs to the server
+ * 10. Server creates new JNLP files for production
+ * 11. Server regenerates HTML to indicate new sims available.
+ *
+ * This technique won't exactly work for redeploying phetcommon translations, but it should provide many
+ * of the right building blocks.
+ *
+ *
+ * The process for Flash translations:
+ * (1) Client identifies new localization files (including common strings files), and installs them into trunk
+ * (2) User REALLY SHOULD manually commit these (but is not required to)
+ * (3) Each Flash translation follows the following process (in the client)
+ *     (a) If the translation is for common strings, we do the following process for each
+ *         simulation translation for that particular locale
+ *     (b) Pull the tigercat version information from phet-info. This will be the version that is the latest on the
+ *         server, NOT what is on the local .properties
+ *     (c) Build the HTML for the translation (in the regular deploy directory) using the version info from (b)
+ *     (d) Generated HTML is SCP'ed to the temp directory on the server.
+ *     (e) Simulation XML is SCP'ed to the temp directory on the server (significant for common string updates, so
+ *         that WebsiteTranslationDeployServer and WebsiteTranslationDeployPublisher will see them.
+ * (4) Server looks at each of the Flash translations in the temp directory, doing the following for each:
+ *     (a) Copy the corresponding SWF from htdocs/sims/ into the temp directory for testing
+ * (5) Wait for user to test the translations
+ * (6) If OK, then the Publisher simply copies over the HTML from the temp directory into the corresponding sims directory
+ * (7) Webcache is reset so that the new translations appear on the website
+ *
  */
 public class WebsiteTranslationDeployClient {
     private final File trunk;
