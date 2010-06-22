@@ -91,7 +91,7 @@ public class TestRecordAndPlaybackWithCompositionApplication extends PhetApplica
     private class TestRecordAndPlaybackModel extends Observable {
         private Particle particle = new Particle();
         private RecordAndPlaybackModel<TestState> recordAndPlaybackModel = new RecordAndPlaybackModel<TestState>(1000) {
-            public TestState stepRecording(double simulationTimeChange) {
+            public TestState step(double simulationTimeChange) {
                 return new TestState(particle.getX(), particle.getY());
             }
 
@@ -108,7 +108,7 @@ public class TestRecordAndPlaybackWithCompositionApplication extends PhetApplica
         }
 
         public TestState stepRecording(double simulationTimeChange) {
-            return recordAndPlaybackModel.stepRecording(simulationTimeChange);
+            return recordAndPlaybackModel.step(simulationTimeChange);
         }
 
         public void stepInTime(double simulationTimeChange) {

@@ -100,7 +100,7 @@ public class TestRecordAndPlaybackApplication extends PhetApplication {
          * @param simulationTimeChange the amount of time to update the simulation (in whatever units the simulation model is using).
          * @return the new state memento
          */
-        public TestState stepRecording(double simulationTimeChange) {
+        public TestState step(double simulationTimeChange) {
             //first step is to update state, apply physics, whatever
             //however, in this example, the movement is totally user controlled, so there is no physics update in this step
 

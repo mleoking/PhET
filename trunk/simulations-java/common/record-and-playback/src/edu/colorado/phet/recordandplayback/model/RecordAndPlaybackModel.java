@@ -28,10 +28,13 @@ public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
     private final ArrayList<DataPoint<T>> recordHistory = new ArrayList<DataPoint<T>>();
 
     //See resetAll() for default values
-    private boolean record ;//True if the sim is in record mode instead of playback mode (may be paused too)
-    private boolean paused ;//True if the current mode is paused
-    private double time ;//Current time of recording or playback
-    private double playbackSpeed ;//1 is full speed; i.e. the time between the original samples
+    private Mode mode; // the current mode, one of playback, record or live
+    private Record recordMode = new Record(); //samples data from the mode and stores it
+    private Playback playbackMode = new Playback(); //plays back recorded data
+    private Live liveMode = new Live(); //runs the model without recording it
+
+    private boolean paused;//True if the current mode is paused
+    private double time;//Current time of recording or playback
 
     private ArrayList<HistoryClearListener> historyClearListeners = new ArrayList<HistoryClearListener>();
     private ArrayList<HistoryRemainderClearListener> historyRemainderClearListeners = new ArrayList<HistoryRemainderClearListener>();
@@ -41,11 +44,12 @@ public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
 
     /**
      * Update the simulation model (should cause side effects to update the view), returning a snapshot of the state after the update.
+     * The returned state could be ignored if the simulation is not in record mode.
      *
      * @param simulationTimeChange the amount of time to update the simulation (in whatever units the simulation model is using).
      * @return the updated state, which can be used to restore the model during playback
      */
-    public abstract T stepRecording(double simulationTimeChange);//what about when you want to update without persisting to a state?
+    public abstract T step(double simulationTimeChange);
 
     /**
      * This method should popuplate the model + view of the application with the data from the specified state.
@@ -142,20 +146,24 @@ public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
     }
 
     public void setPlaybackSpeed(double speed) {
-        if (speed != playbackSpeed) {
-            playbackSpeed = speed;
+        if (speed != playbackMode.getSpeed()) {
+            playbackMode.setSpeed(speed);
             notifyObservers();
         }
     }
 
+    /**
+     * @param rec
+     * @deprecated, use setmode
+     */
     public void setRecord(boolean rec) {
-        if (record != rec) {
-            record = rec;
-            if (record) {
-                clearHistoryRemainder();
-                handleRecordStartedDuringPlayback();
-            }
-
+        if (rec && mode != recordMode) {
+            mode = recordMode;
+            clearHistoryRemainder();
+            handleRecordStartedDuringPlayback();
+            notifyObservers();
+        } else if (!rec && mode != playbackMode) {
+            mode = playbackMode;
             notifyObservers();
         }
     }
@@ -183,20 +191,6 @@ public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
         historyRemainderClearListeners.add(historyRemainderClearListener);
     }
 
-    public void stepPlayback() {
-        if (getPlaybackState().getTime() < getMaxRecordedTime()) {
-            setTime(time + playbackSpeed * getPlaybackDT());
-            notifyObservers();
-        } else {
-            if (RecordAndPlaybackModel.recordAtEndOfPlayback) {
-                setRecord(true);
-            }
-            if (RecordAndPlaybackModel.pauseAtEndOfPlayback) {
-                setPaused(true);
-            }
-        }
-    }
-
     //Estimates what DT should be by the spacing of the data points.
     //This should provide some support for non-equal spaced samples, but other algorithms may be better
 
@@ -221,11 +215,11 @@ public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
     }
 
     public boolean isPlayback() {
-        return !record;
+        return mode == playbackMode;
     }
 
     public boolean isRecord() {
-        return record;
+        return mode == recordMode;
     }
 
     public void setPaused(boolean p) {
@@ -266,7 +260,7 @@ public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
     }
 
     public double getPlaybackSpeed() {
-        return playbackSpeed;
+        return playbackMode.getSpeed();
     }
 
     public static interface HistoryClearListener {
@@ -284,13 +278,74 @@ public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
 
     public void stepInTime(double simulationTimeChange) {
         if (!isPaused()) {
-            if (isPlayback()) stepPlayback();
-            else {
-                setTime(getTime() + simulationTimeChange);
-                T state = stepRecording(simulationTimeChange);
-                //todo: only record the point if we have space
-                addRecordedPoint(new DataPoint<T>(getTime(), state));
+            mode.step(simulationTimeChange);
+        }
+    }
+
+    public void step() {
+        mode.step(getPlaybackDT());
+    }
+
+    public void setMode(Mode mode) {
+        this.mode = mode;
+        notifyObservers();
+    }
+
+    public Live getLiveMode() {
+        return liveMode;
+    }
+
+    public Playback getPlaybackMode() {
+        return playbackMode;
+    }
+
+    public Record getRecordMode() {
+        return recordMode;
+    }
+
+    public static interface Mode {
+        void step(double simulationTimeChange);
+    }
+
+    public class Record implements Mode {
+        public void step(double simulationTimeChange) {
+            setTime(getTime() + simulationTimeChange);
+            T state = RecordAndPlaybackModel.this.step(simulationTimeChange);
+            //todo: only record the point if we have space
+            addRecordedPoint(new DataPoint<T>(getTime(), state));
+        }
+    }
+
+    public class Playback implements Mode {
+        private double speed;//1 is full speed; i.e. the time between the original samples
+
+        public void setSpeed(double speed) {
+            this.speed = speed;
+        }
+
+        public double getSpeed() {
+            return speed;
+        }
+
+        public void step(double simulationTimeChange) {
+            if (getPlaybackState().getTime() < getMaxRecordedTime()) {
+                setTime(time + speed * getPlaybackDT());
+                notifyObservers();
+            } else {
+                if (RecordAndPlaybackModel.recordAtEndOfPlayback) {
+                    setRecord(true);
+                }
+                if (RecordAndPlaybackModel.pauseAtEndOfPlayback) {
+                    setPaused(true);
+                }
             }
+        }
+    }
+
+    public class Live implements Mode {
+        public void step(double simulationTimeChange) {
+            setTime(getTime() + simulationTimeChange);
+            RecordAndPlaybackModel.this.step(simulationTimeChange);
         }
     }
 }

@@ -43,7 +43,7 @@ public abstract class MovingManModule extends Module {
         //Need different behavior when paused, currently the main clock is always running, and the RecordAndPlaybackModel determines whether the sim is running.
         //TODO: make MovingManModel extend RecordAndPlaybackModel<MovingManState>?
         recordAndPlaybackModel = new RecordAndPlaybackModel<MovingManState>(1000) {
-            public MovingManState stepRecording(double simulationTimeChange) {
+            public MovingManState step(double simulationTimeChange) {
                 movingManModel.simulationTimeChanged(simulationTimeChange);
                 return movingManModel.getRecordingState();
             }
