@@ -5,11 +5,11 @@ import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.movingman.MovingManColorScheme;
-import edu.colorado.phet.movingman.MovingManIIResources;
+import edu.colorado.phet.movingman.MovingManResources;
 import edu.colorado.phet.movingman.model.MovingMan;
 import edu.colorado.phet.movingman.model.MovingManModel;
 import edu.colorado.phet.movingman.model.MovingManState;
-import edu.colorado.phet.movingman.model.MutableBoolean;
+import edu.colorado.phet.common.motion.charts.MutableBoolean;
 import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -51,8 +51,8 @@ public class MovingManSimulationPanel extends PhetPCanvas {
         updateViewRange();
 
         try {
-            addScreenChild(new PlayAreaObjectNode(BufferedImageUtils.multiScaleToHeight(MovingManIIResources.loadBufferedImage("tree.gif"), 100), model.getRange(), viewRange, -8, 0, positiveToTheRight));
-            addScreenChild(new PlayAreaObjectNode(BufferedImageUtils.multiScaleToHeight(MovingManIIResources.loadBufferedImage("cottage.gif"), 100), model.getRange(), viewRange, +8, 0, positiveToTheRight));
+            addScreenChild(new PlayAreaObjectNode(BufferedImageUtils.multiScaleToHeight(MovingManResources.loadBufferedImage("tree.gif"), 100), model.getRange(), viewRange, -8, 0, positiveToTheRight));
+            addScreenChild(new PlayAreaObjectNode(BufferedImageUtils.multiScaleToHeight(MovingManResources.loadBufferedImage("cottage.gif"), 100), model.getRange(), viewRange, +8, 0, positiveToTheRight));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -67,7 +67,7 @@ public class MovingManSimulationPanel extends PhetPCanvas {
 
         BufferedImage wallImage = null;
         try {
-            wallImage = BufferedImageUtils.multiScaleToHeight(MovingManIIResources.loadBufferedImage("wall.jpg"), 100);
+            wallImage = BufferedImageUtils.multiScaleToHeight(MovingManResources.loadBufferedImage("wall.jpg"), 100);
         } catch (IOException e) {
             e.printStackTrace();
         }
