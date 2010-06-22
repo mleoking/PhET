@@ -32,62 +32,57 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
     public MovingManSimulationPanelWithCharts(final MovingManModel model, final RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel, MutableBoolean positiveToTheRight) {
         super(model, recordAndPlaybackModel, 100, positiveToTheRight);
         int xMax = 10;
+        //TODO: Factor out chart code if possible
+        positionChart = new TemporalChart(new Rectangle2D.Double(0, -xMax, 20, xMax * 2));
         {
-            //TODO: Factor out chart code if possible
-            positionChart = new TemporalChart(new Rectangle2D.Double(0, -xMax, 20, xMax * 2));
+            positionChart.addDataSeries(model.getPositionGraphSeries(), MovingManColorScheme.POSITION_COLOR);
+            positionChart.addChartChild(new CursorNode(model.getChartCursor(), positionChart));
+            PNode thumbIcon = new PImage(ColorArrows.createArrow(MovingManColorScheme.POSITION_COLOR));
+            final MotionSliderNode sliderNode = new TemporalChartSliderNode(positionChart, thumbIcon, MovingManColorScheme.POSITION_COLOR);
             {
-                positionChart.addDataSeries(model.getPositionGraphSeries(), MovingManColorScheme.POSITION_COLOR);
-                positionChart.addChartChild(new CursorNode(model.getChartCursor(), positionChart));
-                positionChart.addInputEventListener(new PBasicInputEventHandler() {
-                    public void mouseDragged(PInputEvent event) {
-                        //todo: make it possible to draw a curve
+                final SimpleObserver updateSliderLocation = new SimpleObserver() {
+                    public void update() {
+                        sliderNode.setOffset(positionChart.getOffset().getX() - sliderNode.getFullBounds().getWidth() - 20, positionChart.getOffset().getY());
+                    }
+                };
+                updateSliderLocation.update();
+                positionChart.getViewDimension().addObserver(updateSliderLocation);
+                final SimpleObserver sliderVisibleSetter = new SimpleObserver() {
+                    public void update() {
+                        sliderNode.setVisible(positionChart.getMaximized().getValue());
+                    }
+                };
+                sliderVisibleSetter.update();
+                positionChart.getMaximized().addObserver(sliderVisibleSetter);
+                sliderNode.setOffset(positionChart.getOffset().getX() - sliderNode.getFullBounds().getWidth() - 20, positionChart.getOffset().getY());
+                model.addListener(new MovingManModel.Listener() {
+                    public void mousePositionChanged() {
+                        sliderNode.setValue(model.getMousePosition());
+                    }
+                });
+                sliderNode.addListener(new MotionSliderNode.Adapter() {
+                    public void sliderDragged(double value) {
+                        model.setMousePosition(value);
+                    }
+
+                    public void sliderThumbGrabbed() {
+                        model.getMovingMan().setPositionDriven();
                     }
                 });
             }
-            addScreenChild(positionChart);
-            PNode positionThumb = new PImage(ColorArrows.createArrow(MovingManColorScheme.POSITION_COLOR));
-            final MotionSliderNode chartSliderNode = new TemporalChartSliderNode(positionChart, positionThumb, MovingManColorScheme.POSITION_COLOR);
-            addScreenChild(chartSliderNode);
-            final SimpleObserver updateSliderLocation = new SimpleObserver() {
-                public void update() {
-                    chartSliderNode.setOffset(positionChart.getOffset().getX() - chartSliderNode.getFullBounds().getWidth() - 20, positionChart.getOffset().getY());
-                }
-            };
-            updateSliderLocation.update();
-            positionChart.getViewDimension().addObserver(updateSliderLocation);
-            final SimpleObserver sliderVisibleSetter = new SimpleObserver() {
-                public void update() {
-                    chartSliderNode.setVisible(positionChart.getMaximized().getValue());
-                }
-            };
-            sliderVisibleSetter.update();
-            positionChart.getMaximized().addObserver(sliderVisibleSetter);
-            chartSliderNode.setOffset(positionChart.getOffset().getX() - chartSliderNode.getFullBounds().getWidth() - 20, positionChart.getOffset().getY());
-            model.addListener(new MovingManModel.Listener() {
-                public void mousePositionChanged() {
-                    chartSliderNode.setValue(model.getMousePosition());
-                }
-            });
-            chartSliderNode.addListener(new MotionSliderNode.Adapter() {
-                public void sliderDragged(double value) {
-                    model.setMousePosition(value);
-                }
+            addScreenChild(sliderNode);
 
-                public void sliderThumbGrabbed() {
-                    model.getMovingMan().setPositionDriven();
-                }
-            });
-            updatePositionModeSelected(model, chartSliderNode);
+            updatePositionModeSelected(model, sliderNode);
             model.getMovingMan().addListener(new MovingMan.Listener() {
                 public void changed() {
-                    updatePositionModeSelected(model, chartSliderNode);
+                    updatePositionModeSelected(model, sliderNode);
                 }
             });
-
-            positionChartControl = new ChartControl("Position", MovingManColorScheme.POSITION_COLOR, new TextBoxListener.Position(model), chartSliderNode, positionChart, "m");
+            positionChartControl = new ChartControl("Position", MovingManColorScheme.POSITION_COLOR, new TextBoxListener.Position(model), sliderNode, positionChart, "m");
             positionChartControl.addChild(new GoButton(recordAndPlaybackModel, positionChartControl, model.getPositionMode()));
             addScreenChild(positionChartControl);
         }
+        addScreenChild(positionChart);
 
         {//add the velocity chart
             double vMax = 60 / 5;
