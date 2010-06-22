@@ -125,8 +125,8 @@ public class PhetInfoServicePage extends WebPage {
                 return true;
             }
         } );
-        Project proj = sims[0].getProject();
         if ( foundSim ) {
+            Project proj = sims[0].getProject();
             Element simVersionResponse = document.createElement( SIM_VERSION_RESPONSE_TAG );
             simVersionResponse.setAttribute( "success", "true" );
             simVersionResponse.setAttribute( "project", project );
@@ -142,6 +142,7 @@ public class PhetInfoServicePage extends WebPage {
             root.appendChild( simVersionResponse );
         }
         else {
+            logger.error( "Could not find sim with project:sim for phet info service: " + project + ":" + sim );
             Element simVersionResponse = document.createElement( SIM_VERSION_RESPONSE_TAG );
             simVersionResponse.setAttribute( "success", "false" );
             simVersionResponse.setAttribute( "project", project );
