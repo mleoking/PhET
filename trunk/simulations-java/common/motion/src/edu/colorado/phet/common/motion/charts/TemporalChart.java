@@ -1,5 +1,6 @@
 package edu.colorado.phet.common.motion.charts;
 
+import edu.colorado.phet.common.motion.MotionResources;
 import edu.colorado.phet.common.motion.model.TimeData;
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
@@ -13,7 +14,6 @@ import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.AbstractMediaButton;
-import edu.colorado.phet.movingman.MovingManResources;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -42,7 +42,7 @@ import java.util.ArrayList;
  * 4. Ability to line up charts with each other and minimize to put "expand" buttons between charts
  * 4. Improved performance.
  */
-public class MovingManChart extends PNode {
+public class TemporalChart extends PNode {
     private MutableRectangle dataModelBounds;
     private MutableDimension viewDimension;
     private PNode chartContents;//layer for chart pnodes, for minimize/maximize support
@@ -54,11 +54,11 @@ public class MovingManChart extends PNode {
     protected VerticalZoomControl verticalZoomControl;
     protected HorizontalZoomControl horizontalZoomControl;
 
-    public MovingManChart(Rectangle2D.Double dataModelBounds) {
+    public TemporalChart(Rectangle2D.Double dataModelBounds) {
         this(dataModelBounds, 100, 100);//useful for layout code that updates size later instead of at construction and later
     }
 
-    public MovingManChart(final Rectangle2D.Double dataModelBounds,
+    public TemporalChart(final Rectangle2D.Double dataModelBounds,
                           final double dataAreaWidth,//Width of the chart area
                           final double dataAreaHeight) {
         this.dataModelBounds = new MutableRectangle(dataModelBounds);
@@ -91,7 +91,7 @@ public class MovingManChart extends PNode {
 
         SimpleObserver updateBasedOnModelViewChange = new SimpleObserver() {
             public void update() {
-                modelViewTransform2D.setModelBounds(MovingManChart.this.dataModelBounds.toRectangle2D());
+                modelViewTransform2D.setModelBounds(TemporalChart.this.dataModelBounds.toRectangle2D());
             }
         };
         updateBasedOnModelViewChange.update();
@@ -322,7 +322,7 @@ public class MovingManChart extends PNode {
     }
 
     private static class DomainGridLine extends PNode {
-        private DomainGridLine(final double x, final MovingManChart chart) {
+        private DomainGridLine(final double x, final TemporalChart chart) {
             final PhetPPath tick = new PhetPPath(new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 0, new float[]{10, 3}, 0), Color.lightGray);
             final SimpleObserver update = new SimpleObserver() {
                 public void update() {
@@ -336,7 +336,7 @@ public class MovingManChart extends PNode {
     }
 
     private static class RangeGridLine extends PNode {
-        private RangeGridLine(final double y, final MovingManChart chart) {
+        private RangeGridLine(final double y, final TemporalChart chart) {
             final PhetPPath tick = new PhetPPath(new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 0, new float[]{10, 3}, 0), Color.lightGray);
             addChild(tick);
             final SimpleObserver pathUpdate = new SimpleObserver() {
@@ -349,7 +349,7 @@ public class MovingManChart extends PNode {
         }
     }
 
-    public void addDataSeries(MovingManDataSeries dataSeries, Color color) {
+    public void addDataSeries(TemporalDataSeries dataSeries, Color color) {
         chartContents.addChild(new LineSeriesNode(dataSeries, color));
     }
 
@@ -358,7 +358,7 @@ public class MovingManChart extends PNode {
     }
 
     private class LineSeriesNode extends PNode {
-        public LineSeriesNode(final MovingManDataSeries dataSeries, Color color) {
+        public LineSeriesNode(final TemporalDataSeries dataSeries, Color color) {
             final PClip clip = new PClip();
             final SimpleObserver so = new SimpleObserver() {
                 public void update() {
@@ -380,7 +380,7 @@ public class MovingManChart extends PNode {
             };
             clip.addChild(path);
             addChild(clip);
-            final MovingManDataSeries.Listener seriesListener = new MovingManDataSeries.Listener() {
+            final TemporalDataSeries.Listener seriesListener = new TemporalDataSeries.Listener() {
                 public void entireSeriesChanged() {
                     TimeData[] points = dataSeries.getData();
 
@@ -438,7 +438,7 @@ public class MovingManChart extends PNode {
             button = new AbstractMediaButton(30) {
                 protected BufferedImage createImage() {
                     try {
-                        return BufferedImageUtils.multiScaleToHeight(MovingManResources.loadBufferedImage(imageName), 30);
+                        return BufferedImageUtils.multiScaleToHeight(MotionResources.loadBufferedImage(imageName), 30);
                     } catch (IOException e) {
                         e.printStackTrace();
                         throw new RuntimeException(e);
@@ -466,7 +466,7 @@ public class MovingManChart extends PNode {
     }
 
     private static class VerticalZoomControl extends PNode {
-        private VerticalZoomControl(final MovingManChart chart) {
+        private VerticalZoomControl(final TemporalChart chart) {
             final ZoomButton zoomInButton = new ZoomButton("magnify-plus.png", new Listener() {
                 public void actionPerformed() {
                     chart.zoomInVertical();
@@ -496,7 +496,7 @@ public class MovingManChart extends PNode {
         private double triangleHeight = 6;
         private double triangleWidth = 6;
 
-        private HorizontalZoomControl(final MovingManChart chart) {
+        private HorizontalZoomControl(final TemporalChart chart) {
             final ZoomButton zoomInButton = new ZoomButton("magnify-plus.png", new Listener() {
                 public void actionPerformed() {
                     chart.zoomInHorizontal();

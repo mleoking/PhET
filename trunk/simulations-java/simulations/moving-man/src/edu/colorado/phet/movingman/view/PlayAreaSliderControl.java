@@ -1,5 +1,7 @@
 package edu.colorado.phet.movingman.view;
 
+import edu.colorado.phet.common.motion.charts.MotionSliderNode;
+import edu.colorado.phet.common.motion.charts.Range;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.motion.charts.TextBox;
@@ -18,7 +20,7 @@ import java.io.IOException;
  * @author Sam Reid
  */
 public class PlayAreaSliderControl extends PNode {
-    private MovingManSliderNode slider;
+    private MotionSliderNode slider;
     private TextBox textBox;
     final DefaultDecimalFormat decimalFormat = new DefaultDecimalFormat("0.00");
 
@@ -32,7 +34,7 @@ public class PlayAreaSliderControl extends PNode {
         textBox.setOffset(200, text.getFullBounds().getCenterY() - textBox.getFullBounds().getHeight() / 2);//todo: align with other controls but make sure doesn't overlap text
 
         try {
-            slider = new MovingManSliderNode.Horizontal(new Range(min, max), 0.0, new Range(0, 350), color);
+            slider = new MotionSliderNode.Horizontal(new Range(min, max), 0.0, new Range(0, 350), color);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -53,7 +55,7 @@ public class PlayAreaSliderControl extends PNode {
         textBox.setText(decimalFormat.format(value));
     }
 
-    public void addListener(MovingManSliderNode.Listener listener) {
+    public void addListener(MotionSliderNode.Listener listener) {
         slider.addListener(listener);
     }
 

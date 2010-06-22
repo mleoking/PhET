@@ -17,10 +17,10 @@ import java.awt.geom.Rectangle2D;
  */
 public class CursorNode extends PClip {
     private ChartCursor cursor;
-    private MovingManChart chart;
+    private TemporalChart chart;
     private PhetPPath path;
 
-    public CursorNode(final ChartCursor cursor, final MovingManChart chart) {
+    public CursorNode(final ChartCursor cursor, final TemporalChart chart) {
         this.cursor = cursor;
         this.chart = chart;
 

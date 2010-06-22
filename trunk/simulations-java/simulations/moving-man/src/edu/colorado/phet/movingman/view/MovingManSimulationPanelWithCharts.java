@@ -1,12 +1,9 @@
 package edu.colorado.phet.movingman.view;
 
+import edu.colorado.phet.common.motion.charts.*;
 import edu.colorado.phet.common.motion.tests.ColorArrows;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.movingman.MovingManColorScheme;
-import edu.colorado.phet.common.motion.charts.CursorNode;
-import edu.colorado.phet.common.motion.charts.MovingManChart;
-import edu.colorado.phet.common.motion.charts.MovingManChartSliderNode;
-import edu.colorado.phet.common.motion.charts.MutableBoolean;
 import edu.colorado.phet.movingman.model.MovingMan;
 import edu.colorado.phet.movingman.model.MovingManModel;
 import edu.colorado.phet.movingman.model.MovingManState;
@@ -25,9 +22,9 @@ import java.awt.geom.Rectangle2D;
  * @author Sam Reid
  */
 public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel {
-    protected MovingManChart positionChart;
-    protected MovingManChart velocityChart;
-    protected MovingManChart accelerationChart;
+    protected TemporalChart positionChart;
+    protected TemporalChart velocityChart;
+    protected TemporalChart accelerationChart;
     protected ChartControl positionChartControl;
     protected ChartControl velocityChartControl;
     protected ChartControl accelerationChartControl;
@@ -37,7 +34,7 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
         int xMax = 10;
         {
             //TODO: Factor out chart code if possible
-            positionChart = new MovingManChart(new Rectangle2D.Double(0, -xMax, 20, xMax * 2));
+            positionChart = new TemporalChart(new Rectangle2D.Double(0, -xMax, 20, xMax * 2));
             {
                 positionChart.addDataSeries(model.getPositionGraphSeries(), MovingManColorScheme.POSITION_COLOR);
                 positionChart.addChartChild(new CursorNode(model.getChartCursor(), positionChart));
@@ -49,7 +46,7 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
             }
             addScreenChild(positionChart);
             PNode positionThumb = new PImage(ColorArrows.createArrow(MovingManColorScheme.POSITION_COLOR));
-            final MovingManSliderNode chartSliderNode = new MovingManChartSliderNode(positionChart, positionThumb, MovingManColorScheme.POSITION_COLOR);
+            final MotionSliderNode chartSliderNode = new TemporalChartSliderNode(positionChart, positionThumb, MovingManColorScheme.POSITION_COLOR);
             addScreenChild(chartSliderNode);
             final SimpleObserver updateSliderLocation = new SimpleObserver() {
                 public void update() {
@@ -71,7 +68,7 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
                     chartSliderNode.setValue(model.getMousePosition());
                 }
             });
-            chartSliderNode.addListener(new MovingManSliderNode.Adapter() {
+            chartSliderNode.addListener(new MotionSliderNode.Adapter() {
                 public void sliderDragged(double value) {
                     model.setMousePosition(value);
                 }
@@ -94,13 +91,13 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
 
         {//add the velocity chart
             double vMax = 60 / 5;
-            velocityChart = new MovingManChart(new Rectangle2D.Double(0, -vMax, 20, vMax * 2));
+            velocityChart = new TemporalChart(new Rectangle2D.Double(0, -vMax, 20, vMax * 2));
             velocityChart.addDataSeries(model.getVelocityGraphSeries(), MovingManColorScheme.VELOCITY_COLOR);
             velocityChart.addChartChild(new CursorNode(model.getChartCursor(), velocityChart));
             addScreenChild(velocityChart);
 
             PNode positionThumb = new PImage(ColorArrows.createArrow(MovingManColorScheme.VELOCITY_COLOR));
-            final MovingManSliderNode chartSliderNode = new MovingManChartSliderNode(velocityChart, positionThumb, MovingManColorScheme.VELOCITY_COLOR);
+            final MotionSliderNode chartSliderNode = new TemporalChartSliderNode(velocityChart, positionThumb, MovingManColorScheme.VELOCITY_COLOR);
             addScreenChild(chartSliderNode);
             final SimpleObserver sliderVisibleSetter = new SimpleObserver() {
                 public void update() {
@@ -121,7 +118,7 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
                     chartSliderNode.setValue(model.getMovingMan().getVelocity());
                 }
             });
-            chartSliderNode.addListener(new MovingManSliderNode.Adapter() {
+            chartSliderNode.addListener(new MotionSliderNode.Adapter() {
                 public void sliderDragged(double value) {
                     model.getMovingMan().setVelocity(value);
                 }
@@ -157,13 +154,13 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
         //Add the acceleration chart
         {
             double aMax = 60;
-            accelerationChart = new MovingManChart(new Rectangle2D.Double(0, -aMax, 20, aMax * 2));
+            accelerationChart = new TemporalChart(new Rectangle2D.Double(0, -aMax, 20, aMax * 2));
             accelerationChart.addDataSeries(model.getAccelerationGraphSeries(), MovingManColorScheme.ACCELERATION_COLOR);
             accelerationChart.addChartChild(new CursorNode(model.getChartCursor(), accelerationChart));
             addScreenChild(accelerationChart);
 
             PNode positionThumb = new PImage(ColorArrows.createArrow(MovingManColorScheme.ACCELERATION_COLOR));
-            final MovingManSliderNode chartSliderNode = new MovingManChartSliderNode(accelerationChart, positionThumb, MovingManColorScheme.ACCELERATION_COLOR);
+            final MotionSliderNode chartSliderNode = new TemporalChartSliderNode(accelerationChart, positionThumb, MovingManColorScheme.ACCELERATION_COLOR);
             final SimpleObserver sliderVisibleSetter = new SimpleObserver() {
                 public void update() {
                     chartSliderNode.setVisible(accelerationChart.getMaximized().getValue());
@@ -185,7 +182,7 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
                     chartSliderNode.setValue(model.getMovingMan().getAcceleration());
                 }
             });
-            chartSliderNode.addListener(new MovingManSliderNode.Adapter() {
+            chartSliderNode.addListener(new MotionSliderNode.Adapter() {
                 public void sliderDragged(double value) {
                     model.getMovingMan().setAcceleration(value);
                 }
@@ -293,15 +290,15 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
         updateHorizontalZoomVisibility.update();
     }
 
-    private void updateAccelerationModeSelected(MovingManModel model, MovingManSliderNode chartSliderNode) {
+    private void updateAccelerationModeSelected(MovingManModel model, MotionSliderNode chartSliderNode) {
         chartSliderNode.setHighlighted(model.getMovingMan().isAccelerationDriven());
     }
 
-    private void updateVelocityModeSelected(MovingManModel model, MovingManSliderNode chartSliderNode) {
+    private void updateVelocityModeSelected(MovingManModel model, MotionSliderNode chartSliderNode) {
         chartSliderNode.setHighlighted(model.getMovingMan().isVelocityDriven());
     }
 
-    private void updatePositionModeSelected(MovingManModel model, MovingManSliderNode chartSliderNode) {
+    private void updatePositionModeSelected(MovingManModel model, MotionSliderNode chartSliderNode) {
         chartSliderNode.setHighlighted(model.getMovingMan().isPositionDriven());
     }
 }

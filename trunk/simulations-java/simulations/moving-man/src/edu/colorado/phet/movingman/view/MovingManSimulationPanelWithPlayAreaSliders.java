@@ -1,5 +1,6 @@
 package edu.colorado.phet.movingman.view;
 
+import edu.colorado.phet.common.motion.charts.MotionSliderNode;
 import edu.colorado.phet.movingman.MovingManColorScheme;
 import edu.colorado.phet.common.motion.charts.TextBox;
 import edu.colorado.phet.movingman.model.MovingMan;
@@ -41,7 +42,7 @@ public class MovingManSimulationPanelWithPlayAreaSliders extends MovingManSimula
                     positonSlider.setValue(model.getMousePosition());
                 }
             });
-            positonSlider.addListener(new MovingManSliderNode.Adapter() {
+            positonSlider.addListener(new MotionSliderNode.Adapter() {
                 public void sliderDragged(double value) {
                     model.getMovingMan().setPositionDriven();
                     model.setMousePosition(value);
@@ -70,7 +71,7 @@ public class MovingManSimulationPanelWithPlayAreaSliders extends MovingManSimula
                     velocitySlider.setHighlighted(model.getMovingMan().isVelocityDriven());
                 }
             });
-            velocitySlider.addListener(new MovingManSliderNode.Adapter() {
+            velocitySlider.addListener(new MotionSliderNode.Adapter() {
                 public void sliderDragged(double value) {
                     model.getMovingMan().setVelocityDriven();//todo: only if user caused the change, not if model caused the change
                     model.getMovingMan().setVelocity(value);
@@ -108,7 +109,7 @@ public class MovingManSimulationPanelWithPlayAreaSliders extends MovingManSimula
                     accelerationSlider.setHighlighted(model.getMovingMan().isAccelerationDriven());
                 }
             });
-            accelerationSlider.addListener(new MovingManSliderNode.Adapter() {
+            accelerationSlider.addListener(new MotionSliderNode.Adapter() {
                 public void sliderDragged(double value) {
                     model.getMovingMan().setAccelerationDriven();
                     model.getMovingMan().setAcceleration(value);

@@ -2,11 +2,11 @@ package edu.colorado.phet.movingman.model;
 
 import bsh.EvalError;
 import edu.colorado.phet.common.motion.MotionMath;
+import edu.colorado.phet.common.motion.charts.Range;
+import edu.colorado.phet.common.motion.charts.TemporalDataSeries;
 import edu.colorado.phet.common.motion.model.TimeData;
 import edu.colorado.phet.common.motion.charts.ChartCursor;
-import edu.colorado.phet.common.motion.charts.MovingManDataSeries;
 import edu.colorado.phet.common.motion.charts.MutableBoolean;
-import edu.colorado.phet.movingman.view.Range;
 
 import java.util.ArrayList;
 
@@ -23,15 +23,15 @@ public class MovingManModel {
     //These serieses do not all obtain data at the same times, derivatives are centered, so v and a values are obtained
     //after obtaining new x values.
     private static final int sizeLimit = Math.max(NUMBER_MOUSE_POINTS_TO_AVERAGE, (DERIVATIVE_RADIUS * 2 + 1) * 2);
-    private MovingManDataSeries mouseDataModelSeries = new MovingManDataSeries.LimitedSize(sizeLimit);
-    private MovingManDataSeries positionModelSeries = new MovingManDataSeries.LimitedSize(sizeLimit);
-    private MovingManDataSeries velocityModelSeries = new MovingManDataSeries.LimitedSize(sizeLimit);
-    private MovingManDataSeries accelerationModelSeries = new MovingManDataSeries.LimitedSize(sizeLimit);
+    private TemporalDataSeries mouseDataModelSeries = new TemporalDataSeries.LimitedSize(sizeLimit);
+    private TemporalDataSeries positionModelSeries = new TemporalDataSeries.LimitedSize(sizeLimit);
+    private TemporalDataSeries velocityModelSeries = new TemporalDataSeries.LimitedSize(sizeLimit);
+    private TemporalDataSeries accelerationModelSeries = new TemporalDataSeries.LimitedSize(sizeLimit);
 
     //These serieses are displayed in the graphs.
-    private MovingManDataSeries positionGraphSeries = new MovingManDataSeries.LimitedTime(20.0);
-    private MovingManDataSeries velocityGraphSeries = new MovingManDataSeries.LimitedTime(20.0);
-    private MovingManDataSeries accelerationGraphSeries = new MovingManDataSeries.LimitedTime(20.0);
+    private TemporalDataSeries positionGraphSeries = new TemporalDataSeries.LimitedTime(20.0);
+    private TemporalDataSeries velocityGraphSeries = new TemporalDataSeries.LimitedTime(20.0);
+    private TemporalDataSeries accelerationGraphSeries = new TemporalDataSeries.LimitedTime(20.0);
 
     private ChartCursor chartCursor = new ChartCursor();
     private double time = 0.0;
@@ -237,7 +237,7 @@ public class MovingManModel {
     //To get the serieses to match up, look up the value at the specified time in the derivative model
     //Note, if interpolation is added for derivatives, a better lookup algorithm will be needed
 
-    private TimeData getPointAtTime(MovingManDataSeries series, double time) {
+    private TimeData getPointAtTime(TemporalDataSeries series, double time) {
         for (int i = 0; i < series.getNumPoints(); i++) {
             if (series.getDataPoint(i).getTime() == time) {
                 return series.getDataPoint(i);
@@ -246,7 +246,7 @@ public class MovingManModel {
         throw new RuntimeException("Couldn't find exact match");
     }
 
-    private TimeData[] estimateCenteredDerivatives(MovingManDataSeries series) {
+    private TimeData[] estimateCenteredDerivatives(TemporalDataSeries series) {
         int radius = DERIVATIVE_RADIUS;
         ArrayList<TimeData> points = new ArrayList<TimeData>();
         for (int i = 0; i < series.getNumPoints(); i++) {
@@ -261,15 +261,15 @@ public class MovingManModel {
         return movingMan;
     }
 
-    public MovingManDataSeries getPositionGraphSeries() {
+    public TemporalDataSeries getPositionGraphSeries() {
         return positionGraphSeries;
     }
 
-    public MovingManDataSeries getVelocityGraphSeries() {
+    public TemporalDataSeries getVelocityGraphSeries() {
         return velocityGraphSeries;
     }
 
-    public MovingManDataSeries getAccelerationGraphSeries() {
+    public TemporalDataSeries getAccelerationGraphSeries() {
         return accelerationGraphSeries;
     }
 
