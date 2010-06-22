@@ -21,6 +21,7 @@ import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import com.jcraft.jsch.JSchException;
 
 /**
+ * TODO: redo docs for figaro update
  * Deploying a common simulation has four phases:
  * <p/>
  * (A) Run CommonTranslationDeployClient on your machine
@@ -142,7 +143,7 @@ public class WebsiteCommonTranslationDeployClient {
         }
     }
 
-    // TODO: refactor this from TranslationDeployClient and here into somewhere common!
+    // TODO: refactor this from WebsiteTranslationDeployClient and here into somewhere common!
 
     private void buildAndSendFlashHTML( final String simName, final Locale locale, final FlashSimulationProject project ) {
         System.out.println( "*** Building and sending HTML for " + simName + " " + LocaleUtils.localeToString( locale ) );
