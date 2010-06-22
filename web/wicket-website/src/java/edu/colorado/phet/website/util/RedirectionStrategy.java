@@ -643,6 +643,9 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
                 return NOT_FOUND;
             }
             String idstr = ( (String[]) parameters.get( "contribution_id" ) )[0];
+            if ( idstr.contains( "?" ) ) {
+                idstr = idstr.substring( 0, idstr.indexOf( "?" ) );
+            }
             final int id = Integer.parseInt( idstr );
             final String[] ret = new String[1];
             HibernateUtils.wrapSession( new HibernateTask() {
