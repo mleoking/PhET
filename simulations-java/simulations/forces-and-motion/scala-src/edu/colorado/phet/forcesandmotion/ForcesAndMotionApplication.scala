@@ -12,9 +12,9 @@ import edu.colorado.phet.scalacommon.ScalaClock
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.umd.cs.piccolox.pswing.PSwing
 import edu.colorado.phet.motionseries.controls.RampControlPanel
-import edu.colorado.phet.motionseries.{StageContainerArea, MotionSeriesModule, MotionSeriesDefaults}
 import edu.colorado.phet.recordandplayback.gui.{RecordAndPlaybackControlPanel, PlaybackSpeedSlider}
 import edu.colorado.phet.motionseries.sims.theramp.robotmovingcompany.RobotMovingCompanyModule
+import edu.colorado.phet.motionseries.{MotionSeriesResources, StageContainerArea, MotionSeriesModule, MotionSeriesDefaults}
 
 class ForcesAndMotionModule(frame: PhetFrame,
                             name: String,
@@ -84,5 +84,8 @@ class ForcesAndMotionApplication(config: PhetApplicationConfig) extends PiccoloP
 }
 
 object ForcesAndMotionApplication{
-  def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "forces-and-motion".literal, classOf[ForcesAndMotionApplication])
+  def main(args: Array[String]) = {
+    MotionSeriesResources.setStringProject("forces-and-motion")
+    new PhetApplicationLauncher().launchSim(args, "forces-and-motion".literal, classOf[ForcesAndMotionApplication])
+  }
 }

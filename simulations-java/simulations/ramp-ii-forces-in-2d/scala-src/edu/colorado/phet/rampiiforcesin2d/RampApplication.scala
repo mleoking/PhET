@@ -14,9 +14,9 @@ import edu.umd.cs.piccolox.pswing.PSwing
 import edu.colorado.phet.common.phetcommon.application.{PhetApplicationLauncher, PhetApplicationConfig, Module}
 import javax.swing.JMenuItem
 import java.awt.event.{ActionListener, ActionEvent, ComponentEvent, ComponentAdapter}
-import edu.colorado.phet.motionseries.{StageContainerArea, MotionSeriesDefaults, MotionSeriesModule}
 import edu.colorado.phet.motionseries.controls.{DeveloperDialog, RampControlPanel}
 import edu.colorado.phet.motionseries.sims.theramp.robotmovingcompany.RobotMovingCompanyModule
+import edu.colorado.phet.motionseries.{MotionSeriesResources, StageContainerArea, MotionSeriesDefaults, MotionSeriesModule}
 
 /**
  * This is the parent class for the various Modules for the ramp simulation.
@@ -174,6 +174,7 @@ class RampApplication(config: PhetApplicationConfig) extends PiccoloPhetApplicat
  */
 object RampApplication {
   def main(args: Array[String]) = {
+    MotionSeriesResources.setStringProject("ramp-ii-forces-in-2d")
     new PhetApplicationLauncher().launchSim(args, "ramp-ii-forces-in-2d".literal, classOf[RampApplication])
   }
 }
