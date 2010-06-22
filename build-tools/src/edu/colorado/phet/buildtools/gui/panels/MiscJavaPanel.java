@@ -135,7 +135,7 @@ public class MiscJavaPanel extends JPanel {
             versionIncrement = new VersionIncrement.UpdateProdMajor();
         }
 
-        new BuildScript( trunk, project ).deployProd( buildLocalProperties.getDevAuthenticationInfo(), buildLocalProperties.getProdAuthenticationInfo(), versionIncrement );
+        new BuildScript( trunk, project ).deployToDevelopmentAndProductionServers( buildLocalProperties.getDevAuthenticationInfo(), buildLocalProperties.getWebsiteProdAuthenticationInfo(), versionIncrement );
     }
 
 }

@@ -122,7 +122,7 @@ public class WebsiteResourceDeployClient {
      * @throws java.io.IOException
      */
     public boolean uploadExtraFile( File extraFile, String sim ) throws JSchException, IOException {
-        AuthenticationInfo authenticationInfo = BuildLocalProperties.getInstance().getProdAuthenticationInfo();
+        AuthenticationInfo authenticationInfo = BuildLocalProperties.getInstance().getWebsiteProdAuthenticationInfo();
         String temporaryDirPath = getTemporaryDirPath();
 
         String temporarySimExtrasDir = temporaryDirPath + "/extras/" + sim;
