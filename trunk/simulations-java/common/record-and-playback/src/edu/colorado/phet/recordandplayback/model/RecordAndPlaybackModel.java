@@ -272,7 +272,7 @@ public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
     }
 
     public void startRecording() {
-        setRecord(true);
+        setModeRecord();
         setPaused(false);
     }
 

@@ -150,18 +150,22 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
 				simulationPauseTime = clockEvent.getSimulationTime();
 			}
 
-			@Override
-			public void clockStarted(ClockEvent clockEvent) {
-				// Pick up from wherever we left off when the clock was paused.
-				// TODO: The if statement below is essentially a workaround
-				// for the absence of the ability to set the record-and-
-				// playback mode to "don't record but keep clocking the model".
-				if (getRecordedTimeRange() > 0){
-					getClock().setSimulationTime(simulationPauseTime);
-					setTime(getMaxRecordedTime());
-					startRecording();
-				}
-			}
+            @Override
+            public void clockStarted(ClockEvent clockEvent) {
+                super.clockStarted(clockEvent);
+            }
+            //			@Override
+//			public void clockStarted(ClockEvent clockEvent) {
+//				// Pick up from wherever we left off when the clock was paused.
+//				// TODO: The if statement below is essentially a workaround
+//				// for the absence of the ability to set the record-and-
+//				// playback mode to "don't record but keep clocking the model".
+//				if (getRecordedTimeRange() > 0){
+//					getClock().setSimulationTime(simulationPauseTime);
+//					setTime(getMaxRecordedTime());
+//					startRecording();
+//				}
+//			}
         });
         
         // Listen to the membrane for events that indicate that a traveling

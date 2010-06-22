@@ -80,7 +80,7 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
 	private static NumberAxis yAxis;
 	private boolean chartIsFull = false;
 	private double updateCountdownTimer = 0;  // Init to zero to an update occurs right away.
-	private boolean recording = false;
+//	private boolean recording = false;
 	private double timeIndexOfFirstDataPt = 0;
 	
     //----------------------------------------------------------------------------
@@ -98,7 +98,7 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
     	    	updateChart(clockEvent);
     	    }
     	    public void simulationTimeReset( ClockEvent clockEvent ) {
-    	    	recording = false;
+                neuronModel.setModeLive();
     	    	clearChart();
     	    	updateChartCursorVisibility();
     	    }
@@ -120,7 +120,6 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
     				clearChart();
     			}
     			// Start recording, if it isn't already happening.
-    			recording = true;
     			neuronModel.startRecording();
     		}
     	});
@@ -213,13 +212,12 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
 					// Note: Using isStimulusInitiationLockedOut is a bit of
 					// an indirect way to figure out if an AP is in progress,
 					// but it works.
-					recording = true;
 					neuronModel.startRecording();
 				}
-				else if (recording){
+				else if (neuronModel.isRecord()){
 					// Stop recording if one is in progress.
-					recording = false;
-//					axonModel.stopRecording();
+//					recording = false;
+					neuronModel.setModeLive();
 				}
 				// Clear the chart.
 				clearChart();
@@ -331,7 +329,7 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
      */
     private void updateChart(ClockEvent clockEvent){
     	
-    	if (recording){
+    	if (neuronModel.isRecord()){
     		if (!chartIsFull && clockEvent.getSimulationTimeChange() > 0){
     			updateCountdownTimer -= clockEvent.getSimulationTimeChange();
     			
@@ -347,8 +345,8 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
     		}
     		else if (chartIsFull){
     			// The chart is full, so it is time to stop recording.
-    			recording = false;
-//    			axonModel.stopRecording();
+//    			recording = false;
+    			neuronModel.setModeLive();
     		}
     	}
 //    	else{
@@ -362,8 +360,6 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
     
     /**
      * Clear all data from the chart.
-     *  
-     * @param initialTime
      */
     private void clearChart(){
     	dataSeries.clear();
