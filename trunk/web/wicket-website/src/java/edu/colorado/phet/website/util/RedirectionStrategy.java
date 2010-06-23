@@ -95,6 +95,7 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
     private static final String OLD_PUBLICATIONS = "/phet-dist/publications/";
     private static final String OLD_WORKSHOPS = "/phet-dist/workshops/";
     private static final String OLD_INSTALLERS = "/phet-dist/installers/";
+    private static final String OLD_TRANSLATION_UTIL = "/phet-dist/translation-utility/";
 
     private static final String NOT_FOUND = "/error/404";
 
@@ -622,6 +623,9 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         else if ( path.startsWith( OLD_INSTALLERS ) ) {
             return "/installer" + path.substring( "/phet-dist/installers".length() );
         }
+        else if ( path.startsWith( OLD_TRANSLATION_UTIL ) ) {
+            return "/files/translation-utility/" + path.substring( OLD_TRANSLATION_UTIL.length() );
+        }
         else if ( path.startsWith( SIM_SEARCH ) ) {
             return redirectSimSearch( parameters );
         }
@@ -1038,6 +1042,9 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
             return true;
         }
         else if ( morphedPath.startsWith( OLD_INSTALLERS ) ) {
+            return true;
+        }
+        else if ( morphedPath.startsWith( OLD_TRANSLATION_UTIL ) ) {
             return true;
         }
 
