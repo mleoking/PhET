@@ -209,6 +209,7 @@ public class HodgkinHuxleyModel implements IHodgkinHuxleyModel
 	// see p. 505 of Hodgkin & Huxley, J Physiol. 1952, 117:500-544
 	public void setV(double inV) { v = -1*inV - resting_v; }
 	public double getV() { return -1*(v + resting_v); }
+	public double getRestingV() { return -1 * resting_v; }
 
 	public void setCm(double inCm) { cm = inCm; }
 	public double getCm() {return cm; }
@@ -307,6 +308,14 @@ public class HodgkinHuxleyModel implements IHodgkinHuxleyModel
     public double getMembraneVoltage(){
         // getV() converts the model's v to present day convention
         return getV() / 1000;
+    }
+    
+    /* (non-Javadoc)
+	 * @see edu.colorado.phet.neuron.model.IMembranePotentialModel#getRestingMembraneVoltage()
+	 */
+    public double getRestingMembraneVoltage(){
+        // getRestingV() converts the model's resting v to present day convention
+        return getRestingV() / 1000;
     }
     
     /* (non-Javadoc)

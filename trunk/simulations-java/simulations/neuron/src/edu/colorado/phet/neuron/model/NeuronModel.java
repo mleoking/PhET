@@ -55,6 +55,18 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
 	private static final int NUM_POTASSIUM_IONS_OUTSIDE_CELL = 60;
 	private static final int NUM_POTASSIUM_IONS_INSIDE_CELL = 200;
 	
+	// Thresholds for determining whether another stimulus may be applied to
+	// the neuron.  These values are related to the rate of flow of sodium
+	// and potassium, and thus can be used to determine if an action potential
+	// is in progress with the Hodgkin-Huxley model.
+	private static final double MAX_N4_FOR_ALLOWING_STIM = 0.001;
+	private static final double MAX_M3H_FOR_ALLOWING_STIM = 0.002;
+	
+	// Threshold for determining whether another stimulus may be applied.
+	// This is the max allowed difference between the current membrane
+	// potential and the resting potential at which a new stim is allowed.
+	private static final double MAX_DIFF_FOR_ALLOWING_STIM = 0.0017;
+	
 	// Nominal concentration values.
 	private static final double NOMINAL_SODIUM_EXTERIOR_CONCENTRATION = 145;     // In millimolar (mM)
 	private static final double NOMINAL_SODIUM_INTERIOR_CONCENTRATION = 10;      // In millimolar (mM)
@@ -81,10 +93,6 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
 	// change before visible potassium or sodium ions have crossed the
 	//membrane.
 	private static final double CONCENTRATION_READOUT_DELAY = 0.001;  // In seconds of sim time.
-	
-	// Countdown used for preventing the axon from receiving stimuli that
-	// are too close together.
-	private static final double STIM_LOCKOUT_TIME = 0.01;  // Seconds of sim time.
 	
 	// Default values of opaqueness for newly created particles.
 	private static final double FOREGROUND_PARTICLE_DEFAULT_OPAQUENESS = 0.20;
@@ -116,7 +124,7 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
     private boolean allIonsSimulated = DEFAULT_FOR_SHOW_ALL_IONS; // Controls whether all ions, or just those near membrane, are simulated.
     private boolean chargesShown = DEFAULT_FOR_CHARGES_SHOWN; // Controls whether charges are depicted.
     private boolean concentrationReadoutVisible = DEFAULT_FOR_CONCENTRATION_READOUT_SHOWN; // Controls whether concentration readings are depicted.
-    private double stimLockoutCountdownTime;
+    private boolean stimulasLockout = false;
     private double previousMembranePotential = 0;
     private double sodiumInteriorConcentration = NOMINAL_SODIUM_INTERIOR_CONCENTRATION;
 	private double sodiumExteriorConcentration = NOMINAL_SODIUM_EXTERIOR_CONCENTRATION;
@@ -167,6 +175,14 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
 //				}
 //			}
         });
+        
+        // Listen to the record-and-playback model for events that affect the
+        // state of the sim model.
+        addObserver(new SimpleObserver() {
+			public void update() {
+				updateStimulasLockoutState();
+			}
+		});
         
         // Listen to the membrane for events that indicate that a traveling
         // action potential has arrived at the location of the transverse
@@ -359,12 +375,8 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
     		notifyConcentrationChanged();
     	}
     	
-    	// Reset the stimulation lockout time.
-    	boolean wasLockedOut = isStimulusInitiationLockedOut();
-    	stimLockoutCountdownTime = 0;
-    	if (wasLockedOut){
-    		notifyStimulusLockoutStateChanged();
-    	}
+    	// Reset the stimulation lockout.
+    	setStimulasLockout(false);
     	
     	// Set the membrane chart to its initial state.
     	setPotentialChartVisible(DEFAULT_FOR_MEMBRANE_CHART_VISIBILITY);
@@ -438,7 +450,58 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
     	if (!isStimulusInitiationLockedOut()){
     		axonMembrane.initiateTravelingActionPotential();
     		notifyStimulusPulseInitiated();
-    		stimLockoutCountdownTime = STIM_LOCKOUT_TIME;
+    		updateStimulasLockoutState();
+    	}
+    }
+    
+    private void updateStimulasLockoutState(){
+		double membranePotentialDiffFromResting = 
+			Math.abs(hodgkinHuxleyModel.getMembraneVoltage() - hodgkinHuxleyModel.getRestingMembraneVoltage());
+		if (stimulasLockout){
+			// Currently locked out, see if that should change.
+			if (!isPlayback() && 
+				axonMembrane.getTravelingActionPotential() == null &&
+				membranePotentialDiffFromResting < MAX_DIFF_FOR_ALLOWING_STIM &&
+				Math.abs(hodgkinHuxleyModel.get_n4()) < MAX_N4_FOR_ALLOWING_STIM &&
+				Math.abs(hodgkinHuxleyModel.get_m3h()) < MAX_M3H_FOR_ALLOWING_STIM)
+			{
+				setStimulasLockout(false);
+			}
+		}
+		else{
+			// Currently NOT locked out, see if that should change.
+			if (isPlayback() ||
+				axonMembrane.getTravelingActionPotential() != null ||
+				Math.abs(hodgkinHuxleyModel.get_n4()) > MAX_N4_FOR_ALLOWING_STIM &&
+				Math.abs(hodgkinHuxleyModel.get_m3h()) > MAX_M3H_FOR_ALLOWING_STIM)
+			{
+				setStimulasLockout(true);
+			}
+		}
+//		if (stimulasLockout){
+//			// Currently locked out, see if that should change.
+//			if (!isPlayback() && 
+//				axonMembrane.getTravelingActionPotential() == null &&
+//				membranePotentialDiffFromResting < MAX_DIFF_FOR_ALLOWING_STIM &&
+//				membranePotentialChange < MAX_DELTA_FOR_ALLOWING_LOCKOUT_CHANGE)
+//			{
+//				setStimulasLockout(false);
+//			}
+//		}
+//		else{
+//			// Currently NOT locked out, see if that should change.
+//			if (isPlayback() ||
+//				axonMembrane.getTravelingActionPotential() != null ||
+//				membranePotentialDiffFromResting > MAX_DIFF_FOR_ALLOWING_STIM )
+//			{
+//				setStimulasLockout(true);
+//			}
+//		}
+    }
+    
+    private void setStimulasLockout(boolean lockout){
+    	if (lockout != stimulasLockout){
+    		stimulasLockout = lockout;
     		notifyStimulusLockoutStateChanged();
     	}
     }
@@ -452,7 +515,7 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
      * @return
      */
     public boolean isStimulusInitiationLockedOut(){
-    	return (stimLockoutCountdownTime > 0);
+    	return stimulasLockout;
     }
     
     /**
@@ -1008,21 +1071,20 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
 		// This is a step forward in time.  Update the value of the
 		// membrane potential by stepping the Hodgkins-Huxley model.
 		hodgkinHuxleyModel.stepInTime( dt );
+		
+		// There is a bit of a threshold on sending out notifications of
+		// membrane voltage changes, since otherwise the natural "noise" in
+		// the model causes notifications to be sent out continuously.
 		if (Math.abs(previousMembranePotential - hodgkinHuxleyModel.getMembraneVoltage()) > MEMBRANE_POTENTIAL_CHANGE_THRESHOLD){
 			previousMembranePotential = hodgkinHuxleyModel.getMembraneVoltage();
 			notifyMembranePotentialChanged();
 		}
 		
+		// Update the stimulus lockout state.
+		updateStimulasLockoutState();
+
 		// Step the membrane in time.
 		axonMembrane.stepInTime( dt );
-		
-		// Update the stimulus lockout timer.
-		if (stimLockoutCountdownTime >= 0){
-			stimLockoutCountdownTime -= dt;
-			if (stimLockoutCountdownTime <= 0){
-				notifyStimulusLockoutStateChanged();
-			}
-		}
 		
 		// Step the channels.
 		for (MembraneChannel channel : membraneChannels){
