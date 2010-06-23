@@ -167,7 +167,7 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/maze-game/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/microwaves/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/motion-2d/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/motion-series/scala-src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/motion-series/scala-src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/moving-man/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/mri/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/mvc-example/src" isTestSource="false" />
@@ -218,7 +218,7 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations-flex/common/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-flex/simulations/density-flex/data" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/util/timesheet/contrib/jintellitype-1.3.2/src/main/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/motion-series/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/motion-series/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/capacitor-lab/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/record-and-playback/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d-1.2.1/core/src/main/java" isTestSource="false" />
@@ -346,7 +346,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/simulations-java/common/motion-series/data" />
+          <root url="file://$MODULE_DIR$/simulations-java/simulations/motion-series/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
