@@ -33,12 +33,11 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
         super(model, recordAndPlaybackModel, 100, positiveToTheRight);
         int xMax = 10;
         //TODO: Factor out chart code if possible
-        positionChart = new TemporalChart(new Rectangle2D.Double(0, -xMax, 20, xMax * 2));
+        positionChart = new TemporalChart(new Rectangle2D.Double(0, -xMax, 20, xMax * 2), model.getChartCursor());
         {
             positionChart.addDataSeries(model.getPositionGraphSeries(), MovingManColorScheme.POSITION_COLOR);
-            positionChart.addChartChild(new CursorNode(model.getChartCursor(), positionChart));
-            PNode thumbIcon = new PImage(ColorArrows.createArrow(MovingManColorScheme.POSITION_COLOR));
-            final MotionSliderNode sliderNode = new TemporalChartSliderNode(positionChart, thumbIcon, MovingManColorScheme.POSITION_COLOR);
+
+            final MotionSliderNode sliderNode = new TemporalChartSliderNode(positionChart, MovingManColorScheme.POSITION_COLOR);
             {
                 final SimpleObserver updateSliderLocation = new SimpleObserver() {
                     public void update() {
@@ -84,15 +83,13 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
         }
         addScreenChild(positionChart);
 
-        {//add the velocity chart
-            double vMax = 60 / 5;
-            velocityChart = new TemporalChart(new Rectangle2D.Double(0, -vMax, 20, vMax * 2));
+        double vMax = 60 / 5;
+        velocityChart = new TemporalChart(new Rectangle2D.Double(0, -vMax, 20, vMax * 2), model.getChartCursor());
+        {
             velocityChart.addDataSeries(model.getVelocityGraphSeries(), MovingManColorScheme.VELOCITY_COLOR);
-            velocityChart.addChartChild(new CursorNode(model.getChartCursor(), velocityChart));
             addScreenChild(velocityChart);
 
-            PNode positionThumb = new PImage(ColorArrows.createArrow(MovingManColorScheme.VELOCITY_COLOR));
-            final MotionSliderNode chartSliderNode = new TemporalChartSliderNode(velocityChart, positionThumb, MovingManColorScheme.VELOCITY_COLOR);
+            final MotionSliderNode chartSliderNode = new TemporalChartSliderNode(velocityChart, MovingManColorScheme.VELOCITY_COLOR);
             addScreenChild(chartSliderNode);
             final SimpleObserver sliderVisibleSetter = new SimpleObserver() {
                 public void update() {
@@ -146,16 +143,13 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
             addScreenChild(velocityChartControl);
         }
 
-        //Add the acceleration chart
+        double aMax = 60;
+        accelerationChart = new TemporalChart(new Rectangle2D.Double(0, -aMax, 20, aMax * 2), model.getChartCursor());
         {
-            double aMax = 60;
-            accelerationChart = new TemporalChart(new Rectangle2D.Double(0, -aMax, 20, aMax * 2));
             accelerationChart.addDataSeries(model.getAccelerationGraphSeries(), MovingManColorScheme.ACCELERATION_COLOR);
-            accelerationChart.addChartChild(new CursorNode(model.getChartCursor(), accelerationChart));
             addScreenChild(accelerationChart);
 
-            PNode positionThumb = new PImage(ColorArrows.createArrow(MovingManColorScheme.ACCELERATION_COLOR));
-            final MotionSliderNode chartSliderNode = new TemporalChartSliderNode(accelerationChart, positionThumb, MovingManColorScheme.ACCELERATION_COLOR);
+            final MotionSliderNode chartSliderNode = new TemporalChartSliderNode(accelerationChart, MovingManColorScheme.ACCELERATION_COLOR);
             final SimpleObserver sliderVisibleSetter = new SimpleObserver() {
                 public void update() {
                     chartSliderNode.setVisible(accelerationChart.getMaximized().getValue());

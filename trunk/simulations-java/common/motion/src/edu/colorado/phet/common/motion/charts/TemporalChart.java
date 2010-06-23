@@ -54,13 +54,15 @@ public class TemporalChart extends PNode {
     protected VerticalZoomControl verticalZoomControl;
     protected HorizontalZoomControl horizontalZoomControl;
 
-    public TemporalChart(Rectangle2D.Double dataModelBounds) {
-        this(dataModelBounds, 100, 100);//useful for layout code that updates size later instead of at construction and later
+    public TemporalChart(Rectangle2D.Double dataModelBounds, ChartCursor cursor) {
+        this(dataModelBounds, 100, 100, cursor);//useful for layout code that updates size later instead of at construction and later
     }
 
     public TemporalChart(final Rectangle2D.Double dataModelBounds,
-                          final double dataAreaWidth,//Width of the chart area
-                          final double dataAreaHeight) {
+                         final double dataAreaWidth,//Width of the chart area
+                         final double dataAreaHeight,
+                         final ChartCursor cursor //Must be provided by the client so that charts cursor locations can be synchronized
+    ) {
         this.dataModelBounds = new MutableRectangle(dataModelBounds);
         this.viewDimension = new MutableDimension(dataAreaWidth, dataAreaHeight);
         chartContents = new PNode();
@@ -182,6 +184,8 @@ public class TemporalChart extends PNode {
             }
         });
         addChartChild(horizontalZoomControl);
+
+        addChartChild(new CursorNode(cursor, this));
     }
 
     private void updateTickMarksAndGridLines() {

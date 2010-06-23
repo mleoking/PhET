@@ -1,3 +1,5 @@
+Factored out creation of chart slider node thumbnails
+Factored out cursor usage
 Moved charts to common code
 # 1.28.01 (41829) Jun 21, 2010
 Fixed: Axis rotation fails for charts tab
