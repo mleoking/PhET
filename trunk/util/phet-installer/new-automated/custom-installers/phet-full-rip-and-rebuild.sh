@@ -37,10 +37,10 @@ echo " `date`" | tee --append $LOG
 echo "================================================================" | tee --append $LOG
 
 if [ "$1" = "--deploy" -o "$2" = "--deploy" ]; then
-   echo "Sims will be deployed after they are built." | tee --append $LOG
+   echo "Installer will be deployed after they are built." | tee --append $LOG
    /usr/local/php/bin/php ./bin/phet-full-rip-and-rebuild.php --deploy | tee --append $LOG
 else
-   echo "Sims will NOT be deployed after they are built." | tee --append $LOG
+   echo "Installer will NOT be deployed after they are built." | tee --append $LOG
    /usr/local/php/bin/php ./bin/phet-full-rip-and-rebuild.php | tee --append $LOG
 fi
 
