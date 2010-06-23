@@ -24,6 +24,15 @@ public interface IHodgkinHuxleyModel {
 	public abstract double getMembraneVoltage();
 
 	/**
+	 * Get the resting membrane potential in volts.  This value will always be
+	 * the same, and is generally used to compare with the current membrane
+	 * voltage.
+	 * 
+	 * @return
+	 */
+	public abstract double getRestingMembraneVoltage();
+
+	/**
 	 * Stimulate the neuron in a way that simulates a depolarization signal
 	 * coming to this neuron.  If the neuron is in the correct state, this
 	 * will trigger an action potential.
