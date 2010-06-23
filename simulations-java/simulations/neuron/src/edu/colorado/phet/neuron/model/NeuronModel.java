@@ -25,10 +25,6 @@ import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel;
  * @author John Blanco
  */
 public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelState> implements IParticleCapture {
-    @Override
-    public void setPaused(boolean p) {
-        super.setPaused(false);
-    }
 
     //----------------------------------------------------------------------------
     // Class Data
