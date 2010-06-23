@@ -2,10 +2,7 @@ package edu.colorado.phet.website.notification;
 
 import it.sauronsoftware.cron4j.Scheduler;
 
-import java.util.Calendar;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -97,6 +94,9 @@ public class NotificationHandler {
     }
 
     public static void sendNotifications() {
+        final String mailHost = websiteProperties.getMailHost();
+        final String mailUser = websiteProperties.getMailUser();
+        final String mailPassword = websiteProperties.getMailPassword();
         final List<NotificationEvent> events = new LinkedList<NotificationEvent>();
         final List<PhetUser> usersToNotify = new LinkedList<PhetUser>();
 
@@ -110,39 +110,54 @@ public class NotificationHandler {
                 return true;
             }
         } );
+        final List<String> emailAddresses = new ArrayList<String>();
+        emailAddresses.add( "phetadmin@gmail.com" );
+        for ( PhetUser user : usersToNotify ) {
+            emailAddresses.add( user.getEmail() );
+        }
+        String body = eventsToString( events );
+        final String fromAddress = "phetnoreply@phet.colorado.edu";
+        final String subject = "[PhET Website] Notifications for Teaching Ideas";
+        final ArrayList<BodyPart> additionalParts = new ArrayList<BodyPart>();//other than the message itself which is specified in body
 
+        sendMessage( mailHost, mailUser, mailPassword, emailAddresses, body, fromAddress, subject, additionalParts );
+    }
+
+    public static void sendMessage( String mailHost, final String mailUser, final String mailPassword, List<String> emailAddresses, String body, String fromAddress, String subject, ArrayList<BodyPart> additionalParts ) {
         try {
             Properties props = System.getProperties();
-            props.put( "mail.smtp.host", websiteProperties.getMailHost() );
+            props.put( "mail.smtp.host", mailHost );
 
             //props.put( "mail.debug", "true" );
             props.put( "mail.smtp.starttls.enable", "true" ); //necessary if you use cu or google, otherwise you receive an error:
 
             props.put( "mail.smtp.auth", "true" );
-            props.put( "mail.smtp.user", websiteProperties.getMailUser() );
-            props.put( "password", websiteProperties.getMailPassword() );
+            props.put( "mail.smtp.user", mailUser );
+            props.put( "password", mailPassword );
 
             Session session = Session.getInstance( props, new Authenticator() {
                 protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication( websiteProperties.getMailUser(), websiteProperties.getMailPassword() );
+                    return new PasswordAuthentication( mailUser, mailPassword );
                 }
             } );
 
             Message message = new MimeMessage( session );
-            message.setFrom( new InternetAddress( "phetnoreply@phetsims.colorado.edu" ) );
-            for ( PhetUser user : usersToNotify ) {
-                message.addRecipient( Message.RecipientType.TO, new InternetAddress( user.getEmail() ) );
+            message.setFrom( new InternetAddress( fromAddress ) );
+            for ( String email : emailAddresses ) {
+                message.addRecipient( Message.RecipientType.TO, new InternetAddress( email ) );
             }
-            message.addRecipient( Message.RecipientType.TO, new InternetAddress( "phetadmin@gmail.com" ) );
-            message.setSubject( "[PhET Website] Notifications for Teaching Ideas" );
+            message.setSubject( subject );
 
             BodyPart messageBodyPart = new MimeBodyPart();
-            String body = eventsToString( events );
 
             messageBodyPart.setContent( body, "text/html; charset=ISO-8859-1" );
 
             Multipart multipart = new MimeMultipart();
             multipart.addBodyPart( messageBodyPart );
+
+            for ( BodyPart bodyPart : additionalParts ) {
+                multipart.addBodyPart( bodyPart );
+            }
 
             // add attachments here, see example
 
