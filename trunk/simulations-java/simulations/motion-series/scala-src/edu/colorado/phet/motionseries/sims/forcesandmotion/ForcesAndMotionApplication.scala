@@ -85,7 +85,6 @@ class ForcesAndMotionApplication(config: PhetApplicationConfig) extends PiccoloP
 
 object ForcesAndMotionApplication{
   def main(args: Array[String]) = {
-    MotionSeriesResources.setStringProject("forces-and-motion")
-    new PhetApplicationLauncher().launchSim(args, "forces-and-motion".literal, classOf[ForcesAndMotionApplication])
+    new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "forces-and-motion".literal, classOf[ForcesAndMotionApplication])
   }
 }

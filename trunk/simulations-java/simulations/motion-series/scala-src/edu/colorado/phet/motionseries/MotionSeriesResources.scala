@@ -17,14 +17,7 @@ object Predef {
 }
 import Predef._
 
-object MotionSeriesResources {
-  private var resources = new PhetResources("motion-series".literal)
-  private var nonStringResources = new PhetResources("motion-series".literal)//has to be in common code so we don't have duplication of images or audio
-
-  def setStringProject(stringProject: String) = { //Support for having strings in the sim part instead of in the common part since translation utility does not support modularization of files
-    resources = new PhetResources(stringProject)
-  }
-
+object MotionSeriesResources extends PhetResources("motion-series".literal) {
   implicit def toMyRichString(s: String) = new TranslatableString(s)
 
   val forcePattern = "force.pattern".translate
@@ -36,12 +29,6 @@ object MotionSeriesResources {
   def formatEnergy(energy: String) = MessageFormat.format(energyPattern, energy)
 
   def formatWork(work: String) = MessageFormat.format(workPattern, work)
-
-  def getLocalizedString(key: String) = resources.getLocalizedString(key)
-
-  def getImage(image: String) = nonStringResources.getImage(image)
-
-  def getAudioClip(audio: String) = nonStringResources.getAudioClip(audio)
 }
 
 class TranslatableString(s: String) {
