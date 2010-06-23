@@ -36,7 +36,6 @@
         
         // Get the value of the time stamp.
         $time = file_get_contents(CREATION_TIMESTAMP_FILE_NAME);
-        flushing_echo( "Creation Timestamp used in version file = $time" );
 
         // Write the value into the version info file.
         $creation_time_property = 'timestamp='.$time;
