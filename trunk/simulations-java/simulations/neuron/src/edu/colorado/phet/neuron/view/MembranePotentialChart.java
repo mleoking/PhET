@@ -171,9 +171,10 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
                 Point2D d = event.getPositionRelativeTo( MembranePotentialChart.this );
                 Point2D dx = new Point2D.Double( d.getX() - pressPoint.getX(), d.getY() - pressPoint.getY() );
                 Point2D diff = localToPlotDifferential( dx.getX(), dx.getY() );
-                double time = pressTime + diff.getX();
-                time = MathUtil.clamp(0, time, getLastTimeValue());
-                neuronModel.setTime(time/1000);
+                double recordingTimeIndex = pressTime + diff.getX();
+                recordingTimeIndex = MathUtil.clamp(0, recordingTimeIndex, getLastTimeValue());
+                double compensatedRecordingTimeIndex = recordingTimeIndex / 1000 + neuronModel.getMinRecordedTime();
+                neuronModel.setTime(compensatedRecordingTimeIndex);
             }
         } );
         
@@ -253,7 +254,6 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
     	if (time - timeIndexOfFirstDataPt <= TIME_SPAN){
     		dataSeries.add(time - timeIndexOfFirstDataPt, voltage * 1000, update);
     		chartIsFull = false;
-    		updateChartCursorPos();
     	}
     	else{
     		chartIsFull = true;
@@ -422,7 +422,9 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
      * model.
      */
 	public void update() {
-		updateChartCursorPos();
 		updateChartCursorVisibility();
+		if (neuronModel.isPlayback()){
+			updateChartCursorPos();
+		}
 	}
 }
