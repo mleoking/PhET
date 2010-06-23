@@ -390,6 +390,12 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
     	// Set the boolean that controls whether all ions are simulated to its
     	// original state.
     	setAllIonsSimulated(DEFAULT_FOR_SHOW_ALL_IONS);
+    	
+    	// Set the state of the record-and-playback model to be "live"
+    	// (neither recording nor playing) and unpaused.
+    	clearHistory();
+    	setModeLive();
+    	setPaused(false);
     }
     
     /**
@@ -621,16 +627,6 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
 	private NeuronModelState getState(){
     	// TODO: Need to fill out for all elements of the model.
     	return new NeuronModelState(axonMembrane.getState());
-    }
-    
-    /**
-     * Clear out the current recording.  This means that the data that was
-     * collected that represents the state of the sim at various time indices
-     * will simply be discarded.
-     */
-    public void clearRecording(){
-    	System.out.println("clearRecording called.");
-    	// TODO.
     }
     
     /**
