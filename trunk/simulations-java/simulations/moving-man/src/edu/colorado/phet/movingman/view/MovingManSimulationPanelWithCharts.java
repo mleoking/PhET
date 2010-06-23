@@ -54,14 +54,22 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
             }
             addScreenChild(sliderNode);
 
-            updatePositionModeSelected(model, sliderNode);
+            final SimpleObserver updatePositionModeSelected = new SimpleObserver() {
+                public void update() {
+                    sliderNode.setHighlighted(model.getMovingMan().isPositionDriven());
+                }
+            };
             model.getMovingMan().addListener(new MovingMan.Listener() {
                 public void changed() {
-                    updatePositionModeSelected(model, sliderNode);
+                    updatePositionModeSelected.update();
                 }
             });
+            updatePositionModeSelected.update();
+
             positionChartControl = new ChartControl("Position", MovingManColorScheme.POSITION_COLOR, new TextBoxListener.Position(model), sliderNode, positionChart, "m");
-            positionChartControl.addChild(new GoButton(recordAndPlaybackModel, positionChartControl, model.getPositionMode()));
+            {
+                positionChartControl.addChild(new GoButton(recordAndPlaybackModel, positionChartControl, model.getPositionMode()));
+            }
             addScreenChild(positionChartControl);
         }
         addScreenChild(positionChart);
@@ -88,18 +96,25 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
                     model.getMovingMan().setVelocityDriven();
                 }
             });
-            updateVelocityModeSelected(model, chartSliderNode);
+            final SimpleObserver updateVelocityModeSelected = new SimpleObserver() {
+                public void update() {
+                    chartSliderNode.setHighlighted(model.getMovingMan().isVelocityDriven());
+                }
+            };
             model.getMovingMan().addListener(new MovingMan.Listener() {
                 public void changed() {
-                    updateVelocityModeSelected(model, chartSliderNode);
+                    updateVelocityModeSelected.update();
                 }
             });
+            updateVelocityModeSelected.update();
 
             velocityChartControl = new ChartControl("Velocity", MovingManColorScheme.VELOCITY_COLOR, new TextBoxListener.Velocity(model), chartSliderNode, velocityChart, "m/s");
-            final PSwing pSwing = new PSwing(new ShowVectorCheckBox("Show Vector", model.getVelocityVectorVisible()));
-            pSwing.setOffset(0, velocityChartControl.getFullBounds().getHeight());
-            velocityChartControl.addChild(pSwing);
-            velocityChartControl.addChild(new GoButton(recordAndPlaybackModel, velocityChartControl, model.getVelocityMode()));
+            {
+                final PSwing pSwing = new PSwing(new ShowVectorCheckBox("Show Vector", model.getVelocityVectorVisible()));
+                pSwing.setOffset(0, velocityChartControl.getFullBounds().getHeight());
+                velocityChartControl.addChild(pSwing);
+                velocityChartControl.addChild(new GoButton(recordAndPlaybackModel, velocityChartControl, model.getVelocityMode()));
+            }
             addScreenChild(velocityChartControl);
         }
 
@@ -110,6 +125,7 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
             addScreenChild(accelerationChart);
 
             final MotionSliderNode chartSliderNode = new TemporalChartSliderNode(accelerationChart, MovingManColorScheme.ACCELERATION_COLOR);
+            addScreenChild(chartSliderNode);
 
             model.getMovingMan().addListener(new MovingMan.Listener() {
                 public void changed() {
@@ -125,20 +141,26 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
                     model.getMovingMan().setAccelerationDriven();
                 }
             });
-            updateAccelerationModeSelected(model, chartSliderNode);
+            final SimpleObserver updateAccelerationModeSelected = new SimpleObserver() {
+                public void update() {
+                    chartSliderNode.setHighlighted(model.getMovingMan().isAccelerationDriven());
+                }
+            };
             model.getMovingMan().addListener(new MovingMan.Listener() {
                 public void changed() {
-                    updateAccelerationModeSelected(model, chartSliderNode);
+                    updateAccelerationModeSelected.update();
                 }
             });
+            updateAccelerationModeSelected.update();
 
             accelerationChartControl = new ChartControl("Acceleration", MovingManColorScheme.ACCELERATION_COLOR, new TextBoxListener.Acceleration(model), chartSliderNode, accelerationChart, "m/s/s");
-            final PSwing pSwing = new PSwing(new ShowVectorCheckBox("Show Vector", model.getAccelerationVectorVisible()));
-            pSwing.setOffset(0, accelerationChartControl.getFullBounds().getHeight());
-            accelerationChartControl.addChild(pSwing);
+            {
+                final PSwing pSwing = new PSwing(new ShowVectorCheckBox("Show Vector", model.getAccelerationVectorVisible()));
+                pSwing.setOffset(0, accelerationChartControl.getFullBounds().getHeight());
+                accelerationChartControl.addChild(pSwing);
 
-            //Todo: move these mode listeners to model?
-            accelerationChartControl.addChild(new GoButton(recordAndPlaybackModel, accelerationChartControl, model.getAccelerationMode()));
+                accelerationChartControl.addChild(new GoButton(recordAndPlaybackModel, accelerationChartControl, model.getAccelerationMode()));
+            }
             addScreenChild(accelerationChartControl);
         }
 
@@ -213,17 +235,5 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
         velocityChart.getMaximized().addObserver(updateHorizontalZoomVisibility);
         accelerationChart.getMaximized().addObserver(updateHorizontalZoomVisibility);
         updateHorizontalZoomVisibility.update();
-    }
-
-    private void updateAccelerationModeSelected(MovingManModel model, MotionSliderNode chartSliderNode) {
-        chartSliderNode.setHighlighted(model.getMovingMan().isAccelerationDriven());
-    }
-
-    private void updateVelocityModeSelected(MovingManModel model, MotionSliderNode chartSliderNode) {
-        chartSliderNode.setHighlighted(model.getMovingMan().isVelocityDriven());
-    }
-
-    private void updatePositionModeSelected(MovingManModel model, MotionSliderNode chartSliderNode) {
-        chartSliderNode.setHighlighted(model.getMovingMan().isPositionDriven());
     }
 }
