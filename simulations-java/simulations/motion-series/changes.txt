@@ -30,7 +30,7 @@ Fixed: when dragging the rightmost wall, it snaps the ramp to be at the mouse lo
 Add energy conservation on airborne -> ground crash by dissipating extra energy into heat
 Fixed: Object remains broken after crashing when you hit playback
 Added a "sec" label to the time charts
-Show friction force below applied force when they would otherwise overlap
+Show friction force below applied force when they would otherwise overlap       
 Made it possible to set vector label offset orientations
 Added tick marks to the applied force slider to make the knob bigger
 Added a raised bevel border to the applied force slider
