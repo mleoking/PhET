@@ -34,6 +34,24 @@ public class TemporalChartSliderNode extends MotionSliderNode.Vertical {
                 setModelRange(temporalChart.getMinRangeValue(), temporalChart.getMaxRangeValue());
             }
         });
+
+        final SimpleObserver updateSliderLocation = new SimpleObserver() {
+            public void update() {
+                setOffset(temporalChart.getOffset().getX() - getFullBounds().getWidth() - 20, temporalChart.getOffset().getY());
+            }
+        };
+        updateSliderLocation.update();
+        temporalChart.getViewDimension().addObserver(updateSliderLocation);
+        
+        final SimpleObserver updateSliderVisible = new SimpleObserver() {
+            public void update() {
+                setVisible(temporalChart.getMaximized().getValue());
+            }
+        };
+        updateSliderVisible.update();
+        temporalChart.getMaximized().addObserver(updateSliderVisible);
+        
+        setOffset(temporalChart.getOffset().getX() - getFullBounds().getWidth() - 20, temporalChart.getOffset().getY());
     }
 
     public void updateLayoutBasedOnChart() {
