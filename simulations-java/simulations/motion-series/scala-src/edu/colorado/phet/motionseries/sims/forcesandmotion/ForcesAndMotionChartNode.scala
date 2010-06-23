@@ -1,4 +1,4 @@
-package edu.colorado.phet.forcesandmotion
+package edu.colorado.phet.motionseries.sims.forcesandmotion
 
 import edu.colorado.phet.motionseries.graphics.MotionSeriesCanvas
 import edu.colorado.phet.motionseries.model.MotionSeriesModel
