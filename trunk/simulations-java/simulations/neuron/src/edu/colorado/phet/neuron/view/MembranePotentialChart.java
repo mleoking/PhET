@@ -102,12 +102,6 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
     	    	clearChart();
     	    	updateChartCursorVisibility();
     	    }
-    	    public void clockPaused( ClockEvent clockEvent ) {
-    	    	updateChartCursorVisibility();
-    	    }
-    	    public void clockStarted( ClockEvent clockEvent ) {
-    	    	updateChartCursorVisibility();
-    	    }
     	});
     	
     	// Register for model events that are important to us.
@@ -333,7 +327,7 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
     		if (!chartIsFull && clockEvent.getSimulationTimeChange() > 0){
     			updateCountdownTimer -= clockEvent.getSimulationTimeChange();
     			
-    			double timeInMilliseconds = clockEvent.getSimulationTime() * 1000;
+    			double timeInMilliseconds = neuronModel.getTime() * 1000;
     			
     			if (updateCountdownTimer <= 0){
     				addDataPoint(timeInMilliseconds, neuronModel.getMembranePotential(), true);
@@ -373,7 +367,7 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
     }
     
     private void updateChartCursorVisibility(){
-    	chartCursor.setVisible(neuronModel.getClock().isPaused() && dataSeries.getItemCount() > 0);
+    	chartCursor.setVisible(neuronModel.isPlayback() && dataSeries.getItemCount() > 0);
     }
     
     private void moveChartCursorToTime(double time){
@@ -428,8 +422,7 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
      * model.
      */
 	public void update() {
-		if (neuronModel.isPlayback()){
-			updateChartCursorPos();
-		}
+		updateChartCursorPos();
+		updateChartCursorVisibility();
 	}
 }
