@@ -1,17 +1,15 @@
 package edu.colorado.phet.movingman.view;
 
-import edu.colorado.phet.common.motion.charts.*;
-import edu.colorado.phet.common.motion.tests.ColorArrows;
+import edu.colorado.phet.common.motion.charts.MotionSliderNode;
+import edu.colorado.phet.common.motion.charts.MutableBoolean;
+import edu.colorado.phet.common.motion.charts.TemporalChart;
+import edu.colorado.phet.common.motion.charts.TemporalChartSliderNode;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.movingman.MovingManColorScheme;
 import edu.colorado.phet.movingman.model.MovingMan;
 import edu.colorado.phet.movingman.model.MovingManModel;
 import edu.colorado.phet.movingman.model.MovingManState;
 import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import java.awt.event.ComponentAdapter;
@@ -101,16 +99,7 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
             final PSwing pSwing = new PSwing(new ShowVectorCheckBox("Show Vector", model.getVelocityVectorVisible()));
             pSwing.setOffset(0, velocityChartControl.getFullBounds().getHeight());
             velocityChartControl.addChild(pSwing);
-            //TODO: move this and acceleration mode to the model, as we did for position
-            final MutableBoolean velocityMode = new MutableBoolean(false);
-            final MovingMan.Listener listener = new MovingMan.Listener() {
-                public void changed() {
-                    velocityMode.setValue(model.getMovingMan().getMotionStrategy() == MovingMan.VELOCITY_DRIVEN);
-                }
-            };
-            model.getMovingMan().addListener(listener);
-            listener.changed();
-            velocityChartControl.addChild(new GoButton(recordAndPlaybackModel, velocityChartControl, velocityMode));
+            velocityChartControl.addChild(new GoButton(recordAndPlaybackModel, velocityChartControl, model.getVelocityMode()));
             addScreenChild(velocityChartControl);
         }
 
@@ -149,16 +138,7 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
             accelerationChartControl.addChild(pSwing);
 
             //Todo: move these mode listeners to model?
-            final MutableBoolean accelerationMode = new MutableBoolean(false);
-            final MovingMan.Listener listener = new MovingMan.Listener() {
-                public void changed() {
-                    accelerationMode.setValue(model.getMovingMan().getMotionStrategy() == MovingMan.ACCELERATION_DRIVEN);
-                }
-            };
-            listener.changed();
-            model.getMovingMan().addListener(listener);
-
-            accelerationChartControl.addChild(new GoButton(recordAndPlaybackModel, accelerationChartControl, accelerationMode));
+            accelerationChartControl.addChild(new GoButton(recordAndPlaybackModel, accelerationChartControl, model.getAccelerationMode()));
             addScreenChild(accelerationChartControl);
         }
 
