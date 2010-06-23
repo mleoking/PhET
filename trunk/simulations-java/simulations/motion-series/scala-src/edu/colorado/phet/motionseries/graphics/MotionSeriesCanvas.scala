@@ -10,8 +10,8 @@ import edu.colorado.phet.motionseries.model._
 import edu.colorado.phet.scalacommon.Predef._
 import edu.umd.cs.piccolo.PNode
 import edu.colorado.phet.motionseries.MotionSeriesResources._
-import javax.swing.{JFrame}
-import edu.colorado.phet.motionseries.controls.{ComboBoxNode}
+import javax.swing.JFrame
+import edu.colorado.phet.motionseries.controls.ComboBoxNode
 import edu.colorado.phet.motionseries.javastage.stage.PlayArea
 import edu.colorado.phet.motionseries.{StageContainerArea, MotionSeriesResources, MotionSeriesDefaults}
 import edu.colorado.phet.common.piccolophet.event.CursorHandler
@@ -154,6 +154,11 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
   val returnObjectButton = new ReturnObjectButton(model)
   returnObjectButton.setOffset(clearHeatButton.getFullBounds.getCenterX - returnObjectButton.getFullBounds.getWidth / 2, clearHeatButton.getFullBounds.getMaxY + 10)
   addStageNode(returnObjectButton)
+
+  //Low quality rendering doesn't seem to significantly impact performance in this sim
+  //  setInteractingRenderQuality(PPaintContext.LOW_QUALITY_RENDERING)
+  //  setDefaultRenderQuality(PPaintContext.LOW_QUALITY_RENDERING)
+  //  setAnimatingRenderQuality(PPaintContext.LOW_QUALITY_RENDERING)
 }
 
 class ReturnObjectButton(model: MotionSeriesModel) extends GradientButtonNode("controls.return-object".translate, Color.orange) {
@@ -189,7 +194,7 @@ abstract class MotionSeriesCanvasDecorator(model: MotionSeriesModel,
                                            stageContainerArea: StageContainerArea)
         extends MotionSeriesCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame, modelViewport, stageContainerArea) {
   val pusherNode = new PusherNode(transform, model.bead, model.manBead)
-  playAreaNode.addChild(playAreaNode.indexOfChild(playAreaVectorNode)-1,pusherNode)//put the pusher behind the vector nodes because otherwise he gets in the way 
+  playAreaNode.addChild(playAreaNode.indexOfChild(playAreaVectorNode) - 1, pusherNode) //put the pusher behind the vector nodes because otherwise he gets in the way 
 
   if (showAppliedForceSlider) {
     val appliedForceSliderNode = new AppliedForceSliderNode(model.bead, () => model.setPaused(false))
