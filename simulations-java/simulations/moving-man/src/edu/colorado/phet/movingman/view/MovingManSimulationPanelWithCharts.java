@@ -39,21 +39,6 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
 
             final MotionSliderNode sliderNode = new TemporalChartSliderNode(positionChart, MovingManColorScheme.POSITION_COLOR);
             {
-                final SimpleObserver updateSliderLocation = new SimpleObserver() {
-                    public void update() {
-                        sliderNode.setOffset(positionChart.getOffset().getX() - sliderNode.getFullBounds().getWidth() - 20, positionChart.getOffset().getY());
-                    }
-                };
-                updateSliderLocation.update();
-                positionChart.getViewDimension().addObserver(updateSliderLocation);
-                final SimpleObserver sliderVisibleSetter = new SimpleObserver() {
-                    public void update() {
-                        sliderNode.setVisible(positionChart.getMaximized().getValue());
-                    }
-                };
-                sliderVisibleSetter.update();
-                positionChart.getMaximized().addObserver(sliderVisibleSetter);
-                sliderNode.setOffset(positionChart.getOffset().getX() - sliderNode.getFullBounds().getWidth() - 20, positionChart.getOffset().getY());
                 model.addListener(new MovingManModel.Listener() {
                     public void mousePositionChanged() {
                         sliderNode.setValue(model.getMousePosition());
@@ -91,20 +76,6 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
 
             final MotionSliderNode chartSliderNode = new TemporalChartSliderNode(velocityChart, MovingManColorScheme.VELOCITY_COLOR);
             addScreenChild(chartSliderNode);
-            final SimpleObserver sliderVisibleSetter = new SimpleObserver() {
-                public void update() {
-                    chartSliderNode.setVisible(velocityChart.getMaximized().getValue());
-                }
-            };
-            velocityChart.getMaximized().addObserver(sliderVisibleSetter);
-            sliderVisibleSetter.update();
-            final SimpleObserver updateSliderLocation = new SimpleObserver() {
-                public void update() {
-                    chartSliderNode.setOffset(velocityChart.getOffset().getX() - chartSliderNode.getFullBounds().getWidth() - 20, velocityChart.getOffset().getY());
-                }
-            };
-            updateSliderLocation.update();
-            velocityChart.getViewDimension().addObserver(updateSliderLocation);
             model.getMovingMan().addListener(new MovingMan.Listener() {
                 public void changed() {
                     chartSliderNode.setValue(model.getMovingMan().getVelocity());
@@ -150,21 +121,6 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
             addScreenChild(accelerationChart);
 
             final MotionSliderNode chartSliderNode = new TemporalChartSliderNode(accelerationChart, MovingManColorScheme.ACCELERATION_COLOR);
-            final SimpleObserver sliderVisibleSetter = new SimpleObserver() {
-                public void update() {
-                    chartSliderNode.setVisible(accelerationChart.getMaximized().getValue());
-                }
-            };
-            accelerationChart.getMaximized().addObserver(sliderVisibleSetter);
-            sliderVisibleSetter.update();
-            addScreenChild(chartSliderNode);
-            final SimpleObserver updateSliderLocation = new SimpleObserver() {
-                public void update() {
-                    chartSliderNode.setOffset(accelerationChart.getOffset().getX() - chartSliderNode.getFullBounds().getWidth() - 20, accelerationChart.getOffset().getY());
-                }
-            };
-            updateSliderLocation.update();
-            accelerationChart.getViewDimension().addObserver(updateSliderLocation);
 
             model.getMovingMan().addListener(new MovingMan.Listener() {
                 public void changed() {
