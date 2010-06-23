@@ -47,9 +47,11 @@ public class MovingManModel {
 //    protected final Range modelRange = new Range(10, -10);
     private Range range = modelRange;
     private BooleanGetter isPaused;
-    protected MutableBoolean positionMode;
+    private MutableBoolean positionMode;
+    private MutableBoolean accelerationMode;
     private ExpressionEvaluator expressionEvaluator;
     private ArrayList<EvalErrorListener> evalErrorListeners = new ArrayList<EvalErrorListener>();
+    private MutableBoolean velocityMode;
 
     public void historyRemainderCleared(double time) {
         mouseDataModelSeries.clearPointsAfter(time);
@@ -74,6 +76,14 @@ public class MovingManModel {
         this.expressionEvaluator = expressionEvaluator;
     }
 
+    public MutableBoolean getAccelerationMode() {
+        return accelerationMode;
+    }
+
+    public MutableBoolean getVelocityMode() {
+        return velocityMode;
+    }
+
     public static interface BooleanGetter {
         boolean isTrue();
     }
@@ -82,14 +92,39 @@ public class MovingManModel {
         this.movingMan = new MovingMan();
         this.isPaused = isPaused;
 
+        //Provide mutable properties so that clients can subscribe for mode changes easily
         positionMode = new MutableBoolean(false);
-        final MovingMan.Listener listener = new MovingMan.Listener() {
-            public void changed() {
-                positionMode.setValue(getMovingMan().getMotionStrategy() == MovingMan.POSITION_DRIVEN);
-            }
-        };
-        getMovingMan().addListener(listener);
-        listener.changed();
+        {
+            final MovingMan.Listener positonModeListener = new MovingMan.Listener() {
+                public void changed() {
+                    positionMode.setValue(getMovingMan().getMotionStrategy() == MovingMan.POSITION_DRIVEN);
+                }
+            };
+            getMovingMan().addListener(positonModeListener);
+            positonModeListener.changed();
+        }
+
+        velocityMode = new MutableBoolean(false);
+        {
+            final MovingMan.Listener velocityModeListener = new MovingMan.Listener() {
+                public void changed() {
+                    velocityMode.setValue(getMovingMan().getMotionStrategy() == MovingMan.VELOCITY_DRIVEN);
+                }
+            };
+            getMovingMan().addListener(velocityModeListener);
+            velocityModeListener.changed();
+        }
+
+        accelerationMode = new MutableBoolean(false);
+        {
+            final MovingMan.Listener accelerationModeListener = new MovingMan.Listener() {
+                public void changed() {
+                    accelerationMode.setValue(getMovingMan().getMotionStrategy() == MovingMan.ACCELERATION_DRIVEN);
+                }
+            };
+            accelerationModeListener.changed();
+            getMovingMan().addListener(accelerationModeListener);
+        }
     }
 
     public void resetAll() {
