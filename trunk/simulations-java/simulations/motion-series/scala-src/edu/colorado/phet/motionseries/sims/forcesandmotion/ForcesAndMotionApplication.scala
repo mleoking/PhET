@@ -1,4 +1,4 @@
-package edu.colorado.phet.forcesandmotion
+package edu.colorado.phet.motionseries.sims.forcesandmotion
 
 import edu.colorado.phet.common.phetcommon.view.PhetFrame
 import java.awt.geom.Rectangle2D

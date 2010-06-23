@@ -1,4 +1,4 @@
-package edu.colorado.phet.rampiiforcesin2d
+package edu.colorado.phet.motionseries.sims.theramp
 
 import edu.colorado.phet.common.phetcommon.view.PhetFrame
 import edu.colorado.phet.motionseries.graphics.{RampCanvas}
