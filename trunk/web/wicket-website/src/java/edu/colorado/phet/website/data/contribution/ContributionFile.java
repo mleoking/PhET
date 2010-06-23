@@ -75,6 +75,7 @@ public class ContributionFile implements Serializable, IntId {
     }
 
     public static boolean validateFileExtension( String filename ) {
+        if (filename.indexOf(".")<0) return true;
         for ( String s : FILE_TYPE_WHITELIST ) {
             if ( filename.endsWith( "." + s ) ) {
                 return true;
@@ -110,7 +111,8 @@ public class ContributionFile implements Serializable, IntId {
     }
 
     /**
-     * Retrieve a list of filetypes, using the file separator in the style and locale of the component
+     * Retrieve a list of recommended filetypes, using the file separator in the style and locale of the component.
+     * The logic for file extension allowance is defined in validateFileExtension()
      *
      * @param component The component
      * @return List of file extensions
