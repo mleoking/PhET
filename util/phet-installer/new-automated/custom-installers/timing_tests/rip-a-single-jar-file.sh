@@ -14,13 +14,13 @@ HTTRACK="/usr/local/httrack/bin/httrack"
 RIP_DIR="./rip_dir"
 
 # Specify the base URL from whence the simulation will be captured.
-RIP_BASE_URL="http://phetsims.colorado.edu/sims/greenhouse/greenhouse_en.jar"
+RIP_BASE_URL="http://phet.colorado.edu/sims/greenhouse/greenhouse_en.jar"
 
 # Specify the filters for preventing undesired files from being ripped.
 HTTRACK_FILTERS=" \"-*wickettest\" \"-phetsims.colorado.edu/ar/*\" "
 
 # Specify the options for the rip command.
-HTTRACK_OPTIONS="-F \"httrack-web-mirror-yf\" -j %q0 -%e0 -r10 -s0"
+HTTRACK_OPTIONS="-F \"httrack-web-mirror-yf\" --disable-security-limits -A2500000 -j %q0 -%e0 -r10 -s0"
 
 # Put the various pieces together into the overall command.
 HTTRACK_CMD="$HTTRACK $RIP_BASE_URL -O $RIP_DIR $HTTRACK_FILTERS $HTTRACK_OPTIONS"
