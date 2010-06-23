@@ -13,6 +13,7 @@ import javax.swing.event.EventListenerList;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.neuron.model.AxonMembrane.AxonMembraneState;
 import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel;
 
@@ -125,7 +126,6 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
 	private double sodiumExteriorConcentration = NOMINAL_SODIUM_EXTERIOR_CONCENTRATION;
     private double potassiumInteriorConcentration = NOMINAL_POTASSIUM_INTERIOR_CONCENTRATION;
     private double potassiumExteriorConcentration = NOMINAL_POTASSIUM_EXTERIOR_CONCENTRATION;
-    private double simulationPauseTime = 0;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -149,9 +149,9 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
 
 			@Override
 			public void clockPaused(ClockEvent clockEvent) {
-				// Retain the time at which this occurred so that it can be
-				// restored when we resume.
-				simulationPauseTime = clockEvent.getSimulationTime();
+				// When the clock is paused, automatically go into playback
+				// mode.
+				setModePlayback();
 			}
 
             @Override
@@ -1000,6 +1000,11 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
     	}
 
 		super.stepInTime(simulationTimeChange);
+		
+		if (isPlayback() && getTime() >= getMaxRecordedTime()){
+			setModeRecord();
+			setPaused(false);
+		}
 	}
 
 	@Override
