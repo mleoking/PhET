@@ -106,7 +106,7 @@ public abstract class MotionSliderNode extends PNode {
 
         //todo: catch layout changes
         updateLayout();
-        updateTrackPPath();
+        updateTrackPPathStrokeAndPaint();
     }
 
     protected abstract void updateTransform(Range viewRange);
@@ -211,15 +211,15 @@ public abstract class MotionSliderNode extends PNode {
 
     public void setHighlighted(boolean highlighted) {
         this.highlighted = highlighted;
-        updateTrackPPath();
+        updateTrackPPathStrokeAndPaint();
     }
 
-    private void updateTrackPPath() {
+    private void updateTrackPPathStrokeAndPaint() {
         trackPPath.setStroke(new BasicStroke(highlighted ? 2 : 1));
         trackPPath.setStrokePaint(highlighted ? highlightColor : Color.black);
     }
 
-    public void setTrackPath(Shape shape) {
+    protected void setTrackPath(Shape shape) {
         trackPPath.setPathTo(shape);
     }
 

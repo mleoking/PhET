@@ -45,14 +45,15 @@ import java.util.ArrayList;
 public class TemporalChart extends PNode {
     private MutableRectangle dataModelBounds;
     private MutableDimension viewDimension;
+    private MutableBoolean maximized = new MutableBoolean(true);
     private PNode chartContents;//layer for chart pnodes, for minimize/maximize support
     private PImage minimizeButton;
     private PImage maximizeButton;
-    private MutableBoolean maximized = new MutableBoolean(true);
     private ModelViewTransform2D modelViewTransform2D;
     private PNode tickMarksAndGridLines;
-    protected VerticalZoomControl verticalZoomControl;
-    protected HorizontalZoomControl horizontalZoomControl;
+    private VerticalZoomControl verticalZoomControl;
+    private HorizontalZoomControl horizontalZoomControl;
+    private PNode controlPanel = new PNode();//This contains controls and is commonly shown on the left side of the chart
 
     public TemporalChart(Rectangle2D.Double dataModelBounds, ChartCursor cursor) {
         this(dataModelBounds, 100, 100, cursor);//useful for layout code that updates size later instead of at construction and later
@@ -67,6 +68,7 @@ public class TemporalChart extends PNode {
         this.viewDimension = new MutableDimension(dataAreaWidth, dataAreaHeight);
         chartContents = new PNode();
         addChild(chartContents);
+        addChartChild(controlPanel);//Added to chart so it will minimize when the chart minimizes
 
         final PhetPPath background = new PhetPPath(Color.white, new BasicStroke(1), Color.black);
         SimpleObserver backgroundUpdate = new SimpleObserver() {
@@ -273,6 +275,8 @@ public class TemporalChart extends PNode {
         return modelViewTransform2D.viewToModelDifferentialX(x);
     }
 
+    //Sets visibility based on whether the chart is visible, this is not clipped to the chart
+
     public void addChartChild(PNode child) {
         chartContents.addChild(child);
     }
@@ -285,6 +289,19 @@ public class TemporalChart extends PNode {
         horizontalZoomControl.setVisible(visible);
         horizontalZoomControl.setPickable(visible);
         horizontalZoomControl.setChildrenPickable(visible);
+    }
+
+    public void addControlNode(PNode controlNode) {
+        controlPanel.addChild(controlNode);
+        //align the right hand side of the control panel with the leftmost tickmarks and labels on the chart
+        //align the y-axes together
+        double controlPanelWidth = controlPanel.getFullBounds().getWidth();
+        controlPanel.setOffset(tickMarksAndGridLines.getFullBounds().getX() - controlPanelWidth, 0);
+        //TODO: Update layout?
+    }
+
+    public PNode getControlNode() {
+        return controlPanel;
     }
 
     public static class DomainTickMark extends PNode {
