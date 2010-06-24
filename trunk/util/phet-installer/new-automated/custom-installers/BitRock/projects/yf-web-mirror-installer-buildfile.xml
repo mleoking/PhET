@@ -3,7 +3,7 @@
     <fullName>PhET</fullName>
     <version>$VERSION$</version>
     <installerFilename>${product_shortname}-Installer-yf_${platform_name}.${platform_exec_suffix}</installerFilename>
-    <readmeFile>../../resources/yf-windows-readme.txt</readmeFile>
+    <readmeFile>../../resources/yf-readme.txt</readmeFile>
     <licenseFile>$INSTALLER_RESOURCES_DIR$/license.txt</licenseFile>
     <installationLogFile>${installdir}/install_log.txt</installationLogFile>
     <wrapLicenseFileText>1</wrapLicenseFileText>
