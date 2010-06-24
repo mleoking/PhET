@@ -314,6 +314,11 @@ public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
             //todo: only record the point if we have space
             addRecordedPoint(new DataPoint<T>(getTime(), state));
         }
+        
+        @Override
+    	public String toString() {
+    		return "Record";
+    	}
     }
 
     public class Playback implements Mode {
@@ -330,7 +335,7 @@ public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
         public void step(double simulationTimeChange) {
         	if (speed > 0){
         		// Playing forwards.
-        		if (getPlaybackState().getTime() < getMaxRecordedTime()) {
+        		if (getTime() < getMaxRecordedTime()) {
         			setTime(time + speed * getPlaybackDT());
         			notifyObservers();
         		} else {
@@ -344,18 +349,27 @@ public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
         	}
         	else if (speed < 0){
         		// Playing backwards.
-        		if (getPlaybackState().getTime() > getMinRecordedTime()) {
+        		if (getTime() > getMinRecordedTime()) {
         			setTime(time + speed * getPlaybackDT());
         			notifyObservers();
         		}
         	}
         }
-    }
+    @Override
+	public String toString() {
+		return "Playback";
+	}
+}
 
     public class Live implements Mode {
         public void step(double simulationTimeChange) {
             setTime(getTime() + simulationTimeChange);
             RecordAndPlaybackModel.this.step(simulationTimeChange);
         }
+
+		@Override
+		public String toString() {
+			return "Live";
+		}
     }
 }
