@@ -22,38 +22,23 @@ public class TemporalChartSliderNode extends MotionSliderNode.Vertical {
     public TemporalChartSliderNode(final TemporalChart temporalChart, final PNode sliderThumb, Color highlightColor) {
         super(new Range(temporalChart.getMinRangeValue(), temporalChart.getMaxRangeValue()), 0.0, new Range(0, 100), sliderThumb, highlightColor);
         this.temporalChart = temporalChart;
+
+        final SimpleObserver updateLayoutBasedOnChart = new SimpleObserver() {
+            public void update() {
+                setViewRange(0, temporalChart.getViewDimension().getHeight());
+            }
+        };
         temporalChart.addPropertyChangeListener(new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
-                updateLayoutBasedOnChart();
+                updateLayoutBasedOnChart.update();
             }
         });
-        updateLayoutBasedOnChart();
+        updateLayoutBasedOnChart.update();
+
         temporalChart.getDataModelBounds().addObserver(new SimpleObserver() {
             public void update() {
                 setModelRange(temporalChart.getMinRangeValue(), temporalChart.getMaxRangeValue());
             }
         });
-
-        final SimpleObserver updateSliderLocation = new SimpleObserver() {
-            public void update() {
-                setOffset(temporalChart.getOffset().getX() - getFullBounds().getWidth() - 20, temporalChart.getOffset().getY());
-            }
-        };
-        updateSliderLocation.update();
-        temporalChart.getViewDimension().addObserver(updateSliderLocation);
-
-        final SimpleObserver updateSliderVisible = new SimpleObserver() {
-            public void update() {
-                setVisible(temporalChart.getMaximized().getValue());
-            }
-        };
-        updateSliderVisible.update();
-        temporalChart.getMaximized().addObserver(updateSliderVisible);
-
-        setOffset(temporalChart.getOffset().getX() - getFullBounds().getWidth() - 20, temporalChart.getOffset().getY());
-    }
-
-    public void updateLayoutBasedOnChart() {
-        setViewRange(0, temporalChart.getViewDimension().getHeight());
     }
 }
