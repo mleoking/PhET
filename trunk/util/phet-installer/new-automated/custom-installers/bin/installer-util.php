@@ -310,11 +310,8 @@
         // Replace some macros in the BitRock project file.  This allows us
         // to keep some things consistent between BitRock and the installer-
         // builder scripts.
-        $macro_map['VERSION'] = BITROCK_PRODUCT_VERSION;
-        $macro_map['RIP_BASE_DIR'] = RIPPED_WEBSITE_ROOT.PHET_HOSTNAME_NO_COLONS;
-        $macro_map['INSTALLER_RESOURCES_DIR'] = INSTALLER_RESOURCES_DIR;
-
-        if (!file_replace_macros_in_file($new_buildfile, $macro_map)) {
+        if ( installer_replace_bitrock_macros($new_buildfile, $macro_map) == false ){
+            flushing_echo("Error: Unable to replace macros in BitRock project file.");
             return false;
         }
 
@@ -377,9 +374,11 @@
             return false;
         }
 
-        $macro_map['VERSION'] = BITROCK_PRODUCT_VERSION;
-
-        if (!file_replace_macros_in_file($new_buildfile, $macro_map)) {
+        // Replace some macros in the BitRock project file.  This allows us
+        // to keep some things consistent between BitRock and the installer-
+        // builder scripts.
+        if ( installer_replace_bitrock_macros($new_buildfile, $macro_map) == false ){
+            flushing_echo("Error: Unable to replace macros in BitRock project file.");
             return false;
         }
 
@@ -428,6 +427,22 @@
         return true;
     }
 
+    //-------------------------------------------------------------------------
+    // Function for replacing some macros (essentially text strings) in the
+    // BitRock project files.  This is done to make it possible to have some
+    // variables defined in the PHP code and shared with the BitRock build.
+    //-------------------------------------------------------------------------
+    function installer_replace_bitrock_macros($buildfile, $macro_map = array()) {
+
+        $macro_map['VERSION'] = BITROCK_PRODUCT_VERSION;
+        $macro_map['RIP_BASE_DIR'] = RIPPED_WEBSITE_ROOT.PHET_HOSTNAME_NO_COLONS;
+        $macro_map['INSTALLER_RESOURCES_DIR'] = INSTALLER_RESOURCES_DIR;
+
+        if (!file_replace_macros_in_file($buildfile, $macro_map)) {
+            return false;
+        }
+    }
+
     function installer_build_linux_web_mirror_installer($buildfile_name, $macro_map = array()) {
 
         $build_prefix  = "temp-phet-web-mirror-linux";
@@ -441,9 +456,11 @@
             return false;
         }
 
-        $macro_map['VERSION'] = BITROCK_PRODUCT_VERSION;
-
-        if (!file_replace_macros_in_file($new_buildfile, $macro_map)) {
+        // Replace some macros in the BitRock project file.  This allows us
+        // to keep some things consistent between BitRock and the installer-
+        // builder scripts.
+        if ( installer_replace_bitrock_macros($new_buildfile, $macro_map) == false ){
+            flushing_echo("Error: Unable to replace macros in BitRock project file.");
             return false;
         }
 
