@@ -144,7 +144,7 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
 		// Add a handler to the chart cursor that will track when it is moved
         // by the user and will set the model time accordingly.
         
-        addInputEventListener( new PBasicInputEventHandler() {
+        chartCursor.addInputEventListener( new PBasicInputEventHandler() {
         	
             Point2D pressPoint;
             double pressTime;
