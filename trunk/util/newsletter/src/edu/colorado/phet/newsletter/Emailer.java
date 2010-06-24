@@ -52,8 +52,8 @@ public class Emailer {
                                              loadAdditionalParts( properties.getProperty( "additionalParts" ) )
             );
             long endTime = System.currentTimeMillis();
-            final long time = ( endTime - startTime ) / 1000;
-            final long totalElapsedTime = (endTime - loopStartTime)/1000;
+            final double time = ( endTime - startTime ) / 1000.0;
+            final double totalElapsedTime = (endTime - loopStartTime)/1000.0;
             System.out.println( "Finished sending to address " + i + "/" + allEmails.size() + ", time = " + time + ", address = " + emailAddress + ", average time per email = " + totalElapsedTime / ( i + 1 ) );
         }
     }
