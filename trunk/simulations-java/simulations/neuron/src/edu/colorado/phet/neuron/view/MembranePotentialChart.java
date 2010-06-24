@@ -61,7 +61,7 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
 	// Class Data
 	//----------------------------------------------------------------------------
 	
-	private static final double TIME_SPAN = 25; // In milliseconds.
+	private static final double TIME_SPAN = 25; // In seconds.
 	
 	// This value sets the frequency of chart updates, which helps to reduce
 	// the processor consumption.
@@ -367,7 +367,20 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
     }
     
     private void updateChartCursorVisibility(){
-    	chartCursor.setVisible(neuronModel.isPlayback() && dataSeries.getItemCount() > 0);
+    	// Deciding whether or not the chart cursor should be visible is a
+    	// little tricky, so I've tried to make the logic very explicit for
+    	// easier maintenance.  Basically, any time we are in playback mode
+    	// and we are somewhere on the chart, or when stepping and recording,
+    	// the cursor should be seen.
+    	
+    	double timeOnChart = (neuronModel.getTime() - neuronModel.getMinRecordedTime()) * 1000;
+    	boolean isCurrentTimeOnChart = ( timeOnChart >= 0 ) && ( timeOnChart <= TIME_SPAN );
+    	boolean dataExists = dataSeries.getItemCount() > 0;
+    	
+    	boolean chartCursorVisible = isCurrentTimeOnChart && ((neuronModel.isPlayback() && dataExists) || 
+    		(neuronModel.getClock().isPaused() && neuronModel.isRecord()));
+    	
+    	chartCursor.setVisible(chartCursorVisible);
     }
     
     private void moveChartCursorToTime(double time){
@@ -423,7 +436,7 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
      */
 	public void update() {
 		updateChartCursorVisibility();
-		if (neuronModel.isPlayback()){
+		if (chartCursor.getVisible()){
 			updateChartCursorPos();
 		}
 	}
