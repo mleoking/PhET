@@ -34,9 +34,12 @@ public class Emailer {
         ArrayList<String> allEmails = new ArrayList<String>();
         StringTokenizer st = new StringTokenizer( FileUtils.loadFileAsString( new File( properties.getProperty( "toAddressFile" ) ) ), "\n" );
         while ( st.hasMoreTokens() ) {
-            allEmails.add( st.nextToken() );
+            allEmails.add( st.nextToken().trim() );
         }
-        for ( String emailAddress : allEmails ) {
+        long loopStartTime = System.currentTimeMillis();
+        for ( int i = 0; i < allEmails.size(); i++ ) {
+            long startTime = System.currentTimeMillis();
+            String emailAddress = allEmails.get( i );
             ArrayList<String> sendTo = new ArrayList<String>();
             sendTo.add( emailAddress );
             NotificationHandler.sendMessage( properties.getProperty( "mailHost" ),
@@ -48,7 +51,10 @@ public class Emailer {
                                              properties.getProperty( "subject" ),
                                              loadAdditionalParts( properties.getProperty( "additionalParts" ) )
             );
-            System.out.println( "emailAddress = " + emailAddress );
+            long endTime = System.currentTimeMillis();
+            final long time = ( endTime - startTime ) / 1000;
+            final long totalElapsedTime = (endTime - loopStartTime)/1000;
+            System.out.println( "Finished sending to address " + i + "/" + allEmails.size() + ", time = " + time + ", address = " + emailAddress + ", average time per email = " + totalElapsedTime / ( i + 1 ) );
         }
     }
 
