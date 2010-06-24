@@ -6,6 +6,7 @@ import edu.umd.cs.piccolo.PNode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * This node handles layout of a list of TemporalCharts
@@ -60,26 +61,53 @@ public class MultiChart extends PNode {
     }
 
     public void setSize(double width, double height) {
-        double[] chartWidths = new double[charts.size()];
-        for (int i = 0; i < chartWidths.length; i++) {
-            chartWidths[i] = charts.get(i).getControlNode().getFullBounds().getWidth();
+        //charts in a multichart should have the same number of control components for alignment
+        final int numControlComponents = charts.get(0).getControlPanel().getChildrenCount();
+        for (int i = 0; i < numControlComponents; i++) {
+            setControlComponentX(i, i == 0 ? 0.0 : getMaxControlComponentWidth(i - 1));
         }
-        Arrays.sort(chartWidths);
-        double maxChartControlWidth = chartWidths[chartWidths.length - 1];
-        double padding = 75;//width of slider plus graph range labels
-        final double chartX = maxChartControlWidth + padding;
+
+        double maxChartControlWidth = getMaxChartControlWidth();
+        final double chartX = maxChartControlWidth + 30;
         final double chartsY = 0;
         double availableHeightForCharts = height - chartsY;
-        double sizePerChart = availableHeightForCharts / 3;
+        double verticalSpacePerChart = availableHeightForCharts / charts.size();
         double roomForZoomButtons = charts.get(0).getZoomControlWidth();//todo: assumes all the same width
         double chartWidth = width - chartX - roomForZoomButtons;
-        double chartHeight = sizePerChart - 24;//for inset
+        double chartHeight = verticalSpacePerChart - 24;//for inset
 
         double dy = 0;
         for (TemporalChart chart : charts) {
-            chart.setOffset(chartX, chartsY + dy);
+            chart.setOffset(0, chartsY + dy);
             chart.setViewDimension(chartWidth, chartHeight);
-            dy = dy + sizePerChart;
+            dy = dy + verticalSpacePerChart;
         }
+    }
+
+    private void setControlComponentX(int component, double x) {
+        for (TemporalChart chart : charts) {
+            chart.getControlNode(component).setOffset(x, 0);
+        }
+    }
+
+    private double getMaxControlComponentWidth(int i) {
+        ArrayList<Double> sizes = new ArrayList<Double>();
+        for (TemporalChart chart : charts) {
+            double component = chart.getControlPanel().getChild(i).getFullBounds().getWidth();
+            sizes.add(component);
+        }
+
+        Collections.sort(sizes);
+        return sizes.get(sizes.size() - 1).doubleValue();
+    }
+
+    private double getMaxChartControlWidth() {
+        double[] chartControlWidths = new double[charts.size()];
+        for (int i = 0; i < chartControlWidths.length; i++) {
+            chartControlWidths[i] = charts.get(i).getControlPanel().getFullBounds().getWidth();
+        }
+        Arrays.sort(chartControlWidths);
+        double maxChartControlWidth = chartControlWidths[chartControlWidths.length - 1];
+        return maxChartControlWidth;
     }
 }
