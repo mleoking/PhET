@@ -439,8 +439,12 @@
         $macro_map['INSTALLER_RESOURCES_DIR'] = INSTALLER_RESOURCES_DIR;
 
         if (!file_replace_macros_in_file($buildfile, $macro_map)) {
+            flushing_echo("Nasty stuff man!");
             return false;
         }
+        
+        // If we got to here, macro replacement must have succeeded.
+        return true;
     }
 
     function installer_build_linux_web_mirror_installer($buildfile_name, $macro_map = array()) {
