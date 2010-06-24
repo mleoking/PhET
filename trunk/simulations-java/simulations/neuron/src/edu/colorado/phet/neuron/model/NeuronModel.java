@@ -154,8 +154,10 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
 			@Override
 			public void clockPaused(ClockEvent clockEvent) {
 				// When the clock is paused, automatically go into playback
-				// mode.
-				setModePlayback();
+				// mode, but only if there is something to play back.
+				if (getNumRecordedPoints() > 0){
+					setModePlayback();
+				}
 			}
 
             @Override
@@ -1056,6 +1058,8 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
 
 		super.stepInTime(simulationTimeChange);
 		
+		// If we are currently in playback mode and we have reached the end of
+		// the recorded data, we should automatically switch to record mode.
 		if (isPlayback() && getTime() >= getMaxRecordedTime()){
 			setModeRecord();
 			setPaused(false);
