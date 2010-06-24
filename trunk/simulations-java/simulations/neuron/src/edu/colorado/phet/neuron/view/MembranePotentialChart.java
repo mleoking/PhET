@@ -420,7 +420,7 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
 			setPathTo(new Rectangle2D.Double(-width / 2, 0, width, bottomOfPlotArea.getY() - topOfPlotArea.getY()));
 			
 			// Set a cursor handler for this node.
-			addInputEventListener(new CursorHandler());
+			addInputEventListener(new CursorHandler(Cursor.E_RESIZE_CURSOR));
 		}
     }
     
