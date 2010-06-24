@@ -53,7 +53,11 @@ public class TemporalChart extends PNode {
     private PNode tickMarksAndGridLines;
     private VerticalZoomControl verticalZoomControl;
     private HorizontalZoomControl horizontalZoomControl;
-    private PNode controlPanel = new PNode();//This contains controls and is commonly shown on the left side of the chart
+    //This contains controls and is commonly shown on the left side of the chart.  
+    //The controls in the controlPanel are laid out left to right to facilitate aligning components across charts
+    //and to enable reasonable default behavior in the single-chart case
+    //The y=0 of the control panel is aligned with the y=0 of the chart
+    private PNode controlPanel = new FlowLayoutPNode();
 
     public TemporalChart(Rectangle2D.Double dataModelBounds, ChartCursor cursor) {
         this(dataModelBounds, 100, 100, cursor);//useful for layout code that updates size later instead of at construction and later

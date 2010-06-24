@@ -18,7 +18,7 @@ import java.beans.PropertyChangeListener;
  * @author Sam Reid
  */
 public class MovingManChartControl extends PNode {
-    public MovingManChartControl(String title, Color color, TextBoxListener textBoxDecorator, final MotionSliderNode chartSliderNode, final TemporalChart chart, String units) {
+    public MovingManChartControl(String title, Color color, TextBoxListener textBoxDecorator, final TemporalChart chart, String units) {
         PText titleNode = new PText(title);
         titleNode.setFont(new PhetFont(12, true));
         titleNode.setTextPaint(color);
@@ -26,14 +26,7 @@ public class MovingManChartControl extends PNode {
 
         final TextBox textBox = new TextBox();
         textBoxDecorator.addListeners(textBox);
-        final PropertyChangeListener locationUpdate = new PropertyChangeListener() {
-            public void propertyChange(PropertyChangeEvent evt) {
-                setOffset(5, chartSliderNode.getOffset().getY());
-            }
-        };
         textBox.setOffset(15, titleNode.getFullBounds().getHeight());
-        locationUpdate.propertyChange(null);
-        chartSliderNode.addPropertyChangeListener(PNode.PROPERTY_FULL_BOUNDS, locationUpdate);
         this.addChild(textBox);
 
         PText unitsReadout = new PText(units);
@@ -48,8 +41,5 @@ public class MovingManChartControl extends PNode {
         };
         simpleObserver.update();
         chart.getMaximized().addObserver(simpleObserver);
-        
-        chartSliderNode.setOffset(getFullBounds().getWidth(),0);
-        addChild(chartSliderNode);
     }
 }
