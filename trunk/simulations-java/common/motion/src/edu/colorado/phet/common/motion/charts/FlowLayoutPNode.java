@@ -25,7 +25,7 @@ public class FlowLayoutPNode extends PNode {
         //never changed offset of first child, so assume it is still at 0,0
         for (int i=1;i<getChildrenCount();i++){
             PNode previousChild = getChild(i-1);
-            getChild(i).setOffset(previousChild.getFullBounds().getMaxX()+getChild(i).getFullBounds().getMinX(),0);
+            getChild(i).setOffset(previousChild.getFullBounds().getMaxX()-getChild(i).getFullBounds().getMinX(),0);
         }
     }
 }

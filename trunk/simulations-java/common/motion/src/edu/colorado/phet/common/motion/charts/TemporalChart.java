@@ -304,8 +304,12 @@ public class TemporalChart extends PNode {
         //TODO: Update layout?
     }
 
-    public PNode getControlNode() {
+    public PNode getControlPanel() {
         return controlPanel;
+    }
+    
+    public PNode getControlNode(int i){
+        return controlPanel.getChild(i);
     }
 
     public static class DomainTickMark extends PNode {
