@@ -44,6 +44,10 @@ public class ReactionEquationNode extends PComposite {
     
     public ReactionEquationNode( ABSModel model ) {
         
+        // not interactive
+        setPickable( false );
+        setChildrenPickable( false );
+        
         this.model = model;
         model.addModelChangeListener( new ModelChangeAdapter() {
             public void solutionChanged() {

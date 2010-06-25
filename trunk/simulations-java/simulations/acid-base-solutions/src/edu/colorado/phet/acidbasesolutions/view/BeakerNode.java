@@ -49,6 +49,8 @@ public class BeakerNode extends PComposite {
     
     public BeakerNode( ABSModel model ) {
         super();
+        
+        // not interactive
         setPickable( false );
         setChildrenPickable( false );
         

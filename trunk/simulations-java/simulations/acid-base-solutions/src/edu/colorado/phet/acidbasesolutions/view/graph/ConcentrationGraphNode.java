@@ -35,6 +35,7 @@ public class ConcentrationGraphNode extends AbstractConcentrationGraphNode {
         
         // not interactive
         setPickable( false );
+        setChildrenPickable( false );
         
         // model changes
         model.addModelChangeListener( new ModelChangeAdapter() {
