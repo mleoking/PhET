@@ -8,6 +8,8 @@ import java.awt.Stroke;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.RoundRectangle2D;
 
+import edu.colorado.phet.acidbasesolutions.constants.ABSColors;
+import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel.ModelChangeAdapter;
 import edu.colorado.phet.acidbasesolutions.model.ABSModelElement.ModelElementChangeAdapter;
@@ -35,7 +37,7 @@ public class MagnifyingGlassNode extends PhetPNode {
     private final ABSModel model;
     private final PPath handleNode;
     private final RoundRectangle2D handlePath;
-    private final PPath circleNode;
+    private final PPath circleNode, backgroundNode;
     private final Ellipse2D circlePath;
     private final MoleculesNode moleculesNode;
     
@@ -66,15 +68,28 @@ public class MagnifyingGlassNode extends PhetPNode {
         handleNode.setStroke( HANDLE_STROKE );
         handleNode.setStrokePaint( HANDLE_STROKE_COLOR );
         handleNode.setPaint( HANDLE_FILL_COLOR );
-        addChild( handleNode );
         
         circlePath = new Ellipse2D.Double();
         circleNode = new PClip();
         circleNode.setStroke( GLASS_STROKE );
         circleNode.setStrokePaint( GLASS_STROKE_COLOR );
-        addChild( circleNode );
+        
+        /*
+         * Use an opaque background node so that we can't see other things that go behind
+         * the magnifying glass (eg, pH meter and other tools).  The color of this background
+         * node is the same as the canvas color, so that the liquid in the magnifying glass
+         * will appear to be the same color as the liquid in the beaker.  The shape of the
+         * background is identical to the shape of the magnifying glass.
+         */
+        backgroundNode = new PPath();
+        backgroundNode.setPaint( ABSColors.CANVAS_BACKGROUND );
         
         moleculesNode = new MoleculesNode( model  );
+        
+        // rendering order
+        addChild( handleNode );
+        addChild( backgroundNode );
+        addChild( circleNode );
         circleNode.addChild( moleculesNode ); // clip images to circle
         
         updateGeometry();
@@ -92,6 +107,7 @@ public class MagnifyingGlassNode extends PhetPNode {
         // glass
         circlePath.setFrame( -diameter / 2, -diameter / 2, diameter, diameter );
         circleNode.setPathTo( circlePath );
+        backgroundNode.setPathTo( circlePath );
         // handle
         double width = diameter / 8;
         double height = diameter / 2.25;
