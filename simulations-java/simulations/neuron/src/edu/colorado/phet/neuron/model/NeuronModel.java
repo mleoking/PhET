@@ -58,17 +58,16 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
 	private static final int NUM_POTASSIUM_IONS_OUTSIDE_CELL = 60;
 	private static final int NUM_POTASSIUM_IONS_INSIDE_CELL = 200;
 	
-	// Thresholds for determining whether another stimulus may be applied to
-	// the neuron.  These values are related to the rate of flow of sodium
-	// and potassium, and thus can be used to determine if an action potential
-	// is in progress with the Hodgkin-Huxley model.
-	private static final double MAX_N4_FOR_ALLOWING_STIM = 0.001;
-	private static final double MAX_M3H_FOR_ALLOWING_STIM = 0.002;
-	
-	// Threshold for determining whether another stimulus may be applied.
-	// This is the max allowed difference between the current membrane
-	// potential and the resting potential at which a new stim is allowed.
-	private static final double MAX_DIFF_FOR_ALLOWING_STIM = 0.0017;
+	// Thresholds for determining whether an action potential should be
+	// considered to be in progress.  These values relate to the rate of flow
+	// through the gated sodium, gated potassium, and combination of the
+	// sodium and potassium leakage.  If the values from the HH model exceed
+	// any of these, and action potential is considered to be in progress.
+	// The values were determined empirically, and different HH models may
+	// require different values here.
+	private static final double POTASSIUM_CURRENT_THRESH_FOR_ACTION_POTENTIAL = 0.001;
+	private static final double SODIUM_CURRENT_THRESH_FOR_ACTION_POTENTIAL = 0.001;
+	private static final double LEAKAGE_CURRENT_THRESH_FOR_ACTION_POTENTIAL = 0.444;
 	
 	// Nominal concentration values.
 	private static final double NOMINAL_SODIUM_EXTERIOR_CONCENTRATION = 145;     // In millimolar (mM)
@@ -478,26 +477,15 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
     }
     
     private void updateStimulasLockoutState(){
-		double membranePotentialDiffFromResting = 
-			Math.abs(hodgkinHuxleyModel.getMembraneVoltage() - hodgkinHuxleyModel.getRestingMembraneVoltage());
 		if (stimulasLockout){
 			// Currently locked out, see if that should change.
-			if (!isPlayback() && 
-				axonMembrane.getTravelingActionPotential() == null &&
-				membranePotentialDiffFromResting < MAX_DIFF_FOR_ALLOWING_STIM &&
-				Math.abs(hodgkinHuxleyModel.get_n4()) < MAX_N4_FOR_ALLOWING_STIM &&
-				Math.abs(hodgkinHuxleyModel.get_m3h()) < MAX_M3H_FOR_ALLOWING_STIM)
-			{
+			if (!isPlayback() && !isActionPotentialInProgress()) {
 				setStimulasLockout(false);
 			}
 		}
 		else{
 			// Currently NOT locked out, see if that should change.
-			if (isPlayback() ||
-				axonMembrane.getTravelingActionPotential() != null ||
-				Math.abs(hodgkinHuxleyModel.get_n4()) > MAX_N4_FOR_ALLOWING_STIM &&
-				Math.abs(hodgkinHuxleyModel.get_m3h()) > MAX_M3H_FOR_ALLOWING_STIM)
-			{
+			if (isPlayback() || isActionPotentialInProgress()){
 				setStimulasLockout(true);
 			}
 		}
@@ -520,6 +508,20 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
      */
     public boolean isStimulusInitiationLockedOut(){
     	return stimulasLockout;
+    }
+    
+    /**
+     * Returns a boolean values indicating whether or not an action potential
+     * is in progress.  For the purposes of this sim, this means whether there
+     * is an AP traveling down the membrane or if the flow of ions through the
+     * channels at the transverse cross section is enough to be considered
+     * part of an AP.
+     */
+    public boolean isActionPotentialInProgress(){
+        return axonMembrane.getTravelingActionPotential() != null ||
+               Math.abs(hodgkinHuxleyModel.get_k_current()) > POTASSIUM_CURRENT_THRESH_FOR_ACTION_POTENTIAL ||
+               Math.abs(hodgkinHuxleyModel.get_na_current()) > SODIUM_CURRENT_THRESH_FOR_ACTION_POTENTIAL ||
+               Math.abs( hodgkinHuxleyModel.get_l_current()) > LEAKAGE_CURRENT_THRESH_FOR_ACTION_POTENTIAL;
     }
     
     /**
