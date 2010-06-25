@@ -1,3 +1,4 @@
+6-25-2010: Added a new package for charts for moving-man
 5-22-2010: Added an optional domain axis label
 5-19-2010: Changed the default maximum time from 1000.0 sec to 20.0 sec, resolves #2361
 12-15-2009: Provided 4 public getters and setters associated with the additional control panel swing and pswing components.
