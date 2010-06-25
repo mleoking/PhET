@@ -62,7 +62,10 @@ public class SignInPanel extends PhetPanel {
             super( id );
 
             add( username = new StringTextField( "username", new PropertyModel( properties, "username" ) ) );
-            add( password = new StringPasswordTextField( "password", new PropertyModel( properties, "password" ) ) );
+            
+            password = new StringPasswordTextField( "password", new PropertyModel( properties, "password" ) );
+            password.setRequired(false);
+            add( password );
 
             final WebMarkupContainer rememberBox = new WebMarkupContainer( "remember" );
             add( rememberBox );

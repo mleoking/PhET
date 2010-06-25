@@ -1,3 +1,4 @@
+Added an error message when sign in credentials are not authenticated
 Removed unused constructors and added docs to StringTextField
 Added redirection fix for translation utility files
 Fixed research links

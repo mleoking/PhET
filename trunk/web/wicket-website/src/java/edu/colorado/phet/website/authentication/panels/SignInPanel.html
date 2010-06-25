@@ -23,6 +23,11 @@
             .sign-in-content {
                 margin-top: 10px;
             }
+            
+            .sign-in-feedback{ 
+                font-weight: bold;
+                color: red;
+            }
         </style>
     </wicket:head>
 </head>
@@ -36,11 +41,13 @@
                 <wicket:message key="signIn.signIn">Sign in:</wicket:message>
             </h2>
             <wicket:enclosure child="feedback">
-                <p>
-                    <span wicket:id="feedback" style="font-weight: bold; color: red;">
-                        An invalid username and/or password has been entered.
-                    </span>
-                </p>
+                <div wicket:id="feedback" class="sign-in-feedback">
+                    <ul class="feedbackPanel">
+                        <li class="feedbackPanelERROR">
+                            <span class="feedbackPanelERROR">An invalid username and/or password has been entered.(</span>
+                        </li>
+                    </ul>
+                </div>
             </wicket:enclosure>
             <form wicket:id="sign-in-form">
                 <table>
