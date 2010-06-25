@@ -1,8 +1,6 @@
 TODO list for acid-base-solutions
 
 MILESTONES
-- 5/15/10, design completed
-- 6/1/10-7/2/10, interviews for BCCE
 - 8/1/10, sim showable for BCCE
 
 HIGH PRIORITY
