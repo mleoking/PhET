@@ -208,10 +208,7 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
 			public void actionPerformed(ActionEvent e) {
 				// If an action potential is in progress, start or continue
 				// recording.
-				if (neuronModel.isStimulusInitiationLockedOut()){
-					// Note: Using isStimulusInitiationLockedOut is a bit of
-					// an indirect way to figure out if an AP is in progress,
-					// but it works.
+				if (neuronModel.isActionPotentialInProgress()){
 					neuronModel.startRecording();
 				}
 				else if (neuronModel.isRecord()){
