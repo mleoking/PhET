@@ -612,10 +612,6 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
     	channel.moveParticleThroughNeuronMembrane(particleToCapture, maxVelocity);
     }
     
-//    public void stepInTime(double dt){
-//    	
-//    }
-    
 	private NeuronModelState getState(){
     	// TODO: Need to fill out for all elements of the model.
     	return new NeuronModelState(axonMembrane.getState());
