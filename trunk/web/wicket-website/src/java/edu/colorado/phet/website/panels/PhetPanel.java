@@ -225,6 +225,7 @@ public class PhetPanel extends Panel implements Stylable {
 
         // don't try to make the dependencies serializable
         dependencies = null;
+        cacheEntry = null;
     }
 
     /**
