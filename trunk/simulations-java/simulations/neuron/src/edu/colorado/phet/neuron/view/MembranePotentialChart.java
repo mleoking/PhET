@@ -80,7 +80,6 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
 	private static NumberAxis yAxis;
 	private boolean chartIsFull = false;
 	private double updateCountdownTimer = 0;  // Init to zero to an update occurs right away.
-//	private boolean recording = false;
 	private double timeIndexOfFirstDataPt = 0;
 	
     //----------------------------------------------------------------------------
@@ -211,7 +210,6 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
 				}
 				else if (neuronModel.isRecord()){
 					// Stop recording if one is in progress.
-//					recording = false;
 					neuronModel.setModeLive();
 				}
 				// Clear the chart.
@@ -238,6 +236,7 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
      * 
      * @param time - Time in milliseconds.
      * @param voltage - Voltage in volts.
+     * @param update - Controls if graph should be refreshed on the screen.
      */
     private void addDataPoint(double time, double voltage, boolean update){
 
@@ -255,8 +254,15 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
     		dataSeries.add(time - timeIndexOfFirstDataPt, voltage * 1000, update);
     		chartIsFull = false;
     	}
+    	else if (!chartIsFull){
+    	    // This is the first data point to be received that is outside of
+    	    // the chart's range.  Add it anyway so that there is no gap
+    	    // in the data shown at the end of the chart.
+            dataSeries.add(time - timeIndexOfFirstDataPt, voltage * 1000, true);
+    	    chartIsFull = true;
+    	}
     	else{
-    		chartIsFull = true;
+    	    System.out.println(getClass().getName() + " Warning: Attempt to add data to full chart, ignoring.");
     	}
     }
     
@@ -337,19 +343,12 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
     				addDataPoint(timeInMilliseconds, neuronModel.getMembranePotential(), false);
     			}
     		}
-    		else if (chartIsFull){
+    		
+    		if (chartIsFull && neuronModel.isRecord()){
     			// The chart is full, so it is time to stop recording.
-//    			recording = false;
     			neuronModel.setModeLive();
     		}
     	}
-//    	else{
-//    		// The chart is not currently recording.  Is there data?
-//    		if (dataSeries.getItemCount() > 0){
-//    			// Yes there is, so it should be cleared.
-//    			dataSeries.clear();
-//    		}
-//    	}
     }
     
     /**
