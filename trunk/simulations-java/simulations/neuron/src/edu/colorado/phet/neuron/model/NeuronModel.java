@@ -13,6 +13,8 @@ import javax.swing.event.EventListenerList;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock.ConstantDtClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock.ConstantDtClockListener;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.neuron.model.AxonMembrane.AxonMembraneState;
 import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel;
@@ -145,7 +147,12 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
         crossSectionInnerRadius = (axonMembrane.getCrossSectionDiameter() - axonMembrane.getMembraneThickness()) / 2; 
         crossSectionOuterRadius = (axonMembrane.getCrossSectionDiameter() + axonMembrane.getMembraneThickness()) / 2;
         
+        /**
+         * Listen to the clock for ticks, starts, pauses, etc, that can affect
+         * the state of the model.
+         */
         clock.addClockListener(new ClockAdapter(){
+            
 			@Override
 			public void clockTicked(ClockEvent clockEvent) {
 				stepInTime( clockEvent.getSimulationTimeChange() );
@@ -163,6 +170,20 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
             @Override
             public void clockStarted(ClockEvent clockEvent) {
                 super.clockStarted(clockEvent);
+            }
+        });
+        
+        // Add a listener for a slightly different aspect of the clock's nature.
+        clock.addConstantDtClockListener( new ConstantDtClockListener() {
+            
+            public void dtChanged( ConstantDtClockEvent event ) {
+                System.out.println("dtChanged called, new dt is: " + event.getClock().getDt());
+            }
+            
+            public void delayChanged( ConstantDtClockEvent event ) {
+                // TODO: Printout is temporary while I figure out if this
+                // needs to be handled.
+                System.out.println("Delay changed called, not sure why.");
             }
         });
         
@@ -474,25 +495,6 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
 				setStimulasLockout(true);
 			}
 		}
-//		if (stimulasLockout){
-//			// Currently locked out, see if that should change.
-//			if (!isPlayback() && 
-//				axonMembrane.getTravelingActionPotential() == null &&
-//				membranePotentialDiffFromResting < MAX_DIFF_FOR_ALLOWING_STIM &&
-//				membranePotentialChange < MAX_DELTA_FOR_ALLOWING_LOCKOUT_CHANGE)
-//			{
-//				setStimulasLockout(false);
-//			}
-//		}
-//		else{
-//			// Currently NOT locked out, see if that should change.
-//			if (isPlayback() ||
-//				axonMembrane.getTravelingActionPotential() != null ||
-//				membranePotentialDiffFromResting > MAX_DIFF_FOR_ALLOWING_STIM )
-//			{
-//				setStimulasLockout(true);
-//			}
-//		}
     }
     
     private void setStimulasLockout(boolean lockout){
