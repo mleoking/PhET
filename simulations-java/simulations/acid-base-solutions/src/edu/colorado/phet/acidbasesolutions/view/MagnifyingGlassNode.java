@@ -43,6 +43,10 @@ public class MagnifyingGlassNode extends PhetPNode {
     public MagnifyingGlassNode( final ABSModel model ) {
         super();
         
+        // not interactive
+        setPickable( false );
+        setChildrenPickable( false );
+        
         this.model = model;
         model.addModelChangeListener( new ModelChangeAdapter() {
             @Override

@@ -1,3 +1,4 @@
+6/25/10 disable pickability of nodes that are not interactive
 6/25/10 fix pickability of beaker so that tools can be picked when they are immersed in solution
 6/25/10 show only molecules in magnifying glass, don't show tools or any other nodes behind the glass
 6/25/10 workaround to properly gray out HTML text when "Show H2O Molecules" check box is disabled
