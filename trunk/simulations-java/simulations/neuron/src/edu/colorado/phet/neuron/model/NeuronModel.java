@@ -485,7 +485,7 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
 		}
 		else{
 			// Currently NOT locked out, see if that should change.
-			if (isPlayback() || isActionPotentialInProgress()){
+			if (isActionPotentialInProgress() || (isPlayback() && getTime() < getMaxRecordedTime())){
 				setStimulasLockout(true);
 			}
 		}
