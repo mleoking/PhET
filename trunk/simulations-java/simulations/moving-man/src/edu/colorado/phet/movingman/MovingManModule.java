@@ -1,5 +1,7 @@
 package edu.colorado.phet.movingman;
 
+import edu.colorado.phet.common.motion.charts.ChartCursor;
+import edu.colorado.phet.common.motion.charts.MutableBoolean;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -8,9 +10,10 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
-import edu.colorado.phet.common.motion.charts.ChartCursor;
-import edu.colorado.phet.common.motion.charts.MutableBoolean;
-import edu.colorado.phet.movingman.model.*;
+import edu.colorado.phet.movingman.model.ExpressionEvaluator;
+import edu.colorado.phet.movingman.model.MovingMan;
+import edu.colorado.phet.movingman.model.MovingManModel;
+import edu.colorado.phet.movingman.model.MovingManState;
 import edu.colorado.phet.recordandplayback.gui.RecordAndPlaybackControlPanel;
 import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel;
 import edu.umd.cs.piccolox.pswing.PSwing;

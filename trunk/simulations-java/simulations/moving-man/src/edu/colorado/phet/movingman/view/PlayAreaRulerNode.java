@@ -49,7 +49,7 @@ public class PlayAreaRulerNode extends PNode {
 
         //Support for flipped coordinate frame
         final double rulerWidth = Math.abs(viewRange.getMax() - viewRange.getMin()) + rulerInsetWidth * 2;
-        final double rulerX = viewRange.getMin() < viewRange.getMax() ? viewRange.getMin() - rulerInsetWidth  : viewRange.getMin() + rulerInsetWidth - rulerWidth;
+        final double rulerX = viewRange.getMin() < viewRange.getMax() ? viewRange.getMin() - rulerInsetWidth : viewRange.getMin() + rulerInsetWidth - rulerWidth;
 
         face.setPathTo(new Rectangle2D.Double(rulerX, 0, rulerWidth, faceHeight));
 

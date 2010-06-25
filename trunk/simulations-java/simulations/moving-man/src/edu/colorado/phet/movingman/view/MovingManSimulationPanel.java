@@ -1,5 +1,6 @@
 package edu.colorado.phet.movingman.view;
 
+import edu.colorado.phet.common.motion.charts.MutableBoolean;
 import edu.colorado.phet.common.motion.charts.Range;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
@@ -10,7 +11,6 @@ import edu.colorado.phet.movingman.MovingManResources;
 import edu.colorado.phet.movingman.model.MovingMan;
 import edu.colorado.phet.movingman.model.MovingManModel;
 import edu.colorado.phet.movingman.model.MovingManState;
-import edu.colorado.phet.common.motion.charts.MutableBoolean;
 import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;

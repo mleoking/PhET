@@ -1,7 +1,6 @@
 package edu.colorado.phet.movingman;
 
 import bsh.EvalError;
-
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -11,7 +10,6 @@ import edu.colorado.phet.movingman.model.ExpressionEvaluator;
 import edu.colorado.phet.movingman.view.GoButton;
 
 import javax.swing.*;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

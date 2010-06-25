@@ -58,7 +58,7 @@ public class MinimizeMaximizeButton extends PNode {
                     maximized.setValue(true);
                 }
             });
-            
+
 //            SimpleObserver locationUpdate = new SimpleObserver() {
 //                public void update() {
 //                    maximizeButton.setOffset(viewDimension.getWidth() - maximizeButton.getFullBounds().getWidth() - iconButtonInset, iconButtonInset);
@@ -75,6 +75,6 @@ public class MinimizeMaximizeButton extends PNode {
         };
         maximized.addObserver(observer);
         observer.update();
-        
+
     }
 }
