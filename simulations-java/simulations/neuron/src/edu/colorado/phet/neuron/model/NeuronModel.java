@@ -1049,6 +1049,9 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
     		// model is not set up for backstepping, so set it up for
     		// backwards stepping.
     		setPlayback(-1);  // The -1 indicates playing in reverse.
+    		if (getTime() > getMaxRecordedTime()){
+    			setTime(getMaxRecordedTime());
+    		}
     	}
     	else if (getPlaybackSpeed() < 0 && simulationTimeChange > 0 && isPlayback()){
     		// This is a step forward in time but the record-and-playback
