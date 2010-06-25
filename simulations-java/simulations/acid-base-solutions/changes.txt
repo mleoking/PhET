@@ -1,3 +1,4 @@
+6/25/10 workaround to properly gray out HTML text when "Show H2O Molecules" check box is disabled
 6/21/10 implement Reset All for existing functionality
 # 0.00.14 (41807) Jun 19, 2010
 6/19/10 dev version with fixes and 6/18/10 change requests

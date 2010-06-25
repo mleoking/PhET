@@ -17,6 +17,7 @@ import edu.colorado.phet.acidbasesolutions.constants.ABSSymbols;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel.ModelChangeAdapter;
 import edu.colorado.phet.acidbasesolutions.model.ABSModelElement.ModelElementChangeAdapter;
+import edu.colorado.phet.acidbasesolutions.util.HTMLCheckBox;
 import edu.colorado.phet.acidbasesolutions.view.ABSRadioButton;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
@@ -87,7 +88,7 @@ public class ToolsControl extends JPanel {
         
         // "Show Water" check box
         String html = HTMLUtils.toHTMLString( MessageFormat.format( ABSStrings.PATTERN_SHOW_WATER_MOLECULES, ABSSymbols.H2O ) );
-        showWaterCheckBox = new JCheckBox( html );
+        showWaterCheckBox = new HTMLCheckBox( html );
         showWaterCheckBox.addActionListener( actionListener );
         
         // layout

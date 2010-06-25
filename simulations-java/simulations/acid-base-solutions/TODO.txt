@@ -6,21 +6,22 @@ MILESTONES
 - 8/1/10, sim showable for BCCE
 
 HIGH PRIORITY
-- fix resize behavior of main frame, nodes below the beaker are not visible if main frame is resized wider 
 - fix drag behavior for pH meter, constrain, errors in coordinate frame transforms
+- fix resize behavior of main frame, nodes below the beaker are not visible if main frame is resized wider 
+- center everything in the play area
 - don't show other tools in magnifying glass
 - control panel layout issues
 
 MEDUIUM PRIORITY
-- resolve design issues with exclusivity of tools
-- not obvious what "Show Water" check box pertains to
+- not obvious what "Show H2O Molecules" check box pertains to
 - Save/Load?
+- if a tool is dragged so that it's fully inside magnifying glass, releasing it makes it inaccessible
 - baseline alignment of reaction equations (impossible?)
 - conductivity tester (CAB feedback required)
 - pH paper (CAB feedback required)
 
 LOW PRIORITY
-- icons for tools
+- icons for tool controls
 - better images for molecules
 - export design doc from Google, check into SVN
 - model.txt
@@ -28,5 +29,6 @@ LOW PRIORITY
 MIGRATE TO COMMON
 - PrecisionDecimal (also appears in ph-scale, advanced-acid-base-solutions)
 - ABSRadioButton
+- HTMLCheckBox
 
 --
