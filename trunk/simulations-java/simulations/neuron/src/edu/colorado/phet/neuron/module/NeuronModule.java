@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.neuron.module;
 
-import java.awt.Dimension;
 import java.awt.Frame;
 
 import javax.swing.event.ChangeEvent;
@@ -10,18 +9,13 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.clock.TimeSpeedSlider;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
-import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.StepBackButton;
-import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.StepButton;
-import edu.colorado.phet.glaciers.GlaciersConstants;
-import edu.colorado.phet.neuron.NeuronConstants;
 import edu.colorado.phet.neuron.NeuronStrings;
 import edu.colorado.phet.neuron.controlpanel.AxonCrossSectionControlPanel;
-import edu.colorado.phet.neuron.model.NeuronModel;
 import edu.colorado.phet.neuron.model.IHodgkinHuxleyModel;
 import edu.colorado.phet.neuron.model.NeuronClock;
+import edu.colorado.phet.neuron.model.NeuronModel;
 import edu.colorado.phet.neuron.view.NeuronCanvas;
 
 /**
