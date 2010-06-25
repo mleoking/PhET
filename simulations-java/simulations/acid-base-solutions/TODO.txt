@@ -14,7 +14,7 @@ HIGH PRIORITY
 MEDUIUM PRIORITY
 - not obvious what "Show H2O Molecules" check box pertains to
 - Save/Load?
-- if a tool is dragged so that it's fully inside magnifying glass, releasing it makes it inaccessible
+- if pH meter is placed fully behind another tool, it is then inaccessible
 - baseline alignment of reaction equations (impossible?)
 - conductivity tester (CAB feedback required)
 - pH paper (CAB feedback required)
