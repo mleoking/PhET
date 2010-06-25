@@ -9,7 +9,6 @@ HIGH PRIORITY
 - fix drag behavior for pH meter, constrain, errors in coordinate frame transforms
 - fix resize behavior of main frame, nodes below the beaker are not visible if main frame is resized wider 
 - center everything in the play area
-- don't show other tools in magnifying glass
 - control panel layout issues
 
 MEDUIUM PRIORITY

@@ -1,3 +1,4 @@
+6/25/10 show only molecules in magnifying glass, don't show tools or any other nodes behind the glass
 6/25/10 workaround to properly gray out HTML text when "Show H2O Molecules" check box is disabled
 6/21/10 implement Reset All for existing functionality
 # 0.00.14 (41807) Jun 19, 2010
