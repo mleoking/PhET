@@ -22,6 +22,7 @@ public class UserEntity extends TranslationEntity {
         addString( "signIn.submit" );
         addString( "signIn.reset" );
         addString( "signIn.toRegister" );
+        addString( "signIn.validation.failed" );
 
         addString( "validation.user.email" );
         addString( "validation.user.user" );
