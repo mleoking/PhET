@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class MultiControlChart extends PNode {
     private ArrayList<MinimizableControlChart> children = new ArrayList<MinimizableControlChart>();
 
-    public MultiControlChart(final MinimizableControlChart... charts) {
+    public MultiControlChart(final MinimizableControlChart[] charts) {
         final SimpleObserver updateHorizontalZoomButtonVisibility = new SimpleObserver() {
             public void update() {
                 //Only show the topmost horizontal zoom control because it controls all axes and cleans up the screen to omit the extraneous controls
@@ -39,5 +39,11 @@ public class MultiControlChart extends PNode {
 
     public void setSize(double width, double height) {
         new ControlChartLayout.AlignedLayout().updateLayout(children.toArray(new MinimizableControlChart[0]), width, height);
+    }
+
+    public boolean setBounds(double x, double y, double width, double height) {
+        setSize(width,height);
+        setOffset(x,y);
+        return true;
     }
 }
