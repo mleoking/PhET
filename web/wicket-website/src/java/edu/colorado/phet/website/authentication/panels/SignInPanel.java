@@ -77,7 +77,7 @@ public class SignInPanel extends PhetPanel {
                 }
 
                 public void validate( Form form ) {
-                    if ( !PhetSession.get().signIn( (PhetRequestCycle) getRequestCycle(), username.getModelObject().toString(), password.getInput() ) ) {
+                    if ( !PhetSession.get().signIn( (PhetRequestCycle) getRequestCycle(), username.getInput(), password.getInput() ) ) {
                         error( password, "signIn.validation.failed" );
                     }
                 }
