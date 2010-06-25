@@ -1,9 +1,6 @@
 package edu.colorado.phet.movingman.view;
 
-import edu.colorado.phet.common.motion.charts.MotionSliderNode;
-import edu.colorado.phet.common.motion.charts.MutableBoolean;
-import edu.colorado.phet.common.motion.charts.TemporalChart;
-import edu.colorado.phet.common.motion.charts.TemporalChartSliderNode;
+import edu.colorado.phet.common.motion.charts.*;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.movingman.MovingManColorScheme;
 import edu.colorado.phet.movingman.model.MovingMan;
@@ -20,16 +17,17 @@ import java.awt.geom.Rectangle2D;
  * @author Sam Reid
  */
 public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel {
-
-
     public MovingManSimulationPanelWithCharts(final MovingManModel model, final RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel, MutableBoolean positiveToTheRight) {
         super(model, recordAndPlaybackModel, 100, positiveToTheRight);
-        int xMax = 10;
-        //TODO: Factor out chart code if possible
-        TemporalChart positionChart = new TemporalChart(new Rectangle2D.Double(0, -xMax, 20, xMax * 2), model.getChartCursor());
-        {
-            positionChart.addDataSeries(model.getPositionGraphSeries(), MovingManColorScheme.POSITION_COLOR);
 
+        MinimizableControlChart positionMovingManChart;
+        {
+            int xMax = 10;
+            //TODO: Factor out chart code if possible
+            TemporalChart positionChart = new TemporalChart(new Rectangle2D.Double(0, -xMax, 20, xMax * 2), model.getChartCursor());
+            {
+                positionChart.addDataSeries(model.getPositionGraphSeries(), MovingManColorScheme.POSITION_COLOR);
+            }
             final MotionSliderNode sliderNode = new TemporalChartSliderNode(positionChart, MovingManColorScheme.POSITION_COLOR);
             {
                 model.addListener(new MovingManModel.Listener() {
@@ -66,17 +64,25 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
                 positionChartControl.addChild(goButton);
                 goButton.setOffset(positionChartControl.getFullBounds().getMaxX() - goButton.getFullBounds().getWidth(), positionChartControl.getFullBounds().getMaxY());
             }
-            positionChart.addControlNode(positionChartControl);
-            positionChart.addControlNode(sliderNode);
+            positionMovingManChart = new MinimizableControlChart(new ControlChart(positionChartControl, sliderNode, positionChart, new ChartZoomControlNode(positionChart)));
         }
-        addScreenChild(positionChart);
 
-        double vMax = 60 / 5;
-        TemporalChart velocityChart = new TemporalChart(new Rectangle2D.Double(0, -vMax, 20, vMax * 2), model.getChartCursor());
+        MinimizableControlChart velocityMovingManChart = null;
         {
-            velocityChart.addDataSeries(model.getVelocityGraphSeries(), MovingManColorScheme.VELOCITY_COLOR);
-            addScreenChild(velocityChart);
-
+            double vMax = 60 / 5;
+            TemporalChart velocityChart = new TemporalChart(new Rectangle2D.Double(0, -vMax, 20, vMax * 2), model.getChartCursor());
+            {
+                velocityChart.addDataSeries(model.getVelocityGraphSeries(), MovingManColorScheme.VELOCITY_COLOR);
+            }
+            MovingManChartControl velocityChartControl = new MovingManChartControl("Velocity", MovingManColorScheme.VELOCITY_COLOR, new TextBoxListener.Velocity(model), velocityChart, "m/s");
+            {
+                final PSwing pSwing = new PSwing(new ShowVectorCheckBox("Show Vector", model.getVelocityVectorVisible()));
+                pSwing.setOffset(0, velocityChartControl.getFullBounds().getHeight());
+                velocityChartControl.addChild(pSwing);
+                final GoButton goButton = new GoButton(recordAndPlaybackModel, model.getVelocityMode());
+                goButton.setOffset(velocityChartControl.getFullBounds().getMaxX() - goButton.getFullBounds().getWidth(), velocityChartControl.getFullBounds().getMaxY());
+                velocityChartControl.addChild(goButton);
+            }
             final MotionSliderNode chartSliderNode = new TemporalChartSliderNode(velocityChart, MovingManColorScheme.VELOCITY_COLOR);
             {
                 model.getMovingMan().addListener(new MovingMan.Listener() {
@@ -106,26 +112,18 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
                 }
             });
             updateVelocityModeSelected.update();
-
-            MovingManChartControl velocityChartControl = new MovingManChartControl("Velocity", MovingManColorScheme.VELOCITY_COLOR, new TextBoxListener.Velocity(model), velocityChart, "m/s");
-            {
-                final PSwing pSwing = new PSwing(new ShowVectorCheckBox("Show Vector", model.getVelocityVectorVisible()));
-                pSwing.setOffset(0, velocityChartControl.getFullBounds().getHeight());
-                velocityChartControl.addChild(pSwing);
-                final GoButton goButton = new GoButton(recordAndPlaybackModel, model.getVelocityMode());
-                goButton.setOffset(velocityChartControl.getFullBounds().getMaxX() - goButton.getFullBounds().getWidth(), velocityChartControl.getFullBounds().getMaxY());
-                velocityChartControl.addChild(goButton);
-            }
-            velocityChart.addControlNode(velocityChartControl);
-            velocityChart.addControlNode(chartSliderNode);
+            velocityMovingManChart = new MinimizableControlChart(new ControlChart(velocityChartControl, chartSliderNode, velocityChart, new ChartZoomControlNode(velocityChart)));
         }
 
-        double aMax = 60;
-        TemporalChart accelerationChart = new TemporalChart(new Rectangle2D.Double(0, -aMax, 20, aMax * 2), model.getChartCursor());
+        MinimizableControlChart accelerationMovingManChart = null;
         {
-            accelerationChart.addDataSeries(model.getAccelerationGraphSeries(), MovingManColorScheme.ACCELERATION_COLOR);
-            addScreenChild(accelerationChart);
 
+            double aMax = 60;
+            TemporalChart accelerationChart = new TemporalChart(new Rectangle2D.Double(0, -aMax, 20, aMax * 2), model.getChartCursor());
+            {
+                accelerationChart.addDataSeries(model.getAccelerationGraphSeries(), MovingManColorScheme.ACCELERATION_COLOR);
+
+            }
             final MotionSliderNode chartSliderNode = new TemporalChartSliderNode(accelerationChart, MovingManColorScheme.ACCELERATION_COLOR);
             {
                 model.getMovingMan().addListener(new MovingMan.Listener() {
@@ -166,18 +164,17 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
                 goButton.setOffset(accelerationChartControl.getFullBounds().getMaxX() - goButton.getFullBounds().getWidth(), accelerationChartControl.getFullBounds().getMaxY());
                 accelerationChartControl.addChild(goButton);
             }
-            accelerationChart.addControlNode(accelerationChartControl);
-            accelerationChart.addControlNode(chartSliderNode);
+            ControlChart acc = new ControlChart(accelerationChartControl, chartSliderNode, accelerationChart, new ChartZoomControlNode(accelerationChart));
+            accelerationMovingManChart = new MinimizableControlChart(acc);
         }
-
-        final MultiChart multiChart = new MultiChart(positionChart, velocityChart, accelerationChart);
+        final MultiControlChart multiChart = new MultiControlChart(positionMovingManChart, velocityMovingManChart, accelerationMovingManChart);
         addScreenChild(multiChart);
 
         addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent e) {
-                double topInset = getPlayAreaRulerNode().getFullBounds().getMaxY()+10;
-                multiChart.setSize(getWidth(), getHeight()-topInset);
-                multiChart.setOffset(0,topInset);
+                double topInset = getPlayAreaRulerNode().getFullBounds().getMaxY() + 10;
+                multiChart.setSize(getWidth(), getHeight() - topInset);
+                multiChart.setOffset(0, topInset);
             }
         });
         multiChart.setSize(getWidth(), getHeight());

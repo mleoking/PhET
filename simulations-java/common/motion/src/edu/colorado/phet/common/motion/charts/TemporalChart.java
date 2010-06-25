@@ -1,23 +1,14 @@
 package edu.colorado.phet.common.motion.charts;
 
-import edu.colorado.phet.common.motion.MotionResources;
 import edu.colorado.phet.common.motion.model.TimeData;
 import edu.colorado.phet.common.phetcommon.math.Function;
-import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformListener;
-import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler;
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.AbstractMediaButton;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PClip;
 
@@ -26,10 +17,6 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -45,19 +32,9 @@ import java.util.ArrayList;
 public class TemporalChart extends PNode {
     private MutableRectangle dataModelBounds;
     private MutableDimension viewDimension;
-    private MutableBoolean maximized = new MutableBoolean(true);
     private PNode chartContents;//layer for chart pnodes, for minimize/maximize support
-    private PImage minimizeButton;
-    private PImage maximizeButton;
     private ModelViewTransform2D modelViewTransform2D;
     private PNode tickMarksAndGridLines;
-    private VerticalZoomControl verticalZoomControl;
-    private HorizontalZoomControl horizontalZoomControl;
-    //This contains controls and is commonly shown on the left side of the chart.  
-    //The controls in the controlPanel are laid out left to right to facilitate aligning components across charts
-    //and to enable reasonable default behavior in the single-chart case
-    //The y=0 of the control panel is aligned with the y=0 of the chart
-    private PNode controlPanel = new FlowLayoutPNode();
 
     public TemporalChart(Rectangle2D.Double dataModelBounds, ChartCursor cursor) {
         this(dataModelBounds, 100, 100, cursor);//useful for layout code that updates size later instead of at construction and later
@@ -72,7 +49,6 @@ public class TemporalChart extends PNode {
         this.viewDimension = new MutableDimension(dataAreaWidth, dataAreaHeight);
         chartContents = new PNode();
         addChild(chartContents);
-        addChartChild(controlPanel);//Added to chart so it will minimize when the chart minimizes
 
         final PhetPPath background = new PhetPPath(Color.white, new BasicStroke(1), Color.black);
         SimpleObserver backgroundUpdate = new SimpleObserver() {
@@ -111,85 +87,6 @@ public class TemporalChart extends PNode {
             }
         });
         updateTickMarksAndGridLines();
-
-        final int iconButtonInset = 2;
-        {
-            minimizeButton = new PImage(PhetCommonResources.getImage(PhetCommonResources.IMAGE_MINIMIZE_BUTTON)) {
-                public void setVisible(boolean isVisible) {
-                    super.setVisible(isVisible);
-                    setPickable(isVisible);
-                }
-            };
-            addChild(minimizeButton);
-            minimizeButton.addInputEventListener(new CursorHandler());
-            minimizeButton.addInputEventListener(new PBasicInputEventHandler() {
-                public void mouseReleased(PInputEvent event) {
-                    maximized.setValue(false);
-                }
-            });
-            SimpleObserver locationUpdate = new SimpleObserver() {
-                public void update() {
-                    minimizeButton.setOffset(viewDimension.getWidth() - minimizeButton.getFullBounds().getWidth() - iconButtonInset, iconButtonInset);
-                }
-            };
-            locationUpdate.update();
-            viewDimension.addObserver(locationUpdate);
-        }
-        {
-            maximizeButton = new PImage(PhetCommonResources.getImage(PhetCommonResources.IMAGE_MAXIMIZE_BUTTON)) {
-                public void setVisible(boolean isVisible) {
-                    super.setVisible(isVisible);
-                    setPickable(isVisible);
-                }
-            };
-            addChild(maximizeButton);
-            maximizeButton.addInputEventListener(new CursorHandler());
-            maximizeButton.addInputEventListener(new PBasicInputEventHandler() {
-                public void mouseReleased(PInputEvent event) {
-                    maximized.setValue(true);
-                }
-            });
-            SimpleObserver locationUpdate = new SimpleObserver() {
-                public void update() {
-                    maximizeButton.setOffset(viewDimension.getWidth() - maximizeButton.getFullBounds().getWidth() - iconButtonInset, iconButtonInset);
-                }
-            };
-            locationUpdate.update();
-            viewDimension.addObserver(locationUpdate);
-        }
-        final SimpleObserver observer = new SimpleObserver() {
-            public void update() {
-                minimizeButton.setVisible(maximized.getValue());
-                chartContents.setVisible(maximized.getValue());
-                maximizeButton.setVisible(!maximized.getValue());
-            }
-        };
-        maximized.addObserver(observer);
-        observer.update();
-
-        verticalZoomControl = new VerticalZoomControl(this);
-        SimpleObserver relayoutVerticalZoomControl = new SimpleObserver() {
-            public void update() {
-                verticalZoomControl.setOffset(viewDimension.getWidth(), viewDimension.getHeight() / 2 - verticalZoomControl.getFullBounds().getHeight() / 2);
-            }
-        };
-        getViewDimension().addObserver(relayoutVerticalZoomControl);
-        relayoutVerticalZoomControl.update();
-        addChartChild(verticalZoomControl);
-
-        horizontalZoomControl = new HorizontalZoomControl(this);
-        final SimpleObserver relayoutHorizontalZoomControl = new SimpleObserver() {
-            public void update() {
-                horizontalZoomControl.setOffset(verticalZoomControl.getFullBounds().getMaxX(), 0);
-            }
-        };
-        relayoutHorizontalZoomControl.update();
-        verticalZoomControl.addPropertyChangeListener(PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
-            public void propertyChange(PropertyChangeEvent evt) {
-                relayoutHorizontalZoomControl.update();
-            }
-        });
-        addChartChild(horizontalZoomControl);
 
         addChartChild(new CursorNode(cursor, this));
     }
@@ -242,10 +139,6 @@ public class TemporalChart extends PNode {
         }
     }
 
-    public MutableBoolean getMaximized() {
-        return maximized;
-    }
-
     public double viewToModelDeltaX(double dx) {
         return modelViewTransform2D.viewToModelDifferentialX(dx);
     }
@@ -285,31 +178,13 @@ public class TemporalChart extends PNode {
         chartContents.addChild(child);
     }
 
-    public double getZoomControlWidth() {
-        return horizontalZoomControl.getFullBounds().getWidth() + verticalZoomControl.getFullBounds().getWidth();
-    }
-
-    public void setHorizontalZoomButtonsVisible(boolean visible) {
-        horizontalZoomControl.setVisible(visible);
-        horizontalZoomControl.setPickable(visible);
-        horizontalZoomControl.setChildrenPickable(visible);
-    }
-
-    public void addControlNode(PNode controlNode) {
-        controlPanel.addChild(controlNode);
-        //align the right hand side of the control panel with the leftmost tickmarks and labels on the chart
-        //align the y-axes together
-        double controlPanelWidth = controlPanel.getFullBounds().getWidth();
-        controlPanel.setOffset(tickMarksAndGridLines.getFullBounds().getX() - controlPanelWidth, 0);
-        //TODO: Update layout?
-    }
-
-    public PNode getControlPanel() {
-        return controlPanel;
-    }
-    
-    public PNode getControlNode(int i){
-        return controlPanel.getChild(i);
+    /**
+     * Determines the extent to which the labels and tick marks extend beyond the top and bottom of the chart area.
+     *
+     * @return
+     */
+    public double getDomainLabelHeight() {
+        return 20.0;//todo: don't hard code this.
     }
 
     public static class DomainTickMark extends PNode {
@@ -456,148 +331,23 @@ public class TemporalChart extends PNode {
         }
     }
 
-    public static interface Listener {
-        void actionPerformed();
-    }
-
-    private static class ZoomButton extends PNode {
-        protected AbstractMediaButton button;
-
-        private ZoomButton(final String imageName, final Listener zoomListener) {
-            button = new AbstractMediaButton(30) {
-                protected BufferedImage createImage() {
-                    try {
-                        return BufferedImageUtils.multiScaleToHeight(MotionResources.loadBufferedImage(imageName), 30);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        throw new RuntimeException(e);
-                    }
-                }
-            };
-
-            // this handler ensures that the button won't fire unless the mouse is released while inside the button
-            //see DefaultIconButton
-            ButtonEventHandler verticalZoomInListener = new ButtonEventHandler();
-            button.addInputEventListener(verticalZoomInListener);
-            verticalZoomInListener.addButtonEventListener(new ButtonEventHandler.ButtonEventAdapter() {
-                public void fire() {
-                    if (button.isEnabled())
-                        zoomListener.actionPerformed();
-                }
-            });
-
-            addChild(button);
-        }
-
-        public void setEnabled(boolean enabled) {
-            button.setEnabled(enabled);
-        }
-    }
-
-    private static class VerticalZoomControl extends PNode {
-        private VerticalZoomControl(final TemporalChart chart) {
-            final ZoomButton zoomInButton = new ZoomButton("magnify-plus.png", new Listener() {
-                public void actionPerformed() {
-                    chart.zoomInVertical();
-                }
-            });
-            chart.getDataModelBounds().addObserver(new SimpleObserver() {
-                public void update() {
-                    boolean enabled = chart.getDataModelBounds().getHeight() > 10.0 + 1E-6;
-                    zoomInButton.setEnabled(enabled);
-                    //TODO: cursor hand never goes away
-                }
-            });
-            addChild(zoomInButton);
-
-            ZoomButton zoomOutButton = new ZoomButton("magnify-minus.png", new Listener() {
-                public void actionPerformed() {
-                    chart.zoomOutVertical();
-                }
-            });
-            addChild(zoomOutButton);
-
-            zoomOutButton.setOffset(0, zoomInButton.getFullBounds().getHeight());
-        }
-    }
-
-    private static class HorizontalZoomControl extends PNode {
-        private double triangleHeight = 6;
-        private double triangleWidth = 6;
-
-        private HorizontalZoomControl(final TemporalChart chart) {
-            final ZoomButton zoomInButton = new ZoomButton("magnify-plus.png", new Listener() {
-                public void actionPerformed() {
-                    chart.zoomInHorizontal();
-                }
-            });
-            addChild(zoomInButton);
-
-            final ZoomButton zoomOutButton = new ZoomButton("magnify-minus.png", new Listener() {
-                public void actionPerformed() {
-                    chart.zoomOutHorizontal();
-                }
-            });
-            addChild(zoomOutButton);
-            SimpleObserver updateButtonsEnabled = new SimpleObserver() {
-                public void update() {
-                    zoomInButton.setEnabled(chart.getDataModelBounds().getWidth() > 5.0 + 1E-6);
-                    zoomOutButton.setEnabled(chart.getDataModelBounds().getWidth() < 20.0 - 1E-6);
-                    //TODO: cursor hand never goes away
-                }
-            };
-            chart.getDataModelBounds().addObserver(updateButtonsEnabled);
-            updateButtonsEnabled.update();
-
-            zoomOutButton.setOffset(0, 5);
-            zoomInButton.setOffset(zoomOutButton.getFullBounds().getMaxX(), 5);
-
-            //These small triangles look terrible without good rendering hints.
-            PhetPPath pathLeft = new HighQualityPhetPPath(getTrianglePathLeft(), Color.black);
-            addChild(pathLeft);
-            PhetPPath pathRight = new HighQualityPhetPPath(getTrianglePathRight(), Color.black);
-            addChild(pathRight);
-            pathLeft.setOffset(zoomOutButton.getFullBounds().getMaxX() - pathLeft.getFullBounds().getWidth() - 0.5, 0);
-            pathRight.setOffset(pathLeft.getFullBounds().getMaxX() + 1.5, 0);
-        }
-
-        private GeneralPath getTrianglePathLeft() {
-            DoubleGeneralPath trianglePath = new DoubleGeneralPath(0, triangleHeight / 2);
-            trianglePath.lineToRelative(triangleWidth, -triangleHeight / 2);
-            trianglePath.lineToRelative(0, triangleHeight);
-            trianglePath.lineTo(0, triangleHeight / 2);
-            GeneralPath path1 = trianglePath.getGeneralPath();
-            return path1;
-        }
-
-        private GeneralPath getTrianglePathRight() {
-            DoubleGeneralPath trianglePath = new DoubleGeneralPath(triangleWidth, triangleHeight / 2);
-            trianglePath.lineToRelative(-triangleWidth, -triangleHeight / 2);
-            trianglePath.lineToRelative(0, triangleHeight);
-            trianglePath.lineTo(triangleWidth, triangleHeight / 2);
-            GeneralPath path1 = trianglePath.getGeneralPath();
-            return path1;
-        }
-    }
-
-    private void zoomInHorizontal() {
-        dataModelBounds.setHorizontalRange(dataModelBounds.getMinX(), dataModelBounds.getMaxX() - 5);
-    }
-
-    private void zoomOutHorizontal() {
-        dataModelBounds.setHorizontalRange(dataModelBounds.getMinX(), dataModelBounds.getMaxX() + 5);
-    }
-
-    private void zoomOutVertical() {
-        dataModelBounds.setVerticalRange(dataModelBounds.getMinY() - 5, dataModelBounds.getMaxY() + 5);
-    }
-
-    private void zoomInVertical() {
-        dataModelBounds.setVerticalRange(dataModelBounds.getMinY() + 5, dataModelBounds.getMaxY() - 5);
-    }
-
     public MutableRectangle getDataModelBounds() {
         return dataModelBounds;
     }
 
+    public void zoomInHorizontal() {
+        dataModelBounds.setHorizontalRange(dataModelBounds.getMinX(), dataModelBounds.getMaxX() - 5);
+    }
+
+    public void zoomOutHorizontal() {
+        dataModelBounds.setHorizontalRange(dataModelBounds.getMinX(), dataModelBounds.getMaxX() + 5);
+    }
+
+    public void zoomOutVertical() {
+        dataModelBounds.setVerticalRange(dataModelBounds.getMinY() - 5, dataModelBounds.getMaxY() + 5);
+    }
+
+    public void zoomInVertical() {
+        dataModelBounds.setVerticalRange(dataModelBounds.getMinY() + 5, dataModelBounds.getMaxY() - 5);
+    }
 }
