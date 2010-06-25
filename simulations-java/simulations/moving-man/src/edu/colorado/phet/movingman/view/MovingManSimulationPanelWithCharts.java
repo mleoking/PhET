@@ -167,7 +167,7 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
             ControlChart acc = new ControlChart(accelerationChartControl, chartSliderNode, accelerationChart, new ChartZoomControlNode(accelerationChart));
             accelerationMovingManChart = new MinimizableControlChart(acc);
         }
-        final MultiControlChart multiChart = new MultiControlChart(positionMovingManChart, velocityMovingManChart, accelerationMovingManChart);
+        final MultiControlChart multiChart = new MultiControlChart(new MinimizableControlChart[]{positionMovingManChart, velocityMovingManChart, accelerationMovingManChart});
         addScreenChild(multiChart);
 
         addComponentListener(new ComponentAdapter() {
