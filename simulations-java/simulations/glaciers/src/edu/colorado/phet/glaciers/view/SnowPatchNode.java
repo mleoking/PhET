@@ -98,7 +98,7 @@ public class SnowPatchNode extends PComposite {
         final double yTerminus = _glacier.getTerminusY();
         if ( yELA < yTerminus ) {
             
-            final double xELA = _glacier.getValley().getX( yELA );
+            final double xELA = _glacier.getValley().getX( yELA ); // expensive computation
             final double xTerminus = _glacier.getTerminusX();
             final double patchLength = xELA - xTerminus;
             
