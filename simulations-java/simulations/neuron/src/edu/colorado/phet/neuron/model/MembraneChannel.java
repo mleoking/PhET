@@ -436,4 +436,51 @@ public abstract class MembraneChannel {
 	protected double getCaptureCountdownTimer() {
 		return captureCountdownTimer;
 	}
+	
+	/**
+	 * Get the state of this membrane channel as needed for support of record-
+	 * and-playback functionality.  Note that this is not the complete state
+	 * of a membrane channel, just enough to support playback.
+	 */
+	public MembraneChannelState getState(){
+	    return new MembraneChannelState( this );
+	}
+
+	/**
+	 * Set the state of a membrane channel.  This is generally used in support
+	 * of the record-and-playback functionality.
+	 */
+	public void setState(MembraneChannelState state){
+	    setOpenness( state.getOpenness() );
+	    setInactivationAmt( state.getInactivationAmt() );
+	}
+	
+	/**
+	 * Class that stores the state of a membrane channel and can be used to
+	 * restore it when needed.  This is generally used in support of the
+	 * record-and-playback functionality.
+	 */
+	public static class MembraneChannelState {
+	    
+	    private final double openness;
+	    private final double inactivationAmt;
+	    // Note: There are a number of other state variables that exist for a
+	    // membrane channel, but at the time of this writing (late June 2010),
+	    // they never change after construction.  It may be necessary to add
+	    // some or all of them later if this changes, or if membrane channels
+	    // need to come and go dynamically.
+	    
+	    public MembraneChannelState(MembraneChannel membraneChannel){
+	        openness = membraneChannel.getOpenness();
+	        inactivationAmt = membraneChannel.getInactivationAmt();
+	    }
+
+        public double getOpenness() {
+            return openness;
+        }
+        
+        public double getInactivationAmt() {
+            return inactivationAmt;
+        }
+	}
 }
