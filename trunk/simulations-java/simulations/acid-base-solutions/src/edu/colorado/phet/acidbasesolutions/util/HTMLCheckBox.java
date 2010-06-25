@@ -18,7 +18,7 @@ import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
  */
 public class HTMLCheckBox extends JCheckBox {
     
-    private static final Color DEFAULT_DISABLED_COLOR = new Color( 133, 133, 133 );
+    private static final Color DEFAULT_DISABLED_COLOR = Color.GRAY;
 
     private Color foreground, disabledColor;
     
