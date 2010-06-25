@@ -1,3 +1,4 @@
+6/25/10 #2424, fix exception caused when approximation of xELA causes snow patch length to be <= 0
 # 2.03.01 (38273) Jan 27, 2010
 1/26/10 #2131, fix color of ice surface below ELA
 1/26/10 #2130, fix color of ripples on ice surface

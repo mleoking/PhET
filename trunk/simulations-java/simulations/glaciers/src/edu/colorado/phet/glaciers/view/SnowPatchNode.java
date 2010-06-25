@@ -101,72 +101,85 @@ public class SnowPatchNode extends PComposite {
             final double xELA = _glacier.getValley().getX( yELA );
             final double xTerminus = _glacier.getTerminusX();
             final double patchLength = xELA - xTerminus;
-            assert( patchLength > 0 );
             
-            Valley valley = _glacier.getValley();
-            
-            // move downvalley, the ice-air boundary is shared by both paths
-            assert( THICKNESS_AT_TERMINUS > THICKNESS_AT_ELA );
-            final double dy = ( THICKNESS_AT_TERMINUS - THICKNESS_AT_ELA ) * DX / patchLength;
-            double thickness = THICKNESS_AT_TERMINUS;
-            for ( double x = xTerminus; x <= xELA; x += DX ) {
-                
-                _pModel.setLocation( x, valley.getElevation( x ) + thickness );
-                _mvt.modelToView( _pModel, _pView );
-                
-                if ( x == xTerminus ) {
-                    _crossSectionPath.moveTo( (float) _pView.getX(), (float) _pView.getY() );
-                    _surfacePath.moveTo( (float) _pView.getX(), (float) _pView.getY() );
+            /*
+             * FIX: Unfuddle #2424
+             * If the ELA is below the terminus, then its x coordinate should be downvalley from the terminus. 
+             * But we have no model for computing the x coordinate of the ELA, so we use a divide-and-conquer
+             * algorithm to approximate where the ELA's x coordinate is. The more precise this approximation
+             * is, the more expensive it is to compute. The threshold is Valley.X_EQUALITY_THREHOLD (1m).
+             * When yELA and yTerminus are very close together, it's possible that our approximation for xELA 
+             * may be off by enough to cause patchLength to be <= 0.  We're checking for that case here, and
+             * if it's true, we'll forego drawing the patch.  Since we're talking about a patch that
+             * is in the 1-meter range, this is not something the user would ever see anyway.
+             */
+            if ( patchLength > 0 ) {
+
+                Valley valley = _glacier.getValley();
+
+                // move downvalley, the ice-air boundary is shared by both paths
+                assert ( THICKNESS_AT_TERMINUS > THICKNESS_AT_ELA );
+                final double dy = ( THICKNESS_AT_TERMINUS - THICKNESS_AT_ELA ) * DX / patchLength;
+                double thickness = THICKNESS_AT_TERMINUS;
+                for ( double x = xTerminus; x <= xELA; x += DX ) {
+
+                    _pModel.setLocation( x, valley.getElevation( x ) + thickness );
+                    _mvt.modelToView( _pModel, _pView );
+
+                    if ( x == xTerminus ) {
+                        _crossSectionPath.moveTo( (float) _pView.getX(), (float) _pView.getY() );
+                        _surfacePath.moveTo( (float) _pView.getX(), (float) _pView.getY() );
+                    }
+                    else {
+                        _crossSectionPath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
+                        _surfacePath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
+                    }
+
+                    // Ensure that our last sample is exactly at the ELA, 
+                    // in case the patch's length isn't an integer multiple of DX.
+                    if ( patchLength > DX ) {
+                        double diff = xELA - x;
+                        if ( diff > 0.1 && diff < DX ) {
+                            x = xELA - DX;
+                        }
+                    }
+
+                    thickness = Math.max( thickness - dy, THICKNESS_AT_ELA );
                 }
-                else {
+
+                // moving upvalley...
+                for ( double x = xELA; x >= xTerminus; x -= DX ) {
+
+                    // ice-rock boundary
+                    _pModel.setLocation( x, _glacier.getValley().getElevation( x ) );
+                    _mvt.modelToView( _pModel, _pView );
                     _crossSectionPath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
+
+                    /*
+                     * Surface perspective, placed directly on the valley floor.
+                     * While the cross-section has some thickness, we're placing this directly 
+                     * on the valley floor so that it lines up with the ice at the terminus.  
+                     */
+                    final double surfaceX = x + GlaciersConstants.YAW_X_OFFSET;
+                    double elevation = valley.getElevation( x ) + GlaciersConstants.PITCH_Y_OFFSET;
+                    _pModel.setLocation( surfaceX, elevation );
+                    _mvt.modelToView( _pModel, _pView );
                     _surfacePath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
-                }
-                
-                // Ensure that our last sample is exactly at the ELA, 
-                // in case the patch's length isn't an integer multiple of DX.
-                if ( patchLength > DX ) {
-                    double diff = xELA - x;
-                    if ( diff > 0.1 && diff < DX ) {
-                        x = xELA - DX;
+
+                    // Ensure that our last sample is exactly at the ELA, 
+                    // in case the patch's length isn't an integer multiple of DX.
+                    if ( patchLength > DX ) {
+                        double diff = x - xTerminus;
+                        if ( diff > 0.1 && diff < DX ) {
+                            x = xTerminus + DX;
+                        }
                     }
                 }
-                 
-                thickness = Math.max( thickness - dy, THICKNESS_AT_ELA );
-            }
-            
-            // moving upvalley...
-            for ( double x = xELA; x >= xTerminus; x -= DX ) {
 
-                // ice-rock boundary
-                _pModel.setLocation( x, _glacier.getValley().getElevation( x ) );
-                _mvt.modelToView( _pModel, _pView );
-                _crossSectionPath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
-
-                /*
-                 * Surface perspective, placed directly on the valley floor.
-                 * While the cross-section has some thickness, we're placing this directly 
-                 * on the valley floor so that it lines up with the ice at the terminus.  
-                 */
-                final double surfaceX = x + GlaciersConstants.YAW_X_OFFSET;
-                double elevation = valley.getElevation( x ) + GlaciersConstants.PITCH_Y_OFFSET;
-                _pModel.setLocation( surfaceX, elevation );
-                _mvt.modelToView( _pModel, _pView );
-                _surfacePath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
-                
-                // Ensure that our last sample is exactly at the ELA, 
-                // in case the patch's length isn't an integer multiple of DX.
-                if ( patchLength > DX ) {
-                    double diff = x - xTerminus;
-                    if ( diff > 0.1 && diff < DX ) {
-                        x = xTerminus + DX;
-                    }
-                }
+                // close the paths
+                _crossSectionPath.closePath();
+                _surfacePath.closePath();
             }
-            
-            // close the paths
-            _crossSectionPath.closePath();
-            _surfacePath.closePath();
         }
         
         // update the nodes
