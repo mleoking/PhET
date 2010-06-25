@@ -6,6 +6,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.EventListener;
+import java.util.HashMap;
 import java.util.Random;
 
 import javax.swing.event.EventListenerList;
@@ -17,6 +18,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock.ConstantD
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock.ConstantDtClockListener;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.neuron.model.AxonMembrane.AxonMembraneState;
+import edu.colorado.phet.neuron.model.MembraneChannel.MembraneChannelState;
 import edu.colorado.phet.neuron.module.NeuronDefaults;
 import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel;
 
@@ -619,10 +621,14 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
     	// the membrane.
     	channel.moveParticleThroughNeuronMembrane(particleToCapture, maxVelocity);
     }
-    
+
+    /**
+     * Get the state of this model.  This is generally used in support of the
+     * record-and-playback feature, and the return value contains just enough
+     * state information to support this feature.
+     */
 	private NeuronModelState getState(){
-    	// TODO: Need to fill out for all elements of the model.
-    	return new NeuronModelState(axonMembrane.getState());
+    	return new NeuronModelState(this);
     }
     
     /**
@@ -1031,9 +1037,16 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
     public static class NeuronModelState {
     	
     	private final AxonMembraneState axonMembraneState;
+    	private final HashMap< MembraneChannel, MembraneChannel.MembraneChannelState > membraneChannelStateMap = 
+    	    new HashMap<MembraneChannel, MembraneChannelState>();
 
-		public NeuronModelState(AxonMembraneState axonMembraneState){
-    		this.axonMembraneState = axonMembraneState;
+		public NeuronModelState(NeuronModel neuronModel){
+		    
+    		axonMembraneState = neuronModel.getAxonMembrane().getState();
+    		
+    		for (MembraneChannel membraneChannel : neuronModel.getMembraneChannels()){
+    		    membraneChannelStateMap.put( membraneChannel, membraneChannel.getState() );
+    		}
     	}
 		
 		protected AxonMembraneState getAxonMembraneState() {
@@ -1043,8 +1056,20 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
 
 	@Override
 	public void setPlaybackState(NeuronModelState state) {
-		// TODO: Need to expand to cover all aspects of state.
 		axonMembrane.setState(state.getAxonMembraneState());
+		// TODO: Is there a more efficient way to match the map entries to the
+		// membrane channel list?
+		for (MembraneChannel membraneChannel : getMembraneChannels()){
+		    MembraneChannelState mcs = state.membraneChannelStateMap.get( membraneChannel );
+		    // Error handling.
+		    if (mcs == null){
+		        System.out.println(getClass().getName() + " Error: No state found for membrane channel.");
+		        assert false;
+		        continue;
+		    }
+		    // Restore the state.
+		    membraneChannel.setState( mcs );
+		}
 	}
 	
 	@Override
