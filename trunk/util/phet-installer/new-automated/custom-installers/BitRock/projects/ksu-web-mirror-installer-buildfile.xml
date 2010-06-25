@@ -55,9 +55,6 @@
                             <origin>$RIP_BASE_DIR$/ar</origin>
                         </distributionDirectory>
                         <distributionDirectory>
-                            <origin>$RIP_BASE_DIR$/css</origin>
-                        </distributionDirectory>
-                        <distributionDirectory>
                             <origin>$RIP_BASE_DIR$/files</origin>
                         </distributionDirectory>
                         <distributionDirectory>
@@ -74,9 +71,6 @@
                         </distributionDirectory>
                         <distributionDirectory>
                             <origin>$RIP_BASE_DIR$/sims</origin>
-                        </distributionDirectory>
-                        <distributionDirectory>
-                            <origin>$RIP_BASE_DIR$/index.html</origin>
                         </distributionDirectory>
                         <distributionDirectory>
                             <origin>$RIP_BASE_DIR$/version.html</origin>
