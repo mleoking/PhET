@@ -15,6 +15,8 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.StepBackButton;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.StepButton;
+import edu.colorado.phet.glaciers.GlaciersConstants;
+import edu.colorado.phet.neuron.NeuronConstants;
 import edu.colorado.phet.neuron.NeuronStrings;
 import edu.colorado.phet.neuron.controlpanel.AxonCrossSectionControlPanel;
 import edu.colorado.phet.neuron.model.NeuronModel;
@@ -108,5 +110,9 @@ public class NeuronModule extends PiccoloModule {
         
         // Reset the canvas.
         canvas.reset();
+        
+        // Make sure the clock starts off running.
+        setClockRunningWhenActive( true );
+
     }    
 }
