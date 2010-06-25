@@ -49,8 +49,14 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * 
  * Originally, this chart was designed to scroll once there was enough data
  * the fill the chart half way, but this turned out to be too CPU intensive,
- * so it was changed to draw one line of data across the screen, then clear
- * and draw the next line.
+ * so it was changed to draw one line of data across the screen and then stop.
+ * The user can clear the chart and trigger another action potential to start
+ * recording data again.
+ * 
+ * This chart also controls the record-and-playback state of the model.  This
+ * is done so that the window of recorded data in the model matches that shown
+ * in the chart, allowing the user to set the model state at any time shown in
+ * the chart.
 
  * Author: John Blanco
  */
