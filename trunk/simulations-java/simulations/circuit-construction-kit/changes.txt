@@ -1,4 +1,4 @@
-> Component values are accepted after typing in the component editor and clicking elsewhere, instead of ignored 
+> Component values are accepted after typing in the component editor and clicking elsewhere, instead of requiring the user to press "OK" first
 Added a focus listener to the text field in the slider and made the listener commit the changed value.  See #2399.
 # 3.18.13 (41856) Jun 22, 2010
 Improved usage of JNLP IO API, see #2397
