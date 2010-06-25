@@ -2,16 +2,16 @@ package edu.colorado.phet.website.authentication.panels;
 
 import org.apache.log4j.Logger;
 import org.apache.wicket.markup.html.WebMarkupContainer;
-import org.apache.wicket.markup.html.form.CheckBox;
-import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.PasswordTextField;
-import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.form.*;
+import org.apache.wicket.markup.html.form.validation.AbstractFormValidator;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.target.basic.RedirectRequestTarget;
 import org.apache.wicket.util.value.ValueMap;
 
 import edu.colorado.phet.website.authentication.PhetSession;
 import edu.colorado.phet.website.authentication.RegisterPage;
+import edu.colorado.phet.website.cache.SimplePanelCacheEntry;
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.components.StringPasswordTextField;
 import edu.colorado.phet.website.components.StringTextField;
@@ -46,7 +46,12 @@ public class SignInPanel extends PhetPanel {
         add( new LocalizedText( "to-register", "signIn.toRegister", new Object[]{
                 RegisterPage.getLinker( destination == null ? "/" : destination ).getHref( context, getPhetCycle() )
         } ) );
+        feedback = new FeedbackPanel( "feedback" );
+        feedback.setVisible( false );
+        add( feedback );
     }
+
+    FeedbackPanel feedback;
 
     public final class SignInForm extends Form {
         private static final long serialVersionUID = 1L;
@@ -65,26 +70,35 @@ public class SignInPanel extends PhetPanel {
             rememberBox.add( new CheckBox( "remember-check", new PropertyModel( SignInPanel.this, "remember" ) ) );
 
             username.setPersistent( remember );
+
+            add( new AbstractFormValidator() {
+                public FormComponent[] getDependentFormComponents() {
+                    return new FormComponent[]{username, password};
+                }
+
+                public void validate( Form form ) {
+                    if ( !PhetSession.get().signIn( (PhetRequestCycle) getRequestCycle(), username.getModelObject().toString(), password.getInput() ) ) {
+                        error( password, "signIn.validation.failed" );
+                    }
+                }
+            } );
+        }
+
+        @Override
+        protected void onValidate() {
+            super.onValidate();
+            feedback.setVisible( feedback.anyMessage() );
         }
 
         public final void onSubmit() {
-            if ( PhetSession.get().signIn( (PhetRequestCycle) getRequestCycle(), username.getModelObject().toString(), password.getInput() ) ) {
-                if ( destination != null ) {
-                    getRequestCycle().setRequestTarget( new RedirectRequestTarget( destination ) );
-                }
-                else {
-                    if ( !SignInPanel.this.continueToOriginalDestination() ) {
-                        getRequestCycle().setRequestTarget( new RedirectRequestTarget( "/" ) );
-                    }
-                }
+            if ( destination != null ) {
+                getRequestCycle().setRequestTarget( new RedirectRequestTarget( destination ) );
             }
             else {
-                error( "Signing in failed" );
+                if ( !SignInPanel.this.continueToOriginalDestination() ) {
+                    getRequestCycle().setRequestTarget( new RedirectRequestTarget( "/" ) );
+                }
             }
         }
-    }
-
-    public final void forgetMe() {
-        getPage().removePersistedFormData( SignInForm.class, true );
     }
 }
