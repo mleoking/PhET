@@ -61,8 +61,8 @@ public class ScpTo {
             if ( localFile.getAbsolutePath().lastIndexOf( '/' ) > 0 ) {
                 command += localFile.getAbsolutePath().substring( localFile.getAbsolutePath().lastIndexOf( '/' ) + 1 );
             }
-            else {
-                command += localFile;
+            else if ( localFile.getAbsolutePath().lastIndexOf( '\\' ) > 0 ) {
+                command += localFile.getAbsolutePath().substring( localFile.getAbsolutePath().lastIndexOf( '\\' ) + 1 );
             }
             command += "\n";
             out.write( command.getBytes() );
