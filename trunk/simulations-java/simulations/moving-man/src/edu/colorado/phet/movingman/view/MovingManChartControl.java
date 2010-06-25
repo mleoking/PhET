@@ -34,12 +34,5 @@ public class MovingManChartControl extends PNode {
         unitsReadout.setTextPaint(color);
         unitsReadout.setOffset(textBox.getFullBounds().getMaxX() + 2, textBox.getFullBounds().getCenterY() - unitsReadout.getFullBounds().getHeight() / 2);
         this.addChild(unitsReadout);
-        SimpleObserver simpleObserver = new SimpleObserver() {
-            public void update() {
-                setVisible(chart.getMaximized().getValue());
-            }
-        };
-        simpleObserver.update();
-        chart.getMaximized().addObserver(simpleObserver);
     }
 }
