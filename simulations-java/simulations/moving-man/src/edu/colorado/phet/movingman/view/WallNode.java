@@ -1,10 +1,10 @@
 package edu.colorado.phet.movingman.view;
 
+import edu.colorado.phet.common.motion.charts.MutableBoolean;
 import edu.colorado.phet.common.motion.charts.Range;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.common.motion.charts.MutableBoolean;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;

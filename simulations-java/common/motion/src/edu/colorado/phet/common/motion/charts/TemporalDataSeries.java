@@ -74,7 +74,7 @@ public class TemporalDataSeries {
     public void clearPointsAfter(double time) {
         ArrayList<TimeData> newPoints = new ArrayList<TimeData>();
         for (TimeData timeData : data) {
-            if (timeData.getTime()<time){
+            if (timeData.getTime() < time) {
                 newPoints.add(timeData);
             }
         }

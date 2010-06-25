@@ -1,5 +1,6 @@
 package edu.colorado.phet.movingman.view;
 
+import edu.colorado.phet.common.motion.charts.MutableBoolean;
 import edu.colorado.phet.common.motion.charts.Range;
 import edu.colorado.phet.common.motion.charts.TemporalDataSeries;
 import edu.colorado.phet.common.motion.model.TimeData;
@@ -10,7 +11,6 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.movingman.MovingManResources;
 import edu.colorado.phet.movingman.model.MovingMan;
 import edu.colorado.phet.movingman.model.MovingManModel;
-import edu.colorado.phet.common.motion.charts.MutableBoolean;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;

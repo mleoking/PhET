@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
+ * Layouts for MinimizableControlCharts
+ *
  * @author Sam Reid
  */
 public interface ControlChartLayout {
     void updateLayout(MinimizableControlChart[] charts, double width, double height);
 
-    public class FlowLayout implements ControlChartLayout {
-        public void updateLayout(MinimizableControlChart[] charts, double width, double height) {
-            new AlignedLayout().updateLayout(charts, width, height);
-        }
-    }
-
+    /**
+     * This layout ensures that different components in the chart line up vertically,
+     * and that all of the vertical space is used.
+     */
     public class AlignedLayout implements ControlChartLayout {
         public interface DoubleGetter {
             Double getValue(MinimizableControlChart chart);
@@ -80,6 +80,7 @@ public interface ControlChartLayout {
                 chart.setOffset(0, chartY);
                 chartY = chartY + chartHeight + chart.getDomainLabelHeight();
                 chart.setMinimizeMaximizeButtonOffset(chartX + chartWidth - chart.getMinimizeMaximizeButton().getFullBounds().getWidth() - 4, 4);
+                chart.centerVerticalZoomButtons();
             }
         }
     }

@@ -2,9 +2,9 @@ package edu.colorado.phet.movingman.view;
 
 import edu.colorado.phet.common.motion.charts.MotionSliderNode;
 import edu.colorado.phet.common.motion.charts.Range;
+import edu.colorado.phet.common.motion.charts.TextBox;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.motion.charts.TextBox;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 

@@ -1,7 +1,5 @@
 package edu.colorado.phet.common.motion.charts;
 
-import edu.colorado.phet.common.motion.charts.MinimizableControlChart;
-import edu.colorado.phet.common.motion.charts.ControlChartLayout;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.umd.cs.piccolo.PNode;
 

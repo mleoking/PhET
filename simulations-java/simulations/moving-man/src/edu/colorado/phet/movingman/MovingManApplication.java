@@ -1,5 +1,6 @@
 package edu.colorado.phet.movingman;
 
+import edu.colorado.phet.common.motion.charts.MutableBoolean;
 import edu.colorado.phet.common.phetcommon.application.ModuleEvent;
 import edu.colorado.phet.common.phetcommon.application.ModuleObserver;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
@@ -7,7 +8,6 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
-import edu.colorado.phet.common.motion.charts.MutableBoolean;
 import edu.colorado.phet.movingman.model.MovingManModel;
 import edu.colorado.phet.movingman.model.MovingManState;
 import edu.colorado.phet.movingman.view.MovingManSimulationPanelWithCharts;

@@ -7,19 +7,19 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class MinimizableControlChart extends PNode {
-    private ControlChart movingManChart;
+    private ControlChart controlChart;
     private MinimizeMaximizeButton minimizeMaximizeButton;
 
-    public MinimizableControlChart(final ControlChart movingManChart) {
-        this.movingManChart = movingManChart;
-        addChild(movingManChart);
+    public MinimizableControlChart(final ControlChart controlChart) {
+        this.controlChart = controlChart;
+        addChild(controlChart);
 
         this.minimizeMaximizeButton = new MinimizeMaximizeButton();
         addChild(minimizeMaximizeButton);
 
         final SimpleObserver updateVisibility = new SimpleObserver() {
             public void update() {
-                movingManChart.setVisible(minimizeMaximizeButton.getMaximized().getValue());
+                controlChart.setVisible(minimizeMaximizeButton.getMaximized().getValue());
             }
         };
         minimizeMaximizeButton.getMaximized().addObserver(updateVisibility);
@@ -35,27 +35,27 @@ public class MinimizableControlChart extends PNode {
     }
 
     public PNode getControlPanel() {
-        return movingManChart.getControlPanel();
+        return controlChart.getControlPanel();
     }
 
     public PNode getSliderNode() {
-        return movingManChart.getSliderNode();
+        return controlChart.getSliderNode();
     }
 
     public PNode getZoomButtonNode() {
-        return movingManChart.getZoomButtonNode();
+        return controlChart.getZoomButtonNode();
     }
 
     public Double getDomainLabelHeight() {
-        return movingManChart.getDomainLabelHeight();
+        return controlChart.getDomainLabelHeight();
     }
 
     public void setLayoutLocations(double controlPanelX, double sliderX, double chartX, double zoomControlX) {
-        movingManChart.setLayoutLocations(controlPanelX, sliderX, chartX, zoomControlX);
+        controlChart.setLayoutLocations(controlPanelX, sliderX, chartX, zoomControlX);
     }
 
     public TemporalChart getChartNode() {
-        return movingManChart.getChartNode();
+        return controlChart.getChartNode();
     }
 
     public MinimizeMaximizeButton getMinimizeMaximizeButton() {
@@ -63,6 +63,10 @@ public class MinimizableControlChart extends PNode {
     }
 
     public void setHorizontalZoomVisible(boolean b) {
-        movingManChart.getZoomButtonNode().setHorizontalZoomButtonsVisible(b);
+        controlChart.getZoomButtonNode().setHorizontalZoomButtonsVisible(b);
+    }
+
+    public void centerVerticalZoomButtons() {
+        controlChart.centerVerticalZoomButtons();
     }
 }
