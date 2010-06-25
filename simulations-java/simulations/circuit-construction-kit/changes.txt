@@ -1,3 +1,4 @@
+> Component values are accepted after typing in the component editor and clicking elsewhere, instead of ignored 
 Added a focus listener to the text field in the slider and made the listener commit the changed value.  See #2399.
 # 3.18.13 (41856) Jun 22, 2010
 Improved usage of JNLP IO API, see #2397
@@ -14,13 +15,15 @@ Removed warning message from circuits with a capacitor and small resistance, see
 Changed default timestep parameters from (1E-6,1E-6) to (1E-5,1E-5)
 Changed default resistivity from 1E-8 to 1E-4
 # 3.18.06 (40396) May 4, 2010
+> Improved quantitative accuracy of the physics engine for circuits with capacitors and inductors
 Added developer controls for trading off accuracy and speed in the physics engine
 Added timestep subdivision algorithm for improving the physics engine, see #2241
 > Removed show equations feature, see #1913
 # 3.18.04 (38771) Feb 18, 2010
 2/18/10 Deploy to dev
-> Added a warning error message for potentially problematic circuits.
+Added a warning error message for potentially problematic circuits.
 # 3.18.02 (38103) Jan 14, 2010
+> Added "virtual lab" simulations
 1/14/10 Added virtual lab versions and updated names.
 # 3.18.01 (38101) Jan 14, 2010
 # 3.18.00 (37980) Jan 8, 2010
