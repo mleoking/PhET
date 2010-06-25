@@ -17,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock.ConstantD
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock.ConstantDtClockListener;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.neuron.model.AxonMembrane.AxonMembraneState;
+import edu.colorado.phet.neuron.module.NeuronDefaults;
 import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel;
 
 /**
@@ -177,13 +178,18 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
         clock.addConstantDtClockListener( new ConstantDtClockListener() {
             
             public void dtChanged( ConstantDtClockEvent event ) {
-                System.out.println("dtChanged called, new dt is: " + event.getClock().getDt());
+                // Set the playback speed based on the new clock DT value.
+                // This is done so that the slider on the clock control can
+                // control the speed during playback, as it does automatically
+                // in the Record or Live modes.
+                setPlaybackSpeed( calculatePlaybackSpeed() );
             }
             
             public void delayChanged( ConstantDtClockEvent event ) {
                 // TODO: Printout is temporary while I figure out if this
-                // needs to be handled.
-                System.out.println("Delay changed called, not sure why.");
+                // notification needs to be handled.
+                System.out.println("Delay changed called, what should be done about it?");
+                // Ignored.
             }
         });
         
@@ -645,6 +651,17 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
     	}
     	
     	return new CaptureZoneScanResult(closestFreeParticle, totalNumberOfParticles);
+    }
+    
+    /**
+     * The record-and-playback model has a notion of playback speed, which is
+     * independent of the current clock speed by design.  In our case, we want
+     * the playback speed to vary with the clock speed setting.  This method
+     * defines the relationship between the two values.
+     */
+    private double calculatePlaybackSpeed(){
+        double playbackSpeed = getClock().getDt() / NeuronDefaults.DEFAULT_ACTION_POTENTIAL_CLOCK_DT;
+        return playbackSpeed;
     }
     
 	public void addListener(Listener listener){
