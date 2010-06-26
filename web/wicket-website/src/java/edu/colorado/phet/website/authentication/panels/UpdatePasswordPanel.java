@@ -20,11 +20,11 @@ import edu.colorado.phet.website.util.PageContext;
 /**
  * @author Sam Reid
  */
-public class SetPasswordPanel extends PhetPanel {
-    private static Logger logger = Logger.getLogger( SetPasswordPanel.class );
+public class UpdatePasswordPanel extends PhetPanel {
+    private static Logger logger = Logger.getLogger( UpdatePasswordPanel.class );
     private FeedbackPanel feedback;
 
-    public SetPasswordPanel( String id, PageContext context ) {
+    public UpdatePasswordPanel( String id, PageContext context ) {
         super( id, context );
         AuthenticatedPage.checkSignedIn();
         feedback = new FeedbackPanel( "feedback" );
@@ -41,10 +41,12 @@ public class SetPasswordPanel extends PhetPanel {
             super( id );
 
             currentPasswordTextField = new PasswordTextField( "current-password", new Model<String>( "" ) );
+            currentPasswordTextField.setRequired( false );//Since some users may still have password = ""
             add( currentPasswordTextField );
             newPasswordTextField = new PasswordTextField( "new-password", new Model<String>( "" ) );
             add( newPasswordTextField );
             confirmNewPasswordTextField = new PasswordTextField( "confirm-new-password", new Model<String>( "" ) );
+            confirmNewPasswordTextField.setRequired( false ); //If this is required, then the feedback can appear twice; the requirement is handled in the newPassword textfield
             add( confirmNewPasswordTextField );
             add( new AbstractFormValidator() {
                 public FormComponent[] getDependentFormComponents() {
@@ -54,7 +56,7 @@ public class SetPasswordPanel extends PhetPanel {
                 public void validate( Form<?> form ) {
                     logger.info( "Validating new passwords match: " + getPasswordDebugText() );
                     if ( !newPasswordTextField.getInput().equals( confirmNewPasswordTextField.getInput() ) ) {
-                        error( confirmNewPasswordTextField, "setPassword.validation.mismatch" );
+                        error( confirmNewPasswordTextField, "updatePassword.validation.mismatch" );
                     }
                 }
             } );
@@ -68,7 +70,7 @@ public class SetPasswordPanel extends PhetPanel {
                     logger.info( "Validating old password is correct: " + getPasswordDebugText() );
                     PhetUser currentUser = PhetSession.get().getUser();
                     if ( !PhetSession.passwordEquals( currentUser.getHashedPassword(), currentPasswordTextField.getInput() ) ) {
-                        error( currentPasswordTextField, "setPassword.validation.incorrectPassword" );
+                        error( currentPasswordTextField, "updatePassword.validation.incorrectPassword" );
                     }
                 }
             } );
