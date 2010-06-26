@@ -3,7 +3,7 @@ package edu.colorado.phet.website.authentication;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.model.ResourceModel;
 
-import edu.colorado.phet.website.authentication.panels.UpdatePasswordPanel;
+import edu.colorado.phet.website.authentication.panels.ChangePasswordPanel;
 import edu.colorado.phet.website.templates.PhetMenuPage;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetUrlMapper;
@@ -17,7 +17,7 @@ public class ChangePasswordPage extends PhetMenuPage {
     public ChangePasswordPage( PageParameters parameters ) {
         super( parameters );
         addTitle( new ResourceModel( "changePassword.title" ) );
-        add( new UpdatePasswordPanel( "set-password-panel", getPageContext() ) );
+        add( new ChangePasswordPanel( "set-password-panel", getPageContext() ) );
     }
 
     public static void addToMapper( PhetUrlMapper mapper ) {
