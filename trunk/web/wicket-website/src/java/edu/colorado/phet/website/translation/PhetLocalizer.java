@@ -12,9 +12,12 @@ import org.hibernate.Session;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.PhetWicketApplication;
+import edu.colorado.phet.website.authentication.ChangePasswordPage;
+import edu.colorado.phet.website.authentication.panels.UpdatePasswordPanel;
 import edu.colorado.phet.website.content.contribution.ContributionCreatePage;
 import edu.colorado.phet.website.content.contribution.ContributionEditPage;
 import edu.colorado.phet.website.data.Translation;
+import edu.colorado.phet.website.panels.contribution.ContributionEditPanel;
 import edu.colorado.phet.website.templates.Stylable;
 import edu.colorado.phet.website.util.PhetRequestCycle;
 import edu.colorado.phet.website.util.StringUtils;
@@ -245,8 +248,8 @@ public class PhetLocalizer extends Localizer {
      * @return The new string key
      */
     private String mapStrings( String key, Component component, IModel model, String defaultValue, boolean checkDefault ) {
-        if ( key.endsWith( "Required" ) && ( component.getPage() instanceof ContributionCreatePage || component.getPage() instanceof ContributionEditPage ) ) {
-            // technically should check for a ContributionEditPanel below, but that would be expensive and ugly
+        //TODO: move the logic into the respective panels.
+        if ( key.endsWith( "Required" ) && component.findParent( ContributionEditPanel.class )!=null ) {
             if ( key.equals( "authors.Required" ) ) {
                 return "contribution.edit.authors.Required";
             }
@@ -262,6 +265,8 @@ public class PhetLocalizer extends Localizer {
             else if ( key.equals( "keywords.Required" ) ) {
                 return "contribution.edit.keywords.Required";
             }
+        }else if (key.endsWith( "Required" ) &&component.findParent( UpdatePasswordPanel.class )!=null){
+            return "updatePassword.validation.newPasswordBlank";
         }
         return key;
     }
