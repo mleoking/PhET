@@ -189,7 +189,7 @@ public class TransferData {
                 // because our old data has many many holes!
                 final PhetUser anonymous = new PhetUser();
                 anonymous.setEmail( "anonymous@unknown.com" );
-                anonymous.setPassword( "nothing will hash to this" );
+                anonymous.setHashedPassword( "nothing will hash to this" );
                 anonymous.setReceiveEmail( false );
                 newObs.add( anonymous );
 
@@ -200,7 +200,7 @@ public class TransferData {
                         userIdMap.put( result.getInt( "contributor_id" ), user );
                         newObs.add( user );
                         user.setEmail( result.getString( "contributor_email" ) );
-                        user.setPassword( result.getString( "contributor_password" ) );
+                        user.setHashedPassword( result.getString( "contributor_password" ) );
                         user.setTeamMember( result.getBoolean( "contributor_is_team_member" ) );
                         user.setName( result.getString( "contributor_name" ) );
                         user.setOrganization( result.getString( "contributor_organization" ) );

@@ -1712,7 +1712,9 @@
           <root url="jar://$MODULE_DIR$/web/wicket-website/root/WEB-INF/lib/wicket-1.4.8.jar!/" />
         </CLASSES>
         <JAVADOC />
-        <SOURCES />
+        <SOURCES>
+          <root url="file://C:/Users/Sam/Desktop/apache-wicket-1.4.8/apache-wicket-1.4.8/src/wicket/src/main/java" />
+        </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library">
