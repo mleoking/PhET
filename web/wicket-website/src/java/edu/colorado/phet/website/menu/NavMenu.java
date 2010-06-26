@@ -11,6 +11,7 @@ import org.hibernate.Transaction;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.common.phetcommon.util.PhetLocales;
 import edu.colorado.phet.website.PhetWicketApplication;
+import edu.colorado.phet.website.authentication.panels.UpdatePasswordSuccessPanel;
 import edu.colorado.phet.website.components.RawLink;
 import edu.colorado.phet.website.content.*;
 import edu.colorado.phet.website.content.about.*;
@@ -198,6 +199,9 @@ public class NavMenu {
         NavLocation ugandaPhotos = new NavLocation( null, "workshops.uganda-photos", UgandaWorkshopPhotosPanel.getLinker() );
         addLocation( ugandaPhotos );
 
+        NavLocation updatePasswordSuccess= new NavLocation( null, "updatePasswordSuccess", UpdatePasswordSuccessPanel.getLinker() );
+        addLocation( updatePasswordSuccess );
+        
         Session session = HibernateUtils.getInstance().openSession();
         Transaction tx = null;
         try {
