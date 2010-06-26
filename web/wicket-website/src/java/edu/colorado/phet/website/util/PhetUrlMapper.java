@@ -7,6 +7,11 @@ import java.util.regex.Pattern;
 
 import org.apache.wicket.PageParameters;
 
+/**
+ * This keeps track of regular expression mappings from prefix-less urls to pages.
+ * 
+ * @author Jonathan Olson
+ */
 public class PhetUrlMapper {
 
     private List<UrlMap> mappings;
