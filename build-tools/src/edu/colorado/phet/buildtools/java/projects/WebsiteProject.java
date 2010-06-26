@@ -78,6 +78,7 @@ public class WebsiteProject extends JavaProject {
     }
 
     public boolean deploy( String host, String protocol, AuthenticationInfo userInfo, AuthenticationInfo managerInfo, boolean dev ) {
+        String webHost = host.equals( "figaro.colorado.edu" ) ? "phet.colorado.edu" : host; //Have to use public web url for curling, or it will fail 
         boolean success = false;
         try {
             System.out.println( "Starting website deployment" );
@@ -88,8 +89,8 @@ public class WebsiteProject extends JavaProject {
             System.out.println( "Finished uploading, executing undeploy and deploy on Tomcat" );
             success = SshUtils.executeCommands( new String[]{
                     host.equals( "phetsims.colorado.edu" ) || host.equals( "figaro.colorado.edu" ) ? "cp /tmp/ROOT.war /data/web/htdocs/phetsims/website-backup/website-code/ROOT-`date +%s`-`date | sed -e 's/ /_/g'`.war" : "",
-                    "curl -k -u " + managerInfo.getUsername() + ":" + managerInfo.getPassword() + " '" + protocol + "://" + host + "/manager/undeploy?path=/'",
-                    "curl -k -u " + managerInfo.getUsername() + ":" + managerInfo.getPassword() + " '" + protocol + "://" + host + "/manager/deploy?war=/tmp/ROOT.war&path=/'"
+                    "curl -k -u " + managerInfo.getUsername() + ":" + managerInfo.getPassword() + " '" + protocol + "://" + webHost + "/manager/undeploy?path=/'",
+                    "curl -k -u " + managerInfo.getUsername() + ":" + managerInfo.getPassword() + " '" + protocol + "://" + webHost + "/manager/deploy?war=/tmp/ROOT.war&path=/'"
             }, host, userInfo );
 
             System.out.println( "Finished running Tomcat commands. Should have stated 'OK - Deployed application at context path'" );

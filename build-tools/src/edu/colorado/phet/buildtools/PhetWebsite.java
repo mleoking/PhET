@@ -122,7 +122,7 @@ public abstract class PhetWebsite {
 
         @Override
         public String getWebHost() {
-            return "phetsims.colorado.edu";
+            return "phet.colorado.edu";
         }
 
         @Override
