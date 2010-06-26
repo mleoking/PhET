@@ -7,6 +7,7 @@ import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.validation.AbstractFormValidator;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.request.target.basic.RedirectRequestTarget;
 import org.hibernate.Session;
 
 import edu.colorado.phet.website.authentication.AuthenticatedPage;
@@ -29,16 +30,18 @@ public class UpdatePasswordPanel extends PhetPanel {
         AuthenticatedPage.checkSignedIn();
         feedback = new FeedbackPanel( "feedback" );
         add( feedback );
-        add( new SetPasswordForm( "set-password-form" ) );
+        add( new SetPasswordForm( "set-password-form", context ) );
     }
 
     public class SetPasswordForm extends Form {
         protected PasswordTextField currentPasswordTextField;
         protected PasswordTextField newPasswordTextField;
         protected PasswordTextField confirmNewPasswordTextField;
+        private final PageContext context;
 
-        public SetPasswordForm( String id ) {
+        public SetPasswordForm( String id, PageContext context ) {
             super( id );
+            this.context = context;
 
             currentPasswordTextField = new PasswordTextField( "current-password", new Model<String>( "" ) );
             currentPasswordTextField.setRequired( false );//Since some users may still have password = ""
@@ -95,8 +98,9 @@ public class UpdatePasswordPanel extends PhetPanel {
             logger.info( "Finished hibernate: success = " + success );
             if ( success ) {
                 currentUser.setPassword( newPasswordTextField.getModelObject() );
-                
-                //redirect to another page
+
+                //redirect to the success page  
+                getRequestCycle().setRequestTarget( new RedirectRequestTarget( UpdatePasswordSuccessPanel.getLinker().getRawUrl( context, getPhetCycle() ) ) );
             }
         }
     }

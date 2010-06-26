@@ -12,6 +12,7 @@ import org.apache.wicket.request.target.basic.RedirectRequestTarget;
 import org.apache.wicket.util.value.ValueMap;
 import org.hibernate.Session;
 
+import edu.colorado.phet.website.authentication.ChangePasswordPage;
 import edu.colorado.phet.website.authentication.PhetSession;
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.components.RawLabel;
@@ -54,6 +55,7 @@ public class EditProfilePanel extends PhetPanel {
         else {
             add( new InvisibleComponent( "edit-self-profile" ) );
         }
+        add( ChangePasswordPage.getLinker().getLink( "updatePassword", context, getPhetCycle() ) );
     }
 
     private final class EditProfileForm extends Form {

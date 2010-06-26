@@ -24,7 +24,7 @@ public class ChangePasswordPage extends PhetMenuPage {
         mapper.addMap( "^change-password$", ChangePasswordPage.class );
     }
 
-    public static RawLinkable getLinker( final String destination ) {
+    public static RawLinkable getLinker( ) {
         return new AbstractLinker() {
             public String getSubUrl( PageContext context ) {
                 return "change-password";
