@@ -7,13 +7,14 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import edu.colorado.phet.website.authentication.PhetSession;
 import edu.colorado.phet.website.data.util.IntId;
 
 public class PhetUser implements Serializable, IntId {
 
     private int id;
     private String email;
-    private String password;
+    private String hashedPassword;
     private boolean teamMember;
     private Set translations = new HashSet();
 
@@ -50,7 +51,7 @@ public class PhetUser implements Serializable, IntId {
 
     @Override
     public boolean equals( Object o ) {
-        if( this == o ) {
+        if ( this == o ) {
             return true;
         }
         return o != null && o instanceof PhetUser && ( (PhetUser) o ).getId() == getId();
@@ -68,7 +69,12 @@ public class PhetUser implements Serializable, IntId {
         return null;
     }
 
+    public void setPassword( String password ) {
+        setHashedPassword( PhetSession.compatibleHashPassword( password ) );
+    }
+
     // TODO: don't allow users with the same email address!
+
     public PhetUser() {
     }
 
@@ -88,12 +94,17 @@ public class PhetUser implements Serializable, IntId {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
+    /**
+     * This returns a hashed copy of the password.
+     *
+     * @return
+     */
+    public String getHashedPassword() {
+        return hashedPassword;
     }
 
-    public void setPassword( String password ) {
-        this.password = password;
+    public void setHashedPassword( String hashedPassword ) {
+        this.hashedPassword = hashedPassword;
     }
 
     public boolean isTeamMember() {

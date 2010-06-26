@@ -30,6 +30,10 @@ public class PhetSession extends WebSession {
         super( request );
     }
 
+    public static boolean passwordEquals( String hashedPassword, String password ) {
+        return hashedPassword.equals( compatibleHashPassword( password ) ) || hashedPassword.equals( hashPassword( password ) );
+    }
+
     private boolean authenticate( PhetRequestCycle currentCycle, final String username, final String password ) {
         user = null;
         org.hibernate.Session session = currentCycle.getHibernateSession();
@@ -39,7 +43,7 @@ public class PhetSession extends WebSession {
             String hash = hashPassword( password );
             String compatibleHash = compatibleHashPassword( password );
 
-            Query query = session.createQuery( "select u from PhetUser as u where (u.email = :email and (u.password = :password or u.password = :compatiblePassword))" );
+            Query query = session.createQuery( "select u from PhetUser as u where (u.email = :email and (u.hashedPassword = :password or u.hashedPassword = :compatiblePassword))" );
             query.setString( "email", username );
             query.setString( "password", hash );
             query.setString( "compatiblePassword", compatibleHash );

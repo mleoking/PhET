@@ -8,7 +8,9 @@
             <generator class="increment"/>
         </id>
         <property name="email"/>
-        <property name="password"/>
+        <!--Before 6-25-2010, the hashed password was called "password" instead of "hashedPassword", therefore, 
+        we need this mapping to maintain compatibility with the pre-existing database entries.-->
+        <property name="hashedPassword" column="password" />
         <property name="teamMember"/>
         <set name="translations" table="user_translation_mapping">
             <key column="user_id"/>

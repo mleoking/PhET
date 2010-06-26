@@ -137,7 +137,7 @@ public class RegisterPanel extends PhetPanel {
                         user.setOrganization( org );
                         user.setDescription( desc );
                         user.setEmail( email );
-                        user.setPassword( PhetSession.compatibleHashPassword( pass ) );
+                        user.setPassword( pass );
                         session.save( user );
                     }
 
