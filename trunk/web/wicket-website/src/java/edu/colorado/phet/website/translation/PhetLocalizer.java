@@ -12,10 +12,7 @@ import org.hibernate.Session;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.PhetWicketApplication;
-import edu.colorado.phet.website.authentication.ChangePasswordPage;
-import edu.colorado.phet.website.authentication.panels.UpdatePasswordPanel;
-import edu.colorado.phet.website.content.contribution.ContributionCreatePage;
-import edu.colorado.phet.website.content.contribution.ContributionEditPage;
+import edu.colorado.phet.website.authentication.panels.ChangePasswordPanel;
 import edu.colorado.phet.website.data.Translation;
 import edu.colorado.phet.website.panels.contribution.ContributionEditPanel;
 import edu.colorado.phet.website.templates.Stylable;
@@ -265,8 +262,8 @@ public class PhetLocalizer extends Localizer {
             else if ( key.equals( "keywords.Required" ) ) {
                 return "contribution.edit.keywords.Required";
             }
-        }else if (key.endsWith( "Required" ) &&component.findParent( UpdatePasswordPanel.class )!=null){
-            return "updatePassword.validation.newPasswordBlank";
+        }else if (key.endsWith( "Required" ) &&component.findParent( ChangePasswordPanel.class )!=null){
+            return "changePassword.validation.newPasswordBlank";
         }
         return key;
     }

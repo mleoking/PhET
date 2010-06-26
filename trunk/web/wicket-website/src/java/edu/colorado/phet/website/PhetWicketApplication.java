@@ -29,7 +29,7 @@ import edu.colorado.phet.website.admin.deploy.DeployResourcePage;
 import edu.colorado.phet.website.admin.deploy.DeployTranslationPage;
 import edu.colorado.phet.website.admin.doc.TechnicalDocPage;
 import edu.colorado.phet.website.authentication.*;
-import edu.colorado.phet.website.authentication.panels.UpdatePasswordSuccessPanel;
+import edu.colorado.phet.website.authentication.panels.ChangePasswordSuccessPanel;
 import edu.colorado.phet.website.cache.InstallerCache;
 import edu.colorado.phet.website.content.*;
 import edu.colorado.phet.website.content.about.*;
@@ -131,7 +131,7 @@ public class PhetWicketApplication extends WebApplication {
         StaticPage.addPanel( ClassroomUsePanel.class );
         StaticPage.addPanel( UgandaWorkshopsPanel.class );
         StaticPage.addPanel( UgandaWorkshopPhotosPanel.class );
-        StaticPage.addPanel( UpdatePasswordSuccessPanel.class );
+        StaticPage.addPanel( ChangePasswordSuccessPanel.class );
 
         // create a url mapper, and add the page classes to it
         mapper = new PhetUrlMapper();

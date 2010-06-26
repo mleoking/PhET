@@ -5,17 +5,17 @@ import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.links.AbstractLinker;
 import edu.colorado.phet.website.util.links.RawLinkable;
 
-public class UpdatePasswordSuccessPanel extends PhetPanel {
-    public UpdatePasswordSuccessPanel( String id, PageContext context ) {
+public class ChangePasswordSuccessPanel extends PhetPanel {
+    public ChangePasswordSuccessPanel( String id, PageContext context ) {
         super( id, context );
     }
 
     public static String getKey() {
-        return "updatePasswordSuccess";
+        return "changePasswordSuccess";
     }
 
     public static String getUrl() {
-        return "update-password-success";
+        return "change-password-success";
     }
     
     public static RawLinkable getLinker() {

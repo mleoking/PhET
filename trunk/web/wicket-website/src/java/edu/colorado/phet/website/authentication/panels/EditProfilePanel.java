@@ -55,7 +55,7 @@ public class EditProfilePanel extends PhetPanel {
         else {
             add( new InvisibleComponent( "edit-self-profile" ) );
         }
-        add( ChangePasswordPage.getLinker().getLink( "updatePassword", context, getPhetCycle() ) );
+        add( ChangePasswordPage.getLinker().getLink( "changePassword", context, getPhetCycle() ) );
     }
 
     private final class EditProfileForm extends Form {

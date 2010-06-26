@@ -21,11 +21,11 @@ import edu.colorado.phet.website.util.PageContext;
 /**
  * @author Sam Reid
  */
-public class UpdatePasswordPanel extends PhetPanel {
-    private static Logger logger = Logger.getLogger( UpdatePasswordPanel.class );
+public class ChangePasswordPanel extends PhetPanel {
+    private static Logger logger = Logger.getLogger( ChangePasswordPanel.class );
     private FeedbackPanel feedback;
 
-    public UpdatePasswordPanel( String id, PageContext context ) {
+    public ChangePasswordPanel( String id, PageContext context ) {
         super( id, context );
         AuthenticatedPage.checkSignedIn();
         feedback = new FeedbackPanel( "feedback" );
@@ -57,9 +57,8 @@ public class UpdatePasswordPanel extends PhetPanel {
                 }
 
                 public void validate( Form<?> form ) {
-                    logger.info( "Validating new passwords match: " + getPasswordDebugText() );
                     if ( !newPasswordTextField.getInput().equals( confirmNewPasswordTextField.getInput() ) ) {
-                        error( confirmNewPasswordTextField, "updatePassword.validation.mismatch" );
+                        error( confirmNewPasswordTextField, "changePassword.validation.mismatch" );
                     }
                 }
             } );
@@ -70,22 +69,15 @@ public class UpdatePasswordPanel extends PhetPanel {
                 }
 
                 public void validate( Form<?> form ) {
-                    logger.info( "Validating old password is correct: " + getPasswordDebugText() );
-                    PhetUser currentUser = PhetSession.get().getUser();
-                    if ( !PhetSession.passwordEquals( currentUser.getHashedPassword(), currentPasswordTextField.getInput() ) ) {
-                        error( currentPasswordTextField, "updatePassword.validation.incorrectPassword" );
+                    if ( !PhetSession.passwordEquals( PhetSession.get().getUser().getHashedPassword(), currentPasswordTextField.getInput() ) ) {
+                        error( currentPasswordTextField, "changePassword.validation.incorrectPassword" );
                     }
                 }
             } );
         }
 
-        private String getPasswordDebugText() {
-            return "currentPassword = " + currentPasswordTextField.getInput() + ", newPassword = " + newPasswordTextField.getInput() + ", confirm = " + confirmNewPasswordTextField.getInput();
-        }
-
         @Override
         protected void onSubmit() {
-            logger.info( "Current model object = " + getPasswordDebugText() + ", model object = " + newPasswordTextField.getModelObject() );
             final PhetUser currentUser = PhetSession.get().getUser();
             boolean success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
                 public boolean run( Session session ) {
@@ -100,7 +92,7 @@ public class UpdatePasswordPanel extends PhetPanel {
                 currentUser.setPassword( newPasswordTextField.getModelObject() );
 
                 //redirect to the success page  
-                getRequestCycle().setRequestTarget( new RedirectRequestTarget( UpdatePasswordSuccessPanel.getLinker().getRawUrl( context, getPhetCycle() ) ) );
+                getRequestCycle().setRequestTarget( new RedirectRequestTarget( ChangePasswordSuccessPanel.getLinker().getRawUrl( context, getPhetCycle() ) ) );
             }
         }
     }
