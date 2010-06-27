@@ -1,3 +1,4 @@
+# 3.19.00 (41974) Jun 27, 2010
 # 3.18.14 (41931) Jun 25, 2010
 > Component values are accepted after typing in the component editor and clicking elsewhere, instead of requiring the user to press "OK" first
 Added a focus listener to the text field in the slider and made the listener commit the changed value.  See #2399.
