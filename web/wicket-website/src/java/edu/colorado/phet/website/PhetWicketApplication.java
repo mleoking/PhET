@@ -93,9 +93,10 @@ public class PhetWicketApplication extends WebApplication {
         if ( getConfigurationType().equals( Application.DEPLOYMENT ) ) {
             Logger.getLogger( "edu.colorado.phet.website" ).setLevel( Level.WARN );
         }
-        else {
-            Logger.getLogger( "edu.colorado.phet.website" ).setLevel( Level.INFO );
-        }
+        // do not override development. instead use log4j.properties debugging level. -JO
+//        else {
+//            Logger.getLogger( "edu.colorado.phet.website" ).setLevel( Level.INFO );
+//        }
 
         websiteProperties = new WebsiteProperties( getServletContext() );
 
@@ -175,7 +176,8 @@ public class PhetWicketApplication extends WebApplication {
         }
         mount( new TranslationUrlStrategy( "translation", mapper ) );
 
-        mountBookmarkablePage( "index.php", TempIndexPage.class );
+        // removing temporary redirection. browsers should cache for only a few hours: http://stackoverflow.com/questions/1683303/301-redirect-with-htaccess-and-cache-how-to-delete-old-cache
+        //mountBookmarkablePage( "index.php", TempIndexPage.class );
 
         mountBookmarkablePage( "admin", AdminMainPage.class );
         mountBookmarkablePage( "admin/deploy", DeployProjectPage.class );

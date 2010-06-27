@@ -1,3 +1,5 @@
+Logging level fix for development
+Unhook temporary index page.
 Changed PhetUser.password to PhetUser.hashedPassword
 Added an error message when sign in credentials are not authenticated
 Removed unused constructors and added docs to StringTextField
