@@ -209,6 +209,14 @@ public abstract class Particle implements IMovable, IFadable {
     	}
     }
     
+    /**
+     * Get a "memento state", which is enough information to create a particle
+     * that can be used for playback.
+     */
+    public ParticleMementoState getMementoState() {
+        return new ParticleMementoState( this );
+    }
+    
     //------------------------------------------------------------------------
     // Listener support
     //------------------------------------------------------------------------
@@ -239,5 +247,37 @@ public abstract class Particle implements IMovable, IFadable {
 		public void positionChanged() {}
 		public void opaquenessChanged() {}
 		public void removedFromModel() {}
+    }
+    
+    /**
+     * A collection of information that represents the partial state of a
+     * particle.  This is partial in that it contains enough information to
+     * support the record-and-playback feature, but not enough to support full
+     * restoration of a particle's state.  For instance, the particle's motion
+     * strategy is not retained here, where as its position, color, and
+     * transparency are.
+     */
+    public static class ParticleMementoState {
+        private final Point2D position = new Point2D.Double();
+        private final Color color;
+        private final double opaqueness;
+        
+        public ParticleMementoState (Particle particle){
+            position.setLocation( particle.getPositionReference() );
+            color = particle.getRepresentationColor();
+            opaqueness = particle.getOpaqueness();
+        }
+        
+        protected Point2D getPosition() {
+            return position;
+        }
+        
+        protected Color getColor() {
+            return color;
+        }
+        
+        protected double getOpaqueness() {
+            return opaqueness;
+        }
     }
 }
