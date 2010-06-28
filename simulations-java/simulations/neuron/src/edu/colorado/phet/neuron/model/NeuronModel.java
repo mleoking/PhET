@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.neuron.model;
 
-import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -121,7 +120,7 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
     private final AxonMembrane axonMembrane = new AxonMembrane();
     private ArrayList<Particle> simulationParticles = new ArrayList<Particle>();
     private ArrayList<Particle> simulationParticlesBackup = new ArrayList<Particle>();
-    private ArrayList<Particle> playbackParticles = new ArrayList<Particle>();
+    private ArrayList<ParticleMemento> playbackParticles = new ArrayList<ParticleMemento>();
     private ArrayList<MembraneChannel> membraneChannels = new ArrayList<MembraneChannel>();
     private final double crossSectionInnerRadius;
     private final double crossSectionOuterRadius;
@@ -517,8 +516,12 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
             // to the playback particles) should be visible.  Make sure that
             // this is the case.
             if (playbackParticlesVisible){
-                // Hide the playback particles.
-                // TODO.
+                // Hide the playback particles.  This is done by removing them
+                // from the model.
+                ArrayList<ParticleMemento> playbackParticlesCopy = new ArrayList<ParticleMemento>(playbackParticles);
+                for (ParticleMemento particleMemento : playbackParticlesCopy){
+                    particleMemento.removeFromModel();
+                }
                 // Show the simulation particles.
                 simulationParticles.addAll( simulationParticlesBackup );
                 simulationParticlesBackup.clear();
@@ -746,6 +749,12 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
 		}
 	}
 	
+    private void notifyParticleMementoAdded(ParticleMemento particleMemento){
+        for (Listener listener : listeners.getListeners(Listener.class)){
+            listener.particleMementoAdded( particleMemento );
+        }
+    }
+    
 	private void notifyStimulusPulseInitiated(){
 		for (Listener listener : listeners.getListeners(Listener.class)){
 			listener.stimulusPulseInitiated();
@@ -1023,6 +1032,15 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
     	 */
     	public void particleAdded(Particle particle);
     	
+        /**
+         * Notification that a particle memento was added.  For more
+         * information about what a particle memento is, see the class
+         * definition.
+         * 
+         * @param particleMemento - Particle memento that was added.
+         */
+        public void particleMementoAdded(ParticleMemento particleMemento);
+        
     	/**
     	 * Notification that a stimulus pulse has been initiated.
     	 */
@@ -1073,6 +1091,7 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
     public static class Adapter implements Listener{
 		public void channelAdded(MembraneChannel channel) {}
 		public void particleAdded(Particle particle) {}
+		public void particleMementoAdded( ParticleMemento particleMemento ) {}
 		public void stimulusPulseInitiated() {}
 		public void potentialChartVisibilityChanged() {}
 		public void stimulationLockoutStateChanged() {}
@@ -1085,14 +1104,15 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
     
     /**
      * This class contains state information about the model for a given point
-     * in time.  This contains enough information that, if restored to the
-     * model, the model will be able to resume the simulation.
+     * in time.  It contains enough information for the playback feature, but
+     * not necessarily enough to resume the simulation.
      */
     public static class NeuronModelState {
     	
     	private final AxonMembraneState axonMembraneState;
     	private final HashMap< MembraneChannel, MembraneChannel.MembraneChannelState > membraneChannelStateMap = 
     	    new HashMap<MembraneChannel, MembraneChannelState>();
+    	private final ArrayList<ParticleMemento> particleMementos = new ArrayList<ParticleMemento>();
 
     	/**
     	 * Constructor, which extracts the needed state information from the
@@ -1107,21 +1127,36 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
     		for (MembraneChannel membraneChannel : neuronModel.getMembraneChannels()){
     		    membraneChannelStateMap.put( membraneChannel, membraneChannel.getState() );
     		}
+    		
+    		for (Particle particle : neuronModel.getParticles()){
+    		    particleMementos.add( new ParticleMemento(particle) );
+    		}
     	}
 		
 		protected AxonMembraneState getAxonMembraneState() {
 			return axonMembraneState;
 		}
+        
+        protected HashMap<MembraneChannel, MembraneChannel.MembraneChannelState> getMembraneChannelStateMap() {
+            return membraneChannelStateMap;
+        }
+        
+        protected ArrayList<ParticleMemento> getParticleMementos() {
+            return particleMementos;
+        }
     }
     
 	@Override
 	public void setPlaybackState(NeuronModelState state) {
+	    
+	    // Set the membrane channel state.
 		axonMembrane.setState(state.getAxonMembraneState());
+		
+		// Set the states of the membrane channels.
 		// TODO: Is there a more efficient way to match the map entries to the
 		// membrane channel list?
-		System.out.println("setPlaybackState called");
 		for (MembraneChannel membraneChannel : getMembraneChannels()){
-		    MembraneChannelState mcs = state.membraneChannelStateMap.get( membraneChannel );
+		    MembraneChannelState mcs = state.getMembraneChannelStateMap().get( membraneChannel );
 		    // Error handling.
 		    if (mcs == null){
 		        System.out.println(getClass().getName() + " Error: No state found for membrane channel.");
@@ -1131,6 +1166,24 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
 		    // Restore the state.
 		    membraneChannel.setState( mcs );
 		}
+		
+		// Set the state of the particle mementos.
+		// TODO: For now, this clears out any existing ones and adds new ones
+		// for each memento.  This is inefficient, and we should probably have
+		// some matching of existing ones.
+        ArrayList<ParticleMemento> playbackParticlesCopy = new ArrayList<ParticleMemento>(playbackParticles);
+        for (ParticleMemento particleMemento : playbackParticlesCopy){
+            particleMemento.removeFromModel();
+        }
+        for (final ParticleMemento particleMemento : state.getParticleMementos()){
+            playbackParticles.add( particleMemento );
+            notifyParticleMementoAdded( particleMemento );
+            particleMemento.addListener( new ParticleMemento.Listener(){
+                public void removedFromModel() {
+                    playbackParticles.remove( particleMemento );
+                }
+            });
+        }
 	}
 	
 	@Override

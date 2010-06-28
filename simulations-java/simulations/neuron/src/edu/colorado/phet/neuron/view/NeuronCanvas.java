@@ -29,9 +29,10 @@ import edu.colorado.phet.common.piccolophet.PhetRootPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.neuron.NeuronConstants;
 import edu.colorado.phet.neuron.NeuronStrings;
-import edu.colorado.phet.neuron.model.NeuronModel;
 import edu.colorado.phet.neuron.model.MembraneChannel;
+import edu.colorado.phet.neuron.model.NeuronModel;
 import edu.colorado.phet.neuron.model.Particle;
+import edu.colorado.phet.neuron.model.ParticleMemento;
 import edu.colorado.phet.neuron.model.PotassiumIon;
 import edu.colorado.phet.neuron.model.SodiumIon;
 import edu.colorado.phet.neuron.module.NeuronDefaults;
@@ -149,7 +150,10 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
 			public void particleAdded(Particle particle) {
 				addParticle(particle);
 			}
-			public void potentialChartVisibilityChanged(){
+            public void particleMementoAdded(ParticleMemento particleMemento) {
+                addParticleMemento(particleMemento);
+            }
+            public void potentialChartVisibilityChanged(){
 				membranePotentialChart.setVisible(model.isPotentialChartVisible());
 			}
 			public void chargesShownChanged() {
@@ -564,6 +568,19 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     			particleLayer.removeChild(particleNode);
     		}
     	});
+    }
+    
+    private void addParticleMemento(ParticleMemento particleMementoToBeAdded){
+        final ParticleMementoNode particleMementoNode = new ParticleMementoNode(particleMementoToBeAdded, mvt); 
+        particleLayer.addChild(particleMementoNode);
+        
+        // Set up a listener to remove the particle node when and if the
+        // particle is removed from the model.
+        particleMementoToBeAdded.addListener(new ParticleMemento.Listener(){
+            public void removedFromModel() {
+                particleLayer.removeChild(particleMementoNode);
+            }
+        });
     }
     
     private void addChannelNode(MembraneChannel channelToBeAdded){
