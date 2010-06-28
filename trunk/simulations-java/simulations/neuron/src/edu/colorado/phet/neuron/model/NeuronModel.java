@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.neuron.model;
 
+import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -118,7 +119,9 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
     
     private final ConstantDtClock clock;
     private final AxonMembrane axonMembrane = new AxonMembrane();
-    private ArrayList<Particle> particles = new ArrayList<Particle>();
+    private ArrayList<Particle> simulationParticles = new ArrayList<Particle>();
+    private ArrayList<Particle> simulationParticlesBackup = new ArrayList<Particle>();
+    private ArrayList<Particle> playbackParticles = new ArrayList<Particle>();
     private ArrayList<MembraneChannel> membraneChannels = new ArrayList<MembraneChannel>();
     private final double crossSectionInnerRadius;
     private final double crossSectionOuterRadius;
@@ -134,6 +137,7 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
 	private double sodiumExteriorConcentration = NOMINAL_SODIUM_EXTERIOR_CONCENTRATION;
     private double potassiumInteriorConcentration = NOMINAL_POTASSIUM_INTERIOR_CONCENTRATION;
     private double potassiumExteriorConcentration = NOMINAL_POTASSIUM_EXTERIOR_CONCENTRATION;
+    private boolean playbackParticlesVisible = false;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -199,6 +203,7 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
         addObserver(new SimpleObserver() {
 			public void update() {
 				updateStimulasLockoutState();
+				updateSimAndPlaybackParticleVisibility();
 			}
 		});
         
@@ -230,7 +235,7 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
     }    
     
     public ArrayList<Particle> getParticles(){
-    	return particles;
+    	return simulationParticles;
     }
     
     public AxonMembrane getAxonMembrane(){
@@ -501,6 +506,55 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
     }
     
     /**
+     * There are two sets of particles in this simulation, one that is used
+     * when actually simulating, and one that is used when playing back.  This
+     * routine updates which set is visible based on state information.
+     * 
+     */
+    private void updateSimAndPlaybackParticleVisibility(){
+        if (isRecord() || isLive()){
+            // In either of these modes, the simulation particles (as opposed
+            // to the playback particles) should be visible.  Make sure that
+            // this is the case.
+            if (playbackParticlesVisible){
+                // Hide the playback particles.
+                // TODO.
+                // Show the simulation particles.
+                simulationParticles.addAll( simulationParticlesBackup );
+                simulationParticlesBackup.clear();
+                for (Particle simParticle : simulationParticles){
+                    notifyParticleAdded( simParticle );
+                }
+                // Update the state variable.
+                playbackParticlesVisible = false;
+            }
+        }
+        else if (isPlayback()){
+            // The playback particles should be showing and the simulation
+            // particles should be hidden.  Make sure that this is the case.
+            if (!playbackParticlesVisible){
+                // Hide the simulation particles.  This is done by making a
+                // backup copy of them (so that they can be added back later)
+                // and then removing them from the model.
+                simulationParticlesBackup.addAll( simulationParticles );
+                for (Particle particle : simulationParticlesBackup){
+                    particle.removeFromModel();
+                }
+                
+                // Show the playback particles.
+                // TODO
+                // Update the state variable.
+                playbackParticlesVisible = true;
+            }
+        }
+        else{
+            // Should never happen, debug if it does.
+            System.out.println(getClass().getName() + " - Error: Unrecognized record-and-playback mode.");
+            assert false;
+        }
+    }
+    
+    /**
      * Get a boolean value that indicates whether the initiation of a new
      * stimulus (i.e. action potential) is currently locked out.  This is done
      * to prevent the situation where multiple action potentials are moving
@@ -538,7 +592,7 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
     public Particle createParticle(ParticleType particleType, CaptureZone captureZone){
     	
     	final Particle newParticle = Particle.createParticle(particleType);
-    	particles.add(newParticle);
+    	simulationParticles.add(newParticle);
     	if (captureZone != null){
     		Point2D location = captureZone.getSuggestedNewParticleLocation();
     		newParticle.setPosition(location);
@@ -547,7 +601,7 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
     	// Listen to the particle for notification of its removal.
     	newParticle.addListener(new Particle.Adapter(){
     		public void removedFromModel() {
-    			particles.remove(newParticle);
+    			simulationParticles.remove(newParticle);
     		}
     	});
     	
@@ -644,7 +698,7 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
     	int totalNumberOfParticles = 0;
     	Point2D captureZoneOrigin = zone.getOriginPoint();
     	
-    	for (Particle particle : particles){
+    	for (Particle particle : simulationParticles){
     		if ((particle.getType() == particleType) && (particle.isAvailableForCapture()) && (zone.isPointInZone(particle.getPositionReference()))) {
     			totalNumberOfParticles++;
     			if (closestFreeParticle == null){
@@ -887,7 +941,7 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
      */
     private void addInitialBulkParticles(){
     	// Make a list of pre-existing particles.
-    	ArrayList<Particle> preExistingParticles = new ArrayList<Particle>(particles);
+    	ArrayList<Particle> preExistingParticles = new ArrayList<Particle>(simulationParticles);
     	
     	// Add the initial particles.
     	addParticles(ParticleType.SODIUM_ION, ParticlePosition.INSIDE_MEMBRANE, NUM_SODIUM_IONS_INSIDE_CELL);
@@ -908,7 +962,7 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
     	}
     	
     	// Set all new particles to exhibit simple Brownian motion.
-    	for (Particle particle : particles){
+    	for (Particle particle : simulationParticles){
     		if (!preExistingParticles.contains(particle)){
     			particle.setMotionStrategy(new SlowBrownianMotionStrategy(particle.getPositionReference()));
     		}
@@ -923,7 +977,7 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
     	// send out notifications of its removal from the model.  All
     	// listeners, including this class, should remove their references in
     	// response.
-    	ArrayList<Particle> particlesCopy = new ArrayList<Particle>(particles);
+    	ArrayList<Particle> particlesCopy = new ArrayList<Particle>(simulationParticles);
     	for (Particle particle : particlesCopy){
     		particle.removeFromModel();
     	}
@@ -1040,6 +1094,12 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
     	private final HashMap< MembraneChannel, MembraneChannel.MembraneChannelState > membraneChannelStateMap = 
     	    new HashMap<MembraneChannel, MembraneChannelState>();
 
+    	/**
+    	 * Constructor, which extracts the needed state information from the
+    	 * model.
+    	 * 
+    	 * @param neuronModel
+    	 */
 		public NeuronModelState(NeuronModel neuronModel){
 		    
     		axonMembraneState = neuronModel.getAxonMembrane().getState();
@@ -1053,12 +1113,13 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
 			return axonMembraneState;
 		}
     }
-
+    
 	@Override
 	public void setPlaybackState(NeuronModelState state) {
 		axonMembrane.setState(state.getAxonMembraneState());
 		// TODO: Is there a more efficient way to match the map entries to the
 		// membrane channel list?
+		System.out.println("setPlaybackState called");
 		for (MembraneChannel membraneChannel : getMembraneChannels()){
 		    MembraneChannelState mcs = state.membraneChannelStateMap.get( membraneChannel );
 		    // Error handling.
@@ -1096,6 +1157,7 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
 		if (isPlayback() && getTime() >= getMaxRecordedTime()){
 			setModeRecord();
 			setPaused(false);
+			System.out.println("Would restore head state here.");
 		}
 	}
 
@@ -1127,7 +1189,7 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
 		// Step the particles.  Since particles may remove themselves as a
 		// result of being stepped, we need to copy the list in order to avoid
 		// concurrent modification exceptions.
-		ArrayList<Particle> particlesCopy = new ArrayList<Particle>(particles);
+		ArrayList<Particle> particlesCopy = new ArrayList<Particle>(simulationParticles);
 		for (Particle particle : particlesCopy){
 			particle.stepInTime( dt );
 		}
