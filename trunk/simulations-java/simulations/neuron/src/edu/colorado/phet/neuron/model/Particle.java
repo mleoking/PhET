@@ -18,7 +18,7 @@ public abstract class Particle implements IMovable, IFadable {
     // Class data
     //------------------------------------------------------------------------
 	
-	private double DEFAULT_PARTICLE_RADIUS = 0.75;  // In nanometers.
+	private static final double DEFAULT_PARTICLE_RADIUS = 0.75;  // In nanometers.
 	
     //------------------------------------------------------------------------
     // Instance data
@@ -173,8 +173,8 @@ public abstract class Particle implements IMovable, IFadable {
      * Get the diameter of this particle in nano meters.  This obviously
      * assumes a round particle.
      */
-    public double getDiameter(){
-    	return getRadius() * 2;
+    public static double getDiameter(){
+    	return DEFAULT_PARTICLE_RADIUS;
     }
 
     public double getRadius(){
@@ -210,11 +210,12 @@ public abstract class Particle implements IMovable, IFadable {
     }
     
     /**
-     * Get a "memento state", which is enough information to create a particle
-     * that can be used for playback.
+     * Get a "memento", which is an object that is not a full-blown particle
+     * but that contains enough information for the playback feature to
+     * present a particle in the view.
      */
-    public ParticleMementoState getMementoState() {
-        return new ParticleMementoState( this );
+    public ParticleMemento getMemento() {
+        return new ParticleMemento( this );
     }
     
     //------------------------------------------------------------------------
@@ -247,37 +248,5 @@ public abstract class Particle implements IMovable, IFadable {
 		public void positionChanged() {}
 		public void opaquenessChanged() {}
 		public void removedFromModel() {}
-    }
-    
-    /**
-     * A collection of information that represents the partial state of a
-     * particle.  This is partial in that it contains enough information to
-     * support the record-and-playback feature, but not enough to support full
-     * restoration of a particle's state.  For instance, the particle's motion
-     * strategy is not retained here, where as its position, color, and
-     * transparency are.
-     */
-    public static class ParticleMementoState {
-        private final Point2D position = new Point2D.Double();
-        private final Color color;
-        private final double opaqueness;
-        
-        public ParticleMementoState (Particle particle){
-            position.setLocation( particle.getPositionReference() );
-            color = particle.getRepresentationColor();
-            opaqueness = particle.getOpaqueness();
-        }
-        
-        protected Point2D getPosition() {
-            return position;
-        }
-        
-        protected Color getColor() {
-            return color;
-        }
-        
-        protected double getOpaqueness() {
-            return opaqueness;
-        }
     }
 }
