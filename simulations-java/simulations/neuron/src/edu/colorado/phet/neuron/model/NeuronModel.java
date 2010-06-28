@@ -919,7 +919,7 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
     	// positions toward the outside in order to get an even distribution
     	// per unit area.
     	double multiplier = Math.max(RAND.nextDouble(), RAND.nextDouble());
-    	double distance = (crossSectionInnerRadius - particle.getDiameter()) * multiplier;
+    	double distance = (crossSectionInnerRadius - particle.getRadius() * 2) * multiplier;
     	
     	particle.setPosition(distance * Math.cos(angle), distance * Math.sin(angle));
     }
@@ -936,7 +936,7 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
     	// weighting the positions toward the outside in order to get an even
     	// distribution per unit area.
     	double multiplier = RAND.nextDouble();
-    	double distance = crossSectionOuterRadius + particle.getDiameter() * 2 + 
+    	double distance = crossSectionOuterRadius + particle.getRadius() * 4 + 
 			multiplier * crossSectionOuterRadius * 2.2;
     	
     	particle.setPosition(distance * Math.cos(angle), distance * Math.sin(angle));

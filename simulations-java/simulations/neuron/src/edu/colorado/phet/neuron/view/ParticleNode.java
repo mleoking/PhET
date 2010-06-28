@@ -90,7 +90,8 @@ public class ParticleNode extends PNode {
 
     	switch (particle.getType()){
     	case SODIUM_ION:
-    		SphericalNode sphereRepresentation = new SphericalNode( modelViewTransform.modelToViewDifferentialXDouble(particle.getDiameter()), 
+    		SphericalNode sphereRepresentation = 
+    		    new SphericalNode( modelViewTransform.modelToViewDifferentialXDouble(particle.getRadius() * 2), 
     				particle.getRepresentationColor(), false);
     		sphereRepresentation.setStroke(PARTICLE_EDGE_STROKE);
     		sphereRepresentation.setStrokePaint(Color.BLACK);
@@ -98,7 +99,7 @@ public class ParticleNode extends PNode {
     		break;
     		
     	case POTASSIUM_ION:
-    		size = modelViewTransform.modelToViewDifferentialXDouble(particle.getDiameter()) * 0.85;
+    		size = modelViewTransform.modelToViewDifferentialXDouble(particle.getRadius() * 2) * 0.85;
     		PPath diamondRepresentation = new PPath( new Rectangle2D.Double(-size/2, -size/2, size, size));
     		diamondRepresentation.setPaint(particle.getRepresentationColor());
     		diamondRepresentation.setStroke(PARTICLE_EDGE_STROKE);
@@ -108,7 +109,7 @@ public class ParticleNode extends PNode {
     		break;
     		
     	case PROTEIN_ION:
-    		size = modelViewTransform.modelToViewDifferentialXDouble(particle.getDiameter());
+    		size = modelViewTransform.modelToViewDifferentialXDouble(particle.getRadius() * 2);
     		double ovalWidth = size * 1.5;
     		double ovalHeight = size * 0.8;
     		PPath ovalRepresentation = 
@@ -121,7 +122,8 @@ public class ParticleNode extends PNode {
     		
     	default:
     		System.err.println(getClass().getName() + " - Warning: No specific shape for this particle type, defaulting to sphere.");
-    		representation = new SphericalNode( modelViewTransform.modelToViewDifferentialXDouble(particle.getDiameter()), 
+    		representation = 
+    		    new SphericalNode( modelViewTransform.modelToViewDifferentialXDouble(particle.getRadius() * 2), 
     				particle.getRepresentationColor(), true);
     		break;
     	}

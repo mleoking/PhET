@@ -170,13 +170,9 @@ public abstract class Particle implements IMovable, IFadable {
     }
     
     /**
-     * Get the diameter of this particle in nano meters.  This obviously
-     * assumes a round particle.
+     * Get the radius of this particle in nano meters.  This is approximate in
+     * the case of non-round particles.
      */
-    public static double getDiameter(){
-    	return DEFAULT_PARTICLE_RADIUS;
-    }
-
     public double getRadius(){
     	return DEFAULT_PARTICLE_RADIUS;   // Default value, override if needed to support other particles.
     }
