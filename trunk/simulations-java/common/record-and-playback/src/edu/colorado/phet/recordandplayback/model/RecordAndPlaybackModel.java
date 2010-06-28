@@ -222,6 +222,10 @@ public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
         return mode == recordMode;
     }
 
+    public boolean isLive() {
+        return mode == liveMode;
+    }
+
     public void setPaused(boolean p) {
         if (paused != p) {
             paused = p;
