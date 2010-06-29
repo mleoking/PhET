@@ -210,8 +210,8 @@ public abstract class Particle implements IMovable, IFadable {
      * but that contains enough information for the playback feature to
      * present a particle in the view.
      */
-    public ParticleMemento getMemento() {
-        return new ParticleMemento( this );
+    public PlaybackParticle getMemento() {
+        return new PlaybackParticle( this );
     }
     
     //------------------------------------------------------------------------

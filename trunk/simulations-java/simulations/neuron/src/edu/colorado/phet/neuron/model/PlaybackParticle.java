@@ -7,14 +7,14 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 /**
- * Class that is used as a "memento" pattern for particles.  It is similar to
- * a full blown particle but contains less data and implements less
- * capability, and this is faster and easier to create.  This is intended for
- * use as part of the implementation of the record-and-playback feature.
+ * Class that is used in the model to represent particles during playback.  It
+ * is similar to a full blown particle but contains less data and implements
+ * less capability, and this is faster and easier to create.  This is intended
+ * for use as part of the implementation of the record-and-playback feature.
  *
  * @author John Blanco
  */
-public class ParticleMemento {
+public class PlaybackParticle {
     
     //------------------------------------------------------------------------
     // Class data
@@ -41,7 +41,7 @@ public class ParticleMemento {
      * 
      * @param particleMementoState - State for this particle memento.
      */
-    public ParticleMemento(Particle particle) {
+    public PlaybackParticle(Particle particle) {
         position.setLocation( particle.getPosition() );
         opaqueness = particle.getOpaqueness();
         representationColor = particle.getRepresentationColor();

@@ -33,7 +33,7 @@ import edu.colorado.phet.neuron.model.MembraneChannel;
 import edu.colorado.phet.neuron.model.NeuronModel;
 import edu.colorado.phet.neuron.model.Particle;
 import edu.colorado.phet.neuron.model.ParticleListenerAdapter;
-import edu.colorado.phet.neuron.model.ParticleMemento;
+import edu.colorado.phet.neuron.model.PlaybackParticle;
 import edu.colorado.phet.neuron.model.PotassiumIon;
 import edu.colorado.phet.neuron.model.SodiumIon;
 import edu.colorado.phet.neuron.module.NeuronDefaults;
@@ -151,7 +151,7 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
 			public void particleAdded(Particle particle) {
 				addParticle(particle);
 			}
-            public void particleMementoAdded(ParticleMemento particleMemento) {
+            public void particleMementoAdded(PlaybackParticle particleMemento) {
                 addParticleMemento(particleMemento);
             }
             public void potentialChartVisibilityChanged(){
@@ -571,13 +571,13 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     	});
     }
     
-    private void addParticleMemento(ParticleMemento particleMementoToBeAdded){
+    private void addParticleMemento(PlaybackParticle particleMementoToBeAdded){
         final ParticleMementoNode particleMementoNode = new ParticleMementoNode(particleMementoToBeAdded, mvt); 
         particleLayer.addChild(particleMementoNode);
         
         // Set up a listener to remove the particle node when and if the
         // particle is removed from the model.
-        particleMementoToBeAdded.addListener(new ParticleMemento.Listener(){
+        particleMementoToBeAdded.addListener(new PlaybackParticle.Listener(){
             public void removedFromModel() {
                 particleLayer.removeChild(particleMementoNode);
             }
