@@ -1,0 +1,57 @@
+6/28/10 Added the ability to save and restore the particle state.
+# 0.00.35 (41953) Jun 25, 2010
+6/25/10 Publishing to dev with a version with UI fixes.  At this point, UI should be pretty worked out.
+# 0.00.34 (41946) Jun 25, 2010
+# 0.00.33 (41944) Jun 25, 2010
+# 0.00.32 (41943) Jun 25, 2010
+# 0.00.31 (41940) Jun 25, 2010
+6/25/10 Publishing version with UI for record-and-playback pretty much working.
+# 0.00.30 (41161) May 25, 2010
+5/25/10 Candidate versioin for first student interviews.
+5/25/10 Reduced the frame rate to 15 fps for better performance on slower machines.
+5/25/10 Changed several things about the behavior of the membrane potential chart to make it more user friendly.
+5/25/10 Made the sodium concentration readouts exponential instead of linear.
+5/25/10 Made the concentration readouts be delayed so as not to change before particles cross membrane.
+# 0.00.29 (41118) May 24, 2010
+5/24/10 Version with changes to concentration readout behavior for review.
+# 0.00.28 (40910) May 19, 2010
+5/19/10 Turned of Brownian motion of background particles in order to test performance change on various machines.
+# 0.00.27 (40907) May 19, 2010
+5/19/10 Lowered frame rate to 20 fps for testing.
+5/19/10 Added the feature for displaying concentrations, requested by IPHY.
+# 0.00.26 (40259) Apr 30, 2010
+4/30/10 Added more particles as requested by IPHY.
+# 0.00.25 (39962) Apr 16, 2010
+4/16/10 Version with most of functionality of the Membrane Diffusion tab implemented.
+# 0.00.24 (39697) Apr 7, 2010
+4/7/10 Version with better ion traversal thru channels with an inactivation gate, mapped leak current to potassium leak chan.
+# 0.00.23 (39376) Mar 18, 2010
+3/18/10 Added dual-gated sodium channels, modified chart behavior, other cleanup and fixes.
+# 0.00.22 (39374) Mar 18, 2010
+3/18/10 Added zoom control, dual-gated sodium channels, fixed/improved a number of other things.
+# 0.00.21 (39226) Mar 10, 2010
+3/10/10 New model using Gaussian curves, new zoom control, a number of other adjustments.
+# 0.0.20 (38934) Feb 25, 2010
+2/25/10 Prototype version with permanent particles visible that are partially faded.
+# 0.0.19 (38932) Feb 25, 2010
+2/25/10 Prototype version where some particles are permanently present.
+# 0.0.18 (38926) Feb 25, 2010
+2/25/10 Prototype version with static particles in place
+# 0.0.17 (38895) Feb 24, 2010
+2/24/10 Stable prototype based in part on recent feedback from IPHY team.
+# 0.0.16 (38388) Feb 3, 2010
+2/3/10 Added the ability to adjust some of the internal params of the HH model via a developer control
+# 0.0.15 (38380) Feb 2, 2010
+2/2/10 Added time to the data displayed and logged from Hodgkin-Huxley model.
+# 0.0.14 (38364) Feb 1, 2010
+2/1/10 Added additional params to the HH data displayed by developer controls, also added data capture.
+# 0.0.13 (38350) Feb 1, 2010
+2/1/10 Added a developer control for seeing internal workings of the HH model.
+# 0.0.12 (38348) Feb 1, 2010
+2/1/10 Added a developer control that enables display of internal current flows for the HH model.
+# 0.0.11 (38313) Jan 28, 2010
+1/28/10 Action potentials now working in HH model and can be seen on membrane potential chart
+# 0.0.10 (38312) Jan 28, 2010
+1/28/10 Action potentials within the HH model now work & can be seen on the "potential" chart.
+# 0.0.09 (38310) Jan 28, 2010
+1/28/10 Basic action potentials now work in the HH model, these can be seen on the strip chart.
