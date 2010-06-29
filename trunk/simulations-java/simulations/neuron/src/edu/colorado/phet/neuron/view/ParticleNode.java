@@ -11,7 +11,7 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
-import edu.colorado.phet.neuron.model.Particle;
+import edu.colorado.phet.neuron.model.IViewableParticle;
 import edu.colorado.phet.neuron.model.ParticleListenerAdapter;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -24,11 +24,11 @@ public class ParticleNode extends PNode {
 	private static final float STROKE_WIDTH = 1;
 	private static final Stroke PARTICLE_EDGE_STROKE = new BasicStroke(STROKE_WIDTH);
 	
-	private Particle particle;
+	private IViewableParticle particle;
     private ModelViewTransform2D modelViewTransform;
     private PNode representation;
 
-    public ParticleNode( Particle particle, ModelViewTransform2D modelViewTransform ) {
+    public ParticleNode( IViewableParticle particle, ModelViewTransform2D modelViewTransform ) {
     	
 		this.particle = particle;
         this.modelViewTransform = modelViewTransform;

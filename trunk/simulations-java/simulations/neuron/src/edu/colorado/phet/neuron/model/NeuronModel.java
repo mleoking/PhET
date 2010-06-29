@@ -510,8 +510,8 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
                 // Hide the playback particles.  This is done by removing them
                 // from the model.
                 ArrayList<PlaybackParticle> playbackParticlesCopy = new ArrayList<PlaybackParticle>(playbackParticles);
-                for (PlaybackParticle particleMemento : playbackParticlesCopy){
-                    particleMemento.removeFromModel();
+                for (PlaybackParticle playbackParticle: playbackParticlesCopy){
+                    playbackParticle.removeFromModel();
                 }
                 // Show the simulation particles.
                 simulationParticles.addAll( simulationParticlesBackup );
@@ -734,18 +734,12 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
 		}
 	}
 	
-	private void notifyParticleAdded(Particle particle){
+	private void notifyParticleAdded(IViewableParticle particle){
 		for (Listener listener : listeners.getListeners(Listener.class)){
 			listener.particleAdded(particle);
 		}
 	}
 	
-    private void notifyParticleMementoAdded(PlaybackParticle particleMemento){
-        for (Listener listener : listeners.getListeners(Listener.class)){
-            listener.particleMementoAdded( particleMemento );
-        }
-    }
-    
 	private void notifyStimulusPulseInitiated(){
 		for (Listener listener : listeners.getListeners(Listener.class)){
 			listener.stimulusPulseInitiated();
@@ -1021,17 +1015,8 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
     	 * 
     	 * @param particle - Particle that was added.
     	 */
-    	public void particleAdded(Particle particle);
+    	public void particleAdded(IViewableParticle particle);
     	
-        /**
-         * Notification that a particle memento was added.  For more
-         * information about what a particle memento is, see the class
-         * definition.
-         * 
-         * @param particleMemento - Particle memento that was added.
-         */
-        public void particleMementoAdded(PlaybackParticle particleMemento);
-        
     	/**
     	 * Notification that a stimulus pulse has been initiated.
     	 */
@@ -1081,8 +1066,7 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
     
     public static class Adapter implements Listener{
 		public void channelAdded(MembraneChannel channel) {}
-		public void particleAdded(Particle particle) {}
-		public void particleMementoAdded( PlaybackParticle particleMemento ) {}
+		public void particleAdded(IViewableParticle particle) {}
 		public void stimulusPulseInitiated() {}
 		public void potentialChartVisibilityChanged() {}
 		public void stimulationLockoutStateChanged() {}
@@ -1103,7 +1087,7 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
     	private final AxonMembraneState axonMembraneState;
     	private final HashMap< MembraneChannel, MembraneChannel.MembraneChannelState > membraneChannelStateMap = 
     	    new HashMap<MembraneChannel, MembraneChannelState>();
-    	private final ArrayList<PlaybackParticle> particleMementos = new ArrayList<PlaybackParticle>();
+    	private final ArrayList<PlaybackParticle> playbackParticles = new ArrayList<PlaybackParticle>();
 
     	/**
     	 * Constructor, which extracts the needed state information from the
@@ -1120,7 +1104,7 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
     		}
     		
     		for (Particle particle : neuronModel.getParticles()){
-    		    particleMementos.add( new PlaybackParticle(particle) );
+    		    playbackParticles.add( new PlaybackParticle(particle) );
     		}
     	}
 		
@@ -1132,8 +1116,8 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
             return membraneChannelStateMap;
         }
         
-        protected ArrayList<PlaybackParticle> getParticleMementos() {
-            return particleMementos;
+        protected ArrayList<PlaybackParticle> getPlaybackParticles() {
+            return playbackParticles;
         }
     }
     
@@ -1158,20 +1142,20 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
 		    membraneChannel.setState( mcs );
 		}
 		
-		// Set the state of the particle mementos.
+		// Set the state of the playback particles.
 		// TODO: For now, this clears out any existing ones and adds new ones
-		// for each memento.  This is inefficient, and we should probably have
+		// for each playback particle.  This is inefficient, and we should probably have
 		// some matching of existing ones.
         ArrayList<PlaybackParticle> playbackParticlesCopy = new ArrayList<PlaybackParticle>(playbackParticles);
-        for (PlaybackParticle particleMemento : playbackParticlesCopy){
-            particleMemento.removeFromModel();
+        for (PlaybackParticle playbackParticle : playbackParticlesCopy){
+            playbackParticle.removeFromModel();
         }
-        for (final PlaybackParticle particleMemento : state.getParticleMementos()){
-            playbackParticles.add( particleMemento );
-            notifyParticleMementoAdded( particleMemento );
-            particleMemento.addListener( new ParticleListenerAdapter(){
+        for (final PlaybackParticle playbackParticle : state.getPlaybackParticles()){
+            playbackParticles.add( playbackParticle );
+            notifyParticleAdded( playbackParticle );
+            playbackParticle.addListener( new ParticleListenerAdapter(){
                 public void removedFromModel() {
-                    playbackParticles.remove( particleMemento );
+                    playbackParticles.remove( playbackParticle );
                 }
             });
         }

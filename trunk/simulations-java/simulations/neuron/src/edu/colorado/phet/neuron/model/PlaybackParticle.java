@@ -37,9 +37,10 @@ public class PlaybackParticle implements IViewableParticle {
     //------------------------------------------------------------------------
 
 	/**
-     * Construct a particle memento.
+     * Construct a playback particle.
      * 
-     * @param particleMementoState - State for this particle memento.
+     * @param particle - Real particle from which this playback particle
+     * should be constructed.
      */
     public PlaybackParticle(Particle particle) {
         position.setLocation( particle.getPosition() );
@@ -54,9 +55,9 @@ public class PlaybackParticle implements IViewableParticle {
     //------------------------------------------------------------------------
     
     /**
-     * This is called to remove this particle memento from the model.  It simply
-     * sends out a notification of removal, and all listeners (including the
-     * view) are expected to act appropriately and to remove all references.
+     * This is called to remove this particle from the model.  It simply sends
+     * out a notification of removal, and all listeners (including the view)
+     * are expected to act appropriately and to remove all references.
      */
     public void removeFromModel(){
     	notifyRemoved();
