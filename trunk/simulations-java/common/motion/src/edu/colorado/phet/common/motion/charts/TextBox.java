@@ -1,5 +1,6 @@
 package edu.colorado.phet.common.motion.charts;
 
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -18,8 +19,9 @@ public class TextBox extends PNode {
     private ArrayList<Listener> listeners = new ArrayList<Listener>();
     protected final PSwing textField;
 
-    public TextBox() {
+    public TextBox(Font font) {
         swingTextField = new JTextField(4);
+        swingTextField.setFont( font );
         swingTextField.setHorizontalAlignment(JTextField.RIGHT);
         textField = new PSwing(swingTextField);
         addChild(textField);
