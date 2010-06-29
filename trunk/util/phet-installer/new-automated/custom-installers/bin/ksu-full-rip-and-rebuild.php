@@ -64,31 +64,6 @@
         // so that they won't be included in the local mirror installers.
         ripper_move_out_translated_jars();
 
-        // Obtain some additional files from the web server that are needed in
-        // order to modify the CSS files as needed for the local vs. the web
-        // mirror installers.
-        define("CSS_DIR", RIPPED_WEBSITE_ROOT.PHET_HOSTNAME_NO_COLONS."/css/");
-        define("CSS_APPEND_FILES_DIR", CSS_DIR."installer-append/");
-        if (!file_exists(CSS_APPEND_FILES_DIR)){
-            mkdir(CSS_APPEND_FILES_DIR);
-        }
-        system("wget -P ".CSS_APPEND_FILES_DIR." http://".PHET_HOSTNAME."/css/installer-append/home-installer-v1.css");
-        system("wget -P ".CSS_APPEND_FILES_DIR." http://".PHET_HOSTNAME."/css/installer-append/navmenu-installer-v1.css");
-        system("wget -P ".CSS_APPEND_FILES_DIR." http://".PHET_HOSTNAME."/css/installer-append/simulation-main-installer-v1.css");
-
-        // Back up the CSS files that will be manipulated, then append some
-        // commands that will make certain links disappear (e.g. the "Download"
-        // button on the sim page) within the local installers.
-        copy(CSS_DIR."home-v1.css", CSS_DIR."home-v1-backup.css");
-        copy(CSS_DIR."navmenu-v1.css", CSS_DIR."navmenu-v1-backup.css");
-        copy(CSS_DIR."simulation-main-v1.css", CSS_DIR."simulation-main-v1-backup.css");
-        file_append_line_to_file(CSS_DIR."home-v1.css", "\n");
-        file_append_file_to_file(CSS_DIR."home-v1.css", CSS_APPEND_FILES_DIR."home-installer-v1.css");
-        file_append_line_to_file(CSS_DIR."navmenu-v1.css", "\n");
-        file_append_file_to_file(CSS_DIR."navmenu-v1.css", CSS_APPEND_FILES_DIR."navmenu-installer-v1.css");
-        file_append_line_to_file(CSS_DIR."simulation-main-v1.css", "\n");
-        file_append_file_to_file(CSS_DIR."simulation-main-v1.css", CSS_APPEND_FILES_DIR."simulation-main-installer-v1.css");
-
         // Build the full set of local mirror installers.
         installer_build_local_mirror_installers(BITROCK_KSU_LOCAL_MIRROR_BUILDFILE);
 
@@ -103,11 +78,6 @@
         // Remove the marker file, since we don't want it to be present in the
         // web mirror.
         installer_remove_marker_file();
-
-        // Restore the orignal CSS files.
-        rename(CSS_DIR."home-v1-backup.css", CSS_DIR."home-v1.css");
-        rename(CSS_DIR."navmenu-v1-backup.css", CSS_DIR."navmenu-v1.css");
-        rename(CSS_DIR."simulation-main-v1-backup.css", CSS_DIR."simulation-main-v1.css");
 
         // Restore the individually translated jar files.
         ripper_restore_translated_jars();
