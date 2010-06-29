@@ -32,6 +32,7 @@ import edu.colorado.phet.neuron.NeuronStrings;
 import edu.colorado.phet.neuron.model.MembraneChannel;
 import edu.colorado.phet.neuron.model.NeuronModel;
 import edu.colorado.phet.neuron.model.Particle;
+import edu.colorado.phet.neuron.model.ParticleListenerAdapter;
 import edu.colorado.phet.neuron.model.ParticleMemento;
 import edu.colorado.phet.neuron.model.PotassiumIon;
 import edu.colorado.phet.neuron.model.SodiumIon;
@@ -563,7 +564,7 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     	
     	// Set up a listener to remove the particle node when and if the
     	// particle is removed from the model.
-    	particleToBeAdded.addListener(new Particle.Adapter(){
+    	particleToBeAdded.addListener(new ParticleListenerAdapter(){
     		public void removedFromModel() {
     			particleLayer.removeChild(particleNode);
     		}

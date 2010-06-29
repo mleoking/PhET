@@ -24,7 +24,7 @@ public abstract class Particle implements IMovable, IFadable {
     // Instance data
     //------------------------------------------------------------------------
 	
-    protected ArrayList<Listener> listeners = new ArrayList<Listener>();
+    protected ArrayList<IParticleListener> listeners = new ArrayList<IParticleListener>();
     
     // Location in space of this particle, units are nano-meters.
     private Point2D.Double position;
@@ -129,7 +129,7 @@ public abstract class Particle implements IMovable, IFadable {
 
     protected void notifyPositionChanged(){
         // Notify all listeners of the position change.
-        for (Listener listener : listeners)
+        for (IParticleListener listener : listeners)
         {
             listener.positionChanged(); 
         }        
@@ -137,7 +137,7 @@ public abstract class Particle implements IMovable, IFadable {
     
     protected void notifyOpaquenessChanged(){
         // Notify all listeners of the opaqueness change.
-        for (Listener listener : listeners)
+        for (IParticleListener listener : listeners)
         {
             listener.opaquenessChanged(); 
         }        
@@ -157,9 +157,9 @@ public abstract class Particle implements IMovable, IFadable {
      */
     private void notifyRemoved(){
     	// Copy the list to avoid concurrent modification exceptions.
-    	ArrayList<Listener> listenersCopy = new ArrayList<Listener>(listeners); 
+    	ArrayList<IParticleListener> listenersCopy = new ArrayList<IParticleListener>(listeners); 
     	// Notify all listeners that this particle was removed from the model.
-        for (Listener listener : listenersCopy)
+        for (IParticleListener listener : listenersCopy)
         {
             listener.removedFromModel(); 
         }        
@@ -218,7 +218,7 @@ public abstract class Particle implements IMovable, IFadable {
     // Listener support
     //------------------------------------------------------------------------
 
-    public void addListener(Listener listener) {
+    public void addListener(IParticleListener listener) {
         if (listeners.contains( listener ))
         {
             // Don't bother re-adding.
@@ -230,19 +230,7 @@ public abstract class Particle implements IMovable, IFadable {
         listeners.add( listener );
     }
     
-    public void removeListener(Listener listener){
+    public void removeListener(IParticleListener listener){
     	listeners.remove(listener);
-    }
-
-    public interface Listener {
-        void positionChanged();
-        void opaquenessChanged();
-        void removedFromModel();
-    }
-    
-    public static class Adapter implements Listener {
-		public void positionChanged() {}
-		public void opaquenessChanged() {}
-		public void removedFromModel() {}
     }
 }

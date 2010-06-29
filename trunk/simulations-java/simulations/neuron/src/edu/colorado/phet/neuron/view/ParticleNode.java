@@ -12,6 +12,7 @@ import java.awt.geom.Rectangle2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
 import edu.colorado.phet.neuron.model.Particle;
+import edu.colorado.phet.neuron.model.ParticleListenerAdapter;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -32,7 +33,7 @@ public class ParticleNode extends PNode {
 		this.particle = particle;
         this.modelViewTransform = modelViewTransform;
 
-        particle.addListener(new Particle.Adapter() {
+        particle.addListener(new ParticleListenerAdapter() {
 			public void positionChanged() {
 				updateOffset();
 			}
