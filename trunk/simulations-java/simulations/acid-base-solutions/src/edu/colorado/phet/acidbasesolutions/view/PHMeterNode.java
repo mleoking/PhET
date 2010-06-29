@@ -3,10 +3,7 @@
 package edu.colorado.phet.acidbasesolutions.view;
 
 import java.awt.*;
-import java.awt.geom.Area;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.RoundRectangle2D;
+import java.awt.geom.*;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
 
@@ -19,6 +16,7 @@ import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.AqueousSolution
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -92,18 +90,28 @@ public class PHMeterNode extends PhetPNode {
         addInputEventListener( new CursorHandler( Cursor.N_RESIZE_CURSOR ) );
         addInputEventListener( new PDragEventHandler() {
             
-            private double clickYOffset; // y offset of mouse click from meter's origin
+            private double globalClickYOffset; // y offset of mouse click from meter's origin
             
             protected void startDrag( PInputEvent event ) {
                 super.startDrag( event );
                 // note the offset between the mouse click and the meter's origin
-                clickYOffset = event.getPosition().getY() - model.getPHMeter().getLocationReference().getY();
+                PNode pickedNode = event.getPickedNode();
+                PNode parent = pickedNode.getParent();
+                Point2D pMouseLocal = event.getPositionRelativeTo( parent );
+                Point2D pMouseGlobal = parent.localToGlobal( pMouseLocal );
+                Point2D pMeterGlobal = parent.localToGlobal( pickedNode.getOffset() );
+                globalClickYOffset = pMouseGlobal.getY() - pMeterGlobal.getY();
             }
             
             protected void drag( final PInputEvent event ) {
-                double x = getXOffset();
-                double y = event.getPosition().getY() - clickYOffset;
-                model.getPHMeter().setLocation( x, y );
+                // determine the meter's new offset
+                PNode pickedNode = event.getPickedNode();
+                PNode parent = pickedNode.getParent();
+                Point2D pMouseLocal = event.getPositionRelativeTo( parent );
+                Point2D pMouseGlobal = parent.localToGlobal( pMouseLocal );
+                Point2D pMeterGlobal = new Point2D.Double( pMouseGlobal.getX(), pMouseGlobal.getY() - globalClickYOffset );
+                Point2D pMeterLocal = parent.globalToLocal( pMeterGlobal );
+                model.getPHMeter().setLocation( pMeterLocal );
             }
         });
         
