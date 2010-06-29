@@ -99,14 +99,21 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
         
     	// Register for clock ticks so that we can update.
     	neuronModel.getClock().addClockListener(new ClockAdapter(){
+    	    @Override
     	    public void clockTicked( ClockEvent clockEvent ) {
     	    	updateChart(clockEvent);
     	    }
+    	    @Override
     	    public void simulationTimeReset( ClockEvent clockEvent ) {
                 neuronModel.setModeLive();
     	    	clearChart();
     	    	updateChartCursorVisibility();
     	    }
+            @Override
+            public void clockPaused( ClockEvent clockEvent ) {
+                updateChartCursorPos();
+                updateChartCursorVisibility();
+            }
     	});
     	
     	// Register for model events that are important to us.
@@ -157,7 +164,6 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
             public void mousePressed( PInputEvent event ) {
                 pressPoint = event.getPositionRelativeTo( MembranePotentialChart.this );
                 pressTime = jFreeChartNode.nodeToPlot(chartCursor.getOffset()).getX();
-                neuronModel.setPlayback(1); // Set into playback mode.
             }
 
             public Point2D localToPlotDifferential( double dx, double dy ) {
@@ -173,6 +179,9 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
             }
 
             public void mouseDragged( PInputEvent event ) {
+                if (!neuronModel.isPlayback()){
+                    neuronModel.setPlayback(1); // Set into playback mode.
+                }
                 Point2D d = event.getPositionRelativeTo( MembranePotentialChart.this );
                 Point2D dx = new Point2D.Double( d.getX() - pressPoint.getX(), d.getY() - pressPoint.getY() );
                 Point2D diff = localToPlotDifferential( dx.getX(), dx.getY() );
@@ -380,7 +389,7 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
     	boolean dataExists = dataSeries.getItemCount() > 0;
     	
     	boolean chartCursorVisible = isCurrentTimeOnChart && dataExists && 
-    	    (neuronModel.isPlayback() || (neuronModel.getClock().isPaused() && neuronModel.isRecord()));
+    	    (neuronModel.isPlayback() || (neuronModel.getClock().isPaused() && !neuronModel.isLive()));
     	
     	chartCursor.setVisible(chartCursorVisible);
     }
