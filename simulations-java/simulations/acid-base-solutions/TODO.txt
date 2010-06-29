@@ -26,7 +26,7 @@ LOW PRIORITY
 
 MIGRATE TO COMMON
 - PrecisionDecimal (also appears in ph-scale, advanced-acid-base-solutions)
-- ABSRadioButton
+- ABSRadioButton (consider ditching this and button groups)
 - HTMLCheckBox (usable in advanced-acid-base-solutions RatioCheckBox? see #1704)
 
 --
