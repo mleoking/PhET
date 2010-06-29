@@ -13,7 +13,9 @@ HIGH PRIORITY
 - control panel layout issues
 
 MEDUIUM PRIORITY
+- chem symbol api, handle baseline/bold/italic/super/sub/color, use Piccolo for layout control
 - not obvious what "Show H2O Molecules" check box pertains to
+- label x-axis of concentration graph, SR didn't see correlation to reaction equation
 - Save/Load?
 - if pH meter is placed fully behind another tool, it is then inaccessible
 - baseline alignment of reaction equations (impossible?)
@@ -21,7 +23,7 @@ MEDUIUM PRIORITY
 - pH paper (CAB feedback required)
 
 LOW PRIORITY
-- icons for tool controls
+- icons for tool controls 
 - better images for molecules
 - export design doc from Google, check into SVN
 - model.txt
