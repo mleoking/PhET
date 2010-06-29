@@ -5,7 +5,7 @@ package edu.colorado.phet.acidbasesolutions.module.customsolution;
 import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
-import edu.colorado.phet.acidbasesolutions.model.ABSModel.DefaultSolutionFactory;
+import edu.colorado.phet.acidbasesolutions.model.ABSModel.SolutionFactory;
 import edu.colorado.phet.acidbasesolutions.model.WeakAcidSolution.CustomWeakAcidSolution;
 import edu.colorado.phet.acidbasesolutions.module.ABSModule;
 
@@ -23,8 +23,8 @@ public class CustomSolutionModule extends ABSModule {
     public CustomSolutionModule() {
         super( ABSStrings.CUSTOM_SOLUTION );
         
-        model = new ABSModel( new DefaultSolutionFactory() {
-            public AqueousSolution getDefaultSolution() {
+        model = new ABSModel( new SolutionFactory() {
+            public AqueousSolution createSolution() {
                 return new CustomWeakAcidSolution();
             }
         });

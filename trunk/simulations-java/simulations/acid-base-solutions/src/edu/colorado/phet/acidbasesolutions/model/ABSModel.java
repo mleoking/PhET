@@ -15,14 +15,11 @@ import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
  */
 public class ABSModel {
 
-    /**
-     * Factory for creating a default solution, used by modules when instantiating the model.
-     */
-    public interface DefaultSolutionFactory {
-        AqueousSolution getDefaultSolution();
+    public interface SolutionFactory {
+        AqueousSolution createSolution();
     }
     
-    private final DefaultSolutionFactory defaultSolutionFactory;
+    private final SolutionFactory defaultSolutionFactory;
     private AqueousSolution solution;
     private final Beaker beaker;
     private final PHMeter pHMeter;
@@ -32,7 +29,7 @@ public class ABSModel {
     
     private EventListenerList listeners;
     
-    public ABSModel( DefaultSolutionFactory defaultSolutionFactory ) {
+    public ABSModel( SolutionFactory defaultSolutionFactory ) {
         this.defaultSolutionFactory = defaultSolutionFactory;
         beaker = new Beaker( ABSConstants.BEAKER_LOCATION, ABSConstants.BEAKER_VISIBLE, ABSConstants.BEAKER_SIZE );
         magnifyingGlass = new MagnifyingGlass( ABSConstants.MAGNIFYING_GLASS_LOCATION, ABSConstants.MAGNIFYING_GLASS_VISIBLE, ABSConstants.MAGNIFYING_GLASS_DIAMETER );
@@ -44,7 +41,7 @@ public class ABSModel {
     }
     
     public void reset() {
-        setSolution( defaultSolutionFactory.getDefaultSolution() );
+        setSolution( defaultSolutionFactory.createSolution() );
         getMagnifyingGlass().setVisible( ABSConstants.MAGNIFYING_GLASS_VISIBLE );
         getConcentrationGraph().setVisible( ABSConstants.CONCENTRATION_GRAPH_VISIBLE );
         getPHMeter().setLocation( ABSConstants.PH_METER_LOCATION );

@@ -4,6 +4,8 @@ MILESTONES
 - 8/1/10, sim showable for BCCE
 
 HIGH PRIORITY
+- use SolutionFactory in TestSolutionControl
+- ditch ABSRadioButton in TestSolutionControl, separate listener for each radio button
 - zero-arg constructors for ABSModelElement subclasses
 - fix drag behavior for pH meter, constrain, errors in coordinate frame transforms
 - fix resize behavior of main frame, nodes below the beaker are not visible if main frame is resized wider 
@@ -26,7 +28,6 @@ LOW PRIORITY
 
 MIGRATE TO COMMON
 - PrecisionDecimal (also appears in ph-scale, advanced-acid-base-solutions)
-- ABSRadioButton (consider ditching this and button groups)
 - HTMLCheckBox (usable in advanced-acid-base-solutions RatioCheckBox? see #1704)
 
 --
