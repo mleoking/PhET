@@ -577,7 +577,7 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
         
         // Set up a listener to remove the particle node when and if the
         // particle is removed from the model.
-        particleMementoToBeAdded.addListener(new PlaybackParticle.Listener(){
+        particleMementoToBeAdded.addListener(new ParticleListenerAdapter(){
             public void removedFromModel() {
                 particleLayer.removeChild(particleMementoNode);
             }

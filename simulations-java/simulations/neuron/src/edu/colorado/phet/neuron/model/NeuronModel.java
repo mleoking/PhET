@@ -531,7 +531,7 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
                 // backup copy of them (so that they can be added back later)
                 // and then removing them from the model.
                 simulationParticlesBackup.addAll( simulationParticles );
-                for (Particle particle : simulationParticlesBackup){
+                for (IViewableParticle particle : simulationParticlesBackup){
                     particle.removeFromModel();
                 }
                 
@@ -978,7 +978,7 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
     	// listeners, including this class, should remove their references in
     	// response.
     	ArrayList<Particle> particlesCopy = new ArrayList<Particle>(simulationParticles);
-    	for (Particle particle : particlesCopy){
+    	for (IViewableParticle particle : particlesCopy){
     		particle.removeFromModel();
     	}
     }
@@ -1169,7 +1169,7 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
         for (final PlaybackParticle particleMemento : state.getParticleMementos()){
             playbackParticles.add( particleMemento );
             notifyParticleMementoAdded( particleMemento );
-            particleMemento.addListener( new PlaybackParticle.Listener(){
+            particleMemento.addListener( new ParticleListenerAdapter(){
                 public void removedFromModel() {
                     playbackParticles.remove( particleMemento );
                 }

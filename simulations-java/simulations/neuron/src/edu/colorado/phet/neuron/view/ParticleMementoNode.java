@@ -56,7 +56,7 @@ public class ParticleMementoNode extends PNode {
     	PNode representation;
     	double size;
 
-    	switch (particleMemento.getParticleType()){
+    	switch (particleMemento.getType()){
     	case SODIUM_ION:
     		SphericalNode sphereRepresentation = new SphericalNode( 
     		        modelViewTransform.modelToViewDifferentialXDouble(particleMemento.getRadius() * 2), 
