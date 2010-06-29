@@ -14,7 +14,7 @@ import java.util.ArrayList;
  *
  * @author John Blanco
  */
-public class PlaybackParticle {
+public class PlaybackParticle implements IViewableParticle {
     
     //------------------------------------------------------------------------
     // Class data
@@ -30,7 +30,7 @@ public class PlaybackParticle {
     private final double radius;
     private final ParticleType particleType;
     
-    protected ArrayList<Listener> listeners = new ArrayList<Listener>();
+    protected ArrayList<IParticleListener> listeners = new ArrayList<IParticleListener>();
     
     //------------------------------------------------------------------------
     // Constructors
@@ -68,18 +68,21 @@ public class PlaybackParticle {
      */
     private void notifyRemoved(){
     	// Copy the list to avoid concurrent modification exceptions.
-    	ArrayList<Listener> listenersCopy = new ArrayList<Listener>(listeners); 
+    	ArrayList<IParticleListener> listenersCopy = new ArrayList<IParticleListener>(listeners); 
     	// Notify all listeners that this particle was removed from the model.
-        for (Listener listener : listenersCopy)
+        for (IParticleListener listener : listenersCopy)
         {
             listener.removedFromModel(); 
         }        
     }
     
     public Point2D getPosition() {
-        return position;
+        return new Point2D.Double( position.getX(), position.getY() );
     }
 
+    public Point2D getPositionReference() {
+        return position;
+    }
     
     public Color getRepresentationColor() {
         return representationColor;
@@ -95,7 +98,7 @@ public class PlaybackParticle {
         return radius;
     }
     
-    public ParticleType getParticleType() {
+    public ParticleType getType() {
         return particleType;
     }
     
@@ -103,7 +106,7 @@ public class PlaybackParticle {
     // Listener support
     //------------------------------------------------------------------------
     
-    public void addListener(Listener listener) {
+    public void addListener(IParticleListener listener) {
         if (listeners.contains( listener ))
         {
             // Don't bother re-adding.
@@ -115,7 +118,7 @@ public class PlaybackParticle {
         listeners.add( listener );
     }
     
-    public void removeListener(Listener listener){
+    public void removeListener(IParticleListener listener){
     	listeners.remove(listener);
     }
 

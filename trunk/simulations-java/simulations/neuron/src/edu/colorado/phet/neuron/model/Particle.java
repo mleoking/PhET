@@ -12,7 +12,7 @@ import java.util.ArrayList;
  *
  * @author John Blanco
  */
-public abstract class Particle implements IMovable, IFadable {
+public abstract class Particle implements IMovable, IFadable, IViewableParticle {
     
     //------------------------------------------------------------------------
     // Class data
@@ -83,12 +83,21 @@ public abstract class Particle implements IMovable, IFadable {
 		return newParticle;
     }
     
+    /* (non-Javadoc)
+     * @see edu.colorado.phet.neuron.model.IViewableParticle#getType()
+     */
     public abstract ParticleType getType(); 
     
-    public Point2D.Double getPosition() {
+    /* (non-Javadoc)
+     * @see edu.colorado.phet.neuron.model.IViewableParticle#getPosition()
+     */
+    public Point2D getPosition() {
         return new Point2D.Double(position.getX(), position.getY());
     }
     
+    /* (non-Javadoc)
+     * @see edu.colorado.phet.neuron.model.IViewableParticle#getPositionReference()
+     */
     public Point2D.Double getPositionReference() {
         return position;
     }
@@ -109,6 +118,9 @@ public abstract class Particle implements IMovable, IFadable {
 		}
 	}
 	
+	/* (non-Javadoc)
+     * @see edu.colorado.phet.neuron.model.IViewableParticle#getOpaqueness()
+     */
 	public double getOpaqueness(){
 		return opaqueness;
 	}
@@ -143,10 +155,8 @@ public abstract class Particle implements IMovable, IFadable {
         }        
     }
     
-    /**
-     * This is called to remove this particle from the model.  It simply sends
-     * out a notification of removal, and all listeners (including the view)
-     * are expected to act appropriately and to remove all references.
+    /* (non-Javadoc)
+     * @see edu.colorado.phet.neuron.model.IViewableParticle#removeFromModel()
      */
     public void removeFromModel(){
     	notifyRemoved();
@@ -169,16 +179,15 @@ public abstract class Particle implements IMovable, IFadable {
     	this.motionStrategy = motionStrategy; 
     }
     
-    /**
-     * Get the radius of this particle in nano meters.  This is approximate in
-     * the case of non-round particles.
+    /* (non-Javadoc)
+     * @see edu.colorado.phet.neuron.model.IViewableParticle#getRadius()
      */
     public double getRadius(){
     	return DEFAULT_PARTICLE_RADIUS;   // Default value, override if needed to support other particles.
     }
     
-    /**
-     * Get the base color to be used when representing this particle.
+    /* (non-Javadoc)
+     * @see edu.colorado.phet.neuron.model.IViewableParticle#getRepresentationColor()
      */
     abstract public Color getRepresentationColor();
 
@@ -218,6 +227,9 @@ public abstract class Particle implements IMovable, IFadable {
     // Listener support
     //------------------------------------------------------------------------
 
+    /* (non-Javadoc)
+     * @see edu.colorado.phet.neuron.model.IViewableParticle#addListener(edu.colorado.phet.neuron.model.IParticleListener)
+     */
     public void addListener(IParticleListener listener) {
         if (listeners.contains( listener ))
         {
@@ -230,6 +242,9 @@ public abstract class Particle implements IMovable, IFadable {
         listeners.add( listener );
     }
     
+    /* (non-Javadoc)
+     * @see edu.colorado.phet.neuron.model.IViewableParticle#removeListener(edu.colorado.phet.neuron.model.IParticleListener)
+     */
     public void removeListener(IParticleListener listener){
     	listeners.remove(listener);
     }
