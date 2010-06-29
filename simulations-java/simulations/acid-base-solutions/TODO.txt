@@ -4,6 +4,7 @@ MILESTONES
 - 8/1/10, sim showable for BCCE
 
 HIGH PRIORITY
+- zero-arg constructors for ABSModelElement subclasses
 - fix drag behavior for pH meter, constrain, errors in coordinate frame transforms
 - fix resize behavior of main frame, nodes below the beaker are not visible if main frame is resized wider 
 - center everything in the play area
