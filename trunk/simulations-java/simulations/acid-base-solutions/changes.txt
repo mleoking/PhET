@@ -1,3 +1,4 @@
+6/29/10 refine HTMLCheckBox disabled color
 6/29/10 move reset functionality into model, factory for creating default solution for each module
 6/25/10 disable pickability of nodes that are not interactive
 6/25/10 fix pickability of beaker so that tools can be picked when they are immersed in solution
