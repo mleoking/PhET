@@ -163,15 +163,6 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
 				stepInTime( clockEvent.getSimulationTimeChange() );
 			}
 
-			@Override
-			public void clockPaused(ClockEvent clockEvent) {
-				// When the clock is paused, automatically go into playback
-				// mode, but only if there is something to play back.
-				if (getNumRecordedPoints() > 0){
-					setModePlayback();
-				}
-			}
-
             @Override
             public void clockStarted(ClockEvent clockEvent) {
                 super.clockStarted(clockEvent);
@@ -1210,7 +1201,6 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
 		if (isPlayback() && getTime() >= getMaxRecordedTime()){
 			setModeRecord();
 			setPaused(false);
-			System.out.println("Would restore head state here.");
 		}
 	}
 
