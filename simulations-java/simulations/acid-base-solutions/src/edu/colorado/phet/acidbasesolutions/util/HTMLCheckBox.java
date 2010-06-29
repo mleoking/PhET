@@ -5,6 +5,7 @@ package edu.colorado.phet.acidbasesolutions.util;
 import java.awt.Color;
 
 import javax.swing.JCheckBox;
+import javax.swing.UIManager;
 
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 
@@ -18,18 +19,11 @@ import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
  */
 public class HTMLCheckBox extends JCheckBox {
     
-    private static final Color DEFAULT_DISABLED_COLOR = Color.GRAY;
-
-    private Color foreground, disabledColor;
+    private Color foreground;
     
     public HTMLCheckBox( String text ) {
-        this( text, DEFAULT_DISABLED_COLOR );
-    }
-    
-    public HTMLCheckBox( String text, Color disabledColor ) {
         super( HTMLUtils.toHTMLString( text ) );
         this.foreground = getForeground();
-        this.disabledColor = disabledColor;
     }
     
     public void setForeground( Color foreground ) {
@@ -41,6 +35,14 @@ public class HTMLCheckBox extends JCheckBox {
     
     public void setEnabled( boolean enabled ) {
         super.setEnabled( enabled );
-        super.setForeground( enabled ? foreground : disabledColor );
+        super.setForeground( enabled ? foreground : getDisabledColor() );
+    }
+    
+    private Color getDisabledColor() {
+        Color color = UIManager.getColor( "CheckBox.disabledText" );
+        if ( color == null ) {
+            color = Color.GRAY;
+        }
+        return color;
     }
 }
