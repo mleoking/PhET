@@ -593,7 +593,7 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
     	}
     	
     	// Listen to the particle for notification of its removal.
-    	newParticle.addListener(new Particle.Adapter(){
+    	newParticle.addListener(new ParticleListenerAdapter(){
     		public void removedFromModel() {
     			simulationParticles.remove(newParticle);
     		}
