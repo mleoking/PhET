@@ -45,7 +45,7 @@ else
 fi
 
 if [ "$1" = "--email" -o "$2" = "--email" ]; then
-   echo "Seding email notification for this build." | tee --append $LOG
+   echo "Sending email notification for this build." | tee --append $LOG
    send_email_notification
 else
    echo "No email notification is being sent for this build." | tee --append $LOG
