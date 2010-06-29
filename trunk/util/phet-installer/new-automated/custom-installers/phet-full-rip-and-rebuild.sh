@@ -14,7 +14,7 @@ function send_email_notification {
 
    # Email distribution list - this controls who receives notifications of the
    # result of the build process.
-   EMAIL_ADDR="john.blanco@colorado.edu cmalley@pixelzoom.com daniel.mckagan@gmail.com reids@colorado.edu katherine.perkins@colorado.edu marjorie.frankel@colorado.edu"
+   EMAIL_ADDR="john.blanco@colorado.edu cmalley@pixelzoom.com olsonsjc@gmail.com reids@colorado.edu katherine.perkins@colorado.edu marjorie.frankel@colorado.edu"
 
    EMAIL_MSG="/tmp/phet_build_email_msg.txt"
    LINES_TO_SEND=30
