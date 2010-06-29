@@ -69,8 +69,9 @@ public class CLConstants {
     // reference coordinate frame size for world nodes
     public static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 1024, 768 );
     
-    public static final double VIEWING_ANGLE = Math.toRadians( 45 ); // angle of the bottom left corner in the top plate's parallelogram (radians)
-    public static final double FORESHORTENING_FACTOR = 0.5; // how much lines going away from the viewer should be shortened (dimensionless)
+    public static final double YAW_VIEWING_ANGLE = Math.toRadians( 45 ); // rotation about the vertical axis, angle of the bottom left corner in the top plate's parallelogram (radians)
+    private static final double PITCH_VIEWING_ANGLE = Math.toRadians( 30 ); // rotation about the horizontal axis
+    public static final double FORESHORTENING_FACTOR = Math.sin( PITCH_VIEWING_ANGLE ); // how much lines going away from the viewer should be shortened (dimensionless)
     
     public static final double PSWING_SCALE = 1.5;
     

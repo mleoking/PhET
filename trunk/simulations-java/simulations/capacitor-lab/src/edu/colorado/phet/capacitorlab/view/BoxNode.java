@@ -114,8 +114,8 @@ public abstract class BoxNode extends PhetPNode {
         
         // parallelogram, origin at lower-left point
         public void setWidthAndDepth( double width, double depth ) {
-            double xOffset = CLConstants.FORESHORTENING_FACTOR * depth * Math.cos( CLConstants.VIEWING_ANGLE );
-            double yOffset = CLConstants.FORESHORTENING_FACTOR * depth * Math.sin( CLConstants.VIEWING_ANGLE );
+            double xOffset = CLConstants.FORESHORTENING_FACTOR * depth * Math.cos( CLConstants.YAW_VIEWING_ANGLE );
+            double yOffset = CLConstants.FORESHORTENING_FACTOR * depth * Math.sin( CLConstants.YAW_VIEWING_ANGLE );
             GeneralPath path = getPath();
             path.reset();
             path.moveTo( 0, 0 );
@@ -155,8 +155,8 @@ public abstract class BoxNode extends PhetPNode {
         // original at upper-left point
         public void setDepthAndHeight( double depth, double height ) {
             //XXX refactor, duplicate of code in TopNode.setWidthAndDepth
-            double xOffset = CLConstants.FORESHORTENING_FACTOR * depth * Math.cos( CLConstants.VIEWING_ANGLE ); 
-            double yOffset = CLConstants.FORESHORTENING_FACTOR * depth * Math.sin( CLConstants.VIEWING_ANGLE );
+            double xOffset = CLConstants.FORESHORTENING_FACTOR * depth * Math.cos( CLConstants.YAW_VIEWING_ANGLE ); 
+            double yOffset = CLConstants.FORESHORTENING_FACTOR * depth * Math.sin( CLConstants.YAW_VIEWING_ANGLE );
             GeneralPath path = getPath();
             path.reset();
             path.moveTo( 0, 0 );
