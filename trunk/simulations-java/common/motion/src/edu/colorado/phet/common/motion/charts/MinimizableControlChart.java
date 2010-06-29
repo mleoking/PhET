@@ -69,4 +69,8 @@ public class MinimizableControlChart extends PNode {
     public void centerVerticalZoomButtons() {
         controlChart.centerVerticalZoomButtons();
     }
+
+    public double getMinimizedHeight() {
+        return minimizeMaximizeButton.getFullBounds().getHeight();
+    }
 }
