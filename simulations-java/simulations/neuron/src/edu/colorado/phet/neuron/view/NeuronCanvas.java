@@ -29,11 +29,11 @@ import edu.colorado.phet.common.piccolophet.PhetRootPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.neuron.NeuronConstants;
 import edu.colorado.phet.neuron.NeuronStrings;
+import edu.colorado.phet.neuron.model.IViewableParticle;
 import edu.colorado.phet.neuron.model.MembraneChannel;
 import edu.colorado.phet.neuron.model.NeuronModel;
 import edu.colorado.phet.neuron.model.Particle;
 import edu.colorado.phet.neuron.model.ParticleListenerAdapter;
-import edu.colorado.phet.neuron.model.PlaybackParticle;
 import edu.colorado.phet.neuron.model.PotassiumIon;
 import edu.colorado.phet.neuron.model.SodiumIon;
 import edu.colorado.phet.neuron.module.NeuronDefaults;
@@ -148,12 +148,9 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
 			public void channelAdded(MembraneChannel channel) {
 				addChannelNode(channel);
 			}
-			public void particleAdded(Particle particle) {
+			public void particleAdded(IViewableParticle particle) {
 				addParticle(particle);
 			}
-            public void particleMementoAdded(PlaybackParticle particleMemento) {
-                addParticleMemento(particleMemento);
-            }
             public void potentialChartVisibilityChanged(){
 				membranePotentialChart.setVisible(model.isPotentialChartVisible());
 			}
@@ -558,7 +555,7 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     	return zoomFactor;
     }
     
-    private void addParticle(Particle particleToBeAdded){
+    private void addParticle(IViewableParticle particleToBeAdded){
     	final ParticleNode particleNode = new ParticleNode(particleToBeAdded, mvt); 
     	particleLayer.addChild(particleNode);
     	
@@ -569,19 +566,6 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     			particleLayer.removeChild(particleNode);
     		}
     	});
-    }
-    
-    private void addParticleMemento(PlaybackParticle particleMementoToBeAdded){
-        final ParticleMementoNode particleMementoNode = new ParticleMementoNode(particleMementoToBeAdded, mvt); 
-        particleLayer.addChild(particleMementoNode);
-        
-        // Set up a listener to remove the particle node when and if the
-        // particle is removed from the model.
-        particleMementoToBeAdded.addListener(new ParticleListenerAdapter(){
-            public void removedFromModel() {
-                particleLayer.removeChild(particleMementoNode);
-            }
-        });
     }
     
     private void addChannelNode(MembraneChannel channelToBeAdded){
