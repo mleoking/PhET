@@ -15,7 +15,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 public class MovingManChartControl extends PNode {
     private static final PhetFont TITLE_FONT = new PhetFont( 16, true );
-    private static final PhetFont TEXT_BOX_FONT = new PhetFont( 14 );
+    public static final PhetFont TEXT_BOX_FONT = new PhetFont( 14 );
     private static final PhetFont UNITS_FONT = TEXT_BOX_FONT;
 
     public MovingManChartControl( String title, Color color, TextBoxListener textBoxDecorator, final TemporalChart chart, String units ) {

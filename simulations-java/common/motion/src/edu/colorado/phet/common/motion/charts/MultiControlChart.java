@@ -10,6 +10,8 @@ import java.util.ArrayList;
  */
 public class MultiControlChart extends PNode {
     private ArrayList<MinimizableControlChart> children = new ArrayList<MinimizableControlChart>();
+    private double width;
+    private double height;
 
     public MultiControlChart(final MinimizableControlChart[] charts) {
         final SimpleObserver updateHorizontalZoomButtonVisibility = new SimpleObserver() {
@@ -27,8 +29,17 @@ public class MultiControlChart extends PNode {
             children.add(chart);
             addChild(chart);
             chart.getMaximized().addObserver(updateHorizontalZoomButtonVisibility);
+            chart.getMaximized().addObserver(new SimpleObserver() {
+                public void update() {
+                    updateLayout();
+                }
+            } );
         }
         updateHorizontalZoomButtonVisibility.update();
+    }
+
+    private void updateLayout() {
+        new ControlChartLayout.AlignedLayout().updateLayout(children.toArray(new MinimizableControlChart[0]), width, height);
     }
 
     private void setHorizontalZoomButtonVisible(int index) {
@@ -38,7 +49,9 @@ public class MultiControlChart extends PNode {
     }
 
     public void setSize(double width, double height) {
-        new ControlChartLayout.AlignedLayout().updateLayout(children.toArray(new MinimizableControlChart[0]), width, height);
+        this.width=width;
+        this.height=height;
+        updateLayout();
     }
 
     public boolean setBounds(double x, double y, double width, double height) {

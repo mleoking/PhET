@@ -27,7 +27,7 @@ public class MovingManSimulationPanelWithPlayAreaSliders extends MovingManSimula
         {
             //TODO: factor out code with the sliders + text boxes used in the chart module
 
-            final TextBox positionTextBox = new TextBox();
+            final TextBox positionTextBox = new TextBox(MovingManChartControl.TEXT_BOX_FONT );
             new TextBoxListener.Position(model).addListeners(positionTextBox);
 
             positonSlider = new PlayAreaSliderControl(-10, 10, model.getMousePosition(), "Position", "m", MovingManColorScheme.POSITION_COLOR, positionTextBox);
@@ -60,7 +60,7 @@ public class MovingManSimulationPanelWithPlayAreaSliders extends MovingManSimula
         }
 
         {
-            final TextBox textBox = new TextBox();
+            final TextBox textBox = new TextBox(MovingManChartControl.TEXT_BOX_FONT);
             {
                 new TextBoxListener.Velocity(model).addListeners(textBox);
             }
@@ -98,7 +98,7 @@ public class MovingManSimulationPanelWithPlayAreaSliders extends MovingManSimula
         }
 
         {
-            final TextBox box = new TextBox();
+            final TextBox box = new TextBox(MovingManChartControl.TEXT_BOX_FONT);
             {
                 new TextBoxListener.Acceleration(model).addListeners(box);
             }

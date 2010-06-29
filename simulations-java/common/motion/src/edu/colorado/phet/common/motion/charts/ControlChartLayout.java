@@ -66,21 +66,41 @@ public interface ControlChartLayout {
             });
             double chartRangeLabelWidth = 20;//TODO: don't hard code this.
             double chartWidth = width - maxControlPanelWidth - maxSliderWidth - maxZoomControlWidth - maxSliderWidth / 2.0 - chartRangeLabelWidth;
-            double chartHeight = (height - extraLayoutHeightForDomainAxisLabels) / charts.length;//TODO: account for insets
+
+            //Figure out how many charts are visible and how much space the minimized charts will use.
+            int numVisibleCharts = 0;
+            double minimizedChartSpace = 0;
+            for (MinimizableControlChart chart : charts) {
+                if (chart.getMaximized().getValue()) {
+                    numVisibleCharts++;
+                } else {
+                    minimizedChartSpace += chart.getMinimizedHeight();
+                }
+            }
+
+            //Determine the X coordinates of the different components
+            final double controlPanelX = 0.0;
+            final double sliderX = maxControlPanelWidth + controlPanelX + maxSliderWidth / 2.0;
+            final double chartX = sliderX + maxSliderWidth + chartRangeLabelWidth;
+            final double zoomControlX = chartX + chartWidth;
+
+            //Compute the vertical location and spacing
+            final int paddingBetweenCharts = 8;
+            final int totalPaddingBetweenCharts = paddingBetweenCharts * (charts.length - 1);
+            final double maximizedChartHeight = numVisibleCharts == 0 ? 0 : (height - extraLayoutHeightForDomainAxisLabels - minimizedChartSpace - totalPaddingBetweenCharts) / numVisibleCharts;//TODO: account for insets
             double chartY = 0.0;
-
-            double controlPanelX = 0.0;
-            double sliderX = maxControlPanelWidth + controlPanelX + maxSliderWidth / 2.0;
-            double chartX = sliderX + maxSliderWidth + chartRangeLabelWidth;
-            double zoomControlX = chartX + chartWidth;
-
+            
+            //Update the chart sizes and locations
             for (MinimizableControlChart chart : charts) {
                 chart.setLayoutLocations(controlPanelX, sliderX, chartX, zoomControlX);
-                chart.getChartNode().getViewDimension().setDimension(chartWidth, chartHeight);
+                chart.getChartNode().getViewDimension().setDimension(chartWidth, maximizedChartHeight);
                 chart.setOffset(0, chartY);
-                chartY = chartY + chartHeight + chart.getDomainLabelHeight();
-                chart.setMinimizeMaximizeButtonOffset(chartX + chartWidth - chart.getMinimizeMaximizeButton().getFullBounds().getWidth() - 4, 4);
+                chart.setMinimizeMaximizeButtonOffset(chartX + chartWidth - chart.getMinimizeMaximizeButton().getFullBounds().getWidth() - 4, 0);
                 chart.centerVerticalZoomButtons();
+
+                //identify the location of the next chart
+                double currentChartHeight = (chart.getMaximized().getValue() ? maximizedChartHeight + chart.getDomainLabelHeight() : chart.getMinimizedHeight());
+                chartY += paddingBetweenCharts + currentChartHeight;
             }
         }
     }
