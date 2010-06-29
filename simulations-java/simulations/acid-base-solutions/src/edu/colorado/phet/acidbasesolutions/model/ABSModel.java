@@ -15,6 +15,14 @@ import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
  */
 public class ABSModel {
 
+    /**
+     * Factory for creating a default solution, used by modules when instantiating the model.
+     */
+    public interface DefaultSolutionFactory {
+        AqueousSolution getDefaultSolution();
+    }
+    
+    private final DefaultSolutionFactory defaultSolutionFactory;
     private AqueousSolution solution;
     private final Beaker beaker;
     private final PHMeter pHMeter;
@@ -24,14 +32,24 @@ public class ABSModel {
     
     private EventListenerList listeners;
     
-    public ABSModel( AqueousSolution solution ) {
-        this.solution = solution;
+    public ABSModel( DefaultSolutionFactory defaultSolutionFactory ) {
+        this.defaultSolutionFactory = defaultSolutionFactory;
         beaker = new Beaker( ABSConstants.BEAKER_LOCATION, ABSConstants.BEAKER_VISIBLE, ABSConstants.BEAKER_SIZE );
         magnifyingGlass = new MagnifyingGlass( ABSConstants.MAGNIFYING_GLASS_LOCATION, ABSConstants.MAGNIFYING_GLASS_VISIBLE, ABSConstants.MAGNIFYING_GLASS_DIAMETER );
         pHMeter = new PHMeter( ABSConstants.PH_METER_LOCATION, ABSConstants.PH_METER_VISIBLE, ABSConstants.PH_METER_SHAFT_LENGTH );
         concentrationGraph = new ConcentrationGraph( ABSConstants.CONCENTRATION_GRAPH_LOCATION, ABSConstants.CONCENTRATION_GRAPH_VISIBLE, ABSConstants.CONCENTRATION_GRAPH_SIZE );
         waterVisible = ABSConstants.WATER_VISIBLE;
         listeners = new EventListenerList();
+        reset();
+    }
+    
+    public void reset() {
+        setSolution( defaultSolutionFactory.getDefaultSolution() );
+        getMagnifyingGlass().setVisible( ABSConstants.MAGNIFYING_GLASS_VISIBLE );
+        getConcentrationGraph().setVisible( ABSConstants.CONCENTRATION_GRAPH_VISIBLE );
+        getPHMeter().setLocation( ABSConstants.PH_METER_LOCATION );
+        getPHMeter().setVisible( ABSConstants.PH_METER_VISIBLE );
+        setWaterVisible( ABSConstants.WATER_VISIBLE );
     }
     
     public Beaker getBeaker() {
