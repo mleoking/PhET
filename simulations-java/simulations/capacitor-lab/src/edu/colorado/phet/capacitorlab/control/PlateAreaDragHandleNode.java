@@ -70,7 +70,7 @@ public class PlateAreaDragHandleNode extends PhetPNode {
     
     private void updateLayout() {
         
-        double angle = ( ( Math.PI / 2) - CLConstants.VIEWING_ANGLE ) + ( CLConstants.VIEWING_ANGLE / 2 ); // aligned with diagonal of plate surface
+        double angle = ( ( Math.PI / 2) - CLConstants.YAW_VIEWING_ANGLE ) + ( CLConstants.YAW_VIEWING_ANGLE / 2 ); // aligned with diagonal of plate surface
         dragHandler.setAngle( angle );
         
         double x = 0;
