@@ -22,27 +22,27 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
+import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
-/**
- * pH meter, displays the pH of a solution.
- * Origin is at the tip of the probe.
- *
+/*
+ * * pH meter, displays the pH of a solution. Origin is at the tip of the probe.
+ * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class PHMeterNode extends PhetPNode {
-    
+
     private static final Color SHAFT_COLOR = Color.LIGHT_GRAY;
     private static final Color SHAFT_STROKE_COLOR = Color.BLACK;
     private static final Stroke SHAFT_STROKE = new BasicStroke( 0.25f );
     private static final double SHAFT_WIDTH = 10;
-    
+
     private static final Color TIP_COLOR = Color.BLACK;
-    
+
     private static final Color DISPLAY_BORDER_COLOR = Color.DARK_GRAY;
     private static final double DISPLAY_BORDER_WIDTH = 3;
     private static final double DISPLAY_BORDER_MARGIN = 12;
-    
+
     private static final Font DISPLAY_FONT = new PhetFont( Font.BOLD, 24 );
     private static final DecimalFormat DISPLAY_FORMAT = new DecimalFormat( "#0.00" );
     private static final Color DISPLAY_BACKGROUND = Color.LIGHT_GRAY;
@@ -51,18 +51,19 @@ public class PHMeterNode extends PhetPNode {
     private AqueousSolution solution;
     private AqueousSolutionChangeListener listener;
     private final DisplayNode displayNode;
-    
+
     public PHMeterNode( final ABSModel model ) {
         this( model.getPHMeter().getShaftLength() );
-        
+
         this.model = model;
         model.addModelChangeListener( new ModelChangeAdapter() {
+
             @Override
             public void solutionChanged() {
                 setSolution( model.getSolution() );
             }
-        });
-        
+        } );
+
         model.getPHMeter().addModelElementChangeListener( new ModelElementChangeListener() {
 
             public void locationChanged() {
@@ -73,43 +74,53 @@ public class PHMeterNode extends PhetPNode {
             public void visibilityChanged() {
                 setVisible( model.getPHMeter().isVisible() );
             }
-            
+
         } );
-        
+
         this.solution = model.getSolution();
         this.listener = new AqueousSolutionChangeListener() {
+
             public void strengthChanged() {
                 updateDisplay();
             }
+
             public void concentrationChanged() {
                 updateDisplay();
             }
         };
         solution.addAqueousSolutionChangeListener( listener );
-        
+
         addInputEventListener( new CursorHandler( Cursor.N_RESIZE_CURSOR ) );
         addInputEventListener( new PDragEventHandler() {
-            
-            private double clickYOffset; // y offset of mouse click from meter's origin
-            
+
+            private double clickYOffset; // y-offset of mouse click from meter's origin, in parent's coordinate frame
+
             protected void startDrag( PInputEvent event ) {
                 super.startDrag( event );
                 // note the offset between the mouse click and the meter's origin
-                clickYOffset = event.getPosition().getY() - model.getPHMeter().getLocationReference().getY();
+                Point2D pMouse = event.getPositionRelativeTo( getParent() );
+                clickYOffset = pMouse.getY() - model.getPHMeter().getLocationReference().getY();
+                System.out.println( "clickYOffset=" + clickYOffset );//XXX
             }
-            
+
             protected void drag( final PInputEvent event ) {
+                PNode pickedNode = event.getPickedNode();
+                PDimension d = event.getDeltaRelativeTo( pickedNode );
+                pickedNode.localToParent( d );
                 double x = getXOffset();
-                double y = event.getPosition().getY() - clickYOffset;
-                model.getPHMeter().setLocation( x, y );
+                double y = model.getPHMeter().getLocationReference().getY() + d.getHeight();
+//                System.out.println( "y=" + y );//XXX
+//                if ( y > 220 && y < 400 ) { //XXX
+                    model.getPHMeter().setLocation( x, y );
+//                }
             }
-        });
-        
+        } );
+
         setOffset( model.getPHMeter().getLocationReference() );
         setVisible( model.getPHMeter().isVisible() );
         updateDisplay();
     }
-    
+
     private void updateDisplay() {
         if ( model.getBeaker().inSolution( model.getPHMeter().getLocationReference() ) ) {
             displayNode.setValue( new PHValue( model.getSolution().getPH() ) );
@@ -118,37 +129,37 @@ public class PHMeterNode extends PhetPNode {
             displayNode.setValue( null );
         }
     }
-    
+
     /*
      * Private constructor, has no knowledge of the model.
      */
     private PHMeterNode( double shaftHeight ) {
         super();
-        
+
         this.displayNode = new DisplayNode();
-        
+
         TipNode tipNode = new TipNode();
         tipNode.scale( 25 );
-        
+
         ShaftNode shaftNode = new ShaftNode( SHAFT_WIDTH, shaftHeight );
 
         addChild( shaftNode );
         addChild( tipNode );
         addChild( displayNode );
-        
+
         // layout, origin at tip of probe
         double yOverlap = 5;
         double x = -tipNode.getFullBoundsReference().getWidth() / 2;
         double y = -tipNode.getFullBoundsReference().getHeight();
         tipNode.setOffset( x, y );
-        x = -shaftNode.getFullBoundsReference().getWidth() / 2; 
+        x = -shaftNode.getFullBoundsReference().getWidth() / 2;
         y = tipNode.getFullBoundsReference().getMinY() - shaftNode.getFullBoundsReference().getHeight() + yOverlap;
         shaftNode.setOffset( x, y );
         x = -0.85 * displayNode.getFullBoundsReference().getWidth();
         y = shaftNode.getFullBoundsReference().getMinY() - displayNode.getFullBoundsReference().getHeight() + yOverlap;
         displayNode.setOffset( x, y );
     }
-    
+
     private void setSolution( AqueousSolution solution ) {
         if ( solution != this.solution ) {
             this.solution.removeAqueousSolutionChangeListener( listener );
@@ -157,25 +168,25 @@ public class PHMeterNode extends PhetPNode {
             updateDisplay();
         }
     }
-    
+
     /*
      * Read-out that displays the pH value, origin at upper left.
      */
     private static class DisplayNode extends PComposite {
-        
+
         private PText valueNode;
-        
+
         public DisplayNode() {
             super();
-            
+
             valueNode = new PText();
             valueNode.setFont( DISPLAY_FONT );
             setValue( new PHValue( 15 ) ); // initialize before layout
-            
+
             PComposite parentNode = new PComposite();
             parentNode.addChild( valueNode );
             valueNode.setOffset( 0, 0 );
-            
+
             PBounds pb = parentNode.getFullBoundsReference();
             Shape backgroundShape = new RoundRectangle2D.Double( 0, 0, pb.getWidth() + 2 * DISPLAY_BORDER_MARGIN, pb.getHeight() + 2 * DISPLAY_BORDER_MARGIN, 10, 10 );
             PPath backgroundNode = new PPath( backgroundShape );
@@ -186,7 +197,7 @@ public class PHMeterNode extends PhetPNode {
             backgroundNode.addChild( parentNode );
             parentNode.setOffset( DISPLAY_BORDER_MARGIN, DISPLAY_BORDER_MARGIN );
         }
-        
+
         public void setValue( PHValue pH ) {
             String text = null;
             if ( pH != null ) {
@@ -196,15 +207,15 @@ public class PHMeterNode extends PhetPNode {
             else {
                 text = MessageFormat.format( ABSStrings.PATTERN_LABEL_VALUE, ABSStrings.PH, ABSStrings.PH_METER_NO_VALUE );
             }
-            valueNode.setText( text ); 
+            valueNode.setText( text );
         }
     }
-    
+
     /*
      * Shaft of the probe, origin at upper left.
      */
     private static class ShaftNode extends PPath {
-        
+
         public ShaftNode( double width, double height ) {
             super();
             setPathTo( new Rectangle2D.Double( 0, 0, width, height ) );
@@ -213,33 +224,33 @@ public class PHMeterNode extends PhetPNode {
             setStrokePaint( SHAFT_STROKE_COLOR );
         }
     }
-    
+
     /*
      * Creates a tip whose dimensions are 1 x 2.5, origin at upper left.
      */
     private static class TipNode extends PPath {
-        
+
         public TipNode() {
             super();
-            
+
             // rounded corners at top
             Shape roundRect = new RoundRectangle2D.Float( 0f, 0f, 1f, 1.5f, 0.4f, 0.4f );
-            
+
             // mask out rounded corners at bottom
             Shape rect = new Rectangle2D.Float( 0f, 0.5f, 1f, 1f );
-            
+
             // point at the bottom
             GeneralPath triangle = new GeneralPath();
             triangle.moveTo( 0f, 1.5f );
             triangle.lineTo( 0.5f, 2.5f );
             triangle.lineTo( 1f, 1.5f );
             triangle.closePath();
-            
+
             // constructive area geometry
             Area area = new Area( roundRect );
             area.add( new Area( rect ) );
             area.add( new Area( triangle ) );
-            
+
             setPathTo( area );
             setPaint( TIP_COLOR );
             setStroke( null );
