@@ -8,6 +8,7 @@ import edu.colorado.phet.movingman.model.MovingManModel;
 import edu.colorado.phet.movingman.model.MovingManState;
 import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel;
 import edu.umd.cs.piccolox.pswing.PSwing;
+import static edu.colorado.phet.movingman.MovingManStrings.*;
 
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -58,13 +59,13 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
             });
             updatePositionModeSelected.update();
 
-            MovingManChartControl positionChartControl = new MovingManChartControl("Position", MovingManColorScheme.POSITION_COLOR, new TextBoxListener.Position(model), positionChart, "m");
+            MovingManChartControl positionChartControl = new MovingManChartControl(POSITION, MovingManColorScheme.POSITION_COLOR, new TextBoxListener.Position(model), "m");
             {
                 final GoButton goButton = new GoButton(recordAndPlaybackModel, model.getPositionMode());
                 positionChartControl.addChild(goButton);
                 goButton.setOffset(positionChartControl.getFullBounds().getMaxX() - goButton.getFullBounds().getWidth(), positionChartControl.getFullBounds().getMaxY());
             }
-            positionMovingManChart = new MinimizableControlChart("Position",new ControlChart(positionChartControl, sliderNode, positionChart, new ChartZoomControlNode(positionChart)));
+            positionMovingManChart = new MinimizableControlChart(POSITION,new ControlChart(positionChartControl, sliderNode, positionChart, new ChartZoomControlNode(positionChart)));
         }
 
         MinimizableControlChart velocityMovingManChart = null;
@@ -74,9 +75,9 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
             {
                 velocityChart.addDataSeries(model.getVelocityGraphSeries(), MovingManColorScheme.VELOCITY_COLOR);
             }
-            MovingManChartControl velocityChartControl = new MovingManChartControl("Velocity", MovingManColorScheme.VELOCITY_COLOR, new TextBoxListener.Velocity(model), velocityChart, "m/s");
+            MovingManChartControl velocityChartControl = new MovingManChartControl(VELOCITY, MovingManColorScheme.VELOCITY_COLOR, new TextBoxListener.Velocity(model), UNITS_VELOCITY_ABBREVIATION);
             {
-                final PSwing pSwing = new PSwing(new ShowVectorCheckBox("Show Vector", model.getVelocityVectorVisible()));
+                final PSwing pSwing = new PSwing(new ShowVectorCheckBox(SHOW_VECTOR, model.getVelocityVectorVisible()));
                 pSwing.setOffset(0, velocityChartControl.getFullBounds().getHeight());
                 velocityChartControl.addChild(pSwing);
                 final GoButton goButton = new GoButton(recordAndPlaybackModel, model.getVelocityMode());
@@ -112,7 +113,7 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
                 }
             });
             updateVelocityModeSelected.update();
-            velocityMovingManChart = new MinimizableControlChart("Velocity",new ControlChart(velocityChartControl, chartSliderNode, velocityChart, new ChartZoomControlNode(velocityChart)));
+            velocityMovingManChart = new MinimizableControlChart(VELOCITY, new ControlChart(velocityChartControl, chartSliderNode, velocityChart, new ChartZoomControlNode(velocityChart)));
         }
 
         MinimizableControlChart accelerationMovingManChart = null;
@@ -154,9 +155,9 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
             });
             updateAccelerationModeSelected.update();
 
-            MovingManChartControl accelerationChartControl = new MovingManChartControl("Acceleration", MovingManColorScheme.ACCELERATION_COLOR, new TextBoxListener.Acceleration(model), accelerationChart, "m/s/s");
+            MovingManChartControl accelerationChartControl = new MovingManChartControl(ACCELERATION, MovingManColorScheme.ACCELERATION_COLOR, new TextBoxListener.Acceleration(model), UNITS_ACCELERATION_ABBREVIATION);
             {
-                final PSwing pSwing = new PSwing(new ShowVectorCheckBox("Show Vector", model.getAccelerationVectorVisible()));
+                final PSwing pSwing = new PSwing(new ShowVectorCheckBox(SHOW_VECTOR, model.getAccelerationVectorVisible()));
                 pSwing.setOffset(0, accelerationChartControl.getFullBounds().getHeight());
                 accelerationChartControl.addChild(pSwing);
 
@@ -165,7 +166,7 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
                 accelerationChartControl.addChild(goButton);
             }
             ControlChart acc = new ControlChart(accelerationChartControl, chartSliderNode, accelerationChart, new ChartZoomControlNode(accelerationChart));
-            accelerationMovingManChart = new MinimizableControlChart("Acceleration",acc);
+            accelerationMovingManChart = new MinimizableControlChart(ACCELERATION, acc);
         }
         final MultiControlChart multiChart = new MultiControlChart(new MinimizableControlChart[]{positionMovingManChart, velocityMovingManChart, accelerationMovingManChart});
         addScreenChild(multiChart);

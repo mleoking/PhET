@@ -5,6 +5,7 @@ import java.awt.*;
 import edu.colorado.phet.common.motion.charts.TemporalChart;
 import edu.colorado.phet.common.motion.charts.TextBox;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -18,7 +19,7 @@ public class MovingManChartControl extends PNode {
     public static final PhetFont TEXT_BOX_FONT = new PhetFont( 14 );
     private static final PhetFont UNITS_FONT = TEXT_BOX_FONT;
 
-    public MovingManChartControl( String title, Color color, TextBoxListener textBoxDecorator, final TemporalChart chart, String units ) {
+    public MovingManChartControl(String title, Color color, TextBoxListener textBoxDecorator, String units) {
         PText titleNode = new PText( title );
         {
             titleNode.setFont( TITLE_FONT );
@@ -33,10 +34,10 @@ public class MovingManChartControl extends PNode {
         }
         this.addChild( textBox );
 
-        PText unitsReadout = new PText( units );
+        HTMLNode unitsReadout = new HTMLNode( units );
         {
             unitsReadout.setFont( UNITS_FONT );
-            unitsReadout.setTextPaint( color );
+            unitsReadout.setHTMLColor( color );
             unitsReadout.setOffset( textBox.getFullBounds().getMaxX() + 2, textBox.getFullBounds().getCenterY() - unitsReadout.getFullBounds().getHeight() / 2 );
         }
         this.addChild( unitsReadout );

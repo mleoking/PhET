@@ -1,3 +1,4 @@
+Switched to m/s^2 to support pre-existing translations specified as html.
 Fixed: When you resize the "graph playback cursor" doesn't redraw itself until you grab it or start playing it
 Added text for chart maximize buttons
 Fixed: Axes alignment is broken on horizontal zoom

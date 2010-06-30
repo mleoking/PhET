@@ -5,15 +5,16 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import static edu.colorado.phet.movingman.MovingManStrings.*;
 
 /**
  * @author Sam Reid
  */
 public class SpecialFeaturesMenu extends JMenu {
     public SpecialFeaturesMenu(final MovingManApplication movingManApplication) {//Pass the movingManApplication so we can access the active module
-        super("Special Features");//TODO: IL8N should re-use as many strings from the previous version as possible
+        super(SPECIAL_FEATURES);//TODO: IL8N should re-use as many strings from the previous version as possible
 
-        add(new JMenuItem(new AbstractAction("Expression Evaluator") {
+        add(new JMenuItem(new AbstractAction(EXPRESSIONS_TITLE) {
             public void actionPerformed(ActionEvent e) {
                 MovingManModule module = (MovingManModule) movingManApplication.getActiveModule();
                 if (!module.getEvaluateExpressionDialogVisible()) {
@@ -24,7 +25,7 @@ public class SpecialFeaturesMenu extends JMenu {
             }
         }));
 
-        final JCheckBoxMenuItem reverseXAxis = new JCheckBoxMenuItem("Reverse x-axis", !movingManApplication.getPositiveToTheRight().getValue());
+        final JCheckBoxMenuItem reverseXAxis = new JCheckBoxMenuItem(REVERSE_X_AXIS, !movingManApplication.getPositiveToTheRight().getValue());
         reverseXAxis.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 movingManApplication.getPositiveToTheRight().setValue(!reverseXAxis.isSelected());

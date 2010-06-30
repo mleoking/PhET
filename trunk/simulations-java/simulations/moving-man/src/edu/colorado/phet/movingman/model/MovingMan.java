@@ -125,7 +125,7 @@ public class MovingMan {
         }
 
         public String toString() {
-            return "Position driven";
+            return "Position driven";//for debugging only, no need to translate
         }
     };
 
@@ -136,7 +136,7 @@ public class MovingMan {
         }
 
         public String toString() {
-            return "Velocity driven";
+            return "Velocity driven";//for debugging only, no need to translate
         }
     };
 
@@ -146,7 +146,7 @@ public class MovingMan {
         }
 
         public String toString() {
-            return "Acceleration driven";
+            return "Acceleration driven";//for debugging only, no need to translate
         }
     };
 }

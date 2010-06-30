@@ -6,6 +6,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.movingman.MovingManStrings;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -76,7 +77,7 @@ public class PlayAreaRulerNode extends PNode {
             if (i % 2 == 0) {
                 final LabeledTickMark tm = new LabeledTickMark(4, i);
                 if (i == 0) {
-                    tm.setTickText("0 meters");
+                    tm.setTickText(MovingManStrings.LABEL_ZERO_METERS);
                 }
                 rulerTickMark = tm;
             } else {

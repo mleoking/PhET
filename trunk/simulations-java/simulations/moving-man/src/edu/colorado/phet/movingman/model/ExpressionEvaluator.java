@@ -15,6 +15,7 @@ public class ExpressionEvaluator {
     }
 
     public double evaluate(double time) throws EvalError {
+        //none of this is internationalized because it is beanshell code that must be executed.
         String timeString = "(" + time + ")";
 
         String equation = expression.replaceAll("cos", "Math.cos");

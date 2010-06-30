@@ -5,6 +5,7 @@ import edu.colorado.phet.common.motion.charts.Range;
 import edu.colorado.phet.common.motion.charts.TextBox;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -41,8 +42,9 @@ public class PlayAreaSliderControl extends PNode {
         addChild(slider);
         slider.setOffset(0, text.getFullBounds().getHeight() + 10);
 
-        PText unitsPText = new PText(units);
-        unitsPText.setTextPaint(color);
+        HTMLNode unitsPText = new HTMLNode(units);//Use HTMLNode for support for provided translations, which use HTML
+        unitsPText.setHTMLColor(color);
+
         unitsPText.setFont(new PhetFont(20, true));
         addChild(unitsPText);
         unitsPText.setOffset(textBox.getFullBounds().getMaxX() + 2, 0);

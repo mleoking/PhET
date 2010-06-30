@@ -15,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import static edu.colorado.phet.movingman.MovingManStrings.*;
 
 /**
  * @author Sam Reid
@@ -26,15 +27,15 @@ public class ExpressionDialog extends JDialog {
     protected JDialog helpDialog;
 
     public ExpressionDialog(PhetFrame frame, MovingManModule module) {
-        super(frame, "Expression Evaluator");
+        super(frame, EXPRESSIONS_TITLE);
         this.module = module;
         VerticalLayoutPanel contentPane = new VerticalLayoutPanel();
         {
             contentPane.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-            contentPane.add(new JLabel("Enter an expression for position x as a function of time t"));
+            contentPane.add(new JLabel(EXPRESSIONS_DESCRIPTION));
             JPanel expressionPanel = new JPanel();
             {
-                expressionPanel.add(new JLabel("x(t) = "));
+                expressionPanel.add(new JLabel(EXPRESSIONS_RANGE + " =" ));//TODO: improve il8n and ordering
                 expressionTextField = new JTextField("7 * sin(t) + 2", 14);
                 expressionTextField.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
@@ -66,13 +67,13 @@ public class ExpressionDialog extends JDialog {
 
             JPanel errorAndHelpPanel = new JPanel();
             {
-                errorLabel = new JLabel("Error");
+                errorLabel = new JLabel(EXPRESSIONS_ERROR);
                 {
                     errorLabel.setFont(new PhetFont(PhetFont.getDefaultFontSize(), true));
                     errorLabel.setForeground(Color.red);
                     errorLabel.setVisible(false);
                 }
-                JButton helpButton = new JButton("Help");
+                JButton helpButton = new JButton(EXPRESSIONS_HELP);
                 {
                     helpButton.addActionListener(new ActionListener() {
                         public void actionPerformed(ActionEvent e) {
@@ -98,18 +99,12 @@ public class ExpressionDialog extends JDialog {
     }
 
     private JDialog createHelpDialog() {
-        JDialog helpDialog = new JDialog(this, "Help");
+        JDialog helpDialog = new JDialog(this, EXPRESSIONS_HELP);
         {
             JPanel contentPane = new JPanel();
             {
                 contentPane.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-                JEditorPane helpArea = new JEditorPane("text/html", "<html>Here are some examples of valid expressions:<br>" +
-                        " x = 3 * t + 2<br>" +
-                        " x = 2*sin(t)<br>" +
-                        " x = pow(t,2)<br>" +
-                        "<br>" +
-                        "Note that multiplication must be specified<br>" +
-                        "explicitly as in 3 * t, instead of implicitly as in 3t. </html>");
+                JEditorPane helpArea = new JEditorPane("text/html", EXPRESSIONS_EXAMPLES);
                 helpArea.setEditable(false);
                 contentPane.add(helpArea);
             }

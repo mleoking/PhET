@@ -18,6 +18,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 
 /**
@@ -35,6 +36,9 @@ public class TemporalChart extends PNode {
     private PNode chartContents;//layer for chart pnodes, for minimize/maximize support
     private ModelViewTransform2D modelViewTransform2D;
     private PNode tickMarksAndGridLines;
+    //This string is a hack to allow sims to pass in the string translation instead of requiring it to appear in phetcommon
+    public static String SEC_TEXT = "sec";
+    public static String TIME_LABEL_PATTERN = "{0} {1}";
 
     public TemporalChart(Rectangle2D.Double dataModelBounds, ChartCursor cursor) {
         this(dataModelBounds, 100, 100, cursor);//useful for layout code that updates size later instead of at construction and later
@@ -115,7 +119,7 @@ public class TemporalChart extends PNode {
             viewDimension.addObserver(domainTickMarkUpdate);
         }
         DomainTickMark last = domainTickMarks.get(domainTickMarks.size() - 1);
-        last.setTickText(last.getTickText() + " sec");
+        last.setTickText(MessageFormat.format(TIME_LABEL_PATTERN,last.getTickText(), SEC_TEXT));
 
         int numRangeMarks = 4;
         Function.LinearFunction rangeFunction = new Function.LinearFunction(0, numRangeMarks, dataModelBounds.getY(), dataModelBounds.getMaxY());

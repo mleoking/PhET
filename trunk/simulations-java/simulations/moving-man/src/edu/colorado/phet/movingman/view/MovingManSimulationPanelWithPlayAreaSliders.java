@@ -9,6 +9,7 @@ import edu.colorado.phet.movingman.model.MovingManModel;
 import edu.colorado.phet.movingman.model.MovingManState;
 import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel;
 import edu.umd.cs.piccolox.pswing.PSwing;
+import static edu.colorado.phet.movingman.MovingManStrings.*;
 
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -30,7 +31,7 @@ public class MovingManSimulationPanelWithPlayAreaSliders extends MovingManSimula
             final TextBox positionTextBox = new TextBox(MovingManChartControl.TEXT_BOX_FONT );
             new TextBoxListener.Position(model).addListeners(positionTextBox);
 
-            positonSlider = new PlayAreaSliderControl(-10, 10, model.getMousePosition(), "Position", "m", MovingManColorScheme.POSITION_COLOR, positionTextBox);
+            positonSlider = new PlayAreaSliderControl(-10, 10, model.getMousePosition(), POSITION, UNITS_METERS_ABBREVIATION, MovingManColorScheme.POSITION_COLOR, positionTextBox);
             model.getMovingMan().addListener(new MovingMan.Listener() {
                 public void changed() {
                     positonSlider.setHighlighted(model.getMovingMan().isPositionDriven());
@@ -64,7 +65,7 @@ public class MovingManSimulationPanelWithPlayAreaSliders extends MovingManSimula
             {
                 new TextBoxListener.Velocity(model).addListeners(textBox);
             }
-            velocitySlider = new PlayAreaSliderControl(-10, 10, model.getMovingMan().getVelocity(), "Velocity", "m/s", MovingManColorScheme.VELOCITY_COLOR, textBox);
+            velocitySlider = new PlayAreaSliderControl(-10, 10, model.getMovingMan().getVelocity(), VELOCITY, UNITS_VELOCITY_ABBREVIATION, MovingManColorScheme.VELOCITY_COLOR, textBox);
             model.getMovingMan().addListener(new MovingMan.Listener() {
                 public void changed() {
                     velocitySlider.setValue(model.getMovingMan().getVelocity());
@@ -86,7 +87,7 @@ public class MovingManSimulationPanelWithPlayAreaSliders extends MovingManSimula
             addComponentListener(relayout);
             addScreenChild(velocitySlider);
 
-            final PSwing pSwing = new PSwing(new ShowVectorCheckBox("Velocity Vector", model.getVelocityVectorVisible()));
+            final PSwing pSwing = new PSwing(new ShowVectorCheckBox(VELOCITY_VECTOR, model.getVelocityVectorVisible()));
             pSwing.setOffset(velocitySlider.getFullBounds().getMaxX() + 10, velocitySlider.getFullBounds().getCenterY() - pSwing.getFullBounds().getHeight() / 2);
             addComponentListener(new ComponentAdapter() {
                 @Override
@@ -102,7 +103,7 @@ public class MovingManSimulationPanelWithPlayAreaSliders extends MovingManSimula
             {
                 new TextBoxListener.Acceleration(model).addListeners(box);
             }
-            accelerationSlider = new PlayAreaSliderControl(-10, 10, model.getMovingMan().getAcceleration(), "Acceleration", "m/s/s", MovingManColorScheme.ACCELERATION_COLOR, box);
+            accelerationSlider = new PlayAreaSliderControl(-10, 10, model.getMovingMan().getAcceleration(), ACCELERATION, UNITS_ACCELERATION_ABBREVIATION, MovingManColorScheme.ACCELERATION_COLOR, box);
             model.getMovingMan().addListener(new MovingMan.Listener() {
                 public void changed() {
                     accelerationSlider.setValue(model.getMovingMan().getAcceleration());
@@ -124,7 +125,7 @@ public class MovingManSimulationPanelWithPlayAreaSliders extends MovingManSimula
             addComponentListener(relayout);
             addScreenChild(accelerationSlider);
 
-            final PSwing pSwing = new PSwing(new ShowVectorCheckBox("Acceleration Vector", model.getAccelerationVectorVisible()));
+            final PSwing pSwing = new PSwing(new ShowVectorCheckBox(ACCELERATION_VECTOR, model.getAccelerationVectorVisible()));
             pSwing.setOffset(accelerationSlider.getFullBounds().getMaxX() + 10, accelerationSlider.getFullBounds().getCenterY() - pSwing.getFullBounds().getHeight() / 2);
             addComponentListener(new ComponentAdapter() {
                 @Override
