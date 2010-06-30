@@ -15,13 +15,53 @@ public class PHMeter extends ABSModelElement {
     
     private final PDimension shaftSize;
     private final PDimension tipSize;
+    private final Beaker beaker;
     
-    public PHMeter( Point2D location, boolean visible, PDimension shaftSize, PDimension tipSize ) {
+    public PHMeter( Point2D location, boolean visible, PDimension shaftSize, PDimension tipSize, Beaker beaker ) {
         super( location, visible );
         this.shaftSize = shaftSize;
         this.tipSize = tipSize;
+        this.beaker = beaker;
     }
 
+    @Override
+    public void setLocation( double x, double y ) {
+        super.setLocation( constrainX( x ), constrainY( y ) );
+    }
+    
+    /*
+     * Constrains an x coordinate to be between the walls of the beaker.
+     */
+    private double constrainX( double requestedX ) {
+        double min = beaker.getLocationReference().getX() - ( beaker.getWidth() / 2 ) + ( tipSize.width / 2 );
+        double max = beaker.getLocationReference().getX() + ( beaker.getWidth() / 2 ) - ( tipSize.width / 2 );
+        double x = requestedX;
+        if ( x < min ) {
+            x = min;
+        }
+        else if ( x > max ) {
+            x = max;
+        }
+        return x;
+    }
+    
+    /*
+     * Constraints a y coordinate to be in or slightly above the solution,
+     * but keeps the pH meter's display from being submerged in the solution.
+     */
+    private double constrainY( double requestedY ) {
+        double min = beaker.getLocationReference().getY() - beaker.getHeight() - 20;
+        double max = beaker.getLocationReference().getY() - beaker.getHeight() + getProbeHeight();
+        double y = requestedY;
+        if ( y < min ) {
+            y = min;
+        }
+        else if ( y > max ) {
+            y = max;
+        }
+        return y;
+    }
+    
     /**
      * The shaft connects the value display to the tip that does the pH sensing.
      * @return

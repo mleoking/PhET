@@ -1,3 +1,4 @@
+6/30/10 constrain dragging of pH meter so that only the probe can be submerged
 6/30/10 add pH meter shaft and tip sizes to the model, so we can tell when the meter is fully submerged
 6/29/10 refine HTMLCheckBox disabled color
 6/29/10 move reset functionality into model, factory for creating default solution for each module

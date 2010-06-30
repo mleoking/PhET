@@ -7,12 +7,12 @@ HIGH PRIORITY
 - use SolutionFactory in TestSolutionControl
 - ditch ABSRadioButton in TestSolutionControl, separate listener for each radio button
 - zero-arg constructors for ABSModelElement subclasses
-- fix drag behavior for pH meter, constrain, errors in coordinate frame transforms
 - fix resize behavior of main frame, nodes below the beaker are not visible if main frame is resized wider 
 - center everything in the play area
 - control panel layout issues
 
 MEDUIUM PRIORITY
+- handle model-view transforms in PHMeterNode
 - chem symbol api, handle baseline/bold/italic/super/sub/color, use Piccolo for layout control
 - not obvious what "Show H2O Molecules" check box pertains to
 - label x-axis of concentration graph, SR didn't see correlation to reaction equation

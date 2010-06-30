@@ -106,13 +106,7 @@ public class PHMeterNode extends PhetPNode {
                 double x = getXOffset();
                 double y = pMouse.getY() - clickYOffset;
                 //TODO map y from view to model coordinate frame
-                if ( isInBoundsY( y ) ) {
-                    model.getPHMeter().setLocation( x, y );
-                }
-            }
-            
-            private boolean isInBoundsY( double y ) {
-                return ( y > 220 && y < 400 ); //TODO calculate based on probe length and position of solution surface
+                model.getPHMeter().setLocation( x, y );
             }
         } );
 
