@@ -372,8 +372,10 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
         String circuitxml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + sw.toString();
         InputStream stream = new ByteArrayInputStream(circuitxml.getBytes());
         FileContents data = new InputStreamFileContents("circuitxml", stream);
-        FileContents out = fos.saveFileDialog(null, new String[]{"cck"}, data.getInputStream(), null);
-        System.out.println("Saved to "+out.getName()+" as: " + out);
+        FileContents out = fos.saveFileDialog(null, null, data.getInputStream(), null);
+        if (out != null){
+            System.out.println("Saved to "+out.getName()+" as: " + out);
+        }
     }
 
     public void showHelpGIF() {
