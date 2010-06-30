@@ -90,28 +90,18 @@ public class PHMeterNode extends PhetPNode {
         addInputEventListener( new CursorHandler( Cursor.N_RESIZE_CURSOR ) );
         addInputEventListener( new PDragEventHandler() {
             
-            private double globalClickYOffset; // y offset of mouse click from meter's origin
+            private double clickYOffset; // y offset of mouse click from meter's origin
             
             protected void startDrag( PInputEvent event ) {
                 super.startDrag( event );
                 // note the offset between the mouse click and the meter's origin
-                PNode pickedNode = event.getPickedNode();
-                PNode parent = pickedNode.getParent();
-                Point2D pMouseLocal = event.getPositionRelativeTo( parent );
-                Point2D pMouseGlobal = parent.localToGlobal( pMouseLocal );
-                Point2D pMeterGlobal = parent.localToGlobal( pickedNode.getOffset() );
-                globalClickYOffset = pMouseGlobal.getY() - pMeterGlobal.getY();
+                clickYOffset = event.getPosition().getY() - model.getPHMeter().getLocationReference().getY();
             }
             
             protected void drag( final PInputEvent event ) {
-                // determine the meter's new offset
-                PNode pickedNode = event.getPickedNode();
-                PNode parent = pickedNode.getParent();
-                Point2D pMouseLocal = event.getPositionRelativeTo( parent );
-                Point2D pMouseGlobal = parent.localToGlobal( pMouseLocal );
-                Point2D pMeterGlobal = new Point2D.Double( pMouseGlobal.getX(), pMouseGlobal.getY() - globalClickYOffset );
-                Point2D pMeterLocal = parent.globalToLocal( pMeterGlobal );
-                model.getPHMeter().setLocation( pMeterLocal );
+                double x = getXOffset();
+                double y = event.getPosition().getY() - clickYOffset;
+                model.getPHMeter().setLocation( x, y );
             }
         });
         
