@@ -1,6 +1,7 @@
 TODO list for capacitor-lab
 
 QUESTIONS FOR NOAH
+ - what are milestones?
 
 HIGH PRIORITY
 - add cables and drag behavior to voltmeter, see CCK's VoltmeterNode
