@@ -5,11 +5,14 @@ package edu.colorado.phet.neuron.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Image;
+import java.awt.Shape;
 import java.awt.Stroke;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
 import edu.colorado.phet.neuron.model.IViewableParticle;
 import edu.colorado.phet.neuron.model.ParticleListenerAdapter;
@@ -26,35 +29,64 @@ public class ParticleNode extends PNode {
 	
 	private IViewableParticle particle;
     private ModelViewTransform2D modelViewTransform;
-    private PNode representation;
+    private PPath representation;
 
     public ParticleNode( IViewableParticle particle, ModelViewTransform2D modelViewTransform ) {
     	
 		this.particle = particle;
         this.modelViewTransform = modelViewTransform;
-
+        
+        // Listen to the particle for things that we care about.
         particle.addListener(new ParticleListenerAdapter() {
 			public void positionChanged() {
 				updateOffset();
 			}
 			public void appearanceChanged() {
-				updateOpaqueness();
+			    updateRepresentation();
 			}
 		});
 
-        // Create the shape that represents this particle.
-        representation = createRepresentation();
-		addChild( representation );
+        // Create the initial representation with the aspects that don't change.
+        representation = new PhetPPath(PARTICLE_EDGE_STROKE, Color.BLACK);
+        addChild( representation );
+
         updateOffset();
-        updateOpaqueness();
+        updateRepresentation();
 	}
     
     private void updateOffset() {
         setOffset( modelViewTransform.modelToView( particle.getPosition() ));
     }
     
-    private void updateOpaqueness() {
-    	setTransparency((float)(particle.getOpaqueness()));
+    private void updateRepresentation(){
+        double size;
+        Shape representationShape;
+
+        switch (particle.getType()){
+        case SODIUM_ION:
+            double transformedRadius = modelViewTransform.modelToViewDifferentialXDouble(particle.getRadius());
+            representationShape = new Ellipse2D.Double(-transformedRadius, -transformedRadius, transformedRadius * 2,
+                    transformedRadius * 2);
+            break;
+            
+        case POTASSIUM_ION:
+            size = modelViewTransform.modelToViewDifferentialXDouble(particle.getRadius() * 2) * 0.85;
+            representationShape = new Rectangle2D.Double(-size/2, -size/2, size, size);
+            representationShape = 
+                AffineTransform.getRotateInstance( Math.PI / 4 ).createTransformedShape( representationShape );
+            break;
+            
+        default:
+            System.err.println(getClass().getName() + " - Warning: No specific shape for this particle type, defaulting to sphere.");
+            double defaultSphereRadius = modelViewTransform.modelToViewDifferentialXDouble(particle.getRadius());
+            representationShape = new Ellipse2D.Double(-defaultSphereRadius, -defaultSphereRadius,
+                    defaultSphereRadius * 2, defaultSphereRadius * 2);
+            break;
+        }
+
+        representation.setPathTo( representationShape );
+        representation.setPaint( particle.getRepresentationColor() );
+        setTransparency((float)(particle.getOpaqueness()));
     }
     
     /**
@@ -77,61 +109,4 @@ public class ParticleNode extends PNode {
    		
    		return parentNode.toImage();
 	}
-
-	/**
-     * Create the shape that will be used to represent this particular
-     * particle.  This was created when we realized that many textbooks use
-     * different shapes for different chemicals, rather than always a sphere.
-     * 
-     * @return
-     */
-    private PNode createRepresentation() {
-    	PNode representation;
-    	double size;
-
-    	switch (particle.getType()){
-    	case SODIUM_ION:
-    		SphericalNode sphereRepresentation = 
-    		    new SphericalNode( modelViewTransform.modelToViewDifferentialXDouble(particle.getRadius() * 2), 
-    				particle.getRepresentationColor(), false);
-    		sphereRepresentation.setStroke(PARTICLE_EDGE_STROKE);
-    		sphereRepresentation.setStrokePaint(Color.BLACK);
-    		representation = sphereRepresentation;
-    		break;
-    		
-    	case POTASSIUM_ION:
-    		size = modelViewTransform.modelToViewDifferentialXDouble(particle.getRadius() * 2) * 0.85;
-    		PPath diamondRepresentation = new PPath( new Rectangle2D.Double(-size/2, -size/2, size, size));
-    		diamondRepresentation.setPaint(particle.getRepresentationColor());
-    		diamondRepresentation.setStroke(PARTICLE_EDGE_STROKE);
-    		diamondRepresentation.setStrokePaint(Color.BLACK);
-    		diamondRepresentation.rotate(Math.PI / 4);
-    		representation = diamondRepresentation;
-    		break;
-    		
-    	case PROTEIN_ION:
-    		size = modelViewTransform.modelToViewDifferentialXDouble(particle.getRadius() * 2);
-    		double ovalWidth = size * 1.5;
-    		double ovalHeight = size * 0.8;
-    		PPath ovalRepresentation = 
-    			new PPath( new Ellipse2D.Double(-ovalWidth/2, -ovalHeight/2, ovalWidth, ovalHeight));
-    		ovalRepresentation.setPaint(particle.getRepresentationColor());
-    		ovalRepresentation.setStroke(PARTICLE_EDGE_STROKE);
-    		ovalRepresentation.setStrokePaint(Color.BLACK);
-    		representation = ovalRepresentation;
-    		break;
-    		
-    	default:
-    		System.err.println(getClass().getName() + " - Warning: No specific shape for this particle type, defaulting to sphere.");
-    		representation = 
-    		    new SphericalNode( modelViewTransform.modelToViewDifferentialXDouble(particle.getRadius() * 2), 
-    				particle.getRepresentationColor(), true);
-    		break;
-    	}
-    	
-    	return representation;
-    	// TODO: For testing - comment out other return and use this to
-    	// convert to an image.
-//    	return new PImage(representation.toImage());
-    }
 }
