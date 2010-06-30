@@ -118,8 +118,9 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
     
     private final ConstantDtClock clock;
     private final AxonMembrane axonMembrane = new AxonMembrane();
-    private ArrayList<Particle> simulationParticles = new ArrayList<Particle>();
-    private ArrayList<Particle> simulationParticlesBackup = new ArrayList<Particle>();
+    private ArrayList<Particle> transientParticles = new ArrayList<Particle>();
+    private ArrayList<Particle> transientParticlesBackup = new ArrayList<Particle>();
+    private ArrayList<Particle> backgroundParticles = new ArrayList<Particle>();
     private ArrayList<PlaybackParticle> playbackParticles = new ArrayList<PlaybackParticle>();
     private ArrayList<MembraneChannel> membraneChannels = new ArrayList<MembraneChannel>();
     private final double crossSectionInnerRadius;
@@ -225,7 +226,7 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
     }    
     
     public ArrayList<Particle> getParticles(){
-    	return simulationParticles;
+    	return transientParticles;
     }
     
     public AxonMembrane getAxonMembrane(){
@@ -417,10 +418,10 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
      * @param particleType
      * @param position
      */
-    public void addParticles(ParticleType particleType, ParticlePosition position, int numberToAdd){
+    public void addBackgroundParticles(ParticleType particleType, ParticlePosition position, int numberToAdd){
     	Particle newParticle = null;
     	for (int i = 0; i < numberToAdd; i++){
-    		newParticle = createParticle(particleType);
+    		newParticle = createBackgroundParticle(particleType);
     		
     		if (position == ParticlePosition.INSIDE_MEMBRANE){
     			positionParticleInsideMembrane(newParticle);
@@ -446,10 +447,10 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
      * @param captureZone
      * @param numberToAdd
      */
-    public void addParticles(ParticleType particleType, CaptureZone captureZone, int numberToAdd){
+    public void addBackgroundParticles(ParticleType particleType, CaptureZone captureZone, int numberToAdd){
     	Particle newParticle = null;
     	for (int i = 0; i < numberToAdd; i++){
-    		newParticle = createParticle(particleType);
+    		newParticle = createBackgroundParticle(particleType);
     		
     		newParticle.setOpaqueness(FOREGROUND_PARTICLE_DEFAULT_OPAQUENESS);
     		Point2D position = captureZone.getSuggestedNewParticleLocation();
@@ -514,9 +515,9 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
                     playbackParticle.removeFromModel();
                 }
                 // Show the simulation particles.
-                simulationParticles.addAll( simulationParticlesBackup );
-                simulationParticlesBackup.clear();
-                for (Particle simParticle : simulationParticles){
+                transientParticles.addAll( transientParticlesBackup );
+                transientParticlesBackup.clear();
+                for (Particle simParticle : transientParticles){
                     notifyParticleAdded( simParticle );
                 }
                 // Update the state variable.
@@ -530,8 +531,8 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
                 // Hide the simulation particles.  This is done by making a
                 // backup copy of them (so that they can be added back later)
                 // and then removing them from the model.
-                simulationParticlesBackup.addAll( simulationParticles );
-                for (IViewableParticle particle : simulationParticlesBackup){
+                transientParticlesBackup.addAll( transientParticles );
+                for (IViewableParticle particle : transientParticlesBackup){
                     particle.removeFromModel();
                 }
                 
@@ -583,10 +584,10 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
      * @param captureZone
      * @return
      */
-    public Particle createParticle(ParticleType particleType, CaptureZone captureZone){
+    private Particle createTransientParticle(ParticleType particleType, CaptureZone captureZone){
     	
     	final Particle newParticle = Particle.createParticle(particleType);
-    	simulationParticles.add(newParticle);
+    	transientParticles.add(newParticle);
     	if (captureZone != null){
     		Point2D location = captureZone.getSuggestedNewParticleLocation();
     		newParticle.setPosition(location);
@@ -595,7 +596,7 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
     	// Listen to the particle for notification of its removal.
     	newParticle.addListener(new ParticleListenerAdapter(){
     		public void removedFromModel() {
-    			simulationParticles.remove(newParticle);
+    			transientParticles.remove(newParticle);
     		}
     	});
     	
@@ -611,9 +612,22 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
      * @param particleType
      * @return
      */
-    public Particle createParticle(ParticleType particleType){
-    	
-    	return createParticle(particleType, null);
+    private Particle createBackgroundParticle(ParticleType particleType){
+        
+        final Particle newParticle = Particle.createParticle(particleType);
+        backgroundParticles.add(newParticle);
+        
+        // Listen to the particle for notification of its removal.
+        newParticle.addListener(new ParticleListenerAdapter(){
+            public void removedFromModel() {
+                backgroundParticles.remove(newParticle);
+            }
+        });
+        
+        // Send notification that this particle has come into existence.
+        notifyParticleAdded(newParticle);
+        
+        return newParticle;
     }
     
     /**
@@ -634,7 +648,8 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
      * @param channel
      * @return
      */
-    public void requestParticleThroughChannel(ParticleType particleType, MembraneChannel channel, double maxVelocity, MembraneCrossingDirection direction){
+    public void requestParticleThroughChannel(ParticleType particleType, MembraneChannel channel, double maxVelocity,
+            MembraneCrossingDirection direction){
 
     	CaptureZone captureZone;
     	
@@ -645,29 +660,69 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
     		captureZone = channel.getExteriorCaptureZone();
     	}
     		
-    	// Scan the capture zone for particles of the desired type.
-    	CaptureZoneScanResult czsr = scanCaptureZoneForFreeParticles(captureZone, particleType);
-    	Particle particleToCapture = czsr.getClosestFreeParticle();
-    	
-    	if (czsr.getNumParticlesInZone() == 0){
-    		// No particles available in the zone, so create a new one.
-    		Particle newParticle = createParticle(particleType, captureZone);
-   			particleToCapture = newParticle;
-    	}
-    	else{
-    		// We found a particle to capture, but we should replace it with
-    		// another in the same zone.
-    		Particle replacementParticle = createParticle(particleType, captureZone);
-    		replacementParticle.setMotionStrategy(new SlowBrownianMotionStrategy(replacementParticle.getPositionReference()));
-    		replacementParticle.setFadeStrategy(new TimedFadeInStrategy(0.0005, FOREGROUND_PARTICLE_DEFAULT_OPAQUENESS));
-    	}
-    	
-    	// Make the particle to capture fade in.
+        Particle particleToCapture = createTransientParticle(particleType, captureZone);
+        
+    	// Make the particle fade in.
 		particleToCapture.setFadeStrategy(new TimedFadeInStrategy(0.0005));
 		
     	// Set a motion strategy that will cause this particle to move across
     	// the membrane.
     	channel.moveParticleThroughNeuronMembrane(particleToCapture, maxVelocity);
+    }
+
+    /**
+     * Starts a particle of the specified type moving through the
+     * specified channel.  If one or more particles of the needed type exist
+     * within the capture zone for this channel, one will be chosen and set to
+     * move through, and another will be created to essentially take its place
+     * (though the newly created one will probably be in a slightly different
+     * place for better visual effect).  If none of the needed particles
+     * exist, two will be created, and one will move through the channel and
+     * the other will just hang out in the zone.
+     * 
+     * Note that it is not guaranteed that the particle will make it through
+     * the channel, since it is possible that the channel could close before
+     * the particle goes through it.
+     * 
+     * @param particleType
+     * @param channel
+     * @return
+     */
+    public void requestParticleThroughChannelOld(ParticleType particleType, MembraneChannel channel, double maxVelocity,
+            MembraneCrossingDirection direction){
+
+        CaptureZone captureZone;
+        
+        if (direction == MembraneCrossingDirection.IN_TO_OUT){
+            captureZone = channel.getInteriorCaptureZone();
+        }
+        else{
+            captureZone = channel.getExteriorCaptureZone();
+        }
+            
+        // Scan the capture zone for particles of the desired type.
+        CaptureZoneScanResult czsr = scanCaptureZoneForFreeParticles(captureZone, particleType);
+        Particle particleToCapture = czsr.getClosestFreeParticle();
+        
+        if (czsr.getNumParticlesInZone() == 0){
+            // No particles available in the zone, so create a new one.
+            Particle newParticle = createTransientParticle(particleType, captureZone);
+            particleToCapture = newParticle;
+        }
+        else{
+            // We found a particle to capture, but we should replace it with
+            // another in the same zone.
+            Particle replacementParticle = createTransientParticle(particleType, captureZone);
+            replacementParticle.setMotionStrategy(new SlowBrownianMotionStrategy(replacementParticle.getPositionReference()));
+            replacementParticle.setFadeStrategy(new TimedFadeInStrategy(0.0005, FOREGROUND_PARTICLE_DEFAULT_OPAQUENESS));
+        }
+        
+        // Make the particle to capture fade in.
+        particleToCapture.setFadeStrategy(new TimedFadeInStrategy(0.0005));
+        
+        // Set a motion strategy that will cause this particle to move across
+        // the membrane.
+        channel.moveParticleThroughNeuronMembrane(particleToCapture, maxVelocity);
     }
 
     /**
@@ -692,7 +747,7 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
     	int totalNumberOfParticles = 0;
     	Point2D captureZoneOrigin = zone.getOriginPoint();
     	
-    	for (Particle particle : simulationParticles){
+    	for (Particle particle : transientParticles){
     		if ((particle.getType() == particleType) && (particle.isAvailableForCapture()) && (zone.isPointInZone(particle.getPositionReference()))) {
     			totalNumberOfParticles++;
     			if (closestFreeParticle == null){
@@ -935,13 +990,13 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
      */
     private void addInitialBulkParticles(){
     	// Make a list of pre-existing particles.
-    	ArrayList<Particle> preExistingParticles = new ArrayList<Particle>(simulationParticles);
+    	ArrayList<Particle> preExistingParticles = new ArrayList<Particle>(transientParticles);
     	
     	// Add the initial particles.
-    	addParticles(ParticleType.SODIUM_ION, ParticlePosition.INSIDE_MEMBRANE, NUM_SODIUM_IONS_INSIDE_CELL);
-    	addParticles(ParticleType.SODIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, NUM_SODIUM_IONS_OUTSIDE_CELL);
-    	addParticles(ParticleType.POTASSIUM_ION, ParticlePosition.INSIDE_MEMBRANE, NUM_POTASSIUM_IONS_INSIDE_CELL);
-    	addParticles(ParticleType.POTASSIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, NUM_POTASSIUM_IONS_OUTSIDE_CELL);
+    	addBackgroundParticles(ParticleType.SODIUM_ION, ParticlePosition.INSIDE_MEMBRANE, NUM_SODIUM_IONS_INSIDE_CELL);
+    	addBackgroundParticles(ParticleType.SODIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, NUM_SODIUM_IONS_OUTSIDE_CELL);
+    	addBackgroundParticles(ParticleType.POTASSIUM_ION, ParticlePosition.INSIDE_MEMBRANE, NUM_POTASSIUM_IONS_INSIDE_CELL);
+    	addBackgroundParticles(ParticleType.POTASSIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, NUM_POTASSIUM_IONS_OUTSIDE_CELL);
     	
     	// Look at each sodium gate and, if there are no ions in its capture
     	// zone, add some.
@@ -950,15 +1005,15 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
     			CaptureZone captureZone = membraneChannel.getExteriorCaptureZone();
     			CaptureZoneScanResult czsr = scanCaptureZoneForFreeParticles(captureZone, ParticleType.SODIUM_ION);
     			if (czsr.numParticlesInZone == 0){
-    				addParticles(ParticleType.SODIUM_ION, captureZone, RAND.nextInt(2) + 1);
+    				addBackgroundParticles(ParticleType.SODIUM_ION, captureZone, RAND.nextInt(2) + 1);
     			}
     		}
     	}
     	
     	// Set all new particles to exhibit simple Brownian motion.
-    	for (Particle particle : simulationParticles){
-    		if (!preExistingParticles.contains(particle)){
-    			particle.setMotionStrategy(new SlowBrownianMotionStrategy(particle.getPositionReference()));
+    	for (Particle backgroundParticle : backgroundParticles){
+    		if (!preExistingParticles.contains(backgroundParticle)){
+    			backgroundParticle.setMotionStrategy(new SlowBrownianMotionStrategy(backgroundParticle.getPositionReference()));
     		}
     	}
     }
@@ -971,10 +1026,14 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
     	// send out notifications of its removal from the model.  All
     	// listeners, including this class, should remove their references in
     	// response.
-    	ArrayList<Particle> particlesCopy = new ArrayList<Particle>(simulationParticles);
-    	for (IViewableParticle particle : particlesCopy){
-    		particle.removeFromModel();
+    	ArrayList<Particle> transientParticlesCopy = new ArrayList<Particle>(transientParticles);
+    	for (IViewableParticle transientParticle : transientParticlesCopy){
+    		transientParticle.removeFromModel();
     	}
+        ArrayList<Particle> backgroundParticlesCopy = new ArrayList<Particle>(backgroundParticles);
+        for (IViewableParticle backgroundParticle : backgroundParticlesCopy){
+            backgroundParticle.removeFromModel();
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -1213,13 +1272,19 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
 			channel.stepInTime( dt );
 		}
 		
-		// Step the particles.  Since particles may remove themselves as a
-		// result of being stepped, we need to copy the list in order to avoid
-		// concurrent modification exceptions.
-		ArrayList<Particle> particlesCopy = new ArrayList<Particle>(simulationParticles);
+		// Step the transient particles.  Since these particles may remove
+		// themselves as a result of being stepped, we need to copy the list
+		// in order to avoid concurrent modification exceptions.
+		ArrayList<Particle> particlesCopy = new ArrayList<Particle>(transientParticles);
 		for (Particle particle : particlesCopy){
 			particle.stepInTime( dt );
 		}
+		
+		// Step the background particles, which causes them to exhibit a
+		// little Brownian motion.
+        for (Particle backgroundParticle : backgroundParticles){
+            backgroundParticle.stepInTime( dt );
+        }
 		
 		// Adjust the overall potassium and sodium concentration levels based
 		// parameters of the HH model.  This is done solely to provide values
