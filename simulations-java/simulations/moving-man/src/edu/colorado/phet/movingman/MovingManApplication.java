@@ -12,6 +12,7 @@ import edu.colorado.phet.movingman.model.MovingManModel;
 import edu.colorado.phet.movingman.model.MovingManState;
 import edu.colorado.phet.movingman.view.MovingManSimulationPanelWithCharts;
 import edu.colorado.phet.movingman.view.MovingManSimulationPanelWithPlayAreaSliders;
+import static edu.colorado.phet.movingman.MovingManStrings.*;
 import edu.colorado.phet.recordandplayback.gui.RecordAndPlaybackControlPanel;
 import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel;
 
@@ -77,7 +78,7 @@ public class MovingManApplication extends PiccoloPhetApplication {
 
     private class IntroModule extends MovingManModule {
         private IntroModule(PhetFrame frame) {
-            super(frame, "Introduction");
+            super(frame, INTRODUCTION_MODULE_TITLE);
         }
 
         protected JComponent createSimulationPanel(MovingManModel model, RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel) {
@@ -88,7 +89,7 @@ public class MovingManApplication extends PiccoloPhetApplication {
     private class ChartingModule extends MovingManModule {
 
         public ChartingModule(PhetFrame frame) {
-            super(frame, "Charts");
+            super(frame, CHARTS_MODULE_TITLE);
         }
 
         protected JComponent createSimulationPanel(MovingManModel model, RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel) {
