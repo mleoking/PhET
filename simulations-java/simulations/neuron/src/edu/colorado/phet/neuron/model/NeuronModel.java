@@ -138,6 +138,7 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
     private double potassiumInteriorConcentration = NOMINAL_POTASSIUM_INTERIOR_CONCENTRATION;
     private double potassiumExteriorConcentration = NOMINAL_POTASSIUM_EXTERIOR_CONCENTRATION;
     private boolean playbackParticlesVisible = false;
+    private NeuronModelState neuronModelPlaybackState = null;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -241,7 +242,12 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
 	 * @see edu.colorado.phet.neuron.model.IMembranePotential#getMembranePotential()
 	 */
     public double getMembranePotential(){
-    	return hodgkinHuxleyModel.getMembraneVoltage();
+        if (isPlayback()){
+            return neuronModelPlaybackState.getMembranePotential();
+        }
+        else{
+            return hodgkinHuxleyModel.getMembraneVoltage();
+        }
     }
     
     /**
@@ -253,19 +259,39 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
     }
 
     public double getSodiumInteriorConcentration() {
-		return sodiumInteriorConcentration;
+        if (isPlayback()){
+            return neuronModelPlaybackState.getSodiumInteriorConcentration();
+        }
+        else{
+            return sodiumInteriorConcentration;
+        }
 	}
 
 	public double getSodiumExteriorConcentration() {
-		return sodiumExteriorConcentration;
+        if (isPlayback()){
+            return neuronModelPlaybackState.getSodiumExteriorConcentration();
+        }
+        else{
+            return sodiumExteriorConcentration;
+        }
 	}
 
 	public double getPotassiumInteriorConcentration() {
-		return potassiumInteriorConcentration;
+        if (isPlayback()){
+            return neuronModelPlaybackState.getPotassiumInteriorConcentration();
+        }
+        else{
+            return potassiumInteriorConcentration;
+        }
 	}
 
 	public double getPotassiumExteriorConcentration() {
-		return potassiumExteriorConcentration;
+        if (isPlayback()){
+            return neuronModelPlaybackState.getPotassiumExteriorConcentration();
+        }
+        else{
+            return potassiumExteriorConcentration;
+        }
 	}
 
     public boolean isPotentialChartVisible(){
@@ -1148,6 +1174,11 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
     	    new HashMap<MembraneChannel, MembraneChannelState>();
     	private final ArrayList<ParticlePlaybackMemento> particlePlaybackMementos = 
     	    new ArrayList<ParticlePlaybackMemento>();
+    	private final double membranePotential;
+        private final double sodiumInteriorConcentration;
+        private final double sodiumExteriorConcentration;
+        private final double potassiumInteriorConcentration;
+        private final double potassiumExteriorConcentration;
 
     	/**
     	 * Constructor, which extracts the needed state information from the
@@ -1158,6 +1189,12 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
 		public NeuronModelState(NeuronModel neuronModel){
 		    
     		axonMembraneState = neuronModel.getAxonMembrane().getState();
+    		
+    		membranePotential = neuronModel.getMembranePotential();
+    		sodiumExteriorConcentration = neuronModel.getSodiumExteriorConcentration();
+    		sodiumInteriorConcentration = neuronModel.getSodiumInteriorConcentration();
+    		potassiumExteriorConcentration = neuronModel.getPotassiumExteriorConcentration();
+    		potassiumInteriorConcentration = neuronModel.getPotassiumInteriorConcentration();
     		
     		for (MembraneChannel membraneChannel : neuronModel.getMembraneChannels()){
     		    membraneChannelStateMap.put( membraneChannel, membraneChannel.getState() );
@@ -1178,6 +1215,30 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
         
         protected ArrayList<ParticlePlaybackMemento> getPlaybackParticleMementos() {
             return particlePlaybackMementos;
+        }
+        
+        protected ArrayList<ParticlePlaybackMemento> getParticlePlaybackMementos() {
+            return particlePlaybackMementos;
+        }
+        
+        protected double getMembranePotential() {
+            return membranePotential;
+        }
+        
+        protected double getSodiumInteriorConcentration() {
+            return sodiumInteriorConcentration;
+        }
+        
+        protected double getSodiumExteriorConcentration() {
+            return sodiumExteriorConcentration;
+        }
+        
+        protected double getPotassiumInteriorConcentration() {
+            return potassiumInteriorConcentration;
+        }
+        
+        protected double getPotassiumExteriorConcentration() {
+            return potassiumExteriorConcentration;
         }
     }
     
@@ -1229,6 +1290,18 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
 		    playbackParticles.get( playbackParticleIndex ).restoreFromMemento( memento );
 		    playbackParticleIndex++;
 		}
+		
+		// Save the new playback state and send out notifications for any
+		// changes.
+		NeuronModelState oldState = neuronModelPlaybackState;
+		neuronModelPlaybackState = state;
+		if (oldState == null || oldState.getMembranePotential() != state.getMembranePotential()){
+		    notifyMembranePotentialChanged();
+		}
+		// For the sake of simplicity, always send out notifications for the
+		// concentration changes.
+		notifyConcentrationChanged();
+		
 	}
 	
 	@Override
