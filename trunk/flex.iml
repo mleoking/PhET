@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="Flex" version="4">
+  <component name="Flex.Build.Configuration">
+    <option name="DO_BUILD" value="true" />
+    <option name="MAIN_CLASS" value="edu.colorado.phet.densityflex.Density" />
+    <option name="OUTPUT_FILE_NAME" value="flex.swf" />
+    <option name="TARGET_PLAYER_VERSION" value="9.0.124" />
+    <option name="VERSION" value="3" />
+  </component>
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/simulations-flash">
+      <sourceFolder url="file://$MODULE_DIR$/simulations-flash/contrib/box2d/src" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/simulations-flex">
+      <sourceFolder url="file://$MODULE_DIR$/simulations-flex/simulations/density-flex/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/simulations-flex/common/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/simulations-flex/contrib/away3d/fp9" isTestSource="false" />
+    </content>
+    <orderEntry type="jdk" jdkName="flex_sdk_3.4.1.10084 (player 9)" jdkType="Flex SDK Type" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>
+
