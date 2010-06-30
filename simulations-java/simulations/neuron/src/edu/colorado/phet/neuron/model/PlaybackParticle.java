@@ -50,6 +50,14 @@ public class PlaybackParticle implements IViewableParticle {
         particleType = particle.getType();
     }
     
+    /**
+     * Default constructor.
+     */
+    public PlaybackParticle(){
+        // Construct as potassium by default.  This choice is arbitrary.
+        this(new PotassiumIon());
+    }
+    
     //------------------------------------------------------------------------
     // Methods
     //------------------------------------------------------------------------

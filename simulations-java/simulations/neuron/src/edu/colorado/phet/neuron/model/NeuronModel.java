@@ -1146,7 +1146,8 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
     	private final AxonMembraneState axonMembraneState;
     	private final HashMap< MembraneChannel, MembraneChannel.MembraneChannelState > membraneChannelStateMap = 
     	    new HashMap<MembraneChannel, MembraneChannelState>();
-    	private final ArrayList<PlaybackParticle> playbackParticles = new ArrayList<PlaybackParticle>();
+    	private final ArrayList<ParticlePlaybackMemento> particlePlaybackMementos = 
+    	    new ArrayList<ParticlePlaybackMemento>();
 
     	/**
     	 * Constructor, which extracts the needed state information from the
@@ -1163,7 +1164,7 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
     		}
     		
     		for (Particle particle : neuronModel.getParticles()){
-    		    playbackParticles.add( new PlaybackParticle(particle) );
+    		    particlePlaybackMementos.add( particle.getPlaybackMemento() );
     		}
     	}
 		
@@ -1175,8 +1176,8 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
             return membraneChannelStateMap;
         }
         
-        protected ArrayList<PlaybackParticle> getPlaybackParticles() {
-            return playbackParticles;
+        protected ArrayList<ParticlePlaybackMemento> getPlaybackParticleMementos() {
+            return particlePlaybackMementos;
         }
     }
     
@@ -1187,8 +1188,6 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
 		axonMembrane.setState(state.getAxonMembraneState());
 		
 		// Set the states of the membrane channels.
-		// TODO: Is there a more efficient way to match the map entries to the
-		// membrane channel list?
 		for (MembraneChannel membraneChannel : getMembraneChannels()){
 		    MembraneChannelState mcs = state.getMembraneChannelStateMap().get( membraneChannel );
 		    // Error handling.
@@ -1201,23 +1200,35 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
 		    membraneChannel.setState( mcs );
 		}
 		
-		// Set the state of the playback particles.
-		// TODO: For now, this clears out any existing ones and adds new ones
-		// for each playback particle.  This is inefficient, and we should probably have
-		// some matching of existing ones.
-        ArrayList<PlaybackParticle> playbackParticlesCopy = new ArrayList<PlaybackParticle>(playbackParticles);
-        for (PlaybackParticle playbackParticle : playbackParticlesCopy){
-            playbackParticle.removeFromModel();
-        }
-        for (final PlaybackParticle playbackParticle : state.getPlaybackParticles()){
-            playbackParticles.add( playbackParticle );
-            notifyParticleAdded( playbackParticle );
-            playbackParticle.addListener( new ParticleListenerAdapter(){
-                public void removedFromModel() {
-                    playbackParticles.remove( playbackParticle );
-                }
-            });
-        }
+		// Set the state of the playback particles.  This maps the particle
+		// mementos in to the playback particles so that we don't have to
+		// delete and add back a bunch of particles at each step.
+		int additionalPlaybackParticlesNeeded = state.getPlaybackParticleMementos().size() - playbackParticles.size();
+		if (additionalPlaybackParticlesNeeded > 0){
+		    for (int i = 0; i < additionalPlaybackParticlesNeeded; i++){
+		        final PlaybackParticle newPlaybackParticle = new PlaybackParticle();
+		        playbackParticles.add( newPlaybackParticle );
+		        newPlaybackParticle.addListener( new ParticleListenerAdapter(){
+                    @Override
+                    public void removedFromModel() {
+                        // Handle notification of this particle's removal.
+                        playbackParticles.remove( newPlaybackParticle );
+                    }
+		        });
+		        notifyParticleAdded( newPlaybackParticle );
+		    }
+		}
+		else if (additionalPlaybackParticlesNeeded < 0){
+            for (int i = additionalPlaybackParticlesNeeded; i < 0; i++){
+                playbackParticles.get(playbackParticles.size() - 1).removeFromModel();
+            }
+		}
+		// Set playback particle states from the mementos.
+		int playbackParticleIndex = 0;
+		for (ParticlePlaybackMemento memento : state.getPlaybackParticleMementos()){
+		    playbackParticles.get( playbackParticleIndex ).restoreFromMemento( memento );
+		    playbackParticleIndex++;
+		}
 	}
 	
 	@Override
