@@ -84,10 +84,10 @@
                             <origin>$RIP_BASE_DIR$/ar</origin>
                         </distributionDirectory>
                         <distributionFile>
-                            <origin>$INSTALLER_RESOURCES_DIR/phet-icon.ico</origin>
+                            <origin>$INSTALLER_RESOURCES_DIR$/phet-icon.ico</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>$INSTALLER_RESOURCES_DIR/phet-logo-48x48.png</origin>
+                            <origin>$INSTALLER_RESOURCES_DIR$/phet-logo-48x48.png</origin>
                         </distributionFile>
                     </distributionFileList>
                     <shortcutList>
