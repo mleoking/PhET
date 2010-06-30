@@ -16,17 +16,15 @@ import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.AqueousSolution
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PDragEventHandler;
+import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
-import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
-/*
- * * pH meter, displays the pH of a solution. Origin is at the tip of the probe.
+/**
+ * pH meter, displays the pH of a solution. Origin is at the tip of the probe.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -67,6 +65,7 @@ public class PHMeterNode extends PhetPNode {
         model.getPHMeter().addModelElementChangeListener( new ModelElementChangeListener() {
 
             public void locationChanged() {
+                //TODO map location from model to view coordinate frame
                 setOffset( model.getPHMeter().getLocationReference() );
                 updateDisplay();
             }
@@ -91,7 +90,7 @@ public class PHMeterNode extends PhetPNode {
         solution.addAqueousSolutionChangeListener( listener );
 
         addInputEventListener( new CursorHandler( Cursor.N_RESIZE_CURSOR ) );
-        addInputEventListener( new PDragEventHandler() {
+        addInputEventListener( new PDragSequenceEventHandler() {
 
             private double clickYOffset; // y-offset of mouse click from meter's origin, in parent's coordinate frame
 
@@ -102,9 +101,11 @@ public class PHMeterNode extends PhetPNode {
             }
 
             protected void drag( final PInputEvent event ) {
+                super.drag( event );
                 Point2D pMouse = event.getPositionRelativeTo( getParent() );
                 double x = getXOffset();
                 double y = pMouse.getY() - clickYOffset;
+                //TODO map y from view to model coordinate frame
                 if ( isInBoundsY( y ) ) {
                     model.getPHMeter().setLocation( x, y );
                 }
