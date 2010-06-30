@@ -54,6 +54,28 @@ public class PlaybackParticle implements IViewableParticle {
     // Methods
     //------------------------------------------------------------------------
     
+    public void restoreFromMemento(ParticlePlaybackMemento memento){
+        setPosition( memento.getPositionRef() );
+        // Note - setting the position will take care of the notification.
+        
+        boolean appearanceChanged = false;
+        if (opaqueness != memento.getOpaqueness()){
+            opaqueness = memento.getOpaqueness();
+            appearanceChanged = true;
+        }
+        if (particleType != memento.getParticleType()){
+            particleType = memento.getParticleType();
+            appearanceChanged = true;
+        }
+        if (representationColor != memento.getRepresentationColor()){
+            representationColor = memento.getRepresentationColor();
+            appearanceChanged = true;
+        }
+        if (appearanceChanged){
+            notifyAppearanceChanged();
+        }
+    }
+    
     /**
      * This is called to remove this particle from the model.  It simply sends
      * out a notification of removal, and all listeners (including the view)
@@ -72,7 +94,7 @@ public class PlaybackParticle implements IViewableParticle {
         return position;
     }
     
-    private void setPosition(Point2D newPos){
+    private void setPosition(Point2D newPos) {
         if (position.getX() != newPos.getX() || position.getY() != newPos.getY()){
             position.setLocation( newPos );
             notifyPositionChanged();

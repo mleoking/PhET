@@ -114,7 +114,7 @@ public abstract class Particle implements IMovable, IFadable, IViewableParticle 
 	public void setOpaqueness(double opaqueness){
 		if (this.opaqueness != opaqueness){
 			this.opaqueness = opaqueness;
-			notifyOpaquenessChanged();
+			notifyAppearanceChanged();
 		}
 	}
 	
@@ -138,6 +138,15 @@ public abstract class Particle implements IMovable, IFadable, IViewableParticle 
     	// capture.
 		return !(motionStrategy instanceof MembraneTraversalMotionStrategy);
 	}
+    
+    /**
+     * Get a playback memento, which can be used when doing playback of
+     * previous model states.  Note that the memento does not capture all of
+     * the particle's state, just enough to support playback.
+     */
+    public ParticlePlaybackMemento getPlaybackMemento(){
+        return new ParticlePlaybackMemento( this );
+    }
 
     protected void notifyPositionChanged(){
         // Notify all listeners of the position change.
@@ -147,7 +156,7 @@ public abstract class Particle implements IMovable, IFadable, IViewableParticle 
         }        
     }
     
-    protected void notifyOpaquenessChanged(){
+    protected void notifyAppearanceChanged(){
         // Notify all listeners of the opaqueness change.
         for (IParticleListener listener : listeners)
         {
