@@ -13,6 +13,8 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 /**
+ * This is the vertical cursor graphic that appears in charts to indicate playback time.
+ *
  * @author Sam Reid
  */
 public class CursorNode extends PClip {
@@ -48,6 +50,11 @@ public class CursorNode extends PClip {
             }
         };
         pathUpdater.positionChanged();
+        chart.getViewDimension().addObserver(new SimpleObserver() {
+            public void update() {
+                pathUpdater.positionChanged();
+            }
+        });
         cursor.addListener(pathUpdater);
 
         //Update the in-chart cursor location during zoom in/out
