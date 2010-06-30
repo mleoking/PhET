@@ -37,7 +37,7 @@ public class ParticleNode extends PNode {
 			public void positionChanged() {
 				updateOffset();
 			}
-			public void opaquenessChanged() {
+			public void appearanceChanged() {
 				updateOpaqueness();
 			}
 		});

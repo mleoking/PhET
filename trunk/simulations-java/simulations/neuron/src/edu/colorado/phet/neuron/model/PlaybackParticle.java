@@ -25,10 +25,10 @@ public class PlaybackParticle implements IViewableParticle {
     //------------------------------------------------------------------------
     
     private final Point2D position = new Point2D.Double();
-    private final Color representationColor;
-    private final double opaqueness;
+    private Color representationColor;
+    private double opaqueness;
     private final double radius;
-    private final ParticleType particleType;
+    private ParticleType particleType;
     
     protected ArrayList<IParticleListener> listeners = new ArrayList<IParticleListener>();
     
@@ -64,19 +64,6 @@ public class PlaybackParticle implements IViewableParticle {
     	listeners.clear();
     }
     
-    /**
-     * Inform all listeners that this element has been removed from the model.
-     */
-    private void notifyRemoved(){
-    	// Copy the list to avoid concurrent modification exceptions.
-    	ArrayList<IParticleListener> listenersCopy = new ArrayList<IParticleListener>(listeners); 
-    	// Notify all listeners that this particle was removed from the model.
-        for (IParticleListener listener : listenersCopy)
-        {
-            listener.removedFromModel(); 
-        }        
-    }
-    
     public Point2D getPosition() {
         return new Point2D.Double( position.getX(), position.getY() );
     }
@@ -85,15 +72,20 @@ public class PlaybackParticle implements IViewableParticle {
         return position;
     }
     
+    private void setPosition(Point2D newPos){
+        if (position.getX() != newPos.getX() || position.getY() != newPos.getY()){
+            position.setLocation( newPos );
+            notifyPositionChanged();
+        }
+    }
+    
     public Color getRepresentationColor() {
         return representationColor;
     }
 
-    
     public double getOpaqueness() {
         return opaqueness;
     }
-
     
     public double getRadius() {
         return radius;
@@ -123,7 +115,29 @@ public class PlaybackParticle implements IViewableParticle {
     	listeners.remove(listener);
     }
 
-    public interface Listener {
-        void removedFromModel();
+    private void notifyRemoved(){
+        // Copy the list to avoid concurrent modification exceptions.
+        ArrayList<IParticleListener> listenersCopy = new ArrayList<IParticleListener>(listeners); 
+        // Notify all listeners that this particle was removed from the model.
+        for (IParticleListener listener : listenersCopy)
+        {
+            listener.removedFromModel(); 
+        }        
     }
+    
+    protected void notifyPositionChanged(){
+        // Notify all listeners of the position change.
+        for (IParticleListener listener : listeners)
+        {
+            listener.positionChanged(); 
+        }        
+    }
+    
+    protected void notifyAppearanceChanged(){
+        // Notify all listeners of the opaqueness change.
+        for (IParticleListener listener : listeners)
+        {
+            listener.appearanceChanged(); 
+        }        
+    }    
 }
