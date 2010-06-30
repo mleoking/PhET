@@ -4,24 +4,24 @@ MILESTONES
 - 8/1/10, sim showable for BCCE
 
 HIGH PRIORITY
-- use SolutionFactory in TestSolutionControl
-- ditch ABSRadioButton in TestSolutionControl, separate listener for each radio button
-- zero-arg constructors for ABSModelElement subclasses
-- fix resize behavior of main frame, nodes below the beaker are not visible if main frame is resized wider 
-- center everything in the play area
-- control panel layout issues
-
-MEDUIUM PRIORITY
-- handle model-view transforms in PHMeterNode
-- not obvious what "Show H2O Molecules" check box pertains to
-- label x-axis of concentration graph, SR didn't see correlation to reaction equation
-- Save/Load?
-- if pH meter is placed fully behind another tool, it is then inaccessible
-- baseline alignment of reaction equations (impossible?)
 - conductivity tester (CAB feedback required)
 - pH paper (CAB feedback required)
+- add MVT to handle relationship between model element locations and PNode locations
+- handle model-view transforms in PHMeterNode
+- fix resize behavior of main frame, nodes below the beaker are not visible if main frame is resized wider 
+- center everything in the play area
+
+MEDUIUM PRIORITY
+- zero-arg constructors for ABSModelElement subclasses
+- not obvious what "Show H2O Molecules" check box pertains to
+- label x-axis of concentration graph? SR didn't see correlation to reaction equation
+- Save/Load?
+- baseline alignment of reaction equations (impossible?)
 
 LOW PRIORITY
+- control panel layout issues
+- use SolutionFactory in TestSolutionControl
+- ditch ABSRadioButton in TestSolutionControl, separate listener for each radio button
 - chem symbol api, handle baseline/bold/italic/super/sub/color, use Piccolo for layout control
 - how are reaction equations being vertically aligned in advanced-acid-base-solutions? they look better
 - icons for tool controls 
