@@ -114,7 +114,7 @@
         CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'files/*').' '.
         CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*').' '.
         CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'images/*').' '.
-        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'newsletter/*').' '.
+        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'newsletters/*').' '.
         CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'installer/*').' '.
         CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'publications/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'ar/for-teachers/submit-activity').' '.
