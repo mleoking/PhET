@@ -115,9 +115,9 @@ public class MovingManSimulationPanel extends PhetPCanvas {
         updateAccelerationVectorVisible(accelerationVector, model);
 
         //Low quality rendering helps performance significantly
-        setInteractingRenderQuality(PPaintContext.LOW_QUALITY_RENDERING);
-        setDefaultRenderQuality(PPaintContext.LOW_QUALITY_RENDERING);
-        setAnimatingRenderQuality(PPaintContext.LOW_QUALITY_RENDERING);
+//        setInteractingRenderQuality(PPaintContext.LOW_QUALITY_RENDERING);
+//        setDefaultRenderQuality(PPaintContext.LOW_QUALITY_RENDERING);
+//        setAnimatingRenderQuality(PPaintContext.LOW_QUALITY_RENDERING);
 
         positiveToTheRight.addObserver(new SimpleObserver() {
             public void update() {

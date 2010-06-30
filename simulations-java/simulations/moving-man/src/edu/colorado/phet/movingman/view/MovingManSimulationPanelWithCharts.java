@@ -64,7 +64,7 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
                 positionChartControl.addChild(goButton);
                 goButton.setOffset(positionChartControl.getFullBounds().getMaxX() - goButton.getFullBounds().getWidth(), positionChartControl.getFullBounds().getMaxY());
             }
-            positionMovingManChart = new MinimizableControlChart(new ControlChart(positionChartControl, sliderNode, positionChart, new ChartZoomControlNode(positionChart)));
+            positionMovingManChart = new MinimizableControlChart("Position",new ControlChart(positionChartControl, sliderNode, positionChart, new ChartZoomControlNode(positionChart)));
         }
 
         MinimizableControlChart velocityMovingManChart = null;
@@ -112,7 +112,7 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
                 }
             });
             updateVelocityModeSelected.update();
-            velocityMovingManChart = new MinimizableControlChart(new ControlChart(velocityChartControl, chartSliderNode, velocityChart, new ChartZoomControlNode(velocityChart)));
+            velocityMovingManChart = new MinimizableControlChart("Velocity",new ControlChart(velocityChartControl, chartSliderNode, velocityChart, new ChartZoomControlNode(velocityChart)));
         }
 
         MinimizableControlChart accelerationMovingManChart = null;
@@ -165,7 +165,7 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
                 accelerationChartControl.addChild(goButton);
             }
             ControlChart acc = new ControlChart(accelerationChartControl, chartSliderNode, accelerationChart, new ChartZoomControlNode(accelerationChart));
-            accelerationMovingManChart = new MinimizableControlChart(acc);
+            accelerationMovingManChart = new MinimizableControlChart("Acceleration",acc);
         }
         final MultiControlChart multiChart = new MultiControlChart(new MinimizableControlChart[]{positionMovingManChart, velocityMovingManChart, accelerationMovingManChart});
         addScreenChild(multiChart);

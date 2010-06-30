@@ -36,6 +36,16 @@ public class MultiControlChart extends PNode {
             } );
         }
         updateHorizontalZoomButtonVisibility.update();
+
+        for (final MinimizableControlChart chart : charts) {
+            chart.getChartNode().getDataModelBounds().addObserver(new SimpleObserver() {
+                public void update() {
+                    for (MinimizableControlChart chart2 : charts) {
+                        chart2.getChartNode().getDataModelBounds().setHorizontalRange(chart.getChartNode().getDataModelBounds().getMinX(),chart.getChartNode().getDataModelBounds().getMaxX() );
+                    }
+                }
+            });
+        }
     }
 
     private void updateLayout() {

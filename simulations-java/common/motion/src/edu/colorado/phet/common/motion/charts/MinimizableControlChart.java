@@ -10,11 +10,11 @@ public class MinimizableControlChart extends PNode {
     private ControlChart controlChart;
     private MinimizeMaximizeButton minimizeMaximizeButton;
 
-    public MinimizableControlChart(final ControlChart controlChart) {
+    public MinimizableControlChart(String title,final ControlChart controlChart) {
         this.controlChart = controlChart;
         addChild(controlChart);
 
-        this.minimizeMaximizeButton = new MinimizeMaximizeButton();
+        this.minimizeMaximizeButton = new MinimizeMaximizeButton(title);
         addChild(minimizeMaximizeButton);
 
         final SimpleObserver updateVisibility = new SimpleObserver() {

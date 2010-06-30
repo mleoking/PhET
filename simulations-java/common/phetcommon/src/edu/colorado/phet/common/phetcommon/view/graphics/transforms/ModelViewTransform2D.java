@@ -118,7 +118,7 @@ public class ModelViewTransform2D {
 
 	public void setModelBounds( Rectangle2D modelBounds ) {
         if ( modelBounds.getWidth() <= 0 || modelBounds.getHeight() <= 0 ) {
-            throw new RuntimeException( "modelBounds dimensons must be > 0 : " + modelBounds );
+            throw new RuntimeException( "modelBounds dimensions must be > 0 : " + modelBounds );
         }
         this.modelBounds = new Rectangle2D.Double( modelBounds.getX(), modelBounds.getY(), modelBounds.getWidth(), modelBounds.getHeight() );
         forwardTransformDirty = true;
