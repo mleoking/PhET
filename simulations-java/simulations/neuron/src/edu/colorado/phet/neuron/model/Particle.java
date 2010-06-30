@@ -151,7 +151,7 @@ public abstract class Particle implements IMovable, IFadable, IViewableParticle 
         // Notify all listeners of the opaqueness change.
         for (IParticleListener listener : listeners)
         {
-            listener.opaquenessChanged(); 
+            listener.appearanceChanged(); 
         }        
     }
     
