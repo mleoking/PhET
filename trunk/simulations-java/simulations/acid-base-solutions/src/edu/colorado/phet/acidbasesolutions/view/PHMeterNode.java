@@ -97,22 +97,21 @@ public class PHMeterNode extends PhetPNode {
 
             protected void startDrag( PInputEvent event ) {
                 super.startDrag( event );
-                // note the offset between the mouse click and the meter's origin
                 Point2D pMouse = event.getPositionRelativeTo( getParent() );
                 clickYOffset = pMouse.getY() - model.getPHMeter().getLocationReference().getY();
-                System.out.println( "clickYOffset=" + clickYOffset );//XXX
             }
 
             protected void drag( final PInputEvent event ) {
-                PNode pickedNode = event.getPickedNode();
-                PDimension d = event.getDeltaRelativeTo( pickedNode );
-                pickedNode.localToParent( d );
+                Point2D pMouse = event.getPositionRelativeTo( getParent() );
                 double x = getXOffset();
-                double y = model.getPHMeter().getLocationReference().getY() + d.getHeight();
-//                System.out.println( "y=" + y );//XXX
-//                if ( y > 220 && y < 400 ) { //XXX
+                double y = pMouse.getY() - clickYOffset;
+                if ( isInBoundsY( y ) ) {
                     model.getPHMeter().setLocation( x, y );
-//                }
+                }
+            }
+            
+            private boolean isInBoundsY( double y ) {
+                return ( y > 220 && y < 400 ); //TODO calculate based on probe length and position of solution surface
             }
         } );
 
