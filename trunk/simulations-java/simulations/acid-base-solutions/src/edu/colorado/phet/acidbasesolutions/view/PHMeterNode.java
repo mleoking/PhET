@@ -21,6 +21,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
+import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
@@ -33,7 +34,6 @@ public class PHMeterNode extends PhetPNode {
     private static final Color SHAFT_COLOR = Color.LIGHT_GRAY;
     private static final Color SHAFT_STROKE_COLOR = Color.BLACK;
     private static final Stroke SHAFT_STROKE = new BasicStroke( 0.25f );
-    private static final double SHAFT_WIDTH = 10;
 
     private static final Color TIP_COLOR = Color.BLACK;
 
@@ -51,7 +51,7 @@ public class PHMeterNode extends PhetPNode {
     private final DisplayNode displayNode;
 
     public PHMeterNode( final ABSModel model ) {
-        this( model.getPHMeter().getShaftLength() );
+        this( model.getPHMeter().getShaftSizeReference(), model.getPHMeter().getTipSizeRefernence() );
 
         this.model = model;
         model.addModelChangeListener( new ModelChangeAdapter() {
@@ -133,22 +133,21 @@ public class PHMeterNode extends PhetPNode {
     /*
      * Private constructor, has no knowledge of the model.
      */
-    private PHMeterNode( double shaftHeight ) {
-        super();
-
+    private PHMeterNode( PDimension shaftSize, PDimension tipSize ) {
+        
         this.displayNode = new DisplayNode();
 
-        TipNode tipNode = new TipNode();
-        tipNode.scale( 25 );
+        TipNode tipNode = new TipNode( tipSize );
 
-        ShaftNode shaftNode = new ShaftNode( SHAFT_WIDTH, shaftHeight );
+        // make the shaft a little long, so that it overlap with the tip and the display, so we don't see seams
+        final double yOverlap = 0.05 * tipSize.getHeight();
+        ShaftNode shaftNode = new ShaftNode( shaftSize.width, shaftSize.height + ( 2 * yOverlap ) );
 
         addChild( shaftNode );
         addChild( tipNode );
         addChild( displayNode );
 
         // layout, origin at tip of probe
-        double yOverlap = 5;
         double x = -tipNode.getFullBoundsReference().getWidth() / 2;
         double y = -tipNode.getFullBoundsReference().getHeight();
         tipNode.setOffset( x, y );
@@ -229,21 +228,28 @@ public class PHMeterNode extends PhetPNode {
      * Creates a tip whose dimensions are 1 x 2.5, origin at upper left.
      */
     private static class TipNode extends PPath {
-
-        public TipNode() {
-            super();
-
+        
+        public TipNode( PDimension size ) {
+            this( (float) size.width, (float) size.height );
+        }
+    
+        public TipNode( float w, float h ) {
+            
+            float rectangleHeight = 0.6f * h;
+            float pointHeight = h - rectangleHeight;
+            float cornerRadius = 0.4f * w;
+            
             // rounded corners at top
-            Shape roundRect = new RoundRectangle2D.Float( 0f, 0f, 1f, 1.5f, 0.4f, 0.4f );
+            Shape roundRect = new RoundRectangle2D.Float( 0f, 0f, w, rectangleHeight, cornerRadius, cornerRadius );
 
             // mask out rounded corners at bottom
-            Shape rect = new Rectangle2D.Float( 0f, 0.5f, 1f, 1f );
+            Shape rect = new Rectangle2D.Float( 0f, rectangleHeight / 2, w, rectangleHeight / 2 );
 
             // point at the bottom
             GeneralPath triangle = new GeneralPath();
-            triangle.moveTo( 0f, 1.5f );
-            triangle.lineTo( 0.5f, 2.5f );
-            triangle.lineTo( 1f, 1.5f );
+            triangle.moveTo( 0f, h - pointHeight );
+            triangle.lineTo( w / 2f, h );
+            triangle.lineTo( w, h - pointHeight );
             triangle.closePath();
 
             // constructive area geometry
