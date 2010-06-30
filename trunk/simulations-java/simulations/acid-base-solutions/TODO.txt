@@ -13,7 +13,6 @@ HIGH PRIORITY
 
 MEDUIUM PRIORITY
 - handle model-view transforms in PHMeterNode
-- chem symbol api, handle baseline/bold/italic/super/sub/color, use Piccolo for layout control
 - not obvious what "Show H2O Molecules" check box pertains to
 - label x-axis of concentration graph, SR didn't see correlation to reaction equation
 - Save/Load?
@@ -23,6 +22,8 @@ MEDUIUM PRIORITY
 - pH paper (CAB feedback required)
 
 LOW PRIORITY
+- chem symbol api, handle baseline/bold/italic/super/sub/color, use Piccolo for layout control
+- how are reaction equations being vertically aligned in advanced-acid-base-solutions? they look better
 - icons for tool controls 
 - better images for molecules
 - export design doc from Google, check into SVN
