@@ -161,6 +161,7 @@ public class PhetWicketApplication extends WebApplication {
         AddContributionCommentPage.addToMapper( mapper );
         NominateContributionPage.addToMapper( mapper );
         ChangePasswordPage.addToMapper( mapper );
+        ResetPasswordRequestPage.addToMapper( mapper );
 
         // don't error if a string isn't found
         getResourceSettings().setThrowExceptionOnMissingResource( false );
