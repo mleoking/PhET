@@ -1,5 +1,9 @@
 package edu.colorado.phet.website.authentication.panels;
 
+import java.util.*;
+
+import javax.mail.BodyPart;
+
 import org.apache.log4j.Logger;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.FormComponent;
@@ -7,18 +11,28 @@ import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.form.validation.AbstractFormValidator;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.request.target.basic.RedirectRequestTarget;
 import org.hibernate.Session;
 
+import edu.colorado.phet.website.PhetWicketApplication;
+import edu.colorado.phet.website.WebsiteProperties;
+import edu.colorado.phet.website.authentication.ResetPasswordCallbackPage;
+import edu.colorado.phet.website.authentication.ResetPasswordRequestSuccessPage;
+import edu.colorado.phet.website.constants.WebsiteConstants;
 import edu.colorado.phet.website.data.PhetUser;
+import edu.colorado.phet.website.data.ResetPasswordRequest;
+import edu.colorado.phet.website.notification.NotificationHandler;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
+import edu.colorado.phet.website.util.StringUtils;
 
 /**
  * @author Sam Reid
  */
 public class ResetPasswordRequestPanel extends PhetPanel {
+    private static Random random = new Random();
     private static Logger logger = Logger.getLogger( ChangePasswordPanel.class );
     private FeedbackPanel feedback;
 
@@ -32,7 +46,6 @@ public class ResetPasswordRequestPanel extends PhetPanel {
     public class EnterEmailAddressForm extends Form {
         protected TextField emailTextField;
         private final PageContext context;
-        private int phetUserID;
 
         public EnterEmailAddressForm( String id, PageContext context ) {
             super( id );
@@ -49,14 +62,8 @@ public class ResetPasswordRequestPanel extends PhetPanel {
                 public void validate( Form<?> form ) {
                     boolean success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
                         public boolean run( Session session ) {
-                            PhetUser user = (PhetUser) session.createQuery( "select u from PhetUser as u where u.email=:email" ).setString( "email", emailTextField.getInput() ).uniqueResult();
-                            if ( user != null ) {
-                                phetUserID = user.getId();
-                                return true;
-                            }
-                            else {
-                                return false;
-                            }
+                            PhetUser user = lookupUser( session );
+                            return user != null;
                         }
                     } );
                     if ( !success ) {
@@ -66,9 +73,65 @@ public class ResetPasswordRequestPanel extends PhetPanel {
             } );
         }
 
+        private PhetUser lookupUser( Session session ) {
+            return (PhetUser) session.createQuery( "select u from PhetUser as u where u.email=:email" ).setString( "email", emailTextField.getInput() ).uniqueResult();
+        }
+
         @Override
         protected void onSubmit() {
-//            getRequestCycle().setRequestTarget( new RedirectPageRequestTarget( ResetPasswordRequestSuccess.getLinker().getRawURL(context,getPhetCycle())) );
+            boolean success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+                public boolean run( Session session ) {
+                    PhetUser user = lookupUser( session );
+                    if ( user != null ) {
+                        //Send email to the user with a link to reset their password
+                        String key = Long.toHexString( random.nextLong() ) + "g" + Long.toHexString( random.nextLong() ); //TODO: if a malicious hacker knows the time seed for random, would they be able to take advantage of this implementation?
+                        logger.info( "Created storage key = " + key );
+                        ResetPasswordRequest resetPasswordRequest = new ResetPasswordRequest( user, new Date(), key );
+
+                        //store the resetPasswordRequest in the database
+                        session.save( resetPasswordRequest );
+
+                        //send the email to the user
+                        WebsiteProperties websiteProperties = PhetWicketApplication.get().getWebsiteProperties();
+                        String body = StringUtils.messageFormat( getPhetLocalizer().getString( "resetPasswordRequest.emailBody", EnterEmailAddressForm.this ), new Object[]{"http://phet.colorado.edu" + ResetPasswordCallbackPage.getLinker( key ).getRawUrl( context, getPhetCycle() )} );
+                        String subject = getPhetLocalizer().getString( "resetPasswordRequest.emailSubject", EnterEmailAddressForm.this );
+                        NotificationHandler.sendMessage( websiteProperties.getMailHost(),
+                                                         websiteProperties.getMailUser(),
+                                                         websiteProperties.getMailPassword(),
+                                                         Arrays.asList( user.getEmail() ),
+                                                         body,
+                                                         WebsiteConstants.PHET_NO_REPLY_EMAIL_ADDRESS,
+                                                         subject,
+                                                         new ArrayList<BodyPart>() );
+
+                        //todo: prune the database here so we don't have to maintain another cronlike job, throw away expired ResetPasswordRequest objects
+
+                        //Redirect to the success page
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
+                }
+            } );
+            if ( success ) {
+                //prune the table so it doesn't grow without bounds
+                HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+                    public boolean run( Session session ) {
+                        long oneDayInMillis = 1000 * 3600 * 24;
+                        List expiredResetPasswordRequests = session.createQuery( "select r from ResetPasswordRequest as r where r.timestamp < :timestamp" ).setDate( "timestamp", new Date( System.currentTimeMillis() - oneDayInMillis ) ).list();
+                        logger.debug( "Pruning ResetPasswordRequests, number of expired requests = " + expiredResetPasswordRequests.size() );
+                        for ( Object o : expiredResetPasswordRequests ) {
+                            session.delete( o );
+                        }
+                        return true;
+                    }
+                } );
+
+                //redirect to the success page
+                getRequestCycle().setRequestTarget( new RedirectRequestTarget( ResetPasswordRequestSuccessPage.getLinker().getRawUrl( context, getPhetCycle() ) ) );
+            }
         }
+
     }
 }

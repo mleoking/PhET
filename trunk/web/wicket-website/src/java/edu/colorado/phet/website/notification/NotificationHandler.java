@@ -15,6 +15,7 @@ import org.hibernate.event.PostInsertEvent;
 import org.hibernate.event.PostUpdateEvent;
 
 import edu.colorado.phet.website.WebsiteProperties;
+import edu.colorado.phet.website.constants.WebsiteConstants;
 import edu.colorado.phet.website.data.NotificationEvent;
 import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.data.contribution.Contribution;
@@ -116,11 +117,10 @@ public class NotificationHandler {
             emailAddresses.add( user.getEmail() );
         }
         String body = eventsToString( events );
-        final String fromAddress = "phetnoreply@phet.colorado.edu";
         final String subject = "[PhET Website] Notifications for Teaching Ideas";
         final ArrayList<BodyPart> additionalParts = new ArrayList<BodyPart>();//other than the message itself which is specified in body
 
-        sendMessage( mailHost, mailUser, mailPassword, emailAddresses, body, fromAddress, subject, additionalParts );
+        sendMessage( mailHost, mailUser, mailPassword, emailAddresses, body, WebsiteConstants.PHET_NO_REPLY_EMAIL_ADDRESS, subject, additionalParts );
     }
 
     public static void sendMessage( String mailHost, final String mailUser, final String mailPassword, List<String> emailAddresses, String body, String fromAddress, String subject, ArrayList<BodyPart> additionalParts ) {
