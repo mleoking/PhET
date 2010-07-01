@@ -1165,7 +1165,8 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
     /**
      * This class contains state information about the model for a given point
      * in time.  It contains enough information for the playback feature, but
-     * not necessarily enough to resume the simulation.
+     * not necessarily enough to fully restore the simulation to an arbitrary
+     * point in time.
      */
     public static class NeuronModelState {
     	
