@@ -17,7 +17,8 @@ public class MonthlyReportFilter {
     private ArrayList<String> allList;
 
     public MonthlyReportFilter() {
-        String categorieString = "Accessibility\n" +
+        String categorieString = 
+                "Accessibility\n" +
                 "Administrative/Documentation\n" +
                 "Build Process\n" +
                 "Conferences, Workshops & Booths\n" +
@@ -103,9 +104,19 @@ public class MonthlyReportFilter {
         if (category.equals("phetcommon")) return mapCategory("common code");
         if (category.equals("maintenance")) return mapCategory("misc");
         if (category.equals("ide")) return mapCategory("maintenance");
+        if (category.equals("logging")) return mapCategory("phetcommon");
+        if (category.equals("translation-utility")) return mapCategory("Translations");
+        if (category.equals("android")) return mapCategory("Miscellaneous");
+        if (category.equals("wicket-deploy")) return mapCategory("website");
+        if (category.equals("wicket-site")) return mapCategory("website");
+        if (category.equals("support")) return mapCategory("phet help");
+        if (category.equals("git")) return mapCategory("Respository, SVN, CVS");
+        if (category.equals("sbt")) return mapCategory("build process");
+        if (category.equals("newsletter")) return mapCategory("website");
+        if (category.equals("conference")) return mapCategory("meetings");
 
         System.out.println("No match found for category: " + category);
-        return "unknown";
+        return "unknown: "+category;
     }
 
     private boolean matchesCategory(String documented, String standardized) {
