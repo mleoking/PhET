@@ -7,7 +7,8 @@ import java.awt.geom.Point2D;
 
 /**
  * Primary model for the Photon Absorption tab.  This models photons being
- * absorbed (or often NOT absorbed) by various molecules.
+ * absorbed (or often NOT absorbed) by various molecules.  The scale for this
+ * model is picometers (10E-12 meters).
  * 
  * @author John Blanco
  */
@@ -19,7 +20,7 @@ public class PhotonAbsorptionModel {
     
     // Constant that controls the point in model space where photons are
     // emitted.
-    private static final Point2D PHOTON_EMISSION_LOCATION = new Point2D.Double(0, 0);
+    private static final Point2D PHOTON_EMISSION_LOCATION = new Point2D.Double(-50, 20);
 
     //----------------------------------------------------------------------------
     // Instance Data

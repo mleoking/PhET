@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.greenhouse.GreenhouseDefaults;
+import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel;
 import edu.colorado.phet.neuron.module.NeuronDefaults;
 import edu.umd.cs.piccolo.PNode;
 
@@ -32,6 +33,9 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
+	
+	// Model that is being viewed by this canvas.
+	private PhotonAbsorptionModel photonAbsorptionModel;
 
     // Model-view transform.
     private ModelViewTransform2D mvt;
@@ -46,7 +50,9 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public PhotonAbsorptionCanvas(  ) {
+    public PhotonAbsorptionCanvas(PhotonAbsorptionModel photonAbsorptionModel  ) {
+        
+        this.photonAbsorptionModel = photonAbsorptionModel;
 
     	// Set up the canvas-screen transform.
     	setWorldTransformStrategy(new PhetPCanvas.CenteringBoxStrategy(this, GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE));
@@ -75,7 +81,7 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
         
         // Add the flashlight.
         PNode flashlightNode = new FlashlightNode(FLASHLIGHT_WIDTH, mvt);
-        flashlightNode.setOffset(200, 380); // TODO: Position will be determined by model eventually.
+        flashlightNode.setOffset(mvt.modelToViewDouble(photonAbsorptionModel.getPhotonEmissionLocation()));
         myWorldNode.addChild(flashlightNode);
         
         // Update the layout.
