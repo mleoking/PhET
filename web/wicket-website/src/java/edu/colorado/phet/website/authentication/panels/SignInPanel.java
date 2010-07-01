@@ -11,7 +11,7 @@ import org.apache.wicket.util.value.ValueMap;
 
 import edu.colorado.phet.website.authentication.PhetSession;
 import edu.colorado.phet.website.authentication.RegisterPage;
-import edu.colorado.phet.website.cache.SimplePanelCacheEntry;
+import edu.colorado.phet.website.authentication.ResetPasswordRequestPage;
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.components.StringPasswordTextField;
 import edu.colorado.phet.website.components.StringTextField;
@@ -46,6 +46,7 @@ public class SignInPanel extends PhetPanel {
         add( new LocalizedText( "to-register", "signIn.toRegister", new Object[]{
                 RegisterPage.getLinker( destination == null ? "/" : destination ).getHref( context, getPhetCycle() )
         } ) );
+        add( ResetPasswordRequestPage.getLinker().getLink( "reset-your-password", context, getPhetCycle() ) );
         feedback = new FeedbackPanel( "feedback" );
         feedback.setVisible( false );
         add( feedback );
@@ -62,9 +63,9 @@ public class SignInPanel extends PhetPanel {
             super( id );
 
             add( username = new StringTextField( "username", new PropertyModel( properties, "username" ) ) );
-            
+
             password = new StringPasswordTextField( "password", new PropertyModel( properties, "password" ) );
-            password.setRequired(false);
+            password.setRequired( false );
             add( password );
 
             final WebMarkupContainer rememberBox = new WebMarkupContainer( "remember" );

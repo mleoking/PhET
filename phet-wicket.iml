@@ -156,7 +156,7 @@
       </configuration>
     </facet>
     <facet type="flex" name="Flex">
-      <configuration flex_sdk="flex_sdk_3.4 (player 9)">
+      <configuration>
         <option name="DO_BUILD" value="false" />
         <option name="OUTPUT_TYPE" value="Application" />
         <option name="USE_DEFAULT_SDK_CONFIG_FILE" value="true" />
@@ -183,7 +183,7 @@
       </configuration>
     </facet>
     <facet type="flex" name="Flex">
-      <configuration flex_sdk="flex_sdk_3.4 (player 9)">
+      <configuration>
         <option name="DO_BUILD" value="false" />
         <option name="OUTPUT_TYPE" value="Application" />
         <option name="USE_DEFAULT_SDK_CONFIG_FILE" value="true" />
@@ -210,7 +210,7 @@
       </configuration>
     </facet>
     <facet type="flex" name="Flex">
-      <configuration flex_sdk="flex_sdk_3.4 (player 9)">
+      <configuration>
         <option name="DO_BUILD" value="false" />
         <option name="OUTPUT_TYPE" value="Application" />
         <option name="USE_DEFAULT_SDK_CONFIG_FILE" value="true" />
