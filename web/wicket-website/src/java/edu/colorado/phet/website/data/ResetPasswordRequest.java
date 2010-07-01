@@ -1,25 +1,34 @@
 package edu.colorado.phet.website.data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import org.apache.log4j.Logger;
 
-public class ResetPasswordRequest {
+import edu.colorado.phet.website.data.util.IntId;
+
+public class ResetPasswordRequest implements Serializable, IntId {
     private static final Logger logger = Logger.getLogger( ResetPasswordRequest.class.getName() );
-    private PhetUser user;
+    private PhetUser phetUser;
     private Date timestamp;
     private String key; //unique identifier for this forgotten password request
-    private int id;
+    private int id; //automatically incremented, see the hbm file
 
     public ResetPasswordRequest() {
     }
 
-    public PhetUser getUser() {
-        return user;
+    public ResetPasswordRequest( PhetUser phetUser, Date timestamp, String key) {
+        this.phetUser = phetUser;
+        this.timestamp = timestamp;
+        this.key = key;
     }
 
-    public void setUser( PhetUser user ) {
-        this.user = user;
+    public PhetUser getPhetUser() {
+        return phetUser;
+    }
+
+    public void setPhetUser( PhetUser phetUser ) {
+        this.phetUser = phetUser;
     }
 
     public Date getTimestamp() {
