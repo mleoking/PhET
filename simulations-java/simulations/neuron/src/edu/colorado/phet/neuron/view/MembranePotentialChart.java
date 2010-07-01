@@ -164,6 +164,12 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
             public void mousePressed( PInputEvent event ) {
                 pressPoint = event.getPositionRelativeTo( MembranePotentialChart.this );
                 pressTime = jFreeChartNode.nodeToPlot(chartCursor.getOffset()).getX();
+                if (!neuronModel.getClock().isPaused()){
+                    // The user must be trying to grab the cursor while
+                    // the recorded content is being played back.  Pause the
+                    // clock.
+                    neuronModel.getClock().setPaused( true );
+                }
             }
 
             public Point2D localToPlotDifferential( double dx, double dy ) {
