@@ -12,9 +12,34 @@ class ComingSoonPage extends SitePage {
 
     function render_content() {
         print <<<EOT
-        <div>   
-            <p><em>Coming soon for the April 2010 issue of the Physics Teacher.</em></p>
-        </div>
+<table style="width: 100%">
+	<tr>
+		<td style="text-align: center">
+			<h3 style="margin-bottom: 0.3em">For use in homework</h3>
+		</td>
+		<td style="text-align: center">
+			<h3 style="margin-bottom: 0.3em">For use in lecture</h3>
+		</td>
+		<td style="text-align: center">
+			<h3 style="margin-bottom: 0.3em">For use in labs</h3>
+		</td>
+	</tr>
+	<tr>
+		<td style="text-align: center; width: 33%;">
+			<a href="/phet-dist/publications/classroom-use/PhETUseInHomework.pdf">
+				<img src="/images/classroom-hw-screenshot-small.png" style="border: 2px solid blue"/>
+			</a>
+		</td>
+		<td style="text-align: center; width: 34%;">
+			<a href="/phet-dist/publications/classroom-use/PhETUseInLecture.pdf">
+				<img src="/images/classroom-lecture-screenshot-small.png" style="border: 2px solid blue"/>
+			</a>
+		</td>
+		<td style="text-align: center; width: 33%;">
+			<span>Coming Soon</span>
+		</td>
+	</tr>
+</table>
 
 EOT;
 
