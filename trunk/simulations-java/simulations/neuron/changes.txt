@@ -1,3 +1,4 @@
+7/1/10 Fixed most, if not all, of the memory and performance issues, and made some minor UI changes.
 # 0.00.36 (42003) Jun 29, 2010
 6/29/10 First version where particles work for record-and-playback, has memory and performance issues.
 6/28/10 Added the ability to save and restore the particle state.
