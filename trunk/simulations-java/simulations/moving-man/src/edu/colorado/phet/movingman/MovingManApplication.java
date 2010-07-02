@@ -12,11 +12,13 @@ import edu.colorado.phet.movingman.model.MovingManModel;
 import edu.colorado.phet.movingman.model.MovingManState;
 import edu.colorado.phet.movingman.view.MovingManSimulationPanelWithCharts;
 import edu.colorado.phet.movingman.view.MovingManSimulationPanelWithPlayAreaSliders;
-import static edu.colorado.phet.movingman.MovingManStrings.*;
 import edu.colorado.phet.recordandplayback.gui.RecordAndPlaybackControlPanel;
 import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel;
 
 import javax.swing.*;
+
+import static edu.colorado.phet.movingman.MovingManStrings.CHARTS_MODULE_TITLE;
+import static edu.colorado.phet.movingman.MovingManStrings.INTRODUCTION_MODULE_TITLE;
 
 /**
  * This is the moving man application, redesigned + rewritten in 2010 to be part of the new motion series suite of sims.
@@ -28,16 +30,28 @@ public class MovingManApplication extends PiccoloPhetApplication {
     //be able to handle all modules independently.  This value must get propagated to the menu and to the modules.
     private MutableBoolean positiveToTheRight = new MutableBoolean(true);//True if positive coordinates are to the right.
 
+    interface Constructor<T> {
+        T newInstance();
+    }
+
     public MovingManApplication(PhetApplicationConfig config) {
         super(config);
-        final IntroModule introModule = new IntroModule(getPhetFrame());
-        introModule.getPositiveToTheRight().addObserver(new SimpleObserver() {
-            public void update() {
-                if (getActiveModule() == introModule) {
-                    positiveToTheRight.setValue(introModule.getPositiveToTheRight().getValue());
-                }
+        //This is another strategy for creating objects correctly on the first try, without polluting the upper namespace.
+        //However, it adds a lot of baggage, so is perhaps suboptimal
+        final IntroModule introModule = new Constructor<IntroModule>() {
+            public IntroModule newInstance() {
+                final IntroModule introModule = new IntroModule(getPhetFrame());
+                introModule.getPositiveToTheRight().addObserver(new SimpleObserver() {
+                    public void update() {
+                        if (getActiveModule() == introModule) {
+                            positiveToTheRight.setValue(introModule.getPositiveToTheRight().getValue());
+                        }
+                    }
+                });
+                return introModule;
             }
-        });
+        }.newInstance();
+
         addModule(introModule);
         final ChartingModule chartingModule = new ChartingModule(getPhetFrame());
         chartingModule.getPositiveToTheRight().addObserver(new SimpleObserver() {
