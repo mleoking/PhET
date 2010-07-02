@@ -5,11 +5,12 @@ import java.awt._
 import javax.swing._
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont
-import edu.colorado.phet.common.motion.model.ITemporalVariable
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.colorado.phet.motionseries.MotionSeriesDefaults._
 import edu.colorado.phet.motionseries.swing.MyJCheckBox
+import java.awt.event.{ActionListener, ActionEvent, FocusListener, FocusEvent}
+import edu.colorado.phet.motionseries.MotionSeriesDefaults
 
 class SeriesSelectionControl(title: String, numRows: Int) extends VerticalLayoutPanel {
   def this(numRows: Int) = this ("".literal, numRows)
@@ -26,9 +27,9 @@ class SeriesSelectionControl(title: String, numRows: Int) extends VerticalLayout
   nongrid.setBackground(EARTH_COLOR)
   add(nongrid)
 
-  def addToGrid(series: ControlGraphSeries): Unit = addToGrid(series, createLabel)
+  def addToGrid(series: MControlGraphSeries): Unit = addToGrid(series, createLabel)
 
-  def addToGrid(series: ControlGraphSeries, labelMaker: ControlGraphSeries => JComponent): Unit =
+  def addToGrid(series: MControlGraphSeries, labelMaker: MControlGraphSeries => JComponent): Unit =
     addComponentsToGrid(new SeriesControlSelectorBox(series), labelMaker(series))
 
   def addComponentsToGrid(component1: JComponent, component2: JComponent) = {
@@ -40,7 +41,7 @@ class SeriesSelectionControl(title: String, numRows: Int) extends VerticalLayout
     nongrid.add(component)
   }
 
-  def createLabel(series: ControlGraphSeries) = {
+  def createLabel(series: MControlGraphSeries) = {
     //Switching from a JLabel to a JTextField makes the entire application run smoothly on the chart tabs
     //I'm not sure why JLabels were a problem.
     val label = new JTextField()
@@ -48,16 +49,51 @@ class SeriesSelectionControl(title: String, numRows: Int) extends VerticalLayout
     label.setEditable(false)
     label.setBackground(EARTH_COLOR)
     label.setFont(Defaults.createFont)
-    label.setForeground(series.getColor)
-    series.getTemporalVariable.addListener(new ITemporalVariable.ListenerAdapter() {
-      override def valueChanged = updateLabel()
-    })
-    def myValue = new DefaultDecimalFormat("0.00".literal).format(series.getTemporalVariable.getValue)
-    def labelText = "chart.series-readout.pattern.value_units".messageformat(myValue, series.getUnits)
+    label.setForeground(series.color)
+    series.addValueChangeListener(() => {updateLabel()})
+    def myValue = new DefaultDecimalFormat("0.00".literal).format(series.getValue)
+    def labelText = "chart.series-readout.pattern.value_units".messageformat(myValue, series.units)
     def updateLabel() = label.setText(labelText)
 
     updateLabel()
     label
+  }
+
+  def createEditableLabel(series: MControlGraphSeries) = {
+    val panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0))
+    val textField = new JTextField(6)
+    textField.addActionListener(new ActionListener() {
+      def actionPerformed(e: ActionEvent) = {
+        setValueFromText()
+      }
+    })
+    def setValueFromText() = try {
+      series.setValue(new DefaultDecimalFormat("0.00".literal).parse(textField.getText).doubleValue)
+    } catch {
+      case re: Exception => {}
+    }
+    textField.addFocusListener(new FocusListener() {
+      def focusGained(e: FocusEvent) = {}
+
+      def focusLost(e: FocusEvent) = setValueFromText()
+    })
+
+    textField.setFont(Defaults.createFont)
+    textField.setForeground(series.color)
+    series.addValueChangeListener(() => {updateLabel()})
+    def updateLabel() = textField.setText(new DefaultDecimalFormat("0.00".literal).format(series.getValue))
+
+    updateLabel()
+
+    panel.add(textField)
+    val unitsLabel = new JLabel(series.units) {
+      setFont(Defaults.createFont)
+      setForeground(series.color)
+      setBackground(MotionSeriesDefaults.EARTH_COLOR)
+    }
+    panel.add(unitsLabel)
+    panel.setBackground(MotionSeriesDefaults.EARTH_COLOR)
+    panel
   }
 }
 
@@ -76,8 +112,25 @@ class SeriesControlTitleLabel(val series: ControlGraphSeries) extends JLabel(ser
   init()
 }
 
-class SeriesControlSelectorBox(val series: ControlGraphSeries)
-        extends MyJCheckBox(series.getTitle, series.setVisible(_), series.isVisible, Defaults.addListener(series, _)) with TitleElement {
+class SeriesControlSelectorBox(val series: MControlGraphSeries) extends MyJCheckBox(series.title, series.setVisible(_), series.isVisible, series.addValueChangeListener) {
   setMargin(new Insets(0, 0, 0, 0)) //allows buttons to fit closer together
-  init()
+  setOpaque(false) //let the background show through, TODO: check whether this works on Mac
+}
+
+trait MControlGraphSeries {
+  def title = "title"
+
+  def setVisible(b: Boolean) = {}
+
+  def isVisible() = true
+
+  def color = Color.red
+
+  def addValueChangeListener(listener: () => Unit) = {}
+
+  def getValue = 123.0
+
+  def units = "m"
+
+  def setValue(v: Double) = {}
 }
