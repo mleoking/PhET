@@ -146,6 +146,7 @@ public class JavaBuildCommand {
         PhetBuildUtils.antEcho( antTaskRunner, "Compiling " + project.getName() + ".", getClass() );
 
         Javac javac = new Javac();
+        javac.setIncludeantruntime(false);//see #2431, should not include full classpath if running from IDE
         javac.setSource( project.getJavaSourceVersion() );
         javac.setTarget( project.getJavaTargetVersion() );
         javac.setSrcdir( new Path( antTaskRunner.getProject(), toClasspathString( src ) ) );
@@ -174,6 +175,7 @@ public class JavaBuildCommand {
         PhetBuildUtils.antEcho( antTaskRunner, "Compiling java version checker for " + project.getName() + ".", getClass() );
 
         Javac javac = new Javac();
+        javac.setIncludeantruntime(false);//see #2431, should not include full classpath if running from IDE
         javac.setSource( BuildToolsConstants.BOOTSTRAP_JAVA_VERSION );//Java version checker must be compiled in lowest language version
         javac.setTarget( BuildToolsConstants.BOOTSTRAP_JAVA_VERSION );//so it can run in lowest language version jvms
         javac.setClasspath( new Path( antTaskRunner.getProject(), new File( project.getTrunk(), BuildToolsPaths.JNLP_JAR ).getAbsolutePath() ) );
