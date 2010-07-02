@@ -9,7 +9,6 @@ import edu.colorado.phet.acidbasesolutions.constants.ABSColors;
 import edu.colorado.phet.acidbasesolutions.constants.ABSImages;
 import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.constants.ABSSymbols;
-import edu.colorado.phet.advancedacidbasesolutions.AABSSymbols;
 
 /**
  * Base class for molecules, inner classes for specific molecules.
@@ -112,7 +111,7 @@ public abstract class Molecule {
     // H2O (water)
     public static class Water extends Molecule {
         public Water() {
-            super( ABSStrings.WATER, AABSSymbols.H2O, ABSImages.H2O_MOLECULE, ABSColors.H2O );
+            super( ABSStrings.WATER, ABSSymbols.H2O, ABSImages.H2O_MOLECULE, ABSColors.H2O );
         }
     }
 }
