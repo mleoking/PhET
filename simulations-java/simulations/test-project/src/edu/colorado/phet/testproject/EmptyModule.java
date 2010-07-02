@@ -3,6 +3,7 @@ package edu.colorado.phet.testproject;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
+import edu.colorado.phet.advancedacidbasesolutions.AABSSymbols;
 
 /**
  * An empty module, mainly used for testing tabs.
