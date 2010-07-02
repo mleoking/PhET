@@ -1,5 +1,3 @@
-# 0.00.16 (42055) Jul 1, 2010
-7/1/10 test to see if PBG catches import that's not a dependency in build.properties
 # 0.00.15 (42038) Jun 30, 2010
 6/30/10 misc cleanup before putting sim on hold, pending CAB feedback
 6/30/10 constrain dragging of pH meter so that only the probe can be submerged
