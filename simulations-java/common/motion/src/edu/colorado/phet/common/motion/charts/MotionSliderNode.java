@@ -235,7 +235,7 @@ public abstract class MotionSliderNode extends PNode {
 
         void sliderThumbGrabbed();
 
-        void sliderDragged(double value);
+        void sliderDragged(Double value);
     }
 
     public static class Adapter implements Listener {
@@ -246,7 +246,7 @@ public abstract class MotionSliderNode extends PNode {
         public void sliderThumbGrabbed() {
         }
 
-        public void sliderDragged(double value) {
+        public void sliderDragged(Double value) {
         }
     }
 
