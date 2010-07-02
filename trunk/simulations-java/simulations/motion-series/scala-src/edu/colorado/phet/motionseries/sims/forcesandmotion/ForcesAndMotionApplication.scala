@@ -73,7 +73,7 @@ class GraphingModule(frame: PhetFrame)
         extends ForcesAndMotionModule(frame, "forces-and-motion.module.graphing.title".translate,
           false, false, true, false, -6, false, 0.0, true, true, MotionSeriesDefaults.forceMotionGraphViewport, MotionSeriesDefaults.forceEnergyGraphArea, true) {
   coordinateSystemModel.adjustable = false
-  canvas.addScreenNode(new ForcesAndMotionChartNode(canvas, motionSeriesModel))
+//  canvas.addScreenNode(new ForcesAndMotionChartNode(canvas, motionSeriesModel))
 }
 
 class ForcesAndMotionApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {

@@ -17,6 +17,7 @@ import java.awt.event.{ActionListener, ActionEvent, ComponentEvent, ComponentAda
 import edu.colorado.phet.motionseries.controls.{DeveloperDialog, RampControlPanel}
 import edu.colorado.phet.motionseries.sims.theramp.robotmovingcompany.RobotMovingCompanyModule
 import edu.colorado.phet.motionseries.{MotionSeriesResources, StageContainerArea, MotionSeriesDefaults, MotionSeriesModule}
+import edu.colorado.phet.motionseries.charts.RampForceChartNode2
 
 /**
  * This is the parent class for the various Modules for the ramp simulation.
@@ -86,14 +87,14 @@ class GraphingModule(frame: PhetFrame,
  * The ForceGraphsModule is a GraphingModule that graphs the forces on an object as a function of time.
  */
 class ForceGraphsModule(frame: PhetFrame) extends GraphingModule(frame, "module.force-graphs".translate, false, MotionSeriesDefaults.oneGraphViewport, MotionSeriesDefaults.oneGraphArea) {
-  rampCanvas.addScreenNode(new RampForceChartNode(rampCanvas, motionSeriesModel))
+  rampCanvas.addScreenNode(new RampForceChartNode2(rampCanvas, motionSeriesModel))
 }
 
 /**
  * The WorkEnergyModule is a tab that focuses on work and energy issues.
  */
 class WorkEnergyModule(frame: PhetFrame) extends GraphingModule(frame, "module.energy".translate, true, MotionSeriesDefaults.oneGraphViewport, MotionSeriesDefaults.oneGraphArea) {
-  rampCanvas.addScreenNode(new RampForceEnergyChartNode(rampCanvas, motionSeriesModel))
+//  rampCanvas.addScreenNode(new RampForceEnergyChartNode(rampCanvas, motionSeriesModel))
   val workEnergyChartVisibilityModel = new WorkEnergyChartVisibilityModel
 
   //create a "show energy chart" button and add it as a PSwing near the top-middle of the play area
@@ -154,11 +155,11 @@ object ForceGraphsApplication {
  * Main class for the Ramp application and all its modules.
  */
 class RampApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
-  addModule(new IntroRampModule(getPhetFrame))
+//  addModule(new IntroRampModule(getPhetFrame))
   addModule(new ForceGraphsModule(getPhetFrame))
-  addModule(new CoordinatesRampModule(getPhetFrame))
-  addModule(new WorkEnergyModule(getPhetFrame))
-  addModule(new RobotMovingCompanyModule(getPhetFrame))
+//  addModule(new CoordinatesRampModule(getPhetFrame))
+//  addModule(new WorkEnergyModule(getPhetFrame))
+//  addModule(new RobotMovingCompanyModule(getPhetFrame))
 
   //Add a menu item that shows the developer dialog to the PhETFrame's developer menu
   getPhetFrame.getDeveloperMenu.add(new JMenuItem("Configure Motion Series".literal) {
@@ -176,4 +177,8 @@ object RampApplication {
   def main(args: Array[String]) = {
     new PhetApplicationLauncher().launchSim(args, "motion-series".literal,"the-ramp".literal, classOf[RampApplication])
   }
+}
+
+object Tester{
+    def main(args:Array[String]) = RampApplication.main(args)
 }
