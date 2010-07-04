@@ -1,6 +1,7 @@
 package edu.colorado.phet.website.authentication.panels;
 
 import org.apache.log4j.Logger;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.FormComponent;
 import org.apache.wicket.markup.html.form.PasswordTextField;
@@ -51,6 +52,8 @@ public class ChangePasswordPanel extends PhetPanel {
         feedback = new FeedbackPanel( "feedback" );
         add( feedback );
         add( new SetPasswordForm( "set-password-form", context ) );
+
+        add( new Label( "email-address", userToChange.getEmail() ) );
     }
 
     public class SetPasswordForm extends Form {
@@ -106,11 +109,11 @@ public class ChangePasswordPanel extends PhetPanel {
 
         @Override
         protected void onSubmit() {
-            final PhetUser[] savedUser=new PhetUser[1];
+            final PhetUser[] savedUser = new PhetUser[1];
             boolean success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
                 public boolean run( Session session ) {
                     PhetUser user = (PhetUser) session.load( PhetUser.class, userToChange.getId() );
-                    savedUser[0]=user;
+                    savedUser[0] = user;
                     user.setPassword( newPasswordTextField.getModelObject() );
                     session.update( user );
                     return true;
@@ -119,11 +122,11 @@ public class ChangePasswordPanel extends PhetPanel {
             logger.debug( "Finished hibernate: success = " + success );
             if ( success ) {
                 userToChange.setPassword( newPasswordTextField.getModelObject() );
-                                
-                if (!PhetSession.get().isSignedIn()){
+
+                if ( !PhetSession.get().isSignedIn() ) {
                     PhetSession.get().setUser( savedUser[0] );
                 }
-                
+
                 //redirect to the success page  
                 getRequestCycle().setRequestTarget( new RedirectRequestTarget( ChangePasswordSuccessPanel.getLinker().getRawUrl( context, getPhetCycle() ) ) );
             }
