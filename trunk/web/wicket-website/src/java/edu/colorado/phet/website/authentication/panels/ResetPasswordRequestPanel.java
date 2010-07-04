@@ -41,9 +41,9 @@ public class ResetPasswordRequestPanel extends PhetPanel {
     /**
      * Maximum number of failures for a given remote host (IP) for password reset requests in an hour
      */
-    private static final int MAX_FAILURES_IN_HOUR = 15;
+    private static final int MAX_ATTEMPTS_IN_HOUR = 15;
     private static int count = 0;
-    private static final Map<String, SecurityEntry> failedAttempts = new HashMap<String, SecurityEntry>();
+    private static final Map<String, SecurityEntry> attempts = new HashMap<String, SecurityEntry>();
 
     public ResetPasswordRequestPanel( String id, PageContext context ) {
         super( id, context );
@@ -75,6 +75,7 @@ public class ResetPasswordRequestPanel extends PhetPanel {
 
                 public void validate( Form<?> form ) {
                     checkSecurity();
+                    addTry( getPhetCycle().getRemoteHost() );
                     boolean success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
                         public boolean run( Session session ) {
                             PhetUser user = lookupUser( session, emailTextField.getInput() );
@@ -82,7 +83,6 @@ public class ResetPasswordRequestPanel extends PhetPanel {
                         }
                     } );
                     if ( !success ) {
-                        addFailure( getPhetCycle().getRemoteHost() );
                         logger.warn( "Could not find email for reset password attempt. Email: " + emailTextField.getInput() + " client: " + getPhetCycle().getRemoteHost() );
                         error( emailTextField, "resetPasswordRequest.validation.noAccountFound" );
                     }
@@ -155,60 +155,58 @@ public class ResetPasswordRequestPanel extends PhetPanel {
 
     private void checkSecurity() {
         if ( !allowHost( getPhetCycle().getRemoteHost() ) ) {
-            // they have had too many failures. deny.
+            // they have had too many requests. deny.
             throw new RestartResponseAtInterceptPageException( ErrorPage.class );
         }
     }
 
-    private static synchronized void addFailure( String host ) {
+    private static synchronized void addTry( String host ) {
         if ( count++ == 50 ) {
             count = 0;
             // take this opportunity to go through and clean out all of the old entries
             clearOldHosts();
         }
 
-        logger.debug( "addFailure " + host );
-        SecurityEntry entry = failedAttempts.get( host );
+        SecurityEntry entry = attempts.get( host );
         if ( entry == null ) {
             entry = new SecurityEntry( 1, new Date() );
-            failedAttempts.put( host, entry );
+            attempts.put( host, entry );
         }
         else {
             entry.setAttempts( entry.getAttempts() + 1 );
             entry.setLastAttempt( new Date() );
         }
 
-        if ( entry.getAttempts() >= MAX_FAILURES_IN_HOUR ) {
-            logger.warn( "Locking out host " + host + " for " + MAX_FAILURES_IN_HOUR + " failures in an hour" );
+        if ( entry.getAttempts() >= MAX_ATTEMPTS_IN_HOUR ) {
+            logger.warn( "Locking out host " + host + " for " + MAX_ATTEMPTS_IN_HOUR + " attempts in an hour" );
         }
     }
 
 
     private static synchronized void clearOldHosts() {
         List<String> hostsToRemove = new LinkedList<String>();
-        for ( String str : failedAttempts.keySet() ) {
-            if ( failedAttempts.get( str ).getLastAttempt().compareTo( hourAgo() ) < 0 ) {
+        for ( String str : attempts.keySet() ) {
+            if ( attempts.get( str ).getLastAttempt().compareTo( hourAgo() ) < 0 ) {
                 hostsToRemove.add( str );
             }
         }
 
         // avoid concurrent modification
         for ( String str : hostsToRemove ) {
-            failedAttempts.remove( str );
+            attempts.remove( str );
         }
     }
 
     private static synchronized boolean allowHost( String host ) {
-        logger.debug( "allowHost " + host );
-        SecurityEntry entry = failedAttempts.get( host );
-        if ( entry == null ) { return true; } // has not failed within the last hour (for sure)
+        SecurityEntry entry = attempts.get( host );
+        if ( entry == null ) { return true; } // has not attempted within the last hour (for sure)
         Date hourAgo = hourAgo();
         if ( entry.getLastAttempt().compareTo( hourAgo ) < 0 ) {
             clearOldHosts();
             return true;
         }
 
-        return entry.getAttempts() < MAX_FAILURES_IN_HOUR;
+        return entry.getAttempts() < MAX_ATTEMPTS_IN_HOUR;
     }
 
     private static Date hourAgo() {
