@@ -22,6 +22,7 @@ public class UserEntity extends TranslationEntity {
         addString( "signIn.reset" );
         addString( "signIn.toRegister" );
         addString( "signIn.validation.failed" );
+        addString( "signIn.resetYourPassword" );
 
         addString( "validation.user.email" );
         addString( "validation.user.user" );
@@ -56,10 +57,10 @@ public class UserEntity extends TranslationEntity {
         addString( "profile.edit" );
         addString( "profile.edit.submit" );
         addString( "profile.edit.reset" );
+        addString( "profile.edit.changePassword" );
 
         addString( "signOut.beingSignedOut" );
 
-        addString( "profile.edit.changePassword" );
         addString( "nav.changePasswordSuccess" );
         addString( "changePasswordSuccess.title" );
         addString( "changePassword.validation.newPasswordBlank" );
@@ -72,7 +73,7 @@ public class UserEntity extends TranslationEntity {
         addString( "changePassword.validation.incorrectPassword" );
         addString( "changePassword.title" );
         addString( "changePassword.header" );
-        addString( "signIn.resetYourPassword" );
+        
         addString( "resetPasswordRequest.title" );
         addString( "resetPasswordRequest.submit" );
         addString( "resetPasswordRequest.emailAddress" );
