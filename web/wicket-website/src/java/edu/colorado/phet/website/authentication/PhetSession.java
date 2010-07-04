@@ -8,11 +8,11 @@ import org.apache.log4j.Logger;
 import org.apache.wicket.Request;
 import org.apache.wicket.Session;
 import org.apache.wicket.protocol.http.WebSession;
-import org.hibernate.HibernateException;
 import org.hibernate.Query;
-import org.hibernate.Transaction;
 
 import edu.colorado.phet.website.data.PhetUser;
+import edu.colorado.phet.website.util.HibernateTask;
+import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PhetRequestCycle;
 
 public class PhetSession extends WebSession {
@@ -34,51 +34,52 @@ public class PhetSession extends WebSession {
         return hashedPassword.equals( compatibleHashPassword( password ) ) || hashedPassword.equals( hashPassword( password ) );
     }
 
-    private boolean authenticate( PhetRequestCycle currentCycle, final String username, final String password ) {
-        user = null;
-        org.hibernate.Session session = currentCycle.getHibernateSession();
-        Transaction tx = null;
-        try {
-            tx = session.beginTransaction();
-            String hash = hashPassword( password );
-            String compatibleHash = compatibleHashPassword( password );
-
-            Query query = session.createQuery( "select u from PhetUser as u where (u.email = :email and (u.hashedPassword = :password or u.hashedPassword = :compatiblePassword))" );
-            query.setString( "email", username );
-            query.setString( "password", hash );
-            query.setString( "compatiblePassword", compatibleHash );
-
-            user = (PhetUser) query.uniqueResult();
-
-            tx.commit();
-        }
-        catch( RuntimeException e ) {
-            logger.warn( e );
-            if ( tx != null && tx.isActive() ) {
-                try {
-                    tx.rollback();
-                }
-                catch( HibernateException e1 ) {
-                    logger.error( "ERROR: Error rolling back transaction", e1 );
-                }
-                throw e;
-            }
-        }
-
-        return user != null;
+    /**
+     * Sets the user that is logged in, or null if nobody is logged in.
+     *
+     * @param user
+     */
+    public void setUser( PhetUser user ) {//note: this is not symmetric with signOut
+        this.user = user;
+        signedIn = ( user != null );
     }
 
-    public PhetUser getUser() {
-        return user;
+    public void signOut() {
+        setUser( null );
+        invalidateNow();
     }
 
     public boolean signIn( PhetRequestCycle currentCycle, final String username, final String password ) {
-        signedIn = authenticate( currentCycle, username, password );
+        final PhetUser user = getAuthenticatedUser( currentCycle, username, password );
+        setUser( user );
         return isSignedIn();
     }
 
     public boolean isSignedIn() {
         return signedIn;
+    }
+
+    private PhetUser getAuthenticatedUser( PhetRequestCycle currentCycle, final String username, final String password ) {
+        final PhetUser[] user = new PhetUser[1];
+        HibernateUtils.wrapTransaction( currentCycle.getHibernateSession(), new HibernateTask() {
+            public boolean run( org.hibernate.Session session ) {
+                String hash = hashPassword( password );
+                String compatibleHash = compatibleHashPassword( password );
+
+                Query query = session.createQuery( "select u from PhetUser as u where (u.email = :email and (u.hashedPassword = :password or u.hashedPassword = :compatiblePassword))" );
+                query.setString( "email", username );
+                query.setString( "password", hash );
+                query.setString( "compatiblePassword", compatibleHash );
+
+                user[0] = (PhetUser) query.uniqueResult();
+                return true;
+            }
+        } );
+        return user[0];
+    }
+
+    public PhetUser getUser() {
+        return user;
     }
 
     public static String hashPassword( final String password ) {
@@ -148,11 +149,6 @@ public class PhetSession extends WebSession {
             ret = ret + base64Data.charAt( ( j >> 18 ) & 0x3f ) + base64Data.charAt( ( j >> 12 ) & 0x3f ) + base64Data.charAt( ( j >> 6 ) & 0x3f ) + base64Data.charAt( j & 0x3f );
         }
         return ret.substring( 0, ret.length() - count ) + "==".substring( 0, count );
-    }
-
-    public void signOut() {
-        signedIn = false;
-        invalidateNow();
     }
 
     private static class Test {

@@ -10,7 +10,6 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.request.target.basic.RedirectRequestTarget;
 import org.hibernate.Session;
 
-import edu.colorado.phet.website.authentication.AuthenticatedPage;
 import edu.colorado.phet.website.authentication.PhetSession;
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.data.PhetUser;
@@ -107,9 +106,11 @@ public class ChangePasswordPanel extends PhetPanel {
 
         @Override
         protected void onSubmit() {
+            final PhetUser[] savedUser=new PhetUser[1];
             boolean success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
                 public boolean run( Session session ) {
                     PhetUser user = (PhetUser) session.load( PhetUser.class, userToChange.getId() );
+                    savedUser[0]=user;
                     user.setPassword( newPasswordTextField.getModelObject() );
                     session.update( user );
                     return true;
@@ -118,7 +119,11 @@ public class ChangePasswordPanel extends PhetPanel {
             logger.debug( "Finished hibernate: success = " + success );
             if ( success ) {
                 userToChange.setPassword( newPasswordTextField.getModelObject() );
-
+                                
+                if (!PhetSession.get().isSignedIn()){
+                    PhetSession.get().setUser( savedUser[0] );
+                }
+                
                 //redirect to the success page  
                 getRequestCycle().setRequestTarget( new RedirectRequestTarget( ChangePasswordSuccessPanel.getLinker().getRawUrl( context, getPhetCycle() ) ) );
             }
