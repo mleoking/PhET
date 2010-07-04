@@ -39,9 +39,9 @@ public class ResetPasswordRequestPanel extends PhetPanel {
     private FeedbackPanel feedback;
 
     /**
-     * Maximum number of failures for a given remote host (IP) for password reset requests in an hour
+     * Maximum number of failures for a given remote host (IP) for password reset requests without an hour-long gap.
      */
-    private static final int MAX_ATTEMPTS_IN_HOUR = 15;
+    private static final int MAX_ATTEMPTS_WITHOUT_HOUR = 15;
     private static int count = 0;
     private static final Map<String, SecurityEntry> attempts = new HashMap<String, SecurityEntry>();
 
@@ -177,8 +177,8 @@ public class ResetPasswordRequestPanel extends PhetPanel {
             entry.setLastAttempt( new Date() );
         }
 
-        if ( entry.getAttempts() >= MAX_ATTEMPTS_IN_HOUR ) {
-            logger.warn( "Locking out host " + host + " for " + MAX_ATTEMPTS_IN_HOUR + " attempts in an hour" );
+        if ( entry.getAttempts() >= MAX_ATTEMPTS_WITHOUT_HOUR ) {
+            logger.warn( "Locking out host " + host + " for " + MAX_ATTEMPTS_WITHOUT_HOUR + " attempts in an hour" );
         }
     }
 
@@ -206,7 +206,7 @@ public class ResetPasswordRequestPanel extends PhetPanel {
             return true;
         }
 
-        return entry.getAttempts() < MAX_ATTEMPTS_IN_HOUR;
+        return entry.getAttempts() < MAX_ATTEMPTS_WITHOUT_HOUR;
     }
 
     private static Date hourAgo() {
