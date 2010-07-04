@@ -95,7 +95,7 @@ public class ResetPasswordRequestPanel extends PhetPanel {
                         WebsiteProperties websiteProperties = PhetWicketApplication.get().getWebsiteProperties();
                         String body = StringUtils.messageFormat( getPhetLocalizer().getString( "resetPasswordRequest.emailBody", EnterEmailAddressForm.this ), new Object[]{"http://phet.colorado.edu" + ResetPasswordCallbackPage.getLinker( key ).getRawUrl( context, getPhetCycle() )} );
                         String subject = getPhetLocalizer().getString( "resetPasswordRequest.emailSubject", EnterEmailAddressForm.this );
-                        NotificationHandler.sendMessage( websiteProperties.getMailHost(),
+                        boolean success = NotificationHandler.sendMessage( websiteProperties.getMailHost(),
                                                          websiteProperties.getMailUser(),
                                                          websiteProperties.getMailPassword(),
                                                          Arrays.asList( user.getEmail() ),
@@ -104,10 +104,7 @@ public class ResetPasswordRequestPanel extends PhetPanel {
                                                          subject,
                                                          new ArrayList<BodyPart>() );
 
-                        //todo: prune the database here so we don't have to maintain another cronlike job, throw away expired ResetPasswordRequest objects
-
-                        //Redirect to the success page
-                        return true;
+                        return success;
                     }
                     else {
                         return false;
