@@ -1,8 +1,7 @@
 package edu.colorado.phet.website.translation.entities;
 
-import edu.colorado.phet.website.authentication.panels.EditProfilePanel;
-import edu.colorado.phet.website.authentication.panels.RegisterPanel;
-import edu.colorado.phet.website.authentication.panels.SignInPanel;
+import edu.colorado.phet.website.authentication.PhetSession;
+import edu.colorado.phet.website.authentication.panels.*;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.translation.PhetPanelFactory;
 import edu.colorado.phet.website.util.PageContext;
@@ -60,6 +59,30 @@ public class UserEntity extends TranslationEntity {
 
         addString( "signOut.beingSignedOut" );
 
+        addString( "profile.edit.changePassword" );
+        addString( "nav.changePasswordSuccess" );
+        addString( "changePasswordSuccess.title" );
+        addString( "changePassword.validation.newPasswordBlank" );
+        addString( "changePassword.reset" );
+        addString( "changePassword.submit" );
+        addString( "changePassword.currentPassword" );
+        addString( "changePassword.newPassword" );
+        addString( "changePassword.confirmNewPassword" );
+        addString( "changePassword.validation.mismatch" );
+        addString( "changePassword.validation.incorrectPassword" );
+        addString( "changePassword.title" );
+        addString( "changePassword.header" );
+        addString( "signIn.resetYourPassword" );
+        addString( "resetPasswordRequest.title" );
+        addString( "resetPasswordRequest.submit" );
+        addString( "resetPasswordRequest.emailAddress" );
+        addString( "resetPasswordRequest.description" );
+        addString( "resetPasswordRequest.header" );
+        addString( "resetPasswordRequest.validation.noAccountFound" );
+        addString( "resetPasswordRequest.emailBody" );
+        addString( "resetPasswordRequest.emailSubject" );
+        addString( "resetPasswordRequestSuccess.message" );
+
         addPreview( new PhetPanelFactory() {
             public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {
                 return new SignInPanel( id, context, "/" );
@@ -77,6 +100,24 @@ public class UserEntity extends TranslationEntity {
                 return new EditProfilePanel( id, context, null );
             }
         }, "Edit Profile Page" );
+
+        addPreview( new PhetPanelFactory() {
+            public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {
+                return new ChangePasswordPanel( id, context, PhetSession.get().getUser(), true );
+            }
+        }, "Change Password Page" );
+
+        addPreview( new PhetPanelFactory() {
+            public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {
+                return new ResetPasswordRequestPanel( id, context );
+            }
+        }, "Reset Password Page" );
+
+        addPreview( new PhetPanelFactory() {
+            public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {
+                return new ResetPasswordRequestSuccessPanel( id, context );
+            }
+        }, "Reset Password Success Page" );
 
     }
 
