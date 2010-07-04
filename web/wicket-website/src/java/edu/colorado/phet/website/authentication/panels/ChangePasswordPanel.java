@@ -20,6 +20,8 @@ import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
 
 /**
+ * Allows changing the password of any user. Has the option of requiring that user's password to be confirmed.
+ *
  * @author Sam Reid
  */
 public class ChangePasswordPanel extends PhetPanel {
@@ -127,8 +129,13 @@ public class ChangePasswordPanel extends PhetPanel {
                     PhetSession.get().setUser( savedUser[0] );
                 }
 
+                logger.info( "Successful password reset for user " + savedUser[0].getEmail() + ". confirmed current=" + confirmNewPasswordTextField );
+
                 //redirect to the success page  
                 getRequestCycle().setRequestTarget( new RedirectRequestTarget( ChangePasswordSuccessPanel.getLinker().getRawUrl( context, getPhetCycle() ) ) );
+            }
+            else {
+                logger.warn( "Failed password reset" );
             }
         }
     }

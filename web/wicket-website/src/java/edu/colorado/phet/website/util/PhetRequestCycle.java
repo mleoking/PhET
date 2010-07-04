@@ -1,5 +1,7 @@
 package edu.colorado.phet.website.util;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.log4j.Logger;
 import org.apache.wicket.Response;
 import org.apache.wicket.protocol.http.WebApplication;
@@ -72,11 +74,22 @@ public class PhetRequestCycle extends WebRequestCycle {
     }
 
     public String getRequestURI() {
-       return getWebRequest().getHttpServletRequest().getRequestURI();
+        return getHttpServletRequest().getRequestURI();
     }
 
     public String getQueryString() {
-        return getWebRequest().getHttpServletRequest().getQueryString();
+        return getHttpServletRequest().getQueryString();
+    }
+
+    public String getRemoteHost() {
+        return getHttpServletRequest().getRemoteHost();
+    }
+
+    /**
+     * @return The Servlet HTTP request. Includes more of the 'raw' things like query string, remote / local hosts, etc.
+     */
+    public HttpServletRequest getHttpServletRequest() {
+        return getWebRequest().getHttpServletRequest();
     }
 
     public String getUserAgent() {
@@ -130,13 +143,13 @@ public class PhetRequestCycle extends WebRequestCycle {
      *         return various values for the same website instance depending on the name used to access it.
      */
     public boolean isForProductionServer() {
-        return getWebRequest().getHttpServletRequest().getServerName().equals( PhetWicketApplication.getProductionServerName() );
+        return getHttpServletRequest().getServerName().equals( PhetWicketApplication.getProductionServerName() );
     }
 
     public boolean isLocalRequest() {
-        String addr = getWebRequest().getHttpServletRequest().getRemoteAddr();
-        String host = getWebRequest().getHttpServletRequest().getRemoteHost();
-        String localhost = getWebRequest().getHttpServletRequest().getServerName();
+        String addr = getHttpServletRequest().getRemoteAddr();
+        String host = getHttpServletRequest().getRemoteHost();
+        String localhost = getHttpServletRequest().getServerName();
 
         if ( localhost.equals( host ) || localhost.equals( "phetsims.colorado.edu" ) || localhost.equals( "phet.colorado.edu" ) ) {
             return true;
