@@ -5,6 +5,7 @@ import java.util.*;
 import javax.mail.BodyPart;
 
 import org.apache.log4j.Logger;
+import org.apache.wicket.RestartResponseAtInterceptPageException;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.FormComponent;
 import org.apache.wicket.markup.html.form.TextField;
@@ -19,6 +20,7 @@ import edu.colorado.phet.website.WebsiteProperties;
 import edu.colorado.phet.website.authentication.ResetPasswordCallbackPage;
 import edu.colorado.phet.website.authentication.ResetPasswordRequestSuccessPage;
 import edu.colorado.phet.website.constants.WebsiteConstants;
+import edu.colorado.phet.website.content.ErrorPage;
 import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.data.ResetPasswordRequest;
 import edu.colorado.phet.website.notification.NotificationHandler;
@@ -36,8 +38,18 @@ public class ResetPasswordRequestPanel extends PhetPanel {
     private static Logger logger = Logger.getLogger( ChangePasswordPanel.class );
     private FeedbackPanel feedback;
 
+    /**
+     * Maximum number of failures for a given remote host (IP) for password reset requests in an hour
+     */
+    private static final int MAX_FAILURES_IN_HOUR = 15;
+    private static int count = 0;
+    private static final Map<String, SecurityEntry> failedAttempts = new HashMap<String, SecurityEntry>();
+
     public ResetPasswordRequestPanel( String id, PageContext context ) {
         super( id, context );
+
+        checkSecurity();
+
         feedback = new FeedbackPanel( "feedback" );
         add( feedback );
         add( new EnterEmailAddressForm( "enter-email-address-form", context ) );
@@ -62,6 +74,7 @@ public class ResetPasswordRequestPanel extends PhetPanel {
                 }
 
                 public void validate( Form<?> form ) {
+                    checkSecurity();
                     boolean success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
                         public boolean run( Session session ) {
                             PhetUser user = lookupUser( session, emailTextField.getInput() );
@@ -69,6 +82,7 @@ public class ResetPasswordRequestPanel extends PhetPanel {
                         }
                     } );
                     if ( !success ) {
+                        addFailure( getPhetCycle().getRemoteHost() );
                         logger.warn( "Could not find email for reset password attempt. Email: " + emailTextField.getInput() + " client: " + getPhetCycle().getRemoteHost() );
                         error( emailTextField, "resetPasswordRequest.validation.noAccountFound" );
                     }
@@ -82,6 +96,7 @@ public class ResetPasswordRequestPanel extends PhetPanel {
 
         @Override
         protected void onSubmit() {
+            checkSecurity();
             boolean success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
                 public boolean run( Session session ) {
                     PhetUser user = lookupUser( session, emailTextField.getInput() );
@@ -136,5 +151,94 @@ public class ResetPasswordRequestPanel extends PhetPanel {
             }
         }
 
+    }
+
+    private void checkSecurity() {
+        if ( !allowHost( getPhetCycle().getRemoteHost() ) ) {
+            // they have had too many failures. deny.
+            throw new RestartResponseAtInterceptPageException( ErrorPage.class );
+        }
+    }
+
+    private static synchronized void addFailure( String host ) {
+        if ( count++ == 50 ) {
+            count = 0;
+            // take this opportunity to go through and clean out all of the old entries
+            clearOldHosts();
+        }
+
+        logger.debug( "addFailure " + host );
+        SecurityEntry entry = failedAttempts.get( host );
+        if ( entry == null ) {
+            entry = new SecurityEntry( 1, new Date() );
+            failedAttempts.put( host, entry );
+        }
+        else {
+            entry.setAttempts( entry.getAttempts() + 1 );
+            entry.setLastAttempt( new Date() );
+        }
+
+        if ( entry.getAttempts() >= MAX_FAILURES_IN_HOUR ) {
+            logger.warn( "Locking out host " + host + " for " + MAX_FAILURES_IN_HOUR + " failures in an hour" );
+        }
+    }
+
+
+    private static synchronized void clearOldHosts() {
+        List<String> hostsToRemove = new LinkedList<String>();
+        for ( String str : failedAttempts.keySet() ) {
+            if ( failedAttempts.get( str ).getLastAttempt().compareTo( hourAgo() ) < 0 ) {
+                hostsToRemove.add( str );
+            }
+        }
+
+        // avoid concurrent modification
+        for ( String str : hostsToRemove ) {
+            failedAttempts.remove( str );
+        }
+    }
+
+    private static synchronized boolean allowHost( String host ) {
+        logger.debug( "allowHost " + host );
+        SecurityEntry entry = failedAttempts.get( host );
+        if ( entry == null ) { return true; } // has not failed within the last hour (for sure)
+        Date hourAgo = hourAgo();
+        if ( entry.getLastAttempt().compareTo( hourAgo ) < 0 ) {
+            clearOldHosts();
+            return true;
+        }
+
+        return entry.getAttempts() < MAX_FAILURES_IN_HOUR;
+    }
+
+    private static Date hourAgo() {
+        long hourInMillis = 1000 * 3600;
+        return new Date( System.currentTimeMillis() - hourInMillis );
+    }
+
+    private static class SecurityEntry {
+        private int attempts;
+        private Date lastAttempt;
+
+        private SecurityEntry( int attempts, Date lastAttempt ) {
+            this.attempts = attempts;
+            this.lastAttempt = lastAttempt;
+        }
+
+        public int getAttempts() {
+            return attempts;
+        }
+
+        public void setAttempts( int attempts ) {
+            this.attempts = attempts;
+        }
+
+        public Date getLastAttempt() {
+            return lastAttempt;
+        }
+
+        public void setLastAttempt( Date lastAttempt ) {
+            this.lastAttempt = lastAttempt;
+        }
     }
 }
