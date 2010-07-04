@@ -123,7 +123,7 @@ public class NotificationHandler {
         sendMessage( mailHost, mailUser, mailPassword, emailAddresses, body, WebsiteConstants.PHET_NO_REPLY_EMAIL_ADDRESS, subject, additionalParts );
     }
 
-    public static void sendMessage( String mailHost, final String mailUser, final String mailPassword, List<String> emailAddresses, String body, String fromAddress, String subject, ArrayList<BodyPart> additionalParts ) {
+    public static boolean sendMessage( String mailHost, final String mailUser, final String mailPassword, List<String> emailAddresses, String body, String fromAddress, String subject, ArrayList<BodyPart> additionalParts ) {
         try {
             Properties props = System.getProperties();
             props.put( "mail.smtp.host", mailHost );
@@ -164,10 +164,14 @@ public class NotificationHandler {
             message.setContent( multipart );
 
             Transport.send( message );
+
+            return true; // success = true
         }
         catch( MessagingException e ) {
             e.printStackTrace();
         }
+
+        return false; // success = false
     }
 
     public static String getEventsString( org.hibernate.Session session ) {
