@@ -54,6 +54,8 @@ public class ResetPasswordRequestPanel extends PhetPanel {
             emailTextField = new TextField<String>( "email-address", new Model<String>( "" ) );
             emailTextField.setRequired( false );//Since some users may still have password = ""
             add( emailTextField );
+
+            // just validate email matching. don't bother making sure the email is in the proper form, since it won't matter anyways
             add( new AbstractFormValidator() {
                 public FormComponent[] getDependentFormComponents() {
                     return new FormComponent[]{emailTextField};
@@ -62,30 +64,31 @@ public class ResetPasswordRequestPanel extends PhetPanel {
                 public void validate( Form<?> form ) {
                     boolean success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
                         public boolean run( Session session ) {
-                            PhetUser user = lookupUser( session );
+                            PhetUser user = lookupUser( session, emailTextField.getInput() );
                             return user != null;
                         }
                     } );
                     if ( !success ) {
+                        logger.warn( "Could not find email for reset password attempt. Email: " + emailTextField.getInput() + " client: " + getPhetCycle().getRemoteHost() );
                         error( emailTextField, "resetPasswordRequest.validation.noAccountFound" );
                     }
                 }
             } );
         }
 
-        private PhetUser lookupUser( Session session ) {
-            return (PhetUser) session.createQuery( "select u from PhetUser as u where u.email=:email" ).setString( "email", emailTextField.getInput() ).uniqueResult();
+        private PhetUser lookupUser( Session session, String email ) {
+            return (PhetUser) session.createQuery( "select u from PhetUser as u where u.email=:email" ).setString( "email", email ).uniqueResult();
         }
 
         @Override
         protected void onSubmit() {
             boolean success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
                 public boolean run( Session session ) {
-                    PhetUser user = lookupUser( session );
+                    PhetUser user = lookupUser( session, emailTextField.getInput() );
                     if ( user != null ) {
                         //Send email to the user with a link to reset their password
                         String key = Long.toHexString( random.nextLong() ) + "g" + Long.toHexString( random.nextLong() ); //TODO: if a malicious hacker knows the time seed for random, would they be able to take advantage of this implementation?
-                        logger.info( "Created storage key = " + key );
+                        logger.info( "Created reset password request key = " + key + " for email = " + user.getEmail() );
                         ResetPasswordRequest resetPasswordRequest = new ResetPasswordRequest( user, new Date(), key );
 
                         //store the resetPasswordRequest in the database
@@ -96,13 +99,13 @@ public class ResetPasswordRequestPanel extends PhetPanel {
                         String body = StringUtils.messageFormat( getPhetLocalizer().getString( "resetPasswordRequest.emailBody", EnterEmailAddressForm.this ), new Object[]{"http://phet.colorado.edu" + ResetPasswordCallbackPage.getLinker( key ).getRawUrl( context, getPhetCycle() )} );
                         String subject = getPhetLocalizer().getString( "resetPasswordRequest.emailSubject", EnterEmailAddressForm.this );
                         boolean success = NotificationHandler.sendMessage( websiteProperties.getMailHost(),
-                                                         websiteProperties.getMailUser(),
-                                                         websiteProperties.getMailPassword(),
-                                                         Arrays.asList( user.getEmail() ),
-                                                         body,
-                                                         WebsiteConstants.PHET_NO_REPLY_EMAIL_ADDRESS,
-                                                         subject,
-                                                         new ArrayList<BodyPart>() );
+                                                                           websiteProperties.getMailUser(),
+                                                                           websiteProperties.getMailPassword(),
+                                                                           Arrays.asList( user.getEmail() ),
+                                                                           body,
+                                                                           WebsiteConstants.PHET_NO_REPLY_EMAIL_ADDRESS,
+                                                                           subject,
+                                                                           new ArrayList<BodyPart>() );
 
                         return success;
                     }
@@ -127,6 +130,9 @@ public class ResetPasswordRequestPanel extends PhetPanel {
 
                 //redirect to the success page
                 getRequestCycle().setRequestTarget( new RedirectRequestTarget( ResetPasswordRequestSuccessPage.getLinker().getRawUrl( context, getPhetCycle() ) ) );
+            }
+            else {
+                logger.warn( "Failed reset password attempt for email=" + emailTextField.getInput() );
             }
         }
 
