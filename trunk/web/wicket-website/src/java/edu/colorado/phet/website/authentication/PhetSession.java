@@ -31,7 +31,7 @@ public class PhetSession extends WebSession {
     }
 
     public static boolean passwordEquals( String hashedPassword, String password ) {
-        return hashedPassword.equals( compatibleHashPassword( password ) ) || hashedPassword.equals( hashPassword( password ) );
+        return hashedPassword.equals( compatibleHashPassword( password ) );
     }
 
     /**
@@ -63,12 +63,10 @@ public class PhetSession extends WebSession {
         final PhetUser[] user = new PhetUser[1];
         HibernateUtils.wrapTransaction( currentCycle.getHibernateSession(), new HibernateTask() {
             public boolean run( org.hibernate.Session session ) {
-                String hash = hashPassword( password );
                 String compatibleHash = compatibleHashPassword( password );
 
-                Query query = session.createQuery( "select u from PhetUser as u where (u.email = :email and (u.hashedPassword = :password or u.hashedPassword = :compatiblePassword))" );
+                Query query = session.createQuery( "select u from PhetUser as u where (u.email = :email and u.hashedPassword = :compatiblePassword)" );
                 query.setString( "email", username );
-                query.setString( "password", hash );
                 query.setString( "compatiblePassword", compatibleHash );
 
                 user[0] = (PhetUser) query.uniqueResult();
@@ -80,26 +78,6 @@ public class PhetSession extends WebSession {
 
     public PhetUser getUser() {
         return user;
-    }
-
-    public static String hashPassword( final String password ) {
-        byte[] bytes;
-        try {
-            MessageDigest digest = MessageDigest.getInstance( "SHA-1" );
-            digest.reset();
-            digest.update( password.getBytes( "UTF-8" ) );
-            bytes = digest.digest();
-        }
-        catch( NoSuchAlgorithmException e ) {
-            e.printStackTrace();
-            throw new RuntimeException( "No such algorithm", e );
-        }
-        catch( UnsupportedEncodingException e ) {
-            e.printStackTrace();
-            throw new RuntimeException( e );
-        }
-
-        return base64Encode( new String( bytes ) );
     }
 
     public static String compatibleHashPassword( final String password ) {
@@ -153,7 +131,6 @@ public class PhetSession extends WebSession {
 
     private static class Test {
         public static void main( String[] args ) {
-            System.out.println( hashPassword( args[0] ) );
             System.out.println( compatibleHashPassword( args[0] ) );
         }
     }
