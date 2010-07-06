@@ -231,6 +231,9 @@ public class PhetWicketApplication extends WebApplication {
 
         setInstallerTimestampFromFile();
 
+        // if there are new strings that should be added, add them
+        NewStrings.checkNewStrings();
+
     }
 
     private void setupJulSfl4j() {
