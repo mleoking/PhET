@@ -39,7 +39,7 @@ public class PhotonAbsorptionModel {
     
     private EventListenerList listeners = new EventListenerList();
     private ArrayList<Photon> photons = new ArrayList<Photon>();
-    private double photonFrequency = GreenhouseConfig.sunlightWavelength;
+    private double photonWavelength = GreenhouseConfig.sunlightWavelength;
    
     //----------------------------------------------------------------------------
     // Constructor(s)
@@ -73,22 +73,22 @@ public class PhotonAbsorptionModel {
      */
     public void emitPhoton(){
         
-        Photon photon = new Photon( photonFrequency, null );
+        Photon photon = new Photon( photonWavelength, null );
         photon.setLocation( PHOTON_EMISSION_LOCATION.getX(), PHOTON_EMISSION_LOCATION.getY() );
         photons.add( photon );
         photon.setVelocity( 0.2f, 0 );
         notifyPhotonAdded( photon );
     }
     
-    public void setPhotonFrequency(double freq){
-        if (this.photonFrequency != freq){
-            this.photonFrequency = freq;
-            notifyPhotonFrequencyChanged();
+    public void setPhotonWavelength(double freq){
+        if (this.photonWavelength != freq){
+            this.photonWavelength = freq;
+            notifyPhotonWavelengthChanged();
         }
     }
     
-    public double getPhotonFrequency(){
-        return photonFrequency;
+    public double getPhotonWavelength(){
+        return photonWavelength;
     }
     
     public void addListener(Listener listener){
@@ -111,9 +111,9 @@ public class PhotonAbsorptionModel {
         }
     }
     
-    private void notifyPhotonFrequencyChanged() {
+    private void notifyPhotonWavelengthChanged() {
         for (Listener listener : listeners.getListeners(Listener.class)){
-            listener.photonFrequencyChanged();
+            listener.photonWavelengthChanged();
         }
     }
 
@@ -124,12 +124,12 @@ public class PhotonAbsorptionModel {
     public interface Listener extends EventListener {
         void photonAdded(Photon photon);
         void photonRemoved(Photon photon);
-        void photonFrequencyChanged();
+        void photonWavelengthChanged();
     }
     
     public static class Adapter implements Listener {
         public void photonAdded( Photon photon ) {}
-        public void photonFrequencyChanged() {}
+        public void photonWavelengthChanged() {}
         public void photonRemoved( Photon photon ) {}
     }
 }
