@@ -44,7 +44,7 @@ public class MovingManSimulationPanelWithPlayAreaSliders extends MovingManSimula
                 }
             });
             positonSlider.addListener(new MotionSliderNode.Adapter() {
-                public void sliderDragged(double value) {
+                public void sliderDragged(Double value) {
                     model.getMovingMan().setPositionDriven();
                     model.setMousePosition(value);
                 }
@@ -73,7 +73,7 @@ public class MovingManSimulationPanelWithPlayAreaSliders extends MovingManSimula
                 }
             });
             velocitySlider.addListener(new MotionSliderNode.Adapter() {
-                public void sliderDragged(double value) {
+                public void sliderDragged(Double value) {
                     model.getMovingMan().setVelocityDriven();//todo: only if user caused the change, not if model caused the change
                     model.getMovingMan().setVelocity(value);
                 }
@@ -111,7 +111,7 @@ public class MovingManSimulationPanelWithPlayAreaSliders extends MovingManSimula
                 }
             });
             accelerationSlider.addListener(new MotionSliderNode.Adapter() {
-                public void sliderDragged(double value) {
+                public void sliderDragged(Double value) {
                     model.getMovingMan().setAccelerationDriven();
                     model.getMovingMan().setAcceleration(value);
                 }
