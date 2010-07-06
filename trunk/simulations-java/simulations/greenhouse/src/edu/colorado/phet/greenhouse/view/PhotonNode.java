@@ -7,6 +7,7 @@ import java.util.Observer;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.greenhouse.GreenhouseConfig;
 import edu.colorado.phet.greenhouse.GreenhouseResources;
 import edu.colorado.phet.greenhouse.model.Photon;
 import edu.umd.cs.piccolo.PNode;
@@ -30,7 +31,7 @@ public class PhotonNode extends PNode implements Observer {
 		this.photon.addObserver(this);
 		this.mvt = mvt;
 		
-		if (RAND.nextBoolean()){
+		if (photon.getWavelength() == GreenhouseConfig.irWavelength){
 			photonImage = new PImage(GreenhouseResources.getImage("photon-660.png"));
 		}
 		else{
