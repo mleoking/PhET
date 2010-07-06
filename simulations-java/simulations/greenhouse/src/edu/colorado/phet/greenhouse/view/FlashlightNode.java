@@ -118,7 +118,7 @@ public class FlashlightNode extends PNode {
 		infraredPhotonRadioButton.setFont(LABEL_FONT);
 		infraredPhotonRadioButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                model.setPhotonFrequency( GreenhouseConfig.irWavelength );
+                model.setPhotonWavelength( GreenhouseConfig.irWavelength );
                 updateFrequencySelectButtons();
             }
         });
@@ -126,7 +126,7 @@ public class FlashlightNode extends PNode {
 		visiblePhotonRadioButton.setFont(LABEL_FONT);
 		visiblePhotonRadioButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                model.setPhotonFrequency( GreenhouseConfig.sunlightWavelength );
+                model.setPhotonWavelength( GreenhouseConfig.sunlightWavelength );
                 updateFrequencySelectButtons();
             }
         });
@@ -162,7 +162,7 @@ public class FlashlightNode extends PNode {
 	}
 	
 	private void updateFrequencySelectButtons(){
-	    if (model.getPhotonFrequency() == GreenhouseConfig.irWavelength){
+	    if (model.getPhotonWavelength() == GreenhouseConfig.irWavelength){
 	        if (!infraredPhotonRadioButton.isSelected()){
 	            infraredPhotonRadioButton.setSelected( true );
 	        }
