@@ -193,8 +193,8 @@ public class NotificationHandler {
 
     private static void addEventsToList( org.hibernate.Session session, List<NotificationEvent> events ) {
         Calendar cal = Calendar.getInstance();
-        cal.add( Calendar.HOUR, 24 * 7 );
-        List list = session.createQuery( "select ne from NotificationEvent as ne where ne.createdAt <= :date" )
+        cal.add( Calendar.HOUR, -24 * 7 );
+        List list = session.createQuery( "select ne from NotificationEvent as ne where ne.createdAt >= :date" )
                 .setDate( "date", cal.getTime() ).list();
         for ( Object o : list ) {
             events.add( (NotificationEvent) o );
