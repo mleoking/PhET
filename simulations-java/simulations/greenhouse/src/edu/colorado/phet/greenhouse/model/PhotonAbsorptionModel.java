@@ -34,6 +34,12 @@ public class PhotonAbsorptionModel {
     // Velocity of emitted photons.  Since they are emitted horizontally, only
     // one value is needed.
     private static final float PHOTON_VELOCITY_X = 0.2f;
+    
+    // Distance for a photon to travel before being removed from the model.
+    // This value is essentially arbitrary, and needs to be set such that the
+    // photons only disappear after they have traveled beyond the bounds of
+    // the play area.
+    private static final double MAX_PHOTON_DISTANCE = 300; 
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -60,10 +66,19 @@ public class PhotonAbsorptionModel {
     //----------------------------------------------------------------------------
     
     public void stepInTime(double dt){
+        ArrayList<Photon> photonsToRemove = new ArrayList<Photon>();
         for (Photon photon : photons){
             photon.stepInTime( dt );
+            if ( photon.getLocation().getX() - PHOTON_EMISSION_LOCATION.getX() > MAX_PHOTON_DISTANCE ){
+                photonsToRemove.add( photon );
+            }
         }
-        // TODO: Need to delete the photons.
+        // Remove any photons that have finished traveling as far as they
+        // will go.
+        for (Photon photon : photonsToRemove){
+            photons.remove( photon );
+            notifyPhotonRemoved( photon );
+        }
     }
     
     public Point2D getPhotonEmissionLocation(){

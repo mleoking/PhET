@@ -8,6 +8,7 @@ import java.awt.Point;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.HashMap;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -47,6 +48,10 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
     // Layers for the canvas.
     private PNode imageLayer;
     
+    // Data structure that matches photons to the node that represents them
+    // in the view.
+    private HashMap<Photon, PhotonNode> photonMap = new HashMap<Photon, PhotonNode>();
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -72,12 +77,15 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
         photonAbsorptionModel.addListener( new PhotonAbsorptionModel.Adapter() {
             
             public void photonRemoved( Photon photon ) {
-            // TODO Auto-generated method stub
-            
+                if (myWorldNode.removeChild( photonMap.get( photon ) ) == null){
+                    System.out.println( getClass().getName() + " - Error: PhotonNode not found for photon." );
+                }
             }
             
             public void photonAdded( Photon photon ) {
-                myWorldNode.addChild( new PhotonNode(photon, mvt) );
+                PhotonNode photonNode = new PhotonNode(photon, mvt); 
+                myWorldNode.addChild( photonNode );
+                photonMap.put( photon, photonNode );
             }
         });
 
