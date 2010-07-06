@@ -42,7 +42,7 @@ public class PhotonAbsorptionModule extends PiccoloModule {
         super( "Photon Absorption", new GreenhouseClock());
         
         // Physical model
-        model = new PhotonAbsorptionModel();
+        model = new PhotonAbsorptionModel( (GreenhouseClock)getClock());
 
         // Canvas
         canvas = new PhotonAbsorptionCanvas(model);

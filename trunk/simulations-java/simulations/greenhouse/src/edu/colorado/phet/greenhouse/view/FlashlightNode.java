@@ -6,6 +6,8 @@ package edu.colorado.phet.greenhouse.view;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GradientPaint;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -14,13 +16,17 @@ import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.greenhouse.GreenhouseConfig;
 import edu.colorado.phet.greenhouse.GreenhouseResources;
+import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -42,6 +48,10 @@ public class FlashlightNode extends PNode {
 	
 	private PImage flashlightImage;
 	private ModelViewTransform2D mvt;
+	private PhotonAbsorptionModel model;
+
+    private JRadioButton infraredPhotonRadioButton;
+    private JRadioButton visiblePhotonRadioButton;
 	
 	/**
 	 * Constructor.
@@ -52,10 +62,12 @@ public class FlashlightNode extends PNode {
 	 * strings that define the user selections.
 	 * @param mvt - Model-view transform for translating between model and
 	 * view coordinate systems.
+	 * @param model TODO
 	 */
-	public FlashlightNode(double flashlightWidth, ModelViewTransform2D mvt) {
+	public FlashlightNode(double flashlightWidth, ModelViewTransform2D mvt, final PhotonAbsorptionModel model) {
 		
 		this.mvt = mvt;
+		this.model = model;
 		
 		// Create the flashlight image node, setting the offset such that the
 		// center right side of the image is the origin.  This assumes that
@@ -79,6 +91,7 @@ public class FlashlightNode extends PNode {
         	@Override
             public void mousePressed( PInputEvent event ) {
                 unpressedButtonImage.setVisible(false);
+                model.emitPhoton();
             }
         	
         	@Override
@@ -101,10 +114,22 @@ public class FlashlightNode extends PNode {
 		// be emitted.
 		JPanel emissionTypeSelectionPanel = new VerticalLayoutPanel();
 		emissionTypeSelectionPanel.setBorder(BorderFactory.createRaisedBevelBorder());
-		JRadioButton infraredPhotonRadioButton = new JRadioButton("Infrared"); // TODO: i18n
+		infraredPhotonRadioButton = new JRadioButton("Infrared");
 		infraredPhotonRadioButton.setFont(LABEL_FONT);
-		JRadioButton visiblePhotonRadioButton = new JRadioButton("Visible");   // TODO: i18n
+		infraredPhotonRadioButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                model.setPhotonFrequency( GreenhouseConfig.irWavelength );
+                updateFrequencySelectButtons();
+            }
+        });
+		visiblePhotonRadioButton = new JRadioButton("Visible");
 		visiblePhotonRadioButton.setFont(LABEL_FONT);
+		visiblePhotonRadioButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                model.setPhotonFrequency( GreenhouseConfig.sunlightWavelength );
+                updateFrequencySelectButtons();
+            }
+        });
 		ButtonGroup buttonGroup = new ButtonGroup();
 		buttonGroup.add(infraredPhotonRadioButton);
 		buttonGroup.add(visiblePhotonRadioButton);
@@ -131,5 +156,21 @@ public class FlashlightNode extends PNode {
 		addChild(pressedButtonImage);
 		addChild(unpressedButtonImage);
 		addChild(selectionPanelPSwing);
+		
+		// Perform any initialization that is dependent upon the model state.
+		updateFrequencySelectButtons();
+	}
+	
+	private void updateFrequencySelectButtons(){
+	    if (model.getPhotonFrequency() == GreenhouseConfig.irWavelength){
+	        if (!infraredPhotonRadioButton.isSelected()){
+	            infraredPhotonRadioButton.setSelected( true );
+	        }
+	    }
+	    else{
+	        if (!visiblePhotonRadioButton.isSelected()){
+	            visiblePhotonRadioButton.setSelected( true );
+	        }
+	    }
 	}
 }

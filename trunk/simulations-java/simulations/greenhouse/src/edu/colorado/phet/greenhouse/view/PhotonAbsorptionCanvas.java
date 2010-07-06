@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.greenhouse.GreenhouseDefaults;
+import edu.colorado.phet.greenhouse.model.Photon;
 import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel;
 import edu.colorado.phet.neuron.module.NeuronDefaults;
 import edu.umd.cs.piccolo.PNode;
@@ -66,6 +67,19 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
         				true);
 
         setBackground( Color.BLACK );
+        
+        // Listen to the model for notifications that we care about.
+        photonAbsorptionModel.addListener( new PhotonAbsorptionModel.Adapter() {
+            
+            public void photonRemoved( Photon photon ) {
+            // TODO Auto-generated method stub
+            
+            }
+            
+            public void photonAdded( Photon photon ) {
+                myWorldNode.addChild( new PhotonNode(photon, mvt) );
+            }
+        });
 
         // Create the node that will be the root for all the world children on
         // this canvas.  This is done to make it easier to zoom in and out on
@@ -80,7 +94,7 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
         myWorldNode.addChild(chamberNode);
         
         // Add the flashlight.
-        PNode flashlightNode = new FlashlightNode(FLASHLIGHT_WIDTH, mvt);
+        PNode flashlightNode = new FlashlightNode(FLASHLIGHT_WIDTH, mvt, photonAbsorptionModel);
         flashlightNode.setOffset(mvt.modelToViewDouble(photonAbsorptionModel.getPhotonEmissionLocation()));
         myWorldNode.addChild(flashlightNode);
         
