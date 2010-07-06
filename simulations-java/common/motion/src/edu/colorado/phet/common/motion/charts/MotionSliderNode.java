@@ -246,7 +246,7 @@ public abstract class MotionSliderNode extends PNode {
         public void sliderThumbGrabbed() {
         }
 
-        public void sliderDragged(Double value) {
+        public void sliderDragged(Double value) {//Uses Double for compatibility with Scala, double was problematic for unknown reasons
         }
     }
 

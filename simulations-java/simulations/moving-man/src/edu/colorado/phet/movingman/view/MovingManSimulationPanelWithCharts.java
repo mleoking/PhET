@@ -37,7 +37,7 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
                     }
                 });
                 sliderNode.addListener(new MotionSliderNode.Adapter() {
-                    public void sliderDragged(double value) {
+                    public void sliderDragged(Double value) {
                         model.setMousePosition(value);
                     }
 
@@ -92,7 +92,7 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
                     }
                 });
                 chartSliderNode.addListener(new MotionSliderNode.Adapter() {
-                    public void sliderDragged(double value) {
+                    public void sliderDragged(Double value) {
                         model.getMovingMan().setVelocity(value);
                     }
 
@@ -133,7 +133,7 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
                     }
                 });
                 chartSliderNode.addListener(new MotionSliderNode.Adapter() {
-                    public void sliderDragged(double value) {
+                    public void sliderDragged(Double value) {
                         model.getMovingMan().setAcceleration(value);
                     }
 
