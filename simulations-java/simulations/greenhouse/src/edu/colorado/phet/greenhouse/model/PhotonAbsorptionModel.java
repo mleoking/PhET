@@ -31,7 +31,9 @@ public class PhotonAbsorptionModel {
     // emitted.
     private static final Point2D PHOTON_EMISSION_LOCATION = new Point2D.Double(-50, 20);
     
-    // Velocity of emitted photons.
+    // Velocity of emitted photons.  Since they are emitted horizontally, only
+    // one value is needed.
+    private static final float PHOTON_VELOCITY_X = 0.2f;
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -76,7 +78,7 @@ public class PhotonAbsorptionModel {
         Photon photon = new Photon( photonWavelength, null );
         photon.setLocation( PHOTON_EMISSION_LOCATION.getX(), PHOTON_EMISSION_LOCATION.getY() );
         photons.add( photon );
-        photon.setVelocity( 0.2f, 0 );
+        photon.setVelocity( PHOTON_VELOCITY_X, 0 );
         notifyPhotonAdded( photon );
     }
     
