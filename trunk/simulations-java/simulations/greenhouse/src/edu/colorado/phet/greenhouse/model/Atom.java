@@ -55,7 +55,14 @@ public abstract class Atom extends SimpleObservable {
     
     public void setPosition( Point2D position ) {
         if (this.position != position){
-            this.position = position;
+            this.position.setLocation( position );
+            notifyObservers();
+        }
+    }
+    
+    public void setPosition( double x, double y ) {
+        if (this.position.getX() != x || this.position.getY() != y){
+            this.position.setLocation( x, y );
             notifyObservers();
         }
     }
