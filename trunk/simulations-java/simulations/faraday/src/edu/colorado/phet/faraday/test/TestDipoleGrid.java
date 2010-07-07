@@ -177,7 +177,7 @@ public class TestDipoleGrid extends JFrame {
     /**
      * Base class for Bx and By outer integral.
      * These integrals differ only in their inner integral,
-     * so base classes implement the getIntegral method.
+     * so base classes implement the getInnerIntegral method.
      */
     public abstract static class BOuterIntegral extends SimpsonsRule {
         
@@ -190,10 +190,10 @@ public class TestDipoleGrid extends JFrame {
         }
         
         public double f( double xp ) {
-            return getIntegral( xp ).integrate( 0, 2 * Math.PI );
+            return getInnerIntegral( xp ).integrate( 0, 2 * Math.PI );
         }
         
-        protected abstract BInnerIntegral getIntegral( double xp );
+        protected abstract BInnerIntegral getInnerIntegral( double xp );
     }
     
     /**
@@ -205,7 +205,7 @@ public class TestDipoleGrid extends JFrame {
             super( x, y, R );
         }
         
-        protected BInnerIntegral getIntegral( double xp ) {
+        protected BInnerIntegral getInnerIntegral( double xp ) {
             return new BxInnerIntegral( x, xp, y, R );
         }
     }
@@ -219,7 +219,7 @@ public class TestDipoleGrid extends JFrame {
             super( x, y, R );
         }
         
-        protected BInnerIntegral getIntegral( double xp ) {
+        protected BInnerIntegral getInnerIntegral( double xp ) {
             return new ByInnerIntegral( x, xp, y, R );
         }
     }
@@ -227,7 +227,7 @@ public class TestDipoleGrid extends JFrame {
     /**
      * Base class for Bx and By functions.
      * These function differ only in the type of their outer integral,
-     * so base classes implement the getIntegral method.
+     * so base classes implement the getOuterIntegral method.
      */
     public static abstract class BFunction {
 
@@ -244,10 +244,10 @@ public class TestDipoleGrid extends JFrame {
         }
         
         public double evaluate( double x, double y ) {
-            return multiplier * getIntegral( x, y ).integrate( -a / 2, a / 2 );
+            return multiplier * getOuterIntegral( x, y ).integrate( -a / 2, a / 2 );
         }
         
-        protected abstract BOuterIntegral getIntegral( double x, double y );
+        protected abstract BOuterIntegral getOuterIntegral( double x, double y );
     }
     
     /**
@@ -259,7 +259,7 @@ public class TestDipoleGrid extends JFrame {
             super( magnetSize );
         }
         
-        protected BOuterIntegral getIntegral( double x, double y ) {
+        protected BOuterIntegral getOuterIntegral( double x, double y ) {
             return new BxOuterIntegral( x, y, R );
         }
     }
@@ -273,7 +273,7 @@ public class TestDipoleGrid extends JFrame {
             super( magnetSize );
         }
         
-        protected BOuterIntegral getIntegral( double x, double y ) {
+        protected BOuterIntegral getOuterIntegral( double x, double y ) {
             return new ByOuterIntegral( x, y, R );
         }
     }
