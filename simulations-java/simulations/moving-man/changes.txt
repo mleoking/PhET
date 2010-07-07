@@ -1,3 +1,4 @@
+Fixed: Ticks and labels on charts are intercepting events.
 Added a tick mark to the middle of horizontal sliders
 # 1.28.02 (42016) Jun 30, 2010
 Internationalized strings

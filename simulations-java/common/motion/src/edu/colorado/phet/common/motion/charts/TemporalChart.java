@@ -65,6 +65,8 @@ public class TemporalChart extends PNode {
         addChartChild(background);
 
         tickMarksAndGridLines = new PNode();
+        tickMarksAndGridLines.setPickable(false);
+        tickMarksAndGridLines.setChildrenPickable(false);
         addChartChild(tickMarksAndGridLines);
 
         modelViewTransform2D = new ModelViewTransform2D(dataModelBounds, new Rectangle2D.Double(0, 0, dataAreaWidth, dataAreaHeight));//todo: attach listeners to the mvt2d
