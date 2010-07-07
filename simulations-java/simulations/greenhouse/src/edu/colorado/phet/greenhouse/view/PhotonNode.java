@@ -20,10 +20,21 @@ import edu.umd.cs.piccolo.nodes.PImage;
  */
 public class PhotonNode extends PNode implements Observer {
 
-	private static final Random RAND = new Random(); 
+    // ------------------------------------------------------------------------
+    // Class Data
+    // ------------------------------------------------------------------------
+
+	// ------------------------------------------------------------------------
+	// Instance Data
+	// ------------------------------------------------------------------------
+	
 	private PImage photonImage;
 	private Photon photon;  // Model element represented by this node.
 	private ModelViewTransform2D mvt;
+	
+	// ------------------------------------------------------------------------
+	// Constructor(s)
+	// ------------------------------------------------------------------------
 	
 	public PhotonNode(Photon photon, ModelViewTransform2D mvt) {
 		
@@ -37,10 +48,16 @@ public class PhotonNode extends PNode implements Observer {
 		else{
 			photonImage = new PImage(GreenhouseResources.getImage("thin2.png"));
 		}
+		photonImage.setOffset( -photonImage.getFullBoundsReference().width / 2,
+		        -photonImage.getFullBoundsReference().height / 2 );
 		addChild(photonImage);
 		updatePosition();
 	}
 
+	// ------------------------------------------------------------------------
+	// Methods
+	// ------------------------------------------------------------------------
+	
 	public void update(Observable o, Object arg) {
 		updatePosition();
 	}
@@ -48,4 +65,8 @@ public class PhotonNode extends PNode implements Observer {
 	private void updatePosition(){
 		setOffset(mvt.modelToViewDouble(photon.getLocation()));
 	}
+	
+	// ------------------------------------------------------------------------
+	// Inner Classes and Interfaces
+	//------------------------------------------------------------------------
 }
