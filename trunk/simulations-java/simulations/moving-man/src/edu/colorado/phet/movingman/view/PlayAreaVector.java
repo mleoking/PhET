@@ -13,9 +13,11 @@ import java.awt.geom.Point2D;
 public class PlayAreaVector extends PNode {
     private final PhetPPath path;
     private final double tailWidth;
+    private double headWidth;
 
     public PlayAreaVector(Color color, double tailWidth) {
         this.tailWidth = tailWidth;
+        this.headWidth = tailWidth * 2;
         path = new PhetPPath(color, new BasicStroke(1), Color.black);
         addChild(path);
     }
@@ -24,7 +26,7 @@ public class PlayAreaVector extends PNode {
         if (Math.abs(x - x2) < 1) {//Don't try to show arrows less than one pixel long
             path.setPathTo(new Rectangle(0, 0, 0, 0));
         } else {
-            path.setPathTo(new Arrow(new Point2D.Double(x, y), new Point2D.Double(x2, y2), 15, 15, tailWidth,
+            path.setPathTo(new Arrow(new Point2D.Double(x, y), new Point2D.Double(x2, y2), headWidth, headWidth, tailWidth,
                     1 / 2.0, //so that the arrow shrinks proportionately
                     true).getShape());
         }

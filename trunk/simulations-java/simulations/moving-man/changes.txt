@@ -1,3 +1,8 @@
+Fixed: Vectors should have same thickness as in original moving man
+Fixed: Vectors should be located at character's feet
+Fixed: Vectors should be semitransparent
+Fixed: Acceleration should be green, not magenta
+Fixed: Acceleration vector scale should be much larger so that setting a value on the acceleration slider is visible in the play area vector
 Fixed: Ticks and labels on charts are intercepting events.
 Added a tick mark to the middle of horizontal sliders
 # 1.28.02 (42016) Jun 30, 2010
