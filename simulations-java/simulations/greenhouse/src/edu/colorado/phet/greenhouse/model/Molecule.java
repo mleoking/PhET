@@ -62,6 +62,15 @@ public abstract class Molecule {
      */
     public abstract void setCenterOfGravityPos(Point2D centerOfGravityPos);
     
+    
+    public ArrayList<Atom> getAtoms() {
+        return new ArrayList<Atom>(atoms);
+    }
+
+    public ArrayList<AtomicBond> getAtomicBonds() {
+        return new ArrayList<AtomicBond>(atomicBonds);
+    }
+
     /**
      * Decide whether or not to absorb the offered photon.
      * 
