@@ -4,7 +4,6 @@ package edu.colorado.phet.greenhouse.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Paint;
 import java.awt.Point;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
@@ -14,13 +13,10 @@ import java.util.HashMap;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
 import edu.colorado.phet.greenhouse.GreenhouseDefaults;
-import edu.colorado.phet.greenhouse.model.CarbonDioxide;
 import edu.colorado.phet.greenhouse.model.Molecule;
 import edu.colorado.phet.greenhouse.model.Photon;
 import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel;
-import edu.colorado.phet.mri.util.RoundGradientPaint;
 import edu.colorado.phet.neuron.module.NeuronDefaults;
 import edu.umd.cs.piccolo.PNode;
 
@@ -110,12 +106,6 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
         PNode flashlightNode = new FlashlightNode(FLASHLIGHT_WIDTH, mvt, photonAbsorptionModel);
         flashlightNode.setOffset(mvt.modelToViewDouble(photonAbsorptionModel.getPhotonEmissionLocation()));
         myWorldNode.addChild(flashlightNode);
-        
-        // TODO: Experiment.
-        Paint spherePaint = new RoundGradientPaint( -20.0, -20.0, Color.WHITE, new Point2D.Double(50, 50), Color.BLUE );
-        SphericalNode sphericalNode = new SphericalNode( 100, spherePaint, false );
-        sphericalNode.setOffset( 100, 100 );
-        myWorldNode.addChild( sphericalNode );
         
         // Add in the initial molecule(s).
         for (Molecule molecule : photonAbsorptionModel.getMolecules()){
