@@ -34,7 +34,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class TestDipoleGrid extends JFrame {
     
-    private static final boolean USE_DUBSON_ALGORITHMS = false; // use Dubson algorithms for B-field computation and display scaling
+    private static final boolean ENABLE_DUBSON_ALGORITHMS = false; // use Dubson algorithms for B-field computation and display scaling
     private static final boolean ENABLE_DEBUG_OUTPUT = false; // caution, this will affect drag performance!
     
     private static final PDimension CANVAS_SIZE = new PDimension( 1024, 768 );
@@ -132,13 +132,15 @@ public class TestDipoleGrid extends JFrame {
      */
     public abstract static class BInnerIntegral extends SimpsonsRule {
         
-        protected final double x, xp, y, R;
+        protected final double x, y; // coordinates where we're measuring the B-field
+        protected final double R; // cylindrical magnet radius
+        protected final double xp; // current value of the outer integral's integration step
         
-        public BInnerIntegral( double x, double xp, double y, double R ) {
+        public BInnerIntegral( double x, double y, double R, double xp ) {
             this.x = x;
-            this.xp = xp;
             this.y = y;
             this.R = R;
+            this.xp = xp;
         }
         
         public double f( double phi ) {
@@ -154,8 +156,8 @@ public class TestDipoleGrid extends JFrame {
      */
     public static class BxInnerIntegral extends BInnerIntegral {
         
-        public BxInnerIntegral( double x, double xp, double y, double R ) {
-            super( x, xp, y, R );
+        public BxInnerIntegral( double x, double y, double R, double xp ) {
+            super( x, y, R, xp );
         }
         
         protected double getNumerator( double phi ) {
@@ -168,8 +170,8 @@ public class TestDipoleGrid extends JFrame {
      */
     public static class ByInnerIntegral extends BInnerIntegral {
         
-        public ByInnerIntegral( double x, double xp, double y, double R ) {
-            super( x, xp, y, R );
+        public ByInnerIntegral( double x, double y, double R, double xp ) {
+            super( x, y, R, xp );
         }
         
         protected double getNumerator( double phi ) {
@@ -184,7 +186,8 @@ public class TestDipoleGrid extends JFrame {
      */
     public abstract static class BOuterIntegral extends SimpsonsRule {
         
-        protected final double x, y, R;
+        protected final double x, y; // coordinates where we're measuring the B-field
+        protected final double R; // cylindrical magnet radius
         
         public BOuterIntegral( double x, double y, double R ) {
             this.x = x;
@@ -209,7 +212,7 @@ public class TestDipoleGrid extends JFrame {
         }
         
         protected BInnerIntegral getInnerIntegral( double xp ) {
-            return new BxInnerIntegral( x, xp, y, R );
+            return new BxInnerIntegral( x, y, R, xp );
         }
     }
     
@@ -223,7 +226,7 @@ public class TestDipoleGrid extends JFrame {
         }
         
         protected BInnerIntegral getInnerIntegral( double xp ) {
-            return new ByInnerIntegral( x, xp, y, R );
+            return new ByInnerIntegral( x, y, R, xp );
         }
     }
     
@@ -294,7 +297,7 @@ public class TestDipoleGrid extends JFrame {
             this.location = new Point2D.Double( location.getX(), location.getY() );
             this.size = new PDimension( size );
             
-            if ( USE_DUBSON_ALGORITHMS ) {
+            if ( ENABLE_DUBSON_ALGORITHMS ) {
                 this.evaluator = new DubsonBFieldEvaluator( this );
             }
             else {
@@ -405,7 +408,7 @@ public class TestDipoleGrid extends JFrame {
             this.magnet = magnet;
             magnet.addObserver( this );
             
-            if ( USE_DUBSON_ALGORITHMS ) {
+            if ( ENABLE_DUBSON_ALGORITHMS ) {
                 vectorScaler = new DubsonVectorScaler();
             }
             else {
