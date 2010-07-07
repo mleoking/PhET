@@ -1,3 +1,4 @@
+7-7-2010: Added a tick mark to the middle of horizontal sliders
 6-29-2010: Charts expand to take up available space
 6-25-2010: Added a new package for charts for moving-man
 5-22-2010: Added an optional domain axis label
