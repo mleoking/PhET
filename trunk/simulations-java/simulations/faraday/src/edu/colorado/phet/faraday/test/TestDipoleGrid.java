@@ -37,7 +37,7 @@ public class TestDipoleGrid extends JFrame {
     private static final PDimension CANVAS_SIZE = new PDimension( 1024, 768 );
     private static final PDimension MAGNET_SIZE = new PDimension( 250, 50 ); // faraday uses 250x50
     private static final PDimension BFIELD_GRID_SPACING = new PDimension( 40, 40 ); // faraday uses 40x40
-    private static final int SIMPSONS_RULE_ITERATIONS = 10000; // increase for more precision
+    private static final int SIMPSONS_RULE_ITERATIONS = 100; // increase for more precision
 
     /*
      * TODO:
@@ -45,21 +45,15 @@ public class TestDipoleGrid extends JFrame {
      * Source: http://www.cs.princeton.edu/introcs/93integration/SimpsonsRule.java.html
      * Copyright 2000Ð2010 by Robert Sedgewick and Kevin Wayne. All rights reserved.
      */
-    public static class SimpsonsRule {
-
-        /**
-         * Standard normal distribution density function.
-         * Replace with any sufficiently smooth function.
-         */
-        public static double f( double x ) {
-            return Math.exp( -x * x / 2 ) / Math.sqrt( 2 * Math.PI );
-        }
+    public static abstract class SimpsonsRule {
+        
+        public abstract double f( double x );
 
         /**
          * Integrate f from a to b using Simpson's rule.
          * Increase N for more precision.
          */
-        public static double integrate( double a, double b ) {
+        public double integrate( double a, double b ) {
             
             int N = SIMPSONS_RULE_ITERATIONS; // precision parameter
             double h = ( b - a ) / ( N - 1 ); // step size
@@ -101,9 +95,179 @@ public class TestDipoleGrid extends JFrame {
             double by = ( BFIELD_GRID_SPACING.getHeight() / 2 ) * Math.random() * randomSign();
             return new Vector2D.Double( bx, by );
         }
-        
+
         private int randomSign() {
             return ( ( Math.random() < 0.5 ) ? 1 : -1 );
+        }
+    }
+    
+    /**
+     * Evaluates the B-field at a point using Mike Dubson's algorithm.
+     */
+    public static class DubsonEvaluator implements IBFieldEvaluator {
+        
+        private final BxFunction bxFunction;
+        private final ByFunction byFunction;
+        
+        public DubsonEvaluator( Magnet magnet) {
+            bxFunction = new BxFunction( magnet.getSizeReference() );
+            byFunction = new ByFunction( magnet.getSizeReference() );
+        }
+        
+        public Vector2D getValue( double x, double y ) {
+            double bx = bxFunction.evaluate( x, y );
+            double by = byFunction.evaluate( x, y );
+            return new Vector2D.Double( bx, by );
+        }
+    }
+    
+    /**
+     * Base class for Bx and By inner integral.
+     */
+    public abstract static class BInnerIntegral extends SimpsonsRule {
+        
+        protected final double x, xp, y, R;
+        
+        public BInnerIntegral( double x, double xp, double y, double R ) {
+            this.x = x;
+            this.xp = xp;
+            this.y = y;
+            this.R = R;
+        }
+        
+        public double f( double phi ) {
+            double demoninator = Math.pow( ( R * R ) + ( y * y ) - ( 2 * y * R * Math.sin( phi ) ) + ( ( x - xp ) * ( x - xp ) ), 3. / 2. );
+            return numerator( phi ) / demoninator;
+        }
+        
+        // inner integral for Bx and By varies only in the numerator
+        protected abstract double numerator( double phi );
+    }
+    
+    /**
+     * Inner integral of Bx function.
+     */
+    public static class BxInnerIntegral extends BInnerIntegral {
+        
+        public BxInnerIntegral( double x, double xp, double y, double R ) {
+            super( x, xp, y, R );
+        }
+        
+        protected double numerator( double phi ) {
+            return R - ( y * Math.sin( phi ) );
+        }
+    }
+    
+    /**
+     * Inner integral of By function.
+     */
+    public static class ByInnerIntegral extends BInnerIntegral {
+        
+        public ByInnerIntegral( double x, double xp, double y, double R ) {
+            super( x, xp, y, R );
+        }
+        
+        protected double numerator( double phi ) {
+            return ( x - xp ) * Math.sin( phi );
+        }
+    }
+    
+    /**
+     * Base class for Bx and By outer integral.
+     */
+    public abstract static class BOuterIntegral extends SimpsonsRule {
+        
+        protected final double x, y, R;
+        
+        public BOuterIntegral( double x, double y, double R ) {
+            this.x = x;
+            this.y = y;
+            this.R = R;
+        }
+        
+        public double f( double xp ) {
+            return getIntegral( xp ).integrate( 0, 2 * Math.PI );
+        }
+        
+        protected abstract BInnerIntegral getIntegral( double xp );
+    }
+    
+    /**
+     * Outer integral of Bx function.
+     */
+    public static class BxOuterIntegral extends BOuterIntegral {
+        
+        public BxOuterIntegral( double x, double y, double R ) {
+            super( x, y, R );
+        }
+        
+        protected BInnerIntegral getIntegral( double xp ) {
+            return new BxInnerIntegral( x, xp, y, R );
+        }
+    }
+    
+    /**
+     * Outer integral of By function.
+     */
+    public static class ByOuterIntegral extends BOuterIntegral {
+        
+        public ByOuterIntegral( double x, double y, double R ) {
+            super( x, y, R );
+        }
+        
+        protected BInnerIntegral getIntegral( double xp ) {
+            return new ByInnerIntegral( x, xp, y, R );
+        }
+    }
+    
+    /**
+     * Base class for Bx and By functions.
+     */
+    public static abstract class BFunction {
+
+        private static final double C = 1;
+
+        protected final double a, R;
+        protected final double multiplier;
+
+        public BFunction( PDimension magnetSize ) {
+            this.a = magnetSize.getWidth();
+            this.R = magnetSize.getHeight() / 2;
+            multiplier = ( C * R ) / ( 4 * Math.PI );
+        }
+        
+        public double evaluate( double x, double y ) {
+            return multiplier * getIntegral( x, y ).integrate( -a / 2, a / 2 );
+        }
+        
+        protected abstract BOuterIntegral getIntegral( double x, double y );
+    }
+    
+    /**
+     * Bx function, B-field vector x component.
+     */
+    public static class BxFunction extends BFunction {
+        
+        public BxFunction( PDimension magnetSize ) {
+            super( magnetSize );
+        }
+        
+        protected BOuterIntegral getIntegral( double x, double y ) {
+            return new BxOuterIntegral( x, y, R );
+        }
+    }
+    
+    /**
+     * By function, B-field vector y component.
+     */
+    public static class ByFunction extends BFunction {
+        
+        public ByFunction( PDimension magnetSize ) {
+            super( magnetSize );
+        }
+        
+        protected BOuterIntegral getIntegral( double x, double y ) {
+            return new ByOuterIntegral( x, y, R );
         }
     }
     
@@ -114,12 +278,13 @@ public class TestDipoleGrid extends JFrame {
 
         private Point2D location;
         private final PDimension size;
-        private IBFieldEvaluator evaluator;
+        private final IBFieldEvaluator evaluator;
 
         public Magnet( Point2D location, PDimension size ) {
             this.location = new Point2D.Double( location.getX(), location.getY() );
             this.size = new PDimension( size );
-            this.evaluator = new RandomEvaluator(); //XXX
+//            this.evaluator = new RandomEvaluator(); //XXX
+            this.evaluator = new DubsonEvaluator( this ); //XXX
         }
 
         public void setLocation( double x, double y ) {
@@ -253,6 +418,7 @@ public class TestDipoleGrid extends JFrame {
             for ( double y = 0; y <= size.getHeight(); y += spacing.getHeight() ) {
                 for ( double x = 0; x <= size.getWidth(); x += spacing.getWidth() ) {
                     Vector2D vector = magnet.getBFieldValue( x, y );
+                    System.out.println( "BFieldNode.update x=" + x + " y=" + y + " bx=" + vector.getX() + " by= " + vector.getY() );//XXX
                     Vector2DNode vectorNode = new Vector2DNode( vector );
                     vectorNode.setOffset( x, y );
                     vectorsParentNode.addChild( vectorNode );
