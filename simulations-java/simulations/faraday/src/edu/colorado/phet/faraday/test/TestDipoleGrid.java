@@ -38,7 +38,52 @@ public class TestDipoleGrid extends JFrame {
     private static final PDimension MAGNET_SIZE = new PDimension( 250, 50 ); // faraday uses 250x50
     private static final PDimension BFIELD_GRID_SPACING = new PDimension( 40, 40 ); // faraday uses 40x40
     private static final int SIMPSONS_RULE_ITERATIONS = 100; // increase for more precision
+    private static final double BFIELD_SCALING_FACTOR = 3;
 
+    /**
+     * Interface for all B-field evaluation strategies.
+     */
+    public interface IBFieldEvaluator {
+        public Vector2D getValue( double x, double y );
+    }
+    
+    /**
+     * Creates a random B-field vector that fits within the grid spacing
+     * of the B-field visualization.
+     */
+    public static class RandomBFieldEvaluator implements IBFieldEvaluator {
+
+        public Vector2D getValue( double x, double y ) {
+            double bx = ( BFIELD_GRID_SPACING.getWidth() / 2 ) * Math.random() * randomSign();
+            double by = ( BFIELD_GRID_SPACING.getHeight() / 2 ) * Math.random() * randomSign();
+            return new Vector2D.Double( bx, by );
+        }
+
+        private int randomSign() {
+            return ( ( Math.random() < 0.5 ) ? 1 : -1 );
+        }
+    }
+    
+    /**
+     * Evaluates the B-field at a point using Mike Dubson's algorithm.
+     */
+    public static class DubsonBFieldEvaluator implements IBFieldEvaluator {
+        
+        private final BxFunction bxFunction;
+        private final ByFunction byFunction;
+        
+        public DubsonBFieldEvaluator( Magnet magnet) {
+            bxFunction = new BxFunction( magnet.getSizeReference() );
+            byFunction = new ByFunction( magnet.getSizeReference() );
+        }
+        
+        public Vector2D getValue( double x, double y ) {
+            double bx = bxFunction.evaluate( x, y );
+            double by = byFunction.evaluate( x, y );
+            return new Vector2D.Double( bx, by );
+        }
+    }
+    
     /*
      * TODO:
      * Investigate licensing of SimpsonsRule implementation.
@@ -78,51 +123,9 @@ public class TestDipoleGrid extends JFrame {
     }
     
     /**
-     * Interface for all B-field evaluation strategies.
-     */
-    public interface IBFieldEvaluator {
-        public Vector2D getValue( double x, double y );
-    }
-    
-    /**
-     * Creates a random B-field vector that fits within the grid spacing
-     * of the B-field visualization.
-     */
-    public static class RandomEvaluator implements IBFieldEvaluator {
-
-        public Vector2D getValue( double x, double y ) {
-            double bx = ( BFIELD_GRID_SPACING.getWidth() / 2 ) * Math.random() * randomSign();
-            double by = ( BFIELD_GRID_SPACING.getHeight() / 2 ) * Math.random() * randomSign();
-            return new Vector2D.Double( bx, by );
-        }
-
-        private int randomSign() {
-            return ( ( Math.random() < 0.5 ) ? 1 : -1 );
-        }
-    }
-    
-    /**
-     * Evaluates the B-field at a point using Mike Dubson's algorithm.
-     */
-    public static class DubsonEvaluator implements IBFieldEvaluator {
-        
-        private final BxFunction bxFunction;
-        private final ByFunction byFunction;
-        
-        public DubsonEvaluator( Magnet magnet) {
-            bxFunction = new BxFunction( magnet.getSizeReference() );
-            byFunction = new ByFunction( magnet.getSizeReference() );
-        }
-        
-        public Vector2D getValue( double x, double y ) {
-            double bx = bxFunction.evaluate( x, y );
-            double by = byFunction.evaluate( x, y );
-            return new Vector2D.Double( bx, by );
-        }
-    }
-    
-    /**
      * Base class for Bx and By inner integral.
+     * These integrals differ only in their numerator,
+     * so base classes implement the getNumerator method.
      */
     public abstract static class BInnerIntegral extends SimpsonsRule {
         
@@ -137,11 +140,10 @@ public class TestDipoleGrid extends JFrame {
         
         public double f( double phi ) {
             double demoninator = Math.pow( ( R * R ) + ( y * y ) - ( 2 * y * R * Math.sin( phi ) ) + ( ( x - xp ) * ( x - xp ) ), 3. / 2. );
-            return numerator( phi ) / demoninator;
+            return getNumerator( phi ) / demoninator;
         }
         
-        // inner integral for Bx and By varies only in the numerator
-        protected abstract double numerator( double phi );
+        protected abstract double getNumerator( double phi );
     }
     
     /**
@@ -153,7 +155,7 @@ public class TestDipoleGrid extends JFrame {
             super( x, xp, y, R );
         }
         
-        protected double numerator( double phi ) {
+        protected double getNumerator( double phi ) {
             return R - ( y * Math.sin( phi ) );
         }
     }
@@ -167,13 +169,15 @@ public class TestDipoleGrid extends JFrame {
             super( x, xp, y, R );
         }
         
-        protected double numerator( double phi ) {
+        protected double getNumerator( double phi ) {
             return ( x - xp ) * Math.sin( phi );
         }
     }
     
     /**
      * Base class for Bx and By outer integral.
+     * These integrals differ only in their inner integral,
+     * so base classes implement the getIntegral method.
      */
     public abstract static class BOuterIntegral extends SimpsonsRule {
         
@@ -222,17 +226,20 @@ public class TestDipoleGrid extends JFrame {
     
     /**
      * Base class for Bx and By functions.
+     * These function differ only in the type of their outer integral,
+     * so base classes implement the getIntegral method.
      */
     public static abstract class BFunction {
 
         private static final double C = 1;
 
-        protected final double a, R;
+        protected final double a; // magnet width
+        protected final double R; // cylindrical magnet radius
         protected final double multiplier;
 
         public BFunction( PDimension magnetSize ) {
-            this.a = magnetSize.getWidth();
-            this.R = magnetSize.getHeight() / 2;
+            a = magnetSize.getWidth();
+            R = magnetSize.getHeight() / 2;
             multiplier = ( C * R ) / ( 4 * Math.PI );
         }
         
@@ -283,8 +290,8 @@ public class TestDipoleGrid extends JFrame {
         public Magnet( Point2D location, PDimension size ) {
             this.location = new Point2D.Double( location.getX(), location.getY() );
             this.size = new PDimension( size );
-//            this.evaluator = new RandomEvaluator(); //XXX
-            this.evaluator = new DubsonEvaluator( this ); //XXX
+            this.evaluator = new RandomBFieldEvaluator(); //XXX
+//            this.evaluator = new DubsonBFieldEvaluator( this ); //XXX
         }
 
         public void setLocation( double x, double y ) {
@@ -378,6 +385,7 @@ public class TestDipoleGrid extends JFrame {
         
         private final PPath boundsNode;
         private final PNode vectorsParentNode;
+        private final IVectorScaler vectorScaler;
         
         public BFieldNode( PDimension size, PDimension spacing, Magnet magnet ) {
             
@@ -388,6 +396,8 @@ public class TestDipoleGrid extends JFrame {
             this.spacing = new PDimension( spacing );
             this.magnet = magnet;
             magnet.addObserver( this );
+            vectorScaler = new UnityVectorScaler(); //XXX
+//            vectorScaler = new DubsonVectorScaler(); //XXX
             
             boundsNode = new PPath();
             boundsNode.setStroke( BOUNDS_STROKE );
@@ -418,12 +428,53 @@ public class TestDipoleGrid extends JFrame {
             for ( double y = 0; y <= size.getHeight(); y += spacing.getHeight() ) {
                 for ( double x = 0; x <= size.getWidth(); x += spacing.getWidth() ) {
                     Vector2D vector = magnet.getBFieldValue( x, y );
-                    System.out.println( "BFieldNode.update x=" + x + " y=" + y + " bx=" + vector.getX() + " by= " + vector.getY() );//XXX
-                    Vector2DNode vectorNode = new Vector2DNode( vector );
+//                    System.out.println( "BFieldNode.update x=" + x + " y=" + y + " bx=" + vector.getX() + " by= " + vector.getY() );//XXX this will affect drag performance!
+                    Vector2D vectorScaled = vectorScaler.scale( vector );
+                    Vector2DNode vectorNode = new Vector2DNode( vectorScaled );
                     vectorNode.setOffset( x, y );
                     vectorsParentNode.addChild( vectorNode );
                 }
             }
+        }
+    }
+    
+    /**
+     * Interface for vector scaling strategies.
+     */
+    public interface IVectorScaler {
+        public Vector2D scale( Vector2D v );
+    }
+    
+    /**
+     * Vector scaling strategy that results in no change to the input vector.
+     */
+    public static class UnityVectorScaler implements IVectorScaler {
+        
+        public Vector2D scale( Vector2D v ) {
+            return v;
+        }
+    }
+    
+    /**
+     * Mike Dubsons algorithm for scaling B-field vectors for display.
+     */
+    public static class DubsonVectorScaler implements IVectorScaler {
+
+        private final double factor;
+
+        public DubsonVectorScaler() {
+            this( BFIELD_SCALING_FACTOR );
+        }
+
+        public DubsonVectorScaler( double factor ) {
+            this.factor = factor;
+        }
+
+        public Vector2D scale( Vector2D v ) {
+            double multiplier = Math.pow( v.getMagnitude(), 1 / factor );
+            double bxScaled = multiplier * ( v.getX() / v.getMagnitude() );
+            double byScaled = multiplier * ( v.getY() / v.getMagnitude() );
+            return new Vector2D.Double( bxScaled, byScaled );
         }
     }
     
