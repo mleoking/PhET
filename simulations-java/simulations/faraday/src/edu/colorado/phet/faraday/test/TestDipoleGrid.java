@@ -1,3 +1,4 @@
+/* Copyright 2010, University of Colorado */
 
 package edu.colorado.phet.faraday.test;
 
@@ -26,25 +27,19 @@ import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Test app for the dipole model in #2236.
+ * Test app for dipole mode fix in #2236.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class TestDipoleGrid extends JFrame {
     
-    private static final PDimension CANVAS_SIZE = new PDimension( 1024, 768 );
-    private static final Point2D MAGNET_LOCATION = new Point2D.Double( CANVAS_SIZE.getWidth()/2, CANVAS_SIZE.getHeight()/2 );
-    private static final PDimension MAGNET_SIZE = new PDimension( 250, 50 );
-    private static final PDimension FIELD_SPACING = new PDimension( 25, 25 );
-
-    public interface IBField {
-
-        public Vector2D getField( double x, double y );
-    }
+    private static final PDimension MAGNET_SIZE = new PDimension( 250, 50 ); // faraday uses 250x50
+    private static final PDimension BFIELD_SIZE = new PDimension( 1024, 768 );
+    private static final PDimension BFIELD_SPACING = new PDimension( 40, 40 ); // faraday uses 40x40
 
     /*
      * TODO:
-     * Investigate licensing.
+     * Investigate licensing of SimpsonsRule.
      * Source: http://www.cs.princeton.edu/introcs/93integration/SimpsonsRule.java.html
      * Copyright 2000Ð2010 by Robert Sedgewick and Kevin Wayne. All rights reserved.
      */
@@ -85,6 +80,31 @@ public class TestDipoleGrid extends JFrame {
         }
     }
     
+    /**
+     * Container for model elements.
+     */
+    public static class TestModel {
+        
+        private final Magnet magnet;
+        private final BField bField;
+        
+        public TestModel( PDimension magnetSize, PDimension fieldSize ) {
+            magnet = new Magnet( new Point2D.Double( fieldSize.getWidth()/2, fieldSize.getHeight()/2 ), magnetSize );
+            bField = new BField( fieldSize, magnet );
+        }
+        
+        public Magnet getMagnet() {
+            return magnet;
+        }
+        
+        public BField getBField() {
+            return bField;
+        }
+    }
+    
+    /**
+     * Magnet model.
+     */
     public static class Magnet extends SimpleObservable {
 
         private final PDimension size;
@@ -126,12 +146,17 @@ public class TestDipoleGrid extends JFrame {
         }
     }
     
+    /**
+     * B-field model.
+     */
     public static class BField extends SimpleObservable {
         
+        private IBFieldEvaluator evaluator;
         private Point2D location;
         private PDimension size;
         
         public BField( PDimension size, Magnet magnet ) {
+            evaluator = new RandomBFieldEvaluator(); //XXX
             this.location = new Point2D.Double( 0, 0 );
             this.size = new PDimension( size );
             magnet.addObserver( new SimpleObserver() {
@@ -179,12 +204,40 @@ public class TestDipoleGrid extends JFrame {
         }
         
         public Vector2D getValue( double x, double y ) {
-            double bx = 20 * Math.random();
-            double by = 20 * Math.random();
+            return evaluator.getValue( x, y );
+        }
+        
+        public int randomSign() {
+            return ( ( Math.random() < 0.5 ) ? 1 : -1 );
+        }
+    }
+    
+    /**
+     * Interface for all B-field evaluation strategies.
+     */
+    public interface IBFieldEvaluator {
+        public Vector2D getValue( double x, double y );
+    }
+    
+    /**
+     * Creates a totally random B-field vector.
+     */
+    public static class RandomBFieldEvaluator implements IBFieldEvaluator {
+
+        public Vector2D getValue( double x, double y ) {
+            double bx = 0.85 * BFIELD_SPACING.getWidth()/2 * Math.random() * randomSign();
+            double by = 0.85 * BFIELD_SPACING.getHeight()/2 * Math.random() * randomSign();
             return new Vector2D.Double( bx, by ); //XXX
+        }
+        
+        public int randomSign() {
+            return ( ( Math.random() < 0.5 ) ? 1 : -1 );
         }
     }
 
+    /**
+     * Visual representation of the magnet.
+     */
     public static class MagnetNode extends PPath implements SimpleObserver {
 
         private final Magnet magnet;
@@ -204,23 +257,25 @@ public class TestDipoleGrid extends JFrame {
         }
 
         public void update() {
-            Point2D location = magnet.getLocationReference();
-            setOffset( location );
+            setOffset( magnet.getLocationReference() );
         }
     }
     
+    /**
+     * Visual representation of the B-field, a grid of 2D vectors.
+     */
     public static class BFieldNode extends PComposite implements SimpleObserver {
         
         private final PDimension spacing;
-        private final BField field;
+        private final BField bField;
         
         private final PPath boundsNode;
         private final PNode vectorsParentNode;
         
-        public BFieldNode( PDimension spacing, BField field ) {
+        public BFieldNode( PDimension spacing, BField bField ) {
             this.spacing = new PDimension( spacing );
-            this.field = field;
-            field.addObserver( this );
+            this.bField = bField;
+            bField.addObserver( this );
             
             boundsNode = new PPath();
             boundsNode.setStroke( new BasicStroke( 3f ) );
@@ -234,15 +289,15 @@ public class TestDipoleGrid extends JFrame {
         }
         
         public void update() {
-            setOffset( field.getLocationReference() );
+            setOffset( bField.getLocationReference() );
             // draw a rectangle around the bounds
-            boundsNode.setPathTo( new Rectangle2D.Double( 0, 0, field.getWidth(), field.getHeight() ) );
+            boundsNode.setPathTo( new Rectangle2D.Double( 0, 0, bField.getWidth(), bField.getHeight() ) );
             // create vector nodes
             vectorsParentNode.removeAllChildren();
-            for ( double y = field.getY(); y <= field.getY() + field.getHeight(); y += spacing.getHeight() ) {
-                for ( double x = field.getX(); x <= field.getX() + field.getWidth(); x += spacing.getWidth() ) {
-                    Vector2D vector = field.getValue( x, y );
-                    VectorNode vectorNode = new VectorNode( vector );
+            for ( double y = bField.getY(); y <= bField.getY() + bField.getHeight(); y += spacing.getHeight() ) {
+                for ( double x = bField.getX(); x <= bField.getX() + bField.getWidth(); x += spacing.getWidth() ) {
+                    Vector2D vector = bField.getValue( x, y );
+                    Vector2DNode vectorNode = new Vector2DNode( vector );
                     vectorNode.setOffset( x, y );
                     vectorsParentNode.addChild( vectorNode );
                 }
@@ -250,9 +305,13 @@ public class TestDipoleGrid extends JFrame {
         }
     }
     
-    public static class VectorNode extends PComposite {
+    /**
+     * Visual representation of a 2D vector.
+     * The length and head-size vary with magnitude.
+     */
+    public static class Vector2DNode extends PComposite {
         
-        public VectorNode( Vector2D vector ) {
+        public Vector2DNode( Vector2D vector ) {
             Point2D tailLocation = new Point2D.Double( 0, 0 );
             Point2D tipLocation = new Point2D.Double( vector.getX(), vector.getY() );
             double headHeight = 0.25 * vector.getMagnitude();
@@ -263,36 +322,49 @@ public class TestDipoleGrid extends JFrame {
         }
     }
     
+    /**
+     * Piccolo canvas.
+     */
+    public static class TestCanvas extends PhetPCanvas {
+
+        public TestCanvas( final TestModel model ) {
+
+            int canvasWidth = (int) model.getBField().getSizeReference().getWidth();
+            int canvasHeight = (int) model.getBField().getSizeReference().getHeight();
+            setPreferredSize( new Dimension( canvasWidth, canvasHeight ) );
+
+            final MagnetNode magnetNode = new MagnetNode( model.getMagnet() );
+            magnetNode.addInputEventListener( new CursorHandler() );
+            magnetNode.addInputEventListener( new PDragSequenceEventHandler() {
+                @Override
+                public void drag( PInputEvent event ) {
+                    PDimension delta = event.getDeltaRelativeTo( magnetNode.getParent() );
+                    model.getMagnet().translate( delta );
+                }
+            } );
+
+            final BFieldNode bFieldNode = new BFieldNode( BFIELD_SPACING, model.getBField() );
+            addComponentListener( new ComponentAdapter() {
+                @Override
+                public void componentResized( ComponentEvent e ) {
+                    // adjust the field size to fill the canvas
+                    model.getBField().setSize( getSize().getWidth(), getSize().getHeight() );
+                }
+            } );
+
+            // rendering order
+            getLayer().addChild( bFieldNode );
+            getLayer().addChild( magnetNode );
+        }
+    }
+    
+    /**
+     * The main frame.
+     */
     public TestDipoleGrid() {
-
-        final PhetPCanvas canvas = new PhetPCanvas();
-        canvas.setPreferredSize( new Dimension( (int) CANVAS_SIZE.getWidth(), (int) CANVAS_SIZE.getHeight() ) );
+        TestModel model = new TestModel( MAGNET_SIZE, BFIELD_SIZE );
+        TestCanvas canvas = new TestCanvas( model );
         setContentPane( canvas );
-
-        final Magnet magnet = new Magnet( MAGNET_LOCATION, MAGNET_SIZE );
-        final BField field = new BField( CANVAS_SIZE, magnet );
-        
-        final MagnetNode magnetNode = new MagnetNode( magnet );
-        magnetNode.addInputEventListener( new CursorHandler() );
-        magnetNode.addInputEventListener( new PDragSequenceEventHandler() {
-            @Override
-            public void drag( PInputEvent event ) {
-                PDimension delta = event.getDeltaRelativeTo( magnetNode.getParent() );
-                magnet.translate( delta );
-            }
-        });
-
-        final BFieldNode fieldNode = new BFieldNode( FIELD_SPACING, field );
-        canvas.addComponentListener( new ComponentAdapter() {
-            public void componentResized( ComponentEvent e ) {
-                field.setSize( canvas.getSize().getWidth(), canvas.getSize().getHeight() );
-            }
-        });
-        
-        // rendering order
-        canvas.getLayer().addChild( fieldNode );
-        canvas.getLayer().addChild( magnetNode );
-        
         pack();
     }
 
