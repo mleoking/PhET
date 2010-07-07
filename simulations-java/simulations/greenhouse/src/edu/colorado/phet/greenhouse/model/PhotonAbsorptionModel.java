@@ -31,6 +31,10 @@ public class PhotonAbsorptionModel {
     // emitted.
     private static final Point2D PHOTON_EMISSION_LOCATION = new Point2D.Double(-50, 20);
     
+    // Location used when a single molecule is sitting in the area where the
+    // photons pass through.
+    private static final Point2D SINGLE_MOLECULE_LOCATION = new Point2D.Double(1600, 20);
+    
     // Velocity of emitted photons.  Since they are emitted horizontally, only
     // one value is needed.
     private static final float PHOTON_VELOCITY_X = 0.2f;
@@ -48,17 +52,23 @@ public class PhotonAbsorptionModel {
     private EventListenerList listeners = new EventListenerList();
     private ArrayList<Photon> photons = new ArrayList<Photon>();
     private double photonWavelength = GreenhouseConfig.sunlightWavelength;
+    private final ArrayList<Molecule> molecules = new ArrayList<Molecule>();
    
     //----------------------------------------------------------------------------
     // Constructor(s)
     //----------------------------------------------------------------------------
     
     public PhotonAbsorptionModel(GreenhouseClock clock){
+        
+        // Listen to the clock in order to step this model.
         clock.addClockListener(new ClockAdapter(){
             public void clockTicked( ClockEvent clockEvent ) {
                 stepInTime(clockEvent.getSimulationTimeChange());
             }
         });
+        
+        // TODO: Temp init code for testing.
+        molecules.add( new CarbonDioxide( SINGLE_MOLECULE_LOCATION ) );
     }
 
     //----------------------------------------------------------------------------
@@ -83,6 +93,10 @@ public class PhotonAbsorptionModel {
     
     public Point2D getPhotonEmissionLocation(){
         return PHOTON_EMISSION_LOCATION;
+    }
+    
+    public ArrayList<Molecule> getMolecules(){
+        return new ArrayList<Molecule>(molecules);
     }
     
     /**
