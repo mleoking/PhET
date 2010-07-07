@@ -33,7 +33,7 @@ public class PhotonAbsorptionModel {
     
     // Location used when a single molecule is sitting in the area where the
     // photons pass through.
-    private static final Point2D SINGLE_MOLECULE_LOCATION = new Point2D.Double(1600, 20);
+    private static final Point2D SINGLE_MOLECULE_LOCATION = new Point2D.Double(1400, 20);
     
     // Velocity of emitted photons.  Since they are emitted horizontally, only
     // one value is needed.
