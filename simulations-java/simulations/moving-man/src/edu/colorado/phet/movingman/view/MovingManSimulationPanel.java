@@ -15,7 +15,6 @@ import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.util.PPaintContext;
 
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
@@ -75,18 +74,17 @@ public class MovingManSimulationPanel extends PhetPCanvas {
         addScreenChild(new WallNode(wallImage, model.getRange(), viewRange, -10, model.getWalls(), -manNode.getImageStanding().getWidth() / 2 - wallImage.getWidth(), positiveToTheRight));
         addScreenChild(new WallNode(wallImage, model.getRange(), viewRange, +10, model.getWalls(), +manNode.getImageStanding().getWidth() / 2 + wallImage.getWidth(), positiveToTheRight));
 
-        int arrowTailWidth = 7;
+        int arrowTailWidth = 28;
         //Add Velocity vector to play area
-        final PlayAreaVector velocityVector = new PlayAreaVector(MovingManColorScheme.VELOCITY_COLOR, arrowTailWidth);
+        final PlayAreaVector velocityVector = new PlayAreaVector(MovingManColorScheme.semitransparent(MovingManColorScheme.VELOCITY_COLOR, 128), arrowTailWidth);
         addScreenChild(velocityVector);
-        final double arrowDY = arrowTailWidth / 2 + 2;
-        final double arrowY = 100 - arrowDY * 2;//don't let the arrows overlap the ruler
+        final int arrowY = 100;
         model.getMovingMan().addListener(new MovingMan.Listener() {
             public void changed() {
                 double startX = manNode.modelToView(model.getMovingMan().getPosition());
                 double velocityScale = 0.2;
                 double endX = manNode.modelToView(model.getMovingMan().getPosition() + model.getMovingMan().getVelocity() * velocityScale);
-                velocityVector.setArrow(startX, arrowY - arrowDY, endX, arrowY - arrowDY);
+                velocityVector.setArrow(startX, arrowY, endX, arrowY);
             }
         });
         model.getVelocityVectorVisible().addObserver(new SimpleObserver() {
@@ -97,14 +95,14 @@ public class MovingManSimulationPanel extends PhetPCanvas {
         updateVelocityVectorVisibility(model, velocityVector);
 
         //Add Acceleration vector to play area
-        final PlayAreaVector accelerationVector = new PlayAreaVector(MovingManColorScheme.ACCELERATION_COLOR, arrowTailWidth);
+        final PlayAreaVector accelerationVector = new PlayAreaVector(MovingManColorScheme.semitransparent(MovingManColorScheme.ACCELERATION_COLOR, 128), arrowTailWidth);
         addScreenChild(accelerationVector);
         model.getMovingMan().addListener(new MovingMan.Listener() {
             public void changed() {
                 double startX = manNode.modelToView(model.getMovingMan().getPosition());
-                double accelerationScale = 0.2 * 0.2;
+                double accelerationScale = 0.8;
                 double endX = manNode.modelToView(model.getMovingMan().getPosition() + model.getMovingMan().getAcceleration() * accelerationScale);
-                accelerationVector.setArrow(startX, arrowY + arrowDY, endX, arrowY + arrowDY);
+                accelerationVector.setArrow(startX, arrowY, endX, arrowY);
             }
         });
         model.getAccelerationVectorVisible().addObserver(new SimpleObserver() {
