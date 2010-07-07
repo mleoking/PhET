@@ -34,6 +34,9 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class TestDipoleGrid extends JFrame {
     
+    private static final boolean USE_DUBSON_ALGORITHMS = false; // use Dubson algorithms for B-field computation and display scaling
+    private static final boolean ENABLE_DEBUG_OUTPUT = false; // caution, this will affect drag performance!
+    
     private static final PDimension CANVAS_SIZE = new PDimension( 1024, 768 );
     private static final PDimension MAGNET_SIZE = new PDimension( 250, 50 ); // faraday uses 250x50
     private static final PDimension BFIELD_GRID_SPACING = new PDimension( 40, 40 ); // faraday uses 40x40
@@ -84,7 +87,7 @@ public class TestDipoleGrid extends JFrame {
         }
     }
     
-    /*
+    /**
      * TODO:
      * Investigate licensing of SimpsonsRule implementation.
      * Source: http://www.cs.princeton.edu/introcs/93integration/SimpsonsRule.java.html
@@ -285,13 +288,18 @@ public class TestDipoleGrid extends JFrame {
 
         private Point2D location;
         private final PDimension size;
-        private final IBFieldEvaluator evaluator;
+        private IBFieldEvaluator evaluator;
 
         public Magnet( Point2D location, PDimension size ) {
             this.location = new Point2D.Double( location.getX(), location.getY() );
             this.size = new PDimension( size );
-            this.evaluator = new RandomBFieldEvaluator(); //XXX
-//            this.evaluator = new DubsonBFieldEvaluator( this ); //XXX
+            
+            if ( USE_DUBSON_ALGORITHMS ) {
+                this.evaluator = new DubsonBFieldEvaluator( this );
+            }
+            else {
+                this.evaluator = new RandomBFieldEvaluator();
+            }
         }
 
         public void setLocation( double x, double y ) {
@@ -385,7 +393,7 @@ public class TestDipoleGrid extends JFrame {
         
         private final PPath boundsNode;
         private final PNode vectorsParentNode;
-        private final IVectorScaler vectorScaler;
+        private IVectorScaler vectorScaler;
         
         public BFieldNode( PDimension size, PDimension spacing, Magnet magnet ) {
             
@@ -396,8 +404,13 @@ public class TestDipoleGrid extends JFrame {
             this.spacing = new PDimension( spacing );
             this.magnet = magnet;
             magnet.addObserver( this );
-            vectorScaler = new UnityVectorScaler(); //XXX
-//            vectorScaler = new DubsonVectorScaler(); //XXX
+            
+            if ( USE_DUBSON_ALGORITHMS ) {
+                vectorScaler = new DubsonVectorScaler();
+            }
+            else {
+                vectorScaler = new UnityVectorScaler();
+            }
             
             boundsNode = new PPath();
             boundsNode.setStroke( BOUNDS_STROKE );
@@ -428,7 +441,9 @@ public class TestDipoleGrid extends JFrame {
             for ( double y = 0; y <= size.getHeight(); y += spacing.getHeight() ) {
                 for ( double x = 0; x <= size.getWidth(); x += spacing.getWidth() ) {
                     Vector2D vector = magnet.getBFieldValue( x, y );
-//                    System.out.println( "BFieldNode.update x=" + x + " y=" + y + " bx=" + vector.getX() + " by= " + vector.getY() );//XXX this will affect drag performance!
+                    if ( ENABLE_DEBUG_OUTPUT ) {
+                        System.out.println( "BFieldNode.update x=" + x + " y=" + y + " bx=" + vector.getX() + " by= " + vector.getY() );
+                    }
                     Vector2D vectorScaled = vectorScaler.scale( vector );
                     Vector2DNode vectorNode = new Vector2DNode( vectorScaled );
                     vectorNode.setOffset( x, y );
