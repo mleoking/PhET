@@ -54,7 +54,10 @@ public abstract class Atom extends SimpleObservable {
     }
     
     public void setPosition( Point2D position ) {
-        this.position = position;
+        if (this.position != position){
+            this.position = position;
+            notifyObservers();
+        }
     }
     
     public Color getRepresentationColor() {
