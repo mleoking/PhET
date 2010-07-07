@@ -32,16 +32,6 @@ public abstract class Molecule {
     // Constructor(s)
     //------------------------------------------------------------------------
     
-    public Molecule(ArrayList<Atom> atoms, ArrayList<AtomicBond> atomicBonds, Point2D centerOfGravityPos){
-        this.atoms.addAll( atoms );
-        this.atomicBonds.addAll( atomicBonds );
-        // Note: Descendant classes should position the atoms based on the
-        // specified center of gravity position. 
-    }
-
-    public Molecule(ArrayList<Atom> atoms, ArrayList<AtomicBond> atomicBonds){
-        this(atoms, atomicBonds, new Point2D.Double( 0, 0 ));
-    }
     //------------------------------------------------------------------------
     // Methods
     //------------------------------------------------------------------------
@@ -93,6 +83,14 @@ public abstract class Molecule {
     public void removeSelfFromModel(){
         notifyRemovedFromModel();
         listeners.clear();
+    }
+    
+    protected void addAtom( Atom atom ){
+        atoms.add( atom );
+    }
+    
+    protected void addAtomicBond( AtomicBond atomicBond ){
+        atomicBonds.add( atomicBond );
     }
     
     private void notifyRemovedFromModel(){
