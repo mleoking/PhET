@@ -9,7 +9,6 @@ import java.awt.Point;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.Point2D.Double;
 import java.util.HashMap;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
@@ -18,6 +17,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
 import edu.colorado.phet.greenhouse.GreenhouseDefaults;
 import edu.colorado.phet.greenhouse.model.CarbonDioxide;
+import edu.colorado.phet.greenhouse.model.Molecule;
 import edu.colorado.phet.greenhouse.model.Photon;
 import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel;
 import edu.colorado.phet.mri.util.RoundGradientPaint;
@@ -117,8 +117,10 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
         sphericalNode.setOffset( 100, 100 );
         myWorldNode.addChild( sphericalNode );
         
-        // TODO: Experiment
-        myWorldNode.addChild(new MoleculeNode( new CarbonDioxide( new Point2D.Double(100, 100) ), mvt ));
+        // Add in the initial molecule(s).
+        for (Molecule molecule : photonAbsorptionModel.getMolecules()){
+            myWorldNode.addChild(new MoleculeNode( molecule, mvt ));
+        }
         
         // Update the layout.
         updateLayout();
