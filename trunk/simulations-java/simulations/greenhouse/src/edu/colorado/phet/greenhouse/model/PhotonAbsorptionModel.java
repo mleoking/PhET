@@ -29,7 +29,7 @@ public class PhotonAbsorptionModel {
     
     // Constant that controls the point in model space where photons are
     // emitted.
-    private static final Point2D PHOTON_EMISSION_LOCATION = new Point2D.Double(-50, 20);
+    private static final Point2D PHOTON_EMISSION_LOCATION = new Point2D.Double(-700, 20);
     
     // Location used when a single molecule is sitting in the area where the
     // photons pass through.
@@ -37,13 +37,13 @@ public class PhotonAbsorptionModel {
     
     // Velocity of emitted photons.  Since they are emitted horizontally, only
     // one value is needed.
-    private static final float PHOTON_VELOCITY_X = 0.2f;
+    private static final float PHOTON_VELOCITY_X = 3.0f;
     
     // Distance for a photon to travel before being removed from the model.
     // This value is essentially arbitrary, and needs to be set such that the
     // photons only disappear after they have traveled beyond the bounds of
     // the play area.
-    private static final double MAX_PHOTON_DISTANCE = 300; 
+    private static final double MAX_PHOTON_DISTANCE = 3000; 
 
     //----------------------------------------------------------------------------
     // Instance Data
