@@ -37,10 +37,11 @@ public class TestDipoleGrid extends JFrame {
     private static final PDimension CANVAS_SIZE = new PDimension( 1024, 768 );
     private static final PDimension MAGNET_SIZE = new PDimension( 250, 50 ); // faraday uses 250x50
     private static final PDimension BFIELD_GRID_SPACING = new PDimension( 40, 40 ); // faraday uses 40x40
+    private static final int SIMPSONS_RULE_ITERATIONS = 10000; // increase for more precision
 
     /*
      * TODO:
-     * Investigate licensing of SimpsonsRule.
+     * Investigate licensing of SimpsonsRule implementation.
      * Source: http://www.cs.princeton.edu/introcs/93integration/SimpsonsRule.java.html
      * Copyright 2000Ð2010 by Robert Sedgewick and Kevin Wayne. All rights reserved.
      */
@@ -59,7 +60,8 @@ public class TestDipoleGrid extends JFrame {
          * Increase N for more precision.
          */
         public static double integrate( double a, double b ) {
-            int N = 10000; // precision parameter
+            
+            int N = SIMPSONS_RULE_ITERATIONS; // precision parameter
             double h = ( b - a ) / ( N - 1 ); // step size
 
             // 1/3 terms
@@ -89,18 +91,18 @@ public class TestDipoleGrid extends JFrame {
     }
     
     /**
-     * Creates a totally random B-field vector that fits within the grid spacing
+     * Creates a random B-field vector that fits within the grid spacing
      * of the B-field visualization.
      */
-    public static class RandomBFieldEvaluator implements IBFieldEvaluator {
+    public static class RandomEvaluator implements IBFieldEvaluator {
 
         public Vector2D getValue( double x, double y ) {
-            double bx = 0.85 * BFIELD_GRID_SPACING.getWidth()/2 * Math.random() * randomSign();
-            double by = 0.85 * BFIELD_GRID_SPACING.getHeight()/2 * Math.random() * randomSign();
+            double bx = ( BFIELD_GRID_SPACING.getWidth() / 2 ) * Math.random() * randomSign();
+            double by = ( BFIELD_GRID_SPACING.getHeight() / 2 ) * Math.random() * randomSign();
             return new Vector2D.Double( bx, by );
         }
         
-        public int randomSign() {
+        private int randomSign() {
             return ( ( Math.random() < 0.5 ) ? 1 : -1 );
         }
     }
@@ -117,7 +119,7 @@ public class TestDipoleGrid extends JFrame {
         public Magnet( Point2D location, PDimension size ) {
             this.location = new Point2D.Double( location.getX(), location.getY() );
             this.size = new PDimension( size );
-            this.evaluator = new RandomBFieldEvaluator(); //XXX
+            this.evaluator = new RandomEvaluator(); //XXX
         }
 
         public void setLocation( double x, double y ) {
@@ -171,7 +173,7 @@ public class TestDipoleGrid extends JFrame {
      */
     public static class MagnetNode extends PPath implements SimpleObserver {
         
-        private static final Color FILL_COLOR = new Color( 0, 0, 0, 0 ); // transparent
+        private static final Color FILL_COLOR = new Color( 0, 0, 0, 0 ); // transparent, so we can drag the magnet, but still see the B-field inside
         private static final Color STROKE_COLOR = Color.RED;
         private static final Stroke STROKE = new BasicStroke( 3f );
 
@@ -214,6 +216,9 @@ public class TestDipoleGrid extends JFrame {
         
         public BFieldNode( PDimension size, PDimension spacing, Magnet magnet ) {
             
+            setPickable( false );
+            setChildrenPickable( false );
+            
             this.size = new PDimension( size );
             this.spacing = new PDimension( spacing );
             this.magnet = magnet;
@@ -222,9 +227,12 @@ public class TestDipoleGrid extends JFrame {
             boundsNode = new PPath();
             boundsNode.setStroke( BOUNDS_STROKE );
             boundsNode.setStrokePaint( BOUNDS_STROKE_COLOR );
+            boundsNode.setPickable( false );
             addChild( boundsNode );
             
             vectorsParentNode = new PNode();
+            vectorsParentNode.setPickable( false );
+            vectorsParentNode.setChildrenPickable( false );
             addChild( vectorsParentNode );
             
             update();
@@ -260,6 +268,10 @@ public class TestDipoleGrid extends JFrame {
     public static class Vector2DNode extends PComposite {
         
         public Vector2DNode( Vector2D vector ) {
+            
+            setPickable( false );
+            setChildrenPickable( false );
+            
             Point2D tailLocation = new Point2D.Double( 0, 0 );
             Point2D tipLocation = new Point2D.Double( vector.getX(), vector.getY() );
             double headHeight = 0.25 * vector.getMagnitude();
@@ -323,5 +335,4 @@ public class TestDipoleGrid extends JFrame {
         frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
         frame.setVisible( true );
     }
-
 }
