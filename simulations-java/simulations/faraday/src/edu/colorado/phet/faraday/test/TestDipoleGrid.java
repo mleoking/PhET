@@ -37,7 +37,7 @@ public class TestDipoleGrid extends JFrame {
     private static final PDimension CANVAS_SIZE = new PDimension( 1024, 768 );
     private static final PDimension MAGNET_SIZE = new PDimension( 250, 50 ); // faraday uses 250x50
     private static final PDimension BFIELD_GRID_SPACING = new PDimension( 40, 40 ); // faraday uses 40x40
-    private static final int SIMPSONS_RULE_ITERATIONS = 100; // increase for more precision
+    private static final int SIMPSONS_RULE_ITERATIONS = 100; // increase for more precision, was original 10000 which took FOREVER!
     private static final double BFIELD_SCALING_FACTOR = 3;
 
     /**
