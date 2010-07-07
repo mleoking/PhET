@@ -14,6 +14,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 import java.awt.*;
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -25,6 +26,7 @@ import java.util.ArrayList;
  */
 public abstract class MotionSliderNode extends PNode {
     private PhetPPath trackPPath;
+    protected PhetPPath tickMarkAtZero;
     private PNode sliderThumb;
     private double value = 0.0;
     private ArrayList<Listener> listeners = new ArrayList<Listener>();
@@ -33,6 +35,9 @@ public abstract class MotionSliderNode extends PNode {
     private Function.LinearFunction transform;
     private Range modelRange;
     private Range viewRange;
+
+    public final int TRACK_WIDTH = 5;
+    public final int TICK_HEIGHT = TRACK_WIDTH + 2;
 
     public MotionSliderNode(Range modelRange, double value, Range viewRange, Color color) {
         this(modelRange, value, viewRange, new PImage(ColorArrows.createArrow(color)), color);
@@ -71,6 +76,10 @@ public abstract class MotionSliderNode extends PNode {
         this.sliderThumb.addInputEventListener(new CursorHandler());
         trackPPath = new PhetPPath(Color.white, new BasicStroke(1), Color.black);
         addChild(trackPPath);
+
+        tickMarkAtZero = createTickMark();
+        addChild(tickMarkAtZero);
+
         addChild(sliderThumb);
         sliderThumb.addInputEventListener(new PBasicInputEventHandler() {
             Point2D initDragPoint = null;
@@ -109,6 +118,8 @@ public abstract class MotionSliderNode extends PNode {
         updateTrackPPathStrokeAndPaint();
     }
 
+    protected abstract PhetPPath createTickMark();
+
     protected abstract void updateTransform(Range viewRange);
 
     protected abstract double getDragViewDelta(PInputEvent event, Point2D initDragPoint);
@@ -127,8 +138,11 @@ public abstract class MotionSliderNode extends PNode {
 
     protected void updateLayout() {
         updateTrackPath();
+        updateTickMarkAtZero();
         updateThumb();
     }
+
+    protected abstract void updateTickMarkAtZero();
 
     protected abstract void updateTrackPath();
 
@@ -265,6 +279,10 @@ public abstract class MotionSliderNode extends PNode {
         }
     }
 
+    public boolean contains(double value) {
+        return value >= getMin() && value <= getMax();
+    }
+
     public double getMin() {
         return modelRange.getMin();
     }
@@ -291,6 +309,11 @@ public abstract class MotionSliderNode extends PNode {
         }
 
         @Override
+        protected PhetPPath createTickMark() {
+            return new PhetPPath(new Line2D.Double(0, 0, TICK_HEIGHT, 0), Color.black, new BasicStroke(2), Color.black);
+        }
+
+        @Override
         protected void updateTransform(Range viewRange) {
             super.transform.setOutput(viewRange.getMax(), viewRange.getMin());
         }
@@ -303,8 +326,14 @@ public abstract class MotionSliderNode extends PNode {
         }
 
         @Override
+        protected void updateTickMarkAtZero() {
+            //should not have tick mark
+            tickMarkAtZero.setVisible(false);
+        }
+
+        @Override
         protected void updateTrackPath() {
-            setTrackPath(new Rectangle2D.Double(0, getViewMin(), 5, getViewMax()));
+            setTrackPath(new Rectangle2D.Double(0, getViewMin(), TRACK_WIDTH, getViewMax()));
         }
 
         @Override
@@ -320,6 +349,7 @@ public abstract class MotionSliderNode extends PNode {
     }
 
     public static class Horizontal extends MotionSliderNode {
+
         public Horizontal(Range modelRange, double value, Range viewRange, Color color) throws IOException {
             this(modelRange, value, viewRange, new PImage(BufferedImageUtils.flipY(BufferedImageUtils.getRotatedImage(getBarImage(color), -Math.PI / 2))), color);
         }
@@ -329,13 +359,24 @@ public abstract class MotionSliderNode extends PNode {
         }
 
         @Override
+        protected PhetPPath createTickMark() {
+            final Line2D.Double createTickMarkPath = createTickMarkPath(0);
+            return new PhetPPath(createTickMarkPath, Color.black, new BasicStroke(2), Color.black);
+        }
+
+        private Line2D.Double createTickMarkPath(double thumbHeight) {
+            final Line2D.Double createTickMarkPath = new Line2D.Double(0, 0, 0, thumbHeight / 2 + TRACK_WIDTH / 2);
+            return createTickMarkPath;
+        }
+
+        @Override
         protected void updateTransform(Range viewRange) {
             super.transform.setOutput(viewRange.getMin(), viewRange.getMax());
         }
 
         @Override
         protected void updateTrackPath() {
-            setTrackPath(new Rectangle2D.Double(getViewMin(), 0, getViewMax(), 5));
+            setTrackPath(new Rectangle2D.Double(getViewMin(), 0, getViewMax(), TRACK_WIDTH));
         }
 
         @Override
@@ -350,6 +391,13 @@ public abstract class MotionSliderNode extends PNode {
             double x = event.getPositionRelativeTo(getSliderThumb().getParent()).getX();
             double delta = x - initDragPoint.getX();
             return delta;
+        }
+
+        @Override
+        protected void updateTickMarkAtZero() {
+            tickMarkAtZero.setPathTo(createTickMarkPath(getSliderThumb().getFullBounds().getHeight()));
+            tickMarkAtZero.setOffset((getViewMin() + getViewMax()) / 2 - tickMarkAtZero.getFullBounds().getWidth() / 2, 0.0);
+            tickMarkAtZero.setVisible(contains(0));
         }
     }
 
