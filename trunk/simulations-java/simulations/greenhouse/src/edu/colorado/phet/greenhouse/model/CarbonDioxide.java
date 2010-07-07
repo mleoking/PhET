@@ -16,7 +16,7 @@ public class CarbonDioxide extends Molecule {
     // Class Data
     // ------------------------------------------------------------------------
     
-    private static final double INITIAL_CARBON_OXYGEN_DISTANCE = 100; // In picometers.
+    private static final double INITIAL_CARBON_OXYGEN_DISTANCE = 200; // In picometers.
 
     // ------------------------------------------------------------------------
     // Instance Data
