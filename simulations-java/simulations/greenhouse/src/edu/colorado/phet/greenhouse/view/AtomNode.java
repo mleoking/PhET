@@ -5,6 +5,7 @@ package edu.colorado.phet.greenhouse.view;
 import java.awt.geom.Ellipse2D;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.greenhouse.model.Atom;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -25,15 +26,19 @@ public class AtomNode extends PPath {
     // ------------------------------------------------------------------------
 
     private final Atom atom;
+    private final ModelViewTransform2D mvt;
     
     // ------------------------------------------------------------------------
     // Constructor(s)
     // ------------------------------------------------------------------------
     
-    public AtomNode( Atom atom ){
+    public AtomNode( Atom atom, ModelViewTransform2D mvt ){
         this.atom = atom;
+        this.mvt = mvt;
         setPaint( atom.getRepresentationColor() );
-        setPathTo( new Ellipse2D.Double( -atom.getRadius(), -atom.getRadius(), atom.getRadius() * 2, atom.getRadius() * 2 ) );
+        double transformedRadius = mvt.modelToViewDifferentialXDouble( atom.getRadius() );
+        setPathTo( new Ellipse2D.Double( -transformedRadius, -transformedRadius,
+                transformedRadius * 2, transformedRadius * 2 ) );
         atom.addObserver( new SimpleObserver() {
             public void update() {
                 updatePosition();
@@ -50,7 +55,8 @@ public class AtomNode extends PPath {
      * 
      */
     private void updatePosition() {
-        setOffset( atom.getPosition() );
+        setOffset( mvt.modelToViewDouble( atom.getPosition() ) );
+        System.out.println("atom node bounds = " + getFullBoundsReference());
     }
 
     // ------------------------------------------------------------------------
