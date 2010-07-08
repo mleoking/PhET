@@ -89,6 +89,11 @@ public class PhotonAbsorptionModel {
             photons.remove( photon );
             notifyPhotonRemoved( photon );
         }
+        
+        // Step the molecules.
+        for (Molecule molecule : molecules){
+            molecule.stepInTime( dt );
+        }
     }
     
     public Point2D getPhotonEmissionLocation(){
