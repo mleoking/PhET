@@ -28,11 +28,29 @@ import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Test app for dipole model fix in #2236.
+ * Test app for numerical dipole model proposed by Mike Dubson in #2236.
+ * <p>
+ * Mike's proposal was to implement the model in MathCAD, then write a grid
+ * of B-field values to a file.  The file would be read by the sim, and the 
+ * grid would be used to interpolate B-field values.
+ * <p>
+ * We decided to do attempt a Java implementation of the model because,
+ * if we could get it working in Java, it would eliminate quite a few expensive tasks.
+ * This program is that Java application, and it's not going to work due to two problems: 
+ * (1) integration using Simpsons Rule takes a horribly long time, and 
+ * (2) the visual display does not match the grid produced by MathCAD.  
+ * Note that (2) might be worth investigating, but (1) is a showstopper.
+ * <p>
+ * NOTES:
+ * <ul>
+ * <li>variable names match Mike's variable names in the MathCAD implementation
+ * <li>z and zp in Mike's model are replaced here with x and xp, because we're using x and y axes, not z and y
+ * <li>to enable Mike's algorithm, set ENABLE_DUBSON_ALGORITHMS=true and be prepared for the impact on dragging
+ * </ul>
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TestDipoleGrid extends JFrame {
+public class TestNumericalDipoleModel extends JFrame {
     
     private static final boolean ENABLE_DUBSON_ALGORITHMS = false; // use Dubson algorithms for B-field computation and display scaling
     private static final boolean ENABLE_DEBUG_OUTPUT = false; // caution, this will affect drag performance!
@@ -557,7 +575,7 @@ public class TestDipoleGrid extends JFrame {
     /**
      * The main frame.
      */
-    public TestDipoleGrid() {
+    public TestNumericalDipoleModel() {
         Point2D magnetLocation = new Point2D.Double( CANVAS_SIZE.getWidth() / 2, CANVAS_SIZE.getHeight() / 2 ); // centered in canvas
         Magnet magnet = new Magnet( magnetLocation, MAGNET_SIZE );
         TestCanvas canvas = new TestCanvas( CANVAS_SIZE, BFIELD_GRID_SPACING, magnet );
@@ -566,7 +584,7 @@ public class TestDipoleGrid extends JFrame {
     }
 
     public static void main( String[] args ) {
-        JFrame frame = new TestDipoleGrid();
+        JFrame frame = new TestNumericalDipoleModel();
         frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
         frame.setVisible( true );
     }
