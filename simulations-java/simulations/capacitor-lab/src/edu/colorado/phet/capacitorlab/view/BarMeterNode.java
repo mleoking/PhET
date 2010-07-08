@@ -7,6 +7,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Stroke;
 import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
@@ -18,6 +19,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.BoundedDragHandler;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -26,6 +28,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
+import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Abstract base class for all bar meters.
@@ -63,9 +66,14 @@ public abstract class BarMeterNode extends PhetPNode {
     private static final Font VALUE_FONT = new PhetFont( 14 );
     private static final Color VALUE_COLOR = Color.BLACK;
     
+    // overload indicator
+    private static final double OVERLOAD_INDICATOR_WIDTH = 0.75 * TRACK_SIZE.getWidth();
+    private static final double OVERLOAD_INDICATOR_HEIGHT = 15;
+    
     private final BarNode barNode;
     private final TitleNode titleNode;
     private final ValueNode valueNode;
+    private final OverloadIndicatorNode overloadIndicatorNode;
     
     /**
      * Constructor.
@@ -123,6 +131,13 @@ public abstract class BarMeterNode extends PhetPNode {
         y = minLabelNode.getFullBoundsReference().getMaxY() + 2;
         titleNode.setOffset( x, y );
         
+        // overload indicator 
+        overloadIndicatorNode = new OverloadIndicatorNode( barColor, maxValue );
+        addChild( overloadIndicatorNode );
+        x = barNode.getFullBoundsReference().getCenterX();
+        y = barNode.getFullBoundsReference().getMinY() - overloadIndicatorNode.getFullBoundsReference().getHeight() - 1;
+        overloadIndicatorNode.setOffset( x, y );
+        
         // value
         valueNode = new ValueNode( new DecimalFormat( valueMantissaPattern ), valueExponent, units );
         addChild( valueNode );
@@ -154,8 +169,12 @@ public abstract class BarMeterNode extends PhetPNode {
      * @param value
      */
     protected void setValue( double value ) {
+        
         // bar height
         barNode.setValue( value );
+        
+        // overload indicator
+        overloadIndicatorNode.setValue( value );
 
         // value, centered below title
         valueNode.setValue( value );
@@ -208,7 +227,7 @@ public abstract class BarMeterNode extends PhetPNode {
             if ( value < 0 ) {
                 throw new IllegalArgumentException( "value must be >= 0 : " + value );
             }
-            double percent = Math.abs( value ) / maxValue;
+            double percent = Math.min(  1, Math.abs( value ) / maxValue );
             double y = ( 1 - percent ) * TRACK_SIZE.height;
             double height = TRACK_SIZE.height - y;
             rectangle.setRect( 0, y, TRACK_SIZE.width, height );
@@ -265,6 +284,33 @@ public abstract class BarMeterNode extends PhetPNode {
             super( label );
             setTextPaint( TITLE_COLOR );
             setFont( TITLE_FONT );
+        }
+    }
+    
+    /*
+     * Overload indicator, visible when the value is greater than what the bar
+     * is capable of displaying.  The indicator is an arrow that point upward.
+     */
+    private static class OverloadIndicatorNode extends PComposite {
+        
+        final double maxValue;
+        
+        public OverloadIndicatorNode( Color fillColor, double maxValue ) {
+            
+            this.maxValue = maxValue;
+            
+            Point2D tailLocation = new Point2D.Double( 0, OVERLOAD_INDICATOR_HEIGHT );
+            Point2D tipLocation = new Point2D.Double( 0, 0 );
+            double headHeight = 0.6 * OVERLOAD_INDICATOR_HEIGHT;
+            double headWidth = OVERLOAD_INDICATOR_WIDTH;
+            double tailWidth = headWidth / 2;
+            ArrowNode arrowNode = new ArrowNode( tailLocation, tipLocation, headHeight, headWidth, tailWidth );
+            arrowNode.setPaint( fillColor );
+            addChild( arrowNode );
+        }
+        
+        public void setValue( double value ) {
+            setVisible( value > maxValue );
         }
     }
     

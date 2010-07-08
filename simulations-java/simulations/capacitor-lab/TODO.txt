@@ -1,14 +1,12 @@
 TODO list for capacitor-lab
 
 QUESTIONS FOR NOAH
- - what are milestones?
 
 HIGH PRIORITY
 - add cables and drag behavior to voltmeter, see CCK's VoltmeterNode
 - voltmeter notifiers for moving probes or meter body
 - subclass of voltmeter that is specific to this sim, knows about model
 - autoscale button with tooltip on Charge, Energy, Capacitance meters, make max value text blink red
-- arrow above meters to indicate overload
 - solve coordinate frame conversion issues for drag handles
 - fix behavior of plate size drag handle, whose axis is on the diagonal of the top plate (should drag point be on a line perpendicular to this axis?)
 - utilities for computing important 2D points on capacitor's pseudo-3D geometry (for layout, interactivity, and connecting things)
