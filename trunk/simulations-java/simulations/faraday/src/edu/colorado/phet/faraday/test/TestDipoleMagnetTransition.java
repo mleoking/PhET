@@ -10,6 +10,7 @@ import edu.colorado.phet.faraday.model.BarMagnet;
 import edu.colorado.phet.faraday.util.Vector2D;
 
 /**
+ * Unfuddle #2236
  * Tests the DipoleMagnet's inside-outside B-field transition, to verify that we don't have a large
  * discontinuity. Info printed to System.out tells you how to modify DipoleMagnet.FUDGE_FACTOR.
  * <p>
