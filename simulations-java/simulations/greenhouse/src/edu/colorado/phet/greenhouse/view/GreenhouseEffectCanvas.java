@@ -18,12 +18,11 @@ import edu.colorado.phet.greenhouse.GreenhouseResources;
 import edu.colorado.phet.greenhouse.model.Cloud;
 import edu.colorado.phet.greenhouse.model.GreenhouseEffectModel;
 import edu.colorado.phet.greenhouse.model.Photon;
-import edu.colorado.phet.neuron.module.NeuronDefaults;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
- * Canvas on which the neuron simulation is depicted.
+ * Canvas on which the greenhouse effect simulation is depicted.
  *
  * @author John Blanco
  */
@@ -76,8 +75,8 @@ public class GreenhouseEffectCanvas extends PhetPCanvas {
     	// Set up the model-canvas transform.
         mvt = new ModelViewTransform2D(
         		new Point2D.Double(0, 0), 
-        		new Point((int)Math.round(NeuronDefaults.INTERMEDIATE_RENDERING_SIZE.width * 0.5), 
-        				(int)Math.round(NeuronDefaults.INTERMEDIATE_RENDERING_SIZE.height * 0.5 )),
+        		new Point((int)Math.round(GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE.width * 0.5), 
+        				(int)Math.round(GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE.height * 0.5 )),
         				4,  // Scale factor - smaller numbers "zoom out", bigger ones "zoom in".
         				true);
 

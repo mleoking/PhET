@@ -21,7 +21,7 @@ import edu.colorado.phet.neuron.module.NeuronDefaults;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * Canvas on which the neuron simulation is depicted.
+ * Canvas on which the photon absorption simulation is depicted.
  *
  * @author John Blanco
  */
@@ -67,8 +67,8 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
     	// Set up the model-canvas transform.
         mvt = new ModelViewTransform2D(
         		new Point2D.Double(0, 0), 
-        		new Point((int)Math.round(NeuronDefaults.INTERMEDIATE_RENDERING_SIZE.width * 0.5), 
-        				(int)Math.round(NeuronDefaults.INTERMEDIATE_RENDERING_SIZE.height * 0.5 )),
+        		new Point((int)Math.round(GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE.width * 0.5), 
+        				(int)Math.round(GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE.height * 0.5 )),
         				0.25,  // Scale factor - smaller numbers "zoom out", bigger ones "zoom in".
         				true);
 
