@@ -5,6 +5,7 @@ import edu.colorado.phet.common.motion.charts.Range;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.movingman.LinearTransform;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -21,8 +22,8 @@ public class WallNode extends PlayAreaObjectNode {
     private final PImage minimizeButton;
     private final PImage maximizeButton;
 
-    public WallNode(BufferedImage image, Range modelRange, final Range viewRange, double x, final MutableBoolean walls, double offsetX, MutableBoolean positiveToTheRight) {
-        super(image, modelRange, viewRange, x, offsetX, positiveToTheRight);//so that the edge of the man touches the edge of the wall when they collide instead of overlapping
+    public WallNode(BufferedImage image, LinearTransform transform, double x, final MutableBoolean walls, double offsetX, MutableBoolean positiveToTheRight) {
+        super(image, transform, x, offsetX, positiveToTheRight);//so that the edge of the man touches the edge of the wall when they collide instead of overlapping
         this.walls = walls;
 
         {//close button

@@ -52,6 +52,7 @@ public class MovingManModel {
     private ExpressionEvaluator expressionEvaluator;
     private ArrayList<EvalErrorListener> evalErrorListeners = new ArrayList<EvalErrorListener>();
     private MutableBoolean velocityMode;
+    private MyObservableDouble timeProperty = new MyObservableDouble(0.0);
 
     public void historyRemainderCleared(double time) {
         mouseDataModelSeries.clearPointsAfter(time);
@@ -82,6 +83,10 @@ public class MovingManModel {
 
     public MutableBoolean getVelocityMode() {
         return velocityMode;
+    }
+
+    public ObservableDouble getTimeProperty() {
+        return timeProperty;
     }
 
     public static interface BooleanGetter {
@@ -154,6 +159,7 @@ public class MovingManModel {
 
     public void simulationTimeChanged(double dt) {
         time = time + dt;
+        updateTimeProperty();
         if (movingMan.isPositionDriven()) {
             double averagePosition;
             if (expressionEvaluator == null) {//Average samples from the mouse
@@ -314,6 +320,7 @@ public class MovingManModel {
 
     public void clear() {
         time = 0.0;
+        updateTimeProperty();
         setMousePosition(movingMan.getPosition());
 
         mouseDataModelSeries.clear();
@@ -343,7 +350,11 @@ public class MovingManModel {
         this.movingMan.setState(state.getMovingManState());
         setMousePosition(state.getMovingManState().getPosition());
         this.chartCursor.setTime(time);
-        //todo: notify time changed?
+        updateTimeProperty();
+    }
+
+    private void updateTimeProperty() {
+        timeProperty.setValue(time);
     }
 
     /**
@@ -396,5 +407,16 @@ public class MovingManModel {
      */
     public static interface EvalErrorListener {
         void errorOccurred(EvalError evalError);
+    }
+
+    private class MyObservableDouble extends ObservableDouble {
+        public MyObservableDouble(double v) {
+            super(v);
+        }
+
+        @Override
+        public void setValue(double value) {
+            super.setValue(value);
+        }
     }
 }
