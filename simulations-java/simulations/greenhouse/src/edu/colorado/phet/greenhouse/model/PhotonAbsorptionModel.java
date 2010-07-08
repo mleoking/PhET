@@ -11,8 +11,6 @@ import javax.swing.event.EventListenerList;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
-import edu.colorado.phet.greenhouse.GreenhouseDefaults;
-import edu.colorado.phet.greenhouse.model.PhotonEmitter.Listener;
 
 /**
  * Primary model for the Photon Absorption tab.  This models photons being
@@ -37,7 +35,7 @@ public class PhotonAbsorptionModel {
     
     // Velocity of emitted photons.  Since they are emitted horizontally, only
     // one value is needed.
-    private static final float PHOTON_VELOCITY_X = 3.0f;
+    private static final float PHOTON_VELOCITY_X = 4.0f;
     
     // Distance for a photon to travel before being removed from the model.
     // This value is essentially arbitrary, and needs to be set such that the
