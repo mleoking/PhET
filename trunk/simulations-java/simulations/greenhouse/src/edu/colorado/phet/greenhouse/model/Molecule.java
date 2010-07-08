@@ -56,7 +56,10 @@ public abstract class Molecule {
     
     /**
      * Set the location of this molecule by specifying the center of gravity.
-     * This will be unique to each molecule's configuration.
+     * This will be unique to each molecule's configuration, and it will cause
+     * the individual molecules to be located such that the center of gravity
+     * is in the specified location.  The relative orientation of the atoms
+     * that comprise the molecules will not be changed.
      * 
      * @param centerOfGravityPos
      */
