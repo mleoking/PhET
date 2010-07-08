@@ -25,8 +25,8 @@ public class CarbonDioxide extends Molecule {
     
     private static final double PHOTON_ABSORPTION_DISTANCE = 200;
     
-    private static final double MIN_PHOTON_HOLD_TIME = 1000; // Milliseconds of sim time.
-    private static final double MAX_PHOTON_HOLD_TIME = 3000; // Milliseconds of sim time.
+    private static final double MIN_PHOTON_HOLD_TIME = 500; // Milliseconds of sim time.
+    private static final double MAX_PHOTON_HOLD_TIME = 1500; // Milliseconds of sim time.
     private static final double ABSORPTION_HYSTERESIS_TIME = 200; // Milliseconds of sim time.
     
     private static final Random RAND = new Random();
