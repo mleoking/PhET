@@ -17,6 +17,8 @@ public class CarbonDioxide extends Molecule {
     // ------------------------------------------------------------------------
     
     private static final double INITIAL_CARBON_OXYGEN_DISTANCE = 200; // In picometers.
+    
+    private static final double OSCILLATION_FREQUENCY = 4;  // Cycles per second of sim time.
 
     // ------------------------------------------------------------------------
     // Instance Data
@@ -27,6 +29,8 @@ public class CarbonDioxide extends Molecule {
     private final OxygenAtom oxygenAtom2 = new OxygenAtom();
     private final AtomicBond carbonOxygenBond1 = new AtomicBond( carbonAtom, oxygenAtom1, 2 );
     private final AtomicBond carbonOxygenBond2 = new AtomicBond( carbonAtom, oxygenAtom2, 2 );
+    
+    private double oscillationRadians = 0;
 
     // ------------------------------------------------------------------------
     // Constructor(s)
@@ -48,6 +52,22 @@ public class CarbonDioxide extends Molecule {
     // ------------------------------------------------------------------------
     // Methods
     // ------------------------------------------------------------------------
+    
+    private static final double OSC_DIST = 10;
+    @Override
+    public void stepInTime( double dt ) {
+        oscillationRadians += dt * OSCILLATION_FREQUENCY / 1000 * 2 * Math.PI;
+        if (oscillationRadians >= 2 * Math.PI){
+            oscillationRadians -= 2 * Math.PI;
+        }
+        // Save the current center of gravity.
+        Point2D centerOfGravityPos = getCenterOfGravityPos();
+        // Move the carbon atom.
+        carbonAtom.setPosition( carbonAtom.getPosition().getX(), carbonAtom.getPosition().getY() + OSC_DIST * Math.cos( oscillationRadians ) );
+        oxygenAtom1.setPosition( oxygenAtom1.getPosition().getX(), oxygenAtom1.getPosition().getY() - OSC_DIST * Math.cos( oscillationRadians ) );
+        oxygenAtom2.setPosition( oxygenAtom2.getPosition().getX(), oxygenAtom2.getPosition().getY() - OSC_DIST * Math.cos( oscillationRadians ) );
+//        setCenterOfGravityPos( centerOfGravityPos );
+    }
 
     /* (non-Javadoc)
      * @see edu.colorado.phet.greenhouse.model.Molecule#setCenterOfGravityPos(java.awt.geom.Point2D)
