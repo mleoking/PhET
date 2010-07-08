@@ -46,6 +46,10 @@ public abstract class Body extends Observable implements ModelElement {
     public void setLocation( double x, double y ) {
         location.setLocation( x, y );
     }
+    
+    public void setLocation( Point2D location ){
+        setLocation(location.getX(), location.getY());
+    }
 
     public double getOmega() {
         return omega;
