@@ -57,7 +57,6 @@ public class AtomicBondNode extends PPath {
         Point2D transformedPt1 = mvt.modelToViewDouble( atomicBond.getAtom1().getPosition() );
         Point2D transformedPt2 = mvt.modelToViewDouble( atomicBond.getAtom2().getPosition() );
         setPathTo( new Line2D.Double( transformedPt1, transformedPt2 ) );
-        System.out.println("atom bond node bounds = " + getFullBoundsReference());
     }
 
     // ------------------------------------------------------------------------
