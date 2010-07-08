@@ -144,7 +144,6 @@ public class GreenhouseEffectCanvas extends PhetPCanvas {
 
         Dimension2D worldSize = getWorldSize();
         Dimension2D screenSize = getScreenSize();
-        System.out.println("1: " + background.getWidth());
         if ( getWidth() <= 0 || getHeight() <= 0 ) {
             // canvas hasn't been sized, blow off layout
             return;

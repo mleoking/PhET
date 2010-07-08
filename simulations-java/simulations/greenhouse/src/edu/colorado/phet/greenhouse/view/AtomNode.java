@@ -65,7 +65,6 @@ public class AtomNode extends PPath {
      */
     private void updatePosition() {
         setOffset( mvt.modelToViewDouble( atom.getPosition() ) );
-        System.out.println("atom node bounds = " + getFullBoundsReference());
     }
 
     // ------------------------------------------------------------------------
