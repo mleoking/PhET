@@ -25,8 +25,8 @@ public class CarbonDioxide extends Molecule {
     private final CarbonAtom carbonAtom = new CarbonAtom();
     private final OxygenAtom oxygenAtom1 = new OxygenAtom();
     private final OxygenAtom oxygenAtom2 = new OxygenAtom();
-    private final AtomicBond carbonOxygenBond1 = new AtomicBond( carbonAtom, oxygenAtom1 );
-    private final AtomicBond carbonOxygenBond2 = new AtomicBond( carbonAtom, oxygenAtom2 );
+    private final AtomicBond carbonOxygenBond1 = new AtomicBond( carbonAtom, oxygenAtom1, 2 );
+    private final AtomicBond carbonOxygenBond2 = new AtomicBond( carbonAtom, oxygenAtom2, 2 );
 
     // ------------------------------------------------------------------------
     // Constructor(s)
