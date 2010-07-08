@@ -1,3 +1,4 @@
+7/7/10 test app for Mike Dubson's new numerical dipole model
 # 2.03.02 (39630) Apr 5, 2010
 4/5/10 dev version for Mike Dubson to test
 4/5/10 #2236, add developer control for "B-field inside/outside transition factor"
