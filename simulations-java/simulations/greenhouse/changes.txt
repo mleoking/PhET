@@ -1,3 +1,5 @@
+# 2.07.02 (42132) Jul 8, 2010
+7/8/10 Very early prototype of Photon Absorption tab, published for feedback.
 # 2.07.01 (38151) Jan 20, 2010
 1/20/10 fix #2096, NoninvertibleTransformException on Mac startup (this also fixes #2095)
 # 2.07.00 (38003) Jan 9, 2010
