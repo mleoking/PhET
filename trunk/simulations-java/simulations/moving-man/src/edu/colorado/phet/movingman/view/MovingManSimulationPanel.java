@@ -6,6 +6,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.movingman.LinearTransform;
 import edu.colorado.phet.movingman.MovingManColorScheme;
 import edu.colorado.phet.movingman.MovingManResources;
 import edu.colorado.phet.movingman.model.MovingMan;
@@ -32,6 +33,8 @@ public class MovingManSimulationPanel extends PhetPCanvas {
     private final Range viewRange;
     private final PlayAreaRulerNode playAreaRulerNode;
     private MutableBoolean positiveToTheRight;
+    private LinearTransform transform;
+    public TimeReadout timeReadout;
 
     public MovingManSimulationPanel(final MovingManModel model, final RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel, int earthOffset, final MutableBoolean positiveToTheRight) {
         this.model = model;
@@ -43,16 +46,31 @@ public class MovingManSimulationPanel extends PhetPCanvas {
         playAreaRulerNode = new PlayAreaRulerNode(model.getModelRange(), viewRange);
         playAreaRulerNode.setOffset(0, earthOffset);
         addScreenChild(playAreaRulerNode);
+        final SimpleObserver updateViewRange = new SimpleObserver() {
+            public void update() {
+                final int inset = 100;
+                double min = inset;
+                double max = getWidth() - inset;
+                if (positiveToTheRight.getValue()) {
+                    viewRange.setMin(min);
+                    viewRange.setMax(max);
+                } else {
+                    viewRange.setMin(max);
+                    viewRange.setMax(min);
+                }
+            }
+        };
         addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent e) {
-                updateViewRange();
+                updateViewRange.update();
             }
         });
-        updateViewRange();
+        updateViewRange.update();
 
+        this.transform = new LinearTransform(model.getRange(), viewRange);
         try {
-            addScreenChild(new PlayAreaObjectNode(BufferedImageUtils.multiScaleToHeight(MovingManResources.loadBufferedImage("tree.gif"), 100), model.getRange(), viewRange, -8, 0, positiveToTheRight));
-            addScreenChild(new PlayAreaObjectNode(BufferedImageUtils.multiScaleToHeight(MovingManResources.loadBufferedImage("cottage.gif"), 100), model.getRange(), viewRange, +8, 0, positiveToTheRight));
+            addScreenChild(new PlayAreaObjectNode(BufferedImageUtils.multiScaleToHeight(MovingManResources.loadBufferedImage("tree.gif"), 100), transform, -8, 0, positiveToTheRight));
+            addScreenChild(new PlayAreaObjectNode(BufferedImageUtils.multiScaleToHeight(MovingManResources.loadBufferedImage("cottage.gif"), 100), transform, +8, 0, positiveToTheRight));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -71,8 +89,15 @@ public class MovingManSimulationPanel extends PhetPCanvas {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        addScreenChild(new WallNode(wallImage, model.getRange(), viewRange, -10, model.getWalls(), -manNode.getImageStanding().getWidth() / 2 - wallImage.getWidth(), positiveToTheRight));
-        addScreenChild(new WallNode(wallImage, model.getRange(), viewRange, +10, model.getWalls(), +manNode.getImageStanding().getWidth() / 2 + wallImage.getWidth(), positiveToTheRight));
+        addScreenChild(new WallNode(wallImage, transform, -10, model.getWalls(), -manNode.getImageStanding().getWidth() / 2 - wallImage.getWidth(), positiveToTheRight));
+        addScreenChild(new WallNode(wallImage, transform, +10, model.getWalls(), +manNode.getImageStanding().getWidth() / 2 + wallImage.getWidth(), positiveToTheRight));
+        timeReadout = new TimeReadout(model.getTimeProperty());
+        transform.addObserver(new SimpleObserver() {
+            public void update() {
+                timeReadout.setOffset(Math.min(transform.evaluate(-6), transform.evaluate(6)), getTimeReadoutOffsetY());//Initialize at -6 but do not update when axes flip
+            }
+        });
+        addScreenChild(timeReadout);
 
         int arrowTailWidth = 28;
         //Add Velocity vector to play area
@@ -117,24 +142,11 @@ public class MovingManSimulationPanel extends PhetPCanvas {
 //        setDefaultRenderQuality(PPaintContext.LOW_QUALITY_RENDERING);
 //        setAnimatingRenderQuality(PPaintContext.LOW_QUALITY_RENDERING);
 
-        positiveToTheRight.addObserver(new SimpleObserver() {
-            public void update() {
-                updateViewRange();
-            }
-        });
+        positiveToTheRight.addObserver(updateViewRange);
     }
 
-    private void updateViewRange() {
-        final int inset = 100;
-        double min = inset;
-        double max = getWidth() - inset;
-        if (positiveToTheRight.getValue()) {
-            viewRange.setMin(min);
-            viewRange.setMax(max);
-        } else {
-            viewRange.setMin(max);
-            viewRange.setMax(min);
-        }
+    protected double getTimeReadoutOffsetY() {
+        return 0;
     }
 
     public double getRulerHeight() {

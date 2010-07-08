@@ -9,10 +9,11 @@ import edu.colorado.phet.movingman.model.MovingManModel;
 import edu.colorado.phet.movingman.model.MovingManState;
 import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel;
 import edu.umd.cs.piccolox.pswing.PSwing;
-import static edu.colorado.phet.movingman.MovingManStrings.*;
 
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+
+import static edu.colorado.phet.movingman.MovingManStrings.*;
 
 /**
  * @author Sam Reid
@@ -23,12 +24,17 @@ public class MovingManSimulationPanelWithPlayAreaSliders extends MovingManSimula
     protected PlayAreaSliderControl accelerationSlider;
     public static int DISTANCE_BETWEEN_SLIDERS = 20;
 
+    @Override
+    protected double getTimeReadoutOffsetY() {
+        return -timeReadout.getFullBounds().getHeight();
+    }
+
     public MovingManSimulationPanelWithPlayAreaSliders(final MovingManModel model, final RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel, MutableBoolean positiveToTheRight) {
         super(model, recordAndPlaybackModel, 100, positiveToTheRight);
         {
             //TODO: factor out code with the sliders + text boxes used in the chart module
 
-            final TextBox positionTextBox = new TextBox(MovingManChartControl.TEXT_BOX_FONT );
+            final TextBox positionTextBox = new TextBox(MovingManChartControl.TEXT_BOX_FONT);
             new TextBoxListener.Position(model).addListeners(positionTextBox);
 
             positonSlider = new PlayAreaSliderControl(-10, 10, model.getMousePosition(), POSITION, UNITS_METERS_ABBREVIATION, MovingManColorScheme.POSITION_COLOR, positionTextBox);
