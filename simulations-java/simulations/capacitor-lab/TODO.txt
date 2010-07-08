@@ -17,7 +17,6 @@ HIGH PRIORITY
 - field meter with dashed line around "detecting plane"
 
 MEDUIUM PRIORITY
-- why is Eclipse suddenly not finding inner classes?
 - combine plate charge meter and slider into one thing?
 - make dielectric draggable by grabbing it
 - derive PlateChargeMeterNode.MAX_EXPONENT and PlateChargeControlNode.VALUE_EXPONENT
