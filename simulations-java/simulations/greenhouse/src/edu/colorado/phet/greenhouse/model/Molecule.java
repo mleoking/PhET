@@ -5,6 +5,10 @@ package edu.colorado.phet.greenhouse.model;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
+import scala.util.Random;
+
+import edu.colorado.phet.greenhouse.model.GreenhouseEffectModel.Listener;
+
 
 /**
  * Class that represents a molecule in the model.  This, by its nature, is
@@ -18,6 +22,10 @@ public abstract class Molecule {
     //------------------------------------------------------------------------
     // Class Data
     //------------------------------------------------------------------------
+    
+    static final double PHOTON_EMISSION_SPEED = 4; // Picometers per second.
+    
+    static final Random RAND = new Random();
 
     //------------------------------------------------------------------------
     // Instance Data
@@ -40,6 +48,14 @@ public abstract class Molecule {
         // By default, there is no time-dependent behavior.  Descendant
         // classes should override this to implement time-driven behavior,
         // such as oscillations.
+    }
+    
+    public void addListener(Listener listener){
+        listeners.add(listener);
+    }
+    
+    public void removeListener(Listener listener){
+        listeners.remove(listener);
     }
     
     public Point2D getCenterOfGravityPos(){
@@ -103,6 +119,15 @@ public abstract class Molecule {
     
     protected void addAtomicBond( AtomicBond atomicBond ){
         atomicBonds.add( atomicBond );
+    }
+    
+    protected void emitPhoton( double wavelength ){
+        Photon emittedPhoton = new Photon( wavelength, null );
+        double emissionAngle = RAND.nextDouble() * Math.PI * 2;
+        emittedPhoton.setVelocity( (float)(PHOTON_EMISSION_SPEED * Math.cos( emissionAngle )),
+                (float)(PHOTON_EMISSION_SPEED * Math.sin( emissionAngle )));
+        emittedPhoton.setLocation( getCenterOfGravityPos() );
+        notifyPhotonEmitted( emittedPhoton );
     }
     
     private void notifyRemovedFromModel(){

@@ -68,7 +68,19 @@ public class PhotonAbsorptionModel {
         });
         
         // TODO: Temp init code for testing.
-        molecules.add( new CarbonDioxide( SINGLE_MOLECULE_LOCATION ) );
+        Molecule initialMolecule = new CarbonDioxide( SINGLE_MOLECULE_LOCATION ); 
+        molecules.add( initialMolecule );
+        initialMolecule.addListener( new Molecule.Adapter() {
+            
+            public void removedFromModel() {
+            // TODO Auto-generated method stub
+            }
+            
+            public void photonEmitted( Photon photon ) {
+                photons.add( photon );
+                notifyPhotonAdded( photon );
+            }
+        });
     }
 
     //----------------------------------------------------------------------------
@@ -82,6 +94,14 @@ public class PhotonAbsorptionModel {
             if ( photon.getLocation().getX() - PHOTON_EMISSION_LOCATION.getX() > MAX_PHOTON_DISTANCE ){
                 photonsToRemove.add( photon );
             }
+            else{
+                // See if any of the molecules wish to absorb this photon.
+                for (Molecule molecule : molecules){
+                    if (molecule.absorbPhoton( photon )){
+                        photonsToRemove.add(  photon );
+                    }
+                }
+            }
         }
         // Remove any photons that have finished traveling as far as they
         // will go.
@@ -94,6 +114,8 @@ public class PhotonAbsorptionModel {
         for (Molecule molecule : molecules){
             molecule.stepInTime( dt );
         }
+        
+        
     }
     
     public Point2D getPhotonEmissionLocation(){
