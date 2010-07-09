@@ -48,7 +48,7 @@ public class PotassiumLeakageChannel extends AbstractLeakChannel {
 		
 		// Start the capture timer now, since leak channels are always
 		// capturing particles.
-		restartCaptureCountdownTimer();
+		restartCaptureCountdownTimer(false);
 	}
 	
 	public PotassiumLeakageChannel(){

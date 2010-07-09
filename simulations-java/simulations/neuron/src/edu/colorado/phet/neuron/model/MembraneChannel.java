@@ -154,7 +154,10 @@ public abstract class MembraneChannel {
 	protected boolean isOpen(){
 		// The threshold values used here are empirically determined, and can
 	    // be changed if necessary.
-		return (getOpenness() > 0.3 && getInactivationAmt() < 0.7);
+	    if (this instanceof SodiumDualGatedChannel){
+	        System.out.println("Openness: " + getOpenness());
+	    }
+		return (getOpenness() > 0.2 && getInactivationAmt() < 0.7);
 	}
 	
 	/**
@@ -210,11 +213,18 @@ public abstract class MembraneChannel {
 	 */
 	public void stepInTime(double dt){
 		if (captureCountdownTimer != Double.POSITIVE_INFINITY){
+            if (this instanceof SodiumDualGatedChannel){
+                System.out.println("Stepping sodium dual gate.");
+            }
+
 			if (isOpen()){
 				captureCountdownTimer -= dt;
 				if (captureCountdownTimer <= 0){
+				    if (this instanceof SodiumDualGatedChannel){
+				        System.out.println("SodiumDualGated requesting particle.");
+				    }
 					modelContainingParticles.requestParticleThroughChannel(getParticleTypeToCapture(), this, particleVelocity, chooseCrossingDirection());
-					restartCaptureCountdownTimer();
+					restartCaptureCountdownTimer(false);
 				}
 			}
 			else{
@@ -249,15 +259,26 @@ public abstract class MembraneChannel {
 	
 	/**
 	 * Start or restart the countdown timer which is used to time the event
-	 * where a particle is captured for movement across the membrane.
+	 * where a particle is captured for movement across the membrane.  A
+	 * boolean parameter controls whether a particle capture should occur
+	 * immediately in addition to setting this timer.
+	 * 
+	 * @param captureNow - Indicates whether a capture should be initiated
+	 * now in addition to resetting the timer.  This is often set to true
+	 * kicking of a cycle of particle captures.
 	 */
-	protected void restartCaptureCountdownTimer(){
+	protected void restartCaptureCountdownTimer(boolean captureNow){
 		if (minInterCaptureTime != Double.POSITIVE_INFINITY && maxInterCaptureTime != Double.POSITIVE_INFINITY){
 			assert maxInterCaptureTime >= minInterCaptureTime;
 			captureCountdownTimer = minInterCaptureTime + RAND.nextDouble() * (maxInterCaptureTime - minInterCaptureTime);
 		}
 		else{
 			captureCountdownTimer = Double.POSITIVE_INFINITY;
+		}
+		
+		if (captureNow){
+            modelContainingParticles.requestParticleThroughChannel(getParticleTypeToCapture(), this, particleVelocity,
+                    chooseCrossingDirection());
 		}
 	}
 	

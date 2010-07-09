@@ -1355,7 +1355,6 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
 		// Update the stimulus lockout state.
 		updateStimulasLockoutState();
 
-		System.out.println("==== About to step the channels ==========");
 		// Step the channels.
 		for (MembraneChannel channel : membraneChannels){
 			channel.stepInTime( dt );

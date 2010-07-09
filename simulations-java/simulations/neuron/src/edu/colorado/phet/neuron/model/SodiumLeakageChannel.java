@@ -56,7 +56,7 @@ public class SodiumLeakageChannel extends AbstractLeakChannel {
 		
 		// Start the capture timer now, since leak channels are always
 		// capturing particles.
-		restartCaptureCountdownTimer();
+		restartCaptureCountdownTimer(false);
 	}
 	
 	public SodiumLeakageChannel(){
@@ -136,7 +136,7 @@ public class SodiumLeakageChannel extends AbstractLeakChannel {
 			// No captures at this rate.
 			setMinInterCaptureTime(Double.POSITIVE_INFINITY);
 			setMaxInterCaptureTime(Double.POSITIVE_INFINITY);
-			restartCaptureCountdownTimer();
+			restartCaptureCountdownTimer(false);
 		}
 		else{
 			// Tweak the following values for different behavior.
@@ -150,7 +150,7 @@ public class SodiumLeakageChannel extends AbstractLeakChannel {
 			if (getCaptureCountdownTimer() > getMaxInterCaptureTime()){
 				// Only restart the capture countdown if the current values is
 				// higher than the max.
-				restartCaptureCountdownTimer();
+				restartCaptureCountdownTimer(false);
 			}
 		}
 	}
