@@ -46,8 +46,8 @@ public class SodiumDualGatedChannel extends GatedChannel {
 	// Constants that control the rate at which this channel will capture ions
 	// when it is open.  Smaller numbers here will increase the capture rate
 	// and thus make the flow appear to be faster.
-	private static final double MIN_INTER_CAPTURE_TIME = 0.00000; // In seconds of sim time.
-	private static final double MAX_INTER_CAPTURE_TIME = 0.00002; // In seconds of sim time.
+	private static final double MIN_INTER_CAPTURE_TIME = 0.00002; // In seconds of sim time.
+	private static final double MAX_INTER_CAPTURE_TIME = 0.00010; // In seconds of sim time.
 	
 	// Constant used when calculating how open this gate should be based on
 	// a value that exists within the Hodgkin-Huxley model.  This was
@@ -146,7 +146,7 @@ public class SodiumDualGatedChannel extends GatedChannel {
 		case OPENING:
 			if (isOpen() && getCaptureCountdownTimer() == Double.POSITIVE_INFINITY){
 				// We are open enough to start capturing particles.
-				restartCaptureCountdownTimer();
+				restartCaptureCountdownTimer(true);
 			}
 			if (previousNormalizedConductance  > normalizedConductance){
 				// We are on the way down, so set a new state.
@@ -165,8 +165,9 @@ public class SodiumDualGatedChannel extends GatedChannel {
 			
 		case BECOMING_INACTIVE:
 			if (getInactivationAmt() < FULLY_INACTIVE_DECISION_THRESHOLD){
-				// Not yet fully inactive - update the openness.
-                setOpenness(mapOpennessToNormalizedConductance( normalizedConductance ));
+                // Not yet fully inactive - update the level.  Note the non-
+                // linear mapping to the conductance amount.
+                setInactivationAmt(1 - Math.pow(normalizedConductance, 5));
 			}
 			else{
 				// Fully inactive, move to next state.
@@ -218,7 +219,6 @@ public class SodiumDualGatedChannel extends GatedChannel {
 	
 	private double mapOpennessToNormalizedConductance(double normalizedConductance){
 	    assert normalizedConductance >= 0 && normalizedConductance <= 1;
-	    System.out.println("Mapping openness to " + (1 - Math.pow(normalizedConductance - 1, 20)));
 	    return 1 - Math.pow(normalizedConductance - 1, 20);
 	}
 
@@ -231,8 +231,6 @@ public class SodiumDualGatedChannel extends GatedChannel {
 	}
 
 	private double calculateNormalizedConductance(){
-	    System.out.println("non-delayed m3h = " + hodgkinHuxleyModel.get_m3h());
-	    System.out.println("delayed m3h = " + hodgkinHuxleyModel.get_delayed_m3h( staggerDelay ));
 		return Math.min(Math.abs(hodgkinHuxleyModel.get_delayed_m3h(staggerDelay))/M3H_WHEN_FULLY_OPEN, 1);
 	}
 
