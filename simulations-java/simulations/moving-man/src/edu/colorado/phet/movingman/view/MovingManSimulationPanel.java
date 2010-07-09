@@ -104,14 +104,20 @@ public class MovingManSimulationPanel extends PhetPCanvas {
         final PlayAreaVector velocityVector = new PlayAreaVector(MovingManColorScheme.semitransparent(MovingManColorScheme.VELOCITY_COLOR, 128), arrowTailWidth);
         addScreenChild(velocityVector);
         final int arrowY = 100;
-        model.getMovingMan().addListener(new MovingMan.Listener() {
-            public void changed() {
+        final SimpleObserver updateVelocityVector = new SimpleObserver() {
+            public void update() {
                 double startX = manNode.modelToView(model.getMovingMan().getPosition());
                 double velocityScale = 0.2;
                 double endX = manNode.modelToView(model.getMovingMan().getPosition() + model.getMovingMan().getVelocity() * velocityScale);
                 velocityVector.setArrow(startX, arrowY, endX, arrowY);
             }
+        };
+        model.getMovingMan().addListener(new MovingMan.Listener() {
+            public void changed() {
+                updateVelocityVector.update();
+            }
         });
+        viewRange.addObserver(updateVelocityVector);
         model.getVelocityVectorVisible().addObserver(new SimpleObserver() {
             public void update() {
                 updateVelocityVectorVisibility(model, velocityVector);
@@ -122,14 +128,20 @@ public class MovingManSimulationPanel extends PhetPCanvas {
         //Add Acceleration vector to play area
         final PlayAreaVector accelerationVector = new PlayAreaVector(MovingManColorScheme.semitransparent(MovingManColorScheme.ACCELERATION_COLOR, 128), arrowTailWidth);
         addScreenChild(accelerationVector);
-        model.getMovingMan().addListener(new MovingMan.Listener() {
-            public void changed() {
+        final SimpleObserver updateAccelerationVector = new SimpleObserver() {
+            public void update() {
                 double startX = manNode.modelToView(model.getMovingMan().getPosition());
                 double accelerationScale = 0.8;
                 double endX = manNode.modelToView(model.getMovingMan().getPosition() + model.getMovingMan().getAcceleration() * accelerationScale);
                 accelerationVector.setArrow(startX, arrowY, endX, arrowY);
             }
+        };
+        model.getMovingMan().addListener(new MovingMan.Listener() {
+            public void changed() {
+                updateAccelerationVector.update();
+            }
         });
+        viewRange.addObserver(updateAccelerationVector);
         model.getAccelerationVectorVisible().addObserver(new SimpleObserver() {
             public void update() {
                 updateAccelerationVectorVisible(accelerationVector, model);
