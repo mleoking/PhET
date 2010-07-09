@@ -27,9 +27,13 @@ import java.text.MessageFormat;
  * 2. Ability to easily position controls within or next to the chart, and to have their axes synchronized
  * 3. Ability to draw custom curves by dragging directly on the chart.
  * 4. Ability to line up charts with each other and minimize to put "expand" buttons between charts
- * 4. Improved performance.
+ * 5. Improved performance.
  */
 public class TemporalChart extends PNode {
+    private static final int DOMAIN_TICK_HEIGHT = 4;
+    private static final Stroke DOMAIN_TICK_MARK_STROKE = new BasicStroke(1.5f);
+    private static final Paint DOMAIN_TICK_MARK_COLOR = Color.black;
+    
     private MutableRectangle dataModelBounds;
     private MutableDimension viewDimension;
     private PNode chartContents;//layer for chart pnodes, for minimize/maximize support
@@ -101,14 +105,12 @@ public class TemporalChart extends PNode {
         int numDomainMarks = 10;
         Function.LinearFunction domainFunction = new Function.LinearFunction(0, numDomainMarks, dataModelBounds.getX(), dataModelBounds.getMaxX());
         PNode domainTickMarks = new PNode();
+
+        //Add grid lines and tick marks for the domain
         for (int i = 0; i < numDomainMarks + 1; i++) {
             final double x = domainFunction.evaluate(i);
             final DomainTickMark tickMark = new DomainTickMark(x);
             domainTickMarks.addChild(tickMark);
-
-            DomainGridLine gridLine = new DomainGridLine(x, this);
-            tickMarksAndGridLines.addChild(gridLine);
-
             SimpleObserver domainTickMarkUpdate = new SimpleObserver() {
                 public void update() {
                     Point2D location = modelToView(new TimeData(0, x));
@@ -117,6 +119,23 @@ public class TemporalChart extends PNode {
             };
             domainTickMarkUpdate.update();
             viewDimension.addObserver(domainTickMarkUpdate);
+
+
+            DomainGridLine gridLine = new DomainGridLine(x, this);
+            tickMarksAndGridLines.addChild(gridLine);
+
+            //Support for in-axis tick marks
+            final PhetPPath axisTickMark = new PhetPPath(new Line2D.Double(0, 0, 0, DOMAIN_TICK_HEIGHT), DOMAIN_TICK_MARK_STROKE, DOMAIN_TICK_MARK_COLOR);
+            tickMarksAndGridLines.addChild(axisTickMark);
+            SimpleObserver axisTickMarkUpdate = new SimpleObserver() {
+                public void update() {
+                    Point2D location = modelToView(new TimeData(0, x));
+//                    axisTickMark.setOffset(location.getX(), location.getY() - axisTickMark.getFullBounds().getHeight() / 2);
+                    axisTickMark.setOffset(location.getX(), location.getY() );
+                }
+            };
+            axisTickMarkUpdate.update();
+            viewDimension.addObserver(axisTickMarkUpdate);
         }
         tickMarksAndGridLines.setDomainTickMarks(domainTickMarks);
         DomainTickMark last = (DomainTickMark) domainTickMarks.getChild(domainTickMarks.getChildrenCount() - 1);
@@ -202,8 +221,7 @@ public class TemporalChart extends PNode {
         private PText text;
 
         public DomainTickMark(double x) {
-            double tickWidth = 1.0;
-            PhetPPath tick = new PhetPPath(new Rectangle2D.Double(-tickWidth / 2, 0, tickWidth, 4), Color.black);
+            PhetPPath tick = new PhetPPath(new Line2D.Double(0, 0, 0, DOMAIN_TICK_HEIGHT), DOMAIN_TICK_MARK_STROKE, DOMAIN_TICK_MARK_COLOR);
             addChild(tick);
             String text = new DecimalFormat("0.0").format(x);
             //hide the decimal point where possible, but don't trim for series like 4.0, 4.5, etc.
@@ -211,6 +229,8 @@ public class TemporalChart extends PNode {
             this.text = new PText(text);
             this.text.setFont(new PhetFont(14, true));
             addChild(this.text);
+
+            //Center the text under the tickmark
             this.text.setOffset(tick.getFullBounds().getCenterX() - this.text.getFullBounds().getWidth() / 2, tick.getFullBounds().getHeight());
         }
 
