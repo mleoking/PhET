@@ -1,3 +1,5 @@
+# 0.00.38 (42161) Jul 9, 2010
+7/9/10 Adjusted particle flow timing to better match real action potential behavior.
 # 0.00.37 (42048) Jul 1, 2010
 7/1/10 Publishing to dev for testing and review of the record-and-playback feature.
 7/1/10 Fixed most, if not all, of the memory and performance issues, and made some minor UI changes.
