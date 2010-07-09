@@ -83,14 +83,14 @@ public class MovingManSimulationPanel extends PhetPCanvas {
         });
         addScreenChild(manNode);
 
-        BufferedImage wallImage = null;
         try {
-            wallImage = BufferedImageUtils.multiScaleToHeight(MovingManResources.loadBufferedImage("wall.jpg"), 100);
+            BufferedImage wallImage = BufferedImageUtils.getScaledInstance(MovingManResources.loadBufferedImage("wall.jpg"), 60, 100, RenderingHints.VALUE_INTERPOLATION_BILINEAR, false);
+            addScreenChild(new WallNode(wallImage, transform, -10, model.getWalls(), -manNode.getImageStanding().getWidth() / 2 - wallImage.getWidth()/2, positiveToTheRight));
+            addScreenChild(new WallNode(wallImage, transform, +10, model.getWalls(), +manNode.getImageStanding().getWidth() / 2 + wallImage.getWidth()/2, positiveToTheRight));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        addScreenChild(new WallNode(wallImage, transform, -10, model.getWalls(), -manNode.getImageStanding().getWidth() / 2 - wallImage.getWidth(), positiveToTheRight));
-        addScreenChild(new WallNode(wallImage, transform, +10, model.getWalls(), +manNode.getImageStanding().getWidth() / 2 + wallImage.getWidth(), positiveToTheRight));
+
         timeReadout = new TimeReadout(model.getTimeProperty());
         transform.addObserver(new SimpleObserver() {
             public void update() {
