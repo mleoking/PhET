@@ -167,7 +167,7 @@ public class SodiumDualGatedChannel extends GatedChannel {
 			if (getInactivationAmt() < FULLY_INACTIVE_DECISION_THRESHOLD){
                 // Not yet fully inactive - update the level.  Note the non-
                 // linear mapping to the conductance amount.
-                setInactivationAmt(1 - Math.pow(normalizedConductance, 5));
+                setInactivationAmt(1 - Math.pow(normalizedConductance, 7));
 			}
 			else{
 				// Fully inactive, move to next state.
