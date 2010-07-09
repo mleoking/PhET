@@ -1,5 +1,7 @@
+7-8-2010: Horizontal zoom is able to zoom in to 2.0 seconds
+7-8-2010: Vertical zoom works as a scale factor, not as an addition term
 7-8-2010: Made the y=0 grid line thicker and darker 
-Fixed: Ticks and labels on charts are intercepting events.
+7-8-2010: Fixed: Ticks and labels on charts are intercepting events.
 7-7-2010: Added a tick mark to the middle of horizontal sliders
 6-29-2010: Charts expand to take up available space
 6-25-2010: Added a new package for charts for moving-man

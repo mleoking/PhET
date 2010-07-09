@@ -130,7 +130,7 @@ public class ChartZoomControlNode extends PNode {
             addChild(zoomOutButton);
             SimpleObserver updateButtonsEnabled = new SimpleObserver() {
                 public void update() {
-                    zoomInButton.setEnabled(chart.getDataModelBounds().getWidth() > 5.0 + 1E-6);
+                    zoomInButton.setEnabled(chart.getDataModelBounds().getWidth() > 2.0 + 1E-6);
                     zoomOutButton.setEnabled(chart.getDataModelBounds().getWidth() < 20.0 - 1E-6);
                     //TODO: cursor hand never goes away
                 }
