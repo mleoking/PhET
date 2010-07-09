@@ -1,3 +1,4 @@
+Fixed reset all for charts minimize/maximize
 Added domain tick labels in the charts
 Fixed: Horizontal zoom will be available on the bottom chart only, near the time axis, and vertical zoom buttons will be near the top of each chart
 Added some padding insets to the left and bottom of the simulation panel in the chart module
