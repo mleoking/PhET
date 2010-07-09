@@ -12,7 +12,8 @@ import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeAdapter;
 import edu.colorado.phet.capacitorlab.util.UnitsUtils;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.umd.cs.piccolo.event.PDragEventHandler;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
@@ -30,25 +31,38 @@ public class DielectricOffsetDragHandleNode extends PhetPNode {
     private static final Point2D LINE_START_LOCATION = new Point2D.Double( 0, 0 );
     private static final Point2D LINE_END_LOCATION = new Point2D.Double( LINE_LENGTH, 0 );
     
+    private final Capacitor capacitor;
+    private final ModelViewTransform mvt;
+    private final DragHandleValueNode valueNode;
+    
     public DielectricOffsetDragHandleNode( final Capacitor capacitor, ModelViewTransform mvt, DoubleRange valueRange ) {
+        
+        this.capacitor = capacitor;
+        this.mvt = mvt;
         
         // arrow
         DragHandleArrowNode arrowNode = new DragHandleArrowNode( ARROW_TIP_LOCATION, ARROW_TAIL_LOCATION );
-        arrowNode.addInputEventListener( new DielectricOffsetDragHandler( capacitor, mvt, valueRange ) );
+        arrowNode.addInputEventListener( new DielectricOffsetDragHandler( this, capacitor, mvt, valueRange ) );
         
         // line
         DragHandleLineNode lineNode = new DragHandleLineNode( LINE_START_LOCATION, LINE_END_LOCATION );
         
         // value
         double millimeters = UnitsUtils.metersToMillimeters( capacitor.getDielectricOffset() );
-        final DragHandleValueNode valueNode = new DragHandleValueNode( CLStrings.PATTERN_DIELECTRIC_OFFSET, millimeters, CLStrings.UNITS_MILLIMETERS );
+        valueNode = new DragHandleValueNode( CLStrings.PATTERN_DIELECTRIC_OFFSET, millimeters, CLStrings.UNITS_MILLIMETERS );
         
-        // update value when offset changes
+        // update when related model properties change
         capacitor.addCapacitorChangeListener( new CapacitorChangeAdapter() {
+            
             @Override
             public void dielectricOffsetChanged() {
-                double millimeters = UnitsUtils.metersToMillimeters( capacitor.getDielectricOffset() );
-                valueNode.setValue( millimeters );
+                updateValueDisplay();
+                updateOffset();
+            }
+            
+            @Override
+            public void plateSizeChanged() {
+                updateOffset();
             }
         });
         
@@ -67,56 +81,61 @@ public class DielectricOffsetDragHandleNode extends PhetPNode {
         x = arrowNode.getXOffset();
         y = arrowNode.getFullBoundsReference().getMaxY();
         valueNode.setOffset( x, y );
+        
+        updateValueDisplay();
+        updateOffset();
     }
     
-    private static class DielectricOffsetDragHandler extends PDragEventHandler {
+    private void updateValueDisplay() {
+        double millimeters = UnitsUtils.metersToMillimeters( capacitor.getDielectricOffset() );
+        valueNode.setValue( millimeters );
+    }
+    
+    private void updateOffset() {
+        Point2D capacitorLocation = mvt.modelToView( capacitor.getLocationReference() );
+        double plateSize = mvt.modelToView( capacitor.getPlateSideLength() );
+        double dielectricOffset = mvt.modelToView( capacitor.getDielectricOffset() );
+        double x = capacitorLocation.getX() + ( plateSize / 2 ) + dielectricOffset;
+        double y = capacitorLocation.getY();
+        setOffset( x, y );
+    }
+    
+    private static class DielectricOffsetDragHandler extends PDragSequenceEventHandler {
         
+        private final PNode dragNode;
         private final Capacitor capacitor;
         private final ModelViewTransform mvt;
         private final DoubleRange valueRange;
+        private double clickXOffset; // x-offset of mouse click from node's origin, in parent node's coordinate frame
         
-        private double startDragValue; // the model value when the drag started
-        private final Point2D startDragPosition; // mouse location when the drag started, in global coordinates
-        
-        public DielectricOffsetDragHandler( Capacitor capacitor, ModelViewTransform mvt, DoubleRange valueRange ) {
+        public DielectricOffsetDragHandler( PNode dragNode, Capacitor capacitor, ModelViewTransform mvt, DoubleRange valueRange ) {
+            this.dragNode = dragNode;
             this.capacitor = capacitor;
             this.mvt = mvt;
-            this.valueRange = new DoubleRange( valueRange );
-            startDragPosition = new Point2D.Double();
+            this.valueRange = valueRange;
         }
         
         @Override
-        protected void startDrag(PInputEvent event) {
+        protected void startDrag( PInputEvent event ) {
             super.startDrag( event );
-            startDragPosition.setLocation( getGlobalMousePosition( event ) );
-            startDragValue = capacitor.getDielectricOffset();
+            Point2D pMouse = event.getPositionRelativeTo( dragNode.getParent() );
+            double xView = mvt.modelToView( capacitor.getDielectricOffset() );
+            clickXOffset = pMouse.getX() - xView;
         }
-        
+
         @Override
-        protected void drag( PInputEvent event ) {
-            
-            // calculate the new model value, clamped to the range
-            Point2D mousePosition = getGlobalMousePosition( event );
-            double deltaX = mousePosition.getX() - startDragPosition.getX();
-            double deltaValue = mvt.viewToModel( deltaX );
-            double newValue =  startDragValue + deltaValue;
-            if ( newValue > valueRange.getMax() ) {
-                newValue = valueRange.getMax();
+        protected void drag( final PInputEvent event ) {
+            super.drag( event );
+            Point2D pMouse = event.getPositionRelativeTo( dragNode.getParent() );
+            double xView = pMouse.getX() - clickXOffset;
+            double xModel = mvt.viewToModel( xView );
+            if ( xModel > valueRange.getMax() ) {
+                xModel = valueRange.getMax();
             }
-            else if ( newValue < valueRange.getMin() ) {
-                newValue = valueRange.getMin();
+            else if ( xModel < valueRange.getMin() ) {
+                xModel = valueRange.getMin();
             }
-            
-            // update the model
-            capacitor.setDielectricOffset( newValue );
-        }
-        
-        /*
-         * Gets the mouse position in the global coordinate frame.
-         */
-        private Point2D getGlobalMousePosition( PInputEvent event ) {
-            Point2D pLocal = event.getPositionRelativeTo( event.getPickedNode() );
-            return event.getPickedNode().localToGlobal( pLocal );
+            capacitor.setDielectricOffset( xModel );
         }
     }
 }

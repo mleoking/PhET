@@ -10,10 +10,13 @@ import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
 import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeAdapter;
 import edu.colorado.phet.capacitorlab.util.UnitsUtils;
+import edu.colorado.phet.capacitorlab.view.CapacitorNode;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Drag handle for changing the plate area.
@@ -22,6 +25,8 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class PlateAreaDragHandleNode extends PhetPNode {
+    
+    private static final double DRAG_HANDLE_ANGLE = ( ( Math.PI / 2) - CLConstants.YAW_VIEWING_ANGLE ) + ( CLConstants.YAW_VIEWING_ANGLE / 2 ); // aligned with diagonal of plate surface
 
     private static final Point2D ARROW_TIP_LOCATION = new Point2D.Double( 0, 0 );
     private static final Point2D ARROW_TAIL_LOCATION = new Point2D.Double( 0, CLConstants.DRAG_HANDLE_ARROW_LENGTH );
@@ -30,16 +35,23 @@ public class PlateAreaDragHandleNode extends PhetPNode {
     private static final Point2D LINE_START_LOCATION = new Point2D.Double( 0, 0 );
     private static final Point2D LINE_END_LOCATION = new Point2D.Double( 0, LINE_LENGTH );
     
+    private final Capacitor capacitor;
+    private final CapacitorNode capacitorNode;
+    private final ModelViewTransform mvt;
     private final DragHandleArrowNode arrowNode;
     private final DragHandleLineNode lineNode;
     private final DragHandleValueNode valueNode;
     private final PlateAreaDragHandler dragHandler;
     
-    public PlateAreaDragHandleNode( final Capacitor capacitor, ModelViewTransform mvt, DoubleRange valueRange ) {
+    public PlateAreaDragHandleNode( final Capacitor capacitor, CapacitorNode capacitorNode, ModelViewTransform mvt, DoubleRange valueRange ) {
+        
+        this.capacitor = capacitor;
+        this.capacitorNode = capacitorNode;
+        this.mvt = mvt;
         
         // arrow
         arrowNode = new DragHandleArrowNode( ARROW_TIP_LOCATION, ARROW_TAIL_LOCATION );
-        dragHandler = new PlateAreaDragHandler( capacitor, mvt, valueRange );
+        dragHandler = new PlateAreaDragHandler( this, capacitor, mvt, valueRange );
         arrowNode.addInputEventListener( dragHandler );
         
         // line
@@ -53,9 +65,13 @@ public class PlateAreaDragHandleNode extends PhetPNode {
         capacitor.addCapacitorChangeListener( new CapacitorChangeAdapter() {
             @Override
             public void plateSizeChanged() {
-                double millimetersSquared = UnitsUtils.metersSquaredToMillimetersSquared( capacitor.getPlateArea() );
-                valueNode.setValue( millimetersSquared );
-                updateLayout();
+                updateDisplay();
+                updateOffset();
+            }
+            
+            @Override
+            public void plateSeparationChanged() {
+                updateOffset();
             }
         });
         
@@ -65,94 +81,78 @@ public class PlateAreaDragHandleNode extends PhetPNode {
         addChild( valueNode );
         
         // layout
-        updateLayout();
-    }
-    
-    private void updateLayout() {
-        
-        double angle = ( ( Math.PI / 2) - CLConstants.YAW_VIEWING_ANGLE ) + ( CLConstants.YAW_VIEWING_ANGLE / 2 ); // aligned with diagonal of plate surface
-        dragHandler.setAngle( angle );
-        
         double x = 0;
         double y = 0;
         lineNode.setOffset( x, y );
-        lineNode.setRotation( angle );
+        lineNode.setRotation( DRAG_HANDLE_ANGLE );
         x = lineNode.getFullBoundsReference().getMinX();
         y = lineNode.getFullBoundsReference().getMaxY() + 2;
         arrowNode.setOffset( x, y );
-        arrowNode.setRotation( angle );
+        arrowNode.setRotation( DRAG_HANDLE_ANGLE );
         x = lineNode.getFullBoundsReference().getMaxX() - valueNode.getFullBoundsReference().getWidth();
         y = lineNode.getFullBoundsReference().getMinY() - valueNode.getFullBoundsReference().getHeight();
         valueNode.setOffset( x, y );
+        
+        // initial state
+        updateDisplay();
+        updateOffset();
+    }
+    
+    private void updateDisplay() {
+        double millimetersSquared = UnitsUtils.metersSquaredToMillimetersSquared( capacitor.getPlateArea() );
+        valueNode.setValue( millimetersSquared );
+    }
+    
+    private void updateOffset() {
+      Point2D capacitorLocation = mvt.modelToView( capacitor.getLocationReference() );
+      Point2D dragPointOffset = capacitorNode.getPlateSizeDragPointOffsetReference();
+      double x = capacitorLocation.getX() + dragPointOffset.getX();
+      double y = capacitorLocation.getY() + dragPointOffset.getY();
+      setOffset( x, y );
     }
     
     private static class PlateAreaDragHandler extends PDragEventHandler {
         
+        private final PNode dragNode;
         private final Capacitor capacitor;
         private final ModelViewTransform mvt;
         private final DoubleRange valueRange;
-        private double angle;
+        private PDimension clickOffset; // xy-offset of mouse click from node's origin, in parent node's coordinate frame
         
-        private double startDragValue; // the model value when the drag started
-        private final Point2D startDragPosition; // mouse location when the drag started, in global coordinates
-        
-        public PlateAreaDragHandler( Capacitor capacitor, ModelViewTransform mvt, DoubleRange valueRange ) {
+        public PlateAreaDragHandler( PNode dragNode, Capacitor capacitor, ModelViewTransform mvt, DoubleRange valueRange ) {
+            this.dragNode = dragNode;
             this.capacitor = capacitor;
             this.mvt = mvt;
             this.valueRange = new DoubleRange( valueRange );
-            startDragPosition = new Point2D.Double();
-        }
-        
-        public void setAngle( double angle ) {
-            this.angle = angle;
+            clickOffset = new PDimension();
         }
         
         @Override
         protected void startDrag(PInputEvent event) {
             super.startDrag( event );
-            startDragPosition.setLocation( getGlobalMousePosition( event ) );
-            startDragValue = capacitor.getPlateSideLength();
+            Point2D pMouse = event.getPositionRelativeTo( dragNode.getParent() );
+            double xView = mvt.modelToView( capacitor.getLocationReference().getX() - ( capacitor.getPlateSideLength() / 2 ) );
+            double yView = mvt.modelToView( capacitor.getLocationReference().getY() - ( capacitor.getPlateThickness() / 2 ) );
+            clickOffset.setSize( pMouse.getX() - xView, pMouse.getY() - yView );
         }
         
         @Override
         protected void drag( PInputEvent event ) {
-            
-            // calculate the new model value, clamped to the range
-            Point2D mousePosition = getGlobalMousePosition( event );
-            double deltaX = mousePosition.getX() - startDragPosition.getX();
-            double deltaY = mousePosition.getY() - startDragPosition.getY();
-            
+            PDimension delta = event.getDeltaRelativeTo( dragNode.getParent() );
+            double deltaX = delta.getWidth();
+            double deltaY = delta.getHeight();
             // only allow dragging down to the left, or up to the right
             if ( ( deltaX < 0 && deltaY > 0 ) || ( deltaX > 0 && deltaY < 0 ) ) {
-                
-                double deltaView = 0;
-                if ( Math.abs( deltaX ) > Math.abs( deltaY ) ) {
-                    deltaView = -deltaX / Math.cos( angle );
-                }
-                else {
-                    deltaView = deltaY / Math.sin( angle );
-                }
-                
-                double deltaValue = mvt.viewToModel( deltaView );
-                double newValue =  startDragValue + deltaValue;
+                double deltaSideLength = mvt.viewToModel( -deltaX );
+                double newValue = capacitor.getPlateSideLength() + deltaSideLength;
                 if ( newValue > valueRange.getMax() ) {
                     newValue = valueRange.getMax();
                 }
                 else if ( newValue < valueRange.getMin() ) {
                     newValue = valueRange.getMin();
                 }
-                
-                // update the model
                 capacitor.setPlateSideLength( newValue );
             }
-        }
-        
-        /*
-         * Gets the mouse position in the global coordinate frame.
-         */
-        private Point2D getGlobalMousePosition( PInputEvent event ) {
-            Point2D pLocal = event.getPositionRelativeTo( event.getPickedNode() );
-            return event.getPickedNode().localToGlobal( pLocal );
         }
     }
 }

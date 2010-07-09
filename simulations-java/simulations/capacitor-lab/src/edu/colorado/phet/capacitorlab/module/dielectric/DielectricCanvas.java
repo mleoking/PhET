@@ -9,10 +9,8 @@ import java.awt.geom.Rectangle2D;
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.control.*;
 import edu.colorado.phet.capacitorlab.model.CLModel;
-import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeAdapter;
-import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeAdapter;
 import edu.colorado.phet.capacitorlab.module.CLCanvas;
 import edu.colorado.phet.capacitorlab.view.*;
 import edu.colorado.phet.capacitorlab.view.WireNode.BottomWireNode;
@@ -65,26 +63,6 @@ public class DielectricCanvas extends CLCanvas {
                 updateBatteryConnectivity();
             }
         } );
-        model.getCapacitor().addCapacitorChangeListener( new CapacitorChangeAdapter() {
-            
-            @Override
-            public void dielectricOffsetChanged() {
-                updateDielectricOffsetDragHandle();
-            }
-
-            @Override
-            public void plateSeparationChanged() {
-                updatePlateAreaDragHandle();
-                updatePlateSeparationDragHandle();
-            }
-
-            @Override
-            public void plateSizeChanged() {
-                updatePlateAreaDragHandle();
-                updatePlateSeparationDragHandle();
-                updateDielectricOffsetDragHandle();
-            }
-        } );
         
         mvt = new ModelViewTransform( CLConstants.MVT_SCALE, CLConstants.MVT_OFFSET );
         
@@ -99,7 +77,7 @@ public class DielectricCanvas extends CLCanvas {
         
         dielectricOffsetDragHandleNode = new DielectricOffsetDragHandleNode( model.getCapacitor(), mvt, CLConstants.DIELECTRIC_OFFSET_RANGE );
         plateSeparationDragHandleNode = new PlateSeparationDragHandleNode( model.getCapacitor(), mvt, CLConstants.PLATE_SEPARATION_RANGE );
-        plateAreaDragHandleNode = new PlateAreaDragHandleNode( model.getCapacitor(), mvt, CLConstants.PLATE_SIZE_RANGE );
+        plateAreaDragHandleNode = new PlateAreaDragHandleNode( model.getCapacitor(), capacitorNode, mvt, CLConstants.PLATE_SIZE_RANGE );
         
         dragBoundsRectangle = new Rectangle2D.Double();
         dragBoundsNode = new PPath( dragBoundsRectangle );
@@ -174,9 +152,6 @@ public class DielectricCanvas extends CLCanvas {
         
         // default state
         updateBatteryConnectivity();
-        updateDielectricOffsetDragHandle();
-        updatePlateSeparationDragHandle();
-        updatePlateAreaDragHandle();
         capacitanceMeterNode.setVisible( false );
         chargeMeterNode.setVisible( false );
         energyMeterNode.setVisible( false );
@@ -210,35 +185,6 @@ public class DielectricCanvas extends CLCanvas {
         addWiresButtonNode.setVisible( !isConnected );
         removeWiresButtonNode.setVisible( isConnected );
         plateChargeControNode.setVisible( !isConnected );
-    }
-    
-    private void updateDielectricOffsetDragHandle() {
-        Capacitor capacitor = model.getCapacitor();
-        Point2D capacitorLocation = mvt.modelToView( capacitor.getLocationReference() );
-        double plateSize = mvt.modelToView( capacitor.getPlateSideLength() );
-        double dielectricOffset = mvt.modelToView( capacitor.getDielectricOffset() );
-        double x = capacitorLocation.getX() + ( plateSize / 2 ) + dielectricOffset;
-        double y = capacitorLocation.getY();
-        dielectricOffsetDragHandleNode.setOffset( x, y );
-    }
-    
-    private void updatePlateSeparationDragHandle() {
-        Capacitor capacitor = model.getCapacitor();
-        Point2D capacitorLocation = mvt.modelToView( capacitor.getLocationReference() );
-        double plateSize = mvt.modelToView( capacitor.getPlateSideLength() );
-        double plateSeparation = mvt.modelToView( capacitor.getPlateSeparation() );
-        double x = capacitorLocation.getX() - ( 0.4 * plateSize );
-        double y = capacitorLocation.getY() - ( plateSeparation / 2 );
-        plateSeparationDragHandleNode.setOffset( x, y );
-    }
-    
-    private void updatePlateAreaDragHandle() {
-        Capacitor capacitor = model.getCapacitor();
-        Point2D capacitorLocation = mvt.modelToView( capacitor.getLocationReference() );
-        Point2D dragPointOffset = capacitorNode.getPlateSizeDragPointOffsetReference();
-        double x = capacitorLocation.getX() + dragPointOffset.getX();
-        double y = capacitorLocation.getY() + dragPointOffset.getY();
-        plateAreaDragHandleNode.setOffset( x, y );
     }
     
     @Override

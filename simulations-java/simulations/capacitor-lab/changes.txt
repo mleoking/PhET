@@ -1,3 +1,6 @@
+7/9/10 attempt to fix plate area drag handle, still broken
+7/9/10 move model listener responsibilities into drag handle nodes
+7/9/10 fix drag handles for dielectric offset and plate separation 
 7/8/10 add overload indicator to bar meters
 5/21/10 started work on a model-independent voltmeter (incomplete, see TODO.txt)
 5/20/10 copy voltmeter image files from CCK, confirmed licensing with Sam R.
