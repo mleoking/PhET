@@ -1,3 +1,4 @@
+Fixed: Horizontal zoom will be available on the bottom chart only, near the time axis, and vertical zoom buttons will be near the top of each chart
 Added some padding insets to the left and bottom of the simulation panel in the chart module
 Only show the domain axis labels for the bottom chart
 Horizontal zoom is able to zoom in to 2.0 seconds

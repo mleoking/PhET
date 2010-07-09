@@ -1,3 +1,4 @@
+7-8-2010: Fixed: Horizontal zoom will be available on the bottom chart only, near the time axis, and vertical zoom buttons will be near the top of each chart
 7-8-2010: Only show the domain axis labels for the bottom chart 
 7-8-2010: Horizontal zoom is able to zoom in to 2.0 seconds
 7-8-2010: Vertical zoom works as a scale factor, not as an addition term
