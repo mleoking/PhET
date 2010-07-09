@@ -19,10 +19,13 @@ import static edu.colorado.phet.movingman.MovingManStrings.*;
  * @author Sam Reid
  */
 public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel {
+    
+    private final MinimizableControlChart positionMovingManChart, velocityMovingManChart, accelerationMovingManChart;
+    
     public MovingManSimulationPanelWithCharts(final MovingManModel model, final RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel, MutableBoolean positiveToTheRight) {
         super(model, recordAndPlaybackModel, 100, positiveToTheRight);
 
-        MinimizableControlChart positionMovingManChart;
+        // positionMovingManChart
         {
             int xMax = 10;
             //TODO: Factor out chart code if possible
@@ -69,7 +72,7 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
             positionMovingManChart = new MinimizableControlChart(POSITION, new ControlChart(positionChartControl, sliderNode, positionChart, new ChartZoomControlNode(positionChart)));
         }
 
-        MinimizableControlChart velocityMovingManChart = null;
+        // velocityMovingManChart
         {
             double vMax = 60 / 5;
             TemporalChart velocityChart = new TemporalChart(new Rectangle2D.Double(0, -vMax, 20, vMax * 2), model.getChartCursor());
@@ -117,9 +120,8 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
             velocityMovingManChart = new MinimizableControlChart(VELOCITY, new ControlChart(velocityChartControl, chartSliderNode, velocityChart, new ChartZoomControlNode(velocityChart)));
         }
 
-        MinimizableControlChart accelerationMovingManChart = null;
+        // accelerationMovingManChart
         {
-
             double aMax = 60;
             TemporalChart accelerationChart = new TemporalChart(new Rectangle2D.Double(0, -aMax, 20, aMax * 2), model.getChartCursor());
             {
@@ -182,5 +184,12 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
             }
         });
         multiChart.setSize(getWidth(), getHeight());
+    }
+    
+    @Override
+    public void resetAll() {
+        positionMovingManChart.resetAll();
+        velocityMovingManChart.resetAll();
+        accelerationMovingManChart.resetAll();
     }
 }

@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
 import edu.colorado.phet.movingman.model.*;
+import edu.colorado.phet.movingman.view.MovingManSimulationPanel;
 import edu.colorado.phet.recordandplayback.gui.RecordAndPlaybackControlPanel;
 import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -38,7 +39,8 @@ public abstract class MovingManModule extends Module {
     });
     private MutableBoolean positiveToTheRight = new MutableBoolean(true);//True if positive meters is to the right in the play area view
     final ExpressionDialog expressionDialog;//one expression dialog per module
-
+    final MovingManSimulationPanel simulationPanel;
+    
     public MovingManModule(PhetFrame frame, String name) {
         super(name, new ConstantDtClock(MovingManModel.CLOCK_DELAY_MS, MovingManModel.DT));
         CrashSound.init();
@@ -123,7 +125,8 @@ public abstract class MovingManModule extends Module {
         });
         updateCursorVisibility(movingManModel, recordAndPlaybackModel);
 
-        setSimulationPanel(createSimulationPanel(movingManModel, recordAndPlaybackModel));
+        simulationPanel = createSimulationPanel(movingManModel, recordAndPlaybackModel);
+        setSimulationPanel(simulationPanel);
         setClockControlPanel(createRecordAndPlaybackPanel());
         setLogoPanelVisible(false);
 
@@ -140,7 +143,7 @@ public abstract class MovingManModule extends Module {
         return recordAndPlaybackControlPanel;
     }
 
-    protected abstract JComponent createSimulationPanel(MovingManModel model, RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel);
+    protected abstract MovingManSimulationPanel createSimulationPanel(MovingManModel model, RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel);
 
     private void updateCursorVisibility(MovingManModel model, RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel) {
         model.getChartCursor().setVisible(recordAndPlaybackModel.isPlayback() && recordAndPlaybackModel.getNumRecordedPoints() > 0);
@@ -150,6 +153,7 @@ public abstract class MovingManModule extends Module {
         movingManModel.resetAll();
         recordAndPlaybackModel.resetAll();
         positiveToTheRight.setValue(true);
+        simulationPanel.resetAll();
     }
 
     public void setPositiveToTheRight(boolean value) {

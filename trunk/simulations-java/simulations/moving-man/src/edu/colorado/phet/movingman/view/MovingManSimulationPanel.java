@@ -156,6 +156,10 @@ public class MovingManSimulationPanel extends PhetPCanvas {
 
         positiveToTheRight.addObserver(updateViewRange);
     }
+    
+    public void resetAll() {
+        // no op in base class
+    }
 
     protected double getTimeReadoutOffsetY() {
         return 0;

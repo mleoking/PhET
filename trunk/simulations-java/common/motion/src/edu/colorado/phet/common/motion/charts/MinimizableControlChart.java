@@ -7,14 +7,19 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class MinimizableControlChart extends PNode {
+    
     private ControlChart controlChart;
     private MinimizeMaximizeButton minimizeMaximizeButton;
+    
+    public MinimizableControlChart(String title, final ControlChart controlChart ) {
+        this( title, controlChart, true );
+    }
 
-    public MinimizableControlChart(String title, final ControlChart controlChart) {
+    public MinimizableControlChart(String title, final ControlChart controlChart, boolean maximized) {
         this.controlChart = controlChart;
         addChild(controlChart);
 
-        this.minimizeMaximizeButton = new MinimizeMaximizeButton(title);
+        this.minimizeMaximizeButton = new MinimizeMaximizeButton(title, maximized);
         addChild(minimizeMaximizeButton);
 
         final SimpleObserver updateVisibility = new SimpleObserver() {
@@ -26,6 +31,10 @@ public class MinimizableControlChart extends PNode {
         updateVisibility.update();
     }
 
+    public void resetAll() {
+        minimizeMaximizeButton.reset();
+    }
+    
     public MutableBoolean getMaximized() {
         return minimizeMaximizeButton.getMaximized();
     }

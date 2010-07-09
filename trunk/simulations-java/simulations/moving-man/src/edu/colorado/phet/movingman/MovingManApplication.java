@@ -1,5 +1,7 @@
 package edu.colorado.phet.movingman;
 
+import static edu.colorado.phet.movingman.MovingManStrings.CHARTS_MODULE_TITLE;
+import static edu.colorado.phet.movingman.MovingManStrings.INTRODUCTION_MODULE_TITLE;
 import edu.colorado.phet.common.motion.charts.MutableBoolean;
 import edu.colorado.phet.common.phetcommon.application.ModuleEvent;
 import edu.colorado.phet.common.phetcommon.application.ModuleObserver;
@@ -10,15 +12,11 @@ import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.movingman.model.MovingManModel;
 import edu.colorado.phet.movingman.model.MovingManState;
+import edu.colorado.phet.movingman.view.MovingManSimulationPanel;
 import edu.colorado.phet.movingman.view.MovingManSimulationPanelWithCharts;
 import edu.colorado.phet.movingman.view.MovingManSimulationPanelWithPlayAreaSliders;
 import edu.colorado.phet.recordandplayback.gui.RecordAndPlaybackControlPanel;
 import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel;
-
-import javax.swing.*;
-
-import static edu.colorado.phet.movingman.MovingManStrings.CHARTS_MODULE_TITLE;
-import static edu.colorado.phet.movingman.MovingManStrings.INTRODUCTION_MODULE_TITLE;
 
 /**
  * This is the moving man application, redesigned + rewritten in 2010 to be part of the new motion series suite of sims.
@@ -95,7 +93,7 @@ public class MovingManApplication extends PiccoloPhetApplication {
             super(frame, INTRODUCTION_MODULE_TITLE);
         }
 
-        protected JComponent createSimulationPanel(MovingManModel model, RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel) {
+        protected MovingManSimulationPanel createSimulationPanel(MovingManModel model, RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel) {
             return new MovingManSimulationPanelWithPlayAreaSliders(model, recordAndPlaybackModel, positiveToTheRight);
         }
     }
@@ -106,7 +104,7 @@ public class MovingManApplication extends PiccoloPhetApplication {
             super(frame, CHARTS_MODULE_TITLE);
         }
 
-        protected JComponent createSimulationPanel(MovingManModel model, RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel) {
+        protected MovingManSimulationPanel createSimulationPanel(MovingManModel model, RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel) {
             return new MovingManSimulationPanelWithCharts(model, recordAndPlaybackModel, positiveToTheRight);
         }
 
