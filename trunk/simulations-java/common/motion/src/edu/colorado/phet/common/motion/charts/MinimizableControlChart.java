@@ -10,7 +10,7 @@ public class MinimizableControlChart extends PNode {
     private ControlChart controlChart;
     private MinimizeMaximizeButton minimizeMaximizeButton;
 
-    public MinimizableControlChart(String title,final ControlChart controlChart) {
+    public MinimizableControlChart(String title, final ControlChart controlChart) {
         this.controlChart = controlChart;
         addChild(controlChart);
 
@@ -72,5 +72,9 @@ public class MinimizableControlChart extends PNode {
 
     public double getMinimizedHeight() {
         return minimizeMaximizeButton.getFullBounds().getHeight();
+    }
+
+    public void setDomainAxisLabelsVisible(boolean b) {
+        controlChart.setDomainAxisLabelsVisible(b);
     }
 }

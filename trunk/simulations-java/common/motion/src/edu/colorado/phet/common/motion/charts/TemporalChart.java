@@ -19,7 +19,6 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
-import java.util.ArrayList;
 
 /**
  * Working directly with JFreeChart has been problematic for the motion-series sim since we need more flexibility + performance than it provides.
@@ -35,7 +34,7 @@ public class TemporalChart extends PNode {
     private MutableDimension viewDimension;
     private PNode chartContents;//layer for chart pnodes, for minimize/maximize support
     private ModelViewTransform2D modelViewTransform2D;
-    private PNode tickMarksAndGridLines;
+    private TickMarkAndGridLineNode tickMarksAndGridLines;
     //This string is a hack to allow sims to pass in the string translation instead of requiring it to appear in phetcommon
     public static String SEC_TEXT = "sec";
     public static String TIME_LABEL_PATTERN = "{0} {1}";
@@ -64,7 +63,7 @@ public class TemporalChart extends PNode {
         viewDimension.addObserver(backgroundUpdate);
         addChartChild(background);
 
-        tickMarksAndGridLines = new PNode();
+        tickMarksAndGridLines = new TickMarkAndGridLineNode();
         tickMarksAndGridLines.setPickable(false);
         tickMarksAndGridLines.setChildrenPickable(false);
         addChartChild(tickMarksAndGridLines);
@@ -101,12 +100,11 @@ public class TemporalChart extends PNode {
         tickMarksAndGridLines.removeAllChildren();
         int numDomainMarks = 10;
         Function.LinearFunction domainFunction = new Function.LinearFunction(0, numDomainMarks, dataModelBounds.getX(), dataModelBounds.getMaxX());
-        ArrayList<DomainTickMark> domainTickMarks = new ArrayList<DomainTickMark>();
+        PNode domainTickMarks = new PNode();
         for (int i = 0; i < numDomainMarks + 1; i++) {
             final double x = domainFunction.evaluate(i);
             final DomainTickMark tickMark = new DomainTickMark(x);
-            domainTickMarks.add(tickMark);
-            tickMarksAndGridLines.addChild(tickMark);
+            domainTickMarks.addChild(tickMark);
 
             DomainGridLine gridLine = new DomainGridLine(x, this);
             tickMarksAndGridLines.addChild(gridLine);
@@ -120,7 +118,8 @@ public class TemporalChart extends PNode {
             domainTickMarkUpdate.update();
             viewDimension.addObserver(domainTickMarkUpdate);
         }
-        DomainTickMark last = domainTickMarks.get(domainTickMarks.size() - 1);
+        tickMarksAndGridLines.setDomainTickMarks(domainTickMarks);
+        DomainTickMark last = (DomainTickMark) domainTickMarks.getChild(domainTickMarks.getChildrenCount() - 1);
         last.setTickText(MessageFormat.format(TIME_LABEL_PATTERN, last.getTickText(), SEC_TEXT));
 
         int numRangeMarks = 4;
@@ -191,6 +190,12 @@ public class TemporalChart extends PNode {
      */
     public double getDomainLabelHeight() {
         return 20.0;//todo: don't hard code this.
+    }
+
+    //TODO: rewrite tickMarksAndGridLines so that no lookup is necessary here
+
+    public void setDomainAxisLabelsVisible(boolean b) {
+        tickMarksAndGridLines.setDomainTickMarksVisible(b);
     }
 
     public static class DomainTickMark extends PNode {
@@ -358,5 +363,26 @@ public class TemporalChart extends PNode {
     public void zoomInVertical() {
         //assumes centered on y=0 axis
         dataModelBounds.setVerticalRange(dataModelBounds.getMinY() / verticalScaleFactor, dataModelBounds.getMaxY() / verticalScaleFactor);
+    }
+
+    private class TickMarkAndGridLineNode extends PNode {
+        private PNode domainTickMarks;
+        private boolean domainTickMarksVisible;
+
+        public void setDomainTickMarks(PNode domainTickMarks) {
+            if (domainTickMarks != null) {
+                removeChild(domainTickMarks);
+            }
+            this.domainTickMarks = domainTickMarks;
+            addChild(domainTickMarks);
+            this.domainTickMarks.setVisible(domainTickMarksVisible);
+        }
+
+        public void setDomainTickMarksVisible(boolean b) {
+            this.domainTickMarksVisible = b;
+            if (domainTickMarks != null) {
+                domainTickMarks.setVisible(b);
+            }
+        }
     }
 }
