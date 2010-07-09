@@ -58,7 +58,7 @@ public class SodiumDualGatedChannel extends GatedChannel {
 	private enum GateState {IDLE, OPENING, BECOMING_INACTIVE, INACTIVATED, RESETTING};
 	
 	// Values used for deciding on state transitions.
-	private static final double ACTIVATION_DECISION_THRESHOLD = 0.1;
+	private static final double ACTIVATION_DECISION_THRESHOLD = 0.005;
 	private static final double FULLY_INACTIVE_DECISION_THRESHOLD = 0.98;
 	
 	// Values used for timed state transitions.
@@ -67,7 +67,7 @@ public class SodiumDualGatedChannel extends GatedChannel {
 	
 	// Delay range - used to make the timing of the instances of this gate
 	// vary a little bit in terms of when they open and close.
-	private static final double MAX_STAGGER_DELAY = NeuronDefaults.MIN_ACTION_POTENTIAL_CLOCK_DT * 15; // In seconds of sim time. 
+	private static final double MAX_STAGGER_DELAY = NeuronDefaults.MIN_ACTION_POTENTIAL_CLOCK_DT * 5; // In seconds of sim time. 
 	
     //----------------------------------------------------------------------------
     // Instance Data
@@ -124,7 +124,7 @@ public class SodiumDualGatedChannel extends GatedChannel {
 		
 		if (normalizedConductance >= 0 && normalizedConductance <= 1){
 			// Trim off some digits to limit very small changes.
-			normalizedConductance = MathUtils.round(normalizedConductance, 2);
+			normalizedConductance = MathUtils.round(normalizedConductance, 4);
 		}
 		else{
 			// This shouldn't happen, debug it if it does.
@@ -157,7 +157,7 @@ public class SodiumDualGatedChannel extends GatedChannel {
 				// Note the non-linear mapping.  This was done to make them
 				// appear to be fully open earlier in the action potential,
 				// which was requested by the IPHY folks.
-				setOpenness(1 - Math.pow(normalizedConductance - 1, 8));
+				setOpenness(1 - Math.pow(normalizedConductance - 1, 20));
 			}
 			break;
 			
