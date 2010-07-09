@@ -121,7 +121,7 @@ public class TemporalChart extends PNode {
             viewDimension.addObserver(domainTickMarkUpdate);
         }
         DomainTickMark last = domainTickMarks.get(domainTickMarks.size() - 1);
-        last.setTickText(MessageFormat.format(TIME_LABEL_PATTERN,last.getTickText(), SEC_TEXT));
+        last.setTickText(MessageFormat.format(TIME_LABEL_PATTERN, last.getTickText(), SEC_TEXT));
 
         int numRangeMarks = 4;
         Function.LinearFunction rangeFunction = new Function.LinearFunction(0, numRangeMarks, dataModelBounds.getY(), dataModelBounds.getMaxY());
@@ -247,7 +247,7 @@ public class TemporalChart extends PNode {
 
     private static class RangeGridLine extends PNode {
         private RangeGridLine(final double y, final TemporalChart chart) {
-            final PhetPPath tick = new PhetPPath(new BasicStroke(y==0?1.25f:1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 0, new float[]{10, 3}, 0), y==0?Color.black:Color.lightGray);
+            final PhetPPath tick = new PhetPPath(new BasicStroke(y == 0 ? 1.25f : 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 0, new float[]{10, 3}, 0), y == 0 ? Color.black : Color.lightGray);
             addChild(tick);
             final SimpleObserver pathUpdate = new SimpleObserver() {
                 public void update() {
@@ -342,18 +342,21 @@ public class TemporalChart extends PNode {
     }
 
     public void zoomInHorizontal() {
-        dataModelBounds.setHorizontalRange(dataModelBounds.getMinX(), dataModelBounds.getMaxX() - 5);
+        dataModelBounds.setHorizontalRange(dataModelBounds.getMinX(), dataModelBounds.getMaxX() - 2);
     }
 
     public void zoomOutHorizontal() {
-        dataModelBounds.setHorizontalRange(dataModelBounds.getMinX(), dataModelBounds.getMaxX() + 5);
+        dataModelBounds.setHorizontalRange(dataModelBounds.getMinX(), dataModelBounds.getMaxX() + 2);
     }
 
+    double verticalScaleFactor = 1.2;
+
     public void zoomOutVertical() {
-        dataModelBounds.setVerticalRange(dataModelBounds.getMinY() - 5, dataModelBounds.getMaxY() + 5);
+        dataModelBounds.setVerticalRange(dataModelBounds.getMinY() * verticalScaleFactor, dataModelBounds.getMaxY() * verticalScaleFactor);
     }
 
     public void zoomInVertical() {
-        dataModelBounds.setVerticalRange(dataModelBounds.getMinY() + 5, dataModelBounds.getMaxY() - 5);
+        //assumes centered on y=0 axis
+        dataModelBounds.setVerticalRange(dataModelBounds.getMinY() / verticalScaleFactor, dataModelBounds.getMaxY() / verticalScaleFactor);
     }
 }
