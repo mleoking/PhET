@@ -1,3 +1,4 @@
+Made walls twice as thick
 Fixed: Vectors do not update when reversing the x-axis
 Added audio during crashes with wall
 Added a time readout
