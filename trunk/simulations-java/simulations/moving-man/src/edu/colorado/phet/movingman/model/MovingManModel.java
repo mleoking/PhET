@@ -161,6 +161,7 @@ public class MovingManModel {
         time = time + dt;
         updateTimeProperty();
         if (movingMan.isPositionDriven()) {
+            double previousPosition = movingMan.getPosition();
             double averagePosition;
             if (expressionEvaluator == null) {//Average samples from the mouse
                 mouseDataModelSeries.addPoint(clampIfWalled(mousePosition).position, time);
@@ -208,6 +209,10 @@ public class MovingManModel {
             if (Math.abs(instantAcceleration) < 1E-6)
                 instantAcceleration = 0.0;//prevent high frequency wiggling around +/- 1E-12
             movingMan.setAcceleration(instantAcceleration); //- DERIVATIVE_RADIUS * 2
+
+            if (!hitsWall(previousPosition) && hitsWall(movingMan.getPosition())) {
+                notifyCollided();
+            }
         } else if (movingMan.isVelocityDriven()) {
             mouseDataModelSeries.clear();//so that if the user switches to mouse-driven, it won't remember the wrong location.
             //record set point
@@ -233,6 +238,7 @@ public class MovingManModel {
             movingMan.setAcceleration(instantAcceleration);//todo: subtract - DERIVATIVE_RADIUS if possible
             if (wallResult.collided) {
                 movingMan.setVelocity(0.0);
+                notifyCollided();
             }
         } else if (movingMan.isAccelerationDriven()) {
             mouseDataModelSeries.clear();//so that if the user switches to mouse-driven, it won't remember the wrong location.
@@ -272,6 +278,22 @@ public class MovingManModel {
                 movingMan.setVelocity(0.0);
                 movingMan.setAcceleration(0.0);//todo: should have brief burst of acceleration against the wall in a collision.
             }
+        }
+    }
+
+    private boolean hitsWall(double x) {
+        return range.getMax() == x || range.getMin() == x;
+    }
+
+    private ArrayList<JListener> collisionListeners = new ArrayList<JListener>();
+
+    public void addCollisionListener(JListener listener) {
+        collisionListeners.add(listener);
+    }
+
+    private void notifyCollided() {
+        for (JListener collisionListener : collisionListeners) {
+            collisionListener.eventOccurred();
         }
     }
 
