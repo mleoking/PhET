@@ -154,9 +154,6 @@ public abstract class MembraneChannel {
 	protected boolean isOpen(){
 		// The threshold values used here are empirically determined, and can
 	    // be changed if necessary.
-	    if (this instanceof SodiumDualGatedChannel){
-	        System.out.println("Openness: " + getOpenness());
-	    }
 		return (getOpenness() > 0.2 && getInactivationAmt() < 0.7);
 	}
 	
@@ -213,16 +210,10 @@ public abstract class MembraneChannel {
 	 */
 	public void stepInTime(double dt){
 		if (captureCountdownTimer != Double.POSITIVE_INFINITY){
-            if (this instanceof SodiumDualGatedChannel){
-                System.out.println("Stepping sodium dual gate.");
-            }
 
 			if (isOpen()){
 				captureCountdownTimer -= dt;
 				if (captureCountdownTimer <= 0){
-				    if (this instanceof SodiumDualGatedChannel){
-				        System.out.println("SodiumDualGated requesting particle.");
-				    }
 					modelContainingParticles.requestParticleThroughChannel(getParticleTypeToCapture(), this, particleVelocity, chooseCrossingDirection());
 					restartCaptureCountdownTimer(false);
 				}
