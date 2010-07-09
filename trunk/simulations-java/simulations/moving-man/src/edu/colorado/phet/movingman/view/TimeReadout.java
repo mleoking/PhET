@@ -16,7 +16,7 @@ import java.text.MessageFormat;
 public class TimeReadout extends PNode {
     public TimeReadout(final ObservableDouble timeProperty) {
         final PText text = new PText();
-        final DecimalFormat decimalFormat = new DecimalFormat("0.00");
+        final DecimalFormat decimalFormat = new DecimalFormat("0.0");//using 0.0 precision masks the problem that time resets to 0.04 instead of 0.00
         text.setFont(new PhetFont(24, true));
         addChild(text);
         setPickable(false);
