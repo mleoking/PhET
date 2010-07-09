@@ -1,3 +1,4 @@
+Added some padding insets to the left and bottom of the simulation panel in the chart module
 Only show the domain axis labels for the bottom chart
 Horizontal zoom is able to zoom in to 2.0 seconds
 Vertical zoom works as a scale factor, not as an addition term
