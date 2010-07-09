@@ -112,7 +112,7 @@ public class PotassiumGatedChannel extends GatedChannel {
 			if (isOpen() && getCaptureCountdownTimer() == Double.POSITIVE_INFINITY){
 				// We have just transitioned to the open state, so it is time
 				// to start capturing ions.
-				restartCaptureCountdownTimer(false);
+				restartCaptureCountdownTimer(true);
 			}
 		}
 	}
