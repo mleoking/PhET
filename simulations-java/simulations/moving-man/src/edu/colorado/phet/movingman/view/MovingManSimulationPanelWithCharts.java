@@ -8,11 +8,12 @@ import edu.colorado.phet.movingman.model.MovingManModel;
 import edu.colorado.phet.movingman.model.MovingManState;
 import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel;
 import edu.umd.cs.piccolox.pswing.PSwing;
-import static edu.colorado.phet.movingman.MovingManStrings.*;
 
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.Rectangle2D;
+
+import static edu.colorado.phet.movingman.MovingManStrings.*;
 
 /**
  * @author Sam Reid
@@ -65,7 +66,7 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
                 positionChartControl.addChild(goButton);
                 goButton.setOffset(positionChartControl.getFullBounds().getMaxX() - goButton.getFullBounds().getWidth(), positionChartControl.getFullBounds().getMaxY());
             }
-            positionMovingManChart = new MinimizableControlChart(POSITION,new ControlChart(positionChartControl, sliderNode, positionChart, new ChartZoomControlNode(positionChart)));
+            positionMovingManChart = new MinimizableControlChart(POSITION, new ControlChart(positionChartControl, sliderNode, positionChart, new ChartZoomControlNode(positionChart)));
         }
 
         MinimizableControlChart velocityMovingManChart = null;
@@ -174,8 +175,10 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
         addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent e) {
                 double topInset = getPlayAreaRulerNode().getFullBounds().getMaxY() + 10;
-                multiChart.setSize(getWidth(), getHeight() - topInset);
-                multiChart.setOffset(0, topInset);
+                double bottomInset = 4;
+                double horizontalInset = 5;
+                multiChart.setSize(getWidth() - horizontalInset * 2, getHeight() - topInset - bottomInset);
+                multiChart.setOffset(horizontalInset, topInset);
             }
         });
         multiChart.setSize(getWidth(), getHeight());
