@@ -247,7 +247,7 @@ public class TemporalChart extends PNode {
 
     private static class RangeGridLine extends PNode {
         private RangeGridLine(final double y, final TemporalChart chart) {
-            final PhetPPath tick = new PhetPPath(new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 0, new float[]{10, 3}, 0), Color.lightGray);
+            final PhetPPath tick = new PhetPPath(new BasicStroke(y==0?1.25f:1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 0, new float[]{10, 3}, 0), y==0?Color.black:Color.lightGray);
             addChild(tick);
             final SimpleObserver pathUpdate = new SimpleObserver() {
                 public void update() {
