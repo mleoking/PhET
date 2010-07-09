@@ -1,3 +1,4 @@
+7-8-2010: Made the y=0 grid line thicker and darker 
 Fixed: Ticks and labels on charts are intercepting events.
 7-7-2010: Added a tick mark to the middle of horizontal sliders
 6-29-2010: Charts expand to take up available space
