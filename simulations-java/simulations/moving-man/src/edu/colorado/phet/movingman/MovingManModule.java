@@ -10,15 +10,13 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
-import edu.colorado.phet.movingman.model.ExpressionEvaluator;
-import edu.colorado.phet.movingman.model.MovingMan;
-import edu.colorado.phet.movingman.model.MovingManModel;
-import edu.colorado.phet.movingman.model.MovingManState;
+import edu.colorado.phet.movingman.model.*;
 import edu.colorado.phet.recordandplayback.gui.RecordAndPlaybackControlPanel;
 import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 
 /**
@@ -43,6 +41,13 @@ public abstract class MovingManModule extends Module {
 
     public MovingManModule(PhetFrame frame, String name) {
         super(name, new ConstantDtClock(MovingManModel.CLOCK_DELAY_MS, MovingManModel.DT));
+        CrashSound.init();
+
+        movingManModel.addCollisionListener(new JListener() {
+            public void eventOccurred() {
+                CrashSound.play();
+            }
+        });
 
         //Need different behavior when paused, currently the main clock is always running, and the RecordAndPlaybackModel determines whether the sim is running.
         //TODO: make MovingManModel extend RecordAndPlaybackModel<MovingManState>?

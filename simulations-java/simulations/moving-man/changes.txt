@@ -1,3 +1,4 @@
+Added audio during crashes with wall
 Added a time readout
 Fixed: Vectors should have same thickness as in original moving man
 Fixed: Vectors should be located at character's feet
