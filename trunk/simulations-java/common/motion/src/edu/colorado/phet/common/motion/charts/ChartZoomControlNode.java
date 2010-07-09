@@ -21,14 +21,22 @@ public class ChartZoomControlNode extends PNode {
     private VerticalZoomControl verticalZoomControl;
     private HorizontalZoomControl horizontalZoomControl;
 
-    public ChartZoomControlNode(TemporalChart chart) {
+    public ChartZoomControlNode(final TemporalChart chart) {
         horizontalZoomControl = new HorizontalZoomControl(chart);
         addChild(horizontalZoomControl);
 
         verticalZoomControl = new VerticalZoomControl(chart);
         addChild(verticalZoomControl);
 
-        verticalZoomControl.setOffset(0, horizontalZoomControl.getFullBounds().getMaxY());
+//        verticalZoomControl.setOffset(0, horizontalZoomControl.getFullBounds().getMaxY());
+
+        final SimpleObserver updateHorizontalZoomButtonLocation = new SimpleObserver() {
+            public void update() {
+                horizontalZoomControl.setOffset(0, chart.getViewDimension().getHeight()-horizontalZoomControl.getFullBounds().getHeight());
+            }
+        };
+        chart.getViewDimension().addObserver(updateHorizontalZoomButtonLocation);
+        updateHorizontalZoomButtonLocation.update();
     }
 
     public double getZoomControlWidth() {
@@ -39,10 +47,6 @@ public class ChartZoomControlNode extends PNode {
         horizontalZoomControl.setVisible(visible);
         horizontalZoomControl.setPickable(visible);
         horizontalZoomControl.setChildrenPickable(visible);
-    }
-
-    public void centerVerticalZoomButtons(double y) {
-        verticalZoomControl.setOffset(verticalZoomControl.getOffset().getX(), y - verticalZoomControl.getFullBounds().getHeight() / 2);
     }
 
     public static interface Listener {

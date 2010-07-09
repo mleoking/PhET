@@ -96,7 +96,6 @@ public interface ControlChartLayout {
                 chart.getChartNode().getViewDimension().setDimension(chartWidth, maximizedChartHeight);
                 chart.setOffset(0, chartY);
                 chart.setMinimizeMaximizeButtonOffset(chartX + chartWidth - chart.getMinimizeMaximizeButton().getFullBounds().getWidth() - 4, 0);
-                chart.centerVerticalZoomButtons();
 
                 //identify the location of the next chart
                 double currentChartHeight = (chart.getMaximized().getValue() ? maximizedChartHeight + chart.getDomainLabelHeight() : chart.getMinimizedHeight());

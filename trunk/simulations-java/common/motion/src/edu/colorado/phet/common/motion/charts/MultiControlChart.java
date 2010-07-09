@@ -24,10 +24,11 @@ public class MultiControlChart extends PNode {
             });
         }
 
-        //Only show the topmost horizontal zoom control because it controls all axes and cleans up the screen to omit the extraneous controls
+        //Only show the bottom-most horizontal zoom control because it controls all axes and cleans up the screen to omit the extraneous controls
+        //The bottom one is used since that is the graph with the visible domain axis labels
         final SimpleObserver updateHorizontalZoomButtonVisibility = new SimpleObserver() {
             public void update() {
-                for (int i = 0; i < charts.length; i++) {
+                for (int i = charts.length - 1; i >= 0; i--) {
                     if (charts[i].getMaximized().getValue()) {
                         setHorizontalZoomButtonVisible(i);
                         break;

@@ -57,10 +57,6 @@ public class ControlChart extends PNode {
         return chartNode.getDomainLabelHeight();
     }
 
-    public void centerVerticalZoomButtons() {
-        zoomButtonNode.centerVerticalZoomButtons(chartNode.getViewDimension().getHeight() / 2);
-    }
-
     public void setDomainAxisLabelsVisible(boolean b) {
         chartNode.setDomainAxisLabelsVisible(b);
     }
