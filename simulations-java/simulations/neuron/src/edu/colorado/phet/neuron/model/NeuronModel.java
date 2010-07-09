@@ -1334,6 +1334,12 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
 
 	@Override
 	public NeuronModelState step(double dt) {
+        // Step the membrane in time.  This is done prior to stepping the
+	    // HH model because the traveling action potential is part of the
+	    // membrane, so if it reaches the cross section in this time step the
+	    // membrane potential will be modified.
+        axonMembrane.stepInTime( dt );
+        
 		// This is a step forward in time.  Update the value of the
 		// membrane potential by stepping the Hodgkins-Huxley model.
 		hodgkinHuxleyModel.stepInTime( dt );
@@ -1349,9 +1355,7 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
 		// Update the stimulus lockout state.
 		updateStimulasLockoutState();
 
-		// Step the membrane in time.
-		axonMembrane.stepInTime( dt );
-		
+		System.out.println("==== About to step the channels ==========");
 		// Step the channels.
 		for (MembraneChannel channel : membraneChannels){
 			channel.stepInTime( dt );
