@@ -1,7 +1,5 @@
 package edu.colorado.phet.movingman;
 
-import static edu.colorado.phet.movingman.MovingManStrings.CHARTS_MODULE_TITLE;
-import static edu.colorado.phet.movingman.MovingManStrings.INTRODUCTION_MODULE_TITLE;
 import edu.colorado.phet.common.motion.charts.MutableBoolean;
 import edu.colorado.phet.common.phetcommon.application.ModuleEvent;
 import edu.colorado.phet.common.phetcommon.application.ModuleObserver;
@@ -18,6 +16,9 @@ import edu.colorado.phet.movingman.view.MovingManSimulationPanelWithPlayAreaSlid
 import edu.colorado.phet.recordandplayback.gui.RecordAndPlaybackControlPanel;
 import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel;
 
+import static edu.colorado.phet.movingman.MovingManStrings.CHARTS_MODULE_TITLE;
+import static edu.colorado.phet.movingman.MovingManStrings.INTRODUCTION_MODULE_TITLE;
+
 /**
  * This is the moving man application, redesigned + rewritten in 2010 to be part of the new motion series suite of sims.
  *
@@ -28,37 +29,31 @@ public class MovingManApplication extends PiccoloPhetApplication {
     //be able to handle all modules independently.  This value must get propagated to the menu and to the modules.
     private MutableBoolean positiveToTheRight = new MutableBoolean(true);//True if positive coordinates are to the right.
 
-    interface Constructor<T> {
-        T newInstance();
-    }
-
     public MovingManApplication(PhetApplicationConfig config) {
         super(config);
-        //This is another strategy for creating objects correctly on the first try, without polluting the upper namespace.
-        //However, it adds a lot of baggage, so is perhaps suboptimal
-        final IntroModule introModule = new Constructor<IntroModule>() {
-            public IntroModule newInstance() {
-                final IntroModule introModule = new IntroModule(getPhetFrame());
-                introModule.getPositiveToTheRight().addObserver(new SimpleObserver() {
-                    public void update() {
-                        if (getActiveModule() == introModule) {
-                            positiveToTheRight.setValue(introModule.getPositiveToTheRight().getValue());
-                        }
-                    }
-                });
-                return introModule;
-            }
-        }.newInstance();
 
-        addModule(introModule);
-        final ChartingModule chartingModule = new ChartingModule(getPhetFrame());
-        chartingModule.getPositiveToTheRight().addObserver(new SimpleObserver() {
-            public void update() {
-                if (getActiveModule() == chartingModule) {
-                    positiveToTheRight.setValue(chartingModule.getPositiveToTheRight().getValue());
+        final IntroModule introModule = new IntroModule(getPhetFrame());
+        {
+            introModule.getPositiveToTheRight().addObserver(new SimpleObserver() {
+                public void update() {
+                    if (getActiveModule() == introModule) {
+                        positiveToTheRight.setValue(introModule.getPositiveToTheRight().getValue());
+                    }
                 }
-            }
-        });
+            });
+        }
+        addModule(introModule);
+
+        final ChartingModule chartingModule = new ChartingModule(getPhetFrame());
+        {
+            chartingModule.getPositiveToTheRight().addObserver(new SimpleObserver() {
+                public void update() {
+                    if (getActiveModule() == chartingModule) {
+                        positiveToTheRight.setValue(chartingModule.getPositiveToTheRight().getValue());
+                    }
+                }
+            });
+        }
         addModule(chartingModule);
 
         addModuleObserver(new ModuleObserver() {
