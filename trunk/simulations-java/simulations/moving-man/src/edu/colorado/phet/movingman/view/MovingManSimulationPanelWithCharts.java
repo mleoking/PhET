@@ -177,13 +177,22 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
         addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent e) {
                 double topInset = getPlayAreaRulerNode().getFullBounds().getMaxY() + 10;
-                double bottomInset = 4;
+                double bottomInset = 9;//This number has to include the top inset specified below where the entire getLayer() is offset 
                 double horizontalInset = 5;
                 multiChart.setSize(getWidth() - horizontalInset * 2, getHeight() - topInset - bottomInset);
                 multiChart.setOffset(horizontalInset, topInset);
             }
         });
         multiChart.setSize(getWidth(), getHeight());
+        
+        //Translate the entire layer so everything doesn't hit right at y=0 top of the screen
+        ComponentAdapter relayout = new ComponentAdapter() {
+            public void componentResized(ComponentEvent e) {
+                getLayer().setOffset(0, 5);
+            }
+        };
+        addComponentListener(relayout);
+        relayout.componentResized(null);
     }
     
     @Override

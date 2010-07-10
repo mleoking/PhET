@@ -141,6 +141,7 @@ public class MovingManSimulationPanelWithPlayAreaSliders extends MovingManSimula
             });
             addScreenChild(pSwing);
         }
+        //Translate the entire layer to center everything, note this puts y=0 at the top of the play area graphics
         ComponentAdapter relayout = new ComponentAdapter() {
             public void componentResized(ComponentEvent e) {
                 getLayer().setOffset(0, getHeight() / 2 - 100);//100 is height of play area
