@@ -33,7 +33,7 @@ public class TemporalChart extends PNode {
     private static final int DOMAIN_TICK_HEIGHT = 4;
     private static final Stroke DOMAIN_TICK_MARK_STROKE = new BasicStroke(1.5f);
     private static final Paint DOMAIN_TICK_MARK_COLOR = Color.black;
-    
+
     private MutableRectangle dataModelBounds;
     private MutableDimension viewDimension;
     private PNode chartContents;//layer for chart pnodes, for minimize/maximize support
@@ -131,7 +131,7 @@ public class TemporalChart extends PNode {
                 public void update() {
                     Point2D location = modelToView(new TimeData(0, x));
 //                    axisTickMark.setOffset(location.getX(), location.getY() - axisTickMark.getFullBounds().getHeight() / 2);
-                    axisTickMark.setOffset(location.getX(), location.getY() );
+                    axisTickMark.setOffset(location.getX(), location.getY());
                 }
             };
             axisTickMarkUpdate.update();
@@ -298,6 +298,10 @@ public class TemporalChart extends PNode {
 
     private class LineSeriesNode extends PNode {
         public LineSeriesNode(final TemporalDataSeries dataSeries, Color color) {
+            //fixes: Chart series curves prevent grabbing of the chart playback cursor
+            setPickable(false);
+            setChildrenPickable(false);
+
             final PClip clip = new PClip();
             final SimpleObserver so = new SimpleObserver() {
                 public void update() {

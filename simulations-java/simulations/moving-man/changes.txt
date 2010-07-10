@@ -1,3 +1,4 @@
+Fixed: Chart series curves prevent grabbing of the chart playback cursor
 Added a check box for enabling/disabling sound
 Added reset for chart maximized/minimized and zoom settings
 Fixed reset all for charts minimize/maximize
