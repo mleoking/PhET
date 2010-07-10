@@ -249,8 +249,7 @@ public class TemporalChart extends PNode {
 
     private static class RangeTickMark extends PNode {
         private RangeTickMark(double y) {
-            double tickHeight = 1.0;
-            PhetPPath tick = new PhetPPath(new Rectangle2D.Double(0, -tickHeight / 2, 4, tickHeight), Color.black);
+            PhetPPath tick = new PhetPPath(new Line2D.Double(0, 0, -DOMAIN_TICK_HEIGHT, 0), DOMAIN_TICK_MARK_STROKE, DOMAIN_TICK_MARK_COLOR);
             addChild(tick);
             PText text = new PText(new DecimalFormat("0.0").format(y));
             text.setFont(new PhetFont(14, true));
