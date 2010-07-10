@@ -32,7 +32,7 @@ public class ChartZoomControlNode extends PNode {
 
         final SimpleObserver updateHorizontalZoomButtonLocation = new SimpleObserver() {
             public void update() {
-                horizontalZoomControl.setOffset(0, chart.getViewDimension().getHeight()-horizontalZoomControl.getFullBounds().getHeight());
+                horizontalZoomControl.setOffset(0, chart.getViewDimension().getHeight() - horizontalZoomControl.getFullBounds().getHeight());
             }
         };
         chart.getViewDimension().addObserver(updateHorizontalZoomButtonLocation);
@@ -110,13 +110,27 @@ public class ChartZoomControlNode extends PNode {
             });
             addChild(zoomOutButton);
 
-            zoomOutButton.setOffset(0, zoomInButton.getFullBounds().getHeight());
+            //Add small icons to indicate zoom dimension (i.e. horizontal or vertical)
+            PNode upIcon = new TriangleIcon();
+            {
+                upIcon.setOffset(1.5, zoomInButton.getFullBounds().getHeight()-upIcon.getFullBounds().getHeight()-1.5/2.0);
+                upIcon.rotateInPlace(Math.PI * 3 / 2.0);//point up
+            }
+            addChild(upIcon);
+
+            PNode downIcon = new TriangleIcon();
+            {
+                downIcon.setOffset(1.5, downIcon.getFullBounds().getHeight() + 1.5+zoomInButton.getFullBounds().getHeight()-upIcon.getFullBounds().getHeight()-1.5/2.0);
+                downIcon.rotateInPlace(Math.PI / 2);//Point down
+            }
+            addChild(downIcon);
+
+            zoomInButton.setOffset(downIcon.getFullBounds().getWidth() + 1.5 * 2, 0);
+            zoomOutButton.setOffset(downIcon.getFullBounds().getWidth() + 1.5 * 2, zoomInButton.getFullBounds().getHeight());
         }
     }
 
     private static class HorizontalZoomControl extends PNode {
-        private double triangleHeight = 6;
-        private double triangleWidth = 6;
 
         private HorizontalZoomControl(final TemporalChart chart) {
             final ZoomButton zoomInButton = new ZoomButton("magnify-plus.png", new Listener() {
@@ -145,31 +159,33 @@ public class ChartZoomControlNode extends PNode {
             zoomOutButton.setOffset(0, 5);
             zoomInButton.setOffset(zoomOutButton.getFullBounds().getMaxX(), 5);
 
-            //These small triangles look terrible without good rendering hints.
-            PhetPPath pathLeft = new HighQualityPhetPPath(getTrianglePathLeft(), Color.black);
+            //Add small icons to indicate zoom dimension (i.e. horizontal or vertical)
+            PNode pathLeft = new TriangleIcon();
+            {
+                pathLeft.setOffset(zoomOutButton.getFullBounds().getMaxX() - pathLeft.getFullBounds().getWidth() - 0.5, 0);
+                pathLeft.rotateInPlace(Math.PI);//Point Left
+            }
             addChild(pathLeft);
-            PhetPPath pathRight = new HighQualityPhetPPath(getTrianglePathRight(), Color.black);
+
+            PNode pathRight = new TriangleIcon();
+            {
+                pathRight.setOffset(pathLeft.getFullBounds().getMaxX() + 1.5, 0);
+            }
             addChild(pathRight);
-            pathLeft.setOffset(zoomOutButton.getFullBounds().getMaxX() - pathLeft.getFullBounds().getWidth() - 0.5, 0);
-            pathRight.setOffset(pathLeft.getFullBounds().getMaxX() + 1.5, 0);
         }
+    }
 
-        private GeneralPath getTrianglePathLeft() {
-            DoubleGeneralPath trianglePath = new DoubleGeneralPath(0, triangleHeight / 2);
-            trianglePath.lineToRelative(triangleWidth, -triangleHeight / 2);
-            trianglePath.lineToRelative(0, triangleHeight);
-            trianglePath.lineTo(0, triangleHeight / 2);
-            GeneralPath path1 = trianglePath.getGeneralPath();
-            return path1;
-        }
+    public static class TriangleIcon extends PNode {
+        private double triangleHeight = 6;
+        private double triangleWidth = 6;
 
-        private GeneralPath getTrianglePathRight() {
+        public TriangleIcon() {
             DoubleGeneralPath trianglePath = new DoubleGeneralPath(triangleWidth, triangleHeight / 2);
             trianglePath.lineToRelative(-triangleWidth, -triangleHeight / 2);
             trianglePath.lineToRelative(0, triangleHeight);
             trianglePath.lineTo(triangleWidth, triangleHeight / 2);
             GeneralPath path1 = trianglePath.getGeneralPath();
-            return path1;
+            addChild(new PhetPPath(path1, Color.black));
         }
     }
 }

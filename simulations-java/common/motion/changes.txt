@@ -1,3 +1,4 @@
+7-9-2010: Added a double-triangle icon to the left of the vertical zoom buttons
 7-9-2010: Fixed: Chart series curves prevent grabbing of the chart playback cursor
 7-9-2010: Added reset for chart maximized/minimized and zoom settings
 7-9-2010: Added domain tick labels in the charts
