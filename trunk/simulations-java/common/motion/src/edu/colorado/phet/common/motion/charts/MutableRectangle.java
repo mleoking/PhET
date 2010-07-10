@@ -12,6 +12,7 @@ public class MutableRectangle extends SimpleObservable {
     private double y;
     private double width;
     private double height;
+    private Rectangle2D.Double defaultValue;
 
     public MutableRectangle(Rectangle2D.Double bounds) {
         this(bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight());
@@ -22,6 +23,18 @@ public class MutableRectangle extends SimpleObservable {
         this.y = y;
         this.width = width;
         this.height = height;
+        this.defaultValue = new Rectangle2D.Double(x,y,width,height);
+    }
+
+    /**
+     * Restore the values used to construct this MutableRectangle
+     */
+    public void reset(){
+        this.x = defaultValue.getX();
+        this.y = defaultValue.getY();
+        this.width = defaultValue.getWidth();
+        this.height = defaultValue.getHeight();
+        notifyObservers();
     }
 
     public double getX() {
