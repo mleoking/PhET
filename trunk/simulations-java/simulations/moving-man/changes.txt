@@ -1,3 +1,4 @@
+Fixed: Vertical axis labels should have tick marks
 Added 5 pixels at the top of the play area in the charting module instead of having everything right at y=0
 Added a double-triangle icon to the left of the vertical zoom buttons
 Fixed: Chart series curves prevent grabbing of the chart playback cursor
