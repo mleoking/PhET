@@ -2,6 +2,8 @@ package edu.colorado.phet.movingman;
 
 import edu.colorado.phet.common.motion.charts.TemporalChart;
 
+import javax.swing.*;
+
 /**
  * @author Sam Reid
  */
@@ -33,6 +35,7 @@ public class MovingManStrings {
     public static final String LABEL_ZERO_METERS = getString("label.zero-meters");
     public static final String SECONDS_ABBREVIATION = getString("units.seconds.abbreviation");
     public static final String TIME_LABEL_PATTERN= getString("pattern.time.label");
+    public static final String OPTIONS_SOUND = getString("options.sound");
 
     static {
         TemporalChart.SEC_TEXT = SECONDS_ABBREVIATION;//see doc in SEC_TEXT

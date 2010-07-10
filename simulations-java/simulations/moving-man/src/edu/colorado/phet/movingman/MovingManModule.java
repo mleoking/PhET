@@ -18,6 +18,8 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 /**
@@ -40,14 +42,16 @@ public abstract class MovingManModule extends Module {
     private MutableBoolean positiveToTheRight = new MutableBoolean(true);//True if positive meters is to the right in the play area view
     final ExpressionDialog expressionDialog;//one expression dialog per module
     final MovingManSimulationPanel simulationPanel;
-    
+    private final MutableBoolean soundEnabled = new MutableBoolean(true);
+
     public MovingManModule(PhetFrame frame, String name) {
         super(name, new ConstantDtClock(MovingManModel.CLOCK_DELAY_MS, MovingManModel.DT));
         CrashSound.init();
 
         movingManModel.addCollisionListener(new JListener() {
             public void eventOccurred() {
-                CrashSound.play();
+                if (soundEnabled.getValue())
+                    CrashSound.play();
             }
         });
 
@@ -140,7 +144,26 @@ public abstract class MovingManModule extends Module {
                 MovingManModule.this.resetAll();
             }
         }, getSimulationPanel())));
+        recordAndPlaybackControlPanel.addControl(new PSwing(new SoundCheckBox(soundEnabled)));
         return recordAndPlaybackControlPanel;
+    }
+
+    public static class SoundCheckBox extends JCheckBox {
+        public SoundCheckBox(final MutableBoolean mutableBoolean) {
+            super(MovingManStrings.OPTIONS_SOUND, mutableBoolean.getValue());
+            mutableBoolean.addObserver(new SimpleObserver() {
+                public void update() {
+                    setSelected(mutableBoolean.getValue());
+                }
+            });
+            addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    mutableBoolean.setValue(isSelected());
+                }
+            });
+            setBackground(new Color(0, 0, 0, 0));//Let the gradient background show through
+            setOpaque(false);
+        }
     }
 
     protected abstract MovingManSimulationPanel createSimulationPanel(MovingManModel model, RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel);

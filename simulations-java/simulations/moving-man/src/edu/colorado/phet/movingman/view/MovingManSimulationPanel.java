@@ -34,7 +34,7 @@ public class MovingManSimulationPanel extends PhetPCanvas {
     private final PlayAreaRulerNode playAreaRulerNode;
     private MutableBoolean positiveToTheRight;
     private LinearTransform transform;
-    public TimeReadout timeReadout;
+    protected TimeReadout timeReadout;
 
     public MovingManSimulationPanel(final MovingManModel model, final RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel, int earthOffset, final MutableBoolean positiveToTheRight) {
         this.model = model;
@@ -85,8 +85,8 @@ public class MovingManSimulationPanel extends PhetPCanvas {
 
         try {
             BufferedImage wallImage = BufferedImageUtils.getScaledInstance(MovingManResources.loadBufferedImage("wall.jpg"), 60, 100, RenderingHints.VALUE_INTERPOLATION_BILINEAR, false);
-            addScreenChild(new WallNode(wallImage, transform, -10, model.getWalls(), -manNode.getImageStanding().getWidth() / 2 - wallImage.getWidth()/2, positiveToTheRight));
-            addScreenChild(new WallNode(wallImage, transform, +10, model.getWalls(), +manNode.getImageStanding().getWidth() / 2 + wallImage.getWidth()/2, positiveToTheRight));
+            addScreenChild(new WallNode(wallImage, transform, -10, model.getWalls(), -manNode.getImageStanding().getWidth() / 2 - wallImage.getWidth() / 2, positiveToTheRight));
+            addScreenChild(new WallNode(wallImage, transform, +10, model.getWalls(), +manNode.getImageStanding().getWidth() / 2 + wallImage.getWidth() / 2, positiveToTheRight));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -156,7 +156,7 @@ public class MovingManSimulationPanel extends PhetPCanvas {
 
         positiveToTheRight.addObserver(updateViewRange);
     }
-    
+
     public void resetAll() {
         // no op in base class
     }
