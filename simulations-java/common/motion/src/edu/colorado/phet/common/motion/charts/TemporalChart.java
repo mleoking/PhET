@@ -217,6 +217,10 @@ public class TemporalChart extends PNode {
         tickMarksAndGridLines.setDomainTickMarksVisible(b);
     }
 
+    public void reset() {
+        dataModelBounds.reset();
+    }
+
     public static class DomainTickMark extends PNode {
         private PText text;
 

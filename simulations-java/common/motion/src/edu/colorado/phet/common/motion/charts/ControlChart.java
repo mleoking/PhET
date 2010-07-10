@@ -60,4 +60,8 @@ public class ControlChart extends PNode {
     public void setDomainAxisLabelsVisible(boolean b) {
         chartNode.setDomainAxisLabelsVisible(b);
     }
+
+    public void reset() {
+        chartNode.reset();
+    }
 }

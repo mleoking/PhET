@@ -33,6 +33,7 @@ public class MinimizableControlChart extends PNode {
 
     public void resetAll() {
         minimizeMaximizeButton.reset();
+        controlChart.reset();
     }
     
     public MutableBoolean getMaximized() {
