@@ -20,8 +20,10 @@ public class Range extends SimpleObservable {
     }
 
     public void setMin(double min) {
-        this.min = min;
-        notifyObservers();
+        if (this.min != min) {
+            this.min = min;
+            notifyObservers();
+        }
     }
 
     public double getMax() {
@@ -29,8 +31,10 @@ public class Range extends SimpleObservable {
     }
 
     public void setMax(double max) {
-        this.max = max;
-        notifyObservers();
+        if (this.max != max) {
+            this.max = max;
+            notifyObservers();
+        }
     }
 
     public double getRange() {
@@ -39,5 +43,21 @@ public class Range extends SimpleObservable {
 
     public double clamp(double x) {
         return MathUtil.clamp(min, x, max);
+    }
+
+    //Provides support for animating a range
+    public void stepTowardsRange(double min, double max,double speed) {
+        double dMin = min - this.min;
+        double dMax = max - this.max;
+        double targetMin = this.min + speed * MathUtil.signum(dMin);
+        double targetMax = this.max + speed * MathUtil.signum(dMax);
+        if (Math.abs(targetMax - max) <= speed) {
+            targetMax = max;
+        }
+        if (Math.abs(targetMin - min) <= speed) {
+            targetMin = min;
+        }
+        setMin(targetMin);
+        setMax(targetMax);
     }
 }
