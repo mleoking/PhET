@@ -49,11 +49,11 @@ public class Emailer {
                                              body,
                                              properties.getProperty( "fromAddress" ),
                                              properties.getProperty( "subject" ),
-                                             loadAdditionalParts( properties.getProperty( "additionalParts" ) )
+                                             new ArrayList<BodyPart>()
             );
             long endTime = System.currentTimeMillis();
             final double time = ( endTime - startTime ) / 1000.0;
-            final double totalElapsedTime = (endTime - loopStartTime)/1000.0;
+            final double totalElapsedTime = ( endTime - loopStartTime ) / 1000.0;
             System.out.println( "Finished sending to address " + i + "/" + allEmails.size() + ", time = " + time + ", address = " + emailAddress + ", average time per email = " + totalElapsedTime / ( i + 1 ) );
         }
     }
@@ -69,7 +69,7 @@ public class Emailer {
             messageBodyPart.setDataHandler( new DataHandler( source ) );
             messageBodyPart.setFileName( next );
 
-            bodyParts.add( messageBodyPart );
+            bodyParts.add( messageBodyPart );                 //Send as HTML only since only 3% of clients fail to render HTML, according to wikipedia
         }
         return bodyParts;
     }
