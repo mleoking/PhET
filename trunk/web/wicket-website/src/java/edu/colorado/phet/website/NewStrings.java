@@ -39,6 +39,7 @@ public class NewStrings {
         checkString( session, "resetPasswordRequest.emailBody", "<p>To reset your password, please click <a href=\"{0}\">{0}</a> or follow the link.</p>" ); // TODO: improve strings
         checkString( session, "resetPasswordRequest.emailSubject", "Password reset requested" );
         checkString( session, "resetPasswordRequestSuccess.message", "Your password has been successfully changed." );
+        checkString( session, "resetPasswordCallback.title", "Reset Password" );
         session.close();
     }
 
