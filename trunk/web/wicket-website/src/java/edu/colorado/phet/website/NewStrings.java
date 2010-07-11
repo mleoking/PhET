@@ -18,7 +18,7 @@ public class NewStrings {
         Session session = HibernateUtils.getInstance().openSession();
         checkString( session, "profile.edit.changePassword", "Change password" );
         checkString( session, "nav.changePasswordSuccess", "Success" );
-        checkString( session, "changePasswordSuccess.title", "Your password has been successfully changed." );
+        checkString( session, "changePasswordSuccess.title", "Password Changed" );
         checkString( session, "changePassword.validation.newPasswordBlank", "The new password must not be blank." );
         checkString( session, "changePassword.reset", "Reset" );
         checkString( session, "changePassword.submit", "Submit" );
@@ -27,10 +27,10 @@ public class NewStrings {
         checkString( session, "changePassword.confirmNewPassword", "Confirm New Password:" );
         checkString( session, "changePassword.validation.mismatch", "Confirmed password did not match the new password." );
         checkString( session, "changePassword.validation.incorrectPassword", "The current password was incorrect." );
-        checkString( session, "changePassword.title", "Change your PhET Password" );
+        checkString( session, "changePassword.title", "Change Your PhET Password" );
         checkString( session, "changePassword.header", "Change your password:" );
         checkString( session, "signIn.resetYourPassword", "Forgot your password?" );
-        checkString( session, "resetPasswordRequest.title", "Reset your password" );
+        checkString( session, "resetPasswordRequest.title", "Reset Your Password" );
         checkString( session, "resetPasswordRequest.submit", "Submit" );
         checkString( session, "resetPasswordRequest.emailAddress", "Email Address:" );
         checkString( session, "resetPasswordRequest.description", "Please enter your email address and press sumbit. An email will be sent to you with a link to reset your password." );
@@ -38,16 +38,17 @@ public class NewStrings {
         checkString( session, "resetPasswordRequest.validation.noAccountFound", "No PhET account was found for the specified email address." );
         checkString( session, "resetPasswordRequest.emailBody", "<p>To reset your password, please click <a href=\"{0}\">{0}</a> or follow the link.</p>" ); // TODO: improve strings
         checkString( session, "resetPasswordRequest.emailSubject", "Password reset requested" );
-        checkString( session, "resetPasswordRequestSuccess.message", "Your password has been successfully changed." );
+        checkString( session, "resetPasswordRequestSuccess.message", "An email with instructions on how to reset your password has been sent to the specified email address." );
+        checkString( session, "resetPasswordRequestSuccess.title", "Password Reset Email Sent");
         checkString( session, "resetPasswordCallback.title", "Reset Password" );
         session.close();
     }
 
     private static void checkString( Session session, String key, String value ) {
         String result = StringUtils.getStringDirect( session, key, PhetWicketApplication.getDefaultLocale() );
-        if ( result == null ) {
+//        if ( result == null ) {
             logger.warn( "Auto-setting English string with key=" + key + " value=" + value );
             StringUtils.setEnglishString( session, key, value );
-        }
+//        }
     }
 }
