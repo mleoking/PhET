@@ -17,7 +17,10 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.Rectangle2D;
@@ -46,26 +49,36 @@ public class MovingManSimulationPanel extends PhetPCanvas {
         playAreaRulerNode = new PlayAreaRulerNode(model.getModelRange(), viewRange);
         playAreaRulerNode.setOffset(0, earthOffset);
         addScreenChild(playAreaRulerNode);
-        final SimpleObserver updateViewRange = new SimpleObserver() {
+        final SimpleObserver updateViewRangeInstant = new SimpleObserver() {
             public void update() {
                 final int inset = 100;
-                double min = inset;
-                double max = getWidth() - inset;
-                if (positiveToTheRight.getValue()) {
-                    viewRange.setMin(min);
-                    viewRange.setMax(max);
-                } else {
-                    viewRange.setMin(max);
-                    viewRange.setMax(min);
-                }
+                double min = positiveToTheRight.getValue() ? inset : getWidth() - inset;
+                double max = positiveToTheRight.getValue() ? getWidth() - inset : inset;
+                viewRange.setMin(min);
+                viewRange.setMax(max);
+            }
+        };
+        final SimpleObserver updateViewRangeAnimate = new SimpleObserver() {
+            public void update() {
+                final int inset = 100;
+                double min = positiveToTheRight.getValue() ? inset : getWidth() - inset;
+                double max = positiveToTheRight.getValue() ? getWidth() - inset : inset;
+                //step towards the viewrange value to animate
+                viewRange.stepTowardsRange(min, max,getWidth()/600.0*20);//speed independent of screen size
             }
         };
         addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent e) {
-                updateViewRange.update();
+                updateViewRangeInstant.update();
             }
         });
-        updateViewRange.update();
+        updateViewRangeInstant.update();
+        Timer timer = new Timer(30, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                updateViewRangeAnimate.update();
+            }
+        });
+        timer.start();//want this to run even if the sim is paused, so use a separate timer
 
         this.transform = new LinearTransform(model.getRange(), viewRange);
         try {
@@ -154,7 +167,7 @@ public class MovingManSimulationPanel extends PhetPCanvas {
 //        setDefaultRenderQuality(PPaintContext.LOW_QUALITY_RENDERING);
 //        setAnimatingRenderQuality(PPaintContext.LOW_QUALITY_RENDERING);
 
-        positiveToTheRight.addObserver(updateViewRange);
+        positiveToTheRight.addObserver(updateViewRangeAnimate);
     }
 
     public void resetAll() {
