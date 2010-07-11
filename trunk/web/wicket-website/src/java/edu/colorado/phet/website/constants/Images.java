@@ -18,6 +18,7 @@ public class Images {
     public static final String CLASSROOM_TESTED_SMALL = "/images/ratings/classroom-tested-small.png";
 
     public static final String NEWSLETTER_SUMMER_09 = "/images/phet_newsletter_summer_09_thumbnail.png";
+    public static final String NEWSLETTER_SUMMER_10 = "/images/phet_newsletter_summer_10_thumbnail.png";
 
     public static final String PEARSON_LOGO = "/images/support/pearson.png";
 
