@@ -15,7 +15,7 @@ public class AboutNewsPanel extends PhetPanel implements CacheableUrlStaticPanel
     public AboutNewsPanel( String id, PageContext context ) {
         super( id, context );
 
-        add( new StaticImage( "newsletter-screenshot", Images.NEWSLETTER_SUMMER_09, "Screenshot of the 2009 PhET newsletter" ) );
+        add( new StaticImage( "newsletter-screenshot", Images.NEWSLETTER_SUMMER_10, "Screenshot of the 2009 PhET newsletter" ) );
 
         add( new NewsChangelogPanel( "news-changelog-panel", context ) );
     }
