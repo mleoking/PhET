@@ -46,9 +46,9 @@ public class NewStrings {
 
     private static void checkString( Session session, String key, String value ) {
         String result = StringUtils.getStringDirect( session, key, PhetWicketApplication.getDefaultLocale() );
-//        if ( result == null ) {
+        if ( result == null ) {
             logger.warn( "Auto-setting English string with key=" + key + " value=" + value );
             StringUtils.setEnglishString( session, key, value );
-//        }
+        }
     }
 }
