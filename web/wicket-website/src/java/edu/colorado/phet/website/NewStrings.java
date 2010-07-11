@@ -36,7 +36,7 @@ public class NewStrings {
         checkString( session, "resetPasswordRequest.description", "Please enter your email address and press sumbit. An email will be sent to you with a link to reset your password." );
         checkString( session, "resetPasswordRequest.header", "Reset your password." );
         checkString( session, "resetPasswordRequest.validation.noAccountFound", "No PhET account was found for the specified email address." );
-        checkString( session, "resetPasswordRequest.emailBody", "<p>To reset your password, please click <a href=\"{0}\">{0}</a> or follow the link.</p>" ); // TODO: improve strings
+        checkString( session, "resetPasswordRequest.emailBody", "<html><head></head><body><p>PhET Interactive Simulations received your password reset request.</p><p>To reset your password, please click </p><a href=\"{0}\">{0}</a> <p>or copy and paste the address into a browser.</p>Best Regards,<br>PhET Interactive Simulations</body></html>" );
         checkString( session, "resetPasswordRequest.emailSubject", "Password reset requested" );
         checkString( session, "resetPasswordRequestSuccess.message", "An email with instructions on how to reset your password has been sent to the specified email address." );
         checkString( session, "resetPasswordRequestSuccess.title", "Password Reset Email Sent");
