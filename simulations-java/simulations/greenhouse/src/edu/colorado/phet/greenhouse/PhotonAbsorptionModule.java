@@ -49,7 +49,7 @@ public class PhotonAbsorptionModule extends PiccoloModule {
         setSimulationPanel( canvas );
         
         // Control panel.
-        controlPanel = new PhotonAbsorptionControlPanel(this);
+        controlPanel = new PhotonAbsorptionControlPanel(this, model);
         setControlPanel(controlPanel);
         
         // Help

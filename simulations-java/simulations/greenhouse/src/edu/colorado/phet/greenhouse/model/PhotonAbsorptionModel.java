@@ -55,6 +55,9 @@ public class PhotonAbsorptionModel {
             CONTAINMENT_AREA_WIDTH,
             CONTAINMENT_AREA_HEIGHT
             );
+    
+    // Choices of targets for the photon emission.
+    public enum PhotonTarget { CO2, H2O, CH4, N2O, N2, O2, EARTH_AIR, VENUS_AIR };
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -64,6 +67,7 @@ public class PhotonAbsorptionModel {
     private ArrayList<Photon> photons = new ArrayList<Photon>();
     private double photonWavelength = GreenhouseConfig.sunlightWavelength;
     private final ArrayList<Molecule> molecules = new ArrayList<Molecule>();
+    private PhotonTarget photonTarget = PhotonTarget.CO2;
    
     //----------------------------------------------------------------------------
     // Constructor(s)
@@ -125,8 +129,17 @@ public class PhotonAbsorptionModel {
         for (Molecule molecule : molecules){
             molecule.stepInTime( dt );
         }
-        
-        
+    }
+    
+    public void setPhotonTarget( PhotonTarget photonTarget ){
+        if (this.photonTarget != photonTarget){
+            this.photonTarget = photonTarget;
+            notifyPhotonTargetChanged();
+        }
+    }
+    
+    public PhotonTarget getPhotonTarget(){
+        return photonTarget;
     }
     
     public Point2D getPhotonEmissionLocation(){
@@ -190,6 +203,12 @@ public class PhotonAbsorptionModel {
         }
     }
 
+    private void notifyPhotonTargetChanged() {
+        for (Listener listener : listeners.getListeners(Listener.class)){
+            listener.photonTargetChanged();
+        }
+    }
+
     //----------------------------------------------------------------------------
     // Inner Classes and Interfaces
     //----------------------------------------------------------------------------
@@ -198,11 +217,13 @@ public class PhotonAbsorptionModel {
         void photonAdded(Photon photon);
         void photonRemoved(Photon photon);
         void photonWavelengthChanged();
+        void photonTargetChanged();
     }
     
     public static class Adapter implements Listener {
         public void photonAdded( Photon photon ) {}
         public void photonWavelengthChanged() {}
         public void photonRemoved( Photon photon ) {}
+        public void photonTargetChanged() {}
     }
 }

@@ -4,6 +4,8 @@ package edu.colorado.phet.greenhouse.controlpanel;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -28,6 +30,8 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.greenhouse.GreenhouseResources;
 import edu.colorado.phet.greenhouse.model.CarbonDioxide;
 import edu.colorado.phet.greenhouse.model.Molecule;
+import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel;
+import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel.PhotonTarget;
 import edu.colorado.phet.greenhouse.view.MoleculeNode;
 
 /**
@@ -47,13 +51,19 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
     // ------------------------------------------------------------------------
     // Instance Data
     // ------------------------------------------------------------------------
+    
+    PhotonAbsorptionModel photonAbsorptionModel;
+
+    private RadioButtonWithIcon co2Button;
 
     // ------------------------------------------------------------------------
     // Constructor(s)
     // ------------------------------------------------------------------------
 
-    public PhotonAbsorptionControlPanel (PiccoloModule module){
+    public PhotonAbsorptionControlPanel (PiccoloModule module, PhotonAbsorptionModel model){
 
+        this.photonAbsorptionModel = model;
+        
         // Set the control panel's minimum width.
         int minimumWidth = GreenhouseResources.getInt( "int.minControlPanelWidth", 215 );
         setMinimumWidth( minimumWidth );
@@ -72,9 +82,22 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
         // TODO: i18n
         JRadioButton h2oButton = new JRadioButton("H2O");
         greenhouseGasPanel.add(h2oButton);
-        // TODO: i18n
-        RadioButtonWithIcon co2Button = new RadioButtonWithIcon( "CO2", createImageFromMolecule( new CarbonDioxide() ) );
+        co2Button = new RadioButtonWithIcon( "CO2", createImageFromMolecule( new CarbonDioxide() ) );
         greenhouseGasPanel.add(co2Button);
+        co2Button.getButton().addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                photonAbsorptionModel.setPhotonTarget( PhotonTarget.CO2 );
+            }
+        });
+        photonAbsorptionModel.addListener( new PhotonAbsorptionModel.Adapter(){
+            public void photonTargetChanged() {
+                if (photonAbsorptionModel.getPhotonTarget() == PhotonTarget.CO2 && !co2Button.getButton().isSelected()){
+                    co2Button.setEnabled( true );
+                }
+            }
+        });
+        
+        
         // TODO: i18n
         JRadioButton ch4Button = new JRadioButton("CH4");
         greenhouseGasPanel.add(ch4Button);
