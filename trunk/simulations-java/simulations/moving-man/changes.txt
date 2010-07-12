@@ -1,3 +1,4 @@
+# 1.28.03 (42182) Jul 11, 2010
 Added axis rotation animation when reversing the x axis
 Fixed: Vertical axis labels should have tick marks
 Added 5 pixels at the top of the play area in the charting module instead of having everything right at y=0
