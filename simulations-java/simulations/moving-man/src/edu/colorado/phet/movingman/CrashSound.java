@@ -24,7 +24,6 @@ public class CrashSound {
         if ( !inited ) {
             preloadedAudioClip.setGain( -Float.MAX_VALUE );//play this on sim startup so that the next audio play is immediate instead of laggy
             preloadedAudioClip.playAgain();
-            System.out.println( "CrashSound.static intializer" );
             inited = true;
         }
     }
