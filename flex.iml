@@ -3,11 +3,12 @@
   <component name="Flex.Build.Configuration">
     <option name="DO_BUILD" value="true" />
     <option name="MAIN_CLASS" value="edu.colorado.phet.densityflex.Density" />
-    <option name="OUTPUT_FILE_NAME" value="flex.swf" />
+    <option name="OUTPUT_FILE_NAME" value="density-flex.swf" />
     <option name="TARGET_PLAYER_VERSION" value="9.0.124" />
     <option name="VERSION" value="3" />
   </component>
-  <component name="NewModuleRootManager" inherit-compiler-output="true">
+  <component name="NewModuleRootManager" inherit-compiler-output="false">
+    <output url="file://$MODULE_DIR$/out/production/flex" />
     <exclude-output />
     <content url="file://$MODULE_DIR$/simulations-flash">
       <sourceFolder url="file://$MODULE_DIR$/simulations-flash/contrib/box2d/src" isTestSource="false" />
