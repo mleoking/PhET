@@ -3,7 +3,13 @@ package edu.colorado.phet.common.piccolophet.test;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Ellipse2D;
+import java.awt.image.RenderedImage;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
@@ -19,7 +25,7 @@ public class TestPPathToImage {
     
     private static final float STROKE_WIDTH = 5f;
 
-    public static void main( String[] args ) {
+    public static void main( String[] args ) throws IOException {
         
         // Create a circle node
         PPath pathNode = new PPath( new Ellipse2D.Double( 0, 0, 100, 100 ) );
@@ -41,5 +47,12 @@ public class TestPPathToImage {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE ); 
         SwingUtils.centerWindowOnScreen( frame );
         frame.setVisible( true );
+
+        //Save to a file for inspection
+        final File file = new File("TestPPathToImage.png");
+        ImageIO.write((RenderedImage) pathNode.toImage(),"PNG",new FileOutputStream(file));
+        
+        //Indicate where it was saved, since we used the working directory, which may be unknown
+        System.out.println("Saved file to " + file.getAbsolutePath());
     }
 }
