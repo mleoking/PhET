@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.faraday.model;
 
-import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -68,25 +67,6 @@ public abstract class DipoleMagnet extends AbstractMagnet {
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
-    
-    /**
-     * Gets the shape that defines this physical boundaries of this magnet.
-     * 
-     * @return the shape
-     */
-    public Shape getShape() {
-        return _modelShape;
-    }
-
-    /**
-     * Is the specified point inside the magnet?
-     * 
-     * @param p
-     * @return true or false
-     */
-    public boolean isInside( Point2D p ) {
-        return _modelShape.contains( p );
-    }
     
     /**
      * Sets the factor that controls the B-field transitions between inside and outside the magnet.
@@ -156,49 +136,6 @@ public abstract class DipoleMagnet extends AbstractMagnet {
      * The point may be either in the 2D plane of the magnet, or slightly outside the 2D plane.
      * The caller may specify an exponent that determines how the field strength 
      * decreases with distance from the magnet.
-     * <p>
-     * Algorithm courtesy of Michael Dubson (dubson@spot.colorado.edu).
-     * <p>
-     * Assumptions made by this algorithm:
-     * <ul>
-     * <li>the magnet's physical center is positioned at the magnet's location
-     * <li>the magnet's width > height
-     * </ul>
-     * Terminology:
-     * <ul>
-     * <li>axes oriented with +X right, +Y up
-     * <li>origin is the center of the coil, at (0,0)
-     * <li>(x,y) is the point of interest where we are measuring the magnetic field
-     * <li>h is the height of the magnet
-     * <li>w is the width of the magnet
-     * <li>L is the distance between the dipoles
-     * <li>C is a fudge factor
-     * <li>rN is the distance from the north dipole to (x,y)
-     * <li>rS is the distance from the south dipole to (x,y)
-     * <li>B is the field vector at (x,y) due to the entire magnet
-     * <li>BN is the field vector at (x,y) due to the north dipole
-     * <li>BS is the field vector at (x,y) due to the south dipole
-     * <li>e is the exponent that specifies how the field decreases with distance (3 in reality)
-     * </ul>
-     * <p>
-     * The dipole locations are:
-     * <ul>
-     * <li>north: w/2 - h/2
-     * <li>south: -w/2 + h/2
-     * </ul>
-     * <p>
-     * Inside the magnet:
-     * <ul>
-     * <li>Bx = magnet strength
-     * <li>By = 0
-     * </ul>
-     * <p>
-     * Outside the magnet:
-     * <ul>
-     * <li>BN = ( +C / rN^e ) [ ( x - L/2 ), y ]
-     * <li>BS = ( -C / rS^e ) [ ( x + L/2 ), y ]
-     * <li>B = BN + BS
-     * </ul>
      */
     private Vector2D getStrength( Point2D p, Vector2D outputVector /* output */, double distanceExponent, boolean inPlaneOfMagnet ) {
 
@@ -245,51 +182,26 @@ public abstract class DipoleMagnet extends AbstractMagnet {
         return fieldVector;
     }
     
-    /**
+    /*
+     * Is the specified point inside the magnet?
+     */
+    private boolean isInside( Point2D p ) {
+        return _modelShape.contains( p );
+    }
+    
+    /*
      * Gets the magnetic field strength at a point inside the magnet.
+     * Algorithm courtesy of Mike Dubson (dubson@spot.colorado.edu).
      * <p>
-     * This algorithm makes the following assumptions:
-     * <ul>
-     * <li>the point is guaranteed to be inside the magnet
-     * <li>the magnet's direction is 0.0 (north pole pointing down the positive X axis)
-     * </ul>
+     * B-field varies as a gradual curve inside the magnet.
+     * Full magnet strength is at the magnet center.
+     * B-field drops off more rapidly the further you get from the center,
+     * and is half magnet strength at the magnet ends.
      * 
      * @param p the point, relative to the magnet's origin
      * @param outputVector write the result into this vector
      */
     private void getStrengthInside( Point2D p, Vector2D outputVector /* output */ ) {
-//        getStrengthInsideConstant( p, outputVector );
-//        getStrengthInsideLinear( p, outputVector );
-        getStrengthInsideCurve( p, outputVector );
-    }
-    
-    //TODO delete this method
-    /*
-     * Constant strength inside the magnet.
-     */
-    private void getStrengthInsideConstant( Point2D p, Vector2D outputVector ) {
-        outputVector.setMagnitudeAngle( getStrength(), 0 );
-    }
-    
-    //TODO delete this method
-    /*
-     * B-field varies linearly inside the magnet.
-     * Full magnet strength is at the magnet center.
-     * Linear transition to half magnet strength at the magnet ends.
-     */
-    private void getStrengthInsideLinear( Point2D p, Vector2D outputVector ) {
-        double Bx = getStrength() - ( getStrength() / getWidth() ) * Math.abs( p.getX() );
-        double By = 0;
-        outputVector.setMagnitudeAngle( Bx, By );
-    }
-    
-    /*
-     * B-field varies as a gradual curve inside the magnet.
-     * Full magnet strength is at the magnet center.
-     * B-field drops off more rapidly the further you get from the center,
-     * and is half magnet strength at the magnet ends.
-     */
-    private void getStrengthInsideCurve( Point2D p, Vector2D outputVector ) {
         double strength = getStrength();
         double w = getWidth();
         double h = getHeight();
@@ -302,10 +214,11 @@ public abstract class DipoleMagnet extends AbstractMagnet {
         outputVector.setMagnitudeAngle( Bx, By );
     }
     
-    /**
+    /*
      * Gets the magnetic field strength at a point outside the magnet.
-     * The magnitude is guaranteed to be >=0 and <= the magnet strength.
+     * Algorithm courtesy of Mike Dubson (dubson@spot.colorado.edu).
      * <p>
+     * The magnitude is guaranteed to be >=0 and <= the magnet strength.
      * This algorithm makes the following assumptions:
      * <ul>
      * <li>the magnet's location is (0,0)
@@ -315,6 +228,34 @@ public abstract class DipoleMagnet extends AbstractMagnet {
      * <li>the point is guaranteed to be outside the magnet
      * <li>the point has been transformed so that it is relative to above magnet assumptions
      * </ul>
+     * <p>
+     * Terminology:
+     * <ul>
+     * <li>axes oriented with +X right, +Y up
+     * <li>origin is the center of the coil, at (0,0)
+     * <li>(x,y) is the point of interest where we are measuring the magnetic field
+     * <li>h is the height of the magnet
+     * <li>w is the width of the magnet
+     * <li>L is the distance between the dipoles
+     * <li>C is a fudge factor
+     * <li>rN is the distance from the north dipole to (x,y)
+     * <li>rS is the distance from the south dipole to (x,y)
+     * <li>B is the field vector at (x,y) due to the entire magnet
+     * <li>BN is the field vector at (x,y) due to the north dipole
+     * <li>BS is the field vector at (x,y) due to the south dipole
+     * <li>e is the exponent that specifies how the field decreases with distance (3 in reality)
+     * </ul>
+     * <p>
+     * The dipole locations are:
+     * <ul>
+     * <li>north: w/2 - h/2
+     * <li>south: -w/2 + h/2
+     * </ul>
+     * The algorithm for outside the magnet:
+     * <ul>
+     * <li>BN = ( +C / rN^e ) [ ( x - L/2 ), y ]
+     * <li>BS = ( -C / rS^e ) [ ( x + L/2 ), y ]
+     * <li>B = BN + BS
      * 
      * @param p the point, relative to the magnet's origin
      * @param outputVector write the result into this vector
