@@ -64,6 +64,10 @@ public class CarbonDioxide extends Molecule {
         // Set the initial COG position.
         setCenterOfGravityPos( inititialCenterOfGravityPos );
     }
+    
+    public CarbonDioxide(){
+        this(new Point2D.Double(0, 0));
+    }
 
     // ------------------------------------------------------------------------
     // Methods
