@@ -30,7 +30,7 @@ public class AtomicBondNode extends PNode {
     private static double BOND_WIDTH_DOUBLE = 8;  // In model coords, which are essentially pixels.
     private static double BOND_WIDTH_TRIPLE = 5;  // In model coords, which are essentially pixels.
     
-    private static Color BOND_COLOR = Color.ORANGE;
+    private static Color BOND_COLOR = new Color(0, 200, 0);
 
     // ------------------------------------------------------------------------
     // Instance Data
