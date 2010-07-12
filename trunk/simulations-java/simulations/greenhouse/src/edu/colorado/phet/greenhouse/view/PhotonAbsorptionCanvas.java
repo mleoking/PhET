@@ -61,12 +61,13 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
         this.photonAbsorptionModel = photonAbsorptionModel;
 
     	// Set up the canvas-screen transform.
-    	setWorldTransformStrategy(new PhetPCanvas.CenteringBoxStrategy(this, GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE));
+    	setWorldTransformStrategy(
+    	        new PhetPCanvas.CenteringBoxStrategy(this, GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE));
     	
     	// Set up the model-canvas transform.
         mvt = new ModelViewTransform2D(
         		new Point2D.Double(0, 0), 
-        		new Point((int)Math.round(GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE.width * 0.5), 
+        		new Point((int)Math.round(GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE.width * 0.65), 
         				(int)Math.round(GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE.height * 0.5 )),
         				0.25,  // Scale factor - smaller numbers "zoom out", bigger ones "zoom in".
         				true);
@@ -96,9 +97,10 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
         addWorldChild(myWorldNode);
         
         // Add the chamber.
-        // TODO: Shape and location of chamber will eventually be determined by the model.
-        PhetPPath chamberNode = new PhetPPath(new Rectangle2D.Double(-350, -350, 700, 700), new BasicStroke(6), Color.LIGHT_GRAY);
-        chamberNode.setOffset(500, 400);
+        PhetPPath chamberNode = new PhetPPath(
+                mvt.createTransformedShape( photonAbsorptionModel.getContainmentAreaRect() ),
+                new BasicStroke(6),
+                Color.LIGHT_GRAY);
         myWorldNode.addChild(chamberNode);
         
         // Add the flashlight.

@@ -3,6 +3,7 @@
 package edu.colorado.phet.greenhouse.model;
 
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.EventListener;
 
@@ -27,11 +28,11 @@ public class PhotonAbsorptionModel {
     
     // Constant that controls the point in model space where photons are
     // emitted.
-    private static final Point2D PHOTON_EMISSION_LOCATION = new Point2D.Double(-700, 20);
+    private static final Point2D PHOTON_EMISSION_LOCATION = new Point2D.Double(-1300, 0);
     
     // Location used when a single molecule is sitting in the area where the
     // photons pass through.
-    private static final Point2D SINGLE_MOLECULE_LOCATION = new Point2D.Double(1400, 20);
+    private static final Point2D SINGLE_MOLECULE_LOCATION = new Point2D.Double(0, 0);
     
     // Velocity of emitted photons.  Since they are emitted horizontally, only
     // one value is needed.
@@ -41,7 +42,19 @@ public class PhotonAbsorptionModel {
     // This value is essentially arbitrary, and needs to be set such that the
     // photons only disappear after they have traveled beyond the bounds of
     // the play area.
-    private static final double MAX_PHOTON_DISTANCE = 3000; 
+    private static final double MAX_PHOTON_DISTANCE = 3000;
+    
+    // Constants that define the size of the containment area, which is the
+    // rectangle that surrounds the molecule(s).
+    private static final double CONTAINMENT_AREA_WIDTH = 3100;   // In picometers.
+    private static final double CONTAINMENT_AREA_HEIGHT = 3000;  // In picometers.
+    private static final Point2D CONTAINMENT_AREA_CENTER = new Point2D.Double(0,0);
+    private static final Rectangle2D CONTAINMENT_AREA_RECT = new Rectangle2D.Double(
+            CONTAINMENT_AREA_CENTER.getX() - CONTAINMENT_AREA_WIDTH / 2,
+            CONTAINMENT_AREA_CENTER.getY() - CONTAINMENT_AREA_HEIGHT / 2,
+            CONTAINMENT_AREA_WIDTH,
+            CONTAINMENT_AREA_HEIGHT
+            );
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -118,6 +131,10 @@ public class PhotonAbsorptionModel {
     
     public Point2D getPhotonEmissionLocation(){
         return PHOTON_EMISSION_LOCATION;
+    }
+    
+    public Rectangle2D getContainmentAreaRect(){
+        return CONTAINMENT_AREA_RECT;
     }
     
     public ArrayList<Molecule> getMolecules(){
