@@ -36,10 +36,10 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class TestBFieldGrid extends JFrame {
     
-    private static final Dimension CANVAS_SIZE = new Dimension( 1024, 768 );
-    private static final Dimension MAGNET_SIZE = FaradayConstants.BAR_MAGNET_SIZE;
-    private static final Dimension GRID_SPACING = new Dimension( 4, 4 ); // values used when generating data files in MathCAD
-    private static final Dimension GRID_SIZE = new Dimension( 125, 50 ); // values used when generating data files in MathCAD
+    private static final Dimension CANVAS_SIZE = new Dimension( 1024, 768 ); // similar to PhET sims
+    private static final Dimension MAGNET_SIZE = FaradayConstants.BAR_MAGNET_SIZE; // value used when generating data files in MathCAD
+    private static final Dimension GRID_SPACING = new Dimension( 4, 4 ); // value used when generating data files in MathCAD
+    private static final Dimension GRID_SIZE = new Dimension( 125, 50 ); // value used when generating data files in MathCAD
     private static final String BX_RESOURCE_NAME = "bfield/Bx.csv"; // B-field vector x components, one quadrant
     private static final String BY_RESOURCE_NAME = "bfield/By.csv"; // B-field vector y components, one quadrant
     private static final double BFIELD_DISPLAY_SCALING_FACTOR = 3.0; // larger values make the B-field appear to drop off less quickly
@@ -91,6 +91,7 @@ public class TestBFieldGrid extends JFrame {
                 }
             }
             catch ( IOException e ) {
+                //TODO if this becomes production code, do something sensible here
                 e.printStackTrace();
             }
             int expectedCount = size.width * size.height;
