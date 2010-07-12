@@ -28,9 +28,9 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Unfuddle #2236.
- * Test the B-field grid files that Mike Dubson provided,
- * by reading the files and displaying as vectors.
- * Use PCanvas zoom/pan controls to examine the vectors.
+ * Test the B-field grid files that Mike Dubson provided, by reading the files and displaying as vectors.
+ * The red box is the outline of the bar magnet.
+ * Use PCanvas zoom/pan controls to examine the vectors more closely.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
