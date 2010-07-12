@@ -19,7 +19,7 @@ public class CarbonDioxide extends Molecule {
     // Class Data
     // ------------------------------------------------------------------------
     
-    private static final double INITIAL_CARBON_OXYGEN_DISTANCE = 200; // In picometers.
+    private static final double INITIAL_CARBON_OXYGEN_DISTANCE = 170; // In picometers.
     
     private static final double OSCILLATION_FREQUENCY = 6;  // Cycles per second of sim time.
     
