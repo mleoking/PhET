@@ -114,14 +114,7 @@ public class FlashlightNode extends PNode {
 		// be emitted.
 		JPanel emissionTypeSelectionPanel = new VerticalLayoutPanel();
 		emissionTypeSelectionPanel.setBorder(BorderFactory.createRaisedBevelBorder());
-		infraredPhotonRadioButton = new JRadioButton("Infrared");
-		infraredPhotonRadioButton.setFont(LABEL_FONT);
-		infraredPhotonRadioButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                model.setPhotonWavelength( GreenhouseConfig.irWavelength );
-                updateFrequencySelectButtons();
-            }
-        });
+		// TODO: i18n
 		visiblePhotonRadioButton = new JRadioButton("Visible");
 		visiblePhotonRadioButton.setFont(LABEL_FONT);
 		visiblePhotonRadioButton.addActionListener( new ActionListener() {
@@ -130,11 +123,20 @@ public class FlashlightNode extends PNode {
                 updateFrequencySelectButtons();
             }
         });
+        // TODO: i18n
+        infraredPhotonRadioButton = new JRadioButton("Infrared");
+        infraredPhotonRadioButton.setFont(LABEL_FONT);
+        infraredPhotonRadioButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                model.setPhotonWavelength( GreenhouseConfig.irWavelength );
+                updateFrequencySelectButtons();
+            }
+        });
 		ButtonGroup buttonGroup = new ButtonGroup();
-		buttonGroup.add(infraredPhotonRadioButton);
 		buttonGroup.add(visiblePhotonRadioButton);
-		emissionTypeSelectionPanel.add(infraredPhotonRadioButton);
+		buttonGroup.add(infraredPhotonRadioButton);
 		emissionTypeSelectionPanel.add(visiblePhotonRadioButton);
+		emissionTypeSelectionPanel.add(infraredPhotonRadioButton);
 		PSwing selectionPanelPSwing = new PSwing(emissionTypeSelectionPanel);
 		selectionPanelPSwing.setOffset(
 				flashlightImage.getFullBoundsReference().getCenterX() - selectionPanelPSwing.getFullBoundsReference().width / 2,
