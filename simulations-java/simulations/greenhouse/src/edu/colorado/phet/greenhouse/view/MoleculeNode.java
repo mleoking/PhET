@@ -2,6 +2,9 @@
 
 package edu.colorado.phet.greenhouse.view;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.greenhouse.model.Atom;
 import edu.colorado.phet.greenhouse.model.AtomicBond;
@@ -48,6 +51,22 @@ public class MoleculeNode extends PNode {
     //------------------------------------------------------------------------
     // Methods
     //------------------------------------------------------------------------
+    
+    /**
+     * Retrieve an image representation of this node.  This was created in
+     * order to support putting molecule images on control panels, but may
+     * have other usages.
+     */
+    public BufferedImage getImage(){
+        Image image = this.toImage();
+        assert image instanceof BufferedImage;
+        if (image instanceof BufferedImage){
+            return (BufferedImage) this.toImage();
+        }
+        else{
+            return null;
+        }
+    }
 
     //------------------------------------------------------------------------
     // Inner Classes and Interfaces
