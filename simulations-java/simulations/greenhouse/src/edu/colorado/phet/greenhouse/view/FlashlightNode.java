@@ -108,7 +108,7 @@ public class FlashlightNode extends PNode {
 		// flashlight image and the control box.  This is a function of the
 		// flashlight width.  The multiplier is arbitrary and can be adjusted
 		// as desired.
-		double distanceBetweeImageAndControl = flashlightWidth * 0.8;
+		double distanceBetweeImageAndControl = flashlightWidth * 0.6;
 		
 		// Create the control box for selecting the type of photon that will
 		// be emitted.
