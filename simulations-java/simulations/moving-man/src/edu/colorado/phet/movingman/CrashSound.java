@@ -67,7 +67,7 @@ public class CrashSound {
         }
 
         public void setGain( float v ) {
-            FloatControl gain = (FloatControl) clip.getControl( FloatControl.Type.MASTER_GAIN );
+            FloatControl gain = (FloatControl) clip.getControl( FloatControl.Type.MASTER_GAIN );//Volume control returns null
             if ( gain != null ) {
                 gain.setValue( v );
             }
