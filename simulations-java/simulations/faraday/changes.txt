@@ -1,3 +1,5 @@
+# 2.03.03 (42186) Jul 12, 2010
+7/12/10 dev version before starting major changes on dipole model
 7/12/10 #2236, cleanup DiploleMagnet before I start major changes: remove dead code, fix comments to reflect reality 
 7/7/10 test app for Mike Dubson's new numerical dipole model
 # 2.03.02 (39630) Apr 5, 2010
