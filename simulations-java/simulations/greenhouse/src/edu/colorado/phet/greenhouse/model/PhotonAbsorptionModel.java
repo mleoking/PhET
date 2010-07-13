@@ -71,6 +71,13 @@ public class PhotonAbsorptionModel {
     private double photonWavelength = GreenhouseConfig.sunlightWavelength;
     private final ArrayList<Molecule> molecules = new ArrayList<Molecule>();
     private PhotonTarget photonTarget = null;
+    
+    private Molecule.Adapter moleculePhotonEmissionListener = new Molecule.Adapter(){
+        public void photonEmitted(Photon photon) {
+            photons.add( photon );
+            notifyPhotonAdded( photon );
+        }
+    };
    
     //----------------------------------------------------------------------------
     // Constructor(s)
@@ -146,11 +153,13 @@ public class PhotonAbsorptionModel {
             switch (photonTarget){
             case CO2:
                 molecule = new CarbonDioxide(SINGLE_MOLECULE_LOCATION);
+                molecule.addListener( moleculePhotonEmissionListener );
                 molecules.add( molecule );
                 notifyMoleculeAdded( molecule );
                 break;
             case H2O:
                 molecule = new H2O(SINGLE_MOLECULE_LOCATION);
+                molecule.addListener( moleculePhotonEmissionListener );
                 molecules.add( molecule );
                 notifyMoleculeAdded( molecule );
                 break;
@@ -187,8 +196,8 @@ public class PhotonAbsorptionModel {
         
         Photon photon = new Photon( photonWavelength, null );
         photon.setLocation( PHOTON_EMISSION_LOCATION.getX(), PHOTON_EMISSION_LOCATION.getY() );
-        photons.add( photon );
         photon.setVelocity( PHOTON_VELOCITY_X, 0 );
+        photons.add( photon );
         notifyPhotonAdded( photon );
     }
     

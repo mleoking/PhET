@@ -2,12 +2,12 @@
 
 package edu.colorado.phet.greenhouse.model;
 
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import scala.util.Random;
-
-import edu.colorado.phet.greenhouse.model.GreenhouseEffectModel.Listener;
 
 
 /**
@@ -23,18 +23,26 @@ public abstract class Molecule {
     // Class Data
     //------------------------------------------------------------------------
     
-    static final double PHOTON_EMISSION_SPEED = 4; // Picometers per second.
+    private static final double PHOTON_EMISSION_SPEED = 4; // Picometers per second.
     
-    static final Random RAND = new Random();
+    protected static final Random RAND = new Random();
 
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
     
-    final ArrayList<Atom> atoms = new ArrayList<Atom>();
-    final ArrayList<AtomicBond> atomicBonds = new ArrayList<AtomicBond>();
+    // Atoms and bonds that comprise this molecule.
+    protected final ArrayList<Atom> atoms = new ArrayList<Atom>();
+    protected final ArrayList<AtomicBond> atomicBonds = new ArrayList<AtomicBond>();
+    
+    // Offsets for each atom from the center of gravity.
+    protected final HashMap<Atom, Dimension2D> atomCogOffsets = new HashMap<Atom, Dimension2D>();
 
-    final private ArrayList<Listener> listeners = new ArrayList<Listener>();
+    private final ArrayList<Listener> listeners = new ArrayList<Listener>();
+    
+    // This is basically the location of the molecule, but it is specified as
+    // the center of gravity since a molecule is a composite object.
+    Point2D centerOfGravity = new Point2D.Double();
 
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -44,11 +52,21 @@ public abstract class Molecule {
     // Methods
     //------------------------------------------------------------------------
     
+    /**
+     * Advance the molecule one step in time.
+     */
     public void stepInTime(double dt){
         // By default, there is no time-dependent behavior.  Descendant
         // classes should override this to implement time-driven behavior,
         // such as oscillations.
     }
+    
+    /**
+     * Initialize the offsets from the center of gravity for each atom within
+     * this molecule.  This should be in the "relaxed" (i.e. non-oscillating)
+     * state.
+     */
+    protected abstract void initializeCogOffsets();
     
     public void addListener(Listener listener){
         listeners.add(listener);
@@ -59,6 +77,15 @@ public abstract class Molecule {
     }
     
     public Point2D getCenterOfGravityPos(){
+        return new Point2D.Double(centerOfGravity.getX(), centerOfGravity.getY());
+    }
+    
+    protected Point2D getCenterOfGravityPosRef(){
+        return centerOfGravity;
+    }
+    
+    // TODO: Is this method really needed?
+    public Point2D calcCenterOfGravity(){
         double totalMass = 0;
         double weightedPosX = 0;
         double weightedPosY = 0;
@@ -79,8 +106,10 @@ public abstract class Molecule {
      * 
      * @param centerOfGravityPos
      */
-    public abstract void setCenterOfGravityPos(Point2D centerOfGravityPos);
-    
+    public void setCenterOfGravityPos(Point2D centerOfGravityPos){
+        this.centerOfGravity.setLocation( centerOfGravityPos );
+        updateAtomPositions();
+    }
     
     public ArrayList<Atom> getAtoms() {
         return new ArrayList<Atom>(atoms);
@@ -115,13 +144,31 @@ public abstract class Molecule {
         double emissionAngle = RAND.nextDouble() * Math.PI * 2;
         emittedPhoton.setVelocity( (float)(PHOTON_EMISSION_SPEED * Math.cos( emissionAngle )),
                 (float)(PHOTON_EMISSION_SPEED * Math.sin( emissionAngle )));
-        emittedPhoton.setLocation( getCenterOfGravityPos() );
+        emittedPhoton.setLocation( getCenterOfGravityPosRef() );
         notifyPhotonEmitted( emittedPhoton );
     }
     
     private void notifyPhotonEmitted(Photon photon){
         for (Listener listener : listeners){
             listener.photonEmitted( photon );
+        }
+    }
+    
+    /**
+     * Update the positions of all atoms that comprise this molecule based on
+     * the current center of gravity and the offset for each atom.
+     */
+    protected void updateAtomPositions(){
+        for (Atom atom : atoms){
+            Dimension2D offset = atomCogOffsets.get( atom );
+            if (offset != null){
+                atom.setPosition( centerOfGravity.getX() + offset.getWidth(), centerOfGravity.getY() + offset.getHeight() );
+            }
+            else{
+                // This shouldn't happen, and needs to be debugged if it does.
+                assert false;
+                System.err.println(getClass().getName() + " - Error: No offset found for atom.");
+            }
         }
     }
 

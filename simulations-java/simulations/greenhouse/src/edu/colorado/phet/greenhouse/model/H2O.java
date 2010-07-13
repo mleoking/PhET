@@ -113,4 +113,13 @@ public class H2O extends Molecule {
             return false;
         }
     }
+
+    /* (non-Javadoc)
+     * @see edu.colorado.phet.greenhouse.model.Molecule#initializeCogOffsets()
+     */
+    @Override
+    protected void initializeCogOffsets() {
+        // TODO Auto-generated method stub
+        
+    }
 }
