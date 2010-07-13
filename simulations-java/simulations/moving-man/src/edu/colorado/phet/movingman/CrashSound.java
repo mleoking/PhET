@@ -9,10 +9,6 @@ public class CrashSound {
     
     private static final PhetAudioClip clip = MovingManResources.getInstance().getAudioClip( "smash0.wav" );
     
-    public static void init() {
-        clip.preload();
-    }
-    
     public static void play() {
         clip.play();
     }
