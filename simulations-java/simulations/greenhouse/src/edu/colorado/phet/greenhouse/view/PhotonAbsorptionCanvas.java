@@ -7,7 +7,6 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
@@ -48,9 +47,10 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
     // Layers for the canvas.
     private PNode imageLayer;
     
-    // Data structure that matches photons to the node that represents them
-    // in the view.
+    // Data structures that match model objects to their representations in
+    // the view.
     private HashMap<Photon, PhotonNode> photonMap = new HashMap<Photon, PhotonNode>();
+    private HashMap<Molecule, MoleculeNode> moleculeMap = new HashMap<Molecule, MoleculeNode>();
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -81,12 +81,24 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
                 if (myWorldNode.removeChild( photonMap.get( photon ) ) == null){
                     System.out.println( getClass().getName() + " - Error: PhotonNode not found for photon." );
                 }
+                photonMap.remove( photon );
             }
             
             public void photonAdded( Photon photon ) {
                 PhotonNode photonNode = new PhotonNode(photon, mvt); 
                 myWorldNode.addChild( photonNode );
                 photonMap.put( photon, photonNode );
+            }
+            
+            public void moleculeRemoved( Molecule molecule ) {
+                if (myWorldNode.removeChild( moleculeMap.get( molecule ) ) == null){
+                    System.out.println( getClass().getName() + " - Error: MoleculeNode not found for molecule." );
+                }
+                moleculeMap.remove( molecule );
+            }
+            
+            public void moleculeAdded( Molecule molecule ) {
+                addMolecule( molecule );
             }
         });
 
@@ -110,7 +122,7 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
         
         // Add in the initial molecule(s).
         for (Molecule molecule : photonAbsorptionModel.getMolecules()){
-            myWorldNode.addChild(new MoleculeNode( molecule, mvt ));
+            addMolecule( molecule );
         }
         
         // Update the layout.
@@ -138,5 +150,11 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
         else {
         	// TODO: TBD
         }
+    }
+    
+    private void addMolecule(Molecule molecule){
+        MoleculeNode moleculeNode = new MoleculeNode(molecule, mvt); 
+        myWorldNode.addChild( moleculeNode );
+        moleculeMap.put( molecule, moleculeNode );
     }
 }

@@ -29,6 +29,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.greenhouse.GreenhouseResources;
 import edu.colorado.phet.greenhouse.model.CarbonDioxide;
+import edu.colorado.phet.greenhouse.model.H2O;
 import edu.colorado.phet.greenhouse.model.Molecule;
 import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel;
 import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel.PhotonTarget;
@@ -54,7 +55,14 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
     
     PhotonAbsorptionModel photonAbsorptionModel;
 
-    private RadioButtonWithIcon co2Button;
+    private RadioButtonWithIconPanel co2Selector;
+    private RadioButtonWithIconPanel h2oSelector;
+    private RadioButtonWithIconPanel ch4Selector;
+    private RadioButtonWithIconPanel n2oSelector;
+    private RadioButtonWithIconPanel n2Selector;
+    private RadioButtonWithIconPanel o2Selector;
+    private RadioButtonWithIconPanel earthAtmospherSelector;
+    private RadioButtonWithIconPanel venusAtmosphereSelector;
 
     // ------------------------------------------------------------------------
     // Constructor(s)
@@ -79,31 +87,17 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
         addControlFullWidth(greenhouseGasPanel);
         
         // Add buttons for selecting greenhouse gas.
-        // TODO: i18n
-        JRadioButton h2oButton = new JRadioButton("H2O");
-        greenhouseGasPanel.add(h2oButton);
-        co2Button = new RadioButtonWithIcon( "CO2", createImageFromMolecule( new CarbonDioxide() ) );
-        greenhouseGasPanel.add(co2Button);
-        co2Button.getButton().addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                photonAbsorptionModel.setPhotonTarget( PhotonTarget.CO2 );
-            }
-        });
-        photonAbsorptionModel.addListener( new PhotonAbsorptionModel.Adapter(){
-            public void photonTargetChanged() {
-                if (photonAbsorptionModel.getPhotonTarget() == PhotonTarget.CO2 && !co2Button.getButton().isSelected()){
-                    co2Button.setEnabled( true );
-                }
-            }
-        });
+        h2oSelector = createAndAttachSelectorPanel( "H2O", createImageFromMolecule( new H2O() ), PhotonTarget.H2O );
+        greenhouseGasPanel.add(h2oSelector);
         
+        co2Selector = createAndAttachSelectorPanel( "CO2", createImageFromMolecule( new CarbonDioxide() ), PhotonTarget.CO2 );
+        greenhouseGasPanel.add(co2Selector);
         
-        // TODO: i18n
-        JRadioButton ch4Button = new JRadioButton("CH4");
-        greenhouseGasPanel.add(ch4Button);
-        // TODO: i18n
-        JRadioButton n2oButton = new JRadioButton("N2O");
-        greenhouseGasPanel.add(n2oButton);
+        ch4Selector = createAndAttachSelectorPanel( "CH4", createImageFromMolecule( new CarbonDioxide() ), PhotonTarget.CH4 );
+        greenhouseGasPanel.add(ch4Selector);
+        
+        n2oSelector = createAndAttachSelectorPanel( "N2O", createImageFromMolecule( new CarbonDioxide() ), PhotonTarget.N2O );
+        greenhouseGasPanel.add(n2oSelector);
         
         // Create and add a panel that will contain the buttons for selecting
         // the non-greenhouse gasses.
@@ -112,13 +106,11 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
         otherGas.setBorder(createTitledBorder("Other Gas"));
         addControlFullWidth(otherGas);
         
-        // Add buttons for other gas selection.
-        // TODO: i18n
-        JRadioButton n2Button = new JRadioButton("N2");
-        otherGas.add(n2Button);
-        // TODO: i18n
-        JRadioButton o2Button = new JRadioButton("O2");
-        otherGas.add(o2Button);
+        n2Selector = createAndAttachSelectorPanel( "N2", createImageFromMolecule( new CarbonDioxide() ), PhotonTarget.N2 );
+        otherGas.add(n2Selector);
+        
+        o2Selector = createAndAttachSelectorPanel( "O2", createImageFromMolecule( new CarbonDioxide() ), PhotonTarget.O2 );
+        otherGas.add(o2Selector);
 
         // Create and add a panel that will contain the buttons for selecting
         // the atmosphere.
@@ -127,13 +119,12 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
         atmosphere.setBorder(createTitledBorder("Atmosphere"));
         addControlFullWidth(atmosphere);
         
-        // Add buttons for atmosphere selection.
         // TODO: i18n
-        JRadioButton earthAtmosphereButton = new JRadioButton("Earth");
-        atmosphere.add(earthAtmosphereButton);
+        earthAtmospherSelector = createAndAttachSelectorPanel( "Earth", createImageFromMolecule( new CarbonDioxide() ), PhotonTarget.EARTH_AIR );
+        atmosphere.add(earthAtmospherSelector);
         // TODO: i18n
-        JRadioButton venusAtmosphereButton = new JRadioButton("Venus");
-        atmosphere.add(venusAtmosphereButton);
+        venusAtmosphereSelector = createAndAttachSelectorPanel( "Venus", createImageFromMolecule( new CarbonDioxide() ), PhotonTarget.VENUS_AIR );
+        atmosphere.add(venusAtmosphereSelector);
 
         // Add the reset all button.
         addControlFullWidth(createVerticalSpacingPanel(60));
@@ -143,6 +134,51 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
     // ------------------------------------------------------------------------
     // Methods
     // ------------------------------------------------------------------------
+    
+    /**
+     * Creates a selector panel with a radio button and an icon and "attaches"
+     * it to the model in the sense that it hooks it up to set the appropriate
+     * value when pressed and select or deselects when the model sends
+     * notifications of changes.  This is a convenience method that exists in
+     * order to avoid duplication of code.
+     */
+    private RadioButtonWithIconPanel createAndAttachSelectorPanel(String text, BufferedImage image, final PhotonTarget photonTarget){
+        
+        // Create the panel.
+        final RadioButtonWithIconPanel panel =  new RadioButtonWithIconPanel( text, image );
+        
+        // Listen to the button so that the specified value can be set in the
+        // model when the button is pressed.
+        panel.getButton().addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                if (panel.getButton().isSelected()){
+                    photonAbsorptionModel.setPhotonTarget( photonTarget );
+                }
+            }
+        });
+        
+        // Listen to the model so that the button state can be updated when
+        // the model setting changes.
+        photonAbsorptionModel.addListener( new PhotonAbsorptionModel.Adapter(){
+            @Override
+            public void photonTargetChanged() {
+                // The logic in these statements is a little hard to follow,
+                // but the basic idea is that if the state of the model
+                // doesn't match that of the button, update the button,
+                // otherwise leave the button alone.  The prevents a bunch
+                // of useless notifications from going to the model.
+                System.out.println("photonTargetChanged called, photonTarget = " + photonTarget);
+                if ((photonAbsorptionModel.getPhotonTarget() == photonTarget) != panel.getButton().isSelected()){
+                    panel.getButton().setSelected( photonAbsorptionModel.getPhotonTarget() == photonTarget );
+                    System.out.println("-->Changing setting to " + (photonAbsorptionModel.getPhotonTarget() == photonTarget));
+                }
+                else{
+                    System.out.println("-->Leaving setting unchanged.");
+                }
+            }
+        });
+        return panel;
+    }
 
 	private TitledBorder createTitledBorder(String title) {
 		BevelBorder otherGasBaseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
@@ -174,7 +210,7 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
      * This class combines an icon and a radio button on to a panel in the way
      * that is needed for this simulation.
      */
-    private static class RadioButtonWithIcon extends HorizontalLayoutPanel {
+    private static class RadioButtonWithIconPanel extends HorizontalLayoutPanel {
         
         // Font to use for labels.
         private static final Font LABEL_FONT = new PhetFont(14);
@@ -182,7 +218,7 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
         // Fixed scale factor for images.
         private static final double IMAGE_SCALING_FACTOR = 0.1;
         
-        private JRadioButton _button;
+        private JRadioButton button;
 
         /**
          * Constructor.
@@ -190,16 +226,15 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
          * @param text
          * @param imageName
          */
-        public RadioButtonWithIcon(String text, BufferedImage image){
+        public RadioButtonWithIconPanel(String text, BufferedImage image){
             
             // Create and add the button.
-            _button = new JRadioButton(text);
-            _button.setFont(LABEL_FONT);
-            add(_button);
+            button = new JRadioButton(text);
+            button.setFont(LABEL_FONT);
+            add(button);
             
             // Create and add the image.
-            BufferedImage scaledImage = BufferedImageUtils.rescaleFractional( image, IMAGE_SCALING_FACTOR,
-                    IMAGE_SCALING_FACTOR );
+            BufferedImage scaledImage = BufferedImageUtils.multiScale( image, IMAGE_SCALING_FACTOR );
             ImageIcon imageIcon = new ImageIcon( scaledImage );
             JLabel iconImageLabel = new JLabel( imageIcon );
             add( iconImageLabel );
@@ -208,13 +243,13 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
             // clicking on the image is the same as clicking on the button.
             iconImageLabel.addMouseListener( new MouseAdapter(){
                 public void mouseReleased(MouseEvent e) {
-                    _button.doClick();
+                    button.doClick();
                 }
             });
         }
         
         public JRadioButton getButton(){
-            return _button;
+            return button;
         }
     }
 }
