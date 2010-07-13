@@ -13,7 +13,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/data" isTestSource="false" />
     </content>
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="flex-3.4.1.10084 (player 9)" jdkType="Flex SDK Type" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="away3d-fp9" />
     <orderEntry type="module" module-name="box2d" />
