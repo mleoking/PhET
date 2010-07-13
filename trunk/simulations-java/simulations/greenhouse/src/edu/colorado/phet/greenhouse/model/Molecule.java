@@ -102,17 +102,6 @@ public abstract class Molecule {
         return false;
     }
     
-    /**
-     * Remove this element from the model by sending out a notification to
-     * all listeners that it has been removed.  It is expected that the
-     * listeners, which may exist in both the view and in other portions of
-     * the model, remove the element and all references thereto.
-     */
-    public void removeSelfFromModel(){
-        notifyRemovedFromModel();
-        listeners.clear();
-    }
-    
     protected void addAtom( Atom atom ){
         atoms.add( atom );
     }
@@ -130,12 +119,6 @@ public abstract class Molecule {
         notifyPhotonEmitted( emittedPhoton );
     }
     
-    private void notifyRemovedFromModel(){
-        for (Listener listener : listeners){
-            listener.removedFromModel();
-        }
-    }
-
     private void notifyPhotonEmitted(Photon photon){
         for (Listener listener : listeners){
             listener.photonEmitted( photon );
@@ -147,12 +130,10 @@ public abstract class Molecule {
     //------------------------------------------------------------------------
 
     public interface Listener {
-        void removedFromModel();
         void photonEmitted(Photon photon);
     }
     
     public static class Adapter implements Listener {
-        public void removedFromModel() {}
         public void photonEmitted(Photon photon) {}
     }
 }
