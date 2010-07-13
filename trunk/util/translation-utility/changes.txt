@@ -1,3 +1,4 @@
+7/13/10 #2421, update URLs that changed with move to wicket-based website
 7/13/10 #2436, consolidate all URLs and email addresses in TUConstants
 7/13/10 fix contractions (eg "don't") in HTML strings that weren't rendering correctly 
 5/28/10 adhoc logging replaced with log4j by JO

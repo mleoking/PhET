@@ -31,11 +31,11 @@ public class TUConstants {
     private static final String PHET_HOME_URL = "http://" + PHET_HOSTNAME;
     
     // Translation Utility home page
-    public static final String TU_HOME_URL = PHET_HOME_URL + "/contribute/translation-utility.php";
+    public static final String TU_HOME_URL = PHET_HOME_URL + "/en/for-translators/translation-utility";
     
     // version info for the latest version of Translation Utility lives here
-    public static final String TU_LATEST_VERSION_URL = PHET_HOME_URL + "/phet-dist/translation-utility/translation-utility.properties";
+    public static final String TU_LATEST_VERSION_URL = PHET_HOME_URL + "/files/translation-utility/translation-utility.properties";
     
     // web page that describes how to "Get PhET"
-    public static final String GET_PHET_URL = PHET_HOME_URL + "/new/get_phet/index.php";
+    public static final String GET_PHET_URL = PHET_HOME_URL + "/en/get-phet";
 }
