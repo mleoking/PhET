@@ -140,7 +140,7 @@ public class InitializationDialog extends JDialog {
             JLabel helpLabel = new JLabel( TUImages.HELP_ICON );
             helpLabel.addMouseListener( new MouseAdapter() {
                 public void mouseReleased( MouseEvent event ) {
-                    String message = MessageFormat.format( TUStrings.HELP_LOCALE_MESSAGE, TUConstants.PHETHELP_EMAIL );
+                    String message = MessageFormat.format( TUStrings.HELP_LOCALE_MESSAGE, TUConstants.PHETHELP_EMAIL, TUStrings.CUSTOM_LOCALE_LABEL );
                     showHelp( message );
                 }
             } );
