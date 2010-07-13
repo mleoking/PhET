@@ -17,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.common.phetcommon.util.PhetLocales;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.translationutility.TUConstants;
 import edu.colorado.phet.translationutility.TUImages;
 import edu.colorado.phet.translationutility.TUResources;
 import edu.colorado.phet.translationutility.TUStrings;
@@ -92,7 +93,8 @@ public class InitializationDialog extends JDialog {
             JLabel helpLabel = new JLabel( TUImages.HELP_ICON );
             helpLabel.addMouseListener( new MouseAdapter() {
                 public void mouseReleased( MouseEvent event ) {
-                    showHelp( TUStrings.HELP_JAR_MESSAGE );
+                    String message = MessageFormat.format( TUStrings.HELP_JAR_MESSAGE, TUConstants.GET_PHET_URL, TUConstants.GET_PHET_URL );
+                    showHelp( message );
                 }
             } );
             helpLabel.setCursor( new Cursor( Cursor.HAND_CURSOR ) );
@@ -138,7 +140,8 @@ public class InitializationDialog extends JDialog {
             JLabel helpLabel = new JLabel( TUImages.HELP_ICON );
             helpLabel.addMouseListener( new MouseAdapter() {
                 public void mouseReleased( MouseEvent event ) {
-                    showHelp( TUStrings.HELP_LOCALE_MESSAGE );
+                    String message = MessageFormat.format( TUStrings.HELP_LOCALE_MESSAGE, TUConstants.PHETHELP_EMAIL );
+                    showHelp( message );
                 }
             } );
             helpLabel.setCursor( new Cursor( Cursor.HAND_CURSOR ) );

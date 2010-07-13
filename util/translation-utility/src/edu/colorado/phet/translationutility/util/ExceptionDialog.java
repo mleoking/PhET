@@ -10,12 +10,14 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.text.MessageFormat;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.translationutility.TUConstants;
 import edu.colorado.phet.translationutility.TUResources;
 import edu.colorado.phet.translationutility.TUStrings;
 
@@ -35,7 +37,8 @@ public class ExceptionDialog extends JDialog {
         
         JLabel errorMessage = new JLabel( TUStrings.ERROR_LABEL + " " + e.getMessage() );
         
-        JLabel reportLabel = new JLabel( TUStrings.ERROR_REPORTING_MESSAGE );
+        String reportString = MessageFormat.format( TUStrings.ERROR_REPORTING_MESSAGE, TUConstants.PHETHELP_EMAIL );
+        JLabel reportLabel = new JLabel( reportString );
         
         String infoString = "Translation Utility version: " + TUResources.getVersion() + "\n";
         infoString += "OS version: " + System.getProperty( "os.name" ) + " " + System.getProperty( "os.version" ) + "\n";

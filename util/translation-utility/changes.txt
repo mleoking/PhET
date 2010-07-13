@@ -1,3 +1,5 @@
+7/13/10 #2436, consolidate all URLs and email addresses in TUConstants
+7/13/10 fix contractions (eg "don't") in HTML strings that weren't rendering correctly 
 5/28/10 adhoc logging replaced with log4j by JO
 4/1/10 changed "Brazilian Portuguese" to "Portuguese, Brazil" to be consistent with website (see #2250)
 # 2.08.00 (39581) Apr 1, 2010
