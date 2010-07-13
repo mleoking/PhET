@@ -2,10 +2,12 @@
 
 package edu.colorado.phet.greenhouse.model;
 
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.util.Random;
 
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
+import edu.umd.cs.piccolo.util.PDimension;
 
 
 /**
@@ -19,7 +21,10 @@ public class H2O extends Molecule {
     // Class Data
     // ------------------------------------------------------------------------
     
-    private static final double INITIAL_OXYGEN_HYDROGEN_DISTANCE = 170; // In picometers.
+    // TODO: These values should be calculated for correct COG.
+    private static final Dimension2D INITIAL_OXYGEN_OFFSET = new PDimension(0, 10); // In picometers.
+    private static final Dimension2D INITIAL_HYDROGEN1_OFFSET = new PDimension(-90, -90); // In picometers.
+    private static final Dimension2D INITIAL_HYDROGEN2_OFFSET = new PDimension(90, -90); // In picometers.
     
     private static final double OSCILLATION_FREQUENCY = 6;  // Cycles per second of sim time.
     
@@ -60,6 +65,9 @@ public class H2O extends Molecule {
         addAtom( hydrogenAtom2 );
         addAtomicBond( oxygenHydrogenBond1 );
         addAtomicBond( oxygenHydrogenBond2 );
+
+        // Set the initial offsets.
+        initializeCogOffsets();
         
         // Set the initial COG position.
         setCenterOfGravityPos( inititialCenterOfGravityPos );
@@ -73,31 +81,16 @@ public class H2O extends Molecule {
     // Methods
     // ------------------------------------------------------------------------
     
-    /**
-     * Set or restore this molecule to its initial configuration, meaning that
-     * no oscillatory bends are happening.
-     */
-    private void setInitialConfiguration(){
-        Point2D cog = getCenterOfGravityPos();
-        // TODO: This is not right and needs work.
-        oxygenAtom.setPosition( cog );
-        hydrogenAtom1.setPosition( cog.getX() - INITIAL_OXYGEN_HYDROGEN_DISTANCE, cog.getY() + 20 );
-        hydrogenAtom2.setPosition( cog.getX() + INITIAL_OXYGEN_HYDROGEN_DISTANCE, cog.getY() + 20 );
-        oscillationRadians = 0;
-    }
-
     /* (non-Javadoc)
-     * @see edu.colorado.phet.greenhouse.model.Molecule#setCenterOfGravityPos(java.awt.geom.Point2D)
+     * @see edu.colorado.phet.greenhouse.model.Molecule#initializeCogOffsets()
      */
     @Override
-    public void setCenterOfGravityPos( Point2D centerOfGravityPos ) {
-        
-        // TODO: Does not handle oscillation.
-        oxygenAtom.setPosition( centerOfGravityPos );
-        hydrogenAtom1.setPosition( centerOfGravityPos.getX() - INITIAL_OXYGEN_HYDROGEN_DISTANCE, centerOfGravityPos.getY() );
-        hydrogenAtom2.setPosition( centerOfGravityPos.getX() + INITIAL_OXYGEN_HYDROGEN_DISTANCE, centerOfGravityPos.getY() );
+    protected void initializeCogOffsets() {
+        atomCogOffsets.put(oxygenAtom, INITIAL_OXYGEN_OFFSET);
+        atomCogOffsets.put(hydrogenAtom1, INITIAL_HYDROGEN1_OFFSET);
+        atomCogOffsets.put(hydrogenAtom2, INITIAL_HYDROGEN2_OFFSET);
     }
-
+    
     @Override
     public boolean absorbPhoton( Photon photon ) {
         if (!photonAbsorbed &&
@@ -112,14 +105,5 @@ public class H2O extends Molecule {
         else{
             return false;
         }
-    }
-
-    /* (non-Javadoc)
-     * @see edu.colorado.phet.greenhouse.model.Molecule#initializeCogOffsets()
-     */
-    @Override
-    protected void initializeCogOffsets() {
-        // TODO Auto-generated method stub
-        
     }
 }
