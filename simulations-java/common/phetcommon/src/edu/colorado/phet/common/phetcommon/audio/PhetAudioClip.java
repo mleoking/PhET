@@ -14,11 +14,11 @@ import javax.sound.sampled.*;
  * TODO: why not use Applet.newAudioClip instead of this implementation?
  */
 public class PhetAudioClip {
+    
     private static final int EXTERNAL_BUFFER_SIZE = 4000;
 
     private final URL url;
-
-    private volatile boolean playing;
+    private volatile boolean processing;
 
     public PhetAudioClip( String resourceName ) {
         this( Thread.currentThread().getContextClassLoader().getResource( resourceName ) );
@@ -28,29 +28,59 @@ public class PhetAudioClip {
         this.url = url;
     }
 
-    public boolean isPlaying() {
-        return playing;
+    /**
+     * Plays the audio clip.
+     */
+    public void play() {
+        startAudioThread( true );
+    }
+    
+    /**
+     * Loads the audio clip into memory, but does not actually play it.
+     * Use this to avoid the delay that occurs the first time that an audio file is played.
+     * Note that this doesn't do any buffering, the data is read and discarded.
+     * But there's something about doing reading the data the eliminates the delay.
+     */
+    public void preload() {
+        startAudioThread( false );
+    }
+    
+    /**
+     * Is the data in the audio resource being processed?
+     * @return
+     */
+    public boolean isProcessing() {
+        return processing;
     }
 
-    public void play() {
+    /*
+     * Starts the thread that processes the audio resource.
+     * @param doPlay true sends the audio data to the audio system, false just reads the audio data.
+     */
+    private void startAudioThread( final boolean doPlay ) {
         Thread playingThread = new Thread( new Runnable() {
             public void run() {
                 try {
-                    blockingPlay();
+                    processAudio( doPlay );
                 }
                 catch( Exception e ) {
                     e.printStackTrace();
                 }
             }
         } );
-
         playingThread.setDaemon( true );
-
         playingThread.start();
     }
 
-    private void blockingPlay() {
-        playing = true;
+    /*
+     * Processes the audio resource associated with this clip.
+     * Called with doPlay=true, this sends the audio data to the audio system.
+     * Called with doPlay=false, the data is read into memory but is not sent 
+     * to the audio system. This is useful for avoiding the delay that occurs
+     * the first time that an audio file is played.
+     */
+    private void processAudio( boolean doPlay ) {
+        processing = true;
 
         try {
             AudioInputStream audioInputStream;
@@ -108,14 +138,16 @@ public class PhetAudioClip {
                     break;
                 }
                 if ( nBytesRead >= 0 ) {
-                    line.write( abData, 0, nBytesRead );
+                    if ( doPlay ) {
+                        line.write( abData, 0, nBytesRead );
+                    }
                 }
             }
             line.drain();
             line.close();
         }
         finally {
-            playing = false;
+            processing = false; //TODO using finalize should be avoided
         }
     }
 }
