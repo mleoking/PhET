@@ -70,4 +70,9 @@ public class PhotonAbsorptionModule extends PiccoloModule {
 		clockControlPanel = new PiccoloClockControlPanel( clock );
         return clockControlPanel;
     }
+
+    @Override
+    public void reset() {
+        model.reset();
+    }
 }

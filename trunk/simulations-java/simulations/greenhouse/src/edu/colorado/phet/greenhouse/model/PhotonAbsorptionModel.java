@@ -58,6 +58,9 @@ public class PhotonAbsorptionModel {
     
     // Choices of targets for the photon emission.
     public enum PhotonTarget { CO2, H2O, CH4, N2O, N2, O2, EARTH_AIR, VENUS_AIR };
+    
+    // Defaults.
+    private static final PhotonTarget DEFAULT_PHOTON_TARGET = PhotonTarget.CO2;
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -67,7 +70,7 @@ public class PhotonAbsorptionModel {
     private ArrayList<Photon> photons = new ArrayList<Photon>();
     private double photonWavelength = GreenhouseConfig.sunlightWavelength;
     private final ArrayList<Molecule> molecules = new ArrayList<Molecule>();
-    private PhotonTarget photonTarget = PhotonTarget.CO2;
+    private PhotonTarget photonTarget = null;
    
     //----------------------------------------------------------------------------
     // Constructor(s)
@@ -82,26 +85,22 @@ public class PhotonAbsorptionModel {
             }
         });
         
-        // TODO: Temp init code for testing.
-        Molecule initialMolecule = new CarbonDioxide( SINGLE_MOLECULE_LOCATION ); 
-        molecules.add( initialMolecule );
-        initialMolecule.addListener( new Molecule.Adapter() {
-            
-            public void removedFromModel() {
-            // TODO Auto-generated method stub
-            }
-            
-            public void photonEmitted( Photon photon ) {
-                photons.add( photon );
-                notifyPhotonAdded( photon );
-            }
-        });
+        // Note: It is expected that this model will be reset as part of the
+        // initialization sequence, so additional initialization is performed
+        // there.
     }
 
     //----------------------------------------------------------------------------
     // Methods
     //----------------------------------------------------------------------------
-    
+
+    /**
+     * Reset the model to its initial state. 
+     */
+    public void reset() {
+        setPhotonTarget( DEFAULT_PHOTON_TARGET );
+    }
+
     public void stepInTime(double dt){
         ArrayList<Photon> photonsToRemove = new ArrayList<Photon>();
         for (Photon photon : photons){
@@ -134,6 +133,33 @@ public class PhotonAbsorptionModel {
     public void setPhotonTarget( PhotonTarget photonTarget ){
         if (this.photonTarget != photonTarget){
             this.photonTarget = photonTarget;
+            
+            // Remove the old photon target(s).
+            ArrayList<Molecule> copyOfMolecules = new ArrayList<Molecule>( molecules );
+            molecules.clear();
+            for (Molecule molecule : copyOfMolecules){
+                notifyMoleculeRemoved( molecule );
+            }
+            
+            // Add the new photon target(s).
+            Molecule molecule;
+            switch (photonTarget){
+            case CO2:
+                molecule = new CarbonDioxide(SINGLE_MOLECULE_LOCATION);
+                molecules.add( molecule );
+                notifyMoleculeAdded( molecule );
+                break;
+            case H2O:
+                molecule = new H2O(SINGLE_MOLECULE_LOCATION);
+                molecules.add( molecule );
+                notifyMoleculeAdded( molecule );
+                break;
+            default:
+                System.err.println(getClass().getName() + " - Error: Unhandled molecule type.");
+                break;
+            }
+            
+            // Send out general notification about the change.
             notifyPhotonTargetChanged();
         }
     }
@@ -197,6 +223,18 @@ public class PhotonAbsorptionModel {
         }
     }
     
+    private void notifyMoleculeAdded(Molecule molecule){
+        for (Listener listener : listeners.getListeners(Listener.class)){
+            listener.moleculeAdded( molecule );
+        }
+    }
+    
+    private void notifyMoleculeRemoved(Molecule molecule){
+        for (Listener listener : listeners.getListeners(Listener.class)){
+            listener.moleculeRemoved( molecule );
+        }
+    }
+    
     private void notifyPhotonWavelengthChanged() {
         for (Listener listener : listeners.getListeners(Listener.class)){
             listener.photonWavelengthChanged();
@@ -216,6 +254,8 @@ public class PhotonAbsorptionModel {
     public interface Listener extends EventListener {
         void photonAdded(Photon photon);
         void photonRemoved(Photon photon);
+        void moleculeAdded(Molecule molecule);
+        void moleculeRemoved(Molecule molecule);
         void photonWavelengthChanged();
         void photonTargetChanged();
     }
@@ -225,5 +265,7 @@ public class PhotonAbsorptionModel {
         public void photonWavelengthChanged() {}
         public void photonRemoved( Photon photon ) {}
         public void photonTargetChanged() {}
+        public void moleculeAdded( Molecule molecule ) {}
+        public void moleculeRemoved( Molecule molecule ) {}
     }
 }
