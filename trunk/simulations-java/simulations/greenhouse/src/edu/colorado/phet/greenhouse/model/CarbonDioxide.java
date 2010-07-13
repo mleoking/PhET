@@ -6,6 +6,7 @@ import java.awt.geom.Point2D;
 import java.util.Random;
 
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
+import edu.umd.cs.piccolo.util.PDimension;
 
 
 /**
@@ -28,6 +29,10 @@ public class CarbonDioxide extends Molecule {
     private static final double MIN_PHOTON_HOLD_TIME = 500; // Milliseconds of sim time.
     private static final double MAX_PHOTON_HOLD_TIME = 1500; // Milliseconds of sim time.
     private static final double ABSORPTION_HYSTERESIS_TIME = 200; // Milliseconds of sim time.
+    
+    // TODO: These need to be calculated more accurately so that COG is maintained.
+    private static final double CARBON_MAX_DEFLECTION = 20;
+    private static final double OXYGEN_MAX_DEFLECTION = 10;
     
     private static final Random RAND = new Random();
 
@@ -61,6 +66,9 @@ public class CarbonDioxide extends Molecule {
         addAtomicBond( carbonOxygenBond1 );
         addAtomicBond( carbonOxygenBond2 );
         
+        // Set the initial offsets.
+        initializeCogOffsets();
+        
         // Set the initial COG position.
         setCenterOfGravityPos( inititialCenterOfGravityPos );
     }
@@ -73,7 +81,6 @@ public class CarbonDioxide extends Molecule {
     // Methods
     // ------------------------------------------------------------------------
     
-    private static final double OSC_DIST = 10;
     @Override
     public void stepInTime( double dt ) {
         
@@ -83,13 +90,6 @@ public class CarbonDioxide extends Molecule {
             if (oscillationRadians >= 2 * Math.PI){
                 oscillationRadians -= 2 * Math.PI;
             }
-            // Move the carbon atom.
-            carbonAtom.setPosition( carbonAtom.getPosition().getX(), 
-                    carbonAtom.getPosition().getY() + OSC_DIST * Math.cos( oscillationRadians ) );
-            oxygenAtom1.setPosition( oxygenAtom1.getPosition().getX(), 
-                    oxygenAtom1.getPosition().getY() - OSC_DIST * Math.cos( oscillationRadians ) );
-            oxygenAtom2.setPosition( oxygenAtom2.getPosition().getX(), 
-                    oxygenAtom2.getPosition().getY() - OSC_DIST * Math.cos( oscillationRadians ) );
             
             // See if it is time to re-emit the photon.
             photonHoldCountdownTime -= dt;
@@ -98,8 +98,15 @@ public class CarbonDioxide extends Molecule {
                 emitPhoton( GreenhouseConfig.irWavelength );
                 photonAbsorbed = false;
                 absorbtionHysteresisCountdownTime = ABSORPTION_HYSTERESIS_TIME;
-                setInitialConfiguration();
+                oscillationRadians = 0;
             }
+            
+            // Update the offset of the atoms based on the current oscillation
+            // index.
+            updateAtomOffsets();
+            
+            // Update the atom positions.
+            updateAtomPositions();
         }
         
         if (absorbtionHysteresisCountdownTime > 0){
@@ -107,30 +114,13 @@ public class CarbonDioxide extends Molecule {
         }
     }
     
-    /**
-     * Set or restore this molecule to its initial configuration, meaning that
-     * no oscillatory bends are happening.
-     */
-    private void setInitialConfiguration(){
-        Point2D cog = getCenterOfGravityPos();
-        carbonAtom.setPosition( cog );
-        oxygenAtom1.setPosition( cog.getX() - INITIAL_CARBON_OXYGEN_DISTANCE, cog.getY() );
-        oxygenAtom2.setPosition( cog.getX() + INITIAL_CARBON_OXYGEN_DISTANCE, cog.getY() );
-        oscillationRadians = 0;
+    private void updateAtomOffsets(){
+        double multFactor = Math.sin( oscillationRadians );
+        atomCogOffsets.put(carbonAtom, new PDimension(0, multFactor * CARBON_MAX_DEFLECTION));
+        atomCogOffsets.put(oxygenAtom1, new PDimension(INITIAL_CARBON_OXYGEN_DISTANCE, -multFactor * OXYGEN_MAX_DEFLECTION));
+        atomCogOffsets.put(oxygenAtom2, new PDimension(-INITIAL_CARBON_OXYGEN_DISTANCE, - multFactor * OXYGEN_MAX_DEFLECTION));
     }
-
-    /* (non-Javadoc)
-     * @see edu.colorado.phet.greenhouse.model.Molecule#setCenterOfGravityPos(java.awt.geom.Point2D)
-     */
-    @Override
-    public void setCenterOfGravityPos( Point2D centerOfGravityPos ) {
-        
-        // TODO: Does not handle oscillation.
-        carbonAtom.setPosition( centerOfGravityPos );
-        oxygenAtom1.setPosition( centerOfGravityPos.getX() - INITIAL_CARBON_OXYGEN_DISTANCE, centerOfGravityPos.getY() );
-        oxygenAtom2.setPosition( centerOfGravityPos.getX() + INITIAL_CARBON_OXYGEN_DISTANCE, centerOfGravityPos.getY() );
-    }
-
+    
     @Override
     public boolean absorbPhoton( Photon photon ) {
         if (!photonAbsorbed &&
@@ -145,5 +135,15 @@ public class CarbonDioxide extends Molecule {
         else{
             return false;
         }
+    }
+
+    /* (non-Javadoc)
+     * @see edu.colorado.phet.greenhouse.model.Molecule#initializeCogOffsets()
+     */
+    @Override
+    protected void initializeCogOffsets() {
+        atomCogOffsets.put(carbonAtom, new PDimension(0, 0));
+        atomCogOffsets.put(oxygenAtom1, new PDimension(INITIAL_CARBON_OXYGEN_DISTANCE, 0));
+        atomCogOffsets.put(oxygenAtom2, new PDimension(-INITIAL_CARBON_OXYGEN_DISTANCE, 0));
     }
 }
