@@ -61,6 +61,10 @@ public class TUResources {
         return version.formatForAboutDialog() + " " + version.formatTimestamp();
     }
     
+    public static String getVersionMajorMinorDev() {
+        return RESOURCES.getVersion().formatMajorMinorDev();
+    }
+    
     public static String getOSVersion() {
         return System.getProperty( "os.name" ) + " " + System.getProperty( "os.version" );
     }

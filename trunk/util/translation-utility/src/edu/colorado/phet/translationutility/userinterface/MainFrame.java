@@ -310,8 +310,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
         // Use a JEditorPane so that it's possible to copy-paste the filename and email address.
         JEditorPane submitText = new JEditorPane();
         submitText.setEditorKit( new HTMLEditorKit() );
-        Object[] args = { outFile.getAbsolutePath() };
-        String html = MessageFormat.format( TUStrings.SUBMIT_MESSAGE, args );
+        String html = MessageFormat.format( TUStrings.SUBMIT_MESSAGE, outFile.getAbsolutePath(), TUConstants.PHETHELP_EMAIL );
         submitText.setText( html );
         submitText.setEditable( false );
         submitText.setBackground( new JLabel().getBackground() );
@@ -352,7 +351,8 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
      * Opens a dialog that contains help information.
      */
     public void handleHelp() {
-        JOptionPane.showMessageDialog( this, TUStrings.HELP_MESSAGE, TUStrings.HELP_TITLE, JOptionPane.INFORMATION_MESSAGE );
+        String message = MessageFormat.format( TUStrings.HELP_MESSAGE, TUConstants.PHETHELP_EMAIL, TUResources.getVersionMajorMinorDev() );
+        JOptionPane.showMessageDialog( this, message, TUStrings.HELP_TITLE, JOptionPane.INFORMATION_MESSAGE );
     }
     
     //----------------------------------------------------------------------------
