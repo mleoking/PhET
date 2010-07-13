@@ -46,7 +46,6 @@ public abstract class MovingManModule extends Module {
 
     public MovingManModule(PhetFrame frame, String name) {
         super(name, new ConstantDtClock(MovingManModel.CLOCK_DELAY_MS, MovingManModel.DT));
-        CrashSound.init();
 
         movingManModel.addCollisionListener(new JListener() {
             public void eventOccurred() {
