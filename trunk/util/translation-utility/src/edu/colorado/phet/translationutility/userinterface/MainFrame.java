@@ -110,9 +110,19 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
         
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         
+        // make sure that we didn't exceed the screen dimensions
+        {
+            if ( getWidth() > screenSize.getWidth() ) {
+                setSize( (int) Math.min( getWidth(), screenSize.getWidth() ), getHeight() );
+            }
+            if ( getHeight() > screenSize.getHeight() ) {
+                setSize( getWidth(), (int) Math.min( getHeight(), screenSize.getHeight() ) );
+            }
+        }
+        
         //WORKAROUND: decrease the height to account for Windows task bar
         if ( PhetUtilities.isWindows() ) {
-            int overlap = getBounds().height - screenSize.height - TUConstants.WINDOWS_TASK_BAR_HEIGHT;
+            int overlap = getBounds().height - ( screenSize.height - TUConstants.WINDOWS_TASK_BAR_HEIGHT );
             if ( overlap > 0 ) {
                 setBounds( getBounds().x, getBounds().y, getBounds().width, getBounds().height - overlap );
             }
