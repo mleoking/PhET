@@ -73,7 +73,7 @@ public class FaradayConstants {
     //----------------------------------------------------------------------------
     
     public static final Dimension BAR_MAGNET_SIZE = new Dimension( 250, 50 ); // these should match barMagnet.png
-    public static final double BAR_MAGNET_STRENGTH_MAX = 600.0; // Gauss
+    public static final double BAR_MAGNET_STRENGTH_MAX = 300.0; // Gauss
     public static final double BAR_MAGNET_STRENGTH_MIN = 0; // Gauss
 
     //----------------------------------------------------------------------------
