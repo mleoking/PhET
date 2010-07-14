@@ -1,3 +1,4 @@
+Fixed velocity and acceleration vector arrows to always be the same width independent of magnitude
 # 1.28.03 (42182) Jul 11, 2010
 Added axis rotation animation when reversing the x axis
 Fixed: Vertical axis labels should have tick marks
