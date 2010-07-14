@@ -32,6 +32,8 @@ import edu.colorado.phet.greenhouse.model.CH4;
 import edu.colorado.phet.greenhouse.model.CO2;
 import edu.colorado.phet.greenhouse.model.H2O;
 import edu.colorado.phet.greenhouse.model.Molecule;
+import edu.colorado.phet.greenhouse.model.N2;
+import edu.colorado.phet.greenhouse.model.N2O;
 import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel;
 import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel.PhotonTarget;
 import edu.colorado.phet.greenhouse.view.MoleculeNode;
@@ -97,7 +99,7 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
         ch4Selector = createAndAttachSelectorPanel( "CH4", createImageFromMolecule( new CH4() ), PhotonTarget.CH4 );
         greenhouseGasPanel.add(ch4Selector);
         
-        n2oSelector = createAndAttachSelectorPanel( "N2O", createImageFromMolecule( new CO2() ), PhotonTarget.N2O );
+        n2oSelector = createAndAttachSelectorPanel( "N2O", createImageFromMolecule( new N2O() ), PhotonTarget.N2O );
         greenhouseGasPanel.add(n2oSelector);
         
         // Create and add a panel that will contain the buttons for selecting
@@ -107,7 +109,7 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
         otherGas.setBorder(createTitledBorder("Other Gas"));
         addControlFullWidth(otherGas);
         
-        n2Selector = createAndAttachSelectorPanel( "N2", createImageFromMolecule( new CO2() ), PhotonTarget.N2 );
+        n2Selector = createAndAttachSelectorPanel( "N2", createImageFromMolecule( new N2() ), PhotonTarget.N2 );
         otherGas.add(n2Selector);
         
         o2Selector = createAndAttachSelectorPanel( "O2", createImageFromMolecule( new CO2() ), PhotonTarget.O2 );

@@ -165,6 +165,14 @@ public class PhotonAbsorptionModel {
                 newMolecule = new CH4(SINGLE_MOLECULE_LOCATION);
                 molecules.add( newMolecule );
                 break;
+            case N2O:
+                newMolecule = new N2O(SINGLE_MOLECULE_LOCATION);
+                molecules.add( newMolecule );
+                break;
+            case N2:
+                newMolecule = new N2(SINGLE_MOLECULE_LOCATION);
+                molecules.add( newMolecule );
+                break;
             default:
                 System.err.println(getClass().getName() + " - Error: Unhandled molecule type.");
                 break;
