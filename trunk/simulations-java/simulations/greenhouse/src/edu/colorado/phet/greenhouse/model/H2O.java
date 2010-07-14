@@ -21,6 +21,21 @@ public class H2O extends Molecule {
     // Class Data
     // ------------------------------------------------------------------------
     
+    // These constants define the initial shape of the water atom.  The angle
+    // between the atoms is intended to be correct, and the bond is somewhat
+    // longer than real life.  The algebraic calculations are intended to make
+    // it so that the bond length and/or the angle could be changed and the
+    // correct center of gravity will be maintained.
+    private static final double OXYGEN_HYDROGEN_BOND_LENGTH = 200;
+    private static final double INITIAL_HYDROGEN_OXYGEN_HYDROGEN_ANGLE = 104.5;
+    private static final double INITIAL_OXYGEN_VERTICAL_DISPLACEMENT = 2 * new HydrogenAtom().getMass() * 
+        OXYGEN_HYDROGEN_BOND_LENGTH * Math.cos( INITIAL_HYDROGEN_OXYGEN_HYDROGEN_ANGLE ) / (new OxygenAtom().getMass() *
+        2 * new HydrogenAtom().getMass());
+    private static final double INITIAL_HYDROGEN_VERTICAL_DISPLACEMENT = INITIAL_OXYGEN_VERTICAL_DISPLACEMENT -
+        OXYGEN_HYDROGEN_BOND_LENGTH * Math.cos( INITIAL_HYDROGEN_OXYGEN_HYDROGEN_ANGLE );
+    private static final double INITIAL_HYDROGEN_HORIZONTAL_DISPLACEMENT = OXYGEN_HYDROGEN_BOND_LENGTH *
+        Math.sin( INITIAL_HYDROGEN_OXYGEN_HYDROGEN_ANGLE );
+        
     // TODO: These values should be calculated for correct COG.
     private static final Dimension2D INITIAL_OXYGEN_OFFSET = new PDimension(0, 10); // In picometers.
     private static final Dimension2D INITIAL_HYDROGEN1_OFFSET = new PDimension(-90, -90); // In picometers.
@@ -86,9 +101,11 @@ public class H2O extends Molecule {
      */
     @Override
     protected void initializeCogOffsets() {
-        atomCogOffsets.put(oxygenAtom, INITIAL_OXYGEN_OFFSET);
-        atomCogOffsets.put(hydrogenAtom1, INITIAL_HYDROGEN1_OFFSET);
-        atomCogOffsets.put(hydrogenAtom2, INITIAL_HYDROGEN2_OFFSET);
+        atomCogOffsets.put(oxygenAtom, new PDimension(0, INITIAL_OXYGEN_VERTICAL_DISPLACEMENT));
+        atomCogOffsets.put(hydrogenAtom1, new PDimension(INITIAL_HYDROGEN_HORIZONTAL_DISPLACEMENT,
+                -INITIAL_HYDROGEN_VERTICAL_DISPLACEMENT));
+        atomCogOffsets.put(hydrogenAtom2, new PDimension(-INITIAL_HYDROGEN_HORIZONTAL_DISPLACEMENT,
+                -INITIAL_HYDROGEN_VERTICAL_DISPLACEMENT));
     }
     
     @Override
