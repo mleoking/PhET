@@ -167,13 +167,8 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
                 // doesn't match that of the button, update the button,
                 // otherwise leave the button alone.  The prevents a bunch
                 // of useless notifications from going to the model.
-                System.out.println("photonTargetChanged called, photonTarget = " + photonTarget);
                 if ((photonAbsorptionModel.getPhotonTarget() == photonTarget) != panel.getButton().isSelected()){
                     panel.getButton().setSelected( photonAbsorptionModel.getPhotonTarget() == photonTarget );
-                    System.out.println("-->Changing setting to " + (photonAbsorptionModel.getPhotonTarget() == photonTarget));
-                }
-                else{
-                    System.out.println("-->Leaving setting unchanged.");
                 }
             }
         });
