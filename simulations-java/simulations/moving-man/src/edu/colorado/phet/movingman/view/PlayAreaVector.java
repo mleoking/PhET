@@ -28,7 +28,7 @@ public class PlayAreaVector extends PNode {
         } else {
             path.setPathTo(new Arrow(new Point2D.Double(x, y), new Point2D.Double(x2, y2), headWidth, headWidth, tailWidth,
                     1 / 2.0, //so that the arrow shrinks proportionately
-                    true).getShape());
+                    false ).getShape());
         }
     }
 }
