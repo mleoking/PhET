@@ -30,9 +30,12 @@ public class CarbonDioxide extends Molecule {
     private static final double MAX_PHOTON_HOLD_TIME = 1500; // Milliseconds of sim time.
     private static final double ABSORPTION_HYSTERESIS_TIME = 200; // Milliseconds of sim time.
     
-    // TODO: These need to be calculated more accurately so that COG is maintained.
-    private static final double CARBON_MAX_DEFLECTION = 20;
-    private static final double OXYGEN_MAX_DEFLECTION = 10;
+    // Deflection amounts used for the oscillation of the CO2 atoms.  These
+    // are calculated such that the actual center of gravity should remain
+    // constant.
+    private static final double CARBON_MAX_DEFLECTION = 60;
+    private static final double OXYGEN_MAX_DEFLECTION =
+        new CarbonAtom().getMass() * CARBON_MAX_DEFLECTION / (2 * new OxygenAtom().getMass());
     
     private static final Random RAND = new Random();
 
