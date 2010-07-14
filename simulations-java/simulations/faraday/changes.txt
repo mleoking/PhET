@@ -1,3 +1,5 @@
+# 2.03.04 (42283) Jul 14, 2010
+7/14/10 see #2236, dev version to discuss progress on grid-file model for bar magnet
 7/14/10 #2236, add interpolation to grid-file model for bar magnet
 7/14/10 #2236, first pass at grid-file model for bar magnet
 7/14/10 #2236, remove developer controls related to dipole magnet model, since we're replacing it
