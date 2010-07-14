@@ -11,7 +11,6 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.faraday.FaradayResources;
 import edu.colorado.phet.faraday.FaradayStrings;
@@ -52,14 +51,17 @@ public class NumericalBarMagnet extends AbstractMagnet {
     // values using in MathCAD
     private static final double GRID_SPACING = 4; // same in both dimensions
     private static final Dimension GRID_SIZE = new Dimension( 125, 50 ); // number of points in the grid
-    private static final DoubleRange GRID_X_RANGE = new DoubleRange( 0, GRID_SPACING * ( GRID_SIZE.width - 1 ) );
-    private static final DoubleRange GRID_Y_RANGE = new DoubleRange( 0, GRID_SPACING * ( GRID_SIZE.height - 1 ) );
     private static final double GRID_MAGNET_STRENGTH = 1; // Gauss
     
+    // convenience constants
+    private static final double GRID_X_MAX = GRID_SPACING * ( GRID_SIZE.width - 1 );
+    private static final double GRID_Y_MAX = GRID_SPACING * ( GRID_SIZE.height - 1 );
+    
+    // grid file names
     private static final String BX_RESOURCE_NAME = "bfield/Bx.csv"; // B-field vector x components, one quadrant (+x +y)
     private static final String BY_RESOURCE_NAME = "bfield/By.csv"; // B-field vector y components, one quadrant (+x +y)
     
-    final double[][] bxArray, byArray;
+    final double[][] bxArray, byArray; // Bx and By component arrays, units of Gauss
     
     public NumericalBarMagnet() {
         super();
@@ -148,7 +150,7 @@ public class NumericalBarMagnet extends AbstractMagnet {
      * Does the grid contain this point?
      */
     private boolean gridContains( double x, double y ) {
-        return GRID_X_RANGE.contains( x ) && GRID_Y_RANGE.contains( y );
+        return ( x >=0 && x <= GRID_X_MAX && y >= 0 && y <= GRID_Y_MAX );
     }
 
     /*
