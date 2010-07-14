@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.faraday.FaradayResources;
 import edu.colorado.phet.faraday.FaradayStrings;
@@ -48,9 +49,13 @@ import edu.colorado.phet.faraday.util.Vector2D;
  */
 public class NumericalBarMagnet extends AbstractMagnet {
 
-    private static final Dimension GRID_SPACING = new Dimension( 4, 4 ); // value used when generating data files in MathCAD
-    private static final Dimension GRID_SIZE = new Dimension( 125, 50 ); // value used when generating data files in MathCAD
-    private static final double GRID_MAGNET_STRENGTH = 1; // strength of the magnet used in MathCAD, in Gauss
+    // values using in MathCAD
+    private static final double GRID_SPACING = 4; // same in both dimensions
+    private static final Dimension GRID_SIZE = new Dimension( 125, 50 ); // number of points in the grid
+    private static final DoubleRange GRID_X_RANGE = new DoubleRange( 0, GRID_SPACING * ( GRID_SIZE.width - 1 ) );
+    private static final DoubleRange GRID_Y_RANGE = new DoubleRange( 0, GRID_SPACING * ( GRID_SIZE.height - 1 ) );
+    private static final double GRID_MAGNET_STRENGTH = 1; // Gauss
+    
     private static final String BX_RESOURCE_NAME = "bfield/Bx.csv"; // B-field vector x components, one quadrant (+x +y)
     private static final String BY_RESOURCE_NAME = "bfield/By.csv"; // B-field vector y components, one quadrant (+x +y)
     
@@ -131,8 +136,8 @@ public class NumericalBarMagnet extends AbstractMagnet {
         }
         double value = 0; // B-field outside the grid is zero
         if ( gridContains( x, y ) ) {
-            int columnIndex = (int) ( x / GRID_SPACING.width );
-            int rowIndex = (int) ( y / GRID_SPACING.height );
+            int columnIndex = (int) ( x / GRID_SPACING );
+            int rowIndex = (int) ( y / GRID_SPACING );
             //TODO need to interpolate here, instead of rounding to nearest point
             value = componentValues[columnIndex][rowIndex];
         }
@@ -143,9 +148,7 @@ public class NumericalBarMagnet extends AbstractMagnet {
      * Does the grid contain this point?
      */
     private boolean gridContains( double x, double y ) {
-        boolean xInside = ( x >=0 && x <= ( GRID_SPACING.width * ( GRID_SIZE.width - 1 ) ) ); //XXX 0-496
-        boolean yInside = ( y >=0 && y <= ( GRID_SPACING.height * ( GRID_SIZE.height - 1 ) ) ); //XXX 0-196
-        return ( xInside && yInside );
+        return GRID_X_RANGE.contains( x ) && GRID_Y_RANGE.contains( y );
     }
 
     /*
