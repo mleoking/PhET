@@ -151,23 +151,29 @@ public class PhotonAbsorptionModel {
             }
             
             // Add the new photon target(s).
-            Molecule molecule;
+            Molecule newMolecule;
             switch (photonTarget){
             case CO2:
-                molecule = new CO2(SINGLE_MOLECULE_LOCATION);
-                molecule.addListener( moleculePhotonEmissionListener );
-                molecules.add( molecule );
-                notifyMoleculeAdded( molecule );
+                newMolecule = new CO2(SINGLE_MOLECULE_LOCATION);
+                molecules.add( newMolecule );
                 break;
             case H2O:
-                molecule = new H2O(SINGLE_MOLECULE_LOCATION);
-                molecule.addListener( moleculePhotonEmissionListener );
-                molecules.add( molecule );
-                notifyMoleculeAdded( molecule );
+                newMolecule = new H2O(SINGLE_MOLECULE_LOCATION);
+                molecules.add( newMolecule );
+                break;
+            case CH4:
+                newMolecule = new CH4(SINGLE_MOLECULE_LOCATION);
+                molecules.add( newMolecule );
                 break;
             default:
                 System.err.println(getClass().getName() + " - Error: Unhandled molecule type.");
                 break;
+            }
+            
+            // Send out notifications about the new molecule(s);
+            for (Molecule molecule : molecules){
+                molecule.addListener( moleculePhotonEmissionListener );
+                notifyMoleculeAdded( molecule );
             }
             
             // Send out general notification about the change.

@@ -28,6 +28,7 @@ import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.greenhouse.GreenhouseResources;
+import edu.colorado.phet.greenhouse.model.CH4;
 import edu.colorado.phet.greenhouse.model.CO2;
 import edu.colorado.phet.greenhouse.model.H2O;
 import edu.colorado.phet.greenhouse.model.Molecule;
@@ -93,7 +94,7 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
         co2Selector = createAndAttachSelectorPanel( "CO2", createImageFromMolecule( new CO2() ), PhotonTarget.CO2 );
         greenhouseGasPanel.add(co2Selector);
         
-        ch4Selector = createAndAttachSelectorPanel( "CH4", createImageFromMolecule( new CO2() ), PhotonTarget.CH4 );
+        ch4Selector = createAndAttachSelectorPanel( "CH4", createImageFromMolecule( new CH4() ), PhotonTarget.CH4 );
         greenhouseGasPanel.add(ch4Selector);
         
         n2oSelector = createAndAttachSelectorPanel( "N2O", createImageFromMolecule( new CO2() ), PhotonTarget.N2O );
