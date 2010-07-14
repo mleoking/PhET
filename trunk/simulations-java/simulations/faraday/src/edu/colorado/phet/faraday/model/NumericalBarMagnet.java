@@ -130,18 +130,49 @@ public class NumericalBarMagnet extends AbstractMagnet {
     
     /*
      * Locates the 4 grid points that form a rectangle enclosing the specified point.
-     * Performs a linear interpolation of the B-field at those 4 points.
+     * Then performs a linear interpolation of the B-field at those 4 points.
      */
     private double interpolate( final double x, final double y, double[][] componentValues ) {
         if ( !( x >= 0 && y >= 0 ) ) {
             throw new IllegalArgumentException( "x and y must be positive" ); // ...because our grid is for that quadrant
         }
+        
         double value = 0; // B-field outside the grid is zero
         if ( gridContains( x, y ) ) {
+            
+            // compute array indicies
             int columnIndex = (int) ( x / GRID_SPACING );
             int rowIndex = (int) ( y / GRID_SPACING );
-            //TODO need to interpolate here, instead of rounding to nearest point
-            value = componentValues[columnIndex][rowIndex];
+            
+            /* 
+             * If we're at one of the index maximums, then we're exactly on the outer edge of the grid.
+             * Back up by 1 so that we'll have a bounding rectangle.
+             */
+            //TODO discuss this with Mike
+            if ( columnIndex == componentValues.length - 1 ) {
+                columnIndex -= 1;
+            }
+            if ( rowIndex == componentValues[0].length - 1 ) {
+                rowIndex -= 1;
+            }
+            
+            // xy coordinates that define the enclosing rectangle
+            double x0 = columnIndex * GRID_SPACING;
+            double x1 = x0 + GRID_SPACING;
+            double y0 = rowIndex * GRID_SPACING;
+            double y1 = y0 + GRID_SPACING;
+            
+            // values at the 4 corners of the enclosing rectangle
+            double f00 = componentValues[columnIndex][rowIndex];
+            double f10 = componentValues[columnIndex+1][rowIndex];
+            double f01 = componentValues[columnIndex][rowIndex+1];
+            double f11 = componentValues[columnIndex+1][rowIndex+1];
+            
+            // interpolate
+            value = ( f00 * ( ( x1 - x ) / ( x1 - x0 ) ) * ( ( y1 - y ) / ( y1 - y0 ) ) ) +
+                    ( f10 * ( ( x - x0 ) / ( x1 - x0 ) ) * ( ( y1 - y ) / ( y1 - y0 ) ) ) +
+                    ( f01 * ( ( x1 - x) / ( x1 - x0 ) ) * ( ( y - y0 ) / ( y1 - y0 ) ) ) +
+                    ( f11 * ( ( x - x0 ) / ( x1 - x0 ) ) * ( ( y - y0 ) / ( y1 - y0 ) ) );
         }
         return value;
     }
