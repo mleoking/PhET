@@ -8,7 +8,6 @@ import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
@@ -16,8 +15,6 @@ import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
@@ -27,11 +24,11 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
 import edu.colorado.phet.greenhouse.GreenhouseResources;
 import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel;
+import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel.Adapter;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
-import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -68,6 +65,16 @@ public class FlashlightNode extends PNode {
 		
 		this.mvt = mvt;
 		this.model = model;
+		
+		// Listen to the model for events that may cause this node to change
+		// state.
+		model.addListener( new PhotonAbsorptionModel.Adapter() {
+
+            @Override
+            public void emittedPhotonWavelengthChanged() {
+                updateFrequencySelectButtons();
+            }
+		});
 		
 		// Create the flashlight image node, setting the offset such that the
 		// center right side of the image is the origin.  This assumes that
@@ -119,7 +126,7 @@ public class FlashlightNode extends PNode {
 		visiblePhotonRadioButton.setFont(LABEL_FONT);
 		visiblePhotonRadioButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                model.setPhotonWavelength( GreenhouseConfig.sunlightWavelength );
+                model.setEmittedPhotonWavelength( GreenhouseConfig.sunlightWavelength );
                 updateFrequencySelectButtons();
             }
         });
@@ -128,7 +135,7 @@ public class FlashlightNode extends PNode {
         infraredPhotonRadioButton.setFont(LABEL_FONT);
         infraredPhotonRadioButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                model.setPhotonWavelength( GreenhouseConfig.irWavelength );
+                model.setEmittedPhotonWavelength( GreenhouseConfig.irWavelength );
                 updateFrequencySelectButtons();
             }
         });
@@ -164,7 +171,7 @@ public class FlashlightNode extends PNode {
 	}
 	
 	private void updateFrequencySelectButtons(){
-	    if (model.getPhotonWavelength() == GreenhouseConfig.irWavelength){
+	    if (model.getEmittedPhotonWavelength() == GreenhouseConfig.irWavelength){
 	        if (!infraredPhotonRadioButton.isSelected()){
 	            infraredPhotonRadioButton.setSelected( true );
 	        }

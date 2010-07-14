@@ -61,6 +61,7 @@ public class PhotonAbsorptionModel {
     
     // Defaults.
     private static final PhotonTarget DEFAULT_PHOTON_TARGET = PhotonTarget.CO2;
+    private static final double DEFAULT_EMITTED_PHOTON_WAVELENGTH = GreenhouseConfig.sunlightWavelength;
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -102,10 +103,11 @@ public class PhotonAbsorptionModel {
     //----------------------------------------------------------------------------
 
     /**
-     * Reset the model to its initial state. 
+     * Reset the model to its initial state.
      */
     public void reset() {
         setPhotonTarget( DEFAULT_PHOTON_TARGET );
+        setEmittedPhotonWavelength( DEFAULT_EMITTED_PHOTON_WAVELENGTH );
     }
 
     public void stepInTime(double dt){
@@ -201,14 +203,14 @@ public class PhotonAbsorptionModel {
         notifyPhotonAdded( photon );
     }
     
-    public void setPhotonWavelength(double freq){
+    public void setEmittedPhotonWavelength(double freq){
         if (this.photonWavelength != freq){
             this.photonWavelength = freq;
-            notifyPhotonWavelengthChanged();
+            notifyEmittedPhotonWavelengthChanged();
         }
     }
     
-    public double getPhotonWavelength(){
+    public double getEmittedPhotonWavelength(){
         return photonWavelength;
     }
     
@@ -244,9 +246,9 @@ public class PhotonAbsorptionModel {
         }
     }
     
-    private void notifyPhotonWavelengthChanged() {
+    private void notifyEmittedPhotonWavelengthChanged() {
         for (Listener listener : listeners.getListeners(Listener.class)){
-            listener.photonWavelengthChanged();
+            listener.emittedPhotonWavelengthChanged();
         }
     }
 
@@ -265,13 +267,13 @@ public class PhotonAbsorptionModel {
         void photonRemoved(Photon photon);
         void moleculeAdded(Molecule molecule);
         void moleculeRemoved(Molecule molecule);
-        void photonWavelengthChanged();
+        void emittedPhotonWavelengthChanged();
         void photonTargetChanged();
     }
     
     public static class Adapter implements Listener {
         public void photonAdded( Photon photon ) {}
-        public void photonWavelengthChanged() {}
+        public void emittedPhotonWavelengthChanged() {}
         public void photonRemoved( Photon photon ) {}
         public void photonTargetChanged() {}
         public void moleculeAdded( Molecule molecule ) {}
