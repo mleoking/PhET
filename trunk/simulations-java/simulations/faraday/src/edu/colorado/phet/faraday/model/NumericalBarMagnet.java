@@ -18,6 +18,7 @@ import edu.colorado.phet.faraday.util.Vector2D;
 
 /**
  * Model of a bar magnet that uses a grid of precomputed B-field values.
+ * This model was motivated by Unfuddle #2236.
  * <p>
  * It was not feasible to implement a numerical model directly in Java, as it relies on double integrals.
  * So the model was implemented in MathCAD, and MathCAD was used to create a grid of B-field vectors.
@@ -188,12 +189,12 @@ public class NumericalBarMagnet extends AbstractMagnet {
                     StringTokenizer stringTokenizer = new StringTokenizer( line, TOKEN_DELIMITER );
                     while ( stringTokenizer.hasMoreTokens() ) {
                         String token = stringTokenizer.nextToken();
-                        array[row][column] = Double.parseDouble( token );
+                        array[column][row] = Double.parseDouble( token ); // column-major order
                         count++;
-                        column++;
-                        if ( column == size.height ) {
-                            column = 0;
-                            row++;
+                        row++;
+                        if ( row == size.height ) {
+                            row = 0;
+                            column++;
                         }
                     }
                     line = br.readLine();

@@ -46,7 +46,7 @@ public class TestBFieldGrid extends JFrame {
     
     public static class Grid {
         
-        private final double[][] bx, by;
+        private final double[][] bx, by; // column-major order, [column][row]
         
         public Grid() {
             bx = readGridComponent( BX_RESOURCE_NAME, GRID_SIZE );
@@ -67,7 +67,7 @@ public class TestBFieldGrid extends JFrame {
          * (This means that the x coordinate changes more slowly than the y coordinate.)
          */
         private double[][] readGridComponent( String resourceName, Dimension size ) {
-            double array[][] = new double[size.width][size.height];
+            double array[][] = new double[size.width][size.height]; // [column][row], column-major order
             int count = 0;
             try {
                 InputStream is = FaradayResources.getResourceLoader().getResourceAsStream( resourceName );
@@ -79,12 +79,12 @@ public class TestBFieldGrid extends JFrame {
                     StringTokenizer stringTokenizer = new StringTokenizer( line, "," );
                     while ( stringTokenizer.hasMoreTokens() ) {
                         String token = stringTokenizer.nextToken();
-                        array[row][column] = Double.parseDouble( token );
+                        array[column][row] = Double.parseDouble( token ); // column-major order
                         count++;
-                        column++;
-                        if ( column == size.height ) {
-                            column = 0;
-                            row++;
+                        row++;
+                        if ( row == size.height ) {
+                            row = 0;
+                            column++;
                         }
                     }
                     line = br.readLine();
