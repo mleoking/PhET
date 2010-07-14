@@ -14,7 +14,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  * 
  * @author John Blanco
  */
-public class CarbonDioxide extends Molecule {
+public class CO2 extends Molecule {
 
     // ------------------------------------------------------------------------
     // Class Data
@@ -60,7 +60,7 @@ public class CarbonDioxide extends Molecule {
     // Constructor(s)
     // ------------------------------------------------------------------------
     
-    public CarbonDioxide(Point2D inititialCenterOfGravityPos){
+    public CO2(Point2D inititialCenterOfGravityPos){
         // Configure the base class.  It would be better to do this through
         // nested constructors, but I (jblanco) wasn't sure how to do this.
         addAtom( carbonAtom );
@@ -76,7 +76,7 @@ public class CarbonDioxide extends Molecule {
         setCenterOfGravityPos( inititialCenterOfGravityPos );
     }
     
-    public CarbonDioxide(){
+    public CO2(){
         this(new Point2D.Double(0, 0));
     }
 

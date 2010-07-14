@@ -154,7 +154,7 @@ public class PhotonAbsorptionModel {
             Molecule molecule;
             switch (photonTarget){
             case CO2:
-                molecule = new CarbonDioxide(SINGLE_MOLECULE_LOCATION);
+                molecule = new CO2(SINGLE_MOLECULE_LOCATION);
                 molecule.addListener( moleculePhotonEmissionListener );
                 molecules.add( molecule );
                 notifyMoleculeAdded( molecule );
