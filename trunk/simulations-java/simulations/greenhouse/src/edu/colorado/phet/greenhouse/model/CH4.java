@@ -10,7 +10,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 
 /**
- * Class that represents carbon dioxide in the model.
+ * Class that represents CH4 (methane) in the model.
  * 
  * @author John Blanco
  */
