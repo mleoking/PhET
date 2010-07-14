@@ -58,7 +58,7 @@ public class ContributionEditPanel extends PhetPanel {
      * should be filled with most of its parameters automatically. The others have set models that are integrated in
      * and synchronized (like levels and type, which can have multiples of each).
      */
-    private final Contribution contribution;
+    private Contribution contribution;
 
     /**
      * Whether we are creating a new contribution, or otherwise modifying an existing one
@@ -347,6 +347,8 @@ public class ContributionEditPanel extends PhetPanel {
                     // set up the contribution
                     if ( creating ) {
                         contribution.setDateCreated( new Date() );
+                    } else {
+                        contribution = (Contribution) session.merge( contribution ); // make it a persistent object so lazy collections are fetched as necessary
                     }
 
                     contribution.setDateUpdated( new Date() );
