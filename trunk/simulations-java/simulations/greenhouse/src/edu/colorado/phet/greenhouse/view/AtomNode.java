@@ -38,12 +38,23 @@ public class AtomNode extends PPath {
     // ------------------------------------------------------------------------
     
     public AtomNode( Atom atom, ModelViewTransform2D mvt ){
+        
         this.atom = atom;
         this.mvt = mvt;
+        
+        // Create a gradient for giving the sphere a 3D effect.
         double transformedRadius = mvt.modelToViewDifferentialXDouble( atom.getRadius() );
-        Paint roundGradienPaint = new RoundGradientPaint( -transformedRadius/2, -transformedRadius/2, Color.WHITE, 
+        Color lightColor = Color.WHITE;
+        Color darkColor;
+        if (atom.getRepresentationColor() != Color.WHITE){
+            darkColor = ColorUtils.darkerColor( atom.getRepresentationColor(), 0.1 );
+        }
+        else{
+            darkColor = Color.LIGHT_GRAY;
+        }
+        Paint roundGradienPaint = new RoundGradientPaint( -transformedRadius/2, -transformedRadius/2, lightColor, 
                 new Point2D.Double(transformedRadius/2, transformedRadius/2), 
-                ColorUtils.darkerColor( atom.getRepresentationColor(), 0.1 ));
+                darkColor);
         setPaint( roundGradienPaint );
         setPathTo( new Ellipse2D.Double( -transformedRadius, -transformedRadius,
                 transformedRadius * 2, transformedRadius * 2 ) );
