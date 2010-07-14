@@ -28,7 +28,7 @@ import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.greenhouse.GreenhouseResources;
-import edu.colorado.phet.greenhouse.model.CarbonDioxide;
+import edu.colorado.phet.greenhouse.model.CO2;
 import edu.colorado.phet.greenhouse.model.H2O;
 import edu.colorado.phet.greenhouse.model.Molecule;
 import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel;
@@ -90,13 +90,13 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
         h2oSelector = createAndAttachSelectorPanel( "H2O", createImageFromMolecule( new H2O() ), PhotonTarget.H2O );
         greenhouseGasPanel.add(h2oSelector);
         
-        co2Selector = createAndAttachSelectorPanel( "CO2", createImageFromMolecule( new CarbonDioxide() ), PhotonTarget.CO2 );
+        co2Selector = createAndAttachSelectorPanel( "CO2", createImageFromMolecule( new CO2() ), PhotonTarget.CO2 );
         greenhouseGasPanel.add(co2Selector);
         
-        ch4Selector = createAndAttachSelectorPanel( "CH4", createImageFromMolecule( new CarbonDioxide() ), PhotonTarget.CH4 );
+        ch4Selector = createAndAttachSelectorPanel( "CH4", createImageFromMolecule( new CO2() ), PhotonTarget.CH4 );
         greenhouseGasPanel.add(ch4Selector);
         
-        n2oSelector = createAndAttachSelectorPanel( "N2O", createImageFromMolecule( new CarbonDioxide() ), PhotonTarget.N2O );
+        n2oSelector = createAndAttachSelectorPanel( "N2O", createImageFromMolecule( new CO2() ), PhotonTarget.N2O );
         greenhouseGasPanel.add(n2oSelector);
         
         // Create and add a panel that will contain the buttons for selecting
@@ -106,10 +106,10 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
         otherGas.setBorder(createTitledBorder("Other Gas"));
         addControlFullWidth(otherGas);
         
-        n2Selector = createAndAttachSelectorPanel( "N2", createImageFromMolecule( new CarbonDioxide() ), PhotonTarget.N2 );
+        n2Selector = createAndAttachSelectorPanel( "N2", createImageFromMolecule( new CO2() ), PhotonTarget.N2 );
         otherGas.add(n2Selector);
         
-        o2Selector = createAndAttachSelectorPanel( "O2", createImageFromMolecule( new CarbonDioxide() ), PhotonTarget.O2 );
+        o2Selector = createAndAttachSelectorPanel( "O2", createImageFromMolecule( new CO2() ), PhotonTarget.O2 );
         otherGas.add(o2Selector);
 
         // Create and add a panel that will contain the buttons for selecting
@@ -120,10 +120,10 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
         addControlFullWidth(atmosphere);
         
         // TODO: i18n
-        earthAtmospherSelector = createAndAttachSelectorPanel( "Earth", createImageFromMolecule( new CarbonDioxide() ), PhotonTarget.EARTH_AIR );
+        earthAtmospherSelector = createAndAttachSelectorPanel( "Earth", createImageFromMolecule( new CO2() ), PhotonTarget.EARTH_AIR );
         atmosphere.add(earthAtmospherSelector);
         // TODO: i18n
-        venusAtmosphereSelector = createAndAttachSelectorPanel( "Venus", createImageFromMolecule( new CarbonDioxide() ), PhotonTarget.VENUS_AIR );
+        venusAtmosphereSelector = createAndAttachSelectorPanel( "Venus", createImageFromMolecule( new CO2() ), PhotonTarget.VENUS_AIR );
         atmosphere.add(venusAtmosphereSelector);
 
         // Add the reset all button.
