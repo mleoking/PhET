@@ -141,7 +141,7 @@ public abstract class AbstractMagnet extends FaradayObservable {
      * 
      * @param p the point
      * @param outputVector strength is written here if provided, may be null
-     * @return the strength vector, strengthDst if it was provided
+     * @return the strength vector, outputVector if it was provided
      */
     public abstract Vector2D getStrength( final Point2D p, Vector2D outputVector );
     
@@ -154,7 +154,7 @@ public abstract class AbstractMagnet extends FaradayObservable {
      * @param p the point
      * @param outputVector strength is written here if provided, may be null
      * @param distanceExponent the distance exponent
-     * @return the strength vector, strengthDst if it was provided
+     * @return the strength vector, outputVector if it was provided
      */
     public abstract Vector2D getStrength( final Point2D p, Vector2D outputVector, double distanceExponent );
     
