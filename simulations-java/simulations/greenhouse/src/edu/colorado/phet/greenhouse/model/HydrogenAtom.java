@@ -17,7 +17,7 @@ public class HydrogenAtom extends Atom {
     // Class Data
     //------------------------------------------------------------------------
     
-    private static final Color REPRESENTATION_COLOR = Color.LIGHT_GRAY;
+    private static final Color REPRESENTATION_COLOR = Color.WHITE;
     private static final double MASS = 1;   // In atomic mass units (AMU).
     private static final double RADIUS = 37;     // In picometers.
 
