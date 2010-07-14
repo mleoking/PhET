@@ -41,6 +41,8 @@ public class FaradayStrings {
     public static final String MENU_ITEM_BACKGROUND_COLOR = FaradayResources.getString( "Menubar.backgroundColor" );
     public static final String MENU_ITEM_GRID_CONTROLS = FaradayResources.getString( "Menubar.gridControls" );
     
+    public static final String MESSAGE_CANNOT_FIND_BAR_MAGNET_FILES = FaradayResources.getString( "error.cannotFindBarMagnetFiles" );
+    
     public static final char MNEMONIC_BACKGROUND_COLOR =FaradayResources.getChar( "Menubar.backgroundColor.mnemonic", '?' );
     public static final char MNEMONIC_GRID_CONTROLS = FaradayResources.getChar( "Menubar.gridControls.mnemonic", '?' );
     
