@@ -28,7 +28,7 @@ public class AtomicBondNode extends PNode {
     
     // Constants that control the width of the bond representation with
     // with respect to the average atom radius.
-    private static double BOND_WIDTH_PROPORTION_SINGLE = 0.3;
+    private static double BOND_WIDTH_PROPORTION_SINGLE = 0.2;
     private static double BOND_WIDTH_PROPORTION_DOUBLE = 0.1;
     private static double BOND_WIDTH_PROPORTION_TRIPLE = 0.05;
     
