@@ -75,6 +75,7 @@ public class AtomicBondNode extends PNode {
         float bondWidth;
         switch (atomicBond.getBondCount()){
         case 1:
+        {
             // Single bond, so connect it from the center of one atom to the
             // center of the other.
             Point2D transformedPt1 = mvt.modelToViewDouble( atomicBond.getAtom1().getPosition() );
@@ -84,8 +85,9 @@ public class AtomicBondNode extends PNode {
             bond.setPathTo( new Line2D.Double( transformedPt1, transformedPt2 ) );
             addChild(bond);
             break;
+        }
             
-        case 2:
+        case 2:{
             // Double bond.
             // TODO: This is a temporary version to support horizontal molecules,
             // needs to be generalized.
@@ -101,10 +103,29 @@ public class AtomicBondNode extends PNode {
             addChild(bond1);
             addChild(bond2);
             break;
+        }
             
         case 3:
-            // TODO
+        {
+            // Triple bond.
+            // TODO: This is a temporary version to support horizontal molecules,
+            // needs to be generalized.
+            double transformedRadius = mvt.modelToViewDifferentialXDouble( Math.min( atomicBond.getAtom1().getRadius(),
+                    atomicBond.getAtom2().getRadius() ) );
+            Point2D p1 = mvt.modelToViewDouble( atomicBond.getAtom1().getPosition() );
+            Point2D p2 = mvt.modelToViewDouble( atomicBond.getAtom2().getPosition() );
+            bondWidth = (float)(BOND_WIDTH_PROPORTION_TRIPLE * averageAtomRadius);
+            PPath bond1 = new PhetPPath(new BasicStroke(bondWidth), BOND_COLOR);
+            bond1.setPathTo( new Line2D.Double( p1.getX(), p1.getY() + transformedRadius / 2, p2.getX(), p2.getY() + transformedRadius / 3) );
+            PPath bond2 = new PhetPPath(new BasicStroke(bondWidth), BOND_COLOR);
+            bond2.setPathTo( new Line2D.Double( p1, p2 ) );
+            PPath bond3 = new PhetPPath(new BasicStroke(bondWidth), BOND_COLOR);
+            bond3.setPathTo( new Line2D.Double( p1.getX(), p1.getY() - transformedRadius / 2, p2.getX(), p2.getY() - transformedRadius / 3) );
+            addChild(bond1);
+            addChild(bond2);
+            addChild(bond3);
             break;
+        }
             
         default:
             System.err.println(getClass().getName() + " - Error: Can't represent bond number, value = " + atomicBond.getBondCount());
