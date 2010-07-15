@@ -4,6 +4,8 @@ package edu.colorado.phet.greenhouse.model;
 
 import java.awt.geom.Point2D;
 
+import scala.util.Random;
+
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -95,5 +97,18 @@ public class CH4 extends Molecule {
         atomCogOffsets.put(hydrogenAtom2, new PDimension(0, INITIAL_CARBON_HYDROGEN_DISTANCE));
         atomCogOffsets.put(hydrogenAtom3, new PDimension(INITIAL_CARBON_HYDROGEN_DISTANCE, 0));
         atomCogOffsets.put(hydrogenAtom4, new PDimension(0, -INITIAL_CARBON_HYDROGEN_DISTANCE));
+    }
+
+    // TODO: Temp for testing.
+    private static final Random RAND = new Random();
+    
+    @Override
+    protected void updateOscillationFormation(double oscillationRadians){
+        double multFactor = Math.sin( oscillationRadians );
+        double offsetDist = 30;
+        atomCogOffsets.put(hydrogenAtom1, new PDimension(-INITIAL_CARBON_HYDROGEN_DISTANCE + (RAND.nextDouble() - 0.5) * offsetDist, (RAND.nextDouble() - 0.5) * offsetDist));
+        atomCogOffsets.put(hydrogenAtom2, new PDimension((RAND.nextDouble() - 0.5) * offsetDist, INITIAL_CARBON_HYDROGEN_DISTANCE + (RAND.nextDouble() - 0.5) * offsetDist));
+        atomCogOffsets.put(hydrogenAtom3, new PDimension(INITIAL_CARBON_HYDROGEN_DISTANCE + (RAND.nextDouble() - 0.5) * offsetDist, (RAND.nextDouble() - 0.5) * offsetDist));
+        atomCogOffsets.put(hydrogenAtom4, new PDimension((RAND.nextDouble() - 0.5) * offsetDist, -INITIAL_CARBON_HYDROGEN_DISTANCE + (RAND.nextDouble() - 0.5) * offsetDist));
     }
 }
