@@ -26,7 +26,13 @@ public abstract class Molecule {
     private static final double PHOTON_EMISSION_SPEED = 4; // Picometers per second.
     
     protected static final Random RAND = new Random();
-
+    
+    private static final double OSCILLATION_FREQUENCY = 6;  // Cycles per second of sim time.
+    private static final double ABSORPTION_HYSTERESIS_TIME = 200; // Milliseconds of sim time.
+    
+    private static final double MIN_PHOTON_HOLD_TIME = 500; // Milliseconds of sim time.
+    private static final double MAX_PHOTON_HOLD_TIME = 1500; // Milliseconds of sim time.
+    
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
@@ -35,14 +41,29 @@ public abstract class Molecule {
     protected final ArrayList<Atom> atoms = new ArrayList<Atom>();
     protected final ArrayList<AtomicBond> atomicBonds = new ArrayList<AtomicBond>();
     
-    // Offsets for each atom from the center of gravity.
+    // Offsets for each atom from the molecule's center of gravity.
     protected final HashMap<Atom, Dimension2D> atomCogOffsets = new HashMap<Atom, Dimension2D>();
 
     private final ArrayList<Listener> listeners = new ArrayList<Listener>();
     
     // This is basically the location of the molecule, but it is specified as
     // the center of gravity since a molecule is a composite object.
-    Point2D centerOfGravity = new Point2D.Double();
+    private Point2D centerOfGravity = new Point2D.Double();
+
+    // Variable that tracks whether or not a photon has been absorbed and has
+    // not yet been re-emitted.
+    private boolean photonAbsorbed = false;
+    
+    // Variable that tracks where in the oscillation sequence this molecule
+    // is.  The oscillation sequence is periodic over 0 to 2*pi.
+    private double oscillationRadians = 0;
+
+    // Variables involved in the holding and re-emitting of photons.
+    private double photonHoldCountdownTime = 0;
+    private double absorbtionHysteresisCountdownTime = 0;
+    
+    // Photon to be emitted when the photon hold timer expires.
+    private Photon photonToEmit = null;
 
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -52,21 +73,59 @@ public abstract class Molecule {
     // Methods
     //------------------------------------------------------------------------
     
+    protected boolean isPhotonAbsorbed() {
+        return photonAbsorbed;
+    }
+    
+    protected void setPhotonAbsorbed( boolean photonAbsorbed ) {
+        this.photonAbsorbed = photonAbsorbed;
+    }
+
     /**
      * Advance the molecule one step in time.
      */
     public void stepInTime(double dt){
-        // By default, there is no time-dependent behavior.  Descendant
-        // classes should override this to implement time-driven behavior,
-        // such as oscillations.
+        
+        if (isPhotonAbsorbed()){
+            // A photon has been captured, so we should be oscillating.
+            oscillationRadians += dt * OSCILLATION_FREQUENCY / 1000 * 2 * Math.PI;
+            if (oscillationRadians >= 2 * Math.PI){
+                oscillationRadians -= 2 * Math.PI;
+            }
+            
+            // See if it is time to re-emit the photon.
+            photonHoldCountdownTime -= dt;
+            if (photonHoldCountdownTime <= 0){
+                photonHoldCountdownTime = 0;
+                emitPhoton();
+                setPhotonAbsorbed( false );
+                absorbtionHysteresisCountdownTime = ABSORPTION_HYSTERESIS_TIME;
+                oscillationRadians = 0;
+            }
+            
+            // Update the offset of the atoms based on the current oscillation
+            // index.
+            updateOscillationFormation(oscillationRadians);
+            
+            // Update the atom positions.
+            updateAtomPositions();
+        }
+        
+        if (absorbtionHysteresisCountdownTime > 0){
+            absorbtionHysteresisCountdownTime -= dt;
+        }
     }
     
+    protected double getAbsorbtionHysteresisCountdownTime() {
+        return absorbtionHysteresisCountdownTime;
+    }
+
     /**
      * Initialize the offsets from the center of gravity for each atom within
      * this molecule.  This should be in the "relaxed" (i.e. non-oscillating)
      * state.
      */
-    protected abstract void initializeCogOffsets();
+    protected abstract void initializeAtomOffsets();
     
     public void addListener(Listener listener){
         listeners.add(listener);
@@ -111,6 +170,21 @@ public abstract class Molecule {
         updateAtomPositions();
     }
     
+    /**
+     * Update the formation of the atoms based on the specified location
+     * within the oscillation sequence.  Note that this only alters the
+     * offsets but does not actually move the atoms, so the method for
+     * updating the positions will need to be called in order to get the atoms
+     * to actually move.  This is done so that if the atom is moving and is
+     * also oscillating we don't end up sending out two position updates per
+     * atom per time step.
+     * 
+     * @param oscillationRadians
+     */
+    protected void updateOscillationFormation(double oscillationRadians){
+        return; // Does nothing by default, override for molecules that oscillate.
+    }
+    
     public ArrayList<Atom> getAtoms() {
         return new ArrayList<Atom>(atoms);
     }
@@ -125,7 +199,7 @@ public abstract class Molecule {
      * @param photon - The photon offered for absorption.
      * @return
      */
-    public boolean absorbPhoton( Photon photon ){
+    public boolean queryAbsorbPhoton( Photon photon ){
         // By default, the photon is never absorbed.  This should be
         // overridden in molecules that absorb photons.
         return false;
@@ -139,6 +213,17 @@ public abstract class Molecule {
         atomicBonds.add( atomicBond );
     }
     
+    /**
+     * This method is used by subclasses to let the base class know that it
+     * should start the remission timer.
+     * 
+     * @param photonToEmit
+     */
+    protected void startPhotonEmissionTimer( Photon photonToEmit ){
+        photonHoldCountdownTime = MIN_PHOTON_HOLD_TIME + RAND.nextDouble() * (MAX_PHOTON_HOLD_TIME - MIN_PHOTON_HOLD_TIME);
+        this.photonToEmit = photonToEmit;
+    }
+    
     protected void emitPhoton( double wavelength ){
         Photon emittedPhoton = new Photon( wavelength, null );
         double emissionAngle = RAND.nextDouble() * Math.PI * 2;
@@ -146,6 +231,16 @@ public abstract class Molecule {
                 (float)(PHOTON_EMISSION_SPEED * Math.sin( emissionAngle )));
         emittedPhoton.setLocation( getCenterOfGravityPosRef() );
         notifyPhotonEmitted( emittedPhoton );
+    }
+    
+    protected void emitPhoton(){
+        double emissionAngle = RAND.nextDouble() * Math.PI * 2;
+        photonToEmit.setVelocity( (float)(PHOTON_EMISSION_SPEED * Math.cos( emissionAngle )),
+                (float)(PHOTON_EMISSION_SPEED * Math.sin( emissionAngle )));
+        photonToEmit.setLocation( getCenterOfGravityPosRef() );
+        // Sending the notification will cause the primary model class to add
+        // this photon to the model.
+        notifyPhotonEmitted( photonToEmit );
     }
     
     private void notifyPhotonEmitted(Photon photon){
