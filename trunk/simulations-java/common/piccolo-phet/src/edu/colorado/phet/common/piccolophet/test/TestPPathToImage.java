@@ -50,7 +50,7 @@ public class TestPPathToImage {
         frame.setVisible( true );
 
         //Save to a file for inspection
-        final File file = new File( "TestPPathToImage.png" );
+        final File file = new File( System.getProperty( "user.home" ), "TestPPathToImage.png" );
         ImageIO.write( (RenderedImage) pathNode.toImage(), "PNG", new FileOutputStream( file ) );
 
         //Indicate where it was saved, since we used the working directory, which may be unknown
