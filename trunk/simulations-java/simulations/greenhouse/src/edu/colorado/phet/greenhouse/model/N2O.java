@@ -24,15 +24,22 @@ public class N2O extends Molecule {
     
     private static final double PHOTON_ABSORPTION_DISTANCE = 200;
     
+    // Deflection amounts used for the oscillation of the CO2 atoms.  These
+    // are calculated such that the actual center of gravity should remain
+    // pretty much constant.
+    private static final double MAX_CENTER_NITROGEN_DEFLECTION = 60;
+    private static final double MAX_SIDE_NITROGEN_DEFLECTION = MAX_CENTER_NITROGEN_DEFLECTION / 2;
+    private static final double MAX_OXYGEN_DEFLECTION = MAX_CENTER_NITROGEN_DEFLECTION / 2;
+    
     // ------------------------------------------------------------------------
     // Instance Data
     // ------------------------------------------------------------------------
     
-    private final NitrogenAtom nitrogenAtom1 = new NitrogenAtom();
-    private final NitrogenAtom nitrogenAtom2 = new NitrogenAtom();
+    private final NitrogenAtom sideNitrogenAtom = new NitrogenAtom();
+    private final NitrogenAtom centerNitrogenAtom = new NitrogenAtom();
     private final OxygenAtom oxygenAtom = new OxygenAtom();
-    private final AtomicBond nitrogenNitrogenBond = new AtomicBond( nitrogenAtom1, nitrogenAtom2, 3 );
-    private final AtomicBond nitrogenOxygenBond = new AtomicBond( nitrogenAtom2, oxygenAtom, 1 );
+    private final AtomicBond nitrogenNitrogenBond = new AtomicBond( sideNitrogenAtom, centerNitrogenAtom, 3 );
+    private final AtomicBond nitrogenOxygenBond = new AtomicBond( centerNitrogenAtom, oxygenAtom, 1 );
     
     // ------------------------------------------------------------------------
     // Constructor(s)
@@ -41,8 +48,8 @@ public class N2O extends Molecule {
     public N2O(Point2D inititialCenterOfGravityPos){
         // Configure the base class.  It would be better to do this through
         // nested constructors, but I (jblanco) wasn't sure how to do this.
-        addAtom( nitrogenAtom1 );
-        addAtom( nitrogenAtom2 );
+        addAtom( sideNitrogenAtom );
+        addAtom( centerNitrogenAtom );
         addAtom( oxygenAtom );
         addAtomicBond( nitrogenNitrogenBond );
         addAtomicBond( nitrogenOxygenBond );
@@ -67,7 +74,7 @@ public class N2O extends Molecule {
         if (!isPhotonAbsorbed() &&
              getAbsorbtionHysteresisCountdownTime() <= 0 &&
              photon.getWavelength() == GreenhouseConfig.irWavelength &&
-             photon.getLocation().distance(nitrogenAtom1.getPosition()) < PHOTON_ABSORPTION_DISTANCE)
+             photon.getLocation().distance(sideNitrogenAtom.getPosition()) < PHOTON_ABSORPTION_DISTANCE)
         {
             setPhotonAbsorbed( true );
             startPhotonEmissionTimer( photon );
@@ -83,8 +90,18 @@ public class N2O extends Molecule {
      */
     @Override
     protected void initializeAtomOffsets() {
-        atomCogOffsets.put(nitrogenAtom1, new PDimension(-INITIAL_NITROGEN_NITROGEN_DISTANCE, 0));
-        atomCogOffsets.put(nitrogenAtom2, new PDimension(0, 0));
+        atomCogOffsets.put(centerNitrogenAtom, new PDimension(0, 0));
+        atomCogOffsets.put(sideNitrogenAtom, new PDimension(-INITIAL_NITROGEN_NITROGEN_DISTANCE, 0));
         atomCogOffsets.put(oxygenAtom, new PDimension(INITIAL_NITROGEN_OXYGEN_DISTANCE, 0));
+    }
+
+    @Override
+    protected void updateOscillationFormation(double oscillationRadians){
+        double multFactor = Math.sin( oscillationRadians );
+        atomCogOffsets.put(centerNitrogenAtom, new PDimension(0, multFactor * MAX_CENTER_NITROGEN_DEFLECTION));
+        atomCogOffsets.put(sideNitrogenAtom, new PDimension(-INITIAL_NITROGEN_NITROGEN_DISTANCE,
+                -multFactor * MAX_SIDE_NITROGEN_DEFLECTION));
+        atomCogOffsets.put(oxygenAtom, new PDimension(INITIAL_NITROGEN_OXYGEN_DISTANCE,
+                -multFactor * MAX_OXYGEN_DEFLECTION));
     }
 }
