@@ -75,9 +75,11 @@ public class ContributionFile implements Serializable, IntId {
     }
 
     public static boolean validateFileExtension( String filename ) {
-        if (filename.indexOf(".")<0) return true;
+        if ( filename.indexOf( "." ) < 0 ) {
+            return true;
+        }
         for ( String s : FILE_TYPE_WHITELIST ) {
-            if ( filename.endsWith( "." + s ) ) {
+            if ( filename.endsWith( "." + s ) || filename.endsWith( "." + s.toUpperCase() ) ) {
                 return true;
             }
         }
