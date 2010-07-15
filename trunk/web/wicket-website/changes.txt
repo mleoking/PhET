@@ -1,3 +1,8 @@
+Fixed a problem that changed the contributing user when editing a contribution
+Contribution fix
+Removed duplicate publication
+Allow upper case file extensions
+Changed virtual lab redirection to permanent version
 Logging level fix for development
 Unhook temporary index page.
 Changed PhetUser.password to PhetUser.hashedPassword
