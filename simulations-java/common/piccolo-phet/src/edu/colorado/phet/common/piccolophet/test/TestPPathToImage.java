@@ -15,6 +15,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
+ * Unfuddle #558.
  * Tests PPath.toImage.
  * The right and bottom edges of the PPath are clipped by a few pixels.
  */
