@@ -1,21 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module relativePaths="true" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
-    <facet type="Scala" name="Scala">
-      <configuration>
-        <option name="takeFromSettings" value="true" />
-        <option name="myScalaCompilerJarPaths">
-          <array>
-            <option value="$MODULE_DIR$/build-tools/contrib/scala/scala-compiler.jar" />
-          </array>
-        </option>
-        <option name="myScalaSdkJarPaths">
-          <array>
-            <option value="$MODULE_DIR$/build-tools/contrib/scala/scala-library.jar" />
-          </array>
-        </option>
-      </configuration>
-    </facet>
     <facet type="web" name="Web">
       <configuration>
         <descriptors>
@@ -234,6 +219,21 @@
         <option name="CONTEXT_ROOT" value="" />
         <NAMESPACE_AND_MANIFEST_FILE_INFO_LIST />
         <CONDITIONAL_COMPILATION_DEFINITION_LIST />
+      </configuration>
+    </facet>
+    <facet type="Scala" name="Scala">
+      <configuration>
+        <option name="takeFromSettings" value="true" />
+        <option name="myScalaCompilerJarPaths">
+          <array>
+            <option value="$MODULE_DIR$/build-tools/contrib/scala/scala-compiler.jar" />
+          </array>
+        </option>
+        <option name="myScalaSdkJarPaths">
+          <array>
+            <option value="$MODULE_DIR$/build-tools/contrib/scala/scala-library.jar" />
+          </array>
+        </option>
       </configuration>
     </facet>
   </component>
