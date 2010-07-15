@@ -4,10 +4,12 @@ package edu.colorado.phet.greenhouse.controlpanel;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
 import javax.swing.BorderFactory;
@@ -34,6 +36,7 @@ import edu.colorado.phet.greenhouse.model.H2O;
 import edu.colorado.phet.greenhouse.model.Molecule;
 import edu.colorado.phet.greenhouse.model.N2;
 import edu.colorado.phet.greenhouse.model.N2O;
+import edu.colorado.phet.greenhouse.model.O2;
 import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel;
 import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel.PhotonTarget;
 import edu.colorado.phet.greenhouse.view.MoleculeNode;
@@ -50,7 +53,10 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
     // ------------------------------------------------------------------------
     
     // Model view transform used for creating images of the various molecules.
-    private static final ModelViewTransform2D MVT = new ModelViewTransform2D();
+    // This is basically a null transform except that it flips the Y axis so
+    // that molecules are oriented the same as in the play area.
+    private static final ModelViewTransform2D MVT =
+        new ModelViewTransform2D( new Point2D.Double(0, 0), new Point(0, 0), 1, true);
 
     // ------------------------------------------------------------------------
     // Instance Data
@@ -112,7 +118,7 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
         n2Selector = createAndAttachSelectorPanel( "N2", createImageFromMolecule( new N2() ), PhotonTarget.N2 );
         otherGas.add(n2Selector);
         
-        o2Selector = createAndAttachSelectorPanel( "O2", createImageFromMolecule( new CO2() ), PhotonTarget.O2 );
+        o2Selector = createAndAttachSelectorPanel( "O2", createImageFromMolecule( new O2() ), PhotonTarget.O2 );
         otherGas.add(o2Selector);
 
         // Create and add a panel that will contain the buttons for selecting
