@@ -3,6 +3,7 @@
 package edu.colorado.phet.greenhouse.controlpanel;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -147,7 +148,7 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
     /**
      * Creates a selector panel with a radio button and an icon and "attaches"
      * it to the model in the sense that it hooks it up to set the appropriate
-     * value when pressed and select or deselects when the model sends
+     * value when pressed and updates its state when the model sends
      * notifications of changes.  This is a convenience method that exists in
      * order to avoid duplication of code.
      */
@@ -174,7 +175,7 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
                 // The logic in these statements is a little hard to follow,
                 // but the basic idea is that if the state of the model
                 // doesn't match that of the button, update the button,
-                // otherwise leave the button alone.  The prevents a bunch
+                // otherwise leave the button alone.  This prevents a bunch
                 // of useless notifications from going to the model.
                 if ((photonAbsorptionModel.getPhotonTarget() == photonTarget) != panel.getButton().isSelected()){
                     panel.getButton().setSelected( photonAbsorptionModel.getPhotonTarget() == photonTarget );
@@ -220,7 +221,10 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
         private static final Font LABEL_FONT = new PhetFont(14);
         
         // Fixed scale factor for images.
-        private static final double IMAGE_SCALING_FACTOR = 0.1;
+        private static final double IMAGE_SCALING_FACTOR = 0.11;
+        
+        // Fixed height for the panels.
+        private static final int PREFERRED_HEIGHT = 46;  // In pixels.
         
         private JRadioButton button;
 
@@ -236,6 +240,8 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
             button = new JRadioButton(text);
             button.setFont(LABEL_FONT);
             add(button);
+            
+            setPreferredSize( new Dimension(getPreferredSize().width, PREFERRED_HEIGHT ) );
             
             // Create and add the image.
             BufferedImage scaledImage = BufferedImageUtils.multiScale( image, IMAGE_SCALING_FACTOR );
