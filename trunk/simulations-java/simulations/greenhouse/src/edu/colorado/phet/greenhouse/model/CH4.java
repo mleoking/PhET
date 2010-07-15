@@ -104,11 +104,17 @@ public class CH4 extends Molecule {
     
     @Override
     protected void updateOscillationFormation(double oscillationRadians){
-        double multFactor = Math.sin( oscillationRadians );
-        double offsetDist = 30;
-        atomCogOffsets.put(hydrogenAtom1, new PDimension(-INITIAL_CARBON_HYDROGEN_DISTANCE + (RAND.nextDouble() - 0.5) * offsetDist, (RAND.nextDouble() - 0.5) * offsetDist));
-        atomCogOffsets.put(hydrogenAtom2, new PDimension((RAND.nextDouble() - 0.5) * offsetDist, INITIAL_CARBON_HYDROGEN_DISTANCE + (RAND.nextDouble() - 0.5) * offsetDist));
-        atomCogOffsets.put(hydrogenAtom3, new PDimension(INITIAL_CARBON_HYDROGEN_DISTANCE + (RAND.nextDouble() - 0.5) * offsetDist, (RAND.nextDouble() - 0.5) * offsetDist));
-        atomCogOffsets.put(hydrogenAtom4, new PDimension((RAND.nextDouble() - 0.5) * offsetDist, -INITIAL_CARBON_HYDROGEN_DISTANCE + (RAND.nextDouble() - 0.5) * offsetDist));
+        // TODO: This is temporary until we get the real vibration mode worked out.
+        if (oscillationRadians != 0){
+            double multFactor = Math.sin( oscillationRadians );
+            double maxOffset = 30;
+            atomCogOffsets.put(hydrogenAtom1, new PDimension(-INITIAL_CARBON_HYDROGEN_DISTANCE + (RAND.nextDouble() - 0.5) * maxOffset, (RAND.nextDouble() - 0.5) * maxOffset));
+            atomCogOffsets.put(hydrogenAtom2, new PDimension((RAND.nextDouble() - 0.5) * maxOffset, INITIAL_CARBON_HYDROGEN_DISTANCE + (RAND.nextDouble() - 0.5) * maxOffset));
+            atomCogOffsets.put(hydrogenAtom3, new PDimension(INITIAL_CARBON_HYDROGEN_DISTANCE + (RAND.nextDouble() - 0.5) * maxOffset, (RAND.nextDouble() - 0.5) * maxOffset));
+            atomCogOffsets.put(hydrogenAtom4, new PDimension((RAND.nextDouble() - 0.5) * maxOffset, -INITIAL_CARBON_HYDROGEN_DISTANCE + (RAND.nextDouble() - 0.5) * maxOffset));
+        }
+        else{
+            initializeAtomOffsets();
+        }
     }
 }
