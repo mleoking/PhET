@@ -355,9 +355,8 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         simMap.put( "Wave_Interference", "wave-interference" );
         simMap.put( "Wave_on_a_String", "wave-on-a-string" );
 
-        // temporary. TODO: replace after virtual lab versions are in
-        simMap.put( "Circuit_Construction_Kit_ACDC_Virtual_Lab_Version", "circuit-construction-kit-ac" );
-        simMap.put( "Circuit_Construction_Kit_Virtual_Lab_Version_DC_Only", "circuit-construction-kit-dc" );
+        simMap.put( "Circuit_Construction_Kit_ACDC_Virtual_Lab_Version", "circuit-construction-kit-ac-virtual-lab" );
+        simMap.put( "Circuit_Construction_Kit_Virtual_Lab_Version_DC_Only", "circuit-construction-kit-dc-virtual-lab" );
 
         for ( String key : simMap.keySet() ) {
             badSimMap.put( processSimName( key ), simMap.get( key ) );
