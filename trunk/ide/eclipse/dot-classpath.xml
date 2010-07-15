@@ -248,6 +248,9 @@
 	<classpathentry kind="lib" path="util/unfuddle/contrib/javamail/mailapi.jar"/>
 	<classpathentry kind="lib" path="util/unfuddle/contrib/javamail/pop3.jar"/>
 	<classpathentry kind="lib" path="util/unfuddle/contrib/javamail/smtp.jar"/>
+	
+	<!-- team source -->
+	<classpathentry kind="src" path="team/cmalley/src"/>
 
     <!-- Scala sims and resources, requires Scala Eclipse Plugin -->
     <!-- disabled until plugin matures, this section is probably incomplete/incorrect
