@@ -26,12 +26,12 @@ public class H2O extends Molecule {
     // correct center of gravity will be maintained.
     private static final double OXYGEN_HYDROGEN_BOND_LENGTH = 150;
     private static final double INITIAL_HYDROGEN_OXYGEN_HYDROGEN_ANGLE = 104.5;
-    private static final double INITIAL_OXYGEN_VERTICAL_DISPLACEMENT = 2 * new HydrogenAtom().getMass() * 
+    private static final double INITIAL_OXYGEN_VERTICAL_OFFSET = 2 * new HydrogenAtom().getMass() * 
         OXYGEN_HYDROGEN_BOND_LENGTH * Math.cos( INITIAL_HYDROGEN_OXYGEN_HYDROGEN_ANGLE ) / (new OxygenAtom().getMass() *
         2 * new HydrogenAtom().getMass());
-    private static final double INITIAL_HYDROGEN_VERTICAL_DISPLACEMENT = INITIAL_OXYGEN_VERTICAL_DISPLACEMENT -
+    private static final double INITIAL_HYDROGEN_VERTICAL_OFFSET = INITIAL_OXYGEN_VERTICAL_OFFSET -
         OXYGEN_HYDROGEN_BOND_LENGTH * Math.cos( INITIAL_HYDROGEN_OXYGEN_HYDROGEN_ANGLE );
-    private static final double INITIAL_HYDROGEN_HORIZONTAL_DISPLACEMENT = OXYGEN_HYDROGEN_BOND_LENGTH *
+    private static final double INITIAL_HYDROGEN_HORIZONTAL_OFFSET = OXYGEN_HYDROGEN_BOND_LENGTH *
         Math.sin( INITIAL_HYDROGEN_OXYGEN_HYDROGEN_ANGLE );
         
     private static final double PHOTON_ABSORPTION_DISTANCE = 100;
@@ -74,18 +74,6 @@ public class H2O extends Molecule {
     // Methods
     // ------------------------------------------------------------------------
     
-    /* (non-Javadoc)
-     * @see edu.colorado.phet.greenhouse.model.Molecule#initializeCogOffsets()
-     */
-    @Override
-    protected void initializeAtomOffsets() {
-        atomCogOffsets.put(oxygenAtom, new PDimension(0, INITIAL_OXYGEN_VERTICAL_DISPLACEMENT));
-        atomCogOffsets.put(hydrogenAtom1, new PDimension(INITIAL_HYDROGEN_HORIZONTAL_DISPLACEMENT,
-                -INITIAL_HYDROGEN_VERTICAL_DISPLACEMENT));
-        atomCogOffsets.put(hydrogenAtom2, new PDimension(-INITIAL_HYDROGEN_HORIZONTAL_DISPLACEMENT,
-                -INITIAL_HYDROGEN_VERTICAL_DISPLACEMENT));
-    }
-    
     @Override
     public boolean queryAbsorbPhoton( Photon photon ) {
         if (!isPhotonAbsorbed() &&
@@ -101,4 +89,32 @@ public class H2O extends Molecule {
             return false;
         }
     }
+    
+    /* (non-Javadoc)
+     * @see edu.colorado.phet.greenhouse.model.Molecule#initializeCogOffsets()
+     */
+    @Override
+    protected void initializeAtomOffsets() {
+        atomCogOffsets.put(oxygenAtom, new PDimension(0, INITIAL_OXYGEN_VERTICAL_OFFSET));
+        atomCogOffsets.put(hydrogenAtom1, new PDimension(INITIAL_HYDROGEN_HORIZONTAL_OFFSET,
+                -INITIAL_HYDROGEN_VERTICAL_OFFSET));
+        atomCogOffsets.put(hydrogenAtom2, new PDimension(-INITIAL_HYDROGEN_HORIZONTAL_OFFSET,
+                -INITIAL_HYDROGEN_VERTICAL_OFFSET));
+    }
+    
+    @Override
+    protected void updateOscillationFormation(double oscillationRadians){
+        // TODO: This is temporary until we work out what the real oscillation
+        // should look like.
+        double multFactor = Math.sin( oscillationRadians );
+        double maxHydrogenDisplacement = 20;
+        double maxOxygenDisplacement = 5;
+        atomCogOffsets.put(oxygenAtom, new PDimension(0, INITIAL_OXYGEN_VERTICAL_OFFSET - multFactor * maxOxygenDisplacement));
+        atomCogOffsets.put(hydrogenAtom1, new PDimension(INITIAL_HYDROGEN_HORIZONTAL_OFFSET - multFactor * maxHydrogenDisplacement,
+                -INITIAL_HYDROGEN_VERTICAL_OFFSET + multFactor * maxHydrogenDisplacement));
+        atomCogOffsets.put(hydrogenAtom2, new PDimension(-INITIAL_HYDROGEN_HORIZONTAL_OFFSET + multFactor * maxHydrogenDisplacement,
+                -INITIAL_HYDROGEN_VERTICAL_OFFSET + multFactor * maxHydrogenDisplacement));
+    }
+    
+
 }
