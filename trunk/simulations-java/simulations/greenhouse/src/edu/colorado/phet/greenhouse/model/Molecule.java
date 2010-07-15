@@ -30,8 +30,8 @@ public abstract class Molecule {
     private static final double OSCILLATION_FREQUENCY = 6;  // Cycles per second of sim time.
     private static final double ABSORPTION_HYSTERESIS_TIME = 200; // Milliseconds of sim time.
     
-    private static final double MIN_PHOTON_HOLD_TIME = 500; // Milliseconds of sim time.
-    private static final double MAX_PHOTON_HOLD_TIME = 1500; // Milliseconds of sim time.
+    private static final double MIN_PHOTON_HOLD_TIME = 300; // Milliseconds of sim time.
+    private static final double MAX_PHOTON_HOLD_TIME = 600; // Milliseconds of sim time.
     
     //------------------------------------------------------------------------
     // Instance Data
