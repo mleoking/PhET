@@ -252,7 +252,7 @@ public class BaseLaserModule extends PhetGraphicsModule {
         JPanel reflectivityControl = new RightMirrorReflectivityControlPanel( rightMirror );
         reflectivityControlPanel = new JPanel();
         Dimension dim = reflectivityControl.getPreferredSize();
-        reflectivityControlPanel.setBounds( (int) rightMirror.getPosition().getX(),
+        reflectivityControlPanel.setBounds( (int) rightMirror.getPosition().getX()+10,
                                             (int) ( rightMirror.getPosition().getY() + rightMirror.getBounds().getHeight() ),
                                             (int) dim.getWidth() + 10, (int) dim.getHeight() + 10 );
         reflectivityControlPanel.add( reflectivityControl );

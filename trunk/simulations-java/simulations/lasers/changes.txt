@@ -1,3 +1,4 @@
+7/15/10 Fixed the mirror reflectivity controls on Linux
 # 4.07.00 (38008) Jan 10, 2010
 1/10/10 public version for milestone "full redeploy, 2010 Q1"
 # 4.06.01 (37361) Dec 11, 2009
@@ -20,8 +21,8 @@ Batch deploy for alpha Simulation Tests, svn 28773
 8-23-2007: Made energy level sliders smaller in vertical direction.
 8-23-2007: Improved match graphic.
 8-20-2007: Switched tabs to PhetTabbedPane
-8-20-2007: Changed tab names to “One Atom (Absorption and Emission)” and “Multiple Atoms (Lasing)”
+8-20-2007: Changed tab names to ï¿½One Atom (Absorption and Emission)ï¿½ and ï¿½Multiple Atoms (Lasing)ï¿½
 8-20-2007: Changed actual image from PNG (300kb) to JPG (100kb)
 8-20-2007: Increased the range under which absorption is possible by a factor of 5.
 8-20-2007: Changed the display for a matching wavelength from "flashes 5 times" to solid bumps (not flashing)
-7-5-2007: Fixed: Can move energy level up off the screen and lose it (in current version, it’s constrained to not move this far).
+7-5-2007: Fixed: Can move energy level up off the screen and lose it (in current version, itï¿½s constrained to not move this far).

@@ -52,7 +52,7 @@ public class RightMirrorReflectivityControlPanel extends JPanel implements Simpl
                                           0,
                                           100,
                                           50 );
-        reflectivitySlider.setPreferredSize( new Dimension( 40, 50 ) );
+        reflectivitySlider.setPreferredSize( new Dimension( 40, 100) );
         reflectivitySlider.setPaintTicks( true );
         reflectivitySlider.setMajorTickSpacing( 10 );
         reflectivitySlider.addChangeListener( new ChangeListener() {
