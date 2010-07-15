@@ -16,6 +16,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -135,6 +136,17 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
         // TODO: i18n
         venusAtmosphereSelector = createAndAttachSelectorPanel( "Venus", createImageFromMolecule( new CO2() ), PhotonTarget.VENUS_AIR );
         atmosphere.add(venusAtmosphereSelector);
+        
+        // Put all the buttons in a button group.
+        ButtonGroup buttonGroup = new ButtonGroup();
+        buttonGroup.add( co2Selector.getButton() );
+        buttonGroup.add( h2oSelector.getButton() );
+        buttonGroup.add( ch4Selector.getButton() );
+        buttonGroup.add( n2oSelector.getButton() );
+        buttonGroup.add( n2Selector.getButton() );
+        buttonGroup.add( o2Selector.getButton() );
+        buttonGroup.add( earthAtmospherSelector.getButton() );
+        buttonGroup.add( venusAtmosphereSelector.getButton() );
 
         // Add the reset all button.
         addControlFullWidth(createVerticalSpacingPanel(60));
