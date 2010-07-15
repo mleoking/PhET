@@ -120,7 +120,7 @@ public class PhotonAbsorptionModel {
             else{
                 // See if any of the molecules wish to absorb this photon.
                 for (Molecule molecule : molecules){
-                    if (molecule.absorbPhoton( photon )){
+                    if (molecule.queryAbsorbPhoton( photon )){
                         photonsToRemove.add(  photon );
                     }
                 }
