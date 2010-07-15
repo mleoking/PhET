@@ -1,3 +1,8 @@
+Darkened the color of acceleration so that it stands out against the grass
+> Added a new introductory tab
+> Improved record and playback controls
+> Improved expression evaluator function
+> Many bugfixes and new features
 # 1.28.04 (42265) Jul 14, 2010
 Fixed velocity and acceleration vector arrows to always be the same width independent of magnitude
 # 1.28.03 (42182) Jul 11, 2010
