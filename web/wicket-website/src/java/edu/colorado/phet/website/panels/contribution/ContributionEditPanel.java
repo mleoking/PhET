@@ -347,6 +347,7 @@ public class ContributionEditPanel extends PhetPanel {
                     // set up the contribution
                     if ( creating ) {
                         contribution.setDateCreated( new Date() );
+                        contribution.setPhetUser( user );//only set the original user, don't change during edit by another user (such as phet admin)
                     } else {
                         contribution = (Contribution) session.merge( contribution ); // make it a persistent object so lazy collections are fetched as necessary
                     }
@@ -355,7 +356,6 @@ public class ContributionEditPanel extends PhetPanel {
 
                     // set simple fields
                     contribution.setDuration( duration );
-                    contribution.setPhetUser( user );
                     contribution.setLocale( locale );
 
                     int contribId = !creating ? contribution.getId() : (Integer) session.save( contribution );
