@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--arithmetic-strings_iw.xml created Fri Jul 16 01:33:40 IDT 2010 using: arithmetic 2.02.00 (37294), translation-utility 2.08.00 (39581) Apr 2, 2010-->
+<SimStrings>
+<string key="level" value="רמה"/>
+<string key="typeAnswer" value="הקלד תשובה,\nלחץ על enter "/>
+<string key="clickToSelect" value="הקלד לבחירתt \nהריבוע הנכון"/>
+<string key="correct" value="נכון!"/>
+<string key="end" value="סוף"/>
+<string key="isWrong" value="שגוי"/>
+<string key="start" value="התחל"/>
+<string key="simTitle" value="חשבון"/>
+<string key="time" value="(זמן (שניות"/>
+<string key="finalTime" value="זמן סופי:"/>
+<string key="multiply" value="כפל"/>
+<string key="tryAgain" value="נסה שוב"/>
+<string key="sound" value="קול"/>
+<string key="divide" value="חילוק"/>
+<string key="factor" value="מכפלה"/>
+<string key="minute" value="דקה"/>
+<string key="finalScore" value="ניקוד סופי:"/>
+<string key="nbrRight" value="מספר נכון:"/>
+<string key="mustTypeNbr" value="אתה חייב להקליד\nמספר"/>
+<string key="score" value="ניקוד:"/>
+<string key="scorePer" value="ניקוד"/>
+<string key="nbrWrong" value="מספר שגוי:"/>
+<string key="reset" value="נקה"/>
+<string key="clock" value="שעון"/>
+<string key="title" value="אימון בחשבון"/>
+</SimStrings>
