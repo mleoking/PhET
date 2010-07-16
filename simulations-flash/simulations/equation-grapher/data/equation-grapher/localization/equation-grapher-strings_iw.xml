@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--equation-grapher-strings_iw.xml created Sat Jul 17 00:02:32 IDT 2010 using: equation-grapher 2.01.00 (37298), translation-utility 2.08.00 (39581) Apr 2, 2010-->
+<SimStrings>
+<string key="showYEq" value="הצג y ="/>
+<string key="erase" value="מחק"/>
+<string key="save" value="שמור"/>
+<string key="zero" value="אפס"/>
+<string key="simTitle" value="מציג גרפים -  משוואה ריבועית"/>
+</SimStrings>
