@@ -1,3 +1,4 @@
+7/16/10 #2236, delete old dipole magnet model (DipoleMagnet)
 7/16/10 #2236, simplify and rename magnet interface
 7/16/10 #2236, remove B-field scaling from model
 7/16/10 #2236, "distance exponent" from magnet interfaces (not needed for bar magnet, set to 3 for coil magnet)
