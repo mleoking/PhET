@@ -74,6 +74,7 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
     private RadioButtonWithIconPanel o2Selector;
     private RadioButtonWithIconPanel earthAtmospherSelector;
     private RadioButtonWithIconPanel venusAtmosphereSelector;
+    private static final boolean ATMOSPHERE_ENABLED = false;
 
     // ------------------------------------------------------------------------
     // Constructor(s)
@@ -128,14 +129,17 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
         VerticalLayoutPanel atmosphere = new VerticalLayoutPanel();
         // TODO: i18n
         atmosphere.setBorder(createTitledBorder("Atmosphere"));
-        addControlFullWidth(atmosphere);
-        
+
         // TODO: i18n
-        earthAtmospherSelector = createAndAttachSelectorPanel( "Earth", createImageFromMolecule( new CO2() ), PhotonTarget.EARTH_AIR );
+        earthAtmospherSelector = createAndAttachSelectorPanel("Earth", createImageFromMolecule(new CO2()), PhotonTarget.EARTH_AIR);
         atmosphere.add(earthAtmospherSelector);
         // TODO: i18n
-        venusAtmosphereSelector = createAndAttachSelectorPanel( "Venus", createImageFromMolecule( new CO2() ), PhotonTarget.VENUS_AIR );
+        venusAtmosphereSelector = createAndAttachSelectorPanel("Venus", createImageFromMolecule(new CO2()), PhotonTarget.VENUS_AIR);
         atmosphere.add(venusAtmosphereSelector);
+
+        if (ATMOSPHERE_ENABLED) {
+            addControlFullWidth(atmosphere);
+        }
         
         // Put all the buttons in a button group.
         ButtonGroup buttonGroup = new ButtonGroup();
@@ -145,8 +149,8 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
         buttonGroup.add( n2oSelector.getButton() );
         buttonGroup.add( n2Selector.getButton() );
         buttonGroup.add( o2Selector.getButton() );
-        buttonGroup.add( earthAtmospherSelector.getButton() );
-        buttonGroup.add( venusAtmosphereSelector.getButton() );
+        buttonGroup.add(earthAtmospherSelector.getButton());
+        buttonGroup.add(venusAtmosphereSelector.getButton());
 
         // Add the reset all button.
         addControlFullWidth(createVerticalSpacingPanel(60));
