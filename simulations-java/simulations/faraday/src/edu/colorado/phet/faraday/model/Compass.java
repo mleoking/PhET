@@ -1,4 +1,4 @@
-/* Copyright 2004-2008, University of Colorado */
+/* Copyright 2004-2010, University of Colorado */
 
 package edu.colorado.phet.faraday.model;
 
@@ -72,7 +72,7 @@ public class Compass extends FaradayObservable implements ModelElement, SimpleOb
         _somePoint = new Point2D.Double();
         _someVector = new Vector2D();
         
-        Vector2D fieldStrength = _magnetModel.getStrength( getLocation() );
+        Vector2D fieldStrength = _magnetModel.getBField( getLocation() );
         setDirection( fieldStrength.getAngle() );
     }
     
@@ -142,7 +142,7 @@ public class Compass extends FaradayObservable implements ModelElement, SimpleOb
         // if the clock is running, updates are handled via stepInTime
         if ( _clock.isPaused() ) {
             getLocation( _somePoint /* output */ );
-            _magnetModel.getStrength( _somePoint, _someVector /* output */ );
+            _magnetModel.getBField( _somePoint, _someVector /* output */ );
             _clockPausedBehavior.setDirection( _someVector, 1 /* don't care */ );
         }
     }
@@ -163,7 +163,7 @@ public class Compass extends FaradayObservable implements ModelElement, SimpleOb
     public void stepInTime( double dt ) {
         if ( isEnabled() ) {          
             getLocation( _somePoint /* output */ );
-            _magnetModel.getStrength( _somePoint, _someVector /* output */ );          
+            _magnetModel.getBField( _somePoint, _someVector /* output */ );          
             if ( _someVector.getMagnitude() != 0 ) {
                 _behavior.setDirection( _someVector, dt );
             }

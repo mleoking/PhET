@@ -1,4 +1,4 @@
-/* Copyright 2008, University of Colorado */
+/* Copyright 2008-2010, University of Colorado */
 
 package edu.colorado.phet.faraday.view;
 
@@ -28,10 +28,9 @@ public class BFieldOutsideGraphic extends AbstractBFieldGraphic implements Simpl
      * @param magnetModel
      * @param xSpacing
      * @param ySpacing
-     * @param inMagnetPlane true=show field in magnet's 2D plane, false=show field slightly outside magnet's 2D plane
      */
-    public BFieldOutsideGraphic( Component component, AbstractMagnet magnetModel, int xSpacing, int ySpacing, boolean inMagnetPlane ) {
-        super( component, magnetModel, xSpacing, ySpacing, inMagnetPlane );
+    public BFieldOutsideGraphic( Component component, AbstractMagnet magnetModel, int xSpacing, int ySpacing ) {
+        super( component, magnetModel, xSpacing, ySpacing );
         
         _magnetModel = magnetModel;
         _magnetModel.addObserver( this );
@@ -52,7 +51,7 @@ public class BFieldOutsideGraphic extends AbstractBFieldGraphic implements Simpl
      */
     protected GridPoint[] createGridPoints() {
         
-        ArrayList gridPoints = new ArrayList();
+        ArrayList<GridPoint> gridPoints = new ArrayList<GridPoint>();
         
         Rectangle bounds = getGridBoundsReference();
         final int xSpacing = getXSpacing();

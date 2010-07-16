@@ -1,4 +1,4 @@
-/* Copyright 2004-2008, University of Colorado */
+/* Copyright 2004-2010, University of Colorado */
 
 package edu.colorado.phet.faraday.model;
 
@@ -31,8 +31,6 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
     //----------------------------------------------------------------------------
     
     private AbstractMagnet _magnetModel;
-    // Determines how the magnetic field decreases with the distance from the magnet.
-    private final double _distanceExponent;
     
     private double _averageBx; // in Gauss
     private double _flux; // in webers
@@ -60,8 +58,8 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
      * @param magnetModel
      * @param distanceExponent
      */
-    public PickupCoil( AbstractMagnet magnetModel, double distanceExponent ) {
-        this( magnetModel, distanceExponent, new ConstantNumberOfSamplePointsStrategy( 9 /* numberOfSamplePoints */ ) );
+    public PickupCoil( AbstractMagnet magnetModel ) {
+        this( magnetModel, new ConstantNumberOfSamplePointsStrategy( 9 /* numberOfSamplePoints */ ) );
     }
     
     /**
@@ -69,17 +67,14 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
      * to measure the magnet's B-field.
      * 
      * @param magnetModel
-     * @param distanceExponent
      * @param samplePointsStrategy
      */
-    public PickupCoil( AbstractMagnet magnetModel, double distanceExponent, SamplePointsStrategy samplePointsStrategy ) {
+    public PickupCoil( AbstractMagnet magnetModel, SamplePointsStrategy samplePointsStrategy ) {
         super();
         
         assert( magnetModel != null );
         _magnetModel = magnetModel;
         _magnetModel.addObserver( this );
-        
-        _distanceExponent = distanceExponent;
         
         _samplePointsStrategy = samplePointsStrategy;
         _samplePoints = null;
@@ -433,8 +428,8 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
                 _someTransform.transform( _samplePoint, _samplePoint /* output */);
             }
             
-            // Find the B field vector at that point.
-            _magnetModel.getStrength( _samplePoint, _sampleVector /* output */, _distanceExponent  );
+            // Find the B-field vector at that point.
+            _magnetModel.getBField( _samplePoint, _sampleVector /* output */  );
             
             /*
              * If the B-field x component is equal to the magnet strength, then our B-field sample

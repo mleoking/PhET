@@ -1,4 +1,4 @@
-/* Copyright 2004-2008, University of Colorado */
+/* Copyright 2004-2010, University of Colorado */
 
 package edu.colorado.phet.faraday.view;
 
@@ -24,9 +24,6 @@ public abstract class AbstractBFieldGraphic extends PhetGraphic {
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
-    
-    // Determines how the magnetic field decreases with the distance from the magnet.
-    private static final double DISTANCE_EXPONENT = 3.0;
     
     // Is rescaling of the field enabled?
     private static final boolean RESCALE_ENABLED = true;
@@ -67,9 +64,6 @@ public abstract class AbstractBFieldGraphic extends PhetGraphic {
     
     // A reusable vector
     private Vector2D _fieldVector;
-    
-    // Is the grid in the 2D plane of the magnet, or slightly outside the 2D plane?
-    private final boolean _inMagnetPlane;
     
     //----------------------------------------------------------------------------
     // Inner classes
@@ -147,9 +141,8 @@ public abstract class AbstractBFieldGraphic extends PhetGraphic {
      * @param magnetModel
      * @param xSpacing space between grid points in the X direction
      * @param ySpacing space between grid points in the Y direction
-     * @param inMagnetPlane are we showing the field in the 2D plane of the magnet?
      */
-    public AbstractBFieldGraphic( Component component, AbstractMagnet magnetModel, int xSpacing, int ySpacing, boolean inMagnetPlane ) {
+    public AbstractBFieldGraphic( Component component, AbstractMagnet magnetModel, int xSpacing, int ySpacing ) {
         super( component );
         assert( component != null );
         
@@ -158,7 +151,6 @@ public abstract class AbstractBFieldGraphic extends PhetGraphic {
         _magnetModel = magnetModel;
         _xSpacing = xSpacing;
         _ySpacing = ySpacing;
-        _inMagnetPlane = inMagnetPlane;
         
         _strengthThreshold = FaradayConstants.GRID_BFIELD_THRESHOLD;
         
@@ -388,12 +380,7 @@ public abstract class AbstractBFieldGraphic extends PhetGraphic {
 
                     // Get the magnetic field information at the needle's location.
                     _point.setLocation( gridPoint.getX(), gridPoint.getY() );
-                    if ( _inMagnetPlane ) {
-                        _magnetModel.getStrength( _point, _fieldVector /* output */, DISTANCE_EXPONENT );
-                    }
-                    else {
-                        _magnetModel.getStrengthOutsidePlane( _point, _fieldVector /* output */, DISTANCE_EXPONENT );
-                    }
+                    _magnetModel.getBField( _point, _fieldVector /* output */ );
                     double angle = _fieldVector.getAngle();
                     double magnitude = _fieldVector.getMagnitude();
 

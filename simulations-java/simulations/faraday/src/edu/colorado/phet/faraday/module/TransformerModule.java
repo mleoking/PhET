@@ -1,4 +1,4 @@
-/* Copyright 2004-2008, University of Colorado */
+/* Copyright 2004-2010, University of Colorado */
 
 package edu.colorado.phet.faraday.module;
 
@@ -64,7 +64,6 @@ public class TransformerModule extends FaradayModule {
     private static final int PICKUP_COIL_NUMBER_OF_LOOPS = 2;
     private static final double PICKUP_COIL_LOOP_AREA = 0.75 * FaradayConstants.MAX_PICKUP_LOOP_AREA;
     private static final double PICKUP_COIL_DIRECTION = 0.0; // radians
-    private static final double PICKUP_COIL_DISTANCE_EXPONENT = 2.0;
     private static final double PICKUP_COIL_TRANSITION_SMOOTHING_SCALE = 0.56; // see PickupCoil.setTransitionSmoothingScale
     private static final double LIGHTBULB_GLASS_MIN_ALPHA = 0.35;
     
@@ -161,7 +160,7 @@ public class TransformerModule extends FaradayModule {
         _fieldMeterModel.setEnabled( false );
         
         // Pickup Coil
-        _pickupCoilModel = new PickupCoil( _electromagnetModel, PICKUP_COIL_DISTANCE_EXPONENT );
+        _pickupCoilModel = new PickupCoil( _electromagnetModel );
         _pickupCoilModel.setNumberOfLoops( PICKUP_COIL_NUMBER_OF_LOOPS );
         _pickupCoilModel.setLoopArea( PICKUP_COIL_LOOP_AREA );
         _pickupCoilModel.setDirection( PICKUP_COIL_DIRECTION );
@@ -212,8 +211,7 @@ public class TransformerModule extends FaradayModule {
         apparatusPanel.addGraphic( _pickupCoilGraphic.getBackground(), PICKUP_COIL_BACK_LAYER );
         
         // B-field outside the magnet
-        _bFieldOutsideGraphic = new BFieldOutsideGraphic( apparatusPanel, 
-                _electromagnetModel, FaradayConstants.GRID_SPACING, FaradayConstants.GRID_SPACING, true /* inMagnetPlane */ );
+        _bFieldOutsideGraphic = new BFieldOutsideGraphic( apparatusPanel, _electromagnetModel, FaradayConstants.GRID_SPACING, FaradayConstants.GRID_SPACING );
         _bFieldOutsideGraphic.setNeedleSize( FaradayConstants.GRID_NEEDLE_SIZE );
         _bFieldOutsideGraphic.setGridBackground( APPARATUS_BACKGROUND );
         _bFieldOutsideGraphic.setVisible( false );

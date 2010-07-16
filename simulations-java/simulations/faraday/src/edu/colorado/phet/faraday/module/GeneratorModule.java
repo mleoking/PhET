@@ -1,4 +1,4 @@
-/* Copyright 2004-2008, University of Colorado */
+/* Copyright 2004-2010, University of Colorado */
 
 package edu.colorado.phet.faraday.module;
 
@@ -57,7 +57,6 @@ public class GeneratorModule extends FaradayModule {
     private static final int PICKUP_COIL_NUMBER_OF_LOOPS = 2;
     private static final double PICKUP_COIL_LOOP_AREA = FaradayConstants.DEFAULT_PICKUP_LOOP_AREA;
     private static final double PICKUP_COIL_DIRECTION = 0.0; // radians
-    private static final double PICKUP_COIL_DISTANCE_EXPONENT = 2.0;
     private static final double PICKUP_COIL_TRANSITION_SMOOTHING_SCALE = 1.0;  // see PickupCoil.setTransitionSmoothingScale, 1 because magnet is never inside coil
     private static final double LIGHTBULB_GLASS_MIN_ALPHA = 0.35;
     
@@ -126,7 +125,7 @@ public class GeneratorModule extends FaradayModule {
         _fieldMeterModel.setEnabled( false );
         
         // Pickup Coil
-        _pickupCoilModel = new PickupCoil( _turbineModel, PICKUP_COIL_DISTANCE_EXPONENT );
+        _pickupCoilModel = new PickupCoil( _turbineModel );
         _pickupCoilModel.setNumberOfLoops( PICKUP_COIL_NUMBER_OF_LOOPS );
         _pickupCoilModel.setLoopArea( PICKUP_COIL_LOOP_AREA );
         _pickupCoilModel.setDirection( PICKUP_COIL_DIRECTION );
@@ -174,7 +173,7 @@ public class GeneratorModule extends FaradayModule {
         apparatusPanel.addGraphic( _pickupCoilGraphic.getBackground(), PICKUP_COIL_BACK_LAYER );
         
         // B-field outside the magnet
-        _bFieldOutsideGraphic = new BFieldOutsideGraphic( apparatusPanel, _turbineModel, FaradayConstants.GRID_SPACING, FaradayConstants.GRID_SPACING, false /* inMagnetPlane */ );
+        _bFieldOutsideGraphic = new BFieldOutsideGraphic( apparatusPanel, _turbineModel, FaradayConstants.GRID_SPACING, FaradayConstants.GRID_SPACING );
         _bFieldOutsideGraphic.setNeedleSize( FaradayConstants.GRID_NEEDLE_SIZE );
         _bFieldOutsideGraphic.setGridBackground( APPARATUS_BACKGROUND );
         _bFieldOutsideGraphic.setVisible( false );

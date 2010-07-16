@@ -1,4 +1,4 @@
-/* Copyright 2005-2008, University of Colorado */
+/* Copyright 2005-2010, University of Colorado */
 
 package edu.colorado.phet.faraday.model;
 
@@ -12,7 +12,7 @@ import edu.colorado.phet.faraday.FaradayConstants;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class Turbine extends DipoleMagnet implements ModelElement {
+public class Turbine extends BarMagnet implements ModelElement {
     
     //----------------------------------------------------------------------------
     // Instance data

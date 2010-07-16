@@ -70,40 +70,29 @@ public class NumericalBarMagnet extends AbstractMagnet {
         byArray = reader.getByArray();
     }
 
-    @Override
-    public Vector2D getStrength( Point2D p, Vector2D outputVector ) {
-
-        // convert to a point that is relative to magnet's origin
-        double xRelative = p.getX() - getLocation().getX();
-        double yRelative = p.getY() - getLocation().getY();
+    /**
+     * Gets the B-field vector at a point in the magnet's local 2D coordinate frame.
+     * 
+     * @param p
+     * @param outputVector
+     * @return outputVector
+     */
+    protected Vector2D getBFieldRelative( Point2D p, Vector2D outputVector ) {
         
+        assert( p != null );
+        assert( outputVector != null );
+        
+        outputVector.zero();
+
         // find B-field by interpolating grid points
-        double x = getBx( xRelative, yRelative );
-        double y = getBy( xRelative, yRelative );
-        Vector2D fieldVector = outputVector;
-        if ( fieldVector == null ) {
-            fieldVector = new Vector2D();
-        }
-        fieldVector.setXY( x, y );
+        double x = getBx( p.getX(), p.getY() );
+        double y = getBy( p.getX(), p.getY() );
+        outputVector.setXY( x, y );
 
         // scale based on magnet strength
-        fieldVector.scale( getStrength() / GRID_MAGNET_STRENGTH ); 
+        outputVector.scale( getStrength() / GRID_MAGNET_STRENGTH ); 
         
-        //TODO handle orientation, magnet may be rotated!
-        
-        return fieldVector;
-    }
-    
-    //XXX ignore extra args, remove this from AbstractMagnet interface?
-    @Override
-    public Vector2D getStrength( Point2D p, Vector2D outputVector, double distanceExponent ) {
-        return getStrength( p, outputVector );
-    }
-
-    //XXX ignore extra args and outside-of-plane semantics (see Unfuddle #424), remove this from AbstractMagnet interface?
-    @Override
-    public Vector2D getStrengthOutsidePlane( Point2D p, Vector2D outputVector, double distanceExponent ) {
-        return getStrength( p, outputVector );
+        return outputVector;
     }
     
     /*

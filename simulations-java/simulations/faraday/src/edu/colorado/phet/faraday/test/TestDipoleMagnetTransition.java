@@ -38,8 +38,8 @@ public class TestDipoleMagnetTransition {
         Point2D pOutside = new Point2D.Double( magnetSize.getWidth()/2 + deltaX, 0 );
         
         // measure the B-field inside and outside to check for a smooth transition
-        Vector2D bInside = magnet.getStrength( pInside );
-        Vector2D bOutside = magnet.getStrength( pOutside );
+        Vector2D bInside = magnet.getBField( pInside );
+        Vector2D bOutside = magnet.getBField( pOutside );
         double difference = bInside.getMagnitude() - bOutside.getMagnitude();
         
         // print values
