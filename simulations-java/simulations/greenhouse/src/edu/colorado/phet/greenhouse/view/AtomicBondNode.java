@@ -28,9 +28,9 @@ public class AtomicBondNode extends PNode {
     
     // Constants that control the width of the bond representation with
     // with respect to the average atom radius.
-    private static double BOND_WIDTH_PROPORTION_SINGLE = 0.2;
-    private static double BOND_WIDTH_PROPORTION_DOUBLE = 0.1;
-    private static double BOND_WIDTH_PROPORTION_TRIPLE = 0.05;
+    private static double BOND_WIDTH_PROPORTION_SINGLE = 0.56;
+    private static double BOND_WIDTH_PROPORTION_DOUBLE = 0.28;
+    private static double BOND_WIDTH_PROPORTION_TRIPLE = 0.14;
     
     private static Color BOND_COLOR = new Color(0, 200, 0);
 
@@ -60,7 +60,7 @@ public class AtomicBondNode extends PNode {
         });
         
         // Calculate the width to use for the bond representation(s).
-        averageAtomRadius = (atomicBond.getAtom1().getRadius() + atomicBond.getAtom2().getRadius()) / 2;
+        averageAtomRadius=mvt.modelToViewDifferentialXDouble((atomicBond.getAtom1().getRadius() + atomicBond.getAtom2().getRadius()) / 2);
         
         // Create the initial representation.
         updateRepresentation();
