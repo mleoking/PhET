@@ -148,10 +148,13 @@ public abstract class ComponentEditor extends PaintImmediateDialog {
     }
 
     public static class BatteryEditor extends ComponentEditor {
+        private static final int MAX_BATTERY_VOLTAGE = 100;
+        private static final int MAX_HUGE_BATTERY_VOLTAGE = 100000;
+
         public BatteryEditor(CCKModule module, final CircuitComponent element, Component parent, Circuit circuit) throws HeadlessException {
             super(module, CCKResources.getString("ComponentEditor.BatteryVoltageTitle"), element, parent,
                     CCKResources.getString("ComponentEditor.BatteryVoltageName"),
-                    CCKResources.getString("ComponentEditor.BatteryVoltageUnits"), 0, 100, element.getVoltageDrop(), circuit);
+                    CCKResources.getString("ComponentEditor.BatteryVoltageUnits"), 0, MAX_HUGE_BATTERY_VOLTAGE, element.getVoltageDrop(), circuit);
             if (module.getParameters().hugeRangeOnBatteries()) {
                 final JCheckBox hugeRange = new JCheckBox(CCKResources.getString("ComponentEditor.MoreVoltsCheckBox"), false);
                 hugeRange.addActionListener(new ActionListener() {
@@ -160,7 +163,7 @@ public abstract class ComponentEditor extends PaintImmediateDialog {
                     }
                 });
                 super.contentPane.add(hugeRange);
-                boolean highVal = element.getVoltageDrop() > 100;
+                boolean highVal = element.getVoltageDrop() > MAX_BATTERY_VOLTAGE;
                 setHugeRange(highVal);
                 hugeRange.setSelected(highVal);
 
@@ -174,15 +177,13 @@ public abstract class ComponentEditor extends PaintImmediateDialog {
 
         private void setHugeRange(boolean hugeRange) {
             ModelSlider slider = getSlider();
-//            double origValue = slider.getValue();
             if (hugeRange) {
-                int max = 100000;
-                slider.setRange(0, max);
+                slider.setRange(0, MAX_HUGE_BATTERY_VOLTAGE);
                 slider.setPaintLabels(false);
-                slider.setValue(MathUtil.clamp(0, circuitComponent.getVoltageDrop(), max));
+                slider.setValue(MathUtil.clamp(0, circuitComponent.getVoltageDrop(), MAX_HUGE_BATTERY_VOLTAGE));
                 super.pack();
             } else {
-                int max = 100;
+                int max = MAX_BATTERY_VOLTAGE;
                 slider.setRange(0, max);
                 slider.setPaintLabels(true);
                 slider.setValue(MathUtil.clamp(0, circuitComponent.getVoltageDrop(), max));
@@ -242,8 +243,6 @@ public abstract class ComponentEditor extends PaintImmediateDialog {
             if (value < CCKModel.MIN_RESISTANCE) {
                 value = CCKModel.MIN_RESISTANCE;
             }
-//            super.element.setResistance( value );
-//            System.out.println( "set battery internal resistance= " + value );
             battery.setInternalResistance(value);
         }
     }
