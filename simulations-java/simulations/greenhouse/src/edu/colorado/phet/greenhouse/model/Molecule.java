@@ -6,9 +6,7 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import scala.util.Random;
-
+import java.util.Random;
 
 /**
  * Class that represents a molecule in the model.  This, by its nature, is
