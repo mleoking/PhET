@@ -3,8 +3,7 @@
 package edu.colorado.phet.greenhouse.model;
 
 import java.awt.geom.Point2D;
-
-import scala.util.Random;
+import java.util.Random;
 
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
 import edu.umd.cs.piccolo.util.PDimension;
