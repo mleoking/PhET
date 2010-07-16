@@ -23,7 +23,16 @@ public class CH4 extends Molecule {
     
     private static final double INITIAL_CARBON_HYDROGEN_DISTANCE = 170; // In picometers.
     
+    // Assume that the angle from the carbon to the hydrogen is 45 degrees.
+    private static final double ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE =
+        INITIAL_CARBON_HYDROGEN_DISTANCE * Math.sin( Math.PI / 4  );
+    
     private static final double PHOTON_ABSORPTION_DISTANCE = 200;
+    
+    private static final double HYDROGEN_OSCILLATION_DISTANCE = 30;
+    private static final double HYDROGEN_OSCILLATION_ANGLE = Math.PI / 4;
+    private static final double HYDROGEN_OSCILLATION_DISTANCE_X = HYDROGEN_OSCILLATION_DISTANCE * Math.cos( HYDROGEN_OSCILLATION_ANGLE );
+    private static final double HYDROGEN_OSCILLATION_DISTANCE_Y = HYDROGEN_OSCILLATION_DISTANCE * Math.sin( HYDROGEN_OSCILLATION_ANGLE );
     
     // ------------------------------------------------------------------------
     // Instance Data
@@ -93,11 +102,14 @@ public class CH4 extends Molecule {
     @Override
     protected void initializeAtomOffsets() {
         atomCogOffsets.put(carbonAtom, new PDimension(0, 0));
-        double rotatedDistance = INITIAL_CARBON_HYDROGEN_DISTANCE * Math.sin( Math.PI / 4 );
-        atomCogOffsets.put(hydrogenAtom1, new PDimension(-rotatedDistance, rotatedDistance));
-        atomCogOffsets.put(hydrogenAtom2, new PDimension(rotatedDistance, rotatedDistance));
-        atomCogOffsets.put(hydrogenAtom3, new PDimension(rotatedDistance, -rotatedDistance));
-        atomCogOffsets.put(hydrogenAtom4, new PDimension(-rotatedDistance, -rotatedDistance));
+        atomCogOffsets.put(hydrogenAtom1, new PDimension(-ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE,
+                ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE));
+        atomCogOffsets.put(hydrogenAtom2, new PDimension(ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE,
+                ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE));
+        atomCogOffsets.put(hydrogenAtom3, new PDimension(ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE,
+                -ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE));
+        atomCogOffsets.put(hydrogenAtom4, new PDimension(-ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE,
+                -ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE));
     }
 
     // TODO: Temp for testing.
@@ -109,10 +121,30 @@ public class CH4 extends Molecule {
         if (oscillationRadians != 0){
             double multFactor = Math.sin( oscillationRadians );
             double maxOffset = 30;
-            atomCogOffsets.put(hydrogenAtom1, new PDimension(-INITIAL_CARBON_HYDROGEN_DISTANCE + (RAND.nextDouble() - 0.5) * maxOffset, (RAND.nextDouble() - 0.5) * maxOffset));
-            atomCogOffsets.put(hydrogenAtom2, new PDimension((RAND.nextDouble() - 0.5) * maxOffset, INITIAL_CARBON_HYDROGEN_DISTANCE + (RAND.nextDouble() - 0.5) * maxOffset));
-            atomCogOffsets.put(hydrogenAtom3, new PDimension(INITIAL_CARBON_HYDROGEN_DISTANCE + (RAND.nextDouble() - 0.5) * maxOffset, (RAND.nextDouble() - 0.5) * maxOffset));
-            atomCogOffsets.put(hydrogenAtom4, new PDimension((RAND.nextDouble() - 0.5) * maxOffset, -INITIAL_CARBON_HYDROGEN_DISTANCE + (RAND.nextDouble() - 0.5) * maxOffset));
+//            atomCogOffsets.put(hydrogenAtom1, new PDimension(-INITIAL_CARBON_HYDROGEN_DISTANCE + (RAND.nextDouble() - 0.5) * maxOffset, (RAND.nextDouble() - 0.5) * maxOffset));
+//            atomCogOffsets.put(hydrogenAtom2, new PDimension((RAND.nextDouble() - 0.5) * maxOffset, INITIAL_CARBON_HYDROGEN_DISTANCE + (RAND.nextDouble() - 0.5) * maxOffset));
+//            atomCogOffsets.put(hydrogenAtom3, new PDimension(INITIAL_CARBON_HYDROGEN_DISTANCE + (RAND.nextDouble() - 0.5) * maxOffset, (RAND.nextDouble() - 0.5) * maxOffset));
+//            atomCogOffsets.put(hydrogenAtom4, new PDimension((RAND.nextDouble() - 0.5) * maxOffset, -INITIAL_CARBON_HYDROGEN_DISTANCE + (RAND.nextDouble() - 0.5) * maxOffset));
+            atomCogOffsets.put(hydrogenAtom1, 
+                    new PDimension(-ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_OSCILLATION_DISTANCE_X,
+                            ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_OSCILLATION_DISTANCE_Y));
+            atomCogOffsets.put(hydrogenAtom2, 
+                    new PDimension(ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE - multFactor * HYDROGEN_OSCILLATION_DISTANCE_X,
+                            ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_OSCILLATION_DISTANCE_Y));
+            atomCogOffsets.put(hydrogenAtom3, 
+                    new PDimension(-ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE - multFactor * HYDROGEN_OSCILLATION_DISTANCE_X,
+                            -ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_OSCILLATION_DISTANCE_Y));
+            atomCogOffsets.put(hydrogenAtom4, 
+                    new PDimension(ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_OSCILLATION_DISTANCE_X,
+                            -ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_OSCILLATION_DISTANCE_Y));
+            // Position the carbon atom so that the center of mass remains
+            // the same.
+            // TODO: this isn't right yet.
+            double carbonXPos = -(hydrogenAtom1.getPosition().getX() + hydrogenAtom2.getPosition().getX() + 
+                hydrogenAtom3.getPosition().getX() + hydrogenAtom4.getPosition().getX()) / 4;
+            double carbonYPos = -(hydrogenAtom1.getPosition().getY() + hydrogenAtom2.getPosition().getY() + 
+                    hydrogenAtom3.getPosition().getY() + hydrogenAtom4.getPosition().getY()) / 4;
+            atomCogOffsets.put( carbonAtom, new PDimension(carbonXPos, carbonYPos) );
         }
         else{
             initializeAtomOffsets();
