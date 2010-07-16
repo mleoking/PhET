@@ -18,7 +18,7 @@ public class CarbonAtom extends Atom {
     //------------------------------------------------------------------------
     
     private static final Color REPRESENTATION_COLOR = Color.GRAY;
-    private static final double MASS = 12.011;   // In atomic mass units (AMU).
+    public static final double MASS = 12.011;   // In atomic mass units (AMU).
     private static final double RADIUS = 77;     // In picometers.
 
     //------------------------------------------------------------------------
