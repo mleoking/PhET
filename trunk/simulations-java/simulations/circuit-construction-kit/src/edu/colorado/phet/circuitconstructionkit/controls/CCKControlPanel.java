@@ -290,7 +290,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
         catch (UnavailableServiceException e) {
             e.printStackTrace();
         }
-        FileContents open = fos.openFileDialog(null, new String[]{"cck"});
+        FileContents open = fos.openFileDialog(null, null);
         if (open == null) {
             return;
         }
