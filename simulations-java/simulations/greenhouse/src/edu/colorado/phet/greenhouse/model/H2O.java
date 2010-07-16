@@ -26,9 +26,9 @@ public class H2O extends Molecule {
     // correct center of gravity will be maintained.
     private static final double OXYGEN_HYDROGEN_BOND_LENGTH = 150;
     private static final double INITIAL_HYDROGEN_OXYGEN_HYDROGEN_ANGLE = 104.5;
-    private static final double INITIAL_OXYGEN_VERTICAL_OFFSET = 2 * new HydrogenAtom().getMass() * 
-        OXYGEN_HYDROGEN_BOND_LENGTH * Math.cos( INITIAL_HYDROGEN_OXYGEN_HYDROGEN_ANGLE ) / (new OxygenAtom().getMass() *
-        2 * new HydrogenAtom().getMass());
+    private static final double INITIAL_OXYGEN_VERTICAL_OFFSET = 2 * HydrogenAtom.MASS * 
+        OXYGEN_HYDROGEN_BOND_LENGTH * Math.cos( INITIAL_HYDROGEN_OXYGEN_HYDROGEN_ANGLE ) / (OxygenAtom.MASS *
+        2 * HydrogenAtom.MASS);
     private static final double INITIAL_HYDROGEN_VERTICAL_OFFSET = INITIAL_OXYGEN_VERTICAL_OFFSET -
         OXYGEN_HYDROGEN_BOND_LENGTH * Math.cos( INITIAL_HYDROGEN_OXYGEN_HYDROGEN_ANGLE );
     private static final double INITIAL_HYDROGEN_HORIZONTAL_OFFSET = OXYGEN_HYDROGEN_BOND_LENGTH *
