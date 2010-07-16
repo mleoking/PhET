@@ -93,10 +93,11 @@ public class CH4 extends Molecule {
     @Override
     protected void initializeAtomOffsets() {
         atomCogOffsets.put(carbonAtom, new PDimension(0, 0));
-        atomCogOffsets.put(hydrogenAtom1, new PDimension(-INITIAL_CARBON_HYDROGEN_DISTANCE, 0));
-        atomCogOffsets.put(hydrogenAtom2, new PDimension(0, INITIAL_CARBON_HYDROGEN_DISTANCE));
-        atomCogOffsets.put(hydrogenAtom3, new PDimension(INITIAL_CARBON_HYDROGEN_DISTANCE, 0));
-        atomCogOffsets.put(hydrogenAtom4, new PDimension(0, -INITIAL_CARBON_HYDROGEN_DISTANCE));
+        double rotatedDistance = INITIAL_CARBON_HYDROGEN_DISTANCE * Math.sin( Math.PI / 4 );
+        atomCogOffsets.put(hydrogenAtom1, new PDimension(-rotatedDistance, rotatedDistance));
+        atomCogOffsets.put(hydrogenAtom2, new PDimension(rotatedDistance, rotatedDistance));
+        atomCogOffsets.put(hydrogenAtom3, new PDimension(rotatedDistance, -rotatedDistance));
+        atomCogOffsets.put(hydrogenAtom4, new PDimension(-rotatedDistance, -rotatedDistance));
     }
 
     // TODO: Temp for testing.
