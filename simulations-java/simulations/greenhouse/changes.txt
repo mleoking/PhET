@@ -1,3 +1,4 @@
+# 2.07.06 (42331) Jul 16, 2010
 7/16/10 Added greenhouse gases and molecular oscillations to photon absorption panel
 # 2.07.05 (42160) Jul 9, 2010
 7/9/10 Adjusted particle flow timing based on review with Noah P.
