@@ -40,7 +40,7 @@ public class LocalFileOpenService implements FileOpenService {
      */
     public FileContents openFileDialog( String s, String[] strings ) throws IOException {
         JFileChooser jfc = new JFileChooser( s );
-        if ( strings != null ) {
+        if ( strings != null && strings.length > 0) {
             LocalFileFilter eff = new LocalFileFilter( strings );
             jfc.setFileFilter( eff );
         }

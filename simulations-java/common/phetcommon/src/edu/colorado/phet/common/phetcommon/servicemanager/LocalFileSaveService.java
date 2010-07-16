@@ -30,8 +30,10 @@ public class LocalFileSaveService implements FileSaveService {
 
     public FileContents saveAsFileDialog( String s, String[] strings, FileContents source ) throws IOException {
         JFileChooser jfc = new JFileChooser( s );
-        LocalFileFilter eff = new LocalFileFilter( strings );
-        jfc.setFileFilter( eff );
+        if ( strings != null && strings.length > 0) {
+            LocalFileFilter eff = new LocalFileFilter( strings );
+            jfc.setFileFilter( eff );
+        }
         int answer = jfc.showSaveDialog( owner );
         if ( answer == JFileChooser.CANCEL_OPTION ) {
             System.out.println( "Cancelled." );
