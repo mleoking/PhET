@@ -233,7 +233,7 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
         private static final Font LABEL_FONT = new PhetFont(14);
         
         // Fixed scale factor for images.
-        private static final double IMAGE_SCALING_FACTOR = 0.11;
+        private static final double IMAGE_SCALING_FACTOR = 0.14;
         
         // Fixed height for the panels.
         private static final int PREFERRED_HEIGHT = 46;  // In pixels.
