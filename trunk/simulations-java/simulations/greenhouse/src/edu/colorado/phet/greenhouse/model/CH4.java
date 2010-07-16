@@ -27,8 +27,8 @@ public class CH4 extends Molecule {
     private static final double ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE =
         INITIAL_CARBON_HYDROGEN_DISTANCE * Math.sin( Math.PI / 4  );
     
-    private static final double PHOTON_ABSORPTION_DISTANCE = 200;
-    
+    private static final double PHOTON_ABSORPTION_DISTANCE = 80;
+
     private static final double HYDROGEN_OSCILLATION_DISTANCE = 30;
     private static final double HYDROGEN_OSCILLATION_ANGLE = Math.PI / 4;
     private static final double HYDROGEN_OSCILLATION_DISTANCE_X = HYDROGEN_OSCILLATION_DISTANCE * Math.cos( HYDROGEN_OSCILLATION_ANGLE );
