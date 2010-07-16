@@ -139,11 +139,14 @@ public class CH4 extends Molecule {
                             -ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_OSCILLATION_DISTANCE_Y));
             // Position the carbon atom so that the center of mass remains
             // the same.
+            
             // TODO: this isn't right yet.
-            double carbonXPos = -(hydrogenAtom1.getPosition().getX() + hydrogenAtom2.getPosition().getX() + 
-                hydrogenAtom3.getPosition().getX() + hydrogenAtom4.getPosition().getX()) / 4;
-            double carbonYPos = -(hydrogenAtom1.getPosition().getY() + hydrogenAtom2.getPosition().getY() + 
-                    hydrogenAtom3.getPosition().getY() + hydrogenAtom4.getPosition().getY()) / 4;
+            double carbonXPos = -(HydrogenAtom.MASS / CarbonAtom.MASS) * (hydrogenAtom1.getPosition().getX() +
+                    hydrogenAtom2.getPosition().getX() + hydrogenAtom3.getPosition().getX() + 
+                    hydrogenAtom4.getPosition().getX());
+            double carbonYPos = -(HydrogenAtom.MASS / CarbonAtom.MASS) * (hydrogenAtom1.getPosition().getY() +
+                    hydrogenAtom2.getPosition().getY() + hydrogenAtom3.getPosition().getY() + 
+                    hydrogenAtom4.getPosition().getY());
             atomCogOffsets.put( carbonAtom, new PDimension(carbonXPos, carbonYPos) );
         }
         else{
