@@ -30,7 +30,7 @@ public class ReadoutNode extends PhetPNode {
     protected Branch branch;
     private JComponent panel;
     protected DecimalFormat formatter;
-    private PPath linePNode;
+    private PPath linePNode;//This is a dotted line attaching the text to the branch
 
     static Font font = new PhetFont(Font.BOLD, 16);
 
