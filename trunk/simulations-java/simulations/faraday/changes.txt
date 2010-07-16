@@ -1,3 +1,9 @@
+7/16/10 #2236, simplify and rename magnet interface
+7/16/10 #2236, remove B-field scaling from model
+7/16/10 #2236, "distance exponent" from magnet interfaces (not needed for bar magnet, set to 3 for coil magnet)
+7/16/10 #2236, remove "inside/outside plane of magnet" fix that is no longer needed (see #424)
+7/16/10 #2236, make Turbine extend BarMagnet
+7/16/10 #2236, refactor duplicate code into base class for handling magnet translation and rotation
 # 2.03.04 (42283) Jul 14, 2010
 7/14/10 see #2236, dev version to discuss progress on grid-file model for bar magnet
 7/14/10 #2236, add interpolation to grid-file model for bar magnet
