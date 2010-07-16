@@ -1,4 +1,4 @@
-/* Copyright 2008, University of Colorado */
+/* Copyright 2008-2010, University of Colorado */
 
 package edu.colorado.phet.faraday.view;
 
@@ -8,7 +8,6 @@ import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.faraday.model.BarMagnet;
@@ -45,7 +44,7 @@ public class BFieldInsideGraphic extends AbstractBFieldGraphic implements Simple
      * @param barMagnetModel
      */
     public BFieldInsideGraphic( Component component, BarMagnet barMagnetModel ) {
-        super( component, barMagnetModel, X_SPACING, Y_SPACING, true /* inMagnetPlane */ );
+        super( component, barMagnetModel, X_SPACING, Y_SPACING );
         
         setNeedleColorStrategy( new AlphaColorStrategy() ); // need to use alpha because we're drawing this on top of the magnet
         
@@ -88,7 +87,7 @@ public class BFieldInsideGraphic extends AbstractBFieldGraphic implements Simple
         
         _barMagnetModel.getLocation( _barMagnetLocation );
         
-        ArrayList gridPoints = new ArrayList();
+        ArrayList<GridPoint> gridPoints = new ArrayList<GridPoint>();
         
         GridPoint gridPoint;
         final double xSpacing = getXSpacing();
@@ -126,16 +125,14 @@ public class BFieldInsideGraphic extends AbstractBFieldGraphic implements Simple
         // Transform all grid points by the magnet's rotation angle.
         final double direction = _barMagnetModel.getDirection();
         if ( direction != 0 ) {
-            Iterator i = gridPoints.iterator();
-            while ( i.hasNext() ) {
-                gridPoint = (GridPoint) i.next();
-                _point2D.setLocation( gridPoint.getX(), gridPoint.getY() );
+            for ( GridPoint p : gridPoints ) {
+                _point2D.setLocation( p.getX(), p.getY() );
                 _transform.setToIdentity();
                 _transform.translate( bx, by );
                 _transform.rotate( direction );
                 _transform.translate( -bx, -by );
                 _transform.transform( _point2D, _point2D );
-                gridPoint.setLocation( _point2D.getX(), _point2D.getY() );
+                p.setLocation( _point2D.getX(), _point2D.getY() );
             }
         }
         

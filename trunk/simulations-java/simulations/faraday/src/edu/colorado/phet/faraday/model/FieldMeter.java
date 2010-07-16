@@ -1,4 +1,4 @@
-/* Copyright 2005-2008, University of Colorado */
+/* Copyright 2005-2010, University of Colorado */
 
 package edu.colorado.phet.faraday.model;
 
@@ -86,7 +86,7 @@ public class FieldMeter extends FaradayObservable implements SimpleObserver {
     public void update() {
         if ( isEnabled() ) {
             getLocation( _location /* output */);
-            _magnetModel.getStrength( _location, _fieldVector /* output */);
+            _magnetModel.getBField( _location, _fieldVector /* output */);
             notifyObservers();
         }
     }

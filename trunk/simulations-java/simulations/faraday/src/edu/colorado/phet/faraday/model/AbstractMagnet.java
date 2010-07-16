@@ -1,7 +1,8 @@
-/* Copyright 2004-2008, University of Colorado */
+/* Copyright 2004-2010, University of Colorado */
 
 package edu.colorado.phet.faraday.model;
 
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.faraday.util.Vector2D;
@@ -21,6 +22,8 @@ public abstract class AbstractMagnet extends FaradayObservable {
     private double _strength;
     private double _maxStrength;
     private double _minStrength;
+    private AffineTransform _transform; // reusable transform
+    private Point2D _relativePoint; // reusable point, in magnet's local coordinate frame
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -36,6 +39,8 @@ public abstract class AbstractMagnet extends FaradayObservable {
         _strength = 1.0;
         _minStrength = 0.0;  // couldn't be any weaker
         _maxStrength = Double.POSITIVE_INFINITY;  // couldn't be any stronger
+        _transform = new AffineTransform();
+        _relativePoint = new Point2D.Double();
     }
     
     //----------------------------------------------------------------------------
@@ -136,65 +141,67 @@ public abstract class AbstractMagnet extends FaradayObservable {
     }
     
     /**
-     * Gets the strength vector of the magnetic field at a point in 2D space,
-     * in the same 2D plane as the magnet.
+     * Gets the B-field vector at a point in the global 2D space.
+     * This call allocates a Vector object. If memory or performance is
+     * a concern, use the more efficient getStrength(Point2D, Vector2D).
      * 
      * @param p the point
-     * @param outputVector strength is written here if provided, may be null
-     * @return the strength vector, outputVector if it was provided
+     * @return the B-field vector
      */
-    public abstract Vector2D getStrength( final Point2D p, Vector2D outputVector );
-    
-    /**
-     * Gets the strength vector of the magnetic field at a point in 2D space,
-     * in the same 2D plane as the magnet,
-     * using a specified exponent for computing how the field strength decreases
-     * with the distance.
-     * 
-     * @param p the point
-     * @param outputVector strength is written here if provided, may be null
-     * @param distanceExponent the distance exponent
-     * @return the strength vector, outputVector if it was provided
-     */
-    public abstract Vector2D getStrength( final Point2D p, Vector2D outputVector, double distanceExponent );
-    
-    /**
-     * Gets the strength vector of the magnetic field at a point in 2D space,
-     * in the same 2D plane as the magnet.
-     * 
-     * @param p the point
-     * @return the strength vector
-     */
-    public Vector2D getStrength( final Point2D p ) {
-        return getStrength( p, null );
+    public Vector2D getBField( final Point2D p ) {
+        return getBField( p, new Vector2D() );
     }
     
     /**
-     * Gets the strength vector of the magnetic field at a point in 2D space,
-     * in the same 2D plane as the magnet,
-     * using a specified exponent for computing how the field strength decreases
-     * with the distance.
+     * Gets the B-field vector at a point in the global 2D space.
      * 
      * @param p the point
-     * @param distanceExponent the distance exponent
-     * @return the strength vector
+     * @param outputVector B-field is written here if provided, may be null
+     * @return the B-field vector, outputVector if it was provided
      */
-    public Vector2D getStrength( final Point2D p, double distanceExponent ) {
-        return getStrength( p, null, distanceExponent );
+    public Vector2D getBField( final Point2D p, Vector2D outputVector ) {
+        assert( p != null );
+        assert( outputVector != null );
+        
+        /* 
+         * Our models are based a magnet located at the origin, with the north pole pointing down the positive x-axis.
+         * The point we receive is in global 2D space.
+         * So transform the point to the magnet's local coordinate system, adjusting for position and orientation.
+         */
+        _transform.setToIdentity();
+        _transform.translate( -getX(), -getY() );
+        _transform.rotate( -getDirection(), getX(), getY() );
+        _transform.transform( p, _relativePoint /* output */ );
+        
+        // get strength in magnet's local coordinate frame
+        getBFieldRelative( _relativePoint, outputVector );
+        
+        // Adjust the field vector to match the magnet's direction.
+        outputVector.rotate( getDirection() );
+        
+        // Clamp magnitude to magnet strength.
+        //TODO: why do we need to do this?
+        double magnetStrength = getStrength();
+        double magnitude = outputVector.getMagnitude();
+        if ( magnitude > magnetStrength ) {
+            outputVector.setMagnitude( magnetStrength );
+            //System.out.println( "AbstractMagnet.getStrength - magnitude exceeds magnet strength by " + (magnitude - magnetStrength ) ); // DEBUG
+        }
+        
+        return outputVector;
     }
     
     /**
-     * Gets the strength vector of the magnetic field at a point in 2D space,
-     * slightly outside the 2D plane of the magnet,
-     * using a specified exponent for computing how the field strength decreases
-     * with the distance.
+     * Gets the B-field vector at a point in the magnet's local 2D coordinate frame.
+     * That is, the point is relative to the magnet's origin.
+     * In the magnet's local 2D coordinate frame, it is located at (0,0),
+     * and its north pole is pointing down the positive x-axis.
      * 
      * @param p the point
-     * @param outputVector strength is written here if provided, may be null
-     * @param distanceExponent the distance exponent
-     * @return the strength vector, strengthDst if it was provided
+     * @param outputVector B-field is written here if provided, may NOT be null
+     * @return outputVector
      */
-    public abstract Vector2D getStrengthOutsidePlane( final Point2D p, Vector2D outputVector, double distanceExponent );
+    protected abstract Vector2D getBFieldRelative( final Point2D p, Vector2D outputVector );
     
     /**
      * Sets the physical size of the magnet.

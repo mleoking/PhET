@@ -110,7 +110,7 @@ public abstract class DipoleMagnet extends AbstractMagnet {
     /**
      * Gets the B-field vector at a specified point in the 2D plane of the magnet.
      */
-    public Vector2D getStrength( Point2D p, Vector2D outputVector /* output */ ) {
+    public Vector2D getBField( Point2D p, Vector2D outputVector /* output */ ) {
         return getStrength( p, outputVector, DEFAULT_DISTANCE_EXPONENT );
     }   
     
