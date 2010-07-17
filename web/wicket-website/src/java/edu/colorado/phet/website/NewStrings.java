@@ -20,7 +20,6 @@ public class NewStrings {
         checkString( session, "nav.changePasswordSuccess", "Success" );
         checkString( session, "changePasswordSuccess.title", "Password Changed" );
         checkString( session, "changePassword.validation.newPasswordBlank", "The new password must not be blank." );
-        checkString( session, "changePassword.reset", "Reset" );
         checkString( session, "changePassword.submit", "Submit" );
         checkString( session, "changePassword.currentPassword", "Current Password:" );
         checkString( session, "changePassword.newPassword", "New Password:" );

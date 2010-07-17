@@ -64,7 +64,6 @@ public class UserEntity extends TranslationEntity {
         addString( "nav.changePasswordSuccess" );
         addString( "changePasswordSuccess.title" );
         addString( "changePassword.validation.newPasswordBlank" );
-        addString( "changePassword.reset" );
         addString( "changePassword.submit" );
         addString( "changePassword.currentPassword" );
         addString( "changePassword.newPassword" );
