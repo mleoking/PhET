@@ -1,0 +1,21 @@
+TODO list for Faraday ticket #2236
+
+HIGH PRIORITY
+- add B-field scaling strategy to AbstractBFieldGraphic, with developer control
+- PickupCoil.setEmfScale -> PickupCoilGraphic.setEmfScale
+- Lightbulb.setScale -> LightbulbGraphic.setScale
+- Voltmeter.setScale -> VoltmeterGraphic.setScale
+- Electron.setSpeedScale -> view?
+- ElectronPathDescriptor.getPathScale -> view? (perhaps this class belongs in view?) 
+- recalibrate all view components
+
+MEDIUM PRIORITY
+- make sure this works with rotated bar magnet in "Show earth" feature (see "Magnet and Compass" flavor)
+- remove MathCAD dependency by implementing numerical model in a stand-alone Java program that can generate grid files
+
+LOW PRIORITY
+- update data/faraday/bfield/README
+- remove SimpsonsRule code from TestNumericalDipoleModel, or clear licensing.
+- check in MathCAD file that matches grid files
+- check in PDF of MatchCAD file that matches grid files
+- document extensively either in a PDF or in source code
