@@ -29,10 +29,6 @@ public class UpdateManager {
 
     private static final int CONNECTION_TIMEOUT = 4000; // milliseconds
     
-    private static final String PHET_HOSTNAME = TUConstants.PHET_HOSTNAME;
-    private static final String TU_HOME_URL = TUConstants.TU_HOME_URL;
-    private static final String TU_LATEST_VERSION_URL = TUConstants.TU_LATEST_VERSION_URL;
-    
     private static final String SVN_REVISION_KEY = "version.revision";
 
     /* not intended for instantiation */
@@ -48,7 +44,7 @@ public class UpdateManager {
         // Are we connected to the Internet?
         boolean connectedToInternet = false;
         try {
-            InetAddress addr = InetAddress.getByName( PHET_HOSTNAME );
+            InetAddress addr = InetAddress.getByName( TUConstants.PHET_HOSTNAME );
             SocketAddress sockaddr = new InetSocketAddress( addr, 80 /* port */ );
 
             // Create an unbound socket
@@ -60,7 +56,7 @@ public class UpdateManager {
             connectedToInternet = true;
         }
         catch ( UnknownHostException e ) {
-            System.out.println( "UpdateManager.checkForUpdates: unknown host: " + PHET_HOSTNAME );
+            System.out.println( "UpdateManager.checkForUpdates: unknown host: " + TUConstants.PHET_HOSTNAME );
         }
         catch ( SocketTimeoutException e ) {
             System.out.println( "UpdateManager.checkForUpdates: connection timed out" );
@@ -79,7 +75,7 @@ public class UpdateManager {
             // read the remote file into a Properties object
             Properties properties = null;
             try {
-                URL url = new URL( TU_LATEST_VERSION_URL );
+                URL url = new URL( TUConstants.TU_LATEST_VERSION_URL );
                 InputStream inputStream = url.openStream();
                 if ( inputStream != null ) {
                     properties = new Properties();
@@ -87,7 +83,7 @@ public class UpdateManager {
                 }
             }
             catch ( FileNotFoundException e ) {
-                System.out.println( "UpdateManager: " + TU_LATEST_VERSION_URL + " not found" );
+                System.out.println( "UpdateManager: " + TUConstants.TU_LATEST_VERSION_URL + " not found" );
             }
             catch ( IOException e ) {
                 e.printStackTrace();
@@ -153,7 +149,7 @@ public class UpdateManager {
             JButton getNewVersionButton = new JButton( TUStrings.GET_NEW_VERSION_BUTTON );
             getNewVersionButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    PhetServiceManager.showWebPage( TU_HOME_URL );
+                    PhetServiceManager.showWebPage( TUConstants.TU_HOME_URL );
                     System.exit( 0 );
                 }
             } );
