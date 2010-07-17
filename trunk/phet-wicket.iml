@@ -137,7 +137,7 @@
           <root url="file://$MODULE_DIR$/simulations-java/simulations/membrane-diffusion/src" />
           <root url="file://$MODULE_DIR$/web/wicket-website/src/java" />
         </sourceRoots>
-        <context-artifact name="phet-wicket:Web exploded" />
+        <context-artifact name="phet-wicket:war exploded" />
       </configuration>
     </facet>
     <facet type="flex" name="Flex">
