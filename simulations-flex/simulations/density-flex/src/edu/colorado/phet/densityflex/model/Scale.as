@@ -4,6 +4,7 @@ import Box2D.Dynamics.b2Body;
 
 import away3d.core.base.Object3D;
 
+import edu.colorado.phet.densityflex.view.DensityObjectNode;
 import edu.colorado.phet.densityflex.view.DensityView3D;
 import edu.colorado.phet.densityflex.view.ScaleNode;
 
@@ -70,7 +71,7 @@ public class Scale extends Cuboid {
         force = 0;
     }
 
-    override public function createNode(view:DensityView3D):Object3D {
+    override public function createNode(view:DensityView3D):DensityObjectNode {
         return new ScaleNode(this, view);
     }
 }

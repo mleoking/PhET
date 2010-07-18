@@ -13,6 +13,7 @@ import away3d.lights.*;
 import away3d.materials.*;
 import away3d.primitives.*;
 
+import edu.colorado.phet.densityflex.model.ArrowModel;
 import edu.colorado.phet.densityflex.model.DensityModel;
 import edu.colorado.phet.densityflex.model.DensityObject;
 import edu.colorado.phet.flexcommon.FlexCommon;
@@ -58,7 +59,7 @@ public class DensityView3D extends UIComponent {
     [Embed(source="../../../../../../data/density-flex/images/spheretex.png")]
     private var spheretex:Class;
 
-    private var blockNodeList:Array = new Array();
+    private var densityObjectNodeList:Array = new Array();
 
     public function DensityView3D() {
         super();
@@ -184,13 +185,11 @@ public class DensityView3D extends UIComponent {
 
     private function addCuboids():void {
         for each (var ob:DensityObject in this.model.getDensityObjects()) {
-            scene.addChild(ob.createNode(this));
-            //            if ( ob is Block ) {
-            //            }
-            //            else if ( ob is Scale ) {
-            //                scene.addChild(new ScaleNode(ob as Scale, this));
-            //            }
-            //            blockNodeList.push(blockNode);
+            const densityObjectNode:DensityObjectNode = ob.createNode(this);
+            scene.addChild(densityObjectNode);
+
+            densityObjectNode.addArrowNode(new ArrowNode(densityObjectNode.getDensityObject().getVelocityArrowModel(), 50));
+            densityObjectNodeList.push(densityObjectNode);
         }
     }
 
@@ -249,12 +248,6 @@ public class DensityView3D extends UIComponent {
         //        for each ( var blockNode:BlockNode in blockNodeList ) {
         //            blockNode.getBlock().setSize(blockNode.getBlock().getWidth()*1.005,blockNode.getBlock().getHeight()*1.005);
         //        }
-
-        //Update all ArrowModels
-
-        for each (var densityObjectNode:DensityObjectNode in blockNodeList) {
-
-        }
 
         // TODO: remove or update invalid
         view.render();

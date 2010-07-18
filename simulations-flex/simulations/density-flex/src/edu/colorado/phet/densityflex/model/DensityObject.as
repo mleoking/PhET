@@ -5,6 +5,7 @@ import Box2D.Dynamics.b2Body;
 
 import away3d.core.base.Object3D;
 
+import edu.colorado.phet.densityflex.view.DensityObjectNode;
 import edu.colorado.phet.densityflex.view.DensityView3D;
 
 public class DensityObject {
@@ -13,6 +14,7 @@ public class DensityObject {
     private var y:Number;
     private var z:Number;
     private var listeners:Array;
+    private var velocityArrowModel:ArrowModel;
     private var model:DensityModel;
 
     private var body:b2Body;
@@ -24,6 +26,11 @@ public class DensityObject {
 
         this.model = model;
         this.listeners = new Array();
+        this.velocityArrowModel = new ArrowModel(0,0);
+    }
+
+    public function getVelocityArrowModel():ArrowModel{
+        return velocityArrowModel;
     }
 
     public function addListener(listener:Listener):void {
@@ -95,8 +102,12 @@ public class DensityObject {
 
     }
 
-    public function createNode(view:DensityView3D):Object3D {
+    public function createNode(view:DensityView3D):DensityObjectNode {
         throw new Error();
+    }
+
+    function modelStepped():void {
+        velocityArrowModel.setValue(body.GetLinearVelocity().x,body.GetLinearVelocity().y);
     }
 }
 }

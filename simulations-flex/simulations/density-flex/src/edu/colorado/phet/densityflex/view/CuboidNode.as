@@ -13,6 +13,7 @@ public class CuboidNode extends DensityObjectNode implements Pickable, Listener,
     private var cube:PickableCube;
 
     public function CuboidNode(cuboid:Cuboid):void {
+        super(cuboid);
         this.cuboid = cuboid;
         this.x = cuboid.getX() * DensityModel.DISPLAY_SCALE;
         this.y = cuboid.getY() * DensityModel.DISPLAY_SCALE;
