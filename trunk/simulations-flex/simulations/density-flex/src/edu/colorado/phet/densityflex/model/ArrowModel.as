@@ -1,7 +1,7 @@
 package edu.colorado.phet.densityflex.model {
 public class ArrowModel {
-    var x:Number;
-    var y:Number;
+    private var x:Number;
+    private var y:Number;
     const listeners:Array = new Array();
 
     public function ArrowModel(x:Number, y:Number) {
@@ -19,6 +19,14 @@ public class ArrowModel {
 
     public function getAngle():Number {
         return Math.atan2(x, y);
+    }
+
+    function setValue(x:Number, y:Number):void {
+        this.x = x;
+        this.y = y;
+        for each (var listener:Function in listeners) {
+            listener();
+        }
     }
 }
 }

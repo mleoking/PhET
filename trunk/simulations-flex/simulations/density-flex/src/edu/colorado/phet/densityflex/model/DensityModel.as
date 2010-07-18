@@ -138,6 +138,10 @@ public class DensityModel {
                 body.ApplyForce(dragForce, body.GetPosition());
             }
         }
+
+        for each(densityObject in densityObjects) {
+            densityObject.modelStepped();
+        }
     }
 
     private function getCuboids():Array {
