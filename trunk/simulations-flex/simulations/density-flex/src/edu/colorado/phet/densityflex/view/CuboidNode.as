@@ -36,9 +36,7 @@ public class CuboidNode extends DensityObjectNode implements Pickable, Listener,
         addChild(cube);
 
         const arrowNode:ArrowNode = new ArrowNode();
-        arrowNode.y = this.getCuboid().getHeight()/2.0*DensityModel.DISPLAY_SCALE;
-//        arrowNode.y = 100;
-//        arrowNode.z = -this.cuboid.getDepth()/2.0 * DensityModel.DISPLAY_SCALE-1E-6;
+        arrowNode.z = -this.cuboid.getDepth()/2.0 * DensityModel.DISPLAY_SCALE-1E-6;
         addChild( arrowNode );
     }
 
