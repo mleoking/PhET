@@ -4,9 +4,9 @@ import Box2D.Dynamics.Contacts.b2ContactResult;
 import Box2D.Dynamics.b2Body;
 import Box2D.Dynamics.b2ContactListener;
 
-public class ContactHandler extends b2ContactListener{
+public class ContactHandler extends b2ContactListener {
 
-    private var scaleBodies : Array;
+    private var scaleBodies:Array;
 
     public function ContactHandler() {
         super();
@@ -14,29 +14,29 @@ public class ContactHandler extends b2ContactListener{
         scaleBodies = new Array();
     }
 
-    public function addScaleBody( body : b2Body ) : void {
+    public function addScaleBody(body:b2Body):void {
         scaleBodies.push(body);
     }
 
     // TODO: add remove? get better data structure?
 
-    override public virtual function Add( point:b2ContactPoint ):void {
+    override public virtual function Add(point:b2ContactPoint):void {
         super.Add(point);
     }
 
-    override public virtual function Persist( point:b2ContactPoint ):void {
+    override public virtual function Persist(point:b2ContactPoint):void {
         super.Persist(point);
     }
 
-    override public virtual function Remove( point:b2ContactPoint ):void {
+    override public virtual function Remove(point:b2ContactPoint):void {
         super.Remove(point);
     }
 
-    override public virtual function Result( point:b2ContactResult ):void {
-        if ( point.shape1.GetBody().GetUserData() is DensityObject ) {
+    override public virtual function Result(point:b2ContactResult):void {
+        if (point.shape1.GetBody().GetUserData() is DensityObject) {
             point.shape1.GetBody().GetUserData().registerContact(point);
         }
-        if ( point.shape2.GetBody().GetUserData() is DensityObject ) {
+        if (point.shape2.GetBody().GetUserData() is DensityObject) {
             point.shape2.GetBody().GetUserData().registerContact(point);
         }
         //        if ( point.normalImpulse > 0.000001 && point.normal.y < 0 ) {

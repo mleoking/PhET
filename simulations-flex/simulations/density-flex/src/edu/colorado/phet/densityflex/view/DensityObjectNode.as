@@ -13,9 +13,9 @@ public class DensityObjectNode extends ObjectContainer3D {
         return 0;
     }
 
-    public function addArrowNode( arrowNode:ArrowNode ):void {
+    public function addArrowNode(arrowNode:ArrowNode):void {
         arrowNode.z = -getArrowOriginZ() * DensityModel.DISPLAY_SCALE - 1E-6;
-        addChild( arrowNode );
+        addChild(arrowNode);
     }
 }
 }

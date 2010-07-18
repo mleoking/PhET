@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:cmp="edu.colorado.phet.densityflex.*" xmlns:view="edu.colorado.phet.densityflex.view.*"
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:cmp="edu.colorado.phet.densityflex.*"
+                xmlns:view="edu.colorado.phet.densityflex.view.*"
                 layout="absolute" width="100%" height="100%" applicationComplete="tab1.init()"
                 preinitialize="init()">
     <mx:TabNavigator width="100%" height="100%" change="onSwitch(event)">
@@ -11,7 +12,7 @@
                 <mx:RadioButton groupName="massVol" id="sameVolume" label="Objects of same volume"
                                 click="tab1.switchToSameVolume()"/>
             </mx:Panel>
-            <mx:Panel right="10" bottom="10" >
+            <mx:Panel right="10" bottom="10">
                 <mx:Button label="Reset All" click="resetTab1()"/>
             </mx:Panel>
         </mx:Canvas>
@@ -24,14 +25,12 @@
     </mx:TabNavigator>
     <view:DebugText id="debug" height="100" x="0" y="0" text="" color="#FFFFFF" click="DebugText.clear();"/>
     <mx:Script><![CDATA[
-        import flash.ui.ContextMenu;
-
         import mx.core.Application;
 
-        private var oldIndex : Number = 0;
+        private var oldIndex:Number = 0;
 
-        private function init() : void {
-            var menu : ContextMenu = new ContextMenu();
+        private function init():void {
+            var menu:ContextMenu = new ContextMenu();
 
             menu.builtInItems.zoom = true;
 
@@ -40,23 +39,23 @@
             trace("Test Debugging message");
         }
 
-        private function onSwitch( e : Event ) : void {
-            var newIndex : Number = e.currentTarget.selectedIndex;
-            if ( oldIndex == newIndex ) {
+        private function onSwitch(e:Event):void {
+            var newIndex:Number = e.currentTarget.selectedIndex;
+            if (oldIndex == newIndex) {
                 return;
             }
 
-            if ( oldIndex == 0 ) {
+            if (oldIndex == 0) {
                 tab1.pause();
             }
-            if ( newIndex == 0 ) {
+            if (newIndex == 0) {
                 tab1.start();
             }
 
             oldIndex = newIndex;
         }
 
-        private function resetTab1() : void {
+        private function resetTab1():void {
             sameMass.selected = true;
             tab1.reset();
         }

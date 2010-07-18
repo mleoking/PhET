@@ -1,31 +1,28 @@
 package edu.colorado.phet.densityflex.view {
-import edu.colorado.phet.densityflex.*;
-
 import away3d.materials.*;
 
 import edu.colorado.phet.densityflex.model.DensityModel;
 import edu.colorado.phet.densityflex.model.Listener;
-
 import edu.colorado.phet.densityflex.model.Scale;
 
 import flash.display.Sprite;
 import flash.text.TextField;
 import flash.text.TextFormat;
 
-public class ScaleNode extends CuboidNode implements Pickable, Listener{
+public class ScaleNode extends CuboidNode implements Pickable, Listener {
 
-    private var frontSprite : Sprite;
+    private var frontSprite:Sprite;
     private var scaler:Scale;
-    private var textField : TextField;
-    private var view : DensityView3D;
+    private var textField:TextField;
+    private var view:DensityView3D;
 
-    private var base : PickableCube;
-    private var top : PickableCube;
-    private var stand : PickableCube;
+    private var base:PickableCube;
+    private var top:PickableCube;
+    private var stand:PickableCube;
 
-    private static var WALL_RES : Number = 100;
+    private static var WALL_RES:Number = 100;
 
-    public function ScaleNode( scale:Scale, view : DensityView3D ) : void {
+    public function ScaleNode(scale:Scale, view:DensityView3D):void {
         super(scale);
         this.scaler = scale;
         this.view = view;
@@ -40,11 +37,11 @@ public class ScaleNode extends CuboidNode implements Pickable, Listener{
         frontSprite.addChild(textField);
         updateText();
 
-        var frontMaterial : MovieMaterial = new MovieMaterial(frontSprite);
+        var frontMaterial:MovieMaterial = new MovieMaterial(frontSprite);
         frontMaterial.smooth = true; //makes the font smooth instead of jagged, see http://www.mail-archive.com/away3d-dev@googlegroups.com/msg06699.html
-        var brightMaterial : ColorMaterial = new ColorMaterial(0xFFFFFF);
-        var sideMaterial : ColorMaterial = new ColorMaterial(0xCCCCCC);
-        var hidMaterial : ColorMaterial = new ColorMaterial(0x999999);
+        var brightMaterial:ColorMaterial = new ColorMaterial(0xFFFFFF);
+        var sideMaterial:ColorMaterial = new ColorMaterial(0xCCCCCC);
+        var hidMaterial:ColorMaterial = new ColorMaterial(0x999999);
 
         frontMaterial.smooth = true;
 
@@ -61,11 +58,11 @@ public class ScaleNode extends CuboidNode implements Pickable, Listener{
 
 
     override public function addNodes():void {
-        trace( "scale addNodes()");
+        trace("scale addNodes()");
 
-        var totalWidth : Number = getCuboid().getWidth() * DensityModel.DISPLAY_SCALE;
-        var totalHeight : Number = getCuboid().getHeight() * DensityModel.DISPLAY_SCALE;
-        var totalDepth : Number = getCuboid().getDepth() * DensityModel.DISPLAY_SCALE;
+        var totalWidth:Number = getCuboid().getWidth() * DensityModel.DISPLAY_SCALE;
+        var totalHeight:Number = getCuboid().getHeight() * DensityModel.DISPLAY_SCALE;
+        var totalDepth:Number = getCuboid().getDepth() * DensityModel.DISPLAY_SCALE;
 
         base = new PickableCube(this);
         base.width = totalWidth;
@@ -90,15 +87,15 @@ public class ScaleNode extends CuboidNode implements Pickable, Listener{
         stand.height = totalHeight - base.height - top.height;
         stand.depth = totalDepth / 5;
         stand.y = base.y + base.height / 2 + stand.height / 2;
-        addChild( stand );
-        
+        addChild(stand);
+
     }
 
-    public function updateText() : void {
+    public function updateText():void {
         textField.text = String(scaler.getScaleReadout());
         textField.width = getFrontWidth();
         textField.height = getFrontHeight();
-        var format : TextFormat = new TextFormat();
+        var format:TextFormat = new TextFormat();
         format.size = int(45 * ((Scale.SCALE_WIDTH * 200 / 3) / base.width));
         format.bold = true;
         format.font = "Arial";
@@ -112,14 +109,14 @@ public class ScaleNode extends CuboidNode implements Pickable, Listener{
     }
 
     override public function remove():void {
-        view.removeObject( this );
+        view.removeObject(this);
     }
 
-    private function getFrontWidth() : Number {
+    private function getFrontWidth():Number {
         return WALL_RES * scaler.getWidth();
     }
 
-    private function getFrontHeight() : Number {
+    private function getFrontHeight():Number {
         return WALL_RES * scaler.getHeight() / 2;
     }
 }
