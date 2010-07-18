@@ -62,6 +62,8 @@ public class DensityView3D extends UIComponent {
     [Embed(source="../../../../../../data/density-flex/images/spheretex.png")]
     private var spheretex : Class;
 
+    private var blockNodeList : Array = new Array();
+
     public function DensityView3D() {
         super();
         model = new DensityModel();
@@ -187,7 +189,9 @@ public class DensityView3D extends UIComponent {
     private function addCuboids() : void {
         for each ( var ob:Cuboid in this.model.getCuboids() ) {
             if ( ob is Block ) {
-                scene.addChild(new BlockNode(ob as Block, this));
+                var blockNode : BlockNode = new BlockNode(ob as Block, this);
+                blockNodeList.push(blockNode);
+                scene.addChild(blockNode);
             }
             else if ( ob is Scale ) {
                 scene.addChild(new ScaleNode(ob as Scale, this));
@@ -246,6 +250,10 @@ public class DensityView3D extends UIComponent {
         poolFront.y = (-model.getPoolHeight() + model.getWaterHeight() / 2) * DensityModel.DISPLAY_SCALE;
         poolFront.height = model.getWaterHeight() * DensityModel.DISPLAY_SCALE;
         poolTop.y = (-model.getPoolHeight() + model.getWaterHeight()) * DensityModel.DISPLAY_SCALE;
+
+//        for each ( var blockNode:BlockNode in blockNodeList ) {
+//            blockNode.getBlock().setSize(blockNode.getBlock().getWidth()*1.005,blockNode.getBlock().getHeight()*1.005);
+//        }
 
         // TODO: remove or update invalid
         view.render();

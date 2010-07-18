@@ -7,9 +7,12 @@ import edu.colorado.phet.densityflex.model.Block;
 
 import edu.colorado.phet.densityflex.model.Listener;
 
+import edu.colorado.phet.densityflex.model.ShapeChangeListener;
+
 import flash.display.Bitmap;
 import flash.display.BitmapData;
 import flash.display.BitmapDataChannel;
+import flash.display.DisplayObject;
 import flash.display.Sprite;
 import flash.geom.ColorTransform;
 import flash.geom.Point;
@@ -24,9 +27,12 @@ public class BlockNode extends CuboidNode implements Pickable, Listener{
     private var frontSprite : Sprite;
     private var block : Block;
     private var view : DensityView3D;
+    private var textField : TextField = new TextField();
 
     [Embed(source="../../../../../../data/density-flex/images/wall.jpg")]
     private var wallClass : Class;
+    private var frontMaterial : MovieMaterial;
+    private var redWallMaterial : BitmapMaterial;
 
     public function BlockNode( block:Block, view : DensityView3D ) : void {
         super(block);
@@ -65,26 +71,36 @@ public class BlockNode extends CuboidNode implements Pickable, Listener{
 
         var cube : PickableCube = getCube();
 
-        var tf : TextField = new TextField();
-        tf.text = String(block.getMass()) + " kg";
-        tf.height = wallData.height;
-        tf.width = wallData.width;
-        var format : TextFormat = new TextFormat();
-        format.size = int(45 * (200 / cube.width));
-        format.bold = true;
-        format.font = "Arial";
-        tf.multiline = true;
-        tf.setTextFormat(format);
-        frontSprite.addChild(tf);
+        textField.text = String(block.getMass()) + " kg";
+        textField.height = wallData.height;
+        textField.width = wallData.width;
+        textField.multiline = true;
+        textField.setTextFormat(createTextFormat(45 * (200 / cube.width)));
+        frontSprite.addChild(textField);
 
-
-        var frontMaterial : MovieMaterial = new MovieMaterial(frontSprite);
+        frontMaterial = new MovieMaterial(frontSprite);
         frontMaterial.smooth = true; //makes the font smooth instead of jagged, see http://www.mail-archive.com/away3d-dev@googlegroups.com/msg06699.html
-        var redWallMaterial : BitmapMaterial = new BitmapMaterial(coloredData);
+        redWallMaterial = new BitmapMaterial(coloredData);
 
         cube.cubeMaterials.left = cube.cubeMaterials.right = cube.cubeMaterials.top = cube.cubeMaterials.bottom = cube.cubeMaterials.front = redWallMaterial;
 
         cube.cubeMaterials.back = frontMaterial;
+    }
+
+    override protected function createCube():PickableCube {
+        const cube:PickableCube = super.createCube();
+        cube.cubeMaterials.left = cube.cubeMaterials.right = cube.cubeMaterials.top = cube.cubeMaterials.bottom = cube.cubeMaterials.front = redWallMaterial;
+
+        cube.cubeMaterials.back = frontMaterial;
+        return cube;
+    }
+
+    private function createTextFormat(newSize : Number) : TextFormat{
+        var format : TextFormat = new TextFormat();
+        format.size = newSize;
+        format.bold = true;
+        format.font = "Arial";
+        return format;
     }
 
     public function getBlock() : Block {

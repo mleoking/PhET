@@ -10,6 +10,9 @@ public class Cuboid extends MovableModel{
     private var width : Number;
     private var height: Number;
     private var depth : Number;
+    private var shapeDef:b2PolygonDef = new b2PolygonDef();
+    private var bodyDef:b2BodyDef = new b2BodyDef();
+    private var shapeChangeListeners:Array = new Array();
 
     /**
      * Arbitrary cuboid
@@ -33,21 +36,41 @@ public class Cuboid extends MovableModel{
     }
 
     private function initEngineModel():void {
-        var bodyDef:b2BodyDef = new b2BodyDef();
         bodyDef.position.Set(getX(), getY());
         bodyDef.fixedRotation = true;
         bodyDef.massData.mass = getMass();
         bodyDef.massData.center.SetZero();
         bodyDef.massData.I = 1.0; // rotational inertia shouldn't matter
-        setBody(getModel().getWorld().CreateBody(bodyDef));
 
-        var shapeDef:b2PolygonDef = new b2PolygonDef();
-        shapeDef.SetAsBox(width / 2, height / 2);
         shapeDef.density = getDensity();
         shapeDef.friction = 0.3;
         shapeDef.restitution = 0;
+        updateShapeDef();
+    }
+
+    public function setSize(width:Number,height:Number) : void {
+        this.width=width;
+        this.height=height;
+        updateShapeDef();
+    }
+
+    public function addShapeChangeListener(shapeChangeListener:ShapeChangeListener): void{
+        shapeChangeListeners.push(shapeChangeListener);
+    }
+    
+    private function notifyShapeChanged() : void{
+        for each (var shapeChangeListener:ShapeChangeListener in shapeChangeListeners) {
+            shapeChangeListener.shapeChanged();
+        }
+    }
+
+    private function updateShapeDef():void {
+        setBody(getModel().getWorld().CreateBody(bodyDef));
+        shapeDef.SetAsBox(width / 2, height / 2);
         getBody().CreateShape(shapeDef);
         getBody().SetUserData(this);
+        notifyShapeChanged();
+        trace("density = "+shapeDef.density);
     }
 
     public function getWidth():Number {
@@ -81,7 +104,6 @@ public class Cuboid extends MovableModel{
     public function getMass() : Number {
         return getVolume() * getDensity();
     }
-
 
 }
 }
