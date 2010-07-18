@@ -1,18 +1,33 @@
 package edu.colorado.phet.densityflex.view {
 import away3d.materials.ColorMaterial;
 
+import edu.colorado.phet.densityflex.model.ArrowModel;
+
 public class ArrowNode extends MyMesh {
-    public function ArrowNode( init:Object = null ) {
+    var arrowModel:ArrowModel;
+    const ARROW_HEIGHT:Number = 200;
+    var scaleFromModelToView:Number;
+
+    public function ArrowNode( arrowModel:ArrowModel, scaleFromModelToView:Number, init:Object = null ) {
         super( combine( {material:new ColorMaterial( 0xFF0000 )}, init ) );
+        this.arrowModel = arrowModel;
+        this.scaleFromModelToView = scaleFromModelToView;
+        arrowModel.addListener( doUpdate );
+        doUpdate();
         //        super( combine( {outline:"black|2", material:new ColorMaterial( 0xFF0000 )}, init ) );
-        //        super( combine( {outline:"black|2"}, init ) );
+        //        super( combine( {outine:"black|2"}, init ) );
         //        super( init );
+    }
+
+    function doUpdate():void {
+        this.scaleY = arrowModel.getMagnitude() / ARROW_HEIGHT * scaleFromModelToView;
+        this.rotationZ = -arrowModel.getAngle() *180.0/Math.PI;
     }
 
     override protected function build():void {
         super.build();
         const width:Number = 100;
-        const height:Number = 200;
+        const height:Number = ARROW_HEIGHT;
         const fractionUsedByArrowhead:Number = 0.25;
         const arrowHeadWidth:Number = 150;
         const arrowHeadHeight:Number = height * fractionUsedByArrowhead;

@@ -15,9 +15,11 @@ import away3d.lights.*;
 import away3d.materials.*;
 import away3d.primitives.*;
 
+import edu.colorado.phet.densityflex.model.ArrowModel;
 import edu.colorado.phet.densityflex.model.Block;
 import edu.colorado.phet.densityflex.model.Cuboid;
 import edu.colorado.phet.densityflex.model.DensityModel;
+import edu.colorado.phet.densityflex.model.DensityObject;
 import edu.colorado.phet.densityflex.model.Scale;
 import edu.colorado.phet.flexcommon.FlexCommon;
 
@@ -73,7 +75,7 @@ public class DensityView3D extends UIComponent {
     }
 
     public function switchToSameMass() : void {
-        model.clearCuboids();
+        model.clearDensityObjects();
         model.initializeTab1SameMass();
 
         // TODO: improve so that listening handles add/remove of children!
@@ -81,7 +83,7 @@ public class DensityView3D extends UIComponent {
     }
 
     public function switchToSameVolume() : void {
-        model.clearCuboids();
+        model.clearDensityObjects();
         model.initializeTab1SameVolume();
 
         // TODO: improve so that listening handles add/remove of children!
@@ -187,15 +189,14 @@ public class DensityView3D extends UIComponent {
     }
 
     private function addCuboids() : void {
-        for each ( var ob:Cuboid in this.model.getCuboids() ) {
-            if ( ob is Block ) {
-                var blockNode : BlockNode = new BlockNode(ob as Block, this);
-                blockNodeList.push(blockNode);
-                scene.addChild(blockNode);
-            }
-            else if ( ob is Scale ) {
-                scene.addChild(new ScaleNode(ob as Scale, this));
-            }
+        for each ( var ob:DensityObject in this.model.getDensityObjects() ) {
+            scene.addChild(ob.createNode(this));
+//            if ( ob is Block ) {
+//            }
+//            else if ( ob is Scale ) {
+//                scene.addChild(new ScaleNode(ob as Scale, this));
+//            }
+//            blockNodeList.push(blockNode);
         }
     }
 
@@ -254,6 +255,12 @@ public class DensityView3D extends UIComponent {
 //        for each ( var blockNode:BlockNode in blockNodeList ) {
 //            blockNode.getBlock().setSize(blockNode.getBlock().getWidth()*1.005,blockNode.getBlock().getHeight()*1.005);
 //        }
+
+        //Update all ArrowModels
+
+        for each ( var densityObjectNode:DensityObjectNode in blockNodeList ) {
+
+        }
 
         // TODO: remove or update invalid
         view.render();

@@ -15,7 +15,8 @@ import edu.colorado.phet.densityflex.view.DebugText;
 import flash.geom.ColorTransform;
 
 public class DensityModel {
-    private var cuboids : Array;
+    private var densityObjects : Array;
+
     private var poolWidth : Number = 15;
     private var poolHeight : Number = 7.5;
     private var poolDepth : Number = 5;
@@ -35,36 +36,36 @@ public class DensityModel {
     private var contactHandler : ContactHandler;
 
     public function DensityModel() {
-        cuboids = new Array();
+        densityObjects = new Array();
 
         initWorld();
         createGround();
     }
 
     public function initializeTab1SameMass():void {
-        cuboids.push(Block.newBlockSizeMass(3, 4.0, -4.5, 0, new ColorTransform(0.5, 0.5, 0), this));
-        cuboids.push(Block.newBlockSizeMass(2, 4.0, -1.5, 0, new ColorTransform(0, 0, 1), this));
-        cuboids.push(Block.newBlockSizeMass(1.5, 4.0, 1.5, 0, new ColorTransform(0, 1, 0), this));
-        cuboids.push(Block.newBlockSizeMass(1, 4.0, 4.5, 0, new ColorTransform(1, 0, 0), this));
-        cuboids.push(new Scale(-9.5, Scale.SCALE_HEIGHT / 2, this));
-        cuboids.push(new Scale(4.5, Scale.SCALE_HEIGHT / 2 - poolHeight, this));
+        densityObjects.push(Block.newBlockSizeMass(3, 4.0, -4.5, 0, new ColorTransform(0.5, 0.5, 0), this));
+        densityObjects.push(Block.newBlockSizeMass(2, 4.0, -1.5, 0, new ColorTransform(0, 0, 1), this));
+        densityObjects.push(Block.newBlockSizeMass(1.5, 4.0, 1.5, 0, new ColorTransform(0, 1, 0), this));
+        densityObjects.push(Block.newBlockSizeMass(1, 4.0, 4.5, 0, new ColorTransform(1, 0, 0), this));
+        densityObjects.push(new Scale(-9.5, Scale.SCALE_HEIGHT / 2, this));
+        densityObjects.push(new Scale(4.5, Scale.SCALE_HEIGHT / 2 - poolHeight, this));
     }
 
     public function initializeTab1SameVolume():void {
-        cuboids.push(Block.newBlockDensitySize(1.0 / 8.0, 2, -4.5, 0, new ColorTransform(0.5, 0.5, 0), this));
-        cuboids.push(Block.newBlockDensitySize(0.5, 2, -1.5, 0, new ColorTransform(0, 0, 1), this));
-        cuboids.push(Block.newBlockDensitySize(2, 2, 1.5, 0, new ColorTransform(0, 1, 0), this));
-        cuboids.push(Block.newBlockDensitySize(4, 2, 4.5, 0, new ColorTransform(1, 0, 0), this));
-        cuboids.push(new Scale(-9.5, Scale.SCALE_HEIGHT / 2, this));
-        cuboids.push(new Scale(4.5, Scale.SCALE_HEIGHT / 2 - poolHeight, this));
+        densityObjects.push(Block.newBlockDensitySize(1.0 / 8.0, 2, -4.5, 0, new ColorTransform(0.5, 0.5, 0), this));
+        densityObjects.push(Block.newBlockDensitySize(0.5, 2, -1.5, 0, new ColorTransform(0, 0, 1), this));
+        densityObjects.push(Block.newBlockDensitySize(2, 2, 1.5, 0, new ColorTransform(0, 1, 0), this));
+        densityObjects.push(Block.newBlockDensitySize(4, 2, 4.5, 0, new ColorTransform(1, 0, 0), this));
+        densityObjects.push(new Scale(-9.5, Scale.SCALE_HEIGHT / 2, this));
+        densityObjects.push(new Scale(4.5, Scale.SCALE_HEIGHT / 2 - poolHeight, this));
     }
 
-    public function clearCuboids() : void {
-        for each( var cuboid : Cuboid in cuboids ) {
-            world.DestroyBody(cuboid.getBody());
-            cuboid.remove();
+    public function clearDensityObjects() : void {
+        for each( var densityObject : DensityObject in densityObjects ) {
+            world.DestroyBody(densityObject.getBody());
+            densityObject.remove();
         }
-        cuboids = new Array();
+        densityObjects = new Array();
     }
 
     private function createGround():void {
@@ -96,27 +97,27 @@ public class DensityModel {
         world.SetContactListener(contactHandler);
     }
 
-    public function getCuboids() : Array {
-        return cuboids;
+    public function getDensityObjects() : Array {
+        return densityObjects;
     }
 
     public function step() : void {
         DebugText.clear();
 
-        for each( cuboid in cuboids ) {
-            cuboid.resetContacts();
+        for each( densityObject in densityObjects ) {
+            densityObject.resetContacts();
         }
 
         for ( var i : Number = 0; i < STEPS_PER_FRAME; i++ ) {
 
             world.Step(DT_STEP, 10);
-            var cuboid : Cuboid;
-            for each( cuboid in cuboids ) {
-                cuboid.update();
+            var densityObject : DensityObject;
+            for each( densityObject in densityObjects ) {
+                densityObject.update();
             }
             updateWater();
             var waterY : Number = -poolHeight + waterHeight;
-            for each( cuboid in cuboids ) {
+            for each( var cuboid:Cuboid in getCuboids() ) {
                 var body : b2Body = cuboid.getBody();
 
                 // gravity?
@@ -143,11 +144,21 @@ public class DensityModel {
         }
     }
 
+    private function getCuboids():Array {
+        var cuboids:Array = new Array();
+        for each ( var object:Object in densityObjects ) {
+            if (object is Cuboid){
+                cuboids.push(object);
+            }
+        }
+        return cuboids;
+    }
+
     public function updateWater() : void {
         var cuboid : Cuboid;
         var sortedHeights : Array = new Array();
-        for ( var key : String in cuboids ) {
-            cuboid = cuboids[key];
+        for ( var key : String in densityObjects ) {
+            cuboid = densityObjects[key];
             var top : Object = new Object();
             top.y = cuboid.getTopY();
             top.pos = 1;
