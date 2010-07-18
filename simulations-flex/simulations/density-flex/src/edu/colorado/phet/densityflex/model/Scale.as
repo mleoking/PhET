@@ -43,15 +43,15 @@ public class Scale extends Cuboid {
             return;
         }
 
-        if ( !(body1.GetUserData() is MovableModel && body2.GetUserData() is MovableModel) ) {
+        if ( !(body1.GetUserData() is DensityObject && body2.GetUserData() is DensityObject) ) {
             // not between movable models!
             return;
         }
 
-        var model1:MovableModel = body1.GetUserData() as MovableModel;
-        var model2:MovableModel = body2.GetUserData() as MovableModel;
+        var model1:DensityObject = body1.GetUserData() as DensityObject;
+        var model2:DensityObject = body2.GetUserData() as DensityObject;
 
-        var topModel:MovableModel = model1.getY() > model2.getY() ? model1 : model2;
+        var topModel:DensityObject = model1.getY() > model2.getY() ? model1 : model2;
 
         if ( this == topModel ) {
             // only show readings if pressed from top.

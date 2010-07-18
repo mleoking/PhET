@@ -85,6 +85,9 @@ public class BlockNode extends CuboidNode implements Pickable, Listener{
         cube.cubeMaterials.left = cube.cubeMaterials.right = cube.cubeMaterials.top = cube.cubeMaterials.bottom = cube.cubeMaterials.front = redWallMaterial;
 
         cube.cubeMaterials.back = frontMaterial;
+        //make block semi-transparent
+//        redWallMaterial.alpha = 0.5;
+//        frontSprite.alpha = 0.5;
     }
 
     override protected function createCube():PickableCube {
