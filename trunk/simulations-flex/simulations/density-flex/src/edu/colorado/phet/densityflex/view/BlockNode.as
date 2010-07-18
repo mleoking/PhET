@@ -2,7 +2,6 @@ package edu.colorado.phet.densityflex.view {
 import away3d.materials.*;
 
 import edu.colorado.phet.densityflex.model.Block;
-import edu.colorado.phet.densityflex.model.DensityModel;
 import edu.colorado.phet.densityflex.model.Listener;
 
 import flash.display.Bitmap;
@@ -29,8 +28,8 @@ public class BlockNode extends CuboidNode implements Pickable, Listener {
     private var frontMaterial:MovieMaterial;
     private var redWallMaterial:BitmapMaterial;
 
-    public function BlockNode( block:Block, view:DensityView3D ):void {
-        super( block );
+    public function BlockNode(block:Block, view:DensityView3D):void {
+        super(block);
 
         this.block = block;
         this.view = view;
@@ -40,42 +39,42 @@ public class BlockNode extends CuboidNode implements Pickable, Listener {
         frontSprite = new Sprite();
 
         var wallData:BitmapData = (new wallClass() as BitmapAsset).bitmapData;
-        var imageRect:Rectangle = new Rectangle( 0, 0, wallData.width, wallData.height );
-        wallData.colorTransform( imageRect, new ColorTransform( 1.0, 0.5, 0.5 ) );
+        var imageRect:Rectangle = new Rectangle(0, 0, wallData.width, wallData.height);
+        wallData.colorTransform(imageRect, new ColorTransform(1.0, 0.5, 0.5));
         var coloredData:BitmapData = (new wallClass() as BitmapAsset).bitmapData;
-        if ( block.getColor().redMultiplier < 0.5 ) {
-            coloredData.copyChannel( wallData, imageRect, new Point( 0, 0 ), BitmapDataChannel.GREEN, BitmapDataChannel.RED );
+        if (block.getColor().redMultiplier < 0.5) {
+            coloredData.copyChannel(wallData, imageRect, new Point(0, 0), BitmapDataChannel.GREEN, BitmapDataChannel.RED);
         }
         else {
-            coloredData.copyChannel( wallData, imageRect, new Point( 0, 0 ), BitmapDataChannel.RED, BitmapDataChannel.RED );
+            coloredData.copyChannel(wallData, imageRect, new Point(0, 0), BitmapDataChannel.RED, BitmapDataChannel.RED);
         }
-        if ( block.getColor().greenMultiplier < 0.5 ) {
-            coloredData.copyChannel( wallData, imageRect, new Point( 0, 0 ), BitmapDataChannel.GREEN, BitmapDataChannel.GREEN );
-        }
-        else {
-            coloredData.copyChannel( wallData, imageRect, new Point( 0, 0 ), BitmapDataChannel.RED, BitmapDataChannel.GREEN );
-        }
-        if ( block.getColor().blueMultiplier < 0.5 ) {
-            coloredData.copyChannel( wallData, imageRect, new Point( 0, 0 ), BitmapDataChannel.GREEN, BitmapDataChannel.BLUE );
+        if (block.getColor().greenMultiplier < 0.5) {
+            coloredData.copyChannel(wallData, imageRect, new Point(0, 0), BitmapDataChannel.GREEN, BitmapDataChannel.GREEN);
         }
         else {
-            coloredData.copyChannel( wallData, imageRect, new Point( 0, 0 ), BitmapDataChannel.RED, BitmapDataChannel.BLUE );
+            coloredData.copyChannel(wallData, imageRect, new Point(0, 0), BitmapDataChannel.RED, BitmapDataChannel.GREEN);
+        }
+        if (block.getColor().blueMultiplier < 0.5) {
+            coloredData.copyChannel(wallData, imageRect, new Point(0, 0), BitmapDataChannel.GREEN, BitmapDataChannel.BLUE);
+        }
+        else {
+            coloredData.copyChannel(wallData, imageRect, new Point(0, 0), BitmapDataChannel.RED, BitmapDataChannel.BLUE);
         }
 
-        frontSprite.addChild( new Bitmap( coloredData ) );
+        frontSprite.addChild(new Bitmap(coloredData));
 
         var cube:PickableCube = getCube();
 
-        textField.text = String( block.getMass() ) + " kg";
+        textField.text = String(block.getMass()) + " kg";
         textField.height = wallData.height;
         textField.width = wallData.width;
         textField.multiline = true;
-        textField.setTextFormat( createTextFormat( 45 * (200 / cube.width) ) );
-        frontSprite.addChild( textField );
+        textField.setTextFormat(createTextFormat(45 * (200 / cube.width)));
+        frontSprite.addChild(textField);
 
-        frontMaterial = new MovieMaterial( frontSprite );
+        frontMaterial = new MovieMaterial(frontSprite);
         frontMaterial.smooth = true; //makes the font smooth instead of jagged, see http://www.mail-archive.com/away3d-dev@googlegroups.com/msg06699.html
-        redWallMaterial = new BitmapMaterial( coloredData );
+        redWallMaterial = new BitmapMaterial(coloredData);
 
         cube.cubeMaterials.left = cube.cubeMaterials.right = cube.cubeMaterials.top = cube.cubeMaterials.bottom = cube.cubeMaterials.front = redWallMaterial;
 
@@ -93,7 +92,7 @@ public class BlockNode extends CuboidNode implements Pickable, Listener {
         return cube;
     }
 
-    private function createTextFormat( newSize:Number ):TextFormat {
+    private function createTextFormat(newSize:Number):TextFormat {
         var format:TextFormat = new TextFormat();
         format.size = newSize;
         format.bold = true;
@@ -106,7 +105,7 @@ public class BlockNode extends CuboidNode implements Pickable, Listener {
     }
 
     override public function remove():void {
-        view.removeObject( this );
+        view.removeObject(this);
     }
 }
 }

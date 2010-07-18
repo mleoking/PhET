@@ -1,11 +1,9 @@
 package edu.colorado.phet.densityflex.model {
-import away3d.core.base.Object3D;
-
-import edu.colorado.phet.densityflex.*;
-
 import Box2D.Common.Math.b2Vec2;
 import Box2D.Dynamics.Contacts.b2ContactResult;
 import Box2D.Dynamics.b2Body;
+
+import away3d.core.base.Object3D;
 
 import edu.colorado.phet.densityflex.view.DensityView3D;
 
@@ -19,7 +17,7 @@ public class DensityObject {
 
     private var body:b2Body;
 
-    public function DensityObject( x:Number, y:Number, z:Number, model:DensityModel ) {
+    public function DensityObject(x:Number, y:Number, z:Number, model:DensityModel) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -28,8 +26,8 @@ public class DensityObject {
         this.listeners = new Array();
     }
 
-    public function addListener( listener:Listener ):void {
-        listeners.push( listener );
+    public function addListener(listener:Listener):void {
+        listeners.push(listener);
     }
 
     public function getX():Number {
@@ -45,21 +43,21 @@ public class DensityObject {
     }
 
     public function update():void {
-        setPosition( body.GetPosition().x, body.GetPosition().y );
+        setPosition(body.GetPosition().x, body.GetPosition().y);
     }
 
     public function remove():void {
-        for each( var listener:Listener in listeners ) {
+        for each(var listener:Listener in listeners) {
             listener.remove();
         }
     }
 
-    public function setPosition( x:Number, y:Number ):void {
+    public function setPosition(x:Number, y:Number):void {
         this.x = x;
         this.y = y;
 
-        if ( body.GetPosition().x != x || body.GetPosition().y != y ) {
-            body.SetXForm( new b2Vec2( x, y ), 0 );
+        if (body.GetPosition().x != x || body.GetPosition().y != y) {
+            body.SetXForm(new b2Vec2(x, y), 0);
         }
 
         notifyListeners();
@@ -68,7 +66,7 @@ public class DensityObject {
     protected function notifyListeners():void {
         //todo: notify listeners
         // TODO: looks like major potential for infinite loops here, since update => setPosition => Update is possible
-        for each ( var listener:Listener in listeners ) {
+        for each (var listener:Listener in listeners) {
             listener.update();
         }
     }
@@ -77,8 +75,8 @@ public class DensityObject {
         return body;
     }
 
-    public function setBody( body:b2Body ):void {
-        if (this.body!=null){
+    public function setBody(body:b2Body):void {
+        if (this.body != null) {
             //delete from world
             getModel().getWorld().DestroyBody(this.body);
         }
@@ -89,7 +87,7 @@ public class DensityObject {
         return model;
     }
 
-    public function registerContact( contact:b2ContactResult ):void {
+    public function registerContact(contact:b2ContactResult):void {
 
     }
 

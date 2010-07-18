@@ -1,15 +1,13 @@
 package edu.colorado.phet.densityflex.model {
-import edu.colorado.phet.densityflex.*;
-
 import Box2D.Collision.Shapes.b2PolygonDef;
 import Box2D.Dynamics.b2BodyDef;
 
-public class Cuboid extends DensityObject{
+public class Cuboid extends DensityObject {
 
-    private var density : Number;
-    private var width : Number;
-    private var height: Number;
-    private var depth : Number;
+    private var density:Number;
+    private var width:Number;
+    private var height:Number;
+    private var depth:Number;
     private var shapeDef:b2PolygonDef = new b2PolygonDef();
     private var bodyDef:b2BodyDef = new b2BodyDef();
     private var shapeChangeListeners:Array = new Array();
@@ -24,7 +22,7 @@ public class Cuboid extends DensityObject{
      * @param y
      * @param model
      */
-    public function Cuboid( density : Number, width:Number, height:Number, depth:Number, x:Number, y:Number, model : DensityModel ) {
+    public function Cuboid(density:Number, width:Number, height:Number, depth:Number, x:Number, y:Number, model:DensityModel) {
         super(x, y, depth / 2 + 1.01, model);
 
         this.density = density;
@@ -48,17 +46,17 @@ public class Cuboid extends DensityObject{
         updateShapeDef();
     }
 
-    public function setSize(width:Number,height:Number) : void {
-        this.width=width;
-        this.height=height;
+    public function setSize(width:Number, height:Number):void {
+        this.width = width;
+        this.height = height;
         updateShapeDef();
     }
 
-    public function addShapeChangeListener(shapeChangeListener:ShapeChangeListener): void{
+    public function addShapeChangeListener(shapeChangeListener:ShapeChangeListener):void {
         shapeChangeListeners.push(shapeChangeListener);
     }
-    
-    private function notifyShapeChanged() : void{
+
+    private function notifyShapeChanged():void {
         for each (var shapeChangeListener:ShapeChangeListener in shapeChangeListeners) {
             shapeChangeListener.shapeChanged();
         }
@@ -70,7 +68,7 @@ public class Cuboid extends DensityObject{
         getBody().CreateShape(shapeDef);
         getBody().SetUserData(this);
         notifyShapeChanged();
-        trace("density = "+shapeDef.density);
+        trace("density = " + shapeDef.density);
     }
 
     public function getWidth():Number {
@@ -89,19 +87,19 @@ public class Cuboid extends DensityObject{
         return density;
     }
 
-    public function getTopY() : Number {
+    public function getTopY():Number {
         return getY() + height / 2;
     }
 
-    public function getBottomY() : Number {
+    public function getBottomY():Number {
         return getY() - height / 2;
     }
 
-    public function getVolume() : Number {
+    public function getVolume():Number {
         return width * height * depth;
     }
 
-    public function getMass() : Number {
+    public function getMass():Number {
         return getVolume() * getDensity();
     }
 

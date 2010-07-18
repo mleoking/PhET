@@ -1,6 +1,4 @@
-package edu.colorado.phet.densityflex.view{
-import edu.colorado.phet.densityflex.*;
-
+package edu.colorado.phet.densityflex.view {
 import Box2D.Common.Math.b2Vec2;
 
 import away3d.cameras.*;
@@ -15,12 +13,8 @@ import away3d.lights.*;
 import away3d.materials.*;
 import away3d.primitives.*;
 
-import edu.colorado.phet.densityflex.model.ArrowModel;
-import edu.colorado.phet.densityflex.model.Block;
-import edu.colorado.phet.densityflex.model.Cuboid;
 import edu.colorado.phet.densityflex.model.DensityModel;
 import edu.colorado.phet.densityflex.model.DensityObject;
-import edu.colorado.phet.densityflex.model.Scale;
 import edu.colorado.phet.flexcommon.FlexCommon;
 
 import flash.display.Sprite;
@@ -45,26 +39,26 @@ public class DensityView3D extends UIComponent {
     private var cachedY:Number;
     private var startMouseX:Number;
     private var startMouseY:Number;
-    private var startMiddle : Number3D;
-    private var selectedObject : AbstractPrimitive;
+    private var startMiddle:Number3D;
+    private var selectedObject:AbstractPrimitive;
 
-    private var far : Number = 5000;
+    private var far:Number = 5000;
 
-    private var poolTop : Plane;
-    private var poolFront : Plane;
+    private var poolTop:Plane;
+    private var poolFront:Plane;
 
-    private var running : Boolean = true;
+    private var running:Boolean = true;
 
-    private var invalid : Boolean = true;
+    private var invalid:Boolean = true;
 
-    private var marker : ObjectContainer3D;
+    private var marker:ObjectContainer3D;
 
-    public var backgroundSprite : Sprite;
+    public var backgroundSprite:Sprite;
 
     [Embed(source="../../../../../../data/density-flex/images/spheretex.png")]
-    private var spheretex : Class;
+    private var spheretex:Class;
 
-    private var blockNodeList : Array = new Array();
+    private var blockNodeList:Array = new Array();
 
     public function DensityView3D() {
         super();
@@ -74,7 +68,7 @@ public class DensityView3D extends UIComponent {
         //model.initializeTab1SameVolume();
     }
 
-    public function switchToSameMass() : void {
+    public function switchToSameMass():void {
         model.clearDensityObjects();
         model.initializeTab1SameMass();
 
@@ -82,7 +76,7 @@ public class DensityView3D extends UIComponent {
         addCuboids();
     }
 
-    public function switchToSameVolume() : void {
+    public function switchToSameVolume():void {
         model.clearDensityObjects();
         model.initializeTab1SameVolume();
 
@@ -94,7 +88,7 @@ public class DensityView3D extends UIComponent {
         super.createChildren();
     }
 
-    public function init() : void {
+    public function init():void {
         initEngine();
         initObjects();
         initListeners();
@@ -106,12 +100,12 @@ public class DensityView3D extends UIComponent {
         addChild(backgroundSprite);
         addChild(view);
 
-        var common : FlexCommon = new FlexCommon();
+        var common:FlexCommon = new FlexCommon();
     }
 
-    override protected function updateDisplayList( unscaledWidth:Number, unscaledHeight:Number ):void {
+    override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void {
         super.updateDisplayList(unscaledWidth, unscaledHeight);
-        if ( view != null ) {
+        if (view != null) {
             view.x = unscaledWidth / 2;
             view.y = unscaledHeight / 2;
         }
@@ -188,15 +182,15 @@ public class DensityView3D extends UIComponent {
 
     }
 
-    private function addCuboids() : void {
-        for each ( var ob:DensityObject in this.model.getDensityObjects() ) {
+    private function addCuboids():void {
+        for each (var ob:DensityObject in this.model.getDensityObjects()) {
             scene.addChild(ob.createNode(this));
-//            if ( ob is Block ) {
-//            }
-//            else if ( ob is Scale ) {
-//                scene.addChild(new ScaleNode(ob as Scale, this));
-//            }
-//            blockNodeList.push(blockNode);
+            //            if ( ob is Block ) {
+            //            }
+            //            else if ( ob is Scale ) {
+            //                scene.addChild(new ScaleNode(ob as Scale, this));
+            //            }
+            //            blockNodeList.push(blockNode);
         }
     }
 
@@ -210,24 +204,24 @@ public class DensityView3D extends UIComponent {
         onResize();
     }
 
-    public function medianFrontScreenPoint( m : Mesh ) : Number3D {
-        var num : Number = 0;
-        var kx : Number = 0;
-        var ky : Number = 0;
-        var kz : Number = 0;
-        var front : Number = Infinity;
-        var v : Vertex;
-        for each( v in m.vertices ) {
-            if ( v.z < front ) {
+    public function medianFrontScreenPoint(m:Mesh):Number3D {
+        var num:Number = 0;
+        var kx:Number = 0;
+        var ky:Number = 0;
+        var kz:Number = 0;
+        var front:Number = Infinity;
+        var v:Vertex;
+        for each(v in m.vertices) {
+            if (v.z < front) {
                 front = v.z;
             }
         }
-        for each( v in m.vertices ) {
-            if ( v.z > front ) {
+        for each(v in m.vertices) {
+            if (v.z > front) {
                 continue;
             }
             num += 1.0;
-            var sv : ScreenVertex = camera.screen(m, v);
+            var sv:ScreenVertex = camera.screen(m, v);
             kx += sv.x;
             ky += sv.y;
             kz += sv.z;
@@ -235,15 +229,15 @@ public class DensityView3D extends UIComponent {
         return new Number3D(kx / num, ky / num, kz / num);
     }
 
-    private var time : int = 0;
+    private var time:int = 0;
 
-    public function onEnterFrame( event:Event ):void {
-        if ( !running ) {
+    public function onEnterFrame(event:Event):void {
+        if (!running) {
             return;
         }
         model.step();
-        if ( moving && selectedObject is Pickable ) {
-            var pickable : Pickable = (selectedObject as Pickable);
+        if (moving && selectedObject is Pickable) {
+            var pickable:Pickable = (selectedObject as Pickable);
             pickable.getBody().SetXForm(new b2Vec2(pickable.getBody().GetPosition().x, cachedY), 0);
             pickable.getBody().SetLinearVelocity(new b2Vec2(0, 0));
             pickable.update();
@@ -252,13 +246,13 @@ public class DensityView3D extends UIComponent {
         poolFront.height = model.getWaterHeight() * DensityModel.DISPLAY_SCALE;
         poolTop.y = (-model.getPoolHeight() + model.getWaterHeight()) * DensityModel.DISPLAY_SCALE;
 
-//        for each ( var blockNode:BlockNode in blockNodeList ) {
-//            blockNode.getBlock().setSize(blockNode.getBlock().getWidth()*1.005,blockNode.getBlock().getHeight()*1.005);
-//        }
+        //        for each ( var blockNode:BlockNode in blockNodeList ) {
+        //            blockNode.getBlock().setSize(blockNode.getBlock().getWidth()*1.005,blockNode.getBlock().getHeight()*1.005);
+        //        }
 
         //Update all ArrowModels
 
-        for each ( var densityObjectNode:DensityObjectNode in blockNodeList ) {
+        for each (var densityObjectNode:DensityObjectNode in blockNodeList) {
 
         }
 
@@ -266,37 +260,37 @@ public class DensityView3D extends UIComponent {
         view.render();
     }
 
-    public function onMouseDown( event:MouseEvent ) : void {
+    public function onMouseDown(event:MouseEvent):void {
         startMouseX = stage.mouseX - view.x;
         startMouseY = stage.mouseY - view.y;
-        if ( view.mouseObject is Pickable ) {
+        if (view.mouseObject is Pickable) {
             moving = true;
             startMiddle = medianFrontScreenPoint(view.mouseObject as AbstractPrimitive);
             selectedObject = view.mouseObject as AbstractPrimitive;
-            if ( selectedObject is Pickable ) {
+            if (selectedObject is Pickable) {
                 cachedY = (selectedObject as Pickable).getBody().GetPosition().y;
             }
         }
         stage.addEventListener(Event.MOUSE_LEAVE, onStageMouseLeave);
     }
 
-    public function onMouseMove( event : MouseEvent ) : void {
-        if ( moving ) {
-            var offsetX : Number = startMiddle.x - startMouseX;
-            var offsetY : Number = startMiddle.y - startMouseY;
-            var mX : Number = stage.mouseX - view.x;
-            var mY : Number = stage.mouseY - view.y;
-            var screenCubeCenterX : Number = mX + offsetX;
-            var screenCubeCenterY : Number = mY + offsetY;
-            var projected : Number3D = camera.unproject(screenCubeCenterX, screenCubeCenterY);
+    public function onMouseMove(event:MouseEvent):void {
+        if (moving) {
+            var offsetX:Number = startMiddle.x - startMouseX;
+            var offsetY:Number = startMiddle.y - startMouseY;
+            var mX:Number = stage.mouseX - view.x;
+            var mY:Number = stage.mouseY - view.y;
+            var screenCubeCenterX:Number = mX + offsetX;
+            var screenCubeCenterY:Number = mY + offsetY;
+            var projected:Number3D = camera.unproject(screenCubeCenterX, screenCubeCenterY);
             projected.add(projected, new Number3D(camera.x, camera.y, camera.z));
-            var cameraVertex : Vertex = new Vertex(camera.x, camera.y, camera.z);
-            var rayVertex : Vertex = new Vertex(projected.x, projected.y, projected.z);
-            var cubePlane : Plane3D = new Plane3D();
+            var cameraVertex:Vertex = new Vertex(camera.x, camera.y, camera.z);
+            var rayVertex:Vertex = new Vertex(projected.x, projected.y, projected.z);
+            var cubePlane:Plane3D = new Plane3D();
             cubePlane.fromNormalAndPoint(new Number3D(0, 0, -1), new Number3D(0, 0, -100));
-            var intersection : Vertex = cubePlane.getIntersectionLine(cameraVertex, rayVertex);
-            if ( selectedObject is Pickable ) {
-                var pickable : Pickable = selectedObject as Pickable;
+            var intersection:Vertex = cubePlane.getIntersectionLine(cameraVertex, rayVertex);
+            if (selectedObject is Pickable) {
+                var pickable:Pickable = selectedObject as Pickable;
                 pickable.setPosition(intersection.x, intersection.y);
                 cachedY = pickable.getBody().GetPosition().y;
             }
@@ -310,38 +304,38 @@ public class DensityView3D extends UIComponent {
         invalid = true;
     }
 
-    public function onMouseUp( event:MouseEvent ) : void {
+    public function onMouseUp(event:MouseEvent):void {
         moving = false;
         stage.removeEventListener(Event.MOUSE_LEAVE, onStageMouseLeave);
     }
 
-    public function onStageMouseLeave( event:Event ) : void {
+    public function onStageMouseLeave(event:Event):void {
         moving = false;
         stage.removeEventListener(Event.MOUSE_LEAVE, onStageMouseLeave);
     }
 
-    public function onResize( event:Event = null ) : void {
+    public function onResize(event:Event = null):void {
         view.x = stage.stageWidth / 2;
         view.y = stage.stageHeight / 2;
     }
 
-    public function removeObject( ob:CuboidNode ):void {
+    public function removeObject(ob:CuboidNode):void {
         scene.removeChild(ob);
     }
 
-    public function pause() : void {
+    public function pause():void {
         running = false;
     }
 
-    public function start() : void {
+    public function start():void {
         running = true;
     }
 
-    public function reset() : void {
+    public function reset():void {
         running = true;
-        if( moving ) {
+        if (moving) {
             moving = false;
-            stage.removeEventListener( Event.MOUSE_LEAVE, onStageMouseLeave );
+            stage.removeEventListener(Event.MOUSE_LEAVE, onStageMouseLeave);
         }
 
         switchToSameMass();

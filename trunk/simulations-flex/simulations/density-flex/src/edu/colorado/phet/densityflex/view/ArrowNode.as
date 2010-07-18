@@ -8,11 +8,11 @@ public class ArrowNode extends MyMesh {
     const ARROW_HEIGHT:Number = 200;
     var scaleFromModelToView:Number;
 
-    public function ArrowNode( arrowModel:ArrowModel, scaleFromModelToView:Number, init:Object = null ) {
-        super( combine( {material:new ColorMaterial( 0xFF0000 )}, init ) );
+    public function ArrowNode(arrowModel:ArrowModel, scaleFromModelToView:Number, init:Object = null) {
+        super(combine({material:new ColorMaterial(0xFF0000)}, init));
         this.arrowModel = arrowModel;
         this.scaleFromModelToView = scaleFromModelToView;
-        arrowModel.addListener( doUpdate );
+        arrowModel.addListener(doUpdate);
         doUpdate();
         //        super( combine( {outline:"black|2", material:new ColorMaterial( 0xFF0000 )}, init ) );
         //        super( combine( {outine:"black|2"}, init ) );
@@ -21,7 +21,7 @@ public class ArrowNode extends MyMesh {
 
     function doUpdate():void {
         this.scaleY = arrowModel.getMagnitude() / ARROW_HEIGHT * scaleFromModelToView;
-        this.rotationZ = -arrowModel.getAngle() *180.0/Math.PI;
+        this.rotationZ = -arrowModel.getAngle() * 180.0 / Math.PI;
     }
 
     override protected function build():void {
@@ -33,28 +33,28 @@ public class ArrowNode extends MyMesh {
         const arrowHeadHeight:Number = height * fractionUsedByArrowhead;
         const bodyHeight:Number = height - arrowHeadHeight;
 
-        v( -width / 2, 0, 0 );
-        v( width / 2, 0, 0 );
-        v( width / 2, bodyHeight, 0 );
-        v( -width / 2, bodyHeight, 0 );
+        v(-width / 2, 0, 0);
+        v(width / 2, 0, 0);
+        v(width / 2, bodyHeight, 0);
+        v(-width / 2, bodyHeight, 0);
 
-        v( -arrowHeadWidth / 2, bodyHeight, 0 );
-        v( arrowHeadWidth / 2, bodyHeight, 0 );
-        v( 0, height, 0 );
+        v(-arrowHeadWidth / 2, bodyHeight, 0);
+        v(arrowHeadWidth / 2, bodyHeight, 0);
+        v(0, height, 0);
 
-        uv( 0, 0 );
-        uv( 1, 1 - fractionUsedByArrowhead );
-        uv( ( 1 + arrowHeadWidth / width) / 2, 0 );
-        uv( ( 1 - arrowHeadWidth / width) / 2, 1 - fractionUsedByArrowhead );
-        uv( 0, 1 - fractionUsedByArrowhead );
-        uv( 1, 1 - fractionUsedByArrowhead );
-        uv( 0.5, 1 );
+        uv(0, 0);
+        uv(1, 1 - fractionUsedByArrowhead);
+        uv(( 1 + arrowHeadWidth / width) / 2, 0);
+        uv(( 1 - arrowHeadWidth / width) / 2, 1 - fractionUsedByArrowhead);
+        uv(0, 1 - fractionUsedByArrowhead);
+        uv(1, 1 - fractionUsedByArrowhead);
+        uv(0.5, 1);
 
-        f( 0, 1, 2, 0, 1, 2 );
-        f( 0, 2, 3, 0, 2, 3 );
-        f( 3, 2, 6, 3, 2, 6 );
-        f( 2, 5, 6, 2, 5, 6 );
-        f( 4, 3, 6, 4, 3, 6 );
+        f(0, 1, 2, 0, 1, 2);
+        f(0, 2, 3, 0, 2, 3);
+        f(3, 2, 6, 3, 2, 6);
+        f(2, 5, 6, 2, 5, 6);
+        f(4, 3, 6, 4, 3, 6);
 
         type = "ArrowNode";
         url = "density";
