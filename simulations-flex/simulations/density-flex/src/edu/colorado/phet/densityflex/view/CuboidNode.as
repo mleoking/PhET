@@ -10,8 +10,9 @@ import away3d.primitives.*;
 import edu.colorado.phet.densityflex.model.Cuboid;
 import edu.colorado.phet.densityflex.model.DensityModel;
 import edu.colorado.phet.densityflex.model.Listener;
+import edu.colorado.phet.densityflex.model.ShapeChangeListener;
 
-public class CuboidNode extends ObjectContainer3D implements Pickable, Listener{
+public class CuboidNode extends ObjectContainer3D implements Pickable, Listener, ShapeChangeListener{
 
     private var cuboid:Cuboid;
 
@@ -24,19 +25,23 @@ public class CuboidNode extends ObjectContainer3D implements Pickable, Listener{
         this.z = cuboid.getZ() * DensityModel.DISPLAY_SCALE;
         this.useHandCursor = true;
         cuboid.addListener(this);
+        cuboid.addShapeChangeListener(this);
         addNodes();
     }
 
     public function addNodes() : void {
         trace( "super addNodes()");
+        cube = createCube();
+        addChild(cube);
+    }
+
+    protected function createCube():PickableCube {
         cube = new PickableCube(this);
-        cube.width = cuboid.getWidth() * DensityModel.DISPLAY_SCALE;
-        cube.height = cuboid.getHeight() * DensityModel.DISPLAY_SCALE;
-        cube.depth = cuboid.getDepth() * DensityModel.DISPLAY_SCALE;
+        updateShape();
         cube.segmentsH = 2;
         cube.segmentsW = 2;
-        addChild(cube);
         cube.useHandCursor = true;
+        return cube;
     }
 
     public function setPosition( x:Number, y:Number ): void {
@@ -61,6 +66,16 @@ public class CuboidNode extends ObjectContainer3D implements Pickable, Listener{
     }
 
     public function remove():void {
+    }
+
+    public function shapeChanged():void {
+        updateShape();
+    }
+
+    private function updateShape():void {
+        cube.width = cuboid.getWidth() * DensityModel.DISPLAY_SCALE;
+        cube.height = cuboid.getHeight() * DensityModel.DISPLAY_SCALE;
+        cube.depth = cuboid.getDepth() * DensityModel.DISPLAY_SCALE;
     }
 }
 }
