@@ -1,47 +1,41 @@
 package edu.colorado.phet.densityflex.view {
-import away3d.containers.ObjectContainer3D;
-
-import edu.colorado.phet.densityflex.*;
-
 import Box2D.Dynamics.b2Body;
 
-import away3d.primitives.*;
-
+import edu.colorado.phet.densityflex.model.ArrowModel;
 import edu.colorado.phet.densityflex.model.Cuboid;
 import edu.colorado.phet.densityflex.model.DensityModel;
-import edu.colorado.phet.densityflex.model.DensityObject;
 import edu.colorado.phet.densityflex.model.Listener;
 import edu.colorado.phet.densityflex.model.ShapeChangeListener;
 
-public class CuboidNode extends DensityObjectNode implements Pickable, Listener, ShapeChangeListener{
+public class CuboidNode extends DensityObjectNode implements Pickable, Listener, ShapeChangeListener {
 
     private var cuboid:Cuboid;
 
-    private var cube : PickableCube;
+    private var cube:PickableCube;
 
-    public function CuboidNode( cuboid:Cuboid ) : void {
+    public function CuboidNode( cuboid:Cuboid ):void {
         this.cuboid = cuboid;
         this.x = cuboid.getX() * DensityModel.DISPLAY_SCALE;
         this.y = cuboid.getY() * DensityModel.DISPLAY_SCALE;
         this.z = cuboid.getZ() * DensityModel.DISPLAY_SCALE;
         this.useHandCursor = true;
-        cuboid.addListener(this);
-        cuboid.addShapeChangeListener(this);
+        cuboid.addListener( this );
+        cuboid.addShapeChangeListener( this );
         addNodes();
     }
 
-    public function addNodes() : void {
-        trace( "super addNodes()");
+    public function addNodes():void {
+        trace( "super addNodes()" );
         cube = createCube();
-        addChild(cube);
+        addChild( cube );
+    }
 
-        const arrowNode:ArrowNode = new ArrowNode();
-        arrowNode.z = -this.cuboid.getDepth()/2.0 * DensityModel.DISPLAY_SCALE-1E-6;
-        addChild( arrowNode );
+    override public function getArrowOriginZ():Number {
+        return cuboid.getDepth() / 2.0;
     }
 
     protected function createCube():PickableCube {
-        cube = new PickableCube(this);
+        cube = new PickableCube( this );
         updateShape();
         cube.segmentsH = 2;
         cube.segmentsW = 2;
@@ -49,8 +43,8 @@ public class CuboidNode extends DensityObjectNode implements Pickable, Listener,
         return cube;
     }
 
-    public function setPosition( x:Number, y:Number ): void {
-        cuboid.setPosition(x / DensityModel.DISPLAY_SCALE, y / DensityModel.DISPLAY_SCALE);
+    public function setPosition( x:Number, y:Number ):void {
+        cuboid.setPosition( x / DensityModel.DISPLAY_SCALE, y / DensityModel.DISPLAY_SCALE );
     }
 
     public function update():void {

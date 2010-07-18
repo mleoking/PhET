@@ -1,8 +1,13 @@
 package edu.colorado.phet.densityflex.model {
+import away3d.core.base.Object3D;
+
 import edu.colorado.phet.densityflex.*;
 
 import Box2D.Dynamics.Contacts.b2ContactResult;
 import Box2D.Dynamics.b2Body;
+
+import edu.colorado.phet.densityflex.view.DensityView3D;
+import edu.colorado.phet.densityflex.view.ScaleNode;
 
 
 /**
@@ -66,6 +71,10 @@ public class Scale extends Cuboid {
         super.resetContacts();
 
         force = 0;
+    }
+
+    override public function createNode( view:DensityView3D ):Object3D {
+        return new ScaleNode(this, view);
     }
 }
 }

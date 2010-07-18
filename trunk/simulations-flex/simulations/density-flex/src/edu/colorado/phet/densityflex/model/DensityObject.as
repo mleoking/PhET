@@ -1,9 +1,13 @@
 package edu.colorado.phet.densityflex.model {
+import away3d.core.base.Object3D;
+
 import edu.colorado.phet.densityflex.*;
 
 import Box2D.Common.Math.b2Vec2;
 import Box2D.Dynamics.Contacts.b2ContactResult;
 import Box2D.Dynamics.b2Body;
+
+import edu.colorado.phet.densityflex.view.DensityView3D;
 
 public class DensityObject {
 
@@ -91,6 +95,10 @@ public class DensityObject {
 
     public function resetContacts():void {
 
+    }
+
+    public function createNode(view:DensityView3D):Object3D {
+        throw new Error();
     }
 }
 }
