@@ -9,10 +9,11 @@ import away3d.primitives.*;
 
 import edu.colorado.phet.densityflex.model.Cuboid;
 import edu.colorado.phet.densityflex.model.DensityModel;
+import edu.colorado.phet.densityflex.model.DensityObject;
 import edu.colorado.phet.densityflex.model.Listener;
 import edu.colorado.phet.densityflex.model.ShapeChangeListener;
 
-public class CuboidNode extends ObjectContainer3D implements Pickable, Listener, ShapeChangeListener{
+public class CuboidNode extends DensityObjectNode implements Pickable, Listener, ShapeChangeListener{
 
     private var cuboid:Cuboid;
 
@@ -33,6 +34,12 @@ public class CuboidNode extends ObjectContainer3D implements Pickable, Listener,
         trace( "super addNodes()");
         cube = createCube();
         addChild(cube);
+
+        const arrowNode:ArrowNode = new ArrowNode();
+        arrowNode.y = this.getCuboid().getHeight()/2.0*DensityModel.DISPLAY_SCALE;
+//        arrowNode.y = 100;
+//        arrowNode.z = -this.cuboid.getDepth()/2.0 * DensityModel.DISPLAY_SCALE-1E-6;
+        addChild( arrowNode );
     }
 
     protected function createCube():PickableCube {

@@ -33,10 +33,10 @@ public class ContactHandler extends b2ContactListener{
     }
 
     override public virtual function Result( point:b2ContactResult ):void {
-        if ( point.shape1.GetBody().GetUserData() is MovableModel ) {
+        if ( point.shape1.GetBody().GetUserData() is DensityObject ) {
             point.shape1.GetBody().GetUserData().registerContact(point);
         }
-        if ( point.shape2.GetBody().GetUserData() is MovableModel ) {
+        if ( point.shape2.GetBody().GetUserData() is DensityObject ) {
             point.shape2.GetBody().GetUserData().registerContact(point);
         }
         //        if ( point.normalImpulse > 0.000001 && point.normal.y < 0 ) {

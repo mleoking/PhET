@@ -4,7 +4,7 @@ import edu.colorado.phet.densityflex.*;
 import Box2D.Collision.Shapes.b2PolygonDef;
 import Box2D.Dynamics.b2BodyDef;
 
-public class Cuboid extends MovableModel{
+public class Cuboid extends DensityObject{
 
     private var density : Number;
     private var width : Number;

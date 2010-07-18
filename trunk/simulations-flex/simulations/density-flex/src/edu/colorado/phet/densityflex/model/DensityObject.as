@@ -5,7 +5,7 @@ import Box2D.Common.Math.b2Vec2;
 import Box2D.Dynamics.Contacts.b2ContactResult;
 import Box2D.Dynamics.b2Body;
 
-public class MovableModel {
+public class DensityObject {
 
     private var x:Number;
     private var y:Number;
@@ -15,7 +15,7 @@ public class MovableModel {
 
     private var body:b2Body;
 
-    public function MovableModel( x:Number, y:Number, z:Number, model:DensityModel ) {
+    public function DensityObject( x:Number, y:Number, z:Number, model:DensityModel ) {
         this.x = x;
         this.y = y;
         this.z = z;
