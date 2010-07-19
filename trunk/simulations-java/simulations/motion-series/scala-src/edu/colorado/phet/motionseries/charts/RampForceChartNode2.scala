@@ -40,7 +40,6 @@ class RampForceControlChart(motionSeriesModel: MotionSeriesModel) {
   }
 
   class MSControlGraphSeries(_title: String, _color: Color, _units: String, value: MutableDouble) extends TemporalDataSeries with MControlGraphSeries {
-    assert(value!=null)
     motionSeriesModel.stepListeners += (() => {addPoint(value(), motionSeriesModel.getTime)})
     override def title = _title
 
@@ -51,7 +50,7 @@ class RampForceControlChart(motionSeriesModel: MotionSeriesModel) {
     override def color = _color
 
     override def addValueChangeListener(listener: () => Unit) = {
-//      value.addListener(listener)
+            value.addListener(listener)
     }
 
     override def getValue = value()
@@ -59,24 +58,26 @@ class RampForceControlChart(motionSeriesModel: MotionSeriesModel) {
     override def units = _units
   }
 
-  val parallelAppliedForceVariable = new MutableDouble(motionSeriesModel.bead.parallelAppliedForce){
-    motionSeriesModel.bead.parallelAppliedForceListeners += ( ()=>{value = motionSeriesModel.bead.parallelAppliedForce})
+  val parallelAppliedForceVariable = new MutableDouble(motionSeriesModel.bead.parallelAppliedForce) {
+    motionSeriesModel.bead.parallelAppliedForceListeners += (() => {value = motionSeriesModel.bead.parallelAppliedForce})
   }
-  val frictionVariable = new MutableDouble(motionSeriesModel.bead.frictionForceVector.getValue dot motionSeriesModel.bead.getRampUnitVector){
-    motionSeriesModel.bead.parallelAppliedForceListeners += ( ()=>{value = motionSeriesModel.bead.parallelAppliedForce})
+  val frictionVariable = new MutableDouble(motionSeriesModel.bead.frictionForceVector.getValue dot motionSeriesModel.bead.getRampUnitVector) {
+    motionSeriesModel.bead.parallelAppliedForceListeners += (() => {value = motionSeriesModel.bead.parallelAppliedForce})
   }
-  val appliedForceSeries = new MSControlGraphSeries("<html>F<sub>applied ||</sub></html>", MotionSeriesDefaults.appliedForceColor, "m/s/s",parallelAppliedForceVariable ) {
+  val gravityVariable = new MutableDouble(motionSeriesModel.bead.gravityForceVector.getValue dot motionSeriesModel.bead.getRampUnitVector)
+  val wallVariable = new MutableDouble(motionSeriesModel.bead.wallForceVector.getValue dot motionSeriesModel.bead.getRampUnitVector)
+  val appliedForceSeries = new MSControlGraphSeries("<html>F<sub>applied ||</sub></html>", MotionSeriesDefaults.appliedForceColor, "m/s/s", parallelAppliedForceVariable) {
   }
-  val frictionForceSeries = new MSControlGraphSeries("<html>F<sub>friction ||</sub></html>", MotionSeriesDefaults.frictionForceColor, "m/s/s",frictionVariable) {
+  val frictionForceSeries = new MSControlGraphSeries("<html>F<sub>friction ||</sub></html>", MotionSeriesDefaults.frictionForceColor, "m/s/s", frictionVariable) {
     motionSeriesModel.stepListeners += (() => {addPoint(motionSeriesModel.bead.frictionForceVector.getValue dot motionSeriesModel.bead.getRampUnitVector, motionSeriesModel.getTime)})
   }
-  val gravityForceSeries = new MSControlGraphSeries("<html>F<sub>gravity ||</sub></html>", MotionSeriesDefaults.gravityForceColor, "m/s/s",frictionVariable) {//TODO: Fix variable in last arg
+  val gravityForceSeries = new MSControlGraphSeries("<html>F<sub>gravity ||</sub></html>", MotionSeriesDefaults.gravityForceColor, "m/s/s", gravityVariable) {
     motionSeriesModel.stepListeners += (() => {addPoint(motionSeriesModel.bead.gravityForceVector.getValue dot motionSeriesModel.bead.getRampUnitVector, motionSeriesModel.getTime)})
   }
-  val wallForceSeries = new MSControlGraphSeries("<html>F<sub>wall ||</sub></html>", MotionSeriesDefaults.wallForceColor, "m/s/s",frictionVariable) {//TODO: Fix variable in last arg
+  val wallForceSeries = new MSControlGraphSeries("<html>F<sub>wall ||</sub></html>", MotionSeriesDefaults.wallForceColor, "m/s/s", wallVariable) {
     motionSeriesModel.stepListeners += (() => {addPoint(motionSeriesModel.bead.wallForceVector.getValue dot motionSeriesModel.bead.getRampUnitVector, motionSeriesModel.getTime)})
   }
-  val totalForceSeries = new MSControlGraphSeries("<html>F<sub>total ||</sub></html>", MotionSeriesDefaults.totalForceColor, "m/s/s",frictionVariable) {//TODO: Fix variable in last arg
+  val totalForceSeries = new MSControlGraphSeries("<html>F<sub>total ||</sub></html>", MotionSeriesDefaults.totalForceColor, "m/s/s", frictionVariable) { //TODO: Fix variable in last arg
     motionSeriesModel.stepListeners += (() => {addPoint(motionSeriesModel.bead.totalForceVector.getValue dot motionSeriesModel.bead.getRampUnitVector, motionSeriesModel.getTime)})
   }
   //applied, friction, gravity, wall, total
