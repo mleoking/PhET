@@ -26,7 +26,7 @@ public class N2 extends Molecule {
     
     private final NitrogenAtom nitrogenAtom1 = new NitrogenAtom();
     private final NitrogenAtom nitrogenAtom2 = new NitrogenAtom();
-    private final AtomicBond nitrogenNitrogenBond = new AtomicBond( nitrogenAtom1, nitrogenAtom2, 1 );
+    private final AtomicBond nitrogenNitrogenBond = new AtomicBond( nitrogenAtom1, nitrogenAtom2, 3 );
 
     // ------------------------------------------------------------------------
     // Constructor(s)

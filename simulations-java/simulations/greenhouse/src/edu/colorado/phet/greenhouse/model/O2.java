@@ -26,7 +26,7 @@ public class O2 extends Molecule {
     
     private final OxygenAtom oxygenAtom1 = new OxygenAtom();
     private final OxygenAtom oxygenAtom2 = new OxygenAtom();
-    private final AtomicBond oxygenOxygenBond = new AtomicBond( oxygenAtom1, oxygenAtom2, 1 );
+    private final AtomicBond oxygenOxygenBond = new AtomicBond( oxygenAtom1, oxygenAtom2, 2 );
     
     // ------------------------------------------------------------------------
     // Constructor(s)
