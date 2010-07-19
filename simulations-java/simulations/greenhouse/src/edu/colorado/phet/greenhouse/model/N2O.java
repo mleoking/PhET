@@ -38,8 +38,8 @@ public class N2O extends Molecule {
     private final NitrogenAtom sideNitrogenAtom = new NitrogenAtom();
     private final NitrogenAtom centerNitrogenAtom = new NitrogenAtom();
     private final OxygenAtom oxygenAtom = new OxygenAtom();
-    private final AtomicBond nitrogenNitrogenBond = new AtomicBond( sideNitrogenAtom, centerNitrogenAtom, 3 );
-    private final AtomicBond nitrogenOxygenBond = new AtomicBond( centerNitrogenAtom, oxygenAtom, 1 );
+    private final AtomicBond nitrogenNitrogenBond = new AtomicBond( sideNitrogenAtom, centerNitrogenAtom, 2 );
+    private final AtomicBond nitrogenOxygenBond = new AtomicBond( centerNitrogenAtom, oxygenAtom, 2 );
     
     // ------------------------------------------------------------------------
     // Constructor(s)
