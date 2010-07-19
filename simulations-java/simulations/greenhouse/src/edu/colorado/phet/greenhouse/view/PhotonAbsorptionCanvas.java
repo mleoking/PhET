@@ -116,7 +116,7 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
         myWorldNode.addChild(chamberNode);
         
         // Add the flashlight.
-        PNode flashlightNode = new FlashlightNode(FLASHLIGHT_WIDTH, mvt, photonAbsorptionModel);
+        PNode flashlightNode = new PhotonEmitterNode(FLASHLIGHT_WIDTH, mvt, photonAbsorptionModel);
         flashlightNode.setOffset(mvt.modelToViewDouble(photonAbsorptionModel.getPhotonEmissionLocation()));
         myWorldNode.addChild(flashlightNode);
         
