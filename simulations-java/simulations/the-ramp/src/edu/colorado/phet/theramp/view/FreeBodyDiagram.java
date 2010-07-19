@@ -194,7 +194,7 @@ public class FreeBodyDiagram extends PNode {
             addChild( shapeGraphic );
             Font font = new Font( PhetFont.getDefaultFontName(), Font.BOLD, 16 );
 //            textGraphic = new PhetShadowTextGraphic( component, name, font, 0, 0, color, 1, 1, Color.black );
-            textGraphic = new HTMLNode( name, font, color );
+            textGraphic = new HTMLNode( name, color, font );
             addChild( textGraphic );
             setVector( v );
             setPickable( false );
