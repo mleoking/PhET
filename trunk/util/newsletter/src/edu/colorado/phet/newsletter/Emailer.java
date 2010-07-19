@@ -16,6 +16,7 @@ import javax.mail.internet.MimeBodyPart;
 
 import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.website.notification.NotificationHandler;
+import java.io.*;
 
 /**
  * Sends email + attachments to a list of addresses.  See example newsletter-args.properties file.
@@ -27,6 +28,10 @@ import edu.colorado.phet.website.notification.NotificationHandler;
 public class Emailer {
 
     public static void main( String[] args ) throws IOException, MessagingException {
+        File logFile = new File("emailer-log-"+System.currentTimeMillis()+".txt");
+        System.out.println("logFile = " + logFile.getAbsolutePath());
+        BufferedWriter bufferedWriter=new BufferedWriter(new FileWriter(logFile));
+
         Properties properties = new Properties();
         properties.load( new FileInputStream( new File( "newsletter-args.properties" ) ) );//TODO: assumes run from the root of the newsletter directory.
         String body = FileUtils.loadFileAsString( new File( properties.getProperty( "bodyFile" ) ) );//TODO: do we have to specify encoding other than UTF-8?
@@ -54,8 +59,12 @@ public class Emailer {
             long endTime = System.currentTimeMillis();
             final double time = ( endTime - startTime ) / 1000.0;
             final double totalElapsedTime = ( endTime - loopStartTime ) / 1000.0;
-            System.out.println( "Finished sending to address " + i + "/" + allEmails.size() + ", time = " + time + ", address = " + emailAddress + ", average time per email = " + totalElapsedTime / ( i + 1 ) );
+            String logString = "Finished sending to address " + i + "/" + allEmails.size() + ", time = " + time + ", address = " + emailAddress + ", average time per email = " + totalElapsedTime / ( i + 1 );
+            System.out.println( logString );
+            bufferedWriter.write(logString+"\n");
+            bufferedWriter.flush();
         }
+        bufferedWriter.close();
     }
 
     private static ArrayList<BodyPart> loadAdditionalParts( String property ) throws MessagingException {
