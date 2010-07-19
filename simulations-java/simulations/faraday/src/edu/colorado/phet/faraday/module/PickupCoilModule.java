@@ -232,7 +232,8 @@ public class PickupCoilModule extends FaradayModule {
                 
                 DeveloperControlsPanel developerControlsPanel = new DeveloperControlsPanel( 
                         _barMagnetModel, _pickupCoilModel, _lightbulbModel, _voltmeterModel, 
-                        _pickupCoilGraphic, null, _pickupCoilGraphic.getLightbulbGraphic() );
+                        _pickupCoilGraphic, null, _pickupCoilGraphic.getLightbulbGraphic(),
+                        null, _bFieldOutsideGraphic );
                 controlPanel.addControlFullWidth( developerControlsPanel );
             }
             

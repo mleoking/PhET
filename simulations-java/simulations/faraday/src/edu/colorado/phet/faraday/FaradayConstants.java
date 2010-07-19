@@ -96,6 +96,9 @@ public class FaradayConstants {
     // B-field (grid of compass needles) parameters
     //----------------------------------------------------------------------------
     
+    public static final double GRID_INTENSITY_SCALE_MIN = 1;
+    public static final double GRID_INTENSITY_SCALE_MAX = 6;
+    public static final double GRID_INTENSITY_SCALE = 3.5;
     public static final int GRID_SPACING_MAX = 100;
     public static final int GRID_SPACING_MIN = 35;
     public static final int GRID_SPACING = 40;

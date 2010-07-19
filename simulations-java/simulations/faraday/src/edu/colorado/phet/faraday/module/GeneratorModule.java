@@ -223,7 +223,8 @@ public class GeneratorModule extends FaradayModule {
                 
                 DeveloperControlsPanel developerControlsPanel = new DeveloperControlsPanel( 
                         _turbineModel, _pickupCoilModel, _lightbulbModel, _voltmeterModel, 
-                        _pickupCoilGraphic, null, _pickupCoilGraphic.getLightbulbGraphic() );
+                        _pickupCoilGraphic, null, _pickupCoilGraphic.getLightbulbGraphic(),
+                        null, _bFieldOutsideGraphic );
                 controlPanel.addControlFullWidth( developerControlsPanel );
             }
             
