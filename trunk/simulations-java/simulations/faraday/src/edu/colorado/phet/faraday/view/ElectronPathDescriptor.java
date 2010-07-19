@@ -1,6 +1,6 @@
-/* Copyright 2005-2008, University of Colorado */
+/* Copyright 2005-2010, University of Colorado */
 
-package edu.colorado.phet.faraday.model;
+package edu.colorado.phet.faraday.view;
 
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.faraday.util.QuadBezierSpline;
@@ -8,6 +8,8 @@ import edu.colorado.phet.faraday.util.QuadBezierSpline;
 
 /**
  * ElectronPathDescriptor contains a description of one segment of an Electron's path.
+ * This description is used exclusively by the view to describe the visual representation
+ * of segments of the a coil, for the purposes of animating the flow of electrons in the coil.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -31,16 +33,16 @@ public class ElectronPathDescriptor {
     //----------------------------------------------------------------------------
     
     // The curve
-    private QuadBezierSpline _curve;
+    private final QuadBezierSpline _curve;
     
     // The parent graphic
-    private CompositePhetGraphic _parent;
+    private final CompositePhetGraphic _parent;
     
     // The layer that the curve is in (FOREGROUND or BACKGROUND).
-    private int _layer;
+    private final int _layer;
     
     // How to scale the speed for this curve (any positive value).
-    private double _pathScale;
+    private final double _pathScale;
     
     //----------------------------------------------------------------------------
     // Constructors

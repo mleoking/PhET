@@ -1,3 +1,4 @@
+7/16/10 move ElectronPathDescriptor to view package 
 7/16/10 #2236, delete old dipole magnet model (DipoleMagnet)
 7/16/10 #2236, simplify and rename magnet interface
 7/16/10 #2236, remove B-field scaling from model
