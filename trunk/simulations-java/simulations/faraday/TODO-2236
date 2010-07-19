@@ -3,10 +3,9 @@ TODO list for Faraday ticket #2236
 HIGH PRIORITY
 - add B-field scaling strategy to AbstractBFieldGraphic, with developer control
 - PickupCoil.setEmfScale -> PickupCoilGraphic.setEmfScale
-- recalibrate all view components
+- recalibrate all view components, extend ranges of dev controls?
 
 MEDIUM PRIORITY
-- make sure this works with rotated bar magnet in "Show earth" feature (see "Magnet and Compass" flavor)
 - remove MathCAD dependency by implementing numerical model in a stand-alone Java program that can generate grid files
 
 LOW PRIORITY
