@@ -62,7 +62,7 @@ public class PhotonAbsorptionModel {
     
     // Defaults.
     private static final PhotonTarget DEFAULT_PHOTON_TARGET = PhotonTarget.H2O;
-    private static final double DEFAULT_EMITTED_PHOTON_WAVELENGTH = GreenhouseConfig.sunlightWavelength;
+    private static final double DEFAULT_EMITTED_PHOTON_WAVELENGTH = GreenhouseConfig.irWavelength;
 
     //----------------------------------------------------------------------------
     // Instance Data
