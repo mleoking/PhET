@@ -24,7 +24,6 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
 import edu.colorado.phet.greenhouse.GreenhouseResources;
 import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel;
-import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel.Adapter;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -44,7 +43,6 @@ public class FlashlightNode extends PNode {
 	private static final Font LABEL_FONT = new PhetFont(24);
 	
 	private PImage flashlightImage;
-	private ModelViewTransform2D mvt;
 	private PhotonAbsorptionModel model;
 
     private JRadioButton infraredPhotonRadioButton;
@@ -63,7 +61,6 @@ public class FlashlightNode extends PNode {
 	 */
 	public FlashlightNode(double flashlightWidth, ModelViewTransform2D mvt, final PhotonAbsorptionModel model) {
 		
-		this.mvt = mvt;
 		this.model = model;
 		
 		// Listen to the model for events that may cause this node to change
@@ -121,15 +118,6 @@ public class FlashlightNode extends PNode {
 		// be emitted.
 		JPanel emissionTypeSelectionPanel = new VerticalLayoutPanel();
 		emissionTypeSelectionPanel.setBorder(BorderFactory.createRaisedBevelBorder());
-		// TODO: i18n
-		visiblePhotonRadioButton = new JRadioButton("Visible");
-		visiblePhotonRadioButton.setFont(LABEL_FONT);
-		visiblePhotonRadioButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                model.setEmittedPhotonWavelength( GreenhouseConfig.sunlightWavelength );
-                updateFrequencySelectButtons();
-            }
-        });
         // TODO: i18n
         infraredPhotonRadioButton = new JRadioButton("Infrared");
         infraredPhotonRadioButton.setFont(LABEL_FONT);
@@ -139,11 +127,22 @@ public class FlashlightNode extends PNode {
                 updateFrequencySelectButtons();
             }
         });
+        emissionTypeSelectionPanel.add(infraredPhotonRadioButton);
+        // TODO: i18n
+        visiblePhotonRadioButton = new JRadioButton("Visible");
+        visiblePhotonRadioButton.setFont(LABEL_FONT);
+        visiblePhotonRadioButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                model.setEmittedPhotonWavelength( GreenhouseConfig.sunlightWavelength );
+                updateFrequencySelectButtons();
+            }
+        });
+        emissionTypeSelectionPanel.add(visiblePhotonRadioButton);
+        
 		ButtonGroup buttonGroup = new ButtonGroup();
-		buttonGroup.add(visiblePhotonRadioButton);
 		buttonGroup.add(infraredPhotonRadioButton);
-		emissionTypeSelectionPanel.add(visiblePhotonRadioButton);
-		emissionTypeSelectionPanel.add(infraredPhotonRadioButton);
+		buttonGroup.add(visiblePhotonRadioButton);
+		
 		PSwing selectionPanelPSwing = new PSwing(emissionTypeSelectionPanel);
 		selectionPanelPSwing.setOffset(
 				flashlightImage.getFullBoundsReference().getCenterX() - selectionPanelPSwing.getFullBoundsReference().width / 2,
