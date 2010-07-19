@@ -3,7 +3,6 @@ TODO list for Faraday ticket #2236
 HIGH PRIORITY
 - add B-field scaling strategy to AbstractBFieldGraphic, with developer control
 - PickupCoil.setEmfScale -> PickupCoilGraphic.setEmfScale
-- ElectronPathDescriptor.getPathScale -> view? (perhaps this class belongs in view?) 
 - recalibrate all view components
 
 MEDIUM PRIORITY

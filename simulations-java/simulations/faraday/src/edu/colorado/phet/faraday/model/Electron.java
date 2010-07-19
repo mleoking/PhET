@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.faraday.util.QuadBezierSpline;
+import edu.colorado.phet.faraday.view.ElectronPathDescriptor;
 
 
 /**

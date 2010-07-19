@@ -11,7 +11,6 @@ import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.FaradayResources;
 import edu.colorado.phet.faraday.model.Electron;
-import edu.colorado.phet.faraday.model.ElectronPathDescriptor;
 
 
 /**
