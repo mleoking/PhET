@@ -5,12 +5,13 @@ import edu.colorado.phet.motionseries.graphics.RampCanvas
 import edu.colorado.phet.motionseries.model.MotionSeriesModel
 import edu.umd.cs.piccolo.PNode
 import edu.colorado.phet.common.motion.charts._
-import java.awt.geom.Rectangle2D.Double
 import java.awt.event.{ComponentEvent, ComponentAdapter}
 import java.awt.Color
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.umd.cs.piccolox.pswing.PSwing
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
+import edu.colorado.phet.scalacommon.util.Observable
+
 /**
  * @author Sam Reid
  */
@@ -25,39 +26,71 @@ class RampForceChartNode2(rampCanvas: RampCanvas, motionSeriesModel: MotionSerie
 class RampForceMinimizableControlChart(motionSeriesModel: MotionSeriesModel) extends MinimizableControlChart("title", new RampForceControlChart(motionSeriesModel).chart)
 
 class RampForceControlChart(motionSeriesModel: MotionSeriesModel) {
-  val temporalChart = new TemporalChart(new Double(0, -2000, 20, 4000), new ChartCursor())
+  val temporalChart = new TemporalChart(new java.awt.geom.Rectangle2D.Double(0, -2000, 20, 4000), new ChartCursor())
 
-  val appliedForceSeries = new TemporalDataSeries() {
-    motionSeriesModel.stepListeners += (() => {addPoint(motionSeriesModel.bead.parallelAppliedForce, motionSeriesModel.getTime)})
+  class MutableDouble(private var _value: Double) extends Observable {
+    def value = _value
+
+    def value_=(x: Double) = {
+      _value = x
+      notifyListeners()
+    }
+
+    def apply() = value
   }
-  val gravityForceSeries = new TemporalDataSeries() {
+
+  class MSControlGraphSeries(_title: String, _color: Color, _units: String, value: MutableDouble) extends TemporalDataSeries with MControlGraphSeries {
+    assert(value!=null)
+    motionSeriesModel.stepListeners += (() => {addPoint(value(), motionSeriesModel.getTime)})
+    override def title = _title
+
+    override def setVisible(b: Boolean) = {}
+
+    override def isVisible() = true
+
+    override def color = _color
+
+    override def addValueChangeListener(listener: () => Unit) = {
+//      value.addListener(listener)
+    }
+
+    override def getValue = value()
+
+    override def units = _units
+  }
+
+  val parallelAppliedForceVariable = new MutableDouble(motionSeriesModel.bead.parallelAppliedForce){
+    motionSeriesModel.bead.parallelAppliedForceListeners += ( ()=>{value = motionSeriesModel.bead.parallelAppliedForce})
+  }
+  val frictionVariable = new MutableDouble(motionSeriesModel.bead.frictionForceVector.getValue dot motionSeriesModel.bead.getRampUnitVector){
+    motionSeriesModel.bead.parallelAppliedForceListeners += ( ()=>{value = motionSeriesModel.bead.parallelAppliedForce})
+  }
+  val appliedForceSeries = new MSControlGraphSeries("<html>F<sub>applied ||</sub></html>", MotionSeriesDefaults.appliedForceColor, "m/s/s",parallelAppliedForceVariable ) {
+  }
+  val frictionForceSeries = new MSControlGraphSeries("<html>F<sub>friction ||</sub></html>", MotionSeriesDefaults.frictionForceColor, "m/s/s",frictionVariable) {
+    motionSeriesModel.stepListeners += (() => {addPoint(motionSeriesModel.bead.frictionForceVector.getValue dot motionSeriesModel.bead.getRampUnitVector, motionSeriesModel.getTime)})
+  }
+  val gravityForceSeries = new MSControlGraphSeries("<html>F<sub>gravity ||</sub></html>", MotionSeriesDefaults.gravityForceColor, "m/s/s",frictionVariable) {//TODO: Fix variable in last arg
     motionSeriesModel.stepListeners += (() => {addPoint(motionSeriesModel.bead.gravityForceVector.getValue dot motionSeriesModel.bead.getRampUnitVector, motionSeriesModel.getTime)})
   }
-  temporalChart.addDataSeries(appliedForceSeries, MotionSeriesDefaults.appliedForceColor)
-  temporalChart.addDataSeries(gravityForceSeries, MotionSeriesDefaults.gravityForceColor)
-
-  val seriesList: List[MControlGraphSeries] = new MControlGraphSeries {
-    override def color = Color.blue
-
-    override def title = "Applied Force"
-  } :: new MControlGraphSeries {
-    override def color = Color.blue
-
-    override def title = "Applied Force"
-  } :: new MControlGraphSeries {
-    override def color = Color.blue
-
-    override def title = "Applied Force"
-  } :: Nil
-  val appliedForceSeriesM = new MControlGraphSeries {
-    override def color = Color.blue
-
-    override def title = "Applied Force"
+  val wallForceSeries = new MSControlGraphSeries("<html>F<sub>wall ||</sub></html>", MotionSeriesDefaults.wallForceColor, "m/s/s",frictionVariable) {//TODO: Fix variable in last arg
+    motionSeriesModel.stepListeners += (() => {addPoint(motionSeriesModel.bead.wallForceVector.getValue dot motionSeriesModel.bead.getRampUnitVector, motionSeriesModel.getTime)})
   }
+  val totalForceSeries = new MSControlGraphSeries("<html>F<sub>total ||</sub></html>", MotionSeriesDefaults.totalForceColor, "m/s/s",frictionVariable) {//TODO: Fix variable in last arg
+    motionSeriesModel.stepListeners += (() => {addPoint(motionSeriesModel.bead.totalForceVector.getValue dot motionSeriesModel.bead.getRampUnitVector, motionSeriesModel.getTime)})
+  }
+  //applied, friction, gravity, wall, total
+  temporalChart.addDataSeries(appliedForceSeries, appliedForceSeries.color)
+  temporalChart.addDataSeries(frictionForceSeries, frictionForceSeries.color)
+  temporalChart.addDataSeries(gravityForceSeries, gravityForceSeries.color)
+  temporalChart.addDataSeries(wallForceSeries, wallForceSeries.color)
+  temporalChart.addDataSeries(frictionForceSeries, frictionForceSeries.color)
+
+  val additionalSerieses: List[MControlGraphSeries] = frictionForceSeries :: gravityForceSeries :: wallForceSeries :: totalForceSeries :: Nil
   val controlPanel = new PNode {
     addChild(new PSwing(new SeriesSelectionControl("forces.parallel-title-with-units".translate, 5) {
-      addToGrid(appliedForceSeriesM, createEditableLabel)
-      for (s <- seriesList) addToGrid(s)
+      addToGrid(appliedForceSeries, createEditableLabel)
+      for (s <- additionalSerieses) addToGrid(s)
     }))
   }
 
