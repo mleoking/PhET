@@ -23,6 +23,7 @@ import flash.events.Event;
 import flash.events.MouseEvent;
 
 import mx.core.UIComponent;
+import mx.events.SliderEvent;
 
 public class DensityView3D extends UIComponent {
     //model
@@ -308,8 +309,11 @@ public class DensityView3D extends UIComponent {
     }
 
     public function onResize(event:Event = null):void {
+        //Centers the view
         view.x = stage.stageWidth / 2;
         view.y = stage.stageHeight / 2;
+
+        camera.zoom = Math.min(stage.stageWidth/100, stage.stageHeight/65);
     }
 
     public function removeObject(ob:CuboidNode):void {
@@ -332,6 +336,12 @@ public class DensityView3D extends UIComponent {
         }
 
         switchToSameMass();
+    }
+
+    public function testSliderChange(event:SliderEvent):void {
+//        camera.distance = event.value;
+        camera.zoom = event.value;
+//        camera.moveCamera();
     }
 }
 }
