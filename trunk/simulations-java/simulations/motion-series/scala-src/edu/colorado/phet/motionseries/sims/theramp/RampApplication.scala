@@ -17,7 +17,7 @@ import java.awt.event.{ActionListener, ActionEvent, ComponentEvent, ComponentAda
 import edu.colorado.phet.motionseries.controls.{DeveloperDialog, RampControlPanel}
 import edu.colorado.phet.motionseries.sims.theramp.robotmovingcompany.RobotMovingCompanyModule
 import edu.colorado.phet.motionseries.{MotionSeriesResources, StageContainerArea, MotionSeriesDefaults, MotionSeriesModule}
-import edu.colorado.phet.motionseries.charts.RampForceChartNode2
+import edu.colorado.phet.motionseries.charts.RampForceChartNode
 
 /**
  * This is the parent class for the various Modules for the ramp simulation.
@@ -87,7 +87,7 @@ class GraphingModule(frame: PhetFrame,
  * The ForceGraphsModule is a GraphingModule that graphs the forces on an object as a function of time.
  */
 class ForceGraphsModule(frame: PhetFrame) extends GraphingModule(frame, "module.force-graphs".translate, false, MotionSeriesDefaults.oneGraphViewport, MotionSeriesDefaults.oneGraphArea) {
-  rampCanvas.addScreenNode(new RampForceChartNode2(rampCanvas, motionSeriesModel))
+  rampCanvas.addScreenNode(new RampForceChartNode(rampCanvas, motionSeriesModel))
 }
 
 /**

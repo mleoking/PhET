@@ -15,7 +15,7 @@ import edu.colorado.phet.scalacommon.util.Observable
 /**
  * @author Sam Reid
  */
-class RampForceChartNode2(rampCanvas: RampCanvas, motionSeriesModel: MotionSeriesModel) extends MultiControlChart(Array(new RampForceMinimizableControlChart(motionSeriesModel))) {
+class RampForceChartNode(rampCanvas: RampCanvas, motionSeriesModel: MotionSeriesModel) extends MultiControlChart(Array(new RampForceMinimizableControlChart(motionSeriesModel))) {
   rampCanvas.addComponentListener(new ComponentAdapter {
     override def componentResized(e: ComponentEvent) = {
       setBounds(0, rampCanvas.getHeight / 2, rampCanvas.getWidth, rampCanvas.getHeight / 2)
