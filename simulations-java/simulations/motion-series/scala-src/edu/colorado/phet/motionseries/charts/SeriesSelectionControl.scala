@@ -27,9 +27,9 @@ class SeriesSelectionControl(title: String, numRows: Int) extends VerticalLayout
   nongrid.setBackground(EARTH_COLOR)
   add(nongrid)
 
-  def addToGrid(series: MControlGraphSeries): Unit = addToGrid(series, createLabel)
+  def addToGrid(series: MSDataSeries): Unit = addToGrid(series, createLabel)
 
-  def addToGrid(series: MControlGraphSeries, labelMaker: MControlGraphSeries => JComponent): Unit =
+  def addToGrid(series: MSDataSeries, labelMaker: MSDataSeries => JComponent): Unit =
     addComponentsToGrid(new SeriesControlSelectorBox(series), labelMaker(series))
 
   def addComponentsToGrid(component1: JComponent, component2: JComponent) = {
@@ -41,7 +41,7 @@ class SeriesSelectionControl(title: String, numRows: Int) extends VerticalLayout
     nongrid.add(component)
   }
 
-  def createLabel(series: MControlGraphSeries) = {
+  def createLabel(series: MSDataSeries) = {
     //Switching from a JLabel to a JTextField makes the entire application run smoothly on the chart tabs
     //I'm not sure why JLabels were a problem.
     val label = new JTextField()
@@ -59,7 +59,7 @@ class SeriesSelectionControl(title: String, numRows: Int) extends VerticalLayout
     label
   }
 
-  def createEditableLabel(series: MControlGraphSeries) = {
+  def createEditableLabel(series: MSDataSeries) = {
     val panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0))
     val textField = new JTextField(6)
     textField.addActionListener(new ActionListener() {
@@ -112,17 +112,17 @@ class SeriesControlTitleLabel(val series: ControlGraphSeries) extends JLabel(ser
   init()
 }
 
-class SeriesControlSelectorBox(val series: MControlGraphSeries) extends MyJCheckBox(series.title, series.setVisible(_), series.isVisible, series.addValueChangeListener) {
+class SeriesControlSelectorBox(val series: MSDataSeries) extends MyJCheckBox(series.title, series.setVisible(_), series.isVisible(), series.addValueChangeListener) {
   setMargin(new Insets(0, 0, 0, 0)) //allows buttons to fit closer together
   setOpaque(false) //let the background show through, TODO: check whether this works on Mac
 }
 
-trait MControlGraphSeries {
+trait IDataSeries {
   def title = "title"
 
   def setVisible(b: Boolean) = {}
 
-  def isVisible() = true
+  def isVisible():Boolean
 
   def color = Color.red
 
@@ -132,5 +132,5 @@ trait MControlGraphSeries {
 
   def units = "m"
 
-  def setValue(v: Double) = {}
+  def setValue(v: Double) = true
 }

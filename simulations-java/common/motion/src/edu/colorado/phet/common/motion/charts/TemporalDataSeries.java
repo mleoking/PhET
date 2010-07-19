@@ -11,6 +11,7 @@ import java.util.Arrays;
 public class TemporalDataSeries {
     private ArrayList<TimeData> data = new ArrayList<TimeData>();
     private ArrayList<Listener> listeners = new ArrayList<Listener>();
+    private boolean visible = true;
 
     public TimeData[] getData() {
         return data.toArray(new TimeData[data.size()]);
@@ -83,10 +84,34 @@ public class TemporalDataSeries {
         notifyEntrireSeriesChanged();
     }
 
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(Boolean visible) {
+        this.visible=visible;
+        for (Listener listener : listeners) {
+            listener.visibilityChanged();
+        }
+    }
+
     public static interface Listener {
         void entireSeriesChanged();
 
         void dataPointAdded(TimeData point);
+
+        void visibilityChanged();
+    }
+
+    public static class Adapter implements Listener{
+        public void entireSeriesChanged() {
+        }
+
+        public void dataPointAdded(TimeData point) {
+        }
+
+        public void visibilityChanged() {
+        }
     }
 
     public void addListener(Listener listener) {

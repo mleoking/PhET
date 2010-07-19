@@ -30,7 +30,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont
 object Defaults {
   def createFont = new PhetFont(12, true)
 
-////  def addListener(series: MControlGraphSeries, listener: () => Unit) = {
+////  def addListener(series: IDataSeries, listener: () => Unit) = {
 ////    series.addListener(new ControlGraphSeries.Adapter() {
 ////      override def visibilityChanged = listener()
 ////    })
@@ -142,14 +142,14 @@ object Defaults {
 //class MyGraphSetNode(graphs: Seq[Graph]) extends MultiControlChart((for (g <- graphs) yield g.graph).toArray) {
 //}
 //
-//case class MControlGraphSeries(title:String,color:Color,abbr:String,units:String,character:String,temporalSeries:TemporalDataSeries){
+//case class IDataSeries(title:String,color:Color,abbr:String,units:String,character:String,temporalSeries:TemporalDataSeries){
 //  def setVisible(b:Boolean){}
 //  def getTitle = title
 //  def isVisible = true
 //  def getTemporalVariable = new DefaultTemporalVariable
 //}
 //
-//class MotionSeriesGraph(defaultSeries: MControlGraphSeries,
+//class MotionSeriesGraph(defaultSeries: IDataSeries,
 //                        timeseriesModel: TimeSeriesModel,
 //                        updateableObject: UpdateableObject,
 //                        model: MotionSeriesModel,
@@ -166,7 +166,7 @@ object Defaults {
 //
 //  def setEditable(b: Boolean) = {}
 //
-//  def addSeries(series: MControlGraphSeries) = {
+//  def addSeries(series: IDataSeries) = {
 //    super.addDataSeries(series.temporalSeries,series.color)
 //  }
 //

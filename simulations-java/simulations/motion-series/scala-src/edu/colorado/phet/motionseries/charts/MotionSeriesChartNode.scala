@@ -25,12 +25,12 @@
 //    model.resetListeners_+=(() => parallelAppliedForceVariable.doAddValue(model.bead.appliedForce.dot(model.bead.getRampUnitVector), model.getTime))
 //    model.playbackListeners += (() => parallelAppliedForceVariable.setValue(model.bead.appliedForce.dot(model.bead.getRampUnitVector)))
 //
-//    val appliedForceSeries = new MControlGraphSeries(formatForce("forces.applied".translate), appliedForceColor, abbrevUnused, N, characterUnused, parallelAppliedForceVariable)
-//    val frictionSeries = new MControlGraphSeries(formatForce("forces.friction".translate), frictionForceColor, abbrevUnused, N, characterUnused, createParallelVariable(() => model.bead.frictionForce))
-//    val netForceSeries = new MControlGraphSeries(formatForce("forces.Net".translate), totalForceColor, abbrevUnused, N, characterUnused, createParallelVariable(() => model.bead.totalForce))
-//    val wallSeries = new MControlGraphSeries(formatForce("forces.Wall".translate), wallForceColor, abbrevUnused, N, characterUnused, createParallelVariable(() => model.bead.wallForce))
+//    val appliedForceSeries = new IDataSeries(formatForce("forces.applied".translate), appliedForceColor, abbrevUnused, N, characterUnused, parallelAppliedForceVariable)
+//    val frictionSeries = new IDataSeries(formatForce("forces.friction".translate), frictionForceColor, abbrevUnused, N, characterUnused, createParallelVariable(() => model.bead.frictionForce))
+//    val netForceSeries = new IDataSeries(formatForce("forces.Net".translate), totalForceColor, abbrevUnused, N, characterUnused, createParallelVariable(() => model.bead.totalForce))
+//    val wallSeries = new IDataSeries(formatForce("forces.Wall".translate), wallForceColor, abbrevUnused, N, characterUnused, createParallelVariable(() => model.bead.wallForce))
 //    val forceSeriesList = if (showGravitySeries) {
-//      val gravitySeries = new MControlGraphSeries(formatForce("forces.Gravity".translate), gravityForceColor, abbrevUnused, N, characterUnused, createParallelVariable(() => model.bead.gravityForce))
+//      val gravitySeries = new IDataSeries(formatForce("forces.Gravity".translate), gravityForceColor, abbrevUnused, N, characterUnused, createParallelVariable(() => model.bead.gravityForce))
 //      appliedForceSeries :: frictionSeries :: gravitySeries :: wallSeries :: netForceSeries :: Nil
 //    }
 //    else appliedForceSeries :: frictionSeries :: wallSeries :: netForceSeries :: Nil
@@ -54,10 +54,10 @@
 //  }
 //
 //  def energyGraph = {
-//    val totalEnergySeries = new MControlGraphSeries(formatEnergy("energy.total".translate), totalEnergyColor, abbrevUnused, J, characterUnused, createVariable(() => model.bead.getTotalEnergy))
-//    val keSeries = new MControlGraphSeries(formatEnergy("energy.kinetic".translate), kineticEnergyColor, abbrevUnused, J, characterUnused, createVariable(() => model.bead.kineticEnergy))
-//    val peSeries = new MControlGraphSeries(formatEnergy("energy.potential".translate), potentialEnergyColor, abbrevUnused, J, characterUnused, createVariable(() => model.bead.potentialEnergy))
-//    val thermalEnergySeries = new MControlGraphSeries(formatEnergy("energy.thermal".translate), thermalEnergyColor, abbrevUnused, J, characterUnused, createVariable(() => model.bead.thermalEnergy))
+//    val totalEnergySeries = new IDataSeries(formatEnergy("energy.total".translate), totalEnergyColor, abbrevUnused, J, characterUnused, createVariable(() => model.bead.getTotalEnergy))
+//    val keSeries = new IDataSeries(formatEnergy("energy.kinetic".translate), kineticEnergyColor, abbrevUnused, J, characterUnused, createVariable(() => model.bead.kineticEnergy))
+//    val peSeries = new IDataSeries(formatEnergy("energy.potential".translate), potentialEnergyColor, abbrevUnused, J, characterUnused, createVariable(() => model.bead.potentialEnergy))
+//    val thermalEnergySeries = new IDataSeries(formatEnergy("energy.thermal".translate), thermalEnergyColor, abbrevUnused, J, characterUnused, createVariable(() => model.bead.thermalEnergy))
 //    val energySeriesList = totalEnergySeries :: keSeries :: peSeries :: thermalEnergySeries :: Nil
 //
 //    val theEnergyGraph = new MotionSeriesGraph(totalEnergySeries, timeseriesModel, updateableObject, model, -10000, 10000) {
@@ -81,13 +81,13 @@
 //  }
 //
 //  def workEnergyGraph = {
-//    val totalEnergySeries = new MControlGraphSeries(formatEnergy("energy.total".translate), totalEnergyColor, abbrevUnused, J, characterUnused, createVariable(() => model.bead.getTotalEnergy))
-//    val keSeries = new MControlGraphSeries(formatEnergy("energy.kinetic".translate), kineticEnergyColor, abbrevUnused, J, characterUnused, createVariable(() => model.bead.kineticEnergy))
-//    val peSeries = new MControlGraphSeries(formatEnergy("energy.potential".translate), potentialEnergyColor, abbrevUnused, J, characterUnused, createVariable(() => model.bead.potentialEnergy))
-//    val thermalEnergySeries = new MControlGraphSeries(formatEnergy("energy.thermal".translate), thermalEnergyColor, abbrevUnused, J, characterUnused, createVariable(() => model.bead.thermalEnergy))
-//    val appliedWorkSeries = new MControlGraphSeries(formatWork("work.applied".translate), appliedWorkColor, abbrevUnused, J, characterUnused, createVariable(() => model.bead.getAppliedWork))
-//    val gravityWorkSeries = new MControlGraphSeries(formatWork("work.gravity".translate), gravityWorkColor, abbrevUnused, J, characterUnused, createVariable(() => model.bead.getGravityWork))
-//    val frictionWorkSeries = new MControlGraphSeries(formatWork("work.friction".translate), frictionWorkColor, abbrevUnused, J, characterUnused, createVariable(() => model.bead.getFrictiveWork))
+//    val totalEnergySeries = new IDataSeries(formatEnergy("energy.total".translate), totalEnergyColor, abbrevUnused, J, characterUnused, createVariable(() => model.bead.getTotalEnergy))
+//    val keSeries = new IDataSeries(formatEnergy("energy.kinetic".translate), kineticEnergyColor, abbrevUnused, J, characterUnused, createVariable(() => model.bead.kineticEnergy))
+//    val peSeries = new IDataSeries(formatEnergy("energy.potential".translate), potentialEnergyColor, abbrevUnused, J, characterUnused, createVariable(() => model.bead.potentialEnergy))
+//    val thermalEnergySeries = new IDataSeries(formatEnergy("energy.thermal".translate), thermalEnergyColor, abbrevUnused, J, characterUnused, createVariable(() => model.bead.thermalEnergy))
+//    val appliedWorkSeries = new IDataSeries(formatWork("work.applied".translate), appliedWorkColor, abbrevUnused, J, characterUnused, createVariable(() => model.bead.getAppliedWork))
+//    val gravityWorkSeries = new IDataSeries(formatWork("work.gravity".translate), gravityWorkColor, abbrevUnused, J, characterUnused, createVariable(() => model.bead.getGravityWork))
+//    val frictionWorkSeries = new IDataSeries(formatWork("work.friction".translate), frictionWorkColor, abbrevUnused, J, characterUnused, createVariable(() => model.bead.getFrictiveWork))
 //    val energyWorkSeriesList = totalEnergySeries :: keSeries :: peSeries :: thermalEnergySeries :: appliedWorkSeries :: gravityWorkSeries :: frictionWorkSeries :: Nil
 //
 //    val workEnergyGraph = new MotionSeriesGraph(totalEnergySeries, timeseriesModel, updateableObject, model, -2000, 2000) {
@@ -102,7 +102,7 @@
 //  }
 //
 //  def kineticEnergyGraph = {
-//    val keSeries = new MControlGraphSeries(formatEnergy("energy.kinetic".translate), kineticEnergyColor, abbrevUnused, J, characterUnused, createVariable(() => model.bead.kineticEnergy))
+//    val keSeries = new IDataSeries(formatEnergy("energy.kinetic".translate), kineticEnergyColor, abbrevUnused, J, characterUnused, createVariable(() => model.bead.kineticEnergy))
 //
 //    val keGraph = new MotionSeriesGraph(keSeries, timeseriesModel, updateableObject, model, -10000, 10000) {
 //      setEditable(false)
