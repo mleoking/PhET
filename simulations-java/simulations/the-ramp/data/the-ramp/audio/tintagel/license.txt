@@ -1,0 +1,10 @@
+###################################
+# License info for the-ramp
+# Automatically generated on Fri Aug 08 00:08:03 MDT 2008
+###################################
+
+DIAMOND.WAV license=public domain website=http://www.freesoundfiles.tintagel.net/Audio/free-wave-files-chimes/
+NICEDING.WAV license=public domain website=http://www.freesoundfiles.tintagel.net/Audio/free-wave-files-chimes/
+NOTIFY.WAV license=public domain website=http://www.freesoundfiles.tintagel.net/Audio/free-wave-files-chimes/
+PERSONAL.WAV license=public domain website=http://www.freesoundfiles.tintagel.net/Audio/free-wave-files-high-tech/
+
