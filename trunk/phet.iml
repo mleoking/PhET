@@ -148,6 +148,7 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/membrane-diffusion/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-flash/flash-launcher/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/jmol-12.0.RC25/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/the-ramp/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/bin" />
       <excludeFolder url="file://$MODULE_DIR$/build-tools/ant_output" />
       <excludeFolder url="file://$MODULE_DIR$/simulations-java/ant_output" />
@@ -1550,6 +1551,15 @@
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/simulations-java/contrib/jmol-12.0.RC25/jars/netscape.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/simulations-java/simulations/the-ramp/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
