@@ -1,24 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:cmp="edu.colorado.phet.densityflex.*"
                 xmlns:view="edu.colorado.phet.densityflex.view.*"
-                layout="absolute" width="100%" height="100%" applicationComplete="tab1.init()"
+                layout="absolute" width="100%" height="100%" applicationComplete="onApplicationComplete()"
                 preinitialize="init()">
-    <mx:TabNavigator width="100%" height="100%" change="onSwitch(event)">
+    <mx:TabNavigator width="100%" height="100%" change="onSwitch(event)" creationPolicy="all">
         <mx:Canvas label="Tab 1">
-            <view:DensityView3D width="100%" height="100%" id="tab1"/>
+            <view:DensityView3D width="100%" height="100%" id="tab0"/>
             <mx:Panel right="20" y="100">
-                <mx:RadioButton groupName="massVol" id="sameMass" label="Objects of same mass" selected="true" click="tab1.switchToSameMass()"/>
-                <mx:RadioButton groupName="massVol" id="sameVolume" label="Objects of same volume" click="tab1.switchToSameVolume()"/>
+                <mx:RadioButton groupName="massVol" id="sameMass" label="Objects of same mass" selected="true" click="tab0.switchToSameMass()"/>
+                <mx:RadioButton groupName="massVol" id="sameVolume" label="Objects of same volume" click="tab0.switchToSameVolume()"/>
                 <mx:Label text="Developer Controls"/>
-                <mx:HSlider minimum="5" maximum="50" tickInterval="1" labels="[0,25,50,75,100]" thumbDrag="tab1.testSliderChange(event)"/>                                
+                <mx:HSlider minimum="5" maximum="50" tickInterval="1" labels="[0,25,50,75,100]" thumbDrag="tab0.testSliderChange(event)"/>
+            </mx:Panel>
+            <mx:Panel right="10" bottom="10">
+                <mx:Button label="Reset All" click="resetTab0()"/>
+            </mx:Panel>
+        </mx:Canvas>
+        <mx:Canvas label="Tab 2">
+            <view:DensityView3D width="100%" height="100%" id="tab1"/>
+            <mx:Panel left="20" bottom="20">
+                <mx:CheckBox id="gravityForceVectorCheckBox" label="Gravity Force" selected="true" click="tab1.switchToSameMass()"/>
+                <mx:CheckBox id="buoyancyForceVectorCheckBox" label="Buoyancy Force" selected="true" click="tab1.switchToSameMass()"/>
+                <mx:CheckBox id="contactForceVectorCheckBox" label="Contact Force" selected="true" click="tab1.switchToSameMass()"/>
+                <mx:CheckBox id="fluidForceVectorCheckBox" label="Fluid Force" selected="true" click="tab1.switchToSameMass()"/>
             </mx:Panel>
             <mx:Panel right="10" bottom="10">
                 <mx:Button label="Reset All" click="resetTab1()"/>
             </mx:Panel>
         </mx:Canvas>
-        <mx:VBox label="Tab 2">
 
-        </mx:VBox>
+        <!--</mx:VBox>-->
         <mx:VBox label="Tab 3">
 
         </mx:VBox>
@@ -29,6 +40,12 @@
         import mx.events.SliderEvent;
 
         private var oldIndex:Number = 0;
+
+        private function onApplicationComplete():void {
+            tab0.init();
+            tab1.init();
+            tab1.pause();
+        }
 
         private function init():void {
             var menu:ContextMenu = new ContextMenu();
@@ -46,16 +63,21 @@
                 return;
             }
 
-            if (oldIndex == 0) {
-                tab1.pause();
-            }
-            if (newIndex == 0) {
-                tab1.start();
-            }
+            const tabList:Array = new Array(tab0,tab1);
+            const oldTab:DensityView3D = tabList[oldIndex];
+            const newTab:DensityView3D = tabList[newIndex];
+
+            oldTab.pause();
+            newTab.start();
 
             oldIndex = newIndex;
         }
 
+        private function resetTab0():void {
+            sameMass.selected = true;
+            tab0.reset();
+        }
+        
         private function resetTab1():void {
             sameMass.selected = true;
             tab1.reset();
