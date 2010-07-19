@@ -99,11 +99,11 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
         addControlFullWidth(greenhouseGasPanel);
         
         // Add buttons for selecting greenhouse gas.
-        co2Selector = createAndAttachSelectorPanel( "CO2", createImageFromMolecule( new CO2() ), PhotonTarget.CO2 );
-        greenhouseGasPanel.add(co2Selector);
-        
         h2oSelector = createAndAttachSelectorPanel( "H2O", createImageFromMolecule( new H2O() ), PhotonTarget.H2O );
         greenhouseGasPanel.add(h2oSelector);
+        
+        co2Selector = createAndAttachSelectorPanel( "CO2", createImageFromMolecule( new CO2() ), PhotonTarget.CO2 );
+        greenhouseGasPanel.add(co2Selector);
         
         ch4Selector = createAndAttachSelectorPanel( "CH4", createImageFromMolecule( new CH4() ), PhotonTarget.CH4 );
         greenhouseGasPanel.add(ch4Selector);
