@@ -58,10 +58,6 @@ class RampForceControlChart(motionSeriesModel: MotionSeriesModel) {
     override def units = _units
   }
 
-  val parallelAppliedForceVariable = new MutableDouble(motionSeriesModel.bead.parallelAppliedForce) {
-    motionSeriesModel.bead.parallelAppliedForceListeners += (() => {value = motionSeriesModel.bead.parallelAppliedForce})
-  }
-
   def parallelFriction = motionSeriesModel.bead.frictionForceVector.getValue dot motionSeriesModel.bead.getRampUnitVector
 
   def parallelGravity = motionSeriesModel.bead.gravityForceVector.getValue dot motionSeriesModel.bead.getRampUnitVector
@@ -70,27 +66,28 @@ class RampForceControlChart(motionSeriesModel: MotionSeriesModel) {
 
   def parallelTotalForce = motionSeriesModel.bead.totalForceVector.getValue dot motionSeriesModel.bead.getRampUnitVector
 
-  val frictionVariable = new MutableDouble(parallelFriction)
-  val gravityVariable = new MutableDouble(parallelGravity)
-  val wallVariable = new MutableDouble(parallelWall)
-  val totalForceVariable = new MutableDouble(parallelTotalForce)
+  val parallelAppliedForceVariable = new MutableDouble(motionSeriesModel.bead.parallelAppliedForce) {
+    motionSeriesModel.bead.parallelAppliedForceListeners += (() => {value = motionSeriesModel.bead.parallelAppliedForce})
+  }
+  val frictionVariable = new MutableDouble(parallelFriction) {
+    motionSeriesModel.stepListeners += (() => {value = parallelFriction})
+  }
+  val gravityVariable = new MutableDouble(parallelGravity) {
+    motionSeriesModel.stepListeners += (() => {value = parallelGravity})
+  }
+  val wallVariable = new MutableDouble(parallelWall) {
+    motionSeriesModel.stepListeners += (() => {value = parallelWall})
+  }
+  val totalForceVariable = new MutableDouble(parallelTotalForce) {
+    motionSeriesModel.stepListeners += (() => {value = parallelTotalForce})
+  }
 
-  val appliedForceSeries = new MSControlGraphSeries("<html>F<sub>applied ||</sub></html>", MotionSeriesDefaults.appliedForceColor, "m/s/s", parallelAppliedForceVariable) {
-    motionSeriesModel.stepListeners += (() => {addPoint(motionSeriesModel.bead.parallelAppliedForce, motionSeriesModel.getTime)})
-  }
-  val frictionForceSeries = new MSControlGraphSeries("<html>F<sub>friction ||</sub></html>", MotionSeriesDefaults.frictionForceColor, "m/s/s", frictionVariable) {
-    motionSeriesModel.stepListeners += (() => {addPoint(parallelFriction, motionSeriesModel.getTime)})
-  }
-  val gravityForceSeries = new MSControlGraphSeries("<html>F<sub>gravity ||</sub></html>", MotionSeriesDefaults.gravityForceColor, "m/s/s", gravityVariable) {
-    motionSeriesModel.stepListeners += (() => {addPoint(parallelGravity, motionSeriesModel.getTime)})
-  }
-  val wallForceSeries = new MSControlGraphSeries("<html>F<sub>wall ||</sub></html>", MotionSeriesDefaults.wallForceColor, "m/s/s", wallVariable) {
-    motionSeriesModel.stepListeners += (() => {addPoint(parallelGravity, motionSeriesModel.getTime)})
-  }
-  val totalForceSeries = new MSControlGraphSeries("<html>F<sub>total ||</sub></html>", MotionSeriesDefaults.totalForceColor, "m/s/s", totalForceVariable) {
-    motionSeriesModel.stepListeners += (() => {addPoint(parallelTotalForce, motionSeriesModel.getTime)})
-  }
-  //applied, friction, gravity, wall, total
+  val appliedForceSeries = new MSControlGraphSeries("<html>F<sub>applied ||</sub></html>", MotionSeriesDefaults.appliedForceColor, "m/s/s", parallelAppliedForceVariable)
+  val frictionForceSeries = new MSControlGraphSeries("<html>F<sub>friction ||</sub></html>", MotionSeriesDefaults.frictionForceColor, "m/s/s", frictionVariable)
+  val gravityForceSeries = new MSControlGraphSeries("<html>F<sub>gravity ||</sub></html>", MotionSeriesDefaults.gravityForceColor, "m/s/s", gravityVariable)
+  val wallForceSeries = new MSControlGraphSeries("<html>F<sub>wall ||</sub></html>", MotionSeriesDefaults.wallForceColor, "m/s/s", wallVariable)
+  val totalForceSeries = new MSControlGraphSeries("<html>F<sub>total ||</sub></html>", MotionSeriesDefaults.totalForceColor, "m/s/s", totalForceVariable)
+
   temporalChart.addDataSeries(appliedForceSeries, appliedForceSeries.color)
   temporalChart.addDataSeries(frictionForceSeries, frictionForceSeries.color)
   temporalChart.addDataSeries(gravityForceSeries, gravityForceSeries.color)
