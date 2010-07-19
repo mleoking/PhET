@@ -1,3 +1,4 @@
+Removed Coordinates and Energy tabs from the Ramp simulation
 # 1.03.68 (41882) Jun 23, 2010
 Moved "Ramp" and "Forces and Motion" sims back into same package
 Changed the "Go!" button into a button with the same icon as the clock controls play button

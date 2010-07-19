@@ -155,11 +155,12 @@ object ForceGraphsApplication {
  * Main class for the Ramp application and all its modules.
  */
 class RampApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
-//  addModule(new IntroRampModule(getPhetFrame))
+  addModule(new IntroRampModule(getPhetFrame))
   addModule(new ForceGraphsModule(getPhetFrame))
+  //At 7-6-2010 Meeting we Decided to remove the Coordinate tab and Work/Energy tab, but keep the code for possible use in the future
 //  addModule(new CoordinatesRampModule(getPhetFrame))
 //  addModule(new WorkEnergyModule(getPhetFrame))
-//  addModule(new RobotMovingCompanyModule(getPhetFrame))
+  addModule(new RobotMovingCompanyModule(getPhetFrame))
 
   //Add a menu item that shows the developer dialog to the PhETFrame's developer menu
   getPhetFrame.getDeveloperMenu.add(new JMenuItem("Configure Motion Series".literal) {
