@@ -137,7 +137,6 @@ public class NumericalBarMagnet extends AbstractMagnet {
              * If we're at one of the index maximums, then we're exactly on the outer edge of the grid.
              * Back up by 1 so that we'll have a bounding rectangle.
              */
-            //TODO discuss this with Mike
             if ( columnIndex == componentValues.length - 1 ) {
                 columnIndex -= 1;
             }
