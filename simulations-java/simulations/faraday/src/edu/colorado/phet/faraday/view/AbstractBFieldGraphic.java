@@ -67,7 +67,7 @@ public abstract class AbstractBFieldGraphic extends PhetGraphic {
     /*
      * GridPoint describes a point on the grid.
      */
-    protected class GridPoint {
+    protected static class GridPoint {
 
         public double _x, _y;
         public double _direction;
