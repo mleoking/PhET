@@ -1,3 +1,5 @@
+# 2.03.05 (42426) Jul 19, 2010
+7/19/10 dev version to demonstrate scaling of B-field intensity in the view
 7/16/10 #2236, add B-field intensity scaling to view, with developer control
 7/16/10 move ElectronPathDescriptor to view package 
 7/16/10 #2236, delete old dipole magnet model (DipoleMagnet)
