@@ -133,8 +133,4 @@ class MSDataSeries(_title: String, _color: Color, _units: String, value: Mutable
   def units = _units
 
   def color = _color
-
-  def setVisible(b: Boolean) = {}
-
-  def isVisible() = true
 }
