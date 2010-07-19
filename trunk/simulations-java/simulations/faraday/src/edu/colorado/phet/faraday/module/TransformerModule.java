@@ -266,7 +266,8 @@ public class TransformerModule extends FaradayModule {
                 
                 DeveloperControlsPanel developerControlsPanel = new DeveloperControlsPanel( 
                         null, _pickupCoilModel, _lightbulbModel, _voltmeterModel, 
-                        _pickupCoilGraphic, _electromagnetGraphic, _pickupCoilGraphic.getLightbulbGraphic() );
+                        _pickupCoilGraphic, _electromagnetGraphic, _pickupCoilGraphic.getLightbulbGraphic(),
+                        null, _bFieldOutsideGraphic );
                 controlPanel.addControlFullWidth( developerControlsPanel );
             }
             

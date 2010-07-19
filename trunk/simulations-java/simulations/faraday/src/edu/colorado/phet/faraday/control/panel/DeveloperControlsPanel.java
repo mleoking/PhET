@@ -18,10 +18,11 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.faraday.FaradayConstants;
-import edu.colorado.phet.faraday.model.*;
-import edu.colorado.phet.faraday.view.ElectromagnetGraphic;
-import edu.colorado.phet.faraday.view.LightbulbGraphic;
-import edu.colorado.phet.faraday.view.PickupCoilGraphic;
+import edu.colorado.phet.faraday.model.AbstractMagnet;
+import edu.colorado.phet.faraday.model.Lightbulb;
+import edu.colorado.phet.faraday.model.PickupCoil;
+import edu.colorado.phet.faraday.model.Voltmeter;
+import edu.colorado.phet.faraday.view.*;
 
 
 /**
@@ -48,7 +49,9 @@ public class DeveloperControlsPanel extends FaradayPanel {
             final Voltmeter voltmeterModel,
             final PickupCoilGraphic pickupCoilGraphic,
             final ElectromagnetGraphic electromagnetGraphic,
-            final LightbulbGraphic lightbulbGraphic ) {
+            final LightbulbGraphic lightbulbGraphic,
+            final BFieldInsideGraphic bFieldInsideGraphic, 
+            final BFieldOutsideGraphic bFieldOutsideGraphic ) {
 
         super();
         
@@ -103,6 +106,31 @@ public class DeveloperControlsPanel extends FaradayPanel {
                 }
             } );
             layout.addComponent(  displayFluxCheckBox, row++, 0 );
+        }
+        
+        // B-Field display scale
+        if ( bFieldInsideGraphic != null || bFieldOutsideGraphic != null ) {
+            double min = FaradayConstants.GRID_INTENSITY_SCALE_MIN;
+            double max = FaradayConstants.GRID_INTENSITY_SCALE_MAX;
+            double value = ( bFieldInsideGraphic != null ) ? bFieldInsideGraphic.getIntensityScale() : bFieldOutsideGraphic.getIntensityScale();
+            final LinearValueControl bFieldScaleControl = new LinearValueControl( min, max, "B-field scale:", "0.0", "" );
+            bFieldScaleControl.setValue( value );
+            bFieldScaleControl.setTextFieldEditable( true );
+            bFieldScaleControl.setTextFieldColumns( 3 );
+            bFieldScaleControl.setUpDownArrowDelta( 0.1 );
+            bFieldScaleControl.setBorder( BorderFactory.createEtchedBorder() );
+            bFieldScaleControl.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    double newValue = bFieldScaleControl.getValue();
+                    if ( bFieldInsideGraphic != null ) {
+                        bFieldInsideGraphic.setIntensityScale( newValue );
+                    }
+                    if ( bFieldOutsideGraphic != null ) {
+                        bFieldOutsideGraphic.setIntensityScale( newValue );
+                    }
+                }
+            } );
+            layout.addFilledComponent( bFieldScaleControl, row++, 0, GridBagConstraints.HORIZONTAL );
         }
         
         // Pickup coil EMF scale

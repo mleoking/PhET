@@ -176,7 +176,7 @@ public class BarMagnetModule extends FaradayModule {
             if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
                 controlPanel.addVerticalSpace( FaradayControlPanel.DEFAULT_VERTICAL_SPACE );
                 
-                DeveloperControlsPanel developerControlsPanel = new DeveloperControlsPanel( _barMagnetModel, null, null, null, null, null, null );
+                DeveloperControlsPanel developerControlsPanel = new DeveloperControlsPanel( _barMagnetModel, null, null, null, null, null, null, _bFieldInsideGraphic, _bFieldOutsideGraphic );
                 controlPanel.addControlFullWidth( developerControlsPanel );
             }
 
