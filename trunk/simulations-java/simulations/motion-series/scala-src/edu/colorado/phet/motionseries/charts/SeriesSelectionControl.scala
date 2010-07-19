@@ -116,21 +116,3 @@ class SeriesControlSelectorBox(val series: MSDataSeries) extends MyJCheckBox(ser
   setMargin(new Insets(0, 0, 0, 0)) //allows buttons to fit closer together
   setOpaque(false) //let the background show through, TODO: check whether this works on Mac
 }
-
-trait IDataSeries {
-  def title = "title"
-
-  def setVisible(b: Boolean) = {}
-
-  def isVisible():Boolean
-
-  def color = Color.red
-
-  def addValueChangeListener(listener: () => Unit) = {}
-
-  def getValue = 123.0
-
-  def units = "m"
-
-  def setValue(v: Double) = true
-}
