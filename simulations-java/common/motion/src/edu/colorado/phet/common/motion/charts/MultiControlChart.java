@@ -6,6 +6,8 @@ import edu.umd.cs.piccolo.PNode;
 import java.util.ArrayList;
 
 /**
+ * A MultiControlChart is a collection of MinimizableControlCharts.  It manages their layout, visibility of shared components such as zoom buttons and domain axis labels.
+ *
  * @author Sam Reid
  */
 public class MultiControlChart extends PNode {
