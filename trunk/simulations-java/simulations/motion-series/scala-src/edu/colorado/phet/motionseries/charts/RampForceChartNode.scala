@@ -28,36 +28,6 @@ class RampForceMinimizableControlChart(motionSeriesModel: MotionSeriesModel) ext
 class RampForceControlChart(motionSeriesModel: MotionSeriesModel) {
   val temporalChart = new TemporalChart(new java.awt.geom.Rectangle2D.Double(0, -2000, 20, 4000), new ChartCursor())
 
-  class MutableDouble(private var _value: Double) extends Observable {
-    def value = _value
-
-    def value_=(x: Double) = {
-      _value = x
-      notifyListeners()
-    }
-
-    def apply() = value
-  }
-
-  class MSControlGraphSeries(_title: String, _color: Color, _units: String, value: MutableDouble) extends TemporalDataSeries with MControlGraphSeries {
-    motionSeriesModel.stepListeners += (() => {addPoint(value(), motionSeriesModel.getTime)})
-    override def title = _title
-
-    override def setVisible(b: Boolean) = {}
-
-    override def isVisible() = true
-
-    override def color = _color
-
-    override def addValueChangeListener(listener: () => Unit) = {
-      value.addListener(listener)
-    }
-
-    override def getValue = value()
-
-    override def units = _units
-  }
-
   def parallelFriction = motionSeriesModel.bead.frictionForceVector.getValue dot motionSeriesModel.bead.getRampUnitVector
 
   def parallelGravity = motionSeriesModel.bead.gravityForceVector.getValue dot motionSeriesModel.bead.getRampUnitVector
@@ -82,11 +52,11 @@ class RampForceControlChart(motionSeriesModel: MotionSeriesModel) {
     motionSeriesModel.stepListeners += (() => {value = parallelTotalForce})
   }
 
-  val appliedForceSeries = new MSControlGraphSeries("<html>F<sub>applied ||</sub></html>", MotionSeriesDefaults.appliedForceColor, "m/s/s", parallelAppliedForceVariable)
-  val frictionForceSeries = new MSControlGraphSeries("<html>F<sub>friction ||</sub></html>", MotionSeriesDefaults.frictionForceColor, "m/s/s", frictionVariable)
-  val gravityForceSeries = new MSControlGraphSeries("<html>F<sub>gravity ||</sub></html>", MotionSeriesDefaults.gravityForceColor, "m/s/s", gravityVariable)
-  val wallForceSeries = new MSControlGraphSeries("<html>F<sub>wall ||</sub></html>", MotionSeriesDefaults.wallForceColor, "m/s/s", wallVariable)
-  val totalForceSeries = new MSControlGraphSeries("<html>F<sub>total ||</sub></html>", MotionSeriesDefaults.totalForceColor, "m/s/s", totalForceVariable)
+  val appliedForceSeries = new MSDataSeries("<html>F<sub>applied ||</sub></html>", MotionSeriesDefaults.appliedForceColor, "m/s/s", parallelAppliedForceVariable, motionSeriesModel)
+  val frictionForceSeries = new MSDataSeries("<html>F<sub>friction ||</sub></html>", MotionSeriesDefaults.frictionForceColor, "m/s/s", frictionVariable, motionSeriesModel)
+  val gravityForceSeries = new MSDataSeries("<html>F<sub>gravity ||</sub></html>", MotionSeriesDefaults.gravityForceColor, "m/s/s", gravityVariable, motionSeriesModel)
+  val wallForceSeries = new MSDataSeries("<html>F<sub>wall ||</sub></html>", MotionSeriesDefaults.wallForceColor, "m/s/s", wallVariable, motionSeriesModel)
+  val totalForceSeries = new MSDataSeries("<html>F<sub>total ||</sub></html>", MotionSeriesDefaults.totalForceColor, "m/s/s", totalForceVariable, motionSeriesModel)
 
   temporalChart.addDataSeries(appliedForceSeries, appliedForceSeries.color)
   temporalChart.addDataSeries(frictionForceSeries, frictionForceSeries.color)
@@ -94,7 +64,7 @@ class RampForceControlChart(motionSeriesModel: MotionSeriesModel) {
   temporalChart.addDataSeries(wallForceSeries, wallForceSeries.color)
   temporalChart.addDataSeries(frictionForceSeries, frictionForceSeries.color)
 
-  val additionalSerieses: List[MControlGraphSeries] = frictionForceSeries :: gravityForceSeries :: wallForceSeries :: totalForceSeries :: Nil
+  val additionalSerieses: List[MSDataSeries] = frictionForceSeries :: gravityForceSeries :: wallForceSeries :: totalForceSeries :: Nil
   val controlPanel = new PNode {
     addChild(new PSwing(new SeriesSelectionControl("forces.parallel-title-with-units".translate, 5) {
       addToGrid(appliedForceSeries, createEditableLabel)
@@ -137,3 +107,34 @@ class RampForceControlChart(motionSeriesModel: MotionSeriesModel) {
   }
 }
 
+class MutableDouble(private var _value: Double) extends Observable {
+  def value = _value
+
+  def value_=(x: Double) = {
+    _value = x
+    notifyListeners()
+  }
+
+  def apply() = value
+}
+
+class MSDataSeries(_title: String, _color: Color, _units: String, value: MutableDouble, motionSeriesModel: MotionSeriesModel) extends TemporalDataSeries {
+  def title = _title
+  motionSeriesModel.stepListeners += (() => {addPoint(value(), motionSeriesModel.getTime)})
+
+  def addValueChangeListener(listener: () => Unit) = {
+    value.addListener(listener)
+  }
+
+  def getValue = value()
+
+  def setValue(v: Double) = {}
+
+  def units = _units
+
+  def color = _color
+
+  def setVisible(b: Boolean) = {}
+
+  def isVisible() = true
+}

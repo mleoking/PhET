@@ -58,12 +58,9 @@ public class MovingManNode extends PNode {
                 updateMan();
             }
         });
-        model.getVelocityGraphSeries().addListener(new TemporalDataSeries.Listener() {
+        model.getVelocityGraphSeries().addListener(new TemporalDataSeries.Adapter() {
             public void entireSeriesChanged() {
                 updateMan();
-            }
-
-            public void dataPointAdded(TimeData point) {
             }
         });
         updateMan();

@@ -297,6 +297,14 @@ public class TemporalChart extends PNode {
 
     private class LineSeriesNode extends PNode {
         public LineSeriesNode(final TemporalDataSeries dataSeries, Color color) {
+            TemporalDataSeries.Adapter updateVisibility = new TemporalDataSeries.Adapter() {
+                public void visibilityChanged() {
+                    setVisible(dataSeries.isVisible());
+                }
+            };
+            dataSeries.addListener(updateVisibility);
+            updateVisibility.visibilityChanged();
+
             //fixes: Chart series curves prevent grabbing of the chart playback cursor
             setPickable(false);
             setChildrenPickable(false);
@@ -322,7 +330,7 @@ public class TemporalChart extends PNode {
             };
             clip.addChild(path);
             addChild(clip);
-            final TemporalDataSeries.Listener seriesListener = new TemporalDataSeries.Listener() {
+            final TemporalDataSeries.Listener seriesListener = new TemporalDataSeries.Adapter() {
                 public void entireSeriesChanged() {
                     TimeData[] points = dataSeries.getData();
 
