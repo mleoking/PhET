@@ -8,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 
 
 /**
- * FaradayObservable extends SimpleObservable to by adding attributes
+ * FaradayObservable extends SimpleObservable by adding attributes
  * that are common to most observables in the Faraday simulation.  
  * Those attributes include:
  * <ul>
