@@ -1,0 +1,69 @@
+package edu.colorado.phet.therampscala.model
+
+
+import collection.mutable.ArrayBuffer
+import graphics.Rotatable
+import java.awt.geom.{Point2D, Line2D}
+import scalacommon.util.Observable
+import scalacommon.Predef._
+import scalacommon.math.Vector2D
+
+case class RampSegmentState(startPoint: Vector2D, endPoint: Vector2D) { //don't use Point2D since it's not immutable
+  def setStartPoint(newStartPoint: Vector2D) = new RampSegmentState(newStartPoint, endPoint)
+
+  def setEndPoint(newEndPoint: Vector2D) = new RampSegmentState(startPoint, newEndPoint)
+
+  def getUnitVector = (endPoint - startPoint).normalize
+
+  def setAngle(angle: Double) = new RampSegmentState(startPoint, new Vector2D(angle) * (endPoint - startPoint).magnitude)
+
+  def angle = (endPoint - startPoint).getAngle
+}
+class RampSegment(_state: RampSegmentState) extends Observable with Rotatable {
+  var state = _state;
+
+  def this(startPt: Point2D, endPt: Point2D) = this (new RampSegmentState(startPt, endPt))
+
+  def toLine2D = new Line2D.Double(state.startPoint, state.endPoint)
+
+  def startPoint = state.startPoint
+
+  def endPoint = state.endPoint
+
+  def startPoint_=(pt: Vector2D) = {
+    state = state.setStartPoint(pt)
+    notifyListeners()
+  }
+
+  def endPoint_=(pt: Vector2D) = {
+    state = state.setEndPoint(pt)
+    notifyListeners()
+  }
+
+  def length = (endPoint - startPoint).magnitude
+
+  def getUnitVector = state.getUnitVector
+
+  def setAngle(angle: Double) = {
+    state = state.setAngle(angle)
+    notifyListeners()
+  }
+
+  def angle = state.angle
+
+  private var _wetness = 0.0 // 1.0 means max wetness
+  def wetness = _wetness
+
+  import java.lang.Math._
+  def dropHit() = {
+    _wetness = min(_wetness + 0.1, 1.0)
+    wetnessListeners.foreach(_())
+  }
+
+  def stepInTime(dt: Double) = {
+    _wetness = max(_wetness - 0.01, 0.0)
+    wetnessListeners.foreach(_())
+  }
+
+  val wetnessListeners = new ArrayBuffer[() => Unit]
+}
