@@ -6,12 +6,12 @@ import java.awt.Frame;
 
 import javax.swing.JComponent;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 import edu.colorado.phet.greenhouse.controlpanel.PhotonAbsorptionControlPanel;
-import edu.colorado.phet.greenhouse.model.GreenhouseClock;
 import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel;
 import edu.colorado.phet.greenhouse.view.PhotonAbsorptionCanvas;
 
@@ -25,7 +25,19 @@ import edu.colorado.phet.greenhouse.view.PhotonAbsorptionCanvas;
 public class PhotonAbsorptionModule extends PiccoloModule {
     
     //----------------------------------------------------------------------------
-    // Instance data
+    // Class Data
+    //----------------------------------------------------------------------------
+    
+    // Constants that control the clock.  Note that since the true time scale
+    // is unreasonable (since we are working with flying photons and
+    // oscillating atoms) that we just use real time for the clock time and
+    // expect the model to move things at speeds that appear reasonable to the
+    // users.
+    private static final int CLOCK_DELAY = 1000 / GreenhouseDefaults.CLOCK_FRAME_RATE;
+    private static final double CLOCK_DT = 1000 / GreenhouseDefaults.CLOCK_FRAME_RATE;
+    
+    //----------------------------------------------------------------------------
+    // Instance Data
     //----------------------------------------------------------------------------
 
     private PhotonAbsorptionModel model;
@@ -39,10 +51,10 @@ public class PhotonAbsorptionModule extends PiccoloModule {
 
     public PhotonAbsorptionModule( Frame parentFrame ) {
     	// TODO: i18n
-        super( "Photon Absorption", new GreenhouseClock());
+        super( "Photon Absorption", new ConstantDtClock( CLOCK_DELAY, CLOCK_DT ));
         
         // Physical model
-        model = new PhotonAbsorptionModel( (GreenhouseClock)getClock());
+        model = new PhotonAbsorptionModel( (ConstantDtClock)getClock());
 
         // Canvas
         canvas = new PhotonAbsorptionCanvas(model);

@@ -11,6 +11,7 @@ import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
 
 /**
@@ -36,7 +37,7 @@ public class PhotonAbsorptionModel {
     
     // Velocity of emitted photons.  Since they are emitted horizontally, only
     // one value is needed.
-    private static final float PHOTON_VELOCITY_X = 4.0f;
+    private static final float PHOTON_VELOCITY_X = 2.0f;
     
     // Distance for a photon to travel before being removed from the model.
     // This value is essentially arbitrary, and needs to be set such that the
@@ -84,7 +85,7 @@ public class PhotonAbsorptionModel {
     // Constructor(s)
     //----------------------------------------------------------------------------
     
-    public PhotonAbsorptionModel(GreenhouseClock clock){
+    public PhotonAbsorptionModel(ConstantDtClock clock){
         
         // Listen to the clock in order to step this model.
         clock.addClockListener(new ClockAdapter(){
