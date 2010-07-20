@@ -22,7 +22,7 @@
                 <mx:CheckBox id="gravityForceVectorCheckBox" label="Gravity Force" selected="true" change="tab1.setGravityForceVisible(gravityForceVectorCheckBox.selected)"/>
                 <mx:CheckBox id="buoyancyForceVectorCheckBox" label="Buoyancy Force" selected="true" change="tab1.setBuoyancyForceVisible(buoyancyForceVectorCheckBox.selected)"/>
                 <mx:CheckBox id="contactForceVectorCheckBox" label="Contact Force" selected="true" change="tab1.setContactForceVisible(contactForceVectorCheckBox.selected)"/>
-                <mx:CheckBox id="fluidDragForceVectorCheckBox" label="Fluid Force" selected="true" change="tab1.setFluidDragForceVisible(fluidDragForceVectorCheckBox.selected)"/>
+                <mx:CheckBox id="fluidDragForceVectorCheckBox" label="Fluid Drag Force" selected="true" change="tab1.setFluidDragForceVisible(fluidDragForceVectorCheckBox.selected)"/>
             </mx:Panel>
             <mx:Panel right="10" bottom="10">
                 <mx:Button label="Reset All" click="resetTab1()"/>
