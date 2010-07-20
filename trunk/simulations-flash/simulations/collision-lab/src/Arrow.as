@@ -1,4 +1,4 @@
-﻿//general class for arrow graphic, used as momentum arrow
+﻿//general class for arrow graphic, used as momentum arrow and as ball arrow
 package{
 	import flash.display.*;
 	import flash.events.*;
@@ -106,8 +106,8 @@ package{
 		//x coordinate in pixels of center of head of arrow
 		public function getHeadCenterX():Number{
 			var headCntr:Number = this.lengthInPix - this.headL/2;
-			//trace("Arrow: "+this.lengthInPix);
-			//trace("Arrow: "+headCntr)
+			//trace("Arrow Full Length: "+this.lengthInPix);
+			//trace("Arrow Full Length - length of head: "+headCntr)
 			var LX:Number = headCntr*Math.cos(this.angleInRad);
 			return LX;
 		}
