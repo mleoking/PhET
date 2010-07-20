@@ -169,11 +169,13 @@ public class DensityView extends UIComponent {
     }
 
     private function addDensityObject(densityObject:DensityObject):void {
-        const densityObjectNode:DensityObjectNode = densityObject.createNode(this);
+        const densityObjectNode:DensityObjectNode = createDensityObjectNode(densityObject);
         scene.addChild(densityObjectNode);
-
-        densityObjectNode.addArrowNode(new ArrowNode(densityObjectNode.getDensityObject().getVelocityArrowModel(), 50));
         densityObjectNodeList.push(densityObjectNode);
+    }
+
+    protected function createDensityObjectNode(densityObject:DensityObject):DensityObjectNode {
+        return densityObject.createNode(this);
     }
 
     public function initListeners():void {

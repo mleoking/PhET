@@ -1,5 +1,6 @@
 package edu.colorado.phet.densityflex.view {
 import edu.colorado.phet.densityflex.model.Block;
+import edu.colorado.phet.densityflex.model.DensityObject;
 import edu.colorado.phet.densityflex.model.Scale;
 
 import flash.geom.ColorTransform;
