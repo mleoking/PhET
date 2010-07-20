@@ -1,3 +1,5 @@
+# 0.01.02 (42471) Jul 20, 2010
+7/20/10 Multiple tabs and vectors
 # 0.01.01 (36253) Oct 30, 2009
 10/30/09 Density flex first test deployment
 Set the front material to smooth to make the fonts smooth instead of jagged
