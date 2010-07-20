@@ -1,6 +1,8 @@
 package edu.colorado.phet.densityflex.view {
 import away3d.materials.ColorMaterial;
 
+import away3d.materials.ShadingColorMaterial;
+
 import edu.colorado.phet.densityflex.model.ArrowModel;
 
 public class ArrowNode extends MyMesh {
@@ -9,7 +11,7 @@ public class ArrowNode extends MyMesh {
     var scaleFromModelToView:Number;
 
     public function ArrowNode(arrowModel:ArrowModel, scaleFromModelToView:Number, color:*, init:Object = null) {
-        super(combine({material:new ColorMaterial(color)}, init));
+        super(combine({material:new ShadingColorMaterial(color, {alpha: 0.75})}, init));
         this.arrowModel = arrowModel;
         this.scaleFromModelToView = scaleFromModelToView;
         this.mouseEnabled = false; // don't want to click on arrows, but instead the objects behind them

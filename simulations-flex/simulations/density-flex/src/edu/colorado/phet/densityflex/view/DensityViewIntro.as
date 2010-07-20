@@ -12,11 +12,11 @@ public class DensityViewIntro extends DensityView {
 
     override public function initObjects():void {
         super.initObjects();
-        initializeTab1SameMass();
+        initializeSameMass();
         //model.initializeTab1SameVolume();
     }
 
-    public function initializeTab1SameMass():void {
+    public function initializeSameMass():void {
         model.addDensityObject(Block.newBlockSizeMass(3, 4.0, -4.5, 0, new ColorTransform(0.5, 0.5, 0), model));
         model.addDensityObject(Block.newBlockSizeMass(2, 4.0, -1.5, 0, new ColorTransform(0, 0, 1), model));
         model.addDensityObject(Block.newBlockSizeMass(1.5, 4.0, 1.5, 0, new ColorTransform(0, 1, 0), model));
@@ -24,7 +24,7 @@ public class DensityViewIntro extends DensityView {
         addScales();
     }
 
-    public function initializeTab1SameVolume():void {
+    public function initializeSameVolume():void {
         model.addDensityObject(Block.newBlockDensitySize(1.0 / 8.0, 2, -4.5, 0, new ColorTransform(0.5, 0.5, 0), model));
         model.addDensityObject(Block.newBlockDensitySize(0.5, 2, -1.5, 0, new ColorTransform(0, 0, 1), model));
         model.addDensityObject(Block.newBlockDensitySize(2, 2, 1.5, 0, new ColorTransform(0, 1, 0), model));
@@ -34,7 +34,7 @@ public class DensityViewIntro extends DensityView {
 
     public function switchToSameMass():void {
         model.clearDensityObjects();
-        initializeTab1SameMass();
+        initializeSameMass();
     }
 
     override public function reset():void {
@@ -44,7 +44,7 @@ public class DensityViewIntro extends DensityView {
 
     public function switchToSameVolume():void {
         model.clearDensityObjects();
-        initializeTab1SameVolume();
+        initializeSameVolume();
     }
 }
 }
