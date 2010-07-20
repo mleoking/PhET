@@ -7,12 +7,12 @@ import edu.colorado.phet.circuitconstructionkit.model.Circuit;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
 import edu.colorado.phet.circuitconstructionkit.model.analysis.KirkhoffSolver;
 import edu.colorado.phet.circuitconstructionkit.persistence.CircuitXML;
+import edu.colorado.phet.circuitconstructionkit.view.piccolo.BranchNodeFactory;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.servicemanager.InputStreamFileContents;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.view.HelpPanel;
-import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
@@ -110,11 +110,6 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
 //        titlePanel.add( logoLabel );
 //        add( titlePanel );
         add(filePanel);
-        addControl(new ResetAllButton(new Resettable() {
-            public void reset() {
-                module.clear();
-            }
-        }, this));
         if (module.getParameters().isUseVisualControlPanel()) {
             add(visualPanel);
         }
@@ -144,6 +139,12 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
         if (module.getParameters().getAllowDynamics()) {
             addControl(new ResetDynamicsButton(module));
         }
+        addControl(Box.createVerticalStrut(5));
+        addResetAllButton(new Resettable() {
+            public void reset() {
+                module.clear();
+            }
+        });
         super.addControlFullWidth(new HelpPanel(m));
     }
 
@@ -255,12 +256,16 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
     }
 
     private JPanel makeVisualPanel() {
-        JRadioButton lifelike = new JRadioButton(CCKResources.getString("CCK3ControlPanel.LIfelikeRadioButton"), true);
-        JRadioButton schematic = new JRadioButton(CCKResources.getString("CCK3ControlPanel.SchematicRadioButton"), false);
+        final JRadioButton lifelike = new JRadioButton(CCKResources.getString("CCK3ControlPanel.LIfelikeRadioButton"), module.isLifelike());
+        final JRadioButton schematic = new JRadioButton(CCKResources.getString("CCK3ControlPanel.SchematicRadioButton"), !module.isLifelike());
 
-        ButtonGroup bg = new ButtonGroup();
-        bg.add(lifelike);
-        bg.add(schematic);
+        module.addBranchNodeFactoryListener(new BranchNodeFactory.Listener(){
+            public void displayStyleChanged() {
+                lifelike.setSelected(module.isLifelike());
+            schematic.setSelected(!module.isLifelike());
+            }
+        });
+
         lifelike.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 module.setLifelike(true);

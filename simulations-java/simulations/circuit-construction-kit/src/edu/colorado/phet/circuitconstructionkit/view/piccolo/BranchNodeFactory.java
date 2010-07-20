@@ -17,10 +17,12 @@ import java.util.ArrayList;
  */
 
 public class BranchNodeFactory {
-    private boolean lifelike = true;
+    private boolean DEFAULT_LIFELIKE = true;
+    private boolean lifelike = DEFAULT_LIFELIKE;
     private CCKModel cckModel;
     private JComponent component;
     private CCKModule module;
+    private ArrayList listeners = new ArrayList();
 
     public BranchNodeFactory(CCKModel cckModel, JComponent component, CCKModule module, boolean lifelike) {
         this.cckModel = cckModel;
@@ -98,7 +100,9 @@ public class BranchNodeFactory {
         return lifelike;
     }
 
-    private ArrayList listeners = new ArrayList();
+    public void resetAll() {
+        setLifelike(DEFAULT_LIFELIKE);
+    }
 
     public static interface Listener {
         void displayStyleChanged();
