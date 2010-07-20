@@ -202,7 +202,7 @@
 
             foreach($backup_dir_list as $backup_dir){
                 flushing_echo("Removing backup dir = ".$backup_dir);
-                rmdir($backup_dir);
+                file_remove_all( $backup_dir );
                 $num_excess_backups--;
                 if ( $num_excess_backups <= 0 ){
                     // We now have the correct number of backups, so bail out
