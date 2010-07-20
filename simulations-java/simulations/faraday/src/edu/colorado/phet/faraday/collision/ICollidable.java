@@ -1,17 +1,14 @@
-/* Copyright 2005-2008, University of Colorado */
+/* Copyright 2005-2010, University of Colorado */
 
 package edu.colorado.phet.faraday.collision;
 
-import java.awt.Rectangle;
-
-
+import java.awt.Shape;
 
 /**
  * ICollidable is the interface implemented by all objects that 
  * participate in collision detection.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public interface ICollidable {
 
@@ -26,7 +23,7 @@ public interface ICollidable {
      * Gets the bounds that define the collidable area of the object.
      * If an object is invisible, the bounds returned should be null.
      * 
-     * @return an array of Rectangle, possibly null
+     * @return an array of Shapes, possibly null
      */
-    public Rectangle[] getCollisionBounds();
+    public Shape[] getCollisionBounds();
 }

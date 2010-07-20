@@ -1,10 +1,10 @@
-/* Copyright 2004-2008, University of Colorado */
+/* Copyright 2004-2010, University of Colorado */
 
 package edu.colorado.phet.faraday.view;
 
 import java.awt.Component;
 import java.awt.Point;
-import java.awt.Rectangle;
+import java.awt.Shape;
 
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -272,7 +272,7 @@ public class PickupCoilGraphic extends GraphicLayerSet
     /*
      * @see edu.colorado.phet.faraday.view.ICollidable#getCollisionBounds()
      */
-    public Rectangle[] getCollisionBounds() {
+    public Shape[] getCollisionBounds() {
        return _coilGraphic.getCollisionBounds();
     }
     

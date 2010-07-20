@@ -1,16 +1,20 @@
-/* Copyright 2005-2008, University of Colorado */
+/* Copyright 2005-2010, University of Colorado */
 
 package edu.colorado.phet.faraday.collision;
 
-import java.awt.Rectangle;
+import java.awt.Shape;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Area;
 import java.util.HashSet;
-import java.util.Iterator;
 
 /**
  * CollisionDetector handles collision detection.
  * <b>
- * Each object can specify a set of Rectangles that define its collision bounds.
- * Two objects collide if any of the Rectangles in their collision bounds intersect.
+ * Each object can specify a set of Shapes that define its collision bounds.
+ * Two objects collide if any of the Shapes in their collision bounds intersect.
+ * <p>
+ * This strategy is not scaleable. It works OK for this sim because we have
+ * a very small number of objects that may collide.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -24,10 +28,7 @@ public class CollisionDetector {
     private ICollidable _object;
     
     // The object that we might collide with.
-    private HashSet _collidables;
-    
-    // Proposed bounds for moving the object.
-    private Rectangle _proposedBounds;
+    private HashSet<ICollidable> _collidables;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -40,8 +41,7 @@ public class CollisionDetector {
      */
     public CollisionDetector( ICollidable object ) {
         _object = object;
-        _collidables = new HashSet();
-        _proposedBounds = new Rectangle();
+        _collidables = new HashSet<ICollidable>();
     }
     
     //----------------------------------------------------------------------------
@@ -96,10 +96,8 @@ public class CollisionDetector {
      */
     public boolean wouldCollide( int dx, int dy ) {
         boolean collides = false;
-        Iterator i = _collidables.iterator();
-        while ( i.hasNext() ) {
-            ICollidable object = (ICollidable) i.next();
-            if ( wouldCollide( dx, dy, object ) ) {
+        for ( ICollidable collidable : _collidables ) {
+            if ( wouldCollide( dx, dy, collidable ) ) {
                 collides = true;
                 break;
             }
@@ -117,13 +115,25 @@ public class CollisionDetector {
      */
     private boolean wouldCollide( int dx, int dy, ICollidable candidate ) {
         boolean collides = false;
-        Rectangle[] bounds = _object.getCollisionBounds();
-        for ( int j = 0; j < bounds.length && collides == false; j++ ) {
-            _proposedBounds.setBounds( bounds[j].x + dx, bounds[j].y + dy, bounds[j].width, bounds[j].height );
-            Rectangle[] collisionBounds = candidate.getCollisionBounds();
-            if ( collisionBounds != null ) {
-                for ( int i = 0; i < collisionBounds.length && collides == false; i++ ) {
-                    if ( _proposedBounds.intersects( collisionBounds[i] ) ) {
+        
+        AffineTransform t = new AffineTransform();
+        t.translate( dx, dy );
+        
+        // for each shape that defines the bounds of our object...
+        Shape[] bounds = _object.getCollisionBounds();
+        for ( int i = 0; i < bounds.length && collides == false; i++ ) {
+            
+            // translate the shape
+            Shape movedBounds = t.createTransformedShape( bounds[i] );
+            
+            // determine if the shape intersects with the candidate object's shapes
+            Shape[] candidateBounds = candidate.getCollisionBounds();
+            if ( candidateBounds != null ) {
+                for ( int j = 0; j < candidateBounds.length && collides == false; j++ ) {
+                    Area area = new Area( movedBounds );
+                    Area candidateArea = new Area( candidateBounds[j] );
+                    area.intersect( candidateArea );
+                    if ( !area.isEmpty() ) {
                         collides = true;
                     }
                 }

@@ -1,4 +1,4 @@
-/* Copyright 2005-2008, University of Colorado */
+/* Copyright 2005-2010, University of Colorado */
 
 package edu.colorado.phet.faraday.view;
 
@@ -133,6 +133,7 @@ public class FaradayMouseHandler extends MouseInputAdapter {
                 boolean collidesNow = _collisionDetector.collidesNow();
                 boolean wouldCollide = _collisionDetector.wouldCollide( dx, dy );
                 collision = !collidesNow && wouldCollide;
+                System.out.println( "collision=" + collision );//XXX
             }
 
             if ( outOfBounds || collision ) {
