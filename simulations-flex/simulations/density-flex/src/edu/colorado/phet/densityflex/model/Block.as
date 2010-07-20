@@ -38,7 +38,7 @@ public class Block extends Cuboid {
         return color;
     }
 
-    override public function createNode(view:DensityView):DensityObjectNode{
+    override public function createNode(view:DensityView):DensityObjectNode {
         var blockNode:BlockNode = new BlockNode(this, view);
         return blockNode;
     }
