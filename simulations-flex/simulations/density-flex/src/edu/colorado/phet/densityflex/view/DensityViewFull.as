@@ -16,7 +16,8 @@ public class DensityViewFull extends DensityView {
 
     override protected function createDensityObjectNode(densityObject:DensityObject):DensityObjectNode {
         var densityObjectNode:DensityObjectNode = super.createDensityObjectNode(densityObject);
-        densityObjectNode.addArrowNode(new ArrowNode(densityObjectNode.getDensityObject().getVelocityArrowModel(), 50));
+        densityObjectNode.addArrowNode(new ArrowNode(densityObjectNode.getDensityObject().getVelocityArrowModel(), 50, 0xFF0000));
+        densityObjectNode.addArrowNode(new ArrowNode(densityObjectNode.getDensityObject().getGravityForceArrowModel(), 2, 0x0000FF));
         return densityObjectNode;
     }
 }

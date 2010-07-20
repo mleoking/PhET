@@ -94,6 +94,8 @@ public class DensityModel {
         return densityObjects;
     }
 
+    public static var ACCELERATION_DUE_TO_GRAVITY:Number = 9.8;
+
     public function step():void {
         DebugText.clear();
 
@@ -114,7 +116,7 @@ public class DensityModel {
                 var body:b2Body = cuboid.getBody();
 
                 // gravity?
-                body.ApplyForce(new b2Vec2(0, -9.8 * cuboid.getVolume() * cuboid.getDensity()), body.GetPosition());
+                body.ApplyForce(new b2Vec2(0, -ACCELERATION_DUE_TO_GRAVITY * cuboid.getVolume() * cuboid.getDensity()), body.GetPosition());
 
                 if (waterY < cuboid.getBottomY()) {
                     continue;
@@ -128,7 +130,7 @@ public class DensityModel {
                 }
                 // TODO: add in liquid density
 
-                body.ApplyForce(new b2Vec2(0, 9.8 * submergedVolume), body.GetPosition());
+                body.ApplyForce(new b2Vec2(0, ACCELERATION_DUE_TO_GRAVITY * submergedVolume), body.GetPosition());
 
                 var dragForce:b2Vec2 = body.GetLinearVelocity().Copy();
                 dragForce.Multiply(-2 * submergedVolume);
