@@ -12,6 +12,7 @@ public class ArrowNode extends MyMesh {
         super(combine({material:new ColorMaterial(color)}, init));
         this.arrowModel = arrowModel;
         this.scaleFromModelToView = scaleFromModelToView;
+        this.mouseEnabled = false; // don't want to click on arrows, but instead the objects behind them
         arrowModel.addListener(doUpdate);
         doUpdate();
         //        super( combine( {outline:"black|2", material:new ColorMaterial( 0xFF0000 )}, init ) );
