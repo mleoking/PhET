@@ -3,7 +3,7 @@ package edu.colorado.phet.movingman.model;
 import bsh.EvalError;
 import edu.colorado.phet.common.motion.MotionMath;
 import edu.colorado.phet.common.motion.charts.ChartCursor;
-import edu.colorado.phet.common.motion.charts.MutableBoolean;
+import edu.colorado.phet.common.phetcommon.model.MutableBoolean;
 import edu.colorado.phet.common.motion.charts.Range;
 import edu.colorado.phet.common.motion.charts.TemporalDataSeries;
 import edu.colorado.phet.common.motion.model.TimeData;

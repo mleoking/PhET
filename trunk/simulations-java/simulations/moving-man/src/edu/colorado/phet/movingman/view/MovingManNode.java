@@ -1,9 +1,8 @@
 package edu.colorado.phet.movingman.view;
 
-import edu.colorado.phet.common.motion.charts.MutableBoolean;
+import edu.colorado.phet.common.phetcommon.model.MutableBoolean;
 import edu.colorado.phet.common.motion.charts.Range;
 import edu.colorado.phet.common.motion.charts.TemporalDataSeries;
-import edu.colorado.phet.common.motion.model.TimeData;
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;

@@ -142,7 +142,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
         addControl(Box.createVerticalStrut(5));
         addResetAllButton(new Resettable() {
             public void reset() {
-                module.clear();
+                module.resetAll();
             }
         });
         super.addControlFullWidth(new HelpPanel(m));

@@ -2,9 +2,6 @@ package edu.colorado.phet.circuitconstructionkit.controls;
 
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.CCKResources;
-import edu.colorado.phet.circuitconstructionkit.model.CircuitListenerAdapter;
-import edu.colorado.phet.circuitconstructionkit.model.Junction;
-import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -27,7 +24,7 @@ public class ShowReadoutPanel extends JPanel {
 
         showValues.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                module.setAllReadoutsVisible(showValues.isSelected());
+                module.setReadoutsVisible(showValues.isSelected());
             }
         });
     }

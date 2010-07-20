@@ -9,6 +9,7 @@ import edu.colorado.phet.circuitconstructionkit.view.CCKLookAndFeel;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.lifelike.BulbComponentNode;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.lifelike.BulbNode;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.*;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -38,6 +39,7 @@ public class ToolboxNode extends PhetPNode {
     private CCKModel model;
     private BranchNodeFactory branchNodeFactory;
     private CCKSimulationPanel cckSimulationPanel;
+    private MutableBoolean lifelikeProperty;
     private ArrayList branchMakers = new ArrayList();
     private static final int TOP_INSET = 30;
     private double betweenInset = 6;
@@ -46,12 +48,13 @@ public class ToolboxNode extends PhetPNode {
     private AmmeterMaker ammeterMaker;
     private ToolboxNode.WireMaker wireMaker;
 
-    public ToolboxNode(PhetPCanvas canvas, CCKModel model, CCKModule module, BranchNodeFactory branchNodeFactory, CCKSimulationPanel cckSimulationPanel) {
+    public ToolboxNode(PhetPCanvas canvas, CCKModel model, CCKModule module, BranchNodeFactory branchNodeFactory, CCKSimulationPanel cckSimulationPanel, MutableBoolean lifelikeProperty) {
         this.module = module;
         this.canvas = canvas;
         this.model = model;
         this.branchNodeFactory = branchNodeFactory;
         this.cckSimulationPanel = cckSimulationPanel;
+        this.lifelikeProperty = lifelikeProperty;
         this.circuitInteractionModel = new CircuitInteractionModel(model);
         this.toolboxBounds = new PPath(new Rectangle(100, 100));
         toolboxBounds.setStroke(new BasicStroke(2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL));
@@ -210,7 +213,7 @@ public class ToolboxNode extends PhetPNode {
 
         protected Branch createBranch() {
             Wire wire = new Wire(model.getCircuitChangeListener(), new Junction(0, 0), new Junction(1.5, 0));
-            wire.setThickness(branchNodeFactory.isLifelike() ? Wire.LIFELIKE_THICKNESS : Wire.SCHEMATIC_THICKNESS);
+            wire.setThickness(lifelikeProperty.getValue() ? Wire.LIFELIKE_THICKNESS : Wire.SCHEMATIC_THICKNESS);
             return wire;
         }
     }

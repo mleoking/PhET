@@ -6,6 +6,8 @@ import edu.colorado.phet.circuitconstructionkit.model.components.*;
 import edu.colorado.phet.circuitconstructionkit.model.grabbag.GrabBagResistor;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.lifelike.*;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.schematic.*;
+import edu.colorado.phet.common.phetcommon.model.MutableBoolean;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -17,22 +19,26 @@ import java.util.ArrayList;
  */
 
 public class BranchNodeFactory {
-    private boolean DEFAULT_LIFELIKE = true;
-    private boolean lifelike = DEFAULT_LIFELIKE;
     private CCKModel cckModel;
     private JComponent component;
     private CCKModule module;
+    private MutableBoolean lifelikeProperty;
     private ArrayList listeners = new ArrayList();
 
-    public BranchNodeFactory(CCKModel cckModel, JComponent component, CCKModule module, boolean lifelike) {
+    public BranchNodeFactory(CCKModel cckModel, JComponent component, CCKModule module, MutableBoolean lifelikeProperty) {
         this.cckModel = cckModel;
         this.component = component;
         this.module = module;
-        setLifelike(lifelike);
+        this.lifelikeProperty = lifelikeProperty;
+        lifelikeProperty.addObserver(new SimpleObserver() {
+            public void update() {
+                notifyDisplayStyleChanged();
+            }
+        });
     }
 
     protected BranchNode createNode(Branch branch) {
-        if (lifelike) {
+        if (lifelikeProperty.getValue()) {
             return createLifelikeNode(branch);
         } else {
             return createSchematicNode(branch);
@@ -89,19 +95,6 @@ public class BranchNodeFactory {
         } else {
             throw new RuntimeException("Unrecognized branch type: " + branch.getClass());
         }
-    }
-
-    public void setLifelike(boolean lifelike) {
-        this.lifelike = lifelike;
-        notifyDisplayStyleChanged();
-    }
-
-    public boolean isLifelike() {
-        return lifelike;
-    }
-
-    public void resetAll() {
-        setLifelike(DEFAULT_LIFELIKE);
     }
 
     public static interface Listener {
