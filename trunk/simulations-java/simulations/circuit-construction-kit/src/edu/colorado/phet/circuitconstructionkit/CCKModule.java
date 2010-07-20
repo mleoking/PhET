@@ -115,7 +115,7 @@ public class CCKModule extends PiccoloModule {
     }
 
     public void setAllReadoutsVisible(boolean r) {
-        getCircuitNode().setAllReadoutsVisible(r);
+        getCircuitNode().setReadoutsVisible(r);
     }
 
     public void setCircuit(Circuit circuit) {

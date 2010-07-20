@@ -17,74 +17,18 @@ import java.awt.event.ActionListener;
  */
 
 public class ShowReadoutPanel extends JPanel {
-    private JButton showValues;
-    private JButton hideValues;
+    private JCheckBox showValues;
     private CCKModule module;
 
     public ShowReadoutPanel(final CCKModule module) {
         this.module = module;
-        showValues = new JButton(CCKResources.getString("CCK3ControlPanel.ShowValuesCheckBox"));
-        hideValues = new JButton(CCKResources.getString("CCK3ControlPanel.HideValuesCheckBox"));
+        showValues = new JCheckBox(CCKResources.getString("CCK3ControlPanel.ShowValuesCheckBox"));
         add(showValues);
-        add(hideValues);
 
         showValues.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                module.setAllReadoutsVisible(true);
+                module.setAllReadoutsVisible(showValues.isSelected());
             }
         });
-        hideValues.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                module.setAllReadoutsVisible(false);
-            }
-        });
-        module.getCircuit().addCircuitListener(new CircuitListenerAdapter() {
-            public void branchAdded(Branch branch) {
-                update();
-            }
-
-            public void branchRemoved(Branch branch) {
-                update();
-            }
-
-            public void junctionAdded(Junction junction) {
-                update();
-            }
-
-            public void junctionsConnected(Junction a, Junction b, Junction newTarget) {
-                update();
-            }
-
-            public void junctionRemoved(Junction junction) {
-                update();
-            }
-
-            public void junctionsSplit(Junction old, Junction[] j) {
-                update();
-            }
-
-            public void editingChanged() {
-                update();
-            }
-        });
-        update();
-    }
-
-    private void update() {
-        if (module.getCircuit().numBranches() == 0) {
-            showValues.setEnabled(false);
-            hideValues.setEnabled(false);
-        } else {
-            showValues.setEnabled(!allShown());
-            hideValues.setEnabled(!allHidden());
-        }
-    }
-
-    private boolean allHidden() {
-        return module.getCircuit().getNumEditing() == 0;
-    }
-
-    private boolean allShown() {
-        return module.getCircuit().getNumEditing() == module.getCircuit().numEditable();
     }
 }
