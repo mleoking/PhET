@@ -277,4 +277,12 @@ public class CircuitNode extends PhetPNode {
     public boolean isReadoutGraphicVisible() {
         return readoutLayer.getVisible();
     }
+
+    public void addBranchNodeFactoryListener(BranchNodeFactory.Listener listener) {
+        branchNodeFactory.addListener(listener);
+    }
+
+    public void resetAll() {
+        branchNodeFactory.resetAll();
+    }
 }

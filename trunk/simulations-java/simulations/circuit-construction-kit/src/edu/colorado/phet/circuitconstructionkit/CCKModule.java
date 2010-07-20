@@ -7,10 +7,7 @@ import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 import edu.colorado.phet.circuitconstructionkit.model.ResistivityManager;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 import edu.colorado.phet.circuitconstructionkit.model.components.Bulb;
-import edu.colorado.phet.circuitconstructionkit.view.piccolo.CCKSimulationPanel;
-import edu.colorado.phet.circuitconstructionkit.view.piccolo.CircuitNode;
-import edu.colorado.phet.circuitconstructionkit.view.piccolo.MeasurementToolSet;
-import edu.colorado.phet.circuitconstructionkit.view.piccolo.VoltmeterModel;
+import edu.colorado.phet.circuitconstructionkit.view.piccolo.*;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
@@ -131,6 +128,7 @@ public class CCKModule extends PiccoloModule {
 
     public void clear() {
         model.clear();
+        getCircuitNode().resetAll();
     }
 
     public ResistivityManager getResistivityManager() {
@@ -223,5 +221,9 @@ public class CCKModule extends PiccoloModule {
 
     public CCKSimulationPanel getCckSimulationPanel() {
         return cckSimulationPanel;
+    }
+
+    public void addBranchNodeFactoryListener(BranchNodeFactory.Listener listener) {
+        getCircuitNode().addBranchNodeFactoryListener(listener);
     }
 }
