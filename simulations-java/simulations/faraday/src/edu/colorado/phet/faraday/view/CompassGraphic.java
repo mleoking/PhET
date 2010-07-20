@@ -34,8 +34,8 @@ public class CompassGraphic extends CompositePhetGraphic
     //----------------------------------------------------------------------------
     
     // Sizes
-    private static final int RING_DIAMETER = 70;
-    private static final int RING_WIDTH = 10;
+    private static final int RING_DIAMETER = 80; // outer diameter, including stroke
+    private static final int RING_STROKE_WIDTH = 10;
     private static final int INDICATOR_DIAMETER = 6;
     private static final int ANCHOR_DIAMETER = 6;
     private static final Dimension NEEDLE_SIZE = new Dimension( 55, 15 );
@@ -57,7 +57,7 @@ public class CompassGraphic extends CompositePhetGraphic
     private PhetShapeGraphic _needleNorthGraphic, _needleSouthGraphic;
     private CompassNeedleCache _needleCache;
     private CollisionDetector _collisionDetector;
-    private Rectangle[] _collisionBounds;
+    private Ellipse2D[] _collisionBounds;
     private FaradayMouseHandler _mouseHandler;
 
     //----------------------------------------------------------------------------
@@ -173,10 +173,12 @@ public class CompassGraphic extends CompositePhetGraphic
     public Shape[] getCollisionBounds() {
         if ( isVisible() ) {
             if ( _collisionBounds == null ) {
-                _collisionBounds = new Rectangle[1];
-                _collisionBounds[0] = new Rectangle();
+                _collisionBounds = new Ellipse2D.Double[1];
+                _collisionBounds[0] = new Ellipse2D.Double();
             }
-            _collisionBounds[0].setBounds( getBounds() );
+            double x = getX() - ( RING_DIAMETER / 2 );
+            double y = getY() - ( RING_DIAMETER / 2 );
+            _collisionBounds[0].setFrame( x, y, RING_DIAMETER, RING_DIAMETER );
             return _collisionBounds;
         }
         else {
@@ -212,12 +214,13 @@ public class CompassGraphic extends CompositePhetGraphic
             graphicLayerSet.setRenderingHints( hints );
             
             // Ring & lens, center at (0,0)
-            Shape ringShape = new Ellipse2D.Double( -( RING_DIAMETER/2), -( RING_DIAMETER/2), RING_DIAMETER, RING_DIAMETER );
+            double adjustedDiameter = RING_DIAMETER - RING_STROKE_WIDTH; // adjust for half of stroke width
+            Shape ringShape = new Ellipse2D.Double( -adjustedDiameter/2, -adjustedDiameter/2, adjustedDiameter, adjustedDiameter );
             PhetShapeGraphic ring = new PhetShapeGraphic( component );
             ring.setShape( ringShape );
             ring.setPaint( LENS_COLOR );
             ring.setBorderColor( RING_COLOR );
-            ring.setStroke( new BasicStroke( RING_WIDTH ) );
+            ring.setStroke( new BasicStroke( RING_STROKE_WIDTH ) );
             graphicLayerSet.addGraphic( ring );
             
             // Indicators at evenly-spaced increments around the ring.
@@ -228,7 +231,7 @@ public class CompassGraphic extends CompositePhetGraphic
                 indicatorGraphic = new PhetShapeGraphic( component );
                 indicatorGraphic.setShape( indicatorShape );
                 indicatorGraphic.setPaint( INDICATOR_COLOR );
-                AbstractVector2D v = ImmutableVector2D.Double.parseAngleAndMagnitude( RING_DIAMETER/2, Math.toRadians( angle ) );
+                AbstractVector2D v = ImmutableVector2D.Double.parseAngleAndMagnitude( adjustedDiameter/2, Math.toRadians( angle ) );
                 int rx = (int) v.getX();
                 int ry = (int) v.getY();
                 indicatorGraphic.setRegistrationPoint( rx, ry );
