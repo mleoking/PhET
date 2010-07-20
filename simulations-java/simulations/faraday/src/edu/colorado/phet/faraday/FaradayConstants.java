@@ -175,7 +175,7 @@ public class FaradayConstants {
     public static final double EMF_SCALE_MAX = 10;
     
     private static final double DEFAULT_VIEW_SCALE_MIN = 1;
-    private static final double DEFAULT_VIEW_SCALE_MAX = 200;
+    private static final double DEFAULT_VIEW_SCALE_MAX = 1000;
     
     public static final double LIGHTBULB_GLASS_GLOW_SCALE_MIN = DEFAULT_VIEW_SCALE_MIN;
     public static final double LIGHTBULB_GLASS_GLOW_SCALE_MAX = DEFAULT_VIEW_SCALE_MAX;
