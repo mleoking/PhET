@@ -60,7 +60,7 @@ public class DensityView extends UIComponent {
     [Embed(source="../../../../../../data/density-flex/images/spheretex.png")]
     private var spheretex:Class;
 
-    private var densityObjectNodeList:Array = new Array();
+    protected var densityObjectNodeList:Array = new Array();
 
     public function DensityView() {
         super();
