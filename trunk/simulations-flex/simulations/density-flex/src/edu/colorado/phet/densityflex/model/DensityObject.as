@@ -3,10 +3,9 @@ import Box2D.Common.Math.b2Vec2;
 import Box2D.Dynamics.Contacts.b2ContactResult;
 import Box2D.Dynamics.b2Body;
 
-import away3d.core.base.Object3D;
-
 import edu.colorado.phet.densityflex.view.DensityObjectNode;
 import edu.colorado.phet.densityflex.view.DensityView;
+import edu.colorado.phet.densityflex.view.DensityViewFull;
 
 public class DensityObject {
 
@@ -15,6 +14,7 @@ public class DensityObject {
     private var z:Number;
     private var listeners:Array;
     private var velocityArrowModel:ArrowModel;
+    private var gravityForceArrowModel:ArrowModel;
     private var model:DensityModel;
 
     private var body:b2Body;
@@ -26,11 +26,16 @@ public class DensityObject {
 
         this.model = model;
         this.listeners = new Array();
-        this.velocityArrowModel = new ArrowModel(0,0);
+        this.velocityArrowModel = new ArrowModel(0, 0);
+        this.gravityForceArrowModel = new ArrowModel(0, 0);
     }
 
-    public function getVelocityArrowModel():ArrowModel{
+    public function getVelocityArrowModel():ArrowModel {
         return velocityArrowModel;
+    }
+
+    public function getGravityForceArrowModel():ArrowModel {
+        return gravityForceArrowModel;
     }
 
     public function addListener(listener:Listener):void {
@@ -107,7 +112,8 @@ public class DensityObject {
     }
 
     function modelStepped():void {
-        velocityArrowModel.setValue(body.GetLinearVelocity().x,body.GetLinearVelocity().y);
+        velocityArrowModel.setValue(body.GetLinearVelocity().x, body.GetLinearVelocity().y);
+        gravityForceArrowModel.setValue(0, -body.GetMass() * DensityModel.ACCELERATION_DUE_TO_GRAVITY);
     }
 }
 }

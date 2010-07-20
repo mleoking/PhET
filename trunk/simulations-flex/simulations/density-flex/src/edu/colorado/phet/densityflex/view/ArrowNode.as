@@ -8,8 +8,8 @@ public class ArrowNode extends MyMesh {
     const ARROW_HEIGHT:Number = 200;
     var scaleFromModelToView:Number;
 
-    public function ArrowNode(arrowModel:ArrowModel, scaleFromModelToView:Number, init:Object = null) {
-        super(combine({material:new ColorMaterial(0xFF0000)}, init));
+    public function ArrowNode(arrowModel:ArrowModel, scaleFromModelToView:Number, color:*, init:Object = null) {
+        super(combine({material:new ColorMaterial(color)}, init));
         this.arrowModel = arrowModel;
         this.scaleFromModelToView = scaleFromModelToView;
         arrowModel.addListener(doUpdate);
