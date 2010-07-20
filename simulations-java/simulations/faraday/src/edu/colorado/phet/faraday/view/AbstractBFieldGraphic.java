@@ -409,11 +409,16 @@ public abstract class AbstractBFieldGraphic extends PhetGraphic {
                     double magnitude = _fieldVector.getMagnitude();
                     
                     // convert scaled magnitude to intensity
-                    double intensity = magnitude / _magnetModel.getMaxStrength();
-                    assert( intensity >= 0 && intensity <= 1 );
+                    double intensity = ( magnitude / _magnetModel.getMaxStrength() );
                     
                     // scale the intensity, because in reality this drops off and we wouldn't see much of the field
                     double scaledIntensity = Math.pow( intensity, 1 / _intensityScale );
+                    
+                    // increase the intensity of compass needles just outside ends of magnet to improve the "look"
+                    scaledIntensity *= 2;
+                    if ( scaledIntensity > 1 ) {
+                        scaledIntensity = 1;
+                    }
 
                     // Update the grid point.
                     gridPoint.setIntensity( scaledIntensity );
