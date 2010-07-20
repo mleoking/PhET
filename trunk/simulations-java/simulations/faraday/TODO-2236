@@ -1,7 +1,7 @@
 TODO list for Faraday ticket #2236
 
 HIGH PRIORITY
-- ask Mike why voltmeter, lightbulb & compass behavior has changed in Generator
+- ask Mike why voltmeter, lightbulb & compass behavior has changed in Generator (was smooth, now jerky)
 - get rid of scaling in model and view, make FaradayConstants.PICKUP_REFERENCE_EMF the single tunable parameter, per module
 - recalibrate all view components
 
