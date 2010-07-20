@@ -59,6 +59,7 @@ public class DensityModel {
         for each (var object:Function in densityObjectDestructionListeners) {
             object(densityObject);
         }
+        densityObjects.splice(densityObjects.indexOf(densityObject),1);
     }
 
     private function createGround():void {
