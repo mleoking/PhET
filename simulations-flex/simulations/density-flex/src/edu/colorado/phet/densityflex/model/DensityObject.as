@@ -16,10 +16,12 @@ public class DensityObject {
     private var gravityForceArrowModel:ArrowModel = new ArrowModel(0, 0);
     private var buoyancyForceArrowModel:ArrowModel = new ArrowModel(0, 0);
     private var dragForceArrowModel:ArrowModel = new ArrowModel(0, 0);
+    private var contactForceArrowModel:ArrowModel = new ArrowModel(0, 0);
     private var model:DensityModel;
 
     private var body:b2Body;
     private var submergedVolume:Number = 0.0;
+    private var contactImpulseMap = new Object();
 
     public function DensityObject(x:Number, y:Number, z:Number, model:DensityModel) {
         this.x = x;
@@ -108,11 +110,33 @@ public class DensityObject {
     }
 
     public function registerContact(contact:b2ContactResult):void {
+        var other:b2Body = contact.shape1.GetBody();
+        var sign:Number = 1.0;
+        if (other == body) {
+            other = contact.shape2.GetBody();
+            sign = -1.0;
+        }
+        if (contactImpulseMap[other] == undefined) {
+            contactImpulseMap[other] = new b2Vec2(0, 0);
+        }
+        var term:b2Vec2 = contact.normal.Copy();
+        term.Multiply(sign*contact.normalImpulse);
+        contactImpulseMap[other].Add(term);
+        trace("Force element: " + contactImpulseMap[other].x + ", " + contactImpulseMap[other].y);
+    }
 
+    private function getNetContactForce():b2Vec2 {
+        var sum:b2Vec2 = new b2Vec2();
+        for each (var object:Object in contactImpulseMap) {
+            sum.Add(object as b2Vec2);
+        }
+        sum.Multiply(1.0 / DensityModel.DT_FRAME);//to convert to force
+        trace("Force sum: " + sum.x + ", " + sum.y);
+        return sum;
     }
 
     public function resetContacts():void {
-
+        contactImpulseMap = new Object();
     }
 
     public function createNode(view:DensityView):DensityObjectNode {
@@ -122,8 +146,10 @@ public class DensityObject {
     function modelStepped():void {
         velocityArrowModel.setValue(body.GetLinearVelocity().x, body.GetLinearVelocity().y);
         gravityForceArrowModel.setValue(getGravityForce().x, getGravityForce().y);
+        trace("Gravity y = "+getGravityForce().y);
         buoyancyForceArrowModel.setValue(getBuoyancyForce().x, getBuoyancyForce().y);
         dragForceArrowModel.setValue(getDragForce().x, getDragForce().y);
+        contactForceArrowModel.setValue(getNetContactForce().x, getNetContactForce().y)
     }
 
     //Overriden in subclasses
@@ -148,6 +174,10 @@ public class DensityObject {
         var dragForce:b2Vec2 = body.GetLinearVelocity().Copy();
         dragForce.Multiply(-2 * submergedVolume);
         return dragForce;
+    }
+
+    public function getContactForceArrowModel():ArrowModel {
+        return contactForceArrowModel;
     }
 }
 }

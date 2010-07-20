@@ -13,7 +13,7 @@ import edu.colorado.phet.densityflex.view.ScaleNode;
  */
 public class Scale extends Cuboid {
 
-    private var force:Number = 0;
+    private var totalImpulse:Number = 0;
 
     public static var SCALE_DENSITY:Number = 2.0;
 
@@ -28,7 +28,7 @@ public class Scale extends Cuboid {
     public function getScaleReadout():String {
         // TODO: localize
         // scaled by DT-frame because we are measuring the 'normal impulses'
-        var num:Number = (force / DensityModel.DT_FRAME);
+        var num:Number = totalImpulse / DensityModel.DT_FRAME;
         var numStr:String = String(Math.round(num * 100) / 100);
         var ret:String = String(numStr).substr(0, 7) + " N";
         return ret;
@@ -62,13 +62,13 @@ public class Scale extends Cuboid {
             return;
         }
 
-        force += point.normalImpulse;
+        totalImpulse += point.normalImpulse;
     }
 
     override public function resetContacts():void {
         super.resetContacts();
 
-        force = 0;
+        totalImpulse = 0;
     }
 
     override public function createNode(view:DensityView):DensityObjectNode {
