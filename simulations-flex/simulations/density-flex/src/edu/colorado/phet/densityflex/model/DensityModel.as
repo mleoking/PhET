@@ -30,6 +30,8 @@ public class DensityModel {
     private var world:b2World;
 
     private var contactHandler:ContactHandler;
+    private const densityObjectCreationListeners:Array = new Array();
+    private const densityObjectDestructionListeners:Array = new Array();
 
     public function DensityModel() {
         densityObjects = new Array();
@@ -38,30 +40,25 @@ public class DensityModel {
         createGround();
     }
 
-    public function initializeTab1SameMass():void {
-        densityObjects.push(Block.newBlockSizeMass(3, 4.0, -4.5, 0, new ColorTransform(0.5, 0.5, 0), this));
-        densityObjects.push(Block.newBlockSizeMass(2, 4.0, -1.5, 0, new ColorTransform(0, 0, 1), this));
-        densityObjects.push(Block.newBlockSizeMass(1.5, 4.0, 1.5, 0, new ColorTransform(0, 1, 0), this));
-        densityObjects.push(Block.newBlockSizeMass(1, 4.0, 4.5, 0, new ColorTransform(1, 0, 0), this));
-        densityObjects.push(new Scale(-9.5, Scale.SCALE_HEIGHT / 2, this));
-        densityObjects.push(new Scale(4.5, Scale.SCALE_HEIGHT / 2 - poolHeight, this));
-    }
-
-    public function initializeTab1SameVolume():void {
-        densityObjects.push(Block.newBlockDensitySize(1.0 / 8.0, 2, -4.5, 0, new ColorTransform(0.5, 0.5, 0), this));
-        densityObjects.push(Block.newBlockDensitySize(0.5, 2, -1.5, 0, new ColorTransform(0, 0, 1), this));
-        densityObjects.push(Block.newBlockDensitySize(2, 2, 1.5, 0, new ColorTransform(0, 1, 0), this));
-        densityObjects.push(Block.newBlockDensitySize(4, 2, 4.5, 0, new ColorTransform(1, 0, 0), this));
-        densityObjects.push(new Scale(-9.5, Scale.SCALE_HEIGHT / 2, this));
-        densityObjects.push(new Scale(4.5, Scale.SCALE_HEIGHT / 2 - poolHeight, this));
+    public function addDensityObject(densityObject:DensityObject){
+        densityObjects.push(densityObject);
+        for each (var listener:Function in densityObjectCreationListeners) {
+            listener(densityObject);
+        }
     }
 
     public function clearDensityObjects():void {
-        for each(var densityObject:DensityObject in densityObjects) {
-            world.DestroyBody(densityObject.getBody());
-            densityObject.remove();
+        while(densityObjects.length > 0){
+            removeDensityObject(densityObjects[0]);
         }
-        densityObjects = new Array();
+    }
+
+    private function removeDensityObject(densityObject:DensityObject):void {
+        world.DestroyBody(densityObject.getBody());
+        densityObject.remove();
+        for each (var object:Function in densityObjectDestructionListeners) {
+            object(densityObject);
+        }
     }
 
     private function createGround():void {
@@ -224,6 +221,10 @@ public class DensityModel {
 
     public function getWorld():b2World {
         return world;
+    }
+
+    public function addDensityObjectCreationListener(addDensityObject:Function):void {
+        densityObjectCreationListeners.push(addDensityObject);
     }
 }
 }

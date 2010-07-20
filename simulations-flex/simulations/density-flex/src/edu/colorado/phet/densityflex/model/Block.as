@@ -4,7 +4,7 @@ import away3d.core.base.Object3D;
 import edu.colorado.phet.densityflex.view.ArrowNode;
 import edu.colorado.phet.densityflex.view.BlockNode;
 import edu.colorado.phet.densityflex.view.DensityObjectNode;
-import edu.colorado.phet.densityflex.view.DensityView3D;
+import edu.colorado.phet.densityflex.view.DensityView;
 
 import flash.geom.ColorTransform;
 
@@ -38,7 +38,7 @@ public class Block extends Cuboid {
         return color;
     }
 
-    override public function createNode(view:DensityView3D):DensityObjectNode{
+    override public function createNode(view:DensityView):DensityObjectNode{
         var blockNode:BlockNode = new BlockNode(this, view);
         return blockNode;
     }

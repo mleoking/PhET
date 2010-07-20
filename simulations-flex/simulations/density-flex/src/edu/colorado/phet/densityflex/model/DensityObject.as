@@ -6,7 +6,7 @@ import Box2D.Dynamics.b2Body;
 import away3d.core.base.Object3D;
 
 import edu.colorado.phet.densityflex.view.DensityObjectNode;
-import edu.colorado.phet.densityflex.view.DensityView3D;
+import edu.colorado.phet.densityflex.view.DensityView;
 
 public class DensityObject {
 
@@ -102,7 +102,7 @@ public class DensityObject {
 
     }
 
-    public function createNode(view:DensityView3D):DensityObjectNode {
+    public function createNode(view:DensityView):DensityObjectNode {
         throw new Error();
     }
 

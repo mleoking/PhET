@@ -20,7 +20,7 @@ public class BlockNode extends CuboidNode implements Pickable, Listener {
 
     private var frontSprite:Sprite;
     private var block:Block;
-    private var view:DensityView3D;
+    private var view:DensityView;
     private var textField:TextField = new TextField();
 
     [Embed(source="../../../../../../data/density-flex/images/wall.jpg")]
@@ -28,7 +28,7 @@ public class BlockNode extends CuboidNode implements Pickable, Listener {
     private var frontMaterial:MovieMaterial;
     private var redWallMaterial:BitmapMaterial;
 
-    public function BlockNode(block:Block, view:DensityView3D):void {
+    public function BlockNode(block:Block, view:DensityView):void {
         super(block);
 
         this.block = block;
