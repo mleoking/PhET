@@ -1,3 +1,4 @@
+7/20/10 #2236, increase the intensity of compass needles just outside ends of magnet to improve the B-field "look"
 7/19/10 #2438, use Shapes for collision detection, define compass bounds as a circle
 7/19/10 #2236, increase range of view scaling parameters to [1...1000].
 7/19/10 #2236, collapse class hierachy, pull up NumericalBarMagnet into BarMagnet
