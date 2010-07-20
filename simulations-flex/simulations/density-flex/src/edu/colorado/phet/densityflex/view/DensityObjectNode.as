@@ -19,7 +19,7 @@ public class DensityObjectNode extends ObjectContainer3D {
         this.densityObject = densityObject;
     }
 
-    public function addArrowNodes() {
+    public function addArrowNodes():void {
         gravityArrowNode = new ArrowNode(getDensityObject().getGravityForceArrowModel(), 2, 0x0000FF);
         addArrowNode(gravityArrowNode);
 
@@ -44,23 +44,23 @@ public class DensityObjectNode extends ObjectContainer3D {
         addChild(arrowNode);
     }
 
-    function getDensityObject():DensityObject {
+    public function getDensityObject():DensityObject {
         return densityObject;
     }
 
-    function setGravityForceVisible(selected:Boolean):void {
+    public function setGravityForceVisible(selected:Boolean):void {
         gravityArrowNode.visible = selected;
     }
 
-    function setBuoyancyForceVisible(selected:Boolean):void {
+    public function setBuoyancyForceVisible(selected:Boolean):void {
         buoyancyArrowForceNode.visible = selected;
     }
 
-    function setContactForceVisible(selected:Boolean):void {
+    public function setContactForceVisible(selected:Boolean):void {
         contactArrowForceNode.visible = selected;
     }
 
-    function setFluidDragForceVisible(selected:Boolean):void {
+    public function setFluidDragForceVisible(selected:Boolean):void {
         dragArrowForceNode.visible = selected;
     }
 }

@@ -6,9 +6,9 @@ import away3d.materials.ShadingColorMaterial;
 import edu.colorado.phet.densityflex.model.ArrowModel;
 
 public class ArrowNode extends MyMesh {
-    var arrowModel:ArrowModel;
-    const ARROW_HEIGHT:Number = 200;
-    var scaleFromModelToView:Number;
+    private var arrowModel:ArrowModel;
+    private const ARROW_HEIGHT:Number = 200;
+    private var scaleFromModelToView:Number;
 
     public function ArrowNode(arrowModel:ArrowModel, scaleFromModelToView:Number, color:*, init:Object = null) {
         super(combine({material:new ColorMaterial(color, {alpha: 0.75})}, init));
@@ -22,7 +22,7 @@ public class ArrowNode extends MyMesh {
         //        super( init );
     }
 
-    function doUpdate():void {
+    public function doUpdate():void {
         this.scaleY = arrowModel.getMagnitude() / ARROW_HEIGHT * scaleFromModelToView;
         this.rotationZ = -arrowModel.getAngle() * 180.0 / Math.PI;
     }

@@ -2,7 +2,7 @@ package edu.colorado.phet.densityflex.model {
 public class ArrowModel {
     private var x:Number;
     private var y:Number;
-    const listeners:Array = new Array();
+    private const listeners:Array = new Array();
 
     public function ArrowModel(x:Number, y:Number) {
         this.x = x;
@@ -21,7 +21,7 @@ public class ArrowModel {
         return Math.atan2(x, y);
     }
 
-    function setValue(x:Number, y:Number):void {
+    public function setValue(x:Number, y:Number):void {
         this.x = x;
         this.y = y;
         for each (var listener:Function in listeners) {

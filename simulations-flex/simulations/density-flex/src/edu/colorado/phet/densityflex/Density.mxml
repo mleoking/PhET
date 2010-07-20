@@ -44,7 +44,7 @@
         import mx.events.SliderEvent;
 
         private var oldIndex:Number = 0;
-        var common:FlexCommon = new FlexCommon();
+        private var common:FlexCommon = new FlexCommon();
 
         private function onApplicationComplete():void {
             tab0.init();
