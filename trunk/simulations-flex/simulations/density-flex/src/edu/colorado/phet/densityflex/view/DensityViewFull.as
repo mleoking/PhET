@@ -16,10 +16,32 @@ public class DensityViewFull extends DensityView {
 
     override protected function createDensityObjectNode(densityObject:DensityObject):DensityObjectNode {
         var densityObjectNode:DensityObjectNode = super.createDensityObjectNode(densityObject);
-        densityObjectNode.addArrowNode(new ArrowNode(densityObjectNode.getDensityObject().getGravityForceArrowModel(), 2, 0x0000FF));
-        densityObjectNode.addArrowNode(new ArrowNode(densityObjectNode.getDensityObject().getBuoyancyForceArrowModel(), 2, 0xFF00FF));
-        densityObjectNode.addArrowNode(new ArrowNode(densityObjectNode.getDensityObject().getDragForceArrowModel(), 2, 0xFF0000));
+        densityObjectNode.addArrowNodes();
         return densityObjectNode;
+    }
+
+    public function setGravityForceVisible(selected:Boolean):void {
+        for each (var densityObjectNode:DensityObjectNode in super.densityObjectNodeList) {
+            densityObjectNode.setGravityForceVisible(selected);
+        }
+    }
+
+    public function setBuoyancyForceVisible(selected:Boolean):void {
+        for each (var densityObjectNode:DensityObjectNode in super.densityObjectNodeList) {
+            densityObjectNode.setBuoyancyForceVisible(selected);
+        }
+    }
+
+    public function setContactForceVisible(selected:Boolean):void {
+        for each (var densityObjectNode:DensityObjectNode in super.densityObjectNodeList) {
+            densityObjectNode.setContactForceVisible(selected);
+        }
+    }
+
+    public function setFluidDragForceVisible(selected:Boolean):void {
+        for each (var densityObjectNode:DensityObjectNode in super.densityObjectNodeList) {
+            densityObjectNode.setFluidDragForceVisible(selected);
+        }
     }
 }
 }

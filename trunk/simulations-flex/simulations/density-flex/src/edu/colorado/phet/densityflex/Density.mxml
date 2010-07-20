@@ -19,10 +19,10 @@
         <mx:Canvas label="Tab 2">
             <view:DensityViewFull width="100%" height="100%" id="tab1"/>
             <mx:Panel left="20" bottom="20">
-                <mx:CheckBox id="gravityForceVectorCheckBox" label="Gravity Force" selected="true" />
-                <mx:CheckBox id="buoyancyForceVectorCheckBox" label="Buoyancy Force" selected="true" />
-                <mx:CheckBox id="contactForceVectorCheckBox" label="Contact Force" selected="true" />
-                <mx:CheckBox id="fluidForceVectorCheckBox" label="Fluid Force" selected="true" />
+                <mx:CheckBox id="gravityForceVectorCheckBox" label="Gravity Force" selected="true" change="tab1.setGravityForceVisible(gravityForceVectorCheckBox.selected)"/>
+                <mx:CheckBox id="buoyancyForceVectorCheckBox" label="Buoyancy Force" selected="true" change="tab1.setBuoyancyForceVisible(buoyancyForceVectorCheckBox.selected)"/>
+                <mx:CheckBox id="contactForceVectorCheckBox" label="Contact Force" selected="true" change="tab1.setContactForceVisible(contactForceVectorCheckBox.selected)"/>
+                <mx:CheckBox id="fluidDragForceVectorCheckBox" label="Fluid Force" selected="true" change="tab1.setFluidDragForceVisible(fluidDragForceVectorCheckBox.selected)"/>
             </mx:Panel>
             <mx:Panel right="10" bottom="10">
                 <mx:Button label="Reset All" click="resetTab1()"/>
