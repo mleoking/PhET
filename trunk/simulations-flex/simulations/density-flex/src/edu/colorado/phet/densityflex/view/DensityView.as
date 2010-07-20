@@ -13,10 +13,10 @@ import away3d.lights.*;
 import away3d.materials.*;
 import away3d.primitives.*;
 
-import edu.colorado.phet.densityflex.model.ArrowModel;
 import edu.colorado.phet.densityflex.model.DensityModel;
 import edu.colorado.phet.densityflex.model.DensityObject;
-import edu.colorado.phet.flexcommon.FlexCommon;
+
+import edu.colorado.phet.densityflex.model.Scale;
 
 import flash.display.Sprite;
 import flash.events.Event;
@@ -25,9 +25,9 @@ import flash.events.MouseEvent;
 import mx.core.UIComponent;
 import mx.events.SliderEvent;
 
-public class DensityView3D extends UIComponent {
+public class DensityView extends UIComponent {
     //model
-    private var model:DensityModel;
+    protected var model:DensityModel;
 
     //engine variables
     private var scene:Scene3D;
@@ -62,28 +62,11 @@ public class DensityView3D extends UIComponent {
 
     private var densityObjectNodeList:Array = new Array();
 
-    public function DensityView3D() {
+    public function DensityView() {
         super();
         model = new DensityModel();
 
-        model.initializeTab1SameMass();
-        //model.initializeTab1SameVolume();
-    }
-
-    public function switchToSameMass():void {
-        model.clearDensityObjects();
-        model.initializeTab1SameMass();
-
-        // TODO: improve so that listening handles add/remove of children!
-        addCuboids();
-    }
-
-    public function switchToSameVolume():void {
-        model.clearDensityObjects();
-        model.initializeTab1SameVolume();
-
-        // TODO: improve so that listening handles add/remove of children!
-        addCuboids();
+        model.addDensityObjectCreationListener(addDensityObject);
     }
 
     override protected function createChildren():void {
@@ -101,8 +84,6 @@ public class DensityView3D extends UIComponent {
         backgroundSprite.graphics.endFill();
         addChild(backgroundSprite);
         addChild(view);
-
-        var common:FlexCommon = new FlexCommon();
     }
 
     override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void {
@@ -129,6 +110,11 @@ public class DensityView3D extends UIComponent {
         view = new View3D({scene:scene, camera:camera, renderer:renderer});
 
 
+    }
+
+    public function addScales():void {
+        model.addDensityObject(new Scale(-9.5, Scale.SCALE_HEIGHT / 2, model));
+        model.addDensityObject(new Scale(4.5, Scale.SCALE_HEIGHT / 2 - model.getPoolHeight(), model));
     }
 
     public function initObjects():void {
@@ -168,8 +154,6 @@ public class DensityView3D extends UIComponent {
         scene.addChild(new Plane({ x: far / 2 + poolWidth / 2, y: -far / 2, width: far, height: far, rotationX: 90, material: new ShadingColorMaterial(0xAA7733) }));
         scene.addChild(new Plane({ x: -far / 2 - poolWidth / 2, y: -far / 2, width: far, height: far, rotationX: 90, material: new ShadingColorMaterial(0xAA7733) }));
 
-        addCuboids();
-
         var light:DirectionalLight3D = new DirectionalLight3D({color:0xFFFFFF, ambient:0.2, diffuse:0.75, specular:0.1});
         light.x = 10000;
         light.z = -35000;
@@ -184,14 +168,12 @@ public class DensityView3D extends UIComponent {
 
     }
 
-    private function addCuboids():void {
-        for each (var ob:DensityObject in this.model.getDensityObjects()) {
-            const densityObjectNode:DensityObjectNode = ob.createNode(this);
-            scene.addChild(densityObjectNode);
+    private function addDensityObject(densityObject:DensityObject):void {
+        const densityObjectNode:DensityObjectNode = densityObject.createNode(this);
+        scene.addChild(densityObjectNode);
 
-            densityObjectNode.addArrowNode(new ArrowNode(densityObjectNode.getDensityObject().getVelocityArrowModel(), 50));
-            densityObjectNodeList.push(densityObjectNode);
-        }
+        densityObjectNode.addArrowNode(new ArrowNode(densityObjectNode.getDensityObject().getVelocityArrowModel(), 50));
+        densityObjectNodeList.push(densityObjectNode);
     }
 
     public function initListeners():void {
@@ -313,7 +295,7 @@ public class DensityView3D extends UIComponent {
         view.x = stage.stageWidth / 2;
         view.y = stage.stageHeight / 2;
 
-        camera.zoom = Math.min(stage.stageWidth/100, stage.stageHeight/65);
+        camera.zoom = Math.min(stage.stageWidth / 100, stage.stageHeight / 65);
     }
 
     public function removeObject(ob:CuboidNode):void {
@@ -334,14 +316,12 @@ public class DensityView3D extends UIComponent {
             moving = false;
             stage.removeEventListener(Event.MOUSE_LEAVE, onStageMouseLeave);
         }
-
-        switchToSameMass();
     }
 
     public function testSliderChange(event:SliderEvent):void {
-//        camera.distance = event.value;
+        //        camera.distance = event.value;
         camera.zoom = event.value;
-//        camera.moveCamera();
+        //        camera.moveCamera();
     }
 }
 }
