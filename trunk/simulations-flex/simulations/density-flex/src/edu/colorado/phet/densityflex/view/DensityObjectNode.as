@@ -1,6 +1,7 @@
 package edu.colorado.phet.densityflex.view {
 import away3d.containers.ObjectContainer3D;
 
+import edu.colorado.phet.densityflex.model.ArrowModel;
 import edu.colorado.phet.densityflex.model.DensityModel;
 import edu.colorado.phet.densityflex.model.DensityObject;
 
@@ -27,6 +28,9 @@ public class DensityObjectNode extends ObjectContainer3D {
 
         dragArrowForceNode = new ArrowNode(getDensityObject().getDragForceArrowModel(), 2, 0xFF0000);
         addArrowNode(dragArrowForceNode);
+
+        contactArrowForceNode = new ArrowNode(getDensityObject().getContactForceArrowModel(), 2, 0xFF8800);
+        addArrowNode(contactArrowForceNode);
     }
 
     //Override to specify the depth of the object so arrows will render just outside of the object
