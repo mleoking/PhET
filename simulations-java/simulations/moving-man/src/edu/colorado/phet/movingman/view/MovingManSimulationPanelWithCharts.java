@@ -1,6 +1,7 @@
 package edu.colorado.phet.movingman.view;
 
 import edu.colorado.phet.common.motion.charts.*;
+import edu.colorado.phet.common.phetcommon.model.MutableBoolean;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.movingman.MovingManColorScheme;
 import edu.colorado.phet.movingman.model.MovingMan;

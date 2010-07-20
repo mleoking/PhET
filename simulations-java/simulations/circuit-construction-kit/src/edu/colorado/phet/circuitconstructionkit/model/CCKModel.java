@@ -177,7 +177,7 @@ public class CCKModel {
         getCircuit().resetDynamics();
     }
 
-    public void clear() {
+    public void resetAll() {
         getCircuit().clear();
         getCircuit().clearSelection();
         getParticleSet().clear();

@@ -47,7 +47,7 @@ public class CCKKeyListener implements KeyListener {
         } else if (e.getKeyCode() == KeyEvent.VK_T) {
             cck.addTestCircuit();
         } else if (e.getKeyCode() == KeyEvent.VK_R) {
-            cck.clear();
+            cck.resetAll();
             cck.addTestCircuit();
             for (int i = 0; i < 500; i++) {
                 cck.layoutElectrons(cck.getCircuit().getBranches());
@@ -56,11 +56,11 @@ public class CCKKeyListener implements KeyListener {
         } else if (e.getKeyCode() == KeyEvent.VK_SEMICOLON) {
             for (int i = 0; i < 50; i++) {
                 cck.addTestCircuit();
-                cck.clear();
+                cck.resetAll();
                 System.out.println("Num Test Circuits = " + i);
             }
         } else if (e.getKeyCode() == KeyEvent.VK_Z) {
-            cck.clear();
+            cck.resetAll();
             cck.addTestCircuit();
             for (int i = 0; i < 5000; i++) {
                 cck.layoutElectrons(cck.getCircuit().getBranches());

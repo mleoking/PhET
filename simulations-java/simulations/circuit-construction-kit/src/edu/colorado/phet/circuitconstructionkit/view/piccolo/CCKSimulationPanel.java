@@ -52,11 +52,11 @@ public class CCKSimulationPanel extends PhetPCanvas {
         addScreenChild(backgroundNode);
         setBackground(CCKModule.BACKGROUND_COLOR);
 
-        branchNodeFactory = new BranchNodeFactory(model, this, module, true);
-        toolboxSuite = new ToolboxNodeSuite(model, module, this, branchNodeFactory);
+        branchNodeFactory = new BranchNodeFactory(model, this, module, module.getCCKViewState().getLifelikeProperty());
+        toolboxSuite = new ToolboxNodeSuite(model, module, this, branchNodeFactory,module.getCCKViewState().getLifelikeProperty());
         addScreenChild(toolboxSuite);
 
-        circuitNode = new CircuitNode(model, model.getCircuit(), this, module, branchNodeFactory);
+        circuitNode = new CircuitNode(model, model.getCircuit(), this, module, branchNodeFactory,module.getCCKViewState().getReadoutsVisibleProperty(),module.getCCKViewState().getLifelikeProperty());
         addWorldChild(circuitNode);
 
         measurementToolSetNode = new MeasurementToolSetNode(model, this, module, module.getVoltmeterModel(), clock);
@@ -223,14 +223,6 @@ public class CCKSimulationPanel extends PhetPCanvas {
 
     public void setHelpEnabled(boolean enabled) {
         cckHelpSuite.setHelpEnabled(enabled);
-    }
-
-    public boolean isLifelike() {
-        return circuitNode.isLifelike();
-    }
-
-    public void setLifelike(boolean lifelike) {
-        circuitNode.setLifelike(lifelike);
     }
 
     public PNode getWireMaker() {

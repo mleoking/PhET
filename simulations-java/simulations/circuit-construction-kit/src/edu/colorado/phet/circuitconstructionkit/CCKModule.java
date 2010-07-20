@@ -30,6 +30,7 @@ public class CCKModule extends PiccoloModule {
     private MeasurementToolSet measurementToolSet;
     private static int delay = 30;//ms
     public static double dt = delay / 1000.0;//simulation units = seconds
+    private CCKViewState viewState=new CCKViewState();
 
     public CCKModule(String[] args, boolean ac, boolean virtualLab) {
         super("CCK-Piccolo", new SwingClock(delay, dt));
@@ -62,11 +63,11 @@ public class CCKModule extends PiccoloModule {
     }
 
     public void setLifelike(boolean b) {
-        cckSimulationPanel.setLifelike(b);
+        getCCKViewState().getLifelikeProperty().setValue(b);
     }
 
     public boolean isLifelike() {
-        return cckSimulationPanel.isLifelike();
+        return getCCKViewState().getLifelikeProperty().getValue();
     }
 
     public CircuitChangeListener getCircuitChangeListener() {
@@ -114,8 +115,8 @@ public class CCKModule extends PiccoloModule {
         cckSimulationPanel.addVoltageChart();
     }
 
-    public void setAllReadoutsVisible(boolean r) {
-        getCircuitNode().setReadoutsVisible(r);
+    public void setReadoutsVisible(boolean r) {
+        viewState.setReadoutsVisible(r);
     }
 
     public void setCircuit(Circuit circuit) {
@@ -126,9 +127,9 @@ public class CCKModule extends PiccoloModule {
         cckSimulationPanel.setZoom(zoom);
     }
 
-    public void clear() {
-        model.clear();
-        getCircuitNode().resetAll();
+    public void resetAll() {
+        model.resetAll();
+        viewState.resetAll();
     }
 
     public ResistivityManager getResistivityManager() {
@@ -225,5 +226,9 @@ public class CCKModule extends PiccoloModule {
 
     public void addBranchNodeFactoryListener(BranchNodeFactory.Listener listener) {
         getCircuitNode().addBranchNodeFactoryListener(listener);
+    }
+
+    public CCKViewState getCCKViewState() {
+        return viewState;
     }
 }

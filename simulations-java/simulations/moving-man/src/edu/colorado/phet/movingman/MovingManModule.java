@@ -1,9 +1,9 @@
 package edu.colorado.phet.movingman;
 
 import edu.colorado.phet.common.motion.charts.ChartCursor;
-import edu.colorado.phet.common.motion.charts.MutableBoolean;
+import edu.colorado.phet.common.phetcommon.model.MutableBoolean;
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.model.*;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
@@ -174,7 +174,7 @@ public abstract class MovingManModule extends Module {
     public void resetAll() {
         movingManModel.resetAll();
         recordAndPlaybackModel.resetAll();
-        positiveToTheRight.setValue(true);
+        positiveToTheRight.reset();
         simulationPanel.resetAll();
     }
 

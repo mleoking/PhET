@@ -1,5 +1,6 @@
 package edu.colorado.phet.common.motion.charts;
 
+import edu.colorado.phet.common.phetcommon.model.MutableBoolean;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.umd.cs.piccolo.PNode;
 

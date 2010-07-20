@@ -2,6 +2,8 @@ package edu.colorado.phet.circuitconstructionkit.view.piccolo;
 
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
+import edu.colorado.phet.common.phetcommon.model.MutableBoolean;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
 
@@ -18,27 +20,24 @@ public class ToolboxNodeSuite extends PhetPNode {
     private ToolboxNode schematicToolbox;
     private BranchNodeFactory branchNodeFactory;
 
-    public ToolboxNodeSuite(CCKModel model, CCKModule module, CCKSimulationPanel cckSimulationPanel, BranchNodeFactory branchNodeFactory) {
+    public ToolboxNodeSuite(CCKModel model, CCKModule module, CCKSimulationPanel cckSimulationPanel, final BranchNodeFactory branchNodeFactory, final MutableBoolean lifelikeProperty) {
         this.branchNodeFactory = branchNodeFactory;
-        lifelikeToolbox = new ToolboxNode(cckSimulationPanel, model, module, new BranchNodeFactory(model, cckSimulationPanel, module, true), cckSimulationPanel);
+        lifelikeToolbox = new ToolboxNode(cckSimulationPanel, model, module, new BranchNodeFactory(model, cckSimulationPanel, module, new MutableBoolean(true)), cckSimulationPanel,lifelikeProperty);
         lifelikeToolbox.scale(1.0 / 80.0);
         addChild(lifelikeToolbox);
 
-        schematicToolbox = new ToolboxNode(cckSimulationPanel, model, module, new BranchNodeFactory(model, cckSimulationPanel, module, false), cckSimulationPanel);
+        schematicToolbox = new ToolboxNode(cckSimulationPanel, model, module, new BranchNodeFactory(model, cckSimulationPanel, module, new MutableBoolean(false)), cckSimulationPanel,lifelikeProperty);
         schematicToolbox.scale(1.0 / 80.0);
         addChild(schematicToolbox);
 
-        branchNodeFactory.addListener(new BranchNodeFactory.Listener() {
-            public void displayStyleChanged() {
-                update();
+        SimpleObserver updateLifelike = new SimpleObserver() {
+            public void update() {
+                lifelikeToolbox.setVisible(lifelikeProperty.getValue());
+                schematicToolbox.setVisible(!lifelikeProperty.getValue());
             }
-        });
-        update();
-    }
-
-    private void update() {
-        lifelikeToolbox.setVisible(branchNodeFactory.isLifelike());
-        schematicToolbox.setVisible(!branchNodeFactory.isLifelike());
+        };
+        lifelikeProperty.addObserver(updateLifelike);
+        updateLifelike.update();
     }
 
     public void setBackground(Color color) {

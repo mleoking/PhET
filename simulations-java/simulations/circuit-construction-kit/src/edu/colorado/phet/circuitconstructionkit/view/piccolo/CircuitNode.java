@@ -8,6 +8,8 @@ import edu.colorado.phet.circuitconstructionkit.model.Junction;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 import edu.colorado.phet.circuitconstructionkit.model.components.Switch;
 import edu.colorado.phet.circuitconstructionkit.model.components.Wire;
+import edu.colorado.phet.common.phetcommon.model.MutableBoolean;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
 
@@ -27,6 +29,7 @@ public class CircuitNode extends PhetPNode {
     private Circuit circuit;
     private Component component;
     private CCKModule module;
+    private MutableBoolean readoutsVisibleProperty;
     private ReadoutSetNode readoutLayer;
     private PNode electronLayer;
     private PNode solderLayer;
@@ -36,14 +39,14 @@ public class CircuitNode extends PhetPNode {
     private BranchNodeFactory branchNodeFactory;
     private boolean changingLifelike;
     private ReadoutSetNode editingReadoutLayer;
-    private boolean readoutsVisible = false;
 
-    public CircuitNode(final CCKModel cckModel, final Circuit circuit, final JComponent component, CCKModule module, BranchNodeFactory branchNodeFactory) {
+    public CircuitNode(final CCKModel cckModel, final Circuit circuit, final JComponent component, CCKModule module, BranchNodeFactory branchNodeFactory, MutableBoolean readoutsVisibleProperty, final MutableBoolean lifelikeProperty) {
         this.branchNodeFactory = branchNodeFactory;
         this.cckModel = cckModel;
         this.circuit = circuit;
         this.component = component;
         this.module = module;
+        this.readoutsVisibleProperty = readoutsVisibleProperty;
         solderLayer = new PNode();
         branchLayer = new PNode();
         junctionLayer = new PNode();
@@ -110,6 +113,31 @@ public class CircuitNode extends PhetPNode {
 
             public void branchRemoved(Branch branch) {
                 removeBranchNode(branch);
+            }
+        });
+        readoutsVisibleProperty.addObserver(new SimpleObserver() {
+            public void update() {
+                CircuitNode.this.updateReadoutsVisible();
+            }
+        });
+        lifelikeProperty.addObserver(new SimpleObserver() {
+            public void update() {
+                changingLifelike = true;//disable clip computations while some nodes may not have graphics.
+                Branch[] orderedList = getBranchOrder();
+                removeBranchGraphics();
+                for (int i = 0; i < orderedList.length; i++) {
+                    Branch branch = orderedList[i];
+                    if (branch instanceof Wire) {
+                        Wire wire = (Wire) branch;
+                        wire.setThickness(lifelikeProperty.getValue() ? Wire.LIFELIKE_THICKNESS : Wire.SCHEMATIC_THICKNESS);
+                    }
+                    addBranchNode(branch);
+                }
+                changingLifelike = false;
+                for (int i = 0; i < electronLayer.getChildrenCount(); i++) {//notify electrons to recompute their clips
+                    ElectronNode electronNode = (ElectronNode) electronLayer.getChild(i);
+                    electronNode.update();
+                }
             }
         });
     }
@@ -187,14 +215,9 @@ public class CircuitNode extends PhetPNode {
         electronLayer.setVisible(b);
     }
 
-    public void setReadoutsVisible(boolean visible) {
-        this.readoutsVisible = visible;
-        updateReadoutsVisible();
-    }
-
     private void updateReadoutsVisible() {
-        readoutLayer.setVisible(readoutsVisible);
-        readoutLayer.setAllReadoutsVisible(readoutsVisible);
+        readoutLayer.setVisible(readoutsVisibleProperty.getValue());
+        readoutLayer.setAllReadoutsVisible(readoutsVisibleProperty.getValue());
     }
 
     public ClipFactory getClipFactory() {
@@ -215,30 +238,6 @@ public class CircuitNode extends PhetPNode {
 
     public BranchNode getBranchNode(int i) {
         return (BranchNode) branchLayer.getChild(i);
-    }
-
-    public boolean isLifelike() {
-        return branchNodeFactory.isLifelike();
-    }
-
-    public void setLifelike(boolean lifelike) {
-        changingLifelike = true;//disable clip computations while some nodes may not have graphics.
-        this.branchNodeFactory.setLifelike(lifelike);
-        Branch[] orderedList = getBranchOrder();
-        removeBranchGraphics();
-        for (int i = 0; i < orderedList.length; i++) {
-            Branch branch = orderedList[i];
-            if (branch instanceof Wire) {
-                Wire wire = (Wire) branch;
-                wire.setThickness(lifelike ? Wire.LIFELIKE_THICKNESS : Wire.SCHEMATIC_THICKNESS);
-            }
-            addBranchNode(branch);
-        }
-        changingLifelike = false;
-        for (int i = 0; i < electronLayer.getChildrenCount(); i++) {//notify electrons to recompute their clips
-            ElectronNode electronNode = (ElectronNode) electronLayer.getChild(i);
-            electronNode.update();
-        }
     }
 
     private void removeBranchGraphics() {
@@ -287,9 +286,5 @@ public class CircuitNode extends PhetPNode {
 
     public void addBranchNodeFactoryListener(BranchNodeFactory.Listener listener) {
         branchNodeFactory.addListener(listener);
-    }
-
-    public void resetAll() {
-        branchNodeFactory.resetAll();
     }
 }
