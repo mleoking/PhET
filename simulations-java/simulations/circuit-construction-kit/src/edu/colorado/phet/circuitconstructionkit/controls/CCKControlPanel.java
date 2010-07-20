@@ -8,9 +8,11 @@ import edu.colorado.phet.circuitconstructionkit.model.Junction;
 import edu.colorado.phet.circuitconstructionkit.model.analysis.KirkhoffSolver;
 import edu.colorado.phet.circuitconstructionkit.persistence.CircuitXML;
 import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.servicemanager.InputStreamFileContents;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.view.HelpPanel;
+import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
@@ -108,7 +110,11 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
 //        titlePanel.add( logoLabel );
 //        add( titlePanel );
         add(filePanel);
-        addControl(new CCKResetButton(module));
+        addControl(new ResetAllButton(new Resettable() {
+            public void reset() {
+                module.clear();
+            }
+        }, this));
         if (module.getParameters().isUseVisualControlPanel()) {
             add(visualPanel);
         }
