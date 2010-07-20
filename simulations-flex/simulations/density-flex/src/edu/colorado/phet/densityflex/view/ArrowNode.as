@@ -11,7 +11,7 @@ public class ArrowNode extends MyMesh {
     var scaleFromModelToView:Number;
 
     public function ArrowNode(arrowModel:ArrowModel, scaleFromModelToView:Number, color:*, init:Object = null) {
-        super(combine({material:new ShadingColorMaterial(color, {alpha: 0.75})}, init));
+        super(combine({material:new ColorMaterial(color, {alpha: 0.75})}, init));
         this.arrowModel = arrowModel;
         this.scaleFromModelToView = scaleFromModelToView;
         this.mouseEnabled = false; // don't want to click on arrows, but instead the objects behind them
