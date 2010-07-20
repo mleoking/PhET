@@ -23,7 +23,7 @@ package{
 		var arrowImage:Arrow;
 		var ballHandle:Sprite;
 		var arrowHeadIndicator:Sprite; 		//shows user where tip of arrow head is
-		var arrowHeadHandle:Sprite;
+		var arrowHeadHandle:Sprite;			//user grabs this handle to set velocity with mouse
 		var tFormat:TextFormat;				//format for ball label text
 		var tFormat2:TextFormat;			//format for ball position and velocity readouts
 		var tFieldBallNbr:TextField;		//label = ball number
@@ -148,7 +148,7 @@ package{
 		public function drawLayer5():void{  //arrowHeadHandle
 			var g:Graphics = this.arrowHeadHandle.graphics;
 			var currentColor:uint = 0xffffff;
-			var alpha1:Number = 0;
+			var alpha1:Number = 1;
 			var r:Number = 10;
 			g.clear();
 			g.beginFill(currentColor, alpha1);
