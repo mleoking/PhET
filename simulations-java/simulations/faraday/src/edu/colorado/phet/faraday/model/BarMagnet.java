@@ -49,25 +49,29 @@ import edu.colorado.phet.faraday.util.Vector2D;
 public class BarMagnet extends AbstractMagnet {
 
     // values using in MathCAD
-    private static final double GRID_SPACING = 4; // same in both dimensions
-    private static final Dimension GRID_SIZE = new Dimension( 125, 50 ); // number of points in the grid
     private static final double GRID_MAGNET_STRENGTH = 1; // Gauss
-    
-    // convenience constants
-    private static final double GRID_X_MAX = GRID_SPACING * ( GRID_SIZE.width - 1 );
-    private static final double GRID_Y_MAX = GRID_SPACING * ( GRID_SIZE.height - 1 );
+    private static final double INTERNAL_GRID_SPACING = 5; // same in both dimensions
+    private static final double EXTERNAL_NEAR_GRID_SPACING = 5; // same in both dimensions
+    private static final double EXTERNAL_FAR_GRID_SPACING = 20; // same in both dimensions
+    private static final Dimension INTERNAL_GRID_SIZE = new Dimension( 6, 26 ); // number of points in the grid
+    private static final Dimension EXTERNAL_NEAR_GRID_SIZE = new Dimension( 101, 81 ); // number of points in the grid
+    private static final Dimension EXTERNAL_FAR_GRID_SIZE = new Dimension( 126, 61 ); // number of points in the grid
     
     // grid file names
-    private static final String BX_RESOURCE_NAME = "bfield/Bx.csv"; // B-field vector x components, one quadrant (+x +y)
-    private static final String BY_RESOURCE_NAME = "bfield/By.csv"; // B-field vector y components, one quadrant (+x +y)
+    private static final String BX_INTERNAL_RESOURCE_NAME = "bfield/BX_internal.csv"; 
+    private static final String BY_INTERNAL_RESOURCE_NAME = "bfield/BY_internal.csv";
+    private static final String BX_EXTERNAL_NEAR_RESOURCE_NAME = "bfield/BX_external_near.csv"; 
+    private static final String BY_EXTERNAL_NEAR_RESOURCE_NAME = "bfield/BY_external_near.csv";
+    private static final String BX_EXTERNAL_FAR_RESOURCE_NAME = "bfield/BX_external_far.csv"; 
+    private static final String BY_EXTERNAL_FAR_RESOURCE_NAME = "bfield/BY_external_far.csv";
     
-    final double[][] bxArray, byArray; // Bx and By component arrays, units of Gauss
+    private final Grid internalGrid, externalNearGrid, externalFarGrid;
     
     public BarMagnet() {
         super();
-        GridReader reader = new GridReader();
-        bxArray = reader.getBxArray();
-        byArray = reader.getByArray();
+        internalGrid = new Grid( BX_INTERNAL_RESOURCE_NAME, BY_INTERNAL_RESOURCE_NAME, INTERNAL_GRID_SIZE, INTERNAL_GRID_SPACING );
+        externalNearGrid = new Grid( BX_EXTERNAL_NEAR_RESOURCE_NAME, BY_EXTERNAL_NEAR_RESOURCE_NAME, EXTERNAL_NEAR_GRID_SIZE, EXTERNAL_NEAR_GRID_SPACING );
+        externalFarGrid = new Grid( BX_EXTERNAL_FAR_RESOURCE_NAME, BY_EXTERNAL_FAR_RESOURCE_NAME, EXTERNAL_FAR_GRID_SIZE, EXTERNAL_FAR_GRID_SPACING );
     }
 
     /**
@@ -101,7 +105,22 @@ public class BarMagnet extends AbstractMagnet {
      * See class javadoc.
      */
     private double getBx( final double x, final double y ) {
-        return interpolate( Math.abs( x ), Math.abs( y ), bxArray );
+        Grid grid = chooseGrid( x, y );
+        return interpolate( Math.abs( x ), Math.abs( y ), grid.getMaxX(), grid.getMaxY(), grid.getBxArray(), grid.getGridSpacing() );
+    }
+    
+    private Grid chooseGrid( double x, double y ) {
+        Grid grid = null;
+        if ( internalGrid.contains( x, y ) ) {
+            grid = internalGrid;
+        }
+        else if ( externalNearGrid.contains( x, y ) ) {
+            grid = externalNearGrid;
+        }
+        else {
+            grid = externalFarGrid;
+        }
+        return grid;
     }
     
     /*
@@ -110,7 +129,8 @@ public class BarMagnet extends AbstractMagnet {
      * See class javadoc.
      */
     private double getBy( final double x, final double y ) {
-        double by = interpolate( Math.abs( x ), Math.abs( y ), byArray );
+        Grid grid = chooseGrid( x, y );
+        double by = interpolate( Math.abs( x ), Math.abs( y ), grid.getMaxX(), grid.getMaxY(), grid.getByArray(), grid.getGridSpacing() );
         if ( ( x > 0 && y < 0 ) || ( x < 0 && y > 0 ) ) {
             by *= -1; // reflect about the y axis
         }
@@ -121,17 +141,17 @@ public class BarMagnet extends AbstractMagnet {
      * Locates the 4 grid points that form a rectangle enclosing the specified point.
      * Then performs a linear interpolation of the B-field at those 4 points.
      */
-    private double interpolate( final double x, final double y, double[][] componentValues ) {
+    private double interpolate( final double x, final double y, double maxX, double maxY, double[][] componentValues, double gridSpacing ) {
         if ( !( x >= 0 && y >= 0 ) ) {
             throw new IllegalArgumentException( "x and y must be positive" ); // ...because our grid is for that quadrant
         }
         
         double value = 0; // B-field outside the grid is zero
-        if ( gridContains( x, y ) ) {
+        if ( x >=0 && x <= maxX && y >= 0 && y <= maxY ) {
             
             // compute array indicies
-            int columnIndex = (int) ( x / GRID_SPACING );
-            int rowIndex = (int) ( y / GRID_SPACING );
+            int columnIndex = (int) ( x / gridSpacing );
+            int rowIndex = (int) ( y / gridSpacing );
             
             /* 
              * If we're at one of the index maximums, then we're exactly on the outer edge of the grid.
@@ -145,10 +165,10 @@ public class BarMagnet extends AbstractMagnet {
             }
             
             // xy coordinates that define the enclosing rectangle
-            double x0 = columnIndex * GRID_SPACING;
-            double x1 = x0 + GRID_SPACING;
-            double y0 = rowIndex * GRID_SPACING;
-            double y1 = y0 + GRID_SPACING;
+            double x0 = columnIndex * gridSpacing;
+            double x1 = x0 + gridSpacing;
+            double y0 = rowIndex * gridSpacing;
+            double y1 = y0 + gridSpacing;
             
             // values at the 4 corners of the enclosing rectangle
             double f00 = componentValues[columnIndex][rowIndex];
@@ -166,27 +186,32 @@ public class BarMagnet extends AbstractMagnet {
     }
     
     /*
-     * Does the grid contain this point?
-     */
-    private boolean gridContains( double x, double y ) {
-        return ( x >=0 && x <= GRID_X_MAX && y >= 0 && y <= GRID_Y_MAX );
-    }
-
-    /*
      * Reads the B-field grid files.
      * One file for each 2D vector component (Bx, By).
      * Files are in CSV (Comma Separated Value) format, with values in column-major order.
      * (This means that the x coordinate changes more slowly than the y coordinate.)
      */
-    private static class GridReader {
+    private static class Grid {
         
         private static final String TOKEN_DELIMITER = ","; // CSV format
         
         private final double[][] bxArray, byArray;  // double[columns][rows]
+        private final Dimension gridSize;
+        private final double gridSpacing;
         
-        public GridReader() {
-            bxArray = readGridComponent( BX_RESOURCE_NAME, GRID_SIZE );
-            byArray = readGridComponent( BY_RESOURCE_NAME, GRID_SIZE );
+        public Grid( String bxResourceName, String byResourceName, Dimension gridSize, double gridSpacing ) {
+            this.gridSize = new Dimension( gridSize.width, gridSize.height );
+            this.gridSpacing = gridSpacing;
+            bxArray = readGridComponent( bxResourceName, gridSize );
+            byArray = readGridComponent( byResourceName, gridSize );
+        }
+        
+        public Dimension getGridSize() {
+            return gridSize;
+        }
+
+        public double getGridSpacing() {
+            return gridSpacing;
         }
         
         public double[][] getBxArray() {
@@ -195,6 +220,18 @@ public class BarMagnet extends AbstractMagnet {
         
         public double[][] getByArray() {
             return byArray;
+        }
+        
+        public boolean contains( double x, double y ) {
+            return x >=0 && x <= getMaxX() && y >= 0 && y <= getMaxY();
+        }
+        
+        private double getMaxX() {
+            return gridSpacing * ( gridSize.width - 1 );
+        }
+        
+        private double getMaxY() {
+            return gridSpacing * ( gridSize.height - 1 );
         }
         
         /*
