@@ -133,7 +133,6 @@ public class FaradayMouseHandler extends MouseInputAdapter {
                 boolean collidesNow = _collisionDetector.collidesNow();
                 boolean wouldCollide = _collisionDetector.wouldCollide( dx, dy );
                 collision = !collidesNow && wouldCollide;
-                System.out.println( "collision=" + collision );//XXX
             }
 
             if ( outOfBounds || collision ) {
