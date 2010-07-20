@@ -1,8 +1,9 @@
 TODO list for Faraday ticket #2236
 
 HIGH PRIORITY
-- PickupCoil.setEmfScale -> PickupCoilGraphic.setEmfScale
-- recalibrate all view components, extend ranges of dev controls?
+- ask Mike why voltmeter & compass behavior has changed in Generator
+- get rid of scaling in model and view, make FaradayConstants.PICKUP_REFERENCE_EMF the single tunable parameter, per module
+- recalibrate all view components
 
 MEDIUM PRIORITY
 - remove MathCAD dependency by implementing numerical model in a stand-alone Java program that can generate grid files
