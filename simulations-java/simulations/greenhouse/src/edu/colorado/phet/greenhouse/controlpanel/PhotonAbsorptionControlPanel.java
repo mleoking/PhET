@@ -97,42 +97,35 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
         
         // Create and add a panel that will contain the buttons for selecting
         // the gas.
-        VerticalLayoutPanel greenhouseGasPanel = new VerticalLayoutPanel();
+        VerticalLayoutPanel atmosphericGasesPanel = new VerticalLayoutPanel();
         // TODO: i18n
-        greenhouseGasPanel.setBorder(createTitledBorder("Greenhouse Gas"));
-        addControlFullWidth(greenhouseGasPanel);
+        atmosphericGasesPanel.setBorder(createTitledBorder("Atmospheric Gases"));
+        addControlFullWidth(atmosphericGasesPanel);
         
         // Add buttons for selecting greenhouse gas.
-        h2oSelector = createAndAttachSelectorPanel( "<html>H<sub>2</sub>O</html>", createImageFromMolecule( new H2O() ), PhotonTarget.H2O,
+        ch4Selector = createAndAttachSelectorPanel( "<html>CH<sub>4</sub></html>", createImageFromMolecule( new CH4() ), PhotonTarget.CH4,
                 MOLECULE_SCALING_FACTOR );
-        greenhouseGasPanel.add(h2oSelector);
+        atmosphericGasesPanel.add(ch4Selector);
         
         co2Selector = createAndAttachSelectorPanel( "<html>CO<sub>2</sub></html>", createImageFromMolecule( new CO2() ), PhotonTarget.CO2,
                 MOLECULE_SCALING_FACTOR );
-        greenhouseGasPanel.add(co2Selector);
+        atmosphericGasesPanel.add(co2Selector);
         
-        ch4Selector = createAndAttachSelectorPanel( "<html>CH<sub>4</sub></html>", createImageFromMolecule( new CH4() ), PhotonTarget.CH4,
+        h2oSelector = createAndAttachSelectorPanel( "<html>H<sub>2</sub>O</html>", createImageFromMolecule( new H2O() ), PhotonTarget.H2O,
                 MOLECULE_SCALING_FACTOR );
-        greenhouseGasPanel.add(ch4Selector);
-        
-        n2oSelector = createAndAttachSelectorPanel( "<html>N<sub>2</sub>O</html>", createImageFromMolecule( new N2O() ), PhotonTarget.N2O,
-                MOLECULE_SCALING_FACTOR );
-        greenhouseGasPanel.add(n2oSelector);
-        
-        // Create and add a panel that will contain the buttons for selecting
-        // the non-greenhouse gasses.
-        VerticalLayoutPanel otherGas = new VerticalLayoutPanel();
-        // TODO: i18n
-        otherGas.setBorder(createTitledBorder("Other Gas"));
-        addControlFullWidth(otherGas);
+        atmosphericGasesPanel.add(h2oSelector);
         
         n2Selector = createAndAttachSelectorPanel( "<html>N<sub>2</sub></html>", createImageFromMolecule( new N2() ), PhotonTarget.N2,
                 MOLECULE_SCALING_FACTOR );
-        otherGas.add(n2Selector);
+        atmosphericGasesPanel.add(n2Selector);
+        
+        n2oSelector = createAndAttachSelectorPanel( "<html>N<sub>2</sub>O</html>", createImageFromMolecule( new N2O() ), PhotonTarget.N2O,
+                MOLECULE_SCALING_FACTOR );
+        atmosphericGasesPanel.add(n2oSelector);
         
         o2Selector = createAndAttachSelectorPanel( "<html>O<sub>2</sub></html>", createImageFromMolecule( new O2() ), PhotonTarget.O2,
                 MOLECULE_SCALING_FACTOR );
-        otherGas.add(o2Selector);
+        atmosphericGasesPanel.add(o2Selector);
 
         // Create and add a panel that will contain the buttons for selecting
         // the atmosphere.

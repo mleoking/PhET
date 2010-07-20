@@ -61,7 +61,7 @@ public class PhotonAbsorptionModel {
     public enum PhotonTarget { CO2, H2O, CH4, N2O, N2, O2, EARTH_AIR, VENUS_AIR };
     
     // Defaults.
-    private static final PhotonTarget DEFAULT_PHOTON_TARGET = PhotonTarget.H2O;
+    private static final PhotonTarget DEFAULT_PHOTON_TARGET = PhotonTarget.CH4;
     private static final double DEFAULT_EMITTED_PHOTON_WAVELENGTH = GreenhouseConfig.irWavelength;
 
     //----------------------------------------------------------------------------
