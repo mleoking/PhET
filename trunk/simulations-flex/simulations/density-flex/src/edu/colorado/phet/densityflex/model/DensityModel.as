@@ -38,7 +38,7 @@ public class DensityModel {
         createGround();
     }
 
-    public function addDensityObject(densityObject:DensityObject) {
+    public function addDensityObject(densityObject:DensityObject):void {
         densityObjects.push(densityObject);
         for each (var listener:Function in densityObjectCreationListeners) {
             listener(densityObject);

@@ -21,7 +21,7 @@ public class DensityObject {
 
     private var body:b2Body;
     private var submergedVolume:Number = 0.0;
-    private var contactImpulseMap = new Object();
+    private var contactImpulseMap : Object = new Object();
 
     public function DensityObject(x:Number, y:Number, z:Number, model:DensityModel) {
         this.x = x;
@@ -143,7 +143,7 @@ public class DensityObject {
         throw new Error();
     }
 
-    function modelStepped():void {
+    public function modelStepped():void {
         velocityArrowModel.setValue(body.GetLinearVelocity().x, body.GetLinearVelocity().y);
         gravityForceArrowModel.setValue(getGravityForce().x, getGravityForce().y);
         trace("Gravity y = "+getGravityForce().y);
@@ -157,20 +157,20 @@ public class DensityObject {
         return 0.0;
     }
 
-    function getGravityForce():b2Vec2 {
+    public function getGravityForce():b2Vec2 {
         return new b2Vec2(0, -DensityModel.ACCELERATION_DUE_TO_GRAVITY * getMass())
     }
 
     //Set the submerged volume before calling this
-    function getBuoyancyForce():b2Vec2 {
+    public function getBuoyancyForce():b2Vec2 {
         return new b2Vec2(0, DensityModel.ACCELERATION_DUE_TO_GRAVITY * submergedVolume)
     }
 
-    function setSubmergedVolume(submergedVolume:Number):void {
+    public function setSubmergedVolume(submergedVolume:Number):void {
         this.submergedVolume = submergedVolume;
     }
 
-    function getDragForce():b2Vec2 {
+    public function getDragForce():b2Vec2 {
         var dragForce:b2Vec2 = body.GetLinearVelocity().Copy();
         dragForce.Multiply(-2 * submergedVolume);
         return dragForce;
