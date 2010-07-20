@@ -76,8 +76,7 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
     private RadioButtonWithIconPanel n2oSelector;
     private RadioButtonWithIconPanel n2Selector;
     private RadioButtonWithIconPanel o2Selector;
-    private RadioButtonWithIconPanel earthAtmospherSelector;
-    private RadioButtonWithIconPanel venusAtmosphereSelector;
+    private RadioButtonWithIconPanel atmospherSelector;
     private static final boolean ATMOSPHERE_ENABLED = true;
 
     // ------------------------------------------------------------------------
@@ -129,21 +128,18 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
 
         // Create and add a panel that will contain the buttons for selecting
         // the atmosphere.
-        VerticalLayoutPanel atmosphere = new VerticalLayoutPanel();
+        VerticalLayoutPanel atmospherePanel = new VerticalLayoutPanel();
         // TODO: i18n
-        atmosphere.setBorder(createTitledBorder("Atmosphere"));
+        atmospherePanel.setBorder(createTitledBorder("Atmosphere"));
+        addControlFullWidth( atmospherePanel );
 
         // TODO: i18n
-        earthAtmospherSelector = createAndAttachSelectorPanel("Earth", GreenhouseResources.getImage( "earth.png" ),
+        atmospherSelector = createAndAttachSelectorPanel("Build Atmosphere", GreenhouseResources.getImage( "earth.png" ),
                 PhotonTarget.EARTH_AIR, PLANET_SCALING_FACTOR);
-        atmosphere.add(earthAtmospherSelector);
-        // TODO: i18n
-        venusAtmosphereSelector = createAndAttachSelectorPanel("Venus", GreenhouseResources.getImage( "venus.png" ),
-                PhotonTarget.VENUS_AIR, PLANET_SCALING_FACTOR);
-        atmosphere.add(venusAtmosphereSelector);
+        atmospherePanel.add(atmospherSelector);
 
         if (ATMOSPHERE_ENABLED) {
-            addControlFullWidth(atmosphere);
+            addControlFullWidth(atmospherePanel);
         }
         
         // Put all the buttons in a button group.
@@ -154,8 +150,7 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
         buttonGroup.add( n2oSelector.getButton() );
         buttonGroup.add( n2Selector.getButton() );
         buttonGroup.add( o2Selector.getButton() );
-        buttonGroup.add(earthAtmospherSelector.getButton());
-        buttonGroup.add(venusAtmosphereSelector.getButton());
+        buttonGroup.add(atmospherSelector.getButton());
 
         // Add the reset all button.
         addControlFullWidth(createVerticalSpacingPanel(60));
@@ -208,8 +203,8 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
     }
 
 	private TitledBorder createTitledBorder(String title) {
-		BevelBorder otherGasBaseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
-        TitledBorder titledBorder = BorderFactory.createTitledBorder( otherGasBaseBorder,
+		BevelBorder beveledBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
+        TitledBorder titledBorder = BorderFactory.createTitledBorder( beveledBorder,
                 title,
                 TitledBorder.LEFT,
                 TitledBorder.TOP,
