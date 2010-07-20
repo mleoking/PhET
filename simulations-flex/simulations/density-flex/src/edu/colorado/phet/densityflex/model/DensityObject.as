@@ -15,6 +15,7 @@ public class DensityObject {
     private var velocityArrowModel:ArrowModel = new ArrowModel(0, 0);
     private var gravityForceArrowModel:ArrowModel = new ArrowModel(0, 0);
     private var buoyancyForceArrowModel:ArrowModel = new ArrowModel(0, 0);
+    private var dragForceArrowModel:ArrowModel = new ArrowModel(0, 0);
     private var model:DensityModel;
 
     private var body:b2Body;
@@ -39,6 +40,10 @@ public class DensityObject {
 
     public function getBuoyancyForceArrowModel():ArrowModel {
         return buoyancyForceArrowModel;
+    }
+
+    public function getDragForceArrowModel():ArrowModel {
+        return dragForceArrowModel;
     }
 
     public function addListener(listener:Listener):void {
@@ -116,8 +121,9 @@ public class DensityObject {
 
     function modelStepped():void {
         velocityArrowModel.setValue(body.GetLinearVelocity().x, body.GetLinearVelocity().y);
-        gravityForceArrowModel.setValue(getGravityForce().x,getGravityForce().y);
-        buoyancyForceArrowModel.setValue(getBuoyancyForce().x,getBuoyancyForce().y);
+        gravityForceArrowModel.setValue(getGravityForce().x, getGravityForce().y);
+        buoyancyForceArrowModel.setValue(getBuoyancyForce().x, getBuoyancyForce().y);
+        dragForceArrowModel.setValue(getDragForce().x, getDragForce().y);
     }
 
     //Overriden in subclasses
@@ -136,6 +142,12 @@ public class DensityObject {
 
     function setSubmergedVolume(submergedVolume:Number):void {
         this.submergedVolume = submergedVolume;
+    }
+
+    function getDragForce():b2Vec2 {
+        var dragForce:b2Vec2 = body.GetLinearVelocity().Copy();
+        dragForce.Multiply(-2 * submergedVolume);
+        return dragForce;
     }
 }
 }

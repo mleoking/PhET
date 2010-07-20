@@ -8,8 +8,6 @@ import Box2D.Dynamics.b2World;
 
 import edu.colorado.phet.densityflex.view.DebugText;
 
-import flash.geom.ColorTransform;
-
 public class DensityModel {
     private var densityObjects:Array;
 
@@ -40,7 +38,7 @@ public class DensityModel {
         createGround();
     }
 
-    public function addDensityObject(densityObject:DensityObject){
+    public function addDensityObject(densityObject:DensityObject) {
         densityObjects.push(densityObject);
         for each (var listener:Function in densityObjectCreationListeners) {
             listener(densityObject);
@@ -48,7 +46,7 @@ public class DensityModel {
     }
 
     public function clearDensityObjects():void {
-        while(densityObjects.length > 0){
+        while (densityObjects.length > 0) {
             removeDensityObject(densityObjects[0]);
         }
     }
@@ -59,7 +57,7 @@ public class DensityModel {
         for each (var object:Function in densityObjectDestructionListeners) {
             object(densityObject);
         }
-        densityObjects.splice(densityObjects.indexOf(densityObject),1);
+        densityObjects.splice(densityObjects.indexOf(densityObject), 1);
     }
 
     private function createGround():void {
@@ -123,7 +121,7 @@ public class DensityModel {
                 if (waterY > cuboid.getTopY()) {
                     submergedVolume = cuboid.getVolume();
                 }
-                else if (waterY < cuboid.getBottomY()){
+                else if (waterY < cuboid.getBottomY()) {
                     submergedVolume = 0;
                 }
                 else {
@@ -133,10 +131,7 @@ public class DensityModel {
                 cuboid.setSubmergedVolume(submergedVolume);
 
                 body.ApplyForce(cuboid.getBuoyancyForce(), body.GetPosition());
-
-                var dragForce:b2Vec2 = body.GetLinearVelocity().Copy();
-                dragForce.Multiply(-2 * submergedVolume);
-                body.ApplyForce(dragForce, body.GetPosition());
+                body.ApplyForce(cuboid.getDragForce(), body.GetPosition());
             }
         }
 
