@@ -169,13 +169,20 @@ public abstract class AbstractCoil extends FaradayObservable {
         return _loopSpacing;
     }
     
-    /**
-     * Sets the current amplitude in the coil.
-     *
+    /*
+     * Sets the current amplitude in the coil. This should only be called by the coil itself.
+     * <p>
+     * This is a quantity that we made up. It is a percentage that describes the amount of current 
+     * relative to some maximum current in the model, and direction of that current.
+     * View components can use this value to determine how they should behave (eg, how far to 
+     * move a voltmeter needle, how bright to make a lightbulb, etc.)
+     * 
      * @param currentAmplitude the current amplitude (-1...+1)
      */
-    public void setCurrentAmplitude( double currentAmplitude ) {
-        assert( currentAmplitude >= -1 && currentAmplitude <= +1 );
+    protected void setCurrentAmplitude( double currentAmplitude ) {
+        if ( currentAmplitude < -1 || currentAmplitude > 1 ) {
+            throw new IllegalArgumentException( "currentAmplitude is out of range: " + currentAmplitude );
+        }
         if ( currentAmplitude != _currentAmplitude ) {
             _currentAmplitude = currentAmplitude;
             notifySelf();
