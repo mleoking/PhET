@@ -1,4 +1,4 @@
-/* Copyright 2004-2008, University of Colorado */
+/* Copyright 2004-2010, University of Colorado */
 
 package edu.colorado.phet.faraday.view;
 
@@ -170,7 +170,7 @@ public class CompassGraphic extends CompositePhetGraphic
     /*
      * @see edu.colorado.phet.faraday.view.ICollidable#getCollisionBounds()
      */
-    public Rectangle[] getCollisionBounds() {
+    public Shape[] getCollisionBounds() {
         if ( isVisible() ) {
             if ( _collisionBounds == null ) {
                 _collisionBounds = new Rectangle[1];
@@ -199,11 +199,8 @@ public class CompassGraphic extends CompositePhetGraphic
     // Inner classes
     //----------------------------------------------------------------------------
     
-    /**
-     * SkaterNode creates a the compass body from a bunch of static graphic components.
-     *
-     * @author Chris Malley (cmalley@pixelzoom.com)
-     * @version $Revision$
+    /*
+     * All the parts of the compass that don't move.
      */
     private static class BodyGraphic extends PhetImageGraphic {
         public BodyGraphic( Component component ) {

@@ -1,9 +1,10 @@
-/* Copyright 2004-2008, University of Colorado */
+/* Copyright 2004-2010, University of Colorado */
 
 package edu.colorado.phet.faraday.view;
 
 import java.awt.Component;
 import java.awt.Rectangle;
+import java.awt.Shape;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
@@ -132,7 +133,7 @@ public class BarMagnetGraphic extends PhetImageGraphic
     /*
      * @see edu.colorado.phet.faraday.view.ICollidable#getCollisionBounds()
      */
-    public Rectangle[] getCollisionBounds() {
+    public Shape[] getCollisionBounds() {
         if ( isVisible() ) {
             if ( _collisionBounds == null ) {
                 _collisionBounds = new Rectangle[1];

@@ -1,4 +1,4 @@
-/* Copyright 2005-2008, University of Colorado */
+/* Copyright 2005-2010, University of Colorado */
 
 package edu.colorado.phet.faraday.view;
 
@@ -242,7 +242,7 @@ implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
     /*
      * @see edu.colorado.phet.faraday.view.ICollidable#getCollisionBounds()
      */
-    public Rectangle[] getCollisionBounds() {
+    public Shape[] getCollisionBounds() {
        return _coilGraphic.getCollisionBounds();
     }
     
