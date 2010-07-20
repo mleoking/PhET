@@ -1,3 +1,5 @@
+Converted to checkboxes instead of buttons for show values
+Switched to standard reset all button
 # 3.19.00 (41978) Jun 28, 2010
 # 3.18.14 (41931) Jun 25, 2010
 > Component values are accepted after typing in the component editor and clicking elsewhere, instead of requiring the user to press "OK" first

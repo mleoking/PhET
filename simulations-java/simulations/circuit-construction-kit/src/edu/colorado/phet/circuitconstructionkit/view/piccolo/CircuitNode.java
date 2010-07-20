@@ -36,6 +36,7 @@ public class CircuitNode extends PhetPNode {
     private BranchNodeFactory branchNodeFactory;
     private boolean changingLifelike;
     private ReadoutSetNode editingReadoutLayer;
+    private boolean readoutsVisible = false;
 
     public CircuitNode(final CCKModel cckModel, final Circuit circuit, final JComponent component, CCKModule module, BranchNodeFactory branchNodeFactory) {
         this.branchNodeFactory = branchNodeFactory;
@@ -150,6 +151,7 @@ public class CircuitNode extends PhetPNode {
     private void addBranchNode(Branch branch) {
         branchLayer.addChild(createNode(branch));
         updateBranchOrder();
+        updateReadoutsVisible();
     }
 
     private BranchNode createNode(Branch branch) {
@@ -185,9 +187,14 @@ public class CircuitNode extends PhetPNode {
         electronLayer.setVisible(b);
     }
 
-    public void setAllReadoutsVisible(boolean visible) {
-        readoutLayer.setVisible(visible);
-        readoutLayer.setAllReadoutsVisible(visible);
+    public void setReadoutsVisible(boolean visible) {
+        this.readoutsVisible = visible;
+        updateReadoutsVisible();
+    }
+
+    private void updateReadoutsVisible() {
+        readoutLayer.setVisible(readoutsVisible);
+        readoutLayer.setAllReadoutsVisible(readoutsVisible);
     }
 
     public ClipFactory getClipFactory() {
