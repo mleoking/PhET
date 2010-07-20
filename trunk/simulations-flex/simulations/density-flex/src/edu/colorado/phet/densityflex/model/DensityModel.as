@@ -116,21 +116,22 @@ public class DensityModel {
                 var body:b2Body = cuboid.getBody();
 
                 // gravity?
-                body.ApplyForce(new b2Vec2(0, -ACCELERATION_DUE_TO_GRAVITY * cuboid.getVolume() * cuboid.getDensity()), body.GetPosition());
+                body.ApplyForce(cuboid.getGravityForce(), body.GetPosition());
 
-                if (waterY < cuboid.getBottomY()) {
-                    continue;
-                }
                 var submergedVolume:Number;
                 if (waterY > cuboid.getTopY()) {
                     submergedVolume = cuboid.getVolume();
+                }
+                else if (waterY < cuboid.getBottomY()){
+                    submergedVolume = 0;
                 }
                 else {
                     submergedVolume = (waterY - cuboid.getBottomY() ) * cuboid.getWidth() * cuboid.getDepth();
                 }
                 // TODO: add in liquid density
+                cuboid.setSubmergedVolume(submergedVolume);
 
-                body.ApplyForce(new b2Vec2(0, ACCELERATION_DUE_TO_GRAVITY * submergedVolume), body.GetPosition());
+                body.ApplyForce(cuboid.getBuoyancyForce(), body.GetPosition());
 
                 var dragForce:b2Vec2 = body.GetLinearVelocity().Copy();
                 dragForce.Multiply(-2 * submergedVolume);

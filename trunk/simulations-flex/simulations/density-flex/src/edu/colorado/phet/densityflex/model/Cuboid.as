@@ -99,7 +99,7 @@ public class Cuboid extends DensityObject {
         return width * height * depth;
     }
 
-    public function getMass():Number {
+    public override function getMass():Number {
         return getVolume() * getDensity();
     }
 

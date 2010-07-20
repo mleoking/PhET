@@ -5,7 +5,6 @@ import Box2D.Dynamics.b2Body;
 
 import edu.colorado.phet.densityflex.view.DensityObjectNode;
 import edu.colorado.phet.densityflex.view.DensityView;
-import edu.colorado.phet.densityflex.view.DensityViewFull;
 
 public class DensityObject {
 
@@ -13,11 +12,13 @@ public class DensityObject {
     private var y:Number;
     private var z:Number;
     private var listeners:Array;
-    private var velocityArrowModel:ArrowModel;
-    private var gravityForceArrowModel:ArrowModel;
+    private var velocityArrowModel:ArrowModel = new ArrowModel(0, 0);
+    private var gravityForceArrowModel:ArrowModel = new ArrowModel(0, 0);
+    private var buoyancyForceArrowModel:ArrowModel = new ArrowModel(0, 0);
     private var model:DensityModel;
 
     private var body:b2Body;
+    private var submergedVolume:Number = 0.0;
 
     public function DensityObject(x:Number, y:Number, z:Number, model:DensityModel) {
         this.x = x;
@@ -26,8 +27,6 @@ public class DensityObject {
 
         this.model = model;
         this.listeners = new Array();
-        this.velocityArrowModel = new ArrowModel(0, 0);
-        this.gravityForceArrowModel = new ArrowModel(0, 0);
     }
 
     public function getVelocityArrowModel():ArrowModel {
@@ -36,6 +35,10 @@ public class DensityObject {
 
     public function getGravityForceArrowModel():ArrowModel {
         return gravityForceArrowModel;
+    }
+
+    public function getBuoyancyForceArrowModel():ArrowModel {
+        return buoyancyForceArrowModel;
     }
 
     public function addListener(listener:Listener):void {
@@ -113,7 +116,26 @@ public class DensityObject {
 
     function modelStepped():void {
         velocityArrowModel.setValue(body.GetLinearVelocity().x, body.GetLinearVelocity().y);
-        gravityForceArrowModel.setValue(0, -body.GetMass() * DensityModel.ACCELERATION_DUE_TO_GRAVITY);
+        gravityForceArrowModel.setValue(getGravityForce().x,getGravityForce().y);
+        buoyancyForceArrowModel.setValue(getBuoyancyForce().x,getBuoyancyForce().y);
+    }
+
+    //Overriden in subclasses
+    public function getMass():Number {
+        return 0.0;
+    }
+
+    function getGravityForce():b2Vec2 {
+        return new b2Vec2(0, -DensityModel.ACCELERATION_DUE_TO_GRAVITY * getMass())
+    }
+
+    //Set the submerged volume before calling this
+    function getBuoyancyForce():b2Vec2 {
+        return new b2Vec2(0, DensityModel.ACCELERATION_DUE_TO_GRAVITY * submergedVolume)
+    }
+
+    function setSubmergedVolume(submergedVolume:Number):void {
+        this.submergedVolume = submergedVolume;
     }
 }
 }
