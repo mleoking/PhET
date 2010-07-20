@@ -21,7 +21,7 @@ public class DensityObject {
 
     private var body:b2Body;
     private var submergedVolume:Number = 0.0;
-    private var contactImpulseMap : Object = new Object();
+    private var contactImpulseMap:Object = new Object();
 
     public function DensityObject(x:Number, y:Number, z:Number, model:DensityModel) {
         this.x = x;
@@ -120,7 +120,7 @@ public class DensityObject {
             contactImpulseMap[other] = new b2Vec2(0, 0);
         }
         var term:b2Vec2 = contact.normal.Copy();
-        term.Multiply(sign*contact.normalImpulse);
+        term.Multiply(sign * contact.normalImpulse);
         contactImpulseMap[other].Add(term);
         trace("Force element: " + contactImpulseMap[other].x + ", " + contactImpulseMap[other].y);
     }
@@ -146,7 +146,7 @@ public class DensityObject {
     public function modelStepped():void {
         velocityArrowModel.setValue(body.GetLinearVelocity().x, body.GetLinearVelocity().y);
         gravityForceArrowModel.setValue(getGravityForce().x, getGravityForce().y);
-        trace("Gravity y = "+getGravityForce().y);
+        trace("Gravity y = " + getGravityForce().y);
         buoyancyForceArrowModel.setValue(getBuoyancyForce().x, getBuoyancyForce().y);
         dragForceArrowModel.setValue(getDragForce().x, getDragForce().y);
         contactForceArrowModel.setValue(getNetContactForce().x, getNetContactForce().y)
