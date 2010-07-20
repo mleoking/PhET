@@ -53,7 +53,7 @@ public class BarMagnet extends AbstractMagnet {
     private static final double INTERNAL_GRID_SPACING = 5; // same in both dimensions
     private static final double EXTERNAL_NEAR_GRID_SPACING = 5; // same in both dimensions
     private static final double EXTERNAL_FAR_GRID_SPACING = 20; // same in both dimensions
-    private static final Dimension INTERNAL_GRID_SIZE = new Dimension( 6, 26 ); // number of points in the grid
+    private static final Dimension INTERNAL_GRID_SIZE = new Dimension( 26, 6 ); // number of points in the grid
     private static final Dimension EXTERNAL_NEAR_GRID_SIZE = new Dimension( 101, 81 ); // number of points in the grid
     private static final Dimension EXTERNAL_FAR_GRID_SIZE = new Dimension( 126, 61 ); // number of points in the grid
     
@@ -250,7 +250,14 @@ public class BarMagnet extends AbstractMagnet {
                     StringTokenizer stringTokenizer = new StringTokenizer( line, TOKEN_DELIMITER );
                     while ( stringTokenizer.hasMoreTokens() ) {
                         String token = stringTokenizer.nextToken();
-                        array[column][row] = Double.parseDouble( token ); // column-major order
+                        token = token.replace( '\"', ' ' ); //XXX 
+                        token = token.trim(); //XXX
+                        try {
+                            array[column][row] = Double.parseDouble( token ); // column-major order
+                        }
+                        catch ( NumberFormatException nfe ) {
+                            System.out.println( "failed to parse token: " + token );
+                        }
                         count++;
                         row++;
                         if ( row == size.height ) {
