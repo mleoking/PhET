@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.MessageFormat;
 import java.util.StringTokenizer;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
@@ -48,14 +49,14 @@ import edu.colorado.phet.faraday.util.Vector2D;
  */
 public class BarMagnet extends AbstractMagnet {
 
-    // values using in MathCAD
-    private static final double GRID_MAGNET_STRENGTH = 1; // Gauss
-    private static final double INTERNAL_GRID_SPACING = 5; // same in both dimensions
-    private static final double EXTERNAL_NEAR_GRID_SPACING = 5; // same in both dimensions
-    private static final double EXTERNAL_FAR_GRID_SPACING = 20; // same in both dimensions
-    private static final Dimension INTERNAL_GRID_SIZE = new Dimension( 26, 6 ); // number of points in the grid
-    private static final Dimension EXTERNAL_NEAR_GRID_SIZE = new Dimension( 101, 81 ); // number of points in the grid
-    private static final Dimension EXTERNAL_FAR_GRID_SIZE = new Dimension( 126, 61 ); // number of points in the grid
+    // values using in MathCAD for generating the grid files
+    private static final double GRID_MAGNET_STRENGTH = 1; // strength of the magnet, in Gauss
+    private static final double INTERNAL_GRID_SPACING = 5; // spacing between points in the internal grid, same in both dimensions
+    private static final double EXTERNAL_NEAR_GRID_SPACING = 5; // spacing between points in the external-near grid, same in both dimensions
+    private static final double EXTERNAL_FAR_GRID_SPACING = 20; // spacing between points in the external-far grid, same in both dimensions
+    private static final Dimension INTERNAL_GRID_SIZE = new Dimension( 26, 6 ); // number of points in the internal grid
+    private static final Dimension EXTERNAL_NEAR_GRID_SIZE = new Dimension( 101, 81 ); // number of points in the external-near grid
+    private static final Dimension EXTERNAL_FAR_GRID_SIZE = new Dimension( 126, 61 ); // number of points in the external-far grid
     
     // grid file names
     private static final String BX_INTERNAL_RESOURCE_NAME = "bfield/BX_internal.csv"; 
@@ -65,7 +66,9 @@ public class BarMagnet extends AbstractMagnet {
     private static final String BX_EXTERNAL_FAR_RESOURCE_NAME = "bfield/BX_external_far.csv"; 
     private static final String BY_EXTERNAL_FAR_RESOURCE_NAME = "bfield/BY_external_far.csv";
     
-    private final Grid internalGrid, externalNearGrid, externalFarGrid;
+    private final Grid internalGrid; // internal to the magnet
+    private final Grid externalNearGrid; // near the magnet
+    private final Grid externalFarGrid; // far from the magnet
     
     public BarMagnet() {
         super();
@@ -106,9 +109,26 @@ public class BarMagnet extends AbstractMagnet {
      */
     private double getBx( final double x, final double y ) {
         Grid grid = chooseGrid( x, y );
-        return interpolate( Math.abs( x ), Math.abs( y ), grid.getMaxX(), grid.getMaxY(), grid.getBxArray(), grid.getGridSpacing() );
+        return interpolate( Math.abs( x ), Math.abs( y ), grid.getMaxX(), grid.getMaxY(), grid.getBxArray(), grid.getSpacing() );
     }
     
+    /*
+     * Get By component for a point relative to the magnet's origin.
+     * This component is the same in 2 quadrants, but must be reflected about the y axis for 2 quadrants.
+     * See class javadoc.
+     */
+    private double getBy( final double x, final double y ) {
+        Grid grid = chooseGrid( x, y );
+        double by = interpolate( Math.abs( x ), Math.abs( y ), grid.getMaxX(), grid.getMaxY(), grid.getByArray(), grid.getSpacing() );
+        if ( ( x > 0 && y < 0 ) || ( x < 0 && y > 0 ) ) {
+            by *= -1; // reflect about the y axis
+        }
+        return by;
+    }
+    
+    /*
+     * Chooses the appropriate grid.
+     */
     private Grid chooseGrid( double x, double y ) {
         Grid grid = null;
         if ( internalGrid.contains( x, y ) ) {
@@ -124,22 +144,15 @@ public class BarMagnet extends AbstractMagnet {
     }
     
     /*
-     * Get By component for a point relative to the magnet's origin.
-     * This component is the same in 2 quadrants, but must be reflected about the y axis for 2 quadrants.
-     * See class javadoc.
-     */
-    private double getBy( final double x, final double y ) {
-        Grid grid = chooseGrid( x, y );
-        double by = interpolate( Math.abs( x ), Math.abs( y ), grid.getMaxX(), grid.getMaxY(), grid.getByArray(), grid.getGridSpacing() );
-        if ( ( x > 0 && y < 0 ) || ( x < 0 && y > 0 ) ) {
-            by *= -1; // reflect about the y axis
-        }
-        return by;
-    }
-    
-    /*
      * Locates the 4 grid points that form a rectangle enclosing the specified point.
-     * Then performs a linear interpolation of the B-field at those 4 points.
+     * Then performs a linear interpolation of the B-field component at those 4 points.
+     * Variable names in this method corresponds to those used in Mike Dubson's documentation, ie:
+     * 
+     * f00-----------f10
+     *  |             |
+     *  |      xy     |
+     *  |             |
+     * f01-----------f11
      */
     private double interpolate( final double x, final double y, double maxX, double maxY, double[][] componentValues, double gridSpacing ) {
         if ( !( x >= 0 && y >= 0 ) ) {
@@ -186,8 +199,8 @@ public class BarMagnet extends AbstractMagnet {
     }
     
     /*
-     * Reads the B-field grid files.
-     * One file for each 2D vector component (Bx, By).
+     * A grid of B-field vectors.
+     * The vector components (Bx, By) are stored in separate files.
      * Files are in CSV (Comma Separated Value) format, with values in column-major order.
      * (This means that the x coordinate changes more slowly than the y coordinate.)
      */
@@ -196,22 +209,22 @@ public class BarMagnet extends AbstractMagnet {
         private static final String TOKEN_DELIMITER = ","; // CSV format
         
         private final double[][] bxArray, byArray;  // double[columns][rows]
-        private final Dimension gridSize;
-        private final double gridSpacing;
+        private final Dimension size;
+        private final double spacing;
         
-        public Grid( String bxResourceName, String byResourceName, Dimension gridSize, double gridSpacing ) {
-            this.gridSize = new Dimension( gridSize.width, gridSize.height );
-            this.gridSpacing = gridSpacing;
-            bxArray = readGridComponent( bxResourceName, gridSize );
-            byArray = readGridComponent( byResourceName, gridSize );
+        public Grid( String bxResourceName, String byResourceName, Dimension size, double spacing ) {
+            this.size = new Dimension( size.width, size.height );
+            this.spacing = spacing;
+            bxArray = readComponent( bxResourceName, size );
+            byArray = readComponent( byResourceName, size );
         }
         
-        public Dimension getGridSize() {
-            return gridSize;
+        public Dimension getSize() {
+            return size;
         }
 
-        public double getGridSpacing() {
-            return gridSpacing;
+        public double getSpacing() {
+            return spacing;
         }
         
         public double[][] getBxArray() {
@@ -222,24 +235,38 @@ public class BarMagnet extends AbstractMagnet {
             return byArray;
         }
         
+        /**
+         * Determines if this grid contains the specified point.
+         * Since the grid consists one quadrant of the the space (where x & y are positive),
+         * this is determined based on the absolute value of the xy coordinates.
+         * @param x
+         * @param y
+         * @return
+         */
         public boolean contains( double x, double y ) {
-            return x >=0 && x <= getMaxX() && y >= 0 && y <= getMaxY();
+            double absX = Math.abs( x );
+            double absY = Math.abs( y );
+            return ( absX >=0 && absX <= getMaxX() && absY >= 0 && absY <= getMaxY() );
         }
         
         private double getMaxX() {
-            return gridSpacing * ( gridSize.width - 1 );
+            return spacing * ( size.width - 1 );
         }
         
         private double getMaxY() {
-            return gridSpacing * ( gridSize.height - 1 );
+            return spacing * ( size.height - 1 );
         }
         
         /*
          * Reads one B-field component from the specified resource file.
+         * If any problem occurs, this displays a dialog and exits the sim.
+         * The dialog displays a localized error message, but the specific cause 
+         * of the error is not localized.
          */
-        private double[][] readGridComponent( String resourceName, Dimension size ) {
+        private double[][] readComponent( String resourceName, Dimension size ) {
             double array[][] = new double[size.width][size.height];
             int count = 0;
+            String errorString = null;
             try {
                 InputStream is = FaradayResources.getResourceLoader().getResourceAsStream( resourceName );
                 BufferedReader br = new BufferedReader( new InputStreamReader( is ) );
@@ -250,14 +277,7 @@ public class BarMagnet extends AbstractMagnet {
                     StringTokenizer stringTokenizer = new StringTokenizer( line, TOKEN_DELIMITER );
                     while ( stringTokenizer.hasMoreTokens() ) {
                         String token = stringTokenizer.nextToken();
-                        token = token.replace( '\"', ' ' ); //XXX 
-                        token = token.trim(); //XXX
-                        try {
-                            array[column][row] = Double.parseDouble( token ); // column-major order
-                        }
-                        catch ( NumberFormatException nfe ) {
-                            System.out.println( "failed to parse token: " + token );
-                        }
+                        array[column][row] = Double.parseDouble( token ); // column-major order
                         count++;
                         row++;
                         if ( row == size.height ) {
@@ -269,15 +289,32 @@ public class BarMagnet extends AbstractMagnet {
                 }
             }
             catch ( IOException e ) {
+                errorString = "could not read " + resourceName;
                 e.printStackTrace();
-                // If we can't read the grid files, this sim can't function, so bail.
-                PhetOptionPane.showErrorDialog( PhetApplication.getInstance().getPhetFrame(), FaradayStrings.MESSAGE_CANNOT_FIND_BAR_MAGNET_FILES );
+            }
+            catch ( NumberFormatException nfe ) {
+                errorString = "could not parse number in " + resourceName;
+                nfe.printStackTrace();
+            }
+            catch ( ArrayIndexOutOfBoundsException be ) {
+                errorString = "more values than expected in " + resourceName;
+                be.printStackTrace();
+            }
+            
+            if ( errorString == null ) {
+                int expectedCount = size.width * size.height;
+                if ( count < expectedCount ) {
+                    errorString = "fewer values than expected in " + resourceName;
+                }
+            }
+            
+            // if we had problems, this sim can't function, so bail.
+            if ( errorString != null ) {
+                String message = MessageFormat.format( FaradayStrings.ERROR_BAR_MAGNET_INITIALIZATION, errorString );
+                PhetOptionPane.showErrorDialog( PhetApplication.getInstance().getPhetFrame(), message );
                 System.exit( 1 );
             }
-            int expectedCount = size.width * size.height;
-            if ( count < expectedCount ) {
-                throw new IllegalStateException( "fewer values than expected in " + resourceName + " count=" + count + "expectedCount=" + expectedCount );
-            }
+            
             return array;
         }
     }
