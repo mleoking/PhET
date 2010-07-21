@@ -1,3 +1,4 @@
+7/21/10 #2236, change max length of light rays from 500 to 350 to match behavior of 2.03.00
 7/21/10 #2236, perform initial recalibration
 7/21/10 #2236, add PickupCoil.calibrateEmf to provide calibration assistance
 7/21/10 #2236, delete individual calibration controls on lightbulb, voltmeter and electrons

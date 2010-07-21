@@ -26,7 +26,7 @@ class LightRaysGraphic extends PhetGraphic {
     private static final int MIN_RAYS = 8;
     
     // Physical dimensions, in pixels
-    private static final int MAX_RAY_LENGTH = 500;
+    private static final int MAX_RAY_LENGTH = 350;
     private static final int MIN_RAY_LENGTH = 0;
     
     // Angles
