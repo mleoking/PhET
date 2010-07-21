@@ -43,9 +43,6 @@ public class Electron extends FaradayObservable implements ModelElement {
     // A reusable point.
     private Point2D _point;
     
-    // Scale for adjusting speed.
-    private double _speedScale;
-
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -60,7 +57,6 @@ public class Electron extends FaradayObservable implements ModelElement {
         _pathPosition = 1.0; // curve's start point
         _speed = 0.0;  // not moving
         _point = new Point2D.Double();
-        _speedScale = 1.0;
     }
 
     //----------------------------------------------------------------------------
@@ -145,27 +141,6 @@ public class Electron extends FaradayObservable implements ModelElement {
         return _speed;
     }
     
-    /**
-     * Sets the speed scale.
-     * This is used to scale the speed, so that the same model can be 
-     * used in situations with varying amounts of emf, current, etc.
-     * 
-     * @param scale
-     */
-    public void setSpeedScale( double scale ) {
-        _speedScale = scale;
-    }
-    
-    /**
-     * Gets the speed scale.
-     * See setSpeedScale.
-     * 
-     * @return the speed scale
-     */
-    public double getSpeedScale() {
-        return _speedScale;
-    }
-    
     //----------------------------------------------------------------------------
     // ModelElement implementation
     //----------------------------------------------------------------------------
@@ -189,7 +164,7 @@ public class Electron extends FaradayObservable implements ModelElement {
             
             // Move the electron along the path.
             double pathScale = _path.get( _pathIndex ).getPathScale();
-            double delta = dt * MAX_PATH_POSITION_DELTA * _speed * _speedScale * pathScale;
+            double delta = dt * MAX_PATH_POSITION_DELTA * _speed * pathScale;
             _pathPosition -= delta;
             
             // Do we need to switch curves?

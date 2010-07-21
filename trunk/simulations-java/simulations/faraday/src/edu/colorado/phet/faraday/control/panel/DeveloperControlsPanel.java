@@ -50,7 +50,7 @@ public class DeveloperControlsPanel extends FaradayPanel {
         super();
         
         //  Title
-        Border lineBorder = BorderFactory.createLineBorder( Color.BLACK, 2 );
+        Border lineBorder = BorderFactory.createLineBorder( Color.RED, 2 );
         TitledBorder titleBorder = BorderFactory.createTitledBorder( lineBorder, "Developer controls" );
         titleBorder.setTitleFont( getTitleFont() );
         setBorder( titleBorder );
@@ -131,11 +131,11 @@ public class DeveloperControlsPanel extends FaradayPanel {
         if ( pickupCoilModel != null ) {
             double min = FaradayConstants.PICKUP_CALIBRATION_EMF_MIN;
             double max = FaradayConstants.PICKUP_CALIBRATION_EMF_MAX;
-            final LinearValueControl calibrationEmfControl = new LinearValueControl( min, max, "<html>Pickup<br>calibration EMF:</html>", "0.0E00", "" );
+            final LinearValueControl calibrationEmfControl = new LinearValueControl( min, max, "<html>Pickup<br>calibration EMF:</html>", "0", "" );
             calibrationEmfControl.setToolTipText( "<html>Max EMF that we expect<br>the pickup coil to generate.</html>" );
             calibrationEmfControl.setValue( pickupCoilModel.getCalibrationEmf() );
             calibrationEmfControl.setTextFieldEditable( true );
-            calibrationEmfControl.setTextFieldColumns( 4 );
+            calibrationEmfControl.setTextFieldColumns( 6 );
             calibrationEmfControl.setUpDownArrowDelta( 1 );
             calibrationEmfControl.setBorder( BorderFactory.createEtchedBorder() );
             calibrationEmfControl.addChangeListener( new ChangeListener() {
@@ -147,7 +147,7 @@ public class DeveloperControlsPanel extends FaradayPanel {
             layout.addFilledComponent( calibrationEmfControl, row++, 0, GridBagConstraints.HORIZONTAL );
         }
         
-        // Pickup coil fudge factor
+        // Pickup coil smoothing factor
         if ( pickupCoilModel != null ) {
             double min = FaradayConstants.PICKUP_TRANSITION_SMOOTHING_SCALE_MIN;
             double max = FaradayConstants.PICKUP_TRANSITION_SMOOTHING_SCALE_MAX;
@@ -184,25 +184,6 @@ public class DeveloperControlsPanel extends FaradayPanel {
                 }
             } );
             layout.addFilledComponent( lightbulbGlassGlowScaleControl, row++, 0, GridBagConstraints.HORIZONTAL );
-        }
-        
-        // Electrons in Pickup Coil
-        if ( pickupCoilGraphic != null ) {
-            double min = FaradayConstants.PICKUP_ELECTRONS_SPEED_SCALE_MIN;
-            double max = FaradayConstants.PICKUP_ELECTRONS_SPEED_SCALE_MAX;
-            final LinearValueControl pickupElectronsControl = new LinearValueControl( min, max, "<html>Pickup<br>electrons scale:</html>", "0.0", "" );
-            pickupElectronsControl.setValue( pickupCoilGraphic.getCoilGraphic().getElectronSpeedScale() );
-            pickupElectronsControl.setTextFieldEditable( true );
-            pickupElectronsControl.setTextFieldColumns( 4 );
-            pickupElectronsControl.setUpDownArrowDelta( 0.1 );
-            pickupElectronsControl.setBorder( BorderFactory.createEtchedBorder() );
-            pickupElectronsControl.addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent e ) {
-                    double value = pickupElectronsControl.getValue();
-                    pickupCoilGraphic.getCoilGraphic().setElectronSpeedScale( value );
-                }
-            } );
-            layout.addFilledComponent( pickupElectronsControl, row++, 0, GridBagConstraints.HORIZONTAL );
         }
     }
 }

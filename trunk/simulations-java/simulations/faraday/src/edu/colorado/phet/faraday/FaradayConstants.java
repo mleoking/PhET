@@ -14,6 +14,16 @@ import java.awt.Dimension;
  */
 public class FaradayConstants {
    
+    // Not intended for instantiation.
+    private FaradayConstants() {}
+    
+    //----------------------------------------------------------------------------
+    // Flags used to create special "study" versions of this sim
+    //----------------------------------------------------------------------------
+    
+    public static final boolean HIDE_BFIELD_FEATURE = false; // hides the "Show Field" feature
+    public static final boolean HIDE_ELECTRONS_FEATURE = false; // hides the "Show Electrons" feature
+    
     //----------------------------------------------------------------------------
     // Application
     //----------------------------------------------------------------------------
@@ -148,6 +158,7 @@ public class FaradayConstants {
     
     /* B-field needles with magnitude below this value are not drawn. */
     public static final double GRID_BFIELD_THRESHOLD = 0.02; // Gauss
+    
     /* Absolute current amplitude below this value is treated as zero. */
     public static final double CURRENT_AMPLITUDE_THRESHOLD = 0.001;
     
@@ -155,37 +166,12 @@ public class FaradayConstants {
     // Developer controls
     //----------------------------------------------------------------------------
     
-    private static final double DEFAULT_VIEW_SCALE_MIN = 1;
-    private static final double DEFAULT_VIEW_SCALE_MAX = 100;
-    
     public static final double PICKUP_CALIBRATION_EMF_MIN = 1E4;
     public static final double PICKUP_CALIBRATION_EMF_MAX = 5E6;
-    
-    public static final double LIGHTBULB_GLASS_GLOW_SCALE_MIN = 1;
-    public static final double LIGHTBULB_GLASS_GLOW_SCALE_MAX = 100;
-    
-    public static final double PICKUP_ELECTRONS_SPEED_SCALE_MIN = DEFAULT_VIEW_SCALE_MIN;
-    public static final double PICKUP_ELECTRONS_SPEED_SCALE_MAX = DEFAULT_VIEW_SCALE_MAX;
-    
-    public static final double ELECTROMAGNET_ELECTRONS_SPEED_SCALE_MIN = DEFAULT_VIEW_SCALE_MIN;
-    public static final double ELECTROMAGNET_ELECTRONS_SPEED_SCALE_MAX = DEFAULT_VIEW_SCALE_MAX;
     
     public static final double PICKUP_TRANSITION_SMOOTHING_SCALE_MIN = 0.1; // must be > 0
     public static final double PICKUP_TRANSITION_SMOOTHING_SCALE_MAX = 1; // must be <= 1
     
-    //----------------------------------------------------------------------------
-    // Flags used to create special "study" versions of this sim
-    //----------------------------------------------------------------------------
-    
-    public static final boolean HIDE_BFIELD_FEATURE = false; // hides the "Show Field" feature
-    public static final boolean HIDE_ELECTRONS_FEATURE = false; // hides the "Show Electrons" feature
-    
-    //----------------------------------------------------------------------------
-    // Constructors
-    //----------------------------------------------------------------------------
-
-    /**
-     * This class is not intended for instantiation.
-     */
-    private FaradayConstants() {}
+    public static final double LIGHTBULB_GLASS_GLOW_SCALE_MIN = 1;
+    public static final double LIGHTBULB_GLASS_GLOW_SCALE_MAX = 100;
 }
