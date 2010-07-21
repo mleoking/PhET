@@ -27,9 +27,9 @@ class RampForceChartNode(canvas: PhetPCanvas, motionSeriesModel: MotionSeriesMod
 
 class ForcesAndMotionChartNode(canvas: PhetPCanvas, model: MotionSeriesModel) extends MultiControlChart(Array(
   new RampForceMinimizableControlChart(model),
-  new MinimizableControlChart("properties.acceleration".translate, new SingleSeriesChart(model, () => model.bead.acceleration).chart) {setMaximized(false)},
-  new MinimizableControlChart("properties.velocity".translate, new SingleSeriesChart(model, () => model.bead.velocity).chart) {setMaximized(false)},
-  new MinimizableControlChart("properties.position".translate, new SingleSeriesChart(model, () => model.bead.position).chart) {setMaximized(false)})) {
+  new MinimizableControlChart("properties.acceleration".translate, new SingleSeriesChart(model, () => model.bead.acceleration, 50).chart) {setMaximized(false)},
+  new MinimizableControlChart("properties.velocity".translate, new SingleSeriesChart(model, () => model.bead.velocity, 25).chart) {setMaximized(false)},
+  new MinimizableControlChart("properties.position".translate, new SingleSeriesChart(model, () => model.bead.position, 10).chart) {setMaximized(false)})) {
   canvas.addComponentListener(new ComponentAdapter { //todo: remove duplicate code from above
     override def componentResized(e: ComponentEvent) = {
       val insetX = 6
@@ -40,8 +40,8 @@ class ForcesAndMotionChartNode(canvas: PhetPCanvas, model: MotionSeriesModel) ex
   })
 }
 
-class SingleSeriesChart(motionSeriesModel: MotionSeriesModel, _value: () => Double) {
-  val temporalChart = new TemporalChart(new java.awt.geom.Rectangle2D.Double(0, -2000, 20, 4000), new ChartCursor())
+class SingleSeriesChart(motionSeriesModel: MotionSeriesModel, _value: () => Double, maxY: Double) {
+  val temporalChart = new TemporalChart(new java.awt.geom.Rectangle2D.Double(0, -maxY, 20, maxY * 2), new ChartCursor())
   val chart = new ControlChart(new PNode(), new PNode(), temporalChart, new ChartZoomControlNode(temporalChart))
 
   val accelerationVariable = new MutableDouble(_value()) {
