@@ -1,4 +1,4 @@
-/* Copyright 2005-2008, University of Colorado */
+/* Copyright 2005-2010, University of Colorado */
 
 package edu.colorado.phet.faraday.control.panel;
 
@@ -276,12 +276,14 @@ public class ElectromagnetPanel extends FaradayPanel {
                 _batteryModel.setEnabled( true );
                 _acPowerSupplyModel.setEnabled( false );
                 _electromagnetModel.setCurrentSource( _batteryModel );
+                _compassModel.setBehavior( Compass.KINEMATIC_BEHAVIOR );
             }
             else if ( e.getSource() == _acRadioButton ) {
                 // AC source
                 _batteryModel.setEnabled( false );
                 _acPowerSupplyModel.setEnabled( true );
                 _electromagnetModel.setCurrentSource( _acPowerSupplyModel );
+                _compassModel.setBehavior( Compass.INCREMENTAL_BEHAVIOR );
             }
             else if ( e.getSource() == _bFieldCheckBox ) {
                 // B-field enable
