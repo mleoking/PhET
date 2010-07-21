@@ -1,6 +1,7 @@
 package edu.colorado.phet.densityflex.view {
 import away3d.core.base.Vertex;
 
+import away3d.materials.ITriangleMaterial;
 import away3d.materials.ShadingColorMaterial;
 
 import edu.colorado.phet.densityflex.model.DensityModel;
@@ -10,11 +11,10 @@ public class GroundNode extends MyMesh {
         super();
 
         var poolWidth:Number = model.getPoolWidth() * DensityModel.DISPLAY_SCALE;
+        var poolHeight:Number = model.getPoolHeight() * DensityModel.DISPLAY_SCALE;
         var poolDepth:Number = model.getPoolDepth() * DensityModel.DISPLAY_SCALE;
 
         var far:Number = DensityView.far;
-
-        this.material = new ShadingColorMaterial(0x00AA00);
 
         // pool vertices
         v(-poolWidth / 2, 0, 0);
@@ -27,6 +27,16 @@ public class GroundNode extends MyMesh {
         v(far, 0, far);
         v(-far, 0, far);
         v(-far, 0, 0);
+
+        // front earth vertices
+        v(-far, -far, 0);
+        v(far, -far, 0);
+        v(poolWidth / 2, -poolHeight, 0);
+        v(-poolWidth / 2, -poolHeight, 0);
+
+        // at the back of the pool
+        v(-poolWidth / 2, -poolHeight, poolDepth);
+        v(poolWidth / 2, -poolHeight, poolDepth);
 
         for each (var vertex:Vertex in getVertexArray()) {
             vertex.y = vertex.y + DensityView.verticalGroundOffset;
@@ -46,12 +56,39 @@ public class GroundNode extends MyMesh {
             addUV(vertex);
         }
 
-        face(3, 4, 5);
-        face(3, 5, 2);
-        face(2, 5, 6);
-        face(1, 2, 6);
-        face(0, 1, 6);
-        face(0, 6, 7);
+        var grassMaterial:ITriangleMaterial = new ShadingColorMaterial(0x00AA00);
+        var earthMaterial:ITriangleMaterial = new ShadingColorMaterial(0xAA7733);
+        var poolMaterial:ITriangleMaterial = new ShadingColorMaterial(0xAAAAAA);
+
+        face(3, 4, 5, grassMaterial);
+        face(3, 5, 2, grassMaterial);
+        face(2, 5, 6, grassMaterial);
+        face(1, 2, 6, grassMaterial);
+        face(0, 1, 6, grassMaterial);
+        face(0, 6, 7, grassMaterial);
+
+        face(0, 7, 11, earthMaterial);
+        face(7, 8, 11, earthMaterial);
+        face(8, 9, 11, earthMaterial);
+        face(9, 10, 11, earthMaterial);
+        face(10, 9, 4, earthMaterial);
+        face(4, 3, 10, earthMaterial);
+
+        // right side of pool
+        face(10, 3, 2, poolMaterial);
+        face(10, 2, 13, poolMaterial);
+
+        // back of pool
+        face(1, 12, 13, poolMaterial);
+        face(13, 2, 1, poolMaterial);
+
+        // left side of pool
+        face(11, 12, 1, poolMaterial);
+        face(11, 1, 0, poolMaterial);
+
+        // bottom of pool
+        face(10, 13, 12, poolMaterial);
+        face(10, 12, 11, poolMaterial);
 
         type = "GroundNode";
         url = "density";
