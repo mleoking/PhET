@@ -25,7 +25,11 @@ class RampForceChartNode(canvas: PhetPCanvas, motionSeriesModel: MotionSeriesMod
   })
 }
 
-class ForcesAndMotionChartNode(canvas: PhetPCanvas, motionSeriesModel: MotionSeriesModel) extends MultiControlChart(Array(new RampForceMinimizableControlChart(motionSeriesModel))) {
+class ForcesAndMotionChartNode(canvas: PhetPCanvas, motionSeriesModel: MotionSeriesModel) extends MultiControlChart(Array(
+  new RampForceMinimizableControlChart(motionSeriesModel),
+  new MinimizableControlChart("properties.acceleration".translate, new RampAccelerationChart().chart){setMaximized(false)},
+  new MinimizableControlChart("properties.velocity".translate, new RampAccelerationChart().chart){setMaximized(false)},
+  new MinimizableControlChart("properties.position".translate, new RampAccelerationChart().chart){setMaximized(false)})) {
   canvas.addComponentListener(new ComponentAdapter { //todo: remove duplicate code from above
     override def componentResized(e: ComponentEvent) = {
       val insetX = 6
@@ -34,6 +38,11 @@ class ForcesAndMotionChartNode(canvas: PhetPCanvas, motionSeriesModel: MotionSer
       setBounds(0 + insetX / 2, canvas.getHeight * (1 - chartProportionY) + insetY / 2, canvas.getWidth - insetX, canvas.getHeight * chartProportionY - insetY)
     }
   })
+}
+
+class RampAccelerationChart{
+  val temporalChart = new TemporalChart(new java.awt.geom.Rectangle2D.Double(0, -2000, 20, 4000), new ChartCursor())
+  val chart = new ControlChart(new PNode(), new PNode(), temporalChart, new ChartZoomControlNode(temporalChart))
 }
 
 class RampForceMinimizableControlChart(motionSeriesModel: MotionSeriesModel) extends MinimizableControlChart("forces.parallel-title-with-units".translate, new RampForceControlChart(motionSeriesModel).chart)

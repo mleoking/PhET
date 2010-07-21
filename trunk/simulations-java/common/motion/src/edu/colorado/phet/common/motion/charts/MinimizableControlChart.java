@@ -41,6 +41,10 @@ public class MinimizableControlChart extends PNode {
         return minimizeMaximizeButton.getMaximized();
     }
 
+    public void setMaximized(Boolean maximized){
+        minimizeMaximizeButton.getMaximized().setValue(maximized);
+    }
+
     public void setMinimizeMaximizeButtonOffset(double x, double y) {
         minimizeMaximizeButton.setOffset(x, y);
     }
