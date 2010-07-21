@@ -55,10 +55,16 @@ public class PhotonEmitterNode extends PNode {
 	private PImage photonEmitterImage;
 	private PhotonAbsorptionModel model;
 	private PNode emitterImageLayer;
+	private PNode emissionControlButtonLayer;
 	private double emitterImageWidth;
 
     private JRadioButton infraredPhotonRadioButton;
     private JRadioButton visiblePhotonRadioButton;
+    
+    // These two images are laid atop one another to form the button that is
+    // used to turn photon emission on and off.
+    private PImage unpressedButtonImage;
+    private PImage pressedButtonImage;
 	
     // ------------------------------------------------------------------------
     // Constructor(s)
@@ -88,6 +94,11 @@ public class PhotonEmitterNode extends PNode {
                 updateFrequencySelectButtons();
                 updateImage( emitterImageWidth );
             }
+
+            @Override
+            public void periodicPhotonEmissionEnabledChanged() {
+                updatePhotonEmissionControlButton();
+            }
 		});
 		
 		// Create the layers on which the other nodes will be placed.
@@ -95,10 +106,40 @@ public class PhotonEmitterNode extends PNode {
 		addChild( everythingElseLayer );
 		emitterImageLayer = new PNode();
 		addChild( emitterImageLayer );
+		emissionControlButtonLayer = new PNode();
+		addChild( emissionControlButtonLayer );
 		
 		// Add the initial image.
 		updateImage( emitterImageWidth );
 		
+		// Add the images that comprise the button that will turn photon
+		// emission on and off.  These will be positioned by the corresponding
+		// update method.
+        pressedButtonImage = new PImage(GreenhouseResources.getImage("emitterOnButton.png"));
+        pressedButtonImage.addInputEventListener(new CursorHandler());
+        pressedButtonImage.addInputEventListener(new PBasicInputEventHandler(){
+            @Override
+            public void mousePressed( PInputEvent event ) {
+                System.out.println("Pressed image pressed.");
+                model.setPeriodicPhotonEmissionEnabled( false );
+            }
+        });
+        emissionControlButtonLayer.addChild(pressedButtonImage);
+        
+        unpressedButtonImage = new PImage(GreenhouseResources.getImage("emitterOffButton.png"));
+        unpressedButtonImage.addInputEventListener(new CursorHandler());
+        unpressedButtonImage.addInputEventListener(new PBasicInputEventHandler(){
+            @Override
+            public void mousePressed( PInputEvent event ) {
+                System.out.println("Unpressed image pressed.");
+                model.setPeriodicPhotonEmissionEnabled( true );
+            }
+        });
+        emissionControlButtonLayer.addChild(unpressedButtonImage);
+        
+        // Do the initial update of the emission control button's position and
+        // state.
+        updatePhotonEmissionControlButton();
 		
 		// Calculate the vertical distance between the center of the
 		// emitter image and the control box.  This is a function of the
@@ -200,35 +241,25 @@ public class PhotonEmitterNode extends PNode {
         photonEmitterImage.scale(flashlightWidth / photonEmitterImage.getFullBoundsReference().width);
         photonEmitterImage.setOffset(-flashlightWidth, -photonEmitterImage.getFullBoundsReference().height / 2);
         
-        // Create the button that turns photon emission on/off.
+        emitterImageLayer.addChild(photonEmitterImage);
+	}
+	
+    /**
+     * Update the visibility and position of the button that is used to turn
+     * photon emission on and off.
+     */
+	private void updatePhotonEmissionControlButton(){
         double buttonDiameter = photonEmitterImage.getFullBoundsReference().height * 0.3; // Note: Adjust multiplier as needed.
-        final PImage unpressedButtonImage = new PImage(GreenhouseResources.getImage("emitterOffButton.png"));
         double scalingFactor = buttonDiameter / unpressedButtonImage.getFullBoundsReference().width;
-        unpressedButtonImage.scale(scalingFactor);
         Point2D buttonOffset = new Point2D.Double(
                 photonEmitterImage.getFullBoundsReference().getCenterX() - buttonDiameter / 2, 
                 photonEmitterImage.getFullBoundsReference().getCenterY() - buttonDiameter / 2);
+        unpressedButtonImage.scale(scalingFactor);
         unpressedButtonImage.setOffset(buttonOffset);
-        unpressedButtonImage.addInputEventListener(new CursorHandler());
-        unpressedButtonImage.addInputEventListener(new PBasicInputEventHandler(){
-            @Override
-            public void mousePressed( PInputEvent event ) {
-                unpressedButtonImage.setVisible(false);
-                model.emitPhoton();
-            }
-            
-            @Override
-            public void mouseReleased( PInputEvent event ) {
-                unpressedButtonImage.setVisible(true);
-            }
-        });
-        PImage pressedButtonImage = new PImage(GreenhouseResources.getImage("emitterOnButton.png"));
         pressedButtonImage.scale(scalingFactor);
         pressedButtonImage.setOffset(buttonOffset);
-        pressedButtonImage.addInputEventListener(new CursorHandler());
-
-        emitterImageLayer.addChild(photonEmitterImage);
-        emitterImageLayer.addChild(pressedButtonImage);
-        emitterImageLayer.addChild(unpressedButtonImage);
+        
+        // If photons are being emitted, the top button should be invisible.
+        unpressedButtonImage.setVisible( !model.isPeriodicPhotonEmissionEnabled() );
 	}
 }

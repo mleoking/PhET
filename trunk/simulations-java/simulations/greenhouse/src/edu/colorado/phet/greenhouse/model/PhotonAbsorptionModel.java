@@ -78,7 +78,7 @@ public class PhotonAbsorptionModel {
     // Variables that control periodic photon emission.
     private boolean periodicPhotonEmissionEnabled;
     private double photonEmissionCountdownTimer;
-    private double photonEmissionPeriod;
+    private double photonEmissionPeriod = DEFAULT_PHOTON_EMISSION_PERIOD;
 
     // Object that listens to molecules to see when they emit photons.
     private Molecule.Adapter moleculePhotonEmissionListener = new Molecule.Adapter(){
@@ -116,11 +116,8 @@ public class PhotonAbsorptionModel {
     public void reset() {
         setPhotonTarget( DEFAULT_PHOTON_TARGET );
         setEmittedPhotonWavelength( DEFAULT_EMITTED_PHOTON_WAVELENGTH );
-//        periodicPhotonEmissionEnabled = false;
-//        photonEmissionCountdownTimer = Double.POSITIVE_INFINITY;
-        periodicPhotonEmissionEnabled = true;
-        photonEmissionPeriod = DEFAULT_PHOTON_EMISSION_PERIOD;
-        photonEmissionCountdownTimer = DEFAULT_PHOTON_EMISSION_PERIOD;
+        periodicPhotonEmissionEnabled = false;
+        photonEmissionCountdownTimer = Double.POSITIVE_INFINITY;
     }
 
     public void stepInTime(double dt){
@@ -170,9 +167,10 @@ public class PhotonAbsorptionModel {
      * 
      * @param periodicPhotonEmissionEnabled
      */
-    protected void setPhotonEmissionEnabled( boolean periodicPhotonEmissionEnabled ) {
+    public void setPeriodicPhotonEmissionEnabled( boolean periodicPhotonEmissionEnabled ) {
         if (this.periodicPhotonEmissionEnabled != periodicPhotonEmissionEnabled){
             this.periodicPhotonEmissionEnabled = periodicPhotonEmissionEnabled;
+            notifyPeriodicPhotonEmissionEnabledChanged();
             if (periodicPhotonEmissionEnabled == true){
                 // Set the emission counter to zero so that one photon is
                 // emitted right away.
@@ -181,7 +179,7 @@ public class PhotonAbsorptionModel {
         }
     }
     
-    protected boolean isPeriodicPhotonEmissionEnabled() {
+    public boolean isPeriodicPhotonEmissionEnabled() {
         return periodicPhotonEmissionEnabled;
     }
     
@@ -322,6 +320,12 @@ public class PhotonAbsorptionModel {
         }
     }
 
+    private void notifyPeriodicPhotonEmissionEnabledChanged() {
+        for (Listener listener : listeners.getListeners(Listener.class)){
+            listener.periodicPhotonEmissionEnabledChanged();
+        }
+    }
+
     //----------------------------------------------------------------------------
     // Inner Classes and Interfaces
     //----------------------------------------------------------------------------
@@ -333,6 +337,7 @@ public class PhotonAbsorptionModel {
         void moleculeRemoved(Molecule molecule);
         void emittedPhotonWavelengthChanged();
         void photonTargetChanged();
+        void periodicPhotonEmissionEnabledChanged();
     }
     
     public static class Adapter implements Listener {
@@ -342,5 +347,6 @@ public class PhotonAbsorptionModel {
         public void photonTargetChanged() {}
         public void moleculeAdded( Molecule molecule ) {}
         public void moleculeRemoved( Molecule molecule ) {}
+        public void periodicPhotonEmissionEnabledChanged() {}
     }
 }
