@@ -5,6 +5,7 @@ package edu.colorado.phet.faraday.model;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -231,6 +232,8 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
      * a number between 0 and 1 that determines the responsiveness of view components.
      * This number should be set as close as possible to the maximum emf that can be induced
      * given the range of all model parameters.
+     * <p>
+     * See PickupCoil.calibrateEmf for guidance on how to set this.
      * 
      * @param calibrationEmf
      */
@@ -413,6 +416,14 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
     
     /*
      * Provides assistance for calibrating this coil.
+     * The easiest way to calibrate is to run the sim in developer mode, 
+     * then follow these steps for each module that has a pickup coil.
+     * 
+     * 1. Set the "Pickup calibration EMF" developer control to its smallest value.
+     * 2. Set the model parameters to their maximums, so that maximum emf will be generated.
+     * 3. Do whatever is required to generate emf (move magnet through coil, run generator, etc.)
+     * 4. Watch System.out for a message that tells you what value to use.
+     * 5. Change the value of the module's CALIBRATION_EMF constant.
      */
     private void calibrateEmf() {
         
@@ -420,10 +431,10 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
         
         /*
          * Keeps track of the biggest emf seen by the pickup coil.
-         * This is needed for determining the desired value of _calibrationEmf.
+         * This is useful for determining the desired value of calibrationEmf.
          * Set DEBUG_CALIBRATION=true, run the sim, set model controls to 
          * their max values, then observe this debug output.  The largest
-         * value that you see is what you should use for _calibrationEmf.
+         * value that you see is what you should use for calibrationEmf.
          */
         if ( absEmf > _biggestAbsEmf ) {
             _biggestAbsEmf = _emf;
@@ -436,8 +447,8 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
              * This will cause view components to exhibit responses that are less then their maximums.
              * For example, the voltmeter won't fully deflect, and the lightbulb won't fully light.
              */
-            if ( _biggestAbsEmf > _calibrationEmf ) {
-                System.out.println( "PickupCoil.updateEmf: you should recalibrate module \"" + _moduleName + "\" with calibrationEmf=" + _biggestAbsEmf );
+            if ( _biggestAbsEmf > _calibrationEmf && PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
+                System.out.println( "PickupCoil.updateEmf: you should recalibrate module \"" + _moduleName + "\" with CALIBRATION_EMF=" + _biggestAbsEmf );
             }
         }
         
