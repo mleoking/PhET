@@ -408,13 +408,13 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
             setCurrentAmplitude( amplitude ); // calls notifyObservers
         }
         
-        testCalibration();
+        calibrateEmf();
     }
     
     /*
-     * Tests that this coil is properly calibrated.
+     * Provides assistance for calibrating this coil.
      */
-    private void testCalibration() {
+    private void calibrateEmf() {
         
         double absEmf = Math.abs( _emf );
         

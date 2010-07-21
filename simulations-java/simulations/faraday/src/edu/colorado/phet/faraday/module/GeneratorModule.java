@@ -59,9 +59,8 @@ public class GeneratorModule extends FaradayModule {
     private static final double PICKUP_COIL_DIRECTION = 0.0; // radians
     private static final double PICKUP_COIL_TRANSITION_SMOOTHING_SCALE = 1.0;  // see PickupCoil.setTransitionSmoothingScale, 1 because magnet is never inside coil
     
-    // Scaling -- values depend on the distance between pickup coil and turbine!
-    private static final double CALIBRATION_EMF = 25600;
-    private static final double ELECTRON_SPEED_SCALE = 1;//2.5;
+    // Scaling
+    private static final double CALIBRATION_EMF = 25600; // see PickupCoil.calibrateEmf for calibration instructions
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -155,10 +154,8 @@ public class GeneratorModule extends FaradayModule {
         apparatusPanel.addGraphic( turbineGraphic, TURBINE_LAYER );
         
         // Pickup Coil
-        _pickupCoilGraphic = new PickupCoilGraphic( apparatusPanel, model,
-                _pickupCoilModel, _lightbulbModel, _voltmeterModel );
+        _pickupCoilGraphic = new PickupCoilGraphic( apparatusPanel, model, _pickupCoilModel, _lightbulbModel, _voltmeterModel );
         _pickupCoilGraphic.setDraggingEnabled( false );
-        _pickupCoilGraphic.getCoilGraphic().setElectronSpeedScale( ELECTRON_SPEED_SCALE );
         apparatusPanel.addChangeListener( _pickupCoilGraphic );
         apparatusPanel.addGraphic( _pickupCoilGraphic.getForeground(), PICKUP_COIL_FRONT_LAYER );
         apparatusPanel.addGraphic( _pickupCoilGraphic.getBackground(), PICKUP_COIL_BACK_LAYER );

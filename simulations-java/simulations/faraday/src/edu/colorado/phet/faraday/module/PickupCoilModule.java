@@ -60,8 +60,7 @@ public class PickupCoilModule extends FaradayModule {
     private static final double PICKUP_COIL_TRANSITION_SMOOTHING_SCALE = 0.77; // see PickupCoil.setTransitionSmoothingScale
     
     // Scaling
-    private static final double CALIBRATION_EMF = 27E5;
-    private static final double ELECTRON_SPEED_SCALE = 1;//20.0;
+    private static final double CALIBRATION_EMF = 2700000; // see PickupCoil.calibrateEmf for calibration instructions
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -155,9 +154,7 @@ public class PickupCoilModule extends FaradayModule {
         apparatusPanel.addGraphic( _barMagnetGraphic, BAR_MAGNET_LAYER );
         
         // Pickup Coil
-        _pickupCoilGraphic = new PickupCoilGraphic( apparatusPanel, model, 
-                _pickupCoilModel, _lightbulbModel, _voltmeterModel );
-        _pickupCoilGraphic.getCoilGraphic().setElectronSpeedScale( ELECTRON_SPEED_SCALE );
+        _pickupCoilGraphic = new PickupCoilGraphic( apparatusPanel, model, _pickupCoilModel, _lightbulbModel, _voltmeterModel );
         apparatusPanel.addChangeListener( _pickupCoilGraphic );
         apparatusPanel.addGraphic( _pickupCoilGraphic.getForeground(), PICKUP_COIL_FRONT_LAYER );
         apparatusPanel.addGraphic( _pickupCoilGraphic.getBackground(), PICKUP_COIL_BACK_LAYER );

@@ -1,3 +1,7 @@
+7/21/10 #2236, perform initial recalibration
+7/21/10 #2236, add PickupCoil.calibrateEmf to provide calibration assistance
+7/21/10 #2236, delete individual calibration controls on lightbulb, voltmeter and electrons
+7/21/10 #2236, add master calibration control, PickupCoil.calibrationEmf
 7/21/10 #2446, adjust compass behavior to match electromagnet current source (DC=kinematic, AC=incremental)
 7/21/10 cleanup FaradayControlPanel, remove call to deprecated constructor, refine public interface
 7/21/10 #2236, calibrate kinematic compass behavior
