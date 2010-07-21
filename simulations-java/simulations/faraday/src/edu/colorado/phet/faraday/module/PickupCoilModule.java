@@ -209,7 +209,7 @@ public class PickupCoilModule extends FaradayModule {
         
         // Control Panel
         {
-            FaradayControlPanel controlPanel = new FaradayControlPanel( this );
+            FaradayControlPanel controlPanel = new FaradayControlPanel();
             setControlPanel( controlPanel );
             
             // Bar Magnet controls
@@ -219,7 +219,7 @@ public class PickupCoilModule extends FaradayModule {
             controlPanel.addControlFullWidth( _barMagnetPanel );
             
             // Spacer
-            controlPanel.addVerticalSpace( FaradayControlPanel.DEFAULT_VERTICAL_SPACE );
+            controlPanel.addDefaultVerticalSpace();
             
             // Pickup Coil controls
             _pickupCoilPanel = new PickupCoilPanel( 
@@ -228,7 +228,7 @@ public class PickupCoilModule extends FaradayModule {
             
             // Developer controls
             if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
-                controlPanel.addVerticalSpace( FaradayControlPanel.DEFAULT_VERTICAL_SPACE );
+                controlPanel.addDefaultVerticalSpace();
                 
                 DeveloperControlsPanel developerControlsPanel = new DeveloperControlsPanel( 
                         _barMagnetModel, _pickupCoilModel, _lightbulbModel, _voltmeterModel, 

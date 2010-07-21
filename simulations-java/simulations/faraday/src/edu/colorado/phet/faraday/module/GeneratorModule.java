@@ -202,7 +202,7 @@ public class GeneratorModule extends FaradayModule {
         
         // Control Panel
         {
-            FaradayControlPanel controlPanel = new FaradayControlPanel( this );
+            FaradayControlPanel controlPanel = new FaradayControlPanel();
             setControlPanel( controlPanel );
             
             // Turbine controls
@@ -210,7 +210,7 @@ public class GeneratorModule extends FaradayModule {
             controlPanel.addControlFullWidth( _turbinePanel );
             
             // Spacer
-            controlPanel.addVerticalSpace( FaradayControlPanel.DEFAULT_VERTICAL_SPACE );
+            controlPanel.addDefaultVerticalSpace();
             
             // Pickup Coil controls
             _pickupCoilPanel = new PickupCoilPanel(
@@ -219,7 +219,7 @@ public class GeneratorModule extends FaradayModule {
             
             // Developer controls
             if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
-                controlPanel.addVerticalSpace( FaradayControlPanel.DEFAULT_VERTICAL_SPACE );
+                controlPanel.addDefaultVerticalSpace();
                 
                 DeveloperControlsPanel developerControlsPanel = new DeveloperControlsPanel( 
                         _turbineModel, _pickupCoilModel, _lightbulbModel, _voltmeterModel, 

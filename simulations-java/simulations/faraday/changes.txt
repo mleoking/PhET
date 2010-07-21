@@ -1,3 +1,4 @@
+7/21/10 cleanup FaradayControlPanel, remove call to deprecated constructor, refine public interface
 7/21/10 #2236, calibrate kinematic compass behavior
 # 2.03.06 (42502) Jul 20, 2010
 7/20/10 #2236, implement 3-grid approach for bar magnet B-field
