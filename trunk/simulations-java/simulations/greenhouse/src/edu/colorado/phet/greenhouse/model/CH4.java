@@ -3,7 +3,6 @@
 package edu.colorado.phet.greenhouse.model;
 
 import java.awt.geom.Point2D;
-import java.util.Random;
 
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -26,8 +25,6 @@ public class CH4 extends Molecule {
     private static final double ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE =
         INITIAL_CARBON_HYDROGEN_DISTANCE * Math.sin( Math.PI / 4  );
     
-    private static final double PHOTON_ABSORPTION_DISTANCE = 80;
-
     private static final double HYDROGEN_OSCILLATION_DISTANCE = 30;
     private static final double HYDROGEN_OSCILLATION_ANGLE = Math.PI / 4;
     private static final double HYDROGEN_OSCILLATION_DISTANCE_X = HYDROGEN_OSCILLATION_DISTANCE * Math.cos( HYDROGEN_OSCILLATION_ANGLE );
@@ -64,6 +61,9 @@ public class CH4 extends Molecule {
         addAtomicBond( carbonHydrogenBond3 );
         addAtomicBond( carbonHydrogenBond4 );
         
+        // Set up the photon wavelengths to absorb.
+        addPhotonAbsorptionWavelength( GreenhouseConfig.irWavelength );
+        
         // Set the initial offsets.
         initializeAtomOffsets();
         
@@ -79,22 +79,6 @@ public class CH4 extends Molecule {
     // Methods
     // ------------------------------------------------------------------------
     
-    @Override
-    public boolean queryAbsorbPhoton( Photon photon ) {
-        if (!isPhotonAbsorbed() &&
-             getAbsorbtionHysteresisCountdownTime() <= 0 &&
-             photon.getWavelength() == GreenhouseConfig.irWavelength &&
-             photon.getLocation().distance(carbonAtom.getPosition()) < PHOTON_ABSORPTION_DISTANCE)
-        {
-            setPhotonAbsorbed( true );
-            startPhotonEmissionTimer( photon );
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
-
     /* (non-Javadoc)
      * @see edu.colorado.phet.greenhouse.model.Molecule#initializeCogOffsets()
      */
@@ -111,19 +95,11 @@ public class CH4 extends Molecule {
                 -ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE));
     }
 
-    // TODO: Temp for testing.
-    private static final Random RAND = new Random();
-    
     @Override
     protected void updateOscillationFormation(double oscillationRadians){
         // TODO: This is temporary until we get the real vibration mode worked out.
         if (oscillationRadians != 0){
             double multFactor = Math.sin( oscillationRadians );
-            double maxOffset = 30;
-//            atomCogOffsets.put(hydrogenAtom1, new PDimension(-INITIAL_CARBON_HYDROGEN_DISTANCE + (RAND.nextDouble() - 0.5) * maxOffset, (RAND.nextDouble() - 0.5) * maxOffset));
-//            atomCogOffsets.put(hydrogenAtom2, new PDimension((RAND.nextDouble() - 0.5) * maxOffset, INITIAL_CARBON_HYDROGEN_DISTANCE + (RAND.nextDouble() - 0.5) * maxOffset));
-//            atomCogOffsets.put(hydrogenAtom3, new PDimension(INITIAL_CARBON_HYDROGEN_DISTANCE + (RAND.nextDouble() - 0.5) * maxOffset, (RAND.nextDouble() - 0.5) * maxOffset));
-//            atomCogOffsets.put(hydrogenAtom4, new PDimension((RAND.nextDouble() - 0.5) * maxOffset, -INITIAL_CARBON_HYDROGEN_DISTANCE + (RAND.nextDouble() - 0.5) * maxOffset));
             atomCogOffsets.put(hydrogenAtom1, 
                     new PDimension(-ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_OSCILLATION_DISTANCE_X,
                             ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_OSCILLATION_DISTANCE_Y));

@@ -23,7 +23,9 @@ public abstract class Molecule {
     
     private static final double PHOTON_EMISSION_SPEED = 2; // Picometers per second.
     
-    protected static final Random RAND = new Random();
+    private static final double PHOTON_ABSORPTION_DISTANCE = 80;
+    
+    private static final Random RAND = new Random();
     
     private static final double OSCILLATION_FREQUENCY = 3;  // Cycles per second of sim time.
     private static final double ABSORPTION_HYSTERESIS_TIME = 200; // Milliseconds of sim time.
@@ -70,6 +72,11 @@ public abstract class Molecule {
     // whether it gets rejected.
     private static final int PASS_THROUGH_PHOTON_LIST_SIZE = 10;
     private ArrayList<Photon> passThroughPhotonList = new ArrayList<Photon>( PASS_THROUGH_PHOTON_LIST_SIZE );
+    
+    // List of photon wavelengths that this molecule can absorb.  This is a
+    // list of frequencies, which is a grand oversimplification of the real
+    // behavior, but works for the current purposes of this sim.
+    private ArrayList<Double> photonAbsorptionWavelengths = new ArrayList<Double>(2);
 
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -150,6 +157,15 @@ public abstract class Molecule {
     }
     
     /**
+     * Add a wavelength to the list of those absorbed by this molecule.
+     * 
+     * @param wavelength
+     */
+    protected void addPhotonAbsorptionWavelength(double wavelength){
+        photonAbsorptionWavelengths.add( new Double(wavelength) );
+    }
+    
+    /**
      * Set the location of this molecule by specifying the center of gravity.
      * This will be unique to each molecule's configuration, and it will cause
      * the individual molecules to be located such that the center of gravity
@@ -205,6 +221,42 @@ public abstract class Molecule {
      * @return
      */
     public boolean queryAbsorbPhoton( Photon photon ){
+        boolean absorbPhoton = false;
+        if (!isPhotonAbsorbed() &&
+            getAbsorbtionHysteresisCountdownTime() <= 0 &&
+            photonAbsorptionWavelengths.contains( new Double(photon.getWavelength() ) ) &&
+            photon.getLocation().distance(getCenterOfGravityPos()) < PHOTON_ABSORPTION_DISTANCE &&
+            !isPhotonMarkedForPassThrough( photon ))
+        {
+            // All circumstances are correct for photon absorption, so now
+            // we decide probabalistically whether or not to actually do
+            // it.  This essentially simulates the quantum nature of the
+            // absorption.
+            if (RAND.nextDouble() < SingleMoleculePhotonAbsorptionProbability.getInstance().getAbsorptionsProbability() ){
+                absorbPhoton = true;
+                setPhotonAbsorbed( true );
+                startPhotonEmissionTimer( photon );
+            }
+            else{
+                // Do NOT absorb it - mark it for pass through instead.
+                absorbPhoton = false;
+                markPhotonForPassThrough( photon );
+            }
+        }
+        else{
+            absorbPhoton = false;
+        }
+        
+        return absorbPhoton;
+    }
+    
+    /**
+     * Decide whether or not to absorb the offered photon.
+     * 
+     * @param photon - The photon offered for absorption.
+     * @return
+     */
+    public boolean queryAbsorbPhoton2( Photon photon ){
         // By default, the photon is never absorbed.  This should be
         // overridden in molecules that absorb photons.
         return false;

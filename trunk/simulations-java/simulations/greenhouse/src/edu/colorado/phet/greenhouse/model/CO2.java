@@ -21,8 +21,6 @@ public class CO2 extends Molecule {
     
     private static final double INITIAL_CARBON_OXYGEN_DISTANCE = 170; // In picometers.
     
-    private static final double PHOTON_ABSORPTION_DISTANCE = 200;
-    
     // Deflection amounts used for the oscillation of the CO2 atoms.  These
     // are calculated such that the actual center of gravity should remain
     // constant.
@@ -53,6 +51,9 @@ public class CO2 extends Molecule {
         addAtomicBond( carbonOxygenBond1 );
         addAtomicBond( carbonOxygenBond2 );
         
+        // Set up the photon wavelengths to absorb.
+        addPhotonAbsorptionWavelength( GreenhouseConfig.irWavelength );
+        
         // Set the initial offsets.
         initializeAtomOffsets();
         
@@ -76,22 +77,6 @@ public class CO2 extends Molecule {
         atomCogOffsets.put(oxygenAtom2, new PDimension(-INITIAL_CARBON_OXYGEN_DISTANCE, - multFactor * OXYGEN_MAX_DEFLECTION));
     }
     
-    @Override
-    public boolean queryAbsorbPhoton( Photon photon ) {
-        if (!isPhotonAbsorbed() &&
-             getAbsorbtionHysteresisCountdownTime() <= 0 &&
-             photon.getWavelength() == GreenhouseConfig.irWavelength &&
-             photon.getLocation().distance(carbonAtom.getPosition()) < PHOTON_ABSORPTION_DISTANCE)
-        {
-            setPhotonAbsorbed( true );
-            startPhotonEmissionTimer( photon );
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
-
     /* (non-Javadoc)
      * @see edu.colorado.phet.greenhouse.model.Molecule#initializeCogOffsets()
      */
