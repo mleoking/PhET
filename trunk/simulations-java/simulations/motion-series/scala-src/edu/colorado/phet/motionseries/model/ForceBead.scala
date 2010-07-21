@@ -64,10 +64,12 @@ class ForceBead(_state: BeadState,
   val parallelAppliedForceListeners = new ArrayBuffer[() => Unit]
 
   def parallelAppliedForce_=(value: Double) = {
-    _parallelAppliedForce = value
-    parallelAppliedForceListeners.foreach(_())
-    appliedForceVector.notifyListeners()
-    notifyListeners()
+    if (value != _parallelAppliedForce) {
+      _parallelAppliedForce = value
+      parallelAppliedForceListeners.foreach(_())
+      appliedForceVector.notifyListeners()
+      notifyListeners()
+    }
   }
 
   def appliedForce = getRampUnitVector * _parallelAppliedForce
@@ -129,8 +131,8 @@ class ForceBead(_state: BeadState,
       normalForceVector.notifyListeners() //since ramp segment or motion state might have changed; could improve performance on this by only sending notifications when we are sure the ramp segment has changed
       frictionForceVector.notifyListeners() //todo: omit this call since it's probably covered by the normal force call above
       wallForceVector.notifyListeners()
-    }else{
-//      println("omitting setPosition notification, position was the same: "+position)
+    } else {
+      //      println("omitting setPosition notification, position was the same: "+position)
     }
   }
 
