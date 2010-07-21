@@ -148,7 +148,7 @@ package{
 		public function drawLayer5():void{  //arrowHeadHandle
 			var g:Graphics = this.arrowHeadHandle.graphics;
 			var currentColor:uint = 0xffffff;
-			var alpha1:Number = 1;
+			var alpha1:Number = 0;
 			var r:Number = 10;
 			g.clear();
 			g.beginFill(currentColor, alpha1);
@@ -167,6 +167,7 @@ package{
 			var indx:int = ballIndex;
 			var modelRef:Model = this.myModel;
 			var H:Number = modelRef.borderHeight;
+			var W:Number = modelRef.borderWidth;
 			var ballX:Number;	//current ball coordinates in meters
 			var ballY:Number; 
 			
@@ -217,11 +218,30 @@ package{
 					//adjust x position
 					thisBallImage.x = theStage.mouseX - clickOffset.x;
 					ballX = thisBallImage.x/pixelsPerMeter;
+					//edges of border, beyond which center of ball may not go
+					var leftEdge:Number = thisBallImage.myBall.getRadius();
+					var rightEdge:Number = W - thisBallImage.myBall.getRadius();
+					var topEdge:Number = H - thisBallImage.myBall.getRadius();
+					var bottomEdge:Number = thisBallImage.myBall.getRadius();
+					if(modelRef.borderOn){
+						if(ballX < leftEdge){
+							ballX = leftEdge;
+						}else if(ballX > rightEdge){
+							ballX = rightEdge;
+						}
+					}
 					modelRef.setX(indx, ballX);
 					//if not in 1DMode, adjust y position
 					if(!thisBallImage.myModel.oneDMode){
 						thisBallImage.y = theStage.mouseY - clickOffset.y;
 						ballY = H - thisBallImage.y/pixelsPerMeter;
+						if(modelRef.borderOn){
+							if (ballY < bottomEdge){
+								ballY = bottomEdge;
+							}else if(ballY > topEdge){
+								ballY = topEdge;
+							}
+						}
 						modelRef.setY(indx, ballY);
 					}
 					if(modelRef.atInitialConfig){
@@ -260,6 +280,8 @@ package{
 		public function makeArrowDraggable():void{
 			var target:Sprite = this.arrowHeadHandle;
 			var thisBallImage:BallImage = this;
+			var thisArrowImage:Arrow = this.arrowImage;
+			
 			target.buttonMode = true;
 			var indx:int = ballIndex;
 			var modelRef:Model = this.myModel;
@@ -285,22 +307,38 @@ package{
 			function dragTarget(evt:MouseEvent):void{
 				if(clickOffset != null){  //if dragging
 					//adjust x-component of velocity
+					//following line is ratio of arrowHeadIndicator position to tip-of-arrow position, measured from origin at tail of arrow.
+					//keeps the handle on the center of the arrow head rather than on the tip of the arrow head
+					var ratio:Number = (thisArrowImage.lengthInPix + thisArrowImage.headL)/(thisArrowImage.lengthInPix + 0.2*thisArrowImage.headL);
+					//trace("ratio before trap: "+ratio);
+					if(isNaN(ratio)){
+						ratio = 1;
+						//trace("ratio set to 1 because is was NaN");
+					}
+					//trace("ratio after trap: "+ratio);
 					target.x = theStage.mouseX;// - clickOffset.x;
+					//thisBallImage.arrowHeadHandle.x = target.x;
 					thisBallImage.arrowHeadIndicator.x = target.x;
-					var velocityX:Number = target.x/thisBallImage.arrowImage.scale;
+					var velocityX:Number = (target.x*ratio)/thisBallImage.arrowImage.scale;
+					//trace("velocityX: "+velocityX);
+					
 					modelRef.setVX(indx, velocityX);
 					//if not in 1DMode, set y-component of velocity
 					if(!modelRef.oneDMode){
 						target.y = theStage.mouseY;// - clickOffset.y;
+						//thisBallImage.arrowHeadHandle.y = target.y;
 						thisBallImage.arrowHeadIndicator.y = target.y;
-						var velocityY:Number = -target.y/thisBallImage.arrowImage.scale;
+						var velocityY:Number = -(target.y*ratio)/thisBallImage.arrowImage.scale;
 						modelRef.setVY(indx, velocityY);
 					}else{
 						target.y = 0;// - clickOffset.y;
-						thisBallImage.arrowHeadIndicator.y = target.y;
-						velocityY = -target.y/thisBallImage.arrowImage.scale;
+						thisBallImage.arrowHeadHandle.y = target.y;
+						//thisBallImage.arrowHeadIndicator.y = target.y;
+						velocityY = -(target.y*ratio)/thisBallImage.arrowImage.scale;
 						modelRef.setVY(indx, velocityY);
 					}
+					thisBallImage.setVisibilityOfArrowHeadIndicator();
+					/*
 					var distInPix:Number = Math.sqrt(target.x*target.x + target.y*target.y); 
 					var rInPix:Number = thisBallImage.pixelsPerMeter*thisBallImage.myBall.getRadius();
 					//trace("distInPix: "+distInPix+"   r:"+rInPix);
@@ -311,6 +349,7 @@ package{
 						//trace("outside");
 						thisBallImage.arrowHeadIndicator.visible = false;
 					}
+					*/
 					//trace("velocityX: "+velocityX+"    velocityY: "+velocityY);
 					//modelRef.ball_arr[indx].velocity.setXY(velocityX, velocityY);
 					if(modelRef.atInitialConfig){
@@ -321,6 +360,9 @@ package{
 					evt.updateAfterEvent();
 				}
 			}//end of dragTarget()
+			
+			
+			
 			function showVelocity(evt:MouseEvent):void{
 				//trace("showVelocity rollover " +indx);
 				var dataTable:DataTable = thisBallImage.myTableView.myMainView.myDataTable;
@@ -339,6 +381,21 @@ package{
 			}
 		}//end of makeArrowDraggable()
 		
+		
+		public function setVisibilityOfArrowHeadIndicator():void{
+				var ballRadiusInPix:Number = this.pixelsPerMeter*this.myBall.getRadius();
+				var velInPix:Number = this.arrowImage.lengthInPix//Math.sqrt(target.x*target.x + target.y*target.y); 
+				//var rInPix:Number = thisBallImage.pixelsPerMeter*thisBallImage.myBall.getRadius();
+					//trace("distInPix: "+distInPix+"   r:"+rInPix);
+				if(velInPix < ballRadiusInPix){
+						//trace("inside");
+					this.arrowHeadIndicator.visible = true;
+				}else{
+						//trace("outside");
+					this.arrowHeadIndicator.visible = false;
+				}
+		}//end of setVisibilityOfArrowHeadIndicator
+			
 		public function showArrow(tOrF:Boolean):void{
 			if(tOrF){
 				this.arrowImage.visible = true;
@@ -356,10 +413,16 @@ package{
 			//this.myModel.updateViews();
 			this.arrowImage.setArrow(vel);
 			var scaleFactor:Number = this.arrowImage.scale;
-			this.arrowHeadIndicator.x = scaleFactor*vel.getX();
-			this.arrowHeadIndicator.y = -scaleFactor*vel.getY();
-			this.arrowHeadHandle.x = scaleFactor*vel.getX();
-			this.arrowHeadHandle.y = -scaleFactor*vel.getY();
+			//following line is ratio of arrowHeadIndicator position to tip-of-arrow position, measured from origin at tail of arrow.
+			var thisArrowImage:Arrow = this.arrowImage;
+			var ratio:Number = (thisArrowImage.lengthInPix + thisArrowImage.headL)/(thisArrowImage.lengthInPix + 0.2*thisArrowImage.headL);
+			if(isNaN(ratio)){ratio = 1;}
+			//trace("on updateVelocityArrow(), ratio is "+ratio);
+			this.arrowHeadIndicator.x = scaleFactor*vel.getX()/ratio;
+			this.arrowHeadIndicator.y = -scaleFactor*vel.getY()/ratio;
+			this.arrowHeadHandle.x = scaleFactor*vel.getX()/ratio;
+			this.arrowHeadHandle.y = -scaleFactor*vel.getY()/ratio;
+			this.setVisibilityOfArrowHeadIndicator();
 		}
 		
 	}//end of class

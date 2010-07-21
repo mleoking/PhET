@@ -55,6 +55,9 @@
 			//this.createBallImages2();
 			this.createBallImages();
 			this.canvas.addChild(this.CM);
+			if(this.myModel.nbrBalls == 1){
+				this.CM.visible = false;
+			}
 			Util.makePanelDraggableWithBorder(this, this.invisibleBorder);
 			this.update();
 			//this.ballImageTest = new BallImage(this.myModel, 2, this);
@@ -80,7 +83,7 @@
 			g.moveTo(-del, -del);
 			g.lineTo(W+del, -del);
 			g.lineTo(W+del, +H+del);
-			g.lineTo(-del, +H);
+			g.lineTo(-del, +H+del);
 			g.lineTo(-del, -del);
 			g.endFill();
 			

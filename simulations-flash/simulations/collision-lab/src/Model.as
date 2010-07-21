@@ -42,10 +42,10 @@ package{
 		
 		public function Model(){
 			this.borderOn = true;
-			this.borderWidth = 3.2;
+			this.borderWidth = 3.2;	//units are meters
 			this.borderHeight = 2;
 			this.e = 1;				//set elasticity of collisions, 1 = perfectly elastic
-			this.maxNbrBalls = 5;
+			this.maxNbrBalls = 5;	
 			this.oneDMode = false;
 			this.CM = new Point();
 			this.ball_arr = new Array(this.maxNbrBalls);  //only first nbrBalls elements of array are used
@@ -239,7 +239,8 @@ package{
 				this.initPos[indx].setX(xPos);
 			}
 			this.setCenterOfMass();
-			//if(!playing){this.updateViews();}  //when playing, singleStep() controls updateVeiws 
+			//trace("playing: " + playing);
+			if(!playing){this.updateViews();}  //when playing, singleStep() controls updateVeiws 
 		}
 		
 		public function setY(indx:int, yPos:Number):void{
@@ -253,7 +254,7 @@ package{
 				this.initPos[indx].setY(yPos);
 			}
 			this.setCenterOfMass();
-			//if(!playing){this.updateViews();}
+			if(!playing){this.updateViews();}
 		}
 		
 		public function setXY(indx:int, xPos:Number, yPos:Number):void{
@@ -262,6 +263,10 @@ package{
 		}
 		
 		public function setVX(indx:int, xVel:Number):void{
+			if(isNaN(xVel)){
+				var ballNbr:int = indx + 1;
+				trace("ERROR: ball number " + ballNbr + ": xVel is NaN.");
+			}
 			this.ball_arr[indx].velocity.setX(xVel);
 			if(this.atInitialConfig){
 				this.initVel[indx].setX(xVel);
@@ -278,6 +283,14 @@ package{
 		}
 		
 		public function setVXVY(indx:int, xVel:Number, yVel:Number):void{
+			if(isNaN(xVel)){
+				var ballNbr:int = indx + 1;
+				trace("ERROR: ball number " + ballNbr + ": xVel is NaN.");
+			}
+			if(isNaN(yVel)){
+				var ballNbr:int = indx + 1;
+				trace("ERROR: ball number " + ballNbr + ": yVel is NaN.");
+			}
 			this.ball_arr[indx].velocity.setX(xVel);
 			this.ball_arr[indx].velocity.setY(yVel);
 			if(this.atInitialConfig){
@@ -528,6 +541,7 @@ package{
 				var v1yP = (1/d)*(v1nP*delY + v1t*delX);
 				var v2xP = (1/d)*(v2nP*delX - v2t*delY);
 				var v2yP = (1/d)*(v2nP*delY + v2t*delX);
+				if(isNaN(v1xP)){trace("v1xP of ball "+i);}
 				this.setVXVY(i, v1xP, v1yP);
 				this.setVXVY(j, v2xP, v2yP);
 				//this.ball_arr[i].velocity.setXY(v1xP, v1yP);
