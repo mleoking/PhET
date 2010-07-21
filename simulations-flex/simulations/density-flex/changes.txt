@@ -1,3 +1,5 @@
+# 0.01.07 (42511) Jul 20, 2010
+7/20/10 1st tab demo with fixed visual artifacts
 # 0.01.02 (42471) Jul 20, 2010
 7/20/10 Multiple tabs and vectors
 # 0.01.01 (36253) Oct 30, 2009
