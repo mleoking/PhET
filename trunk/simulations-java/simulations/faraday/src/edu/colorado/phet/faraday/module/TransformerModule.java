@@ -243,7 +243,7 @@ public class TransformerModule extends FaradayModule {
 
         // Control Panel
         {
-            FaradayControlPanel controlPanel = new FaradayControlPanel( this );
+            FaradayControlPanel controlPanel = new FaradayControlPanel();
             setControlPanel( controlPanel );
             
             // Electromagnet controls
@@ -253,7 +253,7 @@ public class TransformerModule extends FaradayModule {
             controlPanel.addControlFullWidth( _electromagnetPanel );
             
             // Spacer
-            controlPanel.addVerticalSpace( FaradayControlPanel.DEFAULT_VERTICAL_SPACE );
+            controlPanel.addDefaultVerticalSpace();
             
             // Pickup Coil controls
             _pickupCoilPanel = new PickupCoilPanel( 
@@ -262,7 +262,7 @@ public class TransformerModule extends FaradayModule {
             
             // Developer controls
             if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
-                controlPanel.addVerticalSpace( FaradayControlPanel.DEFAULT_VERTICAL_SPACE );
+                controlPanel.addDefaultVerticalSpace();
                 
                 DeveloperControlsPanel developerControlsPanel = new DeveloperControlsPanel( 
                         null, _pickupCoilModel, _lightbulbModel, _voltmeterModel, 

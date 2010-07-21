@@ -184,7 +184,7 @@ public class ElectromagnetModule extends FaradayModule {
 
         // Control Panel
         {
-            FaradayControlPanel controlPanel = new FaradayControlPanel( this );
+            FaradayControlPanel controlPanel = new FaradayControlPanel();
             setControlPanel( controlPanel );
             
             // Electromagnet controls
@@ -195,7 +195,7 @@ public class ElectromagnetModule extends FaradayModule {
             
             // Developer controls
             if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
-                controlPanel.addVerticalSpace( FaradayControlPanel.DEFAULT_VERTICAL_SPACE );
+                controlPanel.addDefaultVerticalSpace( );
                 
                 DeveloperControlsPanel developerControlsPanel = new DeveloperControlsPanel( null, null, null, null, null, _electromagnetGraphic, null, null, _bFieldOutsideGraphic );
                 controlPanel.addControlFullWidth( developerControlsPanel );
