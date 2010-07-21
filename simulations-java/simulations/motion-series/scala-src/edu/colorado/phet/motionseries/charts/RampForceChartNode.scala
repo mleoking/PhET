@@ -38,6 +38,7 @@ class RampForceControlChart(motionSeriesModel: MotionSeriesModel) {
 
   val parallelAppliedForceVariable = new MutableDouble(motionSeriesModel.bead.parallelAppliedForce) {
     motionSeriesModel.bead.parallelAppliedForceListeners += (() => {value = motionSeriesModel.bead.parallelAppliedForce})
+    addListener(()=>{motionSeriesModel.bead.parallelAppliedForce = value})
   }
   val frictionVariable = new MutableDouble(parallelFriction) {
     motionSeriesModel.stepListeners += (() => {value = parallelFriction})
@@ -122,13 +123,11 @@ class MSDataSeries(_title: String, _color: Color, _units: String, value: Mutable
   def title = _title
   motionSeriesModel.stepListeners += (() => {addPoint(value(), motionSeriesModel.getTime)})
 
-  def addValueChangeListener(listener: () => Unit) = {
-    value.addListener(listener)
-  }
+  def addValueChangeListener(listener: () => Unit) = value.addListener(listener)
 
   def getValue = value()
 
-  def setValue(v: Double) = {}
+  def setValue(v: Double) = {value.value=v}
 
   def units = _units
 
