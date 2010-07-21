@@ -38,22 +38,21 @@ public class GroundNode extends MyMesh {
         v(-poolWidth / 2, -poolHeight, poolDepth);
         v(poolWidth / 2, -poolHeight, poolDepth);
 
-        for each (var vertex:Vertex in getVertexArray()) {
-            vertex.y = vertex.y + DensityView.verticalGroundOffset;
+        for each (var vertex1:Vertex in getVertexArray()) {
+            vertex1.y = vertex1.y + DensityView.verticalGroundOffset;
         }
 
         function addUV(v:Vertex):void {
-            var minX = -poolWidth / 2;
-            var maxX = poolWidth / 2;
-            var minZ = 0;
-            var maxZ = far;
+            var minX:Number = -poolWidth / 2;
+            var maxX:Number = poolWidth / 2;
+            var minZ:Number = 0;
+            var maxZ:Number = far;
 
             uv((v.x - minX) / (maxX - minX), (v.z - minZ) / (maxZ - minZ));
-
         }
 
-        for each (var vertex:Vertex in getVertexArray()) {
-            addUV(vertex);
+        for each (var vertex2:Vertex in getVertexArray()) {
+            addUV(vertex2);
         }
 
         var grassMaterial:ITriangleMaterial = new ShadingColorMaterial(0x00AA00);
