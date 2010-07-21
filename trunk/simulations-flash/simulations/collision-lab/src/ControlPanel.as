@@ -15,6 +15,7 @@
 		private var maxNbrBalls;
 		private var tFormat:TextFormat;
 		private var resetButton:NiceButton;
+		private var showCMOn:Boolean;
 		//private var changeNbrBallButtons:ChangeNbrBallButtons;	//libary symbol instance
 		
 		public function ControlPanel(myModel:Model, myMainView:MainView){
@@ -40,6 +41,10 @@
 			this.changeNbrBallButtons.nbrReadout.text = nbrString;
 			this.elasticityLabel.text = "1.00";
 			//this.background.border.buttonMode = true;
+			if(this.myModel.nbrBalls == 1){
+				this.changeNbrBallButtons.removeBallButton.visible = false;
+			}
+			this.showCMOn = true;
 			Util.makePanelDraggableWithBorder(this, this.background.border);
 		}
 		
@@ -91,8 +96,13 @@
 		}
 		
 		private function showCM(evt:MouseEvent):void{
-			this.myMainView.myTableView.CM.visible = evt.target.selected;
-			//trace("ControlPanel.showCM: " + evt.target.selected);
+			this.showCMOn = evt.target.selected;
+			if(myModel.nbrBalls > 1){
+				this.myMainView.myTableView.CM.visible = evt.target.selected;
+			}else{
+				this.myMainView.myTableView.CM.visible = false;
+			}
+			//trace("this.showCMOn: "+this.showCMOn);
 		}
 		
 		private function borderOnOrOff(evt:MouseEvent):void{
@@ -136,7 +146,11 @@
 			}
 			if(this.nbrBalls > 1){
 				this.changeNbrBallButtons.removeBallButton.visible = true;
+				if(this.showCMOn){
+					this.myMainView.myTableView.CM.visible = true;
+				}
 			}
+			
 		}
 		
 		public function removeBall(evt:MouseEvent):void{
@@ -149,6 +163,7 @@
 			}
 			if(this.nbrBalls == 1){
 				this.changeNbrBallButtons.removeBallButton.visible = false;
+				this.myMainView.myTableView.CM.visible = false;
 			}
 		}//end removeBall()
 		

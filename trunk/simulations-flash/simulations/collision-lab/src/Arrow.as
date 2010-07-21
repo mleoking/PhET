@@ -105,7 +105,7 @@ package{
 		
 		//x coordinate in pixels of center of head of arrow
 		public function getHeadCenterX():Number{
-			var headCntr:Number = this.lengthInPix - this.headL/2;
+			var headCntr:Number = this.lengthInPix - 0.7*this.headL;
 			//trace("Arrow Full Length: "+this.lengthInPix);
 			//trace("Arrow Full Length - length of head: "+headCntr)
 			var LX:Number = headCntr*Math.cos(this.angleInRad);
@@ -113,10 +113,11 @@ package{
 		}
 		//y screen coordinate in pixels of tip of arrow
 		public function getHeadCenterY():Number{
-			var headCntr:Number = this.lengthInPix - this.headL/2;
+			var headCntr:Number = this.lengthInPix - 0.7*this.headL;
 			var LY:Number = -headCntr*Math.sin(this.angleInRad);
 			return LY;
 		}
+		
 		
 		public function setText(myText:String){
 			this.tField.text = myText;

@@ -183,7 +183,7 @@
 			
 			this.totMomentum = new Arrow(maxN);  //index of total momentum is N = maxNbrBalls
 			this.totMomentum.setText("Tot");
-			this.totMomentum.setColor(0x00ff00);	//tot momentum arrow is green
+			this.totMomentum.setColor(0xff8800);	//tot momentum arrow is orange
 			this.totMomentum.setShaftWidth(4);
 			this.totMomentum.x = this.borderWidth/2;
 			this.totMomentum.y = this.borderHeight/2;
