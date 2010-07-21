@@ -29,7 +29,7 @@ public class FaradayStrings {
     public static final String CHECK_BOX_SHOW_FIELD_METER = FaradayResources.getString( "BarMagnetPanel.showFieldMeter" );
     public static final String CHECK_BOX_SHOW_B_FIELD = FaradayResources.getString( "BarMagnetPanel.showGrid" );
     
-    public static final String UNITS_VOLTS = FaradayResources.getString( "BatteryGraphic.voltage" );
+    public static final String ERROR_BAR_MAGNET_INITIALIZATION = FaradayResources.getString( "error.barMagnetInitialization" );
     
     public static final String LABEL_GRID_CONTROLS_WARNING = FaradayResources.getString( "GridControlsDialog.warning" );
     public static final String LABEL_LOOP_AREA = FaradayResources.getString( "PickupCoilPanel.area" );
@@ -40,8 +40,6 @@ public class FaradayStrings {
     
     public static final String MENU_ITEM_BACKGROUND_COLOR = FaradayResources.getString( "Menubar.backgroundColor" );
     public static final String MENU_ITEM_GRID_CONTROLS = FaradayResources.getString( "Menubar.gridControls" );
-    
-    public static final String MESSAGE_CANNOT_FIND_BAR_MAGNET_FILES = FaradayResources.getString( "error.cannotFindBarMagnetFiles" );
     
     public static final char MNEMONIC_BACKGROUND_COLOR =FaradayResources.getChar( "Menubar.backgroundColor.mnemonic", '?' );
     public static final char MNEMONIC_GRID_CONTROLS = FaradayResources.getChar( "Menubar.gridControls.mnemonic", '?' );
@@ -67,6 +65,7 @@ public class FaradayStrings {
     public static final String TITLE_VOLTMETER = FaradayResources.getString( "VoltmeterGraphic.title" );
     
     public static final String UNITS_RPM = FaradayResources.getString( "TurbineGraphic.rpm" );
+    public static final String UNITS_VOLTS = FaradayResources.getString( "BatteryGraphic.voltage" );
     
     public static final String WIGGLEME_BAR_MAGNET = FaradayResources.getString( "BarMagnetModule.wiggleMe" );
     
