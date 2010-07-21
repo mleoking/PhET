@@ -24,7 +24,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final boolean DEBUG_PICKUP_COIL_EMF = true;
+    private static final boolean DEBUG_CALIBRATION = false;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -36,11 +36,12 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
     private double _flux; // in webers
     private double _deltaFlux; // in webers
     private double _emf; // in volts
-    private double _biggestEmf; // in volts
+    private double _biggestAbsEmf; // in volts
     private Point2D _samplePoints[]; // B-field sample points
     private SamplePointsStrategy _samplePointsStrategy;
     private double _transitionSmoothingScale;
     private double _calibrationEmf;
+    private String _moduleName; // for debug output
     
     // Reusable objects
     private AffineTransform _someTransform;
@@ -58,8 +59,8 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
      * @param magnetModel
      * @param calibrationEmf
      */
-    public PickupCoil( AbstractMagnet magnetModel, double calibrationEmf ) {
-        this( magnetModel, calibrationEmf, new ConstantNumberOfSamplePointsStrategy( 9 /* numberOfSamplePoints */ ) );
+    public PickupCoil( AbstractMagnet magnetModel, double calibrationEmf, String moduleName ) {
+        this( magnetModel, calibrationEmf, moduleName, new ConstantNumberOfSamplePointsStrategy( 9 /* numberOfSamplePoints */ ) );
     }
     
     /*
@@ -70,14 +71,17 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
      * @param calibrationEmf
      * @param samplePointsStrategy
      */
-    private PickupCoil( AbstractMagnet magnetModel, double calibrationEmf, SamplePointsStrategy samplePointsStrategy ) {
+    private PickupCoil( AbstractMagnet magnetModel, double calibrationEmf, String moduleName, SamplePointsStrategy samplePointsStrategy ) {
         super();
         
         assert( magnetModel != null );
         _magnetModel = magnetModel;
         _magnetModel.addObserver( this );
         
+        assert( calibrationEmf >= 1 );
         _calibrationEmf = calibrationEmf;
+        
+        _moduleName = moduleName;
         
         _samplePointsStrategy = samplePointsStrategy;
         _samplePoints = null;
@@ -86,7 +90,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
         _flux = 0.0;
         _deltaFlux = 0.0;
         _emf = 0.0;
-        _biggestEmf = 0.0;
+        _biggestAbsEmf = 0.0;
         _transitionSmoothingScale = 1.0; // no smoothing
         
         // Reusable objects
@@ -154,7 +158,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
      * @return the biggest emf
      */
     public double getBiggestEmf() {
-        return _biggestEmf;
+        return _biggestAbsEmf;
     }
     
     /**
@@ -404,19 +408,44 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
             setCurrentAmplitude( amplitude ); // calls notifyObservers
         }
         
+        testCalibration();
+    }
+    
+    /*
+     * Tests that this coil is properly calibrated.
+     */
+    private void testCalibration() {
+        
+        double absEmf = Math.abs( _emf );
+        
         /*
          * Keeps track of the biggest emf seen by the pickup coil.
          * This is needed for determining the desired value of _calibrationEmf.
-         * Set DEBUG_PICKUP_COIL_EMF=true, run the sim, set model controls to 
+         * Set DEBUG_CALIBRATION=true, run the sim, set model controls to 
          * their max values, then observe this debug output.  The largest
          * value that you see is what you should use for _calibrationEmf.
          */
-        if ( Math.abs( _emf ) > Math.abs( _biggestEmf ) ) {
-            _biggestEmf = _emf;
-            if ( DEBUG_PICKUP_COIL_EMF ) {
-                System.out.println( "PickupCoil.updateEmf: biggestEmf=" + _biggestEmf );
+        if ( absEmf > _biggestAbsEmf ) {
+            _biggestAbsEmf = _emf;
+            if ( DEBUG_CALIBRATION ) {
+                System.out.println( "PickupCoil.updateEmf: biggestEmf=" + _biggestAbsEmf );
+            }
+            
+            /*
+             * If this prints, you have calibrationEmf set too low.
+             * This will cause view components to exhibit responses that are less then their maximums.
+             * For example, the voltmeter won't fully deflect, and the lightbulb won't fully light.
+             */
+            if ( _biggestAbsEmf > _calibrationEmf ) {
+                System.out.println( "PickupCoil.updateEmf: you should recalibrate module \"" + _moduleName + "\" with calibrationEmf=" + _biggestAbsEmf );
             }
         }
+        
+        /*
+         * TODO The coil could theoretically be self-calibrating. If we notice that we've exceeded calibrationEmf,
+         * then adjust calibrationEmf.  This would be OK as long as we started with a value that was in the ballpark,
+         * because we don't want the user to perceive a noticeable change in the sim's behavior.
+         */
     }
     
     /*

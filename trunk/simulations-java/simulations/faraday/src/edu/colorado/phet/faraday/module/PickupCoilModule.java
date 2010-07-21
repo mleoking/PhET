@@ -120,7 +120,7 @@ public class PickupCoilModule extends FaradayModule {
         _fieldMeterModel.setEnabled( false );
         
         // Pickup Coil
-        _pickupCoilModel = new PickupCoil( _barMagnetModel, CALIBRATION_EMF );
+        _pickupCoilModel = new PickupCoil( _barMagnetModel, CALIBRATION_EMF, getName() );
         _pickupCoilModel.setNumberOfLoops( PICKUP_COIL_NUMBER_OF_LOOPS );
         _pickupCoilModel.setLoopArea( PICKUP_COIL_LOOP_AREA );
         _pickupCoilModel.setDirection( PICKUP_COIL_DIRECTION );

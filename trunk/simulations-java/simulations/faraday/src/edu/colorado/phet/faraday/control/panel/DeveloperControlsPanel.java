@@ -127,6 +127,26 @@ public class DeveloperControlsPanel extends FaradayPanel {
             layout.addFilledComponent( bFieldScaleControl, row++, 0, GridBagConstraints.HORIZONTAL );
         }
         
+        // Pickup coil calibration EMF
+        if ( pickupCoilModel != null ) {
+            double min = FaradayConstants.PICKUP_CALIBRATION_EMF_MIN;
+            double max = FaradayConstants.PICKUP_CALIBRATION_EMF_MAX;
+            final LinearValueControl calibrationEmfControl = new LinearValueControl( min, max, "<html>Pickup<br>calibration EMF:</html>", "0.0E00", "" );
+            calibrationEmfControl.setToolTipText( "<html>Max EMF that we expect<br>the pickup coil to generate.</html>" );
+            calibrationEmfControl.setValue( pickupCoilModel.getCalibrationEmf() );
+            calibrationEmfControl.setTextFieldEditable( true );
+            calibrationEmfControl.setTextFieldColumns( 4 );
+            calibrationEmfControl.setUpDownArrowDelta( 1 );
+            calibrationEmfControl.setBorder( BorderFactory.createEtchedBorder() );
+            calibrationEmfControl.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    double value = calibrationEmfControl.getValue();
+                    pickupCoilModel.setCalibrationEmf( value );
+                }
+            } );
+            layout.addFilledComponent( calibrationEmfControl, row++, 0, GridBagConstraints.HORIZONTAL );
+        }
+        
         // Pickup coil fudge factor
         if ( pickupCoilModel != null ) {
             double min = FaradayConstants.PICKUP_TRANSITION_SMOOTHING_SCALE_MIN;

@@ -60,7 +60,7 @@ public class GeneratorModule extends FaradayModule {
     private static final double PICKUP_COIL_TRANSITION_SMOOTHING_SCALE = 1.0;  // see PickupCoil.setTransitionSmoothingScale, 1 because magnet is never inside coil
     
     // Scaling -- values depend on the distance between pickup coil and turbine!
-    private static final double CALIBRATION_EMF = 32500;
+    private static final double CALIBRATION_EMF = 25600;
     private static final double ELECTRON_SPEED_SCALE = 1;//2.5;
     
     //----------------------------------------------------------------------------
@@ -121,7 +121,7 @@ public class GeneratorModule extends FaradayModule {
         _fieldMeterModel.setEnabled( false );
         
         // Pickup Coil
-        _pickupCoilModel = new PickupCoil( _turbineModel, CALIBRATION_EMF );
+        _pickupCoilModel = new PickupCoil( _turbineModel, CALIBRATION_EMF, getName() );
         _pickupCoilModel.setNumberOfLoops( PICKUP_COIL_NUMBER_OF_LOOPS );
         _pickupCoilModel.setLoopArea( PICKUP_COIL_LOOP_AREA );
         _pickupCoilModel.setDirection( PICKUP_COIL_DIRECTION );
