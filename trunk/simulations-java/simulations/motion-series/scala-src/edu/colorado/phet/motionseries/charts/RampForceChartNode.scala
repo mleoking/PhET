@@ -38,7 +38,7 @@ class RampForceControlChart(motionSeriesModel: MotionSeriesModel) {
 
   val parallelAppliedForceVariable = new MutableDouble(motionSeriesModel.bead.parallelAppliedForce) {
     motionSeriesModel.bead.parallelAppliedForceListeners += (() => {value = motionSeriesModel.bead.parallelAppliedForce})
-    addListener(()=>{motionSeriesModel.bead.parallelAppliedForce = value})
+    addListener(() => {motionSeriesModel.bead.parallelAppliedForce = value})
   }
   val frictionVariable = new MutableDouble(parallelFriction) {
     motionSeriesModel.stepListeners += (() => {value = parallelFriction})
@@ -75,37 +75,37 @@ class RampForceControlChart(motionSeriesModel: MotionSeriesModel) {
 
   val chart = new ControlChart(controlPanel, createSliderNode(new PText("hello"), Color.green, temporalChart), temporalChart, new ChartZoomControlNode(temporalChart))
 
-  def createSliderNode(thumb: PNode, highlightColor: Color, chart: TemporalChart) = {
-    val chartSliderNode = new TemporalChartSliderNode(chart, Color.green) //TODO: add vertical label to the slider node
-    chartSliderNode.addListener(new MotionSliderNode.Listener() {
-      def sliderDragged(value: java.lang.Double) = {}
+  def createSliderNode(thumb: PNode, highlightColor: Color, chart: TemporalChart) =
+    new TemporalChartSliderNode(chart, Color.green) { //TODO: add vertical label to the slider node
+      addListener(new MotionSliderNode.Listener() {
+        def sliderDragged(value: java.lang.Double) = {parallelAppliedForceVariable.value = value.doubleValue}
 
-      def sliderThumbGrabbed = {}
+        def sliderThumbGrabbed = {}
 
-      def valueChanged = {}
-    })
-    chartSliderNode
-    //    new JFreeChartSliderNode(getJFreeChartNode, thumb, highlightColor) {
-    //      val text = new ShadowHTMLNode(defaultSeries.getTitle)
-    //      text.setFont(new PhetFont(14, true))
-    //      text.setColor(defaultSeries.getColor)
-    //      text.rotate(-java.lang.Math.PI / 2)
-    //      val textParent = new PNode
-    //      textParent.addChild(text)
-    //      textParent.setPickable(false)
-    //      textParent.setChildrenPickable(false)
-    //      addChild(textParent)
-    //
-    //      override def updateLayout() = {
-    //        if (textParent != null) setSliderDecorationInset(textParent.getFullBounds.getWidth + 5)
-    //        super.updateLayout()
-    //        if (textParent != null)
-    //          textParent.setOffset(getTrackFullBounds.getX - textParent.getFullBounds.getWidth - getThumbFullBounds.getWidth / 2,
-    //            getTrackFullBounds.getY + textParent.getFullBounds.getHeight + getTrackFullBounds.getHeight / 2 - textParent.getFullBounds.getHeight / 2)
-    //      }
-    //      updateLayout()
-    //    }
-  }
+        def valueChanged = {}
+      })
+      parallelAppliedForceVariable.addListener( ()=>{setValue(parallelAppliedForceVariable.value)} )
+      //    new JFreeChartSliderNode(getJFreeChartNode, thumb, highlightColor) {
+      //      val text = new ShadowHTMLNode(defaultSeries.getTitle)
+      //      text.setFont(new PhetFont(14, true))
+      //      text.setColor(defaultSeries.getColor)
+      //      text.rotate(-java.lang.Math.PI / 2)
+      //      val textParent = new PNode
+      //      textParent.addChild(text)
+      //      textParent.setPickable(false)
+      //      textParent.setChildrenPickable(false)
+      //      addChild(textParent)
+      //
+      //      override def updateLayout() = {
+      //        if (textParent != null) setSliderDecorationInset(textParent.getFullBounds.getWidth + 5)
+      //        super.updateLayout()
+      //        if (textParent != null)
+      //          textParent.setOffset(getTrackFullBounds.getX - textParent.getFullBounds.getWidth - getThumbFullBounds.getWidth / 2,
+      //            getTrackFullBounds.getY + textParent.getFullBounds.getHeight + getTrackFullBounds.getHeight / 2 - textParent.getFullBounds.getHeight / 2)
+      //      }
+      //      updateLayout()
+      //    }
+    }
 }
 
 class MutableDouble(private var _value: Double) extends Observable {
@@ -127,7 +127,7 @@ class MSDataSeries(_title: String, _color: Color, _units: String, value: Mutable
 
   def getValue = value()
 
-  def setValue(v: Double) = {value.value=v}
+  def setValue(v: Double) = {value.value = v}
 
   def units = _units
 
