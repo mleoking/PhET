@@ -1,4 +1,4 @@
-/* Copyright 2005-2008, University of Colorado */
+/* Copyright 2005-2010, University of Colorado */
 
 package edu.colorado.phet.faraday.view;
 
@@ -28,8 +28,6 @@ class LightRaysGraphic extends PhetGraphic {
     // Physical dimensions, in pixels
     private static final int MAX_RAY_LENGTH = 500;
     private static final int MIN_RAY_LENGTH = 0;
-    private static final double MAX_RAY_WIDTH = 4.0;
-    private static final double MIN_RAY_WIDTH = 2.0;
     
     // Angles
     private static final double RAYS_START_ANGLE = Math.toRadians( 135 );
@@ -46,8 +44,8 @@ class LightRaysGraphic extends PhetGraphic {
     //----------------------------------------------------------------------------
     
     private double _bulbRadius;
-    private ArrayList _cacheLines; // array of Line2D that will be reused
-    private ArrayList _drawLines; // array of Line2D that will be drawn
+    private ArrayList<Line2D> _cacheLines; // reusable lines
+    private ArrayList<Line2D> _drawLines; // lines to be drawn
     private Rectangle _bounds;
     private RenderingHints _hints;
     private BasicStroke _stroke;
@@ -69,12 +67,12 @@ class LightRaysGraphic extends PhetGraphic {
         _bulbRadius = bulbRadius;
         
         // Pre-populate a set of reusable lines.
-        _cacheLines = new ArrayList();
+        _cacheLines = new ArrayList<Line2D>();
         for ( int i = 0; i < MAX_RAYS; i++ ) {
             _cacheLines.add( new Line2D.Double() );
         }
 
-        _drawLines = new ArrayList();
+        _drawLines = new ArrayList<Line2D>();
         _bounds = new Rectangle();
         _hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         _stroke = RAY_STROKE_SMALL;
@@ -140,7 +138,7 @@ class LightRaysGraphic extends PhetGraphic {
             // Get a line from the cache.
             Line2D line = null;
             if ( i < _cacheLines.size() ) {
-                line = (Line2D) _cacheLines.get( i );
+                line = _cacheLines.get( i );
             }
             else {
                 // If we don't have enough lines, then allocate one.
