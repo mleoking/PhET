@@ -81,26 +81,6 @@ class RampForceControlChart(motionSeriesModel: MotionSeriesModel) {
         override def sliderDragged(value: java.lang.Double) = {parallelAppliedForceVariable.value = value.doubleValue}
       })
       parallelAppliedForceVariable.addListener( ()=>{setValue(parallelAppliedForceVariable.value)} )
-      //    new JFreeChartSliderNode(getJFreeChartNode, thumb, highlightColor) {
-      //      val text = new ShadowHTMLNode(defaultSeries.getTitle)
-      //      text.setFont(new PhetFont(14, true))
-      //      text.setColor(defaultSeries.getColor)
-      //      text.rotate(-java.lang.Math.PI / 2)
-      //      val textParent = new PNode
-      //      textParent.addChild(text)
-      //      textParent.setPickable(false)
-      //      textParent.setChildrenPickable(false)
-      //      addChild(textParent)
-      //
-      //      override def updateLayout() = {
-      //        if (textParent != null) setSliderDecorationInset(textParent.getFullBounds.getWidth + 5)
-      //        super.updateLayout()
-      //        if (textParent != null)
-      //          textParent.setOffset(getTrackFullBounds.getX - textParent.getFullBounds.getWidth - getThumbFullBounds.getWidth / 2,
-      //            getTrackFullBounds.getY + textParent.getFullBounds.getHeight + getTrackFullBounds.getHeight / 2 - textParent.getFullBounds.getHeight / 2)
-      //      }
-      //      updateLayout()
-      //    }
     }
 }
 
