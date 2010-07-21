@@ -47,8 +47,8 @@ public class DensityView extends UIComponent {
     public static const far:Number = 5000;
     public static const verticalGroundOffset:Number = -1;
 
-    private var poolTop:Plane;
-    private var poolFront:Plane;
+    private var waterTop:Plane;
+    private var waterFront:Plane;
 
     private var running:Boolean = true;
 
@@ -125,12 +125,12 @@ public class DensityView extends UIComponent {
         var poolDepth:Number = model.getPoolDepth() * DensityModel.DISPLAY_SCALE;
 
         // NOTE: if the ground is not matching up with the objects resting on the ground (or the bottom of the pool), it is due to the ground being shifted by this amount
-        poolFront = new Plane({ y: -poolHeight + waterHeight / 2 + verticalGroundOffset, width: poolWidth, height: waterHeight, rotationX: 90, material: new ShadingColorMaterial(0x0088FF, {alpha: 0.4}) });
-        scene.addChild(poolFront);
-        poolFront.mouseEnabled = false;
-        poolTop = new Plane({ y: -poolHeight + waterHeight + verticalGroundOffset, z: poolDepth / 2, width: poolWidth, height: poolDepth, material: new ShadingColorMaterial(0x0088FF, {alpha: 0.4}) });
-        scene.addChild(poolTop);
-        poolTop.mouseEnabled = false;
+        waterFront = new Plane({ y: -poolHeight + waterHeight / 2 + verticalGroundOffset, width: poolWidth, height: waterHeight, rotationX: 90, material: new ShadingColorMaterial(0x0088FF, {alpha: 0.4}) });
+        scene.addChild(waterFront);
+        waterFront.mouseEnabled = false;
+        waterTop = new Plane({ y: -poolHeight + waterHeight + verticalGroundOffset, z: poolDepth / 2, width: poolWidth, height: poolDepth, material: new ShadingColorMaterial(0x0088FF, {alpha: 0.4}) });
+        scene.addChild(waterTop);
+        waterTop.mouseEnabled = false;
 
         // add grass, earth and pool inside
         scene.addChild(new GroundNode(model));
@@ -207,9 +207,9 @@ public class DensityView extends UIComponent {
             pickable.getBody().SetLinearVelocity(new b2Vec2(0, 0));
             pickable.update();
         }
-        poolFront.y = (-model.getPoolHeight() + model.getWaterHeight() / 2) * DensityModel.DISPLAY_SCALE;
-        poolFront.height = model.getWaterHeight() * DensityModel.DISPLAY_SCALE;
-        poolTop.y = (-model.getPoolHeight() + model.getWaterHeight()) * DensityModel.DISPLAY_SCALE;
+        waterFront.y = (-model.getPoolHeight() + model.getWaterHeight() / 2) * DensityModel.DISPLAY_SCALE;
+        waterFront.height = model.getWaterHeight() * DensityModel.DISPLAY_SCALE;
+        waterTop.y = (-model.getPoolHeight() + model.getWaterHeight()) * DensityModel.DISPLAY_SCALE;
 
         //        for each ( var blockNode:BlockNode in blockNodeList ) {
         //            blockNode.getBlock().setSize(blockNode.getBlock().getWidth()*1.005,blockNode.getBlock().getHeight()*1.005);
