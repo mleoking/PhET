@@ -44,7 +44,8 @@ public class DensityView extends UIComponent {
     private var startMiddle:Number3D;
     private var selectedObject:AbstractPrimitive;
 
-    private var far:Number = 5000;
+    public static const far:Number = 5000;
+    public static const verticalGroundOffset:Number = -1;
 
     private var poolTop:Plane;
     private var poolFront:Plane;
@@ -124,8 +125,6 @@ public class DensityView extends UIComponent {
         var poolDepth:Number = model.getPoolDepth() * DensityModel.DISPLAY_SCALE;
 
         // NOTE: if the ground is not matching up with the objects resting on the ground (or the bottom of the pool), it is due to the ground being shifted by this amount
-        var verticalGroundOffset:Number = -1;
-
         poolFront = new Plane({ y: -poolHeight + waterHeight / 2 + verticalGroundOffset, width: poolWidth, height: waterHeight, rotationX: 90, material: new ShadingColorMaterial(0x0088FF, {alpha: 0.4}) });
         scene.addChild(poolFront);
         poolFront.mouseEnabled = false;
@@ -143,12 +142,14 @@ public class DensityView extends UIComponent {
         scene.addChild(new Plane({ x: poolWidth / 2, y: -poolHeight / 2 + verticalGroundOffset, z: poolDepth / 2, width: poolHeight, height: poolDepth, rotationZ: 90, material: new ShadingColorMaterial(0xAAAAAA) }));
         scene.addChild(new Plane({ x: -poolWidth / 2, y: -poolHeight / 2 + verticalGroundOffset, z: poolDepth / 2, width: poolHeight, height: poolDepth, rotationZ: -90, material: new ShadingColorMaterial(0xAAAAAA) }));
 
-        // ground behind pool
-        scene.addChild(new Plane({ y: verticalGroundOffset,z: ( (far - poolDepth) / 2 ) + poolDepth, width: poolWidth, height: far - poolDepth, material: new ShadingColorMaterial(0x00AA00) }));
+//         ground behind pool
+//        scene.addChild(new Plane({ y: verticalGroundOffset,z: ( (far - poolDepth) / 2 ) + poolDepth, width: poolWidth, height: far - poolDepth, material: new ShadingColorMaterial(0x00AA00) }));
+//
+//        // ground to the sides of the pool
+//        scene.addChild(new Plane({ x: far / 2 + poolWidth / 2, y: verticalGroundOffset, z: far / 2, width: far, height: far, material: new ShadingColorMaterial(0x00AA00) }));
+//        scene.addChild(new Plane({ x: -far / 2 - poolWidth / 2, y: verticalGroundOffset, z: far / 2, width: far, height: far, material: new ShadingColorMaterial(0x00AA00) }));
 
-        // ground to the sides of the pool
-        scene.addChild(new Plane({ x: far / 2 + poolWidth / 2, y: verticalGroundOffset, z: far / 2, width: far, height: far, material: new ShadingColorMaterial(0x00AA00) }));
-        scene.addChild(new Plane({ x: -far / 2 - poolWidth / 2, y: verticalGroundOffset, z: far / 2, width: far, height: far, material: new ShadingColorMaterial(0x00AA00) }));
+        scene.addChild( new GroundNode(model ) );
 
         // front of earth beneath the pool
         scene.addChild(new Plane({ y: -far / 2 - poolHeight + verticalGroundOffset, width: poolWidth, height: far, rotationX: 90, material: new ShadingColorMaterial(0xAA7733) }));
