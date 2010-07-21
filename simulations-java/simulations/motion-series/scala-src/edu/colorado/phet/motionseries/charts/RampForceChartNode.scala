@@ -25,11 +25,11 @@ class RampForceChartNode(canvas: PhetPCanvas, motionSeriesModel: MotionSeriesMod
   })
 }
 
-class ForcesAndMotionChartNode(canvas: PhetPCanvas, motionSeriesModel: MotionSeriesModel) extends MultiControlChart(Array(
-  new RampForceMinimizableControlChart(motionSeriesModel),
-  new MinimizableControlChart("properties.acceleration".translate, new RampAccelerationChart().chart){setMaximized(false)},
-  new MinimizableControlChart("properties.velocity".translate, new RampAccelerationChart().chart){setMaximized(false)},
-  new MinimizableControlChart("properties.position".translate, new RampAccelerationChart().chart){setMaximized(false)})) {
+class ForcesAndMotionChartNode(canvas: PhetPCanvas, model: MotionSeriesModel) extends MultiControlChart(Array(
+  new RampForceMinimizableControlChart(model),
+  new MinimizableControlChart("properties.acceleration".translate, new SingleSeriesChart(model, () => model.bead.acceleration).chart) {setMaximized(false)},
+  new MinimizableControlChart("properties.velocity".translate, new SingleSeriesChart(model, () => model.bead.velocity).chart) {setMaximized(false)},
+  new MinimizableControlChart("properties.position".translate, new SingleSeriesChart(model, () => model.bead.position).chart) {setMaximized(false)})) {
   canvas.addComponentListener(new ComponentAdapter { //todo: remove duplicate code from above
     override def componentResized(e: ComponentEvent) = {
       val insetX = 6
@@ -40,9 +40,15 @@ class ForcesAndMotionChartNode(canvas: PhetPCanvas, motionSeriesModel: MotionSer
   })
 }
 
-class RampAccelerationChart{
+class SingleSeriesChart(motionSeriesModel: MotionSeriesModel, _value: () => Double) {
   val temporalChart = new TemporalChart(new java.awt.geom.Rectangle2D.Double(0, -2000, 20, 4000), new ChartCursor())
   val chart = new ControlChart(new PNode(), new PNode(), temporalChart, new ChartZoomControlNode(temporalChart))
+
+  val accelerationVariable = new MutableDouble(_value()) {
+    motionSeriesModel.stepListeners += (() => {value = _value()})
+  }
+  val accelerationSeries = new MSDataSeries("properties.acceleration".translate, MotionSeriesDefaults.accelerationColor, "m/s/s", accelerationVariable, motionSeriesModel) //TODO il8n for units
+  temporalChart.addDataSeries(accelerationSeries, accelerationSeries.color)
 }
 
 class RampForceMinimizableControlChart(motionSeriesModel: MotionSeriesModel) extends MinimizableControlChart("forces.parallel-title-with-units".translate, new RampForceControlChart(motionSeriesModel).chart)
@@ -75,11 +81,11 @@ class RampForceControlChart(motionSeriesModel: MotionSeriesModel) {
     motionSeriesModel.stepListeners += (() => {value = parallelTotalForce})
   }
 
-  val appliedForceSeries = new MSDataSeries("<html>F<sub>applied ||</sub></html>", MotionSeriesDefaults.appliedForceColor, "m/s/s", parallelAppliedForceVariable, motionSeriesModel)
-  val frictionForceSeries = new MSDataSeries("<html>F<sub>friction ||</sub></html>", MotionSeriesDefaults.frictionForceColor, "m/s/s", frictionVariable, motionSeriesModel)
-  val gravityForceSeries = new MSDataSeries("<html>F<sub>gravity ||</sub></html>", MotionSeriesDefaults.gravityForceColor, "m/s/s", gravityVariable, motionSeriesModel)
-  val wallForceSeries = new MSDataSeries("<html>F<sub>wall ||</sub></html>", MotionSeriesDefaults.wallForceColor, "m/s/s", wallVariable, motionSeriesModel)
-  val totalForceSeries = new MSDataSeries("<html>F<sub>total ||</sub></html>", MotionSeriesDefaults.totalForceColor, "m/s/s", totalForceVariable, motionSeriesModel)
+  val appliedForceSeries = new MSDataSeries("<html>F<sub>applied ||</sub></html>", MotionSeriesDefaults.appliedForceColor, "N", parallelAppliedForceVariable, motionSeriesModel)
+  val frictionForceSeries = new MSDataSeries("<html>F<sub>friction ||</sub></html>", MotionSeriesDefaults.frictionForceColor, "N", frictionVariable, motionSeriesModel)
+  val gravityForceSeries = new MSDataSeries("<html>F<sub>gravity ||</sub></html>", MotionSeriesDefaults.gravityForceColor, "N", gravityVariable, motionSeriesModel)
+  val wallForceSeries = new MSDataSeries("<html>F<sub>wall ||</sub></html>", MotionSeriesDefaults.wallForceColor, "N", wallVariable, motionSeriesModel)
+  val totalForceSeries = new MSDataSeries("<html>F<sub>total ||</sub></html>", MotionSeriesDefaults.totalForceColor, "N", totalForceVariable, motionSeriesModel) //todo: il8n for units and names
 
   temporalChart.addDataSeries(appliedForceSeries, appliedForceSeries.color)
   temporalChart.addDataSeries(frictionForceSeries, frictionForceSeries.color)
