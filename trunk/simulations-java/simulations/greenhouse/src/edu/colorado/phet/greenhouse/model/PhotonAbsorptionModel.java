@@ -116,8 +116,7 @@ public class PhotonAbsorptionModel {
     public void reset() {
         setPhotonTarget( DEFAULT_PHOTON_TARGET );
         setEmittedPhotonWavelength( DEFAULT_EMITTED_PHOTON_WAVELENGTH );
-        periodicPhotonEmissionEnabled = false;
-        photonEmissionCountdownTimer = Double.POSITIVE_INFINITY;
+        setPeriodicPhotonEmissionEnabled( false );
     }
 
     public void stepInTime(double dt){
