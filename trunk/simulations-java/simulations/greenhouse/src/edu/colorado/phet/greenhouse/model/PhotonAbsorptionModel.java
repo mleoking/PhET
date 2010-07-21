@@ -252,6 +252,14 @@ public class PhotonAbsorptionModel {
         return new ArrayList<Molecule>(molecules);
     }
     
+    protected double getPhotonEmissionPeriod() {
+        return photonEmissionPeriod;
+    }
+    
+    protected void setPhotonEmissionPeriod( double photonEmissionPeriod ) {
+        this.photonEmissionPeriod = photonEmissionPeriod;
+    }
+    
     /**
      * Cause a photon to be emitted from the emission point.
      */
