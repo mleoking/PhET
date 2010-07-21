@@ -7,7 +7,13 @@
 1750-background.gif author=PhET 
 earth-a.gif license=same as earth_0001.gif notes=email permission
 earth.gif license=same as earth_0001.gif notes=email permission 
+earth.png auther=PhET
+emitterOffButton.png author=PhET 
+emitterOnButton.png author=PhET 
+flashlight.png author=PhET 
+flashlight2.png author=PhET 
 glass-pane-background.gif author=PhET 
+heat_lamp.png author=PhET 
 help-item-icon.gif notes=I think Ron LeMaster created this
 ice-age-2.gif author=PhET 
 iceage-2.gif author=PhET 
@@ -28,3 +34,4 @@ thin2.png author=PhET
 thin3.png author=PhET 
 today-2.gif author=PhET 
 today.gif author=PhET 
+
