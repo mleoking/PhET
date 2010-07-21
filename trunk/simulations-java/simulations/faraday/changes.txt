@@ -1,3 +1,4 @@
+# 2.03.06 (42502) Jul 20, 2010
 7/20/10 #2236, implement 3-grid approach for bar magnet B-field
 7/20/10 #2236, increase the intensity of compass needles just outside ends of magnet to improve the B-field "look"
 7/19/10 #2438, use Shapes for collision detection, define compass bounds as a circle
