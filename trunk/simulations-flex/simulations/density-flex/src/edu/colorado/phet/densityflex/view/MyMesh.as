@@ -1,5 +1,7 @@
 package edu.colorado.phet.densityflex.view {
 import away3d.core.base.*;
+import away3d.materials.IMaterial;
+import away3d.materials.ITriangleMaterial;
 
 /**
  * Creates a sea turtle model (exported using asAS3Class).
@@ -20,6 +22,10 @@ public class MyMesh extends Mesh {
 
     public function f(vn0:int, vn1:int, vn2:int, uvn0:int, uvn1:int, uvn2:int):void {
         addFace(new Face(varr[vn0], varr[vn1], varr[vn2], null, uvarr[uvn0], uvarr[uvn1], uvarr[uvn2]));
+    }
+
+    public function face(x:int, y:int, z:int, texture:ITriangleMaterial = null):void {
+        addFace(new Face(varr[x], varr[y], varr[z], texture, uvarr[x], uvarr[y], uvarr[z]));
     }
 
     public function combine(a:Object, b:Object):Object {
@@ -43,6 +49,10 @@ public class MyMesh extends Mesh {
     }
 
     protected function build():void {
+    }
+
+    protected function getVertexArray():Array {
+        return varr;
     }
 }
 }
