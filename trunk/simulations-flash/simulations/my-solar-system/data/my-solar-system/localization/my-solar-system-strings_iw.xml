@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--my-solar-system-strings_iw.xml created Tue Jul 20 00:32:48 IDT 2010 using: my-solar-system 2.02.00 (37313), translation-utility 2.08.00 (39581) Apr 2, 2010-->
+<SimStrings>
+<string key="slingshot" value="קלע"/>
+<string key="binaryStarPlanet" value="כוכב בינרי, פלנטה"/>
+<string key="sunAndPlanet" value="שמש, פלנטה"/>
+<string key="body4" value="גוף 4"/>
+<string key="numberOfBodies" value="מספר\n גופים"/>
+<string key="body3" value="גוף 3"/>
+<string key="body2" value="גוף 2"/>
+<string key="body1" value="גוף 1"/>
+<string key="velocity" value="מהירות"/>
+<string key="doubleDouble" value="כפול כפול"/>
+<string key="massEquals" value="מסה = "/>
+<string key="hyperbolics" value="היבפרבולות"/>
+<string key="help9" value="ואוניברסיטת קולרדו בבולדרPHET כל הזכיות שמורות לפרוייקט "/>
+<string key="help8" value="בניגוד לאלגוריתם הרונג'-קוטה , אלגוריתם הוורלט משמר אנרגיה במערכות תנודיות, מייצר מסלולים יציבים. בנוגע לאלגוריתמי קפיצות זמן קבועות, וורלט מייצר תוצאות לא פיסיקליות כאשר הגופים מתקרבים יותר מדי והתאוצות המתקבלות גבוהות מדי. על מנת למנוע זאת, גופים המתקרבים יותר מדי מתמזגים בהתנגשות קבועת תמד."/>
+<string key="help6" value="על מנת להזין את המסלולtimestep-verlet-velocity סימולציה זו עושה שימוש באלגוריתם"/>
+<string key="stop" value="עצור"/>
+<string key="help5" value="כאשר המערכת הממורכזת נבדקת, מרכז מסת התנועה שלה מוסרת"/>
+<string key="help4" value="לקבלת מיקום ומהירות נוכחיים, לחצו עצור וגררו את העכבר מעל הגוף"/>
+<string key="help3" value="אם לא תדאגו שהמסות יהיו מתחת לאלפים בודדים, תסתכנו בתוצרות מוזרות"/>
+<string key="help2" value="מרחקים, מסות וזמנים הינם ביחידות שרירותיות. המציאו את שלכם"/>
+<string key="help1" value="צור את מערכת השמש שלך על ידי גרירת הגופים וסמל המהירות, או על ידי הזנת נתונים לטבלת ההגדרות ההתחלתיות"/>
+<string key="help0" value="סימולטור מסלול מערכת השמש שלי"/>
+<string key="doubleSlingshot" value="קלע כפול"/>
+<string key="systemCentered" value="מערכת ממורכזת"/>
+<string key="start" value="התחל"/>
+<string key="showTraces" value="הצג עקבות"/>
+<string key="back" value="חזרה"/>
+<string key="tapeMeasure" value="סרט מדידה"/>
+<string key="accurate" value="מדוייק"/>
+<string key="help" value="עזרה"/>
+<string key="selectPreset" value="בחר סוג מערכת"/>
+<string key="showGrid" value="הצג רשת"/>
+<string key="timeEquals" value="זמן = "/>
+<string key="ellipses" value="אליפסות"/>
+<string key="trojanAsteroids" value="אסטרואידים טרויאנים"/>
+<string key="fourStarBallet" value="בלט ארבעה כוכבים"/>
+<string key="position" value="מיקום"/>
+<string key="reset" value="אתחל"/>
+<string key="mass" value="מסה"/>
+<string key="fast" value="מהר"/>
+<string key="simTitle" value="מערכת השמש שלי"/>
+<string key="sunPlanetMoon" value="שמש, פלנטה, ירח"/>
+<string key="initialSettings" value="הגדרות התחלתיות:"/>
+<string key="sunPlanetComet" value="שמש, פלנטה, שביט"/>
+</SimStrings>
