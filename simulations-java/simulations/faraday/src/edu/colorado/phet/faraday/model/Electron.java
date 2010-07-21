@@ -1,4 +1,4 @@
-/* Copyright 2005-2008, University of Colorado */
+/* Copyright 2005-2010, University of Colorado */
 
 package edu.colorado.phet.faraday.model;
 
@@ -28,8 +28,8 @@ public class Electron extends FaradayObservable implements ModelElement {
     // Instance data
     //----------------------------------------------------------------------------
     
-    // Describes the electron's path (array of ElectronPathDescriptor)
-    private ArrayList _path;
+    // Describes the electron's path.
+    private ArrayList<ElectronPathDescriptor> _path;
     
     // Index of the descriptor that describes the curve the electron is currently on.
     private int _pathIndex;
@@ -72,10 +72,9 @@ public class Electron extends FaradayObservable implements ModelElement {
      * 
      * @param path array of ElectronPathDescriptor
      */
-    public void setPath( ArrayList path ) {
+    public void setPath( ArrayList<ElectronPathDescriptor> path ) {
         assert ( path != null );
         assert ( path.size() > 0 );
-        assert ( path.get(0) instanceof ElectronPathDescriptor );
         _path = path;
         _pathIndex = 0;
         _pathPosition = 1.0;
@@ -87,7 +86,7 @@ public class Electron extends FaradayObservable implements ModelElement {
      * @return an ElectronPathDescriptor
      */
     public ElectronPathDescriptor getPathDescriptor() {
-        return (ElectronPathDescriptor)_path.get( _pathIndex );
+        return _path.get( _pathIndex );
     }
     
     /**
@@ -112,7 +111,7 @@ public class Electron extends FaradayObservable implements ModelElement {
         _pathPosition = pathPosition;
         
         // Evaluate the quadratic to determine XY location.
-        ElectronPathDescriptor descriptor = (ElectronPathDescriptor) _path.get( _pathIndex );
+        ElectronPathDescriptor descriptor = _path.get( _pathIndex );
         QuadBezierSpline curve = descriptor.getCurve();
         curve.evaluate( _pathPosition, _point /* output */ );
         super.setLocation( _point );
@@ -189,7 +188,7 @@ public class Electron extends FaradayObservable implements ModelElement {
         if ( isEnabled() && _speed != 0 && _path != null ) {
             
             // Move the electron along the path.
-            double pathScale = ((ElectronPathDescriptor)_path.get( _pathIndex )).getPathScale();
+            double pathScale = _path.get( _pathIndex ).getPathScale();
             double delta = dt * MAX_PATH_POSITION_DELTA * _speed * _speedScale * pathScale;
             _pathPosition -= delta;
             
@@ -199,7 +198,7 @@ public class Electron extends FaradayObservable implements ModelElement {
             }
             
             // Evaluate the quadratic to determine XY location.
-            ElectronPathDescriptor descriptor = (ElectronPathDescriptor)_path.get( _pathIndex );
+            ElectronPathDescriptor descriptor = _path.get( _pathIndex );
             QuadBezierSpline curve = descriptor.getCurve();
             curve.evaluate( _pathPosition, _point /* output */ );
             super.setLocation( _point );
@@ -217,7 +216,7 @@ public class Electron extends FaradayObservable implements ModelElement {
      */
     private void switchCurves() {
        
-        double oldSpeedScale = ((ElectronPathDescriptor)_path.get( _pathIndex )).getPathScale();
+        double oldSpeedScale = _path.get( _pathIndex ).getPathScale();
         
         if ( _pathPosition <= 0 ) {
             
@@ -228,7 +227,7 @@ public class Electron extends FaradayObservable implements ModelElement {
             }
             
             // Set the position on the curve.
-            double newSpeedScale = ((ElectronPathDescriptor)_path.get( _pathIndex )).getPathScale();
+            double newSpeedScale = _path.get( _pathIndex ).getPathScale();
             double overshoot = Math.abs( _pathPosition * newSpeedScale / oldSpeedScale );
             _pathPosition = 1.0 - overshoot;
             
@@ -246,7 +245,7 @@ public class Electron extends FaradayObservable implements ModelElement {
             }
             
             // Set the position on the curve.
-            double newSpeedScale = ((ElectronPathDescriptor)_path.get( _pathIndex )).getPathScale();
+            double newSpeedScale = _path.get( _pathIndex ).getPathScale();
             double overshoot = Math.abs( ( 1 - _pathPosition ) * newSpeedScale / oldSpeedScale );
             _pathPosition = 0.0 + overshoot;
             
