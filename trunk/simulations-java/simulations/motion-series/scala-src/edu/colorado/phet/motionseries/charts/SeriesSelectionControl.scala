@@ -117,3 +117,7 @@ class SeriesControlSelectorBox(val series: MSDataSeries) extends MyJCheckBox(ser
   setOpaque(false) //let the background show through, TODO: check whether this works on Mac
   setForeground(series.color)
 }
+
+object Defaults {
+  def createFont = new PhetFont(12, true)
+}
