@@ -1,4 +1,4 @@
-/* Copyright 2005-2008, University of Colorado */
+/* Copyright 2005-2010, University of Colorado */
 
 package edu.colorado.phet.faraday.control;
 
@@ -22,12 +22,6 @@ public class FaradayControlPanel extends ControlPanel {
     public static final int DEFAULT_VERTICAL_SPACE = 8;
     
     //----------------------------------------------------------------------------
-    // Instance data
-    //----------------------------------------------------------------------------
-    
-    private FaradayModule _module; // module that this control panel is associated with
-    
-    //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
@@ -38,7 +32,6 @@ public class FaradayControlPanel extends ControlPanel {
      */
     public FaradayControlPanel( FaradayModule module ) {
         super( module );
-        _module = module;
         
         // Set the control panel's minimum width.
         int width = FaradayResources.getInt( "ControlPanel.width", 225 );
