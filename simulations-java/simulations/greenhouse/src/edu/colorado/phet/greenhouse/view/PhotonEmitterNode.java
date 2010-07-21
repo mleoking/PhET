@@ -72,7 +72,7 @@ public class PhotonEmitterNode extends PNode {
 	 * strings that define the user selections.
 	 * @param mvt - Model-view transform for translating between model and
 	 * view coordinate systems.
-	 * @param model TODO
+	 * @param model
 	 */
 	public PhotonEmitterNode(double imageWidth, ModelViewTransform2D mvt, final PhotonAbsorptionModel model) {
 		
@@ -200,15 +200,14 @@ public class PhotonEmitterNode extends PNode {
         photonEmitterImage.scale(flashlightWidth / photonEmitterImage.getFullBoundsReference().width);
         photonEmitterImage.setOffset(-flashlightWidth, -photonEmitterImage.getFullBoundsReference().height / 2);
         
-        // Create the button that the user presses to fire a photon.  This
-        // is comprised of two images, one over the other, and the one becomes
-        // invisible when pressed.
+        // Create the button that turns photon emission on/off.
         double buttonDiameter = photonEmitterImage.getFullBoundsReference().height * 0.3; // Note: Adjust multiplier as needed.
-        final PImage unpressedButtonImage = new PImage(GreenhouseResources.getImage("button_unpressed.png"));
-        unpressedButtonImage.scale(buttonDiameter / unpressedButtonImage.getFullBoundsReference().width);
+        final PImage unpressedButtonImage = new PImage(GreenhouseResources.getImage("emitterOffButton.png"));
+        double scalingFactor = buttonDiameter / unpressedButtonImage.getFullBoundsReference().width;
+        unpressedButtonImage.scale(scalingFactor);
         Point2D buttonOffset = new Point2D.Double(
                 photonEmitterImage.getFullBoundsReference().getCenterX() - buttonDiameter / 2, 
-                photonEmitterImage.getFullBoundsReference().getCenterY() + photonEmitterImage.getFullBoundsReference().getHeight() * 0.05 - buttonDiameter / 2);
+                photonEmitterImage.getFullBoundsReference().getCenterY() - buttonDiameter / 2);
         unpressedButtonImage.setOffset(buttonOffset);
         unpressedButtonImage.addInputEventListener(new CursorHandler());
         unpressedButtonImage.addInputEventListener(new PBasicInputEventHandler(){
@@ -223,8 +222,8 @@ public class PhotonEmitterNode extends PNode {
                 unpressedButtonImage.setVisible(true);
             }
         });
-        PImage pressedButtonImage = new PImage(GreenhouseResources.getImage("button_pressed.png"));
-        pressedButtonImage.scale(buttonDiameter / pressedButtonImage.getFullBoundsReference().width);
+        PImage pressedButtonImage = new PImage(GreenhouseResources.getImage("emitterOnButton.png"));
+        pressedButtonImage.scale(scalingFactor);
         pressedButtonImage.setOffset(buttonOffset);
         pressedButtonImage.addInputEventListener(new CursorHandler());
 
