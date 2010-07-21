@@ -23,7 +23,7 @@ class RampForceChartNode(rampCanvas: RampCanvas, motionSeriesModel: MotionSeries
   })
 }
 
-class RampForceMinimizableControlChart(motionSeriesModel: MotionSeriesModel) extends MinimizableControlChart("title", new RampForceControlChart(motionSeriesModel).chart)
+class RampForceMinimizableControlChart(motionSeriesModel: MotionSeriesModel) extends MinimizableControlChart("forces.parallel-title-with-units".translate, new RampForceControlChart(motionSeriesModel).chart)
 
 class RampForceControlChart(motionSeriesModel: MotionSeriesModel) {
   val temporalChart = new TemporalChart(new java.awt.geom.Rectangle2D.Double(0, -2000, 20, 4000), new ChartCursor())
@@ -77,12 +77,8 @@ class RampForceControlChart(motionSeriesModel: MotionSeriesModel) {
 
   def createSliderNode(thumb: PNode, highlightColor: Color, chart: TemporalChart) =
     new TemporalChartSliderNode(chart, Color.green) { //TODO: add vertical label to the slider node
-      addListener(new MotionSliderNode.Listener() {
-        def sliderDragged(value: java.lang.Double) = {parallelAppliedForceVariable.value = value.doubleValue}
-
-        def sliderThumbGrabbed = {}
-
-        def valueChanged = {}
+      addListener(new MotionSliderNode.Adapter() {
+        override def sliderDragged(value: java.lang.Double) = {parallelAppliedForceVariable.value = value.doubleValue}
       })
       parallelAppliedForceVariable.addListener( ()=>{setValue(parallelAppliedForceVariable.value)} )
       //    new JFreeChartSliderNode(getJFreeChartNode, thumb, highlightColor) {
