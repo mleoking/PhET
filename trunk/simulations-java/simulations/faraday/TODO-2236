@@ -1,7 +1,6 @@
 TODO list for Faraday ticket #2236
 
 HIGH PRIORITY
-- implement 3-grid approach for bar magnet model
 - get rid of scaling in model and view, make FaradayConstants.PICKUP_REFERENCE_EMF the single tunable parameter, per module
 - recalibrate all view components
 

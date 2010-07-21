@@ -283,10 +283,9 @@ public class Compass extends FaradayObservable implements ModelElement, SimpleOb
      */
     private static class KinematicBehavior extends AbstractBehavior {
         
-        /* Change these at your peril. */
-        private static final double SENSITIVITY = 0.001;
-        private static final double DAMPING = 0.05;
-        private static final double THRESHOLD = Math.toRadians( 0.2 );
+        private static final double SENSITIVITY = 0.01; // increase this to make the compass more sensitive to smaller fields
+        private static final double DAMPING = 0.08; // increase this to make the needle wobble less
+        private static final double THRESHOLD = Math.toRadians( 0.2 ); // angle at which the needle stops wobbling and snaps to the actual field orientation
         
         // Angle of needle orientation (in radians)
         private double _theta;
