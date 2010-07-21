@@ -34,8 +34,6 @@ public class H2O extends Molecule {
     private static final double INITIAL_HYDROGEN_HORIZONTAL_OFFSET = OXYGEN_HYDROGEN_BOND_LENGTH *
         Math.sin( INITIAL_HYDROGEN_OXYGEN_HYDROGEN_ANGLE );
         
-    private static final double PHOTON_ABSORPTION_DISTANCE = 100;
-    
     // ------------------------------------------------------------------------
     // Instance Data
     // ------------------------------------------------------------------------
@@ -58,7 +56,10 @@ public class H2O extends Molecule {
         addAtom( hydrogenAtom2 );
         addAtomicBond( oxygenHydrogenBond1 );
         addAtomicBond( oxygenHydrogenBond2 );
-
+        
+        // Set up the photon wavelengths to absorb.
+        addPhotonAbsorptionWavelength( GreenhouseConfig.irWavelength );
+        
         // Set the initial offsets.
         initializeAtomOffsets();
         
@@ -73,22 +74,6 @@ public class H2O extends Molecule {
     // ------------------------------------------------------------------------
     // Methods
     // ------------------------------------------------------------------------
-    
-    @Override
-    public boolean queryAbsorbPhoton( Photon photon ) {
-        if (!isPhotonAbsorbed() &&
-             getAbsorbtionHysteresisCountdownTime() <= 0 &&
-             photon.getWavelength() == GreenhouseConfig.irWavelength &&
-             photon.getLocation().distance(oxygenAtom.getPosition()) < PHOTON_ABSORPTION_DISTANCE)
-        {
-            setPhotonAbsorbed( true );
-            startPhotonEmissionTimer( photon );
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
     
     /* (non-Javadoc)
      * @see edu.colorado.phet.greenhouse.model.Molecule#initializeCogOffsets()

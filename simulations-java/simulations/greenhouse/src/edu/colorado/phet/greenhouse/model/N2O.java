@@ -22,8 +22,6 @@ public class N2O extends Molecule {
     private static final double INITIAL_NITROGEN_NITROGEN_DISTANCE = 170; // In picometers.
     private static final double INITIAL_NITROGEN_OXYGEN_DISTANCE = 170; // In picometers.
     
-    private static final double PHOTON_ABSORPTION_DISTANCE = 80;
-
     // Deflection amounts used for the oscillation of the CO2 atoms.  These
     // are calculated such that the actual center of gravity should remain
     // pretty much constant.
@@ -54,6 +52,9 @@ public class N2O extends Molecule {
         addAtomicBond( nitrogenNitrogenBond );
         addAtomicBond( nitrogenOxygenBond );
         
+        // Set up the photon wavelengths to absorb.
+        addPhotonAbsorptionWavelength( GreenhouseConfig.irWavelength );
+        
         // Set the initial offsets.
         initializeAtomOffsets();
         
@@ -69,22 +70,6 @@ public class N2O extends Molecule {
     // Methods
     // ------------------------------------------------------------------------
     
-    @Override
-    public boolean queryAbsorbPhoton( Photon photon ) {
-        if (!isPhotonAbsorbed() &&
-             getAbsorbtionHysteresisCountdownTime() <= 0 &&
-             photon.getWavelength() == GreenhouseConfig.irWavelength &&
-             photon.getLocation().distance(sideNitrogenAtom.getPosition()) < PHOTON_ABSORPTION_DISTANCE)
-        {
-            setPhotonAbsorbed( true );
-            startPhotonEmissionTimer( photon );
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
-
     /* (non-Javadoc)
      * @see edu.colorado.phet.greenhouse.model.Molecule#initializeCogOffsets()
      */
