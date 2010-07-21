@@ -120,7 +120,6 @@ public class PhotonEmitterNode extends PNode {
         pressedButtonImage.addInputEventListener(new PBasicInputEventHandler(){
             @Override
             public void mousePressed( PInputEvent event ) {
-                System.out.println("Pressed image pressed.");
                 model.setPeriodicPhotonEmissionEnabled( false );
             }
         });
@@ -131,7 +130,6 @@ public class PhotonEmitterNode extends PNode {
         unpressedButtonImage.addInputEventListener(new PBasicInputEventHandler(){
             @Override
             public void mousePressed( PInputEvent event ) {
-                System.out.println("Unpressed image pressed.");
                 model.setPeriodicPhotonEmissionEnabled( true );
             }
         });
