@@ -1,4 +1,4 @@
-/* Copyright 2004-2008, University of Colorado */
+/* Copyright 2004-2010, University of Colorado */
 
 package edu.colorado.phet.faraday;
 
@@ -116,22 +116,6 @@ public class FaradayConstants {
     // Pickup Coil parameters
     //----------------------------------------------------------------------------
     
-    /*
-     * This is the reference EMF for the pickup coil.
-     * Making this value bigger will make electrons move further, light rays bigger, etc.
-     * The easiest way to set this value is to go to the Generator module, 
-     * set magnet strength=100% and loop area=100%, and turn the water faucet to full on.
-     * Then verify that the electrons don't move so far that they look like they're
-     * moving in the wrong direction.  If they are moving too far, increase this value.
-     * If they are not moving far enough, decrease this value.
-     * 
-     * Also adjust these scaling factors in the modules:
-     * LIGHTBULB_SCALE
-     * VOLTMETER_SCALE
-     * ELECTRON_SPEED_SCALE
-     */
-    public static final double PICKUP_REFERENCE_EMF = 5.0E7; // volts
-    
     public static final int MAX_PICKUP_LOOPS = 3;
     public static final int MIN_PICKUP_LOOPS = 1;
     private static final double MAX_PICKUP_LOOP_RADIUS = 150.0;
@@ -171,20 +155,11 @@ public class FaradayConstants {
     // Developer controls
     //----------------------------------------------------------------------------
     
-    public static final double EMF_SCALE_MIN = 0.01;
-    public static final double EMF_SCALE_MAX = 10;
-    
     private static final double DEFAULT_VIEW_SCALE_MIN = 1;
-    private static final double DEFAULT_VIEW_SCALE_MAX = 1000;
+    private static final double DEFAULT_VIEW_SCALE_MAX = 100;
     
     public static final double LIGHTBULB_GLASS_GLOW_SCALE_MIN = DEFAULT_VIEW_SCALE_MIN;
     public static final double LIGHTBULB_GLASS_GLOW_SCALE_MAX = DEFAULT_VIEW_SCALE_MAX;
-    
-    public static final double LIGHTBULB_RAYS_SCALE_MIN = DEFAULT_VIEW_SCALE_MIN;
-    public static final double LIGHTBULB_RAYS_SCALE_MAX = DEFAULT_VIEW_SCALE_MAX;
-    
-    public static final double VOLTMETER_SCALE_MIN = DEFAULT_VIEW_SCALE_MIN;
-    public static final double VOLTMETER_SCALE_MAX = DEFAULT_VIEW_SCALE_MAX;
     
     public static final double PICKUP_ELECTRONS_SPEED_SCALE_MIN = DEFAULT_VIEW_SCALE_MIN;
     public static final double PICKUP_ELECTRONS_SPEED_SCALE_MAX = DEFAULT_VIEW_SCALE_MAX;

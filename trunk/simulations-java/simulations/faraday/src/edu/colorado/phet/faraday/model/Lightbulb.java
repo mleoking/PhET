@@ -1,8 +1,7 @@
-/* Copyright 2004-2008, University of Colorado */
+/* Copyright 2004-2010, University of Colorado */
 
 package edu.colorado.phet.faraday.model;
 
-import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.faraday.FaradayConstants;
 
@@ -20,7 +19,6 @@ public class Lightbulb extends FaradayObservable implements SimpleObserver {
     //----------------------------------------------------------------------------
     
     private PickupCoil _pickupCoilModel;
-    private double _scale;
     private double _previousCurrentAmplitude;
     private boolean _offWhenCurrentChangesDirection;
     
@@ -39,7 +37,6 @@ public class Lightbulb extends FaradayObservable implements SimpleObserver {
         _pickupCoilModel = pickupCoilModel;
         _pickupCoilModel.addObserver( this );
 
-        _scale = 1.0;
         _previousCurrentAmplitude = 0.0;
         _offWhenCurrentChangesDirection = false;
     }
@@ -76,8 +73,7 @@ public class Lightbulb extends FaradayObservable implements SimpleObserver {
         }
         else {
             // Light intensity is proportional to amplitude of current in the coil.
-            intensity = _scale * Math.abs( currentAmplitude );
-            intensity = MathUtil.clamp( 0, intensity, 1 );
+            intensity = Math.abs( currentAmplitude );
             
             // Intensity below the threshold is effectively zero.
             if ( intensity < FaradayConstants.CURRENT_AMPLITUDE_THRESHOLD ) {
@@ -87,29 +83,8 @@ public class Lightbulb extends FaradayObservable implements SimpleObserver {
         
         _previousCurrentAmplitude = currentAmplitude;
         
+        assert( intensity >= 0 && intensity <= 1 );
         return intensity;
-    }
-    
-    /**
-     * Sets the scale that is applied to the intensity.
-     * 
-     * @param scale
-     */
-    public void setScale( double scale ) {
-        assert( scale > 0 );
-        if ( scale != _scale ) {
-            _scale = scale;
-            notifyObservers();
-        }
-    }
-
-    /**
-     * Gets the scale that is applied to the intensity.
-     * 
-     * @return the scale
-     */
-    public double getScale() {
-        return _scale;
     }
     
     /**

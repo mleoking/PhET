@@ -65,14 +65,10 @@ public class TransformerModule extends FaradayModule {
     private static final double PICKUP_COIL_LOOP_AREA = 0.75 * FaradayConstants.MAX_PICKUP_LOOP_AREA;
     private static final double PICKUP_COIL_DIRECTION = 0.0; // radians
     private static final double PICKUP_COIL_TRANSITION_SMOOTHING_SCALE = 0.56; // see PickupCoil.setTransitionSmoothingScale
-    private static final double LIGHTBULB_GLASS_MIN_ALPHA = 0.35;
     
     // Scaling
-    private static final double LIGHTBULB_GLOW_SCALE = 15.0;
-    private static final double LIGHT_RAYS_SCALE = 10.0;
-    private static final double VOLTMETER_SCALE = 12.0;
-    private static final double ELECTRON_SPEED_SCALE = VOLTMETER_SCALE;
-    private static final double PICKUP_COIL_EMF_SCALE = 3.0;
+    private static final double CALIBRATION_EMF = 3500000;
+    private static final double ELECTRON_SPEED_SCALE = 1;//VOLTMETER_SCALE;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -159,13 +155,12 @@ public class TransformerModule extends FaradayModule {
         _fieldMeterModel.setEnabled( false );
         
         // Pickup Coil
-        _pickupCoilModel = new PickupCoil( _electromagnetModel );
+        _pickupCoilModel = new PickupCoil( _electromagnetModel, CALIBRATION_EMF );
         _pickupCoilModel.setNumberOfLoops( PICKUP_COIL_NUMBER_OF_LOOPS );
         _pickupCoilModel.setLoopArea( PICKUP_COIL_LOOP_AREA );
         _pickupCoilModel.setDirection( PICKUP_COIL_DIRECTION );
         _pickupCoilModel.setLocation( PICKUP_COIL_LOCATION);
         _pickupCoilModel.setTransitionSmoothingScale( PICKUP_COIL_TRANSITION_SMOOTHING_SCALE );
-        _pickupCoilModel.setEmfScale( PICKUP_COIL_EMF_SCALE );
         final double ySpacing = _electromagnetModel.getHeight() / 20;
         _pickupCoilModel.setSamplePointsStrategy( new VariableNumberOfSamplePointsStrategy( ySpacing ) );
         model.addModelElement( _pickupCoilModel );
@@ -173,14 +168,12 @@ public class TransformerModule extends FaradayModule {
         // Lightbulb
         _lightbulbModel = new Lightbulb( _pickupCoilModel );
         _lightbulbModel.setEnabled( true );
-        _lightbulbModel.setScale( LIGHT_RAYS_SCALE );
         _lightbulbModel.setOffWhenCurrentChangesDirection( true );
         
         // Volt Meter
         _voltmeterModel = new Voltmeter( _pickupCoilModel );
         _voltmeterModel.setJiggleEnabled( true );
         _voltmeterModel.setEnabled( false );
-        _voltmeterModel.setScale( VOLTMETER_SCALE );
         model.addModelElement( _voltmeterModel );
         
         //----------------------------------------------------------------------------
@@ -202,8 +195,6 @@ public class TransformerModule extends FaradayModule {
         // Pickup Coil
         _pickupCoilGraphic = new PickupCoilGraphic( apparatusPanel, model, 
                 _pickupCoilModel, _lightbulbModel, _voltmeterModel );
-        _pickupCoilGraphic.getLightbulbGraphic().setGlassMinAlpha( LIGHTBULB_GLASS_MIN_ALPHA );
-        _pickupCoilGraphic.getLightbulbGraphic().setGlassGlowScale( LIGHTBULB_GLOW_SCALE );
         _pickupCoilGraphic.getCoilGraphic().setElectronSpeedScale( ELECTRON_SPEED_SCALE );
         apparatusPanel.addChangeListener( _pickupCoilGraphic );
         apparatusPanel.addGraphic( _pickupCoilGraphic.getForeground(), PICKUP_COIL_FRONT_LAYER );
@@ -263,10 +254,7 @@ public class TransformerModule extends FaradayModule {
             if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
                 controlPanel.addDefaultVerticalSpace();
                 
-                DeveloperControlsPanel developerControlsPanel = new DeveloperControlsPanel( 
-                        null, _pickupCoilModel, _lightbulbModel, _voltmeterModel, 
-                        _pickupCoilGraphic, _electromagnetGraphic, _pickupCoilGraphic.getLightbulbGraphic(),
-                        null, _bFieldOutsideGraphic );
+                DeveloperControlsPanel developerControlsPanel = new DeveloperControlsPanel( _pickupCoilModel, _pickupCoilGraphic, _electromagnetGraphic, _pickupCoilGraphic.getLightbulbGraphic(), null, _bFieldOutsideGraphic );
                 controlPanel.addControlFullWidth( developerControlsPanel );
             }
             

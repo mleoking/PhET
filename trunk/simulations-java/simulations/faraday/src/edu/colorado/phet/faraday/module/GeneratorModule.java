@@ -58,14 +58,10 @@ public class GeneratorModule extends FaradayModule {
     private static final double PICKUP_COIL_LOOP_AREA = FaradayConstants.DEFAULT_PICKUP_LOOP_AREA;
     private static final double PICKUP_COIL_DIRECTION = 0.0; // radians
     private static final double PICKUP_COIL_TRANSITION_SMOOTHING_SCALE = 1.0;  // see PickupCoil.setTransitionSmoothingScale, 1 because magnet is never inside coil
-    private static final double LIGHTBULB_GLASS_MIN_ALPHA = 0.35;
     
     // Scaling -- values depend on the distance between pickup coil and turbine!
-    private static final double LIGHTBULB_GLOW_SCALE = 15.0;
-    private static final double LIGHTBULB_SCALE = 2.5;
-    private static final double VOLTMETER_SCALE = 3.3;
-    private static final double ELECTRON_SPEED_SCALE = 2.5;
-    private static final double PICKUP_COIL_EMF_SCALE = 2.5;
+    private static final double CALIBRATION_EMF = 32500;
+    private static final double ELECTRON_SPEED_SCALE = 1;//2.5;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -125,26 +121,23 @@ public class GeneratorModule extends FaradayModule {
         _fieldMeterModel.setEnabled( false );
         
         // Pickup Coil
-        _pickupCoilModel = new PickupCoil( _turbineModel );
+        _pickupCoilModel = new PickupCoil( _turbineModel, CALIBRATION_EMF );
         _pickupCoilModel.setNumberOfLoops( PICKUP_COIL_NUMBER_OF_LOOPS );
         _pickupCoilModel.setLoopArea( PICKUP_COIL_LOOP_AREA );
         _pickupCoilModel.setDirection( PICKUP_COIL_DIRECTION );
         _pickupCoilModel.setLocation( PICKUP_COIL_LOCATION);
         _pickupCoilModel.setTransitionSmoothingScale( PICKUP_COIL_TRANSITION_SMOOTHING_SCALE );
-        _pickupCoilModel.setEmfScale( PICKUP_COIL_EMF_SCALE );
         model.addModelElement( _pickupCoilModel );
        
         // Lightbulb
         _lightbulbModel = new Lightbulb( _pickupCoilModel );
         _lightbulbModel.setEnabled( true );
-        _lightbulbModel.setScale( LIGHTBULB_SCALE );
         _lightbulbModel.setOffWhenCurrentChangesDirection( true );
         
         // Volt Meter
         _voltmeterModel = new Voltmeter( _pickupCoilModel );
         _voltmeterModel.setJiggleEnabled( true );
         _voltmeterModel.setEnabled( false );
-        _voltmeterModel.setScale( VOLTMETER_SCALE );
         model.addModelElement( _voltmeterModel );
         
         //----------------------------------------------------------------------------
@@ -165,8 +158,6 @@ public class GeneratorModule extends FaradayModule {
         _pickupCoilGraphic = new PickupCoilGraphic( apparatusPanel, model,
                 _pickupCoilModel, _lightbulbModel, _voltmeterModel );
         _pickupCoilGraphic.setDraggingEnabled( false );
-        _pickupCoilGraphic.getLightbulbGraphic().setGlassMinAlpha( LIGHTBULB_GLASS_MIN_ALPHA );
-        _pickupCoilGraphic.getLightbulbGraphic().setGlassGlowScale( LIGHTBULB_GLOW_SCALE );
         _pickupCoilGraphic.getCoilGraphic().setElectronSpeedScale( ELECTRON_SPEED_SCALE );
         apparatusPanel.addChangeListener( _pickupCoilGraphic );
         apparatusPanel.addGraphic( _pickupCoilGraphic.getForeground(), PICKUP_COIL_FRONT_LAYER );
@@ -221,10 +212,7 @@ public class GeneratorModule extends FaradayModule {
             if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
                 controlPanel.addDefaultVerticalSpace();
                 
-                DeveloperControlsPanel developerControlsPanel = new DeveloperControlsPanel( 
-                        _turbineModel, _pickupCoilModel, _lightbulbModel, _voltmeterModel, 
-                        _pickupCoilGraphic, null, _pickupCoilGraphic.getLightbulbGraphic(),
-                        null, _bFieldOutsideGraphic );
+                DeveloperControlsPanel developerControlsPanel = new DeveloperControlsPanel( _pickupCoilModel, _pickupCoilGraphic, null, _pickupCoilGraphic.getLightbulbGraphic(), null, _bFieldOutsideGraphic );
                 controlPanel.addControlFullWidth( developerControlsPanel );
             }
             

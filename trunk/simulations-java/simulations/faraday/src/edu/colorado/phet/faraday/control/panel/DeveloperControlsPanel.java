@@ -1,4 +1,4 @@
-/* Copyright 2005-2008, University of Colorado */
+/* Copyright 2005-2010, University of Colorado */
 
 package edu.colorado.phet.faraday.control.panel;
 
@@ -18,10 +18,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.faraday.FaradayConstants;
-import edu.colorado.phet.faraday.model.AbstractMagnet;
-import edu.colorado.phet.faraday.model.Lightbulb;
 import edu.colorado.phet.faraday.model.PickupCoil;
-import edu.colorado.phet.faraday.model.Voltmeter;
 import edu.colorado.phet.faraday.view.*;
 
 
@@ -43,10 +40,7 @@ public class DeveloperControlsPanel extends FaradayPanel {
      * @param pickupCoilModel
      */
     public DeveloperControlsPanel( 
-            final AbstractMagnet magnetModel,
             final PickupCoil pickupCoilModel,
-            final Lightbulb lightbulbModel,
-            final Voltmeter voltmeterModel,
             final PickupCoilGraphic pickupCoilGraphic,
             final ElectromagnetGraphic electromagnetGraphic,
             final LightbulbGraphic lightbulbGraphic,
@@ -133,25 +127,6 @@ public class DeveloperControlsPanel extends FaradayPanel {
             layout.addFilledComponent( bFieldScaleControl, row++, 0, GridBagConstraints.HORIZONTAL );
         }
         
-        // Pickup coil EMF scale
-        if ( pickupCoilModel != null ) {
-            double min = FaradayConstants.EMF_SCALE_MIN;
-            double max = FaradayConstants.EMF_SCALE_MAX;
-            final LinearValueControl emfScaleControl = new LinearValueControl( min, max, "EMF scale:", "0.00", "" );
-            emfScaleControl.setValue( pickupCoilModel.getEmfScale() );
-            emfScaleControl.setTextFieldEditable( true );
-            emfScaleControl.setTextFieldColumns( 3 );
-            emfScaleControl.setUpDownArrowDelta( 0.01 );
-            emfScaleControl.setBorder( BorderFactory.createEtchedBorder() );
-            emfScaleControl.addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent e ) {
-                    double value = emfScaleControl.getValue();
-                    pickupCoilModel.setEmfScale( value );
-                }
-            } );
-            layout.addFilledComponent( emfScaleControl, row++, 0, GridBagConstraints.HORIZONTAL );
-        }
-
         // Pickup coil fudge factor
         if ( pickupCoilModel != null ) {
             double min = FaradayConstants.PICKUP_TRANSITION_SMOOTHING_SCALE_MIN;
@@ -170,23 +145,6 @@ public class DeveloperControlsPanel extends FaradayPanel {
                 }
             } );
             layout.addFilledComponent( transitionSmoothingScaleControl, row++, 0, GridBagConstraints.HORIZONTAL );
-        }
-        
-        // Lightbulb glass minimum alpha
-        if ( lightbulbGraphic != null ) {
-            final LinearValueControl lightbulbGlassMinAlphaControl = new LinearValueControl( 0, 1, "Lightbulb min alpha:", "0.00", "" );
-            lightbulbGlassMinAlphaControl.setValue( lightbulbGraphic.getGlassMinAlpha() );
-            lightbulbGlassMinAlphaControl.setTextFieldEditable( true );
-            lightbulbGlassMinAlphaControl.setTextFieldColumns( 3 );
-            lightbulbGlassMinAlphaControl.setUpDownArrowDelta( 0.01 );
-            lightbulbGlassMinAlphaControl.setBorder( BorderFactory.createEtchedBorder() );
-            lightbulbGlassMinAlphaControl.addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent e ) {
-                    double value = lightbulbGlassMinAlphaControl.getValue();
-                    lightbulbGraphic.setGlassMinAlpha( value );
-                }
-            } );
-            layout.addFilledComponent( lightbulbGlassMinAlphaControl, row++, 0, GridBagConstraints.HORIZONTAL );
         }
         
         // Lightbulb glass glow scale
@@ -208,44 +166,6 @@ public class DeveloperControlsPanel extends FaradayPanel {
             layout.addFilledComponent( lightbulbGlassGlowScaleControl, row++, 0, GridBagConstraints.HORIZONTAL );
         }
         
-        // Light rays scale
-        if ( lightbulbModel != null ) {
-            double min = FaradayConstants.LIGHTBULB_RAYS_SCALE_MIN;
-            double max = FaradayConstants.LIGHTBULB_RAYS_SCALE_MAX;
-            final LinearValueControl lightbulbControl = new LinearValueControl( min, max, "Light rays scale:", "0.0", "" );
-            lightbulbControl.setValue( lightbulbModel.getScale() );
-            lightbulbControl.setTextFieldEditable( true );
-            lightbulbControl.setTextFieldColumns( 4 );
-            lightbulbControl.setUpDownArrowDelta( 0.1 );
-            lightbulbControl.setBorder( BorderFactory.createEtchedBorder() );
-            lightbulbControl.addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent e ) {
-                    double value = lightbulbControl.getValue();
-                    lightbulbModel.setScale( value );
-                }
-            } );
-            layout.addFilledComponent( lightbulbControl, row++, 0, GridBagConstraints.HORIZONTAL );
-        }
-
-        // Voltmeter scale
-        if ( voltmeterModel != null ) {
-            double min = FaradayConstants.VOLTMETER_SCALE_MIN;
-            double max = FaradayConstants.VOLTMETER_SCALE_MAX;
-            final LinearValueControl voltmeterControl = new LinearValueControl( min, max, "Voltmeter scale:", "0.0", "" );
-            voltmeterControl.setValue( voltmeterModel.getScale() );
-            voltmeterControl.setTextFieldEditable( true );
-            voltmeterControl.setTextFieldColumns( 4 );
-            voltmeterControl.setUpDownArrowDelta( 0.1 );
-            voltmeterControl.setBorder( BorderFactory.createEtchedBorder() );
-            voltmeterControl.addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent e ) {
-                    double value = voltmeterControl.getValue();
-                    voltmeterModel.setScale( value );
-                }
-            } );
-            layout.addFilledComponent( voltmeterControl, row++, 0, GridBagConstraints.HORIZONTAL );
-        }
-        
         // Electrons in Pickup Coil
         if ( pickupCoilGraphic != null ) {
             double min = FaradayConstants.PICKUP_ELECTRONS_SPEED_SCALE_MIN;
@@ -263,25 +183,6 @@ public class DeveloperControlsPanel extends FaradayPanel {
                 }
             } );
             layout.addFilledComponent( pickupElectronsControl, row++, 0, GridBagConstraints.HORIZONTAL );
-        }
-        
-        // Electrons in Electromagnet
-        if ( electromagnetGraphic != null ) {
-            double min = FaradayConstants.ELECTROMAGNET_ELECTRONS_SPEED_SCALE_MIN;
-            double max = FaradayConstants.ELECTROMAGNET_ELECTRONS_SPEED_SCALE_MAX;
-            final LinearValueControl electromagnetElectronsControl = new LinearValueControl( min, max, "<html>Electromagnet<br>electrons scale:<html>", "0.0", "" );
-            electromagnetElectronsControl.setValue( electromagnetGraphic.getCoilGraphic().getElectronSpeedScale() );
-            electromagnetElectronsControl.setTextFieldEditable( true );
-            electromagnetElectronsControl.setTextFieldColumns( 4 );
-            electromagnetElectronsControl.setUpDownArrowDelta( 0.1 );
-            electromagnetElectronsControl.setBorder( BorderFactory.createEtchedBorder() );
-            electromagnetElectronsControl.addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent e ) {
-                    double value = electromagnetElectronsControl.getValue();
-                    electromagnetGraphic.getCoilGraphic().setElectronSpeedScale( value );
-                }
-            } );
-            layout.addFilledComponent( electromagnetElectronsControl, row++, 0, GridBagConstraints.HORIZONTAL );
         }
     }
 }
