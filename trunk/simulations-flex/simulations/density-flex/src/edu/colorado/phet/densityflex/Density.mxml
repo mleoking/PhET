@@ -28,11 +28,6 @@
                 <mx:Button label="Reset All" click="resetTab1()"/>
             </mx:Panel>
         </mx:Canvas>
-
-        <!--</mx:VBox>-->
-        <mx:VBox label="Tab 3">
-
-        </mx:VBox>
     </mx:TabNavigator>
     <view:DebugText id="debug" height="100" x="0" y="0" text="" color="#FFFFFF" click="DebugText.clear();"/>
     <mx:Script><![CDATA[
