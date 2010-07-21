@@ -1,4 +1,4 @@
-7/21/10 #2236, calibrate behavior of kinematic compass behavior
+7/21/10 #2236, calibrate kinematic compass behavior
 # 2.03.06 (42502) Jul 20, 2010
 7/20/10 #2236, implement 3-grid approach for bar magnet B-field
 7/20/10 #2236, increase the intensity of compass needles just outside ends of magnet to improve the B-field "look"
