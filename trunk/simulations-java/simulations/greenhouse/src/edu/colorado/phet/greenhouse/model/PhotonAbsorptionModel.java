@@ -63,7 +63,7 @@ public class PhotonAbsorptionModel {
     // Defaults.
     private static final PhotonTarget DEFAULT_PHOTON_TARGET = PhotonTarget.CH4;
     private static final double DEFAULT_EMITTED_PHOTON_WAVELENGTH = GreenhouseConfig.irWavelength;
-    private static final double DEFAULT_PHOTON_EMISSION_PERIOD = 1000; // Milliseconds of sim time.
+    private static final double DEFAULT_PHOTON_EMISSION_PERIOD = 2000; // Milliseconds of sim time.
 
     //----------------------------------------------------------------------------
     // Instance Data
