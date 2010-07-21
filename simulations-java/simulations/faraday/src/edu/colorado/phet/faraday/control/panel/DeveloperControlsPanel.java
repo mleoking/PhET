@@ -108,6 +108,7 @@ public class DeveloperControlsPanel extends FaradayPanel {
             double max = FaradayConstants.GRID_INTENSITY_SCALE_MAX;
             double value = ( bFieldInsideGraphic != null ) ? bFieldInsideGraphic.getIntensityScale() : bFieldOutsideGraphic.getIntensityScale();
             final LinearValueControl bFieldScaleControl = new LinearValueControl( min, max, "B-field scale:", "0.0", "" );
+            bFieldScaleControl.setToolTipText( "<html>Scales the brightness of the<br>B-field visualization.</html>" );
             bFieldScaleControl.setValue( value );
             bFieldScaleControl.setTextFieldEditable( true );
             bFieldScaleControl.setTextFieldColumns( 3 );
@@ -172,6 +173,7 @@ public class DeveloperControlsPanel extends FaradayPanel {
             double min = FaradayConstants.LIGHTBULB_GLASS_GLOW_SCALE_MIN;
             double max = FaradayConstants.LIGHTBULB_GLASS_GLOW_SCALE_MAX;
             final LinearValueControl lightbulbGlassGlowScaleControl = new LinearValueControl( min, max, "Lightbulb glow scale:", "0.0", "" );
+            lightbulbGlassGlowScaleControl.setToolTipText( "<html>Adjusts how brightly the lightbulb glows.</html>" );
             lightbulbGlassGlowScaleControl.setValue( lightbulbGraphic.getGlassGlowScale() );
             lightbulbGlassGlowScaleControl.setTextFieldEditable( true );
             lightbulbGlassGlowScaleControl.setTextFieldColumns( 4 );
