@@ -123,36 +123,39 @@ public class DensityView extends UIComponent {
         var poolWidth:Number = model.getPoolWidth() * DensityModel.DISPLAY_SCALE;
         var poolDepth:Number = model.getPoolDepth() * DensityModel.DISPLAY_SCALE;
 
-        poolFront = new Plane({ y: -poolHeight + waterHeight / 2, width: poolWidth, height: waterHeight, rotationX: 90, material: new ShadingColorMaterial(0x0088FF, {alpha: 0.4}) });
+        // NOTE: if the ground is not matching up with the objects resting on the ground (or the bottom of the pool), it is due to the ground being shifted by this amount
+        var verticalGroundOffset:Number = -1;
+
+        poolFront = new Plane({ y: -poolHeight + waterHeight / 2 + verticalGroundOffset, width: poolWidth, height: waterHeight, rotationX: 90, material: new ShadingColorMaterial(0x0088FF, {alpha: 0.4}) });
         scene.addChild(poolFront);
         poolFront.mouseEnabled = false;
-        poolTop = new Plane({ y: -poolHeight + waterHeight, z: poolDepth / 2, width: poolWidth, height: poolDepth, material: new ShadingColorMaterial(0x0088FF, {alpha: 0.4}) });
+        poolTop = new Plane({ y: -poolHeight + waterHeight + verticalGroundOffset, z: poolDepth / 2, width: poolWidth, height: poolDepth, material: new ShadingColorMaterial(0x0088FF, {alpha: 0.4}) });
         scene.addChild(poolTop);
         poolTop.mouseEnabled = false;
 
         // back of pool
-        scene.addChild(new Plane({ y: -poolHeight / 2, z:poolDepth, width: poolWidth, height: poolHeight, rotationX: 90, material: new ShadingColorMaterial(0xAAAAAA) }));
+        scene.addChild(new Plane({ y: -poolHeight / 2 + verticalGroundOffset, z:poolDepth, width: poolWidth, height: poolHeight, rotationX: 90, material: new ShadingColorMaterial(0xAAAAAA) }));
 
         // bottom of pool
-        scene.addChild(new Plane({ y: -poolHeight, z:poolDepth / 2, width: poolWidth, height: poolDepth, material: new ShadingColorMaterial(0xAAAAAA) }));
+        scene.addChild(new Plane({ y: -poolHeight + verticalGroundOffset, z:poolDepth / 2, width: poolWidth, height: poolDepth, material: new ShadingColorMaterial(0xAAAAAA) }));
 
         // sides of pool
-        scene.addChild(new Plane({ x: poolWidth / 2, y: -poolHeight / 2, z: poolDepth / 2, width: poolHeight, height: poolDepth, rotationZ: 90, material: new ShadingColorMaterial(0xAAAAAA) }));
-        scene.addChild(new Plane({ x: -poolWidth / 2, y: -poolHeight / 2, z: poolDepth / 2, width: poolHeight, height: poolDepth, rotationZ: -90, material: new ShadingColorMaterial(0xAAAAAA) }));
+        scene.addChild(new Plane({ x: poolWidth / 2, y: -poolHeight / 2 + verticalGroundOffset, z: poolDepth / 2, width: poolHeight, height: poolDepth, rotationZ: 90, material: new ShadingColorMaterial(0xAAAAAA) }));
+        scene.addChild(new Plane({ x: -poolWidth / 2, y: -poolHeight / 2 + verticalGroundOffset, z: poolDepth / 2, width: poolHeight, height: poolDepth, rotationZ: -90, material: new ShadingColorMaterial(0xAAAAAA) }));
 
         // ground behind pool
-        scene.addChild(new Plane({ z: ( (far - poolDepth) / 2 ) + poolDepth, width: poolWidth, height: far - poolDepth, material: new ShadingColorMaterial(0x00AA00) }));
+        scene.addChild(new Plane({ y: verticalGroundOffset,z: ( (far - poolDepth) / 2 ) + poolDepth, width: poolWidth, height: far - poolDepth, material: new ShadingColorMaterial(0x00AA00) }));
 
         // ground to the sides of the pool
-        scene.addChild(new Plane({ x: far / 2 + poolWidth / 2, z: far / 2, width: far, height: far, material: new ShadingColorMaterial(0x00AA00) }));
-        scene.addChild(new Plane({ x: -far / 2 - poolWidth / 2, z: far / 2, width: far, height: far, material: new ShadingColorMaterial(0x00AA00) }));
+        scene.addChild(new Plane({ x: far / 2 + poolWidth / 2, y: verticalGroundOffset, z: far / 2, width: far, height: far, material: new ShadingColorMaterial(0x00AA00) }));
+        scene.addChild(new Plane({ x: -far / 2 - poolWidth / 2, y: verticalGroundOffset, z: far / 2, width: far, height: far, material: new ShadingColorMaterial(0x00AA00) }));
 
         // front of earth beneath the pool
-        scene.addChild(new Plane({ y: -far / 2 - poolHeight, width: poolWidth, height: far, rotationX: 90, material: new ShadingColorMaterial(0xAA7733) }));
+        scene.addChild(new Plane({ y: -far / 2 - poolHeight + verticalGroundOffset, width: poolWidth, height: far, rotationX: 90, material: new ShadingColorMaterial(0xAA7733) }));
 
         // front of earth to the sides
-        scene.addChild(new Plane({ x: far / 2 + poolWidth / 2, y: -far / 2, width: far, height: far, rotationX: 90, material: new ShadingColorMaterial(0xAA7733) }));
-        scene.addChild(new Plane({ x: -far / 2 - poolWidth / 2, y: -far / 2, width: far, height: far, rotationX: 90, material: new ShadingColorMaterial(0xAA7733) }));
+        scene.addChild(new Plane({ x: far / 2 + poolWidth / 2, y: -far / 2 + verticalGroundOffset, width: far, height: far, rotationX: 90, material: new ShadingColorMaterial(0xAA7733) }));
+        scene.addChild(new Plane({ x: -far / 2 - poolWidth / 2, y: -far / 2 + verticalGroundOffset, width: far, height: far, rotationX: 90, material: new ShadingColorMaterial(0xAA7733) }));
 
         var light:DirectionalLight3D = new DirectionalLight3D({color:0xFFFFFF, ambient:0.2, diffuse:0.75, specular:0.1});
         light.x = 10000;
