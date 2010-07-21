@@ -9,6 +9,7 @@
             <mx:Panel right="20" y="100">
                 <mx:RadioButton groupName="massVol" id="sameMass" label="Objects of same mass" selected="true" click="tab0.switchToSameMass()"/>
                 <mx:RadioButton groupName="massVol" id="sameVolume" label="Objects of same volume" click="tab0.switchToSameVolume()"/>
+                <mx:RadioButton groupName="massVol" id="sameDensity" label="Objects of same density" click="tab0.switchToSameDensity()"/>
                 <!--<mx:Label text="Developer Controls"/>-->
                 <!--<mx:HSlider minimum="5" maximum="50" tickInterval="1" labels="[0,25,50,75,100]" thumbDrag="tab0.testSliderChange(event)"/>-->
             </mx:Panel>
