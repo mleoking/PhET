@@ -158,8 +158,11 @@ public class FaradayConstants {
     private static final double DEFAULT_VIEW_SCALE_MIN = 1;
     private static final double DEFAULT_VIEW_SCALE_MAX = 100;
     
-    public static final double LIGHTBULB_GLASS_GLOW_SCALE_MIN = DEFAULT_VIEW_SCALE_MIN;
-    public static final double LIGHTBULB_GLASS_GLOW_SCALE_MAX = DEFAULT_VIEW_SCALE_MAX;
+    public static final double PICKUP_CALIBRATION_EMF_MIN = 1E4;
+    public static final double PICKUP_CALIBRATION_EMF_MAX = 5E6;
+    
+    public static final double LIGHTBULB_GLASS_GLOW_SCALE_MIN = 1;
+    public static final double LIGHTBULB_GLASS_GLOW_SCALE_MAX = 100;
     
     public static final double PICKUP_ELECTRONS_SPEED_SCALE_MIN = DEFAULT_VIEW_SCALE_MIN;
     public static final double PICKUP_ELECTRONS_SPEED_SCALE_MAX = DEFAULT_VIEW_SCALE_MAX;
