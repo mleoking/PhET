@@ -15,6 +15,7 @@ import edu.colorado.phet.motionseries.controls.RampControlPanel
 import edu.colorado.phet.recordandplayback.gui.{RecordAndPlaybackControlPanel, PlaybackSpeedSlider}
 import edu.colorado.phet.motionseries.sims.theramp.robotmovingcompany.RobotMovingCompanyModule
 import edu.colorado.phet.motionseries.{MotionSeriesResources, StageContainerArea, MotionSeriesModule, MotionSeriesDefaults}
+import edu.colorado.phet.motionseries.charts.ForcesAndMotionChartNode
 
 class ForcesAndMotionModule(frame: PhetFrame,
                             name: String,
@@ -73,7 +74,7 @@ class GraphingModule(frame: PhetFrame)
         extends ForcesAndMotionModule(frame, "forces-and-motion.module.graphing.title".translate,
           false, false, true, false, -6, false, 0.0, true, true, MotionSeriesDefaults.forceMotionGraphViewport, MotionSeriesDefaults.forceEnergyGraphArea, true) {
   coordinateSystemModel.adjustable = false
-//  canvas.addScreenNode(new ForcesAndMotionChartNode(canvas, motionSeriesModel))
+  canvas.addScreenNode(new ForcesAndMotionChartNode(canvas, motionSeriesModel))
 }
 
 class ForcesAndMotionApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {

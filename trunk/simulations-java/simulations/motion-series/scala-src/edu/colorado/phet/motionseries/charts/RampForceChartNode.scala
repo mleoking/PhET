@@ -1,7 +1,6 @@
 package edu.colorado.phet.motionseries.charts
 
 import edu.umd.cs.piccolo.nodes.PText
-import edu.colorado.phet.motionseries.graphics.RampCanvas
 import edu.colorado.phet.motionseries.model.MotionSeriesModel
 import edu.umd.cs.piccolo.PNode
 import edu.colorado.phet.common.motion.charts._
@@ -11,14 +10,28 @@ import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.umd.cs.piccolox.pswing.PSwing
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.colorado.phet.scalacommon.util.Observable
+import edu.colorado.phet.common.piccolophet.PhetPCanvas
 
 /**
  * @author Sam Reid
  */
-class RampForceChartNode(rampCanvas: RampCanvas, motionSeriesModel: MotionSeriesModel) extends MultiControlChart(Array(new RampForceMinimizableControlChart(motionSeriesModel))) {
-  rampCanvas.addComponentListener(new ComponentAdapter {
+class RampForceChartNode(canvas: PhetPCanvas, motionSeriesModel: MotionSeriesModel) extends MultiControlChart(Array(new RampForceMinimizableControlChart(motionSeriesModel))) {
+  canvas.addComponentListener(new ComponentAdapter {
     override def componentResized(e: ComponentEvent) = {
-      setBounds(0, rampCanvas.getHeight / 2, rampCanvas.getWidth, rampCanvas.getHeight / 2)
+      val insetX = 6
+      val insetY = 6
+      setBounds(0 + insetX / 2, canvas.getHeight / 2 + insetY / 2, canvas.getWidth - insetX, canvas.getHeight / 2 - insetY)
+    }
+  })
+}
+
+class ForcesAndMotionChartNode(canvas: PhetPCanvas, motionSeriesModel: MotionSeriesModel) extends MultiControlChart(Array(new RampForceMinimizableControlChart(motionSeriesModel))) {
+  canvas.addComponentListener(new ComponentAdapter { //todo: remove duplicate code from above
+    override def componentResized(e: ComponentEvent) = {
+      val insetX = 6
+      val insetY = 6
+      val chartProportionY = 0.7;
+      setBounds(0 + insetX / 2, canvas.getHeight * (1 - chartProportionY) + insetY / 2, canvas.getWidth - insetX, canvas.getHeight * chartProportionY - insetY)
     }
   })
 }
@@ -80,7 +93,7 @@ class RampForceControlChart(motionSeriesModel: MotionSeriesModel) {
       addListener(new MotionSliderNode.Adapter() {
         override def sliderDragged(value: java.lang.Double) = {parallelAppliedForceVariable.value = value.doubleValue}
       })
-      parallelAppliedForceVariable.addListener( ()=>{setValue(parallelAppliedForceVariable.value)} )
+      parallelAppliedForceVariable.addListener(() => {setValue(parallelAppliedForceVariable.value)})
     }
 }
 
