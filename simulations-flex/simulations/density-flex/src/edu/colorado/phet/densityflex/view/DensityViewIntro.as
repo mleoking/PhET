@@ -32,6 +32,15 @@ public class DensityViewIntro extends DensityView {
         addScales();
     }
 
+    public function initializeSameDensity():void {
+        var density:Number = 2; 
+        model.addDensityObject(Block.newBlockDensitySize(density, 4, -4.5, 0, new ColorTransform(0.5, 0.5, 0), model));
+        model.addDensityObject(Block.newBlockDensitySize(density, 3, -1.5, 0, new ColorTransform(0, 0, 1), model));
+        model.addDensityObject(Block.newBlockDensitySize(density, 2, 1.5, 0, new ColorTransform(0, 1, 0), model));
+        model.addDensityObject(Block.newBlockDensitySize(density, 1, 4.5, 0, new ColorTransform(1, 0, 0), model));
+        addScales();
+    }
+
     public function switchToSameMass():void {
         model.clearDensityObjects();
         initializeSameMass();
@@ -45,6 +54,11 @@ public class DensityViewIntro extends DensityView {
     public function switchToSameVolume():void {
         model.clearDensityObjects();
         initializeSameVolume();
+    }
+    
+    public function switchToSameDensity():void {
+        model.clearDensityObjects();
+        initializeSameDensity();
     }
 }
 }
