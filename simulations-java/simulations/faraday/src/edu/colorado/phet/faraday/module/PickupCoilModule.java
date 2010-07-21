@@ -60,7 +60,7 @@ public class PickupCoilModule extends FaradayModule {
     private static final double PICKUP_COIL_TRANSITION_SMOOTHING_SCALE = 0.77; // see PickupCoil.setTransitionSmoothingScale
     
     // Scaling
-    private static final double CALIBRATION_EMF = 2700000;
+    private static final double CALIBRATION_EMF = 27E5;
     private static final double ELECTRON_SPEED_SCALE = 1;//20.0;
     
     //----------------------------------------------------------------------------
