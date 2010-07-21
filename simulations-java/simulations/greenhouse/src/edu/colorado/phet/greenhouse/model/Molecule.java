@@ -62,6 +62,14 @@ public abstract class Molecule {
     
     // Photon to be emitted when the photon hold timer expires.
     private Photon photonToEmit = null;
+    
+    // The "pass through photon list" keeps track of photons that were not
+    // absorbed due to random probability (essentially a simulation of quantum
+    // properties).  This is needed since the absorption of a given photon
+    // will likely be tested at many time steps, so we need to keep track of
+    // whether it gets rejected.
+    private static final int PASS_THROUGH_PHOTON_LIST_SIZE = 10;
+    private ArrayList<Photon> passThroughPhotonList = new ArrayList<Photon>( PASS_THROUGH_PHOTON_LIST_SIZE );
 
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -141,19 +149,6 @@ public abstract class Molecule {
         return centerOfGravity;
     }
     
-    // TODO: Is this method really needed?
-    public Point2D calcCenterOfGravity(){
-        double totalMass = 0;
-        double weightedPosX = 0;
-        double weightedPosY = 0;
-        for (Atom atom : atoms){
-            totalMass += atom.getMass();
-            weightedPosX += atom.getMass() * atom.getPosition().getX();
-            weightedPosY += atom.getMass() * atom.getPosition().getY();
-        }
-        return new Point2D.Double(weightedPosX / totalMass, weightedPosY / totalMass);
-    }
-    
     /**
      * Set the location of this molecule by specifying the center of gravity.
      * This will be unique to each molecule's configuration, and it will cause
@@ -181,6 +176,18 @@ public abstract class Molecule {
      */
     protected void updateOscillationFormation(double oscillationRadians){
         return; // Does nothing by default, override for molecules that oscillate.
+    }
+    
+    protected void markPhotonForPassThrough(Photon photon){
+        if (passThroughPhotonList.size() >= PASS_THROUGH_PHOTON_LIST_SIZE){
+            // Make room for this photon be deleting the oldest one.
+            passThroughPhotonList.remove( 0 );
+        }
+        passThroughPhotonList.add( photon );
+    }
+    
+    protected boolean isPhotonMarkedForPassThrough(Photon photon){
+        return (passThroughPhotonList.contains( photon ));
     }
     
     public ArrayList<Atom> getAtoms() {
