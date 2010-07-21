@@ -1,1 +1,1 @@
-pg_dump --clean wickettest > postgresql-dump.sql
+pg_dump --clean website > postgresql-dump.sql
