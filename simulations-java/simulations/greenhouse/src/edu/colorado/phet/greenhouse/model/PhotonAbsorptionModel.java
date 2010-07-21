@@ -63,6 +63,7 @@ public class PhotonAbsorptionModel {
     // Defaults.
     private static final PhotonTarget DEFAULT_PHOTON_TARGET = PhotonTarget.CH4;
     private static final double DEFAULT_EMITTED_PHOTON_WAVELENGTH = GreenhouseConfig.irWavelength;
+    private static final double DEFAULT_PHOTON_EMISSION_PERIOD = 1000; // Milliseconds of sim time.
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -74,6 +75,12 @@ public class PhotonAbsorptionModel {
     private final ArrayList<Molecule> molecules = new ArrayList<Molecule>();
     private PhotonTarget photonTarget = null;
     
+    // Variables that control periodic photon emission.
+    private boolean periodicPhotonEmissionEnabled;
+    private double photonEmissionCountdownTimer;
+    private double photonEmissionPeriod;
+
+    // Object that listens to molecules to see when they emit photons.
     private Molecule.Adapter moleculePhotonEmissionListener = new Molecule.Adapter(){
         public void photonEmitted(Photon photon) {
             photons.add( photon );
@@ -109,9 +116,27 @@ public class PhotonAbsorptionModel {
     public void reset() {
         setPhotonTarget( DEFAULT_PHOTON_TARGET );
         setEmittedPhotonWavelength( DEFAULT_EMITTED_PHOTON_WAVELENGTH );
+//        periodicPhotonEmissionEnabled = false;
+//        photonEmissionCountdownTimer = Double.POSITIVE_INFINITY;
+        periodicPhotonEmissionEnabled = true;
+        photonEmissionPeriod = DEFAULT_PHOTON_EMISSION_PERIOD;
+        photonEmissionCountdownTimer = DEFAULT_PHOTON_EMISSION_PERIOD;
     }
 
     public void stepInTime(double dt){
+        
+        // Check if it is time to emit any photons.
+        if (periodicPhotonEmissionEnabled){
+            photonEmissionCountdownTimer -= dt;
+            if (photonEmissionCountdownTimer <= 0){
+                // Time to emit.
+                emitPhoton();
+                photonEmissionCountdownTimer = photonEmissionPeriod;
+            }
+        }
+        
+        // Step the photons, marking any that have moved beyond the model
+        // bounds for removal.
         ArrayList<Photon> photonsToRemove = new ArrayList<Photon>();
         for (Photon photon : photons){
             photon.stepInTime( dt );
@@ -138,6 +163,26 @@ public class PhotonAbsorptionModel {
         for (Molecule molecule : molecules){
             molecule.stepInTime( dt );
         }
+    }
+
+    /**
+     * Turn on periodic emission of photons.
+     * 
+     * @param periodicPhotonEmissionEnabled
+     */
+    protected void setPhotonEmissionEnabled( boolean periodicPhotonEmissionEnabled ) {
+        if (this.periodicPhotonEmissionEnabled != periodicPhotonEmissionEnabled){
+            this.periodicPhotonEmissionEnabled = periodicPhotonEmissionEnabled;
+            if (periodicPhotonEmissionEnabled == true){
+                // Set the emission counter to zero so that one photon is
+                // emitted right away.
+                photonEmissionCountdownTimer = 0;
+            }
+        }
+    }
+    
+    protected boolean isPeriodicPhotonEmissionEnabled() {
+        return periodicPhotonEmissionEnabled;
     }
     
     public void setPhotonTarget( PhotonTarget photonTarget ){
