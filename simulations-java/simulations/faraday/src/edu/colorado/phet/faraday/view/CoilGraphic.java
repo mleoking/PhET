@@ -1,4 +1,4 @@
-/* Copyright 2005-2008, University of Colorado */
+/* Copyright 2005-2010, University of Colorado */
 
 package edu.colorado.phet.faraday.view;
 
@@ -87,11 +87,11 @@ public class CoilGraphic implements SimpleObserver {
     // The Colors used to render the loop.
     private Color _foregroundColor, _middlegroundColor, _backgroundColor;
     
-    // Description of the path that electrons follow (array of ElectronPathDescriptor).
-    private ArrayList _electronPath;
+    // Description of the path that electrons follow.
+    private ArrayList<ElectronPathDescriptor> _electronPath;
     
-    // Electrons in the coil (array of Electron)
-    private ArrayList _electrons;
+    // Electrons in the coil
+    private ArrayList<Electron> _electrons;
     
     // Used to determine if the number of loops has changed.
     private int _numberOfLoops;
@@ -150,8 +150,8 @@ public class CoilGraphic implements SimpleObserver {
         _middlegroundColor = MIDDLEGROUND_COLOR;
         _backgroundColor = BACKGROUND_COLOR;
         
-        _electronPath = new ArrayList();
-        _electrons = new ArrayList();
+        _electronPath = new ArrayList<ElectronPathDescriptor>();
+        _electrons = new ArrayList<Electron>();
         
         _numberOfLoops = -1; // force update
         _loopRadius = -1; // force update

@@ -1,4 +1,4 @@
-/* Copyright 2004-2008, University of Colorado */
+/* Copyright 2004-2010, University of Colorado */
 
 package edu.colorado.phet.faraday.model;
 
@@ -54,9 +54,6 @@ public class Voltmeter extends FaradayObservable implements ModelElement, Simple
     // Needle deflection angle
     private double _needleAngle;
     
-    // The scale that is applied to the needle angle.
-    private double _scale;
-    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -76,7 +73,6 @@ public class Voltmeter extends FaradayObservable implements ModelElement, Simple
         
         _jiggleEnabled = false; // expensive, so disabled by default
         _needleAngle = ZERO_NEEDLE_ANGLE;
-        _scale = 1.0;
     }
     
     /**
@@ -142,9 +138,9 @@ public class Voltmeter extends FaradayObservable implements ModelElement, Simple
      * @return the angle, in radians
      */
     private double getDesiredNeedleAngle() {
-        //  Get the amplitude of the voltage source.
-        double amplitude = _scale * _pickupCoilModel.getCurrentAmplitude();
-        amplitude = MathUtil.clamp( -1, amplitude, +1 );
+        
+        // Use amplitude of the voltage source as our signal.
+        double amplitude = _pickupCoilModel.getCurrentAmplitude();
         
         // Absolute amplitude below the threshold is effectively zero.
         if ( Math.abs( amplitude ) < FaradayConstants.CURRENT_AMPLITUDE_THRESHOLD ) {
@@ -155,27 +151,6 @@ public class Voltmeter extends FaradayObservable implements ModelElement, Simple
         return amplitude * MAX_NEEDLE_ANGLE;
     }
 
-    /**
-     * Sets the scale that is applied to the needle angle.
-     * 
-     * @param scale the scale
-     */
-    public void setScale( double scale ) {
-        if ( scale != _scale ) {
-            _scale = scale;
-            notifyObservers();
-        }
-    }
-
-    /**
-     * Gets the scale that is applied to the needle angle.
-     * 
-     * @return the scale
-     */
-    public double getScale() {
-        return _scale;
-    }
-    
     //----------------------------------------------------------------------------
     // ModelElement implementation
     //----------------------------------------------------------------------------

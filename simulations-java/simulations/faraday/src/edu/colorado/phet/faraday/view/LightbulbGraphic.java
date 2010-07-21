@@ -1,4 +1,4 @@
-/* Copyright 2004-2008, University of Colorado */
+/* Copyright 2004-2010, University of Colorado */
 
 package edu.colorado.phet.faraday.view;
 
@@ -31,12 +31,11 @@ public class LightbulbGraphic extends CompositePhetGraphic implements SimpleObse
     private static final double BULB_LAYER = 1;
     private static final double RAYS_LAYER = 2;
     
-    
     private static final double BULB_RADIUS = 30.0; // Radius of the glass, must be aligned with image by trial & error.
     private static final int DISTANCE_BULB_IS_SCREWED_INTO_BASE = 10; // must be aligned with rays via trial & error
     
-    // Range of alpha modulation for bulb image (alpha range is 0-1)
-    private static final float GLASS_MIN_ALPA = 0.25f;
+    private static final float GLASS_MIN_ALPHA = 0.35f; // alpha when the bulb is off
+    private static final double DEFAULT_GLASS_GLOW_SCALE = 15;
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -46,8 +45,7 @@ public class LightbulbGraphic extends CompositePhetGraphic implements SimpleObse
     private double _previousIntensity;
     private VariableAlphaImageGraphic _glassGraphic;
     private LightRaysGraphic _raysGraphic;
-    private double _glassMinAlpha;
-    private double _glassGlowScale;
+    private double _glassGlowScale;  // scales the modulation of alpha, used to make the bulb glow
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -101,9 +99,7 @@ public class LightbulbGraphic extends CompositePhetGraphic implements SimpleObse
         addGraphic( _raysGraphic, RAYS_LAYER );
         _raysGraphic.setRegistrationPoint( 0, 90 );
         
-        _glassMinAlpha = GLASS_MIN_ALPA;
-        _glassGlowScale = 1.0;
-        
+        _glassGlowScale = DEFAULT_GLASS_GLOW_SCALE;
         update();
     }
     
@@ -118,32 +114,6 @@ public class LightbulbGraphic extends CompositePhetGraphic implements SimpleObse
     //----------------------------------------------------------------------------
     // Setters and getters
     //----------------------------------------------------------------------------
-    
-    /**
-     * Sets the minimum alpha compositing value for the glass.
-     * This is the value used when the lightbulb's intensity is zero.
-     * 
-     * @param minAlpha
-     */
-    public void setGlassMinAlpha( double minAlpha ) {
-        if ( minAlpha < 0 || minAlpha > 1 ) {
-            throw new IllegalArgumentException( "0 <= a <= 1 required: " + minAlpha );
-        }
-        if ( minAlpha != _glassMinAlpha ) {
-            _glassMinAlpha = minAlpha;
-            forceUpdate();
-        }
-    }
-
-    /**
-     * Gets the minimum alpha compositing value for the glass.
-     * This is the value used when the lightbulb's intensity is zero.
-     * 
-     * @return
-     */
-    public double getGlassMinAlpha() {
-        return _glassMinAlpha;
-    }
     
     /**
      * Sets the scaling factor that determines how much the bulb glows.
@@ -199,7 +169,7 @@ public class LightbulbGraphic extends CompositePhetGraphic implements SimpleObse
                 _raysGraphic.setIntensity( intensity );
                 
                 // modulate alpha channel of the glass to make it appear to glow
-                float alpha = (float)( _glassMinAlpha + ( _glassGlowScale * ( 1f - _glassMinAlpha ) * (float)intensity ) );
+                float alpha = (float)( GLASS_MIN_ALPHA + ( _glassGlowScale * ( 1f - GLASS_MIN_ALPHA ) * (float)intensity ) );
                 if ( alpha > 1f ) {
                     alpha = 1f;
                 }

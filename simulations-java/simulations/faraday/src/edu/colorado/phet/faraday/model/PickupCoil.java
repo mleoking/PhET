@@ -24,7 +24,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final boolean DEBUG_PICKUP_COIL_EMF = false;
+    private static final boolean DEBUG_PICKUP_COIL_EMF = true;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -40,7 +40,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
     private Point2D _samplePoints[]; // B-field sample points
     private SamplePointsStrategy _samplePointsStrategy;
     private double _transitionSmoothingScale;
-    private double _emfScale;
+    private double _calibrationEmf;
     
     // Reusable objects
     private AffineTransform _someTransform;
@@ -56,25 +56,28 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
      * to measure the magnet's B-field.
      * 
      * @param magnetModel
-     * @param distanceExponent
+     * @param calibrationEmf
      */
-    public PickupCoil( AbstractMagnet magnetModel ) {
-        this( magnetModel, new ConstantNumberOfSamplePointsStrategy( 9 /* numberOfSamplePoints */ ) );
+    public PickupCoil( AbstractMagnet magnetModel, double calibrationEmf ) {
+        this( magnetModel, calibrationEmf, new ConstantNumberOfSamplePointsStrategy( 9 /* numberOfSamplePoints */ ) );
     }
     
-    /**
+    /*
      * Constructs a PickupCoil that uses a specified strategy for creating sample points
      * to measure the magnet's B-field.
      * 
      * @param magnetModel
+     * @param calibrationEmf
      * @param samplePointsStrategy
      */
-    public PickupCoil( AbstractMagnet magnetModel, SamplePointsStrategy samplePointsStrategy ) {
+    private PickupCoil( AbstractMagnet magnetModel, double calibrationEmf, SamplePointsStrategy samplePointsStrategy ) {
         super();
         
         assert( magnetModel != null );
         _magnetModel = magnetModel;
         _magnetModel.addObserver( this );
+        
+        _calibrationEmf = calibrationEmf;
         
         _samplePointsStrategy = samplePointsStrategy;
         _samplePoints = null;
@@ -85,7 +88,6 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
         _emf = 0.0;
         _biggestEmf = 0.0;
         _transitionSmoothingScale = 1.0; // no smoothing
-        _emfScale = 1.0;
         
         // Reusable objects
         _someTransform = new AffineTransform();
@@ -221,21 +223,23 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
     }
     
     /**
-     * Scales the induced emf.
-     * This is useful for scaling the visible behavior of devices that measure emf
-     * (eg, voltmeter, lightbulb).
-     * @param scale
+     * Dividing the coil's emf by this number will give us the coil's current amplitude,
+     * a number between 0 and 1 that determines the responsiveness of view components.
+     * This number should be set as close as possible to the maximum emf that can be induced
+     * given the range of all model parameters.
+     * 
+     * @param calibrationEmf
      */
-    public void setEmfScale( double scale ) {
-        if ( scale <= 0 ) {
-            throw new IllegalArgumentException( "scale must be > 0: " + scale );
+    public void setCalibrationEmf( double calibrationEmf ) {
+        if ( !( calibrationEmf >= 1 ) ) {
+            throw new IllegalArgumentException( "calibrationEmf must be >= 1: " + calibrationEmf );
         }
-        _emfScale = scale;
+        _calibrationEmf = calibrationEmf;
         // no need to update, wait for next clock tick
     }
     
-    public double getEmfScale() {
-        return _emfScale;
+    public double getCalibrationEmf() {
+        return _calibrationEmf;
     }
     
     //----------------------------------------------------------------------------
@@ -389,18 +393,24 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
         _flux = flux;
         
         // Induced emf.
-        double emf = -( _deltaFlux / dt ) * _emfScale;
+        double emf = -( _deltaFlux / dt );
         
         // If the emf has changed, set the current in the coil and notify observers.
         if ( emf != _emf ) {
             _emf = emf;
             
             // Current amplitude is proportional to emf amplitude.
-            double amplitude = MathUtil.clamp( -1,  emf / FaradayConstants.PICKUP_REFERENCE_EMF, +1 );
+            double amplitude = MathUtil.clamp( -1,  emf / _calibrationEmf, +1 );
             setCurrentAmplitude( amplitude ); // calls notifyObservers
         }
         
-        // Keep track of the biggest emf seen by the pickup coil.
+        /*
+         * Keeps track of the biggest emf seen by the pickup coil.
+         * This is needed for determining the desired value of _calibrationEmf.
+         * Set DEBUG_PICKUP_COIL_EMF=true, run the sim, set model controls to 
+         * their max values, then observe this debug output.  The largest
+         * value that you see is what you should use for _calibrationEmf.
+         */
         if ( Math.abs( _emf ) > Math.abs( _biggestEmf ) ) {
             _biggestEmf = _emf;
             if ( DEBUG_PICKUP_COIL_EMF ) {
