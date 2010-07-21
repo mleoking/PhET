@@ -3,31 +3,31 @@
                 xmlns:view="edu.colorado.phet.densityflex.view.*"
                 layout="absolute" width="100%" height="100%" applicationComplete="onApplicationComplete()"
                 preinitialize="init()">
-    <mx:TabNavigator width="100%" height="100%" change="onSwitch(event)" creationPolicy="all">
-        <mx:Canvas label="Tab 1">
+    <mx:TabNavigator width="100%" height="100%" change="onSwitch(event)" creationPolicy="all" id="tabNavigator">
+        <mx:Canvas label="Intro">
             <view:DensityViewIntro width="100%" height="100%" id="tab0"/>
             <mx:Panel right="20" y="100">
                 <mx:RadioButton groupName="massVol" id="sameMass" label="Objects of same mass" selected="true" click="tab0.switchToSameMass()"/>
                 <mx:RadioButton groupName="massVol" id="sameVolume" label="Objects of same volume" click="tab0.switchToSameVolume()"/>
-                <mx:Label text="Developer Controls"/>
-                <mx:HSlider minimum="5" maximum="50" tickInterval="1" labels="[0,25,50,75,100]" thumbDrag="tab0.testSliderChange(event)"/>
+                <!--<mx:Label text="Developer Controls"/>-->
+                <!--<mx:HSlider minimum="5" maximum="50" tickInterval="1" labels="[0,25,50,75,100]" thumbDrag="tab0.testSliderChange(event)"/>-->
             </mx:Panel>
             <mx:Panel right="10" bottom="10">
                 <mx:Button label="Reset All" click="resetTab0()"/>
             </mx:Panel>
         </mx:Canvas>
-        <mx:Canvas label="Tab 2">
-            <view:DensityViewFull width="100%" height="100%" id="tab1"/>
-            <mx:Panel left="20" bottom="20">
-                <mx:CheckBox id="gravityForceVectorCheckBox" label="Gravity Force" selected="true" change="tab1.setGravityForceVisible(gravityForceVectorCheckBox.selected)"/>
-                <mx:CheckBox id="buoyancyForceVectorCheckBox" label="Buoyancy Force" selected="true" change="tab1.setBuoyancyForceVisible(buoyancyForceVectorCheckBox.selected)"/>
-                <mx:CheckBox id="contactForceVectorCheckBox" label="Contact Force" selected="true" change="tab1.setContactForceVisible(contactForceVectorCheckBox.selected)"/>
-                <mx:CheckBox id="fluidDragForceVectorCheckBox" label="Fluid Drag Force" selected="true" change="tab1.setFluidDragForceVisible(fluidDragForceVectorCheckBox.selected)"/>
-            </mx:Panel>
-            <mx:Panel right="10" bottom="10">
-                <mx:Button label="Reset All" click="resetTab1()"/>
-            </mx:Panel>
-        </mx:Canvas>
+        <!--<mx:Canvas label="Advanced" visible="false">-->
+            <!--<view:DensityViewFull width="100%" height="100%" id="tab1"/>-->
+            <!--<mx:Panel left="20" bottom="20">-->
+                <!--<mx:CheckBox id="gravityForceVectorCheckBox" label="Gravity Force" selected="true" change="tab1.setGravityForceVisible(gravityForceVectorCheckBox.selected)"/>-->
+                <!--<mx:CheckBox id="buoyancyForceVectorCheckBox" label="Buoyancy Force" selected="true" change="tab1.setBuoyancyForceVisible(buoyancyForceVectorCheckBox.selected)"/>-->
+                <!--<mx:CheckBox id="contactForceVectorCheckBox" label="Contact Force" selected="true" change="tab1.setContactForceVisible(contactForceVectorCheckBox.selected)"/>-->
+                <!--<mx:CheckBox id="fluidDragForceVectorCheckBox" label="Fluid Drag Force" selected="true" change="tab1.setFluidDragForceVisible(fluidDragForceVectorCheckBox.selected)"/>-->
+            <!--</mx:Panel>-->
+            <!--<mx:Panel right="10" bottom="10">-->
+                <!--<mx:Button label="Reset All" click="resetTab1()"/>-->
+            <!--</mx:Panel>-->
+        <!--</mx:Canvas>-->
     </mx:TabNavigator>
     <view:DebugText id="debug" height="100" x="0" y="0" text="" color="#FFFFFF" click="DebugText.clear();"/>
     <mx:Script><![CDATA[
@@ -36,15 +36,21 @@
         import edu.colorado.phet.flexcommon.FlexCommon;
 
         import mx.core.Application;
-        import mx.events.SliderEvent;
 
         private var oldIndex:Number = 0;
         private var common:FlexCommon = new FlexCommon();
 
+        private function getAllTabs():Array {
+//            return new Array(tab0, tab1);
+            return new Array(tab0);
+        }
+
         private function onApplicationComplete():void {
-            tab0.init();
-            tab1.init();
-            tab1.pause();
+            for each (var view:DensityView in getAllTabs()) {
+                view.init();
+                view.pause();
+            }
+            getAllTabs()[0].start();
         }
 
         private function init():void {
@@ -63,7 +69,7 @@
                 return;
             }
 
-            const tabList:Array = new Array(tab0, tab1);
+            const tabList:Array = getAllTabs();
             const oldTab:DensityView = tabList[oldIndex];
             const newTab:DensityView = tabList[newIndex];
 
@@ -74,14 +80,14 @@
         }
 
         private function resetTab0():void {
+            // TODO: bind sameMass
             sameMass.selected = true;
             tab0.reset();
         }
 
-        private function resetTab1():void {
-            sameMass.selected = true;
-            tab1.reset();
-        }
+//        private function resetTab1():void {
+//            tab1.reset();
+//        }
 
 
         ]]></mx:Script>
