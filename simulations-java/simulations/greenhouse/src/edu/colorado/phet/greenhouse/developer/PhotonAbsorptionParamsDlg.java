@@ -6,7 +6,6 @@ import java.awt.GridLayout;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -14,7 +13,6 @@ import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel;
 import edu.colorado.phet.greenhouse.model.SingleMoleculePhotonAbsorptionProbability;
-import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 
 
 /**
@@ -34,19 +32,19 @@ public class PhotonAbsorptionParamsDlg extends PaintImmediateDialog {
         setLayout(new GridLayout( 2, 2));
 
         // Create and add the slider for controlling the photon emission rate.
-        add(new JLabel( "Inter-Photon Period", JLabel.CENTER));
-        final LinearValueControl emissionRateSlider = new LinearValueControl( 0, 4, "Period:", "#.#", "Seconds" );
+        add(new JLabel( "Photon Emission Frequency", JLabel.CENTER));
+        final LinearValueControl emissionRateSlider = new LinearValueControl( 0, 5, "Frequency:", "#.#", "Photons/sec" );
         emissionRateSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                model.setPhotonEmissionPeriod( emissionRateSlider.getValue() * 1000 );
+                model.setPhotonEmissionPeriod( 1 / emissionRateSlider.getValue() * 1000 );
             }
         });
-        emissionRateSlider.setValue( model.getPhotonEmissionPeriod() / 1000 );
+        emissionRateSlider.setValue( 1 / model.getPhotonEmissionPeriod() * 1000 );
         add( emissionRateSlider  );
 
         // Create and add the slider for controlling absorption probability.
-        add(new JLabel( "Absorption Probability: ", JLabel.CENTER));
-        final LinearValueControl abosrptionProbabilitySlider = new LinearValueControl( 0, 1, "Photons/ec", "#.#", "Control" );
+        add(new JLabel( "Absorption Probability", JLabel.CENTER));
+        final LinearValueControl abosrptionProbabilitySlider = new LinearValueControl( 0, 1, "Probability", "#.#", null );
         abosrptionProbabilitySlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 SingleMoleculePhotonAbsorptionProbability.getInstance().setAbsorptionsProbability( abosrptionProbabilitySlider.getValue() );
