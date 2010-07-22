@@ -128,4 +128,9 @@ public class CH4 extends Molecule {
             initializeAtomOffsets();
         }
     }
+    
+    @Override
+    public MoleculeID getMoleculeID() {
+        return MoleculeID.CH4;
+    }
 }

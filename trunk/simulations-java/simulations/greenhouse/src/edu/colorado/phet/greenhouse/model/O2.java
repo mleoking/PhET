@@ -62,4 +62,9 @@ public class O2 extends Molecule {
         atomCogOffsets.put(oxygenAtom1, new PDimension(-INITIAL_OXYGEN_OXYGEN_DISTANCE / 2, 0));
         atomCogOffsets.put(oxygenAtom2, new PDimension(INITIAL_OXYGEN_OXYGEN_DISTANCE / 2, 0));
     }
+    
+    @Override
+    public MoleculeID getMoleculeID() {
+        return MoleculeID.O2;
+    }
 }

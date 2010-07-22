@@ -62,4 +62,9 @@ public class N2 extends Molecule {
         atomCogOffsets.put(nitrogenAtom1, new PDimension(-INITIAL_NITROGEN_NITROGEN_DISTANCE / 2, 0));
         atomCogOffsets.put(nitrogenAtom2, new PDimension(INITIAL_NITROGEN_NITROGEN_DISTANCE / 2, 0));
     }
+    
+    @Override
+    public MoleculeID getMoleculeID() {
+        return MoleculeID.N2;
+    }
 }

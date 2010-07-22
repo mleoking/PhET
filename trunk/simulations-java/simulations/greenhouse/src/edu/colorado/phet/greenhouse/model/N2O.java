@@ -89,4 +89,9 @@ public class N2O extends Molecule {
         atomCogOffsets.put(oxygenAtom, new PDimension(INITIAL_NITROGEN_OXYGEN_DISTANCE,
                 -multFactor * MAX_OXYGEN_DEFLECTION));
     }
+    
+    @Override
+    public MoleculeID getMoleculeID() {
+        return MoleculeID.N2O;
+    }
 }
