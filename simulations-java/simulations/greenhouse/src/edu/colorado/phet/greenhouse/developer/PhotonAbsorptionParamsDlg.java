@@ -13,6 +13,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel;
+import edu.colorado.phet.greenhouse.model.SingleMoleculePhotonAbsorptionProbability;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 
 
@@ -30,25 +31,30 @@ public class PhotonAbsorptionParamsDlg extends PaintImmediateDialog {
     public PhotonAbsorptionParamsDlg (final PhotonAbsorptionModel model){
 
         setTitle("Params");
-
         setLayout(new GridLayout( 2, 2));
-        
-        add(new JLabel( "Inter-Photon Period"));
+
+        // Create and add the slider for controlling the photon emission rate.
+        add(new JLabel( "Inter-Photon Period", JLabel.CENTER));
         final LinearValueControl emissionRateSlider = new LinearValueControl( 0, 4, "Period:", "#.#", "Seconds" );
         emissionRateSlider.addChangeListener( new ChangeListener() {
-            
             public void stateChanged( ChangeEvent e ) {
                 model.setPhotonEmissionPeriod( emissionRateSlider.getValue() * 1000 );
             }
         });
         emissionRateSlider.setValue( model.getPhotonEmissionPeriod() / 1000 );
-
         add( emissionRateSlider  );
-        
-        add(new JLabel( "Absorption Probability: "));
-        LinearValueControl abosrptionProbabilitySlider = new LinearValueControl( 0, 1, "Photons/ec", "#.#", "Control" );
+
+        // Create and add the slider for controlling absorption probability.
+        add(new JLabel( "Absorption Probability: ", JLabel.CENTER));
+        final LinearValueControl abosrptionProbabilitySlider = new LinearValueControl( 0, 1, "Photons/ec", "#.#", "Control" );
+        abosrptionProbabilitySlider.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                SingleMoleculePhotonAbsorptionProbability.getInstance().setAbsorptionsProbability( abosrptionProbabilitySlider.getValue() );
+            }
+        });
+        abosrptionProbabilitySlider.setValue( SingleMoleculePhotonAbsorptionProbability.getInstance().getAbsorptionsProbability() );
         add( abosrptionProbabilitySlider  );
-        
+
         // Set this to hide itself if the user clicks the close button.
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         
