@@ -1,3 +1,5 @@
+# 2.07.06 (42581) Jul 22, 2010
+7/22/10 Publishing to dev for review of repetative photon emission & probabilistic photon absorption.
 7/22/10 Added developer control for adjusting photon emission rate and photon absorption probability for the Photon Absorption tab.
 7/21/10 Made photon absorption probabilistic.
 7/21/10 Converted emission control to be a switch button instead of a momentary button.
