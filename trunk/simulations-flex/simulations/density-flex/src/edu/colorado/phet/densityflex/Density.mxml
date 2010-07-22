@@ -5,8 +5,8 @@
                 preinitialize="init()">
     <!--xmlns:common="edu.colorado.phet.flexcommon.*"-->
     <!--<common:FlexCommonMXML id="flexcommon" right="0" y="0" />-->
-    <mx:TabNavigator width="100%" height="100%" change="onSwitch(event)" creationPolicy="all" id="tabNavigator">
-        <mx:Canvas label="Intro">
+    <mx:TabNavigator width="100%" height="100%" change="onSwitch(event)" creationPolicy="all" id="tabNavigator" fontSize="18">
+        <mx:Canvas label="Intro" fontSize="12">
             <view:DensityViewIntro width="100%" height="100%" id="tab0"/>
             <mx:Panel right="20" y="100">
                 <mx:RadioButton groupName="massVol" id="sameMass" label="{FlexSimStrings.get('intro.objectsOfSameMass')}" selected="true" click="tab0.switchToSameMass()"/>
@@ -19,7 +19,7 @@
                 <mx:Button label="Reset All" click="resetTab0()"/>
             </mx:Panel>
         </mx:Canvas>
-        <mx:Canvas label="Advanced" visible="false">
+        <mx:Canvas label="Advanced" fontSize="12">
             <view:DensityViewFull width="100%" height="100%" id="tab1"/>
             <mx:Panel left="20" bottom="20">
                 <mx:CheckBox id="gravityForceVectorCheckBox" label="Gravity Force" selected="true" change="tab1.setGravityForceVisible(gravityForceVectorCheckBox.selected)"/>
