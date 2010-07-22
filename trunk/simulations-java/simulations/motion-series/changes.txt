@@ -3,6 +3,8 @@ Removed the blue timeline bar for all tabs with charts
 Removed gravity force from forces and motion chart
 Fixed colors for X,V,A charts
 Fixed: Don't let the cursor drag past max time
+Fixed a problem where the blue timeline handle could disappear off the right of the screen
+Fixed: chart cursors sometimes become disconnected
 Added vertical label for chart slider node
 Added chart cursor
 Connected parallel applied force vertical slider to the model
