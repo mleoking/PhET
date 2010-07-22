@@ -9,7 +9,7 @@
         <mx:Canvas label="Intro">
             <view:DensityViewIntro width="100%" height="100%" id="tab0"/>
             <mx:Panel right="20" y="100">
-                <mx:RadioButton groupName="massVol" id="sameMass" label="Objects of same mass" selected="true" click="tab0.switchToSameMass()"/>
+                <mx:RadioButton groupName="massVol" id="sameMass" label="{FlexSimStrings.get('intro.objectsOfSameMass')}" selected="true" click="tab0.switchToSameMass()"/>
                 <mx:RadioButton groupName="massVol" id="sameVolume" label="Objects of same volume" click="tab0.switchToSameVolume()"/>
                 <mx:RadioButton groupName="massVol" id="sameDensity" label="Objects of same density" click="tab0.switchToSameDensity()"/>
                 <!--<mx:Label text="Developer Controls"/>-->
@@ -35,8 +35,8 @@
     <view:DebugText id="debug" height="100" x="0" y="0" text="" color="#FFFFFF" click="DebugText.clear();"/>
     <mx:Script><![CDATA[
         import edu.colorado.phet.densityflex.view.DensityView;
-
         import edu.colorado.phet.flexcommon.FlexCommon;
+        import edu.colorado.phet.flexcommon.FlexSimStrings;
 
         import mx.core.Application;
 
@@ -45,7 +45,7 @@
 
         private function getAllTabs():Array {
             return new Array(tab0, tab1);
-//            return new Array(tab0);
+            //            return new Array(tab0);
         }
 
         private function onApplicationComplete():void {
