@@ -2,10 +2,18 @@
 
 package edu.colorado.phet.greenhouse.developer;
 
+import java.awt.GridLayout;
+
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JSlider;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
+import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel;
+import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 
 
 /**
@@ -19,18 +27,36 @@ public class PhotonAbsorptionParamsDlg extends PaintImmediateDialog {
     /**
      * Constructor.
      */
-    public PhotonAbsorptionParamsDlg (){
+    public PhotonAbsorptionParamsDlg (final PhotonAbsorptionModel model){
 
         setTitle("Params");
+
+        setLayout(new GridLayout( 2, 2));
         
-        JSlider testSlider = new JSlider();
-        add(testSlider);
+        add(new JLabel( "Inter-Photon Period"));
+        final LinearValueControl emissionRateSlider = new LinearValueControl( 0, 4, "Period:", "#.#", "Seconds" );
+        emissionRateSlider.addChangeListener( new ChangeListener() {
+            
+            public void stateChanged( ChangeEvent e ) {
+                model.setPhotonEmissionPeriod( emissionRateSlider.getValue() * 1000 );
+            }
+        });
+        emissionRateSlider.setValue( model.getPhotonEmissionPeriod() / 1000 );
+
+        add( emissionRateSlider  );
+        
+        add(new JLabel( "Absorption Probability: "));
+        LinearValueControl abosrptionProbabilitySlider = new LinearValueControl( 0, 1, "Photons/ec", "#.#", "Control" );
+        add( abosrptionProbabilitySlider  );
         
         // Set this to hide itself if the user clicks the close button.
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         
         // Center this in the parent frame.
         setLocationRelativeTo( null );
+        
+        // Should always be on top when visible.
+        setAlwaysOnTop( true );
         
         // Size the dialog to just fit all the controls.
         pack();

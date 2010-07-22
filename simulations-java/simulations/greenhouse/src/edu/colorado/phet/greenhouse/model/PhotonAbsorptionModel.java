@@ -252,12 +252,24 @@ public class PhotonAbsorptionModel {
         return new ArrayList<Molecule>(molecules);
     }
     
-    protected double getPhotonEmissionPeriod() {
+    /**
+     * 
+     * @return - Period between photons in milliseconds.
+     */
+    public double getPhotonEmissionPeriod() {
         return photonEmissionPeriod;
     }
     
-    protected void setPhotonEmissionPeriod( double photonEmissionPeriod ) {
+    /**
+     * Set the emission period, i.e. the time between photons.
+     * 
+     * @param photonEmissionPeriod - Period between photons in milliseconds.
+     */
+    public void setPhotonEmissionPeriod( double photonEmissionPeriod ) {
         this.photonEmissionPeriod = photonEmissionPeriod;
+        if (isPeriodicPhotonEmissionEnabled() && photonEmissionCountdownTimer > photonEmissionPeriod){
+            photonEmissionCountdownTimer = photonEmissionPeriod;
+        }
     }
     
     /**
