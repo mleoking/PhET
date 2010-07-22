@@ -1,3 +1,4 @@
+Fixed colors for X,V,A charts
 Fixed: Don't let the cursor drag past max time
 Added vertical label for chart slider node
 Added chart cursor
