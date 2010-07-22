@@ -4,7 +4,6 @@ package edu.colorado.phet.greenhouse.model;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.Random;
@@ -447,6 +446,12 @@ public class PhotonAbsorptionModel {
         }
     }
 
+    private void notifyConfigurableAtmospherCompositionChanged() {
+        for (Listener listener : listeners.getListeners(Listener.class)){
+            listener.configurableAtmosphereCompositionChanged();
+        }
+    }
+
     //----------------------------------------------------------------------------
     // Inner Classes and Interfaces
     //----------------------------------------------------------------------------
@@ -459,6 +464,7 @@ public class PhotonAbsorptionModel {
         void emittedPhotonWavelengthChanged();
         void photonTargetChanged();
         void periodicPhotonEmissionEnabledChanged();
+        void configurableAtmosphereCompositionChanged();
     }
     
     public static class Adapter implements Listener {
@@ -469,5 +475,6 @@ public class PhotonAbsorptionModel {
         public void moleculeAdded( Molecule molecule ) {}
         public void moleculeRemoved( Molecule molecule ) {}
         public void periodicPhotonEmissionEnabledChanged() {}
+        public void configurableAtmosphereCompositionChanged() {}
     }
 }
