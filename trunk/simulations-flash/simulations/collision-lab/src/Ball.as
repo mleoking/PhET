@@ -26,6 +26,15 @@ package{
 			this.position.setXY(this.position.getXLast(), this.position.getYLast());
 		}
 		
+		//following to used to reset existing ball object to initial configuration in Model
+		public function setBall(mass:Number, position:TwoVector, velocity:TwoVector){
+			this.mass = mass;
+			this.radius = 0.15*Math.pow(this.mass, 1/3)
+			this.position = position;
+			this.velocity = velocity;
+			this.momentum = new TwoVector(this.mass*this.velocity.getX(),this.mass*this.velocity.getY());
+		}
+		
 		public function setMass(mass:Number):void{
 			this.mass = mass;
 			this.radius = 0.15*Math.pow(this.mass, 1/3)

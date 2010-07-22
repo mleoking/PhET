@@ -15,6 +15,7 @@
 		public function update():void{
 			if(this.myModel.sounding){
 				this.clickSound.play();
+				//trace("SoundMaker.update() called");
 			}
 		}
 	}//end of class
