@@ -14,7 +14,6 @@ import java.lang.Math.PI
 import java.beans.{PropertyChangeEvent, PropertyChangeListener}
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont
 import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode
-import edu.umd.cs.piccolo.nodes.PText
 
 /**
  * @author Sam Reid
@@ -30,10 +29,10 @@ class RampForceChartNode(canvas: PhetPCanvas, motionSeriesModel: MotionSeriesMod
 }
 
 class ForcesAndMotionChartNode(canvas: PhetPCanvas, model: MotionSeriesModel) extends MultiControlChart(Array(
-  new RampForceMinimizableControlChart(model),
-  new MinimizableControlChart("properties.acceleration".translate, new SingleSeriesChart(model, () => model.bead.acceleration, 50, "m/s/s", MotionSeriesDefaults.accelerationColor,"properties.acceleration".translate).chart) {setMaximized(false)}, //todo: il8n
-  new MinimizableControlChart("properties.velocity".translate, new SingleSeriesChart(model, () => model.bead.velocity, 25, "m/s", MotionSeriesDefaults.velocityColor,"properties.velocity".translate).chart) {setMaximized(false)}, //todo: il8n
-  new MinimizableControlChart("properties.position".translate, new SingleSeriesChart(model, () => model.bead.position, 10, "m", MotionSeriesDefaults.positionColor,"properties.position".translate).chart) {setMaximized(false)})) { //todo: il8n
+  new ForcesAndMotionMinimizableControlChart(model),
+  new MinimizableControlChart("properties.acceleration".translate, new SingleSeriesChart(model, () => model.bead.acceleration, 50, "m/s/s", MotionSeriesDefaults.accelerationColor, "properties.acceleration".translate).chart) {setMaximized(false)}, //todo: il8n
+  new MinimizableControlChart("properties.velocity".translate, new SingleSeriesChart(model, () => model.bead.velocity, 25, "m/s", MotionSeriesDefaults.velocityColor, "properties.velocity".translate).chart) {setMaximized(false)}, //todo: il8n
+  new MinimizableControlChart("properties.position".translate, new SingleSeriesChart(model, () => model.bead.position, 10, "m", MotionSeriesDefaults.positionColor, "properties.position".translate).chart) {setMaximized(false)})) { //todo: il8n
   canvas.addComponentListener(new ComponentAdapter { //todo: remove duplicate code from above
     override def componentResized(e: ComponentEvent) = {
       val insetX = 6
@@ -44,11 +43,14 @@ class ForcesAndMotionChartNode(canvas: PhetPCanvas, model: MotionSeriesModel) ex
   })
 }
 
-class SingleSeriesChart(motionSeriesModel: MotionSeriesModel, _value: () => Double, maxY: Double, units: String, color: Color,title:String) {
+class SingleSeriesChart(motionSeriesModel: MotionSeriesModel, _value: () => Double, maxY: Double, units: String, color: Color, title: String) {
   val temporalChart = new TemporalChart(new java.awt.geom.Rectangle2D.Double(0, -maxY, 20, maxY * 2), motionSeriesModel.chartCursor)
-  val chart = new ControlChart(new ShadowHTMLNode(title){
-    setColor(color)
-    setFont(new PhetFont(16,true))
+  val chart = new ControlChart(new PNode() {
+    addChild(new ShadowHTMLNode(title) {
+      setColor(color)
+      setFont(new PhetFont(16, true))
+      setOffset(0,20)//To help center it on the chart, so that we don't collide with controls from chart above, and so we don't have to shrink the charts.
+    })
   }, new PNode(), temporalChart, new ChartZoomControlNode(temporalChart))
 
   val variable = new MutableDouble(_value()) {
@@ -58,9 +60,36 @@ class SingleSeriesChart(motionSeriesModel: MotionSeriesModel, _value: () => Doub
   temporalChart.addDataSeries(series, series.color)
 }
 
-class RampForceMinimizableControlChart(motionSeriesModel: MotionSeriesModel) extends MinimizableControlChart("forces.parallel-title-with-units".translate, new RampForceControlChart(motionSeriesModel).chart)
+class RampForceMinimizableControlChart(motionSeriesModel: MotionSeriesModel) extends MinimizableControlChart("forces.parallel-title-with-units".translate, new RampControlChart(motionSeriesModel).chart)
+class ForcesAndMotionMinimizableControlChart(motionSeriesModel: MotionSeriesModel) extends MinimizableControlChart("forces.parallel-title-with-units".translate, new ForcesAndMotionControlChart(motionSeriesModel).chart)
 
-class RampForceControlChart(motionSeriesModel: MotionSeriesModel) {
+class RampControlChart(motionSeriesModel: MotionSeriesModel) extends MotionSeriesControlChart(motionSeriesModel) {
+  def addSerieses() = {
+    temporalChart.addDataSeries(appliedForceSeries, appliedForceSeries.color)
+    temporalChart.addDataSeries(frictionForceSeries, frictionForceSeries.color)
+    temporalChart.addDataSeries(gravityForceSeries, gravityForceSeries.color)
+    temporalChart.addDataSeries(wallForceSeries, wallForceSeries.color)
+    temporalChart.addDataSeries(frictionForceSeries, frictionForceSeries.color)
+    temporalChart.addDataSeries(totalForceSeries, totalForceSeries.color)
+  }
+
+  def additionalSerieses = frictionForceSeries :: gravityForceSeries :: wallForceSeries :: totalForceSeries :: Nil
+}
+class ForcesAndMotionControlChart(motionSeriesModel: MotionSeriesModel) extends MotionSeriesControlChart(motionSeriesModel) {
+  def addSerieses() = {
+    temporalChart.addDataSeries(appliedForceSeries, appliedForceSeries.color)
+    temporalChart.addDataSeries(frictionForceSeries, frictionForceSeries.color)
+    temporalChart.addDataSeries(wallForceSeries, wallForceSeries.color)
+    temporalChart.addDataSeries(frictionForceSeries, frictionForceSeries.color)
+    temporalChart.addDataSeries(totalForceSeries, totalForceSeries.color)
+  }
+
+  def additionalSerieses = frictionForceSeries :: wallForceSeries :: totalForceSeries :: Nil
+}
+
+abstract class MotionSeriesControlChart(motionSeriesModel: MotionSeriesModel) {
+  def addSerieses(): Unit
+
   val temporalChart = new TemporalChart(new java.awt.geom.Rectangle2D.Double(0, -2000, 20, 4000), motionSeriesModel.chartCursor)
 
   def parallelFriction = motionSeriesModel.bead.frictionForceVector.getValue dot motionSeriesModel.bead.getRampUnitVector
@@ -88,20 +117,16 @@ class RampForceControlChart(motionSeriesModel: MotionSeriesModel) {
     motionSeriesModel.stepListeners += (() => {value = parallelTotalForce})
   }
 
-  val appliedForceSeries = new MSDataSeries("<html>F<sub>applied ||</sub></html>", MotionSeriesDefaults.appliedForceColor, "N", parallelAppliedForceVariable, motionSeriesModel)
-  val frictionForceSeries = new MSDataSeries("<html>F<sub>friction ||</sub></html>", MotionSeriesDefaults.frictionForceColor, "N", frictionVariable, motionSeriesModel)
+  val appliedForceSeries = new MSDataSeries("<html>F<sub>applied</sub></html>", MotionSeriesDefaults.appliedForceColor, "N", parallelAppliedForceVariable, motionSeriesModel)
+  val frictionForceSeries = new MSDataSeries("<html>F<sub>friction</sub></html>", MotionSeriesDefaults.frictionForceColor, "N", frictionVariable, motionSeriesModel)
   val gravityForceSeries = new MSDataSeries("<html>F<sub>gravity ||</sub></html>", MotionSeriesDefaults.gravityForceColor, "N", gravityVariable, motionSeriesModel)
-  val wallForceSeries = new MSDataSeries("<html>F<sub>wall ||</sub></html>", MotionSeriesDefaults.wallForceColor, "N", wallVariable, motionSeriesModel)
+  val wallForceSeries = new MSDataSeries("<html>F<sub>wall</sub></html>", MotionSeriesDefaults.wallForceColor, "N", wallVariable, motionSeriesModel)
   val totalForceSeries = new MSDataSeries("<html>F<sub>total ||</sub></html>", MotionSeriesDefaults.totalForceColor, "N", totalForceVariable, motionSeriesModel) //todo: il8n for units and names
 
-  temporalChart.addDataSeries(appliedForceSeries, appliedForceSeries.color)
-  temporalChart.addDataSeries(frictionForceSeries, frictionForceSeries.color)
-  temporalChart.addDataSeries(gravityForceSeries, gravityForceSeries.color)
-  temporalChart.addDataSeries(wallForceSeries, wallForceSeries.color)
-  temporalChart.addDataSeries(frictionForceSeries, frictionForceSeries.color)
-  temporalChart.addDataSeries(totalForceSeries, totalForceSeries.color)
+  addSerieses();
 
-  val additionalSerieses: List[MSDataSeries] = frictionForceSeries :: gravityForceSeries :: wallForceSeries :: totalForceSeries :: Nil
+  def additionalSerieses: List[MSDataSeries]
+
   val controlPanel = new PNode {
     addChild(new PSwing(new SeriesSelectionControl("forces.parallel-title-with-units".translate, 5) {
       addToGrid(appliedForceSeries, createEditableLabel)
