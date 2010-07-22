@@ -5,6 +5,7 @@
     <option name="MAIN_CLASS" value="edu.colorado.phet.densityflex.Density" />
     <option name="OUTPUT_FILE_NAME" value="density.swf" />
     <option name="TARGET_PLAYER_VERSION" value="9.0.124" />
+    <option name="ADDITIONAL_COMPILER_OPTIONS" value="-use-network" />
     <option name="VERSION" value="3" />
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">

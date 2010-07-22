@@ -3,6 +3,8 @@
                 xmlns:view="edu.colorado.phet.densityflex.view.*"
                 layout="absolute" width="100%" height="100%" applicationComplete="onApplicationComplete()"
                 preinitialize="init()">
+    <!--xmlns:common="edu.colorado.phet.flexcommon.*"-->
+    <!--<common:FlexCommonMXML id="flexcommon" right="0" y="0" />-->
     <mx:TabNavigator width="100%" height="100%" change="onSwitch(event)" creationPolicy="all" id="tabNavigator">
         <mx:Canvas label="Intro">
             <view:DensityViewIntro width="100%" height="100%" id="tab0"/>
@@ -91,6 +93,7 @@
         }
 
         ]]></mx:Script>
+
 </mx:Application>
         <!--<?xml version="1.0"?>-->
         <!--<mx:Application-->
