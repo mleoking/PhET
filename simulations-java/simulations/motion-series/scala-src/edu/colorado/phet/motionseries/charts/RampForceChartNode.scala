@@ -1,6 +1,5 @@
 package edu.colorado.phet.motionseries.charts
 
-import edu.umd.cs.piccolo.nodes.PText
 import edu.colorado.phet.motionseries.model.MotionSeriesModel
 import edu.umd.cs.piccolo.PNode
 import edu.colorado.phet.common.motion.charts._
@@ -14,7 +13,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas
 import java.lang.Math.PI
 import java.beans.{PropertyChangeEvent, PropertyChangeListener}
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont
-import edu.colorado.phet.common.piccolophet.nodes.{ShadowHTMLNode, HTMLNode}
+import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode
 
 /**
  * @author Sam Reid
@@ -31,9 +30,9 @@ class RampForceChartNode(canvas: PhetPCanvas, motionSeriesModel: MotionSeriesMod
 
 class ForcesAndMotionChartNode(canvas: PhetPCanvas, model: MotionSeriesModel) extends MultiControlChart(Array(
   new RampForceMinimizableControlChart(model),
-  new MinimizableControlChart("properties.acceleration".translate, new SingleSeriesChart(model, () => model.bead.acceleration, 50).chart) {setMaximized(false)},
-  new MinimizableControlChart("properties.velocity".translate, new SingleSeriesChart(model, () => model.bead.velocity, 25).chart) {setMaximized(false)},
-  new MinimizableControlChart("properties.position".translate, new SingleSeriesChart(model, () => model.bead.position, 10).chart) {setMaximized(false)})) {
+  new MinimizableControlChart("properties.acceleration".translate, new SingleSeriesChart(model, () => model.bead.acceleration, 50, "m/s/s", MotionSeriesDefaults.accelerationColor).chart) {setMaximized(false)}, //todo: il8n
+  new MinimizableControlChart("properties.velocity".translate, new SingleSeriesChart(model, () => model.bead.velocity, 25, "m/s", MotionSeriesDefaults.velocityColor).chart) {setMaximized(false)}, //todo: il8n
+  new MinimizableControlChart("properties.position".translate, new SingleSeriesChart(model, () => model.bead.position, 10, "m", MotionSeriesDefaults.positionColor).chart) {setMaximized(false)})) { //todo: il8n
   canvas.addComponentListener(new ComponentAdapter { //todo: remove duplicate code from above
     override def componentResized(e: ComponentEvent) = {
       val insetX = 6
@@ -44,15 +43,15 @@ class ForcesAndMotionChartNode(canvas: PhetPCanvas, model: MotionSeriesModel) ex
   })
 }
 
-class SingleSeriesChart(motionSeriesModel: MotionSeriesModel, _value: () => Double, maxY: Double) {
+class SingleSeriesChart(motionSeriesModel: MotionSeriesModel, _value: () => Double, maxY: Double, units: String, color: Color) {
   val temporalChart = new TemporalChart(new java.awt.geom.Rectangle2D.Double(0, -maxY, 20, maxY * 2), motionSeriesModel.chartCursor)
   val chart = new ControlChart(new PNode(), new PNode(), temporalChart, new ChartZoomControlNode(temporalChart))
 
-  val accelerationVariable = new MutableDouble(_value()) {
+  val variable = new MutableDouble(_value()) {
     motionSeriesModel.stepListeners += (() => {value = _value()})
   }
-  val accelerationSeries = new MSDataSeries("properties.acceleration".translate, MotionSeriesDefaults.accelerationColor, "m/s/s", accelerationVariable, motionSeriesModel) //TODO il8n for units
-  temporalChart.addDataSeries(accelerationSeries, accelerationSeries.color)
+  val series = new MSDataSeries("properties.acceleration".translate, color, units, variable, motionSeriesModel)
+  temporalChart.addDataSeries(series, series.color)
 }
 
 class RampForceMinimizableControlChart(motionSeriesModel: MotionSeriesModel) extends MinimizableControlChart("forces.parallel-title-with-units".translate, new RampForceControlChart(motionSeriesModel).chart)
@@ -115,23 +114,23 @@ class RampForceControlChart(motionSeriesModel: MotionSeriesModel) {
         override def sliderDragged(value: java.lang.Double) = {parallelAppliedForceVariable.value = value.doubleValue}
       })
       parallelAppliedForceVariable.addListener(() => {setValue(parallelAppliedForceVariable.value)})
-      val label = new ShadowHTMLNode("controls.applied-force-x".translate){
-        setFont(new PhetFont(16,true))
+      val label = new ShadowHTMLNode("controls.applied-force-x".translate) {
+        setFont(new PhetFont(16, true))
         setColor(appliedForceSeries.color)
-        setShadowOffset(-1,1)
-        rotate(-PI/2)
+        setShadowOffset(-1, 1)
+        rotate(-PI / 2)
       }
-      val rotated = new PNode{
+      val rotated = new PNode {
         addChild(label)
-        translate(-getFullBounds.getX,-getFullBounds.getY)
+        translate(-getFullBounds.getX, -getFullBounds.getY)
       }
-      val parent = new PNode{
+      val parent = new PNode {
         addChild(rotated)
-        setOffset(-rotated.getFullBounds.getWidth,outer.getTrackNode.getFullBounds.getHeight/2-rotated.getFullBounds.getHeight/2)
+        setOffset(-rotated.getFullBounds.getWidth, outer.getTrackNode.getFullBounds.getHeight / 2 - rotated.getFullBounds.getHeight / 2)
       }
-      outer.addPropertyChangeListener(PNode.PROPERTY_FULL_BOUNDS,new PropertyChangeListener(){
+      outer.addPropertyChangeListener(PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
         def propertyChange(evt: PropertyChangeEvent) = {
-          parent.setOffset(-getSliderThumb.getFullBounds.getWidth/2-parent.getFullBounds.getWidth,outer.getTrackNode.getFullBounds.getHeight/2-rotated.getFullBounds.getHeight/2)
+          parent.setOffset(-getSliderThumb.getFullBounds.getWidth / 2 - parent.getFullBounds.getWidth, outer.getTrackNode.getFullBounds.getHeight / 2 - rotated.getFullBounds.getHeight / 2)
         }
       })
       addChild(parent)
