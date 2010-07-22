@@ -114,6 +114,20 @@ public class PhotonAbsorptionModel {
      * Reset the model to its initial state.
      */
     public void reset() {
+        
+        // Remove any existing photons.
+        ArrayList<Photon> copyOfPhotons = new ArrayList<Photon>(photons);
+        photons.clear();
+        for (Photon photon : copyOfPhotons){
+            photons.remove( photon );
+            notifyPhotonRemoved( photon );
+        }
+        
+        // Reset all molecules, which will stop any oscillations.
+        for (Molecule molecule : molecules){
+            molecule.reset();
+        }
+
         setPhotonTarget( DEFAULT_PHOTON_TARGET );
         setEmittedPhotonWavelength( DEFAULT_EMITTED_PHOTON_WAVELENGTH );
         setPeriodicPhotonEmissionEnabled( false );
