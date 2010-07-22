@@ -65,7 +65,7 @@ public class BlockNode extends CuboidNode implements Pickable, Listener {
 
         var cube:PickableCube = getCube();
 
-        textField.text = String(block.getMass()) + " kg";
+        textField.text = String(block.getMass().toFixed(1)) + " kg";//Showing one decimal point is a good tradeoff between readability and complexity
         textField.height = wallData.height;
         textField.width = wallData.width;
         textField.multiline = true;
