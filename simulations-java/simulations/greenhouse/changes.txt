@@ -1,3 +1,6 @@
+7/22/10 Added developer control for adjusting photon emission rate and photon absorption probability for the Photon Absorption tab.
+7/21/10 Made photon absorption probabilistic.
+7/21/10 Converted emission control to be a switch button instead of a momentary button.
 # 2.07.06 (42331) Jul 16, 2010
 7/16/10 Added greenhouse gases and molecular oscillations to photon absorption panel
 # 2.07.05 (42160) Jul 9, 2010
