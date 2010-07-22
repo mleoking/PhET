@@ -33,11 +33,11 @@ public class DensityViewIntro extends DensityView {
     }
 
     public function initializeSameDensity():void {
-        var density:Number = 2; 
-        model.addDensityObject(Block.newBlockDensitySize(density, 4, -4.5, 0, new ColorTransform(0.5, 0.5, 0), model));
-        model.addDensityObject(Block.newBlockDensitySize(density, 3, -1.5, 0, new ColorTransform(0, 0, 1), model));
-        model.addDensityObject(Block.newBlockDensitySize(density, 2, 1.5, 0, new ColorTransform(0, 1, 0), model));
-        model.addDensityObject(Block.newBlockDensitySize(density, 1, 4.5, 0, new ColorTransform(1, 0, 0), model));
+        var density:Number = 0.25; //Showing the blocks as partially floating allows easier visualization of densities
+        model.addDensityObject(Block.newBlockDensityMass(density, 7, -4.5, 0, new ColorTransform(0.5, 0.5, 0), model));
+        model.addDensityObject(Block.newBlockDensityMass(density, 2, -1.5, 0, new ColorTransform(0, 0, 1), model));
+        model.addDensityObject(Block.newBlockDensityMass(density, 1, 1.5, 0, new ColorTransform(0, 1, 0), model));
+        model.addDensityObject(Block.newBlockDensityMass(density, 0.5, 4.5, 0, new ColorTransform(1, 0, 0), model));
         addScales();
     }
 
