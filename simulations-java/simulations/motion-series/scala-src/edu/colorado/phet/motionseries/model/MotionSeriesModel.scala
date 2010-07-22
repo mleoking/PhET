@@ -28,15 +28,16 @@ class MotionSeriesModel(defaultBeadPosition: Double,
                         initialAngle: Double)
         extends RecordAndPlaybackModel[RecordedState](1000) with ObjectModel with RampSurfaceModel {
   override def isRecordingFull = {
-    getTime > 20.0//TODO: factor out max time
+    getTime > 20.0 //TODO: factor out max time
   }
 
   //Don't let the cursor drag past max time
   override def addRecordedPoint(point: DataPoint[RecordedState]) = {
-    if (point.getTime <= 20.0){//TODO: factor out max time
+    if (point.getTime <= 20.0) { //TODO: factor out max time
       super.addRecordedPoint(point)
     }
   }
+
   private var _walls = true
   private var _frictionless = MotionSeriesDefaults.FRICTIONLESS_DEFAULT
   private var _bounce = MotionSeriesDefaults.BOUNCE_DEFAULT
@@ -98,7 +99,7 @@ class MotionSeriesModel(defaultBeadPosition: Double,
     stepRecord()
     val mode = bead.motionStrategy.getMemento
     new RecordedState(new RampState(rampAngle, rampSegments(1).heat, rampSegments(1).wetness),
-      selectedObject.state, bead.state, manBead.state, bead.parallelAppliedForce, walls, mode,getTime)
+      selectedObject.state, bead.state, manBead.state, bead.parallelAppliedForce, walls, mode, getTime)
   }
 
   def beadInModelViewportRange = bead.position2D.x < MotionSeriesDefaults.MIN_X || bead.position2D.x > MotionSeriesDefaults.MAX_X

@@ -96,7 +96,7 @@ class BeadNode(bead: Bead,
 
   //This is to support showing crash images during game mode
   //todo: refactor game mode to use the bead.isCrashed model value
-  bead.crashListeners += (()=>{
+  bead.crashListeners += (() => {
     imageNode.setImage(crashImage)
   })
 
@@ -105,7 +105,7 @@ class BeadNode(bead: Bead,
     image = im
     crashImage = crashIm
     val imageToSet = if (bead.isCrashed) crashImage else image
-    if (!(imageNode.getImage eq imageToSet))//avoid redraw if possible
+    if (!(imageNode.getImage eq imageToSet)) //avoid redraw if possible
       imageNode.setImage(imageToSet)
     update()
   }
@@ -132,7 +132,7 @@ class BeadNode(bead: Bead,
       imageNode.getFullBounds.getCenter2D.getX - (viewPosition.x - delta.x / 2),
       imageNode.getFullBounds.getMaxY - (viewPosition.y - delta.y))
 
-    if (imageNode.getImage==crashImage && !bead.isCrashed){
+    if (imageNode.getImage == crashImage && !bead.isCrashed) {
       imageNode.setImage(image)
     }
   }

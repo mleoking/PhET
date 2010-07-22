@@ -20,7 +20,7 @@ import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.colorado.phet.scalacommon.Predef._
 import edu.colorado.phet.common.piccolophet.PhetPCanvas
-import edu.umd.cs.piccolo.{PNode}
+import edu.umd.cs.piccolo.PNode
 import edu.umd.cs.piccolox.pswing.{PSwingCanvas, PSwing}
 
 class RampControlPanel(model: MotionSeriesModel,
@@ -93,15 +93,15 @@ class RampControlPanelBody(model: MotionSeriesModel,
 
     if (coordinateSystemFeaturesEnabled) {
       //in coordinates frame mode, you have to show one of the vector choices
-      def setVectorVisibility(original:Boolean,parallel:Boolean,xy:Boolean) = {
+      def setVectorVisibility(original: Boolean, parallel: Boolean, xy: Boolean) = {
         vectorViewModel.originalVectors = original
         vectorViewModel.parallelComponents = parallel
         vectorViewModel.xyComponentsVisible = xy
       }
-      add(new MyRadioButton("vectors.force-vectors".translate, setVectorVisibility(true,false,false), vectorViewModel.originalVectors, vectorViewModel.addListener).peer)
-      addWithIcon("parallel_components_icon.gif".literal, new MyRadioButton("vectors.parallel-components".translate, setVectorVisibility(false,true,false), vectorViewModel.parallelComponents, vectorViewModel.addListener).peer)
-      addWithIcon("xy_components_icon.gif".literal, new MyRadioButton("vectors.x-y-components".translate, setVectorVisibility(false,false,true), vectorViewModel.xyComponentsVisible, vectorViewModel.addListener).peer)
-    }else{
+      add(new MyRadioButton("vectors.force-vectors".translate, setVectorVisibility(true, false, false), vectorViewModel.originalVectors, vectorViewModel.addListener).peer)
+      addWithIcon("parallel_components_icon.gif".literal, new MyRadioButton("vectors.parallel-components".translate, setVectorVisibility(false, true, false), vectorViewModel.parallelComponents, vectorViewModel.addListener).peer)
+      addWithIcon("xy_components_icon.gif".literal, new MyRadioButton("vectors.x-y-components".translate, setVectorVisibility(false, false, true), vectorViewModel.xyComponentsVisible, vectorViewModel.addListener).peer)
+    } else {
       //show a check box that allows you to turn off viewing the vectors
       add(new MyCheckBox("vectors.force-vectors".translate, vectorViewModel.originalVectors_=, vectorViewModel.originalVectors, vectorViewModel.addListener).peer)
     }
@@ -114,7 +114,7 @@ class RampControlPanelBody(model: MotionSeriesModel,
 
     def createSumForceIcon = {
       val rect = new Rectangle2D.Double(0, 0, 1, 1)
-      val vector = new Vector(MotionSeriesDefaults.totalForceColor, "total-force".literal, "force.abbrev.total".translate, () => new Vector2D(42, 0), (v: Vector2D, c: Color) => {c},0.0)
+      val vector = new Vector(MotionSeriesDefaults.totalForceColor, "total-force".literal, "force.abbrev.total".translate, () => new Vector2D(42, 0), (v: Vector2D, c: Color) => {c}, 0.0)
       val vectorNode = new VectorNode(new ModelViewTransform2D(rect, rect), vector, new ConstantVectorValue(new Vector2D(-42, 0)), 75)
       val bufIm = BufferedImageUtils.toBufferedImage(vectorNode.toImage)
       BufferedImageUtils.multiScaleToHeight(bufIm, 35)

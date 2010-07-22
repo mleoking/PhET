@@ -67,10 +67,10 @@ object Paints {
 //Vector Components
 
 class XComponent(target: BeadVector, bead: Bead, coordinateFrame: CoordinateFrameModel, labelAngle: Double) extends VectorComponent(target, bead, () => new Vector2D(1, 0).rotate(coordinateFrame.angle), Paints.horizontalStripes, "coordinates.x".translate, labelAngle) {
-  coordinateFrame.addListener( ()=> notifyListeners())
+  coordinateFrame.addListener(() => notifyListeners())
 }
 class YComponent(target: BeadVector, bead: Bead, coordinateFrame: CoordinateFrameModel, labelAngle: Double) extends VectorComponent(target, bead, () => new Vector2D(0, 1).rotate(coordinateFrame.angle), Paints.verticalStripes, "coordinates.y".translate, labelAngle) {
-  coordinateFrame.addListener( ()=> notifyListeners())
+  coordinateFrame.addListener(() => notifyListeners())
 }
 
 class AngleBasedComponent(target: BeadVector,

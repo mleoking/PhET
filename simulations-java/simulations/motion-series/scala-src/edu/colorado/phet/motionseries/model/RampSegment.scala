@@ -5,7 +5,7 @@ import java.awt.geom.{Point2D, Line2D}
 import edu.colorado.phet.scalacommon.util.Observable
 import edu.colorado.phet.scalacommon.Predef._
 import edu.colorado.phet.scalacommon.math.Vector2D
-import edu.colorado.phet.motionseries.graphics.{Rotatable}
+import edu.colorado.phet.motionseries.graphics.Rotatable
 
 case class RampSegmentState(startPoint: Vector2D, endPoint: Vector2D) { //don't use Point2D since it's not immutable
   def setStartPoint(newStartPoint: Vector2D) = new RampSegmentState(newStartPoint, endPoint)

@@ -4,7 +4,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.{TransformLi
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 import edu.colorado.phet.common.piccolophet.PhetPCanvas
 import java.awt.event._
-import java.awt.geom.{Rectangle2D}
+import java.awt.geom.Rectangle2D
 import java.awt.{Color, BasicStroke}
 import edu.colorado.phet.scalacommon.util.Observable
 import edu.umd.cs.piccolo.nodes.PText
@@ -144,7 +144,7 @@ class MyCanvas(val stageWidth: Double, val stageHeight: Double, val modelBounds:
   //Create a MyCanvas with scale sx = sy
   def this(stageWidth: Int, modelBounds: Rectangle2D) = this (stageWidth, modelBounds.getHeight / modelBounds.getWidth * stageWidth, modelBounds)
 
-  def addListener(listener: () => Unit) = {//todo: add support for removeListener
+  def addListener(listener: () => Unit) = { //todo: add support for removeListener
     addComponentListener(new ComponentAdapter() {
       override def componentResized(e: ComponentEvent) = listener()
     })

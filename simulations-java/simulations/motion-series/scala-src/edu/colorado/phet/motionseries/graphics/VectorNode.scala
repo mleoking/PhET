@@ -3,15 +3,15 @@ package edu.colorado.phet.motionseries.graphics
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont
 import edu.colorado.phet.common.piccolophet.nodes._
-import java.awt.geom.{Point2D}
+import java.awt.geom.Point2D
 import edu.colorado.phet.scalacommon.math.Vector2D
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
 
-import edu.umd.cs.piccolo.nodes.{PImage}
+import edu.umd.cs.piccolo.nodes.PImage
 import edu.umd.cs.piccolo.PNode
 import edu.colorado.phet.scalacommon.Predef._
 import edu.colorado.phet.motionseries.MotionSeriesConfig
-import java.awt.{Color}
+import java.awt.Color
 import edu.colorado.phet.motionseries.model._
 import MotionSeriesConfig._
 

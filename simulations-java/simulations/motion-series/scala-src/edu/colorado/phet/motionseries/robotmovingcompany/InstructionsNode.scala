@@ -1,6 +1,6 @@
 package edu.colorado.phet.motionseries.sims.theramp.robotmovingcompany
 
-import edu.umd.cs.piccolo.nodes.{PText}
+import edu.umd.cs.piccolo.nodes.PText
 import edu.umd.cs.piccolo.PNode
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 

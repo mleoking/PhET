@@ -1,6 +1,6 @@
 package edu.colorado.phet.motionseries.sims.theramp.robotmovingcompany
 
-import edu.colorado.phet.common.piccolophet.nodes.{HTMLNode}
+import edu.colorado.phet.common.piccolophet.nodes.HTMLNode
 import edu.colorado.phet.common.phetcommon.view.util.{BufferedImageUtils, PhetFont}
 import edu.colorado.phet.common.piccolophet.nodes.layout.SwingLayoutNode
 import edu.colorado.phet.common.piccolophet.PhetPCanvas
@@ -73,7 +73,7 @@ class ItemFinishedDialog(gameModel: RobotMovingCompanyGameModel,
     case Cliff(_, _) => "game.result.crashed".translate
     case Success(_, _) => "game.result.delivered-successfully".translate
     case OutOfEnergy(_, _) => "game.result.missed-the-house".translate
-    case NotEnoughEnergyToPush(_,_) => "game.result.stuck".translate 
+    case NotEnoughEnergyToPush(_, _) => "game.result.stuck".translate
     case _ => "Disappeared?".literal //should never happen
   }
   val pText = new PText("game.result.description.pattern.name-text".messageformat(scalaRampObject.name, text))
@@ -123,27 +123,27 @@ class GameFinishedDialog(gameModel: RobotMovingCompanyGameModel) extends PlayAre
 
   val gridLayout = new GridLayout(gameModel.objectList.length + 3, 3)
   val resultList = new SwingLayoutNode(gridLayout)
-  resultList.addChild(new PText("game.object".translate){setFont(new PhetFont(24))})
-  resultList.addChild(new PText("game.score".translate){setFont(new PhetFont(24))})
+  resultList.addChild(new PText("game.object".translate) {setFont(new PhetFont(24))})
+  resultList.addChild(new PText("game.score".translate) {setFont(new PhetFont(24))})
   resultList.addChild(new PText(""))
 
   for (obj <- gameModel.objectList) {
     val result = gameModel.resultMap(obj)
-    resultList.addChild(new PText(obj.name){setFont(new PhetFont(18))})
-    resultList.addChild(new PText(result.score + ""){setFont(new PhetFont(18))})
+    resultList.addChild(new PText(obj.name) {setFont(new PhetFont(18))})
+    resultList.addChild(new PText(result.score + "") {setFont(new PhetFont(18))})
     val imageFilename = if (result.isInstanceOf[Cliff]) obj.crashImageFilename else obj.imageFilename
     val image = new PImage(BufferedImageUtils.multiScaleToHeight(MotionSeriesResources.getImage(imageFilename), 40))
     resultList.addChild(image)
   }
 
-//  //empty line
+  //  //empty line
   resultList.addChild(new PNode)
   resultList.addChild(new PNode)
   resultList.addChild(new PNode)
 
-//  //last line
-  resultList.addChild(new PText("game.final-score".translate+"         "){setFont(new PhetFont(18))})//todo: fix layout here
-  resultList.addChild(new PText(gameModel.score+""){setFont(new PhetFont(18))})
+  //  //last line
+  resultList.addChild(new PText("game.final-score".translate + "         ") {setFont(new PhetFont(18))}) //todo: fix layout here
+  resultList.addChild(new PText(gameModel.score + "") {setFont(new PhetFont(18))})
   resultList.addChild(new PNode())
 
   resultList.setOffset(getFullBounds.getWidth / 2 - resultList.getFullBounds.getWidth / 2, text.getFullBounds.getMaxY + 10)
@@ -173,7 +173,7 @@ object TestItemFinishedDialog {
   def main(args: Array[String]) {
     val robotMovingCompanyGameModel = new RobotMovingCompanyGameModel(new MotionSeriesModel(5, true, MotionSeriesDefaults.defaultRampAngle), new ScalaClock(30, 30 / 1000.0), MotionSeriesDefaults.defaultRampAngle, 500.0, MotionSeriesDefaults.objects)
     val itemFinishedDialog = new ItemFinishedDialog(robotMovingCompanyGameModel,
-      MotionSeriesDefaults.objects(0),  Cliff(64, 100), a => {
+      MotionSeriesDefaults.objects(0), Cliff(64, 100), a => {
         a.setVisible(false)
       }, "Ok".literal)
     TestDialog.test(itemFinishedDialog);

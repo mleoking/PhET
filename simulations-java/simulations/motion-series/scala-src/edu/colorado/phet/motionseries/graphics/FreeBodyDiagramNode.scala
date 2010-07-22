@@ -14,7 +14,7 @@ import edu.colorado.phet.scalacommon.util.Observable
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
 
 import edu.umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
-import edu.umd.cs.piccolo.nodes.{PImage}
+import edu.umd.cs.piccolo.nodes.PImage
 import edu.umd.cs.piccolo.PNode
 import edu.colorado.phet.scalacommon.Predef._
 import java.lang.Math._
@@ -95,6 +95,7 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel,
   def removeCursorHand() = {
     removeInputEventListener(cursorHandler)
   }
+
   def addVector(vector: Vector with PointOfOriginVector, offsetFBD: VectorValue, maxOffset: Int, offsetPlayArea: Double): Unit =
     addVector(vector, offsetFBD, maxOffset)
 
@@ -262,7 +263,7 @@ trait VectorValue {
 object TestFBD extends Application {
   val frame = new JFrame
   val canvas = new PhetPCanvas
-  val vector = new Vector(Color.blue, "Test Vector".literal, "Fv".literal, () => new Vector2D(5, 5), (a, b) => b,PI/2)
+  val vector = new Vector(Color.blue, "Test Vector".literal, "Fv".literal, () => new Vector2D(5, 5), (a, b) => b, PI / 2)
   canvas.addScreenChild(new FreeBodyDiagramNode(new FreeBodyDiagramModel(false), 200, 200, 20, 20, new CoordinateFrameModel(new RampSegment(new Point2D.Double(0, 0), new Point2D.Double(10, 10))), new AdjustableCoordinateModel,
     PhetCommonResources.getImage("buttons/maximizeButton.png".literal), () => PI / 4, vector))
   frame.setContentPane(canvas)

@@ -1,15 +1,11 @@
 package edu.colorado.phet.motionseries.graphics
 
-import _root_.edu.colorado.phet.common.piccolophet.event.CursorHandler
 import _root_.edu.colorado.phet.motionseries.MotionSeriesResources
-import _root_.edu.colorado.phet.scalacommon.view.ToggleListener
-import _root_.edu.umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
-import _root_.edu.umd.cs.piccolo.nodes.{PImage}
+import _root_.edu.umd.cs.piccolo.nodes.PImage
 import _root_.java.awt.geom.{AffineTransform, Point2D}
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import edu.colorado.phet.motionseries.model.{AdjustableCoordinateModel, CoordinateFrameModel, MotionSeriesModel}
-import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.umd.cs.piccolo.PNode
 import edu.colorado.phet.scalacommon.Predef._
 import edu.colorado.phet.scalacommon.util.Observable
@@ -64,21 +60,21 @@ class CoordinateFrameNode(val model: MotionSeriesModel,
   }
 }
 
-trait HandleNode extends AxisNodeWithModel{
-    val bufferedImage = MotionSeriesResources.getImage("handle_1.png".literal)
-    val handleNode = new PImage(bufferedImage)
-    addChild(handleNode)
-    updateTipAndTailLocations()
-    override def setTipAndTailLocations(tip: Point2D, tail: Point2D) = {
-      super.setTipAndTailLocations(tip, tail)
-      if (handleNode != null) {
-        handleNode.setTransform(new AffineTransform)
-        handleNode.setOffset(tip)
-        handleNode.scale(1.6)
-        val angle = Math.atan2(tip.getY - tail.getY, tip.getX - tail.getX)
-        handleNode.rotate(angle)
-        handleNode.translate(-50, -bufferedImage.getHeight)
-      }
+trait HandleNode extends AxisNodeWithModel {
+  val bufferedImage = MotionSeriesResources.getImage("handle_1.png".literal)
+  val handleNode = new PImage(bufferedImage)
+  addChild(handleNode)
+  updateTipAndTailLocations()
+  override def setTipAndTailLocations(tip: Point2D, tail: Point2D) = {
+    super.setTipAndTailLocations(tip, tail)
+    if (handleNode != null) {
+      handleNode.setTransform(new AffineTransform)
+      handleNode.setOffset(tip)
+      handleNode.scale(1.6)
+      val angle = Math.atan2(tip.getY - tail.getY, tip.getX - tail.getX)
+      handleNode.rotate(angle)
+      handleNode.translate(-50, -bufferedImage.getHeight)
     }
-    attachListener(handleNode)
+  }
+  attachListener(handleNode)
 }
