@@ -14,6 +14,7 @@ import java.lang.Math.PI
 import java.beans.{PropertyChangeEvent, PropertyChangeListener}
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont
 import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode
+import edu.umd.cs.piccolo.nodes.PText
 
 /**
  * @author Sam Reid
@@ -30,9 +31,9 @@ class RampForceChartNode(canvas: PhetPCanvas, motionSeriesModel: MotionSeriesMod
 
 class ForcesAndMotionChartNode(canvas: PhetPCanvas, model: MotionSeriesModel) extends MultiControlChart(Array(
   new RampForceMinimizableControlChart(model),
-  new MinimizableControlChart("properties.acceleration".translate, new SingleSeriesChart(model, () => model.bead.acceleration, 50, "m/s/s", MotionSeriesDefaults.accelerationColor).chart) {setMaximized(false)}, //todo: il8n
-  new MinimizableControlChart("properties.velocity".translate, new SingleSeriesChart(model, () => model.bead.velocity, 25, "m/s", MotionSeriesDefaults.velocityColor).chart) {setMaximized(false)}, //todo: il8n
-  new MinimizableControlChart("properties.position".translate, new SingleSeriesChart(model, () => model.bead.position, 10, "m", MotionSeriesDefaults.positionColor).chart) {setMaximized(false)})) { //todo: il8n
+  new MinimizableControlChart("properties.acceleration".translate, new SingleSeriesChart(model, () => model.bead.acceleration, 50, "m/s/s", MotionSeriesDefaults.accelerationColor,"properties.acceleration".translate).chart) {setMaximized(false)}, //todo: il8n
+  new MinimizableControlChart("properties.velocity".translate, new SingleSeriesChart(model, () => model.bead.velocity, 25, "m/s", MotionSeriesDefaults.velocityColor,"properties.velocity".translate).chart) {setMaximized(false)}, //todo: il8n
+  new MinimizableControlChart("properties.position".translate, new SingleSeriesChart(model, () => model.bead.position, 10, "m", MotionSeriesDefaults.positionColor,"properties.position".translate).chart) {setMaximized(false)})) { //todo: il8n
   canvas.addComponentListener(new ComponentAdapter { //todo: remove duplicate code from above
     override def componentResized(e: ComponentEvent) = {
       val insetX = 6
@@ -43,9 +44,12 @@ class ForcesAndMotionChartNode(canvas: PhetPCanvas, model: MotionSeriesModel) ex
   })
 }
 
-class SingleSeriesChart(motionSeriesModel: MotionSeriesModel, _value: () => Double, maxY: Double, units: String, color: Color) {
+class SingleSeriesChart(motionSeriesModel: MotionSeriesModel, _value: () => Double, maxY: Double, units: String, color: Color,title:String) {
   val temporalChart = new TemporalChart(new java.awt.geom.Rectangle2D.Double(0, -maxY, 20, maxY * 2), motionSeriesModel.chartCursor)
-  val chart = new ControlChart(new PNode(), new PNode(), temporalChart, new ChartZoomControlNode(temporalChart))
+  val chart = new ControlChart(new ShadowHTMLNode(title){
+    setColor(color)
+    setFont(new PhetFont(16,true))
+  }, new PNode(), temporalChart, new ChartZoomControlNode(temporalChart))
 
   val variable = new MutableDouble(_value()) {
     motionSeriesModel.stepListeners += (() => {value = _value()})
