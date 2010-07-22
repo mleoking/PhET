@@ -1,3 +1,4 @@
+Fixed: Reset all should clear the charts
 Removed piano because vector arrows go offscreen
 Fixed: Changing objects causes the chart cursor node to appear when in playback mode
 Updated to new chart library

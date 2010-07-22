@@ -27,13 +27,14 @@ class RampForceChartNode(canvas: PhetPCanvas, motionSeriesModel: MotionSeriesMod
       setBounds(0 + insetX / 2, canvas.getHeight / 2 + insetY / 2, canvas.getWidth - insetX, canvas.getHeight / 2 - insetY)
     }
   })
+  motionSeriesModel.resetListeners_+=(() => {resetAll()})
 }
 
 class ForcesAndMotionChartNode(canvas: PhetPCanvas, model: MotionSeriesModel) extends MultiControlChart(Array(
   new ForcesAndMotionMinimizableControlChart(model),
-  new MinimizableControlChart("properties.acceleration".translate, new SingleSeriesChart(model, () => model.bead.acceleration, 50, "m/s/s", MotionSeriesDefaults.accelerationColor, "properties.acceleration".translate).chart) {setMaximized(false)}, //todo: il8n
-  new MinimizableControlChart("properties.velocity".translate, new SingleSeriesChart(model, () => model.bead.velocity, 25, "m/s", MotionSeriesDefaults.velocityColor, "properties.velocity".translate).chart) {setMaximized(false)}, //todo: il8n
-  new MinimizableControlChart("properties.position".translate, new SingleSeriesChart(model, () => model.bead.position, 10, "m", MotionSeriesDefaults.positionColor, "properties.position".translate).chart) {setMaximized(false)})) { //todo: il8n
+  new MinimizableControlChart("properties.acceleration".translate, new SingleSeriesChart(model, () => model.bead.acceleration, 50, "m/s/s", MotionSeriesDefaults.accelerationColor, "properties.acceleration".translate).chart, false), //todo: il8n
+  new MinimizableControlChart("properties.velocity".translate, new SingleSeriesChart(model, () => model.bead.velocity, 25, "m/s", MotionSeriesDefaults.velocityColor, "properties.velocity".translate).chart, false), //todo: il8n
+  new MinimizableControlChart("properties.position".translate, new SingleSeriesChart(model, () => model.bead.position, 10, "m", MotionSeriesDefaults.positionColor, "properties.position".translate).chart, false))) { //todo: il8n
   canvas.addComponentListener(new ComponentAdapter { //todo: remove duplicate code from above
     override def componentResized(e: ComponentEvent) = {
       val insetX = 6
@@ -42,6 +43,7 @@ class ForcesAndMotionChartNode(canvas: PhetPCanvas, model: MotionSeriesModel) ex
       setBounds(0 + insetX / 2, canvas.getHeight * (1 - chartProportionY) + insetY / 2, canvas.getWidth - insetX, canvas.getHeight * chartProportionY - insetY)
     }
   })
+  model.resetListeners_+=(() => {resetAll()})
 }
 
 class SingleSeriesChart(motionSeriesModel: MotionSeriesModel, _value: () => Double, maxY: Double, units: String, color: Color, title: String) {
@@ -59,6 +61,8 @@ class SingleSeriesChart(motionSeriesModel: MotionSeriesModel, _value: () => Doub
   }
   val series = new MSDataSeries("properties.acceleration".translate, color, units, variable, motionSeriesModel)
   temporalChart.addDataSeries(series, series.color)
+
+  motionSeriesModel.resetListeners_+=(() => {series.clear()})
 }
 
 class RampForceMinimizableControlChart(motionSeriesModel: MotionSeriesModel) extends MinimizableControlChart("forces.parallel-title-with-units".translate, new RampControlChart(motionSeriesModel).chart)
