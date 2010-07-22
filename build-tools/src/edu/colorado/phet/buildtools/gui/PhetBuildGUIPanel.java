@@ -46,12 +46,13 @@ public class PhetBuildGUIPanel extends JSplitPane {
                 cachedProject = project;
                 //System.out.println( "Changing project to " + project );
                 // TODO: consider refactoring project panels to be selected based on the project itself, instead of handling directly in the GUI
-                if ( project instanceof FlashSimulationProject ) {
-                    projectPanel = new FlashSimulationPanel( trunk, (FlashSimulationProject) project );
+                
+                if ( project instanceof FlexSimulationProject ) {
+                    projectPanel = new FlexSimulationPanel( trunk, (FlexSimulationProject) project );
                     setRightComponent( projectPanel );
                 }
-                else if ( project instanceof FlexSimulationProject ) {
-                    projectPanel = new FlexSimulationPanel( trunk, (FlexSimulationProject) project );
+                else if ( project instanceof FlashSimulationProject ) {
+                    projectPanel = new FlashSimulationPanel( trunk, (FlashSimulationProject) project );
                     setRightComponent( projectPanel );
                 }
                 else if ( project instanceof JavaSimulationProject ) {
