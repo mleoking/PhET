@@ -39,7 +39,7 @@
 			this.resetButton = new NiceButton(this.resetButton_sp, 80, resetAll);
 			var nbrString:String = String(this.nbrBalls);
 			this.changeNbrBallButtons.nbrReadout.text = nbrString;
-			this.elasticityLabel.text = "1.00";
+			this.elasticityValueLabel.text = "1.00";
 			//this.background.border.buttonMode = true;
 			if(this.myModel.nbrBalls == 1){
 				this.changeNbrBallButtons.removeBallButton.visible = false;
@@ -82,11 +82,16 @@
 		
 		private function resetAll():void{
 			this.myModel.resetAll();
-			this.oneD_rb.selected = true;
+			this.twoD_rb.selected = true;
 			var nbrBalls_str:String = String(this.myModel.nbrBalls);
 			this.changeNbrBallButtons.nbrReadout.text = nbrBalls_str;
-			this.timeRateSlider.value = 1;
-			this.myModel.setTimeRate(1);
+			this.nbrBalls = this.myModel.nbrBalls;
+			if(this.nbrBalls == 1){
+				this.changeNbrBallButtons.removeBallButton.visible = false;
+				this.myMainView.myTableView.CM.visible = false;
+			}
+			this.timeRateSlider.value = 0.5;
+			this.myModel.setTimeRate(0.5);
 			this.elasticitySlider.value = 1;
 			this.myModel.setElasticity(1);
 		}
@@ -130,9 +135,10 @@
 		}
 		
 		public function setElasticity(evt:SliderEvent):void{
+			trace("elasticity = "+evt.target.value)
 			this.myModel.setElasticity(evt.target.value);
 			var e_str:String = String(evt.target.value);
-			this.elasticityLabel.text = e_str;
+			this.elasticityValueLabel.text = e_str;
 			//trace("e slider: "+evt.target.value);
 		}
 		

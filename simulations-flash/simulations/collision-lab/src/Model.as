@@ -1,4 +1,5 @@
-﻿//The Model for Collision Lab
+﻿
+//The Model for Collision Lab
 package{
 	import flash.events.*;
 	import flash.utils.*;
@@ -36,6 +37,7 @@ package{
 		var updateRate:int;		//number of time steps between graphics updates
 		var frameCount:int;		//when frameCount reaches frameRate, update graphics
 		//var colliders:Array;	//2D array of ij pairs: value = 1 if pair colliding, 0 if not colliding.
+		var nbrCollisionsInThisTimeStep:int;   //used to check if more than one collision in any single time step
 		var view_arr:Array;		//views of this model
 		var nbrViews:int;		//number of views
 		
@@ -54,7 +56,7 @@ package{
 			//this.setCenterOfMass();
 			this.time = 0;
 			this.timeStep = 0.02;
-			this.timeRate = 1;
+			this.timeRate = 0.5;
 			this.updateRate = 1;		
 			this.frameCount = 0;
 			
@@ -156,9 +158,13 @@ package{
 		
 		public function resetAll():void{
 			//trace("Model.resetAll() called");
+			for (var i:int = 0; i < this.maxNbrBalls; i++){
+				//new Ball(mass, position, velocity);
+				this.ball_arr[i].setBall(1.0, initPos[i].clone(), initVel[i].clone());
+			}
 			this.nbrBalls = 1;
 			this.e = 1;			//set elasticity of collisions, 1 = perfectly elastic
-			this.timeRate = 1;
+			this.timeRate = 0.5;
 			this.setOneDMode(false);
 			this.nbrBallsChanged = true;
 			this.separateAllBalls();
@@ -288,7 +294,7 @@ package{
 				trace("ERROR: ball number " + ballNbr + ": xVel is NaN.");
 			}
 			if(isNaN(yVel)){
-				var ballNbr:int = indx + 1;
+				var tempBallNbr:int = indx + 1;
 				trace("ERROR: ball number " + ballNbr + ": yVel is NaN.");
 			}
 			this.ball_arr[indx].velocity.setX(xVel);
@@ -306,6 +312,7 @@ package{
 		}//stepForward
 		
 		public function singleStep():void{
+			this.nbrCollisionsInThisTimeStep = 0;
 			if(this.atInitialConfig){this.atInitialConfig = false;}
 			var dt:Number;
 			if(playing && !starting  && !colliding){
@@ -315,8 +322,8 @@ package{
 				//dt = this.timeStep;
 			}else if(this.colliding){
 				//frame-based animation for collision, for stability of algorithm
-				dt = 0.01*this.timeStep;
-				trace("Model collision occured at time"+this.time);
+				dt = 1.0*this.timeStep;
+				trace("Model collision occured at time = "+this.time);
 				this.colliding = false;
 			}else{
 				dt = this.timeStep;
@@ -364,6 +371,9 @@ package{
 			if(reversing){
 				this.lastTime = this.time;
 			}
+			if(this.nbrCollisionsInThisTimeStep >1){
+				trace("Model.nbrCollisionsInThisTimeStep = "+this.nbrCollisionsInThisTimeStep)
+			}
 		}//end of singleStep()
 		
 		//move forward one Frame = several steps
@@ -383,27 +393,30 @@ package{
 		//if ball beyond reflecting border, then translate to back to edge and reflect
 		public function checkAndProcessWallCollision(index:int, x:Number, y:Number, vX:Number, vY:Number):void{
 			var i:int = index;
+			var wallHit:Boolean = false;
 			if(this.borderOn){
 				var radius:Number = this.ball_arr[i].getRadius();
-				var onePlusDelta:Number = 1.0001;
+				var onePlusDelta:Number = 1.000001;
 				if((x+radius) > this.borderWidth){
 					this.setX(i, this.borderWidth - onePlusDelta*radius);
 					this.setVX(i, -e*vX);   //ball_arr[i].velocity.setX(-e*vX);  
-					this.playClickSound();
-					this.colliding = true;
+					wallHit = true;
 				}else if((x-radius)< 0){
 					this.setX(i, onePlusDelta*radius);
 					this.setVX(i, -e*vX) //ball_arr[i].velocity.setX(-e*vX);
-					this.playClickSound();
-					this.colliding = true;
+					wallHit = true;
 				}else if((y+radius) > this.borderHeight){
 					this.setY(i, this.borderHeight - onePlusDelta*radius);
 					this.setVY(i, -e*vY); //ball_arr[i].velocity.setY(-e*vY);
-					this.playClickSound();
-					this.colliding = true;
+					wallHit = true;
 				}else if((y-radius)< 0){
 					this.setY(i, onePlusDelta*radius);
 					this.setVY(i, -e*vY); //ball_arr[i].velocity.setY(-e*vY);
+					wallHit = true;
+				}
+				if(wallHit){
+					trace("wall hit at time t = " + this.time);
+					this.nbrCollisionsInThisTimeStep += 1;
 					this.playClickSound();
 					this.colliding = true;
 				}
@@ -412,6 +425,7 @@ package{
 		
 		public function detectCollision():void{
 			var N:int = this.nbrBalls;
+			var nbrBallBallCollisions:int = 0;	//number of collisions during this one time step
 			for (var i:int = 0; i < N; i++){
 				for (var j:int = i+1; j < N; j++){
 					var xi:Number = ball_arr[i].position.getX();
@@ -421,6 +435,7 @@ package{
 					var dist:Number = Math.sqrt((xj-xi)*(xj-xi)+(yj-yi)*(yj-yi));
 					var distMin:Number = ball_arr[i].getRadius() + ball_arr[j].getRadius();
 					if(dist < distMin){
+						this.nbrCollisionsInThisTimeStep += 1;
 						//trace("elasticity before collision: "+this.e);
 						//trace("collision detected. i = "+i+"   j = "+j+"   at time: "+this.time+"   dist: "+dist+"   distMin: "+distMin);
 						this.collideBalls(i, j);
@@ -509,6 +524,7 @@ package{
 				var tC:Number = this.getContactTime(i,j);
 				var delTBefore = tC - this.lastTime;
 				var delTAfter = this.time - tC;
+				if(isNaN(tC)){trace("tC is NaN");}
 				//trace("contact time is "+tC);
 				var v1x:Number = ball_arr[i].velocity.getX();
 				var v2x:Number = ball_arr[j].velocity.getX();
@@ -541,7 +557,6 @@ package{
 				var v1yP = (1/d)*(v1nP*delY + v1t*delX);
 				var v2xP = (1/d)*(v2nP*delX - v2t*delY);
 				var v2yP = (1/d)*(v2nP*delY + v2t*delX);
-				if(isNaN(v1xP)){trace("v1xP of ball "+i);}
 				this.setVXVY(i, v1xP, v1yP);
 				this.setVXVY(j, v2xP, v2yP);
 				//this.ball_arr[i].velocity.setXY(v1xP, v1yP);
@@ -641,11 +656,16 @@ package{
 			var delRDotDelV:Number = delX*delVx + delY*delVy;
 			var delRSq = delX*delX + delY*delY;
 			//trace("Model.getContactTime(). DelVsq = "+ delVSq);
+			//trace("Model.getContactTime(). delRDotDelV = "+ delRDotDelV);
+			//trace("Model.getContactTime(). delRSq = "+ delRSq);
+			
+			var underSqRoot:Number = delRDotDelV*delRDotDelV - delVSq*(delRSq - SSq);
 			//if collision is superslow, then set collision time = half-way point since last time step
-			if(delVSq < 0.000000001){
-				trace("entering delVSq < 0.000000001 if stmt..");
+			//of if tiny number precision causes number under square root to be negative
+			if(delVSq < 0.000000001 || underSqRoot < 0){
 				tC = this.lastTime + 0.5*(this.time - this.lastTime);
-				trace("delVSq<0.000000001, tC is "+tC);
+				//
+				trace("delVSq<0.000000001 or underSqRoot < 0, tC is "+tC);
 			}else{ //if collision is normal
 				if(reversing){
 					var delT:Number = (-delRDotDelV + Math.sqrt(delRDotDelV*delRDotDelV - delVSq*(delRSq - SSq)))/delVSq;
@@ -656,6 +676,8 @@ package{
 			}
 			//trace("getContactTime: this.lastTime = "+this.lastTime+"  this.time: "+this.time+"   delT:"+delT+"   tC: "+tC);
 			//trace("delRDotDelV: "+delRDotDelV+"  delVSq: "+delVSq+"   delRSq: "+delRSq+"   SSq: "+SSq+"   delVSq: "+delVSq);
+			if(isNaN(this.lastTime)){trace("this.lastTime = "+this.lastTime)};
+
 			return tC;
 		}//end getContactTime()
 		
