@@ -1,3 +1,4 @@
+Improve rendering for when vector arrow nodes overlap (by giving them slightly different z values)
 Improve number formatting for block mass readouts
 Improve defaults for objects of same density
 Added radio button for objects of same density

@@ -3,6 +3,8 @@ import away3d.materials.ColorMaterial;
 
 import away3d.materials.ShadingColorMaterial;
 
+import away3d.materials.WireColorMaterial;
+
 import edu.colorado.phet.densityflex.model.ArrowModel;
 
 public class ArrowNode extends MyMesh {
@@ -12,6 +14,7 @@ public class ArrowNode extends MyMesh {
 
     public function ArrowNode(arrowModel:ArrowModel, scaleFromModelToView:Number, color:*, init:Object = null) {
         super(combine({material:new ColorMaterial(color, {alpha: 0.75})}, init));
+//        super(combine({material:new WireColorMaterial(color, {alpha: 0.75})}, init));//useful for debugging objects that may have the same z-coordinate
         this.arrowModel = arrowModel;
         this.scaleFromModelToView = scaleFromModelToView;
         this.mouseEnabled = false; // don't want to click on arrows, but instead the objects behind them

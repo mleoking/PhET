@@ -7,7 +7,7 @@ import edu.colorado.phet.densityflex.model.DensityObject;
 
 public class DensityObjectNode extends ObjectContainer3D {
     private var densityObject:DensityObject;
-    private var numArrowNodes:Number = 0;
+    private static var numArrowNodes:Number = 0;
 
     private var gravityArrowNode:ArrowNode;
     private var buoyancyArrowForceNode:ArrowNode;
