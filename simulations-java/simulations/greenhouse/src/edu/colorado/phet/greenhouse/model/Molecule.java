@@ -129,6 +129,19 @@ public abstract class Molecule {
         }
     }
     
+    /**
+     * Reset the molecule.  Any photons that have been absorbed are forgotten,
+     * and any oscillation is reset.
+     * @return
+     */
+    public void reset(){
+        photonAbsorbed = false;
+        photonToEmit = null;
+        oscillationRadians = 0;
+        photonHoldCountdownTime = 0;
+        absorbtionHysteresisCountdownTime = 0;
+    }
+    
     protected double getAbsorbtionHysteresisCountdownTime() {
         return absorbtionHysteresisCountdownTime;
     }
