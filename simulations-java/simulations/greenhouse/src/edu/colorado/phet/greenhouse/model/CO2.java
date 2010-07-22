@@ -69,6 +69,7 @@ public class CO2 extends Molecule {
     // Methods
     // ------------------------------------------------------------------------
     
+    
     @Override
     protected void updateOscillationFormation(double oscillationRadians){
         double multFactor = Math.sin( oscillationRadians );
@@ -77,6 +78,11 @@ public class CO2 extends Molecule {
         atomCogOffsets.put(oxygenAtom2, new PDimension(-INITIAL_CARBON_OXYGEN_DISTANCE, - multFactor * OXYGEN_MAX_DEFLECTION));
     }
     
+    @Override
+    public MoleculeID getMoleculeID() {
+        return MoleculeID.CO2;
+    }
+
     /* (non-Javadoc)
      * @see edu.colorado.phet.greenhouse.model.Molecule#initializeCogOffsets()
      */

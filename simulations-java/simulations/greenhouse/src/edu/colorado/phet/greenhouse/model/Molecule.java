@@ -93,6 +93,11 @@ public abstract class Molecule {
     protected void setPhotonAbsorbed( boolean photonAbsorbed ) {
         this.photonAbsorbed = photonAbsorbed;
     }
+    
+    /**
+     * Get the ID used for this molecule.
+     */
+    public abstract MoleculeID getMoleculeID();
 
     /**
      * Advance the molecule one step in time.

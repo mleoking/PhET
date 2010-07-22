@@ -101,5 +101,8 @@ public class H2O extends Molecule {
                 -INITIAL_HYDROGEN_VERTICAL_OFFSET + multFactor * maxHydrogenDisplacement));
     }
     
-
+    @Override
+    public MoleculeID getMoleculeID() {
+        return MoleculeID.H2O;
+    }
 }
