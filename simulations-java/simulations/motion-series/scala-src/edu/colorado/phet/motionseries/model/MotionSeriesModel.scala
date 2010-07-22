@@ -9,7 +9,8 @@ import edu.colorado.phet.scalacommon.util.Observable
 import java.lang.Math._
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.colorado.phet.motionseries.charts.GoButtonVisibilityModel
-import edu.colorado.phet.recordandplayback.model.{RecordAndPlaybackModel}
+import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel
+import edu.colorado.phet.common.motion.charts.ChartCursor
 
 case class RampState(angle: Double, heat: Double, wetness: Double)
 
@@ -20,7 +21,8 @@ case class RecordedState(rampState: RampState,
                          manBeadState: BeadState,
                          appliedForce: Double,
                          walls: Boolean,
-                         motionStrategyMemento: MotionStrategyMemento)
+                         motionStrategyMemento: MotionStrategyMemento,
+                         time: Double)
 
 class MotionSeriesModel(defaultBeadPosition: Double,
                         pausedOnReset: Boolean,
@@ -30,6 +32,7 @@ class MotionSeriesModel(defaultBeadPosition: Double,
   private var _frictionless = MotionSeriesDefaults.FRICTIONLESS_DEFAULT
   private var _bounce = MotionSeriesDefaults.BOUNCE_DEFAULT
   private var _selectedObject = MotionSeriesDefaults.objects(0)
+  val chartCursor = new ChartCursor()
 
   val rampSegments = new ArrayBuffer[RampSegment]
   val stepListeners = new ArrayBuffer[() => Unit]
@@ -89,7 +92,7 @@ class MotionSeriesModel(defaultBeadPosition: Double,
     stepRecord()
     val mode = bead.motionStrategy.getMemento
     new RecordedState(new RampState(rampAngle, rampSegments(1).heat, rampSegments(1).wetness),
-      selectedObject.state, bead.state, manBead.state, bead.parallelAppliedForce, walls, mode)
+      selectedObject.state, bead.state, manBead.state, bead.parallelAppliedForce, walls, mode,getTime)
   }
 
   def beadInModelViewportRange = bead.position2D.x < MotionSeriesDefaults.MIN_X || bead.position2D.x > MotionSeriesDefaults.MAX_X
@@ -114,7 +117,7 @@ class MotionSeriesModel(defaultBeadPosition: Double,
 
   override def resetAll() = {
     super.resetAll()
-    if (resetListeners != null) {//resetAll() is called from super's constructor, so have to make sure our data is inited before proceeding
+    if (resetListeners != null) { //resetAll() is called from super's constructor, so have to make sure our data is inited before proceeding
       clearHistory()
       selectedObject = MotionSeriesDefaults.objects(0)
       frictionless = MotionSeriesDefaults.FRICTIONLESS_DEFAULT
@@ -192,6 +195,8 @@ class MotionSeriesModel(defaultBeadPosition: Double,
 
     while (fireDogs.length > 0)
       fireDogs(0).remove()
+
+    chartCursor.setTime(state.time)
   }
 
   def selectedObject = _selectedObject

@@ -1,3 +1,4 @@
+Added chart cursor
 Connected parallel applied force vertical slider to the model
 Connected parallel applied force text box to the model
 Removed Coordinates and Energy tabs from the Ramp simulation

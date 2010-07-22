@@ -4,7 +4,10 @@ import edu.colorado.phet.common.phetcommon.view.{PhetFrame}
 import edu.colorado.phet.common.phetcommon.application.Module
 import edu.colorado.phet.scalacommon.ScalaClock
 import edu.colorado.phet.motionseries.model._
-
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver
+import edu.colorado.phet.movingman.model.{MovingManState, MovingManModel}
+import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel
+import edu.colorado.phet.common.motion.charts.ChartCursor
 //TODO: improve inheritance/composition scheme for different applications/modules/canvases/models
 class MotionSeriesModule(frame: PhetFrame,
                          val clock: ScalaClock,
@@ -18,6 +21,23 @@ class MotionSeriesModule(frame: PhetFrame,
     new MotionSeriesModel(defaultBeadPosition, pausedOnReset, initialAngle)
 
   val motionSeriesModel = createMotionSeriesModel(defaultBeadPosition, pausedOnReset, initialAngle)
+  private def updateCursorVisibility(model: MotionSeriesModel): Unit = {
+    model.chartCursor.setVisible(motionSeriesModel.isPlayback && motionSeriesModel.getNumRecordedPoints > 0)
+  }
+  motionSeriesModel.addObserver(new SimpleObserver {
+    def update: Unit = {
+      updateCursorVisibility(motionSeriesModel)
+    }
+  })
+
+  updateCursorVisibility(motionSeriesModel)
+
+  motionSeriesModel.chartCursor.addListener(new ChartCursor.Adapter{
+    override def positionChanged: Unit = {
+      motionSeriesModel.setTime(motionSeriesModel.chartCursor.getTime)
+    }
+  })
+
   val fbdModel = new FreeBodyDiagramModel(fbdPopupOnly)
   val coordinateSystemModel = new AdjustableCoordinateModel
   val vectorViewModel = new VectorViewModel
