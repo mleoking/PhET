@@ -64,4 +64,8 @@ public class ControlChart extends PNode {
     public void reset() {
         chartNode.reset();
     }
+
+    public double getMaxRangeAxisLabelWidth() {
+        return chartNode.getMaxRangeAxisLabelWidth();
+    }
 }

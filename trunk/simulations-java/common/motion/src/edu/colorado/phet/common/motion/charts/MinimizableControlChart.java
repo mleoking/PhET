@@ -88,4 +88,8 @@ public class MinimizableControlChart extends PNode {
     public void setDomainAxisLabelsVisible(boolean b) {
         controlChart.setDomainAxisLabelsVisible(b);
     }
+
+    public double getMaxRangeAxisLabelWidth() {
+        return controlChart.getMaxRangeAxisLabelWidth();
+    }
 }
