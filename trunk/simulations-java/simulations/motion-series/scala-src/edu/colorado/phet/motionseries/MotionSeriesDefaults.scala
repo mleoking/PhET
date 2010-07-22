@@ -100,12 +100,11 @@ object MotionSeriesDefaults {
   val ollie = new MotionSeriesObject("object.dog".translate, 25, 0.5, 0.5, 1.25, "ollie.gif".literal, "ollie.gif".literal, 500) //ollie doesn't crash, use same image
   val fridge = new MotionSeriesObject("object.refrigerator".translate, 200, 0.2, 0.5, 2.75, "fridge.gif".literal, "fridge_crashed.gif".literal, 650)
   val book = new MotionSeriesObject("object.textbook".translate, 10, 0.2, 0.4, 1, "phetbook.gif".literal, "phetbook_crashed.gif".literal, 20)
-  val piano = new MotionSeriesObject("object.piano".translate, 400, 0.3, 0.5, 3.5, "piano.png".literal, "piano_crashed.png".literal, 1000)
   val mystery = new CustomTextMotionSeriesObject("object.mystery-object".translate, 123, 0.2, 0.3, 2, "mystery-box.png".literal, "mystery-box_crashed.png".literal, 600, "mystery-box.png".literal, false)
   val custom = new MutableMotionSeriesObject("object.custom-crate".translate, 150.0, 0.3, 0.5, -1.0, "crate.gif".literal, "crate_crashed.gif".literal, 300, "crate_custom.gif".literal, true) //height is determined dynamically in MutableRampObject
 
   val objects = crate :: cabinet :: ollie :: fridge ::
-          book :: piano :: mystery ::
+          book :: mystery ::
           Nil
   val iconsPerRow = 4
 

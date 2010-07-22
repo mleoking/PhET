@@ -1,3 +1,4 @@
+Removed piano because vector arrows go offscreen
 Fixed: Changing objects causes the chart cursor node to appear when in playback mode
 Updated to new chart library
 Removed the blue timeline bar for all tabs with charts
