@@ -92,6 +92,7 @@ class RampForceControlChart(motionSeriesModel: MotionSeriesModel) {
   temporalChart.addDataSeries(gravityForceSeries, gravityForceSeries.color)
   temporalChart.addDataSeries(wallForceSeries, wallForceSeries.color)
   temporalChart.addDataSeries(frictionForceSeries, frictionForceSeries.color)
+  temporalChart.addDataSeries(totalForceSeries, totalForceSeries.color)
 
   val additionalSerieses: List[MSDataSeries] = frictionForceSeries :: gravityForceSeries :: wallForceSeries :: totalForceSeries :: Nil
   val controlPanel = new PNode {
