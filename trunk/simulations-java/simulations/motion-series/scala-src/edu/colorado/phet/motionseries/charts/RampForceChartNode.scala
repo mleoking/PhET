@@ -41,7 +41,7 @@ class ForcesAndMotionChartNode(canvas: PhetPCanvas, model: MotionSeriesModel) ex
 }
 
 class SingleSeriesChart(motionSeriesModel: MotionSeriesModel, _value: () => Double, maxY: Double) {
-  val temporalChart = new TemporalChart(new java.awt.geom.Rectangle2D.Double(0, -maxY, 20, maxY * 2), new ChartCursor())
+  val temporalChart = new TemporalChart(new java.awt.geom.Rectangle2D.Double(0, -maxY, 20, maxY * 2), motionSeriesModel.chartCursor)
   val chart = new ControlChart(new PNode(), new PNode(), temporalChart, new ChartZoomControlNode(temporalChart))
 
   val accelerationVariable = new MutableDouble(_value()) {
@@ -54,7 +54,7 @@ class SingleSeriesChart(motionSeriesModel: MotionSeriesModel, _value: () => Doub
 class RampForceMinimizableControlChart(motionSeriesModel: MotionSeriesModel) extends MinimizableControlChart("forces.parallel-title-with-units".translate, new RampForceControlChart(motionSeriesModel).chart)
 
 class RampForceControlChart(motionSeriesModel: MotionSeriesModel) {
-  val temporalChart = new TemporalChart(new java.awt.geom.Rectangle2D.Double(0, -2000, 20, 4000), new ChartCursor())
+  val temporalChart = new TemporalChart(new java.awt.geom.Rectangle2D.Double(0, -2000, 20, 4000), motionSeriesModel.chartCursor)
 
   def parallelFriction = motionSeriesModel.bead.frictionForceVector.getValue dot motionSeriesModel.bead.getRampUnitVector
 
