@@ -8,7 +8,6 @@ import java.awt.geom.Point2D
 import edu.colorado.phet.scalacommon.util.Observable
 import java.lang.Math._
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
-import edu.colorado.phet.motionseries.charts.GoButtonVisibilityModel
 import edu.colorado.phet.common.motion.charts.ChartCursor
 import edu.colorado.phet.recordandplayback.model.{DataPoint, RecordAndPlaybackModel}
 
@@ -92,9 +91,6 @@ class MotionSeriesModel(defaultBeadPosition: Double,
   private var totalThermalEnergyOnClear = 0.0
   val maxDrops = (60 * 0.75).toInt
   val elapsedTimeHistory = new ArrayBuffer[Long]
-
-  val _goButtonModel = new GoButtonVisibilityModel(this) //Todo: since passes this, must be initialized after much of the above state
-  def goButtonModel = _goButtonModel
 
   def stepRecord(): Unit = stepRecord(MotionSeriesDefaults.DT_DEFAULT)
 
