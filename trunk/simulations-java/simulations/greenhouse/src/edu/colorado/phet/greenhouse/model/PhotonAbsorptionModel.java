@@ -58,10 +58,11 @@ public class PhotonAbsorptionModel {
             );
     
     // Choices of targets for the photons.
-    public enum PhotonTarget { CO2, H2O, CH4, N2O, N2, O2, EARTH_AIR, VENUS_AIR };
+    public enum PhotonTarget { SINGLE_CO2_MOLECULE, SINGLE_H2O_MOLECULE, SINGLE_CH4_MOLECULE, SINGLE_N2O_MOLECULE,
+        SINGLE_N2_MOLECULE, SINGLE_O2_MOLECULE, CONFIGURABLE_ATMOSPHERE };
     
     // Defaults.
-    private static final PhotonTarget DEFAULT_PHOTON_TARGET = PhotonTarget.CH4;
+    private static final PhotonTarget DEFAULT_PHOTON_TARGET = PhotonTarget.SINGLE_CH4_MOLECULE;
     private static final double DEFAULT_EMITTED_PHOTON_WAVELENGTH = GreenhouseConfig.irWavelength;
     private static final double DEFAULT_PHOTON_EMISSION_PERIOD = 2000; // Milliseconds of sim time.
 
@@ -210,27 +211,27 @@ public class PhotonAbsorptionModel {
             // Add the new photon target(s).
             Molecule newMolecule;
             switch (photonTarget){
-            case CO2:
+            case SINGLE_CO2_MOLECULE:
                 newMolecule = new CO2(SINGLE_MOLECULE_LOCATION);
                 molecules.add( newMolecule );
                 break;
-            case H2O:
+            case SINGLE_H2O_MOLECULE:
                 newMolecule = new H2O(SINGLE_MOLECULE_LOCATION);
                 molecules.add( newMolecule );
                 break;
-            case CH4:
+            case SINGLE_CH4_MOLECULE:
                 newMolecule = new CH4(SINGLE_MOLECULE_LOCATION);
                 molecules.add( newMolecule );
                 break;
-            case N2O:
+            case SINGLE_N2O_MOLECULE:
                 newMolecule = new N2O(SINGLE_MOLECULE_LOCATION);
                 molecules.add( newMolecule );
                 break;
-            case N2:
+            case SINGLE_N2_MOLECULE:
                 newMolecule = new N2(SINGLE_MOLECULE_LOCATION);
                 molecules.add( newMolecule );
                 break;
-            case O2:
+            case SINGLE_O2_MOLECULE:
                 newMolecule = new O2(SINGLE_MOLECULE_LOCATION);
                 molecules.add( newMolecule );
                 break;
