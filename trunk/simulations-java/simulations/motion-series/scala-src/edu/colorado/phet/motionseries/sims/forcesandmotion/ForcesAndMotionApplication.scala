@@ -6,15 +6,14 @@ import edu.colorado.phet.common.phetcommon.application.{PhetApplicationConfig, P
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication
 import edu.colorado.phet.motionseries.model.{MotionSeriesModel, AdjustableCoordinateModel, FreeBodyDiagramModel, VectorViewModel}
 import edu.colorado.phet.motionseries.graphics._
-import java.awt.Color
 import javax.swing.JFrame
 import edu.colorado.phet.scalacommon.ScalaClock
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.umd.cs.piccolox.pswing.PSwing
 import edu.colorado.phet.motionseries.controls.RampControlPanel
-import edu.colorado.phet.recordandplayback.gui.{RecordAndPlaybackControlPanel, PlaybackSpeedSlider}
+import edu.colorado.phet.recordandplayback.gui.RecordAndPlaybackControlPanel
 import edu.colorado.phet.motionseries.sims.theramp.robotmovingcompany.RobotMovingCompanyModule
-import edu.colorado.phet.motionseries.{MotionSeriesResources, StageContainerArea, MotionSeriesModule, MotionSeriesDefaults}
+import edu.colorado.phet.motionseries.{StageContainerArea, MotionSeriesModule, MotionSeriesDefaults}
 import edu.colorado.phet.motionseries.charts.ForcesAndMotionChartNode
 
 class ForcesAndMotionModule(frame: PhetFrame,
@@ -38,7 +37,8 @@ class ForcesAndMotionModule(frame: PhetFrame,
   val controlPanel = new RampControlPanel(motionSeriesModel, fbdModel, coordinateSystemModel, vectorViewModel,
     resetRampModule, coordinateSystemFeaturesEnabled, useObjectComboBox, motionSeriesModel, false, showFrictionControl, showBounceControl)
   setControlPanel(controlPanel)
-  setClockControlPanel(new RecordAndPlaybackControlPanel(motionSeriesModel, canvas, 20))
+  setClockControlPanel(createRecordAndPlaybackPanel)
+  def createRecordAndPlaybackPanel = new RecordAndPlaybackControlPanel(motionSeriesModel, canvas, 20)
 }
 
 class ForcesAndMotionCanvas(model: MotionSeriesModel,
@@ -75,6 +75,10 @@ class GraphingModule(frame: PhetFrame)
           false, false, true, false, -6, false, 0.0, true, true, MotionSeriesDefaults.forceMotionGraphViewport, MotionSeriesDefaults.forceEnergyGraphArea, true) {
   coordinateSystemModel.adjustable = false
   canvas.addScreenNode(new ForcesAndMotionChartNode(canvas, motionSeriesModel))
+
+  override def createRecordAndPlaybackPanel = new RecordAndPlaybackControlPanel(motionSeriesModel, canvas, 20) {
+    setTimelineNodeVisible(false)
+  }
 }
 
 class ForcesAndMotionApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
@@ -84,7 +88,7 @@ class ForcesAndMotionApplication(config: PhetApplicationConfig) extends PiccoloP
   addModule(new RobotMovingCompanyModule(getPhetFrame, 1E-8, MotionSeriesDefaults.forcesAndMotionRobotForce, MotionSeriesDefaults.objectsForForce1DGame)) //todo: this 1E-8 workaround seems necessary to avoid problems, we should find out why
 }
 
-object ForcesAndMotionApplication{
+object ForcesAndMotionApplication {
   def main(args: Array[String]) = {
     new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "forces-and-motion".literal, classOf[ForcesAndMotionApplication])
   }

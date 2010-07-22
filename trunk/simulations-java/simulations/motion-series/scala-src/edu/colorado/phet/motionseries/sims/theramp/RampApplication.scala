@@ -1,22 +1,22 @@
 package edu.colorado.phet.motionseries.sims.theramp
 
 import edu.colorado.phet.common.phetcommon.view.PhetFrame
-import edu.colorado.phet.motionseries.graphics.{RampCanvas}
+import edu.colorado.phet.motionseries.graphics.RampCanvas
 import java.awt.geom.Rectangle2D
-import edu.colorado.phet.common.piccolophet.{PiccoloPhetApplication}
+import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication
 
 import edu.colorado.phet.scalacommon.ScalaClock
 import edu.colorado.phet.motionseries.charts.bargraphs._
 import swing.Button
 import edu.colorado.phet.motionseries.MotionSeriesResources._
-import edu.colorado.phet.recordandplayback.gui.{RecordAndPlaybackControlPanel}
+import edu.colorado.phet.recordandplayback.gui.RecordAndPlaybackControlPanel
 import edu.umd.cs.piccolox.pswing.PSwing
 import edu.colorado.phet.common.phetcommon.application.{PhetApplicationLauncher, PhetApplicationConfig, Module}
 import javax.swing.JMenuItem
 import java.awt.event.{ActionListener, ActionEvent, ComponentEvent, ComponentAdapter}
 import edu.colorado.phet.motionseries.controls.{DeveloperDialog, RampControlPanel}
 import edu.colorado.phet.motionseries.sims.theramp.robotmovingcompany.RobotMovingCompanyModule
-import edu.colorado.phet.motionseries.{MotionSeriesResources, StageContainerArea, MotionSeriesDefaults, MotionSeriesModule}
+import edu.colorado.phet.motionseries.{StageContainerArea, MotionSeriesDefaults, MotionSeriesModule}
 import edu.colorado.phet.motionseries.charts.RampForceChartNode
 
 /**
@@ -88,13 +88,16 @@ class GraphingModule(frame: PhetFrame,
  */
 class ForceGraphsModule(frame: PhetFrame) extends GraphingModule(frame, "module.force-graphs".translate, false, MotionSeriesDefaults.oneGraphViewport, MotionSeriesDefaults.oneGraphArea) {
   rampCanvas.addScreenNode(new RampForceChartNode(rampCanvas, motionSeriesModel))
+  def createRecordAndPlaybackPanel = new RecordAndPlaybackControlPanel(motionSeriesModel, rampCanvas, 20) {
+    setTimelineNodeVisible(false)
+  }
 }
 
 /**
  * The WorkEnergyModule is a tab that focuses on work and energy issues.
  */
 class WorkEnergyModule(frame: PhetFrame) extends GraphingModule(frame, "module.energy".translate, true, MotionSeriesDefaults.oneGraphViewport, MotionSeriesDefaults.oneGraphArea) {
-//  rampCanvas.addScreenNode(new RampForceEnergyChartNode(rampCanvas, motionSeriesModel))
+  //  rampCanvas.addScreenNode(new RampForceEnergyChartNode(rampCanvas, motionSeriesModel))
   val workEnergyChartVisibilityModel = new WorkEnergyChartVisibilityModel
 
   //create a "show energy chart" button and add it as a PSwing near the top-middle of the play area
@@ -159,8 +162,8 @@ class RampApplication(config: PhetApplicationConfig) extends PiccoloPhetApplicat
   addModule(new ForceGraphsModule(getPhetFrame))
 
   //At 7-6-2010 Meeting we Decided to remove the Coordinate tab and Work/Energy tab, but keep the code for possible use in the future
-//  addModule(new CoordinatesRampModule(getPhetFrame))
-//  addModule(new WorkEnergyModule(getPhetFrame))
+  //  addModule(new CoordinatesRampModule(getPhetFrame))
+  //  addModule(new WorkEnergyModule(getPhetFrame))
 
   addModule(new RobotMovingCompanyModule(getPhetFrame))
 
@@ -178,10 +181,10 @@ class RampApplication(config: PhetApplicationConfig) extends PiccoloPhetApplicat
  */
 object RampApplication {
   def main(args: Array[String]) = {
-    new PhetApplicationLauncher().launchSim(args, "motion-series".literal,"the-ramp".literal, classOf[RampApplication])
+    new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "the-ramp".literal, classOf[RampApplication])
   }
 }
 
-object Tester{
-    def main(args:Array[String]) = RampApplication.main(args)
+object Tester {
+  def main(args: Array[String]) = RampApplication.main(args)
 }
