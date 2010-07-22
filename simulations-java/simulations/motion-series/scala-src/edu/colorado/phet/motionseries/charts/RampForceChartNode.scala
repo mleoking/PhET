@@ -14,6 +14,7 @@ import java.lang.Math.PI
 import java.beans.{PropertyChangeEvent, PropertyChangeListener}
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont
 import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode
+import edu.colorado.phet.common.phetcommon.model.MutableBoolean
 
 /**
  * @author Sam Reid
@@ -85,6 +86,7 @@ class ForcesAndMotionControlChart(motionSeriesModel: MotionSeriesModel) extends 
   }
 
   def additionalSerieses = frictionForceSeries :: wallForceSeries :: totalForceSeries :: Nil
+  override def gridSize = 4
 }
 
 abstract class MotionSeriesControlChart(motionSeriesModel: MotionSeriesModel) {
@@ -127,11 +129,15 @@ abstract class MotionSeriesControlChart(motionSeriesModel: MotionSeriesModel) {
 
   def additionalSerieses: List[MSDataSeries]
 
+  def gridSize = 5
   val controlPanel = new PNode {
-    addChild(new PSwing(new SeriesSelectionControl("forces.parallel-title-with-units".translate, 5) {
+    addChild(new PSwing(new SeriesSelectionControl("forces.parallel-title-with-units".translate, gridSize) {
       addToGrid(appliedForceSeries, createEditableLabel)
       for (s <- additionalSerieses) addToGrid(s)
     }))
+    val goButton = new GoButton(motionSeriesModel, new MutableBoolean(true))
+    goButton.setOffset(getFullBounds.getMaxX - goButton.getFullBounds.getWidth*2, getFullBounds.getMaxY)
+    addChild(goButton)
   }
 
   val chart = new ControlChart(controlPanel, createSliderNode(temporalChart), temporalChart, new ChartZoomControlNode(temporalChart))

@@ -7,7 +7,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.movingman.model.ExpressionEvaluator;
-import edu.colorado.phet.movingman.view.GoButton;
+import edu.colorado.phet.common.motion.charts.GoButton;
 
 import javax.swing.*;
 import java.awt.*;
