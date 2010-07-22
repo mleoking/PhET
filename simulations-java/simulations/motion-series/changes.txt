@@ -1,3 +1,4 @@
+Added vertical label for chart slider node
 Added chart cursor
 Connected parallel applied force vertical slider to the model
 Connected parallel applied force text box to the model
