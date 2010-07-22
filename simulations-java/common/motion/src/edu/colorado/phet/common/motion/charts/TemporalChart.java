@@ -19,6 +19,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 
 /**
  * Working directly with JFreeChart has been problematic for the motion-series sim since we need more flexibility + performance than it provides.
@@ -42,6 +43,7 @@ public class TemporalChart extends PNode {
     //This string is a hack to allow sims to pass in the string translation instead of requiring it to appear in phetcommon
     public static String SEC_TEXT = "sec";
     public static String TIME_LABEL_PATTERN = "{0} {1}";
+    private ArrayList<LineSeriesNode> lineSeriesNodes=new ArrayList<LineSeriesNode>();
 
     public TemporalChart(Rectangle2D.Double dataModelBounds, ChartCursor cursor) {
         this(dataModelBounds, 100, 100, cursor);//useful for layout code that updates size later instead of at construction and later
@@ -219,6 +221,9 @@ public class TemporalChart extends PNode {
 
     public void reset() {
         dataModelBounds.reset();
+        for (LineSeriesNode lineSeriesNode : lineSeriesNodes) {
+            lineSeriesNode.reset();
+        }
     }
 
     public double getMaxRangeAxisLabelWidth() {
@@ -292,7 +297,9 @@ public class TemporalChart extends PNode {
     }
 
     public void addDataSeries(TemporalDataSeries dataSeries, Color color) {
-        chartContents.addChild(new LineSeriesNode(dataSeries, color));
+        LineSeriesNode child = new LineSeriesNode(dataSeries, color);
+        lineSeriesNodes.add(child);
+        chartContents.addChild(child);
     }
 
     public Point2D modelToView(TimeData point) {
@@ -300,7 +307,10 @@ public class TemporalChart extends PNode {
     }
 
     private class LineSeriesNode extends PNode {
+        private TemporalDataSeries dataSeries;
+
         public LineSeriesNode(final TemporalDataSeries dataSeries, Color color) {
+            this.dataSeries = dataSeries;
             TemporalDataSeries.Adapter updateVisibility = new TemporalDataSeries.Adapter() {
                 public void visibilityChanged() {
                     setVisible(dataSeries.isVisible());
@@ -378,6 +388,10 @@ public class TemporalChart extends PNode {
             modelViewTransform2D.addTransformListener(listener);
             listener.transformChanged(null);
 
+        }
+
+        public void reset() {
+            dataSeries.clear();
         }
     }
 

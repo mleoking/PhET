@@ -103,4 +103,10 @@ public class MultiControlChart extends PNode {
         setOffset(x, y);
         return true;
     }
+    
+    public void resetAll(){
+        for (MinimizableControlChart child : children) {
+            child.resetAll();
+        }
+    }
 }
