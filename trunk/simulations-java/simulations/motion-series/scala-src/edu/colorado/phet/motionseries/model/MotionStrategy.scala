@@ -25,9 +25,9 @@ abstract class MotionStrategy(val bead: ForceBead) {
 
   //This method has to include a parameter for whether the wall force should be included to avoid an infinite recursive loop
   //in computing the wall force
-  def frictionForce(includeWallForce:Boolean):Vector2D = new Vector2D
+  def frictionForce(includeWallForce: Boolean): Vector2D = new Vector2D
 
-  def frictionForce:Vector2D = frictionForce(true)
+  def frictionForce: Vector2D = frictionForce(true)
 
   def normalForce = new Vector2D
 
@@ -125,16 +125,16 @@ class Airborne(private var _position2D: Vector2D, private var _velocity2D: Vecto
       //todo: make sure energy conserved on crash
       val newEnergy = bead.getTotalEnergy
       val energyDifference = bead.getTotalEnergy - originalEnergy
-//      println("Energy difference on crash: "+energyDifference)
-      if (bead.getTotalEnergy < originalEnergy){
+      //      println("Energy difference on crash: "+energyDifference)
+      if (bead.getTotalEnergy < originalEnergy) {
         //the rest is lost to heat
         bead.thermalEnergy = bead.thermalEnergy + energyDifference.abs
       }
-      else if (bead.getTotalEnergy >= originalEnergy){
+      else if (bead.getTotalEnergy >= originalEnergy) {
         //todo: what to do here?  does this ever happen?
         println("energy gained on crash")
       }
-//      println("final energy difference: "+(bead.getTotalEnergy-originalEnergy))
+      //      println("final energy difference: "+(bead.getTotalEnergy-originalEnergy))
     } else {
       bead.setVelocity(_velocity2D.magnitude)
 
@@ -216,7 +216,7 @@ class Grounded(bead: ForceBead) extends MotionStrategy(bead) {
   def multiBodyFriction(f: Double) = bead.surfaceFrictionStrategy.getTotalFriction(f)
 
   //see super notes regarding the includeWallForce
-  override def frictionForce(includeWallForce:Boolean) = {
+  override def frictionForce(includeWallForce: Boolean) = {
     if (surfaceFriction()) {
       //stepInTime samples at least one value less than 1E-12 on direction change to handle static friction
       if (velocity.abs < 1E-12) {
@@ -357,7 +357,7 @@ class Grounded(bead: ForceBead) extends MotionStrategy(bead) {
       stateAfterFixingThermal
     }
 
-    val stateAfterFixingPosition = if (abs(stateAfterFixingVelocity.totalEnergy - origEnergy) > 1E-8 && getAngle >1E-8) {//todo: angle is greater than 1E-8 instead of 0 for compatibility with workaround for forces and motion game tab, see ForcesAndMotionApplication
+    val stateAfterFixingPosition = if (abs(stateAfterFixingVelocity.totalEnergy - origEnergy) > 1E-8 && getAngle > 1E-8) { //todo: angle is greater than 1E-8 instead of 0 for compatibility with workaround for forces and motion game tab, see ForcesAndMotionApplication
       val x = (origEnergy + appliedEnergy - stateAfterFixingVelocity.thermalEnergy - stateAfterFixingVelocity.ke) / mass / gravity.abs / sin(getAngle)
       stateAfterFixingThermal.setPosition(x)
     } else {

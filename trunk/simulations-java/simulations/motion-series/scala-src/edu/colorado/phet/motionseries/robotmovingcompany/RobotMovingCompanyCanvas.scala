@@ -44,7 +44,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
   private var numClockTicksWithUserApplication = 0 //for determining if they need a wiggle me
 
   private var currentBeadNode: PNode = null //keep track of the current bead graphic for layering purposes
-  fbdNode.removeCursorHand()//User is not allowed to create forces by clicking in the FBD area
+  fbdNode.removeCursorHand() //User is not allowed to create forces by clicking in the FBD area
 
   gameModel.itemFinishedListeners += ((scalaRampObject: MotionSeriesObject, result: Result) => {
     val summaryScreen = new ItemFinishedDialog(gameModel, scalaRampObject, result, node => {
@@ -120,13 +120,13 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
 
   //TODO: the following code caused incorrect ramp color to be shown on startup
   //We are leaving out surface model functionality for now, but I'll leave this here in case we add it back later.
-  
-//  gameModel.surfaceModel.addListener(updateRampColor)
-//  def updateRampColor() = {
-//    rightSegmentNode.paintColor = gameModel.surfaceModel.surfaceType.color
-//    leftSegmentNode.paintColor = gameModel.surfaceModel.surfaceType.color
-//  }
-//  updateRampColor()
+
+  //  gameModel.surfaceModel.addListener(updateRampColor)
+  //  def updateRampColor() = {
+  //    rightSegmentNode.paintColor = gameModel.surfaceModel.surfaceType.color
+  //    leftSegmentNode.paintColor = gameModel.surfaceModel.surfaceType.color
+  //  }
+  //  updateRampColor()
 
   private var _currentBead: Bead = null
 

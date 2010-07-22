@@ -11,8 +11,8 @@ import edu.colorado.phet.scalacommon.util.Observable
 //MovingManBead extends Bead
 //ForceBead extends Bead
 
-object MovingManBead{
-  def apply(model:MotionSeriesModel,x: Double, width: Double, height: Double) = {
+object MovingManBead {
+  def apply(model: MotionSeriesModel, x: Double, width: Double, height: Double) = {
     new MovingManBead(new BeadState(x, 0, 10, 0, 0, 0.0, 0.0, 0.0), height, width, model.positionMapper, model.rampSegmentAccessor, model.rampChangeAdapter,
       model.surfaceFriction, model.wallsBounce, model.surfaceFrictionStrategy, model.walls, model.wallRange, model.thermalEnergyStrategy)
   }

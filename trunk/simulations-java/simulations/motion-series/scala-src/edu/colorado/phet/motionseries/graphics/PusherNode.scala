@@ -25,12 +25,12 @@ class PusherNode(transform: ModelViewTransform2D, targetBead: ForceBead, manBead
         textStr = "0".literal + textStr
       val im = MotionSeriesResources.getImage("pusher-leaner-png/pusher-leaning-2_00".literal + textStr + ".png".literal)
       val realIm = if (dx > 0) BufferedImageUtils.flipX(im) else im //todo: cache instead of flipping each time
-      setImages(realIm,realIm)
+      setImages(realIm, realIm)
       super.update()
     }
     else {
       val image = MotionSeriesResources.getImage("standing-man.png".literal)
-      setImages(image,image)
+      setImages(image, image)
       super.update()
     }
   }
@@ -47,7 +47,7 @@ class RobotPusherNode(transform: ModelViewTransform2D, targetBead: ForceBead, ma
 
       val im = MotionSeriesResources.getImage("robotmovingcompany/robot.gif".literal)
       val realIm = if (dx > 0) BufferedImageUtils.flipX(im) else im //todo: cache instead of flipping each time
-      setImages(realIm,realIm)
+      setImages(realIm, realIm)
     }
   }
   setPickable(false)

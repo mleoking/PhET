@@ -1,6 +1,6 @@
 package edu.colorado.phet.motionseries.sims.theramp.robotmovingcompany
 
-import edu.colorado.phet.common.piccolophet.nodes.{PhetPPath}
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 import edu.colorado.phet.common.phetcommon.view.PhetFrame
 import edu.colorado.phet.scalacommon.ScalaClock
 import edu.colorado.phet.motionseries.Predef._

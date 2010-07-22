@@ -50,7 +50,7 @@ class SingleSeriesChart(motionSeriesModel: MotionSeriesModel, _value: () => Doub
     addChild(new ShadowHTMLNode(title) {
       setColor(color)
       setFont(new PhetFont(16, true))
-      setOffset(0,20)//To help center it on the chart, so that we don't collide with controls from chart above, and so we don't have to shrink the charts.
+      setOffset(0, 20) //To help center it on the chart, so that we don't collide with controls from chart above, and so we don't have to shrink the charts.
     })
   }, new PNode(), temporalChart, new ChartZoomControlNode(temporalChart))
 
@@ -86,6 +86,7 @@ class ForcesAndMotionControlChart(motionSeriesModel: MotionSeriesModel) extends 
   }
 
   def additionalSerieses = frictionForceSeries :: wallForceSeries :: totalForceSeries :: Nil
+
   override def gridSize = 4
 }
 
@@ -130,13 +131,14 @@ abstract class MotionSeriesControlChart(motionSeriesModel: MotionSeriesModel) {
   def additionalSerieses: List[MSDataSeries]
 
   def gridSize = 5
+
   val controlPanel = new PNode {
     addChild(new PSwing(new SeriesSelectionControl("forces.parallel-title-with-units".translate, gridSize) {
       addToGrid(appliedForceSeries, createEditableLabel)
       for (s <- additionalSerieses) addToGrid(s)
     }))
     val goButton = new GoButton(motionSeriesModel, new MutableBoolean(true))
-    goButton.setOffset(getFullBounds.getMaxX - goButton.getFullBounds.getWidth*2, getFullBounds.getMaxY)
+    goButton.setOffset(getFullBounds.getMaxX - goButton.getFullBounds.getWidth * 2, getFullBounds.getMaxY)
     addChild(goButton)
   }
 

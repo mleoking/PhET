@@ -11,8 +11,6 @@ import edu.umd.cs.piccolo.PNode
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 import edu.colorado.phet.motionseries.model.RampSegment
 import edu.colorado.phet.common.piccolophet.event.CursorHandler
-import edu.colorado.phet.scalacommon.math.Vector2D
-import edu.umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
 import edu.colorado.phet.scalacommon.Predef._
 import java.lang.Math._
 import edu.colorado.phet.motionseries.Predef._
@@ -47,14 +45,14 @@ class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2
   def updateBaseColor() = {
     baseColor = if (rampSurfaceModel.frictionless) iceColor else woodColor
     line.setStrokePaint(if (rampSurfaceModel.frictionless) iceStrokeColor else woodStrokeColor)
-//    println("set base color: "+baseColor.getRed+", "+baseColor.getGreen+", "+baseColor.getBlue)
+    //    println("set base color: "+baseColor.getRed+", "+baseColor.getGreen+", "+baseColor.getBlue)
   }
   defineInvokeAndPass(rampSegment.addListenerByName) {
     line.setPathTo(mytransform.createTransformedShape(new BasicStroke(0.4f).createStrokedShape(rampSegment.toLine2D)))
   }
   rampSegment.wetnessListeners += (() => updateAll())
   rampSegment.addListener(() => updateAll())
-  rampSegment.heatListeners += (()=>updateAll())
+  rampSegment.heatListeners += (() => updateAll())
   updateAll()
 
   def updateColor() = {
@@ -68,7 +66,7 @@ class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2
     val r2 = new LinearFunction(0, 1, wetnessColor.getRed, hotColor.getRed).evaluate(heatBetweenZeroAndOne).toInt
     val g2 = new LinearFunction(0, 1, wetnessColor.getGreen, hotColor.getGreen).evaluate(heatBetweenZeroAndOne).toInt
     val b2 = new LinearFunction(0, 1, wetnessColor.getBlue, hotColor.getBlue).evaluate(heatBetweenZeroAndOne).toInt
-    paintColor = new Color(r2, g2, b2)  //TODO: how about making it so that this mutator isn't being called all the time?
+    paintColor = new Color(r2, g2, b2) //TODO: how about making it so that this mutator isn't being called all the time?
   }
 
   def updateDecorations() = {

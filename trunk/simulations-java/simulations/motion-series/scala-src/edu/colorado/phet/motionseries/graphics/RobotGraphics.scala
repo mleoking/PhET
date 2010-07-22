@@ -8,7 +8,7 @@ import java.awt.geom.{Point2D, Line2D, Rectangle2D}
 import java.awt.{BasicStroke, Color}
 import edu.colorado.phet.motionseries.sims.theramp.robotmovingcompany.RobotMovingCompanyGameModel
 import edu.colorado.phet.motionseries.MotionSeriesResources
-import edu.umd.cs.piccolo.nodes.{PImage}
+import edu.umd.cs.piccolo.nodes.PImage
 import edu.umd.cs.piccolo.PNode
 import edu.colorado.phet.scalacommon.Predef._
 import edu.umd.cs.piccolo.util.PBounds

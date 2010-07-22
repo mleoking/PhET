@@ -7,15 +7,14 @@ import edu.colorado.phet.common.phetcommon.view.util.{BufferedImageUtils, PhetFo
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel
 import edu.colorado.phet.common.piccolophet.event.CursorHandler
 import edu.colorado.phet.common.piccolophet.nodes.{HTMLNode, ToolTipNode, PhetPPath}
-import java.awt.{Color}
-import javax.swing.{Timer}
-import edu.colorado.phet.scalacommon.util.Observable
+import java.awt.Color
+import javax.swing.Timer
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.colorado.phet.motionseries.MotionSeriesResources
 import edu.umd.cs.piccolox.nodes.PClip
 import edu.umd.cs.piccolox.pswing.PSwing
 import edu.umd.cs.piccolo.PNode
-import edu.umd.cs.piccolo.nodes.{PImage}
+import edu.umd.cs.piccolo.nodes.PImage
 import edu.umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
 import edu.colorado.phet.scalacommon.Predef._
 import java.lang.Math._

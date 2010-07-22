@@ -1,15 +1,16 @@
 package edu.colorado.phet.motionseries.charts
 
 import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel
-import edu.colorado.phet.common.motion.model.DefaultTemporalVariable
 import edu.colorado.phet.motionseries.model.RecordedState
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.colorado.phet.common.motion.charts.TemporalDataSeries
 
-trait HasValue{
-  def setValue(v:Double):Unit = null
-  def doSetValue(v:Double):Unit = null
-  def addValue(v:Double,time:Double):Unit = null
+trait HasValue {
+  def setValue(v: Double): Unit = null
+
+  def doSetValue(v: Double): Unit = null
+
+  def addValue(v: Double, time: Double): Unit = null
 }
 
 /**
@@ -17,7 +18,7 @@ trait HasValue{
  */
 class MotionSeriesDefaultTemporalVariable(model: RecordAndPlaybackModel[RecordedState]) extends TemporalDataSeries with HasValue {
   model.addHistoryClearListener(new RecordAndPlaybackModel.HistoryClearListener {
-//    def historyCleared = keepRange(0.0, model.getTime)//TODO: implement this
+    //    def historyCleared = keepRange(0.0, model.getTime)//TODO: implement this
     def historyCleared = {}
   })
 
@@ -34,5 +35,6 @@ class MotionSeriesDefaultTemporalVariable(model: RecordAndPlaybackModel[Recorded
   }
 
   def inTimeRange(time: Double) = time <= MotionSeriesDefaults.MAX_RECORD_TIME
-  override def addValue(v:Double,time:Double) = {}
+
+  override def addValue(v: Double, time: Double) = {}
 }
