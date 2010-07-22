@@ -6,12 +6,14 @@ import java.awt.Frame;
 
 import javax.swing.JComponent;
 
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 import edu.colorado.phet.greenhouse.controlpanel.PhotonAbsorptionControlPanel;
+import edu.colorado.phet.greenhouse.developer.PhotonAbsorptionParamsDlg;
 import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel;
 import edu.colorado.phet.greenhouse.view.PhotonAbsorptionCanvas;
 
@@ -44,6 +46,10 @@ public class PhotonAbsorptionModule extends PiccoloModule {
     private PhetPCanvas canvas;
     private PhotonAbsorptionControlPanel controlPanel;
     private PiccoloClockControlPanel clockControlPanel;
+    
+    // Developer controls
+    private PhotonAbsorptionParamsDlg photonAbsorptionParamsDlg;
+    private boolean photonAbsorptionParamsDlgVisible;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -68,13 +74,19 @@ public class PhotonAbsorptionModule extends PiccoloModule {
         if ( hasHelp() ) {
             //XXX add help items
         }
+        
+        // Developer controls.
+        if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
+            photonAbsorptionParamsDlg = new PhotonAbsorptionParamsDlg();
+            photonAbsorptionParamsDlgVisible = false;
+        }
 
         // Set initial state
         reset();
     }
 
     //----------------------------------------------------------------------------
-    // Module overrides
+    // Methods
     //----------------------------------------------------------------------------
     
 	@Override
@@ -86,5 +98,28 @@ public class PhotonAbsorptionModule extends PiccoloModule {
     @Override
     public void reset() {
         model.reset();
+    }
+
+    @Override
+    public void activate() {
+        super.activate();
+        if ( photonAbsorptionParamsDlg != null && photonAbsorptionParamsDlgVisible ) {
+            photonAbsorptionParamsDlg.setVisible( true );
+        }
+    }
+    
+    @Override
+    public void deactivate() {
+        if ( photonAbsorptionParamsDlg != null ) {
+            photonAbsorptionParamsDlg.setVisible( false );
+        }
+        super.deactivate();
+    }
+
+    public void setPhotonAbsorptionParamsDlgVisible(boolean visible){
+        photonAbsorptionParamsDlgVisible = visible;
+        if ( isActive() && photonAbsorptionParamsDlg != null ) {
+            photonAbsorptionParamsDlg.setVisible( visible );
+        }
     }
 }
