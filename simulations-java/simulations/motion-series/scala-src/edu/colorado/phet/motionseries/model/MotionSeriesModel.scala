@@ -9,8 +9,8 @@ import edu.colorado.phet.scalacommon.util.Observable
 import java.lang.Math._
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.colorado.phet.motionseries.charts.GoButtonVisibilityModel
-import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel
 import edu.colorado.phet.common.motion.charts.ChartCursor
+import edu.colorado.phet.recordandplayback.model.{DataPoint, RecordAndPlaybackModel}
 
 case class RampState(angle: Double, heat: Double, wetness: Double)
 
@@ -28,6 +28,16 @@ class MotionSeriesModel(defaultBeadPosition: Double,
                         pausedOnReset: Boolean,
                         initialAngle: Double)
         extends RecordAndPlaybackModel[RecordedState](1000) with ObjectModel with RampSurfaceModel {
+  override def isRecordingFull = {
+    getTime > 20.0//TODO: factor out max time
+  }
+
+  //Don't let the cursor drag past max time
+  override def addRecordedPoint(point: DataPoint[RecordedState]) = {
+    if (point.getTime <= 20.0){//TODO: factor out max time
+      super.addRecordedPoint(point)
+    }
+  }
   private var _walls = true
   private var _frictionless = MotionSeriesDefaults.FRICTIONLESS_DEFAULT
   private var _bounce = MotionSeriesDefaults.BOUNCE_DEFAULT
