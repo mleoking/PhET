@@ -4,8 +4,10 @@ package edu.colorado.phet.greenhouse.model;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
 import java.util.EventListener;
+import java.util.Random;
 
 import javax.swing.event.EventListenerList;
 
@@ -61,10 +63,24 @@ public class PhotonAbsorptionModel {
     public enum PhotonTarget { SINGLE_CO2_MOLECULE, SINGLE_H2O_MOLECULE, SINGLE_CH4_MOLECULE, SINGLE_N2O_MOLECULE,
         SINGLE_N2_MOLECULE, SINGLE_O2_MOLECULE, CONFIGURABLE_ATMOSPHERE };
     
-    // Defaults.
+    // Default values for various parameters.
     private static final PhotonTarget DEFAULT_PHOTON_TARGET = PhotonTarget.SINGLE_CH4_MOLECULE;
     private static final double DEFAULT_EMITTED_PHOTON_WAVELENGTH = GreenhouseConfig.irWavelength;
     private static final double DEFAULT_PHOTON_EMISSION_PERIOD = 2000; // Milliseconds of sim time.
+    
+    // Initial and max values for the numbers of molecules in the configurable
+    // atmosphere.
+    private static final int INITIAL_NUM_CO2_MOLECULES = 5;
+    private static final int MAX_NUM_CO2_MOLECULES = 20;
+    private static final int INITIAL_NUM_N2_MOLECULES = 10;
+    private static final int MAX_NUM_N2_MOLECULES = 20;
+    private static final int INITIAL_NUM_O2_MOLECULES = 10;
+    private static final int MAX_NUM_O2_MOLECULES = 20;
+    private static final int INITIAL_NUM_H2O_MOLECULES = 10;
+    private static final int MAX_NUM_H2O_MOLECULES = 20;
+    
+    // Random number generator.
+    private static final Random RAND = new Random();
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -80,6 +96,10 @@ public class PhotonAbsorptionModel {
     private boolean periodicPhotonEmissionEnabled;
     private double photonEmissionCountdownTimer;
     private double photonEmissionPeriod = DEFAULT_PHOTON_EMISSION_PERIOD;
+    
+    // Collection that contains the molecules that comprise the configurable
+    // atmosphere.
+    private ArrayList<Molecule> configurableAtmosphereMolecules = new ArrayList<Molecule>();
 
     // Object that listens to molecules to see when they emit photons.
     private Molecule.Adapter moleculePhotonEmissionListener = new Molecule.Adapter(){
@@ -132,6 +152,8 @@ public class PhotonAbsorptionModel {
         setPhotonTarget( DEFAULT_PHOTON_TARGET );
         setEmittedPhotonWavelength( DEFAULT_EMITTED_PHOTON_WAVELENGTH );
         setPeriodicPhotonEmissionEnabled( false );
+        
+        resetConfigurableAtmosphere();
     }
 
     public void stepInTime(double dt){
@@ -199,7 +221,6 @@ public class PhotonAbsorptionModel {
     
     public void setPhotonTarget( PhotonTarget photonTarget ){
         if (this.photonTarget != photonTarget){
-            this.photonTarget = photonTarget;
             
             // Remove the old photon target(s).
             ArrayList<Molecule> copyOfMolecules = new ArrayList<Molecule>( molecules );
@@ -235,6 +256,10 @@ public class PhotonAbsorptionModel {
                 newMolecule = new O2(SINGLE_MOLECULE_LOCATION);
                 molecules.add( newMolecule );
                 break;
+            case CONFIGURABLE_ATMOSPHERE:
+                // Add references for all the molecules in the configurable
+                // atmosphere to the "active molecules" list.
+                molecules.addAll( configurableAtmosphereMolecules );
             default:
                 System.err.println(getClass().getName() + " - Error: Unhandled molecule type.");
                 break;
@@ -316,6 +341,68 @@ public class PhotonAbsorptionModel {
     
     public void removeListener(Listener listener){
         listeners.remove(Listener.class, listener);
+    }
+    
+    // Constants used when trying to find an open location in the atmosphere.
+    private static final double MIN_DIST_FROM_WALL = 100; // In picometers.
+    private static final double MIN_DIST_FROM_OTHER_MOLECULES = 100; // In picometers.
+    private static final double MOLECULE_POS_MIN_X = CONTAINMENT_AREA_RECT.getMinX() + MIN_DIST_FROM_WALL;
+    private static final double MOLECULE_POS_RANGE_X = CONTAINMENT_AREA_WIDTH - 2 * MIN_DIST_FROM_WALL;
+    private static final double MOLECULE_POS_MIN_Y = CONTAINMENT_AREA_RECT.getMinY() + MIN_DIST_FROM_WALL;
+    private static final double MOLECULE_POS_RANGE_Y = CONTAINMENT_AREA_HEIGHT - 2 * MIN_DIST_FROM_WALL;
+    
+    /**
+     * Find an open location for a molecule.  This is assumed to be used only
+     * when multiple molecules are being shown.
+     * 
+     * @return - A Point2D that is relatively free of other molecules.
+     */
+    private Point2D findOpenLocationInAtmosphere(){
+        
+        boolean openPosFound = false;
+        Point2D openPosition = null;
+        
+        // Try to find an open position by random means.
+        for (int i = 0; i < 100; i++){
+            double proposedXPos = MOLECULE_POS_MIN_X + RAND.nextDouble() * MOLECULE_POS_RANGE_X;
+            double proposedYPos = MOLECULE_POS_MIN_Y + RAND.nextDouble() * MOLECULE_POS_RANGE_Y;
+            
+            // TODO: Go with anything for now, finish later.
+            openPosition = new Point2D.Double(proposedXPos, proposedYPos);
+        }
+        
+        return openPosition;
+    }
+    
+    /**
+     * Reset the configurable atmosphere by adding the initial levels of all
+     * gasses.
+     * 
+     * WARNING: This method is intended to be called during initialization of
+     * the model and during resets.  It should NOT be called when the
+     * configurable atmosphere is the selected photon target, or
+     * inconsistencies between the model and view could result.
+     */
+    private void resetConfigurableAtmosphere(){
+        
+        assert photonTarget != PhotonTarget.CONFIGURABLE_ATMOSPHERE; // See method header comment if this assertion is hit.
+        
+        // Remove all existing molecules.
+        configurableAtmosphereMolecules.clear();
+    
+        // Add the molecules.
+        for (int i = 0; i < INITIAL_NUM_N2_MOLECULES; i++){
+            configurableAtmosphereMolecules.add( new N2(findOpenLocationInAtmosphere()) );
+        }
+        for (int i = 0; i < INITIAL_NUM_N2_MOLECULES; i++){
+            configurableAtmosphereMolecules.add( new O2(findOpenLocationInAtmosphere()) );
+        }
+        for (int i = 0; i < INITIAL_NUM_N2_MOLECULES; i++){
+            configurableAtmosphereMolecules.add( new H2O(findOpenLocationInAtmosphere()) );
+        }
+        for (int i = 0; i < INITIAL_NUM_N2_MOLECULES; i++){
+            configurableAtmosphereMolecules.add( new CO2(findOpenLocationInAtmosphere()) );
+        }
     }
     
     private void notifyPhotonAdded(Photon photon){
