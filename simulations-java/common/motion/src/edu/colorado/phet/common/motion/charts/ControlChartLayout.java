@@ -64,8 +64,13 @@ public interface ControlChartLayout {
                     return chart.getDomainLabelHeight();
                 }
             });
-            double chartRangeLabelWidth = 20;//TODO: don't hard code this.
-            double chartWidth = width - maxControlPanelWidth - maxSliderWidth - maxZoomControlWidth - maxSliderWidth / 2.0 - chartRangeLabelWidth;
+            double maxRangeAxisLabelWidth = getMax( charts, new DoubleGetter() {//TODO: need to observe when this changes and update layout
+                public Double getValue( MinimizableControlChart chart ) {
+                    return chart.getMaxRangeAxisLabelWidth();
+                }
+            } );
+//            double chartRangeLabelWidth = 20;//TODO: don't hard code this.
+            double chartWidth = width - maxControlPanelWidth - maxSliderWidth - maxZoomControlWidth - maxSliderWidth / 2.0 - maxRangeAxisLabelWidth;
 
             //Figure out how many charts are visible and how much space the minimized charts will use.
             int numVisibleCharts = 0;
@@ -81,7 +86,7 @@ public interface ControlChartLayout {
             //Determine the X coordinates of the different components
             final double controlPanelX = 0.0;
             final double sliderX = maxControlPanelWidth + controlPanelX + maxSliderWidth / 2.0;
-            final double chartX = sliderX + maxSliderWidth + chartRangeLabelWidth;
+            final double chartX = sliderX + maxSliderWidth + maxRangeAxisLabelWidth-10;//This value accounts for the fact that the range axis labels are not exactly right justified against the chart//TODO: don't hard code this
             final double zoomControlX = chartX + chartWidth;
 
             //Compute the vertical location and spacing

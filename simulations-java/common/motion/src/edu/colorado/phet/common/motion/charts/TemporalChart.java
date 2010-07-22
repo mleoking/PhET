@@ -146,7 +146,7 @@ public class TemporalChart extends PNode {
         for (int i = 0; i < numRangeMarks + 1; i++) {
             final double y = rangeFunction.evaluate(i);
             final RangeTickMark tickMark = new RangeTickMark(y);
-            tickMarksAndGridLines.addChild(tickMark);
+            tickMarksAndGridLines.addRangeTickMark(tickMark);
 
             RangeGridLine gridLine = new RangeGridLine(y, this);
             tickMarksAndGridLines.addChild(gridLine);
@@ -219,6 +219,10 @@ public class TemporalChart extends PNode {
 
     public void reset() {
         dataModelBounds.reset();
+    }
+
+    public double getMaxRangeAxisLabelWidth() {
+        return tickMarksAndGridLines.getMaxRangeAxisLabelWidth();  //To change body of created methods use File | Settings | File Templates.
     }
 
     public static class DomainTickMark extends PNode {
@@ -402,7 +406,12 @@ public class TemporalChart extends PNode {
 
     private class TickMarkAndGridLineNode extends PNode {
         private PNode domainTickMarks;
+        private PNode rangeTickMarks = new PNode();
         private boolean domainTickMarksVisible;
+
+        private TickMarkAndGridLineNode() {
+            addChild(rangeTickMarks);
+        }
 
         public void setDomainTickMarks(PNode domainTickMarks) {
             if (domainTickMarks != null) {
@@ -413,11 +422,31 @@ public class TemporalChart extends PNode {
             this.domainTickMarks.setVisible(domainTickMarksVisible);
         }
 
+        public void removeAllChildren() {
+            super.removeAllChildren();    //To change body of overridden methods use File | Settings | File Templates.
+            rangeTickMarks.removeAllChildren();
+            addChild(rangeTickMarks);
+        }
+
         public void setDomainTickMarksVisible(boolean b) {
             this.domainTickMarksVisible = b;
             if (domainTickMarks != null) {
                 domainTickMarks.setVisible(b);
             }
+        }
+
+        public void addRangeTickMark(RangeTickMark tickMark) {
+            rangeTickMarks.addChild(tickMark);
+        }
+
+        public double getMaxRangeAxisLabelWidth() {
+            double max = 0;
+            for (int i = 0; i < rangeTickMarks.getChildrenCount(); i++) {
+                if (rangeTickMarks.getFullBounds().getWidth() > max) {
+                    max = rangeTickMarks.getFullBounds().getWidth();
+                }
+            }
+            return max;
         }
     }
 }
