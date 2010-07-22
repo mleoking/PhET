@@ -11,6 +11,10 @@ import edu.umd.cs.piccolox.pswing.PSwing
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.colorado.phet.scalacommon.util.Observable
 import edu.colorado.phet.common.piccolophet.PhetPCanvas
+import java.lang.Math.PI
+import java.beans.{PropertyChangeEvent, PropertyChangeListener}
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont
+import edu.colorado.phet.common.piccolophet.nodes.{ShadowHTMLNode, HTMLNode}
 
 /**
  * @author Sam Reid
@@ -102,14 +106,35 @@ class RampForceControlChart(motionSeriesModel: MotionSeriesModel) {
     }))
   }
 
-  val chart = new ControlChart(controlPanel, createSliderNode(new PText("hello"), Color.green, temporalChart), temporalChart, new ChartZoomControlNode(temporalChart))
+  val chart = new ControlChart(controlPanel, createSliderNode(temporalChart), temporalChart, new ChartZoomControlNode(temporalChart))
 
-  def createSliderNode(thumb: PNode, highlightColor: Color, chart: TemporalChart) =
-    new TemporalChartSliderNode(chart, Color.green) { //TODO: add vertical label to the slider node
+  def createSliderNode(chart: TemporalChart) =
+    new TemporalChartSliderNode(chart, appliedForceSeries.color) {
+      val outer = this
       addListener(new MotionSliderNode.Adapter() {
         override def sliderDragged(value: java.lang.Double) = {parallelAppliedForceVariable.value = value.doubleValue}
       })
       parallelAppliedForceVariable.addListener(() => {setValue(parallelAppliedForceVariable.value)})
+      val label = new ShadowHTMLNode("controls.applied-force-x".translate){
+        setFont(new PhetFont(16,true))
+        setColor(appliedForceSeries.color)
+        setShadowOffset(-1,1)
+        rotate(-PI/2)
+      }
+      val rotated = new PNode{
+        addChild(label)
+        translate(-getFullBounds.getX,-getFullBounds.getY)
+      }
+      val parent = new PNode{
+        addChild(rotated)
+        setOffset(-rotated.getFullBounds.getWidth,outer.getTrackNode.getFullBounds.getHeight/2-rotated.getFullBounds.getHeight/2)
+      }
+      outer.addPropertyChangeListener(PNode.PROPERTY_FULL_BOUNDS,new PropertyChangeListener(){
+        def propertyChange(evt: PropertyChangeEvent) = {
+          parent.setOffset(-getSliderThumb.getFullBounds.getWidth/2-parent.getFullBounds.getWidth,outer.getTrackNode.getFullBounds.getHeight/2-rotated.getFullBounds.getHeight/2)
+        }
+      })
+      addChild(parent)
     }
 }
 
