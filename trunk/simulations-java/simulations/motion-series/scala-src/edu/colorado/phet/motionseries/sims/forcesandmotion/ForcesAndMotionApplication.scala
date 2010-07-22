@@ -78,10 +78,10 @@ class GraphingModule(frame: PhetFrame)
 }
 
 class ForcesAndMotionApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
-//  addModule(new IntroModule(getPhetFrame))
-//  addModule(new FrictionModule(getPhetFrame))
+  addModule(new IntroModule(getPhetFrame))
+  addModule(new FrictionModule(getPhetFrame))
   addModule(new GraphingModule(getPhetFrame))
-//  addModule(new RobotMovingCompanyModule(getPhetFrame, 1E-8, MotionSeriesDefaults.forcesAndMotionRobotForce, MotionSeriesDefaults.objectsForForce1DGame)) //todo: this 1E-8 workaround seems necessary to avoid problems, we should find out why
+  addModule(new RobotMovingCompanyModule(getPhetFrame, 1E-8, MotionSeriesDefaults.forcesAndMotionRobotForce, MotionSeriesDefaults.objectsForForce1DGame)) //todo: this 1E-8 workaround seems necessary to avoid problems, we should find out why
 }
 
 object ForcesAndMotionApplication{
