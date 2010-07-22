@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.greenhouse.developer;
 
+import java.awt.Frame;
 import java.awt.GridLayout;
 
 import javax.swing.JFrame;
@@ -26,7 +27,8 @@ public class PhotonAbsorptionParamsDlg extends PaintImmediateDialog {
     /**
      * Constructor.
      */
-    public PhotonAbsorptionParamsDlg (final PhotonAbsorptionModel model){
+    public PhotonAbsorptionParamsDlg (Frame frame, final PhotonAbsorptionModel model){
+        super(frame);
 
         setTitle("Params");
         setLayout(new GridLayout( 2, 2));
@@ -58,9 +60,6 @@ public class PhotonAbsorptionParamsDlg extends PaintImmediateDialog {
         
         // Center this in the parent frame.
         setLocationRelativeTo( null );
-        
-        // Should always be on top when visible.
-        setAlwaysOnTop( true );
         
         // Size the dialog to just fit all the controls.
         pack();

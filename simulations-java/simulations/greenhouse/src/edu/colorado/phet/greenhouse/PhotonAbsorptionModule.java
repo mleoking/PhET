@@ -77,7 +77,7 @@ public class PhotonAbsorptionModule extends PiccoloModule {
         
         // Developer controls.
         if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
-            photonAbsorptionParamsDlg = new PhotonAbsorptionParamsDlg( model );
+            photonAbsorptionParamsDlg = new PhotonAbsorptionParamsDlg( parentFrame, model );
             photonAbsorptionParamsDlgVisible = false;
         }
 
