@@ -312,7 +312,7 @@ public class FlashSimulationProject extends PhetProject {
         return new File( getAntOutputDir(), "jardata" );
     }
 
-    private boolean buildSWF() throws Exception {
+    protected boolean buildSWF() throws Exception {
         //copy software agreement HTM to AS for compilation into SWF
         copySoftwareAgreement();
 
@@ -485,7 +485,7 @@ public class FlashSimulationProject extends PhetProject {
         return new File( getDeployDir(), getName() + "_" + LocaleUtils.localeToString( locale ) + ".html" );
     }
 
-    private File getSWFFile() {
+    public File getSWFFile() {
         return new File( getProjectDir(), "deploy/" + getName() + ".swf" );
     }
 
