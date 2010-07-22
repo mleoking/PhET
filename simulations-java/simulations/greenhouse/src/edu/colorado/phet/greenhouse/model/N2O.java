@@ -25,7 +25,7 @@ public class N2O extends Molecule {
     // Deflection amounts used for the oscillation of the CO2 atoms.  These
     // are calculated such that the actual center of gravity should remain
     // pretty much constant.
-    private static final double MAX_CENTER_NITROGEN_DEFLECTION = 60;
+    private static final double MAX_CENTER_NITROGEN_DEFLECTION = 50;
     private static final double MAX_SIDE_NITROGEN_DEFLECTION = MAX_CENTER_NITROGEN_DEFLECTION / 2;
     private static final double MAX_OXYGEN_DEFLECTION = MAX_CENTER_NITROGEN_DEFLECTION / 2;
     

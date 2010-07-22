@@ -24,7 +24,7 @@ public class CO2 extends Molecule {
     // Deflection amounts used for the oscillation of the CO2 atoms.  These
     // are calculated such that the actual center of gravity should remain
     // constant.
-    private static final double CARBON_MAX_DEFLECTION = 60;
+    private static final double CARBON_MAX_DEFLECTION = 50;
     private static final double OXYGEN_MAX_DEFLECTION =
         new CarbonAtom().getMass() * CARBON_MAX_DEFLECTION / (2 * new OxygenAtom().getMass());
     
