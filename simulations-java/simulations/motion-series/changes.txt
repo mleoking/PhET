@@ -1,3 +1,4 @@
+Removed gravity force from forces and motion chart
 Fixed colors for X,V,A charts
 Fixed: Don't let the cursor drag past max time
 Added vertical label for chart slider node
