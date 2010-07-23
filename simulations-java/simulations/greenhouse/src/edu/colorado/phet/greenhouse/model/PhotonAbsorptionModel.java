@@ -338,6 +338,22 @@ public class PhotonAbsorptionModel {
     public double getEmittedPhotonWavelength(){
         return photonWavelength;
     }
+
+    /**
+     * Get the number of the specified molecule in the configurable atmosphere.
+     * 
+     * @param moleculeID
+     * @return
+     */
+    public int getConfigurableAtmosphereGasLevel(MoleculeID moleculeID){
+        int moleculeCount = 0;
+        for (Molecule molecule : configurableAtmosphereMolecules){
+            if (molecule.getMoleculeID() == moleculeID){
+                moleculeCount++;
+            }
+        }
+        return moleculeCount;
+    }
     
     public void setConfigurableAtmosphereGasLevel(MoleculeID moleculeID, int targetQuantity){
 
