@@ -10,6 +10,7 @@ import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
+import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -460,10 +461,6 @@ public class BuildScript {
             String title = project.getSimulations()[i].getTitle();
             String launchFile = project.getSimulationNames()[i] + "_en." + project.getLaunchFileSuffix();
             String prodLaunchFile = project.getSimulationNames()[i] + "_en-production." + project.getLaunchFileSuffix();
-            if ( project instanceof FlexSimulationProject ) { //TODO: factor into PhetProject hierarchy
-                launchFile = project.getSimulationNames()[i] + "." + project.getLaunchFileSuffix();
-                prodLaunchFile = launchFile; //TODO: why is this different for Flex, and is this addition for #2142 correct?
-            }
 
             /* 
             * See #2142, dev servers can launch with and without developer features, so create links for both.
@@ -474,7 +471,9 @@ public class BuildScript {
                 // <li>@title@ : <a href="@prodLaunchFile@">production</a> : <a href="@devLaunchFile@">dev</a></li>
                 s += "<li>";
                 s += title;
-                s += " : <a href=\"" + prodLaunchFile + "\">production</a>";
+                if (!(project instanceof FlashSimulationProject)){  //TODO: add support for the link to the prod/dev versions of flash/flex sims 
+                    s += " : <a href=\"" + prodLaunchFile + "\">production</a>";
+                }
                 s += " : <a href=\"" + launchFile + "\">dev</a>";
                 s += "</li>";
             }
