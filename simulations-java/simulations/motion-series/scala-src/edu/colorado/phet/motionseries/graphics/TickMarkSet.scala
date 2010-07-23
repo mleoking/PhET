@@ -10,18 +10,34 @@ import java.text.DecimalFormat
 import edu.umd.cs.piccolo.nodes.PText
 import edu.umd.cs.piccolo.PNode
 import edu.colorado.phet.motionseries.MotionSeriesResources._
+import java.beans.{PropertyChangeEvent, PropertyChangeListener}
 
 class TickMarkSet(transform: ModelViewTransform2D, positionMapper: Double => Point2D, addListener: (() => Unit) => Unit) extends PNode {
-  for (x <- -10 to 10 by 2) {
+  val tickLabels = for (x <- -10 to 10 by 2 if x != 0) yield {
     addTickLabel(x)
   }
+  val zeroLabel = addTickLabel(0)
+  val metersReadout = new PText("units.meters".translate) {//todo il8n
+    setFont(new PhetFont(13,true))
+  }
+  addChild(metersReadout)
+
+  val changeListener= new PropertyChangeListener() {
+    def propertyChange(evt: PropertyChangeEvent) = {
+      metersReadout.setOffset(zeroLabel.getFullBounds.getMaxX + 2, zeroLabel.getFullBounds.getMaxY - metersReadout.getFullBounds.getHeight )
+    }
+  }
+  zeroLabel.addPropertyChangeListener(PNode.PROPERTY_FULL_BOUNDS,changeListener)
+  changeListener.propertyChange(null)
+
   setPickable(false)
   setChildrenPickable(false)
   def addTickLabel(x: Double) = {
     val path = new PhetPPath(Color.black)
-    val label = new PText(new DecimalFormat("0".literal).format(x))
+    val label = new PText(new DecimalFormat("0".literal).format(x)){
+          setFont(new PhetFont(18, true))
+    }
 
-    label.setFont(new PhetFont(18, true))
     addChild(path)
     addChild(label)
     addListener(update)
@@ -31,5 +47,6 @@ class TickMarkSet(transform: ModelViewTransform2D, positionMapper: Double => Poi
       label.setOffset(path.getFullBounds.getCenterX - label.getFullBounds.width / 2, path.getFullBounds.getMaxY)
     }
     update()
+    label
   }
 }
