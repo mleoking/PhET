@@ -437,6 +437,7 @@ public class PhotonAbsorptionModel {
                 Molecule moleculeToAdd = Molecule.createMolecule( moleculeID );
                 moleculeToAdd.setCenterOfGravityPos( findOpenLocationInAtmosphere() );
                 configurableAtmosphereMolecules.add( moleculeToAdd );
+                moleculeToAdd.addListener( moleculePhotonEmissionListener );
             }
         }
         else if (numMoleculesToAdd < 0){
