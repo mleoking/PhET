@@ -198,8 +198,16 @@ abstract class MotionSeriesCanvasDecorator(model: MotionSeriesModel,
 
   if (showAppliedForceSlider) {
     val appliedForceSliderNode = new AppliedForceSliderNode(model.bead, () => model.setPaused(false))
-    appliedForceSliderNode.setOffset(stage.getWidth / 2 - appliedForceSliderNode.getFullBounds.getWidth / 2, transform.modelToView(0, -1).getY)
     addBehindVectorNodes(appliedForceSliderNode)
+
+    var relayout: ComponentAdapter = new ComponentAdapter {
+      override def componentResized(e: ComponentEvent) = {
+        appliedForceSliderNode.setOffset(stage.getWidth / 2 - appliedForceSliderNode.getFullBounds.getWidth / 2, transform.modelToView(0, -1).getY+10)
+      }
+    }
+    relayout.componentResized(null)
+
+    addComponentListener(relayout)
   }
 
   if (showObjectSelectionNode) {
