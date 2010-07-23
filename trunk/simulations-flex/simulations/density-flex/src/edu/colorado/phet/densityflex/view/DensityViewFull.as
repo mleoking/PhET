@@ -4,6 +4,8 @@ import edu.colorado.phet.densityflex.model.DensityObject;
 
 import flash.geom.ColorTransform;
 
+import mx.events.SliderEvent;
+
 public class DensityViewFull extends DensityView {
     public function DensityViewFull() {
     }
