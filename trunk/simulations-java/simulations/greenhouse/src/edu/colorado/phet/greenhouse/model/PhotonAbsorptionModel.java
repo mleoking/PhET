@@ -70,7 +70,7 @@ public class PhotonAbsorptionModel {
     // Default values for various parameters.
     private static final PhotonTarget DEFAULT_PHOTON_TARGET = PhotonTarget.SINGLE_CH4_MOLECULE;
     private static final double DEFAULT_EMITTED_PHOTON_WAVELENGTH = GreenhouseConfig.irWavelength;
-    private static final double DEFAULT_PHOTON_EMISSION_PERIOD = 2000; // Milliseconds of sim time.
+    private static final double DEFAULT_PHOTON_EMISSION_PERIOD = 1500; // Milliseconds of sim time.
     
     // Initial and max values for the numbers of molecules in the configurable
     // atmosphere.
