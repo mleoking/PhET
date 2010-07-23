@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+
 /**
  * Class that represents a molecule in the model.  This, by its nature, is
  * essentially a composition of other objects, generally atoms and atomic
@@ -49,6 +51,10 @@ public abstract class Molecule {
     // This is basically the location of the molecule, but it is specified as
     // the center of gravity since a molecule is a composite object.
     private Point2D centerOfGravity = new Point2D.Double();
+    
+    // Velocity and acceleration for this molecule.
+    private final Vector2D velocity = new Vector2D.Double(5, 5);
+    private final Vector2D acceleration = new Vector2D.Double();
 
     // Variable that tracks whether or not a photon has been absorbed and has
     // not yet been re-emitted.
@@ -164,6 +170,10 @@ public abstract class Molecule {
         if (absorbtionHysteresisCountdownTime > 0){
             absorbtionHysteresisCountdownTime -= dt;
         }
+        
+        // Do any movement that is required.
+        setCenterOfGravityPos( velocity.getDestination( centerOfGravity ) );
+        velocity.add( acceleration.scale( dt ) );
     }
     
     /**
