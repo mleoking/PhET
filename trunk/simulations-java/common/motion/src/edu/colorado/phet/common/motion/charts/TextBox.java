@@ -20,7 +20,10 @@ public class TextBox extends PNode {
     protected final PSwing textField;
 
     public TextBox(Font font) {
-        swingTextField = new JTextField(4);
+        this(font,4);
+    }
+    public TextBox(Font font,int numColumns) {
+        swingTextField = new JTextField(numColumns);
         swingTextField.setFont( font );
         swingTextField.setHorizontalAlignment(JTextField.RIGHT);
         textField = new PSwing(swingTextField);

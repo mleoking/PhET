@@ -1,3 +1,4 @@
+Switched to use applied force play area slider from moving man sim
 Start the object so the vectors do not overlap the slider, maybe at -6
 Fixed: Handle cleared during playback so that recording halfway through a playback works properly
 Fixed: Reset all should clear the charts

@@ -1,6 +1,7 @@
 package edu.colorado.phet.movingman.view;
 
 import edu.colorado.phet.common.motion.charts.MotionSliderNode;
+import edu.colorado.phet.common.motion.charts.PlayAreaSliderControl;
 import edu.colorado.phet.common.phetcommon.model.MutableBoolean;
 import edu.colorado.phet.common.motion.charts.TextBox;
 import edu.colorado.phet.movingman.MovingManColorScheme;
