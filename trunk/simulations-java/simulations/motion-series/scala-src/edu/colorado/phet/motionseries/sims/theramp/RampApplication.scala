@@ -55,7 +55,7 @@ class IntroRampModule(frame: PhetFrame) extends BasicRampModule(frame, "module.i
   coordinateSystemEnabled = false,
   objectComboBoxEnabled = false,
   showAppliedForceSlider = true,
-  initialBeadPosition = -3.0,
+  initialBeadPosition = -6.0,
   pausedOnReset = false,
   initialAngle = MotionSeriesDefaults.defaultRampAngle,
   rampLayoutArea = MotionSeriesDefaults.rampIntroViewport,
@@ -79,7 +79,7 @@ class GraphingModule(frame: PhetFrame,
                      showEnergyGraph: Boolean,
                      rampLayoutArea: Rectangle2D,
                      stageContainerArea: StageContainerArea)
-        extends BasicRampModule(frame, name, false, true, false, -6, true, MotionSeriesDefaults.defaultRampAngle, rampLayoutArea, stageContainerArea, true) {
+        extends BasicRampModule(frame, name, false, true, false, -2, true, MotionSeriesDefaults.defaultRampAngle, rampLayoutArea, stageContainerArea, true) {
   coordinateSystemModel.adjustable = false //user is not allowed to reorient the coordinate frames in this tab
 }
 
