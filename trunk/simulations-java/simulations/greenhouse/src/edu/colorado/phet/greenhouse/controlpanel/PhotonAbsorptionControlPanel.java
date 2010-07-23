@@ -12,6 +12,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -46,7 +47,6 @@ import edu.colorado.phet.greenhouse.model.O2;
 import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel;
 import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel.PhotonTarget;
 import edu.colorado.phet.greenhouse.view.MoleculeNode;
-import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 
 /**
  * Control panel for the Photon Absorption tab of this application.
@@ -76,7 +76,7 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
     // Instance Data
     // ------------------------------------------------------------------------
     
-    PhotonAbsorptionModel photonAbsorptionModel;
+    private PhotonAbsorptionModel model;
 
     private RadioButtonWithIconPanel co2Selector;
     private RadioButtonWithIconPanel h2oSelector;
@@ -86,15 +86,15 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
     private RadioButtonWithIconPanel o2Selector;
     private RadioButtonWithIconPanel atmospherSelector;
     
-    private LinearValueControl n2LevelInAtmosphere;
-
+    private HashMap<MoleculeID, LinearValueControl> moleculeToSliderMap = new HashMap<MoleculeID, LinearValueControl>();
+    
     // ------------------------------------------------------------------------
     // Constructor(s)
     // ------------------------------------------------------------------------
 
     public PhotonAbsorptionControlPanel (PiccoloModule module, final PhotonAbsorptionModel model){
 
-        this.photonAbsorptionModel = model;
+        this.model = model;
         
         // Set the control panel's minimum width.
         int minimumWidth = GreenhouseResources.getInt( "int.minControlPanelWidth", 215 );
@@ -154,24 +154,25 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
         atmospherePanel.add(atmospherSelector);
         
         // TODO: i18n
-        n2LevelInAtmosphere = new LinearValueControl( 0, model.getConfigurableAtmosphereMaxLevel( MoleculeID.N2 ),
-                "N2 Level", "###", "Molecules");
-        n2LevelInAtmosphere.setFont( LABEL_FONT );
-        n2LevelInAtmosphere.setUpDownArrowDelta( 1 );
-        n2LevelInAtmosphere.setTextFieldEditable( true );
-        n2LevelInAtmosphere.setMajorTicksVisible( false );
-        n2LevelInAtmosphere.setBorder( BorderFactory.createEtchedBorder() );
-        n2LevelInAtmosphere.setValue( model.getConfigurableAtmosphereGasLevel( MoleculeID.N2 ) );
-        n2LevelInAtmosphere.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                int currentLevel = model.getConfigurableAtmosphereGasLevel( MoleculeID.N2 );
-                int sliderValue = (int)Math.round( n2LevelInAtmosphere.getValue() );
-                if ( sliderValue != currentLevel ){
-                    model.setConfigurableAtmosphereGasLevel( MoleculeID.N2, sliderValue ); 
-                }
-            }
-        });
-        atmospherePanel.add(  n2LevelInAtmosphere );
+        addSliderForMolecule( "N2", atmospherePanel, MoleculeID.N2 );
+//        n2LevelInAtmosphere = new LinearValueControl( 0, model.getConfigurableAtmosphereMaxLevel( MoleculeID.N2 ),
+//                "N2 Level", "###", "Molecules");
+//        n2LevelInAtmosphere.setFont( LABEL_FONT );
+//        n2LevelInAtmosphere.setUpDownArrowDelta( 1 );
+//        n2LevelInAtmosphere.setTextFieldEditable( true );
+//        n2LevelInAtmosphere.setMajorTicksVisible( false );
+//        n2LevelInAtmosphere.setBorder( BorderFactory.createEtchedBorder() );
+//        n2LevelInAtmosphere.setValue( model.getConfigurableAtmosphereGasLevel( MoleculeID.N2 ) );
+//        n2LevelInAtmosphere.addChangeListener( new ChangeListener() {
+//            public void stateChanged( ChangeEvent e ) {
+//                int currentLevel = model.getConfigurableAtmosphereGasLevel( MoleculeID.N2 );
+//                int sliderValue = (int)Math.round( n2LevelInAtmosphere.getValue() );
+//                if ( sliderValue != currentLevel ){
+//                    model.setConfigurableAtmosphereGasLevel( MoleculeID.N2, sliderValue ); 
+//                }
+//            }
+//        });
+//        atmospherePanel.add(  n2LevelInAtmosphere );
 
         addControlFullWidth(atmospherePanel);
         
@@ -198,7 +199,40 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
     // ------------------------------------------------------------------------
     
     private void updateSliderPositions(){
-        n2LevelInAtmosphere.setValue( photonAbsorptionModel.getConfigurableAtmosphereGasLevel( MoleculeID.N2 ) );
+        for ( MoleculeID moleculeID : moleculeToSliderMap.keySet() ){
+            moleculeToSliderMap.get( moleculeID ).setValue( model.getConfigurableAtmosphereGasLevel( moleculeID ) );
+        }
+    }
+    
+    /**
+     * Create and add the slider that controls the level of the specified
+     * molecule in the configurable atmosphere.  This is primarily a
+     * convenience method that prevents duplication of code.
+     * 
+     * @param slider
+     * @param moleculeID
+     */
+    private void addSliderForMolecule( String labelText, JPanel panel, final MoleculeID moleculeID){
+        
+        final LinearValueControl slider = new LinearValueControl( 0,
+                model.getConfigurableAtmosphereMaxLevel( moleculeID ), labelText, "###", "Molecules");
+        slider.setFont( LABEL_FONT );
+        slider.setUpDownArrowDelta( 1 );
+        slider.setTextFieldEditable( true );
+        slider.setMajorTicksVisible( false );
+        slider.setBorder( BorderFactory.createEtchedBorder() );
+        slider.setValue( model.getConfigurableAtmosphereGasLevel( moleculeID ) );
+        slider.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                int currentLevel = model.getConfigurableAtmosphereGasLevel( moleculeID );
+                int sliderValue = (int)Math.round( slider.getValue() );
+                if ( sliderValue != currentLevel ){
+                    model.setConfigurableAtmosphereGasLevel( moleculeID, sliderValue ); 
+                }
+            }
+        });
+        moleculeToSliderMap.put(moleculeID, slider);
+        panel.add( slider );
     }
     
     /**
@@ -219,14 +253,14 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
         panel.getButton().addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if (panel.getButton().isSelected()){
-                    photonAbsorptionModel.setPhotonTarget( photonTarget );
+                    model.setPhotonTarget( photonTarget );
                 }
             }
         });
         
         // Listen to the model so that the button state can be updated when
         // the model setting changes.
-        photonAbsorptionModel.addListener( new PhotonAbsorptionModel.Adapter(){
+        model.addListener( new PhotonAbsorptionModel.Adapter(){
             @Override
             public void photonTargetChanged() {
                 // The logic in these statements is a little hard to follow,
@@ -234,8 +268,8 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
                 // doesn't match that of the button, update the button,
                 // otherwise leave the button alone.  This prevents a bunch
                 // of useless notifications from going to the model.
-                if ((photonAbsorptionModel.getPhotonTarget() == photonTarget) != panel.getButton().isSelected()){
-                    panel.getButton().setSelected( photonAbsorptionModel.getPhotonTarget() == photonTarget );
+                if ((model.getPhotonTarget() == photonTarget) != panel.getButton().isSelected()){
+                    panel.getButton().setSelected( model.getPhotonTarget() == photonTarget );
                 }
             }
 
