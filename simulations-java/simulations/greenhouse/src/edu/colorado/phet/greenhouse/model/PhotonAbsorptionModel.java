@@ -528,6 +528,8 @@ public class PhotonAbsorptionModel {
     private static final double MOLECULE_POS_RANGE_X = CONTAINMENT_AREA_WIDTH - 2 * MIN_DIST_FROM_WALL_X;
     private static final double MOLECULE_POS_MIN_Y = CONTAINMENT_AREA_RECT.getMinY() + MIN_DIST_FROM_WALL_Y;
     private static final double MOLECULE_POS_RANGE_Y = CONTAINMENT_AREA_HEIGHT - 2 * MIN_DIST_FROM_WALL_Y;
+    private static final double EMITTER_AVOIDANCE_COMP_X = 300;
+    private static final double EMITTER_AVOIDANCE_COMP_Y = 800;
     
     /**
      * Find an open location for a molecule.  This is assumed to be used only
@@ -542,17 +544,29 @@ public class PhotonAbsorptionModel {
         
         for (int i = 0; i < 100; i++){
             // Randomly generate a position.
-            double proposedXPos = MOLECULE_POS_MIN_X + RAND.nextDouble() * MOLECULE_POS_RANGE_X;
             double proposedYPos = MOLECULE_POS_MIN_Y + RAND.nextDouble() * MOLECULE_POS_RANGE_Y;
+            double minXPos = MOLECULE_POS_MIN_X;
+            double xRange = MOLECULE_POS_RANGE_X;
+            if (Math.abs( proposedYPos - getContainmentAreaRect().getCenterY() ) < EMITTER_AVOIDANCE_COMP_Y / 2){
+                // Compensate in the X direction so that this position is not
+                // too close to the photon emitter.
+                minXPos = MOLECULE_POS_MIN_X + EMITTER_AVOIDANCE_COMP_X;
+                xRange = MOLECULE_POS_RANGE_X - EMITTER_AVOIDANCE_COMP_X;
+            }
+            double proposedXPos = minXPos + RAND.nextDouble() * xRange;
             possibleLocations.add( new Point2D.Double(proposedXPos, proposedYPos ) );
         }
         
         // Figure out which point is furthest from all others.
         Collections.sort( possibleLocations, new Comparator<Point2D>() {
-            public int compare( Point2D o1, Point2D o2 ) {
-                return Double.compare( getMinDistanceToOtherMolecules(o1), getMinDistanceToOtherMolecules(o2) );
+            public int compare( Point2D p1, Point2D p2 ) {
+                return Double.compare( getMinDistanceToOtherMolecules(p1), getMinDistanceToOtherMolecules(p2) );
             }
         });
+        
+        if (possibleLocations.get( possibleLocations.size() - 1 ).distance( getPhotonEmissionLocation()) < 300 ){
+            System.out.println("Yowza!");
+        }
         
         return possibleLocations.get( possibleLocations.size() - 1 );
     }
