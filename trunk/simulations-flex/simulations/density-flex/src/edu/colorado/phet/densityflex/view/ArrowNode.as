@@ -1,9 +1,12 @@
 package edu.colorado.phet.densityflex.view {
+import away3d.core.base.Segment;
 import away3d.materials.ColorMaterial;
 
 import away3d.materials.ShadingColorMaterial;
 
 import away3d.materials.WireColorMaterial;
+
+import away3d.materials.WireframeMaterial;
 
 import edu.colorado.phet.densityflex.model.ArrowModel;
 
@@ -61,6 +64,12 @@ public class ArrowNode extends MyMesh {
         f(3, 2, 6, 3, 2, 6);
         f(2, 5, 6, 2, 5, 6);
         f(4, 3, 6, 4, 3, 6);
+
+        addSegment(new Segment(getVertexArray()[0], getVertexArray()[1], new WireframeMaterial(0x000000)));
+        addSegment(new Segment(getVertexArray()[4], getVertexArray()[3], new WireframeMaterial(0x000000)));
+        addSegment(new Segment(getVertexArray()[2], getVertexArray()[5], new WireframeMaterial(0x000000)));
+        addSegment(new Segment(getVertexArray()[5], getVertexArray()[6], new WireframeMaterial(0x000000)));
+        addSegment(new Segment(getVertexArray()[6], getVertexArray()[4], new WireframeMaterial(0x000000)));
 
         type = "ArrowNode";
         url = "density";
