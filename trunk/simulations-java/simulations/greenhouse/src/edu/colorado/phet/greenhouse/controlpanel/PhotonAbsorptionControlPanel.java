@@ -69,8 +69,8 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
         new ModelViewTransform2D( new Point2D.Double(0, 0), new Point(0, 0), 1, true);
     
     // Image scaling factors, determined empirically.
-    private static final double MOLECULE_SCALING_FACTOR = 0.14;
-    private static final double PLANET_SCALING_FACTOR = 0.22;
+    private static final double MOLECULE_SCALING_FACTOR = 0.13;
+    private static final double PLANET_SCALING_FACTOR = 0.24;
 
     // ------------------------------------------------------------------------
     // Instance Data
@@ -111,33 +111,33 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
         addControlFullWidth(atmosphericGasesPanel);
         
         // Add buttons for selecting greenhouse gas.
-        ch4Selector = createAndAttachSelectorPanel( "<html>CH<sub>4</sub></html>", createImageFromMolecule( new CH4() ), PhotonTarget.SINGLE_CH4_MOLECULE,
-                MOLECULE_SCALING_FACTOR );
+        ch4Selector = createAndAttachSelectorPanel( "<html>CH<sub>4</sub></html>", createImageFromMolecule( new CH4() ),
+                PhotonTarget.SINGLE_CH4_MOLECULE, MOLECULE_SCALING_FACTOR );
         ch4Selector.setFont( LABEL_FONT );
         atmosphericGasesPanel.add(ch4Selector);
         
-        co2Selector = createAndAttachSelectorPanel( "<html>CO<sub>2</sub></html>", createImageFromMolecule( new CO2() ), PhotonTarget.SINGLE_CO2_MOLECULE,
-                MOLECULE_SCALING_FACTOR );
+        co2Selector = createAndAttachSelectorPanel( "<html>CO<sub>2</sub></html>", createImageFromMolecule( new CO2() ),
+                PhotonTarget.SINGLE_CO2_MOLECULE, MOLECULE_SCALING_FACTOR );
         co2Selector.setFont( LABEL_FONT );
         atmosphericGasesPanel.add(co2Selector);
         
-        h2oSelector = createAndAttachSelectorPanel( "<html>H<sub>2</sub>O</html>", createImageFromMolecule( new H2O() ), PhotonTarget.SINGLE_H2O_MOLECULE,
-                MOLECULE_SCALING_FACTOR );
+        h2oSelector = createAndAttachSelectorPanel( "<html>H<sub>2</sub>O</html>", createImageFromMolecule( new H2O() ),
+                PhotonTarget.SINGLE_H2O_MOLECULE, MOLECULE_SCALING_FACTOR );
         h2oSelector.setFont( LABEL_FONT );
         atmosphericGasesPanel.add(h2oSelector);
         
-        n2Selector = createAndAttachSelectorPanel( "<html>N<sub>2</sub></html>", createImageFromMolecule( new N2() ), PhotonTarget.SINGLE_N2_MOLECULE,
-                MOLECULE_SCALING_FACTOR );
+        n2Selector = createAndAttachSelectorPanel( "<html>N<sub>2</sub></html>", createImageFromMolecule( new N2() ),
+                PhotonTarget.SINGLE_N2_MOLECULE, MOLECULE_SCALING_FACTOR );
         n2Selector.setFont( LABEL_FONT );
         atmosphericGasesPanel.add(n2Selector);
         
-        n2oSelector = createAndAttachSelectorPanel( "<html>N<sub>2</sub>O</html>", createImageFromMolecule( new N2O() ), PhotonTarget.SINGLE_N2O_MOLECULE,
-                MOLECULE_SCALING_FACTOR );
+        n2oSelector = createAndAttachSelectorPanel( "<html>N<sub>2</sub>O</html>", createImageFromMolecule( new N2O() ),
+                PhotonTarget.SINGLE_N2O_MOLECULE, MOLECULE_SCALING_FACTOR );
         n2oSelector.setFont( LABEL_FONT );
         atmosphericGasesPanel.add(n2oSelector);
         
-        o2Selector = createAndAttachSelectorPanel( "<html>O<sub>2</sub></html>", createImageFromMolecule( new O2() ), PhotonTarget.SINGLE_O2_MOLECULE,
-                MOLECULE_SCALING_FACTOR );
+        o2Selector = createAndAttachSelectorPanel( "<html>O<sub>2</sub></html>", createImageFromMolecule( new O2() ),
+                PhotonTarget.SINGLE_O2_MOLECULE, MOLECULE_SCALING_FACTOR );
         o2Selector.setFont( LABEL_FONT );
         atmosphericGasesPanel.add(o2Selector);
 
@@ -173,7 +173,7 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
         buttonGroup.add(atmospherSelector.getButton());
 
         // Add the reset all button.
-        addControlFullWidth(createVerticalSpacingPanel(60));
+        addControlFullWidth(createVerticalSpacingPanel(5));
         addResetAllButton( module );
         
         // Synchronize the controls with the model.
@@ -303,7 +303,7 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
         private static final Font LABEL_FONT = new PhetFont(14);
         
         // Fixed height for the panels.
-        private static final int PREFERRED_HEIGHT = 46;  // In pixels.
+        private static final int PREFERRED_HEIGHT = 42;  // In pixels.
         
         private JRadioButton button;
 
