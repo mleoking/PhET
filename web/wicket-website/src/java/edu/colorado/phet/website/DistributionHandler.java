@@ -217,6 +217,9 @@ public class DistributionHandler {
         if ( cycle.isInstaller() || cycle.getUserAgent().equals( PhetRequestCycle.HIDE_TRANSLATIONS_USER_AGENT ) ) {
             return cycle.getUserAgent();
         }
+        else if( cycle.isForProductionServer() ) {
+            return "production";
+        }
         else {
             return "regular";
         }
