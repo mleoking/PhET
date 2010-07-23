@@ -260,6 +260,8 @@ public class PhotonAbsorptionModel {
     public void setPhotonTarget( PhotonTarget photonTarget ){
         if (this.photonTarget != photonTarget){
             
+            this.photonTarget = photonTarget;
+            
             // Remove the old photon target(s).
             ArrayList<Molecule> copyOfMolecules = new ArrayList<Molecule>( activeMolecules );
             activeMolecules.clear();
@@ -487,7 +489,28 @@ public class PhotonAbsorptionModel {
      * coming and/or going.
      */
     public void syncConfigAtmosphereToActiveMolecules(){
-       // TODO. 
+        
+        for (Molecule molecule : configurableAtmosphereMolecules){
+            if (!activeMolecules.contains( molecule )){
+                // This molecule is not on the active list, so it should be
+                // added to it.
+                activeMolecules.add( molecule );
+                notifyMoleculeAdded( molecule );
+            }
+        }
+        
+        ArrayList<Molecule> moleculesToRemoveFromActiveList = new ArrayList<Molecule>();
+        for (Molecule molecule : activeMolecules){
+            if (!configurableAtmosphereMolecules.contains( molecule )){
+                // This molecule is on the active list but NOT in the
+                // configurable atmosphere, so it should be removed.
+                moleculesToRemoveFromActiveList.add( molecule );
+            }
+        }
+        activeMolecules.removeAll( moleculesToRemoveFromActiveList );
+        for (Molecule molecule : moleculesToRemoveFromActiveList){
+            notifyMoleculeRemoved( molecule );
+        }
     }
     
     public void addListener(Listener listener){
