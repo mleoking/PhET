@@ -4,6 +4,7 @@ package edu.colorado.phet.greenhouse.model;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.HashMap;
@@ -460,18 +461,36 @@ public class PhotonAbsorptionModel {
     private Point2D findOpenLocationInAtmosphere(){
         
         boolean openPosFound = false;
-        Point2D openPosition = null;
+        Point2D openPosition = new Point2D.Double();
         
         // Try to find an open position by random means.
-        for (int i = 0; i < 100; i++){
+        for (int i = 0; i < 100 && !openPosFound; i++){
+            
+            // Randomly generate a position.
             double proposedXPos = MOLECULE_POS_MIN_X + RAND.nextDouble() * MOLECULE_POS_RANGE_X;
             double proposedYPos = MOLECULE_POS_MIN_Y + RAND.nextDouble() * MOLECULE_POS_RANGE_Y;
+            openPosition.setLocation( proposedXPos, proposedYPos );
             
-            // TODO: Go with anything for now, finish later.
-            openPosition = new Point2D.Double(proposedXPos, proposedYPos);
+            // See if the position is acceptably far from the other molecules.
+            openPosFound = true;
+            for (Molecule molecule : configurableAtmosphereMolecules){
+                if (molecule.getCenterOfGravityPos().distance( openPosition ) < MIN_DIST_FROM_OTHER_MOLECULES){
+                    openPosFound = false;
+                    break;
+                }
+            }
         }
         
+        if (!openPosFound){
+            System.out.println("Warning - didn't find anything.");
+        }
         return openPosition;
+    }
+    
+    private void setConfigurableAtmosphereInitialLevel(MoleculeID moleculeID){
+        if ( INITIAL_ATMOSPHERE_CONCENTRATIONS.containsKey( moleculeID )){
+            setConfigurableAtmosphereGasLevel( moleculeID, INITIAL_ATMOSPHERE_CONCENTRATIONS.get( moleculeID  ) );
+        }
     }
     
     /**
@@ -489,20 +508,11 @@ public class PhotonAbsorptionModel {
         
         // Remove all existing molecules.
         configurableAtmosphereMolecules.clear();
-    
-        // Add the molecules.
-        for (int i = 0; i < INITIAL_ATMOSPHERE_CONCENTRATIONS.get( MoleculeID.N2 ); i++){
-            configurableAtmosphereMolecules.add( new N2(findOpenLocationInAtmosphere()) );
-        }
-        for (int i = 0; i < INITIAL_ATMOSPHERE_CONCENTRATIONS.get( MoleculeID.O2 ); i++){
-            configurableAtmosphereMolecules.add( new O2(findOpenLocationInAtmosphere()) );
-        }
-        for (int i = 0; i < INITIAL_ATMOSPHERE_CONCENTRATIONS.get( MoleculeID.H2O ); i++){
-            configurableAtmosphereMolecules.add( new H2O(findOpenLocationInAtmosphere()) );
-        }
-        for (int i = 0; i < INITIAL_ATMOSPHERE_CONCENTRATIONS.get( MoleculeID.CO2 ); i++){
-            configurableAtmosphereMolecules.add( new CO2(findOpenLocationInAtmosphere()) );
-        }
+        
+        setConfigurableAtmosphereInitialLevel( MoleculeID.N2);
+        setConfigurableAtmosphereInitialLevel( MoleculeID.O2);
+        setConfigurableAtmosphereInitialLevel( MoleculeID.CO2);
+        setConfigurableAtmosphereInitialLevel( MoleculeID.H2O);
     }
     
     private void notifyPhotonAdded(Photon photon){
