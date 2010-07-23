@@ -75,10 +75,10 @@ public class PhotonAbsorptionModel {
     // Initial and max values for the numbers of molecules in the configurable
     // atmosphere.
     static final HashMap< MoleculeID , Integer> INITIAL_ATMOSPHERE_CONCENTRATIONS = new HashMap< MoleculeID, Integer>() {{ 
-        put(MoleculeID.N2, 10); 
-        put(MoleculeID.O2, 10); 
-        put(MoleculeID.CO2, 4); 
-        put(MoleculeID.H2O, 4); 
+        put(MoleculeID.N2, 10);
+        put(MoleculeID.O2, 10);
+        put(MoleculeID.CO2, 4);
+        put(MoleculeID.H2O, 4);
     }}; 
     static final HashMap< MoleculeID , Integer> MAX_ATMOSPHERE_CONCENTRATIONS = new HashMap< MoleculeID, Integer>() {{ 
         put(MoleculeID.N2, 20); 
@@ -389,6 +389,12 @@ public class PhotonAbsorptionModel {
         return moleculeCount;
     }
     
+    /**
+     * Set the level of the specified gas in the configurable atmosphere.
+     * 
+     * @param moleculeID
+     * @param targetQuantity
+     */
     public void setConfigurableAtmosphereGasLevel(MoleculeID moleculeID, int targetQuantity){
 
         // Bounds checking.
@@ -449,6 +455,21 @@ public class PhotonAbsorptionModel {
         // then these changes must be synchronized with the active molecules.
         if (photonTarget == PhotonTarget.CONFIGURABLE_ATMOSPHERE){
             syncConfigAtmosphereToActiveMolecules();
+        }
+    }
+    
+    /**
+     * Get the number of the specified molecule in the configurable atmosphere.
+     * 
+     * @param moleculeID
+     * @return
+     */
+    public int getConfigurableAtmosphereMaxLevel(MoleculeID moleculeID){
+        if ( MAX_ATMOSPHERE_CONCENTRATIONS.containsKey( moleculeID )){
+            return MAX_ATMOSPHERE_CONCENTRATIONS.get( moleculeID );
+        }
+        else{
+            return 0;
         }
     }
     
