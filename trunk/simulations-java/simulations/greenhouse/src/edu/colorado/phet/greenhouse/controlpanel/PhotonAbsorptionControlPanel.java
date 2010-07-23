@@ -96,6 +96,18 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
 
         this.model = model;
         
+        model.addListener( new PhotonAbsorptionModel.Adapter(){
+            @Override
+            public void photonTargetChanged() {
+                updateSliderEnabledState();
+            }
+
+            @Override
+            public void configurableAtmosphereCompositionChanged() {
+                updateSliderPositions();
+            }
+        });
+        
         // Set the control panel's minimum width.
         int minimumWidth = GreenhouseResources.getInt( "int.minControlPanelWidth", 215 );
         setMinimumWidth( minimumWidth );
@@ -178,6 +190,7 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
         
         // Synchronize the controls with the model.
         updateSliderPositions();
+        updateSliderEnabledState();
     }
     
     // ------------------------------------------------------------------------
@@ -187,6 +200,13 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
     private void updateSliderPositions(){
         for ( MoleculeID moleculeID : moleculeToSliderMap.keySet() ){
             moleculeToSliderMap.get( moleculeID ).setValue( model.getConfigurableAtmosphereGasLevel( moleculeID ) );
+        }
+    }
+    
+    private void updateSliderEnabledState(){
+        boolean slidersEnabled = model.getPhotonTarget() == PhotonTarget.CONFIGURABLE_ATMOSPHERE;
+        for ( LinearValueControl linearValueControl : moleculeToSliderMap.values() ){
+            linearValueControl.setEnabled( slidersEnabled );
         }
     }
     
@@ -257,11 +277,6 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
                 if ((model.getPhotonTarget() == photonTarget) != panel.getButton().isSelected()){
                     panel.getButton().setSelected( model.getPhotonTarget() == photonTarget );
                 }
-            }
-
-            @Override
-            public void configurableAtmosphereCompositionChanged() {
-                updateSliderPositions();
             }
         });
         return panel;
