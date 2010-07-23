@@ -4,14 +4,17 @@ package edu.colorado.phet.greenhouse.model;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.EventListener;
 import java.util.HashMap;
 import java.util.Random;
 
 import javax.swing.event.EventListenerList;
 
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
@@ -74,15 +77,15 @@ public class PhotonAbsorptionModel {
     static final HashMap< MoleculeID , Integer> INITIAL_ATMOSPHERE_CONCENTRATIONS = new HashMap< MoleculeID, Integer>() {{ 
         put(MoleculeID.N2, 10); 
         put(MoleculeID.O2, 10); 
-        put(MoleculeID.CO2, 5); 
-        put(MoleculeID.H2O, 5); 
+        put(MoleculeID.CO2, 4); 
+        put(MoleculeID.H2O, 4); 
     }}; 
     static final HashMap< MoleculeID , Integer> MAX_ATMOSPHERE_CONCENTRATIONS = new HashMap< MoleculeID, Integer>() {{ 
         put(MoleculeID.N2, 20); 
         put(MoleculeID.O2, 20); 
         put(MoleculeID.CO2, 20); 
         put(MoleculeID.H2O, 20); 
-    }}; 
+    }};
     
     // Random number generator.
     private static final Random RAND = new Random();
@@ -196,11 +199,41 @@ public class PhotonAbsorptionModel {
             photons.remove( photon );
             notifyPhotonRemoved( photon );
         }
-        
         // Step the molecules.
         for (Molecule molecule : activeMolecules){
             molecule.stepInTime( dt );
         }
+    }
+
+    // TODO: Part of an experiment, keep if needed.
+    private AbstractVector2D getNetForce(Molecule molecule) {
+        AbstractVector2D netForce= new Vector2D.Double();
+        for (Molecule activeMolecule : activeMolecules) {
+            if (activeMolecule!=molecule){
+            netForce = netForce.getAddedInstance(getForce(activeMolecule,molecule));
+            }
+        }
+
+        //Left Wall
+        double dxLeft = Math.abs(getContainmentAreaRect().getMinX() - molecule.getCenterOfGravityPos().getX());
+        double dxRight = Math.abs(getContainmentAreaRect().getMaxX() - molecule.getCenterOfGravityPos().getX());
+        double dyTop = Math.abs(getContainmentAreaRect().getMinY() - molecule.getCenterOfGravityPos().getY());
+        double dyBottom = Math.abs(getContainmentAreaRect().getMaxY() - molecule.getCenterOfGravityPos().getY());
+        netForce = netForce.getAddedInstance(new Vector2D.Double(1.0 / dxLeft / dxLeft, 0));
+        netForce = netForce.getAddedInstance(new Vector2D.Double(-1.0 / dxRight/ dxRight, 0));
+        netForce = netForce.getAddedInstance(new Vector2D.Double(0,-1.0 / dyBottom/ dyBottom));
+        netForce = netForce.getAddedInstance(new Vector2D.Double(0,1.0 / dyTop/ dyTop));
+
+        double dragForce = 0.01;
+        netForce = netForce.getAddedInstance(molecule.getVelocity().getScaledInstance(-1*dragForce));
+
+        return netForce;
+    }
+
+    private AbstractVector2D getForce(Molecule source, Molecule target) {
+        double distance = source.getCenterOfGravityPos().distance(target.getCenterOfGravityPos());
+        Vector2D distanceVector = new Vector2D.Double(source.getCenterOfGravityPos(), target.getCenterOfGravityPos()).normalize();
+        return distanceVector.getScaledInstance(1.0 / distance / distance);
     }
 
     /**
@@ -445,12 +478,12 @@ public class PhotonAbsorptionModel {
     }
     
     // Constants used when trying to find an open location in the atmosphere.
-    private static final double MIN_DIST_FROM_WALL = 100; // In picometers.
-    private static final double MIN_DIST_FROM_OTHER_MOLECULES = 100; // In picometers.
-    private static final double MOLECULE_POS_MIN_X = CONTAINMENT_AREA_RECT.getMinX() + MIN_DIST_FROM_WALL;
-    private static final double MOLECULE_POS_RANGE_X = CONTAINMENT_AREA_WIDTH - 2 * MIN_DIST_FROM_WALL;
-    private static final double MOLECULE_POS_MIN_Y = CONTAINMENT_AREA_RECT.getMinY() + MIN_DIST_FROM_WALL;
-    private static final double MOLECULE_POS_RANGE_Y = CONTAINMENT_AREA_HEIGHT - 2 * MIN_DIST_FROM_WALL;
+    private static final double MIN_DIST_FROM_WALL_X = 240; // In picometers.
+    private static final double MIN_DIST_FROM_WALL_Y = 130; // In picometers.
+    private static final double MOLECULE_POS_MIN_X = CONTAINMENT_AREA_RECT.getMinX() + MIN_DIST_FROM_WALL_X;
+    private static final double MOLECULE_POS_RANGE_X = CONTAINMENT_AREA_WIDTH - 2 * MIN_DIST_FROM_WALL_X;
+    private static final double MOLECULE_POS_MIN_Y = CONTAINMENT_AREA_RECT.getMinY() + MIN_DIST_FROM_WALL_Y;
+    private static final double MOLECULE_POS_RANGE_Y = CONTAINMENT_AREA_HEIGHT - 2 * MIN_DIST_FROM_WALL_Y;
     
     /**
      * Find an open location for a molecule.  This is assumed to be used only
@@ -460,31 +493,34 @@ public class PhotonAbsorptionModel {
      */
     private Point2D findOpenLocationInAtmosphere(){
         
-        boolean openPosFound = false;
-        Point2D openPosition = new Point2D.Double();
+        // Generate a set of random location.
+        ArrayList<Point2D> possibleLocations = new ArrayList<Point2D>();
         
-        // Try to find an open position by random means.
-        for (int i = 0; i < 100 && !openPosFound; i++){
-            
+        for (int i = 0; i < 100; i++){
             // Randomly generate a position.
             double proposedXPos = MOLECULE_POS_MIN_X + RAND.nextDouble() * MOLECULE_POS_RANGE_X;
             double proposedYPos = MOLECULE_POS_MIN_Y + RAND.nextDouble() * MOLECULE_POS_RANGE_Y;
-            openPosition.setLocation( proposedXPos, proposedYPos );
-            
-            // See if the position is acceptably far from the other molecules.
-            openPosFound = true;
-            for (Molecule molecule : configurableAtmosphereMolecules){
-                if (molecule.getCenterOfGravityPos().distance( openPosition ) < MIN_DIST_FROM_OTHER_MOLECULES){
-                    openPosFound = false;
-                    break;
-                }
-            }
+            possibleLocations.add( new Point2D.Double(proposedXPos, proposedYPos ) );
         }
         
-        if (!openPosFound){
-            System.out.println("Warning - didn't find anything.");
+        // Figure out which point is furthest from all others.
+        Collections.sort( possibleLocations, new Comparator<Point2D>() {
+            public int compare( Point2D o1, Point2D o2 ) {
+                return Double.compare( getMinDistanceToOtherMolecules(o1), getMinDistanceToOtherMolecules(o2) );
+            }
+        });
+        
+        return possibleLocations.get( possibleLocations.size() - 1 );
+    }
+    
+    private double getMinDistanceToOtherMolecules( Point2D o1 ) {
+        double minDistance = Double.POSITIVE_INFINITY;
+        for (Molecule molecule : configurableAtmosphereMolecules){
+            if (molecule.getCenterOfGravityPos().distance( o1 ) < minDistance){
+                minDistance = molecule.getCenterOfGravityPos().distance( o1 );
+            }
         }
-        return openPosition;
+        return minDistance;
     }
     
     private void setConfigurableAtmosphereInitialLevel(MoleculeID moleculeID){
