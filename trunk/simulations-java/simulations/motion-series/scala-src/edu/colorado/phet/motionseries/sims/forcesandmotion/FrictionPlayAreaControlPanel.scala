@@ -16,10 +16,13 @@ class MyValueControl(min: Double, max: Double, getter: () => Double, setter: Dou
         extends ScalaValueControl(min, max, title, numberFormat, units, getter, setter, bead.addListener, new HorizontalLayoutStrategy) {
   getSlider.setPaintTicks(false)
   getSlider.setPaintLabels(false)
+  getSlider.setBackground(MotionSeriesDefaults.EARTH_COLOR)
+  setBackground(MotionSeriesDefaults.EARTH_COLOR)
 }
 
 class FrictionPlayAreaControlPanel(bead: ForceBead) extends VerticalLayoutPanel {
   setFillHorizontal()
+  setBackground(MotionSeriesDefaults.EARTH_COLOR)
 
   val obj = MotionSeriesDefaults.custom //todo: this changes the mass for all tabs, not just this tab
 
@@ -29,7 +32,6 @@ class FrictionPlayAreaControlPanel(bead: ForceBead) extends VerticalLayoutPanel 
   val gravity = new MyValueControl(0.1, sliderMaxGravity, () => bead.gravity.abs, x => bead.gravity = -x, "forces.Gravity".translate, "0.0".literal, "properties.acceleration.units".translate, bead)
 
   val sliderArray = Array[AbstractValueControl](staticFriction, kineticFriction, objectMass, gravity)
-  new AlignedSliderSetLayoutStrategy(sliderArray).doLayout() //fails horribly
 
   val table = new Hashtable[Double, JComponent]
   class MyLabel(name: String, imageName: String) extends JLabel(name, SwingConstants.CENTER) {
@@ -70,13 +72,3 @@ object TestFrictionPlayAreaControlPanel {
 
   }
 }
-
-//object TestSurfaceControlPanel {
-//  def main(args: Array[String]) {
-//    val frame = new JFrame
-//    frame.setContentPane(new FrictionPlayAreaControlPanel(new Bead()))
-//    frame.pack()
-//    frame.setVisible(true)
-//    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
-//  }
-//}
