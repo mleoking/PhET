@@ -33,9 +33,9 @@ public class PhotonAbsorptionModel {
     // Class Data
     //----------------------------------------------------------------------------
     
-    // Constant that controls the point in model space where photons are
-    // emitted.
+    // Constants that controls where and how photons are emitted.
     private static final Point2D PHOTON_EMISSION_LOCATION = new Point2D.Double(-1300, 0);
+    private static final double PHOTON_EMISSION_ANGLE_RANGE = Math.PI/4;
     
     // Location used when a single molecule is sitting in the area where the
     // photons pass through.
@@ -43,7 +43,7 @@ public class PhotonAbsorptionModel {
     
     // Velocity of emitted photons.  Since they are emitted horizontally, only
     // one value is needed.
-    private static final float PHOTON_VELOCITY_X = 2.0f;
+    private static final float PHOTON_VELOCITY = 2.0f;
     
     // Distance for a photon to travel before being removed from the model.
     // This value is essentially arbitrary, and needs to be set such that the
@@ -305,6 +305,8 @@ public class PhotonAbsorptionModel {
                 break;
             }
             
+            // We use a higher emission speed for
+            
             // Send out notifications about the new molecule(s);
             for (Molecule molecule : activeMolecules){
                 molecule.addListener( moleculePhotonEmissionListener );
@@ -359,7 +361,13 @@ public class PhotonAbsorptionModel {
         
         Photon photon = new Photon( photonWavelength, null );
         photon.setLocation( PHOTON_EMISSION_LOCATION.getX(), PHOTON_EMISSION_LOCATION.getY() );
-        photon.setVelocity( PHOTON_VELOCITY_X, 0 );
+        double emissionAngle = 0; // Straight to the right.
+        if (photonTarget == PhotonTarget.CONFIGURABLE_ATMOSPHERE){
+            // Photons can be emitted at an angle.
+            emissionAngle = (RAND.nextDouble() - 0.5) * PHOTON_EMISSION_ANGLE_RANGE;
+        }
+        photon.setVelocity( (float)(PHOTON_VELOCITY * Math.cos( emissionAngle ) ),
+                (float)(PHOTON_VELOCITY * Math.sin( emissionAngle ) ) );
         photons.add( photon );
         notifyPhotonAdded( photon );
     }
