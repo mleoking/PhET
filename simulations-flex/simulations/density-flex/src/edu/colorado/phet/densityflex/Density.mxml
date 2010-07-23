@@ -27,6 +27,8 @@
                 <mx:CheckBox id="contactForceVectorCheckBox" label="Contact Force" selected="true" change="tab1.setContactForceVisible(contactForceVectorCheckBox.selected)"/>
                 <mx:CheckBox id="fluidDragForceVectorCheckBox" label="Fluid Drag Force" selected="true" change="tab1.setFluidDragForceVisible(fluidDragForceVectorCheckBox.selected)"/>
             </mx:Panel>
+            <mx:HBox id="propertiesContentPanel" right="20" top="20">
+            </mx:HBox>
             <mx:Panel right="10" bottom="10">
                 <mx:Button label="Reset All" click="resetTab1()"/>
             </mx:Panel>
@@ -34,11 +36,14 @@
     </mx:TabNavigator>
     <view:DebugText id="debug" height="100" x="0" y="0" text="" color="#FFFFFF" click="DebugText.clear();"/>
     <mx:Script><![CDATA[
+        import edu.colorado.phet.densityflex.components.PropertiesPanel;
+        import edu.colorado.phet.densityflex.components.SpherePropertiesPanel;
         import edu.colorado.phet.densityflex.view.DensityView;
         import edu.colorado.phet.flexcommon.FlexCommon;
         import edu.colorado.phet.flexcommon.FlexSimStrings;
 
         import mx.core.Application;
+        import mx.events.SliderEvent;
 
         private var oldIndex:Number = 0;
         private var common:FlexCommon = new FlexCommon();
@@ -54,6 +59,9 @@
                 view.pause();
             }
             getAllTabs()[0].start();
+            var panel:PropertiesPanel = new SpherePropertiesPanel();
+
+            propertiesContentPanel.addChild(panel);
         }
 
         private function init():void {
