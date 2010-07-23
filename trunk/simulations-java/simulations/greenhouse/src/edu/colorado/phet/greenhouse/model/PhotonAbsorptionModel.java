@@ -6,6 +6,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.EventListener;
+import java.util.HashMap;
 import java.util.Random;
 
 import javax.swing.event.EventListenerList;
@@ -69,14 +70,18 @@ public class PhotonAbsorptionModel {
     
     // Initial and max values for the numbers of molecules in the configurable
     // atmosphere.
-    private static final int INITIAL_NUM_CO2_MOLECULES = 5;
-    private static final int MAX_NUM_CO2_MOLECULES = 20;
-    private static final int INITIAL_NUM_N2_MOLECULES = 10;
-    private static final int MAX_NUM_N2_MOLECULES = 20;
-    private static final int INITIAL_NUM_O2_MOLECULES = 10;
-    private static final int MAX_NUM_O2_MOLECULES = 20;
-    private static final int INITIAL_NUM_H2O_MOLECULES = 10;
-    private static final int MAX_NUM_H2O_MOLECULES = 20;
+    static final HashMap< MoleculeID , Integer> INITIAL_ATMOSPHERE_CONCENTRATIONS = new HashMap< MoleculeID, Integer>() {{ 
+        put(MoleculeID.N2, 10); 
+        put(MoleculeID.O2, 10); 
+        put(MoleculeID.CO2, 5); 
+        put(MoleculeID.H2O, 5); 
+    }}; 
+    static final HashMap< MoleculeID , Integer> MAX_ATMOSPHERE_CONCENTRATIONS = new HashMap< MoleculeID, Integer>() {{ 
+        put(MoleculeID.N2, 20); 
+        put(MoleculeID.O2, 20); 
+        put(MoleculeID.CO2, 20); 
+        put(MoleculeID.H2O, 20); 
+    }}; 
     
     // Random number generator.
     private static final Random RAND = new Random();
@@ -88,7 +93,7 @@ public class PhotonAbsorptionModel {
     private EventListenerList listeners = new EventListenerList();
     private ArrayList<Photon> photons = new ArrayList<Photon>();
     private double photonWavelength = GreenhouseConfig.sunlightWavelength;
-    private final ArrayList<Molecule> molecules = new ArrayList<Molecule>();
+    private final ArrayList<Molecule> activeMolecules = new ArrayList<Molecule>();
     private PhotonTarget photonTarget = null;
     
     // Variables that control periodic photon emission.
@@ -144,7 +149,7 @@ public class PhotonAbsorptionModel {
         }
         
         // Reset all molecules, which will stop any oscillations.
-        for (Molecule molecule : molecules){
+        for (Molecule molecule : activeMolecules){
             molecule.reset();
         }
 
@@ -177,7 +182,7 @@ public class PhotonAbsorptionModel {
             }
             else{
                 // See if any of the molecules wish to absorb this photon.
-                for (Molecule molecule : molecules){
+                for (Molecule molecule : activeMolecules){
                     if (molecule.queryAbsorbPhoton( photon )){
                         photonsToRemove.add(  photon );
                     }
@@ -192,7 +197,7 @@ public class PhotonAbsorptionModel {
         }
         
         // Step the molecules.
-        for (Molecule molecule : molecules){
+        for (Molecule molecule : activeMolecules){
             molecule.stepInTime( dt );
         }
     }
@@ -222,8 +227,8 @@ public class PhotonAbsorptionModel {
         if (this.photonTarget != photonTarget){
             
             // Remove the old photon target(s).
-            ArrayList<Molecule> copyOfMolecules = new ArrayList<Molecule>( molecules );
-            molecules.clear();
+            ArrayList<Molecule> copyOfMolecules = new ArrayList<Molecule>( activeMolecules );
+            activeMolecules.clear();
             for (Molecule molecule : copyOfMolecules){
                 notifyMoleculeRemoved( molecule );
             }
@@ -233,39 +238,39 @@ public class PhotonAbsorptionModel {
             switch (photonTarget){
             case SINGLE_CO2_MOLECULE:
                 newMolecule = new CO2(SINGLE_MOLECULE_LOCATION);
-                molecules.add( newMolecule );
+                activeMolecules.add( newMolecule );
                 break;
             case SINGLE_H2O_MOLECULE:
                 newMolecule = new H2O(SINGLE_MOLECULE_LOCATION);
-                molecules.add( newMolecule );
+                activeMolecules.add( newMolecule );
                 break;
             case SINGLE_CH4_MOLECULE:
                 newMolecule = new CH4(SINGLE_MOLECULE_LOCATION);
-                molecules.add( newMolecule );
+                activeMolecules.add( newMolecule );
                 break;
             case SINGLE_N2O_MOLECULE:
                 newMolecule = new N2O(SINGLE_MOLECULE_LOCATION);
-                molecules.add( newMolecule );
+                activeMolecules.add( newMolecule );
                 break;
             case SINGLE_N2_MOLECULE:
                 newMolecule = new N2(SINGLE_MOLECULE_LOCATION);
-                molecules.add( newMolecule );
+                activeMolecules.add( newMolecule );
                 break;
             case SINGLE_O2_MOLECULE:
                 newMolecule = new O2(SINGLE_MOLECULE_LOCATION);
-                molecules.add( newMolecule );
+                activeMolecules.add( newMolecule );
                 break;
             case CONFIGURABLE_ATMOSPHERE:
                 // Add references for all the molecules in the configurable
                 // atmosphere to the "active molecules" list.
-                molecules.addAll( configurableAtmosphereMolecules );
+                activeMolecules.addAll( configurableAtmosphereMolecules );
             default:
                 System.err.println(getClass().getName() + " - Error: Unhandled molecule type.");
                 break;
             }
             
             // Send out notifications about the new molecule(s);
-            for (Molecule molecule : molecules){
+            for (Molecule molecule : activeMolecules){
                 molecule.addListener( moleculePhotonEmissionListener );
                 notifyMoleculeAdded( molecule );
             }
@@ -288,7 +293,7 @@ public class PhotonAbsorptionModel {
     }
     
     public ArrayList<Molecule> getMolecules(){
-        return new ArrayList<Molecule>(molecules);
+        return new ArrayList<Molecule>(activeMolecules);
     }
     
     /**
@@ -332,6 +337,86 @@ public class PhotonAbsorptionModel {
     
     public double getEmittedPhotonWavelength(){
         return photonWavelength;
+    }
+    
+    public void setConfigurableAtmosphereGasLevel(MoleculeID moleculeID, int targetQuantity){
+
+        // Bounds checking.
+        assert targetQuantity >= 0;
+        if (targetQuantity < 0){
+            System.err.println(getClass().getName() + " - Error: Invalid target quantity for gas level.");
+            return;
+        }
+        else if (targetQuantity > MAX_ATMOSPHERE_CONCENTRATIONS.get( moleculeID )){
+            System.err.println(getClass().getName() + " - Error: Target quantity of " + targetQuantity + 
+                    "is out of range, limiting to " + MAX_ATMOSPHERE_CONCENTRATIONS.get( moleculeID ));
+            targetQuantity = MAX_ATMOSPHERE_CONCENTRATIONS.get( moleculeID );
+        }
+
+        // Count the number of the specified type that currently exists. 
+        int numMoleculesOfSpecifiedType = 0;
+        for (Molecule molecule : configurableAtmosphereMolecules){
+            if (molecule.getMoleculeID() == moleculeID){
+                numMoleculesOfSpecifiedType++;
+            }
+        }
+        
+        // Calculate the difference.
+        int numMoleculesToAdd = targetQuantity - numMoleculesOfSpecifiedType;
+        
+        // Make the changes.
+        if (numMoleculesToAdd > 0){
+            // Add the necessary number of the specified molecule.
+            for (int i = 0; i < numMoleculesToAdd; i++){
+                Molecule moleculeToAdd = Molecule.createMolecule( moleculeID );
+                moleculeToAdd.setCenterOfGravityPos( findOpenLocationInAtmosphere() );
+                configurableAtmosphereMolecules.add( moleculeToAdd );
+            }
+        }
+        else if (numMoleculesToAdd < 0){
+            // Remove the necessary number of the specified molecule.
+            ArrayList<Molecule> moleculesToRemove = new ArrayList<Molecule>();
+            for (Molecule molecule : configurableAtmosphereMolecules){
+                if (molecule.getMoleculeID() == moleculeID){
+                    moleculesToRemove.add( molecule );
+                    if (moleculesToRemove.size() >= Math.abs( numMoleculesToAdd ) ){
+                        break;
+                    }
+                }
+            }
+            configurableAtmosphereMolecules.removeAll( moleculesToRemove );
+        }
+        else{
+            System.err.println(getClass().getName() + " - Warning: Ignoring call to set molecule levels to current level.");
+        }
+        
+        // Send notifications of the change.
+        if (numMoleculesToAdd != 0){
+            notifyConfigurableAtmospherCompositionChanged();
+        }
+        
+        // If the configurable atmosphere is the currently selected target,
+        // then these changes must be synchronized with the active molecules.
+        if (photonTarget == PhotonTarget.CONFIGURABLE_ATMOSPHERE){
+            syncConfigAtmosphereToActiveMolecules();
+        }
+    }
+    
+    /**
+     * Set the active molecules to match the list of molecules in the
+     * configurable atmosphere list.  This is generally done when switching
+     * the photon target to be the atmosphere or when the concentration of the
+     * gases in the atmosphere changes while the configurable atmosphere is
+     * the selected photon target.
+     * 
+     * The direction of data flow is from the config atmosphere to the active
+     * molecules, not the reverse.
+     * 
+     * This routine takes care of sending out notifications of molecules
+     * coming and/or going.
+     */
+    public void syncConfigAtmosphereToActiveMolecules(){
+       // TODO. 
     }
     
     public void addListener(Listener listener){
@@ -390,16 +475,16 @@ public class PhotonAbsorptionModel {
         configurableAtmosphereMolecules.clear();
     
         // Add the molecules.
-        for (int i = 0; i < INITIAL_NUM_N2_MOLECULES; i++){
+        for (int i = 0; i < INITIAL_ATMOSPHERE_CONCENTRATIONS.get( MoleculeID.N2 ); i++){
             configurableAtmosphereMolecules.add( new N2(findOpenLocationInAtmosphere()) );
         }
-        for (int i = 0; i < INITIAL_NUM_N2_MOLECULES; i++){
+        for (int i = 0; i < INITIAL_ATMOSPHERE_CONCENTRATIONS.get( MoleculeID.O2 ); i++){
             configurableAtmosphereMolecules.add( new O2(findOpenLocationInAtmosphere()) );
         }
-        for (int i = 0; i < INITIAL_NUM_N2_MOLECULES; i++){
+        for (int i = 0; i < INITIAL_ATMOSPHERE_CONCENTRATIONS.get( MoleculeID.H2O ); i++){
             configurableAtmosphereMolecules.add( new H2O(findOpenLocationInAtmosphere()) );
         }
-        for (int i = 0; i < INITIAL_NUM_N2_MOLECULES; i++){
+        for (int i = 0; i < INITIAL_ATMOSPHERE_CONCENTRATIONS.get( MoleculeID.CO2 ); i++){
             configurableAtmosphereMolecules.add( new CO2(findOpenLocationInAtmosphere()) );
         }
     }
