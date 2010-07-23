@@ -15,6 +15,7 @@ import edu.colorado.phet.recordandplayback.gui.RecordAndPlaybackControlPanel
 import edu.colorado.phet.motionseries.sims.theramp.robotmovingcompany.RobotMovingCompanyModule
 import edu.colorado.phet.motionseries.{StageContainerArea, MotionSeriesModule, MotionSeriesDefaults}
 import edu.colorado.phet.motionseries.charts.ForcesAndMotionChartNode
+import edu.colorado.phet.motionseries.sims.theramp.{ForceGraphsModule, IntroRampModule}
 
 class ForcesAndMotionModule(frame: PhetFrame,
                             name: String,
@@ -58,7 +59,8 @@ class ForcesAndMotionCanvas(model: MotionSeriesModel,
   override def createRightSegmentNode: HasPaint = new RampSegmentNode(model.rampSegments(1), transform, model)
 }
 
-class IntroModule(frame: PhetFrame) extends ForcesAndMotionModule(frame, "forces-and-motion.module.intro.title".translate, false, true, false, true, -3, false, 0.0, true, true, MotionSeriesDefaults.forceMotionViewport, MotionSeriesDefaults.forceMotionArea, false)
+class IntroModule(frame: PhetFrame) extends ForcesAndMotionModule(frame, "forces-and-motion.module.intro.title".translate, false, true, false,
+  true, -6, false, 0.0, true, true, MotionSeriesDefaults.forceMotionViewport, MotionSeriesDefaults.forceMotionArea, false)
 
 class FrictionModule(frame: PhetFrame)
         extends ForcesAndMotionModule(frame, "forces-and-motion.module.friction.title".translate,
@@ -72,7 +74,7 @@ class FrictionModule(frame: PhetFrame)
 
 class GraphingModule(frame: PhetFrame)
         extends ForcesAndMotionModule(frame, "forces-and-motion.module.graphing.title".translate,
-          false, false, true, false, -6, false, 0.0, true, true, MotionSeriesDefaults.forceMotionGraphViewport, MotionSeriesDefaults.forceEnergyGraphArea, true) {
+          false, false, true, false, -2, false, 0.0, true, true, MotionSeriesDefaults.forceMotionGraphViewport, MotionSeriesDefaults.forceEnergyGraphArea, true) {
   coordinateSystemModel.adjustable = false
   canvas.addScreenNode(new ForcesAndMotionChartNode(canvas, motionSeriesModel))
 
@@ -91,5 +93,27 @@ class ForcesAndMotionApplication(config: PhetApplicationConfig) extends PiccoloP
 object ForcesAndMotionApplication {
   def main(args: Array[String]) = {
     new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "forces-and-motion".literal, classOf[ForcesAndMotionApplication])
+  }
+}
+
+class TestAllApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
+  addModule(new IntroModule(getPhetFrame))
+  addModule(new FrictionModule(getPhetFrame))
+  addModule(new GraphingModule(getPhetFrame))
+  addModule(new RobotMovingCompanyModule(getPhetFrame, 1E-8, MotionSeriesDefaults.forcesAndMotionRobotForce, MotionSeriesDefaults.objectsForForce1DGame)) //todo: this 1E-8 workaround seems necessary to avoid problems, we should find out why
+
+  //copied from ramp to facilitate testing all tabs
+  addModule(new IntroRampModule(getPhetFrame))
+  addModule(new ForceGraphsModule(getPhetFrame))
+
+  //At 7-6-2010 Meeting we Decided to remove the Coordinate tab and Work/Energy tab, but keep the code for possible use in the future
+  //  addModule(new CoordinatesRampModule(getPhetFrame))
+  //  addModule(new WorkEnergyModule(getPhetFrame))
+
+  addModule(new RobotMovingCompanyModule(getPhetFrame))
+}
+object TestAllApp {
+  def main(args: Array[String]) = {
+    new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "forces-and-motion".literal, classOf[TestAllApplication])
   }
 }
