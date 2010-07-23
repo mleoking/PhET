@@ -188,11 +188,18 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
         // Add the reset all button.
         addControlFullWidth(createVerticalSpacingPanel(60));
         addResetAllButton( module );
+        
+        // Synchronize the controls with the model.
+        updateSliderPositions();
     }
     
     // ------------------------------------------------------------------------
     // Methods
     // ------------------------------------------------------------------------
+    
+    private void updateSliderPositions(){
+        n2LevelInAtmosphere.setValue( photonAbsorptionModel.getConfigurableAtmosphereGasLevel( MoleculeID.N2 ) );
+    }
     
     /**
      * Creates a selector panel with a radio button and an icon and "attaches"
@@ -230,6 +237,11 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
                 if ((photonAbsorptionModel.getPhotonTarget() == photonTarget) != panel.getButton().isSelected()){
                     panel.getButton().setSelected( photonAbsorptionModel.getPhotonTarget() == photonTarget );
                 }
+            }
+
+            @Override
+            public void configurableAtmosphereCompositionChanged() {
+                updateSliderPositions();
             }
         });
         return panel;
