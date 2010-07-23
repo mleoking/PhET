@@ -15,6 +15,7 @@ import java.beans.{PropertyChangeEvent, PropertyChangeListener}
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont
 import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode
 import edu.colorado.phet.common.phetcommon.model.MutableBoolean
+import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel.HistoryRemainderClearListener
 
 /**
  * @author Sam Reid
@@ -131,6 +132,16 @@ abstract class MotionSeriesControlChart(motionSeriesModel: MotionSeriesModel) {
   val totalForceSeries = new MSDataSeries("<html>F<sub>total ||</sub></html>", MotionSeriesDefaults.totalForceColor, "N", totalForceVariable, motionSeriesModel) //todo: il8n for units and names
 
   addSerieses();
+
+  motionSeriesModel.addHistoryRemainderClearListener(new HistoryRemainderClearListener {
+    def historyRemainderCleared()= {
+      appliedForceSeries.clearPointsAfter(motionSeriesModel.getTime)
+      frictionForceSeries.clearPointsAfter(motionSeriesModel.getTime)
+      gravityForceSeries.clearPointsAfter(motionSeriesModel.getTime)
+      wallForceSeries.clearPointsAfter(motionSeriesModel.getTime)
+      totalForceSeries.clearPointsAfter(motionSeriesModel.getTime)
+    }
+  })
 
   def additionalSerieses: List[MSDataSeries]
 
