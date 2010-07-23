@@ -100,6 +100,38 @@ public abstract class Molecule {
     public abstract MoleculeID getMoleculeID();
 
     /**
+     * Static factory method for producing molecules of a given type.
+     */
+    public static Molecule createMolecule( MoleculeID moleculeID){
+        Molecule newMolecule = null;
+        switch ( moleculeID ){
+        case CH4:
+            newMolecule = new CH4();
+            break;
+        case CO2:
+            newMolecule = new CO2();
+            break;
+        case H2O:
+            newMolecule = new H2O();
+            break;
+        case N2:
+            newMolecule = new N2();
+            break;
+        case N2O:
+            newMolecule = new N2O();
+            break;
+        case O2:
+            newMolecule = new O2();
+            break;
+        default:
+            System.err.println("Molecule: " + " - Error: Unrecognized molecule type.");
+            assert false;
+        }
+        
+        return newMolecule;
+    }
+    
+    /**
      * Advance the molecule one step in time.
      */
     public void stepInTime(double dt){
