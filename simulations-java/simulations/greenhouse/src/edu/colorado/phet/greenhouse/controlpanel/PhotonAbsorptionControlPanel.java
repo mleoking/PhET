@@ -23,10 +23,13 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -36,12 +39,14 @@ import edu.colorado.phet.greenhouse.model.CH4;
 import edu.colorado.phet.greenhouse.model.CO2;
 import edu.colorado.phet.greenhouse.model.H2O;
 import edu.colorado.phet.greenhouse.model.Molecule;
+import edu.colorado.phet.greenhouse.model.MoleculeID;
 import edu.colorado.phet.greenhouse.model.N2;
 import edu.colorado.phet.greenhouse.model.N2O;
 import edu.colorado.phet.greenhouse.model.O2;
 import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel;
 import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel.PhotonTarget;
 import edu.colorado.phet.greenhouse.view.MoleculeNode;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 
 /**
  * Control panel for the Photon Absorption tab of this application.
@@ -53,6 +58,9 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
     // ------------------------------------------------------------------------
     // Class Data
     // ------------------------------------------------------------------------
+    
+    // Font to use on this panel.
+    private static final Font LABEL_FONT = new PhetFont( 14 );
     
     // Model view transform used for creating images of the various molecules.
     // This is basically a null transform except that it flips the Y axis so
@@ -77,13 +85,14 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
     private RadioButtonWithIconPanel n2Selector;
     private RadioButtonWithIconPanel o2Selector;
     private RadioButtonWithIconPanel atmospherSelector;
-    private static final boolean ATMOSPHERE_ENABLED = true;
+    
+    private LinearValueControl n2LevelInAtmosphere;
 
     // ------------------------------------------------------------------------
     // Constructor(s)
     // ------------------------------------------------------------------------
 
-    public PhotonAbsorptionControlPanel (PiccoloModule module, PhotonAbsorptionModel model){
+    public PhotonAbsorptionControlPanel (PiccoloModule module, final PhotonAbsorptionModel model){
 
         this.photonAbsorptionModel = model;
         
@@ -104,26 +113,32 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
         // Add buttons for selecting greenhouse gas.
         ch4Selector = createAndAttachSelectorPanel( "<html>CH<sub>4</sub></html>", createImageFromMolecule( new CH4() ), PhotonTarget.SINGLE_CH4_MOLECULE,
                 MOLECULE_SCALING_FACTOR );
+        ch4Selector.setFont( LABEL_FONT );
         atmosphericGasesPanel.add(ch4Selector);
         
         co2Selector = createAndAttachSelectorPanel( "<html>CO<sub>2</sub></html>", createImageFromMolecule( new CO2() ), PhotonTarget.SINGLE_CO2_MOLECULE,
                 MOLECULE_SCALING_FACTOR );
+        co2Selector.setFont( LABEL_FONT );
         atmosphericGasesPanel.add(co2Selector);
         
         h2oSelector = createAndAttachSelectorPanel( "<html>H<sub>2</sub>O</html>", createImageFromMolecule( new H2O() ), PhotonTarget.SINGLE_H2O_MOLECULE,
                 MOLECULE_SCALING_FACTOR );
+        h2oSelector.setFont( LABEL_FONT );
         atmosphericGasesPanel.add(h2oSelector);
         
         n2Selector = createAndAttachSelectorPanel( "<html>N<sub>2</sub></html>", createImageFromMolecule( new N2() ), PhotonTarget.SINGLE_N2_MOLECULE,
                 MOLECULE_SCALING_FACTOR );
+        n2Selector.setFont( LABEL_FONT );
         atmosphericGasesPanel.add(n2Selector);
         
         n2oSelector = createAndAttachSelectorPanel( "<html>N<sub>2</sub>O</html>", createImageFromMolecule( new N2O() ), PhotonTarget.SINGLE_N2O_MOLECULE,
                 MOLECULE_SCALING_FACTOR );
+        n2oSelector.setFont( LABEL_FONT );
         atmosphericGasesPanel.add(n2oSelector);
         
         o2Selector = createAndAttachSelectorPanel( "<html>O<sub>2</sub></html>", createImageFromMolecule( new O2() ), PhotonTarget.SINGLE_O2_MOLECULE,
                 MOLECULE_SCALING_FACTOR );
+        o2Selector.setFont( LABEL_FONT );
         atmosphericGasesPanel.add(o2Selector);
 
         // Create and add a panel that will contain the buttons for selecting
@@ -137,10 +152,28 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
         atmospherSelector = createAndAttachSelectorPanel("Build Atmosphere", GreenhouseResources.getImage( "earth.png" ),
                 PhotonTarget.CONFIGURABLE_ATMOSPHERE, PLANET_SCALING_FACTOR);
         atmospherePanel.add(atmospherSelector);
+        
+        // TODO: i18n
+        n2LevelInAtmosphere = new LinearValueControl( 0, model.getConfigurableAtmosphereMaxLevel( MoleculeID.N2 ),
+                "N2 Level", "###", "Molecules");
+        n2LevelInAtmosphere.setFont( LABEL_FONT );
+        n2LevelInAtmosphere.setUpDownArrowDelta( 1 );
+        n2LevelInAtmosphere.setTextFieldEditable( true );
+        n2LevelInAtmosphere.setMajorTicksVisible( false );
+        n2LevelInAtmosphere.setBorder( BorderFactory.createEtchedBorder() );
+        n2LevelInAtmosphere.setValue( model.getConfigurableAtmosphereGasLevel( MoleculeID.N2 ) );
+        n2LevelInAtmosphere.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                int currentLevel = model.getConfigurableAtmosphereGasLevel( MoleculeID.N2 );
+                int sliderValue = (int)Math.round( n2LevelInAtmosphere.getValue() );
+                if ( sliderValue != currentLevel ){
+                    model.setConfigurableAtmosphereGasLevel( MoleculeID.N2, sliderValue ); 
+                }
+            }
+        });
+        atmospherePanel.add(  n2LevelInAtmosphere );
 
-        if (ATMOSPHERE_ENABLED) {
-            addControlFullWidth(atmospherePanel);
-        }
+        addControlFullWidth(atmospherePanel);
         
         // Put all the buttons in a button group.
         ButtonGroup buttonGroup = new ButtonGroup();
