@@ -153,27 +153,13 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
                 PhotonTarget.CONFIGURABLE_ATMOSPHERE, PLANET_SCALING_FACTOR);
         atmospherePanel.add(atmospherSelector);
         
-        // TODO: i18n
+        // Add the molecule control sliders.
+        addSliderForMolecule( "CO2", atmospherePanel, MoleculeID.CO2 );
+        addSliderForMolecule( "H2O", atmospherePanel, MoleculeID.H2O );
         addSliderForMolecule( "N2", atmospherePanel, MoleculeID.N2 );
-//        n2LevelInAtmosphere = new LinearValueControl( 0, model.getConfigurableAtmosphereMaxLevel( MoleculeID.N2 ),
-//                "N2 Level", "###", "Molecules");
-//        n2LevelInAtmosphere.setFont( LABEL_FONT );
-//        n2LevelInAtmosphere.setUpDownArrowDelta( 1 );
-//        n2LevelInAtmosphere.setTextFieldEditable( true );
-//        n2LevelInAtmosphere.setMajorTicksVisible( false );
-//        n2LevelInAtmosphere.setBorder( BorderFactory.createEtchedBorder() );
-//        n2LevelInAtmosphere.setValue( model.getConfigurableAtmosphereGasLevel( MoleculeID.N2 ) );
-//        n2LevelInAtmosphere.addChangeListener( new ChangeListener() {
-//            public void stateChanged( ChangeEvent e ) {
-//                int currentLevel = model.getConfigurableAtmosphereGasLevel( MoleculeID.N2 );
-//                int sliderValue = (int)Math.round( n2LevelInAtmosphere.getValue() );
-//                if ( sliderValue != currentLevel ){
-//                    model.setConfigurableAtmosphereGasLevel( MoleculeID.N2, sliderValue ); 
-//                }
-//            }
-//        });
-//        atmospherePanel.add(  n2LevelInAtmosphere );
+        addSliderForMolecule( "O2", atmospherePanel, MoleculeID.O2 );
 
+        // Put the atmosphere panel on to the main control panel.
         addControlFullWidth(atmospherePanel);
         
         // Put all the buttons in a button group.
