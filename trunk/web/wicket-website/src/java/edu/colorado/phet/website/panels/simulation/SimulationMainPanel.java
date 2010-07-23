@@ -517,7 +517,7 @@ public class SimulationMainPanel extends PhetPanel {
             }
         } );
 
-        if ( DistributionHandler.showPearsonPreview( getPhetCycle() ) && simulation.getSimulation().getName() == "mass-spring-lab" ) {
+        if ( DistributionHandler.showPearsonPreview( getPhetCycle() ) && simulation.getSimulation().getName().equals( "mass-spring-lab" ) ) {
             add( new PearsonSponsorPanel( "pearson-sponsor", context ) );
         }
         else {
