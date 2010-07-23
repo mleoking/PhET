@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
@@ -53,7 +54,7 @@ public abstract class Molecule {
     private Point2D centerOfGravity = new Point2D.Double();
     
     // Velocity and acceleration for this molecule.
-    private final Vector2D velocity = new Vector2D.Double(5, 5);
+    private Vector2D velocity = new Vector2D.Double();
     private final Vector2D acceleration = new Vector2D.Double();
 
     // Variable that tracks whether or not a photon has been absorbed and has
@@ -170,10 +171,10 @@ public abstract class Molecule {
         if (absorbtionHysteresisCountdownTime > 0){
             absorbtionHysteresisCountdownTime -= dt;
         }
-        
+
         // Do any movement that is required.
-        setCenterOfGravityPos( velocity.getDestination( centerOfGravity ) );
         velocity.add( acceleration.scale( dt ) );
+        setCenterOfGravityPos( velocity.getDestination( centerOfGravity ) );
     }
     
     /**
@@ -382,6 +383,14 @@ public abstract class Molecule {
                 System.err.println(getClass().getName() + " - Error: No offset found for atom.");
             }
         }
+    }
+
+    public void setAcceleration(AbstractVector2D netForce) {
+        this.acceleration.setComponents(netForce.getX(),netForce.getY());
+    }
+
+    public AbstractVector2D getVelocity() {
+        return velocity;
     }
 
     //------------------------------------------------------------------------
