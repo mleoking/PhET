@@ -6,6 +6,7 @@ import edu.colorado.phet.scalacommon.ScalaClock
 import edu.colorado.phet.motionseries.model._
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver
 import edu.colorado.phet.common.motion.charts.ChartCursor
+import javax.swing.RepaintManager
 //TODO: improve inheritance/composition scheme for different applications/modules/canvases/models
 class MotionSeriesModule(frame: PhetFrame,
                          val clock: ScalaClock,
@@ -52,8 +53,18 @@ class MotionSeriesModule(frame: PhetFrame,
 
     val startTime = System.currentTimeMillis
     motionSeriesModel.stepInTime(dt)
-    //    RepaintManager.currentManager(getSimulationPanel).paintDirtyRegions() //todo: this still shows clipping of incorrect regions, maybe we need to repaint the entire area
-    //    getSimulationPanel.paintImmediately(0, 0, getSimulationPanel.getWidth, getSimulationPanel.getHeight)
+    //        RepaintManager.currentManager(getSimulationPanel).paintDirtyRegions() //todo: this still shows clipping of incorrect regions, maybe we need to repaint the entire area
+    //        getSimulationPanel.paintImmediately(0, 0, getSimulationPanel.getWidth, getSimulationPanel.getHeight)
+    //    println("motionSeriesModel.bead.wallForce.magnitude="+motionSeriesModel.bead.wallForce.magnitude)
+
+    //There is a bug that the instantantaneous (one frame) wall force is sometimes not shown or is clipped incorrectly
+    //This workaround reduces the probability of having that problem significantly
+    //The root of the problem might be that the wall force vector isn't updating at the right times
+    //Note that this workaround will increase computational demand, and it will also occur whenever the user is pushing the block against the wall
+    if (motionSeriesModel.bead.wallForce.magnitude > 1E-2) {
+      getSimulationPanel.paintImmediately(0, 0, getSimulationPanel.getWidth, getSimulationPanel.getHeight)
+      RepaintManager.currentManager(getSimulationPanel).paintDirtyRegions()
+    }
     val modelTime = System.currentTimeMillis - startTime
 
     val elapsed = paintAndInputTime + modelTime
