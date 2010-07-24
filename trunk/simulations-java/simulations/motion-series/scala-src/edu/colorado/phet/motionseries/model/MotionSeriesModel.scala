@@ -21,7 +21,8 @@ case class RecordedState(rampState: RampState,
                          appliedForce: Double,
                          walls: Boolean,
                          motionStrategyMemento: MotionStrategyMemento,
-                         time: Double)
+                         time: Double,
+                         frictionless: Boolean)
 
 class MotionSeriesModel(defaultBeadPosition: Double,
                         pausedOnReset: Boolean,
@@ -99,7 +100,7 @@ class MotionSeriesModel(defaultBeadPosition: Double,
     stepRecord()
     val mode = bead.motionStrategy.getMemento
     new RecordedState(new RampState(rampAngle, rampSegments(1).heat, rampSegments(1).wetness),
-      selectedObject.state, bead.state, manBead.state, bead.parallelAppliedForce, walls, mode, getTime)
+      selectedObject.state, bead.state, manBead.state, bead.parallelAppliedForce, walls, mode, getTime, frictionless)
   }
 
   def beadInModelViewportRange = bead.position2D.x < MotionSeriesDefaults.MIN_X || bead.position2D.x > MotionSeriesDefaults.MAX_X
@@ -182,6 +183,7 @@ class MotionSeriesModel(defaultBeadPosition: Double,
 
   def setPlaybackState(state: RecordedState) = {
     rampAngle = state.rampState.angle
+    frictionless = state.frictionless
     rampSegments(0).setHeat(state.rampState.heat)
     rampSegments(0).setWetness(state.rampState.wetness)
 

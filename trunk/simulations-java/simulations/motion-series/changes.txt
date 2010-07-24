@@ -1,4 +1,6 @@
-Added "meters" on the play area ruler  
+Added record/playback of ice/wood ramp surface
+Changed background of friction control panel to green so that controls look like they are in the play area
+Added "meters" on the play area ruler
 Switched to use applied force play area slider from moving man sim
 Start the object so the vectors do not overlap the slider, maybe at -6
 Fixed: Handle cleared during playback so that recording halfway through a playback works properly
