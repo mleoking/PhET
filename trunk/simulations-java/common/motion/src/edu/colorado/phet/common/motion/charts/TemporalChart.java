@@ -221,13 +221,20 @@ public class TemporalChart extends PNode {
 
     public void reset() {
         dataModelBounds.reset();
-        for (LineSeriesNode lineSeriesNode : lineSeriesNodes) {
-            lineSeriesNode.reset();
-        }
+        clear();
     }
 
     public double getMaxRangeAxisLabelWidth() {
         return tickMarksAndGridLines.getMaxRangeAxisLabelWidth();  //To change body of created methods use File | Settings | File Templates.
+    }
+
+    /**
+     * Clear data from the chart.
+     */
+    public void clear() {
+        for (LineSeriesNode lineSeriesNode : lineSeriesNodes) {
+            lineSeriesNode.reset();
+        }
     }
 
     public static class DomainTickMark extends PNode {

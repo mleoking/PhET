@@ -92,4 +92,8 @@ public class MinimizableControlChart extends PNode {
     public double getMaxRangeAxisLabelWidth() {
         return controlChart.getMaxRangeAxisLabelWidth();
     }
+
+    public void clear() {
+        controlChart.clear();
+    }
 }
