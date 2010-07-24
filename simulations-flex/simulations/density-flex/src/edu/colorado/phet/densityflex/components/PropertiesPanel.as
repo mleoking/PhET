@@ -16,7 +16,7 @@ public class PropertiesPanel extends Panel {
 
     public override function initialize():void {
         super.initialize();
-        var hbox = new HBox();
+        var hbox:HBox = new HBox();
 
         hbox.addChild(column1);
         hbox.addChild(column2);
