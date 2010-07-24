@@ -1,3 +1,4 @@
+Added a help button to show the instructions again in the game modes
 Added record/playback of ice/wood ramp surface
 Changed background of friction control panel to green so that controls look like they are in the play area
 Added "meters" on the play area ruler
