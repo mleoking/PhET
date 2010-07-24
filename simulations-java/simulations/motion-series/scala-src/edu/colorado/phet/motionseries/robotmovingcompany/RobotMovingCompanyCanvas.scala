@@ -3,7 +3,6 @@ package edu.colorado.phet.motionseries.sims.theramp.robotmovingcompany
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import edu.colorado.phet.common.phetcommon.view.util.{BufferedImageUtils, PhetFont}
 import edu.colorado.phet.common.piccolophet.nodes.layout.SwingLayoutNode
-import java.awt._
 import java.awt.event.{KeyEvent, KeyAdapter}
 import edu.umd.cs.piccolo.nodes.{PImage, PText}
 import edu.umd.cs.piccolo.PNode
@@ -13,11 +12,14 @@ import edu.colorado.phet.motionseries.graphics._
 import edu.colorado.phet.motionseries.model._
 import edu.colorado.phet.scalacommon.Predef._
 import edu.colorado.phet.motionseries.MotionSeriesResources._
-import geom.{Point2D, AffineTransform, RoundRectangle2D}
+import java.awt.geom.{Point2D, AffineTransform, RoundRectangle2D}
 import edu.colorado.phet.scalacommon.util.Observable
 import javax.swing._
 import edu.colorado.phet.motionseries.{StageContainerArea, MotionSeriesDefaults, MotionSeriesResources}
 import edu.colorado.phet.motionseries.javastage.stage.StageNode
+import edu.umd.cs.piccolox.pswing.PSwing
+import swing.Button
+import java.awt.{BasicStroke, GridLayout, Color, Rectangle}
 
 /**
  * This class represents the play area for the Robot Moving Company games for Ramps II and Forces and Motion.
@@ -82,6 +84,25 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
   //  addStageNode(doorBackgroundNode)
 
   addStageNode(new InstructionsNode {
+    val helpButton = new PSwing(Button("Help") {
+      val intro = new IntroDialog {
+        centerWithin(RobotMovingCompanyCanvas.this.getWidth, RobotMovingCompanyCanvas.this.getHeight)
+      }
+      addScreenNode(intro)
+
+      addKeyListener(new KeyAdapter {
+        override def keyPressed(e: KeyEvent) = {
+          removeKeyListener(this)
+          removeScreenNode(intro)
+        }
+      })
+      SwingUtilities.invokeLater(new Runnable() {
+        def run = requestFocus() //so the button doesn't have focus
+      })
+    }.peer) {
+      setOffset(textNode.getFullBounds.getCenterX - getFullBounds.getWidth / 2, textNode.getFullBounds.getMaxY)
+    }
+    addChild(helpButton)
     setOffset(getStage.getWidth - getFullBounds.getWidth, 5)
   })
 
