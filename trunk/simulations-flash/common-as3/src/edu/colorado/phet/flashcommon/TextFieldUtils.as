@@ -18,8 +18,8 @@ public class TextFieldUtils {
 
         if ( mTextField.textWidth + 2 >= mTextField.width ) {
             trace("parent: " + mTextField.parent + "   name: " + mTextField.name + "  text resized ");
-            var ratio = 1.15 * mTextField.textWidth / mTextField.width;  //fudge factor of 1.15 to cover BOLDed text
-            var initialHeight = mTextField.height;
+            var ratio:Number = 1.15 * mTextField.textWidth / mTextField.width;  //fudge factor of 1.15 to cover BOLDed text
+            var initialHeight:Number = mTextField.height;
             trace(mTextField.text + " too long by factor of " + ratio + "   Initial height is " + mTextField.height + "   Initial y is " + mTextField.y);
             var oldSize:int = Number(mTextFormat.size); //TextFormat.size is type Object and must be cast to type Number
             var newSize:int = Math.round(oldSize / ratio);
@@ -27,7 +27,7 @@ public class TextFieldUtils {
             mTextField.setTextFormat(mTextFormat);
             trace("New font size is " + mTextField.getTextFormat().size);
             mTextField.autoSize = alignment;  //resize bounding box
-            var finalHeight = mTextField.height;
+            var finalHeight:Number = mTextField.height;
             mTextField.y += (initialHeight - finalHeight) / 2;  //keep text field vertically centered in button
             //trace("New height is "+ mTextField.height+ "   Final y is " + mTextField.y);
             //trace(mTextField.text+" has field.width " + mTextField.width);
