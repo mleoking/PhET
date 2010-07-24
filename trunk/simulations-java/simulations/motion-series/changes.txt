@@ -1,3 +1,4 @@
+Fixed a bug that caused the ramp to have partly faded ice
 Added a help button to show the instructions again in the game modes
 Added record/playback of ice/wood ramp surface
 Changed background of friction control panel to green so that controls look like they are in the play area
