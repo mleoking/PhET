@@ -15,7 +15,7 @@ import java.beans.{PropertyChangeEvent, PropertyChangeListener}
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont
 import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode
 import edu.colorado.phet.common.phetcommon.model.MutableBoolean
-import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel.HistoryRemainderClearListener
+import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel.{HistoryClearListener, HistoryRemainderClearListener}
 
 /**
  * @author Sam Reid
@@ -29,6 +29,11 @@ class RampForceChartNode(canvas: PhetPCanvas, motionSeriesModel: MotionSeriesMod
     }
   })
   motionSeriesModel.resetListeners_+=(() => {resetAll()})
+  motionSeriesModel.addHistoryClearListener(new HistoryClearListener(){
+    def historyCleared = {
+      clear()
+    }
+  })
 }
 
 class ForcesAndMotionChartNode(canvas: PhetPCanvas, model: MotionSeriesModel) extends MultiControlChart(Array(
@@ -64,6 +69,11 @@ class SingleSeriesChart(motionSeriesModel: MotionSeriesModel, _value: () => Doub
   temporalChart.addDataSeries(series, series.color)
 
   motionSeriesModel.resetListeners_+=(() => {series.clear()})
+  motionSeriesModel.addHistoryClearListener(new HistoryClearListener(){
+    def historyCleared = {
+      series.clear()
+    }
+  })
 }
 
 class RampForceMinimizableControlChart(motionSeriesModel: MotionSeriesModel) extends MinimizableControlChart("forces.parallel-title-with-units".translate, new RampControlChart(motionSeriesModel).chart)
@@ -140,6 +150,15 @@ abstract class MotionSeriesControlChart(motionSeriesModel: MotionSeriesModel) {
       gravityForceSeries.clearPointsAfter(motionSeriesModel.getTime)
       wallForceSeries.clearPointsAfter(motionSeriesModel.getTime)
       totalForceSeries.clearPointsAfter(motionSeriesModel.getTime)
+    }
+  })
+  motionSeriesModel.addHistoryClearListener(new HistoryClearListener(){
+    def historyCleared = {
+      appliedForceSeries.clear()
+      frictionForceSeries.clear()
+      gravityForceSeries.clear()
+      wallForceSeries.clear()
+      totalForceSeries.clear()
     }
   })
 

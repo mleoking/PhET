@@ -103,10 +103,22 @@ public class MultiControlChart extends PNode {
         setOffset(x, y);
         return true;
     }
-    
+
+    /**
+     * Removes data from the charts and restores the zoom levels and other settings to their default vaules.
+     */
     public void resetAll(){
         for (MinimizableControlChart child : children) {
             child.resetAll();
+        }
+    }
+
+    /**
+     * Removes the data from the charts.
+     */
+    public void clear(){
+        for (MinimizableControlChart child : children) {
+            child.clear();
         }
     }
 }

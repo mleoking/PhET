@@ -39,6 +39,10 @@ class MotionSeriesModel(defaultBeadPosition: Double,
     }
   }
 
+  override def clearHistory() = {
+    super.clearHistory()
+  }
+
   private var _walls = true
   private var _frictionless = MotionSeriesDefaults.FRICTIONLESS_DEFAULT
   private var _bounce = MotionSeriesDefaults.BOUNCE_DEFAULT
