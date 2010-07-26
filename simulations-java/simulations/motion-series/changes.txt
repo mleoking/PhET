@@ -1,3 +1,4 @@
+Fixed: Bouncy does not reset
 Fixed: Clear recording does not clear the charts
 Fixed a bug that caused the ramp to have partly faded ice
 Added a help button to show the instructions again in the game modes
