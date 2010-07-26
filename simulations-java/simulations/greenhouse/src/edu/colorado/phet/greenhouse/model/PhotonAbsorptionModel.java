@@ -35,7 +35,7 @@ public class PhotonAbsorptionModel {
     
     // Constants that controls where and how photons are emitted.
     private static final Point2D PHOTON_EMISSION_LOCATION = new Point2D.Double(-1300, 0);
-    private static final double PHOTON_EMISSION_ANGLE_RANGE = Math.PI/4;
+    private static final double PHOTON_EMISSION_ANGLE_RANGE = Math.PI/3;
     
     // Location used when a single molecule is sitting in the area where the
     // photons pass through.
