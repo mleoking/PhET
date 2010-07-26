@@ -136,7 +136,7 @@ object MotionSeriesDefaults {
   val gravityForceColor = myLightBlue
   val normalForceColor = myGold
   val frictionForceColor = red
-  val totalForceColor = pink //used to be myGreen
+  val sumForceColor = pink //used to be myGreen
   val wallForceColor = myBrickRed
 
   val appliedWorkColor = appliedForceColor

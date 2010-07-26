@@ -86,10 +86,10 @@ class RampControlChart(motionSeriesModel: MotionSeriesModel) extends MotionSerie
     temporalChart.addDataSeries(gravityForceSeries, gravityForceSeries.color)
     temporalChart.addDataSeries(wallForceSeries, wallForceSeries.color)
     temporalChart.addDataSeries(frictionForceSeries, frictionForceSeries.color)
-    temporalChart.addDataSeries(totalForceSeries, totalForceSeries.color)
+    temporalChart.addDataSeries(sumForceSeries, sumForceSeries.color)
   }
 
-  def additionalSerieses = frictionForceSeries :: gravityForceSeries :: wallForceSeries :: totalForceSeries :: Nil
+  def additionalSerieses = frictionForceSeries :: gravityForceSeries :: wallForceSeries :: sumForceSeries :: Nil
 }
 class ForcesAndMotionControlChart(motionSeriesModel: MotionSeriesModel) extends MotionSeriesControlChart(motionSeriesModel) {
   def addSerieses() = {
@@ -97,10 +97,10 @@ class ForcesAndMotionControlChart(motionSeriesModel: MotionSeriesModel) extends 
     temporalChart.addDataSeries(frictionForceSeries, frictionForceSeries.color)
     temporalChart.addDataSeries(wallForceSeries, wallForceSeries.color)
     temporalChart.addDataSeries(frictionForceSeries, frictionForceSeries.color)
-    temporalChart.addDataSeries(totalForceSeries, totalForceSeries.color)
+    temporalChart.addDataSeries(sumForceSeries, sumForceSeries.color)
   }
 
-  def additionalSerieses = frictionForceSeries :: wallForceSeries :: totalForceSeries :: Nil
+  def additionalSerieses = frictionForceSeries :: wallForceSeries :: sumForceSeries :: Nil
 
   override def gridSize = 4
 }
@@ -132,22 +132,23 @@ abstract class MotionSeriesControlChart(motionSeriesModel: MotionSeriesModel) {
   val wallVariable = new MutableDouble(parallelWall) {
     motionSeriesModel.stepListeners += (() => {value = parallelWall})
   }
-  val totalForceVariable = new MutableDouble(parallelTotalForce) {
+  val sumForceVariable = new MutableDouble(parallelTotalForce) {
     motionSeriesModel.stepListeners += (() => {value = parallelTotalForce})
   }
 
-  val appliedForceSeries = new MSDataSeries("<html>F<sub>applied</sub></html>", MotionSeriesDefaults.appliedForceColor, "N", parallelAppliedForceVariable, motionSeriesModel, false)
-  val frictionForceSeries = new MSDataSeries("<html>F<sub>friction</sub></html>", MotionSeriesDefaults.frictionForceColor, "N", frictionVariable, motionSeriesModel, false)
-  val gravityForceSeries = new MSDataSeries("<html>F<sub>gravity ||</sub></html>", MotionSeriesDefaults.gravityForceColor, "N", gravityVariable, motionSeriesModel, false)
-  val wallForceSeries = new MSDataSeries("<html>F<sub>wall</sub></html>", MotionSeriesDefaults.wallForceColor, "N", wallVariable, motionSeriesModel, false)
-  val totalForceSeries = new MSDataSeries("<html>F<sub>total ||</sub></html>", MotionSeriesDefaults.totalForceColor, "N", totalForceVariable, motionSeriesModel, true) //todo: il8n for units and names
+  val N = "units.abbr.newtons".translate
+  val appliedForceSeries = new MSDataSeries("force.pattern".messageformat("forces.applied".translate), MotionSeriesDefaults.appliedForceColor, N, parallelAppliedForceVariable, motionSeriesModel, false)
+  val frictionForceSeries = new MSDataSeries("force.pattern".messageformat("forces.friction".translate), MotionSeriesDefaults.frictionForceColor, N, frictionVariable, motionSeriesModel, false)
+  val gravityForceSeries = new MSDataSeries("force.pattern".messageformat("forces.gravity-parallel".translate), MotionSeriesDefaults.gravityForceColor, N, gravityVariable, motionSeriesModel, false)
+  val wallForceSeries = new MSDataSeries("force.pattern".messageformat("forces.wall".translate), MotionSeriesDefaults.wallForceColor, N, wallVariable, motionSeriesModel, false)
+  val sumForceSeries = new MSDataSeries("force.pattern".messageformat("forces.sum-parallel".translate), MotionSeriesDefaults.sumForceColor, N, sumForceVariable, motionSeriesModel, true) //todo: il8n for units and names
 
   def resetAll() = {
     appliedForceSeries.setVisible(false)
     frictionForceSeries.setVisible(false)
     gravityForceSeries.setVisible(false)
     wallForceSeries.setVisible(false)
-    totalForceSeries.setVisible(true)
+    sumForceSeries.setVisible(true)
   }
   addSerieses();
 
@@ -157,7 +158,7 @@ abstract class MotionSeriesControlChart(motionSeriesModel: MotionSeriesModel) {
       frictionForceSeries.clearPointsAfter(motionSeriesModel.getTime)
       gravityForceSeries.clearPointsAfter(motionSeriesModel.getTime)
       wallForceSeries.clearPointsAfter(motionSeriesModel.getTime)
-      totalForceSeries.clearPointsAfter(motionSeriesModel.getTime)
+      sumForceSeries.clearPointsAfter(motionSeriesModel.getTime)
     }
   })
   motionSeriesModel.addHistoryClearListener(new HistoryClearListener() {
@@ -166,7 +167,7 @@ abstract class MotionSeriesControlChart(motionSeriesModel: MotionSeriesModel) {
       frictionForceSeries.clear()
       gravityForceSeries.clear()
       wallForceSeries.clear()
-      totalForceSeries.clear()
+      sumForceSeries.clear()
     }
   })
 
