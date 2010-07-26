@@ -29,7 +29,7 @@ class RampForceChartNode(canvas: PhetPCanvas, motionSeriesModel: MotionSeriesMod
     }
   })
   motionSeriesModel.resetListeners_+=(() => {resetAll()})
-  motionSeriesModel.addHistoryClearListener(new HistoryClearListener(){
+  motionSeriesModel.addHistoryClearListener(new HistoryClearListener() {
     def historyCleared = {
       clear()
     }
@@ -65,11 +65,11 @@ class SingleSeriesChart(motionSeriesModel: MotionSeriesModel, _value: () => Doub
   val variable = new MutableDouble(_value()) {
     motionSeriesModel.stepListeners += (() => {value = _value()})
   }
-  val series = new MSDataSeries("properties.acceleration".translate, color, units, variable, motionSeriesModel)
+  val series = new MSDataSeries(title, color, units, variable, motionSeriesModel,true)
   temporalChart.addDataSeries(series, series.color)
 
   motionSeriesModel.resetListeners_+=(() => {series.clear()})
-  motionSeriesModel.addHistoryClearListener(new HistoryClearListener(){
+  motionSeriesModel.addHistoryClearListener(new HistoryClearListener() {
     def historyCleared = {
       series.clear()
     }
@@ -106,6 +106,7 @@ class ForcesAndMotionControlChart(motionSeriesModel: MotionSeriesModel) extends 
 }
 
 abstract class MotionSeriesControlChart(motionSeriesModel: MotionSeriesModel) {
+  motionSeriesModel.resetListeners_+=(() => {resetAll()})
   def addSerieses(): Unit
 
   val temporalChart = new TemporalChart(new java.awt.geom.Rectangle2D.Double(0, -2000, 20, 4000), motionSeriesModel.chartCursor)
@@ -135,16 +136,23 @@ abstract class MotionSeriesControlChart(motionSeriesModel: MotionSeriesModel) {
     motionSeriesModel.stepListeners += (() => {value = parallelTotalForce})
   }
 
-  val appliedForceSeries = new MSDataSeries("<html>F<sub>applied</sub></html>", MotionSeriesDefaults.appliedForceColor, "N", parallelAppliedForceVariable, motionSeriesModel)
-  val frictionForceSeries = new MSDataSeries("<html>F<sub>friction</sub></html>", MotionSeriesDefaults.frictionForceColor, "N", frictionVariable, motionSeriesModel)
-  val gravityForceSeries = new MSDataSeries("<html>F<sub>gravity ||</sub></html>", MotionSeriesDefaults.gravityForceColor, "N", gravityVariable, motionSeriesModel)
-  val wallForceSeries = new MSDataSeries("<html>F<sub>wall</sub></html>", MotionSeriesDefaults.wallForceColor, "N", wallVariable, motionSeriesModel)
-  val totalForceSeries = new MSDataSeries("<html>F<sub>total ||</sub></html>", MotionSeriesDefaults.totalForceColor, "N", totalForceVariable, motionSeriesModel) //todo: il8n for units and names
+  val appliedForceSeries = new MSDataSeries("<html>F<sub>applied</sub></html>", MotionSeriesDefaults.appliedForceColor, "N", parallelAppliedForceVariable, motionSeriesModel, false)
+  val frictionForceSeries = new MSDataSeries("<html>F<sub>friction</sub></html>", MotionSeriesDefaults.frictionForceColor, "N", frictionVariable, motionSeriesModel, false)
+  val gravityForceSeries = new MSDataSeries("<html>F<sub>gravity ||</sub></html>", MotionSeriesDefaults.gravityForceColor, "N", gravityVariable, motionSeriesModel, false)
+  val wallForceSeries = new MSDataSeries("<html>F<sub>wall</sub></html>", MotionSeriesDefaults.wallForceColor, "N", wallVariable, motionSeriesModel, false)
+  val totalForceSeries = new MSDataSeries("<html>F<sub>total ||</sub></html>", MotionSeriesDefaults.totalForceColor, "N", totalForceVariable, motionSeriesModel, true) //todo: il8n for units and names
 
+  def resetAll() = {
+    appliedForceSeries.setVisible(false)
+    frictionForceSeries.setVisible(false)
+    gravityForceSeries.setVisible(false)
+    wallForceSeries.setVisible(false)
+    totalForceSeries.setVisible(true)
+  }
   addSerieses();
 
   motionSeriesModel.addHistoryRemainderClearListener(new HistoryRemainderClearListener {
-    def historyRemainderCleared()= {
+    def historyRemainderCleared() = {
       appliedForceSeries.clearPointsAfter(motionSeriesModel.getTime)
       frictionForceSeries.clearPointsAfter(motionSeriesModel.getTime)
       gravityForceSeries.clearPointsAfter(motionSeriesModel.getTime)
@@ -152,7 +160,7 @@ abstract class MotionSeriesControlChart(motionSeriesModel: MotionSeriesModel) {
       totalForceSeries.clearPointsAfter(motionSeriesModel.getTime)
     }
   })
-  motionSeriesModel.addHistoryClearListener(new HistoryClearListener(){
+  motionSeriesModel.addHistoryClearListener(new HistoryClearListener() {
     def historyCleared = {
       appliedForceSeries.clear()
       frictionForceSeries.clear()
@@ -219,7 +227,8 @@ class MutableDouble(private var _value: Double) extends Observable {
   def apply() = value
 }
 
-class MSDataSeries(_title: String, _color: Color, _units: String, value: MutableDouble, motionSeriesModel: MotionSeriesModel) extends TemporalDataSeries {
+class MSDataSeries(_title: String, _color: Color, _units: String, value: MutableDouble, motionSeriesModel: MotionSeriesModel, visible: Boolean) extends TemporalDataSeries {
+  setVisible(visible)
   def title = _title
   motionSeriesModel.stepListeners += (() => {addPoint(value(), motionSeriesModel.getTime)})
 
