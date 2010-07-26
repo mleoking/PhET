@@ -31,18 +31,29 @@ public class PhotonAbsorptionParamsDlg extends PaintImmediateDialog {
         super(frame);
 
         setTitle("Params");
-        setLayout(new GridLayout( 2, 2));
+        setLayout(new GridLayout( 3, 2));
 
         // Create and add the slider for controlling the photon emission rate.
-        add(new JLabel( "Photon Emission Frequency", JLabel.CENTER));
-        final LinearValueControl emissionRateSlider = new LinearValueControl( 0, 5, "Frequency:", "#.#", "Photons/sec" );
-        emissionRateSlider.addChangeListener( new ChangeListener() {
+        add(new JLabel( "Single Target Photon Emission Frequency", JLabel.CENTER));
+        final LinearValueControl singleTargetEmissionRateSlider = new LinearValueControl( 0, 5, "Frequency:", "#.#", "Photons/sec" );
+        singleTargetEmissionRateSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                model.setSingleTargetPhotonEmissionPeriod( 1 / emissionRateSlider.getValue() * 1000 );
+                model.setSingleTargetPhotonEmissionPeriod( 1 / singleTargetEmissionRateSlider.getValue() * 1000 );
             }
         });
-        emissionRateSlider.setValue( 1 / model.getSingleTargetPhotonEmissionPeriod() * 1000 );
-        add( emissionRateSlider  );
+        singleTargetEmissionRateSlider.setValue( 1 / model.getSingleTargetPhotonEmissionPeriod() * 1000 );
+        add( singleTargetEmissionRateSlider  );
+
+        // Create and add the slider for controlling the photon emission rate.
+        add(new JLabel( "Multi-Target Photon Emission Frequency", JLabel.CENTER));
+        final LinearValueControl multiTargetEmissionRateSlider = new LinearValueControl( 0, 5, "Frequency:", "#.#", "Photons/sec" );
+        multiTargetEmissionRateSlider.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                model.setMultipleTargetPhotonEmissionPeriod( 1 / multiTargetEmissionRateSlider.getValue() * 1000 );
+            }
+        });
+        multiTargetEmissionRateSlider.setValue( 1 / model.getMultipleTargetPhotonEmissionPeriod() * 1000 );
+        add( multiTargetEmissionRateSlider  );
 
         // Create and add the slider for controlling absorption probability.
         add(new JLabel( "Absorption Probability", JLabel.CENTER));
