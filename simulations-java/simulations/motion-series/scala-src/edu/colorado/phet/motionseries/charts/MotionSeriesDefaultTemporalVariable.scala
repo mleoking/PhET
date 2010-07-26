@@ -18,7 +18,6 @@ trait HasValue {
  */
 class MotionSeriesDefaultTemporalVariable(model: RecordAndPlaybackModel[RecordedState]) extends TemporalDataSeries with HasValue {
   model.addHistoryClearListener(new RecordAndPlaybackModel.HistoryClearListener {
-    //    def historyCleared = keepRange(0.0, model.getTime)//TODO: implement this
     def historyCleared = {}
   })
 

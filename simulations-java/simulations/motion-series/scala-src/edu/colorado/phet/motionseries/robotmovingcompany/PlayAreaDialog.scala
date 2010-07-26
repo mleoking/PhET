@@ -136,12 +136,12 @@ class GameFinishedDialog(gameModel: RobotMovingCompanyGameModel) extends PlayAre
     resultList.addChild(image)
   }
 
-  //  //empty line
+  //empty line
   resultList.addChild(new PNode)
   resultList.addChild(new PNode)
   resultList.addChild(new PNode)
 
-  //  //last line
+  //last line
   resultList.addChild(new PText("game.final-score".translate + "         ") {setFont(new PhetFont(18))}) //todo: fix layout here
   resultList.addChild(new PText(gameModel.score + "") {setFont(new PhetFont(18))})
   resultList.addChild(new PNode())

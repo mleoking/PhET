@@ -79,10 +79,6 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
   val houseNode = new BeadNode(gameModel.house, transform, MotionSeriesDefaults.house.imageFilename)
   addStageNode(houseNode)
 
-  //layer that shows what's behind the door.
-  //  val doorBackgroundNode = new BeadNode(gameModel.doorBackground, transform, MotionSeriesDefaults.doorBackground.imageFilename)
-  //  addStageNode(doorBackgroundNode)
-
   addStageNode(new InstructionsNode {
     val helpButton = new PSwing(Button("Help") {
       val intro = new IntroDialog {
@@ -139,16 +135,6 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
   gameModel.beadCreatedListeners += init
   init(gameModel.bead, gameModel.selectedObject)
 
-  //TODO: the following code caused incorrect ramp color to be shown on startup
-  //We are leaving out surface model functionality for now, but I'll leave this here in case we add it back later.
-
-  //  gameModel.surfaceModel.addListener(updateRampColor)
-  //  def updateRampColor() = {
-  //    rightSegmentNode.paintColor = gameModel.surfaceModel.surfaceType.color
-  //    leftSegmentNode.paintColor = gameModel.surfaceModel.surfaceType.color
-  //  }
-  //  updateRampColor()
-
   private var _currentBead: Bead = null
 
   override def useVectorNodeInPlayArea = false
@@ -177,7 +163,6 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
 
   userInputModel.addListener(() => {
     numClockTicksWithUserApplication = numClockTicksWithUserApplication + 1
-    //    println("num clock ticks with user input = "+numClockTicksWithUserApplication)
     gameModel.bead.parallelAppliedForce = if (gameModel.robotEnergy > 0) userInputModel.appliedForce else 0.0
   }) //todo: when robot energy hits zero, applied force should disappear
 
@@ -262,7 +247,6 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
     addStageNode(beadNode)
     val icon = new ObjectIcon(a)
     val pt = transform.modelToView(-10, -1)
-    //      fbdNode.setOffset(pt.x -fbdNode.getFullBounds.getWidth/2, pt.y)
     icon.setOffset(pt)
     addStageNode(icon)
 

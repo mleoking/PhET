@@ -8,7 +8,7 @@ import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.colorado.phet.motionseries.MotionSeriesDefaults._
 import edu.colorado.phet.motionseries.swing._
 import edu.colorado.phet.motionseries.model.{MotionSeriesModel, ForceBead, Bead}
-import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.{AlignedSliderSetLayoutStrategy, HorizontalLayoutStrategy, AbstractValueControl}
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.{HorizontalLayoutStrategy, AbstractValueControl}
 import java.awt.{GridBagConstraints, GridBagLayout}
 import edu.colorado.phet.motionseries.{MotionSeriesDefaults, MotionSeriesResources}
 

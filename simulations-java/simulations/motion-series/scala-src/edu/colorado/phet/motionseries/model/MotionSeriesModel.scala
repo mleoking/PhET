@@ -320,12 +320,6 @@ class MotionSeriesModel(defaultBeadPosition: Double,
     rampSegments(0).stepInTime(dt)
     rampSegments(1).stepInTime(dt)
 
-    //todo: move this logic to the record-and-playback library
-    //    if (getTime < MotionSeriesDefaults.MAX_RECORD_TIME) {
-    //      val mode = bead.motionStrategy.getMemento
-    //      addRecordedPoint(new DataPoint(getTime, new RecordedState(new RampState(getRampAngle, rampSegments(1).heat, rampSegments(1).wetness),
-    //        selectedObject.state, bead.state, manBead.state, bead.parallelAppliedForce, walls, mode)))
-    //    }
     stepListeners.foreach(_())
     notifyListeners() //signify to the Timeline that more data has been added
   }

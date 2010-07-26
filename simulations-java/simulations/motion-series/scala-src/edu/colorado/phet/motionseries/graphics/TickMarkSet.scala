@@ -17,25 +17,25 @@ class TickMarkSet(transform: ModelViewTransform2D, positionMapper: Double => Poi
     addTickLabel(x)
   }
   val zeroLabel = addTickLabel(0)
-  val metersReadout = new PText("units.meters".translate) {//todo il8n
-    setFont(new PhetFont(13,true))
+  val metersReadout = new PText("units.meters".translate) { //todo il8n
+    setFont(new PhetFont(13, true))
   }
   addChild(metersReadout)
 
-  val changeListener= new PropertyChangeListener() {
+  val changeListener = new PropertyChangeListener() {
     def propertyChange(evt: PropertyChangeEvent) = {
-      metersReadout.setOffset(zeroLabel.getFullBounds.getMaxX + 2, zeroLabel.getFullBounds.getMaxY - metersReadout.getFullBounds.getHeight )
+      metersReadout.setOffset(zeroLabel.getFullBounds.getMaxX + 2, zeroLabel.getFullBounds.getMaxY - metersReadout.getFullBounds.getHeight)
     }
   }
-  zeroLabel.addPropertyChangeListener(PNode.PROPERTY_FULL_BOUNDS,changeListener)
+  zeroLabel.addPropertyChangeListener(PNode.PROPERTY_FULL_BOUNDS, changeListener)
   changeListener.propertyChange(null)
 
   setPickable(false)
   setChildrenPickable(false)
   def addTickLabel(x: Double) = {
     val path = new PhetPPath(Color.black)
-    val label = new PText(new DecimalFormat("0".literal).format(x)){
-          setFont(new PhetFont(18, true))
+    val label = new PText(new DecimalFormat("0".literal).format(x)) {
+      setFont(new PhetFont(18, true))
     }
 
     addChild(path)

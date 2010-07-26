@@ -9,7 +9,7 @@ import edu.colorado.phet.common.motion.charts.{PlayAreaSliderControl, TextBox, M
 
 class AppliedForceSliderNode(bead: ForceBead, mousePressHandler: () => Unit) extends PNode {
   val positionSlider = new PlayAreaSliderControl(-MotionSeriesDefaults.MAX_APPLIED_FORCE, MotionSeriesDefaults.MAX_APPLIED_FORCE,
-    bead.parallelAppliedForce, "controls.applied-force-x".translate, "units.abbr.newtons".translate, MotionSeriesDefaults.appliedForceColor, new TextBox(new PhetFont(18, true),6) {
+    bead.parallelAppliedForce, "controls.applied-force-x".translate, "units.abbr.newtons".translate, MotionSeriesDefaults.appliedForceColor, new TextBox(new PhetFont(18, true), 6) {
       addListener(new TextBox.Listener() {
         def changed = {
           bead.parallelAppliedForce = java.lang.Double.parseDouble(getText)

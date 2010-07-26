@@ -61,7 +61,6 @@ class PositionDragBeadNode(bead: MovingManBead,
     }
 
     override def mouseReleased(event: PInputEvent) = {
-      //      bead.parallelAppliedForce = 0.0
     }
 
     override def mousePressed(event: PInputEvent) = {

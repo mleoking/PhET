@@ -329,7 +329,6 @@ class Grounded(bead: ForceBead) extends MotionStrategy(bead) {
 
     //we'd like to just use thermalFromEnergy, since it guarantees conservation of energy
     //however, it may lead to a decrease in thermal energy, which would be physically incorrect
-    //      val stateAfterThermalEnergy = stateAfterBounds.setThermalEnergy(thermalFromWork)
     val stateAfterThermalEnergy = stateAfterCollision.setThermalEnergy(thermalFromEnergy)
     val dE = stateAfterThermalEnergy.totalEnergy - origEnergy
     val dT = stateAfterThermalEnergy.thermalEnergy - origState.thermalEnergy
@@ -369,7 +368,6 @@ class Grounded(bead: ForceBead) extends MotionStrategy(bead) {
       println("failed to conserve energy, delta=".literal + delta + ", applied energy = ".literal + appliedEnergy)
     }
 
-    //    println()
     val stateAfterPatchingUpThermalEnergy = stateAfterFixingPosition.setThermalEnergy(bead.getThermalEnergy(stateAfterFixingPosition.thermalEnergy))
 
     if (stateAfterPatchingUpThermalEnergy.thermalEnergy < origState.thermalEnergy) {

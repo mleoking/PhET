@@ -65,7 +65,7 @@ class SingleSeriesChart(motionSeriesModel: MotionSeriesModel, _value: () => Doub
   val variable = new MutableDouble(_value()) {
     motionSeriesModel.stepListeners += (() => {value = _value()})
   }
-  val series = new MSDataSeries(title, color, units, variable, motionSeriesModel,true)
+  val series = new MSDataSeries(title, color, units, variable, motionSeriesModel, true)
   temporalChart.addDataSeries(series, series.color)
 
   motionSeriesModel.resetListeners_+=(() => {series.clear()})

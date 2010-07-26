@@ -133,7 +133,6 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
     super.updateLayout()
     updateFBDLocation()
   }
-  //  addStageAreaDisplay()
 
   val playAreaVectorNode = new PlayAreaVectorNode(transform, model.bead, vectorViewModel)
   playAreaNode.addChild(playAreaVectorNode)
@@ -202,7 +201,7 @@ abstract class MotionSeriesCanvasDecorator(model: MotionSeriesModel,
 
     var relayout: ComponentAdapter = new ComponentAdapter {
       override def componentResized(e: ComponentEvent) = {
-        appliedForceSliderNode.setOffset(stage.getWidth / 2 - appliedForceSliderNode.getFullBounds.getWidth / 2, transform.modelToView(0, -1).getY+10)
+        appliedForceSliderNode.setOffset(stage.getWidth / 2 - appliedForceSliderNode.getFullBounds.getWidth / 2, transform.modelToView(0, -1).getY + 10)
       }
     }
     relayout.componentResized(null)
