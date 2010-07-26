@@ -1,3 +1,4 @@
+# 4.07.01 (42667) Jul 26, 2010
 7/15/10 Fixed the mirror reflectivity controls on Linux
 # 4.07.00 (38008) Jan 10, 2010
 1/10/10 public version for milestone "full redeploy, 2010 Q1"
