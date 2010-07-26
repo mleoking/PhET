@@ -24,7 +24,7 @@ class RampAngleIndicator(rampSegment: Rotatable, transform: ModelViewTransform2D
   def getPath = new Arc2D.Double(rampSegment.startPoint.x - 3, rampSegment.startPoint.y - 3, 6, 6, 0, -getDegrees, Arc2D.OPEN)
   defineInvokeAndPass(rampSegment.addListenerByName) {
     line.setPathTo(transform.createTransformedShape(getPath))
-    readout.setOffset(transform.modelToView(0.5, -0.55))
+    readout.setOffset(transform.modelToView(0.7, -0.7))//tuned to ensure it's far enough away from the "meters" readout on the ramp segment node
     val degrees = new DecimalFormat("0.0".literal).format(getDegrees)
     readout.setText("ramp.angle-readout".messageformat(degrees))
   }

@@ -1,3 +1,4 @@
+Fixed: Meters label too close to Angle readout on Ramp tab
 forces-and-motion: Changed the default object from crate to file cabinet so that force arrows don't go offscreen by default in the force graphs tab
 Fixed: Bouncy does not reset
 Fixed: Clear recording does not clear the charts
