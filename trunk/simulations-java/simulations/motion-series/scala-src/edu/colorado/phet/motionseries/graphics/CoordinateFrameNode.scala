@@ -28,14 +28,6 @@ class SynchronizedAxisModel(val offset: Double,
         extends AxisModel(offset, length, tail) {
   //adapters for going between local and global models
   coordinateFrameModel.addListenerByName(angle = coordinateFrameModel.angle + offset)
-  //  addListenerByName(coordinateFrameModel.angle = angle - offset)
-
-  //  override def dropped() = {
-  //    coordinateFrameModel.dropped()
-  //  }
-  //
-  //  def getSnapAngle(angle: Double) = coordinateFrameModel.getSnapAngle(angle)
-
 }
 
 class CoordinateFrameNode(val model: MotionSeriesModel,

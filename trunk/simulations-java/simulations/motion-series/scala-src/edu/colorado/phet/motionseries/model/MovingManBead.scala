@@ -5,12 +5,6 @@ import edu.colorado.phet.common.motion.MotionMath
 import edu.colorado.phet.scalacommon.math.Vector2D
 import edu.colorado.phet.scalacommon.util.Observable
 
-//TODO: change from:
-//MovingManBead extends ForceBead extends Bead
-//to
-//MovingManBead extends Bead
-//ForceBead extends Bead
-
 object MovingManBead {
   def apply(model: MotionSeriesModel, x: Double, width: Double, height: Double) = {
     new MovingManBead(new BeadState(x, 0, 10, 0, 0, 0.0, 0.0, 0.0), height, width, model.positionMapper, model.rampSegmentAccessor, model.rampChangeAdapter,

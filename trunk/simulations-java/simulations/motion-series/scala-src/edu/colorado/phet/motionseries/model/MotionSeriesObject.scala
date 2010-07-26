@@ -79,8 +79,8 @@ class CustomTextMotionSeriesObject(name: String, mass: Double, kineticFriction: 
   override def displayTooltip = false
 }
 
-class MutableMotionSeriesObject(name: String, __mass: Double, kineticFriction: Double, staticFriction: Double, height: Double, imageFilename: String, crashImageFilename: String, points: Int, iconFilename: String, customizable: Boolean)
-        extends CustomTextMotionSeriesObject(name, __mass, kineticFriction, staticFriction, height, imageFilename, crashImageFilename, points, iconFilename, customizable) with Observable {
+class MutableMotionSeriesObject(name: String, __mass: Double, kineticFriction: Double, staticFriction: Double, _height: Double, imageFilename: String, crashImageFilename: String, points: Int, iconFilename: String, customizable: Boolean)
+        extends CustomTextMotionSeriesObject(name, __mass, kineticFriction, staticFriction, _height, imageFilename, crashImageFilename, points, iconFilename, customizable) with Observable {
   def mass_=(m: Double) = {
     _mass = m
     notifyListeners()

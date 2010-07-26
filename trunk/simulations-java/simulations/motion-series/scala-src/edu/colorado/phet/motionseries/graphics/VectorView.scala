@@ -42,14 +42,9 @@ class VectorView(bead: Bead,
                 offsetPlayArea: Double,
                 vectorDisplay: VectorDisplay) = {
     vectorDisplay.addVector(vector, offsetFBD, MotionSeriesDefaults.FBD_LABEL_MAX_OFFSET, offsetPlayArea)
-    //    fbdNode.addVector(vector, offsetFBD, MotionSeriesDefaults.FBD_LABEL_MAX_OFFSET)
-    //    windowFBDNode.addVector(vector, offsetFBD, MotionSeriesDefaults.FBD_LABEL_MAX_OFFSET)
 
     bead.removalListeners += (() => {
       vectorDisplay.removeVector(vector)
-      //      fbdNode.removeVector(vector)
-      //      windowFBDNode.removeVector(vector)
-      //      vectorNode.removeVector(playAreaAdapter) //todo: don't use vectorNode for game module but remove it if non-game module
     })
   }
 
@@ -66,14 +61,12 @@ class VectorView(bead: Bead,
       new ConstantVectorValue(new Vector2D(0, fbdWidth / 4)), 2,
       () => vectorViewModel.sumOfForcesVector, vectorDisplay) //no need to add a separate listener, since it is already contained in vectorviewmodel
   }
-  //  addAllVectors(bead)
 }
 
 trait VectorDisplay {
   def addVector(vector: Vector with PointOfOriginVector, offsetFBD: VectorValue, maxOffset: Int, offsetPlayArea: Double): Unit
 
   def removeVector(vector: Vector): Unit
-  //  vectorDisplay.addVector(vector,offsetFBD,MotionSeriesDefaults.FBD_LABEL_MAX_OFFSET,offsetPlayArea)
 }
 
 trait PointOfOriginVector {

@@ -64,8 +64,6 @@ object MotionSeriesDefaults {
   val MIN_X = -10.0
   val MAX_X = 10.0
 
-  //  val worldDefaultScale = 0.81
-  //  val worldDefaultScale = 0.75
   val worldDefaultScale = 1.0
 
   val worldWidth = (1024 * worldDefaultScale).toInt
@@ -92,7 +90,6 @@ object MotionSeriesDefaults {
   val crateMass = 100.0
   val crateHeight = 1.5
 
-  //ScalaRampObject(name,mass,kineticFriction,staticFriction,image)
   import edu.colorado.phet.motionseries.MotionSeriesResources._
 
   val crate = new MotionSeriesObject("object.small-crate".translate, crateMass, 0.3, 0.5, crateHeight, "crate.gif".literal, "crate_crashed.gif".literal, 200)

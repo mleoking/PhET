@@ -18,7 +18,7 @@ class MotionSeriesModule(frame: PhetFrame,
                          initialAngle: Double,
                          fbdPopupOnly: Boolean)
         extends Module(name, clock) {
-  TemporalChart.SEC_TEXT = "units.sec".translate;//see doc in SEC_TEXT
+  TemporalChart.SEC_TEXT = "units.sec".translate; //see doc in SEC_TEXT
   def createMotionSeriesModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngle: Double) =
     new MotionSeriesModel(defaultBeadPosition, pausedOnReset, initialAngle)
 
@@ -51,7 +51,6 @@ class MotionSeriesModule(frame: PhetFrame,
 
   //This clock is always running; pausing just pauses the physics
   clock.addClockListener(dt => {
-    //    println("Started clock tick: " + clockTickIndex)
     val paintAndInputTime = System.currentTimeMillis - lastTickTime
 
     val startTime = System.currentTimeMillis
@@ -72,13 +71,7 @@ class MotionSeriesModule(frame: PhetFrame,
 
     val elapsed = paintAndInputTime + modelTime
     //this policy causes problems on the mac, see #1832
-    //    if (elapsed < 25) {
-    //      val toSleep = 25 - elapsed
-    //      //      println("had excess time, sleeping: ".literal + toSleep)
-    //      Thread.sleep(toSleep) //todo: blocks swing event handler thread and paint thread, should run this clock loop in another thread
-    //    }
     lastTickTime = System.currentTimeMillis
-    //    println("Ended   clock tick: " + clockTickIndex + ": elapsed time = " + (System.currentTimeMillis - startTime) + " ms")
     clockTickIndex = clockTickIndex + 1
   })
 

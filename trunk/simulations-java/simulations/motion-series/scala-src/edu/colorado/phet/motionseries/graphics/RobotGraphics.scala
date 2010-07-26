@@ -24,7 +24,6 @@ class RobotGraphics(transform: ModelViewTransform2D, gameModel: RobotMovingCompa
   addChild(truckTop)
 
   gameModel.model.rampSegments(0).addListener(update)
-  //  gameModel.model.addListener(update)
   update()
   def update() = {
     val rampTopLeft = gameModel.model.positionMapper(-10)

@@ -45,7 +45,6 @@ class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2
   def updateBaseColor() = {
     baseColor = if (rampSurfaceModel.frictionless) iceColor else woodColor
     line.setStrokePaint(if (rampSurfaceModel.frictionless) iceStrokeColor else woodStrokeColor)
-    //    println("set base color: "+baseColor.getRed+", "+baseColor.getGreen+", "+baseColor.getBlue)
   }
   defineInvokeAndPass(rampSegment.addListenerByName) {
     line.setPathTo(mytransform.createTransformedShape(new BasicStroke(0.4f).createStrokedShape(rampSegment.toLine2D)))
