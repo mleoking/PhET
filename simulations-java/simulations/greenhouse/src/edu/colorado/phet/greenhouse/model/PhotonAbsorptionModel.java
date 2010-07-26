@@ -70,7 +70,8 @@ public class PhotonAbsorptionModel {
     // Default values for various parameters.
     private static final PhotonTarget DEFAULT_PHOTON_TARGET = PhotonTarget.SINGLE_CH4_MOLECULE;
     private static final double DEFAULT_EMITTED_PHOTON_WAVELENGTH = GreenhouseConfig.irWavelength;
-    private static final double DEFAULT_PHOTON_EMISSION_PERIOD = 1500; // Milliseconds of sim time.
+    private static final double DEFAULT_SINGLE_TARGET_PHOTON_EMISSION_PERIOD = 1500; // Milliseconds of sim time.
+    private static final double DEFAULT_MULTIPLE_TARGET_PHOTON_EMISSION_PERIOD = 700; // Milliseconds of sim time.
     
     // Initial and max values for the numbers of molecules in the configurable
     // atmosphere.
@@ -103,7 +104,8 @@ public class PhotonAbsorptionModel {
     // Variables that control periodic photon emission.
     private boolean periodicPhotonEmissionEnabled;
     private double photonEmissionCountdownTimer;
-    private double photonEmissionPeriod = DEFAULT_PHOTON_EMISSION_PERIOD;
+    private double singleTargetPhotonEmissionPeriod = DEFAULT_SINGLE_TARGET_PHOTON_EMISSION_PERIOD;
+    private double multipleTargetPhotonEmissionPeriod = DEFAULT_MULTIPLE_TARGET_PHOTON_EMISSION_PERIOD;
     
     // Collection that contains the molecules that comprise the configurable
     // atmosphere.
@@ -172,7 +174,12 @@ public class PhotonAbsorptionModel {
             if (photonEmissionCountdownTimer <= 0){
                 // Time to emit.
                 emitPhoton();
-                photonEmissionCountdownTimer = photonEmissionPeriod;
+                if (photonTarget == PhotonTarget.CONFIGURABLE_ATMOSPHERE){
+                    photonEmissionCountdownTimer = multipleTargetPhotonEmissionPeriod;
+                }
+                else{
+                    photonEmissionCountdownTimer = singleTargetPhotonEmissionPeriod;
+                }
             }
         }
         
@@ -259,7 +266,8 @@ public class PhotonAbsorptionModel {
     
     public void setPhotonTarget( PhotonTarget photonTarget ){
         if (this.photonTarget != photonTarget){
-            
+
+            // Update to the new value.
             this.photonTarget = photonTarget;
             
             // Remove the old photon target(s).
@@ -338,17 +346,39 @@ public class PhotonAbsorptionModel {
      * 
      * @return - Period between photons in milliseconds.
      */
-    public double getPhotonEmissionPeriod() {
-        return photonEmissionPeriod;
+    public double getSingleTargetPhotonEmissionPeriod() {
+        return singleTargetPhotonEmissionPeriod;
     }
     
     /**
-     * Set the emission period, i.e. the time between photons.
+     * 
+     * @return - Period between photons in milliseconds.
+     */
+    public double getMultipleTargetPhotonEmissionPeriod() {
+        return multipleTargetPhotonEmissionPeriod;
+    }
+    
+    /**
+     * Set the emission period, i.e. the time between photons, for the case
+     * where there is a single target for the photons.
      * 
      * @param photonEmissionPeriod - Period between photons in milliseconds.
      */
-    public void setPhotonEmissionPeriod( double photonEmissionPeriod ) {
-        this.photonEmissionPeriod = photonEmissionPeriod;
+    public void setSingleTargetPhotonEmissionPeriod( double photonEmissionPeriod ) {
+        this.singleTargetPhotonEmissionPeriod = photonEmissionPeriod;
+        if (isPeriodicPhotonEmissionEnabled() && photonEmissionCountdownTimer > photonEmissionPeriod){
+            photonEmissionCountdownTimer = photonEmissionPeriod;
+        }
+    }
+    
+    /**
+     * Set the emission period, i.e. the time between photons, for the case
+     * where there is are multiple targets for the photons.
+     * 
+     * @param photonEmissionPeriod - Period between photons in milliseconds.
+     */
+    public void setMultipleTargetPhotonEmissionPeriod( double photonEmissionPeriod ) {
+        this.multipleTargetPhotonEmissionPeriod = photonEmissionPeriod;
         if (isPeriodicPhotonEmissionEnabled() && photonEmissionCountdownTimer > photonEmissionPeriod){
             photonEmissionCountdownTimer = photonEmissionPeriod;
         }

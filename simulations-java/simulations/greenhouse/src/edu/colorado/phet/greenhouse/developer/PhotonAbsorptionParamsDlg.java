@@ -38,10 +38,10 @@ public class PhotonAbsorptionParamsDlg extends PaintImmediateDialog {
         final LinearValueControl emissionRateSlider = new LinearValueControl( 0, 5, "Frequency:", "#.#", "Photons/sec" );
         emissionRateSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                model.setPhotonEmissionPeriod( 1 / emissionRateSlider.getValue() * 1000 );
+                model.setSingleTargetPhotonEmissionPeriod( 1 / emissionRateSlider.getValue() * 1000 );
             }
         });
-        emissionRateSlider.setValue( 1 / model.getPhotonEmissionPeriod() * 1000 );
+        emissionRateSlider.setValue( 1 / model.getSingleTargetPhotonEmissionPeriod() * 1000 );
         add( emissionRateSlider  );
 
         // Create and add the slider for controlling absorption probability.
