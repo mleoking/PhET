@@ -35,7 +35,7 @@ public class PhotonAbsorptionModel {
     
     // Constants that controls where and how photons are emitted.
     private static final Point2D PHOTON_EMISSION_LOCATION = new Point2D.Double(-1300, 0);
-    private static final double PHOTON_EMISSION_ANGLE_RANGE = Math.PI/3;
+    private static final double PHOTON_EMISSION_ANGLE_RANGE = Math.PI/2;
     
     // Location used when a single molecule is sitting in the area where the
     // photons pass through.
@@ -106,6 +106,7 @@ public class PhotonAbsorptionModel {
     private double photonEmissionCountdownTimer;
     private double singleTargetPhotonEmissionPeriod = DEFAULT_SINGLE_TARGET_PHOTON_EMISSION_PERIOD;
     private double multipleTargetPhotonEmissionPeriod = DEFAULT_MULTIPLE_TARGET_PHOTON_EMISSION_PERIOD;
+    private double previousEmissionAngle = 0;
     
     // Collection that contains the molecules that comprise the configurable
     // atmosphere.
@@ -393,8 +394,13 @@ public class PhotonAbsorptionModel {
         photon.setLocation( PHOTON_EMISSION_LOCATION.getX(), PHOTON_EMISSION_LOCATION.getY() );
         double emissionAngle = 0; // Straight to the right.
         if (photonTarget == PhotonTarget.CONFIGURABLE_ATMOSPHERE){
-            // Photons can be emitted at an angle.
-            emissionAngle = (RAND.nextDouble() - 0.5) * PHOTON_EMISSION_ANGLE_RANGE;
+            // Photons can be emitted at an angle.  In order to get a more
+            // even spread, we alternate emitting with an up or down angle.
+            emissionAngle = RAND.nextDouble() * PHOTON_EMISSION_ANGLE_RANGE / 2;
+            if (previousEmissionAngle > 0){
+                emissionAngle = -emissionAngle;
+            }
+            previousEmissionAngle = emissionAngle;
         }
         photon.setVelocity( (float)(PHOTON_VELOCITY * Math.cos( emissionAngle ) ),
                 (float)(PHOTON_VELOCITY * Math.sin( emissionAngle ) ) );
