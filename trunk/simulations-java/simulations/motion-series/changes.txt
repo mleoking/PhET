@@ -1,3 +1,4 @@
+Fixed: only the net force series should be visible by default on charts
 Fixed: Meters label too close to Angle readout on Ramp tab
 forces-and-motion: Changed the default object from crate to file cabinet so that force arrows don't go offscreen by default in the force graphs tab
 Fixed: Bouncy does not reset
