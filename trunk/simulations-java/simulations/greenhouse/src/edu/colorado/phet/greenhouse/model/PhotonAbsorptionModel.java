@@ -309,8 +309,9 @@ public class PhotonAbsorptionModel {
                 // Add references for all the molecules in the configurable
                 // atmosphere to the "active molecules" list.
                 activeMolecules.addAll( configurableAtmosphereMolecules );
+                break;
             default:
-                System.err.println(getClass().getName() + " - Error: Unhandled molecule type.");
+                System.err.println(getClass().getName() + " - Error: Unhandled photon target.");
                 break;
             }
             
