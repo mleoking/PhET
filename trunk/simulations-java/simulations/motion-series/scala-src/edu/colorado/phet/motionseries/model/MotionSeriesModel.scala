@@ -144,6 +144,7 @@ class MotionSeriesModel(defaultBeadPosition: Double,
       rampSegments(1).setAngle(initialAngle)
 
       resetListeners.foreach(_())
+      bounce = MotionSeriesDefaults.BOUNCE_DEFAULT
 
       setPaused(pausedOnReset)
     }
