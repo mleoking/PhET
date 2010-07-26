@@ -11,7 +11,7 @@ import edu.colorado.phet.scalacommon.Predef._
 import edu.umd.cs.piccolo.PNode
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 import javax.swing.JFrame
-import edu.colorado.phet.motionseries.controls.ComboBoxNode
+import edu.colorado.phet.motionseries.controls.ObjectSelectionComboBoxNode
 import edu.colorado.phet.motionseries.javastage.stage.PlayArea
 import edu.colorado.phet.motionseries.{StageContainerArea, MotionSeriesResources, MotionSeriesDefaults}
 import edu.colorado.phet.common.piccolophet.event.CursorHandler
@@ -211,7 +211,7 @@ abstract class MotionSeriesCanvasDecorator(model: MotionSeriesModel,
   }
 
   if (showObjectSelectionNode) {
-    addStageNode(new ComboBoxNode(model, this) {
+    addStageNode(new ObjectSelectionComboBoxNode(model, this) {
       setOffset(stage.getWidth / 2 - getFullBounds.getWidth / 2, stage.getHeight - getFullBounds.getHeight - 2)
     })
   }
