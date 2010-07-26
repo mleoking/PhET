@@ -75,6 +75,7 @@ class FrictionModule(frame: PhetFrame)
 class GraphingModule(frame: PhetFrame)
         extends ForcesAndMotionModule(frame, "forces-and-motion.module.graphing.title".translate,
           false, false, true, false, -2, false, 0.0, true, true, MotionSeriesDefaults.forceMotionGraphViewport, MotionSeriesDefaults.forceEnergyGraphArea, true) {
+  motionSeriesModel.selectedObject = MotionSeriesDefaults.cabinet // so that force arrows don't go offscreen by default
   coordinateSystemModel.adjustable = false
   canvas.addScreenNode(new ForcesAndMotionChartNode(canvas, motionSeriesModel))
 
