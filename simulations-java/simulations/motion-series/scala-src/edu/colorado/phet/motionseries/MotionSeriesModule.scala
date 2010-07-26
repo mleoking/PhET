@@ -5,8 +5,10 @@ import edu.colorado.phet.common.phetcommon.application.Module
 import edu.colorado.phet.scalacommon.ScalaClock
 import edu.colorado.phet.motionseries.model._
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver
-import edu.colorado.phet.common.motion.charts.ChartCursor
 import javax.swing.RepaintManager
+import edu.colorado.phet.common.motion.charts.{TemporalChart, ChartCursor}
+import edu.colorado.phet.motionseries.Predef._
+
 //TODO: improve inheritance/composition scheme for different applications/modules/canvases/models
 class MotionSeriesModule(frame: PhetFrame,
                          val clock: ScalaClock,
@@ -16,6 +18,7 @@ class MotionSeriesModule(frame: PhetFrame,
                          initialAngle: Double,
                          fbdPopupOnly: Boolean)
         extends Module(name, clock) {
+  TemporalChart.SEC_TEXT = "units.sec".translate;//see doc in SEC_TEXT
   def createMotionSeriesModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngle: Double) =
     new MotionSeriesModel(defaultBeadPosition, pausedOnReset, initialAngle)
 
