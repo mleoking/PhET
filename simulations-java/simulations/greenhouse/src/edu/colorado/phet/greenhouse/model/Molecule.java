@@ -202,7 +202,10 @@ public abstract class Molecule {
     protected abstract void initializeAtomOffsets();
     
     public void addListener(Listener listener){
-        listeners.add(listener);
+        // Don't bother adding if already there.
+        if (!listeners.contains( listener )){
+            listeners.add(listener);
+        }
     }
     
     public void removeListener(Listener listener){
