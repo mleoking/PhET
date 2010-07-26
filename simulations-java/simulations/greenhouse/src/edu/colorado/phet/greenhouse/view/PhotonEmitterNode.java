@@ -13,9 +13,12 @@ import java.awt.geom.Rectangle2D;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
+import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -149,7 +152,8 @@ public class PhotonEmitterNode extends PNode {
 		// be emitted.
 		JPanel emissionTypeSelectionPanel = new VerticalLayoutPanel();
 		emissionTypeSelectionPanel.setBorder(BorderFactory.createRaisedBevelBorder());
-        // TODO: i18n
+		JPanel infraredButtonPanel = new HorizontalLayoutPanel();
+		// TODO: i18n
         infraredPhotonRadioButton = new JRadioButton("Infrared");
         infraredPhotonRadioButton.setFont(LABEL_FONT);
         infraredPhotonRadioButton.addActionListener( new ActionListener() {
@@ -158,7 +162,11 @@ public class PhotonEmitterNode extends PNode {
                 updateFrequencySelectButtons();
             }
         });
-        emissionTypeSelectionPanel.add(infraredPhotonRadioButton);
+        infraredButtonPanel.add( infraredPhotonRadioButton );
+        infraredButtonPanel.add( new JLabel(new ImageIcon( GreenhouseResources.getImage( "photon-660.png" ) ) ) );
+        emissionTypeSelectionPanel.add(infraredButtonPanel);
+        
+        JPanel visibleButtonPanel = new HorizontalLayoutPanel();
         // TODO: i18n
         visiblePhotonRadioButton = new JRadioButton("Visible");
         visiblePhotonRadioButton.setFont(LABEL_FONT);
@@ -168,7 +176,9 @@ public class PhotonEmitterNode extends PNode {
                 updateFrequencySelectButtons();
             }
         });
-        emissionTypeSelectionPanel.add(visiblePhotonRadioButton);
+        visibleButtonPanel.add( visiblePhotonRadioButton );
+        visibleButtonPanel.add( new JLabel(new ImageIcon( GreenhouseResources.getImage( "thin2.png" ) ) ) );
+        emissionTypeSelectionPanel.add(visibleButtonPanel);
         
 		ButtonGroup buttonGroup = new ButtonGroup();
 		buttonGroup.add(infraredPhotonRadioButton);
