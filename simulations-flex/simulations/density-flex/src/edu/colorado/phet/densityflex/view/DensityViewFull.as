@@ -46,5 +46,9 @@ public class DensityViewFull extends DensityView {
             densityObjectNode.setFluidDragForceVisible(selected);
         }
     }
+
+    public function createToyboxObject( densityObjectNode : DensityObjectNode ):void {
+           model.addDensityObject(Block.newBlockSizeMass(2, 4.0, -1.5, 0, new ColorTransform(0, 0, 1), model));
+    }
 }
 }

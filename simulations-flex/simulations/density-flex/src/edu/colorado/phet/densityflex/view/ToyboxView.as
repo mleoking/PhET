@@ -39,6 +39,8 @@ public class ToyboxView extends UIComponent {
     private var renderer:IRenderer;
     private var view:View3D;
 
+    public var densityView:DensityViewFull;
+
     public static const far:Number = 5000;
     public static const verticalGroundOffset:Number = -1;
 
@@ -79,6 +81,11 @@ public class ToyboxView extends UIComponent {
 
     private function initListeners():void {
         addEventListener( Event.ENTER_FRAME, onEnterFrame );
+        stage.addEventListener( MouseEvent.MOUSE_DOWN, onMouseDown );
+        stage.addEventListener( MouseEvent.MOUSE_UP, onMouseUp );
+        stage.addEventListener( Event.RESIZE, onResize );
+        stage.addEventListener( MouseEvent.MOUSE_MOVE, onMouseMove );
+        stage.addEventListener( Event.RESIZE, onResize );
     }
 
     override protected function updateDisplayList( unscaledWidth:Number, unscaledHeight:Number ):void {
@@ -99,7 +106,7 @@ public class ToyboxView extends UIComponent {
 
         camera = new Camera3D();
 
-//        camera.lens = new OrthogonalLens();
+        //        camera.lens = new OrthogonalLens();
         camera.position = new Number3D( 200, 300, -800 );
         camera.lookAt( new Number3D( 200, 0, 0 ) );
         camera.zoom = 2.5;
@@ -145,17 +152,17 @@ public class ToyboxView extends UIComponent {
     }
 
     public function onMouseDown( event:MouseEvent ):void {
-        //        startMouseX = stage.mouseX - view.x;
-        //        startMouseY = stage.mouseY - view.y;
-        //        if ( view.mouseObject is Pickable ) {
-        //            moving = true;
-        //            startMiddle = medianFrontScreenPoint( view.mouseObject as AbstractPrimitive );
-        //            selectedObject = view.mouseObject as AbstractPrimitive;
-        //            if ( selectedObject is Pickable ) {
-        //                cachedY = (selectedObject as Pickable).getBody().GetPosition().y;
-        //            }
-        //        }
-        //        stage.addEventListener( Event.MOUSE_LEAVE, onStageMouseLeave );
+        var startMouseX = stage.mouseX - view.x;
+        var startMouseY = stage.mouseY - view.y;
+        if ( view.mouseObject is Pickable ) {
+            densityView.createToyboxObject( view.mouseObject as DensityObjectNode );
+//            startMiddle = medianFrontScreenPoint( view.mouseObject as AbstractPrimitive );
+//            selectedObject = view.mouseObject as AbstractPrimitive;
+//            if ( selectedObject is Pickable ) {
+//                cachedY = (selectedObject as Pickable).getBody().GetPosition().y;
+//            }
+        }
+        stage.addEventListener( Event.MOUSE_LEAVE, onStageMouseLeave );
     }
 
     public function onMouseMove( event:MouseEvent ):void {
