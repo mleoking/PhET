@@ -32,8 +32,9 @@ class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2
   private var baseColor = woodColor
   val wetColor = new Color(150, 211, 238)
   val hotColor = new Color(255, 0, 0)
-  val line = new PhetPPath(baseColor, new BasicStroke(2f), woodStrokeColor)
-  addChild(line)
+  //  val pathNode = new PhetPPath(baseColor, new BasicStroke(2f), woodStrokeColor)
+  val pathNode = new PhetPPath(baseColor)
+  addChild(pathNode)
   def updateAll() = {
     updateBaseColor()
     updateColor()
@@ -44,10 +45,10 @@ class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2
 
   def updateBaseColor() = {
     baseColor = if (rampSurfaceModel.frictionless) iceColor else woodColor
-    line.setStrokePaint(if (rampSurfaceModel.frictionless) iceStrokeColor else woodStrokeColor)
+    pathNode.setStrokePaint(if (rampSurfaceModel.frictionless) iceStrokeColor else woodStrokeColor)
   }
   defineInvokeAndPass(rampSegment.addListenerByName) {
-    line.setPathTo(mytransform.createTransformedShape(new BasicStroke(0.4f).createStrokedShape(rampSegment.toLine2D)))
+    pathNode.setPathTo(mytransform.createTransformedShape(new BasicStroke(0.4f).createStrokedShape(rampSegment.toLine2D)))
   }
   rampSegment.wetnessListeners += (() => updateAll())
   rampSegment.addListener(() => updateAll())
@@ -85,14 +86,14 @@ class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2
 
   rampSegment.heatListeners += (() => updateColor())
 
-  def paintColor_=(p: Paint) = line.setPaint(p)
+  def paintColor_=(p: Paint) = pathNode.setPaint(p)
 
-  def paintColor = line.getPaint
+  def paintColor = pathNode.getPaint
 }
 
 class RotatableSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2D, rampSurfaceModel: RampSurfaceModel) extends RampSegmentNode(rampSegment, mytransform, rampSurfaceModel) {
-  line.addInputEventListener(new CursorHandler)
-  line.addInputEventListener(new RotationHandler(mytransform, line, rampSegment, 0, MotionSeriesDefaults.MAX_ANGLE))
+  pathNode.addInputEventListener(new CursorHandler)
+  pathNode.addInputEventListener(new RotationHandler(mytransform, pathNode, rampSegment, 0, MotionSeriesDefaults.MAX_ANGLE))
 }
 
 trait HasPaint extends PNode {
