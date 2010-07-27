@@ -47,8 +47,8 @@ public class DensityViewFull extends DensityView {
         }
     }
 
-    public function createToyboxObject( densityObjectNode : DensityObjectNode ):void {
-           model.addDensityObject(Block.newBlockSizeMass(2, 4.0, -1.5, 0, new ColorTransform(0, 0, 1), model));
+    public function createToyboxObject( densityObject:DensityObject ):void {
+        model.addDensityObject( densityObject.copy( model ) );
     }
 }
 }
