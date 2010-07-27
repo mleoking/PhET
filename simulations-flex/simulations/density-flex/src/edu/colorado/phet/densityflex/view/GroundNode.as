@@ -24,8 +24,8 @@ public class GroundNode extends MyMesh {
 
         // far ground vertices
         v(far, 0, 0);
-        v(far, 0, far);
-        v(-far, 0, far);
+        v(far, 0, poolDepth);
+        v(-far, 0, poolDepth);
         v(-far, 0, 0);
 
         // front earth vertices
@@ -61,8 +61,8 @@ public class GroundNode extends MyMesh {
 
         face(3, 4, 5, grassMaterial);
         face(3, 5, 2, grassMaterial);
-        face(2, 5, 6, grassMaterial);
-        face(1, 2, 6, grassMaterial);
+        //face(2, 5, 6, grassMaterial);
+        //face(1, 2, 6, grassMaterial);
         face(0, 1, 6, grassMaterial);
         face(0, 6, 7, grassMaterial);
 

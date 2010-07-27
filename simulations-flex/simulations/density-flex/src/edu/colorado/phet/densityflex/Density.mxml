@@ -8,7 +8,7 @@
     <mx:TabNavigator width="100%" height="100%" change="onSwitch(event)" creationPolicy="all" id="tabNavigator" fontSize="18">
         <mx:Canvas label="Intro" fontSize="12">
             <view:DensityViewIntro width="100%" height="100%" id="tab0"/>
-            <mx:Panel right="20" y="100">
+            <mx:Panel right="20" y="20" title="Properties">
                 <mx:RadioButton groupName="massVol" id="sameMass" label="{FlexSimStrings.get('intro.objectsOfSameMass')}" selected="true" click="tab0.switchToSameMass()"/>
                 <mx:RadioButton groupName="massVol" id="sameVolume" label="Objects of same volume" click="tab0.switchToSameVolume()"/>
                 <mx:RadioButton groupName="massVol" id="sameDensity" label="Objects of same density" click="tab0.switchToSameDensity()"/>
@@ -20,6 +20,9 @@
             </mx:Panel>
         </mx:Canvas>
         <mx:Canvas label="Advanced" fontSize="12">
+            <mx:Panel left="20" y="20" title="Toybox">
+                <view:ToyboxView width="400" height="125" id="toybox"/>
+            </mx:Panel>
             <view:DensityViewFull width="100%" height="100%" id="tab1"/>
             <mx:Panel left="20" bottom="20">
                 <mx:CheckBox id="gravityForceVectorCheckBox" label="Gravity Force" selected="true" change="tab1.setGravityForceVisible(gravityForceVectorCheckBox.selected)"/>
@@ -43,7 +46,6 @@
         import edu.colorado.phet.flexcommon.FlexSimStrings;
 
         import mx.core.Application;
-        import mx.events.SliderEvent;
 
         private var oldIndex:Number = 0;
         private var common:FlexCommon = new FlexCommon();
@@ -58,10 +60,13 @@
                 view.init();
                 view.pause();
             }
+            toybox.init();
             getAllTabs()[0].start();
             var panel:PropertiesPanel = new SpherePropertiesPanel();
 
             propertiesContentPanel.addChild(panel);
+
+
         }
 
         private function init():void {
@@ -103,27 +108,3 @@
         ]]></mx:Script>
 
 </mx:Application>
-        <!--<?xml version="1.0"?>-->
-        <!--<mx:Application-->
-        <!--xmlns:mx="http://www.adobe.com/2006/mxml"-->
-        <!--layout="absolute"-->
-        <!--xmlns:cmp="edu.colorado.phet.densityflex.*"-->
-        <!--xmlns:common="edu.colorado.phet.flexcommon.*"-->
-        <!-->-->
-        <!--<mx:Script source="Test.as"/>-->
-        <!--<cmp:Test id="app"/>-->
-
-        <!--<mx:Button id="addPlusChargeButton" label="Add +" height="20" x="0" y="20" click="app.addPlusCharge()"/>-->
-        <!--<mx:Button id="addMinusChargeButton" label="Add -" height="20" x="0" y="40" click="app.addMinusCharge()"/>-->
-        <!--<mx:Button id="add20Button" label="Add 20" height="20" x="0" y="60" click="app.add20()"/>-->
-        <!--<mx:Button id="clearButton" label="Clear" height="20" x="0" y="80" click="app.display.clearCharges()"/>-->
-        <!--<mx:Label id="fps" text="{app.display.mosaic.fps}" x="0" y="480"/>-->
-        <!--<mx:HSlider id="stepSlider" tickInterval="1" snapInterval="1" x="400" y="0" width="300"-->
-        <!--value="{app.display.mosaic.step}" minimum="3" maximum="50"-->
-        <!--change="app.display.mosaic.changeStepSize(event)"/>-->
-        <!--<mx:Text text="{Math.round(stepSlider.value)}" x="700" y="0" height="20"/>-->
-        <!--<mx:VSlider id="kSlider" x="0" y="200" value="{Model.kScaled}" minimum="8" maximum="15"-->
-        <!--change="app.display.setKScaled(event)"/>-->
-
-        <!--<common:FlexCommonMXML id="flexcommon" x="0" y="0" />-->
-        <!--</mx:Application>-->

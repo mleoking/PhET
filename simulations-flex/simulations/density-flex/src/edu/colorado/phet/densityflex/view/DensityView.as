@@ -84,7 +84,7 @@ public class DensityView extends UIComponent {
         backgroundSprite.graphics.beginFill(0x000000);
         backgroundSprite.graphics.drawRect(0, 0, 5000, 5000);
         backgroundSprite.graphics.endFill();
-        addChild(backgroundSprite);
+        //addChild(backgroundSprite);
         addChild(view);
         waterHeightIndicator = new WaterHeightIndicator(model);
         waterHeightIndicator.x = 100;
@@ -344,6 +344,10 @@ public class DensityView extends UIComponent {
         //        camera.distance = event.value;
         camera.zoom = event.value;
         //        camera.moveCamera();
+    }
+
+    public function getModel() : DensityModel {
+        return model;
     }
 }
 }
