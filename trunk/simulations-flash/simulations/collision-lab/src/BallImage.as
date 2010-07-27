@@ -24,6 +24,7 @@ package{
 		var ballHandle:Sprite;
 		var arrowHeadIndicator:Sprite; 		//shows user where tip of arrow head is
 		var arrowHeadHandle:Sprite;			//user grabs this handle to set velocity with mouse
+		var arrowShown:Boolean;				//true if velocity arrow visible
 		var tFormat:TextFormat;				//format for ball label text
 		var tFormat2:TextFormat;			//format for ball position and velocity readouts
 		var tFieldBallNbr:TextField;		//label = ball number
@@ -83,6 +84,7 @@ package{
 			this.drawLayer5();
 			this.makeBallDraggable();
 			this.makeArrowDraggable();
+			this.arrowShown = true;
 		}//end of constructor
 		
 		private function setLayerDepths():void{
@@ -387,7 +389,7 @@ package{
 				var velInPix:Number = this.arrowImage.lengthInPix//Math.sqrt(target.x*target.x + target.y*target.y); 
 				//var rInPix:Number = thisBallImage.pixelsPerMeter*thisBallImage.myBall.getRadius();
 					//trace("distInPix: "+distInPix+"   r:"+rInPix);
-				if(velInPix < ballRadiusInPix){
+				if(velInPix < ballRadiusInPix && this.arrowShown){
 						//trace("inside");
 					this.arrowHeadIndicator.visible = true;
 				}else{
@@ -397,11 +399,13 @@ package{
 		}//end of setVisibilityOfArrowHeadIndicator
 			
 		public function showArrow(tOrF:Boolean):void{
-			if(tOrF){
+			if(tOrF){  //if arrows shown
+				this.arrowShown = true;
 				this.arrowImage.visible = true;
-				this.arrowHeadIndicator.visible = false;
+				this.setVisibilityOfArrowHeadIndicator();
 				this.arrowHeadHandle.visible = true;
-			}else{
+			}else{  //if arrow not shown
+				this.arrowShown = false;
 				this.arrowImage.visible = false;
 				this.arrowHeadIndicator.visible = false;
 				this.arrowHeadHandle.visible = false;
