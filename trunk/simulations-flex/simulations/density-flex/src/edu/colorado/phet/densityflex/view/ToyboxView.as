@@ -79,6 +79,8 @@ public class ToyboxView extends UIComponent {
 
         view.x = 200 + 30; // temporary shift
         view.y = 63;
+
+        view.render();
     }
 
     private function initListeners():void {
@@ -150,7 +152,7 @@ public class ToyboxView extends UIComponent {
     }
 
     public function onEnterFrame( event:Event ):void {
-        view.render();
+        //view.render();
     }
 
     public function onMouseDown( event:MouseEvent ):void {
