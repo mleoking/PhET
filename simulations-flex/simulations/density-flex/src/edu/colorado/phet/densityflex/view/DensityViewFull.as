@@ -2,9 +2,8 @@ package edu.colorado.phet.densityflex.view {
 import edu.colorado.phet.densityflex.model.Block;
 import edu.colorado.phet.densityflex.model.DensityObject;
 
+import flash.events.Event;
 import flash.geom.ColorTransform;
-
-import mx.events.SliderEvent;
 
 public class DensityViewFull extends DensityView {
     public function DensityViewFull() {
@@ -14,8 +13,8 @@ public class DensityViewFull extends DensityView {
         super.initObjects();
         addScales();
         model.addDensityObject(Block.newBlockSizeMass(3, 4.0, -4.5, 0, new ColorTransform(0.5, 0.5, 0), model));
-//        model.addDensityObject(Block.newBlockSizeMass(2, 4.0, -1.5, 0, new ColorTransform(0, 0, 1), model));
-//        model.addDensityObject(Block.newBlockSizeMass(1.5, 4.0, 1.5, 0, new ColorTransform(0, 1, 0), model));
+        //        model.addDensityObject(Block.newBlockSizeMass(2, 4.0, -1.5, 0, new ColorTransform(0, 0, 1), model));
+        //        model.addDensityObject(Block.newBlockSizeMass(1.5, 4.0, 1.5, 0, new ColorTransform(0, 1, 0), model));
     }
 
     override protected function createDensityObjectNode(densityObject:DensityObject):DensityObjectNode {
