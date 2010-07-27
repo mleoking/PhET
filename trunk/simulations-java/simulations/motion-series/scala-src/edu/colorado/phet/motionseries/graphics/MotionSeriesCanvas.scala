@@ -65,13 +65,13 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
   def addHeightAndAngleIndicators()
   addHeightAndAngleIndicators()
 
+  def attachListenerToRightWall(node:PNode):Unit
   def addWallsAndDecorations() = {
     playAreaNode.addChild(new BeadNode(model.leftWall, transform, "wall.jpg".literal) with CloseButton {
       def model = MotionSeriesCanvas.this.model
     })
     playAreaNode.addChild(new BeadNode(model.rightWall, transform, "wall.jpg".literal) with CloseButton {
-      addInputEventListener(new CursorHandler)
-      addInputEventListener(new RotationHandler(transform, this, model.rampSegments(1), 0, MotionSeriesDefaults.MAX_ANGLE))
+      attachListenerToRightWall(this)
       def model = MotionSeriesCanvas.this.model
     })
 
@@ -226,5 +226,10 @@ class RampCanvas(model: MotionSeriesModel, coordinateSystemModel: AdjustableCoor
   def addHeightAndAngleIndicators() = {
     playAreaNode.addChild(new RampHeightIndicator(model.rampSegments(1), transform))
     playAreaNode.addChild(new RampAngleIndicator(model.rampSegments(1), transform))
+  }
+
+  def attachListenerToRightWall(wall:PNode) = {
+    wall.addInputEventListener(new CursorHandler)
+    wall.addInputEventListener(new RotationHandler(transform, wall, model.rampSegments(1), 0, MotionSeriesDefaults.MAX_ANGLE))
   }
 }

@@ -16,6 +16,7 @@ import edu.colorado.phet.motionseries.sims.theramp.robotmovingcompany.RobotMovin
 import edu.colorado.phet.motionseries.{StageContainerArea, MotionSeriesModule, MotionSeriesDefaults}
 import edu.colorado.phet.motionseries.charts.ForcesAndMotionChartNode
 import edu.colorado.phet.motionseries.sims.theramp.{ForceGraphsModule, IntroRampModule}
+import edu.umd.cs.piccolo.PNode
 
 class ForcesAndMotionModule(frame: PhetFrame,
                             name: String,
@@ -57,6 +58,8 @@ class ForcesAndMotionCanvas(model: MotionSeriesModel,
   override def addHeightAndAngleIndicators() = {}
 
   override def createRightSegmentNode: HasPaint = new RampSegmentNode(model.rampSegments(1), transform, model)
+
+  def attachListenerToRightWall(node: PNode) = {}//cannot drag the wall to rotate the ramp in this sim
 }
 
 class IntroModule(frame: PhetFrame) extends ForcesAndMotionModule(frame, "forces-and-motion.module.intro.title".translate, false, true, false,
