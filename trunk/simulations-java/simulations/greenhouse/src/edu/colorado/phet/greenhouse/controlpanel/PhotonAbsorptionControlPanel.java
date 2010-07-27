@@ -163,10 +163,10 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
         atmosphericGasesPanel.add( atmosphereSliderPanel );
         
         // Add the molecule control sliders.
-        addSliderForMolecule( "CO2", atmosphereSliderPanel, MoleculeID.CO2 );
-        addSliderForMolecule( "H2O", atmosphereSliderPanel, MoleculeID.H2O );
-        addSliderForMolecule( "N2", atmosphereSliderPanel, MoleculeID.N2 );
-        addSliderForMolecule( "O2", atmosphereSliderPanel, MoleculeID.O2 );
+        addSliderForMolecule( "<html>CO<sub>2</sub></html>", atmosphereSliderPanel, MoleculeID.CO2 );
+        addSliderForMolecule( "<html>H<sub>2</sub>O</html>", atmosphereSliderPanel, MoleculeID.H2O );
+        addSliderForMolecule( "<html>N<sub>2</sub></html>", atmosphereSliderPanel, MoleculeID.N2 );
+        addSliderForMolecule( "<html>O<sub>2</sub></html>", atmosphereSliderPanel, MoleculeID.O2 );
 
         // Put the atmosphere panel on to the main control panel.
 //        addControlFullWidth(atmosphereSliderPanel);
