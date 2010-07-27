@@ -4,10 +4,10 @@ import Box2D.Dynamics.b2BodyDef;
 
 public class Cuboid extends DensityObject {
 
-    private var density:Number;
-    private var width:Number;
-    private var height:Number;
-    private var depth:Number;
+    protected var density:Number;
+    protected var width:Number;
+    protected var height:Number;
+    protected var depth:Number;
     private var shapeDef:b2PolygonDef = new b2PolygonDef();
     private var bodyDef:b2BodyDef = new b2BodyDef();
     private var shapeChangeListeners:Array = new Array();

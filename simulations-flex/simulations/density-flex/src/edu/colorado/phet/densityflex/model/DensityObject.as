@@ -179,5 +179,9 @@ public class DensityObject {
     public function getContactForceArrowModel():ArrowModel {
         return contactForceArrowModel;
     }
+
+    public function copy( model:DensityModel ):DensityObject {
+        throw new Error("bad copy on DensityObject");
+    }
 }
 }

@@ -26,6 +26,8 @@ import flash.events.MouseEvent;
 
 import flash.geom.ColorTransform;
 
+import flash.utils.getQualifiedClassName;
+
 import mx.core.UIComponent;
 import mx.events.SliderEvent;
 
@@ -130,7 +132,7 @@ public class ToyboxView extends UIComponent {
         scene.addChild( light );
 
         //        scene.addChild( new Cube( {width: 50,height: 50, depth: 50, material:new ColorMaterial( 0x000000 )} ) );
-        var model:DensityModel = new DensityModel();
+        var model:DensityModel = new DensityModel(); // TODO: factor out into toybox version and main version
         var a:Block = Block.newBlockDensitySize( 1.0 / 8.0, 2, -4.5, 0, new ColorTransform( 0.5, 0.5, 0 ), model );
         model.addDensityObject( a );
         var b:Block = Block.newBlockDensitySize( 0.5, 2, -1.5, 0, new ColorTransform( 0, 0, 1 ), model );
@@ -154,13 +156,15 @@ public class ToyboxView extends UIComponent {
     public function onMouseDown( event:MouseEvent ):void {
         var startMouseX = stage.mouseX - view.x;
         var startMouseY = stage.mouseY - view.y;
-        if ( view.mouseObject is Pickable ) {
-            densityView.createToyboxObject( view.mouseObject as DensityObjectNode );
-//            startMiddle = medianFrontScreenPoint( view.mouseObject as AbstractPrimitive );
-//            selectedObject = view.mouseObject as AbstractPrimitive;
-//            if ( selectedObject is Pickable ) {
-//                cachedY = (selectedObject as Pickable).getBody().GetPosition().y;
-//            }
+        trace( "clicked toybox object: " + view.mouseObject );
+        if ( view.mouseObject is PickableCube && view.mouseObject != null ) {
+            trace( "clicked density object node in toybox" );
+            densityView.createToyboxObject( (view.mouseObject as PickableCube).getBody().GetUserData() as DensityObject );
+            //            startMiddle = medianFrontScreenPoint( view.mouseObject as AbstractPrimitive );
+            //            selectedObject = view.mouseObject as AbstractPrimitive;
+            //            if ( selectedObject is Pickable ) {
+            //                cachedY = (selectedObject as Pickable).getBody().GetPosition().y;
+            //            }
         }
         stage.addEventListener( Event.MOUSE_LEAVE, onStageMouseLeave );
     }
