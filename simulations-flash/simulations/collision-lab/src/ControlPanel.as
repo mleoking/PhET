@@ -86,6 +86,7 @@
 			var nbrBalls_str:String = String(this.myModel.nbrBalls);
 			this.changeNbrBallButtons.nbrReadout.text = nbrBalls_str;
 			this.nbrBalls = this.myModel.nbrBalls;
+			this.changeNbrBallButtons.addBallButton.visible = true;
 			if(this.nbrBalls == 1){
 				this.changeNbrBallButtons.removeBallButton.visible = false;
 				this.myMainView.myTableView.CM.visible = false;

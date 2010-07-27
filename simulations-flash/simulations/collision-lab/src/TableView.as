@@ -213,8 +213,8 @@
 				this.myTrajectories.erasePaths();
 				//this.myModel.atInitialConfig = false;
 			}
-			this.timeText.text = "Time = " + Math.round(100*this.myModel.time)/100;
-			this.totKEText.text = "KEtot = " + Math.round(100*this.myModel.getTotalKE())/100;
+			this.timeText.text = "Time = " + Math.round(100*this.myModel.time)/100 + " s";
+			this.totKEText.text = "KEtot = " + Math.round(100*this.myModel.getTotalKE())/100 + " J";
 			
 			this.CM.x = this.pixelsPerMeter*this.myModel.CM.x;
 			this.CM.y = this.pixelsPerMeter*(yMax - this.myModel.CM.y);
