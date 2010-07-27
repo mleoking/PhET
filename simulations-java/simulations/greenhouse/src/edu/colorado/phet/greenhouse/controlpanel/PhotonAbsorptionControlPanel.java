@@ -112,9 +112,6 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
         int minimumWidth = GreenhouseResources.getInt( "int.minControlPanelWidth", 215 );
         setMinimumWidth( minimumWidth );
         
-        // Put some space at the top of the panel.
-        addControlFullWidth(createVerticalSpacingPanel(20));
-        
         // Create and add a panel that will contain the buttons for selecting
         // the gas.
         VerticalLayoutPanel atmosphericGasesPanel = new VerticalLayoutPanel();
@@ -153,26 +150,26 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
         o2Selector.setFont( LABEL_FONT );
         atmosphericGasesPanel.add(o2Selector);
 
+        // TODO: i18n
+        atmospherSelector = createAndAttachSelectorPanel("<html>Build<br>Atmosphere</html>", GreenhouseResources.getImage( "earth.png" ),
+                PhotonTarget.CONFIGURABLE_ATMOSPHERE, PLANET_SCALING_FACTOR);
+        atmosphericGasesPanel.add(atmospherSelector);
+
         // Create and add a panel that will contain the buttons for selecting
         // the atmosphere.
-        VerticalLayoutPanel atmospherePanel = new VerticalLayoutPanel();
+        VerticalLayoutPanel atmosphereSliderPanel = new VerticalLayoutPanel();
         // TODO: i18n
-        atmospherePanel.setBorder(createTitledBorder("Atmosphere"));
-        addControlFullWidth( atmospherePanel );
-
-        // TODO: i18n
-        atmospherSelector = createAndAttachSelectorPanel("Build Atmosphere", GreenhouseResources.getImage( "earth.png" ),
-                PhotonTarget.CONFIGURABLE_ATMOSPHERE, PLANET_SCALING_FACTOR);
-        atmospherePanel.add(atmospherSelector);
+//        addControlFullWidth( atmosphereSliderPanel );
+        atmosphericGasesPanel.add( atmosphereSliderPanel );
         
         // Add the molecule control sliders.
-        addSliderForMolecule( "CO2", atmospherePanel, MoleculeID.CO2 );
-        addSliderForMolecule( "H2O", atmospherePanel, MoleculeID.H2O );
-        addSliderForMolecule( "N2", atmospherePanel, MoleculeID.N2 );
-        addSliderForMolecule( "O2", atmospherePanel, MoleculeID.O2 );
+        addSliderForMolecule( "CO2", atmosphereSliderPanel, MoleculeID.CO2 );
+        addSliderForMolecule( "H2O", atmosphereSliderPanel, MoleculeID.H2O );
+        addSliderForMolecule( "N2", atmosphereSliderPanel, MoleculeID.N2 );
+        addSliderForMolecule( "O2", atmosphereSliderPanel, MoleculeID.O2 );
 
         // Put the atmosphere panel on to the main control panel.
-        addControlFullWidth(atmospherePanel);
+//        addControlFullWidth(atmosphereSliderPanel);
         
         // Put all the buttons in a button group.
         ButtonGroup buttonGroup = new ButtonGroup();

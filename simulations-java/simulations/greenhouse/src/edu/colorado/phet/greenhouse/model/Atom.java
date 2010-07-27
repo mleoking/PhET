@@ -4,6 +4,8 @@ package edu.colorado.phet.greenhouse.model;
 
 import java.awt.Color;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.Rectangle2D.Double;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 
@@ -49,7 +51,7 @@ public abstract class Atom extends SimpleObservable {
     // Methods
     //------------------------------------------------------------------------
     
-    public Point2D getPosition() {
+    public Point2D getPositionRef() {
         return position;
     }
     
@@ -77,6 +79,10 @@ public abstract class Atom extends SimpleObservable {
     
     public double getMass() {
         return mass;
+    }
+    
+    public Rectangle2D getBoundingRect (){
+        return new Rectangle2D.Double(position.getX() - radius, position.getY() - radius, radius * 2, radius * 2);
     }
     
     //------------------------------------------------------------------------

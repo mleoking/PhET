@@ -78,8 +78,8 @@ public class AtomicBondNode extends PNode {
         {
             // Single bond, so connect it from the center of one atom to the
             // center of the other.
-            Point2D transformedPt1 = mvt.modelToViewDouble( atomicBond.getAtom1().getPosition() );
-            Point2D transformedPt2 = mvt.modelToViewDouble( atomicBond.getAtom2().getPosition() );
+            Point2D transformedPt1 = mvt.modelToViewDouble( atomicBond.getAtom1().getPositionRef() );
+            Point2D transformedPt2 = mvt.modelToViewDouble( atomicBond.getAtom2().getPositionRef() );
             bondWidth = (float)(BOND_WIDTH_PROPORTION_SINGLE * averageAtomRadius);
             PPath bond = new PhetPPath(new BasicStroke(bondWidth), BOND_COLOR);
             bond.setPathTo( new Line2D.Double( transformedPt1, transformedPt2 ) );
@@ -93,8 +93,8 @@ public class AtomicBondNode extends PNode {
             // needs to be generalized.
             double transformedRadius = mvt.modelToViewDifferentialXDouble( Math.min( atomicBond.getAtom1().getRadius(),
                     atomicBond.getAtom2().getRadius() ) );
-            Point2D p1 = mvt.modelToViewDouble( atomicBond.getAtom1().getPosition() );
-            Point2D p2 = mvt.modelToViewDouble( atomicBond.getAtom2().getPosition() );
+            Point2D p1 = mvt.modelToViewDouble( atomicBond.getAtom1().getPositionRef() );
+            Point2D p2 = mvt.modelToViewDouble( atomicBond.getAtom2().getPositionRef() );
             bondWidth = (float)(BOND_WIDTH_PROPORTION_DOUBLE * averageAtomRadius);
             PPath bond1 = new PhetPPath(new BasicStroke(bondWidth), BOND_COLOR);
             bond1.setPathTo( new Line2D.Double( p1.getX(), p1.getY() + transformedRadius / 3, p2.getX(), p2.getY() + transformedRadius / 3) );
@@ -112,8 +112,8 @@ public class AtomicBondNode extends PNode {
             // needs to be generalized.
             double transformedRadius = mvt.modelToViewDifferentialXDouble( Math.min( atomicBond.getAtom1().getRadius(),
                     atomicBond.getAtom2().getRadius() ) );
-            Point2D p1 = mvt.modelToViewDouble( atomicBond.getAtom1().getPosition() );
-            Point2D p2 = mvt.modelToViewDouble( atomicBond.getAtom2().getPosition() );
+            Point2D p1 = mvt.modelToViewDouble( atomicBond.getAtom1().getPositionRef() );
+            Point2D p2 = mvt.modelToViewDouble( atomicBond.getAtom2().getPositionRef() );
             bondWidth = (float)(BOND_WIDTH_PROPORTION_TRIPLE * averageAtomRadius);
             PPath bond1 = new PhetPPath(new BasicStroke(bondWidth), BOND_COLOR);
             bond1.setPathTo( new Line2D.Double( p1.getX(), p1.getY() + transformedRadius / 2, p2.getX(), p2.getY() + transformedRadius / 3) );

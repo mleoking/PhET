@@ -4,12 +4,14 @@ package edu.colorado.phet.greenhouse.model;
 
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 
 /**
  * Class that represents a molecule in the model.  This, by its nature, is
@@ -394,6 +396,21 @@ public abstract class Molecule {
 
     public AbstractVector2D getVelocity() {
         return velocity;
+    }
+    
+    /**
+     * Get an enclosing rectangle for this molecule.  This was created to
+     * support searching for open locations for new molecules.
+     * 
+     * @return
+     */
+    public Rectangle2D getBoundingRect(){
+        Rectangle2D [] atomRects = new Rectangle2D[atoms.size()];
+        for (int i = 0; i < atoms.size(); i++){
+            atomRects[i] = atoms.get( i ).getBoundingRect();
+        }
+        
+        return RectangleUtils.union( atomRects );
     }
 
     //------------------------------------------------------------------------
