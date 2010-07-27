@@ -75,7 +75,7 @@ public class AtomNode extends PPath {
      * 
      */
     private void updatePosition() {
-        setOffset( mvt.modelToViewDouble( atom.getPosition() ) );
+        setOffset( mvt.modelToViewDouble( atom.getPositionRef() ) );
     }
 
     // ------------------------------------------------------------------------

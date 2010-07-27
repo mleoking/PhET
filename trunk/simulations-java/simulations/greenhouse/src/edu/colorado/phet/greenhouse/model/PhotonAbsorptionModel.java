@@ -472,7 +472,7 @@ public class PhotonAbsorptionModel {
             // Add the necessary number of the specified molecule.
             for (int i = 0; i < numMoleculesToAdd; i++){
                 Molecule moleculeToAdd = Molecule.createMolecule( moleculeID );
-                moleculeToAdd.setCenterOfGravityPos( findOpenLocationInAtmosphere() );
+                moleculeToAdd.setCenterOfGravityPos( findLocationInAtmosphereForMolecule2( moleculeToAdd ) );
                 configurableAtmosphereMolecules.add( moleculeToAdd );
                 moleculeToAdd.addListener( moleculePhotonEmissionListener );
             }
@@ -578,12 +578,13 @@ public class PhotonAbsorptionModel {
     private static final double EMITTER_AVOIDANCE_COMP_Y = 800;
     
     /**
-     * Find an open location for a molecule.  This is assumed to be used only
-     * when multiple molecules are being shown.
+     * Find a location in the atmosphere that has a minimal amount of overlap
+     * with other molecules.  This is assumed to be used only when multiple
+     * molecules are being shown.
      * 
      * @return - A Point2D that is relatively free of other molecules.
      */
-    private Point2D findOpenLocationInAtmosphere(){
+    private Point2D findLocationInAtmosphereForMolecule( Molecule molecule ){
         
         // Generate a set of random location.
         ArrayList<Point2D> possibleLocations = new ArrayList<Point2D>();
@@ -610,11 +611,64 @@ public class PhotonAbsorptionModel {
             }
         });
         
-        if (possibleLocations.get( possibleLocations.size() - 1 ).distance( getPhotonEmissionLocation()) < 300 ){
-            System.out.println("Yowza!");
+        return possibleLocations.get( possibleLocations.size() - 1 );
+    }
+    
+    /**
+     * Find a location in the atmosphere that has a minimal amount of overlap
+     * with other molecules.  This is assumed to be used only when multiple
+     * molecules are being shown.
+     * 
+     * IMPORTANT: This assumes that the molecule in question is not already on
+     * the list of molecules, and may return weird results if it is.
+     * 
+     * @return - A Point2D that is relatively free of other molecules.
+     */
+    private Point2D findLocationInAtmosphereForMolecule2( Molecule molecule ){
+        
+        // Generate a set of random location.
+        ArrayList<Point2D> possibleLocations = new ArrayList<Point2D>();
+        
+        for (int i = 0; i < 100; i++){
+            // Randomly generate a position.
+            double proposedYPos = MOLECULE_POS_MIN_Y + RAND.nextDouble() * MOLECULE_POS_RANGE_Y;
+            double minXPos = MOLECULE_POS_MIN_X;
+            double xRange = MOLECULE_POS_RANGE_X;
+            if (Math.abs( proposedYPos - getContainmentAreaRect().getCenterY() ) < EMITTER_AVOIDANCE_COMP_Y / 2){
+                // Compensate in the X direction so that this position is not
+                // too close to the photon emitter.
+                minXPos = MOLECULE_POS_MIN_X + EMITTER_AVOIDANCE_COMP_X;
+                xRange = MOLECULE_POS_RANGE_X - EMITTER_AVOIDANCE_COMP_X;
+            }
+            double proposedXPos = minXPos + RAND.nextDouble() * xRange;
+            possibleLocations.add( new Point2D.Double(proposedXPos, proposedYPos ) );
         }
         
-        return possibleLocations.get( possibleLocations.size() - 1 );
+        final double molRectWidth = molecule.getBoundingRect().getWidth();
+        final double molRectHeight = molecule.getBoundingRect().getHeight();
+        
+        // Figure out which point would position the molecule such that it had
+        // the least overlap with other molecules.
+        Collections.sort( possibleLocations, new Comparator<Point2D>() {
+            public int compare( Point2D p1, Point2D p2 ) {
+                return Double.compare( getOverlapWithOtherMolecules(p1, molRectWidth, molRectHeight),
+                        getOverlapWithOtherMolecules(p2, molRectWidth, molRectHeight) );
+            }
+        });
+        
+        return possibleLocations.get( 0 );
+    }
+    
+    /**
+     * Conveneince method for creating a rectangle from a center point.
+     * 
+     * @param pt
+     * @param width
+     * @param height
+     * @return
+     */
+    private Rectangle2D createRectangleFromPoint(Point2D pt, double width, double height){
+       return new Rectangle2D.Double(pt.getX() - width / 2, pt.getY() - height / 2, width, height); 
     }
     
     private double getMinDistanceToOtherMolecules( Point2D o1 ) {
@@ -625,6 +679,25 @@ public class PhotonAbsorptionModel {
             }
         }
         return minDistance;
+    }
+    
+    private double getOverlapWithOtherMolecules( Point2D pt, double width, double height ){
+        double overlap = 0;
+        Rectangle2D testRect = createRectangleFromPoint( pt, width, height );
+        for (Molecule molecule : configurableAtmosphereMolecules){
+            // Add in the overlap for each molecule.  There may well be no
+            // overlap.
+            overlap += Math.max( molecule.getBoundingRect().createIntersection( testRect ).getWidth(), 0 ) * 
+                Math.max(molecule.getBoundingRect().createIntersection( testRect ).getHeight(), 0 );
+        }
+        if (overlap == 0){
+            // This point has no overlap.  Add some "bonus points" for the
+            // amount of distance from all other points.  The reason that this
+            // is negative is that 0 is the least overlap that can occur, so
+            // it is even better if it is a long way from any other molecules.
+            overlap = -getMinDistanceToOtherMolecules( pt );
+        }
+        return overlap;
     }
     
     private void setConfigurableAtmosphereInitialLevel(MoleculeID moleculeID){
