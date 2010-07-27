@@ -21,7 +21,7 @@
         </mx:Canvas>
         <mx:Canvas label="Advanced" fontSize="12">
             <mx:Panel left="20" y="20" title="Toybox">
-                <view:ToyboxView width="400" height="125" id="toybox"/>
+                <view:ToyboxView width="400" height="125" id="toybox" densityView="{tab1}"/>
             </mx:Panel>
             <view:DensityViewFull width="100%" height="100%" id="tab1"/>
             <mx:Panel left="20" bottom="20">

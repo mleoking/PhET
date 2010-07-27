@@ -122,7 +122,7 @@ public class DensityObject {
         var term:b2Vec2 = contact.normal.Copy();
         term.Multiply(sign * contact.normalImpulse);
         contactImpulseMap[other].Add(term);
-        trace("Force element: " + contactImpulseMap[other].x + ", " + contactImpulseMap[other].y);
+//        trace("Force element: " + contactImpulseMap[other].x + ", " + contactImpulseMap[other].y);
     }
 
     private function getNetContactForce():b2Vec2 {
@@ -131,7 +131,7 @@ public class DensityObject {
             sum.Add(object as b2Vec2);
         }
         sum.Multiply(1.0 / DensityModel.DT_FRAME);//to convert to force
-        trace("Force sum: " + sum.x + ", " + sum.y);
+//        trace("Force sum: " + sum.x + ", " + sum.y);
         return sum;
     }
 
@@ -146,7 +146,7 @@ public class DensityObject {
     public function modelStepped():void {
         velocityArrowModel.setValue(body.GetLinearVelocity().x, body.GetLinearVelocity().y);
         gravityForceArrowModel.setValue(getGravityForce().x, getGravityForce().y);
-        trace("Gravity y = " + getGravityForce().y);
+//        trace("Gravity y = " + getGravityForce().y);
         buoyancyForceArrowModel.setValue(getBuoyancyForce().x, getBuoyancyForce().y);
         dragForceArrowModel.setValue(getDragForce().x, getDragForce().y);
         contactForceArrowModel.setValue(getNetContactForce().x, getNetContactForce().y)
