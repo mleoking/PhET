@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!--common-strings_es_CO.xml created Fri Apr 02 07:51:20 COT 2010 using: flash-common-strings 2.02.00 (38663), translation-utility 2.08.00 (39581) abr 1, 2010-->
 <SimStrings>
 <string key="About..." value="Acerca de..."/>
@@ -65,7 +65,7 @@
 <string key="Distribution" value="Distribución"/>
 <string key="LicenseLibraries" value="Información de licenciamiento de las librerías usadas."/>
 <string key="PrivacyDetails" value="Detalles de privacidad"/>
-<string key="NotUpdateSim" value="Esta simulación no puede actualizarse autmáticamente."/>
+<string key="NotUpdateSim" value="Esta simulación no puede actualizarse automáticamente."/>
 <string key="CurrentVersionIs" value="Su versión de {0} es {1}"/>
 <string key="StatisticsField-host_flash_os" value="Sist. Operativo y nombre:"/>
 <string key="OK" value="OK"/>
