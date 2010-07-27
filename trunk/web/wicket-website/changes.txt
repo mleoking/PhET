@@ -1,3 +1,4 @@
+Removed duplicate publication entries and reordered to chronolgical in each section
 Fixed a problem that changed the contributing user when editing a contribution
 Contribution fix
 Removed duplicate publication
