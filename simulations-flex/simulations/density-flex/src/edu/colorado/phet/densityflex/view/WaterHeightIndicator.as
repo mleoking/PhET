@@ -1,35 +1,52 @@
 package edu.colorado.phet.densityflex.view {
-import away3d.containers.ObjectContainer3D;
-import away3d.sprites.MovieClipSprite;
-
 import edu.colorado.phet.densityflex.model.DensityModel;
 
 import flash.display.Sprite;
 import flash.text.TextField;
+import flash.text.TextFieldAutoSize;
+import flash.text.TextFormat;
 
-public class WaterHeightIndicator extends ObjectContainer3D {
+public class WaterHeightIndicator extends Sprite {
+    private var textField:TextField;
+    private var waterHeight:Number;
+
     public function WaterHeightIndicator(model:DensityModel) {
         super();
-        var sprite:Sprite = new Sprite();
-        var textField:TextField = new TextField();
-//        textField.text = "hello";
-        sprite.addChild( textField );
-        addChild( new MovieClipSprite( sprite ) );
+        textField = new TextField();
+        var textFormat:TextFormat = new TextFormat();
+        textFormat.size=16;
+        textFormat.bold=true;
+        textField.setTextFormat(textFormat);
+        textField.autoSize = TextFieldAutoSize.RIGHT;
+        textField.text = "hello";
+        addChild(textField);
 
-        sprite.graphics.beginFill(0xFF0000);
-        sprite.graphics.moveTo(0,0);
-        sprite.graphics.lineTo(-10,-10);
-        sprite.graphics.lineTo(-10,10);
-        sprite.graphics.lineTo(0,0);
-        sprite.graphics.endFill();
-
-//        model.addWaterHeightListener();
+        textField.selectable = false;
+        update();
     }
 
-    function setIndicatorPoint(x:Number, y:Number, z:Number):void {
-//        this.x=x;
-        this.y=y;
-        this.z=z;
+    function update():void {
+        graphics.clear();
+        textField.text = String(waterHeight.toFixed(2));
+        graphics.beginFill(0xFF0000);
+        graphics.moveTo(0, 0);
+        graphics.lineTo(-10, -10);
+        graphics.lineTo(-10, 10);
+        graphics.lineTo(0, 0);
+        graphics.endFill();
+
+        textField.x = -textField.width - 10;
+        textField.y = -textField.height / 2;
+
+        graphics.lineStyle(1, 0x000000);
+        graphics.beginFill(0xFFFFFF);
+        graphics.drawRoundRect(textField.x, textField.y, textField.width, textField.height, 6, 6);
+        graphics.endFill();
+    }
+
+    function setWaterHeight(waterHeight:Number):void {
+        this.waterHeight = waterHeight;
+        update();
     }
 }
 }
