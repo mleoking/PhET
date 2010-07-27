@@ -63,6 +63,8 @@ public class DensityView extends UIComponent {
 
     protected var densityObjectNodeList:Array = new Array();
 
+    var waterHeightIndicator:WaterHeightIndicator;
+
     public function DensityView() {
         super();
         model = new DensityModel();
@@ -147,6 +149,8 @@ public class DensityView extends UIComponent {
         marker.addChild(new Cube({ z: -50, width: 5, height: 5, depth: 100, segmentsW: 1, segmentsH: 10, material: new ShadingColorMaterial(0xFFFFFF) }));
         //			scene.addChild( marker );
 
+        waterHeightIndicator = new WaterHeightIndicator(model);
+        scene.addChild(waterHeightIndicator);
     }
 
     private function addDensityObject(densityObject:DensityObject):void {
@@ -208,13 +212,14 @@ public class DensityView extends UIComponent {
             pickable.update();
         }
         waterFront.y = (-model.getPoolHeight() + model.getWaterHeight() / 2) * DensityModel.DISPLAY_SCALE;
-        waterFront.height = model.getWaterHeight() * DensityModel.DISPLAY_SCALE;
+        waterFront.height = model.getWaterHeight() * DensityModel.DISPLAY_SCALE;//this is positive from the bottom of the pool
         waterTop.y = (-model.getPoolHeight() + model.getWaterHeight()) * DensityModel.DISPLAY_SCALE;
 
         //        for each ( var blockNode:BlockNode in blockNodeList ) {
         //            blockNode.getBlock().setSize(blockNode.getBlock().getWidth()*1.005,blockNode.getBlock().getHeight()*1.005);
         //        }
 
+        waterHeightIndicator.setIndicatorPoint(model.getPoolWidth()/2.0*DensityModel.DISPLAY_SCALE,model.getWaterHeight()*DensityModel.DISPLAY_SCALE,0);
         // TODO: remove or update invalid
         view.render();
     }
