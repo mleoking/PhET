@@ -1,3 +1,4 @@
+Added a water height indicator
 # 0.01.09 (42614) Jul 22, 2010
 # 0.01.08 (42613) Jul 22, 2010
 Improve rendering for when vector arrow nodes overlap (by giving them slightly different z values)

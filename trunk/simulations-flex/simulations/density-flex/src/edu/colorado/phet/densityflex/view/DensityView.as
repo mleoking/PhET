@@ -15,7 +15,6 @@ import away3d.primitives.*;
 
 import edu.colorado.phet.densityflex.model.DensityModel;
 import edu.colorado.phet.densityflex.model.DensityObject;
-
 import edu.colorado.phet.densityflex.model.Scale;
 
 import flash.display.Sprite;
@@ -87,6 +86,10 @@ public class DensityView extends UIComponent {
         backgroundSprite.graphics.endFill();
         addChild(backgroundSprite);
         addChild(view);
+        waterHeightIndicator = new WaterHeightIndicator(model);
+        waterHeightIndicator.x = 100;
+        waterHeightIndicator.y = 100;
+        addChild(waterHeightIndicator);
     }
 
     override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void {
@@ -120,6 +123,8 @@ public class DensityView extends UIComponent {
         model.addDensityObject(new Scale(4.5, Scale.SCALE_HEIGHT / 2 - model.getPoolHeight(), model));
     }
 
+    private var groundNode:GroundNode;
+
     public function initObjects():void {
         var poolHeight:Number = model.getPoolHeight() * DensityModel.DISPLAY_SCALE;
         var waterHeight:Number = model.getWaterHeight() * DensityModel.DISPLAY_SCALE;
@@ -135,7 +140,8 @@ public class DensityView extends UIComponent {
         waterTop.mouseEnabled = false;
 
         // add grass, earth and pool inside
-        scene.addChild(new GroundNode(model));
+        groundNode = new GroundNode(model);
+        scene.addChild(groundNode);
 
         var light:DirectionalLight3D = new DirectionalLight3D({color:0xFFFFFF, ambient:0.2, diffuse:0.75, specular:0.1});
         light.x = 10000;
@@ -146,11 +152,11 @@ public class DensityView extends UIComponent {
         marker = new ObjectContainer3D();
         marker.addChild(new Cube({ z: 50, width: 20, height: 20, depth: 100, segmentsW: 1, segmentsH: 10, material: new ShadingColorMaterial(0x9999CC) }));
         marker.addChild(new Cube({ z: 150, width: 20, height: 20, depth: 100, segmentsW: 1, segmentsH: 10, material: new ShadingColorMaterial(0xCC9999) }));
-        marker.addChild(new Cube({ z: -50, width: 5, height: 5, depth: 100, segmentsW: 1, segmentsH: 10, material: new ShadingColorMaterial(0xFFFFFF) }));
-        //			scene.addChild( marker );
+        marker.addChild(new Cube({ z: -50, width: 5, height: 500, depth: 100, segmentsW: 1, segmentsH: 10, material: new ShadingColorMaterial(0xFFFFFF) }));
+        //        scene.addChild(marker);
 
         waterHeightIndicator = new WaterHeightIndicator(model);
-        scene.addChild(waterHeightIndicator);
+        //        scene.addChild(waterHeightIndicator);
     }
 
     private function addDensityObject(densityObject:DensityObject):void {
@@ -219,9 +225,35 @@ public class DensityView extends UIComponent {
         //            blockNode.getBlock().setSize(blockNode.getBlock().getWidth()*1.005,blockNode.getBlock().getHeight()*1.005);
         //        }
 
-        waterHeightIndicator.setIndicatorPoint(model.getPoolWidth()/2.0*DensityModel.DISPLAY_SCALE,model.getWaterHeight()*DensityModel.DISPLAY_SCALE,0);
+        var poolHeight:Number = model.getPoolHeight() * DensityModel.DISPLAY_SCALE;
+        var waterHeight:Number = model.getWaterHeight() * DensityModel.DISPLAY_SCALE;
+        var poolWidth:Number = model.getPoolWidth() * DensityModel.DISPLAY_SCALE;
+        var poolDepth:Number = model.getPoolDepth() * DensityModel.DISPLAY_SCALE;
+
+//        waterHeightIndicator.setIndicatorPoint(poolWidth / 2, (-model.getPoolHeight() + model.getWaterHeight()) * DensityModel.DISPLAY_SCALE, -20);
+
+        //        waterHeightIndicator.setIndicatorPoint(model.getPoolWidth()/2.0*DensityModel.DISPLAY_SCALE,model.getWaterHeight()*DensityModel.DISPLAY_SCALE,0);
+        //        waterHeightIndicator.setIndicatorPoint(model.getPoolWidth()/2.0*DensityModel.DISPLAY_SCALE,(-model.getPoolHeight() + model.getWaterHeight()+ verticalGroundOffset)*DensityModel.DISPLAY_SCALE,0);
+        //        waterHeightIndicator.setIndicatorPoint(waterTop.x,waterTop.y,waterTop.z);
+        //        waterHeightIndicator.setIndicatorPoint(waterTop.x,waterTop.y,waterTop.z);
+        //        var screenLocation = to2D(poolWidth/2,(-model.getPoolHeight() + model.getWaterHeight()) * DensityModel.DISPLAY_SCALE,-20);
+//        view.render();
+        updateWaterHeightIndicator();
+
+
         // TODO: remove or update invalid
         view.render();
+        renderedOnce=true;
+    }
+    var renderedOnce:Boolean= false;
+
+    private function updateWaterHeightIndicator():void {
+        if (renderedOnce) {
+            var screenVertex:ScreenVertex = camera.screen(groundNode, new Vertex(model.getPoolWidth() * DensityModel.DISPLAY_SCALE / 2, (-model.getPoolHeight() + model.getWaterHeight()) * DensityModel.DISPLAY_SCALE, -20));
+            waterHeightIndicator.x = screenVertex.x + view.x;
+            waterHeightIndicator.y = screenVertex.y + view.y;
+        }
+        waterHeightIndicator.setWaterHeight(model.getWaterHeight());
     }
 
     public function onMouseDown(event:MouseEvent):void {
@@ -284,6 +316,8 @@ public class DensityView extends UIComponent {
         view.y = stage.stageHeight / 2;
 
         camera.zoom = Math.min(stage.stageWidth / 100, stage.stageHeight / 65);
+
+        updateWaterHeightIndicator();
     }
 
     public function removeObject(ob:CuboidNode):void {
