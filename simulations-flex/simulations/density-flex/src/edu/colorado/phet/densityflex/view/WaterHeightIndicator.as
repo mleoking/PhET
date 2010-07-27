@@ -13,10 +13,6 @@ public class WaterHeightIndicator extends Sprite {
     public function WaterHeightIndicator(model:DensityModel) {
         super();
         textField = new TextField();
-        var textFormat:TextFormat = new TextFormat();
-        textFormat.size=16;
-        textFormat.bold=true;
-        textField.setTextFormat(textFormat);
         textField.autoSize = TextFieldAutoSize.RIGHT;
         textField.text = "hello";
         addChild(textField);
@@ -28,6 +24,10 @@ public class WaterHeightIndicator extends Sprite {
     function update():void {
         graphics.clear();
         textField.text = String(waterHeight.toFixed(2));
+        var textFormat:TextFormat = new TextFormat();
+        textFormat.size=16;
+        textFormat.bold=true;
+        textField.setTextFormat(textFormat);
         graphics.beginFill(0xFF0000);
         graphics.moveTo(0, 0);
         graphics.lineTo(-10, -10);
