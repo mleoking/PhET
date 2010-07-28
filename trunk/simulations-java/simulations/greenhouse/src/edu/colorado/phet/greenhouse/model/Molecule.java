@@ -28,7 +28,7 @@ public abstract class Molecule {
     
     private static final double PHOTON_EMISSION_SPEED = 2; // Picometers per second.
     
-    private static final double PHOTON_ABSORPTION_DISTANCE = 80;
+    private static final double PHOTON_ABSORPTION_DISTANCE = 100;
     
     private static final Random RAND = new Random();
     
