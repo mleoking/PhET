@@ -97,7 +97,6 @@ public class CH4 extends Molecule {
 
     @Override
     protected void updateOscillationFormation(double oscillationRadians){
-        // TODO: This is temporary until we get the real vibration mode worked out.
         if (oscillationRadians != 0){
             double multFactor = Math.sin( oscillationRadians );
             atomCogOffsets.put(hydrogenAtom1, 
@@ -112,16 +111,15 @@ public class CH4 extends Molecule {
             atomCogOffsets.put(hydrogenAtom4, 
                     new PDimension(ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_OSCILLATION_DISTANCE_X,
                             -ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_OSCILLATION_DISTANCE_Y));
-            // Position the carbon atom so that the center of mass remains
-            // the same.
-            
-            // TODO: this isn't right yet.
-            double carbonXPos = -(HydrogenAtom.MASS / CarbonAtom.MASS) * (hydrogenAtom1.getPositionRef().getX() +
-                    hydrogenAtom2.getPositionRef().getX() + hydrogenAtom3.getPositionRef().getX() + 
-                    hydrogenAtom4.getPositionRef().getX());
-            double carbonYPos = -(HydrogenAtom.MASS / CarbonAtom.MASS) * (hydrogenAtom1.getPositionRef().getY() +
-                    hydrogenAtom2.getPositionRef().getY() + hydrogenAtom3.getPositionRef().getY() + 
-                    hydrogenAtom4.getPositionRef().getY());
+
+            // Position the carbon atom so that the center of mass of the
+            // molecule remains the same.
+            double carbonXPos = -(HydrogenAtom.MASS / CarbonAtom.MASS) * 
+                    (atomCogOffsets.get( hydrogenAtom1 ).getWidth() + atomCogOffsets.get( hydrogenAtom2 ).getWidth() + 
+                    atomCogOffsets.get( hydrogenAtom3 ).getWidth() + atomCogOffsets.get( hydrogenAtom4 ).getWidth());
+            double carbonYPos = -(HydrogenAtom.MASS / CarbonAtom.MASS) * 
+                    (atomCogOffsets.get( hydrogenAtom1 ).getHeight() + atomCogOffsets.get( hydrogenAtom2 ).getHeight() + 
+                    atomCogOffsets.get( hydrogenAtom3 ).getHeight() + atomCogOffsets.get( hydrogenAtom4 ).getHeight());
             atomCogOffsets.put( carbonAtom, new PDimension(carbonXPos, carbonYPos) );
         }
         else{
