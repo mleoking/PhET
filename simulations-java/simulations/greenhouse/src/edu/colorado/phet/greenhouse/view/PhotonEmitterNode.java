@@ -205,9 +205,21 @@ public class PhotonEmitterNode extends PNode {
 		int intensitySliderWidth = Math.max( infraredButtonPanel.getPreferredSize().width - 2 * edgeMargin,
 		        visibleButtonPanel.getPreferredSize().width - 2 * edgeMargin );
 		intensitySlider = new IntensitySlider( Color.RED, IntensitySlider.HORIZONTAL, new Dimension(intensitySliderWidth, 26) );
+		intensitySlider.setMinimum( 0 );
+		intensitySlider.setMaximum( SLIDER_RANGE );
 		intensitySlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                System.out.println("TBD......");
+                double sliderProportion = (double)intensitySlider.getValue() / (double)SLIDER_RANGE;
+                if (model.getPhotonTarget() == PhotonTarget.CONFIGURABLE_ATMOSPHERE){
+                    // Note the implicit conversion from frequency to period in the following line.
+                    model.setPhotonEmissionPeriodMultipleTarget(
+                            PhotonAbsorptionModel.MIN_PHOTON_EMISSION_PERIOD_MULTIPLE_TARGET / sliderProportion );
+                }
+                else{
+                    // Note the implicit conversion from frequency to period in the following line.
+                    model.setPhotonEmissionPeriodSingleTarget(
+                            PhotonAbsorptionModel.MIN_PHOTON_EMISSION_PERIOD_SINGLE_TARGET / sliderProportion );
+                }
             }
         });
 		emissionTypeSelectionPanel.add( intensitySlider );
@@ -307,10 +319,19 @@ public class PhotonEmitterNode extends PNode {
 	    
 	    // Adjust the position of the slider.  Note that we do a conversion
 	    // between period and frequency and map it into the slider's range.
+	    int mappedFrequency;
+	    if (model.getPhotonTarget() == PhotonTarget.CONFIGURABLE_ATMOSPHERE){
+	        mappedFrequency = (int)Math.round( PhotonAbsorptionModel.MIN_PHOTON_EMISSION_PERIOD_MULTIPLE_TARGET / 
+	                model.getPhotonEmissionPeriodMultipleTarget() * (double) SLIDER_RANGE);
+	    }
+	    else{
+            mappedFrequency = (int)Math.round( PhotonAbsorptionModel.MIN_PHOTON_EMISSION_PERIOD_SINGLE_TARGET / 
+                    model.getPhotonEmissionPeriodSingleTarget() * (double) SLIDER_RANGE);
+	    }
 	    
+	    intensitySlider.setValue( mappedFrequency );
 	    
-	    
-	    // Adjust the color of the slider.
+	    // Set the color of the slider.
 	    if (model.getEmittedPhotonWavelength() == GreenhouseConfig.irWavelength){
 	        intensitySlider.setColor( Color.RED );
 	    }
