@@ -42,7 +42,6 @@ import edu.colorado.phet.greenhouse.model.H2O;
 import edu.colorado.phet.greenhouse.model.Molecule;
 import edu.colorado.phet.greenhouse.model.MoleculeID;
 import edu.colorado.phet.greenhouse.model.N2;
-import edu.colorado.phet.greenhouse.model.N2O;
 import edu.colorado.phet.greenhouse.model.O2;
 import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel;
 import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel.PhotonTarget;
@@ -81,10 +80,9 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
     private RadioButtonWithIconPanel co2Selector;
     private RadioButtonWithIconPanel h2oSelector;
     private RadioButtonWithIconPanel ch4Selector;
-    private RadioButtonWithIconPanel n2oSelector;
     private RadioButtonWithIconPanel n2Selector;
     private RadioButtonWithIconPanel o2Selector;
-    private RadioButtonWithIconPanel atmospherSelector;
+    private RadioButtonWithIconPanel atmosphereSelector;
     
     private HashMap<MoleculeID, LinearValueControl> moleculeToSliderMap = new HashMap<MoleculeID, LinearValueControl>();
     
@@ -140,28 +138,23 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
         n2Selector.setFont( LABEL_FONT );
         atmosphericGasesPanel.add(n2Selector);
         
-        n2oSelector = createAndAttachSelectorPanel( "<html>N<sub>2</sub>O</html>", createImageFromMolecule( new N2O() ),
-                PhotonTarget.SINGLE_N2O_MOLECULE, MOLECULE_SCALING_FACTOR );
-        n2oSelector.setFont( LABEL_FONT );
-        atmosphericGasesPanel.add(n2oSelector);
-        
         o2Selector = createAndAttachSelectorPanel( "<html>O<sub>2</sub></html>", createImageFromMolecule( new O2() ),
                 PhotonTarget.SINGLE_O2_MOLECULE, MOLECULE_SCALING_FACTOR );
         o2Selector.setFont( LABEL_FONT );
         atmosphericGasesPanel.add(o2Selector);
 
         // TODO: i18n
-        atmospherSelector = createAndAttachSelectorPanel("<html>Build<br>Atmosphere</html>", GreenhouseResources.getImage( "earth.png" ),
+        atmosphereSelector = createAndAttachSelectorPanel("<html>Build<br>Atmosphere</html>", GreenhouseResources.getImage( "earth.png" ),
                 PhotonTarget.CONFIGURABLE_ATMOSPHERE, PLANET_SCALING_FACTOR);
-        atmosphericGasesPanel.add(atmospherSelector);
+        atmosphericGasesPanel.add(atmosphereSelector);
 
         // Create and add a panel that will contain the buttons for selecting
         // the atmosphere.
         VerticalLayoutPanel atmosphereSliderPanel = new VerticalLayoutPanel();
-        // TODO: i18n
         atmosphericGasesPanel.add( atmosphereSliderPanel );
         
         // Add the molecule control sliders.
+        addSliderForMolecule( "<html>CH<sub>4</sub></html>", atmosphereSliderPanel, MoleculeID.CH4 );
         addSliderForMolecule( "<html>CO<sub>2</sub></html>", atmosphereSliderPanel, MoleculeID.CO2 );
         addSliderForMolecule( "<html>H<sub>2</sub>O</html>", atmosphereSliderPanel, MoleculeID.H2O );
         addSliderForMolecule( "<html>N<sub>2</sub></html>", atmosphereSliderPanel, MoleculeID.N2 );
@@ -172,10 +165,9 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
         buttonGroup.add( co2Selector.getButton() );
         buttonGroup.add( h2oSelector.getButton() );
         buttonGroup.add( ch4Selector.getButton() );
-        buttonGroup.add( n2oSelector.getButton() );
         buttonGroup.add( n2Selector.getButton() );
         buttonGroup.add( o2Selector.getButton() );
-        buttonGroup.add(atmospherSelector.getButton());
+        buttonGroup.add(atmosphereSelector.getButton());
 
         // Add the reset all button.
         addControlFullWidth(createVerticalSpacingPanel(5));
