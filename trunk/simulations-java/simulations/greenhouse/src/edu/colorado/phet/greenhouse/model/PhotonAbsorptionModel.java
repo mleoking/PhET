@@ -69,9 +69,9 @@ public class PhotonAbsorptionModel {
         
     // Minimum and defaults for photon emission periods.  Note that the max is
     // assumed to be infinity.
-    public static final double MIN_PHOTON_EMISSION_PERIOD_SINGLE_TARGET = 100;
+    public static final double MIN_PHOTON_EMISSION_PERIOD_SINGLE_TARGET = 200;
     private static final double DEFAULT_PHOTON_EMISSION_PERIOD_SINGLE_TARGET = 1500; // Milliseconds of sim time.
-    public static final double MIN_PHOTON_EMISSION_PERIOD_MULTIPLE_TARGET = 50;
+    public static final double MIN_PHOTON_EMISSION_PERIOD_MULTIPLE_TARGET = 100;
     private static final double DEFAULT_PHOTON_EMISSION_PERIOD_MULTIPLE_TARGET = 700; // Milliseconds of sim time.
     
     // Default values for various parameters that weren't already covered.
