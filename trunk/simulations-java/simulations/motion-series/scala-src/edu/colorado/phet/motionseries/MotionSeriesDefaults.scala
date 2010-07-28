@@ -3,7 +3,7 @@ package edu.colorado.phet.motionseries
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont
 import java.awt.Color
 import java.awt.geom.Rectangle2D
-import edu.colorado.phet.motionseries.model.{MutableMotionSeriesObject, CustomTextMotionSeriesObject, MotionSeriesObject}
+import edu.colorado.phet.motionseries.model.{MutableMotionSeriesObjectType, CustomTextMotionSeriesObjectType, MotionSeriesObjectType}
 
 object MotionSeriesDefaults {
   val CLEAR_BUTTON_VISIBILITY_THRESHOLD_JOULES = 4000 * 1.5
@@ -92,13 +92,13 @@ object MotionSeriesDefaults {
 
   import edu.colorado.phet.motionseries.MotionSeriesResources._
 
-  val crate = new MotionSeriesObject("object.small-crate".translate, crateMass, 0.3, 0.5, crateHeight, "crate.gif".literal, "crate_crashed.gif".literal, 200)
-  val cabinet = new MotionSeriesObject("object.file-cabinet".translate, 50, 0.2, 0.5, 2.25, "cabinet.gif".literal, "cabinet_crashed.gif".literal, 100)
-  val ollie = new MotionSeriesObject("object.dog".translate, 25, 0.5, 0.5, 1.25, "ollie.gif".literal, "ollie.gif".literal, 500) //ollie doesn't crash, use same image
-  val fridge = new MotionSeriesObject("object.refrigerator".translate, 200, 0.2, 0.5, 2.75, "fridge.gif".literal, "fridge_crashed.gif".literal, 650)
-  val book = new MotionSeriesObject("object.textbook".translate, 10, 0.2, 0.4, 1, "phetbook.gif".literal, "phetbook_crashed.gif".literal, 20)
-  val mystery = new CustomTextMotionSeriesObject("object.mystery-object".translate, 123, 0.2, 0.3, 2, "mystery-box.png".literal, "mystery-box_crashed.png".literal, 600, "mystery-box.png".literal, false)
-  val custom = new MutableMotionSeriesObject("object.custom-crate".translate, 150.0, 0.3, 0.5, -1.0, "crate.gif".literal, "crate_crashed.gif".literal, 300, "crate_custom.gif".literal, true) //height is determined dynamically in MutableRampObject
+  val crate = new MotionSeriesObjectType("object.small-crate".translate, crateMass, 0.3, 0.5, crateHeight, "crate.gif".literal, "crate_crashed.gif".literal, 200)
+  val cabinet = new MotionSeriesObjectType("object.file-cabinet".translate, 50, 0.2, 0.5, 2.25, "cabinet.gif".literal, "cabinet_crashed.gif".literal, 100)
+  val ollie = new MotionSeriesObjectType("object.dog".translate, 25, 0.5, 0.5, 1.25, "ollie.gif".literal, "ollie.gif".literal, 500) //ollie doesn't crash, use same image
+  val fridge = new MotionSeriesObjectType("object.refrigerator".translate, 200, 0.2, 0.5, 2.75, "fridge.gif".literal, "fridge_crashed.gif".literal, 650)
+  val book = new MotionSeriesObjectType("object.textbook".translate, 10, 0.2, 0.4, 1, "phetbook.gif".literal, "phetbook_crashed.gif".literal, 20)
+  val mystery = new CustomTextMotionSeriesObjectType("object.mystery-object".translate, 123, 0.2, 0.3, 2, "mystery-box.png".literal, "mystery-box_crashed.png".literal, 600, "mystery-box.png".literal, false)
+  val custom = new MutableMotionSeriesObjectType("object.custom-crate".translate, 150.0, 0.3, 0.5, -1.0, "crate.gif".literal, "crate_crashed.gif".literal, 300, "crate_custom.gif".literal, true) //height is determined dynamically in MutableRampObject
 
   val objects = crate :: cabinet :: ollie :: fridge ::
           book :: mystery ::
@@ -107,16 +107,16 @@ object MotionSeriesDefaults {
 
   val objectsForForce1DGame = cabinet :: ollie :: book :: Nil
 
-  lazy val movingMan = new MotionSeriesObject("object.moving-man".translate, 85, 0.3, 0.5, 2.8, //is some empty padding in the image? looks better at large size, with a 20m wide play area
+  lazy val movingMan = new MotionSeriesObjectType("object.moving-man".translate, 85, 0.3, 0.5, 2.8, //is some empty padding in the image? looks better at large size, with a 20m wide play area
     "moving-man/moving-man-standing.gif".literal, 1000)
 
-  val wall = new MotionSeriesObject("wall".literal, 1000, 1000, 1000, 3.5, "wall.jpg".literal, 100)
+  val wall = new MotionSeriesObjectType("wall".literal, 1000, 1000, 1000, 3.5, "wall.jpg".literal, 100)
   val SPRING_HEIGHT = 0.6
   val SPRING_WIDTH = 1.0
-  val houseBack = new MotionSeriesObject("house".literal, 1000, 1000, 1000, 5, "robotmovingcompany/house-back.png".literal, 100) //back layer of house graphic
-  val house = new MotionSeriesObject("house".literal, 1000, 1000, 1000, 5, "robotmovingcompany/house.png".literal, 100)
-  val door = new MotionSeriesObject("door".literal, 1000, 1000, 1000, 2, "robotmovingcompany/door.gif".literal, 100)
-  val doorBackground = new MotionSeriesObject("door.background".literal, 1000, 1000, 1000, 2, "robotmovingcompany/door-background.gif".literal, 100)
+  val houseBack = new MotionSeriesObjectType("house".literal, 1000, 1000, 1000, 5, "robotmovingcompany/house-back.png".literal, 100) //back layer of house graphic
+  val house = new MotionSeriesObjectType("house".literal, 1000, 1000, 1000, 5, "robotmovingcompany/house.png".literal, 100)
+  val door = new MotionSeriesObjectType("door".literal, 1000, 1000, 1000, 2, "robotmovingcompany/door.gif".literal, 100)
+  val doorBackground = new MotionSeriesObjectType("door.background".literal, 1000, 1000, 1000, 2, "robotmovingcompany/door-background.gif".literal, 100)
 
   def wallWidth = wall.width
 

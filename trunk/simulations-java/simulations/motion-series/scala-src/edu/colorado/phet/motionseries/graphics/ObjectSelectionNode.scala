@@ -1,7 +1,7 @@
 package edu.colorado.phet.motionseries.graphics
 
 import java.awt.geom.{Point2D, Rectangle2D}
-import edu.colorado.phet.motionseries.model.{MutableMotionSeriesObject, MotionSeriesObject}
+import edu.colorado.phet.motionseries.model.{MutableMotionSeriesObjectType, MotionSeriesObjectType}
 import collection.mutable.ArrayBuffer
 import edu.colorado.phet.common.phetcommon.view.util.{BufferedImageUtils, PhetFont}
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel
@@ -23,9 +23,9 @@ import edu.colorado.phet.motionseries.swing._
 import edu.umd.cs.piccolo.util.{PPaintContext, PBounds, PDimension}
 
 trait ObjectModel {
-  def selectedObject: MotionSeriesObject
+  def selectedObject: MotionSeriesObjectType
 
-  def selectedObject_=(ro: MotionSeriesObject): Unit
+  def selectedObject_=(ro: MotionSeriesObjectType): Unit
 
   def addListenerByName(listener: => Unit): Unit
 
@@ -37,8 +37,8 @@ class ObjectSelectionNode(model: ObjectModel) extends PNode {
 
   val nodes = for (o <- MotionSeriesDefaults.objects) yield {
     o match {
-      case jc: MutableMotionSeriesObject => new CustomObjectSelectionIcon(jc)
-      case m: MotionSeriesObject => new ObjectSelectionIcon(o)
+      case jc: MutableMotionSeriesObjectType => new CustomObjectSelectionIcon(jc)
+      case m: MotionSeriesObjectType => new ObjectSelectionIcon(o)
     }
   }
   val cellDim = nodes.foldLeft(new PDimension)((a, b) => new PDimension(max(a.width, b.getLayoutBounds.width), max(a.height, b.getLayoutBounds.height)))
@@ -58,7 +58,7 @@ class ObjectSelectionNode(model: ObjectModel) extends PNode {
   val offY = -getFullBounds.getY
   for (i <- 0 until getChildrenCount) getChild(i).translate(offX, offY) //so that our origin is (0,0) like a well-behaved pnode
 
-  class ObjectSelectionIcon(o: MotionSeriesObject) extends PNode {
+  class ObjectSelectionIcon(o: MotionSeriesObjectType) extends PNode {
     val textNode = new HTMLNode(o.getDisplayTextHTML.toString)
     val imageNode = new PImage(BufferedImageUtils.multiScaleToHeight(MotionSeriesResources.getImage(o.iconFilename), 100))
     imageNode.scale(0.65f)
@@ -110,7 +110,7 @@ class ObjectSelectionNode(model: ObjectModel) extends PNode {
       addChild(tooltipNode)
     }
   }
-  class CustomObjectSelectionIcon(o: MutableMotionSeriesObject) extends ObjectSelectionIcon(o) {
+  class CustomObjectSelectionIcon(o: MutableMotionSeriesObjectType) extends ObjectSelectionIcon(o) {
     private var expand = false
     private val timer = new Timer(20, () => {})
     private var added = false
