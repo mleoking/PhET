@@ -21,7 +21,7 @@ package{
 		var colWidth:int;			//width of column in pix
 		var rowHeight:int;			//height of row in pix
 		var rowWidth:int;			//width of row in pix, used to set borderwidth
-		var text_arr:Array;			//row of textFields, one for each of 9 columns
+		var text_arr:Array;			//row of textFields, one for each of 9 columns, text must be internationalized
 		var toggleButton:Button;	//button to toggle full or partial data display
 		var massSlider_arr:Array;	//array of mass sliders
 		var nbrColumns:int;			//nbr of columns in full data table
@@ -29,6 +29,18 @@ package{
 		var manualUpdating:Boolean;	//true if user is typing into textField, needed to prevent input-model-output loop
 		var sliderUpdating:Boolean; //true if use is using mass slider
 		//var testField:TextField;		//for testing purposing
+		
+		//following strings must be internationalized, see function initializeStrings() below
+		var ball_str:String;
+		var mass_str:String;
+		var x_str:String;
+		var y_str:String;
+		var Vx_str:String;
+		var Vy_str:String;
+		var Px_str:String;
+		var Py_str:String;
+		var moreData_str:String;
+		var lessData_str:String;
 		
 		public function DataTable(myModel:Model, myMainView:MainView){
 			this.myModel = myModel;
@@ -73,6 +85,7 @@ package{
 		private function initialize():void{
 			//var colWidth = 60;
 			//var colHeight = 25;
+			this.initializeStrings();
 			this.canvas = new Sprite;
 			this.invisibleBorder = new Sprite();
 			this.toggleButton = new Button()
@@ -132,6 +145,21 @@ package{
 		}//end of initialize1()
 		
 		
+		//following function to be altered during internationalization
+		public function initializeStrings():void{
+			this.ball_str = "ball";
+			this.mass_str = "mass";
+			this.x_str = "x";
+			this.y_str = "y";
+			this.Vx_str = "Vx";
+			this.Vy_str = "Vy";
+			this.Px_str = "Px";
+			this.Py_str = "Py";
+			this.moreData_str = "More Data"
+			this.lessData_str = "Less Data";
+			
+		}//end of initializeString()
+		
 		public function dressInputTextField(i:int, j:int):void{
 			this.text_arr[i][j].type = TextFieldType.INPUT;
 			this.text_arr[i][j].border = true;
@@ -169,15 +197,15 @@ package{
 		//header row is 
 		//ball	mass	x	y	vx	vy	px	py,   no radius for now	
 		private function makeHeaderRow():void{
-			this.text_arr[0][0].text = "ball";
-			this.text_arr[0][1].text = "mass";
+			this.text_arr[0][0].text = ball_str;
+			this.text_arr[0][1].text = mass_str;
 			//this.text_arr[0][2].text = "radius";
-			this.text_arr[0][2].text = "x";
-			this.text_arr[0][3].text = "y";
-			this.text_arr[0][4].text = "Vx";
-			this.text_arr[0][5].text = "Vy";
-			this.text_arr[0][6].text = "Px";
-			this.text_arr[0][7].text = "Py";
+			this.text_arr[0][2].text = x_str;
+			this.text_arr[0][3].text = y_str;
+			this.text_arr[0][4].text = Vx_str;
+			this.text_arr[0][5].text = Vy_str;
+			this.text_arr[0][6].text = Px_str;
+			this.text_arr[0][7].text = Py_str;
 			this.tFormat.bold = true;
 			for(var i:int = 0; i < this.maxNbrBalls + 1; i++){
 				if(i != 0){this.text_arr[i][0].text = i;}
@@ -195,7 +223,7 @@ package{
 			this.toggleButton.buttonMode = true;
 			this.toggleButton.emphasized = true;
 			this.toggleButton.width = 90;
-			this.toggleButton.label = "More Data";
+			this.toggleButton.label = this.moreData_str;
 			this.toggleButton.x = this.rowWidth + 0.2*this.toggleButton.width;
 			this.toggleButton.addEventListener(MouseEvent.CLICK, toggleButtonClick);
 			//this.toggleButton.buttonMode = true;  //only works with Sprites
@@ -327,11 +355,11 @@ package{
 		
 		private function toggleButtonClick(evt:MouseEvent):void{
 			trace(evt.target.label);
-			if(evt.target.label == "More Data"){
-				evt.target.label = "Less Data";
+			if(evt.target.label == this.moreData_str){
+				evt.target.label = this.lessData_str;
 				this.displayPartialDataTable(false);
-			}else if(evt.target.label == "Less Data"){
-				evt.target.label = "More Data";
+			}else if(evt.target.label == this.lessData_str){
+				evt.target.label = this.moreData_str;
 				this.displayPartialDataTable(true);
 			}
 		}//toggleButtonClick
