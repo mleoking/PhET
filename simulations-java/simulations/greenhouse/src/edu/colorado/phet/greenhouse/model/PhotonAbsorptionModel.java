@@ -76,10 +76,10 @@ public class PhotonAbsorptionModel {
     // Initial and max values for the numbers of molecules in the configurable
     // atmosphere.
     static final HashMap< MoleculeID , Integer> INITIAL_ATMOSPHERE_CONCENTRATIONS = new HashMap< MoleculeID, Integer>() {{ 
-        put(MoleculeID.N2, 10);
-        put(MoleculeID.O2, 10);
-        put(MoleculeID.CO2, 4);
-        put(MoleculeID.H2O, 4);
+        put(MoleculeID.N2, 0);
+        put(MoleculeID.O2, 0);
+        put(MoleculeID.CO2, 0);
+        put(MoleculeID.H2O, 0);
     }}; 
     static final HashMap< MoleculeID , Integer> MAX_ATMOSPHERE_CONCENTRATIONS = new HashMap< MoleculeID, Integer>() {{ 
         put(MoleculeID.N2, 20); 
@@ -491,7 +491,9 @@ public class PhotonAbsorptionModel {
             configurableAtmosphereMolecules.removeAll( moleculesToRemove );
         }
         else{
-            System.err.println(getClass().getName() + " - Warning: Ignoring call to set molecule levels to current level.");
+            if (targetQuantity != 0){
+                System.err.println(getClass().getName() + " - Warning: Ignoring call to set molecule levels to current level.");
+            }
         }
         
         // Send notifications of the change.
