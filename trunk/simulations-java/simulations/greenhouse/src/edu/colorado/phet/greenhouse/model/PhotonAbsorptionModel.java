@@ -66,12 +66,17 @@ public class PhotonAbsorptionModel {
     // Choices of targets for the photons.
     public enum PhotonTarget { SINGLE_CO2_MOLECULE, SINGLE_H2O_MOLECULE, SINGLE_CH4_MOLECULE, SINGLE_N2O_MOLECULE,
         SINGLE_N2_MOLECULE, SINGLE_O2_MOLECULE, CONFIGURABLE_ATMOSPHERE };
+        
+    // Minimum and defaults for photon emission periods.  Note that the max is
+    // assumed to be infinity.
+    public static final double MIN_PHOTON_EMISSION_PERIOD_SINGLE_TARGET = 100;
+    private static final double DEFAULT_PHOTON_EMISSION_PERIOD_SINGLE_TARGET = 1500; // Milliseconds of sim time.
+    public static final double MIN_PHOTON_EMISSION_PERIOD_MULTIPLE_TARGET = 50;
+    private static final double DEFAULT_PHOTON_EMISSION_PERIOD_MULTIPLE_TARGET = 700; // Milliseconds of sim time.
     
-    // Default values for various parameters.
+    // Default values for various parameters that weren't already covered.
     private static final PhotonTarget DEFAULT_PHOTON_TARGET = PhotonTarget.SINGLE_CH4_MOLECULE;
     private static final double DEFAULT_EMITTED_PHOTON_WAVELENGTH = GreenhouseConfig.irWavelength;
-    private static final double DEFAULT_SINGLE_TARGET_PHOTON_EMISSION_PERIOD = 1500; // Milliseconds of sim time.
-    private static final double DEFAULT_MULTIPLE_TARGET_PHOTON_EMISSION_PERIOD = 700; // Milliseconds of sim time.
     
     // Initial and max values for the numbers of molecules in the configurable
     // atmosphere.
@@ -106,8 +111,8 @@ public class PhotonAbsorptionModel {
     // Variables that control periodic photon emission.
     private boolean periodicPhotonEmissionEnabled;
     private double photonEmissionCountdownTimer;
-    private double singleTargetPhotonEmissionPeriod = DEFAULT_SINGLE_TARGET_PHOTON_EMISSION_PERIOD;
-    private double multipleTargetPhotonEmissionPeriod = DEFAULT_MULTIPLE_TARGET_PHOTON_EMISSION_PERIOD;
+    private double photonEmissionPeriodSingleTarget = DEFAULT_PHOTON_EMISSION_PERIOD_SINGLE_TARGET;
+    private double photonEmissionPeriodMultipleTarget = DEFAULT_PHOTON_EMISSION_PERIOD_MULTIPLE_TARGET;
     private double previousEmissionAngle = 0;
     
     // Collection that contains the molecules that comprise the configurable
@@ -178,10 +183,10 @@ public class PhotonAbsorptionModel {
                 // Time to emit.
                 emitPhoton();
                 if (photonTarget == PhotonTarget.CONFIGURABLE_ATMOSPHERE){
-                    photonEmissionCountdownTimer = multipleTargetPhotonEmissionPeriod;
+                    photonEmissionCountdownTimer = photonEmissionPeriodMultipleTarget;
                 }
                 else{
-                    photonEmissionCountdownTimer = singleTargetPhotonEmissionPeriod;
+                    photonEmissionCountdownTimer = photonEmissionPeriodSingleTarget;
                 }
             }
         }
@@ -350,16 +355,16 @@ public class PhotonAbsorptionModel {
      * 
      * @return - Period between photons in milliseconds.
      */
-    public double getSingleTargetPhotonEmissionPeriod() {
-        return singleTargetPhotonEmissionPeriod;
+    public double getPhotonEmissionPeriodSingleTarget() {
+        return photonEmissionPeriodSingleTarget;
     }
     
     /**
      * 
      * @return - Period between photons in milliseconds.
      */
-    public double getMultipleTargetPhotonEmissionPeriod() {
-        return multipleTargetPhotonEmissionPeriod;
+    public double getPhotonEmissionPeriodMultipleTarget() {
+        return photonEmissionPeriodMultipleTarget;
     }
     
     /**
@@ -368,10 +373,13 @@ public class PhotonAbsorptionModel {
      * 
      * @param photonEmissionPeriod - Period between photons in milliseconds.
      */
-    public void setSingleTargetPhotonEmissionPeriod( double photonEmissionPeriod ) {
-        this.singleTargetPhotonEmissionPeriod = photonEmissionPeriod;
-        if (isPeriodicPhotonEmissionEnabled() && photonEmissionCountdownTimer > photonEmissionPeriod){
-            photonEmissionCountdownTimer = photonEmissionPeriod;
+    public void setPhotonEmissionPeriodSingleTarget( double photonEmissionPeriod ) {
+        if (this.photonEmissionPeriodSingleTarget != photonEmissionPeriod){
+            this.photonEmissionPeriodSingleTarget = photonEmissionPeriod;
+            notifyPeriodicPhotonEmissionEnabledChanged();
+            if (isPeriodicPhotonEmissionEnabled() && photonEmissionCountdownTimer > photonEmissionPeriod){
+                photonEmissionCountdownTimer = photonEmissionPeriod;
+            }
         }
     }
     
@@ -381,10 +389,13 @@ public class PhotonAbsorptionModel {
      * 
      * @param photonEmissionPeriod - Period between photons in milliseconds.
      */
-    public void setMultipleTargetPhotonEmissionPeriod( double photonEmissionPeriod ) {
-        this.multipleTargetPhotonEmissionPeriod = photonEmissionPeriod;
-        if (isPeriodicPhotonEmissionEnabled() && photonEmissionCountdownTimer > photonEmissionPeriod){
-            photonEmissionCountdownTimer = photonEmissionPeriod;
+    public void setPhotonEmissionPeriodMultipleTarget( double photonEmissionPeriod ) {
+        if (this.photonEmissionPeriodMultipleTarget != photonEmissionPeriod){
+            this.photonEmissionPeriodMultipleTarget = photonEmissionPeriod;
+            notifyPeriodicPhotonEmissionEnabledChanged();
+            if (isPeriodicPhotonEmissionEnabled() && photonEmissionCountdownTimer > photonEmissionPeriod){
+                photonEmissionCountdownTimer = photonEmissionPeriod;
+            }
         }
     }
     
@@ -762,6 +773,12 @@ public class PhotonAbsorptionModel {
         }
     }
 
+    private void notifyPhotonEmissionPeriodChanged() {
+        for (Listener listener : listeners.getListeners(Listener.class)){
+            listener.photonEmissionPeriodChanged();
+        }
+    }
+
     private void notifyPhotonTargetChanged() {
         for (Listener listener : listeners.getListeners(Listener.class)){
             listener.photonTargetChanged();
@@ -792,6 +809,7 @@ public class PhotonAbsorptionModel {
         void emittedPhotonWavelengthChanged();
         void photonTargetChanged();
         void periodicPhotonEmissionEnabledChanged();
+        void photonEmissionPeriodChanged();
         void configurableAtmosphereCompositionChanged();
     }
     
@@ -804,5 +822,6 @@ public class PhotonAbsorptionModel {
         public void moleculeRemoved( Molecule molecule ) {}
         public void periodicPhotonEmissionEnabledChanged() {}
         public void configurableAtmosphereCompositionChanged() {}
+        public void photonEmissionPeriodChanged() {}
     }
 }

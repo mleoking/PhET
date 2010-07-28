@@ -38,10 +38,10 @@ public class PhotonAbsorptionParamsDlg extends PaintImmediateDialog {
         final LinearValueControl singleTargetEmissionRateSlider = new LinearValueControl( 0, 5, "Frequency:", "#.#", "Photons/sec" );
         singleTargetEmissionRateSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                model.setSingleTargetPhotonEmissionPeriod( 1 / singleTargetEmissionRateSlider.getValue() * 1000 );
+                model.setPhotonEmissionPeriodSingleTarget( 1 / singleTargetEmissionRateSlider.getValue() * 1000 );
             }
         });
-        singleTargetEmissionRateSlider.setValue( 1 / model.getSingleTargetPhotonEmissionPeriod() * 1000 );
+        singleTargetEmissionRateSlider.setValue( 1 / model.getPhotonEmissionPeriodSingleTarget() * 1000 );
         add( singleTargetEmissionRateSlider  );
 
         // Create and add the slider for controlling the photon emission rate.
@@ -49,10 +49,10 @@ public class PhotonAbsorptionParamsDlg extends PaintImmediateDialog {
         final LinearValueControl multiTargetEmissionRateSlider = new LinearValueControl( 0, 5, "Frequency:", "#.#", "Photons/sec" );
         multiTargetEmissionRateSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                model.setMultipleTargetPhotonEmissionPeriod( 1 / multiTargetEmissionRateSlider.getValue() * 1000 );
+                model.setPhotonEmissionPeriodMultipleTarget( 1 / multiTargetEmissionRateSlider.getValue() * 1000 );
             }
         });
-        multiTargetEmissionRateSlider.setValue( 1 / model.getMultipleTargetPhotonEmissionPeriod() * 1000 );
+        multiTargetEmissionRateSlider.setValue( 1 / model.getPhotonEmissionPeriodMultipleTarget() * 1000 );
         add( multiTargetEmissionRateSlider  );
 
         // Create and add the slider for controlling absorption probability.
