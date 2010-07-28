@@ -45,7 +45,8 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
     PNode myWorldNode;
     
     // Layers for the canvas.
-    private PNode imageLayer;
+    private PNode moleculeLayer;
+    private PNode photonEmitterLayer;
     
     // Data structures that match model objects to their representations in
     // the view.
@@ -78,7 +79,7 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
         photonAbsorptionModel.addListener( new PhotonAbsorptionModel.Adapter() {
             
             public void photonRemoved( Photon photon ) {
-                if (myWorldNode.removeChild( photonMap.get( photon ) ) == null){
+                if (moleculeLayer.removeChild( photonMap.get( photon ) ) == null){
                     System.out.println( getClass().getName() + " - Error: PhotonNode not found for photon." );
                 }
                 photonMap.remove( photon );
@@ -86,12 +87,12 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
             
             public void photonAdded( Photon photon ) {
                 PhotonNode photonNode = new PhotonNode(photon, mvt); 
-                myWorldNode.addChild( photonNode );
+                moleculeLayer.addChild( photonNode );
                 photonMap.put( photon, photonNode );
             }
             
             public void moleculeRemoved( Molecule molecule ) {
-                if (myWorldNode.removeChild( moleculeMap.get( molecule ) ) == null){
+                if (moleculeLayer.removeChild( moleculeMap.get( molecule ) ) == null){
                     System.out.println( getClass().getName() + " - Error: MoleculeNode not found for molecule." );
                 }
                 moleculeMap.remove( molecule );
@@ -108,17 +109,23 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
         myWorldNode = new PNode();
         addWorldChild(myWorldNode);
         
+        // Add the layers.
+        moleculeLayer = new PNode();
+        myWorldNode.addChild( moleculeLayer );
+        photonEmitterLayer = new PNode();
+        myWorldNode.addChild( photonEmitterLayer );
+        
         // Add the chamber.
         PhetPPath chamberNode = new PhetPPath(
                 mvt.createTransformedShape( photonAbsorptionModel.getContainmentAreaRect() ),
                 new BasicStroke(6),
                 Color.LIGHT_GRAY);
-        myWorldNode.addChild(chamberNode);
+        moleculeLayer.addChild(chamberNode);
         
         // Add the flashlight.
         PNode flashlightNode = new PhotonEmitterNode(FLASHLIGHT_WIDTH, mvt, photonAbsorptionModel);
         flashlightNode.setOffset(mvt.modelToViewDouble(photonAbsorptionModel.getPhotonEmissionLocation()));
-        myWorldNode.addChild(flashlightNode);
+        photonEmitterLayer.addChild(flashlightNode);
         
         // Add in the initial molecule(s).
         for (Molecule molecule : photonAbsorptionModel.getMolecules()){
@@ -154,7 +161,7 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
     
     private void addMolecule(Molecule molecule){
         MoleculeNode moleculeNode = new MoleculeNode(molecule, mvt); 
-        myWorldNode.addChild( moleculeNode );
+        moleculeLayer.addChild( moleculeNode );
         moleculeMap.put( molecule, moleculeNode );
     }
 }
