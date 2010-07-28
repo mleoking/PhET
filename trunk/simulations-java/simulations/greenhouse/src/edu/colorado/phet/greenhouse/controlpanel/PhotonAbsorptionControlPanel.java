@@ -159,7 +159,6 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
         // the atmosphere.
         VerticalLayoutPanel atmosphereSliderPanel = new VerticalLayoutPanel();
         // TODO: i18n
-//        addControlFullWidth( atmosphereSliderPanel );
         atmosphericGasesPanel.add( atmosphereSliderPanel );
         
         // Add the molecule control sliders.
@@ -168,9 +167,6 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
         addSliderForMolecule( "<html>N<sub>2</sub></html>", atmosphereSliderPanel, MoleculeID.N2 );
         addSliderForMolecule( "<html>O<sub>2</sub></html>", atmosphereSliderPanel, MoleculeID.O2 );
 
-        // Put the atmosphere panel on to the main control panel.
-//        addControlFullWidth(atmosphereSliderPanel);
-        
         // Put all the buttons in a button group.
         ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add( co2Selector.getButton() );
