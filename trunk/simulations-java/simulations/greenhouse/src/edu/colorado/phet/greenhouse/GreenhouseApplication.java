@@ -46,7 +46,7 @@ public class GreenhouseApplication extends PiccoloPhetApplication {
         photonAbsorptionModule = new PhotonAbsorptionModule(parentFrame); 
         addModule( photonAbsorptionModule );
         addModule( new GreenhouseModule() );
-        addModule( new GreenhouseEffectModule(parentFrame) );
+//        addModule( new GreenhouseEffectModule(parentFrame) );
         addModule( new GlassPaneModule() );
         
         // Developer controls.
