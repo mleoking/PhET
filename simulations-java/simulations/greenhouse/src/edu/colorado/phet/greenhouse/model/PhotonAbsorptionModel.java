@@ -739,18 +739,10 @@ public class PhotonAbsorptionModel {
     /**
      * Reset the configurable atmosphere by adding the initial levels of all
      * gasses.
-     * 
-     * WARNING: This method is intended to be called during initialization of
-     * the model and during resets.  It should NOT be called when the
-     * configurable atmosphere is the selected photon target, or
-     * inconsistencies between the model and view could result.
      */
     private void resetConfigurableAtmosphere(){
         
         assert photonTarget != PhotonTarget.CONFIGURABLE_ATMOSPHERE; // See method header comment if this assertion is hit.
-        
-        // Remove all existing molecules.
-        configurableAtmosphereMolecules.clear();
         
         setConfigurableAtmosphereInitialLevel( MoleculeID.N2);
         setConfigurableAtmosphereInitialLevel( MoleculeID.O2);
