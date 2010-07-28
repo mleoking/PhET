@@ -11,7 +11,7 @@
 		var myTrajectories:Trajectories;	//Sprite showing trajectories (paths) of balls
 		var CM:CenterOfMass;				//library symbol
 		var showingPaths:Boolean;			//true if paths are shown
-		var playButtons:PlayPauseButtons;	//class to hold library symbol
+		var playButtons:PlayPauseButtons;	//class to hold library symbol, contains dynamic text strings
 		var border:Sprite;					//reflecting border
 		var invisibleBorder:Sprite;			//handle for dragging
 		var borderColor:uint;				//color of border 0xrrggbb
@@ -23,6 +23,14 @@
 		var ballColor_arr:Array;			//array of uint for colors of balls
 		var xOffset:Number;					//x of upper left corner of canvas
 		var yOffset:Number;					//y of upper left corner of canvas
+		
+		//following 4 strings set by internationalizer
+		var KEtot_str:String;				//string "KEtot = "
+		var joules_str:String;				//string " J"
+		var time_str:String;				//string "time = "
+		var seconds_str:String;				//string " s"
+		
+		
 		
 		public function TableView(myModel:Model, myMainView:MainView){
 			this.myModel = myModel;
@@ -110,8 +118,12 @@
 		
 		
 		public function makeTimeLabel():void{
+			//following two strings should be set by internationalizer
+			this.time_str = "Time = ";
+			this.seconds_str = " s";
+			//
 			this.timeText = new TextField();
-			this.timeText.text = "Time = ";
+			this.timeText.text = this.time_str;
 			this.timeText.selectable = false;
 			this.timeText.autoSize = TextFieldAutoSize.LEFT;
 			var tFormat:TextFormat = new TextFormat();
@@ -129,8 +141,12 @@
 		}
 		
 		public function makeTotKELabel():void{
+			//following two strings should be set by internationalizer
+			this.KEtot_str = "KEtot = ";
+			this.joules_str = " J";
+			//
 			this.totKEText = new TextField();
-			this.totKEText.text = "KEtot = ";
+			this.totKEText.text = "KEtot = "; //text is set in update
 			this.totKEText.selectable = false;
 			this.totKEText.autoSize = TextFieldAutoSize.RIGHT;
 			var tFormat:TextFormat = new TextFormat();
@@ -213,8 +229,8 @@
 				this.myTrajectories.erasePaths();
 				//this.myModel.atInitialConfig = false;
 			}
-			this.timeText.text = "Time = " + Math.round(100*this.myModel.time)/100 + " s";
-			this.totKEText.text = "KEtot = " + Math.round(100*this.myModel.getTotalKE())/100 + " J";
+			this.timeText.text = this.time_str + Math.round(100*this.myModel.time)/100 + this.seconds_str;
+			this.totKEText.text = this.KEtot_str + Math.round(100*this.myModel.getTotalKE())/100 + this.joules_str;
 			
 			this.CM.x = this.pixelsPerMeter*this.myModel.CM.x;
 			this.CM.y = this.pixelsPerMeter*(yMax - this.myModel.CM.y);

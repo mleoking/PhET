@@ -24,6 +24,11 @@
 		var tipToTail_cb:CheckBox;
 		var scale_slider:Slider;
 		
+		//following 3 strings to be internationalized, see function initializeStrings() below
+		var momenta_str:String;
+		var tipToTail_str:String;
+		var tot_str:String;
+		
 		public function MomentumView(myModel:Model, myMainView:MainView){
 			this.myModel = myModel;
 			this.myMainView = myMainView;
@@ -54,6 +59,7 @@
 			//trace("MomentumView.stageH: "+this.stageH);
 			this.drawBorder();
 			this.drawInvisibleBorder();
+			this.initializeStrings();
 			this.drawMarquee();
 			this.setupCheckBox();
 			this.setupSlider();
@@ -61,6 +67,12 @@
 			Util.makePanelDraggableWithBorder(this, this.invisibleBorder);
 			this.update();
 		}
+		
+		public function initializeStrings():void{
+			this.momenta_str = "Momenta";
+			this.tipToTail_str = "tip-to-tail";
+			this.tot_str = "tot";
+		}//end of initializeStrings()
 		
 		public function drawBorder():void{
 			var W:Number = this.borderWidth;
@@ -102,7 +114,7 @@
 		
 		public function drawMarquee():void{
 			this.marquee = new TextField();
-			this.marquee.text = "Momenta";
+			this.marquee.text = this.momenta_str; //"Momenta"; //
 			this.marquee.selectable = false;
 			this.marquee.autoSize = TextFieldAutoSize.LEFT;
 			this.marquee.x = 10;
@@ -119,7 +131,7 @@
 		}//end of drawMarquee
 		
 		private function setupCheckBox():void{
-			this.tipToTail_cb.label = "Tip-to-Tail";
+			this.tipToTail_cb.label = this.tipToTail_str; //"tip-to-tail"; //
 			this.tipToTail_cb.selected = true;
 			this.tipToTail_cb.textField.width = 0.7*this.borderWidth;
 			this.tipToTail_cb.y = this.borderHeight - this.tipToTail_cb.height;
@@ -182,7 +194,7 @@
 			//trace("this.momentum_arr[0].parent"+this.momentum_arr[0].parent);
 			
 			this.totMomentum = new Arrow(maxN);  //index of total momentum is N = maxNbrBalls
-			this.totMomentum.setText("Tot");
+			this.totMomentum.setText("tot");
 			this.totMomentum.setColor(0xff8800);	//tot momentum arrow is orange
 			this.totMomentum.setShaftWidth(4);
 			this.totMomentum.x = this.borderWidth/2;

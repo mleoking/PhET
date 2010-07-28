@@ -8,6 +8,28 @@
 	import fl.controls.*;
 	import fl.managers.StyleManager;
 	
+	//List of strings in this class for internationalization:
+	//This class ControlPanel associated with library movieclip controlPanel 
+	//Here are all the dynamic text strings and their english values
+	//controlPanel.nbrBallsLabel_txt = "Nbr of Balls"
+	//controlPanel.oneD_rb.label = "1D"
+	//controlPanel.twoD_rb.label = "2D"
+	//controlPanel.resetButton_sp.label_txt  = "Reset All"  //This is instance of class NiceButton
+	//controlPanel.showVelocities_cb.label = "Show vlocities"
+	//controlPanel.showCM_cb.label = "Show C.M."
+	//controlPanel.reflectingBorder_cb.label = "Reflecting Border"
+	//controlPanel.showPaths_cb.label = "Show Paths"
+	//controlPanel.sound_cb.label = "Sound" 
+	//controlPanel.timeLabel = "time"
+	//controlPanel.slowLabel = "slow"
+	//controlPanel.fastLabel = "fast"
+	//controlPanel.elasticityLabel = "elasticity"
+	//controlPanel.elasticityValueLabel = numeric value is set by code, do not internalize this string
+	//controlPanel.zeroPercentLabel = "0%"
+	//controlPanel.oneHundredPercentLabel = "100%"
+	
+	
+	
 	public class ControlPanel extends Sprite{
 		private var myModel:Model;
 		private var myMainView:MainView;
@@ -29,6 +51,7 @@
 			//this.changeNbrBallButtons = new ChangeNbrBallButtons();
 			this.initialize();
 			this.initializeComponents();
+			//this.initializeStrings();
 		}//end of constructor
 		
 		public function initialize():void{
@@ -72,6 +95,13 @@
 			this.elasticitySlider.addEventListener(SliderEvent.CHANGE, setElasticity);
 			
 		}
+		
+		//following function does not change labels as expected (???)
+		public function initializeStrings():void{
+			//this.nbrBallsLabel_txt.text = "Nbr of Balls1";
+			this.oneD_rb.label = "AA";
+			this.showCM_cb.label = "BBShow C.M."
+		}//end of initializeStrings()
 		
 		public function oneDModeOn(evt:MouseEvent):void{
 			this.myModel.setOneDMode(true);

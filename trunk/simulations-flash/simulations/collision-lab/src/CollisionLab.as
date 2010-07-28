@@ -1,6 +1,14 @@
 ﻿//CollisionLab M.Dubson Nov 5, 2009
 //source code resides in /collision-lab
 //main class instance
+//For internationaled strings, see following classes
+//ControlPanel.as
+//TableView.as
+//PlayPauseButtons.as
+//DataTable.as
+//MomentumView.as
+
+
 package{
 	import flash.display.*;  
 	
