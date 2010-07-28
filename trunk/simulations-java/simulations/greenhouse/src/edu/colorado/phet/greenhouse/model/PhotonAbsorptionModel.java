@@ -79,13 +79,15 @@ public class PhotonAbsorptionModel {
         put(MoleculeID.N2, 0);
         put(MoleculeID.O2, 0);
         put(MoleculeID.CO2, 0);
+        put(MoleculeID.CH4, 0);
         put(MoleculeID.H2O, 0);
     }}; 
     static final HashMap< MoleculeID , Integer> MAX_ATMOSPHERE_CONCENTRATIONS = new HashMap< MoleculeID, Integer>() {{ 
-        put(MoleculeID.N2, 20); 
-        put(MoleculeID.O2, 20); 
-        put(MoleculeID.CO2, 20); 
-        put(MoleculeID.H2O, 20); 
+        put(MoleculeID.N2, 15); 
+        put(MoleculeID.O2, 15); 
+        put(MoleculeID.CO2, 15); 
+        put(MoleculeID.CH4, 15); 
+        put(MoleculeID.H2O, 15); 
     }};
     
     // Random number generator.
