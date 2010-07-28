@@ -167,7 +167,10 @@ public class PhotonAbsorptionModel {
             molecule.reset();
         }
 
+        // Set default values.
         setPhotonTarget( DEFAULT_PHOTON_TARGET );
+        setPhotonEmissionPeriodMultipleTarget( DEFAULT_PHOTON_EMISSION_PERIOD_MULTIPLE_TARGET );
+        setPhotonEmissionPeriodSingleTarget( DEFAULT_PHOTON_EMISSION_PERIOD_SINGLE_TARGET );
         setEmittedPhotonWavelength( DEFAULT_EMITTED_PHOTON_WAVELENGTH );
         setPeriodicPhotonEmissionEnabled( false );
         
