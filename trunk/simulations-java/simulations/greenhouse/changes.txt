@@ -1,3 +1,5 @@
+# 2.07.09 (42710) Jul 28, 2010
+7/28/10 Removed N2O from possible gas selections, added CH4 to buildable atmosphere, implemented several other requested changes.
 # 2.07.08 (42666) Jul 26, 2010
 7/26/10 Added the "Build Atmosphere" feature.
 # 2.07.07 (42583) Jul 22, 2010
