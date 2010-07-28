@@ -192,6 +192,7 @@ package{
 		
 		public function setupToggleButton():void{
 			//this.canvas.addChild(this.toggleButton);
+			this.toggleButton.buttonMode = true;
 			this.toggleButton.emphasized = true;
 			this.toggleButton.width = 90;
 			this.toggleButton.label = "More Data";
