@@ -76,7 +76,9 @@ public class PhotonEmitterNode extends PNode {
     // used to turn photon emission on and off.
     private PImage unpressedButtonImage;
     private PImage pressedButtonImage;
-	
+
+    private PSwing selectionPanelPSwing;
+
     // ------------------------------------------------------------------------
     // Constructor(s)
     // ------------------------------------------------------------------------
@@ -105,6 +107,8 @@ public class PhotonEmitterNode extends PNode {
                 updateFrequencySelectButtons();
                 updateImage( emitterImageWidth );
                 updateIntensitySlider();
+                // Workaround for piccolo bug.
+                selectionPanelPSwing.repaint();
             }
 
             @Override
@@ -163,8 +167,6 @@ public class PhotonEmitterNode extends PNode {
 		// as desired.
 		double distanceBetweeImageAndControl = emitterImageWidth * 0.6;
 		
-		// Create the control box for selecting the type of photon that will
-		// be emitted.
 		JPanel emissionTypeSelectionPanel = new VerticalLayoutPanel();
 		emissionTypeSelectionPanel.setBorder(BorderFactory.createRaisedBevelBorder());
 		JPanel infraredButtonPanel = new HorizontalLayoutPanel();
@@ -224,7 +226,7 @@ public class PhotonEmitterNode extends PNode {
         });
 		emissionTypeSelectionPanel.add( intensitySlider );
 		
-		PSwing selectionPanelPSwing = new PSwing(emissionTypeSelectionPanel);
+		selectionPanelPSwing = new PSwing(emissionTypeSelectionPanel);
 		selectionPanelPSwing.setOffset(
 				photonEmitterImage.getFullBoundsReference().getCenterX() - selectionPanelPSwing.getFullBoundsReference().width / 2,
 				photonEmitterImage.getFullBoundsReference().getCenterY() + distanceBetweeImageAndControl - selectionPanelPSwing.getFullBoundsReference().height / 2);
@@ -342,6 +344,4 @@ public class PhotonEmitterNode extends PNode {
 	        System.err.println(getClass().getName() + "- Error: Unrecognized photon.");
 	    }
 	}
-	
-	
 }
