@@ -586,8 +586,8 @@ public class PhotonAbsorptionModel {
     }
     
     // Constants used when trying to find an open location in the atmosphere.
-    private static final double MIN_DIST_FROM_WALL_X = 240; // In picometers.
-    private static final double MIN_DIST_FROM_WALL_Y = 130; // In picometers.
+    private static final double MIN_DIST_FROM_WALL_X = 20; // In picometers.
+    private static final double MIN_DIST_FROM_WALL_Y = 20; // In picometers.
     private static final double MOLECULE_POS_MIN_X = CONTAINMENT_AREA_RECT.getMinX() + MIN_DIST_FROM_WALL_X;
     private static final double MOLECULE_POS_RANGE_X = CONTAINMENT_AREA_WIDTH - 2 * MIN_DIST_FROM_WALL_X;
     private static final double MOLECULE_POS_MIN_Y = CONTAINMENT_AREA_RECT.getMinY() + MIN_DIST_FROM_WALL_Y;
@@ -647,18 +647,25 @@ public class PhotonAbsorptionModel {
         // Generate a set of random location.
         ArrayList<Point2D> possibleLocations = new ArrayList<Point2D>();
         
-        for (int i = 0; i < 100; i++){
+        double minDistWallToMolCenterX = MIN_DIST_FROM_WALL_X + molecule.getBoundingRect().getWidth() / 2;
+        double minXPos = CONTAINMENT_AREA_RECT.getMinX() + minDistWallToMolCenterX;
+        double xRange = CONTAINMENT_AREA_RECT.getWidth() - 2 * minDistWallToMolCenterX;
+        double minDistWallToMolCenterY = MIN_DIST_FROM_WALL_Y + molecule.getBoundingRect().getHeight() / 2;
+        double minYPos = CONTAINMENT_AREA_RECT.getMinY() + minDistWallToMolCenterY;
+        double yRange = CONTAINMENT_AREA_RECT.getHeight() - 2 * minDistWallToMolCenterY;
+        
+        for (int i = 0; i < 20; i++){
             // Randomly generate a position.
-            double proposedYPos = MOLECULE_POS_MIN_Y + RAND.nextDouble() * MOLECULE_POS_RANGE_Y;
-            double minXPos = MOLECULE_POS_MIN_X;
-            double xRange = MOLECULE_POS_RANGE_X;
+            double proposedYPos = minYPos + RAND.nextDouble() * yRange;
+            double proposedXPos;
             if (Math.abs( proposedYPos - getContainmentAreaRect().getCenterY() ) < EMITTER_AVOIDANCE_COMP_Y / 2){
                 // Compensate in the X direction so that this position is not
                 // too close to the photon emitter.
-                minXPos = MOLECULE_POS_MIN_X + EMITTER_AVOIDANCE_COMP_X;
-                xRange = MOLECULE_POS_RANGE_X - EMITTER_AVOIDANCE_COMP_X;
+                proposedXPos = minXPos + EMITTER_AVOIDANCE_COMP_X + RAND.nextDouble() * (xRange - EMITTER_AVOIDANCE_COMP_X);
             }
-            double proposedXPos = minXPos + RAND.nextDouble() * xRange;
+            else{
+                proposedXPos = minXPos + RAND.nextDouble() * xRange;
+            }
             possibleLocations.add( new Point2D.Double(proposedXPos, proposedYPos ) );
         }
         
@@ -673,6 +680,11 @@ public class PhotonAbsorptionModel {
                         getOverlapWithOtherMolecules(p2, molRectWidth, molRectHeight) );
             }
         });
+        
+        Point2D pt = possibleLocations.get( 0 );
+        if (pt.getX() + molRectWidth / 2 > CONTAINMENT_AREA_RECT.getMaxX()){
+            System.out.println("Whoa! " + pt);
+        }
         
         return possibleLocations.get( 0 );
     }
