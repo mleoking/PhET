@@ -6,7 +6,7 @@ import edu.colorado.phet.scalacommon.ScalaClock
 import edu.colorado.phet.motionseries.Predef._
 import edu.colorado.phet.motionseries.{MotionSeriesResources, MotionSeriesDefaults, MotionSeriesModule}
 import java.awt.{Rectangle, Color}
-import edu.colorado.phet.motionseries.model.{MotionSeriesObject, MotionSeriesModel}
+import edu.colorado.phet.motionseries.model.{MotionSeriesObjectType, MotionSeriesModel}
 import MotionSeriesDefaults._
 import javax.swing.{Timer, SwingUtilities}
 import java.awt.event.{ActionEvent, ActionListener, KeyEvent, KeyAdapter}
@@ -18,7 +18,7 @@ import java.awt.event.{ActionEvent, ActionListener, KeyEvent, KeyAdapter}
 class RobotMovingCompanyModule(frame: PhetFrame,
                                initAngle: Double = defaultRampAngle,
                                appliedForce: Double = rampRobotForce,
-                               objectList: List[MotionSeriesObject] = objects)
+                               objectList: List[MotionSeriesObjectType] = objects)
         extends MotionSeriesModule(frame, new ScalaClock(MotionSeriesDefaults.DELAY, MotionSeriesDefaults.DT_DEFAULT), "module.robotMovingCompany".translate, 5, false, MotionSeriesDefaults.defaultRampAngle, false) {
   override def reset() = {
     super.reset()

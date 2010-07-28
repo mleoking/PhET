@@ -5,7 +5,7 @@ import edu.colorado.phet.motionseries.graphics.ObjectModel
 import java.util.Vector
 import javax.swing._
 import java.awt.event.{ItemListener, ItemEvent}
-import edu.colorado.phet.motionseries.model.MotionSeriesObject
+import edu.colorado.phet.motionseries.model.MotionSeriesObjectType
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.umd.cs.piccolox.pswing.{PSwingCanvas, PComboBox, PSwing}
@@ -23,10 +23,10 @@ class ObjectSelectionComboBox(objectModel: ObjectModel) extends PComboBox {
 
   val itemList = for (o <- MotionSeriesDefaults.objects) yield {
     o match {
-      case m: MotionSeriesObject => new ObjectItem(o)
+      case m: MotionSeriesObjectType => new ObjectItem(o)
     }
   }
-  class ObjectItem(val rampObject: MotionSeriesObject) {
+  class ObjectItem(val rampObject: MotionSeriesObjectType) {
     override def toString = rampObject.getDisplayText
   }
   for (elm <- itemList) vec.add(elm)

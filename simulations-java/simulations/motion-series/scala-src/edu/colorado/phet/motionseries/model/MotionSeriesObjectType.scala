@@ -6,13 +6,13 @@ import edu.colorado.phet.common.phetcommon.math.Function
 import edu.colorado.phet.motionseries.{MotionSeriesDefaults, MotionSeriesResources}
 
 //immutable memento for recording
-case class MotionSeriesObjectState(name: String, mass: Double, kinFric: Double, statFric: Double, height: Double,
+case class MotionSeriesObjectTypeState(name: String, mass: Double, kinFric: Double, statFric: Double, height: Double,
                                    imageFilename: String, crashImageFilename: String, iconFilename: String,
-                                   customizable: Boolean, points: Int, objectType: MotionSeriesObjectState => MotionSeriesObject) {
+                                   customizable: Boolean, points: Int, objectType: MotionSeriesObjectTypeState => MotionSeriesObjectType) {
   def toObject = objectType(this)
 }
 
-class MotionSeriesObject(_name: String,
+class MotionSeriesObjectType(_name: String,
                          protected var _mass: Double,
                          protected var _kineticFriction: Double,
                          protected var _staticFriction: Double,
@@ -31,10 +31,10 @@ class MotionSeriesObject(_name: String,
 
   def crashImageFilename = _crashImageFilename
 
-  def state = new MotionSeriesObjectState(name, mass, kineticFriction, staticFriction, height,
+  def state = new MotionSeriesObjectTypeState(name, mass, kineticFriction, staticFriction, height,
     imageFilename, crashImageFilename, iconFilename, customizable, points, createFactory)
 
-  def createFactory(state: MotionSeriesObjectState) = new MotionSeriesObject(state.name, state.mass, state.kinFric, state.statFric, state.height,
+  def createFactory(state: MotionSeriesObjectTypeState) = new MotionSeriesObjectType(state.name, state.mass, state.kinFric, state.statFric, state.height,
     state.imageFilename, state.crashImageFilename, state.iconFilename, state.customizable, state.points)
 
   def kineticFriction = _kineticFriction
@@ -62,7 +62,7 @@ class MotionSeriesObject(_name: String,
 
   override def equals(obj: Any) = {
     obj match {
-      case a: MotionSeriesObject => a.name == name && a.mass == mass && a.height == height && a.kineticFriction == kineticFriction
+      case a: MotionSeriesObjectType => a.name == name && a.mass == mass && a.height == height && a.kineticFriction == kineticFriction
       case _ => false
     }
   }
@@ -70,8 +70,8 @@ class MotionSeriesObject(_name: String,
   override def hashCode = mass.hashCode + name.hashCode * 17
 }
 
-class CustomTextMotionSeriesObject(name: String, mass: Double, kineticFriction: Double, staticFriction: Double, height: Double, imageFilename: String, crashImageFilename: String, points: Int, iconFilename: String, customizable: Boolean)
-        extends MotionSeriesObject(name, mass, kineticFriction, staticFriction, height, imageFilename, crashImageFilename, iconFilename, customizable, points) {
+class CustomTextMotionSeriesObjectType(name: String, mass: Double, kineticFriction: Double, staticFriction: Double, height: Double, imageFilename: String, crashImageFilename: String, points: Int, iconFilename: String, customizable: Boolean)
+        extends MotionSeriesObjectType(name, mass, kineticFriction, staticFriction, height, imageFilename, crashImageFilename, iconFilename, customizable, points) {
   override def getDisplayText = name
 
   override def getDisplayTextHTML = "object.custom.description.html.pattern.name".messageformat(name)
@@ -79,8 +79,8 @@ class CustomTextMotionSeriesObject(name: String, mass: Double, kineticFriction: 
   override def displayTooltip = false
 }
 
-class MutableMotionSeriesObject(name: String, __mass: Double, kineticFriction: Double, staticFriction: Double, _height: Double, imageFilename: String, crashImageFilename: String, points: Int, iconFilename: String, customizable: Boolean)
-        extends CustomTextMotionSeriesObject(name, __mass, kineticFriction, staticFriction, _height, imageFilename, crashImageFilename, points, iconFilename, customizable) with Observable {
+class MutableMotionSeriesObjectType(name: String, __mass: Double, kineticFriction: Double, staticFriction: Double, _height: Double, imageFilename: String, crashImageFilename: String, points: Int, iconFilename: String, customizable: Boolean)
+        extends CustomTextMotionSeriesObjectType(name, __mass, kineticFriction, staticFriction, _height, imageFilename, crashImageFilename, points, iconFilename, customizable) with Observable {
   def mass_=(m: Double) = {
     _mass = m
     notifyListeners()

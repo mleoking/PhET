@@ -48,7 +48,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
   private var currentBeadNode: PNode = null //keep track of the current bead graphic for layering purposes
   fbdNode.removeCursorHand() //User is not allowed to create forces by clicking in the FBD area
 
-  gameModel.itemFinishedListeners += ((scalaRampObject: MotionSeriesObject, result: Result) => {
+  gameModel.itemFinishedListeners += ((scalaRampObject: MotionSeriesObjectType, result: Result) => {
     val summaryScreen = new ItemFinishedDialog(gameModel, scalaRampObject, result, node => {
       removeStageNode(node)
       requestFocus()
@@ -192,7 +192,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
   SwingUtilities.invokeLater(new Runnable {
     def run = requestFocus()
   })
-  class ObjectIcon(a: MotionSeriesObject) extends PNode {
+  class ObjectIcon(a: MotionSeriesObjectType) extends PNode {
     val nameLabel = new PText(a.name) {
       setFont(new PhetFont(24, true))
     }
@@ -238,7 +238,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
     }
   }
 
-  def init(bead: ForceBead, a: MotionSeriesObject) = {
+  def init(bead: ForceBead, a: MotionSeriesObjectType) = {
     val lastBead = _currentBead
     _currentBead = bead
 

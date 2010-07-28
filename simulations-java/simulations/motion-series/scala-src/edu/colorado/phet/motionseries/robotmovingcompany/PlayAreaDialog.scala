@@ -65,7 +65,7 @@ class IntroDialog extends PlayAreaDialog(400, 500) {
 }
 
 class ItemFinishedDialog(gameModel: RobotMovingCompanyGameModel,
-                         scalaRampObject: MotionSeriesObject,
+                         scalaRampObject: MotionSeriesObjectType,
                          result: Result,
                          okPressed: ItemFinishedDialog => Unit,
                          okButtonText: String) extends PlayAreaDialog(400, 400) {

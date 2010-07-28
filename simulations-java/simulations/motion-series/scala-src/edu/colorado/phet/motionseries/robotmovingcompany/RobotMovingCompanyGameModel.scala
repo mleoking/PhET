@@ -18,7 +18,7 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
                                   clock: ScalaClock,
                                   initAngle: Double,
                                   val appliedForceAmount: Double,
-                                  val objectList: List[MotionSeriesObject])
+                                  val objectList: List[MotionSeriesObjectType])
         extends Observable {
 
   //The robot energy and applied force amounts have to be chosen so that the robot has enough energy
@@ -35,11 +35,11 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
 
   private var _launched = false
   private var _objectIndex = 0
-  val resultMap = new HashMap[MotionSeriesObject, Result]
+  val resultMap = new HashMap[MotionSeriesObjectType, Result]
 
   //Event notifications
-  val beadCreatedListeners = new ArrayBuffer[(ForceBead, MotionSeriesObject) => Unit]
-  val itemFinishedListeners = new ArrayBuffer[(MotionSeriesObject, Result) => Unit]
+  val beadCreatedListeners = new ArrayBuffer[(ForceBead, MotionSeriesObjectType) => Unit]
+  val itemFinishedListeners = new ArrayBuffer[(MotionSeriesObjectType, Result) => Unit]
   val gameFinishListeners = new ArrayBuffer[() => Unit]
 
   val housePosition = 6
@@ -180,7 +180,7 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
 
   def nextObject() = setObjectIndex(_objectIndex + 1)
 
-  def itemFinished(o: MotionSeriesObject, r: Result) = {
+  def itemFinished(o: MotionSeriesObjectType, r: Result) = {
     resultMap += o -> r
     itemFinishedListeners.foreach(_(o, r))
     if (resultMap.size == objectList.length) {
@@ -189,13 +189,13 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
     notifyListeners()
   }
 
-  def isLastObject(o: MotionSeriesObject) = objectList(objectList.length - 1) eq o
+  def isLastObject(o: MotionSeriesObjectType) = objectList(objectList.length - 1) eq o
 
-  def itemLostOffCliff(o: MotionSeriesObject) = itemFinished(o, Cliff(o.points, robotEnergy.toInt))
+  def itemLostOffCliff(o: MotionSeriesObjectType) = itemFinished(o, Cliff(o.points, robotEnergy.toInt))
 
-  def itemLost(o: MotionSeriesObject) = itemFinished(o, OutOfEnergy(o.points, robotEnergy.toInt))
+  def itemLost(o: MotionSeriesObjectType) = itemFinished(o, OutOfEnergy(o.points, robotEnergy.toInt))
 
-  def itemStuck(o: MotionSeriesObject) = itemFinished(o, NotEnoughEnergyToPush(o.points, robotEnergy.toInt))
+  def itemStuck(o: MotionSeriesObjectType) = itemFinished(o, NotEnoughEnergyToPush(o.points, robotEnergy.toInt))
 
   val deliverList = new ArrayBuffer[Bead]
 
@@ -203,7 +203,7 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
 
   def inputAllowed = _inputAllowed
 
-  def itemDelivered(o: MotionSeriesObject, beadRef: ForceBead) = {
+  def itemDelivered(o: MotionSeriesObjectType, beadRef: ForceBead) = {
     if (!deliverList.contains(beadRef)) {
       deliverList += beadRef
       object listener extends Function0[Unit] { //it's an object so we can refer to it as this below
