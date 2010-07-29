@@ -1,5 +1,9 @@
-﻿package{
-	import flash.display.*;
+package{
+import edu.colorado.phet.flashcommon.SimStrings;
+
+import edu.colorado.phet.flashcommon.TextFieldUtils;
+
+import flash.display.*;
 	import flash.events.*;
 	import fl.events.*;
 	import flash.text.*;
@@ -69,9 +73,9 @@
 		}
 		
 		public function initializeStrings():void{
-			this.momenta_str = "Momenta";
-			this.tipToTail_str = "tip-to-tail";
-			this.tot_str = "tot";
+			this.momenta_str = SimStrings.get("MomentumView.momenta","Momenta");
+			this.tipToTail_str = SimStrings.get("MomentumView.tipToTail","tip-to-tail");
+			this.tot_str = SimStrings.get("MomentumView.total","tot");
 		}//end of initializeStrings()
 		
 		public function drawBorder():void{
@@ -118,6 +122,7 @@
 			this.marquee.selectable = false;
 			this.marquee.autoSize = TextFieldAutoSize.LEFT;
 			this.marquee.x = 10;
+//            TextFieldUtils.resizeText(this.marquee);//TODO: JO: how to resize text for the marquee?
 			var tFormat:TextFormat = new TextFormat();
 			tFormat.font = "Arial";
 			tFormat.bold = true;
@@ -194,7 +199,7 @@
 			//trace("this.momentum_arr[0].parent"+this.momentum_arr[0].parent);
 			
 			this.totMomentum = new Arrow(maxN);  //index of total momentum is N = maxNbrBalls
-			this.totMomentum.setText("tot");
+			this.totMomentum.setText(tot_str);
 			this.totMomentum.setColor(0xff8800);	//tot momentum arrow is orange
 			this.totMomentum.setShaftWidth(4);
 			this.totMomentum.x = this.borderWidth/2;

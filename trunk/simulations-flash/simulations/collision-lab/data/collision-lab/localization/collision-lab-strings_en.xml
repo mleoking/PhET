@@ -17,4 +17,8 @@
     <string key="DataTable.py" value="Py"/>
     <string key="DataTable.moreData" value="More Data"/>
     <string key="DataTable.lessData" value="Less Data"/>
+    
+    <string key="MomentumView.momenta" value="Momenta"/>
+    <string key="MomentumView.tipToTail" value="tip-to-tail"/>
+    <string key="MomentumView.total" value="tot"/>
 </SimStrings>
