@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <SimStrings>
-  <string key="simTitle" value="Collision ablai" />
-  <string key="PlayPauseButtons.reset" value="原子分裂原子分裂原子分裂原子分裂原子分裂原子分裂原子分裂" />
-  <string key="PlayPauseButtons.play" value="مستوىمستوىمستوىمستوىمستوىمستوىمستوى" />
+
+    <string key="simTitle" value="原子分裂原子分裂原子分裂原子分裂"/>
+    <string key="PlayPauseButtons.reset" value="原子分裂"/>
+    <string key="PlayPauseButtons.back" value="原子分裂"/>
+    <string key="PlayPauseButtons.play" value="原子分裂"/>
+    <string key="PlayPauseButtons.pause" value="原子分裂"/>
+    <string key="PlayPauseButtons.step" value="原子分裂"/>
+
+    <string key="DataTable.ball" value="原子分裂"/>
+    <string key="DataTable.mass" value="原子分裂"/>
+    <string key="DataTable.x" value="原子分裂"/>
+    <string key="DataTable.y" value="原子分裂"/>
+    <string key="DataTable.vx" value="原子分裂"/>
+    <string key="DataTable.vy" value="原子分裂"/>
+    <string key="DataTable.px" value="原子分裂"/>
+    <string key="DataTable.py" value="原子分裂"/>
+    <string key="DataTable.moreData" value="原子分裂aoesntuhasnotehua123"/>
+    <string key="DataTable.lessData" value="原子分裂"/>
+
 </SimStrings>

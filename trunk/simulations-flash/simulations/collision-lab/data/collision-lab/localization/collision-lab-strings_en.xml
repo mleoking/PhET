@@ -6,4 +6,15 @@
     <string key="PlayPauseButtons.play" value="Play"/>
     <string key="PlayPauseButtons.pause" value="Pause"/>
     <string key="PlayPauseButtons.step" value="Step"/>
+
+    <string key="DataTable.ball" value="ball"/>
+    <string key="DataTable.mass" value="mass"/>
+    <string key="DataTable.x" value="x"/>
+    <string key="DataTable.y" value="y"/>
+    <string key="DataTable.vx" value="Vx"/>
+    <string key="DataTable.vy" value="Vy"/>
+    <string key="DataTable.px" value="Px"/>
+    <string key="DataTable.py" value="Py"/>
+    <string key="DataTable.moreData" value="More Data"/>
+    <string key="DataTable.lessData" value="Less Data"/>
 </SimStrings>
