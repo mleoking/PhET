@@ -1,1 +1,3 @@
-> Fixed: The "Drag Me" arrow points to the wrong curve after selecting "Integral" in the control panel 
+> Fixed: The "Drag Me" arrow points to the wrong curve after selecting "Integral" in the control panel
+# 2.02.04 (42719) Jul 28, 2010
+7/28/10 Internationalization fixes
