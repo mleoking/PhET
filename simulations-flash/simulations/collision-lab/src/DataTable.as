@@ -1,10 +1,14 @@
-﻿//view of table of numbers for displaying and setting initial conditions
+//view of table of numbers for displaying and setting initial conditions
 //one of two data tables is displayed: full data table or partial data table
 //each has header row + row for each ball
 //partial data table has column for ball number, col for mass, and col for mass slider
 
 package{
-	import flash.display.*;
+import edu.colorado.phet.flashcommon.SimStrings;
+
+import edu.colorado.phet.flashcommon.TextFieldUtils;
+
+import flash.display.*;
 	import flash.events.*;
 	import fl.events.*;
 	import fl.controls.*;
@@ -133,7 +137,7 @@ package{
 					}
 				}//for(j)
 			}//for(i)
-			this.drawBorder(this.nbrBalls);  //nbr of rows 
+			this.drawBorder(this.nbrBalls);  //nbr of rows
 			//manually set rowWidth for 1st call to setupToggleButton()
 			this.rowWidth = 4.5*this.colWidth;
 			this.setupToggleButton();
@@ -147,16 +151,16 @@ package{
 		
 		//following function to be altered during internationalization
 		public function initializeStrings():void{
-			this.ball_str = "ball";
-			this.mass_str = "mass";
-			this.x_str = "x";
-			this.y_str = "y";
-			this.Vx_str = "Vx";
-			this.Vy_str = "Vy";
-			this.Px_str = "Px";
-			this.Py_str = "Py";
-			this.moreData_str = "More Data"
-			this.lessData_str = "Less Data";
+			this.ball_str = SimStrings.get("DataTable.ball","ball");
+			this.mass_str = SimStrings.get("DataTable.mass","mass");
+			this.x_str = SimStrings.get("DataTable.x","x");
+			this.y_str = SimStrings.get("DataTable.y","y");
+			this.Vx_str = SimStrings.get("DataTable.vx","Vx");
+			this.Vy_str = SimStrings.get("DataTable.vy","Vy");
+			this.Px_str = SimStrings.get("DataTable.px","Px");
+			this.Py_str = SimStrings.get("DataTable.py","Py");
+			this.moreData_str = SimStrings.get("DataTable.moreData","More Data");
+			this.lessData_str = SimStrings.get("DataTable.lessData","Less Data");
 			
 		}//end of initializeString()
 		
@@ -215,6 +219,15 @@ package{
 					}
 				}//end for j
 			}//end for i
+
+            TextFieldUtils.resizeText(this.text_arr[0][0],TextFieldAutoSize.CENTER);
+            TextFieldUtils.resizeText(this.text_arr[0][1],TextFieldAutoSize.CENTER);
+            TextFieldUtils.resizeText(this.text_arr[0][2],TextFieldAutoSize.CENTER);
+            TextFieldUtils.resizeText(this.text_arr[0][3],TextFieldAutoSize.CENTER);
+            TextFieldUtils.resizeText(this.text_arr[0][4],TextFieldAutoSize.CENTER);
+            TextFieldUtils.resizeText(this.text_arr[0][5],TextFieldAutoSize.CENTER);
+            TextFieldUtils.resizeText(this.text_arr[0][6],TextFieldAutoSize.CENTER);
+            TextFieldUtils.resizeText(this.text_arr[0][7],TextFieldAutoSize.CENTER);
 		}//end makeHeaderRow
 		
 		
@@ -222,7 +235,7 @@ package{
 			//this.canvas.addChild(this.toggleButton);
 			this.toggleButton.buttonMode = true;
 			this.toggleButton.emphasized = true;
-			this.toggleButton.width = 90;
+			this.toggleButton.width = 90;//TODO: JO: How to set the width of this button properly?
 			this.toggleButton.label = this.moreData_str;
 			this.toggleButton.x = this.rowWidth + 0.2*this.toggleButton.width;
 			this.toggleButton.addEventListener(MouseEvent.CLICK, toggleButtonClick);
@@ -356,7 +369,7 @@ package{
 		private function toggleButtonClick(evt:MouseEvent):void{
 			trace(evt.target.label);
 			if(evt.target.label == this.moreData_str){
-				evt.target.label = this.lessData_str;
+				evt.target.label = this.lessData_str;//TODO: JO: Also need to resize the button here?
 				this.displayPartialDataTable(false);
 			}else if(evt.target.label == this.lessData_str){
 				evt.target.label = this.moreData_str;
