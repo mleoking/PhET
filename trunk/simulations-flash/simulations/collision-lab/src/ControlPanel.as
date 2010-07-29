@@ -79,22 +79,22 @@ package{
 			//tField.autoSize = TextFieldAutoSize.LEFT;
 			//StyleManager.setStyle("autoSize",TextFieldAutoSize.LEFT);
             
-            this.changeNbrBallButtons.nbrBallsLabel_txt.text = "XNbr of Balls";
+            this.changeNbrBallButtons.nbrBallsLabel_txt.text = "Nbr of Balls";
 //            this.oneD_rb.label = "X1D";
 //            this.twoD_rb.label = "X2D";
-            this.resetButton_sp.label_txt.text  = "XReset All";  //controlPanel is instance of class NiceButton
+            this.resetButton_sp.label_txt.text  = "Reset All";  //controlPanel is instance of class NiceButton
 //            this.showVelocities_cb.label = "XShow vlocities";
 //            myMainView.controlPanel.showCM_cb.label = "XShow C.M."
 //            myMainView.controlPanel.reflectingBorder_cb.label = "XReflecting Border"
 //            myMainView.controlPanel.showPaths_cb.label = "XShow Paths"
 //            myMainView.controlPanel.sound_cb.label = "XSound"
-            this.timeLabel.text = "Xtime"
-            this.slowLabel.text = "Xslow"
-            this.fastLabel.text = "Xfast"
-            this.elasticityLabel.text = "Xelasticity"
+            this.timeLabel.text = "time"
+            this.slowLabel.text = "slow"
+            this.fastLabel.text = "fast"
+            this.elasticityLabel.text = "elasticity"
 //            //myMainView.controlPanel.elasticityValueLabel = //numeric value is set by code, do not internalize controlPanel string
-            this.zeroPercentLabel.text = "X0%"
-            this.oneHundredPercentLabel.text = "X100%"
+            this.zeroPercentLabel.text = "0%"
+            this.oneHundredPercentLabel.text = "100%"
             
 			this.oneD_rb.textField.autoSize = TextFieldAutoSize.LEFT;
 			this.twoD_rb.textField.autoSize = TextFieldAutoSize.LEFT;
