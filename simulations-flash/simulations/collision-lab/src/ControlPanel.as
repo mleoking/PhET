@@ -80,6 +80,8 @@ package{
 			//StyleManager.setStyle("autoSize",TextFieldAutoSize.LEFT);
             
             this.changeNbrBallButtons.nbrBallsLabel_txt.text = "Nbr of Balls";
+//            trace( typeof this.oneD_rb );
+//            trace( typeof this.oneD_rb.label );
 //            this.oneD_rb.label = "X1D";
 //            this.twoD_rb.label = "X2D";
             this.resetButton_sp.label_txt.text  = "Reset All";  //controlPanel is instance of class NiceButton
