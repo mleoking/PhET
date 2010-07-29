@@ -37,12 +37,12 @@ import flash.display.*;
 
         private function setPlayText():void{
             buttonView.playPauseLabel.text = playText;
-            TextFieldUtils.resizeText( buttonView.playPauseLabel, TextFieldUtils.CENTER);
+            TextFieldUtils.resizeText( buttonView.playPauseLabel, TextFieldAutoSize.CENTER);
         }
 
         private function setPauseText():void{
             buttonView.playPauseLabel.text = pauseText;
-            TextFieldUtils.resizeText( buttonView.playPauseLabel, TextFieldUtils.CENTER);
+            TextFieldUtils.resizeText( buttonView.playPauseLabel, TextFieldAutoSize.CENTER);
         }
 		
 		//must be altered when internationalizing
