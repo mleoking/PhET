@@ -18,5 +18,9 @@
     <string key="DataTable.py" value="原子分裂"/>
     <string key="DataTable.moreData" value="原子分裂aoesntuhasnotehua123"/>
     <string key="DataTable.lessData" value="原子分裂"/>
+    
+    <string key="MomentumView.momenta" value="原子分裂原子分裂原子分裂"/>
+    <string key="MomentumView.tipToTail" value="原子分裂原子分裂原子分裂"/>
+    <string key="MomentumView.total" value="原子分裂原子分裂"/>
 
 </SimStrings>
