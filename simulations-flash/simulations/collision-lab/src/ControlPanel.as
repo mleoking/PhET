@@ -1,5 +1,5 @@
 package{
-	
+    import edu.colorado.phet.flashcommon.SimStrings;	
 	import flash.display.*;
 	import flash.events.*;
 	import fl.events.*;
@@ -78,26 +78,9 @@ package{
 			//var tField:TextField = new TextField();
 			//tField.autoSize = TextFieldAutoSize.LEFT;
 			//StyleManager.setStyle("autoSize",TextFieldAutoSize.LEFT);
-            
-            this.changeNbrBallButtons.nbrBallsLabel_txt.text = "Nbr of Balls";
-//            trace( typeof this.oneD_rb );
-//            trace( typeof this.oneD_rb.label );
-//            this.oneD_rb.label = "X1D";
-//            this.twoD_rb.label = "X2D";
-            this.resetButton_sp.label_txt.text  = "Reset All";  //controlPanel is instance of class NiceButton
-//            this.showVelocities_cb.label = "XShow vlocities";
-//            myMainView.controlPanel.showCM_cb.label = "XShow C.M."
-//            myMainView.controlPanel.reflectingBorder_cb.label = "XReflecting Border"
-//            myMainView.controlPanel.showPaths_cb.label = "XShow Paths"
-//            myMainView.controlPanel.sound_cb.label = "XSound"
-            this.timeLabel.text = "time"
-            this.slowLabel.text = "slow"
-            this.fastLabel.text = "fast"
-            this.elasticityLabel.text = "elasticity"
-//            //myMainView.controlPanel.elasticityValueLabel = //numeric value is set by code, do not internalize controlPanel string
-            this.zeroPercentLabel.text = "0%"
-            this.oneHundredPercentLabel.text = "100%"
-            
+
+            initializeStrings();
+
 			this.oneD_rb.textField.autoSize = TextFieldAutoSize.LEFT;
 			this.twoD_rb.textField.autoSize = TextFieldAutoSize.LEFT;
 			this.showVelocities_cb.textField.autoSize = TextFieldAutoSize.LEFT;
@@ -116,11 +99,31 @@ package{
 			
 		}
 		
-		//following function does not change labels as expected (???)
+		//following function does not change labels as expected (???) // JO says: this was never being called
 		public function initializeStrings():void{
-			//this.nbrBallsLabel_txt.text = "Nbr of Balls1";
-			this.oneD_rb.label = "AA";
-			this.showCM_cb.label = "BBShow C.M."
+            this.changeNbrBallButtons.nbrBallsLabel_txt.text = SimStrings.get("ControlPanel.numberOfBalls","Nbr of Balls");
+//            trace( typeof this.oneD_rb );
+//            trace( typeof this.oneD_rb.label );
+            this.oneD_rb.label = SimStrings.get("ControlPanel.1d","1D");
+//            this.twoD_rb.label = SimStrings.get("ControlPanel.2d","2D");
+            this.resetButton_sp.label_txt.text  = SimStrings.get("ControlPanel.resetAll","Reset All");  //controlPanel is instance of class NiceButton
+//            this.showVelocities_cb.label = SimStrings.get("ControlPanel.showVelocities","Show velocities");
+//            myMainView.controlPanel.showCM_cb.label = SimStrings.get("ControlPanel.showCenterOfMass","Show C.M.");
+//            myMainView.controlPanel.reflectingBorder_cb.label = SimStrings.get("ControlPanel.reflectingBorder","Reflecting Border");
+//            myMainView.controlPanel.showPaths_cb.label = SimStrings.get("ControlPanel.showPaths","Show Paths");
+//            myMainView.controlPanel.sound_cb.label = SimStrings.get("ControlPanel.sound","Sound");
+            this.timeLabel.text = SimStrings.get("ControlPanel.time","time");
+            this.slowLabel.text = SimStrings.get("ControlPanel.slow","slow");
+            this.fastLabel.text = SimStrings.get("ControlPanel.fast","fast");
+            this.elasticityLabel.text = SimStrings.get("ControlPanel.elasticity","elasticity");
+//            //myMainView.controlPanel.elasticityValueLabel = //numeric value is set by code, do not internalize controlPanel string
+            this.zeroPercentLabel.text = SimStrings.get("ControlPanel.zeroPercent","0%");
+            this.oneHundredPercentLabel.text = SimStrings.get("ControlPanel.oneHundredPercent","100%");
+
+            //TODO: JO: needs resizing and extracting labels of the components out
+            
+//			this.oneD_rb.label = "AA";
+//			this.showCM_cb.label = "BBShow C.M."
 		}//end of initializeStrings()
 		
 		public function oneDModeOn(evt:MouseEvent):void{
