@@ -146,7 +146,7 @@ object MotionSeriesDefaults {
   val potentialEnergyColor = gravityWorkColor
   val thermalEnergyColor = frictionWorkColor
 
-  val accelerationColor = magenta
+  val accelerationColor = green
   val velocityColor = red
   val positionColor = blue
 

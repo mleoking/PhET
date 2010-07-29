@@ -1,3 +1,4 @@
+Changed the acceleration color to green
 Replaced the two-segment platform in forces and motion with a solid platform by removing the stroke on each segment
 Fixed: The right wall is draggable in the forces and motion sim
 # 1.03.69 (42659) Jul 26, 2010
