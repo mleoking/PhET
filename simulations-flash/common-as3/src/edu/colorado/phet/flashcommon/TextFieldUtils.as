@@ -5,6 +5,8 @@ public class TextFieldUtils {
     public function TextFieldUtils() {
     }
 
+    // TODO: after completing changes, test Calculus Grapher (which uses this code)
+
     //See http://www.adobe.com/support/flash/action_scripts/actionscript_dictionary/actionscript_dictionary729.html
     public static var CENTER = TextFieldAutoSize.CENTER;
     private static var map = new Object();
@@ -17,6 +19,7 @@ public class TextFieldUtils {
             //Restore initial metrics so that logic below will work on every call
             textField.width=map[textField].width;
             textField.height=map[textField].height;
+            textField.x=map[textField].x;
             textField.y=map[textField].y;
         }
         //trace("name: "+txtField.name + "   multiline: "+txtField.multiline + "   wordwrap: "+txtField.wordwrap);
