@@ -1,46 +1,34 @@
 package edu.colorado.phet.flashcommon {
+import flash.display.*;
+import flash.events.*;
 import flash.text.*;
 
 public class TextFieldUtils {
     public function TextFieldUtils() {
     }
 
-    // TODO: after completing changes, test Calculus Grapher (which uses this code)
-
-    //See http://www.adobe.com/support/flash/action_scripts/actionscript_dictionary/actionscript_dictionary729.html
-    public static var CENTER = TextFieldAutoSize.CENTER;
-    private static var map = new Object();
-
-    public static function resizeText(textField:TextField, alignment:String):void {  //get an error when Object = textField
-        if (map[textField]==undefined){
-            textField.multiline = false;
-            map[textField]={height:textField.height,width:textField.width,y:textField.y,x:textField.x};
-        } else {
-            //Restore initial metrics so that logic below will work on every call
-            textField.width=map[textField].width;
-            textField.height=map[textField].height;
-            textField.x=map[textField].x;
-            textField.y=map[textField].y;
-        }
+    public static function resizeText( txtField:TextField, alignment:String ):void {  //get an error when Object = textField
         //trace("name: "+txtField.name + "   multiline: "+txtField.multiline + "   wordwrap: "+txtField.wordwrap);
-        var textFormat:TextFormat = textField.getTextFormat();
+        var mTextField:TextField = txtField;
+        var mTextFormat:TextFormat = txtField.getTextFormat();
+        var alignment:String = alignment;
         //trace(mTextField.text+" has alignment"+alignment);
         //trace(mTextField.text+" has textWidth "+mTextField.textWidth+" and field.width " + mTextField.width);
         //Check that string fits inside button and reduce font size if necessary
 
-        if (textField.textWidth + 2 >= textField.width) {
-            trace("parent: " + textField.parent + "   name: " + textField.name + "  text resized ");
-            var ratio:Number = 1.15 * textField.textWidth / textField.width;  //fudge factor of 1.15 to cover BOLDed text
-            trace(textField.text + " too long by factor of " + ratio + "   Initial height is " + textField.height + "   Initial y is " + textField.y);
-            var oldSize:int = Number(textFormat.size); //TextFormat.size is type Object and must be cast to type Number
+        if ( mTextField.textWidth + 2 >= mTextField.width ) {
+            trace("parent: " + mTextField.parent + "   name: " + mTextField.name + "  text resized ");
+            var ratio:Number = 1.15 * mTextField.textWidth / mTextField.width;  //fudge factor of 1.15 to cover BOLDed text
+            var initialHeight:Number = mTextField.height;
+            trace(mTextField.text + " too long by factor of " + ratio + "   Initial height is " + mTextField.height + "   Initial y is " + mTextField.y);
+            var oldSize:int = Number(mTextFormat.size); //TextFormat.size is type Object and must be cast to type Number
             var newSize:int = Math.round(oldSize / ratio);
-            textFormat.size = newSize;
-            textField.setTextFormat(textFormat);
-            trace("New font size is " + textField.getTextFormat().size);
-            textField.autoSize = alignment;  //resize bounding box
-            textField.y += (map[textField].height - textField.height) / 2;  //keep text field vertically centered in button
-
-            textField.autoSize = "none";  //make it possible to call this function multiple times
+            mTextFormat.size = newSize;
+            mTextField.setTextFormat(mTextFormat);
+            trace("New font size is " + mTextField.getTextFormat().size);
+            mTextField.autoSize = alignment;  //resize bounding box
+            var finalHeight:Number = mTextField.height;
+            mTextField.y += (initialHeight - finalHeight) / 2;  //keep text field vertically centered in button
             //trace("New height is "+ mTextField.height+ "   Final y is " + mTextField.y);
             //trace(mTextField.text+" has field.width " + mTextField.width);
         }
