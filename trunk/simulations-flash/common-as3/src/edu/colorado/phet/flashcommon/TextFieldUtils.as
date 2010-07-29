@@ -8,6 +8,7 @@ public class TextFieldUtils {
     }
 
     public static function resizeText( txtField:TextField, alignment:String ):void {  //get an error when Object = textField
+        txtField.multiline = false;//made sure that internationalizable textfields do not have multiline, because it causes problems
         //trace("name: "+txtField.name + "   multiline: "+txtField.multiline + "   wordwrap: "+txtField.wordwrap);
         var mTextField:TextField = txtField;
         var mTextFormat:TextFormat = txtField.getTextFormat();
