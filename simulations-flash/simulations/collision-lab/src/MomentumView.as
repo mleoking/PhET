@@ -122,7 +122,6 @@ import flash.display.*;
 			this.marquee.selectable = false;
 			this.marquee.autoSize = TextFieldAutoSize.LEFT;
 			this.marquee.x = 10;
-//            TextFieldUtils.resizeText(this.marquee);//TODO: JO: how to resize text for the marquee?
 			var tFormat:TextFormat = new TextFormat();
 			tFormat.font = "Arial";
 			tFormat.bold = true;
@@ -131,6 +130,7 @@ import flash.display.*;
 			tFormat.size = 40;
 			//textFormat must be applied to text, so set text property first then apply format
 			this.marquee.setTextFormat(tFormat);
+            TextFieldUtils.resizeText(this.marquee,TextFieldAutoSize.CENTER);
 			this.canvas.addChild(this.marquee);
 
 		}//end of drawMarquee
