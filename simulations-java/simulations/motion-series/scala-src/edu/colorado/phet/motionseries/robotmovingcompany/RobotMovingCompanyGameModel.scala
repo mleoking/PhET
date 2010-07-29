@@ -38,20 +38,20 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
   val resultMap = new HashMap[MotionSeriesObjectType, Result]
 
   //Event notifications
-  val beadCreatedListeners = new ArrayBuffer[(ForceBead, MotionSeriesObjectType) => Unit]
+  val beadCreatedListeners = new ArrayBuffer[(ForceMotionSeriesObject, MotionSeriesObjectType) => Unit]
   val itemFinishedListeners = new ArrayBuffer[(MotionSeriesObjectType, Result) => Unit]
   val gameFinishListeners = new ArrayBuffer[() => Unit]
 
   val housePosition = 6
-  val house = MovingManBead(model, housePosition, MotionSeriesDefaults.house.width, MotionSeriesDefaults.house.height)
-  val door = MovingManBead(model, housePosition, MotionSeriesDefaults.door.width, MotionSeriesDefaults.door.height)
+  val house = MovingManMotionSeriesObject(model, housePosition, MotionSeriesDefaults.house.width, MotionSeriesDefaults.house.height)
+  val door = MovingManMotionSeriesObject(model, housePosition, MotionSeriesDefaults.door.width, MotionSeriesDefaults.door.height)
   private var _doorOpenAmount = 0.0
 
   def doorOpenAmount = _doorOpenAmount
 
   val doorListeners = new ArrayBuffer[() => Unit]
-  val doorBackground = MovingManBead(model, housePosition, MotionSeriesDefaults.doorBackground.width, MotionSeriesDefaults.doorBackground.height)
-  private var _bead: ForceBead = null
+  val doorBackground = MovingManMotionSeriesObject(model, housePosition, MotionSeriesDefaults.doorBackground.width, MotionSeriesDefaults.doorBackground.height)
+  private var _bead: ForceMotionSeriesObject = null
 
   clock.addClockListener(dt => if (!model.isPaused && _bead != null) _bead.stepInTime(dt))
   resetAll()
@@ -60,7 +60,7 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
 
   def robotEnergy = _robotEnergy
 
-  def _inFrontOfDoor(b: Bead) = {
+  def _inFrontOfDoor(b: MotionSeriesObject) = {
     val range = 1.15 //NP: I would simply make the grabbing area smaller - maybe 10-15% beyond the door border.
     val leftSide = door.position - door.width / 2.0 * range
     val rightSide = door.position + door.width / 2.0 * range
@@ -105,7 +105,7 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
     val sel = selectedObject
     model.setPaused(true)
 
-    _bead = MovingManBead(model, -model.rampSegments(0).length + sel.width / 2.0 + model.leftWall.width / 2.0, sel.width, 3)
+    _bead = MovingManMotionSeriesObject(model, -model.rampSegments(0).length + sel.width / 2.0 + model.leftWall.width / 2.0, sel.width, 3)
 
     bead.mass = sel.mass
     bead.staticFriction = sel.staticFriction
@@ -197,13 +197,13 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
 
   def itemStuck(o: MotionSeriesObjectType) = itemFinished(o, NotEnoughEnergyToPush(o.points, robotEnergy.toInt))
 
-  val deliverList = new ArrayBuffer[Bead]
+  val deliverList = new ArrayBuffer[MotionSeriesObject]
 
   private var _inputAllowed = true
 
   def inputAllowed = _inputAllowed
 
-  def itemDelivered(o: MotionSeriesObjectType, beadRef: ForceBead) = {
+  def itemDelivered(o: MotionSeriesObjectType, beadRef: ForceMotionSeriesObject) = {
     if (!deliverList.contains(beadRef)) {
       deliverList += beadRef
       object listener extends Function0[Unit] { //it's an object so we can refer to it as this below

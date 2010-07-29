@@ -98,14 +98,14 @@ class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val ta
 class BodyVectorNode(transform: ModelViewTransform2D,
                      vector: Vector,
                      offset: VectorValue,
-                     bead: Bead)
+                     motionSeriesObject: MotionSeriesObject)
         extends VectorNode(transform, vector, offset, MotionSeriesDefaults.BODY_LABEL_MAX_OFFSET) {
   def doUpdate() = {
-    setOffset(bead.position2D)
+    setOffset(motionSeriesObject.position2D)
     update()
   }
 
-  bead.addListenerByName {
+  motionSeriesObject.addListenerByName {
     doUpdate()
   }
   doUpdate()

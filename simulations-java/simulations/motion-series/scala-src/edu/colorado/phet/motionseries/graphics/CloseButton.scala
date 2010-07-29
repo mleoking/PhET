@@ -8,7 +8,7 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler
 import edu.umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
 import edu.colorado.phet.scalacommon.Predef._
 
-trait CloseButton extends BeadNode {
+trait CloseButton extends MotionSeriesObjectNode {
   val closeButton = new PImage(PhetCommonResources.getImage("buttons/closeButton.png".literal))
   closeButton.addInputEventListener(new CursorHandler)
 

@@ -12,50 +12,50 @@ import edu.umd.cs.piccolo.nodes.PImage
 import java.awt.image.BufferedImage
 import edu.colorado.phet.scalacommon.math.Vector2D
 import edu.colorado.phet.scalacommon.Predef._
-import edu.colorado.phet.motionseries.model.{MovingManBead, ForceBead, Bead}
+import edu.colorado.phet.motionseries.model.{MovingManMotionSeriesObject, ForceMotionSeriesObject, MotionSeriesObject}
 import edu.colorado.phet.motionseries.javastage.stage.PlayArea
 
-class ForceDragBeadNode(bead: ForceBead,
+class ForceDragMotionSeriesObjectNode(motionSeriesObject: ForceMotionSeriesObject,
                         transform: ModelViewTransform2D,
                         imageName: String,
                         crashImageName: String,
                         dragListener: () => Unit)
-        extends BeadNode(bead, transform, imageName, crashImageName) {
+        extends MotionSeriesObjectNode(motionSeriesObject, transform, imageName, crashImageName) {
   addInputEventListener(new CursorHandler)
   addInputEventListener(new PBasicInputEventHandler() {
     override def mouseDragged(event: PInputEvent) = {
       val delta = event.getCanvasDelta
       val modelDelta = transform.viewToModelDifferential(delta.width, delta.height)
-      val sign = modelDelta dot bead.getRampUnitVector
+      val sign = modelDelta dot motionSeriesObject.getRampUnitVector
       dragListener() //it makes more sense to call the drag listener last after setting the parallel applied force.  However, in GoButton's visibility model,
       //the go button is relying on the sim starting before the applied force gets set as part of the logic to decide whether to show the go button.  The go button
       //should not appear when the user drags the object (which was happening when dragListener() was called after setting the applied force.
-      bead.parallelAppliedForce = bead.parallelAppliedForce + sign / MotionSeriesDefaults.PLAY_AREA_FORCE_VECTOR_SCALE
+      motionSeriesObject.parallelAppliedForce = motionSeriesObject.parallelAppliedForce + sign / MotionSeriesDefaults.PLAY_AREA_FORCE_VECTOR_SCALE
     }
 
     override def mouseReleased(event: PInputEvent) = {
-      bead.parallelAppliedForce = 0.0
+      motionSeriesObject.parallelAppliedForce = 0.0
     }
   })
 }
 
-class PositionDragBeadNode(bead: MovingManBead,
+class PositionDragMotionSeriesObjectNode(motionSeriesObject: MovingManMotionSeriesObject,
                            transform: ModelViewTransform2D,
                            imageName: String,
                            leftImageName: String,
                            dragListener: () => Unit,
                            canvas: PlayArea)
-        extends BeadNode(bead, transform, imageName, imageName) {
+        extends MotionSeriesObjectNode(motionSeriesObject, transform, imageName, imageName) {
   addInputEventListener(new CursorHandler)
   addInputEventListener(new PBasicInputEventHandler() {
     override def mouseDragged(event: PInputEvent) = {
       //      bead.parallelAppliedForce = 0.0 //todo: move this into setPositionMode()?
-      bead.setPositionMode()
+      motionSeriesObject.setPositionMode()
       val delta = event.getCanvasDelta
       //todo: make it so we can get this information (a) more easily and (b) without a reference to the canvas:MyCanvas
       val screenDelta = canvas.canvasToStageDelta(delta.getWidth, delta.getHeight)
       val modelDelta = canvas.getModelStageTransform.viewToModelDifferential(screenDelta.getWidth(), screenDelta.getHeight())
-      bead.setDesiredPosition(bead.desiredPosition + modelDelta.x)
+      motionSeriesObject.setDesiredPosition(motionSeriesObject.desiredPosition + modelDelta.x)
       //      bead.setPosition(bead.position + modelDelta.x)
       dragListener()
     }
@@ -64,7 +64,7 @@ class PositionDragBeadNode(bead: MovingManBead,
     }
 
     override def mousePressed(event: PInputEvent) = {
-      bead.setDesiredPosition(bead.position)
+      motionSeriesObject.setDesiredPosition(motionSeriesObject.position)
     }
   })
   update()
@@ -75,27 +75,27 @@ class PositionDragBeadNode(bead: MovingManBead,
   }
 
   def updateImage() = {
-    val image = if (bead.velocity < -1E-8) MotionSeriesResources.getImage(leftImageName)
-    else if (bead.velocity > 1E-8) BufferedImageUtils.flipX(MotionSeriesResources.getImage(leftImageName))
+    val image = if (motionSeriesObject.velocity < -1E-8) MotionSeriesResources.getImage(leftImageName)
+    else if (motionSeriesObject.velocity > 1E-8) BufferedImageUtils.flipX(MotionSeriesResources.getImage(leftImageName))
     else MotionSeriesResources.getImage(imageName)
     imageNode.setImage(image)
   }
 }
 
-class BeadNode(bead: Bead,
+class MotionSeriesObjectNode(motionSeriesObject: MotionSeriesObject,
                transform: ModelViewTransform2D,
                private var image: BufferedImage,
                private var crashImage: BufferedImage)
         extends PNode {
-  def this(bead: Bead, transform: ModelViewTransform2D, imageName: String, crashImageName: String) = this (bead, transform, MotionSeriesResources.getImage(imageName), MotionSeriesResources.getImage(crashImageName))
+  def this(motionSeriesObject: MotionSeriesObject, transform: ModelViewTransform2D, imageName: String, crashImageName: String) = this (motionSeriesObject, transform, MotionSeriesResources.getImage(imageName), MotionSeriesResources.getImage(crashImageName))
 
-  def this(bead: Bead, transform: ModelViewTransform2D, imageName: String) = this (bead, transform, MotionSeriesResources.getImage(imageName), MotionSeriesResources.getImage(imageName))
+  def this(motionSeriesObject: MotionSeriesObject, transform: ModelViewTransform2D, imageName: String) = this (motionSeriesObject, transform, MotionSeriesResources.getImage(imageName), MotionSeriesResources.getImage(imageName))
 
   val imageNode = new PImage(image)
 
   //This is to support showing crash images during game mode
-  //todo: refactor game mode to use the bead.isCrashed model value
-  bead.crashListeners += (() => {
+  //todo: refactor game mode to use the motionSeriesObject.isCrashed model value
+  motionSeriesObject.crashListeners += (() => {
     imageNode.setImage(crashImage)
   })
 
@@ -103,7 +103,7 @@ class BeadNode(bead: Bead,
   def setImages(im: BufferedImage, crashIm: BufferedImage) = {
     image = im
     crashImage = crashIm
-    val imageToSet = if (bead.isCrashed) crashImage else image
+    val imageToSet = if (motionSeriesObject.isCrashed) crashImage else image
     if (!(imageNode.getImage eq imageToSet)) //avoid redraw if possible
       imageNode.setImage(imageToSet)
     update()
@@ -114,16 +114,16 @@ class BeadNode(bead: Bead,
     //TODO: consolidate/refactor with BugNode, similar graphics transform code
     imageNode.setTransform(new AffineTransform)
 
-    val modelPosition = bead.position2D
+    val modelPosition = motionSeriesObject.position2D
     val viewPosition = transform.modelToView(modelPosition)
     val delta = new Vector2D(imageNode.getImage.getWidth(null), imageNode.getImage.getHeight(null))
 
-    val scale = -transform.modelToViewDifferentialYDouble(bead.height) / imageNode.getImage.getHeight(null)
+    val scale = -transform.modelToViewDifferentialYDouble(motionSeriesObject.height) / imageNode.getImage.getHeight(null)
 
     imageNode.translate(viewPosition.x - delta.x / 2 * scale, viewPosition.y - delta.y * scale)
     imageNode.scale(scale)
 
-    val angle = if (bead.isCrashed) 0.0 else bead.getAngle
+    val angle = if (motionSeriesObject.isCrashed) 0.0 else motionSeriesObject.getAngle
     val vec = new Vector2D(angle)
     val flipY = new Vector2D(vec.x, -vec.y)
 
@@ -131,10 +131,10 @@ class BeadNode(bead: Bead,
       imageNode.getFullBounds.getCenter2D.getX - (viewPosition.x - delta.x / 2),
       imageNode.getFullBounds.getMaxY - (viewPosition.y - delta.y))
 
-    if (imageNode.getImage == crashImage && !bead.isCrashed) {
+    if (imageNode.getImage == crashImage && !motionSeriesObject.isCrashed) {
       imageNode.setImage(image)
     }
   }
-  bead.addListener(update)
+  motionSeriesObject.addListener(update)
   update()
 }

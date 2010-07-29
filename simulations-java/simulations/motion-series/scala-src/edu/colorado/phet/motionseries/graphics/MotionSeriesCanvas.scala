@@ -67,15 +67,15 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
 
   def attachListenerToRightWall(node:PNode):Unit
   def addWallsAndDecorations() = {
-    playAreaNode.addChild(new BeadNode(model.leftWall, transform, "wall.jpg".literal) with CloseButton {
+    playAreaNode.addChild(new MotionSeriesObjectNode(model.leftWall, transform, "wall.jpg".literal) with CloseButton {
       def model = MotionSeriesCanvas.this.model
     })
-    playAreaNode.addChild(new BeadNode(model.rightWall, transform, "wall.jpg".literal) with CloseButton {
+    playAreaNode.addChild(new MotionSeriesObjectNode(model.rightWall, transform, "wall.jpg".literal) with CloseButton {
       attachListenerToRightWall(this)
       def model = MotionSeriesCanvas.this.model
     })
 
-    class SpringNode(bead: Bead) extends BeadNode(bead, transform, "spring.png".literal) {
+    class SpringNode(motionSeriesObject: MotionSeriesObject) extends MotionSeriesObjectNode(motionSeriesObject, transform, "spring.png".literal) {
       defineInvokeAndPass(model.addListenerByName) {
         setVisible(model.wallsBounce() && model.walls)
       }
@@ -85,7 +85,7 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
   }
   addWallsAndDecorations()
 
-  val beadNode = createBeadNode(model.bead, transform, model.selectedObject.imageFilename, model.selectedObject.crashImageFilename, () => {
+  val motionSeriesObjectNode = createmotionSeriesObjectNode(model.motionSeriesObject, transform, model.selectedObject.imageFilename, model.selectedObject.crashImageFilename, () => {
     if (model.isPlayback) {
       model.clearHistoryRemainder()
       model.setRecord(true)
@@ -93,13 +93,13 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
     model.setPaused(false)
   })
 
-  //todo: shouldn't assume ForceBead subclass
-  def createBeadNode(b: MovingManBead, t: ModelViewTransform2D, imageName: String, crashImageName: String, listener: () => Unit): BeadNode = new ForceDragBeadNode(b, t, imageName, crashImageName, listener)
+  //todo: shouldn't assume ForcemotionSeriesObject subclass
+  def createmotionSeriesObjectNode(b: MovingManMotionSeriesObject, t: ModelViewTransform2D, imageName: String, crashImageName: String, listener: () => Unit): MotionSeriesObjectNode = new ForceDragMotionSeriesObjectNode(b, t, imageName, crashImageName, listener)
 
   //todo: this line was continually calling setImage on the imageNode
-  model.addListenerByName(beadNode.setImages(MotionSeriesResources.getImage(model.selectedObject.imageFilename),
+  model.addListenerByName(motionSeriesObjectNode.setImages(MotionSeriesResources.getImage(model.selectedObject.imageFilename),
     MotionSeriesResources.getImage(model.selectedObject.crashImageFilename)))
-  playAreaNode.addChild(beadNode)
+  playAreaNode.addChild(motionSeriesObjectNode)
 
   playAreaNode.addChild(new CoordinateFrameNode(model, adjustableCoordinateModel, transform))
 
@@ -118,7 +118,7 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
     fbdNode.setOffset(50, 10)
   }
 
-  val fbdListener = (pt: Point2D) => {model.bead.parallelAppliedForce = pt.getX}
+  val fbdListener = (pt: Point2D) => {model.motionSeriesObject.parallelAppliedForce = pt.getX}
   fbdNode.addListener(fbdListener)
   addStageNode(fbdNode)
   defineInvokeAndPass(freeBodyDiagramModel.addListenerByName) {
@@ -134,13 +134,13 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
     updateFBDLocation()
   }
 
-  val playAreaVectorNode = new PlayAreaVectorNode(transform, model.bead, vectorViewModel)
+  val playAreaVectorNode = new PlayAreaVectorNode(transform, model.motionSeriesObject, vectorViewModel)
   playAreaNode.addChild(playAreaVectorNode)
 
-  val vectorView = new VectorView(model.bead, vectorViewModel, model.coordinateFrameModel, fbdWidth)
-  vectorView.addAllVectors(model.bead, fbdNode)
-  vectorView.addAllVectors(model.bead, windowFBDNode)
-  if (useVectorNodeInPlayArea) vectorView.addAllVectors(model.bead, playAreaVectorNode)
+  val vectorView = new VectorView(model.motionSeriesObject, vectorViewModel, model.coordinateFrameModel, fbdWidth)
+  vectorView.addAllVectors(model.motionSeriesObject, fbdNode)
+  vectorView.addAllVectors(model.motionSeriesObject, windowFBDNode)
+  if (useVectorNodeInPlayArea) vectorView.addAllVectors(model.motionSeriesObject, playAreaVectorNode)
 
   playAreaNode.addChild(new RaindropView(model, this))
   playAreaNode.addChild(new FireDogView(model, this))
@@ -161,20 +161,20 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
 }
 
 class ReturnObjectButton(model: MotionSeriesModel) extends GradientButtonNode("controls.return-object".translate, Color.orange) {
-  def updateVisibility() = setVisible(model.beadInModelViewportRange || model.bead.isCrashed)
+  def updateVisibility() = setVisible(model.motionSeriesObjectInModelViewportRange || model.motionSeriesObject.isCrashed)
   updateVisibility()
   model.addListener(updateVisibility)
 
   addActionListener(new ActionListener() {
-    def actionPerformed(e: ActionEvent) = model.returnBead()
+    def actionPerformed(e: ActionEvent) = model.returnMotionSeriesObject()
   })
 }
 
 class ClearHeatButton(model: MotionSeriesModel) extends GradientButtonNode("controls.clear-heat".translate, Color.yellow) {
-  def updateVisibility() = setVisible(model.bead.rampThermalEnergy > MotionSeriesDefaults.CLEAR_BUTTON_VISIBILITY_THRESHOLD_JOULES)
+  def updateVisibility() = setVisible(model.motionSeriesObject.rampThermalEnergy > MotionSeriesDefaults.CLEAR_BUTTON_VISIBILITY_THRESHOLD_JOULES)
   updateVisibility()
   model.addListener(updateVisibility) //todo: perhaps this line is unnecessary
-  model.bead.addListener(updateVisibility)
+  model.motionSeriesObject.addListener(updateVisibility)
 
   addActionListener(new ActionListener() {
     def actionPerformed(e: ActionEvent) = model.clearHeat()
@@ -192,11 +192,11 @@ abstract class MotionSeriesCanvasDecorator(model: MotionSeriesModel,
                                            modelViewport: Rectangle2D,
                                            stageContainerArea: StageContainerArea)
         extends MotionSeriesCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame, modelViewport, stageContainerArea) {
-  val pusherNode = new PusherNode(transform, model.bead, model.manBead)
+  val pusherNode = new PusherNode(transform, model.motionSeriesObject, model.manMotionSeriesObject)
   playAreaNode.addChild(playAreaNode.indexOfChild(playAreaVectorNode) - 1, pusherNode) //put the pusher behind the vector nodes because otherwise he gets in the way 
 
   if (showAppliedForceSlider) {
-    val appliedForceSliderNode = new AppliedForceSliderNode(model.bead, () => model.setPaused(false))
+    val appliedForceSliderNode = new AppliedForceSliderNode(model.motionSeriesObject, () => model.setPaused(false))
     addBehindVectorNodes(appliedForceSliderNode)
 
     var relayout: ComponentAdapter = new ComponentAdapter {

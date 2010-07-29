@@ -7,12 +7,12 @@ import javax.swing._
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.colorado.phet.motionseries.MotionSeriesDefaults._
 import edu.colorado.phet.motionseries.swing._
-import edu.colorado.phet.motionseries.model.{MotionSeriesModel, ForceBead, Bead}
+import edu.colorado.phet.motionseries.model.{MotionSeriesModel, ForceMotionSeriesObject, MotionSeriesObject}
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.{HorizontalLayoutStrategy, AbstractValueControl}
 import java.awt.{GridBagConstraints, GridBagLayout}
 import edu.colorado.phet.motionseries.{MotionSeriesDefaults, MotionSeriesResources}
 
-class MyValueControl(min: Double, max: Double, getter: () => Double, setter: Double => Unit, title: String, numberFormat: String, units: String, bead: Bead)
+class MyValueControl(min: Double, max: Double, getter: () => Double, setter: Double => Unit, title: String, numberFormat: String, units: String, bead: MotionSeriesObject)
         extends ScalaValueControl(min, max, title, numberFormat, units, getter, setter, bead.addListener, new HorizontalLayoutStrategy) {
   getSlider.setPaintTicks(false)
   getSlider.setPaintLabels(false)
@@ -20,7 +20,7 @@ class MyValueControl(min: Double, max: Double, getter: () => Double, setter: Dou
   setBackground(MotionSeriesDefaults.EARTH_COLOR)
 }
 
-class FrictionPlayAreaControlPanel(bead: ForceBead) extends VerticalLayoutPanel {
+class FrictionPlayAreaControlPanel(bead: ForceMotionSeriesObject) extends VerticalLayoutPanel {
   setFillHorizontal()
   setBackground(MotionSeriesDefaults.EARTH_COLOR)
 
@@ -64,7 +64,7 @@ class FrictionPlayAreaControlPanel(bead: ForceBead) extends VerticalLayoutPanel 
 object TestFrictionPlayAreaControlPanel {
   def main(args: Array[String]) {
     new JFrame {
-      setContentPane(new FrictionPlayAreaControlPanel(new MotionSeriesModel(-3.0, true, 0.0).bead))
+      setContentPane(new FrictionPlayAreaControlPanel(new MotionSeriesModel(-3.0, true, 0.0).motionSeriesObject))
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
       pack()
       setVisible(true)

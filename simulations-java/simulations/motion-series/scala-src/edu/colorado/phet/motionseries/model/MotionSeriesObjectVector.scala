@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage
 import java.lang.Math._
 import edu.colorado.phet.scalacommon.math.Vector2D
 
-class BeadVector(color: Color,
+class MotionSeriesObjectVector(color: Color,
                  name: String,
                  override val abbreviation: String,
                  val bottomPO: Boolean, //shows point of origin at the bottom when in that mode
@@ -19,13 +19,13 @@ class BeadVector(color: Color,
   def getPointOfOriginOffset(defaultCenter: Double) = if (bottomPO) 0.0 else defaultCenter
 }
 
-class VectorComponent(target: BeadVector,
-                      bead: Bead,
+class VectorComponent(target: MotionSeriesObjectVector,
+                      bead: MotionSeriesObject,
                       getComponentUnitVector: () => Vector2D,
                       painter: (Vector2D, Color) => Paint,
                       modifier: String,
                       labelAngle: Double)
-        extends BeadVector(target.color, target.name, target.abbreviation + modifier, target.bottomPO, target.valueAccessor, painter, labelAngle) {
+        extends MotionSeriesObjectVector(target.color, target.name, target.abbreviation + modifier, target.bottomPO, target.valueAccessor, painter, labelAngle) {
   override def getValue = {
     val d = getComponentUnitVector()
     d * (super.getValue dot d)
@@ -66,23 +66,23 @@ object Paints {
 
 //Vector Components
 
-class XComponent(target: BeadVector, bead: Bead, coordinateFrame: CoordinateFrameModel, labelAngle: Double) extends VectorComponent(target, bead, () => new Vector2D(1, 0).rotate(coordinateFrame.angle), Paints.horizontalStripes, "coordinates.x".translate, labelAngle) {
+class XComponent(target: MotionSeriesObjectVector, motionSeriesObject: MotionSeriesObject, coordinateFrame: CoordinateFrameModel, labelAngle: Double) extends VectorComponent(target, motionSeriesObject, () => new Vector2D(1, 0).rotate(coordinateFrame.angle), Paints.horizontalStripes, "coordinates.x".translate, labelAngle) {
   coordinateFrame.addListener(() => notifyListeners())
 }
-class YComponent(target: BeadVector, bead: Bead, coordinateFrame: CoordinateFrameModel, labelAngle: Double) extends VectorComponent(target, bead, () => new Vector2D(0, 1).rotate(coordinateFrame.angle), Paints.verticalStripes, "coordinates.y".translate, labelAngle) {
+class YComponent(target: MotionSeriesObjectVector, motionSeriesObject: MotionSeriesObject, coordinateFrame: CoordinateFrameModel, labelAngle: Double) extends VectorComponent(target, motionSeriesObject, () => new Vector2D(0, 1).rotate(coordinateFrame.angle), Paints.verticalStripes, "coordinates.y".translate, labelAngle) {
   coordinateFrame.addListener(() => notifyListeners())
 }
 
-class AngleBasedComponent(target: BeadVector,
-                          bead: Bead,
+class AngleBasedComponent(target: MotionSeriesObjectVector,
+                          motionSeriesObject: MotionSeriesObject,
                           getComponentUnitVector: () => Vector2D,
                           painter: (Vector2D, Color) => Paint,
                           modifier: String,
-                          labelAngle: Double) extends VectorComponent(target, bead, getComponentUnitVector, painter, modifier, labelAngle) {
+                          labelAngle: Double) extends VectorComponent(target, motionSeriesObject, getComponentUnitVector, painter, modifier, labelAngle) {
   //When the bead changes its angle, we should notify our listeners, since they depend on the angle
-  bead.addListener(() => notifyListeners())
+  motionSeriesObject.addListener(() => notifyListeners())
 }
 
-class ParallelComponent(target: BeadVector, bead: Bead) extends AngleBasedComponent(target, bead, () => new Vector2D(bead.getAngle), (a, b) => b, "symbols.parallel".translate, target.labelAngle) //http://www.fileformat.info/info/unicode/char/2225/index.htm
+class ParallelComponent(target: MotionSeriesObjectVector, motionSeriesObject: MotionSeriesObject) extends AngleBasedComponent(target, motionSeriesObject, () => new Vector2D(motionSeriesObject.getAngle), (a, b) => b, "symbols.parallel".translate, target.labelAngle) //http://www.fileformat.info/info/unicode/char/2225/index.htm
 
-class PerpendicularComponent(target: BeadVector, bead: Bead) extends AngleBasedComponent(target, bead, () => new Vector2D(bead.getAngle + PI / 2), (a, b) => b, "symbols.perpendicular".translate, target.labelAngle) //http://www.fileformat.info/info/unicode/char/22a5/index.htm
+class PerpendicularComponent(target: MotionSeriesObjectVector, motionSeriesObject: MotionSeriesObject) extends AngleBasedComponent(target, motionSeriesObject, () => new Vector2D(motionSeriesObject.getAngle + PI / 2), (a, b) => b, "symbols.perpendicular".translate, target.labelAngle) //http://www.fileformat.info/info/unicode/char/22a5/index.htm

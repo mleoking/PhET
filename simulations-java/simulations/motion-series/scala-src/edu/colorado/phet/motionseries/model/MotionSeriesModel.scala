@@ -16,8 +16,8 @@ case class RampState(angle: Double, heat: Double, wetness: Double)
 //This class stores all state information used in record/playback
 case class RecordedState(rampState: RampState,
                          selectedObject: MotionSeriesObjectTypeState,
-                         beadState: BeadState,
-                         manBeadState: BeadState,
+                         beadState: MotionSeriesObjectState,
+                         manBeadState: MotionSeriesObjectState,
                          appliedForce: Double,
                          walls: Boolean,
                          motionStrategyMemento: MotionStrategyMemento,
@@ -68,13 +68,13 @@ class MotionSeriesModel(defaultBeadPosition: Double,
   val wallsBounce = () => bounce
 
   val defaultManPosition = defaultBeadPosition - 1
-  val leftWall = MovingManBead(this, -10, MotionSeriesDefaults.wall.width, MotionSeriesDefaults.wall.height)
-  val rightWall = MovingManBead(this, 10, MotionSeriesDefaults.wall.width, MotionSeriesDefaults.wall.height)
+  val leftWall = MovingManMotionSeriesObject(this, -10, MotionSeriesDefaults.wall.width, MotionSeriesDefaults.wall.height)
+  val rightWall = MovingManMotionSeriesObject(this, 10, MotionSeriesDefaults.wall.width, MotionSeriesDefaults.wall.height)
 
-  val leftWallRightEdge = MovingManBead(this, -10 + MotionSeriesDefaults.wall.width / 2, MotionSeriesDefaults.SPRING_WIDTH, MotionSeriesDefaults.SPRING_HEIGHT)
-  val rightWallLeftEdge = MovingManBead(this, 10 - MotionSeriesDefaults.wall.width / 2, MotionSeriesDefaults.SPRING_WIDTH, MotionSeriesDefaults.SPRING_HEIGHT)
+  val leftWallRightEdge = MovingManMotionSeriesObject(this, -10 + MotionSeriesDefaults.wall.width / 2, MotionSeriesDefaults.SPRING_WIDTH, MotionSeriesDefaults.SPRING_HEIGHT)
+  val rightWallLeftEdge = MovingManMotionSeriesObject(this, 10 - MotionSeriesDefaults.wall.width / 2, MotionSeriesDefaults.SPRING_WIDTH, MotionSeriesDefaults.SPRING_HEIGHT)
 
-  val manBead = MovingManBead(this, defaultManPosition, 1, 3)
+  val manMotionSeriesObject = MovingManMotionSeriesObject(this, defaultManPosition, 1, 3)
 
   val wallRange = () => new Range(-rampSegments(0).length, rampSegments(1).length)
 
@@ -82,7 +82,7 @@ class MotionSeriesModel(defaultBeadPosition: Double,
     //todo: allow different values for different segments
     def getTotalFriction(objectFriction: Double) = new LinearFunction(0, 1, objectFriction, objectFriction * 0.75).evaluate(rampSegments(0).wetness)
   }
-  val bead = new MovingManBead(new BeadState(defaultBeadPosition, 0,
+  val motionSeriesObject = new MovingManMotionSeriesObject(new MotionSeriesObjectState(defaultBeadPosition, 0,
     _selectedObject.mass, _selectedObject.staticFriction, _selectedObject.kineticFriction, 0.0, 0.0, 0.0),
     _selectedObject.height, _selectedObject.width, positionMapper,
     rampSegmentAccessor, rampChangeAdapter, surfaceFriction, wallsBounce, surfaceFrictionStrategy, walls, wallRange, thermalEnergyStrategy)
@@ -102,25 +102,25 @@ class MotionSeriesModel(defaultBeadPosition: Double,
 
   def step(simulationTimeChange: Double) = {
     stepRecord()
-    val mode = bead.motionStrategy.getMemento
+    val mode = motionSeriesObject.motionStrategy.getMemento
     new RecordedState(new RampState(rampAngle, rampSegments(1).heat, rampSegments(1).wetness),
-      selectedObject.state, bead.state, manBead.state, bead.parallelAppliedForce, walls, mode, getTime, frictionless)
+      selectedObject.state, motionSeriesObject.state, manMotionSeriesObject.state, motionSeriesObject.parallelAppliedForce, walls, mode, getTime, frictionless)
   }
 
-  def beadInModelViewportRange = bead.position2D.x < MotionSeriesDefaults.MIN_X || bead.position2D.x > MotionSeriesDefaults.MAX_X
+  def motionSeriesObjectInModelViewportRange = motionSeriesObject.position2D.x < MotionSeriesDefaults.MIN_X || motionSeriesObject.position2D.x > MotionSeriesDefaults.MAX_X
 
-  def returnBead() = {
-    bead.setDesiredPosition(defaultBeadPosition)
-    bead.setPosition(defaultBeadPosition)
-    bead.parallelAppliedForce = 0
-    bead.setVelocity(0)
-    bead.attach()
+  def returnMotionSeriesObject() = {
+    motionSeriesObject.setDesiredPosition(defaultBeadPosition)
+    motionSeriesObject.setPosition(defaultBeadPosition)
+    motionSeriesObject.parallelAppliedForce = 0
+    motionSeriesObject.setVelocity(0)
+    motionSeriesObject.attach()
   }
 
   def resetBead() = {
-    returnBead()
-    bead.crashEnergy = 0.0
-    bead.thermalEnergy = 0.0
+    returnMotionSeriesObject()
+    motionSeriesObject.crashEnergy = 0.0
+    motionSeriesObject.thermalEnergy = 0.0
   }
 
   private val resetListeners = new ArrayBuffer[() => Unit]
@@ -135,7 +135,7 @@ class MotionSeriesModel(defaultBeadPosition: Double,
       frictionless = MotionSeriesDefaults.FRICTIONLESS_DEFAULT
       walls = true
       resetBead()
-      manBead.setPosition(defaultManPosition)
+      manMotionSeriesObject.setPosition(defaultManPosition)
 
       rampSegments(0).setWetness(0.0)
       rampSegments(0).setHeat(0.0)
@@ -158,7 +158,7 @@ class MotionSeriesModel(defaultBeadPosition: Double,
     rampSegments(0).setHeat(0.0)
     rampSegments(1).setWetness(0.0)
     rampSegments(1).setHeat(0.0)
-    bead.thermalEnergy = 0.0
+    motionSeriesObject.thermalEnergy = 0.0
   }
 
   /**
@@ -169,7 +169,7 @@ class MotionSeriesModel(defaultBeadPosition: Double,
       clearHeatInstantly()
     } else {
       if (fireDogs.length == 0) {
-        totalThermalEnergyOnClear = bead.thermalEnergy
+        totalThermalEnergyOnClear = motionSeriesObject.thermalEnergy
         val fireDog = new FireDog(this) //cue the fire dog, which will eventually clear the thermal energy
         fireDogs += fireDog //updates when clock ticks
         fireDogAddedListeners.foreach(_(fireDog))
@@ -181,9 +181,9 @@ class MotionSeriesModel(defaultBeadPosition: Double,
     rampSegments(0).dropHit()
     rampSegments(1).dropHit()
     val reducedEnergy = totalThermalEnergyOnClear / (maxDrops / 2.0)
-    bead.thermalEnergy = bead.thermalEnergy - reducedEnergy
-    bead.crashEnergy = java.lang.Math.max(bead.crashEnergy - reducedEnergy, 0)
-    if (bead.thermalEnergy < 1) bead.thermalEnergy = 0.0
+    motionSeriesObject.thermalEnergy = motionSeriesObject.thermalEnergy - reducedEnergy
+    motionSeriesObject.crashEnergy = java.lang.Math.max(motionSeriesObject.crashEnergy - reducedEnergy, 0)
+    if (motionSeriesObject.thermalEnergy < 1) motionSeriesObject.thermalEnergy = 0.0
   }
 
   def setPlaybackState(state: RecordedState) = {
@@ -196,11 +196,11 @@ class MotionSeriesModel(defaultBeadPosition: Double,
     rampSegments(1).setWetness(state.rampState.wetness)
 
     selectedObject = state.selectedObject.toObject
-    bead.motionStrategy = state.motionStrategyMemento.getMotionStrategy(bead)
-    bead.state = state.beadState //nice code
+    motionSeriesObject.motionStrategy = state.motionStrategyMemento.getMotionStrategy(motionSeriesObject)
+    motionSeriesObject.state = state.beadState //nice code
 
-    bead.parallelAppliedForce = state.appliedForce
-    manBead.state = state.manBeadState
+    motionSeriesObject.parallelAppliedForce = state.appliedForce
+    manMotionSeriesObject.state = state.manBeadState
     walls = state.walls
 
     //based on time constraints, decision was made to not record and playback firedogs + drops, just make sure they clear
@@ -223,21 +223,21 @@ class MotionSeriesModel(defaultBeadPosition: Double,
   }
 
   def updateDueToObjectChange() = {
-    bead.mass = _selectedObject.mass
-    bead.width = _selectedObject.width
-    bead.height = _selectedObject.height
-    bead.staticFriction = _selectedObject.staticFriction
-    bead.kineticFriction = _selectedObject.kineticFriction
+    motionSeriesObject.mass = _selectedObject.mass
+    motionSeriesObject.width = _selectedObject.width
+    motionSeriesObject.height = _selectedObject.height
+    motionSeriesObject.staticFriction = _selectedObject.staticFriction
+    motionSeriesObject.kineticFriction = _selectedObject.kineticFriction
 
     //todo: remove listeners on object selection change
     _selectedObject match {
       case o: MutableMotionSeriesObjectType => {
         o.addListenerByName {
-          bead.height = o.height
-          bead.mass = o.mass
-          bead.width = o.width
-          bead.staticFriction = o.staticFriction
-          bead.kineticFriction = o.kineticFriction
+          motionSeriesObject.height = o.height
+          motionSeriesObject.mass = o.mass
+          motionSeriesObject.width = o.width
+          motionSeriesObject.staticFriction = o.staticFriction
+          motionSeriesObject.kineticFriction = o.kineticFriction
         }
       }
       case _ => {}
@@ -311,10 +311,10 @@ class MotionSeriesModel(defaultBeadPosition: Double,
   }
 
   private def doStep(dt: Double) = {
-    bead.stepInTime(dt)
+    motionSeriesObject.stepInTime(dt)
     for (f <- fireDogs) f.stepInTime(dt)
     for (r <- raindrops) r.stepInTime(dt)
-    val rampHeat = bead.rampThermalEnergy
+    val rampHeat = motionSeriesObject.rampThermalEnergy
     rampSegments(0).setHeat(rampHeat)
     rampSegments(1).setHeat(rampHeat)
     rampSegments(0).stepInTime(dt)

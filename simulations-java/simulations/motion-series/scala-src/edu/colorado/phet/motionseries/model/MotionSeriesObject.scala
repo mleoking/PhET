@@ -5,24 +5,24 @@ import edu.colorado.phet.scalacommon.math.Vector2D
 import edu.colorado.phet.scalacommon.util.Observable
 
 /**Immutable memento for recording*/
-case class BeadState(position: Double, velocity: Double, mass: Double, staticFriction: Double, kineticFriction: Double, thermalEnergy: Double, crashEnergy: Double, time: Double) {
+case class MotionSeriesObjectState(position: Double, velocity: Double, mass: Double, staticFriction: Double, kineticFriction: Double, thermalEnergy: Double, crashEnergy: Double, time: Double) {
   def translate(dx: Double) = setPosition(position + dx)
 
-  def setPosition(pos: Double) = new BeadState(pos, velocity, mass, staticFriction, kineticFriction, thermalEnergy, crashEnergy, time)
+  def setPosition(pos: Double) = new MotionSeriesObjectState(pos, velocity, mass, staticFriction, kineticFriction, thermalEnergy, crashEnergy, time)
 
-  def setVelocity(vel: Double) = new BeadState(position, vel, mass, staticFriction, kineticFriction, thermalEnergy, crashEnergy, time)
+  def setVelocity(vel: Double) = new MotionSeriesObjectState(position, vel, mass, staticFriction, kineticFriction, thermalEnergy, crashEnergy, time)
 
-  def setStaticFriction(value: Double) = new BeadState(position, velocity, mass, value, kineticFriction, thermalEnergy, crashEnergy, time)
+  def setStaticFriction(value: Double) = new MotionSeriesObjectState(position, velocity, mass, value, kineticFriction, thermalEnergy, crashEnergy, time)
 
-  def setKineticFriction(value: Double) = new BeadState(position, velocity, mass, staticFriction, value, thermalEnergy, crashEnergy, time)
+  def setKineticFriction(value: Double) = new MotionSeriesObjectState(position, velocity, mass, staticFriction, value, thermalEnergy, crashEnergy, time)
 
-  def setMass(m: Double) = new BeadState(position, velocity, m, staticFriction, kineticFriction, thermalEnergy, crashEnergy, time)
+  def setMass(m: Double) = new MotionSeriesObjectState(position, velocity, m, staticFriction, kineticFriction, thermalEnergy, crashEnergy, time)
 
-  def setThermalEnergy(value: Double) = new BeadState(position, velocity, mass, staticFriction, kineticFriction, value, crashEnergy, time)
+  def setThermalEnergy(value: Double) = new MotionSeriesObjectState(position, velocity, mass, staticFriction, kineticFriction, value, crashEnergy, time)
 
-  def setCrashEnergy(value: Double) = new BeadState(position, velocity, mass, staticFriction, kineticFriction, thermalEnergy, value, time)
+  def setCrashEnergy(value: Double) = new MotionSeriesObjectState(position, velocity, mass, staticFriction, kineticFriction, thermalEnergy, value, time)
 
-  def setTime(value: Double) = new BeadState(position, velocity, mass, staticFriction, kineticFriction, thermalEnergy, crashEnergy, value)
+  def setTime(value: Double) = new MotionSeriesObjectState(position, velocity, mass, staticFriction, kineticFriction, thermalEnergy, crashEnergy, value)
 }
 
 case class Range(min: Double, max: Double)
@@ -35,7 +35,7 @@ case class Range(min: Double, max: Double)
  *
  * maybe need both.
  */
-abstract class Bead(private var _state: BeadState,
+abstract class MotionSeriesObject(private var _state: MotionSeriesObjectState,
                     private var _height: Double,
                     private var _width: Double,
                     val positionMapper: Double => Vector2D,
@@ -61,7 +61,7 @@ abstract class Bead(private var _state: BeadState,
 
   def state = _state
 
-  def state_=(s: BeadState) = {_state = s; notifyListeners()}
+  def state_=(s: MotionSeriesObjectState) = {_state = s; notifyListeners()}
 
   model.addListenerByName(notifyListeners)
 
@@ -214,7 +214,7 @@ abstract class Bead(private var _state: BeadState,
     }
   }
 
-  val stateHistory = new ArrayBuffer[BeadState] //todo: memory leak
+  val stateHistory = new ArrayBuffer[MotionSeriesObjectState] //todo: memory leak
 
   def stepInTime(dt: Double) {
     stateHistory += state

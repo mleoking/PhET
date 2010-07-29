@@ -37,7 +37,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
           frame, false, false, true, MotionSeriesDefaults.robotMovingCompanyRampViewport, stageContainerArea) {
 
   //Configure visibility and usability of different features for game mode
-  beadNode.setVisible(false)
+  motionSeriesObjectNode.setVisible(false)
   playAreaVectorNode.setVisible(false)
   pusherNode.setVisible(false)
   vectorViewModel.sumOfForcesVector = true
@@ -70,13 +70,13 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
 
   updateFBDLocation()
 
-  val houseBackNode = new BeadNode(gameModel.house, transform, MotionSeriesDefaults.houseBack.imageFilename)
+  val houseBackNode = new MotionSeriesObjectNode(gameModel.house, transform, MotionSeriesDefaults.houseBack.imageFilename)
   addStageNode(houseBackNode)
 
   val intermediateNode = new PNode
   addScreenNode(intermediateNode)
 
-  val houseNode = new BeadNode(gameModel.house, transform, MotionSeriesDefaults.house.imageFilename)
+  val houseNode = new MotionSeriesObjectNode(gameModel.house, transform, MotionSeriesDefaults.house.imageFilename)
   addStageNode(houseNode)
 
   addStageNode(new InstructionsNode {
@@ -103,7 +103,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
   })
 
   val doorNode = new PNode() {
-    val bead = new BeadNode(gameModel.door, getModelStageTransform, MotionSeriesDefaults.door.imageFilename)
+    val bead = new MotionSeriesObjectNode(gameModel.door, getModelStageTransform, MotionSeriesDefaults.door.imageFilename)
     addChild(bead)
 
     gameModel.doorListeners += (() => {
@@ -135,7 +135,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
   gameModel.beadCreatedListeners += init
   init(gameModel.bead, gameModel.selectedObject)
 
-  private var _currentBead: Bead = null
+  private var _currentBead: MotionSeriesObject = null
 
   override def useVectorNodeInPlayArea = false
 
@@ -238,11 +238,11 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
     }
   }
 
-  def init(bead: ForceBead, a: MotionSeriesObjectType) = {
+  def init(bead: ForceMotionSeriesObject, a: MotionSeriesObjectType) = {
     val lastBead = _currentBead
     _currentBead = bead
 
-    val beadNode = new BeadNode(bead, transform, a.imageFilename, a.crashImageFilename)
+    val beadNode = new MotionSeriesObjectNode(bead, transform, a.imageFilename, a.crashImageFilename)
     currentBeadNode = beadNode
     addStageNode(beadNode)
     val icon = new ObjectIcon(a)
@@ -250,7 +250,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
     icon.setOffset(pt)
     addStageNode(icon)
 
-    val roboBead = MovingManBead(model, -10 - a.width / 2, 1, 3)
+    val roboBead = MovingManMotionSeriesObject(model, -10 - a.width / 2, 1, 3)
 
     val pusherNode = new RobotPusherNode(transform, bead, roboBead)
     addStageNode(pusherNode)
@@ -285,7 +285,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
 
   def updatePosition(dy: Double) = {
     model.rampSegments(0).startPoint = changeY(dy)
-    model.bead.setPosition(-model.rampSegments(0).length)
+    model.motionSeriesObject.setPosition(-model.rampSegments(0).length)
   }
 
   override def addWallsAndDecorations() = {}

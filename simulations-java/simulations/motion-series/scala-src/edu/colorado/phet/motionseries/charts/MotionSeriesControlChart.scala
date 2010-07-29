@@ -38,9 +38,9 @@ class RampForceChartNode(canvas: PhetPCanvas, motionSeriesModel: MotionSeriesMod
 
 class ForcesAndMotionChartNode(canvas: PhetPCanvas, model: MotionSeriesModel) extends MultiControlChart(Array(
   new ForcesAndMotionMinimizableControlChart(model),
-  new MinimizableControlChart("properties.acceleration".translate, new SingleSeriesChart(model, () => model.bead.acceleration, 50, "m/s/s", MotionSeriesDefaults.accelerationColor, "properties.acceleration".translate).chart, false), //todo: il8n
-  new MinimizableControlChart("properties.velocity".translate, new SingleSeriesChart(model, () => model.bead.velocity, 25, "m/s", MotionSeriesDefaults.velocityColor, "properties.velocity".translate).chart, false), //todo: il8n
-  new MinimizableControlChart("properties.position".translate, new SingleSeriesChart(model, () => model.bead.position, 10, "m", MotionSeriesDefaults.positionColor, "properties.position".translate).chart, false))) { //todo: il8n
+  new MinimizableControlChart("properties.acceleration".translate, new SingleSeriesChart(model, () => model.motionSeriesObject.acceleration, 50, "m/s/s", MotionSeriesDefaults.accelerationColor, "properties.acceleration".translate).chart, false), //todo: il8n
+  new MinimizableControlChart("properties.velocity".translate, new SingleSeriesChart(model, () => model.motionSeriesObject.velocity, 25, "m/s", MotionSeriesDefaults.velocityColor, "properties.velocity".translate).chart, false), //todo: il8n
+  new MinimizableControlChart("properties.position".translate, new SingleSeriesChart(model, () => model.motionSeriesObject.position, 10, "m", MotionSeriesDefaults.positionColor, "properties.position".translate).chart, false))) { //todo: il8n
   canvas.addComponentListener(new ComponentAdapter { //todo: remove duplicate code from above
     override def componentResized(e: ComponentEvent) = {
       val insetX = 6
@@ -111,17 +111,17 @@ abstract class MotionSeriesControlChart(motionSeriesModel: MotionSeriesModel) {
 
   val temporalChart = new TemporalChart(new java.awt.geom.Rectangle2D.Double(0, -2000, 20, 4000), motionSeriesModel.chartCursor)
 
-  def parallelFriction = motionSeriesModel.bead.frictionForceVector.getValue dot motionSeriesModel.bead.getRampUnitVector
+  def parallelFriction = motionSeriesModel.motionSeriesObject.frictionForceVector.getValue dot motionSeriesModel.motionSeriesObject.getRampUnitVector
 
-  def parallelGravity = motionSeriesModel.bead.gravityForceVector.getValue dot motionSeriesModel.bead.getRampUnitVector
+  def parallelGravity = motionSeriesModel.motionSeriesObject.gravityForceVector.getValue dot motionSeriesModel.motionSeriesObject.getRampUnitVector
 
-  def parallelWall = motionSeriesModel.bead.wallForceVector.getValue dot motionSeriesModel.bead.getRampUnitVector
+  def parallelWall = motionSeriesModel.motionSeriesObject.wallForceVector.getValue dot motionSeriesModel.motionSeriesObject.getRampUnitVector
 
-  def parallelTotalForce = motionSeriesModel.bead.totalForceVector.getValue dot motionSeriesModel.bead.getRampUnitVector
+  def parallelTotalForce = motionSeriesModel.motionSeriesObject.totalForceVector.getValue dot motionSeriesModel.motionSeriesObject.getRampUnitVector
 
-  val parallelAppliedForceVariable = new MutableDouble(motionSeriesModel.bead.parallelAppliedForce) {
-    motionSeriesModel.bead.parallelAppliedForceListeners += (() => {value = motionSeriesModel.bead.parallelAppliedForce})
-    addListener(() => {motionSeriesModel.bead.parallelAppliedForce = value})
+  val parallelAppliedForceVariable = new MutableDouble(motionSeriesModel.motionSeriesObject.parallelAppliedForce) {
+    motionSeriesModel.motionSeriesObject.parallelAppliedForceListeners += (() => {value = motionSeriesModel.motionSeriesObject.parallelAppliedForce})
+    addListener(() => {motionSeriesModel.motionSeriesObject.parallelAppliedForce = value})
   }
   val frictionVariable = new MutableDouble(parallelFriction) {
     motionSeriesModel.stepListeners += (() => {value = parallelFriction})
