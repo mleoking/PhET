@@ -1,0 +1,1 @@
+> Fixed: The "Drag Me" arrow points to the wrong curve after selecting "Integral" in the control panel 
