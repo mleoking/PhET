@@ -1,4 +1,4 @@
-﻿package edu.colorado.phet.calculusgrapher {
+package edu.colorado.phet.calculusgrapher {
 
 import flash.display.Sprite;
 import flash.display.Graphics;

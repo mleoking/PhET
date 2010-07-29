@@ -180,6 +180,7 @@ public class ControlPanel extends Sprite {
             //trace("integral checked");
             localRef.showIntegralCurve = localRef.integral_cb.selected;
             localRef.updateMainView();
+            myMainView.flyInDragMe();
         }
 
         function showGrid( evt:MouseEvent ):void {
