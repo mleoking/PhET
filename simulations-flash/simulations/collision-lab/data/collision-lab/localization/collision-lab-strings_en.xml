@@ -1,5 +1,9 @@
 <?xml version="1.0" ?>
 <SimStrings>
-  <string key="simTitle" value="Collision Lab" />
-  <string key="PlayPauseButtons.reset" value="Reset" />
+    <string key="simTitle" value="Collision Lab"/>
+    <string key="PlayPauseButtons.reset" value="Reset"/>
+    <string key="PlayPauseButtons.back" value="Back"/>
+    <string key="PlayPauseButtons.play" value="Play"/>
+    <string key="PlayPauseButtons.pause" value="Pause"/>
+    <string key="PlayPauseButtons.step" value="Step"/>
 </SimStrings>

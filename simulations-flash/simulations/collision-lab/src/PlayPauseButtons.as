@@ -48,10 +48,10 @@ import flash.display.*;
 		//must be altered when internationalizing
 		public function initializeLabels():void{
 			this.resetText = SimStrings.get("PlayPauseButtons.reset","Reset");
-			this.backText = "Back";
+			this.backText = SimStrings.get("PlayPauseButtons.back","Back");
 			this.playText = SimStrings.get("PlayPauseButtons.play","Play");
-			this.pauseText = "Pause";
-			this.stepText = "Step";
+			this.pauseText = SimStrings.get("PlayPauseButtons.pause","Pause");
+			this.stepText = SimStrings.get("PlayPauseButtons.step","Step");
 			this.buttonView.resetLabel.text = resetText;
 			this.buttonView.stepBackLabel.text = backText;
             setPlayText();
