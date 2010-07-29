@@ -11,7 +11,7 @@ import java.lang.Math._
  * This adds Force functionality to the Bead model class, such as ability to get force components and to set applied force.
  * It's used in the Forces & Motion and Ramp applications.
  */
-class ForceBead(_state: BeadState,
+class ForceMotionSeriesObject(_state: MotionSeriesObjectState,
                 _height: Double,
                 _width: Double,
                 positionMapper: Double => Vector2D,
@@ -23,19 +23,19 @@ class ForceBead(_state: BeadState,
                 _wallsExist: => Boolean,
                 wallRange: () => Range,
                 thermalEnergyStrategy: Double => Double)
-        extends Bead(_state, _height, _width, positionMapper, rampSegmentAccessor, model, wallsBounce, _wallsExist, wallRange, thermalEnergyStrategy) {
+        extends MotionSeriesObject(_state, _height, _width, positionMapper, rampSegmentAccessor, model, wallsBounce, _wallsExist, wallRange, thermalEnergyStrategy) {
   //This method allows bead subclasses to avoid thermal energy by overriding this to return 0.0
   def getThermalEnergy(x: Double) = thermalEnergyStrategy(x)
 
   private var _parallelAppliedForce = 0.0
-  val gravityForceVector = new BeadVector(MotionSeriesDefaults.gravityForceColor, "Gravity Force".literal, "force.abbrev.gravity".translate, false, () => gravityForce, (a, b) => b, PI / 2)
-  val normalForceVector = new BeadVector(MotionSeriesDefaults.normalForceColor, "Normal Force".literal, "force.abbrev.normal".translate, true, () => normalForce, (a, b) => b, PI / 2)
-  val totalForceVector = new BeadVector(MotionSeriesDefaults.sumForceColor, "Sum of Forces".literal, "force.abbrev.total".translate, false, () => totalForce, (a, b) => b, PI / 2)
-  val appliedForceVector = new BeadVector(MotionSeriesDefaults.appliedForceColor, "Applied Force".literal, "force.abbrev.applied".translate, false, () => appliedForce, (a, b) => b, PI / 2)
-  val frictionForceVector = new BeadVector(MotionSeriesDefaults.frictionForceColor, "Friction Force".literal, "force.abbrev.friction".translate, true, () => frictionForce, (a, b) => b, -PI / 2)
-  val wallForceVector = new BeadVector(MotionSeriesDefaults.wallForceColor, "Wall Force".literal, "force.abbrev.wall".translate, false, () => wallForce, (a, b) => b, PI / 2)
-  val velocityVector = new BeadVector(MotionSeriesDefaults.velocityColor, "Velocity".literal, "properties.velocity".translate, false, () => getRampUnitVector * velocity, (a, b) => b, PI / 2) //todo: translate
-  val accelerationVector = new BeadVector(MotionSeriesDefaults.accelerationColor, "Acceleration".literal, "properties.acceleration".translate, false, () => getRampUnitVector * acceleration, (a, b) => b, PI / 2) //todo: translate
+  val gravityForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.gravityForceColor, "Gravity Force".literal, "force.abbrev.gravity".translate, false, () => gravityForce, (a, b) => b, PI / 2)
+  val normalForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.normalForceColor, "Normal Force".literal, "force.abbrev.normal".translate, true, () => normalForce, (a, b) => b, PI / 2)
+  val totalForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.sumForceColor, "Sum of Forces".literal, "force.abbrev.total".translate, false, () => totalForce, (a, b) => b, PI / 2)
+  val appliedForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.appliedForceColor, "Applied Force".literal, "force.abbrev.applied".translate, false, () => appliedForce, (a, b) => b, PI / 2)
+  val frictionForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.frictionForceColor, "Friction Force".literal, "force.abbrev.friction".translate, true, () => frictionForce, (a, b) => b, -PI / 2)
+  val wallForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.wallForceColor, "Wall Force".literal, "force.abbrev.wall".translate, false, () => wallForce, (a, b) => b, PI / 2)
+  val velocityVector = new MotionSeriesObjectVector(MotionSeriesDefaults.velocityColor, "Velocity".literal, "properties.velocity".translate, false, () => getRampUnitVector * velocity, (a, b) => b, PI / 2) //todo: translate
+  val accelerationVector = new MotionSeriesObjectVector(MotionSeriesDefaults.accelerationColor, "Acceleration".literal, "properties.acceleration".translate, false, () => getRampUnitVector * acceleration, (a, b) => b, PI / 2) //todo: translate
   //chain listeners
   normalForceVector.addListenerByName(frictionForceVector.notifyListeners())
   //todo: add normalForceVector notification when changing friction coefficients

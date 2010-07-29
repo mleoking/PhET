@@ -13,16 +13,16 @@ import edu.colorado.phet.motionseries.Predef._
 class MotionSeriesModule(frame: PhetFrame,
                          val clock: ScalaClock,
                          name: String,
-                         defaultBeadPosition: Double,
+                         defaultObjectPosition: Double,
                          pausedOnReset: Boolean,
                          initialAngle: Double,
                          fbdPopupOnly: Boolean)
         extends Module(name, clock) {
   TemporalChart.SEC_TEXT = "units.sec".translate; //see doc in SEC_TEXT
-  def createMotionSeriesModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngle: Double) =
-    new MotionSeriesModel(defaultBeadPosition, pausedOnReset, initialAngle)
+  def createMotionSeriesModel(defaultObjectPosition: Double, pausedOnReset: Boolean, initialAngle: Double) =
+    new MotionSeriesModel(defaultObjectPosition, pausedOnReset, initialAngle)
 
-  val motionSeriesModel = createMotionSeriesModel(defaultBeadPosition, pausedOnReset, initialAngle)
+  val motionSeriesModel = createMotionSeriesModel(defaultObjectPosition, pausedOnReset, initialAngle)
 
   private def updateCursorVisibility(model: MotionSeriesModel): Unit = {
     model.chartCursor.setVisible(motionSeriesModel.isPlayback && motionSeriesModel.getNumRecordedPoints > 0)
@@ -63,7 +63,7 @@ class MotionSeriesModule(frame: PhetFrame,
     //This workaround reduces the probability of having that problem significantly
     //The root of the problem might be that the wall force vector isn't updating at the right times
     //Note that this workaround will increase computational demand, and it will also occur whenever the user is pushing the block against the wall
-    if (motionSeriesModel.bead.wallForce.magnitude > 1E-2) {
+    if (motionSeriesModel.motionSeriesObject.wallForce.magnitude > 1E-2) {
       getSimulationPanel.paintImmediately(0, 0, getSimulationPanel.getWidth, getSimulationPanel.getHeight)
       RepaintManager.currentManager(getSimulationPanel).paintDirtyRegions()
     }

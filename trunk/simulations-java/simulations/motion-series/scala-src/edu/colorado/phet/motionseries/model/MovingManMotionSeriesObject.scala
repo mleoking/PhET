@@ -5,14 +5,14 @@ import edu.colorado.phet.common.motion.MotionMath
 import edu.colorado.phet.scalacommon.math.Vector2D
 import edu.colorado.phet.scalacommon.util.Observable
 
-object MovingManBead {
+object MovingManMotionSeriesObject {
   def apply(model: MotionSeriesModel, x: Double, width: Double, height: Double) = {
-    new MovingManBead(new BeadState(x, 0, 10, 0, 0, 0.0, 0.0, 0.0), height, width, model.positionMapper, model.rampSegmentAccessor, model.rampChangeAdapter,
+    new MovingManMotionSeriesObject(new MotionSeriesObjectState(x, 0, 10, 0, 0, 0.0, 0.0, 0.0), height, width, model.positionMapper, model.rampSegmentAccessor, model.rampChangeAdapter,
       model.surfaceFriction, model.wallsBounce, model.surfaceFrictionStrategy, model.walls, model.wallRange, model.thermalEnergyStrategy)
   }
 }
 
-class MovingManBead(_state: BeadState,
+class MovingManMotionSeriesObject(_state: MotionSeriesObjectState,
                     _height: Double,
                     _width: Double,
                     positionMapper: Double => Vector2D,
@@ -24,7 +24,7 @@ class MovingManBead(_state: BeadState,
                     _wallsExist: => Boolean,
                     wallRange: () => Range,
                     thermalEnergyStrategy: Double => Double)
-        extends ForceBead(_state, _height, _width, positionMapper, rampSegmentAccessor, model, surfaceFriction, wallsBounce, __surfaceFrictionStrategy, _wallsExist, wallRange, thermalEnergyStrategy) {
+        extends ForceMotionSeriesObject(_state, _height, _width, positionMapper, rampSegmentAccessor, model, surfaceFriction, wallsBounce, __surfaceFrictionStrategy, _wallsExist, wallRange, thermalEnergyStrategy) {
 
   //todo privatize
   object velocityMode
@@ -72,17 +72,17 @@ class MovingManBead(_state: BeadState,
   }
 }
 
-abstract class MovingManStrategy(bead: ForceBead) extends MotionStrategy(bead) {
+abstract class MovingManStrategy(bead: ForceMotionSeriesObject) extends MotionStrategy(bead) {
   def position2D = bead.positionMapper(bead.position)
 
   def getAngle = 0.0
 }
 
-class PositionMotionStrategy(bead: ForceBead) extends MovingManStrategy(bead) {
+class PositionMotionStrategy(bead: ForceMotionSeriesObject) extends MovingManStrategy(bead) {
   def isCrashed = false
 
   def getMemento = new MotionStrategyMemento {
-    def getMotionStrategy(bead: ForceBead) = new PositionMotionStrategy(bead)
+    def getMotionStrategy(bead: ForceMotionSeriesObject) = new PositionMotionStrategy(bead)
   }
 
   def stepInTime(dt: Double) = {
@@ -100,11 +100,11 @@ class PositionMotionStrategy(bead: ForceBead) extends MovingManStrategy(bead) {
   }
 }
 
-class VelocityMotionStrategy(bead: ForceBead) extends MovingManStrategy(bead) {
+class VelocityMotionStrategy(bead: ForceMotionSeriesObject) extends MovingManStrategy(bead) {
   def isCrashed = false
 
   def getMemento = new MotionStrategyMemento {
-    def getMotionStrategy(bead: ForceBead) = new VelocityMotionStrategy(bead)
+    def getMotionStrategy(bead: ForceMotionSeriesObject) = new VelocityMotionStrategy(bead)
   }
 
   def stepInTime(dt: Double) = {

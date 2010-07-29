@@ -179,15 +179,15 @@ class RampControlPanelBody(model: MotionSeriesModel,
 
   val moreControlsPanel = new SubControlPanel("more.controls.title".translate)
   val positionSlider = new ScalaValueControl(MotionSeriesDefaults.MIN_X, MotionSeriesDefaults.MAX_X, "object.position".translate, "0.0".literal, "units.meters".translate,
-    () => model.bead.position, x => model.bead.setPosition(x), model.bead.addListener)
+    () => model.motionSeriesObject.position, x => model.motionSeriesObject.setPosition(x), model.motionSeriesObject.addListener)
   positionSlider.getSlider.addMouseListener(new MouseAdapter() {
     override def mousePressed(e: MouseEvent) = {
-      val x: Double = if (model.bead.position > MotionSeriesDefaults.MAX_X) MotionSeriesDefaults.MAX_X
-      else if (model.bead.position < MotionSeriesDefaults.MIN_X) MotionSeriesDefaults.MIN_X
-      else model.bead.position
-      model.bead.setPosition(x)
-      model.bead.attach()
-      model.bead.setVelocity(0.0)
+      val x: Double = if (model.motionSeriesObject.position > MotionSeriesDefaults.MAX_X) MotionSeriesDefaults.MAX_X
+      else if (model.motionSeriesObject.position < MotionSeriesDefaults.MIN_X) MotionSeriesDefaults.MIN_X
+      else model.motionSeriesObject.position
+      model.motionSeriesObject.setPosition(x)
+      model.motionSeriesObject.attach()
+      model.motionSeriesObject.setVelocity(0.0)
     }
   })
   moreControlsPanel.add(positionSlider)

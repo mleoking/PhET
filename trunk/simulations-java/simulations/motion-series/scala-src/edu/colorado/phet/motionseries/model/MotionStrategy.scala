@@ -7,10 +7,10 @@ import edu.colorado.phet.motionseries.Predef._
 
 //Used to save/restore motion strategies during record/playback
 trait MotionStrategyMemento {
-  def getMotionStrategy(bead: ForceBead): MotionStrategy
+  def getMotionStrategy(bead: ForceMotionSeriesObject): MotionStrategy
 }
 
-abstract class MotionStrategy(val bead: ForceBead) {
+abstract class MotionStrategy(val bead: ForceMotionSeriesObject) {
   def isCrashed: Boolean
 
   def stepInTime(dt: Double)
@@ -86,7 +86,7 @@ abstract class MotionStrategy(val bead: ForceBead) {
   def getVelocityVectorDirection = bead.getVelocityVectorDirection
 }
 
-class Crashed(_position2D: Vector2D, _angle: Double, bead: ForceBead) extends MotionStrategy(bead) {
+class Crashed(_position2D: Vector2D, _angle: Double, bead: ForceMotionSeriesObject) extends MotionStrategy(bead) {
   def isCrashed = true
 
   def stepInTime(dt: Double) = {}
@@ -99,12 +99,12 @@ class Crashed(_position2D: Vector2D, _angle: Double, bead: ForceBead) extends Mo
 
   def getMemento = {
     new MotionStrategyMemento {
-      def getMotionStrategy(bead: ForceBead) = new Crashed(position2D, getAngle, bead)
+      def getMotionStrategy(bead: ForceMotionSeriesObject) = new Crashed(position2D, getAngle, bead)
     }
   }
 }
 
-class Airborne(private var _position2D: Vector2D, private var _velocity2D: Vector2D, _angle: Double, bead: ForceBead) extends MotionStrategy(bead: ForceBead) {
+class Airborne(private var _position2D: Vector2D, private var _velocity2D: Vector2D, _angle: Double, bead: ForceMotionSeriesObject) extends MotionStrategy(bead: ForceMotionSeriesObject) {
   def isCrashed = false
 
   override def toString = "position = ".literal + position2D
@@ -153,17 +153,17 @@ class Airborne(private var _position2D: Vector2D, private var _velocity2D: Vecto
 }
 
 class AirborneMemento(p: Vector2D, v: Vector2D, a: Double) extends MotionStrategyMemento {
-  def getMotionStrategy(bead: ForceBead) = new Airborne(p, v, a, bead)
+  def getMotionStrategy(bead: ForceMotionSeriesObject) = new Airborne(p, v, a, bead)
 
   override def toString = "airborn motion strategy mode, p = ".literal + p
 }
 
-class Grounded(bead: ForceBead) extends MotionStrategy(bead) {
+class Grounded(bead: ForceMotionSeriesObject) extends MotionStrategy(bead) {
   def isCrashed = false
 
   def getMemento = {
     new MotionStrategyMemento {
-      def getMotionStrategy(bead: ForceBead) = new Grounded(bead)
+      def getMotionStrategy(bead: ForceMotionSeriesObject) = new Grounded(bead)
     }
   }
 
@@ -283,7 +283,7 @@ class Grounded(bead: ForceBead) extends MotionStrategy(bead) {
 
   def isKineticFriction = surfaceFriction() && kineticFriction > 0
 
-  def getNewState(dt: Double, origState: BeadState, origEnergy: Double) = {
+  def getNewState(dt: Double, origState: MotionSeriesObjectState, origEnergy: Double) = {
     val newVelocity = {
       val desiredVel = bead.netForceToParallelVelocity(totalForce, dt)
       //stepInTime samples at least one value less than 1E-12 on direction change to handle static friction

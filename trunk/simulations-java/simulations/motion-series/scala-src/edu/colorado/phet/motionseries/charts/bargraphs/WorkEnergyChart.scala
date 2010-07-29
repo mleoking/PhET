@@ -85,12 +85,11 @@ class WorkEnergyChart(visibilityModel: WorkEnergyChartVisibilityModel, model: Mo
   updateButtonLocations()
   dialog.addWindowListener(new WindowAdapter() {override def windowClosing(e: WindowEvent) = visibilityModel.visible = false})
   SwingUtils.centerWindowOnScreen(dialog)
-  val bead = model.bead
-  bead.addListenerByName {
-    totalEnergyVariable.setValue(bead.getTotalEnergy)
-    kineticEnergyVariable.setValue(bead.kineticEnergy)
-    potentialEnergyVariable.setValue(bead.potentialEnergy)
-    thermalEnergyVariable.setValue(bead.thermalEnergy)
+  model.motionSeriesObject.addListenerByName {
+    totalEnergyVariable.setValue(model.motionSeriesObject.getTotalEnergy)
+    kineticEnergyVariable.setValue(model.motionSeriesObject.kineticEnergy)
+    potentialEnergyVariable.setValue(model.motionSeriesObject.potentialEnergy)
+    thermalEnergyVariable.setValue(model.motionSeriesObject.thermalEnergy)
 
     //    appliedWorkVariable.setValue(bead.getAppliedWork)
     //    frictionWorkVariable.setValue(bead.getFrictiveWork)
