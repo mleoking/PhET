@@ -1,7 +1,10 @@
-﻿package{
-	import flash.display.*;
+package{
+import edu.colorado.phet.flashcommon.TextFieldUtils;
+
+import flash.display.*;
 	import flash.events.*;
 	import flash.text.*;
+    import edu.colorado.phet.flashcommon.SimStrings;
 	
 	public class PlayPauseButtons extends Sprite{
 		var myModel:Model;
@@ -31,17 +34,27 @@
 			this.buttonView.myPlayPauseButton.buttonMode = true;
 			this.buttonView.myStepButton.buttonMode = true;
 		}
+
+        private function setPlayText():void{
+            buttonView.playPauseLabel.text = playText;
+            TextFieldUtils.resizeText( buttonView.playPauseLabel, TextFieldUtils.CENTER);
+        }
+
+        private function setPauseText():void{
+            buttonView.playPauseLabel.text = pauseText;
+            TextFieldUtils.resizeText( buttonView.playPauseLabel, TextFieldUtils.CENTER);
+        }
 		
 		//must be altered when internationalizing
 		public function initializeLabels():void{
-			this.resetText = "Reset";
+			this.resetText = SimStrings.get("PlayPauseButtons.reset","Reset");
 			this.backText = "Back";
-			this.playText = "Play";
+			this.playText = SimStrings.get("PlayPauseButtons.play","Play");
 			this.pauseText = "Pause";
 			this.stepText = "Step";
 			this.buttonView.resetLabel.text = resetText;
 			this.buttonView.stepBackLabel.text = backText;
-			this.buttonView.playPauseLabel.text = playText;
+            setPlayText();
 			this.buttonView.stepLabel.text = stepText;
 		}
 		
@@ -49,19 +62,20 @@
 			this.paused = true;
 			this.myModel.stopMotion();
 			this.buttonView.myPlayPauseButton.gotoAndStop(1);
-				this.buttonView.playPauseLabel.text = playText;
+		    setPlayText();
 			this.myModel.initializePositions();
 		}
 		public function playPause(evt:MouseEvent):void{
 			if(paused){
 				this.paused = false;
 				this.buttonView.myPlayPauseButton.gotoAndStop(2);
-				this.buttonView.playPauseLabel.text = pauseText;
+				setPauseText();
+//                resizeText( txtField:TextField, alignment:String ):void {  //get an error when Object = textField
 				this.myModel.startMotion()
 			}else{
 				this.paused = true;
 				this.buttonView.myPlayPauseButton.gotoAndStop(1);
-				this.buttonView.playPauseLabel.text = playText;
+				setPlayText();
 				this.myModel.stopMotion();
 			}
 			
@@ -69,7 +83,7 @@
 		public function step(evt:MouseEvent):void{
 			this.paused = true;
 			this.buttonView.myPlayPauseButton.gotoAndStop(1);
-			this.buttonView.playPauseLabel.text = playText;
+			setPlayText();
 			this.myModel.stopMotion();
 			//this.myModel.detectCollision();
 			this.myModel.singleFrame();
@@ -78,7 +92,7 @@
 		public function stepBack(evt:MouseEvent):void{
 			this.paused = true;
 			this.buttonView.myPlayPauseButton.gotoAndStop(1);
-			this.buttonView.playPauseLabel.text = playText;
+			setPlayText();
 			this.myModel.stopMotion();
 			this.myModel.backupOneFrame();
 		}
