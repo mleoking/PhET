@@ -21,4 +21,20 @@
     <string key="MomentumView.momenta" value="Momenta"/>
     <string key="MomentumView.tipToTail" value="tip-to-tail"/>
     <string key="MomentumView.total" value="tot"/>
+
+    <string key="ControlPanel.numberOfBalls" value="Nbr of Balls"/>
+    <string key="ControlPanel.1d" value="1D"/>
+    <string key="ControlPanel.2d" value="2D"/>
+    <string key="ControlPanel.resetAll" value="Reset All"/>
+    <string key="ControlPanel.showVelocities" value="Show velocities"/>
+    <string key="ControlPanel.showCenterOfMass" value="Show C.M."/>
+    <string key="ControlPanel.reflectingBorder" value="Reflecting Border"/>
+    <string key="ControlPanel.showPaths" value="Show Paths"/>
+    <string key="ControlPanel.sound" value="Sound"/>
+    <string key="ControlPanel.time" value="time"/>
+    <string key="ControlPanel.slow" value="slow"/>
+    <string key="ControlPanel.fast" value="fast"/>
+    <string key="ControlPanel.elasticity" value="elasticity"/>
+    <string key="ControlPanel.zeroPercent" value="0%"/>
+    <string key="ControlPanel.oneHundredPercent" value="100%"/>
 </SimStrings>
