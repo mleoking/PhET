@@ -1,3 +1,4 @@
+7-29-2010: Added colors from PhET's color scheme based on the google spreadsheet
 7-21-2010: Introduced Observable<T> class with MutableBoolean convenience subclass.
 6-14-2010: Minor documentation change in Arrow
 5-31-2010: Centralized creation of loggers and switch to anonymous loggers for use in the web start sandbox, see #2386

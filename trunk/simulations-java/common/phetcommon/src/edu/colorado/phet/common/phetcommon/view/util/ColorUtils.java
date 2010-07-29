@@ -7,6 +7,7 @@ import java.awt.*;
 
 /**
  * ColorUtils is a collection of utilities related to Color.
+ * See class PhetColorScheme for PhET's default color assignments.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
