@@ -1,4 +1,4 @@
-﻿//CollisionLab M.Dubson Nov 5, 2009
+//CollisionLab M.Dubson Nov 5, 2009
 //source code resides in /collision-lab
 //main class instance
 //For internationaled strings, see following classes
@@ -10,7 +10,9 @@
 
 
 package{
-	import flash.display.*;  
+import edu.colorado.phet.flashcommon.SimStrings;
+
+import flash.display.*;
 	
 	public class CollisionLab extends Sprite{  //should the main class extend MovieClip or Sprite?
 		var myModel:Model;
@@ -19,6 +21,7 @@ package{
 		var stageH:Number;
 		
 		public function CollisionLab(){
+            SimStrings.init(loaderInfo);
 			myModel = new Model();
 			//stage width and height hard-coded for now
 			this.stageW = 950;//this.stage.stageWidth;

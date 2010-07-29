@@ -1,4 +1,5 @@
 <?xml version="1.0" ?>
 <SimStrings>
   <string key="simTitle" value="Collision Lab" />
+  <string key="PlayPauseButtons.reset" value="Reset" />
 </SimStrings>
