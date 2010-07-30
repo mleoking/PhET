@@ -1,4 +1,4 @@
-package edu.colorado.phet.flashcommon {
+﻿package edu.colorado.phet.flashcommon {
 import flash.display.*;
 import flash.events.*;
 import flash.text.*;
@@ -12,7 +12,7 @@ public class TextFieldUtils {
     
      // hook up the events on a TextField so that it appears like it is the label of the CheckBox.
     // handles mouse over, out, and clicks
-    private function emulateButton( textField : TextField, checkBox : LabelButton ):void {
+    public static function emulateButton( textField : TextField, checkBox : LabelButton ):void {
         textField.addEventListener( MouseEvent.ROLL_OVER, function( evt: Event):void { checkBox.setMouseState( "over" ); } );
         textField.addEventListener( MouseEvent.ROLL_OUT, function( evt: Event):void { checkBox.setMouseState( "up" ); } );
         textField.addEventListener( MouseEvent.MOUSE_DOWN, function( evt: Event):void { checkBox.setMouseState( "down" ); } );
