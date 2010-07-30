@@ -1,5 +1,6 @@
-package{
+﻿package{
     import edu.colorado.phet.flashcommon.SimStrings;	
+	import edu.colorado.phet.flashcommon.TextFieldUtils;	
 	import flash.display.*;
 	import flash.events.*;
 	import fl.events.*;
@@ -104,7 +105,13 @@ package{
             this.changeNbrBallButtons.nbrBallsLabel_txt.text = SimStrings.get("ControlPanel.numberOfBalls","Nbr of Balls");
 //            trace( typeof this.oneD_rb );
 //            trace( typeof this.oneD_rb.label );
-            this.oneD_rb.label = SimStrings.get("ControlPanel.1d","1D");
+
+            this.oneD_txt.text = SimStrings.get("ControlPanel.1d","1D");
+			TextFieldUtils.emulateButton(this.oneD_txt, this.oneD_rb);
+			TextFieldUtils.resizeText(this.oneD_txt, TextFieldAutoSize.LEFT);
+			this.twoD_txt.text = SimStrings.get("ControlPanel.2d","2D");
+			TextFieldUtils.emulateButton(this.twoD_txt, this.twoD_rb);
+			TextFieldUtils.resizeText(this.twoD_txt, TextFieldAutoSize.LEFT);
 //            this.twoD_rb.label = SimStrings.get("ControlPanel.2d","2D");
             this.resetButton_sp.label_txt.text  = SimStrings.get("ControlPanel.resetAll","Reset All");  //controlPanel is instance of class NiceButton
 //            this.showVelocities_cb.label = SimStrings.get("ControlPanel.showVelocities","Show velocities");
