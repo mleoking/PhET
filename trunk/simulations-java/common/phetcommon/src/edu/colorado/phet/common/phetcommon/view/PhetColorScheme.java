@@ -1,6 +1,10 @@
 package edu.colorado.phet.common.phetcommon.view;
 
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+
+import javax.swing.*;
 import java.awt.*;
+import java.lang.reflect.Field;
 
 /**
  * This class is meant to represent the recommended color schemes for PhET simulations,
@@ -43,4 +47,25 @@ public class PhetColorScheme {
     public static final Color ACCELERATION =        GREEN;
     public static final Color REAL_PART =           ORANGE;
     public static final Color IMAGINARY_PART =      PURPLE;
+
+    public static void main(String[] args) throws IllegalAccessException {
+        JFrame frame = new JFrame("Phet Color Scheme");
+        VerticalLayoutPanel panel = new VerticalLayoutPanel();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Field[] fields = PhetColorScheme.class.getFields();
+        GridLayout gridLayout = new GridLayout(fields.length, 2, 4, 4);
+        panel.setLayout(gridLayout);
+        for (Field field : fields) {
+            if (field.getType().isAssignableFrom(Color.class)) {
+                panel.add(new JLabel(field.getName()));
+                JPanel px = new JPanel();
+                px.setBackground((Color) field.get(null));
+                panel.add(px);
+            }
+        }
+        frame.setContentPane(new JScrollPane(panel,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER));
+        frame.pack();
+        SwingUtils.centerWindowOnScreen(frame);
+        frame.setVisible(true);
+    }
 }
