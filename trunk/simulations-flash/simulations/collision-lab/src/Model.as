@@ -447,7 +447,7 @@ package{
 		}//detectCollision
 		
 		public function separateAllBalls():void{
-			trace("separateAllBalls() called at time = "+this.time);
+			//trace("separateAllBalls() called at time = "+this.time);
 			//loop through all balls repeatedly until no overlap between any pair
 			var cntr:int = 0;
 			while(cntr <= 20){
