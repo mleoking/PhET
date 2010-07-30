@@ -235,6 +235,15 @@ class MSDataSeries(_title: String, _color: Color, _units: String, value: Mutable
 
   def addValueChangeListener(listener: () => Unit) = value.addListener(listener)
 
+  //Convenience wrapper for scala clients
+  def addMSDataSeriesListener(listener:()=>Unit) = {
+    addListener(new TemporalDataSeries.Adapter(){
+      override def visibilityChanged = {
+        listener()
+      }
+    })
+  }
+
   def getValue = value()
 
   def setValue(v: Double) = {value.value = v}
