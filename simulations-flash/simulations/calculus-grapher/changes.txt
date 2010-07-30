@@ -2,4 +2,4 @@
 7/28/10 Fixes for the drag me arrow when derivative or integral lines are added or removed
 > Fixed: The "Drag Me" arrow points to the wrong curve after selecting "Integral" in the control panel
 # 2.02.04 (42719) Jul 28, 2010
-7/28/10 Internationalization fixes
+> Improved internationalization
