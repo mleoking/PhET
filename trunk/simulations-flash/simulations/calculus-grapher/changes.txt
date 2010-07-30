@@ -1,3 +1,4 @@
+# 2.03.00 (42751) Jul 30, 2010
 # 2.02.06 (42750) Jul 30, 2010
 # 2.02.05 (42727) Jul 28, 2010
 > Fixes for the "Drag Me" arrow when derivative or integral lines are added or removed
