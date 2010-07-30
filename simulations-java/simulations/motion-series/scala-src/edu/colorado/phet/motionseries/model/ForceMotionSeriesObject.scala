@@ -12,17 +12,17 @@ import java.lang.Math._
  * It's used in the Forces & Motion and Ramp applications.
  */
 class ForceMotionSeriesObject(_state: MotionSeriesObjectState,
-                _height: Double,
-                _width: Double,
-                positionMapper: Double => Vector2D,
-                rampSegmentAccessor: Double => RampSegment,
-                model: Observable,
-                val surfaceFriction: () => Boolean,
-                wallsBounce: () => Boolean,
-                val __surfaceFrictionStrategy: SurfaceFrictionStrategy,
-                _wallsExist: => Boolean,
-                wallRange: () => Range,
-                thermalEnergyStrategy: Double => Double)
+                              _height: Double,
+                              _width: Double,
+                              positionMapper: Double => Vector2D,
+                              rampSegmentAccessor: Double => RampSegment,
+                              model: Observable,
+                              val surfaceFriction: () => Boolean,
+                              wallsBounce: () => Boolean,
+                              val __surfaceFrictionStrategy: SurfaceFrictionStrategy,
+                              _wallsExist: => Boolean,
+                              wallRange: () => Range,
+                              thermalEnergyStrategy: Double => Double)
         extends MotionSeriesObject(_state, _height, _width, positionMapper, rampSegmentAccessor, model, wallsBounce, _wallsExist, wallRange, thermalEnergyStrategy) {
   //This method allows bead subclasses to avoid thermal energy by overriding this to return 0.0
   def getThermalEnergy(x: Double) = thermalEnergyStrategy(x)
@@ -162,4 +162,15 @@ class ForceMotionSeriesObject(_state: MotionSeriesObjectState,
   def acceleration = forceToParallelAcceleration(totalForce)
 
   def isCrashed = motionStrategy.isCrashed
+
+  def notifyCollidedWithWall() = for (wallCrashListener <- wallCrashListeners) wallCrashListener()
+
+  def notifyBounced() = for (bounceListener <- bounceListeners) bounceListener()
+
+  private val wallCrashListeners = new ArrayBuffer[() => Unit]
+  private val bounceListeners = new ArrayBuffer[() => Unit]
+
+  def addWallCrashListener(listener: () => Unit) = wallCrashListeners += listener
+
+  def addBounceListener(listener: () => Unit) = bounceListeners += listener
 }

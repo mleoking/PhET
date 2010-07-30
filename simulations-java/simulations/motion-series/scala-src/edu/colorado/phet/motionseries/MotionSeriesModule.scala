@@ -75,6 +75,10 @@ class MotionSeriesModule(frame: PhetFrame,
     clockTickIndex = clockTickIndex + 1
   })
 
+  motionSeriesModel.motionSeriesObject.addWallCrashListener(() => MotionSeriesResources.crashSound.play())
+  motionSeriesModel.motionSeriesObject.addBounceListener(() => MotionSeriesResources.bounceSound.play())
+  motionSeriesModel.motionSeriesObject.crashListeners += (() => MotionSeriesResources.crashSound.play())
+
   //pause on start/reset, and unpause (and start recording) when the user applies a force
   def resetPauseValue() = motionSeriesModel.setPaused(true)
   resetPauseValue()

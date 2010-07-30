@@ -375,6 +375,9 @@ class Grounded(bead: ForceMotionSeriesObject) extends MotionStrategy(bead) {
       println("lost thermal energy.  original = " + origState.thermalEnergy + ", final = " + stateAfterPatchingUpThermalEnergy.thermalEnergy)
     }
 
+    if (collide && bounce) bead.notifyBounced()
+    else if (collide && !bounce) bead.notifyCollidedWithWall()
+
     stateAfterPatchingUpThermalEnergy
   }
 }

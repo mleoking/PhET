@@ -31,6 +31,7 @@ object MotionSeriesResources extends PhetResources("motion-series".literal) {
   def formatWork(work: String) = MessageFormat.format(workPattern, work)
 
   val crashSound = getAudioClip("smash0.wav")
+  val bounceSound = getAudioClip("bounce.wav")
 }
 
 class TranslatableString(s: String) {
