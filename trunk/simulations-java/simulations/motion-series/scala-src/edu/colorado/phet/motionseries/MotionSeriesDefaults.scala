@@ -4,6 +4,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont
 import java.awt.Color
 import java.awt.geom.Rectangle2D
 import edu.colorado.phet.motionseries.model.{MutableMotionSeriesObjectType, CustomTextMotionSeriesObjectType, MotionSeriesObjectType}
+import edu.colorado.phet.common.phetcommon.view.PhetColorScheme
 
 object MotionSeriesDefaults {
   val CLEAR_BUTTON_VISIBILITY_THRESHOLD_JOULES = 4000 * 1.5
@@ -128,13 +129,21 @@ object MotionSeriesDefaults {
   val myDrabYellow = new Color(190, 190, 0)
   val myOrange = new Color(236, 153, 55)
   val myLightBlue = new Color(50, 130, 215)
+  def compareColors(name:String,motionSeries:Color,phetcommon:Color) = {
+    if (motionSeries.getRed!=phetcommon.getRed || 
+    motionSeries.getGreen!=phetcommon.getGreen||
+    motionSeries.getBlue!=phetcommon.getBlue){
+      println("mismatched colors for "+name+", motionSeries = "+motionSeries+", phetcommon = "+phetcommon)
+    }
+    motionSeries
+  }
 
-  val appliedForceColor = myOrange
-  val gravityForceColor = myLightBlue
-  val normalForceColor = myGold
-  val frictionForceColor = red
-  val sumForceColor = pink //used to be myGreen
-  val wallForceColor = myBrickRed
+  val appliedForceColor = compareColors("applied force",myOrange,PhetColorScheme.APPLIED_FORCE)
+  val gravityForceColor = compareColors("gravity force",myLightBlue,PhetColorScheme.GRAVITATIONAL_FORCE)
+  val normalForceColor = compareColors("normal force", myGold,PhetColorScheme.NORMAL_FORCE)
+  val frictionForceColor = compareColors("friction force",red,PhetColorScheme.FRICTION_FORCE);
+  val sumForceColor = compareColors("total force",pink,PhetColorScheme.TOTAL_FORCE) //used to be myGreen
+  val wallForceColor = compareColors("wall force",myBrickRed,PhetColorScheme.WALL_FORCE);
 
   val appliedWorkColor = appliedForceColor
   val frictionWorkColor = frictionForceColor
@@ -146,9 +155,9 @@ object MotionSeriesDefaults {
   val potentialEnergyColor = gravityWorkColor
   val thermalEnergyColor = frictionWorkColor
 
-  val accelerationColor = green
-  val velocityColor = red
-  val positionColor = blue
+  val accelerationColor = compareColors("acceleration",green,PhetColorScheme.ACCELERATION)
+  val velocityColor = compareColors("velocity",red,PhetColorScheme.VELOCITY)
+  val positionColor = compareColors("position",blue,PhetColorScheme.POSITION)
 
   /**
    * W_grav and deltaPE should be the same color:  Blue (sky blue, sky-high --get it?)
