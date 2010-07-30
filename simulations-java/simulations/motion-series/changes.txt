@@ -1,3 +1,4 @@
+# 1.03.70 (42741) Jul 30, 2010
 Fixed: checkboxes don't change in "Reset All"
 Renamed ramp simulation from "Ramp II" to "Ramp: Forces and Motion"
 Changed the acceleration color to green
