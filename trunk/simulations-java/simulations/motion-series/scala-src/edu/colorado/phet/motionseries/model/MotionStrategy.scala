@@ -86,6 +86,7 @@ abstract class MotionStrategy(val bead: ForceMotionSeriesObject) {
   def getVelocityVectorDirection = bead.getVelocityVectorDirection
 }
 
+//This Crashed state indicates that the object has fallen off the ramp or off a cliff, not that it has crashed into a wall.
 class Crashed(_position2D: Vector2D, _angle: Double, bead: ForceMotionSeriesObject) extends MotionStrategy(bead) {
   def isCrashed = true
 

@@ -57,6 +57,7 @@ abstract class MotionSeriesObject(private var _state: MotionSeriesObjectState,
 
   def wallsExist = _wallsExist
 
+  //This notion of crashing is only regarding falling off a cliff or off the ramp, not for crashing into a wall
   val crashListeners = new ArrayBuffer[() => Unit]
 
   def state = _state
