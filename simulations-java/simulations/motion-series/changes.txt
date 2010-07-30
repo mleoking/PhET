@@ -1,6 +1,6 @@
 # 1.03.71 (42755) Jul 30, 2010
 Fixed a bug that caused a java.lang.NumberFormatException: For input string: "0,00" in languages that use comma instead of decimal point
-Fixed: “Press arrow” keys get slightly overlapped by gray round rects when the scoreboard grows.
+Fixed: "Press arrow" keys get slightly overlapped by gray round rects when the scoreboard grows.
 Added audio for wall collisions, wall bouncing and floor collisions
 # 1.03.70 (42741) Jul 30, 2010
 Fixed: checkboxes don't change in "Reset All"
