@@ -79,29 +79,6 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
   val houseNode = new MotionSeriesObjectNode(gameModel.house, transform, MotionSeriesDefaults.house.imageFilename)
   addStageNode(houseNode)
 
-  addStageNode(new InstructionsNode {
-    val helpButton = new PSwing(Button("Help") {
-      val intro = new IntroDialog {
-        centerWithin(RobotMovingCompanyCanvas.this.getWidth, RobotMovingCompanyCanvas.this.getHeight)
-      }
-      addScreenNode(intro)
-
-      addKeyListener(new KeyAdapter {
-        override def keyPressed(e: KeyEvent) = {
-          removeKeyListener(this)
-          removeScreenNode(intro)
-        }
-      })
-      SwingUtilities.invokeLater(new Runnable() {
-        def run = requestFocus() //so the button doesn't have focus
-      })
-    }.peer) {
-      setOffset(textNode.getFullBounds.getCenterX - getFullBounds.getWidth / 2, textNode.getFullBounds.getMaxY)
-    }
-    addChild(helpButton)
-    setOffset(getStage.getWidth - getFullBounds.getWidth, 5)
-  })
-
   val doorNode = new PNode() {
     val bead = new MotionSeriesObjectNode(gameModel.door, getModelStageTransform, MotionSeriesDefaults.door.imageFilename)
     addChild(bead)
@@ -128,6 +105,29 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
   val energyMeter = new RobotEnergyMeter(transform, gameModel, energyScale)
   energyMeter.setOffset(scoreboard.getFullBounds.getX + 5, scoreboard.getFullBounds.getMaxY + 5)
   addStageNode(energyMeter)
+  
+  addStageNode(new InstructionsNode {
+    val helpButton = new PSwing(Button("Help") {
+      val intro = new IntroDialog {
+        centerWithin(RobotMovingCompanyCanvas.this.getWidth, RobotMovingCompanyCanvas.this.getHeight)
+      }
+      addScreenNode(intro)
+
+      addKeyListener(new KeyAdapter {
+        override def keyPressed(e: KeyEvent) = {
+          removeKeyListener(this)
+          removeScreenNode(intro)
+        }
+      })
+      SwingUtilities.invokeLater(new Runnable() {
+        def run = requestFocus() //so the button doesn't have focus
+      })
+    }.peer) {
+      setOffset(textNode.getFullBounds.getCenterX - getFullBounds.getWidth / 2, textNode.getFullBounds.getMaxY)
+    }
+    addChild(helpButton)
+    setOffset(getStage.getWidth - getFullBounds.getWidth, 5)
+  })
 
   val robotGraphics = new RobotGraphics(transform, gameModel)
   addStageNode(robotGraphics) //TODO: move behind ramp
