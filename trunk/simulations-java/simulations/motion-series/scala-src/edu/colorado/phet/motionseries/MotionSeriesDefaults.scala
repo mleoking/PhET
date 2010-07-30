@@ -141,8 +141,8 @@ object MotionSeriesDefaults {
   val appliedForceColor = compareColors("applied force",myOrange,PhetColorScheme.APPLIED_FORCE)
   val gravityForceColor = compareColors("gravity force",myLightBlue,PhetColorScheme.GRAVITATIONAL_FORCE)
   val normalForceColor = compareColors("normal force", myGold,PhetColorScheme.NORMAL_FORCE)
-  val frictionForceColor = compareColors("friction force",red,PhetColorScheme.FRICTION_FORCE);
-  val sumForceColor = compareColors("total force",pink,PhetColorScheme.TOTAL_FORCE) //used to be myGreen
+  val frictionForceColor = PhetColorScheme.FRICTION_FORCE
+  val sumForceColor = PhetColorScheme.TOTAL_FORCE
   val wallForceColor = compareColors("wall force",myBrickRed,PhetColorScheme.WALL_FORCE);
 
   val appliedWorkColor = appliedForceColor
@@ -155,9 +155,9 @@ object MotionSeriesDefaults {
   val potentialEnergyColor = gravityWorkColor
   val thermalEnergyColor = frictionWorkColor
 
-  val accelerationColor = compareColors("acceleration",green,PhetColorScheme.ACCELERATION)
-  val velocityColor = compareColors("velocity",red,PhetColorScheme.VELOCITY)
-  val positionColor = compareColors("position",blue,PhetColorScheme.POSITION)
+  val accelerationColor = PhetColorScheme.ACCELERATION
+  val velocityColor = PhetColorScheme.VELOCITY
+  val positionColor = PhetColorScheme.POSITION
 
   /**
    * W_grav and deltaPE should be the same color:  Blue (sky blue, sky-high --get it?)
