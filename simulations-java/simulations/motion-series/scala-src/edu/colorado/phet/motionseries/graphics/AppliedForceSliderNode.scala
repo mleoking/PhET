@@ -12,7 +12,9 @@ class AppliedForceSliderNode(motionSeriesObject: ForceMotionSeriesObject, mouseP
     motionSeriesObject.parallelAppliedForce, "controls.applied-force-x".translate, "units.abbr.newtons".translate, MotionSeriesDefaults.appliedForceColor, new TextBox(new PhetFont(18, true), 6) {
       addListener(new TextBox.Listener() {
         def changed = {
-          motionSeriesObject.parallelAppliedForce = java.lang.Double.parseDouble(getText)
+          //have to replace comma with decimal otherwise we obtain problems like:
+          //Exception in thread "AWT-EventQueue-0" java.lang.NumberFormatException: For input string: "0,00"
+          motionSeriesObject.parallelAppliedForce = java.lang.Double.parseDouble(getText.replace(',','.'))
         }
       })
     })
