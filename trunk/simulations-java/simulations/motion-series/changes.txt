@@ -1,3 +1,4 @@
+Fixed: “Press arrow” keys get slightly overlapped by gray round rects when the scoreboard grows.
 Added audio for wall collisions, wall bouncing and floor collisions
 # 1.03.70 (42741) Jul 30, 2010
 Fixed: checkboxes don't change in "Reset All"
