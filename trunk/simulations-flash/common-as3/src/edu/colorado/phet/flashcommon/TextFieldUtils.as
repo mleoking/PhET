@@ -3,8 +3,21 @@ import flash.display.*;
 import flash.events.*;
 import flash.text.*;
 
+import fl.controls.CheckBox;
+import fl.controls.LabelButton;
+
 public class TextFieldUtils {
     public function TextFieldUtils() {
+    }
+    
+     // hook up the events on a TextField so that it appears like it is the label of the CheckBox.
+    // handles mouse over, out, and clicks
+    private function emulateButton( textField : TextField, checkBox : LabelButton ):void {
+        textField.addEventListener( MouseEvent.ROLL_OVER, function( evt: Event):void { checkBox.setMouseState( "over" ); } );
+        textField.addEventListener( MouseEvent.ROLL_OUT, function( evt: Event):void { checkBox.setMouseState( "up" ); } );
+        textField.addEventListener( MouseEvent.MOUSE_DOWN, function( evt: Event):void { checkBox.setMouseState( "down" ); } );
+        textField.addEventListener( MouseEvent.MOUSE_UP, function( evt: Event):void { checkBox.setMouseState( "up" ); } );
+        textField.addEventListener( MouseEvent.CLICK, function( evt: Event):void { checkBox.dispatchEvent( evt ); } );
     }
 
     public static function resizeText( txtField:TextField, alignment:String ):void {  //get an error when Object = textField
