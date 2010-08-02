@@ -1,4 +1,4 @@
-package edu.colorado.phet.motionseries.sims.theramp.robotmovingcompany
+package edu.colorado.phet.motionseries.sims.rampforcesandmotion.robotmovingcompany
 
 import collection.mutable.{HashMap, ArrayBuffer}
 import edu.colorado.phet.common.phetcommon.math.MathUtil

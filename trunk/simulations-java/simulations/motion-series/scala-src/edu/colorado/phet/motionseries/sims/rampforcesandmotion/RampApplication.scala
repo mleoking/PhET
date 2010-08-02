@@ -1,4 +1,4 @@
-package edu.colorado.phet.motionseries.sims.theramp
+package edu.colorado.phet.motionseries.sims.rampforcesandmotion
 
 import edu.colorado.phet.common.phetcommon.view.PhetFrame
 import edu.colorado.phet.motionseries.graphics.RampCanvas
@@ -15,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.application.{PhetApplicationLauncher,
 import javax.swing.JMenuItem
 import java.awt.event.{ActionListener, ActionEvent, ComponentEvent, ComponentAdapter}
 import edu.colorado.phet.motionseries.controls.{DeveloperDialog, RampControlPanel}
-import edu.colorado.phet.motionseries.sims.theramp.robotmovingcompany.RobotMovingCompanyModule
+import edu.colorado.phet.motionseries.sims.rampforcesandmotion.robotmovingcompany.RobotMovingCompanyModule
 import edu.colorado.phet.motionseries.{StageContainerArea, MotionSeriesDefaults, MotionSeriesModule}
 import edu.colorado.phet.motionseries.charts.RampForceChartNode
 
