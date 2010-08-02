@@ -3,8 +3,6 @@
 package edu.colorado.phet.acidbasesolutions.module;
 
 import java.awt.geom.Dimension2D;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSColors;
 import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
@@ -47,7 +45,7 @@ public abstract class ABSCanvas extends PhetPCanvas {
         pHMeterNode = new PHMeterNode( model.getPHMeter() );
         magnifyingGlassNode = new MagnifyingGlassNode( model.getMagnifyingGlass() );
         concentrationGraphNode = new ConcentrationGraphNode( model.getConcentrationGraph() );
-        reactionEquationNode = new ReactionEquationNode( model );
+        reactionEquationNode = new ReactionEquationNode( model.getReactionEquation() );
         
         // rendering order
         addNode( pHMeterNode );
@@ -56,27 +54,8 @@ public abstract class ABSCanvas extends PhetPCanvas {
         addNode( concentrationGraphNode );
         addNode( reactionEquationNode );
         
-        // update the reaction equation's position when its bounds change
-        reactionEquationNode.addPropertyChangeListener( new PropertyChangeListener() {
-            public void propertyChange( PropertyChangeEvent event ) {
-                if ( event.getPropertyName().equals( PNode.PROPERTY_FULL_BOUNDS ) ) {
-                    updateReactionEquationLayout();
-                }
-            }
-        });
-        updateReactionEquationLayout();
-        
-        // NOTE: all other layout is handled via locations of model elements.
+        // NOTE: all layout is handled via locations of model elements.
     }    
-    
-    /*
-     * Centers the reaction equation below the beaker.
-     */
-    private void updateReactionEquationLayout() {
-        double x = beakerNode.getFullBoundsReference().getCenterX() - ( reactionEquationNode.getFullBoundsReference().getWidth() / 2 );
-        double y = beakerNode.getFullBoundsReference().getMaxY() + 10;
-        reactionEquationNode.setOffset( x, y );
-    }
     
     protected void addNode( PNode node ) {
         rootNode.addChild( node );

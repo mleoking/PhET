@@ -8,6 +8,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * pH Meter model.
+ * Location is at the tip of the meter's probe.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

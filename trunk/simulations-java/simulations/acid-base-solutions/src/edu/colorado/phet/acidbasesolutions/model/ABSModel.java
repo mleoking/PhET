@@ -25,16 +25,18 @@ public class ABSModel {
     private final PHMeter pHMeter;
     private final MagnifyingGlass magnifyingGlass;
     private final ConcentrationGraph concentrationGraph;
+    private final ReactionEquation reactionEquation;
     
     private EventListenerList listeners;
     
     public ABSModel( SolutionFactory defaultSolutionFactory ) {
         this.defaultSolutionFactory = defaultSolutionFactory;
         this.solution = defaultSolutionFactory.createSolution();
-        beaker = new Beaker( solution, ABSConstants.BEAKER_LOCATION, ABSConstants.BEAKER_VISIBLE, ABSConstants.BEAKER_SIZE );
+        beaker = new Beaker( solution, ABSConstants.BEAKER_LOCATION, true, ABSConstants.BEAKER_SIZE );
         pHMeter = new PHMeter( solution, ABSConstants.PH_METER_LOCATION, ABSConstants.PH_METER_VISIBLE, ABSConstants.PH_METER_SHAFT_SIZE, ABSConstants.PH_METER_TIP_SIZE, beaker );
         magnifyingGlass = new MagnifyingGlass( solution, ABSConstants.MAGNIFYING_GLASS_LOCATION, ABSConstants.MAGNIFYING_GLASS_VISIBLE, ABSConstants.MAGNIFYING_GLASS_DIAMETER, ABSConstants.WATER_VISIBLE );
         concentrationGraph = new ConcentrationGraph( solution, ABSConstants.CONCENTRATION_GRAPH_LOCATION, ABSConstants.CONCENTRATION_GRAPH_VISIBLE, ABSConstants.CONCENTRATION_GRAPH_SIZE );
+        reactionEquation = new ReactionEquation( solution, ABSConstants.REACTION_EQUATION_LOCATION, true );
         listeners = new EventListenerList();
         reset();
     }
@@ -64,6 +66,10 @@ public class ABSModel {
         return concentrationGraph;
     }
     
+    public ReactionEquation getReactionEquation() {
+        return reactionEquation;
+    }
+    
     public void setSolution( AqueousSolution solution ) {
         if ( solution != this.solution ) {  /* yes, referential equality */
             this.solution = solution;
@@ -71,6 +77,7 @@ public class ABSModel {
             pHMeter.setSolution( solution );
             magnifyingGlass.setSolution( solution );
             concentrationGraph.setSolution( solution );
+            reactionEquation.setSolution( solution );
             fireSolutionChanged();
         }
     }

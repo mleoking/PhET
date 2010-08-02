@@ -37,7 +37,7 @@ public class ConcentrationGraphNode extends AbstractConcentrationGraphNode {
         setChildrenPickable( false );
         
         // model changes
-        graph.addModelElementChangeListener( new SolutionRepresentationChangeAdapter() {
+        graph.addSolutionRepresentationChangeListener( new SolutionRepresentationChangeAdapter() {
             @Override
             public void solutionChanged() {
                 setSolution( graph.getSolution() );
@@ -59,7 +59,7 @@ public class ConcentrationGraphNode extends AbstractConcentrationGraphNode {
         solution.addAqueousSolutionChangeListener( solutionChangeListener );
         
         // graph listener
-        graph.addModelElementChangeListener( new SolutionRepresentationChangeAdapter() {
+        graph.addSolutionRepresentationChangeListener( new SolutionRepresentationChangeAdapter() {
             @Override
             public void visibilityChanged() {
                 setVisible( graph.isVisible() );

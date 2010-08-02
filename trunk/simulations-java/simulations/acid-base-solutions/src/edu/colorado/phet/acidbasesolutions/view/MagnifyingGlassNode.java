@@ -46,7 +46,7 @@ public class MagnifyingGlassNode extends PhetPNode {
         setChildrenPickable( false );
         
         this.magnifyingGlass = magnifyingGlass;
-        magnifyingGlass.addModelElementChangeListener( new SolutionRepresentationChangeAdapter() {
+        magnifyingGlass.addSolutionRepresentationChangeListener( new SolutionRepresentationChangeAdapter() {
             
             // when the solution changes, update the color of the glass
             @Override
