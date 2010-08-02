@@ -21,7 +21,6 @@ public class PhetColorScheme {
     public static final Color GREEN =           new Color(0, 255, 0);
     public static final Color DARK_GREEN =      new Color(0, 200, 0);
     public static final Color TURQUOISE =       new Color(0, 255, 255);
-    public static final Color PUKE_GREEN =      new Color(128, 128, 0);
     public static final Color OLIVE =           new Color(128, 128, 0);
     public static final Color BRICK_RED_BROWN = new Color(153, 51, 0);
     public static final Color PURPLE =          new Color(153, 51, 102);
