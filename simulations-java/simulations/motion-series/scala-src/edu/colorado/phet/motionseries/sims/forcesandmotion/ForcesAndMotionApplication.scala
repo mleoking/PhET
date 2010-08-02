@@ -12,10 +12,10 @@ import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.umd.cs.piccolox.pswing.PSwing
 import edu.colorado.phet.motionseries.controls.RampControlPanel
 import edu.colorado.phet.recordandplayback.gui.RecordAndPlaybackControlPanel
-import edu.colorado.phet.motionseries.sims.theramp.robotmovingcompany.RobotMovingCompanyModule
+import edu.colorado.phet.motionseries.sims.rampforcesandmotion.robotmovingcompany.RobotMovingCompanyModule
 import edu.colorado.phet.motionseries.{StageContainerArea, MotionSeriesModule, MotionSeriesDefaults}
 import edu.colorado.phet.motionseries.charts.ForcesAndMotionChartNode
-import edu.colorado.phet.motionseries.sims.theramp.{ForceGraphsModule, IntroRampModule}
+import edu.colorado.phet.motionseries.sims.rampforcesandmotion.{ForceGraphsModule, IntroRampModule}
 import edu.umd.cs.piccolo.PNode
 
 class ForcesAndMotionModule(frame: PhetFrame,

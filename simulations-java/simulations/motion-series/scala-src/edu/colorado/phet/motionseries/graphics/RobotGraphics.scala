@@ -6,12 +6,12 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 import java.awt.geom.{Point2D, Line2D, Rectangle2D}
 import java.awt.{BasicStroke, Color}
-import edu.colorado.phet.motionseries.sims.theramp.robotmovingcompany.RobotMovingCompanyGameModel
 import edu.colorado.phet.motionseries.MotionSeriesResources
 import edu.umd.cs.piccolo.nodes.PImage
 import edu.umd.cs.piccolo.PNode
 import edu.colorado.phet.scalacommon.Predef._
 import edu.umd.cs.piccolo.util.PBounds
+import edu.colorado.phet.motionseries.sims.rampforcesandmotion.robotmovingcompany.RobotMovingCompanyGameModel
 
 class RobotGraphics(transform: ModelViewTransform2D, gameModel: RobotMovingCompanyGameModel) extends PNode {
   val struts = new Struts()

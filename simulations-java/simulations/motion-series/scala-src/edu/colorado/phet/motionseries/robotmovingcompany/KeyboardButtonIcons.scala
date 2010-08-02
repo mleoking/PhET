@@ -1,4 +1,4 @@
-package edu.colorado.phet.motionseries.sims.theramp.robotmovingcompany
+package edu.colorado.phet.motionseries.sims.rampforcesandmotion.robotmovingcompany
 
 import edu.umd.cs.piccolo.PNode
 import java.awt.{BasicStroke, Color}
