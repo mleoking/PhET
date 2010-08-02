@@ -17,7 +17,7 @@ import java.lang.reflect.Field;
 public class PhetColorScheme {
     public static final Color BLACK =           new Color(0, 0, 0);
     public static final Color BLUE =            new Color(0, 0, 255);
-    public static final Color LIGHT_BLUE =      new Color(0, 204, 255);
+    public static final Color LIGHT_BLUE =      new Color(50, 130, 215);
     public static final Color GREEN =           new Color(0, 255, 0);
     public static final Color DARK_GREEN =      new Color(0, 200, 0);
     public static final Color TURQUOISE =       new Color(0, 255, 255);
@@ -28,8 +28,8 @@ public class PhetColorScheme {
     public static final Color RED =             new Color(255, 0, 0);
     public static final Color ORANGE =          new Color(255, 153, 0);
     public static final Color PINK =            new Color(255, 153, 204);
-    public static final Color GOLD =            new Color(255, 204, 0);
-    public static final Color TAN_ORANGE =      new Color(255, 204, 153);
+    public static final Color GOLD =            new Color(255, 235, 0);
+    public static final Color TAN_ORANGE =      new Color(236, 153, 55);
 
     public static final Color TOTAL_ENERGY =        TAN_ORANGE;
     public static final Color KINETIC_ENERGY =      GREEN;
@@ -40,7 +40,7 @@ public class PhetColorScheme {
     public static final Color TOTAL_FORCE =         DARK_GREEN;
     public static final Color FRICTION_FORCE =      RED;
     public static final Color NORMAL_FORCE =        GOLD;
-    public static final Color GRAVITATIONAL_FORCE = BLUE;
+    public static final Color GRAVITATIONAL_FORCE = LIGHT_BLUE;
     public static final Color APPLIED_FORCE =       TAN_ORANGE;
     public static final Color WALL_FORCE =          BRICK_RED_BROWN;
     public static final Color POSITION =            BLUE;
