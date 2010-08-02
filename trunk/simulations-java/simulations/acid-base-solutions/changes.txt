@@ -1,3 +1,4 @@
+8/2/10 adjust layout and location of pH meter so that we have room to dip other things in beaker
 7/1/10 remove bogus import of advanced-acid-base-solutions
 # 0.00.15 (42038) Jun 30, 2010
 6/30/10 misc cleanup before putting sim on hold, pending CAB feedback

@@ -148,7 +148,7 @@ public class PHMeterNode extends PhetPNode {
         x = -shaftNode.getFullBoundsReference().getWidth() / 2;
         y = tipNode.getFullBoundsReference().getMinY() - shaftNode.getFullBoundsReference().getHeight() + yOverlap;
         shaftNode.setOffset( x, y );
-        x = -0.85 * displayNode.getFullBoundsReference().getWidth();
+        x = -0.15 * displayNode.getFullBoundsReference().getWidth();
         y = shaftNode.getFullBoundsReference().getMinY() - displayNode.getFullBoundsReference().getHeight() + yOverlap;
         displayNode.setOffset( x, y );
     }
