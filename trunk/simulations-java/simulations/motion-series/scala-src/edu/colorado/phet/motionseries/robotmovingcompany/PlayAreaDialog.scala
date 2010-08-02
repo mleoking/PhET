@@ -34,7 +34,7 @@ class PlayAreaDialog(width: Double, height: Double) extends PNode {
  * @author Sam Reid
  */
 class IntroDialog extends PlayAreaDialog(400, 500) {
-  val titleNode = new HTMLNode("game.intro.robot-moving-company".translate, Color.blue, new PhetFont(52, true)) //todo: translate
+  val titleNode = new HTMLNode("game.intro.robot-moving-company".translate, Color.blue, new PhetFont(52, true))
   titleNode.setOffset(getFullBounds.getWidth / 2 - titleNode.getFullBounds.getWidth / 2, 20)
   addChild(titleNode)
 

@@ -24,11 +24,11 @@ class FrictionPlayAreaControlPanel(bead: ForceMotionSeriesObject) extends Vertic
   setFillHorizontal()
   setBackground(MotionSeriesDefaults.EARTH_COLOR)
 
-  val obj = MotionSeriesDefaults.custom //todo: this changes the mass for all tabs, not just this tab
+  private val customObject = MotionSeriesDefaults.custom 
 
   val staticFriction = new MyValueControl(0.0, 2.0, () => bead.staticFriction, bead.staticFriction = _, "property.coefficient-of-static-friction".translate, "0.0".literal, "".literal, bead)
   val kineticFriction = new MyValueControl(0.0, 2.0, () => bead.kineticFriction, bead.kineticFriction = _, "property.coefficient-of-kinetic-friction".translate, "0.0".literal, "".literal, bead)
-  val objectMass = new MyValueControl(1, 200, () => obj.mass, obj.mass = _, "property.object-mass".translate, "0.0".literal, "units.abbr.kg".translate, bead)
+  val objectMass = new MyValueControl(1, 200, () => customObject.mass, customObject.mass = _, "property.object-mass".translate, "0.0".literal, "units.abbr.kg".translate, bead) //todo: this changes the mass for all tabs, not just this tab
   val gravity = new MyValueControl(0.1, sliderMaxGravity, () => bead.gravity.abs, x => bead.gravity = -x, "forces.gravity".translate, "0.0".literal, "properties.acceleration.units".translate, bead)
 
   val sliderArray = Array[AbstractValueControl](staticFriction, kineticFriction, objectMass, gravity)

@@ -32,7 +32,6 @@ class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2
   private var baseColor = woodColor
   val wetColor = new Color(150, 211, 238)
   val hotColor = new Color(255, 0, 0)
-  //  val pathNode = new PhetPPath(baseColor, new BasicStroke(2f), woodStrokeColor)
   val pathNode = new PhetPPath(baseColor)
   addChild(pathNode)
   def updateAll() = {

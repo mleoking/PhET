@@ -17,7 +17,7 @@ class TickMarkSet(transform: ModelViewTransform2D, positionMapper: Double => Poi
     addTickLabel(x)
   }
   val zeroLabel = addTickLabel(0)
-  val metersReadout = new PText("units.meters".translate) { //todo il8n
+  val metersReadout = new PText("units.meters".translate) {
     setFont(new PhetFont(13, true))
   }
   addChild(metersReadout)

@@ -49,14 +49,12 @@ class PositionDragMotionSeriesObjectNode(motionSeriesObject: MovingManMotionSeri
   addInputEventListener(new CursorHandler)
   addInputEventListener(new PBasicInputEventHandler() {
     override def mouseDragged(event: PInputEvent) = {
-      //      bead.parallelAppliedForce = 0.0 //todo: move this into setPositionMode()?
       motionSeriesObject.setPositionMode()
       val delta = event.getCanvasDelta
       //todo: make it so we can get this information (a) more easily and (b) without a reference to the canvas:MyCanvas
       val screenDelta = canvas.canvasToStageDelta(delta.getWidth, delta.getHeight)
       val modelDelta = canvas.getModelStageTransform.viewToModelDifferential(screenDelta.getWidth(), screenDelta.getHeight())
       motionSeriesObject.setDesiredPosition(motionSeriesObject.desiredPosition + modelDelta.x)
-      //      bead.setPosition(bead.position + modelDelta.x)
       dragListener()
     }
 

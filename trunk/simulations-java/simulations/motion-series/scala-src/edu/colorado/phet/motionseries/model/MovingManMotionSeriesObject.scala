@@ -26,10 +26,9 @@ class MovingManMotionSeriesObject(_state: MotionSeriesObjectState,
                     thermalEnergyStrategy: Double => Double)
         extends ForceMotionSeriesObject(_state, _height, _width, positionMapper, rampSegmentAccessor, model, surfaceFriction, wallsBounce, __surfaceFrictionStrategy, _wallsExist, wallRange, thermalEnergyStrategy) {
 
-  //todo privatize
-  object velocityMode
-  object positionMode
-  object accelerationMode
+  private object velocityMode
+  private object positionMode
+  private object accelerationMode
 
   private var _mode: AnyRef = accelerationMode
 
@@ -60,7 +59,7 @@ class MovingManMotionSeriesObject(_state: MotionSeriesObjectState,
       }
     }
     else if (mode == velocityMode) {
-      //todo: maybe better to estimate 2nd derivative of position instead of 1st derivative of velocity?
+      //I investigated taking 2nd derivative directly, but it seemed easier and more accurate to take 1st derivative of velocity?
       val timeData = for (i <- 0 until java.lang.Math.min(10, stateHistory.length))
       yield new TimeData(stateHistory(stateHistory.length - 1 - i).velocity, stateHistory(stateHistory.length - 1 - i).time)
       MotionMath.estimateDerivative(timeData.toArray)
