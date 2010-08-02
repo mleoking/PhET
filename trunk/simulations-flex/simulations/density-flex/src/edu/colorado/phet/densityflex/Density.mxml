@@ -9,10 +9,12 @@
         <mx:Canvas label="Intro" fontSize="12">
             <mx:Canvas backgroundColor="0x000000" width="100%" height="100%"/>
             <view:DensityViewIntro width="100%" height="100%" id="tab0"/>
-            <mx:Panel right="20" y="20" title="Properties">
+            <mx:Panel right="20" y="20" title="Modes">
                 <mx:RadioButton groupName="massVol" id="sameMass" label="{FlexSimStrings.get('intro.objectsOfSameMass')}" selected="true" click="tab0.switchToSameMass()"/>
                 <mx:RadioButton groupName="massVol" id="sameVolume" label="Objects of same volume" click="tab0.switchToSameVolume()"/>
                 <mx:RadioButton groupName="massVol" id="sameDensity" label="Objects of same density" click="tab0.switchToSameDensity()"/>
+                <mx:RadioButton groupName="massVol" id="customObject" label="Custom Object" click="tab0.switchToCustomObject()"/>
+                <mx:RadioButton groupName="massVol" id="mysteryObjects" label="Mystery Objects" click="tab0.switchToMysteryObjects()"/>
                 <!--<mx:Label text="Developer Controls"/>-->
                 <!--<mx:HSlider minimum="5" maximum="50" tickInterval="1" labels="[0,25,50,75,100]" thumbDrag="tab0.testSliderChange(event)"/>-->
             </mx:Panel>

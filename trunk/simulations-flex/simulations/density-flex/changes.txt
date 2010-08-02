@@ -1,3 +1,6 @@
+Removed scale for custom object
+Reworded "properties" to "modes" in the floating dialog
+Added radio buttons for "custom object" and "mystery objects"
 # 0.01.11 (42679) Jul 27, 2010
 # 0.01.10 (42673) Jul 26, 2010
 Added a water height indicator
