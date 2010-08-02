@@ -51,7 +51,7 @@ public class ABSConstants {
     public static final boolean MAGNIFYING_GLASS_VISIBLE = true; //XXX
     public static final double MAGNIFYING_GLASS_DIAMETER = 500;
     
-    public static final Point2D PH_METER_LOCATION = new Point2D.Double( BEAKER_LOCATION.getX() + ( BEAKER_SIZE.getWidth() / 4 ), BEAKER_LOCATION.getY() - BEAKER_SIZE.getHeight() - 15 );
+    public static final Point2D PH_METER_LOCATION = new Point2D.Double( BEAKER_LOCATION.getX() + ( 0.30 * BEAKER_SIZE.getWidth() ), BEAKER_LOCATION.getY() - BEAKER_SIZE.getHeight() - 15 );
     public static final boolean PH_METER_VISIBLE = true;
     public static final PDimension PH_METER_SHAFT_SIZE = new PDimension( 10, 100 );
     public static final PDimension PH_METER_TIP_SIZE = new PDimension( 25, 60 );
