@@ -123,32 +123,31 @@ object MotionSeriesDefaults {
 
   import java.awt.Color._
 
-  val myGold = new Color(255, 235, 0)
-  val myBrickRed = new Color(185, 80, 50)
-  val myGreen = new Color(0.0f, 0.8f, 0.1f)
-  val myDrabYellow = new Color(190, 190, 0)
-  val myOrange = new Color(236, 153, 55)
-  val myLightBlue = new Color(50, 130, 215)
-  def compareColors(name:String,motionSeries:Color,phetcommon:Color) = {
-    if (motionSeries.getRed!=phetcommon.getRed || 
-    motionSeries.getGreen!=phetcommon.getGreen||
-    motionSeries.getBlue!=phetcommon.getBlue){
-      println("mismatched colors for "+name+", motionSeries = "+motionSeries+", phetcommon = "+phetcommon)
-    }
-    motionSeries
-  }
+//  val myGold = new Color(255, 235, 0)
+//  val myBrickRed = new Color(185, 80, 50)
+//  val myGreen = new Color(0.0f, 0.8f, 0.1f)
+//  val myDrabYellow = new Color(190, 190, 0)
+//  val myLightBlue = new Color(50, 130, 215)
+//  def compareColors(name:String,motionSeries:Color,phetcommon:Color) = {
+//    if (motionSeries.getRed!=phetcommon.getRed || 
+//    motionSeries.getGreen!=phetcommon.getGreen||
+//    motionSeries.getBlue!=phetcommon.getBlue){
+//      println("mismatched colors for "+name+", motionSeries = "+motionSeries+", phetcommon = "+phetcommon)
+//    }
+//    motionSeries
+//  }
 
-  val appliedForceColor = compareColors("applied force",myOrange,PhetColorScheme.APPLIED_FORCE)
-  val gravityForceColor = compareColors("gravity force",myLightBlue,PhetColorScheme.GRAVITATIONAL_FORCE)
-  val normalForceColor = compareColors("normal force", myGold,PhetColorScheme.NORMAL_FORCE)
+  val appliedForceColor = PhetColorScheme.APPLIED_FORCE
+  val gravityForceColor = PhetColorScheme.GRAVITATIONAL_FORCE
+  val normalForceColor = PhetColorScheme.NORMAL_FORCE
   val frictionForceColor = PhetColorScheme.FRICTION_FORCE
   val sumForceColor = PhetColorScheme.TOTAL_FORCE
-  val wallForceColor = compareColors("wall force",myBrickRed,PhetColorScheme.WALL_FORCE);
+  val wallForceColor = PhetColorScheme.WALL_FORCE
 
   val appliedWorkColor = appliedForceColor
   val frictionWorkColor = frictionForceColor
   val gravityWorkColor = gravityForceColor
-  val totalWorkColor = myGreen
+  val totalWorkColor = PhetColorScheme.NET_WORK
 
   val totalEnergyColor = appliedWorkColor
   val kineticEnergyColor = totalWorkColor
