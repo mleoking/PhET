@@ -7,10 +7,7 @@ import java.awt.geom.Dimension2D;
 import edu.colorado.phet.acidbasesolutions.constants.ABSColors;
 import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel;
-import edu.colorado.phet.acidbasesolutions.view.BeakerNode;
-import edu.colorado.phet.acidbasesolutions.view.MagnifyingGlassNode;
-import edu.colorado.phet.acidbasesolutions.view.PHMeterNode;
-import edu.colorado.phet.acidbasesolutions.view.ReactionEquationNode;
+import edu.colorado.phet.acidbasesolutions.view.*;
 import edu.colorado.phet.acidbasesolutions.view.graph.ConcentrationGraphNode;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
@@ -31,6 +28,7 @@ public abstract class ABSCanvas extends PhetPCanvas {
     private final MagnifyingGlassNode magnifyingGlassNode;
     private final ConcentrationGraphNode concentrationGraphNode;
     private final ReactionEquationNode reactionEquationNode;
+    private final PHPaperNode pHPaperNode;
     
     public ABSCanvas( ABSModel model ) {
         super( ABSConstants.CANVAS_RENDERING_SIZE );
@@ -46,9 +44,11 @@ public abstract class ABSCanvas extends PhetPCanvas {
         magnifyingGlassNode = new MagnifyingGlassNode( model.getMagnifyingGlass() );
         concentrationGraphNode = new ConcentrationGraphNode( model.getConcentrationGraph() );
         reactionEquationNode = new ReactionEquationNode( model.getReactionEquation() );
+        pHPaperNode = new PHPaperNode( model.getPHPaper() );
         
         // rendering order
         addNode( pHMeterNode );
+        addNode( pHPaperNode );
         addNode( beakerNode );
         addNode( magnifyingGlassNode );
         addNode( concentrationGraphNode );
