@@ -1,184 +1,34 @@
-<!-- saved from url=(0025)http://phet.colorado.edu/ -->
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-
-<!-- Mirrored from phet.colorado.edu/sims/wave-on-a-string/wave-on-a-string_ko.html by HTTrack Website Copier/3.x [XR&CO'2007], Wed, 30 Jun 2010 16:56:30 GMT -->
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<title>&#51460;&#32;&#54028;&#46041;&#40;&#47932;&#47532;&#47560;&#51012;&#41; 2.01</title>
-<script language="JavaScript" type="text/javascript">
-<!--
-// Globals
-// Major version of Flash required
-var requiredMajorVersion = parseInt("8");
-// Minor version of Flash required
-var requiredMinorVersion = 0;
-// Revision of Flash required
-var requiredRevision = 0;
-// the version of javascript supported
-var jsVersion = 1.0;
-
-var detectedMajorVersion = 0;
-// -->
-</script>
-<script language="VBScript" type="text/vbscript">
-<!-- // Visual basic helper required to detect Flash Player ActiveX control version information
-Function VBGetSwfVer(i)
-  on error resume next
-  Dim swControl, swVersion
-  swVersion = 0
-
-  set swControl = CreateObject("ShockwaveFlash.ShockwaveFlash." + CStr(i))
-  if (IsObject(swControl)) then
-    swVersion = swControl.GetVariable("$version")
-  end if
-  VBGetSwfVer = swVersion
-End Function
-// -->
-</script>
-<script language="JavaScript1.1" type="text/javascript">
-<!-- // Detect Client Browser type
-var isIE  = (navigator.appVersion.indexOf("MSIE") != -1) ? true : false;
-var isWin = (navigator.appVersion.toLowerCase().indexOf("win") != -1) ? true : false;
-var isOpera = (navigator.userAgent.indexOf("Opera") != -1) ? true : false;
-jsVersion = 1.1;
-// JavaScript helper required to detect Flash Player PlugIn version information
-function JSGetSwfVer(i){
-	// NS/Opera version >= 3 check for Flash plugin in plugin array
-	if (navigator.plugins != null && navigator.plugins.length > 0) {
-		if (navigator.plugins["Shockwave Flash 2.0"] || navigator.plugins["Shockwave Flash"]) {
-			var swVer2 = navigator.plugins["Shockwave Flash 2.0"] ? " 2.0" : "";
-      		var flashDescription = navigator.plugins["Shockwave Flash" + swVer2].description;
-			descArray = flashDescription.split(" ");
-			tempArrayMajor = descArray[2].split(".");
-			versionMajor = tempArrayMajor[0];
-			versionMinor = tempArrayMajor[1];
-			if ( descArray[3] != "" ) {
-				tempArrayMinor = descArray[3].split("r");
-			} else {
-				tempArrayMinor = descArray[4].split("r");
-			}
-      		versionRevision = tempArrayMinor[1] > 0 ? tempArrayMinor[1] : 0;
-            flashVer = versionMajor + "." + versionMinor + "." + versionRevision;
-      	} else {
-			flashVer = -1;
-		}
-	}
-	// MSN/WebTV 2.6 supports Flash 4
-	else if (navigator.userAgent.toLowerCase().indexOf("webtv/2.6") != -1) flashVer = 4;
-	// WebTV 2.5 supports Flash 3
-	else if (navigator.userAgent.toLowerCase().indexOf("webtv/2.5") != -1) flashVer = 3;
-	// older WebTV supports Flash 2
-	else if (navigator.userAgent.toLowerCase().indexOf("webtv") != -1) flashVer = 2;
-	// Can't detect in all other cases
-	else {
-
-		flashVer = -1;
-	}
-	return flashVer;
-}
-// If called with no parameters this function returns a floating point value
-// which should be the version of the Flash Player or 0.0
-// ex: Flash Player 7r14 returns 7.14
-// If called with reqMajorVer, reqMinorVer, reqRevision returns true if that version or greater is available
-function DetectFlashVer(reqMajorVer, reqMinorVer, reqRevision)
-{
- 	reqVer = parseFloat(reqMajorVer + "." + reqRevision);
-   	// loop backwards through the versions until we find the newest version
-	for (i=25;i>0;i--) {
-		if (isIE && isWin && !isOpera) {
-			versionStr = VBGetSwfVer(i);
-		} else {
-			versionStr = JSGetSwfVer(i);
-		}
-		if (versionStr == -1 ) {
-			return false;
-		} else if (versionStr != 0) {
-			if(isIE && isWin && !isOpera) {
-				tempArray         = versionStr.split(" ");
-				tempString        = tempArray[1];
-				versionArray      = tempString .split(",");
-			} else {
-				versionArray      = versionStr.split(".");
-			}
-			versionMajor      = versionArray[0];
-
-			detectedMajorVersion = versionMajor;
-
-			versionMinor      = versionArray[1];
-			versionRevision   = versionArray[2];
-
-			versionString     = versionMajor + "." + versionRevision;   // 7.0r24 == 7.24
-			versionNum        = parseFloat(versionString);
-        	// is the major.revision >= requested major.revision AND the minor version >= requested minor
-			if ( (versionMajor > reqMajorVer) && (versionNum >= reqVer) ) {
-				return true;
-			} else {
-				return ((versionNum >= reqVer && versionMinor >= reqMinorVer) ? true : false );
-			}
-		}
-	}
-	return (reqVer ? false : 0.0);
-}
-// -->
-</script>
-</head>
-<body bgcolor="#ffffb7" id="body">
-<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0" width="100%" height="100%" id="wave-on-a-string" align="middle">
-<param name="allowScriptAccess" value="always" />
-<param name="movie" value="wave-on-a-string.swf" />
-<param name="quality" value="high" />
-<param name="bgcolor" value="#ffffb7" />
-<param name="SeamlessTabbing" value="false">
-<param name = "FlashVars"  value = "languageCode=ko&countryCode=null&internationalization=%3C%3Fxml+version%3D%221.0%22+encoding%3D%22UTF-8%22+standalone%3D%22no%22%3F%3E%0D%0A%3C%21--wave-on-a-string-strings_ko.xml+created+Wed+Sep+30+15%3A04%3A58+KST+2009+using%3A+wave-on-a-string+2.00.00+%2830671%29%2C+translation-utility+2.02.00+%2834911%29+9%EC%9B%94+10%2C+2009--%3E%0D%0A%3CSimStrings%3E%0D%0A%3Cstring+key%3D%22manual%22+value%3D%22%EC%9E%84%EC%9D%98%EB%A1%9C%22%2F%3E%0D%0A%3Cstring+key%3D%22resetTimer%22+value%3D%22%EC%B4%88%EA%B8%B0%ED%99%94%22%2F%3E%0D%0A%3Cstring+key%3D%22damping%22+value%3D%22%EA%B0%90%EC%87%84%22%2F%3E%0D%0A%3Cstring+key%3D%22simTitle%22+value%3D%22%EC%A4%84+%ED%8C%8C%EB%8F%99%28%EB%AC%BC%EB%A6%AC%EB%A7%88%EC%9D%84%29%22%2F%3E%0D%0A%3Cstring+key%3D%22showHelp%22+value%3D%22%EB%8F%84%EC%9B%80%EB%A7%90+%EB%B3%B4%EA%B8%B0%22%2F%3E%0D%0A%3Cstring+key%3D%22pulse%22+value%3D%22%EC%A0%95%EC%A7%80%EC%83%81%ED%83%9C%22%2F%3E%0D%0A%3Cstring+key%3D%22amplitude%22+value%3D%22%EC%A7%84%ED%8F%AD%22%2F%3E%0D%0A%3Cstring+key%3D%22pausePlay%22+value%3D%22%EC%A0%95%EC%A7%80%2F%EC%9E%91%EB%8F%99%22%2F%3E%0D%0A%3Cstring+key%3D%22step%22+value%3D%22%EB%8B%A8%EA%B3%84%EB%B3%84%22%2F%3E%0D%0A%3Cstring+key%3D%22tension%22+value%3D%22%EC%9E%A5%EB%A0%A5%22%2F%3E%0D%0A%3Cstring+key%3D%22startTimer%22+value%3D%22%EC%8B%9C%EC%9E%91%2F%EC%A0%95%EC%A7%80%22%2F%3E%0D%0A%3Cstring+key%3D%22pulseWidth%22+value%3D%22%ED%8E%84%EC%8A%A4%ED%8F%AD%22%2F%3E%0D%0A%3Cstring+key%3D%22rulerHelp%22+value%3D%22%EB%93%9C%EB%9E%98%EA%B7%B8+%EA%B0%80%EB%8A%A5%22%2F%3E%0D%0A%3Cstring+key%3D%22high%22+value%3D%22%ED%81%AC%EB%8B%A4%22%2F%3E%0D%0A%3Cstring+key%3D%22wiggleWrench%22+value%3D%22%EB%A0%8C%EC%B9%98%EB%A5%BC+%ED%9D%94%EB%93%9C%EC%84%B8%EC%9A%94%21%22%2F%3E%0D%0A%3Cstring+key%3D%22timer%22+value%3D%22%EC%8B%9C%EA%B3%84%22%2F%3E%0D%0A%3Cstring+key%3D%22oscillate%22+value%3D%22%EC%A7%84%EB%8F%99%22%2F%3E%0D%0A%3Cstring+key%3D%22rulers%22+value%3D%22%EC%9E%90%22%2F%3E%0D%0A%3Cstring+key%3D%22frequency%22+value%3D%22%EC%A7%84%EB%8F%99%EC%88%98%22%2F%3E%0D%0A%3Cstring+key%3D%22wrenchHelp%22+value%3D%22%EB%93%9C%EB%9E%98%EA%B7%B8+%EA%B0%80%EB%8A%A5%22%2F%3E%0D%0A%3Cstring+key%3D%22fixedEnd%22+value%3D%22%EA%B3%A0%EC%A0%95%EB%8B%A8%22%2F%3E%0D%0A%3Cstring+key%3D%22refLineHelp%22+value%3D%22%EB%93%9C%EB%9E%98%EA%B7%B8+%EA%B0%80%EB%8A%A5%22%2F%3E%0D%0A%3Cstring+key%3D%22hideHelp%22+value%3D%22%EB%8F%84%EC%9B%80%EB%A7%90+%EA%B0%90%EC%B6%94%EA%B8%B0%22%2F%3E%0D%0A%3Cstring+key%3D%22timerHelp%22+value%3D%22%EB%93%9C%EB%9E%98%EA%B7%B8+%EA%B0%80%EB%8A%A5%22%2F%3E%0D%0A%3Cstring+key%3D%22looseEnd%22+value%3D%22%EC%9E%90%EC%9C%A0%EB%8B%A8%22%2F%3E%0D%0A%3Cstring+key%3D%22noEnd%22+value%3D%22%EA%B0%9C%EB%B0%A9%22%2F%3E%0D%0A%3Cstring+key%3D%22paused%22+value%3D%22%EC%A0%95%EC%A7%80%22%2F%3E%0D%0A%3Cstring+key%3D%22reset%22+value%3D%22%EC%B4%88%EA%B8%B0%ED%99%94%22%2F%3E%0D%0A%3Cstring+key%3D%22pulse2%22+value%3D%22%ED%8E%84%EC%8A%A4%22%2F%3E%0D%0A%3Cstring+key%3D%22low%22+value%3D%22%EC%9E%91%EB%8B%A4%22%2F%3E%0D%0A%3C%2FSimStrings%3E%0D%0A&commonStrings=%3C%3Fxml+version%3D%221.0%22+encoding%3D%22UTF-8%22+standalone%3D%22no%22%3F%3E%0D%0A%3C%21--common-strings_ko.xml+created+Tue+Aug+18+12%3A28%3A41+KST+2009+using%3A+flash-common-strings+2.00.00+%2830671%29%2C+translation-utility+2.01.00+%2831673%29+5%EC%9B%94+15%2C+2009--%3E%0D%0A%3CSimStrings%3E%0D%0A%3Cstring+key%3D%22About...%22+value%3D%22%EC%84%A4%EB%AA%85...%22%2F%3E%0D%0A%3Cstring+key%3D%22SoftwareDevelopment%22+value%3D%22Software+Development%22%2F%3E%0D%0A%3Cstring+key%3D%22Cancel%22+value%3D%22%EC%B7%A8%EC%86%8C%22%2F%3E%0D%0A%3Cstring+key%3D%22StatisticsField-host_flash_accessibility%22+value%3D%22Using+an+accessible+device%3F%22%2F%3E%0D%0A%3Cstring+key%3D%22Privacy%22+value%3D%22%EA%B0%9C%EC%9D%B8%EC%A0%95%EB%B3%B4%22%2F%3E%0D%0A%3Cstring+key%3D%22Version%22+value%3D%22Version%22%2F%3E%0D%0A%3Cstring+key%3D%22NewVersionAvailable%22+value%3D%22New+Version+Available%22%2F%3E%0D%0A%3Cstring+key%3D%22SoftwareAgreement%22+value%3D%22Software+Agreement%22%2F%3E%0D%0A%3Cstring+key%3D%22PhETInstallation%22+value%3D%22To+download+a+new+installer+containing+the+latest+simulation%2C+please+visit+the+%26lt%3Ba+href%3D%27%7B0%7D%27%26gt%3BPhET+Offline+Website+Installer+page%26lt%3B%2Fa%26gt%3B.%22%2F%3E%0D%0A%3Cstring+key%3D%22StatisticsField-sim_version_timestamp%22+value%3D%22Simulation+version+%28timestamp%29%22%2F%3E%0D%0A%3Cstring+key%3D%22StatisticsField-sim_dev_version%22+value%3D%22Simulation+version+%28dev%29%22%2F%3E%0D%0A%3Cstring+key%3D%22AskLater%22+value%3D%22%EB%82%98%EC%A4%91%EC%97%90+%22%2F%3E%0D%0A%3Cstring+key%3D%22AcceptContinue%22+value%3D%22%EB%8F%99%EC%9D%98+%EB%B0%8F+%EC%A7%84%ED%96%89%22%2F%3E%0D%0A%3Cstring+key%3D%22BuildDate%22+value%3D%22Build+Date%22%2F%3E%0D%0A%3Cstring+key%3D%22TellMore%22+value%3D%22Tell+me+more...%22%2F%3E%0D%0A%3Cstring+key%3D%22FlashVersion%22+value%3D%22Flash+Version%22%2F%3E%0D%0A%3Cstring+key%3D%22PhetSoftwareAgreement%22+value%3D%22PhET+%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4+%EB%8F%99%EC%9D%98%EC%84%9C%22%2F%3E%0D%0A%3Cstring+key%3D%22NoUpdatesAvailable%22+value%3D%22No+Updates+Available%22%2F%3E%0D%0A%3Cstring+key%3D%22StatisticsField-message_type%22+value%3D%22Message+type%22%2F%3E%0D%0A%3Cstring+key%3D%22InstallationDated%22+value%3D%22Your+PhET+Offline+Website+Installation+is+dated+%7B0%7D.%22%2F%3E%0D%0A%3Cstring+key%3D%22CheckUpdates%22+value%3D%22%EC%9E%90%EB%8F%99+%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8+%EC%B2%B4%ED%81%AC%22%2F%3E%0D%0A%3Cstring+key%3D%22UpToDate%22+value%3D%22Up+To+Date%22%2F%3E%0D%0A%3Cstring+key%3D%22StatisticsField-sim_major_version%22+value%3D%22Simulation+version+%28major%29%22%2F%3E%0D%0A%3Cstring+key%3D%22StatisticsField-user_total_sessions%22+value%3D%22Total+number+of+times+all+simulations+have+been+run%22%2F%3E%0D%0A%3Cstring+key%3D%22InstallationNewer%22+value%3D%22A+newer+version+is+available%2C+dated+%7B0%7D.%22%2F%3E%0D%0A%3Cstring+key%3D%22StatisticsField-sim_sessions_since%22+value%3D%22Number+of+times+this+simulation+has+been+run+since+last+online%22%2F%3E%0D%0A%3Cstring+key%3D%22StatisticsField-sim_distribution_tag%22+value%3D%22Simulation+version+%28distribution%29%22%2F%3E%0D%0A%3Cstring+key%3D%22Yes%21%22+value%3D%22Yes%21%22%2F%3E%0D%0A%3Cstring+key%3D%22StatisticsField-host_flash_domain%22+value%3D%22Simulation+domain%22%2F%3E%0D%0A%3Cstring+key%3D%22DesignTeam%22+value%3D%22Design+Team%22%2F%3E%0D%0A%3Cstring+key%3D%22PhETPreferences%22+value%3D%22PhET+Preferences%22%2F%3E%0D%0A%3Cstring+key%3D%22Preferences%22+value%3D%22%ED%99%98%EA%B2%BD%EC%84%A4%EC%A0%95...%22%2F%3E%0D%0A%3Cstring+key%3D%22AllowMessages%22+value%3D%22PhET%EC%97%90+%EC%A0%95%EB%B3%B4+%EC%A0%84%EC%86%A1+%EB%8F%99%EC%9D%98%22%2F%3E%0D%0A%3Cstring+key%3D%22Updates%22+value%3D%22Updates%22%2F%3E%0D%0A%3Cstring+key%3D%22StatisticsField-sim_revision%22+value%3D%22Simulation+version+%28revision%29%22%2F%3E%0D%0A%3Cstring+key%3D%22StatisticsField-user_preference_file_creation_time%22+value%3D%22Preferences+file+creation+time%22%2F%3E%0D%0A%3Cstring+key%3D%22Interviews%22+value%3D%22Interviews%22%2F%3E%0D%0A%3Cstring+key%3D%22StatisticsField-host_flash_time_offset%22+value%3D%22Timezone%22%2F%3E%0D%0A%3Cstring+key%3D%22MostCurrentVersion%22+value%3D%22You+have+the+most+current+version+%28%7B0%7D%29+of+%7B1%7D.%22%2F%3E%0D%0A%3Cstring+key%3D%22StatisticsField-sim_deployment%22+value%3D%22Deployment+type%22%2F%3E%0D%0A%3Cstring+key%3D%22PrivacyRequirement%22+value%3D%22%26lt%3Ba+href%3D%27%7B0%7D%27%26gt%3BPhET%26lt%3B%2Fa%26gt%3B+%EB%8A%94+%27%EC%B5%9C%EC%86%8C%ED%95%9C%EC%9D%98+%EC%A0%95%EB%B3%B4+%EC%88%98%EC%A7%91+%EB%8F%99%EC%9D%98%27%EB%A5%BC+%ED%86%B5%ED%95%B4%EC%84%9C+%EC%9E%90%EC%9C%A0%EB%A1%AD%EA%B2%8C+%EC%82%AC%EC%9A%A9%ED%95%A0+%EC%88%98+%EC%9E%88%EC%8A%B5%EB%8B%88%EB%8B%A4.+%EC%9D%B4+%EC%A0%95%EB%B3%B4%EB%8A%94+PhET+sims%EC%9D%98+%EC%82%AC%EC%9A%A9%EC%97%90+%EA%B4%80%ED%95%9C+%EA%B2%83%EC%9C%BC%EB%A1%9C+%EC%82%AC%EC%9A%A9%EC%9E%90%EB%93%A4%EC%9D%98+%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8+%EC%9A%94%EA%B5%AC%EB%A5%BC+%EB%B0%98%EC%98%81%ED%95%98%EB%8A%94%EB%8D%B0+%EB%8F%84%EC%9B%80%EC%9D%84+%EC%A4%84+%EA%B2%83%EC%9E%85%EB%8B%88%EB%8B%A4.+%EC%A0%84%EC%86%A1%EB%90%98%EB%8A%94+%EC%84%B8%EB%B6%80%EC%82%AC%ED%95%AD%EC%9D%80+%EC%95%84%EB%9E%98%EC%97%90%EC%84%9C+%ED%99%95%EC%9D%B8%ED%95%A0+%EC%88%98+%EC%9E%88%EC%8A%B5%EB%8B%88%EB%8B%A4.%22%2F%3E%0D%0A%3Cstring+key%3D%22StatisticsField-sim_type%22+value%3D%22Simulation+type%22%2F%3E%0D%0A%3Cstring+key%3D%22Close%22+value%3D%22%EB%8B%AB%EA%B8%B0%22%2F%3E%0D%0A%3Cstring+key%3D%22StatisticsField-sim_dev%22+value%3D%22Is+this+a+developer+version%3F%22%2F%3E%0D%0A%3Cstring+key%3D%22InstallerAsk%22+value%3D%22Would+you+like+to+get+the+latest+PhET+Offline+Website+Installer%3F%22%2F%3E%0D%0A%3Cstring+key%3D%22PrivacyMessage2%22+value%3D%22By+clicking+%26quot%3BAgree+and+Continue%26quot%3B%2C+you+agree+to+PhET%27s+Software+Agreement%2C+including+our+privacy+policy%2C+for+this+and+every+PhET+simulation+you+run.+%28For+details%2C+%26lt%3Ba+href%3D%27%7B0%7D%27%26gt%3Bclick+here%26lt%3B%2Fa%26gt%3B%29.%22%2F%3E%0D%0A%3Cstring+key%3D%22StatisticsField-sim_total_sessions%22+value%3D%22Total+number+of+times+this+simulation+has+been+run%22%2F%3E%0D%0A%3Cstring+key%3D%22PrivacyMessage1%22+value%3D%22In+all+PhET+simulations%2C+we+collect+a+minimal+amount+of+anonymous+%26lt%3Ba+href%3D%27%7B0%7D%27%26gt%3Binformation%26lt%3B%2Fa%26gt%3B+each+time+the+simulation+starts+%28e.g.%2C+simulation+version%2C+operating+system%29.+You+can+disable+the+sending+of+this+information+at+any+time+via+the+Preferences+button.%22%2F%3E%0D%0A%3Cstring+key%3D%22StatisticsField-user_installation_timestamp%22+value%3D%22PhET+installation+timestamp%22%2F%3E%0D%0A%3Cstring+key%3D%22StatisticsField-sim_name%22+value%3D%22Simulation+name%22%2F%3E%0D%0A%3Cstring+key%3D%22UpdateOptionsAvailable%22+value%3D%22Update+options+are+available+under+%26lt%3Bi%26gt%3BPreferences%26lt%3B%2Fi%26gt%3B.%22%2F%3E%0D%0A%3Cstring+key%3D%22PhetDevelopmentTeam%22+value%3D%22PhET+Development+Team%22%2F%3E%0D%0A%3Cstring+key%3D%22InstallerInfo2%22+value%3D%22If+you+choose+to+get+the+newest+version%2C+a+web+browser+will+open+to+the+PhET+website%2C+where+you+can+download+the+PhET+Offline+Website+Installer.%22%2F%3E%0D%0A%3Cstring+key%3D%22InstallerInfo1%22+value%3D%22Keeping+your+PhET+Offline+Website+Installation+up-to-date+ensures+that+you+have+access+to+the+newest+PhET+simulations+and+supplemental+materials.%22%2F%3E%0D%0A%3Cstring+key%3D%22StatisticsField-sim_minor_version%22+value%3D%22Simulation+version+%28minor%29%22%2F%3E%0D%0A%3Cstring+key%3D%22Credits%22+value%3D%22Credits%22%2F%3E%0D%0A%3Cstring+key%3D%22StatisticsField-host_flash_version%22+value%3D%22Flash+Player+version%22%2F%3E%0D%0A%3Cstring+key%3D%22TryNow%22+value%3D%22Try+it+now%22%2F%3E%0D%0A%3Cstring+key%3D%22PrivacySkip%22+value%3D%22Skip+this+version%22%2F%3E%0D%0A%3Cstring+key%3D%22CheckInstallationUpdates%22+value%3D%22PhET+%EC%84%A4%EC%B9%98%ED%8C%8C%EC%9D%BC+%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8+%EC%B2%B4%ED%81%AC...%22%2F%3E%0D%0A%3Cstring+key%3D%22StatisticsField-sim_locale_language%22+value%3D%22Language%22%2F%3E%0D%0A%3Cstring+key%3D%22Distribution%22+value%3D%22Distribution%22%2F%3E%0D%0A%3Cstring+key%3D%22LicenseLibraries%22+value%3D%22Used+Library+Licensing+Information%3A%22%2F%3E%0D%0A%3Cstring+key%3D%22PrivacyDetails%22+value%3D%22%EA%B0%9C%EC%9D%B8%EC%A0%95%EB%B3%B4+%EC%84%B8%EB%B6%80%EC%82%AC%ED%95%AD%22%2F%3E%0D%0A%3Cstring+key%3D%22NotUpdateSim%22+value%3D%22This+simulation+cannot+be+updated+automatically.%22%2F%3E%0D%0A%3Cstring+key%3D%22CurrentVersionIs%22+value%3D%22Your+current+version+of+%7B0%7D+is+%7B1%7D.%22%2F%3E%0D%0A%3Cstring+key%3D%22StatisticsField-host_flash_os%22+value%3D%22Operating+system+and+name%22%2F%3E%0D%0A%3Cstring+key%3D%22OK%22+value%3D%22%EC%A0%81%EC%9A%A9%22%2F%3E%0D%0A%3Cstring+key%3D%22Error%22+value%3D%22Error%22%2F%3E%0D%0A%3Cstring+key%3D%22CheckSimUpdates%22+value%3D%22%EC%8B%9C%EB%AE%AC%EB%A0%88%EC%9D%B4%EC%85%98+%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8+%EC%B2%B4%ED%81%AC...%22%2F%3E%0D%0A%3Cstring+key%3D%22StatisticsField-sim_project%22+value%3D%22Project+name%22%2F%3E%0D%0A%3Cstring+key%3D%22NewerVersionIs%22+value%3D%22A+newer+version+%7B0%7D+is+available.%22%2F%3E%0D%0A%3Cstring+key%3D%22SentInformation%22+value%3D%22%EC%95%84%EB%9E%98%EC%97%90+%EB%B3%B4%EC%97%AC%EC%A7%80%EB%8A%94+%EC%A0%95%EB%B3%B4%EB%8A%94+%EC%8B%9C%EB%AE%AC%EB%A0%88%EC%9D%B4%EC%85%98%EC%9D%B4+%EC%8B%9C%EC%9E%91%EB%90%A0+%EB%95%8C%2C+PhET%EC%97%90+%EC%A0%84%EC%86%A1%EB%90%A9%EB%8B%88%EB%8B%A4.%22%2F%3E%0D%0A%3Cstring+key%3D%22OSVersion%22+value%3D%22OS%22%2F%3E%0D%0A%3Cstring+key%3D%22Details%22+value%3D%22%EC%84%B8%EB%B6%80%EC%82%AC%ED%95%AD...%22%2F%3E%0D%0A%3Cstring+key%3D%22StatisticsField-message_version%22+value%3D%22Message+version%22%2F%3E%0D%0A%3Cstring+key%3D%22LeadDesign%22+value%3D%22Lead+Design%22%2F%3E%0D%0A%3Cstring+key%3D%22StatisticsField-host_locale_language%22+value%3D%22Host+language%22%2F%3E%0D%0A%3Cstring+key%3D%22AboutSim%22+value%3D%22%7B0%7D+%EC%97%90+%EB%8C%80%ED%95%B4%22%2F%3E%0D%0A%3Cstring+key%3D%22VersionError2%22+value%3D%22Please+try+again+later%2C+or+visit+%26lt%3Ba+href%3D%27%7B0%7D%27%26gt%3Bhttp%3A%2F%2Fphet.colorado.edu%26lt%3B%2Fa%26gt%3B%22%2F%3E%0D%0A%3Cstring+key%3D%22VersionError1%22+value%3D%22An+error+was+encountered+while+trying+to+obtain+version+information.%22%2F%3E%0D%0A%3Cstring+key%3D%22StatisticsField-sim_locale_country%22+value%3D%22Country%22%2F%3E%0D%0A%3C%2FSimStrings%3E%0D%0A&versionMajor=2&versionMinor=01&versionDev=00&versionRevision=37327&simName=wave-on-a-string&simDeployment=phet-production-website&simDev=false&simDistributionTag=@@DISTRIBUTION_TAG@@&installationTimestamp=1278587246&installerCreationTimestamp=1277917041&versionTimestamp=1260530173&bgColor=16777143&agreementVersion=1&creditsText=%7B2%7D%3A+Michael+Dubson%3Cbr%3E%7B0%7D%3A+Michael+Dubson%3Cbr%3E%7B3%7D%3A+Wendy+Adams%2C+Danielle+Harlow%3Cbr%3E&simTitle=%EC%A4%84+%ED%8C%8C%EB%8F%99%28%EB%AC%BC%EB%A6%AC%EB%A7%88%EC%9D%84%29"/>
-<embed id="x_wave-on-a-string" src="wave-on-a-string.swf" quality="high" bgcolor="#ffffb7" width="100%" height="100%" name="wave-on-a-string" align="middle" allowScriptAccess="always" FlashVars = "languageCode=ko&countryCode=null&internationalization=%3C%3Fxml+version%3D%221.0%22+encoding%3D%22UTF-8%22+standalone%3D%22no%22%3F%3E%0D%0A%3C%21--wave-on-a-string-strings_ko.xml+created+Wed+Sep+30+15%3A04%3A58+KST+2009+using%3A+wave-on-a-string+2.00.00+%2830671%29%2C+translation-utility+2.02.00+%2834911%29+9%EC%9B%94+10%2C+2009--%3E%0D%0A%3CSimStrings%3E%0D%0A%3Cstring+key%3D%22manual%22+value%3D%22%EC%9E%84%EC%9D%98%EB%A1%9C%22%2F%3E%0D%0A%3Cstring+key%3D%22resetTimer%22+value%3D%22%EC%B4%88%EA%B8%B0%ED%99%94%22%2F%3E%0D%0A%3Cstring+key%3D%22damping%22+value%3D%22%EA%B0%90%EC%87%84%22%2F%3E%0D%0A%3Cstring+key%3D%22simTitle%22+value%3D%22%EC%A4%84+%ED%8C%8C%EB%8F%99%28%EB%AC%BC%EB%A6%AC%EB%A7%88%EC%9D%84%29%22%2F%3E%0D%0A%3Cstring+key%3D%22showHelp%22+value%3D%22%EB%8F%84%EC%9B%80%EB%A7%90+%EB%B3%B4%EA%B8%B0%22%2F%3E%0D%0A%3Cstring+key%3D%22pulse%22+value%3D%22%EC%A0%95%EC%A7%80%EC%83%81%ED%83%9C%22%2F%3E%0D%0A%3Cstring+key%3D%22amplitude%22+value%3D%22%EC%A7%84%ED%8F%AD%22%2F%3E%0D%0A%3Cstring+key%3D%22pausePlay%22+value%3D%22%EC%A0%95%EC%A7%80%2F%EC%9E%91%EB%8F%99%22%2F%3E%0D%0A%3Cstring+key%3D%22step%22+value%3D%22%EB%8B%A8%EA%B3%84%EB%B3%84%22%2F%3E%0D%0A%3Cstring+key%3D%22tension%22+value%3D%22%EC%9E%A5%EB%A0%A5%22%2F%3E%0D%0A%3Cstring+key%3D%22startTimer%22+value%3D%22%EC%8B%9C%EC%9E%91%2F%EC%A0%95%EC%A7%80%22%2F%3E%0D%0A%3Cstring+key%3D%22pulseWidth%22+value%3D%22%ED%8E%84%EC%8A%A4%ED%8F%AD%22%2F%3E%0D%0A%3Cstring+key%3D%22rulerHelp%22+value%3D%22%EB%93%9C%EB%9E%98%EA%B7%B8+%EA%B0%80%EB%8A%A5%22%2F%3E%0D%0A%3Cstring+key%3D%22high%22+value%3D%22%ED%81%AC%EB%8B%A4%22%2F%3E%0D%0A%3Cstring+key%3D%22wiggleWrench%22+value%3D%22%EB%A0%8C%EC%B9%98%EB%A5%BC+%ED%9D%94%EB%93%9C%EC%84%B8%EC%9A%94%21%22%2F%3E%0D%0A%3Cstring+key%3D%22timer%22+value%3D%22%EC%8B%9C%EA%B3%84%22%2F%3E%0D%0A%3Cstring+key%3D%22oscillate%22+value%3D%22%EC%A7%84%EB%8F%99%22%2F%3E%0D%0A%3Cstring+key%3D%22rulers%22+value%3D%22%EC%9E%90%22%2F%3E%0D%0A%3Cstring+key%3D%22frequency%22+value%3D%22%EC%A7%84%EB%8F%99%EC%88%98%22%2F%3E%0D%0A%3Cstring+key%3D%22wrenchHelp%22+value%3D%22%EB%93%9C%EB%9E%98%EA%B7%B8+%EA%B0%80%EB%8A%A5%22%2F%3E%0D%0A%3Cstring+key%3D%22fixedEnd%22+value%3D%22%EA%B3%A0%EC%A0%95%EB%8B%A8%22%2F%3E%0D%0A%3Cstring+key%3D%22refLineHelp%22+value%3D%22%EB%93%9C%EB%9E%98%EA%B7%B8+%EA%B0%80%EB%8A%A5%22%2F%3E%0D%0A%3Cstring+key%3D%22hideHelp%22+value%3D%22%EB%8F%84%EC%9B%80%EB%A7%90+%EA%B0%90%EC%B6%94%EA%B8%B0%22%2F%3E%0D%0A%3Cstring+key%3D%22timerHelp%22+value%3D%22%EB%93%9C%EB%9E%98%EA%B7%B8+%EA%B0%80%EB%8A%A5%22%2F%3E%0D%0A%3Cstring+key%3D%22looseEnd%22+value%3D%22%EC%9E%90%EC%9C%A0%EB%8B%A8%22%2F%3E%0D%0A%3Cstring+key%3D%22noEnd%22+value%3D%22%EA%B0%9C%EB%B0%A9%22%2F%3E%0D%0A%3Cstring+key%3D%22paused%22+value%3D%22%EC%A0%95%EC%A7%80%22%2F%3E%0D%0A%3Cstring+key%3D%22reset%22+value%3D%22%EC%B4%88%EA%B8%B0%ED%99%94%22%2F%3E%0D%0A%3Cstring+key%3D%22pulse2%22+value%3D%22%ED%8E%84%EC%8A%A4%22%2F%3E%0D%0A%3Cstring+key%3D%22low%22+value%3D%22%EC%9E%91%EB%8B%A4%22%2F%3E%0D%0A%3C%2FSimStrings%3E%0D%0A&commonStrings=%3C%3Fxml+version%3D%221.0%22+encoding%3D%22UTF-8%22+standalone%3D%22no%22%3F%3E%0D%0A%3C%21--common-strings_ko.xml+created+Tue+Aug+18+12%3A28%3A41+KST+2009+using%3A+flash-common-strings+2.00.00+%2830671%29%2C+translation-utility+2.01.00+%2831673%29+5%EC%9B%94+15%2C+2009--%3E%0D%0A%3CSimStrings%3E%0D%0A%3Cstring+key%3D%22About...%22+value%3D%22%EC%84%A4%EB%AA%85...%22%2F%3E%0D%0A%3Cstring+key%3D%22SoftwareDevelopment%22+value%3D%22Software+Development%22%2F%3E%0D%0A%3Cstring+key%3D%22Cancel%22+value%3D%22%EC%B7%A8%EC%86%8C%22%2F%3E%0D%0A%3Cstring+key%3D%22StatisticsField-host_flash_accessibility%22+value%3D%22Using+an+accessible+device%3F%22%2F%3E%0D%0A%3Cstring+key%3D%22Privacy%22+value%3D%22%EA%B0%9C%EC%9D%B8%EC%A0%95%EB%B3%B4%22%2F%3E%0D%0A%3Cstring+key%3D%22Version%22+value%3D%22Version%22%2F%3E%0D%0A%3Cstring+key%3D%22NewVersionAvailable%22+value%3D%22New+Version+Available%22%2F%3E%0D%0A%3Cstring+key%3D%22SoftwareAgreement%22+value%3D%22Software+Agreement%22%2F%3E%0D%0A%3Cstring+key%3D%22PhETInstallation%22+value%3D%22To+download+a+new+installer+containing+the+latest+simulation%2C+please+visit+the+%26lt%3Ba+href%3D%27%7B0%7D%27%26gt%3BPhET+Offline+Website+Installer+page%26lt%3B%2Fa%26gt%3B.%22%2F%3E%0D%0A%3Cstring+key%3D%22StatisticsField-sim_version_timestamp%22+value%3D%22Simulation+version+%28timestamp%29%22%2F%3E%0D%0A%3Cstring+key%3D%22StatisticsField-sim_dev_version%22+value%3D%22Simulation+version+%28dev%29%22%2F%3E%0D%0A%3Cstring+key%3D%22AskLater%22+value%3D%22%EB%82%98%EC%A4%91%EC%97%90+%22%2F%3E%0D%0A%3Cstring+key%3D%22AcceptContinue%22+value%3D%22%EB%8F%99%EC%9D%98+%EB%B0%8F+%EC%A7%84%ED%96%89%22%2F%3E%0D%0A%3Cstring+key%3D%22BuildDate%22+value%3D%22Build+Date%22%2F%3E%0D%0A%3Cstring+key%3D%22TellMore%22+value%3D%22Tell+me+more...%22%2F%3E%0D%0A%3Cstring+key%3D%22FlashVersion%22+value%3D%22Flash+Version%22%2F%3E%0D%0A%3Cstring+key%3D%22PhetSoftwareAgreement%22+value%3D%22PhET+%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4+%EB%8F%99%EC%9D%98%EC%84%9C%22%2F%3E%0D%0A%3Cstring+key%3D%22NoUpdatesAvailable%22+value%3D%22No+Updates+Available%22%2F%3E%0D%0A%3Cstring+key%3D%22StatisticsField-message_type%22+value%3D%22Message+type%22%2F%3E%0D%0A%3Cstring+key%3D%22InstallationDated%22+value%3D%22Your+PhET+Offline+Website+Installation+is+dated+%7B0%7D.%22%2F%3E%0D%0A%3Cstring+key%3D%22CheckUpdates%22+value%3D%22%EC%9E%90%EB%8F%99+%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8+%EC%B2%B4%ED%81%AC%22%2F%3E%0D%0A%3Cstring+key%3D%22UpToDate%22+value%3D%22Up+To+Date%22%2F%3E%0D%0A%3Cstring+key%3D%22StatisticsField-sim_major_version%22+value%3D%22Simulation+version+%28major%29%22%2F%3E%0D%0A%3Cstring+key%3D%22StatisticsField-user_total_sessions%22+value%3D%22Total+number+of+times+all+simulations+have+been+run%22%2F%3E%0D%0A%3Cstring+key%3D%22InstallationNewer%22+value%3D%22A+newer+version+is+available%2C+dated+%7B0%7D.%22%2F%3E%0D%0A%3Cstring+key%3D%22StatisticsField-sim_sessions_since%22+value%3D%22Number+of+times+this+simulation+has+been+run+since+last+online%22%2F%3E%0D%0A%3Cstring+key%3D%22StatisticsField-sim_distribution_tag%22+value%3D%22Simulation+version+%28distribution%29%22%2F%3E%0D%0A%3Cstring+key%3D%22Yes%21%22+value%3D%22Yes%21%22%2F%3E%0D%0A%3Cstring+key%3D%22StatisticsField-host_flash_domain%22+value%3D%22Simulation+domain%22%2F%3E%0D%0A%3Cstring+key%3D%22DesignTeam%22+value%3D%22Design+Team%22%2F%3E%0D%0A%3Cstring+key%3D%22PhETPreferences%22+value%3D%22PhET+Preferences%22%2F%3E%0D%0A%3Cstring+key%3D%22Preferences%22+value%3D%22%ED%99%98%EA%B2%BD%EC%84%A4%EC%A0%95...%22%2F%3E%0D%0A%3Cstring+key%3D%22AllowMessages%22+value%3D%22PhET%EC%97%90+%EC%A0%95%EB%B3%B4+%EC%A0%84%EC%86%A1+%EB%8F%99%EC%9D%98%22%2F%3E%0D%0A%3Cstring+key%3D%22Updates%22+value%3D%22Updates%22%2F%3E%0D%0A%3Cstring+key%3D%22StatisticsField-sim_revision%22+value%3D%22Simulation+version+%28revision%29%22%2F%3E%0D%0A%3Cstring+key%3D%22StatisticsField-user_preference_file_creation_time%22+value%3D%22Preferences+file+creation+time%22%2F%3E%0D%0A%3Cstring+key%3D%22Interviews%22+value%3D%22Interviews%22%2F%3E%0D%0A%3Cstring+key%3D%22StatisticsField-host_flash_time_offset%22+value%3D%22Timezone%22%2F%3E%0D%0A%3Cstring+key%3D%22MostCurrentVersion%22+value%3D%22You+have+the+most+current+version+%28%7B0%7D%29+of+%7B1%7D.%22%2F%3E%0D%0A%3Cstring+key%3D%22StatisticsField-sim_deployment%22+value%3D%22Deployment+type%22%2F%3E%0D%0A%3Cstring+key%3D%22PrivacyRequirement%22+value%3D%22%26lt%3Ba+href%3D%27%7B0%7D%27%26gt%3BPhET%26lt%3B%2Fa%26gt%3B+%EB%8A%94+%27%EC%B5%9C%EC%86%8C%ED%95%9C%EC%9D%98+%EC%A0%95%EB%B3%B4+%EC%88%98%EC%A7%91+%EB%8F%99%EC%9D%98%27%EB%A5%BC+%ED%86%B5%ED%95%B4%EC%84%9C+%EC%9E%90%EC%9C%A0%EB%A1%AD%EA%B2%8C+%EC%82%AC%EC%9A%A9%ED%95%A0+%EC%88%98+%EC%9E%88%EC%8A%B5%EB%8B%88%EB%8B%A4.+%EC%9D%B4+%EC%A0%95%EB%B3%B4%EB%8A%94+PhET+sims%EC%9D%98+%EC%82%AC%EC%9A%A9%EC%97%90+%EA%B4%80%ED%95%9C+%EA%B2%83%EC%9C%BC%EB%A1%9C+%EC%82%AC%EC%9A%A9%EC%9E%90%EB%93%A4%EC%9D%98+%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8+%EC%9A%94%EA%B5%AC%EB%A5%BC+%EB%B0%98%EC%98%81%ED%95%98%EB%8A%94%EB%8D%B0+%EB%8F%84%EC%9B%80%EC%9D%84+%EC%A4%84+%EA%B2%83%EC%9E%85%EB%8B%88%EB%8B%A4.+%EC%A0%84%EC%86%A1%EB%90%98%EB%8A%94+%EC%84%B8%EB%B6%80%EC%82%AC%ED%95%AD%EC%9D%80+%EC%95%84%EB%9E%98%EC%97%90%EC%84%9C+%ED%99%95%EC%9D%B8%ED%95%A0+%EC%88%98+%EC%9E%88%EC%8A%B5%EB%8B%88%EB%8B%A4.%22%2F%3E%0D%0A%3Cstring+key%3D%22StatisticsField-sim_type%22+value%3D%22Simulation+type%22%2F%3E%0D%0A%3Cstring+key%3D%22Close%22+value%3D%22%EB%8B%AB%EA%B8%B0%22%2F%3E%0D%0A%3Cstring+key%3D%22StatisticsField-sim_dev%22+value%3D%22Is+this+a+developer+version%3F%22%2F%3E%0D%0A%3Cstring+key%3D%22InstallerAsk%22+value%3D%22Would+you+like+to+get+the+latest+PhET+Offline+Website+Installer%3F%22%2F%3E%0D%0A%3Cstring+key%3D%22PrivacyMessage2%22+value%3D%22By+clicking+%26quot%3BAgree+and+Continue%26quot%3B%2C+you+agree+to+PhET%27s+Software+Agreement%2C+including+our+privacy+policy%2C+for+this+and+every+PhET+simulation+you+run.+%28For+details%2C+%26lt%3Ba+href%3D%27%7B0%7D%27%26gt%3Bclick+here%26lt%3B%2Fa%26gt%3B%29.%22%2F%3E%0D%0A%3Cstring+key%3D%22StatisticsField-sim_total_sessions%22+value%3D%22Total+number+of+times+this+simulation+has+been+run%22%2F%3E%0D%0A%3Cstring+key%3D%22PrivacyMessage1%22+value%3D%22In+all+PhET+simulations%2C+we+collect+a+minimal+amount+of+anonymous+%26lt%3Ba+href%3D%27%7B0%7D%27%26gt%3Binformation%26lt%3B%2Fa%26gt%3B+each+time+the+simulation+starts+%28e.g.%2C+simulation+version%2C+operating+system%29.+You+can+disable+the+sending+of+this+information+at+any+time+via+the+Preferences+button.%22%2F%3E%0D%0A%3Cstring+key%3D%22StatisticsField-user_installation_timestamp%22+value%3D%22PhET+installation+timestamp%22%2F%3E%0D%0A%3Cstring+key%3D%22StatisticsField-sim_name%22+value%3D%22Simulation+name%22%2F%3E%0D%0A%3Cstring+key%3D%22UpdateOptionsAvailable%22+value%3D%22Update+options+are+available+under+%26lt%3Bi%26gt%3BPreferences%26lt%3B%2Fi%26gt%3B.%22%2F%3E%0D%0A%3Cstring+key%3D%22PhetDevelopmentTeam%22+value%3D%22PhET+Development+Team%22%2F%3E%0D%0A%3Cstring+key%3D%22InstallerInfo2%22+value%3D%22If+you+choose+to+get+the+newest+version%2C+a+web+browser+will+open+to+the+PhET+website%2C+where+you+can+download+the+PhET+Offline+Website+Installer.%22%2F%3E%0D%0A%3Cstring+key%3D%22InstallerInfo1%22+value%3D%22Keeping+your+PhET+Offline+Website+Installation+up-to-date+ensures+that+you+have+access+to+the+newest+PhET+simulations+and+supplemental+materials.%22%2F%3E%0D%0A%3Cstring+key%3D%22StatisticsField-sim_minor_version%22+value%3D%22Simulation+version+%28minor%29%22%2F%3E%0D%0A%3Cstring+key%3D%22Credits%22+value%3D%22Credits%22%2F%3E%0D%0A%3Cstring+key%3D%22StatisticsField-host_flash_version%22+value%3D%22Flash+Player+version%22%2F%3E%0D%0A%3Cstring+key%3D%22TryNow%22+value%3D%22Try+it+now%22%2F%3E%0D%0A%3Cstring+key%3D%22PrivacySkip%22+value%3D%22Skip+this+version%22%2F%3E%0D%0A%3Cstring+key%3D%22CheckInstallationUpdates%22+value%3D%22PhET+%EC%84%A4%EC%B9%98%ED%8C%8C%EC%9D%BC+%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8+%EC%B2%B4%ED%81%AC...%22%2F%3E%0D%0A%3Cstring+key%3D%22StatisticsField-sim_locale_language%22+value%3D%22Language%22%2F%3E%0D%0A%3Cstring+key%3D%22Distribution%22+value%3D%22Distribution%22%2F%3E%0D%0A%3Cstring+key%3D%22LicenseLibraries%22+value%3D%22Used+Library+Licensing+Information%3A%22%2F%3E%0D%0A%3Cstring+key%3D%22PrivacyDetails%22+value%3D%22%EA%B0%9C%EC%9D%B8%EC%A0%95%EB%B3%B4+%EC%84%B8%EB%B6%80%EC%82%AC%ED%95%AD%22%2F%3E%0D%0A%3Cstring+key%3D%22NotUpdateSim%22+value%3D%22This+simulation+cannot+be+updated+automatically.%22%2F%3E%0D%0A%3Cstring+key%3D%22CurrentVersionIs%22+value%3D%22Your+current+version+of+%7B0%7D+is+%7B1%7D.%22%2F%3E%0D%0A%3Cstring+key%3D%22StatisticsField-host_flash_os%22+value%3D%22Operating+system+and+name%22%2F%3E%0D%0A%3Cstring+key%3D%22OK%22+value%3D%22%EC%A0%81%EC%9A%A9%22%2F%3E%0D%0A%3Cstring+key%3D%22Error%22+value%3D%22Error%22%2F%3E%0D%0A%3Cstring+key%3D%22CheckSimUpdates%22+value%3D%22%EC%8B%9C%EB%AE%AC%EB%A0%88%EC%9D%B4%EC%85%98+%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8+%EC%B2%B4%ED%81%AC...%22%2F%3E%0D%0A%3Cstring+key%3D%22StatisticsField-sim_project%22+value%3D%22Project+name%22%2F%3E%0D%0A%3Cstring+key%3D%22NewerVersionIs%22+value%3D%22A+newer+version+%7B0%7D+is+available.%22%2F%3E%0D%0A%3Cstring+key%3D%22SentInformation%22+value%3D%22%EC%95%84%EB%9E%98%EC%97%90+%EB%B3%B4%EC%97%AC%EC%A7%80%EB%8A%94+%EC%A0%95%EB%B3%B4%EB%8A%94+%EC%8B%9C%EB%AE%AC%EB%A0%88%EC%9D%B4%EC%85%98%EC%9D%B4+%EC%8B%9C%EC%9E%91%EB%90%A0+%EB%95%8C%2C+PhET%EC%97%90+%EC%A0%84%EC%86%A1%EB%90%A9%EB%8B%88%EB%8B%A4.%22%2F%3E%0D%0A%3Cstring+key%3D%22OSVersion%22+value%3D%22OS%22%2F%3E%0D%0A%3Cstring+key%3D%22Details%22+value%3D%22%EC%84%B8%EB%B6%80%EC%82%AC%ED%95%AD...%22%2F%3E%0D%0A%3Cstring+key%3D%22StatisticsField-message_version%22+value%3D%22Message+version%22%2F%3E%0D%0A%3Cstring+key%3D%22LeadDesign%22+value%3D%22Lead+Design%22%2F%3E%0D%0A%3Cstring+key%3D%22StatisticsField-host_locale_language%22+value%3D%22Host+language%22%2F%3E%0D%0A%3Cstring+key%3D%22AboutSim%22+value%3D%22%7B0%7D+%EC%97%90+%EB%8C%80%ED%95%B4%22%2F%3E%0D%0A%3Cstring+key%3D%22VersionError2%22+value%3D%22Please+try+again+later%2C+or+visit+%26lt%3Ba+href%3D%27%7B0%7D%27%26gt%3Bhttp%3A%2F%2Fphet.colorado.edu%26lt%3B%2Fa%26gt%3B%22%2F%3E%0D%0A%3Cstring+key%3D%22VersionError1%22+value%3D%22An+error+was+encountered+while+trying+to+obtain+version+information.%22%2F%3E%0D%0A%3Cstring+key%3D%22StatisticsField-sim_locale_country%22+value%3D%22Country%22%2F%3E%0D%0A%3C%2FSimStrings%3E%0D%0A&versionMajor=2&versionMinor=01&versionDev=00&versionRevision=37327&simName=wave-on-a-string&simDeployment=phet-production-website&simDev=false&simDistributionTag=@@DISTRIBUTION_TAG@@&installationTimestamp=1278587246&installerCreationTimestamp=1277917041&versionTimestamp=1260530173&bgColor=16777143&agreementVersion=1&creditsText=%7B2%7D%3A+Michael+Dubson%3Cbr%3E%7B0%7D%3A+Michael+Dubson%3Cbr%3E%7B3%7D%3A+Wendy+Adams%2C+Danielle+Harlow%3Cbr%3E&simTitle=%EC%A4%84+%ED%8C%8C%EB%8F%99%28%EB%AC%BC%EB%A6%AC%EB%A7%88%EC%9D%84%29" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" />
-</object>
-<script language="JavaScript" type="text/javascript">
-<!--
-var hasRightVersion = DetectFlashVer(requiredMajorVersion, requiredMinorVersion, requiredRevision);
-
-function hide_sim() {
-	document.getElementById("wave-on-a-string").style.display = "none";
-	document.getElementById("body").style.backgroundColor = "#FFFFFF";
-	document.getElementById("body").style.textAlign = "center";
-}
-
-function reshow_sim() {
-	document.getElementById("wave-on-a-string").style.display = "block";
-	document.getElementById("body").style.backgroundColor = "#ffffb7";
-}
-
-if(!hasRightVersion) {
-	hide_sim();
-	document.write('<h2>At least Flash Player 8 required to run this simulation.</h2>');
-	if(detectedMajorVersion == 0) {
-		document.write('<h4>No Flash Player was detected</h4>');
-	} else {
-		document.write('<h4>Flash Player ');
-		document.write(detectedMajorVersion);
-		document.write(' detected</h4>');
-	}
-
-	document.write('<div style="text-align: center; text-decoration: none;"><a href="http://www.adobe.com/go/getflashplayer" target="_blank" border="0"><img src="get_flash.jpg" style="border: none;" /></a><div style="padding-top: 20px;"><a href="javascript:reshow_sim()">Attempt to view the simulation anyways</a></div></div>');
-  }
-// -->
-</script>
-<script type="text/javascript">
-    var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-    document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-</script>
-<script type="text/javascript" src="../../js/autoTracking_phet.js"></script>
-<script type="text/javascript">
-    var benchmarkTracker = _gat._getTracker("UA-5033201-1");
-    benchmarkTracker._setDomainName('phet.colorado.edu');
-    benchmarkTracker._initData();
-    benchmarkTracker._trackPageview();
-
-    var overallTracker = _gat._getTracker("UA-5033010-1");
-    overallTracker._setDomainName('phet.colorado.edu');
-    overallTracker._initData();
-    overallTracker._trackPageview();
-</script>
-</body>
-
-<!-- Mirrored from phet.colorado.edu/sims/wave-on-a-string/wave-on-a-string_ko.html by HTTrack Website Copier/3.x [XR&CO'2007], Wed, 30 Jun 2010 16:56:30 GMT -->
-</html>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--wave-on-a-string-strings_ko.xml created Sun Jul 25 20:41:23 KST 2010 using: wave-on-a-string 2.01.00 (37327), translation-utility 2.08.00 (39581) 4월 2, 2010-->
+<SimStrings>
+<string key="manual" value="매뉴얼"/>
+<string key="resetTimer" value="초기화"/>
+<string key="damping" value="가습"/>
+<string key="simTitle" value="줄의 파동"/>
+<string key="showHelp" value="도움말 보기"/>
+<string key="pulse" value="펄스"/>
+<string key="amplitude" value="진폭"/>
+<string key="pausePlay" value="정지/작동"/>
+<string key="step" value="단계별"/>
+<string key="tension" value="장력"/>
+<string key="startTimer" value="시작/정지"/>
+<string key="pulseWidth" value="펄스폭"/>
+<string key="rulerHelp" value="드래그 가능한 자"/>
+<string key="high" value="크다"/>
+<string key="wiggleWrench" value="렌치를 흔드세요!"/>
+<string key="timer" value="타이머"/>
+<string key="oscillate" value="진동"/>
+<string key="rulers" value="자"/>
+<string key="frequency" value="진동수"/>
+<string key="wrenchHelp" value="드래그 가능"/>
+<string key="fixedEnd" value="고정된 끝"/>
+<string key="refLineHelp" value="드래그 가능한 기준선"/>
+<string key="hideHelp" value="도움말 감추기"/>
+<string key="timerHelp" value="드래그 가능한 타이머"/>
+<string key="looseEnd" value="느슨한 끝"/>
+<string key="noEnd" value="열린 끝"/>
+<string key="paused" value="정지"/>
+<string key="reset" value="초기화"/>
+<string key="pulse2" value="펄스"/>
+<string key="low" value="작다"/>
+</SimStrings>
