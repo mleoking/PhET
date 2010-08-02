@@ -8,8 +8,7 @@ import edu.colorado.phet.acidbasesolutions.constants.ABSColors;
 import edu.colorado.phet.acidbasesolutions.constants.ABSImages;
 import edu.colorado.phet.acidbasesolutions.constants.ABSSymbols;
 import edu.colorado.phet.acidbasesolutions.model.*;
-import edu.colorado.phet.acidbasesolutions.model.ABSModel.ModelChangeAdapter;
-import edu.colorado.phet.acidbasesolutions.model.ABSModelElement.ModelElementChangeAdapter;
+import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.AqueousSolutionChangeListener;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.util.TimesTenNumberFormat;
@@ -30,18 +29,18 @@ public class ConcentrationGraphNode extends AbstractConcentrationGraphNode {
     private final AqueousSolutionChangeListener solutionChangeListener;
     private AqueousSolution solution;
     
-    public ConcentrationGraphNode( final ABSModel model ) {
-        super( model.getConcentrationGraph().getSizeReference(), X_AXIS_LABELED );
+    public ConcentrationGraphNode( final ConcentrationGraph graph ) {
+        super( graph.getSizeReference(), X_AXIS_LABELED );
         
         // not interactive
         setPickable( false );
         setChildrenPickable( false );
         
         // model changes
-        model.addModelChangeListener( new ModelChangeAdapter() {
+        graph.addModelElementChangeListener( new SolutionRepresentationChangeAdapter() {
             @Override
             public void solutionChanged() {
-                setSolution( model.getSolution() );
+                setSolution( graph.getSolution() );
             }
         });
         
@@ -56,21 +55,21 @@ public class ConcentrationGraphNode extends AbstractConcentrationGraphNode {
                 updateValues();
             }
         };
-        solution = model.getSolution();
+        solution = graph.getSolution();
         solution.addAqueousSolutionChangeListener( solutionChangeListener );
         
         // graph listener
-        model.getConcentrationGraph().addModelElementChangeListener( new ModelElementChangeAdapter() {
+        graph.addModelElementChangeListener( new SolutionRepresentationChangeAdapter() {
             @Override
             public void visibilityChanged() {
-                setVisible( model.getConcentrationGraph().isVisible() );
+                setVisible( graph.isVisible() );
             }
         });
         
-        double x = model.getConcentrationGraph().getLocationReference().getX() - ( getFullBoundsReference().getWidth() / 2 ) - PNodeLayoutUtils.getOriginXOffset( this );
-        double y = model.getConcentrationGraph().getLocationReference().getY() - ( getFullBoundsReference().getHeight() / 2 ) - PNodeLayoutUtils.getOriginYOffset( this );
+        double x = graph.getLocationReference().getX() - ( getFullBoundsReference().getWidth() / 2 ) - PNodeLayoutUtils.getOriginXOffset( this );
+        double y = graph.getLocationReference().getY() - ( getFullBoundsReference().getHeight() / 2 ) - PNodeLayoutUtils.getOriginYOffset( this );
         setOffset( x, y );
-        setVisible( model.getConcentrationGraph().isVisible() );
+        setVisible( graph.isVisible() );
         updateMolecules();
         updateValues();
     }

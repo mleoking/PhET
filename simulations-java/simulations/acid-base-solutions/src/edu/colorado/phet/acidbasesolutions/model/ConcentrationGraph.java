@@ -7,12 +7,12 @@ import java.awt.geom.Point2D;
 import edu.umd.cs.piccolo.util.PDimension;
 
 
-public class ConcentrationGraph extends ABSModelElement {
+public class ConcentrationGraph extends SolutionRepresentation {
     
     private final PDimension size;
     
-    public ConcentrationGraph( Point2D location, boolean visible, PDimension size ) {
-        super( location, visible );
+    public ConcentrationGraph( AqueousSolution solution, Point2D location, boolean visible, PDimension size ) {
+        super( solution, location, visible );
         this.size = new PDimension( size );
     }
     

@@ -12,43 +12,49 @@ import javax.swing.event.EventListenerList;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class MagnifyingGlass extends ABSModelElement {
+public class MagnifyingGlass extends SolutionRepresentation {
     
-    private double diameter;
+    private final double diameter;
+    private boolean waterVisibile;
     private final EventListenerList listeners;
     
-    public MagnifyingGlass( Point2D location, boolean visible, double diameter ) {
-        super( location, visible );
+    public MagnifyingGlass( AqueousSolution solution, Point2D location, boolean visible, double diameter, boolean waterVisible ) {
+        super( solution, location, visible );
         this.diameter = diameter;
+        this.waterVisibile = waterVisible;
         listeners = new EventListenerList();
-    }
-    
-    public void setDiameter( int diameter ) {
-        if ( diameter != this.diameter ) {
-            this.diameter = diameter;
-            fireDiameterChanged();
-        }
     }
     
     public double getDiameter() {
         return diameter;
     }
     
-    public interface MagnifyingGlassListener extends EventListener {
-        public void diameterChanged();
+    public void setWaterVisible( boolean waterVisible ) {
+        if ( waterVisible != this.waterVisibile ) {
+            this.waterVisibile = waterVisible;
+            fireWaterVisibleChanged();
+        }
     }
     
-    public void addMagnifyingGlassListener( MagnifyingGlassListener listener ) {
-        listeners.add( MagnifyingGlassListener.class, listener );
+    public boolean isWaterVisible() {
+        return waterVisibile;
     }
     
-    public void removeMagnifyingGlassListener( MagnifyingGlassListener listener ) {
-        listeners.remove( MagnifyingGlassListener.class, listener );
+    public interface MagnifyingGlassChangeListener extends EventListener {
+        public void waterVisibleChanged();
     }
     
-    private void fireDiameterChanged() {
-        for ( MagnifyingGlassListener listener : listeners.getListeners( MagnifyingGlassListener.class ) ) {
-            listener.diameterChanged();
+    public void addMagnifyingGlassListener( MagnifyingGlassChangeListener listener ) {
+        listeners.add( MagnifyingGlassChangeListener.class, listener );
+    }
+    
+    public void removeMagnifyingGlassListener( MagnifyingGlassChangeListener listener ) {
+        listeners.remove( MagnifyingGlassChangeListener.class, listener );
+    }
+    
+    private void fireWaterVisibleChanged() {
+        for ( MagnifyingGlassChangeListener listener : listeners.getListeners( MagnifyingGlassChangeListener.class ) ) {
+            listener.waterVisibleChanged();
         }
     }
 }

@@ -15,7 +15,7 @@ import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.model.PureWaterSolution;
-import edu.colorado.phet.acidbasesolutions.model.ABSModel.ModelChangeAdapter;
+import edu.colorado.phet.acidbasesolutions.model.ABSModel.ModelChangeListener;
 import edu.colorado.phet.acidbasesolutions.model.StrongAcidSolution.TestStrongAcidSolution;
 import edu.colorado.phet.acidbasesolutions.model.StrongBaseSolution.TestStrongBaseSolution;
 import edu.colorado.phet.acidbasesolutions.model.WeakAcidSolution.TestWeakAcidSolution;
@@ -39,8 +39,7 @@ public class TestSolutionControl extends JPanel {
         
         // model
         this.model = model;
-        this.model.addModelChangeListener( new ModelChangeAdapter() {
-            @Override
+        this.model.addModelChangeListener( new ModelChangeListener() {
             public void solutionChanged() {
                 // when the model changes, update this control
                 updateControl();

@@ -11,14 +11,14 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PHMeter extends ABSModelElement {
+public class PHMeter extends SolutionRepresentation {
     
     private final PDimension shaftSize;
     private final PDimension tipSize;
     private final Beaker beaker;
     
-    public PHMeter( Point2D location, boolean visible, PDimension shaftSize, PDimension tipSize, Beaker beaker ) {
-        super( location, visible );
+    public PHMeter( AqueousSolution solution, Point2D location, boolean visible, PDimension shaftSize, PDimension tipSize, Beaker beaker ) {
+        super( solution, location, visible );
         this.shaftSize = shaftSize;
         this.tipSize = tipSize;
         this.beaker = beaker;
@@ -87,5 +87,18 @@ public class PHMeter extends ABSModelElement {
      */
     public double getProbeHeight() {
         return shaftSize.getHeight() + tipSize.getHeight();
+    }
+    
+    /**
+     * Gets the pH value that is to be displayed by the meter.
+     * If the meter is not in the solution, this returns null.
+     * @return
+     */
+    public Double getValue() {
+        Double value = null;
+        if ( beaker.inSolution( getLocationReference() ) ) {
+            value = new Double( getSolution().getPH() );
+        }
+        return value;
     }
 }

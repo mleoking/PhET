@@ -43,10 +43,10 @@ public abstract class ABSCanvas extends PhetPCanvas {
         addWorldChild( rootNode );
         
         // nodes
-        beakerNode = new BeakerNode( model );
-        pHMeterNode = new PHMeterNode( model );
-        magnifyingGlassNode = new MagnifyingGlassNode( model );
-        concentrationGraphNode = new ConcentrationGraphNode( model );
+        beakerNode = new BeakerNode( model.getBeaker() );
+        pHMeterNode = new PHMeterNode( model.getPHMeter() );
+        magnifyingGlassNode = new MagnifyingGlassNode( model.getMagnifyingGlass() );
+        concentrationGraphNode = new ConcentrationGraphNode( model.getConcentrationGraph() );
         reactionEquationNode = new ReactionEquationNode( model );
         
         // rendering order

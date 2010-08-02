@@ -15,8 +15,8 @@ import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.constants.ABSSymbols;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel;
-import edu.colorado.phet.acidbasesolutions.model.ABSModel.ModelChangeAdapter;
-import edu.colorado.phet.acidbasesolutions.model.ABSModelElement.ModelElementChangeAdapter;
+import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
+import edu.colorado.phet.acidbasesolutions.model.MagnifyingGlass.MagnifyingGlassChangeListener;
 import edu.colorado.phet.acidbasesolutions.util.HTMLCheckBox;
 import edu.colorado.phet.acidbasesolutions.view.ABSRadioButton;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
@@ -51,13 +51,12 @@ public class ToolsControl extends JPanel {
         
         // model
         this.model = model;
-        model.addModelChangeListener( new ModelChangeAdapter() {
-            @Override
+        model.getMagnifyingGlass().addMagnifyingGlassListener( new MagnifyingGlassChangeListener() {
             public void waterVisibleChanged() {
                 updateControl();
             }
         });
-        model.getMagnifyingGlass().addModelElementChangeListener( new ModelElementChangeAdapter() {
+        model.getMagnifyingGlass().addModelElementChangeListener( new SolutionRepresentationChangeAdapter() {
             @Override
             public void visibilityChanged() {
                 showWaterCheckBox.setEnabled( model.getMagnifyingGlass().isVisible() );
@@ -126,13 +125,13 @@ public class ToolsControl extends JPanel {
         pHMeterCheckBox.setSelected( model.getPHMeter().isVisible() );
         magnifyingGlassRadioButton.setSelected( model.getMagnifyingGlass().isVisible() );
         concentrationGraphRadioButton.setSelected( model.getConcentrationGraph().isVisible() );
-        showWaterCheckBox.setSelected( model.isWaterVisible() );
+        showWaterCheckBox.setSelected( model.getMagnifyingGlass().isWaterVisible() );
     }
     
     private void updateModel() {
         model.getPHMeter().setVisible( pHMeterCheckBox.isSelected() );
         model.getMagnifyingGlass().setVisible( magnifyingGlassRadioButton.isSelected() );
         model.getConcentrationGraph().setVisible( concentrationGraphRadioButton.isSelected() );
-        model.setWaterVisible( showWaterCheckBox.isSelected() );
+        model.getMagnifyingGlass().setWaterVisible( showWaterCheckBox.isSelected() );
     }
 }

@@ -9,10 +9,8 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSColors;
-import edu.colorado.phet.acidbasesolutions.model.ABSModel;
-import edu.colorado.phet.acidbasesolutions.model.ABSModel.ModelChangeAdapter;
-import edu.colorado.phet.acidbasesolutions.model.ABSModelElement.ModelElementChangeAdapter;
-import edu.colorado.phet.acidbasesolutions.model.MagnifyingGlass.MagnifyingGlassListener;
+import edu.colorado.phet.acidbasesolutions.model.MagnifyingGlass;
+import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PAffineTransform;
@@ -33,36 +31,32 @@ public class MagnifyingGlassNode extends PhetPNode {
     private static final Color HANDLE_FILL_COLOR = new Color( 85, 55, 33 ); // brown
     private static final double HANDLE_ARC_WIDTH = 40;
     
-    private final ABSModel model;
+    private final MagnifyingGlass magnifyingGlass;
     private final PPath handleNode;
     private final RoundRectangle2D handlePath;
     private final PPath circleNode, backgroundNode;
     private final Ellipse2D circlePath;
     private final MoleculesNode moleculesNode;
     
-    public MagnifyingGlassNode( final ABSModel model ) {
+    public MagnifyingGlassNode( final MagnifyingGlass magnifyingGlass ) {
         super();
         
         // not interactive
         setPickable( false );
         setChildrenPickable( false );
         
-        this.model = model;
-        model.addModelChangeListener( new ModelChangeAdapter() {
+        this.magnifyingGlass = magnifyingGlass;
+        magnifyingGlass.addModelElementChangeListener( new SolutionRepresentationChangeAdapter() {
+            
+            // when the solution changes, update the color of the glass
             @Override
             public void solutionChanged() {
                 updateColor();
             }
-        });
-        model.getMagnifyingGlass().addMagnifyingGlassListener( new MagnifyingGlassListener() {
-            public void diameterChanged() {
-                updateGeometry();
-            }
-        });
-        model.getMagnifyingGlass().addModelElementChangeListener( new ModelElementChangeAdapter() {
+            
             @Override
             public void visibilityChanged() {
-                setVisible( model.getMagnifyingGlass().isVisible() );
+                setVisible( magnifyingGlass.isVisible() );
             }
         });
         
@@ -87,7 +81,7 @@ public class MagnifyingGlassNode extends PhetPNode {
         backgroundNode = new PPath();
         backgroundNode.setPaint( ABSColors.CANVAS_BACKGROUND );
         
-        moleculesNode = new MoleculesNode( model  );
+        moleculesNode = new MoleculesNode( magnifyingGlass );
         
         // rendering order
         addChild( handleNode );
@@ -97,8 +91,8 @@ public class MagnifyingGlassNode extends PhetPNode {
         
         updateGeometry();
         updateColor();
-        setOffset( model.getMagnifyingGlass().getLocationReference() );
-        setVisible( model.getMagnifyingGlass().isVisible() );
+        setOffset( magnifyingGlass.getLocationReference() );
+        setVisible( magnifyingGlass.isVisible() );
     }
     
     public MoleculesNode getMoleculesNode() {
@@ -106,7 +100,7 @@ public class MagnifyingGlassNode extends PhetPNode {
     }
     
     private void updateGeometry() {
-        double diameter = model.getMagnifyingGlass().getDiameter();
+        double diameter = magnifyingGlass.getDiameter();
         // glass
         circlePath.setFrame( -diameter / 2, -diameter / 2, diameter, diameter );
         circleNode.setPathTo( circlePath );
@@ -124,7 +118,7 @@ public class MagnifyingGlassNode extends PhetPNode {
     }
     
     private void updateColor() {
-        circleNode.setPaint( model.getSolution().getColor() );
+        circleNode.setPaint( magnifyingGlass.getSolution().getColor() );
     }
     
 }
