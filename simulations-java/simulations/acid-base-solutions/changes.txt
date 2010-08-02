@@ -1,3 +1,4 @@
+8/2/10 delete ABSClock, document why dummy clock in ABSModule
 8/2/10 limit nodes to knowledge of specific model element, rather than the entire model
 8/2/10 move "water visible" property to magnifying glass model
 8/2/10 SolutionRepresentation base class
