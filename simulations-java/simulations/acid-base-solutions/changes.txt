@@ -1,3 +1,6 @@
+8/2/10 misc javadoc
+8/2/10 add model element for reaction equation
+8/2/10 fix names of add/remove listener methods
 8/2/10 delete ABSClock, document why dummy clock in ABSModule
 8/2/10 limit nodes to knowledge of specific model element, rather than the entire model
 8/2/10 move "water visible" property to magnifying glass model

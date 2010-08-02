@@ -55,7 +55,7 @@ public class BeakerNode extends PComposite {
         setChildrenPickable( false );
         
         this.beaker = beaker;
-        beaker.addModelElementChangeListener( new SolutionRepresentationChangeAdapter() {
+        beaker.addSolutionRepresentationChangeListener( new SolutionRepresentationChangeAdapter() {
             // when the solution changes, update the solution color
             @Override
             public void solutionChanged() {

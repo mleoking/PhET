@@ -60,7 +60,7 @@ public class MoleculesNode extends PComposite {
         this.layeringStrategy = new FixedMoleculeLayeringStrategy();
         
         this.magnifyingGlass = magnifyingGlass;
-        magnifyingGlass.addModelElementChangeListener( new SolutionRepresentationChangeAdapter() {
+        magnifyingGlass.addSolutionRepresentationChangeListener( new SolutionRepresentationChangeAdapter() {
             @Override
             public void solutionChanged() {
                 setSolution( magnifyingGlass.getSolution() );

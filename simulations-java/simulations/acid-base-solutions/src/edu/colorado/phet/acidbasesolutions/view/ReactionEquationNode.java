@@ -7,7 +7,7 @@ import java.awt.*;
 import edu.colorado.phet.acidbasesolutions.constants.ABSImages;
 import edu.colorado.phet.acidbasesolutions.constants.ABSSymbols;
 import edu.colorado.phet.acidbasesolutions.model.*;
-import edu.colorado.phet.acidbasesolutions.model.ABSModel.ModelChangeListener;
+import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.SwingLayoutNode;
@@ -40,21 +40,23 @@ public class ReactionEquationNode extends PComposite {
         }
     }
 
-    private final ABSModel model;
+    private final ReactionEquation equation;
     
-    public ReactionEquationNode( ABSModel model ) {
+    public ReactionEquationNode( final ReactionEquation equation ) {
         
         // not interactive
         setPickable( false );
         setChildrenPickable( false );
         
-        this.model = model;
-        model.addModelChangeListener( new ModelChangeListener() {
+        this.equation = equation;
+        equation.addSolutionRepresentationChangeListener( new SolutionRepresentationChangeAdapter() {
+            @Override
             public void solutionChanged() {
                 update();
             }
         });
         
+        setOffset( equation.getLocationReference() );
         update();
     }
     
@@ -69,7 +71,7 @@ public class ReactionEquationNode extends PComposite {
         
         removeAllChildren();
         
-        AqueousSolution solution = model.getSolution();
+        AqueousSolution solution = equation.getSolution();
         boolean isPureWater = ( solution instanceof PureWaterSolution );
         boolean isAcid = ( solution instanceof StrongAcidSolution || solution instanceof WeakAcidSolution );
         boolean isStrong = ( solution instanceof StrongAcidSolution || solution instanceof StrongBaseSolution );
@@ -152,6 +154,11 @@ public class ReactionEquationNode extends PComposite {
         constraints.gridx++;
         layoutNode.addChild( symbolRHS2, constraints );
         constraints.gridx++;
+        
+        // origin is at the top center of this node
+        double x = -layoutNode.getFullBoundsReference().getWidth() / 2;
+        double y = 0;
+        layoutNode.setOffset( x, y );
     }
     
     /*

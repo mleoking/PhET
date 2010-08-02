@@ -9,6 +9,7 @@ import javax.swing.event.EventListenerList;
 
 /**
  * Model of a magnifying glass.
+ * Location is at the center of the glass.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

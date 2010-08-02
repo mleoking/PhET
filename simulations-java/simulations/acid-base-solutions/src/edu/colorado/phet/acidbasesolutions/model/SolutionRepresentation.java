@@ -86,11 +86,11 @@ public abstract class SolutionRepresentation {
         public void visibilityChanged() {}
     }
     
-    public void addModelElementChangeListener( SolutionRepresentationChangeListener listener ) {
+    public void addSolutionRepresentationChangeListener( SolutionRepresentationChangeListener listener ) {
         listeners.add( SolutionRepresentationChangeListener.class, listener );
     }
     
-    public void removeModelElementChangeListener( SolutionRepresentationChangeListener listener ) {
+    public void removeSolutionRepresentationChangeListener( SolutionRepresentationChangeListener listener ) {
         listeners.remove( SolutionRepresentationChangeListener.class, listener );
     }
     

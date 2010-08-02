@@ -56,7 +56,7 @@ public class ToolsControl extends JPanel {
                 updateControl();
             }
         });
-        model.getMagnifyingGlass().addModelElementChangeListener( new SolutionRepresentationChangeAdapter() {
+        model.getMagnifyingGlass().addSolutionRepresentationChangeListener( new SolutionRepresentationChangeAdapter() {
             @Override
             public void visibilityChanged() {
                 showWaterCheckBox.setEnabled( model.getMagnifyingGlass().isVisible() );

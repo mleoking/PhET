@@ -44,21 +44,22 @@ public class ABSConstants {
     public static final double AVOGADROS_NUMBER = 6.022E23;
     
     public static final PDimension BEAKER_SIZE = new PDimension( 600, 500 );
-    public static final Point2D BEAKER_LOCATION = new Point2D.Double( ( BEAKER_SIZE.getWidth() / 2 ) + 150, BEAKER_SIZE.getHeight() + 250 );
-    public static final boolean BEAKER_VISIBLE = true;
+    public static final Point2D BEAKER_LOCATION = new Point2D.Double( ( BEAKER_SIZE.getWidth() / 2 ) + 150, BEAKER_SIZE.getHeight() + 250 ); // bottom center
     
-    public static final Point2D MAGNIFYING_GLASS_LOCATION = new Point2D.Double( BEAKER_LOCATION.getX(), BEAKER_LOCATION.getY() - ( BEAKER_SIZE.getHeight() / 2 ) );
-    public static final boolean MAGNIFYING_GLASS_VISIBLE = true; //XXX
+    public static final Point2D MAGNIFYING_GLASS_LOCATION = new Point2D.Double( BEAKER_LOCATION.getX(), BEAKER_LOCATION.getY() - ( BEAKER_SIZE.getHeight() / 2 ) ); // center
+    public static final boolean MAGNIFYING_GLASS_VISIBLE = true;
     public static final double MAGNIFYING_GLASS_DIAMETER = 500;
     
-    public static final Point2D PH_METER_LOCATION = new Point2D.Double( BEAKER_LOCATION.getX() + ( 0.30 * BEAKER_SIZE.getWidth() ), BEAKER_LOCATION.getY() - BEAKER_SIZE.getHeight() - 15 );
+    public static final Point2D PH_METER_LOCATION = new Point2D.Double( BEAKER_LOCATION.getX() + ( 0.30 * BEAKER_SIZE.getWidth() ), BEAKER_LOCATION.getY() - BEAKER_SIZE.getHeight() - 15 ); // tip
     public static final boolean PH_METER_VISIBLE = true;
     public static final PDimension PH_METER_SHAFT_SIZE = new PDimension( 10, 100 );
     public static final PDimension PH_METER_TIP_SIZE = new PDimension( 25, 60 );
     
-    public static final Point2D CONCENTRATION_GRAPH_LOCATION = new Point2D.Double( BEAKER_LOCATION.getX(), BEAKER_LOCATION.getY() - ( BEAKER_SIZE.getHeight() / 2 ) ); // center of beaker
+    public static final Point2D CONCENTRATION_GRAPH_LOCATION = new Point2D.Double( BEAKER_LOCATION.getX(), BEAKER_LOCATION.getY() - ( BEAKER_SIZE.getHeight() / 2 ) ); // center
     public static final boolean CONCENTRATION_GRAPH_VISIBLE = false;
     public static final PDimension CONCENTRATION_GRAPH_SIZE = new PDimension( 360, BEAKER_SIZE.getHeight() - 50 );
+    
+    public static final Point2D REACTION_EQUATION_LOCATION = new Point2D.Double( BEAKER_LOCATION.getX(), BEAKER_LOCATION.getY() + 10 ); // top center
     
     public static final double WATER_CONCENTRATION = 55.6; // water concentration when it's used as a solvent, mol/L
     public static final double WATER_EQUILIBRIUM_CONSTANT = 1E-14;

@@ -9,6 +9,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Model of a beaker.
+ * Location is at the bottom center.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

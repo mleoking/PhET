@@ -53,7 +53,7 @@ public class PHMeterNode extends PhetPNode {
         this( meter.getShaftSizeReference(), meter.getTipSizeRefernence() );
 
         this.meter = meter;
-        meter.addModelElementChangeListener( new SolutionRepresentationChangeListener() {
+        meter.addSolutionRepresentationChangeListener( new SolutionRepresentationChangeListener() {
 
             public void solutionChanged() {
                 setSolution( meter.getSolution() );
