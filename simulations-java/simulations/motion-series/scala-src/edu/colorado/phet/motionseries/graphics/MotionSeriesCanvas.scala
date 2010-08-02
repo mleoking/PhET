@@ -97,7 +97,7 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
   def createmotionSeriesObjectNode(b: MovingManMotionSeriesObject, t: ModelViewTransform2D, imageName: String, crashImageName: String, listener: () => Unit): MotionSeriesObjectNode = new ForceDragMotionSeriesObjectNode(b, t, imageName, crashImageName, listener)
 
   //todo: this line was continually calling setImage on the imageNode
-  model.addListenerByName(motionSeriesObjectNode.setImages(MotionSeriesResources.getImage(model.selectedObject.imageFilename),
+  model.addListenerByName(motionSeriesObjectNode.setImages(MotionSeriesResources.getImage(model.selectedObject.imageFilename), 
     MotionSeriesResources.getImage(model.selectedObject.crashImageFilename)))
   playAreaNode.addChild(motionSeriesObjectNode)
 
@@ -108,7 +108,7 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
     model.rampSegments(1).addListener(listener)
   }
 
-  val tickMarkSet = new TickMarkSet(transform, model.positionMapper, compositeListener) //todo: listen to both segments for game
+  val tickMarkSet = new TickMarkSet(transform, model.positionMapper, compositeListener)
   playAreaNode.addChild(tickMarkSet)
 
   val fbdWidth = MotionSeriesDefaults.freeBodyDiagramWidth

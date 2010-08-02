@@ -38,9 +38,9 @@ class RampForceChartNode(canvas: PhetPCanvas, motionSeriesModel: MotionSeriesMod
 
 class ForcesAndMotionChartNode(canvas: PhetPCanvas, model: MotionSeriesModel) extends MultiControlChart(Array(
   new ForcesAndMotionMinimizableControlChart(model),
-  new MinimizableControlChart("properties.acceleration".translate, new SingleSeriesChart(model, () => model.motionSeriesObject.acceleration, 50, "m/s/s", MotionSeriesDefaults.accelerationColor, "properties.acceleration".translate).chart, false), //todo: il8n
-  new MinimizableControlChart("properties.velocity".translate, new SingleSeriesChart(model, () => model.motionSeriesObject.velocity, 25, "m/s", MotionSeriesDefaults.velocityColor, "properties.velocity".translate).chart, false), //todo: il8n
-  new MinimizableControlChart("properties.position".translate, new SingleSeriesChart(model, () => model.motionSeriesObject.position, 10, "m", MotionSeriesDefaults.positionColor, "properties.position".translate).chart, false))) { //todo: il8n
+  new MinimizableControlChart("properties.acceleration".translate, new SingleSeriesChart(model, () => model.motionSeriesObject.acceleration, 50, "m/s/s", MotionSeriesDefaults.accelerationColor, "properties.acceleration".translate).chart, false),
+  new MinimizableControlChart("properties.velocity".translate, new SingleSeriesChart(model, () => model.motionSeriesObject.velocity, 25, "m/s", MotionSeriesDefaults.velocityColor, "properties.velocity".translate).chart, false),
+  new MinimizableControlChart("properties.position".translate, new SingleSeriesChart(model, () => model.motionSeriesObject.position, 10, "m", MotionSeriesDefaults.positionColor, "properties.position".translate).chart, false))) {
   canvas.addComponentListener(new ComponentAdapter { //todo: remove duplicate code from above
     override def componentResized(e: ComponentEvent) = {
       val insetX = 6
@@ -141,7 +141,7 @@ abstract class MotionSeriesControlChart(motionSeriesModel: MotionSeriesModel) {
   val frictionForceSeries = new MSDataSeries("force.pattern".messageformat("forces.friction".translate), MotionSeriesDefaults.frictionForceColor, N, frictionVariable, motionSeriesModel, false)
   val gravityForceSeries = new MSDataSeries("force.pattern".messageformat("forces.gravity-parallel".translate), MotionSeriesDefaults.gravityForceColor, N, gravityVariable, motionSeriesModel, false)
   val wallForceSeries = new MSDataSeries("force.pattern".messageformat("forces.wall".translate), MotionSeriesDefaults.wallForceColor, N, wallVariable, motionSeriesModel, false)
-  val sumForceSeries = new MSDataSeries("force.pattern".messageformat("forces.sum-parallel".translate), MotionSeriesDefaults.sumForceColor, N, sumForceVariable, motionSeriesModel, true) //todo: il8n for units and names
+  val sumForceSeries = new MSDataSeries("force.pattern".messageformat("forces.sum-parallel".translate), MotionSeriesDefaults.sumForceColor, N, sumForceVariable, motionSeriesModel, true)
 
   def resetAll() = {
     appliedForceSeries.setVisible(false)

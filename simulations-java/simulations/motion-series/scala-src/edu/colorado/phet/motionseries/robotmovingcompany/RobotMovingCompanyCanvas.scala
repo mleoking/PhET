@@ -166,9 +166,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
     gameModel.bead.parallelAppliedForce = if (gameModel.robotEnergy > 0) userInputModel.appliedForce else 0.0
   }) //todo: when robot energy hits zero, applied force should disappear
 
-  def hasUserAppliedForce = {
-    numClockTicksWithUserApplication > 5
-  }
+  def hasUserAppliedForce = numClockTicksWithUserApplication > 5
 
   addKeyListener(new KeyAdapter {
     override def keyPressed(e: KeyEvent) = {

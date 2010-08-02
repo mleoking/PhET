@@ -6,6 +6,7 @@ import edu.umd.cs.piccolo.PNode
 import edu.colorado.phet.scalacommon.math.Vector2D
 import edu.umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
 import edu.colorado.phet.scalacommon.Predef._
+
 //TODO: why is Rotatble needed, can't we just use RotationModel?
 trait Rotatable extends Observable with RotationModel {
   def startPoint: Vector2D

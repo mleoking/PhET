@@ -29,12 +29,12 @@ class MotionSeriesModel(defaultBeadPosition: Double,
                         initialAngle: Double)
         extends RecordAndPlaybackModel[RecordedState](1000) with ObjectModel with RampSurfaceModel {
   override def isRecordingFull = {
-    getTime > 20.0 //TODO: factor out max time
+    getTime > MotionSeriesDefaults.MAX_RECORD_TIME
   }
 
   //Don't let the cursor drag past max time
   override def addRecordedPoint(point: DataPoint[RecordedState]) = {
-    if (point.getTime <= 20.0) { //TODO: factor out max time
+    if (point.getTime <= MotionSeriesDefaults.MAX_RECORD_TIME) {
       super.addRecordedPoint(point)
     }
   }
