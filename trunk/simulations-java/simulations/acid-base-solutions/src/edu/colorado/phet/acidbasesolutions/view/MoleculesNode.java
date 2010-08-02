@@ -8,9 +8,9 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.constants.ABSImages;
 import edu.colorado.phet.acidbasesolutions.model.*;
-import edu.colorado.phet.acidbasesolutions.model.ABSModel.ModelChangeListener;
+import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.AqueousSolutionChangeListener;
-import edu.colorado.phet.acidbasesolutions.model.MagnifyingGlass.MagnifyingGlassListener;
+import edu.colorado.phet.acidbasesolutions.model.MagnifyingGlass.MagnifyingGlassChangeListener;
 import edu.colorado.phet.acidbasesolutions.view.IMoleculeCountStrategy.ConcentrationMoleculeCountStrategy;
 import edu.colorado.phet.acidbasesolutions.view.IMoleculeCountStrategy.ConstantMoleculeCountStrategy;
 import edu.colorado.phet.acidbasesolutions.view.IMoleculeLayeringStrategy.FixedMoleculeLayeringStrategy;
@@ -19,13 +19,13 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Collection on molecule images, used to represent concentration ratios.
+ * Collection of molecule images visible in the magnifying glass, used to represent concentration ratios.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class MoleculesNode extends PComposite {
 
-    private ABSModel model;
+    private final MagnifyingGlass magnifyingGlass;
     private AqueousSolution solution;
     
     private final MoleculeImageParentNode parentReactant, parentProduct, parentH3O, parentOH, parentH2O;
@@ -48,7 +48,7 @@ public class MoleculesNode extends PComposite {
     // marker class for parents of MoleculeImageNode
     protected static class MoleculeImageParentNode extends PComposite {}
     
-    public MoleculesNode( final ABSModel model ) {
+    public MoleculesNode( final MagnifyingGlass magnifyingGlass ) {
         super();
         setPickable( false );
         
@@ -59,24 +59,20 @@ public class MoleculesNode extends PComposite {
         this.imageScale = ABSConstants.IMAGE_SCALE_RANGE.getDefault();
         this.layeringStrategy = new FixedMoleculeLayeringStrategy();
         
-        this.model = model;
-        model.addModelChangeListener( new ModelChangeListener() {
+        this.magnifyingGlass = magnifyingGlass;
+        magnifyingGlass.addModelElementChangeListener( new SolutionRepresentationChangeAdapter() {
+            @Override
             public void solutionChanged() {
-                setSolution( model.getSolution() );
+                setSolution( magnifyingGlass.getSolution() );
             }
+        });
+        magnifyingGlass.addMagnifyingGlassListener( new MagnifyingGlassChangeListener() {
             public void waterVisibleChanged() {
-                setWaterVisible( model.isWaterVisible() );
+                setWaterVisible( magnifyingGlass.isWaterVisible() );
             }
         });
         
-        model.getMagnifyingGlass().addMagnifyingGlassListener( new MagnifyingGlassListener() {
-            public void diameterChanged() {
-                deleteAllMolecules();
-                updateNumberOfMolecules();
-            }
-        });
-        
-        this.solution = model.getSolution();
+        this.solution = magnifyingGlass.getSolution();
         solutionChangeListener = new AqueousSolutionChangeListener() {
             public void strengthChanged() {
                 updateNumberOfMolecules();
@@ -101,7 +97,7 @@ public class MoleculesNode extends PComposite {
         addChild( parentOH );
         
         // default state
-        parentH2O.setVisible( model.isWaterVisible() );
+        parentH2O.setVisible( magnifyingGlass.isWaterVisible() );
         updateNumberOfMolecules();
         updateMinoritySpeciesVisibility();
     }
@@ -284,7 +280,7 @@ public class MoleculesNode extends PComposite {
      * The distance is *not* picked from a uniform distribution; to do so would cause points to cluster near the center.
      */
     protected Point2D getRandomPoint() {
-        double radius = model.getMagnifyingGlass().getDiameter() / 2;
+        double radius = magnifyingGlass.getDiameter() / 2;
         double distance = radius * Math.sqrt( Math.random() ); 
         double angle = Math.random() * 2 * Math.PI;
         double x = distance * Math.cos( angle );

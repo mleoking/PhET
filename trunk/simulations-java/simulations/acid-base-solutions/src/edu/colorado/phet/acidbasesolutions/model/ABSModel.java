@@ -25,28 +25,27 @@ public class ABSModel {
     private final PHMeter pHMeter;
     private final MagnifyingGlass magnifyingGlass;
     private final ConcentrationGraph concentrationGraph;
-    private boolean waterVisible; // water visibility, a global property, included in model for convenience
     
     private EventListenerList listeners;
     
     public ABSModel( SolutionFactory defaultSolutionFactory ) {
         this.defaultSolutionFactory = defaultSolutionFactory;
-        beaker = new Beaker( ABSConstants.BEAKER_LOCATION, ABSConstants.BEAKER_VISIBLE, ABSConstants.BEAKER_SIZE );
-        magnifyingGlass = new MagnifyingGlass( ABSConstants.MAGNIFYING_GLASS_LOCATION, ABSConstants.MAGNIFYING_GLASS_VISIBLE, ABSConstants.MAGNIFYING_GLASS_DIAMETER );
-        pHMeter = new PHMeter( ABSConstants.PH_METER_LOCATION, ABSConstants.PH_METER_VISIBLE, ABSConstants.PH_METER_SHAFT_SIZE, ABSConstants.PH_METER_TIP_SIZE, beaker );
-        concentrationGraph = new ConcentrationGraph( ABSConstants.CONCENTRATION_GRAPH_LOCATION, ABSConstants.CONCENTRATION_GRAPH_VISIBLE, ABSConstants.CONCENTRATION_GRAPH_SIZE );
-        waterVisible = ABSConstants.WATER_VISIBLE;
+        this.solution = defaultSolutionFactory.createSolution();
+        beaker = new Beaker( solution, ABSConstants.BEAKER_LOCATION, ABSConstants.BEAKER_VISIBLE, ABSConstants.BEAKER_SIZE );
+        pHMeter = new PHMeter( solution, ABSConstants.PH_METER_LOCATION, ABSConstants.PH_METER_VISIBLE, ABSConstants.PH_METER_SHAFT_SIZE, ABSConstants.PH_METER_TIP_SIZE, beaker );
+        magnifyingGlass = new MagnifyingGlass( solution, ABSConstants.MAGNIFYING_GLASS_LOCATION, ABSConstants.MAGNIFYING_GLASS_VISIBLE, ABSConstants.MAGNIFYING_GLASS_DIAMETER, ABSConstants.WATER_VISIBLE );
+        concentrationGraph = new ConcentrationGraph( solution, ABSConstants.CONCENTRATION_GRAPH_LOCATION, ABSConstants.CONCENTRATION_GRAPH_VISIBLE, ABSConstants.CONCENTRATION_GRAPH_SIZE );
         listeners = new EventListenerList();
         reset();
     }
     
     public void reset() {
         setSolution( defaultSolutionFactory.createSolution() );
-        getMagnifyingGlass().setVisible( ABSConstants.MAGNIFYING_GLASS_VISIBLE );
-        getConcentrationGraph().setVisible( ABSConstants.CONCENTRATION_GRAPH_VISIBLE );
-        getPHMeter().setLocation( ABSConstants.PH_METER_LOCATION );
-        getPHMeter().setVisible( ABSConstants.PH_METER_VISIBLE );
-        setWaterVisible( ABSConstants.WATER_VISIBLE );
+        magnifyingGlass.setVisible( ABSConstants.MAGNIFYING_GLASS_VISIBLE );
+        magnifyingGlass.setWaterVisible( ABSConstants.WATER_VISIBLE );
+        concentrationGraph.setVisible( ABSConstants.CONCENTRATION_GRAPH_VISIBLE );
+        pHMeter.setLocation( ABSConstants.PH_METER_LOCATION );
+        pHMeter.setVisible( ABSConstants.PH_METER_VISIBLE );
     }
     
     public Beaker getBeaker() {
@@ -68,6 +67,10 @@ public class ABSModel {
     public void setSolution( AqueousSolution solution ) {
         if ( solution != this.solution ) {  /* yes, referential equality */
             this.solution = solution;
+            beaker.setSolution( solution );
+            pHMeter.setSolution( solution );
+            magnifyingGlass.setSolution( solution );
+            concentrationGraph.setSolution( solution );
             fireSolutionChanged();
         }
     }
@@ -76,25 +79,8 @@ public class ABSModel {
         return solution;
     }
     
-    public void setWaterVisible( boolean waterVisible ) {
-        if ( waterVisible != this.waterVisible ) {
-            this.waterVisible = waterVisible;
-            fireWaterVisibleChanged();
-        }
-    }
-    
-    public boolean isWaterVisible() {
-        return waterVisible;
-    }
-    
     public interface ModelChangeListener extends EventListener {
         public void solutionChanged();
-        public void waterVisibleChanged();
-    }
-    
-    public static class ModelChangeAdapter implements ModelChangeListener {
-        public void solutionChanged() {}
-        public void waterVisibleChanged() {}
     }
     
     public void addModelChangeListener( ModelChangeListener listener ) {
@@ -108,12 +94,6 @@ public class ABSModel {
     private void fireSolutionChanged() {
         for ( ModelChangeListener listener : listeners.getListeners( ModelChangeListener.class ) ) {
             listener.solutionChanged();
-        }
-    }
-    
-    private void fireWaterVisibleChanged() {
-        for ( ModelChangeListener listener : listeners.getListeners( ModelChangeListener.class ) ) {
-            listener.waterVisibleChanged();
         }
     }
 }

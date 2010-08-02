@@ -17,7 +17,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.model.*;
-import edu.colorado.phet.acidbasesolutions.model.ABSModel.ModelChangeAdapter;
+import edu.colorado.phet.acidbasesolutions.model.ABSModel.ModelChangeListener;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.AqueousSolutionChangeListener;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.ICustomSolution;
 import edu.colorado.phet.acidbasesolutions.model.StrongAcidSolution.CustomStrongAcidSolution;
@@ -52,8 +52,7 @@ public class CustomSolutionControl extends JPanel {
         
         // model
         this.model = model;
-        this.model.addModelChangeListener( new ModelChangeAdapter() {
-            @Override
+        this.model.addModelChangeListener( new ModelChangeListener() {
             public void solutionChanged() {
                 updateControl();
             }

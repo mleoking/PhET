@@ -7,7 +7,7 @@ import java.awt.*;
 import edu.colorado.phet.acidbasesolutions.constants.ABSImages;
 import edu.colorado.phet.acidbasesolutions.constants.ABSSymbols;
 import edu.colorado.phet.acidbasesolutions.model.*;
-import edu.colorado.phet.acidbasesolutions.model.ABSModel.ModelChangeAdapter;
+import edu.colorado.phet.acidbasesolutions.model.ABSModel.ModelChangeListener;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.SwingLayoutNode;
@@ -49,7 +49,7 @@ public class ReactionEquationNode extends PComposite {
         setChildrenPickable( false );
         
         this.model = model;
-        model.addModelChangeListener( new ModelChangeAdapter() {
+        model.addModelChangeListener( new ModelChangeListener() {
             public void solutionChanged() {
                 update();
             }
