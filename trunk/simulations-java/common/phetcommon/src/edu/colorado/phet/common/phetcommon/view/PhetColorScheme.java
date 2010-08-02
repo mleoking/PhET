@@ -18,6 +18,7 @@ public class PhetColorScheme {
     public static final Color BLACK =           new Color(0, 0, 0);
     public static final Color BLUE =            new Color(0, 0, 255);
     public static final Color LIGHT_BLUE =      new Color(50, 130, 215);
+    public static final Color PALE_BLUE =       new Color(0, 204, 255);
     public static final Color GREEN =           new Color(0, 255, 0);
     public static final Color DARK_GREEN =      new Color(0, 200, 0);
     public static final Color TURQUOISE =       new Color(0, 255, 255);
@@ -34,8 +35,8 @@ public class PhetColorScheme {
     public static final Color KINETIC_ENERGY =      GREEN;
     public static final Color POTENTIAL_ENERGY =    BLUE;
     public static final Color HEAT_THERMAL_ENERGY = RED;
-    public static final Color ELASTIC_ENERGY =      LIGHT_BLUE;
-    public static final Color NET_WORK =            GREEN;
+    public static final Color ELASTIC_ENERGY =      PALE_BLUE;
+    public static final Color NET_WORK =            DARK_GREEN;
     public static final Color TOTAL_FORCE =         DARK_GREEN;
     public static final Color FRICTION_FORCE =      RED;
     public static final Color NORMAL_FORCE =        GOLD;
