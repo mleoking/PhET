@@ -123,6 +123,7 @@ public class ToolsControl extends JPanel {
     
     private void updateControl() {
         pHMeterCheckBox.setSelected( model.getPHMeter().isVisible() );
+        pHPaperRadioButton.setSelected( model.getPHPaper().isVisible() );
         magnifyingGlassRadioButton.setSelected( model.getMagnifyingGlass().isVisible() );
         concentrationGraphRadioButton.setSelected( model.getConcentrationGraph().isVisible() );
         showWaterCheckBox.setSelected( model.getMagnifyingGlass().isWaterVisible() );
@@ -130,8 +131,9 @@ public class ToolsControl extends JPanel {
     
     private void updateModel() {
         model.getPHMeter().setVisible( pHMeterCheckBox.isSelected() );
+        model.getPHPaper().setVisible( pHPaperRadioButton.isSelected() );
         model.getMagnifyingGlass().setVisible( magnifyingGlassRadioButton.isSelected() );
-        model.getConcentrationGraph().setVisible( concentrationGraphRadioButton.isSelected() );
         model.getMagnifyingGlass().setWaterVisible( showWaterCheckBox.isSelected() );
+        model.getConcentrationGraph().setVisible( concentrationGraphRadioButton.isSelected() );
     }
 }
