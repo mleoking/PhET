@@ -40,6 +40,17 @@ public class DensityViewIntro extends DensityView {
         model.addDensityObject(Block.newBlockDensityMass(density, 0.5, 4.5, 0, new ColorTransform(1, 0, 0), model));
         addScales();
     }
+    
+    private function initializeCustomObject():void {
+        var density:Number = 0.25; //Showing the blocks as partially floating allows easier visualization of densities
+        model.addDensityObject(Block.newBlockDensityMass(density, 7, -4.5, 0, new ColorTransform(0.5, 0.5, 0), model));
+    }
+    
+    private function initializeMysteryObjects():void {
+        var density:Number = 0.25; //Showing the blocks as partially floating allows easier visualization of densities
+        model.addDensityObject(Block.newBlockDensityMass(density, 7, -4.5, 0, new ColorTransform(0.5, 0.5, 0), model));
+        addScales();
+    }
 
     public function switchToSameMass():void {
         model.clearDensityObjects();
@@ -60,5 +71,16 @@ public class DensityViewIntro extends DensityView {
         model.clearDensityObjects();
         initializeSameDensity();
     }
+
+    public function switchToCustomObject():void {
+        model.clearDensityObjects();
+        initializeCustomObject();
+    }
+
+    public function switchToMysteryObjects():void {
+        model.clearDensityObjects();
+        initializeMysteryObjects();
+    }
+
 }
 }
