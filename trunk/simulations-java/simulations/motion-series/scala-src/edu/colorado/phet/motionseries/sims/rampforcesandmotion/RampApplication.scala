@@ -151,7 +151,7 @@ class ForceGraphsApplication(config: PhetApplicationConfig) extends PiccoloPhetA
 }
 
 object ForceGraphsApplication {
-  def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "the-ramp".literal, classOf[ForceGraphsApplication])
+  def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "ramp-forces-and-motion".literal, classOf[ForceGraphsApplication])
 }
 
 /**
@@ -181,7 +181,7 @@ class RampApplication(config: PhetApplicationConfig) extends PiccoloPhetApplicat
  */
 object RampApplication {
   def main(args: Array[String]) = {
-    new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "the-ramp".literal, classOf[RampApplication])
+    new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "ramp-forces-and-motion".literal, classOf[RampApplication])
   }
 }
 
