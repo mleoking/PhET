@@ -62,8 +62,9 @@ public class MonthlyReportFilter {
         allList = new ArrayList<String>();
         allList.addAll(categories);
         allList.addAll(sims);
-        allList.add("sick-leave");
-        allList.add("vacation");
+        allList.add("leave:sick:family");
+        allList.add("leave:sick:personal");
+        allList.add("leave:vacation");
     }
 
     public TimesheetModel filter(TimesheetModel selection) {
