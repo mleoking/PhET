@@ -23,6 +23,7 @@ public class PHPaper extends SolutionRepresentation {
     private final PDimension size;
     private final Beaker beaker;
     private double dippedHeight=0;
+    private double phValue;//current ph value from dipping in the solution
 
     public PHPaper( AqueousSolution solution, Point2D location, boolean visible, PDimension size, Beaker beaker ) {
         super( solution, location, visible );
@@ -98,7 +99,7 @@ public class PHPaper extends SolutionRepresentation {
      * @return
      */
     public Color getDippedColor() {
-        return createColor( getSolution().getPH() );
+        return createColor( phValue );
     }
     
     private Color createColor( double pH ) {
@@ -124,5 +125,17 @@ public class PHPaper extends SolutionRepresentation {
             h = ph;
         }
         return h;
+    }
+
+    public void clockTicked(double simulationTimeChange) {
+        if (phValue != getSolution().getPH()) {
+            double deltaPH = (getSolution().getPH() - phValue) > 0 ? +1 : -1;//unit step towards target
+            if (Math.abs(phValue - getSolution().getPH()) < deltaPH) {//close enough, go directly to the target value
+                phValue = getSolution().getPH();
+            } else {
+                phValue = phValue + simulationTimeChange * deltaPH * 0.1;
+            }
+            fireLocationChanged();
+        }
     }
 }

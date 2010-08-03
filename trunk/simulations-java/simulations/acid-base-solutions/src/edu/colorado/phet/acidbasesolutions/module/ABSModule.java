@@ -14,7 +14,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
 public abstract class ABSModule extends PiccoloModule {
 
     public ABSModule( String name ) {
-        super( name, new ConstantDtClock( 1000, 1 ), true /* startsPaused */ );
+        super( name, new ConstantDtClock( 40, 1 ) );
         setClockControlPanel( null );
         setLogoPanelVisible( false );
     }
