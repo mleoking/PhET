@@ -1,0 +1,38 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: July 20 - August 2, 2010 (vacation from July 24 - August 1)
+
+ACCOMPLISHMENTS:
+
+Faraday:
+- collaborated with Sam R.
+- #2236, completed implementation of new bar magnet model
+- #2446, fixed compass behavior for DC electromagnet 
+- simplified the calibration framework
+- published 2.03.06, waiting for feedback
+
+Acid-Base Solutions:
+ - met with Kelly to discuss what's safe to work on (pH paper, conductivity tester)
+ - started working on pH paper
+
+ misc:
+ - PhET status meeting 7/20
+ - #2304, PBG is broken for Translation Utility and other non-sim projects
+
+WHAT'S NEXT:
+
+ - Faraday: wrap up of #2336 (fix for dipole magnet)
+ - Acid-Base Solutions: complete (after Chem Advisory Board feedback)
+ - Capacitor Lab: design & implementation 
+
+ISSUES:
+
+ - none
+
+DATES UNAVAILABLE:
+
+  August 12
+  September 3, 24
+
+--
