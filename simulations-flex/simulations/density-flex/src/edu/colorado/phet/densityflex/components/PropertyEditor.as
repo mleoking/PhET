@@ -13,13 +13,7 @@ public class PropertyEditor extends GridRow {
     public function PropertyEditor(property:NumericProperty) {
         super();
         this.property=property;
-        const slider:HSlider = new HSlider();
-        slider.liveDragging = true;
-        slider.addEventListener(SliderEvent.CHANGE, sliderDragHandler);
-        function updateSlider():void{slider.value=property.value;}
-        updateSlider();
-        property.addListener(updateSlider);
-        addGridItem(slider);
+        addGridItem(createSlider(property));
         
         var label:Label = new Label();
         label.text = property.name;
@@ -37,10 +31,22 @@ public class PropertyEditor extends GridRow {
         addGridItem(unitsLabel);
     }
 
-    private function sliderDragHandler(event:SliderEvent):void {
-        property.value = event.value;
-    }
+    protected function createSlider(property:NumericProperty):HSlider {
+        const slider:HSlider = new HSlider();
+        slider.liveDragging = true;
+        function sliderDragHandler(event:SliderEvent):void {
+            property.value = event.value;
+        }
 
+        slider.addEventListener(SliderEvent.CHANGE, sliderDragHandler);
+        function updateSlider():void {
+            slider.value = property.value;
+        }
+
+        updateSlider();
+        property.addListener(updateSlider);
+        return slider;
+    }
 
     private function addGridItem(displayObject:DisplayObject):void {
         const item = new GridItem();

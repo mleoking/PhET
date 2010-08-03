@@ -17,7 +17,7 @@ public class CustomObjectPropertiesPanel extends Panel {
 
         grid.addChild(new PropertyEditor(densityObject.getMass()));
         grid.addChild(new PropertyEditor(densityObject.getVolume()));
-        grid.addChild(new PropertyEditor(densityObject.getDensity()));
+        grid.addChild(new DensityEditor(densityObject.getDensity()));
 
         addChild(grid);
     }
