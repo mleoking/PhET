@@ -53,7 +53,7 @@ class ForcesAndMotionChartNode(canvas: PhetPCanvas, model: MotionSeriesModel) ex
 }
 
 class SingleSeriesChart(motionSeriesModel: MotionSeriesModel, _value: () => Double, maxY: Double, units: String, color: Color, title: String) {
-  val temporalChart = new TemporalChart(new java.awt.geom.Rectangle2D.Double(0, -maxY, 20, maxY * 2), motionSeriesModel.chartCursor)
+  val temporalChart = new TemporalChart(new java.awt.geom.Rectangle2D.Double(0, -maxY, 20, maxY * 2), null,null,motionSeriesModel.chartCursor)
   val chart = new ControlChart(new PNode() {
     addChild(new ShadowHTMLNode(title) {
       setColor(color)
@@ -109,7 +109,7 @@ abstract class MotionSeriesControlChart(motionSeriesModel: MotionSeriesModel) {
   motionSeriesModel.resetListeners_+=(() => {resetAll()})
   def addSerieses(): Unit
 
-  val temporalChart = new TemporalChart(new java.awt.geom.Rectangle2D.Double(0, -2000, 20, 4000), motionSeriesModel.chartCursor)
+  val temporalChart = new TemporalChart(new java.awt.geom.Rectangle2D.Double(0, -2000, 20, 4000), null,null, motionSeriesModel.chartCursor)
 
   def parallelFriction = motionSeriesModel.motionSeriesObject.frictionForceVector.getValue dot motionSeriesModel.motionSeriesObject.getRampUnitVector
 

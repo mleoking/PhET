@@ -36,6 +36,8 @@ public class TemporalChart extends PNode {
     private static final Paint DOMAIN_TICK_MARK_COLOR = Color.black;
 
     private MutableRectangle dataModelBounds;
+    private MutableRectangle minimumZoomableDataModelBounds;
+    private MutableRectangle maximumZoomableDataModelBounds;
     private MutableDimension viewDimension;
     private PNode chartContents;//layer for chart pnodes, for minimize/maximize support
     private ModelViewTransform2D modelViewTransform2D;
@@ -45,16 +47,20 @@ public class TemporalChart extends PNode {
     public static String TIME_LABEL_PATTERN = "{0} {1}";
     private ArrayList<LineSeriesNode> lineSeriesNodes=new ArrayList<LineSeriesNode>();
 
-    public TemporalChart(Rectangle2D.Double dataModelBounds, ChartCursor cursor) {
-        this(dataModelBounds, 100, 100, cursor);//useful for layout code that updates size later instead of at construction and later
+    public TemporalChart(Rectangle2D.Double dataModelBounds, Rectangle2D.Double minZoomBounds,Rectangle2D.Double maxZoomBounds,ChartCursor cursor) {
+        this(dataModelBounds,minZoomBounds, maxZoomBounds, 100, 100, cursor);//useful for layout code that updates size later instead of at construction and later
     }
 
     public TemporalChart(final Rectangle2D.Double dataModelBounds,
+                         final Rectangle2D.Double minZoomBounds,
+                         final Rectangle2D.Double maxZoomBounds,
                          final double dataAreaWidth,//Width of the chart area
                          final double dataAreaHeight,
                          final ChartCursor cursor //Must be provided by the client so that charts cursor locations can be synchronized
     ) {
         this.dataModelBounds = new MutableRectangle(dataModelBounds);
+        this.minimumZoomableDataModelBounds=new MutableRectangle(minZoomBounds);
+        this.maximumZoomableDataModelBounds=new MutableRectangle(maxZoomBounds);
         this.viewDimension = new MutableDimension(dataAreaWidth, dataAreaHeight);
         chartContents = new PNode();
         addChild(chartContents);
@@ -235,6 +241,25 @@ public class TemporalChart extends PNode {
         for (LineSeriesNode lineSeriesNode : lineSeriesNodes) {
             lineSeriesNode.reset();
         }
+    }
+
+    //2
+    public double getMinimumDomainRange() {
+        return minimumZoomableDataModelBounds.getWidth();
+    }
+
+    //10
+    public double getMinimumRangeRange() {
+        return minimumZoomableDataModelBounds.getHeight();
+    }
+    //20000
+    public double getMaximumRangeRange(){
+        return maximumZoomableDataModelBounds.getHeight();
+    }
+
+    //20
+    public double getMaximumDomainRange() {
+        return maximumZoomableDataModelBounds.getWidth();
     }
 
     public static class DomainTickMark extends PNode {

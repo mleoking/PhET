@@ -26,11 +26,13 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
     public MovingManSimulationPanelWithCharts(final MovingManModel model, final RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel, MutableBoolean positiveToTheRight) {
         super(model, recordAndPlaybackModel, 100, positiveToTheRight);
 
+        Rectangle2D.Double minZoomBounds = new Rectangle2D.Double(0, -5, 2, 10);
+            Rectangle2D.Double maxZoomBounds = new Rectangle2D.Double(0, -10, 20, 20);
         // positionMovingManChart
         {
             int xMax = 10;
             //TODO: Factor out chart code if possible
-            TemporalChart positionChart = new TemporalChart(new Rectangle2D.Double(0, -xMax, 20, xMax * 2), model.getChartCursor());
+            TemporalChart positionChart = new TemporalChart(new Rectangle2D.Double(0, -xMax, 20, xMax * 2), minZoomBounds, maxZoomBounds, model.getChartCursor());
             {
                 positionChart.addDataSeries(model.getPositionGraphSeries(), MovingManColorScheme.POSITION_COLOR);
             }
@@ -76,7 +78,7 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
         // velocityMovingManChart
         {
             double vMax = 60 / 5;
-            TemporalChart velocityChart = new TemporalChart(new Rectangle2D.Double(0, -vMax, 20, vMax * 2), model.getChartCursor());
+            TemporalChart velocityChart = new TemporalChart(new Rectangle2D.Double(0, -vMax, 20, vMax * 2), minZoomBounds, maxZoomBounds, model.getChartCursor());
             {
                 velocityChart.addDataSeries(model.getVelocityGraphSeries(), MovingManColorScheme.VELOCITY_COLOR);
             }
@@ -124,7 +126,7 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
         // accelerationMovingManChart
         {
             double aMax = 60;
-            TemporalChart accelerationChart = new TemporalChart(new Rectangle2D.Double(0, -aMax, 20, aMax * 2), model.getChartCursor());
+            TemporalChart accelerationChart = new TemporalChart(new Rectangle2D.Double(0, -aMax, 20, aMax * 2), minZoomBounds, maxZoomBounds, model.getChartCursor());
             {
                 accelerationChart.addDataSeries(model.getAccelerationGraphSeries(), MovingManColorScheme.ACCELERATION_COLOR);
 
