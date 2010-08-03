@@ -117,7 +117,7 @@ public class HibernateEventListener implements PostInsertEventListener, PostUpda
         }
         Object oldVal = event.getOldState()[idx];
         Object newVal = event.getState()[idx];
-        System.out.println( name + ": " + oldVal + " -> " + newVal );
+//        System.out.println( name + ": " + oldVal + " -> " + newVal ); // TODO: why was this reporting visible: true -> true ?
         if ( oldVal == null ) {
             return newVal != null;
         }
