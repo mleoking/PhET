@@ -122,7 +122,7 @@ public class PhetInfoServicePage extends WebPage {
                 Simulation simulation = (Simulation) session.createQuery( "select s from Simulation as s where s.name = :sim and s.project.name = :project" )
                         .setString( "project", project ).setString( "sim", sim ).uniqueResult();
                 sims[0] = simulation;
-                return true;
+                return simulation != null;
             }
         } );
         if ( foundSim ) {
