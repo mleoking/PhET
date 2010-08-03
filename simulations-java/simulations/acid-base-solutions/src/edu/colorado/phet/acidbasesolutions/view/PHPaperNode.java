@@ -50,8 +50,6 @@ public class PHPaperNode extends PhetPNode {
             public void locationChanged() {
                 //TODO map location from model to view coordinate frame
                 setOffset( paper.getLocationReference() );
-                updateGeomerty();
-                updateColor();
             }
 
             public void visibilityChanged() {
@@ -63,6 +61,9 @@ public class PHPaperNode extends PhetPNode {
         paper.addPHPaperChangeListener( new PHPaperChangeListener() {
             public void dippedColorChanged() {
                 updateColor();
+            }
+            public void dippedHeightChanged() {
+                updateGeomerty();
             }
         });
 
@@ -108,6 +109,7 @@ public class PHPaperNode extends PhetPNode {
         dippedRectangle = new Rectangle2D.Double();
         dippedPathNode = new PPath();
         dippedPathNode.setStroke( null );
+        dippedPathNode.setPaint( paper.getDippedColor() );
         addChild( dippedPathNode );
 
         PPath outlineNode = new PPath( r );
@@ -138,7 +140,7 @@ public class PHPaperNode extends PhetPNode {
             this.solution = solution;
             this.solution.addAqueousSolutionChangeListener( listener );
             updateColor();
-            updateGeomerty();//to make sure the solution dipped height updates
+            updateGeomerty(); // to make sure the dipped height updates
         }
     }
 }

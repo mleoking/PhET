@@ -23,11 +23,12 @@ public class CustomSolutionModule extends ABSModule {
     public CustomSolutionModule() {
         super( ABSStrings.CUSTOM_SOLUTION );
         
-        model = new ABSModel( new SolutionFactory() {
+        SolutionFactory solutionFactory = new SolutionFactory() {
             public AqueousSolution createSolution() {
                 return new CustomWeakAcidSolution();
             }
-        });
+        };
+        model = new ABSModel( getClock(), solutionFactory );
         
         canvas = new CustomSolutionCanvas( model );
         setSimulationPanel( canvas );

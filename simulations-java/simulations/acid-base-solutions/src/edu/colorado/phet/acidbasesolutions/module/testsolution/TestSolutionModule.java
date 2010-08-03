@@ -23,12 +23,12 @@ public class TestSolutionModule extends ABSModule {
     public TestSolutionModule() {
         super( ABSStrings.TEST_SOLUTION );
         
-        model = new ABSModel( new SolutionFactory() {
+        SolutionFactory solutionFactory = new SolutionFactory() {
             public AqueousSolution createSolution() {
                 return new PureWaterSolution();
             }
-        } );
-        getClock().addClockListener(model.getClockListener());
+        };
+        model = new ABSModel( getClock(), solutionFactory );
         
         canvas = new TestSolutionCanvas( model );
         setSimulationPanel( canvas );
