@@ -664,7 +664,7 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
                     else {return false;}
                 }
             } );
-            if( ret[0] == null ) {
+            if ( ret[0] == null ) {
                 logger.info( "did not find old contribution value: " + id );
                 return NOT_FOUND;
             }
@@ -754,6 +754,9 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         boolean success = HibernateUtils.wrapSession( new HibernateTask() {
             public boolean run( Session session ) {
                 Simulation simulation = (Simulation) session.createQuery( "select s from Simulation as s where s.oldId = :oldid" ).setInteger( "oldid", simId ).uniqueResult();
+                if ( simulation == null ) {
+                    return false;
+                }
                 LocalizedSimulation lsim = simulation.getBestLocalizedSimulation( locale );
                 ret.append( lsim.getDownloadUrl() );
                 return true;
@@ -780,6 +783,9 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         boolean success = HibernateUtils.wrapSession( new HibernateTask() {
             public boolean run( Session session ) {
                 ContributionFile file = (ContributionFile) session.createQuery( "select cf from ContributionFile as cf where cf.oldId = :oldid" ).setInteger( "oldid", contributionFileId ).uniqueResult();
+                if ( file == null ) {
+                    return false;
+                }
                 ret.append( file.getLinker().getDefaultRawUrl() );
                 return true;
             }
@@ -805,6 +811,9 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         boolean success = HibernateUtils.wrapSession( new HibernateTask() {
             public boolean run( Session session ) {
                 Contribution contribution = (Contribution) session.createQuery( "select c from Contribution as c where c.oldId = :oldid" ).setInteger( "oldid", contributionId ).uniqueResult();
+                if ( contribution == null ) {
+                    return false;
+                }
                 ret.append( contribution.getZipLocation() );
                 return true;
             }
@@ -830,6 +839,9 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         boolean success = HibernateUtils.wrapSession( new HibernateTask() {
             public boolean run( Session session ) {
                 TeachersGuide guide = (TeachersGuide) session.createQuery( "select tg from TeachersGuide as tg where tg.oldId = :oldid" ).setInteger( "oldid", id ).uniqueResult();
+                if ( guide == null ) {
+                    return false;
+                }
                 ret.append( guide.getLinker().getDefaultRawUrl() );
                 return true;
             }
