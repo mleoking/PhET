@@ -1,3 +1,4 @@
+Added a limit of 10,000 on vertical zoom out on all charts
 8-3-2010: Improved layout for charts, make sure all vertical space is efficiently used
 # 1.03.73 (42785) Aug 2, 2010
 Renamed internal module name "the-ramp" to "ramp-forces-and-motion"

@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont
 import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode
 import edu.colorado.phet.common.phetcommon.model.MutableBoolean
 import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel.{HistoryClearListener, HistoryRemainderClearListener}
+import java.awt.geom.Rectangle2D
 
 /**
  * @author Sam Reid
@@ -53,7 +54,7 @@ class ForcesAndMotionChartNode(canvas: PhetPCanvas, model: MotionSeriesModel) ex
 }
 
 class SingleSeriesChart(motionSeriesModel: MotionSeriesModel, _value: () => Double, maxY: Double, units: String, color: Color, title: String) {
-  val temporalChart = new TemporalChart(new java.awt.geom.Rectangle2D.Double(0, -maxY, 20, maxY * 2), null,null,motionSeriesModel.chartCursor)
+  val temporalChart = new TemporalChart(new Rectangle2D.Double(0, -maxY, 20, maxY * 2), new Rectangle2D.Double(0, -5, 2, 10),new Rectangle2D.Double(0, -10000, 20, 20000),motionSeriesModel.chartCursor)
   val chart = new ControlChart(new PNode() {
     addChild(new ShadowHTMLNode(title) {
       setColor(color)
@@ -109,7 +110,7 @@ abstract class MotionSeriesControlChart(motionSeriesModel: MotionSeriesModel) {
   motionSeriesModel.resetListeners_+=(() => {resetAll()})
   def addSerieses(): Unit
 
-  val temporalChart = new TemporalChart(new java.awt.geom.Rectangle2D.Double(0, -2000, 20, 4000), null,null, motionSeriesModel.chartCursor)
+  val temporalChart = new TemporalChart(new java.awt.geom.Rectangle2D.Double(0, -2000, 20, 4000), new Rectangle2D.Double(0, -5, 2, 10),new Rectangle2D.Double(0, -10000, 20, 20000), motionSeriesModel.chartCursor)
 
   def parallelFriction = motionSeriesModel.motionSeriesObject.frictionForceVector.getValue dot motionSeriesModel.motionSeriesObject.getRampUnitVector
 
