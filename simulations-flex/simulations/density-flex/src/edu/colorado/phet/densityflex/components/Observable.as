@@ -5,11 +5,11 @@ public class Observable {
     public function Observable() {
     }
     
-    function addListener(listener:Function):void {
+    public function addListener(listener:Function):void {
         listeners.push(listener);
     }
 
-    function notifyObservers():void {
+    public function notifyObservers():void {
         for each (var listener:Function in listeners) {
             listener();
         }

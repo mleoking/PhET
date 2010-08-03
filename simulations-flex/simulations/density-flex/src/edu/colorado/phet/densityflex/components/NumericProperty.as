@@ -14,7 +14,7 @@ public class NumericProperty extends Observable{
         return _name;
     }
 
-    function get value():Number{
+    public function get value():Number{
         return _value;
     }
 
@@ -22,11 +22,12 @@ public class NumericProperty extends Observable{
         return _units;
     }
 
-    function set value(value:Number):void {
+    public function set value(value:Number):void {
         if (_value != value){
         _value = value;
         super.notifyObservers();
         }
     }
+
 }
 }
