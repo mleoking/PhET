@@ -43,6 +43,7 @@ public class NewStrings {
         checkString( session, "error.internalError.message", "Please contact us at {0} for assistance or to report the error." );
         checkString( session, "error.sessionExpired", "Your session has expired" );
         checkString( session, "error.sessionExpired.message", "If you are submitting information, please hit 'Back', copy the information, and log in again." );
+        checkString( session, "error.pageNotFound.message", "Please contact us at {0} for assistance or to report the error." );
         session.close();
     }
 
