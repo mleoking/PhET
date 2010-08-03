@@ -4,6 +4,9 @@ package edu.colorado.phet.acidbasesolutions.model;
 
 import java.awt.Color;
 import java.awt.geom.Point2D;
+import java.util.EventListener;
+
+import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
@@ -24,11 +27,13 @@ public class PHPaper extends SolutionRepresentation {
     private final Beaker beaker;
     private double dippedHeight=0;
     private double phValue;//current ph value from dipping in the solution
+    private final EventListenerList listeners;
 
     public PHPaper( AqueousSolution solution, Point2D location, boolean visible, PDimension size, Beaker beaker ) {
         super( solution, location, visible );
         this.size = new PDimension( size );
         this.beaker = beaker;
+        this.listeners = new EventListenerList();
     }
     
     public PDimension getSizeReference() {
@@ -90,7 +95,7 @@ public class PHPaper extends SolutionRepresentation {
      * Gets the original color of the paper, before it's dipped in solution.
      * @return
      */
-    public Color getColor() {
+    public Color getPaperColor() {
         return PAPER_COLOR;
     }
     
@@ -129,13 +134,31 @@ public class PHPaper extends SolutionRepresentation {
 
     public void clockTicked(double simulationTimeChange) {
         if (phValue != getSolution().getPH()) {
-            double deltaPH = (getSolution().getPH() - phValue) > 0 ? +1 : -1;//unit step towards target
-            if (Math.abs(phValue - getSolution().getPH()) < deltaPH) {//close enough, go directly to the target value
+            double deltaPH = (getSolution().getPH() - phValue) > 0 ? +1 : -1; //unit step towards target
+            if (Math.abs(phValue - getSolution().getPH()) < deltaPH) { //close enough, go directly to the target value
                 phValue = getSolution().getPH();
             } else {
                 phValue = phValue + simulationTimeChange * deltaPH * 0.1;
             }
-            fireLocationChanged();
+            fireDippedColorChanged();
+        }
+    }
+    
+    public interface PHPaperChangeListener extends EventListener {
+        public void dippedColorChanged();
+    }
+    
+    public void addPHPaperChangeListener( PHPaperChangeListener listener ) {
+        listeners.add( PHPaperChangeListener.class, listener );
+    }
+    
+    public void removePHPaperChangeListener( PHPaperChangeListener listener ) {
+        listeners.remove( PHPaperChangeListener.class, listener );
+    }
+    
+    private void fireDippedColorChanged() {
+        for ( PHPaperChangeListener listener : listeners.getListeners( PHPaperChangeListener.class ) ) {
+            listener.dippedColorChanged();
         }
     }
 }
