@@ -60,7 +60,7 @@ public class GeneratorModule extends FaradayModule {
     private static final double PICKUP_COIL_TRANSITION_SMOOTHING_SCALE = 1.0;  // see PickupCoil.setTransitionSmoothingScale, 1 because magnet is never inside coil
     
     // Scaling
-    private static final double CALIBRATION_EMF = 25600; // see PickupCoil.calibrateEmf for calibration instructions
+    private static final double CALIBRATION_EMF = 26000; // see PickupCoil.calibrateEmf for calibration instructions
     
     //----------------------------------------------------------------------------
     // Instance data
