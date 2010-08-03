@@ -777,22 +777,28 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
             return NOT_FOUND;
         }
 
-        final int contributionFileId = Integer.parseInt( ( (String[]) parameters.get( "contribution_file_id" ) )[0] );
+        try {
+            final int contributionFileId = Integer.parseInt( ( (String[]) parameters.get( "contribution_file_id" ) )[0] );
 
-        final StringBuffer ret = new StringBuffer();
-        boolean success = HibernateUtils.wrapSession( new HibernateTask() {
-            public boolean run( Session session ) {
-                ContributionFile file = (ContributionFile) session.createQuery( "select cf from ContributionFile as cf where cf.oldId = :oldid" ).setInteger( "oldid", contributionFileId ).uniqueResult();
-                if ( file == null ) {
-                    return false;
+            final StringBuffer ret = new StringBuffer();
+            boolean success = HibernateUtils.wrapSession( new HibernateTask() {
+                public boolean run( Session session ) {
+                    ContributionFile file = (ContributionFile) session.createQuery( "select cf from ContributionFile as cf where cf.oldId = :oldid" ).setInteger( "oldid", contributionFileId ).uniqueResult();
+                    if ( file == null ) {
+                        return false;
+                    }
+                    ret.append( file.getLinker().getDefaultRawUrl() );
+                    return true;
                 }
-                ret.append( file.getLinker().getDefaultRawUrl() );
-                return true;
-            }
-        } );
+            } );
 
-        if ( success ) {
-            return ret.toString();
+            if ( success ) {
+                return ret.toString();
+            }
+
+        }
+        catch( NumberFormatException e ) {
+            return NOT_FOUND;
         }
 
         return NOT_FOUND;
