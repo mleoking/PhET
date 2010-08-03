@@ -12,7 +12,8 @@ public class DensityViewIntro extends DensityView {
 
     public function DensityViewIntro() {
         super();
-        customObjectPropertiesPanel = new CustomObjectPropertiesPanel(new DefaultDensityObject());
+//        customObjectPropertiesPanel = new CustomObjectPropertiesPanel(new DefaultDensityObject());
+        customObjectPropertiesPanel = new CustomObjectPropertiesPanel(new ConstantDensityObject());
     }
 
     override public function initObjects():void {
@@ -48,7 +49,7 @@ public class DensityViewIntro extends DensityView {
 
     private function initializeCustomObject():void {
         var density:Number = 0.25; //Showing the blocks as partially floating allows easier visualization of densities
-        model.addDensityObject(Block.newBlockDensityMass(density, 7, -4.5, 0, new ColorTransform(0.5, 0.5, 0), model));
+        model.addDensityObject(Block.newBlockDensityMass(density, 7, -8, 0, new ColorTransform(0.5, 0.5, 0), model));
     }
 
     private function initializeMysteryObjects():void {
