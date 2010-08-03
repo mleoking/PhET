@@ -19,9 +19,9 @@ public class SimulationMainEntity extends TranslationEntity {
 
     public SimulationMainEntity() {
         addString( "simulationMainPanel.translatedVersions" );
-        addString( "simulationMainPanel.screenshot.alt", "{0} will by replaced by the title of the simulation" );
+        addString( "simulationMainPanel.screenshot.alt", "{0} will be replaced by the title of the simulation" );
         addString( "simulationMainPanel.version", "{0} will be replaced by the version number" );
-        addString( "simulationMainPanel.kilobytes", "{0} will by replaced by the size of the simulation download (number of kilobytes)" );
+        addString( "simulationMainPanel.kilobytes", "{0} will be replaced by the size of the simulation download (number of kilobytes)" );
         addString( "simulationMainPanel.runOffline" );
         addString( "simulationMainPanel.runOnline" );
         addString( "simulationMainPanel.tipsForTeachers" );
