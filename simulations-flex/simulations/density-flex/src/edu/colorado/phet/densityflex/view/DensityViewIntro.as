@@ -12,7 +12,7 @@ public class DensityViewIntro extends DensityView {
 
     public function DensityViewIntro() {
         super();
-         customObjectPropertiesPanel= new CustomObjectPropertiesPanel(new DefaultDensityObject());
+        customObjectPropertiesPanel = new CustomObjectPropertiesPanel(new DefaultDensityObject());
     }
 
     override public function initObjects():void {
@@ -57,22 +57,25 @@ public class DensityViewIntro extends DensityView {
         addScales();
     }
 
-    public function switchToSameMass():void {
-        model.clearDensityObjects();
-        initializeSameMass();
-    }
-
     override public function reset():void {
         super.reset();
         switchToSameMass();
     }
 
+    public function switchToSameMass():void {
+        removeCustomPanel();
+        model.clearDensityObjects();
+        initializeSameMass();
+    }
+
     public function switchToSameVolume():void {
+        removeCustomPanel();
         model.clearDensityObjects();
         initializeSameVolume();
     }
 
     public function switchToSameDensity():void {
+        removeCustomPanel();
         model.clearDensityObjects();
         initializeSameDensity();
     }
@@ -84,13 +87,17 @@ public class DensityViewIntro extends DensityView {
     }
 
     public function switchToMysteryObjects():void {
-//        _densityCanvas.removeChild(customObjectPropertiesPanel);
+        removeCustomPanel();
         model.clearDensityObjects();
         initializeMysteryObjects();
     }
 
+    private function removeCustomPanel():void {
+        if (_densityCanvas.getChildIndex(customObjectPropertiesPanel) >= 0) _densityCanvas.removeChild(customObjectPropertiesPanel);
+    }
+
     public function set densityCanvas(densityCanvas:Canvas):void {
-        this._densityCanvas= densityCanvas;
+        this._densityCanvas = densityCanvas;
     }
 }
 }
