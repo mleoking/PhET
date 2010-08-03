@@ -40,7 +40,7 @@ public class NavLocation implements Serializable {
     /**
      * What should be done if a user clicks on the navigation entry!
      */
-    private transient Linkable linker;
+    private transient Linkable linker; // transient so we don't attempt to serialize all linkers
 
     /**
      * Whether the location will be hidden if NOT selected
