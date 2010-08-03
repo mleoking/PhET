@@ -128,6 +128,7 @@ public class PHPaperNode extends PhetPNode {
             this.solution = solution;
             this.solution.addAqueousSolutionChangeListener( listener );
             updateColor();
+            updateGeomerty();//to make sure the solution dipped height updates
         }
     }
 }

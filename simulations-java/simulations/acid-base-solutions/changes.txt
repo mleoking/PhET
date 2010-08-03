@@ -1,3 +1,4 @@
+8/3/10 store the dipped height for when the ph paper is removed from the water
 8/3/10 second pass at pH paper
 8/3/10 first pass at conductivity tester model
 8/2/10 first pass at pH paper (geometry and dragging)

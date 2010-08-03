@@ -22,6 +22,7 @@ public class PHPaper extends SolutionRepresentation {
     
     private final PDimension size;
     private final Beaker beaker;
+    private double dippedHeight=0;
 
     public PHPaper( AqueousSolution solution, Point2D location, boolean visible, PDimension size, Beaker beaker ) {
         super( solution, location, visible );
@@ -44,8 +45,14 @@ public class PHPaper extends SolutionRepresentation {
     @Override
     public void setLocation( double x, double y ) {
         super.setLocation( constrainX( x ), constrainY( y ) );
+        this.dippedHeight= Math.max(dippedHeight,getSubmergedHeight());
     }
-    
+
+    @Override
+    public void setSolution(AqueousSolution solution) {
+        this.dippedHeight=getSubmergedHeight();//Clear any residue above the solution
+        super.setSolution(solution);
+    }
     /*
      * Constrains an x coordinate to be between the walls of the beaker.
      */
@@ -101,6 +108,10 @@ public class PHPaper extends SolutionRepresentation {
     }
     
     public double getDippedHeight() {
+        return dippedHeight;
+    }
+
+    private double getSubmergedHeight() {
         double by = beaker.getY();
         double py = getY();
         double bh = beaker.getHeight();
