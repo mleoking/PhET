@@ -33,7 +33,7 @@ public class PHPaperNode extends PhetPNode {
     private PHPaper paper;
     private AqueousSolution solution;
     private AqueousSolutionChangeListener listener;
-    private PPath pathNode;
+    private PPath paperBodyNode;
     private PPath dippedPathNode;
     private Rectangle2D dippedRectangle;
 
@@ -94,17 +94,20 @@ public class PHPaperNode extends PhetPNode {
         } );
         
         Rectangle2D r = new Rectangle2D.Double( -paper.getWidth() / 2, 0, paper.getWidth(), paper.getHeight() );
-        pathNode = new PPath( r );
-        pathNode.setPaint( paper.getColor() );
-        pathNode.setStroke( STROKE );
-        pathNode.setStrokePaint( STROKE_COLOR );
-        addChild( pathNode );
+        paperBodyNode = new PPath( r );
+        paperBodyNode.setPaint( paper.getColor() );
+        addChild( paperBodyNode );
         
         dippedRectangle = new Rectangle2D.Double();
         dippedPathNode = new PPath();
         dippedPathNode.setStroke( null );
         addChild( dippedPathNode );
 
+        PPath outlineNode = new PPath( r );
+        outlineNode.setStroke( STROKE );
+        outlineNode.setStrokePaint( STROKE_COLOR );
+        addChild( outlineNode );
+        
         setOffset( paper.getLocationReference() );
         setVisible( paper.isVisible() );
         updateGeomerty();
