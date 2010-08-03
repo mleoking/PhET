@@ -28,6 +28,7 @@ public class TestSolutionModule extends ABSModule {
                 return new PureWaterSolution();
             }
         } );
+        getClock().addClockListener(model.getClockListener());
         
         canvas = new TestSolutionCanvas( model );
         setSimulationPanel( canvas );
