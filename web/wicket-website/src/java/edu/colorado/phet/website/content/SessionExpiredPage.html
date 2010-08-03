@@ -4,7 +4,7 @@
       xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd" xml:lang="en"
       lang="en">
 <head>
-    <title wicket:id="page-title">[PREVIEW] ErrorPage</title>
+    <title wicket:id="page-title">[PREVIEW] SessionExpiredPage</title>
     <wicket:remove>
         <link rel="stylesheet" type="text/css" href="../../../../../../../root/css/preview.css"/>
     </wicket:remove>
@@ -12,9 +12,9 @@
 <body>
 
 <wicket:extend>
-    <h1 style="text-align: center;"><wicket:message key="error.internalError">Internal error occurred</wicket:message></h1>
+    <h1 style="text-align: center;"><wicket:message key="error.sessionExpired"></wicket:message></h1>
 
-    <p wicket:id="errorMessage" style="text-align: center;"></p>
+    <p wicket:id="message" style="text-align: center;"></p>
 </wicket:extend>
 
 </body>
