@@ -92,6 +92,7 @@ public class DensityViewIntro extends DensityView {
         initializeMysteryObjects();
     }
 
+    //TODO: add a "onModeExit()" callback instead of having modes know about each other
     private function removeCustomPanel():void {
         if (_densityCanvas.getChildIndex(customObjectPropertiesPanel) >= 0) _densityCanvas.removeChild(customObjectPropertiesPanel);
     }
