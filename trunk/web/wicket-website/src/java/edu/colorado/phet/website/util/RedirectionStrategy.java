@@ -892,6 +892,9 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
              filename.equals( "..%2Fphet-dist%2Finstallers%2FPhET-Installer_windows.exe" ) ) {
             return FullInstallPanel.WINDOWS_INSTALLER_LOCATION;
         }
+        else if ( filename.equals( "../phet-dist/installers/PhET-Installer_linux.bin" ) ) {
+            return FullInstallPanel.LINUX_INSTALLER_LOCATION;
+        }
         else {
             logger.warn( "BAD #2 for get-member-file: " + filename );
             return NOT_FOUND;
