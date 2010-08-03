@@ -12,6 +12,7 @@ import java.awt.geom.Rectangle2D;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.model.PHPaper;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.AqueousSolutionChangeListener;
+import edu.colorado.phet.acidbasesolutions.model.PHPaper.PHPaperChangeListener;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeListener;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -58,6 +59,12 @@ public class PHPaperNode extends PhetPNode {
             }
 
         } );
+        
+        paper.addPHPaperChangeListener( new PHPaperChangeListener() {
+            public void dippedColorChanged() {
+                updateColor();
+            }
+        });
 
         this.solution = paper.getSolution();
         this.listener = new AqueousSolutionChangeListener() {
@@ -95,7 +102,7 @@ public class PHPaperNode extends PhetPNode {
         
         Rectangle2D r = new Rectangle2D.Double( -paper.getWidth() / 2, 0, paper.getWidth(), paper.getHeight() );
         paperBodyNode = new PPath( r );
-        paperBodyNode.setPaint( paper.getColor() );
+        paperBodyNode.setPaint( paper.getPaperColor() );
         addChild( paperBodyNode );
         
         dippedRectangle = new Rectangle2D.Double();

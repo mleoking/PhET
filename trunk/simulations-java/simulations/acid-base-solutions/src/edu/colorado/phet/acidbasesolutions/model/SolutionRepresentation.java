@@ -94,13 +94,13 @@ public abstract class SolutionRepresentation {
         listeners.remove( SolutionRepresentationChangeListener.class, listener );
     }
     
-    protected void fireSolutionChanged() {
+    private void fireSolutionChanged() {
         for ( SolutionRepresentationChangeListener listener : listeners.getListeners( SolutionRepresentationChangeListener.class ) ) {
             listener.solutionChanged();
         }
     }
     
-    protected void fireLocationChanged() {
+    private void fireLocationChanged() {
         for ( SolutionRepresentationChangeListener listener : listeners.getListeners( SolutionRepresentationChangeListener.class ) ) {
             listener.locationChanged();
         }
