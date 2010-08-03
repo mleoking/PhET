@@ -12,9 +12,11 @@
 <body>
 
 <wicket:extend>
-    <h1 style="text-align: center; font-size: 16px; padding-top: 50px;">
+    <h1 style="text-align: center;">
         <wicket:message key="error.pageNotFound">The requested page could not be found.</wicket:message>
     </h1>
+
+    <p wicket:id="errorMessage" style="text-align: center;"></p>
 </wicket:extend>
 
 </body>
