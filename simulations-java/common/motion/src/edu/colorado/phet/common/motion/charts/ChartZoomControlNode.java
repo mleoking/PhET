@@ -94,21 +94,21 @@ public class ChartZoomControlNode extends PNode {
                     chart.zoomInVertical();
                 }
             });
-            chart.getDataModelBounds().addObserver(new SimpleObserver() {
-                public void update() {
-                    boolean enabled = chart.getDataModelBounds().getHeight() > 10.0 + 1E-6;
-                    zoomInButton.setEnabled(enabled);
-                    //TODO: cursor hand never goes away
-                }
-            });
-            addChild(zoomInButton);
-
-            ZoomButton zoomOutButton = new ZoomButton("magnify-minus.png", new Listener() {
+            final ZoomButton zoomOutButton = new ZoomButton("magnify-minus.png", new Listener() {
                 public void actionPerformed() {
                     chart.zoomOutVertical();
                 }
             });
             addChild(zoomOutButton);
+            chart.getDataModelBounds().addObserver(new SimpleObserver() {
+                public void update() {
+                    zoomInButton.setEnabled(chart.getDataModelBounds().getHeight() > chart.getMinimumRangeRange() + 1E-6);
+                    zoomOutButton.setEnabled(chart.getDataModelBounds().getHeight() < chart.getMaximumRangeRange() - 1E-6);//20000 so that it goes -10000 to 10000
+                    //TODO: cursor hand never goes away
+                }
+            });
+            addChild(zoomInButton);
+
 
             //Add small icons to indicate zoom dimension (i.e. horizontal or vertical)
             PNode upIcon = new TriangleIcon();
@@ -148,8 +148,8 @@ public class ChartZoomControlNode extends PNode {
             addChild(zoomOutButton);
             SimpleObserver updateButtonsEnabled = new SimpleObserver() {
                 public void update() {
-                    zoomInButton.setEnabled(chart.getDataModelBounds().getWidth() > 2.0 + 1E-6);
-                    zoomOutButton.setEnabled(chart.getDataModelBounds().getWidth() < 20.0 - 1E-6);
+                    zoomInButton.setEnabled(chart.getDataModelBounds().getWidth() > chart.getMinimumDomainRange() + 1E-6);
+                    zoomOutButton.setEnabled(chart.getDataModelBounds().getWidth() < chart.getMaximumDomainRange() - 1E-6);
                     //TODO: cursor hand never goes away
                 }
             };
