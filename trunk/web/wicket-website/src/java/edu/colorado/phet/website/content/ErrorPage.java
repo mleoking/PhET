@@ -4,10 +4,11 @@ import org.apache.wicket.PageParameters;
 
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.constants.Linkers;
+import edu.colorado.phet.website.templates.PhetMenuPage;
 import edu.colorado.phet.website.templates.PhetPage;
 import edu.colorado.phet.website.util.PhetUrlMapper;
 
-public class ErrorPage extends PhetPage {
+public class ErrorPage extends PhetMenuPage {
     public ErrorPage( PageParameters parameters ) {
         super( parameters );
 
