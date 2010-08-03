@@ -23,10 +23,16 @@ public class PHPaper extends SolutionRepresentation {
     
     private static final Color PAPER_COLOR = Color.WHITE;
     
+    /*
+     * When solution is changed, we animate the dipped color.
+     * This constant determines how much the pH value changes per unit of clock time.
+     */
+    private static final double PH_DELTA_PER_TIME_UNIT = 0.1;
+    
     private final PDimension size;
     private final Beaker beaker;
-    private double dippedHeight=0;
-    private double phValue;//current ph value from dipping in the solution
+    private double dippedHeight;
+    private double pHValueShown; // current pH value shown by the paper, from dipping in the solution
     private final EventListenerList listeners;
 
     public PHPaper( AqueousSolution solution, Point2D location, boolean visible, PDimension size, Beaker beaker ) {
@@ -34,31 +40,34 @@ public class PHPaper extends SolutionRepresentation {
         this.size = new PDimension( size );
         this.beaker = beaker;
         this.listeners = new EventListenerList();
+        dippedHeight = getSubmergedHeight();
+        pHValueShown = solution.getPH();
     }
     
     public PDimension getSizeReference() {
         return size;
     }
-    
+
     public double getWidth() {
         return size.getWidth();
     }
-    
+
     public double getHeight() {
         return size.getHeight();
     }
     
     @Override
-    public void setLocation( double x, double y ) {
-        super.setLocation( constrainX( x ), constrainY( y ) );
-        this.dippedHeight= Math.max(dippedHeight,getSubmergedHeight());
+    public void setSolution( AqueousSolution solution ) {
+        super.setSolution( solution );
+        setDippedHeight( getSubmergedHeight() ); // Clear any dipped color on the paper above the solution.
     }
 
     @Override
-    public void setSolution(AqueousSolution solution) {
-        this.dippedHeight=getSubmergedHeight();//Clear any residue above the solution
-        super.setSolution(solution);
+    public void setLocation( double x, double y ) {
+        super.setLocation( constrainX( x ), constrainY( y ) );
+        setDippedHeight( Math.max( dippedHeight, getSubmergedHeight() ) ); // dipped height can only increase
     }
+
     /*
      * Constrains an x coordinate to be between the walls of the beaker.
      */
@@ -104,19 +113,40 @@ public class PHPaper extends SolutionRepresentation {
      * @return
      */
     public Color getDippedColor() {
-        return createColor( phValue );
+        return createColor( pHValueShown );
     }
     
+    /*
+     * Maps a pH value to a color.
+     * Our colors are identical to the visible light spectrum, so we use visible wavelength 
+     * as an intermediate representation, then map the wavelength to a color.
+     */
     private Color createColor( double pH ) {
         LinearFunction f = new Function.LinearFunction( 0, 14, VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH );
         double wavelength = f.evaluate( pH );
         return new VisibleColor( wavelength ); 
     }
     
+    private void setDippedHeight( double dippedHeight ) {
+        if ( dippedHeight != this.dippedHeight ) {
+            this.dippedHeight = dippedHeight;
+            if ( getDippedHeight() == 0 ) {
+                pHValueShown = getSolution().getPH(); // If the paper isn't dipped, no need to animate, go directly to final pH.
+            }
+            fireDippedHeightChanged();
+        }
+    }
+    
+    /**
+     * Gets the height of the portion of the paper that has been dipped in the solution.
+     */
     public double getDippedHeight() {
         return dippedHeight;
     }
 
+    /*
+     * Gets the height of the portion of the paper that's submerged in the solution.
+     */
     private double getSubmergedHeight() {
         double by = beaker.getY();
         double py = getY();
@@ -132,13 +162,19 @@ public class PHPaper extends SolutionRepresentation {
         return h;
     }
 
-    public void clockTicked(double simulationTimeChange) {
-        if (phValue != getSolution().getPH()) {
-            double deltaPH = (getSolution().getPH() - phValue) > 0 ? +1 : -1; //unit step towards target
-            if (Math.abs(phValue - getSolution().getPH()) < deltaPH) { //close enough, go directly to the target value
-                phValue = getSolution().getPH();
-            } else {
-                phValue = phValue + simulationTimeChange * deltaPH * 0.1;
+    /**
+     * Our magic pH paper animates its color when the solution is changed.
+     * This animation happens gradually over time, changing incrementally each time the clock ticks.
+     * @param simulationTimeChange
+     */
+    public void clockTicked( double simulationTimeChange ) {
+        if ( pHValueShown != getSolution().getPH() ) {
+            double sign = ( getSolution().getPH() - pHValueShown ) > 0 ? +1 : -1; // unit step towards target
+            if ( Math.abs( pHValueShown - getSolution().getPH() ) < sign ) { // close enough, go directly to the target value
+                pHValueShown = getSolution().getPH();
+            }
+            else {
+                pHValueShown = pHValueShown + ( sign * simulationTimeChange * PH_DELTA_PER_TIME_UNIT );
             }
             fireDippedColorChanged();
         }
@@ -146,6 +182,7 @@ public class PHPaper extends SolutionRepresentation {
     
     public interface PHPaperChangeListener extends EventListener {
         public void dippedColorChanged();
+        public void dippedHeightChanged();
     }
     
     public void addPHPaperChangeListener( PHPaperChangeListener listener ) {
@@ -159,6 +196,12 @@ public class PHPaper extends SolutionRepresentation {
     private void fireDippedColorChanged() {
         for ( PHPaperChangeListener listener : listeners.getListeners( PHPaperChangeListener.class ) ) {
             listener.dippedColorChanged();
+        }
+    }
+    
+    private void fireDippedHeightChanged() {
+        for ( PHPaperChangeListener listener : listeners.getListeners( PHPaperChangeListener.class ) ) {
+            listener.dippedHeightChanged();
         }
     }
 }

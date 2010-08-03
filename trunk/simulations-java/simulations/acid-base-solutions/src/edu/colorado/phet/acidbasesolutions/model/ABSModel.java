@@ -9,7 +9,7 @@ import javax.swing.event.EventListenerList;
 import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 
 /**
  * Model for the "Acid-Base Solutions" simulation.
@@ -17,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class ABSModel  {
+    
     public interface SolutionFactory {
         AqueousSolution createSolution();
     }
@@ -30,20 +31,20 @@ public class ABSModel  {
     private final ReactionEquation reactionEquation;
     private final PHPaper pHPaper;
     private final ConductivityTester conductivityTester;
-    private final ClockListener clockListener;
     
     private EventListenerList listeners;
     
-    public ABSModel( SolutionFactory defaultSolutionFactory ) {
+    public ABSModel( IClock clock, SolutionFactory defaultSolutionFactory ) {
+        
+        clock.addClockListener( new ClockAdapter() {
+            @Override
+            public void clockTicked( ClockEvent clockEvent ) {
+                pHPaper.clockTicked( clockEvent.getSimulationTimeChange() );
+            }
+        } );
         
         this.defaultSolutionFactory = defaultSolutionFactory;
         this.solution = defaultSolutionFactory.createSolution();
-        this.clockListener=new ClockAdapter(){
-            @Override
-            public void clockTicked(ClockEvent clockEvent) {
-                pHPaper.clockTicked(clockEvent.getSimulationTimeChange());
-            }
-        };
         
         beaker = new Beaker( solution, ABSConstants.BEAKER_LOCATION, true, ABSConstants.BEAKER_SIZE );
         pHMeter = new PHMeter( solution, ABSConstants.PH_METER_LOCATION, ABSConstants.PH_METER_VISIBLE, ABSConstants.PH_METER_SHAFT_SIZE, ABSConstants.PH_METER_TIP_SIZE, beaker );
@@ -57,11 +58,6 @@ public class ABSModel  {
         listeners = new EventListenerList();
         
         reset();
-    }
-    
-    
-    public ClockListener getClockListener() {
-      return  clockListener;
     }
     
     public void reset() {
