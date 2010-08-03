@@ -182,7 +182,7 @@ public class PhetWicketApplication extends WebApplication {
         // removing temporary redirection. browsers should cache for only a few hours: http://stackoverflow.com/questions/1683303/301-redirect-with-htaccess-and-cache-how-to-delete-old-cache
         //mountBookmarkablePage( "index.php", TempIndexPage.class );
 
-        mountBookmarkablePage( "admin", AdminMainPage.class );
+        mountBookmarkablePage( "admin/main", AdminMainPage.class );
         mountBookmarkablePage( "admin/deploy", DeployProjectPage.class );
         mountBookmarkablePage( "admin/deploy-translation", DeployTranslationPage.class );
         mountBookmarkablePage( "admin/deploy-resource", DeployResourcePage.class );
