@@ -59,7 +59,7 @@ public interface ControlChartLayout {
                     return chart.getZoomButtonNode().getFullBounds().getWidth();
                 }
             });
-            double extraLayoutHeightForDomainAxisLabels = getSum(charts, new DoubleGetter() {
+            double extraLayoutHeightForDomainAxisLabels = getMax(charts, new DoubleGetter() {
                 public Double getValue(MinimizableControlChart chart) {
                     return chart.getDomainLabelHeight();
                 }
@@ -92,7 +92,8 @@ public interface ControlChartLayout {
             //Compute the vertical location and spacing
             final int paddingBetweenCharts = 8;
             final int totalPaddingBetweenCharts = paddingBetweenCharts * (charts.length - 1);
-            final double maximizedChartHeight = numVisibleCharts == 0 ? 0 : (height - extraLayoutHeightForDomainAxisLabels - minimizedChartSpace - totalPaddingBetweenCharts) / numVisibleCharts;//TODO: account for insets
+            final double maximizedChartHeight = numVisibleCharts == 0 ? 0 : 
+                    (height  - minimizedChartSpace - totalPaddingBetweenCharts) / numVisibleCharts - extraLayoutHeightForDomainAxisLabels;//TODO: account for insets
             double chartY = 0.0;
             
             //Update the chart sizes and locations
