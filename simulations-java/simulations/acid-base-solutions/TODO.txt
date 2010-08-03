@@ -1,7 +1,6 @@
 TODO list for acid-base-solutions
 
 MILESTONES
-- 8/1/10, sim showable for BCCE
 
 HIGH PRIORITY
 - conductivity tester (CAB feedback required)
@@ -12,14 +11,13 @@ HIGH PRIORITY
 - center everything in the play area
 
 MEDUIUM PRIORITY
-- zero-arg constructors for ABSModelElement subclasses
 - not obvious what "Show H2O Molecules" check box pertains to
 - label x-axis of concentration graph? SR didn't see correlation to reaction equation
 - Save/Load?
-- baseline alignment of reaction equations (impossible?)
+- baseline alignment of reaction equations (how did I do this in advanced-acid-base-solutions?)
 
 LOW PRIORITY
-- control panel layout issues
+- control panel layout issues, left justification
 - use SolutionFactory in TestSolutionControl
 - ditch ABSRadioButton in TestSolutionControl, separate listener for each radio button
 - chem symbol api, handle baseline/bold/italic/super/sub/color, use Piccolo for layout control
