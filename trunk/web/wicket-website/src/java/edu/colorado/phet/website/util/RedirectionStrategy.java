@@ -117,6 +117,8 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         map.put( "/about/news.php", "/en/about/news" );
         map.put( "/about/source-code.php", "/en/about/source-code" );
         map.put( "/about/who-we-are.php", "/en/about" );
+        map.put( "/activities", "/en/for-teachers/browse-activities" );
+        map.put( "/activities/guidelines.pdf", "/publications/activities-guide/contribution-guidelines.pdf" );
         map.put( "/contribute/", "/en/for-translators" );
         map.put( "/contribute/donate.php", "/en/donate" );
         map.put( "/contribute/get-flash-common-strings.php", "/sims/flash-common-strings/flash-common-strings_en.jar" );
@@ -131,6 +133,7 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         map.put( "/index.php", "/" );
         map.put( "/installers/PhET-windows-installer.exe", FullInstallPanel.WINDOWS_INSTALLER_LOCATION );
         map.put( "/phet-dist/installers/PhET-1.0-windows-installer.exe", FullInstallPanel.WINDOWS_INSTALLER_LOCATION );
+        map.put( "/quantum", "/en/simulations/category/physics/quantum-phenomena" );
         map.put( "/random-thumbnail.php", "/images/mass-spring-lab-animated-screenshot.gif" );
         map.put( "/research/", "/en/research" );
         map.put( "/research/index.php", "/en/research" );
@@ -357,6 +360,9 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
 
         simMap.put( "Circuit_Construction_Kit_ACDC_Virtual_Lab_Version", "circuit-construction-kit-ac-virtual-lab" );
         simMap.put( "Circuit_Construction_Kit_Virtual_Lab_Version_DC_Only", "circuit-construction-kit-dc-virtual-lab" );
+
+        simMap.put( "qwi", "quantum-wave-interference" ); // shortcut from papers
+        simMap.put( "tunneling", "quantum-tunneling" ); // shortcut from papers
 
         for ( String key : simMap.keySet() ) {
             badSimMap.put( processSimName( key ), simMap.get( key ) );
