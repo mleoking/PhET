@@ -5,6 +5,9 @@ package edu.colorado.phet.acidbasesolutions.model;
 import java.awt.Color;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.math.Function;
+import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
+import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -92,7 +95,23 @@ public class PHPaper extends SolutionRepresentation {
     }
     
     private Color createColor( double pH ) {
-        return Color.RED; //TODO compute color based on pH, ROYGBIV color scheme
+        LinearFunction f = new Function.LinearFunction( 0, 14, VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH );
+        double wavelength = f.evaluate( pH );
+        return new VisibleColor( wavelength ); 
     }
-
+    
+    public double getDippedHeight() {
+        double by = beaker.getY();
+        double py = getY();
+        double bh = beaker.getHeight();
+        double ph = getHeight();
+        double h = -Math.abs( by - py ) + bh + ph;
+        if ( h < 0 ) {
+            h = 0;
+        }
+        else if ( h > ph ) {
+            h = ph;
+        }
+        return h;
+    }
 }

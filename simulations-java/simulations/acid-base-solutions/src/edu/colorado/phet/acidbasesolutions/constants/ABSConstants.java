@@ -65,6 +65,12 @@ public class ABSConstants {
     public static final Point2D PH_PAPER_LOCATION = new Point2D.Double( BEAKER_LOCATION.getX(), BEAKER_LOCATION.getY() - BEAKER_SIZE.getHeight() - PH_PAPER_SIZE.getHeight() - 15 );
     public static final boolean PH_PAPER_VISIBLE = false;
     
+    public static final Point2D CONDUCTIVITY_TESTER_LOCATION = new Point2D.Double( BEAKER_LOCATION.getX() + ( 0.30 * BEAKER_SIZE.getWidth() ), BEAKER_LOCATION.getY() - BEAKER_SIZE.getHeight() - 15 ); // tip
+    public static final Point2D CONDUCTIVITY_TESTER_POSITIVE_PROBE_LOCATION = new Point2D.Double( BEAKER_LOCATION.getX() + ( 0.30 * BEAKER_SIZE.getWidth() ), BEAKER_LOCATION.getY() - BEAKER_SIZE.getHeight() - 15 ); // tip
+    public static final Point2D CONDUCTIVITY_TESTER_NEGATIVE_PROBE_LOCATION = new Point2D.Double( BEAKER_LOCATION.getX() + ( 0.30 * BEAKER_SIZE.getWidth() ), BEAKER_LOCATION.getY() - BEAKER_SIZE.getHeight() - 15 ); // tip
+    public static final boolean CONDUCTIVITY_TESTER_VISIBLE = true;
+    public static final PDimension CONDUCTIVITY_TESTER_PROBE_SIZE = new PDimension( 10, 100 );
+    
     public static final double WATER_CONCENTRATION = 55.6; // water concentration when it's used as a solvent, mol/L
     public static final double WATER_EQUILIBRIUM_CONSTANT = 1E-14;
     

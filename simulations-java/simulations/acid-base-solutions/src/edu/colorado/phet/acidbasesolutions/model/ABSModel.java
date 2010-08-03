@@ -27,6 +27,7 @@ public class ABSModel {
     private final ConcentrationGraph concentrationGraph;
     private final ReactionEquation reactionEquation;
     private final PHPaper pHPaper;
+    private final ConductivityTester conductivityTester;
     
     private EventListenerList listeners;
     
@@ -41,6 +42,8 @@ public class ABSModel {
         concentrationGraph = new ConcentrationGraph( solution, ABSConstants.CONCENTRATION_GRAPH_LOCATION, ABSConstants.CONCENTRATION_GRAPH_VISIBLE, ABSConstants.CONCENTRATION_GRAPH_SIZE );
         reactionEquation = new ReactionEquation( solution, ABSConstants.REACTION_EQUATION_LOCATION, true );
         pHPaper = new PHPaper( solution, ABSConstants.PH_PAPER_LOCATION, ABSConstants.PH_PAPER_VISIBLE, ABSConstants.PH_PAPER_SIZE, beaker );
+        conductivityTester = new ConductivityTester( solution, ABSConstants.CONDUCTIVITY_TESTER_LOCATION, ABSConstants.CONDUCTIVITY_TESTER_VISIBLE, 
+                ABSConstants.CONDUCTIVITY_TESTER_PROBE_SIZE, ABSConstants.CONDUCTIVITY_TESTER_POSITIVE_PROBE_LOCATION, ABSConstants.CONDUCTIVITY_TESTER_NEGATIVE_PROBE_LOCATION, beaker );
         
         listeners = new EventListenerList();
         
@@ -80,6 +83,10 @@ public class ABSModel {
         return pHPaper;
     }
     
+    public ConductivityTester getConductivityTester() {
+        return conductivityTester;
+    }
+    
     public void setSolution( AqueousSolution solution ) {
         if ( solution != this.solution ) {  /* yes, referential equality */
             this.solution = solution;
@@ -88,6 +95,7 @@ public class ABSModel {
             magnifyingGlass.setSolution( solution );
             concentrationGraph.setSolution( solution );
             reactionEquation.setSolution( solution );
+            pHPaper.setSolution( solution );
             fireSolutionChanged();
         }
     }

@@ -18,7 +18,6 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * pH paper, changes color based on the pH of a solution. 
@@ -35,9 +34,10 @@ public class PHPaperNode extends PhetPNode {
     private AqueousSolution solution;
     private AqueousSolutionChangeListener listener;
     private PPath pathNode;
+    private PPath dippedPathNode;
+    private Rectangle2D dippedRectangle;
 
     public PHPaperNode( final PHPaper paper ) {
-        this( paper.getSizeReference() );
 
         this.paper = paper;
         paper.addSolutionRepresentationChangeListener( new SolutionRepresentationChangeListener() {
@@ -92,6 +92,18 @@ public class PHPaperNode extends PhetPNode {
                 paper.setLocation( x, y );
             }
         } );
+        
+        Rectangle2D r = new Rectangle2D.Double( -paper.getWidth() / 2, 0, paper.getWidth(), paper.getHeight() );
+        pathNode = new PPath( r );
+        pathNode.setPaint( paper.getColor() );
+        pathNode.setStroke( STROKE );
+        pathNode.setStrokePaint( STROKE_COLOR );
+        addChild( pathNode );
+        
+        dippedRectangle = new Rectangle2D.Double();
+        dippedPathNode = new PPath();
+        dippedPathNode.setStroke( null );
+        addChild( dippedPathNode );
 
         setOffset( paper.getLocationReference() );
         setVisible( paper.isVisible() );
@@ -100,28 +112,14 @@ public class PHPaperNode extends PhetPNode {
     }
     
     private void updateGeomerty() {
-        //TODO compute separate shapes for inside and outside solution
+        double x = -paper.getWidth() / 2;
+        double y = paper.getHeight() - paper.getDippedHeight();
+        dippedRectangle.setRect( x, y, paper.getWidth(), paper.getDippedHeight() );
+        dippedPathNode.setPathTo( dippedRectangle );
     }
 
     private void updateColor() {
-        //TODO change color of inside-solution geometry
-        /*
-         * Questions:
-         * - what should happen when paper is pulled out of solution, should it keep color?
-         * - what should happen when solution is changed? with paper 0-100% dipped?
-         */
-        pathNode.setPaint( paper.getColor() );
-    }
-
-    /*
-     * Private constructor, has no knowledge of the model.
-     */
-    private PHPaperNode( PDimension size ) {
-        Rectangle2D r = new Rectangle2D.Double( -size.getWidth() / 2, 0, size.getWidth(), size.getHeight() );
-        pathNode = new PPath( r );
-        pathNode.setStroke( STROKE );
-        pathNode.setStrokePaint( STROKE_COLOR );
-        addChild( pathNode );
+        dippedPathNode.setPaint( paper.getDippedColor() );
     }
 
     private void setSolution( AqueousSolution solution ) {
