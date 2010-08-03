@@ -3,8 +3,8 @@ TODO list for acid-base-solutions
 MILESTONES
 
 HIGH PRIORITY
+- pH paper color legend
 - conductivity tester (CAB feedback required)
-- pH paper (CAB feedback required)
 - add MVT to handle relationship between model element locations and PNode locations
 - handle model-view transforms in PHMeterNode
 - fix resize behavior of main frame, nodes below the beaker are not visible if main frame is resized wider 

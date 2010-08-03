@@ -8,6 +8,7 @@ import java.util.EventListener;
 
 import javax.swing.event.EventListenerList;
 
+import edu.colorado.phet.acidbasesolutions.constants.ABSColors;
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
@@ -20,8 +21,6 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class PHPaper extends SolutionRepresentation {
-    
-    private static final Color PAPER_COLOR = Color.WHITE;
     
     /*
      * When solution is changed, we animate the dipped color.
@@ -105,7 +104,7 @@ public class PHPaper extends SolutionRepresentation {
      * @return
      */
     public Color getPaperColor() {
-        return PAPER_COLOR;
+        return ABSColors.PH_PAPER_COLOR;
     }
     
     /**

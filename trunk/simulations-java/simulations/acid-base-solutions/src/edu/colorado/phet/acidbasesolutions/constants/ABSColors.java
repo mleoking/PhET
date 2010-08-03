@@ -31,4 +31,6 @@ public class ABSColors {
     
     // solution color
     public static final Color AQUEOUS_SOLUTION = new Color( 193, 222, 227, 180 ); // transparent light blue
+    
+    public static final Color PH_PAPER_COLOR = new Color( 255, 255, 210 );
 }
