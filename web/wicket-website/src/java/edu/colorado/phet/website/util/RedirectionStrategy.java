@@ -664,10 +664,14 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
                     else {return false;}
                 }
             } );
+            if( ret[0] == null ) {
+                logger.info( "did not find old contribution value: " + id );
+                return NOT_FOUND;
+            }
             return ret[0];
         }
         catch( RuntimeException e ) {
-            logger.warn( "bad number X", e );
+            logger.info( "bad number X", e );
             return NOT_FOUND;
         }
     }
