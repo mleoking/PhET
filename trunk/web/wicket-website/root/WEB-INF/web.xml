@@ -4,6 +4,10 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
          version="2.4">
 
+    <session-config>
+        <session-timeout>120</session-timeout>
+    </session-config>
+
     <display-name>PhET Wicket Website</display-name>
 
     <resource-ref>
