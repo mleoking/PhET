@@ -3,19 +3,16 @@ package edu.colorado.phet.website.content;
 import org.apache.wicket.PageParameters;
 
 import edu.colorado.phet.website.components.LocalizedText;
-import edu.colorado.phet.website.constants.Linkers;
 import edu.colorado.phet.website.templates.PhetPage;
 import edu.colorado.phet.website.util.PhetUrlMapper;
 
-public class ErrorPage extends PhetPage {
-    public ErrorPage( PageParameters parameters ) {
+public class SessionExpiredPage extends PhetPage {
+    public SessionExpiredPage( PageParameters parameters ) {
         super( parameters );
 
-        addTitle( getLocalizer().getString( "error.internalError", this ) );
+        addTitle( getLocalizer().getString( "error.sessionExpired", this ) );
 
-        add( new LocalizedText( "errorMessage", "error.internalError.message", new Object[]{
-                Linkers.getHelpLink( "PhET Website Error", getPageContext(), getPhetCycle() )
-        } ) );
+        add( new LocalizedText( "message", "error.sessionExpired.message" ) );
     }
 
     @Override
@@ -29,6 +26,6 @@ public class ErrorPage extends PhetPage {
     }
 
     public static void addToMapper( PhetUrlMapper mapper ) {
-//        mapper.addMap( "^$", ErrorPage.class );
+//        mapper.addMap( "^$", SessionExpiredPage.class );
     }
 }

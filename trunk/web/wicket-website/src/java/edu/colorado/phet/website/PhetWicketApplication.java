@@ -101,7 +101,7 @@ public class PhetWicketApplication extends WebApplication {
         websiteProperties = new WebsiteProperties( getServletContext() );
 
         // set up error pages
-        getApplicationSettings().setPageExpiredErrorPage( ErrorPage.class );
+        getApplicationSettings().setPageExpiredErrorPage( SessionExpiredPage.class );
         getApplicationSettings().setAccessDeniedPage( ErrorPage.class );
         getApplicationSettings().setInternalErrorPage( ErrorPage.class );
 
