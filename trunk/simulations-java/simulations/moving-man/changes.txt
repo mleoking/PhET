@@ -1,3 +1,4 @@
+> Improved layout for charts, make sure all vertical space is efficiently used
 # 2.00.00 (42300) Jul 15, 2010
 Darkened the color of acceleration so that it stands out against the grass
 > Added a new introductory tab
