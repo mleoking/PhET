@@ -22,9 +22,9 @@ public class PropertiesPanel extends Panel {
         hbox.addChild(column2);
         hbox.addChild(column3);
 
-        const label:Label = new Label();
-        label.text = "Volume:";
-        column3.addChild(label);
+//        const label:Label = new Label();
+//        label.text = "Volume:";
+//        column3.addChild(label);
         addChild(hbox);
     }
 }
