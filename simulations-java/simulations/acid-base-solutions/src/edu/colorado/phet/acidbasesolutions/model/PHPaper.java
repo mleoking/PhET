@@ -33,7 +33,7 @@ public class PHPaper extends SolutionRepresentation {
      * Maps pH to a visible wavelength.
      * This allows us to reuse common code (VisibleColor) to generate colors.
      */
-    private static final LinearFunction MAPPING_FUNCTION = new Function.LinearFunction( ABSConstants.MIN_PH, ABSConstants.MAX_PH, VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH );
+    private static final LinearFunction MAPPING_FUNCTION = new Function.LinearFunction( ABSConstants.MIN_PH, ABSConstants.MAX_PH, VisibleColor.MAX_WAVELENGTH, VisibleColor.MIN_WAVELENGTH );
     
     private final PDimension size;
     private final Beaker beaker;

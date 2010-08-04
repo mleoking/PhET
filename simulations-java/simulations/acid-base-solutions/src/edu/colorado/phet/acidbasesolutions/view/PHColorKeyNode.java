@@ -97,7 +97,7 @@ public class PHColorKeyNode extends PhetPNode {
        
         private Image createImage( PDimension size ) {
             BufferedImage image = new BufferedImage( (int)size.getWidth(), (int)size.getHeight(), BufferedImage.TYPE_INT_RGB );
-            Function linearFunction = new Function.LinearFunction( 0, size.getWidth(), VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH ); // map x postion to wavelength
+            Function linearFunction = new Function.LinearFunction( 0, size.getWidth(), VisibleColor.MAX_WAVELENGTH, VisibleColor.MIN_WAVELENGTH ); // map x postion to wavelength
             Graphics2D g2 = image.createGraphics();
             final int dx = 1;
             for ( int x = 0; x < size.getWidth(); x = x + dx ) {
