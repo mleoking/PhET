@@ -3,12 +3,15 @@ TODO list for acid-base-solutions
 MILESTONES
 
 HIGH PRIORITY
-- pH color scheme
-- conductivity tester (CAB feedback required)
+- Q: What is the desired mapping of pH to color? The entire visible spectrum looks a little too dark at each end.
+- Q: When the solution is changed, is it appropriate to immediately remove the color from any part of the paper that's not in solution? (It currently does.)
+- Q: When the solution is changed, is it appropriate to gradually animate the color of the portion of the paper that's in solution? (It currently does.)
+- Q: When the paper is dipped in the solution, should we animate the color of the paper? (It currently does not. Need to know pH of undipped paper.)
+- Q: When the dipped paper is in solution, its color is affected by the solution color. (leave as is, make solution colorless, or move paper in front of solution)
+- conductivity tester
 - add MVT to handle relationship between model element locations and PNode locations
-- handle model-view transforms in PHMeterNode
 - fix resize behavior of main frame, nodes below the beaker are not visible if main frame is resized wider 
-- center everything in the play area
+- bottom-center everything in the play area
 
 MEDUIUM PRIORITY
 - not obvious what "Show H2O Molecules" check box pertains to
@@ -19,9 +22,7 @@ MEDUIUM PRIORITY
 LOW PRIORITY
 - control panel layout issues, left justification
 - use SolutionFactory in TestSolutionControl
-- ditch ABSRadioButton in TestSolutionControl, separate listener for each radio button
 - chem symbol api, handle baseline/bold/italic/super/sub/color, use Piccolo for layout control
-- how are reaction equations being vertically aligned in advanced-acid-base-solutions? they look better
 - icons for tool controls 
 - better images for molecules
 - export design doc from Google, check into SVN
