@@ -1,3 +1,5 @@
+# 0.00.16 (42834) Aug 4, 2010
+8/4/10 demonstrate first pass at pH paper
 8/4/10 placeholder for conductivity tester visual representation
 8/4/10 invert mapping of pH to wavelength, acids should be red-orange, bases should be green-blue
 8/4/10 bug fix, pH paper didn't change to correct color if solution was changed while paper is not dipped
