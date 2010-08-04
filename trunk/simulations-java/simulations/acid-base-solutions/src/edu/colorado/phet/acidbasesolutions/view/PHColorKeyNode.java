@@ -2,12 +2,10 @@
 
 package edu.colorado.phet.acidbasesolutions.view;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Stroke;
+import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
@@ -16,7 +14,9 @@ import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.Solution
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -45,7 +45,7 @@ public class PHColorKeyNode extends PhetPNode {
     private static final Font TICK_LABEL_FONT = new PhetFont( 12 );
     
     public PHColorKeyNode( final PHPaper paper ) {
-        
+        // not interactive
         setPickable( false );
         setChildrenPickable( false );
         
@@ -86,10 +86,27 @@ public class PHColorKeyNode extends PhetPNode {
         
         public SpectrumNode( PDimension size ) {
             
+            PImage imageNode = new PImage( createImage( size ) );
+            addChild( imageNode );
+            
             PPath outlineNode = new PPath( new Rectangle2D.Double( 0, 0, size.getWidth(), size.getHeight() ) );
             outlineNode.setStroke( SPECTRUM_OUTLINE_STROKE );
             outlineNode.setStrokePaint( SPECTRUM_OUTLINE_COLOR );
             addChild( outlineNode );
+        }
+       
+        private Image createImage( PDimension size ) {
+            BufferedImage image = new BufferedImage( (int)size.getWidth(), (int)size.getHeight(), BufferedImage.TYPE_INT_RGB );
+            Function linearFunction = new Function.LinearFunction( 0, size.getWidth(), VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH ); // map x postion to wavelength
+            Graphics2D g2 = image.createGraphics();
+            final int dx = 1;
+            for ( int x = 0; x < size.getWidth(); x = x + dx ) {
+                double wavelength = linearFunction.evaluate( x );
+                g2.setColor( VisibleColor.wavelengthToColor( wavelength ) );
+                g2.fillRect( x, 0, dx, (int) size.getHeight() );
+            }
+            g2.dispose();
+            return image;
         }
     }
     

@@ -1,3 +1,4 @@
+8/4/10 pH color key
 8/3/10 add listener for pH paper "dipped height" property
 8/3/10 clean up listener stuff in PHPaper
 8/3/10 added interpolation between colors for the PhPaper
