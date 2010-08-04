@@ -107,9 +107,6 @@ public class ToolsControl extends JPanel {
         
         // default state
         updateControl();
-        
-        //XXX red foreground for things that aren't implemented
-        conductivityTesterRadioButton.setForeground( Color.RED );
     }
     
     protected void setPHPaperControlVisible( boolean visible ) {
