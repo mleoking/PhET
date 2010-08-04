@@ -30,6 +30,7 @@ public abstract class ABSCanvas extends PhetPCanvas {
     private final ReactionEquationNode reactionEquationNode;
     private final PHPaperNode pHPaperNode;
     private final PHColorKeyNode pHColorKeyNode;
+    private final ConductivityTesterNode conductivityTesterNode;
     
     public ABSCanvas( ABSModel model ) {
         super( ABSConstants.CANVAS_RENDERING_SIZE );
@@ -47,10 +48,12 @@ public abstract class ABSCanvas extends PhetPCanvas {
         reactionEquationNode = new ReactionEquationNode( model.getReactionEquation() );
         pHPaperNode = new PHPaperNode( model.getPHPaper() );
         pHColorKeyNode = new PHColorKeyNode( model.getPHPaper() );
+        conductivityTesterNode = new ConductivityTesterNode( model.getConductivityTester() );
         
         // rendering order
         addNode( pHMeterNode );
         addNode( pHPaperNode );
+        addNode( conductivityTesterNode );
         addNode( beakerNode );
         addNode( magnifyingGlassNode );
         addNode( concentrationGraphNode );
