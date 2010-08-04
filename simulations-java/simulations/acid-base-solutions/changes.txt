@@ -2,6 +2,7 @@
 8/3/10 clean up listener stuff in PHPaper
 8/3/10 added interpolation between colors for the PhPaper
 8/3/10 store the dipped height for when the ph paper is removed from the water
+8/4/10 constants for min/max pH
 8/3/10 second pass at pH paper
 8/3/10 first pass at conductivity tester model
 8/2/10 first pass at pH paper (geometry and dragging)
