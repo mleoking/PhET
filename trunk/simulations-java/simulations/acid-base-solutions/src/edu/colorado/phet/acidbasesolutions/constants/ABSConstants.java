@@ -43,6 +43,9 @@ public class ABSConstants {
     
     public static final double AVOGADROS_NUMBER = 6.022E23;
     
+    public static final double MIN_PH = 0;
+    public static final double MAX_PH = 14;
+    
     public static final PDimension BEAKER_SIZE = new PDimension( 600, 500 );
     public static final Point2D BEAKER_LOCATION = new Point2D.Double( ( BEAKER_SIZE.getWidth() / 2 ) + 150, BEAKER_SIZE.getHeight() + 250 ); // bottom center
     

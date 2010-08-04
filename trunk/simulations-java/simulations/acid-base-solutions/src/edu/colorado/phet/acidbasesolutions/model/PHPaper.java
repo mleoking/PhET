@@ -9,6 +9,7 @@ import java.util.EventListener;
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSColors;
+import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
@@ -27,6 +28,12 @@ public class PHPaper extends SolutionRepresentation {
      * This constant determines how much the pH value changes per unit of clock time.
      */
     private static final double PH_DELTA_PER_TIME_UNIT = 0.1;
+    
+    /*
+     * Maps pH to a visible wavelength.
+     * This allows us to reuse common code (VisibleColor) to generate colors.
+     */
+    private static final LinearFunction MAPPING_FUNCTION = new Function.LinearFunction( ABSConstants.MIN_PH, ABSConstants.MAX_PH, VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH );
     
     private final PDimension size;
     private final Beaker beaker;
@@ -121,8 +128,7 @@ public class PHPaper extends SolutionRepresentation {
      * as an intermediate representation, then map the wavelength to a color.
      */
     private Color createColor( double pH ) {
-        LinearFunction f = new Function.LinearFunction( 0, 14, VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH );
-        double wavelength = f.evaluate( pH );
+        double wavelength = MAPPING_FUNCTION.evaluate( pH );
         return new VisibleColor( wavelength ); 
     }
     
