@@ -64,6 +64,7 @@ public class PHPaperNode extends PhetPNode {
             }
             public void dippedHeightChanged() {
                 updateGeomerty();
+                updateColor();
             }
         });
 
