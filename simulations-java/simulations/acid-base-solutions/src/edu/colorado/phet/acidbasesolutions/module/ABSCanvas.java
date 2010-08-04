@@ -29,6 +29,7 @@ public abstract class ABSCanvas extends PhetPCanvas {
     private final ConcentrationGraphNode concentrationGraphNode;
     private final ReactionEquationNode reactionEquationNode;
     private final PHPaperNode pHPaperNode;
+    private final PHPaperColorKeyNode phPaperColorKeyNode;
     
     public ABSCanvas( ABSModel model ) {
         super( ABSConstants.CANVAS_RENDERING_SIZE );
@@ -45,6 +46,7 @@ public abstract class ABSCanvas extends PhetPCanvas {
         concentrationGraphNode = new ConcentrationGraphNode( model.getConcentrationGraph() );
         reactionEquationNode = new ReactionEquationNode( model.getReactionEquation() );
         pHPaperNode = new PHPaperNode( model.getPHPaper() );
+        phPaperColorKeyNode = new PHPaperColorKeyNode( model.getPHPaper() );
         
         // rendering order
         addNode( pHMeterNode );
@@ -53,7 +55,9 @@ public abstract class ABSCanvas extends PhetPCanvas {
         addNode( magnifyingGlassNode );
         addNode( concentrationGraphNode );
         addNode( reactionEquationNode );
+        addNode( phPaperColorKeyNode );
         
+        phPaperColorKeyNode.setOffset( 20, 20 );
         // NOTE: all layout is handled via locations of model elements.
     }    
     
