@@ -68,8 +68,8 @@ public abstract class ABSCanvas extends PhetPCanvas {
     protected void centerRootNode() {
         Dimension2D worldSize = getWorldSize();
         PBounds b = rootNode.getFullBoundsReference();
-        double xOffset = Math.max( MIN_MARGIN, ( worldSize.getWidth() -  b.getWidth() ) / 2 );
-        double yOffset = Math.max( MIN_MARGIN, ( worldSize.getHeight() -  b.getHeight() ) / 2 );
+        double xOffset = Math.max( MIN_MARGIN, ( worldSize.getWidth() - b.getWidth() ) / 2 );
+        double yOffset = Math.max( MIN_MARGIN, ( worldSize.getHeight() - b.getHeight() ) / 2 );
         rootNode.setOffset( xOffset, yOffset );
     }
 }
