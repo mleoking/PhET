@@ -30,16 +30,19 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class PHColorKeyNode extends PhetPNode {
     
-    private static final Color TICK_COLOR = Color.BLACK;
-    private static final Stroke TICK_STROKE = new BasicStroke( 1f );
-    private static final int TICK_LENGTH = 5;
-    private static final int TICK_INCREMENT = 1;
-    
-    private static final Color LABEL_COLOR = Color.BLACK;
-    private static final Font LABEL_FONT = new PhetFont( 12 );
-    
     private static final Color TITLE_COLOR = Color.BLACK;
     private static final Font TITLE_FONT = new PhetFont( 18 );
+    
+    private static final Stroke SPECTRUM_OUTLINE_STROKE = new BasicStroke( 1f );
+    private static final Color SPECTRUM_OUTLINE_COLOR = Color.BLACK;
+    
+    private static final Color TICK_LINE_COLOR = Color.BLACK;
+    private static final Stroke TICK_LINE_STROKE = new BasicStroke( 1f );
+    private static final int TICK_LINE_LENGTH = 5;
+    private static final int TICK_INCREMENT = 1;
+    
+    private static final Color TICK_LABEL_COLOR = Color.BLACK;
+    private static final Font TICK_LABEL_FONT = new PhetFont( 12 );
     
     public PHColorKeyNode( final PHPaper paper ) {
         
@@ -84,8 +87,8 @@ public class PHColorKeyNode extends PhetPNode {
         public SpectrumNode( PDimension size ) {
             
             PPath outlineNode = new PPath( new Rectangle2D.Double( 0, 0, size.getWidth(), size.getHeight() ) );
-            outlineNode.setStroke( new BasicStroke( 1f ) );
-            outlineNode.setStrokePaint( Color.BLACK );
+            outlineNode.setStroke( SPECTRUM_OUTLINE_STROKE );
+            outlineNode.setStrokePaint( SPECTRUM_OUTLINE_COLOR );
             addChild( outlineNode );
         }
     }
@@ -98,14 +101,10 @@ public class PHColorKeyNode extends PhetPNode {
         
         public TickMarkNode( int pH ) {
             
-            PPath lineNode = new PPath( new Line2D.Double( 0, 0, 0, TICK_LENGTH ) );
-            lineNode.setStroke( TICK_STROKE );
-            lineNode.setStrokePaint( TICK_COLOR );
+            TickLineNode lineNode = new TickLineNode();
             addChild( lineNode );
             
-            PText labelNode = new PText( String.valueOf( pH ) );
-            labelNode.setTextPaint( LABEL_COLOR );
-            labelNode.setFont( LABEL_FONT );
+            TickLabelNode labelNode = new TickLabelNode( pH );
             addChild( labelNode );
             
             double x = -lineNode.getFullBoundsReference().getWidth() / 2;
@@ -114,6 +113,28 @@ public class PHColorKeyNode extends PhetPNode {
             x = -labelNode.getFullBoundsReference().getWidth() / 2;
             y = lineNode.getFullBoundsReference().getMaxY() + 1;
             labelNode.setOffset( x, y );
+        }
+    }
+    
+    /*
+     * Tick line, origin at upper left of bounds.
+     */
+    private static class TickLineNode extends PPath {
+        public TickLineNode() {
+            setPathTo( new Line2D.Double( 0, 0, 0, TICK_LINE_LENGTH ) );
+            setStroke( TICK_LINE_STROKE );
+            setStrokePaint( TICK_LINE_COLOR );
+        }
+    }
+    
+    /*
+     * Tick label, origin at upper left of bounds.
+     */
+    private static class TickLabelNode extends PText {
+        public TickLabelNode( int pH ) {
+            super( String.valueOf( pH ) );
+            setTextPaint( TICK_LABEL_COLOR );
+            setFont( TICK_LABEL_FONT);
         }
     }
 }
