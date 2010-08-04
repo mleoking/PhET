@@ -43,8 +43,8 @@ public class ABSConstants {
     
     public static final double AVOGADROS_NUMBER = 6.022E23;
     
-    public static final double MIN_PH = 0;
-    public static final double MAX_PH = 14;
+    public static final int MIN_PH = 0;
+    public static final int MAX_PH = 14;
     
     public static final PDimension BEAKER_SIZE = new PDimension( 600, 500 );
     public static final Point2D BEAKER_LOCATION = new Point2D.Double( ( BEAKER_SIZE.getWidth() / 2 ) + 150, BEAKER_SIZE.getHeight() + 250 ); // bottom center
@@ -67,6 +67,9 @@ public class ABSConstants {
     public static final PDimension PH_PAPER_SIZE = new PDimension( 60, 220 );
     public static final Point2D PH_PAPER_LOCATION = new Point2D.Double( BEAKER_LOCATION.getX(), BEAKER_LOCATION.getY() - BEAKER_SIZE.getHeight() - PH_PAPER_SIZE.getHeight() - 15 );
     public static final boolean PH_PAPER_VISIBLE = false;
+    
+    public static final Point2D PH_COLOR_KEY_LOCATION = new Point2D.Double( 20, 20 );
+    public static final PDimension PH_COLOR_KEY_SIZE = new PDimension( 350, 50 );
     
     public static final Point2D CONDUCTIVITY_TESTER_LOCATION = new Point2D.Double( BEAKER_LOCATION.getX() + ( 0.30 * BEAKER_SIZE.getWidth() ), BEAKER_LOCATION.getY() - BEAKER_SIZE.getHeight() - 15 ); // tip
     public static final Point2D CONDUCTIVITY_TESTER_POSITIVE_PROBE_LOCATION = new Point2D.Double( BEAKER_LOCATION.getX() + ( 0.30 * BEAKER_SIZE.getWidth() ), BEAKER_LOCATION.getY() - BEAKER_SIZE.getHeight() - 15 ); // tip

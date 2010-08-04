@@ -109,7 +109,6 @@ public class ToolsControl extends JPanel {
         updateControl();
         
         //XXX red foreground for things that aren't implemented
-        pHPaperRadioButton.setForeground( Color.RED );
         conductivityTesterRadioButton.setForeground( Color.RED );
     }
     
