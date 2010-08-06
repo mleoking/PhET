@@ -11,7 +11,7 @@ import edu.colorado.phet.advancedacidbasesolutions.AABSConstants;
 import edu.colorado.phet.advancedacidbasesolutions.AABSStrings;
 import edu.colorado.phet.advancedacidbasesolutions.model.ConcentrationScaleModel;
 import edu.colorado.phet.advancedacidbasesolutions.util.ScalingAnimator;
-import edu.colorado.phet.advancedacidbasesolutions.view.SymbolNode;
+import edu.colorado.phet.advancedacidbasesolutions.view.ChemicalSymbolNode;
 import edu.colorado.phet.common.phetcommon.util.TimesTenNumberFormat;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -384,12 +384,12 @@ public abstract class AbstractEquilibriumExpressionNode extends PComposite {
      */
     private static class TermNode extends PComposite {
         
-        private final SymbolNode symbolNode;
+        private final ChemicalSymbolNode symbolNode;
         private final BracketNode leftBracketNode, rightBracketNode;
         
         public TermNode( String text, Color color ) {
             super();
-            symbolNode= new SymbolNode( text, SYMBOL_FONT, color );
+            symbolNode= new ChemicalSymbolNode( text, SYMBOL_FONT, color );
             addChild( symbolNode );
             leftBracketNode = new LeftBracketNode();
             addChild( leftBracketNode );
