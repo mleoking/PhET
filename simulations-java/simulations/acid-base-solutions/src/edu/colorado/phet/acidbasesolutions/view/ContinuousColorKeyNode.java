@@ -23,11 +23,11 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Displays a color key for the pH paper.
- * pH values are mapped to colors in the visible spectrum.
+ * There is a continuous gradient between colors.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PHColorKeyNode extends PhetPNode {
+public class ContinuousColorKeyNode extends PhetPNode {
     
     private static final Color TITLE_COLOR = Color.BLACK;
     private static final Font TITLE_FONT = new PhetFont( 18 );
@@ -43,7 +43,7 @@ public class PHColorKeyNode extends PhetPNode {
     private static final Color TICK_LABEL_COLOR = Color.BLACK;
     private static final Font TICK_LABEL_FONT = new PhetFont( 12 );
     
-    public PHColorKeyNode( final PHPaper paper ) {
+    public ContinuousColorKeyNode( final PHPaper paper ) {
         // not interactive
         setPickable( false );
         setChildrenPickable( false );

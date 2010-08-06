@@ -43,7 +43,7 @@ public class PHPaper extends SolutionRepresentation {
         this.size = new PDimension( size );
         this.beaker = beaker;
         this.listeners = new EventListenerList();
-        this.colorStrategy = new VisibleSpectrumStrategy();
+        this.colorStrategy = new DiscreteColorStrategy();
         dippedHeight = getSubmergedHeight();
         pHValueShown = solution.getPH();
     }
@@ -227,6 +227,37 @@ public class PHPaper extends SolutionRepresentation {
         public Color createColor( double pH ) {
             double wavelength = MAPPING_FUNCTION.evaluate( pH );
             return new VisibleColor( wavelength ); 
+        }
+    }
+    
+    /*
+     * Maps a pH value to a specific discrete color.
+     * There is a limited number of colors that correspond to integer pH values.
+     * When creating a color, the actual pH is truncated to an integer value.
+     */
+    private static class DiscreteColorStrategy implements PHColorStrategy {
+        
+        // colors as shown in acid-base-solutions/doc/pH-colors.png
+        private static final Color[] COLORS = { 
+            new Color( 182, 70, 72 ),  // 0
+            new Color( 196, 80, 86 ),  // 1
+            new Color( 213, 83, 71 ),  // 2
+            new Color( 237, 123, 83 ), // 3
+            new Color( 246, 152, 86 ), // 4
+            new Color( 244, 158, 79 ), // 5 
+            new Color( 243, 160, 78 ), // 6
+            new Color( 244, 182, 67 ), // 7
+            new Color( 231, 201, 75 ), // 8
+            new Color( 93, 118, 88),   // 9
+            new Color( 30, 92, 89 ),   // 10
+            new Color( 34, 90, 105 ),  // 11
+            new Color( 39, 87, 111 ),  // 12
+            new Color( 27, 67, 90 ),   // 13
+            new Color( 0, 34, 52 ) };  // 14
+        
+        public Color createColor( double pH ) {
+            assert( COLORS.length == ( ABSConstants.MAX_PH - ABSConstants.MIN_PH + 1 ) );
+            return COLORS[ (int)pH ];
         }
     }
 }
