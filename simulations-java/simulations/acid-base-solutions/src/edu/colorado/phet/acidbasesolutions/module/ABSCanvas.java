@@ -62,6 +62,8 @@ public abstract class ABSCanvas extends PhetPCanvas {
         
         pHColorKeyNode.setOffset( ABSConstants.PH_COLOR_KEY_LOCATION );
         // NOTE: all layout is handled via locations of model elements.
+        
+        centerRootNode();
     }    
     
     protected void addNode( PNode node ) {
