@@ -3,6 +3,7 @@ TODO list for acid-base-solutions
 MILESTONES
 
 HIGH PRIORITY
+- align baselines in reaction equations (use ChemicalSymbolNode, rewrite ReactionEquationNode, don't use SwingLayoutNode)
 - conductivity tester
 - add MVT to handle relationship between model element locations and PNode locations
 - fix resize behavior of main frame, nodes below the beaker are not visible if main frame is resized wider 
@@ -12,7 +13,6 @@ MEDUIUM PRIORITY
 - not obvious what "Show H2O Molecules" check box pertains to
 - label x-axis of concentration graph? SR didn't see correlation to reaction equation
 - Save/Load?
-- align baselines in reaction equations (see SymbolNode in advanced-acid-base-solutions)
 
 LOW PRIORITY
 - when we decide on pH color strategy, remove other strategies from PHPaper, and remove unused *ColorKeyNode.
