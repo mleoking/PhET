@@ -14,7 +14,6 @@ import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.Solution
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -62,7 +61,7 @@ public class PHColorKeyNode extends PhetPNode {
         addChild( titleNode );
         
         // spectrum
-        SpectrumNode spectrumNode = new SpectrumNode( ABSConstants.PH_COLOR_KEY_SIZE );
+        SpectrumNode spectrumNode = new SpectrumNode( paper, ABSConstants.PH_COLOR_KEY_SIZE );
         addChild( spectrumNode );
         spectrumNode.setOffset( 0, titleNode.getFullBoundsReference().getMaxY() + 3 );
         
@@ -84,9 +83,9 @@ public class PHColorKeyNode extends PhetPNode {
      */
     private static class SpectrumNode extends PComposite {
         
-        public SpectrumNode( PDimension size ) {
+        public SpectrumNode( PHPaper paper, PDimension size ) {
             
-            PImage imageNode = new PImage( createImage( size ) );
+            PImage imageNode = new PImage( createImage( paper, size ) );
             addChild( imageNode );
             
             PPath outlineNode = new PPath( new Rectangle2D.Double( 0, 0, size.getWidth(), size.getHeight() ) );
@@ -95,14 +94,14 @@ public class PHColorKeyNode extends PhetPNode {
             addChild( outlineNode );
         }
        
-        private Image createImage( PDimension size ) {
+        private Image createImage( PHPaper paper, PDimension size ) {
             BufferedImage image = new BufferedImage( (int)size.getWidth(), (int)size.getHeight(), BufferedImage.TYPE_INT_RGB );
-            Function linearFunction = new Function.LinearFunction( 0, size.getWidth(), VisibleColor.MAX_WAVELENGTH, VisibleColor.MIN_WAVELENGTH ); // map x postion to wavelength
+            Function linearFunction = new Function.LinearFunction( 0, size.getWidth(), ABSConstants.MIN_PH, ABSConstants.MAX_PH ); // map x position to pH
             Graphics2D g2 = image.createGraphics();
             final int dx = 1;
             for ( int x = 0; x < size.getWidth(); x = x + dx ) {
                 double wavelength = linearFunction.evaluate( x );
-                g2.setColor( VisibleColor.wavelengthToColor( wavelength ) );
+                g2.setColor( paper.createColor( wavelength ) );
                 g2.fillRect( x, 0, dx, (int) size.getHeight() );
             }
             g2.dispose();
