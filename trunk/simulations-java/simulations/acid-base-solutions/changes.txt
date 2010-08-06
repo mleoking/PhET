@@ -1,3 +1,5 @@
+8/6/10 alternative color key that shows discrete color "chips" for each integer pH value
+8/6/10 pH color strategy that uses specific colors for each integer pH value
 8/6/10 use strategy pattern for creating pH colors, until we decide which approach is best
 8/6/10 disable color animation for pH paper (see PHPaper.ANIMATE_COLOR)
 # 0.00.16 (42834) Aug 4, 2010
