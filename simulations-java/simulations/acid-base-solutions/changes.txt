@@ -1,3 +1,4 @@
+8/6/10 display nothing instead of "_ _ _" when pH meter is out of solution
 8/6/10 do a linear interpolation between pH colors
 8/6/10 alternative color key that shows discrete color "chips" for each integer pH value
 8/6/10 pH color strategy that uses specific colors for each integer pH value
