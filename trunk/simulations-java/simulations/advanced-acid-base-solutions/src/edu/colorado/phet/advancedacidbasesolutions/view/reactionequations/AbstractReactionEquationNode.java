@@ -7,7 +7,7 @@ import java.awt.Image;
 import edu.colorado.phet.advancedacidbasesolutions.AABSImages;
 import edu.colorado.phet.advancedacidbasesolutions.model.ConcentrationScaleModel;
 import edu.colorado.phet.advancedacidbasesolutions.util.ScalingAnimator;
-import edu.colorado.phet.advancedacidbasesolutions.view.SymbolNode;
+import edu.colorado.phet.advancedacidbasesolutions.view.ChemicalSymbolNode;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -365,7 +365,7 @@ public abstract class AbstractReactionEquationNode extends PComposite {
     /*
      * A symbol that scales about its geometric center.
      */
-    private static class CenteredSymbolNode extends SymbolNode {
+    private static class CenteredSymbolNode extends ChemicalSymbolNode {
 
         public CenteredSymbolNode( String html, Font font, Color color ) {
             super( html, font, color );

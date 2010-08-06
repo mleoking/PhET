@@ -1,3 +1,5 @@
+/* Copyright 2009-2010, University of Colorado */
+
 package edu.colorado.phet.advancedacidbasesolutions.view;
 
 import java.awt.Color;
@@ -9,7 +11,6 @@ import java.util.Iterator;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
-import edu.colorado.phet.advancedacidbasesolutions.AABSSymbols;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -18,16 +19,18 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Creates a symbol with optional superscripts and subscripts that can be aligned with other symbols.
+ * Creates a chemical symbol with optional superscripts and subscripts,
+ * whose baseline can be aligned with other symbols.
  * <p>
- * Equations were originally implemented using HTMLNode.
+ * Chemical equations were originally implemented using HTMLNode.
  * But HTMLNode provides no information about baselines, making vertical alignment impossible.
  * And because baselines weren't aligned in equations, users were experiencing optical illusions
  * that made some symbols appear to be larger than others.
  * <p>
  * In this approach, we align the tops of uppercase letters with y=0.
- * But NOTE! This implementation is not intended to be general, it was chosen by 
- * the design team as a cost-feature tradeoff.  The assumptions made include:
+ * But NOTE! This implementation is not intended to be general; it was chosen by 
+ * the Acid-Base Solutions design team as a cost-feature tradeoff.  
+ * The assumptions made include:
  * <p>
  * <ul>
  * <li>symbols are specified as HTML or HTML fragments
@@ -44,49 +47,58 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class SymbolNode extends PComposite {
-    
-    private static final double SCRIPT_SCALE = 0.8;
-    private static final double X_SPACING = 0;
-    
+public class ChemicalSymbolNode extends PComposite {
+
+    private static final double DEFAULT_SUPER_SCRIPT_SCALE = 0.8;
+    private static final double DEFAULT_SUB_SCRIPT_SCALE = DEFAULT_SUPER_SCRIPT_SCALE;
+    private static final double X_SPACING = 0; // horizontal spacing between FragmentNodes
+
     private static final String HTML_BEGIN_TAG = "<html>";
     private static final String HTML_END_TAG = "</html>";
     private static final String SUPERSCRIPT_BEGIN_TAG = "<sup>";
     private static final String SUPERSCRIPT_END_TAG = "</sup>";
     private static final String SUBSCRIPT_BEGIN_TAG = "<sub>";
     private static final String SUBSCRIPT_END_TAG = "</sub>";
-    
-    private final Font font;
-    private Color color;
-    private final double scriptScale;
+
     private double capHeight;
-    
-    public SymbolNode( String html, Font font, Color color ) {
+
+    public ChemicalSymbolNode( String html, Font font, Color color ) {
+        this( html, font, color, DEFAULT_SUPER_SCRIPT_SCALE, DEFAULT_SUB_SCRIPT_SCALE );
+    }
+
+    /**
+     * Constructor.
+     * @param html HTML fragment for the symbol
+     * @param font font used for all parts of the symbol
+     * @param color color used for all parts of the symbol
+     * @param superscriptScale how much the superscript is scaled relative to the normal portion of the symbol
+     * @param subscriptScale how much the subscript is scaled relative to the normal portion of the symbol
+     */
+    public ChemicalSymbolNode( String html, Font font, Color color, double superscriptScale, double subscriptScale ) {
         super();
-        
-        this.font = font;
-        this.color = color;
-        this.scriptScale = SCRIPT_SCALE;
-        this.capHeight = 0;
-        
+
         // convert HTML to nodes
-        ArrayList<FragmentNode> nodes = htmlToNodes( html );
-        
+        ArrayList<FragmentNode> nodes = htmlToNodes( html, font, color, superscriptScale, subscriptScale );
+
         // layout the nodes
+        this.capHeight = 0;
         Iterator<FragmentNode> i = nodes.iterator();
         double xOffset = 0;
         while ( i.hasNext() ) {
             FragmentNode node = i.next();
             addChild( node );
-            if ( node instanceof BodyNode ) {
+            if ( node instanceof NormalNode ) {
                 node.setOffset( xOffset, 0 );
                 capHeight = node.getFullBoundsReference().getHeight();
             }
             else if ( node instanceof SuperscriptNode ) {
                 node.setOffset( xOffset, -( node.getFullBoundsReference().getHeight() / 2 ) );
             }
-            else {
+            else if ( node instanceof SubscriptNode ) {
                 node.setOffset( xOffset, ( node.getFullBoundsReference().getHeight() / 2 ) );
+            }
+            else {
+                throw new UnsupportedOperationException( "unsupported node type: " + node.getClass().getName() );
             }
             xOffset += node.getFullBoundsReference().getWidth() + X_SPACING;
         }
@@ -99,26 +111,30 @@ public class SymbolNode extends PComposite {
     public double getCapHeight() {
         return capHeight;
     }
-    
+
+    /**
+     * Sets the symbol color.
+     * @param color
+     */
     public void setSymbolColor( Color color ) {
-        this.color = color;
         for ( int i = 0; i < getChildrenCount(); i++ ) {
             PNode child = getChild( i );
             if ( child instanceof FragmentNode ) {
-                ((FragmentNode)child).setHTMLColor( color );
+                ( (FragmentNode) child ).setHTMLColor( color );
             }
         }
     }
-    
+
     /*
      * Converts HTML into an ordered list of nodes.
+     * Each node will be responsible for rendering a fragment of the HTML.
      */
-    private ArrayList<FragmentNode> htmlToNodes( final String html ) {
-        
+    private static ArrayList<FragmentNode> htmlToNodes( final String html, Font font, Color color, double superscriptScale, double subscriptScale ) {
+
         ArrayList<FragmentNode> nodeList = new ArrayList<FragmentNode>();
-        
+
         String s = new String( html ); // operate on a copy
-        
+
         // strip off html tags
         if ( s.startsWith( HTML_BEGIN_TAG ) ) {
             s = s.substring( HTML_BEGIN_TAG.length() );
@@ -126,12 +142,12 @@ public class SymbolNode extends PComposite {
         if ( s.endsWith( HTML_END_TAG ) ) {
             s = s.substring( 0, s.length() - HTML_END_TAG.length() );
         }
-        
+
         // convert html to nodes
         boolean done = false;
         String token = null;
         while ( !done ) {
-            
+
             // look for the next tag of interest
             int index;
             final int subIndex = s.indexOf( SUBSCRIPT_BEGIN_TAG );
@@ -145,23 +161,23 @@ public class SymbolNode extends PComposite {
             else {
                 index = Math.min( supIndex, subIndex );
             }
-            
+
             if ( index == -1 ) {
-                // if no tag, any remaining text is part of the symbol body
+                // if no tag, any remaining text appears on the normal line of text
                 if ( s.length() > 0 ) {
-                    nodeList.add( new BodyNode( s, font, color ) );
+                    nodeList.add( new NormalNode( s, font, color ) );
                 }
                 done = true;
             }
             else {
-                
-                // anything before the tag of interest is part of the symbol body
+
+                // anything before the tag of interest appears on the normal line of text
                 token = s.substring( 0, index );
                 if ( token.length() > 0 ) {
-                    nodeList.add( new BodyNode( token, font, color ) );
+                    nodeList.add( new NormalNode( token, font, color ) );
                 }
                 s = s.substring( index, s.length() );
-                
+
                 if ( s.startsWith( SUPERSCRIPT_BEGIN_TAG ) ) {
                     // superscript
                     index = s.indexOf( SUPERSCRIPT_END_TAG );
@@ -170,7 +186,7 @@ public class SymbolNode extends PComposite {
                     }
                     else {
                         token = s.substring( SUPERSCRIPT_BEGIN_TAG.length(), index );
-                        nodeList.add( new SuperscriptNode( token, font, color, scriptScale ) );
+                        nodeList.add( new SuperscriptNode( token, font, color, superscriptScale ) );
                         s = s.substring( index + SUPERSCRIPT_END_TAG.length(), s.length() );
                     }
                 }
@@ -182,7 +198,7 @@ public class SymbolNode extends PComposite {
                     }
                     else {
                         token = s.substring( SUBSCRIPT_BEGIN_TAG.length(), index );
-                        nodeList.add( new SubscriptNode( token, font, color, scriptScale ) );
+                        nodeList.add( new SubscriptNode( token, font, color, subscriptScale ) );
                         s = s.substring( index + SUBSCRIPT_END_TAG.length(), s.length() );
                     }
                 }
@@ -192,26 +208,29 @@ public class SymbolNode extends PComposite {
                 }
             }
         }
-        
+
         return nodeList;
     }
-    
+
     /*
      * Base class for rendering an HTML fragment.
      */
     private static abstract class FragmentNode extends HTMLNode {
+
         public FragmentNode( String text, Font font, Color color ) {
             super( HTMLUtils.toHTMLString( text ) );
             setFont( font );
             setHTMLColor( color );
         }
     }
-    
+
     /*
-     * A fragment that is part of the main body of the symbol.
+     * A fragment that that appears on the normal line of type.
+     * Also serves as a marker type for making layout decisions.
      */
-    private static class BodyNode extends FragmentNode {
-        public BodyNode( String text, Font font, Color color ) {
+    private static class NormalNode extends FragmentNode {
+
+        public NormalNode( String text, Font font, Color color ) {
             super( text, font, color );
             // verify that text contains at least one uppercase char
             if ( !text.matches( ".*[A-Z]+.*" ) ) {
@@ -219,41 +238,45 @@ public class SymbolNode extends PComposite {
             }
         }
     }
-    
+
     /*
-     * A fragment that is a superscript.
+     * A fragment that is a superscript, appears above the normal line of type.
+     * Also serves as a marker type for making layout decisions.
      */
     private static class SuperscriptNode extends FragmentNode {
+
         public SuperscriptNode( String text, Font font, Color color, double scale ) {
             super( text, font, color );
             scale( scale );
         }
     }
-    
+
     /*
-     * A fragment that is a subscript.
+     * A fragment that is a subscript, appears below the normal line of type.
+     * Also serves as a marker type for making layout decisions.
      */
     private static class SubscriptNode extends FragmentNode {
+
         public SubscriptNode( String text, Font font, Color color, double scale ) {
             super( text, font, color );
             scale( scale );
         }
     }
-    
+
     /* test */
     public static void main( String[] args ) {
 
-        Font font = new PhetFont( Font.BOLD, 18 );
+        Font font = new PhetFont( Font.BOLD, 22 );
         ArrayList<PNode> nodes = new ArrayList<PNode>();
-        nodes.add( new SymbolNode( AABSSymbols.H3O_PLUS, font, Color.RED ) );
-        nodes.add( new SymbolNode( AABSSymbols.HA, font, Color.GREEN ) );
-        nodes.add( new SymbolNode( AABSSymbols.H2O, font, Color.BLUE ) );
-        nodes.add( new SymbolNode( AABSSymbols.C5H5NH_PLUS, font, Color.BLACK ) );
-        nodes.add( new SymbolNode( AABSSymbols.HCl, font, Color.BLACK ) );
-        
+        nodes.add( new ChemicalSymbolNode( "H<sub>3</sub>O<sup>+</sup>", font, Color.RED ) );
+        nodes.add( new ChemicalSymbolNode( "H<i>A</i>", font, Color.GREEN ) );
+        nodes.add( new ChemicalSymbolNode( "H<sub>2</sub>O", font, Color.BLUE ) );
+        nodes.add( new ChemicalSymbolNode( "C<sub>5</sub>H<sub>5</sub>NH<sup>+</sup>", font, Color.BLACK ) );
+        nodes.add( new ChemicalSymbolNode( "HCl", font, Color.MAGENTA ) );
+
         PhetPCanvas canvas = new PhetPCanvas();
         canvas.setPreferredSize( new Dimension( 600, 400 ) );
-        
+
         double xOffset = 20;
         double yOffset = 100;
         Iterator<PNode> i = nodes.iterator();
@@ -263,7 +286,7 @@ public class SymbolNode extends PComposite {
             node.setOffset( xOffset, yOffset );
             xOffset = node.getFullBoundsReference().getMaxX() + 10;
         }
-        
+
         JFrame frame = new JFrame();
         frame.getContentPane().add( canvas );
         frame.pack();
