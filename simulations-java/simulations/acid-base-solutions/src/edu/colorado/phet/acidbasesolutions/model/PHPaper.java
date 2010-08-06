@@ -12,6 +12,7 @@ import edu.colorado.phet.acidbasesolutions.constants.ABSColors;
 import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
+import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -43,7 +44,7 @@ public class PHPaper extends SolutionRepresentation {
         this.size = new PDimension( size );
         this.beaker = beaker;
         this.listeners = new EventListenerList();
-        this.colorStrategy = new DiscreteColorStrategy();
+        this.colorStrategy = new CustomColorStrategy();
         dippedHeight = getSubmergedHeight();
         pHValueShown = solution.getPH();
     }
@@ -231,15 +232,16 @@ public class PHPaper extends SolutionRepresentation {
     }
     
     /*
-     * Maps a pH value to a specific discrete color.
-     * There is a limited number of colors that correspond to integer pH values.
-     * When creating a color, the actual pH is truncated to an integer value.
+     * Maps a pH value to a color, using a set of custom colors and interpolation.
+     * Custom colors are provided for each integer pH value.
+     * For an actual pH value, we select the 2 closest colors, then interpolate between them.
+     * The interpolating is a linear interpolation of individual RGB components.
      */
-    private static class DiscreteColorStrategy implements PHColorStrategy {
+    private static class CustomColorStrategy implements PHColorStrategy {
         
         // colors as shown in acid-base-solutions/doc/pH-colors.png
-        private static final Color[] COLORS = { 
-            new Color( 182, 70, 72 ),  // 0
+        protected static final Color[] COLORS = { 
+            new Color( 182, 70, 72 ),  // pH=0
             new Color( 196, 80, 86 ),  // 1
             new Color( 213, 83, 71 ),  // 2
             new Color( 237, 123, 83 ), // 3
@@ -257,7 +259,17 @@ public class PHPaper extends SolutionRepresentation {
         
         public Color createColor( double pH ) {
             assert( COLORS.length == ( ABSConstants.MAX_PH - ABSConstants.MIN_PH + 1 ) );
-            return COLORS[ (int)pH ];
+            Color color = null;
+            int lowerPH = (int)pH;
+            int upperPH = Math.round( (float)pH );
+            if ( lowerPH == upperPH ) {
+                color = COLORS[ lowerPH ];
+            }
+            else {
+                double distance = ( pH - lowerPH ) / ( upperPH - lowerPH );
+                color = ColorUtils.interpolateRBGA( COLORS[lowerPH], COLORS[upperPH], distance );
+            }
+            return color;
         }
     }
 }
