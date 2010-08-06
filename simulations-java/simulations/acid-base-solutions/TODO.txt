@@ -3,11 +3,6 @@ TODO list for acid-base-solutions
 MILESTONES
 
 HIGH PRIORITY
-- Q: What is the desired mapping of pH to color? The entire visible spectrum looks a little too dark at each end.
-- Q: When the solution is changed, is it appropriate to immediately remove the color from any part of the paper that's not in solution? (It currently does.)
-- Q: When the solution is changed, is it appropriate to gradually animate the color of the portion of the paper that's in solution? (It currently does.)
-- Q: When the paper is dipped in the solution, should we animate the color of the paper? (It currently does not. Need to know pH of undipped paper.)
-- Q: When the dipped paper is in solution, its color is affected by the solution color. (leave as is, make solution colorless, or move paper in front of solution)
 - conductivity tester
 - add MVT to handle relationship between model element locations and PNode locations
 - fix resize behavior of main frame, nodes below the beaker are not visible if main frame is resized wider 
@@ -20,6 +15,7 @@ MEDUIUM PRIORITY
 - baseline alignment of reaction equations (how did I do this in advanced-acid-base-solutions?)
 
 LOW PRIORITY
+- when we decide on pH color strategy, remove other strategies from PHPaper, and remove unused *ColorKeyNode.
 - if pH paper color animation is not desired, delete associated code in PHPaper
 - control panel layout issues, left justification
 - use SolutionFactory in TestSolutionControl
