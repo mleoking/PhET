@@ -23,6 +23,8 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class PHPaper extends SolutionRepresentation {
     
+    private static final boolean ANIMATE_COLOR = false;
+    
     /*
      * When solution is changed, we animate the dipped color.
      * This constant determines how much the pH value changes per unit of clock time.
@@ -66,6 +68,10 @@ public class PHPaper extends SolutionRepresentation {
     public void setSolution( AqueousSolution solution ) {
         super.setSolution( solution );
         setDippedHeight( getSubmergedHeight() ); // Clear any dipped color on the paper above the solution.
+        if ( !ANIMATE_COLOR ) {
+            pHValueShown = solution.getPH();
+            fireDippedColorChanged();
+        }
     }
 
     @Override
