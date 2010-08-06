@@ -60,7 +60,7 @@ public class ChemicalSymbolNode extends PComposite {
     private static final String SUBSCRIPT_BEGIN_TAG = "<sub>";
     private static final String SUBSCRIPT_END_TAG = "</sub>";
 
-    private double capHeight;
+    private final double capHeight;
 
     public ChemicalSymbolNode( String html, Font font, Color color ) {
         this( html, font, color, DEFAULT_SUPER_SCRIPT_SCALE, DEFAULT_SUB_SCRIPT_SCALE );
@@ -77,11 +77,14 @@ public class ChemicalSymbolNode extends PComposite {
     public ChemicalSymbolNode( String html, Font font, Color color, double superscriptScale, double subscriptScale ) {
         super();
 
+        // determine the height of a capital letter
+        NormalNode capNode = new NormalNode( "A", font, color );
+        capHeight = capNode.getFullBoundsReference().getHeight();
+        
         // convert HTML to nodes
         ArrayList<FragmentNode> nodes = htmlToNodes( html, font, color, superscriptScale, subscriptScale );
 
         // layout the nodes
-        this.capHeight = 0;
         Iterator<FragmentNode> i = nodes.iterator();
         double xOffset = 0;
         while ( i.hasNext() ) {
@@ -89,7 +92,6 @@ public class ChemicalSymbolNode extends PComposite {
             addChild( node );
             if ( node instanceof NormalNode ) {
                 node.setOffset( xOffset, 0 );
-                capHeight = node.getFullBoundsReference().getHeight();
             }
             else if ( node instanceof SuperscriptNode ) {
                 node.setOffset( xOffset, -( node.getFullBoundsReference().getHeight() / 2 ) );
