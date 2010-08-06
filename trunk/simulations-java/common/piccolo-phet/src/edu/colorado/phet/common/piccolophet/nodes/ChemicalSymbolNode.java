@@ -1,6 +1,6 @@
 /* Copyright 2009-2010, University of Colorado */
 
-package edu.colorado.phet.advancedacidbasesolutions.view;
+package edu.colorado.phet.common.piccolophet.nodes;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -14,7 +14,6 @@ import javax.swing.WindowConstants;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
