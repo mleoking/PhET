@@ -31,23 +31,19 @@ public class PHPaper extends SolutionRepresentation {
      */
     private static final double PH_DELTA_PER_TIME_UNIT = 0.1;
     
-    /*
-     * Maps pH to a visible wavelength.
-     * This allows us to reuse common code (VisibleColor) to generate colors.
-     */
-    private static final LinearFunction MAPPING_FUNCTION = new Function.LinearFunction( ABSConstants.MIN_PH, ABSConstants.MAX_PH, VisibleColor.MAX_WAVELENGTH, VisibleColor.MIN_WAVELENGTH );
-    
     private final PDimension size;
     private final Beaker beaker;
     private double dippedHeight;
     private double pHValueShown; // current pH value shown by the paper, from dipping in the solution
     private final EventListenerList listeners;
+    private final PHColorStrategy colorStrategy;
 
     public PHPaper( AqueousSolution solution, Point2D location, boolean visible, PDimension size, Beaker beaker ) {
         super( solution, location, visible );
         this.size = new PDimension( size );
         this.beaker = beaker;
         this.listeners = new EventListenerList();
+        this.colorStrategy = new VisibleSpectrumStrategy();
         dippedHeight = getSubmergedHeight();
         pHValueShown = solution.getPH();
     }
@@ -128,14 +124,13 @@ public class PHPaper extends SolutionRepresentation {
         return createColor( pHValueShown );
     }
     
-    /*
-     * Maps a pH value to a color.
-     * Our colors are identical to the visible light spectrum, so we use visible wavelength 
-     * as an intermediate representation, then map the wavelength to a color.
+    /**
+     * Creates a color that corresponds to a specific pH.
+     * @param pH
+     * @return
      */
-    private Color createColor( double pH ) {
-        double wavelength = MAPPING_FUNCTION.evaluate( pH );
-        return new VisibleColor( wavelength ); 
+    public Color createColor( double pH ) {
+        return colorStrategy.createColor( pH );
     }
     
     private void setDippedHeight( double dippedHeight ) {
@@ -213,6 +208,25 @@ public class PHPaper extends SolutionRepresentation {
     private void fireDippedHeightChanged() {
         for ( PHPaperChangeListener listener : listeners.getListeners( PHPaperChangeListener.class ) ) {
             listener.dippedHeightChanged();
+        }
+    }
+    
+    private interface PHColorStrategy {
+        public Color createColor( double pH );
+    }
+    
+    /*
+     * Maps a pH value to a color in the visible light spectrum.
+     * We use visible wavelength as an intermediate representation,
+     * then map the wavelength to a color using VisibleColor from phetcommon.
+     */
+    private static class VisibleSpectrumStrategy implements PHColorStrategy {
+        
+        private static final LinearFunction MAPPING_FUNCTION = new Function.LinearFunction( ABSConstants.MIN_PH, ABSConstants.MAX_PH, VisibleColor.MAX_WAVELENGTH, VisibleColor.MIN_WAVELENGTH );
+        
+        public Color createColor( double pH ) {
+            double wavelength = MAPPING_FUNCTION.evaluate( pH );
+            return new VisibleColor( wavelength ); 
         }
     }
 }
