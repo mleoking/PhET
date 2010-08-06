@@ -45,7 +45,6 @@ public class ABSStrings {
     public static final String LITERS = getString( "liters" );
     public static final String MAGNIFYING_GLASS = getString( "magnifyingGlass" );
     public static final String CONCENTRATION_GRAPH = getString( "concentrationGraph" );
-    public static final String PH_METER_NO_VALUE = getString( "phMeter.noValue" );
     public static final String CONCENTRATION_GRAPH_Y_AXIS = ABSResources.getString( "concentrationGraph.yAxis" );
     public static final String NEGLIGIBLE = ABSResources.getString( "negligible" );
     public static final String PH_COLOR_KEY = ABSResources.getString( "pHColorKey" );

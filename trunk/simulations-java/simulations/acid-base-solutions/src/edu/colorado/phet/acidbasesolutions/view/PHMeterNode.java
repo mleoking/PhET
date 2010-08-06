@@ -188,7 +188,7 @@ public class PHMeterNode extends PhetPNode {
                 text = MessageFormat.format( ABSStrings.PATTERN_LABEL_VALUE, ABSStrings.PH, DISPLAY_FORMAT.format( phValue.getValue() ) );
             }
             else {
-                text = MessageFormat.format( ABSStrings.PATTERN_LABEL_VALUE, ABSStrings.PH, ABSStrings.PH_METER_NO_VALUE );
+                text = MessageFormat.format( ABSStrings.PATTERN_LABEL_VALUE, ABSStrings.PH, "" );
             }
             valueNode.setText( text );
         }
