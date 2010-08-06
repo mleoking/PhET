@@ -22,6 +22,10 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * Creates a chemical symbol with optional superscripts and subscripts,
  * whose baseline can be aligned with other symbols.
  * <p>
+ * Origin of this node is at the lower-right of the symbol's typographic baseline.
+ * For example, if the symbol is "H<sub>2</sub>O", then the original will be at
+ * the lower-left corner of the 'H'.
+ * <p>
  * Chemical equations were originally implemented using HTMLNode.
  * But HTMLNode provides no information about baselines, making vertical alignment impossible.
  * And because baselines weren't aligned in equations, users were experiencing optical illusions
@@ -91,13 +95,13 @@ public class ChemicalSymbolNode extends PComposite {
             FragmentNode node = i.next();
             addChild( node );
             if ( node instanceof NormalNode ) {
-                node.setOffset( xOffset, 0 );
+                node.setOffset( xOffset, -capHeight );
             }
             else if ( node instanceof SuperscriptNode ) {
-                node.setOffset( xOffset, -( node.getFullBoundsReference().getHeight() / 2 ) );
+                node.setOffset( xOffset, -capHeight - ( node.getFullBoundsReference().getHeight() / 2 ) );
             }
             else if ( node instanceof SubscriptNode ) {
-                node.setOffset( xOffset, ( node.getFullBoundsReference().getHeight() / 2 ) );
+                node.setOffset( xOffset, -capHeight + ( node.getFullBoundsReference().getHeight() / 2 ) );
             }
             else {
                 throw new UnsupportedOperationException( "unsupported node type: " + node.getClass().getName() );
