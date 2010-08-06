@@ -336,7 +336,7 @@ public abstract class AbstractReactionEquationNode extends PComposite {
         // symbol
         CenteredSymbolNode symbolNode = symbolNodes[index];
         xOffset = xStart;
-        yOffset = -symbolNode.getCapHeight() / 2;
+        yOffset = symbolNode.getCapHeight() / 2;
         symbolNode.setOffset( xOffset, yOffset );
         // structure
         StructureNode structureNode = structureNodes[index];
@@ -380,7 +380,7 @@ public abstract class AbstractReactionEquationNode extends PComposite {
             super.setScale( scale );
             PBounds boundsAfter = getFullBounds();
             double xOffset = getXOffset() - ( ( boundsAfter.getWidth() - boundsBefore.getWidth() ) / 2 );
-            double yOffset = getYOffset() - ( ( boundsAfter.getHeight() - boundsBefore.getHeight() ) / 2 );
+            double yOffset = getYOffset() + ( ( boundsAfter.getHeight() - boundsBefore.getHeight() ) / 2 );
             setOffset( xOffset, yOffset );
         }
     }
