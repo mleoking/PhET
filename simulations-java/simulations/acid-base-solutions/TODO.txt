@@ -12,7 +12,7 @@ MEDUIUM PRIORITY
 - not obvious what "Show H2O Molecules" check box pertains to
 - label x-axis of concentration graph? SR didn't see correlation to reaction equation
 - Save/Load?
-- baseline alignment of reaction equations (how did I do this in advanced-acid-base-solutions?)
+- align baselines in reaction equations (see SymbolNode in advanced-acid-base-solutions)
 
 LOW PRIORITY
 - when we decide on pH color strategy, remove other strategies from PHPaper, and remove unused *ColorKeyNode.
