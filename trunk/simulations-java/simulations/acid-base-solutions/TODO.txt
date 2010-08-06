@@ -19,9 +19,8 @@ LOW PRIORITY
 - if pH paper color animation is not desired, delete associated code in PHPaper
 - control panel layout issues, left justification
 - use SolutionFactory in TestSolutionControl
-- chem symbol api, handle baseline/bold/italic/super/sub/color, use Piccolo for layout control
 - icons for tool controls 
-- better images for molecules
+- better images for molecules (no bite out of A-)
 - export design doc from Google, check into SVN
 - model.txt
 
