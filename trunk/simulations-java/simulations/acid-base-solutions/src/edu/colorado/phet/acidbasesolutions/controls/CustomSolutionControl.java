@@ -110,7 +110,7 @@ public class CustomSolutionControl extends JPanel {
         solution.addAqueousSolutionChangeListener( solutionChangeListener );
         
         // adjust control settings
-        typePanel.setAcidSelected( ( solution instanceof StrongAcidSolution ) || ( solution instanceof WeakAcidSolution ) );
+        typePanel.setAcidSelected( solution instanceof AcidSolution );
         concentrationPanel.setConcentration( model.getSolution().getConcentration() );
         strengthPanel.setWeakSelected( ( solution instanceof WeakAcidSolution ) || ( solution instanceof WeakBaseSolution ) );
         strengthPanel.setStrength( model.getSolution().getStrength() );

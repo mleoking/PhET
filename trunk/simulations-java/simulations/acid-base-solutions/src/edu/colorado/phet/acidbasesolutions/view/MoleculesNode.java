@@ -165,8 +165,8 @@ public class MoleculesNode extends PComposite {
      */
     private void updateMinoritySpeciesVisibility() {
         AqueousSolution solution = magnifyingGlass.getSolution();
-        parentOH.setVisible( !( solution instanceof StrongAcidSolution || solution instanceof WeakAcidSolution ) ); // hide OH- for acids
-        parentH3O.setVisible( !( solution instanceof StrongBaseSolution || solution instanceof WeakBaseSolution ) ); // hide H3O for bases
+        parentOH.setVisible( !( solution instanceof AcidSolution ) ); // hide OH- for acids
+        parentH3O.setVisible( !( solution instanceof BaseSolution ) ); // hide H3O for bases
     }
     
     public int getCountReactant() {
