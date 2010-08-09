@@ -42,7 +42,6 @@ public class ToolsControl extends JPanel {
     public static class FewerToolsControl extends ToolsControl {
         public FewerToolsControl( ABSModel model ) {
             super( model );
-            setPHPaperControlVisible( false );
             setCondutivityTesterControlVisible( false );
         }
     }

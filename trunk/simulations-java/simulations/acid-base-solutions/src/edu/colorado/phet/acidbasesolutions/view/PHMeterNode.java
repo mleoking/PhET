@@ -8,10 +8,8 @@ import java.text.DecimalFormat;
 import java.text.MessageFormat;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
-import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.model.PHMeter;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeListener;
-import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.AqueousSolutionChangeListener;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -45,8 +43,6 @@ public class PHMeterNode extends PhetPNode {
     private static final Color DISPLAY_BACKGROUND = Color.LIGHT_GRAY;
 
     private PHMeter meter;
-    private AqueousSolution solution;
-    private AqueousSolutionChangeListener listener;
     private final DisplayNode displayNode;
 
     public PHMeterNode( final PHMeter meter ) {
@@ -56,7 +52,15 @@ public class PHMeterNode extends PhetPNode {
         meter.addSolutionRepresentationChangeListener( new SolutionRepresentationChangeListener() {
 
             public void solutionChanged() {
-                setSolution( meter.getSolution() );
+                updateDisplay();
+            }
+            
+            public void strengthChanged() {
+                updateDisplay();
+            }
+
+            public void concentrationChanged() {
+                updateDisplay();
             }
             
             public void locationChanged() {
@@ -68,21 +72,7 @@ public class PHMeterNode extends PhetPNode {
             public void visibilityChanged() {
                 setVisible( meter.isVisible() );
             }
-
         } );
-
-        this.solution = meter.getSolution();
-        this.listener = new AqueousSolutionChangeListener() {
-
-            public void strengthChanged() {
-                updateDisplay();
-            }
-
-            public void concentrationChanged() {
-                updateDisplay();
-            }
-        };
-        solution.addAqueousSolutionChangeListener( listener );
 
         addInputEventListener( new CursorHandler( Cursor.N_RESIZE_CURSOR ) );
         addInputEventListener( new PDragSequenceEventHandler() {
@@ -141,15 +131,6 @@ public class PHMeterNode extends PhetPNode {
         x = -0.15 * displayNode.getFullBoundsReference().getWidth();
         y = shaftNode.getFullBoundsReference().getMinY() - displayNode.getFullBoundsReference().getHeight() + yOverlap;
         displayNode.setOffset( x, y );
-    }
-
-    private void setSolution( AqueousSolution solution ) {
-        if ( solution != this.solution ) {
-            this.solution.removeAqueousSolutionChangeListener( listener );
-            this.solution = solution;
-            this.solution.addAqueousSolutionChangeListener( listener );
-            updateDisplay();
-        }
     }
 
     /*

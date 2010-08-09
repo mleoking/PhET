@@ -8,9 +8,8 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.constants.ABSImages;
 import edu.colorado.phet.acidbasesolutions.model.*;
-import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
-import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.AqueousSolutionChangeListener;
 import edu.colorado.phet.acidbasesolutions.model.MagnifyingGlass.MagnifyingGlassChangeListener;
+import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
 import edu.colorado.phet.acidbasesolutions.view.IMoleculeCountStrategy.ConcentrationMoleculeCountStrategy;
 import edu.colorado.phet.acidbasesolutions.view.IMoleculeCountStrategy.ConstantMoleculeCountStrategy;
 import edu.colorado.phet.acidbasesolutions.view.IMoleculeLayeringStrategy.FixedMoleculeLayeringStrategy;
@@ -26,12 +25,10 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public class MoleculesNode extends PComposite {
 
     private final MagnifyingGlass magnifyingGlass;
-    private AqueousSolution solution;
     
     private final MoleculeImageParentNode parentReactant, parentProduct, parentH3O, parentOH, parentH2O;
     private final IMoleculeCountStrategy moleculeCountStrategy, h2oCountStrategy;
     private final IMoleculeLayeringStrategy layeringStrategy;
-    private final AqueousSolutionChangeListener solutionChangeListener;
     
     private int maxMolecules, maxH2O;
     private int countReactant, countProduct, countH3O, countOH, countH2O;
@@ -63,7 +60,19 @@ public class MoleculesNode extends PComposite {
         magnifyingGlass.addSolutionRepresentationChangeListener( new SolutionRepresentationChangeAdapter() {
             @Override
             public void solutionChanged() {
-                setSolution( magnifyingGlass.getSolution() );
+                deleteAllMolecules();
+                updateNumberOfMolecules();
+                updateMinoritySpeciesVisibility();
+            }
+            
+            @Override
+            public void strengthChanged() {
+                updateNumberOfMolecules();
+            }
+            
+            @Override
+            public void concentrationChanged() {
+                updateNumberOfMolecules();
             }
         });
         magnifyingGlass.addMagnifyingGlassListener( new MagnifyingGlassChangeListener() {
@@ -71,17 +80,6 @@ public class MoleculesNode extends PComposite {
                 setWaterVisible( magnifyingGlass.isWaterVisible() );
             }
         });
-        
-        this.solution = magnifyingGlass.getSolution();
-        solutionChangeListener = new AqueousSolutionChangeListener() {
-            public void strengthChanged() {
-                updateNumberOfMolecules();
-            }
-            public void concentrationChanged() {
-                updateNumberOfMolecules();
-            }
-        };
-        solution.addAqueousSolutionChangeListener( solutionChangeListener );
         
         parentReactant = new MoleculeImageParentNode();
         parentProduct = new MoleculeImageParentNode();
@@ -160,23 +158,13 @@ public class MoleculesNode extends PComposite {
         }
     }
     
-    private void setSolution( AqueousSolution solution ) {
-        if ( solution != this.solution ) {
-            this.solution.removeAqueousSolutionChangeListener( solutionChangeListener );
-            this.solution = solution;
-            this.solution.addAqueousSolutionChangeListener( solutionChangeListener );
-            deleteAllMolecules();
-            updateNumberOfMolecules();
-            updateMinoritySpeciesVisibility();
-        }
-    }
-    
     /*
      * Our implementation (borrowed from advanced-acid-base-solutions) will always show
      * at least 1 of the minor species of molecules.  But in this sim, we never want to 
      * show the minor species.
      */
     private void updateMinoritySpeciesVisibility() {
+        AqueousSolution solution = magnifyingGlass.getSolution();
         parentOH.setVisible( !( solution instanceof StrongAcidSolution || solution instanceof WeakAcidSolution ) ); // hide OH- for acids
         parentH3O.setVisible( !( solution instanceof StrongBaseSolution || solution instanceof WeakBaseSolution ) ); // hide H3O for bases
     }
@@ -222,6 +210,7 @@ public class MoleculesNode extends PComposite {
     }
     
     protected void updateNumberOfMolecules() {
+        AqueousSolution solution = magnifyingGlass.getSolution();
         countReactant = moleculeCountStrategy.getNumberOfMolecules( solution.getSoluteConcentration(), maxMolecules );
         countProduct = moleculeCountStrategy.getNumberOfMolecules( solution.getProductConcentration(), maxMolecules );
         countH3O = moleculeCountStrategy.getNumberOfMolecules( solution.getH3OConcentration(), maxMolecules );
@@ -236,6 +225,7 @@ public class MoleculesNode extends PComposite {
      * Images are distributed at random locations throughout the container.
      */
     protected void updateNumberOfMoleculeNodes() {
+        AqueousSolution solution = magnifyingGlass.getSolution();
         if ( !( solution instanceof PureWaterSolution ) ) {
             updateNumberOfMoleculeNodes( getParentReactant(), getCountReactant(), getImageScale(), solution.getSolute().getIcon() );
             updateNumberOfMoleculeNodes( getParentProduct(), getCountProduct(), getImageScale(), solution.getProduct().getIcon() );

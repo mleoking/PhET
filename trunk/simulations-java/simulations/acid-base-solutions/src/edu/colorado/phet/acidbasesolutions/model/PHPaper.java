@@ -24,20 +24,12 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class PHPaper extends SolutionRepresentation {
     
-    private static final boolean ANIMATE_COLOR = false;
-    
-    /*
-     * When solution is changed, we animate the dipped color.
-     * This constant determines how much the pH value changes per unit of clock time.
-     */
-    private static final double PH_DELTA_PER_TIME_UNIT = 0.1;
-    
     private static final double UNDIPPED_PH = 7; // pH of undipped paper
     
     private final PDimension size;
     private final Beaker beaker;
+    private Color dippedColor;
     private double dippedHeight;
-    private double pHValueShown; // current pH value shown by the paper, from dipping in the solution
     private final EventListenerList listeners;
     private final PHColorStrategy colorStrategy;
 
@@ -47,8 +39,34 @@ public class PHPaper extends SolutionRepresentation {
         this.beaker = beaker;
         this.listeners = new EventListenerList();
         this.colorStrategy = new CustomColorStrategy();
-        dippedHeight = getSubmergedHeight();
-        pHValueShown = solution.getPH();
+        this.dippedHeight = getSubmergedHeight();
+        this.dippedColor = createColor( solution.getPH() );
+        
+        addSolutionRepresentationChangeListener( new SolutionRepresentationChangeAdapter() {
+            
+            @Override
+            public void solutionChanged() {
+                setDippedHeight( getSubmergedHeight() ); // Clear any dipped color on the paper above the solution.
+                setDippedColor( createColor( getSolution().getPH() ) );
+            }
+            
+            @Override
+            public void concentrationChanged() {
+                setDippedHeight( getSubmergedHeight() ); // Clear any dipped color on the paper above the solution.
+                setDippedColor( createColor( getSolution().getPH() ) );
+            }
+            
+            @Override
+            public void strengthChanged() {
+                setDippedHeight( getSubmergedHeight() ); // Clear any dipped color on the paper above the solution.
+                setDippedColor( createColor( getSolution().getPH() ) );
+            }
+            
+            @Override
+            public void locationChanged() {
+                setDippedHeight( Math.max( dippedHeight, getSubmergedHeight() ) ); // dipped height can only increase
+            }
+        });
     }
     
     public PDimension getSizeReference() {
@@ -63,22 +81,14 @@ public class PHPaper extends SolutionRepresentation {
         return size.getHeight();
     }
     
-    @Override
-    public void setSolution( AqueousSolution solution ) {
-        super.setSolution( solution );
-        setDippedHeight( getSubmergedHeight() ); // Clear any dipped color on the paper above the solution.
-        if ( !ANIMATE_COLOR ) {
-            pHValueShown = solution.getPH();
-            fireDippedColorChanged();
-        }
-    }
-
+    /**
+     * Constraint location for dragging.
+     */
     @Override
     public void setLocation( double x, double y ) {
         super.setLocation( constrainX( x ), constrainY( y ) );
-        setDippedHeight( Math.max( dippedHeight, getSubmergedHeight() ) ); // dipped height can only increase
     }
-
+    
     /*
      * Constrains an x coordinate to be between the walls of the beaker.
      */
@@ -119,12 +129,18 @@ public class PHPaper extends SolutionRepresentation {
         return createColor( UNDIPPED_PH );
     }
     
+    private void setDippedColor( Color dippedColor ) {
+        if ( !dippedColor.equals( this.dippedColor ) ) {
+            this.dippedColor = dippedColor;
+            fireDippedColorChanged();
+        }
+    }
     /**
      * Gets the color of the paper when it's dipped in solution.
      * @return
      */
     public Color getDippedColor() {
-        return createColor( pHValueShown );
+        return dippedColor;
     }
     
     /**
@@ -139,9 +155,6 @@ public class PHPaper extends SolutionRepresentation {
     private void setDippedHeight( double dippedHeight ) {
         if ( dippedHeight != this.dippedHeight ) {
             this.dippedHeight = dippedHeight;
-            if ( getDippedHeight() == 0 ) {
-                pHValueShown = getSolution().getPH(); // If the paper isn't dipped, no need to animate, go directly to final pH.
-            }
             fireDippedHeightChanged();
         }
     }
@@ -171,24 +184,6 @@ public class PHPaper extends SolutionRepresentation {
         return h;
     }
 
-    /**
-     * Our magic pH paper animates its color when the solution is changed.
-     * This animation happens gradually over time, changing incrementally each time the clock ticks.
-     * @param simulationTimeChange
-     */
-    public void clockTicked( double simulationTimeChange ) {
-        if ( pHValueShown != getSolution().getPH() ) {
-            double sign = ( getSolution().getPH() - pHValueShown ) > 0 ? +1 : -1; // unit step towards target
-            if ( Math.abs( pHValueShown - getSolution().getPH() ) < sign ) { // close enough, go directly to the target value
-                pHValueShown = getSolution().getPH();
-            }
-            else {
-                pHValueShown = pHValueShown + ( sign * simulationTimeChange * PH_DELTA_PER_TIME_UNIT );
-            }
-            fireDippedColorChanged();
-        }
-    }
-    
     public interface PHPaperChangeListener extends EventListener {
         public void dippedColorChanged();
         public void dippedHeightChanged();
