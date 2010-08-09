@@ -2,15 +2,17 @@
 
 package edu.colorado.phet.acidbasesolutions.view;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Image;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSImages;
 import edu.colorado.phet.acidbasesolutions.constants.ABSSymbols;
 import edu.colorado.phet.acidbasesolutions.model.*;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
-import edu.colorado.phet.common.piccolophet.nodes.layout.SwingLayoutNode;
+import edu.colorado.phet.common.piccolophet.nodes.ChemicalSymbolNode;
+import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -24,12 +26,14 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public class ReactionEquationNode extends PComposite {
     
     private static final Font SYMBOL_FONT = new PhetFont( 20 );
+    private static final Color SYMBOL_COLOR = Color.BLACK;
     private static final Image TWO_H2O_IMAGE = create2H2OImage();
+    private static final double X_SPACING = 15; // horizontal distance between nodes
+    private static final double Y_SPACING = 10; // vertical distance between molecule image and top of capital letters in symbol
     
-    private static class SymbolNode extends HTMLNode {
+    private static class SymbolNode extends ChemicalSymbolNode {
         public SymbolNode( String html ) {
-            super( html );
-            setFont( SYMBOL_FONT );
+            super( html, SYMBOL_FONT, SYMBOL_COLOR );
         }
     }
     
@@ -37,6 +41,12 @@ public class ReactionEquationNode extends PComposite {
         public PlusNode() {
             super( "+" );
             setFont( SYMBOL_FONT );
+        }
+    }
+    
+    private static class ArrowNode extends PImage {
+        public ArrowNode( boolean isStrong ) {
+            super( isStrong ? ABSImages.ARROW_SINGLE : ABSImages.ARROW_DOUBLE );
         }
     }
 
@@ -61,11 +71,13 @@ public class ReactionEquationNode extends PComposite {
     }
     
     /*
-     * Pure water: H2O + H2O <-> H3O+ + OH-
+     * Pure water: 2H2O <-> H3O+ + OH-
      * Strong acid: HA + H2O -> H3O+ + A-
      * Weak acid: HA + H2O <-> H3O+ + A-
      * Strong base: MOH -> M+ + OH-
      * Weak base: B + H2O <-> BH+ + OH-
+     * 
+     * So the 2nd term on the left-hand-side (LHS) may or may not be present.
      */
     private void update() {
         
@@ -111,54 +123,70 @@ public class ReactionEquationNode extends PComposite {
         }
         
         // mathematical symbols
-        PNode arrowNode = new PImage( isStrong ? ABSImages.ARROW_SINGLE : ABSImages.ARROW_DOUBLE );
+        ArrowNode arrowNode = new ArrowNode( isStrong );
         PlusNode plusLeftNode = new PlusNode();
         PlusNode plusRightNode = new PlusNode();
-
-        // layout
-        GridBagLayout layout = new GridBagLayout();
-        SwingLayoutNode layoutNode = new SwingLayoutNode( layout );
-        addChild( layoutNode );
-        GridBagConstraints constraints = new GridBagConstraints();
-        constraints.insets = new Insets( 5, 15, 0, 0 ); // top, left, bottom, right
-        constraints.anchor = GridBagConstraints.CENTER;
-        constraints.gridx = 0;
-        constraints.gridy = 0;
-        layoutNode.addChild( imageLHS1, constraints );
-        constraints.gridx++; 
-        constraints.gridx++; 
-        if ( imageLHS2 != null ) {
-            layoutNode.addChild( imageLHS2, constraints );
-            constraints.gridx++;
-            constraints.gridx++;
-        }
-        layoutNode.addChild( imageRHS1, constraints );
-        constraints.gridx++; 
-        constraints.gridx++;
-        layoutNode.addChild( imageRHS2, constraints );
-        constraints.gridx = 0;
-        constraints.gridy++;
-        layoutNode.addChild( symbolLHS1, constraints );
-        constraints.gridx++;
+        
+        // rendering order
+        PComposite parentNode = new PComposite();
+        addChild( parentNode );
+        parentNode.addChild( imageLHS1 );
+        parentNode.addChild( symbolLHS1 );
         if ( symbolLHS2 != null ) {
-            layoutNode.addChild( plusLeftNode, constraints );
-            constraints.gridx++;
-            layoutNode.addChild( symbolLHS2, constraints );
-            constraints.gridx++;
+            parentNode.addChild( plusLeftNode );
+            parentNode.addChild( imageLHS2 );
+            parentNode.addChild( symbolLHS2 );
         }
-        layoutNode.addChild( arrowNode, constraints );
-        constraints.gridx++;
-        layoutNode.addChild( symbolRHS1, constraints );
-        constraints.gridx++;
-        layoutNode.addChild( plusRightNode, constraints );
-        constraints.gridx++;
-        layoutNode.addChild( symbolRHS2, constraints );
-        constraints.gridx++;
+        parentNode.addChild( arrowNode );
+        parentNode.addChild( imageRHS1 );
+        parentNode.addChild( symbolRHS1 );
+        parentNode.addChild( plusRightNode );
+        parentNode.addChild( imageRHS2 );
+        parentNode.addChild( symbolRHS2 );
+        
+        // layout
+        // LHS1
+        double x, y;
+        layoutSymbolAndImage( symbolLHS1, imageLHS1, 0 );
+        SymbolNode previousSymbolNode = symbolLHS1;
+        if ( symbolLHS2 != null ) {
+            // +
+            x = symbolLHS1.getFullBoundsReference().getMaxX() + X_SPACING;
+            y = symbolLHS1.getYOffset() - ( symbolLHS1.getCapHeight() / 2 ) - ( plusLeftNode.getFullBoundsReference().getHeight() / 2 );
+            plusLeftNode.setOffset( x, y );
+            // LHS2
+            layoutSymbolAndImage( symbolLHS2, imageLHS2, plusLeftNode.getFullBoundsReference().getMaxX() + X_SPACING );
+            previousSymbolNode = symbolLHS2;
+        }
+        // <-->
+        x = previousSymbolNode.getFullBoundsReference().getMaxX() + X_SPACING;
+        y = previousSymbolNode.getYOffset() - ( previousSymbolNode.getCapHeight() / 2 ) - ( arrowNode.getFullBoundsReference().getHeight() / 2 );
+        arrowNode.setOffset( x, y );
+        // RHS1
+        layoutSymbolAndImage( symbolRHS1, imageRHS1, arrowNode.getFullBoundsReference().getMaxX() + X_SPACING );
+        // +
+        x = symbolRHS1.getFullBoundsReference().getMaxX() + X_SPACING;
+        y = symbolRHS1.getYOffset() - ( symbolRHS1.getCapHeight() / 2 ) - ( plusRightNode.getFullBoundsReference().getHeight() / 2 );
+        plusRightNode.setOffset( x, y );
+        // RHS2
+        layoutSymbolAndImage( symbolRHS2, imageRHS2, plusRightNode.getFullBoundsReference().getMaxX() + X_SPACING );
         
         // origin is at the top center of this node
-        double x = -layoutNode.getFullBoundsReference().getWidth() / 2;
+        x = -parentNode.getFullBoundsReference().getWidth() / 2;
+        y = -PNodeLayoutUtils.getOriginYOffset( parentNode );
+        parentNode.setOffset( x, y );
+    }
+    
+    /*
+     * General layout for a molecule's symbol and image.
+     */
+    private static void layoutSymbolAndImage( SymbolNode symbolNode, PImage imageNode, double symbolXOffset ) {
+        double x = symbolXOffset;
         double y = 0;
-        layoutNode.setOffset( x, y );
+        symbolNode.setOffset( x, y );
+        x = symbolNode.getFullBoundsReference().getCenterX() - ( imageNode.getFullBoundsReference().getWidth() / 2 );
+        y = symbolNode.getYOffset() - symbolNode.getCapHeight() - Y_SPACING - imageNode.getFullBoundsReference().getHeight();
+        imageNode.setOffset( x, y );
     }
     
     /*

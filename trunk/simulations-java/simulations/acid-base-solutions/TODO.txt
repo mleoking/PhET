@@ -3,7 +3,6 @@ TODO list for acid-base-solutions
 MILESTONES
 
 HIGH PRIORITY
-- align baselines in reaction equations (rewrite ReactionEquationNode: use ChemicalSymbolNode, don't use SwingLayoutNode)
 - conductivity tester
 - add MVT to handle relationship between model element locations and PNode locations
 - fix resize behavior of main frame, nodes below the beaker are not visible if main frame is resized wider 
