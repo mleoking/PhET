@@ -1,3 +1,5 @@
+# 0.00.18 (42860) Aug 9, 2010
+8/9/10 dev version to demonstrate additional changes to pH paper
 8/8/10 decided on a color key (delete ContinousColorKeyNode, rename DiscreteColorKeyNode to PHColorKeyNode)
 8/8/10 change pH color from strategy pattern to factory pattern
 8/8/10 add pH paper to Custom Solution tab
