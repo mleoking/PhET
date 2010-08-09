@@ -27,23 +27,7 @@ public class PHMeter extends SolutionRepresentation {
 
     @Override
     public void setLocation( double x, double y ) {
-        super.setLocation( constrainX( x ), constrainY( y ) );
-    }
-    
-    /*
-     * Constrains an x coordinate to be between the walls of the beaker.
-     */
-    private double constrainX( double requestedX ) {
-        double min = beaker.getLocationReference().getX() - ( beaker.getWidth() / 2 ) + ( tipSize.width / 2 );
-        double max = beaker.getLocationReference().getX() + ( beaker.getWidth() / 2 ) - ( tipSize.width / 2 );
-        double x = requestedX;
-        if ( x < min ) {
-            x = min;
-        }
-        else if ( x > max ) {
-            x = max;
-        }
-        return x;
+        super.setLocation( x, constrainY( y ) );
     }
     
     /*
@@ -52,7 +36,7 @@ public class PHMeter extends SolutionRepresentation {
      */
     private double constrainY( double requestedY ) {
         double min = beaker.getLocationReference().getY() - beaker.getHeight() - 20;
-        double max = beaker.getLocationReference().getY() - beaker.getHeight() + getProbeHeight();
+        double max = beaker.getLocationReference().getY() - beaker.getHeight() + getProbeHeight() - 20;
         double y = requestedY;
         if ( y < min ) {
             y = min;
