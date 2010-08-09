@@ -7,6 +7,8 @@ import java.util.EventListener;
 
 import javax.swing.event.EventListenerList;
 
+import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.AqueousSolutionChangeListener;
+
 /**
  * Base class for things that provide some representation of a solution.
  * These model elements have an associated solution, a physical location and visibility.
@@ -21,17 +23,31 @@ public abstract class SolutionRepresentation {
     private AqueousSolution solution;
     private Point2D location;
     private boolean visible;
+    private final AqueousSolutionChangeListener solutionChangeListener;
     
     public SolutionRepresentation( AqueousSolution solution, Point2D location, boolean visible ) {
         this.solution = solution;
         this.location = new Point2D.Double( location.getX(), location.getY() );
         this.visible = visible;
-        listeners = new EventListenerList();
+        this.listeners = new EventListenerList();
+        this.solutionChangeListener = new AqueousSolutionChangeListener() {
+
+            public void concentrationChanged() {
+                fireConcentrationChanged();
+            }
+
+            public void strengthChanged() {
+                fireStrengthChanged();
+            }
+        };
+        solution.addAqueousSolutionChangeListener( solutionChangeListener );
     }
     
     public void setSolution( AqueousSolution solution ) {
         if ( solution != this.solution ) {
+            this.solution.removeAqueousSolutionChangeListener( solutionChangeListener );
             this.solution = solution;
+            this.solution.addAqueousSolutionChangeListener( solutionChangeListener );
             fireSolutionChanged();
         }
     }
@@ -76,12 +92,16 @@ public abstract class SolutionRepresentation {
     
     public interface SolutionRepresentationChangeListener extends EventListener {
         public void solutionChanged();
+        public void concentrationChanged();
+        public void strengthChanged();
         public void locationChanged();
         public void visibilityChanged();
     }
     
     public static class SolutionRepresentationChangeAdapter implements SolutionRepresentationChangeListener {
         public void solutionChanged() {}
+        public void concentrationChanged() {}
+        public void strengthChanged() {}
         public void locationChanged() {}
         public void visibilityChanged() {}
     }
@@ -97,6 +117,18 @@ public abstract class SolutionRepresentation {
     private void fireSolutionChanged() {
         for ( SolutionRepresentationChangeListener listener : listeners.getListeners( SolutionRepresentationChangeListener.class ) ) {
             listener.solutionChanged();
+        }
+    }
+    
+    private void fireConcentrationChanged() {
+        for ( SolutionRepresentationChangeListener listener : listeners.getListeners( SolutionRepresentationChangeListener.class ) ) {
+            listener.concentrationChanged();
+        }
+    }
+    
+    private void fireStrengthChanged() {
+        for ( SolutionRepresentationChangeListener listener : listeners.getListeners( SolutionRepresentationChangeListener.class ) ) {
+            listener.strengthChanged();
         }
     }
     

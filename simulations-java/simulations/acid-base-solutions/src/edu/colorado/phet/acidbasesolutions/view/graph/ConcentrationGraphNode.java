@@ -9,7 +9,6 @@ import edu.colorado.phet.acidbasesolutions.constants.ABSImages;
 import edu.colorado.phet.acidbasesolutions.constants.ABSSymbols;
 import edu.colorado.phet.acidbasesolutions.model.*;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
-import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.AqueousSolutionChangeListener;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.util.TimesTenNumberFormat;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
@@ -26,8 +25,7 @@ public class ConcentrationGraphNode extends AbstractConcentrationGraphNode {
     private static final TimesTenNumberFormat FORMAT = new TimesTenNumberFormat( "0.00" );
     private static final DecimalFormat H2O_FORMAT = new DefaultDecimalFormat( "#0.0" );
     
-    private final AqueousSolutionChangeListener solutionChangeListener;
-    private AqueousSolution solution;
+    private final ConcentrationGraph graph;
     
     public ConcentrationGraphNode( final ConcentrationGraph graph ) {
         super( graph.getSizeReference(), X_AXIS_LABELED );
@@ -37,26 +35,24 @@ public class ConcentrationGraphNode extends AbstractConcentrationGraphNode {
         setChildrenPickable( false );
         
         // model changes
+        this.graph = graph;
         graph.addSolutionRepresentationChangeListener( new SolutionRepresentationChangeAdapter() {
             @Override
             public void solutionChanged() {
-                setSolution( graph.getSolution() );
+                updateMolecules();
+                updateValues();
             }
-        });
-        
-        // solution changes
-        solutionChangeListener = new AqueousSolutionChangeListener() {
-
+            
+            @Override
             public void concentrationChanged() {
                 updateValues();
             }
 
+            @Override
             public void strengthChanged() {
                 updateValues();
             }
-        };
-        solution = graph.getSolution();
-        solution.addAqueousSolutionChangeListener( solutionChangeListener );
+        });
         
         // graph listener
         graph.addSolutionRepresentationChangeListener( new SolutionRepresentationChangeAdapter() {
@@ -74,17 +70,8 @@ public class ConcentrationGraphNode extends AbstractConcentrationGraphNode {
         updateValues();
     }
     
-    private void setSolution( AqueousSolution solution ) {
-        if ( solution != this.solution ) {
-            this.solution.removeAqueousSolutionChangeListener( solutionChangeListener );
-            this.solution = solution;
-            this.solution.addAqueousSolutionChangeListener( solutionChangeListener );
-            updateMolecules();
-            updateValues();
-        }
-    }
-    
     private void updateMolecules() {
+        AqueousSolution solution = graph.getSolution();
         if ( solution instanceof PureWaterSolution ) {
             updateWaterMolecules();
         }
@@ -140,6 +127,7 @@ public class ConcentrationGraphNode extends AbstractConcentrationGraphNode {
     }
     
     private void updateValues() {
+        AqueousSolution solution = graph.getSolution();
         if ( solution instanceof PureWaterSolution ) {
             updateWaterValues();
         }
@@ -159,6 +147,7 @@ public class ConcentrationGraphNode extends AbstractConcentrationGraphNode {
     
     // 2H2O <-> H3O+ + OH-
     private void updateWaterValues() {
+        AqueousSolution solution = graph.getSolution();
         setConcentration( 0, solution.getH2OConcentration() );
         setConcentration( 1, solution.getH3OConcentration() );
         setConcentration( 2, solution.getOHConcentration() );
@@ -167,6 +156,7 @@ public class ConcentrationGraphNode extends AbstractConcentrationGraphNode {
     // HA + H2O <-> A- + H3O+  (strong)
     // HA + H2O -> A- + H3O+   (weak)
     private void updateAcidValues() {
+        AqueousSolution solution = graph.getSolution();
         setConcentration( 0, solution.getSoluteConcentration() );
         setConcentration( 1, solution.getH2OConcentration() );
         setConcentration( 2, solution.getProductConcentration() ); 
@@ -175,6 +165,7 @@ public class ConcentrationGraphNode extends AbstractConcentrationGraphNode {
     
     // MOH -> M+ + OH-
     private void updateStrongBaseValues() {
+        AqueousSolution solution = graph.getSolution();
         setConcentration( 0, solution.getSoluteConcentration() );
         setConcentration( 1, solution.getProductConcentration() );
         setConcentration( 2, solution.getOHConcentration() );
@@ -182,6 +173,7 @@ public class ConcentrationGraphNode extends AbstractConcentrationGraphNode {
     
     // B + H2O <-> BH+ + OH-
     private void updateWeakBaseValues() {
+        AqueousSolution solution = graph.getSolution();
         setConcentration( 0, solution.getSoluteConcentration() );
         setConcentration( 1, solution.getH2OConcentration() );
         setConcentration( 2, solution.getProductConcentration() ); 

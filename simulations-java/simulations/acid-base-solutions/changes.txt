@@ -1,3 +1,5 @@
+8/8/10 add pH paper to Custom Solution tab
+8/8/10 make SolutionRepresentation handle notification of concentration and strength changes
 8/9/10 use pH=7 for color of undipped pH paper
 8/9/10 reduce pH paper width by half (60 to 30)
 8/9/10 align baselines in reaction equations

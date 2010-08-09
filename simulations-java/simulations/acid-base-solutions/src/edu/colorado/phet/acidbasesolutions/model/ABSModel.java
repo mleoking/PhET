@@ -39,7 +39,7 @@ public class ABSModel  {
         clock.addClockListener( new ClockAdapter() {
             @Override
             public void clockTicked( ClockEvent clockEvent ) {
-                pHPaper.clockTicked( clockEvent.getSimulationTimeChange() );
+                //XXX
             }
         } );
         

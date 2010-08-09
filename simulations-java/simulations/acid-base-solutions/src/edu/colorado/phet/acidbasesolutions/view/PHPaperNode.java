@@ -9,11 +9,9 @@ import java.awt.Stroke;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.model.PHPaper;
-import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.AqueousSolutionChangeListener;
 import edu.colorado.phet.acidbasesolutions.model.PHPaper.PHPaperChangeListener;
-import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeListener;
+import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
@@ -32,8 +30,6 @@ public class PHPaperNode extends PhetPNode {
     private static final Color STROKE_COLOR = Color.BLACK;
     
     private PHPaper paper;
-    private AqueousSolution solution;
-    private AqueousSolutionChangeListener listener;
     private PPath paperBodyNode;
     private PPath dippedPathNode;
     private Rectangle2D dippedRectangle;
@@ -41,45 +37,31 @@ public class PHPaperNode extends PhetPNode {
     public PHPaperNode( final PHPaper paper ) {
 
         this.paper = paper;
-        paper.addSolutionRepresentationChangeListener( new SolutionRepresentationChangeListener() {
+        paper.addSolutionRepresentationChangeListener( new SolutionRepresentationChangeAdapter() {
 
-            public void solutionChanged() {
-                setSolution( paper.getSolution() );
-            }
-            
+            @Override
             public void locationChanged() {
                 //TODO map location from model to view coordinate frame
                 setOffset( paper.getLocationReference() );
             }
 
+            @Override
             public void visibilityChanged() {
                 setVisible( paper.isVisible() );
             }
-
         } );
         
         paper.addPHPaperChangeListener( new PHPaperChangeListener() {
+
             public void dippedColorChanged() {
                 updateColor();
             }
+
             public void dippedHeightChanged() {
-                updateGeomerty();
+                updateGeometry();
                 updateColor();
             }
-        });
-
-        this.solution = paper.getSolution();
-        this.listener = new AqueousSolutionChangeListener() {
-
-            public void strengthChanged() {
-                updateColor();
-            }
-
-            public void concentrationChanged() {
-                updateColor();
-            }
-        };
-        solution.addAqueousSolutionChangeListener( listener );
+        } );
 
         addInputEventListener( new CursorHandler( Cursor.N_RESIZE_CURSOR ) );
         addInputEventListener( new PDragSequenceEventHandler() {
@@ -120,11 +102,11 @@ public class PHPaperNode extends PhetPNode {
         
         setOffset( paper.getLocationReference() );
         setVisible( paper.isVisible() );
-        updateGeomerty();
+        updateGeometry();
         updateColor();
     }
     
-    private void updateGeomerty() {
+    private void updateGeometry() {
         double x = -paper.getWidth() / 2;
         double y = paper.getHeight() - paper.getDippedHeight();
         dippedRectangle.setRect( x, y, paper.getWidth(), paper.getDippedHeight() );
@@ -133,15 +115,5 @@ public class PHPaperNode extends PhetPNode {
 
     private void updateColor() {
         dippedPathNode.setPaint( paper.getDippedColor() );
-    }
-
-    private void setSolution( AqueousSolution solution ) {
-        if ( solution != this.solution ) {
-            this.solution.removeAqueousSolutionChangeListener( listener );
-            this.solution = solution;
-            this.solution.addAqueousSolutionChangeListener( listener );
-            updateColor();
-            updateGeomerty(); // to make sure the dipped height updates
-        }
     }
 }
