@@ -2,11 +2,9 @@
 
 package edu.colorado.phet.acidbasesolutions.view;
 
-import java.awt.Image;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
-import edu.colorado.phet.acidbasesolutions.constants.ABSImages;
 import edu.colorado.phet.acidbasesolutions.model.*;
 import edu.colorado.phet.acidbasesolutions.model.MagnifyingGlass.MagnifyingGlassChangeListener;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
@@ -34,10 +32,13 @@ public class MoleculesNode extends PComposite {
     private int countReactant, countProduct, countH3O, countOH, countH2O;
     private double imageScale;
     
-    // Molecule image node
+    /*
+     * Molecule image node.
+     * Also servers as a marker class.
+     */
     private static class MoleculeImageNode extends PImage {
-        public MoleculeImageNode( Image image, double scale ) {
-            super( image );
+        public MoleculeImageNode( Molecule molecule, double scale ) {
+            super( molecule.getIcon() );
             setScale( scale );
         }
     }
@@ -227,15 +228,15 @@ public class MoleculesNode extends PComposite {
     protected void updateNumberOfMoleculeNodes() {
         AqueousSolution solution = magnifyingGlass.getSolution();
         if ( !( solution instanceof PureWaterSolution ) ) {
-            updateNumberOfMoleculeNodes( getParentReactant(), getCountReactant(), getImageScale(), solution.getSolute().getIcon() );
-            updateNumberOfMoleculeNodes( getParentProduct(), getCountProduct(), getImageScale(), solution.getProduct().getIcon() );
+            updateNumberOfMoleculeNodes( getParentReactant(), getCountReactant(), getImageScale(), solution.getSolute() );
+            updateNumberOfMoleculeNodes( getParentProduct(), getCountProduct(), getImageScale(), solution.getProduct() );
         }
-        updateNumberOfMoleculeNodes( getParentH3O(), getCountH3O(), getImageScale(), ABSImages.H3O_PLUS_MOLECULE );
-        updateNumberOfMoleculeNodes( getParentOH(), getCountOH(), getImageScale(), ABSImages.OH_MINUS_MOLECULE );
-        updateNumberOfMoleculeNodes( getParentH2O(), getCountH2O(), getImageScale(), ABSImages.H2O_MOLECULE );
+        updateNumberOfMoleculeNodes( getParentH3O(), getCountH3O(), getImageScale(), solution.getH3OMolecule() );
+        updateNumberOfMoleculeNodes( getParentOH(), getCountOH(), getImageScale(), solution.getOHMolecule() );
+        updateNumberOfMoleculeNodes( getParentH2O(), getCountH2O(), getImageScale(), solution.getWaterMolecule() );
     }
     
-    private void updateNumberOfMoleculeNodes( PNode parent, int count, double scale, Image image ) {
+    private void updateNumberOfMoleculeNodes( PNode parent, int count, double scale, Molecule molecule ) {
 
         // remove nodes
         while ( count < parent.getChildrenCount() && count >= 0 ) {
@@ -244,7 +245,7 @@ public class MoleculesNode extends PComposite {
 
         // add nodes
         while ( count > parent.getChildrenCount() ) {
-            MoleculeImageNode node = new MoleculeImageNode( image, scale );
+            MoleculeImageNode node = new MoleculeImageNode( molecule, scale );
             Point2D p = getRandomPoint();
             double x = p.getX() - ( node.getFullBoundsReference().getWidth() / 2 );
             double y = p.getY() - ( node.getFullBoundsReference().getHeight() / 2 );

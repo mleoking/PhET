@@ -4,9 +4,6 @@ package edu.colorado.phet.acidbasesolutions.view.graph;
 
 import java.text.DecimalFormat;
 
-import edu.colorado.phet.acidbasesolutions.constants.ABSColors;
-import edu.colorado.phet.acidbasesolutions.constants.ABSImages;
-import edu.colorado.phet.acidbasesolutions.constants.ABSSymbols;
 import edu.colorado.phet.acidbasesolutions.model.*;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
@@ -70,19 +67,22 @@ public class ConcentrationGraphNode extends AbstractConcentrationGraphNode {
         updateValues();
     }
     
+    /*
+     * Updates the molecules (symbol, icon, color) for all bars.
+     */
     private void updateMolecules() {
         AqueousSolution solution = graph.getSolution();
         if ( solution instanceof PureWaterSolution ) {
-            updateWaterMolecules();
+            updateWaterMolecules( solution );
         }
         else if ( solution instanceof AcidSolution ) {
-            updateAcidMolecules( solution instanceof StrongAcidSolution );
+            updateAcidMolecules( solution, solution instanceof StrongAcidSolution );
         }
         else if ( solution instanceof StrongBaseSolution ) {
-            updateStrongBaseMolecules();
+            updateStrongBaseMolecules( solution );
         }
         else if ( solution instanceof WeakBaseSolution ) {
-            updateWeakBaseMolecules();
+            updateWeakBaseMolecules( solution );
         }
         else {
             throw new IllegalStateException( "unsupported solution type: " + solution.getClass().getName() );
@@ -90,55 +90,58 @@ public class ConcentrationGraphNode extends AbstractConcentrationGraphNode {
     }
     
     // 2H2O <-> H3O+ + OH-
-    private void updateWaterMolecules() {
+    private void updateWaterMolecules( AqueousSolution solution ) {
         setAllVisible( true );
-        setMolecule( 0, ABSSymbols.H2O, ABSImages.H2O_MOLECULE, ABSColors.H2O, H2O_FORMAT );
-        setMolecule( 1, ABSSymbols.H3O_PLUS, ABSImages.H3O_PLUS_MOLECULE, ABSColors.H3O_PLUS, FORMAT );
-        setMolecule( 2, ABSSymbols.OH_MINUS, ABSImages.OH_MINUS_MOLECULE, ABSColors.OH_MINUS, FORMAT );
+        setMolecule( 0, solution.getWaterMolecule(), H2O_FORMAT );
+        setMolecule( 1, solution.getH3OMolecule(), FORMAT );
+        setMolecule( 2, solution.getOHMolecule(), FORMAT );
         setVisible( 3, false );
     }
     
     // HA + H2O <-> A- + H3O+  (strong)
     // HA + H2O -> A- + H3O+   (weak)
-    private void updateAcidMolecules( boolean isStrong ) {
+    private void updateAcidMolecules( AqueousSolution solution, boolean isStrong ) {
         setAllVisible( true );
-        setMolecule( 0, ABSSymbols.HA, ABSImages.HA_MOLECULE, ABSColors.HA, FORMAT, isStrong /* negligibleEnabled */ );
-        setMolecule( 1, ABSSymbols.H2O, ABSImages.H2O_MOLECULE, ABSColors.H2O, H2O_FORMAT );
-        setMolecule( 2, ABSSymbols.A_MINUS, ABSImages.A_MINUS_MOLECULE, ABSColors.A_MINUS, FORMAT );
-        setMolecule( 3, ABSSymbols.H3O_PLUS, ABSImages.H3O_PLUS_MOLECULE, ABSColors.H3O_PLUS, FORMAT );
+        setMolecule( 0, solution.getSolute(), FORMAT, isStrong /* negligibleEnabled */ );
+        setMolecule( 1, solution.getWaterMolecule(), H2O_FORMAT );
+        setMolecule( 2, solution.getProduct(), FORMAT );
+        setMolecule( 3, solution.getH3OMolecule(), FORMAT );
     }
     
     // MOH -> M+ + OH-
-    private void updateStrongBaseMolecules() {
+    private void updateStrongBaseMolecules( AqueousSolution solution ) {
         setAllVisible( true );
-        setMolecule( 0, ABSSymbols.MOH, ABSImages.MOH_MOLECULE, ABSColors.MOH, FORMAT, true /* negligibleEnabled */ );
-        setMolecule( 1, ABSSymbols.M_PLUS, ABSImages.M_PLUS_MOLECULE, ABSColors.M_PLUS, FORMAT );
-        setMolecule( 2, ABSSymbols.OH_MINUS, ABSImages.OH_MINUS_MOLECULE, ABSColors.OH_MINUS, FORMAT );
+        setMolecule( 0, solution.getSolute(), FORMAT, true /* negligibleEnabled */ );
+        setMolecule( 1, solution.getProduct(), FORMAT );
+        setMolecule( 2, solution.getOHMolecule(), FORMAT );
         setVisible( 3, false );
     }
     
     // B + H2O <-> BH+ + OH-
-    private void updateWeakBaseMolecules() {
+    private void updateWeakBaseMolecules( AqueousSolution solution ) {
         setAllVisible( true );
-        setMolecule( 0, ABSSymbols.B, ABSImages.B_MOLECULE, ABSColors.B, FORMAT );
-        setMolecule( 1, ABSSymbols.H2O, ABSImages.H2O_MOLECULE, ABSColors.H2O, H2O_FORMAT );
-        setMolecule( 2, ABSSymbols.BH_PLUS, ABSImages.BH_PLUS_MOLECULE, ABSColors.BH_PLUS, FORMAT );
-        setMolecule( 3, ABSSymbols.OH_MINUS, ABSImages.OH_MINUS_MOLECULE, ABSColors.OH_MINUS, FORMAT );
+        setMolecule( 0, solution.getSolute(), FORMAT );
+        setMolecule( 1, solution.getWaterMolecule(), H2O_FORMAT );
+        setMolecule( 2, solution.getProduct(), FORMAT );
+        setMolecule( 3, solution.getOHMolecule(), FORMAT );
     }
     
+    /*
+     * Updates the concentration values for all bars.
+     */
     private void updateValues() {
         AqueousSolution solution = graph.getSolution();
         if ( solution instanceof PureWaterSolution ) {
-            updateWaterValues();
+            updateWaterValues( solution );
         }
         else if ( solution instanceof AcidSolution ) {
-            updateAcidValues();
+            updateAcidValues( solution );
         }
         else if ( solution instanceof StrongBaseSolution ) {
-            updateStrongBaseValues();
+            updateStrongBaseValues( solution );
         }
         else if ( solution instanceof WeakBaseSolution ) {
-            updateWeakBaseValues();
+            updateWeakBaseValues( solution );
         }
         else {
             throw new IllegalStateException( "unsupported solution type: " + solution.getClass().getName() );
@@ -146,8 +149,7 @@ public class ConcentrationGraphNode extends AbstractConcentrationGraphNode {
     }
     
     // 2H2O <-> H3O+ + OH-
-    private void updateWaterValues() {
-        AqueousSolution solution = graph.getSolution();
+    private void updateWaterValues( AqueousSolution solution ) {
         setConcentration( 0, solution.getH2OConcentration() );
         setConcentration( 1, solution.getH3OConcentration() );
         setConcentration( 2, solution.getOHConcentration() );
@@ -155,8 +157,7 @@ public class ConcentrationGraphNode extends AbstractConcentrationGraphNode {
     
     // HA + H2O <-> A- + H3O+  (strong)
     // HA + H2O -> A- + H3O+   (weak)
-    private void updateAcidValues() {
-        AqueousSolution solution = graph.getSolution();
+    private void updateAcidValues( AqueousSolution solution ) {
         setConcentration( 0, solution.getSoluteConcentration() );
         setConcentration( 1, solution.getH2OConcentration() );
         setConcentration( 2, solution.getProductConcentration() ); 
@@ -164,16 +165,14 @@ public class ConcentrationGraphNode extends AbstractConcentrationGraphNode {
     }
     
     // MOH -> M+ + OH-
-    private void updateStrongBaseValues() {
-        AqueousSolution solution = graph.getSolution();
+    private void updateStrongBaseValues( AqueousSolution solution ) {
         setConcentration( 0, solution.getSoluteConcentration() );
         setConcentration( 1, solution.getProductConcentration() );
         setConcentration( 2, solution.getOHConcentration() );
     }
     
     // B + H2O <-> BH+ + OH-
-    private void updateWeakBaseValues() {
-        AqueousSolution solution = graph.getSolution();
+    private void updateWeakBaseValues( AqueousSolution solution ) {
         setConcentration( 0, solution.getSoluteConcentration() );
         setConcentration( 1, solution.getH2OConcentration() );
         setConcentration( 2, solution.getProductConcentration() ); 

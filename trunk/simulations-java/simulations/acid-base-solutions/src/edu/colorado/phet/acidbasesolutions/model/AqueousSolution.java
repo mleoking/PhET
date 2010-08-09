@@ -9,6 +9,9 @@ import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSColors;
 import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
+import edu.colorado.phet.acidbasesolutions.model.Molecule.H3OMolecule;
+import edu.colorado.phet.acidbasesolutions.model.Molecule.OHMolecule;
+import edu.colorado.phet.acidbasesolutions.model.Molecule.WaterMolecule;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 
 /** 
@@ -20,6 +23,10 @@ import edu.colorado.phet.common.phetcommon.math.MathUtil;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public abstract class AqueousSolution {
+    
+    private static final WaterMolecule WATER_MOLECULE = new WaterMolecule(); 
+    private static final H3OMolecule H3O_MOLECULE = new H3OMolecule(); 
+    private static final OHMolecule OH_MOLECULE = new OHMolecule(); 
     
     private final Molecule solute; // the substance that is dissolved in a solution
     private final Molecule product; // the substance that is produced as the result of the solute dissolving 
@@ -55,6 +62,18 @@ public abstract class AqueousSolution {
     
     public Color getColor() {
         return ABSColors.AQUEOUS_SOLUTION;
+    }
+    
+    public WaterMolecule getWaterMolecule() {
+        return WATER_MOLECULE;
+    }
+    
+    public H3OMolecule getH3OMolecule() {
+        return H3O_MOLECULE;
+    }
+    
+    public OHMolecule getOHMolecule() {
+        return OH_MOLECULE;
     }
 
     public  Molecule getSolute() {

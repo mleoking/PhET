@@ -9,6 +9,7 @@ import java.awt.Image;
 import edu.colorado.phet.acidbasesolutions.constants.ABSImages;
 import edu.colorado.phet.acidbasesolutions.constants.ABSSymbols;
 import edu.colorado.phet.acidbasesolutions.model.*;
+import edu.colorado.phet.acidbasesolutions.model.Molecule.WaterMolecule;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ChemicalSymbolNode;
@@ -92,32 +93,32 @@ public class ReactionEquationNode extends PComposite {
         SymbolNode symbolLHS1, symbolLHS2, symbolRHS1, symbolRHS2;
         if ( isPureWater ) {
             imageLHS1 = new PImage( TWO_H2O_IMAGE );
-            symbolLHS1 = new SymbolNode( "2" + ABSSymbols.H2O );
+            symbolLHS1 = new SymbolNode( "2" + solution.getWaterMolecule().getSymbol() );
             imageLHS2 = null;
             symbolLHS2 = null;
-            imageRHS1 = new PImage( ABSImages.H3O_PLUS_MOLECULE );
-            symbolRHS1 = new SymbolNode( ABSSymbols.H3O_PLUS );
-            imageRHS2 = new PImage( ABSImages.OH_MINUS_MOLECULE );
-            symbolRHS2 = new SymbolNode( ABSSymbols.OH_MINUS );
+            imageRHS1 = new PImage( solution.getH3OMolecule().getIcon() );
+            symbolRHS1 = new SymbolNode( solution.getH3OMolecule().getSymbol() );
+            imageRHS2 = new PImage( solution.getOHMolecule().getIcon() );
+            symbolRHS2 = new SymbolNode( solution.getOHMolecule().getSymbol() );
         }
         else {
             imageLHS1 = new PImage( solution.getSolute().getIcon() );
             symbolLHS1 = new SymbolNode( solution.getSolute().getSymbol() );
             if ( isAcid ) {
-                imageLHS2 = new PImage( ABSImages.H2O_MOLECULE );
-                symbolLHS2 = new SymbolNode( ABSSymbols.H2O );
+                imageLHS2 = new PImage( solution.getWaterMolecule().getIcon() );
+                symbolLHS2 = new SymbolNode( solution.getWaterMolecule().getSymbol() );
                 imageRHS1 = new PImage( solution.getProduct().getIcon() );
                 symbolRHS1 = new SymbolNode( solution.getProduct().getSymbol() );
-                imageRHS2 = new PImage( ABSImages.H3O_PLUS_MOLECULE );
-                symbolRHS2 = new SymbolNode( ABSSymbols.H3O_PLUS );
+                imageRHS2 = new PImage( solution.getH3OMolecule().getIcon() );
+                symbolRHS2 = new SymbolNode( solution.getH3OMolecule().getSymbol() );
             }
             else {
-                imageLHS2 = isStrong ? null : new PImage( ABSImages.H2O_MOLECULE );
-                symbolLHS2 = isStrong ? null : new SymbolNode( ABSSymbols.H2O );
+                imageLHS2 = isStrong ? null : new PImage( solution.getWaterMolecule().getIcon() );
+                symbolLHS2 = isStrong ? null : new SymbolNode( solution.getWaterMolecule().getSymbol() );
                 imageRHS1 = new PImage( solution.getProduct().getIcon() );
                 symbolRHS1 = new SymbolNode( solution.getProduct().getSymbol() );
-                imageRHS2 = new PImage( ABSImages.OH_MINUS_MOLECULE );
-                symbolRHS2 = new SymbolNode( ABSSymbols.OH_MINUS );
+                imageRHS2 = new PImage( solution.getOHMolecule().getIcon() );
+                symbolRHS2 = new SymbolNode( solution.getOHMolecule().getSymbol() );
             }
         }
         
@@ -193,9 +194,10 @@ public class ReactionEquationNode extends PComposite {
      * so we need 2 water molecules side by side.
      */
     private static Image create2H2OImage() {
+        WaterMolecule waterMolecule = new WaterMolecule();
         // create 2 identical image nodes
-        PImage node1 = new PImage( ABSImages.H2O_MOLECULE );
-        PImage node2 = new PImage( ABSImages.H2O_MOLECULE );
+        PImage node1 = new PImage( waterMolecule.getIcon() );
+        PImage node2 = new PImage( waterMolecule.getIcon() );
         // give them a common parent
         PComposite parent = new PComposite();
         parent.addChild( node1 );

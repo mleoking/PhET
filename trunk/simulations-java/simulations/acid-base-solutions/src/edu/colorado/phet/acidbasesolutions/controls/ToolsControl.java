@@ -13,10 +13,10 @@ import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
-import edu.colorado.phet.acidbasesolutions.constants.ABSSymbols;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel;
-import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
 import edu.colorado.phet.acidbasesolutions.model.MagnifyingGlass.MagnifyingGlassChangeListener;
+import edu.colorado.phet.acidbasesolutions.model.Molecule.WaterMolecule;
+import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
 import edu.colorado.phet.acidbasesolutions.util.HTMLCheckBox;
 import edu.colorado.phet.acidbasesolutions.view.ABSRadioButton;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
@@ -85,7 +85,8 @@ public class ToolsControl extends JPanel {
         pHMeterCheckBox.addActionListener( actionListener );
         
         // "Show Water" check box
-        String html = HTMLUtils.toHTMLString( MessageFormat.format( ABSStrings.PATTERN_SHOW_WATER_MOLECULES, ABSSymbols.H2O ) );
+        WaterMolecule waterMolecule = new WaterMolecule();
+        String html = HTMLUtils.toHTMLString( MessageFormat.format( ABSStrings.PATTERN_SHOW_WATER_MOLECULES, waterMolecule.getSymbol() ) );
         showWaterCheckBox = new HTMLCheckBox( html );
         showWaterCheckBox.addActionListener( actionListener );
         
