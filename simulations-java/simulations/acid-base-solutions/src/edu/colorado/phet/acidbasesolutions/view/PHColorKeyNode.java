@@ -10,8 +10,6 @@ import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.model.PHPaper;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
-import edu.colorado.phet.common.phetcommon.math.Function;
-import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -26,7 +24,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DiscreteColorKeyNode extends PhetPNode {
+public class PHColorKeyNode extends PhetPNode {
     
     private static final Color TITLE_COLOR = Color.BLACK;
     private static final Font TITLE_FONT = new PhetFont( 18 );
@@ -37,7 +35,7 @@ public class DiscreteColorKeyNode extends PhetPNode {
     private static final Color LABEL_COLOR = Color.BLACK;
     private static final Font LABEL_FONT = new PhetFont( 13 );
     
-    public DiscreteColorKeyNode( final PHPaper paper ) {
+    public PHColorKeyNode( final PHPaper paper ) {
         // not interactive
         setPickable( false );
         setChildrenPickable( false );
