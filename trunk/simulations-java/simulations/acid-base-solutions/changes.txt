@@ -1,3 +1,5 @@
+# 0.00.17 (42853) Aug 9, 2010
+8/9/10 dev version to demonstrate revised pH paper
 8/6/10 generalize ChemicalSymbolNode (from advanced-acid-base-solutions) for aligning baselines of symbols in equations
 8/6/10 display nothing instead of "_ _ _" when pH meter is out of solution
 8/6/10 do a linear interpolation between pH colors
