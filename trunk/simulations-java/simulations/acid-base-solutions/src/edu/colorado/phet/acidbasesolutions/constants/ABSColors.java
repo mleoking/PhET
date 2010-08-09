@@ -34,5 +34,20 @@ public class ABSColors {
     // solution color
     public static final Color AQUEOUS_SOLUTION = new Color( 193, 222, 227, 180 ); // transparent light blue
     
-    public static final Color PH_PAPER_COLOR = new Color( 255, 255, 210 );
+    // pH colors
+    public static final Color PH_0 = new Color( 182, 70, 72 );
+    public static final Color PH_1 = new Color( 196, 80, 86 );
+    public static final Color PH_2 = new Color( 213, 83, 71 );
+    public static final Color PH_3 = new Color( 237, 123, 83 );
+    public static final Color PH_4 = new Color( 246, 152, 86 );
+    public static final Color PH_5 = new Color( 244, 158, 79 ); 
+    public static final Color PH_6 = new Color( 243, 160, 78 );
+    public static final Color PH_7 = new Color( 244, 182, 67 );
+    public static final Color PH_8 = new Color( 231, 201, 75 );
+    public static final Color PH_9 = new Color( 93, 118, 88);
+    public static final Color PH_10 = new Color( 30, 92, 89 );
+    public static final Color PH_11 = new Color( 34, 90, 105 );
+    public static final Color PH_12 = new Color( 39, 87, 111 );
+    public static final Color PH_13 = new Color( 27, 67, 90 );
+    public static final Color PH_14 = new Color( 0, 34, 52 );
 }
