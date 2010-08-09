@@ -7,6 +7,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.text.NumberFormat;
 
+import edu.colorado.phet.acidbasesolutions.model.Molecule;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.util.TimesTenNumberFormat;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
@@ -19,9 +20,9 @@ import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
-/*
- * * Base class for all concentration graphs, y-axis is log moles/L. Has a max
- * of 4 bars, knows nothing about the model.
+/**
+ * Base class for all concentration graphs, y-axis is log moles/L. 
+ * Has a max of 4 bars, knows nothing about the model.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -170,14 +171,23 @@ abstract class AbstractConcentrationGraphNode extends PComposite {
     // Setters and getters
     //----------------------------------------------------------------------------
 
-    protected void setMolecule( int index, String symbol, Image image, Color barColor, NumberFormat format ) {
-        setMolecule( index, symbol, image, barColor, format, false /* negligibleEnabled */);
+    protected void setMolecule( int index, Molecule molecule, NumberFormat format ) {
+        setMolecule( index, molecule, format, false /* negligibleEnabled */);
     }
 
-    protected void setMolecule( int index, String symbol, Image image, Color barColor, NumberFormat format, boolean negligibleEnabled ) {
-        labelNodes[index].setText( symbol );
-        iconNodes[index].setImage( image );
-        barNodes[index].setPaint( barColor );
+    /*
+     * Sets the properties for one of the bars in the graph.
+     * The bars are numbered from left to right.
+     * 
+     * @param index bar number
+     * @param molecule molecule that determines the symbol, icon, and color associated with the bar
+     * @param format format of the concentration value
+     * @param negligibleEnabled whether to display "negligible" when concentration is below a threshold
+     */
+    protected void setMolecule( int index, Molecule molecule, NumberFormat format, boolean negligibleEnabled ) {
+        labelNodes[index].setText( molecule.getSymbol() );
+        iconNodes[index].setImage( molecule.getIcon() );
+        barNodes[index].setPaint( molecule.getColor() );
         valueNodes[index].setFormat( format );
         valueNodes[index].setNegligibleEnabled( negligibleEnabled, NEGLIGIBLE_THRESHOLD );
         updateMoleculeLayout( index );
