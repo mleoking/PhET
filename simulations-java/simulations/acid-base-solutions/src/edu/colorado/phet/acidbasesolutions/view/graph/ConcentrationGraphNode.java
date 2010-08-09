@@ -75,7 +75,7 @@ public class ConcentrationGraphNode extends AbstractConcentrationGraphNode {
         if ( solution instanceof PureWaterSolution ) {
             updateWaterMolecules();
         }
-        else if ( solution instanceof StrongAcidSolution || solution instanceof WeakAcidSolution ) {
+        else if ( solution instanceof AcidSolution ) {
             updateAcidMolecules( solution instanceof StrongAcidSolution );
         }
         else if ( solution instanceof StrongBaseSolution ) {
@@ -131,7 +131,7 @@ public class ConcentrationGraphNode extends AbstractConcentrationGraphNode {
         if ( solution instanceof PureWaterSolution ) {
             updateWaterValues();
         }
-        else if ( solution instanceof StrongAcidSolution || solution instanceof WeakAcidSolution ) {
+        else if ( solution instanceof AcidSolution ) {
             updateAcidValues();
         }
         else if ( solution instanceof StrongBaseSolution ) {

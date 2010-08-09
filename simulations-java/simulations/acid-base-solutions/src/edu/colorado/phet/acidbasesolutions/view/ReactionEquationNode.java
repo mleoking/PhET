@@ -84,7 +84,7 @@ public class ReactionEquationNode extends PComposite {
         
         AqueousSolution solution = equation.getSolution();
         boolean isPureWater = ( solution instanceof PureWaterSolution );
-        boolean isAcid = ( solution instanceof StrongAcidSolution || solution instanceof WeakAcidSolution );
+        boolean isAcid = ( solution instanceof AcidSolution );
         boolean isStrong = ( solution instanceof StrongAcidSolution || solution instanceof StrongBaseSolution );
         
         // molecule images & symbols

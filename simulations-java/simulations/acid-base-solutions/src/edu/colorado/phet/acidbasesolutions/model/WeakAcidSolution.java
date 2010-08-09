@@ -11,7 +11,7 @@ import edu.colorado.phet.acidbasesolutions.model.Molecule.GenericAcidProductMole
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class WeakAcidSolution extends AqueousSolution {
+public abstract class WeakAcidSolution extends AcidSolution {
     
     public WeakAcidSolution( Molecule solute, Molecule product, double strength, double initialConcentration ) {
         super( solute, product, strength, initialConcentration );

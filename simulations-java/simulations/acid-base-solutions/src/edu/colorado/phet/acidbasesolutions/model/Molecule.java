@@ -109,8 +109,8 @@ public abstract class Molecule {
     }
     
     // H2O (water)
-    public static class Water extends Molecule {
-        public Water() {
+    public static class WaterMolecule extends Molecule {
+        public WaterMolecule() {
             super( ABSStrings.WATER, ABSSymbols.H2O, ABSImages.H2O_MOLECULE, ABSColors.H2O );
         }
     }
