@@ -7,7 +7,6 @@ import java.awt.Font;
 import java.awt.Image;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSImages;
-import edu.colorado.phet.acidbasesolutions.constants.ABSSymbols;
 import edu.colorado.phet.acidbasesolutions.model.*;
 import edu.colorado.phet.acidbasesolutions.model.Molecule.WaterMolecule;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
