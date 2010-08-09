@@ -1,3 +1,4 @@
+8/9/10 use pH=7 for color of undipped pH paper
 8/9/10 reduce pH paper width by half (60 to 30)
 8/9/10 align baselines in reaction equations
 # 0.00.17 (42853) Aug 9, 2010

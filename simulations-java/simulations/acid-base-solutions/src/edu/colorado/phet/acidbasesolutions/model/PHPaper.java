@@ -32,6 +32,8 @@ public class PHPaper extends SolutionRepresentation {
      */
     private static final double PH_DELTA_PER_TIME_UNIT = 0.1;
     
+    private static final double UNDIPPED_PH = 7; // pH of undipped paper
+    
     private final PDimension size;
     private final Beaker beaker;
     private double dippedHeight;
@@ -114,7 +116,7 @@ public class PHPaper extends SolutionRepresentation {
      * @return
      */
     public Color getPaperColor() {
-        return ABSColors.PH_PAPER_COLOR;
+        return createColor( UNDIPPED_PH );
     }
     
     /**
@@ -241,21 +243,22 @@ public class PHPaper extends SolutionRepresentation {
         
         // colors as shown in acid-base-solutions/doc/pH-colors.png
         protected static final Color[] COLORS = { 
-            new Color( 182, 70, 72 ),  // pH=0
-            new Color( 196, 80, 86 ),  // 1
-            new Color( 213, 83, 71 ),  // 2
-            new Color( 237, 123, 83 ), // 3
-            new Color( 246, 152, 86 ), // 4
-            new Color( 244, 158, 79 ), // 5 
-            new Color( 243, 160, 78 ), // 6
-            new Color( 244, 182, 67 ), // 7
-            new Color( 231, 201, 75 ), // 8
-            new Color( 93, 118, 88),   // 9
-            new Color( 30, 92, 89 ),   // 10
-            new Color( 34, 90, 105 ),  // 11
-            new Color( 39, 87, 111 ),  // 12
-            new Color( 27, 67, 90 ),   // 13
-            new Color( 0, 34, 52 ) };  // 14
+            ABSColors.PH_0,
+            ABSColors.PH_1,
+            ABSColors.PH_2,
+            ABSColors.PH_3,
+            ABSColors.PH_4,
+            ABSColors.PH_5,
+            ABSColors.PH_6,
+            ABSColors.PH_7,
+            ABSColors.PH_8,
+            ABSColors.PH_9,
+            ABSColors.PH_10,
+            ABSColors.PH_11,
+            ABSColors.PH_12,
+            ABSColors.PH_13,
+            ABSColors.PH_14,
+        };
         
         public Color createColor( double pH ) {
             assert( COLORS.length == ( ABSConstants.MAX_PH - ABSConstants.MIN_PH + 1 ) );
