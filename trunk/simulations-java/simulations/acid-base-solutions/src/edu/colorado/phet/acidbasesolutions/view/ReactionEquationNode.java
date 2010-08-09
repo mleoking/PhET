@@ -13,7 +13,6 @@ import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.Solution
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ChemicalSymbolNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
