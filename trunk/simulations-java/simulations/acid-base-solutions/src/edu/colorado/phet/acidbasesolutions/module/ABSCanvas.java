@@ -47,7 +47,7 @@ public abstract class ABSCanvas extends PhetPCanvas {
         concentrationGraphNode = new ConcentrationGraphNode( model.getConcentrationGraph() );
         reactionEquationNode = new ReactionEquationNode( model.getReactionEquation() );
         pHPaperNode = new PHPaperNode( model.getPHPaper() );
-        pHColorKeyNode = new DiscreteColorKeyNode( model.getPHPaper() );
+        pHColorKeyNode = new PHColorKeyNode( model.getPHPaper() );
         conductivityTesterNode = new ConductivityTesterNode( model.getConductivityTester() );
         
         // rendering order

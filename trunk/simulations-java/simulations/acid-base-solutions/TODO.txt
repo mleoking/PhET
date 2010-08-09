@@ -14,8 +14,6 @@ MEDUIUM PRIORITY
 - Save/Load?
 
 LOW PRIORITY
-- when we decide on pH color strategy, remove other strategies from PHPaper, and remove unused *ColorKeyNode.
-- if pH paper color animation is not desired, delete associated code in PHPaper
 - control panel layout issues, left justification
 - use SolutionFactory in TestSolutionControl
 - icons for tool controls 
