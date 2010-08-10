@@ -1,4 +1,4 @@
-﻿package edu.colorado.phet.flashcommon {
+package edu.colorado.phet.flashcommon {
 import flash.display.*;
 import flash.events.*;
 import flash.text.*;
