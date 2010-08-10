@@ -77,10 +77,9 @@ public class PHPaperNode extends PhetPNode {
             protected void drag( final PInputEvent event ) {
                 super.drag( event );
                 Point2D pMouse = event.getPositionRelativeTo( getParent() );
-                double x = getXOffset();
                 double y = pMouse.getY() - clickYOffset;
                 //TODO map y from view to model coordinate frame
-                paper.setLocation( x, y );
+                paper.setLocation( paper.getLocationReference().getX(), y );
             }
         } );
         

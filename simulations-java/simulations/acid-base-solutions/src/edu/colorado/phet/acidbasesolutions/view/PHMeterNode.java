@@ -88,10 +88,9 @@ public class PHMeterNode extends PhetPNode {
             protected void drag( final PInputEvent event ) {
                 super.drag( event );
                 Point2D pMouse = event.getPositionRelativeTo( getParent() );
-                double x = getXOffset();
                 double y = pMouse.getY() - clickYOffset;
                 //TODO map y from view to model coordinate frame
-                meter.setLocation( x, y );
+                meter.setLocation( meter.getLocationReference().getX(), y );
             }
         } );
 
