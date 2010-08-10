@@ -3,6 +3,7 @@ TODO list for acid-base-solutions
 MILESTONES
 
 HIGH PRIORITY
+- allow pH paper to be dragged horizontally, so it can be held up to color key (issues with dragging through side of beaker)
 - conductivity tester
 - add MVT to handle relationship between model element locations and PNode locations
 - fix resize behavior of main frame, nodes below the beaker are not visible if main frame is resized wider 
