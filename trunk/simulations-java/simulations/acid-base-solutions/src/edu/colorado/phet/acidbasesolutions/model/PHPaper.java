@@ -19,6 +19,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class PHPaper extends SolutionRepresentation {
     
     private static final double UNDIPPED_PH = 7; // pH of undipped paper
+    private static final double BLEED_HEIGHT = 15; // how much the dipped color bleeds above the top of the solution
     
     private final PDimension size;
     private final Beaker beaker;
@@ -31,32 +32,32 @@ public class PHPaper extends SolutionRepresentation {
         this.size = new PDimension( size );
         this.beaker = beaker;
         this.listeners = new EventListenerList();
-        this.dippedHeight = getSubmergedHeight();
+        this.dippedHeight = computeDippedHeight();
         this.dippedColor = createColor( solution.getPH() );
         
         addSolutionRepresentationChangeListener( new SolutionRepresentationChangeAdapter() {
             
             @Override
             public void solutionChanged() {
-                setDippedHeight( getSubmergedHeight() ); // Clear any dipped color on the paper above the solution.
-                setDippedColor( createColor( getSolution().getPH() ) );
+                setDippedHeight( computeDippedHeight() );
+                updateDippedColor();
             }
             
             @Override
             public void concentrationChanged() {
-                setDippedHeight( getSubmergedHeight() ); // Clear any dipped color on the paper above the solution.
-                setDippedColor( createColor( getSolution().getPH() ) );
+                setDippedHeight( computeDippedHeight() );
+                updateDippedColor();
             }
             
             @Override
             public void strengthChanged() {
-                setDippedHeight( getSubmergedHeight() ); // Clear any dipped color on the paper above the solution.
-                setDippedColor( createColor( getSolution().getPH() ) );
+                setDippedHeight( computeDippedHeight() );
+                updateDippedColor();
             }
             
             @Override
             public void locationChanged() {
-                setDippedHeight( Math.max( dippedHeight, getSubmergedHeight() ) ); // dipped height can only increase
+                setDippedHeight( Math.max( dippedHeight, computeDippedHeight() ) ); // dipped height can only increase
             }
         });
     }
@@ -105,12 +106,17 @@ public class PHPaper extends SolutionRepresentation {
         return createColor( UNDIPPED_PH );
     }
     
+    private void updateDippedColor() {
+        setDippedColor( createColor( getSolution().getPH() ) );
+    }
+    
     private void setDippedColor( Color dippedColor ) {
         if ( !dippedColor.equals( this.dippedColor ) ) {
             this.dippedColor = dippedColor;
             fireDippedColorChanged();
         }
     }
+    
     /**
      * Gets the color of the paper when it's dipped in solution.
      * @return
@@ -143,9 +149,11 @@ public class PHPaper extends SolutionRepresentation {
     }
 
     /*
-     * Gets the height of the portion of the paper that's submerged in the solution.
+     * Gets the height of the portion of the paper that displays the dipped color.
+     * This is the portion of the paper that is submerged, plus a small "bleed" 
+     * above the surface of the solution.
      */
-    private double getSubmergedHeight() {
+    private double computeDippedHeight() {
         double by = beaker.getY();
         double py = getY();
         double bh = beaker.getHeight();
@@ -157,9 +165,15 @@ public class PHPaper extends SolutionRepresentation {
         else if ( h > ph ) {
             h = ph;
         }
+        if ( h > 0 ) {
+            h += BLEED_HEIGHT;
+        }
+        if ( h > size.getHeight() ) {
+            h = size.getHeight();
+        }
         return h;
     }
-
+    
     public interface PHPaperChangeListener extends EventListener {
         public void dippedColorChanged();
         public void dippedHeightChanged();
