@@ -29,7 +29,8 @@ public class ABSImages {
     public static final BufferedImage ARROW_SINGLE = getBufferedImage( "arrow_single.png" );
     
     public static final BufferedImage BATTERY= getBufferedImage( "battery.png" );
-    public static final BufferedImage LIGHT_BULB= getBufferedImage( "lightbulb.png" );
+    public static final BufferedImage LIGHT_BULB_BASE = getBufferedImage( "lightBulbBase.png" );
+    public static final BufferedImage LIGHT_BULB_GLASS = getBufferedImage( "lightBulbGlass.png" );
     
     private static final BufferedImage getBufferedImage( String resourceName ) {
         return ABSResources.getBufferedImage( resourceName );
