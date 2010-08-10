@@ -46,9 +46,9 @@ public abstract class PhetWebsite {
     public abstract String getBuildLocalPropertiesLocation();
 
     /**
-     * @return The server side general staging path
+     * @return The server side path to the Apache document root
      */
-    public abstract String getStagingPath();
+    public abstract String getDocumentRoot();
 
     /**
      * @return SSH credentials
@@ -99,6 +99,10 @@ public abstract class PhetWebsite {
         return "http://" + getWebHost();
     }
 
+    public String getStagingPath() {
+        return getDocumentRoot() + "/staging";
+    }
+
     /**
      * @return The server side translations staging path
      */
@@ -131,8 +135,8 @@ public abstract class PhetWebsite {
         }
 
         @Override
-        public String getStagingPath() {
-            return "/data/web/htdocs/phetsims/staging";
+        public String getDocumentRoot() {
+            return "/data/web/htdocs/phetsims";
         }
 
         @Override
@@ -145,6 +149,38 @@ public abstract class PhetWebsite {
             return properties.getWebsiteProdManagerAuthenticationInfo();
         }
 
+    };
+
+    public static PhetWebsite PHET_SERVER = new PhetWebsite() {
+        @Override
+        public String getServerHost() {
+            return "phet-server.colorado.edu";
+        }
+
+        @Override
+        public String getWebHost() {
+            return "phet-server.colorado.edu";
+        }
+
+        @Override
+        public String getBuildLocalPropertiesLocation() {
+            return "/home/phet/apache-tomcat-6.0.24/conf/build-local.properties";
+        }
+
+        @Override
+        public String getDocumentRoot() {
+            return "/var/www/wicket";
+        }
+
+        @Override
+        public AuthenticationInfo getServerAuthenticationInfo( BuildLocalProperties properties ) {
+            return properties.getWebsiteDevAuthenticationInfo();
+        }
+
+        @Override
+        public AuthenticationInfo getTomcatAuthenticationInfo( BuildLocalProperties properties ) {
+            return properties.getWebsiteDevManagerAuthenticationInfo();
+        }
     };
 
 }
