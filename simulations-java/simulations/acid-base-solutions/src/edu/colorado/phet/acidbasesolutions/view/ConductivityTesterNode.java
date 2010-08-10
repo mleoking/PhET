@@ -132,10 +132,10 @@ public class ConductivityTesterNode extends PhetPNode {
         } );
         
         // positive wire
-        positiveWireNode = new WireNode.Left( POSITIVE_WIRE_COLOR );
+        positiveWireNode = new WireNode.Right( POSITIVE_WIRE_COLOR );
 
         // negative wire
-        negativeWireNode = new WireNode.Right( NEGATIVE_WIRE_COLOR );
+        negativeWireNode = new WireNode.Left( NEGATIVE_WIRE_COLOR );
         
         //XXX circuit body
         imageNode = new PImage( ABSResources.getBufferedImage( "uncleMalley.png" ) ); //XXX
@@ -172,7 +172,7 @@ public class ConductivityTesterNode extends PhetPNode {
         positiveProbeNode.setOffset( x, y );
         
         // wire
-        Point2D componentConnectionPoint = new Point2D.Double( -imageNode.getFullBoundsReference().getWidth() / 2, imageNode.getFullBoundsReference().getHeight() / 2 );
+        Point2D componentConnectionPoint = new Point2D.Double( imageNode.getFullBoundsReference().getWidth() / 2, imageNode.getFullBoundsReference().getHeight() / 2 );
         Point2D probeConnectionPoint = new Point2D.Double( x, y - tester.getProbeSizeReference().getHeight() );
         positiveWireNode.setEndPoints( componentConnectionPoint, probeConnectionPoint );
     }
@@ -185,7 +185,7 @@ public class ConductivityTesterNode extends PhetPNode {
         negativeProbeNode.setOffset( x, y );
         
         // wire
-        Point2D componentConnectionPoint = new Point2D.Double( imageNode.getFullBoundsReference().getWidth() / 2, imageNode.getFullBoundsReference().getHeight() / 2 );
+        Point2D componentConnectionPoint = new Point2D.Double( -imageNode.getFullBoundsReference().getWidth() / 2, imageNode.getFullBoundsReference().getHeight() / 2 );
         Point2D probeConnectionPoint = new Point2D.Double( x, y - tester.getProbeSizeReference().getHeight() );
         negativeWireNode.setEndPoints( componentConnectionPoint, probeConnectionPoint );
     }
@@ -226,13 +226,13 @@ public class ConductivityTesterNode extends PhetPNode {
             setStroke( WIRE_STROKE );
             setStrokePaint( color );
         }
-        
-        public void setEndPoints( Point2D componentConnectionPoint, Point2D probeConnectionPoint ) {
-            Point2D.Double ctrl1=new Point2D.Double(componentConnectionPoint.getX()+ getControlPointDX(),componentConnectionPoint.getY());
-            Point2D.Double ctrl2=new Point2D.Double(probeConnectionPoint.getX(),probeConnectionPoint.getY()+getControlPointDY());
-            CubicCurve2D.Double curve = new CubicCurve2D.Double(componentConnectionPoint.getX(), componentConnectionPoint.getY(), ctrl1.getX(),ctrl1.getY(),ctrl2.getX(),ctrl2.getY(),
-                    probeConnectionPoint.getX(), probeConnectionPoint.getY());
-            setPathTo( curve);
+
+        public void setEndPoints(Point2D componentConnectionPoint, Point2D probeConnectionPoint) {
+            Point2D.Double ctrl1 = new Point2D.Double(componentConnectionPoint.getX() + getControlPointDX(), componentConnectionPoint.getY());
+            Point2D.Double ctrl2 = new Point2D.Double(probeConnectionPoint.getX(), probeConnectionPoint.getY() + getControlPointDY());
+            setPathTo(new CubicCurve2D.Double(componentConnectionPoint.getX(), componentConnectionPoint.getY(),
+                    ctrl1.getX(), ctrl1.getY(), ctrl2.getX(), ctrl2.getY(),
+                    probeConnectionPoint.getX(), probeConnectionPoint.getY()));
         }
 
         protected abstract double getControlPointDX();
