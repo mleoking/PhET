@@ -13,9 +13,11 @@ import edu.colorado.phet.acidbasesolutions.constants.ABSSymbols;
 import edu.colorado.phet.acidbasesolutions.model.ConductivityTester;
 import edu.colorado.phet.acidbasesolutions.model.ConductivityTester.ConductivityTesterChangeListener;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
+import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -92,7 +94,7 @@ public class ConductivityTesterNode extends PhetPNode {
             }
 
             public void brightnessChanged() {
-                updateValue();
+                updateBrightness();
             }
         });
         
@@ -155,11 +157,14 @@ public class ConductivityTesterNode extends PhetPNode {
         lightBulbGlassNode = new PImage( ABSImages.LIGHT_BULB_GLASS );
         lightBulbGlassNode.setScale( 0.4 );//XXX
         
+        PNode lightBulbGlassMaskNode = new PImage( ABSImages.LIGHT_BULB_GLASS_MASK );
+        lightBulbGlassMaskNode.setScale( 0.4 );//XXX
+        
         PPath componentWireNode = new PPath( new Line2D.Double( 0, 0, COMPONENT_WIRE_LENGTH, 0 ) );
         componentWireNode.setStroke( WIRE_STROKE );
         componentWireNode.setStrokePaint( CONNECTOR_WIRE_COLOR );
               
-        // value
+        //XXX value, delete eventually
         valueNode = new ValueNode();
         double x = batteryNode.getFullBoundsReference().getMinX();
         double y = batteryNode.getFullBoundsReference().getMinY() - valueNode.getFullBoundsReference().getHeight() + 60;
@@ -172,14 +177,16 @@ public class ConductivityTesterNode extends PhetPNode {
         addChild( negativeProbeNode );
         addChild( componentWireNode );
         addChild( lightBulbBaseNode );
+        addChild( lightBulbGlassMaskNode );
         addChild( lightBulbGlassNode );
         addChild( batteryNode );
-        addChild( valueNode );
+//        addChild( valueNode );
         
         // layout 
         //XXX mvt needed here?
         lightBulbBaseNode.setOffset( -lightBulbBaseNode.getFullBoundsReference().getWidth() / 2, -lightBulbBaseNode.getFullBoundsReference().getHeight() );
         lightBulbGlassNode.setOffset( lightBulbBaseNode.getFullBoundsReference().getCenterX() -lightBulbGlassNode.getFullBoundsReference().getWidth() / 2, lightBulbBaseNode.getFullBoundsReference().getMinY() - lightBulbGlassNode.getFullBoundsReference().getHeight() );
+        lightBulbGlassMaskNode.setOffset(lightBulbGlassNode.getOffset() );
         batteryNode.setOffset( lightBulbBaseNode.getFullBoundsReference().getCenterX() + COMPONENT_WIRE_LENGTH, lightBulbBaseNode.getFullBounds().getMaxY() - batteryNode.getFullBounds().getHeight() / 2 );
         componentWireNode.setOffset( lightBulbBaseNode.getFullBoundsReference().getCenterX(), lightBulbBaseNode.getFullBoundsReference().getMaxY() );
         setOffset( tester.getLocationReference() );
@@ -215,8 +222,10 @@ public class ConductivityTesterNode extends PhetPNode {
         negativeWireNode.setEndPoints( componentConnectionPoint, probeConnectionPoint );
     }
     
-    private void updateValue() {
-        valueNode.setValue( tester.getBrightness() );
+    private void updateBrightness() {
+        LinearFunction f = new LinearFunction( 0, 1, 0.85, 1 );
+        valueNode.setValue( tester.getBrightness() );//XXX
+        lightBulbGlassNode.setTransparency( (float) f.evaluate(  tester.getBrightness() ) );
     }
     
     /*

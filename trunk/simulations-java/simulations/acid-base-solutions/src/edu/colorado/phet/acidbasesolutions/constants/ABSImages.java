@@ -31,6 +31,7 @@ public class ABSImages {
     public static final BufferedImage BATTERY= getBufferedImage( "battery.png" );
     public static final BufferedImage LIGHT_BULB_BASE = getBufferedImage( "lightBulbBase.png" );
     public static final BufferedImage LIGHT_BULB_GLASS = getBufferedImage( "lightBulbGlass.png" );
+    public static final BufferedImage LIGHT_BULB_GLASS_MASK = getBufferedImage( "lightBulbGlassMask.png" );
     
     private static final BufferedImage getBufferedImage( String resourceName ) {
         return ABSResources.getBufferedImage( resourceName );
