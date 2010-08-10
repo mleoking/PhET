@@ -1,7 +1,6 @@
 package edu.colorado.phet.buildtools;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -16,7 +15,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import edu.colorado.phet.buildtools.flex.FlexSimulationProject;
 import edu.colorado.phet.buildtools.java.JavaProject;
 import edu.colorado.phet.buildtools.java.projects.BuildToolsProject;
 import edu.colorado.phet.buildtools.util.FileUtils;
@@ -137,11 +135,11 @@ public class BuildScript {
 
     }
 
-    public void deploy( PhetServer server, AuthenticationInfo authenticationInfo, VersionIncrement versionIncrement ) {
+    public void deploy( OldPhetServer server, AuthenticationInfo authenticationInfo, VersionIncrement versionIncrement ) {
         deploy( new NullTask(), server, authenticationInfo, versionIncrement, new NullTask() );
     }
 
-    public void deploy( Task preDeployTask, PhetServer server,
+    public void deploy( Task preDeployTask, OldPhetServer server,
                         AuthenticationInfo authenticationInfo, VersionIncrement versionIncrement, Task postDeployTask ) {
         if ( !BuildLocalProperties.getInstance().isJarsignerCredentialsSpecified() ) {
             throw new RuntimeException( "Jarsigner credentials must be specified for a deploy." );
@@ -301,7 +299,7 @@ public class BuildScript {
         }
     }
 
-    private boolean sendSSH( PhetServer server, AuthenticationInfo authenticationInfo ) {
+    private boolean sendSSH( OldPhetServer server, AuthenticationInfo authenticationInfo ) {
         String remotePathDir = server.getServerDeployPath( project );
         // if the directory does not exist on the server, it will be created.
         boolean success = SshUtils.executeCommand( "mkdir -p -m 775 " + remotePathDir, server.getHost(), authenticationInfo );
@@ -471,7 +469,7 @@ public class BuildScript {
                 // <li>@title@ : <a href="@prodLaunchFile@">production</a> : <a href="@devLaunchFile@">dev</a></li>
                 s += "<li>";
                 s += title;
-                if (!(project instanceof FlashSimulationProject)){  //TODO: add support for the link to the prod/dev versions of flash/flex sims 
+                if (!(project instanceof FlashSimulationProject)){  //TODO: add support for the link to the prod/dev versions of flash/flex sims
                     s += " : <a href=\"" + prodLaunchFile + "\">production</a>";
                 }
                 s += " : <a href=\"" + launchFile + "\">dev</a>";
@@ -509,10 +507,10 @@ public class BuildScript {
     }
 
     public void deployDev( final AuthenticationInfo devAuth, final boolean generateOfflineJARs ) {
-        deploy( new NullTask(), PhetServer.DEVELOPMENT, devAuth, new VersionIncrement.UpdateDev(), new Task() {
+        deploy( new NullTask(), OldPhetServer.DEVELOPMENT, devAuth, new VersionIncrement.UpdateDev(), new Task() {
             public boolean invoke() {
                 if ( generateOfflineJARs ) {
-                    generateOfflineJars( project, PhetServer.DEVELOPMENT, devAuth );
+                    generateOfflineJars( project, OldPhetServer.DEVELOPMENT, devAuth );
                 }
                 return true;
             }
@@ -520,22 +518,24 @@ public class BuildScript {
     }
 
     public void deployToDevelopmentAndProductionServers( final AuthenticationInfo devAuth, final AuthenticationInfo prodAuth, VersionIncrement versionIncrement ) {
+        final PhetWebsite productionSite = PhetWebsite.FIGARO;
         deploy(
                 //send a copy to dev
                 new Task() {
                     public boolean invoke() {
                         //generate files for dev
                         sendCopyToDev( devAuth );
-                        boolean success = prepareStagingArea( PhetServer.FIGARO, prodAuth );
-                        return success;
+                        return prepareStagingArea( productionSite );
                     }
-                }, PhetServer.FIGARO, prodAuth, versionIncrement, new Task() {
+                }, OldPhetServer.FIGARO, prodAuth, versionIncrement, new Task() {
                     public boolean invoke() {
                         System.out.println( "Executing website post-upload deployment process" );
 
                         boolean genjars = project instanceof JavaProject && ( (JavaProject) project ).getSignJar() && generateJARs;
-                        SshUtils.executeCommand( "chmod -R a+rw " + PhetServer.FIGARO.getStagingArea() + "/" + project.getName(), PhetServer.FIGARO.getHost(), prodAuth );
-                        SshUtils.executeCommand( "curl 'http://phetsims.colorado.edu/admin/deploy?project=" + project.getName() + "&generate-jars=" + genjars + "'", PhetServer.FIGARO.getHost(), prodAuth );
+                        SshUtils.executeCommand( productionSite, "chmod -R a+rw " + productionSite.getSimsStagingPath() + "/" + project.getName() );
+                        // this is a LOCAL connection that we are executing the curl from. TODO: move this to PhetWebsite
+                        String deployCommand = "curl 'http://phetsims.colorado.edu/admin/deploy?project=" + project.getName() + "&generate-jars=" + genjars + "'";
+                        SshUtils.executeCommand( productionSite, deployCommand );
 
                         return true;
                     }
@@ -548,36 +548,26 @@ public class BuildScript {
 
     //Run "rm" on the server to remove the phet/staging/sims/<project> directory contents, see #1529
 
-    private boolean prepareStagingArea( PhetServer server, AuthenticationInfo authenticationInfo ) {
+    private boolean prepareStagingArea( PhetWebsite website ) {
         assert project.getName().length() >= 2;//reduce probability of a scary rm
-        return SshUtils.executeCommands( new String[]{
-                "mkdir -p -m 775 " + server.getStagingArea() + "/" + project.getName(),
-                "rm -f " + server.getStagingArea() + "/" + project.getName() + "/*"
-        }, server.getHost(), authenticationInfo );
-    }
-
-    /*
-    4. Run a server-side script that will do the following, see #1529
-        > a. mv phet/sims/<project> phet/backup/sims/<project>-<timestamp>
-        > b. mv phet/staging/sims/<project> phet/sims/<project>
-     */
-
-    private void copyFromStagingAreaToSimDir( PhetServer server, AuthenticationInfo authenticationInfo ) {
-        SshUtils.executeCommand( BuildToolsPaths.TIGERCAT_STAGING_SWAP_SCRIPT + " " + project.getName(), server.getHost(), authenticationInfo );
+        return SshUtils.executeCommands( website, new String[]{
+                "mkdir -p -m 775 " + website.getSimsStagingPath() + "/" + project.getName(),
+                "rm -f " + website.getSimsStagingPath() + "/" + project.getName() + "/*"
+        } );
     }
 
     private void sendCopyToDev( AuthenticationInfo devAuth ) {
         createHeader( true );
-        project.buildLaunchFiles( PhetServer.DEVELOPMENT.getCodebase( project ), PhetServer.DEVELOPMENT.isDevelopmentServer() );
+        project.buildLaunchFiles( OldPhetServer.DEVELOPMENT.getCodebase( project ), OldPhetServer.DEVELOPMENT.isDevelopmentServer() );
         if ( !debugDryRun ) {
-            sendSSH( PhetServer.DEVELOPMENT, devAuth );
-            generateOfflineJars( project, PhetServer.DEVELOPMENT, devAuth );
+            sendSSH( OldPhetServer.DEVELOPMENT, devAuth );
+            generateOfflineJars( project, OldPhetServer.DEVELOPMENT, devAuth );
         }
-        PhetWebsite.openBrowser( PhetServer.DEVELOPMENT.getCodebase( project ) );
+        PhetWebsite.openBrowser( OldPhetServer.DEVELOPMENT.getCodebase( project ) );
         //TODO #2143, delete <project>_en.production.jnlp files, since they shouldn't go to tigercat
     }
 
-    public static void generateOfflineJars( PhetProject project, PhetServer server, AuthenticationInfo authenticationInfo ) {
+    public static void generateOfflineJars( PhetProject project, OldPhetServer server, AuthenticationInfo authenticationInfo ) {
         // TODO: return executeCommand's success if we run it, and modify the calling locations
 
         //only sign jars for Java Projects, and only if it is enabled (e.g. for simulations)
@@ -592,7 +582,7 @@ public class BuildScript {
         }
     }
 
-    private static String getJARGenerationCommand( JavaProject project, PhetServer server ) throws IOException {
+    private static String getJARGenerationCommand( JavaProject project, OldPhetServer server ) throws IOException {
         BuildToolsProject buildToolsProject = new BuildToolsProject( new File( project.getTrunk(), BuildToolsPaths.BUILD_TOOLS_DIR ) );
         String buildScriptDir = server.getServerDeployPath( buildToolsProject );
         String projectDir = server.getServerDeployPath( project );
@@ -603,18 +593,6 @@ public class BuildScript {
         String pathToBuildLocalProperties = server.getBuildLocalPropertiesFile();
         String command = javaCmd + " -classpath " + buildScriptDir + "/" + jarName + " " + JARGenerator.class.getName() + " " + projectDir + "/" + project.getDefaultDeployJar().getName() + " " + jarCmd + " " + pathToBuildLocalProperties;
         return command;
-    }
-
-    //regenerate server HTML caches so new material will appear
-
-    public static void clearWebCaches() {
-        System.out.println( "Clearing website cache" );
-        try {
-            FileUtils.download( PhetServer.PRODUCTION.getCacheClearUrl(), new File( new File( System.getProperty( "java.io.tmpdir" ) ), PhetServer.PRODUCTION.getCacheClearFile() ) );
-        }
-        catch( FileNotFoundException e ) {
-            e.printStackTrace();
-        }
     }
 
     /**

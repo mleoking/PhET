@@ -9,7 +9,7 @@ import java.io.IOException;
 import javax.swing.*;
 
 import edu.colorado.phet.buildtools.BuildToolsPaths;
-import edu.colorado.phet.buildtools.PhetServer;
+import edu.colorado.phet.buildtools.OldPhetServer;
 import edu.colorado.phet.buildtools.SVNStatusChecker;
 import edu.colorado.phet.buildtools.gui.PhetBuildGUI;
 import edu.colorado.phet.buildtools.statistics.StatisticsDeployCommand;
@@ -50,7 +50,7 @@ public class StatisticsPanel extends JPanel {
     }
 
     private void doDeployProd() {
-        boolean confirm = PhetBuildGUI.confirmProdDeploy( project, PhetServer.PRODUCTION );
+        boolean confirm = PhetBuildGUI.confirmProdDeploy( project, OldPhetServer.PRODUCTION );
 
         if ( !confirm ) {
             System.out.println( "Cancelled" );

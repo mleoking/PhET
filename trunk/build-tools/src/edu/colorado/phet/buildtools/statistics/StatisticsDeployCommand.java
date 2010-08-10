@@ -25,7 +25,7 @@ public class StatisticsDeployCommand {
 
     private String remoteDeployServer = "tigercat.colorado.edu";
 
-    private PhetServer server = PhetServer.PRODUCTION;
+    private OldPhetServer server = OldPhetServer.PRODUCTION;
 
     private String remoteDeployDir = BuildToolsPaths.TIGERCAT_HTDOCS + "/statistics";
 

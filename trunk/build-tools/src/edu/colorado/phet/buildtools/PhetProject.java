@@ -853,8 +853,9 @@ public abstract class PhetProject {
     /**
      * This allows overriding of the default simulation deploy path, see PhET Server's usage.
      *
+     * The returned path should be relative from the website document root, and should start with a '/'
+     *
      * @return an optional server path for deploying the contents of the deploy directory, or null if the simulation default should be used
-     *         //TODO: should implement this method completely in PhetProject instead of in PhetServer
      */
     public abstract String getProdServerDeployPath();
 

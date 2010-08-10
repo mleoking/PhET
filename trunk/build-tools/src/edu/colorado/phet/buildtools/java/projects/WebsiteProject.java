@@ -31,8 +31,7 @@ public class WebsiteProject extends JavaProject {
     }
 
     public String getProdServerDeployPath() {
-        return null;
-        //return BuildToolsPaths.BUILD_TOOLS_PROD_SERVER_DEPLOY_PATH;
+        return null; // we don't do a normal deployment for the website
     }
 
     public boolean isTestable() {

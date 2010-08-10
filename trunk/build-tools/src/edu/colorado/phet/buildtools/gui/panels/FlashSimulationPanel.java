@@ -9,7 +9,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.buildtools.BuildScript;
-import edu.colorado.phet.buildtools.PhetServer;
+import edu.colorado.phet.buildtools.OldPhetServer;
 import edu.colorado.phet.buildtools.VersionIncrement;
 import edu.colorado.phet.buildtools.flash.FlashBuildCommand;
 import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
@@ -169,7 +169,7 @@ public class FlashSimulationPanel extends JPanel {
     }
 
     private void doDeployProd() {
-        boolean confirm = PhetBuildGUI.confirmProdDeploy( project, PhetServer.PRODUCTION );
+        boolean confirm = PhetBuildGUI.confirmProdDeploy( project, OldPhetServer.PRODUCTION );
 
         if ( !confirm ) {
             System.out.println( "Cancelled" );
@@ -194,7 +194,7 @@ public class FlashSimulationPanel extends JPanel {
     }
 
     private void doWicketTest() {
-        boolean confirm = PhetBuildGUI.confirmProdDeploy( project, PhetServer.PRODUCTION );
+        boolean confirm = PhetBuildGUI.confirmProdDeploy( project, OldPhetServer.PRODUCTION );
 
         if ( !confirm ) {
             System.out.println( "Cancelled" );

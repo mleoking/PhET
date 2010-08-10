@@ -10,14 +10,14 @@ import org.rev6.scf.SshException;
 
 import edu.colorado.phet.buildtools.AuthenticationInfo;
 import edu.colorado.phet.buildtools.BuildLocalProperties;
-import edu.colorado.phet.buildtools.PhetServer;
+import edu.colorado.phet.buildtools.OldPhetServer;
 import edu.colorado.phet.buildtools.util.ScpTo;
 import edu.colorado.phet.buildtools.util.SshUtils;
 
 import com.jcraft.jsch.JSchException;
 
 public class TestSshCommand {
-    private static void sendSSH( PhetServer server, AuthenticationInfo authenticationInfo ) {
+    private static void sendSSH( OldPhetServer server, AuthenticationInfo authenticationInfo ) {
         String remotePathDir = server.getServerDeployPath() + "/test-permissions/0.00.03";
         SshUtils.executeCommand( "mkdir -p -m 775 " + remotePathDir, server.getHost(), authenticationInfo );
 
@@ -88,6 +88,6 @@ public class TestSshCommand {
 
     public static void main( String[] args ) {
         File trunk = new File( args[0] );
-        sendSSH( PhetServer.DEVELOPMENT, BuildLocalProperties.getInstanceRelativeToTrunk( trunk ).getDevAuthenticationInfo() );
+        sendSSH( OldPhetServer.DEVELOPMENT, BuildLocalProperties.getInstanceRelativeToTrunk( trunk ).getDevAuthenticationInfo() );
     }
 }

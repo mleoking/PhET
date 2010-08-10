@@ -12,7 +12,7 @@ import javax.swing.event.ListSelectionListener;
 
 import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.buildtools.BuildScript;
-import edu.colorado.phet.buildtools.PhetServer;
+import edu.colorado.phet.buildtools.OldPhetServer;
 import edu.colorado.phet.buildtools.VersionIncrement;
 import edu.colorado.phet.buildtools.gui.ChangesPanel;
 import edu.colorado.phet.buildtools.gui.LocaleListPanel;
@@ -166,7 +166,7 @@ public class JavaSimulationPanel extends JPanel {
     }
 
     private void doDeployProd() {
-        boolean confirm = PhetBuildGUI.confirmProdDeploy( project, PhetServer.PRODUCTION );
+        boolean confirm = PhetBuildGUI.confirmProdDeploy( project, OldPhetServer.PRODUCTION );
 
         if ( !confirm ) {
             System.out.println( "Cancelled" );
@@ -191,7 +191,7 @@ public class JavaSimulationPanel extends JPanel {
     }
 
     private void doWicketTest() {
-        boolean confirm = PhetBuildGUI.confirmProdDeploy( project, PhetServer.PRODUCTION );
+        boolean confirm = PhetBuildGUI.confirmProdDeploy( project, OldPhetServer.PRODUCTION );
 
         if ( !confirm ) {
             System.out.println( "Cancelled" );

@@ -109,7 +109,7 @@ public class MiscMenu extends JMenu {
         JMenuItem generateJNLP = new JMenuItem( "Generate Prod JNLP" );
         generateJNLP.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                selectedProject.buildLaunchFiles( PhetServer.PRODUCTION.getCodebase( selectedProject ), PhetServer.PRODUCTION.isDevelopmentServer() );
+                selectedProject.buildLaunchFiles( OldPhetServer.PRODUCTION.getCodebase( selectedProject ), OldPhetServer.PRODUCTION.isDevelopmentServer() );
                 System.out.println( "Created JNLP Files" );
             }
         } );
@@ -287,7 +287,7 @@ public class MiscMenu extends JMenu {
     }
 
     private void batchDeploy( PhetProject[] projects, DeployStrategy deployStrategy ) {
-        PhetServer.showReminder = false;
+        OldPhetServer.showReminder = false;
         int svnVersion = new BuildScript( trunk, projects[0] ).getRevisionOnTrunkREADME();
         String message = JOptionPane.showInputDialog( "Deploying all sims to dev/.  Make sure you've update your working copy.\n" +
                                                       "Assuming you've updated already, the revision number will be: " + svnVersion + "\n" +
