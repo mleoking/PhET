@@ -42,6 +42,8 @@ public class ConductivityTesterNode extends PhetPNode {
     private final ConductivityTester tester;
     private final ProbeNode positiveProbeNode, negativeProbeNode;
     private final WireNode positiveWireNode, negativeWireNode;
+    private final ValueNode valueNode;
+    private final PImage imageNode;
     
     public ConductivityTesterNode( final ConductivityTester tester ) {
         
@@ -60,6 +62,10 @@ public class ConductivityTesterNode extends PhetPNode {
             
             public void negativeProbeLocationChanged() {
                 updateNegativeProbeLocation();
+            }
+
+            public void brightnessChanged() {
+                updateValue();
             }
         });
         
@@ -118,9 +124,17 @@ public class ConductivityTesterNode extends PhetPNode {
         negativeWireNode = new WireNode();
         addChild( negativeWireNode );
         
-        PImage imageNode = new PImage( ABSResources.getBufferedImage( "uncleMalley.png" ) ); //XXX
+        //XXX circuit body
+        imageNode = new PImage( ABSResources.getBufferedImage( "uncleMalley.png" ) ); //XXX
         addChild( imageNode );
         imageNode.setOffset( -imageNode.getFullBoundsReference().getWidth() / 2, 0 );
+        
+        // value
+        valueNode = new ValueNode();
+        addChild( valueNode );
+        double x = imageNode.getFullBoundsReference().getMinX();
+        double y = imageNode.getFullBoundsReference().getMinY() - valueNode.getFullBoundsReference().getHeight() - 2;
+        valueNode.setOffset( x, y );
         
         // layout 
         //XXX mvt needed here?
@@ -139,7 +153,7 @@ public class ConductivityTesterNode extends PhetPNode {
         positiveProbeNode.setOffset( x, y );
         
         // wire
-        Point2D p1 = new Point2D.Double( 0, 0 );
+        Point2D p1 = new Point2D.Double( -imageNode.getFullBoundsReference().getWidth() / 2, imageNode.getFullBoundsReference().getHeight() / 2 );
         Point2D p2 = new Point2D.Double( x, y - tester.getProbeSizeReference().getHeight() );
         positiveWireNode.setEndPoints( p1, p2 );
     }
@@ -152,9 +166,13 @@ public class ConductivityTesterNode extends PhetPNode {
         negativeProbeNode.setOffset( x, y );
         
         // wire
-        Point2D p1 = new Point2D.Double( 0, 0 );
+        Point2D p1 = new Point2D.Double( imageNode.getFullBoundsReference().getWidth() / 2, imageNode.getFullBoundsReference().getHeight() / 2 );
         Point2D p2 = new Point2D.Double( x, y - tester.getProbeSizeReference().getHeight() );
         negativeWireNode.setEndPoints( p1, p2 );
+    }
+    
+    private void updateValue() {
+        valueNode.setValue( tester.getBrightness() );
     }
     
     /*
@@ -194,6 +212,23 @@ public class ConductivityTesterNode extends PhetPNode {
         public void setEndPoints( Point2D p1, Point2D p2 ) {
             line.setLine( p1, p2 );
             setPathTo( line );
+        }
+    }
+    
+    private static class ValueNode extends PText {
+        
+        public ValueNode() {
+            this( 0 );
+        }
+        
+        public ValueNode( double brightness ) {
+            setTextPaint( Color.RED );
+            setFont( new PhetFont( 20 ) );
+            setValue( brightness );
+        }
+        
+        public void setValue( double brightness ) {
+            setText( "brightness=" + String.valueOf( brightness ) );
         }
     }
 }
