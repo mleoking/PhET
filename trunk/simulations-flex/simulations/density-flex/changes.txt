@@ -1,3 +1,4 @@
+# 0.01.12 (42897) Aug 10, 2010
 Moved objects to the side of the pool on startup instead of bobbing up and down
 Moved the object type combo box to the top of the properties box
 Removed advanced tab
