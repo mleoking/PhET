@@ -1,5 +1,7 @@
+8/10/10 tweak locations of pH paper and conductivity tester
+8/10/10 make pH meter, pH paper, conductivity tester all mutually exclusive
 # 0.00.19 (42894) Aug 10, 2010
-8/8/10 use black line for titled borders
+8/10/10 use black line for titled borders
 8/10/10 collaboration with Sam on conductivity tester: battery, bulb, cubic wires
 8/10/10 make the dipped color on the pH paper bleed up above the surface of the solution
 8/10/10 add "conductivity tester" feature to Custom Solution tab
