@@ -1,3 +1,4 @@
+# 0.00.19 (42894) Aug 10, 2010
 8/10/10 collaboration with Sam on conductivity tester: battery, bulb, cubic wires
 8/10/10 make the dipped color on the pH paper bleed up above the surface of the solution
 8/10/10 add "conductivity tester" feature to Custom Solution tab
