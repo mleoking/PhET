@@ -8,6 +8,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSResources;
+import edu.colorado.phet.acidbasesolutions.constants.ABSSymbols;
 import edu.colorado.phet.acidbasesolutions.model.ConductivityTester;
 import edu.colorado.phet.acidbasesolutions.model.ConductivityTester.ConductivityTesterChangeListener;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
@@ -21,24 +22,40 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 
-
+/**
+ * Visual representation of the conductivity tester.
+ * A simple circuit with a battery and a light bulb, and a probe at each end of the circuit.
+ * When the probes are inserted in the solution, the circuit is completed, and the light bulb 
+ * lights up based on the tester's brightness value.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class ConductivityTesterNode extends PhetPNode {
     
-    // probe properties
-    private static final Color POSITIVE_PROBE_FILL_COLOR = Color.RED;
-    private static final Color NEGATIVE_PROBE_FILL_COLOR = Color.BLACK;
+    // general probe properties
     private static final Color PROBE_STROKE_COLOR = Color.BLACK;
     private static final Stroke PROBE_STROKE = new BasicStroke( 1f );
-    private static final String POSITIVE_PROBE_LABEL = "+"; //XXX i18n
-    private static final String NEGATIVE_PROBE_LABEL = "-"; //XXX i18n
-    private static final Color POSITIVE_PROBE_LABEL_COLOR = Color.WHITE;
-    private static final Color NEGATIVE_PROBE_LABEL_COLOR = Color.WHITE;
     private static final Font PROBE_LABEL_FONT = new PhetFont( Font.BOLD, 24 );
     
-    // wire properties
-    private static final Color WIRE_COLOR = Color.BLACK;
+    // positive probe properties
+    private static final Color POSITIVE_PROBE_FILL_COLOR = Color.RED;
+    private static final String POSITIVE_PROBE_LABEL = ABSSymbols.PLUS;
+    private static final Color POSITIVE_PROBE_LABEL_COLOR = Color.WHITE;
+    
+    // negative probe properties
+    private static final Color NEGATIVE_PROBE_FILL_COLOR = Color.BLACK;
+    private static final String NEGATIVE_PROBE_LABEL = ABSSymbols.MINUS;
+    private static final Color NEGATIVE_PROBE_LABEL_COLOR = Color.WHITE;
+    
+    // general wire properties
     private static final Stroke WIRE_STROKE = new BasicStroke( 2f );
-
+    
+    // positive wire properties
+    private static final Color POSITIVE_WIRE_COLOR = POSITIVE_PROBE_FILL_COLOR;
+    
+    // negative wire properties
+    private static final Color NEGATIVE_WIRE_COLOR = NEGATIVE_PROBE_FILL_COLOR;
+    
     private final ConductivityTester tester;
     private final ProbeNode positiveProbeNode, negativeProbeNode;
     private final WireNode positiveWireNode, negativeWireNode;
@@ -71,7 +88,6 @@ public class ConductivityTesterNode extends PhetPNode {
         
         // positive probe
         positiveProbeNode = new ProbeNode( tester.getProbeSizeReference(), POSITIVE_PROBE_FILL_COLOR, POSITIVE_PROBE_LABEL, POSITIVE_PROBE_LABEL_COLOR );
-        addChild( positiveProbeNode );
         positiveProbeNode.addInputEventListener( new CursorHandler( Cursor.N_RESIZE_CURSOR ) );
         positiveProbeNode.addInputEventListener( new PDragSequenceEventHandler() {
 
@@ -95,7 +111,6 @@ public class ConductivityTesterNode extends PhetPNode {
 
         // negative probe
         negativeProbeNode = new ProbeNode( tester.getProbeSizeReference(), NEGATIVE_PROBE_FILL_COLOR, NEGATIVE_PROBE_LABEL, NEGATIVE_PROBE_LABEL_COLOR );
-        addChild( negativeProbeNode );
         negativeProbeNode.addInputEventListener( new CursorHandler( Cursor.N_RESIZE_CURSOR ) );
         negativeProbeNode.addInputEventListener( new PDragSequenceEventHandler() {
 
@@ -117,24 +132,28 @@ public class ConductivityTesterNode extends PhetPNode {
         } );
         
         // positive wire
-        positiveWireNode = new WireNode();
-        addChild( positiveWireNode );
+        positiveWireNode = new WireNode( POSITIVE_WIRE_COLOR );
 
         // negative wire
-        negativeWireNode = new WireNode();
-        addChild( negativeWireNode );
+        negativeWireNode = new WireNode( NEGATIVE_WIRE_COLOR );
         
         //XXX circuit body
         imageNode = new PImage( ABSResources.getBufferedImage( "uncleMalley.png" ) ); //XXX
-        addChild( imageNode );
         imageNode.setOffset( -imageNode.getFullBoundsReference().getWidth() / 2, 0 );
         
         // value
         valueNode = new ValueNode();
-        addChild( valueNode );
         double x = imageNode.getFullBoundsReference().getMinX();
         double y = imageNode.getFullBoundsReference().getMinY() - valueNode.getFullBoundsReference().getHeight() - 2;
         valueNode.setOffset( x, y );
+        
+        // rendering order
+        addChild( positiveWireNode );
+        addChild( negativeWireNode );
+        addChild( positiveProbeNode );
+        addChild( negativeProbeNode );
+        addChild( imageNode );
+        addChild( valueNode );
         
         // layout 
         //XXX mvt needed here?
@@ -203,10 +222,10 @@ public class ConductivityTesterNode extends PhetPNode {
         
         private final Line2D line;
         
-        public WireNode() {
+        public WireNode( Color color ) {
             this.line = new Line2D.Double();
             setStroke( WIRE_STROKE );
-            setStrokePaint( WIRE_COLOR );
+            setStrokePaint( color );
         }
         
         public void setEndPoints( Point2D p1, Point2D p2 ) {
