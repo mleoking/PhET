@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.text.MessageFormat;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
@@ -55,6 +56,7 @@ public class ToolsControl extends JPanel {
         // border
         TitledBorder titledBorder = new TitledBorder( ABSStrings.TOOLS );
         titledBorder.setTitleFont( ABSConstants.TITLED_BORDER_FONT );
+        titledBorder.setBorder( new LineBorder( Color.BLACK, 1 ) );
         setBorder( titledBorder );
         
         ActionListener actionListener = new ActionListener() {
