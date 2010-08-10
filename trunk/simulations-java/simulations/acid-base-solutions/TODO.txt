@@ -3,6 +3,7 @@ TODO list for acid-base-solutions
 MILESTONES
 
 HIGH PRIORITY
+- encapsulate all light bulb parts in one composite node
 - replace A- icon with older version from advanced-acid-base-solutions that has no "bite" out of it
 - use molecule color for "negligible" in Concentration Graph
 - gray out View controls when "Conductivity Tester" tool is selected
