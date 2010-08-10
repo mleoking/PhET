@@ -7,7 +7,7 @@ import java.awt.geom.CubicCurve2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.acidbasesolutions.constants.ABSResources;
+import edu.colorado.phet.acidbasesolutions.constants.ABSImages;
 import edu.colorado.phet.acidbasesolutions.constants.ABSSymbols;
 import edu.colorado.phet.acidbasesolutions.model.ConductivityTester;
 import edu.colorado.phet.acidbasesolutions.model.ConductivityTester.ConductivityTesterChangeListener;
@@ -60,8 +60,11 @@ public class ConductivityTesterNode extends PhetPNode {
     private final ProbeNode positiveProbeNode, negativeProbeNode;
     private final WireNode positiveWireNode, negativeWireNode;
     private final ValueNode valueNode;
-    private final PImage imageNode;
-    
+    private final PImage batteryImageNode;
+    private final PImage bulbImageNode;
+    private static final double COMPONENT_WIRE_LENGTH = 50;
+    private static final double FRACTION_WIRE_ATTACH_ON_BULB = 0.12;
+
     public ConductivityTesterNode( final ConductivityTester tester ) {
         
         this.tester = tester;
@@ -138,13 +141,18 @@ public class ConductivityTesterNode extends PhetPNode {
         negativeWireNode = new WireNode.Left( NEGATIVE_WIRE_COLOR );
         
         //XXX circuit body
-        imageNode = new PImage( ABSResources.getBufferedImage( "uncleMalley.png" ) ); //XXX
-        imageNode.setOffset( -imageNode.getFullBoundsReference().getWidth() / 2, 0 );
+        batteryImageNode = new PImage( ABSImages.BATTERY );
+        
+        bulbImageNode = new PImage(ABSImages.LIGHT_BULB);
+        bulbImageNode.setScale( 0.3 );
+        bulbImageNode.setOffset( -bulbImageNode.getFullBoundsReference().getWidth()/2, -bulbImageNode.getFullBoundsReference().getHeight() );
+        
+        batteryImageNode.setOffset( bulbImageNode.getFullBoundsReference().getCenterX()+COMPONENT_WIRE_LENGTH, bulbImageNode.getFullBounds().getMaxY()-batteryImageNode.getFullBounds().getHeight()/2);
         
         // value
         valueNode = new ValueNode();
-        double x = imageNode.getFullBoundsReference().getMinX();
-        double y = imageNode.getFullBoundsReference().getMinY() - valueNode.getFullBoundsReference().getHeight() - 2;
+        double x = batteryImageNode.getFullBoundsReference().getMinX();
+        double y = batteryImageNode.getFullBoundsReference().getMinY() - valueNode.getFullBoundsReference().getHeight() - 2;
         valueNode.setOffset( x, y );
         
         // rendering order
@@ -152,7 +160,8 @@ public class ConductivityTesterNode extends PhetPNode {
         addChild( negativeWireNode );
         addChild( positiveProbeNode );
         addChild( negativeProbeNode );
-//        addChild( imageNode );
+        addChild( bulbImageNode );
+        addChild( batteryImageNode );
         addChild( valueNode );
         
         // layout 
@@ -172,7 +181,7 @@ public class ConductivityTesterNode extends PhetPNode {
         positiveProbeNode.setOffset( x, y );
         
         // wire
-        Point2D componentConnectionPoint = new Point2D.Double( imageNode.getFullBoundsReference().getWidth() / 2, imageNode.getFullBoundsReference().getHeight() / 2 );
+        Point2D componentConnectionPoint = new Point2D.Double( batteryImageNode.getFullBoundsReference().getMaxX(), batteryImageNode.getFullBoundsReference().getCenterY() );
         Point2D probeConnectionPoint = new Point2D.Double( x, y - tester.getProbeSizeReference().getHeight() );
         positiveWireNode.setEndPoints( componentConnectionPoint, probeConnectionPoint );
     }
@@ -185,7 +194,7 @@ public class ConductivityTesterNode extends PhetPNode {
         negativeProbeNode.setOffset( x, y );
         
         // wire
-        Point2D componentConnectionPoint = new Point2D.Double( -imageNode.getFullBoundsReference().getWidth() / 2, imageNode.getFullBoundsReference().getHeight() / 2 );
+        Point2D componentConnectionPoint = new Point2D.Double( bulbImageNode.getFullBoundsReference().getCenterX(), bulbImageNode.getFullBoundsReference().getMaxY()- bulbImageNode.getFullBoundsReference().getHeight()*FRACTION_WIRE_ATTACH_ON_BULB);
         Point2D probeConnectionPoint = new Point2D.Double( x, y - tester.getProbeSizeReference().getHeight() );
         negativeWireNode.setEndPoints( componentConnectionPoint, probeConnectionPoint );
     }
