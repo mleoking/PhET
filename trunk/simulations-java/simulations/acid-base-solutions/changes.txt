@@ -1,3 +1,4 @@
+8/9/10 display brightness value on conductivity tester (strong=bright, weak=dim)
 8/9/10 add simple wires connecting probes to connectivity tester
 8/9/10 add dummy nodes for conductivity tester probes, implement dragging
 8/9/10 make all view elements get molecule properties (symbol, icon, color) from the model

@@ -22,6 +22,7 @@ public class ConductivityTester extends SolutionRepresentation {
     private final PDimension probeSize;
     private Point2D positiveProbeLocation, negativeProbeLocation;
     private final EventListenerList listeners;
+    private double brightness;
 
     public ConductivityTester( AqueousSolution solution, Point2D location, boolean visible, PDimension probeSize, Point2D positiveProbeLocation, Point2D negativeProbeLocation, Beaker beaker ) {
         super( solution, location, visible );
@@ -30,6 +31,52 @@ public class ConductivityTester extends SolutionRepresentation {
         this.negativeProbeLocation = new Point2D.Double( negativeProbeLocation.getX(), negativeProbeLocation.getY() );
         this.beaker = beaker;
         this.listeners = new EventListenerList();
+        
+        addSolutionRepresentationChangeListener( new SolutionRepresentationChangeAdapter() {
+            
+            @Override
+            public void solutionChanged() {
+                updateBrightness();
+            }
+            
+            @Override
+            public void concentrationChanged() {
+                updateBrightness();
+            }
+            
+            @Override
+            public void strengthChanged() {
+                updateBrightness();
+            }
+        });
+        
+        updateBrightness();
+    }
+    
+    /**
+     * Gets the value, a number between 0 and 1 inclusive.
+     * 0 indicates no conductivity (open circuit).
+     * 1 indicates maximum conductivity that the device can display. 
+     * @return
+     */
+    public double getBrightness() {
+        return brightness;
+    }
+    
+    private void updateBrightness() {
+        if ( isCircuitCompleted() ) {
+            AqueousSolution solution = getSolution();
+            if ( solution instanceof StrongAcidSolution || solution instanceof StrongBaseSolution ) {
+                brightness = 1;
+            }
+            else {
+                brightness = 0.25;
+            }
+        }
+        else {
+            brightness = 0;
+        }
+        fireBrightnessChanged();
     }
     
     public PDimension getProbeSizeReference() {
@@ -44,6 +91,7 @@ public class ConductivityTester extends SolutionRepresentation {
         if ( x != positiveProbeLocation.getX() || y != positiveProbeLocation.getY() ) {
             positiveProbeLocation.setLocation( x, constrainY( y ) );
             firePositiveProbeLocationChanged();
+            updateBrightness();
         }
     }
     
@@ -59,11 +107,16 @@ public class ConductivityTester extends SolutionRepresentation {
         if ( x != negativeProbeLocation.getX() || y != negativeProbeLocation.getY() ) {
             negativeProbeLocation.setLocation( x, constrainY( y ) );
             fireNegativeProbeLocationChanged();
+            updateBrightness();
         }
     }
     
     public Point2D getNegativeProbeLocationReference() {
         return negativeProbeLocation;
+    }
+    
+    private boolean isCircuitCompleted() {
+        return ( beaker.inSolution( positiveProbeLocation ) && beaker.inSolution( negativeProbeLocation ) );
     }
     
     /*
@@ -82,26 +135,14 @@ public class ConductivityTester extends SolutionRepresentation {
         return y;
     }
     
-    /**
-     * Gets the value, a number between 0 and 1 inclusive.
-     * 0 indicates no conductivity (open circuit).
-     * 1 indicates maximum conductivity that the device can display. 
-     * @return
-     */
-    public double getValue() {
-        double value = 0;
-        if ( beaker.inSolution( positiveProbeLocation ) && beaker.inSolution( negativeProbeLocation ) ) {
-            value = 1; //TODO value should be a function of pH
-        }
-        return value;
-    }
-    
     public interface ConductivityTesterChangeListener extends EventListener {
+        public void brightnessChanged();
         public void positiveProbeLocationChanged();
         public void negativeProbeLocationChanged();
     }
     
     public static class ConductivityTesterChangeAdapter implements ConductivityTesterChangeListener {
+        public void brightnessChanged() {}
         public void positiveProbeLocationChanged() {}
         public void negativeProbeLocationChanged() {}
     }
@@ -112,6 +153,12 @@ public class ConductivityTester extends SolutionRepresentation {
     
     public void removeConductivityTesterChangeListener( ConductivityTesterChangeListener listener ) {
         listeners.remove( ConductivityTesterChangeListener.class, listener );
+    }
+    
+    private void fireBrightnessChanged() {
+        for ( ConductivityTesterChangeListener listener : listeners.getListeners( ConductivityTesterChangeListener.class ) ) {
+            listener.brightnessChanged();
+        }
     }
     
     private void firePositiveProbeLocationChanged() {

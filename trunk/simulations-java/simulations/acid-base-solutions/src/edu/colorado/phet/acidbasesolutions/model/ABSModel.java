@@ -62,6 +62,9 @@ public class ABSModel  {
     
     public void reset() {
         setSolution( defaultSolutionFactory.createSolution() );
+        pHPaper.setLocation( ABSConstants.PH_PAPER_LOCATION );
+        conductivityTester.setPositiveProbeLocation( ABSConstants.CONDUCTIVITY_TESTER_POSITIVE_PROBE_LOCATION );
+        conductivityTester.setNegativeProbeLocation( ABSConstants.CONDUCTIVITY_TESTER_NEGATIVE_PROBE_LOCATION );
         magnifyingGlass.setVisible( ABSConstants.MAGNIFYING_GLASS_VISIBLE );
         magnifyingGlass.setWaterVisible( ABSConstants.WATER_VISIBLE );
         concentrationGraph.setVisible( ABSConstants.CONCENTRATION_GRAPH_VISIBLE );
@@ -106,6 +109,7 @@ public class ABSModel  {
             concentrationGraph.setSolution( solution );
             reactionEquation.setSolution( solution );
             pHPaper.setSolution( solution );
+            conductivityTester.setSolution( solution );
             fireSolutionChanged();
         }
     }
