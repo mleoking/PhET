@@ -1,3 +1,4 @@
+Fixed: Exception when hiding custom object properties dialog
 Removed scale for custom object
 Reworded "properties" to "modes" in the floating dialog
 Added radio buttons for "custom object" and "mystery objects"

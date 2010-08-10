@@ -9,6 +9,7 @@ import mx.containers.Canvas;
 public class DensityViewIntro extends DensityView {
     private var _densityCanvas:Canvas;
     private var customObjectPropertiesPanel:CustomObjectPropertiesPanel;
+    private var customObjectPropertiesPanelShowing:Boolean=false;
 
     public function DensityViewIntro() {
         super();
@@ -84,7 +85,10 @@ public class DensityViewIntro extends DensityView {
     public function switchToCustomObject():void {
         model.clearDensityObjects();
         initializeCustomObject();
-        _densityCanvas.addChild(customObjectPropertiesPanel);
+        if (!customObjectPropertiesPanelShowing){
+            _densityCanvas.addChild(customObjectPropertiesPanel);
+            customObjectPropertiesPanelShowing = true;
+        }
     }
 
     public function switchToMysteryObjects():void {
@@ -95,7 +99,10 @@ public class DensityViewIntro extends DensityView {
 
     //TODO: add a "onModeExit()" callback instead of having modes know about each other
     private function removeCustomPanel():void {
-        if (_densityCanvas.getChildIndex(customObjectPropertiesPanel) >= 0) _densityCanvas.removeChild(customObjectPropertiesPanel);
+        if (customObjectPropertiesPanelShowing){
+            _densityCanvas.removeChild(customObjectPropertiesPanel);
+            customObjectPropertiesPanelShowing = false;
+        }
     }
 
     public function set densityCanvas(densityCanvas:Canvas):void {
