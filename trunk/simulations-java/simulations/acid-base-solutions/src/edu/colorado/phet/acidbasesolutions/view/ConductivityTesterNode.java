@@ -144,7 +144,7 @@ public class ConductivityTesterNode extends PhetPNode {
         batteryImageNode = new PImage( ABSImages.BATTERY );
         
         bulbImageNode = new PImage(ABSImages.LIGHT_BULB);
-        bulbImageNode.setScale( 0.3 );
+        bulbImageNode.setScale( 0.4 );
         bulbImageNode.setOffset( -bulbImageNode.getFullBoundsReference().getWidth()/2, -bulbImageNode.getFullBoundsReference().getHeight() );
         
         batteryImageNode.setOffset( bulbImageNode.getFullBoundsReference().getCenterX()+COMPONENT_WIRE_LENGTH, bulbImageNode.getFullBounds().getMaxY()-batteryImageNode.getFullBounds().getHeight()/2);
