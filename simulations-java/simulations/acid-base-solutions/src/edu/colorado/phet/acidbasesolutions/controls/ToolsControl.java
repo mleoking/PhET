@@ -36,16 +36,6 @@ public class ToolsControl extends JPanel {
     private final JRadioButton magnifyingGlassRadioButton, concentrationGraphRadioButton;
     private final JCheckBox pHMeterCheckBox, showWaterCheckBox;
     
-    /**
-     * Subclass that hides some of the tools.
-     */
-    public static class FewerToolsControl extends ToolsControl {
-        public FewerToolsControl( ABSModel model ) {
-            super( model );
-            setCondutivityTesterControlVisible( false );
-        }
-    }
-    
     public ToolsControl( final ABSModel model ) {
         
         // model
