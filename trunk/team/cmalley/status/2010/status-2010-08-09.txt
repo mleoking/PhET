@@ -1,0 +1,42 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: August 3-9, 2010
+
+ACCOMPLISHMENTS:
+
+Acid-Base Solutions:
+- collaborated with Sam Reid on first pass of pH Paper feature
+- refined pH Paper feature, based on feedback
+- pH color key
+- first pass at Conductivity Tester feature
+- aligned baselines in reaction equations
+- generalized some things so that the sim can handle real solutions
+- published 0.00.16, 0.00.17, 0.00.18
+ 
+Faraday:
+- started looking at electron motion calibration
+
+Common:
+- generalized some code from Advanced Acid-Base Solutions for building chemical equations
+
+ misc:
+ - PhET status meeting 8/3
+ - ITS deactivated my computer accounts, long process to get them reactivated
+
+WHAT'S NEXT:
+
+ - Faraday: wrap up of #2336 (fix for bar magnet)
+ - Acid-Base Solutions: complete (after Chem Advisory Board feedback)
+ - Capacitor Lab: design & implementation 
+
+ISSUES:
+
+ - none
+
+DATES UNAVAILABLE:
+
+  August 12,13
+  September 3,24
+
+--
