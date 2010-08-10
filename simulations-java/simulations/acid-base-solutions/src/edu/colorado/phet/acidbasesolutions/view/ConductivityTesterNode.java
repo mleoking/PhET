@@ -3,7 +3,7 @@
 package edu.colorado.phet.acidbasesolutions.view;
 
 import java.awt.*;
-import java.awt.geom.Line2D;
+import java.awt.geom.CubicCurve2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
@@ -132,10 +132,10 @@ public class ConductivityTesterNode extends PhetPNode {
         } );
         
         // positive wire
-        positiveWireNode = new WireNode( POSITIVE_WIRE_COLOR );
+        positiveWireNode = new WireNode.Left( POSITIVE_WIRE_COLOR );
 
         // negative wire
-        negativeWireNode = new WireNode( NEGATIVE_WIRE_COLOR );
+        negativeWireNode = new WireNode.Right( NEGATIVE_WIRE_COLOR );
         
         //XXX circuit body
         imageNode = new PImage( ABSResources.getBufferedImage( "uncleMalley.png" ) ); //XXX
@@ -152,7 +152,7 @@ public class ConductivityTesterNode extends PhetPNode {
         addChild( negativeWireNode );
         addChild( positiveProbeNode );
         addChild( negativeProbeNode );
-        addChild( imageNode );
+//        addChild( imageNode );
         addChild( valueNode );
         
         // layout 
@@ -172,9 +172,9 @@ public class ConductivityTesterNode extends PhetPNode {
         positiveProbeNode.setOffset( x, y );
         
         // wire
-        Point2D p1 = new Point2D.Double( -imageNode.getFullBoundsReference().getWidth() / 2, imageNode.getFullBoundsReference().getHeight() / 2 );
-        Point2D p2 = new Point2D.Double( x, y - tester.getProbeSizeReference().getHeight() );
-        positiveWireNode.setEndPoints( p1, p2 );
+        Point2D componentConnectionPoint = new Point2D.Double( -imageNode.getFullBoundsReference().getWidth() / 2, imageNode.getFullBoundsReference().getHeight() / 2 );
+        Point2D probeConnectionPoint = new Point2D.Double( x, y - tester.getProbeSizeReference().getHeight() );
+        positiveWireNode.setEndPoints( componentConnectionPoint, probeConnectionPoint );
     }
     
     private void updateNegativeProbeLocation() {
@@ -185,9 +185,9 @@ public class ConductivityTesterNode extends PhetPNode {
         negativeProbeNode.setOffset( x, y );
         
         // wire
-        Point2D p1 = new Point2D.Double( imageNode.getFullBoundsReference().getWidth() / 2, imageNode.getFullBoundsReference().getHeight() / 2 );
-        Point2D p2 = new Point2D.Double( x, y - tester.getProbeSizeReference().getHeight() );
-        negativeWireNode.setEndPoints( p1, p2 );
+        Point2D componentConnectionPoint = new Point2D.Double( imageNode.getFullBoundsReference().getWidth() / 2, imageNode.getFullBoundsReference().getHeight() / 2 );
+        Point2D probeConnectionPoint = new Point2D.Double( x, y - tester.getProbeSizeReference().getHeight() );
+        negativeWireNode.setEndPoints( componentConnectionPoint, probeConnectionPoint );
     }
     
     private void updateValue() {
@@ -218,19 +218,49 @@ public class ConductivityTesterNode extends PhetPNode {
         }
     }
     
-    private static class WireNode extends PPath {
-        
-        private final Line2D line;
-        
+    private static abstract class WireNode extends PPath {
+        private final int CONTROL_POINT_DY = 50;
+        private static final int CONTROL_POINT_DX = 50;
+
         public WireNode( Color color ) {
-            this.line = new Line2D.Double();
             setStroke( WIRE_STROKE );
             setStrokePaint( color );
         }
         
-        public void setEndPoints( Point2D p1, Point2D p2 ) {
-            line.setLine( p1, p2 );
-            setPathTo( line );
+        public void setEndPoints( Point2D componentConnectionPoint, Point2D probeConnectionPoint ) {
+            Point2D.Double ctrl1=new Point2D.Double(componentConnectionPoint.getX()+ getControlPointDX(),componentConnectionPoint.getY());
+            Point2D.Double ctrl2=new Point2D.Double(probeConnectionPoint.getX(),probeConnectionPoint.getY()+getControlPointDY());
+            CubicCurve2D.Double curve = new CubicCurve2D.Double(componentConnectionPoint.getX(), componentConnectionPoint.getY(), ctrl1.getX(),ctrl1.getY(),ctrl2.getX(),ctrl2.getY(),
+                    probeConnectionPoint.getX(), probeConnectionPoint.getY());
+            setPathTo( curve);
+        }
+
+        protected abstract double getControlPointDX();
+
+        public int getControlPointDY(){
+            return -CONTROL_POINT_DY;
+        }
+
+        private static class Right extends WireNode{
+
+            public Right(Color color) {
+                super(color);
+            }
+
+            @Override
+            protected double getControlPointDX() {
+                return CONTROL_POINT_DX;
+            }
+        }
+        private static class Left extends WireNode{
+            public Left(Color color) {
+                super(color);
+            }
+
+            @Override
+            protected double getControlPointDX() {
+                return -CONTROL_POINT_DX;
+            }
         }
     }
     
