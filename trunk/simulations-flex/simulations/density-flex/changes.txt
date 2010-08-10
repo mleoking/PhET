@@ -1,3 +1,4 @@
+Removed advanced tab
 Start sim in "Custom Object" mode
 Fixed: Exception when hiding custom object properties dialog
 Removed scale for custom object

@@ -22,24 +22,24 @@
                 <mx:Button label="Reset All" click="resetTab0()"/>
             </mx:Panel>
         </mx:Canvas>
-        <mx:Canvas label="Advanced" fontSize="12">
-            <mx:Canvas backgroundColor="0x000000" width="100%" height="100%"/>
-            <mx:Panel left="20" y="20" title="Toybox">
-                <view:ToyboxView width="400" height="125" id="toybox" densityView="{tab1}"/>
-            </mx:Panel>
-            <view:DensityViewFull width="100%" height="100%" id="tab1"/>
-            <mx:Panel left="20" bottom="20">
-                <mx:CheckBox id="gravityForceVectorCheckBox" label="Gravity Force" selected="true" change="tab1.setGravityForceVisible(gravityForceVectorCheckBox.selected)"/>
-                <mx:CheckBox id="buoyancyForceVectorCheckBox" label="Buoyancy Force" selected="true" change="tab1.setBuoyancyForceVisible(buoyancyForceVectorCheckBox.selected)"/>
-                <mx:CheckBox id="contactForceVectorCheckBox" label="Contact Force" selected="true" change="tab1.setContactForceVisible(contactForceVectorCheckBox.selected)"/>
-                <mx:CheckBox id="fluidDragForceVectorCheckBox" label="Fluid Drag Force" selected="true" change="tab1.setFluidDragForceVisible(fluidDragForceVectorCheckBox.selected)"/>
-            </mx:Panel>
-            <mx:HBox id="propertiesContentPanel" right="20" top="20">
-            </mx:HBox>
-            <mx:Panel right="10" bottom="10">
-                <mx:Button label="Reset All" click="resetTab1()"/>
-            </mx:Panel>
-        </mx:Canvas>
+        <!--<mx:Canvas label="Advanced" fontSize="12">-->
+            <!--<mx:Canvas backgroundColor="0x000000" width="100%" height="100%"/>-->
+            <!--<mx:Panel left="20" y="20" title="Toybox">-->
+                <!--<view:ToyboxView width="400" height="125" id="toybox" densityView="{tab1}"/>-->
+            <!--</mx:Panel>-->
+            <!--<view:DensityViewFull width="100%" height="100%" id="tab1"/>-->
+            <!--<mx:Panel left="20" bottom="20">-->
+                <!--<mx:CheckBox id="gravityForceVectorCheckBox" label="Gravity Force" selected="true" change="tab1.setGravityForceVisible(gravityForceVectorCheckBox.selected)"/>-->
+                <!--<mx:CheckBox id="buoyancyForceVectorCheckBox" label="Buoyancy Force" selected="true" change="tab1.setBuoyancyForceVisible(buoyancyForceVectorCheckBox.selected)"/>-->
+                <!--<mx:CheckBox id="contactForceVectorCheckBox" label="Contact Force" selected="true" change="tab1.setContactForceVisible(contactForceVectorCheckBox.selected)"/>-->
+                <!--<mx:CheckBox id="fluidDragForceVectorCheckBox" label="Fluid Drag Force" selected="true" change="tab1.setFluidDragForceVisible(fluidDragForceVectorCheckBox.selected)"/>-->
+            <!--</mx:Panel>-->
+            <!--<mx:HBox id="propertiesContentPanel" right="20" top="20">-->
+            <!--</mx:HBox>-->
+            <!--<mx:Panel right="10" bottom="10">-->
+                <!--<mx:Button label="Reset All" click="resetTab1()"/>-->
+            <!--</mx:Panel>-->
+        <!--</mx:Canvas>-->
     </mx:TabNavigator>
     <view:DebugText id="debug" height="100" x="0" y="0" text="" color="#FFFFFF" click="DebugText.clear();"/>
     <mx:Script><![CDATA[
@@ -56,8 +56,8 @@
         private var common:FlexCommon = new FlexCommon();
 
         private function getAllTabs():Array {
-            return new Array(tab0, tab1);
-            //            return new Array(tab0);
+//            return new Array(tab0, tab1);
+                        return new Array(tab0);
         }
 
         private function onApplicationComplete():void {
@@ -65,11 +65,11 @@
                 view.init();
                 view.pause();
             }
-            toybox.init();
+//            toybox.init();
             getAllTabs()[0].start();
-            var panel:PropertiesPanel = new SpherePropertiesPanel();
+//            var panel:PropertiesPanel = new SpherePropertiesPanel();
 
-            propertiesContentPanel.addChild(panel);
+//            propertiesContentPanel.addChild(panel);
 
             tab0.densityCanvas = densityCanvas;
             tab0.switchToCustomObject();
@@ -107,9 +107,9 @@
             tab0.reset();
         }
 
-        private function resetTab1():void {
-            tab1.reset();
-        }
+//        private function resetTab1():void {
+//            tab1.reset();
+//        }
 
         ]]></mx:Script>
 
