@@ -1,4 +1,5 @@
 # 0.00.19 (42894) Aug 10, 2010
+8/8/10 use black line for titled borders
 8/10/10 collaboration with Sam on conductivity tester: battery, bulb, cubic wires
 8/10/10 make the dipped color on the pH paper bleed up above the surface of the solution
 8/10/10 add "conductivity tester" feature to Custom Solution tab
@@ -12,7 +13,6 @@
 8/8/10 decided on a color key (delete ContinousColorKeyNode, rename DiscreteColorKeyNode to PHColorKeyNode)
 8/8/10 change pH color from strategy pattern to factory pattern
 8/8/10 add pH paper to Custom Solution tab
-8/8/10 use black line for titled borders
 8/8/10 remove color animation from PHPaper
 8/8/10 make SolutionRepresentation handle notification of concentration and strength changes
 8/9/10 use pH=7 for color of undipped pH paper
