@@ -365,12 +365,12 @@ public class BuildLocalProperties {
 
     private String getWebsiteProdUsername() {
         // separate for now, since tigercat is the other production server
-        return getRequiredString( "website.prod.username", "Website production (figaro) server user/ssh username" );
+        return getRequiredString( "website.prod.username", "Website production (figaro) server user/ssh username. Probably your identikey" );
     }
 
     private String getWebsiteProdPassword() {
         // separate for now, since tigercat is the other production server
-        return getRequiredString( "website.prod.password", "Website production (figaro) server user/ssh password" );
+        return getRequiredString( "website.prod.password", "Website production (figaro) server user/ssh password. Probably your identikey" );
     }
 
     private String getWebsiteProdManagerUsername() {
