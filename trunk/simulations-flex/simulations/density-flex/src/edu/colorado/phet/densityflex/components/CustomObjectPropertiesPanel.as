@@ -20,7 +20,6 @@ public class CustomObjectPropertiesPanel extends Panel {
         grid.addChild(new PropertyEditor(densityObject.getVolume()));
         grid.addChild(new DensityEditor(densityObject.getDensity()));
 
-        addChild(grid);
         const comboBox:ComboBox = new ComboBox();
         var values:Array = new Array();
         values.push("Syrofoam");
@@ -29,6 +28,8 @@ public class CustomObjectPropertiesPanel extends Panel {
         values.push("Custom");
         comboBox.dataProvider = values;
         addChild(comboBox);
+        
+        addChild(grid);
     }
 
 }
