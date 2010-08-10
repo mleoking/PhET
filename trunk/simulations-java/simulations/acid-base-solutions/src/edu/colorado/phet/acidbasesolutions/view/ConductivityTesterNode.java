@@ -4,6 +4,7 @@ package edu.colorado.phet.acidbasesolutions.view;
 
 import java.awt.*;
 import java.awt.geom.CubicCurve2D;
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
@@ -32,6 +33,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class ConductivityTesterNode extends PhetPNode {
     
+
     // general probe properties
     private static final Color PROBE_STROKE_COLOR = Color.BLACK;
     private static final Stroke PROBE_STROKE = new BasicStroke( 1f );
@@ -56,14 +58,21 @@ public class ConductivityTesterNode extends PhetPNode {
     // negative wire properties
     private static final Color NEGATIVE_WIRE_COLOR = NEGATIVE_PROBE_FILL_COLOR;
     
+    // connector wire, connects bulb and battery
+    private static final Color CONNECTOR_WIRE_COLOR = Color.BLACK;
+    private static final double COMPONENT_WIRE_LENGTH = 50;
+    
+    // light bulb
+    private static final double FRACTION_WIRE_ATTACH_ON_BULB = 0.12;
+    
     private final ConductivityTester tester;
     private final ProbeNode positiveProbeNode, negativeProbeNode;
     private final WireNode positiveWireNode, negativeWireNode;
     private final ValueNode valueNode;
     private final PImage batteryImageNode;
     private final PImage bulbImageNode;
-    private static final double COMPONENT_WIRE_LENGTH = 50;
-    private static final double FRACTION_WIRE_ATTACH_ON_BULB = 0.12;
+    
+
 
     public ConductivityTesterNode( final ConductivityTester tester ) {
         
@@ -140,19 +149,19 @@ public class ConductivityTesterNode extends PhetPNode {
         // negative wire
         negativeWireNode = new WireNode.Left( NEGATIVE_WIRE_COLOR );
         
-        //XXX circuit body
         batteryImageNode = new PImage( ABSImages.BATTERY );
         
         bulbImageNode = new PImage(ABSImages.LIGHT_BULB);
         bulbImageNode.setScale( 0.4 );
-        bulbImageNode.setOffset( -bulbImageNode.getFullBoundsReference().getWidth()/2, -bulbImageNode.getFullBoundsReference().getHeight() );
         
-        batteryImageNode.setOffset( bulbImageNode.getFullBoundsReference().getCenterX()+COMPONENT_WIRE_LENGTH, bulbImageNode.getFullBounds().getMaxY()-batteryImageNode.getFullBounds().getHeight()/2);
-        
+        PPath componentWireNode = new PPath( new Line2D.Double( 0, 0, COMPONENT_WIRE_LENGTH, 0 ) );
+        componentWireNode.setStroke( WIRE_STROKE );
+        componentWireNode.setStrokePaint( CONNECTOR_WIRE_COLOR );
+              
         // value
         valueNode = new ValueNode();
         double x = batteryImageNode.getFullBoundsReference().getMinX();
-        double y = batteryImageNode.getFullBoundsReference().getMinY() - valueNode.getFullBoundsReference().getHeight() - 2;
+        double y = batteryImageNode.getFullBoundsReference().getMinY() - valueNode.getFullBoundsReference().getHeight() + 60;
         valueNode.setOffset( x, y );
         
         // rendering order
@@ -160,12 +169,16 @@ public class ConductivityTesterNode extends PhetPNode {
         addChild( negativeWireNode );
         addChild( positiveProbeNode );
         addChild( negativeProbeNode );
+        addChild( componentWireNode );
         addChild( bulbImageNode );
         addChild( batteryImageNode );
         addChild( valueNode );
         
         // layout 
         //XXX mvt needed here?
+        bulbImageNode.setOffset( -bulbImageNode.getFullBoundsReference().getWidth() / 2, -bulbImageNode.getFullBoundsReference().getHeight() );
+        batteryImageNode.setOffset( bulbImageNode.getFullBoundsReference().getCenterX() + COMPONENT_WIRE_LENGTH, bulbImageNode.getFullBounds().getMaxY() - batteryImageNode.getFullBounds().getHeight() / 2 );
+        componentWireNode.setOffset( bulbImageNode.getFullBoundsReference().getCenterX(), bulbImageNode.getFullBoundsReference().getMaxY() );
         setOffset( tester.getLocationReference() );
         updatePositiveProbeLocation();
         updateNegativeProbeLocation();
