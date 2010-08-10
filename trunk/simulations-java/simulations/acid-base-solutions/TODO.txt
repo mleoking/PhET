@@ -3,6 +3,11 @@ TODO list for acid-base-solutions
 MILESTONES
 
 HIGH PRIORITY
+- use molecule color for "negligible" in Concentration Graph
+- gray out View controls when "Conductivity Tester" tool is selected
+- add symbols and icons after Solution choice names in "Test Solution" tab
+- center whitespace ofd chart in beaker
+- try to make symbols in reaction equations line up with bars in concentration graph
 - light rays in conductivity tester
 - handle probe locations better in conductivity tester
 - allow pH paper to be dragged horizontally, so it can be held up to color key (issues with dragging through side of beaker)
@@ -13,7 +18,6 @@ HIGH PRIORITY
 MEDUIUM PRIORITY
 - not obvious what "Show H2O Molecules" check box pertains to
 - label x-axis of concentration graph? SR didn't see correlation to reaction equation
-- Save/Load?
 
 LOW PRIORITY
 - control panel layout issues, left justification
