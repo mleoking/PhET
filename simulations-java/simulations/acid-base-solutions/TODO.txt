@@ -3,27 +3,26 @@ TODO list for acid-base-solutions
 MILESTONES
 
 HIGH PRIORITY
+- replace A- icon with older version from advanced-acid-base-solutions that has no "bite" out of it
 - use molecule color for "negligible" in Concentration Graph
 - gray out View controls when "Conductivity Tester" tool is selected
+- put "Show H2O Molecules" check box under "Magnifying Glass" radio button, slightly indented
 - add symbols and icons after Solution choice names in "Test Solution" tab
-- center whitespace ofd chart in beaker
+- center whitespace of chart in beaker
 - try to make symbols in reaction equations line up with bars in concentration graph
 - light rays in conductivity tester
 - handle probe locations better in conductivity tester
+- icons for tool controls 
 - allow pH paper to be dragged horizontally, so it can be held up to color key (issues with dragging through side of beaker)
 - add MVT to handle relationship between model element locations and PNode locations
 - fix resize behavior of main frame, nodes below the beaker are not visible if main frame is resized wider 
 - bottom-center everything in the play area
 
 MEDUIUM PRIORITY
-- not obvious what "Show H2O Molecules" check box pertains to
-- label x-axis of concentration graph? SR didn't see correlation to reaction equation
 
 LOW PRIORITY
-- control panel layout issues, left justification
+- left justify controls in control panels?
 - use SolutionFactory in TestSolutionControl
-- icons for tool controls 
-- better images for molecules (no bite out of A-)
 - export design doc from Google, check into SVN
 - model.txt
 
