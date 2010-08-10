@@ -37,8 +37,12 @@ public class ConductivityTester extends SolutionRepresentation {
     }
     
     public void setPositiveProbeLocation( Point2D p ) {
-        if ( !p.equals( positiveProbeLocation ) ) {
-            positiveProbeLocation.setLocation( p.getX(), constrainY( p.getY() ) );
+        setPositiveProbeLocation( p.getX(), p.getY() );
+    }
+    
+    public void setPositiveProbeLocation( double x, double y ) {
+        if ( x != positiveProbeLocation.getX() || y != positiveProbeLocation.getY() ) {
+            positiveProbeLocation.setLocation( x, constrainY( y ) );
             firePositiveProbeLocationChanged();
         }
     }
@@ -48,8 +52,12 @@ public class ConductivityTester extends SolutionRepresentation {
     }
     
     public void setNegativeProbeLocation( Point2D p ) {
-        if ( !p.equals( negativeProbeLocation ) ) {
-            negativeProbeLocation.setLocation( p.getX(), constrainY( p.getY() ) );
+        setNegativeProbeLocation( p.getX(), p.getY() );
+    }
+    
+    public void setNegativeProbeLocation( double x, double y ) {
+        if ( x != negativeProbeLocation.getX() || y != negativeProbeLocation.getY() ) {
+            negativeProbeLocation.setLocation( x, constrainY( y ) );
             fireNegativeProbeLocationChanged();
         }
     }
@@ -62,8 +70,8 @@ public class ConductivityTester extends SolutionRepresentation {
      * Constraints a y coordinate to be in or slightly above the solution.
      */
     private double constrainY( double requestedY ) {
-        double min = beaker.getLocationReference().getY() - beaker.getHeight() - probeSize.getHeight() - 20;
-        double max = beaker.getLocationReference().getY() - probeSize.getHeight() - 20;
+        double min = beaker.getLocationReference().getY() - beaker.getHeight() - 50;
+        double max = beaker.getLocationReference().getY() - 20;
         double y = requestedY;
         if ( y < min ) {
             y = min;
