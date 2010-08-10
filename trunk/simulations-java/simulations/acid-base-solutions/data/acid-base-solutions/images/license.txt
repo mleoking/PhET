@@ -1,2 +1,4 @@
 arrow_double.png source=PhET
 arrow_single.png source=PhET
+battery.png source=PhET notes=reused from faraday
+lightbulb.png source=PhET notes=reused from faraday
