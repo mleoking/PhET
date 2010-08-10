@@ -2,7 +2,7 @@ package edu.colorado.phet.buildtools;
 
 import javax.swing.*;
 
-public abstract class PhetServer {
+public abstract class OldPhetServer {
     /* Dano on Feb 2, 2009
      * Consolidated many of the hardcoded strings to make it easier to change
      * the deploy destinations.
@@ -20,7 +20,7 @@ public abstract class PhetServer {
      *   Ex:  Yes: "/web/htdocs/phet"
      *        No:  "/web/htdocs/phet/"
      */
-    public static PhetServer DEVELOPMENT =
+    public static OldPhetServer DEVELOPMENT =
             new PhetDevServer(
                     "spot.colorado.edu", // Server host
                     "www.colorado.edu",  // Web host
@@ -33,7 +33,7 @@ public abstract class PhetServer {
                     null
             );
 
-    public static PhetServer PRODUCTION =
+    public static OldPhetServer PRODUCTION =
             new PhetProdServer(
                     "tigercat.colorado.edu", // Server host
                     "phet.colorado.edu",  // Web host
@@ -45,7 +45,7 @@ public abstract class PhetServer {
                     "/web/htdocs/phet/phet-dist/build-tools-config/build-local.properties",
                     "/web/chroot/phet/usr/local/apache/htdocs/staging/sims"
             );
-    public static PhetServer FIGARO = new PhetProdServer(
+    public static OldPhetServer FIGARO = new PhetProdServer(
             "figaro.colorado.edu",
             "phetsims.colorado.edu",
             "/data/web/htdocs/phetsims/staging/sims",
@@ -57,7 +57,7 @@ public abstract class PhetServer {
             "/data/web/htdocs/phetsims/staging/sims"
     );
     /* Dano's test machine
-    public static PhetServer DEVELOPMENT = 
+    public static OldPhetServer DEVELOPMENT =
         new PhetDevServer( 
                 "192.168.42.102", // Server host
                 "192.168.42.102:80",  // Web host
@@ -68,7 +68,7 @@ public abstract class PhetServer {
                 null, // Localization generation command
 		"/var/www/dev/phet/phet-dist/build-tools-config/build-local.properties" // build-local.properties file on server
             );
-    public static PhetServer PRODUCTION =
+    public static OldPhetServer PRODUCTION =
         new PhetProdServer(
                 "192.168.42.102", // Server host
                 "192.168.42.102:80",  // Web host
@@ -93,7 +93,7 @@ public abstract class PhetServer {
     private String stagingArea;
     public static boolean showReminder = true;
 
-    public PhetServer( String serverHost, String webHost, String serverDeployPath, String webDeployPath, String cacheClearUrl, String cacheClearFile, String localizationCommand, boolean developmentServer, String buildLocalPropertiesFile, String stagingArea ) {
+    public OldPhetServer( String serverHost, String webHost, String serverDeployPath, String webDeployPath, String cacheClearUrl, String cacheClearFile, String localizationCommand, boolean developmentServer, String buildLocalPropertiesFile, String stagingArea ) {
         this.serverHost = serverHost;
         this.webHost = webHost;
         this.serverDeployPath = serverDeployPath;
@@ -163,7 +163,7 @@ public abstract class PhetServer {
         return stagingArea;
     }
 
-    private static class PhetDevServer extends PhetServer {
+    private static class PhetDevServer extends OldPhetServer {
         public PhetDevServer( String serverHost, String webHost, String serverDeployPath, String webDeployPath, String cacheClearUrl, String cacheClearFile, String localizationCommand, String buildLocalPropertiesFile, String stagingArea ) {
             super( serverHost, webHost, serverDeployPath, webDeployPath, cacheClearUrl, cacheClearFile, localizationCommand, true, buildLocalPropertiesFile, stagingArea );
         }
@@ -181,7 +181,7 @@ public abstract class PhetServer {
         }
     }
 
-    private static class PhetProdServer extends PhetServer {
+    private static class PhetProdServer extends OldPhetServer {
         public PhetProdServer( String serverHost, String webHost, String serverDeployPath, String webDeployPath, String cacheClearUrl, String cacheClearFile, String localizationCommand, String buildLocalPropertiesFile, String stagingArea ) {
             super( serverHost, webHost, serverDeployPath, webDeployPath, cacheClearUrl, cacheClearFile, localizationCommand, false, buildLocalPropertiesFile, stagingArea );
         }
@@ -211,7 +211,7 @@ public abstract class PhetServer {
 
         public void deployFinished() {
             super.deployFinished();
-            if ( PhetServer.showReminder ) {
+            if ( OldPhetServer.showReminder ) {
                 JOptionPane.showMessageDialog( null, "Reminder:\n" +
                                                      "Document this release in trunk/web/website/about/changes.txt.\n" +
                                                      "Copy to tigercat:/web/htdocs/phet/about/changes.txt." );

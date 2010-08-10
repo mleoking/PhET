@@ -10,7 +10,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.buildtools.PhetProject;
-import edu.colorado.phet.buildtools.PhetServer;
+import edu.colorado.phet.buildtools.OldPhetServer;
 import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 
 /**
@@ -89,10 +89,10 @@ public class PhetBuildGUI {
         frame.setVisible( true );
     }
 
-    public static boolean confirmProdDeploy( PhetProject project, PhetServer server ) {
+    public static boolean confirmProdDeploy( PhetProject project, OldPhetServer server ) {
         String message = "<html>" +
                          "Are you sure you want to deploy <font color=red>" + project.getName() + "</font> to " + "<br>" +
-                         PhetServer.PRODUCTION.getHost() + " and " + PhetServer.DEVELOPMENT.getHost() + "?" + "<br>" +
+                         OldPhetServer.PRODUCTION.getHost() + " and " + OldPhetServer.DEVELOPMENT.getHost() + "?" + "<br>" +
                          "<br>" +
                          "(And is your <font color=red>VPN</font> connection running?)" +
                          "</html>";

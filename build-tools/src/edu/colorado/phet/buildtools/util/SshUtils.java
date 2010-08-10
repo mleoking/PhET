@@ -8,11 +8,36 @@ import org.rev6.scf.SshConnection;
 import org.rev6.scf.SshException;
 
 import edu.colorado.phet.buildtools.AuthenticationInfo;
+import edu.colorado.phet.buildtools.BuildLocalProperties;
+import edu.colorado.phet.buildtools.PhetWebsite;
 
 /**
  * Commands to make executing SSH commands with exit code checking and output easy
  */
 public class SshUtils {
+    /**
+     * Opens a SSH connection to the website, and executes the specified command
+     *
+     * @param command The command to execute
+     * @param website The website to execute the command on
+     * @return Success (whether the command was executed successfully)
+     */
+    public static boolean executeCommand( PhetWebsite website, String command ) {
+        return executeCommands( new String[]{command}, website.getServerHost(), website.getServerAuthenticationInfo( BuildLocalProperties.getInstance() ) );
+    }
+
+    /**
+     * Opens a SSH connection to the server, and executes the specified commands in order until either one fails or all
+     * of them have been executed
+     *
+     * @param commands The array of commands to be executed
+     * @param website  The website to execute the commands on
+     * @return Success (whether all of the commands were run successfully)
+     */
+    public static boolean executeCommands( PhetWebsite website, String[] commands ) {
+        return executeCommands( commands, website.getServerHost(), website.getServerAuthenticationInfo( BuildLocalProperties.getInstance() ) );
+    }
+
     /**
      * Opens a SSH connection to the server, and executes the specified command
      *

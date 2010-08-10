@@ -6,7 +6,6 @@ import java.util.Date;
 
 import edu.colorado.phet.buildtools.AuthenticationInfo;
 import edu.colorado.phet.buildtools.BuildLocalProperties;
-import edu.colorado.phet.buildtools.PhetServer;
 import edu.colorado.phet.buildtools.PhetWebsite;
 import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.buildtools.util.ScpTo;

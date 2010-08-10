@@ -105,20 +105,13 @@ public class BuildToolsPaths {
     //----------------------------------------------------------------------------
 
     // TODO: refactor these into PhetProductionServer ?
-
+    // TODO: remove this
     public static final String TIGERCAT_HTDOCS = "/web/chroot/phet/usr/local/apache/htdocs";
 
-    public static final String TIGERCAT_SIMS_DIR = TIGERCAT_HTDOCS + "/sims";
-
-    public static final String TIGERCAT_RESOURCES_TEMP_DIR = TIGERCAT_SIMS_DIR + "/resources";
-    public static final String TIGERCAT_TRANSLATIONS_TEMP_DIR = TIGERCAT_SIMS_DIR + "/translations";
-
-    public static final String TIGERCAT_STAGING_SWAP_SCRIPT = TIGERCAT_HTDOCS + "/cl_utils/swap-staged-sim.sh";
-
-    public static final String BUILD_TOOLS_PROD_SERVER_DEPLOY_PATH = TIGERCAT_HTDOCS + "/phet-dist/build-tools";
-    public static final String PHET_UPDATER_PROD_SERVER_DEPLOY_PATH = TIGERCAT_HTDOCS + "/phet-dist/phet-updater";
-    public static final String TRANSLATION_UTILITY_PROD_SERVER_DEPLOY_PATH = TIGERCAT_HTDOCS + "/phet-dist/translation-utility";
-    public static final String TIMESHEET_PROD_SERVER_DEPLOY_PATH = TIGERCAT_HTDOCS + "/phet-dist/timesheet";
+    public static final String BUILD_TOOLS_PROD_SERVER_DEPLOY_PATH = "/files/build-tools";
+    public static final String PHET_UPDATER_PROD_SERVER_DEPLOY_PATH = "/files/phet-updater";
+    public static final String TRANSLATION_UTILITY_PROD_SERVER_DEPLOY_PATH = "/files/translation-utility";
+    public static final String TIMESHEET_PROD_SERVER_DEPLOY_PATH = "/files/timesheet";
 
 
     //----------------------------------------------------------------------------

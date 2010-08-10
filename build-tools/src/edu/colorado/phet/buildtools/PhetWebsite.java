@@ -99,19 +99,27 @@ public abstract class PhetWebsite {
         return "http://" + getWebHost();
     }
 
-    public String getStagingPath() {
+    public String getRootStagingPath() {
         return getDocumentRoot() + "/staging";
+    }
+
+    /**
+     * @return The server-side path to the staging directory for simulations. Simulation files are uploaded here, and
+     *         later moved over into the main sims directory
+     */
+    public String getSimsStagingPath() {
+        return getRootStagingPath() + "/sims";
     }
 
     /**
      * @return The server side translations staging path
      */
     public String getTranslationStagingPath() {
-        return getStagingPath() + "/translations";
+        return getRootStagingPath() + "/translations";
     }
 
     public String getResourceStagingPath() {
-        return getStagingPath() + "/resources";
+        return getRootStagingPath() + "/resources";
     }
 
     /*---------------------------------------------------------------------------*
