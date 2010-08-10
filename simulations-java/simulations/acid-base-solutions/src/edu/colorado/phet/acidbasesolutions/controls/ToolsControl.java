@@ -33,9 +33,9 @@ public class ToolsControl extends JPanel {
     private static final Color SEPARATOR_COLOR = new Color( 150, 150, 150 );
 
     private final ABSModel model;
-    private final JRadioButton pHPaperRadioButton, conductivityTesterRadioButton;
+    private final JRadioButton pHMeterRadioButton, pHPaperRadioButton, conductivityTesterRadioButton;
     private final JRadioButton magnifyingGlassRadioButton, concentrationGraphRadioButton;
-    private final JCheckBox pHMeterCheckBox, showWaterCheckBox;
+    private final JCheckBox showWaterCheckBox;
     
     public ToolsControl( final ABSModel model ) {
         
@@ -67,14 +67,11 @@ public class ToolsControl extends JPanel {
         
         // radio buttons
         ButtonGroup group = new ButtonGroup();
+        pHMeterRadioButton = new ABSRadioButton( ABSStrings.PH_METER, group, actionListener );
         pHPaperRadioButton = new ABSRadioButton( ABSStrings.PH_PAPER, group, actionListener );
         conductivityTesterRadioButton = new ABSRadioButton( ABSStrings.CONDUCTIVITY_TESTER, group, actionListener );
         magnifyingGlassRadioButton = new ABSRadioButton( ABSStrings.MAGNIFYING_GLASS, group, actionListener );
         concentrationGraphRadioButton = new ABSRadioButton( ABSStrings.CONCENTRATION_GRAPH, group, actionListener );
-        
-        // pH Meter check box
-        pHMeterCheckBox = new JCheckBox( ABSStrings.PH_METER );
-        pHMeterCheckBox.addActionListener( actionListener );
         
         // "Show Water" check box
         WaterMolecule waterMolecule = new WaterMolecule();
@@ -87,6 +84,7 @@ public class ToolsControl extends JPanel {
         setLayout( layout );
         int row = 0;
         int column = 0;
+        layout.addComponent( pHMeterRadioButton, row++, column );
         layout.addComponent( pHPaperRadioButton, row++, column );
         layout.addComponent( conductivityTesterRadioButton, row++, column );
         layout.addComponent( magnifyingGlassRadioButton, row++, column );
@@ -94,7 +92,6 @@ public class ToolsControl extends JPanel {
         JSeparator separator = new JSeparator();
         separator.setForeground( SEPARATOR_COLOR );
         layout.addFilledComponent( separator, row++, column, GridBagConstraints.HORIZONTAL );
-        layout.addComponent( pHMeterCheckBox, row++, column );
         layout.addComponent( showWaterCheckBox, row++, column );
         
         // default state
@@ -110,7 +107,7 @@ public class ToolsControl extends JPanel {
     }
     
     private void updateControl() {
-        pHMeterCheckBox.setSelected( model.getPHMeter().isVisible() );
+        pHMeterRadioButton.setSelected( model.getPHMeter().isVisible() );
         pHPaperRadioButton.setSelected( model.getPHPaper().isVisible() );
         conductivityTesterRadioButton.setSelected( model.getConductivityTester().isVisible() );
         magnifyingGlassRadioButton.setSelected( model.getMagnifyingGlass().isVisible() );
@@ -119,7 +116,7 @@ public class ToolsControl extends JPanel {
     }
     
     private void updateModel() {
-        model.getPHMeter().setVisible( pHMeterCheckBox.isSelected() );
+        model.getPHMeter().setVisible( pHMeterRadioButton.isSelected() );
         model.getPHPaper().setVisible( pHPaperRadioButton.isSelected() );
         model.getConductivityTester().setVisible( conductivityTesterRadioButton.isSelected() );
         model.getMagnifyingGlass().setVisible( magnifyingGlassRadioButton.isSelected() );

@@ -65,16 +65,16 @@ public class ABSConstants {
     public static final Point2D REACTION_EQUATION_LOCATION = new Point2D.Double( BEAKER_LOCATION.getX(), BEAKER_LOCATION.getY() + 10 ); // top center
     
     public static final PDimension PH_PAPER_SIZE = new PDimension( 30, 220 );
-    public static final Point2D PH_PAPER_LOCATION = new Point2D.Double( BEAKER_LOCATION.getX(), BEAKER_LOCATION.getY() - BEAKER_SIZE.getHeight() - PH_PAPER_SIZE.getHeight() - 15 );
+    public static final Point2D PH_PAPER_LOCATION = new Point2D.Double( BEAKER_LOCATION.getX() + 170, BEAKER_LOCATION.getY() - BEAKER_SIZE.getHeight() - PH_PAPER_SIZE.getHeight() - 15 );
     public static final boolean PH_PAPER_VISIBLE = false;
     
-    public static final Point2D PH_COLOR_KEY_LOCATION = new Point2D.Double( 20, 20 );
     public static final PDimension PH_COLOR_KEY_SIZE = new PDimension( 350, 50 );
+    public static final Point2D PH_COLOR_KEY_LOCATION = new Point2D.Double( BEAKER_LOCATION.getX() - ( BEAKER_SIZE.getWidth() / 2 ) + 50, 20 );
     
     public static final PDimension CONDUCTIVITY_TESTER_PROBE_SIZE = new PDimension( 30, 100 );
-    public static final Point2D CONDUCTIVITY_TESTER_LOCATION = new Point2D.Double( BEAKER_LOCATION.getX() - 100, BEAKER_LOCATION.getY() - BEAKER_SIZE.getHeight() - 150 ); //XXX
-    public static final Point2D CONDUCTIVITY_TESTER_POSITIVE_PROBE_LOCATION = new Point2D.Double( CONDUCTIVITY_TESTER_LOCATION.getX() + 210, CONDUCTIVITY_TESTER_LOCATION.getY() + 135 ); //XXX
-    public static final Point2D CONDUCTIVITY_TESTER_NEGATIVE_PROBE_LOCATION = new Point2D.Double( CONDUCTIVITY_TESTER_LOCATION.getX() - 75, CONDUCTIVITY_TESTER_LOCATION.getY() + 135 ); //XXX
+    public static final Point2D CONDUCTIVITY_TESTER_LOCATION = new Point2D.Double( BEAKER_LOCATION.getX() - 70, BEAKER_LOCATION.getY() - BEAKER_SIZE.getHeight() - 110 ); //XXX
+    public static final Point2D CONDUCTIVITY_TESTER_POSITIVE_PROBE_LOCATION = new Point2D.Double( CONDUCTIVITY_TESTER_LOCATION.getX() + 210, CONDUCTIVITY_TESTER_LOCATION.getY() + 95 ); //XXX
+    public static final Point2D CONDUCTIVITY_TESTER_NEGATIVE_PROBE_LOCATION = new Point2D.Double( CONDUCTIVITY_TESTER_LOCATION.getX() - 75, CONDUCTIVITY_TESTER_LOCATION.getY() + 95 ); //XXX
     public static final boolean CONDUCTIVITY_TESTER_VISIBLE = false;
     
     public static final double WATER_CONCENTRATION = 55.6; // water concentration when it's used as a solvent, mol/L
