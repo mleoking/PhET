@@ -1,3 +1,4 @@
+8/11/10 add symbols and icons after Solution choice names in "Test Solution" tab
 8/11/10 Tools -> Tests, View -> Views
 8/11/10 display model brightness value for conductivity tester in dev version only
 8/11/10 pass dev flag from application to view components

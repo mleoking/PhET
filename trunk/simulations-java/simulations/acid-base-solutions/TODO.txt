@@ -6,7 +6,6 @@ HIGH PRIORITY
 - use molecule color for "negligible" in Concentration Graph
 - gray out View controls when "Conductivity Tester" tool is selected
 - put "Show H2O Molecules" check box under "Magnifying Glass" radio button, slightly indented
-- add symbols and icons after Solution choice names in "Test Solution" tab
 - center whitespace of chart in beaker
 - try to make symbols in reaction equations line up with bars in concentration graph
 - light rays in conductivity tester

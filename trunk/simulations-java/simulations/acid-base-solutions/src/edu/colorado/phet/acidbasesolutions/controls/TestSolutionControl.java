@@ -2,26 +2,34 @@
 
 package edu.colorado.phet.acidbasesolutions.controls;
 
+import java.awt.Image;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.MessageFormat;
 
-import javax.swing.ButtonGroup;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
+import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
+import edu.colorado.phet.acidbasesolutions.constants.ABSImages;
 import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
+import edu.colorado.phet.acidbasesolutions.model.Molecule;
 import edu.colorado.phet.acidbasesolutions.model.PureWaterSolution;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel.ModelChangeListener;
+import edu.colorado.phet.acidbasesolutions.model.Molecule.GenericAcidMolecule;
+import edu.colorado.phet.acidbasesolutions.model.Molecule.GenericStrongBaseMolecule;
+import edu.colorado.phet.acidbasesolutions.model.Molecule.GenericWeakBaseMolecule;
+import edu.colorado.phet.acidbasesolutions.model.Molecule.WaterMolecule;
 import edu.colorado.phet.acidbasesolutions.model.StrongAcidSolution.TestStrongAcidSolution;
 import edu.colorado.phet.acidbasesolutions.model.StrongBaseSolution.TestStrongBaseSolution;
 import edu.colorado.phet.acidbasesolutions.model.WeakAcidSolution.TestWeakAcidSolution;
 import edu.colorado.phet.acidbasesolutions.model.WeakBaseSolution.TestWeakBaseSolution;
-import edu.colorado.phet.acidbasesolutions.view.ABSRadioButton;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
+import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
+import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
  * Control used to select a "test" solution.
@@ -29,6 +37,8 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class TestSolutionControl extends JPanel {
+    
+    private static final double MOLECULE_ICON_SCALE = 0.75;
     
     private final ABSModel model;
     private final JRadioButton waterRadioButton;
@@ -60,25 +70,42 @@ public class TestSolutionControl extends JPanel {
                 updateModel();
             }
         };
-        waterRadioButton = new ABSRadioButton( ABSStrings.WATER, buttonGroup, actionListener );
-        strongAcidRadioButton = new ABSRadioButton( ABSStrings.STRONG_ACID, buttonGroup, actionListener );
-        weakAcidRadioButton = new ABSRadioButton( ABSStrings.WEAK_ACID, buttonGroup, actionListener );
-        strongBaseRadioButton = new ABSRadioButton( ABSStrings.STRONG_BASE, buttonGroup, actionListener );
-        weakBaseRadioButton = new ABSRadioButton( ABSStrings.WEAK_BASE, buttonGroup, actionListener );
+        waterRadioButton = new SolutionRadioButton( ABSStrings.WATER, new WaterMolecule(), buttonGroup, actionListener );
+        strongAcidRadioButton = new SolutionRadioButton( ABSStrings.STRONG_ACID, new GenericAcidMolecule(), buttonGroup, actionListener );
+        weakAcidRadioButton = new SolutionRadioButton( ABSStrings.WEAK_ACID, new GenericAcidMolecule(), buttonGroup, actionListener );
+        strongBaseRadioButton = new SolutionRadioButton( ABSStrings.STRONG_BASE, new GenericStrongBaseMolecule(), buttonGroup, actionListener );
+        weakBaseRadioButton = new SolutionRadioButton( ABSStrings.WEAK_BASE, new GenericWeakBaseMolecule(), buttonGroup, actionListener );
         
         // layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         setLayout( layout );
+        layout.setInsets( new Insets( 4, 0, 4, 0 ) );
         int row = 0;
         int column = 0;
-        layout.addComponent( waterRadioButton, row++, column );
-        layout.addComponent( strongAcidRadioButton, row++, column );
-        layout.addComponent( weakAcidRadioButton, row++, column );
-        layout.addComponent( strongBaseRadioButton, row++, column );
-        layout.addComponent( weakBaseRadioButton, row++, column );
+        layout.addComponent( waterRadioButton, row, column++ );
+        layout.addComponent( getMoleculeIconLabel( ABSImages.H2O_MOLECULE ), row++, column );
+        column = 0;
+        layout.addComponent( strongAcidRadioButton, row, column++ );
+        layout.addComponent( getMoleculeIconLabel( ABSImages.HA_MOLECULE ), row++, column );
+        column = 0;
+        layout.addComponent( weakAcidRadioButton, row, column++ );
+        layout.addComponent( getMoleculeIconLabel( ABSImages.HA_MOLECULE ), row++, column );
+        column = 0;
+        layout.addComponent( strongBaseRadioButton, row, column++ );
+        layout.addComponent( getMoleculeIconLabel( ABSImages.MOH_MOLECULE ), row++, column );
+        column = 0;
+        layout.addComponent( weakBaseRadioButton, row, column++ );
+        layout.addComponent( getMoleculeIconLabel( ABSImages.B_MOLECULE ), row++, column );
         
         // default state
         updateControl();
+    }
+    
+    private JLabel getMoleculeIconLabel( Image image ) {
+        PImage imageNode = new PImage( image );
+        imageNode.scale( MOLECULE_ICON_SCALE );
+        Image scaledImage = imageNode.toImage();
+        return new JLabel( new ImageIcon( scaledImage ) );
     }
     
     /*
@@ -128,5 +155,17 @@ public class TestSolutionControl extends JPanel {
         else {
             throw new IllegalStateException( "illegal state, no radio button selected" );
         }
+    }
+    
+    private static class SolutionRadioButton extends JRadioButton {
+
+        public SolutionRadioButton( String label,  Molecule molecule, ButtonGroup group, ActionListener listener ) {
+            String s = MessageFormat.format( ABSStrings.PATTERN_SOLUTION_SYMBOL, label, molecule.getSymbol() );
+            String html = HTMLUtils.toHTMLString( s );
+            setText( html );
+            group.add( this );
+            addActionListener( listener );
+        }
+
     }
 }
