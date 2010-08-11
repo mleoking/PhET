@@ -1,3 +1,4 @@
+8/11/10 make light bulb and battery larger, adjust control points on probe wires
 8/11/10 allow pH paper to be dragged horizontally, so it can be held up to color key
 8/11/10 remove black outline on pH paper, so it's easier to compare to color key
 8/11/10 gray out View controls when "Conductivity Tester" tool is selected

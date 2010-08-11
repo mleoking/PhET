@@ -3,6 +3,7 @@ TODO list for acid-base-solutions
 MILESTONES
 
 HIGH PRIORITY
+- redo battery image file, it's being scaled up
 - use molecule color for "negligible" in Concentration Graph
 - center whitespace of chart in beaker
 - try to make symbols in reaction equations line up with bars in concentration graph
