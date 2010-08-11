@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.nuclearphysics.dialog;
 
+import java.awt.ComponentOrientation;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
@@ -18,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
@@ -60,10 +62,16 @@ public class ReactorPictureDialog extends PaintImmediateDialog {
         JTextArea text = new JTextArea( NuclearPhysicsStrings.REACTOR_PICTURE_CAPTION );
         text.setFont( CAPTION_FONT );
         text.setColumns( 30 );
-        text.setLineWrap( true );
-        text.setWrapStyleWord( true );
         text.setEditable( false );
         text.setOpaque( false );
+        
+        // Workaround for issue where line wrapping doesn't seem to work
+        // correctly for right-to-left languages, see Unfuddle #2448 for more
+        // information.
+        if (ComponentOrientation.getOrientation(PhetResources.readLocale()).isLeftToRight()){ 
+            text.setLineWrap( true );
+            text.setWrapStyleWord( true );
+        }
         
         // close button
         JButton closeButton = new JButton("Close");
