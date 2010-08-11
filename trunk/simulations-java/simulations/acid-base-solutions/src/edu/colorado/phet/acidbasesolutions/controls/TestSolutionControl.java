@@ -54,27 +54,48 @@ public class TestSolutionControl extends JPanel {
         setBorder( titledBorder );
         
         // model
-        this.model = model;
-        this.model.addModelChangeListener( new ModelChangeListener() {
-            public void solutionChanged() {
-                // when the model changes, update this control
-                updateControl();
-            }
-        } );
+        {
+            this.model = model;
+            
+            this.model.addModelChangeListener( new ModelChangeListener() {
+                public void solutionChanged() {
+                    // when the model changes, update this control
+                    updateControl();
+                }
+            } );
+        }
         
         // radio buttons
-        ButtonGroup buttonGroup = new ButtonGroup();
-        ActionListener actionListener = new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                // when a radio button is pressed, update the model
-                updateModel();
-            }
-        };
-        waterRadioButton = new SolutionRadioButton( ABSStrings.WATER, new WaterMolecule(), buttonGroup, actionListener );
-        strongAcidRadioButton = new SolutionRadioButton( ABSStrings.STRONG_ACID, new GenericAcidMolecule(), buttonGroup, actionListener );
-        weakAcidRadioButton = new SolutionRadioButton( ABSStrings.WEAK_ACID, new GenericAcidMolecule(), buttonGroup, actionListener );
-        strongBaseRadioButton = new SolutionRadioButton( ABSStrings.STRONG_BASE, new GenericStrongBaseMolecule(), buttonGroup, actionListener );
-        weakBaseRadioButton = new SolutionRadioButton( ABSStrings.WEAK_BASE, new GenericWeakBaseMolecule(), buttonGroup, actionListener );
+        {
+            ActionListener actionListener = new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    // when a radio button is pressed, update the model
+                    updateModel();
+                }
+            };
+            
+            waterRadioButton = new SolutionRadioButton( ABSStrings.WATER, new WaterMolecule() );
+            waterRadioButton.addActionListener( actionListener );
+            
+            strongAcidRadioButton = new SolutionRadioButton( ABSStrings.STRONG_ACID, new GenericAcidMolecule() );
+            strongAcidRadioButton.addActionListener( actionListener );
+            
+            weakAcidRadioButton = new SolutionRadioButton( ABSStrings.WEAK_ACID, new GenericAcidMolecule() );
+            weakAcidRadioButton.addActionListener( actionListener );
+            
+            strongBaseRadioButton = new SolutionRadioButton( ABSStrings.STRONG_BASE, new GenericStrongBaseMolecule() );
+            strongBaseRadioButton.addActionListener( actionListener );
+            
+            weakBaseRadioButton = new SolutionRadioButton( ABSStrings.WEAK_BASE, new GenericWeakBaseMolecule() );
+            weakBaseRadioButton.addActionListener( actionListener );
+            
+            ButtonGroup group = new ButtonGroup();
+            group.add( waterRadioButton );
+            group.add( strongAcidRadioButton );
+            group.add( weakAcidRadioButton );
+            group.add( strongBaseRadioButton );
+            group.add( weakBaseRadioButton );
+        }
         
         // layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
@@ -157,15 +178,14 @@ public class TestSolutionControl extends JPanel {
         }
     }
     
+    /*
+     * Radio button with a label, symbol and molecule icon.
+     */
     private static class SolutionRadioButton extends JRadioButton {
-
-        public SolutionRadioButton( String label,  Molecule molecule, ButtonGroup group, ActionListener listener ) {
+        public SolutionRadioButton( String label, Molecule molecule ) {
             String s = MessageFormat.format( ABSStrings.PATTERN_SOLUTION_SYMBOL, label, molecule.getSymbol() );
             String html = HTMLUtils.toHTMLString( s );
             setText( html );
-            group.add( this );
-            addActionListener( listener );
         }
-
     }
 }
