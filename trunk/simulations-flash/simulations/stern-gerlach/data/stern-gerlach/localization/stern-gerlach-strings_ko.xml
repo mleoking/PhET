@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--stern-gerlach-strings_ko.xml created Sat Aug 07 17:04:39 KST 2010 using: stern-gerlach 2.01.00 (37325), translation-utility 2.08.00 (39581) 4월 2, 2010-->
+<SimStrings>
+<string key="angle3" value="각 3"/>
+<string key="angle2" value="각 2"/>
+<string key="slow" value="느리게"/>
+<string key="randomXZ" value="무작위 xz"/>
+<string key="simTitle" value="Stern-Gerlach 실험"/>
+<string key="sternGerlachExperiment" value="Stern-Gerlach 실험"/>
+<string key="spinOrientation" value="스핀 방향"/>
+<string key="on" value="켜짐"/>
+<string key="up" value="위"/>
+<string key="down" value="아래"/>
+<string key="sound" value="소리"/>
+<string key="fast" value="빠르게"/>
+<string key="numberOfMagnets" value="자석 수"/>
+<string key="fireAtom" value="원자 발사"/>
+<string key="autoFire" value="자동발사"/>
+<string key="angle" value="각"/>
+<string key="reset" value="초기화"/>
+<string key="resetCount" value="초기화 계수기"/>
+<string key="off" value="꺼짐"/>
+</SimStrings>
