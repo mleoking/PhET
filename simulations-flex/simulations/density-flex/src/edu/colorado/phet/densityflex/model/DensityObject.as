@@ -9,15 +9,15 @@ import edu.colorado.phet.densityflex.view.DensityView;
 
 public class DensityObject {
 
-    private const volume:NumericProperty = new NumericProperty( "Volume", "m^3", 1.0 );
-    private const mass:NumericProperty = new NumericProperty( "Mass", "kg", 1.0 );
-    private const density:NumericProperty = new NumericProperty( "Density", "kg/m^3", 1.0 );
+    private var volume:NumericProperty;
+    private var mass:NumericProperty;
+    private var density:NumericProperty;
     private var _substance:Substance = Substance.STYROFOAM;
     private var substanceListeners:Array = new Array();
     
-    private var x:Number;
-    private var y:Number;
-    private var z:Number;
+    private var x:NumericProperty;
+    private var y:NumericProperty;
+    private var z:NumericProperty;
     private var listeners:Array;
     private var velocityArrowModel:ArrowModel = new ArrowModel(0, 0);
     private var gravityForceArrowModel:ArrowModel = new ArrowModel(0, 0);
@@ -68,7 +68,10 @@ public class DensityObject {
         return substance;
     }
 
-    public function DensityObject(x:Number, y:Number, z:Number, model:DensityModel,density:Number) {
+    public function DensityObject(x:Number, y:Number, z:Number, model:DensityModel,density:Number,mass:Number,volume:Number) {
+        this.volume= new NumericProperty( "Volume", "m^3", volume); 
+        this.mass= new NumericProperty( "Mass", "kg", mass); 
+        this.density= new NumericProperty( "Density", "kg/m^3", density );
         
         function massChanged():void {
             if ( isDensityFixed() ) {
@@ -116,17 +119,13 @@ public class DensityObject {
 
         getDensityProperty().addListener( densityChanged );
         
-        this.x = x;
-        this.y = y;
-        this.z = z;
+        this.x = new NumericProperty("x","m",x);
+        this.y = new NumericProperty("y","m",y);
+        this.z = new NumericProperty("z","m",z);
 
         this.model = model;
         this.density.value=density;
         this.listeners = new Array();
-    }
-
-    private function setMass(number:Number):void {
-        mass.value=number;
     }
 
     public function getVelocityArrowModel():ArrowModel {
@@ -150,30 +149,32 @@ public class DensityObject {
     }
 
     public function getX():Number {
-        return x;
+        return x.value;
     }
 
     public function getY():Number {
-        return y;
+        return y.value;
     }
 
     public function getZ():Number {
-        return z;
+        return z.value;
     }
 
-    public function update():void {
+    public function updatePositionFromBox2D():void {
         setPosition(body.GetPosition().x, body.GetPosition().y);
     }
 
     public function remove():void {
+        model.getWorld().DestroyBody(getBody());
+        body=null;
         for each(var listener:Listener in listeners) {
             listener.remove();
         }
     }
 
     public function setPosition(x:Number, y:Number):void {
-        this.x = x;
-        this.y = y;
+        this.x.value=x;
+        this.y.value=y;
 
         if (body.GetPosition().x != x || body.GetPosition().y != y) {
             body.SetXForm(new b2Vec2(x, y), 0);
@@ -282,6 +283,8 @@ public class DensityObject {
 
     public function setDensity(density:Number):void {
         this.density.value = density;
+        updateBox2DModel();
+        notifyListeners();
     }
 
     public function getDensity():Number {
@@ -290,10 +293,33 @@ public class DensityObject {
 
     public function setVolume(value:Number):void {
         this.volume.value = value;
+        updateBox2DModel();
+        notifyListeners();
     }
 
     public function getVolume():Number {
         return this.volume.value;
+    }
+    
+    private function setMass(number:Number):void {
+        mass.value=number;
+        updateBox2DModel();
+        notifyListeners();
+    }
+
+    public function reset():void {
+        density.reset();
+        volume.reset();
+        mass.reset();
+        x.reset();
+        y.reset();
+        z.reset();
+        updateBox2DModel();
+        notifyListeners();
+    }
+    
+    public function updateBox2DModel():void {
+        throw new Error("Abstract method error");
     }
 }
 }

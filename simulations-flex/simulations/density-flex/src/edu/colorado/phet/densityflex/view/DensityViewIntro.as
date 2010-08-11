@@ -17,13 +17,13 @@ public class DensityViewIntro extends DensityView {
     public function DensityViewIntro() {
         super();
         //Showing the blocks as partially floating allows easier visualization of densities
-        customizableObject = Block.newBlockDensityMass(0.25, 7, -8, 0, new ColorTransform(0.5, 0.5, 0), model);
+        customizableObject = Block.newBlockDensityMass(0.25, 7, -8, 3, new ColorTransform(0.5, 0.5, 0), model);
         customObjectPropertiesPanel = new CustomObjectPropertiesPanel(customizableObject);
     }
 
     override public function initObjects():void {
         super.initObjects();
-        initializeSameMass();
+        initializeCustomObject();
         //model.initializeTab1SameVolume();
     }
 
@@ -53,6 +53,7 @@ public class DensityViewIntro extends DensityView {
     }
 
     private function initializeCustomObject():void {
+        customizableObject.updateBox2DModel();
         model.addDensityObject(customizableObject);
     }
 
@@ -62,9 +63,10 @@ public class DensityViewIntro extends DensityView {
         addScales();
     }
 
-    override public function reset():void {
-        super.reset();
-        switchToSameMass();
+    override public function resetAll():void {
+        super.resetAll();
+        customizableObject.reset();
+        switchToCustomObject();
     }
 
     public function switchToSameMass():void {

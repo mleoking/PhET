@@ -19,7 +19,7 @@
                 <!--<mx:HSlider minimum="5" maximum="50" tickInterval="1" labels="[0,25,50,75,100]" thumbDrag="tab0.testSliderChange(event)"/>-->
             </mx:Panel>
             <mx:Panel right="10" bottom="10">
-                <mx:Button label="Reset All" click="resetTab0()"/>
+                <mx:Button label="Reset All" click="resetAll()"/>
             </mx:Panel>
         </mx:Canvas>
         <!--<mx:Canvas label="Advanced" fontSize="12">-->
@@ -56,8 +56,8 @@
         private var common:FlexCommon = new FlexCommon();
 
         private function getAllTabs():Array {
-//            return new Array(tab0, tab1);
-                        return new Array(tab0);
+            //            return new Array(tab0, tab1);
+            return new Array(tab0);
         }
 
         private function onApplicationComplete():void {
@@ -65,11 +65,11 @@
                 view.init();
                 view.pause();
             }
-//            toybox.init();
+            //            toybox.init();
             getAllTabs()[0].start();
-//            var panel:PropertiesPanel = new SpherePropertiesPanel();
+            //            var panel:PropertiesPanel = new SpherePropertiesPanel();
 
-//            propertiesContentPanel.addChild(panel);
+            //            propertiesContentPanel.addChild(panel);
 
             tab0.densityCanvas = densityCanvas;
             tab0.switchToCustomObject();
@@ -95,15 +95,15 @@
             oldIndex = newIndex;
         }
 
-        private function resetTab0():void {
+        private function resetAll():void {
             // TODO: bind sameMass
-            sameMass.selected = true;
-            tab0.reset();
+            customObject.selected = true;
+            tab0.resetAll();
         }
 
-//        private function resetTab1():void {
-//            tab1.reset();
-//        }
+        //        private function resetTab1():void {
+        //            tab1.reset();
+        //        }
 
         ]]></mx:Script>
 

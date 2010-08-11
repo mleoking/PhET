@@ -19,9 +19,6 @@ public class CustomObjectPropertiesPanel extends Panel {
         //TODO: remove listeners from former density object
         this.densityObject = densityObject;
 
-//        iDensityObject.getMass().value = densityObject.getMass();
-//        iDensityObject.getVolume().value = densityObject.getVolume();
-//        iDensityObject.getDensity().value = densityObject.getDensity();
         densityObject.addSubstanceListener(function f():void {
             comboBox.selectedItem = densityObject.getSubstance().name; 
         });
@@ -39,13 +36,7 @@ public class CustomObjectPropertiesPanel extends Panel {
         }
 
         densityObject.getDensityProperty().addListener(densityListener);
-    }
-
-    private var comboBox:ComboBox;
-
-    public override function initialize():void {
-        super.initialize();
-
+        
         grid.addChild(new PropertyEditor(densityObject.getMassProperty()));
         grid.addChild(new PropertyEditor(densityObject.getVolumeProperty()));
         grid.addChild(new DensityEditor(densityObject.getDensityProperty()));
@@ -60,6 +51,8 @@ public class CustomObjectPropertiesPanel extends Panel {
 
         addChild(grid);
     }
+
+    private var comboBox:ComboBox;
 
 }
 }
