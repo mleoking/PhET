@@ -21,7 +21,7 @@ public class ABSStrings {
     
     public static final String PH = getString( "pH" ); 
     public static final String SOLUTION = getString( "solution" ); 
-    public static final String TOOLS = getString( "tools" ); 
+    public static final String TESTS = getString( "tests" ); 
     public static final String CONDUCTIVITY_TESTER = getString( "conductivityTester" ); 
     public static final String PH_PAPER = getString( "pHPaper" ); 
     public static final String PH_METER = getString( "pHMeter" ); 
@@ -49,6 +49,7 @@ public class ABSStrings {
     public static final String NEGLIGIBLE = ABSResources.getString( "negligible" );
     public static final String PH_COLOR_KEY = ABSResources.getString( "pHColorKey" );
     public static final String NEITHER = ABSResources.getString( "neither" );
+    public static final String VIEWS = ABSResources.getString( "views" );
     
     private static final String getString( String key ) {
         return ABSResources.getString( key );

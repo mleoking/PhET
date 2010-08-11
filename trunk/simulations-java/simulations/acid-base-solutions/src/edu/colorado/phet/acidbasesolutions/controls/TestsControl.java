@@ -24,12 +24,12 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ToolsControl extends JPanel {
+public class TestsControl extends JPanel {
     
     private final ABSModel model;
     private final JRadioButton pHMeterRadioButton, pHPaperRadioButton, conductivityTesterRadioButton;
     
-    public ToolsControl( final ABSModel model ) {
+    public TestsControl( final ABSModel model ) {
         
         // model
         this.model = model;
@@ -40,7 +40,7 @@ public class ToolsControl extends JPanel {
         });
         
         // border
-        TitledBorder titledBorder = new TitledBorder( ABSStrings.TOOLS );
+        TitledBorder titledBorder = new TitledBorder( ABSStrings.TESTS );
         titledBorder.setTitleFont( ABSConstants.TITLED_BORDER_FONT );
         titledBorder.setBorder( new LineBorder( Color.BLACK, 1 ) );
         setBorder( titledBorder );
