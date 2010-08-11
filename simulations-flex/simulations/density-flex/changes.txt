@@ -1,3 +1,4 @@
+Fixed: When density changes, mass should change.
 Changed property editor layout to be: Title, then Slider, then Text readout, then Units
 Improvements for custom object and related controls
 # 0.01.13 (42907) Aug 10, 2010
