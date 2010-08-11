@@ -36,6 +36,8 @@ public class ABSImages {
     public static final BufferedImage PH_METER_ICON = getBufferedImage( "pHMeter_icon.png" );
     public static final BufferedImage PH_PAPER_ICON = getBufferedImage( "pHPaper_icon.png" );
     public static final BufferedImage LIGHT_BULB_ICON = getBufferedImage( "lightBulb_icon.png" );
+    public static final BufferedImage MAGNIFYING_GLASS_ICON = getBufferedImage( "magnifyingGlass_icon.png" );
+    public static final BufferedImage CONCENTRATION_GRAPH_ICON = getBufferedImage( "concentrationGraph_icon.png" );
     
     private static final BufferedImage getBufferedImage( String resourceName ) {
         return ABSResources.getBufferedImage( resourceName );

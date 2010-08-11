@@ -6,13 +6,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.MessageFormat;
 
-import javax.swing.ButtonGroup;
-import javax.swing.JCheckBox;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
+import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
+import edu.colorado.phet.acidbasesolutions.constants.ABSImages;
 import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel;
 import edu.colorado.phet.acidbasesolutions.model.MagnifyingGlass.MagnifyingGlassChangeListener;
@@ -78,16 +76,14 @@ public class ViewControls extends JPanel {
         // layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         setLayout( layout );
-        int row = 0;
-        int column = 0;
-        layout.addComponent( magnifyingGlassRadioButton, row++, column, 2, 1 );
+        layout.addComponent( magnifyingGlassRadioButton, 0, 0, 2, 1 );
+        layout.addComponent( new JLabel( new ImageIcon( ABSImages.MAGNIFYING_GLASS_ICON ) ), 0, 2 );
         // indent the "Show H2O molecules" check box beneath the "Magnifying Glass" radio button
-        layout.setMinimumWidth( column, 22 );
-        column++;
-        layout.addComponent( showWaterCheckBox, row++, column, 1, 1 );
-        column--;
-        layout.addComponent( concentrationGraphRadioButton, row++, column, 2, 1 );
-        layout.addComponent( neitherRadioButton, row++, column, 2, 1 );
+        layout.setMinimumWidth( 0, 22 );
+        layout.addComponent( showWaterCheckBox, 1, 1, 1, 1 );
+        layout.addComponent( concentrationGraphRadioButton, 2, 0, 2, 1 );
+        layout.addComponent( new JLabel( new ImageIcon( ABSImages.CONCENTRATION_GRAPH_ICON ) ), 2, 2 );
+        layout.addComponent( neitherRadioButton, 3, 0, 2, 1 );
         
         // gray out all controls when "Conductivity Tester" is visible
         model.getConductivityTester().addSolutionRepresentationChangeListener( new SolutionRepresentationChangeAdapter() {
