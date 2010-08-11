@@ -4,6 +4,8 @@ import edu.colorado.phet.densityflex.model.Block;
 
 import edu.colorado.phet.densityflex.model.DensityObject;
 
+import edu.colorado.phet.densityflex.model.Substance;
+
 import flash.geom.ColorTransform;
 
 import mx.containers.Canvas;
@@ -17,7 +19,7 @@ public class DensityViewIntro extends DensityView {
     public function DensityViewIntro() {
         super();
         //Showing the blocks as partially floating allows easier visualization of densities
-        customizableObject = Block.newBlockDensityMass(0.25, 7, -8, 3, new ColorTransform(0.5, 0.5, 0), model);
+        customizableObject = Block.newBlockDensityMass(Substance.STYROFOAM.getDensity(), 10, -8, 3, new ColorTransform(0.5, 0.5, 0), model);
         customObjectPropertiesPanel = new CustomObjectPropertiesPanel(customizableObject);
     }
 
