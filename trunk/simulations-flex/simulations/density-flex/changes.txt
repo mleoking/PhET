@@ -1,3 +1,4 @@
+Fixes for reset all
 Made slider thumb more transparent based on how far the value is out of range.
 Fixed: When density changes, mass should change.
 Changed property editor layout to be: Title, then Slider, then Text readout, then Units

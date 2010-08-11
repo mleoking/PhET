@@ -52,7 +52,6 @@ public class DensityModel {
     }
 
     private function removeDensityObject(densityObject:DensityObject):void {
-        world.DestroyBody(densityObject.getBody());
         densityObject.remove();
         for each (var object:Function in densityObjectDestructionListeners) {
             object(densityObject);
@@ -107,12 +106,13 @@ public class DensityModel {
             world.Step(DT_STEP, 10);
             var densityObject:DensityObject;
             for each(densityObject in densityObjects) {
-                densityObject.update();
+                densityObject.updatePositionFromBox2D();
             }
             updateWater();
             var waterY:Number = -poolHeight + waterHeight;
             for each(var cuboid:Cuboid in getCuboids()) {
                 var body:b2Body = cuboid.getBody();
+                trace("body.y="+body.GetPosition().y+", gravity.y="+cuboid.getGravityForce().y);
 
                 // gravity?
                 body.ApplyForce(cuboid.getGravityForce(), body.GetPosition());
