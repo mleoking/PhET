@@ -35,8 +35,15 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class ConductivityTesterNode extends PhetPNode {
-    
 
+    // light bulb
+    private static final double PERCENT_LIGHT_BULB_ATTACHMENT = 0.12; // percent of light bulb's full height, from bottom of bulb, determines where to attach the probe wire
+    private static final LinearFunction BRIGHTNESS_TO_ALPHA_FUNCTION = new LinearFunction( 0, 1, 0.85, 1 );
+    
+    // connector wire, connects bulb and battery
+    private static final Color CONNECTOR_WIRE_COLOR = Color.BLACK;
+    private static final double CONNECTOR_WIRE_LENGTH = 50;
+    
     // general probe properties
     private static final Color PROBE_STROKE_COLOR = Color.BLACK;
     private static final Stroke PROBE_STROKE = new BasicStroke( 1f );
@@ -64,14 +71,6 @@ public class ConductivityTesterNode extends PhetPNode {
     private static final Color NEGATIVE_WIRE_COLOR = Color.BLACK;
     private static final int NEGATIVE_WIRE_CONTROL_POINT_DX = -POSITIVE_WIRE_CONTROL_POINT_DX;
     private static final int NEGATIVE_WIRE_CONTROL_POINT_DY = POSITIVE_WIRE_CONTROL_POINT_DY;
-    
-    // connector wire, connects bulb and battery
-    private static final Color CONNECTOR_WIRE_COLOR = Color.BLACK;
-    private static final double CONNECTOR_WIRE_LENGTH = 50;
-    
-    // light bulb
-    private static final double PERCENT_LIGHT_BULB_ATTACHMENT = 0.12; // percent of light bulb's full height, from bottom of bulb, determines where to attach the probe wire
-    private static final LinearFunction BRIGHTNESS_TO_ALPHA_FUNCTION = new LinearFunction( 0, 1, 0.85, 1 );
     
     private final ConductivityTester tester;
 
@@ -353,11 +352,9 @@ public class ConductivityTesterNode extends PhetPNode {
         }
 
         public void setEndPoints( Point2D startPoint, Point2D endPoint ) {
-            Point2D.Double ctrl1 = new Point2D.Double( startPoint.getX() + controlPointDx, startPoint.getY() );
-            Point2D.Double ctrl2 = new Point2D.Double( endPoint.getX(), endPoint.getY() + controlPointDy );
-            setPathTo( new CubicCurve2D.Double( startPoint.getX(), startPoint.getY(), 
-                    ctrl1.getX(), ctrl1.getY(), ctrl2.getX(), ctrl2.getY(), 
-                    endPoint.getX(), endPoint.getY() ) );
+            Point2D ctrl1 = new Point2D.Double( startPoint.getX() + controlPointDx, startPoint.getY() );
+            Point2D ctrl2 = new Point2D.Double( endPoint.getX(), endPoint.getY() + controlPointDy );
+            setPathTo( new CubicCurve2D.Double( startPoint.getX(), startPoint.getY(), ctrl1.getX(), ctrl1.getY(), ctrl2.getX(), ctrl2.getY(), endPoint.getX(), endPoint.getY() ) );
         }
     }
     
