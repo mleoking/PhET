@@ -5,8 +5,8 @@
                 preinitialize="init()">
     <!--xmlns:common="edu.colorado.phet.flexcommon.*"-->
     <!--<common:FlexCommonMXML id="flexcommon" right="0" y="0" />-->
-    <mx:TabNavigator width="100%" height="100%" change="onSwitch(event)" creationPolicy="all" id="tabNavigator" fontSize="18">
-        <mx:Canvas label="Density" id="densityCanvas" fontSize="12">
+    <!--<mx:TabNavigator width="100%" height="100%" change="onSwitch(event)" creationPolicy="all" id="tabNavigator" fontSize="0">-->
+        <mx:Canvas width="100%" height="100%" label="Density" id="densityCanvas" fontSize="12">
             <mx:Canvas backgroundColor="0x000000" width="100%" height="100%"/>
             <view:DensityViewIntro width="100%" height="100%" id="tab0"/>
             <mx:Panel right="20" y="20" title="Modes">
@@ -40,7 +40,7 @@
                 <!--<mx:Button label="Reset All" click="resetTab1()"/>-->
             <!--</mx:Panel>-->
         <!--</mx:Canvas>-->
-    </mx:TabNavigator>
+    <!--</mx:TabNavigator>-->
     <view:DebugText id="debug" height="100" x="0" y="0" text="" color="#FFFFFF" click="DebugText.clear();"/>
     <mx:Script><![CDATA[
         import edu.colorado.phet.densityflex.components.CustomObjectPropertiesPanel;
