@@ -34,10 +34,11 @@ class RampControlPanel(model: MotionSeriesModel,
                        objectModel: ObjectModel,
                        showAngleSlider: Boolean,
                        showFrictionControl: Boolean,
-                       showBounceControl: Boolean)
+                       showBounceControl: Boolean,
+        subControlPanelTitle:String)
         extends ControlPanel {
   val body = new RampControlPanelBody(model, freeBodyDiagramModel, coordinateSystemModel, vectorViewModel, resetHandler,
-    coordinateSystemFeaturesEnabled, useObjectComboBox, objectModel, showAngleSlider, showFrictionControl, showBounceControl)
+    coordinateSystemFeaturesEnabled, useObjectComboBox, objectModel, showAngleSlider, showFrictionControl, showBounceControl,subControlPanelTitle)
 
   addControl(body)
   addResetAllButton(new Resettable {def reset = resetHandler()})
@@ -57,7 +58,8 @@ class RampControlPanelBody(model: MotionSeriesModel,
                            objectModel: ObjectModel,
                            showAngleSlider: Boolean,
                            showFrictionControl: Boolean,
-                           showBounceControl: Boolean) extends ControlPanel {
+                           showBounceControl: Boolean,
+                           subControlPanelTitle:String) extends ControlPanel {
   getContentPanel.setAnchor(GridBagConstraints.WEST)
   getContentPanel.setFill(GridBagConstraints.HORIZONTAL)
   override def add(comp: Component) = {
@@ -178,7 +180,7 @@ class RampControlPanelBody(model: MotionSeriesModel,
     }
   }
 
-  val moreControlsPanel = new SubControlPanel("more.controls.title".translate)
+  val moreControlsPanel = new SubControlPanel(subControlPanelTitle)
   import MotionSeriesDefaults.MIN_X
   import MotionSeriesDefaults.MAX_X
   import MathUtil.clamp
