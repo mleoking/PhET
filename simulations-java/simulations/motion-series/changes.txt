@@ -1,3 +1,4 @@
+Removed text "coefficient of"
 Renamed "more controls" to "Position" in forces and motion
 Resolved collisions with the wall when switching objects
 Fixed: When you move an object into the bounce coil with the position slider, it continually plays the bounce sound.  It shouldn’t continually play the bounce sound
