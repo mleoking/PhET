@@ -79,11 +79,27 @@ public class PHPaper extends SolutionRepresentation {
      */
     @Override
     public void setLocation( double x, double y ) {
-        super.setLocation( x, constrainY( y ) );
+        super.setLocation( constrainX( x ), constrainY( y ) );
     }
     
     /*
-     * Constraints a y coordinate to be in or slightly above the solution.
+     * Constraints x coordinate to be inside the beaker.
+     */
+    private double constrainX( double requestedX ) {
+        double min = beaker.getLocationReference().getX() - ( beaker.getWidth() / 2 ) + ( this.getWidth() / 2 ) + 20;
+        double max = beaker.getLocationReference().getX() + ( beaker.getWidth() / 2 ) - ( this.getWidth() / 2 ) - 20;
+        double x = requestedX;
+        if ( x < min ) {
+            x = min;
+        }
+        else if ( x > max ) {
+            x = max;
+        }
+        return x;
+    }
+    
+    /*
+     * Constraints y coordinate to be in or slightly above the solution.
      */
     private double constrainY( double requestedY ) {
         double min = beaker.getLocationReference().getY() - beaker.getHeight() - this.getHeight() - 20;

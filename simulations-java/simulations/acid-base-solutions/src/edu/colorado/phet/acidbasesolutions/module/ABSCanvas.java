@@ -52,13 +52,13 @@ public abstract class ABSCanvas extends PhetPCanvas {
         
         // rendering order
         addNode( pHMeterNode );
+        addNode( pHColorKeyNode );
         addNode( pHPaperNode );
         addNode( conductivityTesterNode );
         addNode( beakerNode );
         addNode( magnifyingGlassNode );
         addNode( concentrationGraphNode );
         addNode( reactionEquationNode );
-        addNode( pHColorKeyNode );
         
         pHColorKeyNode.setOffset( ABSConstants.PH_COLOR_KEY_LOCATION );
         // NOTE: all layout is handled via locations of model elements.
