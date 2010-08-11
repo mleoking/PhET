@@ -1,3 +1,4 @@
+Added a decimal point to the water height indicator
 Removed tabs
 # 0.01.12 (42897) Aug 10, 2010
 Moved objects to the side of the pool on startup instead of bobbing up and down

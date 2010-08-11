@@ -76,13 +76,7 @@
         }
 
         private function init():void {
-            var menu:ContextMenu = new ContextMenu();
-
-            menu.builtInItems.zoom = true;
-
-            Application.application.contextMenu = menu;
-
-            trace("Test Debugging message");
+            trace("Inited.");
         }
 
         private function onSwitch(e:Event):void {
