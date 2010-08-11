@@ -1,9 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--calculus-grapher-strings_vi.xml created Wed Nov 18 17:34:05 ICT 2009 using: calculus-grapher 2.02.00 (34696), translation-utility 2.03.00 (36202) thg 10 30, 2009-->
+<!--calculus-grapher-strings_vi.xml created Tue Aug 10 09:02:00 ICT 2010 using: calculus-grapher 2.03.00 (42751), translation-utility 2.08.00 (39581) thg 4 2, 2010-->
 <SimStrings>
-<string key="simDescription" value="Mô tả Calculus Grapher"/>
+<string key="grid" value="Lưới"/>
 <string key="smooth" value="Làm mịn"/>
-<string key="undo" value="Undo"/>
-<string key="zero" value="Zero"/>
+<string key="integral" value="Tích phân"/>
+<string key="sine" value="Sine"/>
+<string key="derivative" value="Đạo hàm"/>
+<string key="offset" value="Độ dịch"/>
 <string key="simTitle" value="Calculus Grapher "/>
+<string key="hill" value="Đồi"/>
+<string key="pedestal" value="Vuông"/>
+<string key="zero" value="Zero"/>
+<string key="dragMe" value="Kéo thả!"/>
+<string key="undo" value="Hoàn tác"/>
+<string key="parabola" value="Parabola"/>
+<string key="freeform" value="Dạng tự do"/>
+<string key="cursor" value="Con chạy"/>
+<string key="tilt" value="Độ dốc"/>
+<string key="line" value="Tam giác"/>
 </SimStrings>
