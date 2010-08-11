@@ -6,6 +6,7 @@ import mx.containers.GridRow;
 import mx.controls.HSlider;
 import mx.controls.Label;
 import mx.controls.TextInput;
+import mx.controls.sliderClasses.SliderThumb;
 import mx.events.SliderEvent;
 
 public class PropertyEditor extends GridRow {
@@ -37,6 +38,7 @@ public class PropertyEditor extends GridRow {
         const slider:HSlider = new HSlider();
         slider.width=SLIDER_WIDTH;
         slider.liveDragging = true;
+        slider.thumbCount=1;
         function sliderDragHandler(event:SliderEvent):void {
             property.value = event.value;
         }
@@ -44,6 +46,13 @@ public class PropertyEditor extends GridRow {
         slider.addEventListener(SliderEvent.THUMB_DRAG, sliderDragHandler);
         function updateSlider():void {
             slider.value = property.value;
+            try{
+                slider.getThumbAt(0).alpha=Math.max(0.25,//This is the minimum alpha that will be shown.  Beyond 0.25 is too hard to see anything.
+                        Math.min(1,slider.maximum/property.value) //The more the value goes above the slider's maximum, make more transparent.  But keep alpha =1 if it is in the slider range.
+                        );
+            }catch(exception:Error){
+                
+            }
         }
 
         updateSlider();
