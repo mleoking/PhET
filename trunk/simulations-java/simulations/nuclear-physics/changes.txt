@@ -1,3 +1,5 @@
+# 3.22.02 (42958) Aug 11, 2010
+8/11/10 >Fixed an issue with displaying the photo of the real nuclear reactor in the Nuclear Fission simulation.  Only right-to-left languages are affected.
 # 3.22.01 (40586) May 11, 2010
 5/11/10 > Changed the wording in the game from "Guess" to "Estimate".
 # 3.22.00 (38666) Feb 16, 2010
