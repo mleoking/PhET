@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--faradays-law-strings_ko.xml created Sat Aug 07 09:14:18 KST 2010 using: faradays-law 2.01.00 (37303), translation-utility 2.08.00 (39581) 4월 2, 2010-->
+<SimStrings>
+<string key="twoCoils" value="코일 2개"/>
+<string key="n" value="N"/>
+<string key="noSound" value="소리없음"/>
+<string key="showFieldLines" value="장선(field line) 보기"/>
+<string key="voltage" value="전압"/>
+<string key="simTitle" value="패러데이 법칙"/>
+<string key="flipMagnet" value="자석 뒤집기"/>
+<string key="oneCoil" value="코일 1개"/>
+<string key="moveMe" value="움직여 보세요!"/>
+<string key="s" value="S"/>
+</SimStrings>
