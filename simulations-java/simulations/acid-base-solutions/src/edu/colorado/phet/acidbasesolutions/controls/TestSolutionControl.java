@@ -48,10 +48,12 @@ public class TestSolutionControl extends JPanel {
     public TestSolutionControl( ABSModel model ) {
         
         // border
-        TitledBorder titledBorder = new TitledBorder( ABSStrings.SOLUTIONS );
-        titledBorder.setTitleFont( ABSConstants.TITLED_BORDER_FONT );
-        titledBorder.setBorder( ABSConstants.TITLE_BORDER_BORDER );
-        setBorder( titledBorder );
+        {
+            TitledBorder titledBorder = new TitledBorder( ABSStrings.SOLUTIONS );
+            titledBorder.setTitleFont( ABSConstants.TITLED_BORDER_FONT );
+            titledBorder.setBorder( ABSConstants.TITLE_BORDER_BORDER );
+            setBorder( titledBorder );
+        }
         
         // model
         {
@@ -98,28 +100,32 @@ public class TestSolutionControl extends JPanel {
         }
         
         // layout
-        EasyGridBagLayout layout = new EasyGridBagLayout( this );
-        setLayout( layout );
-        layout.setInsets( new Insets( 4, 0, 4, 0 ) );
-        int row = 0;
-        int column = 0;
-        layout.addComponent( waterRadioButton, row, column++ );
-        layout.addComponent( getMoleculeIconLabel( ABSImages.H2O_MOLECULE ), row++, column );
-        column = 0;
-        layout.addComponent( strongAcidRadioButton, row, column++ );
-        layout.addComponent( getMoleculeIconLabel( ABSImages.HA_MOLECULE ), row++, column );
-        column = 0;
-        layout.addComponent( weakAcidRadioButton, row, column++ );
-        layout.addComponent( getMoleculeIconLabel( ABSImages.HA_MOLECULE ), row++, column );
-        column = 0;
-        layout.addComponent( strongBaseRadioButton, row, column++ );
-        layout.addComponent( getMoleculeIconLabel( ABSImages.MOH_MOLECULE ), row++, column );
-        column = 0;
-        layout.addComponent( weakBaseRadioButton, row, column++ );
-        layout.addComponent( getMoleculeIconLabel( ABSImages.B_MOLECULE ), row++, column );
+        {
+            EasyGridBagLayout layout = new EasyGridBagLayout( this );
+            setLayout( layout );
+            layout.setInsets( new Insets( 4, 0, 4, 0 ) );
+            int row = 0;
+            int column = 0;
+            layout.addComponent( waterRadioButton, row, column++ );
+            layout.addComponent( getMoleculeIconLabel( ABSImages.H2O_MOLECULE ), row++, column );
+            column = 0;
+            layout.addComponent( strongAcidRadioButton, row, column++ );
+            layout.addComponent( getMoleculeIconLabel( ABSImages.HA_MOLECULE ), row++, column );
+            column = 0;
+            layout.addComponent( weakAcidRadioButton, row, column++ );
+            layout.addComponent( getMoleculeIconLabel( ABSImages.HA_MOLECULE ), row++, column );
+            column = 0;
+            layout.addComponent( strongBaseRadioButton, row, column++ );
+            layout.addComponent( getMoleculeIconLabel( ABSImages.MOH_MOLECULE ), row++, column );
+            column = 0;
+            layout.addComponent( weakBaseRadioButton, row, column++ );
+            layout.addComponent( getMoleculeIconLabel( ABSImages.B_MOLECULE ), row++, column );
+        }
         
         // default state
-        updateControl();
+        {
+            updateControl();
+        }
     }
     
     private JLabel getMoleculeIconLabel( Image image ) {

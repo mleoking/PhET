@@ -35,10 +35,12 @@ public class ViewControls extends JPanel {
     public ViewControls( final ABSModel model ) {
         
         // border
-        TitledBorder titledBorder = new TitledBorder( ABSStrings.VIEWS );
-        titledBorder.setTitleFont( ABSConstants.TITLED_BORDER_FONT );
-        titledBorder.setBorder( ABSConstants.TITLE_BORDER_BORDER );
-        setBorder( titledBorder );
+        {
+            TitledBorder titledBorder = new TitledBorder( ABSStrings.VIEWS );
+            titledBorder.setTitleFont( ABSConstants.TITLED_BORDER_FONT );
+            titledBorder.setBorder( ABSConstants.TITLE_BORDER_BORDER );
+            setBorder( titledBorder );
+        }
         
         // model
         {
@@ -103,33 +105,39 @@ public class ViewControls extends JPanel {
         }
         
         // "Show Water" check box
-        WaterMolecule waterMolecule = new WaterMolecule();
-        String html = HTMLUtils.toHTMLString( MessageFormat.format( ABSStrings.PATTERN_SHOW_WATER_MOLECULES, waterMolecule.getSymbol() ) );
-        showWaterCheckBox = new HTMLCheckBox( html );
-        showWaterCheckBox.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                model.getMagnifyingGlass().setWaterVisible( showWaterCheckBox.isSelected() );
-            }
-        });
+        {
+            WaterMolecule waterMolecule = new WaterMolecule();
+            String html = HTMLUtils.toHTMLString( MessageFormat.format( ABSStrings.PATTERN_SHOW_WATER_MOLECULES, waterMolecule.getSymbol() ) );
+            showWaterCheckBox = new HTMLCheckBox( html );
+            showWaterCheckBox.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    model.getMagnifyingGlass().setWaterVisible( showWaterCheckBox.isSelected() );
+                }
+            } );
+        }
         
         // layout
-        EasyGridBagLayout layout = new EasyGridBagLayout( this );
-        setLayout( layout );
-        layout.addComponent( magnifyingGlassRadioButton, 0, 0, 2, 1 );
-        layout.addComponent( new JLabel( new ImageIcon( ABSImages.MAGNIFYING_GLASS_ICON ) ), 0, 2 );
-        // indent the "Show H2O molecules" check box beneath the "Magnifying Glass" radio button
-        layout.setMinimumWidth( 0, 22 );
-        layout.addComponent( showWaterCheckBox, 1, 1, 1, 1 );
-        layout.addComponent( concentrationGraphRadioButton, 2, 0, 2, 1 );
-        layout.addComponent( new JLabel( new ImageIcon( ABSImages.CONCENTRATION_GRAPH_ICON ) ), 2, 2 );
-        layout.addComponent( neitherRadioButton, 3, 0, 2, 1 );
+        {
+            EasyGridBagLayout layout = new EasyGridBagLayout( this );
+            setLayout( layout );
+            layout.addComponent( magnifyingGlassRadioButton, 0, 0, 2, 1 );
+            layout.addComponent( new JLabel( new ImageIcon( ABSImages.MAGNIFYING_GLASS_ICON ) ), 0, 2 );
+            // indent the "Show H2O molecules" check box beneath the "Magnifying Glass" radio button
+            layout.setMinimumWidth( 0, 22 );
+            layout.addComponent( showWaterCheckBox, 1, 1, 1, 1 );
+            layout.addComponent( concentrationGraphRadioButton, 2, 0, 2, 1 );
+            layout.addComponent( new JLabel( new ImageIcon( ABSImages.CONCENTRATION_GRAPH_ICON ) ), 2, 2 );
+            layout.addComponent( neitherRadioButton, 3, 0, 2, 1 );
+        }
         
         // default state
-        controlsEnabled = true;
-        magnifyingGlassRadioButton.setSelected( model.getMagnifyingGlass().isVisible() );
-        showWaterCheckBox.setSelected( model.getMagnifyingGlass().isWaterVisible() );
-        concentrationGraphRadioButton.setSelected( model.getConcentrationGraph().isVisible() );
-        setControlsEnabled( !model.getConductivityTester().isVisible() );
+        {
+            controlsEnabled = true;
+            magnifyingGlassRadioButton.setSelected( model.getMagnifyingGlass().isVisible() );
+            showWaterCheckBox.setSelected( model.getMagnifyingGlass().isWaterVisible() );
+            concentrationGraphRadioButton.setSelected( model.getConcentrationGraph().isVisible() );
+            setControlsEnabled( !model.getConductivityTester().isVisible() );
+        }
     }
     
     private void updateModel() {
