@@ -15,6 +15,8 @@ HIGH PRIORITY
 - bottom-center everything in the play area
 
 MEDUIUM PRIORITY
+- improved layout of icons next to radio buttons
+- click on icons next to radio buttons should select radio buttons
 
 LOW PRIORITY
 - left justify controls in control panels?
