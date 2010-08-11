@@ -81,6 +81,11 @@ public class ConductivityTesterNode extends PhetPNode {
     private final CubicWireNode positiveWireNode, negativeWireNode;
     private final ValueNode valueNode;
     
+    /**
+     * Constructor.
+     * @param tester model element
+     * @param dev whether to enable developer features
+     */
     public ConductivityTesterNode( final ConductivityTester tester, boolean dev ) {
         
         this.tester = tester;
@@ -196,6 +201,7 @@ public class ConductivityTesterNode extends PhetPNode {
         updatePositiveProbeLocation();
         updateNegativeProbeLocation();
         
+        // location & visibility
         setOffset( tester.getLocationReference() );
         setVisible( tester.isVisible() );
     }
@@ -288,7 +294,7 @@ public class ConductivityTesterNode extends PhetPNode {
     }
     
     /*
-     * Probes, origin at bottom center.
+     * Probe, origin at bottom center.
      */
     private static class ProbeNode extends PhetPNode {
         
@@ -311,8 +317,8 @@ public class ConductivityTesterNode extends PhetPNode {
         }
     }
     
+    /* Interface implemented by all wires. */
     private interface IWire {
-
         public void setEndPoints( Point2D startPoint, Point2D endPoint );
     }
     
@@ -356,7 +362,7 @@ public class ConductivityTesterNode extends PhetPNode {
     }
     
     /*
-     * Displays the brightness value of the model, for debugging.
+     * Displays the model's brightness value, for debugging.
      */
     private static class ValueNode extends PText {
         
@@ -371,7 +377,7 @@ public class ConductivityTesterNode extends PhetPNode {
         }
         
         public void setValue( double brightness ) {
-            setText( "brightness=" + String.valueOf( brightness ) );
+            setText( "brightness=" + String.valueOf( brightness ) ); // no i18n needed, this is a dev feature
         }
     }
 }
