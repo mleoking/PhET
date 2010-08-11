@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--curve-fitting-strings_ko.xml created Sun Aug 08 10:31:34 KST 2010 using: curve-fitting 2.01.00 (37297), translation-utility 2.08.00 (39581) 4월 2, 2010-->
+<SimStrings>
+<string key="clearAll" value="모두 지우기"/>
+<string key="deviations" value="편차 보기"/>
+<string key="quartic" value="4차"/>
+<string key="simTitle" value="커브 핏팅(Fitting)"/>
+<string key="bestFit" value="최적의 Fit"/>
+<string key="quadratic" value="2차"/>
+<string key="bucketHelp2" value="점 회수하기"/>
+<string key="bucketHelp1" value="점 가져가기"/>
+<string key="cubic" value="3차"/>
+<string key="noFit" value="Fit 안됨"/>
+<string key="adjustableFit2" value="Fit 조절기"/>
+<string key="dataPointHelp" value="드래그 할 수 있는 오류봉"/>
+<string key="bestFit2" value="최적의 Fit:"/>
+<string key="hideHelp" value="도움말 감추기"/>
+<string key="correlation" value="상관계수"/>
+<string key="chiSqHelp5" value=": Fit가  아주 잘 되었음. \n (오류봉이 아주 작음)"/>
+<string key="bucketLabel" value="데이터 \n 점 그릇 "/>
+<string key="chiSqHelp4" value=": Fit가 잘 되었음 (녹색 지역)"/>
+<string key="chiSqHelp3" value=": Fit가 잘 안되었음 (적색 지역)"/>
+<string key="chiSqHelp2" value="N= 자료 점의 수. \n f= Fit의 파라미터 수. \n ( 3차 fit의 경우 f=4)"/>
+<string key="help" value="도움말"/>
+<string key="chiSqHelp1" value="카이스퀘어 통계"/>
+<string key="adjustableFit" value="Fit 조절기"/>
+<string key="linear" value="1차(선형)"/>
+</SimStrings>
