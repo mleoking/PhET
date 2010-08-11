@@ -55,8 +55,9 @@ public class AcidBaseSolutionsApplication extends PiccoloPhetApplication {
      */
     private void initModules() {
         
-        addModule( new TestSolutionModule() );
-        addModule( new CustomSolutionModule() );
+        boolean dev = isDeveloperControlsEnabled();
+        addModule( new TestSolutionModule( dev ) );
+        addModule( new CustomSolutionModule( dev ) );
         
         // set color of control panels after adding all modules
         setControlPanelBackground( ABSColors.CONTROL_PANEL_BACKGROUND );

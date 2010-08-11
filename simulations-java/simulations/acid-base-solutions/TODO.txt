@@ -3,7 +3,6 @@ TODO list for acid-base-solutions
 MILESTONES
 
 HIGH PRIORITY
-- encapsulate all light bulb parts in one composite node
 - use molecule color for "negligible" in Concentration Graph
 - gray out View controls when "Conductivity Tester" tool is selected
 - put "Show H2O Molecules" check box under "Magnifying Glass" radio button, slightly indented
@@ -26,6 +25,7 @@ LOW PRIORITY
 - use SolutionFactory in TestSolutionControl
 - export design doc from Google, check into SVN
 - model.txt
+- scale light bulb image files, remove setScale call in ConductivityTesterNode
 
 MIGRATE TO COMMON
 - PrecisionDecimal (also appears in ph-scale, advanced-acid-base-solutions)

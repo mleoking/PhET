@@ -1,3 +1,7 @@
+8/11/10 display model brightness value for conductivity tester in dev version only
+8/11/10 pass dev flag from application to view components
+8/11/10 clean up and refinements of ConductivityTesterNode
+8/11/10 encapsulate all light bulb parts in one composite node
 8/11/10 replace A- molecule image with one that has no "bite" out of it
 8/10/10 separate tools controls into Tools and View panels
 8/10/10 tweak locations of pH paper and conductivity tester
