@@ -142,22 +142,10 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
   vectorView.addAllVectors(model.motionSeriesObject, windowFBDNode)
   if (useVectorNodeInPlayArea) vectorView.addAllVectors(model.motionSeriesObject, playAreaVectorNode)
 
-  playAreaNode.addChild(new RaindropView(model, this))
-  playAreaNode.addChild(new FireDogView(model, this))
-
-  val clearHeatButton = new ClearHeatButton(model)
-  val viewPt = transform.modelToView(5, 2) //show near the right side of the ramp, just above it so that it is visible in every sim+module
-  clearHeatButton.setOffset(viewPt.x - clearHeatButton.getFullBounds.getWidth / 2, viewPt.y)
-  addStageNode(clearHeatButton)
-
   val returnObjectButton = new ReturnObjectButton(model)
-  returnObjectButton.setOffset(clearHeatButton.getFullBounds.getCenterX - returnObjectButton.getFullBounds.getWidth / 2, clearHeatButton.getFullBounds.getMaxY + 10)
+  val viewPt = transform.modelToView(5, 2) //show near the right side of the ramp, just above it so that it is visible in every sim+module
+  returnObjectButton.setOffset(viewPt.x - returnObjectButton.getFullBounds.getWidth / 2, viewPt.y)
   addStageNode(returnObjectButton)
-
-  //Low quality rendering doesn't seem to significantly impact performance in this sim
-  //  setInteractingRenderQuality(PPaintContext.LOW_QUALITY_RENDERING)
-  //  setDefaultRenderQuality(PPaintContext.LOW_QUALITY_RENDERING)
-  //  setAnimatingRenderQuality(PPaintContext.LOW_QUALITY_RENDERING)
 }
 
 class ReturnObjectButton(model: MotionSeriesModel) extends GradientButtonNode("controls.return-object".translate, Color.orange) {
@@ -167,17 +155,6 @@ class ReturnObjectButton(model: MotionSeriesModel) extends GradientButtonNode("c
 
   addActionListener(new ActionListener() {
     def actionPerformed(e: ActionEvent) = model.returnMotionSeriesObject()
-  })
-}
-
-class ClearHeatButton(model: MotionSeriesModel) extends GradientButtonNode("controls.clear-heat".translate, Color.yellow) {
-  def updateVisibility() = setVisible(model.motionSeriesObject.rampThermalEnergy > MotionSeriesDefaults.CLEAR_BUTTON_VISIBILITY_THRESHOLD_JOULES)
-  updateVisibility()
-  model.addListener(updateVisibility) //todo: perhaps this line is unnecessary
-  model.motionSeriesObject.addListener(updateVisibility)
-
-  addActionListener(new ActionListener() {
-    def actionPerformed(e: ActionEvent) = model.clearHeat()
   })
 }
 

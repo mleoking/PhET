@@ -1,3 +1,4 @@
+Removed "clear heat" button and firedog feature 
 Removed ramp turing blue due to water
 Removed ramp turing red due to heat
 Removed text "coefficient of"
