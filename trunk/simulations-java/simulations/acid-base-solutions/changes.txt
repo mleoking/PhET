@@ -1,3 +1,4 @@
+8/11/10 put "Show H2O Molecules" check box under "Magnifying Glass" radio button, slightly indented
 8/11/10 add symbols and icons after Solution choice names in "Test Solution" tab
 8/11/10 Tools -> Tests, View -> Views
 8/11/10 display model brightness value for conductivity tester in dev version only

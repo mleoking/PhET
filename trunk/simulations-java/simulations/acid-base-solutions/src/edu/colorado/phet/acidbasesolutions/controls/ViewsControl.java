@@ -29,8 +29,6 @@ import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
  */
 public class ViewsControl extends JPanel {
     
-    private static final Color SEPARATOR_COLOR = new Color( 150, 150, 150 );
-
     private final ABSModel model;
     private final JRadioButton magnifyingGlassRadioButton, concentrationGraphRadioButton, neitherRadioButton;
     private final JCheckBox showWaterCheckBox;
@@ -80,13 +78,14 @@ public class ViewsControl extends JPanel {
         setLayout( layout );
         int row = 0;
         int column = 0;
-        layout.addComponent( magnifyingGlassRadioButton, row++, column );
-        layout.addComponent( concentrationGraphRadioButton, row++, column );
-        layout.addComponent( neitherRadioButton, row++, column );
-        JSeparator separator = new JSeparator();
-        separator.setForeground( SEPARATOR_COLOR );
-        layout.addFilledComponent( separator, row++, column, GridBagConstraints.HORIZONTAL );
-        layout.addComponent( showWaterCheckBox, row++, column );
+        layout.addComponent( magnifyingGlassRadioButton, row++, column, 2, 1 );
+        // indent the "Show H2O molecules" check box beneath the "Magnifying Glass" radio button
+        layout.setMinimumWidth( column, 22 );
+        column++;
+        layout.addComponent( showWaterCheckBox, row++, column, 1, 1 );
+        column--;
+        layout.addComponent( concentrationGraphRadioButton, row++, column, 2, 1 );
+        layout.addComponent( neitherRadioButton, row++, column, 2, 1 );
         
         // default state
         updateControl();
