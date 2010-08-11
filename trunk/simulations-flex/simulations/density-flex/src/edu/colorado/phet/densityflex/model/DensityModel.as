@@ -214,6 +214,7 @@ public class DensityModel {
         return poolWidth;
     }
 
+    //Z-axis, into the screen
     public function getPoolDepth():Number {
         return poolDepth;
     }
