@@ -22,6 +22,7 @@ import edu.colorado.phet.scalacommon.Predef._
 import edu.colorado.phet.common.piccolophet.PhetPCanvas
 import edu.umd.cs.piccolo.PNode
 import edu.umd.cs.piccolox.pswing.{PSwingCanvas, PSwing}
+import edu.colorado.phet.common.phetcommon.math.MathUtil
 
 class RampControlPanel(model: MotionSeriesModel,
                        freeBodyDiagramModel: FreeBodyDiagramModel,
@@ -178,8 +179,17 @@ class RampControlPanelBody(model: MotionSeriesModel,
   }
 
   val moreControlsPanel = new SubControlPanel("more.controls.title".translate)
-  val positionSlider = new ScalaValueControl(MotionSeriesDefaults.MIN_X, MotionSeriesDefaults.MAX_X, "object.position".translate, "0.0".literal, "units.meters".translate,
-    () => model.motionSeriesObject.position, x => model.motionSeriesObject.setPosition(x), model.motionSeriesObject.addListener)
+  import MotionSeriesDefaults.MIN_X
+  import MotionSeriesDefaults.MAX_X
+  import MathUtil.clamp
+  val positionSlider:ScalaValueControl = new ScalaValueControl(MIN_X, MAX_X, "object.position".translate, "0.0".literal, "units.meters".translate,
+    () => model.motionSeriesObject.position, 
+    x => {
+      val clampedValue = clamp(MIN_X + model.motionSeriesObject.width / 2, x, MAX_X - model.motionSeriesObject.width / 2)
+      model.motionSeriesObject.setPosition(clampedValue)
+      if (clampedValue != x) positionSlider.setValue(clampedValue) //Have to make sure the readout indicates the model value, not the requested user value
+    }, 
+    model.motionSeriesObject.addListener)
   positionSlider.getSlider.addMouseListener(new MouseAdapter() {
     override def mousePressed(e: MouseEvent) = {
       val x: Double = if (model.motionSeriesObject.position > MotionSeriesDefaults.MAX_X) MotionSeriesDefaults.MAX_X

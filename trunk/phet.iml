@@ -155,9 +155,6 @@
       <excludeFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d-1.2.1" />
       <excludeFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d/swt" />
       <excludeFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d/swt-examples" />
-      <excludeFolder url="file://$MODULE_DIR$/simulations-java/simulations/force-law-lab" />
-      <excludeFolder url="file://$MODULE_DIR$/simulations-java/simulations/ladybug-motion-2d" />
-      <excludeFolder url="file://$MODULE_DIR$/simulations-java/simulations/motion-series" />
     </content>
     <content url="file://$MODULE_DIR$/../../samreid-unfuddle" />
     <orderEntry type="inheritedJdk" />
