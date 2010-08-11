@@ -8,13 +8,10 @@ public class DensityEditor extends PropertyEditor {
 
     override protected function createSlider(property:NumericProperty):HSlider {
         const slider:HSlider = super.createSlider(property);
-        const myArray:Array=new Array();
-        myArray.push("styrofoam");
-        myArray.push("water balloon");
-        myArray.push("lead");
-        slider.labels = myArray;
-//        slider.tickInterval=(slider.maximum-slider.minimum)/(3-1);
-        slider.tickValues=[0,10,50,60,70,90,100];
+        slider.labels = ["styrofoam","water balloon","lead"];
+        slider.minimum = 1E-6;
+        slider.maximum = 15;
+        slider.tickValues=[0.035,1,11.34];//values for styrofoam, water, lead
         slider.width = SLIDER_WIDTH;
         return slider;
     }
