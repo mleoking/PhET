@@ -99,6 +99,7 @@ public abstract class MotionSliderNode extends PNode {
 
             public void mouseReleased(PInputEvent event) {
                 initDragPoint = null;
+                notifySliderThumbReleased();
             }
 
             public void mouseDragged(PInputEvent event) {
@@ -116,6 +117,12 @@ public abstract class MotionSliderNode extends PNode {
         //todo: catch layout changes
         updateLayout();
         updateTrackPPathStrokeAndPaint();
+    }
+
+    private void notifySliderThumbReleased() {
+        for (Listener listener : listeners) {
+            listener.sliderThumbReleased();
+        }
     }
 
     protected abstract PhetPPath createTickMark();
@@ -248,6 +255,8 @@ public abstract class MotionSliderNode extends PNode {
         void valueChanged();
 
         void sliderThumbGrabbed();
+        
+        void sliderThumbReleased();
 
         void sliderDragged(Double value);
     }
@@ -258,6 +267,9 @@ public abstract class MotionSliderNode extends PNode {
         }
 
         public void sliderThumbGrabbed() {
+        }
+
+        public void sliderThumbReleased() {
         }
 
         public void sliderDragged(Double value) {//Uses Double for compatibility with Scala, double was problematic for unknown reasons
