@@ -13,6 +13,12 @@ HIGH PRIORITY
 - add MVT to handle relationship between model element locations and PNode locations
 - fix resize behavior of main frame, nodes below the beaker are not visible if main frame is resized wider 
 - bottom-center everything in the play area
+- change the name of the "Test Solution" tab
+- add a "none" radio button to "Tests" control panel
+- disable all "View" controls when "pH Paper" or "Conductivity" is selected OR never disable any "View" controls
+- change "Magnifying Glass" to "Molecules"
+- change "Show H2O Molecules" to "Show Water"
+- change "Concentration Graph" to "Concentration"
 
 MEDUIUM PRIORITY
 - improved layout of icons next to radio buttons
