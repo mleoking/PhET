@@ -1,3 +1,4 @@
+8/11/10 replace A- molecule image with one that has no "bite" out of it
 8/10/10 separate tools controls into Tools and View panels
 8/10/10 tweak locations of pH paper and conductivity tester
 8/10/10 make pH meter, pH paper, conductivity tester all mutually exclusive
