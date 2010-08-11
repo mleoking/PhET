@@ -2,14 +2,12 @@
 
 package edu.colorado.phet.acidbasesolutions.controls;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
@@ -31,6 +29,12 @@ public class TestsControl extends JPanel {
     
     public TestsControl( final ABSModel model ) {
         
+        // border
+        TitledBorder titledBorder = new TitledBorder( ABSStrings.TESTS );
+        titledBorder.setTitleFont( ABSConstants.TITLED_BORDER_FONT );
+        titledBorder.setBorder( ABSConstants.TITLE_BORDER_BORDER );
+        setBorder( titledBorder );
+        
         // model
         this.model = model;
         model.getMagnifyingGlass().addMagnifyingGlassListener( new MagnifyingGlassChangeListener() {
@@ -38,12 +42,6 @@ public class TestsControl extends JPanel {
                 updateControl();
             }
         });
-        
-        // border
-        TitledBorder titledBorder = new TitledBorder( ABSStrings.TESTS );
-        titledBorder.setTitleFont( ABSConstants.TITLED_BORDER_FONT );
-        titledBorder.setBorder( new LineBorder( Color.BLACK, 1 ) );
-        setBorder( titledBorder );
         
         ActionListener actionListener = new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

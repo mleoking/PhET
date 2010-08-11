@@ -9,7 +9,6 @@ import java.awt.event.ActionListener;
 import java.text.MessageFormat;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
@@ -38,6 +37,12 @@ public class ViewsControl extends JPanel {
     
     public ViewsControl( final ABSModel model ) {
         
+        // border
+        TitledBorder titledBorder = new TitledBorder( ABSStrings.VIEWS );
+        titledBorder.setTitleFont( ABSConstants.TITLED_BORDER_FONT );
+        titledBorder.setBorder( ABSConstants.TITLE_BORDER_BORDER );
+        setBorder( titledBorder );
+        
         // model
         this.model = model;
         model.getMagnifyingGlass().addMagnifyingGlassListener( new MagnifyingGlassChangeListener() {
@@ -51,12 +56,6 @@ public class ViewsControl extends JPanel {
                 showWaterCheckBox.setEnabled( model.getMagnifyingGlass().isVisible() );
             }
         });
-        
-        // border
-        TitledBorder titledBorder = new TitledBorder( ABSStrings.VIEWS );
-        titledBorder.setTitleFont( ABSConstants.TITLED_BORDER_FONT );
-        titledBorder.setBorder( new LineBorder( Color.BLACK, 1 ) );
-        setBorder( titledBorder );
         
         ActionListener actionListener = new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
