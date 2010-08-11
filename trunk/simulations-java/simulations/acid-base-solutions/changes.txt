@@ -1,3 +1,4 @@
+# 0.00.20 (42956) Aug 11, 2010
 8/11/10 add icons for choices in Views control panel
 8/11/10 add icons for choices in Tests control panel
 8/11/10 shorten "Conductivity Tester" to "Conductivity" so we have room for icons
