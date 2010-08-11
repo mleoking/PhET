@@ -12,9 +12,7 @@ import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.constants.ABSImages;
 import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel;
-import edu.colorado.phet.acidbasesolutions.model.MagnifyingGlass.MagnifyingGlassChangeListener;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
-import edu.colorado.phet.acidbasesolutions.view.ABSRadioButton;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 
 /**
@@ -36,32 +34,53 @@ public class TestControls extends JPanel {
         setBorder( titledBorder );
         
         // model
-        this.model = model;
-        SolutionRepresentationChangeAdapter srcListener = new SolutionRepresentationChangeAdapter() {
-            @Override
-            public void visibilityChanged() {
-                updateControl();
-            }
-        };
-        model.getPHMeter().addSolutionRepresentationChangeListener( srcListener );
-        model.getPHPaper().addSolutionRepresentationChangeListener( srcListener );
-        model.getConductivityTester().addSolutionRepresentationChangeListener( srcListener );
-        model.getMagnifyingGlass().addMagnifyingGlassListener( new MagnifyingGlassChangeListener() {
-            public void waterVisibleChanged() {
-                updateControl();
-            }
-        });
+        {
+            this.model = model;
+            
+            model.getPHMeter().addSolutionRepresentationChangeListener( new SolutionRepresentationChangeAdapter() {
+                @Override
+                public void visibilityChanged() {
+                    pHMeterRadioButton.setSelected( model.getPHMeter().isVisible() );
+                }
+            } );
+
+            model.getPHPaper().addSolutionRepresentationChangeListener( new SolutionRepresentationChangeAdapter() {
+                @Override
+                public void visibilityChanged() {
+                    pHPaperRadioButton.setSelected( model.getPHPaper().isVisible() );
+                }
+            } );
+
+            model.getConductivityTester().addSolutionRepresentationChangeListener( new SolutionRepresentationChangeAdapter() {
+                @Override
+                public void visibilityChanged() {
+                    conductivityTesterRadioButton.setSelected( model.getConductivityTester().isVisible() );
+                }
+            } );
+        }
         
         // radio buttons
-        ActionListener actionListener = new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                updateModel();
-            }
-        };
-        ButtonGroup group = new ButtonGroup();
-        pHMeterRadioButton = new ABSRadioButton( ABSStrings.PH_METER, group, actionListener );
-        pHPaperRadioButton = new ABSRadioButton( ABSStrings.PH_PAPER, group, actionListener );
-        conductivityTesterRadioButton = new ABSRadioButton( ABSStrings.CONDUCTIVITY, group, actionListener );
+        {
+            ActionListener actionListener = new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    updateModel();
+                }
+            };
+            
+            pHMeterRadioButton = new JRadioButton( ABSStrings.PH_METER );
+            pHMeterRadioButton.addActionListener( actionListener );
+
+            pHPaperRadioButton = new JRadioButton( ABSStrings.PH_PAPER );
+            pHPaperRadioButton.addActionListener( actionListener );
+
+            conductivityTesterRadioButton = new JRadioButton( ABSStrings.CONDUCTIVITY );
+            conductivityTesterRadioButton.addActionListener( actionListener );
+
+            ButtonGroup group = new ButtonGroup();
+            group.add( pHMeterRadioButton );
+            group.add( pHPaperRadioButton );
+            group.add( conductivityTesterRadioButton );
+        }
         
         // layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
@@ -78,10 +97,6 @@ public class TestControls extends JPanel {
         layout.addComponent( new JLabel( new ImageIcon( ABSImages.LIGHT_BULB_ICON ) ), row++, column );
         
         // default state
-        updateControl();
-    }
-    
-    private void updateControl() {
         pHMeterRadioButton.setSelected( model.getPHMeter().isVisible() );
         pHPaperRadioButton.setSelected( model.getPHPaper().isVisible() );
         conductivityTesterRadioButton.setSelected( model.getConductivityTester().isVisible() );

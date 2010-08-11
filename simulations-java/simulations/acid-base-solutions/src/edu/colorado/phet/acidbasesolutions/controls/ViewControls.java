@@ -16,9 +16,7 @@ import edu.colorado.phet.acidbasesolutions.model.ABSModel;
 import edu.colorado.phet.acidbasesolutions.model.MagnifyingGlass.MagnifyingGlassChangeListener;
 import edu.colorado.phet.acidbasesolutions.model.Molecule.WaterMolecule;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
-import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeListener;
 import edu.colorado.phet.acidbasesolutions.util.HTMLCheckBox;
-import edu.colorado.phet.acidbasesolutions.view.ABSRadioButton;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 
@@ -43,37 +41,76 @@ public class ViewControls extends JPanel {
         setBorder( titledBorder );
         
         // model
-        this.model = model;
-        SolutionRepresentationChangeListener srcListener = new SolutionRepresentationChangeAdapter() {
-            @Override
-            public void visibilityChanged() {
-                updateControls();
-            }
-        };
-        model.getMagnifyingGlass().addSolutionRepresentationChangeListener( srcListener );
-        model.getConcentrationGraph().addSolutionRepresentationChangeListener( srcListener );
-        model.getMagnifyingGlass().addMagnifyingGlassListener( new MagnifyingGlassChangeListener() {
-            public void waterVisibleChanged() {
-                updateControls();
-            }
-        });
+        {
+            this.model = model;
+            
+            model.getMagnifyingGlass().addSolutionRepresentationChangeListener( new SolutionRepresentationChangeAdapter() {
+                @Override
+                public void visibilityChanged() {
+                    if ( controlsEnabled ) {
+                        magnifyingGlassRadioButton.setSelected( model.getMagnifyingGlass().isVisible() );
+                        showWaterCheckBox.setEnabled( model.getMagnifyingGlass().isVisible() );
+                    }
+                }
+            } );
+            
+            model.getConcentrationGraph().addSolutionRepresentationChangeListener( new SolutionRepresentationChangeAdapter() {
+                @Override
+                public void visibilityChanged() {
+                    if ( controlsEnabled ) {
+                        concentrationGraphRadioButton.setSelected( model.getConcentrationGraph().isVisible() );
+                        showWaterCheckBox.setEnabled( model.getMagnifyingGlass().isVisible() );
+                    }
+                }
+            } );
+            
+            model.getMagnifyingGlass().addMagnifyingGlassListener( new MagnifyingGlassChangeListener() {
+                public void waterVisibleChanged() {
+                    showWaterCheckBox.setSelected( model.getMagnifyingGlass().isWaterVisible() );
+                }
+            } );
+            
+            // gray out all controls when "Conductivity Tester" is visible
+            model.getConductivityTester().addSolutionRepresentationChangeListener( new SolutionRepresentationChangeAdapter() {
+                @Override
+                public void visibilityChanged() {
+                    setControlsEnabled( !model.getConductivityTester().isVisible() );
+                }
+            } );
+        }
         
         // radio buttons
-        ActionListener actionListener = new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                updateModel();
-            }
-        };
-        ButtonGroup group = new ButtonGroup();
-        magnifyingGlassRadioButton = new ABSRadioButton( ABSStrings.MAGNIFYING_GLASS, group, actionListener );
-        concentrationGraphRadioButton = new ABSRadioButton( ABSStrings.CONCENTRATION_GRAPH, group, actionListener );
-        neitherRadioButton = new ABSRadioButton( ABSStrings.NEITHER, group, actionListener );
+        {
+            ActionListener actionListener = new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    updateModel();
+                }
+            };
+            
+            magnifyingGlassRadioButton = new JRadioButton( ABSStrings.MAGNIFYING_GLASS );
+            magnifyingGlassRadioButton.addActionListener( actionListener );
+
+            concentrationGraphRadioButton = new JRadioButton( ABSStrings.CONCENTRATION_GRAPH );
+            concentrationGraphRadioButton.addActionListener( actionListener );
+            
+            neitherRadioButton = new JRadioButton( ABSStrings.NEITHER );
+            neitherRadioButton.addActionListener( actionListener );
+            
+            ButtonGroup group = new ButtonGroup();
+            group.add( magnifyingGlassRadioButton );
+            group.add( concentrationGraphRadioButton );
+            group.add( neitherRadioButton );
+        }
         
         // "Show Water" check box
         WaterMolecule waterMolecule = new WaterMolecule();
         String html = HTMLUtils.toHTMLString( MessageFormat.format( ABSStrings.PATTERN_SHOW_WATER_MOLECULES, waterMolecule.getSymbol() ) );
         showWaterCheckBox = new HTMLCheckBox( html );
-        showWaterCheckBox.addActionListener( actionListener );
+        showWaterCheckBox.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                model.getMagnifyingGlass().setWaterVisible( showWaterCheckBox.isSelected() );
+            }
+        });
         
         // layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
@@ -87,31 +124,16 @@ public class ViewControls extends JPanel {
         layout.addComponent( new JLabel( new ImageIcon( ABSImages.CONCENTRATION_GRAPH_ICON ) ), 2, 2 );
         layout.addComponent( neitherRadioButton, 3, 0, 2, 1 );
         
-        // gray out all controls when "Conductivity Tester" is visible
-        model.getConductivityTester().addSolutionRepresentationChangeListener( new SolutionRepresentationChangeAdapter() {
-            @Override
-            public void visibilityChanged() {
-                setControlsEnabled( !model.getConductivityTester().isVisible() );
-            }
-        } );
-        
         // default state
         controlsEnabled = true;
-        updateControls();
+        magnifyingGlassRadioButton.setSelected( model.getMagnifyingGlass().isVisible() );
+        showWaterCheckBox.setSelected( model.getMagnifyingGlass().isWaterVisible() );
+        concentrationGraphRadioButton.setSelected( model.getConcentrationGraph().isVisible() );
         setControlsEnabled( !model.getConductivityTester().isVisible() );
-    }
-    
-    private void updateControls() {
-        if ( controlsEnabled ) {
-            magnifyingGlassRadioButton.setSelected( model.getMagnifyingGlass().isVisible() );
-            showWaterCheckBox.setSelected( model.getMagnifyingGlass().isWaterVisible() );
-            concentrationGraphRadioButton.setSelected( model.getConcentrationGraph().isVisible() );
-        }
     }
     
     private void updateModel() {
         model.getMagnifyingGlass().setVisible( magnifyingGlassRadioButton.isSelected() );
-        model.getMagnifyingGlass().setWaterVisible( showWaterCheckBox.isSelected() );
         model.getConcentrationGraph().setVisible( concentrationGraphRadioButton.isSelected() );
     }
     
