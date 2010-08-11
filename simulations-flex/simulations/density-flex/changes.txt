@@ -1,3 +1,4 @@
+Changed property editor layout to be: Title, then Slider, then Text readout, then Units
 Improvements for custom object and related controls
 # 0.01.13 (42907) Aug 10, 2010
 Converted readout to cm3

@@ -14,12 +14,13 @@ public class PropertyEditor extends GridRow {
     public function PropertyEditor(property:NumericProperty) {
         super();
         this.property=property;
-        addGridItem(createSlider(property));
         
         var label:Label = new Label();
         label.text = property.name;
         addGridItem(label);
-
+        
+        addGridItem(createSlider(property));
+        
         const textField:TextInput = new TextInput();
         textField.width = 100;
         function updateText():void{textField.text=property.value.toFixed(2)}
