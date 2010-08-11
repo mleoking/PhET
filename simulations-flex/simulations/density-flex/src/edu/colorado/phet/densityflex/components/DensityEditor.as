@@ -9,12 +9,13 @@ public class DensityEditor extends PropertyEditor {
     override protected function createSlider(property:NumericProperty):HSlider {
         const slider:HSlider = super.createSlider(property);
         const myArray:Array=new Array();
-        myArray.push("cork");
-        myArray.push("water");
+        myArray.push("styrofoam");
+        myArray.push("water balloon");
         myArray.push("lead");
         slider.labels = myArray;
-        slider.tickInterval=(slider.maximum-slider.minimum)/(3-1);
-//        slider.width = slider.width*2;
+//        slider.tickInterval=(slider.maximum-slider.minimum)/(3-1);
+        slider.tickValues=[0,10,50,60,70,90,100];
+        slider.width = SLIDER_WIDTH;
         return slider;
     }
 }

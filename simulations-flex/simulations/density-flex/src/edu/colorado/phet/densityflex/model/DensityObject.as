@@ -22,13 +22,16 @@ public class DensityObject {
     private var body:b2Body;
     private var submergedVolume:Number = 0.0;
     private var contactImpulseMap:Object = new Object();
+    
+    protected var density:Number;
 
-    public function DensityObject(x:Number, y:Number, z:Number, model:DensityModel) {
+    public function DensityObject(x:Number, y:Number, z:Number, model:DensityModel,density:Number) {
         this.x = x;
         this.y = y;
         this.z = z;
 
         this.model = model;
+        this.density=density;
         this.listeners = new Array();
     }
 
@@ -122,7 +125,7 @@ public class DensityObject {
         var term:b2Vec2 = contact.normal.Copy();
         term.Multiply(sign * contact.normalImpulse);
         contactImpulseMap[other].Add(term);
-//        trace("Force element: " + contactImpulseMap[other].x + ", " + contactImpulseMap[other].y);
+        //        trace("Force element: " + contactImpulseMap[other].x + ", " + contactImpulseMap[other].y);
     }
 
     private function getNetContactForce():b2Vec2 {
@@ -131,7 +134,7 @@ public class DensityObject {
             sum.Add(object as b2Vec2);
         }
         sum.Multiply(1.0 / DensityModel.DT_FRAME);//to convert to force
-//        trace("Force sum: " + sum.x + ", " + sum.y);
+        //        trace("Force sum: " + sum.x + ", " + sum.y);
         return sum;
     }
 
@@ -146,7 +149,7 @@ public class DensityObject {
     public function modelStepped():void {
         velocityArrowModel.setValue(body.GetLinearVelocity().x, body.GetLinearVelocity().y);
         gravityForceArrowModel.setValue(getGravityForce().x, getGravityForce().y);
-//        trace("Gravity y = " + getGravityForce().y);
+        //        trace("Gravity y = " + getGravityForce().y);
         buoyancyForceArrowModel.setValue(getBuoyancyForce().x, getBuoyancyForce().y);
         dragForceArrowModel.setValue(getDragForce().x, getDragForce().y);
         contactForceArrowModel.setValue(getNetContactForce().x, getNetContactForce().y)
@@ -154,7 +157,7 @@ public class DensityObject {
 
     //Overriden in subclasses
     public function getMass():Number {
-        return 0.0;
+        throw new Error("Abstract method error");
     }
 
     public function getGravityForce():b2Vec2 {
@@ -163,7 +166,7 @@ public class DensityObject {
 
     //Set the submerged volume before calling this
     public function getBuoyancyForce():b2Vec2 {
-        return new b2Vec2(0, DensityModel.ACCELERATION_DUE_TO_GRAVITY * submergedVolume)
+        return new b2Vec2(0, DensityModel.ACCELERATION_DUE_TO_GRAVITY * submergedVolume * Substance.WATER.getDensity())
     }
 
     public function setSubmergedVolume(submergedVolume:Number):void {
@@ -180,8 +183,24 @@ public class DensityObject {
         return contactForceArrowModel;
     }
 
-    public function copy( model:DensityModel ):DensityObject {
+    public function copy(model:DensityModel):DensityObject {
         throw new Error("bad copy on DensityObject");
+    }
+
+    public function setDensity(density:Number):void {
+        this.density = density;
+    }
+
+    public function getDensity():Number {
+        return density;
+    }
+
+    public function setVolume(value:Number):void {
+        throw new Error("abstract method error");
+    }
+
+    public function getVolume():Number {
+        throw new Error("abstract method error");
     }
 }
 }

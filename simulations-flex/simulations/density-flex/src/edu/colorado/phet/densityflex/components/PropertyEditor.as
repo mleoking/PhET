@@ -10,6 +10,7 @@ import mx.events.SliderEvent;
 
 public class PropertyEditor extends GridRow {
     private var property:NumericProperty;
+    public static const SLIDER_WIDTH:Number=250;
     public function PropertyEditor(property:NumericProperty) {
         super();
         this.property=property;
@@ -33,6 +34,7 @@ public class PropertyEditor extends GridRow {
 
     protected function createSlider(property:NumericProperty):HSlider {
         const slider:HSlider = new HSlider();
+        slider.width=SLIDER_WIDTH;
         slider.liveDragging = true;
         function sliderDragHandler(event:SliderEvent):void {
             property.value = event.value;
@@ -50,6 +52,7 @@ public class PropertyEditor extends GridRow {
 
     private function addGridItem(displayObject:DisplayObject):void {
         const item = new GridItem();
+//        item.colSpan=2;
         item.addChild(displayObject);
         addChild(item);
     }
