@@ -70,7 +70,8 @@ public class ConductivityTesterNode extends PhetPNode {
     private static final double CONNECTOR_WIRE_LENGTH = 50;
     
     // light bulb
-    private static final double FRACTION_WIRE_ATTACH_ON_BULB_BASE = 0.12;
+    private static final double PERCENT_LIGHT_BULB_ATTACHMENT = 0.12; // percent of light bulb's full height, from bottom of bulb, determines where to attach the probe wire
+    private static final LinearFunction BRIGHTNESS_TO_ALPHA_FUNCTION = new LinearFunction( 0, 1, 0.85, 1 );
     
     private final ConductivityTester tester;
 
@@ -225,7 +226,7 @@ public class ConductivityTesterNode extends PhetPNode {
 
         // wire
         x = lightBulbNode.getFullBoundsReference().getCenterX();
-        y = lightBulbNode.getFullBoundsReference().getMaxY() - ( lightBulbNode.getFullBoundsReference().getHeight() * FRACTION_WIRE_ATTACH_ON_BULB_BASE );
+        y = lightBulbNode.getFullBoundsReference().getMaxY() - ( lightBulbNode.getFullBoundsReference().getHeight() * PERCENT_LIGHT_BULB_ATTACHMENT );
         Point2D componentConnectionPoint = new Point2D.Double( x, y );
         x = negativeProbeNode.getFullBoundsReference().getCenterX();
         y = negativeProbeNode.getFullBoundsReference().getMinY();
@@ -234,8 +235,7 @@ public class ConductivityTesterNode extends PhetPNode {
     }
     
     private void updateBrightness() {
-        LinearFunction f = new LinearFunction( 0, 1, 0.85, 1 );
-        lightBulbNode.setGlassTransparency( (float) f.evaluate( tester.getBrightness() ) );
+        lightBulbNode.setGlassTransparency( (float) BRIGHTNESS_TO_ALPHA_FUNCTION.evaluate( tester.getBrightness() ) );
         valueNode.setValue( tester.getBrightness() );
     }
     
