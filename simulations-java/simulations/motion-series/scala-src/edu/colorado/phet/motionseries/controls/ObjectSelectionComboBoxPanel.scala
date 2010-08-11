@@ -32,7 +32,7 @@ class ObjectSelectionComboBox(objectModel: ObjectModel) extends PComboBox {
   for (elm <- itemList) vec.add(elm)
   super.setModel(new DefaultComboBoxModel(vec))
 
-  objectModel.addListener(() => {setSelectedIndex(MotionSeriesDefaults.objects.indexOf(objectModel.selectedObject))})
+  objectModel.addListener(() => setSelectedIndex(MotionSeriesDefaults.objects.indexOf(objectModel.selectedObject)))
   addItemListener(new ItemListener() {
     def itemStateChanged(e: ItemEvent) = objectModel.selectedObject = itemList(getSelectedIndex).rampObject
   })
