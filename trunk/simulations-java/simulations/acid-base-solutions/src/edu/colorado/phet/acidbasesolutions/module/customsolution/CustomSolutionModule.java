@@ -20,7 +20,7 @@ public class CustomSolutionModule extends ABSModule {
     private final CustomSolutionCanvas canvas;
     private final CustomSolutionControlPanel controlPanel;
     
-    public CustomSolutionModule() {
+    public CustomSolutionModule( boolean dev ) {
         super( ABSStrings.CUSTOM_SOLUTION );
         
         SolutionFactory solutionFactory = new SolutionFactory() {
@@ -30,7 +30,7 @@ public class CustomSolutionModule extends ABSModule {
         };
         model = new ABSModel( getClock(), solutionFactory );
         
-        canvas = new CustomSolutionCanvas( model );
+        canvas = new CustomSolutionCanvas( model, dev );
         setSimulationPanel( canvas );
         
         controlPanel = new CustomSolutionControlPanel( this, model );

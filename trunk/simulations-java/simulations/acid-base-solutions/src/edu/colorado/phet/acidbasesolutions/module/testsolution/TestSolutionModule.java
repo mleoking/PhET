@@ -20,7 +20,7 @@ public class TestSolutionModule extends ABSModule {
     private final TestSolutionCanvas canvas;
     private final TestSolutionControlPanel controlPanel;
     
-    public TestSolutionModule() {
+    public TestSolutionModule( boolean dev ) {
         super( ABSStrings.TEST_SOLUTION );
         
         SolutionFactory solutionFactory = new SolutionFactory() {
@@ -30,7 +30,7 @@ public class TestSolutionModule extends ABSModule {
         };
         model = new ABSModel( getClock(), solutionFactory );
         
-        canvas = new TestSolutionCanvas( model );
+        canvas = new TestSolutionCanvas( model, dev );
         setSimulationPanel( canvas );
         
         controlPanel = new TestSolutionControlPanel( this, model );
