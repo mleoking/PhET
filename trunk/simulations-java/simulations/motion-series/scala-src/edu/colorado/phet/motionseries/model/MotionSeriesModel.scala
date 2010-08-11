@@ -10,6 +10,7 @@ import java.lang.Math._
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.colorado.phet.common.motion.charts.ChartCursor
 import edu.colorado.phet.recordandplayback.model.{DataPoint, RecordAndPlaybackModel}
+import edu.colorado.phet.common.phetcommon.math.MathUtil
 
 case class RampState(angle: Double, heat: Double, wetness: Double)
 
@@ -222,7 +223,7 @@ class MotionSeriesModel(defaultBeadPosition: Double,
     }
   }
 
-  def updateDueToObjectChange() = {
+  private def updateDueToObjectChange() = {
     motionSeriesObject.mass = _selectedObject.mass
     motionSeriesObject.width = _selectedObject.width
     motionSeriesObject.height = _selectedObject.height
@@ -242,6 +243,13 @@ class MotionSeriesModel(defaultBeadPosition: Double,
       }
       case _ => {}
     }
+
+    //resolve collisions with the wall when switching objects
+    import MotionSeriesDefaults.MIN_X
+    import MotionSeriesDefaults.MAX_X
+    import MathUtil.clamp
+    motionSeriesObject.setPosition(clamp(MIN_X + motionSeriesObject.width / 2, motionSeriesObject.position, MAX_X - motionSeriesObject.width / 2))
+
     notifyListeners()
   }
 
