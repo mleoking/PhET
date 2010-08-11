@@ -332,7 +332,7 @@ public class DensityView extends UIComponent {
         running = true;
     }
 
-    public function reset():void {
+    public function resetAll():void {
         running = true;
         if (moving) {
             moving = false;
