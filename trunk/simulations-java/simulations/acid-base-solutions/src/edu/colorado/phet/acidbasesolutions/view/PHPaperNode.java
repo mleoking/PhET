@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.acidbasesolutions.view;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Stroke;
@@ -26,7 +25,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 public class PHPaperNode extends PhetPNode {
     
-    private static final Stroke STROKE = new BasicStroke( 1f );
+    private static final Stroke STROKE = null;
     private static final Color STROKE_COLOR = Color.BLACK;
     
     private PHPaper paper;
@@ -66,25 +65,28 @@ public class PHPaperNode extends PhetPNode {
         addInputEventListener( new CursorHandler( Cursor.N_RESIZE_CURSOR ) );
         addInputEventListener( new PDragSequenceEventHandler() {
 
+            private double clickXOffset; // x-offset of mouse click from meter's origin, in parent's coordinate frame
             private double clickYOffset; // y-offset of mouse click from meter's origin, in parent's coordinate frame
 
             protected void startDrag( PInputEvent event ) {
                 super.startDrag( event );
                 Point2D pMouse = event.getPositionRelativeTo( getParent() );
+                clickXOffset = pMouse.getX() - paper.getLocationReference().getX();
                 clickYOffset = pMouse.getY() - paper.getLocationReference().getY();
             }
 
             protected void drag( final PInputEvent event ) {
                 super.drag( event );
                 Point2D pMouse = event.getPositionRelativeTo( getParent() );
+                double x = pMouse.getX() - clickXOffset;
                 double y = pMouse.getY() - clickYOffset;
-                //TODO map y from view to model coordinate frame
-                paper.setLocation( paper.getLocationReference().getX(), y );
+                paper.setLocation( x, y );
             }
         } );
         
         Rectangle2D r = new Rectangle2D.Double( -paper.getWidth() / 2, 0, paper.getWidth(), paper.getHeight() );
         paperBodyNode = new PPath( r );
+        paperBodyNode.setStroke( null );
         paperBodyNode.setPaint( paper.getPaperColor() );
         addChild( paperBodyNode );
         
