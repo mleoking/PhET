@@ -28,14 +28,14 @@ import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ViewsControl extends JPanel {
+public class ViewControls extends JPanel {
     
     private final ABSModel model;
     private final JRadioButton magnifyingGlassRadioButton, concentrationGraphRadioButton, neitherRadioButton;
     private final JCheckBox showWaterCheckBox;
     private boolean controlsEnabled;
     
-    public ViewsControl( final ABSModel model ) {
+    public ViewControls( final ABSModel model ) {
         
         // border
         TitledBorder titledBorder = new TitledBorder( ABSStrings.VIEWS );

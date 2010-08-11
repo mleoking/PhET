@@ -3,8 +3,8 @@
 package edu.colorado.phet.acidbasesolutions.module.testsolution;
 
 import edu.colorado.phet.acidbasesolutions.controls.TestSolutionControl;
-import edu.colorado.phet.acidbasesolutions.controls.TestsControl;
-import edu.colorado.phet.acidbasesolutions.controls.ViewsControl;
+import edu.colorado.phet.acidbasesolutions.controls.TestControls;
+import edu.colorado.phet.acidbasesolutions.controls.ViewControls;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
@@ -18,8 +18,8 @@ public class TestSolutionControlPanel extends ControlPanel {
 
     public TestSolutionControlPanel( Resettable resettable, ABSModel model ) {
         addControlFullWidth( new TestSolutionControl( model ) );
-        addControlFullWidth( new TestsControl( model ) );
-        addControlFullWidth( new ViewsControl( model ) );
+        addControlFullWidth( new TestControls( model ) );
+        addControlFullWidth( new ViewControls( model ) );
         addResetAllButton( resettable );
     }
 }
