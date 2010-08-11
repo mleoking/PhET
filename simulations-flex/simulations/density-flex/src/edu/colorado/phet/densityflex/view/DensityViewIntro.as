@@ -2,6 +2,8 @@ package edu.colorado.phet.densityflex.view {
 import edu.colorado.phet.densityflex.components.CustomObjectPropertiesPanel;
 import edu.colorado.phet.densityflex.model.Block;
 
+import edu.colorado.phet.densityflex.model.DensityObject;
+
 import flash.geom.ColorTransform;
 
 import mx.containers.Canvas;
@@ -10,10 +12,13 @@ public class DensityViewIntro extends DensityView {
     private var _densityCanvas:Canvas;
     private var customObjectPropertiesPanel:CustomObjectPropertiesPanel;
     private var customObjectPropertiesPanelShowing:Boolean=false;
+    private var customizableObject:DensityObject; 
 
     public function DensityViewIntro() {
         super();
-        customObjectPropertiesPanel = new CustomObjectPropertiesPanel(new DefaultDensityObject());
+        //Showing the blocks as partially floating allows easier visualization of densities
+        customizableObject = Block.newBlockDensityMass(0.25, 7, -8, 0, new ColorTransform(0.5, 0.5, 0), model);
+        customObjectPropertiesPanel = new CustomObjectPropertiesPanel(customizableObject);
     }
 
     override public function initObjects():void {
@@ -48,10 +53,7 @@ public class DensityViewIntro extends DensityView {
     }
 
     private function initializeCustomObject():void {
-        var density:Number = 0.25; //Showing the blocks as partially floating allows easier visualization of densities
-        var block:Block = Block.newBlockDensityMass(density, 7, -8, 0, new ColorTransform(0.5, 0.5, 0), model);
-        model.addDensityObject(block);
-        customObjectPropertiesPanel.setDensityObject(block);
+        model.addDensityObject(customizableObject);
     }
 
     private function initializeMysteryObjects():void {
