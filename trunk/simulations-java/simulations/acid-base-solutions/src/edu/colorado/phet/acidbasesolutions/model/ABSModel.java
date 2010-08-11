@@ -62,14 +62,22 @@ public class ABSModel  {
     
     public void reset() {
         setSolution( defaultSolutionFactory.createSolution() );
-        pHPaper.setLocation( ABSConstants.PH_PAPER_LOCATION );
-        conductivityTester.setPositiveProbeLocation( ABSConstants.CONDUCTIVITY_TESTER_POSITIVE_PROBE_LOCATION );
-        conductivityTester.setNegativeProbeLocation( ABSConstants.CONDUCTIVITY_TESTER_NEGATIVE_PROBE_LOCATION );
-        magnifyingGlass.setVisible( ABSConstants.MAGNIFYING_GLASS_VISIBLE );
-        magnifyingGlass.setWaterVisible( ABSConstants.WATER_VISIBLE );
-        concentrationGraph.setVisible( ABSConstants.CONCENTRATION_GRAPH_VISIBLE );
+        
         pHMeter.setLocation( ABSConstants.PH_METER_LOCATION );
         pHMeter.setVisible( ABSConstants.PH_METER_VISIBLE );
+        
+        pHPaper.setLocation( ABSConstants.PH_PAPER_LOCATION );
+        pHPaper.setVisible( ABSConstants.PH_PAPER_VISIBLE );
+        
+        conductivityTester.setLocation( ABSConstants.CONDUCTIVITY_TESTER_LOCATION );
+        conductivityTester.setPositiveProbeLocation( ABSConstants.CONDUCTIVITY_TESTER_POSITIVE_PROBE_LOCATION );
+        conductivityTester.setNegativeProbeLocation( ABSConstants.CONDUCTIVITY_TESTER_NEGATIVE_PROBE_LOCATION );
+        conductivityTester.setVisible( ABSConstants.CONDUCTIVITY_TESTER_VISIBLE );
+        
+        magnifyingGlass.setVisible( ABSConstants.MAGNIFYING_GLASS_VISIBLE );
+        magnifyingGlass.setWaterVisible( ABSConstants.WATER_VISIBLE );
+        
+        concentrationGraph.setVisible( ABSConstants.CONCENTRATION_GRAPH_VISIBLE );
     }
     
     public Beaker getBeaker() {

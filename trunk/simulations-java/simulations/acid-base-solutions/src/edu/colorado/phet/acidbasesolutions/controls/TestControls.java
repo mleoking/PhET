@@ -13,6 +13,7 @@ import edu.colorado.phet.acidbasesolutions.constants.ABSImages;
 import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel;
 import edu.colorado.phet.acidbasesolutions.model.MagnifyingGlass.MagnifyingGlassChangeListener;
+import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
 import edu.colorado.phet.acidbasesolutions.view.ABSRadioButton;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 
@@ -36,19 +37,27 @@ public class TestControls extends JPanel {
         
         // model
         this.model = model;
+        SolutionRepresentationChangeAdapter srcListener = new SolutionRepresentationChangeAdapter() {
+            @Override
+            public void visibilityChanged() {
+                updateControl();
+            }
+        };
+        model.getPHMeter().addSolutionRepresentationChangeListener( srcListener );
+        model.getPHPaper().addSolutionRepresentationChangeListener( srcListener );
+        model.getConductivityTester().addSolutionRepresentationChangeListener( srcListener );
         model.getMagnifyingGlass().addMagnifyingGlassListener( new MagnifyingGlassChangeListener() {
             public void waterVisibleChanged() {
                 updateControl();
             }
         });
         
+        // radio buttons
         ActionListener actionListener = new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 updateModel();
             }
         };
-        
-        // radio buttons
         ButtonGroup group = new ButtonGroup();
         pHMeterRadioButton = new ABSRadioButton( ABSStrings.PH_METER, group, actionListener );
         pHPaperRadioButton = new ABSRadioButton( ABSStrings.PH_PAPER, group, actionListener );

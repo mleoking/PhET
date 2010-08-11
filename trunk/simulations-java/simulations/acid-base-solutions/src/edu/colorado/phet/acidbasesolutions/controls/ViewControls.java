@@ -16,6 +16,7 @@ import edu.colorado.phet.acidbasesolutions.model.ABSModel;
 import edu.colorado.phet.acidbasesolutions.model.MagnifyingGlass.MagnifyingGlassChangeListener;
 import edu.colorado.phet.acidbasesolutions.model.Molecule.WaterMolecule;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
+import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeListener;
 import edu.colorado.phet.acidbasesolutions.util.HTMLCheckBox;
 import edu.colorado.phet.acidbasesolutions.view.ABSRadioButton;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
@@ -43,25 +44,26 @@ public class ViewControls extends JPanel {
         
         // model
         this.model = model;
+        SolutionRepresentationChangeListener srcListener = new SolutionRepresentationChangeAdapter() {
+            @Override
+            public void visibilityChanged() {
+                updateControls();
+            }
+        };
+        model.getMagnifyingGlass().addSolutionRepresentationChangeListener( srcListener );
+        model.getConcentrationGraph().addSolutionRepresentationChangeListener( srcListener );
         model.getMagnifyingGlass().addMagnifyingGlassListener( new MagnifyingGlassChangeListener() {
             public void waterVisibleChanged() {
                 updateControls();
             }
         });
-        model.getMagnifyingGlass().addSolutionRepresentationChangeListener( new SolutionRepresentationChangeAdapter() {
-            @Override
-            public void visibilityChanged() {
-                showWaterCheckBox.setEnabled( model.getMagnifyingGlass().isVisible() );
-            }
-        });
         
+        // radio buttons
         ActionListener actionListener = new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 updateModel();
             }
         };
-        
-        // radio buttons
         ButtonGroup group = new ButtonGroup();
         magnifyingGlassRadioButton = new ABSRadioButton( ABSStrings.MAGNIFYING_GLASS, group, actionListener );
         concentrationGraphRadioButton = new ABSRadioButton( ABSStrings.CONCENTRATION_GRAPH, group, actionListener );
@@ -102,8 +104,8 @@ public class ViewControls extends JPanel {
     private void updateControls() {
         if ( controlsEnabled ) {
             magnifyingGlassRadioButton.setSelected( model.getMagnifyingGlass().isVisible() );
-            concentrationGraphRadioButton.setSelected( model.getConcentrationGraph().isVisible() );
             showWaterCheckBox.setSelected( model.getMagnifyingGlass().isWaterVisible() );
+            concentrationGraphRadioButton.setSelected( model.getConcentrationGraph().isVisible() );
         }
     }
     
