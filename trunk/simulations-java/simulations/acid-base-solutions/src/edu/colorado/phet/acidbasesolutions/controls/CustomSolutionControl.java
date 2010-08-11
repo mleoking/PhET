@@ -51,53 +51,65 @@ public class CustomSolutionControl extends JPanel {
     public CustomSolutionControl( ABSModel model ) {
         
         // border
-        TitledBorder titledBorder = new TitledBorder( ABSStrings.SOLUTION );
-        titledBorder.setTitleFont( ABSConstants.TITLED_BORDER_FONT );
-        titledBorder.setBorder( ABSConstants.TITLE_BORDER_BORDER );
-        setBorder( titledBorder );
+        {
+            TitledBorder titledBorder = new TitledBorder( ABSStrings.SOLUTION );
+            titledBorder.setTitleFont( ABSConstants.TITLED_BORDER_FONT );
+            titledBorder.setBorder( ABSConstants.TITLE_BORDER_BORDER );
+            setBorder( titledBorder );
+        }
         
         // model
-        this.model = model;
-        this.model.addModelChangeListener( new ModelChangeListener() {
-            public void solutionChanged() {
-                updateControl();
-            }
-        } );
-        this.solution = model.getSolution();
-        solutionChangeListener = new AqueousSolutionChangeListener() {
+        {
+            this.model = model;
+            
+            this.model.addModelChangeListener( new ModelChangeListener() {
+                public void solutionChanged() {
+                    updateControl();
+                }
+            } );
+            
+            this.solution = model.getSolution();
+            solutionChangeListener = new AqueousSolutionChangeListener() {
 
-            public void concentrationChanged() {
-                updateControl();
-            }
+                public void concentrationChanged() {
+                    updateControl();
+                }
 
-            public void strengthChanged() {
-                updateControl();
-            }
-        };
-        solution.addAqueousSolutionChangeListener( solutionChangeListener );
+                public void strengthChanged() {
+                    updateControl();
+                }
+            };
+            solution.addAqueousSolutionChangeListener( solutionChangeListener );
+        }
         
         // subpanels
-        ChangeListener changeListener = new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                updateModel();
-            }
-        };
-        typePanel = new TypePanel( changeListener );
-        concentrationPanel = new ConcentrationPanel( changeListener );
-        strengthPanel = new StrengthPanel( changeListener );
+        {
+            ChangeListener changeListener = new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    updateModel();
+                }
+            };
+            typePanel = new TypePanel( changeListener );
+            concentrationPanel = new ConcentrationPanel( changeListener );
+            strengthPanel = new StrengthPanel( changeListener );
+        }
         
         // main panel layout
-        int row = 0;
-        int column = 0;
-        EasyGridBagLayout layout = new EasyGridBagLayout( this );
-        setLayout( layout );
-        layout.setFill( GridBagConstraints.HORIZONTAL );
-        layout.addComponent( typePanel, row++, column );
-        layout.addComponent( concentrationPanel, row++, column );
-        layout.addComponent( strengthPanel, row++, column );
+        {
+            int row = 0;
+            int column = 0;
+            EasyGridBagLayout layout = new EasyGridBagLayout( this );
+            setLayout( layout );
+            layout.setFill( GridBagConstraints.HORIZONTAL );
+            layout.addComponent( typePanel, row++, column );
+            layout.addComponent( concentrationPanel, row++, column );
+            layout.addComponent( strengthPanel, row++, column );
+        }
         
         // default state
-        updateControl();
+        {
+            updateControl();
+        }
     }
     
     /*

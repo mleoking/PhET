@@ -83,23 +83,27 @@ public class TestControls extends JPanel {
         }
         
         // layout
-        EasyGridBagLayout layout = new EasyGridBagLayout( this );
-        setLayout( layout );
-        int row = 0;
-        int column = 0;
-        layout.addComponent( pHMeterRadioButton, row, column++ );
-        layout.addComponent( new JLabel( new ImageIcon( ABSImages.PH_METER_ICON ) ), row++, column );
-        column = 0;
-        layout.addComponent( pHPaperRadioButton, row, column++ );
-        layout.addComponent( new JLabel( new ImageIcon( ABSImages.PH_PAPER_ICON ) ), row++, column );
-        column = 0;
-        layout.addComponent( conductivityTesterRadioButton, row, column++ );
-        layout.addComponent( new JLabel( new ImageIcon( ABSImages.LIGHT_BULB_ICON ) ), row++, column );
-        
+        {
+            EasyGridBagLayout layout = new EasyGridBagLayout( this );
+            setLayout( layout );
+            int row = 0;
+            int column = 0;
+            layout.addComponent( pHMeterRadioButton, row, column++ );
+            layout.addComponent( new JLabel( new ImageIcon( ABSImages.PH_METER_ICON ) ), row++, column );
+            column = 0;
+            layout.addComponent( pHPaperRadioButton, row, column++ );
+            layout.addComponent( new JLabel( new ImageIcon( ABSImages.PH_PAPER_ICON ) ), row++, column );
+            column = 0;
+            layout.addComponent( conductivityTesterRadioButton, row, column++ );
+            layout.addComponent( new JLabel( new ImageIcon( ABSImages.LIGHT_BULB_ICON ) ), row++, column );
+        }
+
         // default state
-        pHMeterRadioButton.setSelected( model.getPHMeter().isVisible() );
-        pHPaperRadioButton.setSelected( model.getPHPaper().isVisible() );
-        conductivityTesterRadioButton.setSelected( model.getConductivityTester().isVisible() );
+        {
+            pHMeterRadioButton.setSelected( model.getPHMeter().isVisible() );
+            pHPaperRadioButton.setSelected( model.getPHPaper().isVisible() );
+            conductivityTesterRadioButton.setSelected( model.getConductivityTester().isVisible() );
+        }
     }
     
     private void updateModel() {
