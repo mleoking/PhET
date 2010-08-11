@@ -28,7 +28,7 @@ import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ViewControl extends JPanel {
+public class ViewsControl extends JPanel {
     
     private static final Color SEPARATOR_COLOR = new Color( 150, 150, 150 );
 
@@ -36,7 +36,7 @@ public class ViewControl extends JPanel {
     private final JRadioButton magnifyingGlassRadioButton, concentrationGraphRadioButton, neitherRadioButton;
     private final JCheckBox showWaterCheckBox;
     
-    public ViewControl( final ABSModel model ) {
+    public ViewsControl( final ABSModel model ) {
         
         // model
         this.model = model;
@@ -53,7 +53,7 @@ public class ViewControl extends JPanel {
         });
         
         // border
-        TitledBorder titledBorder = new TitledBorder( ABSStrings.TOOLS );
+        TitledBorder titledBorder = new TitledBorder( ABSStrings.VIEWS );
         titledBorder.setTitleFont( ABSConstants.TITLED_BORDER_FONT );
         titledBorder.setBorder( new LineBorder( Color.BLACK, 1 ) );
         setBorder( titledBorder );
