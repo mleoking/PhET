@@ -118,34 +118,39 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
         addControlFullWidth(atmosphericGasesPanel);
         
         // Add buttons for selecting greenhouse gas.
-        ch4Selector = createAndAttachSelectorPanel( "<html>CH<sub>4</sub></html>", createImageFromMolecule( new CH4() ),
-                PhotonTarget.SINGLE_CH4_MOLECULE, MOLECULE_SCALING_FACTOR );
+        // TODO: i18n
+        ch4Selector = createAndAttachSelectorPanel( "<html>CH<sub>4</sub></html>", "Methane",
+                createImageFromMolecule( new CH4() ), PhotonTarget.SINGLE_CH4_MOLECULE, MOLECULE_SCALING_FACTOR );
         ch4Selector.setFont( LABEL_FONT );
         atmosphericGasesPanel.add(ch4Selector);
         
-        co2Selector = createAndAttachSelectorPanel( "<html>CO<sub>2</sub></html>", createImageFromMolecule( new CO2() ),
-                PhotonTarget.SINGLE_CO2_MOLECULE, MOLECULE_SCALING_FACTOR );
+        // TODO: i18n
+        co2Selector = createAndAttachSelectorPanel( "<html>CO<sub>2</sub></html>", "Carbon Dioxide",
+                createImageFromMolecule( new CO2() ), PhotonTarget.SINGLE_CO2_MOLECULE, MOLECULE_SCALING_FACTOR );
         co2Selector.setFont( LABEL_FONT );
         atmosphericGasesPanel.add(co2Selector);
         
-        h2oSelector = createAndAttachSelectorPanel( "<html>H<sub>2</sub>O</html>", createImageFromMolecule( new H2O() ),
-                PhotonTarget.SINGLE_H2O_MOLECULE, MOLECULE_SCALING_FACTOR );
+        // TODO: i18n
+        h2oSelector = createAndAttachSelectorPanel( "<html>H<sub>2</sub>O</html>", "Water",
+                createImageFromMolecule( new H2O() ), PhotonTarget.SINGLE_H2O_MOLECULE, MOLECULE_SCALING_FACTOR );
         h2oSelector.setFont( LABEL_FONT );
         atmosphericGasesPanel.add(h2oSelector);
         
-        n2Selector = createAndAttachSelectorPanel( "<html>N<sub>2</sub></html>", createImageFromMolecule( new N2() ),
-                PhotonTarget.SINGLE_N2_MOLECULE, MOLECULE_SCALING_FACTOR );
+        // TODO: i18n
+        n2Selector = createAndAttachSelectorPanel( "<html>N<sub>2</sub></html>", "Nitrogen",
+                createImageFromMolecule( new N2() ), PhotonTarget.SINGLE_N2_MOLECULE, MOLECULE_SCALING_FACTOR );
         n2Selector.setFont( LABEL_FONT );
         atmosphericGasesPanel.add(n2Selector);
         
-        o2Selector = createAndAttachSelectorPanel( "<html>O<sub>2</sub></html>", createImageFromMolecule( new O2() ),
-                PhotonTarget.SINGLE_O2_MOLECULE, MOLECULE_SCALING_FACTOR );
+        // TODO: i18n
+        o2Selector = createAndAttachSelectorPanel( "<html>O<sub>2</sub></html>", "Oxygen",
+                createImageFromMolecule( new O2() ), PhotonTarget.SINGLE_O2_MOLECULE, MOLECULE_SCALING_FACTOR );
         o2Selector.setFont( LABEL_FONT );
         atmosphericGasesPanel.add(o2Selector);
 
         // TODO: i18n
-        atmosphereSelector = createAndAttachSelectorPanel("<html>Build<br>Atmosphere</html>", GreenhouseResources.getImage( "earth.png" ),
-                PhotonTarget.CONFIGURABLE_ATMOSPHERE, PLANET_SCALING_FACTOR);
+        atmosphereSelector = createAndAttachSelectorPanel("<html>Build<br>Atmosphere</html>", null,
+                GreenhouseResources.getImage( "earth.png" ), PhotonTarget.CONFIGURABLE_ATMOSPHERE, PLANET_SCALING_FACTOR);
         atmosphericGasesPanel.add(atmosphereSelector);
 
         // Create and add a panel that will contain the buttons for selecting
@@ -232,12 +237,13 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
      * value when pressed and updates its state when the model sends
      * notifications of changes.  This is a convenience method that exists in
      * order to avoid duplication of code.
+     * @param toolTipText TODO
      */
-    private RadioButtonWithIconPanel createAndAttachSelectorPanel(String text, BufferedImage image, 
-            final PhotonTarget photonTarget, double imageScaleFactor){
+    private RadioButtonWithIconPanel createAndAttachSelectorPanel(String text, String toolTipText, 
+            BufferedImage image, final PhotonTarget photonTarget, double imageScaleFactor){
         
         // Create the panel.
-        final RadioButtonWithIconPanel panel =  new RadioButtonWithIconPanel( text, image, imageScaleFactor );
+        final RadioButtonWithIconPanel panel =  new RadioButtonWithIconPanel( text, toolTipText, image, imageScaleFactor );
         
         // Listen to the button so that the specified value can be set in the
         // model when the button is pressed.
@@ -310,14 +316,17 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
         /**
          * Constructor.
          * 
-         * @param text
+         * @param buttonText
+         * @param toolTipText TODO
          * @param imageName
          */
-        public RadioButtonWithIconPanel(String text, BufferedImage image, double imageScalingFactor){
+        public RadioButtonWithIconPanel(String buttonText, String toolTipText, BufferedImage image,
+                double imageScalingFactor){
             
             // Create and add the button.
-            button = new JRadioButton(text);
+            button = new JRadioButton(buttonText);
             button.setFont(LABEL_FONT);
+            button.setToolTipText( toolTipText );
             add(button);
             
             setPreferredSize( new Dimension(getPreferredSize().width, PREFERRED_HEIGHT ) );
@@ -326,6 +335,7 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
             BufferedImage scaledImage = BufferedImageUtils.multiScale( image, imageScalingFactor );
             ImageIcon imageIcon = new ImageIcon( scaledImage );
             JLabel iconImageLabel = new JLabel( imageIcon );
+            iconImageLabel.setToolTipText( toolTipText );
             add( iconImageLabel );
             
             // Add a listener to the image that essentially makes it so that
