@@ -261,11 +261,11 @@
        xlink:href="#linearGradient5056"
        id="radialGradient12018"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(2.0214883,-1.1918464,1.2418549,2.1063196,-911.75837,153.58172)"
-       cx="318.6666"
-       cy="322.00909"
-       fx="318.6666"
-       fy="322.00909"
+       gradientTransform="matrix(5.7799108e-6,2.3466812,-2.4451556,-1.2039312e-7,955.30665,-281.96985)"
+       cx="313.94803"
+       cy="336.60406"
+       fx="313.94803"
+       fy="336.60406"
        r="36.31876" />
     <inkscape:perspective
        sodipodi:type="inkscape:persp3d"
@@ -375,6 +375,28 @@
        r="36.31876" />
     <radialGradient
        inkscape:collect="always"
+       xlink:href="#linearGradient5118"
+       id="radialGradient2462"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.8010068,1.5559485,-1.6212433,0.8346156,587.83548,-435.15064)"
+       cx="330.15457"
+       cy="327.70474"
+       fx="330.15457"
+       fy="327.70474"
+       r="36.31876" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient5118"
+       id="radialGradient2464"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(8.4003123e-2,-0.337515,0.2788696,6.9408002e-2,90.530778,-69.434866)"
+       cx="301.41577"
+       cy="350.29373"
+       fx="301.41577"
+       fy="350.29373"
+       r="36.31876" />
+    <radialGradient
+       inkscape:collect="always"
        xlink:href="#linearGradient16731"
        id="radialGradient2465"
        gradientUnits="userSpaceOnUse"
@@ -397,14 +419,25 @@
        r="36.31876" />
     <radialGradient
        inkscape:collect="always"
+       xlink:href="#linearGradient16731"
+       id="radialGradient2473"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.8010068,1.5559485,-1.6212433,0.8346156,587.83548,-435.15064)"
+       cx="318.72757"
+       cy="321.75848"
+       fx="318.72757"
+       fy="321.75848"
+       r="36.31876" />
+    <radialGradient
+       inkscape:collect="always"
        xlink:href="#linearGradient8028"
        id="radialGradient2467"
        gradientUnits="userSpaceOnUse"
        gradientTransform="matrix(0.8010068,1.5559485,-1.6212433,0.8346156,587.83548,-435.15064)"
-       cx="310.46765"
-       cy="337.81015"
-       fx="310.46765"
-       fy="337.81015"
+       cx="330.15457"
+       cy="327.70474"
+       fx="330.15457"
+       fy="327.70474"
        r="36.31876" />
     <radialGradient
        inkscape:collect="always"
@@ -412,10 +445,10 @@
        id="radialGradient2470"
        gradientUnits="userSpaceOnUse"
        gradientTransform="matrix(8.4003123e-2,-0.337515,0.2788696,6.9408002e-2,90.530778,-69.434866)"
-       cx="311.33585"
-       cy="337.68152"
-       fx="311.33585"
-       fy="337.68152"
+       cx="301.41577"
+       cy="350.29373"
+       fx="301.41577"
+       fy="350.29373"
        r="36.31876" />
     <radialGradient
        inkscape:collect="always"
@@ -423,10 +456,10 @@
        id="radialGradient2472"
        gradientUnits="userSpaceOnUse"
        gradientTransform="matrix(0.8010068,1.5559485,-1.6212433,0.8346156,587.83548,-435.15064)"
-       cx="317.49698"
-       cy="320.84494"
-       fx="317.49698"
-       fy="320.84494"
+       cx="318.72757"
+       cy="321.75848"
+       fx="318.72757"
+       fy="321.75848"
        r="36.31876" />
   </defs>
   <sodipodi:namedview
@@ -439,14 +472,14 @@
      objecttolerance="10"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.35"
-     inkscape:cx="376.57966"
-     inkscape:cy="645.10916"
+     inkscape:zoom="0.49497475"
+     inkscape:cx="688.49377"
+     inkscape:cy="137.43292"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="898"
-     inkscape:window-height="765"
+     inkscape:window-height="686"
      inkscape:window-x="460"
      inkscape:window-y="19" />
   <metadata
@@ -573,7 +606,7 @@
        inkscape:export-ydpi="90" />
     <path
        style="fill:url(#radialGradient12018);fill-opacity:1;stroke:none;stroke-width:5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;display:inline"
-       d="M 104.68958,494.6184 C 113.79596,509.30222 130.47954,518.7845 148.93136,517.72604 C 175.77043,516.18636 196.33659,493.14499 194.79685,466.30623 C 193.25698,439.46709 170.21597,418.9009 143.37694,420.44057 C 134.4592,420.95225 126.33721,423.87975 119.39026,428.48821 C 127.28784,442.93374 122.34084,461.13949 108.05526,469.56205 C 104.7436,471.51456 101.25034,472.75457 97.671494,473.36244 C 98.362946,481.16256 100.80431,488.35351 104.68958,494.6184 z"
+       d="M 145.29145,420.41739 C 128.01745,420.80419 111.37585,430.35995 102.91625,446.79239 C 90.611445,470.69423 100.01465,500.11279 123.91625,512.41739 C 147.81825,524.72207 177.23665,515.31919 189.54145,491.41739 C 193.62985,483.47555 195.23305,474.99223 194.79145,466.66739 C 178.33665,466.13391 165.16625,452.62603 165.16625,436.04239 C 165.16625,432.19799 165.87225,428.55903 167.16625,425.16739 C 160.09585,421.80147 152.66145,420.25235 145.29145,420.41739 z"
        id="path7958"
        inkscape:export-filename="/home/archie/Work/Sim Design/Acid-Base-Solutions/graphics/molecules/A_minus.png"
        inkscape:export-xdpi="90"
@@ -613,6 +646,28 @@
        inkscape:export-filename="/home/archie/Work/Sim Design/Acid-Base-Solutions/graphics/molecules/B.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
+    <g
+       inkscape:export-ydpi="90"
+       inkscape:export-xdpi="90"
+       inkscape:export-filename="/home/archie/Work/Sim Design/Acid-Base-Solutions/graphics/molecules/MOH.png"
+       transform="matrix(-4.7517712,1.1399248,-1.1399248,-4.7517712,1692.699,-671.12282)"
+       id="g2454"
+       style="display:inline">
+      <path
+         sodipodi:type="arc"
+         style="fill:url(#radialGradient2462);fill-opacity:1;stroke:none;stroke-width:5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;display:inline"
+         id="path2456"
+         sodipodi:cx="307.7861"
+         sodipodi:cy="339.02402"
+         sodipodi:rx="36.31876"
+         sodipodi:ry="36.31876"
+         d="M 344.10486,339.02402 A 36.31876,36.31876 0 1 1 271.46734,339.02402 A 36.31876,36.31876 0 1 1 344.10486,339.02402 z"
+         transform="matrix(0.2439807,0.1256012,-0.1256012,0.2439807,168.91866,-265.2416)" />
+      <path
+         style="fill:url(#radialGradient2464);fill-opacity:1;stroke:none;stroke-width:5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;display:inline"
+         d="M 214.27767,-153.77995 C 211.79625,-154.90215 208.8844,-154.0785 207.3366,-151.89414 L 211.35863,-142.99493 C 213.61105,-142.7603 215.88003,-143.89015 216.97847,-146.02387 C 218.40821,-148.80114 217.31417,-152.21676 214.5369,-153.6465 C 214.45011,-153.69117 214.36562,-153.74017 214.27767,-153.77995 z"
+         id="path2458" />
+    </g>
     <path
        transform="matrix(7.479329e-2,-1.2045276,1.2045276,7.479329e-2,-20.747229,586.03589)"
        d="M 344.10486,339.02402 A 36.31876,36.31876 0 1 1 271.46734,339.02402 A 36.31876,36.31876 0 1 1 344.10486,339.02402 z"
@@ -626,11 +681,24 @@
        inkscape:export-filename="/home/archie/Work/Sim Design/Acid-Base-Solutions/graphics/molecules/M_plus.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
+    <path
+       transform="matrix(7.479329e-2,-1.2045276,1.2045276,7.479329e-2,508.5727,598.15773)"
+       d="M 344.10486,339.02402 A 36.31876,36.31876 0 1 1 271.46734,339.02402 A 36.31876,36.31876 0 1 1 344.10486,339.02402 z"
+       sodipodi:ry="36.31876"
+       sodipodi:rx="36.31876"
+       sodipodi:cy="339.02402"
+       sodipodi:cx="307.7861"
+       id="path2471"
+       style="fill:url(#radialGradient2473);fill-opacity:1;stroke:none;stroke-width:5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;display:inline"
+       sodipodi:type="arc"
+       inkscape:export-filename="/home/archie/Work/Sim Design/Acid-Base-Solutions/graphics/molecules/MOH.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <g
        inkscape:export-ydpi="90"
        inkscape:export-xdpi="90"
        inkscape:export-filename="/home/archie/Work/Sim Design/Acid-Base-Solutions/graphics/molecules/MOH.png"
-       transform="matrix(4.8610852,-0.498607,0.498607,4.8610852,-253.36531,1053.6683)"
+       transform="matrix(-4.7517712,1.1399248,-1.1399248,-4.7517712,1424.0526,-667.22939)"
        id="g2458"
        style="display:inline">
       <path
@@ -649,7 +717,7 @@
          id="path2463" />
     </g>
     <path
-       transform="matrix(6.7036796e-2,-1.0796112,1.0796112,6.7036796e-2,176.0719,566.73833)"
+       transform="matrix(7.479329e-2,-1.2045276,1.2045276,7.479329e-2,239.92628,602.05116)"
        d="M 344.10486,339.02402 A 36.31876,36.31876 0 1 1 271.46734,339.02402 A 36.31876,36.31876 0 1 1 344.10486,339.02402 z"
        sodipodi:ry="36.31876"
        sodipodi:rx="36.31876"
@@ -661,32 +729,5 @@
        inkscape:export-filename="/home/archie/Work/Sim Design/Acid-Base-Solutions/graphics/molecules/MOH.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
-    <text
-       xml:space="preserve"
-       style="font-size:33.2115593px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Serif"
-       x="546.52777"
-       y="324.00308"
-       id="text2480"
-       inkscape:export-filename="/home/archie/Work/Sim Design/Acid-Base-Solutions/graphics/molecules/MOH.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90"><tspan
-         sodipodi:role="line"
-         id="tspan2482"
-         x="546.52777"
-         y="324.00308">+</tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-size:53.59521866px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Serif"
-       x="788.32812"
-       y="246.10927"
-       id="text2488"
-       transform="scale(0.819746,1.2198901)"
-       inkscape:export-filename="/home/archie/Work/Sim Design/Acid-Base-Solutions/graphics/molecules/MOH.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90"><tspan
-         sodipodi:role="line"
-         id="tspan2490"
-         x="788.32812"
-         y="246.10927">_</tspan></text>
   </g>
 </svg>
