@@ -7,6 +7,7 @@ import java.awt.geom.CubicCurve2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.text.DecimalFormat;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSImages;
 import edu.colorado.phet.acidbasesolutions.constants.ABSSymbols;
@@ -364,6 +365,8 @@ public class ConductivityTesterNode extends PhetPNode {
      */
     private static class ValueNode extends PText {
         
+        private static final DecimalFormat FORMAT = new DecimalFormat( "0.000" );
+        
         public ValueNode() {
             this( 0 );
         }
@@ -375,7 +378,7 @@ public class ConductivityTesterNode extends PhetPNode {
         }
         
         public void setValue( double brightness ) {
-            setText( "brightness=" + String.valueOf( brightness ) ); // no i18n needed, this is a dev feature
+            setText( "brightness=" + FORMAT.format( brightness ) ); // no i18n needed, this is a dev feature
         }
     }
 }

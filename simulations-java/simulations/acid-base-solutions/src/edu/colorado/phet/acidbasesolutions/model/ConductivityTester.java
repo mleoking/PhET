@@ -65,12 +65,12 @@ public class ConductivityTester extends SolutionRepresentation {
     
     private void updateBrightness() {
         if ( isCircuitCompleted() ) {
-            AqueousSolution solution = getSolution();
-            if ( solution instanceof StrongAcidSolution || solution instanceof StrongBaseSolution ) {
-                brightness = 1;
+            double pH = getSolution().getPH();
+            if ( pH < 7 ) {
+                brightness = -( 1d / 7d ) * pH + 1;
             }
             else {
-                brightness = 0.25;
+                brightness = ( 1d / 7d ) * pH - 1;
             }
         }
         else {
