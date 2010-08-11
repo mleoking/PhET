@@ -36,7 +36,6 @@ class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2
   addChild(pathNode)
   def updateAll() = {
     updateBaseColor()
-    updateColor()
     updateDecorations()
   }
   rampSurfaceModel.addListener(() => updateAll())
@@ -54,20 +53,6 @@ class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2
   rampSegment.heatListeners += (() => updateAll())
   updateAll()
 
-  def updateColor() = {
-    val r = new LinearFunction(0, 1, baseColor.getRed, wetColor.getRed).evaluate(rampSegment.wetness).toInt
-    val g = new LinearFunction(0, 1, baseColor.getGreen, wetColor.getGreen).evaluate(rampSegment.wetness).toInt
-    val b = new LinearFunction(0, 1, baseColor.getBlue, wetColor.getBlue).evaluate(rampSegment.wetness).toInt
-    val wetnessColor = new Color(r, g, b)
-
-    val scaleFactor = 10000.0 * 2
-    val heatBetweenZeroAndOne = max(min(rampSegment.heat / scaleFactor, 1), 0)
-    val r2 = new LinearFunction(0, 1, wetnessColor.getRed, hotColor.getRed).evaluate(heatBetweenZeroAndOne).toInt
-    val g2 = new LinearFunction(0, 1, wetnessColor.getGreen, hotColor.getGreen).evaluate(heatBetweenZeroAndOne).toInt
-    val b2 = new LinearFunction(0, 1, wetnessColor.getBlue, hotColor.getBlue).evaluate(heatBetweenZeroAndOne).toInt
-    paintColor = new Color(r2, g2, b2) //TODO: how about making it so that this mutator isn't being called all the time?
-  }
-
   def updateDecorations() = {
     if (rampSurfaceModel.frictionless && !getChildrenReference.contains(icicleImageNode))
       addChild(icicleImageNode)
@@ -82,8 +67,6 @@ class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2
       icicleImageNode.setRotation(-rampSegment.angle)
     }
   }
-
-  rampSegment.heatListeners += (() => updateColor())
 
   def paintColor_=(p: Paint) = pathNode.setPaint(p)
 

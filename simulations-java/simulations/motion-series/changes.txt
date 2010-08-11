@@ -1,3 +1,5 @@
+Removed ramp turing blue due to water
+Removed ramp turing red due to heat
 Removed text "coefficient of"
 Renamed "more controls" to "Position" in forces and motion
 Resolved collisions with the wall when switching objects
