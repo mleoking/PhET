@@ -2,13 +2,14 @@
 
 package edu.colorado.phet.acidbasesolutions.controls;
 
-import java.awt.Color;
-import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.MessageFormat;
 
-import javax.swing.*;
+import javax.swing.ButtonGroup;
+import javax.swing.JCheckBox;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
@@ -32,6 +33,7 @@ public class ViewsControl extends JPanel {
     private final ABSModel model;
     private final JRadioButton magnifyingGlassRadioButton, concentrationGraphRadioButton, neitherRadioButton;
     private final JCheckBox showWaterCheckBox;
+    private boolean controlsEnabled;
     
     public ViewsControl( final ABSModel model ) {
         
@@ -45,7 +47,7 @@ public class ViewsControl extends JPanel {
         this.model = model;
         model.getMagnifyingGlass().addMagnifyingGlassListener( new MagnifyingGlassChangeListener() {
             public void waterVisibleChanged() {
-                updateControl();
+                updateControls();
             }
         });
         model.getMagnifyingGlass().addSolutionRepresentationChangeListener( new SolutionRepresentationChangeAdapter() {
@@ -87,19 +89,57 @@ public class ViewsControl extends JPanel {
         layout.addComponent( concentrationGraphRadioButton, row++, column, 2, 1 );
         layout.addComponent( neitherRadioButton, row++, column, 2, 1 );
         
+        // gray out all controls when "Conductivity Tester" is visible
+        model.getConductivityTester().addSolutionRepresentationChangeListener( new SolutionRepresentationChangeAdapter() {
+            @Override
+            public void visibilityChanged() {
+                setControlsEnabled( !model.getConductivityTester().isVisible() );
+            }
+        } );
+        
         // default state
-        updateControl();
+        controlsEnabled = true;
+        updateControls();
+        setControlsEnabled( !model.getConductivityTester().isVisible() );
     }
     
-    private void updateControl() {
-        magnifyingGlassRadioButton.setSelected( model.getMagnifyingGlass().isVisible() );
-        concentrationGraphRadioButton.setSelected( model.getConcentrationGraph().isVisible() );
-        showWaterCheckBox.setSelected( model.getMagnifyingGlass().isWaterVisible() );
+    private void updateControls() {
+        if ( controlsEnabled ) {
+            magnifyingGlassRadioButton.setSelected( model.getMagnifyingGlass().isVisible() );
+            concentrationGraphRadioButton.setSelected( model.getConcentrationGraph().isVisible() );
+            showWaterCheckBox.setSelected( model.getMagnifyingGlass().isWaterVisible() );
+        }
     }
     
     private void updateModel() {
         model.getMagnifyingGlass().setVisible( magnifyingGlassRadioButton.isSelected() );
         model.getMagnifyingGlass().setWaterVisible( showWaterCheckBox.isSelected() );
         model.getConcentrationGraph().setVisible( concentrationGraphRadioButton.isSelected() );
+    }
+    
+    /*
+     * All controls are disabled when Conductivity Tester becomes visible.
+     * State of controls remains unchanged, but all associated model elements are made invisible.
+     * When conductivity tester becomes invisible, visibility of model elements is restored.
+     */
+    private void setControlsEnabled( boolean controlsEnabled ) {
+        if ( controlsEnabled != this.controlsEnabled ) {
+            
+            this.controlsEnabled = controlsEnabled;
+            
+            magnifyingGlassRadioButton.setEnabled( controlsEnabled );
+            showWaterCheckBox.setEnabled( controlsEnabled && magnifyingGlassRadioButton.isSelected() );
+            concentrationGraphRadioButton.setEnabled( controlsEnabled );
+            neitherRadioButton.setEnabled( controlsEnabled );
+
+            if ( controlsEnabled ) {
+                model.getMagnifyingGlass().setVisible( magnifyingGlassRadioButton.isSelected() );
+                model.getConcentrationGraph().setVisible( concentrationGraphRadioButton.isSelected() );
+            }
+            else {
+                model.getMagnifyingGlass().setVisible( false );
+                model.getConcentrationGraph().setVisible( false );
+            }
+        }
     }
 }

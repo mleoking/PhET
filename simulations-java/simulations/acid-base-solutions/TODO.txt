@@ -4,7 +4,6 @@ MILESTONES
 
 HIGH PRIORITY
 - use molecule color for "negligible" in Concentration Graph
-- gray out View controls when "Conductivity Tester" tool is selected
 - center whitespace of chart in beaker
 - try to make symbols in reaction equations line up with bars in concentration graph
 - light rays in conductivity tester
