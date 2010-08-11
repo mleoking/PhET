@@ -41,7 +41,7 @@ public class PropertyEditor extends GridRow {
             property.value = event.value;
         }
 
-        slider.addEventListener(SliderEvent.CHANGE, sliderDragHandler);
+        slider.addEventListener(SliderEvent.THUMB_DRAG, sliderDragHandler);
         function updateSlider():void {
             slider.value = property.value;
         }
@@ -53,7 +53,6 @@ public class PropertyEditor extends GridRow {
 
     private function addGridItem(displayObject:DisplayObject):void {
         const item = new GridItem();
-//        item.colSpan=2;
         item.addChild(displayObject);
         addChild(item);
     }

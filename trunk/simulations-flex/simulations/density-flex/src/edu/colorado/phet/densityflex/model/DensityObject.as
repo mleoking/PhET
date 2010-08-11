@@ -95,6 +95,10 @@ public class DensityObject {
         getVolumeProperty().addListener( volumeChanged );
 
         function densityChanged():void {
+            //this should change the mass
+            
+            setMass(getVolume()*getDensity());
+            
             //TODO: Switch into "custom object" mode
             //This could be confusing because it will switch the behavior of the other sliders
             
