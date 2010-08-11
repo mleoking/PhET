@@ -9,13 +9,36 @@ import mx.controls.ComboBox;
 
 public class CustomObjectPropertiesPanel extends Panel {
     private var grid:Grid = new Grid();
-    private var iDensityObject:IDensityObject;
     private var densityObject:DensityObject;
 
-    public function CustomObjectPropertiesPanel(densityObject:IDensityObject) {
+    public function CustomObjectPropertiesPanel(densityObject:DensityObject) {
         super();
         this.title = "Properties";
-        this.iDensityObject = densityObject;
+        this.densityObject=densityObject;
+        
+        //TODO: remove listeners from former density object
+        this.densityObject = densityObject;
+
+//        iDensityObject.getMass().value = densityObject.getMass();
+//        iDensityObject.getVolume().value = densityObject.getVolume();
+//        iDensityObject.getDensity().value = densityObject.getDensity();
+        densityObject.addSubstanceListener(function f():void {
+            comboBox.selectedItem = densityObject.getSubstance().name; 
+        });
+
+        //TODO: connect mass values
+        //        function massListener():void {densityObject.setMass(iDensityObject.getMass().value);}
+        //        iDensityObject.getMass().addListener(massListener);
+        function volumeListener():void {
+            densityObject.setVolume(densityObject.getVolume());
+        }
+
+        densityObject.getVolumeProperty().addListener(volumeListener);
+        function densityListener():void {
+            densityObject.setDensity(densityObject.getDensity());
+        }
+
+        densityObject.getDensityProperty().addListener(densityListener);
     }
 
     private var comboBox:ComboBox;
@@ -23,14 +46,14 @@ public class CustomObjectPropertiesPanel extends Panel {
     public override function initialize():void {
         super.initialize();
 
-        grid.addChild(new PropertyEditor(iDensityObject.getMass()));
-        grid.addChild(new PropertyEditor(iDensityObject.getVolume()));
-        grid.addChild(new DensityEditor(iDensityObject.getDensity()));
+        grid.addChild(new PropertyEditor(densityObject.getMassProperty()));
+        grid.addChild(new PropertyEditor(densityObject.getVolumeProperty()));
+        grid.addChild(new DensityEditor(densityObject.getDensityProperty()));
 
         comboBox = new ComboBox();
         comboBox.dataProvider = ["Styrofoam","Water Balloon","Lead","Custom"];
         function myListener():void{
-            iDensityObject.getDensity().value = Substance.OBJECT_SUBSTANCES[comboBox.selectedItem];
+            densityObject.setDensity(Substance.OBJECT_SUBSTANCES[comboBox.selectedItem]);
         }
         comboBox.addEventListener("change",myListener);
         addChild(comboBox);
@@ -38,31 +61,5 @@ public class CustomObjectPropertiesPanel extends Panel {
         addChild(grid);
     }
 
-
-    public function setDensityObject(densityObject:DensityObject):void {
-        //TODO: remove listeners from former density object
-        this.densityObject = densityObject;
-
-        iDensityObject.getMass().value = densityObject.getMass();
-        iDensityObject.getVolume().value = densityObject.getVolume();
-        iDensityObject.getDensity().value = densityObject.getDensity();
-        iDensityObject.addSubstanceListener(function f():void {
-            comboBox.selectedItem = iDensityObject.getSubstance().name; 
-        });
-
-        //TODO: connect mass values
-        //        function massListener():void {densityObject.setMass(iDensityObject.getMass().value);}
-        //        iDensityObject.getMass().addListener(massListener);
-        function volumeListener():void {
-            densityObject.setVolume(iDensityObject.getVolume().value);
-        }
-
-        iDensityObject.getVolume().addListener(volumeListener);
-        function densityListener():void {
-            densityObject.setDensity(iDensityObject.getDensity().value);
-        }
-
-        iDensityObject.getDensity().addListener(densityListener);
-    }
 }
 }

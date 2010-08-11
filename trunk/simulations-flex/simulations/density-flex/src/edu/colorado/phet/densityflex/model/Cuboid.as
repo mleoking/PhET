@@ -29,6 +29,13 @@ public class Cuboid extends DensityObject {
         this.depth = depth;
 
         initEngineModel();
+        
+        function volumeChangeListener():void{
+            updateDimensions();
+        }
+        getVolumeProperty().addListener(volumeChangeListener);
+        
+        setVolume(width*height*depth);
     }
 
     private function initEngineModel():void {
@@ -89,18 +96,10 @@ public class Cuboid extends DensityObject {
         return getY() - height / 2;
     }
 
-    public override function getVolume():Number {
-        return width * height * depth;
-    }
-
-    public override function getMass():Number {
-        return getVolume() * getDensity();
-    }
-
-    public override function setVolume(value:Number):void {
-        this.height=Math.pow(value,1.0/3.0);
-        this.width=Math.pow(value,1.0/3.0);
-        this.depth=Math.pow(value,1.0/3.0);
+    public function updateDimensions():void {
+        this.height=Math.pow(getVolume(),1.0/3.0);
+        this.width=Math.pow(getVolume(),1.0/3.0);
+        this.depth=Math.pow(getVolume(),1.0/3.0);
         updateShapeDef();
     }
 }

@@ -44,7 +44,7 @@ public class Block extends Cuboid {
     }
 
     override public function copy( model:DensityModel ):DensityObject {
-        return new Block( density, width, getX(), getY(), color, model);
+        return new Block( getDensity(), width, getX(), getY(), color, model);
     }
 }
 }

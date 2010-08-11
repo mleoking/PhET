@@ -3,11 +3,18 @@ import Box2D.Common.Math.b2Vec2;
 import Box2D.Dynamics.Contacts.b2ContactResult;
 import Box2D.Dynamics.b2Body;
 
+import edu.colorado.phet.densityflex.components.NumericProperty;
 import edu.colorado.phet.densityflex.view.DensityObjectNode;
 import edu.colorado.phet.densityflex.view.DensityView;
 
 public class DensityObject {
 
+    private const volume:NumericProperty = new NumericProperty( "Volume", "m^3", 1.0 );
+    private const mass:NumericProperty = new NumericProperty( "Mass", "kg", 1.0 );
+    private const density:NumericProperty = new NumericProperty( "Density", "kg/m^3", 1.0 );
+    private var _substance:Substance = Substance.STYROFOAM;
+    private var substanceListeners:Array = new Array();
+    
     private var x:Number;
     private var y:Number;
     private var z:Number;
@@ -22,17 +29,100 @@ public class DensityObject {
     private var body:b2Body;
     private var submergedVolume:Number = 0.0;
     private var contactImpulseMap:Object = new Object();
-    
-    protected var density:Number;
+
+    public function addSubstanceListener( listener:Function ):void {
+        substanceListeners.push( listener );
+    }
+
+    public function set substance( substance:Substance ):void {
+        if ( !this._substance.equals(substance) ) {
+            this._substance = substance;
+            this.density.value = substance.getDensity();
+            for each ( var listener:Function in substanceListeners ) {
+                listener();
+            }
+        }
+    }
+
+    public function get substance():Substance {
+        return _substance;
+    }
+
+    private function isDensityFixed():Boolean {
+        return true;
+    }
+
+    public function getVolumeProperty():NumericProperty {
+        return volume;
+    }
+
+    public function getMassProperty():NumericProperty {
+        return mass;
+    }
+
+    public function getDensityProperty():NumericProperty {
+        return density;
+    }
+
+    public function getSubstance():Substance {
+        return substance;
+    }
 
     public function DensityObject(x:Number, y:Number, z:Number, model:DensityModel,density:Number) {
+        
+        function massChanged():void {
+            if ( isDensityFixed() ) {
+                setVolume(getMass()/ getDensity());
+            }
+            else {
+                //a change in mass or volume causes a change in density
+                setDensity(getMass()/ getVolume());
+            }
+        }
+
+        getMassProperty().addListener( massChanged );
+
+        function volumeChanged():void {
+            if ( isDensityFixed() ) {
+                setMass(getVolume()*getDensity());
+            }
+            else { //custom object
+                //a change in mass or volume causes a change in density
+                setDensity(getMass()/getVolume());
+            }
+        }
+
+        getVolumeProperty().addListener( volumeChanged );
+
+        function densityChanged():void {
+            //TODO: Switch into "custom object" mode
+            //This could be confusing because it will switch the behavior of the other sliders
+            
+            var changed:Boolean = false;
+            for each ( var s:Substance in Substance.OBJECT_SUBSTANCES ) {
+                if ( s.getDensity() == getDensity() ) {
+                    substance = s;
+                    changed = true;
+                }
+            }
+            if (!changed){
+                substance = new Substance("Custom",getDensity());
+            }
+        }
+
+        getDensityProperty().addListener( densityChanged );
+        
         this.x = x;
         this.y = y;
         this.z = z;
 
         this.model = model;
-        this.density=density;
+        this.density.value=density;
         this.listeners = new Array();
+    }
+
+    private function setMass(number:Number):void {
+        mass.value=number;
     }
 
     public function getVelocityArrowModel():ArrowModel {
@@ -155,9 +245,8 @@ public class DensityObject {
         contactForceArrowModel.setValue(getNetContactForce().x, getNetContactForce().y)
     }
 
-    //Overriden in subclasses
     public function getMass():Number {
-        throw new Error("Abstract method error");
+        return mass.value;
     }
 
     public function getGravityForce():b2Vec2 {
@@ -188,19 +277,19 @@ public class DensityObject {
     }
 
     public function setDensity(density:Number):void {
-        this.density = density;
+        this.density.value = density;
     }
 
     public function getDensity():Number {
-        return density;
+        return density.value;
     }
 
     public function setVolume(value:Number):void {
-        throw new Error("abstract method error");
+        this.volume.value = value;
     }
 
     public function getVolume():Number {
-        throw new Error("abstract method error");
+        return this.volume.value;
     }
 }
 }
