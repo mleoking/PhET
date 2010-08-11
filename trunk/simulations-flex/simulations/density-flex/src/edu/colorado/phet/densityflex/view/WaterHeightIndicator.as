@@ -23,7 +23,7 @@ public class WaterHeightIndicator extends Sprite {
 
     function update():void {
         graphics.clear();
-        textField.text = String(waterHeight.toFixed(2));
+        textField.text = String(waterHeight.toFixed(3));
         var textFormat:TextFormat = new TextFormat();
         textFormat.size=16;
         textFormat.bold=true;
