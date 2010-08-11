@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--plinko-probability-strings_ko.xml created Sat Aug 07 16:48:07 KST 2010 using: plinko-probability 2.01.00 (37320), translation-utility 2.08.00 (39581) 4월 2, 2010-->
+<SimStrings>
+<string key="none" value="없음"/>
+<string key="number" value="수"/>
+<string key="start" value="시작"/>
+<string key="continuous" value="연속"/>
+<string key="simTitle" value="핑코 확률"/>
+<string key="fraction" value="분율"/>
+<string key="rows" value="열"/>
+<string key="sound" value="소리"/>
+<string key="oneBall" value="볼 1개"/>
+<string key="path" value="경로"/>
+<string key="histogramDisplay" value="히스토그램 보기:"/>
+<string key="p" value="확률"/>
+<string key="stop" value="정지"/>
+<string key="ball" value="볼"/>
+<string key="help" value="도움말"/>
+<string key="show" value="보기:"/>
+<string key="reset" value="초기화"/>
+<string key="autoScale" value="자동 축척"/>
+</SimStrings>
