@@ -64,8 +64,8 @@ public class ConductivityTesterNode extends PhetPNode {
     
     // positive wire properties
     private static final Color POSITIVE_WIRE_COLOR = Color.BLACK;
-    private static final int POSITIVE_WIRE_CONTROL_POINT_DX = 50;
-    private static final int POSITIVE_WIRE_CONTROL_POINT_DY = -50;
+    private static final int POSITIVE_WIRE_CONTROL_POINT_DX = 25;
+    private static final int POSITIVE_WIRE_CONTROL_POINT_DY = -100;
     
     // negative wire properties
     private static final Color NEGATIVE_WIRE_COLOR = Color.BLACK;
@@ -111,10 +111,11 @@ public class ConductivityTesterNode extends PhetPNode {
         
         // light bulb
         lightBulbNode = new LightBulbNode();
-        lightBulbNode.setScale( 0.4 ); //XXX scale image files
+        lightBulbNode.setScale( 0.6 ); //XXX scale image files
         
         // battery
         batteryNode = new BatteryNode();
+        batteryNode.scale( 1.25 ); //XXX scaled up, redo image file
         
         // wire that connects the light bulb to the battery
         StraightWireNode connectorWireNode = new StraightWireNode( CONNECTOR_WIRE_COLOR );
