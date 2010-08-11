@@ -1,3 +1,4 @@
+Fixed: Applied force slider should snap back to zero when the user drops the slider button
 Fixed: Sim should start recording when the user drags the slider
 Removed "clear heat" button and firedog feature 
 Removed ramp turing blue due to water
