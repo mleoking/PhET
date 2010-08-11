@@ -4,7 +4,6 @@ import Box2D.Dynamics.b2BodyDef;
 
 public class Cuboid extends DensityObject {
 
-    protected var density:Number;
     protected var width:Number;
     protected var height:Number;
     protected var depth:Number;
@@ -23,9 +22,8 @@ public class Cuboid extends DensityObject {
      * @param model
      */
     public function Cuboid(density:Number, width:Number, height:Number, depth:Number, x:Number, y:Number, model:DensityModel) {
-        super(x, y, depth / 2 + 1.01, model);
+        super(x, y, depth / 2 + 1.01, model,density);
 
-        this.density = density;
         this.width = width;
         this.height = height;
         this.depth = depth;
@@ -83,10 +81,6 @@ public class Cuboid extends DensityObject {
         return depth;
     }
 
-    public function getDensity():Number {
-        return density;
-    }
-
     public function getTopY():Number {
         return getY() + height / 2;
     }
@@ -95,7 +89,7 @@ public class Cuboid extends DensityObject {
         return getY() - height / 2;
     }
 
-    public function getVolume():Number {
+    public override function getVolume():Number {
         return width * height * depth;
     }
 
@@ -103,5 +97,11 @@ public class Cuboid extends DensityObject {
         return getVolume() * getDensity();
     }
 
+    public override function setVolume(value:Number):void {
+        this.height=Math.pow(value,1.0/3.0);
+        this.width=Math.pow(value,1.0/3.0);
+        this.depth=Math.pow(value,1.0/3.0);
+        updateShapeDef();
+    }
 }
 }
