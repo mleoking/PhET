@@ -4,7 +4,6 @@ MILESTONES
 
 HIGH PRIORITY
 - encapsulate all light bulb parts in one composite node
-- replace A- icon with older version from advanced-acid-base-solutions that has no "bite" out of it
 - use molecule color for "negligible" in Concentration Graph
 - gray out View controls when "Conductivity Tester" tool is selected
 - put "Show H2O Molecules" check box under "Magnifying Glass" radio button, slightly indented
@@ -13,6 +12,7 @@ HIGH PRIORITY
 - try to make symbols in reaction equations line up with bars in concentration graph
 - light rays in conductivity tester
 - handle probe locations better in conductivity tester
+- rethink origin of conductivity tester node
 - icons for tool controls 
 - allow pH paper to be dragged horizontally, so it can be held up to color key (issues with dragging through side of beaker)
 - add MVT to handle relationship between model element locations and PNode locations
