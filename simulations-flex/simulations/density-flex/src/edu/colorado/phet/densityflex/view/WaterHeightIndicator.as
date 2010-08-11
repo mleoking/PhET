@@ -9,9 +9,11 @@ import flash.text.TextFormat;
 public class WaterHeightIndicator extends Sprite {
     private var textField:TextField;
     private var waterHeight:Number;
+    private var model:DensityModel;
 
     public function WaterHeightIndicator(model:DensityModel) {
         super();
+        this.model=model;
         textField = new TextField();
         textField.autoSize = TextFieldAutoSize.RIGHT;
         textField.text = "hello";
@@ -23,7 +25,10 @@ public class WaterHeightIndicator extends Sprite {
 
     function update():void {
         graphics.clear();
-        textField.text = String(waterHeight.toFixed(3));
+        var indicatedVolume:Number = waterHeight * model.getPoolWidth() * model.getPoolDepth();
+        //Convert SI to cm^3
+        var cm3:Number = indicatedVolume * 1E6;
+        textField.text= String(cm3.toFixed(3))+" cm\u00b3"; 
         var textFormat:TextFormat = new TextFormat();
         textFormat.size=16;
         textFormat.bold=true;
