@@ -2,9 +2,13 @@
 
 package edu.colorado.phet.acidbasesolutions.constants;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.geom.Point2D;
+
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
@@ -101,4 +105,5 @@ public class ABSConstants {
     //----------------------------------------------------------------------------
     
     public static final Font TITLED_BORDER_FONT = new PhetFont( PhetFont.getDefaultFontSize() + 4 );
+    public static final Border TITLE_BORDER_BORDER = new LineBorder( Color.BLACK, 1 );
 }

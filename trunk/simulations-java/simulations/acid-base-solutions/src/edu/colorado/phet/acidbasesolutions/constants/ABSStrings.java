@@ -21,6 +21,7 @@ public class ABSStrings {
     
     public static final String PH = getString( "pH" ); 
     public static final String SOLUTION = getString( "solution" ); 
+    public static final String SOLUTIONS = getString( "solutions" ); 
     public static final String TESTS = getString( "tests" ); 
     public static final String CONDUCTIVITY_TESTER = getString( "conductivityTester" ); 
     public static final String PH_PAPER = getString( "pHPaper" ); 
