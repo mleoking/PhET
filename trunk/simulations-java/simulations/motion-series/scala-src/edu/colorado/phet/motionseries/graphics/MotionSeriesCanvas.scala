@@ -85,16 +85,10 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
   }
   addWallsAndDecorations()
 
-  val motionSeriesObjectNode = createmotionSeriesObjectNode(model.motionSeriesObject, transform, model.selectedObject.imageFilename, model.selectedObject.crashImageFilename, () => {
-    if (model.isPlayback) {
-      model.clearHistoryRemainder()
-      model.setRecord(true)
-    }
-    model.setPaused(false)
-  })
+  val motionSeriesObjectNode = createMotionSeriesObjectNode(model.motionSeriesObject, transform, model.selectedObject.imageFilename, model.selectedObject.crashImageFilename, () => model.resume())
 
   //todo: shouldn't assume ForcemotionSeriesObject subclass
-  def createmotionSeriesObjectNode(b: MovingManMotionSeriesObject, t: ModelViewTransform2D, imageName: String, crashImageName: String, listener: () => Unit): MotionSeriesObjectNode = new ForceDragMotionSeriesObjectNode(b, t, imageName, crashImageName, listener)
+  def createMotionSeriesObjectNode(b: MovingManMotionSeriesObject, t: ModelViewTransform2D, imageName: String, crashImageName: String, listener: () => Unit): MotionSeriesObjectNode = new ForceDragMotionSeriesObjectNode(b, t, imageName, crashImageName, listener)
 
   //todo: this line was continually calling setImage on the imageNode
   model.addListenerByName(motionSeriesObjectNode.setImages(MotionSeriesResources.getImage(model.selectedObject.imageFilename), 
@@ -173,7 +167,7 @@ abstract class MotionSeriesCanvasDecorator(model: MotionSeriesModel,
   playAreaNode.addChild(playAreaNode.indexOfChild(playAreaVectorNode) - 1, pusherNode) //put the pusher behind the vector nodes because otherwise he gets in the way 
 
   if (showAppliedForceSlider) {
-    val appliedForceSliderNode = new AppliedForceSliderNode(model.motionSeriesObject, () => model.setPaused(false))
+    val appliedForceSliderNode = new AppliedForceSliderNode(model.motionSeriesObject, () => model.resume())
     addBehindVectorNodes(appliedForceSliderNode)
 
     var relayout: ComponentAdapter = new ComponentAdapter {

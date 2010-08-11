@@ -7,7 +7,7 @@ import edu.colorado.phet.motionseries.model.ForceMotionSeriesObject
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont
 import edu.colorado.phet.common.motion.charts.{PlayAreaSliderControl, TextBox, MotionSliderNode}
 
-class AppliedForceSliderNode(motionSeriesObject: ForceMotionSeriesObject, mousePressHandler: () => Unit) extends PNode {
+class AppliedForceSliderNode(motionSeriesObject: ForceMotionSeriesObject, dragHandler: () => Unit) extends PNode {
   val positionSlider = new PlayAreaSliderControl(-MotionSeriesDefaults.MAX_APPLIED_FORCE, MotionSeriesDefaults.MAX_APPLIED_FORCE,
     motionSeriesObject.parallelAppliedForce, "controls.applied-force-x".translate, "units.abbr.newtons".translate, MotionSeriesDefaults.appliedForceColor, new TextBox(new PhetFont(18, true), 6) {
       addListener(new TextBox.Listener() {
@@ -27,6 +27,7 @@ class AppliedForceSliderNode(motionSeriesObject: ForceMotionSeriesObject, mouseP
   positionSlider.addListener(new MotionSliderNode.Adapter {
     override def sliderDragged(value: java.lang.Double) = {
       motionSeriesObject.parallelAppliedForce = value.doubleValue
+      dragHandler()
     }
   })
 }

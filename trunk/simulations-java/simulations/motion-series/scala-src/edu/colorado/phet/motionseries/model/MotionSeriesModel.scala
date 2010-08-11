@@ -29,6 +29,15 @@ class MotionSeriesModel(defaultBeadPosition: Double,
                         pausedOnReset: Boolean,
                         initialAngle: Double)
         extends RecordAndPlaybackModel[RecordedState](1000) with ObjectModel with RampSurfaceModel {
+  
+  //Resume activity in the sim, starting it up when the user drags the object or the position slider
+  def resume() = {
+    if (isPlayback) {
+      clearHistoryRemainder()
+      setRecord(true)
+    }
+    setPaused(false)
+  }
   override def isRecordingFull = {
     getTime > MotionSeriesDefaults.MAX_RECORD_TIME
   }
