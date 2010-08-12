@@ -1,3 +1,4 @@
+Fixed: mass readouts on blocks do not update when the mass changes
 Added initial support for mystery objects
 Fixed default density and volume values for "Objects of same ..." modes
 Fixed: the object volume text readout scales with the block size
