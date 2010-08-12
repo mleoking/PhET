@@ -32,6 +32,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * A simple circuit with a battery and a light bulb, and a probe at each end of the circuit.
  * When the probes are inserted in the solution, the circuit is completed, and the light bulb 
  * lights up based on the tester's brightness value.
+ * Origin is at the bottom-center of the light bulb.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

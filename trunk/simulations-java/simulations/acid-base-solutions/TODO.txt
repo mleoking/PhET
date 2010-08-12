@@ -7,7 +7,6 @@ HIGH PRIORITY
 - try to make symbols in reaction equations line up with bars in concentration graph
 - light rays in conductivity tester
 - handle probe locations better in conductivity tester
-- rethink origin of conductivity tester node
 - fix resize behavior of main frame, nodes below the beaker are not visible if main frame is resized wider 
 - bottom-center everything in the play area
 - change the name of the "Test Solution" tab
