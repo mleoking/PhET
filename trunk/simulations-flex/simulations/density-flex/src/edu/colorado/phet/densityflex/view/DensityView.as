@@ -48,14 +48,11 @@ public class DensityView extends UIComponent {
 
     private var waterTop:Plane;
     private var waterFront:Plane;
-
     private var running:Boolean = true;
-
     private var invalid:Boolean = true;
-
     private var marker:ObjectContainer3D;
-
-    public var backgroundSprite:Sprite;
+    private var backgroundSprite:Sprite;
+    private var groundNode:GroundNode;
 
     [Embed(source="../../../../../../data/density-flex/images/spheretex.png")]
     private var spheretex:Class;
@@ -121,8 +118,6 @@ public class DensityView extends UIComponent {
     public function addScales():void {
         model.addDensityObject(new Scale(-10.5, Scale.SCALE_HEIGHT / 2, model,2*1000));
     }
-
-    private var groundNode:GroundNode;
 
     public function initObjects():void {
         var poolHeight:Number = model.getPoolHeight() * DensityModel.DISPLAY_SCALE;
