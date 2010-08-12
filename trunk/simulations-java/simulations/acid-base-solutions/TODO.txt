@@ -10,7 +10,6 @@ HIGH PRIORITY
 - light rays in conductivity tester
 - handle probe locations better in conductivity tester
 - rethink origin of conductivity tester node
-- add MVT to handle relationship between model element locations and PNode locations
 - fix resize behavior of main frame, nodes below the beaker are not visible if main frame is resized wider 
 - bottom-center everything in the play area
 - change the name of the "Test Solution" tab
@@ -23,14 +22,13 @@ HIGH PRIORITY
 
 MEDUIUM PRIORITY
 - improved layout of icons next to radio buttons
-- click on icons next to radio buttons should select radio buttons
+- add MVT to handle relationship between model element locations and PNode locations
 
 LOW PRIORITY
 - left justify controls in control panels?
-- use SolutionFactory in TestSolutionControl
 - export design doc from Google, check into SVN
 - model.txt
-- scale light bulb image files, remove setScale call in ConductivityTesterNode
+- scale light bulb image files, remove setScale calls in ConductivityTesterNode
 
 MIGRATE TO COMMON
 - PrecisionDecimal (also appears in ph-scale, advanced-acid-base-solutions)

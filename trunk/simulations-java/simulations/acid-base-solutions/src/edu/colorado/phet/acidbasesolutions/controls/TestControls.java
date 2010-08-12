@@ -4,6 +4,8 @@ package edu.colorado.phet.acidbasesolutions.controls;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -61,7 +63,36 @@ public class TestControls extends JPanel {
             } );
         }
         
+        // icons - clicking on these selects associated radio buttons
+        JLabel pHMeterIcon = new JLabel( new ImageIcon( ABSImages.PH_METER_ICON ) );
+        pHMeterIcon.addMouseListener( new MouseAdapter() {
+            @Override 
+            public void mousePressed( MouseEvent event ) {
+                pHMeterRadioButton.setSelected( true );
+                updateModel();
+            }
+        } );
+        
+        JLabel pHPaperIcon = new JLabel( new ImageIcon( ABSImages.PH_PAPER_ICON ) );
+        pHPaperIcon.addMouseListener( new MouseAdapter() {
+            @Override 
+            public void mousePressed( MouseEvent event ) {
+                pHPaperRadioButton.setSelected( true );
+                updateModel();
+            }
+        } );
+        
+        JLabel conductivityTesterIcon = new JLabel( new ImageIcon( ABSImages.LIGHT_BULB_ICON ) );
+        conductivityTesterIcon.addMouseListener( new MouseAdapter() {
+            @Override 
+            public void mousePressed( MouseEvent event ) {
+                conductivityTesterRadioButton.setSelected( true );
+                updateModel();
+            }
+        } );
+        
         // radio buttons
+        
         {
             ActionListener actionListener = new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -91,13 +122,13 @@ public class TestControls extends JPanel {
             int row = 0;
             int column = 0;
             layout.addComponent( pHMeterRadioButton, row, column++ );
-            layout.addComponent( new JLabel( new ImageIcon( ABSImages.PH_METER_ICON ) ), row++, column );
+            layout.addComponent( pHMeterIcon, row++, column );
             column = 0;
             layout.addComponent( pHPaperRadioButton, row, column++ );
-            layout.addComponent( new JLabel( new ImageIcon( ABSImages.PH_PAPER_ICON ) ), row++, column );
+            layout.addComponent( pHPaperIcon, row++, column );
             column = 0;
             layout.addComponent( conductivityTesterRadioButton, row, column++ );
-            layout.addComponent( new JLabel( new ImageIcon( ABSImages.LIGHT_BULB_ICON ) ), row++, column );
+            layout.addComponent( conductivityTesterIcon, row++, column );
         }
 
         // default state
