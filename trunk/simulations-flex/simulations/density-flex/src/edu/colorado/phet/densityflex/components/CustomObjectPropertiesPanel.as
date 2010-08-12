@@ -10,6 +10,7 @@ import mx.controls.ComboBox;
 public class CustomObjectPropertiesPanel extends Panel {
     private var grid:Grid = new Grid();
     private var densityObject:DensityObject;
+    private var comboBox:ComboBox;
 
     public function CustomObjectPropertiesPanel(densityObject:DensityObject) {
         super();
@@ -18,10 +19,6 @@ public class CustomObjectPropertiesPanel extends Panel {
         
         //TODO: remove listeners from former density object
         this.densityObject = densityObject;
-
-        densityObject.addSubstanceListener(function f():void {
-            comboBox.selectedItem = densityObject.getSubstance().name; 
-        });
 
         //TODO: connect mass values
         //        function massListener():void {densityObject.setMass(iDensityObject.getMass().value);}
@@ -42,17 +39,31 @@ public class CustomObjectPropertiesPanel extends Panel {
         grid.addChild(new DensityEditor(densityObject.getDensityProperty()));
 
         comboBox = new ComboBox();
-        comboBox.dataProvider = ["Styrofoam","Water Balloon","Lead","Custom"];
+        comboBox.dataProvider = [Substance.STYROFOAM,Substance.WATER_BALLOON,Substance.LEAD,Substance.CUSTOM];
+        comboBox.labelField = "name";
         function myListener():void{
-            densityObject.setDensity(Substance.OBJECT_SUBSTANCES[comboBox.selectedItem]);
+            trace("comboBox.selectedItem="+comboBox.selectedItem);
+            if (comboBox.selectedItem.isCustom()){
+                if (!densityObject.getSubstance().isCustom()){
+                    densityObject.substance = new Substance("Custom",densityObject.getDensity());
+                }
+            }   else{
+                densityObject.setDensity(comboBox.selectedItem.getDensity());
+            }
         }
         comboBox.addEventListener("change",myListener);
+        densityObject.addSubstanceListener(function f():void {
+            if (densityObject.getSubstance().isCustom()) {
+                comboBox.selectedItem = Substance.CUSTOM;
+            }
+            else {
+                comboBox.selectedItem = densityObject.getSubstance();
+            }
+        });
         addChild(comboBox);
 
         addChild(grid);
     }
-
-    private var comboBox:ComboBox;
 
 }
 }
