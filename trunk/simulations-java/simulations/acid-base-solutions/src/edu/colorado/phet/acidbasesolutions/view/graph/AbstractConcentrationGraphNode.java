@@ -23,6 +23,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 /**
  * Base class for all concentration graphs, y-axis is log moles/L. 
  * Has a max of 4 bars, knows nothing about the model.
+ * Origin is at upper-left corner of chart's interior.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
