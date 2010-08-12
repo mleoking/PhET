@@ -1,7 +1,7 @@
 package edu.colorado.phet.densityflex.components {
 
 public class Observable {
-    const listeners:Array = new Array();
+    private const listeners:Array = new Array();
     public function Observable() {
     }
     

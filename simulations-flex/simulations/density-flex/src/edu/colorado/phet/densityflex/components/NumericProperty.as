@@ -12,7 +12,7 @@ public class NumericProperty extends Observable {
         this._initialValue = _value;
     }
     
-    function get name():String {
+    public function get name():String {
         return _name;
     }
 
@@ -20,7 +20,7 @@ public class NumericProperty extends Observable {
         return _value;
     }
 
-    function get units():String {
+    public function get units():String {
         return _units;
     }
 

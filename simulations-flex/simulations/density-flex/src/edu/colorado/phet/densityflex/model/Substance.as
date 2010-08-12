@@ -10,7 +10,7 @@ public class Substance {
     
     private var density:Number;
     private var _name:String;
-    private var _isCustom;
+    private var _isCustom:Boolean;
     
     public function Substance( name:String, density:Number,isCustom:Boolean=true ) {
         this.density = density;
