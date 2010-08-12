@@ -113,7 +113,7 @@ public class ConductivityTesterNode extends PhetPNode {
         
         // light bulb
         lightBulbNode = new LightBulbNode();
-        lightBulbNode.setScale( 0.6 ); //XXX scale image files
+        lightBulbNode.setScale( 0.6 );
         
         // battery
         batteryNode = new BatteryNode();
