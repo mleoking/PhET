@@ -14,7 +14,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * Displays a value as a formatted number on a background.
- * If that number drops below some threshold, then "NEGLIGIBLE" is displayed.
+ * If that number drops below some threshold, then "negligible" is displayed.
  */
 public class NegligibleValueNode extends PhetPNode {
     
