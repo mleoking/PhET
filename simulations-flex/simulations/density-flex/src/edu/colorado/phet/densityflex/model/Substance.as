@@ -8,6 +8,13 @@ public class Substance {
     public static var CUSTOM:Substance = new Substance( "Custom", 1.0 * 1000.0);
     public static var OBJECT_SUBSTANCES:Array = [WOOD, WATER_BALLOON, LEAD];
     
+    public static var GOLD:Substance = new Substance( "Gold", 19.3 * 1000.0 ,false);
+    public static var AIR_BALLOON:Substance = new Substance( "Air Balloon", 0.001293 * 1000.0 ,false);
+    public static var GASOLINE_BALLOON:Substance = new Substance( "Gasoline", 0.7 * 1000.0 ,false);
+    public static var ICE:Substance = new Substance( "Ice", 919 ,false);
+    public static var APPLE:Substance = new Substance( "Apple", 641 ,false);
+    public static var MYSTERY_SUBSTANCES:Array = [GOLD,AIR_BALLOON,GASOLINE_BALLOON,ICE,APPLE];
+    
     private var density:Number;
     private var _name:String;
     private var _isCustom:Boolean;
