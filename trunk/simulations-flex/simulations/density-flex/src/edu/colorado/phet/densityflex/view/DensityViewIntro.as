@@ -4,6 +4,7 @@ import edu.colorado.phet.densityflex.model.Block;
 
 import edu.colorado.phet.densityflex.model.DensityObject;
 
+import edu.colorado.phet.densityflex.model.MysteryBlock;
 import edu.colorado.phet.densityflex.model.Substance;
 
 import flash.geom.ColorTransform;
@@ -60,11 +61,11 @@ public class DensityViewIntro extends DensityView {
     }
 
     private function initializeMysteryObjects():void {
-        model.addDensityObject(Block.newBlockDensitySize(Substance.GOLD.getDensity(), 1.3, -8, 0, new ColorTransform(0.5, 0.5, 0), model));
-        model.addDensityObject(Block.newBlockDensitySize(Substance.APPLE.getDensity(), 1.4, -8, 0, new ColorTransform(0, 0, 1), model));
-        model.addDensityObject(Block.newBlockDensitySize(Substance.GASOLINE_BALLOON.getDensity(), 1.5, 8, 0, new ColorTransform(0, 1, 0), model));
-        model.addDensityObject(Block.newBlockDensitySize(Substance.ICE.getDensity(), 1.6, 8, 0, new ColorTransform(1, 0, 0), model));
-        model.addDensityObject(Block.newBlockDensitySize(Substance.AIR_BALLOON.getDensity(), 1.7, 8, 0, new ColorTransform(1, 0, 0), model));
+        model.addDensityObject(new MysteryBlock(Substance.GOLD.getDensity(), 1.3, -8, 0, new ColorTransform(0.5, 0.5, 0), model,"A"));
+        model.addDensityObject(new MysteryBlock(Substance.APPLE.getDensity(), 1.4, -8, 0, new ColorTransform(0, 0, 1), model,"B"));
+        model.addDensityObject(new MysteryBlock(Substance.GASOLINE_BALLOON.getDensity(), 1.5, 8, 0, new ColorTransform(0, 1, 0), model,"C"));
+        model.addDensityObject(new MysteryBlock(Substance.ICE.getDensity(), 1.6, 8, 0, new ColorTransform(1, 0, 0), model,"D"));
+        model.addDensityObject(new MysteryBlock(Substance.AIR_BALLOON.getDensity(), 1.7, 8, 0, new ColorTransform(1, 0, 0), model,"E"));
         addScales();
     }
 
