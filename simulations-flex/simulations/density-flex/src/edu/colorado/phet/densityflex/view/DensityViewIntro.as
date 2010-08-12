@@ -30,27 +30,27 @@ public class DensityViewIntro extends DensityView {
     }
 
     public function initializeSameMass():void {
-        model.addDensityObject(Block.newBlockSizeMass(3, 4.0, -8, 0, new ColorTransform(0.5, 0.5, 0), model));
-        model.addDensityObject(Block.newBlockSizeMass(2, 4.0, -8, 0, new ColorTransform(0, 0, 1), model));
-        model.addDensityObject(Block.newBlockSizeMass(1.5, 4.0, 8, 0, new ColorTransform(0, 1, 0), model));
-        model.addDensityObject(Block.newBlockSizeMass(1, 4.0, 8, 0, new ColorTransform(1, 0, 0), model));
+        model.addDensityObject(Block.newBlockSizeMass(3, 4.0*1000, -8, 0, new ColorTransform(0.5, 0.5, 0), model));
+        model.addDensityObject(Block.newBlockSizeMass(2, 4.0*1000, -8, 0, new ColorTransform(0, 0, 1), model));
+        model.addDensityObject(Block.newBlockSizeMass(1.5, 4.0*1000, 8, 0, new ColorTransform(0, 1, 0), model));
+        model.addDensityObject(Block.newBlockSizeMass(1, 4.0*1000, 8, 0, new ColorTransform(1, 0, 0), model));
         addScales();
     }
 
     public function initializeSameVolume():void {
-        model.addDensityObject(Block.newBlockDensitySize(1.0 / 8.0, 2, -8, 0, new ColorTransform(0.5, 0.5, 0), model));
-        model.addDensityObject(Block.newBlockDensitySize(0.5, 2, -8, 0, new ColorTransform(0, 0, 1), model));
-        model.addDensityObject(Block.newBlockDensitySize(2, 2, 8, 0, new ColorTransform(0, 1, 0), model));
-        model.addDensityObject(Block.newBlockDensitySize(4, 2, 8, 0, new ColorTransform(1, 0, 0), model));
+        model.addDensityObject(Block.newBlockDensitySize(1.0 / 8.0*1000, 2, -8, 0, new ColorTransform(0.5, 0.5, 0), model));
+        model.addDensityObject(Block.newBlockDensitySize(0.5*1000, 2, -8, 0, new ColorTransform(0, 0, 1), model));
+        model.addDensityObject(Block.newBlockDensitySize(2*1000, 2, 8, 0, new ColorTransform(0, 1, 0), model));
+        model.addDensityObject(Block.newBlockDensitySize(4*1000, 2, 8, 0, new ColorTransform(1, 0, 0), model));
         addScales();
     }
 
     public function initializeSameDensity():void {
-        var density:Number = 0.25; //Showing the blocks as partially floating allows easier visualization of densities
-        model.addDensityObject(Block.newBlockDensityMass(density, 7, -8, 0, new ColorTransform(0.5, 0.5, 0), model));
-        model.addDensityObject(Block.newBlockDensityMass(density, 2, -8, 0, new ColorTransform(0, 0, 1), model));
-        model.addDensityObject(Block.newBlockDensityMass(density, 1, 8, 0, new ColorTransform(0, 1, 0), model));
-        model.addDensityObject(Block.newBlockDensityMass(density, 0.5, 8, 0, new ColorTransform(1, 0, 0), model));
+        var density:Number = 0.25*1000; //Showing the blocks as partially floating allows easier visualization of densities
+        model.addDensityObject(Block.newBlockDensityMass(density, 7000, -8, 0, new ColorTransform(0.5, 0.5, 0), model));
+        model.addDensityObject(Block.newBlockDensityMass(density, 2000, -8, 0, new ColorTransform(0, 0, 1), model));
+        model.addDensityObject(Block.newBlockDensityMass(density, 1000, 8, 0, new ColorTransform(0, 1, 0), model));
+        model.addDensityObject(Block.newBlockDensityMass(density, 0.5*1000, 8, 0, new ColorTransform(1, 0, 0), model));
         addScales();
     }
 

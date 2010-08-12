@@ -15,7 +15,7 @@ public class Scale extends Cuboid {
 
     private var totalImpulse:Number = 0;
 
-    public static var SCALE_DENSITY:Number = 2.0;
+    public static var SCALE_DENSITY:Number = 2.0*1000;
 
     public static var SCALE_WIDTH:Number = 3.0;
     public static var SCALE_HEIGHT:Number = 1.0;

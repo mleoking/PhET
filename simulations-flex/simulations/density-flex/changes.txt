@@ -1,3 +1,4 @@
+Fixed default density and volume values for "Objects of same ..." modes
 Fixed: the object volume text readout scales with the block size
 Switched from styrofoam to wood, since styrofoam barely submerges under water
 Improvements for combo box

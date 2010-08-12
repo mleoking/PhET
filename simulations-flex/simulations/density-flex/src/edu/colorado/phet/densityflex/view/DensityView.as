@@ -119,8 +119,8 @@ public class DensityView extends UIComponent {
     }
 
     public function addScales():void {
-        model.addDensityObject(new Scale(-9.5, Scale.SCALE_HEIGHT / 2, model,2));
-        model.addDensityObject(new Scale(4.5, Scale.SCALE_HEIGHT / 2 - model.getPoolHeight(), model,2));
+        model.addDensityObject(new Scale(-9.5, Scale.SCALE_HEIGHT / 2, model,2*1000));
+        model.addDensityObject(new Scale(4.5, Scale.SCALE_HEIGHT / 2 - model.getPoolHeight(), model,2*1000));
     }
 
     private var groundNode:GroundNode;
