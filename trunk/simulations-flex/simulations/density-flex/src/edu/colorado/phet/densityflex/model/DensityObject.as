@@ -28,7 +28,7 @@ public class DensityObject {
     private var body:b2Body;
     private var submergedVolume:Number = 0.0;
     private var contactImpulseMap:Object = new Object();
-    private var labelProperty;
+    private var labelProperty:StringProperty;
 
     public function DensityObject(x:Number, y:Number, z:Number, model:DensityModel, density:Number, mass:Number, volume:Number) {
         this.volume = new NumericProperty("Volume", "m\u00b3", volume);

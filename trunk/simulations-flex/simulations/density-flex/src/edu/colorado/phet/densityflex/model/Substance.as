@@ -27,7 +27,7 @@ public class Substance {
     }
 
     public function synchronizeDensity(densityObject:DensityObject):void {
-        if (!isCustom) {
+        if (!isCustom()) {
             densityObject.setDensity(density);
         }
     }
