@@ -19,7 +19,7 @@ public class DensityViewIntro extends DensityView {
     public function DensityViewIntro() {
         super();
         //Showing the blocks as partially floating allows easier visualization of densities
-        customizableObject = Block.newBlockDensityMass(Substance.STYROFOAM.getDensity(), 10, -8, 3, new ColorTransform(0.5, 0.5, 0), model);
+        customizableObject = Block.newBlockDensityMass(Substance.WOOD.getDensity(), 5000, -8, 3, new ColorTransform(0.5, 0.5, 0), model);
         customObjectPropertiesPanel = new CustomObjectPropertiesPanel(customizableObject);
     }
 

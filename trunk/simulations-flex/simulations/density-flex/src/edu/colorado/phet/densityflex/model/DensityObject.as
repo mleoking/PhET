@@ -12,7 +12,7 @@ public class DensityObject {
     private var volume:NumericProperty;
     private var mass:NumericProperty;
     private var density:NumericProperty;
-    private var _substance:Substance = Substance.STYROFOAM;
+    private var _substance:Substance = Substance.WOOD;
     private var substanceListeners:Array = new Array();
     
     private var x:NumericProperty;
@@ -269,7 +269,7 @@ public class DensityObject {
 
     public function getDragForce():b2Vec2 {
         var dragForce:b2Vec2 = body.GetLinearVelocity().Copy();
-        dragForce.Multiply(-2 * submergedVolume);
+        dragForce.Multiply(-1000 * submergedVolume);
         return dragForce;
     }
 
