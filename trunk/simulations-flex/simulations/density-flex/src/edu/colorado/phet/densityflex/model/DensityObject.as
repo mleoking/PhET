@@ -74,9 +74,9 @@ public class DensityObject {
     }
 
     public function DensityObject(x:Number, y:Number, z:Number, model:DensityModel,density:Number,mass:Number,volume:Number) {
-        this.volume= new NumericProperty( "Volume", "m^3", volume); 
+        this.volume= new NumericProperty( "Volume", "m\u00b3", volume); 
         this.mass= new NumericProperty( "Mass", "kg", mass); 
-        this.density= new NumericProperty( "Density", "kg/m^3", density );
+        this.density= new NumericProperty( "Density", "kg/m\u00b3", density );
         this.labelProperty  = new StringProperty(String(getMass().toFixed(1)) + " kg");//Showing one decimal point is a good tradeoff between readability and complexity);
         
         function massChanged():void {

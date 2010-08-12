@@ -1,3 +1,4 @@
+Added superscripts for m^3 in object editing panel
 Added character labels to mystery blocks
 Fixed: mass readouts on blocks do not update when the mass changes
 Added initial support for mystery objects
