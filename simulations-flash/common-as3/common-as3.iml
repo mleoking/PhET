@@ -9,6 +9,9 @@
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
+    <content url="file://$MODULE_DIR$/../../../../../dev/flash4/componentsources">
+      <sourceFolder url="file://$MODULE_DIR$/../../../../../dev/flash4/componentsources" isTestSource="false" />
+    </content>
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
