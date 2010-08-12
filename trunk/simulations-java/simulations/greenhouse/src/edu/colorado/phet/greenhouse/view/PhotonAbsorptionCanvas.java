@@ -172,10 +172,10 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
     }
     
     private void updateLargestOpenRect(){
-        if (SHOW_LARGEST_OPEN_RECT){
-            largestOpenRect.setPathTo( mvt.createTransformedShape( photonAbsorptionModel.getLargestOpenRect() ) );
-        }
-        largestOpenRect.setVisible( SHOW_LARGEST_OPEN_RECT );
+//        if (SHOW_LARGEST_OPEN_RECT){
+//            largestOpenRect.setPathTo( mvt.createTransformedShape( photonAbsorptionModel.getLargestOpenRect() ) );
+//        }
+//        largestOpenRect.setVisible( SHOW_LARGEST_OPEN_RECT );
     }
     
     private void addMolecule(Molecule molecule){
