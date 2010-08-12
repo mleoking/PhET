@@ -1,3 +1,4 @@
+Added support for typing into text fields
 Remove the scale for "objects of same X modes"
 # 0.01.14 (43021) Aug 12, 2010
 Moved the scale further to the left so that it doesn't overlap stacked blocks as much
