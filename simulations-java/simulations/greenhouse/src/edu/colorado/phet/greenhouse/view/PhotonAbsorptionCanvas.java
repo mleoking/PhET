@@ -31,9 +31,6 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
 	
 	private static final double FLASHLIGHT_WIDTH = 300;
 	
-	// For debug purposes.
-	private static final boolean SHOW_LARGEST_OPEN_RECT = false;
-
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
@@ -102,12 +99,10 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
                     System.out.println( getClass().getName() + " - Error: MoleculeNode not found for molecule." );
                 }
                 moleculeMap.remove( molecule );
-                updateLargestOpenRect();
             }
             
             public void moleculeAdded( Molecule molecule ) {
                 addMolecule( molecule );
-                updateLargestOpenRect();
             }
         });
 
@@ -148,7 +143,6 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
         
         // Update other initial state.
         // TODO: TBD
-        updateLargestOpenRect();
     }
     
     //----------------------------------------------------------------------------
@@ -169,13 +163,6 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
         else {
         	// TODO: TBD
         }
-    }
-    
-    private void updateLargestOpenRect(){
-//        if (SHOW_LARGEST_OPEN_RECT){
-//            largestOpenRect.setPathTo( mvt.createTransformedShape( photonAbsorptionModel.getLargestOpenRect() ) );
-//        }
-//        largestOpenRect.setVisible( SHOW_LARGEST_OPEN_RECT );
     }
     
     private void addMolecule(Molecule molecule){
