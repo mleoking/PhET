@@ -1,3 +1,5 @@
+# 0.00.41 (43037) Aug 12, 2010
+8/12/10 Changed record-and-playback behavior so that if cursor on chart is grabbed while sim is playing, it will resume playing when released.
 # 0.00.40 (43035) Aug 12, 2010
 8/12/10 Made drag cursor always visible and draggable on the membrane potential chart.
 # 0.00.39 (43033) Aug 12, 2010
