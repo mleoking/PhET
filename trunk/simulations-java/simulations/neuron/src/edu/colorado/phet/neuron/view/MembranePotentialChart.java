@@ -87,6 +87,7 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
 	private boolean chartIsFull = false;
 	private double updateCountdownTimer = 0;  // Init to zero to an update occurs right away.
 	private double timeIndexOfFirstDataPt = 0;
+	private boolean pausedWhenDragStarted = false;
 	
     //----------------------------------------------------------------------------
     // Constructor(s)
@@ -161,10 +162,12 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
             Point2D pressPoint;
             double pressTime;
 
+            @Override
             public void mousePressed( PInputEvent event ) {
                 pressPoint = event.getPositionRelativeTo( MembranePotentialChart.this );
                 pressTime = jFreeChartNode.nodeToPlot(chartCursor.getOffset()).getX();
-                if (!neuronModel.getClock().isPaused()){
+                pausedWhenDragStarted = neuronModel.getClock().isPaused();
+                if (!pausedWhenDragStarted){
                     // The user must be trying to grab the cursor while
                     // the recorded content is being played back.  Pause the
                     // clock.
@@ -184,6 +187,7 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
                 return new Point2D.Double( pt2.getX() - pt1.getX(), pt2.getY() - pt1.getY() );
             }
 
+            @Override
             public void mouseDragged( PInputEvent event ) {
                 if (!neuronModel.isPlayback()){
                     neuronModel.setPlayback(1); // Set into playback mode.
@@ -195,6 +199,16 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
                 recordingTimeIndex = MathUtil.clamp(0, recordingTimeIndex, getLastTimeValue());
                 double compensatedRecordingTimeIndex = recordingTimeIndex / 1000 + neuronModel.getMinRecordedTime();
                 neuronModel.setTime(compensatedRecordingTimeIndex);
+            }
+
+            @Override
+            public void mouseReleased( PInputEvent event ) {
+                if (!pausedWhenDragStarted){
+                    // The clock wasn't paused when the user grabbed this
+                    // cursor, so now that they are releasing the cursor we
+                    // should un-pause the clock.
+                    neuronModel.getClock().setPaused( false );
+                }
             }
         } );
         
