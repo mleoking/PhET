@@ -32,11 +32,11 @@ import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
- * Control used to select a "test" solution.
+ * Controls used to select a "test" solution.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TestSolutionControl extends JPanel {
+public class TestSolutionControls extends JPanel {
     
     private static final double MOLECULE_ICON_SCALE = 0.75;
     
@@ -45,7 +45,7 @@ public class TestSolutionControl extends JPanel {
     private final JRadioButton strongAcidRadioButton, weakAcidRadioButton;
     private final JRadioButton strongBaseRadioButton, weakBaseRadioButton;
 
-    public TestSolutionControl( ABSModel model ) {
+    public TestSolutionControls( ABSModel model ) {
         
         // border
         {
@@ -62,7 +62,7 @@ public class TestSolutionControl extends JPanel {
             this.model.addModelChangeListener( new ModelChangeListener() {
                 public void solutionChanged() {
                     // when the model changes, update this control
-                    updateControl();
+                    updateControls();
                 }
             } );
         }
@@ -124,7 +124,7 @@ public class TestSolutionControl extends JPanel {
         
         // default state
         {
-            updateControl();
+            updateControls();
         }
     }
     
@@ -138,7 +138,7 @@ public class TestSolutionControl extends JPanel {
     /*
      * Updates this control to match the model.
      */
-    private void updateControl() {
+    private void updateControls() {
         AqueousSolution solution = model.getSolution();
         if ( solution instanceof PureWaterSolution ) {
             waterRadioButton.setSelected( true );

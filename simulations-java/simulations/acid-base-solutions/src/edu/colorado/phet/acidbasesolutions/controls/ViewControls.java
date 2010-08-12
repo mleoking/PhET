@@ -132,10 +132,10 @@ public class ViewControls extends JPanel {
         
         // default state
         {
-            controlsEnabled = true;
             magnifyingGlassRadioButton.setSelected( model.getMagnifyingGlass().isVisible() );
             showWaterCheckBox.setSelected( model.getMagnifyingGlass().isWaterVisible() );
             concentrationGraphRadioButton.setSelected( model.getConcentrationGraph().isVisible() );
+            controlsEnabled = true;
             setControlsEnabled( !model.getConductivityTester().isVisible() );
         }
     }

@@ -31,7 +31,7 @@ import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.Logarithmi
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 
 /**
- * Control used to set the properties of a custom solution.
+ * Controls used to set the properties of a custom solution.
  * Mutable properties include the type of solute (acid or base),
  * the concentration of the solution in solution, and the 
  * strength (weak or strong) of the solute.  For weak solutes,
@@ -39,7 +39,7 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class CustomSolutionControl extends JPanel {
+public class CustomSolutionControls extends JPanel {
     
     private final ABSModel model;
     private AqueousSolution solution;
@@ -47,8 +47,9 @@ public class CustomSolutionControl extends JPanel {
     private final ConcentrationPanel concentrationPanel;
     private final StrengthPanel strengthPanel;
     private final AqueousSolutionChangeListener solutionChangeListener;
+    private boolean isSyncingWithModel;
     
-    public CustomSolutionControl( ABSModel model ) {
+    public CustomSolutionControls( ABSModel model ) {
         
         // border
         {
@@ -61,10 +62,11 @@ public class CustomSolutionControl extends JPanel {
         // model
         {
             this.model = model;
+            isSyncingWithModel = false;
             
             this.model.addModelChangeListener( new ModelChangeListener() {
                 public void solutionChanged() {
-                    updateControl();
+                    updateControls();
                 }
             } );
             
@@ -72,11 +74,11 @@ public class CustomSolutionControl extends JPanel {
             solutionChangeListener = new AqueousSolutionChangeListener() {
 
                 public void concentrationChanged() {
-                    updateControl();
+                    updateControls();
                 }
 
                 public void strengthChanged() {
-                    updateControl();
+                    updateControls();
                 }
             };
             solution.addAqueousSolutionChangeListener( solutionChangeListener );
@@ -108,14 +110,16 @@ public class CustomSolutionControl extends JPanel {
         
         // default state
         {
-            updateControl();
+            updateControls();
         }
     }
     
     /*
      * Updates this control to match the model.
      */
-    private void updateControl() {
+    private void updateControls() {
+        
+        isSyncingWithModel = true;
         
         // move the solution listener
         solution.removeAqueousSolutionChangeListener( solutionChangeListener );
@@ -127,6 +131,8 @@ public class CustomSolutionControl extends JPanel {
         concentrationPanel.setConcentration( model.getSolution().getConcentration() );
         strengthPanel.setWeakSelected( ( solution instanceof WeakAcidSolution ) || ( solution instanceof WeakBaseSolution ) );
         strengthPanel.setStrength( model.getSolution().getStrength() );
+        
+        isSyncingWithModel = false;
     }
     
     /*
@@ -134,57 +140,60 @@ public class CustomSolutionControl extends JPanel {
      */
     private void updateModel() {
         
-        AqueousSolution currentSolution = model.getSolution();
-        assert( currentSolution instanceof ICustomSolution );
-        
-        final double strength = strengthPanel.getStrength();
-        final double concentration = concentrationPanel.getConcentration();
-        
-        if ( typePanel.isAcidSelected() ) {
-            // acids
-            if ( strengthPanel.isWeakSelected() ) {
-                // weak acid
-                if ( currentSolution instanceof CustomWeakAcidSolution ) {
-                    ( (CustomWeakAcidSolution) currentSolution ).setStrength( strength );
-                    ( (CustomWeakAcidSolution) currentSolution ).setConcentration( concentration );
+        if ( !isSyncingWithModel ) {
+
+            AqueousSolution currentSolution = model.getSolution();
+            assert ( currentSolution instanceof ICustomSolution );
+
+            final double strength = strengthPanel.getStrength();
+            final double concentration = concentrationPanel.getConcentration();
+
+            if ( typePanel.isAcidSelected() ) {
+                // acids
+                if ( strengthPanel.isWeakSelected() ) {
+                    // weak acid
+                    if ( currentSolution instanceof CustomWeakAcidSolution ) {
+                        ( (CustomWeakAcidSolution) currentSolution ).setStrength( strength );
+                        ( (CustomWeakAcidSolution) currentSolution ).setConcentration( concentration );
+                    }
+                    else {
+                        CustomWeakAcidSolution newSoluton = new CustomWeakAcidSolution( strength, concentration );
+                        model.setSolution( newSoluton );
+                    }
                 }
                 else {
-                    CustomWeakAcidSolution newSoluton = new CustomWeakAcidSolution( strength, concentration );
-                    model.setSolution( newSoluton );
+                    // strong acid
+                    if ( currentSolution instanceof CustomStrongAcidSolution ) {
+                        ( (CustomStrongAcidSolution) currentSolution ).setConcentration( concentration );
+                    }
+                    else {
+                        CustomStrongAcidSolution newSoluton = new CustomStrongAcidSolution( concentration );
+                        model.setSolution( newSoluton );
+                    }
                 }
             }
             else {
-                // strong acid
-                if ( currentSolution instanceof CustomStrongAcidSolution ) {
-                    ( (CustomStrongAcidSolution) currentSolution ).setConcentration( concentration );
+                // bases
+                if ( strengthPanel.isWeakSelected() ) {
+                    // weak base
+                    if ( currentSolution instanceof CustomWeakBaseSolution ) {
+                        ( (CustomWeakBaseSolution) currentSolution ).setStrength( strength );
+                        ( (CustomWeakBaseSolution) currentSolution ).setConcentration( concentration );
+                    }
+                    else {
+                        CustomWeakBaseSolution newSoluton = new CustomWeakBaseSolution( strength, concentration );
+                        model.setSolution( newSoluton );
+                    }
                 }
                 else {
-                    CustomStrongAcidSolution newSoluton = new CustomStrongAcidSolution( concentration );
-                    model.setSolution( newSoluton );
-                }
-            }
-        }
-        else {
-            // bases
-            if ( strengthPanel.isWeakSelected() ) {
-                // weak base
-                if ( currentSolution instanceof CustomWeakBaseSolution ) {
-                    ( (CustomWeakBaseSolution) currentSolution ).setStrength( strength );
-                    ( (CustomWeakBaseSolution) currentSolution ).setConcentration( concentration );
-                }
-                else {
-                    CustomWeakBaseSolution newSoluton = new CustomWeakBaseSolution( strength, concentration );
-                    model.setSolution( newSoluton );
-                }
-            }
-            else {
-                // strong base
-                if ( currentSolution instanceof CustomStrongBaseSolution ) {
-                    ( (CustomStrongBaseSolution) currentSolution ).setConcentration( concentration );
-                }
-                else {
-                    CustomStrongBaseSolution newSoluton = new CustomStrongBaseSolution( concentration );
-                    model.setSolution( newSoluton );
+                    // strong base
+                    if ( currentSolution instanceof CustomStrongBaseSolution ) {
+                        ( (CustomStrongBaseSolution) currentSolution ).setConcentration( concentration );
+                    }
+                    else {
+                        CustomStrongBaseSolution newSoluton = new CustomStrongBaseSolution( concentration );
+                        model.setSolution( newSoluton );
+                    }
                 }
             }
         }
