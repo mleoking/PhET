@@ -60,8 +60,11 @@ public class DensityViewIntro extends DensityView {
     }
 
     private function initializeMysteryObjects():void {
-        var density:Number = 0.25; //Showing the blocks as partially floating allows easier visualization of densities
-        model.addDensityObject(Block.newBlockDensityMass(density, 7, -4.5, 0, new ColorTransform(0.5, 0.5, 0), model));
+        model.addDensityObject(Block.newBlockDensitySize(Substance.GOLD.getDensity(), 1.3, -8, 0, new ColorTransform(0.5, 0.5, 0), model));
+        model.addDensityObject(Block.newBlockDensitySize(Substance.APPLE.getDensity(), 1.4, -8, 0, new ColorTransform(0, 0, 1), model));
+        model.addDensityObject(Block.newBlockDensitySize(Substance.GASOLINE_BALLOON.getDensity(), 1.5, 8, 0, new ColorTransform(0, 1, 0), model));
+        model.addDensityObject(Block.newBlockDensitySize(Substance.ICE.getDensity(), 1.6, 8, 0, new ColorTransform(1, 0, 0), model));
+        model.addDensityObject(Block.newBlockDensitySize(Substance.AIR_BALLOON.getDensity(), 1.7, 8, 0, new ColorTransform(1, 0, 0), model));
         addScales();
     }
 
