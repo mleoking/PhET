@@ -18,8 +18,10 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 public class NegligibleValueNode extends PhetPNode {
     
-    private static final Font VALUE_FONT = new PhetFont( Font.PLAIN, 16 );
+    private static final Font VALUE_FONT = new PhetFont( Font.PLAIN, 18 );
     private static final Color VALUE_COLOR = Color.BLACK;
+    private static final Font NEGLIGIBLE_FONT = new PhetFont( Font.BOLD, 20 );
+    private static final Color NEGLIGIBLE_COLOR = Color.BLACK;
 
     private final FormattedNumberNode numberNode;
     private final PText negligibleNode;
@@ -47,8 +49,8 @@ public class NegligibleValueNode extends PhetPNode {
         addChild( numberNode );
         // displays "NEGLIGIBLE"
         negligibleNode = new PText( ABSStrings.NEGLIGIBLE );
-        negligibleNode.setFont( VALUE_FONT );
-        negligibleNode.setTextPaint( VALUE_COLOR );
+        negligibleNode.setFont( NEGLIGIBLE_FONT );
+        negligibleNode.setTextPaint( NEGLIGIBLE_COLOR );
         addChild( negligibleNode );
         // negligible mode is off by default
         negligibleEnabled = false;
@@ -59,14 +61,8 @@ public class NegligibleValueNode extends PhetPNode {
         numberNode.setFormat( format );
     }
     
-    public void setFont( Font font ) {
-        numberNode.setFont( font );
-        negligibleNode.setFont( font );
-    }
-    
-    public void setTextColor( Color color ) {
-        numberNode.setTextColor( color );
-        negligibleNode.setTextPaint( color );
+    public void setNegligibleColor( Color negligibleColor ) {
+        negligibleNode.setTextPaint( negligibleColor );
     }
 
     public double getValue() {
