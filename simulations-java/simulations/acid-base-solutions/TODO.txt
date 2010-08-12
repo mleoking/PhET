@@ -19,6 +19,7 @@ HIGH PRIORITY
 - change "Magnifying Glass" to "Molecules"
 - change "Show H2O Molecules" to "Show Water"
 - change "Concentration Graph" to "Concentration"
+- change "neither" to "Liquid"
 
 MEDUIUM PRIORITY
 - improved layout of icons next to radio buttons
