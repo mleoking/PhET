@@ -63,7 +63,7 @@ public class PropertyEditor extends GridRow {
     }
 
     private function addGridItem(displayObject:DisplayObject):void {
-        const item = new GridItem();
+        const item:GridItem = new GridItem();
         item.addChild(displayObject);
         addChild(item);
     }

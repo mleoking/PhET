@@ -23,7 +23,7 @@ public class WaterHeightIndicator extends Sprite {
         update();
     }
 
-    function update():void {
+    protected function update():void {
         graphics.clear();
         var indicatedVolume:Number = waterHeight * model.getPoolWidth() * model.getPoolDepth();
         //Convert SI to cm^3
@@ -49,7 +49,7 @@ public class WaterHeightIndicator extends Sprite {
         graphics.endFill();
     }
 
-    function setWaterHeight(waterHeight:Number):void {
+    public function setWaterHeight(waterHeight:Number):void {
         this.waterHeight = waterHeight;
         update();
     }

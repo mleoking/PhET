@@ -62,7 +62,7 @@ public class DensityView extends UIComponent {
 
     protected var densityObjectNodeList:Array = new Array();
 
-    var waterHeightIndicator:WaterHeightIndicator;
+    private var waterHeightIndicator:WaterHeightIndicator;
 
     public function DensityView() {
         super();
@@ -245,7 +245,7 @@ public class DensityView extends UIComponent {
         view.render();
         renderedOnce=true;
     }
-    var renderedOnce:Boolean= false;
+    private var renderedOnce:Boolean= false;
 
     private function updateWaterHeightIndicator():void {
         if (renderedOnce) {
