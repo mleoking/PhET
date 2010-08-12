@@ -71,7 +71,7 @@ public class CuboidNode extends DensityObjectNode implements Pickable, Listener,
         updateShape();
     }
 
-    private function updateShape():void {
+    protected function updateShape():void {
         cube.width = cuboid.getWidth() * DensityModel.DISPLAY_SCALE;
         cube.height = cuboid.getHeight() * DensityModel.DISPLAY_SCALE;
         cube.depth = cuboid.getDepth() * DensityModel.DISPLAY_SCALE;
