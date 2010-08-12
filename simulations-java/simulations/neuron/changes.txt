@@ -1,3 +1,5 @@
+# 0.00.40 (43035) Aug 12, 2010
+8/12/10 Made drag cursor always visible and draggable on the membrane potential chart.
 # 0.00.39 (43033) Aug 12, 2010
 8/12/10 Made the drag cursor on the membrane potential chart always visible, made it possible to grab & drag while running.
 # 0.00.38 (42161) Jul 9, 2010
