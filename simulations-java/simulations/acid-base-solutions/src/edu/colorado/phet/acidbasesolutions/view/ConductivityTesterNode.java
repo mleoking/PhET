@@ -116,7 +116,6 @@ public class ConductivityTesterNode extends PhetPNode {
         
         // battery
         batteryNode = new BatteryNode();
-        batteryNode.scale( 1.25 ); //XXX scaled up, redo image file
         
         // wire that connects the light bulb to the battery
         StraightWireNode connectorWireNode = new StraightWireNode( CONNECTOR_WIRE_COLOR );
