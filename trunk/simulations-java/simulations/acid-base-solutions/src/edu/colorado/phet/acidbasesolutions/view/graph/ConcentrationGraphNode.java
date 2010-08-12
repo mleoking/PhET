@@ -59,8 +59,8 @@ public class ConcentrationGraphNode extends AbstractConcentrationGraphNode {
             }
         });
         
-        double x = graph.getLocationReference().getX() - ( getFullBoundsReference().getWidth() / 2 ) - PNodeLayoutUtils.getOriginXOffset( this );
-        double y = graph.getLocationReference().getY() - ( getFullBoundsReference().getHeight() / 2 ) - PNodeLayoutUtils.getOriginYOffset( this );
+        double x = graph.getLocationReference().getX() - ( graph.getSizeReference().getWidth() / 2 );
+        double y = graph.getLocationReference().getY() - ( getFullBoundsReference().getHeight() / 2 );
         setOffset( x, y );
         setVisible( graph.isVisible() );
         updateMolecules();
