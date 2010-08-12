@@ -1,5 +1,6 @@
 package edu.colorado.phet.densityflex.view {
 import edu.colorado.phet.densityflex.components.CustomObjectPropertiesPanel;
+import edu.colorado.phet.densityflex.components.MysteryObjectsControlPanel;
 import edu.colorado.phet.densityflex.model.Block;
 
 import edu.colorado.phet.densityflex.model.DensityObject;
@@ -12,16 +13,22 @@ import flash.geom.ColorTransform;
 import mx.containers.Canvas;
 
 public class DensityViewIntro extends DensityView {
+    private var customizableObject:DensityObject;
+    
     private var _densityCanvas:Canvas;
     private var customObjectPropertiesPanel:CustomObjectPropertiesPanel;
     private var customObjectPropertiesPanelShowing:Boolean=false;
-    private var customizableObject:DensityObject; 
+    
+    private var mysteryObjectsControlPanel:MysteryObjectsControlPanel;
+    private var mysteryObjectsControlPanelShowing:Boolean=false;
 
     public function DensityViewIntro() {
         super();
         //Showing the blocks as partially floating allows easier visualization of densities
         customizableObject = Block.newBlockDensityMass(Substance.WOOD.getDensity(), 5000, -8, 3, new ColorTransform(0.5, 0.5, 0), model);
         customObjectPropertiesPanel = new CustomObjectPropertiesPanel(customizableObject);
+        
+        mysteryObjectsControlPanel = new MysteryObjectsControlPanel();
     }
 
     override public function initObjects():void {
@@ -74,23 +81,27 @@ public class DensityViewIntro extends DensityView {
 
     public function switchToSameMass():void {
         removeCustomPanel();
+        removeMysteryObjectControlPanel();
         model.clearDensityObjects();
         initializeSameMass();
     }
 
     public function switchToSameVolume():void {
         removeCustomPanel();
+        removeMysteryObjectControlPanel();
         model.clearDensityObjects();
         initializeSameVolume();
     }
 
     public function switchToSameDensity():void {
         removeCustomPanel();
+        removeMysteryObjectControlPanel();
         model.clearDensityObjects();
         initializeSameDensity();
     }
 
     public function switchToCustomObject():void {
+        removeMysteryObjectControlPanel();
         model.clearDensityObjects();
         initializeCustomObject();
         if (!customObjectPropertiesPanelShowing){
@@ -103,6 +114,10 @@ public class DensityViewIntro extends DensityView {
         removeCustomPanel();
         model.clearDensityObjects();
         initializeMysteryObjects();
+        if (!mysteryObjectsControlPanelShowing){
+            _densityCanvas.addChild(mysteryObjectsControlPanel);
+            mysteryObjectsControlPanelShowing = true;
+        }
     }
 
     //TODO: add a "onModeExit()" callback instead of having modes know about each other
@@ -110,6 +125,12 @@ public class DensityViewIntro extends DensityView {
         if (customObjectPropertiesPanelShowing){
             _densityCanvas.removeChild(customObjectPropertiesPanel);
             customObjectPropertiesPanelShowing = false;
+        }
+    }
+    private function removeMysteryObjectControlPanel():void {
+        if (mysteryObjectsControlPanelShowing){
+            _densityCanvas.removeChild(mysteryObjectsControlPanel);
+            mysteryObjectsControlPanelShowing = false;
         }
     }
 
