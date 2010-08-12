@@ -36,10 +36,10 @@ public class CustomObjectPropertiesPanel extends Panel {
         
         grid.addChild(new PropertyEditor(densityObject.getMassProperty(),1,10000));
         grid.addChild(new PropertyEditor(densityObject.getVolumeProperty(),1,100));
-        grid.addChild(new DensityEditor(densityObject.getDensityProperty(),Substance.STYROFOAM.getDensity() * 0.9,Substance.LEAD.getDensity() * 1.1));//have a maximum a bit beyond lead so students don't think lead is the most dense thing in the world));
+        grid.addChild(new DensityEditor(densityObject.getDensityProperty(),Substance.WOOD.getDensity() * 0.5,Substance.LEAD.getDensity() * 1.1));//have a maximum a bit beyond lead so students don't think lead is the most dense thing in the world));
 
         comboBox = new ComboBox();
-        comboBox.dataProvider = [Substance.STYROFOAM,Substance.WATER_BALLOON,Substance.LEAD,Substance.CUSTOM];
+        comboBox.dataProvider = [Substance.WOOD,Substance.WATER_BALLOON,Substance.LEAD,Substance.CUSTOM];
         comboBox.labelField = "name";
         function myListener():void{
             trace("comboBox.selectedItem="+comboBox.selectedItem);
