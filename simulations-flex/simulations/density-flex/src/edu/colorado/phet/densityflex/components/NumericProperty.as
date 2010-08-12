@@ -25,7 +25,8 @@ public class NumericProperty extends Observable {
     }
 
     public function set value(value:Number):void {
-        if (_value != value) {
+        if (isNaN(value)) throw new Error("value was nan");
+        if (_value != value && !isNaN(value)) {
             _value = value;
             super.notifyObservers();
         }

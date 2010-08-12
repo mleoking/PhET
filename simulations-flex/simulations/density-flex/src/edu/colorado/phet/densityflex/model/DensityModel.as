@@ -112,7 +112,6 @@ public class DensityModel {
             var waterY:Number = -poolHeight + waterHeight;
             for each(var cuboid:Cuboid in getCuboids()) {
                 var body:b2Body = cuboid.getBody();
-                trace("body.y="+body.GetPosition().y+", gravity.y="+cuboid.getGravityForce().y);
 
                 // gravity?
                 body.ApplyForce(cuboid.getGravityForce(), body.GetPosition());

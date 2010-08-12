@@ -76,7 +76,6 @@ public class Cuboid extends DensityObject {
         getBody().CreateShape(shapeDef);
         getBody().SetUserData(this);
         notifyShapeChanged();
-        trace("density = " + shapeDef.density);
     }
 
     public function getWidth():Number {
