@@ -4,6 +4,8 @@ import away3d.materials.*;
 import edu.colorado.phet.densityflex.model.Block;
 import edu.colorado.phet.densityflex.model.Listener;
 
+import edu.colorado.phet.densityflex.model.StringProperty;
+
 import flash.display.Bitmap;
 import flash.display.BitmapData;
 import flash.display.BitmapDataChannel;
@@ -28,7 +30,7 @@ public class BlockNode extends CuboidNode implements Pickable, Listener {
     private var frontMaterial:MovieMaterial;
     private var redWallMaterial:BitmapMaterial;
 
-    public function BlockNode(block:Block, view:DensityView):void {
+    public function BlockNode(block:Block, view:DensityView,label:StringProperty):void {
         super(block);
 
         this.block = block;
@@ -65,10 +67,16 @@ public class BlockNode extends CuboidNode implements Pickable, Listener {
 
         var cube:PickableCube = getCube();
 
-        textField.text = String(block.getMass().toFixed(1)) + " kg";//Showing one decimal point is a good tradeoff between readability and complexity
-        textField.height = wallData.height;
-        textField.width = wallData.width;
-        textField.multiline = true;
+        function updateText():void{
+            textField.text = label.value
+            textField.height = wallData.height;
+            textField.width = wallData.width;
+            textField.multiline = true;
+            updateShape();
+        }//Showing one decimal point is a good tradeoff between readability and complexity
+        updateText();
+        label.addListener(updateText);
+        
         frontSprite.addChild(textField);
 
         frontMaterial = new MovieMaterial(frontSprite);

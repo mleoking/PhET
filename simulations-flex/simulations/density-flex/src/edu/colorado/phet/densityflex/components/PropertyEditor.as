@@ -1,4 +1,6 @@
 package edu.colorado.phet.densityflex.components {
+import edu.colorado.phet.densityflex.model.NumericProperty;
+
 import flash.display.DisplayObject;
 
 import mx.containers.GridItem;

@@ -3,7 +3,7 @@ import Box2D.Common.Math.b2Vec2;
 import Box2D.Dynamics.Contacts.b2ContactResult;
 import Box2D.Dynamics.b2Body;
 
-import edu.colorado.phet.densityflex.components.NumericProperty;
+import edu.colorado.phet.densityflex.model.NumericProperty;
 import edu.colorado.phet.densityflex.view.DensityObjectNode;
 import edu.colorado.phet.densityflex.view.DensityView;
 
@@ -29,6 +29,11 @@ public class DensityObject {
     private var body:b2Body;
     private var submergedVolume:Number = 0.0;
     private var contactImpulseMap:Object = new Object();
+    private var labelProperty;
+    
+    protected function getLabelProperty():StringProperty {
+        return labelProperty;
+    }
 
     public function addSubstanceListener( listener:Function ):void {
         substanceListeners.push( listener );
@@ -72,6 +77,7 @@ public class DensityObject {
         this.volume= new NumericProperty( "Volume", "m^3", volume); 
         this.mass= new NumericProperty( "Mass", "kg", mass); 
         this.density= new NumericProperty( "Density", "kg/m^3", density );
+        this.labelProperty  = new StringProperty(String(getMass().toFixed(1)) + " kg");//Showing one decimal point is a good tradeoff between readability and complexity);
         
         function massChanged():void {
             if ( isDensityFixed() ) {
@@ -81,6 +87,7 @@ public class DensityObject {
                 //a change in mass or volume causes a change in density
                 setDensity(getMass()/ getVolume());
             }
+            labelProperty.value = String(getMass().toFixed(1)) + " kg"; 
         }
 
         getMassProperty().addListener( massChanged );

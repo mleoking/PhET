@@ -16,9 +16,9 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="away3d-fp9" />
-    <orderEntry type="module" module-name="box2d" />
     <orderEntry type="module" module-name="flexcommon" />
+    <orderEntry type="module" module-name="box2d" />
+    <orderEntry type="module" module-name="away3d-fp9" />
   </component>
 </module>
 

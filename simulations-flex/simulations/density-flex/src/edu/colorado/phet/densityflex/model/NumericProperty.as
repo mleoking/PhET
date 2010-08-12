@@ -1,4 +1,6 @@
-package edu.colorado.phet.densityflex.components {
+package edu.colorado.phet.densityflex.model {
+import edu.colorado.phet.densityflex.components.*;
+
 public class NumericProperty extends Observable {
     private var _name:String;
     private var _units:String;
