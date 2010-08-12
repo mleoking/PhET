@@ -1,3 +1,4 @@
+8/11/10 create larger battery image
 8/11/10 use molecule color for "negligible" in Concentration Graph
 8/11/10 center whitespace of chart in beaker
 8/11/10 click on icons next to radio buttons to select radio buttons
