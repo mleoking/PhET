@@ -8,7 +8,6 @@ import edu.colorado.phet.acidbasesolutions.model.*;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.util.TimesTenNumberFormat;
-import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 
 /**
  * Graph that depicts the concentrations related to a solution.
