@@ -1,3 +1,5 @@
+Moved the scale further to the left so that it doesn't overlap stacked blocks as much
+Removed underwater scale because it seems like a more advanced feature, or more suited for the buoyancy sim
 Added superscripts for m^3 in object editing panel
 Added character labels to mystery blocks
 Fixed: mass readouts on blocks do not update when the mass changes
