@@ -394,8 +394,9 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
     	boolean isCurrentTimeOnChart = ( timeOnChart >= 0 ) && ( timeOnChart <= TIME_SPAN );
     	boolean dataExists = dataSeries.getItemCount() > 0;
     	
-    	boolean chartCursorVisible = isCurrentTimeOnChart && dataExists && 
-    	    (neuronModel.isPlayback() || (neuronModel.getClock().isPaused() && !neuronModel.isLive()));
+//    	boolean chartCursorVisible = isCurrentTimeOnChart && dataExists && 
+//    	    (neuronModel.isPlayback() || (neuronModel.getClock().isPaused() && !neuronModel.isLive()));
+        boolean chartCursorVisible = isCurrentTimeOnChart && dataExists;
     	
     	chartCursor.setVisible(chartCursorVisible);
     }
