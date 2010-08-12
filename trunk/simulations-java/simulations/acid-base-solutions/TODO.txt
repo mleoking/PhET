@@ -18,7 +18,7 @@ HIGH PRIORITY
 - change "neither" to "Liquid"
 
 MEDUIUM PRIORITY
-- improved layout of icons next to radio buttons
+- improve layout of icons next to radio buttons
 - add MVT to handle relationship between model element locations and PNode locations
 
 LOW PRIORITY
