@@ -368,7 +368,7 @@ public class CustomSolutionControls extends JPanel {
                 
                 strongRadioButton = new JRadioButton( ABSStrings.STRONG );
                 group.add( strongRadioButton );
-                weakRadioButton.addActionListener( actionListener );
+                strongRadioButton.addActionListener( actionListener );
             }
             
             // strength control

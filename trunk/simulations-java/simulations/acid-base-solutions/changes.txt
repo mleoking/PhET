@@ -12,6 +12,7 @@
 8/11/10 Tools -> Tests, View -> Views
 8/11/10 display model brightness value for conductivity tester in dev version only
 8/11/10 pass dev flag from application to view components
+8/11/10 many fixes to control panels to properly support Reset All
 8/11/10 clean up and refinements of ConductivityTesterNode
 8/11/10 encapsulate all light bulb parts in one composite node
 8/11/10 replace A- molecule image with one that has no "bite" out of it
