@@ -24,6 +24,7 @@ public class TestControls extends JPanel {
     
     private final ABSModel model;
     private final JRadioButton pHMeterRadioButton, pHPaperRadioButton, conductivityTesterRadioButton;
+    private boolean isSyncingWithModel;
     
     public TestControls( final ABSModel model ) {
         
@@ -36,7 +37,8 @@ public class TestControls extends JPanel {
         // model
         {
             this.model = model;
-            
+            isSyncingWithModel = false;
+
             model.getPHMeter().addSolutionRepresentationChangeListener( new SolutionRepresentationChangeAdapter() {
                 @Override
                 public void visibilityChanged() {
@@ -105,10 +107,12 @@ public class TestControls extends JPanel {
             conductivityTesterRadioButton.setSelected( model.getConductivityTester().isVisible() );
         }
     }
-    
+
     private void updateModel() {
-        model.getPHMeter().setVisible( pHMeterRadioButton.isSelected() );
-        model.getPHPaper().setVisible( pHPaperRadioButton.isSelected() );
-        model.getConductivityTester().setVisible( conductivityTesterRadioButton.isSelected() );
+        if ( !isSyncingWithModel ) {
+            model.getPHMeter().setVisible( pHMeterRadioButton.isSelected() );
+            model.getPHPaper().setVisible( pHPaperRadioButton.isSelected() );
+            model.getConductivityTester().setVisible( conductivityTesterRadioButton.isSelected() );
+        }
     }
 }
