@@ -12,7 +12,7 @@ import mx.events.SliderEvent;
 public class PropertyEditor extends GridRow {
     private var property:NumericProperty;
     public static const SLIDER_WIDTH:Number=250;
-    public function PropertyEditor(property:NumericProperty) {
+    public function PropertyEditor(property:NumericProperty,minimimum:Number,maximum:Number) {
         super();
         this.property=property;
         
@@ -20,7 +20,7 @@ public class PropertyEditor extends GridRow {
         label.text = property.name;
         addGridItem(label);
         
-        addGridItem(createSlider(property));
+        addGridItem(createSlider(property,minimimum,maximum));
         
         const textField:TextInput = new TextInput();
         textField.width = 100;
@@ -34,9 +34,11 @@ public class PropertyEditor extends GridRow {
         addGridItem(unitsLabel);
     }
 
-    protected function createSlider(property:NumericProperty):HSlider {
+    protected function createSlider(property:NumericProperty,minimum:Number,maximum:Number):HSlider {
         const slider:HSlider = new HSlider();
         slider.width=SLIDER_WIDTH;
+        slider.minimum =minimum;
+        slider.maximum=maximum;
         slider.liveDragging = true;
         slider.thumbCount=1;
         function sliderDragHandler(event:SliderEvent):void {
