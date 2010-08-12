@@ -24,7 +24,6 @@ import edu.colorado.phet.acidbasesolutions.model.StrongAcidSolution.CustomStrong
 import edu.colorado.phet.acidbasesolutions.model.StrongBaseSolution.CustomStrongBaseSolution;
 import edu.colorado.phet.acidbasesolutions.model.WeakAcidSolution.CustomWeakAcidSolution;
 import edu.colorado.phet.acidbasesolutions.model.WeakBaseSolution.CustomWeakBaseSolution;
-import edu.colorado.phet.acidbasesolutions.view.ABSRadioButton;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.AbstractValueControl;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.ILayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LogarithmicValueControl;
@@ -229,22 +228,33 @@ public class CustomSolutionControls extends JPanel {
             super( changeListener );
             
             // radio buttons
-            ButtonGroup group = new ButtonGroup();
-            ActionListener actionListener = new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                   fireStateChanged();
-                }
-            };
-            acidRadioButton = new ABSRadioButton( ABSStrings.ACID, group, actionListener );
-            baseRadioButton = new ABSRadioButton( ABSStrings.BASE, group, actionListener );
+            {
+                ButtonGroup group = new ButtonGroup();
+                
+                ActionListener actionListener = new ActionListener() {
+                    public void actionPerformed( ActionEvent e ) {
+                        fireStateChanged();
+                    }
+                };
+                
+                acidRadioButton = new JRadioButton( ABSStrings.ACID );
+                group.add( acidRadioButton );
+                acidRadioButton.addActionListener( actionListener );
+                
+                baseRadioButton = new JRadioButton( ABSStrings.BASE );
+                group.add( baseRadioButton );
+                baseRadioButton.addActionListener( actionListener );
+            }
             
-            // type panel
-            EasyGridBagLayout layout = new EasyGridBagLayout( this );
-            setLayout( layout );
-            int row = 0;
-            int column = 0;
-            layout.addComponent( acidRadioButton, row, column++ );
-            layout.addComponent( baseRadioButton, row, column++ );
+            // layout
+            {
+                EasyGridBagLayout layout = new EasyGridBagLayout( this );
+                setLayout( layout );
+                int row = 0;
+                int column = 0;
+                layout.addComponent( acidRadioButton, row, column++ );
+                layout.addComponent( baseRadioButton, row, column++ );
+            }
         }
         
         public void setAcidSelected( boolean selected ) {
@@ -266,15 +276,22 @@ public class CustomSolutionControls extends JPanel {
         public ConcentrationPanel( ChangeListener changeListener ) {
             super( changeListener );
 
-            // logarithmic control
-            double min = ABSConstants.CONCENTRATION_RANGE.getMin();
-            double max = ABSConstants.CONCENTRATION_RANGE.getMax();
-            double value = ABSConstants.CONCENTRATION_RANGE.getDefault();
-            String label = ABSStrings.CONCENTRATION;
-            String textFieldPattern = "0.000";
-            String units = ABSStrings.MOLES_PER_LITER;
-            concentrationControl = new LogarithmicValueControl( min, max, label, textFieldPattern, units );
-            concentrationControl.setValue( value );
+            // logarithmic concentration control
+            {
+                double min = ABSConstants.CONCENTRATION_RANGE.getMin();
+                double max = ABSConstants.CONCENTRATION_RANGE.getMax();
+                double value = ABSConstants.CONCENTRATION_RANGE.getDefault();
+                String label = ABSStrings.CONCENTRATION;
+                String textFieldPattern = "0.000";
+                String units = ABSStrings.MOLES_PER_LITER;
+                concentrationControl = new LogarithmicValueControl( min, max, label, textFieldPattern, units );
+                concentrationControl.setValue( value );
+                concentrationControl.addChangeListener( new ChangeListener() {
+                    public void stateChanged( ChangeEvent e ) {
+                        fireStateChanged();
+                    }
+                } );
+            }
             
             // labels on the slider
             {
@@ -299,19 +316,15 @@ public class CustomSolutionControls extends JPanel {
                 concentrationControl.getSlider().setMajorTickSpacing( tickSpacing );
             }
             
-            concentrationControl.addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent e ) {
-                    fireStateChanged();
-                }
-            } );
-            
             // layout
-            setBorder( new EtchedBorder() );
-            EasyGridBagLayout layout = new EasyGridBagLayout( this );
-            setLayout( layout );
-            int row = 0;
-            int column = 0;
-            layout.addComponent( concentrationControl, row, column );
+            {
+                setBorder( new EtchedBorder() );
+                EasyGridBagLayout layout = new EasyGridBagLayout( this );
+                setLayout( layout );
+                int row = 0;
+                int column = 0;
+                layout.addComponent( concentrationControl, row, column );
+            }
         }
         
         public void setConcentration( double concentration ) {
@@ -340,49 +353,62 @@ public class CustomSolutionControls extends JPanel {
             JLabel strengthLabel = new JLabel( ABSStrings.STRENGTH );
             
             // radio buttons
-            ButtonGroup group = new ButtonGroup();
-            ActionListener actionListener = new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    fireStateChanged();
-                }
-            };
-            weakRadioButton = new ABSRadioButton( ABSStrings.WEAK, group, actionListener );
-            strongRadioButton = new ABSRadioButton( ABSStrings.STRONG, group, actionListener );
+            {
+                ButtonGroup group = new ButtonGroup();
+                
+                ActionListener actionListener = new ActionListener() {
+                    public void actionPerformed( ActionEvent e ) {
+                        fireStateChanged();
+                    }
+                };
+                
+                weakRadioButton = new JRadioButton( ABSStrings.WEAK );
+                group.add( weakRadioButton );
+                weakRadioButton.addActionListener( actionListener );
+                
+                strongRadioButton = new JRadioButton( ABSStrings.STRONG );
+                group.add( strongRadioButton );
+                weakRadioButton.addActionListener( actionListener );
+            }
             
-            // strength
-            double min = ABSConstants.WEAK_STRENGTH_RANGE.getMin();
-            double max = ABSConstants.WEAK_STRENGTH_RANGE.getMax();
-            double value = ABSConstants.WEAK_STRENGTH_RANGE.getDefault();
-            String label = "";
-            String textFieldPattern = "";
-            String units = "";
-            weakStrengthControl = new LogarithmicValueControl( min, max, label, textFieldPattern, units, new SliderLayoutStrategy() );
-            weakStrengthControl.setValue( value );
-            Hashtable<Double, JLabel> strengthLabelTable = new Hashtable<Double, JLabel>();
-            strengthLabelTable.put( new Double( weakStrengthControl.getMinimum() ), new JLabel( ABSStrings.WEAKER ) );
-            strengthLabelTable.put( new Double( weakStrengthControl.getMaximum() ), new JLabel( ABSStrings.STRONGER ) );
-            weakStrengthControl.setTickLabels( strengthLabelTable );
-            weakStrengthControl.addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent e ) {
-                    fireStateChanged();
-                }
-            } );
+            // strength control
+            {
+                double min = ABSConstants.WEAK_STRENGTH_RANGE.getMin();
+                double max = ABSConstants.WEAK_STRENGTH_RANGE.getMax();
+                double value = ABSConstants.WEAK_STRENGTH_RANGE.getDefault();
+                String label = "";
+                String textFieldPattern = "";
+                String units = "";
+                weakStrengthControl = new LogarithmicValueControl( min, max, label, textFieldPattern, units, new SliderLayoutStrategy() );
+                weakStrengthControl.setValue( value );
+                Hashtable<Double, JLabel> strengthLabelTable = new Hashtable<Double, JLabel>();
+                strengthLabelTable.put( new Double( weakStrengthControl.getMinimum() ), new JLabel( ABSStrings.WEAKER ) );
+                strengthLabelTable.put( new Double( weakStrengthControl.getMaximum() ), new JLabel( ABSStrings.STRONGER ) );
+                weakStrengthControl.setTickLabels( strengthLabelTable );
+                weakStrengthControl.addChangeListener( new ChangeListener() {
+                    public void stateChanged( ChangeEvent e ) {
+                        fireStateChanged();
+                    }
+                } );
+            }
             
-            // inner panel
-            setBorder( new EtchedBorder() );
-            EasyGridBagLayout layout = new EasyGridBagLayout( this );
-            setLayout( layout );
-            int row = 0;
-            int column = 0;
-            layout.addComponent( strengthLabel, row++, column, 2, 1 );
-            layout.addComponent( weakRadioButton, row, column++, 1, 1 );
-            layout.addComponent( strongRadioButton, row++, column, 1, 1 );
-            column = 0;
-            layout.addComponent( weakStrengthControl, row, column++, 2, 1 );
-            // add struts to maintain panel size when weakStrengthControl is made invisible
-            layout.addComponent( Box.createVerticalStrut( weakStrengthControl.getPreferredSize().height ), row++, column ); 
-            column = 0;
-            layout.addComponent( Box.createHorizontalStrut( weakStrengthControl.getPreferredSize().width ), row, column, 2, 1 ); 
+            // layout with inner panel
+            {
+                setBorder( new EtchedBorder() );
+                EasyGridBagLayout layout = new EasyGridBagLayout( this );
+                setLayout( layout );
+                int row = 0;
+                int column = 0;
+                layout.addComponent( strengthLabel, row++, column, 2, 1 );
+                layout.addComponent( weakRadioButton, row, column++, 1, 1 );
+                layout.addComponent( strongRadioButton, row++, column, 1, 1 );
+                column = 0;
+                layout.addComponent( weakStrengthControl, row, column++, 2, 1 );
+                // add struts to maintain panel size when weakStrengthControl is made invisible
+                layout.addComponent( Box.createVerticalStrut( weakStrengthControl.getPreferredSize().height ), row++, column );
+                column = 0;
+                layout.addComponent( Box.createHorizontalStrut( weakStrengthControl.getPreferredSize().width ), row, column, 2, 1 );
+            }
         }
         
         public void setWeakSelected( boolean selected ) {
