@@ -35,7 +35,6 @@ public class DensityViewIntro extends DensityView {
         model.addDensityObject(Block.newBlockSizeMass(2, 4.0*1000, -8, 0, new ColorTransform(0, 0, 1), model));
         model.addDensityObject(Block.newBlockSizeMass(1.5, 4.0*1000, 8, 0, new ColorTransform(0, 1, 0), model));
         model.addDensityObject(Block.newBlockSizeMass(1, 4.0*1000, 8, 0, new ColorTransform(1, 0, 0), model));
-        addScales();
     }
 
     public function initializeSameVolume():void {
@@ -43,7 +42,6 @@ public class DensityViewIntro extends DensityView {
         model.addDensityObject(Block.newBlockDensitySize(0.5*1000, 2, -8, 0, new ColorTransform(0, 0, 1), model));
         model.addDensityObject(Block.newBlockDensitySize(2*1000, 2, 8, 0, new ColorTransform(0, 1, 0), model));
         model.addDensityObject(Block.newBlockDensitySize(4*1000, 2, 8, 0, new ColorTransform(1, 0, 0), model));
-        addScales();
     }
 
     public function initializeSameDensity():void {
@@ -52,7 +50,6 @@ public class DensityViewIntro extends DensityView {
         model.addDensityObject(Block.newBlockDensityMass(density, 2000, -8, 0, new ColorTransform(0, 0, 1), model));
         model.addDensityObject(Block.newBlockDensityMass(density, 1000, 8, 0, new ColorTransform(0, 1, 0), model));
         model.addDensityObject(Block.newBlockDensityMass(density, 0.5*1000, 8, 0, new ColorTransform(1, 0, 0), model));
-        addScales();
     }
 
     private function initializeCustomObject():void {
