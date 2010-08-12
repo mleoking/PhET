@@ -3,7 +3,6 @@ import Box2D.Common.Math.b2Vec2;
 import Box2D.Dynamics.Contacts.b2ContactResult;
 import Box2D.Dynamics.b2Body;
 
-import edu.colorado.phet.densityflex.model.NumericProperty;
 import edu.colorado.phet.densityflex.view.DensityObjectNode;
 import edu.colorado.phet.densityflex.view.DensityView;
 
@@ -14,7 +13,7 @@ public class DensityObject {
     private var density:NumericProperty;
     private var _substance:Substance = Substance.WOOD;
     private var substanceListeners:Array = new Array();
-    
+
     private var x:NumericProperty;
     private var y:NumericProperty;
     private var z:NumericProperty;
@@ -30,20 +29,82 @@ public class DensityObject {
     private var submergedVolume:Number = 0.0;
     private var contactImpulseMap:Object = new Object();
     private var labelProperty;
-    
+
+    public function DensityObject(x:Number, y:Number, z:Number, model:DensityModel, density:Number, mass:Number, volume:Number) {
+        this.volume = new NumericProperty("Volume", "m\u00b3", volume);
+        this.mass = new NumericProperty("Mass", "kg", mass);
+        this.density = new NumericProperty("Density", "kg/m\u00b3", density);
+        this.labelProperty = new StringProperty(String(getMass().toFixed(1)) + " kg");//Showing one decimal point is a good tradeoff between readability and complexity);
+
+        function massChanged():void {
+            if (isDensityFixed()) {
+                setVolume(getMass() / getDensity());
+            }
+            else {
+                //a change in mass or volume causes a change in density
+                setDensity(getMass() / getVolume());
+            }
+            labelProperty.value = String(getMass().toFixed(1)) + " kg";
+        }
+
+        getMassProperty().addListener(massChanged);
+
+        function volumeChanged():void {
+            if (isDensityFixed()) {
+                setMass(getVolume() * getDensity());
+            }
+            else { //custom object
+                //a change in mass or volume causes a change in density
+                setDensity(getMass() / getVolume());
+            }
+        }
+
+        getVolumeProperty().addListener(volumeChanged);
+
+        function densityChanged():void {
+            //this should change the mass
+
+            setMass(getVolume() * getDensity());
+
+            //TODO: Switch into "custom object" mode
+            //This could be confusing because it will switch the behavior of the other sliders
+
+            var changed:Boolean = false;
+            for each (var s:Substance in Substance.OBJECT_SUBSTANCES) {
+                if (s.getDensity() == getDensity()) {
+                    substance = s;
+                    changed = true;
+                }
+            }
+            if (!changed) {
+                substance = new Substance("Custom", getDensity());
+            }
+        }
+
+        getDensityProperty().addListener(densityChanged);
+
+        this.x = new NumericProperty("x", "m", x);
+        this.y = new NumericProperty("y", "m", y);
+        this.z = new NumericProperty("z", "m", z);
+
+        this.model = model;
+        this.density.value = density;
+        this.listeners = new Array();
+    }
+
     protected function getLabelProperty():StringProperty {
         return labelProperty;
     }
 
-    public function addSubstanceListener( listener:Function ):void {
-        substanceListeners.push( listener );
+    public function addSubstanceListener(listener:Function):void {
+        substanceListeners.push(listener);
     }
 
-    public function set substance( substance:Substance ):void {
-        if ( !this._substance.equals(substance) ) {
+    public function set substance(substance:Substance):void {
+        if (!this._substance.equals(substance)) {
             this._substance = substance;
             this.density.value = substance.getDensity();
-            for each ( var listener:Function in substanceListeners ) {
+            for each (var listener:Function in substanceListeners) {
                 listener();
             }
         }
@@ -54,7 +115,7 @@ public class DensityObject {
     }
 
     private function isDensityFixed():Boolean {
-        return true;
+        return !_substance.isCustom();
     }
 
     public function getVolumeProperty():NumericProperty {
@@ -71,68 +132,6 @@ public class DensityObject {
 
     public function getSubstance():Substance {
         return substance;
-    }
-
-    public function DensityObject(x:Number, y:Number, z:Number, model:DensityModel,density:Number,mass:Number,volume:Number) {
-        this.volume= new NumericProperty( "Volume", "m\u00b3", volume); 
-        this.mass= new NumericProperty( "Mass", "kg", mass); 
-        this.density= new NumericProperty( "Density", "kg/m\u00b3", density );
-        this.labelProperty  = new StringProperty(String(getMass().toFixed(1)) + " kg");//Showing one decimal point is a good tradeoff between readability and complexity);
-        
-        function massChanged():void {
-            if ( isDensityFixed() ) {
-                setVolume(getMass()/ getDensity());
-            }
-            else {
-                //a change in mass or volume causes a change in density
-                setDensity(getMass()/ getVolume());
-            }
-            labelProperty.value = String(getMass().toFixed(1)) + " kg"; 
-        }
-
-        getMassProperty().addListener( massChanged );
-
-        function volumeChanged():void {
-            if ( isDensityFixed() ) {
-                setMass(getVolume()*getDensity());
-            }
-            else { //custom object
-                //a change in mass or volume causes a change in density
-                setDensity(getMass()/getVolume());
-            }
-        }
-
-        getVolumeProperty().addListener( volumeChanged );
-
-        function densityChanged():void {
-            //this should change the mass
-            
-            setMass(getVolume()*getDensity());
-            
-            //TODO: Switch into "custom object" mode
-            //This could be confusing because it will switch the behavior of the other sliders
-            
-            var changed:Boolean = false;
-            for each ( var s:Substance in Substance.OBJECT_SUBSTANCES ) {
-                if ( s.getDensity() == getDensity() ) {
-                    substance = s;
-                    changed = true;
-                }
-            }
-            if (!changed){
-                substance = new Substance("Custom",getDensity());
-            }
-        }
-
-        getDensityProperty().addListener( densityChanged );
-        
-        this.x = new NumericProperty("x","m",x);
-        this.y = new NumericProperty("y","m",y);
-        this.z = new NumericProperty("z","m",z);
-
-        this.model = model;
-        this.density.value=density;
-        this.listeners = new Array();
     }
 
     public function getVelocityArrowModel():ArrowModel {
@@ -173,15 +172,15 @@ public class DensityObject {
 
     public function remove():void {
         model.getWorld().DestroyBody(getBody());
-        body=null;
+        body = null;
         for each(var listener:Listener in listeners) {
             listener.remove();
         }
     }
 
     public function setPosition(x:Number, y:Number):void {
-        this.x.value=x;
-        this.y.value=y;
+        this.x.value = x;
+        this.y.value = y;
 
         if (body.GetPosition().x != x || body.GetPosition().y != y) {
             body.SetXForm(new b2Vec2(x, y), 0);
@@ -307,9 +306,9 @@ public class DensityObject {
     public function getVolume():Number {
         return this.volume.value;
     }
-    
+
     private function setMass(number:Number):void {
-        mass.value=number;
+        mass.value = number;
         updateBox2DModel();
         notifyListeners();
     }
@@ -324,7 +323,7 @@ public class DensityObject {
         updateBox2DModel();
         notifyListeners();
     }
-    
+
     public function updateBox2DModel():void {
         throw new Error("Abstract method error");
     }

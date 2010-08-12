@@ -1,3 +1,4 @@
+Fixed: In custom object mode, the density should change when the mass (or volume) is changed.
 Added support for typing into text fields
 Remove the scale for "objects of same X modes"
 # 0.01.14 (43021) Aug 12, 2010
