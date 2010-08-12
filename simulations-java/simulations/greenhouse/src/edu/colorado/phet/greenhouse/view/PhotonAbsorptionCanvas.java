@@ -30,6 +30,9 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
 	
 	private static final double FLASHLIGHT_WIDTH = 300;
+	
+	// For debug purposes.
+	private static final boolean SHOW_LARGEST_OPEN_RECT = false;
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -52,6 +55,9 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
     // the view.
     private HashMap<Photon, PhotonNode> photonMap = new HashMap<Photon, PhotonNode>();
     private HashMap<Molecule, MoleculeNode> moleculeMap = new HashMap<Molecule, MoleculeNode>();
+    
+    // Node that depicts the largest open rectangle, used for debugging.
+    private PhetPPath largestOpenRect = new PhetPPath(new BasicStroke(3), Color.YELLOW);
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -96,10 +102,12 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
                     System.out.println( getClass().getName() + " - Error: MoleculeNode not found for molecule." );
                 }
                 moleculeMap.remove( molecule );
+                updateLargestOpenRect();
             }
             
             public void moleculeAdded( Molecule molecule ) {
                 addMolecule( molecule );
+                updateLargestOpenRect();
             }
         });
 
@@ -127,6 +135,9 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
         flashlightNode.setOffset(mvt.modelToViewDouble(photonAbsorptionModel.getPhotonEmissionLocation()));
         photonEmitterLayer.addChild(flashlightNode);
         
+        // Add the largest open rectangle.
+        moleculeLayer.addChild( largestOpenRect );
+        
         // Add in the initial molecule(s).
         for (Molecule molecule : photonAbsorptionModel.getMolecules()){
             addMolecule( molecule );
@@ -137,6 +148,7 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
         
         // Update other initial state.
         // TODO: TBD
+        updateLargestOpenRect();
     }
     
     //----------------------------------------------------------------------------
@@ -157,6 +169,13 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
         else {
         	// TODO: TBD
         }
+    }
+    
+    private void updateLargestOpenRect(){
+        if (SHOW_LARGEST_OPEN_RECT){
+            largestOpenRect.setPathTo( mvt.createTransformedShape( photonAbsorptionModel.getLargestOpenRect() ) );
+        }
+        largestOpenRect.setVisible( SHOW_LARGEST_OPEN_RECT );
     }
     
     private void addMolecule(Molecule molecule){

@@ -97,6 +97,22 @@ public class PhotonAbsorptionModel {
     
     // Random number generator.
     private static final Random RAND = new Random();
+    
+    // Create a grid-based set of possible locations for molecules in the
+    // configurable atmosphere.
+    private static final ArrayList<Point2D> GRID_POINTS = new ArrayList<Point2D>();
+    static {
+        int numGridlinesX = 8;
+        double gridLineSpacingX = CONTAINMENT_AREA_WIDTH / (double)(numGridlinesX + 1);
+        int numGridlinesY = 8;
+        double gridLineSpacingY = CONTAINMENT_AREA_WIDTH / (double)(numGridlinesY + 1);
+        for (int i = 1; i <= numGridlinesX; i++){
+            for (int j = 1; j <= numGridlinesY; j++){
+                GRID_POINTS.add( new Point2D.Double(i * gridLineSpacingX + CONTAINMENT_AREA_RECT.getMinX(),
+                        j * gridLineSpacingY + CONTAINMENT_AREA_RECT.getMinY()) );
+            }
+        }
+    }
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -488,7 +504,7 @@ public class PhotonAbsorptionModel {
             // Add the necessary number of the specified molecule.
             for (int i = 0; i < numMoleculesToAdd; i++){
                 Molecule moleculeToAdd = Molecule.createMolecule( moleculeID );
-                moleculeToAdd.setCenterOfGravityPos( findLocationInAtmosphereForMolecule2( moleculeToAdd ) );
+                moleculeToAdd.setCenterOfGravityPos( findLocationInAtmosphereForMolecule3( moleculeToAdd ) );
                 configurableAtmosphereMolecules.add( moleculeToAdd );
                 moleculeToAdd.addListener( moleculePhotonEmissionListener );
             }
@@ -690,7 +706,66 @@ public class PhotonAbsorptionModel {
     }
     
     /**
-     * Conveneince method for creating a rectangle from a center point.
+     * Find a location in the atmosphere that has a minimal amount of overlap
+     * with other molecules.  This is assumed to be used only when multiple
+     * molecules are being shown.
+     * 
+     * IMPORTANT: This assumes that the molecule in question is not already on
+     * the list of molecules, and may return weird results if it is.
+     * 
+     * @return - A Point2D that is relatively free of other molecules.
+     */
+    private Point2D findLocationInAtmosphereForMolecule3( Molecule molecule ){
+        
+        ArrayList<Point2D> possibleLocations = new ArrayList<Point2D>();
+        
+        double minDistWallToMolCenterX = MIN_DIST_FROM_WALL_X + molecule.getBoundingRect().getWidth() / 2;
+        double minXPos = CONTAINMENT_AREA_RECT.getMinX() + minDistWallToMolCenterX;
+        double xRange = CONTAINMENT_AREA_RECT.getWidth() - 2 * minDistWallToMolCenterX;
+        double minDistWallToMolCenterY = MIN_DIST_FROM_WALL_Y + molecule.getBoundingRect().getHeight() / 2;
+        double minYPos = CONTAINMENT_AREA_RECT.getMinY() + minDistWallToMolCenterY;
+        double yRange = CONTAINMENT_AREA_RECT.getHeight() - 2 * minDistWallToMolCenterY;
+        
+        for (int i = 0; i < 20; i++){
+            // Randomly generate a position.
+            double proposedYPos = minYPos + RAND.nextDouble() * yRange;
+            double proposedXPos;
+            if (Math.abs( proposedYPos - getContainmentAreaRect().getCenterY() ) < EMITTER_AVOIDANCE_COMP_Y / 2){
+                // Compensate in the X direction so that this position is not
+                // too close to the photon emitter.
+                proposedXPos = minXPos + EMITTER_AVOIDANCE_COMP_X + RAND.nextDouble() * (xRange - EMITTER_AVOIDANCE_COMP_X);
+            }
+            else{
+                proposedXPos = minXPos + RAND.nextDouble() * xRange;
+            }
+            possibleLocations.add( new Point2D.Double(proposedXPos, proposedYPos ) );
+        }
+
+        // Add some pre-computed points to this list of possibilities in case
+        // none of the random points are workable.
+        possibleLocations.addAll( GRID_POINTS );
+        
+        // Figure out which point would position the molecule such that it had
+        // the least overlap with other molecules.
+        final double molRectWidth = molecule.getBoundingRect().getWidth();
+        final double molRectHeight = molecule.getBoundingRect().getHeight();
+        Collections.sort( possibleLocations, new Comparator<Point2D>() {
+            public int compare( Point2D p1, Point2D p2 ) {
+                return Double.compare( getOverlapWithOtherMolecules(p1, molRectWidth, molRectHeight),
+                        getOverlapWithOtherMolecules(p2, molRectWidth, molRectHeight) );
+            }
+        });
+        
+        Point2D pt = possibleLocations.get( 0 );
+        if (pt.getX() + molRectWidth / 2 > CONTAINMENT_AREA_RECT.getMaxX()){
+            System.out.println("Whoa! " + pt);
+        }
+        
+        return possibleLocations.get( 0 );
+    }
+    
+    /**
+     * Convenience method for creating a rectangle from a center point.
      * 
      * @param pt
      * @param width
@@ -807,6 +882,106 @@ public class PhotonAbsorptionModel {
     //----------------------------------------------------------------------------
     // Inner Classes and Interfaces
     //----------------------------------------------------------------------------
+    
+    private class Segment1D {
+        private double min, max;
+
+        public Segment1D( double min, double max ) {
+            assert max >= min;
+            this.min = min;
+            this.max = max;
+        }
+
+        /**
+         * @return
+         */
+        public double getLength() {
+            return max - min;
+        }
+
+        public double getMin() {
+            return min;
+        }
+        
+        public double getMax() {
+            return max;
+        }
+        
+        public void setSize(double min, double max) {
+            assert max >= min;
+            this.min = min;
+            this.max = max;
+        }
+        
+        /**
+         * Subtract the supplied segment from this segment.  In general, this
+         * can have four different outcomes:
+         * 1. If there is no overlap between this segment and the passed-in
+         * segment, this segment will remain unchanged.
+         * 2. If the passed-in segment overlaps with one end of this segment,
+         * this segment will be reduced in length.
+         * 3. If the passed-in segment is larger than and completely overlaps
+         * this segment, the size of this segment will be reduced to zero.
+         * 4. If the passed-in segment is smaller than this segment and is
+         * completely contained within it, this segment will essentially be
+         * split into two smaller segments.  In this case, one of the
+         * segments will be returned and this segment will take on the size
+         * of the other.  This is the only case where the return value is non-
+         * null.
+         *
+         * @param segmentToSubtract
+         * @return
+         */
+        public Segment1D subtractSegment(Segment1D segmentToSubtract){
+            
+            Segment1D returnSegment = null;
+            
+            double overlapMin = Math.max( this.min, segmentToSubtract.getMin() );
+            double overlapMax = Math.min( this.max, segmentToSubtract.getMax() );
+
+            if (overlapMax > overlapMin){
+                if (overlapMin == this.min && overlapMax == this.max){
+                    // This segment is completely contained within the passed-
+                    // in segment, so subtracting the passed-in segment
+                    // essentially obliterates this one.
+                    setSize( 0, 0 );
+                }
+                else if (overlapMin == segmentToSubtract.getMin() && overlapMax == segmentToSubtract.getMax()){
+                    // The passed-in segment is completely contained within
+                    // this segment.  In this case, this segment must be split
+                    // in two, and one of the resulting segments is returned.
+                    returnSegment = new Segment1D( this.min, overlapMin );
+                    this.min = overlapMax;
+                }
+                else{
+                    // The passed in segment partially overlaps this segment.
+                    if (this.min < overlapMin){
+                        this.max = overlapMin;
+                    }
+                    else{
+                        this.min = overlapMin;
+                    }
+                }
+            }
+            else{
+                // No overlap, so no change to this segment and no split-off
+                // portion to return.
+            }
+            
+            return returnSegment;
+            
+        }
+        
+        /**
+         * Reduce the size of this segment by the amount of overlap with the
+         * provided segment.
+         * 
+         * @param overlappingSegment
+         */
+//        public removeOverlap(Segment1D overlappingSegment){
+            
+            
+    }
     
     public interface Listener extends EventListener {
         void photonAdded(Photon photon);
