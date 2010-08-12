@@ -1,4 +1,5 @@
 package edu.colorado.phet.densityflex.components {
+import edu.colorado.phet.densityflex.model.NumericProperty;
 import edu.colorado.phet.densityflex.model.Substance;
 
 import mx.controls.HSlider;
