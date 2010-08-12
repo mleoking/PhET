@@ -6,6 +6,8 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.text.MessageFormat;
 
 import javax.swing.*;
@@ -67,6 +69,52 @@ public class TestSolutionControls extends JPanel {
             } );
         }
         
+        // icons - clicking on these selects associated radio buttons
+        JLabel waterIcon = getMoleculeIconLabel( ABSImages.H2O_MOLECULE );
+        waterIcon.addMouseListener( new MouseAdapter() {
+            @Override 
+            public void mousePressed( MouseEvent event ) {
+                waterRadioButton.setSelected( true );
+                updateModel();
+            }
+        } );
+        
+        JLabel strongAcidIcon = getMoleculeIconLabel( ABSImages.HA_MOLECULE );
+        strongAcidIcon.addMouseListener( new MouseAdapter() {
+            @Override 
+            public void mousePressed( MouseEvent event ) {
+                strongAcidRadioButton.setSelected( true );
+                updateModel();
+            }
+        } );
+        
+        JLabel weakAcidIcon = getMoleculeIconLabel( ABSImages.HA_MOLECULE );
+        weakAcidIcon.addMouseListener( new MouseAdapter() {
+            @Override 
+            public void mousePressed( MouseEvent event ) {
+                weakAcidRadioButton.setSelected( true );
+                updateModel();
+            }
+        } );
+        
+        JLabel strongBaseIcon = getMoleculeIconLabel( ABSImages.MOH_MOLECULE );
+        strongBaseIcon.addMouseListener( new MouseAdapter() {
+            @Override 
+            public void mousePressed( MouseEvent event ) {
+                strongBaseRadioButton.setSelected( true );
+                updateModel();
+            }
+        } );
+        
+        JLabel weakBaseIcon = getMoleculeIconLabel( ABSImages.B_MOLECULE );
+        weakBaseIcon.addMouseListener( new MouseAdapter() {
+            @Override 
+            public void mousePressed( MouseEvent event ) {
+                weakBaseRadioButton.setSelected( true );
+                updateModel();
+            }
+        } );
+        
         // radio buttons
         {
             ActionListener actionListener = new ActionListener() {
@@ -107,19 +155,19 @@ public class TestSolutionControls extends JPanel {
             int row = 0;
             int column = 0;
             layout.addComponent( waterRadioButton, row, column++ );
-            layout.addComponent( getMoleculeIconLabel( ABSImages.H2O_MOLECULE ), row++, column );
+            layout.addComponent( waterIcon, row++, column );
             column = 0;
             layout.addComponent( strongAcidRadioButton, row, column++ );
-            layout.addComponent( getMoleculeIconLabel( ABSImages.HA_MOLECULE ), row++, column );
+            layout.addComponent( strongAcidIcon, row++, column );
             column = 0;
             layout.addComponent( weakAcidRadioButton, row, column++ );
-            layout.addComponent( getMoleculeIconLabel( ABSImages.HA_MOLECULE ), row++, column );
+            layout.addComponent( weakAcidIcon, row++, column );
             column = 0;
             layout.addComponent( strongBaseRadioButton, row, column++ );
-            layout.addComponent( getMoleculeIconLabel( ABSImages.MOH_MOLECULE ), row++, column );
+            layout.addComponent( strongBaseIcon, row++, column );
             column = 0;
             layout.addComponent( weakBaseRadioButton, row, column++ );
-            layout.addComponent( getMoleculeIconLabel( ABSImages.B_MOLECULE ), row++, column );
+            layout.addComponent( weakBaseIcon, row++, column );
         }
         
         // default state

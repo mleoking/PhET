@@ -4,6 +4,8 @@ package edu.colorado.phet.acidbasesolutions.controls;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.text.MessageFormat;
 
 import javax.swing.*;
@@ -29,6 +31,7 @@ public class ViewControls extends JPanel {
     
     private final ABSModel model;
     private final JRadioButton magnifyingGlassRadioButton, concentrationGraphRadioButton, neitherRadioButton;
+    private final JLabel magnifyingGlassIcon, concentrationGraphIcon;
     private final JCheckBox showWaterCheckBox;
     private boolean controlsEnabled;
     
@@ -81,6 +84,31 @@ public class ViewControls extends JPanel {
             } );
         }
         
+        // icons - clicking on these selects associated radio buttons
+        {
+            magnifyingGlassIcon = new JLabel( new ImageIcon( ABSImages.MAGNIFYING_GLASS_ICON ) );
+            magnifyingGlassIcon.addMouseListener( new MouseAdapter() {
+                @Override
+                public void mousePressed( MouseEvent event ) {
+                    if ( controlsEnabled ) {
+                        magnifyingGlassRadioButton.setSelected( true );
+                        updateModel();
+                    }
+                }
+            } );
+
+            concentrationGraphIcon = new JLabel( new ImageIcon( ABSImages.CONCENTRATION_GRAPH_ICON ) );
+            concentrationGraphIcon.addMouseListener( new MouseAdapter() {
+                @Override
+                public void mousePressed( MouseEvent event ) {
+                    if ( controlsEnabled ) {
+                        concentrationGraphRadioButton.setSelected( true );
+                        updateModel();
+                    }
+                }
+            } );
+        }
+        
         // radio buttons
         {
             ActionListener actionListener = new ActionListener() {
@@ -121,12 +149,12 @@ public class ViewControls extends JPanel {
             EasyGridBagLayout layout = new EasyGridBagLayout( this );
             setLayout( layout );
             layout.addComponent( magnifyingGlassRadioButton, 0, 0, 2, 1 );
-            layout.addComponent( new JLabel( new ImageIcon( ABSImages.MAGNIFYING_GLASS_ICON ) ), 0, 2 );
+            layout.addComponent( magnifyingGlassIcon, 0, 2 );
             // indent the "Show H2O molecules" check box beneath the "Magnifying Glass" radio button
             layout.setMinimumWidth( 0, 22 );
             layout.addComponent( showWaterCheckBox, 1, 1, 1, 1 );
             layout.addComponent( concentrationGraphRadioButton, 2, 0, 2, 1 );
-            layout.addComponent( new JLabel( new ImageIcon( ABSImages.CONCENTRATION_GRAPH_ICON ) ), 2, 2 );
+            layout.addComponent( concentrationGraphIcon, 2, 2 );
             layout.addComponent( neitherRadioButton, 3, 0, 2, 1 );
         }
         
@@ -156,8 +184,10 @@ public class ViewControls extends JPanel {
             this.controlsEnabled = controlsEnabled;
             
             magnifyingGlassRadioButton.setEnabled( controlsEnabled );
+            magnifyingGlassIcon.setEnabled( controlsEnabled );
             showWaterCheckBox.setEnabled( controlsEnabled && magnifyingGlassRadioButton.isSelected() );
             concentrationGraphRadioButton.setEnabled( controlsEnabled );
+            concentrationGraphIcon.setEnabled( controlsEnabled );
             neitherRadioButton.setEnabled( controlsEnabled );
 
             if ( controlsEnabled ) {
