@@ -69,7 +69,6 @@ public class BlockNode extends CuboidNode implements Pickable, Listener {
         textField.height = wallData.height;
         textField.width = wallData.width;
         textField.multiline = true;
-        textField.setTextFormat(createTextFormat(45 * (200 / cube.width)));
         frontSprite.addChild(textField);
 
         frontMaterial = new MovieMaterial(frontSprite);
@@ -79,6 +78,8 @@ public class BlockNode extends CuboidNode implements Pickable, Listener {
         cube.cubeMaterials.left = cube.cubeMaterials.right = cube.cubeMaterials.top = cube.cubeMaterials.bottom = cube.cubeMaterials.front = redWallMaterial;
 
         cube.cubeMaterials.back = frontMaterial;
+        
+        updateShape();
         //make block semi-transparent
         //        redWallMaterial.alpha = 0.5;
         //        frontSprite.alpha = 0.5;
@@ -106,6 +107,11 @@ public class BlockNode extends CuboidNode implements Pickable, Listener {
 
     override public function remove():void {
         view.removeObject(this);
+    }
+
+    override protected function updateShape():void {
+        super.updateShape();
+        textField.setTextFormat(createTextFormat(45 * (200 / getCube().width)));
     }
 }
 }
