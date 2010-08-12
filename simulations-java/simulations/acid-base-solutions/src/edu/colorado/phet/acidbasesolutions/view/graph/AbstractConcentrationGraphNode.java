@@ -44,7 +44,6 @@ abstract class AbstractConcentrationGraphNode extends PComposite {
     private static final Color DEFAULT_BAR_COLOR = Color.GRAY;
 
     // numeric values
-    private static final Font VALUE_FONT = new PhetFont( Font.PLAIN, 18 );
     private static final double NEGLIGIBLE_THRESHOLD = 0;
 
     // molecule icons and labels
@@ -190,6 +189,7 @@ abstract class AbstractConcentrationGraphNode extends PComposite {
         barNodes[index].setPaint( molecule.getColor() );
         valueNodes[index].setFormat( format );
         valueNodes[index].setNegligibleEnabled( negligibleEnabled, NEGLIGIBLE_THRESHOLD );
+        valueNodes[index].setNegligibleColor( molecule.getColor() );
         updateMoleculeLayout( index );
     }
 
@@ -251,7 +251,6 @@ abstract class AbstractConcentrationGraphNode extends PComposite {
 
         public ValueNode() {
             super( 0, new TimesTenNumberFormat( "0.00" ) );
-            setFont( VALUE_FONT );
             rotate( -Math.PI / 2 );
         }
     }
