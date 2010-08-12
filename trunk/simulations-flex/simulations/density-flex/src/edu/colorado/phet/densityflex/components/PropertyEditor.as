@@ -3,12 +3,17 @@ import edu.colorado.phet.densityflex.model.NumericProperty;
 
 import flash.display.DisplayObject;
 
+import flash.events.Event;
+
+import flash.events.KeyboardEvent;
+
 import mx.containers.GridItem;
 import mx.containers.GridRow;
 import mx.controls.HSlider;
 import mx.controls.Label;
 import mx.controls.TextInput;
 import mx.controls.sliderClasses.SliderThumb;
+import mx.events.FlexEvent;
 import mx.events.SliderEvent;
 
 public class PropertyEditor extends GridRow {
@@ -26,8 +31,14 @@ public class PropertyEditor extends GridRow {
         
         const textField:TextInput = new TextInput();
         textField.width = 100;
+        textField.restrict = ".0-9";
         function updateText():void{textField.text=property.value.toFixed(2)}
         updateText();
+        const listener:Function = function myfunction():void{
+            property.value = Number(textField.text);
+        };
+        textField.addEventListener(FlexEvent.VALUE_COMMIT,listener);
+        textField.addEventListener(FlexEvent.ENTER,listener );
         property.addListener(updateText);
         addGridItem(textField);
 
