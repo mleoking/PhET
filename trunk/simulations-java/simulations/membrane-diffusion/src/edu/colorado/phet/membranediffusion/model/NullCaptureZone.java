@@ -33,10 +33,4 @@ public class NullCaptureZone extends CaptureZone {
 	public Point2D getOriginPoint() {
 		return null;
 	}
-	
-	@Override
-	public void setRotationalAngle(double angle) {
-		// Does nothing.
-	}
-
 }
