@@ -127,7 +127,6 @@ class CustomObjectMode extends Mode {
         removeCustomPanel();
     }
 
-    //TODO: add a "onModeExit()" callback instead of having modes know about each other
     private function removeCustomPanel():void {
         if (customObjectPropertiesPanelShowing) {
             module.getDensityCanvas().removeChild(customObjectPropertiesPanel);
@@ -144,8 +143,8 @@ class CustomObjectMode extends Mode {
             customObjectPropertiesPanelShowing = true;
         }
         module.getModel().addDensityObject(customizableObject);
-        //todo: remove the scale
-        module.getModel().addDensityObject(new Scale(-DensityConstants.POOL_WIDTH_X/2-Scale.SCALE_WIDTH/2, 0.05, module.getModel(), 100));
+        
+//        module.getModel().addDensityObject(new Scale(-DensityConstants.POOL_WIDTH_X/2-Scale.SCALE_WIDTH/2, 0.05, module.getModel(), 100));//For debugging the scale
     }
 
     public override function reset():void {
