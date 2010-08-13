@@ -1,4 +1,5 @@
 package edu.colorado.phet.densityflex.components {
+import edu.colorado.phet.densityflex.DensityConstants;
 import edu.colorado.phet.densityflex.model.DensityObject;
 
 import edu.colorado.phet.densityflex.model.Substance;
@@ -34,9 +35,9 @@ public class CustomObjectPropertiesPanel extends Panel {
 
         densityObject.getDensityProperty().addListener(densityListener);
         
-        grid.addChild(new PropertyEditor(densityObject.getMassProperty(),1,10000));
-        grid.addChild(new PropertyEditor(densityObject.getVolumeProperty(),1,100));
-        grid.addChild(new DensityEditor(densityObject.getDensityProperty(),Substance.WOOD.getDensity() * 0.5,Substance.LEAD.getDensity() * 1.1));//have a maximum a bit beyond lead so students don't think lead is the most dense thing in the world));
+        grid.addChild(new PropertyEditor(densityObject.getMassProperty(),DensityConstants.MIN_MASS,DensityConstants.MAX_MASS));
+        grid.addChild(new PropertyEditor(densityObject.getVolumeProperty(),DensityConstants.MIN_VOLUME,DensityConstants.MAX_VOLUME));
+        grid.addChild(new DensityEditor(densityObject.getDensityProperty(),DensityConstants.MIN_DENSITY,DensityConstants.MAX_DENSITY));
 
         comboBox = new ComboBox();
         comboBox.dataProvider = [Substance.WOOD,Substance.WATER_BALLOON,Substance.LEAD,Substance.CUSTOM];

@@ -6,15 +6,25 @@ import Box2D.Dynamics.b2Body;
 import Box2D.Dynamics.b2BodyDef;
 import Box2D.Dynamics.b2World;
 
+import edu.colorado.phet.densityflex.DensityConstants;
 import edu.colorado.phet.densityflex.view.DebugText;
 
 public class DensityModel {
     private var densityObjects:Array;
-
+    public static var ACCELERATION_DUE_TO_GRAVITY:Number = 9.8;
+    
+//    private var poolWidth:Number = DensityConstants.POOL_WIDTH_X;
+//    private var poolHeight:Number = DensityConstants.POOL_HEIGHT_Y;
+//    private var poolDepth:Number = DensityConstants.POOL_DEPTH_Z;
+//    private var waterHeight:Number = 5.0/6.0*poolHeight;
+    //    public static var DISPLAY_SCALE:Number = 100000.0;
+    
     private var poolWidth:Number = 15;
     private var poolHeight:Number = 7.5;
     private var poolDepth:Number = 5;
     private var waterHeight:Number = 5.5;
+    public static var DISPLAY_SCALE:Number = 100.0;
+    
     private static var BOUNDS:Number = 50;
     private var volume:Number = poolWidth * poolDepth * waterHeight;
 
@@ -22,8 +32,6 @@ public class DensityModel {
 
     public static var DT_FRAME:Number = 1 / 30.0;
     public static var DT_STEP:Number = DT_FRAME / STEPS_PER_FRAME;
-
-    public static var DISPLAY_SCALE:Number = 100.0;
 
     private var world:b2World;
 
@@ -91,8 +99,6 @@ public class DensityModel {
     public function getDensityObjects():Array {
         return densityObjects;
     }
-
-    public static var ACCELERATION_DUE_TO_GRAVITY:Number = 9.8;
 
     public function step():void {
         DebugText.clear();

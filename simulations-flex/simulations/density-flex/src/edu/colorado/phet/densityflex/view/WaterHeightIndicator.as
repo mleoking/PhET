@@ -1,4 +1,5 @@
 package edu.colorado.phet.densityflex.view {
+import edu.colorado.phet.densityflex.DensityConstants;
 import edu.colorado.phet.densityflex.model.DensityModel;
 
 import flash.display.Sprite;
@@ -26,9 +27,14 @@ public class WaterHeightIndicator extends Sprite {
     protected function update():void {
         graphics.clear();
         var indicatedVolume:Number = waterHeight * model.getPoolWidth() * model.getPoolDepth();
+        
         //Convert SI to cm^3
-        var cm3:Number = indicatedVolume * 1E6;
-        textField.text= String(cm3.toFixed(3))+" cm\u00b3"; 
+//        var readout:Number = indicatedVolume * 1E6;
+        
+        var readout:Number = DensityConstants.metersToLitersCubed(indicatedVolume);
+        
+//        textField.text= String(readout.toFixed(3))+" cm\u00b3"; 
+        textField.text= String(readout.toFixed(3))+" L"; 
         var textFormat:TextFormat = new TextFormat();
         textFormat.size=16;
         textFormat.bold=true;
