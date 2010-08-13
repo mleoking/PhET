@@ -11,6 +11,5 @@ package edu.colorado.phet.membranediffusion.model;
  */
 public interface IParticleCapture {
 
-	void requestParticleThroughChannel(ParticleType particleType, MembraneChannel membraneChannel, 
-			double maxVelocity, MembraneCrossingDirection direction);
+	void requestParticleThroughChannel(ParticleType particleType, MembraneChannel membraneChannel, double maxVelocity);
 }
