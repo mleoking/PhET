@@ -22,13 +22,15 @@ public class Block extends Cuboid {
     }
 
     public static function newBlockDensityMass(density:Number, mass:Number, x:Number, y:Number, color:ColorTransform, model:DensityModel, __substance:Substance):Block {
-        var size:Number = Math.pow(mass / density, 1.0 / 3.0);
-        return new Block(density, size, x, y, color, model, __substance);
+        return new Block(density, Math.pow(mass / density, 1.0 / 3.0), x, y, color, model, __substance);
     }
 
     public static function newBlockSizeMass(size:Number, mass:Number, x:Number, y:Number, color:ColorTransform, model:DensityModel, __substance:Substance):Block {
-        var density:Number = mass / (size * size * size);
-        return new Block(density, size, x, y, color, model, __substance);
+        return new Block(mass / (size * size * size), size, x, y, color, model, __substance);
+    }
+    
+    public static function newBlockVolumeMass(volume:Number, mass:Number, x:Number, y:Number, color:ColorTransform, model:DensityModel, __substance:Substance):Block {
+        return new Block(mass / volume, Math.pow(volume,1.0/3), x, y, color, model, __substance);
     }
 
     public function getColor():ColorTransform {
