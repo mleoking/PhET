@@ -188,10 +188,21 @@ class SameVolumeMode extends Mode {
         super.init();
         const model:DensityModel = module.getModel();
 
-        model.addDensityObject(Block.newBlockDensitySize(1.0 / 8.0 * 1000, 2, -8, 0, new ColorTransform(0.5, 0.5, 0), model, Substance.CUSTOM));
-        model.addDensityObject(Block.newBlockDensitySize(0.5 * 1000, 2, -8, 0, new ColorTransform(0, 0, 1), model, Substance.CUSTOM));
-        model.addDensityObject(Block.newBlockDensitySize(2 * 1000, 2, 8, 0, new ColorTransform(0, 1, 0), model, Substance.CUSTOM));
-        model.addDensityObject(Block.newBlockDensitySize(4 * 1000, 2, 8, 0, new ColorTransform(1, 0, 0), model, Substance.CUSTOM));
+        var block1:Block = Block.newBlockVolumeMass(DensityConstants.litersToMetersCubed(5), 5, 0, 0, new ColorTransform(0.5, 0.5, 0), model, Substance.CUSTOM);
+        block1.setPosition(-DensityConstants.POOL_WIDTH_X/2,block1.getHeight()/2);
+        model.addDensityObject(block1);
+        
+        var block2:Block = Block.newBlockVolumeMass(DensityConstants.litersToMetersCubed(5), 4, 0, 0, new ColorTransform(0, 0, 1), model, Substance.CUSTOM);
+        block2.setPosition(-DensityConstants.POOL_WIDTH_X/2-block1.getWidth(),block2.getHeight()/2);
+        model.addDensityObject(block2);
+        
+        var block3:Block = Block.newBlockVolumeMass(DensityConstants.litersToMetersCubed(5), 3, 0, 0, new ColorTransform(0, 1, 0), model, Substance.CUSTOM);
+        block3.setPosition(DensityConstants.POOL_WIDTH_X/2,block3.getHeight()/2);
+        model.addDensityObject(block3);
+        
+        var block4:Block = Block.newBlockVolumeMass(DensityConstants.litersToMetersCubed(5), 2, 0, 0, new ColorTransform(1, 0, 0), model, Substance.CUSTOM);
+        block4.setPosition(DensityConstants.POOL_WIDTH_X/2+block3.getWidth(),block4.getHeight()/2);
+        model.addDensityObject(block4);
     }
 }
 
