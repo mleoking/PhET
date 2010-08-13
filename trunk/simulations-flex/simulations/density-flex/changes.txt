@@ -1,3 +1,4 @@
+Renamed DensityView => DensityModule and started on model for units
 Prevent the box2d debug graphic from intercepting mouse events
 Initial support for new scale for the density sim
 Refactored modes in DensityViewIntro

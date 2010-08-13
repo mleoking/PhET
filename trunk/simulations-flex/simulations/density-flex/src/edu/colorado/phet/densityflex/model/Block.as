@@ -1,7 +1,7 @@
 package edu.colorado.phet.densityflex.model {
 import edu.colorado.phet.densityflex.view.BlockNode;
 import edu.colorado.phet.densityflex.view.DensityObjectNode;
-import edu.colorado.phet.densityflex.view.DensityView;
+import edu.colorado.phet.densityflex.view.AbstractDensityModule;
 
 import flash.geom.ColorTransform;
 
@@ -35,7 +35,7 @@ public class Block extends Cuboid {
         return color;
     }
 
-    override public function createNode(view:DensityView):DensityObjectNode {
+    override public function createNode(view:AbstractDensityModule):DensityObjectNode {
         return new BlockNode(this, view, getLabelProperty());
     }
 

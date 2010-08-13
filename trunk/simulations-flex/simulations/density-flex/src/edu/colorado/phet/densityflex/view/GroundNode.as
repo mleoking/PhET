@@ -13,7 +13,7 @@ public class GroundNode extends MyMesh {
         var poolHeight:Number = model.getPoolHeight() * DensityModel.DISPLAY_SCALE;
         var poolDepth:Number = model.getPoolDepth() * DensityModel.DISPLAY_SCALE;
 
-        var far:Number = DensityView.far;
+        var far:Number = AbstractDensityModule.far;
 
         // pool vertices
         v(-poolWidth / 2, 0, 0);
@@ -38,7 +38,7 @@ public class GroundNode extends MyMesh {
         v(poolWidth / 2, -poolHeight, poolDepth);
 
         for each (var vertex1:Vertex in getVertexArray()) {
-            vertex1.y = vertex1.y + DensityView.verticalGroundOffset;
+            vertex1.y = vertex1.y + AbstractDensityModule.verticalGroundOffset;
         }
 
         function addUV(v:Vertex):void {

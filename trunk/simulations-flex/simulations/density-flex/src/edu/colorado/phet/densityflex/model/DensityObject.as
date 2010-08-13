@@ -5,7 +5,7 @@ import Box2D.Dynamics.b2Body;
 
 import edu.colorado.phet.densityflex.DensityConstants;
 import edu.colorado.phet.densityflex.view.DensityObjectNode;
-import edu.colorado.phet.densityflex.view.DensityView;
+import edu.colorado.phet.densityflex.view.AbstractDensityModule;
 
 public class DensityObject {
 
@@ -246,7 +246,7 @@ public class DensityObject {
         contactImpulseMap = new Object();
     }
 
-    public function createNode(view:DensityView):DensityObjectNode {
+    public function createNode(view:AbstractDensityModule):DensityObjectNode {
         throw new Error();
     }
 

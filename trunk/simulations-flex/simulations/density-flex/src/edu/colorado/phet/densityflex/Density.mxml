@@ -8,7 +8,7 @@
     <!--<mx:TabNavigator width="100%" height="100%" change="onSwitch(event)" creationPolicy="all" id="tabNavigator" fontSize="0">-->
     <mx:Canvas width="100%" height="100%" label="Density" id="densityCanvas" fontSize="12">
         <mx:Canvas backgroundColor="0x000000" width="100%" height="100%"/>
-        <view:DensityViewIntro width="100%" height="100%" id="tab0"/>
+        <view:DensityModule width="100%" height="100%" id="tab0"/>
         <mx:Panel right="20" y="20" title="Modes">
             <mx:RadioButton groupName="modes" id="customObject" label="Custom Object"
                             click="tab0.switchToCustomObject()" selected="true"/>
@@ -48,7 +48,7 @@
     <!--</mx:TabNavigator>-->
     <view:DebugText id="debug" height="100" x="0" y="0" text="" color="#FFFFFF" click="DebugText.clear();"/>
     <mx:Script><![CDATA[
-        import edu.colorado.phet.densityflex.view.DensityView;
+        import edu.colorado.phet.densityflex.view.AbstractDensityModule;
         import edu.colorado.phet.flexcommon.FlexCommon;
         import edu.colorado.phet.flexcommon.FlexSimStrings;
 
@@ -61,7 +61,7 @@
         }
 
         private function onApplicationComplete():void {
-            for each (var view:DensityView in getAllTabs()) {
+            for each (var view:AbstractDensityModule in getAllTabs()) {
                 view.init();
                 view.pause();
             }
@@ -87,8 +87,8 @@
             }
 
             const tabList:Array = getAllTabs();
-            const oldTab:DensityView = tabList[oldIndex];
-            const newTab:DensityView = tabList[newIndex];
+            const oldTab:AbstractDensityModule = tabList[oldIndex];
+            const newTab:AbstractDensityModule = tabList[newIndex];
 
             oldTab.pause();
             newTab.start();

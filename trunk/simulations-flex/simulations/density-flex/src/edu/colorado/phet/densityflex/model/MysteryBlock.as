@@ -1,7 +1,7 @@
 package edu.colorado.phet.densityflex.model {
 import edu.colorado.phet.densityflex.view.BlockNode;
 import edu.colorado.phet.densityflex.view.DensityObjectNode;
-import edu.colorado.phet.densityflex.view.DensityView;
+import edu.colorado.phet.densityflex.view.AbstractDensityModule;
 
 import flash.geom.ColorTransform;
 
@@ -13,7 +13,7 @@ public class MysteryBlock extends Block {
         this.label = label;
     }
 
-    override public function createNode(view:DensityView):DensityObjectNode {
+    override public function createNode(view:AbstractDensityModule):DensityObjectNode {
         return new BlockNode(this, view, new StringProperty(label));
     }
 

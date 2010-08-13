@@ -24,7 +24,7 @@ import flash.events.MouseEvent;
 import mx.core.UIComponent;
 import mx.events.SliderEvent;
 
-public class DensityView extends UIComponent {
+public class AbstractDensityModule extends UIComponent {
     //model
     protected var model:DensityModel;
 
@@ -61,7 +61,7 @@ public class DensityView extends UIComponent {
 
     private var waterHeightIndicator:WaterHeightIndicator;
 
-    public function DensityView() {
+    public function AbstractDensityModule() {
         super();
         model = new DensityModel();
 
