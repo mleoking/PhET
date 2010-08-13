@@ -1,11 +1,11 @@
 package edu.colorado.phet.densityflex {
 public class DensityConstants {
     public static const MIN_MASS:Number = 1;
-    public static const MAX_MASS:Number = 20;
+    public static const MAX_MASS:Number = 12;
     public static const MIN_VOLUME:Number = litersToMetersCubed(1);
     public static const MAX_VOLUME:Number = litersToMetersCubed(10);
     public static const MIN_DENSITY:Number = kgLtoSI(0.1);
-    public static const MAX_DENSITY:Number = kgLtoSI(20);
+    public static const MAX_DENSITY:Number = kgLtoSI(12);
 
     //Pool volume =60 L
     public static const POOL_WIDTH_X:Number = litersToMetersCubed(10) * 100;
