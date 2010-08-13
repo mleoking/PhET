@@ -144,6 +144,8 @@ class CustomObjectMode extends Mode {
             customObjectPropertiesPanelShowing = true;
         }
         module.getModel().addDensityObject(customizableObject);
+        //todo: remove the scale
+        module.getModel().addDensityObject(new Scale(-DensityConstants.POOL_WIDTH_X/2-Scale.SCALE_WIDTH/2, 0.05, module.getModel(), 100));
     }
 
     public override function reset():void {

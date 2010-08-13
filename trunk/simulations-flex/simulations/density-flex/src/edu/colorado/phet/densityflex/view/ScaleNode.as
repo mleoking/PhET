@@ -5,14 +5,23 @@ import edu.colorado.phet.densityflex.model.DensityModel;
 import edu.colorado.phet.densityflex.model.Listener;
 import edu.colorado.phet.densityflex.model.Scale;
 
+import flash.display.Bitmap;
+import flash.display.BitmapData;
+import flash.display.BitmapDataChannel;
 import flash.display.Sprite;
+import flash.geom.ColorTransform;
+import flash.geom.Point;
+import flash.geom.Rectangle;
 import flash.text.TextField;
 import flash.text.TextFormat;
+
+import mx.core.BitmapAsset;
 
 public class ScaleNode extends CuboidNode implements Pickable, Listener {
 
     private var frontSprite:Sprite;
     private var _scale:Scale;
+    private var textureHolder:Sprite; // holds wood or etc. texture in frontSprite so it stays under the text
     private var textField:TextField;
     private var view:AbstractDensityModule;
 
@@ -21,6 +30,7 @@ public class ScaleNode extends CuboidNode implements Pickable, Listener {
     private var stand:PickableCube;
 
     private static var WALL_RES:Number = 100;
+    const textureBitmap:Bitmap = getCustomBitmap();
 
     public function ScaleNode(scale:Scale, view:AbstractDensityModule):void {
         super(scale);
@@ -28,12 +38,16 @@ public class ScaleNode extends CuboidNode implements Pickable, Listener {
         this.view = view;
 
         frontSprite = new Sprite();
+        textureHolder = new Sprite();
+        textureHolder.addChild(textureBitmap);
 
         frontSprite.graphics.beginFill(0xFFFFFF);
         frontSprite.graphics.drawRect(0, 0, getFrontWidth(), getFrontHeight());
         frontSprite.graphics.endFill();
 
         textField = new TextField();
+        
+        frontSprite.addChild(textureHolder);
         frontSprite.addChild(textField);
         updateText();
 
@@ -55,7 +69,12 @@ public class ScaleNode extends CuboidNode implements Pickable, Listener {
 
         stand.material = sideMaterial;
     }
+    [Embed(source="../../../../../../data/density-flex/images/scale-front.jpg")]
+    private static var wallClass:Class;
 
+    private static function getCustomBitmap():Bitmap {
+        return new Bitmap((new wallClass() as BitmapAsset).bitmapData);
+    }
 
     override public function addNodes():void {
         trace("scale addNodes()");
@@ -92,10 +111,11 @@ public class ScaleNode extends CuboidNode implements Pickable, Listener {
 
     public function updateText():void {
         textField.text = String(_scale.getScaleReadout());
-        textField.width = getFrontWidth();
-        textField.height = getFrontHeight();
+        textField.width = textureBitmap.bitmapData.width;
+        textField.height = textureBitmap.bitmapData.height;
         var format:TextFormat = new TextFormat();
-        format.size = int(45 * ((Scale.SCALE_WIDTH * 200 / 3) / base.width));
+//        format.size = int(45 * ((Scale.SCALE_WIDTH * 200 / 3) / base.width));
+        format.size = 52;
         format.bold = true;
         format.font = "Arial";
         textField.multiline = true;

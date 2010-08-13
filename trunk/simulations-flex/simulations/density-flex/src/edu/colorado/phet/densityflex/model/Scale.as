@@ -2,6 +2,7 @@ package edu.colorado.phet.densityflex.model {
 import Box2D.Dynamics.Contacts.b2ContactResult;
 import Box2D.Dynamics.b2Body;
 
+import edu.colorado.phet.densityflex.DensityConstants;
 import edu.colorado.phet.densityflex.view.DensityObjectNode;
 import edu.colorado.phet.densityflex.view.AbstractDensityModule;
 import edu.colorado.phet.densityflex.view.ScaleNode;
@@ -27,9 +28,9 @@ public class Scale extends Cuboid {
     public function getScaleReadout():String {
         // TODO: localize
         // scaled by DT-frame because we are measuring the 'normal impulses'
-        var num:Number = totalImpulse / DensityModel.DT_FRAME;
+        var num:Number = totalImpulse / DensityModel.DT_FRAME / DensityConstants.GRAVITY/1000;//todo: why the 1000?  does this handle units properly?
         var numStr:String = String(Math.round(num * 100) / 100);
-        return String(numStr).substr(0, 7) + " N";
+        return String(numStr).substr(0, 7) + " kg";
     }
 
     override public function registerContact(point:b2ContactResult):void {
