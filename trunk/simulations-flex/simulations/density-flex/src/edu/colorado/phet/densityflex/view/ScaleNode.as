@@ -12,7 +12,7 @@ import flash.text.TextFormat;
 public class ScaleNode extends CuboidNode implements Pickable, Listener {
 
     private var frontSprite:Sprite;
-    private var scaler:Scale;
+    private var _scale:Scale;
     private var textField:TextField;
     private var view:AbstractDensityModule;
 
@@ -24,7 +24,7 @@ public class ScaleNode extends CuboidNode implements Pickable, Listener {
 
     public function ScaleNode(scale:Scale, view:AbstractDensityModule):void {
         super(scale);
-        this.scaler = scale;
+        this._scale = scale;
         this.view = view;
 
         frontSprite = new Sprite();
@@ -88,11 +88,10 @@ public class ScaleNode extends CuboidNode implements Pickable, Listener {
         stand.depth = totalDepth / 5;
         stand.y = base.y + base.height / 2 + stand.height / 2;
         addChild(stand);
-
     }
 
     public function updateText():void {
-        textField.text = String(scaler.getScaleReadout());
+        textField.text = String(_scale.getScaleReadout());
         textField.width = getFrontWidth();
         textField.height = getFrontHeight();
         var format:TextFormat = new TextFormat();
@@ -113,11 +112,11 @@ public class ScaleNode extends CuboidNode implements Pickable, Listener {
     }
 
     private function getFrontWidth():Number {
-        return WALL_RES * scaler.getWidth();
+        return WALL_RES * _scale.getWidth();
     }
 
     private function getFrontHeight():Number {
-        return WALL_RES * scaler.getHeight() / 2;
+        return WALL_RES * _scale.getHeight() / 2;
     }
 }
 }
