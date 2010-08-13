@@ -30,7 +30,7 @@ public class DensityModel {
 
     public static var STEPS_PER_FRAME:Number = 10;
 
-    public static var DT_FRAME:Number = 1 / 30.0;
+    public static var DT_FRAME:Number = 1 / 3.0;//TODO: Fix this scale, should be about 1/30
     public static var DT_STEP:Number = DT_FRAME / STEPS_PER_FRAME;
 
     private var world:b2World;

@@ -264,7 +264,7 @@ public class DensityObject {
     }
 
     public function getGravityForce():b2Vec2 {
-        return new b2Vec2(0, -DensityModel.ACCELERATION_DUE_TO_GRAVITY * getMass() * DensityConstants.SCALE_BOX2D);
+        return new b2Vec2(0, -DensityModel.ACCELERATION_DUE_TO_GRAVITY * getMass());
     }
 
     //Set the submerged volume before calling this
@@ -278,7 +278,7 @@ public class DensityObject {
 
     public function getDragForce():b2Vec2 {
         var dragForce:b2Vec2 = body.GetLinearVelocity().Copy();
-        dragForce.Multiply(-1000 * submergedVolume/DensityConstants.SCALE_BOX2D);
+        dragForce.Multiply(-300 * submergedVolume);
         return dragForce;
     }
 
