@@ -51,7 +51,8 @@ public class SodiumGatedChannel extends GatedChannel {
 	public SodiumGatedChannel(IParticleCapture modelContainingParticles, IHodgkinHuxleyModel hodgkinHuxleyModel) {
 		super(CHANNEL_WIDTH, CHANNEL_HEIGHT, modelContainingParticles);
 		this.hodgkinHuxleyModel = hodgkinHuxleyModel;
-		setUpperCaptureZone(new PieSliceShapedCaptureZone(getCenterLocation(), CHANNEL_WIDTH * 5, -Math.PI / 2, Math.PI * 0.5));
+		setUpperCaptureZone(new PieSliceShapedCaptureZone(getCenterLocation(), CHANNEL_WIDTH * 3, -Math.PI / 2, Math.PI * 0.5));
+		setLowerCaptureZone(new PieSliceShapedCaptureZone(getCenterLocation(), CHANNEL_WIDTH * 3, Math.PI / 2, Math.PI * 0.5));
 		reset();
 	}
 	

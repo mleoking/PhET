@@ -40,8 +40,8 @@ public class PotassiumLeakageChannel extends AbstractLeakChannel {
 		setParticleVelocity(DEFAULT_PARTICLE_VELOCITY);
 		
 		// Set up the capture zones for this channel.
-		setUpperCaptureZone(new PieSliceShapedCaptureZone(getCenterLocation(), CHANNEL_WIDTH * 5, Math.PI, Math.PI * 0.5));
-		setLowerCaptureZone(new PieSliceShapedCaptureZone(getCenterLocation(), CHANNEL_WIDTH * 5, 0, Math.PI * 0.5));
+		setUpperCaptureZone(new PieSliceShapedCaptureZone(getCenterLocation(), CHANNEL_WIDTH * 3, -Math.PI/2, Math.PI * 0.5));
+		setLowerCaptureZone(new PieSliceShapedCaptureZone(getCenterLocation(), CHANNEL_WIDTH * 3, Math.PI/2, Math.PI * 0.5));
 		
 		// Set the rate of particle capture for leakage.
 		setMinInterCaptureTime(MIN_INTER_PARTICLE_CAPTURE_TIME);
