@@ -88,9 +88,7 @@ public class DensityModel {
         var worldBox:b2AABB = new b2AABB();
         worldBox.lowerBound.Set(-BOUNDS * DensityConstants.SCALE_BOX2D, -BOUNDS * DensityConstants.SCALE_BOX2D);
         worldBox.upperBound.Set(BOUNDS * DensityConstants.SCALE_BOX2D, BOUNDS * DensityConstants.SCALE_BOX2D);
-        var gravity:b2Vec2 = new b2Vec2(0, 0);
-        var doSleep:Boolean = false;
-        world = new b2World(worldBox, gravity, doSleep);
+        world = new b2World(worldBox, new b2Vec2(0, 0)/*we handle gravity ourselves*/, false/*don't sleep*/);
 
         contactHandler = new ContactHandler();
         world.SetContactListener(contactHandler);
