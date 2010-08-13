@@ -100,20 +100,14 @@ public class MembraneChannelNode extends PNode{
 		    // to compensate for this, we first use the MVT to transform the
 		    // shape, which gives us a shape of the correct size, and then
 		    // translate the shape such that its origin point is (0,0).
-		    System.out.println("---------------- Capture Zones ----------------");
-		    System.out.println("Channel location model " + membraneChannelModel.getCenterLocation());
 		    Point2D originPointInViewCoords = mvt.modelToView( membraneChannelModel.getCenterLocation() );
 		    AffineTransform translateToOriginTransform = AffineTransform.getTranslateInstance( -originPointInViewCoords.getX(),
 		            -originPointInViewCoords.getY() );
-		    System.out.println("Channel location view " + originPointInViewCoords);
 
 		    CaptureZone lowerCaptureZone = membraneChannelModel.getLowerCaptureZone();
 		    Shape lowerZoneShape = lowerCaptureZone.getShape();
-		    System.out.println("Untransformed LCZ bounds " + lowerZoneShape.getBounds2D());
             Shape transformedLowerZoneShape = mvt.createTransformedShape( lowerZoneShape );
-            System.out.println("MVT translated LCZ bounds " + transformedLowerZoneShape.getBounds2D());
             Shape compensatedTransformedLowerZoneShape = translateToOriginTransform.createTransformedShape( transformedLowerZoneShape );
-            System.out.println("Untransformed LCZ bounds " + transformedLowerZoneShape.getBounds2D());
             
             CaptureZone upperCaptureZone = membraneChannelModel.getUpperCaptureZone();
             Shape upperZoneShape = upperCaptureZone.getShape();

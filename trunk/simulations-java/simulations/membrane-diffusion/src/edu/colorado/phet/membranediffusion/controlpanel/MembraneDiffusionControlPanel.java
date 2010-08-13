@@ -78,7 +78,6 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
 
         // Create the buttons for stimulating the channels.
    		PNode imageNode = new MembraneChannelNode(new SodiumGatedChannel(), CHANNEL_ICON_MVT);
-   		imageNode.rotate(-Math.PI / 2);
    		ImageIcon icon = new ImageIcon(imageNode.toImage());
         // TODO: i18n
         final JButton activateSodiumChannelsButton = new JButton("Open Red Gates", icon);
@@ -89,7 +88,6 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
 		});
         
    		imageNode = new MembraneChannelNode(new PotassiumGatedChannel(), CHANNEL_ICON_MVT);
-   		imageNode.rotate(-Math.PI / 2);
    		icon = new ImageIcon(imageNode.toImage());
         // TODO: i18n
         final JButton activatePotassiumChannelsButton = new JButton("Open Blue Gates", icon);
