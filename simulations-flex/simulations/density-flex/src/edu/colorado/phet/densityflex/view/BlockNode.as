@@ -34,6 +34,10 @@ public class BlockNode extends CuboidNode implements Pickable, Listener {
     // license: " 	This image is public domain. You may use this picture for any purpose, including commercial. If you do use it, please consider linking back to us. If you are going to redistribute this image online, a hyperlink to this particular page is mandatory."
     [Embed(source="../../../../../../data/density-flex/images/wood4.png")]
     private var woodClass:Class;
+    
+    [Embed(source="../../../../../../data/density-flex/images/lead.jpg")]
+    private var leadClass:Class;
+    
     private var frontMaterial:MovieMaterial;
     private var sideMaterial:BitmapMaterial;
 
@@ -59,10 +63,6 @@ public class BlockNode extends CuboidNode implements Pickable, Listener {
 
         updateSubstance();
         updateShape();
-    }
-
-    private function getWoodBitmap():Bitmap {
-        return new woodClass();
     }
 
     private function getCustomBitmap():Bitmap {
@@ -133,8 +133,10 @@ public class BlockNode extends CuboidNode implements Pickable, Listener {
 
         // update the bitmap we use as a background
         if (block.getSubstance() == Substance.WOOD) {
-            textureBitmap = getWoodBitmap();
-        } else {
+            textureBitmap = new woodClass();
+        } else if (block.getSubstance() == Substance.LEAD){
+            textureBitmap = new leadClass();
+        }   else{
             textureBitmap = getCustomBitmap();
         }
 
