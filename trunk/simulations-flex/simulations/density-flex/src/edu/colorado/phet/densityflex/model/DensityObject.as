@@ -11,7 +11,7 @@ public class DensityObject {
     private var volume:NumericProperty;
     private var mass:NumericProperty;
     private var density:NumericProperty;
-    private var _substance:Substance = Substance.WOOD;
+    private var _substance:Substance;
     private var substanceListeners:Array = new Array();
 
     private var x:NumericProperty;
@@ -30,7 +30,8 @@ public class DensityObject {
     private var contactImpulseMap:Object = new Object();
     private var labelProperty:StringProperty;
 
-    public function DensityObject(x:Number, y:Number, z:Number, model:DensityModel, density:Number, mass:Number, volume:Number) {
+    public function DensityObject(x:Number, y:Number, z:Number, model:DensityModel, density:Number, mass:Number, volume:Number,__substance:Substance) {
+        this._substance=__substance;
         this.volume = new NumericProperty("Volume", "m\u00b3", volume);
         this.mass = new NumericProperty("Mass", "kg", mass);
         this.density = new NumericProperty("Density", "kg/m\u00b3", density);

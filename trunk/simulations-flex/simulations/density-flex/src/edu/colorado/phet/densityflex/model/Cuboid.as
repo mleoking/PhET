@@ -21,8 +21,8 @@ public class Cuboid extends DensityObject {
      * @param y
      * @param model
      */
-    public function Cuboid(density:Number, width:Number, height:Number, depth:Number, x:Number, y:Number, model:DensityModel) {
-        super(x, y, depth / 2 + 1.01, model,density,density*width*height*depth,width*height*depth);
+    public function Cuboid(density:Number, width:Number, height:Number, depth:Number, x:Number, y:Number, model:DensityModel,__substance:Substance) {
+        super(x, y, depth / 2 + 1.01, model,density,density*width*height*depth,width*height*depth,__substance);
 
         this.width = width;
         this.height = height;

@@ -118,7 +118,7 @@ class CustomObjectMode extends Mode{
         //Showing the blocks as partially floating allows easier visualization of densities
 //        customizableObject = Block.newBlockDensityMass(Substance.WOOD.getDensity(), DensityConstants.DEFAULT_BLOCK_MASS, 0, 3, new ColorTransform(0.5, 0.5, 0), model);
         
-        customizableObject = Block.newBlockDensityMass(Substance.WOOD.getDensity(), 5000, -8, 3, new ColorTransform(0.5, 0.5, 0), module.getModel());
+        customizableObject = Block.newBlockDensityMass(Substance.WOOD.getDensity(), 5000, -8, 3, new ColorTransform(0.5, 0.5, 0), module.getModel(),Substance.WOOD);
         customObjectPropertiesPanel = new CustomObjectPropertiesPanel(customizableObject);
     }
 
@@ -159,10 +159,10 @@ class SameMassMode extends Mode{
     override public function init():void {
         super.init();
         const model:DensityModel = module.getModel();
-        model.addDensityObject(Block.newBlockSizeMass(3, 4.0 * 1000, -8, 0, new ColorTransform(0.5, 0.5, 0), model));
-        model.addDensityObject(Block.newBlockSizeMass(2, 4.0 * 1000, -8, 0, new ColorTransform(0, 0, 1), model));
-        model.addDensityObject(Block.newBlockSizeMass(1.5, 4.0 * 1000, 8, 0, new ColorTransform(0, 1, 0), model));
-        model.addDensityObject(Block.newBlockSizeMass(1, 4.0 * 1000, 8, 0, new ColorTransform(1, 0, 0), model));
+        model.addDensityObject(Block.newBlockSizeMass(3, 4.0 * 1000, -8, 0, new ColorTransform(0.5, 0.5, 0), model,Substance.CUSTOM));
+        model.addDensityObject(Block.newBlockSizeMass(2, 4.0 * 1000, -8, 0, new ColorTransform(0, 0, 1), model,Substance.CUSTOM));
+        model.addDensityObject(Block.newBlockSizeMass(1.5, 4.0 * 1000, 8, 0, new ColorTransform(0, 1, 0), model,Substance.CUSTOM));
+        model.addDensityObject(Block.newBlockSizeMass(1, 4.0 * 1000, 8, 0, new ColorTransform(1, 0, 0), model,Substance.CUSTOM));
     }
 }
 
@@ -176,10 +176,10 @@ class SameVolumeMode extends Mode{
         super.init();
         const model:DensityModel = module.getModel();
         
-        model.addDensityObject(Block.newBlockDensitySize(1.0 / 8.0*1000, 2, -8, 0, new ColorTransform(0.5, 0.5, 0), model));
-        model.addDensityObject(Block.newBlockDensitySize(0.5*1000, 2, -8, 0, new ColorTransform(0, 0, 1), model));
-        model.addDensityObject(Block.newBlockDensitySize(2*1000, 2, 8, 0, new ColorTransform(0, 1, 0), model));
-        model.addDensityObject(Block.newBlockDensitySize(4*1000, 2, 8, 0, new ColorTransform(1, 0, 0), model));
+        model.addDensityObject(Block.newBlockDensitySize(1.0 / 8.0*1000, 2, -8, 0, new ColorTransform(0.5, 0.5, 0), model,Substance.CUSTOM));
+        model.addDensityObject(Block.newBlockDensitySize(0.5*1000, 2, -8, 0, new ColorTransform(0, 0, 1), model,Substance.CUSTOM));
+        model.addDensityObject(Block.newBlockDensitySize(2*1000, 2, 8, 0, new ColorTransform(0, 1, 0), model,Substance.CUSTOM));
+        model.addDensityObject(Block.newBlockDensitySize(4*1000, 2, 8, 0, new ColorTransform(1, 0, 0), model,Substance.CUSTOM));
     }
 }
 
@@ -193,10 +193,10 @@ class SameDensityMode extends Mode{
         super.init();
         const model:DensityModel = module.getModel();
         var density:Number = 0.25*1000; //Showing the blocks as partially floating allows easier visualization of densities
-        model.addDensityObject(Block.newBlockDensityMass(density, 7000, -8, 0, new ColorTransform(0.5, 0.5, 0), model));
-        model.addDensityObject(Block.newBlockDensityMass(density, 2000, -8, 0, new ColorTransform(0, 0, 1), model));
-        model.addDensityObject(Block.newBlockDensityMass(density, 1000, 8, 0, new ColorTransform(0, 1, 0), model));
-        model.addDensityObject(Block.newBlockDensityMass(density, 0.5*1000, 8, 0, new ColorTransform(1, 0, 0), model));
+        model.addDensityObject(Block.newBlockDensityMass(density, 7000, -8, 0, new ColorTransform(0.5, 0.5, 0), model,Substance.CUSTOM));
+        model.addDensityObject(Block.newBlockDensityMass(density, 2000, -8, 0, new ColorTransform(0, 0, 1), model,Substance.CUSTOM));
+        model.addDensityObject(Block.newBlockDensityMass(density, 1000, 8, 0, new ColorTransform(0, 1, 0), model,Substance.CUSTOM));
+        model.addDensityObject(Block.newBlockDensityMass(density, 0.5*1000, 8, 0, new ColorTransform(1, 0, 0), model,Substance.CUSTOM));
     }
 }
 

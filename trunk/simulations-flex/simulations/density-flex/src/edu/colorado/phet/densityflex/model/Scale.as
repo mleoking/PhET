@@ -22,7 +22,7 @@ public class Scale extends Cuboid {
     public static var SCALE_DEPTH:Number = 3.0;
 
     public function Scale(x:Number, y:Number, model:DensityModel,mass:Number):void {
-        super(SCALE_DENSITY, SCALE_WIDTH, SCALE_HEIGHT, SCALE_DEPTH, x, y, model);
+        super(SCALE_DENSITY, SCALE_WIDTH, SCALE_HEIGHT, SCALE_DEPTH, x, y, model,Substance.CUSTOM);
     }
 
     public function getScaleReadout():String {
