@@ -59,7 +59,7 @@ public class AbstractDensityModule extends UIComponent {
 
     protected var densityObjectNodeList:Array = new Array();
 
-    private var waterHeightIndicator:WaterHeightIndicator;
+    private var waterHeightIndicator:WaterVolumeIndicator;
 
     public function AbstractDensityModule() {
         super();
@@ -83,7 +83,7 @@ public class AbstractDensityModule extends UIComponent {
         backgroundSprite.graphics.endFill();
         //addChild(backgroundSprite);
         addChild(view);
-        waterHeightIndicator = new WaterHeightIndicator(model);
+        waterHeightIndicator = new WaterVolumeIndicator(model);
         waterHeightIndicator.x = 100;
         waterHeightIndicator.y = 100;
         addChild(waterHeightIndicator);
@@ -143,7 +143,7 @@ public class AbstractDensityModule extends UIComponent {
         marker.addChild(new Cube({ z: -50, width: 5, height: 500, depth: 100, segmentsW: 1, segmentsH: 10, material: new ShadingColorMaterial(0xFFFFFF) }));
         //        scene.addChild(marker);
 
-        waterHeightIndicator = new WaterHeightIndicator(model);
+        waterHeightIndicator = new WaterVolumeIndicator(model);
         //        scene.addChild(waterHeightIndicator);
     }
 
