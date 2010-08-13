@@ -48,10 +48,6 @@ public abstract class MembraneChannel {
 	// Variable that defines how open the channel is.
 	private double openness = 0;  // Valid range is 0 to 1, 0 means fully closed, 1 is fully open.
 	
-	// Variable that defines how inactivated the channel is, which is distinct
-	// from openness.
-	private double inactivationAmt = 0;  // Valid range is 0 to 1, 0 means completely active, 1 is completely inactive.
-	
 	// Array of listeners.
 	private ArrayList<Listener> listeners = new ArrayList<Listener>();
 	
@@ -154,7 +150,7 @@ public abstract class MembraneChannel {
 	protected boolean isOpen(){
 		// The threshold values used here are arbitrary, and can be changed if
 		// necessary.
-		return (getOpenness() > 0.3 && getInactivationAmt() < 0.7);
+		return (getOpenness() > 0.3);
 	}
 	
 	/**
@@ -175,18 +171,6 @@ public abstract class MembraneChannel {
 		AffineTransform transform = AffineTransform.getRotateInstance(rotationalAngle, centerLocation.getX(), centerLocation.getY());
 		Shape rotatedChannelShape = transform.createTransformedShape(channelShape);
 		return rotatedChannelShape.contains(pt);
-	}
-	
-	/**
-	 * Gets a values that indicates whether this channel has an inactivation
-	 * gate.  Most of the channels in this sim do not have these, so the
-	 * default is to return false.  This should be overridden in subclasses
-	 * that add inactivation gates to the channels.
-	 * 
-	 * @return
-	 */
-	public boolean getHasInactivationGate(){
-		return false;
 	}
 	
 	/**
@@ -349,17 +333,6 @@ public abstract class MembraneChannel {
 		}
 	}
 	
-	public double getInactivationAmt(){
-		return inactivationAmt;
-	}
-
-	protected void setInactivationAmt(double inactivationAmt) {
-		if (this.inactivationAmt != inactivationAmt){
-			this.inactivationAmt = inactivationAmt;
-			notifyInactivationAmtChanged();
-		}
-	}
-	
 	public Color getChannelColor(){
 		return Color.MAGENTA;
 	}
@@ -405,12 +378,6 @@ public abstract class MembraneChannel {
 		}
 	}
 	
-	private void notifyInactivationAmtChanged(){
-		for (Listener listener : listeners){
-			listener.inactivationAmtChanged();
-		}
-	}
-	
 	private void notifyPositionChanged(){
 		for (Listener listener : listeners){
 			listener.positionChanged();
@@ -420,14 +387,12 @@ public abstract class MembraneChannel {
 	public static interface Listener{
 		void removed();
 		void opennessChanged();
-		void inactivationAmtChanged();
 		void positionChanged();
 	}
 	
 	public static class Adapter implements Listener {
 		public void removed() {}
 		public void opennessChanged() {}
-		public void inactivationAmtChanged() {}
 		public void positionChanged() {}
 	}
 	

@@ -41,8 +41,6 @@ public class MembraneChannelNode extends PNode{
 	private PPath channel;
 	private PPath leftEdgeNode;
 	private PPath rightEdgeNode;
-	private PNode inactivationGateBallNode;
-	private PPath inactivationGateString;
 	
     //----------------------------------------------------------------------------
     // Constructor
@@ -60,9 +58,6 @@ public class MembraneChannelNode extends PNode{
 		// Listen to the channel for changes that may affect the representation.
 		membraneChannelModel.addListener(new MembraneChannel.Adapter(){
 			public void opennessChanged() {
-				updateRepresentation();
-			}
-			public void inactivationAmtChanged() {
 				updateRepresentation();
 			}
 			public void positionChanged() {
@@ -92,24 +87,6 @@ public class MembraneChannelNode extends PNode{
 		addChild(edgeLayer);
 		edgeLayer.addChild(leftEdgeNode);
 		edgeLayer.addChild(rightEdgeNode);
-		
-		if (membraneChannelModel.getHasInactivationGate()){
-			
-			// Add the ball and string that make up the inactivation gate.
-			
-			inactivationGateString = new PhetPPath(new BasicStroke(2f), Color.BLACK);
-			channelLayer.addChild(inactivationGateString);
-
-			double ballDiameter = mvt.modelToViewDifferentialXDouble(membraneChannelModel.getChannelSize().getWidth());
-			Shape inactivationBallShape = 
-				new Ellipse2D.Double(-ballDiameter / 2, -ballDiameter / 2, ballDiameter, ballDiameter);
-			inactivationGateBallNode = new PhetPPath(
-					inactivationBallShape, 
-					ColorUtils.darkerColor(membraneChannelModel.getEdgeColor(), 0.3),
-					new BasicStroke(1f), 
-					ColorUtils.darkerColor(membraneChannelModel.getEdgeColor(), 0.3));
-			edgeLayer.addChild(inactivationGateBallNode);
-		}
 		
 		// Update the representation and location.
 		updateRepresentation();
@@ -196,42 +173,6 @@ public class MembraneChannelNode extends PNode{
 		rightEdgeNode.setOffset(
 				transformedChannelSize.getWidth() / 2 + rightEdgeNode.getFullBoundsReference().width / 2, 0);
 
-		// If this membrane channel has an inactivation gate, update it.
-		if (membraneChannelModel.getHasInactivationGate()){
-			
-			PDimension transformedOverallSize = 
-				new PDimension( mvt.modelToViewDifferentialXDouble(membraneChannelModel.getOverallSize().getWidth()),
-						mvt.modelToViewDifferentialYDouble(membraneChannelModel.getOverallSize().getHeight()));
-			
-			// Position the ball portion of the inactivation gate.
-			Point2D channelEdgeConnectionPoint = new Point2D.Double(leftEdgeNode.getFullBoundsReference().getCenterX(),
-					leftEdgeNode.getFullBoundsReference().getMaxY());
-			Point2D channelCenterBottomPoint = new Point2D.Double(0,
-					transformedChannelSize.getHeight() / 2);
-			double angle = -Math.PI / 2 * (1 - membraneChannelModel.getInactivationAmt());
-			double radius = (1 - membraneChannelModel.getInactivationAmt()) * transformedOverallSize.getWidth() / 2
-				+ membraneChannelModel.getInactivationAmt() * channelEdgeConnectionPoint.distance(channelCenterBottomPoint);
-			Point2D ballPosition = new Point2D.Double(channelEdgeConnectionPoint.getX() + Math.cos(angle) * radius,
-					channelEdgeConnectionPoint.getY() - Math.sin(angle) * radius);
-			inactivationGateBallNode.setOffset(ballPosition);
-
-			// Redraw the "string" (actually a strand of protein in real life)
-			// that connects the ball to the gate.
-			Point2D ballConnectionPoint = inactivationGateBallNode.getOffset();
-			
-			double connectorLength = channelCenterBottomPoint.distance(ballConnectionPoint);
-			Shape stringShape = new CubicCurve2D.Double(
-					channelEdgeConnectionPoint.getX(),
-					channelEdgeConnectionPoint.getY(),
-					channelEdgeConnectionPoint.getX() + connectorLength * 0.25,
-					channelEdgeConnectionPoint.getY() + connectorLength * 0.5,
-					ballConnectionPoint.getX() - connectorLength * 0.75,
-					ballConnectionPoint.getY() - connectorLength * 0.5,
-					ballConnectionPoint.getX(),
-					ballConnectionPoint.getY() );
-			inactivationGateString.setPathTo(stringShape); 
-		}
-		
 		// Rotate based on the model element's orientation.
 		channelLayer.setRotation(-membraneChannelModel.getRotationalAngle() + Math.PI / 2);
 		edgeLayer.setRotation(-membraneChannelModel.getRotationalAngle() + Math.PI / 2);

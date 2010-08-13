@@ -33,6 +33,5 @@ public abstract class GatedChannel extends MembraneChannel {
 	@Override
 	public void reset() {
 		setOpenness(0);         // Gated channels are assumed to be initially closed...
-		setInactivationAmt(0);  // ...but not inactivated.
 	}
 }
