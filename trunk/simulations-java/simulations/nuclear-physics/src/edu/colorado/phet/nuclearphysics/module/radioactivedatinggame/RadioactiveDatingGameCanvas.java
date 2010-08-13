@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.IdentityHashMap;
 import java.util.Iterator;
 
+import edu.colorado.phet.common.phetcommon.audio.AudioResourcePlayer;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -101,16 +102,16 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     private GradientButtonNode _resetGuessesButtonNode;
     private PPath _transformedViewportBounds = new PPath();
     private AgeGuessResultNode.Listener _clearResultListener;
-    private SoundState _soundState;
+    private AudioResourcePlayer _audioResourcePlayer;
 
     //----------------------------------------------------------------------------
     // Constructor
     //----------------------------------------------------------------------------
 
-    public RadioactiveDatingGameCanvas(RadioactiveDatingGameModel radioactiveDatingGameModel, SoundState soundState) {
+    public RadioactiveDatingGameCanvas(RadioactiveDatingGameModel radioactiveDatingGameModel, AudioResourcePlayer audioResourcePlayer) {
 
     	_model = radioactiveDatingGameModel;
-    	_soundState = soundState;
+    	_audioResourcePlayer = audioResourcePlayer;
 
     	setWorldTransformStrategy(new PhetPCanvas.CenterWidthScaleHeight(this, INITIAL_INTERMEDIATE_DIMENSION));
         _mvt = new ModelViewTransform2D(
@@ -516,10 +517,10 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
 			
 		// Play a little sound to indicate whether the guess is good.
 		if (determineIfGuessIsGood(HalfLifeInfo.convertYearsToMs(ageGuess), itemBeingTouched)){
-   			_soundState.play( "ding.wav" );
+   			_audioResourcePlayer.playSimAudio( "ding.wav" );
 		}
 		else{
-			_soundState.play("32_83.wav");
+			_audioResourcePlayer.playSimAudio("32_83.wav");
 		}
 		
 		// Position the result indicator.
@@ -552,7 +553,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         }
         if (allItemsGuessedAndGuessesCorrect){
         	
-   			_soundState.play( "short-fanfare.wav" );
+   			_audioResourcePlayer.playSimAudio( "short-fanfare.wav" );
 
         	// Put up the dialog.
         	
