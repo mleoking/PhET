@@ -47,8 +47,8 @@ public class SodiumLeakageChannel extends AbstractLeakChannel {
 		setParticleVelocity(DEFAULT_PARTICLE_VELOCITY);
 		
 		// Set up the capture zones for this channel.
-		setExteriorCaptureZone(new PieSliceShapedCaptureZone(getCenterLocation(), CHANNEL_WIDTH * 5, 0, Math.PI * 0.6));
-		setInteriorCaptureZone(new PieSliceShapedCaptureZone(getCenterLocation(), CHANNEL_WIDTH * 5, Math.PI, Math.PI * 0.8));
+		setLowerCaptureZone(new PieSliceShapedCaptureZone(getCenterLocation(), CHANNEL_WIDTH * 5, 0, Math.PI * 0.6));
+		setUpperCaptureZone(new PieSliceShapedCaptureZone(getCenterLocation(), CHANNEL_WIDTH * 5, Math.PI, Math.PI * 0.8));
 
 		// Update the capture times.
 		updateParticleCaptureRate(NOMINAL_LEAK_LEVEL);
