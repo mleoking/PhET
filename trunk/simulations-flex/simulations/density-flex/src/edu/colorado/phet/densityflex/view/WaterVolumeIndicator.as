@@ -41,12 +41,12 @@ public class WaterVolumeIndicator extends Sprite {
         textField.setTextFormat(textFormat);
         graphics.beginFill(0xFF0000);
         graphics.moveTo(0, 0);
-        graphics.lineTo(-10, -10);
-        graphics.lineTo(-10, 10);
+        graphics.lineTo(+10, -10);
+        graphics.lineTo(+10, 10);
         graphics.lineTo(0, 0);
         graphics.endFill();
 
-        textField.x = -textField.width - 10;
+        textField.x = + 10;
         textField.y = -textField.height / 2;
 
         graphics.lineStyle(1, 0x000000);
