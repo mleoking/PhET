@@ -1,3 +1,4 @@
+Fixed units for scale readout
 Fixed units for scale node
 Fixed: In "Objects of same XXX" modes, stacked objects should be staggered and not overlapping each other
 Fixed units for objects of same X
