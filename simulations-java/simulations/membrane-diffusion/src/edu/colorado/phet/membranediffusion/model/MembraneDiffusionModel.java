@@ -288,7 +288,7 @@ public class MembraneDiffusionModel implements IParticleCapture {
     			postTraversalMotionBounds.setFrame(getParticleChamberRect().getMinX(), getMembraneRect().getMaxY(),
     					getParticleChamberRect().getWidth(), getParticleChamberRect().getMaxY() - getMembraneRect().getMaxY());
     		}
-    		channel.moveParticleThroughGenericMembrane(particleToCapture, postTraversalMotionBounds, maxVelocity);
+    		channel.moveParticleThroughChannel(particleToCapture, postTraversalMotionBounds, maxVelocity);
     	}
     }
     
