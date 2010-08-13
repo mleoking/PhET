@@ -5,15 +5,16 @@ package edu.colorado.phet.membranediffusion.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Shape;
-import java.awt.geom.CubicCurve2D;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.membranediffusion.model.CaptureZone;
 import edu.colorado.phet.membranediffusion.model.MembraneChannel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -29,6 +30,9 @@ public class MembraneChannelNode extends PNode{
     //----------------------------------------------------------------------------
     // Class Data
     //----------------------------------------------------------------------------
+    
+    // For debug.
+    private static final boolean SHOW_CAPTURE_ZONES = true;
 	
     //----------------------------------------------------------------------------
     // Instance Data
@@ -87,6 +91,39 @@ public class MembraneChannelNode extends PNode{
 		addChild(edgeLayer);
 		edgeLayer.addChild(leftEdgeNode);
 		edgeLayer.addChild(rightEdgeNode);
+		
+		// If enabled, show the capture zones.
+		if (SHOW_CAPTURE_ZONES){
+		    // The capture zones contain their own position information
+		    // inherent in their shape.  However, here we want the origin
+		    // point of the capture zone to end up at position zero.  In order
+		    // to compensate for this, we first use the MVT to transform the
+		    // shape, which gives us a shape of the correct size, and then
+		    // translate the shape such that its origin point is (0,0).
+		    System.out.println("---------------- Capture Zones ----------------");
+		    System.out.println("Channel location model " + membraneChannelModel.getCenterLocation());
+		    Point2D originPointInViewCoords = mvt.modelToView( membraneChannelModel.getCenterLocation() );
+		    AffineTransform translateToOriginTransform = AffineTransform.getTranslateInstance( -originPointInViewCoords.getX(),
+		            -originPointInViewCoords.getY() );
+		    System.out.println("Channel location view " + originPointInViewCoords);
+
+		    CaptureZone lowerCaptureZone = membraneChannelModel.getLowerCaptureZone();
+		    Shape lowerZoneShape = lowerCaptureZone.getShape();
+		    System.out.println("Untransformed LCZ bounds " + lowerZoneShape.getBounds2D());
+            Shape transformedLowerZoneShape = mvt.createTransformedShape( lowerZoneShape );
+            System.out.println("MVT translated LCZ bounds " + transformedLowerZoneShape.getBounds2D());
+            Shape compensatedTransformedLowerZoneShape = translateToOriginTransform.createTransformedShape( transformedLowerZoneShape );
+            System.out.println("Untransformed LCZ bounds " + transformedLowerZoneShape.getBounds2D());
+            
+            CaptureZone upperCaptureZone = membraneChannelModel.getUpperCaptureZone();
+            Shape upperZoneShape = upperCaptureZone.getShape();
+            Shape transformedUpperZoneShape = mvt.createTransformedShape( upperZoneShape );
+            Shape compensatedTransformedUpperZoneShape = translateToOriginTransform.createTransformedShape( transformedUpperZoneShape );
+
+            // Add these zones to the node.
+            channelLayer.addChild( new PhetPPath(compensatedTransformedLowerZoneShape, new BasicStroke(4), Color.GREEN) );
+            channelLayer.addChild( new PhetPPath(compensatedTransformedUpperZoneShape, new BasicStroke(4), Color.RED) );
+		}
 		
 		// Update the representation and location.
 		updateRepresentation();
@@ -166,6 +203,7 @@ public class MembraneChannelNode extends PNode{
 		
 		channel.setPathTo(path);
 		channel.setOffset(-channel.getFullBoundsReference().width / 2, -channel.getFullBoundsReference().height / 2);
+		System.out.println("Channel bounds: " + channel.getFullBoundsReference());
 
 		leftEdgeNode.setOffset(
 				-transformedChannelSize.getWidth() / 2 - leftEdgeNode.getFullBoundsReference().width / 2, 0);
