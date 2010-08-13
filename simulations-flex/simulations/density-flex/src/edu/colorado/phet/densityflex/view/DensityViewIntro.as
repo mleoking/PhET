@@ -38,6 +38,11 @@ public class DensityViewIntro extends DensityView {
         m_sprite.x = 400;
         m_sprite.y = 400;
         var holder:UIComponent = new UIComponent();
+        
+        //Prevent the box2d debug graphic from intercepting mouse events
+        holder.mouseEnabled=false;
+        holder.mouseChildren=false;
+        
         holder.addChild(m_sprite);
 
         _densityCanvas.addChild(holder);

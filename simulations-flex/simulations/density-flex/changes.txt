@@ -1,3 +1,4 @@
+Prevent the box2d debug graphic from intercepting mouse events
 Initial support for new scale for the density sim
 Refactored modes in DensityViewIntro
 Added a table to show densities of various substances in mystery object mode
