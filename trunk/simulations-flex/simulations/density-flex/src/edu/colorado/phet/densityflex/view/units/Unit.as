@@ -4,11 +4,11 @@ public class Unit {
     }
 
     public function toSI(value:Number):Number {
-
+        return NaN;
     }
 
     public function fromSI(value:Number):Number {
-
+        return NaN;
     }
 }
 }
