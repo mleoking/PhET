@@ -15,9 +15,10 @@ public class Scale extends Cuboid {
 
     public static var SCALE_DENSITY:Number = 2.0 * 1000;
 
-    public static var SCALE_WIDTH:Number = 3.0;
-    public static var SCALE_HEIGHT:Number = 1.0;
-    public static var SCALE_DEPTH:Number = 3.0;
+    private static const SCALE_SCALE = 1.7;
+    public static var SCALE_WIDTH:Number = 1.0/10*SCALE_SCALE;
+    public static var SCALE_HEIGHT:Number = 1/3.0/10*SCALE_SCALE;
+    public static var SCALE_DEPTH:Number = 1.0/10*SCALE_SCALE;
 
     public function Scale(x:Number, y:Number, model:DensityModel, mass:Number):void {
         super(SCALE_DENSITY, SCALE_WIDTH, SCALE_HEIGHT, SCALE_DEPTH, x, y, model, Substance.CUSTOM);
@@ -28,10 +29,8 @@ public class Scale extends Cuboid {
         // scaled by DT-frame because we are measuring the 'normal impulses'
         var num:Number = totalImpulse / DensityModel.DT_FRAME;
         var numStr:String = String(Math.round(num * 100) / 100);
-        var ret:String = String(numStr).substr(0, 7) + " N";
-        return ret;
+        return String(numStr).substr(0, 7) + " N";
     }
-
 
     override public function registerContact(point:b2ContactResult):void {
         super.registerContact(point);

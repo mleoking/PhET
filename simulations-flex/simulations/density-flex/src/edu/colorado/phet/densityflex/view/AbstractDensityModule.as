@@ -100,7 +100,7 @@ public class AbstractDensityModule extends UIComponent {
     public function initEngine():void {
         scene = new Scene3D();
 
-        camera = new HoverCamera3D({ distance: 1350, mintiltangle: 0, maxtitlangle: 90 });
+        camera = new HoverCamera3D({ distance: 1600, mintiltangle: 0, maxtitlangle: 90 });
         camera.targetpanangle = camera.panangle = 180;
         camera.targettiltangle = camera.tiltangle = 8;
         camera.hover();
@@ -111,10 +111,6 @@ public class AbstractDensityModule extends UIComponent {
         //renderer = new QuadrantRenderer();
 
         view = new View3D({scene:scene, camera:camera, renderer:renderer});
-    }
-
-    public function addScales():void {
-        model.addDensityObject(new Scale(-10.5, Scale.SCALE_HEIGHT / 2, model, 2 * 1000));
     }
 
     public function initObjects():void {

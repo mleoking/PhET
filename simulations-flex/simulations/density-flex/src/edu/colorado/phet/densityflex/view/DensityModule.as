@@ -87,6 +87,7 @@ import edu.colorado.phet.densityflex.model.Block;
 import edu.colorado.phet.densityflex.model.DensityModel;
 import edu.colorado.phet.densityflex.model.DensityObject;
 import edu.colorado.phet.densityflex.model.MysteryBlock;
+import edu.colorado.phet.densityflex.model.Scale;
 import edu.colorado.phet.densityflex.model.Substance;
 import edu.colorado.phet.densityflex.view.DensityModule;
 
@@ -269,7 +270,8 @@ class MysteryObjectsMode extends Mode {
         model.addDensityObject(block4);
         const block5:MysteryBlock = new MysteryBlock(Substance.AIR_BALLOON.getDensity(), 0.1, -DensityConstants.POOL_WIDTH_X/2, block4.getHeight()+block4.getY(), new ColorTransform(1, 0, 0), model, "E");
         model.addDensityObject(block5);
-        module.addScales();
+        
+        model.addDensityObject(new Scale(-DensityConstants.POOL_WIDTH_X/2-block3.getWidth()-Scale.SCALE_WIDTH/2, 0.05, model, 100));
 
         if (!mysteryObjectsControlPanelShowing) {
             module.getDensityCanvas().addChild(mysteryObjectsControlPanel);
