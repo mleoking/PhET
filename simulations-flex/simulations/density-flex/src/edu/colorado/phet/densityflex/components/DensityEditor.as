@@ -2,11 +2,13 @@ package edu.colorado.phet.densityflex.components {
 import edu.colorado.phet.densityflex.model.NumericProperty;
 import edu.colorado.phet.densityflex.model.Substance;
 
+import edu.colorado.phet.densityflex.view.units.Unit;
+
 import mx.controls.HSlider;
 
 public class DensityEditor extends PropertyEditor {
-    public function DensityEditor(property:NumericProperty, minimum:Number, maximum:Number) {
-        super(property, minimum, maximum);
+    public function DensityEditor(property:NumericProperty, minimum:Number, maximum:Number,unit:Unit) {
+        super(property, minimum, maximum,unit);
     }
 
     override protected function createSlider(property:NumericProperty, minimum:Number, maximum:Number):HSlider {

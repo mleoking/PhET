@@ -3,6 +3,8 @@ import edu.colorado.phet.densityflex.DensityConstants;
 import edu.colorado.phet.densityflex.model.DensityObject;
 import edu.colorado.phet.densityflex.model.Substance;
 
+import edu.colorado.phet.densityflex.view.units.Units;
+
 import mx.containers.Grid;
 import mx.containers.Panel;
 import mx.controls.ComboBox;
@@ -12,7 +14,7 @@ public class CustomObjectPropertiesPanel extends Panel {
     private var densityObject:DensityObject;
     private var comboBox:ComboBox;
 
-    public function CustomObjectPropertiesPanel(densityObject:DensityObject) {
+    public function CustomObjectPropertiesPanel(densityObject:DensityObject,units:Units) {
         super();
         this.title = "Properties";
         this.densityObject = densityObject;
@@ -34,9 +36,9 @@ public class CustomObjectPropertiesPanel extends Panel {
 
         densityObject.getDensityProperty().addListener(densityListener);
 
-        grid.addChild(new PropertyEditor(densityObject.getMassProperty(), DensityConstants.MIN_MASS, DensityConstants.MAX_MASS));
-        grid.addChild(new PropertyEditor(densityObject.getVolumeProperty(), DensityConstants.MIN_VOLUME, DensityConstants.MAX_VOLUME));
-        grid.addChild(new DensityEditor(densityObject.getDensityProperty(), DensityConstants.MIN_DENSITY, DensityConstants.MAX_DENSITY));
+        grid.addChild(new PropertyEditor(densityObject.getMassProperty(), DensityConstants.MIN_MASS, DensityConstants.MAX_MASS,units.massUnit));
+        grid.addChild(new PropertyEditor(densityObject.getVolumeProperty(), DensityConstants.MIN_VOLUME, DensityConstants.MAX_VOLUME,units.volumeUnit));
+        grid.addChild(new DensityEditor(densityObject.getDensityProperty(), DensityConstants.MIN_DENSITY, DensityConstants.MAX_DENSITY,units.densityUnit));
 
         comboBox = new ComboBox();
         comboBox.dataProvider = [Substance.WOOD,Substance.WATER_BALLOON,Substance.LEAD,Substance.CUSTOM];

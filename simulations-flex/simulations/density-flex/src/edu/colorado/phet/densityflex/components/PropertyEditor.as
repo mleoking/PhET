@@ -1,6 +1,8 @@
 package edu.colorado.phet.densityflex.components {
 import edu.colorado.phet.densityflex.model.NumericProperty;
 
+import edu.colorado.phet.densityflex.view.units.Unit;
+
 import flash.display.DisplayObject;
 
 import mx.containers.GridItem;
@@ -15,7 +17,7 @@ public class PropertyEditor extends GridRow {
     private var property:NumericProperty;
     public static const SLIDER_WIDTH:Number = 250;
 
-    public function PropertyEditor(property:NumericProperty, minimimum:Number, maximum:Number) {
+    public function PropertyEditor(property:NumericProperty, minimimum:Number, maximum:Number,unit:Unit) {
         super();
         this.property = property;
 
@@ -29,12 +31,12 @@ public class PropertyEditor extends GridRow {
         textField.width = 100;
         textField.restrict = ".0-9";
         function updateText():void {
-            textField.text = property.value.toFixed(2)
+            textField.text = unit.fromSI(property.value).toFixed(2);
         }
 
         updateText();
         const listener:Function = function myfunction():void {
-            property.value = Number(textField.text);
+            property.value = unit.toSI(Number(textField.text));
         };
         textField.addEventListener(FlexEvent.VALUE_COMMIT, listener);
         textField.addEventListener(FlexEvent.ENTER, listener);
@@ -42,7 +44,7 @@ public class PropertyEditor extends GridRow {
         addGridItem(textField);
 
         var unitsLabel:Label = new Label();
-        unitsLabel.text = property.units;
+        unitsLabel.text = unit.name;
         addGridItem(unitsLabel);
     }
 

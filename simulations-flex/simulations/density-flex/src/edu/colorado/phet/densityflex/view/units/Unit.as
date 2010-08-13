@@ -1,6 +1,13 @@
 package edu.colorado.phet.densityflex.view.units {
 public class Unit {
+    private var _name:String;
+
     public function Unit(name:String) {
+        this._name = name;
+    }
+
+    public function get name():String {
+        return _name;
     }
 
     public function toSI(value:Number):Number {
