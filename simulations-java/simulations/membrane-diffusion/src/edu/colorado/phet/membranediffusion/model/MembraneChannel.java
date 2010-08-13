@@ -41,7 +41,6 @@ public abstract class MembraneChannel {
 	
 	// Member variables that control the size and position of the channel.
 	private Point2D centerLocation = new Point2D.Double();
-	private double rotationalAngle = 0; // In radians.
 	private Dimension2D channelSize = new PDimension(); // Size of channel only, i.e. where the atoms pass through.
 	private Dimension2D overallSize = new PDimension(); // Size including edges.
 	
@@ -168,9 +167,7 @@ public abstract class MembraneChannel {
 				centerLocation.getY() - channelSize.getWidth() / 2,
 				channelSize.getHeight(),
 				channelSize.getWidth());
-		AffineTransform transform = AffineTransform.getRotateInstance(rotationalAngle, centerLocation.getX(), centerLocation.getY());
-		Shape rotatedChannelShape = transform.createTransformedShape(channelShape);
-		return rotatedChannelShape.contains(pt);
+		return channelShape.contains(pt);
 	}
 	
 	/**
@@ -182,9 +179,7 @@ public abstract class MembraneChannel {
 				centerLocation.getY() - channelSize.getWidth() / 2,
 				channelSize.getHeight(),
 				channelSize.getWidth());
-		AffineTransform transform = AffineTransform.getRotateInstance(rotationalAngle, centerLocation.getX(), centerLocation.getY());
-		Shape rotatedChannelShape = transform.createTransformedShape(channelShape);
-		return rotatedChannelShape;
+		return channelShape;
 	}
 	
 	/**
@@ -301,16 +296,6 @@ public abstract class MembraneChannel {
 		}
 	}
 
-	public void setRotationalAngle(double rotationalAngle){
-		this.rotationalAngle = rotationalAngle;
-		uppperCaptureZone.setRotationalAngle(rotationalAngle);
-		lowerCaptureZone.setRotationalAngle(rotationalAngle);
-	}
-	
-	public double getRotationalAngle(){
-		return rotationalAngle;
-	}
-	
 	/**
 	 * Get the overall 2D size of the channel, which includes both the part
 	 * that the particles travel through as well as the edges.

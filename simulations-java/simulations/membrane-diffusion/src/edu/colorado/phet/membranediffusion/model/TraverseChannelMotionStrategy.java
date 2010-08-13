@@ -93,10 +93,8 @@ public class TraverseChannelMotionStrategy extends MotionStrategy {
 		ArrayList<Point2D> points = new ArrayList<Point2D>();
 		Point2D ctr = channel.getCenterLocation();
 		double r = channel.getChannelSize().getHeight(); // Make the point a little outside the channel.
-		Point2D outerOpeningLocation = new Point2D.Double(ctr.getX() + Math.cos(channel.getRotationalAngle()) * r,
-				ctr.getY() + Math.sin(channel.getRotationalAngle()) * r);
-		Point2D innerOpeningLocation = new Point2D.Double(ctr.getX() - Math.cos(channel.getRotationalAngle()) * r,
-				ctr.getY() - Math.sin(channel.getRotationalAngle()) * r);
+		Point2D outerOpeningLocation = new Point2D.Double(ctr.getX(), ctr.getY() + r);
+		Point2D innerOpeningLocation = new Point2D.Double(ctr.getX(), ctr.getY() - r);
 
 		if (startingLocation.distance(innerOpeningLocation) < startingLocation.distance(outerOpeningLocation)){
 			points.add(innerOpeningLocation);

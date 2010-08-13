@@ -15,12 +15,9 @@ import java.util.Random;
  */
 public class PieSliceShapedCaptureZone extends CaptureZone {
 	
-	private static final Random RAND = new Random();
-
 	private Arc2D zoneShape;
 	private Point2D originPoint;
 	private double radius;
-	private double rotationAngle;
 	private final double angleOfExtent;
 	private final double fixedRotationalOffset;
 	
@@ -62,12 +59,6 @@ public class PieSliceShapedCaptureZone extends CaptureZone {
 	}
 	
 	@Override
-	public void setRotationalAngle(double angle) {
-		this.rotationAngle = angle;
-		updateShape();
-	}
-	
-	@Override
 	public void setOriginPoint(Point2D center) {
 		this.originPoint = center;
 		updateShape();
@@ -80,17 +71,7 @@ public class PieSliceShapedCaptureZone extends CaptureZone {
 	
 	private void updateShape(){
 		zoneShape.setArcByCenter(originPoint.getX(), originPoint.getY(), radius, 
-				-Math.toDegrees(fixedRotationalOffset + rotationAngle + angleOfExtent/2),
+				Math.toDegrees(fixedRotationalOffset - angleOfExtent/2),
 				Math.toDegrees(angleOfExtent), Arc2D.PIE);
-	}
-
-	@Override
-	public Point2D getSuggestedNewParticleLocation() {
-		// Suggest a random point that is somewhere within the shape.
-		double placementAngle = rotationAngle + fixedRotationalOffset + (RAND.nextDouble() - 0.5) * angleOfExtent;
-		double distanceFromOrigin = radius * 0.9;
-		double xPos = originPoint.getX() + distanceFromOrigin * Math.cos(placementAngle);
-		double yPos = originPoint.getY() + distanceFromOrigin * Math.sin(placementAngle);
-		return new Point2D.Double(xPos, yPos);
 	}
 }

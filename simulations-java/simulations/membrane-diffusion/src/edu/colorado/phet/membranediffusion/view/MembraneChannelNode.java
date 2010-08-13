@@ -210,9 +210,5 @@ public class MembraneChannelNode extends PNode{
 		
 		rightEdgeNode.setOffset(
 				transformedChannelSize.getWidth() / 2 + rightEdgeNode.getFullBoundsReference().width / 2, 0);
-
-		// Rotate based on the model element's orientation.
-		channelLayer.setRotation(-membraneChannelModel.getRotationalAngle() + Math.PI / 2);
-		edgeLayer.setRotation(-membraneChannelModel.getRotationalAngle() + Math.PI / 2);
 	}	
 }
