@@ -3,7 +3,7 @@ import Box2D.Dynamics.Contacts.b2ContactResult;
 import Box2D.Dynamics.b2Body;
 
 import edu.colorado.phet.densityflex.view.DensityObjectNode;
-import edu.colorado.phet.densityflex.view.DensityView;
+import edu.colorado.phet.densityflex.view.AbstractDensityModule;
 import edu.colorado.phet.densityflex.view.ScaleNode;
 
 /**
@@ -69,7 +69,7 @@ public class Scale extends Cuboid {
         totalImpulse = 0;
     }
 
-    override public function createNode(view:DensityView):DensityObjectNode {
+    override public function createNode(view:AbstractDensityModule):DensityObjectNode {
         return new ScaleNode(this, view);
     }
 }

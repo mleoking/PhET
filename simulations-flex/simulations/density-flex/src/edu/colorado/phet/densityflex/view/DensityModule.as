@@ -2,13 +2,15 @@ package edu.colorado.phet.densityflex.view {
 import Box2D.Dynamics.b2DebugDraw;
 
 import edu.colorado.phet.densityflex.DensityConstants;
+import edu.colorado.phet.densityflex.view.units.LinearUnit;
+import edu.colorado.phet.densityflex.view.units.Units;
 
 import flash.display.Sprite;
 
 import mx.containers.Canvas;
 import mx.core.UIComponent;
 
-public class DensityViewIntro extends DensityView {
+public class DensityModule extends AbstractDensityModule {
 
     private var _densityCanvas:Canvas;
 
@@ -19,7 +21,9 @@ public class DensityViewIntro extends DensityView {
     private var mysteryObjectsMode:MysteryObjectsMode;
     private var mode:Mode;
 
-    public function DensityViewIntro() {
+    private var units:Units = new Units("kg/L", new LinearUnit("kg", 1.0), new LinearUnit("L", 0.001), new LinearUnit("kg/L", 1000));
+
+    public function DensityModule() {
         super();
     }
 
@@ -38,11 +42,11 @@ public class DensityViewIntro extends DensityView {
         m_sprite.x = 400;
         m_sprite.y = 400;
         var holder:UIComponent = new UIComponent();
-        
+
         //Prevent the box2d debug graphic from intercepting mouse events
-        holder.mouseEnabled=false;
-        holder.mouseChildren=false;
-        
+        holder.mouseEnabled = false;
+        holder.mouseChildren = false;
+
         holder.addChild(m_sprite);
 
         _densityCanvas.addChild(holder);
@@ -108,14 +112,14 @@ import edu.colorado.phet.densityflex.model.DensityModel;
 import edu.colorado.phet.densityflex.model.DensityObject;
 import edu.colorado.phet.densityflex.model.MysteryBlock;
 import edu.colorado.phet.densityflex.model.Substance;
-import edu.colorado.phet.densityflex.view.DensityViewIntro;
+import edu.colorado.phet.densityflex.view.DensityModule;
 
 import flash.geom.ColorTransform;
 
 class Mode {
-    protected var module:DensityViewIntro;
+    protected var module:DensityModule;
 
-    public function Mode(module:DensityViewIntro) {
+    public function Mode(module:DensityModule) {
         this.module = module;
     }
 
@@ -134,7 +138,7 @@ class CustomObjectMode extends Mode {
     private var customObjectPropertiesPanel:CustomObjectPropertiesPanel;
     private var customObjectPropertiesPanelShowing:Boolean = false;
 
-    public function CustomObjectMode(module:DensityViewIntro) {
+    public function CustomObjectMode(module:DensityModule) {
         super(module);
         //Showing the blocks as partially floating allows easier visualization of densities
         customizableObject = Block.newBlockDensityMass(Substance.WOOD.getDensity(), DensityConstants.DEFAULT_BLOCK_MASS, 0, DensityConstants.POOL_HEIGHT_Y, new ColorTransform(0.5, 0.5, 0), module.getModel(), Substance.WOOD);
@@ -175,7 +179,7 @@ class CustomObjectMode extends Mode {
 
 class SameMassMode extends Mode {
 
-    public function SameMassMode(module:DensityViewIntro) {
+    public function SameMassMode(module:DensityModule) {
         super(module);
     }
 
@@ -191,7 +195,7 @@ class SameMassMode extends Mode {
 
 class SameVolumeMode extends Mode {
 
-    public function SameVolumeMode(module:DensityViewIntro) {
+    public function SameVolumeMode(module:DensityModule) {
         super(module);
     }
 
@@ -208,7 +212,7 @@ class SameVolumeMode extends Mode {
 
 class SameDensityMode extends Mode {
 
-    public function SameDensityMode(module:DensityViewIntro) {
+    public function SameDensityMode(module:DensityModule) {
         super(module);
     }
 
@@ -227,7 +231,7 @@ class MysteryObjectsMode extends Mode {
     private var mysteryObjectsControlPanel:MysteryObjectsControlPanel;
     private var mysteryObjectsControlPanelShowing:Boolean = false;
 
-    function MysteryObjectsMode(module:DensityViewIntro) {
+    function MysteryObjectsMode(module:DensityModule) {
         super(module);
         mysteryObjectsControlPanel = new MysteryObjectsControlPanel();
     }

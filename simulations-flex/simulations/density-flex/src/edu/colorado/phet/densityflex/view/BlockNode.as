@@ -23,7 +23,7 @@ public class BlockNode extends CuboidNode implements Pickable, Listener {
     private var frontSprite:Sprite;
     private var textureHolder:Sprite; // holds wood or etc. texture in frontSprite so it stays under the text
     private var block:Block;
-    private var view:DensityView;
+    private var view:AbstractDensityModule;
     private var textField:TextField = new TextField();
 
     [Embed(source="../../../../../../data/density-flex/images/wall.jpg")]
@@ -40,7 +40,7 @@ public class BlockNode extends CuboidNode implements Pickable, Listener {
     private var textureBitmap:Bitmap; // the texture being used (wood bitmap, wall (custom) bitmap, etc.)
     private var label:StringProperty;
 
-    public function BlockNode(block:Block, view:DensityView, label:StringProperty):void {
+    public function BlockNode(block:Block, view:AbstractDensityModule, label:StringProperty):void {
         super(block);
 
         this.label = label;

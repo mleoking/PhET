@@ -4,7 +4,7 @@ import edu.colorado.phet.densityflex.model.DensityObject;
 
 import flash.geom.ColorTransform;
 
-public class DensityViewFull extends DensityView {
+public class DensityViewFull extends AbstractDensityModule {
     public function DensityViewFull() {
     }
 
