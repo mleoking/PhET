@@ -1,3 +1,4 @@
+Minor improvements to water volume indicator
 Minor improvements to density table
 Fixed units for scale readout
 Fixed units for scale node

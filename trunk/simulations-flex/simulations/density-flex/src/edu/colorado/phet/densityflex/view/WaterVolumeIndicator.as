@@ -7,12 +7,12 @@ import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
 import flash.text.TextFormat;
 
-public class WaterHeightIndicator extends Sprite {
+public class WaterVolumeIndicator extends Sprite {
     private var textField:TextField;
     private var waterHeight:Number;
     private var model:DensityModel;
 
-    public function WaterHeightIndicator(model:DensityModel) {
+    public function WaterVolumeIndicator(model:DensityModel) {
         super();
         this.model = model;
         textField = new TextField();
@@ -34,9 +34,9 @@ public class WaterHeightIndicator extends Sprite {
         var readout:Number = DensityConstants.metersToLitersCubed(indicatedVolume);
 
         //        textField.text= String(readout.toFixed(3))+" cm\u00b3"; 
-        textField.text = String(readout.toFixed(3)) + " L";
+        textField.text = String(readout.toFixed(2)) + " L";
         var textFormat:TextFormat = new TextFormat();
-        textFormat.size = 16;
+        textFormat.size = 24;
         textFormat.bold = true;
         textField.setTextFormat(textFormat);
         graphics.beginFill(0xFF0000);
