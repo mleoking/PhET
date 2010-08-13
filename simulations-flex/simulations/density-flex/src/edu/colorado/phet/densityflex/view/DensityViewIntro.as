@@ -1,4 +1,7 @@
 package edu.colorado.phet.densityflex.view {
+import Box2D.Dynamics.b2DebugDraw;
+
+import edu.colorado.phet.densityflex.DensityConstants;
 import edu.colorado.phet.densityflex.components.CustomObjectPropertiesPanel;
 import edu.colorado.phet.densityflex.components.MysteryObjectsControlPanel;
 import edu.colorado.phet.densityflex.model.Block;
@@ -8,9 +11,12 @@ import edu.colorado.phet.densityflex.model.DensityObject;
 import edu.colorado.phet.densityflex.model.MysteryBlock;
 import edu.colorado.phet.densityflex.model.Substance;
 
+import flash.display.Sprite;
+import flash.display.Stage;
 import flash.geom.ColorTransform;
 
 import mx.containers.Canvas;
+import mx.core.UIComponent;
 
 public class DensityViewIntro extends DensityView {
     
@@ -35,6 +41,26 @@ public class DensityViewIntro extends DensityView {
         sameDensityMode  =new SameDensityMode(this);
         mysteryObjectsMode = new MysteryObjectsMode(this);
         setMode(customObjectMode);
+        
+// debug draw start
+        var m_sprite:Sprite;
+        m_sprite = new Sprite();
+        m_sprite.x=400;
+        m_sprite.y=400;
+        var holder = new UIComponent();
+        holder.addChild(m_sprite);
+        
+        _densityCanvas.addChild(holder);
+        var dbgDraw:b2DebugDraw = new b2DebugDraw();
+        var dbgSprite:Sprite = new Sprite();
+        m_sprite.addChild(dbgSprite);
+        dbgDraw.m_sprite=m_sprite;
+        dbgDraw.m_drawScale=150*5.0/DensityConstants.SCALE_BOX2D;
+        dbgDraw.m_alpha = 1;
+        dbgDraw.m_fillAlpha=0.5;
+        dbgDraw.m_lineThickness=1;
+        dbgDraw.m_drawFlags=b2DebugDraw.e_shapeBit|b2DebugDraw.e_jointBit|b2DebugDraw.e_coreShapeBit|b2DebugDraw.e_aabbBit|b2DebugDraw.e_obbBit|b2DebugDraw.e_pairBit|b2DebugDraw.e_centerOfMassBit;
+        getModel().getWorld().SetDebugDraw(dbgDraw);
     }
 
     override public function resetAll():void {
@@ -79,6 +105,7 @@ public class DensityViewIntro extends DensityView {
 }
 }
 
+import edu.colorado.phet.densityflex.DensityConstants;
 import edu.colorado.phet.densityflex.components.CustomObjectPropertiesPanel;
 import edu.colorado.phet.densityflex.components.MysteryObjectsControlPanel;
 import edu.colorado.phet.densityflex.model.Block;
@@ -116,9 +143,10 @@ class CustomObjectMode extends Mode{
     public function CustomObjectMode(module:DensityViewIntro) {
         super(module);
         //Showing the blocks as partially floating allows easier visualization of densities
-//        customizableObject = Block.newBlockDensityMass(Substance.WOOD.getDensity(), DensityConstants.DEFAULT_BLOCK_MASS, 0, 3, new ColorTransform(0.5, 0.5, 0), model);
+        customizableObject = Block.newBlockDensityMass(Substance.WOOD.getDensity(), DensityConstants.DEFAULT_BLOCK_MASS, 0, DensityConstants.POOL_HEIGHT_Y, new ColorTransform(0.5, 0.5, 0), module.getModel(),Substance.WOOD);
+//        customizableObject = Block.newBlockDensityMass(Substance.WOOD.getDensity(), DensityConstants.DEFAULT_BLOCK_MASS, -DensityConstants.POOL_WIDTH_X/2.0, DensityConstants.POOL_HEIGHT_Y, new ColorTransform(0.5, 0.5, 0), module.getModel(),Substance.WOOD);
         
-        customizableObject = Block.newBlockDensityMass(Substance.WOOD.getDensity(), 5000, -8, 3, new ColorTransform(0.5, 0.5, 0), module.getModel(),Substance.WOOD);
+//        customizableObject = Block.newBlockDensityMass(Substance.WOOD.getDensity(), 5000, -8, 3, new ColorTransform(0.5, 0.5, 0), module.getModel(),Substance.WOOD);
         customObjectPropertiesPanel = new CustomObjectPropertiesPanel(customizableObject);
     }
 
