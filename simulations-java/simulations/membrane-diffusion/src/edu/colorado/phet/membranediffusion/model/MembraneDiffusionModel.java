@@ -5,6 +5,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.EventListener;
+import java.util.Random;
 
 import javax.swing.event.EventListenerList;
 
@@ -43,6 +44,9 @@ public class MembraneDiffusionModel implements IParticleCapture {
 	
 	// Defaults for configurable parameters.
 	private static boolean SHOW_GRAPHS_DEFAULT = false;
+	
+	// Random number generator.
+	private static final Random RAND = new Random();
 	
     //----------------------------------------------------------------------------
     // Instance Data
@@ -247,9 +251,26 @@ public class MembraneDiffusionModel implements IParticleCapture {
      */
     public void requestParticleThroughChannel(ParticleType particleType, MembraneChannel channel, double maxVelocity){
 
-    	// Scan the capture zone for particles of the desired type.
-    	CaptureZoneScanResult czsr = scanCaptureZoneForFreeParticles(channel.getUpperCaptureZone(), particleType);
+        // Randomly decide whether to scan the upper or lower zone first.
+        CaptureZone firstZone, secondZone;
+        
+        if (RAND.nextBoolean()){
+            firstZone = channel.getUpperCaptureZone();
+            secondZone = channel.getLowerCaptureZone();
+        }
+        else{
+            firstZone = channel.getLowerCaptureZone();
+            secondZone = channel.getUpperCaptureZone();
+        }
+        
+    	// Scan the capture zones for particles of the desired type.
+    	CaptureZoneScanResult czsr = scanCaptureZoneForFreeParticles(firstZone, particleType);
     	Particle particleToCapture = czsr.getClosestFreeParticle();
+    	if (particleToCapture == null){
+    	    // Nothing found in the first capture zone tried, so scan the other.
+            czsr = scanCaptureZoneForFreeParticles(secondZone, particleType);
+            particleToCapture = czsr.getClosestFreeParticle();
+    	}
     	
     	if (czsr.getNumParticlesInZone() != 0){
     		// We found a particle to capture.  Set a motion strategy that
