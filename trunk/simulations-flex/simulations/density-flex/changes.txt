@@ -1,3 +1,4 @@
+Switched density output path to be somewhere other than deploy/ since having a folder under deploy/ currently breaks the deploy process halfway through deployment
 Fixed: Volume readout on lead is about 2x too large
 Improved start location for the custom block
 Minor improvements to water volume indicator
