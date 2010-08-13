@@ -71,7 +71,8 @@
 
             //            propertiesContentPanel.addChild(panel);
 
-            tab0.densityCanvas = densityCanvas;
+//            tab0.densityCanvas = densityCanvas;
+            tab0.doInit(densityCanvas);
             tab0.switchToCustomObject();
         }
 

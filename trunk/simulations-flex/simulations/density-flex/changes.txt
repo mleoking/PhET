@@ -1,3 +1,4 @@
+Refactored modes in DensityViewIntro
 Added a table to show densities of various substances in mystery object mode
 Fixed: In custom object mode, the density should change when the mass (or volume) is changed.
 Added support for typing into text fields
