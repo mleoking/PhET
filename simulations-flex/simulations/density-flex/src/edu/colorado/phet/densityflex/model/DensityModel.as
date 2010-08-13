@@ -12,19 +12,19 @@ import edu.colorado.phet.densityflex.view.DebugText;
 public class DensityModel {
     private var densityObjects:Array;
     public static var ACCELERATION_DUE_TO_GRAVITY:Number = 9.8;
-    
+
     private var poolWidth:Number = DensityConstants.POOL_WIDTH_X;
     private var poolHeight:Number = DensityConstants.POOL_HEIGHT_Y;
     private var poolDepth:Number = DensityConstants.POOL_DEPTH_Z;
-    private var waterHeight:Number = 5.0/6.0*poolHeight;
+    private var waterHeight:Number = 5.0 / 6.0 * poolHeight;
     public static var DISPLAY_SCALE:Number = 1000.0;
-    
-//    private var poolWidth:Number = 15;
-//    private var poolHeight:Number = 7.5;
-//    private var poolDepth:Number = 5;
-//    private var waterHeight:Number = 5.5;
-//    public static var DISPLAY_SCALE:Number = 100.0;
-    
+
+    //    private var poolWidth:Number = 15;
+    //    private var poolHeight:Number = 7.5;
+    //    private var poolDepth:Number = 5;
+    //    private var waterHeight:Number = 5.5;
+    //    public static var DISPLAY_SCALE:Number = 100.0;
+
     private static var BOUNDS:Number = 50;
     private var volume:Number = poolWidth * poolDepth * waterHeight;
 
@@ -74,20 +74,20 @@ public class DensityModel {
         var groundBody:b2Body = world.CreateBody(groundBodyDef);
 
         var groundShapeDef:b2PolygonDef = new b2PolygonDef();
-        groundShapeDef.SetAsOrientedBox(poolWidth / 2*DensityConstants.SCALE_BOX2D, 50*DensityConstants.SCALE_BOX2D, new b2Vec2(0, -50*DensityConstants.SCALE_BOX2D - poolHeight*DensityConstants.SCALE_BOX2D), 0);
+        groundShapeDef.SetAsOrientedBox(poolWidth / 2 * DensityConstants.SCALE_BOX2D, 50 * DensityConstants.SCALE_BOX2D, new b2Vec2(0, -50 * DensityConstants.SCALE_BOX2D - poolHeight * DensityConstants.SCALE_BOX2D), 0);
         groundBody.CreateShape(groundShapeDef);
 
-        groundShapeDef.SetAsOrientedBox(BOUNDS / 2*DensityConstants.SCALE_BOX2D, poolHeight*DensityConstants.SCALE_BOX2D, new b2Vec2(-(poolWidth / 2 + BOUNDS / 2)*DensityConstants.SCALE_BOX2D, -poolHeight*DensityConstants.SCALE_BOX2D), 0);
+        groundShapeDef.SetAsOrientedBox(BOUNDS / 2 * DensityConstants.SCALE_BOX2D, poolHeight * DensityConstants.SCALE_BOX2D, new b2Vec2(-(poolWidth / 2 + BOUNDS / 2) * DensityConstants.SCALE_BOX2D, -poolHeight * DensityConstants.SCALE_BOX2D), 0);
         groundBody.CreateShape(groundShapeDef);
 
-        groundShapeDef.SetAsOrientedBox(BOUNDS / 2*DensityConstants.SCALE_BOX2D, poolHeight*DensityConstants.SCALE_BOX2D, new b2Vec2((poolWidth / 2 + BOUNDS / 2)*DensityConstants.SCALE_BOX2D, -poolHeight*DensityConstants.SCALE_BOX2D), 0);
+        groundShapeDef.SetAsOrientedBox(BOUNDS / 2 * DensityConstants.SCALE_BOX2D, poolHeight * DensityConstants.SCALE_BOX2D, new b2Vec2((poolWidth / 2 + BOUNDS / 2) * DensityConstants.SCALE_BOX2D, -poolHeight * DensityConstants.SCALE_BOX2D), 0);
         groundBody.CreateShape(groundShapeDef);
     }
 
     private function initWorld():void {
         var worldBox:b2AABB = new b2AABB();
-        worldBox.lowerBound.Set(-BOUNDS*DensityConstants.SCALE_BOX2D, -BOUNDS*DensityConstants.SCALE_BOX2D);
-        worldBox.upperBound.Set(BOUNDS*DensityConstants.SCALE_BOX2D, BOUNDS*DensityConstants.SCALE_BOX2D);
+        worldBox.lowerBound.Set(-BOUNDS * DensityConstants.SCALE_BOX2D, -BOUNDS * DensityConstants.SCALE_BOX2D);
+        worldBox.upperBound.Set(BOUNDS * DensityConstants.SCALE_BOX2D, BOUNDS * DensityConstants.SCALE_BOX2D);
         var gravity:b2Vec2 = new b2Vec2(0, 0);
         var doSleep:Boolean = false;
         world = new b2World(worldBox, gravity, doSleep);
@@ -123,7 +123,7 @@ public class DensityModel {
                 const gravityForce:b2Vec2 = cuboid.getGravityForce().Copy();
                 gravityForce.Multiply(DensityConstants.SCALE_BOX2D);
                 body.ApplyForce(gravityForce, body.GetPosition());
-                trace("gravity = "+gravityForce.y);
+                trace("gravity = " + gravityForce.y);
 
                 var submergedVolume:Number;
                 if (waterY > cuboid.getTopY()) {

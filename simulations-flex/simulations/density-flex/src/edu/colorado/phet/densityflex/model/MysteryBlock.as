@@ -9,7 +9,7 @@ public class MysteryBlock extends Block {
     private var label:String;
 
     public function MysteryBlock(density:Number, size:Number, x:Number, y:Number, color:ColorTransform, model:DensityModel, label:String) {
-        super(density, size, x, y, color, model,Substance.CUSTOM);
+        super(density, size, x, y, color, model, Substance.CUSTOM);
         this.label = label;
     }
 

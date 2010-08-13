@@ -2,8 +2,6 @@ package edu.colorado.phet.densityflex.model {
 import Box2D.Dynamics.Contacts.b2ContactResult;
 import Box2D.Dynamics.b2Body;
 
-import away3d.core.base.Object3D;
-
 import edu.colorado.phet.densityflex.view.DensityObjectNode;
 import edu.colorado.phet.densityflex.view.DensityView;
 import edu.colorado.phet.densityflex.view.ScaleNode;
@@ -15,14 +13,14 @@ public class Scale extends Cuboid {
 
     private var totalImpulse:Number = 0;
 
-    public static var SCALE_DENSITY:Number = 2.0*1000;
+    public static var SCALE_DENSITY:Number = 2.0 * 1000;
 
     public static var SCALE_WIDTH:Number = 3.0;
     public static var SCALE_HEIGHT:Number = 1.0;
     public static var SCALE_DEPTH:Number = 3.0;
 
-    public function Scale(x:Number, y:Number, model:DensityModel,mass:Number):void {
-        super(SCALE_DENSITY, SCALE_WIDTH, SCALE_HEIGHT, SCALE_DEPTH, x, y, model,Substance.CUSTOM);
+    public function Scale(x:Number, y:Number, model:DensityModel, mass:Number):void {
+        super(SCALE_DENSITY, SCALE_WIDTH, SCALE_HEIGHT, SCALE_DEPTH, x, y, model, Substance.CUSTOM);
     }
 
     public function getScaleReadout():String {

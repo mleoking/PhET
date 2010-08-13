@@ -3,7 +3,6 @@ import Box2D.Collision.Shapes.b2PolygonDef;
 import Box2D.Dynamics.b2BodyDef;
 
 import edu.colorado.phet.densityflex.DensityConstants;
-import edu.colorado.phet.densityflex.view.DensityViewIntro;
 
 public class Cuboid extends DensityObject {
 
@@ -24,21 +23,22 @@ public class Cuboid extends DensityObject {
      * @param y
      * @param model
      */
-    public function Cuboid(density:Number, width:Number, height:Number, depth:Number, x:Number, y:Number, model:DensityModel,__substance:Substance) {
-        super(x, y, depth / 2+10/DensityModel.DISPLAY_SCALE, model,density,density*width*height*depth,width*height*depth,__substance);
+    public function Cuboid(density:Number, width:Number, height:Number, depth:Number, x:Number, y:Number, model:DensityModel, __substance:Substance) {
+        super(x, y, depth / 2 + 10 / DensityModel.DISPLAY_SCALE, model, density, density * width * height * depth, width * height * depth, __substance);
 
         this.width = width;
         this.height = height;
         this.depth = depth;
 
         updateBox2DModel();
-        
-        function volumeChangeListener():void{
+
+        function volumeChangeListener():void {
             updateDimensions();
         }
+
         getVolumeProperty().addListener(volumeChangeListener);
-        
-        setVolume(width*height*depth);
+
+        setVolume(width * height * depth);
     }
 
     public override function updateBox2DModel():void {
@@ -47,19 +47,19 @@ public class Cuboid extends DensityObject {
     }
 
     private function updateBodyDef():void {
-        bodyDef.position.Set(getX()*DensityConstants.SCALE_BOX2D, getY()*DensityConstants.SCALE_BOX2D);
+        bodyDef.position.Set(getX() * DensityConstants.SCALE_BOX2D, getY() * DensityConstants.SCALE_BOX2D);
         bodyDef.fixedRotation = true;
-        bodyDef.massData.mass = getMass()*DensityConstants.SCALE_BOX2D;
+        bodyDef.massData.mass = getMass() * DensityConstants.SCALE_BOX2D;
         bodyDef.massData.center.SetZero();
         bodyDef.massData.I = 1.0; // rotational inertia shouldn't matter
     }
-    
+
     private function updateShapeDef():void {
         shapeDef.friction = 0.3;
         shapeDef.restitution = 0;
         shapeDef.density = getDensity();
         setBody(getModel().getWorld().CreateBody(bodyDef));
-        shapeDef.SetAsBox(width / 2 * DensityConstants.SCALE_BOX2D, height / 2*DensityConstants.SCALE_BOX2D);
+        shapeDef.SetAsBox(width / 2 * DensityConstants.SCALE_BOX2D, height / 2 * DensityConstants.SCALE_BOX2D);
         getBody().CreateShape(shapeDef);
         getBody().SetUserData(this);
         notifyShapeChanged();
@@ -102,9 +102,9 @@ public class Cuboid extends DensityObject {
     }
 
     public function updateDimensions():void {
-        this.height=Math.pow(getVolume(),1.0/3.0);
-        this.width=Math.pow(getVolume(),1.0/3.0);
-        this.depth=Math.pow(getVolume(),1.0/3.0);
+        this.height = Math.pow(getVolume(), 1.0 / 3.0);
+        this.width = Math.pow(getVolume(), 1.0 / 3.0);
+        this.depth = Math.pow(getVolume(), 1.0 / 3.0);
         updateShapeDef();
     }
 }

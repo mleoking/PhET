@@ -1,6 +1,5 @@
 package edu.colorado.phet.densityflex.view {
 import away3d.core.base.*;
-import away3d.materials.IMaterial;
 import away3d.materials.ITriangleMaterial;
 
 /**

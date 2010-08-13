@@ -3,9 +3,7 @@ import away3d.materials.*;
 
 import edu.colorado.phet.densityflex.model.Block;
 import edu.colorado.phet.densityflex.model.Listener;
-
 import edu.colorado.phet.densityflex.model.StringProperty;
-
 import edu.colorado.phet.densityflex.model.Substance;
 
 import flash.display.Bitmap;
@@ -42,8 +40,8 @@ public class BlockNode extends CuboidNode implements Pickable, Listener {
     private var textureBitmap:Bitmap; // the texture being used (wood bitmap, wall (custom) bitmap, etc.)
     private var label:StringProperty;
 
-    public function BlockNode( block:Block, view:DensityView, label:StringProperty ):void {
-        super( block );
+    public function BlockNode(block:Block, view:DensityView, label:StringProperty):void {
+        super(block);
 
         this.label = label;
         this.block = block;
@@ -53,11 +51,11 @@ public class BlockNode extends CuboidNode implements Pickable, Listener {
 
         frontSprite = new Sprite();
         textureHolder = new Sprite();
-        frontSprite.addChild( textureHolder );
-        frontSprite.addChild( textField );
+        frontSprite.addChild(textureHolder);
+        frontSprite.addChild(textField);
 
-        label.addListener( updateText );
-        block.addSubstanceListener( updateSubstance );
+        label.addListener(updateText);
+        block.addSubstanceListener(updateSubstance);
 
         updateSubstance();
         updateShape();
@@ -69,29 +67,29 @@ public class BlockNode extends CuboidNode implements Pickable, Listener {
 
     private function getCustomBitmap():Bitmap {
         var wallData:BitmapData = (new wallClass() as BitmapAsset).bitmapData;
-        var imageRect:Rectangle = new Rectangle( 0, 0, wallData.width, wallData.height );
-        wallData.colorTransform( imageRect, new ColorTransform( 1.0, 0.5, 0.5 ) );
+        var imageRect:Rectangle = new Rectangle(0, 0, wallData.width, wallData.height);
+        wallData.colorTransform(imageRect, new ColorTransform(1.0, 0.5, 0.5));
         var coloredData:BitmapData = (new wallClass() as BitmapAsset).bitmapData;
-        if ( block.getColor().redMultiplier < 0.5 ) {
-            coloredData.copyChannel( wallData, imageRect, new Point( 0, 0 ), BitmapDataChannel.GREEN, BitmapDataChannel.RED );
+        if (block.getColor().redMultiplier < 0.5) {
+            coloredData.copyChannel(wallData, imageRect, new Point(0, 0), BitmapDataChannel.GREEN, BitmapDataChannel.RED);
         }
         else {
-            coloredData.copyChannel( wallData, imageRect, new Point( 0, 0 ), BitmapDataChannel.RED, BitmapDataChannel.RED );
+            coloredData.copyChannel(wallData, imageRect, new Point(0, 0), BitmapDataChannel.RED, BitmapDataChannel.RED);
         }
-        if ( block.getColor().greenMultiplier < 0.5 ) {
-            coloredData.copyChannel( wallData, imageRect, new Point( 0, 0 ), BitmapDataChannel.GREEN, BitmapDataChannel.GREEN );
-        }
-        else {
-            coloredData.copyChannel( wallData, imageRect, new Point( 0, 0 ), BitmapDataChannel.RED, BitmapDataChannel.GREEN );
-        }
-        if ( block.getColor().blueMultiplier < 0.5 ) {
-            coloredData.copyChannel( wallData, imageRect, new Point( 0, 0 ), BitmapDataChannel.GREEN, BitmapDataChannel.BLUE );
+        if (block.getColor().greenMultiplier < 0.5) {
+            coloredData.copyChannel(wallData, imageRect, new Point(0, 0), BitmapDataChannel.GREEN, BitmapDataChannel.GREEN);
         }
         else {
-            coloredData.copyChannel( wallData, imageRect, new Point( 0, 0 ), BitmapDataChannel.RED, BitmapDataChannel.BLUE );
+            coloredData.copyChannel(wallData, imageRect, new Point(0, 0), BitmapDataChannel.RED, BitmapDataChannel.GREEN);
+        }
+        if (block.getColor().blueMultiplier < 0.5) {
+            coloredData.copyChannel(wallData, imageRect, new Point(0, 0), BitmapDataChannel.GREEN, BitmapDataChannel.BLUE);
+        }
+        else {
+            coloredData.copyChannel(wallData, imageRect, new Point(0, 0), BitmapDataChannel.RED, BitmapDataChannel.BLUE);
         }
 
-        return new Bitmap( coloredData );
+        return new Bitmap(coloredData);
     }
 
     override protected function createCube():PickableCube {
@@ -102,7 +100,7 @@ public class BlockNode extends CuboidNode implements Pickable, Listener {
         return cube;
     }
 
-    private function createTextFormat( newSize:Number ):TextFormat {
+    private function createTextFormat(newSize:Number):TextFormat {
         var format:TextFormat = new TextFormat();
         format.size = newSize;
         format.bold = true;
@@ -115,7 +113,7 @@ public class BlockNode extends CuboidNode implements Pickable, Listener {
     }
 
     override public function remove():void {
-        view.removeObject( this );
+        view.removeObject(this);
     }
 
     private function updateText():void {
@@ -129,33 +127,33 @@ public class BlockNode extends CuboidNode implements Pickable, Listener {
     private function updateSubstance():void {
 
         // remove the old texture if we have one
-        if ( textureBitmap != null ) {
-            textureHolder.removeChild( textureBitmap );
+        if (textureBitmap != null) {
+            textureHolder.removeChild(textureBitmap);
         }
 
         // update the bitmap we use as a background
-        if( block.getSubstance() == Substance.WOOD ) {
+        if (block.getSubstance() == Substance.WOOD) {
             textureBitmap = getWoodBitmap();
         } else {
             textureBitmap = getCustomBitmap();
         }
 
         // add the new bitmap
-        textureHolder.addChild( textureBitmap );
+        textureHolder.addChild(textureBitmap);
 
         // update the text field
         updateText();
 
-        frontMaterial = new MovieMaterial( frontSprite );
+        frontMaterial = new MovieMaterial(frontSprite);
         frontMaterial.smooth = true; //makes the font smooth instead of jagged, see http://www.mail-archive.com/away3d-dev@googlegroups.com/msg06699.html
 
-        sideMaterial = new BitmapMaterial( textureBitmap.bitmapData );
+        sideMaterial = new BitmapMaterial(textureBitmap.bitmapData);
 
         // TODO: possibly change tiling for textures that are not symmetric
         var cube:PickableCube = getCube();
         cube.cubeMaterials.left = cube.cubeMaterials.right = cube.cubeMaterials.top = cube.cubeMaterials.bottom = cube.cubeMaterials.front = sideMaterial;
         cube.cubeMaterials.back = frontMaterial;
-        
+
         //make block semi-transparent
         //        redWallMaterial.alpha = 0.5;
         //        frontSprite.alpha = 0.5;
@@ -163,7 +161,7 @@ public class BlockNode extends CuboidNode implements Pickable, Listener {
 
     override protected function updateShape():void {
         super.updateShape();
-        textField.setTextFormat( createTextFormat( 45 * (200 / getCube().width) ) );
+        textField.setTextFormat(createTextFormat(45 * (200 / getCube().width)));
     }
 }
 }

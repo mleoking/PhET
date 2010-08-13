@@ -44,7 +44,7 @@ public class DensityView extends UIComponent {
     private var selectedObject:AbstractPrimitive;
 
     public static const far:Number = 5000;
-    public static const verticalGroundOffset:Number = -1.0/DensityModel.DISPLAY_SCALE*100;
+    public static const verticalGroundOffset:Number = -1.0 / DensityModel.DISPLAY_SCALE * 100;
 
     private var waterTop:Plane;
     private var waterFront:Plane;
