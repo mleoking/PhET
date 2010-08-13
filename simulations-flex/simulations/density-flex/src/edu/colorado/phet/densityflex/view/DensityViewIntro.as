@@ -47,7 +47,7 @@ public class DensityViewIntro extends DensityView {
         m_sprite = new Sprite();
         m_sprite.x=400;
         m_sprite.y=400;
-        var holder = new UIComponent();
+        var holder:UIComponent = new UIComponent();
         holder.addChild(m_sprite);
         
         _densityCanvas.addChild(holder);

@@ -196,8 +196,6 @@ public class DensityView extends UIComponent {
         return new Number3D(kx / num, ky / num, kz / num);
     }
 
-    private var time:int = 0;
-
     public function onEnterFrame(event:Event):void {
         if (!running) {
             return;
@@ -213,25 +211,7 @@ public class DensityView extends UIComponent {
         waterFront.height = model.getWaterHeight() * DensityModel.DISPLAY_SCALE;//this is positive from the bottom of the pool
         waterTop.y = (-model.getPoolHeight() + model.getWaterHeight()) * DensityModel.DISPLAY_SCALE;
 
-        //        for each ( var blockNode:BlockNode in blockNodeList ) {
-        //            blockNode.getBlock().setSize(blockNode.getBlock().getWidth()*1.005,blockNode.getBlock().getHeight()*1.005);
-        //        }
-
-        var poolHeight:Number = model.getPoolHeight() * DensityModel.DISPLAY_SCALE;
-        var waterHeight:Number = model.getWaterHeight() * DensityModel.DISPLAY_SCALE;
-        var poolWidth:Number = model.getPoolWidth() * DensityModel.DISPLAY_SCALE;
-        var poolDepth:Number = model.getPoolDepth() * DensityModel.DISPLAY_SCALE;
-
-        //        waterHeightIndicator.setIndicatorPoint(poolWidth / 2, (-model.getPoolHeight() + model.getWaterHeight()) * DensityModel.DISPLAY_SCALE, -20);
-
-        //        waterHeightIndicator.setIndicatorPoint(model.getPoolWidth()/2.0*DensityModel.DISPLAY_SCALE,model.getWaterHeight()*DensityModel.DISPLAY_SCALE,0);
-        //        waterHeightIndicator.setIndicatorPoint(model.getPoolWidth()/2.0*DensityModel.DISPLAY_SCALE,(-model.getPoolHeight() + model.getWaterHeight()+ verticalGroundOffset)*DensityModel.DISPLAY_SCALE,0);
-        //        waterHeightIndicator.setIndicatorPoint(waterTop.x,waterTop.y,waterTop.z);
-        //        waterHeightIndicator.setIndicatorPoint(waterTop.x,waterTop.y,waterTop.z);
-        //        var screenLocation = to2D(poolWidth/2,(-model.getPoolHeight() + model.getWaterHeight()) * DensityModel.DISPLAY_SCALE,-20);
-        //        view.render();
         updateWaterHeightIndicator();
-
 
         // TODO: remove or update invalid
         view.render();
