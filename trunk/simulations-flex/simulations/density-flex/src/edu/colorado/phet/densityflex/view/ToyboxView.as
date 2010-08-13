@@ -1,35 +1,20 @@
 package edu.colorado.phet.densityflex.view {
-import Box2D.Common.Math.b2Vec2;
-
 import away3d.cameras.*;
-import away3d.cameras.lenses.OrthogonalLens;
 import away3d.containers.*;
-import away3d.core.base.*;
-import away3d.core.clip.Clipping;
-import away3d.core.draw.*;
-import away3d.core.filter.*;
-import away3d.core.geom.*;
 import away3d.core.math.*;
 import away3d.core.render.*;
 import away3d.lights.*;
-import away3d.materials.*;
-import away3d.primitives.*;
 
 import edu.colorado.phet.densityflex.model.Block;
 import edu.colorado.phet.densityflex.model.DensityModel;
 import edu.colorado.phet.densityflex.model.DensityObject;
-import edu.colorado.phet.densityflex.model.Scale;
 
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.MouseEvent;
-
 import flash.geom.ColorTransform;
 
-import flash.utils.getQualifiedClassName;
-
 import mx.core.UIComponent;
-import mx.events.SliderEvent;
 
 public class ToyboxView extends UIComponent {
     //model
@@ -64,17 +49,17 @@ public class ToyboxView extends UIComponent {
         initListeners();
 
         backgroundSprite = new Sprite();
-        backgroundSprite.graphics.beginFill( 0xFFFFFF );
-        backgroundSprite.graphics.drawRect( 0, 0, 5000, 5000 );
+        backgroundSprite.graphics.beginFill(0xFFFFFF);
+        backgroundSprite.graphics.drawRect(0, 0, 5000, 5000);
         backgroundSprite.graphics.endFill();
-        addChild( backgroundSprite );
-        addChild( view );
+        addChild(backgroundSprite);
+        addChild(view);
 
         var mask:Sprite = new Sprite();
-        mask.graphics.beginFill( 0xFF0000 );
-        mask.graphics.drawRect( 0, 0, 400, 125 ); // make changeable
+        mask.graphics.beginFill(0xFF0000);
+        mask.graphics.drawRect(0, 0, 400, 125); // make changeable
         mask.graphics.endFill();
-        addChild( mask );
+        addChild(mask);
         this.mask = mask;
 
         view.x = 200 + 30; // temporary shift
@@ -84,17 +69,17 @@ public class ToyboxView extends UIComponent {
     }
 
     private function initListeners():void {
-        addEventListener( Event.ENTER_FRAME, onEnterFrame );
-        stage.addEventListener( MouseEvent.MOUSE_DOWN, onMouseDown );
-        stage.addEventListener( MouseEvent.MOUSE_UP, onMouseUp );
-        stage.addEventListener( Event.RESIZE, onResize );
-        stage.addEventListener( MouseEvent.MOUSE_MOVE, onMouseMove );
-        stage.addEventListener( Event.RESIZE, onResize );
+        addEventListener(Event.ENTER_FRAME, onEnterFrame);
+        stage.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
+        stage.addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
+        stage.addEventListener(Event.RESIZE, onResize);
+        stage.addEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
+        stage.addEventListener(Event.RESIZE, onResize);
     }
 
-    override protected function updateDisplayList( unscaledWidth:Number, unscaledHeight:Number ):void {
-        super.updateDisplayList( unscaledWidth, unscaledHeight );
-        if ( view != null ) {
+    override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void {
+        super.updateDisplayList(unscaledWidth, unscaledHeight);
+        if (view != null) {
             view.x = unscaledWidth / 2;
             view.y = unscaledHeight / 2;
         }
@@ -111,8 +96,8 @@ public class ToyboxView extends UIComponent {
         camera = new Camera3D();
 
         //        camera.lens = new OrthogonalLens();
-        camera.position = new Number3D( 200, 300, -800 );
-        camera.lookAt( new Number3D( 200, 0, 0 ) );
+        camera.position = new Number3D(200, 300, -800);
+        camera.lookAt(new Number3D(200, 0, 0));
         camera.zoom = 2.5;
 
         //renderer = Renderer.BASIC;
@@ -120,58 +105,58 @@ public class ToyboxView extends UIComponent {
         renderer = Renderer.INTERSECTING_OBJECTS;
         //renderer = new QuadrantRenderer();
 
-        view = new View3D( {scene:scene, camera:camera, renderer:renderer} );
+        view = new View3D({scene:scene, camera:camera, renderer:renderer});
 
 
     }
 
     public function initObjects():void {
         // NOTE: if the ground is not matching up with the objects resting on the ground (or the bottom of the pool), it is due to the ground being shifted by this amount
-        var light:DirectionalLight3D = new DirectionalLight3D( {color:0xFFFFFF, ambient:0.2, diffuse:0.75, specular:0.1} );
+        var light:DirectionalLight3D = new DirectionalLight3D({color:0xFFFFFF, ambient:0.2, diffuse:0.75, specular:0.1});
         light.x = 10000;
         light.z = -35000;
         light.y = 50000;
-        scene.addChild( light );
+        scene.addChild(light);
 
         //        scene.addChild( new Cube( {width: 50,height: 50, depth: 50, material:new ColorMaterial( 0x000000 )} ) );
         var model:DensityModel = new DensityModel(); // TODO: factor out into toybox version and main version
-        var a:Block = Block.newBlockDensitySize( 1.0 / 8.0, 2, -4.5, 0, new ColorTransform( 0.5, 0.5, 0 ), model );
-        model.addDensityObject( a );
-        var b:Block = Block.newBlockDensitySize( 0.5, 2, -1.5, 0, new ColorTransform( 0, 0, 1 ), model );
-        model.addDensityObject( b );
-        var c:Block = Block.newBlockDensitySize( 2, 2, 1.5, 0, new ColorTransform( 0, 1, 0 ), model );
-        model.addDensityObject( c );
-        var d:Block = Block.newBlockDensitySize( 4, 2, 4.5, 0, new ColorTransform( 1, 0, 0 ), model );
-        model.addDensityObject( d );
+        var a:Block = Block.newBlockDensitySize(1.0 / 8.0, 2, -4.5, 0, new ColorTransform(0.5, 0.5, 0), model);
+        model.addDensityObject(a);
+        var b:Block = Block.newBlockDensitySize(0.5, 2, -1.5, 0, new ColorTransform(0, 0, 1), model);
+        model.addDensityObject(b);
+        var c:Block = Block.newBlockDensitySize(2, 2, 1.5, 0, new ColorTransform(0, 1, 0), model);
+        model.addDensityObject(c);
+        var d:Block = Block.newBlockDensitySize(4, 2, 4.5, 0, new ColorTransform(1, 0, 0), model);
+        model.addDensityObject(d);
 
-        scene.addChild( new BlockNode( a, null ) );
-        scene.addChild( new BlockNode( b, null ) );
-        scene.addChild( new BlockNode( c, null ) );
-        scene.addChild( new BlockNode( d, null ) );
+        scene.addChild(new BlockNode(a, null));
+        scene.addChild(new BlockNode(b, null));
+        scene.addChild(new BlockNode(c, null));
+        scene.addChild(new BlockNode(d, null));
 
     }
 
-    public function onEnterFrame( event:Event ):void {
+    public function onEnterFrame(event:Event):void {
         //view.render();
     }
 
-    public function onMouseDown( event:MouseEvent ):void {
+    public function onMouseDown(event:MouseEvent):void {
         var startMouseX = stage.mouseX - view.x;
         var startMouseY = stage.mouseY - view.y;
-        trace( "clicked toybox object: " + view.mouseObject );
-        if ( view.mouseObject is PickableCube && view.mouseObject != null ) {
-            trace( "clicked density object node in toybox" );
-            densityView.createToyboxObject( (view.mouseObject as PickableCube).getBody().GetUserData() as DensityObject );
+        trace("clicked toybox object: " + view.mouseObject);
+        if (view.mouseObject is PickableCube && view.mouseObject != null) {
+            trace("clicked density object node in toybox");
+            densityView.createToyboxObject((view.mouseObject as PickableCube).getBody().GetUserData() as DensityObject);
             //            startMiddle = medianFrontScreenPoint( view.mouseObject as AbstractPrimitive );
             //            selectedObject = view.mouseObject as AbstractPrimitive;
             //            if ( selectedObject is Pickable ) {
             //                cachedY = (selectedObject as Pickable).getBody().GetPosition().y;
             //            }
         }
-        stage.addEventListener( Event.MOUSE_LEAVE, onStageMouseLeave );
+        stage.addEventListener(Event.MOUSE_LEAVE, onStageMouseLeave);
     }
 
-    public function onMouseMove( event:MouseEvent ):void {
+    public function onMouseMove(event:MouseEvent):void {
         //        if ( moving ) {
         //            var offsetX:Number = startMiddle.x - startMouseX;
         //            var offsetY:Number = startMiddle.y - startMouseY;
@@ -201,17 +186,17 @@ public class ToyboxView extends UIComponent {
         //        invalid = true;
     }
 
-    public function onMouseUp( event:MouseEvent ):void {
+    public function onMouseUp(event:MouseEvent):void {
         //        moving = false;
         //        stage.removeEventListener( Event.MOUSE_LEAVE, onStageMouseLeave );
     }
 
-    public function onStageMouseLeave( event:Event ):void {
+    public function onStageMouseLeave(event:Event):void {
         //        moving = false;
         //        stage.removeEventListener( Event.MOUSE_LEAVE, onStageMouseLeave );
     }
 
-    public function onResize( event:Event = null ):void {
+    public function onResize(event:Event = null):void {
         //        //Centers the view
         //        view.x = stage.stageWidth / 2;
         //        view.y = stage.stageHeight / 2;
@@ -220,8 +205,8 @@ public class ToyboxView extends UIComponent {
 
     }
 
-    public function removeObject( ob:CuboidNode ):void {
-        scene.removeChild( ob );
+    public function removeObject(ob:CuboidNode):void {
+        scene.removeChild(ob);
     }
 
     public function reset():void {

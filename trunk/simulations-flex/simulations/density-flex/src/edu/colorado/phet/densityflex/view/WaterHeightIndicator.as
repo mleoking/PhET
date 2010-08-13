@@ -14,7 +14,7 @@ public class WaterHeightIndicator extends Sprite {
 
     public function WaterHeightIndicator(model:DensityModel) {
         super();
-        this.model=model;
+        this.model = model;
         textField = new TextField();
         textField.autoSize = TextFieldAutoSize.RIGHT;
         textField.text = "hello";
@@ -27,17 +27,17 @@ public class WaterHeightIndicator extends Sprite {
     protected function update():void {
         graphics.clear();
         var indicatedVolume:Number = waterHeight * model.getPoolWidth() * model.getPoolDepth();
-        
+
         //Convert SI to cm^3
-//        var readout:Number = indicatedVolume * 1E6;
-        
+        //        var readout:Number = indicatedVolume * 1E6;
+
         var readout:Number = DensityConstants.metersToLitersCubed(indicatedVolume);
-        
-//        textField.text= String(readout.toFixed(3))+" cm\u00b3"; 
-        textField.text= String(readout.toFixed(3))+" L"; 
+
+        //        textField.text= String(readout.toFixed(3))+" cm\u00b3"; 
+        textField.text = String(readout.toFixed(3)) + " L";
         var textFormat:TextFormat = new TextFormat();
-        textFormat.size=16;
-        textFormat.bold=true;
+        textFormat.size = 16;
+        textFormat.bold = true;
         textField.setTextFormat(textFormat);
         graphics.beginFill(0xFF0000);
         graphics.moveTo(0, 0);

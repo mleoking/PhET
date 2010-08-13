@@ -8,9 +8,9 @@ public class DensityConstants {
     public static const MAX_DENSITY:Number = kgLtoSI(20);
 
     //Pool volume =60 L
-    public static const POOL_WIDTH_X:Number = litersToMetersCubed(10)*100;
-    public static const POOL_DEPTH_Z:Number = litersToMetersCubed(3)*100;
-    public static const POOL_HEIGHT_Y:Number = litersToMetersCubed(4)*100;
+    public static const POOL_WIDTH_X:Number = litersToMetersCubed(10) * 100;
+    public static const POOL_DEPTH_Z:Number = litersToMetersCubed(3) * 100;
+    public static const POOL_HEIGHT_Y:Number = litersToMetersCubed(4) * 100;
     public static const DEFAULT_BLOCK_MASS:Number = 2;
     public static const SCALE_BOX2D:Number = 1000;
 

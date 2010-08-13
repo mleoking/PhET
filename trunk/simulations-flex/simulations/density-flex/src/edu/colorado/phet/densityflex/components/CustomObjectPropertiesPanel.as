@@ -1,7 +1,6 @@
 package edu.colorado.phet.densityflex.components {
 import edu.colorado.phet.densityflex.DensityConstants;
 import edu.colorado.phet.densityflex.model.DensityObject;
-
 import edu.colorado.phet.densityflex.model.Substance;
 
 import mx.containers.Grid;
@@ -16,8 +15,8 @@ public class CustomObjectPropertiesPanel extends Panel {
     public function CustomObjectPropertiesPanel(densityObject:DensityObject) {
         super();
         this.title = "Properties";
-        this.densityObject=densityObject;
-        
+        this.densityObject = densityObject;
+
         //TODO: remove listeners from former density object
         this.densityObject = densityObject;
 
@@ -34,25 +33,26 @@ public class CustomObjectPropertiesPanel extends Panel {
         }
 
         densityObject.getDensityProperty().addListener(densityListener);
-        
-        grid.addChild(new PropertyEditor(densityObject.getMassProperty(),DensityConstants.MIN_MASS,DensityConstants.MAX_MASS));
-        grid.addChild(new PropertyEditor(densityObject.getVolumeProperty(),DensityConstants.MIN_VOLUME,DensityConstants.MAX_VOLUME));
-        grid.addChild(new DensityEditor(densityObject.getDensityProperty(),DensityConstants.MIN_DENSITY,DensityConstants.MAX_DENSITY));
+
+        grid.addChild(new PropertyEditor(densityObject.getMassProperty(), DensityConstants.MIN_MASS, DensityConstants.MAX_MASS));
+        grid.addChild(new PropertyEditor(densityObject.getVolumeProperty(), DensityConstants.MIN_VOLUME, DensityConstants.MAX_VOLUME));
+        grid.addChild(new DensityEditor(densityObject.getDensityProperty(), DensityConstants.MIN_DENSITY, DensityConstants.MAX_DENSITY));
 
         comboBox = new ComboBox();
         comboBox.dataProvider = [Substance.WOOD,Substance.WATER_BALLOON,Substance.LEAD,Substance.CUSTOM];
         comboBox.labelField = "name";
-        function myListener():void{
-            trace("comboBox.selectedItem="+comboBox.selectedItem);
-            if (comboBox.selectedItem.isCustom()){
-                if (!densityObject.getSubstance().isCustom()){
-                    densityObject.substance = new Substance("Custom",densityObject.getDensity());
+        function myListener():void {
+            trace("comboBox.selectedItem=" + comboBox.selectedItem);
+            if (comboBox.selectedItem.isCustom()) {
+                if (!densityObject.getSubstance().isCustom()) {
+                    densityObject.substance = new Substance("Custom", densityObject.getDensity());
                 }
-            }   else{
+            } else {
                 densityObject.setDensity(comboBox.selectedItem.getDensity());
             }
         }
-        comboBox.addEventListener("change",myListener);
+
+        comboBox.addEventListener("change", myListener);
         densityObject.addSubstanceListener(function f():void {
             if (densityObject.getSubstance().isCustom()) {
                 comboBox.selectedItem = Substance.CUSTOM;

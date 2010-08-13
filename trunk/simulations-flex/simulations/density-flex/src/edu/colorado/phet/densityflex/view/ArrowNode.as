@@ -1,12 +1,5 @@
 package edu.colorado.phet.densityflex.view {
-import away3d.core.base.Segment;
 import away3d.materials.ColorMaterial;
-
-import away3d.materials.ShadingColorMaterial;
-
-import away3d.materials.WireColorMaterial;
-
-import away3d.materials.WireframeMaterial;
 
 import edu.colorado.phet.densityflex.model.ArrowModel;
 
@@ -17,7 +10,7 @@ public class ArrowNode extends MyMesh {
 
     public function ArrowNode(arrowModel:ArrowModel, scaleFromModelToView:Number, color:*, init:Object = null) {
         super(combine({material:new ColorMaterial(color, {alpha: 0.75})}, init));
-//        super(combine({material:new WireColorMaterial(color, {alpha: 0.75})}, init));//useful for debugging objects that may have the same z-coordinate
+        //        super(combine({material:new WireColorMaterial(color, {alpha: 0.75})}, init));//useful for debugging objects that may have the same z-coordinate
         this.arrowModel = arrowModel;
         this.scaleFromModelToView = scaleFromModelToView;
         this.mouseEnabled = false; // don't want to click on arrows, but instead the objects behind them
@@ -65,11 +58,11 @@ public class ArrowNode extends MyMesh {
         f(2, 5, 6, 2, 5, 6);
         f(4, 3, 6, 4, 3, 6);
 
-//        addSegment(new Segment(getVertexArray()[0], getVertexArray()[1], new WireframeMaterial(0x000000)));
-//        addSegment(new Segment(getVertexArray()[4], getVertexArray()[3], new WireframeMaterial(0x000000)));
-//        addSegment(new Segment(getVertexArray()[2], getVertexArray()[5], new WireframeMaterial(0x000000)));
-//        addSegment(new Segment(getVertexArray()[5], getVertexArray()[6], new WireframeMaterial(0xFF0000,{width:5})));
-//        addSegment(new Segment(getVertexArray()[6], getVertexArray()[4], new WireframeMaterial(0x000000)));
+        //        addSegment(new Segment(getVertexArray()[0], getVertexArray()[1], new WireframeMaterial(0x000000)));
+        //        addSegment(new Segment(getVertexArray()[4], getVertexArray()[3], new WireframeMaterial(0x000000)));
+        //        addSegment(new Segment(getVertexArray()[2], getVertexArray()[5], new WireframeMaterial(0x000000)));
+        //        addSegment(new Segment(getVertexArray()[5], getVertexArray()[6], new WireframeMaterial(0xFF0000,{width:5})));
+        //        addSegment(new Segment(getVertexArray()[6], getVertexArray()[4], new WireframeMaterial(0x000000)));
 
         type = "ArrowNode";
         url = "density";

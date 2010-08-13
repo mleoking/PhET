@@ -2,7 +2,6 @@ package edu.colorado.phet.densityflex.view {
 import edu.colorado.phet.densityflex.model.Block;
 import edu.colorado.phet.densityflex.model.DensityObject;
 
-import flash.events.Event;
 import flash.geom.ColorTransform;
 
 public class DensityViewFull extends DensityView {
@@ -47,8 +46,8 @@ public class DensityViewFull extends DensityView {
         }
     }
 
-    public function createToyboxObject( densityObject:DensityObject ):void {
-        model.addDensityObject( densityObject.copy( model ) );
+    public function createToyboxObject(densityObject:DensityObject):void {
+        model.addDensityObject(densityObject.copy(model));
     }
 }
 }

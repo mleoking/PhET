@@ -25,9 +25,9 @@ public class MysteryObjectsControlPanel extends Panel {
 
             const grid:Grid = new Grid();
 
-            grid.addChild(toGridRow("Substance", "Density","underline"));
+            grid.addChild(toGridRow("Substance", "Density", "underline"));
             for each (var substance:Substance in Substance.ALL) {
-                grid.addChild(toGridRow(substance.name, substance.getDensity().toFixed(1),"none"));
+                grid.addChild(toGridRow(substance.name, substance.getDensity().toFixed(1), "none"));
             }
 
             const titleWindow:TitleWindow = new TitleWindow();
@@ -47,11 +47,11 @@ public class MysteryObjectsControlPanel extends Panel {
         addChild(button);
     }
 
-    private function toGridRow(_name:String, density:String,textDecoration:String):GridRow {
+    private function toGridRow(_name:String, density:String, textDecoration:String):GridRow {
         const gridRow:GridRow = new GridRow();
         const name:Label = new Label();
         name.text = _name;
-        name.setStyle("textDecoration",textDecoration);
+        name.setStyle("textDecoration", textDecoration);
         function toGridItem(component:UIComponent):GridItem {
             const gridItem:GridItem = new GridItem();
             gridItem.addChild(component);
@@ -61,7 +61,7 @@ public class MysteryObjectsControlPanel extends Panel {
         gridRow.addChild(toGridItem(name));
         const value:Label = new Label();
         value.text = density;
-        value.setStyle("textDecoration",textDecoration);
+        value.setStyle("textDecoration", textDecoration);
         gridRow.addChild(toGridItem(value));
         return gridRow;
     }

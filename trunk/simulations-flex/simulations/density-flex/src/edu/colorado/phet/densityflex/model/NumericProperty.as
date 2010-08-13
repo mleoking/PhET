@@ -13,7 +13,7 @@ public class NumericProperty extends Observable {
         this._value = value;
         this._initialValue = _value;
     }
-    
+
     public function get name():String {
         return _name;
     }
@@ -35,7 +35,7 @@ public class NumericProperty extends Observable {
     }
 
     public function reset():void {
-        this.value=_initialValue;
+        this.value = _initialValue;
     }
 }
 }

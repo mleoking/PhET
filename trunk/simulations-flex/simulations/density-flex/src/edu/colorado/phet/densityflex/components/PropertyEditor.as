@@ -3,42 +3,41 @@ import edu.colorado.phet.densityflex.model.NumericProperty;
 
 import flash.display.DisplayObject;
 
-import flash.events.Event;
-
-import flash.events.KeyboardEvent;
-
 import mx.containers.GridItem;
 import mx.containers.GridRow;
 import mx.controls.HSlider;
 import mx.controls.Label;
 import mx.controls.TextInput;
-import mx.controls.sliderClasses.SliderThumb;
 import mx.events.FlexEvent;
 import mx.events.SliderEvent;
 
 public class PropertyEditor extends GridRow {
     private var property:NumericProperty;
-    public static const SLIDER_WIDTH:Number=250;
-    public function PropertyEditor(property:NumericProperty,minimimum:Number,maximum:Number) {
+    public static const SLIDER_WIDTH:Number = 250;
+
+    public function PropertyEditor(property:NumericProperty, minimimum:Number, maximum:Number) {
         super();
-        this.property=property;
-        
+        this.property = property;
+
         var label:Label = new Label();
         label.text = property.name;
         addGridItem(label);
-        
-        addGridItem(createSlider(property,minimimum,maximum));
-        
+
+        addGridItem(createSlider(property, minimimum, maximum));
+
         const textField:TextInput = new TextInput();
         textField.width = 100;
         textField.restrict = ".0-9";
-        function updateText():void{textField.text=property.value.toFixed(2)}
+        function updateText():void {
+            textField.text = property.value.toFixed(2)
+        }
+
         updateText();
-        const listener:Function = function myfunction():void{
+        const listener:Function = function myfunction():void {
             property.value = Number(textField.text);
         };
-        textField.addEventListener(FlexEvent.VALUE_COMMIT,listener);
-        textField.addEventListener(FlexEvent.ENTER,listener );
+        textField.addEventListener(FlexEvent.VALUE_COMMIT, listener);
+        textField.addEventListener(FlexEvent.ENTER, listener);
         property.addListener(updateText);
         addGridItem(textField);
 
@@ -47,13 +46,13 @@ public class PropertyEditor extends GridRow {
         addGridItem(unitsLabel);
     }
 
-    protected function createSlider(property:NumericProperty,minimum:Number,maximum:Number):HSlider {
+    protected function createSlider(property:NumericProperty, minimum:Number, maximum:Number):HSlider {
         const slider:HSlider = new HSlider();
-        slider.width=SLIDER_WIDTH;
-        slider.minimum =minimum;
-        slider.maximum=maximum;
+        slider.width = SLIDER_WIDTH;
+        slider.minimum = minimum;
+        slider.maximum = maximum;
         slider.liveDragging = true;
-        slider.thumbCount=1;
+        slider.thumbCount = 1;
         function sliderDragHandler(event:SliderEvent):void {
             property.value = event.value;
         }
@@ -61,12 +60,12 @@ public class PropertyEditor extends GridRow {
         slider.addEventListener(SliderEvent.THUMB_DRAG, sliderDragHandler);
         function updateSlider():void {
             slider.value = property.value;
-            try{
-                slider.getThumbAt(0).alpha=Math.max(0.25,//This is the minimum alpha that will be shown.  Beyond 0.25 is too hard to see anything.
-                        Math.min(1,slider.maximum/property.value) //The more the value goes above the slider's maximum, make more transparent.  But keep alpha =1 if it is in the slider range.
+            try {
+                slider.getThumbAt(0).alpha = Math.max(0.25, //This is the minimum alpha that will be shown.  Beyond 0.25 is too hard to see anything.
+                        Math.min(1, slider.maximum / property.value) //The more the value goes above the slider's maximum, make more transparent.  But keep alpha =1 if it is in the slider range.
                         );
-            }catch(exception:Error){
-                
+            } catch(exception:Error) {
+
             }
         }
 

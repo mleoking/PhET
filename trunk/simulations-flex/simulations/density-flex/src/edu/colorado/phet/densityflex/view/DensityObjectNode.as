@@ -1,7 +1,6 @@
 package edu.colorado.phet.densityflex.view {
 import away3d.containers.ObjectContainer3D;
 
-import edu.colorado.phet.densityflex.model.ArrowModel;
 import edu.colorado.phet.densityflex.model.DensityModel;
 import edu.colorado.phet.densityflex.model.DensityObject;
 
