@@ -21,7 +21,7 @@ public class DensityModule extends AbstractDensityModule {
     private var mysteryObjectsMode:MysteryObjectsMode;
     private var mode:Mode;
 
-    private var units:Units = new Units("kg/L", new LinearUnit("kg", 1.0), new LinearUnit("L", 0.001), new LinearUnit("kg/L", 1000));
+    private var _units:Units = new Units("kg/L", new LinearUnit("kg", 1.0), new LinearUnit("L", 0.001), new LinearUnit("kg/L", 1000));
 
     public function DensityModule() {
         super();
@@ -101,6 +101,10 @@ public class DensityModule extends AbstractDensityModule {
     public function getDensityCanvas():Canvas {
         return _densityCanvas;
     }
+
+    public function get units():Units {
+        return _units;
+    }
 }
 }
 
@@ -113,6 +117,8 @@ import edu.colorado.phet.densityflex.model.DensityObject;
 import edu.colorado.phet.densityflex.model.MysteryBlock;
 import edu.colorado.phet.densityflex.model.Substance;
 import edu.colorado.phet.densityflex.view.DensityModule;
+
+import edu.colorado.phet.densityflex.view.units.Units;
 
 import flash.geom.ColorTransform;
 
@@ -145,7 +151,7 @@ class CustomObjectMode extends Mode {
         //        customizableObject = Block.newBlockDensityMass(Substance.WOOD.getDensity(), DensityConstants.DEFAULT_BLOCK_MASS, -DensityConstants.POOL_WIDTH_X/2.0, DensityConstants.POOL_HEIGHT_Y, new ColorTransform(0.5, 0.5, 0), module.getModel(),Substance.WOOD);
 
         //        customizableObject = Block.newBlockDensityMass(Substance.WOOD.getDensity(), 5000, -8, 3, new ColorTransform(0.5, 0.5, 0), module.getModel(),Substance.WOOD);
-        customObjectPropertiesPanel = new CustomObjectPropertiesPanel(customizableObject);
+        customObjectPropertiesPanel = new CustomObjectPropertiesPanel(customizableObject,module.units);
     }
 
     override public function teardown():void {
