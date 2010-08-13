@@ -9,9 +9,11 @@ import java.awt.event.ActionListener;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 
+import edu.colorado.phet.common.phetcommon.audio.AudioResourcePlayer;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
 import edu.colorado.phet.nuclearphysics.defaults.RadiometricDecayDefaults;
@@ -31,7 +33,7 @@ public class RadioactiveDatingGameModule extends PiccoloModule {
 
     private RadioactiveDatingGameModel _model;
     private RadioactiveDatingGameCanvas _canvas;
-    private SoundState _soundState = new SoundState();
+    private AudioResourcePlayer audioResourcePlayer = new AudioResourcePlayer(NuclearPhysicsResources.getResourceLoader(), true);
     private PiccoloClockControlPanel _clockControlPanel;
 
     //----------------------------------------------------------------------------
@@ -43,14 +45,14 @@ public class RadioactiveDatingGameModule extends PiccoloModule {
                new NuclearPhysicsClock( RadiometricDecayDefaults.CLOCK_FRAME_RATE, RadiometricDecayDefaults.CLOCK_DT ));
         
         // Add a check box for sound to the clock control panel.
-        _soundState.setEnabled(true);  // Set sound to be on by default.
+        audioResourcePlayer.setEnabled(true);  // Set sound to be on by default.
         final JCheckBox soundControlCheckBox = new JCheckBox(NuclearPhysicsStrings.SOUND_ENABLED,
-        		_soundState.isEnabled());
+        		audioResourcePlayer.isEnabled());
         soundControlCheckBox.setOpaque(false);
         _clockControlPanel.addToLeft(soundControlCheckBox);
         soundControlCheckBox.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				_soundState.setEnabled(soundControlCheckBox.isSelected());
+				audioResourcePlayer.setEnabled(soundControlCheckBox.isSelected());
 			}
         });
         
@@ -58,7 +60,7 @@ public class RadioactiveDatingGameModule extends PiccoloModule {
         _model = new RadioactiveDatingGameModel();
 
         // Canvas
-        _canvas = new RadioactiveDatingGameCanvas( _model, _soundState );
+        _canvas = new RadioactiveDatingGameCanvas( _model, audioResourcePlayer );
         setSimulationPanel( _canvas );
         
         // Help
