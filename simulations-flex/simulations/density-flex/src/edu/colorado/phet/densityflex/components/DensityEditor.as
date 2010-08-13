@@ -11,8 +11,8 @@ public class DensityEditor extends PropertyEditor {
         super(property, minimum, maximum,unit);
     }
 
-    override protected function createSlider(property:NumericProperty, minimum:Number, maximum:Number):HSlider {
-        const slider:HSlider = super.createSlider(property, minimum, maximum);
+    override protected function createSlider(property:NumericProperty, minimum:Number, maximum:Number,unit:Unit):HSlider {
+        const slider:HSlider = super.createSlider(property, minimum, maximum,unit);
         slider.tickValues = [Substance.WOOD.getDensity(),Substance.WATER_BALLOON.getDensity(),Substance.LEAD.getDensity()];//values for styrofoam, water, lead
         slider.width = SLIDER_WIDTH;
         return slider;
