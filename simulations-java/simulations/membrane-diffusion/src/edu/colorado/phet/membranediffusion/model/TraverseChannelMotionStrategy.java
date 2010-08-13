@@ -13,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
  * 
  * @author John Blanco
  */
-public class TraverseChannelAndWalkStrategy extends MotionStrategy {
+public class TraverseChannelMotionStrategy extends MotionStrategy {
 
     private static final double DEFAULT_MAX_VELOCITY = 40000;
     private static final Random RAND = new Random();
@@ -27,7 +27,7 @@ public class TraverseChannelAndWalkStrategy extends MotionStrategy {
 	private Rectangle2D postTraversalMotionBounds = new Rectangle2D.Double();
 
 	
-	public TraverseChannelAndWalkStrategy(MembraneChannel channel, Point2D startingLocation, Rectangle2D postTraversalMotionBounds, double maxVelocity) {
+	public TraverseChannelMotionStrategy(MembraneChannel channel, Point2D startingLocation, Rectangle2D postTraversalMotionBounds, double maxVelocity) {
 		this.channel = channel;
 		this.maxVelocity = maxVelocity;
 		this.postTraversalMotionBounds.setFrame(postTraversalMotionBounds);
@@ -36,7 +36,7 @@ public class TraverseChannelAndWalkStrategy extends MotionStrategy {
 		setCourseForCurrentTraversalPoint(startingLocation);
 	}
 
-	public TraverseChannelAndWalkStrategy(MembraneChannel channel, Point2D startingLocation, Rectangle2D postTraversalMotionBounds) {
+	public TraverseChannelMotionStrategy(MembraneChannel channel, Point2D startingLocation, Rectangle2D postTraversalMotionBounds) {
 		this(channel, startingLocation, postTraversalMotionBounds, DEFAULT_MAX_VELOCITY);
 	}
 
