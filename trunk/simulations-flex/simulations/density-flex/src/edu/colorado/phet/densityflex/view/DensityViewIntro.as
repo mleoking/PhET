@@ -1,4 +1,5 @@
 package edu.colorado.phet.densityflex.view {
+import edu.colorado.phet.densityflex.DensityConstants;
 import edu.colorado.phet.densityflex.components.CustomObjectPropertiesPanel;
 import edu.colorado.phet.densityflex.components.MysteryObjectsControlPanel;
 import edu.colorado.phet.densityflex.model.Block;
@@ -25,6 +26,8 @@ public class DensityViewIntro extends DensityView {
     public function DensityViewIntro() {
         super();
         //Showing the blocks as partially floating allows easier visualization of densities
+//        customizableObject = Block.newBlockDensityMass(Substance.WOOD.getDensity(), DensityConstants.DEFAULT_BLOCK_MASS, 0, 3, new ColorTransform(0.5, 0.5, 0), model);
+        
         customizableObject = Block.newBlockDensityMass(Substance.WOOD.getDensity(), 5000, -8, 3, new ColorTransform(0.5, 0.5, 0), model);
         customObjectPropertiesPanel = new CustomObjectPropertiesPanel(customizableObject);
         

@@ -100,7 +100,7 @@ public class DensityView extends UIComponent {
     public function initEngine():void {
         scene = new Scene3D();
 
-        camera = new HoverCamera3D({ focus: 90, distance: 2000, mintiltangle: 0, maxtitlangle: 90 });
+        camera = new HoverCamera3D({ distance: 2000, mintiltangle: 0, maxtitlangle: 90 });
         camera.targetpanangle = camera.panangle = 180;
         camera.targettiltangle = camera.tiltangle = 8;
         camera.hover();
@@ -111,12 +111,10 @@ public class DensityView extends UIComponent {
         //renderer = new QuadrantRenderer();
 
         view = new View3D({scene:scene, camera:camera, renderer:renderer});
-
-
     }
 
     public function addScales():void {
-        model.addDensityObject(new Scale(-10.5, Scale.SCALE_HEIGHT / 2, model,2*1000));
+        model.addDensityObject(new Scale(-10.5, Scale.SCALE_HEIGHT / 2, model, 2 * 1000));
     }
 
     public function initObjects():void {
@@ -224,22 +222,23 @@ public class DensityView extends UIComponent {
         var poolWidth:Number = model.getPoolWidth() * DensityModel.DISPLAY_SCALE;
         var poolDepth:Number = model.getPoolDepth() * DensityModel.DISPLAY_SCALE;
 
-//        waterHeightIndicator.setIndicatorPoint(poolWidth / 2, (-model.getPoolHeight() + model.getWaterHeight()) * DensityModel.DISPLAY_SCALE, -20);
+        //        waterHeightIndicator.setIndicatorPoint(poolWidth / 2, (-model.getPoolHeight() + model.getWaterHeight()) * DensityModel.DISPLAY_SCALE, -20);
 
         //        waterHeightIndicator.setIndicatorPoint(model.getPoolWidth()/2.0*DensityModel.DISPLAY_SCALE,model.getWaterHeight()*DensityModel.DISPLAY_SCALE,0);
         //        waterHeightIndicator.setIndicatorPoint(model.getPoolWidth()/2.0*DensityModel.DISPLAY_SCALE,(-model.getPoolHeight() + model.getWaterHeight()+ verticalGroundOffset)*DensityModel.DISPLAY_SCALE,0);
         //        waterHeightIndicator.setIndicatorPoint(waterTop.x,waterTop.y,waterTop.z);
         //        waterHeightIndicator.setIndicatorPoint(waterTop.x,waterTop.y,waterTop.z);
         //        var screenLocation = to2D(poolWidth/2,(-model.getPoolHeight() + model.getWaterHeight()) * DensityModel.DISPLAY_SCALE,-20);
-//        view.render();
+        //        view.render();
         updateWaterHeightIndicator();
 
 
         // TODO: remove or update invalid
         view.render();
-        renderedOnce=true;
+        renderedOnce = true;
     }
-    private var renderedOnce:Boolean= false;
+
+    private var renderedOnce:Boolean = false;
 
     private function updateWaterHeightIndicator():void {
         if (renderedOnce) {
@@ -340,7 +339,7 @@ public class DensityView extends UIComponent {
         //        camera.moveCamera();
     }
 
-    public function getModel() : DensityModel {
+    public function getModel():DensityModel {
         return model;
     }
 }
