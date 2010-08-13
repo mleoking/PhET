@@ -15,7 +15,7 @@ import mx.events.SliderEvent;
 
 public class PropertyEditor extends GridRow {
     private var property:NumericProperty;
-    public static const SLIDER_WIDTH:Number = 250;
+    public static const SLIDER_WIDTH:Number = 400;
 
     public function PropertyEditor(property:NumericProperty, minimimum:Number, maximum:Number,unit:Unit) {
         super();
