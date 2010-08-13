@@ -101,6 +101,7 @@ public class BlockNode extends CuboidNode implements Pickable, Listener {
     }
 
     private function createTextFormat(newSize:Number):TextFormat {
+        trace("newsivze = "+newSize);
         var format:TextFormat = new TextFormat();
         format.size = newSize;
         format.bold = true;

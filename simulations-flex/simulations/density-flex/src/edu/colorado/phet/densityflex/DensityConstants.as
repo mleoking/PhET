@@ -13,6 +13,7 @@ public class DensityConstants {
     public static const POOL_HEIGHT_Y:Number = litersToMetersCubed(4) * 100;
     public static const DEFAULT_BLOCK_MASS:Number = 2;
     public static const SCALE_BOX2D:Number = 1000;
+    public static const GRAVITY:Number = 9.8;
 
     private static function kgLtoSI(number:Number):Number {
         return number / 0.001;
