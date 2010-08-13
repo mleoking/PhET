@@ -87,21 +87,6 @@ public class SodiumLeakageChannel extends AbstractLeakChannel {
 	}
 
 	@Override
-	protected MembraneCrossingDirection chooseCrossingDirection() {
-		MembraneCrossingDirection result = MembraneCrossingDirection.OUT_TO_IN;
-		if (previousNormalizedLeakCurrent == 0){
-			// The cell is idle, not recovering from an action potential, so
-			// everyone once in a while a sodium atom should leak the opposite
-			// direction.  This was requested by the IPHY people in the review
-			// held mid-April 2010.
-			if (RAND.nextDouble() < 0.2){
-				result = MembraneCrossingDirection.IN_TO_OUT;
-			}
-		}
-		return result;
-	}
-	
-	@Override
 	public void stepInTime(double dt) {
 		super.stepInTime(dt);
 		

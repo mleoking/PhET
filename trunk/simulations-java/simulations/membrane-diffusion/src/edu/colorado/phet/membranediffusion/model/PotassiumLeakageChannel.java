@@ -79,18 +79,4 @@ public class PotassiumLeakageChannel extends AbstractLeakChannel {
 	protected ParticleType getParticleTypeToCapture() {
 		return ParticleType.POTASSIUM_ION;
 	}
-
-	@Override
-	protected MembraneCrossingDirection chooseCrossingDirection() {
-		// Generally, this channel leaks from in to out, since the
-		// concentration of potassium is greater on the inside of the cell.
-		// However, the IPHY people requested that there should occasionally
-		// be some leakage in the other direction for greater realism, hence
-		// the random choice below.
-		MembraneCrossingDirection direction = MembraneCrossingDirection.IN_TO_OUT;
-		if (RAND.nextDouble() < 0.2){
-			direction = MembraneCrossingDirection.OUT_TO_IN;
-		}
-		return direction;
-	}
 }
