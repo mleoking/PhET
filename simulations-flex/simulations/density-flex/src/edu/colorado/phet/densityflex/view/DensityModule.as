@@ -117,10 +117,7 @@ class CustomObjectMode extends Mode {
     public function CustomObjectMode(module:DensityModule) {
         super(module);
         //Showing the blocks as partially floating allows easier visualization of densities
-        customizableObject = Block.newBlockDensityMass(Substance.WOOD.getDensity(), DensityConstants.DEFAULT_BLOCK_MASS, 0, DensityConstants.POOL_HEIGHT_Y, new ColorTransform(0.5, 0.5, 0), module.getModel(), Substance.WOOD);
-        //        customizableObject = Block.newBlockDensityMass(Substance.WOOD.getDensity(), DensityConstants.DEFAULT_BLOCK_MASS, -DensityConstants.POOL_WIDTH_X/2.0, DensityConstants.POOL_HEIGHT_Y, new ColorTransform(0.5, 0.5, 0), module.getModel(),Substance.WOOD);
-
-        //        customizableObject = Block.newBlockDensityMass(Substance.WOOD.getDensity(), 5000, -8, 3, new ColorTransform(0.5, 0.5, 0), module.getModel(),Substance.WOOD);
+        customizableObject = Block.newBlockDensityMass(Substance.WOOD.getDensity(), DensityConstants.DEFAULT_BLOCK_MASS, 0, DensityConstants.POOL_HEIGHT_Y/2, new ColorTransform(0.5, 0.5, 0), module.getModel(), Substance.WOOD);
         customObjectPropertiesPanel = new CustomObjectPropertiesPanel(customizableObject, module.units);
     }
 
@@ -162,10 +159,22 @@ class SameMassMode extends Mode {
     override public function init():void {
         super.init();
         const model:DensityModel = module.getModel();
-        model.addDensityObject(Block.newBlockSizeMass(3, 4.0 * 1000, -8, 0, new ColorTransform(0.5, 0.5, 0), model, Substance.CUSTOM));
-        model.addDensityObject(Block.newBlockSizeMass(2, 4.0 * 1000, -8, 0, new ColorTransform(0, 0, 1), model, Substance.CUSTOM));
-        model.addDensityObject(Block.newBlockSizeMass(1.5, 4.0 * 1000, 8, 0, new ColorTransform(0, 1, 0), model, Substance.CUSTOM));
-        model.addDensityObject(Block.newBlockSizeMass(1, 4.0 * 1000, 8, 0, new ColorTransform(1, 0, 0), model, Substance.CUSTOM));
+        
+        var block1:Block = Block.newBlockVolumeMass(DensityConstants.litersToMetersCubed(10), 5, 0, 0, new ColorTransform(0.5, 0.5, 0), model, Substance.CUSTOM);
+        block1.setPosition(-DensityConstants.POOL_WIDTH_X/2,block1.getHeight()/2);
+        model.addDensityObject(block1);
+        
+        var block2:Block = Block.newBlockVolumeMass(DensityConstants.litersToMetersCubed(5), 5, 0, 0, new ColorTransform(0, 0, 1), model, Substance.CUSTOM);
+        block2.setPosition(-DensityConstants.POOL_WIDTH_X/2-block1.getWidth(),block2.getHeight()/2);
+        model.addDensityObject(block2);
+        
+        var block3:Block = Block.newBlockVolumeMass(DensityConstants.litersToMetersCubed(3), 5, 0, 0, new ColorTransform(0, 1, 0), model, Substance.CUSTOM);
+        block3.setPosition(DensityConstants.POOL_WIDTH_X/2,block3.getHeight()/2);
+        model.addDensityObject(block3);
+        
+        var block4:Block = Block.newBlockVolumeMass(DensityConstants.litersToMetersCubed(1), 5, 0, 0, new ColorTransform(1, 0, 0), model, Substance.CUSTOM);
+        block4.setPosition(DensityConstants.POOL_WIDTH_X/2+block3.getWidth(),block4.getHeight()/2);
+        model.addDensityObject(block4);
     }
 }
 
