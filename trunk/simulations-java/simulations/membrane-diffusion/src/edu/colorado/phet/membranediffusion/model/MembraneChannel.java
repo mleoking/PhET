@@ -52,12 +52,12 @@ public abstract class MembraneChannel {
 	private ArrayList<Listener> listeners = new ArrayList<Listener>();
 	
 	// Capture zones, which is where particles can be captured by this
-	// channel.  There are two, one for inside the cell and one for outside.
-	// There is generally no enforcement of which is which, so it is the
-	// developer's responsibility to position the channel appropriately on the
-	// cell membrane.
-	private CaptureZone interiorCaptureZone = new NullCaptureZone();
-	private CaptureZone exteriorCaptureZone = new NullCaptureZone();
+	// channel.  There are two, one for the top of the channel and one for
+	// the bottom.  There is generally no enforcement of which is which, so it
+	// is the developer's responsibility to position the channel appropriately
+	// on the cell membrane.
+	private CaptureZone uppperCaptureZone = new NullCaptureZone();
+	private CaptureZone lowerCaptureZone = new NullCaptureZone();
 	
 	// Time values that control how often this channel requests an ion to move
 	// through it.  These are initialized here to values that will cause the
@@ -269,20 +269,20 @@ public abstract class MembraneChannel {
 	 * from which particles may be captured.  If null is returned, this
 	 * channel has no capture zone.
 	 */
-	public CaptureZone getInteriorCaptureZone(){
-		return interiorCaptureZone;
+	public CaptureZone getUpperCaptureZone(){
+		return uppperCaptureZone;
 	}
 	
-	protected void setInteriorCaptureZone(CaptureZone captureZone){
-		this.interiorCaptureZone = captureZone;
+	protected void setUpperCaptureZone(CaptureZone captureZone){
+		this.uppperCaptureZone = captureZone;
 	}
 	
-	public CaptureZone getExteriorCaptureZone(){
-		return exteriorCaptureZone;
+	public CaptureZone getLowerCaptureZone(){
+		return lowerCaptureZone;
 	}
 	
-	protected void setExteriorCaptureZone(CaptureZone captureZone){
-		this.exteriorCaptureZone = captureZone;
+	protected void setLowerCaptureZone(CaptureZone captureZone){
+		this.lowerCaptureZone = captureZone;
 	}
 	
 	public Dimension2D getChannelSize(){
@@ -296,16 +296,16 @@ public abstract class MembraneChannel {
 	public void setCenterLocation(Point2D newCenterLocation) {
 		if (!newCenterLocation.equals(centerLocation)){
 			centerLocation.setLocation(newCenterLocation);
-			interiorCaptureZone.setOriginPoint(newCenterLocation);
-			exteriorCaptureZone.setOriginPoint(newCenterLocation);
+			uppperCaptureZone.setOriginPoint(newCenterLocation);
+			lowerCaptureZone.setOriginPoint(newCenterLocation);
 			notifyPositionChanged();
 		}
 	}
 
 	public void setRotationalAngle(double rotationalAngle){
 		this.rotationalAngle = rotationalAngle;
-		interiorCaptureZone.setRotationalAngle(rotationalAngle);
-		exteriorCaptureZone.setRotationalAngle(rotationalAngle);
+		uppperCaptureZone.setRotationalAngle(rotationalAngle);
+		lowerCaptureZone.setRotationalAngle(rotationalAngle);
 	}
 	
 	public double getRotationalAngle(){
