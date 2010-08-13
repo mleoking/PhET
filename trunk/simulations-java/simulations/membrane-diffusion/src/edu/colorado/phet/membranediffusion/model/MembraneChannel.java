@@ -232,7 +232,7 @@ public abstract class MembraneChannel {
 	 * @param particle
 	 * @param maxVelocity
 	 */
-	public void moveParticleThroughGenericMembrane(Particle particle, Rectangle2D postTraversalBounds, double maxVelocity){
+	public void moveParticleThroughChannel(Particle particle, Rectangle2D postTraversalBounds, double maxVelocity){
 		// TODO: This should traverse the channel, but is set to null strategy while compile issues get worked out.
 		particle.setMotionStrategy(new StillnessMotionStrategy());
 	}
