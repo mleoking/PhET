@@ -13,9 +13,11 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
  * 
  * @author John Blanco
  */
-public class TraverseChannelAndWalkStrategy extends MembraneTraversalMotionStrategy {
+public class TraverseChannelAndWalkStrategy extends MotionStrategy {
 
-	private static final Random RAND = new Random();
+    private static final double DEFAULT_MAX_VELOCITY = 40000;
+    private static final Random RAND = new Random();
+    
 	private Vector2D velocityVector = new Vector2D.Double();
 	private ArrayList<Point2D> traversalPoints;
 	private int currentDestinationIndex = 0;
@@ -23,6 +25,7 @@ public class TraverseChannelAndWalkStrategy extends MembraneTraversalMotionStrat
 	private double maxVelocity;
 	protected final MembraneChannel channel;
 	private Rectangle2D postTraversalMotionBounds = new Rectangle2D.Double();
+
 	
 	public TraverseChannelAndWalkStrategy(MembraneChannel channel, Point2D startingLocation, Rectangle2D postTraversalMotionBounds, double maxVelocity) {
 		this.channel = channel;
