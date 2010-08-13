@@ -121,9 +121,4 @@ public class SodiumGatedChannel extends GatedChannel {
 	protected ParticleType getParticleTypeToCapture() {
 		return ParticleType.SODIUM_ION;
 	}
-
-	@Override
-	protected MembraneCrossingDirection chooseCrossingDirection() {
-		return MembraneCrossingDirection.OUT_TO_IN;
-	}
 }

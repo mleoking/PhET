@@ -349,14 +349,6 @@ public abstract class MembraneChannel {
 		listeners.remove(listener);
 	}
 	
-	/**
-	 * Choose the direction of crossing for the next particle to cross the
-	 * membrane.  If particles only cross in one direction, this will always
-	 * return the same thing.  If they can vary, this can return a different
-	 * value.
-	 */
-	protected abstract MembraneCrossingDirection chooseCrossingDirection();
-	
     /**
      * This is called to remove this channel from the model.  It simply sends
      * out a notification of removal, and all listeners (including the view)
