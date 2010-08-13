@@ -118,8 +118,10 @@ class CustomObjectMode extends Mode {
     public function CustomObjectMode(module:DensityModule) {
         super(module);
         //Showing the blocks as partially floating allows easier visualization of densities
-        customizableObject = Block.newBlockDensityMass(Substance.WOOD.getDensity(), DensityConstants.DEFAULT_BLOCK_MASS, -DensityConstants.POOL_WIDTH_X/2, 0, new ColorTransform(0.5, 0.5, 0), module.getModel(), Substance.WOOD);
-        customizableObject.setPosition(customizableObject.getX(),customizableObject.getWidth());
+        const substance:Substance = Substance.WOOD;
+        const volume = DensityConstants.DEFAULT_BLOCK_MASS/substance.getDensity();
+        const height = Math.pow(volume,1.0/3);
+        customizableObject = Block.newBlockDensityMass(substance.getDensity(), DensityConstants.DEFAULT_BLOCK_MASS, -DensityConstants.POOL_WIDTH_X/2, height, new ColorTransform(0.5, 0.5, 0), module.getModel(), substance);
         customObjectPropertiesPanel = new CustomObjectPropertiesPanel(customizableObject, module.units);
     }
 
