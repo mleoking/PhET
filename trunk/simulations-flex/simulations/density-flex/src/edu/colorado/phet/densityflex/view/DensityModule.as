@@ -21,7 +21,7 @@ public class DensityModule extends AbstractDensityModule {
     private var mysteryObjectsMode:MysteryObjectsMode;
     private var mode:Mode;
 
-    private var _units:Units = new Units("kg/L", new LinearUnit("kg", 1.0), new LinearUnit("L", 0.001), new LinearUnit("kg/L", 1000));
+    private var _units:Units = new Units("kg/L", new LinearUnit("kg", 1.0), new LinearUnit("L", 1000.0), new LinearUnit("kg/L", 1.0/1000.0));
 
     public function DensityModule() {
         super();
