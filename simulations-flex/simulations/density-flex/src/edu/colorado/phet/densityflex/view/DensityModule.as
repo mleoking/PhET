@@ -259,11 +259,16 @@ class MysteryObjectsMode extends Mode {
         super.init();
         const model:DensityModel = module.getModel();
 
-        model.addDensityObject(new MysteryBlock(Substance.GOLD.getDensity(), 1.3, -8, 0, new ColorTransform(0.5, 0.5, 0), model, "A"));
-        model.addDensityObject(new MysteryBlock(Substance.APPLE.getDensity(), 1.4, -8, 0, new ColorTransform(0, 0, 1), model, "B"));
-        model.addDensityObject(new MysteryBlock(Substance.GASOLINE_BALLOON.getDensity(), 1.5, 8, 0, new ColorTransform(0, 1, 0), model, "C"));
-        model.addDensityObject(new MysteryBlock(Substance.ICE.getDensity(), 1.6, 8, 0, new ColorTransform(1, 0, 0), model, "D"));
-        model.addDensityObject(new MysteryBlock(Substance.AIR_BALLOON.getDensity(), 1.7, 8, 0, new ColorTransform(1, 0, 0), model, "E"));
+        const block1:MysteryBlock = new MysteryBlock(Substance.GOLD.getDensity(), 0.15, DensityConstants.POOL_WIDTH_X/2, 0.15/2, new ColorTransform(0.5, 0.5, 0), model, "A");
+        model.addDensityObject(block1);
+        const block2:MysteryBlock = new MysteryBlock(Substance.APPLE.getDensity(), 0.1, DensityConstants.POOL_WIDTH_X/2, block1.getHeight()+block1.getY(), new ColorTransform(0, 0, 1), model, "B");
+        model.addDensityObject(block2);
+        const block3:MysteryBlock = new MysteryBlock(Substance.GASOLINE_BALLOON.getDensity(), 0.18, -DensityConstants.POOL_WIDTH_X/2, 0.18/2, new ColorTransform(0, 1, 0), model, "C");
+        model.addDensityObject(block3);
+        const block4:MysteryBlock = new MysteryBlock(Substance.ICE.getDensity(), 0.15, -DensityConstants.POOL_WIDTH_X/2, block3.getHeight()+block3.getY(), new ColorTransform(1, 0, 0), model, "D");
+        model.addDensityObject(block4);
+        const block5:MysteryBlock = new MysteryBlock(Substance.AIR_BALLOON.getDensity(), 0.1, -DensityConstants.POOL_WIDTH_X/2, block4.getHeight()+block4.getY(), new ColorTransform(1, 0, 0), model, "E");
+        model.addDensityObject(block5);
         module.addScales();
 
         if (!mysteryObjectsControlPanelShowing) {
