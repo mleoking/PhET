@@ -1,3 +1,4 @@
+Improved start location for the custom block
 Minor improvements to water volume indicator
 Minor improvements to density table
 Fixed units for scale readout
