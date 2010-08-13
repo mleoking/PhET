@@ -114,7 +114,7 @@ public abstract class Particle implements IMovable {
     	// If the particle is not in the process of trying to traverse a
     	// membrane channel, then it should be considered to be available for
     	// capture.
-		return !(motionStrategy instanceof MembraneTraversalMotionStrategy);
+		return !(motionStrategy instanceof TraverseChannelAndWalkStrategy);
 	}
 
     protected void notifyPositionChanged(){
