@@ -44,7 +44,7 @@ public class DensityView extends UIComponent {
     private var selectedObject:AbstractPrimitive;
 
     public static const far:Number = 5000;
-    public static const verticalGroundOffset:Number = -1;
+    public static const verticalGroundOffset:Number = -1.0/DensityModel.DISPLAY_SCALE*100;
 
     private var waterTop:Plane;
     private var waterFront:Plane;
@@ -100,7 +100,7 @@ public class DensityView extends UIComponent {
     public function initEngine():void {
         scene = new Scene3D();
 
-        camera = new HoverCamera3D({ distance: 2000, mintiltangle: 0, maxtitlangle: 90 });
+        camera = new HoverCamera3D({ distance: 1350, mintiltangle: 0, maxtitlangle: 90 });
         camera.targetpanangle = camera.panangle = 180;
         camera.targettiltangle = camera.tiltangle = 8;
         camera.hover();

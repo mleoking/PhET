@@ -3,6 +3,7 @@ import Box2D.Common.Math.b2Vec2;
 import Box2D.Dynamics.Contacts.b2ContactResult;
 import Box2D.Dynamics.b2Body;
 
+import edu.colorado.phet.densityflex.DensityConstants;
 import edu.colorado.phet.densityflex.view.DensityObjectNode;
 import edu.colorado.phet.densityflex.view.DensityView;
 
@@ -168,7 +169,8 @@ public class DensityObject {
     }
 
     public function updatePositionFromBox2D():void {
-        setPosition(body.GetPosition().x, body.GetPosition().y);
+        setPosition(body.GetPosition().x / DensityConstants.SCALE_BOX2D, body.GetPosition().y / DensityConstants.SCALE_BOX2D);
+        trace("block y = "+getY());
     }
 
     public function remove():void {
@@ -183,8 +185,8 @@ public class DensityObject {
         this.x.value = x;
         this.y.value = y;
 
-        if (body.GetPosition().x != x || body.GetPosition().y != y) {
-            body.SetXForm(new b2Vec2(x, y), 0);
+        if (body.GetPosition().x != x*DensityConstants.SCALE_BOX2D || body.GetPosition().y != y*DensityConstants.SCALE_BOX2D) {
+            body.SetXForm(new b2Vec2(x*DensityConstants.SCALE_BOX2D, y*DensityConstants.SCALE_BOX2D), 0);
         }
 
         notifyListeners();
@@ -249,12 +251,12 @@ public class DensityObject {
     }
 
     public function modelStepped():void {
-        velocityArrowModel.setValue(body.GetLinearVelocity().x, body.GetLinearVelocity().y);
-        gravityForceArrowModel.setValue(getGravityForce().x, getGravityForce().y);
+        velocityArrowModel.setValue(body.GetLinearVelocity().x/DensityConstants.SCALE_BOX2D, body.GetLinearVelocity().y/DensityConstants.SCALE_BOX2D);
+        gravityForceArrowModel.setValue(getGravityForce().x/DensityConstants.SCALE_BOX2D, getGravityForce().y/DensityConstants.SCALE_BOX2D);
         //        trace("Gravity y = " + getGravityForce().y);
-        buoyancyForceArrowModel.setValue(getBuoyancyForce().x, getBuoyancyForce().y);
-        dragForceArrowModel.setValue(getDragForce().x, getDragForce().y);
-        contactForceArrowModel.setValue(getNetContactForce().x, getNetContactForce().y)
+        buoyancyForceArrowModel.setValue(getBuoyancyForce().x/DensityConstants.SCALE_BOX2D, getBuoyancyForce().y/DensityConstants.SCALE_BOX2D);
+        dragForceArrowModel.setValue(getDragForce().x/DensityConstants.SCALE_BOX2D, getDragForce().y/DensityConstants.SCALE_BOX2D);
+        contactForceArrowModel.setValue(getNetContactForce().x/DensityConstants.SCALE_BOX2D, getNetContactForce().y/DensityConstants.SCALE_BOX2D);
     }
 
     public function getMass():Number {
@@ -262,12 +264,12 @@ public class DensityObject {
     }
 
     public function getGravityForce():b2Vec2 {
-        return new b2Vec2(0, -DensityModel.ACCELERATION_DUE_TO_GRAVITY * getMass())
+        return new b2Vec2(0, -DensityModel.ACCELERATION_DUE_TO_GRAVITY * getMass() * DensityConstants.SCALE_BOX2D);
     }
 
     //Set the submerged volume before calling this
     public function getBuoyancyForce():b2Vec2 {
-        return new b2Vec2(0, DensityModel.ACCELERATION_DUE_TO_GRAVITY * submergedVolume * Substance.WATER.getDensity())
+        return new b2Vec2(0, DensityModel.ACCELERATION_DUE_TO_GRAVITY * submergedVolume * Substance.WATER.getDensity());
     }
 
     public function setSubmergedVolume(submergedVolume:Number):void {
@@ -276,7 +278,7 @@ public class DensityObject {
 
     public function getDragForce():b2Vec2 {
         var dragForce:b2Vec2 = body.GetLinearVelocity().Copy();
-        dragForce.Multiply(-1000 * submergedVolume);
+        dragForce.Multiply(-1000 * submergedVolume/DensityConstants.SCALE_BOX2D);
         return dragForce;
     }
 

@@ -2,6 +2,9 @@ package edu.colorado.phet.densityflex.model {
 import Box2D.Collision.Shapes.b2PolygonDef;
 import Box2D.Dynamics.b2BodyDef;
 
+import edu.colorado.phet.densityflex.DensityConstants;
+import edu.colorado.phet.densityflex.view.DensityViewIntro;
+
 public class Cuboid extends DensityObject {
 
     protected var width:Number;
@@ -22,7 +25,7 @@ public class Cuboid extends DensityObject {
      * @param model
      */
     public function Cuboid(density:Number, width:Number, height:Number, depth:Number, x:Number, y:Number, model:DensityModel,__substance:Substance) {
-        super(x, y, depth / 2 + 1.01, model,density,density*width*height*depth,width*height*depth,__substance);
+        super(x, y, depth / 2+10/DensityModel.DISPLAY_SCALE, model,density,density*width*height*depth,width*height*depth,__substance);
 
         this.width = width;
         this.height = height;
@@ -44,11 +47,22 @@ public class Cuboid extends DensityObject {
     }
 
     private function updateBodyDef():void {
-        bodyDef.position.Set(getX(), getY());
+        bodyDef.position.Set(getX()*DensityConstants.SCALE_BOX2D, getY()*DensityConstants.SCALE_BOX2D);
         bodyDef.fixedRotation = true;
-        bodyDef.massData.mass = getMass();
+        bodyDef.massData.mass = getMass()*DensityConstants.SCALE_BOX2D;
         bodyDef.massData.center.SetZero();
         bodyDef.massData.I = 1.0; // rotational inertia shouldn't matter
+    }
+    
+    private function updateShapeDef():void {
+        shapeDef.friction = 0.3;
+        shapeDef.restitution = 0;
+        shapeDef.density = getDensity();
+        setBody(getModel().getWorld().CreateBody(bodyDef));
+        shapeDef.SetAsBox(width / 2 * DensityConstants.SCALE_BOX2D, height / 2*DensityConstants.SCALE_BOX2D);
+        getBody().CreateShape(shapeDef);
+        getBody().SetUserData(this);
+        notifyShapeChanged();
     }
 
     public function setSize(width:Number, height:Number):void {
@@ -65,17 +79,6 @@ public class Cuboid extends DensityObject {
         for each (var shapeChangeListener:ShapeChangeListener in shapeChangeListeners) {
             shapeChangeListener.shapeChanged();
         }
-    }
-
-    private function updateShapeDef():void {
-        shapeDef.friction = 0.3;
-        shapeDef.restitution = 0;
-        shapeDef.density = getDensity();
-        setBody(getModel().getWorld().CreateBody(bodyDef));
-        shapeDef.SetAsBox(width / 2, height / 2);
-        getBody().CreateShape(shapeDef);
-        getBody().SetUserData(this);
-        notifyShapeChanged();
     }
 
     public function getWidth():Number {
