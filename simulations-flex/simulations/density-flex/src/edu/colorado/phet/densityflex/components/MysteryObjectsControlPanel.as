@@ -1,6 +1,10 @@
 package edu.colorado.phet.densityflex.components {
 import edu.colorado.phet.densityflex.model.Substance;
 
+import edu.colorado.phet.densityflex.view.units.LinearUnit;
+
+import edu.colorado.phet.densityflex.view.units.Unit;
+
 import flash.events.MouseEvent;
 
 import mx.containers.Grid;
@@ -25,16 +29,19 @@ public class MysteryObjectsControlPanel extends Panel {
 
             const grid:Grid = new Grid();
 
-            grid.addChild(toGridRow("Substance", "Density", "underline"));
+            grid.addChild(toGridRow("Substance", "Density (kg/L)", "underline"));
             for each (var substance:Substance in Substance.ALL) {
-                grid.addChild(toGridRow(substance.name, substance.getDensity().toFixed(1), "none"));
+                const unit:Unit = new LinearUnit("kg/L",0.001);
+                grid.addChild(toGridRow(substance.name, unit.fromSI(substance.getDensity()).toFixed(2), "none"));
             }
 
             const titleWindow:TitleWindow = new TitleWindow();
             titleWindow.title = "Densities of Various Substances";
+            titleWindow.setStyle("fontSize",18);
+            titleWindow.setStyle("fontWeight","bold");
             titleWindow.showCloseButton = true;
-            titleWindow.width = 240;
-            titleWindow.height = 180;
+            titleWindow.width = 400;
+            titleWindow.height = 400;
             titleWindow.addEventListener(CloseEvent.CLOSE, function():void {
                 PopUpManager.removePopUp(titleWindow);
             });
@@ -49,7 +56,9 @@ public class MysteryObjectsControlPanel extends Panel {
 
     private function toGridRow(_name:String, density:String, textDecoration:String):GridRow {
         const gridRow:GridRow = new GridRow();
+        const fontSize:Number= 18;
         const name:Label = new Label();
+        name.setStyle("fontSize",fontSize);
         name.text = _name;
         name.setStyle("textDecoration", textDecoration);
         function toGridItem(component:UIComponent):GridItem {
@@ -61,6 +70,7 @@ public class MysteryObjectsControlPanel extends Panel {
         gridRow.addChild(toGridItem(name));
         const value:Label = new Label();
         value.text = density;
+        value.setStyle("fontSize",fontSize);
         value.setStyle("textDecoration", textDecoration);
         gridRow.addChild(toGridItem(value));
         return gridRow;
