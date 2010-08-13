@@ -25,7 +25,7 @@ public class PropertyEditor extends GridRow {
         label.text = property.name;
         addGridItem(label);
 
-        addGridItem(createSlider(property, minimimum, maximum));
+        addGridItem(createSlider(property, minimimum, maximum,unit));
 
         const textField:TextInput = new TextInput();
         textField.width = 100;
@@ -48,23 +48,24 @@ public class PropertyEditor extends GridRow {
         addGridItem(unitsLabel);
     }
 
-    protected function createSlider(property:NumericProperty, minimum:Number, maximum:Number):HSlider {
+    protected function createSlider(property:NumericProperty, minimum:Number, maximum:Number,unit:Unit):HSlider {
         const slider:HSlider = new HSlider();
         slider.width = SLIDER_WIDTH;
-        slider.minimum = minimum;
-        slider.maximum = maximum;
+        slider.minimum = unit.fromSI(minimum);
+        slider.maximum = unit.fromSI(maximum);
         slider.liveDragging = true;
         slider.thumbCount = 1;
         function sliderDragHandler(event:SliderEvent):void {
-            property.value = event.value;
+            property.value = unit.toSI(event.value);
         }
 
         slider.addEventListener(SliderEvent.THUMB_DRAG, sliderDragHandler);
         function updateSlider():void {
-            slider.value = property.value;
+            const setValue:Number = unit.fromSI(property.value);
+            slider.value = setValue;
             try {
                 slider.getThumbAt(0).alpha = Math.max(0.25, //This is the minimum alpha that will be shown.  Beyond 0.25 is too hard to see anything.
-                        Math.min(1, slider.maximum / property.value) //The more the value goes above the slider's maximum, make more transparent.  But keep alpha =1 if it is in the slider range.
+                        Math.min(1, slider.maximum / setValue) //The more the value goes above the slider's maximum, make more transparent.  But keep alpha =1 if it is in the slider range.
                         );
             } catch(exception:Error) {
 

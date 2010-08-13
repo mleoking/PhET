@@ -11,7 +11,7 @@ import flash.display.Sprite;
 import mx.core.UIComponent;
 
 public class Box2DDebug {
-    var holder:UIComponent;
+    private var holder:UIComponent;
 
     public function Box2DDebug(world:b2World) {
         // debug draw start
@@ -39,7 +39,7 @@ public class Box2DDebug {
         world.SetDebugDraw(dbgDraw);
     }
 
-    function getSprite():DisplayObject {
+    public function getSprite():DisplayObject {
         return holder;
     }
 }

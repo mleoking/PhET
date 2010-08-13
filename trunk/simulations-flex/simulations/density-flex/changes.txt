@@ -1,3 +1,4 @@
+Switched the PropertyEditor sliders to the appropriate units
 Increased the length of the sliders to make it easier to set a density less than 1.00 kg/L
 Made max volume and density 12 instead of 20 to increase the range of densities less than 1.00 kg/L
 Added bitmap texture for lead
