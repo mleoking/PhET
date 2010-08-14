@@ -1,3 +1,4 @@
+Renamed project from "density-flex" to "density-and-buoyancy"
 Flipped volume readout so it doesn't block the water
 # 0.01.15 (43086) Aug 13, 2010
 Switched density output path to be somewhere other than deploy/ since having a folder under deploy/ currently breaks the deploy process halfway through deployment
