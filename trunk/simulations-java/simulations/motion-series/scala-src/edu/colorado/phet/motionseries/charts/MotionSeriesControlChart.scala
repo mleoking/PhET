@@ -138,18 +138,19 @@ abstract class MotionSeriesControlChart(motionSeriesModel: MotionSeriesModel,for
   }
 
   val N = "units.abbr.newtons".translate
-  val appliedForceSeries = new MSDataSeries("force.pattern".messageformat("forces.applied".translate), MotionSeriesDefaults.appliedForceColor, N, parallelAppliedForceVariable, motionSeriesModel, false)
+  val appliedForceSeries = new MSDataSeries("force.pattern".messageformat("forces.applied".translate), MotionSeriesDefaults.appliedForceColor, N, parallelAppliedForceVariable, motionSeriesModel, true)
   val frictionForceSeries = new MSDataSeries("force.pattern".messageformat("forces.friction".translate), MotionSeriesDefaults.frictionForceColor, N, frictionVariable, motionSeriesModel, false)
   val gravityForceSeries = new MSDataSeries("force.pattern".messageformat("forces.gravity-parallel".translate), MotionSeriesDefaults.gravityForceColor, N, gravityVariable, motionSeriesModel, false)
   val wallForceSeries = new MSDataSeries("force.pattern".messageformat("forces.wall".translate), MotionSeriesDefaults.wallForceColor, N, wallVariable, motionSeriesModel, false)
-  val sumForceSeries = new MSDataSeries("force.pattern".messageformat(forcesSum), MotionSeriesDefaults.sumForceColor, N, sumForceVariable, motionSeriesModel, true)
+  val sumForceSeries = new MSDataSeries("force.pattern".messageformat(forcesSum), MotionSeriesDefaults.sumForceColor, N, sumForceVariable, motionSeriesModel, false)
 
+  //todo: could move this reset function into the MSDataSeries
   def resetAll() = {
-    appliedForceSeries.setVisible(false)
-    frictionForceSeries.setVisible(false)
-    gravityForceSeries.setVisible(false)
-    wallForceSeries.setVisible(false)
-    sumForceSeries.setVisible(true)
+    appliedForceSeries.reset()
+    frictionForceSeries.reset()
+    gravityForceSeries.reset()
+    wallForceSeries.reset()
+    sumForceSeries.reset()
   }
   addSerieses();
 
@@ -229,7 +230,7 @@ class MutableDouble(private var _value: Double) extends Observable {
   def apply() = value
 }
 
-class MSDataSeries(_title: String, _color: Color, _units: String, value: MutableDouble, motionSeriesModel: MotionSeriesModel, visible: Boolean) extends TemporalDataSeries {
+class MSDataSeries(_title: String, _color: Color, _units: String, value: MutableDouble, motionSeriesModel: MotionSeriesModel, val visible: Boolean) extends TemporalDataSeries {
   setVisible(visible)
   def title = _title
   motionSeriesModel.stepListeners += (() => {addPoint(value(), motionSeriesModel.getTime)})
@@ -252,4 +253,6 @@ class MSDataSeries(_title: String, _color: Color, _units: String, value: Mutable
   def units = _units
 
   def color = _color
+  
+  def reset() = setVisible(visible)
 }

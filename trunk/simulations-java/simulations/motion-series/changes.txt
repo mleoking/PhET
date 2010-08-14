@@ -1,3 +1,4 @@
+In force graphs tabs, start with only F Applied checked
 Removed || symbol in "F Sum ||" in Forces and Motion but not in Ramp
 Moved vector arrow text label for net force closer to the arrow
 Changed "Static Friction" to read e.g. "Static Friction (mu_s):" in the friction tab

@@ -112,7 +112,7 @@ class SeriesControlTitleLabel(val series: ControlGraphSeries) extends JLabel(ser
   init()
 }
 
-class SeriesControlSelectorBox(val series: MSDataSeries) extends MyJCheckBox(series.title, series.setVisible(_), series.isVisible(), series.addMSDataSeriesListener) {
+class SeriesControlSelectorBox(val series: MSDataSeries) extends MyJCheckBox(series.title, series.setVisible(_), series.isVisible, series.addMSDataSeriesListener) {
   setMargin(new Insets(0, 0, 0, 0)) //allows buttons to fit closer together
   setOpaque(false) //let the background show through, TODO: check whether this works on Mac
   setForeground(series.color)
