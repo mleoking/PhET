@@ -1,6 +1,5 @@
 package edu.colorado.phet.motionseries.swing
 
-
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.{ILayoutStrategy, DefaultLayoutStrategy, LinearValueControl}
 import javax.swing.event.{ChangeListener, ChangeEvent}
 

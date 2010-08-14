@@ -1,3 +1,4 @@
+Changed "Static Friction" to read e.g. "Static Friction (mu_s):" in the friction tab
 Changed acceleration units from "m/s/s" to "m/s^2" with a superscript
 Left justified unit labels on sliders in the friction tab
 Right justified the slider label in the friction tab
