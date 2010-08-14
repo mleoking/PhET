@@ -1352,7 +1352,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/simulations-flex/simulations/density-flex/data" />
+          <root url="file://$MODULE_DIR$/simulations-flex/simulations/density-and-buoyancy/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
