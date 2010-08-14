@@ -1,4 +1,4 @@
-package edu.colorado.phet.densityandbuoyancy.components {
+package edu.colorado.phet.densityandbuoyancy.buoyancy {
 import mx.containers.HBox;
 import mx.containers.Panel;
 import mx.containers.VBox;

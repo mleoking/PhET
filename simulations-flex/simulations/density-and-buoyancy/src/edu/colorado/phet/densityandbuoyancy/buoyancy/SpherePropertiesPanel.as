@@ -1,8 +1,10 @@
-package edu.colorado.phet.densityandbuoyancy.components {
+package edu.colorado.phet.densityandbuoyancy.buoyancy {
+import edu.colorado.phet.densityandbuoyancy.components.*;
+
 import mx.controls.Button;
 
-public class CubePropertiesPanel extends DensityObjectPropertiesPanel {
-    public function CubePropertiesPanel() {
+public class SpherePropertiesPanel extends DensityObjectPropertiesPanel {
+    public function SpherePropertiesPanel() {
         super();
     }
 
