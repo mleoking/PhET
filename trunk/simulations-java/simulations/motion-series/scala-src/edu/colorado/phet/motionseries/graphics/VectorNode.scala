@@ -72,7 +72,7 @@ class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val ta
         val viewPt = transform.modelToViewDouble(labelVector + tailLocation())
 
         //vector.angle is negative since the coordinate frame is flipped going from model to view
-        val deltaArrow = new Vector2D(-vector.angle - vector.labelAngle) * abbreviatonTextNode.getFullBounds.getWidth * 0.8 //move orthogonal to the vector itself
+        val deltaArrow = new Vector2D(-vector.angle - vector.labelAngle) * abbreviatonTextNode.getFullBounds.getHeight * 0.56 //move orthogonal to the vector itself
         deltaArrow + viewPt
       }
       abbreviatonTextNode.setOffset(textLocation.x - abbreviatonTextNode.getFullBounds.getWidth / 2, textLocation.y - abbreviatonTextNode.getFullBounds.getHeight / 2)
