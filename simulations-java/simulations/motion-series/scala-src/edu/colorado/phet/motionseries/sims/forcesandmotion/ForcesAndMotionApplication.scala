@@ -67,7 +67,7 @@ class IntroModule(frame: PhetFrame) extends ForcesAndMotionModule(frame, "forces
 
 class FrictionModule(frame: PhetFrame)
         extends ForcesAndMotionModule(frame, "forces-and-motion.module.friction.title".translate,
-          false, false, false, true, -6, false, 0.0, false, true, MotionSeriesDefaults.forceMotionFrictionViewport, MotionSeriesDefaults.forceMotionFrictionArea, false) {
+          false, false, false, true, -6.0, false, 0.0, false, true, MotionSeriesDefaults.forceMotionFrictionViewport, MotionSeriesDefaults.forceMotionFrictionArea, false) {
   motionSeriesModel.selectedObject = MotionSeriesDefaults.custom // so that it resizes
   val frictionPlayAreaControlPanel = new PSwing(new FrictionPlayAreaControlPanel(motionSeriesModel.motionSeriesObject))
   frictionPlayAreaControlPanel.setOffset(canvas.stage.getWidth / 2 - frictionPlayAreaControlPanel.getFullBounds.getWidth / 2, canvas.stage.getHeight - frictionPlayAreaControlPanel.getFullBounds.getHeight - 2)

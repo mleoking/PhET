@@ -34,7 +34,7 @@ class FrictionPlayAreaControlPanel(bead: ForceMotionSeriesObject) extends Vertic
   val sliderArray = Array[AbstractValueControl](staticFriction, kineticFriction, objectMass, gravity)
 
   val table = new Hashtable[Double, JComponent]
-  class MyLabel(name: String, imageName: String) extends JLabel(name, SwingConstants.CENTER) {
+  class TickLabel(name: String, imageName: String) extends JLabel(name, SwingConstants.CENTER) {
     if (imageName != null)
       setIcon(new ImageIcon(MotionSeriesResources.getImage(imageName)))
     else
@@ -42,9 +42,9 @@ class FrictionPlayAreaControlPanel(bead: ForceMotionSeriesObject) extends Vertic
     setVerticalTextPosition(SwingConstants.BOTTOM)
     setHorizontalTextPosition(SwingConstants.CENTER)
   }
-  table.put(moonGravity, new MyLabel("bodies.moon".translate, null))
-  table.put(earthGravity, new MyLabel("bodies.earth".translate, null))
-  table.put(jupiterGravity, new MyLabel("bodies.jupiter".translate, null))
+  table.put(moonGravity, new TickLabel("bodies.moon".translate, null))
+  table.put(earthGravity, new TickLabel("bodies.earth".translate, null))
+  table.put(jupiterGravity, new TickLabel("bodies.jupiter".translate, null))
   gravity.getSlider.setPaintLabels(true)
   gravity.setTickLabels(table)
 
@@ -53,7 +53,11 @@ class FrictionPlayAreaControlPanel(bead: ForceMotionSeriesObject) extends Vertic
   constraints.gridy = 0
   constraints.gridx = GridBagConstraints.RELATIVE
   for (s <- sliderArray) {
+    //Right justify the slider label
+    constraints.anchor = GridBagConstraints.LINE_END;
     add(s.getValueLabel, constraints)
+    
+    constraints.anchor = new GridBagConstraints().anchor
     add(s.getSlider, constraints)
     add(s.getTextField, constraints)
     add(s.getUnitsLabel, constraints)
