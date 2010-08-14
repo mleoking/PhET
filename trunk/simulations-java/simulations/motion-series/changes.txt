@@ -1,4 +1,5 @@
-Right justified the slider label
+Left justified unit labels on sliders in the friction tab
+Right justified the slider label in the friction tab
 Changed default crate to mass 100kg on friction tab, thus reducing its size
 Fixed: Applied force slider should snap back to zero when the user drops the slider button
 Fixed: Sim should start recording when the user drags the slider

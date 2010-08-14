@@ -54,13 +54,18 @@ class FrictionPlayAreaControlPanel(bead: ForceMotionSeriesObject) extends Vertic
   constraints.gridx = GridBagConstraints.RELATIVE
   for (s <- sliderArray) {
     //Right justify the slider label
-    constraints.anchor = GridBagConstraints.LINE_END;
+    constraints.anchor = GridBagConstraints.LINE_END
     add(s.getValueLabel, constraints)
-    
     constraints.anchor = new GridBagConstraints().anchor
+    
     add(s.getSlider, constraints)
     add(s.getTextField, constraints)
+    
+    //Left justify the units
+    constraints.anchor=GridBagConstraints.LINE_START
     add(s.getUnitsLabel, constraints)
+    constraints.anchor=new GridBagConstraints().anchor
+    
     constraints.gridy = constraints.gridy + 1
   }
 }
