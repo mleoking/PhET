@@ -3,9 +3,10 @@ public class Substance {
     //    public static var STYROFOAM:Substance = new Substance( "Styrofoam", 0.035 * 1000.0 ,false);
     public static var WOOD:Substance = new Substance("Wood", 0.4 * 1000.0, false);
     public static var LEAD:Substance = new Substance("Lead", 11.34 * 1000.0, false);
+    public static var DIAMOND:Substance = new Substance("Diamond", 3530, false);
     public static var WATER:Substance = new Substance("Water", 1.0 * 1000.0, false);
     public static var WATER_BALLOON:Substance = new Substance("Water Balloon", 1.0 * 1000.0, false);
-    public static var CUSTOM:Substance = new Substance("Custom", 1.0 * 1000.0,true);
+    public static var CUSTOM:Substance = new Substance("Custom", 1.0 * 1000.0, true);
     public static var OBJECT_SUBSTANCES:Array = [WOOD, WATER_BALLOON, LEAD];
 
     public static var GOLD:Substance = new Substance("Gold", 19.3 * 1000.0, false);
@@ -41,7 +42,8 @@ public class Substance {
     }
 
     public function equals(substance:Substance):Boolean {
-         return substance.density==density && substance._name==_name && substance._isCustom == _isCustom;;
+        return substance.density == density && substance._name == _name && substance._isCustom == _isCustom;
+        ;
     }
 
     public function isCustom():Boolean {
