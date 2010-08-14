@@ -47,7 +47,7 @@ public class CustomObjectPropertiesPanel extends Panel {
             trace("comboBox.selectedItem=" + comboBox.selectedItem);
             if (comboBox.selectedItem.isCustom()) {
                 if (!densityObject.getSubstance().isCustom()) {
-                    densityObject.substance = new Substance("Custom", densityObject.getDensity());
+                    densityObject.substance = new Substance("Custom", densityObject.getDensity(),true);
                 }
             } else {
                 densityObject.setDensity(comboBox.selectedItem.getDensity());
