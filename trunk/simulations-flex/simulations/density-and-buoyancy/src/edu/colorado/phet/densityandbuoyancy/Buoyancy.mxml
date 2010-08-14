@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:cmp="edu.colorado.phet.densityandbuoyancy.*"
+                xmlns:view="edu.colorado.phet.densityandbuoyancy.view.*"
+                layout="absolute" width="100%" height="100%">
+    <mx:Label text="This is Buoyancy. Pretty simple, isn't it?"/>
+    <mx:Script><![CDATA[
+
+        ]]></mx:Script>
+
+</mx:Application>

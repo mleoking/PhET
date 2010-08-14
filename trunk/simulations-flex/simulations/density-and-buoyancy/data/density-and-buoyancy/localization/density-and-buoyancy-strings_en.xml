@@ -1,5 +1,6 @@
 <?xml version="1.0" ?>
 <SimStrings>
-  <string key="simTitle" value="Density" />
-  <string key="intro.objectsOfSameMass" value="Objects of same mass" />
+    <string key="density.simTitle" value="Density"/>
+    <string key="buoyancy.simTitle" value="Density"/>
+    <string key="intro.objectsOfSameMass" value="Objects of same mass"/>
 </SimStrings>
