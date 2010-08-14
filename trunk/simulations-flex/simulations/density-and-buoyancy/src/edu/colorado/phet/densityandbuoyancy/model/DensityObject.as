@@ -79,7 +79,7 @@ public class DensityObject {
                 }
             }
             if (!changed) {
-                substance = new Substance("Custom", getDensity());
+                substance = new Substance("Custom", getDensity(),true);
             }
         }
 

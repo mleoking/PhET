@@ -5,7 +5,7 @@ public class Substance {
     public static var LEAD:Substance = new Substance("Lead", 11.34 * 1000.0, false);
     public static var WATER:Substance = new Substance("Water", 1.0 * 1000.0, false);
     public static var WATER_BALLOON:Substance = new Substance("Water Balloon", 1.0 * 1000.0, false);
-    public static var CUSTOM:Substance = new Substance("Custom", 1.0 * 1000.0);
+    public static var CUSTOM:Substance = new Substance("Custom", 1.0 * 1000.0,true);
     public static var OBJECT_SUBSTANCES:Array = [WOOD, WATER_BALLOON, LEAD];
 
     public static var GOLD:Substance = new Substance("Gold", 19.3 * 1000.0, false);
@@ -20,7 +20,7 @@ public class Substance {
     private var _isCustom:Boolean;
     public static var ALL:Array = [WOOD,GOLD,WATER_BALLOON, GASOLINE_BALLOON,ICE, LEAD, APPLE];
 
-    public function Substance(name:String, density:Number, isCustom:Boolean = true) {
+    public function Substance(name:String, density:Number, isCustom:Boolean) {
         this.density = density;
         this._name = name;
         this._isCustom = isCustom;
@@ -41,8 +41,7 @@ public class Substance {
     }
 
     public function equals(substance:Substance):Boolean {
-        //        return substance.density==density && substance._name==_name;
-        return substance.density == density;
+         return substance.density==density && substance._name==_name && substance._isCustom == _isCustom;;
     }
 
     public function isCustom():Boolean {
