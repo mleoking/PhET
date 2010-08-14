@@ -99,7 +99,7 @@ object MotionSeriesDefaults {
   val fridge = new MotionSeriesObjectType("object.refrigerator".translate, 200, 0.2, 0.5, 2.75, "fridge.gif".literal, "fridge_crashed.gif".literal, 650)
   val book = new MotionSeriesObjectType("object.textbook".translate, 10, 0.2, 0.4, 1, "phetbook.gif".literal, "phetbook_crashed.gif".literal, 20)
   val mystery = new CustomTextMotionSeriesObjectType("object.mystery-object".translate, 123, 0.2, 0.3, 2, "mystery-box.png".literal, "mystery-box_crashed.png".literal, 600, "mystery-box.png".literal, false)
-  val custom = new MutableMotionSeriesObjectType("object.custom-crate".translate, 150.0, 0.3, 0.5, -1.0, "crate.gif".literal, "crate_crashed.gif".literal, 300, "crate_custom.gif".literal, true) //height is determined dynamically in MutableRampObject
+  val custom = new MutableMotionSeriesObjectType("object.custom-crate".translate, 100.0, 0.3, 0.5, -1.0, "crate.gif".literal, "crate_crashed.gif".literal, 300, "crate_custom.gif".literal, true) //height is determined dynamically in MutableRampObject
 
   val objects = crate :: cabinet :: ollie :: fridge ::
           book :: mystery ::
