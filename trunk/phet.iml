@@ -147,7 +147,6 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/advanced-acid-base-solutions/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/membrane-diffusion/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-flash/flash-launcher/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/jmol-12.0.RC25/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/the-ramp/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/bin" />
       <excludeFolder url="file://$MODULE_DIR$/build-tools/ant_output" />
