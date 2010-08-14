@@ -152,7 +152,7 @@ public class FlashSimulationPanel extends JPanel {
         try {
             FlashBuildCommand.closeFLA = !keepOpenButton.isSelected();
             FlashBuildCommand.closeIDE = closeIDEButton.isSelected();
-            boolean success = project.testBuild( cleanButton.isSelected(), rebuildHTMLButton.isSelected(), rebuildSWFButton.isSelected(), rebuildJARsButton.isSelected() );
+            boolean success = project.testBuild( project.getName(), cleanButton.isSelected(), rebuildHTMLButton.isSelected(), rebuildSWFButton.isSelected(), rebuildJARsButton.isSelected() );
             if ( success ) {
                 project.runSim( localeList.getSelectedLocale(), project.getName() );
             }

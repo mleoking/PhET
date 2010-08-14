@@ -177,8 +177,14 @@ public class FlashHTML {
         return encodeXML( credits );
     }
 
-    public static String extractTitleFromXML( File xmlFile ) {
-        return extractStringFromXML( xmlFile, "simTitle" );
+    public static String extractTitleFromXML( String simulationName, File xmlFile ) {
+        String title = extractStringFromXML( xmlFile, simulationName + ".simTitle" );
+        if ( title != null ) {
+            return title;
+        }
+        else {
+            return extractStringFromXML( xmlFile, "simTitle" );
+        }
     }
 
     public static String extractStringFromXML( File xmlFile, String keyString ) {

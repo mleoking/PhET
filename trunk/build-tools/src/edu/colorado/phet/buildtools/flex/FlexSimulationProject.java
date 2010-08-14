@@ -19,27 +19,26 @@ public class FlexSimulationProject extends FlashSimulationProject {
         super( projectRoot );
     }
 
-    protected boolean buildSWF() throws Exception {
-        File swfFile = getSWFFile();
+    protected boolean buildSWF( String simulationName ) throws Exception {
+        File swfFile = getSWFFile( simulationName );
         boolean b = swfFile.delete();
         System.out.println( "Delete SWFFile=" + b );
 
         // TODO: factor out libraries and other dependencies into build properties
         Process p = Runtime.getRuntime().exec( new String[]{getMxmlcExecutable(),
                 "-use-network",
-                "-output", "deploy/" + getName() + ".swf",
+                "-output", "deploy/" + simulationName + ".swf",
                 "-compiler.source-path", "src",
                 "../../contrib/away3d/fp9", "../../common/src", "../../../simulations-flash/contrib/box2d/src",
-                "-compiler.accessible", "-compiler.optimize", "-target-player", "9", getMXML()}, null, getProjectDir() );
+                "-compiler.accessible", "-compiler.optimize", "-target-player", "9", getMXML( simulationName )}, null, getProjectDir() );
         new StreamReaderThread( p.getErrorStream(), "err>" ).start();
         new StreamReaderThread( p.getInputStream(), "" ).start();
         p.waitFor();
         return swfFile.exists();
     }
 
-    private String getMXML() {
-        //todo: generalize to have multi-flavors
-        return getBuildPropertiesFileObject().getMXML( getBuildPropertiesFileObject().getSimulationNames()[0] );
+    private String getMXML( String simulationName ) {
+        return getBuildPropertiesFileObject().getMXML( simulationName );
     }
 
     public String getListDisplayName() {
