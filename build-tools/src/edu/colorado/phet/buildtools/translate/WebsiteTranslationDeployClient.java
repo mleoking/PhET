@@ -162,7 +162,7 @@ public class WebsiteTranslationDeployClient {
                     System.out.println( "Obtained version information, generating HTML" );
 
                     // build the HTML into the correct deploy directory
-                    project.buildHTML( locale, version );
+                    project.buildHTML( simName, locale, version );
 
                     String HTMLName = project.getName() + "_" + LocaleUtils.localeToString( locale ) + ".html";
 

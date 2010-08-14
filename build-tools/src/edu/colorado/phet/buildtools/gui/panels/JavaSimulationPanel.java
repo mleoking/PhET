@@ -31,11 +31,13 @@ public class JavaSimulationPanel extends JPanel {
     private JRadioButton incrementMinor;
     private JRadioButton incrementMajor;
 
-    public JavaSimulationPanel( File trunk, JavaSimulationProject project, final PhetBuildGUIProperties properties) {
+    public JavaSimulationPanel( File trunk, JavaSimulationProject project) {
         super( new BorderLayout() );
 
         this.trunk = trunk;
         this.project = project;
+
+        final PhetBuildGUIProperties properties = PhetBuildGUIProperties.getInstance();
 
         JLabel title = new JLabel( project.getName() + " : " + project.getFullVersionString() );
         title.setHorizontalAlignment( SwingConstants.CENTER );
@@ -56,7 +58,7 @@ public class JavaSimulationPanel extends JPanel {
                 System.out.println("Saved sim selection: " + properties.getSimSelected());
             }
         });
-        
+
         JScrollPane simulationScrollPane = new JScrollPane( simulationList );
         simulationScrollPane.setBorder( BorderFactory.createTitledBorder( "Simulations" ) );
         simulationScrollPane.setMinimumSize( new Dimension( 150, 0 ) );

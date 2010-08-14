@@ -75,7 +75,7 @@ public class FlashSimulationProject extends PhetProject {
 
         copyProperties();
 
-        boolean success = buildSWF();
+        boolean success = buildSWFs();
         if ( success ) {
             buildOfflineJARs();
         }
@@ -90,15 +90,16 @@ public class FlashSimulationProject extends PhetProject {
      * time. If the HTML is already generated, and all that is needed is the SWF to be updated, just re-publish within
      * the IDE instead of re-running the test
      *
-     * @param clean Whether to clean the deploy directory beforehand. Will only clean the parts that will be regenerated,
-     *              as specified by the later arguments
-     * @param html  Whether to (re)generate HTML for each locale
-     * @param swf   Whether to (re)publish the SWF from the FLA. Time consuming, especially if IDE is not open.
-     * @param jars  Whether to (re)generate the JARs for each locale. Time consuming!
+     * @param simulationName The name of the simulation to build
+     * @param clean          Whether to clean the deploy directory beforehand. Will only clean the parts that will be regenerated,
+     *                       as specified by the later arguments
+     * @param html           Whether to (re)generate HTML for each locale
+     * @param swf            Whether to (re)publish the SWF from the FLA. Time consuming, especially if IDE is not open.
+     * @param jars           Whether to (re)generate the JARs for each locale. Time consuming!
      * @return Success or failure
      * @throws Exception
      */
-    public boolean testBuild( boolean clean, boolean html, boolean swf, boolean jars ) throws Exception {
+    public boolean testBuild( String simulationName, boolean clean, boolean html, boolean swf, boolean jars ) throws Exception {
         if ( clean ) {
             // note: if not rebuilding JARs, they will not be available!
             if ( html && swf ) {
@@ -106,10 +107,10 @@ public class FlashSimulationProject extends PhetProject {
             }
             else {
                 if ( html ) {
-                    cleanHTML();
+                    cleanHTMLs();
                 }
                 if ( swf ) {
-                    cleanSWF();
+                    cleanSWFs();
                 }
             }
         }
@@ -123,7 +124,7 @@ public class FlashSimulationProject extends PhetProject {
         copyProperties();
         boolean success = true;
         if ( swf ) {
-            success = buildSWF();
+            success = buildSWFs();
         }
         if ( success && jars ) {
             buildOfflineJARs();
@@ -137,30 +138,33 @@ public class FlashSimulationProject extends PhetProject {
         FileUtils.copyToDir( new File( getDataDirectory(), getName() + ".properties" ), getDeployDir() );
     }
 
-    private void cleanSWF() {
-        File swf = getSWFFile();
-        if ( swf.exists() ) {
-            System.out.println( "Cleaning " + swf.getName() );
-            swf.delete();
+    private void cleanSWFs() {
+        for ( String simulationName : getSimulationNames() ) {
+            File swf = getSWFFile( simulationName );
+            if ( swf.exists() ) {
+                System.out.println( "Cleaning " + swf.getName() );
+                swf.delete();
+            }
         }
     }
 
-    private void cleanHTML() {
+    private void cleanHTMLs() {
         Locale[] locales = getLocales();
 
-        for ( int i = 0; i < locales.length; i++ ) {
-            File html = getHTMLFile( locales[i] );
+        for ( String simulationName : getSimulationNames() ) {
+            for ( Locale locale : locales ) {
+                File html = getHTMLFile( simulationName, locale );
 
-            if ( html.exists() ) {
-                System.out.println( "Cleaning " + html.getName() );
-                html.delete();
+                if ( html.exists() ) {
+                    System.out.println( "Cleaning " + html.getName() );
+                    html.delete();
+                }
             }
         }
     }
 
     private void cleanEntireDeployDir() {
-        File[] files = getDeployDir().listFiles();
-        for ( File file : files ) {
+        for ( File file : getDeployDir().listFiles() ) {
             if ( !file.isDirectory() ) {
                 System.out.println( "Cleaning " + file.getName() );
                 file.delete();
@@ -169,8 +173,8 @@ public class FlashSimulationProject extends PhetProject {
     }
 
     private void cleanDeploy() {
-        cleanSWF();
-        cleanHTML();
+        cleanSWFs();
+        cleanHTMLs();
 
         // added so that miscellaneous files are not deployed to tigercat when they should not be!
         cleanEntireDeployDir();
@@ -182,8 +186,10 @@ public class FlashSimulationProject extends PhetProject {
             // now we only build flash launcher once. -JO
             FlashLauncherProject launcherProject = new FlashLauncherProject( getTrunk() );
             launcherProject.build();
-            for ( int i = 0; i < locales.length; i++ ) {
-                buildOfflineJAR( locales[i], launcherProject );
+            for ( String simulationName : getSimulationNames() ) {
+                for ( Locale locale : locales ) {
+                    buildOfflineJAR( simulationName, locale, launcherProject );
+                }
             }
         }
         catch( IOException e ) {
@@ -195,7 +201,7 @@ public class FlashSimulationProject extends PhetProject {
 
     }
 
-    private void buildOfflineJAR( Locale locale, FlashLauncherProject launcherProject ) {
+    private void buildOfflineJAR( String simulationName, Locale locale, FlashLauncherProject launcherProject ) {
         System.out.println( "Working in " + getOfflineJARContentsDir().getAbsolutePath() );
 
         FileUtils.delete( getOfflineJARContentsDir(), true );
@@ -211,7 +217,7 @@ public class FlashSimulationProject extends PhetProject {
             System.out.println( "Attempt to delete file, deleted=" + deleted + ": " + jarLauncherPropertiesFile.getAbsolutePath() );
 
             // copy SWF File
-            FileUtils.copyToDir( getSWFFile(), getOfflineJARContentsDir() );
+            FileUtils.copyToDir( getSWFFile( simulationName ), getOfflineJARContentsDir() );
 
             // copy sim XML localization Files
             copyLocalizationFiles( new File( getDataDirectory(), "localization" ) );
@@ -247,14 +253,14 @@ public class FlashSimulationProject extends PhetProject {
             FileUtils.copyToDir( getCreditsFile(), getOfflineJARContentsDir() );
 
             //create args file
-            FileUtils.writeString( new File( getOfflineJARContentsDir(), "flash-launcher-args.txt" ), getName() + " " + locale.getLanguage() + " " + locale.getCountry() );
+            FileUtils.writeString( new File( getOfflineJARContentsDir(), "flash-launcher-args.txt" ), simulationName + " " + locale.getLanguage() + " " + locale.getCountry() );
 
             //copy properties file
             FileUtils.copyToDir( new File( getDataDirectory(), getName() + ".properties" ), getOfflineJARContentsDir() );
 
             Jar jar = new Jar();
             jar.setBasedir( getOfflineJARContentsDir() );
-            File destFile = new File( getDeployDir(), getName() + "_" + locale + ".jar" );
+            File destFile = new File( getDeployDir(), simulationName + "_" + locale + ".jar" );
             jar.setDestFile( destFile );
             Manifest manifest = new Manifest();
 
@@ -312,7 +318,23 @@ public class FlashSimulationProject extends PhetProject {
         return new File( getAntOutputDir(), "jardata" );
     }
 
-    protected boolean buildSWF() throws Exception {
+    /**
+     * Builds all of the SWFs in the project
+     *
+     * @return Success
+     * @throws Exception
+     */
+    protected boolean buildSWFs() throws Exception {
+        for ( String simulationName : getSimulationNames() ) {
+            boolean success = buildSWF( simulationName );
+            if ( !success ) {
+                return success;
+            }
+        }
+        return true;
+    }
+
+    protected boolean buildSWF( String simulationName ) throws Exception {
         //copy software agreement HTM to AS for compilation into SWF
         copySoftwareAgreement();
 
@@ -320,19 +342,18 @@ public class FlashSimulationProject extends PhetProject {
                 .getParentFile() // simulations-flash
                 .getParentFile(); // trunk
 
-        boolean success = FlashBuildCommand.build( getName(), trunk );
-
-        return success;
+        return FlashBuildCommand.build( simulationName, trunk );
     }
 
     /**
      * Build HTML for a specific locale and version. Automatically sets the dev flag if the dev version is not zero
      *
-     * @param locale  The locale to use (common and sim strings)
-     * @param version The version to include
+     * @param simulationName The name of the simulation
+     * @param locale         The locale to use (common and sim strings)
+     * @param version        The version to include
      * @throws IOException
      */
-    public void buildHTML( Locale locale, PhetVersion version ) throws IOException {
+    public void buildHTML( String simulationName, Locale locale, PhetVersion version ) throws IOException {
         String bgColor = getProjectProperties().getProperty( "bgcolor" );
 
         String simDev = "false";
@@ -359,19 +380,19 @@ public class FlashSimulationProject extends PhetProject {
 
         String encodedAgreement = FlashHTML.encodeXML( agreementContent );
 
-        File HTMLFile = getHTMLFile( locale );
+        File HTMLFile = getHTMLFile( simulationName, locale );
 
         System.out.println( "Generating " + HTMLFile.getName() );
 
-        String titleString = FlashHTML.extractTitleFromXML( getTranslationFile( locale ) );
+        String titleString = FlashHTML.extractTitleFromXML( simulationName, getTranslationFile( locale ) );
         if ( titleString == null ) {
-            titleString = FlashHTML.extractTitleFromXML( getDefaultTranslationFile() );
+            titleString = FlashHTML.extractTitleFromXML( simulationName, getDefaultTranslationFile() );
             if ( titleString == null ) {
                 titleString = getName();
             }
         }
 
-        String html = FlashHTML.generateHTML( getName(), locale.getLanguage(), countryCode,
+        String html = FlashHTML.generateHTML( simulationName, locale.getLanguage(), countryCode,
                                               "phet-production-website", FlashHTML.distribution_tag_dummy,
                                               FlashHTML.installation_timestamp_dummy,
                                               FlashHTML.installer_creation_timestamp_dummy,
@@ -387,14 +408,15 @@ public class FlashSimulationProject extends PhetProject {
 
     private void buildHTMLs() {
         Locale[] locales = getLocales();
-        for ( int i = 0; i < locales.length; i++ ) {
-            Locale locale = locales[i];
-            PhetVersion version = super.getVersion();
-            try {
-                buildHTML( locale, version );
-            }
-            catch( IOException e ) {
-                e.printStackTrace();
+        for ( String simulationName : getSimulationNames() ) {
+            for ( Locale locale : locales ) {
+                PhetVersion version = super.getVersion();
+                try {
+                    buildHTML( simulationName, locale, version );
+                }
+                catch( IOException e ) {
+                    e.printStackTrace();
+                }
             }
         }
 
@@ -478,18 +500,18 @@ public class FlashSimulationProject extends PhetProject {
 
     public void runSim( Locale locale, String simulationName ) {
         System.out.println( "Running the flash sim: " + simulationName );
-        PhetWebsite.openBrowser( getHTMLFile( locale ).getAbsolutePath() );
+        PhetWebsite.openBrowser( getHTMLFile( simulationName, locale ).getAbsolutePath() );
     }
 
-    private File getHTMLFile( Locale locale ) {
-        return new File( getDeployDir(), getName() + "_" + LocaleUtils.localeToString( locale ) + ".html" );
+    private File getHTMLFile( String simulationName, Locale locale ) {
+        return new File( getDeployDir(), simulationName + "_" + LocaleUtils.localeToString( locale ) + ".html" );
     }
 
-    public File getSWFFile() {
-        return new File( getProjectDir(), "deploy/" + getName() + ".swf" );
+    public File getSWFFile( String simulationName ) {
+        return new File( getProjectDir(), "deploy/" + simulationName + ".swf" );
     }
 
-    private String getSimulationTitle( Locale locale ) {
+    private String getSimulationTitle( String simulationName, Locale locale ) {
         File simXMLFile = getTranslationFile( locale );
         if ( !simXMLFile.exists() ) {
             simXMLFile = getTranslationFile( new Locale( "en" ) ); // TODO: standardize "en" locale somewhere? LocaleUtils?
@@ -498,7 +520,7 @@ public class FlashSimulationProject extends PhetProject {
                 return getName();
             }
         }
-        String ret = FlashHTML.extractTitleFromXML( simXMLFile );
+        String ret = FlashHTML.extractTitleFromXML( simulationName, simXMLFile );
         if ( ret == null ) {
             ret = getName();
         }
@@ -506,7 +528,7 @@ public class FlashSimulationProject extends PhetProject {
     }
 
     public Simulation getSimulation( String simulationName, Locale locale ) {
-        return new Simulation( simulationName, getSimulationTitle( locale ), "mainclass", new String[0] );
+        return new Simulation( simulationName, getSimulationTitle( simulationName, locale ), "mainclass", new String[0] );
     }
 
     public Locale[] getLocales() {
