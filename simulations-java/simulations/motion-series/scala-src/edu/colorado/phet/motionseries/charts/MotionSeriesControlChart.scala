@@ -80,7 +80,7 @@ class SingleSeriesChart(motionSeriesModel: MotionSeriesModel, _value: () => Doub
 class RampForceMinimizableControlChart(motionSeriesModel: MotionSeriesModel) extends MinimizableControlChart("forces.parallel-title-with-units".translate, new RampControlChart(motionSeriesModel).chart)
 class ForcesAndMotionMinimizableControlChart(motionSeriesModel: MotionSeriesModel) extends MinimizableControlChart("forces.parallel-title-with-units".translate, new ForcesAndMotionControlChart(motionSeriesModel).chart)
 
-class RampControlChart(motionSeriesModel: MotionSeriesModel) extends MotionSeriesControlChart(motionSeriesModel) {
+class RampControlChart(motionSeriesModel: MotionSeriesModel) extends MotionSeriesControlChart(motionSeriesModel,"forces.sum-parallel".translate) {
   def addSerieses() = {
     temporalChart.addDataSeries(appliedForceSeries, appliedForceSeries.color)
     temporalChart.addDataSeries(frictionForceSeries, frictionForceSeries.color)
@@ -92,7 +92,7 @@ class RampControlChart(motionSeriesModel: MotionSeriesModel) extends MotionSerie
 
   def additionalSerieses = frictionForceSeries :: gravityForceSeries :: wallForceSeries :: sumForceSeries :: Nil
 }
-class ForcesAndMotionControlChart(motionSeriesModel: MotionSeriesModel) extends MotionSeriesControlChart(motionSeriesModel) {
+class ForcesAndMotionControlChart(motionSeriesModel: MotionSeriesModel) extends MotionSeriesControlChart(motionSeriesModel,"forces.sum".translate) {
   def addSerieses() = {
     temporalChart.addDataSeries(appliedForceSeries, appliedForceSeries.color)
     temporalChart.addDataSeries(frictionForceSeries, frictionForceSeries.color)
@@ -106,7 +106,7 @@ class ForcesAndMotionControlChart(motionSeriesModel: MotionSeriesModel) extends 
   override def gridSize = 4
 }
 
-abstract class MotionSeriesControlChart(motionSeriesModel: MotionSeriesModel) {
+abstract class MotionSeriesControlChart(motionSeriesModel: MotionSeriesModel,forcesSum:String) {
   motionSeriesModel.resetListeners_+=(() => {resetAll()})
   def addSerieses(): Unit
 
@@ -142,7 +142,7 @@ abstract class MotionSeriesControlChart(motionSeriesModel: MotionSeriesModel) {
   val frictionForceSeries = new MSDataSeries("force.pattern".messageformat("forces.friction".translate), MotionSeriesDefaults.frictionForceColor, N, frictionVariable, motionSeriesModel, false)
   val gravityForceSeries = new MSDataSeries("force.pattern".messageformat("forces.gravity-parallel".translate), MotionSeriesDefaults.gravityForceColor, N, gravityVariable, motionSeriesModel, false)
   val wallForceSeries = new MSDataSeries("force.pattern".messageformat("forces.wall".translate), MotionSeriesDefaults.wallForceColor, N, wallVariable, motionSeriesModel, false)
-  val sumForceSeries = new MSDataSeries("force.pattern".messageformat("forces.sum-parallel".translate), MotionSeriesDefaults.sumForceColor, N, sumForceVariable, motionSeriesModel, true)
+  val sumForceSeries = new MSDataSeries("force.pattern".messageformat(forcesSum), MotionSeriesDefaults.sumForceColor, N, sumForceVariable, motionSeriesModel, true)
 
   def resetAll() = {
     appliedForceSeries.setVisible(false)
