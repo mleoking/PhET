@@ -223,8 +223,8 @@ package{
 					//edges of border, beyond which center of ball may not go
 					var leftEdge:Number = thisBallImage.myBall.getRadius();
 					var rightEdge:Number = W - thisBallImage.myBall.getRadius();
-					var topEdge:Number = H - thisBallImage.myBall.getRadius();
-					var bottomEdge:Number = thisBallImage.myBall.getRadius();
+					var topEdge:Number = H/2 - thisBallImage.myBall.getRadius();
+					var bottomEdge:Number = -H/2 + thisBallImage.myBall.getRadius();
 					if(modelRef.borderOn){
 						if(ballX < leftEdge){
 							ballX = leftEdge;
@@ -236,7 +236,7 @@ package{
 					//if not in 1DMode, adjust y position
 					if(!thisBallImage.myModel.oneDMode){
 						thisBallImage.y = theStage.mouseY - clickOffset.y;
-						ballY = H - thisBallImage.y/pixelsPerMeter;
+						ballY = H/2 - thisBallImage.y/pixelsPerMeter;
 						if(modelRef.borderOn){
 							if (ballY < bottomEdge){
 								ballY = bottomEdge;
