@@ -34,10 +34,10 @@ package{
 			this.phetLogo = new PhETLogo();
 			this.myModel.updateViews();
 			//this.myDataTable.x = 60;
-			this.myDataTable.y = this.myTableView.canvas.height + 1.0*this.myTableView.playButtons.height;
+			this.myDataTable.y = 0.75*this.stageH;//this.myTableView.canvas.height + 1.0*this.myTableView.playButtons.height;
 			this.controlPanel.background.width = 170;
 			this.controlPanel.background.height = 350;
-			this.controlPanel.x = stageW - 0.75*this.controlPanel.width;
+			this.controlPanel.x = this.stageW - 0.75*this.controlPanel.width;
 			this.controlPanel.y = 20;//0.3*this.controlPanel.height;
 			//trace("stageW: "+stageW+"   stageH: "+stageH);
 		}//end of initialize()

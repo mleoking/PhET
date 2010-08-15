@@ -84,7 +84,7 @@ package{
 				var g:Graphics = this.path_arr[i].graphics;
 				g.lineStyle(1, 0x000000);
 				var screenX = this.pixelsPerMeter*myModel.ball_arr[i].position.getX();
-				var screenY = this.pixelsPerMeter*(this.borderHeight - myModel.ball_arr[i].position.getY());
+				var screenY = this.pixelsPerMeter*(this.borderHeight/2 - myModel.ball_arr[i].position.getY());
 				g.moveTo(screenX, screenY);
 			}
 		}
@@ -104,7 +104,7 @@ package{
 				g.lineStyle(2, this.currentColor, this.currentAlpha);
 				//trace("Trajectories.drawStep() called.");
 				var screenX = this.pixelsPerMeter*this.myModel.ball_arr[i].position.getX();
-				var screenY = this.pixelsPerMeter*(this.borderHeight - this.myModel.ball_arr[i].position.getY());
+				var screenY = this.pixelsPerMeter*(this.borderHeight/2 - this.myModel.ball_arr[i].position.getY());
 				//trace("Trajectories.pixelsPerMeter: "+pixelsPerMeter);
 				//trace("i: "+i+"   scrnX: "+screenX+"   scrnY: "+screenY);
 				g.lineTo(screenX, screenY);

@@ -1,4 +1,5 @@
-﻿package{
+﻿//View of "Pool Table" containing balls
+package{
 	import flash.display.*;
 	import flash.events.*;
 	import flash.text.*;
@@ -25,7 +26,7 @@
 		var yOffset:Number;					//y of upper left corner of canvas
 		
 		//following 4 strings set by internationalizer
-		var KEtot_str:String;				//string "KEtot = "
+		var KEtot_str:String;				//string "Kinetic Energy = "
 		var joules_str:String;				//string " J"
 		var time_str:String;				//string "time = "
 		var seconds_str:String;				//string " s"
@@ -39,7 +40,7 @@
 			this.canvas = new Sprite();
 			this.myMainView.addChild(this);
 			this.addChild(this.canvas);
-			this.xOffset = 10;
+			this.xOffset = 10;  //position of table border relative to origin of stage
 			this.yOffset = 30;
 			this.canvas.x = xOffset;
 			this.canvas.y = yOffset;
@@ -53,11 +54,12 @@
 			this.pixelsPerMeter = 200;
 			this.showingPaths = false;
 			this.myTrajectories = new Trajectories(this.myModel, this);
-			this.canvas.addChild(this.myTrajectories);
-			this.drawBorder();
-			this.drawInvisibleBorder();
+			//this.canvas.addChild(this.myTrajectories);
+			this.
+			border.addChild(this.myTrajectories);
 			this.makeTimeLabel();
 			this.makeTotKELabel();
+			this.drawBorder();  //drawBorder() also calls positionLabels() and drawInvisibleBorder()
 			this.ballColor_arr = new Array(10);  //start with 10 colors
 			this.createBallColors();
 			//this.createBallImages2();
@@ -98,9 +100,32 @@
 			//position playButtons
 			this.playButtons.x = W/2;
 			this.playButtons.y = H + this.playButtons.height/2;
+			
+			this.drawInvisibleBorder(); 
+			
+			//position KE and Time Labels
+			this.timeText.x = W - 1.5*this.timeText.width;
+			this.timeText.y = H + 10;
+			this.totKEText.x = 0;//0.5*this.totKEText.width;//30; //
+			this.totKEText.y = H + 10;
+			trace("drawBorder() called. this.totKEText.width = "+this.totKEText.width);
+
 		}//end of drawBorder();
 		
-		public function drawInvisibleBorder():void{
+		//called when 1D/2D mode is switched
+		public function reDrawBorder():void{
+			this.drawBorder();
+			if(this.myModel.oneDMode){
+				var oneDH:Number = this.myModel.oneDBorderHeight/2;
+				var twoDH:Number = this.myModel.twoDBorderHeight/2;
+				this.canvas.y = yOffset + this.pixelsPerMeter*(twoDH - oneDH);
+			}else{
+				this.canvas.y = yOffset;
+			}
+			this.update();
+		}
+		
+		public function drawInvisibleBorder():void{  //grayed-out border when Reflecting Border is OFF
 			var W:Number = this.myModel.borderWidth * this.pixelsPerMeter;
 			var H:Number = this.myModel.borderHeight * this.pixelsPerMeter;
 			var thickness:Number = 6;  //border thickness in pixels
@@ -134,19 +159,15 @@
 			this.timeText.defaultTextFormat = tFormat;
 			//this.timeText.setTextFormat(tFormat);
 			this.canvas.addChild(this.timeText);
-			var W:Number = this.myModel.borderWidth * this.pixelsPerMeter;
-			var H:Number = this.myModel.borderHeight * this.pixelsPerMeter;
-			this.timeText.x = W - 2.5*this.timeText.width;
-			this.timeText.y = H + 10;
 		}
 		
 		public function makeTotKELabel():void{
 			//following two strings should be set by internationalizer
-			this.KEtot_str = "KEtot = ";
+			this.KEtot_str = "Kinetic Energy = ";
 			this.joules_str = " J";
 			//
 			this.totKEText = new TextField();
-			this.totKEText.text = "KEtot = "; //text is set in update
+			this.totKEText.text = this.KEtot_str; //text is set in update
 			this.totKEText.selectable = false;
 			this.totKEText.autoSize = TextFieldAutoSize.RIGHT;
 			var tFormat:TextFormat = new TextFormat();
@@ -157,10 +178,6 @@
 			this.totKEText.defaultTextFormat = tFormat;
 			//this.timeText.setTextFormat(tFormat);
 			this.canvas.addChild(this.totKEText);
-			var W:Number = this.myModel.borderWidth * this.pixelsPerMeter;
-			var H:Number = this.myModel.borderHeight * this.pixelsPerMeter;
-			this.totKEText.x = 30; //W - 2.5*this.totKEText.width;
-			this.totKEText.y = H + 10;
 		}
 		
 		
@@ -216,7 +233,7 @@
 			}//end if()
 			
 			
-			var yMax:Number = this.myModel.borderHeight;
+			var yMax:Number = this.myModel.borderHeight/2;  //recall origin is set at y = borderHeight/2 
 			for(i = 0; i < nbrBalls; i++){
 				ball_arr[i].x = this.pixelsPerMeter*this.myModel.ball_arr[i].position.getX();
 				ball_arr[i].y = this.pixelsPerMeter*(yMax - this.myModel.ball_arr[i].position.getY());

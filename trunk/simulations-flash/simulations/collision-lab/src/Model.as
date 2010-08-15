@@ -16,7 +16,9 @@ package{
 		var CM:Point;			//center-of-mass of system
 		var borderOn:Boolean;	//if true, balls elastically reflect from border 
 		var borderWidth:Number;	//length of horizontal border in meters
-		var borderHeight:Number;	//length of vertical border in meters
+		var borderHeight:Number;	//current length of vertical border in meters, depends on oneDMode
+		var oneDBorderHeight:Number;
+		var twoDBorderHeight:Number;
 		var e:Number;			//elasticity = 0 to 1: 0 = perfectly inelastic, 1 = perfectly elastic
 		var time:Number;		//simulation time in seconds = real time
 		var lastTime:Number;	//time of previous step
@@ -45,7 +47,9 @@ package{
 		public function Model(){
 			this.borderOn = true;
 			this.borderWidth = 3.2;	//units are meters
-			this.borderHeight = 2;
+			this.oneDBorderHeight = 0.8;
+			this.twoDBorderHeight = 2.0;
+			this.borderHeight = twoDBorderHeight;
 			this.e = 1;				//set elasticity of collisions, 1 = perfectly elastic
 			this.maxNbrBalls = 5;	
 			this.oneDMode = false;
@@ -76,7 +80,7 @@ package{
 				this.nbrBalls += 1;
 				if(this.oneDMode){
 					for (var i = 0; i < this.nbrBalls; i++){
-						this.setY(i, 1);
+						this.setY(i, 0); //this.setY(i, 1);
 						this.setVY(i,0);
 					}
 				}
@@ -121,11 +125,11 @@ package{
 		public function createInitialBallData():void{
 			this.startingPos = new Array(this.maxNbrBalls);
 			this.startingVel = new Array(this.maxNbrBalls);
-			startingPos[0] = new TwoVector(0.5,1);
-			startingPos[1] = new TwoVector(1.5,0.5);
-			startingPos[2] = new TwoVector(1,1);
-			startingPos[3] = new TwoVector(1.2, 1.2);
-			startingPos[4] = new TwoVector(1.2, 0.2);
+			startingPos[0] = new TwoVector(0.5,0);
+			startingPos[1] = new TwoVector(1.5,-0.5);
+			startingPos[2] = new TwoVector(1,0);
+			startingPos[3] = new TwoVector(1.2, 0.2);
+			startingPos[4] = new TwoVector(1.2, -0.8);
 			startingVel[0] = new TwoVector(1,0.3);
 			startingVel[1] = new TwoVector(-1,-0.5);
 			startingVel[2] = new TwoVector(-0.5,-0.25);
@@ -176,13 +180,15 @@ package{
 		public function setOneDMode(tOrF:Boolean):void{
 			this.oneDMode = tOrF;
 			if(this.oneDMode){
+				this.borderHeight = this.oneDBorderHeight;  // border heigh in meters; reflecting border is resized to give visual clue that 1D mode is ON.
 				for (var i = 0; i < this.nbrBalls; i++){
-					this.setY(i, 1);
+					this.setY(i, 0);
 					this.setVY(i,0);
 				}
 				this.separateAllBalls();
-			}else{
-				this.initializePositions();  //back to 2D
+			}else{ //if 2D mode
+				this.borderHeight = this.twoDBorderHeight; //border height in meters
+				//this.initializePositions();  //back to 2D
 			}
 			//trace("Model.setOneDMode: "+tOrF);
 		}
@@ -197,7 +203,7 @@ package{
 				this.ball_arr[i].position = initPos[i].clone();
 				this.ball_arr[i].velocity = initVel[i].clone();
 				if(this.oneDMode){
-					this.setY(i, 1);
+					this.setY(i, 0);
 					this.setVY(i,0);
 				}
 				//this.ball_arr[i].position.initializeXLastYLast();
@@ -405,12 +411,12 @@ package{
 					this.setX(i, onePlusDelta*radius);
 					this.setVX(i, -e*vX) //ball_arr[i].velocity.setX(-e*vX);
 					wallHit = true;
-				}else if((y+radius) > this.borderHeight){
-					this.setY(i, this.borderHeight - onePlusDelta*radius);
+				}else if((y+radius) > this.borderHeight/2){
+					this.setY(i, this.borderHeight/2 - onePlusDelta*radius);
 					this.setVY(i, -e*vY); //ball_arr[i].velocity.setY(-e*vY);
 					wallHit = true;
-				}else if((y-radius)< 0){
-					this.setY(i, onePlusDelta*radius);
+				}else if((y-radius)< -this.borderHeight/2){
+					this.setY(i, -this.borderHeight/2 + onePlusDelta*radius);
 					this.setVY(i, -e*vY); //ball_arr[i].velocity.setY(-e*vY);
 					wallHit = true;
 				}
@@ -489,10 +495,10 @@ package{
 					this.setX(i, this.borderWidth - 2*radius);
 				}else if((x-radius)< 0){
 					this.setX(i, 2*radius);
-				}else if((y+radius) > this.borderHeight){
-					this.setY(i, this.borderHeight - 2*radius);
-				}else if((y-radius)< 0){
-					this.setY(i, 2*radius);
+				}else if((y+radius) > this.borderHeight/2){
+					this.setY(i, this.borderHeight/2 - 2*radius);
+				}else if((y-radius)< -this.borderHeight/2){
+					this.setY(i, -this.borderHeight/2 + 2*radius);
 				}
 			}//end if(borderOn)
 		}//end checkWallCollisionAndSeparate()
@@ -505,9 +511,9 @@ package{
 					collidedWithWall = "R";  //collided with Right Wall
 				}else if((x-radius)< 0){
 					collidedWithWall = "L";  //collided with Left Wall
-				}else if((y+radius) > this.borderHeight){
+				}else if((y+radius) > this.borderHeight/2){
 					collidedWithWall = "T";  //collided with Top Wall
-				}else if((y-radius)< 0){
+				}else if((y-radius)< -this.borderHeight/2){
 					collidedWithWall = "B";  //collided with Bottom Wall
 				}
 			}//end if(borderOn)

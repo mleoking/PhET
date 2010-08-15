@@ -29,7 +29,7 @@
 	//controlPanel.zeroPercentLabel = "0%"
 	//controlPanel.oneHundredPercentLabel = "100%"
 	
-	
+	//This class is associated with Flash Library Symbol controlPanel, so "this" is the controlPanel Library Symbol 
 	
 	public class ControlPanel extends Sprite{
 		private var myModel:Model;
@@ -106,10 +106,10 @@
 //            trace( typeof this.oneD_rb );
 //            trace( typeof this.oneD_rb.label );
 
-            this.oneD_txt.text = SimStrings.get("ControlPanel.1d","1D");
+            this.oneD_txt.text = SimStrings.get("ControlPanel.1d","1 Dimension");
 			TextFieldUtils.emulateButton(this.oneD_txt, this.oneD_rb);
 			TextFieldUtils.resizeText(this.oneD_txt, TextFieldAutoSize.LEFT);
-			this.twoD_txt.text = SimStrings.get("ControlPanel.2d","2D");
+			this.twoD_txt.text = SimStrings.get("ControlPanel.2d","2 Dimensions");
 			TextFieldUtils.emulateButton(this.twoD_txt, this.twoD_rb);
 			TextFieldUtils.resizeText(this.twoD_txt, TextFieldAutoSize.LEFT);
 //            this.twoD_rb.label = SimStrings.get("ControlPanel.2d","2D");
@@ -119,10 +119,10 @@
 //            myMainView.controlPanel.reflectingBorder_cb.label = SimStrings.get("ControlPanel.reflectingBorder","Reflecting Border");
 //            myMainView.controlPanel.showPaths_cb.label = SimStrings.get("ControlPanel.showPaths","Show Paths");
 //            myMainView.controlPanel.sound_cb.label = SimStrings.get("ControlPanel.sound","Sound");
-            this.timeLabel.text = SimStrings.get("ControlPanel.time","time");
+            this.timeLabel.text = SimStrings.get("ControlPanel.time","Time");
             this.slowLabel.text = SimStrings.get("ControlPanel.slow","slow");
             this.fastLabel.text = SimStrings.get("ControlPanel.fast","fast");
-            this.elasticityLabel.text = SimStrings.get("ControlPanel.elasticity","elasticity");
+            this.elasticityLabel.text = SimStrings.get("ControlPanel.elasticity","Elasticity");
 //            //myMainView.controlPanel.elasticityValueLabel = //numeric value is set by code, do not internalize controlPanel string
             this.zeroPercentLabel.text = SimStrings.get("ControlPanel.zeroPercent","0%");
             this.oneHundredPercentLabel.text = SimStrings.get("ControlPanel.oneHundredPercent","100%");
@@ -135,13 +135,16 @@
 		
 		public function oneDModeOn(evt:MouseEvent):void{
 			this.myModel.setOneDMode(true);
+			this.myMainView.myTableView.reDrawBorder();
 		}
 		public function oneDModeOff(evt:MouseEvent):void{
 			this.myModel.setOneDMode(false);
+			this.myMainView.myTableView.reDrawBorder();
 		}
 		
 		private function resetAll():void{
 			this.myModel.resetAll();
+			this.myMainView.myTableView.reDrawBorder();
 			this.twoD_rb.selected = true;
 			var nbrBalls_str:String = String(this.myModel.nbrBalls);
 			this.changeNbrBallButtons.nbrReadout.text = nbrBalls_str;
@@ -163,6 +166,7 @@
 		
 		private function showCM(evt:MouseEvent):void{
 			this.showCMOn = evt.target.selected;
+			this.cmIcon.visible = evt.target.selected;
 			if(myModel.nbrBalls > 1){
 				this.myMainView.myTableView.CM.visible = evt.target.selected;
 			}else{
