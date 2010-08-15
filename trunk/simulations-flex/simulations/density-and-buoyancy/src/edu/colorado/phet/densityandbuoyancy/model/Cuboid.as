@@ -24,8 +24,7 @@ public class Cuboid extends DensityObject {
      * @param model
      */
     public function Cuboid(density:Number, width:Number, height:Number, depth:Number, x:Number, y:Number, model:DensityModel, __substance:Substance) {
-        super(x, y, depth / 2 + 10 / DensityModel.DISPLAY_SCALE, model, density, density * width * height * depth, width * height * depth, __substance);
-
+        super(x, y, depth / 2 + DensityConstants.DEFAULT_BLOCK_WATER_OFFSET, model, density, density * width * height * depth, width * height * depth, __substance);
         this.width = width;
         this.height = height;
         this.depth = depth;
@@ -105,6 +104,9 @@ public class Cuboid extends DensityObject {
         this.height = Math.pow(getVolume(), 1.0 / 3.0);
         this.width = Math.pow(getVolume(), 1.0 / 3.0);
         this.depth = Math.pow(getVolume(), 1.0 / 3.0);
+//        if (getZ() + depth / 2 > 0) {//block pokes through front of the pool
+            z = depth / 2 +DensityConstants.DEFAULT_BLOCK_WATER_OFFSET;//put block edge equal to pool front //TODO: move slightly inside water  
+//        }
         updateShapeDef();
     }
 }

@@ -17,13 +17,12 @@ import flash.text.TextFormat;
 
 import mx.core.BitmapAsset;
 
-public class ScaleNode extends CuboidNode implements Pickable, Listener {
+public class ScaleNode extends CuboidNode implements Pickable {
 
     private var frontSprite:Sprite;
     private var _scale:Scale;
     private var textureHolder:Sprite; // holds wood or etc. texture in frontSprite so it stays under the text
     private var textField:TextField;
-    private var view:AbstractDensityModule;
 
     private var base:PickableCube;
     private var top:PickableCube;
@@ -32,11 +31,42 @@ public class ScaleNode extends CuboidNode implements Pickable, Listener {
     private static var WALL_RES:Number = 100;
     private const textureBitmap:Bitmap = getCustomBitmap();
 
-    public function ScaleNode(scale:Scale, view:AbstractDensityModule):void {
-        super(scale);
+    public function ScaleNode(scale:Scale,view:AbstractDensityModule ):void {
+        super(scale,view);
         this._scale = scale;
-        this.view = view;
+        
+        trace("scale addNodes()");
 
+        var totalWidth:Number = getCuboid().getWidth() * DensityModel.DISPLAY_SCALE;
+        var totalHeight:Number = getCuboid().getHeight() * DensityModel.DISPLAY_SCALE;
+        var totalDepth:Number = getCuboid().getDepth() * DensityModel.DISPLAY_SCALE;
+
+        base = new PickableCube(this);
+        base.width = totalWidth;
+        base.height = totalHeight / 2;
+        base.depth = totalDepth;
+        base.segmentsH = 2;
+        base.segmentsW = 2;
+        base.y = -totalHeight / 4;
+        addChild(base);
+
+        top = new PickableCube(this);
+        top.width = totalWidth;
+        top.height = totalHeight / 8;
+        top.depth = totalDepth;
+        top.segmentsH = 2;
+        top.segmentsW = 2;
+        top.y = 7 * totalHeight / 16;
+        addChild(top);
+
+        stand = new PickableCube(this);
+        stand.width = totalWidth / 5;
+        stand.height = totalHeight - base.height - top.height;
+        stand.depth = totalDepth / 5;
+        stand.y = base.y + base.height / 2 + stand.height / 2;
+        addChild(stand);
+        
+        
         frontSprite = new Sprite();
         textureHolder = new Sprite();
         textureHolder.addChild(textureBitmap);
@@ -76,39 +106,6 @@ public class ScaleNode extends CuboidNode implements Pickable, Listener {
         return new Bitmap((new wallClass() as BitmapAsset).bitmapData);
     }
 
-    override public function addNodes():void {
-        trace("scale addNodes()");
-
-        var totalWidth:Number = getCuboid().getWidth() * DensityModel.DISPLAY_SCALE;
-        var totalHeight:Number = getCuboid().getHeight() * DensityModel.DISPLAY_SCALE;
-        var totalDepth:Number = getCuboid().getDepth() * DensityModel.DISPLAY_SCALE;
-
-        base = new PickableCube(this);
-        base.width = totalWidth;
-        base.height = totalHeight / 2;
-        base.depth = totalDepth;
-        base.segmentsH = 2;
-        base.segmentsW = 2;
-        base.y = -totalHeight / 4;
-        addChild(base);
-
-        top = new PickableCube(this);
-        top.width = totalWidth;
-        top.height = totalHeight / 8;
-        top.depth = totalDepth;
-        top.segmentsH = 2;
-        top.segmentsW = 2;
-        top.y = 7 * totalHeight / 16;
-        addChild(top);
-
-        stand = new PickableCube(this);
-        stand.width = totalWidth / 5;
-        stand.height = totalHeight - base.height - top.height;
-        stand.depth = totalDepth / 5;
-        stand.y = base.y + base.height / 2 + stand.height / 2;
-        addChild(stand);
-    }
-
     public function updateText():void {
         textField.text = String(_scale.getScaleReadout());
         textField.width = textureBitmap.bitmapData.width;
@@ -122,8 +119,8 @@ public class ScaleNode extends CuboidNode implements Pickable, Listener {
         textField.setTextFormat(format);
     }
 
-    override public function update():void {
-        super.update();
+    override public function updateGeometry():void {
+        super.updateGeometry();
         updateText();
     }
 

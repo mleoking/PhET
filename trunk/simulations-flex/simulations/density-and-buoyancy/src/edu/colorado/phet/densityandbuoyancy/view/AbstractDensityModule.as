@@ -201,7 +201,7 @@ public class AbstractDensityModule extends UIComponent {
             var pickable:Pickable = (selectedObject as Pickable);
             pickable.getBody().SetXForm(new b2Vec2(pickable.getBody().GetPosition().x, cachedY), 0);
             pickable.getBody().SetLinearVelocity(new b2Vec2(0, 0));
-            pickable.update();
+            pickable.updateGeometry();
         }
         waterFront.y = (-model.getPoolHeight() + model.getWaterHeight() / 2) * DensityModel.DISPLAY_SCALE;
         waterFront.height = model.getWaterHeight() * DensityModel.DISPLAY_SCALE;//this is positive from the bottom of the pool
@@ -289,7 +289,7 @@ public class AbstractDensityModule extends UIComponent {
         updateWaterHeightIndicator();
     }
 
-    public function removeObject(ob:CuboidNode):void {
+    public function removeObject(ob:DensityObjectNode):void {
         scene.removeChild(ob);
     }
 

@@ -18,12 +18,11 @@ import flash.text.TextFormat;
 
 import mx.core.BitmapAsset;
 
-public class BlockNode extends CuboidNode implements Pickable, Listener {
+public class BlockNode extends CubeNode implements Pickable{
 
     private var frontSprite:Sprite;
     private var textureHolder:Sprite; // holds wood or etc. texture in frontSprite so it stays under the text
     private var block:Block;
-    private var view:AbstractDensityModule;
     private var textField:TextField = new TextField();
 
     [Embed(source="../../../../../../data/density-and-buoyancy/images/wall.jpg")]
@@ -45,11 +44,15 @@ public class BlockNode extends CuboidNode implements Pickable, Listener {
     private var label:StringProperty;
 
     public function BlockNode(block:Block, view:AbstractDensityModule, label:StringProperty):void {
-        super(block);
+        super(block,view);
 
         this.label = label;
         this.block = block;
-        this.view = view;
+        
+        var cube:PickableCube = getCube();
+        cube.cubeMaterials.left = cube.cubeMaterials.right = cube.cubeMaterials.top = cube.cubeMaterials.bottom = cube.cubeMaterials.front = sideMaterial;
+        cube.cubeMaterials.back = frontMaterial;
+        addChild(cube);
 
         // TODO: determine reliance on the starting size of the block, so that the block can be scaled in size effectively
 
@@ -62,7 +65,7 @@ public class BlockNode extends CuboidNode implements Pickable, Listener {
         block.addSubstanceListener(updateSubstance);
 
         updateSubstance();
-        updateShape();
+        updateGeometry();
     }
 
     private function getCustomBitmap():Bitmap {
@@ -92,14 +95,6 @@ public class BlockNode extends CuboidNode implements Pickable, Listener {
         return new Bitmap(coloredData);
     }
 
-    override protected function createCube():PickableCube {
-        const cube:PickableCube = super.createCube();
-        cube.cubeMaterials.left = cube.cubeMaterials.right = cube.cubeMaterials.top = cube.cubeMaterials.bottom = cube.cubeMaterials.front = sideMaterial;
-
-        cube.cubeMaterials.back = frontMaterial;
-        return cube;
-    }
-
     private function createTextFormat(newSize:Number):TextFormat {
         trace("newsivze = "+newSize);
         var format:TextFormat = new TextFormat();
@@ -122,7 +117,7 @@ public class BlockNode extends CuboidNode implements Pickable, Listener {
         textField.height = textureBitmap.bitmapData.height;
         textField.width = textureBitmap.bitmapData.width;
         textField.multiline = true;
-        updateShape();
+        updateGeometry();
     }
 
     private function updateSubstance():void {
@@ -162,8 +157,8 @@ public class BlockNode extends CuboidNode implements Pickable, Listener {
         //        frontSprite.alpha = 0.5;
     }
 
-    override protected function updateShape():void {
-        super.updateShape();
+    public override function updateGeometry():void {
+        super.updateGeometry();
         textField.setTextFormat(createTextFormat(45 * (200 / getCube().width)));
     }
 }

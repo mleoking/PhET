@@ -1,4 +1,6 @@
 package edu.colorado.phet.densityandbuoyancy {
+import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
+
 public class DensityConstants {
     public static const MIN_MASS:Number = 1;
     public static const MAX_MASS:Number = 12;
@@ -14,6 +16,7 @@ public class DensityConstants {
     public static const DEFAULT_BLOCK_MASS:Number = 2;
     public static const SCALE_BOX2D:Number = 1000;
     public static const GRAVITY:Number = 9.8;
+    public static const DEFAULT_BLOCK_WATER_OFFSET:Number = 10 / DensityModel.DISPLAY_SCALE;//So that away3d faces don't overlap
 
     private static function kgLtoSI(number:Number):Number {
         return number / 0.001;

@@ -21,8 +21,8 @@ public class PickableCube extends Cube implements Pickable {
         return picker.getBody();
     }
 
-    public function update():void {
-        picker.update();
+    public function updateGeometry():void {
+        picker.updateGeometry();
     }
 }
 }
