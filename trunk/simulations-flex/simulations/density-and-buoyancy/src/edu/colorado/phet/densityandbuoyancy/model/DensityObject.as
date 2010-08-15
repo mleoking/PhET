@@ -153,10 +153,6 @@ public class DensityObject {
         return dragForceArrowModel;
     }
 
-//    public function addListener(listener:Listener):void {
-//        listeners.push(listener);
-//    }
-
     public function getX():Number {
         return x.value;
     }

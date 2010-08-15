@@ -1,3 +1,4 @@
+Fixed: Objects shouldn’t poke through front of pool
 Fixed: Density slider should snap to tick marks and change the substance type when near to a tick mark.
 Fixed: Selecting “Custom” from the combo box should change the object’s substance
 Renamed project from "density-flex" to "density-and-buoyancy"
