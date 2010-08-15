@@ -17,8 +17,8 @@ public class DensityObject {
 
     private var x:NumericProperty;
     private var y:NumericProperty;
-    private var z:NumericProperty;
-    private var listeners:Array;
+    private var _z:NumericProperty;
+//    private var listeners:Array;
     private var velocityArrowModel:ArrowModel = new ArrowModel(0, 0);
     private var gravityForceArrowModel:ArrowModel = new ArrowModel(0, 0);
     private var buoyancyForceArrowModel:ArrowModel = new ArrowModel(0, 0);
@@ -30,6 +30,7 @@ public class DensityObject {
     private var submergedVolume:Number = 0.0;
     private var contactImpulseMap:Object = new Object();
     private var labelProperty:StringProperty;
+    private const removalListeners:Array = new Array();
 
     public function DensityObject(x:Number, y:Number, z:Number, model:DensityModel, density:Number, mass:Number, volume:Number, __substance:Substance) {
         this._substance = __substance;
@@ -87,11 +88,11 @@ public class DensityObject {
 
         this.x = new NumericProperty("x", "m", x);
         this.y = new NumericProperty("y", "m", y);
-        this.z = new NumericProperty("z", "m", z);
+        this._z = new NumericProperty("z", "m", z);
 
         this.model = model;
         this.density.value = density;
-        this.listeners = new Array();
+//        this.listeners = new Array();
     }
 
     protected function getLabelProperty():StringProperty {
@@ -152,9 +153,9 @@ public class DensityObject {
         return dragForceArrowModel;
     }
 
-    public function addListener(listener:Listener):void {
-        listeners.push(listener);
-    }
+//    public function addListener(listener:Listener):void {
+//        listeners.push(listener);
+//    }
 
     public function getX():Number {
         return x.value;
@@ -165,7 +166,11 @@ public class DensityObject {
     }
 
     public function getZ():Number {
-        return z.value;
+        return _z.value;
+    }
+
+    public function set z(z:Number):void{
+        this._z.value=z;
     }
 
     public function updatePositionFromBox2D():void {
@@ -176,8 +181,8 @@ public class DensityObject {
     public function remove():void {
         model.getWorld().DestroyBody(getBody());
         body = null;
-        for each(var listener:Listener in listeners) {
-            listener.remove();
+        for each(var removalListener:Function in removalListeners) {
+            removalListener();
         }
     }
 
@@ -195,9 +200,9 @@ public class DensityObject {
     protected function notifyListeners():void {
         //todo: notify listeners
         // TODO: looks like major potential for infinite loops here, since update => setPosition => Update is possible
-        for each (var listener:Listener in listeners) {
-            listener.update();
-        }
+//        for each (var listener:Listener in listeners) {
+//            listener.update();
+//        }
     }
 
     public function getBody():b2Body {
@@ -322,13 +327,21 @@ public class DensityObject {
         mass.reset();
         x.reset();
         y.reset();
-        z.reset();
+        _z.reset();
         updateBox2DModel();
         notifyListeners();
+    }
+    
+    public function getYProperty():NumericProperty{
+        return y; 
     }
 
     public function updateBox2DModel():void {
         throw new Error("Abstract method error");
+    }
+
+    public function addRemovalListener(removalListener:Function):void {
+        removalListeners.push(removalListener);
     }
 }
 }

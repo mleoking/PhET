@@ -11,6 +11,6 @@ public interface Pickable {
 
     function getBody():b2Body;
 
-    function update():void;
+    function updateGeometry():void;
 }
 }

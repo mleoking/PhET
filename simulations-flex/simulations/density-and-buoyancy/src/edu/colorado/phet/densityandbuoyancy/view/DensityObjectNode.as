@@ -1,10 +1,12 @@
 package edu.colorado.phet.densityandbuoyancy.view {
+import Box2D.Dynamics.b2Body;
+
 import away3d.containers.ObjectContainer3D;
 
 import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
 import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
 
-public class DensityObjectNode extends ObjectContainer3D {
+public class DensityObjectNode extends ObjectContainer3D implements Pickable{
     private var densityObject:DensityObject;
     private static var numArrowNodes:Number = 0;
 
@@ -12,10 +14,20 @@ public class DensityObjectNode extends ObjectContainer3D {
     private var buoyancyArrowForceNode:ArrowNode;
     private var contactArrowForceNode:ArrowNode;
     private var dragArrowForceNode:ArrowNode;
+    private var _view:AbstractDensityModule;
 
-    public function DensityObjectNode(densityObject:DensityObject) {
+    public function DensityObjectNode(densityObject:DensityObject,view:AbstractDensityModule) {
         super();
         this.densityObject = densityObject;
+        this._view=view;
+        densityObject.getYProperty().addListener(function ():void{
+            updateGeometry();
+        });
+        densityObject.addRemovalListener(function ():void{remove()});
+    }
+
+    public function get view():AbstractDensityModule {
+        return _view;
     }
 
     public function addArrowNodes():void {
@@ -61,6 +73,22 @@ public class DensityObjectNode extends ObjectContainer3D {
 
     public function setFluidDragForceVisible(selected:Boolean):void {
         dragArrowForceNode.visible = selected;
+    }
+    
+    public function remove():void {
+        view.removeObject(this);
+    }
+
+    public function setPosition(x:Number, y:Number):void {
+        throw new Error("Abstract method error");
+    }
+
+    public function getBody():b2Body {
+        throw new Error("Abstract method error");
+    }
+
+    public function updateGeometry():void {
+        throw new Error("Abstract method error");
     }
 }
 }
