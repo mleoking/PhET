@@ -8,7 +8,7 @@ import mx.controls.HSlider;
 import mx.events.SliderEvent;
 
 public class DensityEditor extends PropertyEditor {
-    var densityObject:DensityObject;
+    private var densityObject:DensityObject;
 
     public function DensityEditor(property:NumericProperty, minimum:Number, maximum:Number, unit:Unit, densityObject:DensityObject) {
         super(property, minimum, maximum, unit);

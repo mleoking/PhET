@@ -43,6 +43,7 @@ public class CuboidNode extends DensityObjectNode implements Pickable, ShapeChan
     public override function updateGeometry():void {
         this.x = cuboid.getX() * DensityModel.DISPLAY_SCALE;
         this.y = cuboid.getY() * DensityModel.DISPLAY_SCALE;
+        this.z = cuboid.getZ() * DensityModel.DISPLAY_SCALE;
     }
 }
 }
