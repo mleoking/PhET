@@ -5,19 +5,17 @@ MILESTONES
 HIGH PRIORITY
 - if concentration graph has only 3 bars, center them in the chart
 - try to make symbols in reaction equations line up with bars in concentration graph
-- handle probe locations better in conductivity tester
 - fix resize behavior of main frame, nodes below the beaker are not visible if main frame is resized wider 
 - bottom-center everything in the play area
 
 MEDUIUM PRIORITY
-- change the name of the "Test Solution" tab
+- change the name of the "Test Solution" tab to ...??
 - add a "none" radio button to "Tests" control panel
-- disable all "View" controls when "pH Paper" or "Conductivity" is selected OR never disable any "View" controls
+- disable all "View" controls when ...??
 - change "Magnifying Glass" to "Molecules"
 - change "Show H2O Molecules" to "Show Water"
 - change "Concentration Graph" to "Concentration"
 - change "neither" to "Liquid"
-- improve layout of icons next to radio buttons
 - add MVT to handle relationship between model element locations and PNode locations
 
 LOW PRIORITY

@@ -3,7 +3,6 @@
 package edu.colorado.phet.acidbasesolutions.view;
 
 import java.awt.Color;
-import java.awt.Cursor;
 import java.awt.Stroke;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -62,7 +61,7 @@ public class PHPaperNode extends PhetPNode {
             }
         } );
 
-        addInputEventListener( new CursorHandler( Cursor.N_RESIZE_CURSOR ) );
+        addInputEventListener( new CursorHandler() );
         addInputEventListener( new PDragSequenceEventHandler() {
 
             private double clickXOffset; // x-offset of mouse click from meter's origin, in parent's coordinate frame
