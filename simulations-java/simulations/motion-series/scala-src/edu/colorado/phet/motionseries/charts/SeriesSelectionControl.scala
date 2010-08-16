@@ -51,7 +51,7 @@ class SeriesSelectionControl(title: String, numRows: Int) extends VerticalLayout
     label.setFont(Defaults.createFont)
     label.setForeground(series.color)
     series.addValueChangeListener(() => {updateLabel()})
-    def myValue = new DefaultDecimalFormat("0.00".literal).format(series.getValue)
+    def myValue = MotionSeriesDefaults.SERIES_SELECTION_CONTROL_FORMATTER.format(series.getValue)
     def labelText = "chart.series-readout.pattern.value_units".messageformat(myValue, series.units)
     def updateLabel() = label.setText(labelText)
 
@@ -68,7 +68,7 @@ class SeriesSelectionControl(title: String, numRows: Int) extends VerticalLayout
       }
     })
     def setValueFromText() = try {
-      series.setValue(new DefaultDecimalFormat("0.00".literal).parse(textField.getText).doubleValue)
+      series.setValue(MotionSeriesDefaults.SERIES_SELECTION_CONTROL_FORMATTER.parse(textField.getText).doubleValue)
     } catch {
       case re: Exception => {}
     }
@@ -81,7 +81,7 @@ class SeriesSelectionControl(title: String, numRows: Int) extends VerticalLayout
     textField.setFont(Defaults.createFont)
     textField.setForeground(series.color)
     series.addValueChangeListener(() => {updateLabel()})
-    def updateLabel() = textField.setText(new DefaultDecimalFormat("0.00".literal).format(series.getValue))
+    def updateLabel() = textField.setText(MotionSeriesDefaults.SERIES_SELECTION_CONTROL_FORMATTER.format(series.getValue))
 
     updateLabel()
 
