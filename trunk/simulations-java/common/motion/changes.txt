@@ -1,3 +1,4 @@
+8-16-2010: Improved horizontal layout for charts
 8-3-2010: Improved layout for charts, make sure all vertical space is efficiently used
 7-23-2010: Added a drop shadow to play area slider node label text
 7-21-2010: Improved layout for ControlChartLayout
