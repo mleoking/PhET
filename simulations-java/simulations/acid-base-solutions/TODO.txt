@@ -9,6 +9,8 @@ HIGH PRIORITY
 - handle probe locations better in conductivity tester
 - fix resize behavior of main frame, nodes below the beaker are not visible if main frame is resized wider 
 - bottom-center everything in the play area
+
+MEDUIUM PRIORITY
 - change the name of the "Test Solution" tab
 - add a "none" radio button to "Tests" control panel
 - disable all "View" controls when "pH Paper" or "Conductivity" is selected OR never disable any "View" controls
@@ -16,8 +18,6 @@ HIGH PRIORITY
 - change "Show H2O Molecules" to "Show Water"
 - change "Concentration Graph" to "Concentration"
 - change "neither" to "Liquid"
-
-MEDUIUM PRIORITY
 - improve layout of icons next to radio buttons
 - add MVT to handle relationship between model element locations and PNode locations
 
