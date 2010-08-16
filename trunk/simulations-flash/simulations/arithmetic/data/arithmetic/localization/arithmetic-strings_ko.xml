@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--arithmetic-strings_ko.xml created Sat Aug 07 17:12:32 KST 2010 using: arithmetic 2.02.00 (37294), translation-utility 2.08.00 (39581) 4월 2, 2010-->
+<!--arithmetic-strings_ko.xml created Sat Aug 14 11:17:59 KST 2010 using: arithmetic 2.02.00 (37294), translation-utility 2.08.00 (39581) 4월 2, 2010-->
 <SimStrings>
 <string key="level" value="수준"/>
-<string key="typeAnswer" value="답을 입력하고 엔터키를 누르세요."/>
+<string key="typeAnswer" value="답을 입력하고, \n엔터키를 누르세요."/>
 <string key="clickToSelect" value=" 정답 사각형을 클릭"/>
 <string key="correct" value="맞았습니다!"/>
 <string key="end" value="끝"/>
 <string key="isWrong" value="틀렸습니다!"/>
 <string key="start" value="시작"/>
-<string key="simTitle" value="산수"/>
+<string key="simTitle" value="곰셈 나눗셈 연습"/>
 <string key="time" value="시간(초)"/>
-<string key="finalTime" value="최종 시간:"/>
+<string key="finalTime" value="걸린 시간:"/>
 <string key="multiply" value="곱하기"/>
 <string key="tryAgain" value="다시 해보세요."/>
-<string key="sound" value="소리"/>
+<string key="sound" value="소리 "/>
 <string key="divide" value="나누기"/>
 <string key="factor" value="인수"/>
 <string key="minute" value="분"/>
@@ -25,5 +25,5 @@
 <string key="nbrWrong" value="오답 수:"/>
 <string key="reset" value="초기화"/>
 <string key="clock" value="시계"/>
-<string key="title" value="수계산 연습"/>
+<string key="title" value="곱하기/나누기/인수 연습"/>
 </SimStrings>
