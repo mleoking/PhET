@@ -190,53 +190,6 @@ public abstract class AqueousSolution {
      */
     public abstract double getH2OConcentration();
 
-    /**
-     * Gets the solute molecule count at equilibrium.
-     * @return
-     */
-    public double getSoluteMoleculeCount() {
-        return getMoleculeCount( getSoluteConcentration() );
-    }
-
-    /**
-     * Gets the product molecule count at equilibrium.
-     * @return
-     */
-    public double getProductMoleculeCount() {
-        return getMoleculeCount( getProductConcentration() );
-    }
-
-    /**
-     * Gets the H3O+ (hydronium) molecule count at equilibrium.
-     * @return
-     */
-    public double getH3OMoleculeCount() {
-        return getMoleculeCount( getH3OConcentration() );
-    }
-
-    /**
-     * Gets the OH- (hydroxide) molecule count at equilibrium.
-     * @return
-     */
-    public double getOHMoleculeCount() {
-        return getMoleculeCount( getOHConcentration() );
-    }
-
-    /**
-     * Gets the H2O (water) molecule count at equilibrium.
-     * @return
-     */
-    public double getH2OMoleculeCount() {
-        return getMoleculeCount( getH2OConcentration() );
-    }
-
-    /*
-     * Gets the molecule count for some specified concentration.
-     */
-    private static double getMoleculeCount( double concentration ) {
-        return concentration * ABSConstants.AVOGADROS_NUMBER;
-    }
-    
     protected static double getWaterConcentration() {
         return ABSConstants.WATER_CONCENTRATION;
     }
