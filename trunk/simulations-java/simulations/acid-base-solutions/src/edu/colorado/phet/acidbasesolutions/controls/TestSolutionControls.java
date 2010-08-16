@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.acidbasesolutions.controls;
 
+import java.awt.BorderLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -149,8 +150,9 @@ public class TestSolutionControls extends JPanel {
         
         // layout
         {
-            EasyGridBagLayout layout = new EasyGridBagLayout( this );
-            setLayout( layout );
+            JPanel innerPanel = new JPanel();
+            EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
+            innerPanel.setLayout( layout );
             layout.setInsets( new Insets( 4, 0, 4, 0 ) );
             int row = 0;
             int column = 0;
@@ -168,6 +170,10 @@ public class TestSolutionControls extends JPanel {
             column = 0;
             layout.addComponent( weakBaseRadioButton, row, column++ );
             layout.addComponent( weakBaseIcon, row++, column );
+            
+            // ensure left justification
+            this.setLayout( new BorderLayout() );
+            this.add( innerPanel, BorderLayout.WEST );
         }
         
         // default state

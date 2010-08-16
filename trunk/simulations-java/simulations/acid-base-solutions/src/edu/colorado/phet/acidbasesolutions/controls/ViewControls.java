@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.acidbasesolutions.controls;
 
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -146,8 +147,9 @@ public class ViewControls extends JPanel {
         
         // layout
         {
-            EasyGridBagLayout layout = new EasyGridBagLayout( this );
-            setLayout( layout );
+            JPanel innerPanel = new JPanel();
+            EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
+            innerPanel.setLayout( layout );
             layout.addComponent( magnifyingGlassRadioButton, 0, 0, 2, 1 );
             layout.addComponent( magnifyingGlassIcon, 0, 2 );
             // indent the "Show H2O molecules" check box beneath the "Magnifying Glass" radio button
@@ -156,6 +158,10 @@ public class ViewControls extends JPanel {
             layout.addComponent( concentrationGraphRadioButton, 2, 0, 2, 1 );
             layout.addComponent( concentrationGraphIcon, 2, 2 );
             layout.addComponent( neitherRadioButton, 3, 0, 2, 1 );
+            
+            // ensure left justification
+            this.setLayout( new BorderLayout() );
+            this.add( innerPanel, BorderLayout.WEST );
         }
         
         // default state
