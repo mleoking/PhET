@@ -6,10 +6,8 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Line2D;
 
-import edu.colorado.phet.faraday.util.Vector2D;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
-
 
 /**
  * LightRaysGraphic is the graphical representation of a set of light rays.
@@ -106,17 +104,13 @@ import edu.umd.cs.piccolox.nodes.PComposite;
         final double deltaAngle = RAYS_ARC_ANGLE / ( numberOfRays - 1 );
 
         // Create the rays.
-        Vector2D v1 = new Vector2D();
-        Vector2D v2 = new Vector2D(); 
         for ( int i = 0; i < numberOfRays; i++ ) {
 
             // Determine the end points of the ray.
-            v1.setMagnitudeAngle( bulbRadius, angle );
-            double x1 = v1.getX();
-            double y1 = v1.getY();
-            v2.setMagnitudeAngle( rayLength + bulbRadius, angle );
-            double x2 = v2.getX();
-            double y2 = v2.getY();
+            double x1 = Math.cos( angle ) * bulbRadius;
+            double y1 = Math.sin( angle ) * bulbRadius;
+            double x2 = Math.cos( angle ) * ( bulbRadius + rayLength );
+            double y2 = Math.sin( angle ) * ( bulbRadius + rayLength );
             
             // Get a line from the cache.
             Line2D line = cacheLines[i];
