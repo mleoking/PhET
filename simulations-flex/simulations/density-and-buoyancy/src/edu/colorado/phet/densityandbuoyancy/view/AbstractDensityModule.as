@@ -59,17 +59,16 @@ public class AbstractDensityModule extends UIComponent {
 
     protected var densityObjectNodeList:Array = new Array();
 
-    private var waterHeightIndicator:WaterVolumeIndicator;
+    private var waterVolumeIndicator:WaterVolumeIndicator;
+    private var tickMarkSet:TickMarkSet
 
     public function AbstractDensityModule() {
         super();
         model = new DensityModel();
 
         model.addDensityObjectCreationListener(addDensityObject);
-    }
-
-    override protected function createChildren():void {
-        super.createChildren();
+        waterVolumeIndicator = new WaterVolumeIndicator(model);
+        waterVolumeIndicator.visible=false;//only show it after its location is correct
     }
 
     public function init():void {
@@ -83,10 +82,10 @@ public class AbstractDensityModule extends UIComponent {
         backgroundSprite.graphics.endFill();
         //addChild(backgroundSprite);
         addChild(view);
-        waterHeightIndicator = new WaterVolumeIndicator(model);
-        waterHeightIndicator.x = 100;
-        waterHeightIndicator.y = 100;
-        addChild(waterHeightIndicator);
+        tickMarkSet = new TickMarkSet(model);
+        addChild(tickMarkSet);
+        
+        addChild(waterVolumeIndicator);
     }
 
     override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void {
@@ -142,9 +141,6 @@ public class AbstractDensityModule extends UIComponent {
         marker.addChild(new Cube({ z: 150, width: 20, height: 20, depth: 100, segmentsW: 1, segmentsH: 10, material: new ShadingColorMaterial(0xCC9999) }));
         marker.addChild(new Cube({ z: -50, width: 5, height: 500, depth: 100, segmentsW: 1, segmentsH: 10, material: new ShadingColorMaterial(0xFFFFFF) }));
         //        scene.addChild(marker);
-
-        waterHeightIndicator = new WaterVolumeIndicator(model);
-        //        scene.addChild(waterHeightIndicator);
     }
 
     private function addDensityObject(densityObject:DensityObject):void {
@@ -219,10 +215,14 @@ public class AbstractDensityModule extends UIComponent {
     private function updateWaterHeightIndicator():void {
         if (renderedOnce) {
             var screenVertex:ScreenVertex = camera.screen(groundNode, new Vertex(model.getPoolWidth() * DensityModel.DISPLAY_SCALE / 2, (-model.getPoolHeight() + model.getWaterHeight()) * DensityModel.DISPLAY_SCALE, -20));
-            waterHeightIndicator.x = screenVertex.x + view.x;
-            waterHeightIndicator.y = screenVertex.y + view.y;
+            waterVolumeIndicator.x = screenVertex.x + view.x;
+            waterVolumeIndicator.y = screenVertex.y + view.y;
+            waterVolumeIndicator.visible = true;//Now can show the water volume indicator after it is at the right location
+            
+            tickMarkSet.updateCoordinates(camera,groundNode, view);
         }
-        waterHeightIndicator.setWaterHeight(model.getWaterHeight());
+        waterVolumeIndicator.setWaterHeight(model.getWaterHeight());
+//        water
     }
 
     public function onMouseDown(event:MouseEvent):void {
