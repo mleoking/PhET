@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat
 
 object MotionSeriesDefaults {
   val CLEAR_BUTTON_VISIBILITY_THRESHOLD_JOULES = 4000 * 1.5
-  val SERIES_SELECTION_CONTROL_FORMATTER = new DefaultDecimalFormat("0.00")
+  val SERIES_SELECTION_CONTROL_FORMATTER = new DefaultDecimalFormat("0.0")
 
   val FBD_DIALOG_WIDTH = 300
   val FBD_DIALOG_HEIGHT = FBD_DIALOG_WIDTH
