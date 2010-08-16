@@ -88,8 +88,13 @@ public class InjectionMotionStrategy extends MotionStrategy {
 			timeUntilNextVelocityChange = generateNewVelocityChangeTime();
 		}
 	}
+	
+	@Override
+    public Vector2D getInstantaneousVelocity() {
+        return new Vector2D.Double(velocityVector.getX(), velocityVector.getY());
+    }
 
-	/**
+    /**
 	 * Update the motion bounds for this strategy based on whether the model
 	 * element is above or below the membrane that separates the two sub-
 	 * chambers.
