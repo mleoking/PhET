@@ -249,7 +249,7 @@ public class MembraneDiffusionModel implements IParticleCapture {
      * @param channel
      * @return
      */
-    public void requestParticleThroughChannel(ParticleType particleType, MembraneChannel channel, double maxVelocity){
+    public void requestParticleThroughChannel(ParticleType particleType, MembraneChannel channel){
 
         // Randomly decide whether to scan the upper or lower zone first.
         CaptureZone firstZone, secondZone;
@@ -288,7 +288,8 @@ public class MembraneDiffusionModel implements IParticleCapture {
     			postTraversalMotionBounds.setFrame(getParticleChamberRect().getMinX(), getMembraneRect().getMaxY(),
     					getParticleChamberRect().getWidth(), getParticleChamberRect().getMaxY() - getMembraneRect().getMaxY());
     		}
-    		channel.moveParticleThroughChannel(particleToCapture, postTraversalMotionBounds, maxVelocity);
+    		channel.moveParticleThroughChannel(particleToCapture, postTraversalMotionBounds,
+    		        particleToCapture.getVelocity().getMagnitude());
     	}
     }
     
