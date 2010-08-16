@@ -50,7 +50,8 @@ public class ABSConstants {
     public static final int MIN_PH = 0;
     public static final int MAX_PH = 14;
     
-    public static final PDimension BEAKER_SIZE = new PDimension( 600, 500 );
+    // all other objects are tied to the location of the beaker
+    public static final PDimension BEAKER_SIZE = new PDimension( 700, 540 );
     public static final Point2D BEAKER_LOCATION = new Point2D.Double( ( BEAKER_SIZE.getWidth() / 2 ) + 150, BEAKER_SIZE.getHeight() + 250 ); // bottom center
     
     public static final Point2D MAGNIFYING_GLASS_LOCATION = new Point2D.Double( BEAKER_LOCATION.getX(), BEAKER_LOCATION.getY() - ( BEAKER_SIZE.getHeight() / 2 ) ); // center

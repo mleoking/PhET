@@ -1,3 +1,5 @@
+8/16/10 fix pH paper cursor to indicate that it can be dragged in any direction
+8/16/10 adjust canvas layout
 # 0.00.21 (43149) Aug 16, 2010
 8/16/10 add light rays in conductivity tester (ported to Piccolo from faraday)
 8/11/10 create larger battery image
