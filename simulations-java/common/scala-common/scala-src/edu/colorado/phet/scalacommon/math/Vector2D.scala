@@ -49,10 +49,13 @@ class Vector2D(val x: Double, val y: Double) {
 }
 
 object TestVector2D {
-  def main(args: Array[String]) = {
+  def main(args: Array[String]) = { 
     val a = new Vector2D(3, 2)
     val b = new Vector2D(5, 5)
-    println(a)
-    println(a - b)
+    val c = new Vector2D(60.0.toRadians)*10
+    println("a: "+a)
+    println("a -b: "+(a - b))
+    println("C: "+c)
+    println((a - b) / c.magnitude)
   }
 }
