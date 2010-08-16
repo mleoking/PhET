@@ -5,7 +5,6 @@ MILESTONES
 HIGH PRIORITY
 - if concentration graph has only 3 bars, center them in the chart
 - try to make symbols in reaction equations line up with bars in concentration graph
-- light rays in conductivity tester
 - handle probe locations better in conductivity tester
 - fix resize behavior of main frame, nodes below the beaker are not visible if main frame is resized wider 
 - bottom-center everything in the play area
