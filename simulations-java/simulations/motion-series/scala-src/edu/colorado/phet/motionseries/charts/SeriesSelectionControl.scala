@@ -61,7 +61,7 @@ class SeriesSelectionControl(title: String, numRows: Int) extends VerticalLayout
 
   def createEditableLabel(series: MSDataSeries) = {
     val panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0))
-    val textField = new JTextField(6)
+    val textField = new JTextField(4)
     textField.addActionListener(new ActionListener() {
       def actionPerformed(e: ActionEvent) = {
         setValueFromText()

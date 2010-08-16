@@ -1,3 +1,4 @@
+In force graphs tabs, reduced the number of columns in the applied force text field from 6 to 4
 In force graphs tabs, reduced to 1 decimal place on the readouts
 In force graphs tabs, start with only F Applied checked
 Removed || symbol in "F Sum ||" in Forces and Motion but not in Ramp
