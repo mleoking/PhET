@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--projectile-motion-strings_ko.xml created Wed Sep 30 13:07:15 KST 2009 using: projectile-motion 2.00.00 (30671), translation-utility 2.02.00 (34911) 9월 10, 2009-->
+<!--projectile-motion-strings_ko.xml created Sat Aug 14 11:03:25 KST 2010 using: projectile-motion 2.02.00 (37323), translation-utility 2.08.00 (39581) 4월 2, 2010-->
 <SimStrings>
 <string key="dragLabel" value="끌림계수"/>
 <string key="userChoice" value="사용자 설정"/>
 <string key="altitudeLabel" value="해발고도(m)"/>
 <string key="football" value="미식축구공"/>
 <string key="golfball" value="골프공"/>
-<string key="simTitle" value="포사체 운동(물리마을)"/>
+<string key="simTitle" value="포사체 운동"/>
 <string key="collision" value="충돌!"/>
 <string key="adultHuman" value="성인남자"/>
 <string key="time" value="걸린시간(초)"/>
@@ -21,7 +21,7 @@
 <string key="height" value="높이(m)"/>
 <string key="pumpkin" value="호박"/>
 <string key="score" value="적중!"/>
-<string key="angle" value="각도(°)"/>
+<string key="angle" value="각도(도)"/>
 <string key="baseball" value="야구공"/>
 <string key="airResistance" value="공기저항"/>
 <string key="fire" value="발사"/>
