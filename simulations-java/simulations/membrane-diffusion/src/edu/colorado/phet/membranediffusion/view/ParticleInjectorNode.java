@@ -6,6 +6,8 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.Stroke;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
@@ -67,13 +69,13 @@ public class ParticleInjectorNode extends PNode {
     // Instance Data
     //------------------------------------------------------------------------
 
-	private final ParticleType particleType;
 	private final PNode injectorBodyImageNode;
 	private final PNode unpressedButtonImageNode;
 	private final PNode pressedButtonImageNode;
-	private final PNode particleTypeLabel;
+	private final PNode particleTypeSelector;
 	private final MembraneDiffusionModel model;
 	private final ModelViewTransform2D mvt;
+	private ParticleType particleTypeToInject;
 	private Dimension2D injectionPointOffset = new PDimension();
 	private Point2D injectionPointInModelCoords = new Point2D.Double();
 	private Vector2D nominalInjectionVelocityVector = new Vector2D.Double(NOMINAL_ION_INJECTION_VELOCITY, 0);
@@ -84,15 +86,15 @@ public class ParticleInjectorNode extends PNode {
 
     /**
      * Constructs a particle injection node.
-     * @param particleType TODO
+     * @param initialParticleType - Particle type to inject until and unless changed by user.
      * @param model - The model into which the particles will be injected.
      * @param mvt - Model-view transform for relating view space to model space.
      * @param rotationAngle - Angle of rotation for the injection bulb.
      */
-	public ParticleInjectorNode(ParticleType particleType, final MembraneDiffusionModel model,
+	public ParticleInjectorNode(ParticleType initialParticleType, final MembraneDiffusionModel model,
 			ModelViewTransform2D mvt, double rotationAngle) {
 		
-		this.particleType = particleType;
+		this.particleTypeToInject = initialParticleType;
 		this.model = model;
 		this.mvt = mvt;
 		
@@ -122,11 +124,11 @@ public class ParticleInjectorNode extends PNode {
         injectorNode.scale(scale);
         
         // Add the node that allows control of automatic injection.
-        particleTypeLabel = new ParticleTypeSelectorNode(INJECTOR_HEIGHT * 0.6, particleType);
-        particleTypeLabel.setOffset(
-        	injectorNode.getFullBoundsReference().getMinX() - particleTypeLabel.getFullBoundsReference().width + 5,
-        	injectorNode.getFullBoundsReference().getCenterY() - particleTypeLabel.getFullBoundsReference().height / 2);
-        addChild(particleTypeLabel);
+        particleTypeSelector = new ParticleTypeSelectorNode(INJECTOR_HEIGHT * 0.6, initialParticleType, this);
+        particleTypeSelector.setOffset(
+        	injectorNode.getFullBoundsReference().getMinX() - particleTypeSelector.getFullBoundsReference().width + 5,
+        	injectorNode.getFullBoundsReference().getCenterY() - particleTypeSelector.getFullBoundsReference().height / 2);
+        addChild(particleTypeSelector);
         
         // Add the injector image node.  Note that the position has to be
         // tweaked in order to account for the rotation of the node image,
@@ -171,7 +173,7 @@ public class ParticleInjectorNode extends PNode {
     //------------------------------------------------------------------------
 
 	private void injectParticle(){
-		Particle particleToInject = Particle.createParticle(particleType);
+		Particle particleToInject = Particle.createParticle(particleTypeToInject);
 		particleToInject.setPosition(injectionPointInModelCoords);
 		particleToInject.setMotionStrategy(new InjectionMotionStrategy(injectionPointInModelCoords, model, 0));
 		model.injectParticle(particleToInject);
@@ -181,6 +183,12 @@ public class ParticleInjectorNode extends PNode {
 		double injectionPointX = mvt.viewToModelX(getFullBoundsReference().getCenter2D().getX() + injectionPointOffset.getWidth());
 		double injectionPointY = mvt.viewToModelY(getFullBoundsReference().getCenter2D().getY() + injectionPointOffset.getHeight());
 		injectionPointInModelCoords.setLocation(injectionPointX, injectionPointY);
+	}
+	
+	protected void setParticleTypeToInject(ParticleType particleType){
+	    if (this.particleTypeToInject != particleType){
+	        this.particleTypeToInject = particleType;
+	    }
 	}
 	
 	@Override
@@ -205,26 +213,45 @@ public class ParticleInjectorNode extends PNode {
 		private static final ModelViewTransform2D PARTICLE_MVT = new ModelViewTransform2D(
 				new Rectangle2D.Double(-1.0, -1.0, 2.0, 2.0), new Rectangle2D.Double(-10, -10, 20, 20));
 		
+		private final ParticleInjectorNode particleInjectorNode;
+        private final JRadioButton sodiumButton;
+        private final JRadioButton potassiumButton;
+		
 		/**
 		 * Constructor.  The height is specified, and the width is then
 		 * determined as a function of the height and the string lengths.
 		 * 
 		 * @param model
 		 * @param height
+		 * @param particleInjectorNode - The particle injector node for which
+		 * this panel will control the type of particle injected.
 		 */
-		public ParticleTypeSelectorNode(double height, ParticleType particleType){
+		public ParticleTypeSelectorNode(double height, ParticleType initialParticleType,
+		        final ParticleInjectorNode particleInjectorNode){
+		    
+		    this.particleInjectorNode = particleInjectorNode;
 		    
             Image sodiumImage = new ParticleNode(new SodiumIon(), PARTICLE_MVT).toImage();
-            JRadioButton sodiumButton = new JRadioButton();
+            sodiumButton = new JRadioButton();
             sodiumButton.setBackground( BACKGROUND_COLOR );
+            sodiumButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    particleInjectorNode.setParticleTypeToInject( ParticleType.SODIUM_ION );
+                }
+            });
             JPanel sodiumButtonPanel = new HorizontalLayoutPanel();
             sodiumButtonPanel.setBackground( BACKGROUND_COLOR );
             sodiumButtonPanel.add( sodiumButton );
             sodiumButtonPanel.add( new JLabel( new ImageIcon( sodiumImage ) ) );
             
             Image potassiumImage = new ParticleNode(new PotassiumIon(), PARTICLE_MVT).toImage();
-            JRadioButton potassiumButton = new JRadioButton();
+            potassiumButton = new JRadioButton();
             potassiumButton.setBackground( BACKGROUND_COLOR );
+            potassiumButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    particleInjectorNode.setParticleTypeToInject( ParticleType.POTASSIUM_ION );
+                }
+            });
             JPanel potassiumButtonPanel = new HorizontalLayoutPanel();
             potassiumButtonPanel.setBackground( BACKGROUND_COLOR );
             potassiumButtonPanel.add( potassiumButton );
@@ -263,6 +290,28 @@ public class ParticleInjectorNode extends PNode {
 			addChild(connector);
 			addChild(body);
 			connector.setOffset(body.getFullBoundsReference().width, body.getFullBoundsReference().height / 2);
+			
+			// Do the final initialization.
+			updateParticleSelectionButtons();
 		}
+		
+		private void updateParticleSelectionButtons(){
+		    switch (particleInjectorNode.particleTypeToInject){
+		    case SODIUM_ION:
+		        if (!sodiumButton.isSelected()){
+		            sodiumButton.setSelected( true );
+		        }
+		        break;
+		    case POTASSIUM_ION:
+                if (!potassiumButton.isSelected()){
+                    potassiumButton.setSelected( true );
+                }
+                break;
+            default:
+                System.err.println(getClass().getName() + " - Error: Unknown particle type.");
+                assert false;
+                break;
+		    }
+        }
 	}
 }
