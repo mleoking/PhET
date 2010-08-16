@@ -4,6 +4,7 @@ package edu.colorado.phet.membranediffusion.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Image;
 import java.awt.Stroke;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Line2D;
@@ -12,7 +13,15 @@ import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 
+import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -28,6 +37,7 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PDimension;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * Node that represents the thing with which the user interacts in order to
@@ -112,7 +122,7 @@ public class ParticleInjectorNode extends PNode {
         injectorNode.scale(scale);
         
         // Add the node that allows control of automatic injection.
-        particleTypeLabel = new ParticleTypeSelectorNode(INJECTOR_HEIGHT * 0.25, particleType);
+        particleTypeLabel = new ParticleTypeSelectorNode(INJECTOR_HEIGHT * 0.6, particleType);
         particleTypeLabel.setOffset(
         	injectorNode.getFullBoundsReference().getMinX() - particleTypeLabel.getFullBoundsReference().width + 5,
         	injectorNode.getFullBoundsReference().getCenterY() - particleTypeLabel.getFullBoundsReference().height / 2);
@@ -191,7 +201,7 @@ public class ParticleInjectorNode extends PNode {
 		private static final Color BORDER_COLOR = BACKGROUND_COLOR;
 		private static final Stroke CONNECTOR_STROKE = new BasicStroke(8f);
 		private static final Color CONNECTOR_COLOR = BACKGROUND_COLOR;
-		private static final double CONNECTOR_LENGTH = 20;  // In screen coords, which is roughly pixels.
+		private static final double CONNECTOR_LENGTH = 10;  // In screen coords, which is roughly pixels.
 		private static final ModelViewTransform2D PARTICLE_MVT = new ModelViewTransform2D(
 				new Rectangle2D.Double(-1.0, -1.0, 2.0, 2.0), new Rectangle2D.Double(-10, -10, 20, 20));
 		
@@ -203,40 +213,46 @@ public class ParticleInjectorNode extends PNode {
 		 * @param height
 		 */
 		public ParticleTypeSelectorNode(double height, ParticleType particleType){
-			
-			ParticleNode particleNode;
-			
-			switch (particleType){
-			case SODIUM_ION:
-				particleNode = new ParticleNode(new SodiumIon(), PARTICLE_MVT);
-				break;
-				
-			case POTASSIUM_ION:
-				particleNode = new ParticleNode(new PotassiumIon(), PARTICLE_MVT);
-				break;
-				
-			default:
-				// Unhandled case.
-				System.out.println(getClass().getName() + " - Error: Unhandled particle type.");
-				assert false;
-				// Use an arbitrary default.
-				particleNode = new ParticleNode(new PotassiumIon(), PARTICLE_MVT);
-				break;
-			}
-
-			particleNode.setScale(height * 0.8 / particleNode.getFullBoundsReference().height);
-			particleNode.setOffset(particleNode.getFullBoundsReference().width / 2,
-					particleNode.getFullBoundsReference().height / 2);
-		
+		    
+            Image sodiumImage = new ParticleNode(new SodiumIon(), PARTICLE_MVT).toImage();
+            JRadioButton sodiumButton = new JRadioButton();
+            sodiumButton.setBackground( BACKGROUND_COLOR );
+            JPanel sodiumButtonPanel = new HorizontalLayoutPanel();
+            sodiumButtonPanel.setBackground( BACKGROUND_COLOR );
+            sodiumButtonPanel.add( sodiumButton );
+            sodiumButtonPanel.add( new JLabel( new ImageIcon( sodiumImage ) ) );
+            
+            Image potassiumImage = new ParticleNode(new PotassiumIon(), PARTICLE_MVT).toImage();
+            JRadioButton potassiumButton = new JRadioButton();
+            potassiumButton.setBackground( BACKGROUND_COLOR );
+            JPanel potassiumButtonPanel = new HorizontalLayoutPanel();
+            potassiumButtonPanel.setBackground( BACKGROUND_COLOR );
+            potassiumButtonPanel.add( potassiumButton );
+            potassiumButtonPanel.add( new JLabel( new ImageIcon( potassiumImage ) ) );
+            
+            ButtonGroup buttonGroup = new ButtonGroup();
+            buttonGroup.add( sodiumButton );
+            buttonGroup.add( potassiumButton );
+            
+		    JPanel buttonPanel = new VerticalLayoutPanel();
+		    buttonPanel.add( sodiumButtonPanel );
+		    buttonPanel.add( potassiumButtonPanel );
+		    
+		    PSwing buttonPanelPSwing = new PSwing( buttonPanel );
+		    
+		    buttonPanelPSwing.setScale( height * 0.8 / buttonPanelPSwing.getFullBoundsReference().height );
+		    
 			// Create the body of the node.
 			double bodyHeight = height;
-			double bodyWidth = particleNode.getFullBoundsReference().width * 1.2;
-			particleNode.setOffset(bodyWidth / 2, bodyHeight / 2);
-			PhetPPath body = new PhetPPath(new RoundRectangle2D.Double(0, 0, bodyWidth, bodyHeight, 7, 7), 
-					BACKGROUND_COLOR, BORDER_STROKE, BORDER_COLOR);
+			double bodyWidth = buttonPanelPSwing.getFullBoundsReference().width * 1.2;
+            PhetPPath body = new PhetPPath(new RoundRectangle2D.Double(0, 0, bodyWidth,
+                    bodyHeight, 14, 14), BACKGROUND_COLOR, BORDER_STROKE, BORDER_COLOR);
 			
-			// Put the particle on the tag.
-			body.addChild(particleNode);
+			// Put the particle selection buttons on the tag.
+            buttonPanelPSwing.setOffset( 
+                    body.getFullBoundsReference().getCenterX() - buttonPanelPSwing.getFullBoundsReference().getWidth() / 2, 
+                    body.getFullBoundsReference().getCenterY() - buttonPanelPSwing.getFullBoundsReference().getHeight() / 2);
+			body.addChild(buttonPanelPSwing);
 			
 			// Create the line that will visually connect this node to the
 			// main injector node.
