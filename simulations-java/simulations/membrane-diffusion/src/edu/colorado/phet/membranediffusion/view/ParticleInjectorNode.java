@@ -8,6 +8,8 @@ import java.awt.Image;
 import java.awt.Stroke;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
@@ -242,7 +244,15 @@ public class ParticleInjectorNode extends PNode {
             JPanel sodiumButtonPanel = new HorizontalLayoutPanel();
             sodiumButtonPanel.setBackground( BACKGROUND_COLOR );
             sodiumButtonPanel.add( sodiumButton );
-            sodiumButtonPanel.add( new JLabel( new ImageIcon( sodiumImage ) ) );
+            JLabel sodiumIconLabel = new JLabel( new ImageIcon( sodiumImage ) ); 
+            // Add a listener to the image that essentially makes it so that
+            // clicking on the image is the same as clicking on the button.
+            sodiumIconLabel.addMouseListener( new MouseAdapter(){
+                public void mouseReleased(MouseEvent e) {
+                    sodiumButton.doClick();
+                }
+            });
+            sodiumButtonPanel.add( sodiumIconLabel );
             
             Image potassiumImage = new ParticleNode(new PotassiumIon(), PARTICLE_MVT).toImage();
             potassiumButton = new JRadioButton();
@@ -255,7 +265,15 @@ public class ParticleInjectorNode extends PNode {
             JPanel potassiumButtonPanel = new HorizontalLayoutPanel();
             potassiumButtonPanel.setBackground( BACKGROUND_COLOR );
             potassiumButtonPanel.add( potassiumButton );
-            potassiumButtonPanel.add( new JLabel( new ImageIcon( potassiumImage ) ) );
+            JLabel potassiumIconLabel = new JLabel( new ImageIcon( potassiumImage ) ); 
+            // Add a listener to the image that essentially makes it so that
+            // clicking on the image is the same as clicking on the button.
+            potassiumIconLabel.addMouseListener( new MouseAdapter(){
+                public void mouseReleased(MouseEvent e) {
+                    potassiumButton.doClick();
+                }
+            });
+            potassiumButtonPanel.add( potassiumIconLabel );
             
             ButtonGroup buttonGroup = new ButtonGroup();
             buttonGroup.add( sodiumButton );
