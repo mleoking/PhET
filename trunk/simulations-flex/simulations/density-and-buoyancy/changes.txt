@@ -1,4 +1,5 @@
 Added labeled tick marks to the side of the pool
+Fixed: Pool volume readout shows up in the wrong location briefly on startup.
 Fixed: Objects shouldn’t poke through front of pool
 Fixed: Density slider should snap to tick marks and change the substance type when near to a tick mark.
 Fixed: Selecting “Custom” from the combo box should change the object’s substance
