@@ -45,8 +45,6 @@ public class ABSConstants {
     // Model
     //----------------------------------------------------------------------------
     
-    public static final double AVOGADROS_NUMBER = 6.022E23;
-    
     public static final int MIN_PH = 0;
     public static final int MAX_PH = 14;
     
