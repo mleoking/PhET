@@ -25,14 +25,17 @@ public class PureWaterSolution extends AqueousSolution {
         return 0;
     }
     
+    // [H3O] = sqrt(Kw)
     public double getH3OConcentration() {
         return Math.sqrt( getWaterEquilibriumConstant() ); // Kw = [H30] * [OH-]
     }
 
+    // [OH]=[H3O]
     public double getOHConcentration() {
         return getH3OConcentration();
     }
 
+    // W
     public double getH2OConcentration() {
         return getWaterConcentration();
     }
