@@ -32,7 +32,7 @@ public class MembraneChannelNode extends PNode{
     //----------------------------------------------------------------------------
     
     // For debug.
-    private static final boolean SHOW_CAPTURE_ZONES = true;
+    private static final boolean SHOW_CAPTURE_ZONES = false;
 	
     //----------------------------------------------------------------------------
     // Instance Data
