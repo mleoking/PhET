@@ -536,8 +536,9 @@ public class MembraneDiffusionModel implements IParticleCapture {
     		}
     	}
     	else{
-    		// The channel was released by the user in some inappropriate
-    		// location, so just remove it from the model.
+    		// The channel was released by the user outside of the allowable
+    	    // range (possibly just back in the tool box), so it should be
+    	    // removed from the model.
 			userControlledMembraneChannel.removeFromModel();
     	}
     	
