@@ -21,7 +21,7 @@ public class MembraneDiffusionDefaults {
     private MembraneDiffusionDefaults() {}
     
     // Clock
-    public static final int CLOCK_FRAME_RATE = 20; // fps, frames per second (wall time)
+    public static final int CLOCK_FRAME_RATE = 25; // fps, frames per second (wall time)
     
     // Set up the clock ranges.  Note that for this sim the clock rates are
     // often several orders of magnitude slower than real time.
