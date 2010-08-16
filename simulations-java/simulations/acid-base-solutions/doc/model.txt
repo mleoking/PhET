@@ -1,0 +1,62 @@
+---
+
+Description of the model used in "Acid-Base Solutions"
+
+This simulation models 4 types of aqueous solutions:
+- Pure Water
+- Strong Acids
+- Weak Acids
+- Strong Bases
+- Weak Bases
+
+Constants:
+W = concentration of water = 55.6 mol/L
+Kw = equilibrium constant of water = 1E-14
+
+Variables:
+C = concentration of the acid or base in mol/L
+Ka = strength of acid
+Kb = strength of base
+
+Generic symbols:
+A = the molecule that separates from hydrogen (H) when a weak or strong acid (HA) dissociates
+M = the metal molecule that separates from hydroxide (OH-) and remains in solution after a strong base (MOH+) dissociates
+B = a weak base molecule that can accept a hydrogen atom to form BH+
+[X] = the concentration of molecule X
+
+Pure Water:
+[H3O] = sqrt(Kw)
+[OH] = [H3O]
+[H2O] = W
+
+Strong Acids:
+[HA] = 0
+[A-] = C
+[H3O+] = C
+[OH-] = Kw / [H3O+]
+[H2O] = W - C
+
+Weak Acids:
+[HA] = C - [H3O+]
+[A-] = [H3O+]
+[H3O+] = ( -Ka + sqrt( Ka^2 + 4*Ka*C ) ) / 2 
+[OH-] = Kw / [H3O+]
+[H2O] = W - [A-]
+
+Strong Bases:
+[MOH] = 0
+[M+] = C
+[H3O+] = Kw / [OH-]
+[OH-] = C
+[H2O] = W
+
+Weak Bases:
+[B] = C - [BH+]
+[BH+] = ( -Kb + sqrt( Kb^2 + 4*Kb*C ) ) / 2 
+[H3O+] = Kw / [OH-]
+[OH-] = [BH+]
+[H2O] = W - [BH+]
+
+pH = log10( [H30+] )
+
+---
