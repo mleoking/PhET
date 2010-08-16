@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--stern-gerlach-strings_ko.xml created Sat Aug 07 17:04:39 KST 2010 using: stern-gerlach 2.01.00 (37325), translation-utility 2.08.00 (39581) 4월 2, 2010-->
+<!--stern-gerlach-strings_ko.xml created Sat Aug 14 11:20:30 KST 2010 using: stern-gerlach 2.01.00 (37325), translation-utility 2.08.00 (39581) 4월 2, 2010-->
 <SimStrings>
 <string key="angle3" value="각 3"/>
 <string key="angle2" value="각 2"/>
 <string key="slow" value="느리게"/>
 <string key="randomXZ" value="무작위 xz"/>
-<string key="simTitle" value="Stern-Gerlach 실험"/>
-<string key="sternGerlachExperiment" value="Stern-Gerlach 실험"/>
+<string key="simTitle" value="슈테른-게를라흐 실험"/>
+<string key="sternGerlachExperiment" value="슈테른-게를라흐 실험"/>
 <string key="spinOrientation" value="스핀 방향"/>
 <string key="on" value="켜짐"/>
 <string key="up" value="위"/>
