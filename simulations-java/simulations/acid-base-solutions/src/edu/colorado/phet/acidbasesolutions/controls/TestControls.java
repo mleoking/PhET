@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.acidbasesolutions.controls;
 
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -117,8 +118,9 @@ public class TestControls extends JPanel {
         
         // layout
         {
-            EasyGridBagLayout layout = new EasyGridBagLayout( this );
-            setLayout( layout );
+            JPanel innerPanel = new JPanel();
+            EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
+            innerPanel.setLayout( layout );
             int row = 0;
             int column = 0;
             layout.addComponent( pHMeterRadioButton, row, column++ );
@@ -129,6 +131,10 @@ public class TestControls extends JPanel {
             column = 0;
             layout.addComponent( conductivityTesterRadioButton, row, column++ );
             layout.addComponent( conductivityTesterIcon, row++, column );
+            
+            // ensure left justification
+            this.setLayout( new BorderLayout() );
+            this.add( innerPanel, BorderLayout.WEST );
         }
 
         // default state

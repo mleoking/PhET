@@ -1,3 +1,4 @@
+8/16/10 left justify radio buttons in control panels
 8/16/10 fix pH paper cursor to indicate that it can be dragged in any direction
 8/16/10 adjust canvas layout
 # 0.00.21 (43149) Aug 16, 2010

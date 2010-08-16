@@ -1,4 +1,3 @@
-/* Copyright 2010, University of Colorado */
 
 package edu.colorado.phet.acidbasesolutions.module;
 
@@ -62,4 +61,5 @@ public abstract class ABSCanvas extends PhetPCanvas {
     protected void addNode( PNode node ) {
         rootNode.addChild( node );
     }
+    
 }
