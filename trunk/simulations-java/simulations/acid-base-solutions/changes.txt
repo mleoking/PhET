@@ -1,3 +1,4 @@
+# 0.00.21 (43145) Aug 16, 2010
 8/16/10 add light rays in conductivity tester (ported to Piccolo from faraday)
 8/11/10 create larger battery image
 8/11/10 use molecule color for "negligible" in Concentration Graph
