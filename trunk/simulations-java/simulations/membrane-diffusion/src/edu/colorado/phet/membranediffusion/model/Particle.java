@@ -159,6 +159,10 @@ public abstract class Particle implements IMovable {
     	this.motionStrategy = motionStrategy; 
     }
     
+    public MotionStrategy getMotionStrategyRef(){
+        return motionStrategy;
+    }
+    
     /**
      * Get the diameter of this particle in nano meters.  This obviously
      * assumes a round particle.
