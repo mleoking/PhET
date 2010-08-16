@@ -22,7 +22,7 @@ public class SodiumLeakageChannel extends AbstractLeakChannel {
 	// Higher values mean more leakage, with 1 as the max.
 	private static final double NOMINAL_LEAK_LEVEL = 0.005;
 	
-	private static final double DEFAULT_PARTICLE_VELOCITY = 7000; // In nanometers per sec of sim time.
+	private static final double DEFAULT_PARTICLE_VELOCITY = 10000; // In nanometers per sec of sim time.
 	
 	// A scaling factor that is used to normalize the amount of leak channel
 	// current to a value between 0 and 1.  This value was determined by
