@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.membranediffusion.model;
 
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+
 /**
  * Base class for motion strategies that can be used to set the type of motion
  * for elements within the model.
@@ -18,4 +20,11 @@ public abstract class MotionStrategy {
 	 * @param dt
 	 */
 	public abstract void move(IMovable moveableModelElement, double dt);
+	
+	/**
+	 * Obtain the instantaneous velocity exhibited by an element that is using
+	 * this motion strategy.
+	 * @return
+	 */
+	public abstract Vector2D getInstantaneousVelocity();
 }

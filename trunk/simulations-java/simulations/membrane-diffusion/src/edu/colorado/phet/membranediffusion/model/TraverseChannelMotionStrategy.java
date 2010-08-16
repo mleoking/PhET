@@ -105,6 +105,11 @@ public class TraverseChannelMotionStrategy extends MotionStrategy {
 		}
 	}
 	
+   @Override
+    public Vector2D getInstantaneousVelocity() {
+        return new Vector2D.Double(velocityVector.getX(), velocityVector.getY());
+    }
+	
 	/**
 	 * Create the points through which a particle must move when traversing
 	 * this channel.

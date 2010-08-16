@@ -75,6 +75,11 @@ public class RandomWalkMotionStrategy extends MotionStrategy {
 			timeUntilNextVelocityChange = generateNewVelocityChangeTime();
 		}
 	}
+	
+	@Override
+	public Vector2D getInstantaneousVelocity() {
+	    return new Vector2D.Double(velocityVector.getX(), velocityVector.getY());
+	}
 
 	private double generateNewVelocityChangeTime(){
 		return MIN_TIME_BETWEEN_VELOCITY_UPDATES + RAND.nextDouble() * (MAX_TIME_BETWEEN_VELOCITY_UPDATES - MIN_TIME_BETWEEN_VELOCITY_UPDATES);
