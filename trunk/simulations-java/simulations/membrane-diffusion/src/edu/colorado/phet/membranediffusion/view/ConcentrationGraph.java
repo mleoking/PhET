@@ -25,13 +25,11 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.membranediffusion.MembraneDiffusionStrings;
 import edu.colorado.phet.membranediffusion.model.MembraneDiffusionModel;
 import edu.colorado.phet.membranediffusion.model.ParticleType;
 import edu.colorado.phet.membranediffusion.model.PotassiumIon;
 import edu.colorado.phet.membranediffusion.model.SodiumIon;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -199,25 +197,21 @@ public class ConcentrationGraph extends PhetPNode {
 		
 		/**
 		 * Constructor.  The height is specified, and the width is then
-		 * determined as a function of the height and the string lengths.
+		 * determined as a function of the height and the label widths.
 		 * 
 		 * @param model
 		 * @param height
 		 */
 		public ParticleTypeLabelNode(double height, ParticleType particleType){
 			
-			PText label = new PText();
-			label.setFont(LABEL_FONT);
 			ParticleNode particleNode;
 			
 			switch (particleType){
 			case SODIUM_ION:
-				label.setText(MembraneDiffusionStrings.SODIUM_CHEMICAL_SYMBOL);
 				particleNode = new ParticleNode(new SodiumIon(), LABEL_MVT);
 				break;
 				
 			case POTASSIUM_ION:
-				label.setText(MembraneDiffusionStrings.POTASSIUM_CHEMICAL_SYMBOL);
 				particleNode = new ParticleNode(new PotassiumIon(), LABEL_MVT);
 				break;
 				
@@ -226,7 +220,6 @@ public class ConcentrationGraph extends PhetPNode {
 				System.out.println(getClass().getName() + " - Error: Unhandled particle type.");
 				assert false;
 				// Use an arbitrary default.
-				label.setText(MembraneDiffusionStrings.POTASSIUM_CHEMICAL_SYMBOL);
 				particleNode = new ParticleNode(new PotassiumIon(), LABEL_MVT);
 				break;
 			}
@@ -234,12 +227,7 @@ public class ConcentrationGraph extends PhetPNode {
 			particleNode.setScale(height / particleNode.getFullBoundsReference().height);
 			particleNode.setOffset(particleNode.getFullBoundsReference().width / 2,
 					particleNode.getFullBoundsReference().height / 2);
-			label.setScale(height / label.getFullBoundsReference().height * 1.1);
-			label.setOffset(
-					particleNode.getFullBoundsReference().getMaxX() + particleNode.getFullBoundsReference().width * 0.05,
-					particleNode.getFullBoundsReference().getCenterY() - label.getFullBoundsReference().height / 2);
 			addChild(particleNode);
-			addChild(label);
 		}
 	}
 }
