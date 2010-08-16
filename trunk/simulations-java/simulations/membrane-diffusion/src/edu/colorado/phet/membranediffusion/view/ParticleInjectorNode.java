@@ -125,7 +125,7 @@ public class ParticleInjectorNode extends PNode {
         injectorNode.rotate(-rotationAngle);
         injectorNode.scale(scale);
         
-        // Add the node that allows control of automatic injection.
+        // Add the node that allows control of the type of particle to inject.
         particleTypeSelector = new ParticleTypeSelectorNode(INJECTOR_HEIGHT * 0.6, initialParticleType, this);
         particleTypeSelector.setOffset(
         	injectorNode.getFullBoundsReference().getMinX() - particleTypeSelector.getFullBoundsReference().width + 5,
@@ -233,47 +233,13 @@ public class ParticleInjectorNode extends PNode {
 		    
 		    this.particleInjectorNode = particleInjectorNode;
 		    
-            Image sodiumImage = new ParticleNode(new SodiumIon(), PARTICLE_MVT).toImage();
-            sodiumButton = new JRadioButton();
-            sodiumButton.setBackground( BACKGROUND_COLOR );
-            sodiumButton.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    particleInjectorNode.setParticleTypeToInject( ParticleType.SODIUM_ION );
-                }
-            });
-            JPanel sodiumButtonPanel = new HorizontalLayoutPanel();
-            sodiumButtonPanel.setBackground( BACKGROUND_COLOR );
-            sodiumButtonPanel.add( sodiumButton );
-            JLabel sodiumIconLabel = new JLabel( new ImageIcon( sodiumImage ) ); 
-            // Add a listener to the image that essentially makes it so that
-            // clicking on the image is the same as clicking on the button.
-            sodiumIconLabel.addMouseListener( new MouseAdapter(){
-                public void mouseReleased(MouseEvent e) {
-                    sodiumButton.doClick();
-                }
-            });
-            sodiumButtonPanel.add( sodiumIconLabel );
-            
-            Image potassiumImage = new ParticleNode(new PotassiumIon(), PARTICLE_MVT).toImage();
-            potassiumButton = new JRadioButton();
-            potassiumButton.setBackground( BACKGROUND_COLOR );
-            potassiumButton.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    particleInjectorNode.setParticleTypeToInject( ParticleType.POTASSIUM_ION );
-                }
-            });
-            JPanel potassiumButtonPanel = new HorizontalLayoutPanel();
-            potassiumButtonPanel.setBackground( BACKGROUND_COLOR );
-            potassiumButtonPanel.add( potassiumButton );
-            JLabel potassiumIconLabel = new JLabel( new ImageIcon( potassiumImage ) ); 
-            // Add a listener to the image that essentially makes it so that
-            // clicking on the image is the same as clicking on the button.
-            potassiumIconLabel.addMouseListener( new MouseAdapter(){
-                public void mouseReleased(MouseEvent e) {
-                    potassiumButton.doClick();
-                }
-            });
-            potassiumButtonPanel.add( potassiumIconLabel );
+		    // Create the selector for sodium.
+		    ButtonIconPanel sodiumButtonPanel = createAndAddParticleSelectorButton( ParticleType.SODIUM_ION );
+		    sodiumButton = sodiumButtonPanel.getRadioButton();
+		    
+		    // Create the selector for Potassium.
+            ButtonIconPanel potassiumButtonPanel = createAndAddParticleSelectorButton( ParticleType.POTASSIUM_ION );
+            potassiumButton = potassiumButtonPanel.getRadioButton();
             
             ButtonGroup buttonGroup = new ButtonGroup();
             buttonGroup.add( sodiumButton );
@@ -313,6 +279,42 @@ public class ParticleInjectorNode extends PNode {
 			updateParticleSelectionButtons();
 		}
 		
+		/**
+		 * Convenience method - avoids code duplication.
+		 * 
+		 * @param particleType
+		 * @return
+		 */
+		private ButtonIconPanel createAndAddParticleSelectorButton(final ParticleType particleType){
+		    Image particleImage;
+		    switch (particleType){
+		    case SODIUM_ION:
+		        particleImage = new ParticleNode(new SodiumIon(), PARTICLE_MVT).toImage();
+		        break;
+            case POTASSIUM_ION:
+                particleImage = new ParticleNode(new PotassiumIon(), PARTICLE_MVT).toImage();
+                break;
+            default:
+                System.err.println(getClass().getName() + "- Error: Unrecognized particle type.");
+                assert false;
+                particleImage = new ParticleNode(new PotassiumIon(), PARTICLE_MVT).toImage();
+                break;
+		    }
+            final JRadioButton radioButton = new JRadioButton();
+            radioButton.setBackground( BACKGROUND_COLOR );
+            radioButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    particleInjectorNode.setParticleTypeToInject( particleType );
+                }
+            });
+            JPanel buttonPanel = new HorizontalLayoutPanel();
+            buttonPanel.setBackground( BACKGROUND_COLOR );
+            buttonPanel.add( radioButton );
+            JLabel iconLabel = new JLabel( new ImageIcon( particleImage ) ); 
+            buttonPanel.add( iconLabel );
+            return new ButtonIconPanel( radioButton, particleImage );
+		}
+		
 		private void updateParticleSelectionButtons(){
 		    switch (particleInjectorNode.particleTypeToInject){
 		    case SODIUM_ION:
@@ -330,6 +332,37 @@ public class ParticleInjectorNode extends PNode {
                 assert false;
                 break;
 		    }
+        }
+	}
+	
+	/**
+	 * A class that contains a radio button and an icon.  This is needed
+	 * because Java, for some odd reason, replaces the radio button when one
+	 * tries to set an icon for it.
+	 *
+	 * @author John Blanco
+	 */
+	private static class ButtonIconPanel extends HorizontalLayoutPanel {
+	    private final JRadioButton radioButton;
+	    
+        public ButtonIconPanel( final JRadioButton radioButton, Image image ) {
+            this.radioButton = radioButton;
+            setBackground( ParticleTypeSelectorNode.BACKGROUND_COLOR );
+            add(radioButton);
+            JLabel iconImageLabel = new JLabel( new ImageIcon( image ) ); 
+            add( iconImageLabel );
+            // Add a listener to the image that essentially makes it so that
+            // clicking on the image is the same as clicking on the button.
+            iconImageLabel.addMouseListener( new MouseAdapter(){
+                public void mouseReleased(MouseEvent e) {
+                    radioButton.doClick();
+                }
+            });
+
+        }
+
+        protected JRadioButton getRadioButton() {
+            return radioButton;
         }
 	}
 }
