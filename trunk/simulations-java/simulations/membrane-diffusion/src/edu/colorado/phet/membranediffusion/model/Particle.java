@@ -6,6 +6,8 @@ import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+
 /**
  * Abstract base class for a simulated particle.  It is intended that this be subclassed
  * for each specific particle type used in the simulation.
@@ -159,8 +161,8 @@ public abstract class Particle implements IMovable {
     	this.motionStrategy = motionStrategy; 
     }
     
-    public MotionStrategy getMotionStrategyRef(){
-        return motionStrategy;
+    public Vector2D getVelocity(){
+        return motionStrategy.getInstantaneousVelocity();
     }
     
     /**
