@@ -5,9 +5,11 @@ import java.awt.Color
 import java.awt.geom.Rectangle2D
 import edu.colorado.phet.motionseries.model.{MutableMotionSeriesObjectType, CustomTextMotionSeriesObjectType, MotionSeriesObjectType}
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme
+import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat
 
 object MotionSeriesDefaults {
   val CLEAR_BUTTON_VISIBILITY_THRESHOLD_JOULES = 4000 * 1.5
+  val SERIES_SELECTION_CONTROL_FORMATTER = new DefaultDecimalFormat("0.00")
 
   val FBD_DIALOG_WIDTH = 300
   val FBD_DIALOG_HEIGHT = FBD_DIALOG_WIDTH
