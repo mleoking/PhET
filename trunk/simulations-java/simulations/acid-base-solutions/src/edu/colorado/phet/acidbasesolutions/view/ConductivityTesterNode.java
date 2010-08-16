@@ -40,7 +40,8 @@ public class ConductivityTesterNode extends PhetPNode {
 
     // light bulb
     private static final double PERCENT_LIGHT_BULB_ATTACHMENT = 0.12; // percent of light bulb's full height, from bottom of bulb, determines where to attach the probe wire
-    private static final LinearFunction BRIGHTNESS_TO_ALPHA_FUNCTION = new LinearFunction( 0, 1, 0.85, 1 );
+    private static final LinearFunction BRIGHTNESS_TO_ALPHA_FUNCTION = new LinearFunction( 0, 1, 0.85, 1 ); // alpha of the bulb
+    private static final LinearFunction BRIGHTNESS_TO_INTENSITY_FUNCTION = new LinearFunction( 0, 1, 0, 1 ); // intensity of the light rays
     
     // connector wire, connects bulb and battery
     private static final Color CONNECTOR_WIRE_COLOR = Color.BLACK;
@@ -77,6 +78,7 @@ public class ConductivityTesterNode extends PhetPNode {
     private final ConductivityTester tester;
 
     private final LightBulbNode lightBulbNode;
+    private final LightRaysNode lightRaysNode;
     private final BatteryNode batteryNode;
     private final ProbeNode positiveProbeNode, negativeProbeNode;
     private final CubicWireNode positiveWireNode, negativeWireNode;
@@ -114,6 +116,10 @@ public class ConductivityTesterNode extends PhetPNode {
         // light bulb
         lightBulbNode = new LightBulbNode();
         lightBulbNode.setScale( 0.6 );
+        
+        // light rays
+        double lightBulbRadius = lightBulbNode.getFullBoundsReference().getWidth() / 2;
+        lightRaysNode = new LightRaysNode( lightBulbRadius );
         
         // battery
         batteryNode = new BatteryNode();
@@ -177,6 +183,7 @@ public class ConductivityTesterNode extends PhetPNode {
         valueNode = new ValueNode();
         
         // rendering order
+        addChild( lightRaysNode );
         addChild( positiveWireNode );
         addChild( negativeWireNode );
         addChild( positiveProbeNode );
@@ -192,6 +199,9 @@ public class ConductivityTesterNode extends PhetPNode {
         double x = 0;
         double y = 0;
         lightBulbNode.setOffset( x, y );
+        x = lightBulbNode.getFullBoundsReference().getCenterX();
+        y = lightBulbNode.getFullBoundsReference().getMinY() + lightBulbRadius;
+        lightRaysNode.setOffset( x, y );
         x = lightBulbNode.getFullBoundsReference().getCenterX() + CONNECTOR_WIRE_LENGTH;
         y = lightBulbNode.getFullBounds().getMaxY();
         batteryNode.setOffset( x, y );
@@ -243,6 +253,7 @@ public class ConductivityTesterNode extends PhetPNode {
     
     private void updateBrightness() {
         lightBulbNode.setGlassTransparency( (float) BRIGHTNESS_TO_ALPHA_FUNCTION.evaluate( tester.getBrightness() ) );
+        lightRaysNode.setIntensity( BRIGHTNESS_TO_INTENSITY_FUNCTION.evaluate( tester.getBrightness() ) );
         valueNode.setValue( tester.getBrightness() );
     }
     
