@@ -1,0 +1,18 @@
+Implementation notes for "Acid-Base Solutions" (acid-base-solutions)
+
+This simulation began its life as a simplification of advanced-acid-base-solutions.
+Much of the model and some of the view were borrowed from that sim, and adapted/simplified
+as needed.
+
+There is no model-view transform between the model and view portions of this sim. 
+The transform is implicitly 1:1, with identical coordinate frames.
+One unit of distance in the model is one unit of distance in the play area.
+Positive x is to the right, positive y is down.
+
+Location and visibility of objects is handled in the model.
+Model elements notify view elements when location or visibility changes.
+View elements handle setting their own offsets and visibility by consulting their associated model elements.
+
+The origin of view elements is generally described in each element's javadoc.
+The beaker's origin is at its bottom center, and this point is the basis for specifying
+all other object locations in ABSConstants.
