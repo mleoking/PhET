@@ -20,7 +20,7 @@
                             click="densityModule.switchToMysteryObjects()"/>
         </mx:Panel>
         <mx:Panel right="10" bottom="10">
-            <mx:Button label="Reset All" click="resetAll()"/>
+            <mx:Button label="{FlexSimStrings.get('application.resetAll','Reset All')}" click="resetAll()"/>
         </mx:Panel>
     </mx:Canvas>
     <view:DebugText id="debug" height="100" x="0" y="0" text="" color="#FFFFFF" click="DebugText.clear();"/>

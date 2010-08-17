@@ -29,4 +29,5 @@
     <string key="properties.volume" value="Volume"/>
     <string key="properties.mass" value="Mass"/>
     <string key="properties.density" value="Density"/>
+    <string key="application.resetAll" value="Reset All"/>
 </SimStrings>
