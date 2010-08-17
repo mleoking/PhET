@@ -22,7 +22,6 @@ import edu.colorado.phet.buildtools.util.PhetBuildUtils;
 import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
-import edu.colorado.phet.flashlauncher.util.SimulationProperties;
 
 public abstract class JavaProject extends PhetProject {
     public JavaProject( File projectRoot ) throws IOException {
