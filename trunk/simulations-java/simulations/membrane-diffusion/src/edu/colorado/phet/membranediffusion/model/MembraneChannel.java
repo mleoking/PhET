@@ -74,6 +74,25 @@ public abstract class MembraneChannel {
 	// them into the play area.
 	private boolean userControlled = true;
 	
+	// List of all particles currently traversing this channel.  This is
+	// needed for handling collisions and for aborting traversals if the user
+	// grabs the channel.
+	private ArrayList<Particle> particlesTraversingChannel = new ArrayList<Particle>();
+	
+	// Handler for notifications of particles that have completed the traversal
+	// of this membrane channel.
+	private MotionStrategy.Listener channelTraversalListener = new MotionStrategy.Adapter(){
+        @Override
+        public void strategyComplete( IMovable movableElement ) {
+            assert particlesTraversingChannel.contains( movableElement );
+            // This particle has completed traversing the channel, so remove
+            // if from our list.
+            particlesTraversingChannel.remove( movableElement );
+            // Don't need to listen anymore.
+            movableElement.getMotionStrategy().removeListener( channelTraversalListener );
+        }
+	};
+	
     //----------------------------------------------------------------------------
     // Constructor
     //----------------------------------------------------------------------------
@@ -197,7 +216,10 @@ public abstract class MembraneChannel {
 			if (isOpen()){
 				captureCountdownTimer -= dt;
 				if (captureCountdownTimer <= 0){
-					modelContainingParticles.requestParticleThroughChannel(getParticleTypeToCapture(), this);
+					Particle particle = modelContainingParticles.requestParticleThroughChannel(getParticleTypeToCapture(), this);
+					if (particle != null){
+					    particlesTraversingChannel.add( particle );
+					}
 					restartCaptureCountdownTimer();
 				}
 			}
@@ -214,26 +236,19 @@ public abstract class MembraneChannel {
 	/**
 	 * Set the motion strategy for a particle that will cause the particle to
 	 * traverse the channel.  This version is the one that implements the
-	 * behavior for crossing through the neuron membrane.
-	 * 
-	 * @param particle
-	 * @param maxVelocity
-	 */
-	public void moveParticleThroughNeuronMembrane(Particle particle, double maxVelocity){
-		// TODO: This should traverse the channel, but is set to null strategy while compile issues get worked out.
-		particle.setMotionStrategy(new StillnessMotionStrategy());
-	}
-	
-	/**
-	 * Set the motion strategy for a particle that will cause the particle to
-	 * traverse the channel.  This version is the one that implements the
 	 * behavior for crossing through the generic membrane.
 	 * 
 	 * @param particle
 	 * @param maxVelocity
 	 */
-	public void moveParticleThroughChannel(Particle particle, Rectangle2D postTraversalBounds, double maxVelocity){
-		particle.setMotionStrategy(new TraverseChannelMotionStrategy(this, particle.getPosition(), postTraversalBounds, maxVelocity));
+	public void moveParticleThroughChannel(Particle particle, Rectangle2D preTraversalBounds, 
+	        Rectangle2D postTraversalBounds, double maxVelocity){
+	    
+		particle.setMotionStrategy(new TraverseChannelMotionStrategy(this, particle.getPosition(), 
+		        preTraversalBounds, postTraversalBounds, maxVelocity));
+		// Add a listener so that we get a notification when the particle has
+		// completed the traversal.
+		particle.getMotionStrategy().addListener( channelTraversalListener );
 	}
 	
 	protected double getParticleVelocity() {
@@ -312,6 +327,27 @@ public abstract class MembraneChannel {
 	public void setUserControlled(boolean userControlled){
 	    if (this.userControlled != userControlled){
 	        this.userControlled = userControlled;
+	        
+	        if (this.userControlled){
+	            // If there are any particles that are in the process of
+	            // traversing the channel, their traversal must be aborted.
+	            for (Particle particle : particlesTraversingChannel){
+	                MotionStrategy motionStrategy = particle.getMotionStrategy();
+//	                assert motionStrategy instanceof TraverseChannelMotionStrategy; // See below for why this assert is here.
+	                if (motionStrategy instanceof TraverseChannelMotionStrategy){
+	                    ((TraverseChannelMotionStrategy)motionStrategy).abortTraversal( particle );
+	                }
+	                else{
+	                    // This particle is traversing the channel, but
+	                    // doesn't have a traversal motion strategy.  Weird.
+	                    // Not much we can do.
+	                    System.err.println(getClass().getName() + " Error - Particle doesn't appear to have correct motion strategy.");
+	                }
+	            }
+	            particlesTraversingChannel.clear();
+	        }
+	        
+	        // Notify listeners of the state change.
 	        notifyUserControlledStateChanged();
 	    }
 	}
