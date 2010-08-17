@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Locale;
 import java.util.Properties;
 
+import edu.colorado.phet.flashlauncher.util.SimulationProperties;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.Jar;
 import org.apache.tools.ant.taskdefs.Manifest;
@@ -253,8 +254,7 @@ public class FlashSimulationProject extends PhetProject {
             FileUtils.copyToDir( getCreditsFile(), getOfflineJARContentsDir() );
 
             //create args file
-            Properties simProperties = getSimulationProperties(simulationName, locale);
-            simProperties.store(new FileOutputStream(new File( getOfflineJARContentsDir(), "simulation.properties" )), getSimulationPropertiesComments());
+            getSimulationProperties(simulationName, locale).store(new FileOutputStream(new File( getOfflineJARContentsDir(), SimulationProperties.SIMULATION_PROPRTIES_FILENAME )), getSimulationPropertiesComments());
 
             //copy properties file
             FileUtils.copyToDir( new File( getDataDirectory(), getName() + ".properties" ), getOfflineJARContentsDir() );
