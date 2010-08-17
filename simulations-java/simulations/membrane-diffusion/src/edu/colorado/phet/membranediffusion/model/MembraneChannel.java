@@ -288,12 +288,16 @@ public abstract class MembraneChannel {
 	}
 	
 	public void setCenterLocation(Point2D newCenterLocation) {
-		if (!newCenterLocation.equals(centerLocation)){
-			centerLocation.setLocation(newCenterLocation);
-			uppperCaptureZone.setOriginPoint(newCenterLocation);
-			lowerCaptureZone.setOriginPoint(newCenterLocation);
-			notifyPositionChanged();
-		}
+	    setCenterLocation( newCenterLocation.getX(), newCenterLocation.getY() );
+	}
+	
+	public void setCenterLocation(double x, double y){
+	    if (centerLocation.getX() != x || centerLocation.getY() != y){
+	        centerLocation.setLocation( x, y );
+	        uppperCaptureZone.setOriginPoint( x, y );
+	        uppperCaptureZone.setOriginPoint( x, y );
+	        notifyPositionChanged();
+	    }
 	}
 
 	/**
