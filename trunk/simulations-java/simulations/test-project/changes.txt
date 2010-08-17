@@ -1,3 +1,5 @@
+# 2.18.01 (43223) Aug 17, 2010
+8/17/10 test support for simulation.properties in Java sims
 # 2.18.00 (42871) Aug 10, 2010
 8/10/10 Testing deployment with PBG changes
 # 2.17.01 (42058) Jul 1, 2010
