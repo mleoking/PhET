@@ -19,8 +19,6 @@ MEDUIUM PRIORITY
 - add MVT to handle relationship between model element locations and PNode locations
 
 LOW PRIORITY
-- export design doc from Google, check into SVN
-- model.txt
 - scale light bulb image files, remove setScale calls in ConductivityTesterNode
 
 MIGRATE TO COMMON
