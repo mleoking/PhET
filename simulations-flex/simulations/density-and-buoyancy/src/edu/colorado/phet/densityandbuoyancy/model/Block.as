@@ -37,14 +37,14 @@ public class Block extends Cuboid {
     }
 
     public function updateColor():void {
-        var density = getDensity();
-        var maxDensity = 20 * 1000;
-        var minDensity = -1 * 1000;
-        var maxRed = 1;
-        var minRed = 0;
-        var red = 1 - (maxRed - minRed) / (maxDensity - minDensity) * density * 0.9;
-        var green = 1 - (maxRed - minRed) / (maxDensity - minDensity) * density * 0.8;
-        var blue = 1 - (maxRed - minRed) / (maxDensity - minDensity) * density * 0.7;
+        var density:Number = getDensity();
+        var maxDensity:Number = 20 * 1000;
+        var minDensity:Number = -1 * 1000;
+        var maxRed:Number = 1;
+        var minRed:Number = 0;
+        var red:Number = 1 - (maxRed - minRed) / (maxDensity - minDensity) * density * 0.9;
+        var green:Number = 1 - (maxRed - minRed) / (maxDensity - minDensity) * density * 0.8;
+        var blue:Number = 1 - (maxRed - minRed) / (maxDensity - minDensity) * density * 0.7;
         trace("rgb = " + red + ", " + green + ", " + blue);
         this.color = new ColorTransform(clamp(red), clamp(green), clamp(blue));
         //notify color listeners to remove order dependency
