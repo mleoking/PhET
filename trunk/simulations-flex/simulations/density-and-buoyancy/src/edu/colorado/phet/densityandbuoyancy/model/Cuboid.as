@@ -104,7 +104,7 @@ public class Cuboid extends DensityObject {
         this.height = Math.pow(getVolume(), 1.0 / 3.0);
         this.width = Math.pow(getVolume(), 1.0 / 3.0);
         this.depth = Math.pow(getVolume(), 1.0 / 3.0);
-        z = depth / 2 +DensityConstants.DEFAULT_BLOCK_WATER_OFFSET;//put block edge equal to pool front  
+        z = depth / 2 + DensityConstants.DEFAULT_BLOCK_WATER_OFFSET;//put block edge equal to pool front  
         updateShapeDef();
     }
 }

@@ -9,8 +9,8 @@ public class CuboidNode extends DensityObjectNode implements Pickable, ShapeChan
 
     private var cuboid:Cuboid;
 
-    public function CuboidNode(cuboid:Cuboid,view:AbstractDensityModule):void {
-        super(cuboid,view);
+    public function CuboidNode(cuboid:Cuboid, view:AbstractDensityModule):void {
+        super(cuboid, view);
         this.cuboid = cuboid;
         this.x = cuboid.getX() * DensityModel.DISPLAY_SCALE;
         this.y = cuboid.getY() * DensityModel.DISPLAY_SCALE;

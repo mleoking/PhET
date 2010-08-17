@@ -5,12 +5,7 @@ import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
 import edu.colorado.phet.densityandbuoyancy.model.Scale;
 
 import flash.display.Bitmap;
-import flash.display.BitmapData;
-import flash.display.BitmapDataChannel;
 import flash.display.Sprite;
-import flash.geom.ColorTransform;
-import flash.geom.Point;
-import flash.geom.Rectangle;
 import flash.text.TextField;
 import flash.text.TextFormat;
 
@@ -30,10 +25,10 @@ public class ScaleNode extends CuboidNode implements Pickable {
     private static var WALL_RES:Number = 100;
     private const textureBitmap:Bitmap = getCustomBitmap();
 
-    public function ScaleNode(scale:Scale,view:AbstractDensityModule ):void {
-        super(scale,view);
+    public function ScaleNode(scale:Scale, view:AbstractDensityModule):void {
+        super(scale, view);
         this._scale = scale;
-        
+
         trace("scale addNodes()");
 
         var totalWidth:Number = getCuboid().getWidth() * DensityModel.DISPLAY_SCALE;
@@ -64,8 +59,8 @@ public class ScaleNode extends CuboidNode implements Pickable {
         stand.depth = totalDepth / 5;
         stand.y = base.y + base.height / 2 + stand.height / 2;
         addChild(stand);
-        
-        
+
+
         frontSprite = new Sprite();
         textureHolder = new Sprite();
         textureHolder.addChild(textureBitmap);
@@ -75,7 +70,7 @@ public class ScaleNode extends CuboidNode implements Pickable {
         frontSprite.graphics.endFill();
 
         textField = new TextField();
-        
+
         frontSprite.addChild(textureHolder);
         frontSprite.addChild(textField);
         updateText();
@@ -98,6 +93,7 @@ public class ScaleNode extends CuboidNode implements Pickable {
 
         stand.material = sideMaterial;
     }
+
     [Embed(source="../../../../../../data/density-and-buoyancy/images/scale-front.jpg")]
     private static var wallClass:Class;
 
@@ -110,7 +106,7 @@ public class ScaleNode extends CuboidNode implements Pickable {
         textField.width = textureBitmap.bitmapData.width;
         textField.height = textureBitmap.bitmapData.height;
         var format:TextFormat = new TextFormat();
-//        format.size = int(45 * ((Scale.SCALE_WIDTH * 200 / 3) / base.width));
+        //        format.size = int(45 * ((Scale.SCALE_WIDTH * 200 / 3) / base.width));
         format.size = 52;
         format.bold = true;
         format.font = "Arial";

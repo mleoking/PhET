@@ -1,6 +1,4 @@
 package edu.colorado.phet.densityandbuoyancy.buoyancy {
-import edu.colorado.phet.densityandbuoyancy.components.*;
-
 import mx.controls.Button;
 
 public class SpherePropertiesPanel extends DensityObjectPropertiesPanel {

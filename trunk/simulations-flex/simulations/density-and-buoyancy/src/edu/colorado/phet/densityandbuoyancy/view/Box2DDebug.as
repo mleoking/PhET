@@ -1,6 +1,5 @@
 package edu.colorado.phet.densityandbuoyancy.view {
 import Box2D.Dynamics.b2DebugDraw;
-
 import Box2D.Dynamics.b2World;
 
 import edu.colorado.phet.densityandbuoyancy.DensityConstants;

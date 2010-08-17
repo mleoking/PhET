@@ -1,6 +1,4 @@
 package edu.colorado.phet.densityandbuoyancy.buoyancy {
-import edu.colorado.phet.densityandbuoyancy.components.*;
-
 public class DensityObjectPropertiesPanel extends PropertiesPanel {
     public function DensityObjectPropertiesPanel() {
         super();
