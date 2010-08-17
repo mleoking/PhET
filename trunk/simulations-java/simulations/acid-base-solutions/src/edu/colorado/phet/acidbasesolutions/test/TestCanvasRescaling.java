@@ -12,12 +12,22 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
- * Tests a general layout problem I'm having with the sim.
- * As the main frame is made less tall, the play area initially doesn't rescale.
- * This causes the reaction equation to be clipped.
- * This happens when FRAME_SIZE is less than CANVAS_RENDERING_SIZE,
- * and appears to be a problem with PhetPCanvas' RenderingSizeStrategy.
- * The problem goes away if CANVAS_RENDERING_SIZE is square (eg 1024x1024).
+ * Tests a general layout problem I'm having with the acid-base-solution sims.
+ * This sim (and this test) uses a PhetPCanvas with RenderingSizeStrategy, 
+ * and all nodes are world children.
+ * <p>
+ * The problem: As the main frame's height is reduced, while keeping the width
+ * constant, the play area initially does not rescale.
+ * This causes stuff at the bottom of the play area to get clipped.
+ * <p>
+ * To demonstrate, slowly resize the main frame, keeping its width constant while
+ * reducing its height.  You'll see that the play area does not scale for awhile,
+ * and blueBoxNode gets clipped.
+ * <p>
+ * This happens when FRAME_SIZE is less than CANVAS_RENDERING_SIZE.
+ * The problem goes away if FRAME_SIZE=CANVAS_RENDERING_SIZE, or if 
+ * CANVAS_RENDERING_SIZE is square (eg 1024x1024).
+ * I suspect that this is a bug in PhetPCanvas.RenderingSizeStrategy.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
