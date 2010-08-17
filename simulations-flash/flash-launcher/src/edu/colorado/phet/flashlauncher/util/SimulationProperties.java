@@ -1,36 +1,42 @@
+/* Copyright 2010, University of Colorado */
+
 package edu.colorado.phet.flashlauncher.util;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Properties;
 
 /**
  * This encapsulates a .properties file named "simulation.properties" that contains
  * information used by FlashLauncher and TranslationUtility for launching Java and Flash sims.
  * <p/>
- * This class is in FlashLauncher because FlashLauncher needs to be Java 1.4 compliant,
+ * This class lives in the flashlauncher package because FlashLauncher needs to be Java 1.4 compliant,
  * and we want to keep FlashLauncher as small as possible.
  *
  * @author Sam Reid
  * @author Jon Olson
  */
 public class SimulationProperties {
+    
     public static final String SIMULATION_PROPRTIES_FILENAME = "simulation.properties";
 
-    public static final String KEY_PROJECT = "project";
-    public static final String KEY_SIMULATION = "simulation";
-    public static final String KEY_LANGUAGE = "language";
-    public static final String KEY_COUNTRY = "country";
-    public static final String KEY_TYPE = "type";
+    private static final String KEY_PROJECT = "project";
+    private static final String KEY_SIMULATION = "simulation";
+    private static final String KEY_LANGUAGE = "language";
+    private static final String KEY_COUNTRY = "country";
+    private static final String KEY_TYPE = "type";
     
+    // simulation types. An enum would be preferable, but flash-launcher must be Java 1.4 compatible.
     public static final String TYPE_JAVA = "java";
     public static final String TYPE_FLASH = "flash";
     
+    // properties in this file
     private String project;
     private String simulation;
     private String language;
     private String country;
-    private String type;//This could be "java", "flash", and should be used in the TranslationUtility to determine whether a simulation is flash or java 
+    private String type; // the type of simulation
 
     public SimulationProperties() {
         // read sim and language from args file (JAR resource)        
@@ -48,6 +54,10 @@ public class SimulationProperties {
         this.type = properties.getProperty( KEY_TYPE );
     }
 
+    public SimulationProperties( String project, String simulation, Locale locale, String type ) {
+        this( project, simulation, locale.getLanguage(), locale.getCountry(), type );
+    }
+    
     public SimulationProperties( String project, String simulation, String language, String country, String type ) {
         this.project = project;
         this.simulation = simulation;
@@ -57,7 +67,6 @@ public class SimulationProperties {
     }
 
     //TODO: This is currently a stub for which we may drop or add support, not sure now
-
     public boolean isDevelopment() {
         return false;
     }
@@ -89,9 +98,8 @@ public class SimulationProperties {
     public boolean isFlash(){
         return type.equals( TYPE_FLASH );
     }
-
+    
     public void store( FileOutputStream fileOutputStream, String comments ) throws IOException {
-        // read sim and language from args file (JAR resource)        
         Properties properties = new Properties();
         properties.setProperty( KEY_PROJECT, project );
         properties.setProperty( KEY_SIMULATION, simulation );
