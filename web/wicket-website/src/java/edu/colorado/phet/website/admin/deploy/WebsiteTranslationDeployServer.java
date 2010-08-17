@@ -38,13 +38,13 @@ public class WebsiteTranslationDeployServer {
 
     public void integrateTranslations( File translationDir ) throws IOException, InterruptedException {
         // java projects
-        for ( Object o : getJavaProjectNameList( translationDir ) ) {
-            integrateJavaTranslations( translationDir, (String) o );
+        for ( String o : getJavaProjectNameList( translationDir ) ) {
+            integrateJavaTranslations( translationDir,  o );
         }
 
         // flash projects
-        for ( Object o : getFlashProjectNameList( translationDir ) ) {
-            integrateFlashTranslations( translationDir, (String) o );
+        for ( String o : getFlashProjectNameList( translationDir ) ) {
+            integrateFlashTranslations( translationDir, o );
         }
 
         runStringCommand( "chmod -R g+w " + translationDir.getCanonicalPath() );
@@ -135,14 +135,14 @@ public class WebsiteTranslationDeployServer {
         FileUtils.copyTo( localCopyOfAllJAR, new File( localCopyOfAllJAR.getParentFile(), localCopyOfAllJAR.getName() + ".bak" ) );
     }
 
-    public static ArrayList getJavaProjectNameList( File translationDir ) {
+    public static ArrayList<String> getJavaProjectNameList( File translationDir ) {
         HashSet<String> projectNames = getJavaProjectNames( translationDir );
         ArrayList<String> list = new ArrayList<String>( projectNames );
         Collections.sort( list );//iterate in order in case any problems happen halfway through
         return list;
     }
 
-    public static ArrayList getFlashProjectNameList( File translationDir ) {
+    public static ArrayList<String> getFlashProjectNameList( File translationDir ) {
         HashSet<String> projectNames = getFlashProjectNames( translationDir );
         ArrayList<String> list = new ArrayList<String>( projectNames );
         Collections.sort( list );//iterate in order in case any problems happen halfway through
