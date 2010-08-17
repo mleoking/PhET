@@ -15,6 +15,7 @@ MEDUIUM PRIORITY
 - change "Concentration Graph" to "Concentration"
 - change "neither" to "Liquid"
 - add MVT to handle relationship between model element locations and PNode locations
+- confusion between pH paper and bars in graph by allowing them to be shown at the same time?
 
 LOW PRIORITY
 - scale light bulb image files, remove setScale calls in ConductivityTesterNode
