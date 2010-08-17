@@ -18,7 +18,6 @@ public class DensityObject {
     private var x:NumericProperty;
     private var y:NumericProperty;
     private var _z:NumericProperty;
-    //    private var listeners:Array;
     private var velocityArrowModel:ArrowModel = new ArrowModel(0, 0);
     private var gravityForceArrowModel:ArrowModel = new ArrowModel(0, 0);
     private var buoyancyForceArrowModel:ArrowModel = new ArrowModel(0, 0);
@@ -189,16 +188,6 @@ public class DensityObject {
         if (body.GetPosition().x != x * DensityConstants.SCALE_BOX2D || body.GetPosition().y != y * DensityConstants.SCALE_BOX2D) {
             body.SetXForm(new b2Vec2(x * DensityConstants.SCALE_BOX2D, y * DensityConstants.SCALE_BOX2D), 0);
         }
-
-        notifyListeners();
-    }
-
-    protected function notifyListeners():void {
-        //todo: notify listeners
-        // TODO: looks like major potential for infinite loops here, since update => setPosition => Update is possible
-        //        for each (var listener:Listener in listeners) {
-        //            listener.update();
-        //        }
     }
 
     public function getBody():b2Body {
@@ -294,7 +283,6 @@ public class DensityObject {
     public function setDensity(density:Number):void {
         this.density.value = density;
         updateBox2DModel();
-        notifyListeners();
     }
 
     public function getDensity():Number {
@@ -304,7 +292,6 @@ public class DensityObject {
     public function setVolume(value:Number):void {
         this.volume.value = value;
         updateBox2DModel();
-        notifyListeners();
     }
 
     public function getVolume():Number {
@@ -314,7 +301,6 @@ public class DensityObject {
     private function setMass(number:Number):void {
         mass.value = number;
         updateBox2DModel();
-        notifyListeners();
     }
 
     public function reset():void {
@@ -325,7 +311,6 @@ public class DensityObject {
         y.reset();
         _z.reset();
         updateBox2DModel();
-        notifyListeners();
     }
 
     public function getYProperty():NumericProperty {
