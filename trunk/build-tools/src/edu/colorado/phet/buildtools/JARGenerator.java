@@ -60,9 +60,9 @@ public class JARGenerator {
     }
 
     private void generateOfflineJAR( File jar, String flavor, Locale locale, String pathToJARUtility, BuildLocalProperties buildLocalProperties ) throws IOException, InterruptedException {
-        File dst = new File( jar.getParentFile(), flavor + "_" + locale + ".jar" );
-        logger.fine( "Writing to: " + dst.getAbsolutePath() );
-        FileUtils.copyTo( jar, dst );
+        File newJar = new File( jar.getParentFile(), flavor + "_" + locale + ".jar" );
+        logger.fine( "Writing to: " + newJar.getAbsolutePath() );
+        FileUtils.copyTo( jar, newJar );
 
         Properties properties = getJarLauncherProperties( jar );
         properties.put( JARLauncher.FLAVOR_KEY, flavor );
@@ -86,7 +86,9 @@ public class JARGenerator {
         simulationProperities.store( new FileOutputStream( simulationPropertiesFile ), getSimulationProperitiesComments() );
         
         //add files created above to the jar
-        String command = pathToJARUtility + " uf " + dst.getAbsolutePath() + " -C " + workingDir.getAbsolutePath() + " " + jarLauncherPropertiesFile.getName() + " " + simulationPropertiesFile.getName();
+        String command = pathToJARUtility + " uf " + newJar.getAbsolutePath() + 
+            " -C " + workingDir.getAbsolutePath() + " " + jarLauncherPropertiesFile.getName() + 
+            " -C " + workingDir.getAbsolutePath() + " " + simulationPropertiesFile.getName();
         logger.fine( "Running command: " + command );
         Process p = Runtime.getRuntime().exec( command );
         //TODO: redirect output to console
@@ -95,7 +97,7 @@ public class JARGenerator {
         delete(simulationPropertiesFile);
 
         PhetJarSigner jarSigner = new PhetJarSigner( buildLocalProperties );
-        jarSigner.signJar( dst );
+        jarSigner.signJar( newJar );
     }
     
     private String getSimulationProperitiesComments() {
