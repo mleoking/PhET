@@ -36,24 +36,16 @@ public class ParticleNode extends PNode {
 			public void positionChanged() {
 				updateOffset();
 			}
-			public void opaquenessChanged() {
-				updateOpaqueness();
-			}
 		});
 
         // Create the shape that represents this particle.
         representation = createRepresentation();
 		addChild( representation );
         updateOffset();
-        updateOpaqueness();
 	}
     
     private void updateOffset() {
         setOffset( modelViewTransform.modelToView( particle.getPosition() ));
-    }
-    
-    private void updateOpaqueness() {
-    	setTransparency((float)(particle.getOpaqueness()));
     }
     
     /**
