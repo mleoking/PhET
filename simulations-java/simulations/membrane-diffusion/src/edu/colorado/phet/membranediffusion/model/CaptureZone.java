@@ -16,6 +16,7 @@ public abstract class CaptureZone {
 	public abstract Shape getShape();
 	public abstract boolean isPointInZone(Point2D pt);
 	public abstract void setOriginPoint(Point2D centerPoint);
+	public abstract void setOriginPoint(double x, double y);
 	public abstract Point2D getOriginPoint();
 	
 }
