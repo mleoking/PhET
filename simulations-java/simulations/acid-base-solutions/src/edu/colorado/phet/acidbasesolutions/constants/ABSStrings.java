@@ -50,7 +50,7 @@ public class ABSStrings {
     public static final String CONCENTRATION_GRAPH_Y_AXIS = ABSResources.getString( "concentrationGraph.yAxis" );
     public static final String NEGLIGIBLE = ABSResources.getString( "negligible" );
     public static final String PH_COLOR_KEY = ABSResources.getString( "pHColorKey" );
-    public static final String NEITHER = ABSResources.getString( "neither" );
+    public static final String LIQUID = ABSResources.getString( "liquid" );
     public static final String VIEWS = ABSResources.getString( "views" );
     
     private static final String getString( String key ) {
