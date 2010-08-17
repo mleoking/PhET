@@ -19,8 +19,6 @@ import edu.colorado.phet.flashlauncher.util.AnnotationParser;
 import edu.colorado.phet.flashlauncher.util.XMLUtils;
 
 public class FlashHTML {
-    private static final String NULL = "null";
-
     public static String distribution_tag_dummy = "@@DISTRIBUTION_TAG@@";
     public static String installation_timestamp_dummy = "@@INSTALLATION_TIMESTAMP@@";
     public static String installer_creation_timestamp_dummy = "@@INSTALLER_CREATION_TIMESTAMP@@";
@@ -106,7 +104,7 @@ public class FlashHTML {
 
     public static String localeString( String language, String country ) {
         String ret = language;
-        if ( !country.equals( NULL ) ) {
+        if ( !country.equals( "" ) ) {
             ret += "_" + country;
         }
         return ret;

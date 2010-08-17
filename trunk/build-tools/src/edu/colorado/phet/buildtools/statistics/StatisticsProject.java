@@ -72,4 +72,9 @@ public class StatisticsProject extends PhetProject {
     public boolean isTestable() {
         return false;
     }
+
+    @Override
+    public String getType() {
+        return "statistics";
+    }
 }

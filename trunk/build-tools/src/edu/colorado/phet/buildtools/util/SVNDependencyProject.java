@@ -14,7 +14,7 @@ import edu.colorado.phet.buildtools.Simulation;
  * Time: 3:07:53 AM
  * A quick project that will always return success for build(), but used for dependencies.
  */
-public class SVNDependencyProject extends PhetProject {
+public abstract class SVNDependencyProject extends PhetProject {
 
     public SVNDependencyProject( File projectRoot ) throws IOException {
         super( projectRoot );

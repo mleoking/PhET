@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.util.AnnotationParser;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
+import edu.colorado.phet.flashlauncher.FlashLauncher;
 
 /**
  * Author: Sam Reid
@@ -970,5 +971,20 @@ public abstract class PhetProject {
     public String getClasspath() {
         return JavaBuildCommand.toClasspathString( getAllJarFiles() );
     }
+    
+    public abstract String getType();
+    
+    public Properties getSimulationProperties(String simulationName, Locale locale) {
+        Properties simProperties = new Properties();
+        simProperties.setProperty(FlashLauncher.PROPERTY_PROJECT, getName());
+        simProperties.setProperty(FlashLauncher.PROPERTY_SIMULATION, simulationName);
+        simProperties.setProperty(FlashLauncher.PROPERTY_LANGUAGE, locale.getLanguage());
+        simProperties.setProperty(FlashLauncher.PROPERTY_COUNTRY, locale.getCountry());
+        simProperties.setProperty(FlashLauncher.PROPERTY_TYPE, getType());
+        return simProperties;
+    }
 
+    public String getSimulationPropertiesComments() {
+        return "";
+    }
 }

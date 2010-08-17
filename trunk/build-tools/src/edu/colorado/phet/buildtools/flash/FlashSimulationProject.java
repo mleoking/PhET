@@ -253,7 +253,8 @@ public class FlashSimulationProject extends PhetProject {
             FileUtils.copyToDir( getCreditsFile(), getOfflineJARContentsDir() );
 
             //create args file
-            FileUtils.writeString( new File( getOfflineJARContentsDir(), "flash-launcher-args.txt" ), simulationName + " " + locale.getLanguage() + " " + locale.getCountry() );
+            Properties simProperties = getSimulationProperties(simulationName, locale);
+            simProperties.store(new FileOutputStream(new File( getOfflineJARContentsDir(), "simulation.properties" )), getSimulationPropertiesComments());
 
             //copy properties file
             FileUtils.copyToDir( new File( getDataDirectory(), getName() + ".properties" ), getOfflineJARContentsDir() );
@@ -583,6 +584,11 @@ public class FlashSimulationProject extends PhetProject {
 
     public boolean isTestable() {
         return true;
+    }
+
+    @Override
+    public String getType() {
+        return "flash";
     }
 
     public PhetProject[] getDependencies() {

@@ -1,3 +1,4 @@
+8/16/2010 Introduced support for simulation.properties file, which will replace flash-launcher-args.properties, see #2463
 7/2/2010 Fixed java compilation so that IDE classpath is not included in classpath when running from IDE, see #2431
 6/25/2010 Fixed the name of the web url used by curl during website deploy to figaro, see WebsiteProject around line 81
 5/11/2010 Added an optional flag to the build-local.properties file that allows the developer to skip the "enter a change message" dialog, see #2326
