@@ -3,8 +3,8 @@ import Box2D.Dynamics.Contacts.b2ContactResult;
 import Box2D.Dynamics.b2Body;
 
 import edu.colorado.phet.densityandbuoyancy.DensityConstants;
-import edu.colorado.phet.densityandbuoyancy.view.DensityObjectNode;
 import edu.colorado.phet.densityandbuoyancy.view.AbstractDensityModule;
+import edu.colorado.phet.densityandbuoyancy.view.DensityObjectNode;
 import edu.colorado.phet.densityandbuoyancy.view.ScaleNode;
 
 /**
@@ -17,9 +17,9 @@ public class Scale extends Cuboid {
     public static var SCALE_DENSITY:Number = 2.0 * 1000;
 
     private static const SCALE_SCALE:Number = 1.7;
-    public static var SCALE_WIDTH:Number = 1.0/10*SCALE_SCALE;
-    public static var SCALE_HEIGHT:Number = 1/3.0/10*SCALE_SCALE;
-    public static var SCALE_DEPTH:Number = 1.0/10*SCALE_SCALE;
+    public static var SCALE_WIDTH:Number = 1.0 / 10 * SCALE_SCALE;
+    public static var SCALE_HEIGHT:Number = 1 / 3.0 / 10 * SCALE_SCALE;
+    public static var SCALE_DEPTH:Number = 1.0 / 10 * SCALE_SCALE;
 
     public function Scale(x:Number, y:Number, model:DensityModel, mass:Number):void {
         super(SCALE_DENSITY, SCALE_WIDTH, SCALE_HEIGHT, SCALE_DEPTH, x, y, model, Substance.CUSTOM);
@@ -28,7 +28,7 @@ public class Scale extends Cuboid {
     public function getScaleReadout():String {
         // TODO: localize
         // scaled by DT-frame because we are measuring the 'normal impulses'
-        var num:Number = totalImpulse / DensityModel.DT_FRAME / DensityConstants.GRAVITY/1000;//todo: why the 1000?  does this handle units properly?
+        var num:Number = totalImpulse / DensityModel.DT_FRAME / DensityConstants.GRAVITY / 1000;//todo: why the 1000?  does this handle units properly?
         var numStr:String = String(Math.round(num * 100) / 100);
         return String(numStr).substr(0, 7) + " kg";
     }
