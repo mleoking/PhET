@@ -31,7 +31,7 @@ import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 public class ViewControls extends JPanel {
     
     private final ABSModel model;
-    private final JRadioButton magnifyingGlassRadioButton, concentrationGraphRadioButton, neitherRadioButton;
+    private final JRadioButton magnifyingGlassRadioButton, concentrationGraphRadioButton, liquidRadioButton;
     private final JLabel magnifyingGlassIcon, concentrationGraphIcon;
     private final JCheckBox showWaterCheckBox;
     private boolean controlsEnabled;
@@ -124,13 +124,13 @@ public class ViewControls extends JPanel {
             concentrationGraphRadioButton = new JRadioButton( ABSStrings.CONCENTRATION_GRAPH );
             concentrationGraphRadioButton.addActionListener( actionListener );
             
-            neitherRadioButton = new JRadioButton( ABSStrings.NEITHER );
-            neitherRadioButton.addActionListener( actionListener );
+            liquidRadioButton = new JRadioButton( ABSStrings.LIQUID );
+            liquidRadioButton.addActionListener( actionListener );
             
             ButtonGroup group = new ButtonGroup();
             group.add( magnifyingGlassRadioButton );
             group.add( concentrationGraphRadioButton );
-            group.add( neitherRadioButton );
+            group.add( liquidRadioButton );
         }
         
         // "Show Water" check box
@@ -157,7 +157,7 @@ public class ViewControls extends JPanel {
             layout.addComponent( showWaterCheckBox, 1, 1, 1, 1 );
             layout.addComponent( concentrationGraphRadioButton, 2, 0, 2, 1 );
             layout.addComponent( concentrationGraphIcon, 2, 2 );
-            layout.addComponent( neitherRadioButton, 3, 0, 2, 1 );
+            layout.addComponent( liquidRadioButton, 3, 0, 2, 1 );
             
             // ensure left justification
             this.setLayout( new BorderLayout() );
@@ -194,7 +194,7 @@ public class ViewControls extends JPanel {
             showWaterCheckBox.setEnabled( controlsEnabled && magnifyingGlassRadioButton.isSelected() );
             concentrationGraphRadioButton.setEnabled( controlsEnabled );
             concentrationGraphIcon.setEnabled( controlsEnabled );
-            neitherRadioButton.setEnabled( controlsEnabled );
+            liquidRadioButton.setEnabled( controlsEnabled );
 
             if ( controlsEnabled ) {
                 model.getMagnifyingGlass().setVisible( magnifyingGlassRadioButton.isSelected() );
