@@ -5,7 +5,11 @@ import java.io.IOException;
 import java.util.Properties;
 
 /**
- * This encapsulates a .properties file named "simulation.properties" that contains information used by FlashLauncher and TranslationUtility for launching Java and Flash sims.
+ * This encapsulates a .properties file named "simulation.properties" that contains 
+ * information used by FlashLauncher and TranslationUtility for launching Java and Flash sims.
+ * <p>
+ * This class is in FlashLauncher because FlashLauncher needs to be Java 1.4 compliant,
+ * and we want to keep FlashLauncher as small as possible.
  *
  * @author Sam Reid
  * @author Jon Olson
