@@ -5,9 +5,12 @@ import edu.colorado.phet.densityandbuoyancy.model.Substance;
 
 import edu.colorado.phet.densityandbuoyancy.view.units.Units;
 
+import edu.colorado.phet.flexcommon.FlexSimStrings;
+
 import mx.containers.Grid;
 import mx.containers.Panel;
 import mx.controls.ComboBox;
+import mx.events.ListEvent;
 
 public class CustomObjectPropertiesPanel extends Panel {
     private var grid:Grid = new Grid();
@@ -16,7 +19,7 @@ public class CustomObjectPropertiesPanel extends Panel {
 
     public function CustomObjectPropertiesPanel(densityObject:DensityObject,units:Units) {
         super();
-        this.title = "Properties";
+        this.title = FlexSimStrings.get("customObject.properties","Properties");
         this.densityObject = densityObject;
 
         //TODO: remove listeners from former density object
@@ -42,19 +45,19 @@ public class CustomObjectPropertiesPanel extends Panel {
 
         comboBox = new ComboBox();
         comboBox.dataProvider = [Substance.WOOD,Substance.WATER_BALLOON,Substance.LEAD,Substance.CUSTOM];
-        comboBox.labelField = "name";
+        comboBox.labelField = "name";//uses the "name" get property on Substance to identify the name
         function myListener():void {
             trace("comboBox.selectedItem=" + comboBox.selectedItem);
             if (comboBox.selectedItem.isCustom()) {
                 if (!densityObject.getSubstance().isCustom()) {
-                    densityObject.substance = new Substance("Custom", densityObject.getDensity(),true);
+                    densityObject.substance = new Substance(FlexSimStrings.get("customObject.custom","Custom"), densityObject.getDensity(),true);
                 }
             } else {
                 densityObject.setDensity(comboBox.selectedItem.getDensity());
             }
         }
 
-        comboBox.addEventListener("change", myListener);
+        comboBox.addEventListener(ListEvent.CHANGE, myListener);
         densityObject.addSubstanceListener(function f():void {
             if (densityObject.getSubstance().isCustom()) {
                 comboBox.selectedItem = Substance.CUSTOM;

@@ -1,5 +1,9 @@
 <?xml version="1.0" ?>
 <SimStrings>
-  <string key="simTitle" value="Density" />
-  <string key="intro.objectsOfSameMass" value="Objects-ay of amesay massmay" />
+  <string key="density.simTitle" value="XDensity"/>
+    <string key="buoyancy.simTitle" value="XDensity"/>
+    <string key="intro.objectsOfSameMass" value="XObjects of same mass"/>
+    <string key="customObject.properties" value="XProperties"/>
+    <string key="customObject.name" value="Xname"/>
+    <string key="customObject.custom" value="XCustom"/>
 </SimStrings>
