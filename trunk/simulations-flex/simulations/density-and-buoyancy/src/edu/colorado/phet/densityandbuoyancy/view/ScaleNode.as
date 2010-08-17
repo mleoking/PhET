@@ -2,7 +2,6 @@ package edu.colorado.phet.densityandbuoyancy.view {
 import away3d.materials.*;
 
 import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
-import edu.colorado.phet.densityandbuoyancy.model.Listener;
 import edu.colorado.phet.densityandbuoyancy.model.Scale;
 
 import flash.display.Bitmap;

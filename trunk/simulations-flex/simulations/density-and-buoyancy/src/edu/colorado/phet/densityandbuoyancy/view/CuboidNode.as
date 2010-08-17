@@ -3,7 +3,6 @@ import Box2D.Dynamics.b2Body;
 
 import edu.colorado.phet.densityandbuoyancy.model.Cuboid;
 import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
-import edu.colorado.phet.densityandbuoyancy.model.Listener;
 import edu.colorado.phet.densityandbuoyancy.model.ShapeChangeListener;
 
 public class CuboidNode extends DensityObjectNode implements Pickable, ShapeChangeListener {
