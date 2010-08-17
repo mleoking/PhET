@@ -2,6 +2,8 @@ package edu.colorado.phet.densityandbuoyancy.view {
 import edu.colorado.phet.densityandbuoyancy.DensityConstants;
 import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
 
+import edu.colorado.phet.flexcommon.FlexSimStrings;
+
 import flash.display.Sprite;
 import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
@@ -17,7 +19,7 @@ public class WaterVolumeIndicator extends Sprite {
         this.model = model;
         textField = new TextField();
         textField.autoSize = TextFieldAutoSize.RIGHT;
-        textField.text = "hello";
+        textField.text = "";
         addChild(textField);
 
         textField.selectable = false;
@@ -33,8 +35,7 @@ public class WaterVolumeIndicator extends Sprite {
 
         var readout:Number = DensityConstants.metersToLitersCubed(indicatedVolume);
 
-        //        textField.text= String(readout.toFixed(3))+" cm\u00b3"; 
-        textField.text = String(readout.toFixed(2)) + " L";
+        textField.text = FlexSimStrings.get("properties.volumeValue","{0} L",[String(readout.toFixed(2))]);
         var textFormat:TextFormat = new TextFormat();
         textFormat.size = 24;
         textFormat.bold = true;

@@ -37,7 +37,7 @@ public class DensityObject {
         this.volume = new NumericProperty(FlexSimStrings.get("properties.volume","Volume"), "m\u00b3", volume);
         this.mass = new NumericProperty(FlexSimStrings.get("properties.mass","Mass"), "kg", mass);
         this.density = new NumericProperty(FlexSimStrings.get("properties.density","Density"), "kg/m\u00b3", density);
-        this.labelProperty = new StringProperty(String(getMass().toFixed(1)) + " kg");//Showing one decimal point is a good tradeoff between readability and complexity);
+        this.labelProperty = new StringProperty(getLabelString());//Showing one decimal point is a good tradeoff between readability and complexity);
 
         function massChanged():void {
             if (isDensityFixed()) {
@@ -47,7 +47,7 @@ public class DensityObject {
                 //a change in mass or volume causes a change in density
                 setDensity(getMass() / getVolume());
             }
-            labelProperty.value = String(getMass().toFixed(1)) + " kg";
+            labelProperty.value = getLabelString();
         }
 
         getMassProperty().addListener(massChanged);
@@ -93,6 +93,10 @@ public class DensityObject {
         this.model = model;
         this.density.value = density;
         //        this.listeners = new Array();
+    }
+
+    private function getLabelString():String {
+        return FlexSimStrings.get("properties.massValue","{0} kg",[getMass().toFixed(1)]);
     }
 
     protected function getLabelProperty():StringProperty {
