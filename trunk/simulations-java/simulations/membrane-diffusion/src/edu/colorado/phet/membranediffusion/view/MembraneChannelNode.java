@@ -250,6 +250,6 @@ public class MembraneChannelNode extends PComposite {
 	   edgeLayer.removeInputEventListener( cursorHandler ); 
 	   edgeLayer.removeInputEventListener( dragEventHandler ); 
 	   channelLayer.removeInputEventListener( cursorHandler ); 
-	   channelLayer.removeInputEventListener( dragEventHandler ); 
+	   channelLayer.removeInputEventListener( dragEventHandler );
 	}
 }
