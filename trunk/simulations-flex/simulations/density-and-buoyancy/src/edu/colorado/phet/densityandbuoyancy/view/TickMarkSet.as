@@ -24,7 +24,7 @@ public class TickMarkSet extends Sprite {
         tickMarks.push(tm);
     }
 
-    function updateCoordinates(camera:HoverCamera3D, groundNode:GroundNode, view:View3D):void {
+    public function updateCoordinates(camera:HoverCamera3D, groundNode:GroundNode, view:View3D):void {
         for each (var tickMark:TickMark in tickMarks) {
             tickMark.updateCoordinates(camera, groundNode, view);
         }
