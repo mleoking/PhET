@@ -23,7 +23,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 /**
  * Base class for all concentration graphs, y-axis is log moles/L. 
  * Has a max of 4 bars, knows nothing about the model.
- * Origin is at upper-left corner of chart's interior.
+ * Origin is at upper-left corner of chart's interior outline.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -217,6 +217,10 @@ abstract class AbstractConcentrationGraphNode extends PComposite {
         final double modelValueExponent = MathUtil.log10( modelValue );
         return maxTickHeight * ( modelValueExponent - minExponent ) / ( maxExponent - minExponent );
     }
+    
+    //----------------------------------------------------------------------------
+    // Layout of nodes
+    //----------------------------------------------------------------------------
     
     // bars are equally spaced inside graph outline
     private void updateBarLayout( int index ) {
