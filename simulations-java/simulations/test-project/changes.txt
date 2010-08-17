@@ -1,3 +1,5 @@
+# 2.18.04 (43235) Aug 17, 2010
+8/17/10 test support for simulation.properties in Java sims, #2463
 # 2.18.03 (43234) Aug 17, 2010
 8/17/10 test support for simulation.properties in Java sims, #2463
 # 2.18.02 (43227) Aug 17, 2010
