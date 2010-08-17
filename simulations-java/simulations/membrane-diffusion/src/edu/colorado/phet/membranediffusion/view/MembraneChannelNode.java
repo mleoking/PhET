@@ -54,6 +54,7 @@ public class MembraneChannelNode extends PComposite {
 
         public void startDrag(PInputEvent event){
             super.startDrag(event);
+            membraneChannelModel.setUserControlled( true );
         }
 
         public void drag(PInputEvent event){
@@ -68,6 +69,7 @@ public class MembraneChannelNode extends PComposite {
         
         public void endDrag( PInputEvent event ){
             super.endDrag(event);
+            membraneChannelModel.setUserControlled( false );
         }
 	};
 	
