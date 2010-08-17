@@ -360,10 +360,16 @@ public abstract class MembraneChannel {
      */
 	public void removeFromModel(){
 		notifyRemoved();
+		// Clear our listener list to avoid memory leaks.
+		listeners.clear();
 	}
 	
 	private void notifyRemoved(){
-		for (Listener listener : listeners){
+        // Make a copy of the list before sending out notifications, since
+        // these notifications may cause others to deregister as listeners,
+        // which would lead to concurrent modification exceptions.
+        ArrayList<Listener> listenerListCopy = new ArrayList<Listener>( listeners );
+        for (Listener listener : listenerListCopy){
 			listener.removed();
 		}
 	}
@@ -381,7 +387,11 @@ public abstract class MembraneChannel {
 	}
 	
     private void notifyUserControlledStateChanged() {
-        for (Listener listener : listeners){
+        // Make a copy of the list before sending out notifications, since
+        // these notifications may cause others to deregister as listeners,
+        // which would lead to concurrent modification exceptions.
+        ArrayList<Listener> listenerListCopy = new ArrayList<Listener>( listeners );
+        for (Listener listener : listenerListCopy){
             listener.userControlledStateChanged();
         }
     }
