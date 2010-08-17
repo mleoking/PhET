@@ -1,27 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:cmp="edu.colorado.phet.densityandbuoyancy.*"
                 xmlns:view="edu.colorado.phet.densityandbuoyancy.view.*"
-                layout="absolute" width="100%" height="100%" applicationComplete="onApplicationComplete()"
-                preinitialize="init()">
+                layout="absolute" width="100%" height="100%" applicationComplete="onApplicationComplete()">
     <!--xmlns:common="edu.colorado.phet.flexcommon.*"-->
     <!--<common:FlexCommonMXML id="flexcommon" right="0" y="0" />-->
-    <!--<mx:TabNavigator width="100%" height="100%" change="onSwitch(event)" creationPolicy="all" id="tabNavigator" fontSize="0">-->
     <mx:Canvas width="100%" height="100%" label="Density" id="densityCanvas" fontSize="12">
         <mx:Canvas backgroundColor="0x000000" width="100%" height="100%"/>
-        <view:DensityModule width="100%" height="100%" id="tab0"/>
+        <view:DensityModule width="100%" height="100%" id="densityModule"/>
         <mx:Panel right="20" y="20" title="{FlexSimStrings.get('mode.title','Modes')}">
             <mx:RadioButton groupName="modes" id="customObject" label="{FlexSimStrings.get('mode.customObject','Custom Object')}"
-                            click="tab0.switchToCustomObject()" selected="true"/>
+                            click="densityModule.switchToCustomObject()" selected="true"/>
             <mx:RadioButton groupName="modes" id="sameMass" label="{FlexSimStrings.get('mode.objectsOfSameMass','Objects of Same Mass')}"
-                            click="tab0.switchToSameMass()"/>
+                            click="densityModule.switchToSameMass()"/>
             <mx:RadioButton groupName="modes" id="sameVolume" label="{FlexSimStrings.get('mode.objectsOfSameVolume','Objects of Same Volume')}"
-                            click="tab0.switchToSameVolume()"/>
+                            click="densityModule.switchToSameVolume()"/>
             <mx:RadioButton groupName="modes" id="sameDensity" label="{FlexSimStrings.get('mode.objectsOfSameDensity','Objects of Same Density')}"
-                            click="tab0.switchToSameDensity()"/>
+                            click="densityModule.switchToSameDensity()"/>
             <mx:RadioButton groupName="modes" id="mysteryObjects" label="{FlexSimStrings.get('mode.mysteryObjects','Mystery Objects')}"
-                            click="tab0.switchToMysteryObjects()"/>
-            <!--<mx:Label text="Developer Controls"/>-->
-            <!--<mx:HSlider minimum="5" maximum="50" tickInterval="1" labels="[0,25,50,75,100]" thumbDrag="tab0.testSliderChange(event)"/>-->
+                            click="densityModule.switchToMysteryObjects()"/>
         </mx:Panel>
         <mx:Panel right="10" bottom="10">
             <mx:Button label="Reset All" click="resetAll()"/>
@@ -37,28 +33,18 @@
         private var common:FlexCommon = new FlexCommon();
 
         private function getAllTabs():Array {
-            //            return new Array(tab0, tab1);
-            return new Array(tab0);
+            return new Array(densityModule);
         }
 
         private function onApplicationComplete():void {
-            for each (var view:AbstractDensityModule in getAllTabs()) {
-                view.init();
-                view.pause();
+            for each (var module:AbstractDensityModule in getAllTabs()) {
+                module.init();
+                module.pause();
             }
-            //            toybox.init();
             getAllTabs()[0].start();
-            //            var panel:PropertiesPanel = new SpherePropertiesPanel();
 
-            //            propertiesContentPanel.addChild(panel);
-
-            //            tab0.densityCanvas = densityCanvas;
-            tab0.doInit(densityCanvas);
-            tab0.switchToCustomObject();
-        }
-
-        private function init():void {
-            trace("Inited.");
+            densityModule.doInit(densityCanvas);
+            densityModule.switchToCustomObject();
         }
 
         private function onSwitch(e:Event):void {
@@ -78,14 +64,9 @@
         }
 
         private function resetAll():void {
-            // TODO: bind sameMass
             customObject.selected = true;
-            tab0.resetAll();
+            densityModule.resetAll();
         }
-
-        //        private function resetTab1():void {
-        //            tab1.reset();
-        //        }
 
         ]]></mx:Script>
 
