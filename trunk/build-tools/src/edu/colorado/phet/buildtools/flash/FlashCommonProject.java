@@ -63,8 +63,4 @@ public class FlashCommonProject extends SVNDependencyProject {
         return false;
     }
 
-    @Override
-    public String getType() {
-        return "flash-common";
-    }
 }

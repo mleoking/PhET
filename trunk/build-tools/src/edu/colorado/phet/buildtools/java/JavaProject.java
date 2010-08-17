@@ -238,8 +238,4 @@ public abstract class JavaProject extends PhetProject {
         return BuildToolsConstants.SIM_JAVA_VERSION;
     }
 
-    @Override
-    public String getType() {
-        return SimulationProperties.TYPE_JAVA;
-    }
 }

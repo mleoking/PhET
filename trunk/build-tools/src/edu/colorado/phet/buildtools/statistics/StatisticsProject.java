@@ -73,8 +73,4 @@ public class StatisticsProject extends PhetProject {
         return false;
     }
 
-    @Override
-    public String getType() {
-        return "statistics";
-    }
 }

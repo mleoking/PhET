@@ -973,13 +973,4 @@ public abstract class PhetProject {
         return JavaBuildCommand.toClasspathString( getAllJarFiles() );
     }
     
-    public abstract String getType();
-    
-    public SimulationProperties getSimulationProperties(String simulationName, Locale locale) {
-        return new SimulationProperties(getName(),simulationName,locale.getLanguage(),locale.getCountry(),getType());
-    }
-
-    public String getSimulationPropertiesComments() {
-        return "";
-    }
 }

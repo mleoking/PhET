@@ -24,7 +24,7 @@ import edu.colorado.phet.flashlauncher.FlashLauncher;
 /**
  * Represents a Flash simulation project. Each project contains one simulation of the same name.
  */
-public class FlashSimulationProject extends PhetProject {
+public class FlashSimulationProject extends PhetProject implements SimulationPhetProject{
 
     public FlashSimulationProject( File projectRoot ) throws IOException {
         super( projectRoot );
@@ -254,7 +254,7 @@ public class FlashSimulationProject extends PhetProject {
             FileUtils.copyToDir( getCreditsFile(), getOfflineJARContentsDir() );
 
             //create args file
-            getSimulationProperties(simulationName, locale).store(new FileOutputStream(new File( getOfflineJARContentsDir(), SimulationProperties.SIMULATION_PROPRTIES_FILENAME )), getSimulationPropertiesComments());
+            new SimulationProperties( this, simulationName,locale, getType() ).store(new FileOutputStream(new File( getOfflineJARContentsDir(), SimulationProperties.SIMULATION_PROPRTIES_FILENAME )), getComments());
 
             //copy properties file
             FileUtils.copyToDir( new File( getDataDirectory(), getName() + ".properties" ), getOfflineJARContentsDir() );
@@ -586,9 +586,12 @@ public class FlashSimulationProject extends PhetProject {
         return true;
     }
 
-    @Override
     public String getType() {
         return SimulationProperties.TYPE_FLASH;
+    }
+
+    public String getComments() {
+        return "";
     }
 
     public PhetProject[] getDependencies() {
