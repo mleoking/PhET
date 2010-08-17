@@ -253,10 +253,11 @@ public class FlashSimulationProject extends PhetProject implements SimulationPhe
             // copy credits file
             FileUtils.copyToDir( getCreditsFile(), getOfflineJARContentsDir() );
 
-            //create args file
-            new SimulationProperties( getName(), simulationName, locale.getLanguage(), locale.getCountry(), getType() ).store(new FileOutputStream(new File( getOfflineJARContentsDir(), SimulationProperties.SIMULATION_PROPRTIES_FILENAME )), getComments());
+            //create simulation properties file
+            SimulationProperties simulationProperities = new SimulationProperties( getName(), simulationName, locale, getType() );
+            simulationProperities.store( new FileOutputStream( new File( getOfflineJARContentsDir(), SimulationProperties.SIMULATION_PROPRTIES_FILENAME ) ), getComments() );
 
-            //copy properties file
+            //copy project properties file
             FileUtils.copyToDir( new File( getDataDirectory(), getName() + ".properties" ), getOfflineJARContentsDir() );
 
             Jar jar = new Jar();
