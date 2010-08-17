@@ -62,4 +62,9 @@ public class FlashCommonProject extends SVNDependencyProject {
     public boolean isTestable() {
         return false;
     }
+
+    @Override
+    public String getType() {
+        return "flash-common";
+    }
 }

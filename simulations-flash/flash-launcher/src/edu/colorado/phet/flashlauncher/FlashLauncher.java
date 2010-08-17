@@ -6,7 +6,6 @@ import java.io.*;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.Properties;
-import java.util.StringTokenizer;
 
 import javax.swing.*;
 
@@ -28,8 +27,10 @@ import edu.colorado.phet.flashlauncher.util.FileUtils;
 public class FlashLauncher {
 
     public static final String ARGS_FILENAME = "flash-launcher-args.txt";
+    public static final String SIMULATION_PROPRTIES_FILENAME = "simulation.properties";
     public static final String SOFTWARE_AGREEMENT_FILENAME = "software-agreement.htm";
 
+    private String projectName;
     private String simName;
     private String language;
     private String country;
@@ -38,6 +39,11 @@ public class FlashLauncher {
     private String installationTimestamp;
     private String installerCreationTimestamp;
     private static JTextArea jTextArea;
+    public static final String PROPERTY_PROJECT = "project";
+    public static final String PROPERTY_SIMULATION = "simulation";
+    public static final String PROPERTY_LANGUAGE = "language";
+    public static final String PROPERTY_COUNTRY = "country";
+    public static final String PROPERTY_TYPE = "type";
 
     public FlashLauncher() throws IOException {
 
@@ -47,23 +53,16 @@ public class FlashLauncher {
         this.installerCreationTimestamp = "null";
         this.distributionTag = "null";
 
-        // read sim and language from args file (JAR resource)
-        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream( ARGS_FILENAME );
-        BufferedReader bu = new BufferedReader( new InputStreamReader( inputStream ) );
-        String line = bu.readLine();
-        StringTokenizer stringTokenizer = new StringTokenizer( line, " " );
-        println( "FlashLauncher obtained line from " + ARGS_FILENAME + ": " + line );
-        this.simName = stringTokenizer.nextToken();
-        this.language = stringTokenizer.nextToken();
-        if ( stringTokenizer.hasMoreTokens() ) {
-            this.country = stringTokenizer.nextToken();
-        }
-        else {
-            this.country = "null";//todo: better support for null country code
-        }
+        // read sim and language from args file (JAR resource)        
+        Properties properties =new Properties();
+        properties.load(Thread.currentThread().getContextClassLoader().getResourceAsStream( SIMULATION_PROPRTIES_FILENAME ));
+        this.projectName=properties.getProperty(PROPERTY_PROJECT);
+        this.simName=properties.getProperty(PROPERTY_SIMULATION);
+        this.language=properties.getProperty(PROPERTY_LANGUAGE);
+        this.country=properties.getProperty(PROPERTY_COUNTRY);
 
         // if the developer flag is specified in args file, open a window to show debug output
-        if ( stringTokenizer.hasMoreTokens() && stringTokenizer.nextToken().equals( "-dev" ) ) {
+        if ( "true".equals(properties.getProperty("dev")) ) {
             println( "FlashLauncher.FlashLauncher dev" );
             JFrame frame = new JFrame( "Text" );
             jTextArea = new JTextArea( 10, 50 );
@@ -103,7 +102,7 @@ public class FlashLauncher {
         println( "Finished unzip" );
 
         // read the properties file
-        Properties properties = readProperties( getProject( unzipDir ) );
+        Properties properties = readProperties( projectName );
 
         // pull the version information from the properties file
         String versionMajor, versionMinor, versionDev, versionRevision, versionTimestamp;
@@ -195,50 +194,21 @@ public class FlashLauncher {
         BareBonesBrowserLaunch.openURL( "file://" + htmlFile.getAbsolutePath() );
     }
 
-    /**
-     * Possibly temporary way to get the name of the project for a Flash / Flex simulation
-     * @param baseDir The unzipped base directory of the JAR
-     * @return The project name
-     */
-    private String getProject( File baseDir ) {
-        String project;
-        if ( ( new File( baseDir, simName + "-strings_en.xml" ) ).exists() ) {
-            project = simName;
-        }
-        else {
-            File[] subFiles = baseDir.listFiles();
-            for ( int i = 0; i < subFiles.length; i++ ) {
-                String name = subFiles[i].getName();
-                if ( name.endsWith( ".properties" ) ) {
-                    project = name.substring( 0, name.length() - ".properties".length() );
-                    if ( ( new File( baseDir, project + "-strings_en.xml" ) ).exists() ) {
-                        return project;
-                    }
-                }
-            }
-        }
-
-        System.out.println( "WARNING: unable to properly detect the project name. using " + simName );
-        return simName;
-    }
-
     private File getSimXMLFile( File baseDir, String localeString ) {
         // files where the simulation and common internationalization XML should be.
         // if they don't exist, replace with defaults
 
-        String project = getProject( baseDir );
-
-        File simXMLFile = new File( baseDir, project + "-strings_" + localeString + ".xml" );
+        File simXMLFile = new File( baseDir, projectName + "-strings_" + localeString + ".xml" );
 
         if ( !simXMLFile.exists() ) {
-            simXMLFile = new File( baseDir, project + "-strings_en.xml" );
+            simXMLFile = new File( baseDir, projectName + "-strings_en.xml" );
             println( "WARNING: could not find sim strings for " + localeString + ", using default en." );
         }
         return simXMLFile;
     }
 
-    private static Properties readProperties( String sim ) {
-        String propertiesFileName = sim + ".properties";
+    private static Properties readProperties( String filename ) {
+        String propertiesFileName = filename + ".properties";
         InputStream inStream = Thread.currentThread().getContextClassLoader().getResourceAsStream( propertiesFileName );
         Properties properties = new Properties();
         try {

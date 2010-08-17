@@ -261,7 +261,8 @@ public class FlashSimulation extends AbstractSimulation {
                 JarFile.MANIFEST_NAME,
                 "META-INF/.*\\.SF", "META-INF/.*\\.RSA", "META-INF/.*\\.DSA", /* signing information */
                 xmlFilename,
-                FlashLauncher.ARGS_FILENAME
+                FlashLauncher.ARGS_FILENAME,
+                FlashLauncher.SIMULATION_PROPRTIES_FILENAME
         };
         
         // create the test JAR file
@@ -278,7 +279,11 @@ public class FlashSimulation extends AbstractSimulation {
             
             // copy all entries from input to output, skipping the properties file, manifest, args.txt & HTML file
             JarEntry jarEntry = jarInputStream.getNextJarEntry();
+            boolean foundSimulationProperties=false;
             while ( jarEntry != null ) {
+                if (StringUtil.matches(new String[]{FlashLauncher.SIMULATION_PROPRTIES_FILENAME}, jarEntry.getName())){
+                    foundSimulationProperties=true;
+                }
                 if ( !StringUtil.matches( exclude, jarEntry.getName() ) ) {
                     
                     testOutputStream.putNextEntry( jarEntry );
@@ -303,11 +308,25 @@ public class FlashSimulation extends AbstractSimulation {
             testOutputStream.closeEntry();
             
             // add args file used by FlashLauncher
-            jarEntry = new JarEntry( FlashLauncher.ARGS_FILENAME );
-            testOutputStream.putNextEntry( jarEntry );
-            String args = createArgsString( projectName, locale );
-            testOutputStream.write( args.getBytes() );
-            testOutputStream.closeEntry();
+            if (foundSimulationProperties){
+                jarEntry = new JarEntry(FlashLauncher.SIMULATION_PROPRTIES_FILENAME);
+                testOutputStream.putNextEntry(jarEntry);
+                
+                Properties p= new Properties();
+                JarFile jf= new JarFile(jarFile);
+                p.load(jf.getInputStream(jf.getEntry(FlashLauncher.SIMULATION_PROPRTIES_FILENAME)));
+                p.setProperty(FlashLauncher.PROPERTY_LANGUAGE, locale.getLanguage());
+                p.setProperty(FlashLauncher.PROPERTY_COUNTRY, locale.getCountry());
+                p.store(testOutputStream, "");
+                testOutputStream.closeEntry();
+                
+            }else{//This provides backward compatibility for sims using flash-launcher-args.txt
+                jarEntry = new JarEntry(FlashLauncher.ARGS_FILENAME);
+                testOutputStream.putNextEntry(jarEntry);
+                String args = createArgsString(projectName, locale);
+                testOutputStream.write(args.getBytes());
+                testOutputStream.closeEntry();
+            }
             
             // close the streams
             jarInputStream.close();
