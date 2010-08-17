@@ -16,8 +16,17 @@ public class DensityConstants {
     public static const DEFAULT_BLOCK_MASS:Number = 2;
     public static const SCALE_BOX2D:Number = 1000;
     public static const GRAVITY:Number = 9.8;
-    public static const DEFAULT_BLOCK_WATER_OFFSET:Number = 10 / DensityModel.DISPLAY_SCALE;//So that away3d faces don't overlap
-
+    public static const DEFAULT_BLOCK_WATER_OFFSET:Number = 10 / DensityModel.DISPLAY_SCALE;
+    
+    //Flex properties that we couldn't find as enum values in Flex
+    public static const FLEX_UNDERLINE:String = "underline";
+    public static const FLEX_NONE:String = "none";
+    public static const FLEX_FONT_SIZE:String = "fontSize";
+    public static const FLEX_FONT_WEIGHT:String = "fontWeight";
+    public static const FLEX_FONT_BOLD:String = "bold";
+    public static const FLEX_TEXT_DECORATION:String = "textDecoration";
+    
+    //So that away3d faces don't overlap
     private static function kgLtoSI(number:Number):Number {
         return number / 0.001;
     }

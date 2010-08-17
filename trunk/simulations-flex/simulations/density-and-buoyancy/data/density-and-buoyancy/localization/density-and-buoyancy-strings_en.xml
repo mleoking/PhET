@@ -6,4 +6,9 @@
     <string key="customObject.properties" value="Properties"/>
     <string key="customObject.name" value="name"/>
     <string key="customObject.custom" value="Custom"/>
+    <string key="mysteryObject.substance" value="Substance"/>
+    <string key="mysteryObject.density" value="Density (kg/L)"/>
+    <string key="mysteryObject.densityUnits" value="kg/L"/>
+    <string key="mysteryObject.table.title" value="Densities of Various Substances"/>
+    <string key="mysteryObject.table.showTable" value="Show Table"/>
 </SimStrings>
