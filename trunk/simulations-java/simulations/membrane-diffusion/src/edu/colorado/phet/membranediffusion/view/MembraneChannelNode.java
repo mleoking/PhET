@@ -234,7 +234,6 @@ public class MembraneChannelNode extends PComposite {
 		
 		channel.setPathTo(path);
 		channel.setOffset(-channel.getFullBoundsReference().width / 2, -channel.getFullBoundsReference().height / 2);
-		System.out.println("Channel bounds: " + channel.getFullBoundsReference());
 
 		leftEdgeNode.setOffset(
 				-transformedChannelSize.getWidth() / 2 - leftEdgeNode.getFullBoundsReference().width / 2, 0);
