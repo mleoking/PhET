@@ -49,6 +49,27 @@ public class MembraneChannelNode extends PComposite {
 	private PPath channel;
 	private PPath leftEdgeNode;
 	private PPath rightEdgeNode;
+	private CursorHandler cursorHandler = new CursorHandler(Cursor.HAND_CURSOR);
+	private PDragEventHandler dragEventHandler = new PDragEventHandler(){
+
+        public void startDrag(PInputEvent event){
+            super.startDrag(event);
+        }
+
+        public void drag(PInputEvent event){
+            // Move the node as indicated by the drag event.
+            PNode draggedNode = event.getPickedNode();
+            PDimension d = event.getDeltaRelativeTo(draggedNode);
+            draggedNode.localToParent(d);
+            double newPosX = membraneChannelModel.getCenterLocation().getX() + mvt.viewToModelDifferentialX( d.getWidth() );
+            double newPosY = membraneChannelModel.getCenterLocation().getY() + mvt.viewToModelDifferentialY( d.getHeight() );
+            membraneChannelModel.setCenterLocation( newPosX, newPosY );
+        }
+        
+        public void endDrag( PInputEvent event ){
+            super.endDrag(event);
+        }
+	};
 	
     //----------------------------------------------------------------------------
     // Constructor
@@ -96,43 +117,16 @@ public class MembraneChannelNode extends PComposite {
 		edgeLayer.addChild(leftEdgeNode);
 		edgeLayer.addChild(rightEdgeNode);
 		
-		// Add a cursor handler so that the user knows that they can do
-		// something with this.
-		channelLayer.addInputEventListener( new CursorHandler(Cursor.HAND_CURSOR) );
-		edgeLayer.addInputEventListener( new CursorHandler(Cursor.HAND_CURSOR) );
-        channelLayer.addInputEventListener( new PDragEventHandler(){
-
-            public void startDrag(PInputEvent event){
-                super.startDrag(event);
-                System.out.println("startDrag");
-            }
-
-            public void drag(PInputEvent event){
-                System.out.println("drag");
-            }
-            
-            public void endDrag( PInputEvent event ){
-                super.endDrag(event);
-                System.out.println("endDrag");
-            }
-        });
-        edgeLayer.addInputEventListener( new PDragEventHandler(){
-
-            public void startDrag(PInputEvent event){
-                super.startDrag(event);
-                System.out.println("startDrag");
-            }
-
-            public void drag(PInputEvent event){
-                System.out.println("drag");
-            }
-            
-            public void endDrag( PInputEvent event ){
-                super.endDrag(event);
-                System.out.println("endDrag");
-            }
-        });
-
+		// Add input event listeners to allow the user to move and remove the
+		// membrane channel.  NOTE: These are added to the sub-layers rather
+		// than to the node as a whole because the layers may be added to the
+		// canvas separately in order to make it look better when the
+		// particles pass through the channels.
+		channelLayer.addInputEventListener( cursorHandler );
+		channelLayer.addInputEventListener( dragEventHandler );
+		edgeLayer.addInputEventListener( cursorHandler );
+		edgeLayer.addInputEventListener( dragEventHandler );
+		
 		// If enabled, show the capture zones.
 		if (SHOW_CAPTURE_ZONES){
 		    // The capture zones contain their own position information
@@ -245,5 +239,15 @@ public class MembraneChannelNode extends PComposite {
 		
 		rightEdgeNode.setOffset(
 				transformedChannelSize.getWidth() / 2 + rightEdgeNode.getFullBoundsReference().width / 2, 0);
-	}	
+	}
+	
+	/**
+	 * Clean up memory references so that no memory leaks occur.
+	 */
+	public void cleanup(){
+	   edgeLayer.removeInputEventListener( cursorHandler ); 
+	   edgeLayer.removeInputEventListener( dragEventHandler ); 
+	   channelLayer.removeInputEventListener( cursorHandler ); 
+	   channelLayer.removeInputEventListener( dragEventHandler ); 
+	}
 }
