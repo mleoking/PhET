@@ -4,7 +4,6 @@ package edu.colorado.phet.membranediffusion.model;
 
 import java.awt.Color;
 import java.awt.Shape;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
