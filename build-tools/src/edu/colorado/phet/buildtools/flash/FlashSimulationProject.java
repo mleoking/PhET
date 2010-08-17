@@ -588,7 +588,7 @@ public class FlashSimulationProject extends PhetProject {
 
     @Override
     public String getType() {
-        return "flash";
+        return SimulationProperties.TYPE_FLASH;
     }
 
     public PhetProject[] getDependencies() {

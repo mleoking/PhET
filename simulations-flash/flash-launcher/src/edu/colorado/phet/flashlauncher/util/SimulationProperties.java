@@ -22,12 +22,15 @@ public class SimulationProperties {
     public static final String KEY_LANGUAGE = "language";
     public static final String KEY_COUNTRY = "country";
     public static final String KEY_TYPE = "type";
-
+    
+    public static final String TYPE_JAVA = "java";
+    public static final String TYPE_FLASH = "flash";
+    
     private String project;
     private String simulation;
     private String language;
     private String country;
-    private String type;
+    private String type;//This could be "java", "flash", and should be used in the TranslationUtility to determine whether a simulation is flash or java 
 
     public SimulationProperties() {
         // read sim and language from args file (JAR resource)        
@@ -77,6 +80,14 @@ public class SimulationProperties {
 
     public String getType() {
         return type;
+    }
+    
+    public boolean isJava(){
+        return type.equals( TYPE_JAVA );
+    }
+    
+    public boolean isFlash(){
+        return type.equals( TYPE_FLASH );
     }
 
     public void store( FileOutputStream fileOutputStream, String comments ) throws IOException {
