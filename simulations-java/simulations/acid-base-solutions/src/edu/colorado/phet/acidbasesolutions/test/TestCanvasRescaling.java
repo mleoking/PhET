@@ -21,18 +21,10 @@ import edu.umd.cs.piccolo.nodes.PPath;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TestCanvasLayout extends JFrame {
+public class TestCanvasRescaling extends JFrame {
 
     private static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 1024, 768 );
     private static final Dimension FRAME_SIZE = new Dimension( 700, 600 );
-    
-    public TestCanvasLayout() {
-        super( TestCanvasLayout.class.getName() );
-        TestCanvas canvas = new TestCanvas( CANVAS_RENDERING_SIZE );
-        setContentPane( canvas );
-        setPreferredSize( FRAME_SIZE );
-        pack();
-    }
     
     private static class TestCanvas extends PhetPCanvas {
         
@@ -56,8 +48,16 @@ public class TestCanvasLayout extends JFrame {
         }
     }
     
+    public TestCanvasRescaling() {
+        super( TestCanvasRescaling.class.getName() );
+        TestCanvas canvas = new TestCanvas( CANVAS_RENDERING_SIZE );
+        setContentPane( canvas );
+        setPreferredSize( FRAME_SIZE );
+        pack();
+    }
+    
     public static void main( String[] args ) {
-        JFrame frame = new TestCanvasLayout();
+        JFrame frame = new TestCanvasRescaling();
         frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
         frame.setVisible( true );
     }
