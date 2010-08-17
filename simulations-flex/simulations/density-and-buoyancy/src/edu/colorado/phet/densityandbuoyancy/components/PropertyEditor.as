@@ -29,7 +29,7 @@ public class PropertyEditor extends GridRow {
 
         const textField:TextInput = new TextInput();
         textField.width = 100;
-        textField.restrict = ".0-9";
+        textField.restrict = ".0-9";//TODO: does this handle languages that use a comma instead of a decimal place?
         function updateText():void {
             textField.text = unit.fromSI(property.value).toFixed(2);
         }
