@@ -65,7 +65,7 @@ public class TickMark extends Sprite {
 
 
     public function updateCoordinates(camera:HoverCamera3D, groundNode:GroundNode, view:View3D):void {
-        var height = value / model.getPoolDepth() / model.getPoolWidth();
+        var height:Number = value / model.getPoolDepth() / model.getPoolWidth();
         var screenVertex:ScreenVertex = camera.screen(groundNode, new Vertex(model.getPoolWidth() * DensityModel.DISPLAY_SCALE / 2, (-model.getPoolHeight() + height) * DensityModel.DISPLAY_SCALE, -20));
         this.x = screenVertex.x + view.x;
         this.y = screenVertex.y + view.y;

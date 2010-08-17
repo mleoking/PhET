@@ -271,7 +271,7 @@ class MysteryObjectsMode extends Mode {
         model.addDensityObject(block3);
         const block4:MysteryBlock = new MysteryBlock(Substance.ICE.getDensity(), 0.15, -DensityConstants.POOL_WIDTH_X / 2, block3.getHeight() + block3.getY(), new ColorTransform(1, 0, 0), model, "D");
         model.addDensityObject(block4);
-        const block5:MysteryBlock = new MysteryBlock(Substance.AIR_BALLOON.getDensity(), 0.1, -DensityConstants.POOL_WIDTH_X / 2, block4.getHeight() + block4.getY(), new ColorTransform(1, 0, 0), model, "E");
+        const block5:MysteryBlock = new MysteryBlock(Substance.DIAMOND.getDensity(), 0.1, -DensityConstants.POOL_WIDTH_X / 2, block4.getHeight() + block4.getY(), new ColorTransform(1, 0, 0), model, "E");
         model.addDensityObject(block5);
 
         model.addDensityObject(new Scale(-DensityConstants.POOL_WIDTH_X / 2 - block3.getWidth() - Scale.SCALE_WIDTH / 2, 0.05, model, 100));
