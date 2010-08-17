@@ -55,6 +55,8 @@ public class NegligibleValueNode extends PhetPNode {
         // negligible mode is off by default
         negligibleEnabled = false;
         negligibleThreshold = 0;
+        // default state
+        update();
     }
     
     public void setFormat( NumberFormat format ) {

@@ -146,25 +146,19 @@ abstract class AbstractConcentrationGraphNode extends PComposite {
         }
 
         // layout
+        // graph outline
         graphOutlineNode.setOffset( 0, 0 );
-        PBounds gob = graphOutlineNode.getFullBoundsReference();
         // y axis, to left of graph
         yAxisNode.setOffset( graphOutlineNode.getOffset() );
-        // bars, evenly distributed across graph width
-        final double xSpacing = ( gob.getWidth() - ( barNodes.length * BAR_WIDTH ) ) / ( barNodes.length + 1 );
-        assert ( xSpacing > 0 );
+        // bars
         for ( int i = 0; i < barNodes.length; i++ ) {
-            double xOffset = graphOutlineNode.getXOffset() + xSpacing + ( i * ( xSpacing + BAR_WIDTH ) ) + ( BAR_WIDTH / 2. );
-            double yOffset = outlineSize.getHeight();
-            barNodes[i].setOffset( xOffset, yOffset );
+            updateBarLayout( i );
         }
-        // values, horizontally centered in bars
+        // values
         for ( int i = 0; i < valueNodes.length; i++ ) {
-            double xOffset = barNodes[i].getXOffset() + ( ( barNodes[i].getFullBoundsReference().getWidth() - valueNodes[i].getFullBoundsReference().getWidth() ) / 2 ) - ( BAR_WIDTH / 2 );
-            double yOffset = gob.getMaxY() - 10;
-            valueNodes[i].setOffset( xOffset, yOffset );
+            updateValueLayout( i );
         }
-        // layout of icons and labels will be handled when they are set
+        // other nodes are dynamically when molecule is changed
     }
 
     //----------------------------------------------------------------------------
@@ -191,7 +185,8 @@ abstract class AbstractConcentrationGraphNode extends PComposite {
         valueNodes[index].setFormat( format );
         valueNodes[index].setNegligibleEnabled( negligibleEnabled, NEGLIGIBLE_THRESHOLD );
         valueNodes[index].setNegligibleColor( molecule.getColor() );
-        updateMoleculeLayout( index );
+        updateIconLayout( index );
+        updateLabelLayout( index );
     }
 
     protected void setConcentration( int index, double value ) {
@@ -212,24 +207,6 @@ abstract class AbstractConcentrationGraphNode extends PComposite {
         }
     }
 
-    private void updateMoleculeLayout( int index ) {
-        // icon, centered below bar
-        IconNode iconNode = iconNodes[index];
-        double xOffset = barNodes[index].getXOffset() - ( iconNode.getFullBoundsReference().getWidth() / 2 ); // careful! bar may have zero dimensions.
-        double yOffset = graphOutlineNode.getFullBoundsReference().getMaxY() + 10;
-        iconNode.setOffset( xOffset, yOffset );
-        // label, centered below icon
-        LabelNode labelNode = labelNodes[index];
-        labelNode.setRotation( 0 );
-        if ( labelNode.getFullBoundsReference().getWidth() > MAX_MOLECULE_LABEL_WIDTH ) {
-            // if the max width is exceeded, then rotate the label
-            labelNode.setRotation( MOLECULE_LABEL_ROTATION_ANGLE );
-        }
-        xOffset = iconNode.getFullBoundsReference().getCenterX() - ( labelNode.getFullBoundsReference().getWidth() / 2 ) - PNodeLayoutUtils.getOriginXOffset( labelNode );
-        yOffset = iconNode.getFullBoundsReference().getMaxY() + 5;
-        labelNode.setOffset( xOffset, yOffset );
-    }
-
     /*
      * Calculates a bar height in view coordinates, given a model value.
      */
@@ -239,6 +216,47 @@ abstract class AbstractConcentrationGraphNode extends PComposite {
         final double minExponent = BIGGEST_TICK_EXPONENT - NUMBER_OF_TICKS + 1;
         final double modelValueExponent = MathUtil.log10( modelValue );
         return maxTickHeight * ( modelValueExponent - minExponent ) / ( maxExponent - minExponent );
+    }
+    
+    // bars are equally spaced inside graph outline
+    private void updateBarLayout( int index ) {
+        PBounds gob = graphOutlineNode.getFullBoundsReference();
+        final double barXSpacing = ( gob.getWidth() - ( barNodes.length * BAR_WIDTH ) ) / ( barNodes.length + 1 );
+        assert ( barXSpacing > 0 );
+        double x = graphOutlineNode.getXOffset() + barXSpacing + ( index * ( barXSpacing + BAR_WIDTH ) ) + ( BAR_WIDTH / 2. );
+        double y = outlineSize.getHeight();
+        barNodes[index].setOffset( x, y );
+    }
+    
+    // value, centered in bar
+    private void updateValueLayout( int index ) {
+        PBounds gob = graphOutlineNode.getFullBoundsReference();
+        double x = barNodes[index].getFullBoundsReference().getCenterX() - ( valueNodes[index].getFullBoundsReference().getWidth() / 2 );
+        double y = gob.getMaxY() - 10;
+        valueNodes[index].setOffset( x, y );
+    }
+    
+    // icon, centered below bar
+    private void updateIconLayout( int i ) {
+        PBounds gob = graphOutlineNode.getFullBoundsReference();
+        IconNode iconNode = iconNodes[i];
+        double x = barNodes[i].getFullBoundsReference().getCenterX() - ( iconNode.getFullBoundsReference().getWidth() / 2 ); // careful! bar may have zero dimensions.
+        double y = gob.getMaxY() + 10;
+        iconNode.setOffset( x, y );
+    }
+    
+    // label, centered below icon
+    private void updateLabelLayout( int index ) {
+        LabelNode labelNode = labelNodes[index];
+        labelNode.setRotation( 0 );
+        IconNode iconNode = iconNodes[index];
+        if ( labelNode.getFullBoundsReference().getWidth() > MAX_MOLECULE_LABEL_WIDTH ) {
+            // if the max width is exceeded, then rotate the label
+            labelNode.setRotation( MOLECULE_LABEL_ROTATION_ANGLE );
+        }
+        double x = iconNode.getFullBoundsReference().getCenterX() - ( labelNode.getFullBoundsReference().getWidth() / 2 ) - PNodeLayoutUtils.getOriginXOffset( labelNode );
+        double y = iconNode.getFullBoundsReference().getMaxY() + 5;
+        labelNode.setOffset( x, y );
     }
 
     //----------------------------------------------------------------------------
