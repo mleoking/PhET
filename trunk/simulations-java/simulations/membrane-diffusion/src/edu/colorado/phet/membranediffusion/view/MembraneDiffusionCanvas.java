@@ -193,6 +193,7 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
     	channelNode.addToCanvas(channelLayer, channelEdgeLayer);
     	channelToBeAdded.addListener(new MembraneChannel.Adapter() {
 			public void removed() {
+			    channelNode.cleanup();
 				channelNode.removeFromCanvas(channelLayer, channelEdgeLayer);
 			}
 		});
