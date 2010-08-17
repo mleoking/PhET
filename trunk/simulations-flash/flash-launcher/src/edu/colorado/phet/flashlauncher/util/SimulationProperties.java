@@ -4,6 +4,8 @@ package edu.colorado.phet.flashlauncher.util;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Locale;
 import java.util.Properties;
 
@@ -39,10 +41,14 @@ public class SimulationProperties {
     private String type; // the type of simulation
 
     public SimulationProperties() {
+        this( Thread.currentThread().getContextClassLoader().getResourceAsStream( SIMULATION_PROPRTIES_FILENAME ) );
+    }
+    
+    public SimulationProperties(InputStream inputStream) {
         // read sim and language from args file (JAR resource)        
         Properties properties = new Properties();
         try {
-            properties.load( Thread.currentThread().getContextClassLoader().getResourceAsStream( SIMULATION_PROPRTIES_FILENAME ) );
+            properties.load( inputStream );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -99,7 +105,7 @@ public class SimulationProperties {
         return type.equals( TYPE_FLASH );
     }
     
-    public void store( FileOutputStream fileOutputStream, String comments ) throws IOException {
+    public void store( OutputStream fileOutputStream, String comments ) throws IOException {
         Properties properties = new Properties();
         properties.setProperty( KEY_PROJECT, project );
         properties.setProperty( KEY_SIMULATION, simulation );

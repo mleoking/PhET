@@ -311,13 +311,11 @@ public class FlashSimulation extends AbstractSimulation {
             if (new ZipFile(jarFile).getEntry(SimulationProperties.SIMULATION_PROPRTIES_FILENAME)!=null){
                 jarEntry = new JarEntry(SimulationProperties.SIMULATION_PROPRTIES_FILENAME);
                 testOutputStream.putNextEntry(jarEntry);
-                
-                Properties p= new Properties();
+
                 JarFile jf= new JarFile(jarFile);
-                p.load(jf.getInputStream(jf.getEntry(SimulationProperties.SIMULATION_PROPRTIES_FILENAME)));
-                p.setProperty(SimulationProperties.KEY_LANGUAGE, locale.getLanguage());
-                p.setProperty(SimulationProperties.KEY_COUNTRY, locale.getCountry());
-                p.store(testOutputStream, "");
+                SimulationProperties p=new SimulationProperties( jf.getInputStream(jf.getEntry(SimulationProperties.SIMULATION_PROPRTIES_FILENAME)));
+                SimulationProperties newProperties = new SimulationProperties( p.getProject(),p.getSimulation(), locale,p.getType());
+                newProperties.store( testOutputStream,"Created by "+getClass().getName() );
                 testOutputStream.closeEntry();
                 
             }else{//This provides backward compatibility for sims using flash-launcher-args.txt
