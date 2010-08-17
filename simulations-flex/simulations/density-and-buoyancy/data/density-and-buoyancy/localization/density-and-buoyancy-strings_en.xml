@@ -11,4 +11,14 @@
     <string key="mysteryObject.densityUnits" value="kg/L"/>
     <string key="mysteryObject.table.title" value="Densities of Various Substances"/>
     <string key="mysteryObject.table.showTable" value="Show Table"/>
+    <string key="substance.wood" value="Wood"/>
+    <string key="substance.lead" value="Lead"/>
+    <string key="substance.diamond" value="Diamond"/>
+    <string key="substance.water" value="Water"/>
+    <string key="substance.waterBalloon" value="Water Balloon"/>
+    <string key="substance.custom" value="Custom"/>
+    <string key="substance.gold" value="Gold"/>
+    <string key="substance.gasoline" value="Gasoline Balloon"/>
+    <string key="substance.ice" value="Ice"/>
+    <string key="substance.apple" value="Apple"/>
 </SimStrings>
