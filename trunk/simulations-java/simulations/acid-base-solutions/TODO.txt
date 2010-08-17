@@ -7,14 +7,11 @@ HIGH PRIORITY
 - try to make symbols in reaction equations line up with bars in concentration graph
 
 MEDUIUM PRIORITY
-- change the name of the "Test Solution" tab to ...??
-- add a "none" radio button to "Tests" control panel
-- disable all "View" controls when ...??
-- change "Magnifying Glass" to "Molecules"
-- change "Show H2O Molecules" to "Show Water"
-- change "Concentration Graph" to "Concentration"
-- change "neither" to "Liquid"
-- add MVT to handle relationship between model element locations and PNode locations
+- change the name of the "Test Solution" tab to "Introduction"?
+- which "Tools" selections disable when "Views" controls?
+- change "Magnifying Glass" to "Molecules"?
+- change "Show H2O Molecules" to "Show Water"?
+- change "Concentration Graph" to "Concentration"?
 - confusion between pH paper and bars in graph by allowing them to be shown at the same time?
 
 LOW PRIORITY
