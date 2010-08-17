@@ -2,7 +2,6 @@ package edu.colorado.phet.densityandbuoyancy.view {
 import away3d.materials.*;
 
 import edu.colorado.phet.densityandbuoyancy.model.Block;
-import edu.colorado.phet.densityandbuoyancy.model.Listener;
 import edu.colorado.phet.densityandbuoyancy.model.StringProperty;
 import edu.colorado.phet.densityandbuoyancy.model.Substance;
 
