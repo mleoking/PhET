@@ -8,6 +8,11 @@
     <string key="mode.objectsOfSameVolume" value="Objects of same volume"/>
     <string key="mode.objectsOfSameDensity" value="Objects of same density"/>
     <string key="mode.mysteryObjects" value="Mystery Objects"/>
+    <string key="mode.mysteryObjects.A" value="A"/>
+    <string key="mode.mysteryObjects.B" value="B"/>
+    <string key="mode.mysteryObjects.C" value="C"/>
+    <string key="mode.mysteryObjects.D" value="D"/>
+    <string key="mode.mysteryObjects.E" value="E"/>
     <string key="customObject.properties" value="Properties"/>
     <string key="customObject.name" value="name"/>
     <string key="customObject.custom" value="Custom"/>
