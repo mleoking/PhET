@@ -50,6 +50,11 @@ public interface IMovable {
 	void setMotionStrategy(MotionStrategy motionStrategy);
 	
 	/**
+	 * Get the motion strategy currently moving this element.
+	 */
+	MotionStrategy getMotionStrategy();
+	
+	/**
 	 * Get the radius of the object being moved.  This is generally used when
 	 * the object needs to "bounce" (i.e. change direction because some limit
 	 * has been reached).  Note that this assumes a circular object or one that

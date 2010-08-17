@@ -97,6 +97,16 @@ public abstract class Particle implements IMovable {
         notifyPositionChanged();
     }
     
+    /**
+     * This method is intended to be used by a motion strategy that is moving
+     * this particle across a membrane.  It tells the particle that the
+     * traversal is complete so that the particle can let other interested
+     * parties know.
+     */
+    public void membraneChannelTraversalCompleted(){
+        notifyMembraneChannelTraversalCompleted();
+    }
+    
     protected boolean isAvailableForCapture() {
     	// If the particle is not in the process of trying to traverse a
     	// membrane channel, then it should be considered to be available for
@@ -109,6 +119,15 @@ public abstract class Particle implements IMovable {
         for (Listener listener : listeners)
         {
             listener.positionChanged(); 
+        }        
+    }
+    
+    protected void notifyMembraneChannelTraversalCompleted(){
+        // Notify all listeners that this particle has finished traversing
+        // a channel.
+        for (Listener listener : listeners)
+        {
+            listener.membraneChannelTraversalCompleted(); 
         }        
     }
     
@@ -136,6 +155,11 @@ public abstract class Particle implements IMovable {
     
     public void setMotionStrategy(MotionStrategy motionStrategy){
     	this.motionStrategy = motionStrategy; 
+    }
+    
+    public MotionStrategy getMotionStrategy(){
+        // NOTE: This returns a reference, so be careful here.
+        return motionStrategy;
     }
     
     public Vector2D getVelocity(){
@@ -195,10 +219,12 @@ public abstract class Particle implements IMovable {
     public interface Listener {
         void positionChanged();
         void removedFromModel();
+        void membraneChannelTraversalCompleted();
     }
     
     public static class Adapter implements Listener {
 		public void positionChanged() {}
 		public void removedFromModel() {}
+		public void membraneChannelTraversalCompleted() {}
     }
 }

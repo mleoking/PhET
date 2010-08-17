@@ -28,22 +28,26 @@ public class TraverseChannelMotionStrategy extends MotionStrategy {
 	private boolean channelHasBeenTraversed = false; // Flag that is set when particle has exited the channel.
 	private double maxVelocity;
 	protected final MembraneChannel channel;
+	private Rectangle2D preTraversalMotionBounds = new Rectangle2D.Double();
 	private Rectangle2D postTraversalMotionBounds = new Rectangle2D.Double();
 	private MotionStrategy postTraversalMotionStrategy;
 	private double postTraversalCountdownTimer = Double.POSITIVE_INFINITY;
 
 	
-	public TraverseChannelMotionStrategy(MembraneChannel channel, Point2D startingLocation, Rectangle2D postTraversalMotionBounds, double maxVelocity) {
+	public TraverseChannelMotionStrategy(MembraneChannel channel, Point2D startingLocation,
+	        Rectangle2D preTraversalMotionBounds, Rectangle2D postTraversalMotionBounds, double maxVelocity) {
 		this.channel = channel;
 		this.maxVelocity = maxVelocity;
+		this.preTraversalMotionBounds.setFrame( preTraversalMotionBounds );
 		this.postTraversalMotionBounds.setFrame(postTraversalMotionBounds);
 		traversalPoints = createTraversalPoints(channel, startingLocation);
 		currentDestinationIndex = 0;
 		setCourseForCurrentTraversalPoint(startingLocation);
 	}
 
-	public TraverseChannelMotionStrategy(MembraneChannel channel, Point2D startingLocation, Rectangle2D postTraversalMotionBounds) {
-		this(channel, startingLocation, postTraversalMotionBounds, DEFAULT_MAX_VELOCITY);
+	public TraverseChannelMotionStrategy(MembraneChannel channel, Point2D startingLocation,
+	        Rectangle2D preTraversalMotionBounds, Rectangle2D postTraversalMotionBounds) {
+		this(channel, startingLocation, preTraversalMotionBounds, postTraversalMotionBounds, DEFAULT_MAX_VELOCITY);
 	}
 
 	@Override
@@ -63,6 +67,7 @@ public class TraverseChannelMotionStrategy extends MotionStrategy {
 		    postTraversalCountdownTimer -= dt;
 		    if (postTraversalCountdownTimer <= 0){
 		        // The traversal process is complete, set a new Random Walk strategy.
+		        notifyStrategyComplete(movableModelElement);
                 movableModelElement.setMotionStrategy(new RandomWalkMotionStrategy(postTraversalMotionBounds));
 		    }
 		    else{
@@ -109,6 +114,37 @@ public class TraverseChannelMotionStrategy extends MotionStrategy {
     public Vector2D getInstantaneousVelocity() {
         return new Vector2D.Double(velocityVector.getX(), velocityVector.getY());
     }
+   
+   /**
+    * Abort the traversal.  This was created for the case where a particle is
+    * traversing the channel as the user grabs the channel.
+    * 
+    * IMPORTANT NOTE: Because the motion strategy doesn't maintain a reference
+    * to the element that it is moving (it works the other way around), the
+    * movable element must be supplied.  If the wrong element is supplied,
+    * it would obviously cause weird behavior.  So, like, don't do it.
+    * 
+    * ANOTHER IMPORTANT NOTE: This does not send out notification of the
+    * strategy having completed, since it didn't really complete. 
+    */
+   public void abortTraversal(IMovable movableModelElement){
+       Point2D currentPos = movableModelElement.getPositionReference();
+       if ( preTraversalMotionBounds.contains( currentPos ) ){
+           // Hasn't started traversing yet.
+           movableModelElement.setMotionStrategy( new RandomWalkMotionStrategy( preTraversalMotionBounds ) );
+       }
+       else if ( postTraversalMotionBounds.contains( currentPos )){
+           // It is all the way across, just still under the channel's control.
+           movableModelElement.setMotionStrategy( new RandomWalkMotionStrategy( postTraversalMotionBounds ) );
+       }
+       else{
+           // The particle is actually inside the channel.  In this case, we
+           // just go ahead and put it at the last traversal point and set the
+           // post-traversal strategy, and hope it doesn't look too weird.
+           movableModelElement.setPosition( traversalPoints.get( traversalPoints.size() - 1 ) );
+           movableModelElement.setMotionStrategy( new RandomWalkMotionStrategy( postTraversalMotionBounds ) );
+       }
+   }
 	
 	/**
 	 * Create the points through which a particle must move when traversing
