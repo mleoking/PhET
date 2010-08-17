@@ -19,12 +19,6 @@ public class DensityModel {
     private var waterHeight:Number = 5.0 / 6.0 * poolHeight;
     public static var DISPLAY_SCALE:Number = 1000.0;
 
-    //    private var poolWidth:Number = 15;
-    //    private var poolHeight:Number = 7.5;
-    //    private var poolDepth:Number = 5;
-    //    private var waterHeight:Number = 5.5;
-    //    public static var DISPLAY_SCALE:Number = 100.0;
-
     private static var BOUNDS:Number = 50;
     private var volume:Number = poolWidth * poolDepth * waterHeight;
 
