@@ -136,15 +136,15 @@ public class WebsiteTranslationDeployServer {
     }
 
     public static ArrayList getJavaProjectNameList( File translationDir ) {
-        HashSet projectNames = getJavaProjectNames( translationDir );
-        ArrayList list = new ArrayList( projectNames );
+        HashSet<String> projectNames = getJavaProjectNames( translationDir );
+        ArrayList<String> list = new ArrayList<String>( projectNames );
         Collections.sort( list );//iterate in order in case any problems happen halfway through
         return list;
     }
 
     public static ArrayList getFlashProjectNameList( File translationDir ) {
-        HashSet projectNames = getFlashProjectNames( translationDir );
-        ArrayList list = new ArrayList( projectNames );
+        HashSet<String> projectNames = getFlashProjectNames( translationDir );
+        ArrayList<String> list = new ArrayList<String>( projectNames );
         Collections.sort( list );//iterate in order in case any problems happen halfway through
         return list;
     }
@@ -222,9 +222,6 @@ public class WebsiteTranslationDeployServer {
         new JARGenerator().generateOfflineJARs( getLocalCopyOfAllJAR( translationDir, project ), jarCommand, buildLocalProperties );
     }
 
-    private void createTestJNLPFiles( File translationDir, String project ) {
-    }
-
     private void signJAR( File translationDir, String project ) {
         PhetJarSigner phetJarSigner = new PhetJarSigner( BuildLocalProperties.getInstance() );
         phetJarSigner.signJar( getLocalCopyOfAllJAR( translationDir, project ) );
@@ -238,21 +235,21 @@ public class WebsiteTranslationDeployServer {
         FileUtils.copyToDir( getLocalCopyOfAllJAR( pathToSimsDir, project + "/" + project ), translationDir );
     }
 
-    private static HashSet getJavaProjectNames( File translationDir ) {
+    private static HashSet<String> getJavaProjectNames( File translationDir ) {
         return getProjectNames( translationDir, ".properties", "java" );
     }
 
-    private static HashSet getFlashProjectNames( File translationDir ) {
+    private static HashSet<String> getFlashProjectNames( File translationDir ) {
         return getProjectNames( translationDir, ".xml", "flash" );
     }
 
-    private static HashSet getProjectNames( File translationDir, final String endString, String typeString ) {
+    private static HashSet<String> getProjectNames( File translationDir, final String endString, String typeString ) {
         File[] f = translationDir.listFiles( new FilenameFilter() {
             public boolean accept( File dir, String name ) {
                 return ( name.endsWith( endString ) ) && name.indexOf( "-strings_" ) > 0;
             }
         } );
-        HashSet set = new HashSet();
+        HashSet<String> set = new HashSet<String>();
         for ( int i = 0; i < f.length; i++ ) {
             File file = f[i];
             String projectName = file.getName().substring( 0, file.getName().indexOf( "-strings_" ) );
