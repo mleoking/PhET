@@ -158,7 +158,7 @@ abstract class AbstractConcentrationGraphNode extends PComposite {
         for ( int i = 0; i < valueNodes.length; i++ ) {
             updateValueLayout( i );
         }
-        // other nodes are dynamically when molecule is changed
+        // layout of other nodes is handled dynamically when molecules are set
     }
 
     //----------------------------------------------------------------------------
