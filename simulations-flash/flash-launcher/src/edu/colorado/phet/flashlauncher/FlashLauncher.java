@@ -11,6 +11,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.flashlauncher.util.BareBonesBrowserLaunch;
 import edu.colorado.phet.flashlauncher.util.FileUtils;
+import edu.colorado.phet.flashlauncher.util.SimulationProperties;
 
 /**
  * FlashLauncher is the mechanism for launching Flash simulations.
@@ -27,23 +28,14 @@ import edu.colorado.phet.flashlauncher.util.FileUtils;
 public class FlashLauncher {
 
     public static final String ARGS_FILENAME = "flash-launcher-args.txt";
-    public static final String SIMULATION_PROPRTIES_FILENAME = "simulation.properties";
     public static final String SOFTWARE_AGREEMENT_FILENAME = "software-agreement.htm";
 
-    private String projectName;
-    private String simName;
-    private String language;
-    private String country;
     private String deployment;
     private String distributionTag;
     private String installationTimestamp;
     private String installerCreationTimestamp;
     private static JTextArea jTextArea;
-    public static final String PROPERTY_PROJECT = "project";
-    public static final String PROPERTY_SIMULATION = "simulation";
-    public static final String PROPERTY_LANGUAGE = "language";
-    public static final String PROPERTY_COUNTRY = "country";
-    public static final String PROPERTY_TYPE = "type";
+    private final SimulationProperties simulationProperties;
 
     public FlashLauncher() throws IOException {
 
@@ -53,16 +45,10 @@ public class FlashLauncher {
         this.installerCreationTimestamp = "null";
         this.distributionTag = "null";
 
-        // read sim and language from args file (JAR resource)        
-        Properties properties =new Properties();
-        properties.load(Thread.currentThread().getContextClassLoader().getResourceAsStream( SIMULATION_PROPRTIES_FILENAME ));
-        this.projectName=properties.getProperty(PROPERTY_PROJECT);
-        this.simName=properties.getProperty(PROPERTY_SIMULATION);
-        this.language=properties.getProperty(PROPERTY_LANGUAGE);
-        this.country=properties.getProperty(PROPERTY_COUNTRY);
+        simulationProperties = new SimulationProperties();
 
         // if the developer flag is specified in args file, open a window to show debug output
-        if ( "true".equals(properties.getProperty("dev")) ) {
+        if ( simulationProperties.isDevelopment() ) {
             println( "FlashLauncher.FlashLauncher dev" );
             JFrame frame = new JFrame( "Text" );
             jTextArea = new JTextArea( 10, 50 );
@@ -90,7 +76,7 @@ public class FlashLauncher {
     private void start( String args[] ) throws IOException {
 
         println( "FlashLauncher.start" );
-        String unzipDirName = System.getProperty( "java.io.tmpdir" ) + System.getProperty( "file.separator" ) + "phet-" + simName;
+        String unzipDirName = System.getProperty( "java.io.tmpdir" ) + System.getProperty( "file.separator" ) + "phet-" + simulationProperties.getSimulation();
         println( "unzipping to directory = " + unzipDirName );
         File unzipDir = new File( unzipDirName );
 
@@ -102,7 +88,7 @@ public class FlashLauncher {
         println( "Finished unzip" );
 
         // read the properties file
-        Properties properties = readProperties( projectName );
+        Properties properties = readProperties( simulationProperties.getProject() );
 
         // pull the version information from the properties file
         String versionMajor, versionMinor, versionDev, versionRevision, versionTimestamp;
@@ -116,7 +102,7 @@ public class FlashLauncher {
             distributionTag = properties.getProperty( "distribution.tag" );
         }
 
-        if ( simName.equals( "flash-common-strings" ) ) {
+        if ( simulationProperties.getSimulation().equals( "flash-common-strings" ) ) {
             String displayString = "";
             displayString += "PhET Flash common strings : version ";
             displayString += versionMajor + "." + versionMinor + "." + versionDev + " (" + versionRevision + ")";
@@ -146,7 +132,7 @@ public class FlashLauncher {
 
 
         // get the locale string
-        String locale = FlashHTML.localeString( language, country );
+        String locale = FlashHTML.localeString( simulationProperties.getLanguage(), simulationProperties.getCountry() );
 
         File simXMLFile = getSimXMLFile( unzipDir, locale );
 
@@ -171,6 +157,7 @@ public class FlashLauncher {
 
         String encodedAgreement = FlashHTML.encodeXML( agreementContent );
 
+        String simName = simulationProperties.getSimulation();
         String titleString = FlashHTML.extractTitleFromXML( simName, simXMLFile );
         if ( titleString == null ) {
             titleString = FlashHTML.extractTitleFromXML( simName, new File( unzipDir, simName + "-strings_en.xml" ) );
@@ -180,7 +167,7 @@ public class FlashLauncher {
         }
 
         // dynamically generate an HTML file
-        String html = FlashHTML.generateHTML( simName, language, country, deployment, distributionTag, installationTimestamp,
+        String html = FlashHTML.generateHTML( simName, simulationProperties.getLanguage(), simulationProperties.getCountry(), deployment, distributionTag, installationTimestamp,
                                               installerCreationTimestamp, versionMajor, versionMinor, versionDev, versionRevision, versionTimestamp, simDev, bgcolor,
                                               simEncodedXML, commonEncodedXML, "8", "flash-template.html", agreementVersion, encodedAgreement, creditsString,
                                               titleString );
@@ -198,10 +185,10 @@ public class FlashLauncher {
         // files where the simulation and common internationalization XML should be.
         // if they don't exist, replace with defaults
 
-        File simXMLFile = new File( baseDir, projectName + "-strings_" + localeString + ".xml" );
+        File simXMLFile = new File( baseDir, simulationProperties.getProject() + "-strings_" + localeString + ".xml" );
 
         if ( !simXMLFile.exists() ) {
-            simXMLFile = new File( baseDir, projectName + "-strings_en.xml" );
+            simXMLFile = new File( baseDir, simulationProperties.getProject() + "-strings_en.xml" );
             println( "WARNING: could not find sim strings for " + localeString + ", using default en." );
         }
         return simXMLFile;
