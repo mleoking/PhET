@@ -4,28 +4,32 @@ package edu.colorado.phet.membranediffusion.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.membranediffusion.model.CaptureZone;
 import edu.colorado.phet.membranediffusion.model.MembraneChannel;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PDragEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
+import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Node that represents a membrane channel in the view.
  * 
  * @author John Blanco
  */
-public class MembraneChannelNode extends PNode{
+public class MembraneChannelNode extends PComposite {
 	
     //----------------------------------------------------------------------------
     // Class Data
@@ -92,6 +96,43 @@ public class MembraneChannelNode extends PNode{
 		edgeLayer.addChild(leftEdgeNode);
 		edgeLayer.addChild(rightEdgeNode);
 		
+		// Add a cursor handler so that the user knows that they can do
+		// something with this.
+		channelLayer.addInputEventListener( new CursorHandler(Cursor.HAND_CURSOR) );
+		edgeLayer.addInputEventListener( new CursorHandler(Cursor.HAND_CURSOR) );
+        channelLayer.addInputEventListener( new PDragEventHandler(){
+
+            public void startDrag(PInputEvent event){
+                super.startDrag(event);
+                System.out.println("startDrag");
+            }
+
+            public void drag(PInputEvent event){
+                System.out.println("drag");
+            }
+            
+            public void endDrag( PInputEvent event ){
+                super.endDrag(event);
+                System.out.println("endDrag");
+            }
+        });
+        edgeLayer.addInputEventListener( new PDragEventHandler(){
+
+            public void startDrag(PInputEvent event){
+                super.startDrag(event);
+                System.out.println("startDrag");
+            }
+
+            public void drag(PInputEvent event){
+                System.out.println("drag");
+            }
+            
+            public void endDrag( PInputEvent event ){
+                super.endDrag(event);
+                System.out.println("endDrag");
+            }
+        });
+
 		// If enabled, show the capture zones.
 		if (SHOW_CAPTURE_ZONES){
 		    // The capture zones contain their own position information
