@@ -8,8 +8,9 @@ import java.util.zip.ZipFile;
 //todo: These utility functions were copied from phetcommon's FileUtils to eliminate dependencies on phetcommon.
 public class FileUtils {
 
-    private FileUtils() {}
-    
+    private FileUtils() {
+    }
+
     public static void unzip( File zipFileName, File targetDir ) throws IOException {
         unzip( zipFileName, targetDir, new FileFilter() {
             public boolean accept( File file ) {
