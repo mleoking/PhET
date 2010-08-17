@@ -1,5 +1,6 @@
 package edu.colorado.phet.flashlauncher.util;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -39,6 +40,14 @@ public class SimulationProperties {
         this.type = properties.getProperty(KEY_TYPE);
     }
 
+    public SimulationProperties(String project, String simulation, String language, String country, String type) {
+        this.project=project;
+        this.simulation=simulation;
+        this.language=language;
+        this.country=country;
+        this.type=type;
+    }
+
     //TODO: This is currently a stub for which we may drop or add support, not sure now
     public boolean isDevelopment() {
         return false;
@@ -62,5 +71,16 @@ public class SimulationProperties {
 
     public String getType() {
         return type;
+    }
+
+    public void store(FileOutputStream fileOutputStream, String comments) throws IOException {
+                // read sim and language from args file (JAR resource)        
+        Properties properties = new Properties();
+        properties.setProperty(KEY_PROJECT, project);
+        properties.setProperty(KEY_SIMULATION, simulation);
+        properties.setProperty(KEY_LANGUAGE, language);
+        properties.setProperty(KEY_COUNTRY, country);
+        properties.setProperty(KEY_TYPE, type);
+        properties.store(fileOutputStream, comments);
     }
 }
