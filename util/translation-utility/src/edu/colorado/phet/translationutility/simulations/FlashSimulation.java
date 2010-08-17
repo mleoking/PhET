@@ -4,15 +4,18 @@ package edu.colorado.phet.translationutility.simulations;
 
 import java.io.*;
 import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.jar.*;
 import java.util.logging.Logger;
+import java.util.zip.ZipFile;
 
 import javax.swing.JFileChooser;
 
 import edu.colorado.phet.common.phetcommon.view.util.StringUtil;
 import edu.colorado.phet.flashlauncher.FlashLauncher;
+import edu.colorado.phet.flashlauncher.util.SimulationProperties;
 import edu.colorado.phet.translationutility.util.Command;
 import edu.colorado.phet.translationutility.util.DocumentAdapter;
 import edu.colorado.phet.translationutility.util.FileChooserFactory;
@@ -53,6 +56,7 @@ public class FlashSimulation extends AbstractSimulation {
         String testJarFileName = createTestJar( properties, locale );
         try {
             String[] cmdArray = { "java", "-jar", testJarFileName };
+            System.out.println("Arrays.toString(cmdArray) = " + Arrays.toString(cmdArray));
             Command.run( cmdArray, false /* waitForCompletion */ );
         }
         catch ( CommandException e ) {
@@ -261,7 +265,8 @@ public class FlashSimulation extends AbstractSimulation {
                 JarFile.MANIFEST_NAME,
                 "META-INF/.*\\.SF", "META-INF/.*\\.RSA", "META-INF/.*\\.DSA", /* signing information */
                 xmlFilename,
-                FlashLauncher.ARGS_FILENAME
+                FlashLauncher.ARGS_FILENAME,
+                SimulationProperties.SIMULATION_PROPRTIES_FILENAME
         };
         
         // create the test JAR file
@@ -303,11 +308,25 @@ public class FlashSimulation extends AbstractSimulation {
             testOutputStream.closeEntry();
             
             // add args file used by FlashLauncher
-            jarEntry = new JarEntry( FlashLauncher.ARGS_FILENAME );
-            testOutputStream.putNextEntry( jarEntry );
-            String args = createArgsString( projectName, locale );
-            testOutputStream.write( args.getBytes() );
-            testOutputStream.closeEntry();
+            if (new ZipFile(jarFile).getEntry(SimulationProperties.SIMULATION_PROPRTIES_FILENAME)!=null){
+                jarEntry = new JarEntry(SimulationProperties.SIMULATION_PROPRTIES_FILENAME);
+                testOutputStream.putNextEntry(jarEntry);
+                
+                Properties p= new Properties();
+                JarFile jf= new JarFile(jarFile);
+                p.load(jf.getInputStream(jf.getEntry(SimulationProperties.SIMULATION_PROPRTIES_FILENAME)));
+                p.setProperty(SimulationProperties.KEY_LANGUAGE, locale.getLanguage());
+                p.setProperty(SimulationProperties.KEY_COUNTRY, locale.getCountry());
+                p.store(testOutputStream, "");
+                testOutputStream.closeEntry();
+                
+            }else{//This provides backward compatibility for sims using flash-launcher-args.txt
+                jarEntry = new JarEntry(FlashLauncher.ARGS_FILENAME);
+                testOutputStream.putNextEntry(jarEntry);
+                String args = createArgsString(projectName, locale);
+                testOutputStream.write(args.getBytes());
+                testOutputStream.closeEntry();
+            }
             
             // close the streams
             jarInputStream.close();
