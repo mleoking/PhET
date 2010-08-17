@@ -2,7 +2,10 @@ package edu.colorado.phet.flashlauncher.util;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Properties;
+
+import edu.colorado.phet.buildtools.PhetProject;
 
 /**
  * This encapsulates a .properties file named "simulation.properties" that contains
@@ -54,6 +57,13 @@ public class SimulationProperties {
         this.language = language;
         this.country = country;
         this.type = type;
+    }
+
+    /*
+     * Creates a SimulationProperties from a PhetProject
+     */
+    public SimulationProperties(PhetProject phetProject,String simulationName, Locale locale,String type) {
+        this(phetProject.getName(), simulationName, locale.getLanguage(), locale.getCountry(), type );
     }
 
     //TODO: This is currently a stub for which we may drop or add support, not sure now
