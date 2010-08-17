@@ -110,7 +110,8 @@ public abstract class ToolBoxItem extends PComposite {
 
             @Override
             public void mouseReleased(PInputEvent event) {
-            	model.releaseUserControlledMembraneChannel();
+                // The user has released this node.
+            	membraneChannel.setUserControlled( false );
             	if (membraneChannel != null){
             		// Release our reference to the model element so that we will
             		// create a new one if clicked again.
