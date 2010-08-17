@@ -3,4 +3,7 @@
     <string key="density.simTitle" value="Density"/>
     <string key="buoyancy.simTitle" value="Density"/>
     <string key="intro.objectsOfSameMass" value="Objects of same mass"/>
+    <string key="customObject.properties" value="Properties"/>
+    <string key="customObject.name" value="name"/>
+    <string key="customObject.custom" value="Custom"/>
 </SimStrings>
