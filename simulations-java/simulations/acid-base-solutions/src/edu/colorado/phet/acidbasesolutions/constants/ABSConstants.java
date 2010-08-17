@@ -92,7 +92,7 @@ public class ABSConstants {
     //----------------------------------------------------------------------------
     
     // reference coordinate frame size for world nodes
-    public static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 1024, 768 );
+    public static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 900, 900 ); // must be square for canvas rescaling to work properly!
     
     public static final IntegerRange MAX_IMAGES_RANGE = new IntegerRange( 100, 2000, 200 );;
     public static final IntegerRange MAX_H2O_IMAGES_RANGE = new IntegerRange( 300, 10000, 2000 );;

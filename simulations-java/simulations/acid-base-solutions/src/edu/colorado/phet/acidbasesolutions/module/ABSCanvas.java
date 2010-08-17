@@ -2,13 +2,17 @@
 
 package edu.colorado.phet.acidbasesolutions.module;
 
+import java.awt.geom.Dimension2D;
+
 import edu.colorado.phet.acidbasesolutions.constants.ABSColors;
 import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel;
 import edu.colorado.phet.acidbasesolutions.view.*;
 import edu.colorado.phet.acidbasesolutions.view.graph.ConcentrationGraphNode;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PBounds;
 
 /**
  * Base class for all canvases.
@@ -63,4 +67,28 @@ public abstract class ABSCanvas extends PhetPCanvas {
         rootNode.addChild( node );
     }
     
+    protected void centerRootNode() {
+        centerNode( rootNode );
+    }
+    
+    protected void centerNode( PNode node ) {
+        if ( node != null ) {
+            Dimension2D worldSize = getWorldSize();
+            PBounds b = node.getFullBoundsReference();
+            double xOffset = ( ( worldSize.getWidth() - b.getWidth() ) / 2 ) - PNodeLayoutUtils.getOriginXOffset( node );
+            double yOffset = ( ( worldSize.getHeight() - b.getHeight() ) / 2 )- PNodeLayoutUtils.getOriginYOffset( node );
+            node.setOffset( xOffset, yOffset );
+        }
+    }
+    
+    /*
+     * Centers the root node on the canvas when the canvas size changes.
+     */
+    @Override
+    protected void updateLayout() {
+        Dimension2D worldSize = getWorldSize();
+        if ( worldSize.getWidth() > 0 && worldSize.getHeight() > 0 ) {
+            centerRootNode();
+        }
+    }
 }
