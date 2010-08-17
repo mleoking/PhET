@@ -5,7 +5,6 @@ package edu.colorado.phet.membranediffusion.model;
 import java.awt.Shape;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Point2D;
-import java.util.Random;
 
 /**
  * A "capture zone" (which is a 2D space that defines where particles may be
@@ -60,8 +59,13 @@ public class PieSliceShapedCaptureZone extends CaptureZone {
 	
 	@Override
 	public void setOriginPoint(Point2D center) {
-		this.originPoint = center;
+		this.originPoint.setLocation( center );
 		updateShape();
+	}
+	
+	public void setOriginPoint(double x, double y){
+	    originPoint.setLocation( x, y );
+	    updateShape();
 	}
 	
 	@Override

@@ -29,6 +29,11 @@ public class NullCaptureZone extends CaptureZone {
 		// Does nothing.
 	}
 
+    @Override
+    public void setOriginPoint(double x, double y) {
+        // Does nothing.
+    }
+
 	@Override
 	public Point2D getOriginPoint() {
 		return null;
