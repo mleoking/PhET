@@ -3,60 +3,76 @@
 Description of the model used in "Acid-Base Solutions"
 
 This simulation models 4 types of aqueous solutions:
-- Pure Water
-- Strong Acids
-- Weak Acids
-- Strong Bases
-- Weak Bases
+  - Pure Water
+  - Strong Acids
+  - Weak Acids
+  - Strong Bases
+  - Weak Bases
 
 Constants:
-W = concentration of water = 55.6 mol/L
-Kw = equilibrium constant of water = 1E-14
+  W = concentration of water = 55.6 mol/L
+  Kw = equilibrium constant of water = 1E-14
 
 Variables:
-C = concentration of the acid or base in mol/L
-Ka = strength of acid
-Kb = strength of base
+  C = concentration of the acid or base in mol/L
+  Ka = strength of acid
+  Kb = strength of base
 
 Generic symbols:
-A = the molecule that separates from hydrogen (H) when a weak or strong acid (HA) dissociates
-M = the metal molecule that separates from hydroxide (OH-) and remains in solution after a strong base (MOH+) dissociates
-B = a weak base molecule that can accept a hydrogen atom to form BH+
-[X] = the concentration of molecule X
+  A = the molecule that separates from hydrogen (H) when a weak or strong acid (HA) dissociates
+  M = the metal molecule that separates from hydroxide (OH-) and remains in solution after a strong base (MOH+) dissociates
+  B = a weak base molecule that can accept a hydrogen atom to form BH+
 
-Pure Water:
-[H3O] = sqrt(Kw)
-[OH] = [H3O]
-[H2O] = W
+Concentration:
 
-Strong Acids:
-[HA] = 0
-[A-] = C
-[H3O+] = C
-[OH-] = Kw / [H3O+]
-[H2O] = W - C
+  The notation [X] indicates the concentration of molecule X.
 
-Weak Acids:
-[HA] = C - [H3O+]
-[A-] = [H3O+]
-[H3O+] = ( -Ka + sqrt( Ka^2 + 4*Ka*C ) ) / 2 
-[OH-] = Kw / [H3O+]
-[H2O] = W - [A-]
+  Pure Water:
+  [H3O] = sqrt(Kw)
+  [OH] = [H3O]
+  [H2O] = W
 
-Strong Bases:
-[MOH] = 0
-[M+] = C
-[H3O+] = Kw / [OH-]
-[OH-] = C
-[H2O] = W
+  Strong Acids:
+  [HA] = 0
+  [A-] = C
+  [H3O+] = C
+  [OH-] = Kw / [H3O+]
+  [H2O] = W - C
 
-Weak Bases:
-[B] = C - [BH+]
-[BH+] = ( -Kb + sqrt( Kb^2 + 4*Kb*C ) ) / 2 
-[H3O+] = Kw / [OH-]
-[OH-] = [BH+]
-[H2O] = W - [BH+]
+  Weak Acids:
+  [HA] = C - [H3O+]
+  [A-] = [H3O+]
+  [H3O+] = ( -Ka + sqrt( Ka^2 + 4*Ka*C ) ) / 2 
+  [OH-] = Kw / [H3O+]
+  [H2O] = W - [A-]
 
-pH = log10( [H30+] )
+  Strong Bases:
+  [MOH] = 0
+  [M+] = C
+  [H3O+] = Kw / [OH-]
+  [OH-] = C
+  [H2O] = W
+
+  Weak Bases:
+  [B] = C - [BH+]
+  [BH+] = ( -Kb + sqrt( Kb^2 + 4*Kb*C ) ) / 2 
+  [H3O+] = Kw / [OH-]
+  [OH-] = [BH+]
+  [H2O] = W - [BH+]
+
+pH:
+
+  pH ranges from 0 to 14 in this simulation, and is computed as a function of [H3O+]:
+  
+  pH = log10( [H30+] )
+
+Conductivity:
+
+  For the purposes of this simulation, conductivity is modeled as a number between 0 and 1 inclusive.
+  0 is no conductivity, an open circuit. 1 is maximum conductivity.
+  Conductivity is computed as a function of pH:
+
+  if pH >= 7, conductivity = (1/7) * pH - 1;
+  if pH < 7, conductivity = -(1/7) * pH + 1;
 
 ---
