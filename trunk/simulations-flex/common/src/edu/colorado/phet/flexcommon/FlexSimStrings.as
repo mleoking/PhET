@@ -3,7 +3,7 @@ import mx.core.Application;
 
 public class FlexSimStrings {
     private static var document:XML;
-    private static const debug = false;
+    private static const debug:Boolean = false;
 
     public static function get(key:String, defaultString:String = null):String {
         if (document == null) {
