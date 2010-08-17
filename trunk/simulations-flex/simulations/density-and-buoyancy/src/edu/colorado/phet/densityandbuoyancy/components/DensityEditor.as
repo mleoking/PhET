@@ -21,15 +21,15 @@ public class DensityEditor extends PropertyEditor {
 
         slider.addEventListener(SliderEvent.THUMB_RELEASE, function (event:SliderEvent):void {
             var value:Number = unit.toSI(event.value);
-            updateObject(maximum, minimum, value,Substance.WOOD);
-            updateObject(maximum, minimum, value,Substance.WATER_BALLOON);
-            updateObject(maximum, minimum, value,Substance.LEAD);
+            updateObject(maximum, minimum, value, Substance.WOOD);
+            updateObject(maximum, minimum, value, Substance.WATER_BALLOON);
+            updateObject(maximum, minimum, value, Substance.LEAD);
         });
         return slider;
     }
 
     //if within tolerance of any mode, switch to that mode
-    private function updateObject(maximum:Number, minimum:Number, value:Number,substance:Substance):void {
+    private function updateObject(maximum:Number, minimum:Number, value:Number, substance:Substance):void {
         var tolerance:Number = (maximum - minimum) / 100.0 * 1.5;//last number is percent tolerance
         if (Math.abs(value - substance.getDensity()) < tolerance) {
             densityObject.substance = substance;

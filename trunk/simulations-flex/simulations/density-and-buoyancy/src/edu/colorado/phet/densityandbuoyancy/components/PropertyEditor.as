@@ -1,6 +1,5 @@
 package edu.colorado.phet.densityandbuoyancy.components {
 import edu.colorado.phet.densityandbuoyancy.model.NumericProperty;
-
 import edu.colorado.phet.densityandbuoyancy.view.units.Unit;
 
 import flash.display.DisplayObject;
@@ -17,7 +16,7 @@ public class PropertyEditor extends GridRow {
     private var property:NumericProperty;
     public static const SLIDER_WIDTH:Number = 400;
 
-    public function PropertyEditor(property:NumericProperty, minimimum:Number, maximum:Number,unit:Unit) {
+    public function PropertyEditor(property:NumericProperty, minimimum:Number, maximum:Number, unit:Unit) {
         super();
         this.property = property;
 
@@ -25,7 +24,7 @@ public class PropertyEditor extends GridRow {
         label.text = property.name;
         addGridItem(label);
 
-        addGridItem(createSlider(property, minimimum, maximum,unit));
+        addGridItem(createSlider(property, minimimum, maximum, unit));
 
         const textField:TextInput = new TextInput();
         textField.width = 100;
@@ -48,7 +47,7 @@ public class PropertyEditor extends GridRow {
         addGridItem(unitsLabel);
     }
 
-    protected function createSlider(property:NumericProperty, minimum:Number, maximum:Number,unit:Unit):HSlider {
+    protected function createSlider(property:NumericProperty, minimum:Number, maximum:Number, unit:Unit):HSlider {
         const slider:HSlider = new HSlider();
         slider.width = SLIDER_WIDTH;
         slider.minimum = unit.fromSI(minimum);

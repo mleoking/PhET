@@ -2,9 +2,7 @@ package edu.colorado.phet.densityandbuoyancy.components {
 import edu.colorado.phet.densityandbuoyancy.DensityConstants;
 import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
 import edu.colorado.phet.densityandbuoyancy.model.Substance;
-
 import edu.colorado.phet.densityandbuoyancy.view.units.Units;
-
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 
 import mx.containers.Grid;
@@ -17,9 +15,9 @@ public class CustomObjectPropertiesPanel extends Panel {
     private var densityObject:DensityObject;
     private var comboBox:ComboBox;
 
-    public function CustomObjectPropertiesPanel(densityObject:DensityObject,units:Units) {
+    public function CustomObjectPropertiesPanel(densityObject:DensityObject, units:Units) {
         super();
-        this.title = FlexSimStrings.get("customObject.properties","Properties");
+        this.title = FlexSimStrings.get("customObject.properties", "Properties");
         this.densityObject = densityObject;
 
         //TODO: remove listeners from former density object
@@ -39,9 +37,9 @@ public class CustomObjectPropertiesPanel extends Panel {
 
         densityObject.getDensityProperty().addListener(densityListener);
 
-        grid.addChild(new PropertyEditor(densityObject.getMassProperty(), DensityConstants.MIN_MASS, DensityConstants.MAX_MASS,units.massUnit));
-        grid.addChild(new PropertyEditor(densityObject.getVolumeProperty(), DensityConstants.MIN_VOLUME, DensityConstants.MAX_VOLUME,units.volumeUnit));
-        grid.addChild(new DensityEditor(densityObject.getDensityProperty(), DensityConstants.MIN_DENSITY, DensityConstants.MAX_DENSITY,units.densityUnit,densityObject));
+        grid.addChild(new PropertyEditor(densityObject.getMassProperty(), DensityConstants.MIN_MASS, DensityConstants.MAX_MASS, units.massUnit));
+        grid.addChild(new PropertyEditor(densityObject.getVolumeProperty(), DensityConstants.MIN_VOLUME, DensityConstants.MAX_VOLUME, units.volumeUnit));
+        grid.addChild(new DensityEditor(densityObject.getDensityProperty(), DensityConstants.MIN_DENSITY, DensityConstants.MAX_DENSITY, units.densityUnit, densityObject));
 
         comboBox = new ComboBox();
         comboBox.dataProvider = [Substance.WOOD,Substance.WATER_BALLOON,Substance.LEAD,Substance.CUSTOM];
@@ -50,7 +48,7 @@ public class CustomObjectPropertiesPanel extends Panel {
             trace("comboBox.selectedItem=" + comboBox.selectedItem);
             if (comboBox.selectedItem.isCustom()) {
                 if (!densityObject.getSubstance().isCustom()) {
-                    densityObject.substance = new Substance(FlexSimStrings.get("customObject.custom","Custom"), densityObject.getDensity(),true);
+                    densityObject.substance = new Substance(FlexSimStrings.get("customObject.custom", "Custom"), densityObject.getDensity(), true);
                 }
             } else {
                 densityObject.setDensity(comboBox.selectedItem.getDensity());
