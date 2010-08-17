@@ -1,3 +1,4 @@
+8/16/10 love letter to future developers in implementation-notes.txt
 8/16/10 first pass at high-level model description in model.txt
 8/16/10 delete portions of the model related to molecule counts, not used in this sim
 8/16/10 left justify radio buttons in control panels
