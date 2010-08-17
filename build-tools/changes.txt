@@ -1,3 +1,5 @@
+# 00.68.02 (43225) Aug 17, 2010
+8/17/10 #2463, fixes for simulations.properties
 # 00.68.01 (43222) Aug 17, 2010
 8/17/10 improve support for simulation.properties
 8/16/2010 Introduced support for simulation.properties file, which will replace flash-launcher-args.properties, see #2463
