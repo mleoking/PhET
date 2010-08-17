@@ -450,14 +450,41 @@ public class MembraneDiffusionModel implements IParticleCapture {
     }
     
     /**
-     * Add a membrane channel that is under user control, meaning that the user
-     * is dragging it around.
+     * Add a membrane channel.  It is assumed that the channel is under user
+     * control, i.e. the user is dragging from the tool box.
      * 
      * @param membraneChannel
      */
-    public void addUserControlledMembraneChannel(MembraneChannel membraneChannel){
-    	assert membraneChannel != null;
+    public void addUserControlledMembraneChannel(final MembraneChannel membraneChannel){
+    	assert membraneChannel != null && membraneChannel.isUserControlled();
     	userControlledMembraneChannel = membraneChannel;
+    	membraneChannel.addListener( new MembraneChannel.Adapter(){
+            @Override
+            public void userControlledStateChanged() {
+                if (membraneChannel.isUserControlled()){
+                    // The user has grabbed this channel.
+                    membraneChannels.remove( membraneChannel );
+                    userControlledMembraneChannel = membraneChannel;
+                }
+                else{
+                    // The user has released this channel.
+                    releaseUserControlledMembraneChannel();
+                }
+            }
+            
+            @Override
+            public void removed() {
+                if (membraneChannels.contains( membraneChannel )){
+                    // Take this channel off of the list of membrane channels.
+                    membraneChannels.remove(membraneChannel);
+                }
+                else if (userControlledMembraneChannel == membraneChannel){
+                    // This channel was dropped back into the tool box or some
+                    // invalid location.
+                    userControlledMembraneChannel = null;
+                }
+            }
+    	});
     	notifyChannelAdded(membraneChannel);
     }
     
@@ -522,17 +549,6 @@ public class MembraneDiffusionModel implements IParticleCapture {
     			
     			// Put the channel on the list of active channels.
     			membraneChannels.add(userControlledMembraneChannel);
-    			
-    	    	// Listen for notifications from this channel that indicate that it
-    	    	// is being removed from the model.
-    			final MembraneChannel channelReference = userControlledMembraneChannel;
-    	    	userControlledMembraneChannel.addListener(new MembraneChannel.Adapter(){
-    	    		@Override
-    	    		public void removed() {
-    	    			// Take this channel off of the list of membrane channels.
-    	    			membraneChannels.remove(channelReference);
-    	    		}
-    	    	});
     		}
     	}
     	else{
@@ -543,7 +559,7 @@ public class MembraneDiffusionModel implements IParticleCapture {
     	}
     	
     	// Clear the reference to the membrane channel, since it is no longer
-    	// controled by the user.
+    	// controlled by the user.
     	userControlledMembraneChannel = null;
     }
     
@@ -570,7 +586,7 @@ public class MembraneDiffusionModel implements IParticleCapture {
 			return numParticlesInZone;
 		}
     }
-    
+        
     public interface Listener extends EventListener {
     	/**
     	 * Notification that a channel was added.
