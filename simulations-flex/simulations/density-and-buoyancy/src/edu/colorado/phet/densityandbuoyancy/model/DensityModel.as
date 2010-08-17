@@ -121,7 +121,7 @@ public class DensityModel {
                 const gravityForce:b2Vec2 = cuboid.getGravityForce().Copy();
                 gravityForce.Multiply(DensityConstants.SCALE_BOX2D);
                 body.ApplyForce(gravityForce, body.GetPosition());
-                trace("gravity = " + gravityForce.y);
+//                trace("gravity = " + gravityForce.y);
 
                 var submergedVolume:Number;
                 if (waterY > cuboid.getTopY()) {

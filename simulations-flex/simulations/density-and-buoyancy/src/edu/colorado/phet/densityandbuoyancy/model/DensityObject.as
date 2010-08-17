@@ -171,7 +171,7 @@ public class DensityObject {
 
     public function updatePositionFromBox2D():void {
         setPosition(body.GetPosition().x / DensityConstants.SCALE_BOX2D, body.GetPosition().y / DensityConstants.SCALE_BOX2D);
-        trace("block y = " + getY());
+//        trace("block y = " + getY());
     }
 
     public function remove():void {
