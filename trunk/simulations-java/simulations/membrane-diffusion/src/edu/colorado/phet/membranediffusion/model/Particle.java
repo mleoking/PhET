@@ -34,10 +34,6 @@ public abstract class Particle implements IMovable {
     // Motion strategy for moving this particle around.
     private MotionStrategy motionStrategy = new StillnessMotionStrategy();
     
-    // Opaqueness value, ranges from 0 (completely transparent) to 1 
-    // (completely opaque).
-    private double opaqueness = 1;
-    
     //------------------------------------------------------------------------
     // Constructors
     //------------------------------------------------------------------------
@@ -101,17 +97,6 @@ public abstract class Particle implements IMovable {
         notifyPositionChanged();
     }
     
-	public void setOpaqueness(double opaqueness){
-		if (this.opaqueness != opaqueness){
-			this.opaqueness = opaqueness;
-			notifyOpaquenessChanged();
-		}
-	}
-	
-	public double getOpaqueness(){
-		return opaqueness;
-	}
-	
     protected boolean isAvailableForCapture() {
     	// If the particle is not in the process of trying to traverse a
     	// membrane channel, then it should be considered to be available for
@@ -124,14 +109,6 @@ public abstract class Particle implements IMovable {
         for (Listener listener : listeners)
         {
             listener.positionChanged(); 
-        }        
-    }
-    
-    protected void notifyOpaquenessChanged(){
-        // Notify all listeners of the opaqueness change.
-        for (Listener listener : listeners)
-        {
-            listener.opaquenessChanged(); 
         }        
     }
     
@@ -217,13 +194,11 @@ public abstract class Particle implements IMovable {
 
     public interface Listener {
         void positionChanged();
-        void opaquenessChanged();
         void removedFromModel();
     }
     
     public static class Adapter implements Listener {
 		public void positionChanged() {}
-		public void opaquenessChanged() {}
 		public void removedFromModel() {}
     }
 }
