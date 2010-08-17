@@ -17,7 +17,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
  * This causes the reaction equation to be clipped.
  * This happens when FRAME_SIZE is less than CANVAS_RENDERING_SIZE,
  * and appears to be a problem with PhetPCanvas' RenderingSizeStrategy.
- * The problem goes away if CANVAS_RENDERING_SIZE is square.
+ * The problem goes away if CANVAS_RENDERING_SIZE is square (eg 1024x1024).
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
