@@ -14,17 +14,4 @@ public class MembraneDiffusionStrings {
     private MembraneDiffusionStrings() {}
     
     public static final String TITLE_MEMBRANE_DIFFUSION_MODULE = getString( "ModuleTitle.MembraneDiffusionModule" );
-
-    public static final String POTASSIUM_CHEMICAL_SYMBOL = getString( "PotassiumChemicalSymbol" );
-    public static final String SODIUM_CHEMICAL_SYMBOL = getString( "SodiumChemicalSymbol" );
-    
-    public static final String CONTROL = getString( "Control.title" );
-
-    public static final String LEGEND_TITLE = getString( "Legend.title" );
-    public static final String LEGEND_SODIUM_ION = getString( "Legend.sodiumIon" );
-    public static final String LEGEND_POTASSIUM_ION = getString( "Legend.potassiumIon" );
-    public static final String LEGEND_SODIUM_GATED_CHANNEL = getString( "Legend.sodiumGatedChannel" );
-    public static final String LEGEND_POTASSIUM_GATED_CHANNEL = getString( "Legend.potassiumGatedChannel" );
-    public static final String LEGEND_SODIUM_LEAK_CHANNEL = getString( "Legend.sodiumLeakChannel" );
-    public static final String LEGEND_POTASSIUM_LEAK_CHANNEL = getString( "Legend.potassiumLeakChannel" );
 }
