@@ -71,32 +71,32 @@ public class BlockNode extends CubeNode implements Pickable{
     private function getCustomBitmap():Bitmap {
         var wallData:BitmapData = (new wallClass() as BitmapAsset).bitmapData;
         var imageRect:Rectangle = new Rectangle(0, 0, wallData.width, wallData.height);
-        wallData.colorTransform(imageRect, new ColorTransform(1.0, 0.5, 0.5));
+        wallData.colorTransform(imageRect, block.getColor());
         var coloredData:BitmapData = (new wallClass() as BitmapAsset).bitmapData;
-        if (block.getColor().redMultiplier < 0.5) {
-            coloredData.copyChannel(wallData, imageRect, new Point(0, 0), BitmapDataChannel.GREEN, BitmapDataChannel.RED);
-        }
-        else {
-            coloredData.copyChannel(wallData, imageRect, new Point(0, 0), BitmapDataChannel.RED, BitmapDataChannel.RED);
-        }
-        if (block.getColor().greenMultiplier < 0.5) {
-            coloredData.copyChannel(wallData, imageRect, new Point(0, 0), BitmapDataChannel.GREEN, BitmapDataChannel.GREEN);
-        }
-        else {
-            coloredData.copyChannel(wallData, imageRect, new Point(0, 0), BitmapDataChannel.RED, BitmapDataChannel.GREEN);
-        }
-        if (block.getColor().blueMultiplier < 0.5) {
-            coloredData.copyChannel(wallData, imageRect, new Point(0, 0), BitmapDataChannel.GREEN, BitmapDataChannel.BLUE);
-        }
-        else {
-            coloredData.copyChannel(wallData, imageRect, new Point(0, 0), BitmapDataChannel.RED, BitmapDataChannel.BLUE);
-        }
+//        if (block.getColor().redMultiplier < 0.5) {
+//            coloredData.copyChannel(wallData, imageRect, new Point(0, 0), BitmapDataChannel.GREEN, BitmapDataChannel.RED);
+//        }
+//        else {
+//            coloredData.copyChannel(wallData, imageRect, new Point(0, 0), BitmapDataChannel.RED, BitmapDataChannel.RED);
+//        }
+//        if (block.getColor().greenMultiplier < 0.5) {
+//            coloredData.copyChannel(wallData, imageRect, new Point(0, 0), BitmapDataChannel.GREEN, BitmapDataChannel.GREEN);
+//        }
+//        else {
+//            coloredData.copyChannel(wallData, imageRect, new Point(0, 0), BitmapDataChannel.RED, BitmapDataChannel.GREEN);
+//        }
+//        if (block.getColor().blueMultiplier < 0.5) {
+//            coloredData.copyChannel(wallData, imageRect, new Point(0, 0), BitmapDataChannel.GREEN, BitmapDataChannel.BLUE);
+//        }
+//        else {
+//            coloredData.copyChannel(wallData, imageRect, new Point(0, 0), BitmapDataChannel.RED, BitmapDataChannel.BLUE);
+//        }
 
-        return new Bitmap(coloredData);
+        return new Bitmap(wallData);
     }
 
     private function createTextFormat(newSize:Number):TextFormat {
-        trace("newsivze = "+newSize);
+//        trace("newsivze = "+newSize);
         var format:TextFormat = new TextFormat();
         format.size = newSize;
         format.bold = true;
