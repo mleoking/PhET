@@ -2,14 +2,15 @@
 
 package edu.colorado.phet.acidbasesolutions.test;
 
-import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.*;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -57,6 +58,12 @@ public class TestCanvasRescaling extends JFrame {
             // layout
             redBoxNode.setOffset( 100, 50 );
             blueBoxNode.setOffset( 100, redBoxNode.getFullBoundsReference().getMaxY() + 20 );
+
+            //Find how far past the canvas rendering size the blue box exceeds
+            System.out.println("blueBoxNode.getMaxY()= "+blueBoxNode.getGlobalFullBounds().getMaxY());
+            
+            //Try spanning the width of the canvas rendering size, to check resizing
+            rootNode.addChild(new PhetPPath(new Ellipse2D.Double(0,0,CANVAS_RENDERING_SIZE.width, CANVAS_RENDERING_SIZE.height),new BasicStroke(2),Color.green ));
         }
     }
     
