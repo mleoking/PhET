@@ -4,15 +4,16 @@ import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
 
 public class CubeNode extends CuboidNode {
     private var cube:PickableCube;
-    public function CubeNode(cuboid:Cuboid,view:AbstractDensityModule) {
-        super(cuboid,view);
+
+    public function CubeNode(cuboid:Cuboid, view:AbstractDensityModule) {
+        super(cuboid, view);
         cube = new PickableCube(this);
-//        updateGeometry();
+        //        updateGeometry();
         cube.segmentsH = 2;
         cube.segmentsW = 2;
         cube.useHandCursor = true;
     }
-    
+
     public function getCube():PickableCube {
         return cube;
     }

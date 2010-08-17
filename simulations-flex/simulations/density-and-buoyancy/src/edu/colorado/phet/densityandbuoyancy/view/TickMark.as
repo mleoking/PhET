@@ -28,7 +28,7 @@ public class TickMark extends Sprite {
         addChild(textField);
 
         textField.selectable = false;
-        this.visible=false;//show after locaiton is correct
+        this.visible = false;//show after locaiton is correct
         update();
     }
 
@@ -47,24 +47,24 @@ public class TickMark extends Sprite {
         textFormat.bold = true;
         textField.setTextFormat(textFormat);
         graphics.beginFill(0x000000);
-        var x:Number=0;
-        graphics.moveTo(0+x, 0);
-        graphics.lineTo(+10+x, -2);
-        graphics.lineTo(+10+x, 2);
-        graphics.lineTo(0+x, 0);
+        var x:Number = 0;
+        graphics.moveTo(0 + x, 0);
+        graphics.lineTo(+10 + x, -2);
+        graphics.lineTo(+10 + x, 2);
+        graphics.lineTo(0 + x, 0);
         graphics.endFill();
 
         textField.x = + 10;
         textField.y = -textField.height / 2;
 
-//        graphics.lineStyle(1, 0x000000);
-//        graphics.beginFill(0xFFFFFF);
-//        graphics.drawRoundRect(textField.x, textField.y, textField.width, textField.height, 2, 2);
-//        graphics.endFill();
+        //        graphics.lineStyle(1, 0x000000);
+        //        graphics.beginFill(0xFFFFFF);
+        //        graphics.drawRoundRect(textField.x, textField.y, textField.width, textField.height, 2, 2);
+        //        graphics.endFill();
     }
 
 
-    function updateCoordinates(camera:HoverCamera3D,groundNode:GroundNode,view:View3D):void {
+    function updateCoordinates(camera:HoverCamera3D, groundNode:GroundNode, view:View3D):void {
         var height = value / model.getPoolDepth() / model.getPoolWidth();
         var screenVertex:ScreenVertex = camera.screen(groundNode, new Vertex(model.getPoolWidth() * DensityModel.DISPLAY_SCALE / 2, (-model.getPoolHeight() + height) * DensityModel.DISPLAY_SCALE, -20));
         this.x = screenVertex.x + view.x;

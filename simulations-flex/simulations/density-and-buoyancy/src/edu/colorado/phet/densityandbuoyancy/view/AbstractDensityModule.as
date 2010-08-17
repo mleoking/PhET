@@ -15,7 +15,6 @@ import away3d.primitives.*;
 
 import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
 import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
-import edu.colorado.phet.densityandbuoyancy.model.Scale;
 
 import flash.display.Sprite;
 import flash.events.Event;
@@ -68,7 +67,7 @@ public class AbstractDensityModule extends UIComponent {
 
         model.addDensityObjectCreationListener(addDensityObject);
         waterVolumeIndicator = new WaterVolumeIndicator(model);
-        waterVolumeIndicator.visible=false;//only show it after its location is correct
+        waterVolumeIndicator.visible = false;//only show it after its location is correct
     }
 
     public function init():void {
@@ -84,7 +83,7 @@ public class AbstractDensityModule extends UIComponent {
         addChild(view);
         tickMarkSet = new TickMarkSet(model);
         addChild(tickMarkSet);
-        
+
         addChild(waterVolumeIndicator);
     }
 
@@ -218,11 +217,11 @@ public class AbstractDensityModule extends UIComponent {
             waterVolumeIndicator.x = screenVertex.x + view.x;
             waterVolumeIndicator.y = screenVertex.y + view.y;
             waterVolumeIndicator.visible = true;//Now can show the water volume indicator after it is at the right location
-            
-            tickMarkSet.updateCoordinates(camera,groundNode, view);
+
+            tickMarkSet.updateCoordinates(camera, groundNode, view);
         }
         waterVolumeIndicator.setWaterHeight(model.getWaterHeight());
-//        water
+        //        water
     }
 
     public function onMouseDown(event:MouseEvent):void {

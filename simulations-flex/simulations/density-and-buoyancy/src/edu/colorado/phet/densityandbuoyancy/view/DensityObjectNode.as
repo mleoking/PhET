@@ -6,7 +6,7 @@ import away3d.containers.ObjectContainer3D;
 import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
 import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
 
-public class DensityObjectNode extends ObjectContainer3D implements Pickable{
+public class DensityObjectNode extends ObjectContainer3D implements Pickable {
     private var densityObject:DensityObject;
     private static var numArrowNodes:Number = 0;
 
@@ -16,14 +16,16 @@ public class DensityObjectNode extends ObjectContainer3D implements Pickable{
     private var dragArrowForceNode:ArrowNode;
     private var _view:AbstractDensityModule;
 
-    public function DensityObjectNode(densityObject:DensityObject,view:AbstractDensityModule) {
+    public function DensityObjectNode(densityObject:DensityObject, view:AbstractDensityModule) {
         super();
         this.densityObject = densityObject;
-        this._view=view;
-        densityObject.getYProperty().addListener(function ():void{
+        this._view = view;
+        densityObject.getYProperty().addListener(function ():void {
             updateGeometry();
         });
-        densityObject.addRemovalListener(function ():void{remove()});
+        densityObject.addRemovalListener(function ():void {
+            remove()
+        });
     }
 
     public function get view():AbstractDensityModule {
@@ -74,7 +76,7 @@ public class DensityObjectNode extends ObjectContainer3D implements Pickable{
     public function setFluidDragForceVisible(selected:Boolean):void {
         dragArrowForceNode.visible = selected;
     }
-    
+
     public function remove():void {
         view.removeObject(this);
     }

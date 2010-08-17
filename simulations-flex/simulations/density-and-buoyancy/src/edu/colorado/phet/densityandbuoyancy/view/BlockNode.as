@@ -7,17 +7,14 @@ import edu.colorado.phet.densityandbuoyancy.model.Substance;
 
 import flash.display.Bitmap;
 import flash.display.BitmapData;
-import flash.display.BitmapDataChannel;
 import flash.display.Sprite;
-import flash.geom.ColorTransform;
-import flash.geom.Point;
 import flash.geom.Rectangle;
 import flash.text.TextField;
 import flash.text.TextFormat;
 
 import mx.core.BitmapAsset;
 
-public class BlockNode extends CubeNode implements Pickable{
+public class BlockNode extends CubeNode implements Pickable {
 
     private var frontSprite:Sprite;
     private var textureHolder:Sprite; // holds wood or etc. texture in frontSprite so it stays under the text
@@ -32,10 +29,10 @@ public class BlockNode extends CubeNode implements Pickable{
     // license: " 	This image is public domain. You may use this picture for any purpose, including commercial. If you do use it, please consider linking back to us. If you are going to redistribute this image online, a hyperlink to this particular page is mandatory."
     [Embed(source="../../../../../../data/density-and-buoyancy/images/wood4.png")]
     private var woodClass:Class;
-    
+
     [Embed(source="../../../../../../data/density-and-buoyancy/images/lead.jpg")]
     private var leadClass:Class;
-    
+
     private var frontMaterial:MovieMaterial;
     private var sideMaterial:BitmapMaterial;
 
@@ -43,11 +40,11 @@ public class BlockNode extends CubeNode implements Pickable{
     private var label:StringProperty;
 
     public function BlockNode(block:Block, view:AbstractDensityModule, label:StringProperty):void {
-        super(block,view);
+        super(block, view);
 
         this.label = label;
         this.block = block;
-        
+
         var cube:PickableCube = getCube();
         cube.cubeMaterials.left = cube.cubeMaterials.right = cube.cubeMaterials.top = cube.cubeMaterials.bottom = cube.cubeMaterials.front = sideMaterial;
         cube.cubeMaterials.back = frontMaterial;
@@ -72,30 +69,30 @@ public class BlockNode extends CubeNode implements Pickable{
         var imageRect:Rectangle = new Rectangle(0, 0, wallData.width, wallData.height);
         wallData.colorTransform(imageRect, block.getColor());
         var coloredData:BitmapData = (new wallClass() as BitmapAsset).bitmapData;
-//        if (block.getColor().redMultiplier < 0.5) {
-//            coloredData.copyChannel(wallData, imageRect, new Point(0, 0), BitmapDataChannel.GREEN, BitmapDataChannel.RED);
-//        }
-//        else {
-//            coloredData.copyChannel(wallData, imageRect, new Point(0, 0), BitmapDataChannel.RED, BitmapDataChannel.RED);
-//        }
-//        if (block.getColor().greenMultiplier < 0.5) {
-//            coloredData.copyChannel(wallData, imageRect, new Point(0, 0), BitmapDataChannel.GREEN, BitmapDataChannel.GREEN);
-//        }
-//        else {
-//            coloredData.copyChannel(wallData, imageRect, new Point(0, 0), BitmapDataChannel.RED, BitmapDataChannel.GREEN);
-//        }
-//        if (block.getColor().blueMultiplier < 0.5) {
-//            coloredData.copyChannel(wallData, imageRect, new Point(0, 0), BitmapDataChannel.GREEN, BitmapDataChannel.BLUE);
-//        }
-//        else {
-//            coloredData.copyChannel(wallData, imageRect, new Point(0, 0), BitmapDataChannel.RED, BitmapDataChannel.BLUE);
-//        }
+        //        if (block.getColor().redMultiplier < 0.5) {
+        //            coloredData.copyChannel(wallData, imageRect, new Point(0, 0), BitmapDataChannel.GREEN, BitmapDataChannel.RED);
+        //        }
+        //        else {
+        //            coloredData.copyChannel(wallData, imageRect, new Point(0, 0), BitmapDataChannel.RED, BitmapDataChannel.RED);
+        //        }
+        //        if (block.getColor().greenMultiplier < 0.5) {
+        //            coloredData.copyChannel(wallData, imageRect, new Point(0, 0), BitmapDataChannel.GREEN, BitmapDataChannel.GREEN);
+        //        }
+        //        else {
+        //            coloredData.copyChannel(wallData, imageRect, new Point(0, 0), BitmapDataChannel.RED, BitmapDataChannel.GREEN);
+        //        }
+        //        if (block.getColor().blueMultiplier < 0.5) {
+        //            coloredData.copyChannel(wallData, imageRect, new Point(0, 0), BitmapDataChannel.GREEN, BitmapDataChannel.BLUE);
+        //        }
+        //        else {
+        //            coloredData.copyChannel(wallData, imageRect, new Point(0, 0), BitmapDataChannel.RED, BitmapDataChannel.BLUE);
+        //        }
 
         return new Bitmap(wallData);
     }
 
     private function createTextFormat(newSize:Number):TextFormat {
-//        trace("newsivze = "+newSize);
+        //        trace("newsivze = "+newSize);
         var format:TextFormat = new TextFormat();
         format.size = newSize;
         format.bold = true;
@@ -129,9 +126,9 @@ public class BlockNode extends CubeNode implements Pickable{
         // update the bitmap we use as a background
         if (block.getSubstance() == Substance.WOOD) {
             textureBitmap = new woodClass();
-        } else if (block.getSubstance() == Substance.LEAD){
+        } else if (block.getSubstance() == Substance.LEAD) {
             textureBitmap = new leadClass();
-        }   else{
+        } else {
             textureBitmap = getCustomBitmap();
         }
 

@@ -31,7 +31,7 @@ public class DensityModule extends AbstractDensityModule {
         setMode(customObjectMode);
 
         var box2DDebug:Box2DDebug = new Box2DDebug(getModel().getWorld());
-//        _densityCanvas.addChild(box2DDebug.getSprite());
+        //        _densityCanvas.addChild(box2DDebug.getSprite());
     }
 
     override public function resetAll():void {
@@ -85,7 +85,6 @@ import edu.colorado.phet.densityandbuoyancy.components.CustomObjectPropertiesPan
 import edu.colorado.phet.densityandbuoyancy.components.MysteryObjectsControlPanel;
 import edu.colorado.phet.densityandbuoyancy.model.Block;
 import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
-import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
 import edu.colorado.phet.densityandbuoyancy.model.MysteryBlock;
 import edu.colorado.phet.densityandbuoyancy.model.Scale;
 import edu.colorado.phet.densityandbuoyancy.model.Substance;
@@ -119,9 +118,9 @@ class CustomObjectMode extends Mode {
         super(module);
         //Showing the blocks as partially floating allows easier visualization of densities
         const substance:Substance = Substance.WOOD;
-        const volume:Number = DensityConstants.DEFAULT_BLOCK_MASS/substance.getDensity();
-        const height:Number = Math.pow(volume,1.0/3);
-        customizableObject = Block.newBlockDensityMass(substance.getDensity(), DensityConstants.DEFAULT_BLOCK_MASS, -DensityConstants.POOL_WIDTH_X/2, height, new ColorTransform(0.5, 0.5, 0), module.getModel(), substance);
+        const volume:Number = DensityConstants.DEFAULT_BLOCK_MASS / substance.getDensity();
+        const height:Number = Math.pow(volume, 1.0 / 3);
+        customizableObject = Block.newBlockDensityMass(substance.getDensity(), DensityConstants.DEFAULT_BLOCK_MASS, -DensityConstants.POOL_WIDTH_X / 2, height, new ColorTransform(0.5, 0.5, 0), module.getModel(), substance);
         customObjectPropertiesPanel = new CustomObjectPropertiesPanel(customizableObject, module.units);
     }
 
@@ -146,8 +145,8 @@ class CustomObjectMode extends Mode {
             customObjectPropertiesPanelShowing = true;
         }
         module.getModel().addDensityObject(customizableObject);
-        
-//        module.getModel().addDensityObject(new Scale(-DensityConstants.POOL_WIDTH_X/2-Scale.SCALE_WIDTH/2, 0.05, module.getModel(), 100));//For debugging the scale
+
+        //        module.getModel().addDensityObject(new Scale(-DensityConstants.POOL_WIDTH_X/2-Scale.SCALE_WIDTH/2, 0.05, module.getModel(), 100));//For debugging the scale
     }
 
     public override function reset():void {
@@ -164,21 +163,21 @@ class SameMassMode extends Mode {
     override public function init():void {
         super.init();
         const model:DensityModel = module.getModel();
-        
+
         var block1:Block = Block.newBlockVolumeMass(DensityConstants.litersToMetersCubed(10), 5, 0, 0, new ColorTransform(0.5, 0.5, 0), model, Substance.CUSTOM);
-        block1.setPosition(-DensityConstants.POOL_WIDTH_X/2,block1.getHeight()/2);
+        block1.setPosition(-DensityConstants.POOL_WIDTH_X / 2, block1.getHeight() / 2);
         model.addDensityObject(block1);
-        
+
         var block2:Block = Block.newBlockVolumeMass(DensityConstants.litersToMetersCubed(5), 5, 0, 0, new ColorTransform(0, 0, 1), model, Substance.CUSTOM);
-        block2.setPosition(-DensityConstants.POOL_WIDTH_X/2-block1.getWidth(),block2.getHeight()/2);
+        block2.setPosition(-DensityConstants.POOL_WIDTH_X / 2 - block1.getWidth(), block2.getHeight() / 2);
         model.addDensityObject(block2);
-        
+
         var block3:Block = Block.newBlockVolumeMass(DensityConstants.litersToMetersCubed(3), 5, 0, 0, new ColorTransform(0, 1, 0), model, Substance.CUSTOM);
-        block3.setPosition(DensityConstants.POOL_WIDTH_X/2,block3.getHeight()/2);
+        block3.setPosition(DensityConstants.POOL_WIDTH_X / 2, block3.getHeight() / 2);
         model.addDensityObject(block3);
-        
+
         var block4:Block = Block.newBlockVolumeMass(DensityConstants.litersToMetersCubed(1), 5, 0, 0, new ColorTransform(1, 0, 0), model, Substance.CUSTOM);
-        block4.setPosition(DensityConstants.POOL_WIDTH_X/2+block3.getWidth(),block4.getHeight()/2);
+        block4.setPosition(DensityConstants.POOL_WIDTH_X / 2 + block3.getWidth(), block4.getHeight() / 2);
         model.addDensityObject(block4);
     }
 }
@@ -194,19 +193,19 @@ class SameVolumeMode extends Mode {
         const model:DensityModel = module.getModel();
 
         var block1:Block = Block.newBlockVolumeMass(DensityConstants.litersToMetersCubed(5), 5, 0, 0, new ColorTransform(0.5, 0.5, 0), model, Substance.CUSTOM);
-        block1.setPosition(-DensityConstants.POOL_WIDTH_X/2,block1.getHeight()/2);
+        block1.setPosition(-DensityConstants.POOL_WIDTH_X / 2, block1.getHeight() / 2);
         model.addDensityObject(block1);
-        
+
         var block2:Block = Block.newBlockVolumeMass(DensityConstants.litersToMetersCubed(5), 4, 0, 0, new ColorTransform(0, 0, 1), model, Substance.CUSTOM);
-        block2.setPosition(-DensityConstants.POOL_WIDTH_X/2-block1.getWidth(),block2.getHeight()/2);
+        block2.setPosition(-DensityConstants.POOL_WIDTH_X / 2 - block1.getWidth(), block2.getHeight() / 2);
         model.addDensityObject(block2);
-        
+
         var block3:Block = Block.newBlockVolumeMass(DensityConstants.litersToMetersCubed(5), 3, 0, 0, new ColorTransform(0, 1, 0), model, Substance.CUSTOM);
-        block3.setPosition(DensityConstants.POOL_WIDTH_X/2,block3.getHeight()/2);
+        block3.setPosition(DensityConstants.POOL_WIDTH_X / 2, block3.getHeight() / 2);
         model.addDensityObject(block3);
-        
+
         var block4:Block = Block.newBlockVolumeMass(DensityConstants.litersToMetersCubed(5), 2, 0, 0, new ColorTransform(1, 0, 0), model, Substance.CUSTOM);
-        block4.setPosition(DensityConstants.POOL_WIDTH_X/2+block3.getWidth(),block4.getHeight()/2);
+        block4.setPosition(DensityConstants.POOL_WIDTH_X / 2 + block3.getWidth(), block4.getHeight() / 2);
         model.addDensityObject(block4);
     }
 }
@@ -222,19 +221,19 @@ class SameDensityMode extends Mode {
         const model:DensityModel = module.getModel();
         var density:Number = 800; //Showing the blocks as partially floating allows easier visualization of densities
         var block1:Block = Block.newBlockDensityMass(density, 3, 0, 0, new ColorTransform(0.5, 0.5, 0), model, Substance.CUSTOM);
-        block1.setPosition(-DensityConstants.POOL_WIDTH_X/2,block1.getHeight()/2);
+        block1.setPosition(-DensityConstants.POOL_WIDTH_X / 2, block1.getHeight() / 2);
         model.addDensityObject(block1);
-        
+
         var block2:Block = Block.newBlockDensityMass(density, 2, 0, 0, new ColorTransform(0, 0, 1), model, Substance.CUSTOM);
-        block2.setPosition(-DensityConstants.POOL_WIDTH_X/2-block1.getWidth(),block2.getHeight()/2);
+        block2.setPosition(-DensityConstants.POOL_WIDTH_X / 2 - block1.getWidth(), block2.getHeight() / 2);
         model.addDensityObject(block2);
-        
+
         var block3:Block = Block.newBlockDensityMass(density, 1, 0, 0, new ColorTransform(0, 1, 0), model, Substance.CUSTOM);
-        block3.setPosition(DensityConstants.POOL_WIDTH_X/2,block3.getHeight()/2);
+        block3.setPosition(DensityConstants.POOL_WIDTH_X / 2, block3.getHeight() / 2);
         model.addDensityObject(block3);
-        
+
         var block4:Block = Block.newBlockDensityMass(density, 0.5, 0, 0, new ColorTransform(1, 0, 0), model, Substance.CUSTOM);
-        block4.setPosition(DensityConstants.POOL_WIDTH_X/2+block3.getWidth(),block4.getHeight()/2);
+        block4.setPosition(DensityConstants.POOL_WIDTH_X / 2 + block3.getWidth(), block4.getHeight() / 2);
         model.addDensityObject(block4);
     }
 }
@@ -264,18 +263,18 @@ class MysteryObjectsMode extends Mode {
         super.init();
         const model:DensityModel = module.getModel();
 
-        const block1:MysteryBlock = new MysteryBlock(Substance.GOLD.getDensity(), 0.15, DensityConstants.POOL_WIDTH_X/2, 0.15/2, new ColorTransform(0.5, 0.5, 0), model, "A");
+        const block1:MysteryBlock = new MysteryBlock(Substance.GOLD.getDensity(), 0.15, DensityConstants.POOL_WIDTH_X / 2, 0.15 / 2, new ColorTransform(0.5, 0.5, 0), model, "A");
         model.addDensityObject(block1);
-        const block2:MysteryBlock = new MysteryBlock(Substance.APPLE.getDensity(), 0.1, DensityConstants.POOL_WIDTH_X/2, block1.getHeight()+block1.getY(), new ColorTransform(0, 0, 1), model, "B");
+        const block2:MysteryBlock = new MysteryBlock(Substance.APPLE.getDensity(), 0.1, DensityConstants.POOL_WIDTH_X / 2, block1.getHeight() + block1.getY(), new ColorTransform(0, 0, 1), model, "B");
         model.addDensityObject(block2);
-        const block3:MysteryBlock = new MysteryBlock(Substance.GASOLINE_BALLOON.getDensity(), 0.18, -DensityConstants.POOL_WIDTH_X/2, 0.18/2, new ColorTransform(0, 1, 0), model, "C");
+        const block3:MysteryBlock = new MysteryBlock(Substance.GASOLINE_BALLOON.getDensity(), 0.18, -DensityConstants.POOL_WIDTH_X / 2, 0.18 / 2, new ColorTransform(0, 1, 0), model, "C");
         model.addDensityObject(block3);
-        const block4:MysteryBlock = new MysteryBlock(Substance.ICE.getDensity(), 0.15, -DensityConstants.POOL_WIDTH_X/2, block3.getHeight()+block3.getY(), new ColorTransform(1, 0, 0), model, "D");
+        const block4:MysteryBlock = new MysteryBlock(Substance.ICE.getDensity(), 0.15, -DensityConstants.POOL_WIDTH_X / 2, block3.getHeight() + block3.getY(), new ColorTransform(1, 0, 0), model, "D");
         model.addDensityObject(block4);
-        const block5:MysteryBlock = new MysteryBlock(Substance.AIR_BALLOON.getDensity(), 0.1, -DensityConstants.POOL_WIDTH_X/2, block4.getHeight()+block4.getY(), new ColorTransform(1, 0, 0), model, "E");
+        const block5:MysteryBlock = new MysteryBlock(Substance.AIR_BALLOON.getDensity(), 0.1, -DensityConstants.POOL_WIDTH_X / 2, block4.getHeight() + block4.getY(), new ColorTransform(1, 0, 0), model, "E");
         model.addDensityObject(block5);
-        
-        model.addDensityObject(new Scale(-DensityConstants.POOL_WIDTH_X/2-block3.getWidth()-Scale.SCALE_WIDTH/2, 0.05, model, 100));
+
+        model.addDensityObject(new Scale(-DensityConstants.POOL_WIDTH_X / 2 - block3.getWidth() - Scale.SCALE_WIDTH / 2, 0.05, model, 100));
 
         if (!mysteryObjectsControlPanelShowing) {
             module.getDensityCanvas().addChild(mysteryObjectsControlPanel);

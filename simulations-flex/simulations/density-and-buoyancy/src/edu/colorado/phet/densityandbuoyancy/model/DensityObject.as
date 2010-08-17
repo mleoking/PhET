@@ -4,8 +4,8 @@ import Box2D.Dynamics.Contacts.b2ContactResult;
 import Box2D.Dynamics.b2Body;
 
 import edu.colorado.phet.densityandbuoyancy.DensityConstants;
-import edu.colorado.phet.densityandbuoyancy.view.DensityObjectNode;
 import edu.colorado.phet.densityandbuoyancy.view.AbstractDensityModule;
+import edu.colorado.phet.densityandbuoyancy.view.DensityObjectNode;
 
 public class DensityObject {
 
@@ -18,7 +18,7 @@ public class DensityObject {
     private var x:NumericProperty;
     private var y:NumericProperty;
     private var _z:NumericProperty;
-//    private var listeners:Array;
+    //    private var listeners:Array;
     private var velocityArrowModel:ArrowModel = new ArrowModel(0, 0);
     private var gravityForceArrowModel:ArrowModel = new ArrowModel(0, 0);
     private var buoyancyForceArrowModel:ArrowModel = new ArrowModel(0, 0);
@@ -80,7 +80,7 @@ public class DensityObject {
                 }
             }
             if (!changed) {
-                substance = new Substance("Custom", getDensity(),true);
+                substance = new Substance("Custom", getDensity(), true);
             }
         }
 
@@ -92,7 +92,7 @@ public class DensityObject {
 
         this.model = model;
         this.density.value = density;
-//        this.listeners = new Array();
+        //        this.listeners = new Array();
     }
 
     protected function getLabelProperty():StringProperty {
@@ -165,13 +165,13 @@ public class DensityObject {
         return _z.value;
     }
 
-    public function set z(z:Number):void{
-        this._z.value=z;
+    public function set z(z:Number):void {
+        this._z.value = z;
     }
 
     public function updatePositionFromBox2D():void {
         setPosition(body.GetPosition().x / DensityConstants.SCALE_BOX2D, body.GetPosition().y / DensityConstants.SCALE_BOX2D);
-//        trace("block y = " + getY());
+        //        trace("block y = " + getY());
     }
 
     public function remove():void {
@@ -196,9 +196,9 @@ public class DensityObject {
     protected function notifyListeners():void {
         //todo: notify listeners
         // TODO: looks like major potential for infinite loops here, since update => setPosition => Update is possible
-//        for each (var listener:Listener in listeners) {
-//            listener.update();
-//        }
+        //        for each (var listener:Listener in listeners) {
+        //            listener.update();
+        //        }
     }
 
     public function getBody():b2Body {
@@ -327,9 +327,9 @@ public class DensityObject {
         updateBox2DModel();
         notifyListeners();
     }
-    
-    public function getYProperty():NumericProperty{
-        return y; 
+
+    public function getYProperty():NumericProperty {
+        return y;
     }
 
     public function updateBox2DModel():void {
