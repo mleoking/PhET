@@ -2,7 +2,12 @@
 <SimStrings>
     <string key="density.simTitle" value="Density"/>
     <string key="buoyancy.simTitle" value="Density"/>
-    <string key="intro.objectsOfSameMass" value="Objects of same mass"/>
+    <string key="mode.title" value="Modes"/>
+    <string key="mode.customObject" value="Custom Object"/>
+    <string key="mode.objectsOfSameMass" value="Objects of same mass"/>
+    <string key="mode.objectsOfSameVolume" value="Objects of same volume"/>
+    <string key="mode.objectsOfSameDensity" value="Objects of same density"/>
+    <string key="mode.mysteryObjects" value="Mystery Objects"/>
     <string key="customObject.properties" value="Properties"/>
     <string key="customObject.name" value="name"/>
     <string key="customObject.custom" value="Custom"/>
@@ -21,4 +26,7 @@
     <string key="substance.gasoline" value="Gasoline Balloon"/>
     <string key="substance.ice" value="Ice"/>
     <string key="substance.apple" value="Apple"/>
+    <string key="properties.volume" value="Volume"/>
+    <string key="properties.mass" value="Mass"/>
+    <string key="properties.density" value="Density"/>
 </SimStrings>
