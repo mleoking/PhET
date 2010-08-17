@@ -6,6 +6,7 @@ import edu.colorado.phet.densityandbuoyancy.DensityConstants;
 import edu.colorado.phet.densityandbuoyancy.view.AbstractDensityModule;
 import edu.colorado.phet.densityandbuoyancy.view.DensityObjectNode;
 import edu.colorado.phet.densityandbuoyancy.view.ScaleNode;
+import edu.colorado.phet.flexcommon.FlexSimStrings;
 
 /**
  * This class represents the model object for a scale.
@@ -30,7 +31,8 @@ public class Scale extends Cuboid {
         // scaled by DT-frame because we are measuring the 'normal impulses'
         var num:Number = totalImpulse / DensityModel.DT_FRAME / DensityConstants.GRAVITY / 1000;//todo: why the 1000?  does this handle units properly?
         var numStr:String = String(Math.round(num * 100) / 100);
-        return String(numStr).substr(0, 7) + " kg";
+        const readoutValue:String = String(numStr).substr(0, 7);
+        return FlexSimStrings.get("properties.massValue","{0} kg",[readoutValue]);
     }
 
     override public function registerContact(point:b2ContactResult):void {
