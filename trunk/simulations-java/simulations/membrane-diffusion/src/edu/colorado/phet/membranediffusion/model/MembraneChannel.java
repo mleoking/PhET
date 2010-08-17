@@ -68,6 +68,12 @@ public abstract class MembraneChannel {
 	// Velocity for particles that move through this channel.
 	private double particleVelocity = DEFAULT_PARTICLE_VELOCITY;
 	
+	// Flag for whether this channel is "user controlled", meaning that the
+	// user is moving it around in the play area.  It is initially set to be
+	// true because in this sim, all channels are added by the user dragging
+	// them into the play area.
+	private boolean userControlled = true;
+	
     //----------------------------------------------------------------------------
     // Constructor
     //----------------------------------------------------------------------------
@@ -298,8 +304,19 @@ public abstract class MembraneChannel {
 	        notifyPositionChanged();
 	    }
 	}
+	
+	public boolean isUserControlled(){
+	    return userControlled;
+	}
+	
+	public void setUserControlled(boolean userControlled){
+	    if (this.userControlled != userControlled){
+	        this.userControlled = userControlled;
+	        notifyUserControlledStateChanged();
+	    }
+	}
 
-	/**
+    /**
 	 * Get the overall 2D size of the channel, which includes both the part
 	 * that the particles travel through as well as the edges.
 	 * 
@@ -363,16 +380,24 @@ public abstract class MembraneChannel {
 		}
 	}
 	
+    private void notifyUserControlledStateChanged() {
+        for (Listener listener : listeners){
+            listener.userControlledStateChanged();
+        }
+    }
+	
 	public static interface Listener{
 		void removed();
 		void opennessChanged();
 		void positionChanged();
+		void userControlledStateChanged();
 	}
 	
 	public static class Adapter implements Listener {
 		public void removed() {}
 		public void opennessChanged() {}
 		public void positionChanged() {}
+        public void userControlledStateChanged() {}
 	}
 	
 	protected double getMaxInterCaptureTime() {
