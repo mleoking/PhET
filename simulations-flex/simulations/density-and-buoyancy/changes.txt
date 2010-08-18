@@ -1,3 +1,4 @@
+Fixes for box2d and units
 Fixed: Mass changes slightly (~1%) when modifying the volume for a custom object
 Internationalized strings
 Added initial support for continuous color changing of the block color as density changes

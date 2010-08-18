@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:cmp="edu.colorado.phet.densityandbuoyancy.*"
                 xmlns:view="edu.colorado.phet.densityandbuoyancy.view.*"
-                layout="absolute" width="100%" height="100%" applicationComplete="onApplicationComplete()">
+                layout="absolute" width="100%" height="100%" applicationComplete="onApplicationComplete()" frameRate="30">
     <!--xmlns:common="edu.colorado.phet.flexcommon.*"-->
     <!--<common:FlexCommonMXML id="flexcommon" right="0" y="0" />-->
     <mx:Canvas width="100%" height="100%" label="Density" id="densityCanvas" fontSize="12">

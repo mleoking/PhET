@@ -14,7 +14,7 @@ public class DensityConstants {
     public static const POOL_DEPTH_Z:Number = litersToMetersCubed(3) * 100;
     public static const POOL_HEIGHT_Y:Number = litersToMetersCubed(4) * 100;
     public static const DEFAULT_BLOCK_MASS:Number = 2;
-    public static const SCALE_BOX2D:Number = 1000;
+    public static const SCALE_BOX2D:Number = 10;//Have to keep within a range so that velocity doesn't exceed about 200, see B2Settings.b2_maxLinearVelocity
     public static const GRAVITY:Number = 9.8;
     public static const DEFAULT_BLOCK_WATER_OFFSET:Number = 10 / DensityModel.DISPLAY_SCALE;
 
