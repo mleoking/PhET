@@ -13,6 +13,7 @@ import away3d.lights.*;
 import away3d.materials.*;
 import away3d.primitives.*;
 
+import edu.colorado.phet.densityandbuoyancy.DensityConstants;
 import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
 import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
 
@@ -43,7 +44,6 @@ public class AbstractDensityModule extends UIComponent {
     private var selectedObject:AbstractPrimitive;
 
     public static const far:Number = 5000;
-    public static const verticalGroundOffset:Number = -1.0 / DensityModel.DISPLAY_SCALE * 100;
 
     private var waterTop:Plane;
     private var waterFront:Plane;
@@ -118,10 +118,10 @@ public class AbstractDensityModule extends UIComponent {
         var poolDepth:Number = model.getPoolDepth() * DensityModel.DISPLAY_SCALE;
 
         // NOTE: if the ground is not matching up with the objects resting on the ground (or the bottom of the pool), it is due to the ground being shifted by this amount
-        waterFront = new Plane({ y: -poolHeight + waterHeight / 2 + verticalGroundOffset, width: poolWidth, height: waterHeight, rotationX: 90, material: new ShadingColorMaterial(0x0088FF, {alpha: 0.4}) });
+        waterFront = new Plane({ y: -poolHeight + waterHeight / 2 + DensityConstants.VERTICAL_GROUND_OFFSET_AWAY_3D, width: poolWidth, height: waterHeight, rotationX: 90, material: new ShadingColorMaterial(0x0088FF, {alpha: 0.4}) });
         scene.addChild(waterFront);
         waterFront.mouseEnabled = false;
-        waterTop = new Plane({ y: -poolHeight + waterHeight + verticalGroundOffset, z: poolDepth / 2, width: poolWidth, height: poolDepth, material: new ShadingColorMaterial(0x0088FF, {alpha: 0.4}) });
+        waterTop = new Plane({ y: -poolHeight + waterHeight + DensityConstants.VERTICAL_GROUND_OFFSET_AWAY_3D, z: poolDepth / 2, width: poolWidth, height: poolDepth, material: new ShadingColorMaterial(0x0088FF, {alpha: 0.4}) });
         scene.addChild(waterTop);
         waterTop.mouseEnabled = false;
 

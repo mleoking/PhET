@@ -21,6 +21,9 @@ public class DensityConstants {
     public static const SCALE_BOX2D:Number = 10;
     public static const GRAVITY:Number = 9.8;
     public static const DEFAULT_BLOCK_WATER_OFFSET:Number = 10 / DensityModel.DISPLAY_SCALE;
+    
+    //Move the ground down slightly to prevent intersections
+    public static const VERTICAL_GROUND_OFFSET_AWAY_3D:Number = -1.0 / DensityModel.DISPLAY_SCALE * 100;
 
     //Flex properties that we couldn't find as enum values in Flex
     public static const FLEX_UNDERLINE:String = "underline";
