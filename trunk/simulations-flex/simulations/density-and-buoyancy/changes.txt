@@ -1,3 +1,4 @@
+Internationalized strings
 Added initial support for continuous color changing of the block color as density changes
 Added labeled tick marks to the side of the pool
 Fixed: Pool volume readout shows up in the wrong location briefly on startup.
