@@ -23,10 +23,12 @@ public class GroundNode extends MyMesh {
         var POOL_RIGHT_BACK:Number =v(poolWidth / 2, 0, 0);
 
         // far ground vertices
-        var GROUND_LEFT_FRONT:Number=v(far, 0, 0);
-        var GROUND_LEFT_BACK:Number=v(far, 0, poolDepth);
-        var GROUND_RIGHT_BACK:Number=v(-far, 0, poolDepth);
-        var GROUND_RIGHT_FRONT:Number=v(-far, 0, 0);
+        var GROUND_RIGHT_FRONT:Number=v(far, 0, 0);
+        var GROUND_RIGHT_BACK:Number=v(far, 0, poolDepth);
+        var GROUND_LEFT_BACK:Number=v(-far, 0, poolDepth);
+        var GROUND_LEFT_FRONT:Number=v(-far, 0, 0);
+        var GROUND_LEFT_FAR:Number=v(-far, 0, far/6);
+        var GROUND_RIGHT_FAR:Number=v(+far, 0, far/6);
 
         // front earth vertices
         var EARTH_LEFT_BASE:Number=v(-far, -far, 0);
@@ -59,16 +61,15 @@ public class GroundNode extends MyMesh {
         var earthMaterial:ITriangleMaterial = new ShadingColorMaterial(0xAA7733);
         var poolMaterial:ITriangleMaterial = new ShadingColorMaterial(0xAAAAAA);
 
-        plane(POOL_RIGHT_BACK, GROUND_LEFT_FRONT, GROUND_LEFT_BACK, POOL_RIGHT_FRONT,grassMaterial);
-        //face(2, 5, 6, grassMaterial);
-        //face(1, 2, 6, grassMaterial);
-        plane(POOL_LEFT_FRONT, POOL_LEFT_BACK, GROUND_RIGHT_BACK, GROUND_RIGHT_FRONT,grassMaterial);
+        plane(POOL_RIGHT_BACK, GROUND_RIGHT_FRONT, GROUND_RIGHT_BACK, POOL_RIGHT_FRONT,grassMaterial);
+        
+        plane(POOL_LEFT_FRONT, POOL_LEFT_BACK, GROUND_LEFT_BACK, GROUND_LEFT_FRONT,grassMaterial);
 
-        plane(GROUND_RIGHT_FRONT, EARTH_LEFT_BASE, POOL_LEFT_BASE, POOL_LEFT_FRONT,earthMaterial);
+        plane(GROUND_LEFT_FRONT, EARTH_LEFT_BASE, POOL_LEFT_BASE, POOL_LEFT_FRONT,earthMaterial);
         
         plane(EARTH_RIGHT_BASE, POOL_RIGHT_BASE, POOL_LEFT_BASE, EARTH_LEFT_BASE,earthMaterial);
         
-        plane(POOL_RIGHT_BASE, EARTH_RIGHT_BASE, GROUND_LEFT_FRONT, POOL_RIGHT_BACK,earthMaterial);
+        plane(POOL_RIGHT_BASE, EARTH_RIGHT_BASE, GROUND_RIGHT_FRONT, POOL_RIGHT_BACK,earthMaterial);
 
         // right side of pool
         plane(POOL_RIGHT_BASE,POOL_RIGHT_BACK,POOL_RIGHT_FRONT,POOL_RIGHT_BACK_BASE,poolMaterial);
@@ -82,6 +83,10 @@ public class GroundNode extends MyMesh {
         // bottom of pool
         plane(POOL_RIGHT_BASE, POOL_RIGHT_BACK_BASE, POOL_LEFT_BACK_BASE, POOL_LEFT_BASE,poolMaterial);
 
+        //back of earth
+        plane(GROUND_RIGHT_FAR,GROUND_LEFT_FAR,GROUND_LEFT_BACK,GROUND_RIGHT_BACK,grassMaterial);
+        plane(GROUND_RIGHT_FAR,GROUND_LEFT_FAR,GROUND_LEFT_BACK,GROUND_RIGHT_BACK,grassMaterial);
+        
         type = "GroundNode";
         url = "density";
     }
