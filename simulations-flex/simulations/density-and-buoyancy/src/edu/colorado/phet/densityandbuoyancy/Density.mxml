@@ -29,6 +29,8 @@
         import edu.colorado.phet.flexcommon.FlexCommon;
         import edu.colorado.phet.flexcommon.FlexSimStrings;
 
+        import mx.controls.TextInput;
+
         private var oldIndex:Number = 0;
         private var common:FlexCommon = new FlexCommon();
 
@@ -45,11 +47,16 @@
 
             densityModule.doInit(densityCanvas);
             densityModule.switchToCustomObject();
-            
-            //Text fields should lose focus when the user clicks outside of them
-            densityModule.addEventListener(MouseEvent.MOUSE_DOWN,function():void{focusManager.setFocus(focusManager.getNextFocusManagerComponent())});
-            background.addEventListener(MouseEvent.MOUSE_DOWN,function():void{focusManager.setFocus(focusManager.getNextFocusManagerComponent())});
-          }
+
+            //Text fields should lose focus when the user clicks outside of them, so they will accept their value if the user was editing them
+            const refocuser:Function = function():void {
+                if (focusManager.getFocus() is TextInput){
+                    focusManager.setFocus(focusManager.getNextFocusManagerComponent())
+                }
+            };
+            densityModule.addEventListener(MouseEvent.MOUSE_DOWN, refocuser);
+            background.addEventListener(MouseEvent.MOUSE_DOWN, refocuser);
+        }
 
         private function onSwitch(e:Event):void {
             var newIndex:Number = e.currentTarget.selectedIndex;
