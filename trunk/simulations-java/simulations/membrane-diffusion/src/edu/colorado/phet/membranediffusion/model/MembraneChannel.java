@@ -198,10 +198,52 @@ public abstract class MembraneChannel {
 	 */
 	public void stepInTime(double dt){
 		if (isOpen() && particlesTraversingChannel.size() == 0){
-			Particle particle = modelContainingParticles.requestParticleThroughChannel(getParticleTypeToCapture(), this);
-			if (particle != null){
-			    particlesTraversingChannel.add( particle );
-			}
+		    // Ask the model to scan our capture zones for any particles.
+		    // Decide randomly whether to scan the upper or lower zone first.
+	        CaptureZone firstZone, secondZone;
+	        if (RAND.nextBoolean()){
+	            firstZone = getUpperCaptureZone();
+	            secondZone = getLowerCaptureZone();
+	        }
+	        else{
+	            firstZone = getLowerCaptureZone();
+	            secondZone = getUpperCaptureZone();
+	        }
+	        
+	        CaptureZoneScanResult czsr = modelContainingParticles.scanCaptureZoneForFreeParticles( firstZone, getParticleTypeToCapture() );
+	        Particle particleToCapture = czsr.getClosestFreeParticle();
+	        if (particleToCapture == null){
+	            // Try the other zone.
+	            czsr = modelContainingParticles.scanCaptureZoneForFreeParticles( firstZone, getParticleTypeToCapture() );
+	            particleToCapture = czsr.getClosestFreeParticle();
+	        }
+	        
+	        if (particleToCapture != null){
+	            // Set a motion strategy for the particle that will cause it
+	            // to traverse this channel.
+	            Rectangle2D preTraversalMotionBounds = new Rectangle2D.Double();
+	            Rectangle2D postTraversalMotionBounds = new Rectangle2D.Double();
+	            if (modelContainingParticles.getUpperParticleChamberRect().contains( particleToCapture.getPositionReference())){
+	                // In the upper sub-chamber now, so will be in the lower one
+	                // after traversing.
+	                preTraversalMotionBounds = modelContainingParticles.getLowerParticleChamberRect();
+	                postTraversalMotionBounds = modelContainingParticles.getUpperParticleChamberRect();
+	            }
+	            else{
+	                // In the lower sub-chamber now, so will be in the upper one
+	                // after traversing.
+                    preTraversalMotionBounds = modelContainingParticles.getLowerParticleChamberRect();
+                    postTraversalMotionBounds = modelContainingParticles.getUpperParticleChamberRect();
+	            }
+	            particleToCapture.setMotionStrategy(new TraverseChannelMotionStrategy(this, particleToCapture.getPosition(), 
+	                    preTraversalMotionBounds, postTraversalMotionBounds, maxVelocity));
+	            // Add a listener so that we get a notification when the particle has
+	            // completed the traversal.
+	            particle.getMotionStrategy().addListener( channelTraversalListener );
+
+	            // Keep a reference to this particle.
+	            particlesTraversingChannel.add( particleToCapture );
+	        }
 		}
 	}
 	

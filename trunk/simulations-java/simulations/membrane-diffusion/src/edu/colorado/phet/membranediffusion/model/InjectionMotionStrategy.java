@@ -104,19 +104,19 @@ public class InjectionMotionStrategy extends MotionStrategy {
 			// Current location is above the membrane, so use the upper
 			// portion of the particle chamber as the bounds.
 			motionBounds.setFrame( 
-					model.getParticleChamberRect().getMinX(),
+					model.getOverallParticleChamberRect().getMinX(),
 					model.getMembraneRect().getMaxY(),
-					model.getParticleChamberRect().getWidth(),
-					model.getParticleChamberRect().getMaxY() - model.getMembraneRect().getMaxY());
+					model.getOverallParticleChamberRect().getWidth(),
+					model.getOverallParticleChamberRect().getMaxY() - model.getMembraneRect().getMaxY());
 		}
 		else if (currentLocation.getY() < model.getMembraneRect().getMinY()){
 			// Current location is below the membrane, so use the lower
 			// portion of the particle chamber as the bounds.
 			motionBounds.setFrame(
-					model.getParticleChamberRect().getMinX(),
-					model.getParticleChamberRect().getMinY(),
-					model.getParticleChamberRect().getWidth(),
-					model.getMembraneRect().getMinY() - model.getParticleChamberRect().getMinY());
+					model.getOverallParticleChamberRect().getMinX(),
+					model.getOverallParticleChamberRect().getMinY(),
+					model.getOverallParticleChamberRect().getWidth(),
+					model.getMembraneRect().getMinY() - model.getOverallParticleChamberRect().getMinY());
 		}
 		else {
 			// The most likely case for encountering this clause is if the

@@ -94,9 +94,19 @@ public class MembraneDiffusionModel implements IParticleCapture {
     // Methods
     //----------------------------------------------------------------------------
     
-    public static Rectangle2D getParticleChamberRect(){
+    public static Rectangle2D getOverallParticleChamberRect(){
     	return new Rectangle2D.Double(PARTICLE_CHAMBER_RECT.getX(), PARTICLE_CHAMBER_RECT.getY(),
     			PARTICLE_CHAMBER_RECT.getWidth(), PARTICLE_CHAMBER_RECT.getHeight());
+    }
+    
+    public Rectangle2D getUpperParticleChamberRect(){
+        return new Rectangle2D.Double(PARTICLE_CHAMBER_RECT.getMinX(), MEMBRANE_RECT.getMaxY(),
+                PARTICLE_CHAMBER_RECT.getWidth(), PARTICLE_CHAMBER_RECT.getMaxY() - MEMBRANE_RECT.getMaxY());
+    }
+    
+    public Rectangle2D getLowerParticleChamberRect(){
+        return new Rectangle2D.Double(PARTICLE_CHAMBER_RECT.getMinX(), PARTICLE_CHAMBER_RECT.getMinY(),
+                PARTICLE_CHAMBER_RECT.getWidth(), MEMBRANE_RECT.getMinY() - PARTICLE_CHAMBER_RECT.getMinY());
     }
     
     public static Rectangle2D getMembraneRect(){
@@ -280,18 +290,18 @@ public class MembraneDiffusionModel implements IParticleCapture {
     		if (particleToCapture.getPositionReference().getY() > MEMBRANE_RECT.getCenterY()){
     			// In the upper sub-chamber now, so will be in the lower one
     			// after traversing.
-                preTraversalMotionBounds.setFrame(getParticleChamberRect().getMinX(), getMembraneRect().getMaxY(),
-                        getParticleChamberRect().getWidth(), getParticleChamberRect().getMaxY() - getMembraneRect().getMaxY());
-    			postTraversalMotionBounds.setFrame(getParticleChamberRect().getMinX(), getParticleChamberRect().getMinY(),
-    					getParticleChamberRect().getWidth(), getMembraneRect().getMinY() - getParticleChamberRect().getMinY());
+                preTraversalMotionBounds.setFrame(getOverallParticleChamberRect().getMinX(), getMembraneRect().getMaxY(),
+                        getOverallParticleChamberRect().getWidth(), getOverallParticleChamberRect().getMaxY() - getMembraneRect().getMaxY());
+    			postTraversalMotionBounds.setFrame(getOverallParticleChamberRect().getMinX(), getOverallParticleChamberRect().getMinY(),
+    					getOverallParticleChamberRect().getWidth(), getMembraneRect().getMinY() - getOverallParticleChamberRect().getMinY());
     		}
     		else{
     			// In the lower sub-chamber now, so will be in the upper one
     			// after traversing.
-                preTraversalMotionBounds.setFrame(getParticleChamberRect().getMinX(), getParticleChamberRect().getMinY(),
-                        getParticleChamberRect().getWidth(), getMembraneRect().getMinY() - getParticleChamberRect().getMinY());
-    			postTraversalMotionBounds.setFrame(getParticleChamberRect().getMinX(), getMembraneRect().getMaxY(),
-    					getParticleChamberRect().getWidth(), getParticleChamberRect().getMaxY() - getMembraneRect().getMaxY());
+                preTraversalMotionBounds.setFrame(getOverallParticleChamberRect().getMinX(), getOverallParticleChamberRect().getMinY(),
+                        getOverallParticleChamberRect().getWidth(), getMembraneRect().getMinY() - getOverallParticleChamberRect().getMinY());
+    			postTraversalMotionBounds.setFrame(getOverallParticleChamberRect().getMinX(), getMembraneRect().getMaxY(),
+    					getOverallParticleChamberRect().getWidth(), getOverallParticleChamberRect().getMaxY() - getMembraneRect().getMaxY());
     		}
     		channel.moveParticleThroughChannel(particleToCapture, preTraversalMotionBounds, postTraversalMotionBounds,
     		        particleToCapture.getVelocity().getMagnitude());
@@ -570,30 +580,6 @@ public class MembraneDiffusionModel implements IParticleCapture {
     	userControlledMembraneChannel = null;
     }
     
-    //----------------------------------------------------------------------------
-    // Inner Classes and Interfaces
-    //----------------------------------------------------------------------------
-    /**
-     * A class for reporting the closest particle to the origin in a capture
-     * zone and the total number of particles in the zone.
-     */
-    public static class CaptureZoneScanResult {
-    	final Particle closestFreeParticle;
-    	final int numParticlesInZone;
-		public CaptureZoneScanResult(Particle closestParticle,
-				int numParticlesInZone) {
-			super();
-			this.closestFreeParticle = closestParticle;
-			this.numParticlesInZone = numParticlesInZone;
-		}
-		protected Particle getClosestFreeParticle() {
-			return closestFreeParticle;
-		}
-		protected int getNumParticlesInZone() {
-			return numParticlesInZone;
-		}
-    }
-        
     public interface Listener extends EventListener {
     	/**
     	 * Notification that a channel was added.
