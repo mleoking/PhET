@@ -74,15 +74,19 @@ public abstract class ToolBox extends PNode {
 	        removeChild(captionNode);
 	    }
 	    
-	    // Create the caption node and scale it so that it is not too large.
+	    // Create the caption node.
         this.captionNode = new PText( caption );
-        captionNode.setFont( new PhetFont() );
-        PDimension captionMaxSize = new PDimension( boxNode.getFullBoundsReference().width * 0.8,
-                boxNode.getFullBoundsReference().height * 0.2 );
-        double captionScalingFactor = Math.min( captionMaxSize.width / captionNode.getFullBoundsReference().width,
-                captionMaxSize.height / captionNode.getFullBoundsReference().height );
-        captionNode.setScale( captionScalingFactor );
+        captionNode.setFont( new PhetFont(24) );
+        
+        // Make the caption smaller if it exceeds the width of the tool box
+        // (this is to better handle internationalized captions).
+        double captionMaxWidth = boxNode.getFullBoundsReference().width * 0.8;
+        if (captionNode.getFullBoundsReference().width > captionMaxWidth){
+            double captionScalingFactor = captionMaxWidth / captionNode.getFullBoundsReference().width;
+            captionNode.setScale( captionScalingFactor );
+        }
         addChild( captionNode );
+        
         // Note: Layout is not automatically adjusted, subclasses should do
         // so when needed.
 	}
