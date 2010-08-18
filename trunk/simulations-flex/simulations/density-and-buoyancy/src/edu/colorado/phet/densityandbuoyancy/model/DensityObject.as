@@ -173,11 +173,6 @@ public class DensityObject {
         this._z.value = z;
     }
 
-    public function updatePositionFromBox2D():void {
-        setPosition(body.GetPosition().x / DensityConstants.SCALE_BOX2D, body.GetPosition().y / DensityConstants.SCALE_BOX2D);
-        //        trace("block y = " + getY());
-    }
-
     public function remove():void {
         model.getWorld().DestroyBody(getBody());
         body = null;
@@ -186,12 +181,18 @@ public class DensityObject {
         }
     }
 
+    public function updatePositionFromBox2D():void {
+        setPosition(body.GetPosition().x / DensityConstants.SCALE_BOX2D, body.GetPosition().y / DensityConstants.SCALE_BOX2D);
+    }
+    
     public function setPosition(x:Number, y:Number):void {
         this.x.value = x;
         this.y.value = y;
 
-        if (body.GetPosition().x != x * DensityConstants.SCALE_BOX2D || body.GetPosition().y != y * DensityConstants.SCALE_BOX2D) {
-            body.SetXForm(new b2Vec2(x * DensityConstants.SCALE_BOX2D, y * DensityConstants.SCALE_BOX2D), 0);
+        var newX:Number = x * DensityConstants.SCALE_BOX2D;
+        var newY:Number = y * DensityConstants.SCALE_BOX2D;
+        if (body.GetPosition().x != newX || body.GetPosition().y != newY) {
+            body.SetXForm(new b2Vec2(newX, newY), 0);
         }
     }
 
@@ -232,7 +233,7 @@ public class DensityObject {
         for each (var object:Object in contactImpulseMap) {
             sum.Add(object as b2Vec2);
         }
-        sum.Multiply(1.0 / DensityModel.DT_FRAME);//to convert to force
+        sum.Multiply(1.0 / DensityModel.DT_PER_FRAME);//to convert to force
         //        trace("Force sum: " + sum.x + ", " + sum.y);
         return sum;
     }
@@ -259,12 +260,12 @@ public class DensityObject {
     }
 
     public function getGravityForce():b2Vec2 {
-        return new b2Vec2(0, -DensityModel.ACCELERATION_DUE_TO_GRAVITY * getMass());
+        return new b2Vec2(0, -DensityConstants.GRAVITY*getMass() );
     }
 
     //Set the submerged volume before calling this
     public function getBuoyancyForce():b2Vec2 {
-        return new b2Vec2(0, DensityModel.ACCELERATION_DUE_TO_GRAVITY * submergedVolume * Substance.WATER.getDensity());
+        return new b2Vec2(0, DensityConstants.GRAVITY * submergedVolume * Substance.WATER.getDensity());
     }
 
     public function setSubmergedVolume(submergedVolume:Number):void {
@@ -273,7 +274,7 @@ public class DensityObject {
 
     public function getDragForce():b2Vec2 {
         var dragForce:b2Vec2 = body.GetLinearVelocity().Copy();
-        dragForce.Multiply(-300 * submergedVolume);
+        dragForce.Multiply(-800 * submergedVolume);
         return dragForce;
     }
 

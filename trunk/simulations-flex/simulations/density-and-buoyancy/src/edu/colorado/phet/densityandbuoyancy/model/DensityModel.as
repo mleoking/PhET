@@ -11,7 +11,6 @@ import edu.colorado.phet.densityandbuoyancy.view.DebugText;
 
 public class DensityModel {
     private var densityObjects:Array;
-    public static var ACCELERATION_DUE_TO_GRAVITY:Number = 9.8;
 
     private var poolWidth:Number = DensityConstants.POOL_WIDTH_X;
     private var poolHeight:Number = DensityConstants.POOL_HEIGHT_Y;
@@ -24,14 +23,16 @@ public class DensityModel {
 
     public static var STEPS_PER_FRAME:Number = 10;
 
-    public static var DT_FRAME:Number = 1 / 3.0;//TODO: Fix this scale, should be about 1/30
-    public static var DT_STEP:Number = DT_FRAME / STEPS_PER_FRAME;
+    public static var FRAMES_PER_SECOND:Number=30.0;//See the Application in mxml, value has to be duplicated there
+    public static var DT_PER_FRAME:Number = 1.0 / FRAMES_PER_SECOND;//TODO: Fix this scale, should be about 1/30
+    public static var DT_PER_STEP:Number = DT_PER_FRAME / STEPS_PER_FRAME;
 
     private var world:b2World;
 
     private var contactHandler:ContactHandler;
     private const densityObjectCreationListeners:Array = new Array();
     private const densityObjectDestructionListeners:Array = new Array();
+    private var time:Number=0;//TODO: Reset time
 
     public function DensityModel() {
         densityObjects = new Array();
@@ -101,21 +102,10 @@ public class DensityModel {
 
         for (var i:Number = 0; i < STEPS_PER_FRAME; i++) {
 
-            world.Step(DT_STEP, 10);
-            var densityObject:DensityObject;
-            for each(densityObject in densityObjects) {
-                densityObject.updatePositionFromBox2D();
-            }
             updateWater();
             var waterY:Number = -poolHeight + waterHeight;
             for each(var cuboid:Cuboid in getCuboids()) {
                 var body:b2Body = cuboid.getBody();
-
-                // gravity?
-                const gravityForce:b2Vec2 = cuboid.getGravityForce().Copy();
-                gravityForce.Multiply(DensityConstants.SCALE_BOX2D);
-                body.ApplyForce(gravityForce, body.GetPosition());
-                //                trace("gravity = " + gravityForce.y);
 
                 var submergedVolume:Number;
                 if (waterY > cuboid.getTopY()) {
@@ -130,7 +120,11 @@ public class DensityModel {
                 // TODO: add in liquid density
                 cuboid.setSubmergedVolume(submergedVolume);
 
-                //TODO: make sure the scale gets fixed for the forces
+                // Apply Forces
+                const gravityForce:b2Vec2 = cuboid.getGravityForce().Copy();
+                gravityForce.Multiply(DensityConstants.SCALE_BOX2D);
+                body.ApplyForce(gravityForce, body.GetPosition());
+                
                 const buoyancyForce:b2Vec2 = cuboid.getBuoyancyForce().Copy();
                 buoyancyForce.Multiply(DensityConstants.SCALE_BOX2D);
                 body.ApplyForce(buoyancyForce, body.GetPosition());
@@ -139,6 +133,16 @@ public class DensityModel {
                 dragForce.Multiply(DensityConstants.SCALE_BOX2D);
                 body.ApplyForce(dragForce, body.GetPosition());
             }
+            
+            world.Step(DT_PER_STEP, 10);
+            for each(var densityObject:DensityObject in densityObjects) {
+                densityObject.updatePositionFromBox2D();
+            }
+            
+            time = time + DT_PER_STEP;
+        }
+        for each(var c2:Cuboid in getCuboids()) {
+            trace(time + "\t" + c2.getY() + "\t" + c2.getBody().GetPosition().y+"\t"+c2.getBody().GetLinearVelocity().y);//+"\t for "+getCuboids().length+" cuboids");
         }
 
         for each(densityObject in densityObjects) {

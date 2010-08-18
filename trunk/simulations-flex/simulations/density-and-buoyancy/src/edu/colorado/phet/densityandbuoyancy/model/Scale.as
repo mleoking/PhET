@@ -29,7 +29,7 @@ public class Scale extends Cuboid {
     public function getScaleReadout():String {
         // TODO: localize
         // scaled by DT-frame because we are measuring the 'normal impulses'
-        var num:Number = totalImpulse / DensityModel.DT_FRAME / DensityConstants.GRAVITY / 1000;//todo: why the 1000?  does this handle units properly?
+        var num:Number = totalImpulse / DensityModel.DT_PER_FRAME / DensityConstants.GRAVITY / 1000;//todo: why the 1000?  does this handle units properly?
         var numStr:String = String(Math.round(num * 100) / 100);
         const readoutValue:String = String(numStr).substr(0, 7);
         return FlexSimStrings.get("properties.massValue","{0} kg",[readoutValue]);
