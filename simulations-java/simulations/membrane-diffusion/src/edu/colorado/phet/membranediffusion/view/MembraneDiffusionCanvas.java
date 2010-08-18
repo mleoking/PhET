@@ -113,7 +113,7 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
         // Add the node the will represent the chamber where the particles can
         // move around.
         Rectangle2D transformedParticleChamberRect = 
-        	mvt.createTransformedShape(MembraneDiffusionModel.getParticleChamberRect()).getBounds2D();
+        	mvt.createTransformedShape(MembraneDiffusionModel.getOverallParticleChamberRect()).getBounds2D();
         PNode particleChamberNode = new PhetPPath(transformedParticleChamberRect, new Color(199, 234, 252));
         chamberLayer.addChild(particleChamberNode);
         

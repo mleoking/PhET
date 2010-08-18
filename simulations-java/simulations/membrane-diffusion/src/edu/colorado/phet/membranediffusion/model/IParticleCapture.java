@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.membranediffusion.model;
 
+import java.awt.geom.Rectangle2D;
+
 /**
  * Interface used to command the capturing of particles.  This is intended to
  * be used by membrane channels to tell the model that a particle should be
@@ -11,5 +13,7 @@ package edu.colorado.phet.membranediffusion.model;
  */
 public interface IParticleCapture {
 
-	Particle requestParticleThroughChannel(ParticleType particleType, MembraneChannel membraneChannel);
+    CaptureZoneScanResult scanCaptureZoneForFreeParticles(CaptureZone zone, ParticleType particleType);
+    Rectangle2D getUpperParticleChamberRect();
+    Rectangle2D getLowerParticleChamberRect();
 }
