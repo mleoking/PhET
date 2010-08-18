@@ -5,7 +5,6 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.EventListener;
-import java.util.Random;
 
 import javax.swing.event.EventListenerList;
 
@@ -44,9 +43,6 @@ public class MembraneDiffusionModel implements IParticleCapture {
 	
 	// Defaults for configurable parameters.
 	private static boolean SHOW_GRAPHS_DEFAULT = false;
-	
-	// Random number generator.
-	private static final Random RAND = new Random();
 	
     //----------------------------------------------------------------------------
     // Instance Data
@@ -239,75 +235,6 @@ public class MembraneDiffusionModel implements IParticleCapture {
     	
     	// If we made it to this point, everything went okay.
     	return true;
-    }
-    
-    /**
-     * Starts a particle of the specified type moving through the
-     * specified channel.  If one or more particles of the needed type exist
-     * within the capture zone for this channel, one will be chosen and set to
-     * move through, and another will be created to essentially take its place
-     * (though the newly created one will probably be in a slightly different
-     * place for better visual effect).  If none of the needed particles
-     * exist, two will be created, and one will move through the channel and
-     * the other will just hang out in the zone.
-     * 
-     * Note that it is not guaranteed that the particle will make it through
-     * the channel, since it is possible that the channel could close before
-     * the particle goes through it.
-     * 
-     * @param particleType
-     * @param channel
-     * @return
-     */
-    public Particle requestParticleThroughChannel(ParticleType particleType, MembraneChannel channel){
-
-        // Randomly decide whether to scan the upper or lower zone first.
-        CaptureZone firstZone, secondZone;
-        
-        if (RAND.nextBoolean()){
-            firstZone = channel.getUpperCaptureZone();
-            secondZone = channel.getLowerCaptureZone();
-        }
-        else{
-            firstZone = channel.getLowerCaptureZone();
-            secondZone = channel.getUpperCaptureZone();
-        }
-        
-    	// Scan the capture zones for particles of the desired type.
-    	CaptureZoneScanResult czsr = scanCaptureZoneForFreeParticles(firstZone, particleType);
-    	Particle particleToCapture = czsr.getClosestFreeParticle();
-    	if (particleToCapture == null){
-    	    // Nothing found in the first capture zone tried, so scan the other.
-            czsr = scanCaptureZoneForFreeParticles(secondZone, particleType);
-            particleToCapture = czsr.getClosestFreeParticle();
-    	}
-    	
-    	if (czsr.getNumParticlesInZone() != 0){
-    		// We found a particle to capture.  Set a motion strategy that
-    		// will cause this particle to move across the membrane.
-    		Rectangle2D preTraversalMotionBounds = new Rectangle2D.Double();
-    		Rectangle2D postTraversalMotionBounds = new Rectangle2D.Double();
-    		if (particleToCapture.getPositionReference().getY() > MEMBRANE_RECT.getCenterY()){
-    			// In the upper sub-chamber now, so will be in the lower one
-    			// after traversing.
-                preTraversalMotionBounds.setFrame(getOverallParticleChamberRect().getMinX(), getMembraneRect().getMaxY(),
-                        getOverallParticleChamberRect().getWidth(), getOverallParticleChamberRect().getMaxY() - getMembraneRect().getMaxY());
-    			postTraversalMotionBounds.setFrame(getOverallParticleChamberRect().getMinX(), getOverallParticleChamberRect().getMinY(),
-    					getOverallParticleChamberRect().getWidth(), getMembraneRect().getMinY() - getOverallParticleChamberRect().getMinY());
-    		}
-    		else{
-    			// In the lower sub-chamber now, so will be in the upper one
-    			// after traversing.
-                preTraversalMotionBounds.setFrame(getOverallParticleChamberRect().getMinX(), getOverallParticleChamberRect().getMinY(),
-                        getOverallParticleChamberRect().getWidth(), getMembraneRect().getMinY() - getOverallParticleChamberRect().getMinY());
-    			postTraversalMotionBounds.setFrame(getOverallParticleChamberRect().getMinX(), getMembraneRect().getMaxY(),
-    					getOverallParticleChamberRect().getWidth(), getOverallParticleChamberRect().getMaxY() - getMembraneRect().getMaxY());
-    		}
-    		channel.moveParticleThroughChannel(particleToCapture, preTraversalMotionBounds, postTraversalMotionBounds,
-    		        particleToCapture.getVelocity().getMagnitude());
-    	}
-    	
-    	return particleToCapture;
     }
     
     private void stepInTime(double dt){

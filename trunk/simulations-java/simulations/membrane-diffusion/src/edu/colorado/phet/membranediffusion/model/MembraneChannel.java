@@ -214,20 +214,20 @@ public abstract class MembraneChannel {
 	        Particle particleToCapture = czsr.getClosestFreeParticle();
 	        if (particleToCapture == null){
 	            // Try the other zone.
-	            czsr = modelContainingParticles.scanCaptureZoneForFreeParticles( firstZone, getParticleTypeToCapture() );
+	            czsr = modelContainingParticles.scanCaptureZoneForFreeParticles( secondZone, getParticleTypeToCapture() );
 	            particleToCapture = czsr.getClosestFreeParticle();
 	        }
 	        
 	        if (particleToCapture != null){
 	            // Set a motion strategy for the particle that will cause it
 	            // to traverse this channel.
-	            Rectangle2D preTraversalMotionBounds = new Rectangle2D.Double();
-	            Rectangle2D postTraversalMotionBounds = new Rectangle2D.Double();
+	            Rectangle2D preTraversalMotionBounds;
+	            Rectangle2D postTraversalMotionBounds;
 	            if (modelContainingParticles.getUpperParticleChamberRect().contains( particleToCapture.getPositionReference())){
 	                // In the upper sub-chamber now, so will be in the lower one
 	                // after traversing.
-	                preTraversalMotionBounds = modelContainingParticles.getLowerParticleChamberRect();
-	                postTraversalMotionBounds = modelContainingParticles.getUpperParticleChamberRect();
+	                preTraversalMotionBounds = modelContainingParticles.getUpperParticleChamberRect();
+	                postTraversalMotionBounds = modelContainingParticles.getLowerParticleChamberRect();
 	            }
 	            else{
 	                // In the lower sub-chamber now, so will be in the upper one
@@ -235,34 +235,18 @@ public abstract class MembraneChannel {
                     preTraversalMotionBounds = modelContainingParticles.getLowerParticleChamberRect();
                     postTraversalMotionBounds = modelContainingParticles.getUpperParticleChamberRect();
 	            }
-	            particleToCapture.setMotionStrategy(new TraverseChannelMotionStrategy(this, particleToCapture.getPosition(), 
-	                    preTraversalMotionBounds, postTraversalMotionBounds, maxVelocity));
+	            particleToCapture.setMotionStrategy(new TraverseChannelMotionStrategy(this, 
+	                    particleToCapture.getPosition(), preTraversalMotionBounds, postTraversalMotionBounds,
+	                    particleToCapture.getVelocity().getMagnitude()));
+	            
 	            // Add a listener so that we get a notification when the particle has
 	            // completed the traversal.
-	            particle.getMotionStrategy().addListener( channelTraversalListener );
+	            particleToCapture.getMotionStrategy().addListener( channelTraversalListener );
 
 	            // Keep a reference to this particle.
 	            particlesTraversingChannel.add( particleToCapture );
 	        }
 		}
-	}
-	
-	/**
-	 * Set the motion strategy for a particle that will cause the particle to
-	 * traverse the channel.  This version is the one that implements the
-	 * behavior for crossing through the generic membrane.
-	 * 
-	 * @param particle
-	 * @param maxVelocity
-	 */
-	public void moveParticleThroughChannel(Particle particle, Rectangle2D preTraversalBounds, 
-	        Rectangle2D postTraversalBounds, double maxVelocity){
-	    
-		particle.setMotionStrategy(new TraverseChannelMotionStrategy(this, particle.getPosition(), 
-		        preTraversalBounds, postTraversalBounds, maxVelocity));
-		// Add a listener so that we get a notification when the particle has
-		// completed the traversal.
-		particle.getMotionStrategy().addListener( channelTraversalListener );
 	}
 	
 	protected double getParticleVelocity() {
