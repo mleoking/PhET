@@ -1,3 +1,4 @@
+Fixed: Mass changes slightly (~1%) when modifying the volume for a custom object
 Internationalized strings
 Added initial support for continuous color changing of the block color as density changes
 Added labeled tick marks to the side of the pool
