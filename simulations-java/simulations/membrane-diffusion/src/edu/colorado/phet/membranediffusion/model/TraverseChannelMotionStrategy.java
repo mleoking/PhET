@@ -26,7 +26,7 @@ public class TraverseChannelMotionStrategy extends MotionStrategy {
 	private int currentDestinationIndex = 0;
 	private boolean channelHasBeenEntered = false; // Flag that is set when the channel is entered.
 	private boolean channelHasBeenTraversed = false; // Flag that is set when particle has exited the channel.
-	private double maxVelocity;
+	private double velocityScaler;
 	protected final MembraneChannel channel;
 	private Rectangle2D preTraversalMotionBounds = new Rectangle2D.Double();
 	private Rectangle2D postTraversalMotionBounds = new Rectangle2D.Double();
@@ -35,9 +35,9 @@ public class TraverseChannelMotionStrategy extends MotionStrategy {
 
 	
 	public TraverseChannelMotionStrategy(MembraneChannel channel, Point2D startingLocation,
-	        Rectangle2D preTraversalMotionBounds, Rectangle2D postTraversalMotionBounds, double maxVelocity) {
+	        Rectangle2D preTraversalMotionBounds, Rectangle2D postTraversalMotionBounds, double velocity) {
 		this.channel = channel;
-		this.maxVelocity = maxVelocity;
+		this.velocityScaler = velocity;
 		this.preTraversalMotionBounds.setFrame( preTraversalMotionBounds );
 		this.postTraversalMotionBounds.setFrame(postTraversalMotionBounds);
 		traversalPoints = createTraversalPoints(channel, startingLocation);
@@ -78,7 +78,7 @@ public class TraverseChannelMotionStrategy extends MotionStrategy {
 		else if (channel.isOpen() || channelHasBeenEntered){
 			// The channel is open, or we are inside it, so keep executing
 			// this motion strategy.
-			if ( currentDestinationIndex >= traversalPoints.size() || maxVelocity * dt < currentPositionRef.distance(traversalPoints.get(currentDestinationIndex))){
+			if ( currentDestinationIndex >= traversalPoints.size() || velocityScaler * dt < currentPositionRef.distance(traversalPoints.get(currentDestinationIndex))){
 				// Move according to the current velocity.
 				movableModelElement.setPosition(currentPositionRef.getX() + velocityVector.getX() * dt,
 						currentPositionRef.getY() + velocityVector.getY() * dt);
@@ -178,7 +178,7 @@ public class TraverseChannelMotionStrategy extends MotionStrategy {
 		if (currentDestinationIndex < traversalPoints.size()){
 			Point2D dest = traversalPoints.get(currentDestinationIndex);
 			velocityVector.setComponents(dest.getX() - currentLocation.getX(), dest.getY() - currentLocation.getY());
-			double scaleFactor = maxVelocity / velocityVector.getMagnitude();
+			double scaleFactor = velocityScaler / velocityVector.getMagnitude();
 			velocityVector.scale(scaleFactor);
 		}
 		else{
