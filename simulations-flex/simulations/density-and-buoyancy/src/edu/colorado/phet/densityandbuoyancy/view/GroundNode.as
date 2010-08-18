@@ -3,6 +3,7 @@ import away3d.core.base.Vertex;
 import away3d.materials.ITriangleMaterial;
 import away3d.materials.ShadingColorMaterial;
 
+import edu.colorado.phet.densityandbuoyancy.DensityConstants;
 import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
 
 public class GroundNode extends MyMesh {
@@ -38,7 +39,7 @@ public class GroundNode extends MyMesh {
         v(poolWidth / 2, -poolHeight, poolDepth);
 
         for each (var vertex1:Vertex in getVertexArray()) {
-            vertex1.y = vertex1.y + AbstractDensityModule.verticalGroundOffset;
+            vertex1.y = vertex1.y + DensityConstants.VERTICAL_GROUND_OFFSET_AWAY_3D;
         }
 
         function addUV(v:Vertex):void {
