@@ -373,7 +373,7 @@ public class MembraneDiffusionModel implements IParticleCapture {
      * @param particleType
      * @return
      */
-    private CaptureZoneScanResult scanCaptureZoneForFreeParticles(CaptureZone zone, ParticleType particleType){
+    public CaptureZoneScanResult scanCaptureZoneForFreeParticles(CaptureZone zone, ParticleType particleType){
     	Particle closestFreeParticle = null;
     	double distanceOfClosestParticle = Double.POSITIVE_INFINITY;
     	int totalNumberOfParticles = 0;

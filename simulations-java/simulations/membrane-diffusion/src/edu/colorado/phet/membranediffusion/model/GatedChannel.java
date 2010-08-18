@@ -25,13 +25,4 @@ public abstract class GatedChannel extends MembraneChannel {
 		super(channelWidth, channelHeight, modelContainingParticles);
 		setOpenness(0);  // Gated channels are assumed to be initially closed.
 	}
-	
-	//----------------------------------------------------------------------------
-	// Methods
-	//----------------------------------------------------------------------------
-	
-	@Override
-	public void reset() {
-		setOpenness(0);         // Gated channels are assumed to be initially closed...
-	}
 }

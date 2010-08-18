@@ -22,12 +22,6 @@ public class SodiumGatedChannel extends GatedChannel {
 	private static final double CHANNEL_HEIGHT = MembraneDiffusionModel.getMembraneThickness() * 1.2; // In nanometers.
 	private static final double CHANNEL_WIDTH = MembraneDiffusionModel.getMembraneThickness() * 0.50; // In nanometers.
 	
-	// Constants that control the rate at which this channel will capture ions
-	// when it is open.  Smaller numbers here will increase the capture rate
-	// and thus make the flow appear to be faster.
-	private static final double MIN_INTER_CAPTURE_TIME = 0.00005; // In seconds of sim time.
-	private static final double MAX_INTER_CAPTURE_TIME = 0.00020; // In seconds of sim time.
-	
 	// Constant used when calculating how open this gate should be based on
 	// a value that exists within the Hodgkin-Huxley model.  This was
 	// empirically determined.
@@ -53,7 +47,6 @@ public class SodiumGatedChannel extends GatedChannel {
 		this.hodgkinHuxleyModel = hodgkinHuxleyModel;
 		setUpperCaptureZone(new PieSliceShapedCaptureZone(getCenterLocation(), CHANNEL_WIDTH * 3.5, -Math.PI / 2, Math.PI * 0.3));
 		setLowerCaptureZone(new PieSliceShapedCaptureZone(getCenterLocation(), CHANNEL_WIDTH * 3.5, Math.PI / 2, Math.PI * 0.3));
-		reset();
 	}
 	
 	public SodiumGatedChannel(){
@@ -80,16 +73,6 @@ public class SodiumGatedChannel extends GatedChannel {
 	}
 	
 	@Override
-	public void reset() {
-		super.reset();
-		
-		// Set up the capture time range, which will be used to control the
-		// rate of particle capture when this gate is open.
-		setMinInterCaptureTime(MIN_INTER_CAPTURE_TIME);
-		setMaxInterCaptureTime(MAX_INTER_CAPTURE_TIME);
-	}
-
-	@Override
 	public void stepInTime(double dt) {
 		super.stepInTime(dt);
 		// Update the openness factor based on the state of the HH model.
@@ -110,11 +93,6 @@ public class SodiumGatedChannel extends GatedChannel {
 		}
 		if (openness != getOpenness()){
 			setOpenness(openness);
-			if (isOpen() && getCaptureCountdownTimer() == Double.POSITIVE_INFINITY){
-				// We have just transitioned to the open state, so it is time
-				// to start capturing ions.
-				restartCaptureCountdownTimer();
-			}
 		}
 	}
 	
