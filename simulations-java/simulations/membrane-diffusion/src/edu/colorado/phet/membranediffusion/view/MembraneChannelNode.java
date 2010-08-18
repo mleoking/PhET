@@ -6,10 +6,15 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Shape;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
+
+import javax.swing.Timer;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
@@ -29,7 +34,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * 
  * @author John Blanco
  */
-public class MembraneChannelNode extends PComposite {
+public class MembraneChannelNode extends PNode {
 	
     //----------------------------------------------------------------------------
     // Class Data
@@ -73,6 +78,12 @@ public class MembraneChannelNode extends PComposite {
         }
 	};
 	
+    // Array of listeners.
+    private ArrayList<Listener> listeners = new ArrayList<Listener>();
+    
+    // Timer for performing the removal animation.
+    private RemovalAnimationTimer removalAnimationTimer;
+    	
     //----------------------------------------------------------------------------
     // Constructor
     //----------------------------------------------------------------------------
@@ -161,6 +172,28 @@ public class MembraneChannelNode extends PComposite {
 		updateLocation();
 	}
 	
+    //----------------------------------------------------------------------------
+    // Methods
+    //----------------------------------------------------------------------------
+	
+	public void addListener(Listener listener){
+	    listeners.add(listener);
+	}
+
+	public void removeListener(Listener listener){
+	    listeners.remove(listener);
+	}
+	
+	private void notifyRemovalAnimationComplete(){
+	    // Make a copy of the list before sending out notifications, since
+	    // these notifications may cause others to deregister as listeners,
+	    // which would lead to concurrent modification exceptions.
+	    ArrayList<Listener> listenerListCopy = new ArrayList<Listener>( listeners );
+	    for (Listener listener : listenerListCopy){
+	        listener.removalAnimationComplete();
+	    }
+	}
+
 	/**
 	 * Add this node to the two specified parent nodes.  This is done in order
 	 * to achieve a better layering effect that allows particles to look
@@ -168,12 +201,12 @@ public class MembraneChannelNode extends PComposite {
 	 * necessary to use this method for this node - it can be added to the
 	 * canvas like any other PNode, it just won't have the layering.
 	 * 
-	 * @param channelLayer
-	 * @param edgeLayer
+	 * @param channelLayerOnCanvas
+	 * @param edgeLayerOnCanvas
 	 */
-	public void addToCanvas(PNode channelLayer, PNode edgeLayer){
-		channelLayer.addChild(this.channelLayer);
-		edgeLayer.addChild(this.edgeLayer);
+	public void addToCanvas(PNode channelLayerOnCanvas, PNode edgeLayerOnCanvas){
+		channelLayerOnCanvas.addChild(this.channelLayer);
+		edgeLayerOnCanvas.addChild(this.edgeLayer);
 	}
 	
 	public void removeFromCanvas(PNode channelLayer, PNode edgeLayer){
@@ -189,8 +222,9 @@ public class MembraneChannelNode extends PComposite {
 	 * Execute an animation sequence that makes it more obvious to the user
 	 * that this
 	 */
-	public void executeRemovalAnimation(){
-	    
+	public void startRemovalAnimation(){
+	    // Create the animation timer in order to initiate the animation.
+	    removalAnimationTimer = new RemovalAnimationTimer( this );
 	}
 	
 	private PPath createEdgeNode(Dimension2D size, Color color){
@@ -262,5 +296,49 @@ public class MembraneChannelNode extends PComposite {
 	   edgeLayer.removeInputEventListener( dragEventHandler ); 
 	   channelLayer.removeInputEventListener( cursorHandler ); 
 	   channelLayer.removeInputEventListener( dragEventHandler );
+	}
+	
+    //----------------------------------------------------------------------------
+    // Inner Classes and Interfaces
+    //----------------------------------------------------------------------------
+	
+	private static class RemovalAnimationTimer extends Timer {
+
+	    private static final int TIMER_DELAY = 30;          // Milliseconds between each animation step.
+
+	    private static final double SHRINKAGE_RATE = 0.80;   // Amount of size change per timer firing, smaller number
+	    
+	    private int animationCount = 100;
+	    
+	    private MembraneChannelNode membraneChannelNode;
+
+        /**
+         * Constructor.
+         */
+        public RemovalAnimationTimer( MembraneChannelNode node ) {
+            super( TIMER_DELAY, null );
+            this.membraneChannelNode = node;
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    System.out.println("MCN channel layer offset = " + membraneChannelNode.channelLayer.getOffset());
+                    membraneChannelNode.channelLayer.setOffset( membraneChannelNode.channelLayer.getOffset().getX() + 1, 
+                            membraneChannelNode.channelLayer.getOffset().getY() + 1 );
+                    membraneChannelNode.edgeLayer.setOffset( membraneChannelNode.edgeLayer.getOffset().getX() + 1, 
+                            membraneChannelNode.edgeLayer.getOffset().getY() + 1 );
+                    System.out.println("animationCount = " + animationCount);
+                    if (animationCount-- <= 0){
+                        stop();
+                        membraneChannelNode.notifyRemovalAnimationComplete();
+                    }
+                }
+            });
+            
+            // Start the timer running.
+            start();
+        }
+	}
+	
+	public interface Listener {
+	    void removalAnimationComplete();
 	}
 }

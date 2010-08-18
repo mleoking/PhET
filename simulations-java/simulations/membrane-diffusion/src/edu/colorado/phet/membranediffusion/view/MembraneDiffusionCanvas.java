@@ -17,6 +17,7 @@ import edu.colorado.phet.membranediffusion.model.MembraneDiffusionModel;
 import edu.colorado.phet.membranediffusion.model.Particle;
 import edu.colorado.phet.membranediffusion.model.ParticleType;
 import edu.colorado.phet.membranediffusion.module.MembraneDiffusionDefaults;
+import edu.colorado.phet.membranediffusion.view.MembraneChannelNode.Listener;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -36,6 +37,9 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
     // Instance Data
     //----------------------------------------------------------------------------
 
+    // Model that is being viewed.
+    private MembraneDiffusionModel model;
+    
     // Model-view transform.
     private ModelViewTransform2D mvt;
     
@@ -59,6 +63,8 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
     
     public MembraneDiffusionCanvas( MembraneDiffusionModel model ) {
+        
+        this.model = model;
     	
     	// Set up the canvas-screen transform.
     	setWorldTransformStrategy(new PhetPCanvas.CenteringBoxStrategy(this, MembraneDiffusionDefaults.INTERMEDIATE_RENDERING_SIZE));
@@ -200,9 +206,27 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
     	final MembraneChannelNode channelNode = new MembraneChannelNode(channelToBeAdded, mvt);
     	channelNode.addToCanvas(channelLayer, channelEdgeLayer);
     	channelToBeAdded.addListener(new MembraneChannel.Adapter() {
+    	    // Handle notification of the channel's removal from the model.
 			public void removed() {
 			    channelNode.cleanup();
-				channelNode.removeFromCanvas(channelLayer, channelEdgeLayer);
+			    if (!MembraneDiffusionModel.getOverallParticleChamberRect().contains( channelNode.getMembraneChannel().getCenterLocation() )){
+			        // The membrane channel is not in the particle chamber,
+			        // which means that the user is removing it by dragging
+			        // it out of the chamber (as opposed to via a Reset All).
+			        // In this case, we should perform the removal animation.
+			        channelNode.addListener( new Listener(){
+                        public void removalAnimationComplete() {
+                            channelNode.removeFromCanvas(channelLayer, channelEdgeLayer);
+                        }
+			        });
+			        channelNode.startRemovalAnimation();
+			    }
+			    else{
+			        // The membrane channel is in the particle chamber, which
+			        // indicates that it is being removed as the result of a
+			        // reset, so it can be removed right away.
+			        channelNode.removeFromCanvas(channelLayer, channelEdgeLayer);
+			    }
 			}
 		});
     }
