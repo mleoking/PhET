@@ -57,14 +57,6 @@ public abstract class MembraneChannel {
 	private CaptureZone uppperCaptureZone = new NullCaptureZone();
 	private CaptureZone lowerCaptureZone = new NullCaptureZone();
 	
-	// Time values that control how often this channel requests an ion to move
-	// through it.  These are initialized here to values that will cause the
-	// channel to never request any ions and must be set by the base classes
-	// in order to make capture events occur.
-	private double captureCountdownTimer = Double.POSITIVE_INFINITY;
-	private double minInterCaptureTime = Double.POSITIVE_INFINITY;
-	private double maxInterCaptureTime = Double.POSITIVE_INFINITY;
-	
 	// Velocity for particles that move through this channel.
 	private double particleVelocity = DEFAULT_PARTICLE_VELOCITY;
 	
@@ -158,13 +150,6 @@ public abstract class MembraneChannel {
 	abstract protected ParticleType getParticleTypeToCapture();
 	
 	/**
-	 * Reset the channel.
-	 */
-	public void reset(){
-		captureCountdownTimer = Double.POSITIVE_INFINITY;
-	}
-	
-	/**
 	 * Returns a boolean value that says whether or not the channel should be
 	 * considered open.
 	 * 
@@ -212,28 +197,10 @@ public abstract class MembraneChannel {
 	 * @param dt - Amount of time step, in milliseconds.
 	 */
 	public void stepInTime(double dt){
-		if (captureCountdownTimer != Double.POSITIVE_INFINITY){
-			if (isOpen()){
-				captureCountdownTimer -= dt;
-				if (captureCountdownTimer <= 0){
-					Particle particle = modelContainingParticles.requestParticleThroughChannel(getParticleTypeToCapture(), this);
-					if (particle != null){
-					    particlesTraversingChannel.add( particle );
-					    restartCaptureCountdownTimer();
-					}
-					else{
-					    // Continue to request a particle at each time step
-					    // until we get one.
-					    captureCountdownTimer = 0;
-					}
-				}
-			}
-			else{
-				// If the channel is closed, the countdown timer shouldn't be
-				// running, so this code is generally hit when the membrane
-				// just became closed.  Turn off the countdown timer by
-				// setting it to infinity.
-				captureCountdownTimer = Double.POSITIVE_INFINITY;
+		if (isOpen() && particlesTraversingChannel.size() == 0){
+			Particle particle = modelContainingParticles.requestParticleThroughChannel(getParticleTypeToCapture(), this);
+			if (particle != null){
+			    particlesTraversingChannel.add( particle );
 			}
 		}
 	}
@@ -262,20 +229,6 @@ public abstract class MembraneChannel {
 
 	protected void setParticleVelocity(double particleVelocity) {
 		this.particleVelocity = particleVelocity;
-	}
-	
-	/**
-	 * Start or restart the countdown timer which is used to time the event
-	 * where a particle is captured for movement across the membrane.
-	 */
-	protected void restartCaptureCountdownTimer(){
-		if (minInterCaptureTime != Double.POSITIVE_INFINITY && maxInterCaptureTime != Double.POSITIVE_INFINITY){
-			assert maxInterCaptureTime >= minInterCaptureTime;
-			captureCountdownTimer = minInterCaptureTime + RAND.nextDouble() * (maxInterCaptureTime - minInterCaptureTime);
-		}
-		else{
-			captureCountdownTimer = Double.POSITIVE_INFINITY;
-		}
 	}
 	
 	/**
@@ -449,25 +402,5 @@ public abstract class MembraneChannel {
 		public void opennessChanged() {}
 		public void positionChanged() {}
         public void userControlledStateChanged() {}
-	}
-	
-	protected double getMaxInterCaptureTime() {
-		return maxInterCaptureTime;
-	}
-
-	protected void setMaxInterCaptureTime(double maxInterCaptureTime) {
-		this.maxInterCaptureTime = maxInterCaptureTime;
-	}
-
-	protected double getMinInterCaptureTime() {
-		return minInterCaptureTime;
-	}
-
-	protected void setMinInterCaptureTime(double minInterCaptureTime) {
-		this.minInterCaptureTime = minInterCaptureTime;
-	}
-	
-	protected double getCaptureCountdownTimer() {
-		return captureCountdownTimer;
 	}
 }
