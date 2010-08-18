@@ -35,7 +35,5 @@ public class PotassiumLeakChannelToolBoxNode extends ToolBoxItem {
 		MembraneChannel channel = new PotassiumLeakageChannel();
 		PNode representation = new MembraneChannelNode(channel, SCALING_MVT);
 		setSelectionNode(representation);
-		// TODO i18n
-		setCaption("<html><center>Leak Channel</center></html>");
 	}
 }

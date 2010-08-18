@@ -51,7 +51,8 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
     private PNode injectorLayer;
     
     // Items on the canvas.
-    private MembraneChannelToolBox membraneChannelToolBoxNode;
+    private LeakChannelToolBox leakChannelToolBoxNode;
+    private GatedChannelToolBox gatedChannelToolBoxNode;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -146,15 +147,22 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
         		transformedParticleChamberRect.getMaxY() - transformedParticleChamberRect.getHeight() * 0.2);
         injectorLayer.addChild(potassiumInjector);
         
-        // Add the tool box that will allow users to drag membrane channels on
-        // to the membrane.  The multipliers in the following statement set
+        // Add the tool boxes that will allow users to drag membrane channels
+        // on to the membrane.  The multipliers in the following statement set
         // the size of the tool box and can be adjusted as needed.
-        membraneChannelToolBoxNode = new MembraneChannelToolBox(
-        		new PDimension(transformedParticleChamberRect.getWidth() * 1.4, transformedParticleChamberRect.getHeight() * 0.4), model, mvt, this);
-        membraneChannelToolBoxNode.setOffset(
-        		MembraneDiffusionDefaults.INTERMEDIATE_RENDERING_SIZE.width / 2 - membraneChannelToolBoxNode.getFullBoundsReference().width / 2,
+        double distanceBetweenToolBoxes = 30;
+        leakChannelToolBoxNode = new LeakChannelToolBox(
+        		new PDimension(transformedParticleChamberRect.getWidth() * 0.5, transformedParticleChamberRect.getHeight() * 0.4), model, mvt, this);
+        leakChannelToolBoxNode.setOffset(
+                transformedParticleChamberRect.getCenterX() - leakChannelToolBoxNode.getFullBoundsReference().width - distanceBetweenToolBoxes / 2,
         		transformedParticleChamberRect.getMaxY() + 40);
-        toolBoxLayer.addChild(membraneChannelToolBoxNode);
+        toolBoxLayer.addChild(leakChannelToolBoxNode);
+        gatedChannelToolBoxNode = new GatedChannelToolBox(
+                new PDimension(transformedParticleChamberRect.getWidth() * 0.5, transformedParticleChamberRect.getHeight() * 0.4), model, mvt, this);
+        gatedChannelToolBoxNode.setOffset(
+                transformedParticleChamberRect.getCenterX() + distanceBetweenToolBoxes / 2,
+                transformedParticleChamberRect.getMaxY() + 40);
+        toolBoxLayer.addChild(gatedChannelToolBoxNode);
         
         // Add the concentration graphs.
         ConcentrationGraph upperGraph = new ConcentrationGraph(model, true);

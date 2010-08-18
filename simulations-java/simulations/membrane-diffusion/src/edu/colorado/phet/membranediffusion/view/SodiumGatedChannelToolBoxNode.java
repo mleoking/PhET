@@ -35,7 +35,5 @@ public class SodiumGatedChannelToolBoxNode extends ToolBoxItem {
 		MembraneChannel channel = new SodiumGatedChannel();
 		PNode representation = new MembraneChannelNode(channel, SCALING_MVT);
 		setSelectionNode(representation);
-		// TODO i18n
-		setCaption("<html><center>Gated Channel</center></html>");
 	}
 }

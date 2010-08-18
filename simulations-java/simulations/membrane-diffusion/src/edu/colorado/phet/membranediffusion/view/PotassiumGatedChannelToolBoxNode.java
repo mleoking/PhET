@@ -35,7 +35,5 @@ public class PotassiumGatedChannelToolBoxNode extends ToolBoxItem {
 		MembraneChannel channel = new PotassiumGatedChannel();
 		PNode representation = new MembraneChannelNode(channel, SCALING_MVT);
 		setSelectionNode(representation);
-		// TODO i18n
-		setCaption("<html><center>Gated Channel</center></html>");
 	}
 }
