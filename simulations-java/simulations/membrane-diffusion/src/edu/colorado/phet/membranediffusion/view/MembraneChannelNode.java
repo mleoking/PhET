@@ -42,7 +42,7 @@ public class MembraneChannelNode extends PComposite {
     // Instance Data
     //----------------------------------------------------------------------------
 	
-	private MembraneChannel membraneChannelModel;
+	private MembraneChannel membraneChannel;
 	private ModelViewTransform2D mvt;
 	private PNode channelLayer;
 	private PNode edgeLayer;
@@ -54,7 +54,7 @@ public class MembraneChannelNode extends PComposite {
 
         public void startDrag(PInputEvent event){
             super.startDrag(event);
-            membraneChannelModel.setUserControlled( true );
+            membraneChannel.setUserControlled( true );
         }
 
         public void drag(PInputEvent event){
@@ -62,14 +62,14 @@ public class MembraneChannelNode extends PComposite {
             PNode draggedNode = event.getPickedNode();
             PDimension d = event.getDeltaRelativeTo(draggedNode);
             draggedNode.localToParent(d);
-            double newPosX = membraneChannelModel.getCenterLocation().getX() + mvt.viewToModelDifferentialX( d.getWidth() );
-            double newPosY = membraneChannelModel.getCenterLocation().getY() + mvt.viewToModelDifferentialY( d.getHeight() );
-            membraneChannelModel.setCenterLocation( newPosX, newPosY );
+            double newPosX = membraneChannel.getCenterLocation().getX() + mvt.viewToModelDifferentialX( d.getWidth() );
+            double newPosY = membraneChannel.getCenterLocation().getY() + mvt.viewToModelDifferentialY( d.getHeight() );
+            membraneChannel.setCenterLocation( newPosX, newPosY );
         }
         
         public void endDrag( PInputEvent event ){
             super.endDrag(event);
-            membraneChannelModel.setUserControlled( false );
+            membraneChannel.setUserControlled( false );
         }
 	};
 	
@@ -83,7 +83,7 @@ public class MembraneChannelNode extends PComposite {
 	 */
 	public MembraneChannelNode(MembraneChannel membraneChannelModel, ModelViewTransform2D mvt){
 
-		this.membraneChannelModel = membraneChannelModel;
+		this.membraneChannel = membraneChannelModel;
 		this.mvt = mvt;
 		
 		// Listen to the channel for changes that may affect the representation.
@@ -181,6 +181,18 @@ public class MembraneChannelNode extends PComposite {
 		edgeLayer.removeChild(this.edgeLayer);
 	}
 	
+	public MembraneChannel getMembraneChannel(){
+	    return membraneChannel;
+	}
+	
+	/**
+	 * Execute an animation sequence that makes it more obvious to the user
+	 * that this
+	 */
+	public void executeRemovalAnimation(){
+	    
+	}
+	
 	private PPath createEdgeNode(Dimension2D size, Color color){
 		
 		GeneralPath path = new GeneralPath();
@@ -202,17 +214,17 @@ public class MembraneChannelNode extends PComposite {
 	}
 	
 	private void updateLocation(){
-		channelLayer.setOffset(mvt.modelToViewDouble(membraneChannelModel.getCenterLocation()));
-		edgeLayer.setOffset(mvt.modelToViewDouble(membraneChannelModel.getCenterLocation()));
+		channelLayer.setOffset(mvt.modelToViewDouble(membraneChannel.getCenterLocation()));
+		edgeLayer.setOffset(mvt.modelToViewDouble(membraneChannel.getCenterLocation()));
 	}
 	
 	private void updateRepresentation(){
 		
 		// Set the channel width as a function of the openness of the membrane channel.
-		double channelWidth = membraneChannelModel.getChannelSize().getWidth() * membraneChannelModel.getOpenness();
+		double channelWidth = membraneChannel.getChannelSize().getWidth() * membraneChannel.getOpenness();
 		Dimension2D channelSize = new PDimension(
 				channelWidth,
-				membraneChannelModel.getChannelSize().getHeight());
+				membraneChannel.getChannelSize().getHeight());
 		Dimension2D transformedChannelSize = new PDimension(
 				Math.abs(mvt.modelToViewDifferentialXDouble(channelSize.getWidth())),
 				Math.abs(mvt.modelToViewDifferentialYDouble(channelSize.getHeight())));
