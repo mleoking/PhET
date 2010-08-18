@@ -59,35 +59,28 @@ public class GroundNode extends MyMesh {
         var earthMaterial:ITriangleMaterial = new ShadingColorMaterial(0xAA7733);
         var poolMaterial:ITriangleMaterial = new ShadingColorMaterial(0xAAAAAA);
 
-        face(POOL_RIGHT_BACK, GROUND_LEFT_FRONT, GROUND_LEFT_BACK, grassMaterial);
-        face(POOL_RIGHT_BACK, GROUND_LEFT_BACK, POOL_RIGHT_FRONT, grassMaterial);
+        plane(POOL_RIGHT_BACK, GROUND_LEFT_FRONT, GROUND_LEFT_BACK, POOL_RIGHT_FRONT,grassMaterial);
         //face(2, 5, 6, grassMaterial);
         //face(1, 2, 6, grassMaterial);
-        face(POOL_LEFT_FRONT, POOL_LEFT_BACK, GROUND_RIGHT_BACK, grassMaterial);
-        face(POOL_LEFT_FRONT, GROUND_RIGHT_BACK, GROUND_RIGHT_FRONT, grassMaterial);
+        plane(POOL_LEFT_FRONT, POOL_LEFT_BACK, GROUND_RIGHT_BACK, GROUND_RIGHT_FRONT,grassMaterial);
 
-        face(POOL_LEFT_FRONT, GROUND_RIGHT_FRONT, POOL_LEFT_BASE, earthMaterial);
-        face(GROUND_RIGHT_FRONT, EARTH_LEFT_BASE, POOL_LEFT_BASE, earthMaterial);
-        face(EARTH_LEFT_BASE, EARTH_RIGHT_BASE, POOL_LEFT_BASE, earthMaterial);
-        face(EARTH_RIGHT_BASE, POOL_RIGHT_BASE, POOL_LEFT_BASE, earthMaterial);
-        face(POOL_RIGHT_BASE, EARTH_RIGHT_BASE, GROUND_LEFT_FRONT, earthMaterial);
-        face(GROUND_LEFT_FRONT, POOL_RIGHT_BACK, POOL_RIGHT_BASE, earthMaterial);
+        plane(GROUND_RIGHT_FRONT, EARTH_LEFT_BASE, POOL_LEFT_BASE, POOL_LEFT_FRONT,earthMaterial);
+        
+        plane(EARTH_RIGHT_BASE, POOL_RIGHT_BASE, POOL_LEFT_BASE, EARTH_LEFT_BASE,earthMaterial);
+        
+        plane(POOL_RIGHT_BASE, EARTH_RIGHT_BASE, GROUND_LEFT_FRONT, POOL_RIGHT_BACK,earthMaterial);
 
         // right side of pool
-        face(POOL_RIGHT_BASE, POOL_RIGHT_BACK, POOL_RIGHT_FRONT, poolMaterial);
-        face(POOL_RIGHT_BASE, POOL_RIGHT_FRONT, POOL_RIGHT_BACK_BASE, poolMaterial);
+        plane(POOL_RIGHT_BASE,POOL_RIGHT_BACK,POOL_RIGHT_FRONT,POOL_RIGHT_BACK_BASE,poolMaterial);
 
         // back of pool
-        face(POOL_LEFT_BACK, POOL_LEFT_BACK_BASE, POOL_RIGHT_BACK_BASE, poolMaterial);
-        face(POOL_RIGHT_BACK_BASE, POOL_RIGHT_FRONT, POOL_LEFT_BACK, poolMaterial);
+        plane(POOL_LEFT_BACK,POOL_LEFT_BACK_BASE,POOL_RIGHT_BACK_BASE,POOL_RIGHT_FRONT,poolMaterial);
 
         // left side of pool
-        face(POOL_LEFT_BASE, POOL_LEFT_BACK_BASE, POOL_LEFT_BACK, poolMaterial);
-        face(POOL_LEFT_BASE, POOL_LEFT_BACK, POOL_LEFT_FRONT, poolMaterial);
+        plane(POOL_LEFT_BASE, POOL_LEFT_BACK_BASE, POOL_LEFT_BACK, POOL_LEFT_FRONT,poolMaterial);
 
         // bottom of pool
-        face(POOL_RIGHT_BASE, POOL_RIGHT_BACK_BASE, POOL_LEFT_BACK_BASE, poolMaterial);
-        face(POOL_RIGHT_BASE, POOL_LEFT_BACK_BASE, POOL_LEFT_BASE, poolMaterial);
+        plane(POOL_RIGHT_BASE, POOL_RIGHT_BACK_BASE, POOL_LEFT_BACK_BASE, POOL_LEFT_BASE,poolMaterial);
 
         type = "GroundNode";
         url = "density";

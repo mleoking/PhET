@@ -27,6 +27,10 @@ public class MyMesh extends Mesh {
     public function face(x:int, y:int, z:int, texture:ITriangleMaterial = null):void {
         addFace(new Face(varr[x], varr[y], varr[z], texture, uvarr[x], uvarr[y], uvarr[z]));
     }
+    public function plane(a:int,b:int,c:int,d:int,texture:ITriangleMaterial = null):void{
+        face(a, b, c, texture);
+        face(a, c, d, texture);
+    }
 
     public function combine(a:Object, b:Object):Object {
         var obj:Object = new Object();
