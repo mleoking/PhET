@@ -219,8 +219,13 @@ public abstract class MembraneChannel {
 					Particle particle = modelContainingParticles.requestParticleThroughChannel(getParticleTypeToCapture(), this);
 					if (particle != null){
 					    particlesTraversingChannel.add( particle );
+					    restartCaptureCountdownTimer();
 					}
-					restartCaptureCountdownTimer();
+					else{
+					    // Continue to request a particle at each time step
+					    // until we get one.
+					    captureCountdownTimer = 0;
+					}
 				}
 			}
 			else{
