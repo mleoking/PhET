@@ -1,3 +1,4 @@
+Improved background and earth graphic now that toybox is implemented differently
 Refactored MyMesh and GroundNode to use planes instead of triangles
 Refactored MyMesh and GroundNode to use symbolic vertex names
 Fixes for box2d and units
