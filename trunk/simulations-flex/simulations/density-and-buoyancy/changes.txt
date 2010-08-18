@@ -1,3 +1,4 @@
+Fixed: Clicking in the play area causes focus to cycle through components
 Improved background and earth graphic now that toybox is implemented differently
 Refactored MyMesh and GroundNode to use planes instead of triangles
 Refactored MyMesh and GroundNode to use symbolic vertex names
