@@ -4,6 +4,12 @@ import edu.colorado.phet.densityandbuoyancy.view.units.Unit;
 
 import flash.display.DisplayObject;
 
+import flash.display.Stage;
+import flash.events.Event;
+
+import flash.events.FocusEvent;
+import flash.events.TextEvent;
+
 import mx.containers.GridItem;
 import mx.containers.GridRow;
 import mx.controls.HSlider;
@@ -30,13 +36,23 @@ public class PropertyEditor extends GridRow {
         textField.width = 100;
         textField.restrict = ".0-9";//TODO: does this handle languages that use a comma instead of a decimal place?
         function updateText():void {
-            textField.text = unit.fromSI(property.value).toFixed(2);
+            textField.text = unit.fromSI(property.value).toFixed(2);//TODO: make sure this doesn't fire an event
         }
 
+        function updateModelFromTextField():void{
+            property.value = unit.toSI(Number(textField.text));
+        }
+        
         updateText();
         const listener:Function = function myfunction():void {
-            property.value = unit.toSI(Number(textField.text));
+            trace("focused: "+focusManager.getFocus()+", equals text field = "+(focusManager.getFocus()==textField));
+            if (focusManager.getFocus()==textField){//Only update the model if the user is editing the text field, otherwise there are loops that cause errant behavior
+                updateModelFromTextField();
+            }
         };
+        
+        textField.addEventListener(FocusEvent.FOCUS_OUT,updateModelFromTextField);
+        
         textField.addEventListener(FlexEvent.VALUE_COMMIT, listener);
         textField.addEventListener(FlexEvent.ENTER, listener);
         property.addListener(updateText);
