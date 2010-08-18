@@ -152,13 +152,13 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
         // the size of the tool box and can be adjusted as needed.
         double distanceBetweenToolBoxes = 30;
         leakChannelToolBoxNode = new LeakChannelToolBox(
-        		new PDimension(transformedParticleChamberRect.getWidth() * 0.5, transformedParticleChamberRect.getHeight() * 0.4), model, mvt, this);
+        		new PDimension(transformedParticleChamberRect.getWidth() * 0.6, transformedParticleChamberRect.getHeight() * 0.4), model, mvt, this);
         leakChannelToolBoxNode.setOffset(
                 transformedParticleChamberRect.getCenterX() - leakChannelToolBoxNode.getFullBoundsReference().width - distanceBetweenToolBoxes / 2,
         		transformedParticleChamberRect.getMaxY() + 40);
         toolBoxLayer.addChild(leakChannelToolBoxNode);
         gatedChannelToolBoxNode = new GatedChannelToolBox(
-                new PDimension(transformedParticleChamberRect.getWidth() * 0.5, transformedParticleChamberRect.getHeight() * 0.4), model, mvt, this);
+                new PDimension(transformedParticleChamberRect.getWidth() * 0.6, transformedParticleChamberRect.getHeight() * 0.4), model, mvt, this);
         gatedChannelToolBoxNode.setOffset(
                 transformedParticleChamberRect.getCenterX() + distanceBetweenToolBoxes / 2,
                 transformedParticleChamberRect.getMaxY() + 40);
