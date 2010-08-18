@@ -1,3 +1,4 @@
+Refactored MyMesh and GroundNode to use symbolic vertex names
 Fixes for box2d and units
 Fixed: Mass changes slightly (~1%) when modifying the volume for a custom object
 Internationalized strings

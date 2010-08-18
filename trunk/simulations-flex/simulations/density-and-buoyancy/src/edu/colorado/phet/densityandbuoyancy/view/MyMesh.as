@@ -11,8 +11,9 @@ public class MyMesh extends Mesh {
     private var varr:Array = [];
     private var uvarr:Array = [];
 
-    public function v(x:Number, y:Number, z:Number):void {
+    public function v(x:Number, y:Number, z:Number):Number {
         varr.push(new Vertex(x, y, z));
+        return varr.length-1;
     }
 
     public function uv(u:Number, v:Number):void {
