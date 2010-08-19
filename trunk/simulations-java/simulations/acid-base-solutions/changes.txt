@@ -105,6 +105,7 @@
 6/19/10 deadline met for interviews (6/21/10)
 # 0.00.14 (41807) Jun 19, 2010
 6/19/10 dev version with fixes and 6/18/10 change requests
+6/19/10 move icons into data/.../images/icons
 6/19/10 in magnifying glass view, hide minor species for acid (OH-) and base (H3O+)
 6/19/10 change "Bar Graph" to "Concentration Graph"
 6/19/10 change "Show Water" to "Show H2O Molecules"

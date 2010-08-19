@@ -15,6 +15,21 @@ public class ABSImages {
     /* not intended for instantiation */
     private ABSImages() {}
     
+    public static final BufferedImage ARROW_DOUBLE = getBufferedImage( "arrow_double.png" );
+    public static final BufferedImage ARROW_SINGLE = getBufferedImage( "arrow_single.png" );
+    public static final BufferedImage BATTERY= getBufferedImage( "battery.png" );
+    public static final BufferedImage LIGHT_BULB_BASE = getBufferedImage( "lightBulbBase.png" );
+    public static final BufferedImage LIGHT_BULB_GLASS = getBufferedImage( "lightBulbGlass.png" );
+    public static final BufferedImage LIGHT_BULB_GLASS_MASK = getBufferedImage( "lightBulbGlassMask.png" );
+    
+    public static final BufferedImage BEAKER_ICON = getBufferedImage( "icons/beaker_icon.png" );
+    public static final BufferedImage CONCENTRATION_GRAPH_ICON = getBufferedImage( "icons/concentrationGraph_icon.png" );
+    public static final BufferedImage H2O_ICON = getBufferedImage( "icons/H2O_icon.png" );
+    public static final BufferedImage LIGHT_BULB_ICON = getBufferedImage( "icons/lightBulb_icon.png" );
+    public static final BufferedImage MAGNIFYING_GLASS_ICON = getBufferedImage( "icons/magnifyingGlass_icon.png" );
+    public static final BufferedImage PH_METER_ICON = getBufferedImage( "icons/pHMeter_icon.png" );
+    public static final BufferedImage PH_PAPER_ICON = getBufferedImage( "icons/pHPaper_icon.png" );
+    
     public static final BufferedImage A_MINUS_MOLECULE = getBufferedImage( "molecules/A_minus.png" );
     public static final BufferedImage B_MOLECULE = getBufferedImage( "molecules/B.png" );
     public static final BufferedImage BH_PLUS_MOLECULE = getBufferedImage( "molecules/BH_plus.png" );
@@ -24,22 +39,6 @@ public class ABSImages {
     public static final BufferedImage M_PLUS_MOLECULE = getBufferedImage( "molecules/M_plus.png" );
     public static final BufferedImage MOH_MOLECULE = getBufferedImage( "molecules/MOH.png" );
     public static final BufferedImage OH_MINUS_MOLECULE = getBufferedImage( "molecules/OH_minus.png" );
-    
-    public static final BufferedImage ARROW_DOUBLE = getBufferedImage( "arrow_double.png" );
-    public static final BufferedImage ARROW_SINGLE = getBufferedImage( "arrow_single.png" );
-    
-    public static final BufferedImage BATTERY= getBufferedImage( "battery.png" );
-    public static final BufferedImage LIGHT_BULB_BASE = getBufferedImage( "lightBulbBase.png" );
-    public static final BufferedImage LIGHT_BULB_GLASS = getBufferedImage( "lightBulbGlass.png" );
-    public static final BufferedImage LIGHT_BULB_GLASS_MASK = getBufferedImage( "lightBulbGlassMask.png" );
-    
-    public static final BufferedImage PH_METER_ICON = getBufferedImage( "pHMeter_icon.png" );
-    public static final BufferedImage PH_PAPER_ICON = getBufferedImage( "pHPaper_icon.png" );
-    public static final BufferedImage LIGHT_BULB_ICON = getBufferedImage( "lightBulb_icon.png" );
-    public static final BufferedImage MAGNIFYING_GLASS_ICON = getBufferedImage( "magnifyingGlass_icon.png" );
-    public static final BufferedImage CONCENTRATION_GRAPH_ICON = getBufferedImage( "concentrationGraph_icon.png" );
-    public static final BufferedImage BEAKER_ICON = getBufferedImage( "beaker_icon.png" );
-    public static final BufferedImage H2O_ICON = getBufferedImage( "H2O_icon.png" );
     
     private static final BufferedImage getBufferedImage( String resourceName ) {
         return ABSResources.getBufferedImage( resourceName );
