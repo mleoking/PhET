@@ -106,7 +106,7 @@ public class TraverseChannelMotionStrategy extends MotionStrategy {
 		else{
 			// The channel has closed and this element has not yet entered it.
 			// Time to replace this motion strategy with a different one.
-			movableModelElement.setMotionStrategy(new RandomWalkMotionStrategy(postTraversalMotionBounds));
+			movableModelElement.setMotionStrategy(new RandomWalkMotionStrategy(preTraversalMotionBounds));
 		}
 	}
 	
