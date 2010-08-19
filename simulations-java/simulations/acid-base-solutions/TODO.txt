@@ -5,7 +5,6 @@ MILESTONES
 HIGH PRIORITY
 - break up AbstractConcentrationGraphNode, it's too big
 - what should conductivity tester do for Solution=Water?
-- should control panels icons be vertically aligned, or positioned close to their associated labels?
 - change the name of the "Test Solution" tab to "Introduction"?
 
 MEDUIUM PRIORITY

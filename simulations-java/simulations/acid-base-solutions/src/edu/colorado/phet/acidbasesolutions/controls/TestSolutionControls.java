@@ -30,6 +30,7 @@ import edu.colorado.phet.acidbasesolutions.model.StrongAcidSolution.TestStrongAc
 import edu.colorado.phet.acidbasesolutions.model.StrongBaseSolution.TestStrongBaseSolution;
 import edu.colorado.phet.acidbasesolutions.model.WeakAcidSolution.TestWeakAcidSolution;
 import edu.colorado.phet.acidbasesolutions.model.WeakBaseSolution.TestWeakBaseSolution;
+import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -150,26 +151,44 @@ public class TestSolutionControls extends JPanel {
         
         // layout
         {
+            final int labelIconSpacing = 5;
+            
+            HorizontalLayoutPanel waterPanel = new HorizontalLayoutPanel();
+            waterPanel.setInsets( new Insets( 0, labelIconSpacing, 0, 0 ) );
+            waterPanel.add( waterRadioButton );
+            waterPanel.add( waterIcon );
+            
+            HorizontalLayoutPanel strongAcidPanel = new HorizontalLayoutPanel();
+            strongAcidPanel.setInsets( new Insets( 0, labelIconSpacing, 0, 0 ) );
+            strongAcidPanel.add( strongAcidRadioButton );
+            strongAcidPanel.add( strongAcidIcon );
+            
+            HorizontalLayoutPanel weakAcidPanel = new HorizontalLayoutPanel();
+            weakAcidPanel.setInsets( new Insets( 0, labelIconSpacing, 0, 0 ) );
+            weakAcidPanel.add( weakAcidRadioButton );
+            weakAcidPanel.add( weakAcidIcon );
+            
+            HorizontalLayoutPanel strongBasePanel = new HorizontalLayoutPanel();
+            strongBasePanel.setInsets( new Insets( 0, labelIconSpacing, 0, 0 ) );
+            strongBasePanel.add( strongBaseRadioButton );
+            strongBasePanel.add( strongBaseIcon );
+            
+            HorizontalLayoutPanel weakBasePanel = new HorizontalLayoutPanel();
+            weakBasePanel.setInsets( new Insets( 0, labelIconSpacing, 0, 0 ) );
+            weakBasePanel.add( weakBaseRadioButton );
+            weakBasePanel.add( weakBaseIcon );
+            
             JPanel innerPanel = new JPanel();
             EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
             innerPanel.setLayout( layout );
             layout.setInsets( new Insets( 4, 0, 4, 0 ) );
             int row = 0;
             int column = 0;
-            layout.addComponent( waterRadioButton, row, column++ );
-            layout.addComponent( waterIcon, row++, column );
-            column = 0;
-            layout.addComponent( strongAcidRadioButton, row, column++ );
-            layout.addComponent( strongAcidIcon, row++, column );
-            column = 0;
-            layout.addComponent( weakAcidRadioButton, row, column++ );
-            layout.addComponent( weakAcidIcon, row++, column );
-            column = 0;
-            layout.addComponent( strongBaseRadioButton, row, column++ );
-            layout.addComponent( strongBaseIcon, row++, column );
-            column = 0;
-            layout.addComponent( weakBaseRadioButton, row, column++ );
-            layout.addComponent( weakBaseIcon, row++, column );
+            layout.addComponent( waterPanel, row++, column );
+            layout.addComponent( strongAcidPanel, row++, column );
+            layout.addComponent( weakAcidPanel, row++, column );
+            layout.addComponent( strongBasePanel, row++, column );
+            layout.addComponent( weakBasePanel, row++, column );
             
             // ensure left justification
             this.setLayout( new BorderLayout() );

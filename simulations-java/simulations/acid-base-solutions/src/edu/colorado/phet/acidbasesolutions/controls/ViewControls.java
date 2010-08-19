@@ -3,6 +3,7 @@
 package edu.colorado.phet.acidbasesolutions.controls;
 
 import java.awt.BorderLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -20,6 +21,7 @@ import edu.colorado.phet.acidbasesolutions.model.MagnifyingGlass.MagnifyingGlass
 import edu.colorado.phet.acidbasesolutions.model.Molecule.WaterMolecule;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
 import edu.colorado.phet.acidbasesolutions.util.HTMLCheckBox;
+import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 
@@ -168,19 +170,37 @@ public class ViewControls extends JPanel {
         
         // layout
         {
+            final int labelIconSpacing = 5;
+            
+            HorizontalLayoutPanel magnifyingGlassPanel = new HorizontalLayoutPanel();
+            magnifyingGlassPanel.setInsets( new Insets( 0, labelIconSpacing, 0, 0 ) );
+            magnifyingGlassPanel.add( magnifyingGlassRadioButton );
+            magnifyingGlassPanel.add( magnifyingGlassIcon );
+            
+            HorizontalLayoutPanel showWaterPanel = new HorizontalLayoutPanel();
+            showWaterPanel.setInsets( new Insets( 0, labelIconSpacing, 0, 0 ) );
+            showWaterPanel.add( showWaterCheckBox );
+            showWaterPanel.add( showWaterIcon );
+            
+            HorizontalLayoutPanel concentrationGraphPanel = new HorizontalLayoutPanel();
+            concentrationGraphPanel.setInsets( new Insets( 0, labelIconSpacing, 0, 0 ) );
+            concentrationGraphPanel.add( concentrationGraphRadioButton );
+            concentrationGraphPanel.add( concentrationGraphIcon );
+            
+            HorizontalLayoutPanel liquidPanel = new HorizontalLayoutPanel();
+            liquidPanel.setInsets( new Insets( 0, labelIconSpacing, 0, 0 ) );
+            liquidPanel.add( liquidRadioButton );
+            liquidPanel.add( liquidIcon );
+            
             JPanel innerPanel = new JPanel();
             EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
             innerPanel.setLayout( layout );
-            layout.addComponent( magnifyingGlassRadioButton, 0, 0, 2, 1 );
-            layout.addComponent( magnifyingGlassIcon, 0, 2 );
+            layout.addComponent( magnifyingGlassPanel, 0, 0, 2, 1 );
             // indent the "Show H2O molecules" check box beneath the "Magnifying Glass" radio button
             layout.setMinimumWidth( 0, 22 );
-            layout.addComponent( showWaterCheckBox, 1, 1, 1, 1 );
-            layout.addComponent( showWaterIcon, 1, 2 );
-            layout.addComponent( concentrationGraphRadioButton, 2, 0, 2, 1 );
-            layout.addComponent( concentrationGraphIcon, 2, 2 );
-            layout.addComponent( liquidRadioButton, 3, 0, 2, 1 );
-            layout.addComponent( liquidIcon, 3, 2 );
+            layout.addComponent( showWaterPanel, 1, 1, 1, 1 );
+            layout.addComponent( concentrationGraphPanel, 2, 0, 2, 1 );
+            layout.addComponent( liquidPanel, 3, 0, 2, 1 );
             
             // ensure left justification
             this.setLayout( new BorderLayout() );
