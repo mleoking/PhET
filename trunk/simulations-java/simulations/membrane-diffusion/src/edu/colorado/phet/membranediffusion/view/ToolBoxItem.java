@@ -5,16 +5,14 @@ package edu.colorado.phet.membranediffusion.view;
 import java.awt.Font;
 import java.awt.geom.Point2D;
 
-import javax.swing.JOptionPane;
-
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.membranediffusion.model.MembraneChannel;
 import edu.colorado.phet.membranediffusion.model.MembraneDiffusionModel;
-import edu.colorado.phet.membranediffusion.model.SodiumLeakageChannel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -177,7 +175,7 @@ public abstract class ToolBoxItem extends PComposite {
 	    else{
 	        // Put up a message stating that the membrane is full.
 	        // TODO: i18n
-	        JOptionPane.showMessageDialog( getCanvas(), "The membrane is full, no more channels may be added." );
+	        PhetOptionPane.showMessageDialog( getCanvas(), "The membrane is full, no more channels may be added." );
 	    }
 	}
 
