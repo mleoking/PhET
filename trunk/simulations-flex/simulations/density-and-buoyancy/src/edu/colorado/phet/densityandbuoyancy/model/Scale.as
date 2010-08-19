@@ -13,7 +13,7 @@ import edu.colorado.phet.flexcommon.FlexSimStrings;
  */
 public class Scale extends Cuboid {
 
-    private var totalImpulse:Number = 0;
+    private var totalImpulse:Number = 0;//in SI
 
     public static var SCALE_DENSITY:Number = 2.0 * 1000;
 
@@ -30,9 +30,12 @@ public class Scale extends Cuboid {
     public function getScaleReadout():String {
         // TODO: localize
         // scaled by DT-frame because we are measuring the 'normal impulses'
-        var num:Number = totalImpulse / DensityModel.DT_PER_FRAME / DensityConstants.GRAVITY / 1000;//todo: why the 1000?  does this handle units properly?
-        var numStr:String = String(Math.round(num * 100) / 100);
-        const readoutValue:String = String(numStr).substr(0, 7);
+        //impulse I=Fdt
+        //F=I/dt
+        var force:Number = totalImpulse / DensityModel.DT_PER_FRAME;
+        var massReadout:Number = force / DensityConstants.GRAVITY;
+        var roundedOff:String = String(Math.round(massReadout * 100) / 100);
+        const readoutValue:String = String(roundedOff).substr(0, 7);
         return FlexSimStrings.get("properties.massValue","{0} kg",[readoutValue]);
     }
 
@@ -70,7 +73,7 @@ public class Scale extends Cuboid {
             return;
         }
 
-        totalImpulse += point.normalImpulse;
+        totalImpulse += point.normalImpulse / DensityConstants.SCALE_BOX2D;//convert back to SI from box2d units
     }
 
     override public function resetContacts():void {

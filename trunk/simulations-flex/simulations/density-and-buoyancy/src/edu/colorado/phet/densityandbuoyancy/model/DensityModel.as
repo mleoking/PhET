@@ -24,7 +24,7 @@ public class DensityModel {
     public static var STEPS_PER_FRAME:Number = 10;
 
     public static var FRAMES_PER_SECOND:Number=30.0;//See the Application in mxml, value has to be duplicated there
-    public static var DT_PER_FRAME:Number = 1.0 / FRAMES_PER_SECOND;//TODO: Fix this scale, should be about 1/30
+    public static var DT_PER_FRAME:Number = 1.0 / FRAMES_PER_SECOND;
     public static var DT_PER_STEP:Number = DT_PER_FRAME / STEPS_PER_FRAME;
 
     private var world:b2World;
