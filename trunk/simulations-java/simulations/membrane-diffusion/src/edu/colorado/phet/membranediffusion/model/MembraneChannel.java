@@ -245,6 +245,15 @@ public abstract class MembraneChannel {
 
 	            // Keep a reference to this particle.
 	            particlesTraversingChannel.add( particleToCapture );
+	            
+	            final Particle particleToCaptureFinal = particleToCapture;
+	            
+	            particleToCapture.addListener( new Particle.Adapter(){
+	                public void removedFromModel() {
+	                    // The particle has been removed, so remove it from our list.
+	                    particlesTraversingChannel.remove( particleToCaptureFinal );
+	                }
+	            });
 	        }
 		}
 	}

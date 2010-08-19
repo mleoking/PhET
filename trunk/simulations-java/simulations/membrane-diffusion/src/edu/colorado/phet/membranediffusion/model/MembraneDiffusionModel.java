@@ -368,7 +368,7 @@ public class MembraneDiffusionModel implements IParticleCapture {
     /**
      * Remove all particles (i.e. ions) from the simulation.
      */
-    private void removeAllParticles(){
+    public void removeAllParticles(){
     	// Remove all particles.  This is done by telling each particle to
     	// send out notifications of its removal from the model.  All
     	// listeners, including this class, should remove their references in
