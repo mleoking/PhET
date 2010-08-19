@@ -47,6 +47,7 @@ abstract class AbstractConcentrationGraphNode extends PComposite {
     private static final Color BAR_STROKE_COLOR = Color.BLACK;
     private static final double BAR_ARROW_HEAD_HEIGHT = 60;
     private static final double BAR_ARROW_PERCENT_ABOVE_GRAPH = 0.15;
+    private static final double BAR_X_SPACING = 45; // chosen so that bars are (approximated) aligned with terms in reaction equation
 
     // numeric values
     private static final double NEGLIGIBLE_THRESHOLD = 0;
@@ -78,7 +79,7 @@ abstract class AbstractConcentrationGraphNode extends PComposite {
 
     private final PDimension outlineSize;
     private final PPath graphOutlineNode;
-    private final ConcentrationBarNode[] compositeNodes;
+    private final ConcentrationNode[] concentrationNodes;
     private final ConcentrationYAxisNode yAxisNode;
 
     //----------------------------------------------------------------------------
@@ -109,10 +110,10 @@ abstract class AbstractConcentrationGraphNode extends PComposite {
 
         // nodes for each bar
         final double outlineHeight = outlineSize.getHeight();
-        compositeNodes = new ConcentrationBarNode[NUMBER_OF_BARS];
-        for ( int i = 0; i < compositeNodes.length; i++ ) {
-            compositeNodes[i] = new ConcentrationBarNode( outlineHeight, iconsVisible, symbolsVisible );
-            addChild( compositeNodes[i] );
+        concentrationNodes = new ConcentrationNode[NUMBER_OF_BARS];
+        for ( int i = 0; i < concentrationNodes.length; i++ ) {
+            concentrationNodes[i] = new ConcentrationNode( outlineHeight, iconsVisible, symbolsVisible );
+            addChild( concentrationNodes[i] );
         }
 
         // line along the bottom of the graph, where bars overlap the outline
@@ -127,7 +128,7 @@ abstract class AbstractConcentrationGraphNode extends PComposite {
         // y axis, to left of graph
         yAxisNode.setOffset( graphOutlineNode.getOffset() );
         // bars
-        updateBarsLayout();
+        updateLayout();
     }
 
     //----------------------------------------------------------------------------
@@ -148,15 +149,15 @@ abstract class AbstractConcentrationGraphNode extends PComposite {
      * @param negligibleEnabled whether to display "negligible" when concentration is below a threshold
      */
     protected void setMolecule( int index, Molecule molecule, NumberFormat format, boolean negligibleEnabled ) {
-        compositeNodes[index].setMolecule( molecule, format, negligibleEnabled );
+        concentrationNodes[index].setMolecule( molecule, format, negligibleEnabled );
     }
 
     protected void setConcentration( int index, double value ) {
-        compositeNodes[index].setConcentration( value );
+        concentrationNodes[index].setConcentration( value );
     }
 
     protected void setVisible( int index, boolean visible ) {
-        compositeNodes[index].setVisible( visible );
+        concentrationNodes[index].setVisible( visible );
     }
 
     protected void setAllVisible( boolean visible ) {
@@ -169,14 +170,28 @@ abstract class AbstractConcentrationGraphNode extends PComposite {
     // Layout of nodes
     //----------------------------------------------------------------------------
     
-    // bars are equally spaced inside graph outline
-    private void updateBarsLayout() {
-        final double xSpacing = ( outlineSize.getWidth() - ( compositeNodes.length * BAR_WIDTH ) ) / ( compositeNodes.length + 1 );
-        assert ( xSpacing > 0 );
-        for ( int i = 0; i < compositeNodes.length; i++ ) {
-            double x = graphOutlineNode.getXOffset() + xSpacing + ( i * ( xSpacing + BAR_WIDTH ) ) + ( BAR_WIDTH / 2. );
-            double y = outlineSize.getHeight();
-            compositeNodes[i].setOffset( x, y );
+    protected void updateLayout() {
+        
+        // count the number of visible bars
+        int visibleBars = 0;
+        for ( ConcentrationNode node : concentrationNodes ) {
+            if ( node.getVisible() ) {
+                visibleBars++;
+            }
+        }
+        
+        if ( visibleBars > 0 ) {
+            
+            // determine the x margin
+            double xMargin = ( outlineSize.getWidth() - ( visibleBars * BAR_WIDTH ) - ( ( visibleBars - 1 ) * BAR_X_SPACING ) ) / 2;
+            assert ( xMargin >= 0 );
+
+            // set offsets
+            for ( int i = 0; i < concentrationNodes.length; i++ ) {
+                double x = graphOutlineNode.getXOffset() + xMargin + ( i * ( BAR_X_SPACING + BAR_WIDTH ) ) + ( BAR_WIDTH / 2. );
+                double y = outlineSize.getHeight();
+                concentrationNodes[i].setOffset( x, y );
+            }
         }
     }
     
@@ -187,7 +202,7 @@ abstract class AbstractConcentrationGraphNode extends PComposite {
     /*
      * Concentration representation, includes a bar, value, icon and symbol.
      */
-    private static class ConcentrationBarNode extends PComposite {
+    private static class ConcentrationNode extends PComposite {
         
         private final double graphHeight;
         private final BarNode barNode;
@@ -195,7 +210,7 @@ abstract class AbstractConcentrationGraphNode extends PComposite {
         private final IconNode iconNode;
         private final SymbolNode symbolNode;
         
-        public ConcentrationBarNode( double graphHeight, boolean iconVisible, boolean symbolVisible ) {
+        public ConcentrationNode( double graphHeight, boolean iconVisible, boolean symbolVisible ) {
             this.graphHeight = graphHeight;
             
             barNode = new BarNode( BAR_WIDTH, graphHeight );
