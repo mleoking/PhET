@@ -41,6 +41,9 @@ public class MembraneDiffusionModel implements IParticleCapture {
 	// Maximum number of channels allowed on the membrane.
 	private static int MAX_CHANNELS_ON_MEMBRANE = 10;
 	
+	// Max number of particles allowed.
+	private static int MAX_PARTICLES = 100;
+	
 	// Defaults for configurable parameters.
 	private static boolean SHOW_GRAPHS_DEFAULT = false;
 	
@@ -213,11 +216,16 @@ public class MembraneDiffusionModel implements IParticleCapture {
      * the particle from being added.
      */
     public boolean injectParticle(final Particle particle){
+        
     	// Validate that there are not already to many.
-    	// TODO
+        if (particles.size() >= MAX_PARTICLES){
+            System.err.println(getClass().getName() + " - Warning: Ignoring attempt to add more particles than allowed.");
+            return false;
+        }
     	
     	// Validate that the particle is in bounds.
     	if (!PARTICLE_CHAMBER_RECT.contains(particle.getPositionReference())){
+            System.err.println(getClass().getName() + " - Warning: Ignoring attempt to add particle outside of chamber.");
     		return false;
     	}
     	
@@ -235,6 +243,10 @@ public class MembraneDiffusionModel implements IParticleCapture {
     	
     	// If we made it to this point, everything went okay.
     	return true;
+    }
+    
+    public int getRemainingParticleCapacity(){
+        return MAX_PARTICLES - particles.size();
     }
     
     private void stepInTime(double dt){

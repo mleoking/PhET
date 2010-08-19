@@ -23,10 +23,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.membranediffusion.MembraneDiffusionResources;
@@ -102,6 +104,8 @@ public class ParticleInjectorNode extends PNode {
 		
 		nominalInjectionVelocityVector.rotate(rotationAngle);
 
+		// Create the base node to which the various constituent parts can be
+		// added.
 		PNode injectorNode = new PNode();
 		
 		// Load the graphic images for this device.  These are offset in order
@@ -159,8 +163,14 @@ public class ParticleInjectorNode extends PNode {
         unpressedButtonImageNode.addInputEventListener(new PBasicInputEventHandler(){
         	@Override
             public void mousePressed( PInputEvent event ) {
-                unpressedButtonImageNode.setVisible(false);
-                injectParticle();
+                if (model.getRemainingParticleCapacity() == 0 ){
+                    PhetOptionPane.showMessageDialog( PhetApplication.getInstance().getPhetFrame(),
+                            "Container is full, no more particles can be injected." );
+                }
+                else{
+                    unpressedButtonImageNode.setVisible(false);
+                    injectParticle();
+                }
             }
         	
         	@Override
@@ -174,7 +184,7 @@ public class ParticleInjectorNode extends PNode {
     // Methods
     //------------------------------------------------------------------------
 
-	private void injectParticle(){
+    private void injectParticle(){
 		Particle particleToInject = Particle.createParticle(particleTypeToInject);
 		particleToInject.setPosition(injectionPointInModelCoords);
 		particleToInject.setMotionStrategy(new InjectionMotionStrategy(injectionPointInModelCoords, model, 0));
