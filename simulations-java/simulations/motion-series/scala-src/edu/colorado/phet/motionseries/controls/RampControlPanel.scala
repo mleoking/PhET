@@ -81,8 +81,6 @@ class RampControlPanelBody(model: MotionSeriesModel,
     ))
   }
   add(fbdPanel)
-//  add(new TitleLabel("display.free-body-diagram".translate))
-  
 
   class IconPanel(component: JComponent, icon: Icon) extends JPanel {
     def this(component: JComponent, iconFilename: String) = this (component, new ImageIcon(MotionSeriesResources.getImage(iconFilename)))
