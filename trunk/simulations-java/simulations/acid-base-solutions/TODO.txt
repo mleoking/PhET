@@ -5,6 +5,7 @@ MILESTONES
 HIGH PRIORITY
 - if concentration graph has only 3 bars, center them in the chart
 - try to make symbols in reaction equations line up with bars in concentration graph
+- what should conductivity tester do for Solution=Water?
 
 MEDUIUM PRIORITY
 - should control panels icons be vertically aligned, or positioned close to their associated labels?
@@ -14,6 +15,7 @@ MEDUIUM PRIORITY
 - change "Show H2O Molecules" to "Show Water"?
 - change "Concentration Graph" to "Concentration"?
 - confusion between pH paper and bars in graph by allowing them to be shown at the same time?
+- should "Views" be about "Tests" in control panel? which do we want students to play with first?
 
 LOW PRIORITY
 - scale light bulb image files, remove setScale calls in ConductivityTesterNode
