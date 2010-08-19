@@ -21,6 +21,7 @@ public class Scale extends Cuboid {
     public static var SCALE_WIDTH:Number = 1.0 / 10 * SCALE_SCALE;
     public static var SCALE_HEIGHT:Number = 1 / 3.0 / 10 * SCALE_SCALE;
     public static var SCALE_DEPTH:Number = 1.0 / 10 * SCALE_SCALE;
+    private const scaleReadoutListeners:Array = new Array();
 
     public function Scale(x:Number, y:Number, model:DensityModel, mass:Number):void {
         super(SCALE_DENSITY, SCALE_WIDTH, SCALE_HEIGHT, SCALE_DEPTH, x, y, model, Substance.CUSTOM);
@@ -33,6 +34,13 @@ public class Scale extends Cuboid {
         var numStr:String = String(Math.round(num * 100) / 100);
         const readoutValue:String = String(numStr).substr(0, 7);
         return FlexSimStrings.get("properties.massValue","{0} kg",[readoutValue]);
+    }
+
+    override public function modelStepped():void {
+        super.modelStepped();
+        for each (var scaleReadoutListener:Function in scaleReadoutListeners) {
+            scaleReadoutListener();
+        }
     }
 
     override public function registerContact(point:b2ContactResult):void {
@@ -73,6 +81,10 @@ public class Scale extends Cuboid {
 
     override public function createNode(view:AbstractDensityModule):DensityObjectNode {
         return new ScaleNode(this, view);
+    }
+
+    public function addScaleReadoutListener(updateText:Function):void {
+        scaleReadoutListeners.push(updateText);
     }
 }
 }

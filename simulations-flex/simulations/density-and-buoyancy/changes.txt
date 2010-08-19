@@ -1,3 +1,4 @@
+Fixed: Scale readout doesn't always update
 Alphabetized mystery substance table 
 Fixed: One of the smaller blocks reads "0.5 k" and the "g" is cut off.
 Fixed: Visual artifacts when the block is dropped onto the ground next to the pool; its face nearest the pool flickers.
