@@ -5,8 +5,10 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils
 import edu.colorado.phet.scalacommon.Predef._
 import java.lang.Math._
+import edu.colorado.phet.common.phetcommon.math.MathUtil
 import edu.colorado.phet.motionseries.MotionSeriesResources
 import edu.colorado.phet.motionseries.model.{ForceMotionSeriesObject, MotionSeriesObject}
+
 
 class PusherNode(transform: ModelViewTransform2D, targetObject: ForceMotionSeriesObject, manObject: MotionSeriesObject)
         extends MotionSeriesObjectNode(manObject, transform, "standing-man.png".literal) {
@@ -17,9 +19,9 @@ class PusherNode(transform: ModelViewTransform2D, targetObject: ForceMotionSerie
       val dx = 2.2 * (if (targetObject.appliedForce.x > 0) -1 else 1)
       manObject.setPosition(targetObject.position + dx)
 
-      //images go 0 to 14
-      var leanAmount = (abs(targetObject.appliedForce.x) * 13.0 / 50.0).toInt + 1
-      if (leanAmount > 14) leanAmount = 14
+      //images go 1 to 14
+      val leanAmount = MathUtil.clamp(1,(abs(targetObject.appliedForce.x) * 13.0 / 50.0).toInt + 1,14).toInt
+      
       var textStr = leanAmount.toString
       while (textStr.length < 2)
         textStr = "0".literal + textStr
