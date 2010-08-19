@@ -48,6 +48,11 @@ public abstract class ToolBoxItem extends PComposite {
 	private final ModelViewTransform2D mvt;
 	private PNode selectionNode = null;
 	private HTMLNode caption = null;
+	
+	// Membrane channel in the model.  This is created when the user clicks on
+	// the node and is subsequently controlled by mouse movements until
+	// released by the user.  This could be generalized to some generic model
+	// element if needed for other applications.
 	private MembraneChannel membraneChannel = null;
 
     //----------------------------------------------------------------------------
@@ -74,8 +79,7 @@ public abstract class ToolBoxItem extends PComposite {
         		
         		if (membraneChannel == null){
         			// Add the new model element to the model.
-        			handleAddRequest(mouseCanvasPos);
-        			membraneChannel.setCenterLocation(mouseModelPos);
+        			handleAddRequest(mouseModelPos);
         		}
         		else{
         			// This isn't expected to happen.  If it does, we need to

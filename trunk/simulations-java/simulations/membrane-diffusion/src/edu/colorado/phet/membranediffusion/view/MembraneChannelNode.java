@@ -12,6 +12,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
+import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
 
 import javax.swing.Timer;
@@ -27,10 +28,12 @@ import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
-import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Node that represents a membrane channel in the view.
+ * Node that represents a membrane channel in the view.  Because the membrane
+ * channel has particles that pass through it, this class in generally placed
+ * on two different layers on the canvas.  See the methods for adding and
+ * removing from the canvas for details.
  * 
  * @author John Blanco
  */
@@ -83,6 +86,9 @@ public class MembraneChannelNode extends PNode {
     
     // Timer for performing the removal animation.
     private RemovalAnimationTimer removalAnimationTimer;
+    
+    // Initial offset, used for the removal animation.
+    private Point2D initialOffset = new Point2D.Double();
     	
     //----------------------------------------------------------------------------
     // Constructor
@@ -170,6 +176,11 @@ public class MembraneChannelNode extends PNode {
 		// Update the representation and location.
 		updateRepresentation();
 		updateLocation();
+		
+		// Store the original offset for use by the removal animation.  One
+		// of the two layers is used rather than the offset as a whole, since
+		// the layers is actually how this node is moved around.
+		initialOffset.setLocation( channelLayer.getOffset() );
 	}
 	
     //----------------------------------------------------------------------------
@@ -250,6 +261,7 @@ public class MembraneChannelNode extends PNode {
 	private void updateLocation(){
 		channelLayer.setOffset(mvt.modelToViewDouble(membraneChannel.getCenterLocation()));
 		edgeLayer.setOffset(mvt.modelToViewDouble(membraneChannel.getCenterLocation()));
+		System.out.println("updateLocation, location is: " + channelLayer.getOffset());
 	}
 	
 	private void updateRepresentation(){
@@ -302,16 +314,29 @@ public class MembraneChannelNode extends PNode {
     // Inner Classes and Interfaces
     //----------------------------------------------------------------------------
 	
+	/**
+	 * Timer class that animates the removal of a membrane channel.  This is
+	 * used when the user drags a membrane channel off of the membrane and
+	 * back to the tool box, or to any location outside of the particle
+	 * chamber.
+	 * 
+	 * The animation has two major stages.  The first is to move the membrane
+	 * channel node back to the toolbox, and the second is to shrink the node.
+	 */
 	private static class RemovalAnimationTimer extends Timer {
 
 	    private static final int TIMER_DELAY = 30;          // Milliseconds between each animation step.
+	    
+	    private static final double DISTANCE_MOVED_PER_ANIMATION_STEP = 20;
 
 	    private static final double SHRINKAGE_RATE = 0.80;   // Amount of size change per timer firing, smaller number
 	    
-	    private int animationCount = 100;
+	    private enum AnimationStage { MOVING_BACK_TO_TOOL_BOX, SHRINKING };
+	    
+	    private AnimationStage animationStage = AnimationStage.MOVING_BACK_TO_TOOL_BOX; 
 	    
 	    private MembraneChannelNode membraneChannelNode;
-
+	    
         /**
          * Constructor.
          */
@@ -320,13 +345,30 @@ public class MembraneChannelNode extends PNode {
             this.membraneChannelNode = node;
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    System.out.println("MCN channel layer offset = " + membraneChannelNode.channelLayer.getOffset());
-                    membraneChannelNode.channelLayer.setOffset( membraneChannelNode.channelLayer.getOffset().getX() + 1, 
-                            membraneChannelNode.channelLayer.getOffset().getY() + 1 );
-                    membraneChannelNode.edgeLayer.setOffset( membraneChannelNode.edgeLayer.getOffset().getX() + 1, 
-                            membraneChannelNode.edgeLayer.getOffset().getY() + 1 );
-                    System.out.println("animationCount = " + animationCount);
-                    if (animationCount-- <= 0){
+                    if (animationStage == AnimationStage.MOVING_BACK_TO_TOOL_BOX){
+                        double distanceToDest =
+                            membraneChannelNode.channelLayer.getOffset().distance( membraneChannelNode.initialOffset );
+                        if (distanceToDest < DISTANCE_MOVED_PER_ANIMATION_STEP){
+                            membraneChannelNode.channelLayer.setOffset( membraneChannelNode.initialOffset );
+                            membraneChannelNode.edgeLayer.setOffset( membraneChannelNode.initialOffset );
+                            // Move to the next stage.
+                            animationStage = AnimationStage.SHRINKING;
+                        }
+                        else{
+                            // Move one step towards the destination.
+                            double angle = Math.atan2( 
+                                    membraneChannelNode.initialOffset.getY() - membraneChannelNode.channelLayer.getOffset().getY(),
+                                    membraneChannelNode.initialOffset.getX() - membraneChannelNode.channelLayer.getOffset().getX() );
+                            double newPosX = membraneChannelNode.channelLayer.getOffset().getX() + 
+                                    DISTANCE_MOVED_PER_ANIMATION_STEP * Math.cos( angle );
+                            double newPosY = membraneChannelNode.channelLayer.getOffset().getY() + 
+                                    DISTANCE_MOVED_PER_ANIMATION_STEP * Math.sin( angle );
+                            System.out.println("newPos = " + newPosX + ", " + newPosY);
+                            membraneChannelNode.channelLayer.setOffset( newPosX, newPosY );
+                            membraneChannelNode.edgeLayer.setOffset( newPosX, newPosY );
+                        }
+                    }
+                    if (animationStage == AnimationStage.SHRINKING){
                         stop();
                         membraneChannelNode.notifyRemovalAnimationComplete();
                     }
