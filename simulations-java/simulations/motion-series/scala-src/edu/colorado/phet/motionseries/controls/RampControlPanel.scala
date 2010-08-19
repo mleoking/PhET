@@ -216,24 +216,33 @@ class RampControlPanelBody(model: MotionSeriesModel,
 
   //Embed in its own PhetPCanvas so we can easily reuse the PComboBox code
   class EmbeddedObjectSelectionPanel extends PhetPCanvas {
-    val boxNode = new ObjectSelectionComboBoxNode(objectModel, this)
+    val boxNode = new ObjectSelectionComboBoxNode(objectModel, this,false)
     addScreenChild(boxNode)
     setPreferredSize(new Dimension(boxNode.getFullBounds.getWidth.toInt, boxNode.getFullBounds.getHeight.toInt))
     setBackground(new TitleLabel("hello".literal).getBackground)
+    setBorder(null)//get rid of black outline
   }
 
-  if (useObjectComboBox) add(new EmbeddedObjectSelectionPanel)
+  if (useObjectComboBox) add(new SubControlPanel("controls.choose-object".translate){
+    add(new EmbeddedObjectSelectionPanel)
+  })
 
   getContentPanel.setFillNone()
   getContentPanel.setAnchor(GridBagConstraints.CENTER)
 }
 
-class ObjectSelectionComboBoxNode(objectModel: ObjectModel, canvas: PSwingCanvas) extends PNode {
-  val text = new PSwing(new TitleLabel("controls.choose-object".translate))
-  addChild(text)
+class ObjectSelectionComboBoxNode(objectModel: ObjectModel, canvas: PSwingCanvas,showTitle:Boolean = true) extends PNode {
+  var text:PNode=null
+  if (showTitle){
+    val text = new PSwing(new TitleLabel("controls.choose-object".translate))
+    addChild(text)
+  }
+  
   val boxPanel = new ObjectSelectionComboBox(objectModel)
   val pswing = new PSwing(boxPanel)
-  pswing.setOffset(0, text.getFullBounds.getHeight)
+  if (text!=null){
+    pswing.setOffset(0, text.getFullBounds.getHeight)
+  }
   boxPanel.setEnvironment(pswing, canvas)
   addChild(pswing)
 }

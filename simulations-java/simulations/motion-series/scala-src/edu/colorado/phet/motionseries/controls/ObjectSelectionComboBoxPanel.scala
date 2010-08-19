@@ -11,13 +11,6 @@ import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.umd.cs.piccolox.pswing.{PSwingCanvas, PComboBox, PSwing}
 import java.awt.Color
 
-class ObjectSelectionComboBoxPanel(objectModel: ObjectModel) extends SubControlPanel("controls.choose-object".translate) {
-  val comboBox = new ObjectSelectionComboBox(objectModel)
-  add(comboBox)
-
-  def setEnvironment(pswing: PSwing, pswingCanvas: PSwingCanvas) = comboBox.setEnvironment(pswing, pswingCanvas)
-}
-
 class ObjectSelectionComboBox(objectModel: ObjectModel) extends PComboBox {
   val vec = new Vector[ObjectItem]
 
