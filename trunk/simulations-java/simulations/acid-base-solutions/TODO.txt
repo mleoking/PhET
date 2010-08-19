@@ -3,20 +3,22 @@ TODO list for acid-base-solutions
 MILESTONES
 
 HIGH PRIORITY
+- break up AbstractConcentrationGraphNode, it's too big
 - what should conductivity tester do for Solution=Water?
-
-MEDUIUM PRIORITY
 - should control panels icons be vertically aligned, or positioned close to their associated labels?
 - change the name of the "Test Solution" tab to "Introduction"?
+
+MEDUIUM PRIORITY
+- confusion between pH paper and bars in graph by allowing them to be shown at the same time?
+- should "Views" be above "Tests" in control panel? which do we want students to play with first?
 - which "Tools" selections disable when "Views" controls?
 - change "Magnifying Glass" to "Molecules"?
 - change "Show H2O Molecules" to "Show Water"?
 - change "Concentration Graph" to "Concentration"?
-- confusion between pH paper and bars in graph by allowing them to be shown at the same time?
-- should "Views" be about "Tests" in control panel? which do we want students to play with first?
 
 LOW PRIORITY
 - scale light bulb image files, remove setScale calls in ConductivityTesterNode
+- revise model.txt to include conductivity of water, ask Kelly to review
 
 MIGRATE TO COMMON
 - PrecisionDecimal (also appears in ph-scale, advanced-acid-base-solutions)
