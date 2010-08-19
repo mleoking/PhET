@@ -32,7 +32,7 @@ public class ViewControls extends JPanel {
     
     private final ABSModel model;
     private final JRadioButton magnifyingGlassRadioButton, concentrationGraphRadioButton, liquidRadioButton;
-    private final JLabel magnifyingGlassIcon, concentrationGraphIcon, liquidIcon;
+    private final JLabel magnifyingGlassIcon, concentrationGraphIcon, liquidIcon, showWaterIcon;
     private final JCheckBox showWaterCheckBox;
     private boolean controlsEnabled;
     
@@ -94,6 +94,16 @@ public class ViewControls extends JPanel {
                     if ( controlsEnabled ) {
                         magnifyingGlassRadioButton.setSelected( true );
                         updateModel();
+                    }
+                }
+            } );
+            
+            showWaterIcon = new JLabel( new ImageIcon( ABSImages.H2O_ICON ) );
+            showWaterIcon.addMouseListener( new MouseAdapter() {
+                @Override
+                public void mousePressed( MouseEvent event ) {
+                    if ( controlsEnabled ) {
+                        model.getMagnifyingGlass().setWaterVisible( true );
                     }
                 }
             } );
@@ -166,6 +176,7 @@ public class ViewControls extends JPanel {
             // indent the "Show H2O molecules" check box beneath the "Magnifying Glass" radio button
             layout.setMinimumWidth( 0, 22 );
             layout.addComponent( showWaterCheckBox, 1, 1, 1, 1 );
+            layout.addComponent( showWaterIcon, 1, 2 );
             layout.addComponent( concentrationGraphRadioButton, 2, 0, 2, 1 );
             layout.addComponent( concentrationGraphIcon, 2, 2 );
             layout.addComponent( liquidRadioButton, 3, 0, 2, 1 );
