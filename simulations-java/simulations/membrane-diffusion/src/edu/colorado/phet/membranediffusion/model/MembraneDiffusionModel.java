@@ -449,25 +449,7 @@ public class MembraneDiffusionModel implements IParticleCapture {
     		
     		// Make a list of the open locations on the membrane where the channel
     		// could be placed.
-    		ArrayList<Point2D> openLocations = new ArrayList<Point2D>(allowableChannelLocations);
-    		for (MembraneChannel membraneChannel : membraneChannels){
-    			Point2D channelLocation = membraneChannel.getCenterLocation();
-    			Point2D matchingLocation = null;
-    			for (Point2D location : openLocations){
-    				if (location.equals(channelLocation)){
-    					// This position is taken.
-    					matchingLocation = location;
-    				}
-    			}
-    			if (matchingLocation != null){
-    				// Remove the matching position from the list.
-    				openLocations.remove(matchingLocation);
-    			}
-    			else{
-    				System.out.println(getClass().getName() + "Error: Membrane channel not in one of the expected locations.");
-    				assert false; // Shouldn't happen, debug if it does.
-    			}
-    		}
+    		ArrayList<Point2D> openLocations = getOpenMembraneLocations();
     		
     		if (openLocations.size() == 0){
     			// If there are no open locations, the channel can't be added.
@@ -505,6 +487,42 @@ public class MembraneDiffusionModel implements IParticleCapture {
     	// Clear the reference to the membrane channel, since it is no longer
     	// controlled by the user.
     	userControlledMembraneChannel = null;
+    }
+    
+    /**
+     * Returns a boolean value indicating whether or not there is space for
+     * more membrane channels on the membrane.
+     */
+    public boolean isMembraneFull(){
+        ArrayList<Point2D> openLocations = getOpenMembraneLocations();
+        return openLocations.size() == 0;
+    }
+
+    /**
+     * Compiles a list of locations on the membrane that are open, meaning
+     * that the location is not currently occupied by a membrane channel.
+     */
+    private ArrayList<Point2D> getOpenMembraneLocations(){
+        ArrayList<Point2D> openLocations = new ArrayList<Point2D>(allowableChannelLocations);
+        for (MembraneChannel membraneChannel : membraneChannels){
+            Point2D channelLocation = membraneChannel.getCenterLocation();
+            Point2D matchingLocation = null;
+            for (Point2D location : openLocations){
+                if (location.equals(channelLocation)){
+                    // This position is taken.
+                    matchingLocation = location;
+                }
+            }
+            if (matchingLocation != null){
+                // Remove the matching position from the list.
+                openLocations.remove(matchingLocation);
+            }
+            else{
+                System.out.println(getClass().getName() + "Error: Membrane channel not in one of the expected locations.");
+                assert false; // Shouldn't happen, debug if it does.
+            }
+        }
+        return openLocations;
     }
     
     public interface Listener extends EventListener {

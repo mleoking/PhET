@@ -4,6 +4,8 @@ package edu.colorado.phet.membranediffusion.view;
 
 import java.awt.geom.Point2D;
 
+import javax.swing.JOptionPane;
+
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.membranediffusion.model.MembraneChannel;
@@ -24,13 +26,11 @@ public class SodiumLeakageChannelToolBoxNode extends ToolBoxItem {
 	}
 
 	@Override
-	protected void handleAddRequest(Point2D positionInModelSpace) {
-		setMembraneChannel(new SodiumLeakageChannel(getModel(), getModel().getHodgkinHuxleyModel()));
-		getMembraneChannel().setCenterLocation(positionInModelSpace);
-		getModel().addUserControlledMembraneChannel(getMembraneChannel());
-	}
+    protected MembraneChannel createModelElement( Point2D position ) {
+	    return new SodiumLeakageChannel(getModel(), getModel().getHodgkinHuxleyModel());
+    }
 
-	@Override
+    @Override
 	protected void initializeSelectionNode() {
 		MembraneChannel channel = new SodiumLeakageChannel();
 		PNode representation = new MembraneChannelNode(channel, SCALING_MVT);
