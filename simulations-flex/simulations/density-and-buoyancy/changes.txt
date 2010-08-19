@@ -1,8 +1,9 @@
+Fixed: One of the smaller blocks reads "0.5 k" and the "g" is cut off.
 Fixed: Visual artifacts when the block is dropped onto the ground next to the pool; its face nearest the pool flickers.
 Fixed: The pool readout should be L, not kg/L
 # 0.01.16 (43273) Aug 18, 2010
 Fixed: Density and Buoyancy links have the same name on a published dev page
-Fixed: Object texture doesn’t change when switching from Custom to Lead, while at the Lead density value.
+Fixed: Object texture doesn't change when switching from Custom to Lead, while at the Lead density value.
 Improvements for slider controls
 Fixed: Clicking in the play area causes focus to cycle through components
 Improved background and earth graphic now that toybox is implemented differently
@@ -14,9 +15,9 @@ Internationalized strings
 Added initial support for continuous color changing of the block color as density changes
 Added labeled tick marks to the side of the pool
 Fixed: Pool volume readout shows up in the wrong location briefly on startup.
-Fixed: Objects shouldn’t poke through front of pool
+Fixed: Objects shouldn't poke through front of pool
 Fixed: Density slider should snap to tick marks and change the substance type when near to a tick mark.
-Fixed: Selecting “Custom” from the combo box should change the object’s substance
+Fixed: Selecting "Custom" from the combo box should change the object's substance
 Renamed project from "density-flex" to "density-and-buoyancy"
 Flipped volume readout so it doesn't block the water
 # 0.01.15 (43086) Aug 13, 2010
