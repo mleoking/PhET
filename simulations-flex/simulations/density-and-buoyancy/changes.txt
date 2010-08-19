@@ -1,3 +1,4 @@
+# 0.01.17 (43290) Aug 19, 2010
 Fixed units for scale readouts
 Fixed: Scale readout doesn't always update
 Alphabetized mystery substance table 
