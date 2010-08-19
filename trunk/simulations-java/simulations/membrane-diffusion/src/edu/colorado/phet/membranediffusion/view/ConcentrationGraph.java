@@ -55,7 +55,7 @@ public class ConcentrationGraph extends PhetPNode {
 	private static final Color POTASSIUM_BAR_COLOR = new PotassiumIon().getRepresentationColor();
 	private static final double BAR_WIDTH_PROPORTION = 0.20;
 	private static final double BAR_HEIGHT_PROPORTION = 0.75;
-	private static final double MAX_CONCENTRATION_COUNT = 50;
+	private static final double MAX_CONCENTRATION_COUNT = MembraneDiffusionModel.MAX_PARTICLES;
 	
     //------------------------------------------------------------------------
     // Instance Data
