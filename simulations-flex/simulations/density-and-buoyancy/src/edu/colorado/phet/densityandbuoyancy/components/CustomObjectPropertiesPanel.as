@@ -51,7 +51,7 @@ public class CustomObjectPropertiesPanel extends Panel {
                     densityObject.substance = new Substance(FlexSimStrings.get("customObject.custom", "Custom"), densityObject.getDensity(), true);
                 }
             } else {
-                densityObject.setDensity(comboBox.selectedItem.getDensity());
+                densityObject.substance = Substance(comboBox.selectedItem);
             }
         }
 
