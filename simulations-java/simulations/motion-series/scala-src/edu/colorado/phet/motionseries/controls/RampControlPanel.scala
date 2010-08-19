@@ -74,11 +74,15 @@ class RampControlPanelBody(model: MotionSeriesModel,
     panel
   }
 
-  add(new TitleLabel("display.free-body-diagram".translate))
-  add(boxLayout(
+  val fbdPanel =new SubControlPanel("display.free-body-diagram".translate){
+    add(boxLayout(
     new MyRadioButton("controls.show".translate, freeBodyDiagramModel.visible = true, freeBodyDiagramModel.visible, freeBodyDiagramModel.addListener).peer,
     new MyRadioButton("controls.hide".translate, freeBodyDiagramModel.visible = false, !freeBodyDiagramModel.visible, freeBodyDiagramModel.addListener).peer
     ))
+  }
+  add(fbdPanel)
+//  add(new TitleLabel("display.free-body-diagram".translate))
+  
 
   class IconPanel(component: JComponent, icon: Icon) extends JPanel {
     def this(component: JComponent, iconFilename: String) = this (component, new ImageIcon(MotionSeriesResources.getImage(iconFilename)))
