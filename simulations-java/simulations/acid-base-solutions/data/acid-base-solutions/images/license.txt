@@ -1,13 +1,6 @@
 arrow_double.png source=PhET
 arrow_single.png source=PhET
 battery.png source=PhET notes=reused from faraday
-beaker_icon.png source=PhET notes=made using Photoshop
-concentrationGraph_icon.png source=PhET notes=made using Photoshop
-H2O_icon.png source=PhET notes=smaller version of molecules/H2O.png
-lightBulb_icon.png source=PhET notes=reused from faraday
 lightBulbBase.png source=PhET notes=reused from faraday
 lightBulbGlass.png source=PhET notes=reused from faraday
 lightBulbMask.png source=PhET notes=masked version of lightBulbGlass.png
-magnifyingGlass_icon.png source=PhET notes=made using Photoshop
-pHMeter_icon.png source=PhET notes=simplified screen capture of pH meter
-pHPaper_icon.png source=PhET notes=screen capture of pH color key
