@@ -22,7 +22,7 @@ import BarChartNode.Variable
  * @author Sam Reid
  */
 class WorkEnergyChartVisibilityModel extends Observable {
-  private var defaultVisible = false
+  private val defaultVisible = false
   private var _visible = defaultVisible
 
   def visible = _visible
@@ -48,15 +48,7 @@ class WorkEnergyChart(visibilityModel: WorkEnergyChartVisibilityModel, model: Mo
   val potentialEnergyVariable = new Variable("energy.potential-energy".translate, 0.0, potentialEnergyColor)
   val thermalEnergyVariable = new Variable("energy.thermal-energy".translate, 0.0, thermalEnergyColor)
 
-  //We decided not to show work in this chart because it was becoming overloaded.
-  //But I'll leave these here in case we change our minds.
-  //  val appliedWorkVariable = new BarChartNode.Variable("work.applied-work".translate, 0.0, appliedWorkColor)
-  //  val frictionWorkVariable = new BarChartNode.Variable("work.friction-work".translate, 0.0, frictionWorkColor)
-  //  val gravityWorkVariable = new BarChartNode.Variable("work.gravity-work".translate, 0.0, gravityWorkColor)
-
-  barChartNode.init(Array(totalEnergyVariable, kineticEnergyVariable, potentialEnergyVariable, thermalEnergyVariable
-    //    ,appliedWorkVariable, frictionWorkVariable, gravityWorkVariable
-    ))
+  barChartNode.init(Array(totalEnergyVariable, kineticEnergyVariable, potentialEnergyVariable, thermalEnergyVariable))
 
   val canvas = new PhetPCanvas //canvas to show the bars in.
   val clearButton = new PSwing(new MyJButton("controls.clear-heat".translate, () => model.clearHeat()))
@@ -90,10 +82,6 @@ class WorkEnergyChart(visibilityModel: WorkEnergyChartVisibilityModel, model: Mo
     kineticEnergyVariable.setValue(model.motionSeriesObject.kineticEnergy)
     potentialEnergyVariable.setValue(model.motionSeriesObject.potentialEnergy)
     thermalEnergyVariable.setValue(model.motionSeriesObject.thermalEnergy)
-
-    //    appliedWorkVariable.setValue(bead.getAppliedWork)
-    //    frictionWorkVariable.setValue(bead.getFrictiveWork)
-    //    gravityWorkVariable.setValue(bead.getGravityWork)
     barChartNode.update()
   }
 }
