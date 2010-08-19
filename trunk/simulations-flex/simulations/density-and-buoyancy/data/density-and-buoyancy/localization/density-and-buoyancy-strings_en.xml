@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <SimStrings>
     <string key="density.simTitle" value="Density"/>
-    <string key="buoyancy.simTitle" value="Density"/>
+    <string key="buoyancy.simTitle" value="Buoyancy"/>
     <string key="mode.title" value="Modes"/>
     <string key="mode.customObject" value="Custom Object"/>
     <string key="mode.objectsOfSameMass" value="Objects of same mass"/>
