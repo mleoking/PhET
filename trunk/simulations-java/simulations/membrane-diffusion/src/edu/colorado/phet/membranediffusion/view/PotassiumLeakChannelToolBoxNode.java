@@ -9,6 +9,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.membranediffusion.model.MembraneChannel;
 import edu.colorado.phet.membranediffusion.model.MembraneDiffusionModel;
 import edu.colorado.phet.membranediffusion.model.PotassiumLeakageChannel;
+import edu.colorado.phet.membranediffusion.model.SodiumLeakageChannel;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -24,10 +25,8 @@ public class PotassiumLeakChannelToolBoxNode extends ToolBoxItem {
 	}
 
 	@Override
-	protected void handleAddRequest(Point2D positionInModelSpace) {
-		setMembraneChannel(new PotassiumLeakageChannel(getModel(), getModel().getHodgkinHuxleyModel()));
-		getMembraneChannel().setCenterLocation(positionInModelSpace);
-		getModel().addUserControlledMembraneChannel(getMembraneChannel());
+	protected MembraneChannel createModelElement( Point2D position ) {
+	    return new PotassiumLeakageChannel(getModel(), getModel().getHodgkinHuxleyModel());
 	}
 
 	@Override

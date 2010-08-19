@@ -8,6 +8,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.membranediffusion.model.MembraneChannel;
 import edu.colorado.phet.membranediffusion.model.MembraneDiffusionModel;
+import edu.colorado.phet.membranediffusion.model.PotassiumGatedChannel;
 import edu.colorado.phet.membranediffusion.model.SodiumGatedChannel;
 import edu.umd.cs.piccolo.PNode;
 
@@ -24,10 +25,8 @@ public class SodiumGatedChannelToolBoxNode extends ToolBoxItem {
 	}
 
 	@Override
-	protected void handleAddRequest(Point2D positionInModelSpace) {
-		setMembraneChannel(new SodiumGatedChannel(getModel(), getModel().getHodgkinHuxleyModel()));
-		getMembraneChannel().setCenterLocation(positionInModelSpace);
-		getModel().addUserControlledMembraneChannel(getMembraneChannel());
+	protected MembraneChannel createModelElement( Point2D position ) {
+	    return new SodiumGatedChannel(getModel(), getModel().getHodgkinHuxleyModel());
 	}
 
 	@Override

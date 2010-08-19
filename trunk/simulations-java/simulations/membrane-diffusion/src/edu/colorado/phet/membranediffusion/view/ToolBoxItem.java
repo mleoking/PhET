@@ -5,6 +5,8 @@ package edu.colorado.phet.membranediffusion.view;
 import java.awt.Font;
 import java.awt.geom.Point2D;
 
+import javax.swing.JOptionPane;
+
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -12,6 +14,7 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.membranediffusion.model.MembraneChannel;
 import edu.colorado.phet.membranediffusion.model.MembraneDiffusionModel;
+import edu.colorado.phet.membranediffusion.model.SodiumLeakageChannel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -45,6 +48,7 @@ public abstract class ToolBoxItem extends PComposite {
     //----------------------------------------------------------------------------
 
 	private final MembraneDiffusionModel model;
+	private final PhetPCanvas canvas;
 	private final ModelViewTransform2D mvt;
 	private PNode selectionNode = null;
 	private HTMLNode caption = null;
@@ -63,6 +67,7 @@ public abstract class ToolBoxItem extends PComposite {
 		
 		this.model = model;
 		this.mvt = mvt;
+		this.canvas = canvas;
 		initializeSelectionNode();
 		updateLayout();
 		
@@ -115,12 +120,14 @@ public abstract class ToolBoxItem extends PComposite {
             @Override
             public void mouseReleased(PInputEvent event) {
                 // The user has released this node.
-            	membraneChannel.setUserControlled( false );
-            	if (membraneChannel != null){
-            		// Release our reference to the model element so that we will
-            		// create a new one if clicked again.
-            		membraneChannel = null;
-            	}
+                if (membraneChannel != null){
+                    membraneChannel.setUserControlled( false );
+                    if (membraneChannel != null){
+                        // Release our reference to the model element so that we will
+                        // create a new one if clicked again.
+                        membraneChannel = null;
+                    }
+                }
             }
         });
 	}
@@ -137,6 +144,10 @@ public abstract class ToolBoxItem extends PComposite {
 		return mvt;
 	}
 	
+    protected PhetPCanvas getCanvas() {
+        return canvas;
+    }
+    
 	protected void setMembraneChannel(MembraneChannel membraneChannel){
 		this.membraneChannel = membraneChannel;
 	}
@@ -156,7 +167,29 @@ public abstract class ToolBoxItem extends PComposite {
 	 * corresponding model element to the model.  This method is overridden
 	 * by subclasses for implementing the appropriate behavior.
 	 */
-	protected abstract void handleAddRequest(Point2D position);
+	protected void handleAddRequest(Point2D positionInModelSpace){
+	    if (!getModel().isMembraneFull()){
+	        // Add the channel.
+	        setMembraneChannel(createModelElement( positionInModelSpace ));
+	        getMembraneChannel().setCenterLocation(positionInModelSpace);
+	        getModel().addUserControlledMembraneChannel(getMembraneChannel());
+	    }
+	    else{
+	        // Put up a message stating that the membrane is full.
+	        // TODO: i18n
+	        JOptionPane.showMessageDialog( getCanvas(), "The membrane is full, no more channels may be added." );
+	    }
+	}
+
+	/**
+	 * Create the model element associated with this tool box item.  The
+	 * position is provided so that it can be initially created in the correct
+	 * location.
+	 * 
+	 * @param position
+	 * @return
+	 */
+	protected abstract MembraneChannel createModelElement(Point2D position);
 	
 	protected void setSelectionNode(PNode selectionNode){
 		assert this.selectionNode == null; // Currently doesn't support setting this multiple times.
