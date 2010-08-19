@@ -32,7 +32,7 @@ public class ViewControls extends JPanel {
     
     private final ABSModel model;
     private final JRadioButton magnifyingGlassRadioButton, concentrationGraphRadioButton, liquidRadioButton;
-    private final JLabel magnifyingGlassIcon, concentrationGraphIcon;
+    private final JLabel magnifyingGlassIcon, concentrationGraphIcon, liquidIcon;
     private final JCheckBox showWaterCheckBox;
     private boolean controlsEnabled;
     
@@ -85,7 +85,7 @@ public class ViewControls extends JPanel {
             } );
         }
         
-        // icons - clicking on these selects associated radio buttons
+        // icons - clicking on these selects associated buttons
         {
             magnifyingGlassIcon = new JLabel( new ImageIcon( ABSImages.MAGNIFYING_GLASS_ICON ) );
             magnifyingGlassIcon.addMouseListener( new MouseAdapter() {
@@ -104,6 +104,17 @@ public class ViewControls extends JPanel {
                 public void mousePressed( MouseEvent event ) {
                     if ( controlsEnabled ) {
                         concentrationGraphRadioButton.setSelected( true );
+                        updateModel();
+                    }
+                }
+            } );
+            
+            liquidIcon = new JLabel( new ImageIcon( ABSImages.BEAKER_ICON ) );
+            liquidIcon.addMouseListener( new MouseAdapter() {
+                @Override
+                public void mousePressed( MouseEvent event ) {
+                    if ( controlsEnabled ) {
+                        liquidRadioButton.setSelected( true );
                         updateModel();
                     }
                 }
@@ -158,6 +169,7 @@ public class ViewControls extends JPanel {
             layout.addComponent( concentrationGraphRadioButton, 2, 0, 2, 1 );
             layout.addComponent( concentrationGraphIcon, 2, 2 );
             layout.addComponent( liquidRadioButton, 3, 0, 2, 1 );
+            layout.addComponent( liquidIcon, 3, 2 );
             
             // ensure left justification
             this.setLayout( new BorderLayout() );
