@@ -32,7 +32,7 @@
     <string key="substance.ice" value="Ice"/>
     <string key="substance.apple" value="Apple"/>
     <string key="properties.volume" value="Volume"/>
-    <string key="properties.volumeValue" value="{0} kg/L"/>
+    <string key="properties.volumeValue" value="{0} L"/>
     <string key="properties.mass" value="Mass"/>
     <string key="properties.massValue" value="{0} kg"/>
     <string key="properties.density" value="Density"/>

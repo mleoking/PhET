@@ -1,5 +1,6 @@
-Fixed: Density and Buoyancy links have the same name on a published dev page
+Fixed: The pool readout should be L, not kg/L
 # 0.01.16 (43273) Aug 18, 2010
+Fixed: Density and Buoyancy links have the same name on a published dev page
 Fixed: Object texture doesn’t change when switching from Custom to Lead, while at the Lead density value.
 Improvements for slider controls
 Fixed: Clicking in the play area causes focus to cycle through components
