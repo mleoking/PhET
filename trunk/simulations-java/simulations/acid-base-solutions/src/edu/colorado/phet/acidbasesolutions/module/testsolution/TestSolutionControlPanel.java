@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.acidbasesolutions.module.testsolution;
 
+import java.awt.Insets;
+
 import edu.colorado.phet.acidbasesolutions.controls.TestSolutionControls;
 import edu.colorado.phet.acidbasesolutions.controls.TestControls;
 import edu.colorado.phet.acidbasesolutions.controls.ViewControls;
@@ -17,6 +19,7 @@ import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 public class TestSolutionControlPanel extends ControlPanel {
 
     public TestSolutionControlPanel( Resettable resettable, ABSModel model ) {
+        setInsets( new Insets( 5, 5, 5, 5 ) );
         addControlFullWidth( new TestSolutionControls( model ) );
         addControlFullWidth( new TestControls( model ) );
         addControlFullWidth( new ViewControls( model ) );

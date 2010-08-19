@@ -1,3 +1,4 @@
+8/19/10 tweaks to spacing and justification in control panels
 8/19/10 change magnifying glass icon to show solution color and some molecules
 8/19/10 add icon for "Show H2O Molecules" check box
 8/19/10 reduce width of icons for pH Paper and Concentration Graph

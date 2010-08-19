@@ -2,14 +2,15 @@
 
 package edu.colorado.phet.acidbasesolutions.controls;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.util.Hashtable;
 
 import javax.swing.*;
-import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -102,9 +103,11 @@ public class CustomSolutionControls extends JPanel {
             EasyGridBagLayout layout = new EasyGridBagLayout( this );
             setLayout( layout );
             layout.setFill( GridBagConstraints.HORIZONTAL );
-            layout.addComponent( typePanel, row++, column );
-            layout.addComponent( concentrationPanel, row++, column );
-            layout.addComponent( strengthPanel, row++, column );
+            layout.addFilledComponent( typePanel, row++, column, GridBagConstraints.HORIZONTAL );
+            layout.addFilledComponent( new BlackSeparator(), row++, column, GridBagConstraints.HORIZONTAL );
+            layout.addFilledComponent( concentrationPanel, row++, column, GridBagConstraints.HORIZONTAL );
+            layout.addFilledComponent( new BlackSeparator(), row++, column, GridBagConstraints.HORIZONTAL );
+            layout.addFilledComponent( strengthPanel, row++, column, GridBagConstraints.HORIZONTAL );
         }
         
         // default state
@@ -318,8 +321,8 @@ public class CustomSolutionControls extends JPanel {
             
             // layout
             {
-                setBorder( new EtchedBorder() );
                 EasyGridBagLayout layout = new EasyGridBagLayout( this );
+                layout.setInsets( new Insets( 0, 0, 0, 0 ) );
                 setLayout( layout );
                 int row = 0;
                 int column = 0;
@@ -394,20 +397,23 @@ public class CustomSolutionControls extends JPanel {
             
             // layout with inner panel
             {
-                setBorder( new EtchedBorder() );
+                JPanel radioButtonsPanel = new JPanel();
+                radioButtonsPanel.add( weakRadioButton );
+                radioButtonsPanel.add( strongRadioButton );
+                
                 EasyGridBagLayout layout = new EasyGridBagLayout( this );
+                layout.setInsets( new Insets( 0, 0, 0, 0 ) );
                 setLayout( layout );
                 int row = 0;
                 int column = 0;
-                layout.addComponent( strengthLabel, row++, column, 2, 1 );
-                layout.addComponent( weakRadioButton, row, column++, 1, 1 );
-                layout.addComponent( strongRadioButton, row++, column, 1, 1 );
+                layout.addComponent( strengthLabel, row++, column );
+                layout.addAnchoredComponent( radioButtonsPanel, row++, column++, GridBagConstraints.CENTER );
                 column = 0;
-                layout.addComponent( weakStrengthControl, row, column++, 2, 1 );
+                layout.addAnchoredComponent( weakStrengthControl, row, column++, GridBagConstraints.CENTER );
                 // add struts to maintain panel size when weakStrengthControl is made invisible
                 layout.addComponent( Box.createVerticalStrut( weakStrengthControl.getPreferredSize().height ), row++, column );
                 column = 0;
-                layout.addComponent( Box.createHorizontalStrut( weakStrengthControl.getPreferredSize().width ), row, column, 2, 1 );
+                layout.addComponent( Box.createHorizontalStrut( weakStrengthControl.getPreferredSize().width ), row, column );
             }
         }
         
@@ -448,6 +454,12 @@ public class CustomSolutionControls extends JPanel {
         
         public void doLayout( AbstractValueControl valueControl ) {
             valueControl.add( valueControl.getSlider() );
+        }
+    }
+    
+    private static class BlackSeparator extends JSeparator {
+        public BlackSeparator() {
+            setForeground( Color.BLACK );
         }
     }
 }

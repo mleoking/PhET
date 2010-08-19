@@ -7,6 +7,7 @@ HIGH PRIORITY
 - try to make symbols in reaction equations line up with bars in concentration graph
 
 MEDUIUM PRIORITY
+- should control panels icons be vertically aligned, or positioned close to their associated labels?
 - change the name of the "Test Solution" tab to "Introduction"?
 - which "Tools" selections disable when "Views" controls?
 - change "Magnifying Glass" to "Molecules"?
