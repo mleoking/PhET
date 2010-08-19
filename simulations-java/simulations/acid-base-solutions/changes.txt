@@ -1,3 +1,4 @@
+8/19/10 add icon next to "Liquid" radio button
 8/19/10 crop transparent pixels around lightBulb_icon.png
 8/17/10 change "neither" radio button to "Liquid"
 8/16/10 workaround for canvas scaling problem, make canvas rendering size square (900x900)
