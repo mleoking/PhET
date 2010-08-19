@@ -130,8 +130,15 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
         addControlFullWidth(checkBoxPanel);
         updateConcentrationsCheckBoxState();
         
+        // Add a button for removing all particles.
+        addControl(createVerticalSpacingPanel(40));
+        JPanel clearButtonPanel = new JPanel();
+        JButton removeAllParticlesButton = new JButton("Remove Particles");
+        clearButtonPanel.add( removeAllParticlesButton );
+        addControlFullWidth(clearButtonPanel);
+        
         // Add the reset all button.
-        addControlFullWidth(createVerticalSpacingPanel(60));
+        addControlFullWidth(createVerticalSpacingPanel(20));
         addResetAllButton( module );
     }
     
