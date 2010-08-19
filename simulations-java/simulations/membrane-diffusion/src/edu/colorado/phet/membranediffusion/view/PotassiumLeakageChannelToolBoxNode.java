@@ -18,9 +18,9 @@ import edu.umd.cs.piccolo.PNode;
  * 
  * @author John Blanco
  */
-public class PotassiumLeakChannelToolBoxNode extends ToolBoxItem {
+public class PotassiumLeakageChannelToolBoxNode extends ToolBoxItem {
 
-	public PotassiumLeakChannelToolBoxNode(MembraneDiffusionModel model, ModelViewTransform2D mvt, PhetPCanvas canvas) {
+	public PotassiumLeakageChannelToolBoxNode(MembraneDiffusionModel model, ModelViewTransform2D mvt, PhetPCanvas canvas) {
 		super(model, mvt, canvas);
 	}
 

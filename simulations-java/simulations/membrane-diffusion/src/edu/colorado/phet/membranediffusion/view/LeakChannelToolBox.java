@@ -22,7 +22,7 @@ public class LeakChannelToolBox extends ToolBox {
     //----------------------------------------------------------------------------
 	
 	// The various grabbable things in the box.
-	private PotassiumLeakChannelToolBoxNode potassiumLeakChannelNode;
+	private PotassiumLeakageChannelToolBoxNode potassiumLeakChannelNode;
 	private SodiumLeakageChannelToolBoxNode sodiumLeakageChannelToolBoxNode;
 	
     //----------------------------------------------------------------------------
@@ -34,7 +34,7 @@ public class LeakChannelToolBox extends ToolBox {
 	    super(size);
 		
 		// Create the grabbable items in the box.
-		potassiumLeakChannelNode = new PotassiumLeakChannelToolBoxNode(model, mvt, canvas);
+		potassiumLeakChannelNode = new PotassiumLeakageChannelToolBoxNode(model, mvt, canvas);
 		addToolBoxItem( potassiumLeakChannelNode );
 		
 		sodiumLeakageChannelToolBoxNode = new SodiumLeakageChannelToolBoxNode(model, mvt, canvas);
