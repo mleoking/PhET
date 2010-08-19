@@ -164,6 +164,7 @@ public class ParticleInjectorNode extends PNode {
         	@Override
             public void mousePressed( PInputEvent event ) {
                 if (model.getRemainingParticleCapacity() == 0 ){
+                    // TODO: i18n
                     PhetOptionPane.showMessageDialog( PhetApplication.getInstance().getPhetFrame(),
                             "Container is full, no more particles can be injected." );
                 }
