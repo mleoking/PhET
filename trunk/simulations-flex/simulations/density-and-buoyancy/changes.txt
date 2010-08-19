@@ -1,3 +1,4 @@
+# 0.01.16 (43270) Aug 18, 2010
 Fixed: Object texture doesn’t change when switching from Custom to Lead, while at the Lead density value.
 Improvements for slider controls
 Fixed: Clicking in the play area causes focus to cycle through components
