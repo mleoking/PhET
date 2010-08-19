@@ -92,6 +92,8 @@ public class ScaleNode extends CuboidNode implements Pickable {
         top.cubeMaterials.back = brightMaterial;
 
         stand.material = sideMaterial;
+        
+        scale.addScaleReadoutListener(updateText);
     }
 
     [Embed(source="../../../../../../data/density-and-buoyancy/images/scale-front.jpg")]
