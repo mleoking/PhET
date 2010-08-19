@@ -19,7 +19,7 @@ public class Substance {
     private var density:Number;
     private var _name:String;
     private var _isCustom:Boolean;
-    public static var ALL:Array = [WOOD,GOLD,WATER_BALLOON, GASOLINE_BALLOON,ICE, LEAD, APPLE];
+    public static var ALL:Array = [APPLE, DIAMOND, GASOLINE_BALLOON,GOLD,ICE, LEAD,WATER_BALLOON,WOOD];
 
     public function Substance(name:String, density:Number, isCustom:Boolean) {
         this.density = density;
