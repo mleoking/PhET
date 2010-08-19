@@ -39,10 +39,10 @@ public class MembraneDiffusionModel implements IParticleCapture {
 			-MEMBRANE_THICKNESS / 2, PARTICLE_CHAMBER_WIDTH, MEMBRANE_THICKNESS );
 	
 	// Maximum number of channels allowed on the membrane.
-	private static int MAX_CHANNELS_ON_MEMBRANE = 10;
+	private static final int MAX_CHANNELS_ON_MEMBRANE = 10;
 	
 	// Max number of particles allowed.
-	private static int MAX_PARTICLES = 100;
+	public static final int MAX_PARTICLES = 100;
 	
 	// Defaults for configurable parameters.
 	private static boolean SHOW_GRAPHS_DEFAULT = false;
