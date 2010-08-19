@@ -1,3 +1,4 @@
+Fixed: Visual artifacts when the block is dropped onto the ground next to the pool; its face nearest the pool flickers.
 Fixed: The pool readout should be L, not kg/L
 # 0.01.16 (43273) Aug 18, 2010
 Fixed: Density and Buoyancy links have the same name on a published dev page
