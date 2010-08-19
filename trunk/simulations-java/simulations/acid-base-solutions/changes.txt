@@ -1,4 +1,5 @@
-8/16/10 change "neither" radio button to "Liquid"
+8/19/10 crop transparent pixels around lightBulb_icon.png
+8/17/10 change "neither" radio button to "Liquid"
 8/16/10 workaround for canvas scaling problem, make canvas rendering size square (900x900)
 8/16/10 center everything in the play area as canvas is resized
 8/16/10 love letter to future developers in implementation-notes.txt
