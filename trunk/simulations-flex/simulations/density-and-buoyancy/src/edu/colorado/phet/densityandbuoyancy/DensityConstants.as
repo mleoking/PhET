@@ -23,7 +23,7 @@ public class DensityConstants {
     public static const DEFAULT_BLOCK_WATER_OFFSET:Number = 10 / DensityModel.DISPLAY_SCALE;
     
     //Move the ground down slightly to prevent intersections
-    public static const VERTICAL_GROUND_OFFSET_AWAY_3D:Number = -1.0 / DensityModel.DISPLAY_SCALE * 100;
+    public static const VERTICAL_GROUND_OFFSET_AWAY_3D:Number = -1000.0 / DensityModel.DISPLAY_SCALE;  //This number was hand-tuned so that no rendering artifacts (flickering faces) occur, but may need to change if scale or other parameters change
 
     //Flex properties that we couldn't find as enum values in Flex
     public static const FLEX_UNDERLINE:String = "underline";
