@@ -24,9 +24,9 @@ public class PotassiumGatedChannelToolBoxNode extends ToolBoxItem {
 	}
 
 	@Override
-	protected void handleAddRequest(Point2D position) {
+	protected void handleAddRequest(Point2D positionInModelSpace) {
 		setMembraneChannel(new PotassiumGatedChannel(getModel(), getModel().getHodgkinHuxleyModel()));
-		getMembraneChannel().setCenterLocation(getMvt().viewToModel(position));
+		getMembraneChannel().setCenterLocation(positionInModelSpace);
 		getModel().addUserControlledMembraneChannel(getMembraneChannel());
 	}
 

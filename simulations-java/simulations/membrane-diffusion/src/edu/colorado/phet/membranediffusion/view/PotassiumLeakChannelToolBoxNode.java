@@ -24,9 +24,9 @@ public class PotassiumLeakChannelToolBoxNode extends ToolBoxItem {
 	}
 
 	@Override
-	protected void handleAddRequest(Point2D position) {
+	protected void handleAddRequest(Point2D positionInModelSpace) {
 		setMembraneChannel(new PotassiumLeakageChannel(getModel(), getModel().getHodgkinHuxleyModel()));
-		getMembraneChannel().setCenterLocation(getMvt().viewToModel(position));
+		getMembraneChannel().setCenterLocation(positionInModelSpace);
 		getModel().addUserControlledMembraneChannel(getMembraneChannel());
 	}
 
