@@ -261,7 +261,6 @@ public class MembraneChannelNode extends PNode {
 	private void updateLocation(){
 		channelLayer.setOffset(mvt.modelToViewDouble(membraneChannel.getCenterLocation()));
 		edgeLayer.setOffset(mvt.modelToViewDouble(membraneChannel.getCenterLocation()));
-		System.out.println("updateLocation, location is: " + channelLayer.getOffset());
 	}
 	
 	private void updateRepresentation(){
@@ -363,7 +362,6 @@ public class MembraneChannelNode extends PNode {
                                     DISTANCE_MOVED_PER_ANIMATION_STEP * Math.cos( angle );
                             double newPosY = membraneChannelNode.channelLayer.getOffset().getY() + 
                                     DISTANCE_MOVED_PER_ANIMATION_STEP * Math.sin( angle );
-                            System.out.println("newPos = " + newPosX + ", " + newPosY);
                             membraneChannelNode.channelLayer.setOffset( newPosX, newPosY );
                             membraneChannelNode.edgeLayer.setOffset( newPosX, newPosY );
                         }
