@@ -155,7 +155,7 @@ public class BlockNode extends CubeNode implements Pickable {
 
     public override function updateGeometry():void {
         super.updateGeometry();
-        textField.setTextFormat(createTextFormat(45 * (200 / getCube().width)));
+        textField.setTextFormat(createTextFormat(7500 / getCube().width));
     }
 }
 }
