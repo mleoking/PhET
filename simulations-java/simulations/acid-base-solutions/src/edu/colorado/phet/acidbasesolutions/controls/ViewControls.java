@@ -215,9 +215,11 @@ public class ViewControls extends JPanel {
             magnifyingGlassRadioButton.setEnabled( controlsEnabled );
             magnifyingGlassIcon.setEnabled( controlsEnabled );
             showWaterCheckBox.setEnabled( controlsEnabled && magnifyingGlassRadioButton.isSelected() );
+            showWaterIcon.setEnabled( controlsEnabled && magnifyingGlassRadioButton.isSelected() );
             concentrationGraphRadioButton.setEnabled( controlsEnabled );
             concentrationGraphIcon.setEnabled( controlsEnabled );
             liquidRadioButton.setEnabled( controlsEnabled );
+            liquidIcon.setEnabled( controlsEnabled );
 
             if ( controlsEnabled ) {
                 model.getMagnifyingGlass().setVisible( magnifyingGlassRadioButton.isSelected() );
