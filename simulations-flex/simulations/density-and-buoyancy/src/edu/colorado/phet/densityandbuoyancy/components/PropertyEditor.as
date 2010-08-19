@@ -1,4 +1,5 @@
 package edu.colorado.phet.densityandbuoyancy.components {
+import edu.colorado.phet.densityandbuoyancy.DensityConstants;
 import edu.colorado.phet.densityandbuoyancy.model.NumericProperty;
 import edu.colorado.phet.densityandbuoyancy.view.units.Unit;
 
@@ -21,6 +22,7 @@ import mx.events.SliderEvent;
 public class PropertyEditor extends GridRow {
     private var property:NumericProperty;
     public static const SLIDER_WIDTH:Number = 400;
+    private static const FONT_SIZE:Number = 12;
 
     public function PropertyEditor(property:NumericProperty, minimimum:Number, maximum:Number, unit:Unit) {
         super();
@@ -28,11 +30,13 @@ public class PropertyEditor extends GridRow {
 
         var label:Label = new Label();
         label.text = property.name;
+        label.setStyle(DensityConstants.FLEX_FONT_SIZE, FONT_SIZE);
         addGridItem(label);
 
         addGridItem(createSlider(property, minimimum, maximum, unit));
 
         const textField:TextInput = new TextInput();
+        textField.setStyle(DensityConstants.FLEX_FONT_SIZE, FONT_SIZE);
         textField.width = 100;
         textField.restrict = ".0-9";//TODO: does this handle languages that use a comma instead of a decimal place?
         function updateText():void {
@@ -59,12 +63,14 @@ public class PropertyEditor extends GridRow {
         addGridItem(textField);
 
         var unitsLabel:Label = new Label();
+        unitsLabel.setStyle(DensityConstants.FLEX_FONT_SIZE,FONT_SIZE);
         unitsLabel.text = unit.name;
         addGridItem(unitsLabel);
     }
 
     protected function createSlider(property:NumericProperty, minimum:Number, maximum:Number, unit:Unit):HSlider {
         const slider:HSlider = new HSlider();
+        slider.sliderThumbClass=MySliderThumb;
         slider.width = SLIDER_WIDTH;
         slider.minimum = unit.fromSI(minimum);
         slider.maximum = unit.fromSI(maximum);
