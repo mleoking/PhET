@@ -17,14 +17,16 @@ import edu.colorado.phet.common.phetcommon.util.TimesTenNumberFormat;
  */
 public class ConcentrationGraphNode extends AbstractConcentrationGraphNode {
 
-    private static final boolean X_AXIS_LABELED = false; // puts symbols and icons under bars
+    private static final boolean ICONS_VISIBLE = false;
+    private static final boolean SYMBOLS_VISIBLE = false;
+    
     private static final TimesTenNumberFormat FORMAT = new TimesTenNumberFormat( "0.00" );
     private static final DecimalFormat H2O_FORMAT = new DefaultDecimalFormat( "#0.0" );
     
     private final ConcentrationGraph graph;
     
     public ConcentrationGraphNode( final ConcentrationGraph graph ) {
-        super( graph.getSizeReference(), X_AXIS_LABELED );
+        super( graph.getSizeReference(), ICONS_VISIBLE, SYMBOLS_VISIBLE );
         
         // not interactive
         setPickable( false );
