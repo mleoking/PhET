@@ -37,9 +37,6 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
     // Instance Data
     //----------------------------------------------------------------------------
 
-    // Model that is being viewed.
-    private MembraneDiffusionModel model;
-    
     // Model-view transform.
     private ModelViewTransform2D mvt;
     
@@ -64,8 +61,6 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
     
     public MembraneDiffusionCanvas( MembraneDiffusionModel model ) {
         
-        this.model = model;
-    	
     	// Set up the canvas-screen transform.
     	setWorldTransformStrategy(new PhetPCanvas.CenteringBoxStrategy(this, MembraneDiffusionDefaults.INTERMEDIATE_RENDERING_SIZE));
     	
