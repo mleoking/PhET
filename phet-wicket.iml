@@ -377,8 +377,11 @@
       <sourceFolder url="file://$MODULE_DIR$/util/newsletter/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/bin" />
       <excludeFolder url="file://$MODULE_DIR$/build-tools/ant_output" />
+      <excludeFolder url="file://$MODULE_DIR$/simulations-flash/simulations" />
+      <excludeFolder url="file://$MODULE_DIR$/simulations-flex/simulations" />
       <excludeFolder url="file://$MODULE_DIR$/simulations-java/ant_output" />
       <excludeFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d-1.2.1" />
+      <excludeFolder url="file://$MODULE_DIR$/simulations-java/simulations" />
       <excludeFolder url="file://$MODULE_DIR$/simulations-java/simulations/motion-series/scala-src" />
       <excludeFolder url="file://$MODULE_DIR$/web/wicket-website/deploy/ROOT" />
     </content>
