@@ -134,6 +134,11 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
         addControl(createVerticalSpacingPanel(40));
         JPanel clearButtonPanel = new JPanel();
         JButton removeAllParticlesButton = new JButton("Remove Particles");
+        removeAllParticlesButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                model.removeAllParticles();
+            }
+        });
         clearButtonPanel.add( removeAllParticlesButton );
         addControlFullWidth(clearButtonPanel);
         
