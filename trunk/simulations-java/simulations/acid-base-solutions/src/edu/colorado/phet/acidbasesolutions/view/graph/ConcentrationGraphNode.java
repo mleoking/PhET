@@ -88,6 +88,7 @@ public class ConcentrationGraphNode extends AbstractConcentrationGraphNode {
         else {
             throw new IllegalStateException( "unsupported solution type: " + solution.getClass().getName() );
         }
+        updateLayout();
     }
     
     // 2H2O <-> H3O+ + OH-

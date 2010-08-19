@@ -3,8 +3,6 @@ TODO list for acid-base-solutions
 MILESTONES
 
 HIGH PRIORITY
-- if concentration graph has only 3 bars, center them in the chart
-- try to make symbols in reaction equations line up with bars in concentration graph
 - what should conductivity tester do for Solution=Water?
 
 MEDUIUM PRIORITY
