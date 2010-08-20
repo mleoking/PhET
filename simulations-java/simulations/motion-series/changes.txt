@@ -1,3 +1,4 @@
+Fixed: Pressing Clear in Record and Playback controls shouldn't pause the sim, see #2470
 Fixed: "Choose an Object" doesn’t have an etched border when it appears in the control panel, should make the "C" less close to the left and top border
 Fixed: "Free Body Diagram" control panel doesn’t have an etched border
 Fixed: When typing in an applied force of 999999999, causes exception in loading pusher images
