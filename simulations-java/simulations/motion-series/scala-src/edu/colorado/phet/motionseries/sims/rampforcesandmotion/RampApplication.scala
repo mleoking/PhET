@@ -29,13 +29,13 @@ class BasicRampModule(frame: PhetFrame,
                       coordinateSystemEnabled: Boolean, //true if the coordinate frame should be shown
                       objectComboBoxEnabled: Boolean, //true if the objects should be selectable via combo box in the play area
                       showAppliedForceSlider: Boolean, //true if the applied force should be shown as a slider in the play area
-                      initialBeadPosition: Double, //the start location of the bead
+                      initialPosition: Double, //the start location of the MotionSeriesObject
                       pausedOnReset: Boolean,
                       initialAngle: Double,
                       rampLayoutArea: Rectangle2D,
                       stageContainerArea: StageContainerArea,
                       freeBodyDiagramPopupOnly: Boolean) //should the free body diagram be available only as a popup, or also in the play area 
-        extends MotionSeriesModule(frame, new ScalaClock(MotionSeriesDefaults.DELAY, MotionSeriesDefaults.DT_DEFAULT), name, initialBeadPosition, pausedOnReset, initialAngle, freeBodyDiagramPopupOnly) {
+        extends MotionSeriesModule(frame, new ScalaClock(MotionSeriesDefaults.DELAY, MotionSeriesDefaults.DT_DEFAULT), name, initialPosition, pausedOnReset, initialAngle, freeBodyDiagramPopupOnly) {
   //Create a default Ramp Canvas and set it as the simulation panel
   val rampCanvas = new RampCanvas(motionSeriesModel, coordinateSystemModel, fbdModel, vectorViewModel, frame, !objectComboBoxEnabled, showAppliedForceSlider, initialAngle != 0.0, rampLayoutArea, stageContainerArea)
   setSimulationPanel(rampCanvas)
@@ -55,7 +55,7 @@ class IntroRampModule(frame: PhetFrame) extends BasicRampModule(frame, "module.i
   coordinateSystemEnabled = false,
   objectComboBoxEnabled = false,
   showAppliedForceSlider = true,
-  initialBeadPosition = -6.0,
+  initialPosition = -6.0,
   pausedOnReset = false,
   initialAngle = MotionSeriesDefaults.defaultRampAngle,
   rampLayoutArea = MotionSeriesDefaults.rampIntroViewport,

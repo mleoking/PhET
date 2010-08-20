@@ -5,14 +5,14 @@ import edu.colorado.phet.common.motion.MotionMath
 import edu.colorado.phet.scalacommon.math.Vector2D
 import edu.colorado.phet.scalacommon.util.Observable
 
-object MovingManMotionSeriesObject {
+object ForcesAndMotionObject {
   def apply(model: MotionSeriesModel, x: Double, width: Double, height: Double) = {
-    new MovingManMotionSeriesObject(new MotionSeriesObjectState(x, 0, 10, 0, 0, 0.0, 0.0, 0.0), height, width, model.positionMapper, model.rampSegmentAccessor, model.rampChangeAdapter,
+    new ForcesAndMotionObject(new MotionSeriesObjectState(x, 0, 10, 0, 0, 0.0, 0.0, 0.0), height, width, model.positionMapper, model.rampSegmentAccessor, model.rampChangeAdapter,
       model.surfaceFriction, model.wallsBounce, model.surfaceFrictionStrategy, model.walls, model.wallRange, model.thermalEnergyStrategy)
   }
 }
 
-class MovingManMotionSeriesObject(_state: MotionSeriesObjectState,
+class ForcesAndMotionObject(_state: MotionSeriesObjectState,
                     _height: Double,
                     _width: Double,
                     positionMapper: Double => Vector2D,
@@ -71,43 +71,43 @@ class MovingManMotionSeriesObject(_state: MotionSeriesObjectState,
   }
 }
 
-abstract class MovingManStrategy(bead: ForceMotionSeriesObject) extends MotionStrategy(bead) {
-  def position2D = bead.positionMapper(bead.position)
+abstract class MovingManStrategy(motionSeriesObject: ForceMotionSeriesObject) extends MotionStrategy(motionSeriesObject) {
+  def position2D = motionSeriesObject.positionMapper(motionSeriesObject.position)
 
   def getAngle = 0.0
 }
 
-class PositionMotionStrategy(bead: ForceMotionSeriesObject) extends MovingManStrategy(bead) {
+class PositionMotionStrategy(motionSeriesObject: ForceMotionSeriesObject) extends MovingManStrategy(motionSeriesObject) {
   def isCrashed = false
 
   def getMemento = new MotionStrategyMemento {
-    def getMotionStrategy(bead: ForceMotionSeriesObject) = new PositionMotionStrategy(bead)
+    def getMotionStrategy(motionSeriesObject: ForceMotionSeriesObject) = new PositionMotionStrategy(motionSeriesObject)
   }
 
   def stepInTime(dt: Double) = {
     val mixingFactor = 0.5
     //maybe a better assumption is constant velocity or constant acceleration ?
-    val dst = bead.desiredPosition * mixingFactor + bead.position * (1 - mixingFactor)
-    bead.setPosition(dst) //attempt at filtering
+    val dst = motionSeriesObject.desiredPosition * mixingFactor + motionSeriesObject.position * (1 - mixingFactor)
+    motionSeriesObject.setPosition(dst) //attempt at filtering
 
-    //todo: move closer to bead computation of acceleration derivatives
-    val timeData = for (i <- 0 until java.lang.Math.min(15, bead.stateHistory.length))
-    yield new TimeData(bead.stateHistory(bead.stateHistory.length - 1 - i).position, bead.stateHistory(bead.stateHistory.length - 1 - i).time)
+    //todo: move closer to MotionSeriesObject computation of acceleration derivatives
+    val timeData = for (i <- 0 until java.lang.Math.min(15, motionSeriesObject.stateHistory.length))
+    yield new TimeData(motionSeriesObject.stateHistory(motionSeriesObject.stateHistory.length - 1 - i).position, motionSeriesObject.stateHistory(motionSeriesObject.stateHistory.length - 1 - i).time)
     val vel = MotionMath.estimateDerivative(timeData.toArray)
-    bead.setVelocity(vel)
-    bead.setTime(bead.time + dt)
+    motionSeriesObject.setVelocity(vel)
+    motionSeriesObject.setTime(motionSeriesObject.time + dt)
   }
 }
 
-class VelocityMotionStrategy(bead: ForceMotionSeriesObject) extends MovingManStrategy(bead) {
+class VelocityMotionStrategy(motionSeriesObject: ForceMotionSeriesObject) extends MovingManStrategy(motionSeriesObject) {
   def isCrashed = false
 
   def getMemento = new MotionStrategyMemento {
-    def getMotionStrategy(bead: ForceMotionSeriesObject) = new VelocityMotionStrategy(bead)
+    def getMotionStrategy(motionSeriesObject: ForceMotionSeriesObject) = new VelocityMotionStrategy(motionSeriesObject)
   }
 
   def stepInTime(dt: Double) = {
-    bead.setPosition(bead.position + bead.velocity * dt)
-    bead.setTime(bead.time + dt)
+    motionSeriesObject.setPosition(motionSeriesObject.position + motionSeriesObject.velocity * dt)
+    motionSeriesObject.setTime(motionSeriesObject.time + dt)
   }
 }

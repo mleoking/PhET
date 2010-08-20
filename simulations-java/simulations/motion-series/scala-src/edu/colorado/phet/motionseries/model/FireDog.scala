@@ -15,7 +15,7 @@ class FireDog(model: MotionSeriesModel) {
   val removalListeners = new ArrayBuffer[() => Unit]
   val height = 2
   val width = 2
-  val dog = MovingManMotionSeriesObject(model, -15, height, width)
+  val dog = ForcesAndMotionObject(model, -15, height, width)
   private var raindropCount = 0
   private val incomingSpeed = 0.5 * 1.25
   private val outgoingSpeed = 1.0 * 1.25
@@ -45,7 +45,7 @@ class FireDog(model: MotionSeriesModel) {
 
 class Raindrop(p: Vector2D, rainSpeed: Double, angle: Double, rampModel: MotionSeriesModel) {
   val removedListeners = new ArrayBuffer[() => Unit]
-  val motionSeriesObject = MovingManMotionSeriesObject(rampModel, 0.0, 0.3, 0.5)
+  val motionSeriesObject = ForcesAndMotionObject(rampModel, 0.0, 0.3, 0.5)
   private var _angle = 0.0
   motionSeriesObject.setVelocity(rainSpeed) //have to set the speed here so that energy conservation in Airborne.step won't make the water drops appear underground
   motionSeriesObject.motionStrategy = new Airborne(p, new Vector2D(angle) * rainSpeed, 0.0, motionSeriesObject) {

@@ -7,10 +7,10 @@ import edu.colorado.phet.motionseries.Predef._
 
 //Used to save/restore motion strategies during record/playback
 trait MotionStrategyMemento {
-  def getMotionStrategy(bead: ForceMotionSeriesObject): MotionStrategy
+  def getMotionStrategy(motionSeriesObject: ForceMotionSeriesObject): MotionStrategy
 }
 
-abstract class MotionStrategy(val bead: ForceMotionSeriesObject) {
+abstract class MotionStrategy(val motionSeriesObject: ForceMotionSeriesObject) {
   def isCrashed: Boolean
 
   def stepInTime(dt: Double)
@@ -32,62 +32,62 @@ abstract class MotionStrategy(val bead: ForceMotionSeriesObject) {
   def normalForce = new Vector2D
 
   //accessors/adapters for subclass convenience
-  //This class was originally designed to be an inner class of Bead, but IntelliJ debugger didn't support debug into inner classes at the time
+  //This class was originally designed to be an inner class of MotionSeriesObject, but IntelliJ debugger didn't support debug into inner classes at the time
   //so these classes were refactored to be top level classes to enable debugging.  They can be refactored back to inner classes when there is better debug support
 
-  def totalForce = bead.totalForce
+  def totalForce = motionSeriesObject.totalForce
 
-  def gravityForce = bead.gravityForce
+  def gravityForce = motionSeriesObject.gravityForce
 
-  def mass = bead.mass
+  def mass = motionSeriesObject.mass
 
-  def normalForceVector = bead.normalForceVector
+  def normalForceVector = motionSeriesObject.normalForceVector
 
-  def positionMapper = bead.positionMapper
+  def positionMapper = motionSeriesObject.positionMapper
 
-  def rampSegmentAccessor = bead.rampSegmentAccessor
+  def rampSegmentAccessor = motionSeriesObject.rampSegmentAccessor
 
-  def wallRange = bead.wallRange()
+  def wallRange = motionSeriesObject.wallRange()
 
-  def position = bead.position
+  def position = motionSeriesObject.position
 
-  def appliedForce = bead.appliedForce
+  def appliedForce = motionSeriesObject.appliedForce
 
-  def gravity = bead.gravity
+  def gravity = motionSeriesObject.gravity
 
-  def notificationsEnabled = bead.notificationsEnabled
+  def notificationsEnabled = motionSeriesObject.notificationsEnabled
 
-  def getTotalEnergy = bead.getTotalEnergy
+  def getTotalEnergy = motionSeriesObject.getTotalEnergy
 
-  def state = bead.state
+  def state = motionSeriesObject.state
 
-  def velocity = bead.velocity
+  def velocity = motionSeriesObject.velocity
 
-  def workListeners = bead.workListeners
+  def workListeners = motionSeriesObject.workListeners
 
-  def surfaceFriction = bead.surfaceFriction
+  def surfaceFriction = motionSeriesObject.surfaceFriction
 
-  def thermalEnergy = bead.thermalEnergy
+  def thermalEnergy = motionSeriesObject.thermalEnergy
 
-  def airborneFloor = bead.airborneFloor
+  def airborneFloor = motionSeriesObject.airborneFloor
 
-  def crashListeners = bead.crashListeners
+  def crashListeners = motionSeriesObject.crashListeners
 
-  def getRampUnitVector = bead.getRampUnitVector
+  def getRampUnitVector = motionSeriesObject.getRampUnitVector
 
-  def staticFriction = bead.staticFriction
+  def staticFriction = motionSeriesObject.staticFriction
 
-  def kineticFriction = bead.kineticFriction
+  def kineticFriction = motionSeriesObject.kineticFriction
 
-  def width = bead.width
+  def width = motionSeriesObject.width
 
-  def wallsExist = bead.wallsExist
+  def wallsExist = motionSeriesObject.wallsExist
 
-  def getVelocityVectorDirection = bead.getVelocityVectorDirection
+  def getVelocityVectorDirection = motionSeriesObject.getVelocityVectorDirection
 }
 
 //This Crashed state indicates that the object has fallen off the ramp or off a cliff, not that it has crashed into a wall.
-class Crashed(_position2D: Vector2D, _angle: Double, bead: ForceMotionSeriesObject) extends MotionStrategy(bead) {
+class Crashed(_position2D: Vector2D, _angle: Double, motionSeriesObject: ForceMotionSeriesObject) extends MotionStrategy(motionSeriesObject) {
   def isCrashed = true
 
   def stepInTime(dt: Double) = {}
@@ -100,12 +100,12 @@ class Crashed(_position2D: Vector2D, _angle: Double, bead: ForceMotionSeriesObje
 
   def getMemento = {
     new MotionStrategyMemento {
-      def getMotionStrategy(bead: ForceMotionSeriesObject) = new Crashed(position2D, getAngle, bead)
+      def getMotionStrategy(motionSeriesObject: ForceMotionSeriesObject) = new Crashed(position2D, getAngle, motionSeriesObject)
     }
   }
 }
 
-class Airborne(private var _position2D: Vector2D, private var _velocity2D: Vector2D, _angle: Double, bead: ForceMotionSeriesObject) extends MotionStrategy(bead: ForceMotionSeriesObject) {
+class Airborne(private var _position2D: Vector2D, private var _velocity2D: Vector2D, _angle: Double, motionSeriesObject: ForceMotionSeriesObject) extends MotionStrategy(motionSeriesObject: ForceMotionSeriesObject) {
   def isCrashed = false
 
   override def toString = "position = ".literal + position2D
@@ -115,36 +115,35 @@ class Airborne(private var _position2D: Vector2D, private var _velocity2D: Vecto
   def velocity2D = _velocity2D
 
   override def stepInTime(dt: Double) = {
-    val originalEnergy = bead.getTotalEnergy
+    val originalEnergy = motionSeriesObject.getTotalEnergy
     val accel = totalForce / mass
     _velocity2D = _velocity2D + accel * dt
     _position2D = _position2D + _velocity2D * dt
-    bead.setTime(bead.time + dt)
+    motionSeriesObject.setTime(motionSeriesObject.time + dt)
     if (_position2D.y <= airborneFloor) {
-      bead.motionStrategy = new Crashed(new Vector2D(_position2D.x, bead.airborneFloor), _angle, bead)
+      motionSeriesObject.motionStrategy = new Crashed(new Vector2D(_position2D.x, motionSeriesObject.airborneFloor), _angle, motionSeriesObject)
       crashListeners.foreach(_())
       //todo: make sure energy conserved on crash
-      val newEnergy = bead.getTotalEnergy
-      val energyDifference = bead.getTotalEnergy - originalEnergy
+      val newEnergy = motionSeriesObject.getTotalEnergy
+      val energyDifference = motionSeriesObject.getTotalEnergy - originalEnergy
       //      println("Energy difference on crash: "+energyDifference)
-      if (bead.getTotalEnergy < originalEnergy) {
+      if (motionSeriesObject.getTotalEnergy < originalEnergy) {
         //the rest is lost to heat
-        bead.thermalEnergy = bead.thermalEnergy + energyDifference.abs
+        motionSeriesObject.thermalEnergy = motionSeriesObject.thermalEnergy + energyDifference.abs
       }
-      else if (bead.getTotalEnergy >= originalEnergy) {
+      else if (motionSeriesObject.getTotalEnergy >= originalEnergy) {
         //todo: what to do here?  does this ever happen?
         println("energy gained on crash")
       }
-      //      println("final energy difference: "+(bead.getTotalEnergy-originalEnergy))
     } else {
-      bead.setVelocity(_velocity2D.magnitude)
+      motionSeriesObject.setVelocity(_velocity2D.magnitude)
 
       //ensure that energy is exactly conserved by fine-tuning the vertical position of the object; note that this wouldn't work in low g
-      val dy = (bead.getTotalEnergy - originalEnergy) / bead.mass / bead.gravity
+      val dy = (motionSeriesObject.getTotalEnergy - originalEnergy) / motionSeriesObject.mass / motionSeriesObject.gravity
       _position2D = new Vector2D(_position2D.x, _position2D.y + dy)
     }
     normalForceVector.notifyListeners() //since ramp segment or motion state might have changed; could improve performance on this by only sending notifications when we are sure the ramp segment has changed
-    bead.notifyListeners() //to get the new normalforce
+    motionSeriesObject.notifyListeners() //to get the new normalforce
 
   }
 
@@ -154,17 +153,17 @@ class Airborne(private var _position2D: Vector2D, private var _velocity2D: Vecto
 }
 
 class AirborneMemento(p: Vector2D, v: Vector2D, a: Double) extends MotionStrategyMemento {
-  def getMotionStrategy(bead: ForceMotionSeriesObject) = new Airborne(p, v, a, bead)
+  def getMotionStrategy(motionSeriesObject: ForceMotionSeriesObject) = new Airborne(p, v, a, motionSeriesObject)
 
   override def toString = "airborn motion strategy mode, p = ".literal + p
 }
 
-class Grounded(bead: ForceMotionSeriesObject) extends MotionStrategy(bead) {
+class Grounded(motionSeriesObject: ForceMotionSeriesObject) extends MotionStrategy(motionSeriesObject) {
   def isCrashed = false
 
   def getMemento = {
     new MotionStrategyMemento {
-      def getMotionStrategy(bead: ForceMotionSeriesObject) = new Grounded(bead)
+      def getMotionStrategy(motionSeriesObject: ForceMotionSeriesObject) = new Grounded(motionSeriesObject)
     }
   }
 
@@ -185,9 +184,9 @@ class Grounded(bead: ForceMotionSeriesObject) extends MotionStrategy(bead) {
 
   def collide = collideLeft || collideRight
 
-  def leftBound = bead.wallRange().min + width / 2
+  def leftBound = motionSeriesObject.wallRange().min + width / 2
 
-  def rightBound = bead.wallRange().max - width / 2
+  def rightBound = motionSeriesObject.wallRange().max - width / 2
 
   override def wallForce = {
 
@@ -195,8 +194,8 @@ class Grounded(bead: ForceMotionSeriesObject) extends MotionStrategy(bead) {
 
     //Friction force should enter into the system before wall force, since the object would have to move before "communicating" with the wall.
     val netForceWithoutWallForce = appliedForce + gravityForce + normalForce + frictionForce(false)
-    val pressingLeft = position <= leftBound + epsilon && bead.forceToParallelAcceleration(netForceWithoutWallForce) < 0 && wallsExist
-    val pressingRight = position >= rightBound - epsilon && bead.forceToParallelAcceleration(netForceWithoutWallForce) > 0 && wallsExist
+    val pressingLeft = position <= leftBound + epsilon && motionSeriesObject.forceToParallelAcceleration(netForceWithoutWallForce) < 0 && wallsExist
+    val pressingRight = position >= rightBound - epsilon && motionSeriesObject.forceToParallelAcceleration(netForceWithoutWallForce) > 0 && wallsExist
     val pressing = pressingLeft || pressingRight
 
     if (pressing)
@@ -214,7 +213,7 @@ class Grounded(bead: ForceMotionSeriesObject) extends MotionStrategy(bead) {
     } else new Vector2D
   }
 
-  def multiBodyFriction(f: Double) = bead.surfaceFrictionStrategy.getTotalFriction(f)
+  def multiBodyFriction(f: Double) = motionSeriesObject.surfaceFrictionStrategy.getTotalFriction(f)
 
   //see super notes regarding the includeWallForce
   override def frictionForce(includeWallForce: Boolean) = {
@@ -248,7 +247,7 @@ class Grounded(bead: ForceMotionSeriesObject) extends MotionStrategy(bead) {
 
     def setPositionAndVelocity(p: Double, v: Double) = new SettableState(p, v, thermalEnergy, crashEnergy)
 
-    //todo: this is duplicated with code in Bead
+    //todo: this is duplicated with code in MotionSeriesObject
     lazy val totalEnergy = ke + pe + thermalEnergy
     lazy val ke = mass * velocity * velocity / 2.0
     lazy val pe = mass * gravity.abs * positionMapper(position).y //assumes positionmapper doesn't change, which is true during stepintime
@@ -257,36 +256,36 @@ class Grounded(bead: ForceMotionSeriesObject) extends MotionStrategy(bead) {
   private var dt = 1.0 / 30.0 //using dummy value before getting actual value in case any computations are done
   override def stepInTime(dt: Double) = {
     this.dt = dt
-    bead.notificationsEnabled = false //make sure only to send notifications as a batch at the end; improves performance by 17%
+    motionSeriesObject.notificationsEnabled = false //make sure only to send notifications as a batch at the end; improves performance by 17%
     val origEnergy = getTotalEnergy
     val origState = state
     val newState = getNewState(dt, origState, origEnergy)
 
-    if (newState.position > bead.wallRange().max + width / 2 && !wallsExist) {
-      bead.motionStrategy = new Airborne(position2D, new Vector2D(getVelocityVectorDirection) * velocity, getAngle, bead)
-      bead.parallelAppliedForce = 0
+    if (newState.position > motionSeriesObject.wallRange().max + width / 2 && !wallsExist) {
+      motionSeriesObject.motionStrategy = new Airborne(position2D, new Vector2D(getVelocityVectorDirection) * velocity, getAngle, motionSeriesObject)
+      motionSeriesObject.parallelAppliedForce = 0
     }
     val distanceVector = positionMapper(newState.position) - positionMapper(origState.position)
     val work = appliedForce dot distanceVector
     workListeners.foreach(_(work))
-    bead.setTime(bead.time + dt)
-    bead.setPosition(newState.position)
-    bead.setVelocity(newState.velocity)
-    bead.thermalEnergy = newState.thermalEnergy
-    bead.crashEnergy = newState.crashEnergy
+    motionSeriesObject.setTime(motionSeriesObject.time + dt)
+    motionSeriesObject.setPosition(newState.position)
+    motionSeriesObject.setVelocity(newState.velocity)
+    motionSeriesObject.thermalEnergy = newState.thermalEnergy
+    motionSeriesObject.crashEnergy = newState.crashEnergy
 
-    bead.notificationsEnabled = true
-    bead.notifyListeners() //do as a batch, since it's a performance problem to do this several times in this method call
-    bead.wallForceVector.notifyListeners()
+    motionSeriesObject.notificationsEnabled = true
+    motionSeriesObject.notifyListeners() //do as a batch, since it's a performance problem to do this several times in this method call
+    motionSeriesObject.wallForceVector.notifyListeners()
   }
 
-  def bounce = bead.wallsBounce()
+  def bounce = motionSeriesObject.wallsBounce()
 
   def isKineticFriction = surfaceFriction() && kineticFriction > 0
 
   def getNewState(dt: Double, origState: MotionSeriesObjectState, origEnergy: Double) = {
     val newVelocity = {
-      val desiredVel = bead.netForceToParallelVelocity(totalForce, dt)
+      val desiredVel = motionSeriesObject.netForceToParallelVelocity(totalForce, dt)
       //stepInTime samples at least one value less than 1E-12 on direction change to handle static friction
       //see docs in static friction computation
       val newVelocityThatGoesThroughZero = if ((velocity < 0 && desiredVel > 0) || (velocity > 0 && desiredVel < 0)) 0.0 else desiredVel
@@ -310,7 +309,7 @@ class Grounded(bead: ForceMotionSeriesObject) extends MotionStrategy(bead) {
     val dx = stateAfterCollision.position - origState.position
 
     //account for external forces, such as the applied force, which should increase the total energy
-    val appliedEnergy = (appliedForce dot bead.getVelocityVectorUnitVector(stateAfterCollision.velocity)) * dx.abs
+    val appliedEnergy = (appliedForce dot motionSeriesObject.getVelocityVectorUnitVector(stateAfterCollision.velocity)) * dx.abs
 
     //      val thermalFromWork = getThermalEnergy + abs((frictionForce dot getVelocityVectorUnitVector(stateAfterBounds.velocity)) * dx) //work done by friction force, absolute value
     //todo: this may differ significantly from thermalFromWork
@@ -369,14 +368,14 @@ class Grounded(bead: ForceMotionSeriesObject) extends MotionStrategy(bead) {
       println("failed to conserve energy, delta=".literal + delta + ", applied energy = ".literal + appliedEnergy)
     }
 
-    val stateAfterPatchingUpThermalEnergy = stateAfterFixingPosition.setThermalEnergy(bead.getThermalEnergy(stateAfterFixingPosition.thermalEnergy))
+    val stateAfterPatchingUpThermalEnergy = stateAfterFixingPosition.setThermalEnergy(motionSeriesObject.getThermalEnergy(stateAfterFixingPosition.thermalEnergy))
 
     if (stateAfterPatchingUpThermalEnergy.thermalEnergy < origState.thermalEnergy) {
       println("lost thermal energy.  original = " + origState.thermalEnergy + ", final = " + stateAfterPatchingUpThermalEnergy.thermalEnergy)
     }
 
-    if (collide && bounce) bead.notifyBounced()
-    else if (collide && !bounce) bead.notifyCollidedWithWall()
+    if (collide && bounce) motionSeriesObject.notifyBounced()
+    else if (collide && !bounce) motionSeriesObject.notifyCollidedWithWall()
 
     stateAfterPatchingUpThermalEnergy
   }

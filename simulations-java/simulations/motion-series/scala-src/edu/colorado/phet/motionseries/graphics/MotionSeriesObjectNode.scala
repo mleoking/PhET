@@ -12,7 +12,7 @@ import edu.umd.cs.piccolo.nodes.PImage
 import java.awt.image.BufferedImage
 import edu.colorado.phet.scalacommon.math.Vector2D
 import edu.colorado.phet.scalacommon.Predef._
-import edu.colorado.phet.motionseries.model.{MovingManMotionSeriesObject, ForceMotionSeriesObject, MotionSeriesObject}
+import edu.colorado.phet.motionseries.model.{ForcesAndMotionObject, ForceMotionSeriesObject, MotionSeriesObject}
 import edu.colorado.phet.motionseries.javastage.stage.PlayArea
 
 class ForceDragMotionSeriesObjectNode(motionSeriesObject: ForceMotionSeriesObject,
@@ -39,7 +39,7 @@ class ForceDragMotionSeriesObjectNode(motionSeriesObject: ForceMotionSeriesObjec
   })
 }
 
-class PositionDragMotionSeriesObjectNode(motionSeriesObject: MovingManMotionSeriesObject,
+class PositionDragMotionSeriesObjectNode(motionSeriesObject: ForcesAndMotionObject,
                            transform: ModelViewTransform2D,
                            imageName: String,
                            leftImageName: String,

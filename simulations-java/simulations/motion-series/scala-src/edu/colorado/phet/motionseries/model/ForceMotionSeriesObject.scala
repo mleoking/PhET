@@ -8,7 +8,7 @@ import edu.colorado.phet.motionseries._
 import java.lang.Math._
 
 /**
- * This adds Force functionality to the Bead model class, such as ability to get force components and to set applied force.
+ * This adds Force functionality to the MotionSeriesObject model class, such as ability to get force components and to set applied force.
  * It's used in the Forces & Motion and Ramp applications.
  */
 class ForceMotionSeriesObject(_state: MotionSeriesObjectState,
@@ -24,7 +24,7 @@ class ForceMotionSeriesObject(_state: MotionSeriesObjectState,
                               wallRange: () => Range,
                               thermalEnergyStrategy: Double => Double)
         extends MotionSeriesObject(_state, _height, _width, positionMapper, rampSegmentAccessor, model, wallsBounce, _wallsExist, wallRange, thermalEnergyStrategy) {
-  //This method allows bead subclasses to avoid thermal energy by overriding this to return 0.0
+  //This method allows MotionSeriesObject subclasses to avoid thermal energy by overriding this to return 0.0
   def getThermalEnergy(x: Double) = thermalEnergyStrategy(x)
 
   private var _parallelAppliedForce = 0.0

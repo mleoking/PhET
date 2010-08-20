@@ -55,9 +55,6 @@ class MotionSeriesModule(frame: PhetFrame,
 
     val startTime = System.currentTimeMillis
     motionSeriesModel.stepInTime(dt)
-    //        RepaintManager.currentManager(getSimulationPanel).paintDirtyRegions() //todo: this still shows clipping of incorrect regions, maybe we need to repaint the entire area
-    //        getSimulationPanel.paintImmediately(0, 0, getSimulationPanel.getWidth, getSimulationPanel.getHeight)
-    //    println("motionSeriesModel.bead.wallForce.magnitude="+motionSeriesModel.bead.wallForce.magnitude)
 
     //There is a bug that the instantantaneous (one frame) wall force is sometimes not shown or is clipped incorrectly
     //This workaround reduces the probability of having that problem significantly
