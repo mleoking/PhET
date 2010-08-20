@@ -68,11 +68,6 @@ public class PotassiumGatedChannel extends GatedChannel {
 	}
 
 	@Override
-	public MembraneChannelTypes getChannelType() {
-		return MembraneChannelTypes.POTASSIUM_LEAKAGE_CHANNEL;
-	}
-	
-	@Override
 	public void stepInTime(double dt) {
 		super.stepInTime(dt);
 		// Update the openness factor based on the state of the HH model.

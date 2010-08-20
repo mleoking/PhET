@@ -59,11 +59,6 @@ public class PotassiumLeakageChannel extends AbstractLeakChannel {
 	}
 
 	@Override
-	public MembraneChannelTypes getChannelType() {
-		return MembraneChannelTypes.POTASSIUM_LEAKAGE_CHANNEL;
-	}
-	
-	@Override
 	protected ParticleType getParticleTypeToCapture() {
 		return ParticleType.POTASSIUM_ION;
 	}

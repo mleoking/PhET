@@ -68,11 +68,6 @@ public class SodiumGatedChannel extends GatedChannel {
 	}
 
 	@Override
-	public MembraneChannelTypes getChannelType() {
-		return MembraneChannelTypes.SODIUM_GATED_CHANNEL;
-	}
-	
-	@Override
 	public void stepInTime(double dt) {
 		super.stepInTime(dt);
 		// Update the openness factor based on the state of the HH model.
