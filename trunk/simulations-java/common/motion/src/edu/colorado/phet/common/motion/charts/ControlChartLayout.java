@@ -94,7 +94,7 @@ public interface ControlChartLayout {
                     minimizedChartSpace += chart.getMinimizedHeight();
                 }
             }
-            System.out.println("sliderInternalInsetX = " + sliderInternalInsetX);
+//            System.out.println("sliderInternalInsetX = " + sliderInternalInsetX);
 
             double chartWidth = width - controlPanelWidth - sliderWidth - rangeAxisLabelWidth - zoomControlWidth;
             
