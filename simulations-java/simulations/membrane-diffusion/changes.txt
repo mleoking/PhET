@@ -1,1 +1,3 @@
+# 0.16.01 (43324) Aug 20, 2010
+8/20/10 First dev version published.  This contains much of the specified functionality.
 6/3/10 - change log file created
