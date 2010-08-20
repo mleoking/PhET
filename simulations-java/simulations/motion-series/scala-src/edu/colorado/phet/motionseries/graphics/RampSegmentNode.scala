@@ -8,18 +8,18 @@ import edu.colorado.phet.scalacommon.util.Observable
 import edu.umd.cs.piccolo.nodes.PImage
 import edu.umd.cs.piccolo.PNode
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
-import edu.colorado.phet.motionseries.model.RampSegment
 import edu.colorado.phet.common.piccolophet.event.CursorHandler
 import edu.colorado.phet.scalacommon.Predef._
 import edu.colorado.phet.motionseries.Predef._
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
+import edu.colorado.phet.motionseries.model.{MotionSeriesObject, RampSegment}
 
 /**
  * The RampSegmentNode is the graphical depiction (with Piccolo) of the traversible parts of the ramp, both the ground segment
  * and the angled segment.
  * @author Sam Reid
  */
-class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2D, rampSurfaceModel: RampSurfaceModel) extends PNode with HasPaint {
+class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2D, rampSurfaceModel: RampSurfaceModel,motionSeriesObject:MotionSeriesObject) extends PNode with HasPaint {
   private val woodColor = new Color(184, 131, 24)
   private val iceColor = new Color(186, 228, 255)
   protected val pathNode = new PhetPPath(woodColor)
@@ -33,9 +33,11 @@ class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2
     updateBaseColor()
     updateDecorations()
   }
+  
+  motionSeriesObject.addListener(updateAll)//TODO: only update when friction coefficient changes
 
   def updateBaseColor() = {
-    paintColor = if (rampSurfaceModel.frictionless) iceColor else woodColor
+    paintColor = if (rampSurfaceModel.frictionless || motionSeriesObject.frictionless) iceColor else woodColor
   }
   defineInvokeAndPass(rampSegment.addListenerByName) {
     pathNode.setPathTo(mytransform.createTransformedShape(new BasicStroke(0.4f).createStrokedShape(rampSegment.toLine2D)))
@@ -65,7 +67,8 @@ class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2
   def paintColor = pathNode.getPaint
 }
 
-class RotatableSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2D, rampSurfaceModel: RampSurfaceModel) extends RampSegmentNode(rampSegment, mytransform, rampSurfaceModel) {
+class RotatableSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2D, rampSurfaceModel: RampSurfaceModel,motionSeriesObject:MotionSeriesObject) 
+        extends RampSegmentNode(rampSegment, mytransform, rampSurfaceModel,motionSeriesObject) {
   pathNode.addInputEventListener(new CursorHandler)
   pathNode.addInputEventListener(new RotationHandler(mytransform, pathNode, rampSegment, 0, MotionSeriesDefaults.MAX_ANGLE))
 }

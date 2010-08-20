@@ -253,7 +253,15 @@ class MotionSeriesModel(defaultPosition: Double,
 
   def bounce = _bounce
 
+  //Determines whether the ramp is frictionless.  Object friction is handled elsewhere
   def frictionless = _frictionless
+  
+  def frictionless_=(b: Boolean) = {
+    _frictionless = b
+    rampChangeAdapter.notifyListeners()
+    if (_frictionless) clearHeatInstantly()
+    notifyListeners()
+  }
 
   def walls = _walls
 
@@ -284,13 +292,6 @@ class MotionSeriesModel(defaultPosition: Double,
   def bounce_=(b: Boolean) = {
     _bounce = b
     rampChangeAdapter.notifyListeners()
-    notifyListeners()
-  }
-
-  def frictionless_=(b: Boolean) = {
-    _frictionless = b
-    rampChangeAdapter.notifyListeners()
-    if (_frictionless) clearHeatInstantly()
     notifyListeners()
   }
 

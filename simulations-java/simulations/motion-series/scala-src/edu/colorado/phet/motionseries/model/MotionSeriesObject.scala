@@ -38,6 +38,9 @@ abstract class MotionSeriesObject(private var _state: MotionSeriesObjectState,
                     val wallRange: () => Range,
                     thermalEnergyStrategy: Double => Double)
         extends Observable {
+  
+  def frictionless= state.staticFriction==0 && state.kineticFriction==0
+  
   private var _gravity = -9.8
 
   def gravity = _gravity

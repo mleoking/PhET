@@ -57,7 +57,7 @@ class ForcesAndMotionCanvas(model: MotionSeriesModel,
           frame, showObjectSelectionNode, showAppliedForceSlider, rampAngleDraggable, modelViewport, stageContainerArea) {
   override def addHeightAndAngleIndicators() = {}
 
-  override def createRightSegmentNode: HasPaint = new RampSegmentNode(model.rampSegments(1), transform, model)
+  override def createRightSegmentNode: HasPaint = new RampSegmentNode(model.rampSegments(1), transform, model,model.motionSeriesObject)
 
   def attachListenerToRightWall(node: PNode) = {}//cannot drag the wall to rotate the ramp in this sim
 }
