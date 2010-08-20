@@ -3,7 +3,6 @@ package edu.colorado.phet.motionseries.graphics
 import edu.colorado.phet.motionseries.MotionSeriesResources
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils
 import java.awt._
-import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import edu.colorado.phet.scalacommon.util.Observable
 import edu.umd.cs.piccolo.nodes.PImage
@@ -12,7 +11,6 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 import edu.colorado.phet.motionseries.model.RampSegment
 import edu.colorado.phet.common.piccolophet.event.CursorHandler
 import edu.colorado.phet.scalacommon.Predef._
-import java.lang.Math._
 import edu.colorado.phet.motionseries.Predef._
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
 
@@ -22,35 +20,29 @@ import edu.colorado.phet.motionseries.MotionSeriesDefaults
  * @author Sam Reid
  */
 class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2D, rampSurfaceModel: RampSurfaceModel) extends PNode with HasPaint {
-  val woodColor = new Color(184, 131, 24)
-  val woodStrokeColor = new Color(91, 78, 49)
-
-  val iceColor = new Color(186, 228, 255)
-  val iceStrokeColor = new Color(223, 236, 244)
-
-  //todo: user should set a base color and an interpolation strategy, final paint should be interpolate(base)
-  private var baseColor = woodColor
-  val wetColor = new Color(150, 211, 238)
-  val hotColor = new Color(255, 0, 0)
-  val pathNode = new PhetPPath(baseColor)
+  private val woodColor = new Color(184, 131, 24)
+  private val iceColor = new Color(186, 228, 255)
+  protected val pathNode = new PhetPPath(woodColor)
   addChild(pathNode)
+  paintColor = woodColor
+
+  rampSurfaceModel.addListener(updateAll)
+  val icicleImageNode = new PImage(BufferedImageUtils.multiScaleToHeight(MotionSeriesResources.getImage("icicles.gif".literal), 80))
+
   def updateAll() = {
     updateBaseColor()
     updateDecorations()
   }
-  rampSurfaceModel.addListener(() => updateAll())
-  val icicleImageNode = new PImage(BufferedImageUtils.multiScaleToHeight(MotionSeriesResources.getImage("icicles.gif".literal), 80))
 
   def updateBaseColor() = {
-    baseColor = if (rampSurfaceModel.frictionless) iceColor else woodColor
-    pathNode.setStrokePaint(if (rampSurfaceModel.frictionless) iceStrokeColor else woodStrokeColor)
+    paintColor = if (rampSurfaceModel.frictionless) iceColor else woodColor
   }
   defineInvokeAndPass(rampSegment.addListenerByName) {
     pathNode.setPathTo(mytransform.createTransformedShape(new BasicStroke(0.4f).createStrokedShape(rampSegment.toLine2D)))
   }
-  rampSegment.wetnessListeners += (() => updateAll())
-  rampSegment.addListener(() => updateAll())
-  rampSegment.heatListeners += (() => updateAll())
+  rampSegment.wetnessListeners += updateAll
+  rampSegment addListener updateAll
+  rampSegment.heatListeners += updateAll
   updateAll()
 
   def updateDecorations() = {
