@@ -24,7 +24,7 @@ class ForcesAndMotionModule(frame: PhetFrame,
                             showObjectSelectionNode: Boolean,
                             useObjectComboBox: Boolean,
                             showAppliedForceSlider: Boolean,
-                            defaultBeadPosition: Double,
+                            defaultPosition: Double,
                             pausedOnReset: Boolean,
                             initialAngle: Double,
                             showFrictionControl: Boolean,
@@ -32,7 +32,7 @@ class ForcesAndMotionModule(frame: PhetFrame,
                             modelViewport: Rectangle2D,
                             stageContainerArea: StageContainerArea,
                             fbdPopupOnly: Boolean)
-        extends MotionSeriesModule(frame, new ScalaClock(MotionSeriesDefaults.DELAY, MotionSeriesDefaults.DT_DEFAULT), name, defaultBeadPosition, pausedOnReset, initialAngle, fbdPopupOnly) {
+        extends MotionSeriesModule(frame, new ScalaClock(MotionSeriesDefaults.DELAY, MotionSeriesDefaults.DT_DEFAULT), name, defaultPosition, pausedOnReset, initialAngle, fbdPopupOnly) {
   val canvas = new ForcesAndMotionCanvas(motionSeriesModel, coordinateSystemModel, fbdModel, vectorViewModel, frame,
     showObjectSelectionNode, showAppliedForceSlider, initialAngle != 0.0, modelViewport, stageContainerArea)
   setSimulationPanel(canvas)

@@ -27,14 +27,6 @@ case class MotionSeriesObjectState(position: Double, velocity: Double, mass: Dou
 
 case class Range(min: Double, max: Double)
 
-/**
- * Ways to refactor this to modularize support for moving man:
- *
- * 1. Subclass: MovingManBead, provides overrides for functions like getAcceleration
- * 2. Strategy pattern: PositionDriven, VelocityDriven, AccelerationDriven
- *
- * maybe need both.
- */
 abstract class MotionSeriesObject(private var _state: MotionSeriesObjectState,
                     private var _height: Double,
                     private var _width: Double,
@@ -66,11 +58,11 @@ abstract class MotionSeriesObject(private var _state: MotionSeriesObjectState,
 
   model.addListenerByName(notifyListeners)
 
-  //notified when the bead is being removed
+  //notified when the MotionSeriesObject is being removed
   val removalListeners = new ArrayBuffer[() => Unit]
 
   /**
-   * Notify that the bead is being removed, and clear all listeners.
+   * Notify that the MotionSeriesObject is being removed, and clear all listeners.
    */
   def remove() = {
     removalListeners.foreach(_())

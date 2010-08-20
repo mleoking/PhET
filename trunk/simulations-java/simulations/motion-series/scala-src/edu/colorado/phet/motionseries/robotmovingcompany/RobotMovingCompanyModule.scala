@@ -30,15 +30,15 @@ class RobotMovingCompanyModule(frame: PhetFrame,
     motionSeriesModel.frictionless = false
   }
 
-  override def createMotionSeriesModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngle: Double) = {
-    new MotionSeriesModel(defaultBeadPosition, pausedOnReset, initialAngle) {
+  override def createMotionSeriesModel(defaultPosition: Double, pausedOnReset: Boolean, initialAngle: Double) = {
+    new MotionSeriesModel(defaultPosition, pausedOnReset, initialAngle) {
       override def updateSegmentLengths() = setSegmentLengths(rampLength, rampLength)
       frictionless = false
       //This is an unorthodox way to achieve the desired behavior.  The requested feature is that objects should not be able to be moved 
       //beyond the left edge of the leftmost ramp segment in the game modes.
-      //This solves the problem by enabling walls whenever the bead is to the left of the origin.
+      //This solves the problem by enabling walls whenever the MotionSeriesObject is to the left of the origin.
       //A better designed way would be to always have the left wall enabled (without enabling the right wall, but currently the walls are coupled).
-      stepListeners += (() => walls = gameModel.bead.position < 0)
+      stepListeners += (() => walls = gameModel.motionSeriesObject.position < 0)
     }
   }
 

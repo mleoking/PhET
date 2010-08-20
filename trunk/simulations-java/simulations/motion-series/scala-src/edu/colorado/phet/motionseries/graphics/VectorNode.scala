@@ -93,7 +93,7 @@ class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val ta
 }
 
 /**
- * This VectorNode subclass is located directly on a Bead
+ * This VectorNode subclass is located directly on a MotionSeriesObject
  */
 class BodyVectorNode(transform: ModelViewTransform2D,
                      vector: Vector,

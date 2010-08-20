@@ -20,7 +20,7 @@ class MotionSeriesObjectVector(color: Color,
 }
 
 class VectorComponent(target: MotionSeriesObjectVector,
-                      bead: MotionSeriesObject,
+                      motionSeriesObject: MotionSeriesObject,
                       getComponentUnitVector: () => Vector2D,
                       painter: (Vector2D, Color) => Paint,
                       modifier: String,
@@ -79,7 +79,7 @@ class AngleBasedComponent(target: MotionSeriesObjectVector,
                           painter: (Vector2D, Color) => Paint,
                           modifier: String,
                           labelAngle: Double) extends VectorComponent(target, motionSeriesObject, getComponentUnitVector, painter, modifier, labelAngle) {
-  //When the bead changes its angle, we should notify our listeners, since they depend on the angle
+  //When the object changes its angle, we should notify our listeners, since they depend on the angle
   motionSeriesObject.addListener(() => notifyListeners())
 }
 

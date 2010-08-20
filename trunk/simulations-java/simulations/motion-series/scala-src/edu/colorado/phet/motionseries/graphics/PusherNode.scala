@@ -15,7 +15,7 @@ class PusherNode(transform: ModelViewTransform2D, targetObject: ForceMotionSerie
   defineInvokeAndPass(targetObject.addListenerByName) {
     if (targetObject.appliedForce.magnitude > 0) {
 
-      //todo: use actual bead widths here
+      //todo: use actual object widths here
       val dx = 2.2 * (if (targetObject.appliedForce.x > 0) -1 else 1)
       manObject.setPosition(targetObject.position + dx)
 
@@ -40,12 +40,12 @@ class PusherNode(transform: ModelViewTransform2D, targetObject: ForceMotionSerie
   setChildrenPickable(false)
 }
 
-class RobotPusherNode(transform: ModelViewTransform2D, targetObject: ForceMotionSeriesObject, manBead: MotionSeriesObject)
-        extends MotionSeriesObjectNode(manBead, transform, "robotmovingcompany/robot.gif".literal) {
+class RobotPusherNode(transform: ModelViewTransform2D, targetObject: ForceMotionSeriesObject, man: MotionSeriesObject)
+        extends MotionSeriesObjectNode(man, transform, "robotmovingcompany/robot.gif".literal) {
   defineInvokeAndPass(targetObject.addListenerByName) {
     if (targetObject.appliedForce.magnitude > 0) {
       val dx = 1.3 * (if (targetObject.appliedForce.x > 0) -1 else 1)
-      manBead.setPosition(targetObject.position + dx)
+      man.setPosition(targetObject.position + dx)
 
       val im = MotionSeriesResources.getImage("robotmovingcompany/robot.gif".literal)
       val realIm = if (dx > 0) BufferedImageUtils.flipX(im) else im //todo: cache instead of flipping each time

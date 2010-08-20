@@ -3,8 +3,8 @@ package edu.colorado.phet.motionseries.model
 //This class stores all state information used in record/playback
 case class RecordedState(rampState: RampState,
                          selectedObject: MotionSeriesObjectTypeState,
-                         beadState: MotionSeriesObjectState,
-                         manBeadState: MotionSeriesObjectState,
+                         motionSeriesObjectState: MotionSeriesObjectState,
+                         manState: MotionSeriesObjectState,
                          appliedForce: Double,
                          walls: Boolean,
                          motionStrategyMemento: MotionStrategyMemento,

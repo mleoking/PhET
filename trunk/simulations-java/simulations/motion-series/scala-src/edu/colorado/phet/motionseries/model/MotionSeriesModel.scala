@@ -12,7 +12,7 @@ import edu.colorado.phet.common.motion.charts.ChartCursor
 import edu.colorado.phet.recordandplayback.model.{DataPoint, RecordAndPlaybackModel}
 import edu.colorado.phet.common.phetcommon.math.MathUtil
 
-class MotionSeriesModel(defaultBeadPosition: Double,
+class MotionSeriesModel(defaultPosition: Double,
                         pausedOnReset: Boolean,
                         initialAngle: Double)
         extends RecordAndPlaybackModel[RecordedState](1000) with ObjectModel with RampSurfaceModel {
@@ -51,6 +51,8 @@ class MotionSeriesModel(defaultBeadPosition: Double,
   val playbackListeners = new ArrayBuffer[() => Unit]
   val rampLength = 10
   setPaused(pausedOnReset)
+  
+  
 
   rampSegments += new RampSegment(new Point2D.Double(-rampLength, 0), new Point2D.Double(0, 0))
   rampSegments += new RampSegment(new Point2D.Double(0, 0), new Point2D.Double(rampLength * cos(initialAngle), rampLength * sin(initialAngle)))
@@ -58,20 +60,20 @@ class MotionSeriesModel(defaultBeadPosition: Double,
   val coordinateFrameModel = new CoordinateFrameModel(rampSegments(1))
 
   //Sends notification when any ramp segment changes
-  object rampChangeAdapter extends Observable //todo: perhaps we should just pass the addListener method to the beads
+  object rampChangeAdapter extends Observable //todo: perhaps we should just pass the addListener method to the MotionSeriesObjects
   rampSegments(0).addListenerByName {rampChangeAdapter.notifyListeners}
   rampSegments(1).addListenerByName {rampChangeAdapter.notifyListeners}
   val surfaceFriction = () => !frictionless
   val wallsBounce = () => bounce
 
-  val defaultManPosition = defaultBeadPosition - 1
-  val leftWall = MovingManMotionSeriesObject(this, -10, MotionSeriesDefaults.wall.width, MotionSeriesDefaults.wall.height)
-  val rightWall = MovingManMotionSeriesObject(this, 10, MotionSeriesDefaults.wall.width, MotionSeriesDefaults.wall.height)
+  val defaultManPosition = defaultPosition - 1
+  val leftWall = ForcesAndMotionObject(this, -10, MotionSeriesDefaults.wall.width, MotionSeriesDefaults.wall.height)
+  val rightWall = ForcesAndMotionObject(this, 10, MotionSeriesDefaults.wall.width, MotionSeriesDefaults.wall.height)
 
-  val leftWallRightEdge = MovingManMotionSeriesObject(this, -10 + MotionSeriesDefaults.wall.width / 2, MotionSeriesDefaults.SPRING_WIDTH, MotionSeriesDefaults.SPRING_HEIGHT)
-  val rightWallLeftEdge = MovingManMotionSeriesObject(this, 10 - MotionSeriesDefaults.wall.width / 2, MotionSeriesDefaults.SPRING_WIDTH, MotionSeriesDefaults.SPRING_HEIGHT)
+  val leftWallRightEdge = ForcesAndMotionObject(this, -10 + MotionSeriesDefaults.wall.width / 2, MotionSeriesDefaults.SPRING_WIDTH, MotionSeriesDefaults.SPRING_HEIGHT)
+  val rightWallLeftEdge = ForcesAndMotionObject(this, 10 - MotionSeriesDefaults.wall.width / 2, MotionSeriesDefaults.SPRING_WIDTH, MotionSeriesDefaults.SPRING_HEIGHT)
 
-  val manMotionSeriesObject = MovingManMotionSeriesObject(this, defaultManPosition, 1, 3)
+  val manMotionSeriesObject = ForcesAndMotionObject(this, defaultManPosition, 1, 3)
 
   val wallRange = () => new Range(-rampSegments(0).length, rampSegments(1).length)
 
@@ -79,7 +81,7 @@ class MotionSeriesModel(defaultBeadPosition: Double,
     //todo: allow different values for different segments
     def getTotalFriction(objectFriction: Double) = new LinearFunction(0, 1, objectFriction, objectFriction * 0.75).evaluate(rampSegments(0).wetness)
   }
-  val motionSeriesObject = new MovingManMotionSeriesObject(new MotionSeriesObjectState(defaultBeadPosition, 0,
+  val motionSeriesObject = new ForcesAndMotionObject(new MotionSeriesObjectState(defaultPosition, 0,
     _selectedObject.mass, _selectedObject.staticFriction, _selectedObject.kineticFriction, 0.0, 0.0, 0.0),
     _selectedObject.height, _selectedObject.width, positionMapper,
     rampSegmentAccessor, rampChangeAdapter, surfaceFriction, wallsBounce, surfaceFrictionStrategy, walls, wallRange, thermalEnergyStrategy)
@@ -107,14 +109,14 @@ class MotionSeriesModel(defaultBeadPosition: Double,
   def motionSeriesObjectInModelViewportRange = motionSeriesObject.position2D.x < MotionSeriesDefaults.MIN_X || motionSeriesObject.position2D.x > MotionSeriesDefaults.MAX_X
 
   def returnMotionSeriesObject() = {
-    motionSeriesObject.setDesiredPosition(defaultBeadPosition)
-    motionSeriesObject.setPosition(defaultBeadPosition)
+    motionSeriesObject.setDesiredPosition(defaultPosition)
+    motionSeriesObject.setPosition(defaultPosition)
     motionSeriesObject.parallelAppliedForce = 0
     motionSeriesObject.setVelocity(0)
     motionSeriesObject.attach()
   }
 
-  def resetBead() = {
+  def resetObject() = {
     returnMotionSeriesObject()
     motionSeriesObject.crashEnergy = 0.0
     motionSeriesObject.thermalEnergy = 0.0
@@ -131,7 +133,7 @@ class MotionSeriesModel(defaultBeadPosition: Double,
       selectedObject = MotionSeriesDefaults.objects(0)
       frictionless = MotionSeriesDefaults.FRICTIONLESS_DEFAULT
       walls = true
-      resetBead()
+      resetObject()
       manMotionSeriesObject.setPosition(defaultManPosition)
 
       rampSegments(0).setWetness(0.0)
@@ -194,10 +196,10 @@ class MotionSeriesModel(defaultBeadPosition: Double,
 
     selectedObject = state.selectedObject.toObject
     motionSeriesObject.motionStrategy = state.motionStrategyMemento.getMotionStrategy(motionSeriesObject)
-    motionSeriesObject.state = state.beadState //nice code
+    motionSeriesObject.state = state.motionSeriesObjectState //nice code
 
     motionSeriesObject.parallelAppliedForce = state.appliedForce
-    manMotionSeriesObject.state = state.manBeadState
+    manMotionSeriesObject.state = state.manState
     walls = state.walls
 
     //based on time constraints, decision was made to not record and playback firedogs + drops, just make sure they clear

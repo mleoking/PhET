@@ -38,18 +38,18 @@ class VectorView(motionSeriesObject: MotionSeriesObject,
     addVector(motionSeriesObject, perpComponent, offsetFBD, offsetPlayArea, vectorDisplay)
   }
 
-  def addVector(bead: MotionSeriesObject, vector: Vector with PointOfOriginVector, offsetFBD: VectorValue,
+  def addVector(motionSeriesObject: MotionSeriesObject, vector: Vector with PointOfOriginVector, offsetFBD: VectorValue,
                 offsetPlayArea: Double,
                 vectorDisplay: VectorDisplay) = {
     vectorDisplay.addVector(vector, offsetFBD, MotionSeriesDefaults.FBD_LABEL_MAX_OFFSET, offsetPlayArea)
 
-    bead.removalListeners += (() => {
+    motionSeriesObject.removalListeners += (() => {
       vectorDisplay.removeVector(vector)
     })
   }
 
-  def addVectorAllComponents(bead: ForceMotionSeriesObject, a: MotionSeriesObjectVector, vectorDisplay: VectorDisplay): Unit =
-    addVectorAllComponents(bead, a, new ConstantVectorValue, 0, () => true, vectorDisplay)
+  def addVectorAllComponents(motionSeriesObject: ForceMotionSeriesObject, a: MotionSeriesObjectVector, vectorDisplay: VectorDisplay): Unit =
+    addVectorAllComponents(motionSeriesObject, a, new ConstantVectorValue, 0, () => true, vectorDisplay)
 
   def addAllVectors(motionSeriesObject: ForceMotionSeriesObject, vectorDisplay: VectorDisplay) = {
     addVectorAllComponents(motionSeriesObject, motionSeriesObject.appliedForceVector, vectorDisplay)
@@ -73,11 +73,11 @@ trait PointOfOriginVector {
   def getPointOfOriginOffset(defaultCenter: Double): Double
 }
 
-class PlayAreaVectorNode(transform: ModelViewTransform2D, bead: ForceMotionSeriesObject, vectorViewModel: VectorViewModel) extends PNode with VectorDisplay {
-  def addVector(a: Vector, offset: VectorValue): Unit = addChild(new BodyVectorNode(transform, a, offset, bead))
+class PlayAreaVectorNode(transform: ModelViewTransform2D, motionSeriesObject: ForceMotionSeriesObject, vectorViewModel: VectorViewModel) extends PNode with VectorDisplay {
+  def addVector(a: Vector, offset: VectorValue): Unit = addChild(new BodyVectorNode(transform, a, offset, motionSeriesObject))
 
   def addVector(vector: Vector with PointOfOriginVector, offsetFBD: VectorValue, maxOffset: Int, offsetPlayArea: Double): Unit = {
-    addVector(new PlayAreaVector(vector, MotionSeriesDefaults.PLAY_AREA_FORCE_VECTOR_SCALE), new PlayAreaOffset(bead, vectorViewModel, offsetPlayArea, vector))
+    addVector(new PlayAreaVector(vector, MotionSeriesDefaults.PLAY_AREA_FORCE_VECTOR_SCALE), new PlayAreaOffset(motionSeriesObject, vectorViewModel, offsetPlayArea, vector))
   }
 
   def removeVector(vector: Vector) = null

@@ -45,7 +45,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
   freeBodyDiagramModel.closable = false
   private var numClockTicksWithUserApplication = 0 //for determining if they need a wiggle me
 
-  private var currentBeadNode: PNode = null //keep track of the current bead graphic for layering purposes
+  private var currentObjectNode: PNode = null //keep track of the current bead graphic for layering purposes
   fbdNode.removeCursorHand() //User is not allowed to create forces by clicking in the FBD area
 
   gameModel.itemFinishedListeners += ((scalaRampObject: MotionSeriesObjectType, result: Result) => {
@@ -63,8 +63,8 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
 
     //If successfully delivered to house, move the object into the house by putting it in between the back and front layers
     if (result.success) {
-      removeScreenNode(currentBeadNode)
-      intermediateNode.addChild(new StageNode(stage, RobotMovingCompanyCanvas.this, currentBeadNode))
+      removeScreenNode(currentObjectNode)
+      intermediateNode.addChild(new StageNode(stage, RobotMovingCompanyCanvas.this, currentObjectNode))
     }
   })
 
@@ -80,8 +80,8 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
   addStageNode(houseNode)
 
   val doorNode = new PNode() {
-    val bead = new MotionSeriesObjectNode(gameModel.door, getModelStageTransform, MotionSeriesDefaults.door.imageFilename)
-    addChild(bead)
+    val motionSeriesObject = new MotionSeriesObjectNode(gameModel.door, getModelStageTransform, MotionSeriesDefaults.door.imageFilename)
+    addChild(motionSeriesObject)
 
     gameModel.doorListeners += (() => {
       val sx = new edu.colorado.phet.common.phetcommon.math.Function.LinearFunction(0, 1, 1.0, 0.2).evaluate(gameModel.doorOpenAmount)
@@ -132,10 +132,10 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
   val robotGraphics = new RobotGraphics(transform, gameModel)
   addStageNode(robotGraphics) //TODO: move behind ramp
 
-  gameModel.beadCreatedListeners += init
-  init(gameModel.bead, gameModel.selectedObject)
+  gameModel.objectCreatedListeners += init
+  init(gameModel.motionSeriesObject, gameModel.selectedObject)
 
-  private var _currentBead: MotionSeriesObject = null
+  private var _currentMotionSeriesObject: MotionSeriesObject = null
 
   override def useVectorNodeInPlayArea = false
 
@@ -163,7 +163,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
 
   userInputModel.addListener(() => {
     numClockTicksWithUserApplication = numClockTicksWithUserApplication + 1
-    gameModel.bead.parallelAppliedForce = if (gameModel.robotEnergy > 0) userInputModel.appliedForce else 0.0
+    gameModel.motionSeriesObject.parallelAppliedForce = if (gameModel.robotEnergy > 0) userInputModel.appliedForce else 0.0
   }) //todo: when robot energy hits zero, applied force should disappear
 
   def hasUserAppliedForce = numClockTicksWithUserApplication > 5
@@ -236,25 +236,25 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
     }
   }
 
-  def init(bead: ForceMotionSeriesObject, a: MotionSeriesObjectType) = {
-    val lastBead = _currentBead
-    _currentBead = bead
+  def init(motionSeriesObject: ForceMotionSeriesObject, a: MotionSeriesObjectType) = {
+    val lastMotionSeriesObject = _currentMotionSeriesObject
+    _currentMotionSeriesObject = motionSeriesObject
 
-    val beadNode = new MotionSeriesObjectNode(bead, transform, a.imageFilename, a.crashImageFilename)
-    currentBeadNode = beadNode
-    addStageNode(beadNode)
+    val objectNode = new MotionSeriesObjectNode(motionSeriesObject, transform, a.imageFilename, a.crashImageFilename)
+    currentObjectNode = objectNode
+    addStageNode(objectNode)
     val icon = new ObjectIcon(a)
     val pt = transform.modelToView(-10, -1)
     icon.setOffset(pt)
     addStageNode(icon)
 
-    val roboBead = MovingManMotionSeriesObject(model, -10 - a.width / 2, 1, 3)
+    val robotObject = ForcesAndMotionObject(model, -10 - a.width / 2, 1, 3)
 
-    val pusherNode = new RobotPusherNode(transform, bead, roboBead)
+    val pusherNode = new RobotPusherNode(transform, motionSeriesObject, robotObject)
     addStageNode(pusherNode)
 
-    bead.removalListeners += (() => {
-      removeStageNode(beadNode)
+    motionSeriesObject.removalListeners += (() => {
+      removeStageNode(objectNode)
       removeStageNode(pusherNode)
       removeStageNode(icon)
     })
@@ -262,14 +262,14 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
     fbdNode.clearVectors()
     windowFBDNode.clearVectors()
 
-    def setter(x: Double) = if (gameModel.robotEnergy > 0) bead.parallelAppliedForce = x else {}
+    def setter(x: Double) = if (gameModel.robotEnergy > 0) motionSeriesObject.parallelAppliedForce = x else {}
 
     //todo: why are these 2 lines necessary?
-    vectorView.addAllVectors(bead, fbdNode)
-    vectorView.addAllVectors(bead, windowFBDNode)
+    vectorView.addAllVectors(motionSeriesObject, fbdNode)
+    vectorView.addAllVectors(motionSeriesObject, windowFBDNode)
     //don't show play area vectors
 
-    //todo: remove vector nodes when bead is removed
+    //todo: remove vector nodes when MotionSeriesObject is removed
     //todo: switch to removalListeners paradigm
   }
 
