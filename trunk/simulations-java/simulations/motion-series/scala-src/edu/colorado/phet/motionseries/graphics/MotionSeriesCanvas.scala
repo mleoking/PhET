@@ -55,9 +55,9 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
   val leftSegmentNode = createLeftSegmentNode
   playAreaNode.addChild(leftSegmentNode)
 
-  def createLeftSegmentNode = new RampSegmentNode(model.rampSegments(0), transform, model)
+  def createLeftSegmentNode = new RampSegmentNode(model.rampSegments(0), transform, model,model.motionSeriesObject)
 
-  def createRightSegmentNode: HasPaint = new RotatableSegmentNode(model.rampSegments(1), transform, model)
+  def createRightSegmentNode: HasPaint = new RotatableSegmentNode(model.rampSegments(1), transform, model,model.motionSeriesObject)
 
   val rightSegmentNode = createRightSegmentNode
   playAreaNode.addChild(rightSegmentNode)

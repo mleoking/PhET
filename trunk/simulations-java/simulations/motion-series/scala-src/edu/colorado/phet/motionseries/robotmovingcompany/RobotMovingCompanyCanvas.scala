@@ -288,7 +288,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
 
   override def addWallsAndDecorations() = {}
 
-  override def createRightSegmentNode = new RampSegmentNode(model.rampSegments(1), transform, model)
+  override def createRightSegmentNode = new RampSegmentNode(model.rampSegments(1), transform, model,model.motionSeriesObject)
 
   override def addHeightAndAngleIndicators() = {}
 
