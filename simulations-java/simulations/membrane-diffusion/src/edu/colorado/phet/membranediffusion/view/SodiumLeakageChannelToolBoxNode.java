@@ -2,15 +2,18 @@
 
 package edu.colorado.phet.membranediffusion.view;
 
+import java.awt.Color;
 import java.awt.geom.Point2D;
 
-import javax.swing.JOptionPane;
-
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.membranediffusion.MembraneDiffusionConstants;
+import edu.colorado.phet.membranediffusion.model.ChannelAlwaysOpenStrategy;
+import edu.colorado.phet.membranediffusion.model.GenericMembraneChannel;
 import edu.colorado.phet.membranediffusion.model.MembraneChannel;
 import edu.colorado.phet.membranediffusion.model.MembraneDiffusionModel;
-import edu.colorado.phet.membranediffusion.model.SodiumLeakageChannel;
+import edu.colorado.phet.membranediffusion.model.ParticleType;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -20,6 +23,9 @@ import edu.umd.cs.piccolo.PNode;
  * @author John Blanco
  */
 public class SodiumLeakageChannelToolBoxNode extends ToolBoxItem {
+    
+    private static final Color EDGE_COLOR = ColorUtils.interpolateRBGA(MembraneDiffusionConstants.SODIUM_COLOR,
+            Color.YELLOW, 0.5);
 
 	public SodiumLeakageChannelToolBoxNode(MembraneDiffusionModel model, ModelViewTransform2D mvt, PhetPCanvas canvas) {
 		super(model, mvt, canvas);
@@ -27,12 +33,14 @@ public class SodiumLeakageChannelToolBoxNode extends ToolBoxItem {
 
 	@Override
     protected MembraneChannel createModelElement( Point2D position ) {
-	    return new SodiumLeakageChannel(getModel(), getModel().getHodgkinHuxleyModel());
+	    return new GenericMembraneChannel( getModel(), ParticleType.SODIUM_ION,
+	            ColorUtils.darkerColor(EDGE_COLOR, 0.15), EDGE_COLOR, new ChannelAlwaysOpenStrategy() );
     }
 
     @Override
 	protected void initializeSelectionNode() {
-		MembraneChannel channel = new SodiumLeakageChannel();
+		MembraneChannel channel = new GenericMembraneChannel( getModel(), ParticleType.SODIUM_ION,
+		        ColorUtils.darkerColor(EDGE_COLOR, 0.15), EDGE_COLOR, new ChannelAlwaysOpenStrategy() );
 		PNode representation = new MembraneChannelNode(channel, SCALING_MVT);
 		setSelectionNode(representation);
 	}
