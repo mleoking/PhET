@@ -100,37 +100,6 @@ public abstract class MembraneChannel {
     //----------------------------------------------------------------------------
 	
 	/**
-	 * Static factory method for creating a membrane channel of the specified
-	 * type.
-	 */
-	public static MembraneChannel createMembraneChannel(MembraneChannelTypes channelType, IParticleCapture particleModel,
-			IHodgkinHuxleyModel hodgkinHuxleyModel){
-		
-		MembraneChannel membraneChannel = null;
-		
-    	switch (channelType){
-    	case SODIUM_LEAKAGE_CHANNEL:
-    		membraneChannel = new SodiumLeakageChannel(particleModel, hodgkinHuxleyModel);
-    		break;
-    		
-    	case SODIUM_GATED_CHANNEL:
-    		membraneChannel = new SodiumGatedChannel(particleModel, hodgkinHuxleyModel);
-    		break;
-    		
-    	case POTASSIUM_LEAKAGE_CHANNEL:
-    		membraneChannel = new PotassiumLeakageChannel(particleModel, hodgkinHuxleyModel);
-    		break;
-    		
-		case POTASSIUM_GATED_CHANNEL:
-			membraneChannel = new PotassiumGatedChannel(particleModel, hodgkinHuxleyModel);
-			break;
-    	}
-    	
-    	assert membraneChannel != null; // Should be able to create all types of channels.
-    	return membraneChannel;
-	}
-	
-	/**
 	 * Check the supplied list of atoms to see if any are in a location where
 	 * this channel wants to take control of them.
 	 * 
@@ -265,11 +234,6 @@ public abstract class MembraneChannel {
 	protected void setParticleVelocity(double particleVelocity) {
 		this.particleVelocity = particleVelocity;
 	}
-	
-	/**
-	 * Get the identifier for this channel type.
-	 */
-	abstract public MembraneChannelTypes getChannelType();
 	
 	/**
 	 * Set the "capture zone", which is a shape that represents the space
