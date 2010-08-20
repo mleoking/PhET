@@ -116,8 +116,19 @@ class TestAllApplication(config: PhetApplicationConfig) extends PiccoloPhetAppli
 
   addModule(new RobotMovingCompanyModule(getPhetFrame))
 }
+
+class TestOneApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
+  addModule(new IntroModule(getPhetFrame))
+}
+
 object TestAllApp {
   def main(args: Array[String]) = {
     new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "forces-and-motion".literal, classOf[TestAllApplication])
+  }
+}
+
+object TestOneApp {
+  def main(args: Array[String]) = {
+    new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "forces-and-motion".literal, classOf[TestOneApplication])
   }
 }
