@@ -60,6 +60,8 @@ public class GenericMembraneChannel extends MembraneChannel {
     //----------------------------------------------------------------------------
     // Methods
     //----------------------------------------------------------------------------
+	
+	
 
 	@Override
 	public Color getChannelColor() {
@@ -67,6 +69,12 @@ public class GenericMembraneChannel extends MembraneChannel {
 	}
 
 	@Override
+    public void stepInTime( double dt ) {
+        super.stepInTime( dt );
+        opennessStrategy.stepInTime( dt );
+    }
+
+    @Override
 	public Color getEdgeColor() {
 		return edgeColor;
 	}

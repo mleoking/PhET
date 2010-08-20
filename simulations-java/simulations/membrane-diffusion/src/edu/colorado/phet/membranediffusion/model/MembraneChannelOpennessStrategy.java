@@ -22,6 +22,11 @@ public abstract class MembraneChannelOpennessStrategy {
      */
     public abstract double getOpenness();
     
+    public void stepInTime( double dt ){
+        // Does nothing by default.  Descendant classes should implement any
+        // time-dependent behavior.
+    }
+    
     public void addListener(Listener listener){
         listeners.add(listener);
     }
