@@ -12,19 +12,6 @@ import edu.colorado.phet.common.motion.charts.ChartCursor
 import edu.colorado.phet.recordandplayback.model.{DataPoint, RecordAndPlaybackModel}
 import edu.colorado.phet.common.phetcommon.math.MathUtil
 
-case class RampState(angle: Double, heat: Double, wetness: Double)
-
-//This class stores all state information used in record/playback
-case class RecordedState(rampState: RampState,
-                         selectedObject: MotionSeriesObjectTypeState,
-                         beadState: MotionSeriesObjectState,
-                         manBeadState: MotionSeriesObjectState,
-                         appliedForce: Double,
-                         walls: Boolean,
-                         motionStrategyMemento: MotionStrategyMemento,
-                         time: Double,
-                         frictionless: Boolean)
-
 class MotionSeriesModel(defaultBeadPosition: Double,
                         pausedOnReset: Boolean,
                         initialAngle: Double)
