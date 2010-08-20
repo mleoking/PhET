@@ -125,20 +125,6 @@ object MotionSeriesDefaults {
 
   import java.awt.Color._
 
-//  val myGold = new Color(255, 235, 0)
-//  val myBrickRed = new Color(185, 80, 50)
-//  val myGreen = new Color(0.0f, 0.8f, 0.1f)
-//  val myDrabYellow = new Color(190, 190, 0)
-//  val myLightBlue = new Color(50, 130, 215)
-//  def compareColors(name:String,motionSeries:Color,phetcommon:Color) = {
-//    if (motionSeries.getRed!=phetcommon.getRed || 
-//    motionSeries.getGreen!=phetcommon.getGreen||
-//    motionSeries.getBlue!=phetcommon.getBlue){
-//      println("mismatched colors for "+name+", motionSeries = "+motionSeries+", phetcommon = "+phetcommon)
-//    }
-//    motionSeries
-//  }
-
   val appliedForceColor = PhetColorScheme.APPLIED_FORCE
   val gravityForceColor = PhetColorScheme.GRAVITATIONAL_FORCE
   val normalForceColor = PhetColorScheme.NORMAL_FORCE
