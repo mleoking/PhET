@@ -69,7 +69,6 @@ public class RecordAndPlaybackControlPanel<T> extends PhetPCanvas {
         clearButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 model.clearHistory();
-                model.setPaused(true);
                 model.setRecord(true);
             }
         });
