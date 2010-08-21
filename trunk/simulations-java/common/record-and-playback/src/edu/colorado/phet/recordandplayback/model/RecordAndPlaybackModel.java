@@ -282,12 +282,20 @@ public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
 
     public void stepInTime(double simulationTimeChange) {
         if (!isPaused()) {
-            mode.step(simulationTimeChange);
+            stepMode(simulationTimeChange);
         }
     }
 
+    /**
+     * Steps the currently active mode by the specified amount of time.
+     * @param dt the amount of time to step the current mode
+     */
+    protected void stepMode(double dt) {
+        mode.step(dt);
+    }
+
     public void step() {
-        mode.step(getPlaybackDT());
+        stepMode(getPlaybackDT());
     }
 
     protected void setMode(Mode mode) {
