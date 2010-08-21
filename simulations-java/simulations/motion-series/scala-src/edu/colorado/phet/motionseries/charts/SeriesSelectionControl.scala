@@ -5,7 +5,6 @@ import java.awt._
 import javax.swing._
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont
-import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.colorado.phet.motionseries.MotionSeriesDefaults._
 import edu.colorado.phet.motionseries.swing.MyJCheckBox

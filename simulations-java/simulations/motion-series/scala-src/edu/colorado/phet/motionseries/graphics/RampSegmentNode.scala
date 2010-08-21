@@ -19,7 +19,7 @@ import edu.colorado.phet.motionseries.model.{MotionSeriesObject, RampSegment}
  * and the angled segment.
  * @author Sam Reid
  */
-class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2D, rampSurfaceModel: RampSurfaceModel,motionSeriesObject:MotionSeriesObject) extends PNode with HasPaint {
+class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2D, rampSurfaceModel: RampSurfaceModel, motionSeriesObject: MotionSeriesObject) extends PNode with HasPaint {
   private val woodColor = new Color(184, 131, 24)
   private val iceColor = new Color(186, 228, 255)
   protected val pathNode = new PhetPPath(woodColor)
@@ -33,8 +33,8 @@ class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2
     updateBaseColor()
     updateDecorations()
   }
-  
-  motionSeriesObject.addListener(updateAll)//TODO: only update when friction coefficient changes
+
+  motionSeriesObject.addListener(updateAll) //TODO: only update when friction coefficient changes
 
   def updateBaseColor() = {
     paintColor = if (rampSurfaceModel.frictionless || motionSeriesObject.frictionless) iceColor else woodColor
@@ -67,8 +67,8 @@ class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2
   def paintColor = pathNode.getPaint
 }
 
-class RotatableSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2D, rampSurfaceModel: RampSurfaceModel,motionSeriesObject:MotionSeriesObject) 
-        extends RampSegmentNode(rampSegment, mytransform, rampSurfaceModel,motionSeriesObject) {
+class RotatableSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2D, rampSurfaceModel: RampSurfaceModel, motionSeriesObject: MotionSeriesObject)
+        extends RampSegmentNode(rampSegment, mytransform, rampSurfaceModel, motionSeriesObject) {
   pathNode.addInputEventListener(new CursorHandler)
   pathNode.addInputEventListener(new RotationHandler(mytransform, pathNode, rampSegment, 0, MotionSeriesDefaults.MAX_ANGLE))
 }

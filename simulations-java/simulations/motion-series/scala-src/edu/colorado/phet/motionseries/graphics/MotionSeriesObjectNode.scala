@@ -16,10 +16,10 @@ import edu.colorado.phet.motionseries.model.{ForcesAndMotionObject, ForceMotionS
 import edu.colorado.phet.motionseries.javastage.stage.PlayArea
 
 class ForceDragMotionSeriesObjectNode(motionSeriesObject: ForceMotionSeriesObject,
-                        transform: ModelViewTransform2D,
-                        imageName: String,
-                        crashImageName: String,
-                        dragListener: () => Unit)
+                                      transform: ModelViewTransform2D,
+                                      imageName: String,
+                                      crashImageName: String,
+                                      dragListener: () => Unit)
         extends MotionSeriesObjectNode(motionSeriesObject, transform, imageName, crashImageName) {
   addInputEventListener(new CursorHandler)
   addInputEventListener(new PBasicInputEventHandler() {
@@ -40,11 +40,11 @@ class ForceDragMotionSeriesObjectNode(motionSeriesObject: ForceMotionSeriesObjec
 }
 
 class PositionDragMotionSeriesObjectNode(motionSeriesObject: ForcesAndMotionObject,
-                           transform: ModelViewTransform2D,
-                           imageName: String,
-                           leftImageName: String,
-                           dragListener: () => Unit,
-                           canvas: PlayArea)
+                                         transform: ModelViewTransform2D,
+                                         imageName: String,
+                                         leftImageName: String,
+                                         dragListener: () => Unit,
+                                         canvas: PlayArea)
         extends MotionSeriesObjectNode(motionSeriesObject, transform, imageName, imageName) {
   addInputEventListener(new CursorHandler)
   addInputEventListener(new PBasicInputEventHandler() {
@@ -81,9 +81,9 @@ class PositionDragMotionSeriesObjectNode(motionSeriesObject: ForcesAndMotionObje
 }
 
 class MotionSeriesObjectNode(motionSeriesObject: MotionSeriesObject,
-               transform: ModelViewTransform2D,
-               private var image: BufferedImage,
-               private var crashImage: BufferedImage)
+                             transform: ModelViewTransform2D,
+                             private var image: BufferedImage,
+                             private var crashImage: BufferedImage)
         extends PNode {
   def this(motionSeriesObject: MotionSeriesObject, transform: ModelViewTransform2D, imageName: String, crashImageName: String) = this (motionSeriesObject, transform, MotionSeriesResources.getImage(imageName), MotionSeriesResources.getImage(crashImageName))
 
