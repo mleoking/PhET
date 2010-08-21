@@ -298,11 +298,11 @@ class MotionSeriesModel(defaultPosition: Double,
   //TODO: this may need to be more general if/when there are more/less ramp segments
   def positionMapper(particleLocation: Double) = {
     if (particleLocation <= 0) {
-      val backwardsUnitVector = rampSegments(0).getUnitVector * -1 //go backwards since position is measure from origin
+      val backwardsUnitVector = rampSegments(0).unitVector * -1 //go backwards since position is measure from origin
       backwardsUnitVector * (-particleLocation) + rampSegments(0).endPoint
     }
     else {
-      rampSegments(1).getUnitVector * (particleLocation) + rampSegments(1).startPoint
+      rampSegments(1).unitVector * (particleLocation) + rampSegments(1).startPoint
     }
   }
 
