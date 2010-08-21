@@ -5,42 +5,41 @@ import edu.colorado.phet.scalacommon.math.Vector2D
 import edu.colorado.phet.scalacommon.util.Observable
 
 /**Immutable memento for recording*/
-case class MotionSeriesObjectState(position: Double, velocity: Double, mass: Double, staticFriction: Double, kineticFriction: Double, thermalEnergy: Double, crashEnergy: Double, time: Double) {
+case class MotionSeriesObjectState(position: Double, velocity: Double, acceleration: Double, mass: Double, staticFriction: Double, kineticFriction: Double, thermalEnergy: Double, crashEnergy: Double, time: Double) {
   def translate(dx: Double) = setPosition(position + dx)
 
-  def setPosition(pos: Double) = new MotionSeriesObjectState(pos, velocity, mass, staticFriction, kineticFriction, thermalEnergy, crashEnergy, time)
+  def setPosition(pos: Double) = copy(position = pos)
 
-  def setVelocity(vel: Double) = new MotionSeriesObjectState(position, vel, mass, staticFriction, kineticFriction, thermalEnergy, crashEnergy, time)
+  def setVelocity(vel: Double) = copy(velocity = vel)
 
-  def setStaticFriction(value: Double) = new MotionSeriesObjectState(position, velocity, mass, value, kineticFriction, thermalEnergy, crashEnergy, time)
+  def setStaticFriction(value: Double) = copy(staticFriction = value)
 
-  def setKineticFriction(value: Double) = new MotionSeriesObjectState(position, velocity, mass, staticFriction, value, thermalEnergy, crashEnergy, time)
+  def setKineticFriction(value: Double) = copy(kineticFriction = value)
 
-  def setMass(m: Double) = new MotionSeriesObjectState(position, velocity, m, staticFriction, kineticFriction, thermalEnergy, crashEnergy, time)
+  def setMass(m: Double) = copy(mass = m)
 
-  def setThermalEnergy(value: Double) = new MotionSeriesObjectState(position, velocity, mass, staticFriction, kineticFriction, value, crashEnergy, time)
+  def setThermalEnergy(value: Double) = copy(thermalEnergy = value)
 
-  def setCrashEnergy(value: Double) = new MotionSeriesObjectState(position, velocity, mass, staticFriction, kineticFriction, thermalEnergy, value, time)
+  def setCrashEnergy(value: Double) = copy(crashEnergy = value)
 
-  def setTime(value: Double) = new MotionSeriesObjectState(position, velocity, mass, staticFriction, kineticFriction, thermalEnergy, crashEnergy, value)
+  def setTime(value: Double) = copy(time = value)
 }
 
 case class Range(min: Double, max: Double)
 
 abstract class MotionSeriesObject(private var _state: MotionSeriesObjectState,
-                    private var _height: Double,
-                    private var _width: Double,
-                    val positionMapper: Double => Vector2D,
-                    val rampSegmentAccessor: Double => RampSegment,
-                    model: Observable,
-                    val wallsBounce: () => Boolean,
-                    _wallsExist: => Boolean,
-                    val wallRange: () => Range,
-                    thermalEnergyStrategy: Double => Double)
+                                  private var _height: Double,
+                                  private var _width: Double,
+                                  val positionMapper: Double => Vector2D,
+                                  val rampSegmentAccessor: Double => RampSegment,
+                                  model: Observable,
+                                  val wallsBounce: () => Boolean,
+                                  _wallsExist: => Boolean,
+                                  val wallRange: () => Range,
+                                  thermalEnergyStrategy: Double => Double)
         extends Observable {
-  
-  def frictionless= state.staticFriction==0 && state.kineticFriction==0
-  
+  def frictionless = state.staticFriction == 0 && state.kineticFriction == 0
+
   private var _gravity = -9.8
 
   def gravity = _gravity
