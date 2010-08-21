@@ -6,7 +6,6 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.{BufferedImageUtils, PhetFont}
 import edu.colorado.phet.common.phetcommon.view.{ControlPanel, VerticalLayoutPanel}
 import edu.colorado.phet.motionseries.graphics._
-import java.awt.event.{MouseEvent, MouseAdapter}
 import java.awt._
 import java.awt.geom._
 import java.awt.image._
@@ -24,6 +23,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas
 import edu.umd.cs.piccolo.PNode
 import edu.umd.cs.piccolox.pswing.{PSwingCanvas, PSwing}
 import edu.colorado.phet.common.phetcommon.math.MathUtil
+import java.awt.event.{MouseEvent, MouseAdapter}
 
 class RampControlPanel(model: MotionSeriesModel,
                        freeBodyDiagramModel: FreeBodyDiagramModel,
@@ -168,19 +168,18 @@ class RampControlPanelBody(model: MotionSeriesModel,
   add(vectorPanel)
 
   if (showBounceControl) {
-    val bouncePanel = new SubControlPanel("walls.type".translate)
-    val onButton = new MyRadioButton("walls.brick".translate, model.bounce = false, !model.bounce, model.addListener)
-    val offButton = new MyRadioButton("walls.bouncy".translate, model.bounce = true, model.bounce, model.addListener)
-    val panel = new JPanel
-    panel.add(onButton.peer)
-    panel.add(offButton.peer)
-    bouncePanel.add(panel)
-    add(bouncePanel)
-    defineInvokeAndPass(model.addListenerByName) {
-//      bouncePanel.titleLabel.setEnabled(model.walls)
-      onButton.peer.setEnabled(model.walls)
-      offButton.peer.setEnabled(model.walls)
-    }
+    add(new SubControlPanel("walls.type".translate) {
+      val brickButton = new MyRadioButton("walls.brick".translate, model.bounce = false, !model.bounce, model.addListener)
+      val bouncyButton = new MyRadioButton("walls.bouncy".translate, model.bounce = true, model.bounce, model.addListener)
+      defineInvokeAndPass(model.addListenerByName) {
+        brickButton.peer.setEnabled(model.walls)
+        bouncyButton.peer.setEnabled(model.walls)
+      }
+      add(new JPanel {
+        add(brickButton.peer)
+        add(bouncyButton.peer)
+      })
+    })
   }
 
   val moreControlsPanel = new SubControlPanel(subControlPanelTitle)
