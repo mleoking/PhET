@@ -24,7 +24,9 @@ class MotionSeriesModel(defaultPosition: Double,
   val chartCursor = new ChartCursor()
 
   val rampSegments = new ArrayBuffer[RampSegment]
+  
   val stepListeners = new ArrayBuffer[() => Unit]
+  val recordListeners = new ArrayBuffer[() => Unit]
   val rampLength = 10
   setPaused(pausedOnReset)
 
@@ -71,7 +73,6 @@ class MotionSeriesModel(defaultPosition: Double,
   val raindropAddedListeners = new ArrayBuffer[Raindrop => Unit]
   private var totalThermalEnergyOnClear = 0.0
   val maxDrops = (60 * 0.75).toInt
-  val elapsedTimeHistory = new ArrayBuffer[Long]
 
   def stepRecord(): Unit = stepRecord(MotionSeriesDefaults.DT_DEFAULT)
 
@@ -204,6 +205,7 @@ class MotionSeriesModel(defaultPosition: Double,
       fireDogs(0).remove()
 
     chartCursor.setTime(state.time)
+    stepListeners.foreach(_())
   }
 
   def selectedObject = _selectedObject
@@ -306,17 +308,6 @@ class MotionSeriesModel(defaultPosition: Double,
 
   def rampSegmentAccessor(particleLocation: Double) = if (particleLocation <= 0) rampSegments(0) else rampSegments(1)
 
-  override def stepInTime(dt: Double) = {
-    val startTime = System.nanoTime
-    super.stepInTime(dt)
-    val endTime = System.nanoTime
-    val elapsedTimeMS = endTime - startTime
-    elapsedTimeHistory += elapsedTimeMS
-    while (elapsedTimeHistory.length > 100) elapsedTimeHistory.remove(0)
-    val avg = elapsedTimeHistory.foldLeft(0L)(_ + _) / elapsedTimeHistory.length
-    ()
-  }
-
   def stepRecord(dt: Double) = {
     motionSeriesObject.stepInTime(dt)
     for (f <- fireDogs) f.stepInTime(dt)
@@ -328,11 +319,14 @@ class MotionSeriesModel(defaultPosition: Double,
     rampSegments(1).stepInTime(dt)
 
     notifyListeners() //signify to the Timeline that more data has been added
+    recordListeners.foreach(_())
   }
 
   protected override def stepMode(dt: Double) = {
     super.stepMode(dt)
-    stepListeners.foreach(_())
+    if (!isPlayback){//for playback mode, the stepListeners are already notified
+      stepListeners.foreach(_())
+    }
   }
 }
 

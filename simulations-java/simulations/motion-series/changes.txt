@@ -1,3 +1,4 @@
+Centralized stepListeners instead of using different notifications for playback vs record
 Refactored model
 Added screenshots
 Moved vertical applied force slider closer to the chart

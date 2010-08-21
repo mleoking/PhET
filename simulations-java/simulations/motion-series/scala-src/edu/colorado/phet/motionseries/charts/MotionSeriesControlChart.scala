@@ -92,7 +92,7 @@ class SingleSeriesChart(motionSeriesModel: MotionSeriesModel, _value: () => Doub
     variable.addListener(updateReadout)
   }, new PNode(), temporalChart, new ChartZoomControlNode(temporalChart))
 
-  val series = new MSDataSeries(title, color, units, variable, motionSeriesModel, true)
+  val series = new MotionSeriesDataSeries(title, color, units, variable, motionSeriesModel, true)
   temporalChart.addDataSeries(series, series.color)
 
   motionSeriesModel.resetListeners_+=(() => {series.clear()})
@@ -164,11 +164,11 @@ abstract class MotionSeriesControlChart(motionSeriesModel: MotionSeriesModel, fo
   }
   
   val N = "units.abbr.newtons".translate
-  val appliedForceSeries = new MSDataSeries("force.pattern".messageformat("forces.applied".translate), MotionSeriesDefaults.appliedForceColor, N, parallelAppliedForceVariable, motionSeriesModel, true)
-  val frictionForceSeries = new MSDataSeries("force.pattern".messageformat("forces.friction".translate), MotionSeriesDefaults.frictionForceColor, N, frictionVariable, motionSeriesModel, false)
-  val gravityForceSeries = new MSDataSeries("force.pattern".messageformat("forces.gravity-parallel".translate), MotionSeriesDefaults.gravityForceColor, N, gravityVariable, motionSeriesModel, false)
-  val wallForceSeries = new MSDataSeries("force.pattern".messageformat("forces.wall".translate), MotionSeriesDefaults.wallForceColor, N, wallVariable, motionSeriesModel, false)
-  val sumForceSeries = new MSDataSeries("force.pattern".messageformat(forcesSum), MotionSeriesDefaults.sumForceColor, N, sumForceVariable, motionSeriesModel, false)
+  val appliedForceSeries = new MotionSeriesDataSeries("force.pattern".messageformat("forces.applied".translate), MotionSeriesDefaults.appliedForceColor, N, parallelAppliedForceVariable, motionSeriesModel, true)
+  val frictionForceSeries = new MotionSeriesDataSeries("force.pattern".messageformat("forces.friction".translate), MotionSeriesDefaults.frictionForceColor, N, frictionVariable, motionSeriesModel, false)
+  val gravityForceSeries = new MotionSeriesDataSeries("force.pattern".messageformat("forces.gravity-parallel".translate), MotionSeriesDefaults.gravityForceColor, N, gravityVariable, motionSeriesModel, false)
+  val wallForceSeries = new MotionSeriesDataSeries("force.pattern".messageformat("forces.wall".translate), MotionSeriesDefaults.wallForceColor, N, wallVariable, motionSeriesModel, false)
+  val sumForceSeries = new MotionSeriesDataSeries("force.pattern".messageformat(forcesSum), MotionSeriesDefaults.sumForceColor, N, sumForceVariable, motionSeriesModel, false)
 
   //todo: could move this reset function into the MSDataSeries
   def resetAll() = {
@@ -199,7 +199,7 @@ abstract class MotionSeriesControlChart(motionSeriesModel: MotionSeriesModel, fo
     }
   })
 
-  def additionalSerieses: List[MSDataSeries]
+  def additionalSerieses: List[MotionSeriesDataSeries]
 
   def gridSize = 5
 
@@ -256,10 +256,10 @@ class MutableDouble(private var _value: Double) extends Observable {
   def apply() = value
 }
 
-class MSDataSeries(_title: String, _color: Color, _units: String, value: MutableDouble, motionSeriesModel: MotionSeriesModel, val visible: Boolean) extends TemporalDataSeries {
+class MotionSeriesDataSeries(_title: String, _color: Color, _units: String, value: MutableDouble, motionSeriesModel: MotionSeriesModel, val visible: Boolean) extends TemporalDataSeries {
   setVisible(visible)
   def title = _title
-  motionSeriesModel.stepListeners += (() => {addPoint(value(), motionSeriesModel.getTime)})
+  motionSeriesModel.recordListeners += (() => {addPoint(value(), motionSeriesModel.getTime)})
 
   def addValueChangeListener(listener: () => Unit) = value.addListener(listener)
 

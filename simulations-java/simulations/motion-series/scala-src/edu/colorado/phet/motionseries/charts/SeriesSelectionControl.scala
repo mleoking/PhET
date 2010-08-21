@@ -26,9 +26,9 @@ class SeriesSelectionControl(title: String, numRows: Int) extends VerticalLayout
   nongrid.setBackground(EARTH_COLOR)
   add(nongrid)
 
-  def addToGrid(series: MSDataSeries): Unit = addToGrid(series, createLabel)
+  def addToGrid(series: MotionSeriesDataSeries): Unit = addToGrid(series, createLabel)
 
-  def addToGrid(series: MSDataSeries, labelMaker: MSDataSeries => JComponent): Unit =
+  def addToGrid(series: MotionSeriesDataSeries, labelMaker: MotionSeriesDataSeries => JComponent): Unit =
     addComponentsToGrid(new SeriesControlSelectorBox(series), labelMaker(series))
 
   def addComponentsToGrid(component1: JComponent, component2: JComponent) = {
@@ -40,7 +40,7 @@ class SeriesSelectionControl(title: String, numRows: Int) extends VerticalLayout
     nongrid.add(component)
   }
 
-  def createLabel(series: MSDataSeries) = {
+  def createLabel(series: MotionSeriesDataSeries) = {
     //Switching from a JLabel to a JTextField makes the entire application run smoothly on the chart tabs
     //I'm not sure why JLabels were a problem.
     val label = new JTextField()
@@ -58,7 +58,7 @@ class SeriesSelectionControl(title: String, numRows: Int) extends VerticalLayout
     label
   }
 
-  def createEditableLabel(series: MSDataSeries) = {
+  def createEditableLabel(series: MotionSeriesDataSeries) = {
     val panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0))
     val textField = new JTextField(4)
     textField.addActionListener(new ActionListener() {
@@ -111,7 +111,7 @@ class SeriesControlTitleLabel(val series: ControlGraphSeries) extends JLabel(ser
   init()
 }
 
-class SeriesControlSelectorBox(val series: MSDataSeries) extends MyJCheckBox(series.title, series.setVisible(_), series.isVisible, series.addMSDataSeriesListener) {
+class SeriesControlSelectorBox(val series: MotionSeriesDataSeries) extends MyJCheckBox(series.title, series.setVisible(_), series.isVisible, series.addMSDataSeriesListener) {
   setMargin(new Insets(0, 0, 0, 0)) //allows buttons to fit closer together
   setOpaque(false) //let the background show through, TODO: check whether this works on Mac
   setForeground(series.color)
