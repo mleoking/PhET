@@ -5,7 +5,7 @@ import edu.colorado.phet.scalacommon.math.Vector2D
 import edu.colorado.phet.scalacommon.util.Observable
 
 /**Immutable memento for recording*/
-case class MotionSeriesObjectState(position: Double, velocity: Double, acceleration: Double, mass: Double, staticFriction: Double, kineticFriction: Double, thermalEnergy: Double, crashEnergy: Double, time: Double) {
+case class MotionSeriesObjectState(position: Double, velocity: Double, private val acceleration: Double, mass: Double, staticFriction: Double, kineticFriction: Double, thermalEnergy: Double, crashEnergy: Double, time: Double) {
   def translate(dx: Double) = setPosition(position + dx)
 
   def setPosition(pos: Double) = copy(position = pos)

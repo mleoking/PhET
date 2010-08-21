@@ -271,7 +271,6 @@ class Grounded(motionSeriesObject: ForceMotionSeriesObject) extends MotionStrate
     motionSeriesObject.setTime(motionSeriesObject.time + dt)
     motionSeriesObject.setPosition(newState.position)
     motionSeriesObject.setVelocity(newState.velocity)
-    motionSeriesObject.setAcceleration(newState.acceleration)
     motionSeriesObject.thermalEnergy = newState.thermalEnergy
     motionSeriesObject.crashEnergy = newState.crashEnergy
 

@@ -12,7 +12,7 @@ import edu.umd.cs.piccolo.nodes.PImage
 import java.awt.image.BufferedImage
 import edu.colorado.phet.scalacommon.math.Vector2D
 import edu.colorado.phet.scalacommon.Predef._
-import edu.colorado.phet.motionseries.model.{ForcesAndMotionObject, ForceMotionSeriesObject, MotionSeriesObject}
+import edu.colorado.phet.motionseries.model.{ForceMotionSeriesObject, MotionSeriesObject}
 import edu.colorado.phet.motionseries.javastage.stage.PlayArea
 
 class ForceDragMotionSeriesObjectNode(motionSeriesObject: ForceMotionSeriesObject,
@@ -37,47 +37,6 @@ class ForceDragMotionSeriesObjectNode(motionSeriesObject: ForceMotionSeriesObjec
       motionSeriesObject.parallelAppliedForce = 0.0
     }
   })
-}
-
-class PositionDragMotionSeriesObjectNode(motionSeriesObject: ForcesAndMotionObject,
-                                         transform: ModelViewTransform2D,
-                                         imageName: String,
-                                         leftImageName: String,
-                                         dragListener: () => Unit,
-                                         canvas: PlayArea)
-        extends MotionSeriesObjectNode(motionSeriesObject, transform, imageName, imageName) {
-  addInputEventListener(new CursorHandler)
-  addInputEventListener(new PBasicInputEventHandler() {
-    override def mouseDragged(event: PInputEvent) = {
-      motionSeriesObject.setPositionMode()
-      val delta = event.getCanvasDelta
-      //todo: make it so we can get this information (a) more easily and (b) without a reference to the canvas:MyCanvas
-      val screenDelta = canvas.canvasToStageDelta(delta.getWidth, delta.getHeight)
-      val modelDelta = canvas.getModelStageTransform.viewToModelDifferential(screenDelta.getWidth(), screenDelta.getHeight())
-      motionSeriesObject.setDesiredPosition(motionSeriesObject.desiredPosition + modelDelta.x)
-      dragListener()
-    }
-
-    override def mouseReleased(event: PInputEvent) = {
-    }
-
-    override def mousePressed(event: PInputEvent) = {
-      motionSeriesObject.setDesiredPosition(motionSeriesObject.position)
-    }
-  })
-  update()
-
-  override def update() = {
-    updateImage() //update image first in case superclass uses its size to do layout things
-    super.update()
-  }
-
-  def updateImage() = {
-    val image = if (motionSeriesObject.velocity < -1E-8) MotionSeriesResources.getImage(leftImageName)
-    else if (motionSeriesObject.velocity > 1E-8) BufferedImageUtils.flipX(MotionSeriesResources.getImage(leftImageName))
-    else MotionSeriesResources.getImage(imageName)
-    imageNode.setImage(image)
-  }
 }
 
 class MotionSeriesObjectNode(motionSeriesObject: MotionSeriesObject,
