@@ -26,7 +26,7 @@ class ForceDragMotionSeriesObjectNode(motionSeriesObject: ForceMotionSeriesObjec
     override def mouseDragged(event: PInputEvent) = {
       val delta = event.getCanvasDelta
       val modelDelta = transform.viewToModelDifferential(delta.width, delta.height)
-      val sign = modelDelta dot motionSeriesObject.getRampUnitVector
+      val sign = modelDelta dot motionSeriesObject.rampUnitVector
       dragListener() //it makes more sense to call the drag listener last after setting the parallel applied force.  However, in GoButton's visibility model,
       //the go button is relying on the sim starting before the applied force gets set as part of the logic to decide whether to show the go button.  The go button
       //should not appear when the user drags the object (which was happening when dragListener() was called after setting the applied force.

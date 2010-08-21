@@ -72,7 +72,7 @@ class AxisNodeWithModel(transform: ModelViewTransform2D,
   }
   def attachListener(node: PNode) {
     node.addInputEventListener(new ToggleListener(new CursorHandler, () => adjustableCoordinateModel.adjustable))
-    node.addInputEventListener(new ToggleListener(new AxisRotator(transform, node, axisModel.coordinateFrameModel, axisModel.getPivot),
+    node.addInputEventListener(new ToggleListener(new AxisRotator(transform, node, axisModel.coordinateFrameModel, axisModel.pivot),
       () => adjustableCoordinateModel.adjustable))
     node.addInputEventListener(new ToggleListener(new PBasicInputEventHandler {
       override def mouseReleased(event: PInputEvent) = axisModel.dropped()
