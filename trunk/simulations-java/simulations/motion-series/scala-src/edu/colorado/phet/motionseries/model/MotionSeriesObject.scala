@@ -93,7 +93,7 @@ abstract class MotionSeriesObject(private var _state: MotionSeriesObjectState,
 
   def position2D: Vector2D
 
-  def getRampUnitVector = rampSegmentAccessor(position).getUnitVector
+  def rampUnitVector = rampSegmentAccessor(position).unitVector
 
   def mass = state.mass
 
@@ -193,7 +193,7 @@ abstract class MotionSeriesObject(private var _state: MotionSeriesObjectState,
 
   def getAngle: Double
 
-  def getParallelComponent(f: Vector2D) = f dot getRampUnitVector
+  def getParallelComponent(f: Vector2D) = f dot rampUnitVector
 
   val workListeners = new ArrayBuffer[Double => Unit]
 

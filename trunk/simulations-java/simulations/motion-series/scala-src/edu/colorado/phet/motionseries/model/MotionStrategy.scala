@@ -73,7 +73,7 @@ abstract class MotionStrategy(val motionSeriesObject: ForceMotionSeriesObject) {
 
   def crashListeners = motionSeriesObject.crashListeners
 
-  def getRampUnitVector = motionSeriesObject.getRampUnitVector
+  def getRampUnitVector = motionSeriesObject.rampUnitVector
 
   def staticFriction = motionSeriesObject.staticFriction
 
@@ -169,7 +169,7 @@ class Grounded(motionSeriesObject: ForceMotionSeriesObject) extends MotionStrate
 
   def position2D = positionMapper(position)
 
-  def getAngle = rampSegmentAccessor(position).getUnitVector.angle
+  def getAngle = rampSegmentAccessor(position).unitVector.angle
 
   override def normalForce = {
     val magnitude = (gravityForce * -1) dot getRampUnitVector.rotate(PI / 2)

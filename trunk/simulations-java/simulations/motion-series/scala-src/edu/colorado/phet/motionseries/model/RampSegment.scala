@@ -40,11 +40,11 @@ class RampSegment(_state: RampSegmentState) extends Observable with Rotatable {
     notifyListeners()
   }
 
-  def getPivot = startPoint
+  def pivot = startPoint
 
   def length = (endPoint - startPoint).magnitude
 
-  def getUnitVector = state.getUnitVector
+  def unitVector = state.getUnitVector
 
   def setAngle(angle: Double) = {
     state = state.setAngle(angle)

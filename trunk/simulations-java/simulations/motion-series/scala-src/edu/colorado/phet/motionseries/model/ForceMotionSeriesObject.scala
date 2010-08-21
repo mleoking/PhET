@@ -34,8 +34,8 @@ class ForceMotionSeriesObject(_state: MotionSeriesObjectState,
   val appliedForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.appliedForceColor, "Applied Force".literal, "force.abbrev.applied".translate, false, () => appliedForce, (a, b) => b, PI / 2)
   val frictionForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.frictionForceColor, "Friction Force".literal, "force.abbrev.friction".translate, true, () => frictionForce, (a, b) => b, -PI / 2)
   val wallForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.wallForceColor, "Wall Force".literal, "force.abbrev.wall".translate, false, () => wallForce, (a, b) => b, PI / 2)
-  val velocityVector = new MotionSeriesObjectVector(MotionSeriesDefaults.velocityColor, "Velocity".literal, "properties.velocity".translate, false, () => getRampUnitVector * velocity, (a, b) => b, PI / 2)
-  val accelerationVector = new MotionSeriesObjectVector(MotionSeriesDefaults.accelerationColor, "Acceleration".literal, "properties.acceleration".translate, false, () => getRampUnitVector * acceleration, (a, b) => b, PI / 2)
+  val velocityVector = new MotionSeriesObjectVector(MotionSeriesDefaults.velocityColor, "Velocity".literal, "properties.velocity".translate, false, () => rampUnitVector * velocity, (a, b) => b, PI / 2)
+  val accelerationVector = new MotionSeriesObjectVector(MotionSeriesDefaults.accelerationColor, "Acceleration".literal, "properties.acceleration".translate, false, () => rampUnitVector * acceleration, (a, b) => b, PI / 2)
   //chain listeners
   normalForceVector.addListenerByName(frictionForceVector.notifyListeners())
   //todo: add normalForceVector notification when changing friction coefficients
@@ -72,7 +72,7 @@ class ForceMotionSeriesObject(_state: MotionSeriesObjectState,
     }
   }
 
-  def appliedForce = getRampUnitVector * _parallelAppliedForce
+  def appliedForce = rampUnitVector * _parallelAppliedForce
 
   private var _surfaceFrictionStrategy = __surfaceFrictionStrategy
 
@@ -107,7 +107,7 @@ class ForceMotionSeriesObject(_state: MotionSeriesObjectState,
       staticFriction = kineticFriction
   }
 
-  def forceToParallelAcceleration(f: Vector2D) = (f dot getRampUnitVector) / mass
+  def forceToParallelAcceleration(f: Vector2D) = (f dot rampUnitVector) / mass
 
   def netForceToParallelVelocity(f: Vector2D, dt: Double) = velocity + forceToParallelAcceleration(f) * dt
 

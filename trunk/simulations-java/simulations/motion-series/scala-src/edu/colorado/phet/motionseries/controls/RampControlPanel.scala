@@ -140,22 +140,22 @@ class RampControlPanelBody(model: MotionSeriesModel,
       node.toImage(75, (75.0 / node.getFullBounds.getWidth * node.getFullBounds.getHeight).toInt, new Color(255, 255, 255, 0))
     }
 
-    def getIceIcon = getSegmentIcon(true)
+    def iceIcon = getSegmentIcon(true)
 
-    def getWoodIcon = getSegmentIcon(false)
+    def woodIcon = getSegmentIcon(false)
 
     val onButton = new MyRadioButton("surface.ice-no-friction".translate, model.frictionless = true, model.frictionless, model.addListener)
 
     val onButtonPanel = new JPanel() {
       add(onButton.peer)
-      add(new JLabel(new ImageIcon(getIceIcon)))
+      add(new JLabel(new ImageIcon(iceIcon)))
     }
 
     val offButton = new MyRadioButton("surface.wood".translate, model.frictionless = false, !model.frictionless, model.addListener)
 
     val offButtonPanel = new JPanel() {
       add(offButton.peer)
-      add(new JLabel(new ImageIcon(getWoodIcon)))
+      add(new JLabel(new ImageIcon(woodIcon)))
     }
 
     val panel = new VerticalLayoutPanel
@@ -208,7 +208,7 @@ class RampControlPanelBody(model: MotionSeriesModel,
 
   if (showAngleSlider) {
     val angleSlider = new ScalaValueControl(0, MotionSeriesDefaults.MAX_ANGLE.toDegrees, "property.ramp-angle".translate, "0.0".literal, "units.degrees".translate,
-      () => model.rampSegments(1).getUnitVector.angle.toDegrees, value => model.rampAngle = value.toRadians, model.rampSegments(1).addListener)
+      () => model.rampSegments(1).unitVector.angle.toDegrees, value => model.rampAngle = value.toRadians, model.rampSegments(1).addListener)
     moreControlsPanel.add(angleSlider)
   }
 
