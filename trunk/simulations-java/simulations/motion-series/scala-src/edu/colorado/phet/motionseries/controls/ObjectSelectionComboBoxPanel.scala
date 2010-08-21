@@ -14,7 +14,7 @@ import java.awt.Color
 class ObjectSelectionComboBox(objectModel: ObjectModel) extends PComboBox {
   val vec = new Vector[ObjectItem]
 
-  val itemList = for (o <- MotionSeriesDefaults.objects) yield {
+  val itemList = for (o <- MotionSeriesDefaults.objectTypes) yield {
     o match {
       case m: MotionSeriesObjectType => new ObjectItem(o)
     }
@@ -25,7 +25,7 @@ class ObjectSelectionComboBox(objectModel: ObjectModel) extends PComboBox {
   for (elm <- itemList) vec.add(elm)
   super.setModel(new DefaultComboBoxModel(vec))
 
-  objectModel.addListener(() => setSelectedIndex(MotionSeriesDefaults.objects.indexOf(objectModel.selectedObject)))
+  objectModel.addListener(() => setSelectedIndex(MotionSeriesDefaults.objectTypes.indexOf(objectModel.selectedObject)))
   addItemListener(new ItemListener() {
     def itemStateChanged(e: ItemEvent) = objectModel.selectedObject = itemList(getSelectedIndex).rampObject
   })

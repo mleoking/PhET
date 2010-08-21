@@ -103,7 +103,7 @@ object MotionSeriesDefaults {
   val mystery = new CustomTextMotionSeriesObjectType("object.mystery-object".translate, 123, 0.2, 0.3, 2, "mystery-box.png".literal, "mystery-box_crashed.png".literal, 600, "mystery-box.png".literal, false)
   val custom = new MutableMotionSeriesObjectType("object.custom-crate".translate, 100.0, 0.3, 0.5, -1.0, "crate.gif".literal, "crate_crashed.gif".literal, 300, "crate_custom.gif".literal, true) //height is determined dynamically in MutableRampObject
 
-  val objects = crate :: cabinet :: ollie :: fridge ::
+  val objectTypes = crate :: cabinet :: ollie :: fridge ::
           book :: mystery ::
           Nil
   val iconsPerRow = 4

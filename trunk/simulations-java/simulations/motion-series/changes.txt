@@ -1,3 +1,4 @@
+Added non-editable text boxes (as in moving man) which read out a,v,x next to chart
 Centralized stepListeners instead of using different notifications for playback vs record
 Refactored model
 Added screenshots

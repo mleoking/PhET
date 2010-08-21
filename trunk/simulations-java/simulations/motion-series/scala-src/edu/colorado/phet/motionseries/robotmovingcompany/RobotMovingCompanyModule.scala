@@ -18,7 +18,7 @@ import java.awt.event.{ActionEvent, ActionListener, KeyEvent, KeyAdapter}
 class RobotMovingCompanyModule(frame: PhetFrame,
                                initAngle: Double = defaultRampAngle,
                                appliedForce: Double = rampRobotForce,
-                               objectList: List[MotionSeriesObjectType] = objects)
+                               objectList: List[MotionSeriesObjectType] = objectTypes)
         extends MotionSeriesModule(frame, new ScalaClock(MotionSeriesDefaults.DELAY, MotionSeriesDefaults.DT_DEFAULT), "module.robotMovingCompany".translate, 5, false, MotionSeriesDefaults.defaultRampAngle, false) {
   override def reset() = {
     super.reset()
