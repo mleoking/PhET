@@ -58,7 +58,6 @@ class ForcesAndMotionChartNode(canvas: PhetPCanvas, model: MotionSeriesModel) ex
 class SingleSeriesChart(motionSeriesModel: MotionSeriesModel, _value: () => Double, maxY: Double, units: String, color: Color, title: String) {
   val variable = new MutableDouble(_value()) {
     motionSeriesModel.stepListeners += (() => {value = _value()})
-    motionSeriesModel.playbackListeners += (() => {value = _value()})
   }
   val temporalChart = new TemporalChart(new Rectangle2D.Double(0, -maxY, 20, maxY * 2), new Rectangle2D.Double(0, -5, 2, 10), new Rectangle2D.Double(0, -10000, 20, 20000), motionSeriesModel.chartCursor)
   val chart = new ControlChart(new PNode() {
@@ -163,7 +162,7 @@ abstract class MotionSeriesControlChart(motionSeriesModel: MotionSeriesModel, fo
   val sumForceVariable = new MutableDouble(parallelTotalForce) {
     motionSeriesModel.stepListeners += (() => {value = parallelTotalForce})
   }
-
+  
   val N = "units.abbr.newtons".translate
   val appliedForceSeries = new MSDataSeries("force.pattern".messageformat("forces.applied".translate), MotionSeriesDefaults.appliedForceColor, N, parallelAppliedForceVariable, motionSeriesModel, true)
   val frictionForceSeries = new MSDataSeries("force.pattern".messageformat("forces.friction".translate), MotionSeriesDefaults.frictionForceColor, N, frictionVariable, motionSeriesModel, false)
