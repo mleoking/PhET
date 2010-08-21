@@ -7,25 +7,24 @@ import edu.colorado.phet.scalacommon.util.Observable
 
 object ForcesAndMotionObject {
   def apply(model: MotionSeriesModel, x: Double, width: Double, height: Double) = {
-    new ForcesAndMotionObject(new MotionSeriesObjectState(x, 0, 10, 0, 0, 0.0, 0.0, 0.0), height, width, model.positionMapper, model.rampSegmentAccessor, model.rampChangeAdapter,
+    new ForcesAndMotionObject(new MotionSeriesObjectState(x, 0, 0, 10, 0, 0, 0.0, 0.0, 0.0), height, width, model.positionMapper, model.rampSegmentAccessor, model.rampChangeAdapter,
       model.surfaceFriction, model.wallsBounce, model.surfaceFrictionStrategy, model.walls, model.wallRange, model.thermalEnergyStrategy)
   }
 }
 
 class ForcesAndMotionObject(_state: MotionSeriesObjectState,
-                    _height: Double,
-                    _width: Double,
-                    positionMapper: Double => Vector2D,
-                    rampSegmentAccessor: Double => RampSegment,
-                    model: Observable,
-                    surfaceFriction: () => Boolean,
-                    wallsBounce: () => Boolean,
-                    __surfaceFrictionStrategy: SurfaceFrictionStrategy,
-                    _wallsExist: => Boolean,
-                    wallRange: () => Range,
-                    thermalEnergyStrategy: Double => Double)
+                            _height: Double,
+                            _width: Double,
+                            positionMapper: Double => Vector2D,
+                            rampSegmentAccessor: Double => RampSegment,
+                            model: Observable,
+                            surfaceFriction: () => Boolean,
+                            wallsBounce: () => Boolean,
+                            __surfaceFrictionStrategy: SurfaceFrictionStrategy,
+                            _wallsExist: => Boolean,
+                            wallRange: () => Range,
+                            thermalEnergyStrategy: Double => Double)
         extends ForceMotionSeriesObject(_state, _height, _width, positionMapper, rampSegmentAccessor, model, surfaceFriction, wallsBounce, __surfaceFrictionStrategy, _wallsExist, wallRange, thermalEnergyStrategy) {
-
   private object velocityMode
   private object positionMode
   private object accelerationMode

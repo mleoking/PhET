@@ -4,7 +4,6 @@ import edu.colorado.phet.motionseries.model.MotionSeriesModel
 import edu.umd.cs.piccolo.PNode
 import edu.colorado.phet.common.motion.charts._
 import java.awt.event.{ComponentEvent, ComponentAdapter}
-import java.awt.Color
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.umd.cs.piccolox.pswing.PSwing
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
@@ -13,10 +12,13 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas
 import java.lang.Math.PI
 import java.beans.{PropertyChangeEvent, PropertyChangeListener}
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont
-import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode
 import edu.colorado.phet.common.phetcommon.model.MutableBoolean
 import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel.{HistoryClearListener, HistoryRemainderClearListener}
-import java.awt.geom.Rectangle2D
+import edu.umd.cs.piccolo.nodes.PText
+import edu.colorado.phet.common.piccolophet.nodes.{PhetPPath, ShadowHTMLNode}
+import java.awt.geom.{RoundRectangle2D, Rectangle2D}
+import java.awt.{BasicStroke, Color}
+import java.text.DecimalFormat
 
 /**
  * @author Sam Reid
@@ -39,9 +41,9 @@ class RampForceChartNode(canvas: PhetPCanvas, motionSeriesModel: MotionSeriesMod
 
 class ForcesAndMotionChartNode(canvas: PhetPCanvas, model: MotionSeriesModel) extends MultiControlChart(Array(
   new ForcesAndMotionMinimizableControlChart(model),
-  new MinimizableControlChart("properties.acceleration".translate, new SingleSeriesChart(model, () => model.motionSeriesObject.acceleration, 50, "m/s/s", MotionSeriesDefaults.accelerationColor, "properties.acceleration".translate).chart, false),
-  new MinimizableControlChart("properties.velocity".translate, new SingleSeriesChart(model, () => model.motionSeriesObject.velocity, 25, "m/s", MotionSeriesDefaults.velocityColor, "properties.velocity".translate).chart, false),
-  new MinimizableControlChart("properties.position".translate, new SingleSeriesChart(model, () => model.motionSeriesObject.position, 10, "m", MotionSeriesDefaults.positionColor, "properties.position".translate).chart, false))) {
+  new MinimizableControlChart("properties.acceleration".translate, new SingleSeriesChart(model, () => model.motionSeriesObject.state.acceleration, 50, "properties.acceleration.units".translate, MotionSeriesDefaults.accelerationColor, "properties.acceleration".translate).chart, false),
+  new MinimizableControlChart("properties.velocity".translate, new SingleSeriesChart(model, () => model.motionSeriesObject.state.velocity, 25, "properties.velocity.units".translate, MotionSeriesDefaults.velocityColor, "properties.velocity".translate).chart, false),
+  new MinimizableControlChart("properties.position".translate, new SingleSeriesChart(model, () => model.motionSeriesObject.state.position, 10, "properties.position.units".translate, MotionSeriesDefaults.positionColor, "properties.position".translate).chart, false))) {
   canvas.addComponentListener(new ComponentAdapter { //todo: remove duplicate code from above
     override def componentResized(e: ComponentEvent) = {
       val insetX = 6
@@ -54,18 +56,43 @@ class ForcesAndMotionChartNode(canvas: PhetPCanvas, model: MotionSeriesModel) ex
 }
 
 class SingleSeriesChart(motionSeriesModel: MotionSeriesModel, _value: () => Double, maxY: Double, units: String, color: Color, title: String) {
-  val temporalChart = new TemporalChart(new Rectangle2D.Double(0, -maxY, 20, maxY * 2), new Rectangle2D.Double(0, -5, 2, 10),new Rectangle2D.Double(0, -10000, 20, 20000),motionSeriesModel.chartCursor)
+  val variable = new MutableDouble(_value()) {
+    motionSeriesModel.stepListeners += (() => {value = _value()})
+    motionSeriesModel.playbackListeners += (() => {value = _value()})
+  }
+  val temporalChart = new TemporalChart(new Rectangle2D.Double(0, -maxY, 20, maxY * 2), new Rectangle2D.Double(0, -5, 2, 10), new Rectangle2D.Double(0, -10000, 20, 20000), motionSeriesModel.chartCursor)
   val chart = new ControlChart(new PNode() {
-    addChild(new ShadowHTMLNode(title) {
+    val titleNode = new ShadowHTMLNode(title) {
       setColor(color)
       setFont(new PhetFont(16, true))
       setOffset(0, 20) //To help center it on the chart, so that we don't collide with controls from chart above, and so we don't have to shrink the charts.
-    })
+    }
+    addChild(titleNode)
+
+    val inset = 5
+    val readoutTextNode = new PText("0.0 " + units) {
+      setFont(new PhetFont(14, true))
+      setOffset(10, titleNode.getFullBounds.getMaxY + 2 + inset)
+      setTextPaint(color)
+    }
+
+    val textBackgroundNode = new PhetPPath(Color.white, new BasicStroke, color)
+
+    addChild(textBackgroundNode)
+    addChild(readoutTextNode)
+
+    def updateReadout() = {
+      readoutTextNode setText "properties.format.value-units".messageformat(new DecimalFormat("0.00").format(variable()), units)
+      val r = readoutTextNode.getFullBounds
+      textBackgroundNode.setPathTo(new RoundRectangle2D.Double(r.x - inset, r.y - inset,
+        Math.max(textBackgroundNode.getPathReference.getBounds.width, r.width + inset * 2), //allow the background to grow but not shrink, it is too distracting to have it resize too much 
+        r.height + inset * 2, 8, 8))
+    }
+    updateReadout()
+
+    variable.addListener(updateReadout)
   }, new PNode(), temporalChart, new ChartZoomControlNode(temporalChart))
 
-  val variable = new MutableDouble(_value()) {
-    motionSeriesModel.stepListeners += (() => {value = _value()})
-  }
   val series = new MSDataSeries(title, color, units, variable, motionSeriesModel, true)
   temporalChart.addDataSeries(series, series.color)
 
@@ -80,7 +107,7 @@ class SingleSeriesChart(motionSeriesModel: MotionSeriesModel, _value: () => Doub
 class RampForceMinimizableControlChart(motionSeriesModel: MotionSeriesModel) extends MinimizableControlChart("forces.parallel-title-with-units".translate, new RampControlChart(motionSeriesModel).chart)
 class ForcesAndMotionMinimizableControlChart(motionSeriesModel: MotionSeriesModel) extends MinimizableControlChart("forces.parallel-title-with-units".translate, new ForcesAndMotionControlChart(motionSeriesModel).chart)
 
-class RampControlChart(motionSeriesModel: MotionSeriesModel) extends MotionSeriesControlChart(motionSeriesModel,"forces.sum-parallel".translate) {
+class RampControlChart(motionSeriesModel: MotionSeriesModel) extends MotionSeriesControlChart(motionSeriesModel, "forces.sum-parallel".translate) {
   def addSerieses() = {
     temporalChart.addDataSeries(appliedForceSeries, appliedForceSeries.color)
     temporalChart.addDataSeries(frictionForceSeries, frictionForceSeries.color)
@@ -92,7 +119,7 @@ class RampControlChart(motionSeriesModel: MotionSeriesModel) extends MotionSerie
 
   def additionalSerieses = frictionForceSeries :: gravityForceSeries :: wallForceSeries :: sumForceSeries :: Nil
 }
-class ForcesAndMotionControlChart(motionSeriesModel: MotionSeriesModel) extends MotionSeriesControlChart(motionSeriesModel,"forces.sum".translate) {
+class ForcesAndMotionControlChart(motionSeriesModel: MotionSeriesModel) extends MotionSeriesControlChart(motionSeriesModel, "forces.sum".translate) {
   def addSerieses() = {
     temporalChart.addDataSeries(appliedForceSeries, appliedForceSeries.color)
     temporalChart.addDataSeries(frictionForceSeries, frictionForceSeries.color)
@@ -106,11 +133,11 @@ class ForcesAndMotionControlChart(motionSeriesModel: MotionSeriesModel) extends 
   override def gridSize = 4
 }
 
-abstract class MotionSeriesControlChart(motionSeriesModel: MotionSeriesModel,forcesSum:String) {
+abstract class MotionSeriesControlChart(motionSeriesModel: MotionSeriesModel, forcesSum: String) {
   motionSeriesModel.resetListeners_+=(() => {resetAll()})
   def addSerieses(): Unit
 
-  val temporalChart = new TemporalChart(new java.awt.geom.Rectangle2D.Double(0, -2000, 20, 4000), new Rectangle2D.Double(0, -5, 2, 10),new Rectangle2D.Double(0, -10000, 20, 20000), motionSeriesModel.chartCursor)
+  val temporalChart = new TemporalChart(new java.awt.geom.Rectangle2D.Double(0, -2000, 20, 4000), new Rectangle2D.Double(0, -5, 2, 10), new Rectangle2D.Double(0, -10000, 20, 20000), motionSeriesModel.chartCursor)
 
   def parallelFriction = motionSeriesModel.motionSeriesObject.frictionForceVector.getValue dot motionSeriesModel.motionSeriesObject.getRampUnitVector
 
@@ -238,8 +265,8 @@ class MSDataSeries(_title: String, _color: Color, _units: String, value: Mutable
   def addValueChangeListener(listener: () => Unit) = value.addListener(listener)
 
   //Convenience wrapper for scala clients
-  def addMSDataSeriesListener(listener:()=>Unit) = {
-    addListener(new TemporalDataSeries.Adapter(){
+  def addMSDataSeriesListener(listener: () => Unit) = {
+    addListener(new TemporalDataSeries.Adapter() {
       override def visibilityChanged = {
         listener()
       }
@@ -253,6 +280,6 @@ class MSDataSeries(_title: String, _color: Color, _units: String, value: Mutable
   def units = _units
 
   def color = _color
-  
+
   def reset() = setVisible(visible)
 }
