@@ -43,14 +43,14 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
   val gameFinishListeners = new ArrayBuffer[() => Unit]
 
   val housePosition = 6
-  val house = ForcesAndMotionObject(model, housePosition, MotionSeriesDefaults.house.width, MotionSeriesDefaults.house.height)
-  val door = ForcesAndMotionObject(model, housePosition, MotionSeriesDefaults.door.width, MotionSeriesDefaults.door.height)
+  val house = ForceMotionSeriesObject(model, housePosition, MotionSeriesDefaults.house.width, MotionSeriesDefaults.house.height)
+  val door = ForceMotionSeriesObject(model, housePosition, MotionSeriesDefaults.door.width, MotionSeriesDefaults.door.height)
   private var _doorOpenAmount = 0.0
 
   def doorOpenAmount = _doorOpenAmount
 
   val doorListeners = new ArrayBuffer[() => Unit]
-  val doorBackground = ForcesAndMotionObject(model, housePosition, MotionSeriesDefaults.doorBackground.width, MotionSeriesDefaults.doorBackground.height)
+  val doorBackground = ForceMotionSeriesObject(model, housePosition, MotionSeriesDefaults.doorBackground.width, MotionSeriesDefaults.doorBackground.height)
   private var _motionSeriesObject: ForceMotionSeriesObject = null
 
   clock.addClockListener(dt => if (!model.isPaused && _motionSeriesObject != null) _motionSeriesObject.stepInTime(dt))
@@ -105,7 +105,7 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
     val sel = selectedObject
     model.setPaused(true)
 
-    _motionSeriesObject = ForcesAndMotionObject(model, -model.rampSegments(0).length + sel.width / 2.0 + model.leftWall.width / 2.0, sel.width, 3)
+    _motionSeriesObject = ForceMotionSeriesObject(model, -model.rampSegments(0).length + sel.width / 2.0 + model.leftWall.width / 2.0, sel.width, 3)
 
     motionSeriesObject.mass = sel.mass
     motionSeriesObject.staticFriction = sel.staticFriction

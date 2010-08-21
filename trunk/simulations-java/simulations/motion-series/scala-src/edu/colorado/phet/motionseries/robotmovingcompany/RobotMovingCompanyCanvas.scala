@@ -248,7 +248,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
     icon.setOffset(pt)
     addStageNode(icon)
 
-    val robotObject = ForcesAndMotionObject(model, -10 - a.width / 2, 1, 3)
+    val robotObject = ForceMotionSeriesObject(model, -10 - a.width / 2, 1, 3)
 
     val pusherNode = new RobotPusherNode(transform, motionSeriesObject, robotObject)
     addStageNode(pusherNode)

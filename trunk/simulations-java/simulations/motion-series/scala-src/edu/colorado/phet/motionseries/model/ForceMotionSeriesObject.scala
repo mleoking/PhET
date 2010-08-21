@@ -174,3 +174,13 @@ class ForceMotionSeriesObject(_state: MotionSeriesObjectState,
 
   def addBounceListener(listener: () => Unit) = bounceListeners += listener
 }
+
+/**
+ * Convenience method for creating default objects without differing state.
+ */
+object ForceMotionSeriesObject {
+  def apply(model: MotionSeriesModel, x: Double, width: Double, height: Double) = {
+    new ForceMotionSeriesObject(new MotionSeriesObjectState(x, 0, 0, 10, 0, 0, 0.0, 0.0, 0.0), height, width, model.positionMapper, model.rampSegmentAccessor, model.rampChangeAdapter,
+      model.surfaceFriction, model.wallsBounce, model.surfaceFrictionStrategy, model.walls, model.wallRange, model.thermalEnergyStrategy)
+  }
+}

@@ -41,7 +41,7 @@ class RampForceChartNode(canvas: PhetPCanvas, motionSeriesModel: MotionSeriesMod
 
 class ForcesAndMotionChartNode(canvas: PhetPCanvas, model: MotionSeriesModel) extends MultiControlChart(Array(
   new ForcesAndMotionMinimizableControlChart(model),
-  new MinimizableControlChart("properties.acceleration".translate, new SingleSeriesChart(model, () => model.motionSeriesObject.state.acceleration, 50, "properties.acceleration.units".translate, MotionSeriesDefaults.accelerationColor, "properties.acceleration".translate).chart, false),
+  new MinimizableControlChart("properties.acceleration".translate, new SingleSeriesChart(model, () => model.motionSeriesObject.acceleration, 50, "properties.acceleration.units".translate, MotionSeriesDefaults.accelerationColor, "properties.acceleration".translate).chart, false),
   new MinimizableControlChart("properties.velocity".translate, new SingleSeriesChart(model, () => model.motionSeriesObject.state.velocity, 25, "properties.velocity.units".translate, MotionSeriesDefaults.velocityColor, "properties.velocity".translate).chart, false),
   new MinimizableControlChart("properties.position".translate, new SingleSeriesChart(model, () => model.motionSeriesObject.state.position, 10, "properties.position.units".translate, MotionSeriesDefaults.positionColor, "properties.position".translate).chart, false))) {
   canvas.addComponentListener(new ComponentAdapter { //todo: remove duplicate code from above

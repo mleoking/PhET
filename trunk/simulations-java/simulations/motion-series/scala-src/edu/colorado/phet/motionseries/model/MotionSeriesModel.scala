@@ -43,13 +43,13 @@ class MotionSeriesModel(defaultPosition: Double,
   val wallsBounce = () => bounce
 
   val defaultManPosition = defaultPosition - 1
-  val manMotionSeriesObject = ForcesAndMotionObject(this, defaultManPosition, 1, 3)
+  val manMotionSeriesObject = ForceMotionSeriesObject(this, defaultManPosition, 1, 3)
 
-  val leftWall = ForcesAndMotionObject(this, -10, MotionSeriesDefaults.wall.width, MotionSeriesDefaults.wall.height)
-  val rightWall = ForcesAndMotionObject(this, 10, MotionSeriesDefaults.wall.width, MotionSeriesDefaults.wall.height)
+  val leftWall = ForceMotionSeriesObject(this, -10, MotionSeriesDefaults.wall.width, MotionSeriesDefaults.wall.height)
+  val rightWall = ForceMotionSeriesObject(this, 10, MotionSeriesDefaults.wall.width, MotionSeriesDefaults.wall.height)
 
-  val leftWallRightEdge = ForcesAndMotionObject(this, -10 + MotionSeriesDefaults.wall.width / 2, MotionSeriesDefaults.SPRING_WIDTH, MotionSeriesDefaults.SPRING_HEIGHT)
-  val rightWallLeftEdge = ForcesAndMotionObject(this, 10 - MotionSeriesDefaults.wall.width / 2, MotionSeriesDefaults.SPRING_WIDTH, MotionSeriesDefaults.SPRING_HEIGHT)
+  val leftWallRightEdge = ForceMotionSeriesObject(this, -10 + MotionSeriesDefaults.wall.width / 2, MotionSeriesDefaults.SPRING_WIDTH, MotionSeriesDefaults.SPRING_HEIGHT)
+  val rightWallLeftEdge = ForceMotionSeriesObject(this, 10 - MotionSeriesDefaults.wall.width / 2, MotionSeriesDefaults.SPRING_WIDTH, MotionSeriesDefaults.SPRING_HEIGHT)
 
   val wallRange = () => new Range(-rampSegments(0).length, rampSegments(1).length)
 
@@ -58,7 +58,7 @@ class MotionSeriesModel(defaultPosition: Double,
     def getTotalFriction(objectFriction: Double) = new LinearFunction(0, 1, objectFriction, objectFriction * 0.75).evaluate(rampSegments(0).wetness)
   }
   //This is the main object that forces are applied to
-  val motionSeriesObject = new ForcesAndMotionObject(new MotionSeriesObjectState(defaultPosition, 0, 0,
+  val motionSeriesObject = new ForceMotionSeriesObject(new MotionSeriesObjectState(defaultPosition, 0, 0,
     _objectType.mass, _objectType.staticFriction, _objectType.kineticFriction, 0.0, 0.0, 0.0),
     _objectType.height, _objectType.width, positionMapper,
     rampSegmentAccessor, rampChangeAdapter, surfaceFriction, wallsBounce, surfaceFrictionStrategy, walls, wallRange, thermalEnergyStrategy)
