@@ -20,8 +20,8 @@ class PusherNode(transform: ModelViewTransform2D, targetObject: ForceMotionSerie
       manObject.setPosition(targetObject.position + dx)
 
       //images go 1 to 14
-      val leanAmount = MathUtil.clamp(1,(abs(targetObject.appliedForce.x) * 13.0 / 50.0).toInt + 1,14).toInt
-      
+      val leanAmount = MathUtil.clamp(1, (abs(targetObject.appliedForce.x) * 13.0 / 50.0).toInt + 1, 14).toInt
+
       var textStr = leanAmount.toString
       while (textStr.length < 2)
         textStr = "0".literal + textStr

@@ -10,6 +10,8 @@ import java.lang.Math._
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.colorado.phet.common.motion.charts.ChartCursor
 import edu.colorado.phet.recordandplayback.model.{DataPoint, RecordAndPlaybackModel}
+import edu.colorado.phet.common.phetcommon.math.MathUtil
+
 class MotionSeriesModel(defaultPosition: Double,
                         pausedOnReset: Boolean,
                         initialAngle: Double)

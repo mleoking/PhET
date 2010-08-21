@@ -55,9 +55,9 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
   val leftSegmentNode = createLeftSegmentNode
   playAreaNode.addChild(leftSegmentNode)
 
-  def createLeftSegmentNode = new RampSegmentNode(model.rampSegments(0), transform, model,model.motionSeriesObject)
+  def createLeftSegmentNode = new RampSegmentNode(model.rampSegments(0), transform, model, model.motionSeriesObject)
 
-  def createRightSegmentNode: HasPaint = new RotatableSegmentNode(model.rampSegments(1), transform, model,model.motionSeriesObject)
+  def createRightSegmentNode: HasPaint = new RotatableSegmentNode(model.rampSegments(1), transform, model, model.motionSeriesObject)
 
   val rightSegmentNode = createRightSegmentNode
   playAreaNode.addChild(rightSegmentNode)
@@ -65,7 +65,8 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
   def addHeightAndAngleIndicators()
   addHeightAndAngleIndicators()
 
-  def attachListenerToRightWall(node:PNode):Unit
+  def attachListenerToRightWall(node: PNode): Unit
+
   def addWallsAndDecorations() = {
     playAreaNode.addChild(new MotionSeriesObjectNode(model.leftWall, transform, "wall.jpg".literal) with CloseButton {
       def model = MotionSeriesCanvas.this.model
@@ -91,7 +92,7 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
   def createMotionSeriesObjectNode(b: ForcesAndMotionObject, t: ModelViewTransform2D, imageName: String, crashImageName: String, listener: () => Unit): MotionSeriesObjectNode = new ForceDragMotionSeriesObjectNode(b, t, imageName, crashImageName, listener)
 
   //todo: this line was continually calling setImage on the imageNode
-  model.addListenerByName(motionSeriesObjectNode.setImages(MotionSeriesResources.getImage(model.selectedObject.imageFilename), 
+  model.addListenerByName(motionSeriesObjectNode.setImages(MotionSeriesResources.getImage(model.selectedObject.imageFilename),
     MotionSeriesResources.getImage(model.selectedObject.crashImageFilename)))
   playAreaNode.addChild(motionSeriesObjectNode)
 
@@ -199,7 +200,7 @@ class RampCanvas(model: MotionSeriesModel, coordinateSystemModel: AdjustableCoor
     playAreaNode.addChild(new RampAngleIndicator(model.rampSegments(1), transform))
   }
 
-  def attachListenerToRightWall(wall:PNode) = {
+  def attachListenerToRightWall(wall: PNode) = {
     wall.addInputEventListener(new CursorHandler)
     wall.addInputEventListener(new RotationHandler(transform, wall, model.rampSegments(1), 0, MotionSeriesDefaults.MAX_ANGLE))
   }
