@@ -10,13 +10,11 @@ import java.lang.Math._
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.colorado.phet.common.motion.charts.ChartCursor
 import edu.colorado.phet.recordandplayback.model.{DataPoint, RecordAndPlaybackModel}
-import edu.colorado.phet.common.phetcommon.math.MathUtil
-
 class MotionSeriesModel(defaultPosition: Double,
                         pausedOnReset: Boolean,
                         initialAngle: Double)
         extends RecordAndPlaybackModel[RecordedState](1000) with ObjectModel with RampSurfaceModel {
-  
+
   //Resume activity in the sim, starting it up when the user drags the object or the position slider
   def resume() = {
     if (isPlayback) {
@@ -25,6 +23,7 @@ class MotionSeriesModel(defaultPosition: Double,
     }
     setPaused(false)
   }
+
   override def isRecordingFull = {
     getTime > MotionSeriesDefaults.MAX_RECORD_TIME
   }
@@ -51,8 +50,6 @@ class MotionSeriesModel(defaultPosition: Double,
   val playbackListeners = new ArrayBuffer[() => Unit]
   val rampLength = 10
   setPaused(pausedOnReset)
-  
-  
 
   rampSegments += new RampSegment(new Point2D.Double(-rampLength, 0), new Point2D.Double(0, 0))
   rampSegments += new RampSegment(new Point2D.Double(0, 0), new Point2D.Double(rampLength * cos(initialAngle), rampLength * sin(initialAngle)))
@@ -81,7 +78,7 @@ class MotionSeriesModel(defaultPosition: Double,
     //todo: allow different values for different segments
     def getTotalFriction(objectFriction: Double) = new LinearFunction(0, 1, objectFriction, objectFriction * 0.75).evaluate(rampSegments(0).wetness)
   }
-  val motionSeriesObject = new ForcesAndMotionObject(new MotionSeriesObjectState(defaultPosition, 0,
+  val motionSeriesObject = new ForcesAndMotionObject(new MotionSeriesObjectState(defaultPosition, 0, 0,
     _selectedObject.mass, _selectedObject.staticFriction, _selectedObject.kineticFriction, 0.0, 0.0, 0.0),
     _selectedObject.height, _selectedObject.width, positionMapper,
     rampSegmentAccessor, rampChangeAdapter, surfaceFriction, wallsBounce, surfaceFrictionStrategy, walls, wallRange, thermalEnergyStrategy)
@@ -255,7 +252,7 @@ class MotionSeriesModel(defaultPosition: Double,
 
   //Determines whether the ramp is frictionless.  Object friction is handled elsewhere
   def frictionless = _frictionless
-  
+
   def frictionless_=(b: Boolean) = {
     _frictionless = b
     rampChangeAdapter.notifyListeners()
