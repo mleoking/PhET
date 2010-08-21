@@ -35,7 +35,7 @@ trait ObjectModel {
 class ObjectSelectionNode(model: ObjectModel) extends PNode {
   val rows = new ArrayBuffer[ArrayBuffer[PNode]]
 
-  val nodes = for (o <- MotionSeriesDefaults.objects) yield {
+  val nodes = for (o <- MotionSeriesDefaults.objectTypes) yield {
     o match {
       case jc: MutableMotionSeriesObjectType => new CustomObjectSelectionIcon(jc)
       case m: MotionSeriesObjectType => new ObjectSelectionIcon(o)

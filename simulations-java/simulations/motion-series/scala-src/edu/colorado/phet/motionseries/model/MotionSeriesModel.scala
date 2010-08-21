@@ -20,7 +20,7 @@ class MotionSeriesModel(defaultPosition: Double,
   private var _walls = true
   private var _frictionless = MotionSeriesDefaults.FRICTIONLESS_DEFAULT
   private var _bounce = MotionSeriesDefaults.BOUNCE_DEFAULT
-  private var _selectedObject = MotionSeriesDefaults.objects(0)
+  private var _objectType = MotionSeriesDefaults.objectTypes(0)
   val chartCursor = new ChartCursor()
 
   val rampSegments = new ArrayBuffer[RampSegment]
@@ -59,11 +59,11 @@ class MotionSeriesModel(defaultPosition: Double,
   }
   //This is the main object that forces are applied to
   val motionSeriesObject = new ForcesAndMotionObject(new MotionSeriesObjectState(defaultPosition, 0, 0,
-    _selectedObject.mass, _selectedObject.staticFriction, _selectedObject.kineticFriction, 0.0, 0.0, 0.0),
-    _selectedObject.height, _selectedObject.width, positionMapper,
+    _objectType.mass, _objectType.staticFriction, _objectType.kineticFriction, 0.0, 0.0, 0.0),
+    _objectType.height, _objectType.width, positionMapper,
     rampSegmentAccessor, rampChangeAdapter, surfaceFriction, wallsBounce, surfaceFrictionStrategy, walls, wallRange, thermalEnergyStrategy)
   
-  updateDueToObjectChange()
+  updateDueToObjectTypeChange()
 
   def thermalEnergyStrategy(x: Double) = x
 
@@ -125,7 +125,7 @@ class MotionSeriesModel(defaultPosition: Double,
     super.resetAll()
     if (resetListeners != null) { //resetAll() is called from super's constructor, so have to make sure our data is inited before proceeding
       clearHistory()
-      selectedObject = MotionSeriesDefaults.objects(0)
+      selectedObject = MotionSeriesDefaults.objectTypes(0)
       frictionless = MotionSeriesDefaults.FRICTIONLESS_DEFAULT
       walls = true
       resetObject()
@@ -208,24 +208,24 @@ class MotionSeriesModel(defaultPosition: Double,
     stepListeners.foreach(_())
   }
 
-  def selectedObject = _selectedObject
+  def selectedObject = _objectType
 
   def selectedObject_=(obj: MotionSeriesObjectType) = {
-    if (_selectedObject != obj) {
-      _selectedObject = obj
-      updateDueToObjectChange()
+    if (_objectType != obj) {
+      _objectType = obj
+      updateDueToObjectTypeChange()
     }
   }
 
-  private def updateDueToObjectChange() = {
-    motionSeriesObject.mass = _selectedObject.mass
-    motionSeriesObject.width = _selectedObject.width
-    motionSeriesObject.height = _selectedObject.height
-    motionSeriesObject.staticFriction = _selectedObject.staticFriction
-    motionSeriesObject.kineticFriction = _selectedObject.kineticFriction
+  private def updateDueToObjectTypeChange() = {
+    motionSeriesObject.mass = _objectType.mass
+    motionSeriesObject.width = _objectType.width
+    motionSeriesObject.height = _objectType.height
+    motionSeriesObject.staticFriction = _objectType.staticFriction
+    motionSeriesObject.kineticFriction = _objectType.kineticFriction
 
     //todo: remove listeners on object selection change
-    _selectedObject match {
+    _objectType match {
       case o: MutableMotionSeriesObjectType => {
         o.addListenerByName {
           motionSeriesObject.height = o.height

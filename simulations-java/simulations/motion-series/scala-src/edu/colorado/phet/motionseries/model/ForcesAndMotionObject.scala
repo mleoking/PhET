@@ -37,15 +37,15 @@ class ForcesAndMotionObject(_state: MotionSeriesObjectState,
     _mode = accelerationMode
   }
 
-  def setVelocityMode() = {
-    _mode = velocityMode
-    motionStrategy = new VelocityMotionStrategy(this)
-  }
-
-  def setPositionMode() = {
-    _mode = positionMode
-    motionStrategy = new PositionMotionStrategy(this)
-  }
+//  def setVelocityMode() = {
+//    _mode = velocityMode
+//    motionStrategy = new VelocityMotionStrategy(this)
+//  }
+//
+//  def setPositionMode() = {
+//    _mode = positionMode
+//    motionStrategy = new PositionMotionStrategy(this)
+//  }
 
   override def acceleration = {
     if (mode == positionMode) {
@@ -70,43 +70,43 @@ class ForcesAndMotionObject(_state: MotionSeriesObjectState,
   }
 }
 
-abstract class MovingManStrategy(motionSeriesObject: ForceMotionSeriesObject) extends MotionStrategy(motionSeriesObject) {
-  def position2D = motionSeriesObject.positionMapper(motionSeriesObject.position)
+//abstract class MovingManStrategy(motionSeriesObject: ForceMotionSeriesObject) extends MotionStrategy(motionSeriesObject) {
+//  def position2D = motionSeriesObject.positionMapper(motionSeriesObject.position)
+//
+//  def getAngle = 0.0
+//}
 
-  def getAngle = 0.0
-}
+//class PositionMotionStrategy(motionSeriesObject: ForceMotionSeriesObject) extends MovingManStrategy(motionSeriesObject) {
+//  def isCrashed = false
+//
+//  def getMemento = new MotionStrategyMemento {
+//    def getMotionStrategy(motionSeriesObject: ForceMotionSeriesObject) = new PositionMotionStrategy(motionSeriesObject)
+//  }
+//
+//  def stepInTime(dt: Double) = {
+//    val mixingFactor = 0.5
+//    //maybe a better assumption is constant velocity or constant acceleration ?
+//    val dst = motionSeriesObject.desiredPosition * mixingFactor + motionSeriesObject.position * (1 - mixingFactor)
+//    motionSeriesObject.setPosition(dst) //attempt at filtering
+//
+//    //todo: move closer to MotionSeriesObject computation of acceleration derivatives
+//    val timeData = for (i <- 0 until java.lang.Math.min(15, motionSeriesObject.stateHistory.length))
+//    yield new TimeData(motionSeriesObject.stateHistory(motionSeriesObject.stateHistory.length - 1 - i).position, motionSeriesObject.stateHistory(motionSeriesObject.stateHistory.length - 1 - i).time)
+//    val vel = MotionMath.estimateDerivative(timeData.toArray)
+//    motionSeriesObject.setVelocity(vel)
+//    motionSeriesObject.setTime(motionSeriesObject.time + dt)
+//  }
+//}
 
-class PositionMotionStrategy(motionSeriesObject: ForceMotionSeriesObject) extends MovingManStrategy(motionSeriesObject) {
-  def isCrashed = false
-
-  def getMemento = new MotionStrategyMemento {
-    def getMotionStrategy(motionSeriesObject: ForceMotionSeriesObject) = new PositionMotionStrategy(motionSeriesObject)
-  }
-
-  def stepInTime(dt: Double) = {
-    val mixingFactor = 0.5
-    //maybe a better assumption is constant velocity or constant acceleration ?
-    val dst = motionSeriesObject.desiredPosition * mixingFactor + motionSeriesObject.position * (1 - mixingFactor)
-    motionSeriesObject.setPosition(dst) //attempt at filtering
-
-    //todo: move closer to MotionSeriesObject computation of acceleration derivatives
-    val timeData = for (i <- 0 until java.lang.Math.min(15, motionSeriesObject.stateHistory.length))
-    yield new TimeData(motionSeriesObject.stateHistory(motionSeriesObject.stateHistory.length - 1 - i).position, motionSeriesObject.stateHistory(motionSeriesObject.stateHistory.length - 1 - i).time)
-    val vel = MotionMath.estimateDerivative(timeData.toArray)
-    motionSeriesObject.setVelocity(vel)
-    motionSeriesObject.setTime(motionSeriesObject.time + dt)
-  }
-}
-
-class VelocityMotionStrategy(motionSeriesObject: ForceMotionSeriesObject) extends MovingManStrategy(motionSeriesObject) {
-  def isCrashed = false
-
-  def getMemento = new MotionStrategyMemento {
-    def getMotionStrategy(motionSeriesObject: ForceMotionSeriesObject) = new VelocityMotionStrategy(motionSeriesObject)
-  }
-
-  def stepInTime(dt: Double) = {
-    motionSeriesObject.setPosition(motionSeriesObject.position + motionSeriesObject.velocity * dt)
-    motionSeriesObject.setTime(motionSeriesObject.time + dt)
-  }
-}
+//class VelocityMotionStrategy(motionSeriesObject: ForceMotionSeriesObject) extends MovingManStrategy(motionSeriesObject) {
+//  def isCrashed = false
+//
+//  def getMemento = new MotionStrategyMemento {
+//    def getMotionStrategy(motionSeriesObject: ForceMotionSeriesObject) = new VelocityMotionStrategy(motionSeriesObject)
+//  }
+//
+//  def stepInTime(dt: Double) = {
+//    motionSeriesObject.setPosition(motionSeriesObject.position + motionSeriesObject.velocity * dt)
+//    motionSeriesObject.setTime(motionSeriesObject.time + dt)
+//  }
+//}
