@@ -17,30 +17,6 @@ class MotionSeriesModel(defaultPosition: Double,
                         initialAngle: Double)
         extends RecordAndPlaybackModel[RecordedState](1000) with ObjectModel with RampSurfaceModel {
 
-  //Resume activity in the sim, starting it up when the user drags the object or the position slider
-  def resume() = {
-    if (isPlayback) {
-      clearHistoryRemainder()
-      setRecord(true)
-    }
-    setPaused(false)
-  }
-
-  override def isRecordingFull = {
-    getTime > MotionSeriesDefaults.MAX_RECORD_TIME
-  }
-
-  //Don't let the cursor drag past max time
-  override def addRecordedPoint(point: DataPoint[RecordedState]) = {
-    if (point.getTime <= MotionSeriesDefaults.MAX_RECORD_TIME) {
-      super.addRecordedPoint(point)
-    }
-  }
-
-  override def clearHistory() = {
-    super.clearHistory()
-  }
-
   private var _walls = true
   private var _frictionless = MotionSeriesDefaults.FRICTIONLESS_DEFAULT
   private var _bounce = MotionSeriesDefaults.BOUNCE_DEFAULT
@@ -66,13 +42,13 @@ class MotionSeriesModel(defaultPosition: Double,
   val wallsBounce = () => bounce
 
   val defaultManPosition = defaultPosition - 1
+  val manMotionSeriesObject = ForcesAndMotionObject(this, defaultManPosition, 1, 3)
+
   val leftWall = ForcesAndMotionObject(this, -10, MotionSeriesDefaults.wall.width, MotionSeriesDefaults.wall.height)
   val rightWall = ForcesAndMotionObject(this, 10, MotionSeriesDefaults.wall.width, MotionSeriesDefaults.wall.height)
 
   val leftWallRightEdge = ForcesAndMotionObject(this, -10 + MotionSeriesDefaults.wall.width / 2, MotionSeriesDefaults.SPRING_WIDTH, MotionSeriesDefaults.SPRING_HEIGHT)
   val rightWallLeftEdge = ForcesAndMotionObject(this, 10 - MotionSeriesDefaults.wall.width / 2, MotionSeriesDefaults.SPRING_WIDTH, MotionSeriesDefaults.SPRING_HEIGHT)
-
-  val manMotionSeriesObject = ForcesAndMotionObject(this, defaultManPosition, 1, 3)
 
   val wallRange = () => new Range(-rampSegments(0).length, rampSegments(1).length)
 
@@ -80,10 +56,12 @@ class MotionSeriesModel(defaultPosition: Double,
     //todo: allow different values for different segments
     def getTotalFriction(objectFriction: Double) = new LinearFunction(0, 1, objectFriction, objectFriction * 0.75).evaluate(rampSegments(0).wetness)
   }
+  //This is the main object that forces are applied to
   val motionSeriesObject = new ForcesAndMotionObject(new MotionSeriesObjectState(defaultPosition, 0, 0,
     _selectedObject.mass, _selectedObject.staticFriction, _selectedObject.kineticFriction, 0.0, 0.0, 0.0),
     _selectedObject.height, _selectedObject.width, positionMapper,
     rampSegmentAccessor, rampChangeAdapter, surfaceFriction, wallsBounce, surfaceFrictionStrategy, walls, wallRange, thermalEnergyStrategy)
+  
   updateDueToObjectChange()
 
   def thermalEnergyStrategy(x: Double) = x
@@ -103,6 +81,24 @@ class MotionSeriesModel(defaultPosition: Double,
     val mode = motionSeriesObject.motionStrategy.getMemento
     new RecordedState(new RampState(rampAngle, rampSegments(1).heat, rampSegments(1).wetness),
       selectedObject.state, motionSeriesObject.state, manMotionSeriesObject.state, motionSeriesObject.parallelAppliedForce, walls, mode, getTime, frictionless)
+  }
+  
+    //Resume activity in the sim, starting it up when the user drags the object or the position slider
+  def resume() = {
+    if (isPlayback) {
+      clearHistoryRemainder()
+      setRecord(true)
+    }
+    setPaused(false)
+  }
+
+  override def isRecordingFull = getTime > MotionSeriesDefaults.MAX_RECORD_TIME
+
+  //Don't let the cursor drag past max time
+  override def addRecordedPoint(point: DataPoint[RecordedState]) = {
+    if (point.getTime <= MotionSeriesDefaults.MAX_RECORD_TIME) {
+      super.addRecordedPoint(point)
+    }
   }
 
   def motionSeriesObjectInModelViewportRange = motionSeriesObject.position2D.x < MotionSeriesDefaults.MIN_X || motionSeriesObject.position2D.x > MotionSeriesDefaults.MAX_X
@@ -209,6 +205,7 @@ class MotionSeriesModel(defaultPosition: Double,
       fireDogs(0).remove()
 
     chartCursor.setTime(state.time)
+    playbackListeners.foreach(_())
   }
 
   def selectedObject = _selectedObject
@@ -311,12 +308,18 @@ class MotionSeriesModel(defaultPosition: Double,
 
   def rampSegmentAccessor(particleLocation: Double) = if (particleLocation <= 0) rampSegments(0) else rampSegments(1)
 
-  override def step() = {
-    super.step()
-    playbackListeners.foreach(_())
+  override def stepInTime(dt: Double) = {
+    val startTime = System.nanoTime
+    super.stepInTime(dt)
+    val endTime = System.nanoTime
+    val elapsedTimeMS = endTime - startTime
+    elapsedTimeHistory += elapsedTimeMS
+    while (elapsedTimeHistory.length > 100) elapsedTimeHistory.remove(0)
+    val avg = elapsedTimeHistory.foldLeft(0L)(_ + _) / elapsedTimeHistory.length
+    ()
   }
 
-  private def doStep(dt: Double) = {
+  def stepRecord(dt: Double) = {
     motionSeriesObject.stepInTime(dt)
     for (f <- fireDogs) f.stepInTime(dt)
     for (r <- raindrops) r.stepInTime(dt)
@@ -329,19 +332,6 @@ class MotionSeriesModel(defaultPosition: Double,
     stepListeners.foreach(_())
     notifyListeners() //signify to the Timeline that more data has been added
   }
-
-  override def stepInTime(dt: Double) = {
-    val startTime = System.nanoTime
-    super.stepInTime(dt)
-    val endTime = System.nanoTime
-    val elapsedTimeMS = endTime - startTime
-    elapsedTimeHistory += elapsedTimeMS
-    while (elapsedTimeHistory.length > 100) elapsedTimeHistory.remove(0)
-    val avg = elapsedTimeHistory.foldLeft(0L)(_ + _) / elapsedTimeHistory.length
-    ()
-  }
-
-  def stepRecord(dt: Double) = doStep(dt)
 }
 
 trait SurfaceFrictionStrategy {
