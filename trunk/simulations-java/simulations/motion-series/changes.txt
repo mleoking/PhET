@@ -1,3 +1,4 @@
+Added screenshots
 Moved vertical applied force slider closer to the chart
 Fixed: When changing both mu_k and mu_s to zero, the ramp should turn to ice.
 Renamed 'bead' to 'motionSeriesObject'
