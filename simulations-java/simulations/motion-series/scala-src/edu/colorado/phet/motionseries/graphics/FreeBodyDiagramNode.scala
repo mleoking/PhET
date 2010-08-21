@@ -58,7 +58,7 @@ class AxisModel(private var _angle: Double,
 
   def endPoint = getEndPoint
 
-  def getUnitVector = (getEndPoint - startPoint).normalize
+  def unitVector = (getEndPoint - startPoint).normalize
 
   def endPoint_=(newPt: Vector2D) = {
     angle = newPt.angle
@@ -74,7 +74,7 @@ class AxisModel(private var _angle: Double,
 
   def dropped() = {}
 
-  override def getPivot = new Vector2D
+  override def pivot = new Vector2D
 
   def startPoint_=(newPt: Vector2D) = {}
 }

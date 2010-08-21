@@ -15,7 +15,7 @@ trait Rotatable extends Observable with RotationModel {
 
   def length: Double
 
-  def getUnitVector: Vector2D
+  def unitVector: Vector2D
 
   def endPoint: Vector2D
 
@@ -27,7 +27,7 @@ trait Rotatable extends Observable with RotationModel {
 }
 
 trait RotationModel {
-  def getPivot: Vector2D
+  def pivot: Vector2D
 
   def angle: Double = 0.0
 
@@ -62,7 +62,7 @@ class RotationHandler(val transform: ModelViewTransform2D,
 
   def getSnapAngle(proposedAngle: Double) = proposedAngle
 
-  def pivot = rotatable.getPivot
+  def pivot = rotatable.pivot
 
   def toModelPoint(event: PInputEvent) = transform.viewToModel(event.getPositionRelativeTo(node.getParent))
 }
