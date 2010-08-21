@@ -25,7 +25,6 @@ class MotionSeriesModel(defaultPosition: Double,
 
   val rampSegments = new ArrayBuffer[RampSegment]
   val stepListeners = new ArrayBuffer[() => Unit]
-  val playbackListeners = new ArrayBuffer[() => Unit]
   val rampLength = 10
   setPaused(pausedOnReset)
 
@@ -205,7 +204,6 @@ class MotionSeriesModel(defaultPosition: Double,
       fireDogs(0).remove()
 
     chartCursor.setTime(state.time)
-    playbackListeners.foreach(_())
   }
 
   def selectedObject = _selectedObject
@@ -329,8 +327,12 @@ class MotionSeriesModel(defaultPosition: Double,
     rampSegments(0).stepInTime(dt)
     rampSegments(1).stepInTime(dt)
 
-    stepListeners.foreach(_())
     notifyListeners() //signify to the Timeline that more data has been added
+  }
+
+  protected override def stepMode(dt: Double) = {
+    super.stepMode(dt)
+    stepListeners.foreach(_())
   }
 }
 
