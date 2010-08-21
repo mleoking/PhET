@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module relativePaths="true" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
+    <facet type="scala" name="Scala">
+      <configuration>
+        <option name="compilerLibraryLevel" value="Global" />
+        <option name="compilerLibraryName" value="scala-compiler-2.8.0" />
+      </configuration>
+    </facet>
     <facet type="Scala" name="Scala">
       <configuration />
     </facet>
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
-    <content url="file://$MODULE_DIR$/../../../../../../../reid/svn-working-copy/trunk/projects/phet" />
     <content url="file://$MODULE_DIR$/../../common">
       <sourceFolder url="file://$MODULE_DIR$/../../common/java-version-checker/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../common/jfreechart-phet/src" isTestSource="false" />
@@ -16,6 +21,7 @@
       <sourceFolder url="file://$MODULE_DIR$/../../common/piccolo-phet/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../common/scala-common/scala-src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../common/timeseries/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../common/record-and-playback/src" isTestSource="false" />
     </content>
     <content url="file://$MODULE_DIR$/../../contrib">
       <sourceFolder url="file://$MODULE_DIR$/../../contrib/JSci" isTestSource="false" />
@@ -26,11 +32,11 @@
     </content>
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/scala-src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
-    <content url="file://$MODULE_DIR$/../../../../../../svn-working-copy/trunk/projects/phet" />
+    <content url="file://$MODULE_DIR$/../../../../../samreid-unfuddle" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="scala-2.7.5" level="project" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>
