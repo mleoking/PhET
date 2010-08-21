@@ -11,6 +11,7 @@ import java.awt._
 import java.awt.geom._
 import java.awt.image._
 import javax.swing._
+import border.{LineBorder, TitledBorder}
 import edu.colorado.phet.motionseries.model._
 import edu.colorado.phet.motionseries.swing._
 import edu.colorado.phet.scalacommon.math.Vector2D
@@ -176,7 +177,7 @@ class RampControlPanelBody(model: MotionSeriesModel,
     bouncePanel.add(panel)
     add(bouncePanel)
     defineInvokeAndPass(model.addListenerByName) {
-      bouncePanel.titleLabel.setEnabled(model.walls)
+//      bouncePanel.titleLabel.setEnabled(model.walls)
       onButton.peer.setEnabled(model.walls)
       offButton.peer.setEnabled(model.walls)
     }
@@ -247,10 +248,32 @@ class ObjectSelectionComboBoxNode(objectModel: ObjectModel, canvas: PSwingCanvas
   addChild(pswing)
 }
 
-class SubControlPanel(title: String) extends VerticalLayoutPanel {
+class SubControlPanel(title:String) extends SubControlPanelTitledBorder(title)
+
+//This versions uses raised bevel border
+class SubControlPanelRaisedBevelBorder(title: String) extends VerticalLayoutPanel {
   val titleLabel = new TitleLabel(title)
   add(titleLabel)
   setBorder(BorderFactory.createRaisedBevelBorder)
+}
+
+//Test version that uses CM's recommended borders from Acid Base Solutions
+class SubControlPanelTitledBorder(title: String) extends VerticalLayoutPanel {
+  setBorder(new TitledBorder(new LineBorder(Color.BLACK, 1,true){
+    override def paintBorder(c: Component, g: Graphics, x: Int, y: Int, width: Int, height: Int) = {
+      g.asInstanceOf[Graphics2D].setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON)
+      val oldColor = g.getColor
+      g.setColor(Color.black)
+      g.drawRoundRect(x , y , width - 1, height - 1, 8,8)
+      g.setColor(oldColor)
+    }
+  },title){
+    setTitleFont(new PhetFont(PhetFont.getDefaultFontSize + 4,true))
+    override def paintBorder(c: Component, g: Graphics, x: Int, y: Int, width: Int, height: Int) = {
+      g.asInstanceOf[Graphics2D].setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON)
+      super.paintBorder(c,g,x,y,width,height)
+    }
+  })
 }
 
 class TitleLabel(label: String) extends JLabel(label) {
