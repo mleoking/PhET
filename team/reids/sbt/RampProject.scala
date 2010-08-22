@@ -2,7 +2,9 @@ import sbt._
 
 /**
  * This SBT project file can be used to build motion-series and all its dependencies.
- * I investigated this for convenience of continuous build with ~ compile
+ * I investigated this for convenience of continuous build with ~compile
+ * This project file should be copied to trunk\simulations-java\project\build\RampProject.scala
+ * You can also use this command line command for launching with sbt: C:\install\sbt\sbt.bat "project motion-series" run
  * @author Sam Reid
  * 6-24-2010
  */
