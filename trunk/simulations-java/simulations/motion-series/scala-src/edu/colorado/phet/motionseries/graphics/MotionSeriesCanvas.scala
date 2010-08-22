@@ -16,6 +16,10 @@ import edu.colorado.phet.motionseries.javastage.stage.PlayArea
 import edu.colorado.phet.motionseries.{StageContainerArea, MotionSeriesResources, MotionSeriesDefaults}
 import edu.colorado.phet.common.piccolophet.event.CursorHandler
 
+/**
+ * This is the base canvas for the "Ramp" and "Forces and Motion" sims
+ * @author Sam Reid
+ */
 abstract class MotionSeriesCanvas(model: MotionSeriesModel,
                                   adjustableCoordinateModel: AdjustableCoordinateModel,
                                   freeBodyDiagramModel: FreeBodyDiagramModel,
