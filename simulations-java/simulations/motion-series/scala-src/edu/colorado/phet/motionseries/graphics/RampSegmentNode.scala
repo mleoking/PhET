@@ -30,27 +30,13 @@ class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2
   val icicleImageNode = new PImage(BufferedImageUtils.multiScaleToHeight(MotionSeriesResources.getImage("icicles.gif".literal), 80))
 
   def updateAll() = {
-    updateBaseColor()
-    updateDecorations()
-  }
-
-  motionSeriesObject.addListener(updateAll) //TODO: only update when friction coefficient changes
-
-  def updateBaseColor() = {
-    paintColor = if (rampSurfaceModel.frictionless || motionSeriesObject.frictionless) iceColor else woodColor
-  }
-  defineInvokeAndPass(rampSegment.addListenerByName) {
-    pathNode.setPathTo(mytransform.createTransformedShape(new BasicStroke(0.4f).createStrokedShape(rampSegment.toLine2D)))
-  }
-  rampSegment.wetnessListeners += updateAll
-  rampSegment addListener updateAll
-  rampSegment.heatListeners += updateAll
-  updateAll()
-
-  def updateDecorations() = {
-    if (rampSurfaceModel.frictionless && !getChildrenReference.contains(icicleImageNode))
+    //Update base color
+    paintColor = if (frictionless) iceColor else woodColor
+    
+    //Update images
+    if (frictionless && !getChildrenReference.contains(icicleImageNode))
       addChild(icicleImageNode)
-    else if (!rampSurfaceModel.frictionless && getChildrenReference.contains(icicleImageNode))
+    else if (!frictionless && getChildrenReference.contains(icicleImageNode))
       removeChild(icicleImageNode)
     if (getChildrenReference.contains(icicleImageNode)) {
       val delta = (rampSegment.endPoint - rampSegment.startPoint).normalize
@@ -61,6 +47,18 @@ class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2
       icicleImageNode.setRotation(-rampSegment.angle)
     }
   }
+
+  motionSeriesObject.addListener(updateAll) //TODO: only update when friction coefficient changes
+
+  def frictionless = rampSurfaceModel.frictionless || motionSeriesObject.frictionless
+
+  defineInvokeAndPass(rampSegment.addListenerByName) {
+    pathNode.setPathTo(mytransform.createTransformedShape(new BasicStroke(0.4f).createStrokedShape(rampSegment.toLine2D)))
+  }
+  rampSegment.wetnessListeners += updateAll
+  rampSegment addListener updateAll
+  rampSegment.heatListeners += updateAll
+  updateAll()
 
   def paintColor_=(p: Paint) = pathNode.setPaint(p)
 
