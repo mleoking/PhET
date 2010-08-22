@@ -154,10 +154,7 @@ class ForceMotionSeriesObject(_state: MotionSeriesObjectState,
 
   def getAngle = motionStrategy.getAngle
 
-  override def stepInTime(dt: Double) {
-    super.stepInTime(dt)
-    motionStrategy.stepInTime(dt)
-  }
+  def stepInTime(dt: Double) = motionStrategy.stepInTime(dt)
 
   def acceleration = forceToParallelAcceleration(totalForce)
 

@@ -209,17 +209,5 @@ abstract class MotionSeriesObject(private var _state: MotionSeriesObjectState,
     }
   }
 
-  val stateHistory = new ArrayBuffer[MotionSeriesObjectState] //todo: memory leak
-
-  def stepInTime(dt: Double) {
-    stateHistory += state
-  }
-
-  def averageVelocity = {
-    val velocities = for (i <- 0 until java.lang.Math.min(10, stateHistory.length)) yield stateHistory(stateHistory.length - 1 - i).velocity
-    val sum = velocities.foldLeft(0.0)(_ + _)
-    sum / velocities.size
-  }
-
   def isCrashed: Boolean
 }
