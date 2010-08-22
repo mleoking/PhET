@@ -7,7 +7,7 @@ import sbt._
  * You can also use this command line command for launching with sbt: C:\install\sbt\sbt.bat "project motion-series" run
  * @author Sam Reid
  * 6-24-2010
- */
+ */                                                                                         
 class RampProject(info: ProjectInfo) extends ParentProject(info) {
   lazy val junit = project("contrib" / "junit", "junit", new JarProject(_))
   lazy val jsci = project("contrib" / "JSci", "jsci", new JarProject(_))
@@ -27,6 +27,8 @@ class RampProject(info: ProjectInfo) extends ParentProject(info) {
   lazy val motion = project("common" / "motion", "motion", new PhetProject(_), timeseries, piccolo2d, phetcommon, jsci, jfreechartphet,recordandplayback)
   lazy val motionseries = project("simulations" / "motion-series", "motion-series", new PhetProject(_){
     override def mainClass = Some("edu.colorado.phet.motionseries.sims.forcesandmotion.ForcesAndMotionApplication")
+    //Overrides the runAction to avoid recompilation, assumed to be done in a ~compile
+    override protected def runAction = task { args => runTask(getMainClass(true), runClasspath, args)  } describedAs RunDescription
   }, scalacommon, phetcommon, motion, recordandplayback, timeseries)
 
   class PhetProject(info: ProjectInfo) extends DefaultProject(info) {
