@@ -28,7 +28,7 @@ class RampProject(info: ProjectInfo) extends ParentProject(info) {
   lazy val motionseries = project("simulations" / "motion-series", "motion-series", new PhetProject(_){
     override def mainClass = Some("edu.colorado.phet.motionseries.sims.forcesandmotion.ForcesAndMotionApplication")
     //Overrides the runAction to avoid recompilation, assumed to be done in a ~compile
-    override protected def runAction = task { args => runTask(getMainClass(true), runClasspath, args)  } describedAs RunDescription
+    override protected def runAction = task { args => runTask(getMainClass(true), runClasspath, args)  } describedAs BasicScalaProject.RunDescription
   }, scalacommon, phetcommon, motion, recordandplayback, timeseries)
 
   class PhetProject(info: ProjectInfo) extends DefaultProject(info) {
