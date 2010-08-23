@@ -143,9 +143,6 @@ public abstract class ToolBoxItem extends PComposite {
 	    if (!getModel().isMembraneFull()){
 	        // Add the channel.
 	        addElementToModel( positionInModelSpace );
-//	        setMembraneChannel( model.createUserControlledMembraneChannel( MembraneChannelTypes.POTASSIUM_LEAKAGE_CHANNEL, positionInModelSpace ));
-//	        getMembraneChannel().setCenterLocation(positionInModelSpace);
-//	        getModel().addUserControlledMembraneChannel(getMembraneChannel());
 	    }
 	    else{
 	        // Put up a message stating that the membrane is full.
