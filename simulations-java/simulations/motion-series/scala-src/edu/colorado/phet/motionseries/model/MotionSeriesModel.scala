@@ -51,7 +51,7 @@ class MotionSeriesModel(defaultPosition: Double,
   val leftWallRightEdge = ForceMotionSeriesObject(this, -10 + MotionSeriesDefaults.wall.width / 2, MotionSeriesDefaults.SPRING_WIDTH, MotionSeriesDefaults.SPRING_HEIGHT)
   val rightWallLeftEdge = ForceMotionSeriesObject(this, 10 - MotionSeriesDefaults.wall.width / 2, MotionSeriesDefaults.SPRING_WIDTH, MotionSeriesDefaults.SPRING_HEIGHT)
 
-  val wallRange = () => new Range(-rampSegments(0).length, rampSegments(1).length)
+  val wallRange = () => Range(-rampSegments(0).length, rampSegments(1).length)
 
   val surfaceFrictionStrategy = new SurfaceFrictionStrategy() {
     //todo: allow different values for different segments
