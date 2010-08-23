@@ -33,12 +33,6 @@ public class SodiumLeakageChannelToolBoxNode extends ToolBoxItem {
 		super(model, mvt, canvas);
 	}
 
-	@Override
-    protected MembraneChannel createModelElement( Point2D position ) {
-	    return new GenericMembraneChannel( getModel(), ParticleType.SODIUM_ION,
-	            ColorUtils.darkerColor(EDGE_COLOR, 0.15), EDGE_COLOR, new ChannelAlwaysOpenStrategy() );
-    }
-
     @Override
 	protected void initializeSelectionNode() {
 		MembraneChannel channel = new GenericMembraneChannel( getModel(), ParticleType.SODIUM_ION,
@@ -61,7 +55,7 @@ public class SodiumLeakageChannelToolBoxNode extends ToolBoxItem {
      */
     @Override
     protected void releaseModelElement() {
-        getModel().releaseUserControlledMembraneChannel();
+        membraneChannel.setUserControlled( false );
         membraneChannel = null;
     }
 

@@ -290,7 +290,7 @@ public abstract class MembraneChannel {
 	            // traversing the channel, their traversal must be aborted.
 	            for (Particle particle : particlesTraversingChannel){
 	                MotionStrategy motionStrategy = particle.getMotionStrategy();
-//	                assert motionStrategy instanceof TraverseChannelMotionStrategy; // See below for why this assert is here.
+	                assert motionStrategy instanceof TraverseChannelMotionStrategy; // See below for why this assert is here.
 	                if (motionStrategy instanceof TraverseChannelMotionStrategy){
 	                    ((TraverseChannelMotionStrategy)motionStrategy).abortTraversal( particle );
 	                }
