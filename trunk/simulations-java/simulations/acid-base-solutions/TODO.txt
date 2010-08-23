@@ -4,7 +4,6 @@ MILESTONES
 
 HIGH PRIORITY
 - break up AbstractConcentrationGraphNode, it's too big
-- what should conductivity tester do for Solution=Water?
 - change the name of the "Test Solution" tab to "Introduction"?
 
 MEDUIUM PRIORITY

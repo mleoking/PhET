@@ -7,6 +7,7 @@ import java.util.EventListener;
 
 import javax.swing.event.EventListenerList;
 
+import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -17,6 +18,9 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class ConductivityTester extends SolutionRepresentation {
+    
+    private static final double NEUTRAL_PH = 7.0;
+    private static final double NEUTRAL_BRIGHTNESS = 0.05; // brightness when pH == NEUTRAL_PH
     
     private final Beaker beaker;
     private final PDimension probeSize;
@@ -66,15 +70,15 @@ public class ConductivityTester extends SolutionRepresentation {
     private void updateBrightness() {
         if ( isCircuitCompleted() ) {
             double pH = getSolution().getPH();
-            if ( pH < 7 ) {
-                brightness = -( 1d / 7d ) * pH + 1;
+            if ( pH < NEUTRAL_PH ) {
+                brightness = NEUTRAL_BRIGHTNESS + ( ( 1 - NEUTRAL_BRIGHTNESS ) * ( ( NEUTRAL_PH - pH ) / ( NEUTRAL_PH - ABSConstants.MIN_PH ) ) );
             }
             else {
-                brightness = ( 1d / 7d ) * pH - 1;
+                brightness = NEUTRAL_BRIGHTNESS + ( ( 1 - NEUTRAL_BRIGHTNESS ) * ( ( pH - NEUTRAL_PH ) / ( ABSConstants.MAX_PH - NEUTRAL_PH ) ) );
             }
         }
         else {
-            brightness = 0;
+            brightness = 0; // open circuit
         }
         fireBrightnessChanged();
     }
