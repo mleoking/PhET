@@ -28,7 +28,7 @@ public abstract class MembraneChannel {
 	private static final double SIDE_HEIGHT_TO_CHANNEL_HEIGHT_RATIO = 1.3;
 	protected static final Random RAND = new Random();
 	
-	private static final double DEFAULT_PARTICLE_VELOCITY = 100000; // In nanometers per sec of sim time.
+	private static final double DEFAULT_PARTICLE_VELOCITY = 100; // In nanometers per sec of sim time.
 
     //----------------------------------------------------------------------------
     // Instance Data

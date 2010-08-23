@@ -18,7 +18,7 @@ public class SodiumLeakageChannel extends AbstractLeakChannel {
 	
 	private static final Color BASE_COLOR = ColorUtils.interpolateRBGA(MembraneDiffusionConstants.SODIUM_COLOR, Color.YELLOW, 0.5);
 	
-	private static final double DEFAULT_PARTICLE_VELOCITY = 10000; // In nanometers per sec of sim time.
+	private static final double DEFAULT_PARTICLE_VELOCITY = 10; // In nanometers per sec of sim time.
 	
     //----------------------------------------------------------------------------
     // Instance Data

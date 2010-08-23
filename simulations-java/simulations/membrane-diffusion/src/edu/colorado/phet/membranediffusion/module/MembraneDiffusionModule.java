@@ -40,7 +40,6 @@ public class MembraneDiffusionModule extends PiccoloModule {
     public MembraneDiffusionModule( Frame parentFrame ) {
         super( MembraneDiffusionStrings.TITLE_MEMBRANE_DIFFUSION_MODULE, 
                 new MembraneDiffusionClock( MembraneDiffusionDefaults.CLOCK_FRAME_RATE,
-
                         MembraneDiffusionDefaults.DEFAULT_MEMBRANE_DIFFUSION_CLOCK_DT ) );
         // Model
         MembraneDiffusionClock clock = (MembraneDiffusionClock) getClock();
