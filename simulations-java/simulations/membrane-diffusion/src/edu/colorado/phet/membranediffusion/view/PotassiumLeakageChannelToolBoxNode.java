@@ -34,12 +34,6 @@ public class PotassiumLeakageChannelToolBoxNode extends ToolBoxItem {
 	}
 
 	@Override
-	protected MembraneChannel createModelElement( Point2D position ) {
-        return new GenericMembraneChannel( getModel(), ParticleType.POTASSIUM_ION,
-                ColorUtils.darkerColor(EDGE_COLOR, 0.15), EDGE_COLOR, new ChannelAlwaysOpenStrategy() );
-	}
-
-	@Override
 	protected void initializeSelectionNode() {
         MembraneChannel channel = new GenericMembraneChannel( getModel(), ParticleType.POTASSIUM_ION,
                 ColorUtils.darkerColor(EDGE_COLOR, 0.15), EDGE_COLOR, new ChannelAlwaysOpenStrategy() );
@@ -61,7 +55,7 @@ public class PotassiumLeakageChannelToolBoxNode extends ToolBoxItem {
      */
     @Override
     protected void releaseModelElement() {
-        getModel().releaseUserControlledMembraneChannel();
+        membraneChannel.setUserControlled( false );
         membraneChannel = null;
     }
 

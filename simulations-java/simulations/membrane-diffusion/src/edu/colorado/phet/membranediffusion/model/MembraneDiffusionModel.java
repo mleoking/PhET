@@ -61,7 +61,6 @@ public class MembraneDiffusionModel implements IParticleCapture {
     private ArrayList<MembraneChannel> membraneChannels = new ArrayList<MembraneChannel>();
     private MembraneChannel userControlledMembraneChannel = null;
     private EventListenerList listeners = new EventListenerList();
-    private FakeHodgkinHuxleyModel hodgkinHuxleyModel = new FakeHodgkinHuxleyModel();
     private final ArrayList<Point2D> allowableChannelLocations = new ArrayList<Point2D>(MAX_CHANNELS_ON_MEMBRANE);
     private boolean concentrationGraphsVisible = SHOW_GRAPHS_DEFAULT;
     
@@ -152,10 +151,6 @@ public class MembraneDiffusionModel implements IParticleCapture {
     	return new ArrayList<MembraneChannel>(membraneChannels);
     }
     
-    public IHodgkinHuxleyModel getHodgkinHuxleyModel(){
-    	return hodgkinHuxleyModel;
-    }
-    
     public boolean isConcentrationGraphsVisible() {
 		return concentrationGraphsVisible;
 	}
@@ -217,25 +212,18 @@ public class MembraneDiffusionModel implements IParticleCapture {
 
     public void reset(){
     	
-    	// Reset the HH model.
-    	hodgkinHuxleyModel.reset();
-    	
     	// Remove the particles.
     	removeAllParticles();
     	
     	// Remove all membrane channels.
     	removeAllChannels();
     	
+        // Reset the openness strategies.
+        potassiumChannelOpennessStrategy.close();
+        sodiumChannelOpennessStrategy.close();
+        
     	// Set the graphs to their default state.
     	setConcentrationGraphsVisible(SHOW_GRAPHS_DEFAULT);
-    }
-    
-    public void forceActivationOfSodiumChannels(){
-    	hodgkinHuxleyModel.forceActivationOfSodiumChannels();
-    }
-    
-    public void forceActivationOfPotassiumChannels(){
-    	hodgkinHuxleyModel.forceActivationOfPotassiumChannels();
     }
     
     public void setGatedSodiumChannelsOpen(boolean open){
@@ -300,10 +288,6 @@ public class MembraneDiffusionModel implements IParticleCapture {
     
     private void stepInTime(double dt){
     
-    	// Update the value of the membrane potential by stepping the
-    	// Hodgkins-Huxley model.
-    	hodgkinHuxleyModel.stepInTime( dt );
-    	
     	// Step the channels.
     	for (MembraneChannel channel : membraneChannels){
     		channel.stepInTime( dt );
@@ -599,9 +583,14 @@ public class MembraneDiffusionModel implements IParticleCapture {
      * moved to the nearest open location on the membrane.  If it is released
      * outside of the particle chamber it is removed from the model. 
      */
-    public void releaseUserControlledMembraneChannel(){
-    	// Error checking.
-    	assert userControlledMembraneChannel != null;
+    private void releaseUserControlledMembraneChannel(){
+    	
+        // Error checking.
+    	if (userControlledMembraneChannel == null){
+    	    System.err.println(getClass().getName() + " - Error: Attempt to release user controlled membrane channel when none is user controlled.");
+    	    assert userControlledMembraneChannel != null;
+    	    return;
+    	}
     	
     	if (PARTICLE_CHAMBER_RECT.contains(userControlledMembraneChannel.getCenterLocation())){
     		// The membrane channel was released close enough to the membrane

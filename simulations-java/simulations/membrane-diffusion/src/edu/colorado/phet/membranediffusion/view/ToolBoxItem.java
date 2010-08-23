@@ -11,7 +11,6 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
-import edu.colorado.phet.membranediffusion.model.MembraneChannel;
 import edu.colorado.phet.membranediffusion.model.MembraneDiffusionModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -155,16 +154,6 @@ public abstract class ToolBoxItem extends PComposite {
 	    }
 	}
 
-	/**
-	 * Create the model element associated with this tool box item.  The
-	 * position is provided so that it can be initially created in the correct
-	 * location.
-	 * 
-	 * @param position
-	 * @return
-	 */
-	protected abstract MembraneChannel createModelElement(Point2D position);
-	
 	protected void setSelectionNode(PNode selectionNode){
 		assert this.selectionNode == null; // Currently doesn't support setting this multiple times.
 		this.selectionNode = selectionNode;

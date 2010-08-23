@@ -15,7 +15,6 @@ import edu.colorado.phet.membranediffusion.model.MembraneChannel;
 import edu.colorado.phet.membranediffusion.model.MembraneChannelTypes;
 import edu.colorado.phet.membranediffusion.model.MembraneDiffusionModel;
 import edu.colorado.phet.membranediffusion.model.ParticleType;
-import edu.colorado.phet.membranediffusion.model.SodiumGatedChannel;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -31,11 +30,6 @@ public class SodiumGatedChannelToolBoxNode extends ToolBoxItem {
 
 	public SodiumGatedChannelToolBoxNode(MembraneDiffusionModel model, ModelViewTransform2D mvt, PhetPCanvas canvas) {
 		super(model, mvt, canvas);
-	}
-
-	@Override
-	protected MembraneChannel createModelElement( Point2D position ) {
-	    return new SodiumGatedChannel(getModel(), getModel().getHodgkinHuxleyModel());
 	}
 
 	@Override
@@ -60,7 +54,7 @@ public class SodiumGatedChannelToolBoxNode extends ToolBoxItem {
      */
     @Override
     protected void releaseModelElement() {
-        getModel().releaseUserControlledMembraneChannel();
+        membraneChannel.setUserControlled( false );
         membraneChannel = null;
     }
 
