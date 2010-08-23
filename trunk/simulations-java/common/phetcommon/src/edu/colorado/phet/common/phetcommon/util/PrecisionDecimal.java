@@ -1,6 +1,6 @@
-/* Copyright 2008-2009, University of Colorado */
+/* Copyright 2010, University of Colorado */
 
-package edu.colorado.phet.advancedacidbasesolutions.util;
+package edu.colorado.phet.common.phetcommon.util;
 
 
 /**

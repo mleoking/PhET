@@ -16,6 +16,5 @@ LOW PRIORITY
 - ask Kelly to review model.txt
 
 MIGRATE TO COMMON
-- PrecisionDecimal (also appears in ph-scale, advanced-acid-base-solutions)
 
 --

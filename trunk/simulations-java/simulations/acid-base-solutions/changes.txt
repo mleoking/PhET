@@ -1,3 +1,5 @@
+8/23/10 migrate PrecisionDecimal to phetcommon
+8/23/10 migrate HTMLCheckBox to phetcommon
 8/23/10 misc javadoc and cleanup
 8/23/10 this sim doesn't need a clock, remove clock from model interfaces, pause clock in all modules
 # 0.00.23 (43391) Aug 23, 2010
