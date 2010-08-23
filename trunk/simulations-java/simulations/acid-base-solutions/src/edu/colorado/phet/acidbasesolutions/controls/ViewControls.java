@@ -8,7 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.text.MessageFormat;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -18,12 +17,9 @@ import edu.colorado.phet.acidbasesolutions.constants.ABSImages;
 import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel;
 import edu.colorado.phet.acidbasesolutions.model.MagnifyingGlass.MagnifyingGlassChangeListener;
-import edu.colorado.phet.acidbasesolutions.model.Molecule.WaterMolecule;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
-import edu.colorado.phet.acidbasesolutions.util.HTMLCheckBox;
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
-import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 
 /**
  * Control panel that provides access to various "views".
@@ -58,6 +54,7 @@ public class ViewControls extends JPanel {
                     if ( controlsEnabled ) {
                         magnifyingGlassRadioButton.setSelected( model.getMagnifyingGlass().isVisible() );
                         showWaterCheckBox.setEnabled( model.getMagnifyingGlass().isVisible() );
+                        showWaterIcon.setEnabled( model.getMagnifyingGlass().isVisible() );
                     }
                 }
             } );
@@ -68,6 +65,7 @@ public class ViewControls extends JPanel {
                     if ( controlsEnabled ) {
                         concentrationGraphRadioButton.setSelected( model.getConcentrationGraph().isVisible() );
                         showWaterCheckBox.setEnabled( model.getMagnifyingGlass().isVisible() );
+                        showWaterIcon.setEnabled( model.getMagnifyingGlass().isVisible() );
                     }
                 }
             } );
@@ -75,6 +73,7 @@ public class ViewControls extends JPanel {
             model.getMagnifyingGlass().addMagnifyingGlassListener( new MagnifyingGlassChangeListener() {
                 public void waterVisibleChanged() {
                     showWaterCheckBox.setSelected( model.getMagnifyingGlass().isWaterVisible() );
+                    showWaterIcon.setEnabled( model.getMagnifyingGlass().isVisible() );
                 }
             } );
             
