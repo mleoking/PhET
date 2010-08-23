@@ -17,8 +17,8 @@ public class ABSStrings {
     
     public static final String PATTERN_VALUE_UNITS = getString( "pattern.0value.1units" );
     public static final String PATTERN_LABEL_VALUE = getString( "pattern.0label.1value" );
-    public static final String PATTERN_SHOW_WATER_MOLECULES = getString( "pattern.showH2OMolecules" ); 
-    public static final String PATTERN_SOLUTION_SYMBOL = getString( "pattern.0solution.1symbol" ); 
+    public static final String PATTERN_SHOW_WATER_MOLECULES = getString( "pattern.showH2OMolecules" ); //XXX delete this?
+    public static final String PATTERN_SOLUTION_SYMBOL = getString( "pattern.0solution.1symbol" );
     
     public static final String PH = getString( "pH" ); 
     public static final String SOLUTION = getString( "solution" ); 
@@ -52,6 +52,7 @@ public class ABSStrings {
     public static final String PH_COLOR_KEY = ABSResources.getString( "pHColorKey" );
     public static final String LIQUID = ABSResources.getString( "liquid" );
     public static final String VIEWS = ABSResources.getString( "views" );
+    public static final String SHOW_WATER = ABSResources.getString( "showWater" );
     
     private static final String getString( String key ) {
         return ABSResources.getString( key );
