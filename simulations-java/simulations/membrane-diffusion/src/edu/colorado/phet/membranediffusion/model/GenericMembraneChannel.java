@@ -3,6 +3,7 @@
 package edu.colorado.phet.membranediffusion.model;
 
 import java.awt.Color;
+import java.awt.geom.Point2D;
 
 /**
  * A gated channel through which sodium passes when the channel is open.
@@ -28,11 +29,12 @@ public class GenericMembraneChannel extends MembraneChannel {
 	private final MembraneChannelOpennessStrategy opennessStrategy;
 	
     //----------------------------------------------------------------------------
-    // Constructor
+    // Constructor(s)
     //----------------------------------------------------------------------------
 	
 	public GenericMembraneChannel(IParticleCapture modelContainingParticles, ParticleType particleTypeToCapture,
-	        Color channelColor, Color edgeColor, MembraneChannelOpennessStrategy opennessStrategy) {
+	        Color channelColor, Color edgeColor, MembraneChannelOpennessStrategy opennessStrategy,
+	        Point2D initialPositon) {
 	    
 	    super(CHANNEL_WIDTH, CHANNEL_HEIGHT, modelContainingParticles);
 	    
@@ -49,6 +51,9 @@ public class GenericMembraneChannel extends MembraneChannel {
 		// Initialize the openness level.
 		setOpenness( opennessStrategy.getOpenness() );
 		
+		// Initialize the position.
+		setCenterLocation( initialPositon );
+		
 		// Listen for updates to the openness.
 		opennessStrategy.addListener( new MembraneChannelOpennessStrategy.Listener() {
             public void opennessChanged() {
@@ -57,11 +62,16 @@ public class GenericMembraneChannel extends MembraneChannel {
         });
 	}
 	
+	public GenericMembraneChannel(IParticleCapture modelContainingParticles, ParticleType particleTypeToCapture,
+	        Color channelColor, Color edgeColor, MembraneChannelOpennessStrategy opennessStrategy) {
+
+	    this(modelContainingParticles, particleTypeToCapture, channelColor, edgeColor, opennessStrategy, 
+	            new Point2D.Double(0, 0));
+	}
+
     //----------------------------------------------------------------------------
     // Methods
     //----------------------------------------------------------------------------
-	
-	
 
 	@Override
 	public Color getChannelColor() {
