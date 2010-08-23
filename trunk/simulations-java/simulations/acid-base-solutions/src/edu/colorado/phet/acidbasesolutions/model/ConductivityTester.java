@@ -69,18 +69,27 @@ public class ConductivityTester extends SolutionRepresentation {
     
     private void updateBrightness() {
         if ( isCircuitCompleted() ) {
-            double pH = getSolution().getPH();
-            if ( pH < NEUTRAL_PH ) {
-                brightness = NEUTRAL_BRIGHTNESS + ( ( 1 - NEUTRAL_BRIGHTNESS ) * ( ( NEUTRAL_PH - pH ) / ( NEUTRAL_PH - ABSConstants.MIN_PH ) ) );
-            }
-            else {
-                brightness = NEUTRAL_BRIGHTNESS + ( ( 1 - NEUTRAL_BRIGHTNESS ) * ( ( pH - NEUTRAL_PH ) / ( ABSConstants.MAX_PH - NEUTRAL_PH ) ) );
-            }
+            brightness = pHToBrightness( getSolution().getPH() );
         }
         else {
             brightness = 0; // open circuit
         }
         fireBrightnessChanged();
+    }
+    
+    /*
+     * This is the primary model portion of this class.
+     * Converts pH to a brightness value for a "closed" circuit.
+     */
+    private double pHToBrightness( double pH ) {
+        double brightness = 0;
+        if ( pH < NEUTRAL_PH ) {
+            brightness = NEUTRAL_BRIGHTNESS + ( ( 1 - NEUTRAL_BRIGHTNESS ) * ( ( NEUTRAL_PH - pH ) / ( NEUTRAL_PH - ABSConstants.MIN_PH ) ) );
+        }
+        else {
+            brightness = NEUTRAL_BRIGHTNESS + ( ( 1 - NEUTRAL_BRIGHTNESS ) * ( ( pH - NEUTRAL_PH ) / ( ABSConstants.MAX_PH - NEUTRAL_PH ) ) );
+        }
+        return brightness;
     }
     
     public PDimension getProbeSizeReference() {
