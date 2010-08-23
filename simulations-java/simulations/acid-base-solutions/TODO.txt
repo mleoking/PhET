@@ -13,7 +13,6 @@ LOW PRIORITY
 - delete dead code in ViewControls
 - delete unused strings from ABSStrings and strings file
 - rename modules when their visible names solidify
-- scale light bulb image files, remove setScale calls in ConductivityTesterNode
 - revise model.txt to include conductivity of water, ask Kelly to review
 
 MIGRATE TO COMMON
