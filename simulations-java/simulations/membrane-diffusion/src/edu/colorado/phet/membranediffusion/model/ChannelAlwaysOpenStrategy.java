@@ -11,11 +11,7 @@ package edu.colorado.phet.membranediffusion.model;
  */
 public class ChannelAlwaysOpenStrategy extends MembraneChannelOpennessStrategy {
 
-    /* (non-Javadoc)
-     * @see edu.colorado.phet.membranediffusion.model.MembraneChannelOpennessStrategy#getOpenness()
-     */
-    @Override
-    public double getOpenness() {
-        return 1;
+    public ChannelAlwaysOpenStrategy() {
+        setOpenness( 1 );
     }
 }

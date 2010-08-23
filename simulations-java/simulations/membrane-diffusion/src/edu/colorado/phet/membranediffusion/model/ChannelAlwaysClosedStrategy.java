@@ -9,12 +9,8 @@ package edu.colorado.phet.membranediffusion.model;
  * @author John Blanco
  */
 public class ChannelAlwaysClosedStrategy extends MembraneChannelOpennessStrategy {
-
-    /* (non-Javadoc)
-     * @see edu.colorado.phet.membranediffusion.model.MembraneChannelOpennessStrategy#getOpenness()
-     */
-    @Override
-    public double getOpenness() {
-        return 0;
+    
+    public ChannelAlwaysClosedStrategy(){
+        setOpenness( 0 );
     }
 }
