@@ -4,7 +4,6 @@ MILESTONES
 
 HIGH PRIORITY
 - break up AbstractConcentrationGraphNode, it's too big
-- change the name of the "Test Solution" tab to "Introduction"?
 
 MEDUIUM PRIORITY
 - confusion between pH paper and bars in graph by allowing them to be shown at the same time?
@@ -15,6 +14,7 @@ MEDUIUM PRIORITY
 - change "Concentration Graph" to "Concentration"?
 
 LOW PRIORITY
+- rename modules when their visible names solidify
 - scale light bulb image files, remove setScale calls in ConductivityTesterNode
 - revise model.txt to include conductivity of water, ask Kelly to review
 
