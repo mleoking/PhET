@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.phscale.model;
 
-import edu.colorado.phet.phscale.util.PrecisionDecimal;
+import edu.colorado.phet.common.phetcommon.util.PrecisionDecimal;
 
 
 /**

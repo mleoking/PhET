@@ -1,3 +1,4 @@
+8/23/10 migrate PrecisionDecimal to phetcommon
 5/4/10 replace BarDragNode.HighlightHandler with piccolo-phet's PaintHighlightHandler 
 # 1.02.01 (38274) Jan 27, 2010
 1/26/10 #2132, improve milk visibility by adjusting transparency of milk and background color of playarea

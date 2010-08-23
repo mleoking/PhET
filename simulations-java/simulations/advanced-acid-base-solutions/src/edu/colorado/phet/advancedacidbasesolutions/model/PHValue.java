@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.advancedacidbasesolutions.model;
 
-import edu.colorado.phet.advancedacidbasesolutions.util.PrecisionDecimal;
+import edu.colorado.phet.common.phetcommon.util.PrecisionDecimal;
 
 
 /**
