@@ -7,9 +7,6 @@ import java.util.EventListener;
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 
 /**
  * Model for the "Acid-Base Solutions" simulation.
@@ -34,14 +31,7 @@ public class ABSModel  {
     
     private EventListenerList listeners;
     
-    public ABSModel( IClock clock, SolutionFactory defaultSolutionFactory ) {
-        
-        clock.addClockListener( new ClockAdapter() {
-            @Override
-            public void clockTicked( ClockEvent clockEvent ) {
-                //XXX
-            }
-        } );
+    public ABSModel( SolutionFactory defaultSolutionFactory ) {
         
         this.defaultSolutionFactory = defaultSolutionFactory;
         this.solution = defaultSolutionFactory.createSolution();

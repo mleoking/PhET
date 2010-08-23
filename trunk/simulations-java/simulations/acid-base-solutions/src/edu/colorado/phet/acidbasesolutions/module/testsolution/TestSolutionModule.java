@@ -28,7 +28,7 @@ public class TestSolutionModule extends ABSModule {
                 return new PureWaterSolution();
             }
         };
-        model = new ABSModel( getClock(), solutionFactory );
+        model = new ABSModel( solutionFactory );
         
         canvas = new TestSolutionCanvas( model, dev );
         setSimulationPanel( canvas );

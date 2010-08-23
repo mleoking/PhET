@@ -28,7 +28,7 @@ public class CustomSolutionModule extends ABSModule {
                 return new CustomWeakAcidSolution();
             }
         };
-        model = new ABSModel( getClock(), solutionFactory );
+        model = new ABSModel( solutionFactory );
         
         canvas = new CustomSolutionCanvas( model, dev );
         setSimulationPanel( canvas );
