@@ -1,6 +1,6 @@
 /* Copyright 2010, University of Colorado */
 
-package edu.colorado.phet.acidbasesolutions.util;
+package edu.colorado.phet.common.phetcommon.view.controls;
 
 import java.awt.Color;
 
@@ -21,6 +21,10 @@ public class HTMLCheckBox extends JCheckBox {
     
     private Color foreground;
     
+    /**
+     * Constructor
+     * @param text plain text, HTML fragment, or HTML document
+     */
     public HTMLCheckBox( String text ) {
         super( HTMLUtils.toHTMLString( text ) );
         this.foreground = getForeground();
