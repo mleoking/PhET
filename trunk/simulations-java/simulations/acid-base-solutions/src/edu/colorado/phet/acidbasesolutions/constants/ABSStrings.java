@@ -17,7 +17,6 @@ public class ABSStrings {
     
     public static final String PATTERN_VALUE_UNITS = getString( "pattern.0value.1units" );
     public static final String PATTERN_LABEL_VALUE = getString( "pattern.0label.1value" );
-    public static final String PATTERN_SHOW_WATER_MOLECULES = getString( "pattern.showH2OMolecules" ); //XXX delete this?
     public static final String PATTERN_SOLUTION_SYMBOL = getString( "pattern.0solution.1symbol" );
     
     public static final String PH = getString( "pH" ); 

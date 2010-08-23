@@ -157,10 +157,6 @@ public class ViewControls extends JPanel {
         
         // "Show Water" check box
         {
-//XXX if unused, delete me
-//            WaterMolecule waterMolecule = new WaterMolecule();
-//            String html = HTMLUtils.toHTMLString( MessageFormat.format( ABSStrings.PATTERN_SHOW_WATER_MOLECULES, waterMolecule.getSymbol() ) );
-//            showWaterCheckBox = new HTMLCheckBox( html );
             showWaterCheckBox = new JCheckBox( ABSStrings.SHOW_WATER );
             showWaterCheckBox.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
