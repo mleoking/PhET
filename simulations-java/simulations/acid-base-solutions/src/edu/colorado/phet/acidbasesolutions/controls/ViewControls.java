@@ -22,7 +22,7 @@ import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 
 /**
- * Control panel that provides access to various "views".
+ * Control panel that provides access to various "views" of a solution.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

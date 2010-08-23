@@ -36,11 +36,11 @@ import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
- * Controls used to select a "test" solution.
+ * Controls used to select a between several "fixed" (immutable) solution.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TestSolutionControls extends JPanel {
+public class FixedSolutionControls extends JPanel {
     
     private static final double MOLECULE_ICON_SCALE = 0.75;
     
@@ -49,7 +49,7 @@ public class TestSolutionControls extends JPanel {
     private final JRadioButton strongAcidRadioButton, weakAcidRadioButton;
     private final JRadioButton strongBaseRadioButton, weakBaseRadioButton;
 
-    public TestSolutionControls( ABSModel model ) {
+    public FixedSolutionControls( ABSModel model ) {
         
         // border
         {

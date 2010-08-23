@@ -4,7 +4,7 @@ package edu.colorado.phet.acidbasesolutions.module.testsolution;
 
 import java.awt.Insets;
 
-import edu.colorado.phet.acidbasesolutions.controls.TestSolutionControls;
+import edu.colorado.phet.acidbasesolutions.controls.FixedSolutionControls;
 import edu.colorado.phet.acidbasesolutions.controls.TestControls;
 import edu.colorado.phet.acidbasesolutions.controls.ViewControls;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel;
@@ -20,7 +20,7 @@ public class TestSolutionControlPanel extends ControlPanel {
 
     public TestSolutionControlPanel( Resettable resettable, ABSModel model ) {
         setInsets( new Insets( 5, 5, 5, 5 ) );
-        addControlFullWidth( new TestSolutionControls( model ) );
+        addControlFullWidth( new FixedSolutionControls( model ) );
         addControlFullWidth( new TestControls( model ) );
         addControlFullWidth( new ViewControls( model ) );
         addResetAllButton( resettable );
