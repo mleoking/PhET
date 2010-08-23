@@ -3,7 +3,6 @@ TODO list for acid-base-solutions
 MILESTONES
 
 HIGH PRIORITY
-- break up AbstractConcentrationGraphNode, it's too big
 
 MEDUIUM PRIORITY
 - confusion between pH paper and bars in graph by allowing them to be shown at the same time?
