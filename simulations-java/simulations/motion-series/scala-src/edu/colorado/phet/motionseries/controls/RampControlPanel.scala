@@ -190,7 +190,11 @@ class RampControlPanelBody(model: MotionSeriesModel,
     () => model.motionSeriesObject.position, 
     x => {
       //Use the wallRange() for determining the max locaiton of the object, which accounts for whether walls are enabled or disabled
-      val clampedValue = MathUtil.clamp(model.wallRange().min + model.motionSeriesObject.width / 2, x, model.wallRange().max - model.motionSeriesObject.width / 2)
+      val clampedValue = if (model.walls) MathUtil.clamp(
+        model.wallRange().min + model.motionSeriesObject.width / 2, 
+        x, 
+        model.wallRange().max - model.motionSeriesObject.width / 2 )
+      else x//only clamp if there are walls
       model.motionSeriesObject.setPosition(clampedValue)
       if (clampedValue != x) positionSlider.setValue(clampedValue) //Have to make sure the readout indicates the model value, not the requested user value
     }, 
