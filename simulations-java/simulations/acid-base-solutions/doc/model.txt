@@ -69,13 +69,16 @@ pH:
 Conductivity:
 
   For the purposes of this simulation, conductivity is modeled as a number between 0 and 1 inclusive.
-  0 is no conductivity, an open circuit. 1 is maximum conductivity.
-  Conductivity is computed as a function of pH:
-  
-  C_neutral = conductivity of a neutral (pH=7) solution (a small constant > 0)
+  This value has no units and determines how much the light bulb lights up.
+  Conductivity is computed as a function of pH, as follows:
+
   pH_min = 0
   pH_max = 14
-  if pH < 7, conductivity = C_neutral + ( ( 1 - C_neutral ) * ( 7 - pH ) / ( 7 - pH_min ) );
-  if pH >= 7, conductivity = C_neutral + ( ( 1 - C_neutral ) * ( pH - 7 ) / ( pH_max - 7 ) );
-
+  C_open_circuit = 0
+  C_max = 1
+  C_neutral = conductivity of a neutral (pH=7) solution (a small constant > 0)
+  if open circuit, conductivity = C_open_circuit
+  else if pH < 7, conductivity = C_neutral + ( ( 1 - C_neutral ) * ( 7 - pH ) / ( 7 - pH_min ) )
+  else if pH >= 7, conductivity = C_neutral + ( ( 1 - C_neutral ) * ( pH - 7 ) / ( pH_max - 7 ) )
+  
 ---
