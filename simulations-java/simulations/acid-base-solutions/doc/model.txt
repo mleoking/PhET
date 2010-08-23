@@ -71,8 +71,11 @@ Conductivity:
   For the purposes of this simulation, conductivity is modeled as a number between 0 and 1 inclusive.
   0 is no conductivity, an open circuit. 1 is maximum conductivity.
   Conductivity is computed as a function of pH:
-
-  if pH >= 7, conductivity = (1/7) * pH - 1;
-  if pH < 7, conductivity = -(1/7) * pH + 1;
+  
+  C_neutral = conductivity of a neutral (pH=7) solution (a small constant > 0)
+  pH_min = 0
+  pH_max = 14
+  if pH >= 7, conductivity = C_neutral + ( ( 1 - C_neutral ) * ( 7 - pH ) / ( 7 - pH_min ) );
+  if pH < 7, conductivity = C_neutral + ( ( 1 - C_neutral ) * ( pH - 7 ) / ( pH_max - 7 ) );
 
 ---
