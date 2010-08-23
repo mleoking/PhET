@@ -62,7 +62,7 @@ class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val ta
       val textLocation = {
         val proposedLabelLocation = vector() * 0.6
         val minLabelDistance = maxLabelDistance / 2.0 //todo: improve heuristics for min label distance, or make it settable in the constructor
-        var labelVector = if (proposedLabelLocation.magnitude > maxLabelDistance)
+        val labelVector = if (proposedLabelLocation.magnitude > maxLabelDistance)
           new Vector2D(vector.angle) * maxLabelDistance
         else if (proposedLabelLocation.magnitude < minLabelDistance && proposedLabelLocation.magnitude > 1E-2)
           new Vector2D(vector.angle) * minLabelDistance
