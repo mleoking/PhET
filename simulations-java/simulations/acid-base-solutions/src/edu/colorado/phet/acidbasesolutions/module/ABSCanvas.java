@@ -15,11 +15,11 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
 
 /**
- * Base class for all canvases.
+ * Canvas (play area) for all modules.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class ABSCanvas extends PhetPCanvas {
+public class ABSCanvas extends PhetPCanvas {
     
     private final PNode rootNode;
     private final BeakerNode beakerNode;

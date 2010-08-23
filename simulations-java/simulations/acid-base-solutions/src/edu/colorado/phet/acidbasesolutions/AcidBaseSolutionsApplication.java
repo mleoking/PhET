@@ -6,8 +6,8 @@ import javax.swing.Box;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSColors;
 import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
-import edu.colorado.phet.acidbasesolutions.module.customsolution.CustomSolutionModule;
-import edu.colorado.phet.acidbasesolutions.module.testsolution.TestSolutionModule;
+import edu.colorado.phet.acidbasesolutions.module.CustomSolutionModule;
+import edu.colorado.phet.acidbasesolutions.module.IntroductionModule;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
@@ -56,7 +56,7 @@ public class AcidBaseSolutionsApplication extends PiccoloPhetApplication {
     private void initModules() {
         
         boolean dev = isDeveloperControlsEnabled();
-        addModule( new TestSolutionModule( dev ) );
+        addModule( new IntroductionModule( dev ) );
         addModule( new CustomSolutionModule( dev ) );
         
         // set color of control panels after adding all modules

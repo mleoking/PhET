@@ -10,7 +10,6 @@ MEDUIUM PRIORITY
 - which "Tools" selections disable when "Views" controls?
 
 LOW PRIORITY
-- rename modules when their visible names solidify
 
 MIGRATE TO COMMON
 
