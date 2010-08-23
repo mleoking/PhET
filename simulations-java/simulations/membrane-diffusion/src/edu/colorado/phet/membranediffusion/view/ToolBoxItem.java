@@ -51,16 +51,6 @@ public abstract class ToolBoxItem extends PComposite {
 	private PNode selectionNode = null;
 	private HTMLNode caption = null;
 	
-	// Membrane channel in the model.  This is created when the user clicks on
-	// the node and is subsequently controlled by mouse movements until
-	// released by the user.  This could be generalized to some generic model
-	// element if needed for other applications.
-	private MembraneChannel membraneChannel = null;
-
-    //----------------------------------------------------------------------------
-    // Constructor(s)
-    //----------------------------------------------------------------------------
-    
 	public ToolBoxItem(final MembraneDiffusionModel model, final ModelViewTransform2D mvt, final PhetPCanvas canvas) {
 		
 		this.model = model;
@@ -79,17 +69,8 @@ public abstract class ToolBoxItem extends PComposite {
     			Point2D mouseWorldPos = new Point2D.Double(mouseCanvasPos.getX(), mouseCanvasPos.getY()); 
     			canvas.getPhetRootNode().screenToWorld(mouseWorldPos);
     			Point2D mouseModelPos = mvt.viewToModel(mouseWorldPos);
-        		
-        		if (membraneChannel == null){
-        			// Add the new model element to the model.
-        			handleAddRequest(mouseModelPos);
-        		}
-        		else{
-        			// This isn't expected to happen.  If it does, we need to
-        			// figure out why.
-        			System.out.println(getClass().getName() + " - Warning: Mouse press event received but element already exists.");
-        			assert false;
-        		}
+    			
+    			handleAddRequest( mouseModelPos );
             }
 
         	@Override
@@ -99,33 +80,14 @@ public abstract class ToolBoxItem extends PComposite {
     			Point2D mouseWorldPos = new Point2D.Double(mouseCanvasPos.getX(), mouseCanvasPos.getY()); 
     			canvas.getPhetRootNode().screenToWorld(mouseWorldPos);
     			Point2D mouseModelPos = mvt.viewToModel(mouseWorldPos);
-        		
-        		if (membraneChannel == null){
-        			// Add the new model element to the model.
-        			System.out.println(getClass().getName() + " - Warning: Drag event received but no model element yet, adding it.");
-        			handleAddRequest(mouseCanvasPos);
-        		}
-        		else{
-    				// If a model element was added, it is now being dragged.
-        		}
-        		
-       			// Move the model element (if it exists).
-        		if (membraneChannel != null){
-        			membraneChannel.setCenterLocation(mouseModelPos);
-        		}
+    			
+    			setModelElementPosition( mouseModelPos );
             }
 
             @Override
             public void mouseReleased(PInputEvent event) {
                 // The user has released this node.
-                if (membraneChannel != null){
-                    membraneChannel.setUserControlled( false );
-                    if (membraneChannel != null){
-                        // Release our reference to the model element so that we will
-                        // create a new one if clicked again.
-                        membraneChannel = null;
-                    }
-                }
+                releaseModelElement();
             }
         });
 	}
@@ -145,20 +107,33 @@ public abstract class ToolBoxItem extends PComposite {
     protected PhetPCanvas getCanvas() {
         return canvas;
     }
-    
-	protected void setMembraneChannel(MembraneChannel membraneChannel){
-		this.membraneChannel = membraneChannel;
-	}
-	
-	protected MembraneChannel getMembraneChannel(){
-		return membraneChannel;
-	}
-
 	/**
 	 * Method overridden by subclasses to set up the node that users will
 	 * click on in order to add one to the model.
 	 */
 	protected abstract void initializeSelectionNode();
+	
+	/**
+	 * Method overriden by subclasses to add the element that they represent
+	 * to the model.
+	 * 
+	 * @param position
+	 */
+	protected abstract void addElementToModel(Point2D position);
+	
+	/**
+	 * Method overridden by subclasses that sets the position of the
+	 * corresponding model element, if there is one.
+	 * 
+	 * @param position
+	 */
+	protected abstract void setModelElementPosition(Point2D position);
+	
+	/**
+	 * Method overridden by subclasses that commands them to release the model
+	 * element that they were presumably controlling.
+	 */
+	protected abstract void releaseModelElement();
 	
 	/**
 	 * Handle a request made the the user to add an instance of the
@@ -168,9 +143,10 @@ public abstract class ToolBoxItem extends PComposite {
 	protected void handleAddRequest(Point2D positionInModelSpace){
 	    if (!getModel().isMembraneFull()){
 	        // Add the channel.
-	        setMembraneChannel(createModelElement( positionInModelSpace ));
-	        getMembraneChannel().setCenterLocation(positionInModelSpace);
-	        getModel().addUserControlledMembraneChannel(getMembraneChannel());
+	        addElementToModel( positionInModelSpace );
+//	        setMembraneChannel( model.createUserControlledMembraneChannel( MembraneChannelTypes.POTASSIUM_LEAKAGE_CHANNEL, positionInModelSpace ));
+//	        getMembraneChannel().setCenterLocation(positionInModelSpace);
+//	        getModel().addUserControlledMembraneChannel(getMembraneChannel());
 	    }
 	    else{
 	        // Put up a message stating that the membrane is full.

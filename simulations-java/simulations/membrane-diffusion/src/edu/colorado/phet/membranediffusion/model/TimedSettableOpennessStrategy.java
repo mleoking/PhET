@@ -4,9 +4,9 @@ package edu.colorado.phet.membranediffusion.model;
 
 
 /**
- * A membrane channel for which the openness can be set.  There is a time
- * constant that makes the openness level move gradually from open to closed
- * and vice versa.
+ * A membrane channel openness strategy for which the openness can be set
+ * through its API.  There is a time constant that makes the openness level
+ * move gradually from open to closed and vice versa.
  * 
  * @author John Blanco
  */

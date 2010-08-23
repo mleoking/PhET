@@ -1,6 +1,7 @@
 /* Copyright 2009, University of Colorado */
 package edu.colorado.phet.membranediffusion.model;
 
+import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import javax.swing.event.EventListenerList;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.membranediffusion.MembraneDiffusionConstants;
 
 /**
  * This class represents the main class for modeling membrane diffusion.  It
@@ -47,6 +49,9 @@ public class MembraneDiffusionModel implements IParticleCapture {
 	// Defaults for configurable parameters.
 	private static boolean SHOW_GRAPHS_DEFAULT = false;
 	
+	// Static openness strategies.
+	private static MembraneChannelOpennessStrategy ALWAYS_OPEN_OPENNESS_STRATEGY = new ChannelAlwaysOpenStrategy();
+	
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
@@ -65,6 +70,11 @@ public class MembraneDiffusionModel implements IParticleCapture {
     private int numPotassiumInUpperChamber = 0;
     private int numSodiumInLowerChamber = 0;
     private int numPotassiumInLowerChamber = 0;
+    
+    // Openness strategies for controlling the level of openness the various
+    // types of membrane channels.
+    private TimedSettableOpennessStrategy sodiumChannelOpennessStrategy = new TimedSettableOpennessStrategy();
+    private TimedSettableOpennessStrategy potassiumChannelOpennessStrategy = new TimedSettableOpennessStrategy();
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -205,6 +215,22 @@ public class MembraneDiffusionModel implements IParticleCapture {
     
     public void forceActivationOfPotassiumChannels(){
     	hodgkinHuxleyModel.forceActivationOfPotassiumChannels();
+    }
+    
+    public void openSodiumChannels(){
+        sodiumChannelOpennessStrategy.open();
+    }
+    
+    public void closeSodiumChannels(){
+        sodiumChannelOpennessStrategy.close();
+    }
+    
+    public void openPotassiumChannels(){
+        potassiumChannelOpennessStrategy.open();
+    }
+    
+    public void closePotassiumChannels(){
+        potassiumChannelOpennessStrategy.close();
     }
     
     /**
@@ -406,8 +432,95 @@ public class MembraneDiffusionModel implements IParticleCapture {
     }
     
     /**
+     * Create and add a user-controlled membrane channel of the specified
+     * type.  "User controlled" means that it is not being clocked and is
+     * assumed to be under the control of the user, who will release it at
+     * some point.
+     */
+    public MembraneChannel createUserControlledMembraneChannel(MembraneChannelTypes membraneChannelType, Point2D position){
+        
+        // Configure the channel.
+        Color channelColor;
+        Color edgeColor;
+        ParticleType particleTypeToCapture;
+        MembraneChannelOpennessStrategy opennessStrategy;
+        
+        switch (membraneChannelType){
+        case SODIUM_GATED_CHANNEL:
+            particleTypeToCapture = ParticleType.SODIUM_ION;
+            channelColor = MembraneDiffusionConstants.SODIUM_GATED_CHANNEL_COLOR;
+            edgeColor = MembraneDiffusionConstants.SODIUM_GATED_EDGE_COLOR;
+            opennessStrategy = sodiumChannelOpennessStrategy;
+            break;
+        case SODIUM_LEAKAGE_CHANNEL:
+            particleTypeToCapture = ParticleType.SODIUM_ION;
+            channelColor = MembraneDiffusionConstants.SODIUM_LEAKAGE_CHANNEL_COLOR;
+            edgeColor = MembraneDiffusionConstants.SODIUM_LEAKAGE_EDGE_COLOR;
+            opennessStrategy = ALWAYS_OPEN_OPENNESS_STRATEGY;
+            break;
+        case POTASSIUM_GATED_CHANNEL:
+            particleTypeToCapture = ParticleType.POTASSIUM_ION;
+            channelColor = MembraneDiffusionConstants.POTASSIUM_GATED_CHANNEL_COLOR;
+            edgeColor = MembraneDiffusionConstants.POTASSIUM_GATED_EDGE_COLOR;
+            opennessStrategy = potassiumChannelOpennessStrategy;
+            break;
+        case POTASSIUM_LEAKAGE_CHANNEL:
+            particleTypeToCapture = ParticleType.POTASSIUM_ION;
+            channelColor = MembraneDiffusionConstants.POTASSIUM_LEAKAGE_CHANNEL_COLOR;
+            edgeColor = MembraneDiffusionConstants.POTASSIUM_GATED_EDGE_COLOR;
+            opennessStrategy = ALWAYS_OPEN_OPENNESS_STRATEGY;
+            break;
+        default:
+            System.err.println(getClass().getName() + "- Error: Invalid channel type.");
+            assert false;
+            // Make some arbitrary assumptions if things get this far.
+            particleTypeToCapture = ParticleType.POTASSIUM_ION;
+            channelColor = MembraneDiffusionConstants.POTASSIUM_LEAKAGE_CHANNEL_COLOR;
+            edgeColor = MembraneDiffusionConstants.POTASSIUM_GATED_EDGE_COLOR;
+            opennessStrategy = ALWAYS_OPEN_OPENNESS_STRATEGY;
+            break;
+        }
+        
+        
+        final MembraneChannel membraneChannel = new GenericMembraneChannel(this, particleTypeToCapture, channelColor,
+                edgeColor, opennessStrategy, position);
+        userControlledMembraneChannel = membraneChannel;
+        membraneChannel.addListener( new MembraneChannel.Adapter(){
+            @Override
+            public void userControlledStateChanged() {
+                if (membraneChannel.isUserControlled()){
+                    // The user has grabbed this channel.
+                    membraneChannels.remove( membraneChannel );
+                    userControlledMembraneChannel = membraneChannel;
+                }
+                else{
+                    // The user has released this channel.
+                    releaseUserControlledMembraneChannel();
+                }
+            }
+            
+            @Override
+            public void removed() {
+                if (membraneChannels.contains( membraneChannel )){
+                    // Take this channel off of the list of membrane channels.
+                    membraneChannels.remove(membraneChannel);
+                }
+                else if (userControlledMembraneChannel == membraneChannel){
+                    // This channel was dropped back into the tool box or some
+                    // invalid location.
+                    userControlledMembraneChannel = null;
+                }
+            }
+        });
+        
+        notifyChannelAdded(membraneChannel);
+        
+        return membraneChannel;
+    }
+    
+    /**
      * Add a membrane channel.  It is assumed that the channel is under user
-     * control, i.e. the user is dragging from the tool box.
+     * control, i.e. the user is dragging it from the tool box.
      * 
      * @param membraneChannel
      */
