@@ -13,7 +13,7 @@ LOW PRIORITY
 - delete dead code in ViewControls
 - delete unused strings from ABSStrings and strings file
 - rename modules when their visible names solidify
-- revise model.txt to include conductivity of water, ask Kelly to review
+- ask Kelly to review model.txt
 
 MIGRATE TO COMMON
 - PrecisionDecimal (also appears in ph-scale, advanced-acid-base-solutions)
