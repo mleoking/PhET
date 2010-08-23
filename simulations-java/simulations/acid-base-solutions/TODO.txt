@@ -5,9 +5,9 @@ MILESTONES
 HIGH PRIORITY
 
 MEDUIUM PRIORITY
-- confusion between pH paper and bars in graph by allowing them to be shown at the same time?
-- should "Views" be above "Tests" in control panel? which do we want students to play with first?
+- pH paper can be lost behind magnifying glass or concentration graph
 - which "Tools" selections disable when "Views" controls?
+- confusion between pH paper and bars in graph by allowing them to be shown at the same time?
 
 LOW PRIORITY
 
