@@ -75,7 +75,7 @@ Conductivity:
   C_neutral = conductivity of a neutral (pH=7) solution (a small constant > 0)
   pH_min = 0
   pH_max = 14
-  if pH >= 7, conductivity = C_neutral + ( ( 1 - C_neutral ) * ( 7 - pH ) / ( 7 - pH_min ) );
-  if pH < 7, conductivity = C_neutral + ( ( 1 - C_neutral ) * ( pH - 7 ) / ( pH_max - 7 ) );
+  if pH < 7, conductivity = C_neutral + ( ( 1 - C_neutral ) * ( 7 - pH ) / ( 7 - pH_min ) );
+  if pH >= 7, conductivity = C_neutral + ( ( 1 - C_neutral ) * ( pH - 7 ) / ( pH_max - 7 ) );
 
 ---
