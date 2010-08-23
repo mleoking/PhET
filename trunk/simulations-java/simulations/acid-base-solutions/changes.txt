@@ -1,5 +1,4 @@
 8/23/10 change "Test Solution" to "Introduction"
-8/23/10 change "Custom Solution" to "Concentration & Strength"
 8/23/10 modify conductivity tester's brightness model to include a "min brightness" for neutral pH, set to 0.05
 8/19/10 position radio button icons close to their associated labels
 # 0.00.22 (43306) Aug 19, 2010
