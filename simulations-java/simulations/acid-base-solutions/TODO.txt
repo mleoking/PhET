@@ -9,11 +9,10 @@ MEDUIUM PRIORITY
 - confusion between pH paper and bars in graph by allowing them to be shown at the same time?
 - should "Views" be above "Tests" in control panel? which do we want students to play with first?
 - which "Tools" selections disable when "Views" controls?
-- change "Magnifying Glass" to "Molecules"?
-- change "Show H2O Molecules" to "Show Water"?
-- change "Concentration Graph" to "Concentration"?
 
 LOW PRIORITY
+- delete dead code in ViewControls
+- delete unused strings from ABSStrings and strings file
 - rename modules when their visible names solidify
 - scale light bulb image files, remove setScale calls in ConductivityTesterNode
 - revise model.txt to include conductivity of water, ask Kelly to review
