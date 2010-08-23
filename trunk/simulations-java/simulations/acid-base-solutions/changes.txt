@@ -1,3 +1,6 @@
+8/23/10 consolidate module package hierarchy
+8/23/10 rename TestSolutionModule to IntroductionModule
+8/23/10 delete ABSCanvas subclasses that add no additional functionality
 8/23/10 migrate PrecisionDecimal to phetcommon
 8/23/10 migrate HTMLCheckBox to phetcommon
 8/23/10 misc javadoc and cleanup
