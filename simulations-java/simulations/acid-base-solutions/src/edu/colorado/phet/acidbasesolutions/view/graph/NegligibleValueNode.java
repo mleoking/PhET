@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.text.NumberFormat;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
+import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.FormattedNumberNode;
@@ -57,6 +58,10 @@ public class NegligibleValueNode extends PhetPNode {
         negligibleThreshold = 0;
         // default state
         update();
+    }
+    
+    public NegligibleValueNode() {
+        this( 0, new DefaultDecimalFormat( "0.0" ) );
     }
     
     public void setFormat( NumberFormat format ) {
