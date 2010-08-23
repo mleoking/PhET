@@ -66,6 +66,7 @@ object MotionSeriesDefaults {
 
   val MIN_X = -10.0
   val MAX_X = 10.0
+  val FAR_DISTANCE = 10000//length of the segments if the walls are disabled
 
   val worldDefaultScale = 1.0
 

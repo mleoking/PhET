@@ -272,8 +272,8 @@ class MotionSeriesModel(defaultPosition: Double,
   //duplicates some work with wallrange
   //todo: call this method when ramp angle changes, since it depends on ramp angle
   def updateSegmentLengths() = {
-    val seg0Length = if (rampSegments(0).angle > 0 || _walls) rampLength else 10000
-    val seg1Length = if (rampSegments(1).angle > 0 || _walls) rampLength else 10000
+    val seg0Length = if (rampSegments(0).angle > 0 || _walls) rampLength else MotionSeriesDefaults.FAR_DISTANCE
+    val seg1Length = if (rampSegments(1).angle > 0 || _walls) rampLength else MotionSeriesDefaults.FAR_DISTANCE
     setSegmentLengths(seg0Length, seg1Length)
   }
 
@@ -322,7 +322,7 @@ class MotionSeriesModel(defaultPosition: Double,
     recordListeners.foreach(_())
   }
 
-  protected override def stepMode(dt: Double) = {
+  override def stepMode(dt: Double) = {
     super.stepMode(dt)
     if (!isPlayback){//for playback mode, the stepListeners are already notified
       stepListeners.foreach(_())
