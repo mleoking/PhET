@@ -1,3 +1,4 @@
+8/23/10 misc javadoc and cleanup
 8/23/10 this sim doesn't need a clock, remove clock from model interfaces, pause clock in all modules
 # 0.00.23 (43391) Aug 23, 2010
 8/23/10 handle disabling of water icon next to "Show Water" check box
