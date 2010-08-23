@@ -16,7 +16,7 @@ import edu.colorado.phet.membranediffusion.module.MembraneDiffusionDefaults;
  */
 public class TraverseChannelMotionStrategy extends MotionStrategy {
 
-    private static final double DEFAULT_MAX_VELOCITY = 100000; // In nanometers per second of sim time.
+    private static final double DEFAULT_MAX_VELOCITY = 100; // In nanometers per second of sim time.
     private static final double POST_TRAVERSAL_WALK_TIME = 
         MembraneDiffusionDefaults.DEFAULT_MEMBRANE_DIFFUSION_CLOCK_DT * 50;  // In seconds of sim time.
     private static final Random RAND = new Random();

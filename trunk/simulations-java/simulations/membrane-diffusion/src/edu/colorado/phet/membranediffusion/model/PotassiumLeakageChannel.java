@@ -19,7 +19,7 @@ public class PotassiumLeakageChannel extends AbstractLeakChannel {
 	private static final Color BASE_COLOR = ColorUtils.interpolateRBGA(MembraneDiffusionConstants.POTASSIUM_COLOR,
 			new Color(00, 200, 255), 0.6);
 	
-	private static final double DEFAULT_PARTICLE_VELOCITY = 10000; // In nanometers per sec of sim time.
+	private static final double DEFAULT_PARTICLE_VELOCITY = 10; // In nanometers per sec of sim time.
 	
     //----------------------------------------------------------------------------
     // Instance Data

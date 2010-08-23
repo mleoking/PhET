@@ -83,7 +83,7 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
         final JButton activateSodiumChannelsButton = new JButton("Open Red Gates", icon);
         activateSodiumChannelsButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				model.forceActivationOfSodiumChannels();
+				model.openSodiumChannels();
 			}
 		});
         
