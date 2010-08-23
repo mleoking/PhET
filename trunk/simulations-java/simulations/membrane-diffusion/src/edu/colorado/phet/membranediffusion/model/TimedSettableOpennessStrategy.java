@@ -12,19 +12,10 @@ package edu.colorado.phet.membranediffusion.model;
  */
 public class TimedSettableOpennessStrategy extends MembraneChannelOpennessStrategy {
     
-    private static final double CHANGE_RATE = 0.1;  // Per second of sim time.
+    private static final double CHANGE_RATE = 4;  // Per second of sim time.
     
     private double targetOpennessValue = 0;
-    private double currentOpennessValue = 0;
 
-    /* (non-Javadoc)
-     * @see edu.colorado.phet.membranediffusion.model.MembraneChannelOpennessStrategy#getOpenness()
-     */
-    @Override
-    public double getOpenness() {
-        return currentOpennessValue;
-    }
-    
     public void open(){
         targetOpennessValue = 1;
     }
@@ -36,11 +27,11 @@ public class TimedSettableOpennessStrategy extends MembraneChannelOpennessStrate
     @Override
     public void stepInTime( double dt ) {
         super.stepInTime( dt );
-        if (currentOpennessValue < targetOpennessValue){
-            currentOpennessValue = Math.min( currentOpennessValue + CHANGE_RATE * dt, targetOpennessValue );
+        if (getOpenness() < targetOpennessValue){
+            setOpenness( Math.min( getOpenness() + CHANGE_RATE * dt, targetOpennessValue ) );
         }
-        else if (currentOpennessValue > targetOpennessValue){
-            currentOpennessValue = Math.max( currentOpennessValue - CHANGE_RATE * dt, targetOpennessValue );
+        else if (getOpenness() > targetOpennessValue){
+            setOpenness( Math.max( getOpenness() - CHANGE_RATE * dt, targetOpennessValue ) );
         }
     }
 }

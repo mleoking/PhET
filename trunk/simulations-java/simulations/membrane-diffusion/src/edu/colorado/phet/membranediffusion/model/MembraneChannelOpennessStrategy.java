@@ -12,6 +12,9 @@ import java.util.ArrayList;
  */
 public abstract class MembraneChannelOpennessStrategy {
 
+    // Openness value.
+    double openness = 0;
+    
     // Array of listeners.
     private ArrayList<Listener> listeners = new ArrayList<Listener>();
     
@@ -20,7 +23,17 @@ public abstract class MembraneChannelOpennessStrategy {
      * 
      * @return - a value from 0 (completely closed) to 1 (completely open).
      */
-    public abstract double getOpenness();
+    public double getOpenness(){
+        return openness;
+    }
+    
+    protected void setOpenness(double newOpenness){
+        assert openness >= 0 && openness <= 1;
+        if (openness != newOpenness){
+            openness = newOpenness;
+            notifyOpennessChanged();
+        }
+    }
     
     public void stepInTime( double dt ){
         // Does nothing by default.  Descendant classes should implement any

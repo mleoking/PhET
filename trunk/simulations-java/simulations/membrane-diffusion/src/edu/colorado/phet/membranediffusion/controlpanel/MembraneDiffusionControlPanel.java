@@ -48,6 +48,9 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
 	
 	private JCheckBox showConcentrationsCheckBox;
 	private MembraneDiffusionModel model;
+
+    private JButton sodiumGatedChannelControlButton;
+    private JButton potassiumGatedChannelControlButton;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -64,9 +67,20 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
     	
     	// Listen to the model for events that interest this class.
     	model.addListener(new MembraneDiffusionModel.Adapter(){
+    	    @Override
     		public void concentrationGraphVisibilityChanged() {
     			updateConcentrationsCheckBoxState();
     		}
+
+            @Override
+            public void sodiumGateOpennessChanged() {
+                updateMembraneChannelControlButtons();
+            }
+
+            @Override
+            public void potassiumGateOpennessChanged() {
+                updateMembraneChannelControlButtons();
+            }
     	});
     	
     	// Set the control panel's minimum width.
@@ -79,35 +93,33 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
         // Create the buttons for stimulating the channels.
    		PNode imageNode = new MembraneChannelNode(new SodiumGatedChannel(), CHANNEL_ICON_MVT);
    		ImageIcon icon = new ImageIcon(imageNode.toImage());
-        // TODO: i18n
-        final JButton activateSodiumChannelsButton = new JButton("Open Red Gates", icon);
-        activateSodiumChannelsButton.addActionListener(new ActionListener() {
+        sodiumGatedChannelControlButton = new JButton("Open Red Gates", icon);
+        sodiumGatedChannelControlButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				model.openSodiumChannels();
+			    model.setGatedSodiumChannelsOpen( model.getGatedSodiumChannelOpenness() < 0.5 );
 			}
 		});
         
    		imageNode = new MembraneChannelNode(new PotassiumGatedChannel(), CHANNEL_ICON_MVT);
    		icon = new ImageIcon(imageNode.toImage());
-        // TODO: i18n
-        final JButton activatePotassiumChannelsButton = new JButton("Open Blue Gates", icon);
-        activatePotassiumChannelsButton.addActionListener(new ActionListener() {
+        potassiumGatedChannelControlButton = new JButton("Open Blue Gates", icon);
+        potassiumGatedChannelControlButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				model.forceActivationOfPotassiumChannels();
+			    model.setGatedPotassiumChannelsOpen( model.getGatedPotassiumChannelOpenness() < 0.5 );
 			}
 		});
         
         // Make the buttons the same size by placing them on a panel and by
         // setting the preferred height to be equal.
         Dimension buttonPreferredSize = new Dimension(
-        		Math.max(activateSodiumChannelsButton.getPreferredSize().width, activatePotassiumChannelsButton.getPreferredSize().width),
-        		Math.max(activateSodiumChannelsButton.getPreferredSize().height, activatePotassiumChannelsButton.getPreferredSize().height));
+        		Math.max(sodiumGatedChannelControlButton.getPreferredSize().width, potassiumGatedChannelControlButton.getPreferredSize().width),
+        		Math.max(sodiumGatedChannelControlButton.getPreferredSize().height, potassiumGatedChannelControlButton.getPreferredSize().height));
         JPanel buttonPanel = new VerticalLayoutPanel();
-        activateSodiumChannelsButton.setPreferredSize(buttonPreferredSize);
-        activatePotassiumChannelsButton.setPreferredSize(buttonPreferredSize);
-        buttonPanel.add(activateSodiumChannelsButton);
+        sodiumGatedChannelControlButton.setPreferredSize(buttonPreferredSize);
+        potassiumGatedChannelControlButton.setPreferredSize(buttonPreferredSize);
+        buttonPanel.add(sodiumGatedChannelControlButton);
         buttonPanel.add(createVerticalSpacingPanel(15));
-        buttonPanel.add(activatePotassiumChannelsButton);
+        buttonPanel.add(potassiumGatedChannelControlButton);
 
         // Add the button panel to the control panel.
         addControlFullWidth(createVerticalSpacingPanel(20));
@@ -160,5 +172,26 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
     
     private void updateConcentrationsCheckBoxState(){
     	showConcentrationsCheckBox.setSelected(model.isConcentrationGraphsVisible());
+    }
+    
+    private void updateMembraneChannelControlButtons(){
+        
+        if (model.getGatedSodiumChannelOpenness() > 0.5){
+            // TODO: i18n
+            sodiumGatedChannelControlButton.setText( "Close Channels" );
+        }
+        else{
+            // TODO: i18n
+            sodiumGatedChannelControlButton.setText( "Open Channels" );
+        }
+        
+        if (model.getGatedPotassiumChannelOpenness() > 0.5){
+            // TODO: i18n
+            potassiumGatedChannelControlButton.setText( "Close Channels" );
+        }
+        else{
+            // TODO: i18n
+            potassiumGatedChannelControlButton.setText( "Open Channels" );
+        }
     }
 }

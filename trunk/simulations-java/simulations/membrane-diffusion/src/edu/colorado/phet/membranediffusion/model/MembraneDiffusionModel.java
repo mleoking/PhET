@@ -91,6 +91,19 @@ public class MembraneDiffusionModel implements IParticleCapture {
 			}
         });
         
+        // Listen to the openness strategies so that we can send out
+        // notifications when they change.
+        sodiumChannelOpennessStrategy.addListener( new MembraneChannelOpennessStrategy.Listener() {
+            public void opennessChanged() {
+                notifySodiumGateOpennessChanged();
+            }
+        });
+        potassiumChannelOpennessStrategy.addListener( new MembraneChannelOpennessStrategy.Listener() {
+            public void opennessChanged() {
+                notifyPotassiumGateOpennessChanged();
+            }
+        });
+        
         // Initialize the set of points where channels can be located.
         double interChannelDistance = MEMBRANE_RECT.getWidth() / (double)MAX_CHANNELS_ON_MEMBRANE;
         double channelLocationOffset = MEMBRANE_RECT.getMinX() + interChannelDistance / 2;
@@ -193,6 +206,14 @@ public class MembraneDiffusionModel implements IParticleCapture {
     	
     	return count;
     }
+    
+    public double getGatedSodiumChannelOpenness(){
+        return sodiumChannelOpennessStrategy.getOpenness();
+    }
+
+    public double getGatedPotassiumChannelOpenness(){
+        return potassiumChannelOpennessStrategy.getOpenness();
+    }
 
     public void reset(){
     	
@@ -217,20 +238,22 @@ public class MembraneDiffusionModel implements IParticleCapture {
     	hodgkinHuxleyModel.forceActivationOfPotassiumChannels();
     }
     
-    public void openSodiumChannels(){
-        sodiumChannelOpennessStrategy.open();
+    public void setGatedSodiumChannelsOpen(boolean open){
+        if (open){
+            sodiumChannelOpennessStrategy.open();
+        }
+        else{
+            sodiumChannelOpennessStrategy.close();
+        }
     }
     
-    public void closeSodiumChannels(){
-        sodiumChannelOpennessStrategy.close();
-    }
-    
-    public void openPotassiumChannels(){
-        potassiumChannelOpennessStrategy.open();
-    }
-    
-    public void closePotassiumChannels(){
-        potassiumChannelOpennessStrategy.close();
+    public void setGatedPotassiumChannelsOpen(boolean open){
+        if (open){
+            potassiumChannelOpennessStrategy.open();
+        }
+        else{
+            potassiumChannelOpennessStrategy.close();
+        }
     }
     
     /**
@@ -403,6 +426,18 @@ public class MembraneDiffusionModel implements IParticleCapture {
 		}
 	}
 	
+    private void notifySodiumGateOpennessChanged(){
+        for (Listener listener : listeners.getListeners(Listener.class)){
+            listener.sodiumGateOpennessChanged();
+        }
+    }
+    
+    private void notifyPotassiumGateOpennessChanged(){
+        for (Listener listener : listeners.getListeners(Listener.class)){
+            listener.potassiumGateOpennessChanged();
+        }
+    }
+    
     /**
      * Remove all particles (i.e. ions) from the simulation.
      */
@@ -676,6 +711,18 @@ public class MembraneDiffusionModel implements IParticleCapture {
     	 * concentration graphs has changed.
     	 */
     	public void concentrationGraphVisibilityChanged();
+    	
+    	/**
+    	 * Notification that the level of openness for the sodium gates has
+    	 * changed.
+    	 */
+    	public void sodiumGateOpennessChanged();
+
+    	/**
+         * Notification that the level of openness for the potassium gates has
+         * changed.
+         */
+    	public void potassiumGateOpennessChanged();
     }
     
     public static class Adapter implements Listener{
@@ -683,5 +730,7 @@ public class MembraneDiffusionModel implements IParticleCapture {
 		public void particleAdded(Particle particle) {}
 		public void concentrationGraphVisibilityChanged() {}
 		public void concentrationsChanged() {}
+        public void potassiumGateOpennessChanged() {}
+        public void sodiumGateOpennessChanged() {}
     }
 }
