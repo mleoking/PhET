@@ -12,6 +12,7 @@ import edu.colorado.phet.membranediffusion.MembraneDiffusionConstants;
 import edu.colorado.phet.membranediffusion.model.ChannelAlwaysClosedStrategy;
 import edu.colorado.phet.membranediffusion.model.GenericMembraneChannel;
 import edu.colorado.phet.membranediffusion.model.MembraneChannel;
+import edu.colorado.phet.membranediffusion.model.MembraneChannelTypes;
 import edu.colorado.phet.membranediffusion.model.MembraneDiffusionModel;
 import edu.colorado.phet.membranediffusion.model.ParticleType;
 import edu.colorado.phet.membranediffusion.model.SodiumGatedChannel;
@@ -26,6 +27,7 @@ import edu.umd.cs.piccolo.PNode;
 public class SodiumGatedChannelToolBoxNode extends ToolBoxItem {
     
     private static final Color EDGE_COLOR = MembraneDiffusionConstants.SODIUM_COLOR;
+    private MembraneChannel membraneChannel = null;
 
 	public SodiumGatedChannelToolBoxNode(MembraneDiffusionModel model, ModelViewTransform2D mvt, PhetPCanvas canvas) {
 		super(model, mvt, canvas);
@@ -43,4 +45,30 @@ public class SodiumGatedChannelToolBoxNode extends ToolBoxItem {
         PNode representation = new MembraneChannelNode(channel, SCALING_MVT);
         setSelectionNode(representation);
 	}
+	
+    /* (non-Javadoc)
+     * @see edu.colorado.phet.membranediffusion.view.ToolBoxItem#addElementToModel(java.awt.geom.Point2D)
+     */
+    @Override
+    protected void addElementToModel( Point2D positionInModelSpace ) {
+        membraneChannel = getModel().createUserControlledMembraneChannel( MembraneChannelTypes.SODIUM_GATED_CHANNEL,
+                positionInModelSpace );
+    }
+    
+    /* (non-Javadoc)
+     * @see edu.colorado.phet.membranediffusion.view.ToolBoxItem#releaseModelElement()
+     */
+    @Override
+    protected void releaseModelElement() {
+        getModel().releaseUserControlledMembraneChannel();
+        membraneChannel = null;
+    }
+
+    /* (non-Javadoc)
+     * @see edu.colorado.phet.membranediffusion.view.ToolBoxItem#setModelElementPosition(java.awt.geom.Point2D)
+     */
+    @Override
+    protected void setModelElementPosition( Point2D position ) {
+        membraneChannel.setCenterLocation( position );
+    }
 }
