@@ -185,11 +185,12 @@ class RampControlPanelBody(model: MotionSeriesModel,
   val moreControlsPanel = new SubControlPanel(subControlPanelTitle)
   import MotionSeriesDefaults.MIN_X
   import MotionSeriesDefaults.MAX_X
-  import MathUtil.clamp
+  //The slider can only go from MIN_X to MAX_X even though if the walls are disabled the object might go further
   val positionSlider:ScalaValueControl = new ScalaValueControl(MIN_X, MAX_X, "object.position".translate, "0.0".literal, "units.meters".translate,
     () => model.motionSeriesObject.position, 
     x => {
-      val clampedValue = clamp(MIN_X + model.motionSeriesObject.width / 2, x, MAX_X - model.motionSeriesObject.width / 2)
+      //Use the wallRange() for determining the max locaiton of the object, which accounts for whether walls are enabled or disabled
+      val clampedValue = MathUtil.clamp(model.wallRange().min + model.motionSeriesObject.width / 2, x, model.wallRange().max - model.motionSeriesObject.width / 2)
       model.motionSeriesObject.setPosition(clampedValue)
       if (clampedValue != x) positionSlider.setValue(clampedValue) //Have to make sure the readout indicates the model value, not the requested user value
     }, 
