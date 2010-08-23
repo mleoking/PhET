@@ -1,3 +1,4 @@
+# 0.00.23 (43391) Aug 23, 2010
 8/23/10 handle disabling of water icon next to "Show Water" check box
 8/23/10 simplify AbstractConcentrationGraphNode by removing unnecessary inner classes and unused features
 8/23/10 change "Magnifying Glass" radio button to "Molecules"
