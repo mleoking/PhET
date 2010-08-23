@@ -262,7 +262,7 @@ class MotionSeriesModel(defaultPosition: Double,
   def walls = _walls
 
   def walls_=(b: Boolean) = {
-    if (b != walls) {
+    if (b != _walls) {
       _walls = b
       updateSegmentLengths()
       notifyListeners()
