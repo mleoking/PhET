@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.membranediffusion.view;
 
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.geom.Point2D;
 
@@ -9,7 +10,6 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.membranediffusion.model.MembraneDiffusionModel;
 import edu.umd.cs.piccolo.PNode;
@@ -49,6 +49,11 @@ public abstract class ToolBoxItem extends PComposite {
 	private final ModelViewTransform2D mvt;
 	private PNode selectionNode = null;
 	private HTMLNode caption = null;
+    private RestoreDefaultOnReleaseCursorHandler cursorHandler = new RestoreDefaultOnReleaseCursorHandler(Cursor.HAND_CURSOR);
+
+    //----------------------------------------------------------------------------
+    // Constructor(s)
+    //----------------------------------------------------------------------------
 	
 	public ToolBoxItem(final MembraneDiffusionModel model, final ModelViewTransform2D mvt, final PhetPCanvas canvas) {
 		
@@ -59,7 +64,7 @@ public abstract class ToolBoxItem extends PComposite {
 		updateLayout();
 		
 		// Set up handling of mouse events.
-        addInputEventListener(new CursorHandler());
+        addInputEventListener(cursorHandler);
         addInputEventListener(new PBasicInputEventHandler(){
         	@Override
             public void mousePressed(PInputEvent event) {

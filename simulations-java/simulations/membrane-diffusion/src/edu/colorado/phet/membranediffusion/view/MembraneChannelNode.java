@@ -56,7 +56,7 @@ public class MembraneChannelNode extends PNode {
 	private PPath channel;
 	private PPath leftEdgeNode;
 	private PPath rightEdgeNode;
-	private CursorHandler cursorHandler = new CursorHandler(Cursor.HAND_CURSOR);
+	private RestoreDefaultOnReleaseCursorHandler cursorHandler = new RestoreDefaultOnReleaseCursorHandler(Cursor.HAND_CURSOR);
 	private PDragEventHandler dragEventHandler = new PDragEventHandler(){
 
         public void startDrag(PInputEvent event){
