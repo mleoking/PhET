@@ -1,3 +1,4 @@
+# 2.03.08 (43454) Aug 24, 2010
 8/24/10 #2236, calibrate ELECTRON_SPEED_SCALE in each module that has a pickup coil
 8/24/10 #2236, restore "pickup electron motion scale" developer control
 8/24/10 #2467, switch to phetcommon Vector2D, delete local implementation
