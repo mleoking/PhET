@@ -3,7 +3,7 @@ package edu.colorado.phet.common.phetcommon.math;
 import java.awt.geom.Point2D;
 
 /**
- * Vector2D represents an offset in (x,y) cartesian coordinates.  This class has all the functionality of the parent
+ * Vector2D represents an offset in (x,y) Cartesian coordinates.  This class has all the functionality of the parent
  * class (i.e. functions that do not change the state of this vector2D and return an ImmutableVector2D) as well as
  * mutator functions.
  *
@@ -37,11 +37,11 @@ public class Vector2D extends ImmutableVector2D {
     }
 
     public Vector2D normalize() {
-        double length = getMagnitude();
-        if ( length == 0 ) {
-            throw new RuntimeException( "Cannot normalize a zero-magnitude vector." );
+        double magnitude = getMagnitude();
+        if ( magnitude == 0 ) {
+            throw new UnsupportedOperationException( "Cannot normalize a zero-magnitude vector." );
         }
-        return scale( 1.0 / length );
+        return scale( 1.0 / magnitude );
     }
 
     public Vector2D scale( double scale ) {
@@ -66,9 +66,9 @@ public class Vector2D extends ImmutableVector2D {
         setComponents( Math.cos( angle ) * magnitude, Math.sin( angle ) * magnitude );
     }
 
-    public Vector2D subtract( ImmutableVector2D that ) {
-        setX( getX() - that.getX() );
-        setY( getY() - that.getY() );
+    public Vector2D subtract( ImmutableVector2D v ) {
+        setX( getX() - v.getX() );
+        setY( getY() - v.getY() );
         return this;
     }
 
@@ -80,9 +80,5 @@ public class Vector2D extends ImmutableVector2D {
         double yPrime = r * Math.sin( gamma );
         this.setComponents( xPrime, yPrime );
         return this;
-    }
-
-    public String toString() {
-        return "Vector2D.Double[" + getX() + ", " + getY() + "]";
     }
 }

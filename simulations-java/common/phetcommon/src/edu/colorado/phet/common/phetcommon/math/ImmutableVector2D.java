@@ -3,8 +3,9 @@ package edu.colorado.phet.common.phetcommon.math;
 import java.awt.geom.Point2D;
 
 /**
- * ImmutableVector2D represents an (x,y) offset in cartesian coordinates.  This class is immutable, which means that it cannot be modified.
- * There is a subclass Vector2D that adds mutable funcationality.
+ * ImmutableVector2D represents an (x,y) offset in Cartesian coordinates.  
+ * This class is immutable, which means that it cannot be modified.
+ * There is a subclass Vector2D that adds mutable functionality.
  *
  * @author Ron LeMaster
  * @author Sam Reid
@@ -38,6 +39,7 @@ public class ImmutableVector2D {
         this( finalPt.getX() - initialPt.getX(), finalPt.getY() - initialPt.getY() );
     }
 
+    @Override
     public boolean equals( Object obj ) {
         boolean result = true;
         if ( this.getClass() != obj.getClass() ) {
@@ -50,8 +52,9 @@ public class ImmutableVector2D {
         return result;
     }
 
+    @Override
     public String toString() {
-        return "AbstractVector2D.Double[" + x + ", " + y + "]";
+        return getClass().getName() + "[" + x + ", " + y + "]";
     }
 
     public ImmutableVector2D getAddedInstance( ImmutableVector2D v ) {
@@ -71,11 +74,11 @@ public class ImmutableVector2D {
     }
 
     public ImmutableVector2D getNormalizedInstance() {
-        double mag = getMagnitude();
-        if ( mag == 0 ) {
-            throw new RuntimeException( "Cannot normalize a zero-magnitude vector." );
+        double magnitude = getMagnitude();
+        if ( magnitude == 0 ) {
+            throw new UnsupportedOperationException( "Cannot normalize a zero-magnitude vector." );
         }
-        return new ImmutableVector2D( getX() / mag, getY() / mag );
+        return new ImmutableVector2D( getX() / magnitude, getY() / magnitude );
     }
 
     public ImmutableVector2D getSubtractedInstance( double x, double y ) {
@@ -119,10 +122,10 @@ public class ImmutableVector2D {
         this.y = y;
     }
 
-    public double dot( ImmutableVector2D that ) {
+    public double dot( ImmutableVector2D v ) {
         double result = 0;
-        result += this.getX() * that.getX();
-        result += this.getY() * that.getY();
+        result += this.getX() * v.getX();
+        result += this.getY() * v.getY();
         return result;
     }
 
