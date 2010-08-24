@@ -8,7 +8,6 @@ import java.util.Collections;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.membranediffusion.module.MembraneDiffusionDefaults;
 import edu.umd.cs.piccolo.util.PDimension;
 
