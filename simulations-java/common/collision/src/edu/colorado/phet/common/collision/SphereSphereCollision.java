@@ -60,7 +60,7 @@ public class SphereSphereCollision implements Collision {
         // Get the vectors from the bodies' CMs to the point of contact
         Vector2D r1 = new Vector2D.Double( contactPt.getX() - sphereA.getPosition().getX(),
                                            contactPt.getY() - sphereA.getPosition().getY() );
-        Vector2D r2 = new Vector2D.Float( contactPt.getX() - sphereB.getPosition().getX(),
+        Vector2D r2 = new Vector2D.Double( contactPt.getX() - sphereB.getPosition().getX(),
                                           contactPt.getY() - sphereB.getPosition().getY() );
 
         // Get the unit vector along the line of action

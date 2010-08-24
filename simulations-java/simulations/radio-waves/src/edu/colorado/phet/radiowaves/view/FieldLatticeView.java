@@ -471,24 +471,20 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
     // Inner classes
     //----------------------------------------------------------------
 
-    /**
-     *
-     */
     private class FieldPt {
 
         Point2D.Double location;
-        Vector2D.Float field = new Vector2D.Float();
+        Vector2D.Double field = new Vector2D.Double();
         AffineTransform tx = new AffineTransform();
 
         public FieldPt( double x, double y ) {
-            this( new Point2D.Double( x, y ), new Vector2D.Float() );
+            this( new Point2D.Double( x, y ), new Vector2D.Double() );
         }
 
-        public FieldPt( Point2D.Double location, Vector2D.Float field ) {
+        public FieldPt( Point2D.Double location, Vector2D.Double field ) {
             this.location = new Point2D.Double( location.getX(), location.getY() );
-            this.field = new Vector2D.Float( field.getX(), field.getY() );
+            this.field = new Vector2D.Double( field.getX(), field.getY() );
         }
-
 
         public double getX() {
             return location.x;

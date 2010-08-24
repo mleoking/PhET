@@ -21,7 +21,7 @@ public class SinusoidalMovement extends Observable implements MovementType {
     private Point2D nextPosition = new Point2D.Double();
     private float omega;
     private float runningTime;
-    private Vector2D.Float velocity = new Vector2D.Float();
+    private Vector2D.Double velocity = new Vector2D.Double();
 
     public SinusoidalMovement( float frequency, float amplitude ) {
         this.frequency = frequency;
