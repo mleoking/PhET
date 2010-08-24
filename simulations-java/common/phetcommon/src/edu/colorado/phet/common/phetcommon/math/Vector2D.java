@@ -59,8 +59,11 @@ public class Vector2D extends ImmutableVector2D {
     }
 
     public void setComponents( double x, double y ) {
-        setX( x );
-        setY( y );
+        super.setComponents( x, y );
+    }
+
+    public void setMagnitudeAndAngle( double magnitude, double angle ) {
+        setComponents( Math.cos( angle ) * magnitude, Math.sin( angle ) * magnitude );
     }
 
     public Vector2D subtract( ImmutableVector2D that ) {

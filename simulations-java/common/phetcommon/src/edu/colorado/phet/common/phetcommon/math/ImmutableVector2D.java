@@ -102,6 +102,15 @@ public class ImmutableVector2D {
         return Math.sqrt( getMagnitudeSq() );
     }
 
+    //The following setter methods are protected so that clients of ImmutableVector2D won't be able to mutate the object
+    //But so that subclasses such as Vector2D (which is mutable) will be able to change the data without reallocating objects, while
+    //sharing code.
+
+    protected void setComponents( double x, double y ) {
+        this.x = x;
+        this.y = y;
+    }
+
     protected void setX( double x ) {
         this.x = x;
     }
