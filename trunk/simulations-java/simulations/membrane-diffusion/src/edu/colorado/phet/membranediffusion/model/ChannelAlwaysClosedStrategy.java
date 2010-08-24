@@ -3,6 +3,7 @@
 package edu.colorado.phet.membranediffusion.model;
 
 
+
 /**
  * A membrane channel openness strategy in which the channel is always closed.
  * 

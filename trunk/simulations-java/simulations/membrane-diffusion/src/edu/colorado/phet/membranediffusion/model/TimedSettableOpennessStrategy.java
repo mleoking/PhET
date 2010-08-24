@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.membranediffusion.model;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+
 
 /**
  * A membrane channel openness strategy for which the openness can be set
@@ -12,9 +14,16 @@ package edu.colorado.phet.membranediffusion.model;
  */
 public class TimedSettableOpennessStrategy extends MembraneChannelOpennessStrategy {
     
+    /**
+     * Constructor.
+     */
+    public TimedSettableOpennessStrategy( ConstantDtClock clock ) {
+        super( clock );
+    }
+
     private static final double CHANGE_RATE = 4;  // Per second of sim time.
     
-    private double targetOpennessValue = 0;
+    private double targetOpennessValue = 0; // Closed by default.
 
     public void open(){
         targetOpennessValue = 1;
@@ -26,7 +35,6 @@ public class TimedSettableOpennessStrategy extends MembraneChannelOpennessStrate
 
     @Override
     public void stepInTime( double dt ) {
-        super.stepInTime( dt );
         if (getOpenness() < targetOpennessValue){
             setOpenness( Math.min( getOpenness() + CHANGE_RATE * dt, targetOpennessValue ) );
         }
