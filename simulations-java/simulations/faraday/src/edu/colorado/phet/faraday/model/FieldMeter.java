@@ -4,8 +4,8 @@ package edu.colorado.phet.faraday.model;
 
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.faraday.util.Vector2D;
 
 
 /**
@@ -62,7 +62,7 @@ public class FieldMeter extends FaradayObservable implements SimpleObserver {
      */
     public void getStrength( Vector2D vector /* output */ ) {
         assert( vector != null );
-        vector.copy( _fieldVector );
+        vector.setComponents( _fieldVector.getX(), _fieldVector.getY() );
     }
     
     //----------------------------------------------------------------------------

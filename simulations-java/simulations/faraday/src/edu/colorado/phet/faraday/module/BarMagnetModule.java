@@ -9,6 +9,7 @@ import java.awt.Point;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
@@ -20,7 +21,6 @@ import edu.colorado.phet.faraday.control.panel.DeveloperControlsPanel;
 import edu.colorado.phet.faraday.model.BarMagnet;
 import edu.colorado.phet.faraday.model.Compass;
 import edu.colorado.phet.faraday.model.FieldMeter;
-import edu.colorado.phet.faraday.util.Vector2D;
 import edu.colorado.phet.faraday.view.*;
 
 

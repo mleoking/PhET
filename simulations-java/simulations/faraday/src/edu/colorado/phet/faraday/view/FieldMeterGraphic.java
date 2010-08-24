@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
@@ -18,7 +19,6 @@ import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.FaradayResources;
 import edu.colorado.phet.faraday.FaradayStrings;
 import edu.colorado.phet.faraday.model.FieldMeter;
-import edu.colorado.phet.faraday.util.Vector2D;
 
 
 /**
