@@ -3,11 +3,10 @@ package edu.colorado.phet.common.phetcommon.math;
 import java.awt.geom.Point2D;
 
 /**
-* Created by IntelliJ IDEA.
-* User: Sam
-* Date: Aug 24, 2010
-* Time: 5:57:21 AM
-* To change this template use File | Settings | File Templates.
+ * ImmutableVector2D represents an (x,y) offset in cartesian coordinates.  This class is immutable, which means that it cannot be modified.
+ * There is a subclass Vector2D that adds mutable funcationality.
+ * @author Ron LeMaster
+ * @author Sam Reid
 */
 public class ImmutableVector2D{
     private double x;
