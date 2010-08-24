@@ -17,6 +17,7 @@ import java.awt.geom.Point2D;
  * This Vector2D implementation is immutable.
  *
  * @author Ron LeMaster
+ * @author Sam Reid
  * @version $Revision$
  */
 public interface ImmutableVector2D extends AbstractVector2D {
@@ -43,33 +44,6 @@ public interface ImmutableVector2D extends AbstractVector2D {
 
         public Double( Point2D initialPt, Point2D finalPt ) {
             super( initialPt, finalPt );
-        }
-
-    }
-
-    public class Float extends AbstractVector2D.Float implements ImmutableVector2D {
-
-        public Float() {
-        }
-
-        public Float( float x, float y ) {
-            super( x, y );
-        }
-
-        public Float( Vector2D v ) {
-            super( v );
-        }
-
-        public Float( AbstractVector2D v ) {
-            super( v );
-        }
-
-        public Float( Point2D p ) {
-            super( p );
-        }
-
-        public Float( Point2D initialPt, Point2D finalPt ) {
-            this( (float) ( finalPt.getX() - initialPt.getX() ), (float) ( finalPt.getY() - initialPt.getY() ) );
         }
 
     }
