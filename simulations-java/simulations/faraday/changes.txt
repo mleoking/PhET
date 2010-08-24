@@ -9,12 +9,15 @@
 7/21/10 #2236, add PickupCoil.calibrateEmf to provide calibration assistance
 7/21/10 #2236, delete individual calibration controls on lightbulb, voltmeter and electrons
 7/21/10 #2236, add master calibration control, PickupCoil.calibrationEmf
+> improved compass behavior for DC electromagnet
 7/21/10 #2446, adjust compass behavior to match electromagnet current source (DC=kinematic, AC=incremental)
 7/21/10 cleanup FaradayControlPanel, remove call to deprecated constructor, refine public interface
 7/21/10 #2236, calibrate kinematic compass behavior
 # 2.03.06 (42502) Jul 20, 2010
+> new model for bar magnet, more physically accurate 
 7/20/10 #2236, implement 3-grid approach for bar magnet B-field
 7/20/10 #2236, increase the intensity of compass needles just outside ends of magnet to improve the B-field "look"
+> improved collision detection for compass
 7/19/10 #2438, use Shapes for collision detection, define compass bounds as a circle
 7/19/10 #2236, increase range of view scaling parameters to [1...1000].
 7/19/10 #2236, collapse class hierachy, pull up NumericalBarMagnet into BarMagnet
