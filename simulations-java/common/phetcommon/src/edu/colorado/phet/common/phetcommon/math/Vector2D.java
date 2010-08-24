@@ -4,7 +4,7 @@ import java.awt.geom.Point2D;
 
 /**
  * Vector2D represents an offset in (x,y) Cartesian coordinates.  This class has all the functionality of the parent
- * class (i.e. functions that do not change the state of this vector2D and return an ImmutableVector2D) as well as
+ * class (i.e. functions that do not change the state of this Vector2D and return an ImmutableVector2D) as well as
  * mutator functions.
  *
  * @author Sam Reid
