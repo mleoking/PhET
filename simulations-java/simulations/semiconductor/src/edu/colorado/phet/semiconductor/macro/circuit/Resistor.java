@@ -11,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 public class Resistor extends LinearBranch {
     private double thickness;
 
-    public Resistor( Vector2D.Double start, Vector2D.Double end, double thickness ) {
+    public Resistor( Vector2D start, Vector2D end, double thickness ) {
         super( start, end );
         this.thickness = thickness;
     }

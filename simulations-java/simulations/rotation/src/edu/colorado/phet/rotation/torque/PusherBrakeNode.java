@@ -6,7 +6,7 @@ import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
@@ -69,8 +69,8 @@ public class PusherBrakeNode extends PNode {
             public void mouseDragged( PInputEvent event ) {
                 if ( pressPoint != null ) {
                     Point2D dragPoint = getPoint( event );
-                    Vector2D.Double dragVector = new Vector2D.Double( pressPoint, dragPoint );
-                    Vector2D.Double centerVector = new Vector2D.Double( getFullBounds().getCenter2D(), rotationPlatform.getCenter() );
+                    Vector2D dragVector = new Vector2D( pressPoint, dragPoint );
+                    Vector2D centerVector = new Vector2D( getFullBounds().getCenter2D(), rotationPlatform.getCenter() );
                     double appliedBrake = dragVector.dot( centerVector ) / 2;
                     if ( appliedBrake < 0 ) {
                         appliedBrake = 0;
@@ -119,7 +119,7 @@ public class PusherBrakeNode extends PNode {
 //        boolean awayFromPlatform = torqueModel.getBrakeForceMagnitude() == 0;
         boolean awayFromPlatform = torqueModel.getBrakePressure() == 0;
 
-        AbstractVector2D vec = Vector2D.Double.parseAngleAndMagnitude( rotationPlatform.getRadius() + ( awayFromPlatform ? 0.08 : 0.00 ), angle );
+        AbstractVector2DInterface vec = Vector2D.parseAngleAndMagnitude( rotationPlatform.getRadius() + ( awayFromPlatform ? 0.08 : 0.00 ), angle );
         setOffset( vec.getDestination( rotationPlatform.getCenter() ) );
         setRotation( angle );
     }

@@ -43,7 +43,7 @@ public class EnergySpaceRegion {
         return new Rectangle2D.Double( getMinX(), getMinEnergy(), getSpatialWidth(), getEnergyRange() );
     }
 
-    public boolean contains( Vector2D.Double particlePosition ) {
+    public boolean contains( Vector2D particlePosition ) {
         return toRectangle().contains( particlePosition.toPoint2D() );
     }
 }

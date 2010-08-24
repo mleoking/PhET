@@ -1,7 +1,7 @@
 /*  */
 package edu.colorado.phet.travoltage;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 import java.awt.geom.Line2D;
@@ -63,11 +63,11 @@ public class MoveToFinger extends MoveElectronsJade {
                  "160, 155, 231, 155\n" +
                  "231, 155, 295, 133";
 
-    protected AbstractVector2D getForce( JadeElectron node ) {
+    protected AbstractVector2DInterface getForce( JadeElectron node ) {
         Line2D.Double closest = getClosestSegment( node.getPosition().getX(), node.getPosition().getY() );
-        AbstractVector2D vec = new Vector2D.Double( node.getPosition(), closest.getP2() );
+        AbstractVector2DInterface vec = new Vector2D( node.getPosition(), closest.getP2() );
         double k = 30;
-        AbstractVector2D v = vec.getInstanceOfMagnitude( k / Math.pow( vec.getMagnitude(), 1 ) );
+        AbstractVector2DInterface v = vec.getInstanceOfMagnitude( k / Math.pow( vec.getMagnitude(), 1 ) );
         double max = 10;
         if( v.getMagnitude() > max ) {
             v = v.getInstanceOfMagnitude( max );

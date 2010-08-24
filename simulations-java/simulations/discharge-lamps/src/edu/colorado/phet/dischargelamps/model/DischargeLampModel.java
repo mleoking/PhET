@@ -17,6 +17,7 @@ import java.util.EventObject;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
@@ -55,7 +56,7 @@ public class DischargeLampModel extends LaserModel implements ElectromotiveForce
     private ArrayList electronSinks = new ArrayList();
     private ElectronAtomCollisionExpert electronAtomCollisionExpert = new ElectronAtomCollisionExpert();
     private Spectrometer spectrometer;
-    private Vector2D electronAcceleration = new Vector2D.Double();
+    private Vector2DInterface electronAcceleration = new Vector2D();
     private Tube tube;
     private Plate leftHandPlate;
     private Plate rightHandPlate;
@@ -237,7 +238,7 @@ public class DischargeLampModel extends LaserModel implements ElectromotiveForce
         electronAcceleration.setComponents( potentialDiff / plateSeparation, 0 );
     }
 
-    public Vector2D getElectronAcceleration() {
+    public Vector2DInterface getElectronAcceleration() {
         return electronAcceleration;
     }
 

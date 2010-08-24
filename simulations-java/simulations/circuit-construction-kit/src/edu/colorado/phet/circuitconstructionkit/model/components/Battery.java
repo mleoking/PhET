@@ -3,7 +3,7 @@ package edu.colorado.phet.circuitconstructionkit.model.components;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 import java.awt.geom.Point2D;
@@ -19,7 +19,7 @@ public class Battery extends CircuitComponent {
     public static final double DEFAULT_INTERNAL_RESISTANCE = 0.001;
 
     public Battery(double voltage, double internalResistance) {
-        this(new Point2D.Double(), new Vector2D.Double(), 1, 1, new CircuitChangeListener() {
+        this(new Point2D.Double(), new Vector2D(), 1, 1, new CircuitChangeListener() {
             public void circuitChanged() {
             }
         }, true);
@@ -29,11 +29,11 @@ public class Battery extends CircuitComponent {
         setKirkhoffEnabled(true);
     }
 
-    public Battery(Point2D start, AbstractVector2D dir, double length, double height, CircuitChangeListener kl, boolean internalResistanceOn) {
+    public Battery(Point2D start, AbstractVector2DInterface dir, double length, double height, CircuitChangeListener kl, boolean internalResistanceOn) {
         this(start, dir, length, height, kl, CCKModel.MIN_RESISTANCE, internalResistanceOn);
     }
 
-    public Battery(Point2D start, AbstractVector2D dir, double length, double height, CircuitChangeListener kl, double internalResistance, boolean internalResistanceOn) {
+    public Battery(Point2D start, AbstractVector2DInterface dir, double length, double height, CircuitChangeListener kl, double internalResistance, boolean internalResistanceOn) {
         super(kl, start, dir, length, height);
         setKirkhoffEnabled(false);
         setVoltageDrop(9.0);

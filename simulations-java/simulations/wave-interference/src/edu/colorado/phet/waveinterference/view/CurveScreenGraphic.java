@@ -49,13 +49,13 @@ public class CurveScreenGraphic extends AbstractScreenGraphic {
             float y = getYValue( j );
 //            double waveValue = getWaveModel().getValue( getWaveModel().getWidth() - 1, j );
             double waveValue = getWaveModel().getAverageValue( getWaveModel().getWidth() - 1, j, 2 );
-            Vector2D.Double vec = new Vector2D.Double( getDx(), -getDy() );
+            Vector2D vec = new Vector2D( getDx(), -getDy() );
             double mag = vec.getMagnitude();
             vec.normalize();
 
             vec.scale( waveValue * intensityScale );
             if ( vec.getMagnitude() > mag ) {
-                vec = new Vector2D.Double( getDx(), -getDy() );
+                vec = new Vector2D( getDx(), -getDy() );
                 if ( waveValue < 0 ) {
                     vec.scale( -1 );
                 }

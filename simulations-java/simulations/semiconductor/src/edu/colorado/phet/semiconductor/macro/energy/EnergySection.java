@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -73,7 +73,7 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
         this.plusImage = SemiconductorApplication.imageLoader.loadImage( "semiconductor/images/particle-red-plus.gif" );
         particleImage = MacroCircuitGraphic.getParticleImage();
         setupTwoRegions();
-        Vector2D.Double textLocation = new Vector2D.Double( .65, 1 );
+        Vector2D textLocation = new Vector2D( .65, 1 );
         energyTextGraphic = new EnergyTextGraphic( transform, textLocation );
         bucketSection = new BucketSection( transform, this, particleImage );
 //        stateModelSet = new StateModelSet( this );
@@ -396,17 +396,17 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
     }
 
     public void addEField( Rectangle2D.Double bandrect, Rectangle2D.Double bandrect2 ) {
-        Vector2D.Double center = getCenter( bandrect, bandrect2 );
+        Vector2D center = getCenter( bandrect, bandrect2 );
         ElectricFieldSection field = new ElectricFieldSection( center );
         ElectricFieldSectionGraphic fieldGraphic = new ElectricFieldSectionGraphic( field, transform );
         electricFields.add( field );
         electricFieldGraphics.add( fieldGraphic );
     }
 
-    public static Vector2D.Double getCenter( Rectangle2D.Double a, Rectangle2D.Double b ) {
+    public static Vector2D getCenter( Rectangle2D.Double a, Rectangle2D.Double b ) {
         Rectangle2D.Double ctrRect = new Rectangle2D.Double( a.x, a.y, a.width, a.height );
         ctrRect.add( b );
-        Vector2D.Double center = RectangleUtils.getCenter( ctrRect );
+        Vector2D center = RectangleUtils.getCenter( ctrRect );
         return center;
     }
 
@@ -852,7 +852,7 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
         double sum = 0;
         for ( int i = 0; i < particles.size(); i++ ) {
             BandParticle bandParticle = (BandParticle) particles.get( i );
-            AbstractVector2D vel = bandParticle.getDX();
+            AbstractVector2DInterface vel = bandParticle.getDX();
             double x = vel.getX();
             sum += x;
         }

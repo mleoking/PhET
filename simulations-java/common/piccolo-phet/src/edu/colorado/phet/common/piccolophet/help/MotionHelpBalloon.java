@@ -189,7 +189,7 @@ public class MotionHelpBalloon extends HelpBalloon {
                 if ( _helpItem.getVisible() ) {
                     Point2D target = _helpItem.mapLocation( super.getComponent() );
                     Point2D source = _helpItem.getOffset();
-                    Vector2D.Double vec = new Vector2D.Double( source, target );
+                    Vector2D vec = new Vector2D( source, target );
                     if ( source.distance( target ) > speed ) {
                         Point2D newLoc = vec.getInstanceOfMagnitude( speed ).getDestination( source );
                         _helpItem.setOffset( newLoc );

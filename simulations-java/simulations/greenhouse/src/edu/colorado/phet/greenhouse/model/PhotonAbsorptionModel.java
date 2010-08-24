@@ -13,8 +13,9 @@ import java.util.Random;
 
 import javax.swing.event.EventListenerList;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
@@ -240,8 +241,8 @@ public class PhotonAbsorptionModel {
     }
 
     // TODO: Part of an experiment, keep if needed.
-    private AbstractVector2D getNetForce(Molecule molecule) {
-        AbstractVector2D netForce= new Vector2D.Double();
+    private AbstractVector2DInterface getNetForce(Molecule molecule) {
+        AbstractVector2DInterface netForce= new Vector2D();
         for (Molecule activeMolecule : activeMolecules) {
             if (activeMolecule!=molecule){
             netForce = netForce.getAddedInstance(getForce(activeMolecule,molecule));
@@ -253,10 +254,10 @@ public class PhotonAbsorptionModel {
         double dxRight = Math.abs(getContainmentAreaRect().getMaxX() - molecule.getCenterOfGravityPos().getX());
         double dyTop = Math.abs(getContainmentAreaRect().getMinY() - molecule.getCenterOfGravityPos().getY());
         double dyBottom = Math.abs(getContainmentAreaRect().getMaxY() - molecule.getCenterOfGravityPos().getY());
-        netForce = netForce.getAddedInstance(new Vector2D.Double(1.0 / dxLeft / dxLeft, 0));
-        netForce = netForce.getAddedInstance(new Vector2D.Double(-1.0 / dxRight/ dxRight, 0));
-        netForce = netForce.getAddedInstance(new Vector2D.Double(0,-1.0 / dyBottom/ dyBottom));
-        netForce = netForce.getAddedInstance(new Vector2D.Double(0,1.0 / dyTop/ dyTop));
+        netForce = netForce.getAddedInstance(new Vector2D(1.0 / dxLeft / dxLeft, 0));
+        netForce = netForce.getAddedInstance(new Vector2D(-1.0 / dxRight/ dxRight, 0));
+        netForce = netForce.getAddedInstance(new Vector2D(0,-1.0 / dyBottom/ dyBottom));
+        netForce = netForce.getAddedInstance(new Vector2D(0,1.0 / dyTop/ dyTop));
 
         double dragForce = 0.01;
         netForce = netForce.getAddedInstance(molecule.getVelocity().getScaledInstance(-1*dragForce));
@@ -264,9 +265,9 @@ public class PhotonAbsorptionModel {
         return netForce;
     }
 
-    private AbstractVector2D getForce(Molecule source, Molecule target) {
+    private AbstractVector2DInterface getForce(Molecule source, Molecule target) {
         double distance = source.getCenterOfGravityPos().distance(target.getCenterOfGravityPos());
-        Vector2D distanceVector = new Vector2D.Double(source.getCenterOfGravityPos(), target.getCenterOfGravityPos()).normalize();
+        Vector2DInterface distanceVector = new Vector2D(source.getCenterOfGravityPos(), target.getCenterOfGravityPos()).normalize();
         return distanceVector.getScaledInstance(1.0 / distance / distance);
     }
 

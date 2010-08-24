@@ -12,9 +12,10 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.mechanics.Body;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 
 public class Wall extends Body implements Collidable {
-    private Vector2D velocity = new Vector2D.Double();
+    private Vector2DInterface velocity = new Vector2D();
     private Rectangle2D rep = new Rectangle2D.Double();
 
     public Wall( Rectangle2D bounds ) {
@@ -25,7 +26,7 @@ public class Wall extends Body implements Collidable {
         return rep;
     }
 
-    public Vector2D getVelocityPrev() {
+    public Vector2DInterface getVelocityPrev() {
         return velocity;
     }
 

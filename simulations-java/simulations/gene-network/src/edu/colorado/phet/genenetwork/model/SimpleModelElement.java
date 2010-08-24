@@ -9,6 +9,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 
 
 /**
@@ -46,7 +47,7 @@ public abstract class SimpleModelElement implements IModelElement{
 	private Paint paint;  // The paint to use when representing this element in the view.
 	private double existenceStrength = 1.0; // Maps to transparency in the view.
 	private ExistenceState existenceState = ExistenceState.EXISTING; // Controls whether fading in or out.
-	private Vector2D.Double velocity = new Vector2D.Double();
+	private Vector2D velocity = new Vector2D();
     protected ArrayList<IModelElementListener> listeners = new ArrayList<IModelElementListener>();
     private AbstractMotionStrategy motionStrategy = null;
     private final IGeneNetworkModelControl model;
@@ -184,11 +185,11 @@ public abstract class SimpleModelElement implements IModelElement{
 		velocity.setComponents(xVel, yVel);
 	}
 	
-	public void setVelocity(Vector2D newVelocity){
+	public void setVelocity( Vector2DInterface newVelocity){
 		setVelocity(newVelocity.getX(), newVelocity.getY());
 	}
 	
-	public Vector2D getVelocityRef(){
+	public Vector2DInterface getVelocityRef(){
 		return velocity;
 	}
 	

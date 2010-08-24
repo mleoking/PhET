@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 
 /**
  * A motion strategy for traversing through a dual-gate channel, meaning one
@@ -26,7 +27,7 @@ public class DualGateChannelTraversalMotionStrategy extends MembraneTraversalMot
 	// rather than traversing it.
 	private static final double INACTIVATION_BOUNCE_THRESHOLD = 0.5; 
 	
-	private Vector2D velocityVector = new Vector2D.Double();
+	private Vector2DInterface velocityVector = new Vector2D();
 	private ArrayList<Point2D> traversalPoints;
 	private int currentDestinationIndex = 0;
 	private double maxVelocity;
@@ -117,7 +118,7 @@ public class DualGateChannelTraversalMotionStrategy extends MembraneTraversalMot
 				// fade out.
 				movableModelElement.setPosition(traversalPoints.get(currentDestinationIndex));
 				currentDestinationIndex = Integer.MAX_VALUE;
-				Vector2D newVelocityVector = new Vector2D.Double(velocityVector);
+				Vector2DInterface newVelocityVector = new Vector2D(velocityVector);
 				if (bouncing){
 					// This particle should be back where it entered the
 					// channel, and can head off in any direction except

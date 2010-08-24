@@ -153,8 +153,8 @@ public class LauncherGraphic extends PNode implements SimpleObserver {
                 Point2D end = event.getPositionRelativeTo( LauncherGraphic.this.getParent() );
                 // if we're dragging below the tip...
                 if ( end.getY() > launcher.getRestingTipLocation().getY() ) {
-                    Vector2D.Double v1 = new Vector2D.Double( launcher.getRestingTipLocation(), startPoint );
-                    Vector2D.Double v2 = new Vector2D.Double( launcher.getRestingTipLocation(), end );
+                    Vector2D v1 = new Vector2D( launcher.getRestingTipLocation(), startPoint );
+                    Vector2D v2 = new Vector2D( launcher.getRestingTipLocation(), end );
 
                     // If the launcher supports 2D motion, compute its angle
                     if ( launcher.getMovementType() == Launcher.TWO_DIMENSIONAL ) {

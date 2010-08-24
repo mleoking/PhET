@@ -144,7 +144,7 @@ public class HumanNode extends PNode {
 
         double muscleDiameter = limbStroke.getLineWidth() * ( 1 + muscleWidthBeyondArm );
 //        System.out.println( "LMF=" + leanMuscleFraction + ", modifier = " + muscleWidthBeyondArm + ", width=" + muscleDiameter );
-        Vector2D.Double vector = new Vector2D.Double( arm.getP1(), arm.getP2() );
+        Vector2D vector = new Vector2D( arm.getP1(), arm.getP2() );
         double distAlongArmToCenter = 0.35;//assumes arm is one segment
         Ellipse2D.Double aDouble = new Ellipse2D.Double();
         Point2D center = vector.getScaledInstance( distAlongArmToCenter ).getDestination( arm.getP1() );

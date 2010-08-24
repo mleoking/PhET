@@ -27,7 +27,7 @@ import java.util.EventListener;
  */
 public class PlaneWaveMedium extends SimpleObservable implements ModelElement {
 
-    public static class Direction extends Vector2D.Double {
+    public static class Direction extends Vector2D {
         private Direction( double dx, double dy ) {
             super( dx, dy );
         }

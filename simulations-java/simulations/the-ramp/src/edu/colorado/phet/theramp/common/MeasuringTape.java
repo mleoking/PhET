@@ -102,7 +102,7 @@ public class MeasuringTape extends PNode {
     private void update() {
         Point viewSrc = modelViewTransform2D.modelToView( modelSrc );
         Point viewDst = modelViewTransform2D.modelToView( modelDst );
-        Vector2D.Double viewVector = new Vector2D.Double( viewSrc, viewDst );
+        Vector2D viewVector = new Vector2D( viewSrc, viewDst );
 
 //        System.out.println( "bodyGraphic.getTransform() = " + bodyGraphic.getTransform() );
         Line2D.Double line = new Line2D.Double( viewSrc, viewDst );
@@ -115,7 +115,7 @@ public class MeasuringTape extends PNode {
         bodyGraphic.rotateAboutPoint( viewVector.getAngle(), bodyGraphic.getImageGraphic().getWidth(), bodyGraphic.getImageGraphic().getHeight() );
         endGraphic.setOffset( viewDst.getX() - endGraphic.getShapeGraphic().getWidth() / 2, viewDst.getY() - endGraphic.getShapeGraphic().getHeight() / 2 );
 
-        double modelDistance = new Vector2D.Double( modelSrc, modelDst ).getMagnitude();
+        double modelDistance = new Vector2D( modelSrc, modelDst ).getMagnitude();
         readoutGraphic.setDistance( modelDistance );
         readoutGraphic.setOffset( viewSrc.x, (int)( viewSrc.y + readoutGraphic.getHeight() * 1.2 + 7 ) );
     }

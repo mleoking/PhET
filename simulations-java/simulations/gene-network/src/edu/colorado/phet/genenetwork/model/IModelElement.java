@@ -3,7 +3,7 @@ package edu.colorado.phet.genenetwork.model;
 import java.awt.Shape;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 
 public interface IModelElement {
 	void addListener(IModelElementListener listener);
@@ -12,8 +12,8 @@ public interface IModelElement {
     Point2D getPositionRef();
     void setPosition(Point2D newPosition);
     void setPosition(double xPos, double yPos);
-    Vector2D getVelocityRef();
-    void setVelocity(Vector2D newVelocity);
+    Vector2DInterface getVelocityRef();
+    void setVelocity( Vector2DInterface newVelocity);
     void setVelocity(double xVel, double yVel);
     void stepInTime(double dt);
 	boolean isPartOfDnaStrand();

@@ -51,7 +51,7 @@ public abstract class SimpleSugar extends SimpleModelElement {
 	}
 
 	private static double lineToRelative(DoubleGeneralPath path, double length, double angle) {
-		path.lineToRelative(Vector2D.Double.parseAngleAndMagnitude(length, angle));
+		path.lineToRelative( Vector2D.parseAngleAndMagnitude(length, angle));
 		return angle + Math.PI / 3;
 	}
 }

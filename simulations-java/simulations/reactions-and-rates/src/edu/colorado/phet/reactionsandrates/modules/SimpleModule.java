@@ -274,7 +274,7 @@ public class SimpleModule extends MRModule {
         public Params generate() {
             return new Params( new Point2D.Double( launcherMolecule.getPosition().getX(),
                                                    model.getBox().getMinY() + model.getBox().getHeight() / 2 ),
-                               new Vector2D.Double(), 0 );
+                               new Vector2D(), 0 );
         }
     }
 

@@ -1,7 +1,7 @@
 package edu.colorado.phet.circuitconstructionkit.model.components;
 
 import edu.colorado.phet.circuitconstructionkit.model.*;
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -114,8 +114,8 @@ public abstract class Branch extends SimpleObservableDebug {
         return "Branch_" + name + "[" + startJunction.getLabel() + "," + endJunction.getLabel() + "] <" + getClass() + ">";
     }
 
-    public AbstractVector2D getDirectionVector() {
-        return new ImmutableVector2D.Double(startJunction.getPosition(), endJunction.getPosition());
+    public AbstractVector2DInterface getDirectionVector() {
+        return new ImmutableVector2D(startJunction.getPosition(), endJunction.getPosition());
     }
 
     public double getResistance() {
@@ -283,7 +283,7 @@ public abstract class Branch extends SimpleObservableDebug {
         if (getLength() == 0) {
             return getStartJunction().getPosition();
         }
-        AbstractVector2D vec = new Vector2D.Double(getStartJunction().getPosition(), getEndJunction().getPosition()).getInstanceOfMagnitude(x);
+        AbstractVector2DInterface vec = new Vector2D(getStartJunction().getPosition(), getEndJunction().getPosition()).getInstanceOfMagnitude(x);
         return vec.getDestination(getStartJunction().getPosition());
     }
 
@@ -309,11 +309,11 @@ public abstract class Branch extends SimpleObservableDebug {
     }
 
     public double getAngle() {
-        return new ImmutableVector2D.Double(getStartJunction().getPosition(), getEndJunction().getPosition()).getAngle();
+        return new ImmutableVector2D(getStartJunction().getPosition(), getEndJunction().getPosition()).getAngle();
     }
 
     public Point2D getCenter() {
-        return new Vector2D.Double(getStartJunction().getPosition(), getEndJunction().getPosition()).getScaledInstance(.5).getDestination(getStartJunction().getPosition());
+        return new Vector2D(getStartJunction().getPosition(), getEndJunction().getPosition()).getScaledInstance(.5).getDestination(getStartJunction().getPosition());
     }
 
     public void delete() {

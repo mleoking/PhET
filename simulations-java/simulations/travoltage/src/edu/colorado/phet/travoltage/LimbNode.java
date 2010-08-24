@@ -62,7 +62,7 @@ public class LimbNode extends PNode {
     public double getAngleGlobal( double x, double y ) {
         Point2D temp = new Point2D.Double( pivot.x, pivot.y );
         localToGlobal( temp );
-        Vector2D.Double vec = new Vector2D.Double( new Point2D.Double( x, y ), temp );
+        Vector2D vec = new Vector2D( new Point2D.Double( x, y ), temp );
         return vec.getAngle();
     }
 

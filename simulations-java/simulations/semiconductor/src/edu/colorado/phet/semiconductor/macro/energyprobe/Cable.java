@@ -10,10 +10,10 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
  */
 public class Cable {
     Lead lead;
-    private Vector2D.Double attachmentPoint;
+    private Vector2D attachmentPoint;
 
 
-    public Cable( Lead lead, Vector2D.Double attachmentPoint ) {
+    public Cable( Lead lead, Vector2D attachmentPoint ) {
         this.lead = lead;
         this.attachmentPoint = attachmentPoint;
     }
@@ -22,7 +22,7 @@ public class Cable {
         return lead;
     }
 
-    public Vector2D.Double getAttachmentPoint() {
+    public Vector2D getAttachmentPoint() {
         return attachmentPoint;
     }
 }

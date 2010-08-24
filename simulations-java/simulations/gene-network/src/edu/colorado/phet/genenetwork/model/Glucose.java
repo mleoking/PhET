@@ -218,7 +218,7 @@ public class Glucose extends SimpleSugar {
 		lacZAttachmentPartner = null;
 		setMotionStrategy(new LinearThenRandomMotionStrategy(
 				MotionBoundsTrimmer.trim(getModel().getInteriorMotionBoundsAboveDna(), this),
-				getPositionRef(), new Vector2D.Double(-3, -8), 1));
+				getPositionRef(), new Vector2D(-3, -8), 1));
 		
 		if (galactoseAttachmentPartner == null){
 			// This glucose molecule is not part of a lactose molecule, so it
@@ -246,7 +246,7 @@ public class Glucose extends SimpleSugar {
 			// Move up and away, then get random.
 			setMotionStrategy(new LinearThenRandomMotionStrategy(
 					MotionBoundsTrimmer.trim(getModel().getInteriorMotionBoundsAboveDna(), this), 
-					getPositionRef(), new Vector2D.Double(0, 8), 0.5));
+					getPositionRef(), new Vector2D(0, 8), 0.5));
 			// Recover for a while before attaching to something else.
 			lacIAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
 			postAttachmentRecoveryCountdown = POST_ATTACHMENT_RECOVERY_TIME;
@@ -274,7 +274,7 @@ public class Glucose extends SimpleSugar {
 			// Move down and away, then get random.
 			setMotionStrategy(new LinearThenRandomMotionStrategy(
 					MotionBoundsTrimmer.trim(getModel().getInteriorMotionBoundsAboveDna(), this), 
-					getPositionRef(), new Vector2D.Double(0, -8), 0.5));
+					getPositionRef(), new Vector2D(0, -8), 0.5));
 			// Recover for a while before attaching to something else.
 			lacYAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
 			postAttachmentRecoveryCountdown = POST_ATTACHMENT_RECOVERY_TIME;

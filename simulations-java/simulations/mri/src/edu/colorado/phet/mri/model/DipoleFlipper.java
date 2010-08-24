@@ -11,6 +11,7 @@
 package edu.colorado.phet.mri.model;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
 import edu.colorado.phet.common.quantum.model.Photon;
@@ -73,7 +74,7 @@ public class DipoleFlipper implements ModelElement {
      * Emit a photon
      */
     private void emitPhoton() {
-        Vector2D velocity = new Vector2D.Double( MriConfig.EMITTED_PHOTON_DIRECTION ).normalize().scale( Photon.DEFAULT_SPEED );
+        Vector2DInterface velocity = new Vector2D( MriConfig.EMITTED_PHOTON_DIRECTION ).normalize().scale( Photon.DEFAULT_SPEED );
         double wavelength = PhysicsUtil.frequencyToWavelength( model.getLowerMagnet().getFieldStrength() * model.getSampleMaterial().getMu() );
         MriEmittedPhoton photon = new MriEmittedPhoton();
         photon.setWavelength( wavelength );
@@ -83,7 +84,7 @@ public class DipoleFlipper implements ModelElement {
 
         // Create an EM wave and a medium to carry it through the model
         PlaneWaveCycle waveCycle = new PlaneWaveCycle( dipole.getPosition(), 10,
-                                                       new Vector2D.Double( 1, 0 ) );
+                                                       new Vector2D( 1, 0 ) );
         waveCycle.setWavelength( PhysicsUtil.frequencyToWavelength( 42E6 ) );
         waveCycle.setPower( MriConfig.MAX_POWER );
         model.addModelElement( waveCycle );

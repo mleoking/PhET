@@ -13,6 +13,7 @@ import java.util.Random;
 import javax.swing.Timer;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -104,7 +105,7 @@ public class LacOperonModel implements IGeneNetworkModelControl {
     private boolean automaticLactoseInjectionEnabled = false;
     private double automaticLactoseInjectionCountdown = 0;
     private Point2D automaticLactoseInjectionPoint = new Point2D.Double();
-    private Vector2D automaticLactoseInjectionVelocity = new Vector2D.Double();
+    private Vector2DInterface automaticLactoseInjectionVelocity = new Vector2D();
     
     // State variable that tracks whether the legend should be shown.
     private boolean isLegendVisible = false;
@@ -410,7 +411,7 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 		return this.automaticLactoseInjectionEnabled;
 	}
 	
-	public void setAutomaticLactoseInjectionParams(Point2D location, Vector2D velocity){
+	public void setAutomaticLactoseInjectionParams(Point2D location, Vector2DInterface velocity){
 		automaticLactoseInjectionPoint.setLocation(location);
 		automaticLactoseInjectionVelocity.setComponents(velocity.getX(), velocity.getY());
 	}
@@ -672,7 +673,7 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 		return rnaPolymerase;
 	}
 	
-	public void createAndAddLactose(Point2D initialPosition, Vector2D initialVelocity){
+	public void createAndAddLactose(Point2D initialPosition, Vector2DInterface initialVelocity){
 		
 		// Create the two simple model element that comprise lactose.  Note
 		// that glucose is considered to be the "dominant partner", so its

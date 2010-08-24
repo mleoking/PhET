@@ -262,7 +262,7 @@ public class SemiconductorApplication implements Graphic {
         }
     }
 
-    private void addCable( Vector2D.Double tip, int bandIndex ) throws IOException {
+    private void addCable( Vector2D tip, int bandIndex ) throws IOException {
         Lead lead = new Lead( tip );
         BandSetGraphic bsg = energySection.bandSetGraphicAt( bandIndex );
         Cable c = new Cable( lead, bsg.getViewportBottomCenter() );

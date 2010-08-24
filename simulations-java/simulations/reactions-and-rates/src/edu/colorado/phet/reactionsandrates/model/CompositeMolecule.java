@@ -12,6 +12,7 @@ package edu.colorado.phet.reactionsandrates.model;
 
 import edu.colorado.phet.common.mechanics.Vector3D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.reactionsandrates.model.collision.HardBodyCollision;
@@ -156,14 +157,14 @@ public abstract class CompositeMolecule extends AbstractMolecule implements Pote
 
         computeCM();
         double mass = 0;
-        Vector2D compositeMomentum = new Vector2D.Double();
-        Vector2D acceleration = new Vector2D.Double();
+        Vector2DInterface compositeMomentum = new Vector2D();
+        Vector2DInterface acceleration = new Vector2D();
         Vector3D angularMomentum = new Vector3D();
-        Vector2D compositeCmToComponentCm = new Vector2D.Double();
+        Vector2DInterface compositeCmToComponentCm = new Vector2D();
         for( int i = 0; i < components.length; i++ ) {
             AbstractMolecule component = components[i];
             mass += component.getMass();
-            Vector2D momentum = new Vector2D.Double( component.getVelocity() ).scale( component.getMass() );
+            Vector2DInterface momentum = new Vector2D( component.getVelocity() ).scale( component.getMass() );
             compositeMomentum.add( momentum );
             acceleration.add( component.getAcceleration() );
             compositeCmToComponentCm.setComponents( component.getPosition().getX() - getCM().getX(),
@@ -320,12 +321,12 @@ public abstract class CompositeMolecule extends AbstractMolecule implements Pote
         // Set the position and velocity of the component
         for( int i = 0; i < components.length; i++ ) {
             SimpleMolecule component = components[i];
-            Vector2D compositeCmToComponentCm = new Vector2D.Double( component.getPosition().getX() - this.getPositionPrev().getX(),
+            Vector2DInterface compositeCmToComponentCm = new Vector2D( component.getPosition().getX() - this.getPositionPrev().getX(),
                                                                      component.getPosition().getY() - this.getPositionPrev().getY() );
             compositeCmToComponentCm.rotate( theta );
             component.setPosition( this.getPosition().getX() + compositeCmToComponentCm.getX(),
                                    this.getPosition().getY() + compositeCmToComponentCm.getY() );
-            Vector2D v = component.getVelocity();
+            Vector2DInterface v = component.getVelocity();
             v.setComponents( this.getVelocity().getX() + getOmega() * -compositeCmToComponentCm.getY(),
                              this.getVelocity().getY() + getOmega() * compositeCmToComponentCm.getX() );
         }
@@ -355,7 +356,7 @@ public abstract class CompositeMolecule extends AbstractMolecule implements Pote
     public void rotate( double theta ) {
         for( int i = 0; i < components.length; i++ ) {
             SimpleMolecule component = components[i];
-            Vector2D v = new Vector2D.Double( getCM(), component.getPosition() );
+            Vector2DInterface v = new Vector2D( getCM(), component.getPosition() );
             v.rotate( theta );
             component.setPosition( getCM().getX() + v.getX(), getCM().getY() + v.getY() );
         }

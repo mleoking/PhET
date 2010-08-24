@@ -6,7 +6,7 @@ import java.awt.geom.Area;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
@@ -28,13 +28,13 @@ public class JaggedSplitBandGraphic extends BandSetGraphic {
         super( diodeSection, transform, bandSet, viewport );
         Rectangle2D.Double bandRect = bandSet.getBounds();
 //        Rectangle2D.Double bandRect = viewport;
-        Vector2D.Double src = new Vector2D.Double( bandRect.getX() + bandRect.getWidth() / 2, bandRect.getY() );
-        Vector2D.Double dst = new Vector2D.Double( bandRect.getX() + bandRect.getWidth() / 2, bandRect.getY() + bandRect.getHeight() );
+        Vector2D src = new Vector2D( bandRect.getX() + bandRect.getWidth() / 2, bandRect.getY() );
+        Vector2D dst = new Vector2D( bandRect.getX() + bandRect.getWidth() / 2, bandRect.getY() + bandRect.getHeight() );
         double tearDX = bandRect.getWidth() / 35;
-        AbstractVector2D leftSrc = src.getAddedInstance( -tearDX, 0 );
-        AbstractVector2D rightSrc = src.getAddedInstance( tearDX, 0 );
-        AbstractVector2D leftDst = dst.getAddedInstance( -tearDX, 0 );
-        AbstractVector2D rightDst = dst.getAddedInstance( tearDX, 0 );
+        AbstractVector2DInterface leftSrc = src.getAddedInstance( -tearDX, 0 );
+        AbstractVector2DInterface rightSrc = src.getAddedInstance( tearDX, 0 );
+        AbstractVector2DInterface leftDst = dst.getAddedInstance( -tearDX, 0 );
+        AbstractVector2DInterface rightDst = dst.getAddedInstance( tearDX, 0 );
         int tearCount = 28;
         rightTear = new VerticalTearLine( rightSrc, rightDst, bandRect.getWidth() / 10, tearCount );
         leftTear = new VerticalTearLine( leftSrc, leftDst, bandRect.getWidth() / 10, tearCount );

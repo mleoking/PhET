@@ -12,8 +12,8 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
  * Time: 2:27:05 AM
  */
 public class RectangleUtils {
-    public static Vector2D.Double getCenter( Rectangle2D rect ) {
-        return new Vector2D.Double( rect.getX() + rect.getWidth() / 2, rect.getY() + rect.getHeight() / 2 );
+    public static Vector2D getCenter( Rectangle2D rect ) {
+        return new Vector2D( rect.getX() + rect.getWidth() / 2, rect.getY() + rect.getHeight() / 2 );
     }
 
 }

@@ -12,6 +12,7 @@ package edu.colorado.phet.reactionsandrates.modules;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -69,9 +70,9 @@ public class SpringTestModule extends Module {
                 double prevX;
 
                 public void stepInTime( double dt ) {
-                    Vector2D v0 = new Vector2D.Double( getVelocity() );
+                    Vector2DInterface v0 = new Vector2D( getVelocity() );
                     super.stepInTime( dt );
-                    Vector2D v1 = new Vector2D.Double( getVelocity() );
+                    Vector2DInterface v1 = new Vector2D( getVelocity() );
                     prevX = v1.getX();
                 }
             };
@@ -113,9 +114,9 @@ public class SpringTestModule extends Module {
                 double prevX;
 
                 public void stepInTime( double dt ) {
-                    Vector2D v0 = new Vector2D.Double( getVelocity() );
+                    Vector2DInterface v0 = new Vector2D( getVelocity() );
                     super.stepInTime( dt );
-                    Vector2D v1 = new Vector2D.Double( getVelocity() );
+                    Vector2DInterface v1 = new Vector2D( getVelocity() );
                     prevX = v1.getX();
                 }
             };

@@ -3,7 +3,7 @@ package edu.colorado.phet.circuitconstructionkit.model.components;
 import edu.colorado.phet.circuitconstructionkit.model.CCKDefaults;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
@@ -61,7 +61,7 @@ public class PathBranch extends Branch {
         }
 
         public Point2D getPoint2D() {
-            AbstractVector2D vec = new Vector2D.Double(segment.getStart(), segment.getEnd());
+            AbstractVector2DInterface vec = new Vector2D(segment.getStart(), segment.getEnd());
             vec = vec.getInstanceOfMagnitude(distAlongSegment);
             return vec.getDestination(segment.getStart());
         }
@@ -147,7 +147,7 @@ public class PathBranch extends Branch {
         return segmentAt(numSegments() - 1).getEnd();
     }
 
-    public void addPoint(AbstractVector2D vec) {
+    public void addPoint( AbstractVector2DInterface vec) {
         Point2D pt = vec.getDestination(lastPoint());
         addPoint(pt);
     }

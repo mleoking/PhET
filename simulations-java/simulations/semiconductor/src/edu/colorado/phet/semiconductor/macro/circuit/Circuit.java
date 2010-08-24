@@ -1,6 +1,6 @@
 package edu.colorado.phet.semiconductor.macro.circuit;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.semiconductor.macro.circuit.battery.Battery;
 
@@ -12,12 +12,12 @@ import edu.colorado.phet.semiconductor.macro.circuit.battery.Battery;
  */
 public class Circuit {
     CompositeLinearBranch circuit = new CompositeLinearBranch();
-    Vector2D.Double at;
+    Vector2D at;
     private double resistorWidth;
 
     public Circuit( double x, double y, double resistorWidth ) {
         this.resistorWidth = resistorWidth;
-        this.at = new Vector2D.Double( x, y );
+        this.at = new Vector2D( x, y );
     }
 
     public LinearBranch wireAt( int i ) {
@@ -25,7 +25,7 @@ public class Circuit {
     }
 
     public Wire wireTo( double x, double y ) {
-        Vector2D.Double to = new Vector2D.Double( x, y );
+        Vector2D to = new Vector2D( x, y );
         Wire branch = new Wire( at, to );
         circuit.addBranch( branch );
         at = to;
@@ -33,7 +33,7 @@ public class Circuit {
     }
 
     public Resistor resistorTo( double x, double y ) {
-        Vector2D.Double to = new Vector2D.Double( x, y );
+        Vector2D to = new Vector2D( x, y );
         Resistor branch = new Resistor( at, to, resistorWidth );
         circuit.addBranch( branch );
         at = to;
@@ -41,7 +41,7 @@ public class Circuit {
     }
 
     public Battery batteryTo( double x, double y ) {
-        Vector2D.Double to = new Vector2D.Double( x, y );
+        Vector2D to = new Vector2D( x, y );
         Battery branch = new Battery( at, to );
         circuit.addBranch( branch );
         at = to;
@@ -56,7 +56,7 @@ public class Circuit {
         return circuit.numBranches();
     }
 
-    public AbstractVector2D getPosition( double dist ) {
+    public AbstractVector2DInterface getPosition( double dist ) {
         return circuit.getPosition( dist );
     }
 

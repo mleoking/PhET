@@ -5,7 +5,7 @@ package edu.colorado.phet.statesofmatter.model.engine;
 import java.awt.geom.Point2D;
 import java.util.Random;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 import edu.colorado.phet.statesofmatter.model.MoleculeForceAndMotionDataSet;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 
@@ -83,7 +83,7 @@ public class DiatomicPhaseStateChanger extends AbstractPhaseStateChanger {
         MoleculeForceAndMotionDataSet moleculeDataSet = m_model.getMoleculeDataSetRef();
 		int numberOfMolecules = moleculeDataSet.getNumberOfMolecules();
 		Point2D [] moleculeCenterOfMassPositions = moleculeDataSet.getMoleculeCenterOfMassPositions();
-		Vector2D [] moleculeVelocities = moleculeDataSet.getMoleculeVelocities();
+		Vector2DInterface[] moleculeVelocities = moleculeDataSet.getMoleculeVelocities();
 		double [] moleculeRotationAngles = moleculeDataSet.getMoleculeRotationAngles();
 		
 		// Create and initialize other variables needed to do the job.
@@ -135,7 +135,7 @@ public class DiatomicPhaseStateChanger extends AbstractPhaseStateChanger {
         // Get references to the various elements of the data set.
         MoleculeForceAndMotionDataSet moleculeDataSet = m_model.getMoleculeDataSetRef();
 		Point2D [] moleculeCenterOfMassPositions = moleculeDataSet.getMoleculeCenterOfMassPositions();
-		Vector2D [] moleculeVelocities = moleculeDataSet.getMoleculeVelocities();
+		Vector2DInterface[] moleculeVelocities = moleculeDataSet.getMoleculeVelocities();
 		double [] moleculeRotationAngles = moleculeDataSet.getMoleculeRotationAngles();
 		double [] moleculeRotationRates = moleculeDataSet.getMoleculeRotationRates();
 		
@@ -215,7 +215,7 @@ public class DiatomicPhaseStateChanger extends AbstractPhaseStateChanger {
         // Get references to the various elements of the data set.
         MoleculeForceAndMotionDataSet moleculeDataSet = m_model.getMoleculeDataSetRef();
 		Point2D [] moleculeCenterOfMassPositions = moleculeDataSet.getMoleculeCenterOfMassPositions();
-		Vector2D [] moleculeVelocities = moleculeDataSet.getMoleculeVelocities();
+		Vector2DInterface[] moleculeVelocities = moleculeDataSet.getMoleculeVelocities();
 		double [] moleculeRotationAngles = moleculeDataSet.getMoleculeRotationAngles();
 		double [] moleculeRotationRates = moleculeDataSet.getMoleculeRotationRates();
 		

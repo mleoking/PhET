@@ -11,8 +11,6 @@
 
 package edu.colorado.phet.common.piccolophet.help;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.geom.Point2D;
@@ -24,7 +22,6 @@ import java.util.Iterator;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.umd.cs.piccolo.PCamera;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;

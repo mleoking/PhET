@@ -97,7 +97,7 @@ public class SchematicSwitchNode extends SwitchBodyRectangleNode {
                     Point2D.Double pivotPoint = new Point2D.Double(leverWidth, leverHeight);
                     pathNode.localToGlobal(pivotPoint);
                     SchematicSwitchNode.this.getParent().globalToLocal(pivotPoint);
-                    Vector2D.Double vector = new Vector2D.Double(pivotPoint, event.getPositionRelativeTo(SchematicSwitchNode.this.getParent()));
+                    Vector2D vector = new Vector2D(pivotPoint, event.getPositionRelativeTo(SchematicSwitchNode.this.getParent()));
                     return vector.getAngle();
                 }
 

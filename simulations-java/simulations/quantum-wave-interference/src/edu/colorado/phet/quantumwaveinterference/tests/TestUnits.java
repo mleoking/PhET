@@ -25,7 +25,7 @@ public class TestUnits {
         double hbar = 1.0;
         double momentumY = 2 * Math.PI * hbar / desiredWavelengthY;
         System.out.println( "momentumY = " + momentumY );
-        GaussianWave2D gaussianWave2D = new GaussianWave2D( new Point2D.Double( 25, 25 ), new Vector2D.Double( 0, momentumY ), 3.5 * 2, 1.0 );
+        GaussianWave2D gaussianWave2D = new GaussianWave2D( new Point2D.Double( 25, 25 ), new Vector2D( 0, momentumY ), 3.5 * 2, 1.0 );
         WaveSetup waveSetup = new WaveSetup( gaussianWave2D );
         waveSetup.initialize( wavefunction );
 

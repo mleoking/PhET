@@ -6,12 +6,12 @@ package edu.colorado.phet.conductivity.common;
 
 import java.awt.geom.GeneralPath;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 public class DoubleGeneralPath {
 
-    public DoubleGeneralPath( Vector2D.Double phetvector ) {
+    public DoubleGeneralPath( Vector2D phetvector ) {
         this( phetvector.getX(), phetvector.getY() );
     }
 
@@ -28,13 +28,13 @@ public class DoubleGeneralPath {
         return path;
     }
 
-    public void lineTo( Vector2D.Double phetvector ) {
+    public void lineTo( Vector2D phetvector ) {
         lineTo( phetvector.getX(), phetvector.getY() );
     }
 
     GeneralPath path;
 
-    public void lineTo( AbstractVector2D phetvector2 ) {
+    public void lineTo( AbstractVector2DInterface phetvector2 ) {
         lineTo( phetvector2.getX(), phetvector2.getY() );
     }
 }

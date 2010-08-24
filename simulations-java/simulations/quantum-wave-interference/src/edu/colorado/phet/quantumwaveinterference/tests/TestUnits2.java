@@ -25,7 +25,7 @@ public class TestUnits2 {
         double momentumY = neutronUnits.getAverageVelocity() * neutronUnits.getMass().getValue();
         System.out.println( "momentumY = " + momentumY );
         GaussianWave2D gaussianWave2D = new GaussianWave2D( new Point2D.Double( 25, 25 ),
-                                                            new Vector2D.Double( 0, momentumY ), 3.5 * 2, neutronUnits.getHbar().getValue() );
+                                                            new Vector2D( 0, momentumY ), 3.5 * 2, neutronUnits.getHbar().getValue() );
         WaveSetup waveSetup = new WaveSetup( gaussianWave2D );
         waveSetup.initialize( wavefunction );
 

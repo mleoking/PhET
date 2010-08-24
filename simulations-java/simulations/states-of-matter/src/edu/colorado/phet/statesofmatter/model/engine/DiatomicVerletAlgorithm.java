@@ -5,6 +5,7 @@ package edu.colorado.phet.statesofmatter.model.engine;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 import edu.colorado.phet.statesofmatter.model.MoleculeForceAndMotionDataSet;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 
@@ -60,9 +61,9 @@ public class DiatomicVerletAlgorithm extends AbstractVerletAlgorithm {
 		int numberOfMolecules = moleculeDataSet.getNumberOfMolecules();
 		Point2D [] moleculeCenterOfMassPositions = moleculeDataSet.getMoleculeCenterOfMassPositions();
 		Point2D [] atomPositions = moleculeDataSet.getAtomPositions();
-		Vector2D [] moleculeVelocities = moleculeDataSet.getMoleculeVelocities();
-		Vector2D [] moleculeForces = moleculeDataSet.getMoleculeForces();
-		Vector2D [] nextMoleculeForces = moleculeDataSet.getNextMoleculeForces();
+		Vector2DInterface[] moleculeVelocities = moleculeDataSet.getMoleculeVelocities();
+		Vector2DInterface[] moleculeForces = moleculeDataSet.getMoleculeForces();
+		Vector2DInterface[] nextMoleculeForces = moleculeDataSet.getNextMoleculeForces();
 		double [] moleculeRotationAngles = moleculeDataSet.getMoleculeRotationAngles();
 		double [] moleculeRotationRates = moleculeDataSet.getMoleculeRotationRates();
 		double [] moleculeTorques = moleculeDataSet.getMoleculeTorques();
@@ -138,7 +139,7 @@ public class DiatomicVerletAlgorithm extends AbstractVerletAlgorithm {
         }
         
         // Calculate the force and torque due to inter-particle interactions.
-        Vector2D force = new Vector2D.Double();
+        Vector2DInterface force = new Vector2D();
         for (int i = 0; i < moleculeDataSet.getNumberOfSafeMolecules(); i++){
             for (int j = i + 1; j < moleculeDataSet.getNumberOfSafeMolecules(); j++){
                 for (int ii = 0; ii < 2; ii++){

@@ -9,6 +9,7 @@ package edu.colorado.phet.idealgas.collision;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
 
 import java.awt.geom.Point2D;
@@ -48,15 +49,15 @@ public class SphereWallCollision implements Collision {
             // Get the new velocity of the sphere
             Point2D closestPointOnWall = getClosestPointOnWall( sphere.getPosition(), wall );
 
-            Vector2D loa = new Vector2D.Double( sphere.getPosition().getX() - closestPointOnWall.getX(),
+            Vector2DInterface loa = new Vector2D( sphere.getPosition().getX() - closestPointOnWall.getX(),
                                                 sphere.getPosition().getY() - closestPointOnWall.getY() );
 
             if( loa.getMagnitude() == 0 ) {
-                Vector2D v2 = new Vector2D.Double( sphere.getVelocity() ).normalize().scale( 0.1 );
+                Vector2DInterface v2 = new Vector2D( sphere.getVelocity() ).normalize().scale( 0.1 );
                 Point2D p2 = new Point2D.Double( sphere.getPosition().getX() + v2.getX(),
                                                  sphere.getPosition().getY() + v2.getY() );
                 closestPointOnWall = getClosestPointOnWall( p2, wall );
-                loa = new Vector2D.Double( p2.getX() - closestPointOnWall.getX(),
+                loa = new Vector2D( p2.getX() - closestPointOnWall.getX(),
                                            p2.getY() - closestPointOnWall.getY() );
             }
 
@@ -78,7 +79,7 @@ public class SphereWallCollision implements Collision {
 
             sphere.getVelocity().rotate( dTheta * 2 ).scale( -1 );
 
-            double angle2 = new Vector2D.Double( sphere.getPosition().getX() - closestPointOnWall.getX(),
+            double angle2 = new Vector2D( sphere.getPosition().getX() - closestPointOnWall.getX(),
                                                  sphere.getPosition().getY() - closestPointOnWall.getY() ).getAngle();
 
             // Determine if the spehre's CM has penetrated the wall
@@ -86,7 +87,7 @@ public class SphereWallCollision implements Collision {
             d = ( wall.getBounds().contains( sphere.getPosition() ) ) ? d : -d;
 
             // Get the sphere's new position
-            Vector2D displacement = loa.normalize().scale( ( sphere.getRadius() + d ) * 2 );
+            Vector2DInterface displacement = loa.normalize().scale( ( sphere.getRadius() + d ) * 2 );
             Point2D newPosition = new Point2D.Double( sphere.getPosition().getX() + displacement.getX(),
                                                       sphere.getPosition().getY() + displacement.getY() );
             sphere.setPosition( newPosition );

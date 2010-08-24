@@ -59,7 +59,7 @@ public class FreeBodyDiagramPanel extends PhetPCanvas {
         fbdWiggleMe.setArrow( 0, 40 );
         fbdWiggleMe.setAmplitude( 10 );
         fbdWiggleMe.setFrequency( 5.0 );
-        fbdWiggleMe.setOscillationAxis( new Vector2D.Double( 1, 0 ) );
+        fbdWiggleMe.setOscillationAxis( new Vector2D( 1, 0 ) );
         fbdWiggleMe.setVisible( false );
 
         module.getForceModel().addListener( new Force1DModel.Listener() {

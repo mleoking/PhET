@@ -6,7 +6,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 import edu.colorado.phet.genenetwork.module.LacOperonDefaults;
 
 /**
@@ -54,7 +54,7 @@ public class DirectedRandomWalkMotionStrategy extends AbstractMotionStrategy {
 	public void updatePositionAndMotion(double dt, SimpleModelElement modelElement) {
 		
 		Point2D position = modelElement.getPositionRef();
-		Vector2D velocity = modelElement.getVelocityRef();
+		Vector2DInterface velocity = modelElement.getVelocityRef();
 		
 		// Bounce back toward the inside if we are outside of the motion bounds.
 		if ((position.getX() > getBounds().getMaxX() && velocity.getX() > 0) ||

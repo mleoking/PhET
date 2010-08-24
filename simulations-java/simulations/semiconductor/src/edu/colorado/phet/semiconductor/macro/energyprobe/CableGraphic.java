@@ -32,7 +32,7 @@ public class CableGraphic extends TransformGraphic implements SimpleObserver {
 
     public void update() {
         Point tailView = leadGraphic.getTail();
-        Vector2D.Double attach = cable.getAttachmentPoint();
+        Vector2D attach = cable.getAttachmentPoint();
         Point2D plugModel = attach.toPoint2D();
         Point plugView = getTransform().modelToView( plugModel );
 

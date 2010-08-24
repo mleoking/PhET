@@ -8,6 +8,7 @@ package edu.colorado.phet.idealgas.model;
 
 import edu.colorado.phet.common.mechanics.Body;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 import edu.colorado.phet.idealgas.collision.CollidableBody;
 import edu.colorado.phet.idealgas.collision.SphericalBody;
 
@@ -20,8 +21,8 @@ public class HollowSphere extends SphericalBody {
     private ArrayList listeners = new ArrayList();
 
     public HollowSphere( Point2D center,
-                         Vector2D velocity,
-                         Vector2D acceleration,
+                         Vector2DInterface velocity,
+                         Vector2DInterface acceleration,
                          double mass,
                          double radius ) {
         super( center, velocity, acceleration, mass, radius );
@@ -89,7 +90,7 @@ public class HollowSphere extends SphericalBody {
     public void collideWithParticle( CollidableBody particle ) {
         // If the particle isn't supposed to be inside the sphere but it is, get it out
         if( this.contains( particle ) && !containsBody( particle ) ) {
-            Vector2D.Double d = new Vector2D.Double( particle.getPosition().getX() - this.getPosition().getX(),
+            Vector2D d = new Vector2D( particle.getPosition().getX() - this.getPosition().getX(),
                                                      particle.getPosition().getY() - this.getPosition().getY() );
             d.normalize();
             d.scale( this.getRadius() * 1.2 );
@@ -99,7 +100,7 @@ public class HollowSphere extends SphericalBody {
 
         // If the particle is supposed to be inside the sphere but it isn't, put it inside
         if( !this.contains( particle ) && containsBody( particle ) ) {
-            Vector2D.Double d = new Vector2D.Double( particle.getPosition().getX() - this.getPosition().getX(),
+            Vector2D d = new Vector2D( particle.getPosition().getX() - this.getPosition().getX(),
                                                      particle.getPosition().getY() - this.getPosition().getY() );
             d.normalize();
             d.scale( this.getRadius() * 0.8 );
@@ -126,7 +127,7 @@ public class HollowSphere extends SphericalBody {
         return p;
     }
 
-    public Vector2D getNewMoleculeVelocity( Class species, IdealGasModel model ) {
+    public Vector2DInterface getNewMoleculeVelocity( Class species, IdealGasModel model ) {
         double s = 0;
         if( species == HeavySpecies.class ) {
             s = model.getHeavySpeciesAveSpeed();
@@ -141,7 +142,7 @@ public class HollowSphere extends SphericalBody {
             }
         }
         double theta = random.nextDouble() * Math.PI * 2;
-        return new Vector2D.Double( s * Math.cos( theta ), s * Math.sin( theta ) );
+        return new Vector2D( s * Math.cos( theta ), s * Math.sin( theta ) );
     }
 
     public int getHeavySpeciesCnt() {

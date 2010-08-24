@@ -7,7 +7,7 @@
  */
 package edu.colorado.phet.idealgas.model;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -57,7 +57,7 @@ public class LightSpecies extends GasMolecule {
     /**
      * Constructor
      */
-    public LightSpecies( Point2D position, Vector2D velocity, Vector2D acceleration ) {
+    public LightSpecies( Point2D position, Vector2DInterface velocity, Vector2DInterface acceleration ) {
         super( position, velocity, acceleration, s_mass, s_radius );
         init();
         super.setRadius( s_radius );

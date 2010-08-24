@@ -1,8 +1,9 @@
 /*  */
 package edu.colorado.phet.travoltage;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import org.cove.jade.DynamicsEngine;
@@ -78,8 +79,8 @@ public class MoveElectronsJade implements ModelElement {
         return engine;
     }
 
-    protected AbstractVector2D getForce( JadeElectron node ) {
-        Vector2D sum = new Vector2D.Double();
+    protected AbstractVector2DInterface getForce( JadeElectron node ) {
+        Vector2DInterface sum = new Vector2D();
         for( int i = 0; i < jadeElectronSet.getNumElectrons(); i++ ) {
             JadeElectron particle = jadeElectronSet.getJadeElectron( i );
             if( particle != node ) {
@@ -90,24 +91,24 @@ public class MoveElectronsJade implements ModelElement {
             return sum;
         }
         else {
-            return new Vector2D.Double();
+            return new Vector2D();
         }
     }
 
-    private boolean isLegal( Vector2D sum ) {
+    private boolean isLegal( Vector2DInterface sum ) {
         return !Double.isInfinite( sum.getX() ) && !Double.isNaN( sum.getX() ) && !Double.isInfinite( sum.getY() ) && !Double.isNaN( sum.getY() );
     }
 
-    protected AbstractVector2D getForce( JadeElectron circleParticle, JadeElectron particle ) {
+    protected AbstractVector2DInterface getForce( JadeElectron circleParticle, JadeElectron particle ) {
         return getForce( circleParticle, particle, 5.0 );
     }
 
-    protected AbstractVector2D getForce( JadeElectron circleParticle, JadeElectron particle, double k ) {
-        AbstractVector2D vec = new Vector2D.Double( circleParticle.getPosition(), particle.getPosition() );
+    protected AbstractVector2DInterface getForce( JadeElectron circleParticle, JadeElectron particle, double k ) {
+        AbstractVector2DInterface vec = new Vector2D( circleParticle.getPosition(), particle.getPosition() );
         if( vec.getMagnitude() <= 1 ) {
-            return new Vector2D.Double();
+            return new Vector2D();
         }
-        AbstractVector2D v = vec.getInstanceOfMagnitude( -k / Math.pow( vec.getMagnitude(), 1.5 ) );
+        AbstractVector2DInterface v = vec.getInstanceOfMagnitude( -k / Math.pow( vec.getMagnitude(), 1.5 ) );
         double max = 0.05;
         if( v.getMagnitude() > max ) {
             v = v.getInstanceOfMagnitude( max );
@@ -181,7 +182,7 @@ public class MoveElectronsJade implements ModelElement {
     public void stepInTime( double dt ) {
         for( int i = 0; i < jadeElectronSet.getNumElectrons(); i++ ) {
             JadeElectron circleParticle = jadeElectronSet.getJadeElectron( i );
-            AbstractVector2D force = getForce( circleParticle );
+            AbstractVector2DInterface force = getForce( circleParticle );
             circleParticle.setAcceleration( force.getX(), force.getY() );
         }
         engine.timeStep();

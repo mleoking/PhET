@@ -47,8 +47,8 @@ public class EnergyCell {
         }
     }
 
-    public Vector2D.Double getPosition() {
-        return new Vector2D.Double( x, y );
+    public Vector2D getPosition() {
+        return new Vector2D( x, y );
     }
 
     public EnergyLevel getEnergyLevel() {

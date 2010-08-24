@@ -5,6 +5,7 @@ package edu.colorado.phet.statesofmatter.model.engine;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 import edu.colorado.phet.statesofmatter.model.MoleculeForceAndMotionDataSet;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 
@@ -71,9 +72,9 @@ public class MonatomicVerletAlgorithm extends AbstractVerletAlgorithm {
         MoleculeForceAndMotionDataSet moleculeDataSet = m_model.getMoleculeDataSetRef();
 		int numberOfAtoms = moleculeDataSet.getNumberOfAtoms();
 		Point2D [] moleculeCenterOfMassPositions = moleculeDataSet.getMoleculeCenterOfMassPositions();
-		Vector2D [] moleculeVelocities = moleculeDataSet.getMoleculeVelocities();
-		Vector2D [] moleculeForces = moleculeDataSet.getMoleculeForces();
-		Vector2D [] nextMoleculeForces = moleculeDataSet.getNextMoleculeForces();
+		Vector2DInterface[] moleculeVelocities = moleculeDataSet.getMoleculeVelocities();
+		Vector2DInterface[] moleculeForces = moleculeDataSet.getMoleculeForces();
+		Vector2DInterface[] nextMoleculeForces = moleculeDataSet.getNextMoleculeForces();
 		
         // Update the positions of all particles based on their current
         // velocities and the forces acting on them.
@@ -138,7 +139,7 @@ public class MonatomicVerletAlgorithm extends AbstractVerletAlgorithm {
         
         // Calculate the forces created through interactions with other
         // particles.
-        Vector2D force = new Vector2D.Double();
+        Vector2DInterface force = new Vector2D();
         for (int i = 0; i < numberOfSafeAtoms; i++){
             for (int j = i + 1; j < numberOfSafeAtoms; j++){
                 
@@ -176,7 +177,7 @@ public class MonatomicVerletAlgorithm extends AbstractVerletAlgorithm {
         
         // Calculate the new velocities based on the old ones and the forces
         // that are acting on the particle.
-        Vector2D.Double velocityIncrement = new Vector2D.Double();
+        Vector2D velocityIncrement = new Vector2D();
         for (int i = 0; i < numberOfAtoms; i++){
             velocityIncrement.setX( TIME_STEP_HALF * (moleculeForces[i].getX() + nextMoleculeForces[i].getX()));
             velocityIncrement.setY( TIME_STEP_HALF * (moleculeForces[i].getY() + nextMoleculeForces[i].getY()));

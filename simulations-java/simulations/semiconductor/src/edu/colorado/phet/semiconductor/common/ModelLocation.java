@@ -16,12 +16,12 @@ import edu.colorado.phet.semiconductor.macro.doping.ViewChangeListener;
  * Time: 2:19:43 PM
  */
 public class ModelLocation {
-    Vector2D.Double modelLocation;
+    Vector2D modelLocation;
     private Point viewLocation;
     ArrayList listeners = new ArrayList();
 
     public ModelLocation( double x, double y, final ModelViewTransform2D transform ) {
-        this.modelLocation = new Vector2D.Double( x, y );
+        this.modelLocation = new Vector2D( x, y );
         transform.addTransformListener( new TransformListener() {
             public void transformChanged( ModelViewTransform2D mvt ) {
                 viewLocation = transform.modelToView( modelLocation );

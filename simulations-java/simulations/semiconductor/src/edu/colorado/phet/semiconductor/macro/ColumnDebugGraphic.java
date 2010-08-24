@@ -38,7 +38,7 @@ public class ColumnDebugGraphic implements Graphic {
                 Shape s = trf.createTransformedShape( r );
 //            g.draw(s );
                 int charge = energySection.getColumnCharge( i );
-                Vector2D.Double ctr = RectangleUtils.getCenter( r );
+                Vector2D ctr = RectangleUtils.getCenter( r );
                 Point pt = trf.modelToView( ctr );
                 g.drawString( "ch=" + charge, pt.x, pt.y );
             }

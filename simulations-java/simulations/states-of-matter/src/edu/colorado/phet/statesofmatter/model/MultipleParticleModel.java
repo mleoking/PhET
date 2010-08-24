@@ -647,7 +647,7 @@ public class MultipleParticleModel{
             double yVel = Math.sin( angle ) * velocity;
             int atomsPerMolecule = m_moleculeDataSet.getAtomsPerMolecule();
         	Point2D moleculeCenterOfMassPosition = new Point2D.Double( injectionPointX, injectionPointY );
-        	Vector2D.Double moleculeVelocity = new Vector2D.Double( xVel, yVel );
+        	Vector2D moleculeVelocity = new Vector2D( xVel, yVel );
         	double moleculeRotationRate = (m_rand.nextDouble() - 0.5) * (Math.PI / 2);;
         	Point2D [] atomPositions = new Point2D[atomsPerMolecule];
         	for (int i = 0; i < atomsPerMolecule; i++){
@@ -1032,7 +1032,7 @@ public class MultipleParticleModel{
             
             // Create the atom.
         	Point2D moleculeCenterOfMassPosition = new Point2D.Double();
-        	Vector2D.Double moleculeVelocity = new Vector2D.Double();
+        	Vector2D moleculeVelocity = new Vector2D();
         	Point2D [] atomPositions = new Point2D[1];
     		atomPositions[0] = new Point2D.Double();
     		
@@ -1105,7 +1105,7 @@ public class MultipleParticleModel{
             
             // Create the molecule.
         	Point2D moleculeCenterOfMassPosition = new Point2D.Double();
-        	Vector2D.Double moleculeVelocity = new Vector2D.Double();
+        	Vector2D moleculeVelocity = new Vector2D();
         	Point2D [] atomPositions = new Point2D[2];
     		atomPositions[0] = new Point2D.Double();
     		atomPositions[1] = new Point2D.Double();
@@ -1162,7 +1162,7 @@ public class MultipleParticleModel{
             
             // Create the molecule.
         	Point2D moleculeCenterOfMassPosition = new Point2D.Double();
-        	Vector2D.Double moleculeVelocity = new Vector2D.Double();
+        	Vector2D moleculeVelocity = new Vector2D();
         	Point2D [] atomPositions = new Point2D[3];
     		atomPositions[0] = new Point2D.Double();
     		atomPositions[1] = new Point2D.Double();

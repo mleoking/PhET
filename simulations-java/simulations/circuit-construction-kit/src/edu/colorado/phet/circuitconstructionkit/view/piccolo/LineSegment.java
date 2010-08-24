@@ -1,6 +1,6 @@
 package edu.colorado.phet.circuitconstructionkit.view.piccolo;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
@@ -18,14 +18,14 @@ public class LineSegment {
     }
 
     public static Shape getSegment(double x1, double y1, double x2, double y2, double thickness) {
-        ImmutableVector2D.Double vec = new ImmutableVector2D.Double(x2 - x1, y2 - y1);
-        AbstractVector2D norm = vec.getNormalVector().getInstanceOfMagnitude(thickness / 2);
+        ImmutableVector2D vec = new ImmutableVector2D(x2 - x1, y2 - y1);
+        AbstractVector2DInterface norm = vec.getNormalVector().getInstanceOfMagnitude(thickness / 2);
         DoubleGeneralPath doublePath = new DoubleGeneralPath(x1 + norm.getX(), y1 + norm.getY());
 
         doublePath.lineToRelative(vec.getX(), vec.getY());
-        AbstractVector2D n2 = norm.getScaledInstance(-2);
+        AbstractVector2DInterface n2 = norm.getScaledInstance(-2);
         doublePath.lineToRelative(n2.getX(), n2.getY());
-        AbstractVector2D rev = vec.getScaledInstance(-1);
+        AbstractVector2DInterface rev = vec.getScaledInstance(-1);
         doublePath.lineToRelative(rev.getX(), rev.getY());
         doublePath.lineTo(x1 + norm.getX(), y1 + norm.getY());
         return doublePath.getGeneralPath();

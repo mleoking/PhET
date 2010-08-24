@@ -5,7 +5,7 @@ package edu.colorado.phet.common.phetcommon.view.graphics;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 
 /**
@@ -25,8 +25,8 @@ public class Arrow {
     private double fractionalHeadHeight;
     private boolean scaleTailToo;
 
-    private AbstractVector2D direction;
-    private AbstractVector2D norm;
+    private AbstractVector2DInterface direction;
+    private AbstractVector2DInterface norm;
     boolean isHeadDynamic = false;
 
     public boolean equals( Object obj ) {
@@ -55,7 +55,7 @@ public class Arrow {
      * @param fractionalHeadHeight
      * @param scaleTailToo
      */
-    public Arrow( Point2D src, AbstractVector2D vector,
+    public Arrow( Point2D src, AbstractVector2DInterface vector,
                   double headHeight, double headWidth, double tailWidth,
                   double fractionalHeadHeight, boolean scaleTailToo ) {
         this( src, vector.getDestination( src ), headHeight, headWidth, tailWidth, fractionalHeadHeight, scaleTailToo );
@@ -93,9 +93,9 @@ public class Arrow {
     private void computeArrow() {
         this.arrowPath.reset();
         if ( tailLocation.distance( tipLocation ) != 0 ) {
-            AbstractVector2D.Double tailPt = new ImmutableVector2D.Double( tailLocation );
-            AbstractVector2D.Double tipPt = new ImmutableVector2D.Double( tipLocation );
-            AbstractVector2D distanceVector = tipPt.getSubtractedInstance( tailPt );
+            ImmutableVector2D tailPt = new ImmutableVector2D( tailLocation );
+            ImmutableVector2D tipPt = new ImmutableVector2D( tipLocation );
+            AbstractVector2DInterface distanceVector = tipPt.getSubtractedInstance( tailPt );
             direction = distanceVector.getNormalizedInstance();
             double length = tipLocation.distance( tailLocation );
             double tempHeadHeight = headHeight;
@@ -117,12 +117,12 @@ public class Arrow {
             }
             norm = direction.getNormalVector();
 
-            AbstractVector2D.Double rightFlap = getPoint( -1 * tempHeadHeight, -tempHeadWidth / 2 );
-            AbstractVector2D.Double leftFlap = getPoint( -1 * tempHeadHeight, tempHeadWidth / 2 );
-            AbstractVector2D.Double rightPin = getPoint( -1 * tempHeadHeight, -tempTailWidth / 2 );
-            AbstractVector2D.Double leftPin = getPoint( -1 * tempHeadHeight, tempTailWidth / 2 );
-            AbstractVector2D.Double rightTail = getPoint( -1 * length, -tempTailWidth / 2 );
-            AbstractVector2D.Double leftTail = getPoint( -1 * length, tempTailWidth / 2 );
+            ImmutableVector2D rightFlap = getPoint( -1 * tempHeadHeight, -tempHeadWidth / 2 );
+            ImmutableVector2D leftFlap = getPoint( -1 * tempHeadHeight, tempHeadWidth / 2 );
+            ImmutableVector2D rightPin = getPoint( -1 * tempHeadHeight, -tempTailWidth / 2 );
+            ImmutableVector2D leftPin = getPoint( -1 * tempHeadHeight, tempTailWidth / 2 );
+            ImmutableVector2D rightTail = getPoint( -1 * length, -tempTailWidth / 2 );
+            ImmutableVector2D leftTail = getPoint( -1 * length, tempTailWidth / 2 );
 
             arrowPath.moveTo( (float) tipPt.getX(), (float) tipPt.getY() );
             lineTo( arrowPath, rightFlap );
@@ -135,16 +135,16 @@ public class Arrow {
         }
     }
 
-    private void lineTo( GeneralPath path, AbstractVector2D.Double loc ) {
+    private void lineTo( GeneralPath path, ImmutableVector2D loc ) {
         path.lineTo( (float) loc.getX(), (float) loc.getY() );
     }
 
     //parallel and normal are from the tip
-    private AbstractVector2D.Double getPoint( double parallel, double normal ) {
+    private ImmutableVector2D getPoint( double parallel, double normal ) {
         // do scaling and addition of vector components inline to improve performance
         double x = ( direction.getX() * parallel ) + ( norm.getX() * normal ) + tipLocation.getX();
         double y = ( direction.getY() * parallel ) + ( norm.getY() * normal ) + tipLocation.getY();
-        return new ImmutableVector2D.Double( x, y );
+        return new ImmutableVector2D( x, y );
     }
 
     public GeneralPath getShape() {

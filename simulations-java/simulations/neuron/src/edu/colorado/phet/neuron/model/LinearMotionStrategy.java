@@ -2,7 +2,7 @@ package edu.colorado.phet.neuron.model;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 
 /**
  * A simple motion strategy for moving in a straight line.  This was created
@@ -12,9 +12,9 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
  */
 public class LinearMotionStrategy extends MotionStrategy {
 
-	private Vector2D velocity; // In nanometers per second of simulation time.
+	private Vector2DInterface velocity; // In nanometers per second of simulation time.
 	
-	public LinearMotionStrategy(Vector2D velocity) {
+	public LinearMotionStrategy( Vector2DInterface velocity) {
 		this.velocity = velocity;
 	}
 

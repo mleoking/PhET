@@ -121,7 +121,7 @@ public class Motion2DPanel extends JPanel
         bothButton.doClick();
 
         Point pt = new Point( 20, yNow );
-        wiggleMe = new WiggleMe( this, pt, new Vector2D.Double( 0, 1 ), 20, 5,
+        wiggleMe = new WiggleMe( this, pt, new Vector2D( 0, 1 ), 20, 5,
                                  Motion2DResources.getString( "Motion2DPanel.WiggleMeText" ) );
 //        pt = new Point( (int)( xNow - wiggleMe.getWidth() ), yNow );
 

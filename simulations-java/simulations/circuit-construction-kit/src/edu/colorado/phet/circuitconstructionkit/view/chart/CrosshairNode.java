@@ -3,6 +3,7 @@ package edu.colorado.phet.circuitconstructionkit.view.chart;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -25,7 +26,7 @@ public class CrosshairNode extends PComposite {
     private CrosshairDragHandler listener;
     private AbstractFloatingChart intensityReader;
     private boolean attached = false;
-    private Vector2D originalDisplacement;
+    private Vector2DInterface originalDisplacement;
     private PPath background;
     private PPath innerCircle;
 
@@ -76,8 +77,8 @@ public class CrosshairNode extends PComposite {
                 getStripChartJFCNode().getFullBounds().getCenterY() + originalDisplacement.getY());
     }
 
-    private Vector2D getDisplacement() {
-        return new Vector2D.Double(getStripChartJFCNode().getFullBounds().getCenter2D(), getFullBounds().getCenter2D());
+    private Vector2DInterface getDisplacement() {
+        return new Vector2D(getStripChartJFCNode().getFullBounds().getCenter2D(), getFullBounds().getCenter2D());
     }
 
     private void crosshairDropped() {

@@ -110,7 +110,7 @@ public class AppliedForce {
     }
 
     private void updateDependentValues( Line2D.Double appliedForce ) {
-        radius.setValue( new Vector2D.Double( appliedForce.getP1() ).getMagnitude() );
+        radius.setValue( new Vector2D( appliedForce.getP1() ).getMagnitude() );
         signedForce.setValue( getForceMagnitude() * MathUtil.getSign( getTorque() ) );//todo: assumes platform center is (0,0)
         torque.setValue( getTorque() );
     }
@@ -134,8 +134,8 @@ public class AppliedForce {
     }
 
     public double getTorque( Point2D center ) {
-        Vector2D.Double r = new Vector2D.Double( center, getP1() );
-        Vector2D.Double f = new Vector2D.Double( getP1(), getP2() );
+        Vector2D r = new Vector2D( center, getP1() );
+        Vector2D f = new Vector2D( getP1(), getP2() );
         return -r.getCrossProductScalar( f );
     }
 

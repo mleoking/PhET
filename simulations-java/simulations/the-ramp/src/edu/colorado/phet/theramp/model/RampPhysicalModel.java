@@ -3,9 +3,10 @@ package edu.colorado.phet.theramp.model;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -425,7 +426,7 @@ public class RampPhysicalModel implements ModelElement, Surface.CollisionListene
         }
     }
 
-    public class ForceVector extends Vector2D.Double {
+    public class ForceVector extends Vector2D {
 
         public void setParallel( double parallel ) {
             setX( Math.cos( -getSurface().getAngle() ) * parallel );
@@ -435,13 +436,13 @@ public class RampPhysicalModel implements ModelElement, Surface.CollisionListene
 
         public double getParallelComponent() {
 //            AbstractVector2D dir = Vector2D.Double.parseAngleAndMagnitude( 1, -ramp.getAngle() );
-            AbstractVector2D dir = Vector2D.Double.parseAngleAndMagnitude( 1, -getSurface().getAngle() );
+            AbstractVector2DInterface dir = Vector2D.parseAngleAndMagnitude( 1, -getSurface().getAngle() );
             return dir.dot( this );
         }
 
         public double getPerpendicularComponent() {
 //            AbstractVector2D dir = Vector2D.Double.parseAngleAndMagnitude( 1, -ramp.getAngle() );
-            AbstractVector2D dir = Vector2D.Double.parseAngleAndMagnitude( 1, -getSurface().getAngle() );
+            AbstractVector2DInterface dir = Vector2D.parseAngleAndMagnitude( 1, -getSurface().getAngle() );
             dir = dir.getNormalVector();
             return dir.dot( this );
         }
@@ -452,24 +453,24 @@ public class RampPhysicalModel implements ModelElement, Surface.CollisionListene
 //            System.out.println( "perp= " + perpendicularComponent + " magnitude=" + getMagnitude() );
         }
 
-        public Vector2D toParallelVector() {
+        public Vector2DInterface toParallelVector() {
             ForceVector fv = new ForceVector();
             fv.setParallel( getParallelComponent() );
             return fv;
         }
 
-        public Vector2D toPerpendicularVector() {
+        public Vector2DInterface toPerpendicularVector() {
             ForceVector fv = new ForceVector();
             fv.setPerpendicular( -getPerpendicularComponent() );
             return fv;
         }
 
-        public Vector2D toXVector() {
-            return new Vector2D.Double( getX(), 0 );
+        public Vector2DInterface toXVector() {
+            return new Vector2D( getX(), 0 );
         }
 
-        public Vector2D toYVector() {
-            return new Vector2D.Double( 0, getY() );
+        public Vector2DInterface toYVector() {
+            return new Vector2D( 0, getY() );
         }
 
         public ForceVector copyState() {

@@ -35,7 +35,7 @@ public class ChargeCountGraphic implements Graphic {
     public void paint( Graphics2D g ) {
         if ( visible ) {
             //TODO fix charge count graphic.
-            Vector2D.Double ctr = RectangleUtils.getCenter( bsg.getViewport() );
+            Vector2D ctr = RectangleUtils.getCenter( bsg.getViewport() );
             Point pt = transform.modelToView( ctr );
             g.setFont( font );
             g.setColor( color );

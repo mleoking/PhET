@@ -51,7 +51,7 @@ public class AbstractLegend extends JPanel {
     }
 
     protected BufferedImage getPhotonImage( double wavelength ) {
-        Photon photon = new Photon( wavelength, new Point2D.Double(), new Vector2D.Double() );
+        Photon photon = new Photon( wavelength, new Point2D.Double(), new Vector2D() );
         return PhotonGraphic.getInstance( this, photon ).getImage();
     }
 

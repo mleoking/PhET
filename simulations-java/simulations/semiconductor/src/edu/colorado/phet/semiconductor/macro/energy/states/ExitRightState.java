@@ -1,7 +1,7 @@
 /*, 2003.*/
 package edu.colorado.phet.semiconductor.macro.energy.states;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
 import edu.colorado.phet.semiconductor.macro.energy.EnergySection;
 
 
@@ -12,7 +12,7 @@ import edu.colorado.phet.semiconductor.macro.energy.EnergySection;
  */
 public class ExitRightState extends StateChain {
 
-    public ExitRightState( AbstractVector2D dest, Speed speed, EnergySection section ) {
+    public ExitRightState( AbstractVector2DInterface dest, Speed speed, EnergySection section ) {
         super();
 
         addState( new MoveToPosition( dest, speed ) );

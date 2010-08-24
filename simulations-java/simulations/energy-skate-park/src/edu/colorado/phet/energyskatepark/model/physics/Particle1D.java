@@ -1,9 +1,6 @@
 package edu.colorado.phet.energyskatepark.model.physics;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
-import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.*;
 import edu.colorado.phet.common.phetcommon.util.persistence.PersistenceUtil;
 import edu.colorado.phet.energyskatepark.common.OptionalItemSerializableList;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
@@ -75,8 +72,8 @@ public class Particle1D implements Serializable {
         this.alpha = alpha;
     }
 
-    public AbstractVector2D getSideVector() {
-        AbstractVector2D vector = getCubicSpline2D().getUnitNormalVector( alpha );
+    public AbstractVector2DInterface getSideVector() {
+        AbstractVector2DInterface vector = getCubicSpline2D().getUnitNormalVector( alpha );
         double sign = isSplineTop() ? 1.0 : -1.0;
         return vector.getInstanceOfMagnitude( sign );
     }
@@ -111,8 +108,8 @@ public class Particle1D implements Serializable {
         }
     }
 
-    private Vector2D.Double getThrust() {
-        return new Vector2D.Double( xThrust, yThrust );
+    private Vector2D getThrust() {
+        return new Vector2D( xThrust, yThrust );
     }
 
     public void addListener( Particle1DNode particle1DNode ) {
@@ -171,7 +168,7 @@ public class Particle1D implements Serializable {
         return alpha;
     }
 
-    public AbstractVector2D getVelocity2D() {
+    public AbstractVector2DInterface getVelocity2D() {
         return track.getUnitParallelVector( alpha ).getInstanceOfMagnitude( velocity );
     }
 
@@ -193,7 +190,7 @@ public class Particle1D implements Serializable {
         return mass;
     }
 
-    public AbstractVector2D getCurvatureDirection() {
+    public AbstractVector2DInterface getCurvatureDirection() {
         return track.getCurvatureDirection( alpha );
     }
 
@@ -430,11 +427,11 @@ public class Particle1D implements Serializable {
 //        return 1.0 / curvature;
 //    }
 
-    public AbstractVector2D getUnitParallelVector() {
+    public AbstractVector2DInterface getUnitParallelVector() {
         return track.getUnitParallelVector( alpha );
     }
 
-    public AbstractVector2D getUnitNormalVector() {
+    public AbstractVector2DInterface getUnitNormalVector() {
         return track.getUnitNormalVector( alpha );
     }
 
@@ -489,7 +486,7 @@ public class Particle1D implements Serializable {
         }
     }
 
-    public AbstractVector2D getNormalForce() {//todo some code duplication in Particle.Particle1DUpdate
+    public AbstractVector2DInterface getNormalForce() {//todo some code duplication in Particle.Particle1DUpdate
 //        EnergySkateParkLogging.println( "getRadiusOfCurvature() = " + getRadiusOfCurvature() );
         double radiusOfCurvature = getRadiusOfCurvature();
         if( Double.isInfinite( radiusOfCurvature ) ) {
@@ -498,43 +495,43 @@ public class Particle1D implements Serializable {
             radiusOfCurvature = 100000;
 //            EnergySkateParkLogging.println( "radiusOfCurvature = " + radiusOfCurvature );
 //            EnergySkateParkLogging.println( " getCurvatureDirection()  = " + getCurvatureDirection() );
-            Vector2D.Double netForceRadial = new Vector2D.Double();
-            netForceRadial.add( new Vector2D.Double( 0, mass * g ) );//gravity
-            netForceRadial.add( new Vector2D.Double( xThrust * mass, yThrust * mass ) );//thrust
+            Vector2D netForceRadial = new Vector2D();
+            netForceRadial.add( new Vector2D( 0, mass * g ) );//gravity
+            netForceRadial.add( new Vector2D( xThrust * mass, yThrust * mass ) );//thrust
             double normalForce = mass * velocity * velocity / Math.abs( radiusOfCurvature ) - netForceRadial.dot( getCurvatureDirection() );
 
-            return Vector2D.Double.parseAngleAndMagnitude( normalForce, getCurvatureDirection().getAngle() );
+            return Vector2D.parseAngleAndMagnitude( normalForce, getCurvatureDirection().getAngle() );
         }
         else {
-            Vector2D.Double netForceRadial = new Vector2D.Double();
-            netForceRadial.add( new Vector2D.Double( 0, mass * g ) );//gravity
-            netForceRadial.add( new Vector2D.Double( xThrust * mass, yThrust * mass ) );//thrust
+            Vector2D netForceRadial = new Vector2D();
+            netForceRadial.add( new Vector2D( 0, mass * g ) );//gravity
+            netForceRadial.add( new Vector2D( xThrust * mass, yThrust * mass ) );//thrust
             double normalForce = mass * velocity * velocity / Math.abs( radiusOfCurvature ) - netForceRadial.dot( getCurvatureDirection() );
-            return Vector2D.Double.parseAngleAndMagnitude( normalForce, getCurvatureDirection().getAngle() );
+            return Vector2D.parseAngleAndMagnitude( normalForce, getCurvatureDirection().getAngle() );
         }
     }
 
     /*
    Returns the net force (discluding normal forces).
     */
-    public AbstractVector2D getNetForce() {
-        Vector2D.Double netForce = new Vector2D.Double();
-        netForce.add( new Vector2D.Double( 0, mass * g ) );//gravity
-        netForce.add( new Vector2D.Double( xThrust * mass, yThrust * mass ) );//thrust
+    public AbstractVector2DInterface getNetForce() {
+        Vector2D netForce = new Vector2D();
+        netForce.add( new Vector2D( 0, mass * g ) );//gravity
+        netForce.add( new Vector2D( xThrust * mass, yThrust * mass ) );//thrust
         netForce.add( getFrictionForce() );
         return netForce;
     }
 
-    public AbstractVector2D getFrictionForce() {
+    public AbstractVector2DInterface getFrictionForce() {
 //        if( getTotalFriction() == 0 || getVelocity2D().getMagnitude() < 1E-6 ) {
         if( getTotalFriction() == 0 || getVelocity2D().getMagnitude() < 1E-2 ) {
-            return new Vector2D.Double();
+            return new Vector2D();
         }
         else {
 //        return getVelocity2D().getScaledInstance( -frictionCoefficient * 10000 );//todo factor out heuristic
 //        return getVelocity2D().getScaledInstance( -frictionCoefficient * getNormalForce().getMagnitude() );//todo factor out heuristic
 //            EnergySkateParkLogging.println( "friction = " + getTotalFriction() );
-            AbstractVector2D f = getVelocity2D().getInstanceOfMagnitude( -getTotalFriction() * getNormalForce().getMagnitude() * 25 );
+            AbstractVector2DInterface f = getVelocity2D().getInstanceOfMagnitude( -getTotalFriction() * getNormalForce().getMagnitude() * 25 );
             if( ( Double.isNaN( f.getMagnitude() ) ) ) { throw new IllegalArgumentException();}
             return f;//todo factor out heuristic
         }
@@ -550,12 +547,12 @@ public class Particle1D implements Serializable {
 //            EnergySkateParkLogging.println( "nor = " + getNormalForce().getMagnitude() );
             double origEnergy = getEnergy();
             SerializablePoint2D origLoc = getLocation();
-            AbstractVector2D netForce = getNetForce();
+            AbstractVector2DInterface netForce = getNetForce();
             double a = track.getUnitParallelVector( alpha ).dot( netForce ) / mass;
             velocity += a * dt;
             alpha += track.getFractionalDistance( alpha, velocity * dt + 1 / 2 * a * dt * dt );
             if( getTotalFriction() > 0 ) {
-                AbstractVector2D frictionForce = getFrictionForce();
+                AbstractVector2DInterface frictionForce = getFrictionForce();
                 if( ( Double.isNaN( frictionForce.getMagnitude() ) ) ) { throw new IllegalArgumentException();}
                 double therm = frictionForce.getMagnitude() * getLocation().distance( origLoc );
                 thermalEnergy += therm;

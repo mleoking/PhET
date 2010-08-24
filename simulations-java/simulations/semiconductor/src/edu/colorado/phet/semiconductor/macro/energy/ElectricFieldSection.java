@@ -14,7 +14,7 @@ public class ElectricFieldSection {
     ElectricField internalField;
     ElectricField batteryField;
 
-    public ElectricFieldSection( Vector2D.Double center ) {
+    public ElectricFieldSection( Vector2D center ) {
 
         internalField = new ElectricField( center.getAddedInstance( 0, .3 ) );
         batteryField = new ElectricField( center.getAddedInstance( 0, -.3 ) );

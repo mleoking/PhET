@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.mri.model;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 
 import java.awt.geom.Point2D;
 
@@ -26,7 +26,7 @@ import java.awt.geom.Point2D;
 public class PlaneWaveCycle extends RadiowaveSource {
     private double elapsedTime;
 
-    public PlaneWaveCycle( Point2D location, double length, Vector2D direction ) {
+    public PlaneWaveCycle( Point2D location, double length, Vector2DInterface direction ) {
         super( location, length, direction, Math.PI * 3 / 2 );
     }
 

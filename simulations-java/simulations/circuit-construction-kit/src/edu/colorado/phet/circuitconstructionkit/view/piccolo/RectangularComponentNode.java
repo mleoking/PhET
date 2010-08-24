@@ -61,7 +61,7 @@ public abstract class RectangularComponentNode extends ComponentNode {
         double imageLength = dimension.getWidth();
         double sx = resistorLength / imageLength;
         double sy = getCircuitComponent().getHeight() / dimension.getHeight();
-        double angle = new Vector2D.Double(getBranch().getStartPoint(), getBranch().getEndPoint()).getAngle();
+        double angle = new Vector2D(getBranch().getStartPoint(), getBranch().getEndPoint()).getAngle();
         setTransform(new AffineTransform());
         if (Math.abs(sx) > 1E-4) {
             setScale(sx);

@@ -4,7 +4,7 @@ package edu.colorado.phet.circuitconstructionkit.view.piccolo.schematic;
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.CircuitComponent;
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 
@@ -50,8 +50,8 @@ public class SchematicInductorNode extends SchematicOscillateNode {
             //draw a circle around the resistor part.
             Point2D catPoint = super.getCatPoint();
             Point2D anoPoint = getAnoPoint();
-            Vector2D.Double v = new Vector2D.Double(catPoint, anoPoint);
-            AbstractVector2D s = v.getScaledInstance(super.getFracDistToStartSine());
+            Vector2D v = new Vector2D(catPoint, anoPoint);
+            AbstractVector2DInterface s = v.getScaledInstance(super.getFracDistToStartSine());
             Point2D dst = s.getDestination(catPoint);
             leftBranch.setPathTo(new Line2D.Double(catPoint, dst));
 

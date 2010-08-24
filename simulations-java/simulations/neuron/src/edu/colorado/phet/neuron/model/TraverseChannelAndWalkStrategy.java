@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 
 /**
  * A motion strategy for traversing a basic membrane channel, i.e. one that
@@ -16,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 public class TraverseChannelAndWalkStrategy extends MembraneTraversalMotionStrategy {
 
 	private static final Random RAND = new Random();
-	private Vector2D velocityVector = new Vector2D.Double();
+	private Vector2DInterface velocityVector = new Vector2D();
 	private ArrayList<Point2D> traversalPoints;
 	private int currentDestinationIndex = 0;
 	private boolean channelHasBeenEntered = false; // Flag that is set when the channel is entered.

@@ -12,7 +12,7 @@ package edu.colorado.phet.solublesalts.model.ion;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 
 /**
  * ConfigurableAnion
@@ -42,7 +42,7 @@ public class ConfigurableCation extends Ion {
         super( new IonProperties( MASS, CHARGE, RADIUS ) );
     }
 
-    public ConfigurableCation( Point2D position, Vector2D velocity, Vector2D acceleration ) {
+    public ConfigurableCation( Point2D position, Vector2DInterface velocity, Vector2DInterface acceleration ) {
         super( position,
                velocity,
                acceleration,

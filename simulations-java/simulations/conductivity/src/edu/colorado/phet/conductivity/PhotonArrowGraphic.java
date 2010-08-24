@@ -9,12 +9,12 @@ import java.awt.geom.AffineTransform;
 import java.io.IOException;
 
 
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.conductivity.oldphetgraphics.ImageGraphic;
 import edu.colorado.phet.conductivity.oldphetgraphics.Graphic;
 
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
@@ -54,11 +54,11 @@ public class PhotonArrowGraphic
     }
 
     private void doUpdate() {
-        Vector2D.Double position = new Vector2D.Double( photon.getPosition() );
-        AbstractVector2D velocity = photon.getVelocity();
+        Vector2D position = new Vector2D( photon.getPosition() );
+        AbstractVector2DInterface velocity = photon.getVelocity();
         Point viewVelocity = transform.modelToViewDifferential( velocity.getX(), velocity.getY() );
-        Vector2D.Double viewVelocityVector = new Vector2D.Double( viewVelocity );
-        Vector2D.Double positionViewVector = new Vector2D.Double( transform.modelToView( position ) );
+        Vector2D viewVelocityVector = new Vector2D( viewVelocity );
+        Vector2D positionViewVector = new Vector2D( transform.modelToView( position ) );
 //        Vector2D.Double src = positionViewVector.getSubtractedInstance( viewVelocityVector.getInstanceForMagnitude( 25D ) );
 //        ArrowShape arrowShape = new ArrowShape( src, positionViewVector, 10D, 10D, 3D );
         AffineTransform at = new AffineTransform();

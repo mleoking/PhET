@@ -4,7 +4,7 @@ package edu.colorado.phet.semiconductor.common;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 
 
@@ -35,7 +35,7 @@ public class ParticleGraphic extends TransformGraphic {
     }
 
     public void update() {
-        AbstractVector2D modelLoc = particle.getPosition();
+        AbstractVector2DInterface modelLoc = particle.getPosition();
         Point pt = getTransform().modelToView( modelLoc );
         graphic.setPosition( pt );
     }

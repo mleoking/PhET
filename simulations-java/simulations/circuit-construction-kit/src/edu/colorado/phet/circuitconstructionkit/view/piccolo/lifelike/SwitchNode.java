@@ -95,7 +95,7 @@ public class SwitchNode extends SwitchBodyImageNode {
                     Point2D.Double pivotPoint = new Point2D.Double(knifeHandleImage.getWidth(), knifeHandleImage.getHeight());
                     imagePNode.localToGlobal(pivotPoint);
                     SwitchNode.this.getParent().globalToLocal(pivotPoint);
-                    Vector2D.Double vector = new Vector2D.Double(pivotPoint, event.getPositionRelativeTo(SwitchNode.this.getParent()));
+                    Vector2D vector = new Vector2D(pivotPoint, event.getPositionRelativeTo(SwitchNode.this.getParent()));
                     return vector.getAngle();
                 }
 

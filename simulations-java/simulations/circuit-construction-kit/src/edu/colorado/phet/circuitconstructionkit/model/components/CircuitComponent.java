@@ -2,7 +2,7 @@ package edu.colorado.phet.circuitconstructionkit.model.components;
 
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
@@ -17,7 +17,7 @@ public abstract class CircuitComponent extends Branch {
     private double length;
     private double height;
 
-    public CircuitComponent(CircuitChangeListener kl, Point2D start, AbstractVector2D dir, double length, double height) {
+    public CircuitComponent(CircuitChangeListener kl, Point2D start, AbstractVector2DInterface dir, double length, double height) {
         super(kl);
         this.length = length;
         this.height = height;

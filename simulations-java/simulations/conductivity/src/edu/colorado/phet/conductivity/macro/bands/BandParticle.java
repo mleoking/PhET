@@ -32,8 +32,8 @@ public class BandParticle extends SimpleObservable
         }
     }
 
-    public Vector2D.Double getPosition() {
-        return new Vector2D.Double( x, y );
+    public Vector2D getPosition() {
+        return new Vector2D( x, y );
     }
 
     public double getX() {
@@ -70,14 +70,14 @@ public class BandParticle extends SimpleObservable
         state = state.stepInTime( this, d );
     }
 
-    public void setPosition( Vector2D.Double phetvector ) {
+    public void setPosition( Vector2D phetvector ) {
         x = phetvector.getX();
         y = phetvector.getY();
         notifyObservers();
     }
 
     public double getDistanceFromOwnedSite() {
-        Vector2D.Double phetvector = cell.getPosition();
+        Vector2D phetvector = cell.getPosition();
         return getPosition().getSubtractedInstance( phetvector ).getMagnitude();
     }
 
@@ -89,7 +89,7 @@ public class BandParticle extends SimpleObservable
     }
 
     public void setX( double d ) {
-        setPosition( new Vector2D.Double( d, getPosition().getY() ) );
+        setPosition( new Vector2D( d, getPosition().getY() ) );
     }
 
     public void pairPropagate( BandParticle bandparticle, Speed speed ) {

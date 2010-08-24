@@ -39,8 +39,8 @@ public class DopantSlot implements TransformListener {
         return dopant;
     }
 
-    public Vector2D.Double getModelCenter() {
-        Vector2D.Double center = RectangleUtils.getCenter( modelShape.getBounds2D() );
+    public Vector2D getModelCenter() {
+        Vector2D center = RectangleUtils.getCenter( modelShape.getBounds2D() );
         return center;
     }
 

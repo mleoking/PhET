@@ -14,6 +14,7 @@ import edu.colorado.phet.common.collision.Collidable;
 import edu.colorado.phet.common.collision.CollidableAdapter;
 import edu.colorado.phet.common.mechanics.Body;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.common.quantum.model.Photon;
 import edu.colorado.phet.mri.MriConfig;
@@ -82,7 +83,7 @@ public class Dipole extends Body implements Collidable {
             orientationBehavior.startMovingNow();
             oldOrientation = baseOrientation;
         }
-        Vector2D vect = new Vector2D.Double( 1, 0 ).rotate( baseOrientation );
+        Vector2DInterface vect = new Vector2D( 1, 0 ).rotate( baseOrientation );
         orientationBehavior.setOrientation( vect, dt );
         notifyObservers();
     }
@@ -136,7 +137,7 @@ public class Dipole extends Body implements Collidable {
         super.setPosition( position );
     }
 
-    public Vector2D getVelocityPrev() {
+    public Vector2DInterface getVelocityPrev() {
         return collidableAdapter.getVelocityPrev();
     }
 
@@ -191,7 +192,7 @@ public class Dipole extends Body implements Collidable {
          * @param fieldVector the B-field vector at the Dipole location
          * @param dt time step, in simulation clock ticks
          */
-        public void setOrientation( Vector2D fieldVector, double dt );
+        public void setOrientation( Vector2DInterface fieldVector, double dt );
 
         /*
          * Starts the Dipole needle moving immediately.
@@ -215,7 +216,7 @@ public class Dipole extends Body implements Collidable {
             return _compassModel;
         }
 
-        public abstract void setOrientation( Vector2D fieldVector, double dt );
+        public abstract void setOrientation( Vector2DInterface fieldVector, double dt );
 
         public void startMovingNow() {
         }
@@ -230,7 +231,7 @@ public class Dipole extends Body implements Collidable {
             super( compassModel );
         }
 
-        public void setOrientation( Vector2D fieldVector, double dt ) {
+        public void setOrientation( Vector2DInterface fieldVector, double dt ) {
             getCompass().setOrientation( fieldVector.getAngle() );
         }
     }
@@ -262,7 +263,7 @@ public class Dipole extends Body implements Collidable {
             _theta = _omega = _alpha = 0.0;
         }
 
-        public void setOrientation( Vector2D fieldVector, double dt ) {
+        public void setOrientation( Vector2DInterface fieldVector, double dt ) {
 
             double magnitude = fieldVector.getMagnitude();
             double angle = fieldVector.getAngle();

@@ -84,8 +84,8 @@ public class MacroCircuitGraphic implements Graphic, BatteryListener {
                 transform.addTransformListener( new TransformListener() {
                     public void transformChanged( ModelViewTransform2D modelViewTransform2D ) {
                         //To change body of implemented methods use Options | File Templates.
-                        Vector2D.Double start = b.getEndPosition();
-                        Vector2D.Double end = b.getStartPosition();
+                        Vector2D start = b.getEndPosition();
+                        Vector2D end = b.getStartPosition();
                         int height = batteryImage.getHeight();
                         int x = transform.modelToViewX( start.getX() );
                         int width = ( transform.modelToViewX( end.getX() ) - x );

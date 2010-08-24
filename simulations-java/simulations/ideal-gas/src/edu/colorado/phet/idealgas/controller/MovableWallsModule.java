@@ -136,8 +136,8 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
                 HeavySpecies newMolecule = null;
                 newMolecule = new HeavySpecies( new Point2D.Double( rightFloor.getBounds().getMinX() + 95,
                                                                     rightFloor.getBounds().getMinY() - 105 ),
-                                                new Vector2D.Double( -200, 200 ),
-                                                new Vector2D.Double() );
+                                                new Vector2D( -200, 200 ),
+                                                new Vector2D() );
                 new PumpMoleculeCmd( getIdealGasModel(), newMolecule, MovableWallsModule.this ).doIt();
 
             }

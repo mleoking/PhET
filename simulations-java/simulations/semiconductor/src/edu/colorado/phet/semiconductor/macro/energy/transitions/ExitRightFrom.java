@@ -32,7 +32,7 @@ public class ExitRightFrom extends StateTransition {
 
             double targetX = energySection.getRightBand().getX() + energySection.getRightBand().getWidth();
             double targetY = particle.getY();
-            Vector2D.Double dest = new Vector2D.Double( targetX, targetY );
+            Vector2D dest = new Vector2D( targetX, targetY );
             ExitRightState ers = new ExitRightState( dest, energySection.getSpeed(), energySection );
             particle.setState( ers );
         }

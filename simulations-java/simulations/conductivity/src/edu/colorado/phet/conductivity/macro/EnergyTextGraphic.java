@@ -10,7 +10,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
@@ -20,7 +20,7 @@ import edu.colorado.phet.conductivity.common.TransformGraphic;
 
 public class EnergyTextGraphic extends TransformGraphic {
 
-    public EnergyTextGraphic( ModelViewTransform2D modelviewtransform2d, Vector2D.Double phetvector ) {
+    public EnergyTextGraphic( ModelViewTransform2D modelviewtransform2d, Vector2D phetvector ) {
         super( modelviewtransform2d );
         loc = phetvector;
         text = ConductivityResources.getString( "EnergyTextGraphic.EnergyText" );
@@ -41,8 +41,8 @@ public class EnergyTextGraphic extends TransformGraphic {
         graphics2d.fill( highShape );
     }
 
-    private Vector2D.Double getTopCenter( Rectangle2D rectangle2d ) {
-        return new Vector2D.Double( rectangle2d.getX() + rectangle2d.getWidth() / 2D, rectangle2d.getY() );
+    private Vector2D getTopCenter( Rectangle2D rectangle2d ) {
+        return new Vector2D( rectangle2d.getX() + rectangle2d.getWidth() / 2D, rectangle2d.getY() );
     }
 
     public void recompute() {
@@ -53,9 +53,9 @@ public class EnergyTextGraphic extends TransformGraphic {
         affinetransform.translate( point.x - 15, point.y );
         affinetransform.rotate( -1.5707963267948966D );
         trfShape = affinetransform.createTransformedShape( shape );
-        AbstractVector2D phetvector = getTopCenter( trfShape.getBounds2D() );
+        AbstractVector2DInterface phetvector = getTopCenter( trfShape.getBounds2D() );
         phetvector = phetvector.getSubtractedInstance( 0.0D, 40D );
-        AbstractVector2D phetvector1 = phetvector.getAddedInstance( 0.0D, -200D );
+        AbstractVector2DInterface phetvector1 = phetvector.getAddedInstance( 0.0D, -200D );
         arrowShape = ( new ArrowShape( phetvector, phetvector1, 50D, 50D, 20D ) ).getArrowPath();
         highShape = smallFont.createGlyphVector( graphics2D.getFontRenderContext(),
                                                  ConductivityResources.getString( "EnergyTextGraphic.HighText" ) ).getOutline( (float) phetvector1.getX() - 20F,
@@ -71,7 +71,7 @@ public class EnergyTextGraphic extends TransformGraphic {
 
     private Font font;
     private String text;
-    private Vector2D.Double loc;
+    private Vector2D loc;
     private Shape trfShape;
     private Shape arrowShape;
     private Graphics2D graphics2D;

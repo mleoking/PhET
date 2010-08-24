@@ -6,6 +6,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 import edu.colorado.phet.statesofmatter.model.AtomType;
 
 /**
@@ -27,8 +28,8 @@ public abstract class StatesOfMatterAtom implements Cloneable {
     //----------------------------------------------------------------------------
     
     private Point2D.Double  m_position = new Point2D.Double();  // In picometers.
-    private Vector2D.Double m_velocity = new Vector2D.Double(); // In meters/sec
-    private Vector2D.Double m_accel    = new Vector2D.Double(); // In meters/(sec * sec)
+    private Vector2D m_velocity = new Vector2D(); // In meters/sec
+    private Vector2D m_accel    = new Vector2D(); // In meters/(sec * sec)
     protected double m_radius;                   // In picometers.
     private double m_mass;         // In atomic mass units.
     private double m_inverseMass;
@@ -121,11 +122,11 @@ public abstract class StatesOfMatterAtom implements Cloneable {
         return m_position;
     }
     
-    public Vector2D getVelocity() {
+    public Vector2DInterface getVelocity() {
         return m_velocity;
     }
 
-    public Vector2D getAccel() {
+    public Vector2DInterface getAccel() {
         return m_accel;
     }
     
@@ -179,8 +180,8 @@ public abstract class StatesOfMatterAtom implements Cloneable {
             StatesOfMatterAtom p = (StatesOfMatterAtom)super.clone();
 
             p.m_position = new Point2D.Double(getX(), getY());
-            p.m_velocity = new Vector2D.Double(getVx(), getVy());
-            p.m_accel    = new Vector2D.Double(getAx(), getAy());
+            p.m_velocity = new Vector2D(getVx(), getVy());
+            p.m_accel    = new Vector2D(getAx(), getAy());
 
             return p;
         }

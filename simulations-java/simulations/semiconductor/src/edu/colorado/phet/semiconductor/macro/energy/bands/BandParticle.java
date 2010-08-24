@@ -1,7 +1,7 @@
 /*, 2003.*/
 package edu.colorado.phet.semiconductor.macro.energy.bands;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
@@ -20,7 +20,7 @@ public class BandParticle extends SimpleObservable implements ModelElement {
     static int static_index = 0;
     private int index;
     private boolean excited;
-    private Vector2D.Double lastPosition = new Vector2D.Double();
+    private Vector2D lastPosition = new Vector2D();
 
     public BandParticle( double x, double y, EnergyCell cell ) {
 //        if (cell==null){
@@ -43,7 +43,7 @@ public class BandParticle extends SimpleObservable implements ModelElement {
         this( energyCell.getX(), energyCell.getEnergy(), energyCell );
     }
 
-    public BandParticle( Vector2D.Double pos ) {
+    public BandParticle( Vector2D pos ) {
         this( pos.getX(), pos.getY() );
     }
 
@@ -55,8 +55,8 @@ public class BandParticle extends SimpleObservable implements ModelElement {
         return getIndex() + "";
     }
 
-    public Vector2D.Double getPosition() {
-        return new Vector2D.Double( x, y );
+    public Vector2D getPosition() {
+        return new Vector2D( x, y );
     }
 
     public boolean isExcited() {
@@ -92,7 +92,7 @@ public class BandParticle extends SimpleObservable implements ModelElement {
         }
     }
 
-    public void setPosition( Vector2D.Double loc ) {
+    public void setPosition( Vector2D loc ) {
         this.x = loc.getX();
         this.y = loc.getY();
         notifyObservers();
@@ -102,7 +102,7 @@ public class BandParticle extends SimpleObservable implements ModelElement {
         if ( cell == null ) {
             return Double.POSITIVE_INFINITY;
         }
-        Vector2D.Double site = cell.getPosition();
+        Vector2D site = cell.getPosition();
         return getPosition().getSubtractedInstance( site ).getMagnitude();
     }
 
@@ -145,7 +145,7 @@ public class BandParticle extends SimpleObservable implements ModelElement {
         return getEnergyLevel().getBand();
     }
 
-    public AbstractVector2D getDX() {
+    public AbstractVector2DInterface getDX() {
         return getPosition().getSubtractedInstance( lastPosition );
     }
 

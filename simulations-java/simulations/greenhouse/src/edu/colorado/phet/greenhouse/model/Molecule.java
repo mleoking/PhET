@@ -9,8 +9,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 
 /**
@@ -56,8 +57,8 @@ public abstract class Molecule {
     private Point2D centerOfGravity = new Point2D.Double();
     
     // Velocity and acceleration for this molecule.
-    private Vector2D velocity = new Vector2D.Double();
-    private final Vector2D acceleration = new Vector2D.Double();
+    private Vector2DInterface velocity = new Vector2D();
+    private final Vector2DInterface acceleration = new Vector2D();
 
     // Variable that tracks whether or not a photon has been absorbed and has
     // not yet been re-emitted.
@@ -390,11 +391,11 @@ public abstract class Molecule {
         }
     }
 
-    public void setAcceleration(AbstractVector2D netForce) {
+    public void setAcceleration( AbstractVector2DInterface netForce) {
         this.acceleration.setComponents(netForce.getX(),netForce.getY());
     }
 
-    public AbstractVector2D getVelocity() {
+    public AbstractVector2DInterface getVelocity() {
         return velocity;
     }
     

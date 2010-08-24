@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
@@ -49,8 +50,8 @@ public class FissionOneNucleusModel {
     private ArrayList _listeners = new ArrayList();
     private ConstantDtClock _clock;
     private Random _rand = new Random();
-    private Vector2D _initialParentAccel;
-    private Vector2D _initialDaughterAccel;
+    private Vector2DInterface _initialParentAccel;
+    private Vector2DInterface _initialDaughterAccel;
     
     //------------------------------------------------------------------------
     // Constructor
@@ -263,10 +264,10 @@ public class FissionOneNucleusModel {
                     double yAcc = Math.cos( angle ) * INITIAL_NUCLEUS_ACCELERATION;
                     _primaryNucleus.setVelocity( xVel, yVel );
                     _primaryNucleus.setAcceleration( xAcc, yAcc );
-                    _initialParentAccel = new Vector2D.Double( xAcc, yAcc );
+                    _initialParentAccel = new Vector2D( xAcc, yAcc );
                     _daughterNucleus.setVelocity( -xVel, -yVel );
                     _daughterNucleus.setAcceleration( -xAcc, -yAcc );
-                    _initialDaughterAccel = new Vector2D.Double( -xAcc, -yAcc );
+                    _initialDaughterAccel = new Vector2D( -xAcc, -yAcc );
                 }
                 else {
                     // We should never get here, debug it if it does.

@@ -31,7 +31,7 @@ public class Magnet {
         return new Rectangle2D.Double( bounds.x + x, bounds.y + y, bounds.width, bounds.height );
     }
 
-    public Vector2D.Double getPlusSide() {
-        return new Vector2D.Double( bounds.x, bounds.y );
+    public Vector2D getPlusSide() {
+        return new Vector2D( bounds.x, bounds.y );
     }
 }

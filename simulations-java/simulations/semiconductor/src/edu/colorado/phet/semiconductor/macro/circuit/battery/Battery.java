@@ -15,7 +15,7 @@ public class Battery extends LinearBranch {
     private double volts = 0;
     ArrayList obs = new ArrayList();
 
-    public Battery( Vector2D.Double start, Vector2D.Double end ) {
+    public Battery( Vector2D start, Vector2D end ) {
         super( start, end );
     }
 
