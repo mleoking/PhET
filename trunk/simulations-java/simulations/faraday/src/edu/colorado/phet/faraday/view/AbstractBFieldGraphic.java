@@ -4,10 +4,10 @@ package edu.colorado.phet.faraday.view;
 
 import java.awt.*;
 
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.model.AbstractMagnet;
-import edu.colorado.phet.faraday.util.Vector2D;
 
 
 /**

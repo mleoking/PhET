@@ -5,9 +5,9 @@ package edu.colorado.phet.faraday.test;
 import java.awt.Dimension;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.model.BarMagnet;
-import edu.colorado.phet.faraday.util.Vector2D;
 
 /**
  * Unfuddle #2236

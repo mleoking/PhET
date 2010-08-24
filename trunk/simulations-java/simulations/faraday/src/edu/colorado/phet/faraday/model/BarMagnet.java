@@ -12,10 +12,10 @@ import java.text.MessageFormat;
 import java.util.StringTokenizer;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.faraday.FaradayResources;
 import edu.colorado.phet.faraday.FaradayStrings;
-import edu.colorado.phet.faraday.util.Vector2D;
 
 /**
  * Model of a bar magnet that uses a grid of precomputed B-field values.
@@ -107,12 +107,10 @@ public class BarMagnet extends AbstractMagnet {
         assert( p != null );
         assert( outputVector != null );
         
-        outputVector.zero();
-
         // find B-field by interpolating grid points
         double x = getBx( p.getX(), p.getY() );
         double y = getBy( p.getX(), p.getY() );
-        outputVector.setXY( x, y );
+        outputVector.setComponents( x, y );
 
         // scale based on magnet strength
         outputVector.scale( getStrength() / GRID_MAGNET_STRENGTH ); 

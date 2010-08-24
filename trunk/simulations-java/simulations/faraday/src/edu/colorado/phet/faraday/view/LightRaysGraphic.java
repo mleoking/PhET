@@ -6,8 +6,8 @@ import java.awt.*;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.faraday.util.Vector2D;
 
 
 /**
@@ -128,10 +128,10 @@ class LightRaysGraphic extends PhetGraphic {
         for ( int i = 0; i < numberOfRays; i++ ) {
 
             // Determine the end points of the ray.
-            _someVector1.setMagnitudeAngle( _bulbRadius, angle );
+            _someVector1.setMagnitudeAndAngle( _bulbRadius, angle );
             double x1 = _someVector1.getX();
             double y1 = _someVector1.getY();
-            _someVector2.setMagnitudeAngle( rayLength + _bulbRadius, angle );
+            _someVector2.setMagnitudeAndAngle( rayLength + _bulbRadius, angle );
             double x2 = _someVector2.getX();
             double y2 = _someVector2.getY();
             

@@ -6,7 +6,7 @@ import java.awt.Shape;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.faraday.util.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
  * CoilMagnet is the model of a coil magnet.
@@ -89,8 +89,6 @@ public abstract class CoilMagnet extends AbstractMagnet {
         assert( outputVector != null );
         assert( getWidth() == getHeight() );
  
-        outputVector.zero();
-        
         // Algorithm differs depending on whether we're inside or outside the shape that defines the coil.
         if ( isInside( p ) ) {
             getBFieldInside( p, outputVector );
@@ -117,7 +115,7 @@ public abstract class CoilMagnet extends AbstractMagnet {
     private void getBFieldInside( Point2D p, Vector2D outputVector /* output */ ) {
         assert( p != null );
         assert( outputVector != null );
-        outputVector.setMagnitudeAngle( getStrength(), 0 );
+        outputVector.setMagnitudeAndAngle( getStrength(), 0 );
     }
     
     /*
@@ -183,7 +181,7 @@ public abstract class CoilMagnet extends AbstractMagnet {
         double By = C1 * ( 3 * cosTheta * sinTheta );
 
         // B-field vector
-        outputVector.setXY( Bx, By );
+        outputVector.setComponents( Bx, By );
 
         // Use this to calibrate.
         if ( outputVector.getMagnitude() > _maxStrengthOutside ) {
