@@ -32,16 +32,18 @@ public class HTMLCheckBox extends JCheckBox {
     
     public void setForeground( Color foreground ) {
         this.foreground = foreground;
-        if ( isEnabled() ) {
-            super.setForeground( foreground );
-        }
+        update();
     }
     
     public void setEnabled( boolean enabled ) {
         super.setEnabled( enabled );
-        super.setForeground( enabled ? foreground : getDisabledColor() );
+        update();
     }
-    
+
+    private void update() {
+        super.setForeground( isEnabled() ? foreground : getDisabledColor() );
+    }
+
     private Color getDisabledColor() {
         Color color = UIManager.getColor( "CheckBox.disabledText" );
         if ( color == null ) {
