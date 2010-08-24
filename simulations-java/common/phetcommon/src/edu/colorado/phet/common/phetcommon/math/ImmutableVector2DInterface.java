@@ -1,13 +1,4 @@
-/* Copyright 2004, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2004-2010, University of Colorado */
 
 package edu.colorado.phet.common.phetcommon.math;
 
@@ -16,7 +7,6 @@ package edu.colorado.phet.common.phetcommon.math;
  *
  * @author Ron LeMaster
  * @author Sam Reid
- * @version $Revision$
  */
 public interface ImmutableVector2DInterface  {
 
