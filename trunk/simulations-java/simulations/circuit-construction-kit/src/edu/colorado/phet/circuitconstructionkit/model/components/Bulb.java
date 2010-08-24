@@ -1,9 +1,9 @@
 package edu.colorado.phet.circuitconstructionkit.model.components;
 
 import edu.colorado.phet.circuitconstructionkit.model.*;
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 import java.awt.*;
@@ -23,7 +23,7 @@ public class Bulb extends CircuitComponent {
 
     private static double filamentHeightScale = 1.0;
 
-    public Bulb(Point2D start, AbstractVector2DInterface dir,
+    public Bulb(Point2D start, ImmutableVector2D dir,
                 double distBetweenJunctions,
                 double width, double height, CircuitChangeListener kl) {
         super(kl, start, dir, distBetweenJunctions, height);
@@ -124,11 +124,11 @@ public class Bulb extends CircuitComponent {
         }
     }
 
-    private Vector2DInterface collaspeToLifelike(Bulb bulb, Circuit circuit) {
+    private Vector2D collaspeToLifelike(Bulb bulb, Circuit circuit) {
         double distBetweenJ = CCKModel.BULB_DIMENSION.getDistBetweenJunctions();
-        AbstractVector2DInterface vector = bulb.getDirectionVector().getInstanceOfMagnitude(distBetweenJ);
+        ImmutableVector2D vector = bulb.getDirectionVector().getInstanceOfMagnitude(distBetweenJ);
         Point2D dst = vector.getDestination(bulb.getStartJunction().getPosition());
-        Vector2DInterface delta = new Vector2D(bulb.getEndJunction().getPosition(), dst);
+        Vector2D delta = new Vector2D(bulb.getEndJunction().getPosition(), dst);
         if (circuit != null) {
             Branch[] sc = circuit.getStrongConnections(bulb, bulb.getEndJunction());
             BranchSet bs = new BranchSet(circuit, sc);
@@ -141,9 +141,9 @@ public class Bulb extends CircuitComponent {
     }
 
     private static void expandToSchematic(Bulb bulb, Circuit circuit) {
-        Vector2DInterface vec = new Vector2D(bulb.getStartJunction().getPosition(), bulb.getEndJunction().getPosition());
+        Vector2D vec = new Vector2D(bulb.getStartJunction().getPosition(), bulb.getEndJunction().getPosition());
         Point2D dst = vec.getInstanceOfMagnitude(CCKModel.SCH_BULB_DIST).getDestination(bulb.getStartJunction().getPosition());
-        Vector2DInterface delta = new Vector2D(bulb.getEndJunction().getPosition(), dst);
+        Vector2D delta = new Vector2D(bulb.getEndJunction().getPosition(), dst);
         if (circuit != null) {
             Branch[] sc = circuit.getStrongConnections(bulb, bulb.getEndJunction());
             BranchSet bs = new BranchSet(circuit, sc);
@@ -175,10 +175,10 @@ public class Bulb extends CircuitComponent {
             sign = 1;
         }
         double tilt = CCKDefaults.determineTilt();
-        AbstractVector2DInterface vector = getDirectionVector();
+        ImmutableVector2D vector = getDirectionVector();
         vector = vector.getRotatedInstance(tilt * 2 * sign);
         Point2D target = vector.getDestination(getStartJunction().getPosition());
-        Vector2DInterface delta = new Vector2D(getEndJunction().getPosition(), target);
+        Vector2D delta = new Vector2D(getEndJunction().getPosition(), target);
 
         if (circuit != null) {
             Branch[] sc = circuit.getStrongConnections(this, getEndJunction());

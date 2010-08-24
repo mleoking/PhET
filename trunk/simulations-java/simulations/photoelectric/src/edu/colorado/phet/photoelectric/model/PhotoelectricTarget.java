@@ -12,7 +12,7 @@ package edu.colorado.phet.photoelectric.model;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.common.phetcommon.util.ModelEventChannel;
 import edu.colorado.phet.common.quantum.model.Photon;
@@ -128,7 +128,7 @@ public class PhotoelectricTarget extends Plate {
             electron.setPosition( p.getX() + offset, p.getY() );
 
             // Determine the speed of the new electron
-            Vector2DInterface velocity = determineNewElectronVelocity( de );
+            Vector2D velocity = determineNewElectronVelocity( de );
             electron.setVelocity( velocity );
 
             // Tell all the listeners
@@ -142,7 +142,7 @@ public class PhotoelectricTarget extends Plate {
      * @param energy
      * @return
      */
-    private Vector2DInterface determineNewElectronVelocity( double energy ) {
+    private Vector2D determineNewElectronVelocity( double energy ) {
 
         double speed = initialElectronSpeedStrategy.determineNewElectronSpeed( energy );
         double dispersionAngle = 0;

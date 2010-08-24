@@ -6,7 +6,7 @@ package edu.colorado.phet.conductivity.macro.circuit;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 
 // Referenced classes of package edu.colorado.phet.semiconductor.macro.circuit:
 //            LinearBranch
@@ -31,7 +31,7 @@ public class CompositeLinearBranch {
         return d;
     }
 
-    public AbstractVector2DInterface getPosition( double d ) {
+    public ImmutableVector2D getPosition( double d ) {
         double d1 = 0.0D;
         for ( int i = 0; i < branches.size(); i++ ) {
             LinearBranch linearbranch = (LinearBranch) branches.get( i );

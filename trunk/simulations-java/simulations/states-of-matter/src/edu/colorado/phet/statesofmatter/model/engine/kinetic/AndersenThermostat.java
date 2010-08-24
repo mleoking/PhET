@@ -5,7 +5,7 @@ package edu.colorado.phet.statesofmatter.model.engine.kinetic;
 import java.awt.geom.Point2D;
 import java.util.Random;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.statesofmatter.model.MoleculeForceAndMotionDataSet;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 
@@ -22,10 +22,10 @@ public class AndersenThermostat implements Thermostat {
     //------------------------------------------------------------------------
 
 	MoleculeForceAndMotionDataSet m_moleculeDataSet;
-	Vector2DInterface[] m_moleculeVelocities;
+	Vector2D[] m_moleculeVelocities;
 	Point2D [] m_moleculeCenterOfMassPositions;
-	Vector2DInterface[] m_moleculeForces;
-	Vector2DInterface[] m_nextMoleculeForces;
+	Vector2D[] m_moleculeForces;
+	Vector2D[] m_nextMoleculeForces;
 	double [] m_moleculeRotationRates;
 	Random m_rand;
 

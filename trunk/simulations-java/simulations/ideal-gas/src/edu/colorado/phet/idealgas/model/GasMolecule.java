@@ -7,7 +7,7 @@
  */
 package edu.colorado.phet.idealgas.model;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.idealgas.collision.SolidSphere;
 
@@ -57,11 +57,11 @@ public class GasMolecule extends SolidSphere {
         void removedFromSystem();
     }
 
-    public GasMolecule( Point2D position, Vector2DInterface velocity, Vector2DInterface acceleration, float mass, double radius ) {
+    public GasMolecule( Point2D position, Vector2D velocity, Vector2D acceleration, float mass, double radius ) {
         super( position, velocity, acceleration, mass, radius );
     }
 
-    public Vector2DInterface getVelocity() {
+    public Vector2D getVelocity() {
         return super.getVelocity();
     }
 
@@ -74,7 +74,7 @@ public class GasMolecule extends SolidSphere {
         observers.remove( observer );
     }
 
-    public void setVelocity( Vector2DInterface velocity ) {
+    public void setVelocity( Vector2D velocity ) {
         super.setVelocity( velocity );
     }
 

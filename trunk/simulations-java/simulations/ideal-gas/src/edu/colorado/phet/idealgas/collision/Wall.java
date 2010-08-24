@@ -11,7 +11,7 @@
 package edu.colorado.phet.idealgas.collision;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.idealgas.coreadditions.Translatable;
 
@@ -31,7 +31,7 @@ import java.util.EventObject;
  */
 
 public class Wall extends CollidableBody implements Translatable {
-    private Vector2DInterface velocity = new Vector2D();
+    private Vector2D velocity = new Vector2D();
     private Rectangle2D rep = new Rectangle2D.Double();
     private Rectangle2D movementBounds;
     private Rectangle2D prevRep = new Rectangle2D.Double();
@@ -126,7 +126,7 @@ public class Wall extends CollidableBody implements Translatable {
         return movementBounds;
     }
 
-    public Vector2DInterface getVelocityPrev() {
+    public Vector2D getVelocityPrev() {
         return velocity;
     }
 

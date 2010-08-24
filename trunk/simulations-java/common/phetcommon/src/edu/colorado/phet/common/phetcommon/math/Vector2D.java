@@ -9,11 +9,11 @@ import java.awt.geom.Point2D;
 * Time: 6:03:13 AM
 * To change this template use File | Settings | File Templates.
 */
-public class Vector2D extends ImmutableVector2D implements Vector2DInterface {
+public class Vector2D extends ImmutableVector2D{
     public Vector2D() {
     }
 
-    public Vector2D( AbstractVector2DInterface v ) {
+    public Vector2D( ImmutableVector2D v ) {
         this( v.getX(), v.getY() );
     }
 
@@ -29,13 +29,13 @@ public class Vector2D extends ImmutableVector2D implements Vector2DInterface {
         super( src, dst );
     }
 
-    public Vector2DInterface add( AbstractVector2DInterface v ) {
+    public Vector2D add( ImmutableVector2D v ) {
         setX( getX() + v.getX() );
         setY( getY() + v.getY() );
         return this;
     }
 
-    public Vector2DInterface normalize() {
+    public Vector2D normalize() {
         double length = getMagnitude();
         if ( length == 0 ) {
             throw new RuntimeException( "Cannot normalize a zero-magnitude vector." );
@@ -43,7 +43,7 @@ public class Vector2D extends ImmutableVector2D implements Vector2DInterface {
         return scale( 1.0 / length );
     }
 
-    public Vector2DInterface scale( double scale ) {
+    public Vector2D scale( double scale ) {
         setX( getX() * scale );
         setY( getY() * scale );
         return this;
@@ -62,13 +62,13 @@ public class Vector2D extends ImmutableVector2D implements Vector2DInterface {
         setY( y );
     }
 
-    public Vector2DInterface subtract( AbstractVector2DInterface that ) {
+    public Vector2D subtract( ImmutableVector2D that ) {
         setX( getX() - that.getX() );
         setY( getY() - that.getY() );
         return this;
     }
 
-    public Vector2DInterface rotate( double theta ) {
+    public Vector2D rotate( double theta ) {
         double r = getMagnitude();
         double alpha = getAngle();
         double gamma = alpha + theta;

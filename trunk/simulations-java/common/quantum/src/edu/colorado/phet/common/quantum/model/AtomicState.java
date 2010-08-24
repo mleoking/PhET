@@ -16,7 +16,7 @@ import java.util.EventListener;
 import java.util.EventObject;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
 import edu.colorado.phet.common.quantum.QuantumConfig;
@@ -192,7 +192,7 @@ public class AtomicState {
 
             // Place the replacement photon beyond the atom, so it doesn't collide again
             // right away
-            Vector2DInterface vHat = new Vector2D( photon.getVelocity() ).normalize();
+            Vector2D vHat = new Vector2D( photon.getVelocity() ).normalize();
             vHat.scale( atom.getRadius() );
             Point2D position = new Point2D.Double( atom.getPosition().getX() + vHat.getX(),
                                                    atom.getPosition().getY() + vHat.getY() );

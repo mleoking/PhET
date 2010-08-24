@@ -1,3 +1,4 @@
+Improvements to vector classes, see #2467
 8-23-2010: simplified update logic in HTMLCheckBox
 7-30-2010: Changed color of total force from pink to dark green, see #2452
 7-29-2010: Added colors from PhET's color scheme based on the google spreadsheet

@@ -3,7 +3,7 @@ package edu.colorado.phet.membranediffusion.model;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
  * A simple motion strategy for moving in a straight line.  This was created
@@ -13,9 +13,9 @@ import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
  */
 public class LinearMotionStrategy extends MotionStrategy {
 
-	private Vector2DInterface velocity; // In nanometers per second of simulation time.
+	private Vector2D velocity; // In nanometers per second of simulation time.
 	
-	public LinearMotionStrategy( Vector2DInterface velocity) {
+	public LinearMotionStrategy( Vector2D velocity) {
 		this.velocity = velocity;
 	}
 
@@ -27,7 +27,7 @@ public class LinearMotionStrategy extends MotionStrategy {
 	}
 
     @Override
-    public Vector2DInterface getInstantaneousVelocity() {
+    public Vector2D getInstantaneousVelocity() {
         return new Vector2D(velocity.getX(), velocity.getY());
     }
 }

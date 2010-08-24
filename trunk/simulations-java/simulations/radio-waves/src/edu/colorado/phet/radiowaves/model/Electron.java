@@ -9,7 +9,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.mechanics.Body;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.radiowaves.RadioWavesApplication;
 import edu.colorado.phet.radiowaves.model.movement.ManualMovement;
 import edu.colorado.phet.radiowaves.model.movement.MovementType;
@@ -21,7 +21,7 @@ public class Electron extends Body {
     private Point2D startPosition;
     private Point2D prevPosition = new Point2D.Double();
     private Point2D currentPosition = new Point2D.Double();
-    private Vector2DInterface velocity = new Vector2D();
+    private Vector2D velocity = new Vector2D();
     private MovementType movementStrategy;
     private Vector2D staticFieldStrength = new Vector2D();
     private Vector2D dynamicFieldStrength = new Vector2D();
@@ -145,7 +145,7 @@ public class Electron extends Body {
         }
     }
 
-    public Vector2DInterface getVelocity() {
+    public Vector2D getVelocity() {
         return new Vector2D( velocity.getX(), velocity.getY() );
     }
 

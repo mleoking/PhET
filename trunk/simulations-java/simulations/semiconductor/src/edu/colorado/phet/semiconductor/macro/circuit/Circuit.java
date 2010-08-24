@@ -1,6 +1,6 @@
 package edu.colorado.phet.semiconductor.macro.circuit;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.semiconductor.macro.circuit.battery.Battery;
 
@@ -56,7 +56,7 @@ public class Circuit {
         return circuit.numBranches();
     }
 
-    public AbstractVector2DInterface getPosition( double dist ) {
+    public ImmutableVector2D getPosition( double dist ) {
         return circuit.getPosition( dist );
     }
 

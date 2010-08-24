@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.reactionsandrates.model.reactions;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.reactionsandrates.model.AbstractMolecule;
 import edu.colorado.phet.reactionsandrates.model.CompositeMolecule;
 import edu.colorado.phet.reactionsandrates.model.EnergyProfile;
@@ -88,7 +88,7 @@ abstract public class Reaction {
 
     // The vector between the points on two molecules that can react that are closest to each other, directed
     // from the first parameter molecule to the second
-    abstract public Vector2DInterface getCollisionVector( AbstractMolecule mA, AbstractMolecule mB );
+    abstract public Vector2D getCollisionVector( AbstractMolecule mA, AbstractMolecule mB );
 
     // Returns the potential energy of the reaction components. This is the energy of one of the flat
     // portion of the profile

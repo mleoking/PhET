@@ -16,9 +16,9 @@ import edu.colorado.phet.common.motion.model.ITemporalVariable;
 import edu.colorado.phet.common.motion.model.IVariable;
 import edu.colorado.phet.common.motion.model.MotionBody;
 import edu.colorado.phet.common.motion.model.TimeData;
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.rotation.RotationResources;
 import edu.colorado.phet.rotation.RotationDefaults;
 import edu.colorado.phet.rotation.tests.CircularRegression;
@@ -127,11 +127,11 @@ public class RotationBody {
                 setPosition( rotationPlatform.getCenter() );
             }
             else {
-                AbstractVector2DInterface vec = new Vector2D( getX() - rotationPlatform.getCenter().getX(), getY() - rotationPlatform.getCenter().getY() );
+                ImmutableVector2D vec = new Vector2D( getX() - rotationPlatform.getCenter().getX(), getY() - rotationPlatform.getCenter().getY() );
                 if ( vec.getMagnitudeSq() == 0 ) {
                     vec = Vector2D.parseAngleAndMagnitude( 1.0, lastNonZeroRadiusAngle );
                 }
-                AbstractVector2DInterface m = vec.getInstanceOfMagnitude( f.getValue() );
+                ImmutableVector2D m = vec.getInstanceOfMagnitude( f.getValue() );
                 setPosition( m.getX() + rotationPlatform.getCenter().getX(), m.getY() + rotationPlatform.getCenter().getY() );
             }
         }
@@ -248,7 +248,7 @@ public class RotationBody {
     }
 
     private void updateOffPlatform( double time ) {
-        AbstractVector2DInterface origAccel = getAcceleration();
+        ImmutableVector2D origAccel = getAcceleration();
         xBody.addPositionData( xBody.getPosition(), time );
         yBody.addPositionData( yBody.getPosition(), time );
 
@@ -279,7 +279,7 @@ public class RotationBody {
 //        System.out.println( "linearRegressionMSE = " + linearRegressionMSE );
 //        System.out.println( "MSE=" + circle.getMeanSquaredError( pointHistory ) + ", circle.getRadius() = " + circle.getRadius() );
             if ( circleDiscriminant.isCircularMotion( circle, pointHistory ) ) {
-                AbstractVector2DInterface accelVector = new Vector2D( new Point2D.Double( xBody.getPosition(), yBody.getPosition() ),
+                ImmutableVector2D accelVector = new Vector2D( new Point2D.Double( xBody.getPosition(), yBody.getPosition() ),
                                                                     circle.getCenter2D() );
                 double aMag = ( vx.getValue() * vx.getValue() + vy.getValue() * vy.getValue() ) / circle.getRadius();
 
@@ -340,7 +340,7 @@ public class RotationBody {
         double ang = getAngleNoWindingNumber();
         double lastAngle = getLastAngle();
         //ang * N should be close to lastAngle, unless the body crossed the origin
-        AbstractVector2DInterface vec = Vector2D.parseAngleAndMagnitude( 1.0, lastAngle );
+        ImmutableVector2D vec = Vector2D.parseAngleAndMagnitude( 1.0, lastAngle );
         lastAngle = vec.getAngle();
 
         double dt = ang - lastAngle;
@@ -435,8 +435,8 @@ public class RotationBody {
 
         Point2D newX = Vector2D.parseAngleAndMagnitude( r, getAngleOverPlatform() ).getDestination( rotationPlatform.getCenter() );
         Vector2D centripetalVector = new Vector2D( newX, rotationPlatform.getCenter() );
-        AbstractVector2DInterface newV = centripetalVector.getInstanceOfMagnitude( r * omega ).getNormalVector();
-        AbstractVector2DInterface newA = centripetalVector.getInstanceOfMagnitude( r * omega * omega );
+        ImmutableVector2D newV = centripetalVector.getInstanceOfMagnitude( r * omega ).getNormalVector();
+        ImmutableVector2D newA = centripetalVector.getInstanceOfMagnitude( r * omega * omega );
 
         xBody.getVelocityVariable().setValue( newV.getX() );
         yBody.getVelocityVariable().setValue( newV.getY() );
@@ -452,19 +452,19 @@ public class RotationBody {
         Point2D newX = centered ? new Point2D.Double( rotationPlatform.getCenter().getX(), rotationPlatform.getCenter().getY() )
                                 : Vector2D.parseAngleAndMagnitude( r, getAngleOverPlatform() ).getDestination( rotationPlatform.getCenter() );
         Vector2D centripetalVector = new Vector2D( newX, rotationPlatform.getCenter() );
-        AbstractVector2DInterface newV = centered ? zero() : centripetalVector.getInstanceOfMagnitude( r * omega ).getNormalVector();
-        AbstractVector2DInterface newA = centered ? zero() : centripetalVector.getInstanceOfMagnitude( r * omega * omega );
+        ImmutableVector2D newV = centered ? zero() : centripetalVector.getInstanceOfMagnitude( r * omega ).getNormalVector();
+        ImmutableVector2D newA = centered ? zero() : centripetalVector.getInstanceOfMagnitude( r * omega * omega );
         boolean offsetVelocityDueToConstantAccel = !centered && ( rotationPlatform.isAccelDriven() || rotationPlatform.isForceDriven() );
         boolean offsetVelocityDueToUserControl = !centered && ( rotationPlatform.isPositionDriven() );// && Math.abs( rotationPlatform.getVelocity() ) > 1E-2;
 //        System.out.println( "offsetVelocityDueToUserControl = " + offsetVelocityDueToUserControl );
         if ( offsetVelocityDueToConstantAccel ) {
             //add on the tangential part under constant angular acceleration
-            AbstractVector2DInterface tanVector = centripetalVector.getInstanceOfMagnitude( r * rotationPlatform.getAcceleration() ).getNormalVector();
+            ImmutableVector2D tanVector = centripetalVector.getInstanceOfMagnitude( r * rotationPlatform.getAcceleration() ).getNormalVector();
             newA = newA.getAddedInstance( tanVector );
         }
         else if ( offsetVelocityDueToUserControl ) {
             double avgAccel = rotationPlatform.getAccelerationVariable().estimateAverage( 2 );
-            AbstractVector2DInterface tanVector = centripetalVector.getInstanceOfMagnitude( r * avgAccel ).getNormalVector();
+            ImmutableVector2D tanVector = centripetalVector.getInstanceOfMagnitude( r * avgAccel ).getNormalVector();
 //            System.out.println( "avgAccel = " + avgAccel+", tanVector="+tanVector );
             newA = newA.getAddedInstance( tanVector );
 //            newA=new Vector2D.Double(5,5);
@@ -516,7 +516,7 @@ public class RotationBody {
             return;
         }
         Vector2D cv = new Vector2D( getPosition(), rotationPlatform.getCenter() );
-        Vector2DInterface av = getAcceleration();
+        Vector2D av = getAcceleration();
         //these should be colinear
         double angle = cv.getAngle() - av.getAngle();
 
@@ -525,12 +525,12 @@ public class RotationBody {
         }
     }
 
-    private void addAccelerationData( AbstractVector2DInterface newAccel, double time ) {
+    private void addAccelerationData( ImmutableVector2D newAccel, double time ) {
         xBody.addAccelerationData( newAccel.getX(), time );
         yBody.addAccelerationData( newAccel.getY(), time );
     }
 
-    private void addVelocityData( AbstractVector2DInterface newVelocity, double time ) {
+    private void addVelocityData( ImmutableVector2D newVelocity, double time ) {
         xBody.addVelocityData( newVelocity.getX(), time );
         yBody.addVelocityData( newVelocity.getY(), time );
     }
@@ -540,11 +540,11 @@ public class RotationBody {
         yBody.addPositionData( newLocation.getY(), time );
     }
 
-    public Vector2DInterface getAcceleration() {
+    public Vector2D getAcceleration() {
         return new Vector2D( xBody.getAcceleration(), yBody.getAcceleration() );
     }
 
-    public Vector2DInterface getVelocity() {
+    public Vector2D getVelocity() {
         return new Vector2D( xBody.getVelocity(), yBody.getVelocity() );
     }
 
@@ -765,9 +765,9 @@ public class RotationBody {
     }
 
     private class FlyingOff extends UpdateStrategy {
-        private AbstractVector2DInterface velocity;
+        private ImmutableVector2D velocity;
 
-        public FlyingOff( AbstractVector2DInterface velocity ) {
+        public FlyingOff( ImmutableVector2D velocity ) {
             this.velocity = velocity;
         }
 
@@ -781,7 +781,7 @@ public class RotationBody {
                 //scurry back to near the platform if offscreen?
 
                 Vector2D vec = new Vector2D( xBody.getPosition(), yBody.getPosition() );
-                AbstractVector2DInterface a = vec.getInstanceOfMagnitude( r );
+                ImmutableVector2D a = vec.getInstanceOfMagnitude( r );
                 xBody.setPosition( a.getX() );
                 yBody.setPosition( a.getY() );
             }

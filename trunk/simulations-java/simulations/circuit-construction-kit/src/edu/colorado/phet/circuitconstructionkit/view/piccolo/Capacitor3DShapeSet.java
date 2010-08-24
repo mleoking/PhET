@@ -1,8 +1,8 @@
 package edu.colorado.phet.circuitconstructionkit.view.piccolo;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 import java.awt.*;
@@ -63,7 +63,7 @@ public class Capacitor3DShapeSet {
     }
 
     private void moveUV(DoubleGeneralPath path, double u, double v) {
-        Vector2DInterface x = getVector(u, v);
+        Vector2D x = getVector(u, v);
         path.moveToRelative(x);
     }
 
@@ -89,7 +89,7 @@ public class Capacitor3DShapeSet {
     }
 
     private void lineUV(DoubleGeneralPath path, double u, double v) {
-        Vector2DInterface x = getVector(u, v);
+        Vector2D x = getVector(u, v);
         path.lineToRelative(x);
     }
 
@@ -139,7 +139,7 @@ public class Capacitor3DShapeSet {
     }
 
     public Point2D getPlate2EdgePoint() {
-        AbstractVector2DInterface vector = new Vector2D(inPt, outPt);
+        ImmutableVector2D vector = new Vector2D(inPt, outPt);
 //        double totalDist = vector.getMagnitude();
         double a = width * Math.cos(tiltAngle);
         double initDist = new Vector2D(inPt, getPlate2Point()).getMagnitude();

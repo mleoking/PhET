@@ -6,7 +6,7 @@ import java.awt.geom.Point2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -55,8 +55,8 @@ public class CrosshairConnection extends PhetPNode {
         double dist = srcLoc.distance( dstLoc );
         if ( dist > 0 ) {
             DoubleGeneralPath path = new DoubleGeneralPath( srcLoc );
-            AbstractVector2DInterface parallel = new Vector2D( srcLoc, dstLoc ).getNormalizedInstance();
-            AbstractVector2DInterface perp = parallel.getRotatedInstance( Math.PI / 2 ).getNormalizedInstance();
+            ImmutableVector2D parallel = new Vector2D( srcLoc, dstLoc ).getNormalizedInstance();
+            ImmutableVector2D perp = parallel.getRotatedInstance( Math.PI / 2 ).getNormalizedInstance();
             lineToDst( path, parallel, perp, dist / 5 );
             curveToDst( path, parallel, perp, dist / 5 );
             lineToDst( path, parallel, perp, dist / 5 );
@@ -69,7 +69,7 @@ public class CrosshairConnection extends PhetPNode {
         }
     }
 
-    private void curveToDst( DoubleGeneralPath path, AbstractVector2DInterface par, AbstractVector2DInterface perp, double segmentLength ) {
+    private void curveToDst( DoubleGeneralPath path, ImmutableVector2D par, ImmutableVector2D perp, double segmentLength ) {
         double pegDist = segmentLength;
         if ( pegDist < 7 ) {
             pegDist = 7;
@@ -85,7 +85,7 @@ public class CrosshairConnection extends PhetPNode {
         path.quadTo( peg1.getX(), peg1.getY(), peg2.getX(), peg2.getY() );
     }
 
-    private void lineToDst( DoubleGeneralPath path, AbstractVector2DInterface a, AbstractVector2DInterface b, double segmentLength ) {
+    private void lineToDst( DoubleGeneralPath path, ImmutableVector2D a, ImmutableVector2D b, double segmentLength ) {
         path.lineToRelative( a.getInstanceOfMagnitude( segmentLength ) );
     }
 }

@@ -10,7 +10,7 @@ package edu.colorado.phet.reactionsandrates.test;/* Copyright 2003-2004, Univers
  */
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.reactionsandrates.model.*;
@@ -71,17 +71,17 @@ public class MoleculeCollisionTest {
             CompositeMolecule mBC = new MoleculeBC( new SimpleMolecule[]{mB, mC} );
 
             Point2D pA = new Point2D.Double( pCM.getX() - 10, pCM.getY() );
-            Vector2DInterface vA = new Vector2D( 1, 0 );
+            Vector2D vA = new Vector2D( 1, 0 );
             mA.setVelocity( vA );
             mA.setPosition( pA );
 
             Point2D pB = new Point2D.Double( pCM.getX() + 10, pCM.getY() );
-            Vector2DInterface vB = new Vector2D( -1, 0 );
+            Vector2D vB = new Vector2D( -1, 0 );
             mB.setVelocity( vB );
             mB.setPosition( pB );
 
             Point2D pC = new Point2D.Double( pB.getX() + mB.getRadius() + mC.getRadius(), pCM.getY() );
-            Vector2DInterface vC = new Vector2D( -1, 0 );
+            Vector2D vC = new Vector2D( -1, 0 );
             mC.setVelocity( vC );
             mC.setPosition( pC );
 
@@ -105,17 +105,17 @@ public class MoleculeCollisionTest {
             CompositeMolecule mBC = new MoleculeBC( new SimpleMolecule[]{mB, mC} );
 
             Point2D pA = new Point2D.Double( pCM.getX() - 10, pCM.getY() );
-            Vector2DInterface vA = new Vector2D( -1, 0 );
+            Vector2D vA = new Vector2D( -1, 0 );
             mA.setVelocity( vA );
             mA.setPosition( pA );
 
             Point2D pB = new Point2D.Double( pCM.getX() + 10, pCM.getY() );
-            Vector2DInterface vB = new Vector2D( 1, 0 );
+            Vector2D vB = new Vector2D( 1, 0 );
             mB.setVelocity( vB );
             mB.setPosition( pB );
 
             Point2D pC = new Point2D.Double( pB.getX() + mB.getRadius() + mC.getRadius(), pCM.getY() );
-            Vector2DInterface vC = new Vector2D( 1, 0 );
+            Vector2D vC = new Vector2D( 1, 0 );
             mC.setVelocity( vC );
             mC.setPosition( pC );
 
@@ -155,17 +155,17 @@ public class MoleculeCollisionTest {
             mBC = new MoleculeBC( new SimpleMolecule[]{mB, mC} );
 
             Point2D pA = new Point2D.Double( pCM.getX() - 10, pCM.getY() );
-            Vector2DInterface vA = new Vector2D( -1, 0 );
+            Vector2D vA = new Vector2D( -1, 0 );
             mA.setVelocity( vA );
             mA.setPosition( pA );
 
             Point2D pB = new Point2D.Double( pCM.getX() + 10, pCM.getY() );
-            Vector2DInterface vB = new Vector2D( 1, 0 );
+            Vector2D vB = new Vector2D( 1, 0 );
             mB.setVelocity( vB );
             mB.setPosition( pB );
 
             Point2D pC = new Point2D.Double( pB.getX() + mB.getRadius() + mC.getRadius(), pCM.getY() );
-            Vector2DInterface vC = new Vector2D( 1, 0 );
+            Vector2D vC = new Vector2D( 1, 0 );
             mC.setVelocity( vC );
             mC.setPosition( pC );
 
@@ -176,7 +176,7 @@ public class MoleculeCollisionTest {
             mBC.stepInTime( 1 );
         }
 
-        private void setVelocitiesAndStepInTime( Vector2DInterface vA, Vector2DInterface vBC ) {
+        private void setVelocitiesAndStepInTime( Vector2D vA, Vector2D vBC ) {
             mA.setVelocity( vA );
             mB.setVelocity( vBC );
             mC.setVelocity( vBC );

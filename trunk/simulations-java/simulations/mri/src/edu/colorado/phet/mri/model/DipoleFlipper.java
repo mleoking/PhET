@@ -11,7 +11,7 @@
 package edu.colorado.phet.mri.model;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
 import edu.colorado.phet.common.quantum.model.Photon;
@@ -74,7 +74,7 @@ public class DipoleFlipper implements ModelElement {
      * Emit a photon
      */
     private void emitPhoton() {
-        Vector2DInterface velocity = new Vector2D( MriConfig.EMITTED_PHOTON_DIRECTION ).normalize().scale( Photon.DEFAULT_SPEED );
+        Vector2D velocity = new Vector2D( MriConfig.EMITTED_PHOTON_DIRECTION ).normalize().scale( Photon.DEFAULT_SPEED );
         double wavelength = PhysicsUtil.frequencyToWavelength( model.getLowerMagnet().getFieldStrength() * model.getSampleMaterial().getMu() );
         MriEmittedPhoton photon = new MriEmittedPhoton();
         photon.setWavelength( wavelength );

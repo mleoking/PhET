@@ -1,7 +1,7 @@
 /*  */
 package edu.colorado.phet.theramp.view;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.Particle;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
@@ -210,7 +210,7 @@ public class FireDog extends PNode {
             setTransform( new AffineTransform() );
             setOffset( particle.getPosition() );
 
-            Vector2DInterface v = particle.getVelocity();
+            Vector2D v = particle.getVelocity();
             double angle = v.getAngle();
 
             rotate( angle - Math.PI / 2 );

@@ -9,7 +9,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.MedianFilter;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.radiowaves.model.Electron;
 
 /**
@@ -76,7 +76,7 @@ public class ManualMovement implements MovementType {
         //        aAve = (float)MedianFilter.getMedian( yAHistory );
     }
 
-    public Vector2DInterface getVelocity( Electron electron ) {
+    public Vector2D getVelocity( Electron electron ) {
         return velocity;
     }
 

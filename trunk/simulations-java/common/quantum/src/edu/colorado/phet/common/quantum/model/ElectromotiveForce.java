@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.common.quantum.model;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
  * ElectromotiveForce
@@ -19,5 +19,5 @@ import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
  * @version $Revision$
  */
 public interface ElectromotiveForce {
-    Vector2DInterface getElectronAcceleration();
+    Vector2D getElectronAcceleration();
 }

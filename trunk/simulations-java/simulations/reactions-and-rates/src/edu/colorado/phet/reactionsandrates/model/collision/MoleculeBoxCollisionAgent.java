@@ -13,7 +13,7 @@ package edu.colorado.phet.reactionsandrates.model.collision;
 import edu.colorado.phet.common.mechanics.Body;
 import edu.colorado.phet.common.mechanics.Vector3D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.reactionsandrates.model.*;
 
 import java.awt.geom.Line2D;
@@ -27,9 +27,9 @@ import java.awt.geom.Point2D;
  */
 public class MoleculeBoxCollisionAgent {
 
-    private Vector2DInterface loa = new Vector2D();
+    private Vector2D loa = new Vector2D();
     private Point2D.Double collisionPt = new Point2D.Double();
-    private Vector2DInterface n = new Vector2D();
+    private Vector2D n = new Vector2D();
     private MRModel model;
 
 
@@ -88,7 +88,7 @@ public class MoleculeBoxCollisionAgent {
     private boolean detectCollision( AbstractMolecule molecule, MRBox box ) {
         boolean collisionDetected = false;
 
-        Vector2DInterface velocity = molecule.getVelocity();
+        Vector2D velocity = molecule.getVelocity();
 
         if( molecule instanceof CompositeMolecule ) {
             CompositeMolecule compositeMolecule = (CompositeMolecule)molecule;
@@ -159,13 +159,13 @@ public class MoleculeBoxCollisionAgent {
     }
 
 
-    public void doCollision( AbstractMolecule molecule, Vector2DInterface loa, Point2D.Double collisionPt ) {
+    public void doCollision( AbstractMolecule molecule, Vector2D loa, Point2D.Double collisionPt ) {
 
         // Get the total energy of the two objects, so we can conserve it
         double totalEnergy0 = molecule.getKineticEnergy() /*+ bodyB.getKineticEnergy()*/;
 
         // Get the vectors from the bodies' CMs to the point of contact
-        Vector2DInterface r1 = new Vector2D( collisionPt.getX() - molecule.getCM().getX(),
+        Vector2D r1 = new Vector2D( collisionPt.getX() - molecule.getCM().getX(),
                                            collisionPt.getY() - molecule.getCM().getY() );
 
         // Get the unit vector along the line of action

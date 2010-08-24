@@ -4,7 +4,7 @@ import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 import edu.colorado.phet.circuitconstructionkit.model.DynamicBranch;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 import java.awt.geom.Point2D;
@@ -22,7 +22,7 @@ public class Inductor extends CircuitComponent implements DynamicBranch {
     private static final double DEFAULT_INDUCTANCE = 50;//50 henries makes tau=L/R = 5 sec for default resistor; this saturates in about 5 * tau = 25 sec
     private double inductance = DEFAULT_INDUCTANCE;
 
-    public Inductor(Point2D start, AbstractVector2DInterface dir, double length, double height, CircuitChangeListener kl) {
+    public Inductor(Point2D start, ImmutableVector2D dir, double length, double height, CircuitChangeListener kl) {
         super(kl, start, dir, length, height);
         setKirkhoffEnabled(false);
         setResistance(CCKModel.MIN_RESISTANCE);

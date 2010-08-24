@@ -18,7 +18,7 @@ import java.util.EventObject;
 
 import edu.colorado.phet.common.collision.Box2D;
 import edu.colorado.phet.common.collision.Collidable;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
@@ -208,7 +208,7 @@ public class Vessel implements ModelElement, Collidable {
     //----------------------------------------------------------------
     // Collidable implementation
     //----------------------------------------------------------------
-    public Vector2DInterface getVelocityPrev() {
+    public Vector2D getVelocityPrev() {
         return collisionBox.getVelocityPrev();
     }
 

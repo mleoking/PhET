@@ -4,7 +4,7 @@ import edu.colorado.phet.circuitconstructionkit.model.CCKDefaults;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
@@ -21,8 +21,8 @@ public class Filament extends PathBranch {
     private Junction tailJunction;
     private double resistorDY;//the pin is the assumed origin.
     private double resistorWidth;
-    private AbstractVector2DInterface northDir;
-    private AbstractVector2DInterface eastDir;
+    private ImmutableVector2D northDir;
+    private ImmutableVector2D eastDir;
     private Point2D pin;
     private boolean connectAtRight = true;
 
@@ -57,15 +57,15 @@ public class Filament extends PathBranch {
     }
 
     private Point2D getPoint(double east, double north) {
-        AbstractVector2DInterface e = eastDir.getScaledInstance(east);
-        AbstractVector2DInterface n = northDir.getScaledInstance(north);
-        AbstractVector2DInterface sum = e.getAddedInstance(n);
+        ImmutableVector2D e = eastDir.getScaledInstance(east);
+        ImmutableVector2D n = northDir.getScaledInstance(north);
+        ImmutableVector2D sum = e.getAddedInstance(n);
         return sum.getDestination(pin);
     }
 
-    private AbstractVector2DInterface getVector(double east, double north) {
-        AbstractVector2DInterface e = eastDir.getScaledInstance(east);
-        AbstractVector2DInterface n = northDir.getScaledInstance(north);
+    private ImmutableVector2D getVector(double east, double north) {
+        ImmutableVector2D e = eastDir.getScaledInstance(east);
+        ImmutableVector2D n = northDir.getScaledInstance(north);
         return e.getAddedInstance(n);
     }
 
@@ -78,7 +78,7 @@ public class Filament extends PathBranch {
         return path.getGeneralPath();
     }
 
-    boolean isNaN( AbstractVector2DInterface vector) {
+    boolean isNaN( ImmutableVector2D vector) {
         return Double.isNaN(vector.getX()) || Double.isNaN(vector.getY());
     }
 

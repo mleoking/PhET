@@ -1,6 +1,6 @@
 package edu.colorado.phet.semiconductor.macro.circuit;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 
@@ -12,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 public class LinearBranch {
     Vector2D start;
     Vector2D end;
-    private AbstractVector2DInterface dv;
+    private ImmutableVector2D dv;
 
     public LinearBranch( Vector2D start, Vector2D end ) {
         this.start = start;
@@ -27,7 +27,7 @@ public class LinearBranch {
     /**
      * Get a location a scalar distance along the branch.
      */
-    public AbstractVector2DInterface getLocation( double dist ) {
+    public ImmutableVector2D getLocation( double dist ) {
         return start.getAddedInstance( dv.getInstanceOfMagnitude( dist ) );
     }
 

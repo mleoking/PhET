@@ -9,7 +9,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 
 /**
@@ -185,11 +185,11 @@ public abstract class SimpleModelElement implements IModelElement{
 		velocity.setComponents(xVel, yVel);
 	}
 	
-	public void setVelocity( Vector2DInterface newVelocity){
+	public void setVelocity( Vector2D newVelocity){
 		setVelocity(newVelocity.getX(), newVelocity.getY());
 	}
 	
-	public Vector2DInterface getVelocityRef(){
+	public Vector2D getVelocityRef(){
 		return velocity;
 	}
 	

@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.mri.model;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
 import edu.colorado.phet.common.quantum.model.Beam;
 import edu.colorado.phet.common.quantum.model.Photon;
@@ -61,11 +61,11 @@ public class RadiowaveSource extends Beam implements IScalar {
      * @param length
      * @param direction
      */
-    public RadiowaveSource( Point2D location, double length, Vector2DInterface direction ) {
+    public RadiowaveSource( Point2D location, double length, Vector2D direction ) {
         this( location, length, direction, 0 );
     }
 
-    public RadiowaveSource( Point2D location, double length, Vector2DInterface direction, double phaseAngle ) {
+    public RadiowaveSource( Point2D location, double length, Vector2D direction, double phaseAngle ) {
         super( DEFAULT_WAVELENGTH, location, length, length, direction, MAX_POWER, 0, Photon.DEFAULT_SPEED );
 
         // Set enabled by default, but with power off

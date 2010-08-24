@@ -13,7 +13,7 @@ package edu.colorado.phet.common.piccolophet.activities;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
 
@@ -27,13 +27,13 @@ public class OscillateActivity extends PActivity {
     private double frequencyHz = 3.5;
     private PNode target;
     private Point2D center;
-    private Vector2DInterface amplitude;
+    private Vector2D amplitude;
 
     public OscillateActivity( final PNode target, double x, double y ) {
         this( target, x, y, new Vector2D( 0, 25 ), 3.5 );
     }
 
-    public OscillateActivity( PNode target, double x, double y, Vector2DInterface amplitude, double frequencyHz ) {
+    public OscillateActivity( PNode target, double x, double y, Vector2D amplitude, double frequencyHz ) {
         super( -1 );
         this.center = new Point2D.Double( x, y );
         this.frequencyHz = frequencyHz;

@@ -13,7 +13,7 @@ package edu.colorado.phet.common.piccolophet.nodes;
 import java.awt.*;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.umd.cs.piccolo.PNode;
@@ -45,7 +45,7 @@ public class ArrowConnectorNode extends ConnectorNode {
     }
 
     protected void updateShape( Point2D r1c, Point2D r2c ) {
-        AbstractVector2DInterface vector = new Vector2D( r1c, r2c );
+        ImmutableVector2D vector = new Vector2D( r1c, r2c );
         vector = vector.getInstanceOfMagnitude( Math.max( vector.getMagnitude() - distFromTarget, minLength ) );
         Arrow arrow = new Arrow( r1c, vector.getDestination( r1c ), headHeight, headWidth, tailWidth, fractionalHeadHeight, scaleTailToo );
 

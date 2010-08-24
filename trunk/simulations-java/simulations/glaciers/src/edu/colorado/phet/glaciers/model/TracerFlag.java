@@ -5,7 +5,7 @@ package edu.colorado.phet.glaciers.model;
 import java.awt.geom.Point2D;
 import java.util.Random;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.model.Glacier.GlacierAdapter;
@@ -111,7 +111,7 @@ public class TracerFlag extends AbstractTool {
             }
             
             // distance = velocity * dt
-            Vector2DInterface velocity = _glacier.getIceVelocity( getX(), currentY );
+            Vector2D velocity = _glacier.getIceVelocity( getX(), currentY );
             final double dt = clockEvent.getSimulationTimeChange();
             double newX = getX() + ( velocity.getX() * dt );
             double newY = getY() + ( velocity.getY() * dt );

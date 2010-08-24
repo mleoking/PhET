@@ -18,7 +18,7 @@ import edu.colorado.phet.common.collision.Collidable;
 import edu.colorado.phet.common.collision.CollidableAdapter;
 import edu.colorado.phet.common.mechanics.Body;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.Atom;
@@ -549,7 +549,7 @@ public class Crystal extends Body implements Collidable {
         Thread t = new Thread( new NoBindTimer( ionToRelease ) );
         t.start();
 
-        Vector2DInterface v = determineReleaseVelocity( ionToRelease );
+        Vector2D v = determineReleaseVelocity( ionToRelease );
         ionToRelease.setVelocity( v );
         ionToRelease.unbindFrom( this );
         removeIon( ionToRelease );
@@ -566,8 +566,8 @@ public class Crystal extends Body implements Collidable {
      * @param ionToRelease
      * @return the release velocity vector
      */
-    private Vector2DInterface determineReleaseVelocity( Ion ionToRelease ) {
-        Vector2DInterface releaseVelocity = null;
+    private Vector2D determineReleaseVelocity( Ion ionToRelease ) {
+        Vector2D releaseVelocity = null;
 
         // If this is the seed ion, then just send it off with the velocity it had before it seeded the
         // crystal. This prevents odd looking behavior if the ion is released soon after it nucleates.
@@ -662,7 +662,7 @@ public class Crystal extends Body implements Collidable {
     // Collidable implementation
     //----------------------------------------------------------------
 
-    public Vector2DInterface getVelocityPrev() {
+    public Vector2D getVelocityPrev() {
         return collidableAdapter.getVelocityPrev();
     }
 

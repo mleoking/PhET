@@ -9,7 +9,7 @@ package edu.colorado.phet.idealgas.controller;
 
 import edu.colorado.phet.common.mechanics.Body;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.IdealGasResources;
 import edu.colorado.phet.idealgas.collision.SphereHollowSphereExpert;
@@ -166,7 +166,7 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
 
     public void addMoleculeToSphere( Class species ) {
         Point2D location = sphere.getNewMoleculeLocation();
-        Vector2DInterface velocity = sphere.getNewMoleculeVelocity( species, getIdealGasModel() );
+        Vector2D velocity = sphere.getNewMoleculeVelocity( species, getIdealGasModel() );
         GasMolecule gm = null;
         if( species == HeavySpecies.class ) {
             gm = new HeavySpecies( location, velocity, new Vector2D() );

@@ -5,7 +5,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
  * A motion strategy for making a particle (or whatever) perform a random
@@ -26,7 +26,7 @@ public class RandomWalkMotionStrategy extends MotionStrategy {
 	private static final double MAX_VELOCITY = 25000;
 	
 	private double timeUntilNextVelocityChange; // In seconds of sim time.
-	private Vector2DInterface velocityVector = new Vector2D(0, 0);
+	private Vector2D velocityVector = new Vector2D(0, 0);
 	private Point2D currentLocation = new Point2D.Double();
 	private Rectangle2D motionBounds = new Rectangle2D.Double();
 	

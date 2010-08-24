@@ -5,7 +5,7 @@
 package edu.colorado.phet.conductivity;
 
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
@@ -23,12 +23,12 @@ public class Photon extends SimpleObservable
         notifyObservers();
     }
 
-    public void setVelocity( AbstractVector2DInterface phetvector ) {
+    public void setVelocity( ImmutableVector2D phetvector ) {
         particle.setVelocity( phetvector.getX(), phetvector.getY() );
         notifyObservers();
     }
 
-    public AbstractVector2DInterface getPosition() {
+    public ImmutableVector2D getPosition() {
         return particle.getPosition();
     }
 
@@ -42,7 +42,7 @@ public class Photon extends SimpleObservable
         setPosition( phetvector.getX(), phetvector.getY() );
     }
 
-    public AbstractVector2DInterface getVelocity() {
+    public ImmutableVector2D getVelocity() {
         return particle.getVelocity();
     }
 

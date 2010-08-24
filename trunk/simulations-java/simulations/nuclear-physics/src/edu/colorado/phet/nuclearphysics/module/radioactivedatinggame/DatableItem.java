@@ -11,9 +11,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
@@ -236,8 +236,8 @@ public class DatableItem implements AnimatedModelElement {
         Point unrotatedPoint = derotatingTransform.modelToView( pt );
 
         Point2D imageCenter = new Point2D.Double( getImage().getWidth() / 2, getImage().getHeight() / 2 );
-        Vector2DInterface unrotatedVector = new Vector2D( imageCenter, unrotatedPoint );
-        AbstractVector2DInterface rotatedVector = unrotatedVector.getRotatedInstance( -rotationAngle );
+        Vector2D unrotatedVector = new Vector2D( imageCenter, unrotatedPoint );
+        ImmutableVector2D rotatedVector = unrotatedVector.getRotatedInstance( -rotationAngle );
         Point2D rotatedPoint = rotatedVector.getDestination( imageCenter );
         Point pixel = new Point( (int) rotatedPoint.getX(), (int) rotatedPoint.getY() );
 

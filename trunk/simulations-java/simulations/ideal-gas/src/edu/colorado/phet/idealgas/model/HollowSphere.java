@@ -8,7 +8,7 @@ package edu.colorado.phet.idealgas.model;
 
 import edu.colorado.phet.common.mechanics.Body;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.idealgas.collision.CollidableBody;
 import edu.colorado.phet.idealgas.collision.SphericalBody;
 
@@ -21,8 +21,8 @@ public class HollowSphere extends SphericalBody {
     private ArrayList listeners = new ArrayList();
 
     public HollowSphere( Point2D center,
-                         Vector2DInterface velocity,
-                         Vector2DInterface acceleration,
+                         Vector2D velocity,
+                         Vector2D acceleration,
                          double mass,
                          double radius ) {
         super( center, velocity, acceleration, mass, radius );
@@ -127,7 +127,7 @@ public class HollowSphere extends SphericalBody {
         return p;
     }
 
-    public Vector2DInterface getNewMoleculeVelocity( Class species, IdealGasModel model ) {
+    public Vector2D getNewMoleculeVelocity( Class species, IdealGasModel model ) {
         double s = 0;
         if( species == HeavySpecies.class ) {
             s = model.getHeavySpeciesAveSpeed();

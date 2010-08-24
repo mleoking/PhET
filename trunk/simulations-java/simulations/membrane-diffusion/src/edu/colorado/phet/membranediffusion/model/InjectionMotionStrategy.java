@@ -5,7 +5,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
  * A motion strategy for injecting particles into the particle chambers.  They
@@ -30,7 +30,7 @@ public class InjectionMotionStrategy extends MotionStrategy {
 	
 	private final Point2D initialLocation = new Point2D.Double();
 	private double timeUntilNextVelocityChange; // In seconds of sim time.
-	private Vector2DInterface velocityVector = new Vector2D();
+	private Vector2D velocityVector = new Vector2D();
 	private Point2D currentLocation = new Point2D.Double();
 	private Rectangle2D motionBounds = new Rectangle2D.Double();
 	private MembraneDiffusionModel model;
@@ -91,7 +91,7 @@ public class InjectionMotionStrategy extends MotionStrategy {
 	}
 	
 	@Override
-    public Vector2DInterface getInstantaneousVelocity() {
+    public Vector2D getInstantaneousVelocity() {
         return new Vector2D(velocityVector.getX(), velocityVector.getY());
     }
 

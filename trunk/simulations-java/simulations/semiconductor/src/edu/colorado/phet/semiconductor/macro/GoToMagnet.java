@@ -2,7 +2,7 @@ package edu.colorado.phet.semiconductor.macro;
 
 import java.util.Random;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.semiconductor.macro.energy.bands.BandParticle;
 import edu.colorado.phet.semiconductor.macro.energy.bands.BandParticleState;
@@ -33,7 +33,7 @@ public class GoToMagnet implements BandParticleState {
     public boolean stepInTime( BandParticle particle, double dt ) {
         Vector2D p = magnet.getPlusSide();
 
-        AbstractVector2DInterface dest = p.getAddedInstance( dx, dy );
+        ImmutableVector2D dest = p.getAddedInstance( dx, dy );
 
         MoveToPosition mtp = new MoveToPosition( dest, .2 );
         mtp.stepInTime( particle, dt );

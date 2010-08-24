@@ -7,7 +7,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.glaciers.model.Glacier.GlacierAdapter;
@@ -126,7 +126,7 @@ public class IceRipple extends ClockAdapter {
             final double surfaceElevation = _glacier.getSurfaceElevation( getX() );
 
             // distance = velocity * dt
-            Vector2DInterface velocity = _glacier.getIceVelocity( getX(), surfaceElevation );
+            Vector2D velocity = _glacier.getIceVelocity( getX(), surfaceElevation );
             final double dt = clockEvent.getSimulationTimeChange();
             final double newX = getX() + ( velocity.getX() * dt );
             

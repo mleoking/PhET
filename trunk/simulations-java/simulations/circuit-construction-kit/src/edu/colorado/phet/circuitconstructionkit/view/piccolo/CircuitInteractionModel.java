@@ -7,10 +7,10 @@ import edu.colorado.phet.circuitconstructionkit.model.Junction;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 import edu.colorado.phet.circuitconstructionkit.model.components.CircuitComponent;
 import edu.colorado.phet.circuitconstructionkit.model.components.Wire;
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -92,8 +92,8 @@ public class CircuitInteractionModel {
             Point2D newEndPosition = toEnd.getDestination(dragPt);
             Branch[] scStart = circuit.getStrongConnections(wire.getStartJunction());
             Branch[] scEnd = circuit.getStrongConnections(wire.getEndJunction());
-            Vector2DInterface startDX = new Vector2D(wire.getStartJunction().getPosition(), newStartPosition);
-            Vector2DInterface endDX = new Vector2D(wire.getEndJunction().getPosition(), newEndPosition);
+            Vector2D startDX = new Vector2D(wire.getStartJunction().getPosition(), newStartPosition);
+            Vector2D endDX = new Vector2D(wire.getEndJunction().getPosition(), newEndPosition);
             Junction[] startSources = getSources(scStart, wire.getStartJunction());
             Junction[] endSources = getSources(scEnd, wire.getEndJunction());
             //how about removing any junctions in start and end that share a branch?
@@ -143,7 +143,7 @@ public class CircuitInteractionModel {
                 toStart = new ImmutableVector2D(dragPt, startJ);
             }
             Point2D newStartPosition = toStart.getDestination(dragPt);
-            Vector2DInterface dx = new Vector2D(cc.getStartJunction().getPosition(), newStartPosition);
+            Vector2D dx = new Vector2D(cc.getStartJunction().getPosition(), newStartPosition);
             Branch[] strongComponent = circuit.getStrongConnections(cc.getStartJunction());
             branchDragMatch = getCircuit().getBestDragMatch(strongComponent, dx);
             BranchSet branchSet = new BranchSet(circuit, strongComponent);
@@ -205,14 +205,14 @@ public class CircuitInteractionModel {
             return (Junction[]) list.toArray(new Junction[0]);
         }
 
-        private void apply(Branch[] sc, Vector2DInterface dx, Junction junction, Circuit.DragMatch match) {
+        private void apply(Branch[] sc, Vector2D dx, Junction junction, Circuit.DragMatch match) {
             if (match == null) {
                 BranchSet bs = new BranchSet(circuit, sc);
                 bs.addJunction(junction);
                 bs.translate(dx);
             } else {
                 BranchSet bs = new BranchSet(circuit, sc);
-                AbstractVector2DInterface vec = match.getVector();
+                ImmutableVector2D vec = match.getVector();
                 bs.addJunction(junction);
                 bs.translate(vec);
             }
@@ -251,7 +251,7 @@ public class CircuitInteractionModel {
             }
 
             Junction[] jx = (Junction[]) ju.toArray(new Junction[0]);
-            Vector2DInterface dx = new Vector2D(junction.getPosition(), target);
+            Vector2D dx = new Vector2D(junction.getPosition(), target);
             junctionDragMatch = getCircuit().getBestDragMatch(jx, dx);
             if (junctionDragMatch != null) {
                 dx = junctionDragMatch.getVector();
@@ -268,7 +268,7 @@ public class CircuitInteractionModel {
         private void rotateComponent(Junction junction, Point2D target) {
             CircuitComponent branch = getSoleComponent(junction);
             Junction opposite = branch.opposite(junction);
-            AbstractVector2DInterface vec = new ImmutableVector2D(opposite.getPosition(), target);
+            ImmutableVector2D vec = new ImmutableVector2D(opposite.getPosition(), target);
             vec = vec.getInstanceOfMagnitude(branch.getComponentLength());
             Point2D dst = vec.getDestination(opposite.getPosition());
             junction.setPosition(dst.getX(), dst.getY());

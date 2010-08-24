@@ -14,7 +14,7 @@ import java.awt.geom.Point2D;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.umd.cs.piccolo.util.PDimension;
 
 
@@ -390,7 +390,7 @@ public class RnaPolymerase extends SimpleModelElement {
 	 * strategy will make up a random one that is generally in the up
 	 * direction.
 	 */
-	private void detachFromDna(double delay, Vector2DInterface initialVelocity){
+	private void detachFromDna(double delay, Vector2D initialVelocity){
 		
 		// No longer are we transcribing and traversing.
 		transcribing = false;

@@ -5,7 +5,7 @@ import java.awt.font.GlyphVector;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -67,9 +67,9 @@ public class EnergyTextGraphic extends TransformGraphic {
         trf.rotate( -Math.PI / 2 );
         trfShape = trf.createTransformedShape( outline );
 
-        AbstractVector2DInterface topPoint = getTopCenter( trfShape.getBounds2D() );
+        ImmutableVector2D topPoint = getTopCenter( trfShape.getBounds2D() );
         topPoint = topPoint.getSubtractedInstance( 0, 40 );
-        AbstractVector2DInterface tipLocation = topPoint.getAddedInstance( 0, -200 );
+        ImmutableVector2D tipLocation = topPoint.getAddedInstance( 0, -200 );
         arrowShape = new ArrowShape( topPoint, tipLocation, 50, 50, 20 ).getArrowShape();
 
         highShape = smallFont.createGlyphVector( graphics2D.getFontRenderContext(), SemiconductorResources.getString( "EnergyTextGraphic.HighText" ) ).getOutline( (float) tipLocation.getX() - 20, (float) tipLocation.getY() - 20 );

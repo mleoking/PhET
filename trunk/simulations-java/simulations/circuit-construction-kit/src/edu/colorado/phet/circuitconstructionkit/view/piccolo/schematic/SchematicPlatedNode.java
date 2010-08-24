@@ -5,9 +5,7 @@ import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.CircuitComponent;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.ComponentNode;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.LineSegment;
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2DInterface;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 
@@ -59,8 +57,8 @@ public class SchematicPlatedNode extends ComponentNode {
         ImmutableVector2D vector = new ImmutableVector2D(src, dst);
         Point2D cat = vector.getScaledInstance(fracDistToPlate).getDestination(src);
         Point2D ano = vector.getScaledInstance(1 - fracDistToPlate).getDestination(src);
-        AbstractVector2DInterface east = vector.getInstanceOfMagnitude(1);
-        AbstractVector2DInterface north = east.getNormalVector();
+        ImmutableVector2D east = vector.getInstanceOfMagnitude(1);
+        ImmutableVector2D north = east.getNormalVector();
         double catHeight = viewThickness * this.scaleHeightLeft;
         double anoHeight = viewThickness * this.scaleHeightRight;
         Point2D catHat = north.getInstanceOfMagnitude(catHeight).getDestination(cat);

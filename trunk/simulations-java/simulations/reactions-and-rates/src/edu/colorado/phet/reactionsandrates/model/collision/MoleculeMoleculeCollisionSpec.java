@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.reactionsandrates.model.collision;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.reactionsandrates.model.CompositeMolecule;
 import edu.colorado.phet.reactionsandrates.model.SimpleMolecule;
 
@@ -31,14 +31,14 @@ import java.awt.geom.Point2D;
  */
 public class MoleculeMoleculeCollisionSpec {
 
-    private Vector2DInterface loa;
+    private Vector2D loa;
     private Point2D.Double collisionPt;
     private SimpleMolecule moleculeA;
     private SimpleMolecule moleculeB;
     private SimpleMolecule freeMolecule;
     private CompositeMolecule compositeMolecule;
 
-    public MoleculeMoleculeCollisionSpec( Vector2DInterface loa,
+    public MoleculeMoleculeCollisionSpec( Vector2D loa,
                                           Point2D.Double collisionPt,
                                           SimpleMolecule moleculeA,
                                           SimpleMolecule moleculeB ) {
@@ -67,7 +67,7 @@ public class MoleculeMoleculeCollisionSpec {
         }
     }
 
-    public Vector2DInterface getLoa() {
+    public Vector2D getLoa() {
         return loa;
     }
 

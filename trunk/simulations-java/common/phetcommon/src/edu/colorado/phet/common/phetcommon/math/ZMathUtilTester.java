@@ -15,7 +15,7 @@ public class ZMathUtilTester extends TestCase {
 
         Point2D point = new Point2D.Double(1.0/MathUtil.SQRT_2, -1.0/MathUtil.SQRT_2);
 
-        Vector2DInterface vector = MathUtil.getVectorFromLineToPoint(line, point);
+        Vector2D vector = MathUtil.getVectorFromLineToPoint(line, point);
 
         assertEquals(point.getX(), vector.getX(), EPS);
         assertEquals(point.getY(), vector.getY(), EPS);

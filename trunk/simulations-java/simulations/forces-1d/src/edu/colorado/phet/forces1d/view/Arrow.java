@@ -13,7 +13,7 @@ package edu.colorado.phet.forces1d.view;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 
 /**
@@ -34,8 +34,8 @@ public class Arrow {
     private double headHeight;
     private double headWidth;
     private double tailWidth;
-    private AbstractVector2DInterface direction;
-    private AbstractVector2DInterface norm;
+    private ImmutableVector2D direction;
+    private ImmutableVector2D norm;
     boolean isHeadDynamic = false;
     private double fractionalHeadHeight;
     private boolean scaleTailToo;
@@ -89,8 +89,8 @@ public class Arrow {
             return;
         }
 
-        AbstractVector2DInterface tailPt = new ImmutableVector2D( tailLocation );
-        AbstractVector2DInterface tipPt = new ImmutableVector2D( tipLocation );
+        ImmutableVector2D tailPt = new ImmutableVector2D( tailLocation );
+        ImmutableVector2D tipPt = new ImmutableVector2D( tipLocation );
         direction = tipPt.getSubtractedInstance( tailPt ).getNormalizedInstance();
         double dist = tipLocation.distance( tailLocation );
         double tempHeadHeight = headHeight;
@@ -139,13 +139,13 @@ public class Arrow {
         lineTo( tailShape, rightPin );
     }
 
-    private void lineTo( GeneralPath path, AbstractVector2DInterface loc ) {
+    private void lineTo( GeneralPath path, ImmutableVector2D loc ) {
         path.lineTo( (float) loc.getX(), (float) loc.getY() );
     }
 
     //parallel and normal are from the tip
     private ImmutableVector2D getPoint( double parallel, double normal ) {
-        AbstractVector2DInterface dv = direction.getScaledInstance( parallel ).
+        ImmutableVector2D dv = direction.getScaledInstance( parallel ).
                 getAddedInstance( norm.getScaledInstance( normal ) );
         ImmutableVector2D abs = new ImmutableVector2D( dv.getX() + tipLocation.getX(), dv.getY() + tipLocation.getY() );
         return abs;

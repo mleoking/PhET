@@ -9,7 +9,7 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.conductivity.common.SimpleBufferedImageGraphic;
@@ -34,7 +34,7 @@ public class WireParticleGraphic extends TransformGraphic {
     }
 
     public void paint( Graphics2D graphics2d ) {
-        AbstractVector2DInterface phetvector = particle.getPosition();
+        ImmutableVector2D phetvector = particle.getPosition();
         java.awt.Point point = getTransform().modelToView( new Point2D.Double( phetvector.getX(), phetvector.getY() ) );
         imageGraphic.setPosition( point );
         imageGraphic.paint( graphics2d );

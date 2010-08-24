@@ -1,7 +1,7 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.energyskatepark.view.piccolo;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -125,9 +125,9 @@ public class SkaterNode extends PNode {
     private void updateDragAngle() {
         TraversalState state = getBody().getTrackMatch( 0, -2 );
         if( state != null ) {
-            AbstractVector2DInterface vector = state.getParametricFunction2D().getUnitNormalVector( state.getAlpha() );//todo: this code is highly similar to code in Particle.updateStateFrom1D
+            ImmutableVector2D vector = state.getParametricFunction2D().getUnitNormalVector( state.getAlpha() );//todo: this code is highly similar to code in Particle.updateStateFrom1D
             double sign = state.isTop() ? 1.0 : -1.0;
-            AbstractVector2DInterface vect = vector.getInstanceOfMagnitude( sign );
+            ImmutableVector2D vect = vector.getInstanceOfMagnitude( sign );
             getBody().setAngle( vect.getAngle() - Math.PI / 2 );
         }
     }

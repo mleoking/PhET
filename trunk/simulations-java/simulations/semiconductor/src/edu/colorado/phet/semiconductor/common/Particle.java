@@ -2,7 +2,7 @@
 package edu.colorado.phet.semiconductor.common;
 
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
@@ -13,8 +13,8 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
  * Time: 2:48:10 PM
  */
 public class Particle extends SimpleObservable implements ModelElement {
-    AbstractVector2DInterface position;
-    AbstractVector2DInterface velocity;
+    ImmutableVector2D position;
+    ImmutableVector2D velocity;
     Vector2D acceleration;
 
     public Particle( double x, double y ) {
@@ -23,19 +23,19 @@ public class Particle extends SimpleObservable implements ModelElement {
         this.acceleration = new Vector2D();
     }
 
-    public Particle( AbstractVector2DInterface position ) {
+    public Particle( ImmutableVector2D position ) {
         this( position.getX(), position.getY() );
     }
 
-    public AbstractVector2DInterface getPosition() {
+    public ImmutableVector2D getPosition() {
         return position;
     }
 
     public void stepInTime( double dt ) {
         //acceleration doesn't change here.
-        AbstractVector2DInterface dv = acceleration.getScaledInstance( dt );
+        ImmutableVector2D dv = acceleration.getScaledInstance( dt );
         this.velocity = velocity.getAddedInstance( dv );
-        AbstractVector2DInterface dx = velocity.getScaledInstance( dt );
+        ImmutableVector2D dx = velocity.getScaledInstance( dt );
         this.position = position.getAddedInstance( dx );
         notifyObservers();
     }

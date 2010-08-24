@@ -1,9 +1,9 @@
 /*  */
 package edu.colorado.phet.travoltage.test;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.travoltage.MoveElectronsJade;
 import org.cove.jade.DynamicsEngine;
 import org.cove.jade.primitives.CircleParticle;
@@ -126,15 +126,15 @@ public class TestJadeBody extends Component implements ActionListener {
     public void actionPerformed( ActionEvent e ) {
         for( int i = 0; i < circles.size(); i++ ) {
             org.cove.jade.primitives.CircleParticle circleParticle = (org.cove.jade.primitives.CircleParticle)circles.get( i );
-            Vector2DInterface force = getForce( circleParticle );
+            Vector2D force = getForce( circleParticle );
             circleParticle.setAcceleration( force.getX(), force.getY() );
         }
         engine.timeStep();
         this.repaint();
     }
 
-    private Vector2DInterface getForce( CircleParticle circleParticle ) {
-        Vector2DInterface sum = new Vector2D();
+    private Vector2D getForce( CircleParticle circleParticle ) {
+        Vector2D sum = new Vector2D();
 
         for( int i = 0; i < circles.size(); i++ ) {
             CircleParticle particle = (CircleParticle)circles.get( i );
@@ -150,16 +150,16 @@ public class TestJadeBody extends Component implements ActionListener {
         }
     }
 
-    private boolean isLegal( Vector2DInterface sum ) {
+    private boolean isLegal( Vector2D sum ) {
         return !Double.isInfinite( sum.getX() ) && !Double.isNaN( sum.getX() ) && !Double.isInfinite( sum.getY() ) && !Double.isNaN( sum.getY() );
     }
 
-    private AbstractVector2DInterface getForce( CircleParticle circleParticle, CircleParticle particle ) {
+    private ImmutableVector2D getForce( CircleParticle circleParticle, CircleParticle particle ) {
         Point2D loc = new Point2D.Double( circleParticle.curr.x, circleParticle.curr.y );
         Point2D loc2 = new Point2D.Double( particle.curr.x, particle.curr.y );
-        AbstractVector2DInterface vec = new Vector2D( loc, loc2 );
+        ImmutableVector2D vec = new Vector2D( loc, loc2 );
         double k = 1.0;
-        AbstractVector2DInterface v = vec.getInstanceOfMagnitude( -k / Math.pow( vec.getMagnitude(), 1.35 ) );
+        ImmutableVector2D v = vec.getInstanceOfMagnitude( -k / Math.pow( vec.getMagnitude(), 1.35 ) );
         double max = 1;
         if( v.getMagnitude() > max ) {
             v = v.getInstanceOfMagnitude( max );

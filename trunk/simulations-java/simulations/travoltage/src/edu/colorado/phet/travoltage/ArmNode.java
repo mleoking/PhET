@@ -1,7 +1,7 @@
 /*  */
 package edu.colorado.phet.travoltage;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 import java.awt.*;
@@ -22,13 +22,13 @@ public class ArmNode extends LimbNode {
 
     public Point2D getGlobalFingertipPoint() {
         Point2D globalPivot = localToGlobal( getPivot() );
-        AbstractVector2DInterface v = Vector2D.parseAngleAndMagnitude( getImageNode().getWidth() * 0.95, getAngle() - insetAngle );
+        ImmutableVector2D v = Vector2D.parseAngleAndMagnitude( getImageNode().getWidth() * 0.95, getAngle() - insetAngle );
         return v.getDestination( globalPivot );
     }
 
     public Point2D getGlobalFingertipPointWithoutRotation() {
         Point2D globalPivot = localToGlobal( getPivot() );
-        AbstractVector2DInterface v = Vector2D.parseAngleAndMagnitude( getImageNode().getWidth() * 0.95, 0 - insetAngle );
+        ImmutableVector2D v = Vector2D.parseAngleAndMagnitude( getImageNode().getWidth() * 0.95, 0 - insetAngle );
         return v.getDestination( globalPivot );
     }
 }

@@ -4,7 +4,7 @@
 
 package edu.colorado.phet.conductivity.macro.circuit;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.conductivity.macro.battery.Battery;
 
@@ -54,7 +54,7 @@ public class Circuit {
         return circuit.numBranches();
     }
 
-    public AbstractVector2DInterface getPosition( double d ) {
+    public ImmutableVector2D getPosition( double d ) {
         return circuit.getPosition( d );
     }
 

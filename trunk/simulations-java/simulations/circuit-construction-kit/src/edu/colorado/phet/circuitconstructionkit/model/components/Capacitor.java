@@ -4,7 +4,7 @@ import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 import edu.colorado.phet.circuitconstructionkit.model.DynamicBranch;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 import java.awt.geom.Point2D;
@@ -20,7 +20,7 @@ public class Capacitor extends CircuitComponent implements DynamicBranch {
     private double capacitance = DEFAULT_CAPACITANCE;
     private ArrayList listeners = new ArrayList();
 
-    public Capacitor(Point2D start, AbstractVector2DInterface dir, double length, double height, CircuitChangeListener kl) {
+    public Capacitor(Point2D start, ImmutableVector2D dir, double length, double height, CircuitChangeListener kl) {
         super(kl, start, dir, length, height);
         setKirkhoffEnabled(false);
         setResistance(CCKModel.MIN_RESISTANCE);

@@ -9,7 +9,7 @@ import java.awt.geom.Point2D;
 * Time: 5:57:21 AM
 * To change this template use File | Settings | File Templates.
 */
-public class ImmutableVector2D implements AbstractVector2DInterface {
+public class ImmutableVector2D{
     private double x;
     private double y;
 
@@ -22,11 +22,11 @@ public class ImmutableVector2D implements AbstractVector2DInterface {
         this.y = y;
     }
 
-    public ImmutableVector2D( Vector2DInterface v ) {
+    public ImmutableVector2D( Vector2D v ) {
         this( v.getX(), v.getY() );
     }
 
-    public ImmutableVector2D( AbstractVector2DInterface v ) {
+    public ImmutableVector2D( ImmutableVector2D v ) {
         this( v.getX(), v.getY() );
     }
 
@@ -44,7 +44,7 @@ public class ImmutableVector2D implements AbstractVector2DInterface {
             result = false;
         }
         else {
-            AbstractVector2DInterface that = (AbstractVector2DInterface) obj;
+            ImmutableVector2D that = (ImmutableVector2D) obj;
             result = this.getX() == that.getX() && this.getY() == that.getY();
         }
         return result;
@@ -54,23 +54,23 @@ public class ImmutableVector2D implements AbstractVector2DInterface {
         return "AbstractVector2D.Double[" + x + ", " + y + "]";
     }
 
-    public AbstractVector2DInterface getAddedInstance( AbstractVector2DInterface v ) {
+    public ImmutableVector2D getAddedInstance( ImmutableVector2D v ) {
         return getAddedInstance( v.getX(), v.getY() );
     }
 
-    public AbstractVector2DInterface getAddedInstance( double x, double y ) {
+    public ImmutableVector2D getAddedInstance( double x, double y ) {
         return new ImmutableVector2D( getX() + x, getY() + y );
     }
 
-    public AbstractVector2DInterface getScaledInstance( double scale ) {
+    public ImmutableVector2D getScaledInstance( double scale ) {
         return new ImmutableVector2D( getX() * scale, getY() * scale );
     }
 
-    public AbstractVector2DInterface getNormalVector() {
+    public ImmutableVector2D getNormalVector() {
         return new ImmutableVector2D( y, -x );
     }
 
-    public AbstractVector2DInterface getNormalizedInstance() {
+    public ImmutableVector2D getNormalizedInstance() {
         double mag = getMagnitude();
         if ( mag == 0 ) {
             throw new RuntimeException( "Cannot normalize a zero-magnitude vector." );
@@ -78,11 +78,11 @@ public class ImmutableVector2D implements AbstractVector2DInterface {
         return new ImmutableVector2D( getX() / mag, getY() / mag );
     }
 
-    public AbstractVector2DInterface getSubtractedInstance( double x, double y ) {
+    public ImmutableVector2D getSubtractedInstance( double x, double y ) {
         return new ImmutableVector2D( getX() - x, getY() - y );
     }
 
-    public AbstractVector2DInterface getSubtractedInstance( AbstractVector2DInterface v ) {
+    public ImmutableVector2D getSubtractedInstance( ImmutableVector2D v ) {
         return getSubtractedInstance( v.getX(), v.getY() );
     }
 
@@ -110,7 +110,7 @@ public class ImmutableVector2D implements AbstractVector2DInterface {
         this.y = y;
     }
 
-    public double dot( AbstractVector2DInterface that ) {
+    public double dot( ImmutableVector2D that ) {
         double result = 0;
         result += this.getX() * that.getX();
         result += this.getY() * that.getY();
@@ -126,7 +126,7 @@ public class ImmutableVector2D implements AbstractVector2DInterface {
         return Math.atan2( y, x );
     }
 
-    public AbstractVector2DInterface getInstanceOfMagnitude( double magnitude ) {
+    public ImmutableVector2D getInstanceOfMagnitude( double magnitude ) {
         return getScaledInstance( magnitude / getMagnitude() );
     }
 
@@ -134,7 +134,7 @@ public class ImmutableVector2D implements AbstractVector2DInterface {
         return new Point2D.Double( x, y );
     }
 
-    public double getCrossProductScalar( AbstractVector2DInterface v ) {
+    public double getCrossProductScalar( ImmutableVector2D v ) {
         return ( this.getMagnitude() * v.getMagnitude() * Math.sin( this.getAngle() - v.getAngle() ) );
     }
 
@@ -142,12 +142,12 @@ public class ImmutableVector2D implements AbstractVector2DInterface {
         return new Point2D.Double( startPt.getX() + getX(), startPt.getY() + getY() );
     }
 
-    public AbstractVector2DInterface getRotatedInstance( double angle ) {
+    public ImmutableVector2D getRotatedInstance( double angle ) {
         return parseAngleAndMagnitude( getMagnitude(), getAngle() + angle );
     }
 
-    public static AbstractVector2DInterface parseAngleAndMagnitude( double r, double angle ) {
-        AbstractVector2DInterface vector = new ImmutableVector2D( Math.cos( angle ), Math.sin( angle ) );
+    public static ImmutableVector2D parseAngleAndMagnitude( double r, double angle ) {
+        ImmutableVector2D vector = new ImmutableVector2D( Math.cos( angle ), Math.sin( angle ) );
         return vector.getScaledInstance( r );
     }
 }

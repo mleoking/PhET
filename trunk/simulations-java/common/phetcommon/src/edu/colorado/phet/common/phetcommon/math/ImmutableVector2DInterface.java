@@ -18,6 +18,6 @@ package edu.colorado.phet.common.phetcommon.math;
  * @author Sam Reid
  * @version $Revision$
  */
-public interface ImmutableVector2DInterface extends AbstractVector2DInterface {
+public interface ImmutableVector2DInterface  {
 
 }

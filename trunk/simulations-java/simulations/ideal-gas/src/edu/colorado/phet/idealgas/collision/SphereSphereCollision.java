@@ -9,7 +9,7 @@ package edu.colorado.phet.idealgas.collision;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 import java.awt.geom.Point2D;
 
@@ -21,14 +21,14 @@ public class SphereSphereCollision implements Collision {
 
     private SphericalBody sphereA;
     private SphericalBody sphereB;
-    private Vector2DInterface loa = new Vector2D();
+    private Vector2D loa = new Vector2D();
 
     public SphereSphereCollision( SphericalBody sphereA, SphericalBody sphereB ) {
         this.sphereA = sphereA;
         this.sphereB = sphereB;
     }
 
-    protected Vector2DInterface getLoa( CollidableBody particleA, CollidableBody particleB ) {
+    protected Vector2D getLoa( CollidableBody particleA, CollidableBody particleB ) {
         Point2D posA = particleA.getPosition();
         Point2D posB = particleB.getPosition();
         loa.setX( posA.getX() - posB.getX() );
@@ -45,10 +45,10 @@ public class SphereSphereCollision implements Collision {
         doCollision( getLoa( sphereA, sphereB ), contactPt );
     }
 
-    static Vector2DInterface vRel = new Vector2D();
-    static Vector2DInterface n = new Vector2D();
+    static Vector2D vRel = new Vector2D();
+    static Vector2D n = new Vector2D();
 
-    public void doCollision( Vector2DInterface loa, Point2D contactPt ) {
+    public void doCollision( Vector2D loa, Point2D contactPt ) {
 
         // Get the unit vector along the line of action
         n.setComponents( loa.getX(), loa.getY() );
@@ -129,10 +129,10 @@ public class SphereSphereCollision implements Collision {
         double j = numerator / denominator;
 
         // Compute the new linear and angular velocities, based on the impulse
-        Vector2DInterface vA = new Vector2D( n.getX(), n.getY() ).scale( j / sphereA.getMass() );
+        Vector2D vA = new Vector2D( n.getX(), n.getY() ).scale( j / sphereA.getMass() );
         sphereA.getVelocity().add( vA );
 
-        Vector2DInterface vB = new Vector2D( n.getX(), n.getY() ).scale( -j / sphereB.getMass() );
+        Vector2D vB = new Vector2D( n.getX(), n.getY() ).scale( -j / sphereB.getMass() );
         sphereB.getVelocity().add( vB );
 
         //        }

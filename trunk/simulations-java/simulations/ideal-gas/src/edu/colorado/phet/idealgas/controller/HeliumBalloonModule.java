@@ -12,7 +12,7 @@ package edu.colorado.phet.idealgas.controller;
 
 import edu.colorado.phet.common.mechanics.Body;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.IdealGasResources;
 import edu.colorado.phet.idealgas.collision.SphereHollowSphereExpert;
@@ -209,7 +209,7 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource, Id
                 for( int i = 0; i < dn; i++ ) {
                     Class species = getCurrentGasSpecies();
                     Point2D location = balloon.getNewMoleculeLocation();
-                    Vector2DInterface velocity = balloon.getNewMoleculeVelocity( species, getIdealGasModel() );
+                    Vector2D velocity = balloon.getNewMoleculeVelocity( species, getIdealGasModel() );
                     GasMolecule molecule = null;
                     if( species == HeavySpecies.class ) {
                         molecule = new HeavySpecies( location, velocity, new Vector2D() );
