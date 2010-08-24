@@ -12,10 +12,10 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
@@ -220,7 +220,7 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
             g2.setColor( color );
             g2.setStroke( hollowArrowStroke );
             for ( int i = 0; i < latticePts.length; i++ ) {
-                AbstractVector2DInterface f = latticePts[i].field.getScaledInstance( fieldSense );//see #958
+                ImmutableVector2D f = latticePts[i].field.getScaledInstance( fieldSense );//see #958
                 double l = f.getMagnitude();
 
                 if ( l > 3 ) {
@@ -258,7 +258,7 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
      * @param fieldPt
      */
     private void evaluateFieldPt( FieldPt fieldPt ) {
-        Vector2DInterface tf = null;
+        Vector2D tf = null;
         if ( displayStaticField && fieldDisplayType != EmfPanel.NO_FIELD ) {
             tf = sourceElectron.getStaticFieldAt( fieldPt.location );
         }
@@ -333,7 +333,7 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
     private Point2D getVectorTipLocation( FieldPt fieldPt ) {
         Point2D p = new Point2D.Double();
         p.setLocation( new Point2D.Double( Math.abs( fieldPt.getX() ), transmittingElectronOrigin.getY() ) );
-        Vector2DInterface field = sourceElectron.getDynamicFieldAt( p );
+        Vector2D field = sourceElectron.getDynamicFieldAt( p );
         double curveAmplitudeOffset = 1 - EmfConfig.SINGLE_VECTOR_ROW_OFFSET;
         double yTip = transmittingElectronOrigin.getY() + ( field.getMagnitude() * MathUtil.getSign( field.getY() ) * curveAmplitudeOffset );
         p.setLocation( p.getX(), yTip );
@@ -363,7 +363,7 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
 
             FieldPt fieldPt = (FieldPt) pts.get( i );
             p.setLocation( new Point2D.Double( Math.abs( fieldPt.getX() ), transmittingElectronOrigin.getY() ) );
-            Vector2DInterface field = sourceElectron.getDynamicFieldAt( p );
+            Vector2D field = sourceElectron.getDynamicFieldAt( p );
 
             Point2D pPrev = null;
             if ( i > 0 ) {
@@ -429,7 +429,7 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
         Point2D fieldPt = new Point2D.Double();
         for ( double x = orig.getX(); xSign > 0 ? x < xLimit : x > xLimit; x += 10 * xSign ) {
             fieldPt.setLocation( new Point2D.Double( Math.abs( x ), transmittingElectronOrigin.getY() ) );
-            Vector2DInterface field = sourceElectron.getDynamicFieldAt( fieldPt );
+            Vector2D field = sourceElectron.getDynamicFieldAt( fieldPt );
             yCurr = field.getMagnitude() * MathUtil.getSign( field.getY() );
             //            if( yCurr != yLast ) {
             curve.lineTo( x, transmittingElectronOrigin.getY() + yCurr * curveAmplitudeOffset );

@@ -5,7 +5,7 @@ import java.awt.geom.Point2D;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -118,7 +118,7 @@ public class WiggleMe extends CompositePhetGraphic {
 
             Point oscillationCenter = new Point( targetLoc.x - getWidth() - 5, targetLoc.y );
             double distAlongAxis = Math.sin( frequency * time ) * amplitude;
-            AbstractVector2DInterface norm = oscillationAxis.getInstanceOfMagnitude( distAlongAxis );
+            ImmutableVector2D norm = oscillationAxis.getInstanceOfMagnitude( distAlongAxis );
             Point2D dest = norm.getDestination( oscillationCenter );
 
             setLocation( (int) dest.getX(), (int) dest.getY() );

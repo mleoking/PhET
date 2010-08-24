@@ -19,7 +19,7 @@ import java.util.Hashtable;
 import javax.swing.JSpinner;
 
 import edu.colorado.phet.common.phetcommon.application.*;
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
@@ -176,7 +176,7 @@ public class ConductivityApplication {
         BufferedImage bufferedimage = imageloader.loadImage( "conductivity/images/light.gif" );
         flashlightGraphic = new FlashlightGraphic( light, bufferedimage, transform );
         getApparatusPanel().addGraphic( flashlightGraphic, 100D );
-        AbstractVector2DInterface phetvector = getResistorCenter();
+        ImmutableVector2D phetvector = getResistorCenter();
         pointAt( phetvector );
         ModelElement modelelement = new ModelElement() {
 
@@ -198,7 +198,7 @@ public class ConductivityApplication {
         getBaseModel().addModelElement( new ModelElement() {
 
             public void stepInTime( double d ) {
-                AbstractVector2DInterface resistorCenter = getResistorCenter();
+                ImmutableVector2D resistorCenter = getResistorCenter();
                 for ( int i = 0; i < photons.size(); i++ ) {
                     Photon photon = (Photon) photons.get( i );
                     photon.stepInTime( d );
@@ -217,17 +217,17 @@ public class ConductivityApplication {
         } );
     }
 
-    private AbstractVector2DInterface getResistorCenter() {
+    private ImmutableVector2D getResistorCenter() {
         Vector2D phetvector = circuit.getResistor().getStartPosition();
         Vector2D phetvector1 = circuit.getResistor().getEndPosition();
-        AbstractVector2DInterface phetvector2 = phetvector1.getSubtractedInstance( phetvector ).getScaledInstance( 0.5D );
-        AbstractVector2DInterface phetvector3 = phetvector.getAddedInstance( phetvector2 );
+        ImmutableVector2D phetvector2 = phetvector1.getSubtractedInstance( phetvector ).getScaledInstance( 0.5D );
+        ImmutableVector2D phetvector3 = phetvector.getAddedInstance( phetvector2 );
         return phetvector3;
     }
 
-    public void pointAt( AbstractVector2DInterface phetvector ) {
+    public void pointAt( ImmutableVector2D phetvector ) {
         Vector2D phetvector1 = light.getPosition();
-        AbstractVector2DInterface phetvector2 = phetvector.getSubtractedInstance( phetvector1 ).getNormalizedInstance();
+        ImmutableVector2D phetvector2 = phetvector.getSubtractedInstance( phetvector1 ).getNormalizedInstance();
         double d = phetvector2.getAngle();
         double d1 = Math.toRadians( 126D );
         double d2 = -d + d1;
@@ -239,9 +239,9 @@ public class ConductivityApplication {
         final GeneralPath cablePath = new GeneralPath();
         cablePath.moveTo( (float) double1.getX() + (float) double1.getWidth() / 2.0F, (float) double1.getY() );
         MacroCircuit macrocircuit = model.getCircuit();
-        AbstractVector2DInterface phetvector = macrocircuit.getResistor().getLocation( macrocircuit.getResistor().getLength() / 2D );
+        ImmutableVector2D phetvector = macrocircuit.getResistor().getLocation( macrocircuit.getResistor().getLength() / 2D );
         Vector2D phetvector1 = new Vector2D( double1.getX() + 0.29999999999999999D, double1.getY() - 0.20000000000000001D );
-        AbstractVector2DInterface phetvector2 = phetvector.getSubtractedInstance( 0.0D, 0.10000000000000001D );
+        ImmutableVector2D phetvector2 = phetvector.getSubtractedInstance( 0.0D, 0.10000000000000001D );
         cablePath.curveTo( (float) phetvector1.getX(), (float) phetvector1.getY(), (float) phetvector2.getX(), (float) phetvector2.getY(), (float) phetvector.getX(), (float) phetvector.getY() );
         final ShapeGraphic curveShape = new ShapeGraphic( cablePath, Color.black, new BasicStroke( 2.0F ) );
         transform.addTransformListener( new TransformListener() {
@@ -350,11 +350,11 @@ public class ConductivityApplication {
     }
 
     public void firePhoton() {
-        AbstractVector2DInterface phetvector = getResistorCenter();
+        ImmutableVector2D phetvector = getResistorCenter();
         Photon photon = new Photon();
         photon.setPosition( light.getPosition() );
         double d = 0.01D;
-        AbstractVector2DInterface phetvector1 = phetvector.getSubtractedInstance( photon.getPosition() ).getInstanceOfMagnitude( d );
+        ImmutableVector2D phetvector1 = phetvector.getSubtractedInstance( photon.getPosition() ).getInstanceOfMagnitude( d );
         photon.setVelocity( phetvector1 );
         PhotonArrowGraphic photonarrowgraphic = new PhotonArrowGraphic( photon, transform );
         getApparatusPanel().addGraphic( photonarrowgraphic, 3D );

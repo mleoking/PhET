@@ -18,7 +18,7 @@ import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.FaradayResources;
@@ -115,7 +115,7 @@ public class TestBFieldGrid extends JFrame {
             int y = 0;
             for ( int row = 0; row < GRID_SIZE.width; row++ ) {
                 for ( int column = 0; column < GRID_SIZE.height; column++ ) {
-                    Vector2DInterface bfield = new Vector2D( bx[row][column], by[row][column] );
+                    Vector2D bfield = new Vector2D( bx[row][column], by[row][column] );
                     PNode vectorNode = new ScaledVector2DNode( bfield );
                     addChild( vectorNode );
                     vectorNode.setOffset( x, y );
@@ -133,9 +133,9 @@ public class TestBFieldGrid extends JFrame {
      */
     public static class ScaledVector2DNode extends PComposite {
         
-        public ScaledVector2DNode( Vector2DInterface vector ) {
+        public ScaledVector2DNode( Vector2D vector ) {
             
-            Vector2DInterface scaledVector = scaleVector( vector );
+            Vector2D scaledVector = scaleVector( vector );
             
             Point2D tailLocation = new Point2D.Double( 0, 0 );
             Point2D tipLocation = new Point2D.Double( scaledVector.getX(), scaledVector.getY() );
@@ -151,7 +151,7 @@ public class TestBFieldGrid extends JFrame {
         /*
          * Dubson's vector scaling algorithm.
          */
-        public Vector2DInterface scaleVector( Vector2DInterface vector ) {
+        public Vector2D scaleVector( Vector2D vector ) {
             double multiplier = Math.pow( vector.getMagnitude(), 1.0 / BFIELD_DISPLAY_SCALING_FACTOR );
             double bxScaled = multiplier * ( vector.getX() / vector.getMagnitude() );
             double byScaled = multiplier * ( vector.getY() / vector.getMagnitude() );

@@ -6,7 +6,7 @@ import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
@@ -119,7 +119,7 @@ public class PusherBrakeNode extends PNode {
 //        boolean awayFromPlatform = torqueModel.getBrakeForceMagnitude() == 0;
         boolean awayFromPlatform = torqueModel.getBrakePressure() == 0;
 
-        AbstractVector2DInterface vec = Vector2D.parseAngleAndMagnitude( rotationPlatform.getRadius() + ( awayFromPlatform ? 0.08 : 0.00 ), angle );
+        ImmutableVector2D vec = Vector2D.parseAngleAndMagnitude( rotationPlatform.getRadius() + ( awayFromPlatform ? 0.08 : 0.00 ), angle );
         setOffset( vec.getDestination( rotationPlatform.getCenter() ) );
         setRotation( angle );
     }

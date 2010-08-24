@@ -6,7 +6,7 @@ import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
@@ -231,7 +231,7 @@ public class CompassGraphic extends CompositePhetGraphic
                 indicatorGraphic = new PhetShapeGraphic( component );
                 indicatorGraphic.setShape( indicatorShape );
                 indicatorGraphic.setPaint( INDICATOR_COLOR );
-                AbstractVector2DInterface v = ImmutableVector2D.parseAngleAndMagnitude( adjustedDiameter/2, Math.toRadians( angle ) );
+                ImmutableVector2D v = ImmutableVector2D.parseAngleAndMagnitude( adjustedDiameter/2, Math.toRadians( angle ) );
                 int rx = (int) v.getX();
                 int ry = (int) v.getY();
                 indicatorGraphic.setRegistrationPoint( rx, ry );

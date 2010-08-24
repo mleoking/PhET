@@ -1,6 +1,6 @@
 package edu.colorado.phet.energyskatepark.model.physics;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
@@ -56,14 +56,14 @@ public abstract class ParametricFunction2D implements Serializable {
         return ( low.alpha + high.alpha ) / 2.0;
     }
 
-    public AbstractVector2DInterface getCurvatureDirection( double alpha ) {
+    public ImmutableVector2D getCurvatureDirection( double alpha ) {
         double epsilon = 0.001;
         SerializablePoint2D a0 = evaluate( alpha - epsilon / 2.0 );
         SerializablePoint2D a1 = evaluate( alpha + epsilon / 2.0 );
         SerializablePoint2D center = evaluate( alpha );
         SerializablePoint2D avg = new SerializablePoint2D( ( a0.getX() + a1.getX() ) / 2.0, ( a0.getY() + a1.getY() ) / 2.0 );
         Vector2D dir = new Vector2D( center, avg );
-        AbstractVector2DInterface vec = new Vector2D( getUnitNormalVector( alpha ) );
+        ImmutableVector2D vec = new Vector2D( getUnitNormalVector( alpha ) );
         if( dir.dot( vec ) < 0 ) {
             vec = vec.getScaledInstance( -1.0 );
         }
@@ -226,7 +226,7 @@ public abstract class ParametricFunction2D implements Serializable {
         return guess - alpha0;
     }
 
-    public AbstractVector2DInterface getUnitParallelVector( double alpha ) {
+    public ImmutableVector2D getUnitParallelVector( double alpha ) {
 //        double epsilon = 1E-4;
         double epsilon = 1E-8;
 //        double epsilon = 1E-6;
@@ -241,7 +241,7 @@ public abstract class ParametricFunction2D implements Serializable {
         return vector.getNormalizedInstance();
     }
 
-    public AbstractVector2DInterface getUnitNormalVector( double alpha ) {
+    public ImmutableVector2D getUnitNormalVector( double alpha ) {
         return getUnitParallelVector( alpha ).getNormalVector();
     }
 

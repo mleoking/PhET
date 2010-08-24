@@ -9,7 +9,7 @@ import java.awt.geom.Point2D;
 import java.util.Observable;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.radiowaves.RadioWavesApplication;
 import edu.colorado.phet.radiowaves.model.EMFSineFunction;
 import edu.colorado.phet.radiowaves.model.Electron;
@@ -37,7 +37,7 @@ public class SinusoidalMovement extends Observable implements MovementType {
         electron.setCurrentPosition( nextPosition );
     }
 
-    public Vector2DInterface getVelocity( Electron electron ) {
+    public Vector2D getVelocity( Electron electron ) {
         velocity.setY( omega * (float) Math.cos( omega * runningTime ) );
         return velocity;
     }

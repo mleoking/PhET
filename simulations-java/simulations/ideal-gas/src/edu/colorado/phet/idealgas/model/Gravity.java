@@ -8,7 +8,7 @@ package edu.colorado.phet.idealgas.model;
 
 import edu.colorado.phet.common.mechanics.Body;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 
@@ -18,7 +18,7 @@ import java.util.List;
 
 public class Gravity implements ModelElement {
 
-    private Vector2DInterface acceleration = new Vector2D();
+    private Vector2D acceleration = new Vector2D();
     private IdealGasModel model;
 
     public Gravity( IdealGasModel model ) {

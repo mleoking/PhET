@@ -11,7 +11,7 @@
 package edu.colorado.phet.mri.view;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
@@ -161,7 +161,7 @@ public class PhotonGraphic extends PImage implements SimpleObserver,
     //----------------------------------------------------------------
 
     private double theta;
-    private Vector2DInterface velocity;
+    private Vector2D velocity;
     private Photon photon;
     private Color color;
     double baseImageHeight;

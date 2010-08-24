@@ -13,7 +13,7 @@ package edu.colorado.phet.reactionsandrates.model.collision;
 import edu.colorado.phet.common.mechanics.Body;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.Particle;
 import edu.colorado.phet.reactionsandrates.model.CompositeMolecule;
@@ -61,7 +61,7 @@ public class Spring extends Particle implements ModelElement, PotentialEnergySou
      * @param body
      * @param vRel          The velocity of the body relative to the fixed point of the spring
      */
-    public Spring( double k, double restingLength, Point2D fixedEnd, Body body, Vector2DInterface vRel ) {
+    public Spring( double k, double restingLength, Point2D fixedEnd, Body body, Vector2D vRel ) {
         this( k, restingLength, fixedEnd );
         attachBodyAtRestingLength( body, vRel );
     }
@@ -74,7 +74,7 @@ public class Spring extends Particle implements ModelElement, PotentialEnergySou
      * @param body
      * @param vRel          The velocity of the body relative to the fixed point of the spring
      */
-    public Spring( double pe, double dl, double restingLength, Point2D fixedEnd, Body body, Vector2DInterface vRel ) {
+    public Spring( double pe, double dl, double restingLength, Point2D fixedEnd, Body body, Vector2D vRel ) {
         this( 2 * pe / ( dl * dl ), restingLength, fixedEnd );
         attachBodyAtRestingLength( body, vRel );
     }
@@ -135,7 +135,7 @@ public class Spring extends Particle implements ModelElement, PotentialEnergySou
      * @param body
      * @param vRel The velocity of the body relative to the fixed point of the spring
      */
-    private void attachBodyAtRestingLength( Body body, Vector2DInterface vRel ) {
+    private void attachBodyAtRestingLength( Body body, Vector2D vRel ) {
         this.attachedBody = body;
 
         if( body instanceof CompositeMolecule ) {
@@ -227,16 +227,16 @@ public class Spring extends Particle implements ModelElement, PotentialEnergySou
      *
      * @return the force exerted by the spring
      */
-    public Vector2DInterface getForce() {
+    public Vector2D getForce() {
         double fMag = -getElongation() * k;
-        Vector2DInterface f = new Vector2D( fMag, 0 );
+        Vector2D f = new Vector2D( fMag, 0 );
         f.rotate( angle );
         return f;
     }
 
-    public Vector2DInterface getAcceleration() {
+    public Vector2D getAcceleration() {
         double aMag = -( omega * omega ) * A * Math.sin( omega * t + phi );
-        Vector2DInterface a = new Vector2D( aMag, 0 );
+        Vector2D a = new Vector2D( aMag, 0 );
         a.rotate( angle );
         return a;
     }
@@ -248,7 +248,7 @@ public class Spring extends Particle implements ModelElement, PotentialEnergySou
      * @param dt
      */
     public void stepInTime( double dt ) {
-        Vector2DInterface v0 = getVelocity();
+        Vector2D v0 = getVelocity();
         t += dt;
         if( attachedBody != null ) {
 
@@ -268,15 +268,15 @@ public class Spring extends Particle implements ModelElement, PotentialEnergySou
             freeEnd.setLocation( fixedEnd.getX() + l * Math.cos( angle ), fixedEnd.getY() + l * Math.sin( angle ) );
 
             // Update the velocity of the attached body
-            Vector2DInterface v = getFreeEndVelocity();
+            Vector2D v = getFreeEndVelocity();
             attachedBody.setVelocity( v );
 //            attachedBody.setVelocity( attachedBody.getVelocity().add( v.subtract( v0 ) ) );
         }
         notifyObservers();
     }
 
-    private Vector2DInterface getFreeEndVelocity() {
-        Vector2DInterface v = new Vector2D( -omega * A * Math.cos( omega * t + phi ), 0 );
+    private Vector2D getFreeEndVelocity() {
+        Vector2D v = new Vector2D( -omega * A * Math.cos( omega * t + phi ), 0 );
         v.rotate( angle );
 
 //        v.add( getVelocity() );

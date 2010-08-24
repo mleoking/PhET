@@ -4,7 +4,7 @@
 
 package edu.colorado.phet.conductivity.macro.circuit;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 public class LinearBranch {
@@ -19,7 +19,7 @@ public class LinearBranch {
         return dv.getMagnitude();
     }
 
-    public AbstractVector2DInterface getLocation( double d ) {
+    public ImmutableVector2D getLocation( double d ) {
         return start.getAddedInstance( dv.getInstanceOfMagnitude( d ) );
     }
 
@@ -33,5 +33,5 @@ public class LinearBranch {
 
     Vector2D start;
     Vector2D end;
-    private AbstractVector2DInterface dv;
+    private ImmutableVector2D dv;
 }

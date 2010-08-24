@@ -3,7 +3,7 @@ package edu.colorado.phet.semiconductor.macro.circuit.particles;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.semiconductor.common.SimpleBufferedImageGraphic;
@@ -37,7 +37,7 @@ public class WireParticleGraphic extends TransformGraphic {
     }
 
     public void paint( Graphics2D graphics2D ) {
-        AbstractVector2DInterface modelLoc = particle.getPosition();
+        ImmutableVector2D modelLoc = particle.getPosition();
         if ( modelLoc != null ) {
             Point pt = getTransform().modelToView( modelLoc );
             imageGraphic.setPosition( pt );

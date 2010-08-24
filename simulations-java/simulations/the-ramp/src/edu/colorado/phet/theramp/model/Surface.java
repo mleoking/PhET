@@ -1,7 +1,7 @@
 /*  */
 package edu.colorado.phet.theramp.model;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 
@@ -43,7 +43,7 @@ public abstract class Surface extends SimpleObservable {
     }
 
     public Point2D getLocation( double distAlongRamp ) {
-        AbstractVector2DInterface vector = Vector2D.parseAngleAndMagnitude( distAlongRamp, angle );
+        ImmutableVector2D vector = Vector2D.parseAngleAndMagnitude( distAlongRamp, angle );
         return vector.getDestination( getOrigin() );
     }
 

@@ -6,7 +6,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
  * Motion strategy that starts off linear and then becomes a random walk.
@@ -24,7 +24,7 @@ public class LinearThenRandomMotionStrategy extends AbstractMotionStrategy {
 	private LinearMotionStrategy linearMotionStrategy;
 	private boolean movingLinearly = true;
 	
-	public LinearThenRandomMotionStrategy(Rectangle2D bounds, Point2D initialLocation, Vector2DInterface initialVelocity, double timeBeforeTransition) {
+	public LinearThenRandomMotionStrategy(Rectangle2D bounds, Point2D initialLocation, Vector2D initialVelocity, double timeBeforeTransition) {
 		super();
 		linearMotionStrategy = new LinearMotionStrategy(bounds, initialLocation, initialVelocity, timeBeforeTransition);
 		randomWalkStrategy = new RandomWalkMotionStrategy(bounds);

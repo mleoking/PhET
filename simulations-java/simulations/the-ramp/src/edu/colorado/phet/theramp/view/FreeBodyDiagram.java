@@ -1,9 +1,9 @@
 /*  */
 package edu.colorado.phet.theramp.view;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
@@ -138,7 +138,7 @@ public class FreeBodyDiagram extends PNode {
         Vector2D ff = new Vector2D( model.getFrictionForce().getScaledInstance( scale ) );
         frictionForce.setVector( ff );
 
-        AbstractVector2DInterface net = new Vector2D( model.getTotalForce().getScaledInstance( scale ) );
+        ImmutableVector2D net = new Vector2D( model.getTotalForce().getScaledInstance( scale ) );
         netForce.setVector( net );
 
         Vector2D wf = new Vector2D( model.getWallForce().getScaledInstance( scale ) );
@@ -146,7 +146,7 @@ public class FreeBodyDiagram extends PNode {
     }
 
     private void updateMG() {
-        Vector2DInterface gravity = model.getGravityForce();
+        Vector2D gravity = model.getGravityForce();
         mg.setVector( gravity.getScaledInstance( scale ) );
         normal.setVector( model.getNormalForce().getScaledInstance( scale ) );
     }
@@ -206,7 +206,7 @@ public class FreeBodyDiagram extends PNode {
             this.verticalOffset = verticalOffset;
         }
 
-        public void setVector( AbstractVector2DInterface v ) {
+        public void setVector( ImmutableVector2D v ) {
             Point2D origin = fbd.getCenter();
             SurfaceGraphic surfaceGraphic = fbd.getRampPanel().getRampWorld().getBlockGraphic().getCurrentSurfaceGraphic();
             double viewAngle = surfaceGraphic.getViewAngle();

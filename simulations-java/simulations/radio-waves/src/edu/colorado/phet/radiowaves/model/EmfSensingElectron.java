@@ -8,7 +8,7 @@ package edu.colorado.phet.radiowaves.model;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.radiowaves.model.movement.ManualMovement;
 import edu.colorado.phet.radiowaves.model.movement.SinusoidalMovement;
 
@@ -30,7 +30,7 @@ public class EmfSensingElectron extends PositionConstrainedElectron {
 
     public synchronized void stepInTime( double dt ) {
         super.stepInTime( dt );
-        Vector2DInterface v = this.getVelocity();
+        Vector2D v = this.getVelocity();
 
         // If there is no field, then move the electron back to its original location
         if ( sourceElectron.isFieldOff( this.getCurrentPosition().getX() ) ) {

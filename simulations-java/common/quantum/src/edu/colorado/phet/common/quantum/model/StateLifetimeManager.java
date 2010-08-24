@@ -15,7 +15,7 @@ import java.awt.geom.Point2D;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 
 /**
@@ -90,8 +90,8 @@ class StateLifetimeManager implements ModelElement {
 
                     // Place the replacement photon beyond the atom, so it doesn't collide again
                     // right away
-                    Vector2DInterface vHat = new Vector2D( emittedPhoton.getVelocity() ).normalize();
-                    Vector2DInterface position = new Vector2D( atom.getPosition() );
+                    Vector2D vHat = new Vector2D( emittedPhoton.getVelocity() ).normalize();
+                    Vector2D position = new Vector2D( atom.getPosition() );
                     position.add( vHat.scale( atom.getRadius() + 10 ) );
                     emittedPhoton.setPosition( position.getX(), position.getY() );
                     atom.emitPhoton( emittedPhoton );

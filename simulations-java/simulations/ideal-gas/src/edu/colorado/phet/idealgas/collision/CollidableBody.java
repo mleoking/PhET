@@ -2,7 +2,7 @@ package edu.colorado.phet.idealgas.collision;
 
 import edu.colorado.phet.common.mechanics.Body;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.idealgas.model.Constraint;
 
 import java.awt.geom.Point2D;
@@ -17,7 +17,7 @@ import java.util.List;
 public abstract class CollidableBody extends Body {
 
     private boolean collidable = true;
-    private Vector2DInterface velocityPrev;
+    private Vector2D velocityPrev;
     private Point2D positionPrev;
     ArrayList containedBodies = new ArrayList();
 
@@ -30,8 +30,8 @@ public abstract class CollidableBody extends Body {
     protected CollidableBody() {
     }
 
-    protected CollidableBody( Point2D position, Vector2DInterface velocity,
-                              Vector2DInterface acceleration, double mass, double charge ) {
+    protected CollidableBody( Point2D position, Vector2D velocity,
+                              Vector2D acceleration, double mass, double charge ) {
         super( position, velocity, acceleration, mass, charge );
     }
 
@@ -59,7 +59,7 @@ public abstract class CollidableBody extends Body {
         this.collidable = collidable;
     }
 
-    public Vector2DInterface getVelocityPrev() {
+    public Vector2D getVelocityPrev() {
         return velocityPrev;
     }
 

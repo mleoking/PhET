@@ -23,7 +23,7 @@ import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
@@ -105,7 +105,7 @@ public class TestSplitRendering {
         double t = System.currentTimeMillis() / 1000.0 - startTime;
         double r = Math.cos( t / 6 );
         double theta = Math.cos( t / 5 ) * 2 * Math.PI;
-        AbstractVector2DInterface v = Vector2D.parseAngleAndMagnitude( r, theta );
+        ImmutableVector2D v = Vector2D.parseAngleAndMagnitude( r, theta );
         series.clear();
         series.add( v.getX(), v.getY() );
     }

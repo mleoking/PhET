@@ -18,7 +18,7 @@ import java.util.EventListener;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.Particle;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
@@ -44,7 +44,7 @@ public class Beam extends Particle implements PhotonSource {
     //-----------------------------------------------------------------
     private double nextTimeToProducePhoton = 0;
     private double wavelength;
-    private Vector2DInterface velocity;
+    private Vector2D velocity;
     // The rate at which the beam produces photons
     private double timeSinceLastPhotonProduced = 0;
     // Used to deterimine when photons should be produced
@@ -72,7 +72,7 @@ public class Beam extends Particle implements PhotonSource {
      * @param fanout              spread of beam, in radians
      */
     public Beam( double wavelength, Point2D origin, double length, double beamWidth,
-                 Vector2DInterface direction, double maxPhotonsPerSecond, double fanout, double speed ) {
+                 Vector2D direction, double maxPhotonsPerSecond, double fanout, double speed ) {
         this.speed = speed;
         this.fanout = fanout;
         this.wavelength = wavelength;
@@ -218,7 +218,7 @@ public class Beam extends Particle implements PhotonSource {
                     if ( alpha > 0 ) {
                         angle *= -1;
                     }
-                    Vector2DInterface photonVelocity = new Vector2D( velocity ).rotate( angle );
+                    Vector2D photonVelocity = new Vector2D( velocity ).rotate( angle );
                     final Photon newPhoton = new Photon( this.getWavelength(),
                                                          photonLoc,
                                                          photonVelocity );

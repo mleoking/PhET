@@ -13,7 +13,7 @@ package edu.colorado.phet.reactionsandrates.model;
 import edu.colorado.phet.common.collision.Box2D;
 import edu.colorado.phet.common.mechanics.Body;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
@@ -186,7 +186,7 @@ public class MRModel extends PublishingModel {
     public void monitorEnergy() {
         List modelElements = selectFor( AbstractMolecule.class );
 
-        Vector2DInterface m = new Vector2D();
+        Vector2D m = new Vector2D();
 
         for( int i = 0; i < modelElements.size(); i++ ) {
             AbstractMolecule abstractMolecule = (AbstractMolecule)modelElements.get( i );

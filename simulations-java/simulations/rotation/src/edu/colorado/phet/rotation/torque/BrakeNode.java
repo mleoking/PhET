@@ -106,7 +106,7 @@ public class BrakeNode extends PNode {
             x = 0.05;
         }
 
-        AbstractVector2DInterface vec = Vector2D.parseAngleAndMagnitude( rotationPlatform.getRadius() + x, angle );
+        ImmutableVector2D vec = Vector2D.parseAngleAndMagnitude( rotationPlatform.getRadius() + x, angle );
         setOffset( vec.getDestination( rotationPlatform.getCenter() ) );
         setRotation( angle );
     }

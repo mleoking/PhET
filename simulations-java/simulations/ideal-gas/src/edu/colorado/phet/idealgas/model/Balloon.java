@@ -9,7 +9,7 @@ package edu.colorado.phet.idealgas.model;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.idealgas.collision.CollidableBody;
 
 import java.awt.geom.Point2D;
@@ -25,8 +25,8 @@ public class Balloon extends HollowSphere {
     // the internal or external pressure changes
     private double dampingExponent = 0.02;
     // Temporary varaibles, pre-allocated for performance
-    private Vector2DInterface momentumPre = new Vector2D();
-    private Vector2DInterface momentumPost = new Vector2D();
+    private Vector2D momentumPre = new Vector2D();
+    private Vector2D momentumPost = new Vector2D();
     private Box2D box;
     private double accumulatedImpact = 0;
 
@@ -39,8 +39,8 @@ public class Balloon extends HollowSphere {
      * @param radius
      */
     public Balloon( Point2D center,
-                    Vector2DInterface velocity,
-                    Vector2DInterface acceleration,
+                    Vector2D velocity,
+                    Vector2D acceleration,
                     double mass,
                     double radius,
                     Box2D box ) {
@@ -59,7 +59,7 @@ public class Balloon extends HollowSphere {
         momentumPost = momentumPost.scale( this.getMass() );
 
         // Compute the change in momentum and record it as pressure
-        Vector2DInterface momentumChange = momentumPost.subtract( momentumPre );
+        Vector2D momentumChange = momentumPost.subtract( momentumPre );
         double impact = momentumChange.getMagnitude();
         // todo: change this to a test that relies on containsBody, when that is correctly implemented
         int sign = this.contains( particle ) ? 1 : -1;

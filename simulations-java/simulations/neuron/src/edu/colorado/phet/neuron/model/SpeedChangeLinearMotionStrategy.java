@@ -3,7 +3,7 @@
 package edu.colorado.phet.neuron.model;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
  * This is a very specialized motion strategy that is basically a linear
@@ -16,11 +16,11 @@ import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
  */
 public class SpeedChangeLinearMotionStrategy extends MotionStrategy {
 	
-	private Vector2DInterface velocityVector = new Vector2D();
+	private Vector2D velocityVector = new Vector2D();
 	private double firstSpeedCountdownTimer = 0;
 	private final double speedScaleFactor;
 	
-	public SpeedChangeLinearMotionStrategy( Vector2DInterface initialVelocity, double speedScaleFactor, double timeAtFirstSpeed){
+	public SpeedChangeLinearMotionStrategy( Vector2D initialVelocity, double speedScaleFactor, double timeAtFirstSpeed){
 		this.velocityVector.setComponents(initialVelocity.getX(), initialVelocity.getY());
 		this.speedScaleFactor = speedScaleFactor;
 		this.firstSpeedCountdownTimer = timeAtFirstSpeed;

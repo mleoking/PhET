@@ -15,7 +15,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.Particle;
 
 /**
@@ -26,14 +26,14 @@ public class SphereSphereCollision implements Collision {
 
     private SphericalBody sphereA;
     private SphericalBody sphereB;
-    private Vector2DInterface loa = new Vector2D();
+    private Vector2D loa = new Vector2D();
 
     public SphereSphereCollision( SphericalBody sphereA, SphericalBody sphereB ) {
         this.sphereA = sphereA;
         this.sphereB = sphereB;
     }
 
-    protected Vector2DInterface getLoa( Particle particleA, Particle particleB ) {
+    protected Vector2D getLoa( Particle particleA, Particle particleB ) {
         Point2D posA = particleA.getPosition();
         Point2D posB = particleB.getPosition();
         loa.setX( posA.getX() - posB.getX() );
@@ -50,18 +50,18 @@ public class SphereSphereCollision implements Collision {
         doCollision( getLoa( sphereA, sphereB ), contactPt );
     }
 
-    static Vector2DInterface vRel = new Vector2D();
-    static Vector2DInterface n = new Vector2D();
+    static Vector2D vRel = new Vector2D();
+    static Vector2D n = new Vector2D();
 
-    public void doCollision( Vector2DInterface loa, Point2D contactPt ) {
+    public void doCollision( Vector2D loa, Point2D contactPt ) {
 
         // Get the total energy of the two objects, so we can conserve it
         double totalEnergy0 = sphereA.getKineticEnergy() + sphereB.getKineticEnergy();
 
         // Get the vectors from the bodies' CMs to the point of contact
-        Vector2DInterface r1 = new Vector2D( contactPt.getX() - sphereA.getPosition().getX(),
+        Vector2D r1 = new Vector2D( contactPt.getX() - sphereA.getPosition().getX(),
                                            contactPt.getY() - sphereA.getPosition().getY() );
-        Vector2DInterface r2 = new Vector2D( contactPt.getX() - sphereB.getPosition().getX(),
+        Vector2D r2 = new Vector2D( contactPt.getX() - sphereB.getPosition().getX(),
                                           contactPt.getY() - sphereB.getPosition().getY() );
 
         // Get the unit vector along the line of action
@@ -143,10 +143,10 @@ public class SphereSphereCollision implements Collision {
         double j = numerator / denominator;
 
         // Compute the new linear and angular velocities, based on the impulse
-        Vector2DInterface vA = new Vector2D( n.getX(), n.getY() ).scale( j / sphereA.getMass() );
+        Vector2D vA = new Vector2D( n.getX(), n.getY() ).scale( j / sphereA.getMass() );
         sphereA.getVelocity().add( vA );
 
-        Vector2DInterface vB = new Vector2D( n.getX(), n.getY() ).scale( -j / sphereB.getMass() );
+        Vector2D vB = new Vector2D( n.getX(), n.getY() ).scale( -j / sphereB.getMass() );
         sphereB.getVelocity().add( vB );
 
     }

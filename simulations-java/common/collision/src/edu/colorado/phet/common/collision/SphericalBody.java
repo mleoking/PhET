@@ -15,7 +15,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.mechanics.Body;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
  * NOTE: This class is not thread-safe!!!!!
@@ -34,8 +34,8 @@ public class SphericalBody extends Body implements Collidable {
     }
 
     protected SphericalBody( Point2D center,
-                             Vector2DInterface velocity,
-                             Vector2DInterface acceleration,
+                             Vector2D velocity,
+                             Vector2D acceleration,
                              double mass,
                              double radius ) {
         super( center, velocity, acceleration, mass, 0 );
@@ -67,7 +67,7 @@ public class SphericalBody extends Body implements Collidable {
         return this.getRadius();
     }
 
-    public Vector2DInterface getVelocityPrev() {
+    public Vector2D getVelocityPrev() {
         return collidableAdapter.getVelocityPrev();
     }
 

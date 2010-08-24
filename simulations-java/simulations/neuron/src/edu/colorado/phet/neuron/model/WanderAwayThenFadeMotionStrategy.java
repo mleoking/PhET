@@ -4,7 +4,7 @@ import java.awt.geom.Point2D;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.neuron.module.NeuronDefaults;
 
 
@@ -30,7 +30,7 @@ public class WanderAwayThenFadeMotionStrategy extends MotionStrategy {
 	private double velocityUpdateCountdownTimer;
 	private double preFadeCountdownTimer;
 	private double fadeOutDuration;
-	private Vector2DInterface velocity = new Vector2D();
+	private Vector2D velocity = new Vector2D();
 	
 	/**
 	 * Constructor.

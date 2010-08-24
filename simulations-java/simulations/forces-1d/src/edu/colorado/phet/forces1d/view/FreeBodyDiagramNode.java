@@ -6,7 +6,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
@@ -97,7 +97,7 @@ public class FreeBodyDiagramNode extends PNode {
         Vector2D ff = new Vector2D( model.getFrictionForce() * xScale, 0 );
         frictionForce.setVector( ff );
 
-        AbstractVector2DInterface net = new Vector2D( model.getNetForce() * xScale, 0 );
+        ImmutableVector2D net = new Vector2D( model.getNetForce() * xScale, 0 );
         netForce.setVector( net );
 
         Vector2D wf = new Vector2D( model.getWallForce() * xScale, 0 );
@@ -109,7 +109,7 @@ public class FreeBodyDiagramNode extends PNode {
         double mass = model.getBlock().getMass();
 
         Vector2D m = new Vector2D( 0, gravity * mass * yScale );
-        AbstractVector2DInterface n = m.getScaledInstance( -1 );
+        ImmutableVector2D n = m.getScaledInstance( -1 );
         mg.setVector( m );
         normal.setVector( n );
     }
@@ -168,7 +168,7 @@ public class FreeBodyDiagramNode extends PNode {
             this.dy = y;
         }
 
-        public void setVector( AbstractVector2DInterface v ) {
+        public void setVector( ImmutableVector2D v ) {
             Point2D origin = fbd.getCenter();
             origin = new Point2D.Double( origin.getX() + dx, origin.getY() + dy );
             Arrow arrow = new Arrow( origin, v.getDestination( origin ), 30, 30, 10, 0.5, true );

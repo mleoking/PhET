@@ -1,7 +1,7 @@
 /*, 2003.*/
 package edu.colorado.phet.semiconductor.macro.energy.bands;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
@@ -145,7 +145,7 @@ public class BandParticle extends SimpleObservable implements ModelElement {
         return getEnergyLevel().getBand();
     }
 
-    public AbstractVector2DInterface getDX() {
+    public ImmutableVector2D getDX() {
         return getPosition().getSubtractedInstance( lastPosition );
     }
 

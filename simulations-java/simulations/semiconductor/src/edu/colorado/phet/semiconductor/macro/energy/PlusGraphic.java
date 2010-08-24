@@ -3,7 +3,7 @@ package edu.colorado.phet.semiconductor.macro.energy;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.semiconductor.common.ParticleGraphic;
 
@@ -22,7 +22,7 @@ public class PlusGraphic extends ParticleGraphic {
     }
 
     public void update() {
-        AbstractVector2DInterface modelLoc = particle.getPosition();
+        ImmutableVector2D modelLoc = particle.getPosition();
         Point pt = getTransform().modelToView( modelLoc );
         pt = new Point( pt.x + getImage().getWidth(), pt.y );
         graphic.setPosition( pt );

@@ -4,7 +4,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
  * Interface that allows the user to control and to obtain information about a
@@ -117,7 +117,7 @@ public interface IGeneNetworkModelControl {
 	/**
 	 * Create a molecule of lactose and inject it into the model.
 	 */
-	void createAndAddLactose(Point2D initialPosition, Vector2DInterface initialVelocity);
+	void createAndAddLactose(Point2D initialPosition, Vector2D initialVelocity);
 
 	/**
 	 * Get a list of all simple model elements in the model.
@@ -277,7 +277,7 @@ public interface IGeneNetworkModelControl {
 	 * 
 	 * @param automaticLactoseInjectionEnabled
 	 */
-	public void setAutomaticLactoseInjectionParams(Point2D location, Vector2DInterface velocity);
+	public void setAutomaticLactoseInjectionParams(Point2D location, Vector2D velocity);
 
 	/**
 	 * Get the bounds for motion inside the cell.

@@ -12,7 +12,7 @@ package edu.colorado.phet.reactionsandrates.model.collision;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.reactionsandrates.model.*;
 import edu.colorado.phet.reactionsandrates.model.reactions.A_BC_AB_C_Reaction;
 import edu.colorado.phet.reactionsandrates.model.reactions.Reaction;
@@ -90,8 +90,8 @@ public class SpringCollision implements Collision {
 //            if( fMag == Double.POSITIVE_INFINITY ) {
 //                double fMagA =
 //            }
-            Vector2DInterface fA = new Vector2D( collisionSpec.getLoa() ).normalize().scale( fMag );
-            Vector2DInterface fB = new Vector2D( fA ).scale( -1 );
+            Vector2D fA = new Vector2D( collisionSpec.getLoa() ).normalize().scale( fMag );
+            Vector2D fB = new Vector2D( fA ).scale( -1 );
 
             // Accelerate each of the bodies with the force
             mA.applyForce( fA, collisionSpec.getCollisionPt() );
@@ -178,14 +178,14 @@ public class SpringCollision implements Collision {
         }
 
 
-        public void pushOnMolecule( AbstractMolecule molecule, double length, Vector2DInterface loa ) {
+        public void pushOnMolecule( AbstractMolecule molecule, double length, Vector2D loa ) {
 
             // NOrmalize the line of action vector
             loa.normalize();
 
             // Determine the amount the molecule has moved in the direction of the
             // spring in its last time step
-            Vector2DInterface dl = new Vector2D( molecule.getPositionPrev(), molecule.getPosition() );
+            Vector2D dl = new Vector2D( molecule.getPositionPrev(), molecule.getPosition() );
             double ds = dl.dot( loa );
 
             // Compute the change in potential energy in the spring during that last

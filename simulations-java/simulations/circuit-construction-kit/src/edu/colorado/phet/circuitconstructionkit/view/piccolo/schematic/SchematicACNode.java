@@ -4,7 +4,7 @@ import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.ACVoltageSource;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 
 import javax.swing.*;
@@ -44,7 +44,7 @@ public class SchematicACNode extends SchematicOscillateNode {
             Point2D anoPoint = getAnoPoint();
             double dist = catPoint.distance(anoPoint);
             double radius = dist / 2;
-            Vector2DInterface vec = new Vector2D(catPoint, anoPoint);
+            Vector2D vec = new Vector2D(catPoint, anoPoint);
             Point2D ctr = vec.getScaledInstance(.5).getDestination(catPoint);
             Ellipse2D.Double ellipse = new Ellipse2D.Double();
             Point2D corner = new Vector2D(radius, radius).getDestination(ctr);

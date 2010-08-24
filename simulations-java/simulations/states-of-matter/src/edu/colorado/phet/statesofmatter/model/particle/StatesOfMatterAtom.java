@@ -6,7 +6,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.statesofmatter.model.AtomType;
 
 /**
@@ -122,11 +122,11 @@ public abstract class StatesOfMatterAtom implements Cloneable {
         return m_position;
     }
     
-    public Vector2DInterface getVelocity() {
+    public Vector2D getVelocity() {
         return m_velocity;
     }
 
-    public Vector2DInterface getAccel() {
+    public Vector2D getAccel() {
         return m_accel;
     }
     

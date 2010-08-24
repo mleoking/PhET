@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.reactionsandrates.model;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 
 import java.awt.geom.Point2D;
@@ -47,7 +47,7 @@ public abstract class SimpleMolecule extends AbstractMolecule implements Selecta
         setMass( radius * radius * areaToMassFactor );
     }
 
-    public SimpleMolecule( double radius, Point2D location, Vector2DInterface velocity, Vector2DInterface acceleration, double mass, double charge ) {
+    public SimpleMolecule( double radius, Point2D location, Vector2D velocity, Vector2D acceleration, double mass, double charge ) {
         super( location, velocity, acceleration, mass, charge );
         this.radius = radius;
     }

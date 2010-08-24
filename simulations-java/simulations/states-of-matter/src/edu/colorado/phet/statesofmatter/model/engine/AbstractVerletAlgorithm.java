@@ -4,7 +4,7 @@ package edu.colorado.phet.statesofmatter.model.engine;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.statesofmatter.model.MoleculeForceAndMotionDataSet;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 
@@ -86,7 +86,7 @@ public abstract class AbstractVerletAlgorithm implements MoleculeForceAndMotionC
      * @param resultantForce - Vector in which the resulting force is returned.
      */
     protected void calculateWallForce(Point2D position, double containerWidth, double containerHeight,
-            Vector2DInterface resultantForce){
+            Vector2D resultantForce){
         
         // Debug stuff - make sure this is being used correctly.
         assert resultantForce != null;
@@ -195,8 +195,8 @@ public abstract class AbstractVerletAlgorithm implements MoleculeForceAndMotionC
     	int atomsPerMolecule = moleculeDataSet.getAtomsPerMolecule();
     	Point2D [] moleculeCenterOfMassPositions = moleculeDataSet.getMoleculeCenterOfMassPositions();
     	Point2D [] atomPositions = moleculeDataSet.getAtomPositions();
-		Vector2DInterface[] moleculeVelocities = moleculeDataSet.getMoleculeVelocities();
-		Vector2DInterface[] moleculeForces = moleculeDataSet.getMoleculeForces();
+		Vector2D[] moleculeVelocities = moleculeDataSet.getMoleculeVelocities();
+		Vector2D[] moleculeForces = moleculeDataSet.getMoleculeForces();
 		double [] moleculeRotationRates = moleculeDataSet.getMoleculeRotationRates();
 		double [] moleculeRotationAngles = moleculeDataSet.getMoleculeRotationAngles();
     	
@@ -239,12 +239,12 @@ public abstract class AbstractVerletAlgorithm implements MoleculeForceAndMotionC
                     moleculeCenterOfMassPositions[firstUnsafeMoleculeIndex] = moleculeCenterOfMassPositions[safeMoleculeIndex];
                     moleculeCenterOfMassPositions[safeMoleculeIndex] = tempMoleculeCenterOfMassPosition;
                 	
-                    Vector2DInterface tempMoleculeVelocity;
+                    Vector2D tempMoleculeVelocity;
                     tempMoleculeVelocity = moleculeVelocities[firstUnsafeMoleculeIndex];
                     moleculeVelocities[firstUnsafeMoleculeIndex] = moleculeVelocities[safeMoleculeIndex];
                     moleculeVelocities[safeMoleculeIndex] = tempMoleculeVelocity;
 
-                    Vector2DInterface tempMoleculeForce;
+                    Vector2D tempMoleculeForce;
                     tempMoleculeForce = moleculeForces[firstUnsafeMoleculeIndex];
                     moleculeForces[firstUnsafeMoleculeIndex] = moleculeForces[safeMoleculeIndex];
                     moleculeForces[safeMoleculeIndex] = tempMoleculeForce;

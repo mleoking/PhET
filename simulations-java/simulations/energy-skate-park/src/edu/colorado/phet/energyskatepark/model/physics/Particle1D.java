@@ -72,8 +72,8 @@ public class Particle1D implements Serializable {
         this.alpha = alpha;
     }
 
-    public AbstractVector2DInterface getSideVector() {
-        AbstractVector2DInterface vector = getCubicSpline2D().getUnitNormalVector( alpha );
+    public ImmutableVector2D getSideVector() {
+        ImmutableVector2D vector = getCubicSpline2D().getUnitNormalVector( alpha );
         double sign = isSplineTop() ? 1.0 : -1.0;
         return vector.getInstanceOfMagnitude( sign );
     }
@@ -168,7 +168,7 @@ public class Particle1D implements Serializable {
         return alpha;
     }
 
-    public AbstractVector2DInterface getVelocity2D() {
+    public ImmutableVector2D getVelocity2D() {
         return track.getUnitParallelVector( alpha ).getInstanceOfMagnitude( velocity );
     }
 
@@ -190,7 +190,7 @@ public class Particle1D implements Serializable {
         return mass;
     }
 
-    public AbstractVector2DInterface getCurvatureDirection() {
+    public ImmutableVector2D getCurvatureDirection() {
         return track.getCurvatureDirection( alpha );
     }
 
@@ -427,11 +427,11 @@ public class Particle1D implements Serializable {
 //        return 1.0 / curvature;
 //    }
 
-    public AbstractVector2DInterface getUnitParallelVector() {
+    public ImmutableVector2D getUnitParallelVector() {
         return track.getUnitParallelVector( alpha );
     }
 
-    public AbstractVector2DInterface getUnitNormalVector() {
+    public ImmutableVector2D getUnitNormalVector() {
         return track.getUnitNormalVector( alpha );
     }
 
@@ -486,7 +486,7 @@ public class Particle1D implements Serializable {
         }
     }
 
-    public AbstractVector2DInterface getNormalForce() {//todo some code duplication in Particle.Particle1DUpdate
+    public ImmutableVector2D getNormalForce() {//todo some code duplication in Particle.Particle1DUpdate
 //        EnergySkateParkLogging.println( "getRadiusOfCurvature() = " + getRadiusOfCurvature() );
         double radiusOfCurvature = getRadiusOfCurvature();
         if( Double.isInfinite( radiusOfCurvature ) ) {
@@ -514,7 +514,7 @@ public class Particle1D implements Serializable {
     /*
    Returns the net force (discluding normal forces).
     */
-    public AbstractVector2DInterface getNetForce() {
+    public ImmutableVector2D getNetForce() {
         Vector2D netForce = new Vector2D();
         netForce.add( new Vector2D( 0, mass * g ) );//gravity
         netForce.add( new Vector2D( xThrust * mass, yThrust * mass ) );//thrust
@@ -522,7 +522,7 @@ public class Particle1D implements Serializable {
         return netForce;
     }
 
-    public AbstractVector2DInterface getFrictionForce() {
+    public ImmutableVector2D getFrictionForce() {
 //        if( getTotalFriction() == 0 || getVelocity2D().getMagnitude() < 1E-6 ) {
         if( getTotalFriction() == 0 || getVelocity2D().getMagnitude() < 1E-2 ) {
             return new Vector2D();
@@ -531,7 +531,7 @@ public class Particle1D implements Serializable {
 //        return getVelocity2D().getScaledInstance( -frictionCoefficient * 10000 );//todo factor out heuristic
 //        return getVelocity2D().getScaledInstance( -frictionCoefficient * getNormalForce().getMagnitude() );//todo factor out heuristic
 //            EnergySkateParkLogging.println( "friction = " + getTotalFriction() );
-            AbstractVector2DInterface f = getVelocity2D().getInstanceOfMagnitude( -getTotalFriction() * getNormalForce().getMagnitude() * 25 );
+            ImmutableVector2D f = getVelocity2D().getInstanceOfMagnitude( -getTotalFriction() * getNormalForce().getMagnitude() * 25 );
             if( ( Double.isNaN( f.getMagnitude() ) ) ) { throw new IllegalArgumentException();}
             return f;//todo factor out heuristic
         }
@@ -547,12 +547,12 @@ public class Particle1D implements Serializable {
 //            EnergySkateParkLogging.println( "nor = " + getNormalForce().getMagnitude() );
             double origEnergy = getEnergy();
             SerializablePoint2D origLoc = getLocation();
-            AbstractVector2DInterface netForce = getNetForce();
+            ImmutableVector2D netForce = getNetForce();
             double a = track.getUnitParallelVector( alpha ).dot( netForce ) / mass;
             velocity += a * dt;
             alpha += track.getFractionalDistance( alpha, velocity * dt + 1 / 2 * a * dt * dt );
             if( getTotalFriction() > 0 ) {
-                AbstractVector2DInterface frictionForce = getFrictionForce();
+                ImmutableVector2D frictionForce = getFrictionForce();
                 if( ( Double.isNaN( frictionForce.getMagnitude() ) ) ) { throw new IllegalArgumentException();}
                 double therm = frictionForce.getMagnitude() * getLocation().distance( origLoc );
                 thermalEnergy += therm;

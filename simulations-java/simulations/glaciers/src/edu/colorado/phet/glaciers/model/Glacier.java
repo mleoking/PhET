@@ -8,7 +8,7 @@ import java.util.Iterator;
 
 import edu.colorado.phet.common.phetcommon.math.PolarCartesianConverter;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.glaciers.model.Climate.ClimateListener;
@@ -478,7 +478,7 @@ public class Glacier extends ClockAdapter {
      * @param outputVector
      * @return Vector2D, components in meters/year
      */
-    public Vector2DInterface getIceVelocity( final double x, final double elevation, final Vector2DInterface outputVector ) {
+    public Vector2D getIceVelocity( final double x, final double elevation, final Vector2D outputVector ) {
         final double magnitude = getIceSpeed( x, elevation );
         final double direction = _valley.getDirection( x, x + DX );
         final double xComponent = PolarCartesianConverter.getX( magnitude, direction );
@@ -495,7 +495,7 @@ public class Glacier extends ClockAdapter {
      * @param elevation
      * @return
      */
-    public Vector2DInterface getIceVelocity( final double x, final double elevation ) { 
+    public Vector2D getIceVelocity( final double x, final double elevation ) { 
         return getIceVelocity( x, elevation, new Vector2D() /* outputVector */ );
     }
     

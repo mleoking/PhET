@@ -13,9 +13,9 @@ import java.util.Random;
 
 import javax.swing.event.EventListenerList;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
@@ -241,8 +241,8 @@ public class PhotonAbsorptionModel {
     }
 
     // TODO: Part of an experiment, keep if needed.
-    private AbstractVector2DInterface getNetForce(Molecule molecule) {
-        AbstractVector2DInterface netForce= new Vector2D();
+    private ImmutableVector2D getNetForce(Molecule molecule) {
+        ImmutableVector2D netForce= new Vector2D();
         for (Molecule activeMolecule : activeMolecules) {
             if (activeMolecule!=molecule){
             netForce = netForce.getAddedInstance(getForce(activeMolecule,molecule));
@@ -265,9 +265,9 @@ public class PhotonAbsorptionModel {
         return netForce;
     }
 
-    private AbstractVector2DInterface getForce(Molecule source, Molecule target) {
+    private ImmutableVector2D getForce(Molecule source, Molecule target) {
         double distance = source.getCenterOfGravityPos().distance(target.getCenterOfGravityPos());
-        Vector2DInterface distanceVector = new Vector2D(source.getCenterOfGravityPos(), target.getCenterOfGravityPos()).normalize();
+        Vector2D distanceVector = new Vector2D(source.getCenterOfGravityPos(), target.getCenterOfGravityPos()).normalize();
         return distanceVector.getScaledInstance(1.0 / distance / distance);
     }
 

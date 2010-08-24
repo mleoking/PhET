@@ -1,6 +1,6 @@
 package edu.colorado.phet.energyskatepark.model.physics;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
@@ -63,7 +63,7 @@ public class _TestPassThrough extends TestCase {
         private ParametricFunction2D parametricFunction2D;
         private Particle particle;
 
-        public ParticleTestState( SerializablePoint2D[] controlPoints, SerializablePoint2D position, AbstractVector2DInterface velocity ) {
+        public ParticleTestState( SerializablePoint2D[] controlPoints, SerializablePoint2D position, ImmutableVector2D velocity ) {
             parametricFunction2D = new CubicSpline2D( controlPoints );
             particle = new Particle( parametricFunction2D );
             particle.setGravity( 0.0 );

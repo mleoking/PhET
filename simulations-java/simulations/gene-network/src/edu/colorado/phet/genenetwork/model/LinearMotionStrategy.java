@@ -6,7 +6,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
  * Motion strategy that moves in a straight line towards a destination point.
@@ -19,7 +19,7 @@ import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 public class LinearMotionStrategy extends AbstractMotionStrategy {
 	
 	private boolean initialVelocitySet = false;
-	private Vector2DInterface initialVelocity = new Vector2D();
+	private Vector2D initialVelocity = new Vector2D();
 	private boolean isDestinationReached = false;
 	private boolean isBoundsReached = false;
 	
@@ -31,7 +31,7 @@ public class LinearMotionStrategy extends AbstractMotionStrategy {
 		initialVelocity.setComponents(velocityScaler * Math.cos(angleOfTravel), velocityScaler * Math.sin(angleOfTravel));
 	}
 	
-	public LinearMotionStrategy(Rectangle2D bounds, Point2D initialLocation, Vector2DInterface velocityVector, double time){
+	public LinearMotionStrategy(Rectangle2D bounds, Point2D initialLocation, Vector2D velocityVector, double time){
 		this(bounds, initialLocation, velocityAndTimeToPoint(initialLocation, velocityVector, time), velocityVector.getMagnitude());
 	}
 
@@ -44,7 +44,7 @@ public class LinearMotionStrategy extends AbstractMotionStrategy {
 		}
 		
 		Point2D position = modelElement.getPositionRef();
-		Vector2DInterface velocity = modelElement.getVelocityRef();
+		Vector2D velocity = modelElement.getVelocityRef();
 		double distanceToDestination = getDestinationRef().distance(modelElement.getPositionRef());
 		double distanceToTravelThisTimeStep = velocity.getMagnitude() * dt;
 		
@@ -79,7 +79,7 @@ public class LinearMotionStrategy extends AbstractMotionStrategy {
 		return isBoundsReached;
 	}
 	
-	static private Point2D velocityAndTimeToPoint(Point2D startingLocation, Vector2DInterface velocity, double time){
+	static private Point2D velocityAndTimeToPoint(Point2D startingLocation, Vector2D velocity, double time){
 		return ( new Point2D.Double( startingLocation.getX() + velocity.getX() * time,
 				startingLocation.getY() + velocity.getY() * time ) );
 	}

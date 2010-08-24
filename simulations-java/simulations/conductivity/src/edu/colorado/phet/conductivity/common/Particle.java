@@ -5,7 +5,7 @@
 package edu.colorado.phet.conductivity.common;
 
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
@@ -19,18 +19,18 @@ public class Particle extends SimpleObservable
         acceleration = new Vector2D();
     }
 
-    public AbstractVector2DInterface getPosition() {
+    public ImmutableVector2D getPosition() {
         return position;
     }
 
-    public AbstractVector2DInterface getVelocity() {
+    public ImmutableVector2D getVelocity() {
         return velocity;
     }
 
     public void stepInTime( double d ) {
-        AbstractVector2DInterface phetvector = acceleration.getScaledInstance( d );
+        ImmutableVector2D phetvector = acceleration.getScaledInstance( d );
         velocity = velocity.getAddedInstance( phetvector );
-        AbstractVector2DInterface phetvector1 = velocity.getScaledInstance( d );
+        ImmutableVector2D phetvector1 = velocity.getScaledInstance( d );
         position = position.getAddedInstance( phetvector1 );
         notifyObservers();
     }
@@ -47,7 +47,7 @@ public class Particle extends SimpleObservable
         position = new Vector2D( d, d1 );
     }
 
-    AbstractVector2DInterface position;
-    AbstractVector2DInterface velocity;
+    ImmutableVector2D position;
+    ImmutableVector2D velocity;
     Vector2D acceleration;
 }

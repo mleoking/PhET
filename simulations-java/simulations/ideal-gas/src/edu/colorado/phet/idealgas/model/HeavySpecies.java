@@ -7,7 +7,7 @@
  */
 package edu.colorado.phet.idealgas.model;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -49,7 +49,7 @@ public class HeavySpecies extends GasMolecule {
         return s_instances.size();
     }
 
-    public HeavySpecies( Point2D position, Vector2DInterface velocity, Vector2DInterface acceleration ) {
+    public HeavySpecies( Point2D position, Vector2D velocity, Vector2D acceleration ) {
         super( position, velocity, acceleration, s_mass, s_radius );
         init();
     }

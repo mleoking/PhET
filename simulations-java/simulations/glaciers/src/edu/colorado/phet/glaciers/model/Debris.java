@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import edu.colorado.phet.common.phetcommon.math.Point3D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.glaciers.model.Glacier.GlacierAdapter;
@@ -154,7 +154,7 @@ public class Debris extends ClockAdapter {
             }
             
             // distance = velocity * dt
-            Vector2DInterface velocity = _glacier.getIceVelocity( getX(), currentY );
+            Vector2D velocity = _glacier.getIceVelocity( getX(), currentY );
             final double dt = clockEvent.getSimulationTimeChange();
             double newX = getX() + ( velocity.getX() * dt );
             double newY = getY() + ( velocity.getY() * dt );

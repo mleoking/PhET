@@ -13,7 +13,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.mechanics.Body;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
  * A 2 dimensional box
@@ -175,7 +175,7 @@ public class Box2D extends Body implements Collidable {
         return leftWallVx;
     }
 
-    public Vector2DInterface getVelocityPrev() {
+    public Vector2D getVelocityPrev() {
         return collidableAdapter.getVelocityPrev();
     }
 

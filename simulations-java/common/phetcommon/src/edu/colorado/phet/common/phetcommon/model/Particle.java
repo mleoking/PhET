@@ -13,7 +13,7 @@ package edu.colorado.phet.common.phetcommon.model;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 
 /**
@@ -24,9 +24,9 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
  */
 public class Particle extends SimpleObservable implements ModelElement {
     private Point2D position = new Point2D.Double();
-    private Vector2DInterface velocity = new Vector2D();
-    private Vector2DInterface acceleration = new Vector2D();
-    private Vector2DInterface prevAcceleration = new Vector2D();
+    private Vector2D velocity = new Vector2D();
+    private Vector2D acceleration = new Vector2D();
+    private Vector2D prevAcceleration = new Vector2D();
 
     public Particle() {
     }
@@ -42,8 +42,8 @@ public class Particle extends SimpleObservable implements ModelElement {
         return clone;
     }
 
-    protected Particle( Point2D position, Vector2DInterface velocity,
-                        Vector2DInterface acceleration ) {
+    protected Particle( Point2D position, Vector2D velocity,
+                        Vector2D acceleration ) {
         setPosition( position );
         setVelocity( velocity );
         setAcceleration( acceleration );
@@ -62,11 +62,11 @@ public class Particle extends SimpleObservable implements ModelElement {
         setPosition( position.getX(), position.getY() );
     }
 
-    public Vector2DInterface getVelocity() {
+    public Vector2D getVelocity() {
         return velocity;
     }
 
-    public void setVelocity( Vector2DInterface velocity ) {
+    public void setVelocity( Vector2D velocity ) {
         setVelocity( velocity.getX(), velocity.getY() );
     }
 
@@ -79,11 +79,11 @@ public class Particle extends SimpleObservable implements ModelElement {
         return velocity.getMagnitude();
     }
 
-    public Vector2DInterface getAcceleration() {
+    public Vector2D getAcceleration() {
         return acceleration;
     }
 
-    public void setAcceleration( Vector2DInterface acceleration ) {
+    public void setAcceleration( Vector2D acceleration ) {
         setAcceleration( acceleration.getX(), acceleration.getY() );
     }
 

@@ -13,7 +13,7 @@ package edu.colorado.phet.common.mechanics;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.Particle;
 
 /**
@@ -30,7 +30,7 @@ public abstract class Body extends Particle {
     private double alpha;
     private double prevAlpha;
     private double mass;
-    private Vector2DInterface momentum = new Vector2D();
+    private Vector2D momentum = new Vector2D();
 
 
     //--------------------------------------------------------------------------------------------------
@@ -63,8 +63,8 @@ public abstract class Body extends Particle {
      * @param mass
      * @param charge
      */
-    protected Body( Point2D location, Vector2DInterface velocity,
-                    Vector2DInterface acceleration, double mass, double charge ) {
+    protected Body( Point2D location, Vector2D velocity,
+                    Vector2D acceleration, double mass, double charge ) {
         super( location, velocity, acceleration );
         setMass( mass );
     }
@@ -133,12 +133,12 @@ public abstract class Body extends Particle {
         this.mass = mass;
     }
 
-    public Vector2DInterface getMomentum() {
+    public Vector2D getMomentum() {
         return new Vector2D( getVelocity().getX() * getMass(),
                                     getVelocity().getY() * getMass() );
     }
 
-    public void setMomentum( Vector2DInterface momentum ) {
+    public void setMomentum( Vector2D momentum ) {
         setVelocity( momentum.getX() / getMass(), momentum.getY() / getMass() );
     }
 

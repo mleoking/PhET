@@ -13,7 +13,7 @@ package edu.colorado.phet.reactionsandrates.model.collision;
 import edu.colorado.phet.common.mechanics.Body;
 import edu.colorado.phet.common.mechanics.Vector3D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.reactionsandrates.model.AbstractMolecule;
 import edu.colorado.phet.reactionsandrates.model.CompositeMolecule;
 import edu.colorado.phet.reactionsandrates.model.SimpleMolecule;
@@ -28,12 +28,12 @@ import java.awt.geom.Point2D;
  */
 public class HardBodyCollision {
 
-    private Vector2DInterface n = new Vector2D();
-    private Vector2DInterface vRel = new Vector2D();
-    private Vector2DInterface vAng1 = new Vector2D();
-    private Vector2DInterface vAng2 = new Vector2D();
-    private Vector2DInterface angRel = new Vector2D();
-    private Vector2DInterface loa = new Vector2D();
+    private Vector2D n = new Vector2D();
+    private Vector2D vRel = new Vector2D();
+    private Vector2D vAng1 = new Vector2D();
+    private Vector2D vAng2 = new Vector2D();
+    private Vector2D angRel = new Vector2D();
+    private Vector2D loa = new Vector2D();
 
 
     /**
@@ -122,19 +122,19 @@ public class HardBodyCollision {
      */
     public void doCollision( Body bodyA, Body bodyB, HardBodyCollision.CollisionSpec collisionSpec ) {
 
-        Vector2DInterface mTotal1 = new Vector2D( bodyA.getMomentum() ).add( bodyB.getMomentum() );
+        Vector2D mTotal1 = new Vector2D( bodyA.getMomentum() ).add( bodyB.getMomentum() );
 
 
-        Vector2DInterface loa = collisionSpec.getLoa();
+        Vector2D loa = collisionSpec.getLoa();
         Point2D.Double collisionPt = collisionSpec.getCollisionPt();
 
         // Get the total energy of the two objects, so we can conserve it
         double totalEnergy0 = bodyA.getKineticEnergy() + bodyB.getKineticEnergy();
 
         // Get the vectors from the bodies' CMs to the point of contact
-        Vector2DInterface r1 = new Vector2D( collisionPt.getX() - bodyA.getPosition().getX(),
+        Vector2D r1 = new Vector2D( collisionPt.getX() - bodyA.getPosition().getX(),
                                            collisionPt.getY() - bodyA.getPosition().getY() );
-        Vector2DInterface r2 = new Vector2D( collisionPt.getX() - bodyB.getPosition().getX(),
+        Vector2D r2 = new Vector2D( collisionPt.getX() - bodyB.getPosition().getX(),
                                            collisionPt.getY() - bodyB.getPosition().getY() );
 
         // Get the unit vector along the line of action
@@ -198,7 +198,7 @@ public class HardBodyCollision {
 //        bodyB.getVelocity().multiply( fvB );
         }
 
-        Vector2DInterface mTotal2 = new Vector2D( bodyA.getMomentum() ).add( bodyB.getMomentum() );
+        Vector2D mTotal2 = new Vector2D( bodyA.getMomentum() ).add( bodyB.getMomentum() );
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -207,12 +207,12 @@ public class HardBodyCollision {
 
     private static class CollisionSpec {
 
-        private Vector2DInterface loa;
+        private Vector2D loa;
         private Point2D.Double collisionPt;
         private SimpleMolecule moleculeA;
         private SimpleMolecule moleculeB;
 
-        public CollisionSpec( Vector2DInterface loa,
+        public CollisionSpec( Vector2D loa,
                               Point2D.Double collisionPt,
                               SimpleMolecule moleculeA,
                               SimpleMolecule moleculeB ) {
@@ -222,7 +222,7 @@ public class HardBodyCollision {
             this.collisionPt = collisionPt;
         }
 
-        public Vector2DInterface getLoa() {
+        public Vector2D getLoa() {
             return loa;
         }
 

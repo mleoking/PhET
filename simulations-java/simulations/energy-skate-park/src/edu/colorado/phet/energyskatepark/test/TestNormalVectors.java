@@ -1,6 +1,6 @@
 package edu.colorado.phet.energyskatepark.test;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
 import junit.framework.TestCase;
@@ -38,9 +38,9 @@ public class TestNormalVectors extends TestCase {
 
     private static double testNormalVectors( double x, double y ) {
         Vector2D a = new Vector2D( x, y );
-        AbstractVector2DInterface rotated = a.getRotatedInstance( -Math.PI / 2.0 );
+        ImmutableVector2D rotated = a.getRotatedInstance( -Math.PI / 2.0 );
 
-        AbstractVector2DInterface normed = a.getNormalVector();
+        ImmutableVector2D normed = a.getNormalVector();
         EnergySkateParkLogging.println( "original vector=" + a + ", rotated vector= " + rotated + ", getNormalVector=" + normed );
         double error = rotated.getSubtractedInstance( normed ).getMagnitude();
         assertEquals( error, 0.0, 1E-6 );

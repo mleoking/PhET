@@ -14,7 +14,7 @@ import java.util.Collections;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -295,7 +295,7 @@ public class PressureWaveGraphic extends PNode {
         private double a;
         private double b;
         private double speed = 4.0;//pixels per time step
-        private Vector2DInterface velocity = new Vector2D();
+        private Vector2D velocity = new Vector2D();
         private BufferedImage newImage;
 
         public Particle( BufferedImage newImage, int i, int j ) {

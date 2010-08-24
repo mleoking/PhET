@@ -25,7 +25,7 @@ import javax.swing.JRadioButton;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
@@ -83,7 +83,7 @@ public class ParticleInjectorNode extends PNode {
 	private ParticleType particleTypeToInject;
 	private Dimension2D injectionPointOffset = new PDimension();
 	private Point2D injectionPointInModelCoords = new Point2D.Double();
-	private Vector2DInterface nominalInjectionVelocityVector = new Vector2D(NOMINAL_ION_INJECTION_VELOCITY, 0);
+	private Vector2D nominalInjectionVelocityVector = new Vector2D(NOMINAL_ION_INJECTION_VELOCITY, 0);
 	
     //------------------------------------------------------------------------
     // Constructor

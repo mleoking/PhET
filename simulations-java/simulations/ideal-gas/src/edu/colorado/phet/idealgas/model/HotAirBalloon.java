@@ -8,7 +8,7 @@
 package edu.colorado.phet.idealgas.model;
 
 import edu.colorado.phet.common.mechanics.Body;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 
 import java.awt.geom.Point2D;
@@ -27,8 +27,8 @@ public class HotAirBalloon extends HollowSphere {
     private double heatSource;
 
     public HotAirBalloon( Point2D center,
-                          Vector2DInterface velocity,
-                          Vector2DInterface acceleration,
+                          Vector2D velocity,
+                          Vector2D acceleration,
                           double mass,
                           double radius,
                           double openingAngle,

@@ -15,7 +15,7 @@ import java.util.EventListener;
 import java.util.EventObject;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.solublesalts.model.Atom;
 import edu.colorado.phet.solublesalts.model.crystal.Crystal;
@@ -35,7 +35,7 @@ public class Ion extends Atom {
 
     private IonProperties ionProperties;
     private Crystal bindingCrystal;
-    private Vector2DInterface vSaveUtil = new Vector2D();
+    private Vector2D vSaveUtil = new Vector2D();
 
     public Ion( IonProperties ionProperties ) {
         this( new Point2D.Double( 1, 1 ),
@@ -44,7 +44,7 @@ public class Ion extends Atom {
               ionProperties );
     }
 
-    public Ion( Point2D position, Vector2DInterface velocity, Vector2DInterface acceleration, IonProperties ionProperties ) {
+    public Ion( Point2D position, Vector2D velocity, Vector2D acceleration, IonProperties ionProperties ) {
         super( position, velocity, acceleration, ionProperties.getMass(), ionProperties.getRadius() );
         this.ionProperties = ionProperties;
     }

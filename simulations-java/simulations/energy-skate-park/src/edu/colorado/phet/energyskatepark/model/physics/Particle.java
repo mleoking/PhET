@@ -174,7 +174,7 @@ public class Particle implements Serializable {
         return zeroPointPotentialY;
     }
 
-    public AbstractVector2DInterface getThrust() {
+    public ImmutableVector2D getThrust() {
         return new ImmutableVector2D( xThrust, yThrust );
     }
 
@@ -224,7 +224,7 @@ public class Particle implements Serializable {
 
     class Particle1DUpdate implements UpdateStrategy, Serializable {
         public void stepInTime( double dt ) {
-            AbstractVector2DInterface sideVector = particle1D.getSideVector();
+            ImmutableVector2D sideVector = particle1D.getSideVector();
             boolean outsideCircle = sideVector.dot( particle1D.getCurvatureDirection() ) < 0;
 
             //compare a to v/r^2 to see if it leaves the track
@@ -256,7 +256,7 @@ public class Particle implements Serializable {
     private void updateStateFrom1D() {
         x = particle1D.getX();
         y = particle1D.getY();
-        AbstractVector2DInterface vel = particle1D.getVelocity2D();
+        ImmutableVector2D vel = particle1D.getVelocity2D();
         vx = vel.getX();
         vy = vel.getY();
         angle = particle1D.getSideVector().getAngle() - Math.PI / 2;
@@ -357,9 +357,9 @@ public class Particle implements Serializable {
     /*
      * Find the state that best matches where the skater should be if it were to join the nearest track on the correct side.
      */
-    public TraversalState getBestTraversalState( SerializablePoint2D location, AbstractVector2DInterface normal ) {
+    public TraversalState getBestTraversalState( SerializablePoint2D location, ImmutableVector2D normal ) {
         SearchState bestMatch = getBestSearchPoint( location );
-        AbstractVector2DInterface newNormal = bestMatch.getTrack().getUnitNormalVector( bestMatch.getAlpha() );
+        ImmutableVector2D newNormal = bestMatch.getTrack().getUnitNormalVector( bestMatch.getAlpha() );
         boolean top = newNormal.dot( normal ) > 0;
         return new TraversalState( bestMatch.getTrack(), top, bestMatch.getAlpha() );
     }
@@ -473,13 +473,13 @@ public class Particle implements Serializable {
         private void interactWithTrack( SearchState searchState, SerializablePoint2D newLoc, SerializablePoint2D origLoc, boolean[] origAbove, double origEnergy, double dt ) {
             ParametricFunction2D cubicSpline = searchState.getTrack();
             double alpha = searchState.getAlpha();
-            AbstractVector2DInterface parallel = cubicSpline.getUnitParallelVector( alpha );
-            AbstractVector2DInterface norm = cubicSpline.getUnitNormalVector( alpha );
+            ImmutableVector2D parallel = cubicSpline.getUnitParallelVector( alpha );
+            ImmutableVector2D norm = cubicSpline.getUnitNormalVector( alpha );
             //reflect the velocity about the parallel direction
-            AbstractVector2DInterface parallelVelocity = parallel.getInstanceOfMagnitude( parallel.dot( getVelocity() ) );
+            ImmutableVector2D parallelVelocity = parallel.getInstanceOfMagnitude( parallel.dot( getVelocity() ) );
 
-            AbstractVector2DInterface newNormalVelocity = norm.getInstanceOfMagnitude( norm.dot( getVelocity() ) ).getScaledInstance( elasticity );
-            AbstractVector2DInterface newVelocity = parallelVelocity.getSubtractedInstance( newNormalVelocity );
+            ImmutableVector2D newNormalVelocity = norm.getInstanceOfMagnitude( norm.dot( getVelocity() ) ).getScaledInstance( elasticity );
+            ImmutableVector2D newVelocity = parallelVelocity.getSubtractedInstance( newNormalVelocity );
 
             double testVal = Math.abs( newNormalVelocity.getMagnitude() / newVelocity.getMagnitude() );
 //                EnergySkateParkLogging.println( "testv = " + testVal );
@@ -596,20 +596,20 @@ public class Particle implements Serializable {
     }
 
     private boolean isVelocityTowardTrack( SerializablePoint2D origPosition, ParametricFunction2D cubicSpline, double newAlpha ) {
-        Vector2DInterface vel = getVelocity();
-        Vector2DInterface toTrack = new Vector2D( origPosition, cubicSpline.evaluate( newAlpha ) );
+        Vector2D vel = getVelocity();
+        Vector2D toTrack = new Vector2D( origPosition, cubicSpline.evaluate( newAlpha ) );
         return vel.dot( toTrack ) > 0;
     }
 
     private void offsetOnSpline( ParametricFunction2D cubicSpline, double alpha, boolean top ) {
-        AbstractVector2DInterface norm = cubicSpline.getUnitNormalVector( alpha );
+        ImmutableVector2D norm = cubicSpline.getUnitNormalVector( alpha );
         SerializablePoint2D splineLoc = cubicSpline.evaluate( alpha );
         double sign = top ? 1.0 : -1.0;
         SerializablePoint2D finalPosition = new SerializablePoint2D( norm.getInstanceOfMagnitude( 1.0E-3 * sign ).getDestination( splineLoc ) );//todo: determine this free parameter
         setPosition( finalPosition );
     }
 
-    public void setVelocity( AbstractVector2DInterface velocity ) {
+    public void setVelocity( ImmutableVector2D velocity ) {
         setVelocity( velocity.getX(), velocity.getY() );
     }
 
@@ -618,7 +618,7 @@ public class Particle implements Serializable {
     }
 
     public boolean isAboveSpline( ParametricFunction2D parametricFunction2D, double alpha, SerializablePoint2D loc ) {
-        AbstractVector2DInterface v = parametricFunction2D.getUnitNormalVector( alpha );
+        ImmutableVector2D v = parametricFunction2D.getUnitNormalVector( alpha );
         Vector2D a = new Vector2D( parametricFunction2D.evaluate( alpha ), loc );
         return a.dot( v ) > 0;
     }
@@ -638,7 +638,7 @@ public class Particle implements Serializable {
         particle1D.setVelocity( newVelocityMagnitude * sign );
 
         setUpdateStrategy( new Particle1DUpdate() );
-        AbstractVector2DInterface newVelocity = particle1D.getVelocity2D();
+        ImmutableVector2D newVelocity = particle1D.getVelocity2D();
         double dot = newVelocity.dot( origVel );
 //        EnergySkateParkLogging.println( "switched to track, velocity dot product= " + dot );
         if( dot < 0 ) {

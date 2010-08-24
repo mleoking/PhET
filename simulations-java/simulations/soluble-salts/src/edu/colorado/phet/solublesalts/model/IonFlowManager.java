@@ -13,7 +13,7 @@ package edu.colorado.phet.solublesalts.model;
 import java.util.*;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
 
 /**
@@ -110,7 +110,7 @@ public class IonFlowManager implements Vessel.ChangeListener, Spigot.ChangeListe
                 // Set the ion's velocity toward the drain to be ds
                 double beta2 = Math.atan2( drain.getPosition().getY() - ion.getPosition().getY(),
                                            drain.getPosition().getX() - ion.getPosition().getX() );
-                Vector2DInterface v2 = new Vector2D( ds, 0 );
+                Vector2D v2 = new Vector2D( ds, 0 );
                 v2.rotate( beta2 );
                 // Adjust the ion's velocity so it will get to the drain before the water's gone 
                 double x = Math.min( v2.getX(), ion.getVelocity().getX() );
@@ -135,8 +135,8 @@ public class IonFlowManager implements Vessel.ChangeListener, Spigot.ChangeListe
             Set ionsToRestore = unadjustedVelocities.keySet();
             for ( Iterator iterator = ionsToRestore.iterator(); iterator.hasNext(); ) {
                 Ion ion = (Ion) iterator.next();
-                Vector2DInterface vPrev = (Vector2DInterface) unadjustedVelocities.get( ion );
-                Vector2DInterface vCurr = ion.getVelocity();
+                Vector2D vPrev = (Vector2D) unadjustedVelocities.get( ion );
+                Vector2D vCurr = ion.getVelocity();
                 vCurr.normalize().scale( vPrev.getMagnitude() );
             }
             unadjustedVelocities.clear();

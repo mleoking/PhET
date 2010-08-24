@@ -5,7 +5,7 @@ package edu.colorado.phet.common.phetcommon.view.graphics;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 
 /**
@@ -25,8 +25,8 @@ public class Arrow {
     private double fractionalHeadHeight;
     private boolean scaleTailToo;
 
-    private AbstractVector2DInterface direction;
-    private AbstractVector2DInterface norm;
+    private ImmutableVector2D direction;
+    private ImmutableVector2D norm;
     boolean isHeadDynamic = false;
 
     public boolean equals( Object obj ) {
@@ -55,7 +55,7 @@ public class Arrow {
      * @param fractionalHeadHeight
      * @param scaleTailToo
      */
-    public Arrow( Point2D src, AbstractVector2DInterface vector,
+    public Arrow( Point2D src, ImmutableVector2D vector,
                   double headHeight, double headWidth, double tailWidth,
                   double fractionalHeadHeight, boolean scaleTailToo ) {
         this( src, vector.getDestination( src ), headHeight, headWidth, tailWidth, fractionalHeadHeight, scaleTailToo );
@@ -95,7 +95,7 @@ public class Arrow {
         if ( tailLocation.distance( tipLocation ) != 0 ) {
             ImmutableVector2D tailPt = new ImmutableVector2D( tailLocation );
             ImmutableVector2D tipPt = new ImmutableVector2D( tipLocation );
-            AbstractVector2DInterface distanceVector = tipPt.getSubtractedInstance( tailPt );
+            ImmutableVector2D distanceVector = tipPt.getSubtractedInstance( tailPt );
             direction = distanceVector.getNormalizedInstance();
             double length = tipLocation.distance( tailLocation );
             double tempHeadHeight = headHeight;

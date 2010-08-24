@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
@@ -50,8 +50,8 @@ public class FissionOneNucleusModel {
     private ArrayList _listeners = new ArrayList();
     private ConstantDtClock _clock;
     private Random _rand = new Random();
-    private Vector2DInterface _initialParentAccel;
-    private Vector2DInterface _initialDaughterAccel;
+    private Vector2D _initialParentAccel;
+    private Vector2D _initialDaughterAccel;
     
     //------------------------------------------------------------------------
     // Constructor

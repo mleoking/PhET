@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.idealgas.model;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.idealgas.collision.Wall;
 
@@ -70,8 +70,8 @@ public class PChemModel extends IdealGasModel implements Wall.ChangeListener {
                     LightSpecies lightMolecule = new LightSpecies( molecule.getPosition(),
                                                                    molecule.getVelocity(),
                                                                    molecule.getAcceleration() );
-                    Vector2DInterface vOld = molecule.getVelocity();
-                    Vector2DInterface vNew = vOld.scale( Math.sqrt( molecule.getMass() / lightMolecule.getMass() ) );
+                    Vector2D vOld = molecule.getVelocity();
+                    Vector2D vNew = vOld.scale( Math.sqrt( molecule.getMass() / lightMolecule.getMass() ) );
                     lightMolecule.setVelocity( vNew );
                     addModelElement( lightMolecule );
                     removeModelElement( molecule );
@@ -81,8 +81,8 @@ public class PChemModel extends IdealGasModel implements Wall.ChangeListener {
                     HeavySpecies heavyMolecule = new HeavySpecies( molecule.getPosition(),
                                                                    molecule.getVelocity(),
                                                                    molecule.getAcceleration() );
-                    Vector2DInterface vOld = molecule.getVelocity();
-                    Vector2DInterface vNew = vOld.scale( Math.sqrt( molecule.getMass() / heavyMolecule.getMass() ) );
+                    Vector2D vOld = molecule.getVelocity();
+                    Vector2D vNew = vOld.scale( Math.sqrt( molecule.getMass() / heavyMolecule.getMass() ) );
                     heavyMolecule.setVelocity( vNew );
                     addModelElement( heavyMolecule );
                     removeModelElement( molecule );
