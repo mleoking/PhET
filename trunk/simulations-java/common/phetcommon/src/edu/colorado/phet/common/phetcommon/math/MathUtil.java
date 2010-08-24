@@ -506,10 +506,10 @@ public class MathUtil {
      * @return  A vector from the line to the point, along the shortest distance
      *          between the two.
      */
-    public static Vector2D getVectorFromLineToPoint(Line2D line, Point2D point) {
+    public static Vector2DInterface getVectorFromLineToPoint(Line2D line, Point2D point) {
         Point2D pointOnLine = getPointOnLineClosestToPoint(line, point);
 
-        return new Vector2D.Double(point.getX() - pointOnLine.getX(), point.getY() - pointOnLine.getY());
+        return new Vector2D(point.getX() - pointOnLine.getX(), point.getY() - pointOnLine.getY());
     }
 
     public static double signum(double v) {
@@ -663,8 +663,8 @@ public class MathUtil {
      * @param v2
      * @return A vector that is the projection of v1 on v2
      */
-    public static Vector2D getProjection( Vector2D v1, Vector2D v2 ) {
-        Vector2D proj = new Vector2D.Double( v2 ).normalize();
+    public static Vector2DInterface getProjection( Vector2DInterface v1, Vector2DInterface v2 ) {
+        Vector2DInterface proj = new Vector2D( v2 ).normalize();
         proj = proj.scale( v1.dot( proj ) );
         return proj;
     }

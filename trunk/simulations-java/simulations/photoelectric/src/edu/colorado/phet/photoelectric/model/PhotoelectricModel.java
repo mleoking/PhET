@@ -111,7 +111,7 @@ public class PhotoelectricModel extends DischargeLampModel {
                          beamLocation,
                          beamHeight,
                          beamWidth,
-                         new Vector2D.Double( Math.cos( beamAngle ), Math.sin( beamAngle ) ),
+                         new Vector2D( Math.cos( beamAngle ), Math.sin( beamAngle ) ),
                          MAX_PHOTONS_PER_SECOND,
                          beamFanout,Photon.DEFAULT_SPEED );
         addModelElement( beam );

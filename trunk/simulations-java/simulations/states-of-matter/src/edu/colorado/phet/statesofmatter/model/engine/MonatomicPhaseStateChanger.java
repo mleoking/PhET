@@ -5,7 +5,7 @@ package edu.colorado.phet.statesofmatter.model.engine;
 import java.awt.geom.Point2D;
 import java.util.Random;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 import edu.colorado.phet.statesofmatter.model.MoleculeForceAndMotionDataSet;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 
@@ -73,7 +73,7 @@ public class MonatomicPhaseStateChanger extends AbstractPhaseStateChanger {
 		
 		int numberOfAtoms = m_model.getMoleculeDataSetRef().getNumberOfAtoms();
 		Point2D [] moleculeCenterOfMassPositions = m_model.getMoleculeDataSetRef().getMoleculeCenterOfMassPositions();
-		Vector2D [] moleculeVelocities = m_model.getMoleculeDataSetRef().getMoleculeVelocities();
+		Vector2DInterface[] moleculeVelocities = m_model.getMoleculeDataSetRef().getMoleculeVelocities();
         Random rand = new Random();
         double temperatureSqrt = Math.sqrt( m_model.getTemperatureSetPoint() );
         int atomsPerLayer = (int)Math.round( Math.sqrt( numberOfAtoms ) );
@@ -124,7 +124,7 @@ public class MonatomicPhaseStateChanger extends AbstractPhaseStateChanger {
 
 		int numberOfAtoms = m_model.getMoleculeDataSetRef().getNumberOfAtoms();
 		Point2D [] moleculeCenterOfMassPositions = m_model.getMoleculeDataSetRef().getMoleculeCenterOfMassPositions();
-		Vector2D [] moleculeVelocities = m_model.getMoleculeDataSetRef().getMoleculeVelocities();
+		Vector2DInterface[] moleculeVelocities = m_model.getMoleculeDataSetRef().getMoleculeVelocities();
         Random rand = new Random();
 		for (int i = 0; i < numberOfAtoms; i++){
             // Assign each particle an initial velocity.
@@ -190,7 +190,7 @@ public class MonatomicPhaseStateChanger extends AbstractPhaseStateChanger {
         
 		int numberOfAtoms = m_model.getMoleculeDataSetRef().getNumberOfAtoms();
 		Point2D [] moleculeCenterOfMassPositions = m_model.getMoleculeDataSetRef().getMoleculeCenterOfMassPositions();
-		Vector2D [] moleculeVelocities = m_model.getMoleculeDataSetRef().getMoleculeVelocities();
+		Vector2DInterface[] moleculeVelocities = m_model.getMoleculeDataSetRef().getMoleculeVelocities();
         Random rand = new Random();
         
         for (int i = 0; i < numberOfAtoms; i++){

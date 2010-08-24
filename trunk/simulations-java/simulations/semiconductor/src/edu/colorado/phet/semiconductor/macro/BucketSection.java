@@ -47,7 +47,7 @@ public class BucketSection extends TransformGraphic {
 
         EntryPoint[] sources = model.getSources();
         for ( int i = 0; i < sources.length; i++ ) {
-            Vector2D.Double a = sources[i].getSource();
+            Vector2D a = sources[i].getSource();
             double startX = sources[i].getSource().getX();
             double endX = sources[i].getCell().getX();
             int dir = (int) ( ( startX - endX ) / ( Math.abs( startX - endX ) ) );

@@ -7,6 +7,7 @@
 package edu.colorado.phet.idealgas.collision;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
 
 import java.awt.geom.Line2D;
@@ -137,7 +138,7 @@ public class SphereWallExpert implements CollisionExpert, ContactDetector {
         WallDescriptor wallDesc = new WallDescriptor( wall, sphere.getRadius() );
 
         // Figure out which boundary of the wall the sphere crossed to get inside
-        Vector2D v = new Vector2D.Double( -sphere.getVelocity().getX(), -sphere.getVelocity().getY() ).normalize().scale( 1000 );
+        Vector2DInterface v = new Vector2D( -sphere.getVelocity().getX(), -sphere.getVelocity().getY() ).normalize().scale( 1000 );
         Point2D Q = sphere.getPosition();
         Point2D P = new Point2D.Double( Q.getX() + v.getX(), Q.getY() + v.getY() );
         Line2D PQ = new Line2D.Double( Q, P );

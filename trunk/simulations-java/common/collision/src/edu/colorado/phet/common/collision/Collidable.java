@@ -8,10 +8,10 @@ package edu.colorado.phet.common.collision;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 
 public interface Collidable {
-    Vector2D getVelocityPrev();
+    Vector2DInterface getVelocityPrev();
 
     Point2D getPositionPrev();
 }

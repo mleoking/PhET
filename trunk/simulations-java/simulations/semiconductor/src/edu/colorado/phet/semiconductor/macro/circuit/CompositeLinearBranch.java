@@ -2,7 +2,7 @@ package edu.colorado.phet.semiconductor.macro.circuit;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
 
 
 /**
@@ -26,7 +26,7 @@ public class CompositeLinearBranch {
         return sum;
     }
 
-    public AbstractVector2D getPosition( double dist ) {
+    public AbstractVector2DInterface getPosition( double dist ) {
         double start = 0;
         for ( int i = 0; i < branches.size(); i++ ) {
             LinearBranch linearBranch = (LinearBranch) branches.get( i );

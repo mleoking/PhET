@@ -8,7 +8,7 @@ import edu.colorado.phet.common.motion.model.DefaultTemporalVariable;
 import edu.colorado.phet.common.motion.model.IMotionBody;
 import edu.colorado.phet.common.motion.model.ITemporalVariable;
 import edu.colorado.phet.common.motion.model.UpdateStrategy;
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.rotation.model.RotationModel;
@@ -157,7 +157,7 @@ public class TorqueModel extends RotationModel {
 
     private Line2D.Double computeBrakeForce() {
         Point2D.Double src = new Point2D.Double( getRotationPlatform().getRadius() * Math.sqrt( 2 ) / 2, -getRotationPlatform().getRadius() * Math.sqrt( 2 ) / 2 );
-        AbstractVector2D vec = getBrakeForceVector();
+        AbstractVector2DInterface vec = getBrakeForceVector();
         if ( vec == null ) {
             return new Line2D.Double( src, src );
         }
@@ -166,7 +166,7 @@ public class TorqueModel extends RotationModel {
         return new Line2D.Double( src, dst );
     }
 
-    private AbstractVector2D getBrakeForceVector() {
+    private AbstractVector2DInterface getBrakeForceVector() {
         boolean clockwise = getRotationPlatform().getVelocity() > 0;
         if ( getRotationPlatform().getVelocity() == 0 ) {
             if ( Math.abs( appliedForceObject.getTorque() ) == 0 ) {
@@ -186,7 +186,7 @@ public class TorqueModel extends RotationModel {
         else {
             overwhelmingBrake = false;
         }
-        return Vector2D.Double.parseAngleAndMagnitude( magnitude, Math.PI / 4 + ( clockwise ? Math.PI : 0 ) );
+        return Vector2D.parseAngleAndMagnitude( magnitude, Math.PI / 4 + ( clockwise ? Math.PI : 0 ) );
     }
 
     private void updateBrakeForce() {
@@ -373,22 +373,22 @@ public class TorqueModel extends RotationModel {
     }
 
     private Line2D.Double getTangentialAppliedForce( Line2D.Double appliedForce ) {
-        Vector2D.Double v = new Vector2D.Double( appliedForce.getP1(), getRotationPlatform().getCenter() );
+        Vector2D v = new Vector2D( appliedForce.getP1(), getRotationPlatform().getCenter() );
         v.rotate( Math.PI / 2 );
-        if ( v.dot( new Vector2D.Double( appliedForce.getP1(), appliedForce.getP2() ) ) < 0 ) {
+        if ( v.dot( new Vector2D( appliedForce.getP1(), appliedForce.getP2() ) ) < 0 ) {
             v.rotate( Math.PI );
         }
 
-        AbstractVector2D x = v;
+        AbstractVector2DInterface x = v;
         if ( x.getMagnitude() == 0 ) {
             return new Line2D.Double( appliedForce.getP1(), appliedForce.getP1() );
         }
-        double magnitude = new Vector2D.Double( appliedForce.getP1(), appliedForce.getP2() ).dot( x.getNormalizedInstance() );
+        double magnitude = new Vector2D( appliedForce.getP1(), appliedForce.getP2() ).dot( x.getNormalizedInstance() );
         if ( magnitude != 0 ) {
             x = x.getInstanceOfMagnitude( magnitude );
         }
         else {
-            x = new Vector2D.Double( 0, 0 );
+            x = new Vector2D( 0, 0 );
         }
         return new Line2D.Double( appliedForce.getP1(), x.getDestination( appliedForce.getP1() ) );
     }

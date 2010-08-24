@@ -126,8 +126,8 @@ public class DopantGraphic extends TransformGraphic implements Boundary {
         return dopant.getType();
     }
 
-    public Vector2D.Double getCenter() {
-        return new Vector2D.Double( viewLoc );
+    public Vector2D getCenter() {
+        return new Vector2D( viewLoc );
     }
 
 

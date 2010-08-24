@@ -7,6 +7,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 
 /**
  * Motion strategy that moves seeks to look like something that was injected,
@@ -23,10 +24,10 @@ public class InjectionMotionStrategy extends AbstractMotionStrategy {
 	
 	private double preRandomWalkCountdown = PRE_RANDOM_WALK_TIME;
 	private RandomWalkMotionStrategy randomWalkMotionStrategy;
-	private final Vector2D initialVelocity = new Vector2D.Double();
+	private final Vector2DInterface initialVelocity = new Vector2D();
 	private boolean initialVelocitySet = false;
 	
-	public InjectionMotionStrategy(Rectangle2D bounds, Vector2D initialVelocity) {
+	public InjectionMotionStrategy(Rectangle2D bounds, Vector2DInterface initialVelocity) {
 		super(bounds);
 		this.initialVelocity.setComponents(initialVelocity.getX(), initialVelocity.getY());
 		randomWalkMotionStrategy = new RandomWalkMotionStrategy(bounds);
@@ -41,7 +42,7 @@ public class InjectionMotionStrategy extends AbstractMotionStrategy {
 		}
 		
 		Point2D position = modelElement.getPositionRef();
-		Vector2D velocity = modelElement.getVelocityRef();
+		Vector2DInterface velocity = modelElement.getVelocityRef();
 		
 		if (preRandomWalkCountdown > 0){
 			if ((position.getX() > getBounds().getMaxX() && velocity.getX() > 0) ||

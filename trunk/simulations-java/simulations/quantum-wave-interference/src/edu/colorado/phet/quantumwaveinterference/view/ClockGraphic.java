@@ -54,7 +54,7 @@ public class ClockGraphic extends PNode {
         }
 
         private void update() {
-            Arrow arrow = new Arrow( getTailLocation(), Vector2D.Double.parseAngleAndMagnitude( length, angle ).getDestination( getTailLocation() ),
+            Arrow arrow = new Arrow( getTailLocation(), Vector2D.parseAngleAndMagnitude( length, angle ).getDestination( getTailLocation() ),
                                      headHeight, headWidth, tailWidth );
             shape.setPathTo( arrow.getShape() );
         }

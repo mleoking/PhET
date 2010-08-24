@@ -194,7 +194,7 @@ public class BaseLaserModule extends PhetGraphicsModule {
                              s_origin,
                              s_boxWidth + s_laserOffsetX * 2,
                              s_boxHeight - Photon.RADIUS,
-                             new Vector2D.Double( 1, 0 ),
+                             new Vector2D( 1, 0 ),
                              LasersConfig.MAXIMUM_SEED_PHOTON_RATE,
                              LasersConfig.SEED_BEAM_FANOUT, getPhotonSpeed() );
         seedBeam.addPhotonEmittedListener( new InternalPhotonEmittedListener() );
@@ -205,7 +205,7 @@ public class BaseLaserModule extends PhetGraphicsModule {
                                 new Point2D.Double( s_origin.getX() + s_laserOffsetX, s_origin.getY() - s_laserOffsetX ),
                                 1000,
                                 cavity.getWidth(),
-                                new Vector2D.Double( 0, 1 ),
+                                new Vector2D( 0, 1 ),
                                 LasersConfig.MAXIMUM_SEED_PHOTON_RATE,
                                 LasersConfig.PUMPING_BEAM_FANOUT, getPhotonSpeed() );
         pumpingBeam.addPhotonEmittedListener( new InternalPhotonEmittedListener() );

@@ -29,11 +29,11 @@ public class Entrance implements ModelElement {
 
     public void stepInTime( double dt ) {
         if ( cell.getIndex() == 0 ) {
-            EntryPoint ep = new EntryPoint( cell, new Vector2D.Double( -1, 0 ) );
+            EntryPoint ep = new EntryPoint( cell, new Vector2D( -1, 0 ) );
             enter( energySection, ep );
         }
         else {
-            EntryPoint ep = new EntryPoint( cell, new Vector2D.Double( 1, 0 ) );
+            EntryPoint ep = new EntryPoint( cell, new Vector2D( 1, 0 ) );
             enter( energySection, ep );
         }
     }

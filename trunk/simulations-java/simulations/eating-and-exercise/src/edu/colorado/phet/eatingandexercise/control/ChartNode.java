@@ -299,7 +299,7 @@ public class ChartNode extends PNode {
             PText text = new EatingAndExercisePText( EatingAndExerciseResources.getString( "units.time.yrs" ) );
             axisLabel.addChild( text );
             axisLabel.addChild( new PhetPPath( new Arrow( new Point2D.Double( text.getFullBounds().getMaxX(), text.getFullBounds().getCenterY() ),
-                                                          new Vector2D.Double( 20, 0 ), 6, 6, 2, 0.5, true ).getShape(), Color.black ) );
+                                                          new Vector2D( 20, 0 ), 6, 6, 2, 0.5, true ).getShape(), Color.black ) );
             addChild( axisLabel );
 
             NumberAxis numberAxis = (NumberAxis) getJFreeChartNode().getChart().getXYPlot().getDomainAxis();

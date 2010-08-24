@@ -114,7 +114,7 @@ public class BulbComponentNode extends ComponentNode {
         Point2D endpt = bulb.getEndPoint();
         AffineTransform transform = new AffineTransform();
 
-        double angle = new ImmutableVector2D.Double(srcpt, endpt).getAngle() + 0.3 + theta;
+        double angle = new ImmutableVector2D(srcpt, endpt).getAngle() + 0.3 + theta;
         transform.rotate(angle, srcpt.getX(), srcpt.getY());
         transform.translate(srcpt.getX(), srcpt.getY());
 //        transform.scale( 0.74, 0.79 );

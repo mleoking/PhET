@@ -12,7 +12,7 @@ package edu.colorado.phet.solublesalts.model.ion;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 
 /**
  * Sodium
@@ -28,7 +28,7 @@ public class Sodium extends Ion {
         super( ionProperties );
     }
 
-    public Sodium( Point2D position, Vector2D velocity, Vector2D acceleration ) {
+    public Sodium( Point2D position, Vector2DInterface velocity, Vector2DInterface acceleration ) {
         super( position,
                velocity,
                acceleration,

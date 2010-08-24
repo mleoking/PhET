@@ -157,7 +157,7 @@ public class ArrowSetGraphic extends CompositePhetGraphic {
             viewCtr.y -= dy;
             viewCtr.y += offsetManager.getOffset();
             Point2D.Double tail = new Point2D.Double( viewCtr.x, viewCtr.y );
-            Point2D tip = new Vector2D.Double( viewLength, 0 ).getDestination( tail );
+            Point2D tip = new Vector2D( viewLength, 0 ).getDestination( tail );
             Arrow forceArrow = new Arrow( tail, tip, arrowHeadHeight, arrowHeadHeight, arrowTailWidth, 0.5, false );
 
             Shape forceArrowShape = forceArrow.getShape();

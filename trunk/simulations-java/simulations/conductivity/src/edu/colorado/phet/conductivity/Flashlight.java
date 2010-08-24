@@ -20,8 +20,8 @@ public class Flashlight extends SimpleObservable {
         return angle;
     }
 
-    public Vector2D.Double getPosition() {
-        return new Vector2D.Double( x, y );
+    public Vector2D getPosition() {
+        return new Vector2D( x, y );
     }
 
     public void setAngle( double d ) {

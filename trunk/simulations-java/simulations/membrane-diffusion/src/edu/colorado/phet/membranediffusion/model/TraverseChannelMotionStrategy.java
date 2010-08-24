@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 import edu.colorado.phet.membranediffusion.module.MembraneDiffusionDefaults;
 
 /**
@@ -21,7 +22,7 @@ public class TraverseChannelMotionStrategy extends MotionStrategy {
         MembraneDiffusionDefaults.DEFAULT_MEMBRANE_DIFFUSION_CLOCK_DT * 50;  // In seconds of sim time.
     private static final Random RAND = new Random();
     
-	private Vector2D velocityVector = new Vector2D.Double();
+	private Vector2DInterface velocityVector = new Vector2D();
 	private ArrayList<Point2D> traversalPoints;
 	private int currentDestinationIndex = 0;
 	private boolean channelHasBeenEntered = false; // Flag that is set when the channel is entered.
@@ -111,8 +112,8 @@ public class TraverseChannelMotionStrategy extends MotionStrategy {
 	}
 	
    @Override
-    public Vector2D getInstantaneousVelocity() {
-        return new Vector2D.Double(velocityVector.getX(), velocityVector.getY());
+    public Vector2DInterface getInstantaneousVelocity() {
+        return new Vector2D(velocityVector.getX(), velocityVector.getY());
     }
    
    /**

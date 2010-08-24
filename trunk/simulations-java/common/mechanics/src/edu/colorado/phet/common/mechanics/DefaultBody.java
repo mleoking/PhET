@@ -12,7 +12,7 @@ package edu.colorado.phet.common.mechanics;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 
 /**
  * DefaultBody
@@ -29,7 +29,7 @@ public class DefaultBody extends Body {
         super();
     }
 
-    protected DefaultBody( Point2D location, Vector2D velocity, Vector2D acceleration, double mass, double charge ) {
+    protected DefaultBody( Point2D location, Vector2DInterface velocity, Vector2DInterface acceleration, double mass, double charge ) {
         super( location, velocity, acceleration, mass, charge );
     }
 

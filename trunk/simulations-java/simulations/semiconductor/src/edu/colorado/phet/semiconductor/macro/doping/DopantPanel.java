@@ -13,7 +13,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.event.MouseInputAdapter;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformListener;
@@ -64,8 +64,8 @@ public class DopantPanel extends CompositeInteractiveGraphic {
         Border bo = BorderFactory.createTitledBorder( init, SemiconductorResources.getString( "DopantPanel.DopantBorder" ), 0, 0, font, Color.black );
         border = new BorderGraphic( bo, apparatusPanel, viewRect );
 
-        AbstractVector2D leftCell = getCenter( modelRect ).getAddedInstance( 0, -modelRect.getHeight() / 5.5 );
-        AbstractVector2D rightCell = getCenter( modelRect ).getAddedInstance( 0, modelRect.getHeight() / 5.5 );
+        AbstractVector2DInterface leftCell = getCenter( modelRect ).getAddedInstance( 0, -modelRect.getHeight() / 5.5 );
+        AbstractVector2DInterface rightCell = getCenter( modelRect ).getAddedInstance( 0, modelRect.getHeight() / 5.5 );
 
         Dopant negativeDopant = new Dopant( leftCell, DopantType.N );
         Dopant positiveDopant = new Dopant( rightCell, DopantType.P );
@@ -99,7 +99,7 @@ public class DopantPanel extends CompositeInteractiveGraphic {
         addGraphic( createP, 0 );
     }
 
-    private void addText( String s, CompositeInteractiveGraphic graphic, AbstractVector2D cell, ModelViewTransform2D transform ) {
+    private void addText( String s, CompositeInteractiveGraphic graphic, AbstractVector2DInterface cell, ModelViewTransform2D transform ) {
         final TextGraphic pText = new TextGraphic( 100, 100, new PhetFont( Font.PLAIN, 14 ), Color.black, s );
         ViewChangeListener vcl = new ViewChangeListener() {
             public void viewCoordinateChanged( int x, int y ) {
@@ -174,8 +174,8 @@ public class DopantPanel extends CompositeInteractiveGraphic {
         return igc;
     }
 
-    private Vector2D.Double getCenter( Rectangle2D.Double modelRect ) {
-        return new Vector2D.Double( modelRect.x + modelRect.width / 2, modelRect.y + modelRect.height / 2 );
+    private Vector2D getCenter( Rectangle2D.Double modelRect ) {
+        return new Vector2D( modelRect.x + modelRect.width / 2, modelRect.y + modelRect.height / 2 );
     }
 
     public void paint( Graphics2D graphics2D ) {

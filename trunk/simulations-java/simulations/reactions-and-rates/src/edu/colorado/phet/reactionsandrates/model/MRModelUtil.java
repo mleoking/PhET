@@ -12,6 +12,7 @@ package edu.colorado.phet.reactionsandrates.model;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 
 /**
  * MRModelUtil
@@ -34,7 +35,7 @@ public class MRModelUtil {
     public static double getCollisionEnergy( SimpleMolecule sm, CompositeMolecule comp ) {
 
         CollisionParams params = new CollisionParams( sm, comp );
-        Vector2D cv = new Vector2D.Double( params.getbMolecule().getPosition(), params.getFreeMolecule().getPosition() );
+        Vector2DInterface cv = new Vector2D( params.getbMolecule().getPosition(), params.getFreeMolecule().getPosition() );
         if( params.getFreeMolecule() instanceof MoleculeB ) {
             new CollisionParams( sm, comp );
         }

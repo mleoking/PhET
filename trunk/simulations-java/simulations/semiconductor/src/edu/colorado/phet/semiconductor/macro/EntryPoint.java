@@ -11,19 +11,19 @@ import edu.colorado.phet.semiconductor.macro.energy.bands.EnergyCell;
  * Time: 12:29:41 PM
  */
 public class EntryPoint {
-    Vector2D.Double source;
+    Vector2D source;
     EnergyCell cell;
 
-    public EntryPoint( EnergyCell cell, Vector2D.Double offset ) {
+    public EntryPoint( EnergyCell cell, Vector2D offset ) {
         this( cell.getX() + offset.getX(), cell.getEnergy() + offset.getY(), cell );
     }
 
     public EntryPoint( double x, double y, EnergyCell cell ) {
-        this.source = new Vector2D.Double( x, y );
+        this.source = new Vector2D( x, y );
         this.cell = cell;
     }
 
-    public Vector2D.Double getSource() {
+    public Vector2D getSource() {
         return source;
     }
 

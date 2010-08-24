@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.reactionsandrates.model;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 
 import java.awt.geom.Point2D;
 
@@ -36,7 +36,7 @@ public class MoleculeFactory {
         AbstractMolecule molecule = null;
         MoleculeParamGenerator.Params params = moleculeParamGenerator.generate();
         Point2D position = params.getPosition();
-        Vector2D velocity = params.getVelocity();
+        Vector2DInterface velocity = params.getVelocity();
         double angularVelocity = params.getAngularVelocity();
         if( moleculeClass == MoleculeAB.class ) {
             SimpleMolecule mA = new MoleculeA();

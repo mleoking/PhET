@@ -132,7 +132,7 @@ public class LacY extends SimpleModelElement {
 					glucoseAttachmentPartner.detach(this);
 					glucoseAttachmentPartner.setMotionStrategy( new InjectionMotionStrategy(
 							MotionBoundsTrimmer.trim(getModel().getInteriorMotionBoundsAboveDna(), glucoseAttachmentPartner),
-							new Vector2D.Double(0, -15)));
+							new Vector2D(0, -15)));
 					glucoseAttachmentPartner.setUpDraggableBounds(PositionWrtCell.INSIDE_CELL);
 					glucoseAttachmentPartner = null;
 					glucoseAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;

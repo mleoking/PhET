@@ -12,6 +12,7 @@ package edu.colorado.phet.idealgas.controller;
 
 import edu.colorado.phet.common.mechanics.Body;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.IdealGasResources;
 import edu.colorado.phet.idealgas.collision.SphereHollowSphereExpert;
@@ -49,8 +50,8 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource, Id
 
         // Create the balloon
         balloon = new Balloon( new Point2D.Double( 300, 350 ),
-                               new Vector2D.Double( 0, 0 ),
-                               new Vector2D.Double( 0, 0 ),
+                               new Vector2D( 0, 0 ),
+                               new Vector2D( 0, 0 ),
                                MASS,
                                Balloon.MIN_RADIUS,
                                getIdealGasModel().getBox() );
@@ -208,13 +209,13 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource, Id
                 for( int i = 0; i < dn; i++ ) {
                     Class species = getCurrentGasSpecies();
                     Point2D location = balloon.getNewMoleculeLocation();
-                    Vector2D velocity = balloon.getNewMoleculeVelocity( species, getIdealGasModel() );
+                    Vector2DInterface velocity = balloon.getNewMoleculeVelocity( species, getIdealGasModel() );
                     GasMolecule molecule = null;
                     if( species == HeavySpecies.class ) {
-                        molecule = new HeavySpecies( location, velocity, new Vector2D.Double() );
+                        molecule = new HeavySpecies( location, velocity, new Vector2D() );
                     }
                     if( species == LightSpecies.class ) {
-                        molecule = new LightSpecies( location, velocity, new Vector2D.Double() );
+                        molecule = new LightSpecies( location, velocity, new Vector2D() );
                     }
                     PumpMoleculeCmd cmd = new PumpMoleculeCmd( getIdealGasModel(), molecule,
                                                                HeliumBalloonModule.this );

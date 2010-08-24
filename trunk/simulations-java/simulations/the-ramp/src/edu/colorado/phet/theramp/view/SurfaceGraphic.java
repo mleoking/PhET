@@ -146,7 +146,7 @@ public class SurfaceGraphic extends PNode {
 ////        pt = getRampWorld().convertToWorld( pt );
 //        System.out.println( "o = " + o );
 //        System.out.println( "pt = " + pt );
-        Vector2D.Double vec = new Vector2D.Double( o, pt );
+        Vector2D vec = new Vector2D( o, pt );
 
         System.out.println( "vec = " + vec );
         double angle = -vec.getAngle();

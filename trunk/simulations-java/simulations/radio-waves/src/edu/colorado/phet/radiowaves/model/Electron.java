@@ -5,11 +5,11 @@
 
 package edu.colorado.phet.radiowaves.model;
 
-import java.awt.Point;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.mechanics.Body;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 import edu.colorado.phet.radiowaves.RadioWavesApplication;
 import edu.colorado.phet.radiowaves.model.movement.ManualMovement;
 import edu.colorado.phet.radiowaves.model.movement.MovementType;
@@ -21,10 +21,10 @@ public class Electron extends Body {
     private Point2D startPosition;
     private Point2D prevPosition = new Point2D.Double();
     private Point2D currentPosition = new Point2D.Double();
-    private Vector2D velocity = new Vector2D.Double();
+    private Vector2DInterface velocity = new Vector2D();
     private MovementType movementStrategy;
-    private Vector2D.Double staticFieldStrength = new Vector2D.Double();
-    private Vector2D.Double dynamicFieldStrength = new Vector2D.Double();
+    private Vector2D staticFieldStrength = new Vector2D();
+    private Vector2D dynamicFieldStrength = new Vector2D();
 
     // Number of time steps between emitting field elements. This
     // provides and animated look to the visualization.
@@ -34,11 +34,11 @@ public class Electron extends Body {
     // The position history of the electron
     private Point2D[] positionHistory = new Point2D.Float[s_retardedFieldLength];
     // The acceleration history of the electron
-    private Vector2D.Double[] accelerationHistory = new Vector2D.Double[s_retardedFieldLength];
+    private Vector2D[] accelerationHistory = new Vector2D[s_retardedFieldLength];
     // The history of the maximum acceleration the electron courld have had at
     // a point in time. This is needed so viewers can properly scale the actual
     // accelerations
-    private Vector2D.Double[] maxAccelerationHistory = new Vector2D.Double[s_retardedFieldLength];
+    private Vector2D[] maxAccelerationHistory = new Vector2D[s_retardedFieldLength];
     // The history of what movement strategy was in place a point in time
     private MovementType[] movementStrategyHistory = new MovementType[s_retardedFieldLength];
 
@@ -55,8 +55,8 @@ public class Electron extends Body {
         this.currentPosition = new Point2D.Double( startPosition.getX(), startPosition.getY() );
         for ( int i = 0; i < s_retardedFieldLength; i++ ) {
             positionHistory[i] = new Point2D.Float( (float) startPosition.getX(), (float) startPosition.getY() );
-            accelerationHistory[i] = new Vector2D.Double();
-            maxAccelerationHistory[i] = new Vector2D.Double();
+            accelerationHistory[i] = new Vector2D();
+            maxAccelerationHistory[i] = new Vector2D();
         }
         movementStrategy = new ManualMovement();
     }
@@ -135,7 +135,7 @@ public class Electron extends Body {
             movementStrategyHistory[i] = movementStrategyHistory[i - s_stepSize];
         }
 
-        Vector2D.Double a = accelerationHistory[0];
+        Vector2D a = accelerationHistory[0];
         double df = ( a.getY() - movementStrategy.getAcceleration( this ) * s_B ) / s_stepSize;
         for ( int i = 0; i < s_stepSize; i++ ) {
             positionHistory[i].setLocation( position );
@@ -145,15 +145,15 @@ public class Electron extends Body {
         }
     }
 
-    public Vector2D getVelocity() {
-        return new Vector2D.Double( velocity.getX(), velocity.getY() );
+    public Vector2DInterface getVelocity() {
+        return new Vector2D( velocity.getX(), velocity.getY() );
     }
 
     public Point2D getStartPosition() {
         return this.startPosition;
     }
 
-    public Vector2D.Double getStaticFieldAt( Point2D location ) {
+    public Vector2D getStaticFieldAt( Point2D location ) {
         staticFieldStrength.setX( (float) ( location.getX() - getCurrentPosition().getX() ) );
         staticFieldStrength.setY( (float) ( location.getY() - getCurrentPosition().getY() ) );
         staticFieldStrength.normalize();
@@ -171,7 +171,7 @@ public class Electron extends Body {
      * @param location
      * @return
      */
-    public Vector2D.Double getDynamicFieldAt( Point2D location ) {
+    public Vector2D getDynamicFieldAt( Point2D location ) {
 
         // Hollywood here! This computes the field based on the origin of the
         // electron's motion, not its current position. But it looks better
@@ -275,7 +275,7 @@ public class Electron extends Body {
     public boolean isFieldOff( double x ) {
         boolean result = true;
         for ( int i = 0; i < accelerationHistory.length && i < (int) x && result == true; i++ ) {
-            Vector2D.Double field = accelerationHistory[i];
+            Vector2D field = accelerationHistory[i];
             if ( field.getX() != 0 || field.getY() != 0 ) {
                 result = false;
             }

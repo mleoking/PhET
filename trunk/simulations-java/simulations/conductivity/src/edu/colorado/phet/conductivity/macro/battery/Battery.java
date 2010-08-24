@@ -14,7 +14,7 @@ import edu.colorado.phet.conductivity.macro.circuit.LinearBranch;
 
 public class Battery extends LinearBranch {
 
-    public Battery( Vector2D.Double phetvector, Vector2D.Double phetvector1 ) {
+    public Battery( Vector2D phetvector, Vector2D phetvector1 ) {
         super( phetvector, phetvector1 );
         volts = 0.0D;
         obs = new ArrayList();

@@ -12,7 +12,7 @@ import edu.colorado.phet.semiconductor.macro.energy.EnergySection;
  */
 public class ExitLeftState extends StateChain {
 
-    public ExitLeftState( Vector2D.Double dest, Speed speed, EnergySection section ) {
+    public ExitLeftState( Vector2D dest, Speed speed, EnergySection section ) {
         super();
 
         addState( new MoveToPosition( dest, speed ) );

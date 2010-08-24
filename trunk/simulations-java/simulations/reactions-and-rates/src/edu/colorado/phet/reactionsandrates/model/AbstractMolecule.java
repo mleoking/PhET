@@ -6,6 +6,7 @@ import edu.colorado.phet.common.collision.Collidable;
 import edu.colorado.phet.common.collision.CollidableAdapter;
 import edu.colorado.phet.common.mechanics.Body;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 
 import java.awt.geom.Point2D;
@@ -65,11 +66,11 @@ abstract public class AbstractMolecule extends Body implements Collidable, Kinet
     }
 
     protected AbstractMolecule() {
-        this( new Point2D.Double(), new Vector2D.Double(), new Vector2D.Double(), 0, 0 );
+        this( new Point2D.Double(), new Vector2D(), new Vector2D(), 0, 0 );
         collidableAdapter = new CollidableAdapter( this );
     }
 
-    protected AbstractMolecule( Point2D location, Vector2D velocity, Vector2D acceleration, double mass, double charge ) {
+    protected AbstractMolecule( Point2D location, Vector2DInterface velocity, Vector2DInterface acceleration, double mass, double charge ) {
         super( location, velocity, acceleration, mass, charge );
         collidableAdapter = new CollidableAdapter( this );
     }
@@ -88,11 +89,11 @@ abstract public class AbstractMolecule extends Body implements Collidable, Kinet
         super.setPosition( position );
     }
 
-    public Vector2D getVelocity() {
+    public Vector2DInterface getVelocity() {
         return super.getVelocity();
     }
 
-    public void setVelocity( Vector2D velocity ) {
+    public void setVelocity( Vector2DInterface velocity ) {
         if( collidableAdapter != null ) {
             collidableAdapter.updateVelocity();
         }
@@ -106,7 +107,7 @@ abstract public class AbstractMolecule extends Body implements Collidable, Kinet
         super.setVelocity( vx, vy );
     }
 
-    public Vector2D getVelocityPrev() {
+    public Vector2DInterface getVelocityPrev() {
         return collidableAdapter.getVelocityPrev();
     }
 
@@ -199,11 +200,11 @@ abstract public class AbstractMolecule extends Body implements Collidable, Kinet
      * @param force
      * @param ptOfApplication
      */
-    public void applyForce( Vector2D force, Point2D ptOfApplication ) {
+    public void applyForce( Vector2DInterface force, Point2D ptOfApplication ) {
 
         // Compute the torque
         // Get the vector from the cm to the point of application
-        Vector2D r = new Vector2D.Double( getCM(), ptOfApplication );
+        Vector2DInterface r = new Vector2D( getCM(), ptOfApplication );
         // Torque = F x r
         double t = force.getCrossProductScalar( r );
 

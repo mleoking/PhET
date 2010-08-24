@@ -4,6 +4,7 @@ import java.awt.geom.Point2D;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 import edu.colorado.phet.neuron.module.NeuronDefaults;
 
 
@@ -33,7 +34,7 @@ public class WanderThenFadeMotionStrategy extends MotionStrategy {
 	private double velocityUpdateCountdownTimer;
 	private double preFadeCountdownTimer;
 	private double fadeOutDuration;
-	private Vector2D velocity = new Vector2D.Double();
+	private Vector2DInterface velocity = new Vector2D();
 	
 	public WanderThenFadeMotionStrategy(double radius, Point2D center, Point2D currentLocation, InOrOut inOrOut,
 			double preFadeTime, double fadeOutDuration) {

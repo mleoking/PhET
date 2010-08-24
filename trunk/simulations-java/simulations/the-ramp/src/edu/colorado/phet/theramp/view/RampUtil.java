@@ -1,7 +1,7 @@
 /*  */
 package edu.colorado.phet.theramp.view;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 
 import java.awt.*;
@@ -21,9 +21,9 @@ public class RampUtil {
     }
 
     public static Line2D.Double getInstanceForLength( Line2D.Double line, double newLength ) {
-        ImmutableVector2D.Double vec = new ImmutableVector2D.Double( line.getP1(), line.getP2() );
+        ImmutableVector2D vec = new ImmutableVector2D( line.getP1(), line.getP2() );
         Point2D halfwayPoint = vec.getScaledInstance( 0.5 ).getDestination( line.getP1() );
-        AbstractVector2D halfNew = vec.getInstanceOfMagnitude( newLength / 2.0 );
+        AbstractVector2DInterface halfNew = vec.getInstanceOfMagnitude( newLength / 2.0 );
         Point2D newEnd = halfNew.getDestination( halfwayPoint );
         Point2D newStart = halfNew.getScaledInstance( -1 ).getDestination( halfwayPoint );
         return new Line2D.Double( newStart, newEnd );

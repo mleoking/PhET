@@ -23,7 +23,7 @@ public class BFieldGraphic extends AbstractVectorViewGraphic {
     }
 
     protected void addArrow( float x, float y ) {
-        Vector2D.Double vector = new Vector2D.Double( new Point2D.Double( x, 0 ), new Point2D.Double( x, y ) );
+        Vector2D vector = new Vector2D( new Point2D.Double( x, 0 ), new Point2D.Double( x, y ) );
         vector.rotate( Math.PI / 4 );
         Point2D dst = vector.getDestination( new Point2D.Double( x, 0 ) );
         Arrow arrow = new Arrow( new Point2D.Double( x, 0 ), new Point2D.Double( dst.getX(), dst.getY() ), 8, 8, 4, 0.5, true );

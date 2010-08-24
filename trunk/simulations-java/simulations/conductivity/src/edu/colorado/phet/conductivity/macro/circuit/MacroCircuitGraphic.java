@@ -10,9 +10,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 
-
-
-
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
@@ -74,8 +71,8 @@ public class MacroCircuitGraphic {
                 transform.addTransformListener( new TransformListener() {
 
                     public void transformChanged( ModelViewTransform2D modelviewtransform2d ) {
-                        Vector2D.Double phetvector = b.getEndPosition();
-                        Vector2D.Double phetvector1 = b.getStartPosition();
+                        Vector2D phetvector = b.getEndPosition();
+                        Vector2D phetvector1 = b.getStartPosition();
                         int height = (int) ( batteryImage.getHeight() * 0.8 );
                         int x = transform.modelToViewX( phetvector.getX() );
                         int w = transform.modelToViewX( phetvector1.getX() ) - x;

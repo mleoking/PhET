@@ -12,6 +12,7 @@ package edu.colorado.phet.reactionsandrates.model;
 
 import edu.colorado.phet.common.mechanics.Body;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ public class CompositeBody extends Body {
 
     private ArrayList bodies = new ArrayList();
     private Point2D.Double cm = new Point2D.Double();
-    private Vector2D velocity = new Vector2D.Double();
+    private Vector2DInterface velocity = new Vector2D();
 
     public void addBody( Body body ) {
         bodies.add( body );
@@ -68,7 +69,7 @@ public class CompositeBody extends Body {
         return mOfI;
     }
 
-    public Vector2D getVelocity() {
+    public Vector2DInterface getVelocity() {
         velocity.setComponents( 0, 0 );
         double vx = 0;
         double vy = 0;

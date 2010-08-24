@@ -41,8 +41,8 @@ public class HotAirBalloonModule extends IdealGasModule {
         initX = box.getMinX() + box.getWidth() / 2;
         initY = box.getMaxY() - initRadius - 100;
         balloon = new HotAirBalloon( new Point2D.Double( initX, initY ),
-                                     new Vector2D.Double( 0, 0 ),
-                                     new Vector2D.Double( 0, 0 ),
+                                     new Vector2D( 0, 0 ),
+                                     new Vector2D( 0, 0 ),
                                      200, initRadius,
                                      60,
                                      getIdealGasModel() );

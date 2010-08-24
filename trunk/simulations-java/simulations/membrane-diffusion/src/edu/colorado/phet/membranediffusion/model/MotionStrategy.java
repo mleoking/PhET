@@ -4,7 +4,7 @@ package edu.colorado.phet.membranediffusion.model;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 
 /**
  * Base class for motion strategies that can be used to set the type of motion
@@ -39,7 +39,7 @@ public abstract class MotionStrategy {
 	 * this motion strategy.
 	 * @return
 	 */
-	public abstract Vector2D getInstantaneousVelocity();
+	public abstract Vector2DInterface getInstantaneousVelocity();
 	
     public void addListener(Listener listener) {
         if (listeners.contains( listener ))

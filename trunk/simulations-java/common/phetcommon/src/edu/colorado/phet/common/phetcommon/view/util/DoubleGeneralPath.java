@@ -15,7 +15,7 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
 
 /**
  * This adapter class for GeneralPath allows provides an interface in double coordinates.
@@ -36,7 +36,7 @@ public class DoubleGeneralPath {
         path = new GeneralPath( shape );
     }
 
-    public DoubleGeneralPath( AbstractVector2D pt ) {
+    public DoubleGeneralPath( AbstractVector2DInterface pt ) {
         this( pt.getX(), pt.getY() );
     }
 
@@ -57,11 +57,11 @@ public class DoubleGeneralPath {
         moveTo( pt.getX(), pt.getY() );
     }
 
-    public void moveTo( AbstractVector2D vec ) {
+    public void moveTo( AbstractVector2DInterface vec ) {
         moveTo( vec.getX(), vec.getY() );
     }
 
-    public void moveToRelative( AbstractVector2D delta ) {
+    public void moveToRelative( AbstractVector2DInterface delta ) {
         moveToRelative( delta.getX(), delta.getY() );
     }
 
@@ -99,7 +99,7 @@ public class DoubleGeneralPath {
         return path.getCurrentPoint();
     }
 
-    public void lineToRelative( AbstractVector2D vec ) {
+    public void lineToRelative( AbstractVector2DInterface vec ) {
         Point2D cur = path.getCurrentPoint();
         lineTo( cur.getX() + vec.getX(), cur.getY() + vec.getY() );
     }
@@ -108,7 +108,7 @@ public class DoubleGeneralPath {
         return path;
     }
 
-    public void lineTo( AbstractVector2D loc ) {
+    public void lineTo( AbstractVector2DInterface loc ) {
         lineTo( loc.getX(), loc.getY() );
     }
 

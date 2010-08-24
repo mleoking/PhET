@@ -31,7 +31,7 @@ public class LeadGraphic extends TransformGraphic implements SimpleObserver {
     }
 
     public void update() {
-        Vector2D.Double tip = lead.getTipLocation();
+        Vector2D tip = lead.getTipLocation();
         Point tipView = super.getTransform().modelToView( tip );
         Point center = new Point( tipView.x, image.getHeight() / 2 + tipView.y );
         graphic.setPosition( center );

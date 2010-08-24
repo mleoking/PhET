@@ -1,114 +1,84 @@
-/* Copyright 2004, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
-
 package edu.colorado.phet.common.phetcommon.math;
 
 import java.awt.geom.Point2D;
 
 /**
- * This Vector2D implementation supports mutators & in-place operations.
- *
- * @author Ron LeMaster
- * @author Sam Reid
- * @version $Revision$
- */
-public interface Vector2D extends AbstractVector2D {
+* Created by IntelliJ IDEA.
+* User: Sam
+* Date: Aug 24, 2010
+* Time: 6:03:13 AM
+* To change this template use File | Settings | File Templates.
+*/
+public class Vector2D extends ImmutableVector2D implements Vector2DInterface {
+    public Vector2D() {
+    }
 
-    Vector2D add( AbstractVector2D v );
+    public Vector2D( AbstractVector2DInterface v ) {
+        this( v.getX(), v.getY() );
+    }
 
-    Vector2D scale( double scale );
+    public Vector2D( double x, double y ) {
+        super( x, y );
+    }
 
-    Vector2D subtract( AbstractVector2D that );
+    public Vector2D( Point2D p ) {
+        super( p );
+    }
 
-    Vector2D rotate( double theta );
+    public Vector2D( Point2D src, Point2D dst ) {
+        super( src, dst );
+    }
 
-    void setX( double x );
+    public Vector2DInterface add( AbstractVector2DInterface v ) {
+        setX( getX() + v.getX() );
+        setY( getY() + v.getY() );
+        return this;
+    }
 
-    void setY( double y );
-
-    void setComponents( double x, double y );
-
-    Vector2D normalize();
-
-    public static class Double extends AbstractVector2D.Double implements Vector2D {
-        public Double() {
+    public Vector2DInterface normalize() {
+        double length = getMagnitude();
+        if ( length == 0 ) {
+            throw new RuntimeException( "Cannot normalize a zero-magnitude vector." );
         }
+        return scale( 1.0 / length );
+    }
 
-        public Double( AbstractVector2D v ) {
-            this( v.getX(), v.getY() );
-        }
+    public Vector2DInterface scale( double scale ) {
+        setX( getX() * scale );
+        setY( getY() * scale );
+        return this;
+    }
 
-        public Double( double x, double y ) {
-            super( x, y );
-        }
+    public void setX( double x ) {
+        super.setX( x );
+    }
 
-        public Double( Point2D p ) {
-            super( p );
-        }
+    public void setY( double y ) {
+        super.setY( y );
+    }
 
-        public Double( Point2D src, Point2D dst ) {
-            super( src, dst );
-        }
+    public void setComponents( double x, double y ) {
+        setX( x );
+        setY( y );
+    }
 
-        public Vector2D add( AbstractVector2D v ) {
-            setX( getX() + v.getX() );
-            setY( getY() + v.getY() );
-            return this;
-        }
+    public Vector2DInterface subtract( AbstractVector2DInterface that ) {
+        setX( getX() - that.getX() );
+        setY( getY() - that.getY() );
+        return this;
+    }
 
-        public Vector2D normalize() {
-            double length = getMagnitude();
-            if ( length == 0 ) {
-                throw new RuntimeException( "Cannot normalize a zero-magnitude vector." );
-            }
-            return scale( 1.0 / length );
-        }
+    public Vector2DInterface rotate( double theta ) {
+        double r = getMagnitude();
+        double alpha = getAngle();
+        double gamma = alpha + theta;
+        double xPrime = r * Math.cos( gamma );
+        double yPrime = r * Math.sin( gamma );
+        this.setComponents( xPrime, yPrime );
+        return this;
+    }
 
-        public Vector2D scale( double scale ) {
-            setX( getX() * scale );
-            setY( getY() * scale );
-            return this;
-        }
-
-        public void setX( double x ) {
-            super.setX( x );
-        }
-
-        public void setY( double y ) {
-            super.setY( y );
-        }
-
-        public void setComponents( double x, double y ) {
-            setX( x );
-            setY( y );
-        }
-
-        public Vector2D subtract( AbstractVector2D that ) {
-            setX( getX() - that.getX() );
-            setY( getY() - that.getY() );
-            return this;
-        }
-
-        public Vector2D rotate( double theta ) {
-            double r = getMagnitude();
-            double alpha = getAngle();
-            double gamma = alpha + theta;
-            double xPrime = r * Math.cos( gamma );
-            double yPrime = r * Math.sin( gamma );
-            this.setComponents( xPrime, yPrime );
-            return this;
-        }
-
-        public String toString() {
-            return "Vector2D.Double[" + getX() + ", " + getY() + "]";
-        }
+    public String toString() {
+        return "Vector2D.Double[" + getX() + ", " + getY() + "]";
     }
 }

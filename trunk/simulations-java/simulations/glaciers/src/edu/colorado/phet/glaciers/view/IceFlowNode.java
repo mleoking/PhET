@@ -9,6 +9,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 import edu.colorado.phet.common.piccolophet.nodes.Vector2DNode;
 import edu.colorado.phet.glaciers.model.Glacier;
 import edu.colorado.phet.glaciers.model.Glacier.GlacierAdapter;
@@ -102,7 +103,7 @@ public class IceFlowNode extends PComposite {
             _isDirty = true;
         }
         else {
-            Vector2D outputVector = new Vector2D.Double();
+            Vector2DInterface outputVector = new Vector2D();
             Point2D outputPoint = new Point2D.Double();
             
             _parentNode.removeAllChildren();
@@ -113,7 +114,7 @@ public class IceFlowNode extends PComposite {
                 double iceSurfaceElevation = valleyFloorElevation + _glacier.getIceThickness( x );
                 double z = valleyFloorElevation + ICE_ROCK_MARGIN;
                 while ( z <= iceSurfaceElevation - ICE_AIR_MARGIN ) {
-                    Vector2D vModel = _glacier.getIceVelocity( x, z, outputVector );
+                    Vector2DInterface vModel = _glacier.getIceVelocity( x, z, outputVector );
                     Point2D vView = _mvt.modelToView( vModel.getX(), vModel.getY(), outputPoint );
                     PNode velocityNode = new VelocityVectorNode( vView.getX(), vView.getY(), VELOCITY_VECTOR_SCALE );
                     _parentNode.addChild( velocityNode );

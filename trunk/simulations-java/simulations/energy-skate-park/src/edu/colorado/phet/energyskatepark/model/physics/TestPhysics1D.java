@@ -338,7 +338,7 @@ public class TestPhysics1D extends JFrame {
                 SerializablePoint2D coords = new SerializablePoint2D( event.getPositionRelativeTo( phetPPath ) );
                 EnergySkateParkLogging.println( "coords = " + coords );
 //                TraversalState traversalState=new TraversalState( cubicSpline, true,);
-                TraversalState traversalState = particle.getBestTraversalState( coords, new Vector2D.Double( 1, 0 ) );
+                TraversalState traversalState = particle.getBestTraversalState( coords, new Vector2D( 1, 0 ) );
                 closestPoint.setOffset( traversalState.getPosition() );
             }
         } );

@@ -12,6 +12,7 @@ package edu.colorado.phet.reactionsandrates.model;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -64,7 +65,7 @@ public class RandomMoleculeParamGenerator implements MoleculeParamGenerator {
         // Generate velocity
         double phi = ( maxTheta - minTheta ) * random.nextDouble() + minTheta;
         double speed = maxSpeed * random.nextDouble();
-        Vector2D v = new Vector2D.Double( speed, 0 ).rotate( phi );
+        Vector2DInterface v = new Vector2D( speed, 0 ).rotate( phi );
 
         // Generate angular velocity
         double a = maxAlpha * random.nextDouble() * MathUtil.nextRandomSign();

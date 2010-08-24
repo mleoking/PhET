@@ -38,7 +38,7 @@ public class BandParticleGraphic extends TransformGraphic {
     static Font exclaimFont = new PhetFont( Font.ITALIC, 18 );
 
     public void paint( Graphics2D graphics2D ) {
-        Vector2D.Double modelLoc = bandParticle.getPosition();
+        Vector2D modelLoc = bandParticle.getPosition();
         Point pt = getTransform().modelToView( modelLoc );
         graphic.setPosition( pt );
         graphic.paint( graphics2D );

@@ -9,6 +9,7 @@ package edu.colorado.phet.idealgas.controller;
 
 import edu.colorado.phet.common.mechanics.Body;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.IdealGasResources;
 import edu.colorado.phet.idealgas.collision.SphereHollowSphereExpert;
@@ -54,8 +55,8 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
         //        box.setRegion( 300, 100, box.getMaxX(), box.getMaxY() );
         sphere = new HollowSphere( new Point2D.Double( box.getMinX() + box.getWidth() / 2,
                                                        box.getMinY() + box.getHeight() / 2 ),
-                                   new Vector2D.Double( 0, 0 ),
-                                   new Vector2D.Double( 0, 0 ),
+                                   new Vector2D( 0, 0 ),
+                                   new Vector2D( 0, 0 ),
                                    100,
                                    50 );
         box.setMinimumWidth( sphere.getRadius() * 3 );
@@ -98,8 +99,8 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
             double vx = (double)Math.cos( theta ) * initialVelocity;
             double vy = (double)Math.sin( theta ) * initialVelocity;
             GasMolecule p1 = new HeavySpecies( new Point2D.Double( x, y ),
-                                               new Vector2D.Double( vx, vy ),
-                                               new Vector2D.Double( 0, 0 ) );
+                                               new Vector2D( vx, vy ),
+                                               new Vector2D( 0, 0 ) );
             new PumpMoleculeCmd( getIdealGasModel(), p1, this ).doIt();
         }
 
@@ -117,15 +118,15 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
                 if( HeavySpecies.class.isAssignableFrom( gasSpecies ) ) {
                     p1 = new HeavySpecies( new Point2D.Double( 350 + i * 10, 230 + j * 10 ),
                                            //                        new Point2D.Double( 280 + i * 10, 330 + j * 10 ),
-                                           new Vector2D.Double( vx, vy ),
-                                           new Vector2D.Double( 0, 0 ) );
+                                           new Vector2D( vx, vy ),
+                                           new Vector2D( 0, 0 ) );
                     new PumpMoleculeCmd( getIdealGasModel(), p1, this ).doIt();
                 }
                 if( LightSpecies.class.isAssignableFrom( gasSpecies ) ) {
                     p1 = new LightSpecies( new Point2D.Double( 350 + i * 10, 230 + j * 10 ),
                                            //                        new Point2D.Double( 280 + i * 10, 330 + j * 10 ),
-                                           new Vector2D.Double( vx, vy ),
-                                           new Vector2D.Double( 0, 0 ) );
+                                           new Vector2D( vx, vy ),
+                                           new Vector2D( 0, 0 ) );
                     new PumpMoleculeCmd( getIdealGasModel(), p1, this ).doIt();
                 }
                 sphere.addContainedBody( p1 );
@@ -165,13 +166,13 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
 
     public void addMoleculeToSphere( Class species ) {
         Point2D location = sphere.getNewMoleculeLocation();
-        Vector2D velocity = sphere.getNewMoleculeVelocity( species, getIdealGasModel() );
+        Vector2DInterface velocity = sphere.getNewMoleculeVelocity( species, getIdealGasModel() );
         GasMolecule gm = null;
         if( species == HeavySpecies.class ) {
-            gm = new HeavySpecies( location, velocity, new Vector2D.Double() );
+            gm = new HeavySpecies( location, velocity, new Vector2D() );
         }
         if( species == LightSpecies.class ) {
-            gm = new LightSpecies( location, velocity, new Vector2D.Double() );
+            gm = new LightSpecies( location, velocity, new Vector2D() );
         }
         moleculesInSphere.add( gm );
         PumpMoleculeCmd cmd = new PumpMoleculeCmd( this.getIdealGasModel(), gm,

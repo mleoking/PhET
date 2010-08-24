@@ -26,7 +26,7 @@ public class TestScripts {
             capacitor.setStartJunction(j[1]);
             capacitor.setEndJunction(j[2]);
 
-            Switch myswitch = new Switch(j[2].getPosition(), new Vector2D.Double(0, 1), 1, 1, new CompositeCircuitChangeListener());
+            Switch myswitch = new Switch(j[2].getPosition(), new Vector2D(0, 1), 1, 1, new CompositeCircuitChangeListener());
             myswitch.setStartJunction(j[2]);
             myswitch.setEndJunction(j[3]);
 

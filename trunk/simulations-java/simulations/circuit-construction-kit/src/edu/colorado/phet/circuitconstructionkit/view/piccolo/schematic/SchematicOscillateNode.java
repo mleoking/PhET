@@ -5,8 +5,9 @@ import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.CircuitComponent;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.ComponentNode;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.LineSegment;
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2DInterface;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -24,8 +25,8 @@ import java.awt.geom.Point2D;
 public class SchematicOscillateNode extends ComponentNode {
     private CircuitComponent component;
     private double wireThickness;
-    private AbstractVector2D eastDir;
-    private AbstractVector2D northDir;
+    private AbstractVector2DInterface eastDir;
+    private AbstractVector2DInterface northDir;
     private Point2D anoPoint;
     private Point2D catPoint;
     private SimpleObserver simpleObserver;
@@ -52,9 +53,9 @@ public class SchematicOscillateNode extends ComponentNode {
         super.setVisible(visible);
     }
 
-    private AbstractVector2D getVector(double east, double north) {
-        AbstractVector2D e = eastDir.getScaledInstance(east);
-        AbstractVector2D n = northDir.getScaledInstance(north);
+    private AbstractVector2DInterface getVector(double east, double north) {
+        AbstractVector2DInterface e = eastDir.getScaledInstance(east);
+        AbstractVector2DInterface n = northDir.getScaledInstance(north);
         return e.getAddedInstance(n);
     }
 
@@ -62,7 +63,7 @@ public class SchematicOscillateNode extends ComponentNode {
         super.update();
         Point2D srcpt = component.getStartJunction().getPosition();
         Point2D dstpt = component.getEndJunction().getPosition();
-        ImmutableVector2D vector = new ImmutableVector2D.Double(srcpt, dstpt);
+        ImmutableVector2D vector = new ImmutableVector2D(srcpt, dstpt);
         double fracDistToCathode = .1;
         double fracDistToAnode = (1 - fracDistToCathode);
         catPoint = vector.getScaledInstance(fracDistToCathode).getDestination(srcpt);
@@ -82,7 +83,7 @@ public class SchematicOscillateNode extends ComponentNode {
         double omega = 2 * Math.PI / (sinDist);
         for (double x = 0; x < length; x += dx) {
             double y = getY(x, length, fracDistToStartSine, omega);
-            AbstractVector2D v = getVector(x, y);
+            AbstractVector2DInterface v = getVector(x, y);
             Point2D pt = v.getDestination(catPoint);
             if (x > length * fracDistToStartSine && x < (length - length * fracDistToStartSine)) {
                 path.lineTo(pt);

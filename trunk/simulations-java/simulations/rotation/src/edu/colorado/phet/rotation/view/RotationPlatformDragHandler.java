@@ -46,8 +46,8 @@ public class RotationPlatformDragHandler extends PBasicInputEventHandler {
     public void mouseDragged( PInputEvent event ) {
         Point2D loc = event.getPositionRelativeTo( rotationPlatformNode );
         Point2D center = rotationPlatform.getCenter();
-        Vector2D.Double a = new Vector2D.Double( center, initLoc );
-        Vector2D.Double b = new Vector2D.Double( center, loc );
+        Vector2D a = new Vector2D( center, initLoc );
+        Vector2D b = new Vector2D( center, loc );
         double angleDiff = b.getAngle() - a.getAngle();
 //                System.out.println( "a=" + a + ", b=" + b + ", center=" + center + ", angleDiff = " + angleDiff );
 

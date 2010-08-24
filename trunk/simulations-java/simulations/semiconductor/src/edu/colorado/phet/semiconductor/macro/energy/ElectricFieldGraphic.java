@@ -4,7 +4,7 @@ package edu.colorado.phet.semiconductor.macro.energy;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.semiconductor.common.TransformGraphic;
@@ -34,12 +34,12 @@ public class ElectricFieldGraphic extends TransformGraphic {
         int h = 0;
         if ( field.getStrength() != 0 ) {
             try {
-                AbstractVector2D dest = field.getCenter().getAddedInstance( field.getStrength(), 0 );
-                AbstractVector2D start = field.getCenter();
+                AbstractVector2DInterface dest = field.getCenter().getAddedInstance( field.getStrength(), 0 );
+                AbstractVector2DInterface start = field.getCenter();
 
-                AbstractVector2D dir = dest.getSubtractedInstance( start );
-                AbstractVector2D mid = start.getAddedInstance( dir.getScaledInstance( .5 ) );
-                AbstractVector2D dx = start.getSubtractedInstance( mid );
+                AbstractVector2DInterface dir = dest.getSubtractedInstance( start );
+                AbstractVector2DInterface mid = start.getAddedInstance( dir.getScaledInstance( .5 ) );
+                AbstractVector2DInterface dx = start.getSubtractedInstance( mid );
 
                 start = start.getAddedInstance( dx );
                 dest = dest.getAddedInstance( dx );

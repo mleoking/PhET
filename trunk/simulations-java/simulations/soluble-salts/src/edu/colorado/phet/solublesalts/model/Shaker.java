@@ -16,6 +16,7 @@ import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 import edu.colorado.phet.common.phetcommon.model.Particle;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.crystal.Crystal;
@@ -125,7 +126,7 @@ public class Shaker extends Particle {
         Crystal crystal = null;
 
         double theta = Math.PI / 2 + ( random.nextDouble() * Math.PI / 6 * MathUtil.nextRandomSign() );
-        Vector2D v = new Vector2D.Double( SolubleSaltsConfig.DEFAULT_LATTICE_SPEED, 0 );
+        Vector2DInterface v = new Vector2D( SolubleSaltsConfig.DEFAULT_LATTICE_SPEED, 0 );
         v.rotate( theta );
         double l = random.nextDouble() * openingLength * MathUtil.nextRandomSign() - openingLength / 2;
 
@@ -173,7 +174,7 @@ public class Shaker extends Particle {
                     for ( int k = 0; k < components.length; k++ ) {
                         Salt.Component component = components[k];
                         for ( int i = 0; i < component.getLatticeUnitFraction().intValue(); i++ ) {
-                            ion = ionFactory.create( component.getIonClass(), p, v, new Vector2D.Double() );
+                            ion = ionFactory.create( component.getIonClass(), p, v, new Vector2D() );
                             ions.add( ion );
                         }
                     }

@@ -13,7 +13,7 @@ import edu.colorado.phet.common.motion.model.ITemporalVariable;
 import edu.colorado.phet.common.motion.model.IVariable;
 import edu.colorado.phet.common.motion.model.UpdateStrategy;
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -398,8 +398,8 @@ public class PlatformNode2 extends PNode {
             innerRim.setPathTo( new Ellipse2D.Double( -platform.getInnerRadius(), -platform.getInnerRadius(), platform.getInnerRadius() * 2, platform.getInnerRadius() * 2 ) );
 
             double angle = platform.getPosition();
-            AbstractVector2D a = Vector2D.Double.parseAngleAndMagnitude( platform.getInnerRadius(), angle );
-            AbstractVector2D b = Vector2D.Double.parseAngleAndMagnitude( platform.getRadius(), angle );
+            AbstractVector2DInterface a = Vector2D.parseAngleAndMagnitude( platform.getInnerRadius(), angle );
+            AbstractVector2DInterface b = Vector2D.parseAngleAndMagnitude( platform.getRadius(), angle );
 
             angleZero.setPathTo( new Line2D.Double( a.toPoint2D(), b.toPoint2D() ) );
         }

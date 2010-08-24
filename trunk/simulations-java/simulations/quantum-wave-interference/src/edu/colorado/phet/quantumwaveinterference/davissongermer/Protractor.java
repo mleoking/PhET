@@ -132,11 +132,11 @@ public class Protractor extends PhetPNode {
 
         private double getAngle( PInputEvent event ) {
             Point2D loc = event.getPositionRelativeTo( getParent() );
-            return new Vector2D.Double( new Point2D.Double(), loc ).getAngle();
+            return new Vector2D( new Point2D.Double(), loc ).getAngle();
         }
 
         private void update() {
-            Point2D pt = Vector2D.Double.parseAngleAndMagnitude( LEG_LENGTH, angle ).getDestination( new Point2D.Double() );
+            Point2D pt = Vector2D.parseAngleAndMagnitude( LEG_LENGTH, angle ).getDestination( new Point2D.Double() );
             Line2D.Double line = new Line2D.Double( pt, new Point2D.Double() );
             path.setPathTo( line );
             protractorHandleGraphic.setOffset( pt );
@@ -221,8 +221,8 @@ public class Protractor extends PhetPNode {
             double arcDist = 30;
             Arc2D.Double arc = new Arc2D.Double( -arcDist, -arcDist, arcDist * 2, arcDist * 2, toDegrees( 0 ), toDegrees( 0 ), Arc2D.Double.OPEN );
 
-            Point2D p1 = Vector2D.Double.parseAngleAndMagnitude( 20, leftLeg.getAngle() ).getDestination( new Point2D.Double() );
-            Point2D p2 = Vector2D.Double.parseAngleAndMagnitude( 20, rightLeg.getAngle() ).getDestination( new Point2D.Double() );
+            Point2D p1 = Vector2D.parseAngleAndMagnitude( 20, leftLeg.getAngle() ).getDestination( new Point2D.Double() );
+            Point2D p2 = Vector2D.parseAngleAndMagnitude( 20, rightLeg.getAngle() ).getDestination( new Point2D.Double() );
             if( getDegreesSigned() >= 0 ) {
                 arc.setAngles( p1, p2 );
             }

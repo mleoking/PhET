@@ -16,7 +16,7 @@ import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
 
 /**
  * ModelViewTransform2D
@@ -106,7 +106,7 @@ public class LinearTransform2D {
         }
     }
 
-    public Point modelToView( AbstractVector2D vec ) {
+    public Point modelToView( AbstractVector2DInterface vec ) {
         return modelToView( vec.toPoint2D() );
     }
 

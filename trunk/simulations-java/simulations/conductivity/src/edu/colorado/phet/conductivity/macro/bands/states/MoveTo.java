@@ -4,7 +4,7 @@
 
 package edu.colorado.phet.conductivity.macro.bands.states;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.conductivity.macro.bands.BandParticle;
 import edu.colorado.phet.conductivity.macro.bands.BandParticleState;
@@ -27,19 +27,19 @@ public class MoveTo
             bandparticle.setX( bandparticle.getEnergyLevel().getLine().getX2() + d1 );
         }
         double d2 = speed.getSpeed() * d;
-        Vector2D.Double phetvector = target.getPosition();
-        Vector2D.Double phetvector1 = bandparticle.getPosition();
-        AbstractVector2D phetvector2 = phetvector.getSubtractedInstance( phetvector1 );
+        Vector2D phetvector = target.getPosition();
+        Vector2D phetvector1 = bandparticle.getPosition();
+        AbstractVector2DInterface phetvector2 = phetvector.getSubtractedInstance( phetvector1 );
         double d3 = phetvector2.getMagnitude();
         if ( d3 <= d2 ) {
             bandparticle.setPosition( phetvector );
             return new Waiting();
         }
         else {
-            AbstractVector2D phetvector3 = phetvector2.getInstanceOfMagnitude( d2 );
-            phetvector3 = new Vector2D.Double( -Math.abs( phetvector3.getX() ), phetvector3.getY() );
-            AbstractVector2D phetvector4 = phetvector1.getAddedInstance( phetvector3 );
-            bandparticle.setPosition( new Vector2D.Double( phetvector4.getX(), phetvector4.getY() ) );
+            AbstractVector2DInterface phetvector3 = phetvector2.getInstanceOfMagnitude( d2 );
+            phetvector3 = new Vector2D( -Math.abs( phetvector3.getX() ), phetvector3.getY() );
+            AbstractVector2DInterface phetvector4 = phetvector1.getAddedInstance( phetvector3 );
+            bandparticle.setPosition( new Vector2D( phetvector4.getX(), phetvector4.getY() ) );
             return this;
         }
     }

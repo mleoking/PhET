@@ -9,7 +9,7 @@ public class RampModel {
     private ArrayList objects = new ArrayList();
 
     public RampModel() {
-        objects.add( new RampObject( 0, new ImmutableVector2D.Double(), new ImmutableVector2D.Double(), new ImmutableVector2D.Double(), 0, 0, 0 ) );
+        objects.add( new RampObject( 0, new ImmutableVector2D(), new ImmutableVector2D(), new ImmutableVector2D(), 0, 0, 0 ) );
     }
 
     public String toString() {

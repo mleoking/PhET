@@ -8,7 +8,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 
-
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformListener;
@@ -34,7 +33,7 @@ public class BandParticleGraphic extends TransformGraphic {
     }
 
     public void paint( Graphics2D graphics2d ) {
-        Vector2D.Double phetvector = bandParticle.getPosition();
+        Vector2D phetvector = bandParticle.getPosition();
         java.awt.Point point = getTransform().modelToView( phetvector );
         graphic.setPosition( point );
         graphic.paint( graphics2d );

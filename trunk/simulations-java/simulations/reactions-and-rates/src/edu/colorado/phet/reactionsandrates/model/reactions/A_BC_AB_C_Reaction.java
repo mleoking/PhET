@@ -12,6 +12,7 @@ package edu.colorado.phet.reactionsandrates.model.reactions;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 import edu.colorado.phet.reactionsandrates.DebugFlags;
 import edu.colorado.phet.reactionsandrates.MRConfig;
 import edu.colorado.phet.reactionsandrates.model.*;
@@ -147,8 +148,8 @@ public class A_BC_AB_C_Reaction extends Reaction {
 
             // Move the sm and B molecules next to each other along the line connecting them,
             // with the proper amount of overlap
-            Vector2D vb = new Vector2D.Double( cm2.getCM(), mB.getPosition() );
-            Vector2D vs = new Vector2D.Double( cm2.getCM(), sm.getPosition() );
+            Vector2DInterface vb = new Vector2D( cm2.getCM(), mB.getPosition() );
+            Vector2DInterface vs = new Vector2D( cm2.getCM(), sm.getPosition() );
             double d = mB.getPosition().distance( sm.getPosition() );
             double r = MoleculeFactory.getComponentMoleculesOffset( sm, mB ) / d;
             mB.setPosition( cm2.getCM().getX() + vb.getX() * r, cm2.getCM().getY() + vb.getY() * r );
@@ -159,7 +160,7 @@ public class A_BC_AB_C_Reaction extends Reaction {
 
             // Move the simple molecule away from the new composite, so they won't react again on the
             // next time step
-            Vector2D vcs = new Vector2D.Double( mB.getPosition(), sm2.getPosition() ).scale( 1.5 );
+            Vector2DInterface vcs = new Vector2D( mB.getPosition(), sm2.getPosition() ).scale( 1.5 );
             sm2.setPosition( mB.getPosition().getX() + vcs.getX(), mB.getPosition().getY() + vcs.getY() );
 
             // Add potential energy to the reaction products equal to the difference between the top
@@ -168,8 +169,8 @@ public class A_BC_AB_C_Reaction extends Reaction {
                 double de = getThresholdEnergy( cm2, sm2 );
                 double sCm2 = Math.sqrt( cm2.getVelocity().getMagnitudeSq() + ( de / cm2.getMass() ) );
                 double sSm2 = Math.sqrt( sm2.getVelocity().getMagnitudeSq() + ( de / sm2.getMass() ) );
-                Vector2D dvCm2 = new Vector2D.Double( sm2.getPosition(), cm2.getPosition() ).normalize().scale( sCm2 - cm2.getVelocity().getMagnitude() );
-                Vector2D dvSm2 = new Vector2D.Double( cm2.getPosition(), sm2.getPosition() ).normalize().scale( sSm2 - sm2.getVelocity().getMagnitude() );
+                Vector2DInterface dvCm2 = new Vector2D( sm2.getPosition(), cm2.getPosition() ).normalize().scale( sCm2 - cm2.getVelocity().getMagnitude() );
+                Vector2DInterface dvSm2 = new Vector2D( cm2.getPosition(), sm2.getPosition() ).normalize().scale( sSm2 - sm2.getVelocity().getMagnitude() );
                 cm2.setVelocity( cm2.getVelocity().add( dvCm2 ) );
                 sm2.setVelocity( sm2.getVelocity().add( dvSm2 ) );
             }
@@ -250,7 +251,7 @@ public class A_BC_AB_C_Reaction extends Reaction {
 
         if( !DebugFlags.HARD_COLLISIONS ) {
             // Move the molecules apart so they won't react on the next time step
-            Vector2D sep = new Vector2D.Double( mB.getPosition(), newFreeMolecule.getPosition() );
+            Vector2DInterface sep = new Vector2D( mB.getPosition(), newFreeMolecule.getPosition() );
             sep.normalize().scale( mB.getRadius() + ( (SimpleMolecule)newFreeMolecule ).getRadius() + 2 );
             newFreeMolecule.setPosition( mB.getPosition().getX() + sep.getX(), mB.getPosition().getY() + sep.getY() );
 
@@ -259,9 +260,9 @@ public class A_BC_AB_C_Reaction extends Reaction {
             cb.addBody( newFreeMolecule );
             cb.addBody( newComposite );
 
-            Vector2D vFreeMoleculeRelCM = new Vector2D.Double( newFreeMolecule.getVelocity() ).subtract( cb.getVelocity() );
+            Vector2DInterface vFreeMoleculeRelCM = new Vector2D( newFreeMolecule.getVelocity() ).subtract( cb.getVelocity() );
             double sFree = MathUtil.getProjection( vFreeMoleculeRelCM, sep ).getMagnitude();
-            Vector2D vCompositeMoleculeRelCM = new Vector2D.Double( newComposite.getVelocity() ).subtract( cb.getVelocity() );
+            Vector2DInterface vCompositeMoleculeRelCM = new Vector2D( newComposite.getVelocity() ).subtract( cb.getVelocity() );
             double sComposite = MathUtil.getProjection( vCompositeMoleculeRelCM, sep ).getMagnitude();
             double ke = ( newFreeMolecule.getMass() * sFree * sFree + newComposite.getMass() * sComposite * sComposite ) / 2;
 
@@ -303,8 +304,8 @@ public class A_BC_AB_C_Reaction extends Reaction {
                       / ( b.getMass() + a.getMass() );
         double vaby = ( b.getMass() * b.getVelocity().getY() + a.getMass() * a.getVelocity().getY() )
                       / ( b.getMass() + a.getMass() );
-        a.setVelocity( new Vector2D.Double( vabx, vaby ) );
-        b.setVelocity( new Vector2D.Double( vabx, vaby ) );
+        a.setVelocity( new Vector2D( vabx, vaby ) );
+        b.setVelocity( new Vector2D( vabx, vaby ) );
 
         SimpleMolecule[] sms = new SimpleMolecule[]{a, b};
         if( newComposite instanceof MoleculeAB ) {
@@ -461,8 +462,8 @@ public class A_BC_AB_C_Reaction extends Reaction {
      * @param mB
      * @return a vector
      */
-    public Vector2D getCollisionVector( AbstractMolecule mA, AbstractMolecule mB ) {
-        Vector2D v = null;
+    public Vector2DInterface getCollisionVector( AbstractMolecule mA, AbstractMolecule mB ) {
+        Vector2DInterface v = null;
         if( moleculesAreProperTypes( mA, mB ) ) {
 
             // One of the molecules must be a composite, and the other a simple one. Get references to them, and
@@ -484,7 +485,7 @@ public class A_BC_AB_C_Reaction extends Reaction {
             dy -= Math.sin( theta ) * ( bm.getRadius() + sm.getRadius() );
 
             int sign = ( mA == cm ) ? -1 : 1;
-            v = new Vector2D.Double( sign * dx, sign * dy );
+            v = new Vector2D( sign * dx, sign * dy );
         }
         return v;
     }
@@ -601,7 +602,7 @@ public class A_BC_AB_C_Reaction extends Reaction {
             // Determine the kinetic energy in the collision. We consider this to be the
             // sum of the two molecules' kinetic energies along the line connecting their
             // CMs
-            Vector2D loa = new Vector2D.Double( m2.getPosition().getX() - m1.getPosition().getX(),
+            Vector2DInterface loa = new Vector2D( m2.getPosition().getX() - m1.getPosition().getX(),
                                                 m2.getPosition().getY() - m1.getPosition().getY() ).normalize();
             double sRel = Math.max( m1.getVelocity().dot( loa ) - m2.getVelocity().dot( loa ), 0 );
 

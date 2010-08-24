@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.reactionsandrates.model;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 
 import java.awt.geom.Point2D;
 
@@ -31,7 +31,7 @@ public class MoleculeA extends SimpleMolecule {
         super( RADIUS );
     }
 
-    public MoleculeA( Point2D location, Vector2D velocity, Vector2D acceleration, double mass, double charge ) {
+    public MoleculeA( Point2D location, Vector2DInterface velocity, Vector2DInterface acceleration, double mass, double charge ) {
         super( RADIUS, location, velocity, acceleration, mass, charge );
     }
 

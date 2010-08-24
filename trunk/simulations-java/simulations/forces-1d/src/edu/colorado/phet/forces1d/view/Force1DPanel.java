@@ -302,7 +302,7 @@ public class Force1DPanel extends ApparatusPanel2 implements OffsetManager {
         blockGraphic.addMouseInputListener( listener );
 
         wiggleMe = new WiggleMe( this, module.getClock(), Force1DResources.get( "Force1DPanel.applyForce" ), blockGraphic );
-        wiggleMe.setOscillationAxis( new Vector2D.Double( 1, 0 ) );
+        wiggleMe.setOscillationAxis( new Vector2D( 1, 0 ) );
         addGraphic( wiggleMe, 10000 );
         model.addListener( new Force1DModel.Listener() {
             public void appliedForceChanged() {

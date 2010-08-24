@@ -13,6 +13,7 @@ package edu.colorado.phet.common.phetcommon.model;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 
 /**
@@ -23,9 +24,9 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
  */
 public class Particle extends SimpleObservable implements ModelElement {
     private Point2D position = new Point2D.Double();
-    private Vector2D velocity = new Vector2D.Double();
-    private Vector2D acceleration = new Vector2D.Double();
-    private Vector2D prevAcceleration = new Vector2D.Double();
+    private Vector2DInterface velocity = new Vector2D();
+    private Vector2DInterface acceleration = new Vector2D();
+    private Vector2DInterface prevAcceleration = new Vector2D();
 
     public Particle() {
     }
@@ -34,15 +35,15 @@ public class Particle extends SimpleObservable implements ModelElement {
         Particle clone = (Particle) super.clone();
 
         clone.position = new Point2D.Double( position.getX(), position.getY() );
-        clone.velocity = new Vector2D.Double( velocity );
-        clone.acceleration = new Vector2D.Double( acceleration );
-        clone.prevAcceleration = new Vector2D.Double( prevAcceleration );
+        clone.velocity = new Vector2D( velocity );
+        clone.acceleration = new Vector2D( acceleration );
+        clone.prevAcceleration = new Vector2D( prevAcceleration );
 
         return clone;
     }
 
-    protected Particle( Point2D position, Vector2D velocity,
-                        Vector2D acceleration ) {
+    protected Particle( Point2D position, Vector2DInterface velocity,
+                        Vector2DInterface acceleration ) {
         setPosition( position );
         setVelocity( velocity );
         setAcceleration( acceleration );
@@ -61,11 +62,11 @@ public class Particle extends SimpleObservable implements ModelElement {
         setPosition( position.getX(), position.getY() );
     }
 
-    public Vector2D getVelocity() {
+    public Vector2DInterface getVelocity() {
         return velocity;
     }
 
-    public void setVelocity( Vector2D velocity ) {
+    public void setVelocity( Vector2DInterface velocity ) {
         setVelocity( velocity.getX(), velocity.getY() );
     }
 
@@ -78,11 +79,11 @@ public class Particle extends SimpleObservable implements ModelElement {
         return velocity.getMagnitude();
     }
 
-    public Vector2D getAcceleration() {
+    public Vector2DInterface getAcceleration() {
         return acceleration;
     }
 
-    public void setAcceleration( Vector2D acceleration ) {
+    public void setAcceleration( Vector2DInterface acceleration ) {
         setAcceleration( acceleration.getX(), acceleration.getY() );
     }
 

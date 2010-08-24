@@ -1,7 +1,7 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.energyskatepark.model;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.persistence.PersistenceUtil;
@@ -155,7 +155,7 @@ public class Body implements Serializable {
     private void updateStateFromParticle() {
         if( getSpeed() > 0.01 ) {
             if( !isFreeFallMode() && !isUserControlled() ) {
-                facingRight = getVelocity().dot( Vector2D.Double.parseAngleAndMagnitude( 1, getAngle() ) ) > 0;
+                facingRight = getVelocity().dot( Vector2D.parseAngleAndMagnitude( 1, getAngle() ) ) > 0;
             }
         }
     }
@@ -172,7 +172,7 @@ public class Body implements Serializable {
         return particle.getPosition();
     }
 
-    public AbstractVector2D getVelocity() {
+    public AbstractVector2DInterface getVelocity() {
         return particle.getVelocity();
     }
 
@@ -183,7 +183,7 @@ public class Body implements Serializable {
         }
     }
 
-    public void setVelocity( AbstractVector2D vector2D ) {
+    public void setVelocity( AbstractVector2DInterface vector2D ) {
         setVelocity( vector2D.getX(), vector2D.getY() );
     }
 
@@ -291,7 +291,7 @@ public class Body implements Serializable {
         notifyThrustChanged();
     }
 
-    public AbstractVector2D getThrust() {
+    public AbstractVector2DInterface getThrust() {
         return particle.getThrust();
     }
 
@@ -375,7 +375,7 @@ public class Body implements Serializable {
     }
 
     public TraversalState getBestTraversalState( TraversalState origState ) {
-        AbstractVector2D normal = new Vector2D.Double( origState.getParametricFunction2D().getUnitNormalVector( origState.getAlpha() ) ).getScaledInstance( origState.isTop() ? 1.0 : -1.0 );
+        AbstractVector2DInterface normal = new Vector2D( origState.getParametricFunction2D().getUnitNormalVector( origState.getAlpha() ) ).getScaledInstance( origState.isTop() ? 1.0 : -1.0 );
         SerializablePoint2D location = origState.getParametricFunction2D().evaluate( origState.getAlpha() );
         return particle.getBestTraversalState( location, normal );
     }

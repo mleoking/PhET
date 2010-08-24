@@ -23,6 +23,7 @@ import javax.swing.JRadioButton;
 import javax.swing.Timer;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -95,7 +96,7 @@ public class LactoseInjectorNode extends PNode {
 	private Point2D injectionPoint = new Point2D.Double();
 	private float transparency;  // For fading.  0 is transparent, 1 is opaque.
 	private Point2D injectionPointInModelCoords = new Point2D.Double();
-	private Vector2D nominalInjectionVelocityVector = new Vector2D.Double(NOMINAL_LACTOSE_INJECTION_VELOCITY, 0);
+	private Vector2DInterface nominalInjectionVelocityVector = new Vector2D(NOMINAL_LACTOSE_INJECTION_VELOCITY, 0);
     private final Timer fadeInTimer = new Timer( FADE_IN_DELAY_TIME, null );
     
     // For debug.
@@ -256,7 +257,7 @@ public class LactoseInjectorNode extends PNode {
 	}
 
 	private void injectLactose(){
-		Vector2D initialVelocity = new Vector2D.Double(nominalInjectionVelocityVector);
+		Vector2DInterface initialVelocity = new Vector2D(nominalInjectionVelocityVector);
 		initialVelocity.rotate((RAND.nextDouble() - 0.5) * Math.PI * 0.15);
         model.createAndAddLactose(injectionPointInModelCoords, initialVelocity); 
 	}

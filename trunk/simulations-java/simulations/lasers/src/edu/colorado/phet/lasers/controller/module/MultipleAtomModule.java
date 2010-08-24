@@ -61,7 +61,7 @@ public class MultipleAtomModule extends BaseLaserModule {
         Beam seedBeam = ( (LaserModel) getModel() ).getSeedBeam();
         seedBeam.setPosition( beamOrigin );
         seedBeam.setBeamWidth( s_boxHeight );
-        seedBeam.setDirection( new Vector2D.Double( 1, 0 ) );
+        seedBeam.setDirection( new Vector2D( 1, 0 ) );
         seedBeam.setPhotonsPerSecond( 1 );
 
         // Pumping beam

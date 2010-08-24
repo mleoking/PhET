@@ -12,7 +12,7 @@ package edu.colorado.phet.solublesalts.model.ion;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 
 /**
  * Strontium
@@ -29,7 +29,7 @@ public class Sulfur extends Ion {
         super( Sulfur.ionProperties );
     }
 
-    public Sulfur( Point2D position, Vector2D velocity, Vector2D acceleration ) {
+    public Sulfur( Point2D position, Vector2DInterface velocity, Vector2DInterface acceleration ) {
         super( position,
                velocity,
                acceleration,

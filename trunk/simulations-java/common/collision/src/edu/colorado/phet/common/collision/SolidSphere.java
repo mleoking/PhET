@@ -8,14 +8,14 @@ package edu.colorado.phet.common.collision;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 
 public class SolidSphere extends SphericalBody {
     public SolidSphere( double radius ) {
         super( radius );
     }
 
-    protected SolidSphere( Point2D center, Vector2D velocity, Vector2D acceleration,
+    protected SolidSphere( Point2D center, Vector2DInterface velocity, Vector2DInterface acceleration,
                            double mass, double radius ) {
         super( center, velocity, acceleration, mass, radius );
     }

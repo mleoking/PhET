@@ -45,8 +45,8 @@ public class CrystalVesselCollisionExpert implements CollisionExpert, ContactDet
 
     static {
         CrystalVesselCollisionExpert.DEFAULT_MIN_DIST_TO_LIKE_ION = new Chlorine( new Point2D.Double(),
-                                                                                  new Vector2D.Double(),
-                                                                                  new Vector2D.Double() ).getRadius() * 4;
+                                                                                  new Vector2D(),
+                                                                                  new Vector2D() ).getRadius() * 4;
     }
 
     //----------------------------------------------------------------

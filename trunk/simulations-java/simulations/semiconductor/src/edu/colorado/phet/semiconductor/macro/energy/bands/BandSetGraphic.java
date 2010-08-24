@@ -80,7 +80,7 @@ public class BandSetGraphic extends TransformGraphic implements BandParticleObse
             while ( it.hasNext() ) {
                 EnergyLevel energyLevel = (EnergyLevel) it.next();
                 Rectangle2D rect = energyLevel.getRegion().toRectangle();
-                Vector2D.Double ctr = RectangleUtils.getCenter( rect );
+                Vector2D ctr = RectangleUtils.getCenter( rect );
                 Point viewpt = getTransform().modelToView( ctr );
 
                 graphics2D.drawString( energyLevel.getID() + "", viewpt.x, viewpt.y );
@@ -92,8 +92,8 @@ public class BandSetGraphic extends TransformGraphic implements BandParticleObse
         return viewport;
     }
 
-    public Vector2D.Double getViewportBottomCenter() {
-        return new Vector2D.Double( getViewport().getX() + getViewport().getWidth() / 2, getViewport().getY() );
+    public Vector2D getViewportBottomCenter() {
+        return new Vector2D( getViewport().getX() + getViewport().getWidth() / 2, getViewport().getY() );
     }
 
 }

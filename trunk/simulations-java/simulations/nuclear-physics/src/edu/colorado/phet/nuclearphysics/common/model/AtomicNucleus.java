@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
@@ -151,17 +152,17 @@ public abstract class AtomicNucleus implements NuclearDecayControl {
         _yAcceleration = yAcc;
     }
     
-    public void setAcceleration( Vector2D accelerationVector ){
+    public void setAcceleration( Vector2DInterface accelerationVector ){
         _xAcceleration = accelerationVector.getX();
         _yAcceleration = accelerationVector.getY();
     }
 
-    public Vector2D.Double getAcceleration(){
-        return new Vector2D.Double(_xAcceleration, _yAcceleration);
+    public Vector2D getAcceleration(){
+        return new Vector2D(_xAcceleration, _yAcceleration);
     }
     
-    public Vector2D.Double getVelocity(){
-        return new Vector2D.Double(_xVelocity, _yVelocity);
+    public Vector2D getVelocity(){
+        return new Vector2D(_xVelocity, _yVelocity);
     }
     
     public int getAtomicWeight(){

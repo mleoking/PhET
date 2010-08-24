@@ -32,7 +32,7 @@ public class ExitLeftFrom extends StateTransition {
              particle.isExcited() && cell == from ) {
             double targetX = energySection.getLeftBand().getX();
             double targetY = particle.getY();
-            Vector2D.Double dest = new Vector2D.Double( targetX, targetY );
+            Vector2D dest = new Vector2D( targetX, targetY );
             ExitLeftState sc = new ExitLeftState( dest, energySection.getSpeed(), energySection );
             particle.setState( sc );
         }

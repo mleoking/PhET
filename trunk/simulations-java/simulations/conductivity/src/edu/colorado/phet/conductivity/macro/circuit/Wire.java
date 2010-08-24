@@ -11,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 public class Wire extends LinearBranch {
 
-    public Wire( Vector2D.Double phetvector, Vector2D.Double phetvector1 ) {
+    public Wire( Vector2D phetvector, Vector2D phetvector1 ) {
         super( phetvector, phetvector1 );
     }
 }

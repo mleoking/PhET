@@ -14,6 +14,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
 import edu.colorado.phet.mri.model.DipoleOrientationAgent;
 import edu.colorado.phet.mri.model.SampleMaterial;
@@ -68,7 +69,7 @@ public class MriConfig {
     // Mean time between injections of thermal noise
     public static double MEAN_THERMAL_NOISE_INJECTION_TIME = 500;
     // The direction photons come out of the radio wave source
-    public static final Vector2D EMITTED_PHOTON_DIRECTION = new Vector2D.Double( 1, 0 );
+    public static final Vector2DInterface EMITTED_PHOTON_DIRECTION = new Vector2D( 1, 0 );
 
     // Can photons emitted by dipoles be reabsorbed by another dipole?
     public static final boolean REABSORPTION_ALLOWED = false;

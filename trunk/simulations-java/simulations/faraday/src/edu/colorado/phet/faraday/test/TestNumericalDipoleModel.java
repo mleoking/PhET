@@ -15,6 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -65,7 +66,7 @@ public class TestNumericalDipoleModel extends JFrame {
      * Interface for all B-field evaluation strategies.
      */
     public interface IBFieldEvaluator {
-        public Vector2D getValue( double x, double y );
+        public Vector2DInterface getValue( double x, double y );
     }
     
     /**
@@ -74,10 +75,10 @@ public class TestNumericalDipoleModel extends JFrame {
      */
     public static class RandomBFieldEvaluator implements IBFieldEvaluator {
 
-        public Vector2D getValue( double x, double y ) {
+        public Vector2DInterface getValue( double x, double y ) {
             double bx = ( BFIELD_GRID_SPACING.getWidth() / 2 ) * Math.random() * randomSign();
             double by = ( BFIELD_GRID_SPACING.getHeight() / 2 ) * Math.random() * randomSign();
-            return new Vector2D.Double( bx, by );
+            return new Vector2D( bx, by );
         }
 
         private int randomSign() {
@@ -98,10 +99,10 @@ public class TestNumericalDipoleModel extends JFrame {
             byFunction = new ByFunction( magnet.getSizeReference() );
         }
         
-        public Vector2D getValue( double x, double y ) {
+        public Vector2DInterface getValue( double x, double y ) {
             double bx = bxFunction.evaluate( x, y );
             double by = byFunction.evaluate( x, y );
-            return new Vector2D.Double( bx, by );
+            return new Vector2D( bx, by );
         }
     }
     
@@ -363,7 +364,7 @@ public class TestNumericalDipoleModel extends JFrame {
             return size.getHeight();
         }
         
-        public Vector2D getBFieldValue( double x, double y ) {
+        public Vector2DInterface getBFieldValue( double x, double y ) {
             return evaluator.getValue( x, y );
         }
     }
@@ -461,11 +462,11 @@ public class TestNumericalDipoleModel extends JFrame {
             vectorsParentNode.removeAllChildren();
             for ( double y = 0; y <= size.getHeight(); y += spacing.getHeight() ) {
                 for ( double x = 0; x <= size.getWidth(); x += spacing.getWidth() ) {
-                    Vector2D vector = magnet.getBFieldValue( x, y );
+                    Vector2DInterface vector = magnet.getBFieldValue( x, y );
                     if ( ENABLE_DEBUG_OUTPUT ) {
                         System.out.println( "BFieldNode.update x=" + x + " y=" + y + " bx=" + vector.getX() + " by= " + vector.getY() );
                     }
-                    Vector2D vectorScaled = vectorScaler.scale( vector );
+                    Vector2DInterface vectorScaled = vectorScaler.scale( vector );
                     Vector2DNode vectorNode = new Vector2DNode( vectorScaled );
                     vectorNode.setOffset( x, y );
                     vectorsParentNode.addChild( vectorNode );
@@ -478,7 +479,7 @@ public class TestNumericalDipoleModel extends JFrame {
      * Interface for vector scaling strategies.
      */
     public interface IVectorScaler {
-        public Vector2D scale( Vector2D v );
+        public Vector2DInterface scale( Vector2DInterface v );
     }
     
     /**
@@ -486,7 +487,7 @@ public class TestNumericalDipoleModel extends JFrame {
      */
     public static class UnityVectorScaler implements IVectorScaler {
         
-        public Vector2D scale( Vector2D v ) {
+        public Vector2DInterface scale( Vector2DInterface v ) {
             return v;
         }
     }
@@ -506,11 +507,11 @@ public class TestNumericalDipoleModel extends JFrame {
             this.factor = factor;
         }
 
-        public Vector2D scale( Vector2D v ) {
+        public Vector2DInterface scale( Vector2DInterface v ) {
             double multiplier = Math.pow( v.getMagnitude(), 1 / factor );
             double bxScaled = multiplier * ( v.getX() / v.getMagnitude() );
             double byScaled = multiplier * ( v.getY() / v.getMagnitude() );
-            return new Vector2D.Double( bxScaled, byScaled );
+            return new Vector2D( bxScaled, byScaled );
         }
     }
     
@@ -520,7 +521,7 @@ public class TestNumericalDipoleModel extends JFrame {
      */
     public static class Vector2DNode extends PComposite {
         
-        public Vector2DNode( Vector2D vector ) {
+        public Vector2DNode( Vector2DInterface vector ) {
             
             setPickable( false );
             setChildrenPickable( false );

@@ -50,7 +50,7 @@ public class Electromagnet extends Particle {
      * @param clock
      */
     public Electromagnet( Point2D position, double width, double height, IClock clock ) {
-        super( position, new Vector2D.Double(), new Vector2D.Double() );
+        super( position, new Vector2D(), new Vector2D() );
         this.bounds = new Rectangle2D.Double( position.getX() - width / 2,
                                               position.getY() - height / 2,
                                               width,

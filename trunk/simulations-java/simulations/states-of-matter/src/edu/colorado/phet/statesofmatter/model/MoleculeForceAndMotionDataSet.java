@@ -5,6 +5,7 @@ package edu.colorado.phet.statesofmatter.model;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.model.engine.WaterMoleculeStructure;
 
@@ -32,9 +33,9 @@ public class MoleculeForceAndMotionDataSet {
     // Attributes of the individual molecules and the atoms that comprise them.
     private Point2D [] m_atomPositions;
 	private Point2D [] m_moleculeCenterOfMassPositions;
-    private Vector2D [] m_moleculeVelocities;
-    private Vector2D [] m_moleculeForces;
-    private Vector2D [] m_nextMoleculeForces;
+    private Vector2DInterface[] m_moleculeVelocities;
+    private Vector2DInterface[] m_moleculeForces;
+    private Vector2DInterface[] m_nextMoleculeForces;
     private double [] m_moleculeRotationAngles;
     private double [] m_moleculeRotationRates;
     private double [] m_moleculeTorques;
@@ -55,9 +56,9 @@ public class MoleculeForceAndMotionDataSet {
     	
         m_atomPositions                 = new Point2D [StatesOfMatterConstants.MAX_NUM_ATOMS];
         m_moleculeCenterOfMassPositions = new Point2D [StatesOfMatterConstants.MAX_NUM_ATOMS / m_atomsPerMolecule];
-        m_moleculeVelocities            = new Vector2D [StatesOfMatterConstants.MAX_NUM_ATOMS / m_atomsPerMolecule];
-        m_moleculeForces                = new Vector2D [StatesOfMatterConstants.MAX_NUM_ATOMS / m_atomsPerMolecule];
-        m_nextMoleculeForces            = new Vector2D [StatesOfMatterConstants.MAX_NUM_ATOMS / m_atomsPerMolecule];
+        m_moleculeVelocities            = new Vector2DInterface[StatesOfMatterConstants.MAX_NUM_ATOMS / m_atomsPerMolecule];
+        m_moleculeForces                = new Vector2DInterface[StatesOfMatterConstants.MAX_NUM_ATOMS / m_atomsPerMolecule];
+        m_nextMoleculeForces            = new Vector2DInterface[StatesOfMatterConstants.MAX_NUM_ATOMS / m_atomsPerMolecule];
         
     	// Note that some of the following are not used in the monatomic case,
         // but need to be here for compatibility.
@@ -125,27 +126,27 @@ public class MoleculeForceAndMotionDataSet {
 		m_moleculeCenterOfMassPositions = centerOfMassPositions;
 	}
 	
-	public Vector2D[] getMoleculeVelocities() {
+	public Vector2DInterface[] getMoleculeVelocities() {
 		return m_moleculeVelocities;
 	}
 	
-	public void setMoleculeVelocities(Vector2D[] velocities) {
+	public void setMoleculeVelocities( Vector2DInterface[] velocities) {
 		m_moleculeVelocities = velocities;
 	}
 	
-	public Vector2D[] getMoleculeForces() {
+	public Vector2DInterface[] getMoleculeForces() {
 		return m_moleculeForces;
 	}
 	
-	public void setMoleculeForces(Vector2D[] forces) {
+	public void setMoleculeForces( Vector2DInterface[] forces) {
 		m_moleculeForces = forces;
 	}
 	
-	public Vector2D[] getNextMoleculeForces() {
+	public Vector2DInterface[] getNextMoleculeForces() {
 		return m_nextMoleculeForces;
 	}
 	
-	public void setNextMoleculeForces(Vector2D[] moleculeForces) {
+	public void setNextMoleculeForces( Vector2DInterface[] moleculeForces) {
 		m_nextMoleculeForces = moleculeForces;
 	}
 	
@@ -251,7 +252,7 @@ public class MoleculeForceAndMotionDataSet {
 	 * @return - true if able to add, false if not.
 	 */
 	public boolean addMolecule( Point2D [] atomPositions, Point2D moleculeCenterOfMassPosition, 
-			Vector2D moleculeVelocity, double moleculeRotationRate ){
+			Vector2DInterface moleculeVelocity, double moleculeRotationRate ){
 		
 		if (getNumberOfRemainingSlots() == 0){
 			return false;
@@ -268,8 +269,8 @@ public class MoleculeForceAndMotionDataSet {
 		m_moleculeRotationRates[numberOfMolecules] = moleculeRotationRate;
 
 		// Allocate memory for the information that is not specified.
-		m_moleculeForces[numberOfMolecules] = new Vector2D.Double();
-        m_nextMoleculeForces[numberOfMolecules] = new Vector2D.Double();
+		m_moleculeForces[numberOfMolecules] = new Vector2D();
+        m_nextMoleculeForces[numberOfMolecules] = new Vector2D();
         
         // Increment the number of atoms.  Note that we DON'T increment the number of safe atoms - that must
         // be done by some outside entity.

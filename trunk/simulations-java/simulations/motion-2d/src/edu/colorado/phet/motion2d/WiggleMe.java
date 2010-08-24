@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -23,12 +23,12 @@ public class WiggleMe extends CompositePhetGraphic implements ModelElement {
     private double time = 0;
     private Point2D.Double current;
     private Font font = new PhetFont( 16, true );
-    private AbstractVector2D oscillationVector;
+    private AbstractVector2DInterface oscillationVector;
     private Point2D startPt;
     private PhetShadowTextGraphic textGraphic;
     private PhetShapeGraphic arrowGraphic;
 
-    public WiggleMe( Component parent, Point2D startPt, AbstractVector2D oscillationDir, double amplitude, double frequency, String text ) {
+    public WiggleMe( Component parent, Point2D startPt, AbstractVector2DInterface oscillationDir, double amplitude, double frequency, String text ) {
         super( parent );
         setVisible( false );
         this.startPt = startPt;

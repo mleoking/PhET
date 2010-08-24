@@ -1,7 +1,7 @@
 package edu.colorado.phet.circuitconstructionkit.model;
 
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 import java.util.ArrayList;
@@ -38,7 +38,7 @@ public class BranchSet {
     /**
      * This makes sure the right components get the notification event.
      */
-    public void translate(AbstractVector2D vector) {
+    public void translate( AbstractVector2DInterface vector) {
         ArrayList<Junction> junctionSet = new ArrayList<Junction>();
         junctionSet.addAll(junctions);
         for (int i = 0; i < branches.size(); i++) {
@@ -81,7 +81,7 @@ public class BranchSet {
     }
 
     public void translate(double dx, double dy) {
-        translate(new Vector2D.Double(dx, dy));
+        translate(new Vector2D(dx, dy));
     }
 
     public Branch[] getBranches() {

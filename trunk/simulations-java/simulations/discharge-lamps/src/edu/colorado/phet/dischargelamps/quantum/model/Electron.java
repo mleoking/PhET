@@ -14,7 +14,7 @@ import java.util.EventListener;
 import java.util.EventObject;
 
 import edu.colorado.phet.common.collision.SphericalBody;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
@@ -53,7 +53,7 @@ public class Electron extends SphericalBody {
     // Setters and getters
     //----------------------------------------------------------------
 
-    public void setVelocity( Vector2D velocity ) {
+    public void setVelocity( Vector2DInterface velocity ) {
         super.setVelocity( velocity );
         if ( changeListenerProxy != null ) {
             changeListenerProxy.energyChanged( new ChangeEvent( this ) );

@@ -8,6 +8,7 @@
 package edu.colorado.phet.idealgas.model;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.idealgas.collision.SphericalBody;
 
@@ -61,12 +62,12 @@ public class HollowSphereMustNotContainParticle extends MustNotContain {
             // The result, added to the center of the hollow sphere, is the location of
             // the particle
             double properSeparation = hollowSphere.getRadius() + particle.getRadius();
-            Vector2D rHat = new Vector2D.Double( particle.getCenter() );
+            Vector2DInterface rHat = new Vector2D( particle.getCenter() );
 //            rHat = rHat.subtract( hollowSphere.getCenter() );
             rHat.setComponents( rHat.getX() - hollowSphere.getCenter().getX(),
                                 rHat.getY() - hollowSphere.getCenter().getY() );
             rHat.normalize();
-            Vector2D r = rHat.scale( properSeparation );
+            Vector2DInterface r = rHat.scale( properSeparation );
 //            r = r.add( hollowSphere.getCenter());
             r.setComponents( r.getX() + hollowSphere.getPosition().getX(),
                              r.getY() + hollowSphere.getPosition().getY() );

@@ -2,7 +2,7 @@
 package edu.colorado.phet.semiconductor.macro.energy.bands;
 
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 
@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 public class VerticalTearLine {
     DoubleGeneralPath path;
 
-    public VerticalTearLine( AbstractVector2D src, AbstractVector2D dst, double width, int numJags ) {
+    public VerticalTearLine( AbstractVector2DInterface src, AbstractVector2DInterface dst, double width, int numJags ) {
         path = new DoubleGeneralPath( src.getX(), src.getY() );
         double totalHeight = dst.getY() - src.getY();
         //first one, move left and down half the specified amount.

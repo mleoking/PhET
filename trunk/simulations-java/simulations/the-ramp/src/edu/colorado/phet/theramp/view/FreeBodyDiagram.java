@@ -1,8 +1,9 @@
 /*  */
 package edu.colorado.phet.theramp.view;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
@@ -67,23 +68,23 @@ public class FreeBodyDiagram extends PNode {
         addChild( axes );
 //        axes.setVisible( false );
 
-        mg = new ForceArrow( this, laf.getWeightColor(), ( TheRampStrings.getString( "force.subscript.gravity" ) ), new Vector2D.Double( 0, 80 ) );
+        mg = new ForceArrow( this, laf.getWeightColor(), ( TheRampStrings.getString( "force.subscript.gravity" ) ), new Vector2D( 0, 80 ) );
         addForceArrow( mg );
 
-        normal = new ForceArrow( this, laf.getNormalColor(), ( TheRampStrings.getString( "force.subscript.normal" ) ), new Vector2D.Double( 0, 80 ) );
+        normal = new ForceArrow( this, laf.getNormalColor(), ( TheRampStrings.getString( "force.subscript.normal" ) ), new Vector2D( 0, 80 ) );
         addForceArrow( normal );
 
-        appliedForce = new ForceArrow( this, laf.getAppliedForceColor(), ( TheRampStrings.getString( "force.subscript.applied" ) ), new Vector2D.Double() );
+        appliedForce = new ForceArrow( this, laf.getAppliedForceColor(), ( TheRampStrings.getString( "force.subscript.applied" ) ), new Vector2D() );
         addForceArrow( appliedForce );
 
-        frictionForce = new ForceArrow( this, laf.getFrictionForceColor(), ( TheRampStrings.getString( "force.subscript.friction" ) ), new Vector2D.Double() );
+        frictionForce = new ForceArrow( this, laf.getFrictionForceColor(), ( TheRampStrings.getString( "force.subscript.friction" ) ), new Vector2D() );
         addForceArrow( frictionForce );
 
-        netForce = new ForceArrow( this, laf.getNetForceColor(), ( TheRampStrings.getString( "force.subscript.net" ) ), new Vector2D.Double() );
+        netForce = new ForceArrow( this, laf.getNetForceColor(), ( TheRampStrings.getString( "force.subscript.net" ) ), new Vector2D() );
         addForceArrow( netForce );
         netForce.setVerticalOffset( -30 );
 
-        wallForce = new ForceArrow( this, laf.getWallForceColor(), ( TheRampStrings.getString( "force.subscript.wall" ) ), new Vector2D.Double() );
+        wallForce = new ForceArrow( this, laf.getWallForceColor(), ( TheRampStrings.getString( "force.subscript.wall" ) ), new Vector2D() );
         addForceArrow( wallForce );
         wallForce.setVerticalOffset( -30 );
 
@@ -131,21 +132,21 @@ public class FreeBodyDiagram extends PNode {
 
     private void updateXForces() {
 
-        Vector2D.Double af = new Vector2D.Double( model.getAppliedForce().getScaledInstance( scale ) );
+        Vector2D af = new Vector2D( model.getAppliedForce().getScaledInstance( scale ) );
         appliedForce.setVector( af );
 
-        Vector2D.Double ff = new Vector2D.Double( model.getFrictionForce().getScaledInstance( scale ) );
+        Vector2D ff = new Vector2D( model.getFrictionForce().getScaledInstance( scale ) );
         frictionForce.setVector( ff );
 
-        AbstractVector2D net = new Vector2D.Double( model.getTotalForce().getScaledInstance( scale ) );
+        AbstractVector2DInterface net = new Vector2D( model.getTotalForce().getScaledInstance( scale ) );
         netForce.setVector( net );
 
-        Vector2D.Double wf = new Vector2D.Double( model.getWallForce().getScaledInstance( scale ) );
+        Vector2D wf = new Vector2D( model.getWallForce().getScaledInstance( scale ) );
         wallForce.setVector( wf );
     }
 
     private void updateMG() {
-        Vector2D gravity = model.getGravityForce();
+        Vector2DInterface gravity = model.getGravityForce();
         mg.setVector( gravity.getScaledInstance( scale ) );
         normal.setVector( model.getNormalForce().getScaledInstance( scale ) );
     }
@@ -182,7 +183,7 @@ public class FreeBodyDiagram extends PNode {
         private Arrow lastArrow;
         private double verticalOffset = 0;
 
-        public ForceArrow( FreeBodyDiagram fbd, Color color, String name, Vector2D.Double v ) {
+        public ForceArrow( FreeBodyDiagram fbd, Color color, String name, Vector2D v ) {
             this.fbd = fbd;
             this.name = name;
             shapeGraphic = new PPath();
@@ -205,13 +206,13 @@ public class FreeBodyDiagram extends PNode {
             this.verticalOffset = verticalOffset;
         }
 
-        public void setVector( AbstractVector2D v ) {
+        public void setVector( AbstractVector2DInterface v ) {
             Point2D origin = fbd.getCenter();
             SurfaceGraphic surfaceGraphic = fbd.getRampPanel().getRampWorld().getBlockGraphic().getCurrentSurfaceGraphic();
             double viewAngle = surfaceGraphic.getViewAngle();
 
 //            origin = new Point2D.Double( origin.getX() + dx, origin.getY() + dy );
-            origin = Vector2D.Double.parseAngleAndMagnitude( verticalOffset, viewAngle ).getNormalVector().getNormalVector().getNormalVector().getDestination( origin );
+            origin = Vector2D.parseAngleAndMagnitude( verticalOffset, viewAngle ).getNormalVector().getNormalVector().getNormalVector().getDestination( origin );
             Arrow arrow = new Arrow( origin, v.getDestination( origin ), 20, 20, 8, 0.5, true );
             Shape sh = arrow.getShape();
             if( lastArrow == null || !lastArrow.equals( arrow ) ) {

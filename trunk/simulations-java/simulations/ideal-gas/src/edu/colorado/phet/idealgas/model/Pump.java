@@ -202,13 +202,13 @@ public class Pump extends SimpleObservable implements GasSource {
         // compute and assign it next
         if( species == LightSpecies.class ) {
             newMolecule = new LightSpecies( new Point2D.Double( s_intakePortX, s_intakePortY + s_intakePortOffsetY * 5 ),
-                                            new Vector2D.Double( 0, 0 ),
-                                            new Vector2D.Double( 0, 0 ) );
+                                            new Vector2D( 0, 0 ),
+                                            new Vector2D( 0, 0 ) );
         }
         else if( species == HeavySpecies.class ) {
             newMolecule = new HeavySpecies( new Point2D.Double( s_intakePortX, s_intakePortY + s_intakePortOffsetY * 5 ),
-                                            new Vector2D.Double( 0, 0 ),
-                                            new Vector2D.Double( 0, 0 ) );
+                                            new Vector2D( 0, 0 ),
+                                            new Vector2D( 0, 0 ) );
         }
         else {
             throw new RuntimeException( "No gas species set in application" );

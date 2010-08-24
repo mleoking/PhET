@@ -1,7 +1,7 @@
 /*  */
 package edu.colorado.phet.quantumwaveinterference.model.waves;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 import edu.colorado.phet.quantumwaveinterference.model.Wave;
 import edu.colorado.phet.quantumwaveinterference.model.WaveSetup;
 import edu.colorado.phet.quantumwaveinterference.model.Wavefunction;
@@ -21,11 +21,11 @@ public class GaussianWave2D extends WaveSetup implements Wave {
     private double globalPhase;
     private double scale = 1.0;
 
-    public GaussianWave2D( Point2D center, Vector2D momentum, double dxLattice, double hbar ) {
+    public GaussianWave2D( Point2D center, Vector2DInterface momentum, double dxLattice, double hbar ) {
         this( center, momentum, dxLattice, dxLattice, hbar );
     }
 
-    public GaussianWave2D( Point2D center, Vector2D momentum, double dxLattice, double dyLattice, double hbar ) {
+    public GaussianWave2D( Point2D center, Vector2DInterface momentum, double dxLattice, double dyLattice, double hbar ) {
         this.xWave = new GaussianWave1D( momentum.getX(), center.getX(), dxLattice, hbar );
         this.yWave = new GaussianWave1D( momentum.getY(), center.getY(), dyLattice, hbar );
         super.setWave( this );

@@ -12,6 +12,7 @@ package edu.colorado.phet.reactionsandrates.model;
 
 import edu.colorado.phet.common.mechanics.DefaultBody;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.reactionsandrates.MRConfig;
@@ -71,7 +72,7 @@ public class Launcher extends DefaultBody implements ModelElement, PotentialEner
     public void release() {
         if( bodyToLaunch != null && extension > 2 ) {
             double s = Math.sqrt( 2 * getPE() / bodyToLaunch.getMass() );
-            Vector2D v = new Vector2D.Double( 0, -s );
+            Vector2DInterface v = new Vector2D( 0, -s );
             v.rotate( getTheta() );
             bodyToLaunch.setVelocity( v );
             bodyToLaunch = null;

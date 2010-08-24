@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -33,14 +33,14 @@ public class BodyVectorLayer extends PNode {
         this.rotationModel = rotationModel;
         this.rotationBody = rotationBody;
         accelArrow = new VectorNode( RotationStrings.getString( "variable.a" ), RotationColorScheme.ACCELERATION_COLOR, new VectorFunction() {
-            public AbstractVector2D getVector() {
+            public AbstractVector2DInterface getVector() {
                 return rotationBody.getAcceleration().getScaledInstance( accelScale );
             }
         } );
         addChild( accelArrow );
 
         velocityArrow = new VectorNode( RotationStrings.getString( "variable.v" ), RotationColorScheme.VELOCITY_COLOR, new VectorFunction() {
-            public AbstractVector2D getVector() {
+            public AbstractVector2DInterface getVector() {
                 return rotationBody.getVelocity().getScaledInstance( velScale );
             }
         } );
@@ -91,7 +91,7 @@ public class BodyVectorLayer extends PNode {
 
         public void update() {
             Point2D position = rotationBody.getPosition();
-            AbstractVector2D vector = vectorFunction.getVector();
+            AbstractVector2DInterface vector = vectorFunction.getVector();
             arrowNode.setPathTo( new Arrow( position, vector, 20 * RotationPlayAreaNode.SCALE, 20 * RotationPlayAreaNode.SCALE, 3 * RotationPlayAreaNode.SCALE, 0.75, true ).getShape() );
             labelNode.setVisible( vector.getMagnitude() > VISIBLE_THRESHOLD );
             if ( labelNode.getVisible() ) {
@@ -101,13 +101,13 @@ public class BodyVectorLayer extends PNode {
             }
         }
 
-        private AbstractVector2D increase( AbstractVector2D orig, double dx ) {
+        private AbstractVector2DInterface increase( AbstractVector2DInterface orig, double dx ) {
             return Math.abs( orig.getMagnitude() ) < VISIBLE_THRESHOLD ? orig : orig.getInstanceOfMagnitude( orig.getMagnitude() + dx );
         }
     }
 
     static interface VectorFunction {
-        AbstractVector2D getVector();
+        AbstractVector2DInterface getVector();
     }
 
     private static Paint getStrokePaint() {

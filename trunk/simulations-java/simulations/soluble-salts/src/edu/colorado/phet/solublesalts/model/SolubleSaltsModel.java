@@ -15,6 +15,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.*;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -79,8 +80,8 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
     private boolean nucleationEnabled;
     private Shaker shaker;
     public CrystalTracker crystalTracker;
-    private Vector2D accelerationOutOfWater = new Vector2D.Double( 0, SolubleSaltsConfig.DEFAULT_LATTICE_ACCELERATION );
-    private Vector2D accelerationInWater = new Vector2D.Double();
+    private Vector2DInterface accelerationOutOfWater = new Vector2D( 0, SolubleSaltsConfig.DEFAULT_LATTICE_ACCELERATION );
+    private Vector2DInterface accelerationInWater = new Vector2D();
 
     private RandomWalk randomWalkAgent;
 

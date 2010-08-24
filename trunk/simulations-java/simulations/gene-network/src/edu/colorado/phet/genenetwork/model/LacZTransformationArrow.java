@@ -23,7 +23,7 @@ public class LacZTransformationArrow extends TransformationArrow {
 		lacZToAddToModel.setMotionStrategy(new LinearMotionStrategy( 
 				MotionBoundsTrimmer.trim(getModel().getInteriorMotionBoundsAboveDna(), lacZToAddToModel), 
 				lacZToAddToModel.getPositionRef(), 
-				new Vector2D.Double(getVelocityRef()),
+				new Vector2D(getVelocityRef()),
 				5.0));
 		getModel().addLacZ(lacZToAddToModel);
 	}

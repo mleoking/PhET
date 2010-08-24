@@ -7,14 +7,14 @@ package edu.colorado.phet.radiowaves.model.movement;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 import edu.colorado.phet.radiowaves.model.Electron;
 
 public interface MovementType {
 
     void stepInTime( Electron electron, double dt );
 
-    Vector2D getVelocity( Electron electron );
+    Vector2DInterface getVelocity( Electron electron );
 
     float getAcceleration( Electron electron );
 

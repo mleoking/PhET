@@ -5,7 +5,7 @@ import java.awt.geom.Point2D;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -29,7 +29,7 @@ public class WiggleMe extends CompositePhetGraphic {
     //    private double frequency = 0.0025;//in Hertz.
     private double frequency = 2.5;//in Hertz.
     private double amplitude = 30;//In pixels.
-    private Vector2D.Double oscillationAxis;//axis along which the wiggle me moves.
+    private Vector2D oscillationAxis;//axis along which the wiggle me moves.
     private Target target;
     private PhetShapeGraphic phetShapeGraphic;
     private ShadowHTMLGraphic textGraphic;
@@ -48,7 +48,7 @@ public class WiggleMe extends CompositePhetGraphic {
         super( component );
         this.target = t;
         this.clock = clock;
-        this.oscillationAxis = new Vector2D.Double( 0, 1 );
+        this.oscillationAxis = new Vector2D( 0, 1 );
         Color foreGroundColor = new Color( 39, 27, 184 );
         Color shadowColor = new Color( 6, 0, 44 );
         textGraphic = new ShadowHTMLGraphic( component, text, font, foreGroundColor, dx, dy, shadowColor );
@@ -73,7 +73,7 @@ public class WiggleMe extends CompositePhetGraphic {
         phetShapeGraphic.setLocation( textGraphic.getWidth() - phetShapeGraphic.getWidth() - 5, textGraphic.getHeight() + 5 );
     }
 
-    public void setOscillationAxis( Vector2D.Double oscillationAxis ) {
+    public void setOscillationAxis( Vector2D oscillationAxis ) {
         this.oscillationAxis = oscillationAxis;
     }
 
@@ -118,7 +118,7 @@ public class WiggleMe extends CompositePhetGraphic {
 
             Point oscillationCenter = new Point( targetLoc.x - getWidth() - 5, targetLoc.y );
             double distAlongAxis = Math.sin( frequency * time ) * amplitude;
-            AbstractVector2D norm = oscillationAxis.getInstanceOfMagnitude( distAlongAxis );
+            AbstractVector2DInterface norm = oscillationAxis.getInstanceOfMagnitude( distAlongAxis );
             Point2D dest = norm.getDestination( oscillationCenter );
 
             setLocation( (int) dest.getX(), (int) dest.getY() );

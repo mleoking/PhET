@@ -7,9 +7,10 @@ import edu.colorado.phet.circuitconstructionkit.model.components.CircuitComponen
 import edu.colorado.phet.circuitconstructionkit.model.components.Switch;
 import edu.colorado.phet.circuitconstructionkit.model.components.Wire;
 import edu.colorado.phet.circuitconstructionkit.model.mna.MNAAdapter;
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 import java.awt.*;
@@ -223,7 +224,7 @@ public class Circuit {
         for (int i = 0; i < adjacentBranches.length; i++) {
             Branch branch = adjacentBranches[i];
             Junction opposite = branch.opposite(junction);
-            AbstractVector2D vec = new Vector2D.Double(opposite.getPosition(), junction.getPosition());
+            AbstractVector2DInterface vec = new Vector2D(opposite.getPosition(), junction.getPosition());
             double curLength = vec.getMagnitude();
             double newLength = Math.abs(curLength - CCKModel.JUNCTION_RADIUS * 1.5);
             vec = vec.getInstanceOfMagnitude(newLength);
@@ -239,7 +240,7 @@ public class Circuit {
             newJunctions[i] = newJunction;
 
             if (branch instanceof CircuitComponent) {
-                AbstractVector2D tx = new ImmutableVector2D.Double(junction.getPosition(), desiredDst);
+                AbstractVector2DInterface tx = new ImmutableVector2D(junction.getPosition(), desiredDst);
                 Branch[] stronglyConnected = getStrongConnections(newJunction);
                 BranchSet bs = new BranchSet(this, stronglyConnected);
                 bs.translate(tx);
@@ -370,13 +371,13 @@ public class Circuit {
         return branches.toArray(new Branch[branches.size()]);
     }
 
-    private void translate(Junction[] j, AbstractVector2D vec) {
+    private void translate(Junction[] j, AbstractVector2DInterface vec) {
         for (Junction junction : j) {
             junction.translate(vec.getX(), vec.getY());
         }
     }
 
-    public void translate(Branch[] branchs, AbstractVector2D vec) {
+    public void translate(Branch[] branchs, AbstractVector2DInterface vec) {
         Junction[] j = getJunctions(branchs);
         translate(j, vec);
         for (Branch b : branchs) {
@@ -596,7 +597,7 @@ public class Circuit {
         fireJunctionsCollapsed(j1, j2, replacement);
     }
 
-    public DragMatch getBestDragMatch(Branch[] sc, Vector2D dx) {
+    public DragMatch getBestDragMatch(Branch[] sc, Vector2DInterface dx) {
         return getBestDragMatch(Circuit.getJunctions(sc), dx);
     }
 
@@ -670,12 +671,12 @@ public class Circuit {
             return "match, source=" + source + ", dest=" + target + ", dist=" + getDistance();
         }
 
-        public Vector2D getVector() {
-            return new Vector2D.Double(source.getPosition(), target.getPosition());
+        public Vector2DInterface getVector() {
+            return new Vector2D(source.getPosition(), target.getPosition());
         }
     }
 
-    public DragMatch getBestDragMatch(Junction[] draggedJunctions, Vector2D dx) {
+    public DragMatch getBestDragMatch(Junction[] draggedJunctions, Vector2DInterface dx) {
         Junction[] all = getJunctions();
         ArrayList<Junction> potentialMatches = new ArrayList<Junction>();
         potentialMatches.addAll(Arrays.asList(all));
@@ -742,7 +743,7 @@ public class Circuit {
             //but we want a potentiometer.
             Point2D tipCenterModel = new Point2D.Double(tipShape.getBounds2D().getCenterX(), tipShape.getBounds2D().getCenterY());
             Point2D.Double branchStartModel = branch.getStartJunction().getPosition();
-            Vector2D vec = new Vector2D.Double(branchStartModel, tipCenterModel);
+            Vector2DInterface vec = new Vector2D(branchStartModel, tipCenterModel);
             double dist = vec.getMagnitude();
             result = new Connection.BranchConnection(branch, dist);
         }
@@ -799,7 +800,7 @@ public class Circuit {
             //            if( !branch.hasJunction( junction ) &&!contains(strongConnections,branch)) {
             if (!branch.hasJunction(junction)) {
                 if (branch.getShape().intersects(junction.getShape().getBounds2D())) {
-                    AbstractVector2D vec = branch.getDirectionVector();
+                    AbstractVector2DInterface vec = branch.getDirectionVector();
                     vec = vec.getNormalVector();
                     vec = vec.getNormalizedInstance().getScaledInstance(junction.getShape().getBounds2D().getWidth());
                     BranchSet bs = new BranchSet(this, strongConnections);

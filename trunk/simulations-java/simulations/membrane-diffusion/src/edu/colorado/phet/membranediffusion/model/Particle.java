@@ -6,7 +6,7 @@ import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 
 /**
  * Abstract base class for a simulated particle.  It is intended that this be subclassed
@@ -162,7 +162,7 @@ public abstract class Particle implements IMovable {
         return motionStrategy;
     }
     
-    public Vector2D getVelocity(){
+    public Vector2DInterface getVelocity(){
         return motionStrategy.getInstantaneousVelocity();
     }
     

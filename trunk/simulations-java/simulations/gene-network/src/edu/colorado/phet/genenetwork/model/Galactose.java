@@ -46,7 +46,7 @@ public class Galactose extends SimpleSugar {
 		
 		glucoseAttachmentPartner = null;
 		setMotionStrategy(new LinearThenRandomMotionStrategy(getModel().getInteriorMotionBounds(), getPositionRef(),
-				new Vector2D.Double(3, -8), 1));
+				new Vector2D(3, -8), 1));
 		
 		// This should fade out shortly after detaching.
 		setExistenceTime(0.5);

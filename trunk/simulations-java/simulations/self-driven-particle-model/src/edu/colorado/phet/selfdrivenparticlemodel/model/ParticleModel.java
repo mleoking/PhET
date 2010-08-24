@@ -1,8 +1,9 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.selfdrivenparticlemodel.model;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -310,16 +311,16 @@ public class ParticleModel {
     }
 
     public double getOrderParameter() {
-        Vector2D sum = new Vector2D.Double();
+        Vector2DInterface sum = new Vector2D();
         for( int i = 0; i < particles.size(); i++ ) {
             Particle particle = (Particle)particles.get( i );
-            AbstractVector2D velocityVector = getVelocity( particle );
+            AbstractVector2DInterface velocityVector = getVelocity( particle );
             sum.add( velocityVector );
         }
         return sum.getMagnitude() / numParticles() / speed;
     }
 
-    private AbstractVector2D getVelocity( Particle particle ) {
-        return Vector2D.Double.parseAngleAndMagnitude( speed, particle.getAngle() );
+    private AbstractVector2DInterface getVelocity( Particle particle ) {
+        return Vector2D.parseAngleAndMagnitude( speed, particle.getAngle() );
     }
 }

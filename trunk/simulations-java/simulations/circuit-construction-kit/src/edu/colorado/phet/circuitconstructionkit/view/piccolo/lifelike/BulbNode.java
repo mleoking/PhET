@@ -1,7 +1,7 @@
 package edu.colorado.phet.circuitconstructionkit.view.piccolo.lifelike;
 
 import edu.colorado.phet.circuitconstructionkit.model.components.Bulb;
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2DInterface;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
@@ -224,8 +224,8 @@ public class BulbNode extends PhetPNode {
         double minStrokeWidth = .5;
         double strokeWidth = minStrokeWidth + intensity * maxStrokeWidth;
         for (int i = 0; i < numBrighties; i++) {
-            AbstractVector2D vec = ImmutableVector2D.Double.parseAngleAndMagnitude(distance0, angle);
-            AbstractVector2D vec1 = ImmutableVector2D.Double.parseAngleAndMagnitude(distance + distance0, angle);
+            AbstractVector2DInterface vec = ImmutableVector2D.parseAngleAndMagnitude(distance0, angle);
+            AbstractVector2DInterface vec1 = ImmutableVector2D.parseAngleAndMagnitude(distance + distance0, angle);
 
             Point2D end = vec.getDestination(origin);
             Point2D end2 = vec1.getDestination(origin);

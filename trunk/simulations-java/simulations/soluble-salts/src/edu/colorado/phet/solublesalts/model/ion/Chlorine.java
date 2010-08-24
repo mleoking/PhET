@@ -12,7 +12,7 @@ package edu.colorado.phet.solublesalts.model.ion;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 
 /**
  * Chloride
@@ -28,7 +28,7 @@ public class Chlorine extends Ion {
         super( Chlorine.ionProperties );
     }
 
-    public Chlorine( Point2D position, Vector2D velocity, Vector2D acceleration ) {
+    public Chlorine( Point2D position, Vector2DInterface velocity, Vector2DInterface acceleration ) {
         super( position, velocity, acceleration, Chlorine.ionProperties );
     }
 }

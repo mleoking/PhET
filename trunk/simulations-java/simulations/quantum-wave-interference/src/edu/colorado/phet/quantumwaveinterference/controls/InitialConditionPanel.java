@@ -86,7 +86,7 @@ public class InitialConditionPanel extends VerticalLayoutPanel {
         double py = getStartPy();
         double dxLattice = getStartDxLattice();
         return new GaussianWave2D( new Point( (int)x, (int)y ),
-                                   new Vector2D.Double( px, py ), dxLattice, getHBar() );
+                                   new Vector2D( px, py ), dxLattice, getHBar() );
     }
 
     private double getHBar() {

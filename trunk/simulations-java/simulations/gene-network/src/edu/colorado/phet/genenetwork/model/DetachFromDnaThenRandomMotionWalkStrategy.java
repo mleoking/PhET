@@ -5,6 +5,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2DInterface;
 
 /**
  * This class defines a motion strategy that causes an element to appear as
@@ -22,10 +23,10 @@ public class DetachFromDnaThenRandomMotionWalkStrategy extends RandomWalkMotionS
 
 	private double delayCounter;
 	private double linearMotionCountdown = MOVE_UP_TIME;
-	private Vector2D initialVelocity = new Vector2D.Double();
+	private Vector2DInterface initialVelocity = new Vector2D();
 	
 	public DetachFromDnaThenRandomMotionWalkStrategy( Rectangle2D bounds, double preMovementDelay,
-			Vector2D initialVelocity, double linearMotionTime ) {
+			Vector2DInterface initialVelocity, double linearMotionTime ) {
 		
 		super(bounds);
 		
