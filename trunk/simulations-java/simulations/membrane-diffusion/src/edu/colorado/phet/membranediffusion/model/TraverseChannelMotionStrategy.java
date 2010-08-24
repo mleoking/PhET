@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.membranediffusion.module.MembraneDiffusionDefaults;
 
 /**
@@ -108,6 +107,7 @@ public class TraverseChannelMotionStrategy extends MotionStrategy {
 			// The channel has closed and this element has not yet entered it.
 			// Time to replace this motion strategy with a different one.
 			movableModelElement.setMotionStrategy(new RandomWalkMotionStrategy(preTraversalMotionBounds));
+			notifyStrategyComplete( movableModelElement );
 		}
 	}
 	
