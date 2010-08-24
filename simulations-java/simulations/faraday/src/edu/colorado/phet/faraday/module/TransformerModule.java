@@ -68,7 +68,7 @@ public class TransformerModule extends FaradayModule {
     
     // Scaling
     private static final double CALIBRATION_EMF = 3500000; // see PickupCoil.calibrateEmf for calibration instructions
-    private static final double ELECTRON_SPEED_SCALE = 1.0;
+    private static final double ELECTRON_SPEED_SCALE = 2.0;
     
     //----------------------------------------------------------------------------
     // Instance data

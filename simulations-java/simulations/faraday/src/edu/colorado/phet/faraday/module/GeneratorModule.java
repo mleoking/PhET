@@ -61,7 +61,7 @@ public class GeneratorModule extends FaradayModule {
     
     // Scaling
     private static final double CALIBRATION_EMF = 26000; // see PickupCoil.calibrateEmf for calibration instructions
-    private static final double ELECTRON_SPEED_SCALE = 1;
+    private static final double ELECTRON_SPEED_SCALE = 1.0;
     
     //----------------------------------------------------------------------------
     // Instance data
