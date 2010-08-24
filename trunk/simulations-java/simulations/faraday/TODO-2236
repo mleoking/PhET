@@ -2,6 +2,7 @@ TODO list for Faraday ticket #2236
 
 HIGH PRIORITY
 - prevent electrons from moving so far in 1 time step that they appear to move in the wrong direction
+- calibrate ELECTRON_SPEED_SCALE in each module that has a pickup coil
 
 MEDIUM PRIORITY
 - remove MathCAD dependency by implementing numerical model in a stand-alone Java program that can generate grid files
