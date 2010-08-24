@@ -25,12 +25,10 @@ import javax.swing.JRadioButton;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.membranediffusion.MembraneDiffusionResources;
 import edu.colorado.phet.membranediffusion.model.InjectionMotionStrategy;
@@ -75,8 +73,9 @@ public class ParticleInjectorNode extends PNode {
     //------------------------------------------------------------------------
 
 	private final PNode injectorBodyImageNode;
-	private final PNode unpressedButtonImageNode;
-	private final PNode pressedButtonImageNode;
+	private final PImage buttonImageNode;
+	private final BufferedImage unpressedButtonImage;
+	private final BufferedImage pressedButtonImage;
 	private final PNode particleTypeSelector;
 	private final MembraneDiffusionModel model;
 	private final ModelViewTransform2D mvt;
@@ -116,14 +115,11 @@ public class ParticleInjectorNode extends PNode {
         Rectangle2D originalBodyBounds = injectorBodyImageNode.getFullBounds();
         injectorBodyImageNode.setOffset(-originalBodyBounds.getWidth() / 2, -originalBodyBounds.getHeight() / 2);
         injectorNode.addChild(injectorBodyImageNode);
-        BufferedImage pressedButtonImage = MembraneDiffusionResources.getImage( "button_pressed.png" );
-        pressedButtonImageNode = new PImage(pressedButtonImage);
-        pressedButtonImageNode.setOffset(BUTTON_OFFSET);
-        injectorNode.addChild(pressedButtonImageNode);
-        BufferedImage unpressedButtonImage = MembraneDiffusionResources.getImage( "button_unpressed.png" );
-        unpressedButtonImageNode = new PImage(unpressedButtonImage);
-        unpressedButtonImageNode.setOffset(BUTTON_OFFSET);
-        injectorNode.addChild(unpressedButtonImageNode);
+        pressedButtonImage = MembraneDiffusionResources.getImage( "button_pressed.png" );
+        unpressedButtonImage = MembraneDiffusionResources.getImage( "button_unpressed.png" );
+        buttonImageNode = new PImage(unpressedButtonImage);
+        buttonImageNode.setOffset(BUTTON_OFFSET);
+        injectorNode.addChild(buttonImageNode);
         
         // Rotate and scale the image node as a whole.
         double scale = INJECTOR_HEIGHT / injectorBodyImageNode.getFullBoundsReference().height;
@@ -156,12 +152,10 @@ public class ParticleInjectorNode extends PNode {
         updateInjectionPoint();
         
         // Set up the button handling.
-        unpressedButtonImageNode.setPickable(true);
-        pressedButtonImageNode.setPickable(false);
         injectorBodyImageNode.setPickable(false);
-        unpressedButtonImageNode.addInputEventListener(new CursorHandler());
-        pressedButtonImageNode.addInputEventListener(new CursorHandler());
-        unpressedButtonImageNode.addInputEventListener(new PBasicInputEventHandler(){
+        buttonImageNode.setPickable(true);
+        buttonImageNode.addInputEventListener(new MyCursorHandler());
+        buttonImageNode.addInputEventListener(new PBasicInputEventHandler(){
         	@Override
             public void mousePressed( PInputEvent event ) {
                 if (model.getRemainingParticleCapacity() == 0 ){
@@ -170,14 +164,14 @@ public class ParticleInjectorNode extends PNode {
                             "Container is full, no more particles can be injected." );
                 }
                 else{
-                    unpressedButtonImageNode.setVisible(false);
+                    buttonImageNode.setImage(pressedButtonImage);
                     injectParticle();
                 }
             }
         	
         	@Override
             public void mouseReleased( PInputEvent event ) {
-                unpressedButtonImageNode.setVisible(true);
+        	    buttonImageNode.setImage(unpressedButtonImage);
             }
         });
 	}
