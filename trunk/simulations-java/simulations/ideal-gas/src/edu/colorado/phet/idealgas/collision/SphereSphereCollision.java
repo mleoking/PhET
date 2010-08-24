@@ -49,15 +49,6 @@ public class SphereSphereCollision implements Collision {
 
     public void doCollision( Vector2D loa, Point2D contactPt ) {
 
-        // Get the total energy of the two objects, so we can conserve it
-        double totalEnergy0 = sphereA.getKineticEnergy() + sphereB.getKineticEnergy();
-
-        // Get the vectors from the bodies' CMs to the point of contact
-        Vector2D r1 = new Vector2D.Float( (float)( contactPt.getX() - sphereA.getPosition().getX() ),
-                                          (float)( contactPt.getY() - sphereA.getPosition().getY() ) );
-        Vector2D r2 = new Vector2D.Float( (float)( contactPt.getX() - sphereB.getPosition().getX() ),
-                                          (float)( contactPt.getY() - sphereB.getPosition().getY() ) );
-
         // Get the unit vector along the line of action
         n.setComponents( loa.getX(), loa.getY() );
         n.normalize();

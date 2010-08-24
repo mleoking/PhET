@@ -46,14 +46,6 @@ public class LasersApplication extends PiccoloPhetApplication {
     private SingleAtomModule singleAtomModule;
     private MultipleAtomModule multipleAtomModule;
 
-    public SingleAtomModule getSingleAtomModule() {
-        return singleAtomModule;
-    }
-
-    public MultipleAtomModule getMultipleAtomModule() {
-        return multipleAtomModule;
-    }
-
     public LasersApplication( PhetApplicationConfig config ) {
         super( config );
 
@@ -73,8 +65,6 @@ public class LasersApplication extends PiccoloPhetApplication {
 
         // Options menu
         addMenuItems();
-
-//        addEnergyLevelMatchIndicatorRenderDialog();
     }
 
     private void addEnergyLevelMatchIndicatorRenderDialog() {
