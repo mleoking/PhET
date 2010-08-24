@@ -49,35 +49,30 @@ public class RestoreDefaultOnReleaseCursorHandler extends PBasicInputEventHandle
      * nodes have been entered and dragged.
      */
     private static class CursorManager {
+        
+        public void mousePressed( PInputEvent event, Cursor cursor ) {
+            Component component = (JComponent)event.getComponent();
+            // Usually, the cursor would have been set when the mouseEntered
+            // event was received.  However, it is possible that the user
+            // pressed, released, and is now pressing again, and in that case
+            // the altered cursor should be set.
+            if (component.getCursor() != cursor){
+                component.setCursor( cursor );
+            }
+        }
 
         public void mouseEntered( PInputEvent event, Cursor cursor ) {
-            System.out.println("--> mouseEntered");
             if ( !event.isLeftMouseButton() ) {
                 ((JComponent)event.getComponent()).setCursor( cursor );
             }
         }
 
-        public void mousePressed() {
-            System.out.println("--> mousePressed");
-        }
-
         public void mouseReleased( JComponent component ) {
-            System.out.println("--> mouseReleased");
-//            if ( cursorWhenMouseEntered != null ) {
-//                System.out.println("----> setting last entered, which is " + cursorWhenMouseEntered);
-//                component.setCursor( cursorWhenMouseEntered );
-//            }else{
-//                System.out.println("----> setting default");
-//                component.setCursor( Cursor.getDefaultCursor() );
-//            }
-            System.out.println("----> setting default");
             component.setCursor( Cursor.getDefaultCursor() );
         }
 
         public void mouseExited( PInputEvent event ) {
-            System.out.println("--> mouseExited");
             if ( !event.isLeftMouseButton() ) {
-                System.out.println("----> Setting cursor to default.");
                 ((JComponent)event.getComponent()).setCursor( Cursor.getDefaultCursor() );
             }
         }
@@ -127,7 +122,7 @@ public class RestoreDefaultOnReleaseCursorHandler extends PBasicInputEventHandle
     }
 
     public void mousePressed( PInputEvent event ) {
-        manager.mousePressed();
+        manager.mousePressed( event, cursor );
     }
 
     public void mouseReleased( PInputEvent event ) {
