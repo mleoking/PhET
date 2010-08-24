@@ -3,11 +3,11 @@ package edu.colorado.phet.common.phetcommon.math;
 import java.awt.geom.Point2D;
 
 /**
-* Created by IntelliJ IDEA.
-* User: Sam
-* Date: Aug 24, 2010
-* Time: 6:03:13 AM
-* To change this template use File | Settings | File Templates.
+* Vector2D represents an offset in (x,y) cartesian coordinates.  This class has all the functionality of the parent 
+ * class (i.e. functions that do not change the state of this vector2D and return an ImmutableVector2D) as well as
+ * mutator functions.
+ * @author Sam Reid
+ * @author Ron LeMaster 
 */
 public class Vector2D extends ImmutableVector2D{
     public Vector2D() {
