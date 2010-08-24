@@ -50,7 +50,7 @@ public class MembraneDiffusionModel implements IParticleCapture {
 	private static boolean SHOW_GRAPHS_DEFAULT = false;
 	
 	// Static openness strategies.
-	private static MembraneChannelOpennessStrategy ALWAYS_OPEN_OPENNESS_STRATEGY = new ChannelAlwaysOpenStrategy();
+	private static final MembraneChannelOpennessStrategy channelAlwaysOpenStrategy = new ChannelAlwaysOpenStrategy();
 	
     //----------------------------------------------------------------------------
     // Instance Data
@@ -72,8 +72,8 @@ public class MembraneDiffusionModel implements IParticleCapture {
     
     // Openness strategies for controlling the level of openness the various
     // types of membrane channels.
-    private TimedSettableOpennessStrategy sodiumChannelOpennessStrategy = new TimedSettableOpennessStrategy();
-    private TimedSettableOpennessStrategy potassiumChannelOpennessStrategy = new TimedSettableOpennessStrategy();
+    private final TimedSettableOpennessStrategy sodiumChannelOpennessStrategy;
+    private final TimedSettableOpennessStrategy potassiumChannelOpennessStrategy;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -89,6 +89,12 @@ public class MembraneDiffusionModel implements IParticleCapture {
 				stepInTime( clockEvent.getSimulationTimeChange() );
 			}
         });
+        
+        // Initialize the openness strategies that control how open the gated
+        // channels are.
+        sodiumChannelOpennessStrategy = new TimedSettableOpennessStrategy( clock );
+        potassiumChannelOpennessStrategy = new TimedSettableOpennessStrategy( clock );
+
         
         // Listen to the openness strategies so that we can send out
         // notifications when they change.
@@ -475,7 +481,7 @@ public class MembraneDiffusionModel implements IParticleCapture {
             particleTypeToCapture = ParticleType.SODIUM_ION;
             channelColor = MembraneDiffusionConstants.SODIUM_LEAKAGE_CHANNEL_COLOR;
             edgeColor = MembraneDiffusionConstants.SODIUM_LEAKAGE_EDGE_COLOR;
-            opennessStrategy = ALWAYS_OPEN_OPENNESS_STRATEGY;
+            opennessStrategy = channelAlwaysOpenStrategy;
             break;
         case POTASSIUM_GATED_CHANNEL:
             particleTypeToCapture = ParticleType.POTASSIUM_ION;
@@ -487,7 +493,7 @@ public class MembraneDiffusionModel implements IParticleCapture {
             particleTypeToCapture = ParticleType.POTASSIUM_ION;
             channelColor = MembraneDiffusionConstants.POTASSIUM_LEAKAGE_CHANNEL_COLOR;
             edgeColor = MembraneDiffusionConstants.POTASSIUM_GATED_EDGE_COLOR;
-            opennessStrategy = ALWAYS_OPEN_OPENNESS_STRATEGY;
+            opennessStrategy = channelAlwaysOpenStrategy;
             break;
         default:
             System.err.println(getClass().getName() + "- Error: Invalid channel type.");
@@ -496,7 +502,7 @@ public class MembraneDiffusionModel implements IParticleCapture {
             particleTypeToCapture = ParticleType.POTASSIUM_ION;
             channelColor = MembraneDiffusionConstants.POTASSIUM_LEAKAGE_CHANNEL_COLOR;
             edgeColor = MembraneDiffusionConstants.POTASSIUM_GATED_EDGE_COLOR;
-            opennessStrategy = ALWAYS_OPEN_OPENNESS_STRATEGY;
+            opennessStrategy = channelAlwaysOpenStrategy;
             break;
         }
         
