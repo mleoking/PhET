@@ -5,9 +5,8 @@ MILESTONES
 HIGH PRIORITY
 
 MEDUIUM PRIORITY
-- pH paper can be lost behind magnifying glass or concentration graph
-- which "Tools" selections disable when "Views" controls?
-- confusion between pH paper and bars in graph by allowing them to be shown at the same time?
+- pH paper can be lost behind magnifying glass or concentration graph (disable Views?)
+- confusion between pH paper and graph bars by allowing them to be shown at the same time (disable Views?)
 
 LOW PRIORITY
 
