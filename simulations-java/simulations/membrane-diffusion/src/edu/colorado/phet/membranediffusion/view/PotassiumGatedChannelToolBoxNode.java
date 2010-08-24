@@ -54,8 +54,10 @@ public class PotassiumGatedChannelToolBoxNode extends ToolBoxItem {
      */
     @Override
     protected void releaseModelElement() {
-        membraneChannel.setUserControlled( false );
-        membraneChannel = null;
+        if (membraneChannel != null){
+            membraneChannel.setUserControlled( false );
+            membraneChannel = null;
+        }
     }
 
     /* (non-Javadoc)
