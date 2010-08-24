@@ -1,24 +1,12 @@
-/* Copyright 2004, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2004-2010, University of Colorado */
 
 package edu.colorado.phet.common.phetcommon.math;
-
-import java.awt.geom.Point2D;
 
 /**
  * This Vector2D implementation supports mutators & in-place operations.
  *
  * @author Ron LeMaster
  * @author Sam Reid
- * @version $Revision$
  */
 public interface Vector2DInterface extends AbstractVector2DInterface {
 
