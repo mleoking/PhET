@@ -17,6 +17,7 @@ import java.awt.geom.Point2D;
  * This Vector2D implementation supports mutators & in-place operations.
  *
  * @author Ron LeMaster
+ * @author Sam Reid
  * @version $Revision$
  */
 public interface Vector2D extends AbstractVector2D {
@@ -110,93 +111,4 @@ public interface Vector2D extends AbstractVector2D {
             return "Vector2D.Double[" + getX() + ", " + getY() + "]";
         }
     }
-
-    public static class Float extends AbstractVector2D.Float implements Vector2D {
-
-        public Float() {
-        }
-
-        public Float( AbstractVector2D v ) {
-            this( (float) v.getX(), (float) v.getY() );
-        }
-
-        public Float( float x, float y ) {
-            super( x, y );
-        }
-
-        public Float( double x, double y ) {
-            super( (float) x, (float) y );
-        }
-
-        public Float( Point2D src, Point2D dst ) {
-            super( src, dst );
-        }
-
-        public Vector2D add( AbstractVector2D v ) {
-            setX( getX() + v.getX() );
-            setY( getY() + v.getY() );
-            return this;
-        }
-
-        public Vector2D normalize() {
-            double length = getMagnitude();
-            if ( length == 0 ) {
-                throw new RuntimeException( "Cannot normalize a zero-magnitude vector." );
-            }
-            return scale( 1.0 / length );
-        }
-
-        public Vector2D scale( double scale ) {
-            setX( getX() * scale );
-            setY( getY() * scale );
-            return this;
-        }
-
-        public void setX( float x ) {
-            super.setX( x );
-        }
-
-        public void setY( float y ) {
-            super.setY( y );
-        }
-
-        public void setX( double x ) {
-            super.setX( x );
-        }
-
-        public void setY( double y ) {
-            super.setY( y );
-        }
-
-        public void setComponents( float x, float y ) {
-            setX( x );
-            setY( y );
-        }
-
-        public void setComponents( double x, double y ) {
-            setX( x );
-            setY( y );
-        }
-
-        public Vector2D subtract( AbstractVector2D that ) {
-            setX( getX() - that.getX() );
-            setY( getY() - that.getY() );
-            return this;
-        }
-
-        public Vector2D rotate( double theta ) {
-            double r = getMagnitude();
-            double alpha = getAngle();
-            double gamma = alpha + theta;
-            double xPrime = r * Math.sin( gamma );
-            double yPrime = r * Math.cos( gamma );
-            this.setComponents( xPrime, yPrime );
-            return this;
-        }
-
-        public String toString() {
-            return "Vector2D.Float[" + getX() + ", " + getY() + "]";
-        }
-    }
-
 }

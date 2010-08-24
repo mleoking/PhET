@@ -18,6 +18,7 @@ import java.awt.geom.Point2D;
  * The two main implementations are the Vector2D and ImmutableVector2D.
  *
  * @author Ron LeMaster
+ * @author Sam Reid
  * @version $Revision$
  */
 public interface AbstractVector2D {
