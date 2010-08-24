@@ -169,6 +169,9 @@ public class FaradayConstants {
     public static final double PICKUP_CALIBRATION_EMF_MIN = 1E4;
     public static final double PICKUP_CALIBRATION_EMF_MAX = 5E6;
     
+    public static final double PICKUP_ELECTRONS_SPEED_SCALE_MIN = 1;
+    public static final double PICKUP_ELECTRONS_SPEED_SCALE_MAX = 100;
+    
     public static final double PICKUP_TRANSITION_SMOOTHING_SCALE_MIN = 0.1; // must be > 0
     public static final double PICKUP_TRANSITION_SMOOTHING_SCALE_MAX = 1; // must be <= 1
     

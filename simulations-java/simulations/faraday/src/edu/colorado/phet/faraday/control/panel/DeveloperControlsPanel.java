@@ -132,7 +132,7 @@ public class DeveloperControlsPanel extends FaradayPanel {
         if ( pickupCoilModel != null ) {
             double min = FaradayConstants.PICKUP_CALIBRATION_EMF_MIN;
             double max = FaradayConstants.PICKUP_CALIBRATION_EMF_MAX;
-            final LinearValueControl calibrationEmfControl = new LinearValueControl( min, max, "<html>Pickup<br>calibration EMF:</html>", "0", "" );
+            final LinearValueControl calibrationEmfControl = new LinearValueControl( min, max, "<html>Pickup coil<br>max EMF:</html>", "0", "" );
             calibrationEmfControl.setToolTipText( "<html>Max EMF that we expect<br>the pickup coil to generate.</html>" );
             calibrationEmfControl.setValue( pickupCoilModel.getCalibrationEmf() );
             calibrationEmfControl.setTextFieldEditable( true );
@@ -146,6 +146,26 @@ public class DeveloperControlsPanel extends FaradayPanel {
                 }
             } );
             layout.addFilledComponent( calibrationEmfControl, row++, 0, GridBagConstraints.HORIZONTAL );
+        }
+        
+        // Electrons in Pickup Coil
+        if ( pickupCoilGraphic != null ) {
+            double min = FaradayConstants.PICKUP_ELECTRONS_SPEED_SCALE_MIN;
+            double max = FaradayConstants.PICKUP_ELECTRONS_SPEED_SCALE_MAX;
+            final LinearValueControl pickupElectronsControl = new LinearValueControl( min, max, "<html>Pickup electrons<br>motion scale:</html>", "0.0", "" );
+            pickupElectronsControl.setToolTipText( "<html>Scales the speed of electron<br>motion in the pickup coil.</html>" );
+            pickupElectronsControl.setValue( pickupCoilGraphic.getCoilGraphic().getElectronSpeedScale() );
+            pickupElectronsControl.setTextFieldEditable( true );
+            pickupElectronsControl.setTextFieldColumns( 4 );
+            pickupElectronsControl.setUpDownArrowDelta( 0.1 );
+            pickupElectronsControl.setBorder( BorderFactory.createEtchedBorder() );
+            pickupElectronsControl.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    double value = pickupElectronsControl.getValue();
+                    pickupCoilGraphic.getCoilGraphic().setElectronSpeedScale( value );
+                }
+            } );
+            layout.addFilledComponent( pickupElectronsControl, row++, 0, GridBagConstraints.HORIZONTAL );
         }
         
         // Pickup coil smoothing factor

@@ -68,6 +68,7 @@ public class TransformerModule extends FaradayModule {
     
     // Scaling
     private static final double CALIBRATION_EMF = 3500000; // see PickupCoil.calibrateEmf for calibration instructions
+    private static final double ELECTRON_SPEED_SCALE = 1.0;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -193,6 +194,7 @@ public class TransformerModule extends FaradayModule {
         
         // Pickup Coil
         _pickupCoilGraphic = new PickupCoilGraphic( apparatusPanel, model, _pickupCoilModel, _lightbulbModel, _voltmeterModel );
+        _pickupCoilGraphic.getCoilGraphic().setElectronSpeedScale( ELECTRON_SPEED_SCALE );
         apparatusPanel.addChangeListener( _pickupCoilGraphic );
         apparatusPanel.addGraphic( _pickupCoilGraphic.getForeground(), PICKUP_COIL_FRONT_LAYER );
         apparatusPanel.addGraphic( _pickupCoilGraphic.getBackground(), PICKUP_COIL_BACK_LAYER );
