@@ -1,3 +1,4 @@
+8/24/10 switch to phetcommon Vector2D for "wiggle me", #2467
 # 3.04.00 (38001) Jan 9, 2010
 1/9/10 public version for milestone "full redeploy, 2010 Q1"
 # 3.03.01 (37355) Dec 11, 2009

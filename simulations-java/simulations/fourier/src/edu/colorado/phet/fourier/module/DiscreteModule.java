@@ -19,6 +19,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.event.MouseInputAdapter;
 
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -35,7 +36,6 @@ import edu.colorado.phet.fourier.help.HelpBubble;
 import edu.colorado.phet.fourier.help.WiggleMeGraphic;
 import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.persistence.FourierConfig;
-import edu.colorado.phet.fourier.util.Vector2D;
 import edu.colorado.phet.fourier.view.AnimationCycleController;
 import edu.colorado.phet.fourier.view.MinimizedView;
 import edu.colorado.phet.fourier.view.discrete.DiscreteAmplitudesView;
