@@ -1,3 +1,4 @@
+# 1.03.74 (43417) Aug 23, 2010
 Fixed: Object still hits walls sometimes, even when walls are minimized
 Fixed: "F_Sum" label should always appear above the FSum vector arrow
 Fixed: Icicles do not appear when turning friction coefficients down to zero
