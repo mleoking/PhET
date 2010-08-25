@@ -32,7 +32,7 @@ public class MagnifyingGlassPrototypeApplication extends PiccoloPhetApplication 
     }
 
     public static void main( final String[] args ) throws ClassNotFoundException {
-        new PhetApplicationLauncher().launchSim( args, ABSConstants.PROJECT_NAME, ABSConstants.FLAVOR_MAGNIFYING_GLASS_PROTOTYPE, MagnifyingGlassPrototypeApplication.class );
+        new PhetApplicationLauncher().launchSim( args, ABSConstants.PROJECT, ABSConstants.FLAVOR_MAGNIFYING_GLASS_PROTOTYPE, MagnifyingGlassPrototypeApplication.class );
     }
     
 }

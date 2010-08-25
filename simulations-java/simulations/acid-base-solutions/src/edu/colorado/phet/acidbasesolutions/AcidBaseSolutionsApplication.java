@@ -110,6 +110,6 @@ public class AcidBaseSolutionsApplication extends PiccoloPhetApplication {
     //----------------------------------------------------------------------------
 
     public static void main( final String[] args ) {
-        new PhetApplicationLauncher().launchSim( args, ABSConstants.PROJECT_NAME, AcidBaseSolutionsApplication.class );
+        new PhetApplicationLauncher().launchSim( args, ABSConstants.PROJECT, AcidBaseSolutionsApplication.class );
     }
 }

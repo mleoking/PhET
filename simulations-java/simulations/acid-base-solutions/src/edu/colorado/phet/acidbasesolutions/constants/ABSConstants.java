@@ -21,18 +21,10 @@ public class ABSConstants {
     private ABSConstants() {}
     
     //----------------------------------------------------------------------------
-    // Debugging
-    //----------------------------------------------------------------------------
-    
-    // enable debug output for canvas layout updates
-    public static final boolean DEBUG_CANVAS_UPDATE_LAYOUT = false;
-    
-    //----------------------------------------------------------------------------
     // Application
     //----------------------------------------------------------------------------
     
-    public static final String PROJECT_NAME = "acid-base-solutions";
-    
+    public static final String PROJECT = "acid-base-solutions";
     public static final String FLAVOR_MAGNIFYING_GLASS_PROTOTYPE = "magnifying-glass-prototype";
 
     //----------------------------------------------------------------------------
@@ -49,6 +41,7 @@ public class ABSConstants {
     public static final Point2D MAGNIFYING_GLASS_LOCATION = new Point2D.Double( BEAKER_LOCATION.getX(), BEAKER_LOCATION.getY() - ( BEAKER_SIZE.getHeight() / 2 ) ); // center
     public static final boolean MAGNIFYING_GLASS_VISIBLE = true;
     public static final double MAGNIFYING_GLASS_DIAMETER = 500;
+    public static final boolean MAGNIFYING_GLASS_WATER_VISIBLE = false;
     
     public static final Point2D PH_METER_LOCATION = new Point2D.Double( BEAKER_LOCATION.getX() + ( 0.30 * BEAKER_SIZE.getWidth() ), BEAKER_LOCATION.getY() - BEAKER_SIZE.getHeight() - 15 ); // tip
     public static final boolean PH_METER_VISIBLE = true;
@@ -88,8 +81,8 @@ public class ABSConstants {
     // reference coordinate frame size for world nodes
     public static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 900, 900 );
     
-    public static final IntegerRange MAX_IMAGES_RANGE = new IntegerRange( 100, 2000, 200 );;
-    public static final IntegerRange MAX_H2O_IMAGES_RANGE = new IntegerRange( 300, 10000, 2000 );;
-    public static final DoubleRange IMAGE_SCALE_RANGE = new DoubleRange( 0.25, 2.5, 1 );
-    public static final boolean WATER_VISIBLE = false;
+    // magnifying glass view
+    public static final int MAGNIFYING_GLASS_MAX_MOLECULES = 200;
+    public static final int MAGNIFYING_GLASS_MAX_H2O = 2000;
+    public static final double MAGNIFYING_GLASS_IMAGE_SCALE = 1;
 }
