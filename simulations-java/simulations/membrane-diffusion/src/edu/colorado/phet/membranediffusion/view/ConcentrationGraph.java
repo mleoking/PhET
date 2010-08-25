@@ -6,7 +6,6 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.event.ActionEvent;
@@ -21,7 +20,6 @@ import javax.swing.JButton;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -191,7 +189,6 @@ public class ConcentrationGraph extends PhetPNode {
 	
 	private static class ParticleTypeLabelNode extends PNode {
 		
-		private static final Font LABEL_FONT = new PhetFont(14);
 		private static final ModelViewTransform2D LABEL_MVT = new ModelViewTransform2D(
 				new Rectangle2D.Double(-1.0, -1.0, 2.0, 2.0), new Rectangle2D.Double(-10, -10, 20, 20));
 		
