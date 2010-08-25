@@ -78,7 +78,7 @@ public class Filament extends PathBranch {
         return path.getGeneralPath();
     }
 
-    boolean isNaN( ImmutableVector2D vector) {
+    boolean isNaN(ImmutableVector2D vector) {
         return Double.isNaN(vector.getX()) || Double.isNaN(vector.getY());
     }
 

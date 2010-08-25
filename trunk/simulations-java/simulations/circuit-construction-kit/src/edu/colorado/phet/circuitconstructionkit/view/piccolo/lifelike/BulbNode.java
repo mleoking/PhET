@@ -2,7 +2,6 @@ package edu.colorado.phet.circuitconstructionkit.view.piccolo.lifelike;
 
 import edu.colorado.phet.circuitconstructionkit.model.components.Bulb;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;

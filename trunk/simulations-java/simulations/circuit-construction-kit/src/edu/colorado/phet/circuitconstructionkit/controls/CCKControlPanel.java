@@ -5,7 +5,6 @@ import edu.colorado.phet.circuitconstructionkit.CCKResources;
 import edu.colorado.phet.circuitconstructionkit.CCKStrings;
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
-import edu.colorado.phet.circuitconstructionkit.model.analysis.KirkhoffSolver;
 import edu.colorado.phet.circuitconstructionkit.persistence.CircuitXML;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.BranchNodeFactory;
 import edu.colorado.phet.common.phetcommon.application.Module;
@@ -28,9 +27,6 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -71,14 +67,14 @@ public class CCKControlPanel extends ControlPanel {
         add(sizePanel);
 
         if (debugging) {
-            JButton testLifelikeSchematic = new JButton( "Test Lifelike/Schematic" );
-            testLifelikeSchematic.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    for ( int i = 0; i < 100; i++ ) {
-                        module.setLifelike( !module.isLifelike() );
+            JButton testLifelikeSchematic = new JButton("Test Lifelike/Schematic");
+            testLifelikeSchematic.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    for (int i = 0; i < 100; i++) {
+                        module.setLifelike(!module.isLifelike());
                     }
                 }
-            } );
+            });
             add(testLifelikeSchematic);
         }
 
@@ -213,10 +209,10 @@ public class CCKControlPanel extends ControlPanel {
         final JRadioButton lifelike = new JRadioButton(CCKResources.getString("CCK3ControlPanel.LIfelikeRadioButton"), module.isLifelike());
         final JRadioButton schematic = new JRadioButton(CCKResources.getString("CCK3ControlPanel.SchematicRadioButton"), !module.isLifelike());
 
-        module.addBranchNodeFactoryListener(new BranchNodeFactory.Listener(){
+        module.addBranchNodeFactoryListener(new BranchNodeFactory.Listener() {
             public void displayStyleChanged() {
                 lifelike.setSelected(module.isLifelike());
-            schematic.setSelected(!module.isLifelike());
+                schematic.setSelected(!module.isLifelike());
             }
         });
 
@@ -321,8 +317,8 @@ public class CCKControlPanel extends ControlPanel {
         InputStream stream = new ByteArrayInputStream(circuitxml.getBytes());
         FileContents data = new InputStreamFileContents("circuitxml", stream);
         FileContents out = fos.saveFileDialog(null, null, data.getInputStream(), null);
-        if (out != null){
-            System.out.println("Saved to "+out.getName()+" as: " + out);
+        if (out != null) {
+            System.out.println("Saved to " + out.getName() + " as: " + out);
         }
     }
 

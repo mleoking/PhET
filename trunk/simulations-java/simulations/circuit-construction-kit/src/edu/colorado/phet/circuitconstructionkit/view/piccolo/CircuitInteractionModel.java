@@ -8,8 +8,6 @@ import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 import edu.colorado.phet.circuitconstructionkit.model.components.CircuitComponent;
 import edu.colorado.phet.circuitconstructionkit.model.components.Wire;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 import java.awt.geom.Point2D;

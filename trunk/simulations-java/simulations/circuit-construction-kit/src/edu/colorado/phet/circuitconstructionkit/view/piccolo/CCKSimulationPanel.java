@@ -53,10 +53,10 @@ public class CCKSimulationPanel extends PhetPCanvas {
         setBackground(CCKModule.BACKGROUND_COLOR);
 
         branchNodeFactory = new BranchNodeFactory(model, this, module, module.getCCKViewState().getLifelikeProperty());
-        toolboxSuite = new ToolboxNodeSuite(model, module, this, branchNodeFactory,module.getCCKViewState().getLifelikeProperty());
+        toolboxSuite = new ToolboxNodeSuite(model, module, this, branchNodeFactory, module.getCCKViewState().getLifelikeProperty());
         addScreenChild(toolboxSuite);
 
-        circuitNode = new CircuitNode(model, model.getCircuit(), this, module, branchNodeFactory,module.getCCKViewState().getReadoutsVisibleProperty(),module.getCCKViewState().getLifelikeProperty());
+        circuitNode = new CircuitNode(model, model.getCircuit(), this, module, branchNodeFactory, module.getCCKViewState().getReadoutsVisibleProperty(), module.getCCKViewState().getLifelikeProperty());
         addWorldChild(circuitNode);
 
         measurementToolSetNode = new MeasurementToolSetNode(model, this, module, module.getVoltmeterModel(), clock);

@@ -22,11 +22,11 @@ public class ToolboxNodeSuite extends PhetPNode {
 
     public ToolboxNodeSuite(CCKModel model, CCKModule module, CCKSimulationPanel cckSimulationPanel, final BranchNodeFactory branchNodeFactory, final MutableBoolean lifelikeProperty) {
         this.branchNodeFactory = branchNodeFactory;
-        lifelikeToolbox = new ToolboxNode(cckSimulationPanel, model, module, new BranchNodeFactory(model, cckSimulationPanel, module, new MutableBoolean(true)), cckSimulationPanel,lifelikeProperty);
+        lifelikeToolbox = new ToolboxNode(cckSimulationPanel, model, module, new BranchNodeFactory(model, cckSimulationPanel, module, new MutableBoolean(true)), cckSimulationPanel, lifelikeProperty);
         lifelikeToolbox.scale(1.0 / 80.0);
         addChild(lifelikeToolbox);
 
-        schematicToolbox = new ToolboxNode(cckSimulationPanel, model, module, new BranchNodeFactory(model, cckSimulationPanel, module, new MutableBoolean(false)), cckSimulationPanel,lifelikeProperty);
+        schematicToolbox = new ToolboxNode(cckSimulationPanel, model, module, new BranchNodeFactory(model, cckSimulationPanel, module, new MutableBoolean(false)), cckSimulationPanel, lifelikeProperty);
         schematicToolbox.scale(1.0 / 80.0);
         addChild(schematicToolbox);
 

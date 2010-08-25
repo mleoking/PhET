@@ -147,7 +147,7 @@ public class PathBranch extends Branch {
         return segmentAt(numSegments() - 1).getEnd();
     }
 
-    public void addPoint( ImmutableVector2D vec) {
+    public void addPoint(ImmutableVector2D vec) {
         Point2D pt = vec.getDestination(lastPoint());
         addPoint(pt);
     }

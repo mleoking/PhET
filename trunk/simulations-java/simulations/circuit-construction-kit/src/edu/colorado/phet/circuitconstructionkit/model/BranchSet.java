@@ -38,7 +38,7 @@ public class BranchSet {
     /**
      * This makes sure the right components get the notification event.
      */
-    public void translate( ImmutableVector2D vector) {
+    public void translate(ImmutableVector2D vector) {
         ArrayList<Junction> junctionSet = new ArrayList<Junction>();
         junctionSet.addAll(junctions);
         for (int i = 0; i < branches.size(); i++) {
