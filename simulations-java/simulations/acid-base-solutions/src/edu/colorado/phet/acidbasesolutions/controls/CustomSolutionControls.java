@@ -11,7 +11,6 @@ import java.text.DecimalFormat;
 import java.util.Hashtable;
 
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -25,6 +24,7 @@ import edu.colorado.phet.acidbasesolutions.model.StrongAcidSolution.CustomStrong
 import edu.colorado.phet.acidbasesolutions.model.StrongBaseSolution.CustomStrongBaseSolution;
 import edu.colorado.phet.acidbasesolutions.model.WeakAcidSolution.CustomWeakAcidSolution;
 import edu.colorado.phet.acidbasesolutions.model.WeakBaseSolution.CustomWeakBaseSolution;
+import edu.colorado.phet.common.phetcommon.view.PhetTitledBorder;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.AbstractValueControl;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.ILayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LogarithmicValueControl;
@@ -52,12 +52,7 @@ public class CustomSolutionControls extends JPanel {
     public CustomSolutionControls( ABSModel model ) {
         
         // border
-        {
-            TitledBorder titledBorder = new TitledBorder( ABSStrings.SOLUTION );
-            titledBorder.setTitleFont( ABSConstants.TITLED_BORDER_FONT );
-            titledBorder.setBorder( ABSConstants.TITLE_BORDER_BORDER );
-            setBorder( titledBorder );
-        }
+        setBorder( new PhetTitledBorder( ABSStrings.SOLUTION ) );
         
         // model
         {

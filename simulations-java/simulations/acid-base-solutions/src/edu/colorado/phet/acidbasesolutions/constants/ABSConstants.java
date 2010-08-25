@@ -2,17 +2,11 @@
 
 package edu.colorado.phet.acidbasesolutions.constants;
 
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.geom.Point2D;
-
-import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
 
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -98,11 +92,4 @@ public class ABSConstants {
     public static final IntegerRange MAX_H2O_IMAGES_RANGE = new IntegerRange( 300, 10000, 2000 );;
     public static final DoubleRange IMAGE_SCALE_RANGE = new DoubleRange( 0.25, 2.5, 1 );
     public static final boolean WATER_VISIBLE = false;
-    
-    //----------------------------------------------------------------------------
-    // Control
-    //----------------------------------------------------------------------------
-    
-    public static final Font TITLED_BORDER_FONT = new PhetFont( Font.BOLD, PhetFont.getDefaultFontSize() + 4 );
-    public static final Border TITLE_BORDER_BORDER = new LineBorder( Color.BLACK, 1 );
 }
