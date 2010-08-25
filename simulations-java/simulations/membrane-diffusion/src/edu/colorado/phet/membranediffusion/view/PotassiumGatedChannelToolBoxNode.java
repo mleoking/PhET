@@ -2,19 +2,13 @@
 
 package edu.colorado.phet.membranediffusion.view;
 
-import java.awt.Color;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.membranediffusion.MembraneDiffusionConstants;
-import edu.colorado.phet.membranediffusion.model.ChannelAlwaysClosedStrategy;
 import edu.colorado.phet.membranediffusion.model.GenericMembraneChannel;
-import edu.colorado.phet.membranediffusion.model.MembraneChannel;
 import edu.colorado.phet.membranediffusion.model.MembraneChannelTypes;
 import edu.colorado.phet.membranediffusion.model.MembraneDiffusionModel;
-import edu.colorado.phet.membranediffusion.model.ParticleType;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -23,23 +17,19 @@ import edu.umd.cs.piccolo.PNode;
  * 
  * @author John Blanco
  */
-public class PotassiumGatedChannelToolBoxNode extends ToolBoxItem {
+public class PotassiumGatedChannelToolBoxNode extends MembraneChannelToolBoxNode {
     
-    private static final Color EDGE_COLOR = MembraneDiffusionConstants.POTASSIUM_COLOR;
-    private MembraneChannel membraneChannel = null;
-
 	public PotassiumGatedChannelToolBoxNode(MembraneDiffusionModel model, ModelViewTransform2D mvt, PhetPCanvas canvas) {
 		super(model, mvt, canvas);
 	}
 
-	@Override
-	protected void initializeSelectionNode() {
-        MembraneChannel channel = new GenericMembraneChannel( getModel(), ParticleType.POTASSIUM_ION,
-                ColorUtils.darkerColor(EDGE_COLOR, 0.15), EDGE_COLOR, new ChannelAlwaysClosedStrategy() );
-        PNode representation = new MembraneChannelNode(channel, SCALING_MVT);
+    @Override
+    protected void initializeSelectionNode() {
+        PNode representation = new MembraneChannelNode(GenericMembraneChannel.createChannel( 
+                MembraneChannelTypes.POTASSIUM_GATED_CHANNEL, getModel() ), SCALING_MVT);
         setSelectionNode(representation);
-	}
-	
+    }
+    
     /* (non-Javadoc)
      * @see edu.colorado.phet.membranediffusion.view.ToolBoxItem#addElementToModel(java.awt.geom.Point2D)
      */
@@ -47,24 +37,5 @@ public class PotassiumGatedChannelToolBoxNode extends ToolBoxItem {
     protected void addElementToModel( Point2D positionInModelSpace ) {
         membraneChannel = getModel().createUserControlledMembraneChannel( MembraneChannelTypes.POTASSIUM_GATED_CHANNEL,
                 positionInModelSpace );
-    }
-
-    /* (non-Javadoc)
-     * @see edu.colorado.phet.membranediffusion.view.ToolBoxItem#releaseModelElement()
-     */
-    @Override
-    protected void releaseModelElement() {
-        if (membraneChannel != null){
-            membraneChannel.setUserControlled( false );
-            membraneChannel = null;
-        }
-    }
-
-    /* (non-Javadoc)
-     * @see edu.colorado.phet.membranediffusion.view.ToolBoxItem#setModelElementPosition(java.awt.geom.Point2D)
-     */
-    @Override
-    protected void setModelElementPosition( Point2D position ) {
-        membraneChannel.setCenterLocation( position );
     }
 }
