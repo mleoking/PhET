@@ -37,7 +37,6 @@ public class TimestepSubdivisions<A> {
             // but don't try to double dt if it is first state
             int startScale = states.size() > 0 ? 2 : 1;
             double subdivisionDT = getTimestep(state, steppable, seedValue * startScale);
-//            System.out.println("selected subdivisionDT = " + subdivisionDT);
             if (subdivisionDT + elapsed > dt) subdivisionDT = dt - elapsed; // don't exceed max allowed dt
             state = steppable.update(state, subdivisionDT);
             states.add(new ResultSet.State<A>(subdivisionDT, state));

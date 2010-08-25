@@ -49,16 +49,6 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
     public CCKControlPanel(final CCKModule module, Module m) {
         advancedControlPanel = new AdvancedControlPanel(module);
         advancedControlPanel.setBorder(null);
-//        JLabel logoLabel = new JLabel( new ImageIcon( PhetCommonResources.getInstance().getImage( "logos/phet-logo-120x50.jpg" ) ) );
-//        logoLabel.setToolTipText( CCKResources.getString( "CCK3ControlPanel.PhETToolTip" ) );
-//        logoLabel.setBorder( BorderFactory.createRaisedBevelBorder() );
-//        logoLabel.setBorder( BorderFactory.createLineBorder( Color.black, 2 ) );
-//        logoLabel.setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
-//        logoLabel.addMouseListener( new MouseAdapter() {
-//            public void mouseReleased( MouseEvent e ) {
-//                showPhetPage();
-//            }
-//        } );
         this.module = module;
         JPanel filePanel = getFilePanel();
         if (useAdvanced()) {
@@ -106,9 +96,6 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
             }
         });
 
-//        JPanel titlePanel = new JPanel();
-//        titlePanel.add( logoLabel );
-//        add( titlePanel );
         add(filePanel);
         if (module.getParameters().isUseVisualControlPanel()) {
             add(visualPanel);
@@ -339,25 +326,8 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
             double offsetFrom5 = y - 5;
             double flipped = -offsetFrom5;
             double newY = 5 + flipped;
-//            System.out.println( "y = " + y + ", newY=" + newY );
             j.setPosition(j.getX(), newY);
         }
-//        for( int i = 0; i < circuit.numBranches(); i++ ) {
-//            if( !( circuit.branchAt( i ) instanceof Battery ) ) {
-//                Junction a = circuit.branchAt( i ).getStartJunction();
-//                Junction b = circuit.branchAt( i ).getEndJunction();
-//                Junction c = new Junction( a.getX() + 1, b.getY() );
-//                Junction d = new Junction( a.getX(), b.getY() + 1 );
-//                circuit.branchAt( i ).setStartJunction( c );
-//                circuit.branchAt( i ).setEndJunction( d );
-//                circuit.branchAt( i ).setStartJunction( b );
-//                circuit.branchAt( i ).setEndJunction( a );
-//            }
-//            if( circuit.branchAt( i ) instanceof Bulb ) {
-//                Bulb bulb = (Bulb)circuit.branchAt( i );
-//                bulb.flip( circuit );
-//            }
-//        }
     }
 
     private String patchString(String str) {

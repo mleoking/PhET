@@ -41,7 +41,6 @@ public class CCKModel {
     private static final double SCALE = .5;
     private double modelWidth = 10;
     private double modelHeight = modelWidth / aspectRatio;
-    //    private static final Rectangle2D.Double INIT_MODEL_BOUNDS = new Rectangle2D.Double( 0, 0, modelWidth, modelHeight );
     private Rectangle2D.Double modelBounds = new Rectangle2D.Double(0, 0, modelWidth, modelHeight);
     public static double ELECTRON_DX = .56 * SCALE;
     private static final double switchscale = 1.45;
@@ -77,7 +76,6 @@ public class CCKModel {
         };
         this.circuit = new Circuit(circuitChangeListener);
         solver = new MNAAdapter();
-//        circuitSolver = new PureScalaSolver();//TODO: use reflection during prototype to avoid disturbing the build for java-only developers
 
         particleSet = new ElectronSet(getCircuit());
         layout = new ConstantDensityLayout(getCircuit(), particleSet);

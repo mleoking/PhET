@@ -29,7 +29,6 @@ public class StripChartJFCNode extends PNode {
     private JFreeChartNode jFreeChartNode;
     private boolean enabled = true;//debugging
     private double timeRange = 5.0;
-//    private int maxItemCount = 100;
 
     public StripChartJFCNode(int width, int height, String xAxis, String yAxis) {
         XYSeriesCollection xyDataset = new XYSeriesCollection();
@@ -67,11 +66,9 @@ public class StripChartJFCNode extends PNode {
         );
 
         XYPlot plot = (XYPlot) chart.getPlot();
-//        plot.getRangeAxis().setTickLabelsVisible( true );
         plot.getRangeAxis().setAutoRange(false);
         plot.getRangeAxis().setRange(-3, 3);
         plot.getDomainAxis().setRange(0, 100);
-//        plot.getDomainAxis().setTickLabelsVisible( false );
         XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer(true, false);
         renderer.setStroke(new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1));
         renderer.setPaint(Color.blue);

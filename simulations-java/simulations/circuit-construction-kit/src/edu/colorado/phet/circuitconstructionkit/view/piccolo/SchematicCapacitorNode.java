@@ -25,15 +25,10 @@ public class SchematicCapacitorNode extends SchematicPlatedNode {
 
     public Shape getClipShape(PNode parent) {
         Shape clip = getClipShape();
-//        Shape rightClip = getPlateClipShape( rightPlate.getPath(), parent );
-//        Area ax = new Area( leftClip );
-//        ax.add( new Area( rightClip ) );
-//        Shape leftWireShape = leftWire.getPathBoundExpanded();
         PAffineTransform a = super.getLocalToGlobalTransform(null);
         PAffineTransform b = parent.getGlobalToLocalTransform(null);
         clip = a.createTransformedShape(clip);
         clip = b.createTransformedShape(clip);
-//        ax.subtract( new Area( leftWireShape ) );
         return clip;
     }
 }

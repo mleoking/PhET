@@ -95,9 +95,6 @@ public abstract class DoubleTerminalFloatingChart extends AbstractFloatingChart 
         }
 
         private Shape getShape(PNode node) {
-//            Point2D location = node.getGlobalTranslation();
-//            super.getPhetPCanvas().getPhetRootNode().globalToWorld( location );
-//            return new Rectangle2D.Double( location.getX(), location.getY(), 0.01, 0.01 );
             Point2D location = node.getGlobalTranslation();
             cckSimulationPanel.getCircuitNode().globalToLocal(location);
             return new Rectangle2D.Double(location.getX(), location.getY(), 0.01, 0.01);
@@ -106,12 +103,6 @@ public abstract class DoubleTerminalFloatingChart extends AbstractFloatingChart 
         protected Shape getLeftShape() {
             return getShape(getLeftCrosshairGraphic());
         }
-//                protected Point2D getLocation() {
-//            Point2D location = getCrosshairGraphic().getGlobalTranslation();
-//            cckSimulationPanel.getCircuitNode().globalToLocal( location );
-////            super.getPhetPCanvas().getPhetRootNode().globalToWorld( location );
-//            return location;
-//        }
     }
 
     protected PhetPCanvas getPhetPCanvas() {

@@ -47,7 +47,6 @@ public class BulbNode extends PhetPNode {
             BulbNode.this.update();
         }
     };
-    //    private static final float SCALE = 0.75f;
     private static final float SCALE = 0.35f;
 
     public BulbNode(Bulb bulb) {
@@ -251,7 +250,6 @@ public class BulbNode extends PhetPNode {
     }
 
     public Shape getCoverShapeOnFilamentSide() {
-//        return new Rectangle2D.Double( conductor.getX(), conductor.getY(), conductor.getWidth() * 0.63, conductor.getHeight() );
         return new Rectangle2D.Double(conductor.getX(), conductor.getY(), conductor.getWidth() * 0.85, conductor.getHeight());
     }
 

@@ -26,7 +26,6 @@ public class TestFloatingChart {
         AbstractFloatingChart floatingChart = new SingleTerminalFloatingChart.Piccolo(contentPane, "floating chart test", new AbstractFloatingChart.ValueReader() {
             public double getValue(double x, double y) {
                 double v = y;
-//                System.out.println( "v = " + v );
                 return v;
             }
         }, clock, null);//todo can't test without CCKSImulationpanel now

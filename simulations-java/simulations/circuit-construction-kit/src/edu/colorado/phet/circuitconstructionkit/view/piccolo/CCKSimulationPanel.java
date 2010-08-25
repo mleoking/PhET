@@ -117,7 +117,6 @@ public class CCKSimulationPanel extends PhetPCanvas {
 // todo: we may eventually add a different warning message,
 // so for right now I'm just commenting this out, see #2087 for first usage and #2282 for potential future usage
 // regarding when the circuit cannot be updated quickly and accurately.
-//        addScreenChild(warningMessageNode);
 
         relayout();
     }

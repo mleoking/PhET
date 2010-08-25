@@ -120,7 +120,6 @@ public class SeriesAmmeterNode extends ComponentNode {
         double spacingWidth = (length - windowWidth * numWindows) / (numWindows + 1);
         double x = 0;
         north = north.getInstanceOfMagnitude(windowHeight / 2).getScaledInstance(1);
-//        ArrayList windows = new ArrayList();
         for (int i = 0; i < numWindows; i++) {
             x += spacingWidth;
             Point2D a = dir.getInstanceOfMagnitude(x).getDestination(start);
@@ -129,7 +128,6 @@ public class SeriesAmmeterNode extends ComponentNode {
             Point2D b = dir.getInstanceOfMagnitude(x).getDestination(start);
             b = north.getDestination(b);
             Shape seg = LineSegment.getSegment(a, b, windowHeight);
-//            windows.add( seg );
             area.subtract(new Area(seg));
             windowGraphics[i].setPathTo(seg);
         }

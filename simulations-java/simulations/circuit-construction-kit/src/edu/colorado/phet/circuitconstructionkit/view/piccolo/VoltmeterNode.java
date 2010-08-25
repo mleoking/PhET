@@ -38,7 +38,6 @@ public class VoltmeterNode extends PhetPNode {
     private LeadNode redProbe;
     private CableNode redCable;
     private CableNode blackCable;
-    //    private static final double SCALE = 1.0 / 80.0 * 1.2;
     private static final double SCALE = 1.0 / 80.0 * 1.2 * 0.725;
 
     public VoltmeterNode(final VoltmeterModel voltmeterModel) {
@@ -80,7 +79,6 @@ public class VoltmeterNode extends PhetPNode {
     static class UnitNode extends PhetPNode {
         private VoltmeterModel voltmeterModel;
         private PText textNode;
-        //        private DecimalFormat decimalFormat = new DecimalFormat( "0.00" );
         private DecimalFormat decimalFormat = new DefaultDecimalFormat("0.00");
         private final String UNKNOWN_VOLTS = CCKResources.getString("VoltmeterGraphic.UnknownVolts");
 

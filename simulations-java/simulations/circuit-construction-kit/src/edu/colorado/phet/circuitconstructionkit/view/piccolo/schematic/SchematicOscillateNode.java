@@ -77,7 +77,6 @@ public class SchematicOscillateNode extends ComponentNode {
         double dx = 1 * SCALE;
         double fracDistToStartSine = getFracDistToStartSine();
         double sinDist = length - 2 * length * fracDistToStartSine;
-//        System.out.println( "sinDist = " + sinDist );
         double omega = 2 * Math.PI / (sinDist);
         for (double x = 0; x < length; x += dx) {
             double y = getY(x, length, fracDistToStartSine, omega);
@@ -97,8 +96,6 @@ public class SchematicOscillateNode extends ComponentNode {
         Area area = new Area(sha);
         area.add(new Area(LineSegment.getSegment(srcpt, catPoint, viewThickness)));
         area.add(new Area(LineSegment.getSegment(anoPoint, dstpt, viewThickness)));
-//        mouseArea = new Area( area );
-//        mouseArea.add( new Area( LineSegment.getSegment( srcpt, dstpt, viewThickness ) ) );
         this.path.setPathTo(area);
 
         getHighlightNode().setStroke(new BasicStroke(0.1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1f));

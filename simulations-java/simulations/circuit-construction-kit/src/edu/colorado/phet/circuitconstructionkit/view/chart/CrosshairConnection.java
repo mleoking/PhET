@@ -44,7 +44,6 @@ public class CrosshairConnection extends PhetPNode {
     }
 
     private PNode getDestination() {
-//        return (PNode)FloatingChart.getCrosshairGraphic();
         return destination;
     }
 

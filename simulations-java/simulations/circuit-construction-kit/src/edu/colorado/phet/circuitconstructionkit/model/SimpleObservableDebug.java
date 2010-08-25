@@ -51,11 +51,6 @@ public class SimpleObservableDebug extends SimpleObservable {
         debug();
     }
 
-//    public static SimpleObservableDebug[] instances() {
-//        System.gc();
-//        return (SimpleObservableDebug[])instances.toArray( new SimpleObservableDebug[0] );
-//    }
-
     public SimpleObserver[] getObservers() {
         return super.getObservers();
     }

@@ -22,13 +22,9 @@ public class ResistorColors {
             int firstdigit = Integer.parseInt(s.charAt(0) + "");
             int seconddig = Integer.parseInt(s.charAt(1) + "");
             int factor = s.length() - 2;
-//            int factor=value/100;
-//            int firstdigit=value/factor;
-//            int seconddig=value%factor;
 
             double predicted = ((firstdigit * 10 + seconddig) * Math.pow(10, factor));
             double offby = (value - predicted) / predicted * 100;
-//            O.d("predicted="+predicted+", actual="+value+", off="+offby);
             Color tolerance = null;
             if (offby < 5) {
                 tolerance = Color.yellow;
@@ -37,7 +33,6 @@ public class ResistorColors {
             } else {
                 tolerance = null;
             }
-//            O.d("factor=" + factor + ", firstdig=" + firstdigit + ", sec=" + seconddig + ", offby=" + offby);
             return new Color[]{digitToColor(firstdigit), digitToColor(seconddig), digitToColor(factor), tolerance};
         }
     }

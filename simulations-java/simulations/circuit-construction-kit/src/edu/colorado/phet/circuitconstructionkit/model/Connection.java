@@ -52,14 +52,12 @@ public abstract class Connection {
         }
 
         public double getVoltageAddon() {
-//            System.out.println( "Getting voltage ADDON, junction=" + getJunction() + ", branch = " + branch );
             double resistance = branch.getResistance();
             double length = branch.getLength();
             double resistivity = resistance / length; //infer a resistivity.
             double incrementalResistance = dist * resistivity;
             double current = branch.getCurrent();
             double voltage = current * incrementalResistance;//the sign is probably right
-//            System.out.println( "dist=" + dist + ", resistance = " + resistance + ", incrementalRes=" + incrementalResistance + ", current=" + current + ", DV=" + voltage );
             return voltage;
         }
 

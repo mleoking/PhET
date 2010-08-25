@@ -30,8 +30,6 @@ public class GrabBagButton extends JButton {
 
     public GrabBagButton(CCKModule module) {
         super(CCKResources.getString("GrabBagButton.ButtonTitle"));
-//        setOpaque( false );
-
         try {
             setIcon(new ImageIcon(BufferedImageUtils.rescaleYMaintainAspectRatio(ImageLoader.loadBufferedImage("circuit-construction-kit/images/bag.gif"), 45)));
         }
@@ -60,7 +58,6 @@ public class GrabBagButton extends JButton {
             final GrabBagItem it = bag.itemAt(i);
             BufferedImage image = it.getImage();
             BufferedImage fixedSize = BufferedImageUtils.rescaleYMaintainAspectRatio(image, 40);
-//            JButton jb = new JButton( it.getName(), new ImageIcon( fixedSize ) );
             ImageIcon icon = new ImageIcon(fixedSize);
             JButton jb = new JButton(it.getName());
             JPanel panel = new JPanel();
@@ -85,11 +82,6 @@ public class GrabBagButton extends JButton {
         dialog.setVisible(false);
         Resistor b = it.createBranch(module);
         module.getCircuit().addBranch(b);
-//        if( module instanceof HasCircuitGraphic ) {
-//            ( (HasCircuitGraphic)module ).getCircuitGraphic().addGraphic( b, BufferedImageUtils.flipY( it.getImage() ) );
-//        }
-
-
         module.layoutElectrons(new Branch[]{b});
         module.getSimulationPanel().repaint();
     }

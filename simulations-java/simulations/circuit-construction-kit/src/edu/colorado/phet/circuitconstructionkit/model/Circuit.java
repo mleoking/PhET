@@ -57,7 +57,6 @@ public class Circuit {
             junctions.add(junction);
             fireJunctionAdded(junction);
         }
-//        System.out.println("added: junctions.size() = " + junctions.size());
     }
 
     private void fireJunctionAdded(Junction junction) {
@@ -70,7 +69,6 @@ public class Circuit {
         junctions.remove(junction);
         junction.delete();
         fireJunctionRemoved(junction);
-//        System.out.println("removed: junctions.size() = " + junctions.size());
     }
 
     public Branch[] getAdjacentBranches(Junction junction) {
@@ -386,8 +384,6 @@ public class Circuit {
     }
 
     public Junction[] getJunctions() {
-//        System.out.println("junctions.size() = " + junctions.size());
-//        System.out.println("getJunctions().length = " + getJunctions().length);
         return junctions.toArray(new Junction[junctions.size()]);
     }
 
@@ -695,7 +691,6 @@ public class Circuit {
                 }
             }
         }
-//        System.out.println( "best = " + best );
         return best;
     }
 
@@ -797,7 +792,6 @@ public class Circuit {
         Branch[] branches = getBranches();
         Branch[] strongConnections = getStrongConnections(junction);
         for (Branch branch : branches) {
-            //            if( !branch.hasJunction( junction ) &&!contains(strongConnections,branch)) {
             if (!branch.hasJunction(junction)) {
                 if (branch.getShape().intersects(junction.getShape().getBounds2D())) {
                     ImmutableVector2D vec = branch.getDirectionVector();

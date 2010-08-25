@@ -112,7 +112,6 @@ public class SchematicSwitchNode extends SwitchBodyRectangleNode {
         private void update() {
             pathNode.setTransform(new AffineTransform());
             pathNode.translate(0, leverHeight);
-//            pathNode.rotateAboutPoint( s.getHandleAngle() + Math.PI, leverWidth, leverHeight / 2 );
             pathNode.rotateAboutPoint(s.getHandleAngle() + Math.PI, leverWidth, leverHeight);
         }
 

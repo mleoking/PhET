@@ -176,27 +176,6 @@ public class CircuitInteractionModel {
             }
         }
 
-//        public Junction getStickyTarget( Junction junction, double x, double y ) {
-//            double bestDist = Double.POSITIVE_INFINITY;
-//            double STICKY_DIST = 2;
-//            Junction best = null;
-//
-//            for( int i = 0; i < circuit.getJunctions().length; i++ ) {
-//                //todo see circuitGraphic line 502 for handling strong components
-//                Junction j = circuit.getJunctions()[i];
-//                if( j != junction && !getCircuit().hasBranch( junction, j ) && !getCircuit().wouldConnectionCauseOverlappingBranches( junction, j ) )
-//                {
-//                    double dist = new Point2D.Double( x, y ).distance( j.getX(), j.getY() );
-//                    if( dist < STICKY_DIST && dist < bestDist ) {
-//                        best = j;
-//                        bestDist = dist;
-//                    }
-//                }
-//            }
-//            return best;
-//        }
-
-
         private Junction[] getSources(Branch[] sc, Junction j) {
             ArrayList list = new ArrayList(Arrays.asList(Circuit.getJunctions(sc)));
             if (!list.contains(j)) {

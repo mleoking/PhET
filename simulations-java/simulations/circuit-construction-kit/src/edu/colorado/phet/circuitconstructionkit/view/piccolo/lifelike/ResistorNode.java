@@ -42,10 +42,6 @@ public class ResistorNode extends ComponentImageNode {
         resistor.removeObserver(resistorObserver);
     }
 
-//    protected JPopupMenu createPopupMenu() {
-//        return new ComponentMenu.ResistorMenu( resistor, module );
-//    }
-
     protected void update() {
         super.update();
         if (colorBandNode != null) {

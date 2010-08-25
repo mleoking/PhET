@@ -69,7 +69,6 @@ public class Capacitor3DShapeSet {
 
     private Vector2D getVector(double u, double v) {
         Vector2D vector = new Vector2D(u * Math.cos(tiltAngle), u * Math.sin(tiltAngle) + v);
-//        vector.rotate( tiltAngle );
         vector.rotate(getSegmentAngle());
         return vector;
     }
@@ -140,7 +139,6 @@ public class Capacitor3DShapeSet {
 
     public Point2D getPlate2EdgePoint() {
         ImmutableVector2D vector = new Vector2D(inPt, outPt);
-//        double totalDist = vector.getMagnitude();
         double a = width * Math.cos(tiltAngle);
         double initDist = new Vector2D(inPt, getPlate2Point()).getMagnitude();
         vector = vector.getInstanceOfMagnitude(initDist + a / 2.0);

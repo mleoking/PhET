@@ -278,7 +278,6 @@ public class MNATestCase extends TestCase {
             double current = solution.getCurrent(battery);
             double expectedCurrent = V / R * (1 - Math.exp(-(t + dt) * R / L));//positive, by definition of MNA.Battery
             double error = Math.abs(current - expectedCurrent);
-//            System.out.println("expected current = " + expectedCurrent + ", obtained = " + current);
             assertTrue(error < 1E-4);
             circuit = circuit.updateWithSubdivisions(dt);
         }
