@@ -12,7 +12,9 @@ import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.servicemanager.InputStreamFileContents;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
+import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.HelpPanel;
+import edu.colorado.phet.common.phetcommon.view.PhetTitledBorder;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
@@ -21,7 +23,6 @@ import net.n3.nanoxml.*;
 
 import javax.jnlp.*;
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
@@ -39,16 +40,13 @@ import java.net.URL;
  * Date: Jun 1, 2004
  * Time: 11:03:06 AM
  */
-public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.ControlPanel {
+public class CCKControlPanel extends ControlPanel {
     private CCKModule module;
     private JCheckBox seriesAmmeter;
-    private AdvancedControlPanel advancedControlPanel;
     private JPanel advancedPanel;
     private boolean debugging = false;
 
     public CCKControlPanel(final CCKModule module, Module m) {
-        advancedControlPanel = new AdvancedControlPanel(module);
-        advancedControlPanel.setBorder(null);
         this.module = module;
         JPanel filePanel = getFilePanel();
         if (useAdvanced()) {
@@ -65,37 +63,6 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
         }
         JPanel sizePanel = new SizeControlPanel(module);
 
-        JButton jb = new JButton(CCKResources.getString("CCK3ControlPanel.LocalHelpButton"));
-        jb.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                showHelpImage();
-            }
-        });
-        JButton browserGIF = new JButton(CCKResources.getString("CCK3ControlPanel.GIFHelpButton"));
-        browserGIF.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                showHelpGIF();
-            }
-        });
-
-        JButton xml = new JButton(CCKResources.getString("CCK3ControlPanel.ShowXMLButton"));
-        xml.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                CircuitXML.toXML(module.getCircuit());
-            }
-        });
-
-        JButton changeBunch = new JButton(CCKResources.getString("CCK3ControlPanel.ChangeViewButton"));
-        changeBunch.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                int IMAX = 200;
-                for (int i = 0; i < IMAX; i++) {
-                    System.out.println("i = " + i + "/" + IMAX);
-                    module.setLifelike(!module.isLifelike());
-                }
-            }
-        });
-
         add(filePanel);
         if (module.getParameters().isUseVisualControlPanel()) {
             add(visualPanel);
@@ -103,15 +70,15 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
         add(toolPanel);
         add(sizePanel);
 
-        JButton testLifelikeSchematic = new JButton("Test Lifelike/Schematic");
-        testLifelikeSchematic.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                for (int i = 0; i < 100; i++) {
-                    module.setLifelike(!module.isLifelike());
-                }
-            }
-        });
         if (debugging) {
+            JButton testLifelikeSchematic = new JButton( "Test Lifelike/Schematic" );
+            testLifelikeSchematic.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    for ( int i = 0; i < 100; i++ ) {
+                        module.setLifelike( !module.isLifelike() );
+                    }
+                }
+            } );
             add(testLifelikeSchematic);
         }
 
@@ -126,7 +93,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
         if (module.getParameters().getAllowDynamics()) {
             addControl(new ResetDynamicsButton(module));
         }
-        addControl(Box.createVerticalStrut(5));
+        addControl(Box.createVerticalStrut(2));
         addResetAllButton(new Resettable() {
             public void reset() {
                 module.resetAll();
@@ -359,83 +326,6 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
         }
     }
 
-    public void showHelpGIF() {
-        try {
-            BasicService bs = PhetServiceManager.getBasicService();
-            URL url = new URL(CCKResources.getString("CCK3ControlPanel.CCKHelpGifURL"));
-            System.out.println("url = " + url);
-            bs.showDocument(url);
-        }
-        catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        catch (UnavailableServiceException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void showHelpImage() {
-        final JFrame imageFrame = new JFrame();
-        try {
-            BufferedImage image = ImageLoader.loadBufferedImage("circuit-construction-kit/images/cck-help.gif");
-
-            JLabel label = new JLabel(new ImageIcon(image));
-            imageFrame.setContentPane(label);
-            imageFrame.pack();
-            SwingUtils.centerWindowOnScreen(imageFrame);
-            imageFrame.setVisible(true);
-            imageFrame.addWindowListener(new WindowAdapter() {
-                public void windowClosing(WindowEvent e) {
-                    imageFrame.dispose();
-                }
-            });
-            imageFrame.setResizable(false);
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-            StringWriter sw = new StringWriter();
-            e.printStackTrace(new PrintWriter(sw));
-            PhetOptionPane.showMessageDialog(module.getSimulationPanel(), sw.getBuffer().toString(),
-                    CCKResources.getString("CCK3ControlPanel.ErrorLoadingHelpDialog"));
-        }
-    }
-
-    private static void printEm(CCKModule module) {
-        KirkhoffSolver ks = new KirkhoffSolver();
-        Circuit circuit = module.getCircuit();
-        KirkhoffSolver.MatrixTable mt = new KirkhoffSolver.MatrixTable(circuit);
-        System.out.println("mt = " + mt);
-
-        KirkhoffSolver.Equation[] junctionEquations = ks.getJunctionEquations(circuit, mt);
-        KirkhoffSolver.Equation[] loopEquations = ks.getLoopEquations(circuit, mt);
-        KirkhoffSolver.Equation[] ohmsLaws = ks.getOhmsLaw(circuit, mt);
-
-        String je = mt.describe(junctionEquations, CCKResources.getString("CCK3ControlPanel.JunctionEquations"));
-        String le = mt.describe(loopEquations, CCKResources.getString("CCK3ControlPanel.LoopEquations"));
-        String oh = mt.describe(ohmsLaws, CCKResources.getString("CCK3ControlPanel.OhmsLawEquations"));
-        System.out.println(je);
-        System.out.println(le);
-        System.out.println(oh);
-
-        JFrame readoutFrame = new JFrame(CCKResources.getString("CCK3ControlPanel.CircuitEquationsFrame"));
-        String plainText = je + "\n" + le + "\n" + oh + "\n";
-        JTextArea jta = new JTextArea(plainText) {
-            protected void paintComponent(Graphics g) {
-                ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                super.paintComponent(g);
-            }
-        };
-        jta.setEditable(false);
-
-        jta.setFont(new Font("Courier New", Font.BOLD, 18));
-
-        readoutFrame.setContentPane(new JScrollPane(jta));
-        readoutFrame.pack();
-        SwingUtils.centerWindowOnScreen(readoutFrame);
-        readoutFrame.setVisible(true);
-    }
-
-
     private JPanel getFilePanel() {
         final JButton save = new JButton(CCKResources.getString("CCK3ControlPanel.SaveButton"));
         save.addActionListener(new ActionListener() {
@@ -468,15 +358,9 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
         return filePanel;
     }
 
-    public static class CCKTitledBorder extends TitledBorder {
+    public static class CCKTitledBorder extends PhetTitledBorder {
         public CCKTitledBorder(String title) {
-            super(BorderFactory.createRaisedBevelBorder(), title);
-        }
-
-        public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-            Graphics2D g2 = (Graphics2D) g;
-            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            super.paintBorder(c, g, x, y, width, height);
+            super(title);
         }
     }
 
@@ -492,6 +376,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
 
         public AdvancedControlPanel(final CCKModule module) {
             super(CCKResources.getString("CCK3ControlPanel.Enable"), CCKResources.getString("CCK3ControlPanel.Disable"));
+            setBorder(null);
             this.module = module;
             resistivitySlider = new ResistivitySlider();
 
