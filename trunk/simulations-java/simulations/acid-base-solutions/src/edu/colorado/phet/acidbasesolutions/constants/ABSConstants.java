@@ -103,6 +103,6 @@ public class ABSConstants {
     // Control
     //----------------------------------------------------------------------------
     
-    public static final Font TITLED_BORDER_FONT = new PhetFont( PhetFont.getDefaultFontSize() + 4 );
+    public static final Font TITLED_BORDER_FONT = new PhetFont( Font.BOLD, PhetFont.getDefaultFontSize() + 4 );
     public static final Border TITLE_BORDER_BORDER = new LineBorder( Color.BLACK, 1 );
 }
