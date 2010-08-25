@@ -272,7 +272,7 @@ public abstract class MembraneChannel {
 	    if (centerLocation.getX() != x || centerLocation.getY() != y){
 	        centerLocation.setLocation( x, y );
 	        uppperCaptureZone.setOriginPoint( x, y );
-	        uppperCaptureZone.setOriginPoint( x, y );
+	        lowerCaptureZone.setOriginPoint( x, y );
 	        notifyPositionChanged();
 	    }
 	}
