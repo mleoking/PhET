@@ -17,7 +17,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
  */
 public class ABSResources {
     
-    private static final PhetResources RESOURCES = new PhetResources( ABSConstants.PROJECT_NAME );
+    private static final PhetResources RESOURCES = new PhetResources( ABSConstants.PROJECT );
     
     /* not intended for instantiation */
     private ABSResources() {}

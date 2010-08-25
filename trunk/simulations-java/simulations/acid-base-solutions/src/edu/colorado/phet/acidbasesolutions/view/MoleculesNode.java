@@ -50,11 +50,11 @@ public class MoleculesNode extends PComposite {
         super();
         setPickable( false );
         
-        this.maxMolecules = ABSConstants.MAX_IMAGES_RANGE.getDefault();
-        this.maxH2O = ABSConstants.MAX_H2O_IMAGES_RANGE.getDefault();
+        this.maxMolecules = ABSConstants.MAGNIFYING_GLASS_MAX_MOLECULES;
+        this.maxH2O = ABSConstants.MAGNIFYING_GLASS_MAX_H2O;
         this.moleculeCountStrategy = new ConcentrationMoleculeCountStrategy();
         this.h2oCountStrategy = new ConstantMoleculeCountStrategy();
-        this.imageScale = ABSConstants.IMAGE_SCALE_RANGE.getDefault();
+        this.imageScale = ABSConstants.MAGNIFYING_GLASS_IMAGE_SCALE;
         this.layeringStrategy = new FixedMoleculeLayeringStrategy();
         
         this.magnifyingGlass = magnifyingGlass;
@@ -62,18 +62,18 @@ public class MoleculesNode extends PComposite {
             @Override
             public void solutionChanged() {
                 deleteAllMolecules();
-                updateNumberOfMolecules();
+                updateMoleculeCounts();
                 updateMinoritySpeciesVisibility();
             }
             
             @Override
             public void strengthChanged() {
-                updateNumberOfMolecules();
+                updateMoleculeCounts();
             }
             
             @Override
             public void concentrationChanged() {
-                updateNumberOfMolecules();
+                updateMoleculeCounts();
             }
         });
         magnifyingGlass.addMagnifyingGlassListener( new MagnifyingGlassChangeListener() {
@@ -97,7 +97,7 @@ public class MoleculesNode extends PComposite {
         
         // default state
         parentH2O.setVisible( magnifyingGlass.isWaterVisible() );
-        updateNumberOfMolecules();
+        updateMoleculeCounts();
         updateMinoritySpeciesVisibility();
     }
     
@@ -118,7 +118,7 @@ public class MoleculesNode extends PComposite {
     public void setMaxMolecules( int maxMolecules ) {
         if ( maxMolecules != this.maxMolecules ) {
             this.maxMolecules = maxMolecules;
-            updateNumberOfMolecules();
+            updateMoleculeCounts();
         }
     }
     
@@ -129,7 +129,7 @@ public class MoleculesNode extends PComposite {
     public void setMaxH2O( int maxH2O ) {
         if ( maxH2O != this.maxH2O ) {
             this.maxH2O = maxH2O;
-            updateNumberOfMolecules();
+            updateMoleculeCounts();
         }
     }
     
@@ -210,14 +210,14 @@ public class MoleculesNode extends PComposite {
         return parentH2O;
     }
     
-    protected void updateNumberOfMolecules() {
+    protected void updateMoleculeCounts() {
         AqueousSolution solution = magnifyingGlass.getSolution();
         countReactant = moleculeCountStrategy.getNumberOfMolecules( solution.getSoluteConcentration(), maxMolecules );
         countProduct = moleculeCountStrategy.getNumberOfMolecules( solution.getProductConcentration(), maxMolecules );
         countH3O = moleculeCountStrategy.getNumberOfMolecules( solution.getH3OConcentration(), maxMolecules );
         countOH = moleculeCountStrategy.getNumberOfMolecules( solution.getOHConcentration(), maxMolecules );
         countH2O = h2oCountStrategy.getNumberOfMolecules( solution.getH2OConcentration(), maxH2O );
-        updateNumberOfMoleculeNodes();
+        updateMoleculeNodes();
         layeringStrategy.setRenderingOrder( parentReactant, parentProduct, parentH3O, parentOH, parentH2O );
     }
     
@@ -225,18 +225,21 @@ public class MoleculesNode extends PComposite {
      * Creates images based on molecule count strategies.
      * Images are distributed at random locations throughout the container.
      */
-    protected void updateNumberOfMoleculeNodes() {
+    protected void updateMoleculeNodes() {
         AqueousSolution solution = magnifyingGlass.getSolution();
         if ( !( solution instanceof PureWaterSolution ) ) {
-            updateNumberOfMoleculeNodes( getParentReactant(), getCountReactant(), getImageScale(), solution.getSolute() );
-            updateNumberOfMoleculeNodes( getParentProduct(), getCountProduct(), getImageScale(), solution.getProduct() );
+            updateMoleculeNodes( getParentReactant(), getCountReactant(), getImageScale(), solution.getSolute() );
+            updateMoleculeNodes( getParentProduct(), getCountProduct(), getImageScale(), solution.getProduct() );
         }
-        updateNumberOfMoleculeNodes( getParentH3O(), getCountH3O(), getImageScale(), solution.getH3OMolecule() );
-        updateNumberOfMoleculeNodes( getParentOH(), getCountOH(), getImageScale(), solution.getOHMolecule() );
-        updateNumberOfMoleculeNodes( getParentH2O(), getCountH2O(), getImageScale(), solution.getWaterMolecule() );
+        updateMoleculeNodes( getParentH3O(), getCountH3O(), getImageScale(), solution.getH3OMolecule() );
+        updateMoleculeNodes( getParentOH(), getCountOH(), getImageScale(), solution.getOHMolecule() );
+        updateMoleculeNodes( getParentH2O(), getCountH2O(), getImageScale(), solution.getWaterMolecule() );
     }
     
-    private void updateNumberOfMoleculeNodes( PNode parent, int count, double scale, Molecule molecule ) {
+    /*
+     * Updates the number of molecule nodes for one type of molecule.
+     */
+    private void updateMoleculeNodes( PNode parent, int count, double scale, Molecule molecule ) {
 
         // remove nodes
         while ( count < parent.getChildrenCount() && count >= 0 ) {

@@ -22,7 +22,7 @@ class MGPConstants {
     private MGPConstants() {}
     
     // Resource loader
-    private static final PhetResources RESOURCES = new PhetResources( ABSConstants.PROJECT_NAME );
+    private static final PhetResources RESOURCES = new PhetResources( ABSConstants.PROJECT );
 
     // canvas
     public static final Color CANVAS_COLOR = Color.WHITE;
