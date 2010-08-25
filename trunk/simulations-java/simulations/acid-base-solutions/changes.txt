@@ -1,3 +1,4 @@
+8/25/10 change "Show Water" check box to "Show Solvent"
 8/23/10 created screenshot that will appear on website
 8/23/10 consolidate module package hierarchy
 8/23/10 rename TestSolutionModule to IntroductionModule
