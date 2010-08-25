@@ -1,3 +1,4 @@
+8/25/10 delete rendering order strategy for molecules in magnifying glass, we decided on one implementation
 8/25/10 clean up constants related to magnifying glass view
 8/25/10 fix arg names in IMoleculeLayeringStrategy, they were acid-specific
 8/25/10 make control panels use standardized titled border from phetcommon (PhetTitledBorder)
