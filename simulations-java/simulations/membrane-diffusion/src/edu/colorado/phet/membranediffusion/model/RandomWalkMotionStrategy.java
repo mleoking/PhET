@@ -21,8 +21,8 @@ public class RandomWalkMotionStrategy extends MotionStrategy {
 	// over time.  These can be adjusted to achieve the desired appearance.
 	private static final double MIN_TIME_BETWEEN_VELOCITY_UPDATES = 0.2;  // In seconds of sim time, not wall time.
 	private static final double MAX_TIME_BETWEEN_VELOCITY_UPDATES = 1.0;  // In seconds of sim time, not wall time.
-	private static final double MIN_VELOCITY = 8;
-	private static final double MAX_VELOCITY = 12;
+	private static final double MIN_VELOCITY = 10;
+	private static final double MAX_VELOCITY = 14;
 	
 	private double timeUntilNextVelocityChange; // In seconds of sim time.
 	private Vector2D velocityVector = new Vector2D(0, 0);
