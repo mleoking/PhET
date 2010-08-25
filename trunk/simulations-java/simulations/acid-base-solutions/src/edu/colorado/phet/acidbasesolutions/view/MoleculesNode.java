@@ -4,7 +4,6 @@ package edu.colorado.phet.acidbasesolutions.view;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.model.*;
 import edu.colorado.phet.acidbasesolutions.model.MagnifyingGlass.MagnifyingGlassChangeListener;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
@@ -19,7 +18,11 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class MoleculesNode extends PComposite {
+/* package private */ class MoleculesNode extends PComposite {
+    
+    private static final int MAX_MOLECULES = 200; // max number of any one type of molecule
+    private static final int MAX_H2O = 2000; // max number of H2O molecules
+    private static final double MOLECULE_IMAGE_SCALE = 1;
 
     private final MagnifyingGlass magnifyingGlass;
     
@@ -109,13 +112,13 @@ public class MoleculesNode extends PComposite {
         AqueousSolution solution = magnifyingGlass.getSolution();
         
         // compute molecule counts
-        int countReactant = moleculeCountStrategy.getNumberOfMolecules( solution.getSoluteConcentration(), ABSConstants.MAGNIFYING_GLASS_MAX_MOLECULES );
-        int countProduct = moleculeCountStrategy.getNumberOfMolecules( solution.getProductConcentration(), ABSConstants.MAGNIFYING_GLASS_MAX_MOLECULES );
-        int countH3O = moleculeCountStrategy.getNumberOfMolecules( solution.getH3OConcentration(), ABSConstants.MAGNIFYING_GLASS_MAX_MOLECULES );
-        int countOH = moleculeCountStrategy.getNumberOfMolecules( solution.getOHConcentration(), ABSConstants.MAGNIFYING_GLASS_MAX_MOLECULES );
+        int countReactant = moleculeCountStrategy.getNumberOfMolecules( solution.getSoluteConcentration(), MAX_MOLECULES );
+        int countProduct = moleculeCountStrategy.getNumberOfMolecules( solution.getProductConcentration(), MAX_MOLECULES );
+        int countH3O = moleculeCountStrategy.getNumberOfMolecules( solution.getH3OConcentration(), MAX_MOLECULES );
+        int countOH = moleculeCountStrategy.getNumberOfMolecules( solution.getOHConcentration(), MAX_MOLECULES );
         
         // use a different strategy for H2O molecule counts
-        int countH2O = h2oCountStrategy.getNumberOfMolecules( solution.getH2OConcentration(), ABSConstants.MAGNIFYING_GLASS_MAX_H2O );
+        int countH2O = h2oCountStrategy.getNumberOfMolecules( solution.getH2OConcentration(), MAX_H2O );
         
         // update number of molecule image nodes
         updateMoleculeNodes( parentReactant, solution.getSolute(), countReactant );
@@ -139,7 +142,7 @@ public class MoleculesNode extends PComposite {
         while ( count > parent.getChildrenCount() ) {
             // create node
             PImage node = new PImage( molecule.getImage() );
-            node.setScale( ABSConstants.MAGNIFYING_GLASS_IMAGE_SCALE );
+            node.setScale( MOLECULE_IMAGE_SCALE );
             parent.addChild( node );
             // move to a random location
             Point2D p = getRandomPoint();
