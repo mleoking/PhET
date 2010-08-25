@@ -43,8 +43,6 @@ public class AdvancedPanel extends VerticalLayoutPanel {
      * @param hide
      */
     public AdvancedPanel(String show, String hide) {
-//        addFullWidth( new JButton("a"));
-//        addFullWidth( new JButton("b"));
         controls = new VerticalLayoutPanel();
         controls.setFillNone();
 
@@ -66,7 +64,7 @@ public class AdvancedPanel extends VerticalLayoutPanel {
         add(hideButton);
         setFillHorizontal();
         add(controls);
-//
+
         controls.setVisible(false);
         hideButton.setVisible(false);
     }
@@ -98,7 +96,6 @@ public class AdvancedPanel extends VerticalLayoutPanel {
             Listener listener = (Listener) listeners.get(i);
             listener.advancedPanelShown(this);
         }
-//        setBorder( BorderFactory.createRaisedBevelBorder() );
         validateAll();
         validateTree();
     }
@@ -128,7 +125,6 @@ public class AdvancedPanel extends VerticalLayoutPanel {
             Listener listener = (Listener) listeners.get(i);
             listener.advancedPanelHidden(this);
         }
-//        setBorder( null );
         validateAll();
         validateTree();
     }

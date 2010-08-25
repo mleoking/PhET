@@ -15,7 +15,6 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
  */
 
 public class ChartSetNode extends PhetPNode {
-    //    private SwingClock stripChartClock = new SwingClock( 30, 1 );
     private CCKSimulationPanel cckSimulationPanel;
     private Circuit circuit;
     private IClock clock;
@@ -24,7 +23,6 @@ public class ChartSetNode extends PhetPNode {
         this.cckSimulationPanel = cckSimulationPanel;
         this.circuit = circuit;
         this.clock = clock;
-//        stripChartClock.start();
     }
 
     public void addCurrentChart() {

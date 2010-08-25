@@ -132,7 +132,6 @@ public abstract class AbstractFloatingChart extends PhetPNode {
     }
 
     private void updateButtonLocations() {
-//        closeButtonPSwing.setOffset( stripChartJFCNode.getFullBounds().getOrigin().getX(), stripChartJFCNode.getFullBounds().getOrigin().getY() - closeButtonPSwing.getFullBounds().getHeight() );
         closeButtonPSwing.setOffset(stripChartJFCNode.getFullBounds().getMaxX() - closeButtonPSwing.getFullBounds().getWidth(),
                 stripChartJFCNode.getFullBounds().getOrigin().getY() - closeButtonPSwing.getFullBounds().getHeight());
         chartZoomControl.setOffset(stripChartJFCNode.getFullBounds().getOrigin().getX(), stripChartJFCNode.getFullBounds().getOrigin().getY() - chartZoomControl.getFullBounds().getHeight());

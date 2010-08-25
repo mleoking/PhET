@@ -67,10 +67,6 @@ public class CCKKeyListener implements KeyListener {
                 System.out.println("Relayout = " + i);
             }
         }
-//        else if ( e.getKeyCode() == KeyEvent.VK_K ) {
-//            ModifiedNodalAnalysis_Orig na = new ModifiedNodalAnalysis_Orig();
-//            na.apply( cck.getCircuit() );
-//        }
     }
 
     public void keyTyped(KeyEvent e) {

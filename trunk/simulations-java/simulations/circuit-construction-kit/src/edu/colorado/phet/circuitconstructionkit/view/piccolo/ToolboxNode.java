@@ -126,7 +126,6 @@ public class ToolboxNode extends PhetPNode {
             this.scale = scale;
             label = new PText(name);
             label.setFont(createFont());
-//            label.setFont( new PhetDefaultFont( Font.BOLD, 12 ) );
             addInputEventListener(new CursorHandler());
             addInputEventListener(new PBasicInputEventHandler() {
                 public void mouseDragged(PInputEvent event) {
@@ -143,7 +142,6 @@ public class ToolboxNode extends PhetPNode {
 
                 public void mouseReleased(PInputEvent event) {
                     if (createdBranch != null) { // This check was added to resolve #1826, not sure why the createdBranch was sometimes null, or why that was causing problems.
-                        //System.out.println("ToolboxNode$BranchMaker.mouseReleased: branch = " + createdBranch);
                         circuitInteractionModel.dropBranch(createdBranch);
                         createdBranch = null;
                     }
@@ -156,7 +154,6 @@ public class ToolboxNode extends PhetPNode {
         protected void setupNode(double scale) {
             PNode node = createNode(createBranch());
             node.scale(scale);//todo choose scale based on insets?
-//            PhetPPath node = new PhetPPath( new Rectangle( 50, 50 ), Color.blue );
             setDisplayGraphic(node);
         }
 
@@ -171,13 +168,11 @@ public class ToolboxNode extends PhetPNode {
         }
 
         public Point2D getWorldLocation(PInputEvent event) {
-//            System.out.println( "ToolboxNode.this.getParent().getParent() = " + ToolboxNode.this.getParent().getParent() );
             Point2D pt = event.getPositionRelativeTo(this);
             this.localToGlobal(pt);
             CCKModule m = (CCKModule) module;
             m.getCckSimulationPanel().getCircuitNode().globalToLocal(pt);
             return pt;
-//            return event.getPositionRelativeTo( ToolboxNode.this.getParent().getParent() );//todo remove this dependence on parent structure
         }
 
         //This assumes the branch is always centered on the mouse.

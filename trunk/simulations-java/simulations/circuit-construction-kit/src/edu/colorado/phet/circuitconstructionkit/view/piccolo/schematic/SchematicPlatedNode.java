@@ -81,37 +81,14 @@ public class SchematicPlatedNode extends ComponentNode {
         path.setPathTo(area);
         getHighlightNode().setStroke(new BasicStroke(0.1f));
         getHighlightNode().setPathTo(area);
-//        notifyChanged();
     }
 
     protected Shape getClipShape() {
-//        return path.getPathReference();
         return clipShape;
     }
-
-//    private void notifyChanged() {
-//        notifyListeners();
-//    }
 
     public void delete() {
         super.delete();
         getBranch().removeObserver(simpleObserver);
     }
-
-//    private ArrayList listeners = new ArrayList();
-//
-//    public static interface Listener {
-//        void areaChanged();
-//    }
-//
-//    public void addListener( SchematicPlatedNode.Listener listener ) {
-//        listeners.add( listener );
-//    }
-//
-//    public void notifyListeners() {
-//        for( int i = 0; i < listeners.size(); i++ ) {
-//            SchematicPlatedNode.Listener listener = (SchematicPlatedNode.Listener)listeners.get( i );
-//            listener.areaChanged();
-//        }
-//    }
 }

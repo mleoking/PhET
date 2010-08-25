@@ -91,7 +91,6 @@ public class ReadoutNode extends PhetPNode {
         while (angle > Math.PI * 2) {
             angle -= Math.PI * 2;
         }
-//        System.out.println( "angle = " + angle );
 
         boolean up = angle > Math.PI / 4 && angle < 3.0 / 4.0 * Math.PI;
         boolean down = angle > 5.0 / 4.0 * Math.PI && angle < 7.0 / 4.0 * Math.PI;

@@ -80,8 +80,6 @@ public class KirkhoffSolver extends CircuitSolver {
         public double getResidualNorm() {
             Matrix x = solve();
             Matrix r = a.times(x).minus(b);
-//            System.out.println( "R=" );
-//            r.print( 4, 4 );
             double rnorm = r.normInf();
             return rnorm;
         }
@@ -186,9 +184,7 @@ public class KirkhoffSolver extends CircuitSolver {
                         value = -1;
                     }
                     if (branch instanceof Battery) {
-//                    eq.addValue( -value * branch.getVoltageDrop() );//used to be -value
                         eq.addValue(-value * branch.getVoltageDrop());
-//                    int column = mt.getVoltageColumn( circuit.indexOf( directedBranch.getBranch() ) );
                         int column = mt.getCurrentColumn(circuit.indexOf(branch));
                         eq.setCoefficient(column, -value * branch.getResistance());
                     } else {
@@ -205,7 +201,6 @@ public class KirkhoffSolver extends CircuitSolver {
     }
 
     public Equation[] getJunctionEquations(Circuit circuit, MatrixTable mt) {
-//        MatrixTable mt = new MatrixTable( circuit );
         ArrayList equations = new ArrayList();
         for (int i = 0; i < circuit.numJunctions(); i++) {
             Junction j = circuit.junctionAt(i);
@@ -213,7 +208,6 @@ public class KirkhoffSolver extends CircuitSolver {
             Branch[] b = circuit.getAdjacentBranches(j);
             for (int k = 0; k < b.length; k++) {
                 Branch branch = b[k];
-//                int branchIndex = circuit.indexOf( branch );
                 int column = mt.getCurrentColumn(branch);
                 if (column != -1) {
                     //doesn't matter which is + and which is -, just as long as we're consistent.
@@ -295,7 +289,6 @@ public class KirkhoffSolver extends CircuitSolver {
                 Branch br = circuit.branchAt(i);
                 if (isLoopElementWithVoltageSource(br)) {
                     currentTable.put(new Integer(i), new Integer(columnIndex++));
-//                    System.out.println( "column[" + ( columnIndex - 1 ) + "] = " + "I" + i );
                 } else {
                     //make a note that this branch is not a free parameter.
                 }
@@ -305,19 +298,16 @@ public class KirkhoffSolver extends CircuitSolver {
                 if (isLoopElementWithVoltageSource(b)) {
                     if (!(b instanceof Battery)) {
                         voltageTable.put(new Integer(i), new Integer(columnIndex++));
-//                        System.out.println( "column[" + ( columnIndex - 1 ) + "] = " + "V" + i );
                     }
                 } else {
                     //make a note that this branch is not a free parameter.
                 }
             }
             this.numFreeParameters = columnIndex;
-//            System.out.println( "numFreeParameters = " + numFreeParameters );
         }
 
         public String toString() {
             StringBuffer string = new StringBuffer();
-//            Enumeration ce = currentTable.keys();
 
             List currentList = new ArrayList();
             currentList.addAll(currentTable.keySet());
@@ -469,7 +459,6 @@ public class KirkhoffSolver extends CircuitSolver {
             str += (name + "\n");
             for (int i = 0; i < equations.length; i++) {
                 Equation equation = equations[i];
-//                System.out.println( "equation = " + equation );
                 String LHS = "";
                 for (int k = 0; k < equation.numCoefficients(); k++) {
                     double coeff = equation.coefficientAt(k);
@@ -494,10 +483,7 @@ public class KirkhoffSolver extends CircuitSolver {
                 if (!LHS.trim().equals("")) {
                     str += "" + i + ": " + equ + "\n";
                 }
-//                System.out.println( "" + i + ": " + equ );
-
             }
-//            System.out.println( str );
             return str;
         }
 

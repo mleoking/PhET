@@ -116,7 +116,6 @@ public class Bulb extends CircuitComponent {
         }
         this.isSchematic = schematic;
         //move junctions, if necessary.
-//        Vector2D delta = null;
         if (schematic) {
             expandToSchematic(this, circuit);
         } else {

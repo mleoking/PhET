@@ -35,7 +35,6 @@ public class TargetReadoutToolNode extends PComposite {
 
     public TargetReadoutToolNode() {
         background = new PhetPPath(new Color(255, 255, 255, 128));
-//        background = new PhetPPath( new Color( 255, 255, 255) );
 
         roundRect = new PhetPPath(boundsStroke, Color.black);
         portHole = new PhetPPath(holeStroke, Color.black);

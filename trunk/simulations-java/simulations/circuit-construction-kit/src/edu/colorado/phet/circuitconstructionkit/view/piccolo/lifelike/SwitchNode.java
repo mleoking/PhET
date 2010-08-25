@@ -67,9 +67,6 @@ public class SwitchNode extends SwitchBodyImageNode {
                         origGrabAngle = getAngle(event);
                         origLeverAngle = switch_.getHandleAngle();
                     }
-//                    System.out.println( "event.getPosition() = " + event.getPosition() );
-//                    System.out.println( "event.getPositionRelativeTo( SwitchNode.this) = " + event.getPositionRelativeTo( SwitchNode.this ) );
-//                    System.out.println( "event.getPositionRelativeTo( SwitchNode.this.getParent) = " + event.getPositionRelativeTo( SwitchNode.this.getParent() ) );
                     double angle = getAngle(event);
                     double dTheta = angle - origGrabAngle;
                     double desiredAngle = origLeverAngle + dTheta;

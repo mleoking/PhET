@@ -5,7 +5,6 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import java.awt.*;
 
 public class CCKLookAndFeel {
-    //    public static final Color COPPER = new Color( Integer.parseInt( "D98719", 16 ) );//new Color(214, 18, 34);
     public static final Color COPPER = new Color(217, 135, 25);
 
     private static Font font;
@@ -27,15 +26,11 @@ public class CCKLookAndFeel {
 
         Font uifont = font1040;
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-//        System.out.println( "d = " + d );
         if (d.width > 1024) {
             uifont = font1280;
-//            System.out.println( "Chose font for width> 1280" );
         } else if (d.width <= 800) {
             uifont = font800;
-//            System.out.println( "Chose font for <=800" );
         } else {
-//            System.out.println( "Chose font for width between 1024" );
         }
         font = uifont;
     }

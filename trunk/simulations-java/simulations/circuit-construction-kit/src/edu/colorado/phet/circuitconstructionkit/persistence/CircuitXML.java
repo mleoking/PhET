@@ -25,7 +25,6 @@ public class CircuitXML {
         Circuit cir = new Circuit(kl);
         for (int i = 0; i < xml.getChildrenCount(); i++) {
             IXMLElement child = xml.getChildAtIndex(i);
-            //            int index = child.getAttribute( "index", -1 );
             if (child.getName().equals("junction")) {
                 String xStr = child.getAttribute("x", "0.0");
                 String yStr = child.getAttribute("y", "0.0");

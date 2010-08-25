@@ -117,7 +117,6 @@ public class MNAAdapter extends CircuitSolver {
                 new ArrayList<LinearCircuitSolver.CurrentSource>(), new ArrayList<DynamicCircuit.ResistiveBattery>(batteries),
                 new ArrayList<DynamicCircuit.DynamicCapacitor>(capacitors), new ArrayList<DynamicCircuit.DynamicInductor>(inductors), new ObjectOrientedMNA());
 
-//        System.out.println("errorThreshold = " + errorThreshold + ", minDT = " + minDT);
         CircuitResult results = dynamicCircuit.solveWithSudbivisions(new TimestepSubdivisions<DynamicCircuit.DynamicState>(errorThreshold, minDT), dt);
         for (ResistiveBatteryAdapter batteryAdapter : batteries) batteryAdapter.applySolution(results);
         for (ResistorAdapter resistorAdapter : resistors) resistorAdapter.applySolution(results);

@@ -172,9 +172,6 @@ public class Path {
         }
         long finalTime = System.currentTimeMillis();
         long dt = finalTime - time;
-//        if ( dt > 0 ) {
-//            System.out.println( "Loop computation time=" + dt + ", num loops=" + all.size() );
-//        }
         return (Path[]) all.toArray(new Path[0]);
     }
 
@@ -210,21 +207,16 @@ public class Path {
     }
 
     private boolean loopEquals(Path path) {
-//        System.out.println( "In loopEquals, this=" + this + ", path = " + path );
         if (equals(path)) {
             return true;
         } else {
             if (path.numPathEntries() != numPathEntries()) {
-//                System.out.println( "Wrong number elements, not equal" );
                 return false;
             } else if (loopEqualsSameDir(path)) {
-//                System.out.println( "Equal in same direction" );
                 return true;
             } else if (loopEqualsOppositeDir(path)) {
-//                System.out.println( "Equal in opposite directions." );
                 return true;
             } else {
-//                System.out.println( "Else not equal" );
                 return false;
             }
         }

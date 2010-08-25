@@ -33,9 +33,4 @@ public class GrabBagResistorNode extends ComponentImageNode {
         super.delete();
         resistor.removeObserver(resistorObserver);
     }
-
-//    protected JPopupMenu createPopupMenu() {
-//        return new ComponentMenu.ResistorMenu( resistor, module );//todo this should have a separate class, not reuse ResistorMenu
-//    }
-
 }

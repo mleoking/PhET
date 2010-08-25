@@ -32,12 +32,6 @@ public class RightClickHelpNode extends PhetPNode {
         addChild(junctionHelpNode);
 
         cckSimulationPanel.addMouseListener(new MouseAdapter() {
-//            public void mouseReleased( MouseEvent e ) {
-//                dragging = false;
-//                update();
-//
-//            }
-
             public void mousePressed(MouseEvent e) {
                 if (e.isMetaDown()) {//check for right click
                     userRightClicked = true;
@@ -46,25 +40,10 @@ public class RightClickHelpNode extends PhetPNode {
                 }
             }
         });
-//        cckSimulationPanel.addMouseMotionListener( new MouseMotionListener() {
-//            public void mouseDragged( MouseEvent e ) {
-//                dragging = true;
-//                update();
-//            }
-//
-//            public void mouseMoved( MouseEvent e ) {
-//                dragging = false;
-//                update();
-//            }
-//        } );
         module.getCircuit().addCircuitListener(new CircuitListenerAdapter() {
             public void selectionChanged() {
                 update();
             }
-
-//            public void branchAdded( Branch branch ) {
-//                everBeenMoreThanOneWire = everBeenMoreThanOneWire || module.getCircuit().getBranches().length >= 2 || ( module.getCircuit().getBranches().length == 1 && !( branch instanceof Wire ) );
-//            }
         });
         update();
     }
@@ -98,10 +77,6 @@ public class RightClickHelpNode extends PhetPNode {
     private boolean isConnectedToSomething(BranchNode follow) {
         return module.getCircuit().getNeighbors(follow.getBranch()).length > 0;
     }
-
-//    private boolean hasThereEverBeenMoreThanOneWire() {
-//        return everBeenMoreThanOneWire;
-//    }
 
     private JunctionNode getFirstSelectedJunction() {
         for (int i = 0; i < cckSimulationPanel.getCircuitNode().getNumJunctionNodes(); i++) {

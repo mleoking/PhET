@@ -41,7 +41,6 @@ public class BulbComponentNode extends ComponentNode {
         addChild(bulbNode);
         model.getCircuitSolver().addSolutionListener(circuitSolutionListener);
         bulbNode.transformBy(AffineTransform.getScaleInstance(2, 2.5));
-//        bulbNode.transformBy( AffineTransform.getScaleInstance( 2*SCALE, 2.5*SCALE ) );
         update();
         runParamTest();
         getHighlightNode().setStroke(new BasicStroke((float) (1.0 / 60.0)));
@@ -101,7 +100,6 @@ public class BulbComponentNode extends ComponentNode {
         frame.setContentPane(contentPane);
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        frame.setVisible( true );
     }
 
     private AffineTransform createTransform() {
@@ -117,7 +115,6 @@ public class BulbComponentNode extends ComponentNode {
         double angle = new ImmutableVector2D(srcpt, endpt).getAngle() + 0.3 + theta;
         transform.rotate(angle, srcpt.getX(), srcpt.getY());
         transform.translate(srcpt.getX(), srcpt.getY());
-//        transform.scale( 0.74, 0.79 );
         transform.scale(0.74 * SCALE, 0.79 * SCALE * 1.15);
         transform.translate(-1.0, -2.3);//todo magic numbers
 
@@ -128,7 +125,6 @@ public class BulbComponentNode extends ComponentNode {
         super.update();
         setTransform(createTransform());
         getHighlightNode().setVisible(false);
-//        bulbNode.setHighlightVisible(bulb.isSelected());
     }
 
 }
