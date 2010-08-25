@@ -183,7 +183,22 @@ public class ParticleInjectorNode extends PNode {
     private void injectParticle(){
 		Particle particleToInject = Particle.createParticle(particleTypeToInject);
 		particleToInject.setPosition(injectionPointInModelCoords);
-		particleToInject.setMotionStrategy(new InjectionMotionStrategy(injectionPointInModelCoords, model, 0));
+		Rectangle2D particleMotionBounds;
+		if (model.getUpperParticleChamberRect().contains( injectionPointInModelCoords )){
+		    particleMotionBounds = model.getUpperParticleChamberRect();
+		}
+		else if (model.getLowerParticleChamberRect().contains( injectionPointInModelCoords )){
+		    particleMotionBounds = model.getLowerParticleChamberRect();
+		}
+		else{
+		    // Should never get here, debug it if it does.
+		    System.err.println();
+		    assert false;
+		    System.err.println( getClass().getName() + " - Error: Particle not in reasonable location." );
+            particleMotionBounds = model.getLowerParticleChamberRect();
+		}
+		
+		particleToInject.setMotionStrategy(new InjectionMotionStrategy(injectionPointInModelCoords, particleMotionBounds, 0));
 		model.injectParticle(particleToInject);
 	}
 	
