@@ -47,9 +47,9 @@ public class ABSConstants {
     public static final DoubleRange WEAK_STRENGTH_RANGE = new DoubleRange( 1E-10, 1E2, 1E-7 );
     public static final double STRONG_STRENGTH = WEAK_STRENGTH_RANGE.getMax() + 1; // arbitrary, but needs to be greater than weak range
     
-    // beaker - all other locations are relative to the beaker location
+    // beaker is at the origin - but all other locations are specified relative to the beaker location
     public static final PDimension BEAKER_SIZE = new PDimension( 700, 540 );
-    public static final Point2D BEAKER_LOCATION = new Point2D.Double( ( BEAKER_SIZE.getWidth() / 2 ) + 150, BEAKER_SIZE.getHeight() + 250 ); // bottom center
+    public static final Point2D BEAKER_LOCATION = new Point2D.Double( 0, 0 );
     
     // pH meter
     public static final Point2D PH_METER_LOCATION = new Point2D.Double( BEAKER_LOCATION.getX() + ( 0.30 * BEAKER_SIZE.getWidth() ), BEAKER_LOCATION.getY() - BEAKER_SIZE.getHeight() - 15 ); // tip
