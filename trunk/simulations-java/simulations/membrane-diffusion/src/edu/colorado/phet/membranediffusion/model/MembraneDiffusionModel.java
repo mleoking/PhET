@@ -233,7 +233,11 @@ public class MembraneDiffusionModel implements IParticleCapture {
     }
     
     public void setGatedSodiumChannelsOpen(boolean open){
-        if (open){
+        // Note that the gates are only opened if the strategy is being used
+        // by one or more channels.  This prevents situations where the user
+        // has opened the gates when none were around, so everything they drag
+        // from the tool box is already opened.
+        if (open && isOpennessStrategyInUse( sodiumChannelOpennessStrategy )){
             sodiumChannelOpennessStrategy.open();
         }
         else{
@@ -242,7 +246,11 @@ public class MembraneDiffusionModel implements IParticleCapture {
     }
     
     public void setGatedPotassiumChannelsOpen(boolean open){
-        if (open){
+        // Note that the gates are only opened if the strategy is being used
+        // by one or more channels.  This prevents situations where the user
+        // has opened the gates when none were around, so everything they drag
+        // from the tool box is already opened.
+        if (open && isOpennessStrategyInUse( potassiumChannelOpennessStrategy )){
             potassiumChannelOpennessStrategy.open();
         }
         else{
@@ -532,8 +540,19 @@ public class MembraneDiffusionModel implements IParticleCapture {
                 }
                 else if (userControlledMembraneChannel == membraneChannel){
                     // This channel was dropped back into the tool box or some
-                    // invalid location.
+                    // invalid location, so we no longer need a reference to
+                    // it.
                     userControlledMembraneChannel = null;
+                }
+                
+                // See if there there are any "dangling" openness strategies
+                // that indicate that a certain class of channels are open
+                // when none of those channels are present.
+                if (potassiumChannelOpennessStrategy.getOpenness() > 0 && !isOpennessStrategyInUse( potassiumChannelOpennessStrategy )){
+                    potassiumChannelOpennessStrategy.close();
+                }
+                if (sodiumChannelOpennessStrategy.getOpenness() > 0 && !isOpennessStrategyInUse( sodiumChannelOpennessStrategy )){
+                    sodiumChannelOpennessStrategy.close();
                 }
             }
         });
@@ -651,6 +670,26 @@ public class MembraneDiffusionModel implements IParticleCapture {
     public boolean isMembraneFull(){
         ArrayList<Point2D> openLocations = getOpenMembraneLocations();
         return openLocations.size() == 0;
+    }
+    
+    /**
+     * Find out if a given instance of an openness strategy is being used by
+     * any of the membrane channels in the model.
+     * 
+     * @param strategy
+     * @return
+     */
+    private boolean isOpennessStrategyInUse( MembraneChannelOpennessStrategy strategy){
+        boolean strategyIsUsed = false;
+        for (MembraneChannel membraneChannel : membraneChannels){
+            if (membraneChannel instanceof GenericMembraneChannel){
+                if (((GenericMembraneChannel)membraneChannel).getOpennessStrategy() == strategy){
+                    strategyIsUsed = true;
+                    break;
+                }
+            }
+        }
+        return strategyIsUsed;
     }
 
     /**
