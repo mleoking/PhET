@@ -3,7 +3,6 @@ package edu.colorado.phet.membranediffusion.model;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
  * A simple motion strategy for moving in a straight line.  This was created
