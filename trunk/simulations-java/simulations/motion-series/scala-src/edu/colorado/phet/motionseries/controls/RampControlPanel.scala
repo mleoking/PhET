@@ -272,7 +272,7 @@ class SubControlPanelTitledBorder(title: String) extends VerticalLayoutPanel {
       g.setColor(oldColor)
     }
   },title){
-    setTitleFont(new PhetFont(PhetFont.getDefaultFontSize + 4,true))
+    setTitleFont(new PhetFont(PhetFont.getDefaultFontSize + 4,true))//Discussion about whether bold is appropriate here is in #2476
     override def paintBorder(c: Component, g: Graphics, x: Int, y: Int, width: Int, height: Int) = {
       g.asInstanceOf[Graphics2D].setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON)
       super.paintBorder(c,g,x,y,width,height)
