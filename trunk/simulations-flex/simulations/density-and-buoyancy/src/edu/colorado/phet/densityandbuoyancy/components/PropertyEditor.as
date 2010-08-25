@@ -49,9 +49,10 @@ public class PropertyEditor extends GridRow {
         
         updateText();
         const listener:Function = function myfunction():void {
-            trace("focused: "+focusManager.getFocus()+", equals text field = "+(focusManager.getFocus()==textField));
-            if (focusManager.getFocus()==textField){//Only update the model if the user is editing the text field, otherwise there are loops that cause errant behavior
-                updateModelFromTextField();
+            if ( focusManager != null ) { //Have to do a null check because it can be null if the component is not in the scene graph?
+                if ( focusManager.getFocus() == textField ) {//Only update the model if the user is editing the text field, otherwise there are loops that cause errant behavior
+                    updateModelFromTextField();
+                }
             }
         };
         
