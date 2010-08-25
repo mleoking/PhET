@@ -242,7 +242,12 @@
         </p>
 
         <pre>pg_dump --clean website_production -h figaro.colorado.edu &gt; postgresql-dump.sql</pre>
-
+        
+        <p>
+            To log in to the website, e.g. for interactive queries, use the following command:
+        </p>
+        <pre>psql -U [username] website</pre>
+        <p>Note that on a local development machine, the password may be something like 'postgres'</p>
 
         <h3>Apache Configuration</h3>
 
