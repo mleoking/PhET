@@ -49,22 +49,12 @@ public class CCKControlPanel extends ControlPanel {
             advancedPanel = new AdvancedControlPanel(module);
         }
 
-        JPanel visualPanel = makeVisualPanel();
-        JPanel toolPanel = null;
-        try {
-            toolPanel = makeToolPanel();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-        JPanel sizePanel = new SizeControlPanel(module);
-
         add(filePanel);
         if (module.getParameters().isUseVisualControlPanel()) {
-            add(visualPanel);
+            add(makeVisualPanel());
         }
-        add(toolPanel);
-        add(sizePanel);
+        add(makeToolPanel());
+        add(new SizeControlPanel(module));
 
         if (debugging) {
             JButton testLifelikeSchematic = new JButton("Test Lifelike/Schematic");
@@ -89,7 +79,6 @@ public class CCKControlPanel extends ControlPanel {
         if (module.getParameters().getAllowDynamics()) {
             addControl(new ResetDynamicsButton(module));
         }
-        addControl(Box.createVerticalStrut(2));
         addResetAllButton(new Resettable() {
             public void reset() {
                 module.resetAll();
@@ -110,99 +99,104 @@ public class CCKControlPanel extends ControlPanel {
         module.addGrabBag();
     }
 
-    private JPanel makeToolPanel() throws IOException {
+    private JPanel makeToolPanel() {
         JPanel toolPanel = new JPanel();
         toolPanel.setLayout(new GridBagLayout());
         GridBagConstraints lhs = new GridBagConstraints(1, 0, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0);
         GridBagConstraints rhs = new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0);
 
-        ImageIcon voltIcon = new ImageIcon(ImageLoader.loadBufferedImage("circuit-construction-kit/images/dvm-thumb.gif"));
-        ImageIcon nonContactAmmIcon = new ImageIcon(ImageLoader.loadBufferedImage("circuit-construction-kit/images/va-thumb.gif"));
-        ImageIcon ammIcon = new ImageIcon(ImageLoader.loadBufferedImage("circuit-construction-kit/images/ammeter60.gif"));
+        try {
+            ImageIcon voltIcon = new ImageIcon(ImageLoader.loadBufferedImage("circuit-construction-kit/images/dvm-thumb.gif"));
+            ImageIcon nonContactAmmIcon = new ImageIcon(ImageLoader.loadBufferedImage("circuit-construction-kit/images/va-thumb.gif"));
+            ImageIcon ammIcon = new ImageIcon(ImageLoader.loadBufferedImage("circuit-construction-kit/images/ammeter60.gif"));
 
-        final JCheckBox voltmeter = new JCheckBox(CCKResources.getString("CCK3ControlPanel.VoltmeterCheckBox"), false);
-        voltmeter.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                module.setVoltmeterVisible(voltmeter.isSelected());
+            final JCheckBox voltmeter = new JCheckBox(CCKResources.getString("CCK3ControlPanel.VoltmeterCheckBox"), false);
+            voltmeter.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    module.setVoltmeterVisible(voltmeter.isSelected());
 
-            }
-        });
+                }
+            });
 
-        final JCheckBox virtualAmmeter = new JCheckBox(CCKResources.getString("CCK3ControlPanel.NonContactAmmeterCheckBox"), false);
-        virtualAmmeter.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                module.setVirtualAmmeterVisible(virtualAmmeter.isSelected());
-            }
-        });
-        seriesAmmeter = new JCheckBox(CCKResources.getString("CCK3ControlPanel.AmmeterCheckBox"), false);
-        seriesAmmeter.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                module.setSeriesAmmeterVisible(seriesAmmeter.isSelected());
-            }
-        });
+            final JCheckBox virtualAmmeter = new JCheckBox(CCKResources.getString("CCK3ControlPanel.NonContactAmmeterCheckBox"), false);
+            virtualAmmeter.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    module.setVirtualAmmeterVisible(virtualAmmeter.isSelected());
+                }
+            });
+            seriesAmmeter = new JCheckBox(CCKResources.getString("CCK3ControlPanel.AmmeterCheckBox"), false);
+            seriesAmmeter.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    module.setSeriesAmmeterVisible(seriesAmmeter.isSelected());
+                }
+            });
 
-        toolPanel.add(voltmeter, rhs);
-        rhs.gridy++;
-
-        toolPanel.add(seriesAmmeter, rhs);
-        rhs.gridy++;
-
-        if (module.getParameters().useNonContactAmmeter()) {
-            toolPanel.add(virtualAmmeter, rhs);
+            toolPanel.add(voltmeter, rhs);
             rhs.gridy++;
-        }
-        lhs.gridy = 0;
-        toolPanel.add(new JLabel(voltIcon), lhs);
-        lhs.gridy++;
-        toolPanel.add(new JLabel(ammIcon), lhs);
-        lhs.gridy++;
-        if (module.getParameters().useNonContactAmmeter()) {
-            toolPanel.add(new JLabel(nonContactAmmIcon), lhs);
-            lhs.gridy++;
-        }
 
-        if (module.getParameters().getAllowDynamics()) {
-            try {
-                ImageIcon timerIcon = new ImageIcon(ImageLoader.loadBufferedImage("circuit-construction-kit/images/stopwatch-thumb.png"));
-                final JCheckBox timerButton = new JCheckBox(CCKStrings.getString("stopwatch"), module.isStopwatchVisible());
-                timerButton.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        module.setStopwatchVisible(timerButton.isSelected());
-                    }
-                });
-                toolPanel.add(new JLabel(timerIcon), lhs);
-                toolPanel.add(timerButton, rhs);
-                lhs.gridy++;
+            toolPanel.add(seriesAmmeter, rhs);
+            rhs.gridy++;
+
+            if (module.getParameters().useNonContactAmmeter()) {
+                toolPanel.add(virtualAmmeter, rhs);
                 rhs.gridy++;
             }
-            catch (IOException e) {
-                e.printStackTrace();
+            lhs.gridy = 0;
+            toolPanel.add(new JLabel(voltIcon), lhs);
+            lhs.gridy++;
+            toolPanel.add(new JLabel(ammIcon), lhs);
+            lhs.gridy++;
+            if (module.getParameters().useNonContactAmmeter()) {
+                toolPanel.add(new JLabel(nonContactAmmIcon), lhs);
+                lhs.gridy++;
             }
 
-            ImageIcon chartIcon = new ImageIcon(ImageLoader.loadBufferedImage("circuit-construction-kit/images/detector-thumb.gif"));
-            toolPanel.add(new JLabel(chartIcon), lhs);
-            JButton floatingChartButton = new JButton(CCKStrings.getString("add.current.chart"));
-            floatingChartButton.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    module.addCurrentChart();
+            if (module.getParameters().getAllowDynamics()) {
+                try {
+                    ImageIcon timerIcon = new ImageIcon(ImageLoader.loadBufferedImage("circuit-construction-kit/images/stopwatch-thumb.png"));
+                    final JCheckBox timerButton = new JCheckBox(CCKStrings.getString("stopwatch"), module.isStopwatchVisible());
+                    timerButton.addActionListener(new ActionListener() {
+                        public void actionPerformed(ActionEvent e) {
+                            module.setStopwatchVisible(timerButton.isSelected());
+                        }
+                    });
+                    toolPanel.add(new JLabel(timerIcon), lhs);
+                    toolPanel.add(timerButton, rhs);
+                    lhs.gridy++;
+                    rhs.gridy++;
                 }
-            });
-            toolPanel.add(floatingChartButton, rhs);
-            rhs.gridy++;
-            lhs.gridy++;
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
 
-            ImageIcon voltageIcon = new ImageIcon(ImageLoader.loadBufferedImage("circuit-construction-kit/images/detector-thumb.gif"));
-            toolPanel.add(new JLabel(chartIcon), lhs);
-            JButton voltageChartButton = new JButton(CCKStrings.getString("add.voltage"));
-            voltageChartButton.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    module.addVoltageChart();
-                }
-            });
-            toolPanel.add(voltageChartButton, rhs);
+                ImageIcon chartIcon = new ImageIcon(ImageLoader.loadBufferedImage("circuit-construction-kit/images/detector-thumb.gif"));
+                toolPanel.add(new JLabel(chartIcon), lhs);
+                JButton floatingChartButton = new JButton(CCKStrings.getString("add.current.chart"));
+                floatingChartButton.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        module.addCurrentChart();
+                    }
+                });
+                toolPanel.add(floatingChartButton, rhs);
+                rhs.gridy++;
+                lhs.gridy++;
+
+                ImageIcon voltageIcon = new ImageIcon(ImageLoader.loadBufferedImage("circuit-construction-kit/images/detector-thumb.gif"));
+                toolPanel.add(new JLabel(chartIcon), lhs);
+                JButton voltageChartButton = new JButton(CCKStrings.getString("add.voltage"));
+                voltageChartButton.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        module.addVoltageChart();
+                    }
+                });
+                toolPanel.add(voltageChartButton, rhs);
+            }
+            toolPanel.setBorder(new CCKTitledBorder(CCKResources.getString("CCK3ControlPanel.ToolsPanelBorder")));
+            return toolPanel;
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
         }
-        toolPanel.setBorder(new CCKTitledBorder(CCKResources.getString("CCK3ControlPanel.ToolsPanelBorder")));
-        return toolPanel;
     }
 
     private JPanel makeVisualPanel() {
@@ -358,10 +352,6 @@ public class CCKControlPanel extends ControlPanel {
         public CCKTitledBorder(String title) {
             super(title);
         }
-    }
-
-    public boolean isSeriesAmmeterSelected() {
-        return seriesAmmeter.isSelected();
     }
 
     static class AdvancedControlPanel extends AdvancedPanel {
