@@ -1,6 +1,6 @@
 /* Copyright 2010, University of Colorado */
 
-package edu.colorado.phet.common.piccolophet.test;
+package edu.umd.cs.piccolox.pswing;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -11,9 +11,6 @@ import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
-
-import edu.umd.cs.piccolox.pswing.PSwing;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
  * Demonstrates a PSwing problem with dynamic JComponents.
@@ -28,7 +25,7 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TestPSwingDynamicComponent extends JFrame {
+public class PSwingDynamicComponentTest extends JFrame {
     
     private static final Dimension FRAME_SIZE = new Dimension( 800, 400 );
     private static final int TEXT_FIELD_COLUMNS = 30;
@@ -36,8 +33,8 @@ public class TestPSwingDynamicComponent extends JFrame {
     private final ComponentPanel swingPanel, piccoloPanel;
     private final JTextField labelTextField, checkBoxTextField, radioButtonTextField;
     
-    public TestPSwingDynamicComponent() {
-        super( TestPSwingDynamicComponent.class.getName() );
+    public PSwingDynamicComponentTest() {
+        super( PSwingDynamicComponentTest.class.getName() );
         setSize( FRAME_SIZE );
         
         // canvas
@@ -216,7 +213,7 @@ public class TestPSwingDynamicComponent extends JFrame {
 //        new SleepThread( 1000 ).start();
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
-                JFrame frame = new TestPSwingDynamicComponent();
+                JFrame frame = new PSwingDynamicComponentTest();
                 frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
                 frame.setVisible( true );
             }
