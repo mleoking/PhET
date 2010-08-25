@@ -230,9 +230,6 @@ public class ParticleInjectorNode extends PNode {
 		private static final Color BACKGROUND_COLOR = new Color(248, 236, 84);
 		private static final Stroke BORDER_STROKE = new BasicStroke(1f);
 		private static final Color BORDER_COLOR = BACKGROUND_COLOR;
-		private static final Stroke CONNECTOR_STROKE = new BasicStroke(8f);
-		private static final Color CONNECTOR_COLOR = BACKGROUND_COLOR;
-		private static final double CONNECTOR_LENGTH = 10;  // In screen coords, which is roughly pixels.
 		private static final ModelViewTransform2D PARTICLE_MVT = new ModelViewTransform2D(
 				new Rectangle2D.Double(-1.0, -1.0, 2.0, 2.0), new Rectangle2D.Double(-10, -10, 20, 20));
 		
@@ -286,15 +283,8 @@ public class ParticleInjectorNode extends PNode {
                     body.getFullBoundsReference().getCenterY() - buttonPanelPSwing.getFullBoundsReference().getHeight() / 2);
 			body.addChild(buttonPanelPSwing);
 			
-			// Create the line that will visually connect this node to the
-			// main injector node.
-			PhetPPath connector = new PhetPPath(new Line2D.Double(0, 0, CONNECTOR_LENGTH, 0), CONNECTOR_STROKE, 
-					CONNECTOR_COLOR);
-			
-			// Add the body and the line that will connect it to the injector node.
-			addChild(connector);
+			// Add the body to the injector node.
 			addChild(body);
-			connector.setOffset(body.getFullBoundsReference().width, body.getFullBoundsReference().height / 2);
 			
 			// Do the final initialization.
 			updateParticleSelectionButtons();
