@@ -6,7 +6,6 @@ import java.awt.Dimension;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
-import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
