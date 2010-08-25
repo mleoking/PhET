@@ -8,7 +8,9 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.membranediffusion.MembraneDiffusionConstants;
 
 /**
- * A gated channel through which sodium passes when the channel is open.
+ * A membrane channel that can be configured at construction with respect
+ * to its appearance, its open/closed behavior, and the particle type that may
+ * pass through it.
  * 
  * @author John Blanco
  */
@@ -34,7 +36,7 @@ public class GenericMembraneChannel extends MembraneChannel {
     // Constructor(s)
     //----------------------------------------------------------------------------
 	
-	public GenericMembraneChannel(IParticleCapture modelContainingParticles, ParticleType particleTypeToCapture,
+    public GenericMembraneChannel(IParticleCapture modelContainingParticles, ParticleType particleTypeToCapture,
 	        Color channelColor, Color edgeColor, MembraneChannelOpennessStrategy opennessStrategy,
 	        Point2D initialPositon) {
 	    
@@ -142,4 +144,8 @@ public class GenericMembraneChannel extends MembraneChannel {
 	protected ParticleType getParticleTypeToCapture() {
 		return particleTypeToCapture;
 	}
+	
+    public MembraneChannelOpennessStrategy getOpennessStrategy() {
+        return opennessStrategy;
+    }
 }
