@@ -30,7 +30,7 @@ public class CCKModule extends PiccoloModule {
     private MeasurementToolSet measurementToolSet;
     private static int delay = 30;//ms
     public static double dt = delay / 1000.0;//simulation units = seconds
-    private CCKViewState viewState=new CCKViewState();
+    private CCKViewState viewState = new CCKViewState();
 
     public CCKModule(String[] args, boolean ac, boolean virtualLab) {
         super("CCK-Piccolo", new SwingClock(delay, dt));

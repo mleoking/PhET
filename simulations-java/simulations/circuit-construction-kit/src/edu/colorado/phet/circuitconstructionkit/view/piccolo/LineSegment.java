@@ -1,7 +1,6 @@
 package edu.colorado.phet.circuitconstructionkit.view.piccolo;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 import java.awt.*;
