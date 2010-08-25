@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.membranediffusion.module.MembraneDiffusionDefaults;
 
 /**
  * A motion strategy for traversing a basic membrane channel, i.e. one that
@@ -17,9 +16,12 @@ import edu.colorado.phet.membranediffusion.module.MembraneDiffusionDefaults;
 public class TraverseChannelMotionStrategy extends MotionStrategy {
 
     private static final double DEFAULT_MAX_VELOCITY = 10; // In nanometers per second of sim time.
-    private static final double POST_TRAVERSAL_WALK_TIME = 
-        MembraneDiffusionDefaults.DEFAULT_MEMBRANE_DIFFUSION_CLOCK_DT * 50;  // In seconds of sim time.
     private static final Random RAND = new Random();
+    
+    // This constant controls the length of time that this strategy continues
+    // to control the particle after the traversal has completed.  It may need
+    // to be adjusted to prevent immediate recapture.
+    private static final double POST_TRAVERSAL_HYSTERESIS_TIME = 1; // In seconds of sim time.
     
 	private Vector2D velocityVector = new Vector2D();
 	private ArrayList<Point2D> traversalPoints;
@@ -91,15 +93,25 @@ public class TraverseChannelMotionStrategy extends MotionStrategy {
 				setCourseForCurrentTraversalPoint(movableModelElement.getPosition());
 				if (currentDestinationIndex == traversalPoints.size()){
 					// We have traversed through all points and are now
-					// presumably on the other side of the membrane, or has
+					// presumably on the other side of the membrane, or have
 				    // reemerged from the side that it went in (i.e. it
-				    // changed direction while in the channel).  Start doing
-				    // a random walk, but keep it as part of this motion
-				    // strategy for now, since we don't want the particle to
-				    // be immediately recaptured by the same channel.
+				    // changed direction while in the channel).  Move linearly
+				    // away from the mouth of the channel in order to
+				    // minimize the chances of being recaptured, but don't
+				    // set a completely new motion strategy, since this
+				    // prevents the particle from appearing to be ready for
+				    // recapture.
 				    channelHasBeenTraversed = true;
-				    postTraversalMotionStrategy = new RandomWalkMotionStrategy( postTraversalMotionBounds );
-				    postTraversalCountdownTimer = POST_TRAVERSAL_WALK_TIME;
+				    // Set a random angle for the new direction.
+				    double newAngle = Math.PI / 2 + (RAND.nextDouble() - 0.5) * Math.PI * 0.75;
+				    if (getInstantaneousVelocity().getAngle() < 0){
+				        // Use the angle, but go down instead.
+				        newAngle = -newAngle;
+				    }
+				    Vector2D newVelocityVector = new Vector2D();
+				    newVelocityVector.setMagnitudeAndAngle( velocityScaler, newAngle );
+				    postTraversalMotionStrategy = new LinearMotionStrategy( newVelocityVector );
+				    postTraversalCountdownTimer = POST_TRAVERSAL_HYSTERESIS_TIME;
 				}
 			}
 		}
