@@ -57,10 +57,12 @@ public class ABSConstants {
     public static final PDimension PH_METER_SHAFT_SIZE = new PDimension( 10, 100 );
     public static final PDimension PH_METER_TIP_SIZE = new PDimension( 25, 60 );
     
-    // pH paper (origin at top center) & color key (origin at upper left)
+    // pH paper, origin at top center
     public static final PDimension PH_PAPER_SIZE = new PDimension( 30, 220 );
     public static final Point2D PH_PAPER_LOCATION = new Point2D.Double( BEAKER_LOCATION.getX() + 170, BEAKER_LOCATION.getY() - BEAKER_SIZE.getHeight() - PH_PAPER_SIZE.getHeight() - 15 );
     public static final boolean PH_PAPER_VISIBLE = false;
+    
+    // pH color key, origin at upper left
     public static final PDimension PH_COLOR_KEY_SIZE = new PDimension( 350, 50 );
     public static final Point2D PH_COLOR_KEY_LOCATION = new Point2D.Double( BEAKER_LOCATION.getX() - ( BEAKER_SIZE.getWidth() / 2 ) + 50, 20 );
     
