@@ -138,7 +138,7 @@ public class MoleculesNode extends PComposite {
         // add nodes
         while ( count > parent.getChildrenCount() ) {
             // create node
-            PImage node = new PImage( molecule.getIcon() );
+            PImage node = new PImage( molecule.getImage() );
             node.setScale( ABSConstants.MAGNIFYING_GLASS_IMAGE_SCALE );
             parent.addChild( node );
             // move to a random location

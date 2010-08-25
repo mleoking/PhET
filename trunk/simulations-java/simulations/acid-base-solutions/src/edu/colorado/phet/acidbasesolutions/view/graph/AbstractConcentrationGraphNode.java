@@ -220,7 +220,7 @@ abstract class AbstractConcentrationGraphNode extends PComposite {
             valueNode.setFormat( format );
             valueNode.setNegligibleEnabled( negligibleEnabled, NEGLIGIBLE_THRESHOLD );
             valueNode.setNegligibleColor( molecule.getColor() );
-            iconNode.setImage( molecule.getIcon() );
+            iconNode.setImage( molecule.getImage() );
             symbolNode.setHTML( molecule.getSymbol() );
             updateLayout();
         }
