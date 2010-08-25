@@ -162,10 +162,6 @@ public abstract class ToolBoxItem extends PComposite {
 		addChild(selectionNode);
 	}
 	
-	protected PNode getSelectionNode(){
-		return selectionNode;
-	}
-	
 	protected void setCaption(String captionString){
 		caption = new HTMLNode(captionString);
 		caption.setFont(LABEL_FONT);
