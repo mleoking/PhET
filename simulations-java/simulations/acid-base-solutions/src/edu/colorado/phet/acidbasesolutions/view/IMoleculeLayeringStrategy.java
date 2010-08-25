@@ -14,7 +14,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 public interface IMoleculeLayeringStrategy {
     
-    public void setRenderingOrder( PNode parentHA, PNode parentA, PNode parentH3O, PNode parentOH, PNode parentH2O );
+    public void setRenderingOrder( PNode parentReactant, PNode parentProduct, PNode parentH3O, PNode parentOH, PNode parentH2O );
     
     /**
      * Layering strategy is fix, back-to-front order is: H2O reactant product H3O OH 
@@ -36,8 +36,8 @@ public interface IMoleculeLayeringStrategy {
      */
     public static class SortedMoleculeLayeringStrategy implements IMoleculeLayeringStrategy {
 
-        public void setRenderingOrder( PNode parentHA, PNode parentA, PNode parentH3O, PNode parentOH, PNode parentH2O ) {
-            PNode[] dotParents = new PNode[] { parentHA, parentA, parentH3O, parentOH };
+        public void setRenderingOrder( PNode parentReactant, PNode parentProduct, PNode parentH3O, PNode parentOH, PNode parentH2O ) {
+            PNode[] dotParents = new PNode[] { parentReactant, parentProduct, parentH3O, parentOH };
             Arrays.sort( dotParents, new ChildrenCountComparator() );
             for ( int i = 0; i < dotParents.length; i++ ) {
                 dotParents[i].moveToBack();
