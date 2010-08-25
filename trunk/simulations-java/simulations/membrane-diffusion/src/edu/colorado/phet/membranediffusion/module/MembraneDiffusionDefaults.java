@@ -2,8 +2,6 @@
 
 package edu.colorado.phet.membranediffusion.module;
 
-import java.awt.Dimension;
-
 import edu.umd.cs.piccolo.util.PDimension;
 
 
