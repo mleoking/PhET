@@ -21,7 +21,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class ConcentrationYAxisNode extends PComposite {
+/* package private */ class ConcentrationYAxisNode extends PComposite {
     
     // axes
     private static final Font AXIS_LABEL_FONT = new PhetFont( 16 );

@@ -27,7 +27,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-abstract class AbstractConcentrationGraphNode extends PComposite {
+/* package private */ abstract class AbstractConcentrationGraphNode extends PComposite {
 
     //----------------------------------------------------------------------------
     // Class data
