@@ -18,7 +18,6 @@ public class CCKPhetLookAndFeel extends PhetLookAndFeel {
     public CCKPhetLookAndFeel() {
         setBackgroundColor(cckBackground);
         setFont(new PhetFont(Font.BOLD, 13));
-        setTitledBorderFont(new PhetFont(Font.BOLD, 12));
         setTabFont(new PhetFont(Font.BOLD, 14));
     }
 
