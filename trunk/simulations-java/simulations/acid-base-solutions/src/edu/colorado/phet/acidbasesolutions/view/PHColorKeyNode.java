@@ -21,6 +21,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * Displays a color key for the pH paper.
  * Shows a set of discrete colors, one for each integer value of pH.
  * This is similar to the color charts that come with real pH paper.
+ * Origin at upper left.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
