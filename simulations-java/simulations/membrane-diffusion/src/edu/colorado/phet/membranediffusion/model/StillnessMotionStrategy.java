@@ -1,7 +1,6 @@
 package edu.colorado.phet.membranediffusion.model;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
  * Motion strategy that does not do any motion, i.e. just leaves the model
