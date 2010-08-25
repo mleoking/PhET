@@ -149,18 +149,6 @@ public abstract class MembraneChannel {
 	}
 	
 	/**
-	 * TODO: This is a temp routine for debug.
-	 */
-	public Shape getChannelTestShape(){
-		Shape channelShape = new Rectangle2D.Double(
-				centerLocation.getX() - channelSize.getHeight() / 2,
-				centerLocation.getY() - channelSize.getWidth() / 2,
-				channelSize.getHeight(),
-				channelSize.getWidth());
-		return channelShape;
-	}
-	
-	/**
 	 * Implements the time-dependent behavior of the gate.
 	 * 
 	 * @param dt - Amount of time step, in milliseconds.

@@ -97,16 +97,6 @@ public abstract class Particle implements IMovable {
         notifyPositionChanged();
     }
     
-    /**
-     * This method is intended to be used by a motion strategy that is moving
-     * this particle across a membrane.  It tells the particle that the
-     * traversal is complete so that the particle can let other interested
-     * parties know.
-     */
-    public void membraneChannelTraversalCompleted(){
-        notifyMembraneChannelTraversalCompleted();
-    }
-    
     protected boolean isAvailableForCapture() {
     	// If the particle is not in the process of trying to traverse a
     	// membrane channel, then it should be considered to be available for

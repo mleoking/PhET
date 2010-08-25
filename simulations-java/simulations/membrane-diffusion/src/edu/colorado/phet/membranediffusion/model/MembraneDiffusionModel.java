@@ -563,45 +563,6 @@ public class MembraneDiffusionModel implements IParticleCapture {
     }
     
     /**
-     * Add a membrane channel.  It is assumed that the channel is under user
-     * control, i.e. the user is dragging it from the tool box.
-     * 
-     * @param membraneChannel
-     */
-    public void addUserControlledMembraneChannel(final MembraneChannel membraneChannel){
-    	assert membraneChannel != null && membraneChannel.isUserControlled();
-    	userControlledMembraneChannel = membraneChannel;
-    	membraneChannel.addListener( new MembraneChannel.Adapter(){
-            @Override
-            public void userControlledStateChanged() {
-                if (membraneChannel.isUserControlled()){
-                    // The user has grabbed this channel.
-                    membraneChannels.remove( membraneChannel );
-                    userControlledMembraneChannel = membraneChannel;
-                }
-                else{
-                    // The user has released this channel.
-                    releaseUserControlledMembraneChannel();
-                }
-            }
-            
-            @Override
-            public void removed() {
-                if (membraneChannels.contains( membraneChannel )){
-                    // Take this channel off of the list of membrane channels.
-                    membraneChannels.remove(membraneChannel);
-                }
-                else if (userControlledMembraneChannel == membraneChannel){
-                    // This channel was dropped back into the tool box or some
-                    // invalid location.
-                    userControlledMembraneChannel = null;
-                }
-            }
-    	});
-    	notifyChannelAdded(membraneChannel);
-    }
-    
-    /**
      * Release the membrane channel that is currently controlled (i.e. being
      * moved) by the user.  If the user released it within the bounds of the
      * particle chamber and there is a space on the membrane for it, it is

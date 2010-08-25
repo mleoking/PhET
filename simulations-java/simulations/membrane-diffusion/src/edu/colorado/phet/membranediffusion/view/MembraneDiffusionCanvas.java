@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.membranediffusion.MembraneDiffusionConstants;
 import edu.colorado.phet.membranediffusion.model.MembraneChannel;
 import edu.colorado.phet.membranediffusion.model.MembraneDiffusionModel;
 import edu.colorado.phet.membranediffusion.model.Particle;
@@ -74,7 +75,7 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
         		8,  // Scale factor - smaller numbers "zoom out", bigger ones "zoom in".
         		true);
 
-        setBackground( Color.BLACK );
+        setBackground( MembraneDiffusionConstants.CANVAS_BACKGROUND );
         
         // Listen to the model for events that the canvas needs to know about.
         model.addListener(new MembraneDiffusionModel.Adapter(){
