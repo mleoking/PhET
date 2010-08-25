@@ -227,7 +227,7 @@ public class ParticleInjectorNode extends PNode {
 	 */
 	private static class ParticleTypeSelectorNode extends PNode {
 		
-		private static final Color BACKGROUND_COLOR = new Color(248, 236, 84);
+		private static final Color BACKGROUND_COLOR = new Color(234, 228, 77);
 		private static final Stroke BORDER_STROKE = new BasicStroke(1f);
 		private static final Color BORDER_COLOR = BACKGROUND_COLOR;
 		private static final ModelViewTransform2D PARTICLE_MVT = new ModelViewTransform2D(
