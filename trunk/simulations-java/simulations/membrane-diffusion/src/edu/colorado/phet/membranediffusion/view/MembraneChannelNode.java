@@ -18,7 +18,6 @@ import javax.swing.Timer;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.membranediffusion.model.CaptureZone;
 import edu.colorado.phet.membranediffusion.model.MembraneChannel;
@@ -235,6 +234,7 @@ public class MembraneChannelNode extends PNode {
 	public void startRemovalAnimation(){
 	    // Create the animation timer in order to initiate the animation.
 	    removalAnimationTimer = new RemovalAnimationTimer( this );
+	    removalAnimationTimer.start();
 	}
 	
 	private PPath createEdgeNode(Dimension2D size, Color color){
@@ -327,8 +327,6 @@ public class MembraneChannelNode extends PNode {
 	    
 	    private static final double DISTANCE_MOVED_PER_ANIMATION_STEP = 20;
 
-	    private static final double SHRINKAGE_RATE = 0.80;   // Amount of size change per timer firing, smaller number
-	    
 	    private enum AnimationStage { MOVING_BACK_TO_TOOL_BOX, SHRINKING };
 	    
 	    private AnimationStage animationStage = AnimationStage.MOVING_BACK_TO_TOOL_BOX; 
@@ -371,9 +369,6 @@ public class MembraneChannelNode extends PNode {
                     }
                 }
             });
-            
-            // Start the timer running.
-            start();
         }
 	}
 	
