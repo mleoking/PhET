@@ -72,6 +72,7 @@ public class PhetTitledBorder extends TitledBorder {
 
     @Override
     public void paintBorder( Component c, Graphics g, int x, int y, int width, int height ) {
+        //Overrides to add antialiasing, otherwise looks terrible on Windows
         Graphics2D g2 = (Graphics2D) g;
         Object oldAntialiasHint = g2.getRenderingHint( RenderingHints.KEY_ANTIALIASING );
         g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
@@ -84,11 +85,9 @@ public class PhetTitledBorder extends TitledBorder {
             super( Color.black, 1, true );
         }
 
-        /*Overrides paintBorder to round the corners and curve the edges
-         */
-
         @Override
         public void paintBorder( Component c, Graphics g, int x, int y, int width, int height ) {
+            //Overrides to add antialiasing (otherwise looks terrible on Windows) and to curve the edges
             Graphics2D g2 = (Graphics2D) g;
             Object oldAntialiasHint = g2.getRenderingHint( RenderingHints.KEY_ANTIALIASING );
             Color oldColor = g2.getColor();
@@ -100,6 +99,11 @@ public class PhetTitledBorder extends TitledBorder {
         }
     }
 
+    /**
+     * This sample main demonstrates usage of the PhetTitledBorder
+     *
+     * @param args not used
+     */
     public static void main( String[] args ) {
         JFrame frame = new JFrame( "Test" );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
