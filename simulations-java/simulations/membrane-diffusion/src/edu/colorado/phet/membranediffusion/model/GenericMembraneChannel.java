@@ -49,8 +49,8 @@ public class GenericMembraneChannel extends MembraneChannel {
 	    
 	    // Set up the capture zones that define where particles may be
 	    // captured in order to move them across the membrane.
-		setUpperCaptureZone(new PieSliceShapedCaptureZone(getCenterLocation(), CHANNEL_WIDTH * 3.5, -Math.PI / 2, Math.PI * 0.3));
-		setLowerCaptureZone(new PieSliceShapedCaptureZone(getCenterLocation(), CHANNEL_WIDTH * 3.5, Math.PI / 2, Math.PI * 0.3));
+		setUpperCaptureZone(new PieSliceShapedCaptureZone(getCenterLocation(), CHANNEL_WIDTH * 4, -Math.PI / 2, Math.PI * 0.3));
+		setLowerCaptureZone(new PieSliceShapedCaptureZone(getCenterLocation(), CHANNEL_WIDTH * 4, Math.PI / 2, Math.PI * 0.3));
 		
 		// Initialize the openness level.
 		setOpenness( opennessStrategy.getOpenness() );
