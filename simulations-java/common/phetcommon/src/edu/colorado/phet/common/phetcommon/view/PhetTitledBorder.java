@@ -13,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 /**
  * This is the default Border to be used in subsections of the control panel in phet simulations.
  * It provides the proper font and font style, and provides antialiasing and curved edges for the border.
- * See ticket #2476: https://phet.unfuddle.com/a#/projects/9404/tickets/by_number/2476 
+ * See ticket #2476: https://phet.unfuddle.com/a#/projects/9404/tickets/by_number/2476
  *
  * @author Sam Reid
  * @author Chris Malley
@@ -38,6 +38,8 @@ public class PhetTitledBorder extends TitledBorder {
         super( new PhetLineBorder(), title, titleJustification, titlePosition, titleFont, titleColor );
         init();
     }
+
+    //The following methods allow the client to specify an underlying border other than the default line border
 
     public PhetTitledBorder( Border border ) {
         super( border );
