@@ -6,11 +6,8 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.membranediffusion.model.GenericMembraneChannel;
 import edu.colorado.phet.membranediffusion.model.MembraneChannel;
-import edu.colorado.phet.membranediffusion.model.MembraneChannelTypes;
 import edu.colorado.phet.membranediffusion.model.MembraneDiffusionModel;
-import edu.umd.cs.piccolo.PNode;
 
 /**
  * Node that goes in the membrane channel tool box and allows users to add
