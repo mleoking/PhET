@@ -10,7 +10,6 @@ import edu.colorado.phet.acidbasesolutions.model.MagnifyingGlass.MagnifyingGlass
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
 import edu.colorado.phet.acidbasesolutions.view.IMoleculeCountStrategy.ConcentrationMoleculeCountStrategy;
 import edu.colorado.phet.acidbasesolutions.view.IMoleculeCountStrategy.ConstantMoleculeCountStrategy;
-import edu.colorado.phet.acidbasesolutions.view.IMoleculeLayeringStrategy.FixedMoleculeLayeringStrategy;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -26,7 +25,6 @@ public class MoleculesNode extends PComposite {
     
     private final MoleculeImageParentNode parentReactant, parentProduct, parentH3O, parentOH, parentH2O;
     private final IMoleculeCountStrategy moleculeCountStrategy, h2oCountStrategy;
-    private final IMoleculeLayeringStrategy layeringStrategy;
     
     private int maxMolecules, maxH2O;
     private int countReactant, countProduct, countH3O, countOH, countH2O;
@@ -55,7 +53,6 @@ public class MoleculesNode extends PComposite {
         this.moleculeCountStrategy = new ConcentrationMoleculeCountStrategy();
         this.h2oCountStrategy = new ConstantMoleculeCountStrategy();
         this.imageScale = ABSConstants.MAGNIFYING_GLASS_IMAGE_SCALE;
-        this.layeringStrategy = new FixedMoleculeLayeringStrategy();
         
         this.magnifyingGlass = magnifyingGlass;
         magnifyingGlass.addSolutionRepresentationChangeListener( new SolutionRepresentationChangeAdapter() {
@@ -88,7 +85,7 @@ public class MoleculesNode extends PComposite {
         parentOH = new MoleculeImageParentNode();
         parentH2O = new MoleculeImageParentNode();
         
-        // rendering order will be modified later based on strategy
+        // rendering order (back-to-front) is: H2O reactant product H3O OH
         addChild( parentH2O );
         addChild( parentReactant );
         addChild( parentProduct );
@@ -218,7 +215,6 @@ public class MoleculesNode extends PComposite {
         countOH = moleculeCountStrategy.getNumberOfMolecules( solution.getOHConcentration(), maxMolecules );
         countH2O = h2oCountStrategy.getNumberOfMolecules( solution.getH2OConcentration(), maxH2O );
         updateMoleculeNodes();
-        layeringStrategy.setRenderingOrder( parentReactant, parentProduct, parentH3O, parentOH, parentH2O );
     }
     
     /*
