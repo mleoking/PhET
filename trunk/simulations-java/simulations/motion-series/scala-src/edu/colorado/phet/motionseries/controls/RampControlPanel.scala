@@ -4,7 +4,6 @@ import edu.colorado.phet.common.phetcommon.model.Resettable
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import edu.colorado.phet.common.phetcommon.view.util.{BufferedImageUtils, PhetFont}
-import edu.colorado.phet.common.phetcommon.view.{ControlPanel, VerticalLayoutPanel}
 import edu.colorado.phet.motionseries.graphics._
 import java.awt._
 import java.awt.geom._
@@ -24,6 +23,7 @@ import edu.umd.cs.piccolo.PNode
 import edu.umd.cs.piccolox.pswing.{PSwingCanvas, PSwing}
 import edu.colorado.phet.common.phetcommon.math.MathUtil
 import java.awt.event.{MouseEvent, MouseAdapter}
+import edu.colorado.phet.common.phetcommon.view.{PhetTitledBorder, ControlPanel, VerticalLayoutPanel}
 
 class RampControlPanel(model: MotionSeriesModel,
                        freeBodyDiagramModel: FreeBodyDiagramModel,
@@ -263,21 +263,7 @@ class SubControlPanelRaisedBevelBorder(title: String) extends VerticalLayoutPane
 
 //Test version that uses CM's recommended borders from Acid Base Solutions
 class SubControlPanelTitledBorder(title: String) extends VerticalLayoutPanel {
-  setBorder(new TitledBorder(new LineBorder(Color.BLACK, 1,true){
-    override def paintBorder(c: Component, g: Graphics, x: Int, y: Int, width: Int, height: Int) = {
-      g.asInstanceOf[Graphics2D].setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON)
-      val oldColor = g.getColor
-      g.setColor(Color.black)
-      g.drawRoundRect(x , y , width - 1, height - 1, 8,8)
-      g.setColor(oldColor)
-    }
-  },title){
-    setTitleFont(new PhetFont(PhetFont.getDefaultFontSize + 4,true))//Discussion about whether bold is appropriate here is in #2476
-    override def paintBorder(c: Component, g: Graphics, x: Int, y: Int, width: Int, height: Int) = {
-      g.asInstanceOf[Graphics2D].setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON)
-      super.paintBorder(c,g,x,y,width,height)
-    }
-  })
+  setBorder(new PhetTitledBorder(title))
 }
 
 class TitleLabel(label: String) extends JLabel(label) {
