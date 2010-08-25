@@ -42,9 +42,13 @@ public class ControlPanel extends JPanel {
         scrollPolicy = new DefaultScrollPolicy( contentPanel );
         scrollPane = new JScrollPane( contentPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                                       JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+        //Sets the scroll pane border to null so that no borders are shown on the scroll pane in Windows UIManager 
+        // (looked like they weren't shown on Mac).  
+        // The scroll pane border looked awkward when combined with the titled border components in the control panel.  See #2471
+        scrollPane.setBorder( null );
         add( scrollPane, BorderLayout.CENTER );
 
-        // Macintosh fix
+        // Macintosh fix, not sure exactly what this does (see #2471 for related comments)
         {
             scrollPane.setOpaque( false );
             scrollPane.getViewport().setOpaque( false );
