@@ -111,12 +111,24 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
         buttonPanel.add(potassiumGatedChannelControlButton);
 
         // Add the button panel to the control panel.
-        addControlFullWidth(createVerticalSpacingPanel(20));
+        addControlFullWidth(createVerticalSpacingPanel(15));
         addControl(buttonPanel);
+        
+        // Add a button for removing all particles.
+        addControl(createVerticalSpacingPanel(15));
+        JPanel clearButtonPanel = new JPanel();
+        JButton removeAllParticlesButton = new JButton("Clear Particles");
+        removeAllParticlesButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                model.removeAllParticles();
+            }
+        });
+        clearButtonPanel.add( removeAllParticlesButton );
+        addControlFullWidth(clearButtonPanel);
         
         // Add the check box for hiding/showing the concentration graphs.  It
         // is in its own panel so that it can be centered.
-        addControlFullWidth(createVerticalSpacingPanel(30));
+        addControlFullWidth(createVerticalSpacingPanel(15));
         JPanel checkBoxPanel = new JPanel();
         // TODO: i18n
         showConcentrationsCheckBox = new JCheckBox("Show Concentrations");
@@ -131,20 +143,8 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
         addControlFullWidth(checkBoxPanel);
         updateConcentrationsCheckBoxState();
         
-        // Add a button for removing all particles.
-        addControl(createVerticalSpacingPanel(40));
-        JPanel clearButtonPanel = new JPanel();
-        JButton removeAllParticlesButton = new JButton("Remove Particles");
-        removeAllParticlesButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                model.removeAllParticles();
-            }
-        });
-        clearButtonPanel.add( removeAllParticlesButton );
-        addControlFullWidth(clearButtonPanel);
-        
         // Add the reset all button.
-        addControlFullWidth(createVerticalSpacingPanel(20));
+        addControlFullWidth(createVerticalSpacingPanel(50));
         addResetAllButton( module );
     }
     
