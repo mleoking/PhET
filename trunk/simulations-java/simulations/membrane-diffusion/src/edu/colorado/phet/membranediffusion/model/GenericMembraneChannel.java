@@ -110,7 +110,7 @@ public class GenericMembraneChannel extends MembraneChannel {
 
 	    case SODIUM_LEAKAGE_CHANNEL:
 	        channelColor = MembraneDiffusionConstants.SODIUM_LEAKAGE_CHANNEL_COLOR;
-	        edgeColor = MembraneDiffusionConstants.SODIUM_GATED_EDGE_COLOR;
+	        edgeColor = MembraneDiffusionConstants.SODIUM_LEAKAGE_EDGE_COLOR;
 	        particleType = ParticleType.SODIUM_ION;
 	        opennessStrategy = new ChannelAlwaysOpenStrategy();
 	        break;
