@@ -1,7 +1,6 @@
 package edu.colorado.phet.circuitconstructionkit.view;
 
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,8 +16,6 @@ public class CCKPhetLookAndFeel extends PhetLookAndFeel {
 
     public CCKPhetLookAndFeel() {
         setBackgroundColor(cckBackground);
-        setFont(new PhetFont(Font.BOLD, 13));
-        setTabFont(new PhetFont(Font.BOLD, 14));
     }
 
     protected String getLookAndFeelClassName() {

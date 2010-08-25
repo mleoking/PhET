@@ -1,3 +1,5 @@
+Switched to use PhetTitledBorder
+Changed control panel fonts to default for consistency with other sims and to get rid of new vertical scroll bar
 Converted to checkboxes instead of buttons for show values
 Switched to standard reset all button
 # 3.19.00 (41978) Jun 28, 2010

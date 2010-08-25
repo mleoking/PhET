@@ -57,11 +57,10 @@ public class SizeControlPanel extends VerticalLayoutPanel {
         zoomGroup.add(large);
         zoomGroup.add(medium);
         zoomGroup.add(small);
-        this.add(large);
-        this.add(medium);
-        this.add(small);
+        add(large);
+        add(medium);
+        add(small);
         setBorder(new CCKControlPanel.CCKTitledBorder(CCKResources.getString("CCK3ControlPanel.SizePanelBorder")));
-
     }
 
     private void zoom(double scale) {
