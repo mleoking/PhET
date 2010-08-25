@@ -19,6 +19,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Reaction equation for solutions.
+ * Origin at top center.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
