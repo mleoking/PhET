@@ -1,3 +1,4 @@
+8/25/10 change Molecule.getIcon to Molecule.getImage (it returns an Image, not an Icon)
 8/25/10 simplify implementation of MoleculesNode, there was a lot of stuff in here to support unneeded dev controls
 8/25/10 delete rendering order strategy for molecules in magnifying glass, we decided on one implementation
 8/25/10 clean up constants related to magnifying glass view

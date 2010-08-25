@@ -19,13 +19,13 @@ public abstract class Molecule {
 
     private final String name;
     private final String symbol; // chemical symbol
-    private final Image icon; // icon used to visually represent the molecule
+    private final Image image; // image used to visually represent the molecule
     private final Color color; // color used in label, bar charts, etc.
     
-    public Molecule( String name, String symbol, Image icon, Color color ) {
+    public Molecule( String name, String symbol, Image image, Color color ) {
         this.name = name;
         this.symbol = symbol;
-        this.icon = icon;
+        this.image = image;
         this.color = color;
     }
     
@@ -44,8 +44,8 @@ public abstract class Molecule {
         return symbol;
     }
     
-    public Image getIcon() {
-        return icon;
+    public Image getImage() {
+        return image;
     }
     
     public Color getColor() {

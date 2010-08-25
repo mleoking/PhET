@@ -95,28 +95,28 @@ public class ReactionEquationNode extends PComposite {
             symbolLHS1 = new SymbolNode( "2" + solution.getWaterMolecule().getSymbol() );
             imageLHS2 = null;
             symbolLHS2 = null;
-            imageRHS1 = new PImage( solution.getH3OMolecule().getIcon() );
+            imageRHS1 = new PImage( solution.getH3OMolecule().getImage() );
             symbolRHS1 = new SymbolNode( solution.getH3OMolecule().getSymbol() );
-            imageRHS2 = new PImage( solution.getOHMolecule().getIcon() );
+            imageRHS2 = new PImage( solution.getOHMolecule().getImage() );
             symbolRHS2 = new SymbolNode( solution.getOHMolecule().getSymbol() );
         }
         else {
-            imageLHS1 = new PImage( solution.getSolute().getIcon() );
+            imageLHS1 = new PImage( solution.getSolute().getImage() );
             symbolLHS1 = new SymbolNode( solution.getSolute().getSymbol() );
             if ( isAcid ) {
-                imageLHS2 = new PImage( solution.getWaterMolecule().getIcon() );
+                imageLHS2 = new PImage( solution.getWaterMolecule().getImage() );
                 symbolLHS2 = new SymbolNode( solution.getWaterMolecule().getSymbol() );
-                imageRHS1 = new PImage( solution.getProduct().getIcon() );
+                imageRHS1 = new PImage( solution.getProduct().getImage() );
                 symbolRHS1 = new SymbolNode( solution.getProduct().getSymbol() );
-                imageRHS2 = new PImage( solution.getH3OMolecule().getIcon() );
+                imageRHS2 = new PImage( solution.getH3OMolecule().getImage() );
                 symbolRHS2 = new SymbolNode( solution.getH3OMolecule().getSymbol() );
             }
             else {
-                imageLHS2 = isStrong ? null : new PImage( solution.getWaterMolecule().getIcon() );
+                imageLHS2 = isStrong ? null : new PImage( solution.getWaterMolecule().getImage() );
                 symbolLHS2 = isStrong ? null : new SymbolNode( solution.getWaterMolecule().getSymbol() );
-                imageRHS1 = new PImage( solution.getProduct().getIcon() );
+                imageRHS1 = new PImage( solution.getProduct().getImage() );
                 symbolRHS1 = new SymbolNode( solution.getProduct().getSymbol() );
-                imageRHS2 = new PImage( solution.getOHMolecule().getIcon() );
+                imageRHS2 = new PImage( solution.getOHMolecule().getImage() );
                 symbolRHS2 = new SymbolNode( solution.getOHMolecule().getSymbol() );
             }
         }
@@ -195,8 +195,8 @@ public class ReactionEquationNode extends PComposite {
     private static Image create2H2OImage() {
         WaterMolecule waterMolecule = new WaterMolecule();
         // create 2 identical image nodes
-        PImage node1 = new PImage( waterMolecule.getIcon() );
-        PImage node2 = new PImage( waterMolecule.getIcon() );
+        PImage node1 = new PImage( waterMolecule.getImage() );
+        PImage node2 = new PImage( waterMolecule.getImage() );
         // give them a common parent
         PComposite parent = new PComposite();
         parent.addChild( node1 );
