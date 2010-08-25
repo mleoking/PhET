@@ -4,6 +4,7 @@ package edu.colorado.phet.membranediffusion.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Stroke;
 import java.awt.event.ActionEvent;
@@ -128,7 +129,7 @@ public class ParticleInjectorNode extends PNode {
         // Add the node that allows control of the type of particle to inject.
         particleTypeSelector = new ParticleTypeSelectorNode(INJECTOR_HEIGHT * 0.6, initialParticleType, this);
         particleTypeSelector.setOffset(
-        	injectorNode.getFullBoundsReference().getMinX() - particleTypeSelector.getFullBoundsReference().width + 5,
+        	injectorNode.getFullBoundsReference().getMinX() - particleTypeSelector.getFullBoundsReference().width / 2 - 5,
         	injectorNode.getFullBoundsReference().getCenterY() - particleTypeSelector.getFullBoundsReference().height / 2);
         addChild(particleTypeSelector);
         
@@ -262,9 +263,16 @@ public class ParticleInjectorNode extends PNode {
             buttonGroup.add( sodiumButton );
             buttonGroup.add( potassiumButton );
             
-		    JPanel buttonPanel = new VerticalLayoutPanel();
+		    JPanel buttonPanel = new JPanel();
+		    buttonPanel.setLayout( new GridLayout(2, 2 ) );
 		    buttonPanel.add( sodiumButtonPanel );
+		    JPanel spacerPanel1 = new JPanel();
+		    spacerPanel1.setBackground( BACKGROUND_COLOR );
+		    buttonPanel.add( spacerPanel1 );
 		    buttonPanel.add( potassiumButtonPanel );
+            JPanel spacerPanel2 = new JPanel();
+            spacerPanel2.setBackground( BACKGROUND_COLOR );
+		    buttonPanel.add( spacerPanel2 );
 		    
 		    PSwing buttonPanelPSwing = new PSwing( buttonPanel );
 		    
@@ -274,7 +282,7 @@ public class ParticleInjectorNode extends PNode {
 			double bodyHeight = height;
 			double bodyWidth = buttonPanelPSwing.getFullBoundsReference().width * 1.2;
             PhetPPath body = new PhetPPath(new RoundRectangle2D.Double(0, 0, bodyWidth,
-                    bodyHeight, 14, 14), BACKGROUND_COLOR, BORDER_STROKE, BORDER_COLOR);
+                    bodyHeight, 30, 30), BACKGROUND_COLOR, BORDER_STROKE, BORDER_COLOR);
 			
 			// Put the particle selection buttons on the tag.
             buttonPanelPSwing.setOffset( 
