@@ -12,9 +12,7 @@ import java.awt.event.MouseEvent;
 import java.text.MessageFormat;
 
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
 
-import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.constants.ABSImages;
 import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel;
@@ -31,6 +29,7 @@ import edu.colorado.phet.acidbasesolutions.model.StrongBaseSolution.TestStrongBa
 import edu.colorado.phet.acidbasesolutions.model.WeakAcidSolution.TestWeakAcidSolution;
 import edu.colorado.phet.acidbasesolutions.model.WeakBaseSolution.TestWeakBaseSolution;
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.PhetTitledBorder;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -52,12 +51,7 @@ public class FixedSolutionControls extends JPanel {
     public FixedSolutionControls( ABSModel model ) {
         
         // border
-        {
-            TitledBorder titledBorder = new TitledBorder( ABSStrings.SOLUTIONS );
-            titledBorder.setTitleFont( ABSConstants.TITLED_BORDER_FONT );
-            titledBorder.setBorder( ABSConstants.TITLE_BORDER_BORDER );
-            setBorder( titledBorder );
-        }
+        setBorder( new PhetTitledBorder( ABSStrings.SOLUTIONS ) );
         
         // model
         {
