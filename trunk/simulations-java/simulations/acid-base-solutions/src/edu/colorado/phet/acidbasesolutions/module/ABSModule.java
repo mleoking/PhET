@@ -11,7 +11,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class ABSModule extends PiccoloModule {
+/* package private */ abstract class ABSModule extends PiccoloModule {
 
     public ABSModule( String name ) {
         super( name, new ConstantDtClock( 40, 1 ), true /* startsPaused */ );
