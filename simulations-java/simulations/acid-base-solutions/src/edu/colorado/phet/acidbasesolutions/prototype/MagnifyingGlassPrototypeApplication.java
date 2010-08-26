@@ -17,6 +17,8 @@ import edu.umd.cs.piccolo.PCanvas;
  * needed, what order they should be rendered in, how big the magnifying glass needed to be,
  * etc. (see control panel for other properties)
  * <p>
+ * This prototype addressed weak acids only, no other solutions.
+ * <p>
  * This work informed the implementation of the MagnifyingGlassNode and associated
  * classes in the final simulation.
  *
