@@ -56,8 +56,8 @@ public class CustomSolutionModule extends ABSModule {
         public CustomSolutionControlPanel( Resettable resettable, ABSModel model ) {
             setInsets( new Insets( 2, 5, 2, 5 ) );
             addControlFullWidth( new CustomSolutionControls( model ) );
-            addControlFullWidth( new ViewControls( model ) );
             addControlFullWidth( new TestControls( model ) );
+            addControlFullWidth( new ViewControls( model ) );
             addResetAllButton( resettable );
         }
     }
