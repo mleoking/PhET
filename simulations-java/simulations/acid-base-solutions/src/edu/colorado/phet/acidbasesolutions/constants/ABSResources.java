@@ -4,9 +4,7 @@ package edu.colorado.phet.acidbasesolutions.constants;
 
 import java.awt.image.BufferedImage;
 
-import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
-import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
  * Wrapper around the PhET resource loader.
@@ -30,27 +28,7 @@ public class ABSResources {
         return RESOURCES.getLocalizedString( name  );
     }
     
-    public static final char getChar( String name, char defaultValue ) {
-        return RESOURCES.getLocalizedChar( name, defaultValue );
-    }
-
-    public static final int getInt( String name, int defaultValue ) {
-        return RESOURCES.getLocalizedInt( name, defaultValue );
-    }
-    
     public static final BufferedImage getBufferedImage( String name ) {
         return RESOURCES.getImage( name );
-    }
-    
-    public static final PImage getImageNode( String name ) {
-        return new PImage( RESOURCES.getImage( name ) );
-    }
-    
-    public static final String getCommonString( String name ) {
-        return PhetCommonResources.getInstance().getLocalizedString( name );
-    }
-    
-    public static final BufferedImage getCommonImage( String name ) {
-        return PhetCommonResources.getInstance().getImage( name );
     }
 }
