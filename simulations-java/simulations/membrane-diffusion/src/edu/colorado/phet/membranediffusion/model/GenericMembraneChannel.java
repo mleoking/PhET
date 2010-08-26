@@ -36,6 +36,7 @@ public class GenericMembraneChannel extends MembraneChannel {
     // Constructor(s)
     //----------------------------------------------------------------------------
 	
+    
     public GenericMembraneChannel(IParticleCapture modelContainingParticles, ParticleType particleTypeToCapture,
 	        Color channelColor, Color edgeColor, MembraneChannelOpennessStrategy opennessStrategy,
 	        Point2D initialPositon) {
@@ -80,39 +81,35 @@ public class GenericMembraneChannel extends MembraneChannel {
 	/**
 	 * Static factory method for creating a channel when given a channel type ID.
 	 */
-	public static MembraneChannel createChannel( MembraneChannelTypes channelType, IParticleCapture modelContainingParticles ){
+	public static GenericMembraneChannel createChannel( MembraneChannelTypes channelType,
+	        IParticleCapture modelContainingParticles, MembraneChannelOpennessStrategy opennessStrategy ){
 
 	    Color channelColor, edgeColor;
 	    ParticleType particleType;
-	    MembraneChannelOpennessStrategy opennessStrategy;
 
 	    switch ( channelType ){
 	    case POTASSIUM_GATED_CHANNEL:
 	        channelColor = MembraneDiffusionConstants.POTASSIUM_GATED_CHANNEL_COLOR;
 	        edgeColor = MembraneDiffusionConstants.POTASSIUM_GATED_EDGE_COLOR;
 	        particleType = ParticleType.POTASSIUM_ION;
-	        opennessStrategy = new ChannelAlwaysClosedStrategy();
 	        break;
 
 	    case POTASSIUM_LEAKAGE_CHANNEL:
 	        channelColor = MembraneDiffusionConstants.POTASSIUM_LEAKAGE_CHANNEL_COLOR;
 	        edgeColor = MembraneDiffusionConstants.POTASSIUM_LEAKAGE_EDGE_COLOR;
 	        particleType = ParticleType.POTASSIUM_ION;
-	        opennessStrategy = new ChannelAlwaysOpenStrategy();
 	        break;
 
 	    case SODIUM_GATED_CHANNEL:
 	        channelColor = MembraneDiffusionConstants.SODIUM_GATED_CHANNEL_COLOR;
 	        edgeColor = MembraneDiffusionConstants.SODIUM_GATED_EDGE_COLOR;
 	        particleType = ParticleType.SODIUM_ION;
-	        opennessStrategy = new ChannelAlwaysClosedStrategy();
 	        break;
 
 	    case SODIUM_LEAKAGE_CHANNEL:
 	        channelColor = MembraneDiffusionConstants.SODIUM_LEAKAGE_CHANNEL_COLOR;
 	        edgeColor = MembraneDiffusionConstants.SODIUM_LEAKAGE_EDGE_COLOR;
 	        particleType = ParticleType.SODIUM_ION;
-	        opennessStrategy = new ChannelAlwaysOpenStrategy();
 	        break;
 
 	    default:
@@ -121,9 +118,7 @@ public class GenericMembraneChannel extends MembraneChannel {
 	        channelColor = Color.white;;
 	        edgeColor = Color.pink;
 	        particleType = ParticleType.POTASSIUM_ION;
-	        opennessStrategy = new ChannelAlwaysOpenStrategy();
 	        break;
-
 	    }
 	    
 	    return new GenericMembraneChannel( modelContainingParticles, particleType, channelColor, edgeColor,

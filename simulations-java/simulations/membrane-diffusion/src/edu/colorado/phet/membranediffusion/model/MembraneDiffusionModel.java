@@ -1,7 +1,6 @@
 /* Copyright 2009, University of Colorado */
 package edu.colorado.phet.membranediffusion.model;
 
-import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -12,7 +11,6 @@ import javax.swing.event.EventListenerList;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.membranediffusion.MembraneDiffusionConstants;
 
 /**
  * This class represents the main class for modeling membrane diffusion.  It
@@ -470,53 +468,38 @@ public class MembraneDiffusionModel implements IParticleCapture {
      * assumed to be under the control of the user, who will release it at
      * some point.
      */
-    public MembraneChannel createUserControlledMembraneChannel(MembraneChannelTypes membraneChannelType, Point2D position){
+    public MembraneChannel createUserControlledMembraneChannel(MembraneChannelTypes membraneChannelType, 
+            Point2D position){
         
         // Configure the channel.
-        Color channelColor;
-        Color edgeColor;
-        ParticleType particleTypeToCapture;
         MembraneChannelOpennessStrategy opennessStrategy;
         
         switch (membraneChannelType){
         case SODIUM_GATED_CHANNEL:
-            particleTypeToCapture = ParticleType.SODIUM_ION;
-            channelColor = MembraneDiffusionConstants.SODIUM_GATED_CHANNEL_COLOR;
-            edgeColor = MembraneDiffusionConstants.SODIUM_GATED_EDGE_COLOR;
             opennessStrategy = sodiumChannelOpennessStrategy;
             break;
-        case SODIUM_LEAKAGE_CHANNEL:
-            particleTypeToCapture = ParticleType.SODIUM_ION;
-            channelColor = MembraneDiffusionConstants.SODIUM_LEAKAGE_CHANNEL_COLOR;
-            edgeColor = MembraneDiffusionConstants.SODIUM_LEAKAGE_EDGE_COLOR;
-            opennessStrategy = channelAlwaysOpenStrategy;
-            break;
         case POTASSIUM_GATED_CHANNEL:
-            particleTypeToCapture = ParticleType.POTASSIUM_ION;
-            channelColor = MembraneDiffusionConstants.POTASSIUM_GATED_CHANNEL_COLOR;
-            edgeColor = MembraneDiffusionConstants.POTASSIUM_GATED_EDGE_COLOR;
             opennessStrategy = potassiumChannelOpennessStrategy;
             break;
+        case SODIUM_LEAKAGE_CHANNEL:
+            opennessStrategy = channelAlwaysOpenStrategy;
+            break;
         case POTASSIUM_LEAKAGE_CHANNEL:
-            particleTypeToCapture = ParticleType.POTASSIUM_ION;
-            channelColor = MembraneDiffusionConstants.POTASSIUM_LEAKAGE_CHANNEL_COLOR;
-            edgeColor = MembraneDiffusionConstants.POTASSIUM_GATED_EDGE_COLOR;
             opennessStrategy = channelAlwaysOpenStrategy;
             break;
         default:
             System.err.println(getClass().getName() + "- Error: Invalid channel type.");
             assert false;
             // Make some arbitrary assumptions if things get this far.
-            particleTypeToCapture = ParticleType.POTASSIUM_ION;
-            channelColor = MembraneDiffusionConstants.POTASSIUM_LEAKAGE_CHANNEL_COLOR;
-            edgeColor = MembraneDiffusionConstants.POTASSIUM_GATED_EDGE_COLOR;
+            membraneChannelType = MembraneChannelTypes.SODIUM_LEAKAGE_CHANNEL;
             opennessStrategy = channelAlwaysOpenStrategy;
             break;
         }
         
-        
-        final MembraneChannel membraneChannel = new GenericMembraneChannel(this, particleTypeToCapture, channelColor,
-                edgeColor, opennessStrategy, position);
+        final GenericMembraneChannel membraneChannel = GenericMembraneChannel.createChannel( membraneChannelType, 
+                this, opennessStrategy );
+        membraneChannel.setCenterLocation( position );
+
         userControlledMembraneChannel = membraneChannel;
         membraneChannel.addListener( new MembraneChannel.Adapter(){
             @Override
