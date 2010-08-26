@@ -23,11 +23,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.membranediffusion.MembraneDiffusionResources;
 import edu.colorado.phet.membranediffusion.model.InjectionMotionStrategy;
@@ -157,12 +155,8 @@ public class ParticleInjectorNode extends PNode {
         buttonImageNode.addInputEventListener(new PBasicInputEventHandler(){
         	@Override
             public void mousePressed( PInputEvent event ) {
-                if (model.getRemainingParticleCapacity() == 0 ){
-                    // TODO: i18n
-                    PhetOptionPane.showMessageDialog( PhetApplication.getInstance().getPhetFrame(),
-                            "Container is full, no more particles can be injected." );
-                }
-                else{
+        	    // Only inject another particle if the model can support it.
+                if (model.getRemainingParticleCapacity() > 0 ){
                     buttonImageNode.setImage(pressedButtonImage);
                     injectParticle();
                 }
