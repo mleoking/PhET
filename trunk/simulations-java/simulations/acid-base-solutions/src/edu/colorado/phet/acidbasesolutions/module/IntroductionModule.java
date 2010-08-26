@@ -56,8 +56,8 @@ public class IntroductionModule extends ABSModule {
         public IntroductionControlPanel( Resettable resettable, ABSModel model ) {
             setInsets( new Insets( 5, 5, 5, 5 ) );
             addControlFullWidth( new FixedSolutionControls( model ) );
-            addControlFullWidth( new ViewControls( model ) );
             addControlFullWidth( new TestControls( model ) );
+            addControlFullWidth( new ViewControls( model ) );
             addResetAllButton( resettable );
         }
     }

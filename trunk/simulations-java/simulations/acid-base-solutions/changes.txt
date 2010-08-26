@@ -1,3 +1,4 @@
+8/26/10 restore ordering of control panel
 # 0.00.25 (43537) Aug 26, 2010
 8/26/10 interview version that has Views above Tests in control panel
 8/26/10 clean up light bulb icon
