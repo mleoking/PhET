@@ -25,7 +25,7 @@ import edu.colorado.phet.common.phetcommon.math.MathUtil
 import java.awt.event.{MouseEvent, MouseAdapter}
 import edu.colorado.phet.common.phetcommon.view.{PhetTitledBorder, ControlPanel, VerticalLayoutPanel}
 
-class RampControlPanel(model: MotionSeriesModel,
+class MotionSeriesControlPanel(model: MotionSeriesModel,
                        freeBodyDiagramModel: FreeBodyDiagramModel,
                        coordinateSystemModel: AdjustableCoordinateModel,
                        vectorViewModel: VectorViewModel,
