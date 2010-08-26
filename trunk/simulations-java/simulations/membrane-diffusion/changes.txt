@@ -1,3 +1,5 @@
+# 0.16.03 (43530) Aug 26, 2010
+8/26/10 Fixed an issue where particles could end up moving outside the chamber
 # 0.16.02 (43500) Aug 25, 2010
 8/25/10 Version being published for review.  The majority of the initially specified functionality is implemented.
 # 0.16.01 (43324) Aug 20, 2010
