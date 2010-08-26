@@ -15,6 +15,11 @@ public class ABSStrings {
     /* not intended for instantiation */
     private ABSStrings() {}
     
+    private static final String getString( String key ) {
+        return ABSResources.getString( key );
+    }
+    
+    // patterns used with MessageFormat
     public static final String PATTERN_VALUE_UNITS = getString( "pattern.0value.1units" );
     public static final String PATTERN_LABEL_VALUE = getString( "pattern.0label.1value" );
     public static final String PATTERN_SOLUTION_SYMBOL = getString( "pattern.0solution.1symbol" );
@@ -46,14 +51,10 @@ public class ABSStrings {
     public static final String LITERS = getString( "liters" );
     public static final String MAGNIFYING_GLASS = getString( "magnifyingGlass" );
     public static final String CONCENTRATION_GRAPH = getString( "concentrationGraph" );
-    public static final String CONCENTRATION_GRAPH_Y_AXIS = ABSResources.getString( "concentrationGraph.yAxis" );
-    public static final String NEGLIGIBLE = ABSResources.getString( "negligible" );
-    public static final String PH_COLOR_KEY = ABSResources.getString( "pHColorKey" );
-    public static final String LIQUID = ABSResources.getString( "liquid" );
-    public static final String VIEWS = ABSResources.getString( "views" );
-    public static final String SHOW_WATER = ABSResources.getString( "showWater" );
-    
-    private static final String getString( String key ) {
-        return ABSResources.getString( key );
-    }
+    public static final String CONCENTRATION_GRAPH_Y_AXIS = getString( "concentrationGraph.yAxis" );
+    public static final String NEGLIGIBLE = getString( "negligible" );
+    public static final String PH_COLOR_KEY = getString( "pHColorKey" );
+    public static final String LIQUID = getString( "liquid" );
+    public static final String VIEWS = getString( "views" );
+    public static final String SHOW_WATER = getString( "showWater" );
 }
