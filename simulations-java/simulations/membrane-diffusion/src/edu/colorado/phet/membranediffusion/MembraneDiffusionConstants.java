@@ -74,13 +74,13 @@ public class MembraneDiffusionConstants {
     //----------------------------------------------------------------------------
 
     // Colors to use when representing various atoms.
-    public static final Color SODIUM_COLOR = new Color( 240, 0, 0);
+    public static final Color SODIUM_COLOR = new Color( 0, 220, 0);
     public static final Color POTASSIUM_COLOR = new Color(0, 0, 255);
 
     // Colors to use when representing various membrane channels.
     public static final Color SODIUM_GATED_EDGE_COLOR = MembraneDiffusionConstants.SODIUM_COLOR;
     public static final Color SODIUM_GATED_CHANNEL_COLOR = ColorUtils.darkerColor(SODIUM_GATED_EDGE_COLOR, 0.15);
-    public static final Color SODIUM_LEAKAGE_EDGE_COLOR = ColorUtils.interpolateRBGA(MembraneDiffusionConstants.SODIUM_COLOR, Color.YELLOW, 0.5);
+    public static final Color SODIUM_LEAKAGE_EDGE_COLOR = ColorUtils.interpolateRBGA(MembraneDiffusionConstants.SODIUM_COLOR, Color.YELLOW, 0.7);
     public static final Color SODIUM_LEAKAGE_CHANNEL_COLOR = ColorUtils.darkerColor(SODIUM_LEAKAGE_EDGE_COLOR, 0.15);
     public static final Color POTASSIUM_GATED_EDGE_COLOR = MembraneDiffusionConstants.POTASSIUM_COLOR;;
     public static final Color POTASSIUM_GATED_CHANNEL_COLOR = ColorUtils.darkerColor(POTASSIUM_GATED_EDGE_COLOR, 0.15);
