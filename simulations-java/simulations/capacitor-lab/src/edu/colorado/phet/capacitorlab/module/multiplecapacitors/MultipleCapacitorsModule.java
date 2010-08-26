@@ -9,7 +9,7 @@ import edu.colorado.phet.capacitorlab.model.CLModel;
 import edu.colorado.phet.capacitorlab.module.CLModule;
 
 /**
- * The "Introduction" module.
+ * The "Multiple Capacitors" module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
