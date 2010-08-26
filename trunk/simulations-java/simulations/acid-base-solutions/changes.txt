@@ -1,3 +1,4 @@
+8/26/10 clean up pixels along the left and right edges of the light bulb image
 8/25/10 delete stubs for Save/Load feature, not needed in this sim
 8/25/10 move beaker location to (0,0)
 8/25/10 reorganize and document ABSConstants (no values changed)
