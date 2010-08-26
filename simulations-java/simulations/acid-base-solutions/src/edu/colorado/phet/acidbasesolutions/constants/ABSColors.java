@@ -14,10 +14,10 @@ public class ABSColors {
     /* not intended for instantiation */
     private ABSColors() {}
     
-    // Color of the "play area"
+    // canvas, aka "play area"
     public static final Color CANVAS_BACKGROUND = new Color( 230, 230, 230 );
     
-    // Color of main control panel
+    // main control panel
     public static final Color CONTROL_PANEL_BACKGROUND = new Color( 204, 204, 255 );
     
     // molecule colors

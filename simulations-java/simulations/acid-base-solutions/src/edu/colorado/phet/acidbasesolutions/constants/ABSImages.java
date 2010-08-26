@@ -22,6 +22,7 @@ public class ABSImages {
     public static final BufferedImage LIGHT_BULB_GLASS = getBufferedImage( "lightBulbGlass.png" );
     public static final BufferedImage LIGHT_BULB_GLASS_MASK = getBufferedImage( "lightBulbGlassMask.png" );
     
+    // icons used in control panels
     public static final BufferedImage BEAKER_ICON = getBufferedImage( "icons/beaker_icon.png" );
     public static final BufferedImage CONCENTRATION_GRAPH_ICON = getBufferedImage( "icons/concentrationGraph_icon.png" );
     public static final BufferedImage H2O_ICON = getBufferedImage( "icons/H2O_icon.png" );
@@ -30,6 +31,7 @@ public class ABSImages {
     public static final BufferedImage PH_METER_ICON = getBufferedImage( "icons/pHMeter_icon.png" );
     public static final BufferedImage PH_PAPER_ICON = getBufferedImage( "icons/pHPaper_icon.png" );
     
+    // molecules
     public static final BufferedImage A_MINUS_MOLECULE = getBufferedImage( "molecules/A_minus.png" );
     public static final BufferedImage B_MOLECULE = getBufferedImage( "molecules/B.png" );
     public static final BufferedImage BH_PLUS_MOLECULE = getBufferedImage( "molecules/BH_plus.png" );
