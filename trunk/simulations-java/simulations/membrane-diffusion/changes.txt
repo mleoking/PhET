@@ -1,3 +1,5 @@
+# 0.16.04 (43549) Aug 26, 2010
+8/26/10 Publishing a version with several changes based on review at weekly PhET meeting.
 8/26/10 Replaced dialog that was shown when particle chamber full with different behavior (button press ignored, no particles injected).
 8/26/10 Replaced dialog that was shown when membrane full with different behavior (animation back to tool box).
 8/26/10 Swapped order of channels in the tool boxes to be more consistent with rest of sim.
