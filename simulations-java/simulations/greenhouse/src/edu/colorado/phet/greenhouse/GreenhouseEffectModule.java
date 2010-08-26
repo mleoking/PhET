@@ -21,6 +21,13 @@ import edu.colorado.phet.greenhouse.view.GreenhouseEffectCanvas;
  * This class is where the model and view classes are created and connected
  * for the portion of the sim that presents the greenhouse effect within the
  * atmosphere.
+ * 
+ * IMPORTANT NOTE: This module was a starting point for an effort to migrate
+ * this sim to be based on Piccolo rather than the older home-grown graphics
+ * library.  However, once started, it looked as though this effort was going
+ * to be prohibitively expensive, and was aborted in mid-August 2010.  This
+ * class and those related to it will be kept around in case the effort is
+ * resumed.  - J. Blanco, 8/26/2010.
  *
  * @author John Blanco
  */
