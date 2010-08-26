@@ -64,7 +64,7 @@ public class ABSConstants {
     
     // pH color key, origin at upper left
     public static final PDimension PH_COLOR_KEY_SIZE = new PDimension( 350, 50 );
-    public static final Point2D PH_COLOR_KEY_LOCATION = new Point2D.Double( BEAKER_LOCATION.getX() - ( BEAKER_SIZE.getWidth() / 2 ) + 50, 20 );
+    public static final Point2D PH_COLOR_KEY_LOCATION = new Point2D.Double( BEAKER_LOCATION.getX() - ( BEAKER_SIZE.getWidth() / 2 ) + 50, PH_PAPER_LOCATION.getY() );
     
     // conductivity tester, origin at tip of light bulb
     public static final PDimension CONDUCTIVITY_TESTER_PROBE_SIZE = new PDimension( 30, 100 );
