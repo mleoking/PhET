@@ -38,6 +38,9 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
     // Instance Data
     //----------------------------------------------------------------------------
 
+    // Reference to the model that is being viewed.
+    private MembraneDiffusionModel model;
+    
     // Model-view transform.
     private ModelViewTransform2D mvt;
     
@@ -61,6 +64,8 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
     
     public MembraneDiffusionCanvas( MembraneDiffusionModel model ) {
+        
+        this.model = model;
         
     	// Set up the canvas-screen transform.
     	setWorldTransformStrategy(new PhetPCanvas.CenteringBoxStrategy(this, MembraneDiffusionDefaults.INTERMEDIATE_RENDERING_SIZE));
@@ -205,11 +210,14 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
     	    // Handle notification of the channel's removal from the model.
 			public void removed() {
 			    channelNode.cleanup();
-			    if (!MembraneDiffusionModel.getOverallParticleChamberRect().contains( channelNode.getMembraneChannel().getCenterLocation() )){
-			        // The membrane channel is not in the particle chamber,
-			        // which means that the user is removing it by dragging
-			        // it out of the chamber (as opposed to via a Reset All).
-			        // In this case, we should perform the removal animation.
+			    if (!MembraneDiffusionModel.getOverallParticleChamberRect().contains( channelNode.getMembraneChannel().getCenterLocation() ) ||
+			        model.isMembraneFull()){
+			        // The membrane channel is being removed either because
+			        // it is not in the particle chamber (which means that the
+			        // user dropped it somewhere outside the chamber) or
+			        // because the user tried to add one and there wasn't any
+			        // space for it.  Under these conditions, the removal
+			        // should be animated.
 			        channelNode.addListener( new Listener(){
                         public void removalAnimationComplete() {
                             channelNode.removeFromCanvas(channelLayer, channelEdgeLayer);
@@ -218,9 +226,10 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
 			        channelNode.startRemovalAnimation();
 			    }
 			    else{
-			        // The membrane channel is in the particle chamber, which
-			        // indicates that it is being removed as the result of a
-			        // reset, so it can be removed right away.
+			        // None of the conditions of the 'if' clause above were
+			        // met, which probably indicates that the membrane channel
+			        // is being removed as the result of a "Reset All".  In
+			        // this case, the removal is not animated.
 			        channelNode.removeFromCanvas(channelLayer, channelEdgeLayer);
 			    }
 			}
