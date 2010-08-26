@@ -12,6 +12,13 @@ import edu.umd.cs.piccolo.PCanvas;
 
 /**
  * Main application for the Magnifying Glass prototype.
+ * This prototype was used to investigate the magnifying glass view in Acid-Base Solutions.
+ * We wanted to know whether it was feasible to show molecule images, how many images were 
+ * needed, what order they should be rendered in, how big the magnifying glass needed to be,
+ * etc. (see control panel for other properties)
+ * <p>
+ * This work informed the implementation of the MagnifyingGlassNode and associated
+ * classes in the final simulation.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
