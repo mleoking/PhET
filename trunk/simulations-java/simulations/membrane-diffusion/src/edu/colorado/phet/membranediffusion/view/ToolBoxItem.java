@@ -8,7 +8,6 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.membranediffusion.model.MembraneDiffusionModel;
@@ -145,15 +144,8 @@ public abstract class ToolBoxItem extends PComposite {
 	 * by subclasses for implementing the appropriate behavior.
 	 */
 	protected void handleAddRequest(Point2D positionInModelSpace){
-	    if (!getModel().isMembraneFull()){
-	        // Add the channel.
-	        addElementToModel( positionInModelSpace );
-	    }
-	    else{
-	        // Put up a message stating that the membrane is full.
-	        // TODO: i18n
-	        PhetOptionPane.showMessageDialog( getCanvas(), "The membrane is full, no more channels may be added." );
-	    }
+        // Add the channel.
+        addElementToModel( positionInModelSpace );
 	}
 
 	protected void setSelectionNode(PNode selectionNode){
