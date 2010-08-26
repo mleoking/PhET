@@ -262,7 +262,7 @@ public class TraverseChannelMotionStrategy2 extends MotionStrategy {
 	        // passed through.
 	        channelHasBeenEntered = true;
 	        channelHasBeenTraversed = true;
-            postTraversalMotionStrategy = new LinearMotionStrategy( velocityVector.rotate( Math.PI ) );
+            postTraversalMotionStrategy = new BoundedLinearMotionStrategy( velocityVector.rotate( Math.PI ) );
             postTraversalCountdownTimer = POST_TRAVERSAL_WALK_TIME;
             Rectangle2D tempMotionBounds = postTraversalMotionBounds;
             postTraversalMotionBounds = preTraversalMotionBounds;

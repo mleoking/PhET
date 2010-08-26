@@ -110,7 +110,8 @@ public class TraverseChannelMotionStrategy extends MotionStrategy {
 				    }
 				    Vector2D newVelocityVector = new Vector2D();
 				    newVelocityVector.setMagnitudeAndAngle( velocityScaler, newAngle );
-				    postTraversalMotionStrategy = new LinearMotionStrategy( newVelocityVector );
+				    postTraversalMotionStrategy = new BoundedLinearMotionStrategy( newVelocityVector,
+				            postTraversalMotionBounds );
 				    postTraversalCountdownTimer = POST_TRAVERSAL_HYSTERESIS_TIME;
 				}
 			}
