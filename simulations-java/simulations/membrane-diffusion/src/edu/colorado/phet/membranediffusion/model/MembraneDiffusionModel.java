@@ -578,9 +578,11 @@ public class MembraneDiffusionModel implements IParticleCapture {
     	    return;
     	}
     	
-    	if (PARTICLE_CHAMBER_RECT.contains(userControlledMembraneChannel.getCenterLocation())){
+    	if (PARTICLE_CHAMBER_RECT.contains(userControlledMembraneChannel.getCenterLocation()) &&
+    	    membraneChannels.size() <= MAX_CHANNELS_ON_MEMBRANE){
     		// The membrane channel was released close enough to the membrane
-    		// that an attempt can be made to place it on the membrane. 
+    		// and there is room enough for another channel.  Place this newly
+    	    // added channel on to the membrane.
     		
     		// Make a list of the open locations on the membrane where the channel
     		// could be placed.
@@ -614,7 +616,8 @@ public class MembraneDiffusionModel implements IParticleCapture {
     	}
     	else{
     		// The channel was released by the user outside of the allowable
-    	    // range (possibly just back in the tool box), so it should be
+    	    // range (possibly just back in the tool box), or there isn't room
+    	    // on the membrane for another channel, so this channel should be
     	    // removed from the model.
 			userControlledMembraneChannel.removeFromModel();
     	}
