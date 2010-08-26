@@ -11,10 +11,7 @@ import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.servicemanager.InputStreamFileContents;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
-import edu.colorado.phet.common.phetcommon.view.ControlPanel;
-import edu.colorado.phet.common.phetcommon.view.HelpPanel;
-import edu.colorado.phet.common.phetcommon.view.PhetTitledBorder;
-import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.*;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
@@ -340,11 +337,10 @@ public class CCKControlPanel extends ControlPanel {
             }
         });
 
-        JPanel filePanel = new JPanel();
+        JPanel filePanel = new PhetTitledPanel(CCKResources.getString("CCK3ControlPanel.FilePanelBorder"));
 
         filePanel.add(save);
         filePanel.add(load);
-        filePanel.setBorder(new CCKTitledBorder(CCKResources.getString("CCK3ControlPanel.FilePanelBorder")));
         return filePanel;
     }
 
@@ -391,7 +387,6 @@ public class CCKControlPanel extends ControlPanel {
                     dialog.setVisible(false);
                 }
             });
-            setBorder(new CCKTitledBorder(CCKResources.getString("CCK3ControlPanel.AdvancedPanelBorder")));
         }
 
         /* Shows the advanced controls in a dialog. */
