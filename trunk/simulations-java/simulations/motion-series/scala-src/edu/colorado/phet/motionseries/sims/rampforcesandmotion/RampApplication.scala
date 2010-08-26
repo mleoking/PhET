@@ -14,7 +14,7 @@ import edu.umd.cs.piccolox.pswing.PSwing
 import edu.colorado.phet.common.phetcommon.application.{PhetApplicationLauncher, PhetApplicationConfig, Module}
 import javax.swing.JMenuItem
 import java.awt.event.{ActionListener, ActionEvent, ComponentEvent, ComponentAdapter}
-import edu.colorado.phet.motionseries.controls.{DeveloperDialog, RampControlPanel}
+import edu.colorado.phet.motionseries.controls.{DeveloperDialog, MotionSeriesControlPanel}
 import edu.colorado.phet.motionseries.sims.rampforcesandmotion.robotmovingcompany.RobotMovingCompanyModule
 import edu.colorado.phet.motionseries.{StageContainerArea, MotionSeriesDefaults, MotionSeriesModule}
 import edu.colorado.phet.motionseries.charts.RampForceChartNode
@@ -41,7 +41,7 @@ class BasicRampModule(frame: PhetFrame,
   setSimulationPanel(rampCanvas)
 
   //Create the control panel and set it as the simulation control panel
-  val rampControlPanel = new RampControlPanel(motionSeriesModel, fbdModel, coordinateSystemModel, vectorViewModel, resetRampModule, coordinateSystemEnabled, objectComboBoxEnabled, motionSeriesModel, true, true, true,"more.controls.title".translate)
+  val rampControlPanel = new MotionSeriesControlPanel(motionSeriesModel, fbdModel, coordinateSystemModel, vectorViewModel, resetRampModule, coordinateSystemEnabled, objectComboBoxEnabled, motionSeriesModel, true, true, true,"more.controls.title".translate)
   setControlPanel(rampControlPanel)
 
   //Set the clock control panel to use one that has record and playback capabilities

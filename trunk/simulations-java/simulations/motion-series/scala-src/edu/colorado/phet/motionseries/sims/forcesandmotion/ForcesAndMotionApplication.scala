@@ -10,7 +10,7 @@ import javax.swing.JFrame
 import edu.colorado.phet.scalacommon.ScalaClock
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.umd.cs.piccolox.pswing.PSwing
-import edu.colorado.phet.motionseries.controls.RampControlPanel
+import edu.colorado.phet.motionseries.controls.MotionSeriesControlPanel
 import edu.colorado.phet.recordandplayback.gui.RecordAndPlaybackControlPanel
 import edu.colorado.phet.motionseries.sims.rampforcesandmotion.robotmovingcompany.RobotMovingCompanyModule
 import edu.colorado.phet.motionseries.{StageContainerArea, MotionSeriesModule, MotionSeriesDefaults}
@@ -36,7 +36,7 @@ class ForcesAndMotionModule(frame: PhetFrame,
   val canvas = new ForcesAndMotionCanvas(motionSeriesModel, coordinateSystemModel, fbdModel, vectorViewModel, frame,
     showObjectSelectionNode, showAppliedForceSlider, initialAngle != 0.0, modelViewport, stageContainerArea)
   setSimulationPanel(canvas)
-  val controlPanel = new RampControlPanel(motionSeriesModel, fbdModel, coordinateSystemModel, vectorViewModel,
+  val controlPanel = new MotionSeriesControlPanel(motionSeriesModel, fbdModel, coordinateSystemModel, vectorViewModel,
     resetRampModule, coordinateSystemFeaturesEnabled, useObjectComboBox, motionSeriesModel, false, showFrictionControl, showBounceControl,"position.controls.title".translate)
   setControlPanel(controlPanel)
   setClockControlPanel(createRecordAndPlaybackPanel)
