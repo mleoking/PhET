@@ -1,3 +1,4 @@
+8/26/10 add stubs for Multiple Capacitors tab
 7/9/10 attempt to fix plate area drag handle, still broken
 7/9/10 move model listener responsibilities into drag handle nodes
 7/9/10 fix drag handles for dielectric offset and plate separation 

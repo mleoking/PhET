@@ -57,6 +57,7 @@ public class CLStrings {
     
     public static final String TAB_INTRODUCTION = getString( "tab.introduction" );
     public static final String TAB_DIELECTRIC = getString( "tab.dielectric" );
+    public static final String TAB_MULTIPLE_CAPACITORS = getString( "tab.multipleCapacitors" );
     
     public static final String TITLE_DIELECTRIC = getString( "title.dielectric" );
     public static final String TITLE_VIEW = getString( "title.view" );

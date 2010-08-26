@@ -8,6 +8,7 @@ import javax.swing.Box;
 
 import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModule;
 import edu.colorado.phet.capacitorlab.module.introduction.IntroductionModule;
+import edu.colorado.phet.capacitorlab.module.multiplecapacitors.MultipleCapacitorsModule;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
@@ -28,6 +29,7 @@ public class CapacitorLabApplication extends PiccoloPhetApplication {
 
     private IntroductionModule introductionModule;
     private DielectricModule dielectricModule;
+    private MultipleCapacitorsModule multipleCapacitorsModule;
     
     /**
      * Sole constructor.
@@ -54,6 +56,8 @@ public class CapacitorLabApplication extends PiccoloPhetApplication {
         addModule( introductionModule );
         dielectricModule = new DielectricModule( parentFrame, dev );
         addModule( dielectricModule );
+        multipleCapacitorsModule = new MultipleCapacitorsModule( parentFrame, dev );
+        addModule( multipleCapacitorsModule );
         
         // make all control panels the same width
         int maxWidth = 0;
