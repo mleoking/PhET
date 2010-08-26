@@ -34,11 +34,11 @@ public class GatedChannelToolBox extends ToolBox {
 	    super(size);
 		
 		// Create the grabbable items in the box.
-        potassiumGatedChannelToolBoxNode = new PotassiumGatedChannelToolBoxNode(model, mvt, canvas);
-		addToolBoxItem( potassiumGatedChannelToolBoxNode );
-		
         sodiumGatedChannelToolBoxNode = new SodiumGatedChannelToolBoxNode(model, mvt, canvas);
 		addToolBoxItem( sodiumGatedChannelToolBoxNode );
+		
+		potassiumGatedChannelToolBoxNode = new PotassiumGatedChannelToolBoxNode(model, mvt, canvas);
+		addToolBoxItem( potassiumGatedChannelToolBoxNode );
 		
 		// Set the caption.
 		// TODO: i18n
