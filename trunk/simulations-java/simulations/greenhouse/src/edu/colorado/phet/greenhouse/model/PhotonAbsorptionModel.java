@@ -505,7 +505,7 @@ public class PhotonAbsorptionModel {
             // Add the necessary number of the specified molecule.
             for (int i = 0; i < numMoleculesToAdd; i++){
                 Molecule moleculeToAdd = Molecule.createMolecule( moleculeID );
-                moleculeToAdd.setCenterOfGravityPos( findLocationInAtmosphereForMolecule3( moleculeToAdd ) );
+                moleculeToAdd.setCenterOfGravityPos( findLocationInAtmosphereForMolecule2( moleculeToAdd ) );
                 configurableAtmosphereMolecules.add( moleculeToAdd );
                 moleculeToAdd.addListener( moleculePhotonEmissionListener );
             }
