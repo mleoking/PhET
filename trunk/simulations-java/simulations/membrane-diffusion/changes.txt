@@ -1,3 +1,7 @@
+8/26/10 Replaced dialog that was shown when particle chamber full with different behavior (button press ignored, no particles injected).
+8/26/10 Replaced dialog that was shown when membrane full with different behavior (animation back to tool box).
+8/26/10 Swapped order of channels in the tool boxes to be more consistent with rest of sim.
+8/26/10 Changed red particles to green in order to avoid confusion with red button.
 # 0.16.03 (43530) Aug 26, 2010
 8/26/10 Fixed an issue where particles could end up moving outside the chamber
 # 0.16.02 (43500) Aug 25, 2010
