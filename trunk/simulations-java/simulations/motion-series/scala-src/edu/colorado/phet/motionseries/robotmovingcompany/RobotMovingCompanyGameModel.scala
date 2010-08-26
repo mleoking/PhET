@@ -143,8 +143,8 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
           motionSeriesObject.removeListener(this) //see note above on ordering
           itemLost(sel)
         }
-        //if pushing for 5 seconds and still have energy, then should be NotEnoughEnergyToPush
-        if (lastPushTime != 0 && System.currentTimeMillis - lastPushTime >= 5000) {
+        //if pushing for 1 sec and still have energy, then should be NotEnoughEnergyToPush
+        if (lastPushTime != 0 && System.currentTimeMillis - lastPushTime >= 1000) {
           motionSeriesObject.removeListener(this)
           itemStuck(sel)
         }
