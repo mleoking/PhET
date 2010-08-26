@@ -229,7 +229,7 @@ public class MembraneChannelNode extends PNode {
 	
 	/**
 	 * Execute an animation sequence that makes it more obvious to the user
-	 * that this
+	 * that this channel is being removed.
 	 */
 	public void startRemovalAnimation(){
 	    // Create the animation timer in order to initiate the animation.
