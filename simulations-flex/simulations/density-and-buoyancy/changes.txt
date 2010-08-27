@@ -1,3 +1,4 @@
+Changed control panels to yellow
 Retitled "modes" to "objects", then items should read "custom", "same mass", "mystery", etc
 Reduced the height of the empty title borders
 Added insets/padding around the white control panels
