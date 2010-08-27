@@ -1,3 +1,4 @@
+Added "Material" label before object material combo box
 Reduced the slider width from 400 to 250
 Switched to aluminum instead of lead as highest tick on density slider
 Fixed: Null pointer exception once when pressing reset all on the mystery object tab after setting the custom object to be lead
