@@ -10,12 +10,12 @@ package edu.colorado.phet.greenhouse.model;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.mechanics.Vector3D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.greenhouse.filter.BandpassFilter;
 import edu.colorado.phet.greenhouse.filter.Filter1D;
 import edu.colorado.phet.greenhouse.filter.IrFilter;
 import edu.colorado.phet.greenhouse.filter.ProbablisticPassFilter;
-import edu.colorado.phet.greenhouse.util.Vector3D;
 
 public class PhotonCloudCollisionModel {
 
@@ -75,18 +75,18 @@ public class PhotonCloudCollisionModel {
             // point of contact
             Vector3D omega = new Vector3D( 0, 0, (float) bodyA.getOmega() );
             Vector3D ot = omega.crossProduct( new Vector3D( r1 ) ).add( new Vector3D( bodyA.getVelocity() ) );
-            float vr = ot.dot( new Vector3D( n ) );
+            double vr = ot.dot( new Vector3D( n ) );
 
             // Assume the coefficient of restitution is 1
             float e = 1;
 
             // Compute the impulse, j
-            float numerator = -vr * ( 1 + e );
+            double numerator = -vr * ( 1 + e );
             Vector3D n3D = new Vector3D( n );
             Vector3D r13D = new Vector3D( r1 );
             Vector3D t1 = r13D.crossProduct( n3D ).multiply( (float) ( 1 / bodyA.getMomentOfInertia() ) );
             Vector3D t1A = t1.crossProduct( t1 );
-            float t1B = n3D.dot( t1A );
+            double t1B = n3D.dot( t1A );
             double denominator = ( 1 / bodyA.getMass() ) +
                           ( n3D.dot( r13D.crossProduct( n3D ).multiply( 1 / (float) bodyA.getMomentOfInertia() ).crossProduct( r13D ) ) );
             double j = numerator / denominator;
@@ -94,7 +94,7 @@ public class PhotonCloudCollisionModel {
             // Compute the new linear and angular velocities, based on the impulse.
             bodyA.getVelocity().add( new Vector2D( n.getX(), n.getY() ).scale( (float) ( j / bodyA.getMass() ) ) );
 
-            nj.setComponents( n ).multiply( (float) j );
+            nj.setComponents( n.getX(), n.getY(), 0 ).multiply( (float) j );
             double omegaB = bodyA.getOmega() + ( r13D.crossProduct( nj ).getZ() / bodyA.getMomentOfInertia() );
             bodyA.setOmega( omegaB );
         }
