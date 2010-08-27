@@ -17,6 +17,7 @@ public class MembraneDiffusionStrings {
     public static final String SHOW_CONCENTRATIONS = getString( "controlPanel.showConcentrations" );
     public static final String CLOSE_CHANNELS = getString( "controlPanel.closeChannels" );
     public static final String OPEN_CHANNELS = getString( "controlPanel.openChannels" );
+    public static final String CLEAR_PARTICLES = getString( "controlPanel.clearParticles" );
     public static final String GATED_CHANNELS = getString( "toolBox.gatedChannels" );
     public static final String LEAKAGE_CHANNELS = getString( "toolBox.leakageChannels" );
     public static final String MEMBRANE = getString( "playArea.membrane" );
