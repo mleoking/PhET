@@ -6,16 +6,30 @@
  */
 package edu.colorado.phet.greenhouse;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerModel;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
 import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
 import edu.colorado.phet.greenhouse.util.MessageFormatter;
 
@@ -103,9 +117,8 @@ public class GlassPaneControlPanel extends JPanel implements Resettable {
         panel.add( new GreenhouseLegend(), gbc );
 
         // Options Panel
-        JPanel optionsPanel = new JPanel( new GridBagLayout() );
-        optionsPanel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(),
-                                                                  GreenhouseResources.getString( "GreenhouseControlPanel.Options" ) ) );
+        JPanel optionsPanel = new PhetTitledPanel( GreenhouseResources.getString( "GreenhouseControlPanel.Options" ) );
+        optionsPanel.setLayout( new GridBagLayout() );
         GridBagConstraints optsGbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 1, 1,
                                                              GridBagConstraints.WEST,
                                                              GridBagConstraints.NONE,
