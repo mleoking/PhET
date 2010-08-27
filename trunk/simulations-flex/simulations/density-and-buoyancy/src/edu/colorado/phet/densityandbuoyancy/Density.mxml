@@ -1,27 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:cmp="edu.colorado.phet.densityandbuoyancy.*"
                 xmlns:view="edu.colorado.phet.densityandbuoyancy.view.*"
-                layout="absolute" width="100%" height="100%" applicationComplete="onApplicationComplete()" frameRate="30">
+                xmlns:components="edu.colorado.phet.densityandbuoyancy.components.*"
+                layout="absolute" width="100%" height="100%" applicationComplete="onApplicationComplete()"
+                frameRate="30">
     <!--xmlns:common="edu.colorado.phet.flexcommon.*"-->
     <!--<common:FlexCommonMXML id="flexcommon" right="0" y="0" />-->
     <mx:Canvas width="100%" height="100%" label="Density" id="densityCanvas" fontSize="12">
         <mx:Canvas backgroundColor="0x5dc0ff" width="100%" height="100%" id="background"/>
         <view:DensityModule width="100%" height="100%" id="densityModule"/>
-        <mx:Panel right="20" y="20" title="{FlexSimStrings.get('mode.title','Modes')}">
-            <mx:RadioButton groupName="modes" id="customObject" label="{FlexSimStrings.get('mode.customObject','Custom Object')}"
+        <components:DensityVBox right="20" y="20" >
+            <mx:Label text="Objects"/>
+            <mx:RadioButton groupName="modes" id="customObject"
+                            label="{FlexSimStrings.get('mode.customObject','Custom')}"
                             click="densityModule.switchToCustomObject()" selected="true"/>
-            <mx:RadioButton groupName="modes" id="sameMass" label="{FlexSimStrings.get('mode.objectsOfSameMass','Objects of Same Mass')}"
+            <mx:RadioButton groupName="modes" id="sameMass"
+                            label="{FlexSimStrings.get('mode.objectsOfSameMass','Same Mass')}"
                             click="densityModule.switchToSameMass()"/>
-            <mx:RadioButton groupName="modes" id="sameVolume" label="{FlexSimStrings.get('mode.objectsOfSameVolume','Objects of Same Volume')}"
+            <mx:RadioButton groupName="modes" id="sameVolume"
+                            label="{FlexSimStrings.get('mode.objectsOfSameVolume','Same Volume')}"
                             click="densityModule.switchToSameVolume()"/>
-            <mx:RadioButton groupName="modes" id="sameDensity" label="{FlexSimStrings.get('mode.objectsOfSameDensity','Objects of Same Density')}"
+            <mx:RadioButton groupName="modes" id="sameDensity"
+                            label="{FlexSimStrings.get('mode.objectsOfSameDensity','Same Density')}"
                             click="densityModule.switchToSameDensity()"/>
-            <mx:RadioButton groupName="modes" id="mysteryObjects" label="{FlexSimStrings.get('mode.mysteryObjects','Mystery Objects')}"
+            <mx:RadioButton groupName="modes" id="mysteryObjects"
+                            label="{FlexSimStrings.get('mode.mysteryObjects','Mystery')}"
                             click="densityModule.switchToMysteryObjects()"/>
-        </mx:Panel>
-        <mx:Panel right="10" bottom="10">
+        </components:DensityVBox>
+        <components:DensityVBox right="10" bottom="10">
             <mx:Button label="{FlexSimStrings.get('application.resetAll','Reset All')}" click="resetAll()"/>
-        </mx:Panel>
+        </components:DensityVBox>
     </mx:Canvas>
     <view:DebugText id="debug" height="100" x="0" y="0" text="" color="#FFFFFF" click="DebugText.clear();"/>
     <mx:Script><![CDATA[
@@ -35,32 +43,32 @@
         private var common:FlexCommon = new FlexCommon();
 
         private function getAllTabs():Array {
-            return new Array(densityModule);
+            return new Array( densityModule );
         }
 
         private function onApplicationComplete():void {
-            for each (var module:AbstractDensityModule in getAllTabs()) {
+            for each ( var module:AbstractDensityModule in getAllTabs() ) {
                 module.init();
                 module.pause();
             }
             getAllTabs()[0].start();
 
-            densityModule.doInit(densityCanvas);
+            densityModule.doInit( densityCanvas );
             densityModule.switchToCustomObject();
 
             //Text fields should lose focus when the user clicks outside of them, so they will accept their value if the user was editing them
             const refocuser:Function = function():void {
-                if (focusManager.getFocus() is TextInput){
-                    focusManager.setFocus(focusManager.getNextFocusManagerComponent())
+                if ( focusManager.getFocus() is TextInput ) {
+                    focusManager.setFocus( focusManager.getNextFocusManagerComponent() )
                 }
             };
-            densityModule.addEventListener(MouseEvent.MOUSE_DOWN, refocuser);
-            background.addEventListener(MouseEvent.MOUSE_DOWN, refocuser);
+            densityModule.addEventListener( MouseEvent.MOUSE_DOWN, refocuser );
+            background.addEventListener( MouseEvent.MOUSE_DOWN, refocuser );
         }
 
-        private function onSwitch(e:Event):void {
+        private function onSwitch( e:Event ):void {
             var newIndex:Number = e.currentTarget.selectedIndex;
-            if (oldIndex == newIndex) {
+            if ( oldIndex == newIndex ) {
                 return;
             }
 

@@ -18,12 +18,12 @@ import mx.core.UIComponent;
 import mx.events.CloseEvent;
 import mx.managers.PopUpManager;
 
-public class MysteryObjectsControlPanel extends Panel {
+public class MysteryObjectsControlPanel extends DensityVBox {
 
     public function MysteryObjectsControlPanel() {
         super();
         const button:Button = new Button();
-        const myparent:Panel = this;
+        const myparent:MysteryObjectsControlPanel= this;
 
         button.addEventListener(MouseEvent.CLICK, function():void {
 

@@ -13,21 +13,13 @@ import mx.controls.ComboBox;
 import mx.controls.Label;
 import mx.events.ListEvent;
 
-public class CustomObjectPropertiesPanel extends VBox{
+public class CustomObjectPropertiesPanel extends DensityVBox{
     private var grid:Grid = new Grid();
     private var densityObject:DensityObject;
     private var comboBox:ComboBox;
 
     public function CustomObjectPropertiesPanel(densityObject:DensityObject, units:Units) {
         super();
-        setStyle("backgroundColor",DensityConstants.CONTROL_PANEL_COLOR);
-        setStyle("borderStyle","solid");
-        
-        //Padding so the buttons don't touch the edge
-//        setStyle("paddingTop",5);
-//        setStyle("paddingBottom",5);
-//        setStyle("paddingLeft",5);
-//        setStyle("paddingRight",5);
         this.densityObject = densityObject;
 
         //TODO: remove listeners from former density object
