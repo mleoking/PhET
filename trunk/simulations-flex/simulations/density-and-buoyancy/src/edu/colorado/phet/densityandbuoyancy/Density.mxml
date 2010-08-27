@@ -10,7 +10,7 @@
         <mx:Canvas backgroundColor="0x5dc0ff" width="100%" height="100%" id="background"/>
         <view:DensityModule width="100%" height="100%" id="densityModule"/>
         <components:DensityVBox right="20" y="20" >
-            <mx:Label text="Objects"/>
+            <mx:Label text="{FlexSimStrings.get('mode.title','Objects')}" fontWeight="bold"/>
             <mx:RadioButton groupName="modes" id="customObject"
                             label="{FlexSimStrings.get('mode.customObject','Custom')}"
                             click="densityModule.switchToCustomObject()" selected="true"/>

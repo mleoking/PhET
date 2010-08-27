@@ -31,6 +31,7 @@ public class PropertyEditor extends GridRow {
         var label:Label = new Label();
         label.text = property.name;
         label.setStyle(DensityConstants.FLEX_FONT_SIZE, FONT_SIZE);
+        label.setStyle(DensityConstants.FLEX_FONT_WEIGHT, DensityConstants.FLEX_FONT_BOLD);
         addGridItem(label);
 
         addGridItem(createSlider(property, minimimum, maximum, unit));
