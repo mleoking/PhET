@@ -1,6 +1,8 @@
 package edu.colorado.phet.densityandbuoyancy.view {
 import away3d.materials.*;
 
+import away3d.primitives.Cube;
+
 import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
 import edu.colorado.phet.densityandbuoyancy.model.Scale;
 
@@ -11,16 +13,16 @@ import flash.text.TextFormat;
 
 import mx.core.BitmapAsset;
 
-public class ScaleNode extends CuboidNode implements Pickable {
+public class ScaleNode extends CuboidNode {
 
     private var frontSprite:Sprite;
     private var _scale:Scale;
     private var textureHolder:Sprite; // holds wood or etc. texture in frontSprite so it stays under the text
     private var textField:TextField;
 
-    private var base:PickableCube;
-    private var top:PickableCube;
-    private var stand:PickableCube;
+    private var base:Cube;
+    private var top:Cube;
+    private var stand:Cube;
 
     private static var WALL_RES:Number = 100;
     private const textureBitmap:Bitmap = getCustomBitmap();
@@ -35,7 +37,7 @@ public class ScaleNode extends CuboidNode implements Pickable {
         var totalHeight:Number = getCuboid().getHeight() * DensityModel.DISPLAY_SCALE;
         var totalDepth:Number = getCuboid().getDepth() * DensityModel.DISPLAY_SCALE;
 
-        base = new PickableCube(this);
+        base = new Cube();
         base.width = totalWidth;
         base.height = totalHeight / 2;
         base.depth = totalDepth;
@@ -44,7 +46,7 @@ public class ScaleNode extends CuboidNode implements Pickable {
         base.y = -totalHeight / 4;
         addChild(base);
 
-        top = new PickableCube(this);
+        top = new Cube();
         top.width = totalWidth;
         top.height = totalHeight / 8;
         top.depth = totalDepth;
@@ -53,7 +55,7 @@ public class ScaleNode extends CuboidNode implements Pickable {
         top.y = 7 * totalHeight / 16;
         addChild(top);
 
-        stand = new PickableCube(this);
+        stand = new Cube();
         stand.width = totalWidth / 5;
         stand.height = totalHeight - base.height - top.height;
         stand.depth = totalDepth / 5;

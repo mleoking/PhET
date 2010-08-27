@@ -15,7 +15,6 @@ public class CuboidNode extends DensityObjectNode implements Pickable, ShapeChan
         this.x = cuboid.getX() * DensityModel.DISPLAY_SCALE;
         this.y = cuboid.getY() * DensityModel.DISPLAY_SCALE;
         this.z = cuboid.getZ() * DensityModel.DISPLAY_SCALE;
-        this.useHandCursor = true;
         cuboid.addShapeChangeListener(this);
     }
 
