@@ -99,23 +99,6 @@ public abstract class MembraneChannel {
     // Methods
     //----------------------------------------------------------------------------
 	
-	/**
-	 * Check the supplied list of atoms to see if any are in a location where
-	 * this channel wants to take control of them.
-	 * 
-	 * @param freeAtoms - List of atoms that can be potentially taken.  Any
-	 * atoms that are taken are removed from the list.
-	 * @return List of atoms for which this channel is taking control.
-	 */
-	/*
-	 * TODO: Feb 12 2010 - The paradigm for moving particles around is changing from having
-	 * them controlled by the AxonModel and the channels to having a motion strategy set on
-	 * them and have them move themselves.  This routine is being removed as part of that
-	 * effort, and should be deleted or reinstated at some point in time.
-
-	abstract public ArrayList<Particle> checkTakeControlParticles(final ArrayList<Particle> freeAtoms);
-	*/
-
 	abstract protected ParticleType getParticleTypeToCapture();
 	
 	/**
