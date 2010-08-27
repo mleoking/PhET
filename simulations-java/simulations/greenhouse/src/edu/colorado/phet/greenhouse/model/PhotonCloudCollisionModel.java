@@ -10,11 +10,11 @@ package edu.colorado.phet.greenhouse.model;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.greenhouse.filter.BandpassFilter;
 import edu.colorado.phet.greenhouse.filter.Filter1D;
 import edu.colorado.phet.greenhouse.filter.IrFilter;
 import edu.colorado.phet.greenhouse.filter.ProbablisticPassFilter;
-import edu.colorado.phet.greenhouse.util.Vector2D;
 import edu.colorado.phet.greenhouse.util.Vector3D;
 
 public class PhotonCloudCollisionModel {
@@ -49,7 +49,7 @@ public class PhotonCloudCollisionModel {
         double dispersionAngle = Math.PI / 4;
         double theta = Math.random() * dispersionAngle + ( Math.PI * 3 / 2 ) - ( dispersionAngle / 2 );
         theta += Math.random() < 0.5 ? 0 : Math.PI;
-        float vBar = photon.getVelocity().getMagnitude();
+        double vBar = photon.getVelocity().getMagnitude();
 
         photon.setVelocity( vBar * (float) Math.cos( theta ),
                             vBar * (float) Math.sin( theta ) );
@@ -59,7 +59,7 @@ public class PhotonCloudCollisionModel {
     private static void doCollision( Body bodyA, Body bodyB, Vector2D loa, Point2D.Double collisionPt ) {
 
         // Check to see that the bodies are moving toward each other. Otherwise, there is no collision
-        vRel.setComponents( bodyA.getVelocity() );
+        vRel.setComponents( bodyA.getVelocity().getX(), bodyA.getVelocity().getY() );
         vRel.subtract( bodyB.getVelocity() );
         if ( vRel.dot( loa ) <= 0 ) {
 
@@ -68,7 +68,8 @@ public class PhotonCloudCollisionModel {
                               (float) ( collisionPt.getY() - bodyA.getLocation().getY() ) );
 
             // Get the unit vector along the line of action
-            n.setComponents( loa ).normalize();
+            n.setComponents( loa.getX(), loa.getY() );
+            n.normalize();
 
             // Get the magnitude along the line of action of the bodies' relative velocities at the
             // point of contact
@@ -91,8 +92,8 @@ public class PhotonCloudCollisionModel {
                           ( n3D.dot( r13D.crossProduct( n3D ).multiply( 1 / (float) bodyA.getMomentOfInertia() ).crossProduct( r13D ) ) );
             double j = numerator / denominator;
 
-            // Compute the new linear and angular velocities, based on the impulse
-            bodyA.getVelocity().add( new Vector2D( n ).multiply( (float) ( j / bodyA.getMass() ) ) );
+            // Compute the new linear and angular velocities, based on the impulse.
+            bodyA.getVelocity().add( new Vector2D( n.getX(), n.getY() ).scale( (float) ( j / bodyA.getMass() ) ) );
 
             nj.setComponents( n ).multiply( (float) j );
             double omegaB = bodyA.getOmega() + ( r13D.crossProduct( nj ).getZ() / bodyA.getMomentOfInertia() );
@@ -124,7 +125,7 @@ public class PhotonCloudCollisionModel {
         }
 
         result.setComponents( (float) xt, (float) yt );
-        return result.normalVector();
+        return new Vector2D(result.getNormalizedInstance());
     }
 
 

@@ -6,7 +6,7 @@
  */
 package edu.colorado.phet.greenhouse.model;
 
-import edu.colorado.phet.greenhouse.util.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 public class PhotonEarthCollisionModel {
 
