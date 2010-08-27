@@ -15,7 +15,6 @@ import java.util.Dictionary;
 import java.util.Hashtable;
 
 import javax.swing.AbstractAction;
-import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -29,13 +28,11 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
-import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
-import edu.colorado.phet.common.phetcommon.view.PhetTitledBorder;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
 import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
@@ -331,10 +328,10 @@ public class GreenhouseControlPanel extends JPanel implements Resettable {
 //            venusGGRB.setForeground( venusColor );
 
             ButtonGroup ggBG = new ButtonGroup();
-            ggBG.add( adjustableGGRB );
-            ggBG.add( iceAgeGGRB );
-            ggBG.add( preIndRevGGRB );
             ggBG.add( todayGGRB );
+            ggBG.add( preIndRevGGRB );
+            ggBG.add( iceAgeGGRB );
+            ggBG.add( adjustableGGRB );
 //            ggBG.add( venusGGRB );
 
             iceAgeCompositionPane.setVisible( false );
@@ -347,16 +344,16 @@ public class GreenhouseControlPanel extends JPanel implements Resettable {
                                                              GridBagConstraints.WEST,
                                                              GridBagConstraints.HORIZONTAL,
                                                              new Insets( 0, 5, 0, 5 ), 0, 0 );
-            this.add( adjustableGGRB, gbc );
-            this.add( iceAgeGGRB, gbc );
-            this.add( iceAgeCompositionPane, gbc );
-            this.add( preIndRevGGRB, gbc );
-            this.add( seventeenFiftyCompositionPane, gbc );
             this.add( todayGGRB, gbc );
+            this.add( preIndRevGGRB, gbc );
+            this.add( iceAgeGGRB, gbc );
+            this.add( adjustableGGRB, gbc );
+            this.add( adjustableCompositionPane, gbc );
+            this.add( seventeenFiftyCompositionPane, gbc );
+            this.add( iceAgeCompositionPane, gbc );
             this.add( todayCompositionPane, gbc );
 //            this.add( venusGGRB, gbc );
-            this.add( venusCompositionPane, gbc );
-            this.add( adjustableCompositionPane, gbc );
+//            this.add( venusCompositionPane, gbc );
 
             setDefaultConditions();
         }
