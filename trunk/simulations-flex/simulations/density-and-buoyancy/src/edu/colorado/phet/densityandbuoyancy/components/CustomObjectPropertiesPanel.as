@@ -8,18 +8,26 @@ import edu.colorado.phet.flexcommon.FlexSimStrings;
 import mx.containers.Grid;
 import mx.containers.HBox;
 import mx.containers.Panel;
+import mx.containers.VBox;
 import mx.controls.ComboBox;
 import mx.controls.Label;
 import mx.events.ListEvent;
 
-public class CustomObjectPropertiesPanel extends Panel {
+public class CustomObjectPropertiesPanel extends VBox{
     private var grid:Grid = new Grid();
     private var densityObject:DensityObject;
     private var comboBox:ComboBox;
 
     public function CustomObjectPropertiesPanel(densityObject:DensityObject, units:Units) {
         super();
-        this.title = FlexSimStrings.get("customObject.properties", "Properties");
+        setStyle("backgroundColor",DensityConstants.CONTROL_PANEL_COLOR);
+        setStyle("borderStyle","solid");
+        
+        //Padding so the buttons don't touch the edge
+//        setStyle("paddingTop",5);
+//        setStyle("paddingBottom",5);
+//        setStyle("paddingLeft",5);
+//        setStyle("paddingRight",5);
         this.densityObject = densityObject;
 
         //TODO: remove listeners from former density object
