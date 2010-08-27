@@ -281,7 +281,7 @@ public class TraverseChannelMotionStrategy2 extends MotionStrategy {
 	    }
 	    else{
 	        // The channel has been fully traversed.
-	        // TODO: Not sure how to handle this case.
+	        // NOTE: Not sure how to handle this case, and it is not implemented.
 	    }
 	}
 }

@@ -36,8 +36,6 @@ public class MyCursorHandler extends PBasicInputEventHandler {
 
     private static final CursorManager manager = new CursorManager();
 
-    //todo: should make 1 manager per JComponent?
-    //the current implementation assumes state is global across all JPanels, may not work properly when moving from one JComponent to another
     /**
      * This class manages global state for the cursor.  Consider the following scenario:
      * 1. The cursor enters Node A
