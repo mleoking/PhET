@@ -9,8 +9,8 @@ package edu.colorado.phet.greenhouse.model;
 import java.awt.geom.Point2D;
 import java.util.Observable;
 
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
-import edu.colorado.phet.greenhouse.util.Vector2D;
 
 public abstract class Body extends Observable implements ModelElement {
     private double omega;
@@ -75,7 +75,7 @@ public abstract class Body extends Observable implements ModelElement {
         this.velocity = velocity;
     }
 
-    public void setVelocity( float vx, float vy ) {
+    public void setVelocity( double vx, double vy ) {
         this.velocity.setX( vx );
         this.velocity.setY( vy );
     }

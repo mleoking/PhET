@@ -58,7 +58,7 @@ public class Atmosphere extends Annulus /*extends BasicPhotonAbsorber */ impleme
                 double theta = Math.random() * dispersionAngle + ( Math.PI * 3 / 2 ) - ( dispersionAngle / 2 );
                 theta += Math.random() < 0.5 ? 0 : Math.PI;
 //                double theta = Math.random() * Math.PI * 2;
-                float vBar = photon.getVelocity().getMagnitude();
+                double vBar = photon.getVelocity().getMagnitude();
 
                 photon.setVelocity( vBar * (float) Math.cos( theta ),
                                     vBar * (float) Math.sin( theta ) );

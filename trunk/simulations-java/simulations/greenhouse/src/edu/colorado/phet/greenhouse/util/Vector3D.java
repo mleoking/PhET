@@ -6,6 +6,7 @@
  */
 package edu.colorado.phet.greenhouse.util;
 
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 public class Vector3D extends PhysicalVector {
 
@@ -14,7 +15,7 @@ public class Vector3D extends PhysicalVector {
     }
 
     public Vector3D( Vector2D vector ) {
-        this( vector.getX(), vector.getY(), 0 );
+        this( (float)vector.getX(), (float)vector.getY(), 0 );
     }
 
     public Vector3D( Vector3D vector ) {
@@ -63,7 +64,7 @@ public class Vector3D extends PhysicalVector {
     ;
 
     public Vector3D setComponents( Vector2D that ) {
-        this.setComponents( that.getX(), that.getY(), 0 );
+        this.setComponents( (float)that.getX(), (float)that.getY(), 0 );
         return this;
     }
 
