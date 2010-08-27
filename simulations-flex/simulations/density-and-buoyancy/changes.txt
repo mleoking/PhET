@@ -1,3 +1,4 @@
+Reduced the width of the text boxes
 Made it so the density slider neither snaps nor changes the selected material
 Removed title "Propertes" from custom object control panel
 Added "Material" label before object material combo box
