@@ -22,6 +22,22 @@ import edu.colorado.phet.greenhouse.util.ModelViewTx1D;
 
 public class GreenhouseControlPanel extends JPanel implements Resettable {
 
+    
+    /**
+         *
+         * @author John Blanco
+         */
+    public class GreenhouseTextField extends JTextField {
+        
+        public GreenhouseTextField(){
+            super( 10 );
+            // Make this transparent so that the background of the control
+            // panel shows through.
+            setBackground( new Color(0, 0, 0, 0) );
+            setOpaque( false );
+        }
+    }
+
     private static Color adjustableGGColor = Color.black;
     private static Color iceAgeColor = new Color( 0, 28, 229 );
     private static Color preIndRevColor = new Color( 176, 0, 219 );
@@ -430,10 +446,10 @@ public class GreenhouseControlPanel extends JPanel implements Resettable {
      */
     private class GreenhouseCompositionPane extends JPanel {
 
-        JTextField h2oTF = new JTextField( 10 );
-        JTextField co2TF = new JTextField( 10 );
-        JTextField ch4TF = new JTextField( 10 );
-        JTextField n2oTF = new JTextField( 10 );
+        JTextField h2oTF = new GreenhouseTextField();
+        JTextField co2TF = new GreenhouseTextField();
+        JTextField ch4TF = new GreenhouseTextField();
+        JTextField n2oTF = new GreenhouseTextField();
 
         GreenhouseCompositionPane( String[] concentrations ) {
             this();
