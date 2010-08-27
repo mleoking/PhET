@@ -1,3 +1,4 @@
+Removed the quadrant lines from the custom object
 Made the scale undraggable
 Reduced the width of the text boxes
 Made it so the density slider neither snaps nor changes the selected material
