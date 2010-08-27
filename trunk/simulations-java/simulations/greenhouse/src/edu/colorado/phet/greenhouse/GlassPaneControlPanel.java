@@ -99,9 +99,6 @@ public class GlassPaneControlPanel extends JPanel implements Resettable {
                                                          GridBagConstraints.NORTHWEST,
                                                          GridBagConstraints.HORIZONTAL,
                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
-        // PhET logo
-        JLabel logo = new JLabel( ( new ImageIcon( GreenhouseResources.getImage( "Phet-Flatirons-logo-3-small.gif" ) ) ) );
-        panel.add( logo, gbc );
 
         panel.add( new GreenhouseLegend(), gbc );
 
