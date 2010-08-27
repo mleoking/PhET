@@ -20,6 +20,7 @@ import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.membranediffusion.MembraneDiffusionConstants;
 import edu.colorado.phet.membranediffusion.MembraneDiffusionResources;
+import edu.colorado.phet.membranediffusion.MembraneDiffusionStrings;
 import edu.colorado.phet.membranediffusion.model.MembraneDiffusionModel;
 
 /**
@@ -117,6 +118,7 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
         // Add a button for removing all particles.
         addControl(createVerticalSpacingPanel(15));
         JPanel clearButtonPanel = new JPanel();
+        // TODO: i18n
         JButton removeAllParticlesButton = new JButton("Clear Particles");
         removeAllParticlesButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -167,23 +169,23 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
 
         if (model.getGatedSodiumChannelOpenness() > 0.5){
             // TODO: i18n
-            sodiumGatedChannelControlButton.setText( "Close Channels" );
+            sodiumGatedChannelControlButton.setText( MembraneDiffusionStrings.CLOSE_CHANNELS );
             sodiumGatedChannelControlButton.setIcon( new ImageIcon( MembraneDiffusionResources.getImage( "red_gate_close_icon.png" ) ) );
         }
         else{
             // TODO: i18n
-            sodiumGatedChannelControlButton.setText( "Open Channels" );
+            sodiumGatedChannelControlButton.setText( MembraneDiffusionStrings.OPEN_CHANNELS );
             sodiumGatedChannelControlButton.setIcon( new ImageIcon( MembraneDiffusionResources.getImage( "red_gate_open_icon.png" ) ) );
         }
         
         if (model.getGatedPotassiumChannelOpenness() > 0.5){
             // TODO: i18n
-            potassiumGatedChannelControlButton.setText( "Close Channels" );
+            potassiumGatedChannelControlButton.setText( MembraneDiffusionStrings.CLOSE_CHANNELS );
             potassiumGatedChannelControlButton.setIcon( new ImageIcon( MembraneDiffusionResources.getImage( "blue_gate_close_icon.png" ) ) );
         }
         else{
             // TODO: i18n
-            potassiumGatedChannelControlButton.setText( "Open Channels" );
+            potassiumGatedChannelControlButton.setText( MembraneDiffusionStrings.OPEN_CHANNELS );
             potassiumGatedChannelControlButton.setIcon( new ImageIcon( MembraneDiffusionResources.getImage( "blue_gate_open_icon.png" ) ) );
         }
     }
