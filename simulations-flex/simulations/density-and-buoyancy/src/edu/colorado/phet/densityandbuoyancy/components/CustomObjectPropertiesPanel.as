@@ -69,6 +69,7 @@ public class CustomObjectPropertiesPanel extends DensityVBox{
 
         var label:Label = new Label();
         label.text=FlexSimStrings.get("customObject.material", "Material");
+        label.setStyle(DensityConstants.FLEX_FONT_WEIGHT, DensityConstants.FLEX_FONT_BOLD);
         
         var comboBoxPanel:HBox = new HBox();
         comboBoxPanel.addChild(label);

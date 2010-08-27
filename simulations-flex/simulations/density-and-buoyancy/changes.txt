@@ -1,3 +1,5 @@
+Made "Mass", "Volume", "Density" and "Material" all bold
+Made Objects title bold
 Changed control panels to yellow
 Retitled "modes" to "objects", then items should read "custom", "same mass", "mystery", etc
 Reduced the height of the empty title borders
