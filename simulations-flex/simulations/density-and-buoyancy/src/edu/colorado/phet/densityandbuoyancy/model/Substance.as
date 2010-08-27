@@ -4,6 +4,7 @@ import edu.colorado.phet.flexcommon.FlexSimStrings;
 public class Substance {
     public static var WOOD:Substance = new Substance(FlexSimStrings.get("substance.wood","Wood"), 0.4 * 1000.0, false);
     public static var LEAD:Substance = new Substance(FlexSimStrings.get("substance.lead","Lead"), 11.34 * 1000.0, false);
+    public static var ALUMINUM:Substance = new Substance(FlexSimStrings.get("substance.aluminum","Aluminum"), 2.7 * 1000.0, false);
     public static var WATER:Substance = new Substance(FlexSimStrings.get("substance.water","Water"), 1.0 * 1000.0, false);
     public static var WATER_BALLOON:Substance = new Substance(FlexSimStrings.get("substance.waterBalloon","Water Balloon"), 1.0 * 1000.0, false);
     public static var CUSTOM:Substance = new Substance(FlexSimStrings.get("substance.custom","Custom"), 1.0 * 1000.0, true);
@@ -19,7 +20,7 @@ public class Substance {
     private var density:Number;
     private var _name:String;
     private var _isCustom:Boolean;
-    public static var ALL:Array = [APPLE, DIAMOND, GASOLINE_BALLOON,GOLD,ICE, LEAD,WATER_BALLOON,WOOD];
+    public static var ALL:Array = [ALUMINUM, APPLE, DIAMOND, GASOLINE_BALLOON,GOLD,ICE, LEAD,WATER_BALLOON,WOOD];
 
     public function Substance(name:String, density:Number, isCustom:Boolean) {
         this.density = density;
