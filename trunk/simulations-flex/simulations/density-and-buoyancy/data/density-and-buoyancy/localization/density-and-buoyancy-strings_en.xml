@@ -23,6 +23,7 @@
     <string key="mysteryObject.table.showTable" value="Show Table"/>
     <string key="substance.wood" value="Wood"/>
     <string key="substance.lead" value="Lead"/>
+    <string key="substance.aluminum" value="Aluminum"/>
     <string key="substance.diamond" value="Diamond"/>
     <string key="substance.water" value="Water"/>
     <string key="substance.waterBalloon" value="Water Balloon"/>
