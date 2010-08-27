@@ -22,22 +22,6 @@ import edu.colorado.phet.greenhouse.util.ModelViewTx1D;
 
 public class GreenhouseControlPanel extends JPanel implements Resettable {
 
-    
-    /**
-         *
-         * @author John Blanco
-         */
-    public class GreenhouseTextField extends JTextField {
-        
-        public GreenhouseTextField(){
-            super( 10 );
-            // Make this transparent so that the background of the control
-            // panel shows through.
-            setBackground( new Color(0, 0, 0, 0) );
-            setOpaque( false );
-        }
-    }
-
     private static Color adjustableGGColor = Color.black;
     private static Color iceAgeColor = new Color( 0, 28, 229 );
     private static Color preIndRevColor = new Color( 176, 0, 219 );
@@ -94,9 +78,6 @@ public class GreenhouseControlPanel extends JPanel implements Resettable {
         //--------------------------------------------------------------------------------------------------
         // Create the controls
         //--------------------------------------------------------------------------------------------------
-
-        // PhET logo
-        JLabel logo = new JLabel( ( new ImageIcon( GreenhouseResources.getImage( "Phet-Flatirons-logo-3-small.gif" ) ) ) );
 
         // Incident photon's from the sun
         final SliderWithReadout sunRateControl = new SliderWithReadout( GreenhouseResources.getString( "GreenhouseControlPanel.SunRateSlider" ),
@@ -210,7 +191,6 @@ public class GreenhouseControlPanel extends JPanel implements Resettable {
                                                          GridBagConstraints.CENTER,
                                                          GridBagConstraints.HORIZONTAL,
                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
-        add( logo, gbc );
         add( new GreenhouseLegend(), gbc );
 
         // Greenhouse gas concentrations
@@ -670,6 +650,21 @@ public class GreenhouseControlPanel extends JPanel implements Resettable {
         }
         else if ( celsiusRB.isSelected() ) {
             GreenhouseConfig.TEMPERATURE_UNITS = GreenhouseConfig.CELSIUS;
+        }
+    }
+    
+    /**
+     *
+     * @author John Blanco
+     */
+    public class GreenhouseTextField extends JTextField {
+
+        public GreenhouseTextField(){
+            super( 10 );
+            // Make this transparent so that the background of the control
+            // panel shows through.
+            setBackground( new Color(0, 0, 0, 0) );
+            setOpaque( false );
         }
     }
 }
