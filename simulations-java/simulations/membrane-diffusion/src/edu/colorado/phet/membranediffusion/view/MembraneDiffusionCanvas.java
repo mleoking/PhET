@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.membranediffusion.MembraneDiffusionConstants;
+import edu.colorado.phet.membranediffusion.MembraneDiffusionStrings;
 import edu.colorado.phet.membranediffusion.model.MembraneChannel;
 import edu.colorado.phet.membranediffusion.model.MembraneDiffusionModel;
 import edu.colorado.phet.membranediffusion.model.Particle;
@@ -130,8 +131,7 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
         Rectangle2D membraneRect = MembraneDiffusionModel.getMembraneRect();
     	Rectangle2D transformedMembraneRect = mvt.createTransformedShape(membraneRect).getBounds2D();
     	PNode membraneNode = new PhetPPath(transformedMembraneRect, Color.YELLOW, new BasicStroke(1f), Color.BLACK);
-    	// TODO: i18n
-        PText membraneLabel = new PText("Membrane");
+        PText membraneLabel = new PText( MembraneDiffusionStrings.MEMBRANE );
         membraneLabel.setFont(new PhetFont());
         membraneLabel.setScale(transformedMembraneRect.getHeight() * 0.7 / membraneLabel.getFullBoundsReference().height);
         membraneLabel.setOffset(transformedMembraneRect.getMinX() + 10,

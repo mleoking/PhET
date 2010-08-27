@@ -2,6 +2,7 @@ package edu.colorado.phet.membranediffusion.view;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.membranediffusion.MembraneDiffusionStrings;
 import edu.colorado.phet.membranediffusion.model.MembraneDiffusionModel;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -41,8 +42,7 @@ public class LeakChannelToolBox extends ToolBox {
 		addToolBoxItem( potassiumLeakChannelToolBoxNode );
 		
 		// Set the caption.
-		// TODO: i18n
-		setCaption( "Leakage Channels" );
+		setCaption( MembraneDiffusionStrings.LEAKAGE_CHANNELS );
 		
 		// Finalize the layout.
 		updateLayout();
