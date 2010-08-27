@@ -87,8 +87,7 @@ public class PhotonCloudCollisionModel {
             Vector3D t1 = r13D.crossProduct( n3D ).multiply( (float) ( 1 / bodyA.getMomentOfInertia() ) );
             Vector3D t1A = t1.crossProduct( t1 );
             float t1B = n3D.dot( t1A );
-            double denominator = ( 1 / bodyA.getMass() ) + t1B;
-            denominator = ( 1 / bodyA.getMass() ) +
+            double denominator = ( 1 / bodyA.getMass() ) +
                           ( n3D.dot( r13D.crossProduct( n3D ).multiply( 1 / (float) bodyA.getMomentOfInertia() ).crossProduct( r13D ) ) );
             double j = numerator / denominator;
 
