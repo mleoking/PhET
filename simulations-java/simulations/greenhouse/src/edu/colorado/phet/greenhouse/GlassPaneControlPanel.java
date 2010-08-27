@@ -142,8 +142,8 @@ public class GlassPaneControlPanel extends JPanel implements Resettable {
         glassPaneSpinner.setValue( new Integer( 0 ) );
         thermometerCB.setSelected( true );
         module.thermometerEnabled( thermometerCB.isSelected() );
-        allPhotonsCB.setSelected( true );
-        module.setVisiblePhotonRatio( 1.0 );
+        allPhotonsCB.setSelected( false );
+        module.setVisiblePhotonRatio( 0.1 );
     }
 
     public void reset() {

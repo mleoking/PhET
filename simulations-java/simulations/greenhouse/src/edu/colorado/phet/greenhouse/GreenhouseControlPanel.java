@@ -273,8 +273,8 @@ public class GreenhouseControlPanel extends JPanel implements Resettable {
         cloudsSpinner.setValue( new Integer( 0 ) );
 
         // todo: HACK!!! make the control panel listen to the module for this?
-        allPhotonsCB.setSelected( true );
-        module.setVisiblePhotonRatio( 1.0 );
+        allPhotonsCB.setSelected( false );
+        module.setVisiblePhotonRatio( 0.1 );
 
         // todo: HACK!!! make the control panel listen to the module for this?
         thermometerCB.setSelected( true );
