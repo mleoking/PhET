@@ -2,12 +2,12 @@
 <SimStrings>
     <string key="density.simTitle" value="Density"/>
     <string key="buoyancy.simTitle" value="Buoyancy"/>
-    <string key="mode.title" value="Modes"/>
-    <string key="mode.customObject" value="Custom Object"/>
-    <string key="mode.objectsOfSameMass" value="Objects of same mass"/>
-    <string key="mode.objectsOfSameVolume" value="Objects of same volume"/>
-    <string key="mode.objectsOfSameDensity" value="Objects of same density"/>
-    <string key="mode.mysteryObjects" value="Mystery Objects"/>
+    <string key="mode.title" value="Objects"/>
+    <string key="mode.customObject" value="Custom"/>
+    <string key="mode.objectsOfSameMass" value="Same Mass"/>
+    <string key="mode.objectsOfSameVolume" value="Same Volume"/>
+    <string key="mode.objectsOfSameDensity" value="Same Density"/>
+    <string key="mode.mysteryObjects" value="Mystery"/>
     <string key="mode.mysteryObjects.A" value="A"/>
     <string key="mode.mysteryObjects.B" value="B"/>
     <string key="mode.mysteryObjects.C" value="C"/>
