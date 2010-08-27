@@ -29,6 +29,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.PhetTitledBorder;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
@@ -114,7 +115,7 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
         // the gas.
         VerticalLayoutPanel atmosphericGasesPanel = new VerticalLayoutPanel();
         // TODO: i18n
-        atmosphericGasesPanel.setBorder(createTitledBorder("Atmospheric Gases"));
+        atmosphericGasesPanel.setBorder(new PhetTitledBorder("Atmospheric Gases"));
         addControlFullWidth(atmosphericGasesPanel);
         
         // Add buttons for selecting greenhouse gas.
@@ -216,7 +217,7 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
         slider.setUpDownArrowDelta( 1 );
         slider.setTextFieldEditable( true );
         slider.setMajorTicksVisible( false );
-        slider.setBorder( BorderFactory.createEtchedBorder() );
+        slider.setBorder( new PhetTitledBorder( "" ) );
         slider.setValue( model.getConfigurableAtmosphereGasLevel( moleculeID ) );
         slider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {

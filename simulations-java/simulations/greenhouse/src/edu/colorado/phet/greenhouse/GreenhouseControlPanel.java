@@ -1,17 +1,42 @@
 package edu.colorado.phet.greenhouse;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.AWTException;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
-import javax.swing.*;
+import javax.swing.AbstractAction;
+import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JSlider;
+import javax.swing.JSpinner;
+import javax.swing.JTextField;
+import javax.swing.SpinnerModel;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.view.PhetTitledBorder;
+import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
 import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -59,7 +84,7 @@ public class GreenhouseControlPanel extends JPanel implements Resettable {
     private JPanel adjustableCompositionPane = new JPanel();
     private GreenhouseModule module;
     private JSpinner cloudsSpinner;
-    private AtmosphereSelectionPane atmosphereSelectionPane;
+    private AtmosphereSelectionPanel atmosphereSelectionPane;
     private JCheckBox allPhotonsCB;
     private JCheckBox thermometerCB;
     private JRadioButton fahrenheitRB;
@@ -175,7 +200,7 @@ public class GreenhouseControlPanel extends JPanel implements Resettable {
         } );
 
         // Atmosphere selection
-        atmosphereSelectionPane = new AtmosphereSelectionPane();
+        atmosphereSelectionPane = new AtmosphereSelectionPanel();
 
         // Reset button
         JButton resetBtn = new ResetAllButton( this, PhetApplication.getInstance().getPhetFrame() );
@@ -195,15 +220,14 @@ public class GreenhouseControlPanel extends JPanel implements Resettable {
 
         // Greenhouse gas concentrations
         {
-            JPanel panel = new JPanel();
-            panel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), GreenhouseResources.getString( "GreenhouseControlPanel.GasConcentrationSlider" ) ) );
+            JPanel panel = new PhetTitledPanel( GreenhouseResources.getString( "GreenhouseControlPanel.GasConcentrationSlider" ) );
             panel.add( greenhouseGasConcentrationControl );
             add( panel, gbc );
         }
 
         // Options panel
-        JPanel optionsPanel = new JPanel( new GridBagLayout() );
-        optionsPanel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), GreenhouseResources.getString( "GreenhouseControlPanel.Options" ) ) );
+        JPanel optionsPanel = new PhetTitledPanel( GreenhouseResources.getString( "GreenhouseControlPanel.Options" ) );
+        optionsPanel.setLayout( new GridBagLayout() );
         {
             Insets insetsA = new Insets( 0, 15, 0, 15 );
             Insets insetsB = new Insets( 0, 2, 0, 2 );
@@ -274,11 +298,12 @@ public class GreenhouseControlPanel extends JPanel implements Resettable {
     // Inner classes
     //----------------------------------------------------------------
 
-    private class AtmosphereSelectionPane extends JPanel {
+    private class AtmosphereSelectionPanel extends PhetTitledPanel {
         private JRadioButton todayGGRB;
         private JRadioButton adjustableGGRB;
 
-        AtmosphereSelectionPane() {
+        AtmosphereSelectionPanel() {
+            super( GreenhouseResources.getString( "GreenhouseControlPanel.TimePeriodBorderLabel" ) );
 
             adjustableGGRB = new JRadioButton();
             adjustableGGRB.setAction( pickAdjustableGG );
@@ -332,11 +357,6 @@ public class GreenhouseControlPanel extends JPanel implements Resettable {
 //            this.add( venusGGRB, gbc );
             this.add( venusCompositionPane, gbc );
             this.add( adjustableCompositionPane, gbc );
-
-            TitledBorder titledBorder = BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), GreenhouseResources.getString( "GreenhouseControlPanel.TimePeriodBorderLabel" ) );
-            titledBorder.setTitleColor( panelForeground );
-//            titledBorder.setTitleJustification( TitledBorder.LEFT );
-            this.setBorder( titledBorder );
 
             setDefaultConditions();
         }
@@ -424,8 +444,8 @@ public class GreenhouseControlPanel extends JPanel implements Resettable {
     /**
      * Pane that shows concentration of various greenhouse gas components
      */
-    private class GreenhouseCompositionPane extends JPanel {
-
+    private class GreenhouseCompositionPane extends PhetTitledPanel {
+        
         JTextField h2oTF = new GreenhouseTextField();
         JTextField co2TF = new GreenhouseTextField();
         JTextField ch4TF = new GreenhouseTextField();
@@ -437,6 +457,9 @@ public class GreenhouseControlPanel extends JPanel implements Resettable {
         }
 
         GreenhouseCompositionPane() {
+            super( GreenhouseResources.getString( "GreenhouseControlPanel.GreenhouseGasBorderLabel" ) );
+            setFont( new PhetFont(8) );
+            
             String[] labels = new String[]{
                     GreenhouseResources.getString( "GreenhouseControlPanel.H2OLabel" ),
                     GreenhouseResources.getString( "GreenhouseControlPanel.CO2Label" ),
@@ -453,12 +476,6 @@ public class GreenhouseControlPanel extends JPanel implements Resettable {
             co2TF.setEditable( false );
             ch4TF.setEditable( false );
             n2oTF.setEditable( false );
-
-            // titled border
-            String title = GreenhouseResources.getString( "GreenhouseControlPanel.GreenhouseGasBorderLabel" );
-            TitledBorder titledBorder = BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), title );
-            titledBorder.setTitleColor( panelForeground );
-            setBorder( titledBorder );
 
             // grid of labels and concentrations
             EasyGridBagLayout layout = new EasyGridBagLayout( this );

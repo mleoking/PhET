@@ -6,18 +6,18 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.image.BufferedImage;
 
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
 import edu.colorado.phet.greenhouse.model.Photon;
 import edu.colorado.phet.greenhouse.view.PhotonGraphic;
 
-public class GreenhouseLegend extends JPanel {
+public class GreenhouseLegend extends PhetTitledPanel {
 
     GreenhouseLegend() {
+        super( GreenhouseResources.getString( "GreenhouseLegend.LegendTitle" ) );
 
         // Draw an IR photon and a sunlight photon
         BufferedImage irPhotonBI = new BufferedImage( 15, 15, BufferedImage.TYPE_INT_ARGB );
@@ -35,7 +35,6 @@ public class GreenhouseLegend extends JPanel {
         ImageIcon sunlightPhotonIcon = new ImageIcon( sunlightPhotonGraphic.getImage() );
 
         setLayout( new GridBagLayout() );
-        this.setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), GreenhouseResources.getString( "GreenhouseLegend.LegendTitle" ) ) );
         try {
             GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 0, 0,
                     GridBagConstraints.CENTER,
