@@ -6,8 +6,10 @@ import edu.colorado.phet.densityandbuoyancy.view.units.Units;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 
 import mx.containers.Grid;
+import mx.containers.HBox;
 import mx.containers.Panel;
 import mx.controls.ComboBox;
+import mx.controls.Label;
 import mx.events.ListEvent;
 
 public class CustomObjectPropertiesPanel extends Panel {
@@ -64,7 +66,14 @@ public class CustomObjectPropertiesPanel extends Panel {
                 comboBox.selectedItem = densityObject.getSubstance();
             }
         });
-        addChild(comboBox);
+
+        var label:Label = new Label();
+        label.text=FlexSimStrings.get("customObject.material", "Material");
+        
+        var comboBoxPanel:HBox = new HBox();
+        comboBoxPanel.addChild(label);
+        comboBoxPanel.addChild(comboBox);
+        addChild(comboBoxPanel);
 
         addChild(grid);
     }

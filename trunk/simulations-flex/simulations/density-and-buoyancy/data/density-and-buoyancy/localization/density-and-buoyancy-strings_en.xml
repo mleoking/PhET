@@ -14,6 +14,7 @@
     <string key="mode.mysteryObjects.D" value="D"/>
     <string key="mode.mysteryObjects.E" value="E"/>
     <string key="customObject.properties" value="Properties"/>
+    <string key="customObject.material" value="Material"/>
     <string key="customObject.name" value="name"/>
     <string key="customObject.custom" value="Custom"/>
     <string key="mysteryObject.substance" value="Substance"/>
