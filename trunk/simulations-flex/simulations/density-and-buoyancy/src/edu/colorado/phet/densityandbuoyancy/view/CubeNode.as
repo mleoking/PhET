@@ -8,10 +8,8 @@ public class CubeNode extends CuboidNode {
     public function CubeNode(cuboid:Cuboid, view:AbstractDensityModule) {
         super(cuboid, view);
         cube = new PickableCube(this);
-        //        updateGeometry();
         cube.segmentsH = 2;
         cube.segmentsW = 2;
-        cube.useHandCursor = true;
     }
 
     public function getCube():PickableCube {
