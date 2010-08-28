@@ -14,7 +14,7 @@ public class MysteryBlock extends Block {
     }
 
     override public function createNode(view:AbstractDensityModule):DensityObjectNode {
-        return new BlockNode(this, view, new StringProperty(label),3);
+        return new BlockNode(this, view, new StringProperty(label), 3);
     }
 
 }
