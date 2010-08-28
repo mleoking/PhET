@@ -7,13 +7,11 @@ import edu.colorado.phet.flexcommon.FlexSimStrings;
 
 import mx.containers.Grid;
 import mx.containers.HBox;
-import mx.containers.Panel;
-import mx.containers.VBox;
 import mx.controls.ComboBox;
 import mx.controls.Label;
 import mx.events.ListEvent;
 
-public class CustomObjectPropertiesPanel extends DensityVBox{
+public class CustomObjectPropertiesPanel extends DensityVBox {
     private var grid:Grid = new Grid();
     private var densityObject:DensityObject;
     private var comboBox:ComboBox;
@@ -45,7 +43,7 @@ public class CustomObjectPropertiesPanel extends DensityVBox{
 
         comboBox = new ComboBox();
         comboBox.dataProvider = Material.SELECTABLE_MATERIALS.concat([Material.CUSTOM]);
-        
+
         comboBox.labelField = "name";//uses the "name" get property on Material to identify the name
         function myListener():void {
             trace("comboBox.selectedItem=" + comboBox.selectedItem);
@@ -53,10 +51,12 @@ public class CustomObjectPropertiesPanel extends DensityVBox{
                 if (!densityObject.getMaterial().isCustom()) {
                     densityObject.material = new Material(FlexSimStrings.get("customObject.custom", "Custom"), densityObject.getDensity(), true);
                 }
-            } else {
+            }
+            else {
                 densityObject.material = Material(comboBox.selectedItem);
             }
         }
+
         comboBox.selectedItem = densityObject.getMaterial();
 
         comboBox.addEventListener(ListEvent.CHANGE, myListener);
@@ -70,9 +70,9 @@ public class CustomObjectPropertiesPanel extends DensityVBox{
         });
 
         var label:Label = new Label();
-        label.text=FlexSimStrings.get("customObject.material", "Material");
+        label.text = FlexSimStrings.get("customObject.material", "Material");
         label.setStyle(DensityConstants.FLEX_FONT_WEIGHT, DensityConstants.FLEX_FONT_BOLD);
-        
+
         var comboBoxPanel:HBox = new HBox();
         comboBoxPanel.addChild(label);
         comboBoxPanel.addChild(comboBox);

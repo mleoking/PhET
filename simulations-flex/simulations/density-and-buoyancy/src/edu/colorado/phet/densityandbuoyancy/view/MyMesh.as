@@ -13,7 +13,7 @@ public class MyMesh extends Mesh {
 
     public function v(x:Number, y:Number, z:Number):Number {
         varr.push(new Vertex(x, y, z));
-        return varr.length-1;
+        return varr.length - 1;
     }
 
     public function uv(u:Number, v:Number):void {
@@ -27,7 +27,8 @@ public class MyMesh extends Mesh {
     public function face(x:int, y:int, z:int, texture:ITriangleMaterial = null):void {
         addFace(new Face(varr[x], varr[y], varr[z], texture, uvarr[x], uvarr[y], uvarr[z]));
     }
-    public function plane(a:int,b:int,c:int,d:int,texture:ITriangleMaterial = null):void{
+
+    public function plane(a:int, b:int, c:int, d:int, texture:ITriangleMaterial = null):void {
         face(a, b, c, texture);
         face(a, c, d, texture);
     }

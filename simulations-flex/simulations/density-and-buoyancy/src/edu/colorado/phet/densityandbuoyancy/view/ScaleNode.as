@@ -1,6 +1,5 @@
 package edu.colorado.phet.densityandbuoyancy.view {
 import away3d.materials.*;
-
 import away3d.primitives.Cube;
 
 import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
@@ -94,7 +93,7 @@ public class ScaleNode extends CuboidNode {
         top.cubeMaterials.back = brightMaterial;
 
         stand.material = sideMaterial;
-        
+
         scale.addScaleReadoutListener(updateText);
     }
 
