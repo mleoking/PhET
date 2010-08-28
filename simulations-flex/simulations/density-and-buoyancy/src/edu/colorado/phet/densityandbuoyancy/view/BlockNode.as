@@ -47,9 +47,11 @@ public class BlockNode extends CubeNode implements Pickable {
 
     private var textureBitmap:Bitmap; // the texture being used (wood bitmap, wall (custom) bitmap, etc.)
     private var label:StringProperty;
+    private var readoutFontScale:Number;
 
-    public function BlockNode(block:Block, view:AbstractDensityModule, label:StringProperty):void {
+    public function BlockNode(block:Block, view:AbstractDensityModule, label:StringProperty, readoutFontScale:Number = 1):void {
         super(block, view);
+        this.readoutFontScale = readoutFontScale;
 
         this.label = label;
         this.block = block;
@@ -169,15 +171,11 @@ public class BlockNode extends CubeNode implements Pickable {
         var cube:PickableCube = getCube();
         cube.cubeMaterials.left = cube.cubeMaterials.right = cube.cubeMaterials.top = cube.cubeMaterials.bottom = cube.cubeMaterials.front = sideMaterial;
         cube.cubeMaterials.back = frontMaterial;
-
-        //make block semi-transparent
-        //        redWallMaterial.alpha = 0.5;
-        //        frontSprite.alpha = 0.5;
     }
 
     public override function updateGeometry():void {
         super.updateGeometry();
-        textField.setTextFormat(createTextFormat(7500 / getCube().width));
+        textField.setTextFormat(createTextFormat(7500 / getCube().width * readoutFontScale));
     }
 }
 }
