@@ -1,3 +1,4 @@
+Removed 125 L tick mark and switched spacing to 20L between tick marks because 125 was out of the pool
 Renamed substance -> material
 Refactored list of selectable substances, fixed a bug in object selection
 Added aluminum texture
