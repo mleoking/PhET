@@ -85,6 +85,7 @@ import edu.colorado.phet.densityandbuoyancy.components.CustomObjectPropertiesPan
 import edu.colorado.phet.densityandbuoyancy.components.MysteryObjectsControlPanel;
 import edu.colorado.phet.densityandbuoyancy.model.Block;
 import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
+import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
 import edu.colorado.phet.densityandbuoyancy.model.Material;
 import edu.colorado.phet.densityandbuoyancy.model.MysteryBlock;
 import edu.colorado.phet.densityandbuoyancy.model.Scale;
@@ -110,8 +111,9 @@ class Mode {
     public function reset():void {
     }
 }
+
 class CustomObjectMode extends Mode {
-    private var customizableObject:Block;
+    private var customizableObject:DensityObject;
     private var customObjectPropertiesPanel:CustomObjectPropertiesPanel;
     private var customObjectPropertiesPanelShowing:Boolean = false;
 
