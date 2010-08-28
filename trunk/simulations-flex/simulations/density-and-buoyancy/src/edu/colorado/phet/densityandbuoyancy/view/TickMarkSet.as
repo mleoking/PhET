@@ -12,11 +12,12 @@ public class TickMarkSet extends Sprite {
 
     public function TickMarkSet(model:DensityModel) {
         addTickMark(new TickMark(model, DensityConstants.litersToMetersCubed(0)));
-        addTickMark(new TickMark(model, DensityConstants.litersToMetersCubed(25)));
-        addTickMark(new TickMark(model, DensityConstants.litersToMetersCubed(50)));
-        addTickMark(new TickMark(model, DensityConstants.litersToMetersCubed(75)));
+        addTickMark(new TickMark(model, DensityConstants.litersToMetersCubed(20)));
+        addTickMark(new TickMark(model, DensityConstants.litersToMetersCubed(40)));
+        addTickMark(new TickMark(model, DensityConstants.litersToMetersCubed(60)));
+        addTickMark(new TickMark(model, DensityConstants.litersToMetersCubed(80)));
         addTickMark(new TickMark(model, DensityConstants.litersToMetersCubed(100)));
-        addTickMark(new TickMark(model, DensityConstants.litersToMetersCubed(125)));
+        addTickMark(new TickMark(model, DensityConstants.litersToMetersCubed(120)));
     }
 
     private function addTickMark(tm:TickMark):void {
