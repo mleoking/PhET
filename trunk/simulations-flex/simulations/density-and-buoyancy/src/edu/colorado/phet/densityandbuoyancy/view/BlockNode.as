@@ -2,8 +2,8 @@ package edu.colorado.phet.densityandbuoyancy.view {
 import away3d.materials.*;
 
 import edu.colorado.phet.densityandbuoyancy.model.Block;
-import edu.colorado.phet.densityandbuoyancy.model.StringProperty;
 import edu.colorado.phet.densityandbuoyancy.model.Material;
+import edu.colorado.phet.densityandbuoyancy.model.StringProperty;
 
 import flash.display.Bitmap;
 import flash.display.BitmapData;
@@ -23,14 +23,17 @@ public class BlockNode extends CubeNode implements Pickable {
 
     [Embed(source="../../../../../../data/density-and-buoyancy/images/custom.jpg")]
     private var customObjectTexture:Class;
-    
-    [Embed(source="../../../../../../data/density-and-buoyancy/images/styrofoam.jpg")]//SRR made styrofoam.jpg
+
+    [Embed(source="../../../../../../data/density-and-buoyancy/images/styrofoam.jpg")]
+    //SRR made styrofoam.jpg
     private var styrofoamTextureClass:Class;
-    
-    [Embed(source="../../../../../../data/density-and-buoyancy/images/aluminum.jpg")]//SRR modified aluminum.jpg based on microsoft clip art
+
+    [Embed(source="../../../../../../data/density-and-buoyancy/images/aluminum.jpg")]
+    //SRR modified aluminum.jpg based on microsoft clip art
     private var aluminumTextureClass:Class;
-    
-    [Embed(source="../../../../../../data/density-and-buoyancy/images/wall.jpg")]//came with away3d
+
+    [Embed(source="../../../../../../data/density-and-buoyancy/images/wall.jpg")]
+    //came with away3d
     private var brickTextureClass:Class;
 
     // initial testing wood texture
@@ -131,15 +134,24 @@ public class BlockNode extends CubeNode implements Pickable {
         // update the bitmap we use as a background
         if (block.getMaterial() == Material.WOOD) {
             textureBitmap = new woodClass();
-        }else if (block.getMaterial() == Material.BRICK){
-            textureBitmap = new brickTextureClass();
-        }else if (block.getMaterial()==Material.STYROFOAM){
-            textureBitmap = new styrofoamTextureClass();
-        } else if (block.getMaterial()==Material.ALUMINUM){
-            textureBitmap = new aluminumTextureClass();
-        } 
+        }
         else {
-            textureBitmap = getCustomBitmap();
+            if (block.getMaterial() == Material.BRICK) {
+                textureBitmap = new brickTextureClass();
+            }
+            else {
+                if (block.getMaterial() == Material.STYROFOAM) {
+                    textureBitmap = new styrofoamTextureClass();
+                }
+                else {
+                    if (block.getMaterial() == Material.ALUMINUM) {
+                        textureBitmap = new aluminumTextureClass();
+                    }
+                    else {
+                        textureBitmap = getCustomBitmap();
+                    }
+                }
+            }
         }
 
         // add the new bitmap

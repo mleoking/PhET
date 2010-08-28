@@ -9,7 +9,7 @@
     <mx:Canvas width="100%" height="100%" label="Density" id="densityCanvas" fontSize="12">
         <mx:Canvas backgroundColor="0x5dc0ff" width="100%" height="100%" id="background"/>
         <view:DensityModule width="100%" height="100%" id="densityModule"/>
-        <components:DensityVBox right="20" y="20" >
+        <components:DensityVBox right="20" y="20">
             <mx:Label text="{FlexSimStrings.get('mode.title','Objects')}" fontWeight="bold"/>
             <mx:RadioButton groupName="modes" id="customObject"
                             label="{FlexSimStrings.get('mode.customObject','Custom')}"
@@ -43,32 +43,32 @@
         private var common:FlexCommon = new FlexCommon();
 
         private function getAllTabs():Array {
-            return new Array( densityModule );
+            return new Array(densityModule);
         }
 
         private function onApplicationComplete():void {
-            for each ( var module:AbstractDensityModule in getAllTabs() ) {
+            for each (var module:AbstractDensityModule in getAllTabs()) {
                 module.init();
                 module.pause();
             }
             getAllTabs()[0].start();
 
-            densityModule.doInit( densityCanvas );
+            densityModule.doInit(densityCanvas);
             densityModule.switchToCustomObject();
 
             //Text fields should lose focus when the user clicks outside of them, so they will accept their value if the user was editing them
             const refocuser:Function = function():void {
-                if ( focusManager.getFocus() is TextInput ) {
-                    focusManager.setFocus( focusManager.getNextFocusManagerComponent() )
+                if (focusManager.getFocus() is TextInput) {
+                    focusManager.setFocus(focusManager.getNextFocusManagerComponent())
                 }
             };
-            densityModule.addEventListener( MouseEvent.MOUSE_DOWN, refocuser );
-            background.addEventListener( MouseEvent.MOUSE_DOWN, refocuser );
+            densityModule.addEventListener(MouseEvent.MOUSE_DOWN, refocuser);
+            background.addEventListener(MouseEvent.MOUSE_DOWN, refocuser);
         }
 
-        private function onSwitch( e:Event ):void {
+        private function onSwitch(e:Event):void {
             var newIndex:Number = e.currentTarget.selectedIndex;
-            if ( oldIndex == newIndex ) {
+            if (oldIndex == newIndex) {
                 return;
             }
 

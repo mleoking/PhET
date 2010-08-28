@@ -36,7 +36,7 @@ public class Scale extends Cuboid {
         var massReadout:Number = force / DensityConstants.GRAVITY;
         var roundedOff:String = String(Math.round(massReadout * 100) / 100);
         const readoutValue:String = String(roundedOff).substr(0, 7);
-        return FlexSimStrings.get("properties.massValue","{0} kg",[readoutValue]);
+        return FlexSimStrings.get("properties.massValue", "{0} kg", [readoutValue]);
     }
 
     override public function modelStepped():void {

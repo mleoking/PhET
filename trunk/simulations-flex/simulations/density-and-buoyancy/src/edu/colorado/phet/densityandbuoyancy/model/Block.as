@@ -51,8 +51,12 @@ public class Block extends Cuboid {
     }
 
     private function clamp(blue:Number):Number {
-        if (blue < 0) return 0;
-        if (blue > 1)return 1;
+        if (blue < 0) {
+            return 0;
+        }
+        if (blue > 1) {
+            return 1;
+        }
         return blue;
     }
 
@@ -63,6 +67,5 @@ public class Block extends Cuboid {
     override public function createNode(view:AbstractDensityModule):DensityObjectNode {
         return new BlockNode(this, view, getLabelProperty());
     }
-
 }
 }

@@ -18,27 +18,27 @@ public class GroundNode extends MyMesh {
 
         // pool vertices
         var POOL_LEFT_FRONT:Number = v(-poolWidth / 2, 0, 0);
-        var POOL_LEFT_BACK:Number =v(-poolWidth / 2, 0, poolDepth);
-        var POOL_RIGHT_FRONT:Number =v(poolWidth / 2, 0, poolDepth);
-        var POOL_RIGHT_BACK:Number =v(poolWidth / 2, 0, 0);
+        var POOL_LEFT_BACK:Number = v(-poolWidth / 2, 0, poolDepth);
+        var POOL_RIGHT_FRONT:Number = v(poolWidth / 2, 0, poolDepth);
+        var POOL_RIGHT_BACK:Number = v(poolWidth / 2, 0, 0);
 
         // far ground vertices
-        var GROUND_RIGHT_FRONT:Number=v(far, 0, 0);
-        var GROUND_RIGHT_BACK:Number=v(far, 0, poolDepth);
-        var GROUND_LEFT_BACK:Number=v(-far, 0, poolDepth);
-        var GROUND_LEFT_FRONT:Number=v(-far, 0, 0);
-        var GROUND_LEFT_FAR:Number=v(-far, 0, far/6);
-        var GROUND_RIGHT_FAR:Number=v(+far, 0, far/6);
+        var GROUND_RIGHT_FRONT:Number = v(far, 0, 0);
+        var GROUND_RIGHT_BACK:Number = v(far, 0, poolDepth);
+        var GROUND_LEFT_BACK:Number = v(-far, 0, poolDepth);
+        var GROUND_LEFT_FRONT:Number = v(-far, 0, 0);
+        var GROUND_LEFT_FAR:Number = v(-far, 0, far / 6);
+        var GROUND_RIGHT_FAR:Number = v(+far, 0, far / 6);
 
         // front earth vertices
-        var EARTH_LEFT_BASE:Number=v(-far, -far, 0);
-        var EARTH_RIGHT_BASE:Number=v(far, -far, 0);
-        var POOL_RIGHT_BASE:Number=v(poolWidth / 2, -poolHeight, 0);
-        var POOL_LEFT_BASE:Number=v(-poolWidth / 2, -poolHeight, 0);
+        var EARTH_LEFT_BASE:Number = v(-far, -far, 0);
+        var EARTH_RIGHT_BASE:Number = v(far, -far, 0);
+        var POOL_RIGHT_BASE:Number = v(poolWidth / 2, -poolHeight, 0);
+        var POOL_LEFT_BASE:Number = v(-poolWidth / 2, -poolHeight, 0);
 
         // at the back of the pool
-        var POOL_LEFT_BACK_BASE:Number=v(-poolWidth / 2, -poolHeight, poolDepth);
-        var POOL_RIGHT_BACK_BASE:Number=v(poolWidth / 2, -poolHeight, poolDepth);
+        var POOL_LEFT_BACK_BASE:Number = v(-poolWidth / 2, -poolHeight, poolDepth);
+        var POOL_RIGHT_BACK_BASE:Number = v(poolWidth / 2, -poolHeight, poolDepth);
 
         for each (var vertex1:Vertex in getVertexArray()) {
             vertex1.y = vertex1.y + DensityConstants.VERTICAL_GROUND_OFFSET_AWAY_3D;
@@ -61,32 +61,32 @@ public class GroundNode extends MyMesh {
         var earthMaterial:ITriangleMaterial = new ShadingColorMaterial(0xAA7733);
         var poolMaterial:ITriangleMaterial = new ShadingColorMaterial(0xAAAAAA);
 
-        plane(POOL_RIGHT_BACK, GROUND_RIGHT_FRONT, GROUND_RIGHT_BACK, POOL_RIGHT_FRONT,grassMaterial);
-        
-        plane(POOL_LEFT_FRONT, POOL_LEFT_BACK, GROUND_LEFT_BACK, GROUND_LEFT_FRONT,grassMaterial);
+        plane(POOL_RIGHT_BACK, GROUND_RIGHT_FRONT, GROUND_RIGHT_BACK, POOL_RIGHT_FRONT, grassMaterial);
 
-        plane(GROUND_LEFT_FRONT, EARTH_LEFT_BASE, POOL_LEFT_BASE, POOL_LEFT_FRONT,earthMaterial);
-        
-        plane(EARTH_RIGHT_BASE, POOL_RIGHT_BASE, POOL_LEFT_BASE, EARTH_LEFT_BASE,earthMaterial);
-        
-        plane(POOL_RIGHT_BASE, EARTH_RIGHT_BASE, GROUND_RIGHT_FRONT, POOL_RIGHT_BACK,earthMaterial);
+        plane(POOL_LEFT_FRONT, POOL_LEFT_BACK, GROUND_LEFT_BACK, GROUND_LEFT_FRONT, grassMaterial);
+
+        plane(GROUND_LEFT_FRONT, EARTH_LEFT_BASE, POOL_LEFT_BASE, POOL_LEFT_FRONT, earthMaterial);
+
+        plane(EARTH_RIGHT_BASE, POOL_RIGHT_BASE, POOL_LEFT_BASE, EARTH_LEFT_BASE, earthMaterial);
+
+        plane(POOL_RIGHT_BASE, EARTH_RIGHT_BASE, GROUND_RIGHT_FRONT, POOL_RIGHT_BACK, earthMaterial);
 
         // right side of pool
-        plane(POOL_RIGHT_BASE,POOL_RIGHT_BACK,POOL_RIGHT_FRONT,POOL_RIGHT_BACK_BASE,poolMaterial);
+        plane(POOL_RIGHT_BASE, POOL_RIGHT_BACK, POOL_RIGHT_FRONT, POOL_RIGHT_BACK_BASE, poolMaterial);
 
         // back of pool
-        plane(POOL_LEFT_BACK,POOL_LEFT_BACK_BASE,POOL_RIGHT_BACK_BASE,POOL_RIGHT_FRONT,poolMaterial);
+        plane(POOL_LEFT_BACK, POOL_LEFT_BACK_BASE, POOL_RIGHT_BACK_BASE, POOL_RIGHT_FRONT, poolMaterial);
 
         // left side of pool
-        plane(POOL_LEFT_BASE, POOL_LEFT_BACK_BASE, POOL_LEFT_BACK, POOL_LEFT_FRONT,poolMaterial);
+        plane(POOL_LEFT_BASE, POOL_LEFT_BACK_BASE, POOL_LEFT_BACK, POOL_LEFT_FRONT, poolMaterial);
 
         // bottom of pool
-        plane(POOL_RIGHT_BASE, POOL_RIGHT_BACK_BASE, POOL_LEFT_BACK_BASE, POOL_LEFT_BASE,poolMaterial);
+        plane(POOL_RIGHT_BASE, POOL_RIGHT_BACK_BASE, POOL_LEFT_BACK_BASE, POOL_LEFT_BASE, poolMaterial);
 
         //back of earth
-        plane(GROUND_RIGHT_FAR,GROUND_LEFT_FAR,GROUND_LEFT_BACK,GROUND_RIGHT_BACK,grassMaterial);
-        plane(GROUND_RIGHT_FAR,GROUND_LEFT_FAR,GROUND_LEFT_BACK,GROUND_RIGHT_BACK,grassMaterial);
-        
+        plane(GROUND_RIGHT_FAR, GROUND_LEFT_FAR, GROUND_LEFT_BACK, GROUND_RIGHT_BACK, grassMaterial);
+        plane(GROUND_RIGHT_FAR, GROUND_LEFT_FAR, GROUND_LEFT_BACK, GROUND_RIGHT_BACK, grassMaterial);
+
         type = "GroundNode";
         url = "density";
     }

@@ -10,7 +10,6 @@ import flash.events.MouseEvent;
 import mx.containers.Grid;
 import mx.containers.GridItem;
 import mx.containers.GridRow;
-import mx.containers.Panel;
 import mx.containers.TitleWindow;
 import mx.controls.Button;
 import mx.controls.Label;
@@ -23,7 +22,7 @@ public class MysteryObjectsControlPanel extends DensityVBox {
     public function MysteryObjectsControlPanel() {
         super();
         const button:Button = new Button();
-        const myparent:MysteryObjectsControlPanel= this;
+        const myparent:MysteryObjectsControlPanel = this;
 
         button.addEventListener(MouseEvent.CLICK, function():void {
 

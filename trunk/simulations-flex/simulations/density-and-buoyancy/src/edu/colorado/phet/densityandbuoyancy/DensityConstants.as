@@ -8,7 +8,7 @@ public class DensityConstants {
     public static const MIN_VOLUME:Number = litersToMetersCubed(1);
     public static const MAX_VOLUME:Number = litersToMetersCubed(10);
     public static const MIN_DENSITY:Number = kgLtoSI(0.1);
-    public static const MAX_DENSITY:Number = Material.ALUMINUM.getDensity()*1.05;//5% more than aluminum so that aluminum doesn't seem like the most dense possibility
+    public static const MAX_DENSITY:Number = Material.ALUMINUM.getDensity() * 1.05;//5% more than aluminum so that aluminum doesn't seem like the most dense possibility
 
     //Pool volume =60 L
     public static const POOL_WIDTH_X:Number = litersToMetersCubed(10) * 100;
@@ -22,7 +22,7 @@ public class DensityConstants {
     public static const SCALE_BOX2D:Number = 10;
     public static const GRAVITY:Number = 9.8;
     public static const DEFAULT_BLOCK_WATER_OFFSET:Number = 10 / DensityModel.DISPLAY_SCALE;
-    
+
     //Move the ground down slightly to prevent intersections
     public static const VERTICAL_GROUND_OFFSET_AWAY_3D:Number = -1000.0 / DensityModel.DISPLAY_SCALE;  //This number was hand-tuned so that no rendering artifacts (flickering faces) occur, but may need to change if scale or other parameters change
 

@@ -23,7 +23,7 @@ public class DensityModel {
 
     public static var STEPS_PER_FRAME:Number = 10;
 
-    public static var FRAMES_PER_SECOND:Number=30.0;//See the Application in mxml, value has to be duplicated there
+    public static var FRAMES_PER_SECOND:Number = 30.0;//See the Application in mxml, value has to be duplicated there
     public static var DT_PER_FRAME:Number = 1.0 / FRAMES_PER_SECOND;
     public static var DT_PER_STEP:Number = DT_PER_FRAME / STEPS_PER_FRAME;
 
@@ -32,7 +32,7 @@ public class DensityModel {
     private var contactHandler:ContactHandler;
     private const densityObjectCreationListeners:Array = new Array();
     private const densityObjectDestructionListeners:Array = new Array();
-    private var time:Number=0;//TODO: Reset time
+    private var time:Number = 0;//TODO: Reset time
 
     public function DensityModel() {
         densityObjects = new Array();
@@ -111,11 +111,13 @@ public class DensityModel {
                 if (waterY > cuboid.getTopY()) {
                     submergedVolume = cuboid.getVolume();
                 }
-                else if (waterY < cuboid.getBottomY()) {
-                    submergedVolume = 0;
-                }
                 else {
-                    submergedVolume = (waterY - cuboid.getBottomY() ) * cuboid.getWidth() * cuboid.getDepth();
+                    if (waterY < cuboid.getBottomY()) {
+                        submergedVolume = 0;
+                    }
+                    else {
+                        submergedVolume = (waterY - cuboid.getBottomY() ) * cuboid.getWidth() * cuboid.getDepth();
+                    }
                 }
                 // TODO: add in liquid density
                 cuboid.setSubmergedVolume(submergedVolume);
@@ -124,7 +126,7 @@ public class DensityModel {
                 const gravityForce:b2Vec2 = cuboid.getGravityForce().Copy();
                 gravityForce.Multiply(DensityConstants.SCALE_BOX2D);
                 body.ApplyForce(gravityForce, body.GetPosition());
-                
+
                 const buoyancyForce:b2Vec2 = cuboid.getBuoyancyForce().Copy();
                 buoyancyForce.Multiply(DensityConstants.SCALE_BOX2D);
                 body.ApplyForce(buoyancyForce, body.GetPosition());
@@ -133,17 +135,17 @@ public class DensityModel {
                 dragForce.Multiply(DensityConstants.SCALE_BOX2D);
                 body.ApplyForce(dragForce, body.GetPosition());
             }
-            
+
             world.Step(DT_PER_STEP, 10);
             for each(var densityObject:DensityObject in densityObjects) {
                 densityObject.updatePositionFromBox2D();
             }
-            
+
             time = time + DT_PER_STEP;
         }
-//        for each(var c2:Cuboid in getCuboids()) {
-//            trace(time + "\t" + c2.getY() + "\t" + c2.getBody().GetPosition().y+"\t"+c2.getBody().GetLinearVelocity().y);//+"\t for "+getCuboids().length+" cuboids");
-//        }
+        //        for each(var c2:Cuboid in getCuboids()) {
+        //            trace(time + "\t" + c2.getY() + "\t" + c2.getBody().GetPosition().y+"\t"+c2.getBody().GetLinearVelocity().y);//+"\t for "+getCuboids().length+" cuboids");
+        //        }
 
         for each(densityObject in densityObjects) {
             densityObject.modelStepped();

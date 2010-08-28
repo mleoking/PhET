@@ -34,9 +34,9 @@ public class DensityObject {
 
     public function DensityObject(x:Number, y:Number, z:Number, model:DensityModel, density:Number, mass:Number, volume:Number, __material:Material) {
         this._material = __material;
-        this.volume = new NumericProperty(FlexSimStrings.get("properties.volume","Volume"), "m\u00b3", volume);
-        this.mass = new NumericProperty(FlexSimStrings.get("properties.mass","Mass"), "kg", mass);
-        this.density = new NumericProperty(FlexSimStrings.get("properties.density","Density"), "kg/m\u00b3", density);
+        this.volume = new NumericProperty(FlexSimStrings.get("properties.volume", "Volume"), "m\u00b3", volume);
+        this.mass = new NumericProperty(FlexSimStrings.get("properties.mass", "Mass"), "kg", mass);
+        this.density = new NumericProperty(FlexSimStrings.get("properties.density", "Density"), "kg/m\u00b3", density);
         this.labelProperty = new StringProperty(getLabelString());//Showing one decimal point is a good tradeoff between readability and complexity);
 
         function massChanged():void {
@@ -96,7 +96,7 @@ public class DensityObject {
     }
 
     private function getLabelString():String {
-        return FlexSimStrings.get("properties.massValue","{0} kg",[getMass().toFixed(1)]);
+        return FlexSimStrings.get("properties.massValue", "{0} kg", [getMass().toFixed(1)]);
     }
 
     protected function getLabelProperty():StringProperty {
@@ -184,7 +184,7 @@ public class DensityObject {
     public function updatePositionFromBox2D():void {
         setPosition(body.GetPosition().x / DensityConstants.SCALE_BOX2D, body.GetPosition().y / DensityConstants.SCALE_BOX2D);
     }
-    
+
     public function setPosition(x:Number, y:Number):void {
         this.x.value = x;
         this.y.value = y;
@@ -260,7 +260,7 @@ public class DensityObject {
     }
 
     public function getGravityForce():b2Vec2 {
-        return new b2Vec2(0, -DensityConstants.GRAVITY*getMass() );
+        return new b2Vec2(0, -DensityConstants.GRAVITY * getMass());
     }
 
     //Set the submerged volume before calling this

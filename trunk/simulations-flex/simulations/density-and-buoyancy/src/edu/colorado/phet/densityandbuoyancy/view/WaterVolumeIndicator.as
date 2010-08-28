@@ -1,7 +1,6 @@
 package edu.colorado.phet.densityandbuoyancy.view {
 import edu.colorado.phet.densityandbuoyancy.DensityConstants;
 import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
-
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 
 import flash.display.Sprite;
@@ -35,7 +34,7 @@ public class WaterVolumeIndicator extends Sprite {
 
         var readout:Number = DensityConstants.metersToLitersCubed(indicatedVolume);
 
-        textField.text = FlexSimStrings.get("properties.volumeValue","{0} L",[String(readout.toFixed(2))]);
+        textField.text = FlexSimStrings.get("properties.volumeValue", "{0} L", [String(readout.toFixed(2))]);
         var textFormat:TextFormat = new TextFormat();
         textFormat.size = 24;
         textFormat.bold = true;

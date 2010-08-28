@@ -85,11 +85,10 @@ import edu.colorado.phet.densityandbuoyancy.components.CustomObjectPropertiesPan
 import edu.colorado.phet.densityandbuoyancy.components.MysteryObjectsControlPanel;
 import edu.colorado.phet.densityandbuoyancy.model.Block;
 import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
+import edu.colorado.phet.densityandbuoyancy.model.Material;
 import edu.colorado.phet.densityandbuoyancy.model.MysteryBlock;
 import edu.colorado.phet.densityandbuoyancy.model.Scale;
-import edu.colorado.phet.densityandbuoyancy.model.Material;
 import edu.colorado.phet.densityandbuoyancy.view.DensityModule;
-
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 
 import flash.geom.ColorTransform;
@@ -265,15 +264,15 @@ class MysteryObjectsMode extends Mode {
         super.init();
         const model:DensityModel = module.getModel();
 
-        const block1:MysteryBlock = new MysteryBlock(Material.GOLD.getDensity(), 0.15, DensityConstants.POOL_WIDTH_X / 2, 0.15 / 2, new ColorTransform(0.5, 0.5, 0), model, FlexSimStrings.get("mode.mysteryObjects.A","A"));
+        const block1:MysteryBlock = new MysteryBlock(Material.GOLD.getDensity(), 0.15, DensityConstants.POOL_WIDTH_X / 2, 0.15 / 2, new ColorTransform(0.5, 0.5, 0), model, FlexSimStrings.get("mode.mysteryObjects.A", "A"));
         model.addDensityObject(block1);
-        const block2:MysteryBlock = new MysteryBlock(Material.APPLE.getDensity(), 0.1, DensityConstants.POOL_WIDTH_X / 2, block1.getHeight() + block1.getY(), new ColorTransform(0, 0, 1), model, FlexSimStrings.get("mode.mysteryObjects.B","B"));
+        const block2:MysteryBlock = new MysteryBlock(Material.APPLE.getDensity(), 0.1, DensityConstants.POOL_WIDTH_X / 2, block1.getHeight() + block1.getY(), new ColorTransform(0, 0, 1), model, FlexSimStrings.get("mode.mysteryObjects.B", "B"));
         model.addDensityObject(block2);
-        const block3:MysteryBlock = new MysteryBlock(Material.GASOLINE_BALLOON.getDensity(), 0.18, -DensityConstants.POOL_WIDTH_X / 2, 0.18 / 2, new ColorTransform(0, 1, 0), model, FlexSimStrings.get("mode.mysteryObjects.C","C"));
+        const block3:MysteryBlock = new MysteryBlock(Material.GASOLINE_BALLOON.getDensity(), 0.18, -DensityConstants.POOL_WIDTH_X / 2, 0.18 / 2, new ColorTransform(0, 1, 0), model, FlexSimStrings.get("mode.mysteryObjects.C", "C"));
         model.addDensityObject(block3);
-        const block4:MysteryBlock = new MysteryBlock(Material.ICE.getDensity(), 0.15, -DensityConstants.POOL_WIDTH_X / 2, block3.getHeight() + block3.getY(), new ColorTransform(1, 0, 0), model, FlexSimStrings.get("mode.mysteryObjects.D","D"));
+        const block4:MysteryBlock = new MysteryBlock(Material.ICE.getDensity(), 0.15, -DensityConstants.POOL_WIDTH_X / 2, block3.getHeight() + block3.getY(), new ColorTransform(1, 0, 0), model, FlexSimStrings.get("mode.mysteryObjects.D", "D"));
         model.addDensityObject(block4);
-        const block5:MysteryBlock = new MysteryBlock(Material.DIAMOND.getDensity(), 0.1, -DensityConstants.POOL_WIDTH_X / 2, block4.getHeight() + block4.getY(), new ColorTransform(1, 0, 0), model, FlexSimStrings.get("mode.mysteryObjects.E","E"));
+        const block5:MysteryBlock = new MysteryBlock(Material.DIAMOND.getDensity(), 0.1, -DensityConstants.POOL_WIDTH_X / 2, block4.getHeight() + block4.getY(), new ColorTransform(1, 0, 0), model, FlexSimStrings.get("mode.mysteryObjects.E", "E"));
         model.addDensityObject(block5);
 
         model.addDensityObject(new Scale(-DensityConstants.POOL_WIDTH_X / 2 - block3.getWidth() - Scale.SCALE_WIDTH / 2, 0.05, model, 100));

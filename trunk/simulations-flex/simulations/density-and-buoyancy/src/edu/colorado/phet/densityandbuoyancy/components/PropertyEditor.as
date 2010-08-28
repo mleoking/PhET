@@ -4,12 +4,7 @@ import edu.colorado.phet.densityandbuoyancy.model.NumericProperty;
 import edu.colorado.phet.densityandbuoyancy.view.units.Unit;
 
 import flash.display.DisplayObject;
-
-import flash.display.Stage;
-import flash.events.Event;
-
 import flash.events.FocusEvent;
-import flash.events.TextEvent;
 
 import mx.containers.GridItem;
 import mx.containers.GridRow;
@@ -44,36 +39,36 @@ public class PropertyEditor extends GridRow {
             textField.text = unit.fromSI(property.value).toFixed(2);//TODO: make sure this doesn't fire an event
         }
 
-        function updateModelFromTextField():void{
+        function updateModelFromTextField():void {
             property.value = unit.toSI(Number(textField.text));
         }
-        
+
         updateText();
         const listener:Function = function myfunction():void {
-            if ( focusManager != null ) { //Have to do a null check because it can be null if the component is not in the scene graph?
-                if ( focusManager.getFocus() == textField ) {//Only update the model if the user is editing the text field, otherwise there are loops that cause errant behavior
+            if (focusManager != null) { //Have to do a null check because it can be null if the component is not in the scene graph?
+                if (focusManager.getFocus() == textField) {//Only update the model if the user is editing the text field, otherwise there are loops that cause errant behavior
                     updateModelFromTextField();
                 }
             }
         };
-        
-        textField.addEventListener(FocusEvent.FOCUS_OUT,updateModelFromTextField);
-        
+
+        textField.addEventListener(FocusEvent.FOCUS_OUT, updateModelFromTextField);
+
         textField.addEventListener(FlexEvent.VALUE_COMMIT, listener);
         textField.addEventListener(FlexEvent.ENTER, listener);
         property.addListener(updateText);
         addGridItem(textField);
 
         var unitsLabel:Label = new Label();
-        unitsLabel.setStyle(DensityConstants.FLEX_FONT_SIZE,FONT_SIZE);
+        unitsLabel.setStyle(DensityConstants.FLEX_FONT_SIZE, FONT_SIZE);
         unitsLabel.text = unit.name;
         addGridItem(unitsLabel);
     }
 
     protected function createSlider(property:NumericProperty, minimum:Number, maximum:Number, unit:Unit):HSlider {
         const slider:HSlider = new HSlider();
-        slider.setStyle("dataTipOffset",0);//Without this fix, data tips appear very far from the tip of the slider thumb, see http://blog.flexexamples.com/2007/11/03/customizing-a-slider-controls-data-tip/
-        slider.sliderThumbClass=MySliderThumb;
+        slider.setStyle("dataTipOffset", 0);//Without this fix, data tips appear very far from the tip of the slider thumb, see http://blog.flexexamples.com/2007/11/03/customizing-a-slider-controls-data-tip/
+        slider.sliderThumbClass = MySliderThumb;
         slider.width = SLIDER_WIDTH;
         slider.minimum = unit.fromSI(minimum);
         slider.maximum = unit.fromSI(maximum);
@@ -91,7 +86,8 @@ public class PropertyEditor extends GridRow {
                 slider.getThumbAt(0).alpha = Math.max(0.25, //This is the minimum alpha that will be shown.  Beyond 0.25 is too hard to see anything.
                         Math.min(1, slider.maximum / setValue) //The more the value goes above the slider's maximum, make more transparent.  But keep alpha =1 if it is in the slider range.
                         );
-            } catch(exception:Error) {
+            }
+            catch(exception:Error) {
 
             }
         }
