@@ -1,3 +1,4 @@
+Removed scroll bars from combo box
 Improved grayscale range for custom object
 Added a button that links to the PhET homepage
 Increased font for label on mystery objects
