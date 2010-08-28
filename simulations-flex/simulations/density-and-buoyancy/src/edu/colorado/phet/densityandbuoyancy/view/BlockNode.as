@@ -23,6 +23,9 @@ public class BlockNode extends CubeNode implements Pickable {
 
     [Embed(source="../../../../../../data/density-and-buoyancy/images/custom.jpg")]
     private var customObjectTexture:Class;
+    
+    [Embed(source="../../../../../../data/density-and-buoyancy/images/wall.jpg")]
+    private var brickTextureClass:Class;
 
     // initial testing wood texture
     // public domain, see http://www.publicdomainpictures.net/view-image.php?picture=wood-texture&image=1282&large=1
@@ -123,6 +126,8 @@ public class BlockNode extends CubeNode implements Pickable {
         // update the bitmap we use as a background
         if (block.getSubstance() == Substance.WOOD) {
             textureBitmap = new woodClass();
+        }else if (block.getSubstance() == Substance.BRICK){
+            textureBitmap = new brickTextureClass();
         } 
         else {
             textureBitmap = getCustomBitmap();

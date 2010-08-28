@@ -44,7 +44,7 @@ public class CustomObjectPropertiesPanel extends DensityVBox{
         grid.addChild(new DensityEditor(densityObject.getDensityProperty(), DensityConstants.MIN_DENSITY, DensityConstants.MAX_DENSITY, units.densityUnit, densityObject));
 
         comboBox = new ComboBox();
-        comboBox.dataProvider = [Substance.WOOD,Substance.WATER_BALLOON,Substance.LEAD,Substance.CUSTOM];
+        comboBox.dataProvider = [Substance.STYROFOAM,Substance.WOOD,Substance.WATER_BALLOON,Substance.BRICK, Substance.ALUMINUM,Substance.CUSTOM];
         comboBox.labelField = "name";//uses the "name" get property on Substance to identify the name
         function myListener():void {
             trace("comboBox.selectedItem=" + comboBox.selectedItem);
@@ -56,6 +56,7 @@ public class CustomObjectPropertiesPanel extends DensityVBox{
                 densityObject.substance = Substance(comboBox.selectedItem);
             }
         }
+        comboBox.selectedItem = densityObject.getSubstance();
 
         comboBox.addEventListener(ListEvent.CHANGE, myListener);
         densityObject.addSubstanceListener(function f():void {

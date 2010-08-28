@@ -2,9 +2,11 @@ package edu.colorado.phet.densityandbuoyancy.model {
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 
 public class Substance {
+    public static var STYROFOAM:Substance = new Substance(FlexSimStrings.get("substance.styrofoam","Styrofoam"), 150, false);//between 25 and 200 according to http://wiki.answers.com/Q/What_is_the_density_of_styrofoam; chose 150 so it isn't too low to show on slider, but not 200 so it's not half of wood
     public static var WOOD:Substance = new Substance(FlexSimStrings.get("substance.wood","Wood"), 0.4 * 1000.0, false);
     public static var LEAD:Substance = new Substance(FlexSimStrings.get("substance.lead","Lead"), 11.34 * 1000.0, false);
     public static var ALUMINUM:Substance = new Substance(FlexSimStrings.get("substance.aluminum","Aluminum"), 2.7 * 1000.0, false);
+    public static var BRICK:Substance = new Substance(FlexSimStrings.get("substance.brick","Brick"), 1922, false);//see http://www.simetric.co.uk/si_materials.htm
     public static var WATER:Substance = new Substance(FlexSimStrings.get("substance.water","Water"), 1.0 * 1000.0, false);
     public static var WATER_BALLOON:Substance = new Substance(FlexSimStrings.get("substance.waterBalloon","Water Balloon"), 1.0 * 1000.0, false);
     public static var CUSTOM:Substance = new Substance(FlexSimStrings.get("substance.custom","Custom"), 1.0 * 1000.0, true);
