@@ -9,15 +9,14 @@ import flash.geom.ColorTransform;
  * This class represents the model object for a block.
  */
 public class Block extends Cuboid {
-    private var color:ColorTransform;
+    private var _colorTransform:ColorTransform;
 
-    public function Block(density:Number, size:Number, x:Number, y:Number, color:ColorTransform, model:DensityModel, __material:Material):void {
+    public function Block(density:Number, size:Number, x:Number, y:Number, colorTransform:ColorTransform, model:DensityModel, __material:Material):void {
         super(density, size, size, size, x, y, model, __material);
 
-        this.color = color;
-        getDensityProperty().addListener(function ():void {
-            updateColor();
-        });
+        this._colorTransform = colorTransform;
+        getDensityProperty().addListener(updateColorTransform);
+        addMaterialListener(updateColorTransform);
     }
 
     public static function newBlockDensitySize(density:Number, size:Number, x:Number, y:Number, color:ColorTransform, model:DensityModel, __material:Material):Block {
@@ -36,7 +35,7 @@ public class Block extends Cuboid {
         return new Block(mass / volume, Math.pow(volume, 1.0 / 3), x, y, color, model, __material);
     }
 
-    public function updateColor():void {
+    public function updateColorTransform():void {
         var density:Number = getDensity();
         var maxDensity:Number = 3000;//this value corresponds to the maxColorDelta below
         var minDensity:Number = 100;//this value corresponds to the minColorDelta below
@@ -46,12 +45,13 @@ public class Block extends Cuboid {
         var green:Number = (maxColorDelta - minColorDelta) / (maxDensity - minDensity) * density;
         var blue:Number = (maxColorDelta - minColorDelta) / (maxDensity - minDensity) * density;
         trace("density = " + density + ", rgb = " + red + ", " + green + ", " + blue);
-        this.color = new ColorTransform(1, 1, 1, 1, red, green, blue);
+        this._colorTransform = new ColorTransform(1, 1, 1, 1, red, green, blue);
         //notify color listeners to remove order dependency
+        notifyColorTransformListeners();
     }
 
-    public function getColor():ColorTransform {
-        return color;
+    public function get colorTransform():ColorTransform {
+        return _colorTransform;
     }
 
     override public function createNode(view:AbstractDensityModule):DensityObjectNode {
