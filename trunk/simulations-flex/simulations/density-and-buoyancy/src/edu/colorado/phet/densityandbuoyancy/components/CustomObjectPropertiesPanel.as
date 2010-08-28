@@ -1,7 +1,7 @@
 package edu.colorado.phet.densityandbuoyancy.components {
 import edu.colorado.phet.densityandbuoyancy.DensityConstants;
 import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
-import edu.colorado.phet.densityandbuoyancy.model.Substance;
+import edu.colorado.phet.densityandbuoyancy.model.Material;
 import edu.colorado.phet.densityandbuoyancy.view.units.Units;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 
@@ -44,28 +44,28 @@ public class CustomObjectPropertiesPanel extends DensityVBox{
         grid.addChild(new DensityEditor(densityObject.getDensityProperty(), DensityConstants.MIN_DENSITY, DensityConstants.MAX_DENSITY, units.densityUnit, densityObject));
 
         comboBox = new ComboBox();
-        comboBox.dataProvider = Substance.SELECTABLE_MATERIALS.concat([Substance.CUSTOM]);
+        comboBox.dataProvider = Material.SELECTABLE_MATERIALS.concat([Material.CUSTOM]);
         
-        comboBox.labelField = "name";//uses the "name" get property on Substance to identify the name
+        comboBox.labelField = "name";//uses the "name" get property on Material to identify the name
         function myListener():void {
             trace("comboBox.selectedItem=" + comboBox.selectedItem);
             if (comboBox.selectedItem.isCustom()) {
-                if (!densityObject.getSubstance().isCustom()) {
-                    densityObject.substance = new Substance(FlexSimStrings.get("customObject.custom", "Custom"), densityObject.getDensity(), true);
+                if (!densityObject.getMaterial().isCustom()) {
+                    densityObject.material = new Material(FlexSimStrings.get("customObject.custom", "Custom"), densityObject.getDensity(), true);
                 }
             } else {
-                densityObject.substance = Substance(comboBox.selectedItem);
+                densityObject.material = Material(comboBox.selectedItem);
             }
         }
-        comboBox.selectedItem = densityObject.getSubstance();
+        comboBox.selectedItem = densityObject.getMaterial();
 
         comboBox.addEventListener(ListEvent.CHANGE, myListener);
-        densityObject.addSubstanceListener(function f():void {
-            if (densityObject.getSubstance().isCustom()) {
-                comboBox.selectedItem = Substance.CUSTOM;
+        densityObject.addMaterialListener(function f():void {
+            if (densityObject.getMaterial().isCustom()) {
+                comboBox.selectedItem = Material.CUSTOM;
             }
             else {
-                comboBox.selectedItem = densityObject.getSubstance();
+                comboBox.selectedItem = densityObject.getMaterial();
             }
         });
 

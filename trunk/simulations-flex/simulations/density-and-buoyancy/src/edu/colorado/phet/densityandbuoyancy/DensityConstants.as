@@ -1,6 +1,6 @@
 package edu.colorado.phet.densityandbuoyancy {
 import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
-import edu.colorado.phet.densityandbuoyancy.model.Substance;
+import edu.colorado.phet.densityandbuoyancy.model.Material;
 
 public class DensityConstants {
     public static const MIN_MASS:Number = 1;
@@ -8,7 +8,7 @@ public class DensityConstants {
     public static const MIN_VOLUME:Number = litersToMetersCubed(1);
     public static const MAX_VOLUME:Number = litersToMetersCubed(10);
     public static const MIN_DENSITY:Number = kgLtoSI(0.1);
-    public static const MAX_DENSITY:Number = Substance.ALUMINUM.getDensity()*1.05;//5% more than aluminum so that aluminum doesn't seem like the most dense possibility
+    public static const MAX_DENSITY:Number = Material.ALUMINUM.getDensity()*1.05;//5% more than aluminum so that aluminum doesn't seem like the most dense possibility
 
     //Pool volume =60 L
     public static const POOL_WIDTH_X:Number = litersToMetersCubed(10) * 100;

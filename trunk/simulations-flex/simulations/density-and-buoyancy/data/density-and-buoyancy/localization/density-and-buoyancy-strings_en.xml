@@ -17,23 +17,23 @@
     <string key="customObject.material" value="Material"/>
     <string key="customObject.name" value="name"/>
     <string key="customObject.custom" value="Custom"/>
-    <string key="mysteryObject.substance" value="Substance"/>
+    <string key="mysteryObject.material" value="Material"/>
     <string key="mysteryObject.density" value="Density (kg/L)"/>
     <string key="mysteryObject.densityUnits" value="kg/L"/>
-    <string key="mysteryObject.table.title" value="Densities of Various Substances"/>
+    <string key="mysteryObject.table.title" value="Densities of Various Materials"/>
     <string key="mysteryObject.table.showTable" value="Show Table"/>
-    <string key="substance.wood" value="Wood"/>
-    <string key="substance.lead" value="Lead"/>
-    <string key="substance.aluminum" value="Aluminum"/>
-    <string key="substance.brick" value="Brick"/>
-    <string key="substance.diamond" value="Diamond"/>
-    <string key="substance.water" value="Water"/>
-    <string key="substance.waterBalloon" value="Water Balloon"/>
-    <string key="substance.custom" value="Custom"/>
-    <string key="substance.gold" value="Gold"/>
-    <string key="substance.gasoline" value="Gasoline Balloon"/>
-    <string key="substance.ice" value="Ice"/>
-    <string key="substance.apple" value="Apple"/>
+    <string key="material.wood" value="Wood"/>
+    <string key="material.lead" value="Lead"/>
+    <string key="material.aluminum" value="Aluminum"/>
+    <string key="material.brick" value="Brick"/>
+    <string key="material.diamond" value="Diamond"/>
+    <string key="material.water" value="Water"/>
+    <string key="material.waterBalloon" value="Water Balloon"/>
+    <string key="material.custom" value="Custom"/>
+    <string key="material.gold" value="Gold"/>
+    <string key="material.gasoline" value="Gasoline Balloon"/>
+    <string key="material.ice" value="Ice"/>
+    <string key="material.apple" value="Apple"/>
     <string key="properties.volume" value="Volume"/>
     <string key="properties.volumeValue" value="{0} L"/>
     <string key="properties.mass" value="Mass"/>

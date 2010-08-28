@@ -24,7 +24,7 @@ public class Scale extends Cuboid {
     private const scaleReadoutListeners:Array = new Array();
 
     public function Scale(x:Number, y:Number, model:DensityModel, mass:Number):void {
-        super(SCALE_DENSITY, SCALE_WIDTH, SCALE_HEIGHT, SCALE_DEPTH, x, y, model, Substance.CUSTOM);
+        super(SCALE_DENSITY, SCALE_WIDTH, SCALE_HEIGHT, SCALE_DEPTH, x, y, model, Material.CUSTOM);
     }
 
     public function getScaleReadout():String {

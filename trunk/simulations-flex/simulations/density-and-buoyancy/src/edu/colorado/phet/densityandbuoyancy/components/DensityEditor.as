@@ -1,7 +1,7 @@
 package edu.colorado.phet.densityandbuoyancy.components {
 import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
 import edu.colorado.phet.densityandbuoyancy.model.NumericProperty;
-import edu.colorado.phet.densityandbuoyancy.model.Substance;
+import edu.colorado.phet.densityandbuoyancy.model.Material;
 import edu.colorado.phet.densityandbuoyancy.view.units.Unit;
 
 import mx.controls.HSlider;
@@ -18,8 +18,8 @@ public class DensityEditor extends PropertyEditor {
     override protected function createSlider(property:NumericProperty, minimum:Number, maximum:Number, unit:Unit):HSlider {
         const slider:HSlider = super.createSlider(property, minimum, maximum, unit);
         const tickValues:Array = new Array();
-        for each ( var substance:Substance in Substance.SELECTABLE_MATERIALS ) {
-            tickValues.push(unit.fromSI(substance.getDensity()));
+        for each ( var material:Material in Material.SELECTABLE_MATERIALS ) {
+            tickValues.push(unit.fromSI(material.getDensity()));
         }
         slider.tickValues = tickValues;
         return slider;

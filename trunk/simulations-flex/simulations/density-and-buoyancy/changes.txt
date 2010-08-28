@@ -1,3 +1,4 @@
+Renamed substance -> material
 Refactored list of selectable substances, fixed a bug in object selection
 Added aluminum texture
 Reduced the distance between the slider thumb and the data tip (i.e. the text readout that appears above the slider thumb)
