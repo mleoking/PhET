@@ -10,7 +10,7 @@ public class Substance {
     public static var WATER:Substance = new Substance(FlexSimStrings.get("substance.water","Water"), 1.0 * 1000.0, false);
     public static var WATER_BALLOON:Substance = new Substance(FlexSimStrings.get("substance.waterBalloon","Water Balloon"), 1.0 * 1000.0, false);
     public static var CUSTOM:Substance = new Substance(FlexSimStrings.get("substance.custom","Custom"), 1.0 * 1000.0, true);
-    public static var OBJECT_SUBSTANCES:Array = [WOOD, WATER_BALLOON, LEAD];
+    public static var SELECTABLE_MATERIALS:Array = [STYROFOAM, WOOD, WATER_BALLOON, BRICK, ALUMINUM];//Note that Custom is omitted from here, though it is added in some places where this list is used
 
     public static var DIAMOND:Substance = new Substance(FlexSimStrings.get("substance.diamond","Diamond"), 3530, false);
     public static var GOLD:Substance = new Substance(FlexSimStrings.get("substance.gold","Gold"), 19.3 * 1000.0, false);
