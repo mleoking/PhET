@@ -42,7 +42,9 @@ public class CustomObjectPropertiesPanel extends DensityVBox {
         grid.addChild(new DensityEditor(densityObject.getDensityProperty(), DensityConstants.MIN_DENSITY, DensityConstants.MAX_DENSITY, units.densityUnit, densityObject));
 
         comboBox = new ComboBox();
-        comboBox.dataProvider = Material.SELECTABLE_MATERIALS.concat([Material.CUSTOM]);
+        const items:Array = Material.SELECTABLE_MATERIALS.concat([Material.CUSTOM]);
+        comboBox.dataProvider = items;
+        comboBox.rowCount = items.length;//Ensures there are no scroll bars in the combo box, see http://www.actionscript.org/forums/showthread.php3?t=218435 
 
         comboBox.labelField = "name";//uses the "name" get property on Material to identify the name
         function myListener():void {
