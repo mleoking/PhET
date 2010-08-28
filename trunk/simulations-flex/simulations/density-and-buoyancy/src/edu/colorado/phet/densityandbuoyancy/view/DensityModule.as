@@ -127,10 +127,6 @@ class CustomObjectMode extends Mode {
 
     override public function teardown():void {
         super.teardown();
-        removeCustomPanel();
-    }
-
-    private function removeCustomPanel():void {
         if (customObjectPropertiesPanelShowing) {
             module.getDensityCanvas().removeChild(customObjectPropertiesPanel);
             customObjectPropertiesPanelShowing = false;
@@ -250,10 +246,6 @@ class MysteryObjectsMode extends Mode {
 
     override public function teardown():void {
         super.teardown();
-        removeMysteryObjectControlPanel();
-    }
-
-    private function removeMysteryObjectControlPanel():void {
         if (mysteryObjectsControlPanelShowing) {
             module.getDensityCanvas().removeChild(mysteryObjectsControlPanel);
             mysteryObjectsControlPanelShowing = false;
