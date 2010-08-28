@@ -30,6 +30,7 @@
         <components:DensityVBox right="10" bottom="10">
             <mx:Button label="{FlexSimStrings.get('application.resetAll','Reset All')}" click="resetAll()"/>
         </components:DensityVBox>
+        <mx:Button left="10" bottom="10" icon="@Embed(source='../../../../../data/density-and-buoyancy/images/phet-logo-120x50.jpg')" click="visitPhet()"/>
     </mx:Canvas>
     <view:DebugText id="debug" height="100" x="0" y="0" text="" color="#FFFFFF" click="DebugText.clear();"/>
     <mx:Script><![CDATA[
@@ -82,6 +83,10 @@
             oldIndex = newIndex;
         }
 
+        private function visitPhet():void {
+            navigateToURL(new URLRequest("http://phet.colorado.edu"), "_blank");//Blank means to open a new page
+        }
+        
         private function resetAll():void {
             customObject.selected = true;
             densityModule.resetAll();
