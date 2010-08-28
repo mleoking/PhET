@@ -26,7 +26,7 @@ import mx.events.SliderEvent;
 
 public class AbstractDensityModule extends UIComponent {
     //model
-    protected var model:DensityModel;
+    protected var _model:DensityModel;
 
     //engine variables
     private var scene:Scene3D;
@@ -63,10 +63,10 @@ public class AbstractDensityModule extends UIComponent {
 
     public function AbstractDensityModule() {
         super();
-        model = new DensityModel();
+        _model = new DensityModel();
 
-        model.addDensityObjectCreationListener(addDensityObject);
-        waterVolumeIndicator = new WaterVolumeIndicator(model);
+        _model.addDensityObjectCreationListener(addDensityObject);
+        waterVolumeIndicator = new WaterVolumeIndicator(_model);
         waterVolumeIndicator.visible = false;//only show it after its location is correct
     }
 
@@ -81,7 +81,7 @@ public class AbstractDensityModule extends UIComponent {
         backgroundSprite.graphics.endFill();
         //addChild(backgroundSprite);
         addChild(view);
-        tickMarkSet = new TickMarkSet(model);
+        tickMarkSet = new TickMarkSet(_model);
         addChild(tickMarkSet);
 
         addChild(waterVolumeIndicator);
@@ -112,10 +112,10 @@ public class AbstractDensityModule extends UIComponent {
     }
 
     public function initObjects():void {
-        var poolHeight:Number = model.getPoolHeight() * DensityModel.DISPLAY_SCALE;
-        var waterHeight:Number = model.getWaterHeight() * DensityModel.DISPLAY_SCALE;
-        var poolWidth:Number = model.getPoolWidth() * DensityModel.DISPLAY_SCALE;
-        var poolDepth:Number = model.getPoolDepth() * DensityModel.DISPLAY_SCALE;
+        var poolHeight:Number = _model.getPoolHeight() * DensityModel.DISPLAY_SCALE;
+        var waterHeight:Number = _model.getWaterHeight() * DensityModel.DISPLAY_SCALE;
+        var poolWidth:Number = _model.getPoolWidth() * DensityModel.DISPLAY_SCALE;
+        var poolDepth:Number = _model.getPoolDepth() * DensityModel.DISPLAY_SCALE;
 
         // NOTE: if the ground is not matching up with the objects resting on the ground (or the bottom of the pool), it is due to the ground being shifted by this amount
         waterFront = new Plane({ y: -poolHeight + waterHeight / 2 + DensityConstants.VERTICAL_GROUND_OFFSET_AWAY_3D, width: poolWidth, height: waterHeight, rotationX: 90, material: new ShadingColorMaterial(0x0088FF, {alpha: 0.4}) });
@@ -126,7 +126,7 @@ public class AbstractDensityModule extends UIComponent {
         waterTop.mouseEnabled = false;
 
         // add grass, earth and pool inside
-        groundNode = new GroundNode(model);
+        groundNode = new GroundNode(_model);
         scene.addChild(groundNode);
 
         var light:DirectionalLight3D = new DirectionalLight3D({color:0xFFFFFF, ambient:0.2, diffuse:0.75, specular:0.1});
@@ -191,16 +191,16 @@ public class AbstractDensityModule extends UIComponent {
         if (!running) {
             return;
         }
-        model.step();
+        _model.step();
         if (moving && selectedObject is Pickable) {
             var pickable:Pickable = (selectedObject as Pickable);
             pickable.getBody().SetXForm(new b2Vec2(pickable.getBody().GetPosition().x, cachedY), 0);
             pickable.getBody().SetLinearVelocity(new b2Vec2(0, 0));
             pickable.updateGeometry();
         }
-        waterFront.y = (-model.getPoolHeight() + model.getWaterHeight() / 2) * DensityModel.DISPLAY_SCALE;
-        waterFront.height = model.getWaterHeight() * DensityModel.DISPLAY_SCALE;//this is positive from the bottom of the pool
-        waterTop.y = (-model.getPoolHeight() + model.getWaterHeight()) * DensityModel.DISPLAY_SCALE;
+        waterFront.y = (-_model.getPoolHeight() + _model.getWaterHeight() / 2) * DensityModel.DISPLAY_SCALE;
+        waterFront.height = _model.getWaterHeight() * DensityModel.DISPLAY_SCALE;//this is positive from the bottom of the pool
+        waterTop.y = (-_model.getPoolHeight() + _model.getWaterHeight()) * DensityModel.DISPLAY_SCALE;
 
         updateWaterHeightIndicator();
 
@@ -213,14 +213,14 @@ public class AbstractDensityModule extends UIComponent {
 
     private function updateWaterHeightIndicator():void {
         if (renderedOnce) {
-            var screenVertex:ScreenVertex = camera.screen(groundNode, new Vertex(model.getPoolWidth() * DensityModel.DISPLAY_SCALE / 2, (-model.getPoolHeight() + model.getWaterHeight()) * DensityModel.DISPLAY_SCALE, -20));
+            var screenVertex:ScreenVertex = camera.screen(groundNode, new Vertex(_model.getPoolWidth() * DensityModel.DISPLAY_SCALE / 2, (-_model.getPoolHeight() + _model.getWaterHeight()) * DensityModel.DISPLAY_SCALE, -20));
             waterVolumeIndicator.x = screenVertex.x + view.x;
             waterVolumeIndicator.y = screenVertex.y + view.y;
             waterVolumeIndicator.visible = true;//Now can show the water volume indicator after it is at the right location
 
             tickMarkSet.updateCoordinates(camera, groundNode, view);
         }
-        waterVolumeIndicator.setWaterHeight(model.getWaterHeight());
+        waterVolumeIndicator.setWaterHeight(_model.getWaterHeight());
         //        water
     }
 
@@ -314,8 +314,8 @@ public class AbstractDensityModule extends UIComponent {
         //        camera.moveCamera();
     }
 
-    public function getModel():DensityModel {
-        return model;
+    public function get model():DensityModel {
+        return _model;
     }
 }
 }
