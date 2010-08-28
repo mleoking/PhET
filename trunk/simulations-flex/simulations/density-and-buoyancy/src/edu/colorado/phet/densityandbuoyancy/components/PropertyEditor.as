@@ -72,6 +72,7 @@ public class PropertyEditor extends GridRow {
 
     protected function createSlider(property:NumericProperty, minimum:Number, maximum:Number, unit:Unit):HSlider {
         const slider:HSlider = new HSlider();
+        slider.setStyle("dataTipOffset",0);//Without this fix, data tips appear very far from the tip of the slider thumb, see http://blog.flexexamples.com/2007/11/03/customizing-a-slider-controls-data-tip/
         slider.sliderThumbClass=MySliderThumb;
         slider.width = SLIDER_WIDTH;
         slider.minimum = unit.fromSI(minimum);
