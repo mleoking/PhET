@@ -73,7 +73,7 @@ public class DensityObject {
             //This could be confusing because it will switch the behavior of the other sliders
 
             var changed:Boolean = false;
-            for each (var s:Substance in Substance.OBJECT_SUBSTANCES) {
+            for each (var s:Substance in Substance.SELECTABLE_MATERIALS) {
                 if (s.getDensity() == getDensity()) {
                     substance = s;
                     changed = true;

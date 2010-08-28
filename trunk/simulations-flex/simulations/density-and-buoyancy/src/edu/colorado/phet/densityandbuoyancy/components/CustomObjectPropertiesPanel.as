@@ -44,7 +44,8 @@ public class CustomObjectPropertiesPanel extends DensityVBox{
         grid.addChild(new DensityEditor(densityObject.getDensityProperty(), DensityConstants.MIN_DENSITY, DensityConstants.MAX_DENSITY, units.densityUnit, densityObject));
 
         comboBox = new ComboBox();
-        comboBox.dataProvider = [Substance.STYROFOAM,Substance.WOOD,Substance.WATER_BALLOON,Substance.BRICK, Substance.ALUMINUM,Substance.CUSTOM];
+        comboBox.dataProvider = Substance.SELECTABLE_MATERIALS.concat([Substance.CUSTOM]);
+        
         comboBox.labelField = "name";//uses the "name" get property on Substance to identify the name
         function myListener():void {
             trace("comboBox.selectedItem=" + comboBox.selectedItem);
