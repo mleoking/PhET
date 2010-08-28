@@ -70,14 +70,12 @@ public class Cuboid extends DensityObject {
         updateShapeDef();
     }
 
-    public function addShapeChangeListener(shapeChangeListener:ShapeChangeListener):void {
+    public function addShapeChangeListener(shapeChangeListener:Function):void {
         shapeChangeListeners.push(shapeChangeListener);
     }
 
     private function notifyShapeChanged():void {
-        for each (var shapeChangeListener:ShapeChangeListener in shapeChangeListeners) {
-            shapeChangeListener.shapeChanged();
-        }
+        for each (var shapeChangeListener:Function in shapeChangeListeners) shapeChangeListener();
     }
 
     public function getWidth():Number {

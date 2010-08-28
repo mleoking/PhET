@@ -3,9 +3,8 @@ import Box2D.Dynamics.b2Body;
 
 import edu.colorado.phet.densityandbuoyancy.model.Cuboid;
 import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
-import edu.colorado.phet.densityandbuoyancy.model.ShapeChangeListener;
 
-public class CuboidNode extends DensityObjectNode implements Pickable, ShapeChangeListener {
+public class CuboidNode extends DensityObjectNode implements Pickable {
 
     private var cuboid:Cuboid;
 
@@ -15,7 +14,7 @@ public class CuboidNode extends DensityObjectNode implements Pickable, ShapeChan
         this.x = cuboid.getX() * DensityModel.DISPLAY_SCALE;
         this.y = cuboid.getY() * DensityModel.DISPLAY_SCALE;
         this.z = cuboid.getZ() * DensityModel.DISPLAY_SCALE;
-        cuboid.addShapeChangeListener(this);
+        cuboid.addShapeChangeListener(updateGeometry);
     }
 
     override public function getArrowOriginZ():Number {
@@ -32,10 +31,6 @@ public class CuboidNode extends DensityObjectNode implements Pickable, ShapeChan
 
     public override function getBody():b2Body {
         return cuboid.getBody();
-    }
-
-    public function shapeChanged():void {
-        updateGeometry();
     }
 
     public override function updateGeometry():void {

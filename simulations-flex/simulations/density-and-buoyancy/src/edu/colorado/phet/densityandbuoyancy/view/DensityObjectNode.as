@@ -20,12 +20,8 @@ public class DensityObjectNode extends ObjectContainer3D implements Pickable {
         super();
         this.densityObject = densityObject;
         this._view = view;
-        densityObject.getYProperty().addListener(function ():void {
-            updateGeometry();
-        });
-        densityObject.addRemovalListener(function ():void {
-            remove()
-        });
+        densityObject.getYProperty().addListener(updateGeometry);
+        densityObject.addRemovalListener(remove);
     }
 
     public function get view():AbstractDensityModule {
