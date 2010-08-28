@@ -1,3 +1,4 @@
+Added aluminum texture
 Reduced the distance between the slider thumb and the data tip (i.e. the text readout that appears above the slider thumb)
 Added brick and styrofoam
 Increased the paleness of the control panel background color

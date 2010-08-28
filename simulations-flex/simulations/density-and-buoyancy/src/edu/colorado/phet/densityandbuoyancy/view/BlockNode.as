@@ -24,7 +24,13 @@ public class BlockNode extends CubeNode implements Pickable {
     [Embed(source="../../../../../../data/density-and-buoyancy/images/custom.jpg")]
     private var customObjectTexture:Class;
     
-    [Embed(source="../../../../../../data/density-and-buoyancy/images/wall.jpg")]
+    [Embed(source="../../../../../../data/density-and-buoyancy/images/styrofoam.jpg")]//SRR made styrofoam.jpg
+    private var styrofoamTextureClass:Class;
+    
+    [Embed(source="../../../../../../data/density-and-buoyancy/images/aluminum.jpg")]//SRR modified aluminum.jpg based on microsoft clip art
+    private var aluminumTextureClass:Class;
+    
+    [Embed(source="../../../../../../data/density-and-buoyancy/images/wall.jpg")]//came with away3d
     private var brickTextureClass:Class;
 
     // initial testing wood texture
@@ -128,6 +134,10 @@ public class BlockNode extends CubeNode implements Pickable {
             textureBitmap = new woodClass();
         }else if (block.getSubstance() == Substance.BRICK){
             textureBitmap = new brickTextureClass();
+        }else if (block.getSubstance()==Substance.STYROFOAM){
+            textureBitmap = new styrofoamTextureClass();
+        } else if (block.getSubstance()==Substance.ALUMINUM){
+            textureBitmap = new aluminumTextureClass();
         } 
         else {
             textureBitmap = getCustomBitmap();
