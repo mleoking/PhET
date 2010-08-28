@@ -11,8 +11,8 @@ import flash.geom.ColorTransform;
 public class Block extends Cuboid {
     private var color:ColorTransform;
 
-    public function Block(density:Number, size:Number, x:Number, y:Number, color:ColorTransform, model:DensityModel, __substance:Substance):void {
-        super(density, size, size, size, x, y, model, __substance);
+    public function Block(density:Number, size:Number, x:Number, y:Number, color:ColorTransform, model:DensityModel, __material:Material):void {
+        super(density, size, size, size, x, y, model, __material);
 
         this.color = color;
         getDensityProperty().addListener(function ():void {
@@ -20,20 +20,20 @@ public class Block extends Cuboid {
         });
     }
 
-    public static function newBlockDensitySize(density:Number, size:Number, x:Number, y:Number, color:ColorTransform, model:DensityModel, __substance:Substance):Block {
-        return new Block(density, size, x, y, color, model, __substance);
+    public static function newBlockDensitySize(density:Number, size:Number, x:Number, y:Number, color:ColorTransform, model:DensityModel, __material:Material):Block {
+        return new Block(density, size, x, y, color, model, __material);
     }
 
-    public static function newBlockDensityMass(density:Number, mass:Number, x:Number, y:Number, color:ColorTransform, model:DensityModel, __substance:Substance):Block {
-        return new Block(density, Math.pow(mass / density, 1.0 / 3.0), x, y, color, model, __substance);
+    public static function newBlockDensityMass(density:Number, mass:Number, x:Number, y:Number, color:ColorTransform, model:DensityModel, __material:Material):Block {
+        return new Block(density, Math.pow(mass / density, 1.0 / 3.0), x, y, color, model, __material);
     }
 
-    public static function newBlockSizeMass(size:Number, mass:Number, x:Number, y:Number, color:ColorTransform, model:DensityModel, __substance:Substance):Block {
-        return new Block(mass / (size * size * size), size, x, y, color, model, __substance);
+    public static function newBlockSizeMass(size:Number, mass:Number, x:Number, y:Number, color:ColorTransform, model:DensityModel, __material:Material):Block {
+        return new Block(mass / (size * size * size), size, x, y, color, model, __material);
     }
 
-    public static function newBlockVolumeMass(volume:Number, mass:Number, x:Number, y:Number, color:ColorTransform, model:DensityModel, __substance:Substance):Block {
-        return new Block(mass / volume, Math.pow(volume, 1.0 / 3), x, y, color, model, __substance);
+    public static function newBlockVolumeMass(volume:Number, mass:Number, x:Number, y:Number, color:ColorTransform, model:DensityModel, __material:Material):Block {
+        return new Block(mass / volume, Math.pow(volume, 1.0 / 3), x, y, color, model, __material);
     }
 
     public function updateColor():void {

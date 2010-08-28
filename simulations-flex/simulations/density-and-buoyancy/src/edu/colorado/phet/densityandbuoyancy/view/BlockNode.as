@@ -3,7 +3,7 @@ import away3d.materials.*;
 
 import edu.colorado.phet.densityandbuoyancy.model.Block;
 import edu.colorado.phet.densityandbuoyancy.model.StringProperty;
-import edu.colorado.phet.densityandbuoyancy.model.Substance;
+import edu.colorado.phet.densityandbuoyancy.model.Material;
 
 import flash.display.Bitmap;
 import flash.display.BitmapData;
@@ -64,9 +64,9 @@ public class BlockNode extends CubeNode implements Pickable {
         frontSprite.addChild(textField);
 
         label.addListener(updateText);
-        block.addSubstanceListener(updateSubstance);
+        block.addMaterialListener(updateMaterial);
 
-        updateSubstance();
+        updateMaterial();
         updateGeometry();
     }
 
@@ -122,21 +122,20 @@ public class BlockNode extends CubeNode implements Pickable {
         updateGeometry();
     }
 
-    private function updateSubstance():void {
-
+    private function updateMaterial():void {
         // remove the old texture if we have one
         if (textureBitmap != null) {
             textureHolder.removeChild(textureBitmap);
         }
 
         // update the bitmap we use as a background
-        if (block.getSubstance() == Substance.WOOD) {
+        if (block.getMaterial() == Material.WOOD) {
             textureBitmap = new woodClass();
-        }else if (block.getSubstance() == Substance.BRICK){
+        }else if (block.getMaterial() == Material.BRICK){
             textureBitmap = new brickTextureClass();
-        }else if (block.getSubstance()==Substance.STYROFOAM){
+        }else if (block.getMaterial()==Material.STYROFOAM){
             textureBitmap = new styrofoamTextureClass();
-        } else if (block.getSubstance()==Substance.ALUMINUM){
+        } else if (block.getMaterial()==Material.ALUMINUM){
             textureBitmap = new aluminumTextureClass();
         } 
         else {

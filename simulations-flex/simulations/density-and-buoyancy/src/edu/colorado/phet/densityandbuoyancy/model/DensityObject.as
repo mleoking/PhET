@@ -13,8 +13,8 @@ public class DensityObject {
     private var volume:NumericProperty;
     private var mass:NumericProperty;
     private var density:NumericProperty;
-    private var _substance:Substance;
-    private var substanceListeners:Array = new Array();
+    private var _material:Material;
+    private var materialListeners:Array = new Array();
 
     private var x:NumericProperty;
     private var y:NumericProperty;
@@ -32,8 +32,8 @@ public class DensityObject {
     private var labelProperty:StringProperty;
     private const removalListeners:Array = new Array();
 
-    public function DensityObject(x:Number, y:Number, z:Number, model:DensityModel, density:Number, mass:Number, volume:Number, __substance:Substance) {
-        this._substance = __substance;
+    public function DensityObject(x:Number, y:Number, z:Number, model:DensityModel, density:Number, mass:Number, volume:Number, __material:Material) {
+        this._material = __material;
         this.volume = new NumericProperty(FlexSimStrings.get("properties.volume","Volume"), "m\u00b3", volume);
         this.mass = new NumericProperty(FlexSimStrings.get("properties.mass","Mass"), "kg", mass);
         this.density = new NumericProperty(FlexSimStrings.get("properties.density","Density"), "kg/m\u00b3", density);
@@ -73,14 +73,14 @@ public class DensityObject {
             //This could be confusing because it will switch the behavior of the other sliders
 
             var changed:Boolean = false;
-            for each (var s:Substance in Substance.SELECTABLE_MATERIALS) {
+            for each (var s:Material in Material.SELECTABLE_MATERIALS) {
                 if (s.getDensity() == getDensity()) {
-                    substance = s;
+                    material = s;
                     changed = true;
                 }
             }
             if (!changed) {
-                substance = new Substance("Custom", getDensity(), true);
+                material = new Material("Custom", getDensity(), true);
             }
         }
 
@@ -103,26 +103,26 @@ public class DensityObject {
         return labelProperty;
     }
 
-    public function addSubstanceListener(listener:Function):void {
-        substanceListeners.push(listener);
+    public function addMaterialListener(listener:Function):void {
+        materialListeners.push(listener);
     }
 
-    public function set substance(substance:Substance):void {
-        if (!this._substance.equals(substance)) {
-            this._substance = substance;
-            this.density.value = substance.getDensity();
-            for each (var listener:Function in substanceListeners) {
+    public function set material(material:Material):void {
+        if (!this._material.equals(material)) {
+            this._material = material;
+            this.density.value = material.getDensity();
+            for each (var listener:Function in materialListeners) {
                 listener();
             }
         }
     }
 
-    public function get substance():Substance {
-        return _substance;
+    public function get material():Material {
+        return _material;
     }
 
     private function isDensityFixed():Boolean {
-        return !_substance.isCustom();
+        return !_material.isCustom();
     }
 
     public function getVolumeProperty():NumericProperty {
@@ -137,8 +137,8 @@ public class DensityObject {
         return density;
     }
 
-    public function getSubstance():Substance {
-        return substance;
+    public function getMaterial():Material {
+        return material;
     }
 
     public function getVelocityArrowModel():ArrowModel {
@@ -265,7 +265,7 @@ public class DensityObject {
 
     //Set the submerged volume before calling this
     public function getBuoyancyForce():b2Vec2 {
-        return new b2Vec2(0, DensityConstants.GRAVITY * submergedVolume * Substance.WATER.getDensity());
+        return new b2Vec2(0, DensityConstants.GRAVITY * submergedVolume * Material.WATER.getDensity());
     }
 
     public function setSubmergedVolume(submergedVolume:Number):void {

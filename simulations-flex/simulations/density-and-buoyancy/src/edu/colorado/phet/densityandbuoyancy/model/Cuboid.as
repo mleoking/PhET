@@ -23,8 +23,8 @@ public class Cuboid extends DensityObject {
      * @param y
      * @param model
      */
-    public function Cuboid(density:Number, width:Number, height:Number, depth:Number, x:Number, y:Number, model:DensityModel, __substance:Substance) {
-        super(x, y, depth / 2 + DensityConstants.DEFAULT_BLOCK_WATER_OFFSET, model, density, density * width * height * depth, width * height * depth, __substance);
+    public function Cuboid(density:Number, width:Number, height:Number, depth:Number, x:Number, y:Number, model:DensityModel, __material:Material) {
+        super(x, y, depth / 2 + DensityConstants.DEFAULT_BLOCK_WATER_OFFSET, model, density, density * width * height * depth, width * height * depth, __material);
         this.width = width;
         this.height = height;
         this.depth = depth;
