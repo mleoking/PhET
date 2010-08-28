@@ -38,26 +38,16 @@ public class Block extends Cuboid {
 
     public function updateColor():void {
         var density:Number = getDensity();
-        var maxDensity:Number = 20 * 1000;
-        var minDensity:Number = -1 * 1000;
-        var maxRed:Number = 1;
-        var minRed:Number = 0;
-        var red:Number = 1 - (maxRed - minRed) / (maxDensity - minDensity) * density * 0.9;
-        var green:Number = 1 - (maxRed - minRed) / (maxDensity - minDensity) * density * 0.8;
-        var blue:Number = 1 - (maxRed - minRed) / (maxDensity - minDensity) * density * 0.7;
-        trace("rgb = " + red + ", " + green + ", " + blue);
-        this.color = new ColorTransform(clamp(red), clamp(green), clamp(blue));
+        var maxDensity:Number = 3000;//this value corresponds to the maxColorDelta below
+        var minDensity:Number = 100;//this value corresponds to the minColorDelta below
+        var maxColorDelta:Number = -100;//at the most dense, colors from the custom.jpg offset by this value
+        var minColorDelta:Number = 100;//at the least dense, colors offset by this value, this is at the whiteness end of the spectrum 
+        var red:Number = (maxColorDelta - minColorDelta) / (maxDensity - minDensity) * density;
+        var green:Number = (maxColorDelta - minColorDelta) / (maxDensity - minDensity) * density;
+        var blue:Number = (maxColorDelta - minColorDelta) / (maxDensity - minDensity) * density;
+        trace("density = " + density + ", rgb = " + red + ", " + green + ", " + blue);
+        this.color = new ColorTransform(1, 1, 1, 1, red, green, blue);
         //notify color listeners to remove order dependency
-    }
-
-    private function clamp(blue:Number):Number {
-        if (blue < 0) {
-            return 0;
-        }
-        if (blue > 1) {
-            return 1;
-        }
-        return blue;
     }
 
     public function getColor():ColorTransform {

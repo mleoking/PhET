@@ -77,9 +77,8 @@ public class BlockNode extends CubeNode implements Pickable {
 
     private function getCustomBitmap():Bitmap {
         var wallData:BitmapData = (new customObjectTexture() as BitmapAsset).bitmapData;
-        var imageRect:Rectangle = new Rectangle(0, 0, wallData.width, wallData.height);
-        wallData.colorTransform(imageRect, block.getColor());
-        var coloredData:BitmapData = (new customObjectTexture() as BitmapAsset).bitmapData;
+        wallData.colorTransform(new Rectangle(0, 0, wallData.width, wallData.height), block.getColor());
+//        var coloredData:BitmapData = (new customObjectTexture() as BitmapAsset).bitmapData;
         //        if (block.getColor().redMultiplier < 0.5) {
         //            coloredData.copyChannel(wallData, imageRect, new Point(0, 0), BitmapDataChannel.GREEN, BitmapDataChannel.RED);
         //        }
@@ -137,23 +136,17 @@ public class BlockNode extends CubeNode implements Pickable {
         if (block.getMaterial() == Material.WOOD) {
             textureBitmap = new woodClass();
         }
+        else if (block.getMaterial() == Material.BRICK) {
+            textureBitmap = new brickTextureClass();
+        }
+        else if (block.getMaterial() == Material.STYROFOAM) {
+            textureBitmap = new styrofoamTextureClass();
+        }
+        else if (block.getMaterial() == Material.ALUMINUM) {
+            textureBitmap = new aluminumTextureClass();
+        }
         else {
-            if (block.getMaterial() == Material.BRICK) {
-                textureBitmap = new brickTextureClass();
-            }
-            else {
-                if (block.getMaterial() == Material.STYROFOAM) {
-                    textureBitmap = new styrofoamTextureClass();
-                }
-                else {
-                    if (block.getMaterial() == Material.ALUMINUM) {
-                        textureBitmap = new aluminumTextureClass();
-                    }
-                    else {
-                        textureBitmap = getCustomBitmap();
-                    }
-                }
-            }
+            textureBitmap = getCustomBitmap();
         }
 
         // add the new bitmap
