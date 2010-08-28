@@ -70,6 +70,7 @@ public class BlockNode extends CubeNode implements Pickable {
 
         label.addListener(updateText);
         block.addMaterialListener(updateMaterial);
+        block.addColorTransformListener(updateMaterial);
 
         updateMaterial();
         updateGeometry();
@@ -77,7 +78,7 @@ public class BlockNode extends CubeNode implements Pickable {
 
     private function getCustomBitmap():Bitmap {
         var wallData:BitmapData = (new customObjectTexture() as BitmapAsset).bitmapData;
-        wallData.colorTransform(new Rectangle(0, 0, wallData.width, wallData.height), block.getColor());
+        wallData.colorTransform(new Rectangle(0, 0, wallData.width, wallData.height), block.colorTransform);
 //        var coloredData:BitmapData = (new customObjectTexture() as BitmapAsset).bitmapData;
         //        if (block.getColor().redMultiplier < 0.5) {
         //            coloredData.copyChannel(wallData, imageRect, new Point(0, 0), BitmapDataChannel.GREEN, BitmapDataChannel.RED);

@@ -15,6 +15,7 @@ public class DensityObject {
     private var density:NumericProperty;
     private var _material:Material;
     private var materialListeners:Array = new Array();
+    private var colorTransformListeners:Array = new Array();
 
     private var x:NumericProperty;
     private var y:NumericProperty;
@@ -107,6 +108,10 @@ public class DensityObject {
         materialListeners.push(listener);
     }
 
+    public function addColorTransformListener(listener:Function):void {
+        colorTransformListeners.push(listener);
+    }
+
     public function set material(material:Material):void {
         if (!this._material.equals(material)) {
             this._material = material;
@@ -114,6 +119,12 @@ public class DensityObject {
             for each (var listener:Function in materialListeners) {
                 listener();
             }
+        }
+    }
+
+    public function notifyColorTransformListeners():void {
+        for each (var listener:Function in colorTransformListeners) {
+            listener();
         }
     }
 
