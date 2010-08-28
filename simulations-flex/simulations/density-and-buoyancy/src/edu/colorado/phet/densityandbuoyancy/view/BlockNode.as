@@ -115,10 +115,6 @@ public class BlockNode extends CubeNode implements Pickable {
         return block;
     }
 
-    override public function remove():void {
-        view.removeObject(this);
-    }
-
     private function updateText():void {
         textField.text = label.value;
         textField.height = textureBitmap.bitmapData.height;

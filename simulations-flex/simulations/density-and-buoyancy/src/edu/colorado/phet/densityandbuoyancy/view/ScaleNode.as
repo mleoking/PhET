@@ -122,10 +122,6 @@ public class ScaleNode extends CuboidNode {
         updateText();
     }
 
-    override public function remove():void {
-        view.removeObject(this);
-    }
-
     private function getFrontWidth():Number {
         return WALL_RES * _scale.getWidth();
     }
