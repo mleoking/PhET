@@ -1,3 +1,4 @@
+Increased the paleness of the control panel background color
 # 0.01.18 (43581) Aug 27, 2010
 Fixed: Objects are too dark after changing custom object texture
 Made "Mass", "Volume", "Density" and "Material" all bold
