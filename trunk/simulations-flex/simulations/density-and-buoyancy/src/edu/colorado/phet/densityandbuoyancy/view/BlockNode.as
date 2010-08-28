@@ -21,7 +21,7 @@ public class BlockNode extends CubeNode implements Pickable {
     private var block:Block;
     private var textField:TextField = new TextField();
 
-    [Embed(source="../../../../../../data/density-and-buoyancy/images/lead.jpg")]
+    [Embed(source="../../../../../../data/density-and-buoyancy/images/custom.jpg")]
     private var customObjectTexture:Class;
 
     // initial testing wood texture
@@ -29,9 +29,6 @@ public class BlockNode extends CubeNode implements Pickable {
     // license: " 	This image is public domain. You may use this picture for any purpose, including commercial. If you do use it, please consider linking back to us. If you are going to redistribute this image online, a hyperlink to this particular page is mandatory."
     [Embed(source="../../../../../../data/density-and-buoyancy/images/wood4.png")]
     private var woodClass:Class;
-
-    [Embed(source="../../../../../../data/density-and-buoyancy/images/lead.jpg")]
-    private var leadClass:Class;
 
     private var frontMaterial:MovieMaterial;
     private var sideMaterial:BitmapMaterial;
@@ -126,9 +123,8 @@ public class BlockNode extends CubeNode implements Pickable {
         // update the bitmap we use as a background
         if (block.getSubstance() == Substance.WOOD) {
             textureBitmap = new woodClass();
-        } else if (block.getSubstance() == Substance.LEAD) {
-            textureBitmap = new leadClass();
-        } else {
+        } 
+        else {
             textureBitmap = getCustomBitmap();
         }
 
