@@ -13,15 +13,18 @@ import edu.colorado.phet.recordandplayback.model.{DataPoint, RecordAndPlaybackMo
 import edu.colorado.phet.common.phetcommon.math.MathUtil
 import edu.colorado.phet.common.phetcommon.model.MutableBoolean
 
+//Scala Mutable Boolean overcomes incompatibility between java.lang.Boolean and scala.Boolean 
+class SMutableBoolean(v:Boolean) extends MutableBoolean(v){
+  def booleanValue = super.getValue().booleanValue//to fix incompatibility between java.lang.Boolean and scala.Boolean
+}
+
 class MotionSeriesModel(defaultPosition: Double,
                         pausedOnReset: Boolean,
                         initialAngle: Double)
         extends RecordAndPlaybackModel[RecordedState](1000) with ObjectModel with RampSurfaceModel {
 
-  private var _walls = new MutableBoolean(true){
-    def booleanValue = super.getValue().booleanValue
-  }
-  private var _frictionless = MotionSeriesDefaults.FRICTIONLESS_DEFAULT
+  private var _walls = new SMutableBoolean(true)
+  private var _frictionless = new SMutableBoolean(false)//FRICTIONLESS_DEFAULT
   private var _bounce = MotionSeriesDefaults.BOUNCE_DEFAULT
   private var _objectType = MotionSeriesDefaults.objectTypes(0)
   val chartCursor = new ChartCursor()
@@ -129,7 +132,7 @@ class MotionSeriesModel(defaultPosition: Double,
     if (resetListeners != null) { //resetAll() is called from super's constructor, so have to make sure our data is inited before proceeding
       clearHistory()
       selectedObject = MotionSeriesDefaults.objectTypes(0)
-      frictionless = MotionSeriesDefaults.FRICTIONLESS_DEFAULT
+      _frictionless.reset()
       walls.reset()
       resetObject()
       manMotionSeriesObject.setPosition(defaultManPosition)
@@ -253,12 +256,12 @@ class MotionSeriesModel(defaultPosition: Double,
   def bounce = _bounce
 
   //Determines whether the ramp is frictionless.  Object friction is handled elsewhere
-  def frictionless = _frictionless
+  def frictionless = _frictionless.booleanValue
 
   def frictionless_=(b: Boolean) = {
-    _frictionless = b
+    _frictionless.setValue(b)
     rampChangeAdapter.notifyListeners()
-    if (_frictionless) clearHeatInstantly()
+    if (_frictionless.booleanValue) clearHeatInstantly()
     notifyListeners()
   }
 

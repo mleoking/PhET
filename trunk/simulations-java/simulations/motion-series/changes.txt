@@ -1,3 +1,4 @@
+Converted frictionless property to MutableBoolean
 Converted wall property to MutableBoolean
 # 1.03.75 (43609) Aug 28, 2010
 Temporarily reduced DT in order to test animation smoothness issues
