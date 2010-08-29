@@ -1,3 +1,4 @@
+# 1.03.75 (43609) Aug 28, 2010
 Temporarily reduced DT in order to test animation smoothness issues
 Added experimental support for active rendering (commented out)
 Changed "object stuck" timeout from 5 sec to 1 sec
