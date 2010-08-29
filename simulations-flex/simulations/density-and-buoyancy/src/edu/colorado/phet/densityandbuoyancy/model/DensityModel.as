@@ -139,6 +139,7 @@ public class DensityModel {
             world.Step(DT_PER_STEP, 10);
             for each(var densityObject:DensityObject in densityObjects) {
                 densityObject.updatePositionFromBox2D();
+                densityObject.box2DStepped();
             }
 
             time = time + DT_PER_STEP;
@@ -146,7 +147,6 @@ public class DensityModel {
         //        for each(var c2:Cuboid in getCuboids()) {
         //            trace(time + "\t" + c2.getY() + "\t" + c2.getBody().GetPosition().y+"\t"+c2.getBody().GetLinearVelocity().y);//+"\t for "+getCuboids().length+" cuboids");
         //        }
-
         for each(densityObject in densityObjects) {
             densityObject.modelStepped();
         }

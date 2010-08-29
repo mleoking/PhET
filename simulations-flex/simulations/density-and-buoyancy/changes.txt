@@ -1,3 +1,4 @@
+Fixed: scale can be shoved with a block
 # 0.01.19 (43602) Aug 28, 2010
 Added a 2L bottle
 Improved listener interface and usages
