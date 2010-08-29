@@ -60,6 +60,7 @@ public class AbstractDensityModule extends UIComponent {
 
     private var waterVolumeIndicator:WaterVolumeIndicator;
     private var tickMarkSet:TickMarkSet
+    private var bottle:Bottle;
 
     public function AbstractDensityModule() {
         super();
@@ -68,6 +69,12 @@ public class AbstractDensityModule extends UIComponent {
         _model.addDensityObjectCreationListener(addDensityObject);
         waterVolumeIndicator = new WaterVolumeIndicator(_model);
         waterVolumeIndicator.visible = false;//only show it after its location is correct
+
+        bottle = new Bottle();
+        //move the bottle to the bottom left side of the pool
+        bottle.x = -DensityConstants.POOL_WIDTH_X/2*DensityModel.DISPLAY_SCALE-bottle.height/2*DensityModel.DISPLAY_SCALE;
+        bottle.y = DensityModel.DISPLAY_SCALE * bottle.height/2;//TODO: render artifacts when underground
+//        bottle.z = 10;
     }
 
     public function init():void {
@@ -85,6 +92,7 @@ public class AbstractDensityModule extends UIComponent {
         addChild(tickMarkSet);
 
         addChild(waterVolumeIndicator);
+        scene.addChild(bottle);
     }
 
     override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void {
