@@ -79,6 +79,7 @@ public class PropertyEditor extends GridRow {
         }
 
         slider.addEventListener(SliderEvent.THUMB_DRAG, sliderDragHandler);
+        slider.addEventListener(SliderEvent.CHANGE, sliderDragHandler);
         function updateSlider():void {
             const setValue:Number = unit.fromSI(property.value);
             slider.value = setValue;
