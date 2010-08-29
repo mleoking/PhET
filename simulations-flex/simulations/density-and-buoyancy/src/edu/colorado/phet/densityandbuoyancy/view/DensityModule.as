@@ -31,7 +31,7 @@ public class DensityModule extends AbstractDensityModule {
         setMode(customObjectMode);
 
         var box2DDebug:Box2DDebug = new Box2DDebug(model.getWorld());
-        //        _densityCanvas.addChild(box2DDebug.getSprite());
+//        _densityCanvas.addChild(box2DDebug.getSprite());
     }
 
     override public function resetAll():void {
