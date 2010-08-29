@@ -3,6 +3,7 @@ package edu.colorado.phet.motionseries.model
 import collection.mutable.ArrayBuffer
 import edu.colorado.phet.scalacommon.math.Vector2D
 import edu.colorado.phet.scalacommon.util.Observable
+import edu.colorado.phet.common.phetcommon.model.MutableBoolean
 
 /**Immutable memento for recording*/
 case class MotionSeriesObjectState(position: Double, velocity: Double, private val acceleration: Double, mass: Double, staticFriction: Double, kineticFriction: Double, thermalEnergy: Double, crashEnergy: Double, time: Double) {
@@ -34,7 +35,7 @@ abstract class MotionSeriesObject(private var _state: MotionSeriesObjectState,
                                   val rampSegmentAccessor: Double => RampSegment,
                                   model: Observable,
                                   val wallsBounce: () => Boolean,
-                                  _wallsExist: => Boolean,
+                                  val _wallsExist: MutableBoolean,
                                   val wallRange: () => Range,
                                   thermalEnergyStrategy: Double => Double)
         extends Observable {
@@ -49,7 +50,7 @@ abstract class MotionSeriesObject(private var _state: MotionSeriesObjectState,
     notifyListeners()
   }
 
-  def wallsExist = _wallsExist
+  def wallsExist = _wallsExist.getValue.booleanValue
 
   //This notion of crashing is only regarding falling off a cliff or off the ramp, not for crashing into a wall
   val crashListeners = new ArrayBuffer[() => Unit]

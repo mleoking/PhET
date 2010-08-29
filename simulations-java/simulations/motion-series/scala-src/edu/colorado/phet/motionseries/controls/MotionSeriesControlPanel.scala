@@ -172,8 +172,8 @@ class RampControlPanelBody(model: MotionSeriesModel,
       val brickButton = new MyRadioButton("walls.brick".translate, model.bounce = false, !model.bounce, model.addListener)
       val bouncyButton = new MyRadioButton("walls.bouncy".translate, model.bounce = true, model.bounce, model.addListener)
       defineInvokeAndPass(model.addListenerByName) {
-        brickButton.peer.setEnabled(model.walls)
-        bouncyButton.peer.setEnabled(model.walls)
+        brickButton.peer.setEnabled(model.walls.booleanValue)
+        bouncyButton.peer.setEnabled(model.walls.booleanValue)
       }
       add(new JPanel {
         add(brickButton.peer)
@@ -190,7 +190,7 @@ class RampControlPanelBody(model: MotionSeriesModel,
     () => model.motionSeriesObject.position, 
     x => {
       //Use the wallRange() for determining the max locaiton of the object, which accounts for whether walls are enabled or disabled
-      val clampedValue = if (model.walls) MathUtil.clamp(
+      val clampedValue = if (model.walls.booleanValue) MathUtil.clamp(
         model.wallRange().min + model.motionSeriesObject.width / 2, 
         x, 
         model.wallRange().max - model.motionSeriesObject.width / 2 )

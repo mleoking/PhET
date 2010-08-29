@@ -11,13 +11,16 @@ import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.colorado.phet.common.motion.charts.ChartCursor
 import edu.colorado.phet.recordandplayback.model.{DataPoint, RecordAndPlaybackModel}
 import edu.colorado.phet.common.phetcommon.math.MathUtil
+import edu.colorado.phet.common.phetcommon.model.MutableBoolean
 
 class MotionSeriesModel(defaultPosition: Double,
                         pausedOnReset: Boolean,
                         initialAngle: Double)
         extends RecordAndPlaybackModel[RecordedState](1000) with ObjectModel with RampSurfaceModel {
 
-  private var _walls = true
+  private var _walls = new MutableBoolean(true){
+    def booleanValue = super.getValue().booleanValue
+  }
   private var _frictionless = MotionSeriesDefaults.FRICTIONLESS_DEFAULT
   private var _bounce = MotionSeriesDefaults.BOUNCE_DEFAULT
   private var _objectType = MotionSeriesDefaults.objectTypes(0)
@@ -80,7 +83,7 @@ class MotionSeriesModel(defaultPosition: Double,
     stepRecord()
     val mode = motionSeriesObject.motionStrategy.getMemento
     new RecordedState(new RampState(rampAngle, rampSegments(1).heat, rampSegments(1).wetness),
-      selectedObject.state, motionSeriesObject.state, manMotionSeriesObject.state, motionSeriesObject.parallelAppliedForce, walls, mode, getTime, frictionless)
+      selectedObject.state, motionSeriesObject.state, manMotionSeriesObject.state, motionSeriesObject.parallelAppliedForce, walls.booleanValue, mode, getTime, frictionless)
   }
   
     //Resume activity in the sim, starting it up when the user drags the object or the position slider
@@ -127,7 +130,7 @@ class MotionSeriesModel(defaultPosition: Double,
       clearHistory()
       selectedObject = MotionSeriesDefaults.objectTypes(0)
       frictionless = MotionSeriesDefaults.FRICTIONLESS_DEFAULT
-      walls = true
+      walls.reset()
       resetObject()
       manMotionSeriesObject.setPosition(defaultManPosition)
 
@@ -262,8 +265,8 @@ class MotionSeriesModel(defaultPosition: Double,
   def walls = _walls
 
   def walls_=(b: Boolean) = {
-    if (b != _walls) {
-      _walls = b
+    if (b != _walls.booleanValue) {
+      _walls.setValue(b)
       updateSegmentLengths()
       notifyListeners()
     }
@@ -272,8 +275,8 @@ class MotionSeriesModel(defaultPosition: Double,
   //duplicates some work with wallrange
   //todo: call this method when ramp angle changes, since it depends on ramp angle
   def updateSegmentLengths() = {
-    val seg0Length = if (rampSegments(0).angle > 0 || _walls) rampLength else MotionSeriesDefaults.FAR_DISTANCE
-    val seg1Length = if (rampSegments(1).angle > 0 || _walls) rampLength else MotionSeriesDefaults.FAR_DISTANCE
+    val seg0Length = if (rampSegments(0).angle > 0 || _walls.getValue.booleanValue) rampLength else MotionSeriesDefaults.FAR_DISTANCE
+    val seg1Length = if (rampSegments(1).angle > 0 || _walls.getValue.booleanValue) rampLength else MotionSeriesDefaults.FAR_DISTANCE
     setSegmentLengths(seg0Length, seg1Length)
   }
 
