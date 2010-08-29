@@ -61,7 +61,6 @@ object MotionSeriesDefaults {
   val FBD_LABEL_MAX_OFFSET = 500
   val BODY_LABEL_MAX_OFFSET = 3
 
-  val FRICTIONLESS_DEFAULT = false
   val BOUNCE_DEFAULT = false
 
   val MIN_X = -10.0
