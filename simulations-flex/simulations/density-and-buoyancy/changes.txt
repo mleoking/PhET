@@ -1,3 +1,4 @@
+Fixed: Scale should start at the correct initial position, since gravity can no longer move it.
 Fixed: Two blocks can intersect without bumping each other away
 Fixed: scale can be shoved with a block
 # 0.01.19 (43602) Aug 28, 2010
