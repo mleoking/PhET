@@ -10,8 +10,8 @@ public class DensityViewFull extends AbstractDensityModule {
 
     override public function initObjects():void {
         super.initObjects();
-        addScales();
-        _model.addDensityObject(Block.newBlockSizeMass(3, 4.0, -4.5, 0, new ColorTransform(0.5, 0.5, 0), _model));
+//        addScales();
+//        _model.addDensityObject(Block.newBlockSizeMass(3, 4.0, -4.5, 0, new ColorTransform(0.5, 0.5, 0), _model));
         //        model.addDensityObject(Block.newBlockSizeMass(2, 4.0, -1.5, 0, new ColorTransform(0, 0, 1), model));
         //        model.addDensityObject(Block.newBlockSizeMass(1.5, 4.0, 1.5, 0, new ColorTransform(0, 1, 0), model));
     }
