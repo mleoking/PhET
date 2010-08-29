@@ -13,6 +13,10 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  * This is the default Border to be used in subsections of the control panel in phet simulations.
  * It provides the proper font and font style, and provides antialiasing and curved edges for the border.
  * See ticket #2476: https://phet.unfuddle.com/a#/projects/9404/tickets/by_number/2476
+ * 
+ * Note that using the border by itself may crop the text if it extends beyond the component length,
+ * therefore clients should typically use PhetTitledPanel instead, which guarantees that the entire titled border
+ * will remain visible by expanding the component width.
  *
  * @author Sam Reid
  * @author Chris Malley
@@ -68,7 +72,7 @@ public class PhetTitledBorder extends TitledBorder {
     }
 
     public PhetTitledBorder( String title, Font font ) {
-        super( title );
+        super( new PhetLineBorder(), title );
         init( font );
     }
 
