@@ -333,6 +333,10 @@ public class DensityObject {
     public function getYProperty():NumericProperty {
         return y;
     }
+    
+    public function getXProperty():NumericProperty{
+        return x;
+    }
 
     public function updateBox2DModel():void {
         throw new Error("Abstract method error");
