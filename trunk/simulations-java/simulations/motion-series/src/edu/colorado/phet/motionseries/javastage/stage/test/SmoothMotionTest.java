@@ -3,6 +3,7 @@ package edu.colorado.phet.motionseries.javastage.stage.test;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.lang.reflect.InvocationTargetException;
 
@@ -25,15 +26,22 @@ public class SmoothMotionTest {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.setSize( 800, 600 );
         final PCanvas contentPane = new PCanvas();
-        final PhetPPath node = new PhetPPath( new Rectangle2D.Double( 0, 0, 100, 100 ), Color.yellow, new BasicStroke( 2 ), Color.black );
+        final PhetPPath node = new PhetPPath( new Rectangle2D.Double( 0, 0, 100, 100 ), Color.yellow, new BasicStroke( 0.5f ), Color.black );
         contentPane.getLayer().addChild( node );
 
-        int delay = 5;
-        final double VELOCITY = 5/30.0*delay;//try to keep a nice velocity independent of the delay
+        int delay = 25;
+        final double VELOCITY = 5 / 30.0 * delay;//try to keep a nice velocity independent of the delay
         Timer timer = new Timer( delay, new ActionListener() {
             double velocity = VELOCITY;
+            int count = 0;
 
             public void actionPerformed( ActionEvent e ) {
+//                if ( count % 5 == 0 ) {
+//                    doWork();
+//                    Runtime.getRuntime().gc();
+//                }
+                doWork();
+
                 if ( node.getFullBounds().getMaxX() > contentPane.getWidth() ) {
                     velocity = -VELOCITY;
                 }
@@ -42,11 +50,23 @@ public class SmoothMotionTest {
                 }
                 node.setX( node.getX() + velocity );
                 node.setY( contentPane.getHeight() / 2 - node.getFullBounds().getHeight() / 2 );
-//                contentPane.paintImmediately( 0,0,contentPane.getWidth(), contentPane.getHeight() );
+//                contentPane.paintImmediately( 0, 0, contentPane.getWidth(), contentPane.getHeight() );
+//                Runtime.getRuntime().gc();
+                count = count + 1;
             }
         } );
         timer.start();
         frame.setContentPane( contentPane );
+    }
+
+    private void doWork() {
+        StringBuffer string = new StringBuffer();
+//        for ( int i = 0; i < 10000; i++ ) {
+        for ( int i = 0; i < 100; i++ ) {
+            Point2D.Double pt = new Point2D.Double( i, i / 2.0 );
+            string.append( pt.toString() );
+        }
+        Exception e = new Exception( string.toString() );
     }
 
     public static void main( String[] args ) throws InvocationTargetException, InterruptedException {
