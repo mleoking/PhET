@@ -17,7 +17,11 @@ public class PhetTitledPanel extends JPanel {
     private static final int AMOUNT_TO_EXTEND_BEYOND_TITLE = 5;//so that you can see the curve of the line border, without this factor, the line border drops down instead of curving to the right
 
     public PhetTitledPanel( String title ) {
-        titledBorder = new PhetTitledBorder( title );
+        this( title, PhetTitledBorder.DEFAULT_FONT );
+    }
+
+    public PhetTitledPanel( String title, Font font ) {
+        titledBorder = new PhetTitledBorder( title, font );
         setBorder( titledBorder );
         addContainerListener( new ContainerAdapter() {
             @Override

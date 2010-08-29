@@ -18,55 +18,62 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  * @author Chris Malley
  */
 public class PhetTitledBorder extends TitledBorder {
+    public static final PhetFont DEFAULT_FONT = new PhetFont( Font.BOLD, PhetFont.getDefaultFontSize() + 4 );
+
     public PhetTitledBorder( String title ) {
         super( new PhetLineBorder(), title );
-        init();
+        init( DEFAULT_FONT );
     }
 
     public PhetTitledBorder( String title, int titleJustification, int titlePosition ) {
         super( new PhetLineBorder(), title, titleJustification, titlePosition );
-        init();
+        init( DEFAULT_FONT );
     }
 
     public PhetTitledBorder( String title, int titleJustification, int titlePosition, Font titleFont ) {
         super( new PhetLineBorder(), title, titleJustification, titlePosition, titleFont );
-        init();
+        init( DEFAULT_FONT );
     }
 
     public PhetTitledBorder( String title, int titleJustification, int titlePosition, Font titleFont, Color titleColor ) {
         super( new PhetLineBorder(), title, titleJustification, titlePosition, titleFont, titleColor );
-        init();
+        init( DEFAULT_FONT );
     }
 
     //The following methods allow the client to specify an underlying border other than the default line border
 
     public PhetTitledBorder( Border border ) {
         super( border );
-        init();
+        init( DEFAULT_FONT );
     }
 
     public PhetTitledBorder( Border border, String title ) {
         super( border, title );
-        init();
+        init( DEFAULT_FONT );
     }
 
     public PhetTitledBorder( Border border, String title, int titleJustification, int titlePosition ) {
         super( border, title, titleJustification, titlePosition );
-        init();
+        init( DEFAULT_FONT );
     }
 
     public PhetTitledBorder( Border border, String title, int titleJustification, int titlePosition, Font titleFont ) {
         super( border, title, titleJustification, titlePosition, titleFont );
-        init();
+        init( DEFAULT_FONT );
     }
 
     public PhetTitledBorder( Border border, String title, int titleJustification, int titlePosition, Font titleFont, Color titleColor ) {
         super( border, title, titleJustification, titlePosition, titleFont, titleColor );
-        init();
+        init( DEFAULT_FONT );
     }
 
-    private void init() {
-        setTitleFont( new PhetFont( Font.BOLD, PhetFont.getDefaultFontSize() + 4 ) );
+    public PhetTitledBorder( String title, Font font ) {
+        super( title );
+        init( font );
+    }
+
+    private void init( Font font ) {
+        setTitleFont( font );
     }
 
     @Override
