@@ -68,7 +68,7 @@ class MotionSeriesModule(frame: PhetFrame,
 //      getSimulationPanel.paintImmediately(0, 0, getSimulationPanel.getWidth, getSimulationPanel.getHeight)
 //      RepaintManager.currentManager(getSimulationPanel).paintDirtyRegions()
 //    }
-    getSimulationPanel.asInstanceOf[MotionSeriesCanvas].doPaintImmediately()
+//    getSimulationPanel.asInstanceOf[MotionSeriesCanvas].doPaintImmediately()
     val modelTime = System.currentTimeMillis - startTime
 
     val elapsed = paintAndInputTime + modelTime
