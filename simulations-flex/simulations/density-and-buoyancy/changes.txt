@@ -1,3 +1,4 @@
+# 0.01.19 (43602) Aug 28, 2010
 Added a 2L bottle
 Improved listener interface and usages
 Fixed: When switching to custom object or changing density, there is a frame in which object color is dirty yellow before the block.getColor() value is applied
