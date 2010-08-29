@@ -5,10 +5,9 @@ import edu.colorado.phet.common.phetcommon.application.Module
 import edu.colorado.phet.scalacommon.ScalaClock
 import edu.colorado.phet.motionseries.model._
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver
-import javax.swing.RepaintManager
 import edu.colorado.phet.common.motion.charts.{TemporalChart, ChartCursor}
 import edu.colorado.phet.motionseries.Predef._
-
+import javax.swing.RepaintManager
 //TODO: improve inheritance/composition scheme for different applications/modules/canvases/models
 class MotionSeriesModule(frame: PhetFrame,
                          val clock: ScalaClock,
@@ -71,6 +70,35 @@ class MotionSeriesModule(frame: PhetFrame,
     lastTickTime = System.currentTimeMillis
     clockTickIndex = clockTickIndex + 1
   })
+  //This was an investigation into active rendering
+  //    var lastTime = System.nanoTime
+  //    val t = new Thread(new Runnable() {
+  //      def run = {
+  //        while (true) {
+  //          val t = System.nanoTime
+  //          //        SwingUtilities.invokeAndWait(new Runnable(){
+  //          //          def run = {
+  //          val dt = (t - lastTime) / 1000
+  //  //        println(dt+"\t"+t+"\t"+motionSeriesModel.motionSeriesObject.position)
+  //          val measure1 = System.currentTimeMillis
+  //          SwingUtilities.invokeAndWait(new Runnable() {
+  //            def run = {
+  //              motionSeriesModel.stepInTime(MotionSeriesDefaults.DT_DEFAULT)
+  //              if (getSimulationPanel != null)
+  //                getSimulationPanel.asInstanceOf[MotionSeriesCanvas].doPaintImmediately()
+  //            }
+  //          })
+  //          val measure2 = System.currentTimeMillis
+  //          val diff = measure2 - measure1
+  //          val targetDT = 15
+  //          if (diff < targetDT) {
+  //            Thread.sleep(targetDT - diff)
+  //          }
+  //          lastTime=t
+  //        }
+  //      }
+  //    })
+  //    t.start()
 
   motionSeriesModel.motionSeriesObject.addWallCrashListener(() => MotionSeriesResources.crashSound.play())
   motionSeriesModel.motionSeriesObject.addBounceListener(() => MotionSeriesResources.bounceSound.play())
