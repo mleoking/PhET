@@ -4,7 +4,6 @@ import java.awt.*;
 
 import javax.swing.*;
 import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -78,25 +77,6 @@ public class PhetTitledBorder extends TitledBorder {
         g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         super.paintBorder( c, g, x, y, width, height );
         g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, oldAntialiasHint );
-    }
-
-    private static class PhetLineBorder extends LineBorder {
-        public PhetLineBorder() {
-            super( Color.black, 1, true );
-        }
-
-        @Override
-        public void paintBorder( Component c, Graphics g, int x, int y, int width, int height ) {
-            //Overrides to add antialiasing (otherwise looks terrible on Windows) and to curve the edges
-            Graphics2D g2 = (Graphics2D) g;
-            Object oldAntialiasHint = g2.getRenderingHint( RenderingHints.KEY_ANTIALIASING );
-            Color oldColor = g2.getColor();
-            g2.setColor( getLineColor() );
-            g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
-            g2.drawRoundRect( x, y, width - 1, height - 1, 8, 8 );
-            g2.setColor( oldColor );
-            g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, oldAntialiasHint );
-        }
     }
 
     /**
