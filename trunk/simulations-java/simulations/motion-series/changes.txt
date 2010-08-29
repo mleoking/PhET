@@ -1,3 +1,5 @@
+Temporarily reduced DT in order to test animation smoothness issues
+Added experimental support for active rendering (commented out)
 Changed "object stuck" timeout from 5 sec to 1 sec
 # 1.03.74 (43417) Aug 23, 2010
 Fixed: Object still hits walls sometimes, even when walls are minimized

@@ -66,7 +66,7 @@ object MotionSeriesDefaults {
 
   val MIN_X = -10.0
   val MAX_X = 10.0
-  val FAR_DISTANCE = 10000//length of the segments if the walls are disabled
+  val FAR_DISTANCE = 10000 //length of the segments if the walls are disabled
 
   val worldDefaultScale = 1.0
 
@@ -81,7 +81,9 @@ object MotionSeriesDefaults {
   val PLAY_AREA_ACCELERATION_VECTOR_SCALE = 0.03
 
   val DT_DEFAULT = 30 / 1000.0
-  val DELAY = 25
+  //  val DELAY = 25
+  //  val DELAY = 15
+  val DELAY = 5
 
   val SKY_GRADIENT_BOTTOM = new Color(250, 250, 255)
   val EARTH_COLOR = new Color(200, 240, 200)

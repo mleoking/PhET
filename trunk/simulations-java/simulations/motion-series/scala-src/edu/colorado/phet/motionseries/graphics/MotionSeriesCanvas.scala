@@ -2,7 +2,6 @@ package edu.colorado.phet.motionseries.graphics
 
 import edu.colorado.phet.common.piccolophet.nodes.{PhetPPath, GradientButtonNode}
 import java.awt.geom.{Rectangle2D, Point2D}
-import java.awt.{BasicStroke, Color}
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import java.awt.event._
@@ -15,6 +14,7 @@ import edu.colorado.phet.motionseries.controls.ObjectSelectionComboBoxNode
 import edu.colorado.phet.motionseries.javastage.stage.PlayArea
 import edu.colorado.phet.motionseries.{StageContainerArea, MotionSeriesResources, MotionSeriesDefaults}
 import edu.colorado.phet.common.piccolophet.event.CursorHandler
+import java.awt.{Rectangle, BasicStroke, Color}
 
 /**
  * This is the base canvas for the "Ramp" and "Forces and Motion" sims
@@ -40,8 +40,19 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
     //    setStrokePaint(Color.blue)//enable this for debugging
     setStrokePaint(null)
   }
-
+  
   playAreaNode.addChild(new SkyNode(transform))
+
+//  override def paintImmediately = {}
+//
+//  override def paintImmediately(x: Int, y: Int, w: Int, h: Int) = {}
+//
+//  override def paintImmediately(r: Rectangle) = {}
+  
+  //For support of active rendering
+  def doPaintImmediately() = {
+    super.paintImmediately(0,0,getWidth,getHeight)
+  }
 
   def useVectorNodeInPlayArea = true
 
