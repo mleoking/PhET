@@ -17,14 +17,14 @@ class ForceMotionSeriesObject(_state: MotionSeriesObjectState,
                               _width: Double,
                               positionMapper: Double => Vector2D,
                               rampSegmentAccessor: Double => RampSegment,
-                              model: Observable,
+                              rampChangeAdapter: Observable,
                               val surfaceFriction: () => Boolean,
                               wallsBounce: () => Boolean,
                               val __surfaceFrictionStrategy: SurfaceFrictionStrategy,
                               _wallsExist: MutableBoolean,
                               wallRange: () => Range,
                               thermalEnergyStrategy: Double => Double)
-        extends MotionSeriesObject(_state, _height, _width, positionMapper, rampSegmentAccessor, model, wallsBounce, _wallsExist, wallRange, thermalEnergyStrategy) {
+        extends MotionSeriesObject(_state, _height, _width, positionMapper, rampSegmentAccessor, rampChangeAdapter, wallsBounce, _wallsExist, wallRange, thermalEnergyStrategy) {
   //This method allows MotionSeriesObject subclasses to avoid thermal energy by overriding this to return 0.0
   def getThermalEnergy(x: Double) = thermalEnergyStrategy(x)
 
@@ -48,7 +48,7 @@ class ForceMotionSeriesObject(_state: MotionSeriesObjectState,
 
   addListenerByName(appliedForceVector.notifyListeners()) //todo: just listen for changes to applied force parallel component
 
-  model.addListenerByName(frictionForceVector.notifyListeners())
+  rampChangeAdapter.addListenerByName(frictionForceVector.notifyListeners())
 
   def totalForce = gravityForce + normalForce + appliedForce + frictionForce + wallForce
 

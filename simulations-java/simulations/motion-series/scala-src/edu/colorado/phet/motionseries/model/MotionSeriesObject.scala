@@ -33,7 +33,7 @@ abstract class MotionSeriesObject(private var _state: MotionSeriesObjectState,
                                   private var _width: Double,
                                   val positionMapper: Double => Vector2D,
                                   val rampSegmentAccessor: Double => RampSegment,
-                                  model: Observable,
+                                  rampChangeAdapter: Observable,
                                   val wallsBounce: () => Boolean,
                                   val _wallsExist: MutableBoolean,
                                   val wallRange: () => Range,
@@ -59,7 +59,7 @@ abstract class MotionSeriesObject(private var _state: MotionSeriesObjectState,
 
   def state_=(s: MotionSeriesObjectState) = {_state = s; notifyListeners()}
 
-  model.addListenerByName(notifyListeners)
+  rampChangeAdapter.addListenerByName(notifyListeners)
 
   //notified when the MotionSeriesObject is being removed
   val removalListeners = new ArrayBuffer[() => Unit]
