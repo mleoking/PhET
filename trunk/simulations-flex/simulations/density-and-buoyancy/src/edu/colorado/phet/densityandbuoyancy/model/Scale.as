@@ -1,4 +1,5 @@
 package edu.colorado.phet.densityandbuoyancy.model {
+import Box2D.Common.Math.b2Vec2;
 import Box2D.Dynamics.Contacts.b2ContactResult;
 import Box2D.Dynamics.b2Body;
 
@@ -25,6 +26,7 @@ public class Scale extends Cuboid {
 
     public function Scale(x:Number, y:Number, model:DensityModel, mass:Number):void {
         super(SCALE_DENSITY, SCALE_WIDTH, SCALE_HEIGHT, SCALE_DEPTH, x, y, model, Material.CUSTOM);
+        setMass(0);//Mass has to be zero so that it is immobile
     }
 
     public function getScaleReadout():String {
@@ -52,7 +54,7 @@ public class Scale extends Cuboid {
         var body1:b2Body = point.shape1.GetBody();
         var body2:b2Body = point.shape2.GetBody();
 
-        if (body1.IsStatic() || body2.IsStatic()) {
+        if (body1.IsStatic() && body2.IsStatic()) {
             // this is our scale in contact with the ground
             return;
         }
@@ -74,6 +76,12 @@ public class Scale extends Cuboid {
         }
 
         totalImpulse += point.normalImpulse / DensityConstants.SCALE_BOX2D;//convert back to SI from box2d units
+    }
+
+    override function box2DStepped():void {
+        super.box2DStepped();
+//        setPosition(0,0);
+//        getBody().SetLinearVelocity(new b2Vec2());
     }
 
     override public function resetContacts():void {

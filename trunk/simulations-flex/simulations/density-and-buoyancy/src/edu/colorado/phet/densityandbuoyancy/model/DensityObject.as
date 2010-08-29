@@ -315,7 +315,7 @@ public class DensityObject {
         return this.volume.value;
     }
 
-    private function setMass(number:Number):void {
+    public function setMass(number:Number):void {
         mass.value = number;
         updateBox2DModel();
     }
@@ -341,5 +341,8 @@ public class DensityObject {
     public function addRemovalListener(removalListener:Function):void {
         removalListeners.push(removalListener);
     }
+
+    //Abstract
+    function box2DStepped():void {}
 }
 }
