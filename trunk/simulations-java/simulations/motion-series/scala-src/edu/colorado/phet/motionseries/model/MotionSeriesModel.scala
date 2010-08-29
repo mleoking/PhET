@@ -10,27 +10,32 @@ import java.lang.Math._
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.colorado.phet.common.motion.charts.ChartCursor
 import edu.colorado.phet.recordandplayback.model.{DataPoint, RecordAndPlaybackModel}
-import edu.colorado.phet.common.phetcommon.math.MathUtil
 import edu.colorado.phet.common.phetcommon.model.MutableBoolean
+import edu.colorado.phet.common.phetcommon.math.MathUtil
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver
 
 //Scala Mutable Boolean overcomes incompatibility between java.lang.Boolean and scala.Boolean 
-class SMutableBoolean(v:Boolean) extends MutableBoolean(v){
-  def booleanValue = super.getValue().booleanValue//to fix incompatibility between java.lang.Boolean and scala.Boolean
+class SMutableBoolean(v: Boolean) extends MutableBoolean(v) {
+  def booleanValue = super.getValue().booleanValue //to fix incompatibility between java.lang.Boolean and scala.Boolean
+  def addListener(listener:()=>Unit) = {
+    super.addObserver(new SimpleObserver{
+      def update = listener()
+    })
+  }
 }
 
 class MotionSeriesModel(defaultPosition: Double,
                         pausedOnReset: Boolean,
                         initialAngle: Double)
         extends RecordAndPlaybackModel[RecordedState](1000) with ObjectModel with RampSurfaceModel {
-
-  private var _walls = new SMutableBoolean(true)
-  private var _frictionless = new SMutableBoolean(false)//FRICTIONLESS_DEFAULT
-  private var _bounce = MotionSeriesDefaults.BOUNCE_DEFAULT
+  private val _walls = new SMutableBoolean(true)
+  private val _frictionless = new SMutableBoolean(false) //FRICTIONLESS_DEFAULT
+  private val _wallsBounce = new SMutableBoolean(false) //BOUNCE_DEFAULT 
   private var _objectType = MotionSeriesDefaults.objectTypes(0)
   val chartCursor = new ChartCursor()
 
   val rampSegments = new ArrayBuffer[RampSegment]
-  
+
   val stepListeners = new ArrayBuffer[() => Unit]
   val recordListeners = new ArrayBuffer[() => Unit]
   val rampLength = 10
@@ -46,7 +51,6 @@ class MotionSeriesModel(defaultPosition: Double,
   rampSegments(0).addListenerByName {rampChangeAdapter.notifyListeners}
   rampSegments(1).addListenerByName {rampChangeAdapter.notifyListeners}
   val surfaceFriction = () => !frictionless
-  val wallsBounce = () => bounce
 
   val defaultManPosition = defaultPosition - 1
   val manMotionSeriesObject = ForceMotionSeriesObject(this, defaultManPosition, 1, 3)
@@ -67,8 +71,8 @@ class MotionSeriesModel(defaultPosition: Double,
   val motionSeriesObject = new ForceMotionSeriesObject(new MotionSeriesObjectState(defaultPosition, 0, 0,
     _objectType.mass, _objectType.staticFriction, _objectType.kineticFriction, 0.0, 0.0, 0.0),
     _objectType.height, _objectType.width, positionMapper,
-    rampSegmentAccessor, rampChangeAdapter, surfaceFriction, wallsBounce, surfaceFrictionStrategy, walls, wallRange, thermalEnergyStrategy)
-  
+    rampSegmentAccessor, rampChangeAdapter, surfaceFriction, _wallsBounce, surfaceFrictionStrategy, walls, wallRange, thermalEnergyStrategy)
+
   updateDueToObjectTypeChange()
 
   def thermalEnergyStrategy(x: Double) = x
@@ -88,8 +92,8 @@ class MotionSeriesModel(defaultPosition: Double,
     new RecordedState(new RampState(rampAngle, rampSegments(1).heat, rampSegments(1).wetness),
       selectedObject.state, motionSeriesObject.state, manMotionSeriesObject.state, motionSeriesObject.parallelAppliedForce, walls.booleanValue, mode, getTime, frictionless)
   }
-  
-    //Resume activity in the sim, starting it up when the user drags the object or the position slider
+
+  //Resume activity in the sim, starting it up when the user drags the object or the position slider
   def resume() = {
     if (isPlayback) {
       clearHistoryRemainder()
@@ -144,7 +148,7 @@ class MotionSeriesModel(defaultPosition: Double,
       rampSegments(1).setAngle(initialAngle)
 
       resetListeners.foreach(_())
-      bounce = MotionSeriesDefaults.BOUNCE_DEFAULT
+      bounce.reset()
 
       setPaused(pausedOnReset)
     }
@@ -253,7 +257,13 @@ class MotionSeriesModel(defaultPosition: Double,
     notifyListeners()
   }
 
-  def bounce = _bounce
+  def bounce = _wallsBounce
+
+  def bounce_=(b: Boolean) = {
+    _wallsBounce.setValue(b)
+    rampChangeAdapter.notifyListeners()
+    notifyListeners()
+  }
 
   //Determines whether the ramp is frictionless.  Object friction is handled elsewhere
   def frictionless = _frictionless.booleanValue
@@ -291,12 +301,6 @@ class MotionSeriesModel(defaultPosition: Double,
     rampSegments(1).endPoint = new Vector2D(rampSegments(1).angle) * seg1Length
   }
 
-  def bounce_=(b: Boolean) = {
-    _bounce = b
-    rampChangeAdapter.notifyListeners()
-    notifyListeners()
-  }
-
   def rampAngle_=(angle: Double) = rampSegments(1).setAngle(angle)
 
   def rampAngle = rampSegments(1).angle
@@ -330,7 +334,7 @@ class MotionSeriesModel(defaultPosition: Double,
 
   override def stepMode(dt: Double) = {
     super.stepMode(dt)
-    if (!isPlayback){//for playback mode, the stepListeners are already notified
+    if (!isPlayback) { //for playback mode, the stepListeners are already notified
       stepListeners.foreach(_())
     }
   }

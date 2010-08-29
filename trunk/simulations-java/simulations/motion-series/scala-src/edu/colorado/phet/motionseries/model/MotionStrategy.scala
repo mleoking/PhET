@@ -279,7 +279,7 @@ class Grounded(motionSeriesObject: ForceMotionSeriesObject) extends MotionStrate
     motionSeriesObject.wallForceVector.notifyListeners()
   }
 
-  def bounce = motionSeriesObject.wallsBounce()
+  def bounce = motionSeriesObject.wallsBounce.booleanValue
 
   def isKineticFriction = surfaceFriction() && kineticFriction > 0
 
