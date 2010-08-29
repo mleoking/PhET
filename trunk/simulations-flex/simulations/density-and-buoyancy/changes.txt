@@ -1,3 +1,4 @@
+Fixed: Clicking an empty part of the slider track moves the thumb but doesn't trigger any other changes
 Fixed: Scale should start at the correct initial position, since gravity can no longer move it.
 Fixed: Two blocks can intersect without bumping each other away
 Fixed: scale can be shoved with a block
