@@ -19,7 +19,7 @@ class ForceMotionSeriesObject(_state: MotionSeriesObjectState,
                               rampSegmentAccessor: Double => RampSegment,
                               rampChangeAdapter: Observable,
                               val surfaceFriction: () => Boolean,
-                              wallsBounce: () => Boolean,
+                              wallsBounce: SMutableBoolean,
                               val __surfaceFrictionStrategy: SurfaceFrictionStrategy,
                               _wallsExist: MutableBoolean,
                               wallRange: () => Range,
@@ -179,6 +179,6 @@ class ForceMotionSeriesObject(_state: MotionSeriesObjectState,
 object ForceMotionSeriesObject {
   def apply(model: MotionSeriesModel, x: Double, width: Double, height: Double) = {
     new ForceMotionSeriesObject(new MotionSeriesObjectState(x, 0, 0, 10, 0, 0, 0.0, 0.0, 0.0), height, width, model.positionMapper, model.rampSegmentAccessor, model.rampChangeAdapter,
-      model.surfaceFriction, model.wallsBounce, model.surfaceFrictionStrategy, model.walls, model.wallRange, model.thermalEnergyStrategy)
+      model.surfaceFriction, model.bounce, model.surfaceFrictionStrategy, model.walls, model.wallRange, model.thermalEnergyStrategy)
   }
 }

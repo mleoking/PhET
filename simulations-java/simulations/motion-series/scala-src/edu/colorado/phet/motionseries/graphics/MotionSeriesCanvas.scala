@@ -92,9 +92,9 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
     })
 
     class SpringNode(motionSeriesObject: MotionSeriesObject) extends MotionSeriesObjectNode(motionSeriesObject, transform, "spring.png".literal) {
-      defineInvokeAndPass(model.addListenerByName) {
-        setVisible(model.wallsBounce() && model.walls.booleanValue)
-      }
+      def updateVisibility() =setVisible(model.bounce.booleanValue && model.walls.booleanValue)
+      model.bounce.addListener(updateVisibility)
+      updateVisibility()
     }
     playAreaNode.addChild(new SpringNode(model.leftWallRightEdge))
     playAreaNode.addChild(new SpringNode(model.rightWallLeftEdge))

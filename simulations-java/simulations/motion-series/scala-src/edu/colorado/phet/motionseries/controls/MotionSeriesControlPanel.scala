@@ -169,8 +169,8 @@ class RampControlPanelBody(model: MotionSeriesModel,
 
   if (showBounceControl) {
     add(new SubControlPanel("walls.type".translate) {
-      val brickButton = new MyRadioButton("walls.brick".translate, model.bounce = false, !model.bounce, model.addListener)
-      val bouncyButton = new MyRadioButton("walls.bouncy".translate, model.bounce = true, model.bounce, model.addListener)
+      val brickButton = new MyRadioButton("walls.brick".translate, model.bounce = false, !model.bounce.booleanValue, model.bounce.addListener)
+      val bouncyButton = new MyRadioButton("walls.bouncy".translate, model.bounce = true, model.bounce.booleanValue, model.bounce.addListener)
       defineInvokeAndPass(model.addListenerByName) {
         brickButton.peer.setEnabled(model.walls.booleanValue)
         bouncyButton.peer.setEnabled(model.walls.booleanValue)

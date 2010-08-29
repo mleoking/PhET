@@ -61,8 +61,6 @@ object MotionSeriesDefaults {
   val FBD_LABEL_MAX_OFFSET = 500
   val BODY_LABEL_MAX_OFFSET = 3
 
-  val BOUNCE_DEFAULT = false
-
   val MIN_X = -10.0
   val MAX_X = 10.0
   val FAR_DISTANCE = 10000 //length of the segments if the walls are disabled

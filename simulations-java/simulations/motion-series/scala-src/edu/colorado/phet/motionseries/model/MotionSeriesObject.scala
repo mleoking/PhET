@@ -34,7 +34,7 @@ abstract class MotionSeriesObject(private var _state: MotionSeriesObjectState,
                                   val positionMapper: Double => Vector2D,
                                   val rampSegmentAccessor: Double => RampSegment,
                                   rampChangeAdapter: Observable,
-                                  val wallsBounce: () => Boolean,
+                                  val wallsBounce: SMutableBoolean,
                                   val _wallsExist: MutableBoolean,
                                   val wallRange: () => Range,
                                   thermalEnergyStrategy: Double => Double)
