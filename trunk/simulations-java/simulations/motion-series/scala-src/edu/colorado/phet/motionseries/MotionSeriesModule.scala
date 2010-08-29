@@ -51,6 +51,10 @@ class MotionSeriesModule(frame: PhetFrame,
 
   //This clock is always running; pausing just pauses the physics
   clock.addClockListener(dt => {
+    //TODO: comment out debug info and frame rates
+    val t = System.currentTimeMillis
+    val delta = t-lastTickTime
+    println("delta = \t"+delta)
     val paintAndInputTime = System.currentTimeMillis - lastTickTime
 
     val startTime = System.currentTimeMillis
@@ -69,7 +73,7 @@ class MotionSeriesModule(frame: PhetFrame,
 
     val elapsed = paintAndInputTime + modelTime
     //this policy causes problems on the mac, see #1832
-    lastTickTime = System.currentTimeMillis
+    lastTickTime = t
     clockTickIndex = clockTickIndex + 1
   })
   //This was an investigation into active rendering

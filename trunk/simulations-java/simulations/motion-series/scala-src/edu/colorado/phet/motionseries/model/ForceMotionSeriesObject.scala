@@ -6,6 +6,7 @@ import edu.colorado.phet.scalacommon.util.Observable
 import edu.colorado.phet.motionseries.Predef._
 import edu.colorado.phet.motionseries._
 import java.lang.Math._
+import edu.colorado.phet.common.phetcommon.model.MutableBoolean
 
 /**
  * This adds Force functionality to the MotionSeriesObject model class, such as ability to get force components and to set applied force.
@@ -20,7 +21,7 @@ class ForceMotionSeriesObject(_state: MotionSeriesObjectState,
                               val surfaceFriction: () => Boolean,
                               wallsBounce: () => Boolean,
                               val __surfaceFrictionStrategy: SurfaceFrictionStrategy,
-                              _wallsExist: => Boolean,
+                              _wallsExist: MutableBoolean,
                               wallRange: () => Range,
                               thermalEnergyStrategy: Double => Double)
         extends MotionSeriesObject(_state, _height, _width, positionMapper, rampSegmentAccessor, model, wallsBounce, _wallsExist, wallRange, thermalEnergyStrategy) {

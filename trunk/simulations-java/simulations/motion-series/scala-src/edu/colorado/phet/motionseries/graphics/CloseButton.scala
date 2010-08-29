@@ -35,16 +35,16 @@ trait CloseButton extends MotionSeriesObjectNode {
     override def mousePressed(event: PInputEvent) = model.walls = true
   })
   defineInvokeAndPass(model.addListenerByName) {
-    imageNode.setVisible(model.walls)
-    imageNode.setPickable(model.walls)
-    imageNode.setChildrenPickable(model.walls)
+    imageNode.setVisible(model.walls.booleanValue)
+    imageNode.setPickable(model.walls.booleanValue)
+    imageNode.setChildrenPickable(model.walls.booleanValue)
 
-    closeButton.setVisible(model.walls)
-    closeButton.setPickable(model.walls)
-    closeButton.setChildrenPickable(model.walls)
+    closeButton.setVisible(model.walls.booleanValue)
+    closeButton.setPickable(model.walls.booleanValue)
+    closeButton.setChildrenPickable(model.walls.booleanValue)
 
-    openButton.setVisible(!model.walls)
-    openButton.setPickable(!model.walls)
-    openButton.setChildrenPickable(!model.walls)
+    openButton.setVisible(!model.walls.booleanValue)
+    openButton.setPickable(!model.walls.booleanValue)
+    openButton.setChildrenPickable(!model.walls.booleanValue)
   }
 }
