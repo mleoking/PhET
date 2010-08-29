@@ -21,6 +21,7 @@ public class DensityObjectNode extends ObjectContainer3D implements Pickable {
         this.densityObject = densityObject;
         this._view = view;
         densityObject.getYProperty().addListener(updateGeometry);
+        densityObject.getXProperty().addListener(updateGeometry);
         densityObject.addRemovalListener(remove);
     }
 
