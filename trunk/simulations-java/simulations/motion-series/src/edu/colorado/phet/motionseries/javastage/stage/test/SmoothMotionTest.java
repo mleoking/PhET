@@ -61,8 +61,8 @@ public class SmoothMotionTest {
 
     private void doWork() {
         StringBuffer string = new StringBuffer();
-//        for ( int i = 0; i < 10000; i++ ) {
-        for ( int i = 0; i < 100; i++ ) {
+        for ( int i = 0; i < 20000; i++ ) {
+//        for ( int i = 0; i < 100; i++ ) {
             Point2D.Double pt = new Point2D.Double( i, i / 2.0 );
             string.append( pt.toString() );
         }
