@@ -43,11 +43,11 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
   
   playAreaNode.addChild(new SkyNode(transform))
 
-//  override def paintImmediately = {}
-//
-//  override def paintImmediately(x: Int, y: Int, w: Int, h: Int) = {}
-//
-//  override def paintImmediately(r: Rectangle) = {}
+  override def paintImmediately = {}
+
+  override def paintImmediately(x: Int, y: Int, w: Int, h: Int) = {}
+
+  override def paintImmediately(r: Rectangle) = {}
   
   //For support of active rendering
   def doPaintImmediately() = {

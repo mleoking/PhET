@@ -7,6 +7,7 @@ import edu.colorado.phet.motionseries.model._
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver
 import edu.colorado.phet.common.motion.charts.{TemporalChart, ChartCursor}
 import edu.colorado.phet.motionseries.Predef._
+import graphics.MotionSeriesCanvas
 import javax.swing.RepaintManager
 //TODO: improve inheritance/composition scheme for different applications/modules/canvases/models
 class MotionSeriesModule(frame: PhetFrame,
@@ -59,10 +60,11 @@ class MotionSeriesModule(frame: PhetFrame,
     //This workaround reduces the probability of having that problem significantly
     //The root of the problem might be that the wall force vector isn't updating at the right times
     //Note that this workaround will increase computational demand, and it will also occur whenever the user is pushing the block against the wall
-    if (motionSeriesModel.motionSeriesObject.wallForce.magnitude > 1E-2) {
-      getSimulationPanel.paintImmediately(0, 0, getSimulationPanel.getWidth, getSimulationPanel.getHeight)
-      RepaintManager.currentManager(getSimulationPanel).paintDirtyRegions()
-    }
+//    if (motionSeriesModel.motionSeriesObject.wallForce.magnitude > 1E-2) {
+//      getSimulationPanel.paintImmediately(0, 0, getSimulationPanel.getWidth, getSimulationPanel.getHeight)
+//      RepaintManager.currentManager(getSimulationPanel).paintDirtyRegions()
+//    }
+    getSimulationPanel.asInstanceOf[MotionSeriesCanvas].doPaintImmediately()
     val modelTime = System.currentTimeMillis - startTime
 
     val elapsed = paintAndInputTime + modelTime
