@@ -1,3 +1,4 @@
+Removed colons after friction coefficients
 Converted bouncy property to MutableBoolean
 Converted frictionless property to MutableBoolean
 Converted wall property to MutableBoolean
