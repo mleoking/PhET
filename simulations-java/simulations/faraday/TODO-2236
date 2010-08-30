@@ -1,10 +1,4 @@
 TODO list for Faraday ticket #2236
 
-HIGH PRIORITY
-
-MEDIUM PRIORITY
 - remove MathCAD dependency by implementing numerical model in a stand-alone Java program that can generate grid files
-
-LOW PRIORITY
 - remove SimpsonsRule code from TestNumericalDipoleModel, or clear licensing.
-- document extensively either in a PDF or in source code
