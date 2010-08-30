@@ -8,7 +8,6 @@ import flash.events.FocusEvent;
 
 import mx.containers.GridItem;
 import mx.containers.GridRow;
-import mx.controls.HSlider;
 import mx.controls.Label;
 import mx.controls.TextInput;
 import mx.events.FlexEvent;
@@ -65,15 +64,15 @@ public class PropertyEditor extends GridRow {
         addGridItem(unitsLabel);
     }
 
-    protected function createSlider(property:NumericProperty, minimum:Number, maximum:Number, unit:Unit):HSlider {
-        const slider:HSlider = new HSlider();
+    protected function createSlider(property:NumericProperty, minimum:Number, maximum:Number, unit:Unit):SliderDecorator {
+        const slider:SliderDecorator = new SliderDecorator();
         slider.setStyle("dataTipOffset", 0);//Without this fix, data tips appear very far from the tip of the slider thumb, see http://blog.flexexamples.com/2007/11/03/customizing-a-slider-controls-data-tip/
         slider.sliderThumbClass = MySliderThumb;
-        slider.width = SLIDER_WIDTH;
+        slider.sliderWidth = SLIDER_WIDTH;
+
         slider.minimum = unit.fromSI(minimum);
         slider.maximum = unit.fromSI(maximum);
         slider.liveDragging = true;
-        slider.thumbCount = 1;
         function sliderDragHandler(event:SliderEvent):void {
             property.value = unit.toSI(event.value);
         }
@@ -103,6 +102,15 @@ public class PropertyEditor extends GridRow {
 
         updateSlider();
         property.addListener(updateSlider);
+
+
+        //        var firstThumb:SliderThumb = SliderThumb(slider.getThumbAt(0));
+        //        var t= firstThumb.getExplicitOrMeasuredWidth()/2;
+        //        const textField:TextField = new TextField();
+        //        textField.text="hello";
+        //        textField.y=-20;
+        //        slider.addChild(textField);
+        //        
         return slider;
     }
 
@@ -110,6 +118,10 @@ public class PropertyEditor extends GridRow {
         const item:GridItem = new GridItem();
         item.addChild(displayObject);
         addChild(item);
+    }
+
+    protected override function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void {
+        super.updateDisplayList(unscaledWidth, unscaledHeight);
     }
 }
 }

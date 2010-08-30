@@ -1,3 +1,4 @@
+Colorized tick marks on the density slider
 Added boundaries to prevent the user from dragging objects outside of the visible area
 Fixed: Adding handling of SliderEvent.CHANGE made it so that sliders couldn't indicate values beyond their range.
 Improved text labels for blocks, including addition of background for readability on dark objects
