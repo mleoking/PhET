@@ -1,3 +1,4 @@
+8/30/10 #2236, update data/faraday/bfield/README
 8/30/10 #2236, check in MathCAD file for numerical model of bar magnet
 # 2.03.08 (43454) Aug 24, 2010
 8/24/10 #2236, calibrate ELECTRON_SPEED_SCALE in each module that has a pickup coil

@@ -6,8 +6,5 @@ MEDIUM PRIORITY
 - remove MathCAD dependency by implementing numerical model in a stand-alone Java program that can generate grid files
 
 LOW PRIORITY
-- update data/faraday/bfield/README
 - remove SimpsonsRule code from TestNumericalDipoleModel, or clear licensing.
-- check in MathCAD file that matches grid files
-- check in PDF of MatchCAD file that matches grid files
 - document extensively either in a PDF or in source code
