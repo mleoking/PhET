@@ -1,4 +1,0 @@
-TODO list for Faraday ticket #2236
-
-- remove MathCAD dependency by implementing numerical model in a stand-alone Java program that can generate grid files
-- remove SimpsonsRule code from TestNumericalDipoleModel, or clear licensing.
