@@ -10,6 +10,9 @@ import javax.swing.border.LineBorder;
  * @author Sam Reid
  */
 public class PhetLineBorder extends LineBorder {
+    
+    private static final int CORNER_RADIUS = 8; // radius of the rounded corners (aka arc width)
+    
     public PhetLineBorder() {
         super( Color.black, 1, true );
     }
@@ -22,7 +25,7 @@ public class PhetLineBorder extends LineBorder {
         Color oldColor = g2.getColor();
         g2.setColor( getLineColor() );
         g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
-        g2.drawRoundRect( x, y, width - 1, height - 1, 8, 8 );
+        g2.drawRoundRect( x, y, width - 1, height - 1, CORNER_RADIUS, CORNER_RADIUS );
         g2.setColor( oldColor );
         g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, oldAntialiasHint );
     }
