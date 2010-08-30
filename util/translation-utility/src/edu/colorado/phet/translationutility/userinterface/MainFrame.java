@@ -240,7 +240,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
             }
             else {
                 // file suffix is inappropriate, tell the user and try again
-                LOGGER.fine( "Save attempted with bogus filename: " + outFile.getAbsolutePath() );
+                LOGGER.info( "Save attempted with bogus filename: " + outFile.getAbsolutePath() );
                 Object[] args = { _simulation.getStringFileSuffix() };
                 String message = MessageFormat.format( TUStrings.ERROR_SAVE_SUFFIX, args );
                 JOptionPane.showMessageDialog( this, message, TUStrings.ERROR_TITLE, JOptionPane.ERROR_MESSAGE );
@@ -308,7 +308,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
                 return;
             }
         }
-        LOGGER.fine( "submit is saving to " + outFile.getAbsolutePath() );
+        LOGGER.info( "submit is saving to " + outFile.getAbsolutePath() );
         
         try {
             _simulation.saveStrings( properties, outFile );

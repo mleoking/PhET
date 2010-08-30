@@ -13,9 +13,11 @@ import javax.swing.JFileChooser;
 import edu.colorado.phet.common.phetcommon.application.JARLauncher;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.common.phetcommon.view.util.StringUtil;
+import edu.colorado.phet.flashlauncher.util.SimulationProperties;
 import edu.colorado.phet.translationutility.TUConstants;
 import edu.colorado.phet.translationutility.util.Command;
 import edu.colorado.phet.translationutility.util.FileChooserFactory;
+import edu.colorado.phet.translationutility.util.JarUtils;
 import edu.colorado.phet.translationutility.util.PropertiesIO;
 import edu.colorado.phet.translationutility.util.Command.CommandException;
 import edu.colorado.phet.translationutility.util.PropertiesIO.PropertiesIOException;
@@ -35,7 +37,6 @@ public class JavaSimulation extends AbstractSimulation {
     
     private static final String COMMON_STRINGS_PROJECT = "java-common-strings";
     private static final String COMMON_STRINGS_BASENAME = "phetcommon";
-    private static final String PROJECT_NAME_PROPERTY = "project.name";
     private static final String PREFERRED_FONTS = "phetcommon/localization/phetcommon-fonts.properties";
 
     private static final Logger LOGGER = Logger.getLogger( JavaSimulation.class.getCanonicalName() );
@@ -44,8 +45,8 @@ public class JavaSimulation extends AbstractSimulation {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public JavaSimulation( String jarFileName ) throws SimulationException {
-        super( jarFileName );
+    public JavaSimulation( String jarFileName, String projectName, String simulationName ) throws SimulationException {
+        super( jarFileName, projectName, simulationName );
     }
     
     //----------------------------------------------------------------------------
@@ -67,15 +68,15 @@ public class JavaSimulation extends AbstractSimulation {
         
         // Load strings from a resource file.
         String propertiesFileName = getStringsPath( getProjectName(), locale );
-        Properties properties = readPropertiesFromJar( getJarFileName(), propertiesFileName );
+        Properties properties = JarUtils.readPropertiesFromJar( getJarFileName(), propertiesFileName );
         
         // English strings may be in a fallback resource file.
         if ( properties == null && locale.equals( TUConstants.ENGLISH_LOCALE ) ) {
             propertiesFileName = getFallbackStringsPath( getProjectName() );
-            properties = readPropertiesFromJar( getJarFileName(), propertiesFileName );
+            properties = JarUtils.readPropertiesFromJar( getJarFileName(), propertiesFileName );
         }
         
-        LOGGER.fine( "loaded strings from " + propertiesFileName );
+        LOGGER.info( "loaded strings from " + propertiesFileName );
         return properties;
     }
 
@@ -108,20 +109,6 @@ public class JavaSimulation extends AbstractSimulation {
     
     public String getStringFileName( Locale locale ) {
         return getStringsName( getProjectName(), locale );
-    }
-    
-    /*
-     * Gets the project name for the simulation.
-     * The project name is identified in the properties file read by JARLauncher.
-     * Returns null if the project name wasn't found.
-     */
-    protected String getProjectName( String jarFileName ) throws SimulationException {
-        String projectName = null;
-        Properties jarLauncherProperties = readPropertiesFromJar( jarFileName, JARLauncher.PROPERTIES_FILE_NAME );
-        if ( jarLauncherProperties != null ) {
-            projectName = jarLauncherProperties.getProperty( PROJECT_NAME_PROPERTY );
-        }
-        return projectName;
     }
     
     //----------------------------------------------------------------------------
@@ -209,7 +196,7 @@ public class JavaSimulation extends AbstractSimulation {
         }
         
         // read JARLaucher properties from JAR
-        Properties jarLauncherProperties = readPropertiesFromJar( originalJarFileName, JARLauncher.PROPERTIES_FILE_NAME );
+        Properties jarLauncherProperties = JarUtils.readPropertiesFromJar( originalJarFileName, JARLauncher.PROPERTIES_FILE_NAME );
         if ( jarLauncherProperties == null ) {
             throw new SimulationException( "Cannot read " + JARLauncher.PROPERTIES_FILE_NAME + ". Are you using the most current simulation JAR from the PhET website?" );
         }
@@ -239,7 +226,8 @@ public class JavaSimulation extends AbstractSimulation {
                 "META-INF/.*\\.SF", "META-INF/.*\\.RSA", "META-INF/.*\\.DSA", /* signing information */
                 propertiesFileName,
                 JARLauncher.PROPERTIES_FILE_NAME,
-                PREFERRED_FONTS
+                PREFERRED_FONTS,
+                SimulationProperties.FILENAME
         };
         
         // create the test JAR file
@@ -269,7 +257,7 @@ public class JavaSimulation extends AbstractSimulation {
                     testOutputStream.closeEntry();
                 }
                 else {
-                    LOGGER.fine( "copying jar, skipping " + jarEntry.getName() );
+                    LOGGER.info( "copying jar, skipping " + jarEntry.getName() );
                 }
                 jarEntry = jarInputStream.getNextJarEntry();
             }
@@ -291,6 +279,13 @@ public class JavaSimulation extends AbstractSimulation {
             jarEntry = new JarEntry( PREFERRED_FONTS );
             testOutputStream.putNextEntry( jarEntry );
             preferredFonts.store( testOutputStream, "created by " + JavaSimulation.class.getName() );
+            testOutputStream.closeEntry();
+            
+            // add simulation.properties, see #2463
+            jarEntry = new JarEntry( SimulationProperties.FILENAME );
+            testOutputStream.putNextEntry( jarEntry );
+            SimulationProperties sp = new SimulationProperties( getProjectName(), getSimulationName(), locale, SimulationProperties.TYPE_FLASH );
+            sp.store( testOutputStream, "created by " + getClass().getName() );
             testOutputStream.closeEntry();
             
             // close the streams

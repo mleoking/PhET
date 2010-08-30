@@ -12,6 +12,8 @@ public class TUConstants {
     
     public static final Locale ENGLISH_LOCALE = new Locale( "en" );
     
+    public static final Locale SOURCE_LOCALE = TUConstants.ENGLISH_LOCALE; // untested for anything but English!
+    
     // use this separator for creating paths to files in the file system
     public static final String FILE_PATH_SEPARATOR = System.getProperty( "file.separator" );
     
