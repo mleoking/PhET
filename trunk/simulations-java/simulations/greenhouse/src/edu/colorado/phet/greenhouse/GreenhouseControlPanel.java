@@ -28,6 +28,7 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
+import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -77,10 +78,10 @@ public class GreenhouseControlPanel extends JPanel implements Resettable {
             "96.5% ",
             "",
             ""};
-    private GreenhouseCompositionPane iceAgeCompositionPane = new GreenhouseCompositionPane( iceAgeConcentrations );
-    private GreenhouseCompositionPane seventeenFiftyCompositionPane = new GreenhouseCompositionPane( preIndRevConcentrations );
-    private GreenhouseCompositionPane todayCompositionPane = new GreenhouseCompositionPane( todayConcentrations );
-    private GreenhouseCompositionPane venusCompositionPane = new GreenhouseCompositionPane( venusConcentrations );
+    private GreenhouseCompositionPane iceAgeCompositionPane = new GreenhouseCompositionPane( iceAgeConcentrations, iceAgeColor );
+    private GreenhouseCompositionPane seventeenFiftyCompositionPane = new GreenhouseCompositionPane( preIndRevConcentrations, preIndRevColor );
+    private GreenhouseCompositionPane todayCompositionPane = new GreenhouseCompositionPane( todayConcentrations, todayColor );
+    private GreenhouseCompositionPane venusCompositionPane = new GreenhouseCompositionPane( venusConcentrations, Color.black );
     private JPanel adjustableCompositionPane = new JPanel();
     private GreenhouseModule module;
     private JSpinner cloudsSpinner;
@@ -454,9 +455,10 @@ public class GreenhouseControlPanel extends JPanel implements Resettable {
         JTextField ch4TF = new GreenhouseTextField();
         JTextField n2oTF = new GreenhouseTextField();
 
-        GreenhouseCompositionPane( String[] concentrations ) {
+        GreenhouseCompositionPane( String[] concentrations, Color titleColor ) {
             this();
             setConcentrations( concentrations );
+            setTitleColor( titleColor );
         }
 
         GreenhouseCompositionPane() {
@@ -498,7 +500,15 @@ public class GreenhouseControlPanel extends JPanel implements Resettable {
             ch4TF.setText( concentrations[2] );
             n2oTF.setText( concentrations[3] );
         }
-
+        
+        public void setTitleColor(Color color){
+            if (getBorder() instanceof TitledBorder){
+                ((TitledBorder)getBorder()).setTitleColor( color );
+            }
+            else{
+                System.err.println( getClass().getName() + " - Error: Border is not a titled border, ignoring attempt to set color." );
+            }
+        }
     }
 
     /**
