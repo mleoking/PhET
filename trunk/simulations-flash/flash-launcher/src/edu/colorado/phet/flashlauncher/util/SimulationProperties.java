@@ -39,19 +39,13 @@ public class SimulationProperties {
     private String country;
     private String type; // the type of simulation
 
-    public SimulationProperties() {
+    public SimulationProperties() throws IOException {
         this( Thread.currentThread().getContextClassLoader().getResourceAsStream( SIMULATION_PROPERTIES_FILENAME ) );
     }
     
-    public SimulationProperties(InputStream inputStream) {
-        // read sim and language from args file (JAR resource)        
+    public SimulationProperties(InputStream inputStream) throws IOException {
         Properties properties = new Properties();
-        try {
-            properties.load( inputStream );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
+        properties.load( inputStream );
         this.project = properties.getProperty( KEY_PROJECT );
         this.simulation = properties.getProperty( KEY_SIMULATION );
         this.language = properties.getProperty( KEY_LANGUAGE );
@@ -59,11 +53,11 @@ public class SimulationProperties {
         this.type = properties.getProperty( KEY_TYPE );
     }
 
-    public SimulationProperties( String project, String simulation, Locale locale, String type ) {
+    public SimulationProperties( String project, String simulation, Locale locale, String type ) throws IOException {
         this( project, simulation, locale.getLanguage(), locale.getCountry(), type );
     }
     
-    public SimulationProperties( String project, String simulation, String language, String country, String type ) {
+    public SimulationProperties( String project, String simulation, String language, String country, String type ) throws IOException {
         this.project = project;
         this.simulation = simulation;
         this.language = language;
