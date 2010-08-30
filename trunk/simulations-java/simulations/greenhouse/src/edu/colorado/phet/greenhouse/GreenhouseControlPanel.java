@@ -48,8 +48,11 @@ public class GreenhouseControlPanel extends JPanel implements Resettable {
     private static Color iceAgeColor = new Color( 0, 28, 229 );
     private static Color preIndRevColor = new Color( 176, 0, 219 );
     private static Color todayColor = new Color( 11, 142, 0 );
-    private static Color panelForeground = Color.black;
-
+    
+    // This font is used for the titled borders on this control panel.  It
+    // is needed because the titles are long, so the default font made the
+    // control panel too wide.
+    private static Font BORDER_TITLE_FONT = new PhetFont(12, true);
 
     private ModelSlider greenhouseGasConcentrationControl;
     String[] iceAgeConcentrations = new String[]{" ?",
@@ -213,17 +216,20 @@ public class GreenhouseControlPanel extends JPanel implements Resettable {
                                                          GridBagConstraints.CENTER,
                                                          GridBagConstraints.HORIZONTAL,
                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
-        add( new GreenhouseLegend(), gbc );
+        add( new GreenhouseLegend(BORDER_TITLE_FONT), gbc );
 
         // Greenhouse gas concentrations
         {
-            JPanel panel = new PhetTitledPanel( GreenhouseResources.getString( "GreenhouseControlPanel.GasConcentrationSlider" ) );
+            JPanel panel = new PhetTitledPanel( 
+                    GreenhouseResources.getString( "GreenhouseControlPanel.GasConcentrationSlider" ),
+                    BORDER_TITLE_FONT );
             panel.add( greenhouseGasConcentrationControl );
             add( panel, gbc );
         }
 
         // Options panel
-        JPanel optionsPanel = new PhetTitledPanel( GreenhouseResources.getString( "GreenhouseControlPanel.Options" ) );
+        JPanel optionsPanel = new PhetTitledPanel( GreenhouseResources.getString( "GreenhouseControlPanel.Options" ),
+                BORDER_TITLE_FONT );
         optionsPanel.setLayout( new GridBagLayout() );
         {
             Insets insetsA = new Insets( 0, 15, 0, 15 );
@@ -300,7 +306,7 @@ public class GreenhouseControlPanel extends JPanel implements Resettable {
         private JRadioButton adjustableGGRB;
 
         AtmosphereSelectionPanel() {
-            super( GreenhouseResources.getString( "GreenhouseControlPanel.TimePeriodBorderLabel" ) );
+            super( GreenhouseResources.getString( "GreenhouseControlPanel.TimePeriodBorderLabel" ), BORDER_TITLE_FONT );
 
             adjustableGGRB = new JRadioButton();
             adjustableGGRB.setAction( pickAdjustableGG );
@@ -454,7 +460,8 @@ public class GreenhouseControlPanel extends JPanel implements Resettable {
         }
 
         GreenhouseCompositionPane() {
-            super( GreenhouseResources.getString( "GreenhouseControlPanel.GreenhouseGasBorderLabel" ) );
+            super( GreenhouseResources.getString( "GreenhouseControlPanel.GreenhouseGasBorderLabel" ),
+                    BORDER_TITLE_FONT );
             setFont( new PhetFont(8) );
             
             String[] labels = new String[]{
