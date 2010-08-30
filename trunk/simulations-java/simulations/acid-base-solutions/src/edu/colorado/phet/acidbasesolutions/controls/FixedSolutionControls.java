@@ -29,7 +29,7 @@ import edu.colorado.phet.acidbasesolutions.model.StrongBaseSolution.TestStrongBa
 import edu.colorado.phet.acidbasesolutions.model.WeakAcidSolution.TestWeakAcidSolution;
 import edu.colorado.phet.acidbasesolutions.model.WeakBaseSolution.TestWeakBaseSolution;
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
-import edu.colorado.phet.common.phetcommon.view.PhetTitledBorder;
+import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -39,7 +39,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class FixedSolutionControls extends JPanel {
+public class FixedSolutionControls extends PhetTitledPanel {
     
     private static final double MOLECULE_ICON_SCALE = 0.75;
     
@@ -49,10 +49,8 @@ public class FixedSolutionControls extends JPanel {
     private final JRadioButton strongBaseRadioButton, weakBaseRadioButton;
 
     public FixedSolutionControls( ABSModel model ) {
-        
-        // border
-        setBorder( new PhetTitledBorder( ABSStrings.SOLUTIONS ) );
-        
+        super( ABSStrings.SOLUTIONS );
+
         // model
         {
             this.model = model;

@@ -24,7 +24,7 @@ import edu.colorado.phet.acidbasesolutions.model.StrongAcidSolution.CustomStrong
 import edu.colorado.phet.acidbasesolutions.model.StrongBaseSolution.CustomStrongBaseSolution;
 import edu.colorado.phet.acidbasesolutions.model.WeakAcidSolution.CustomWeakAcidSolution;
 import edu.colorado.phet.acidbasesolutions.model.WeakBaseSolution.CustomWeakBaseSolution;
-import edu.colorado.phet.common.phetcommon.view.PhetTitledBorder;
+import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.AbstractValueControl;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.ILayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LogarithmicValueControl;
@@ -39,7 +39,7 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class CustomSolutionControls extends JPanel {
+public class CustomSolutionControls extends PhetTitledPanel {
     
     private final ABSModel model;
     private AqueousSolution solution;
@@ -50,9 +50,7 @@ public class CustomSolutionControls extends JPanel {
     private boolean isSyncingWithModel;
     
     public CustomSolutionControls( ABSModel model ) {
-        
-        // border
-        setBorder( new PhetTitledBorder( ABSStrings.SOLUTION ) );
+        super( ABSStrings.SOLUTION );
         
         // model
         {

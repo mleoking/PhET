@@ -16,7 +16,7 @@ import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
-import edu.colorado.phet.common.phetcommon.view.PhetTitledBorder;
+import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 
 /**
@@ -24,16 +24,14 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TestControls extends JPanel {
+public class TestControls extends PhetTitledPanel {
     
     private final ABSModel model;
     private final JRadioButton pHMeterRadioButton, pHPaperRadioButton, conductivityTesterRadioButton;
     private boolean isSyncingWithModel;
     
     public TestControls( final ABSModel model ) {
-        
-        // border
-        setBorder( new PhetTitledBorder( ABSStrings.TESTS ) );
+        super( ABSStrings.TESTS );
         
         // model
         {
