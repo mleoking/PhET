@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.greenhouse.controlpanel;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Point;
@@ -14,7 +13,6 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
-import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -22,12 +20,14 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.view.*;
+import edu.colorado.phet.common.phetcommon.view.ControlPanel;
+import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.PhetLineBorder;
+import edu.colorado.phet.common.phetcommon.view.PhetTitledBorder;
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
@@ -271,17 +271,6 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
         return panel;
     }
 
-	private TitledBorder createTitledBorder(String title) {
-		BevelBorder beveledBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
-        TitledBorder titledBorder = BorderFactory.createTitledBorder( beveledBorder,
-                title,
-                TitledBorder.LEFT,
-                TitledBorder.TOP,
-                new PhetFont( Font.BOLD, 14 ),
-                Color.GRAY );
-		return titledBorder;
-	}
-	
     private JPanel createVerticalSpacingPanel(int space){
         JPanel spacePanel = new JPanel();
         spacePanel.setLayout( new BoxLayout( spacePanel, BoxLayout.Y_AXIS ) );
