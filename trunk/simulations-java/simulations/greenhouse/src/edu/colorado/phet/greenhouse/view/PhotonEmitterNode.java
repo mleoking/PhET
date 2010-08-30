@@ -170,8 +170,7 @@ public class PhotonEmitterNode extends PNode {
 		JPanel emissionTypeSelectionPanel = new VerticalLayoutPanel();
 		emissionTypeSelectionPanel.setBorder(BorderFactory.createRaisedBevelBorder());
 		JPanel infraredButtonPanel = new HorizontalLayoutPanel();
-		// TODO: i18n
-        infraredPhotonRadioButton = new JRadioButton("Infrared");
+        infraredPhotonRadioButton = new JRadioButton( GreenhouseResources.getString( "PhotonEmitterNode.Infrared" ) );
         infraredPhotonRadioButton.setFont(LABEL_FONT);
         infraredPhotonRadioButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -184,8 +183,7 @@ public class PhotonEmitterNode extends PNode {
         emissionTypeSelectionPanel.add(infraredButtonPanel);
         
         JPanel visibleButtonPanel = new HorizontalLayoutPanel();
-        // TODO: i18n
-        visiblePhotonRadioButton = new JRadioButton("Visible");
+        visiblePhotonRadioButton = new JRadioButton( GreenhouseResources.getString( "PhotonEmitterNode.Visible" ) );
         visiblePhotonRadioButton.setFont(LABEL_FONT);
         visiblePhotonRadioButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
