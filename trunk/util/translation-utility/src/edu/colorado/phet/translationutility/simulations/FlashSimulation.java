@@ -13,6 +13,7 @@ import javax.swing.JFileChooser;
 
 import edu.colorado.phet.common.phetcommon.view.util.StringUtil;
 import edu.colorado.phet.flashlauncher.FlashLauncher;
+import edu.colorado.phet.flashlauncher.util.SimulationProperties;
 import edu.colorado.phet.translationutility.util.Command;
 import edu.colorado.phet.translationutility.util.DocumentAdapter;
 import edu.colorado.phet.translationutility.util.FileChooserFactory;
@@ -41,8 +42,8 @@ public class FlashSimulation extends AbstractSimulation {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public FlashSimulation( String jarFileName ) throws SimulationException {
-        super( jarFileName );
+    public FlashSimulation( String jarFileName, String projectName, String simulationName ) throws SimulationException {
+        super( jarFileName, projectName, simulationName );
     }
     
     //----------------------------------------------------------------------------
@@ -63,7 +64,7 @@ public class FlashSimulation extends AbstractSimulation {
     public Properties getStrings( Locale locale ) throws SimulationException {
         String xmlFilename = getStringPath( getProjectName(), locale );
         Properties p = readDocumentFromJar( getJarFileName(), xmlFilename );
-        LOGGER.fine( "loaded strings from " + xmlFilename );
+        LOGGER.info( "loaded strings from " + xmlFilename );
         return p;
     }
 
@@ -261,7 +262,8 @@ public class FlashSimulation extends AbstractSimulation {
                 JarFile.MANIFEST_NAME,
                 "META-INF/.*\\.SF", "META-INF/.*\\.RSA", "META-INF/.*\\.DSA", /* signing information */
                 xmlFilename,
-                FlashLauncher.ARGS_FILENAME
+                FlashLauncher.ARGS_FILENAME,
+                SimulationProperties.FILENAME
         };
         
         // create the test JAR file
@@ -290,23 +292,35 @@ public class FlashSimulation extends AbstractSimulation {
                     testOutputStream.closeEntry();
                 }
                 else {
-                    LOGGER.fine( "copying jar, skipping " + jarEntry.getName() );
+                    LOGGER.info( "copying jar, skipping " + jarEntry.getName() );
                 }
                 jarEntry = jarInputStream.getNextJarEntry();
             }
             
-            // add properties file to output
+            // add string properties file to output
             jarEntry = new JarEntry( xmlFilename );
             testOutputStream.putNextEntry( jarEntry );
-            String header = "created by " + getClass().getName();
-            DocumentAdapter.writeProperties( properties, header, testOutputStream );
+            DocumentAdapter.writeProperties( properties, "created by " + getClass().getName(), testOutputStream );
             testOutputStream.closeEntry();
             
-            // add args file used by FlashLauncher
-            jarEntry = new JarEntry( FlashLauncher.ARGS_FILENAME );
+            /*
+             * Add flash-launcher-args.txt file, used by older FlashLauncher.
+             * Delete this block when all sims have been redeployed with simulation.properties.
+             * See #2463.
+             */
+            {
+                jarEntry = new JarEntry( FlashLauncher.ARGS_FILENAME );
+                testOutputStream.putNextEntry( jarEntry );
+                String args = createFlashLauncherArgsString( projectName, locale );
+                testOutputStream.write( args.getBytes() );
+                testOutputStream.closeEntry();
+            }
+            
+            // add simulation.properties, see #2463
+            jarEntry = new JarEntry( SimulationProperties.FILENAME );
             testOutputStream.putNextEntry( jarEntry );
-            String args = createArgsString( projectName, locale );
-            testOutputStream.write( args.getBytes() );
+            SimulationProperties sp = new SimulationProperties( getProjectName(), getSimulationName(), locale, SimulationProperties.TYPE_FLASH );
+            sp.store( testOutputStream, "created by " + getClass().getName() );
             testOutputStream.closeEntry();
             
             // close the streams
@@ -324,11 +338,11 @@ public class FlashSimulation extends AbstractSimulation {
     }
     
     /*
-     * Creates the contents of the args file.
+     * Creates the contents of the flash-launcher-args.txt file.
      * Format: projectName language country
      * If country doesn't have a value, use "null".
      */
-    private static String createArgsString( String projectName, Locale locale ) {
+    private static String createFlashLauncherArgsString( String projectName, Locale locale ) {
         String language = locale.getLanguage();
         String country = locale.getCountry();
         String s = projectName + " " + language;

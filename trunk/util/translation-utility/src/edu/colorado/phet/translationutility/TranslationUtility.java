@@ -8,15 +8,17 @@ import java.io.File;
 import java.util.Locale;
 import java.util.logging.Logger;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.StringUtil;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.translationutility.simulations.ISimulation;
-import edu.colorado.phet.translationutility.simulations.ISimulation.SimulationException;
 import edu.colorado.phet.translationutility.simulations.SimulationFactory;
+import edu.colorado.phet.translationutility.simulations.ISimulation.SimulationException;
 import edu.colorado.phet.translationutility.userinterface.InitializationDialog;
 import edu.colorado.phet.translationutility.userinterface.MainFrame;
 import edu.colorado.phet.translationutility.util.ExceptionHandler;
@@ -28,9 +30,6 @@ import edu.colorado.phet.translationutility.util.ExceptionHandler;
  */
 public class TranslationUtility extends JFrame {
 
-    // NOTE: untested for languages other than English
-    private static final Locale SOURCE_LOCALE = TUConstants.ENGLISH_LOCALE;
-
     private static final Logger LOGGER = Logger.getLogger( TranslationUtility.class.getName() );
 
     private TranslationUtility() {
@@ -38,15 +37,15 @@ public class TranslationUtility extends JFrame {
 
     public static void start() {
 
-        LOGGER.fine( "version = " + TUResources.getVersion() );
-        LOGGER.fine( "os = " + TUResources.getOSVersion() );
-        LOGGER.fine( "java = " + TUResources.getJREVersion() );
+        LOGGER.info( "version = " + TUResources.getVersion() );
+        LOGGER.info( "os = " + TUResources.getOSVersion() );
+        LOGGER.info( "java = " + TUResources.getJREVersion() );
 
         // check for a more recent version on the server
         UpdateManager.checkForUpdate();
 
         // prompt the user for initialization info
-        InitializationDialog initDialog = new InitializationDialog( SOURCE_LOCALE );
+        InitializationDialog initDialog = new InitializationDialog( TUConstants.SOURCE_LOCALE );
         SwingUtils.centerWindowOnScreen( initDialog );
         initDialog.setVisible( true );
         if ( !initDialog.isContinue() ) {
@@ -54,8 +53,8 @@ public class TranslationUtility extends JFrame {
         }
         String jarFileName = initDialog.getJarFileName();
         Locale targetLocale = initDialog.getTargetLocale();
-        LOGGER.fine( "jar=" + jarFileName );
-        LOGGER.fine( "targetLocale=" + targetLocale.toString() );
+        LOGGER.info( "jar=" + jarFileName );
+        LOGGER.info( "targetLocale=" + targetLocale.toString() );
 
         // create a Simulation
         ISimulation simulation = null;
@@ -65,7 +64,7 @@ public class TranslationUtility extends JFrame {
         catch( SimulationException e ) {
             ExceptionHandler.handleFatalException( e );
         }
-        LOGGER.fine( "simulation type is " + simulation.getClass().getName() );
+        LOGGER.info( "simulation type is " + simulation.getClass().getName() );
 
         String jarDirName = new File( jarFileName ).getParent();
         if ( jarDirName == null || jarDirName.length() == 0 ) {
@@ -73,7 +72,7 @@ public class TranslationUtility extends JFrame {
         }
 
         // primary user interface
-        final MainFrame mainFrame = new MainFrame( simulation, SOURCE_LOCALE, targetLocale, jarDirName );
+        final MainFrame mainFrame = new MainFrame( simulation, TUConstants.SOURCE_LOCALE, targetLocale, jarDirName );
         mainFrame.setDefaultCloseOperation( JFrame.DO_NOTHING_ON_CLOSE );
 
         // confirm exit if there are unsaved changes
