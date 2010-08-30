@@ -9,7 +9,7 @@ import flash.geom.Matrix;
 import flash.text.TextField;
 import flash.text.TextFormat;
 
-public class Bottle extends SpriteMesh {
+public class Bottle extends SpriteFace {
     [Embed(source="../../../../../../data/density-and-buoyancy/images/bottle.png")]
     private var imageClass:Class;
 

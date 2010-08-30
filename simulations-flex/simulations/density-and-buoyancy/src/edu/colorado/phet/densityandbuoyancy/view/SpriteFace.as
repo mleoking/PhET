@@ -3,23 +3,30 @@ import away3d.materials.MovieMaterial;
 
 import flash.display.Sprite;
 
-public class SpriteMesh extends MyMesh {
+/**
+ * This is used as a child in Sprite3D, they are created each time the sprite is resized.
+ */
+public class SpriteFace extends MyMesh {
     private var sprite:Sprite;
+    var bottomLeft:Number;
+    var bottomRight:Number;
+    var topLeft:Number;
+    var topRight:Number;
 
-    public function SpriteMesh(sprite:Sprite) {
+    public function SpriteFace(sprite:Sprite) {
         super();
         this.sprite = sprite;
-        var BOTTOM_LEFT:Number = v(0, 0, 0);
-        var BOTTOM_RIGHT:Number = v(sprite.width, 0, 0);
-        var TOP_LEFT:Number = v(0, sprite.height, 0);
-        var TOP_RIGHT:Number = v(sprite.width, sprite.height, 0);
+        bottomLeft = v(0, 0, 0);
+        bottomRight = v(sprite.width, 0, 0);
+        topLeft = v(0, sprite.height, 0);
+        topRight = v(sprite.width, sprite.height, 0);
         uv(0, 0);
         uv(1, 0);
         uv(0, 1);
         uv(1, 1);
         const movieMaterial:MovieMaterial = new MovieMaterial(sprite);
         movieMaterial.smooth = true;
-        plane(BOTTOM_LEFT, BOTTOM_RIGHT, TOP_RIGHT, TOP_LEFT, movieMaterial);
+        plane(bottomLeft, bottomRight, topRight, topLeft, movieMaterial);
     }
 
     public function get width():Number {
