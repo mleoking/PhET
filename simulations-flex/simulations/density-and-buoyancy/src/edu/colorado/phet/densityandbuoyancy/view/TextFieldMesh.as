@@ -1,4 +1,6 @@
 package edu.colorado.phet.densityandbuoyancy.view {
+import edu.colorado.phet.densityandbuoyancy.DensityConstants;
+
 import flash.display.Sprite;
 import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
@@ -9,12 +11,30 @@ public class TextFieldMesh extends Sprite3D {
     private var format:TextFormat;
 
     public function TextFieldMesh(text:String, format:TextFormat = null) {
-        super(createSprite(text, format));
         this.format = format;
+
+        const sprite:Sprite = new Sprite();
+        _textField = new TextField();
+        _textField.autoSize = TextFieldAutoSize.LEFT;
+
+        setTextNoResize(text);
+
+        sprite.addChild(_textField);
+
+        super(sprite);
+        drawBackground();
+    }
+
+    function drawBackground():void {
+        sprite.graphics.clear();
+        sprite.graphics.beginFill(DensityConstants.CONTROL_PANEL_COLOR, 0.6);
+        sprite.graphics.drawRect(0, 0, _textField.width, _textField.height);
+        sprite.graphics.endFill();
     }
 
     public function set text(t:String):void {
         setTextNoResize(t);
+        drawBackground();
         resize();
     }
 
@@ -23,17 +43,6 @@ public class TextFieldMesh extends Sprite3D {
         if (format != null) {
             _textField.setTextFormat(format);
         }
-    }
-
-    private function createSprite(text:String, format:TextFormat):Sprite {
-        const sprite:Sprite = new Sprite();
-        _textField = new TextField();
-        _textField.autoSize = TextFieldAutoSize.LEFT;
-        _textField.background = true;
-        _textField.backgroundColor = 0xffffff;
-        setTextNoResize(text);
-        sprite.addChild(_textField);
-        return sprite;
     }
 }
 }

@@ -23,8 +23,10 @@ public class DensityConstants {
     public static const GRAVITY:Number = 9.8;
     public static const DEFAULT_BLOCK_WATER_OFFSET:Number = 10 / DensityModel.DISPLAY_SCALE;
 
-    //Move the ground down slightly to prevent intersections
-    public static const VERTICAL_GROUND_OFFSET_AWAY_3D:Number = -1000.0 / DensityModel.DISPLAY_SCALE;  //This number was hand-tuned so that no rendering artifacts (flickering faces) occur, but may need to change if scale or other parameters change
+    //Offset the objects slightly to prevent intersections
+    public static const FUDGE_FACTOR:Number = 1000.0 / DensityModel.DISPLAY_SCALE;
+    public static const VERTICAL_GROUND_OFFSET_AWAY_3D:Number = -FUDGE_FACTOR;  //This number was hand-tuned so that no rendering artifacts (flickering faces) occur, but may need to change if scale or other parameters change
+    public static const FUDGE_FACTOR_DZ:Number = FUDGE_FACTOR;//Objects shouldn't exactly overlap in the z-dimension either
 
     //Flex properties that we couldn't find as enum values in Flex
     public static const FLEX_UNDERLINE:String = "underline";

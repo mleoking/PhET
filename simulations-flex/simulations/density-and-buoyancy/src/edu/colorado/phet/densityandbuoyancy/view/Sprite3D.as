@@ -9,7 +9,7 @@ import flash.display.Sprite;
  */
 public class Sprite3D extends ObjectContainer3D {
     private var _spriteFace:SpriteFace;
-    private var sprite:Sprite;
+    protected var sprite:Sprite;
 
     public function Sprite3D(sprite:Sprite) {
         this.sprite = sprite;

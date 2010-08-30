@@ -1,25 +1,22 @@
 package edu.colorado.phet.densityandbuoyancy.view {
 import away3d.materials.*;
 
+import edu.colorado.phet.densityandbuoyancy.DensityConstants;
 import edu.colorado.phet.densityandbuoyancy.model.Block;
 import edu.colorado.phet.densityandbuoyancy.model.Material;
 import edu.colorado.phet.densityandbuoyancy.model.StringProperty;
 
 import flash.display.Bitmap;
 import flash.display.BitmapData;
-import flash.display.Sprite;
 import flash.geom.Rectangle;
-import flash.text.TextField;
 import flash.text.TextFormat;
 
 import mx.core.BitmapAsset;
 
 public class BlockNode extends CubeNode implements Pickable {
 
-    private var frontSprite:Sprite;
-    private var textureHolder:Sprite; // holds wood or etc. texture in frontSprite so it stays under the text
     private var block:Block;
-    private var textField:TextField = new TextField();
+    private var textFieldMesh:TextFieldMesh = new TextFieldMesh("hello", createTextFormat(34));
 
     [Embed(source="../../../../../../data/density-and-buoyancy/images/custom.jpg")]
     private var customObjectTexture:Class;
@@ -42,7 +39,6 @@ public class BlockNode extends CubeNode implements Pickable {
     [Embed(source="../../../../../../data/density-and-buoyancy/images/wood4.png")]
     private var woodClass:Class;
 
-    private var frontMaterial:MovieMaterial;
     private var sideMaterial:BitmapMaterial;
 
     private var textureBitmap:Bitmap; // the texture being used (wood bitmap, wall (custom) bitmap, etc.)
@@ -57,16 +53,10 @@ public class BlockNode extends CubeNode implements Pickable {
         this.block = block;
 
         var cube:PickableCube = getCube();
-        cube.cubeMaterials.left = cube.cubeMaterials.right = cube.cubeMaterials.top = cube.cubeMaterials.bottom = cube.cubeMaterials.front = sideMaterial;
-        cube.cubeMaterials.back = frontMaterial;
+        cube.cubeMaterials.back = cube.cubeMaterials.left = cube.cubeMaterials.right = cube.cubeMaterials.top = cube.cubeMaterials.bottom = cube.cubeMaterials.front = sideMaterial;
         addChild(cube);
 
-        // TODO: determine reliance on the starting size of the block, so that the block can be scaled in size effectively
-
-        frontSprite = new Sprite();
-        textureHolder = new Sprite();
-        frontSprite.addChild(textureHolder);
-        frontSprite.addChild(textField);
+        addChild(textFieldMesh);
 
         label.addListener(updateText);
         block.addMaterialListener(updateMaterial);
@@ -116,19 +106,12 @@ public class BlockNode extends CubeNode implements Pickable {
     }
 
     private function updateText():void {
-        textField.text = label.value;
-        textField.height = textureBitmap.bitmapData.height;
-        textField.width = textureBitmap.bitmapData.width;
-        textField.multiline = true;
+        textFieldMesh.text = label.value;
+
         updateGeometry();
     }
 
     private function updateMaterial():void {
-        // remove the old texture if we have one
-        if (textureBitmap != null) {
-            textureHolder.removeChild(textureBitmap);
-        }
-
         // update the bitmap we use as a background
         if (block.getMaterial() == Material.WOOD) {
             textureBitmap = new woodClass();
@@ -146,26 +129,21 @@ public class BlockNode extends CubeNode implements Pickable {
             textureBitmap = getCustomBitmap();
         }
 
-        // add the new bitmap
-        textureHolder.addChild(textureBitmap);
-
         // update the text field
         updateText();
-
-        frontMaterial = new MovieMaterial(frontSprite);
-        frontMaterial.smooth = true; //makes the font smooth instead of jagged, see http://www.mail-archive.com/away3d-dev@googlegroups.com/msg06699.html
 
         sideMaterial = new BitmapMaterial(textureBitmap.bitmapData);
 
         // TODO: possibly change tiling for textures that are not symmetric
         var cube:PickableCube = getCube();
-        cube.cubeMaterials.left = cube.cubeMaterials.right = cube.cubeMaterials.top = cube.cubeMaterials.bottom = cube.cubeMaterials.front = sideMaterial;
-        cube.cubeMaterials.back = frontMaterial;
+        cube.cubeMaterials.back = cube.cubeMaterials.left = cube.cubeMaterials.right = cube.cubeMaterials.top = cube.cubeMaterials.bottom = cube.cubeMaterials.front = sideMaterial;
     }
 
     public override function updateGeometry():void {
         super.updateGeometry();
-        textField.setTextFormat(createTextFormat(7500 / getCube().width * readoutFontScale));
+        textFieldMesh.x = getCube().x - getCube().width / 2;
+        textFieldMesh.y = getCube().y - getCube().height / 2;
+        textFieldMesh.z = getCube().z - getCube().depth / 2 - DensityConstants.FUDGE_FACTOR_DZ;
     }
 }
 }
