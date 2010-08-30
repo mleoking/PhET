@@ -12,10 +12,10 @@ import edu.umd.cs.piccolo.nodes.PImage
 import java.awt.image.BufferedImage
 import edu.colorado.phet.scalacommon.math.Vector2D
 import edu.colorado.phet.scalacommon.Predef._
-import edu.colorado.phet.motionseries.model.{ForceMotionSeriesObject, MotionSeriesObject}
+import edu.colorado.phet.motionseries.model.{MotionSeriesObject}
 import edu.colorado.phet.motionseries.javastage.stage.PlayArea
 
-class ForceDragMotionSeriesObjectNode(motionSeriesObject: ForceMotionSeriesObject,
+class ForceDragMotionSeriesObjectNode(motionSeriesObject: MotionSeriesObject,
                                       transform: ModelViewTransform2D,
                                       imageName: String,
                                       crashImageName: String,

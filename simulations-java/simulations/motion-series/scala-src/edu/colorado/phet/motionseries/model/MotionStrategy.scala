@@ -7,10 +7,10 @@ import edu.colorado.phet.motionseries.Predef._
 
 //Used to save/restore motion strategies during record/playback
 trait MotionStrategyMemento {
-  def getMotionStrategy(motionSeriesObject: ForceMotionSeriesObject): MotionStrategy
+  def getMotionStrategy(motionSeriesObject: MotionSeriesObject): MotionStrategy
 }
 
-abstract class MotionStrategy(val motionSeriesObject: ForceMotionSeriesObject) {
+abstract class MotionStrategy(val motionSeriesObject: MotionSeriesObject) {
   def isCrashed: Boolean
 
   def stepInTime(dt: Double)
@@ -87,7 +87,7 @@ abstract class MotionStrategy(val motionSeriesObject: ForceMotionSeriesObject) {
 }
 
 //This Crashed state indicates that the object has fallen off the ramp or off a cliff, not that it has crashed into a wall.
-class Crashed(_position2D: Vector2D, _angle: Double, motionSeriesObject: ForceMotionSeriesObject) extends MotionStrategy(motionSeriesObject) {
+class Crashed(_position2D: Vector2D, _angle: Double, motionSeriesObject: MotionSeriesObject) extends MotionStrategy(motionSeriesObject) {
   def isCrashed = true
 
   def stepInTime(dt: Double) = {}
@@ -100,12 +100,12 @@ class Crashed(_position2D: Vector2D, _angle: Double, motionSeriesObject: ForceMo
 
   def getMemento = {
     new MotionStrategyMemento {
-      def getMotionStrategy(motionSeriesObject: ForceMotionSeriesObject) = new Crashed(position2D, getAngle, motionSeriesObject)
+      def getMotionStrategy(motionSeriesObject: MotionSeriesObject) = new Crashed(position2D, getAngle, motionSeriesObject)
     }
   }
 }
 
-class Airborne(private var _position2D: Vector2D, private var _velocity2D: Vector2D, _angle: Double, motionSeriesObject: ForceMotionSeriesObject) extends MotionStrategy(motionSeriesObject: ForceMotionSeriesObject) {
+class Airborne(private var _position2D: Vector2D, private var _velocity2D: Vector2D, _angle: Double, motionSeriesObject: MotionSeriesObject) extends MotionStrategy(motionSeriesObject: MotionSeriesObject) {
   def isCrashed = false
 
   override def toString = "position = ".literal + position2D
@@ -153,17 +153,17 @@ class Airborne(private var _position2D: Vector2D, private var _velocity2D: Vecto
 }
 
 class AirborneMemento(p: Vector2D, v: Vector2D, a: Double) extends MotionStrategyMemento {
-  def getMotionStrategy(motionSeriesObject: ForceMotionSeriesObject) = new Airborne(p, v, a, motionSeriesObject)
+  def getMotionStrategy(motionSeriesObject: MotionSeriesObject) = new Airborne(p, v, a, motionSeriesObject)
 
   override def toString = "airborn motion strategy mode, p = ".literal + p
 }
 
-class Grounded(motionSeriesObject: ForceMotionSeriesObject) extends MotionStrategy(motionSeriesObject) {
+class Grounded(motionSeriesObject: MotionSeriesObject) extends MotionStrategy(motionSeriesObject) {
   def isCrashed = false
 
   def getMemento = {
     new MotionStrategyMemento {
-      def getMotionStrategy(motionSeriesObject: ForceMotionSeriesObject) = new Grounded(motionSeriesObject)
+      def getMotionStrategy(motionSeriesObject: MotionSeriesObject) = new Grounded(motionSeriesObject)
     }
   }
 
@@ -188,6 +188,7 @@ class Grounded(motionSeriesObject: ForceMotionSeriesObject) extends MotionStrate
 
   def rightBound = motionSeriesObject.wallRange().max - width / 2
 
+  //TODO: computing this lazily is very performance intensive
   override def wallForce = {
 
     val epsilon = 1E-4 //this is a physics workaround to help reduce or resolve the flickering problem by enabling the 'pressing' wall force a bit sooner

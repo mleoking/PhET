@@ -38,20 +38,20 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
   val resultMap = new HashMap[MotionSeriesObjectType, Result]
 
   //Event notifications
-  val objectCreatedListeners = new ArrayBuffer[(ForceMotionSeriesObject, MotionSeriesObjectType) => Unit]
+  val objectCreatedListeners = new ArrayBuffer[(MotionSeriesObject, MotionSeriesObjectType) => Unit]
   val itemFinishedListeners = new ArrayBuffer[(MotionSeriesObjectType, Result) => Unit]
   val gameFinishListeners = new ArrayBuffer[() => Unit]
 
   val housePosition = 6
-  val house = ForceMotionSeriesObject(model, housePosition, MotionSeriesDefaults.house.width, MotionSeriesDefaults.house.height)
-  val door = ForceMotionSeriesObject(model, housePosition, MotionSeriesDefaults.door.width, MotionSeriesDefaults.door.height)
+  val house = MotionSeriesObject(model, housePosition, MotionSeriesDefaults.house.width, MotionSeriesDefaults.house.height)
+  val door = MotionSeriesObject(model, housePosition, MotionSeriesDefaults.door.width, MotionSeriesDefaults.door.height)
   private var _doorOpenAmount = 0.0
 
   def doorOpenAmount = _doorOpenAmount
 
   val doorListeners = new ArrayBuffer[() => Unit]
-  val doorBackground = ForceMotionSeriesObject(model, housePosition, MotionSeriesDefaults.doorBackground.width, MotionSeriesDefaults.doorBackground.height)
-  private var _motionSeriesObject: ForceMotionSeriesObject = null
+  val doorBackground = MotionSeriesObject(model, housePosition, MotionSeriesDefaults.doorBackground.width, MotionSeriesDefaults.doorBackground.height)
+  private var _motionSeriesObject: MotionSeriesObject = null
 
   clock.addClockListener(dt => if (!model.isPaused && _motionSeriesObject != null) _motionSeriesObject.stepInTime(dt))
   resetAll()
@@ -105,7 +105,7 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
     val sel = selectedObject
     model.setPaused(true)
 
-    _motionSeriesObject = ForceMotionSeriesObject(model, -model.rampSegments(0).length + sel.width / 2.0 + model.leftWall.width / 2.0, sel.width, 3)
+    _motionSeriesObject = MotionSeriesObject(model, -model.rampSegments(0).length + sel.width / 2.0 + model.leftWall.width / 2.0, sel.width, 3)
 
     motionSeriesObject.mass = sel.mass
     motionSeriesObject.staticFriction = sel.staticFriction
@@ -203,7 +203,7 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
 
   def inputAllowed = _inputAllowed
 
-  def itemDelivered(o: MotionSeriesObjectType, motionSeriesObjectRef: ForceMotionSeriesObject) = {
+  def itemDelivered(o: MotionSeriesObjectType, motionSeriesObjectRef: MotionSeriesObject) = {
     if (!deliverList.contains(motionSeriesObjectRef)) {
       deliverList += motionSeriesObjectRef
       object listener extends Function0[Unit] { //it's an object so we can refer to it as this below
