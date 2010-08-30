@@ -72,8 +72,8 @@ public class AbstractDensityModule extends UIComponent {
 
         bottle = new Bottle();
         //set the location of the bottle to be out of the way of the interactive objects
-        bottle.x = DensityConstants.POOL_WIDTH_X / 2 * DensityModel.DISPLAY_SCALE + bottle.bottleWidth * 1.2;
-        bottle.y = -bottle.bottleHeight * 1.5;//TODO: render artifacts when underground
+        bottle.x = DensityConstants.POOL_WIDTH_X / 2 * DensityModel.DISPLAY_SCALE + bottle.width * 1.2;
+        bottle.y = -bottle.height * 1.5;
         bottle.z = DensityConstants.VERTICAL_GROUND_OFFSET_AWAY_3D;
     }
 
