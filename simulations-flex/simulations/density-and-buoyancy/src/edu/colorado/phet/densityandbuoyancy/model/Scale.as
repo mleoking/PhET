@@ -22,6 +22,7 @@ public class Scale extends Cuboid {
     public static var SCALE_HEIGHT:Number = 1 / 3.0 / 10 * SCALE_SCALE;
     public static var SCALE_DEPTH:Number = 1.0 / 10 * SCALE_SCALE;
     private const scaleReadoutListeners:Array = new Array();
+    public static const SCALE_X:Number = -DensityConstants.POOL_WIDTH_X / 2 - DensityConstants.LARGE_BLOCK_WIDTH - Scale.SCALE_WIDTH / 2;
 
     public function Scale(x:Number, y:Number, model:DensityModel, mass:Number):void {
         super(SCALE_DENSITY, SCALE_WIDTH, SCALE_HEIGHT, SCALE_DEPTH, x, y, model, Material.CUSTOM);

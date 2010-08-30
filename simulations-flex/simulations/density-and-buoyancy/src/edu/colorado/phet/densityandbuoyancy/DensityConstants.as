@@ -35,7 +35,10 @@ public class DensityConstants {
     public static const FLEX_FONT_WEIGHT:String = "fontWeight";
     public static const FLEX_FONT_BOLD:String = "bold";
     public static const FLEX_TEXT_DECORATION:String = "textDecoration";
-    public static const CONTROL_PANEL_COLOR:Number = 0xfafad7;//Color recommended by Kathy to be a pale yellow background for control panels
+    public static const CONTROL_PANEL_COLOR:Number = 0xfafad7;
+
+    public static const LARGE_BLOCK_WIDTH:Number = 0.18;
+    //Color recommended by Kathy to be a pale yellow background for control panels
 
     //So that away3d faces don't overlap
     private static function kgLtoSI(number:Number):Number {
