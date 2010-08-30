@@ -12,27 +12,28 @@ class VectorView(motionSeriesObject: MotionSeriesObject,
                  coordinateFrameModel: CoordinateFrameModel,
                  fbdWidth: Int) {
   def addVectorAllComponents(motionSeriesObject: MotionSeriesObject,
-                             motionSeriesObjectVector: MotionSeriesObjectVector with PointOfOriginVector,
+                             vector: MotionSeriesObjectVector with PointOfOriginVector,
                              offsetFBD: Vector2DModel,
                              offsetPlayArea: Double,
                              selectedVectorVisible: () => Boolean,
                              vectorDisplay: VectorDisplay) = {
-    addVector(motionSeriesObject, motionSeriesObjectVector, offsetFBD, offsetPlayArea, vectorDisplay)
-
-    val parallelComponent = new ParallelComponent(motionSeriesObjectVector, motionSeriesObject)
-    val perpComponent = new PerpendicularComponent(motionSeriesObjectVector, motionSeriesObject)
-    val xComponent = new XComponent(motionSeriesObjectVector, motionSeriesObject, coordinateFrameModel, motionSeriesObjectVector.labelAngle)
-    val yComponent = new YComponent(motionSeriesObjectVector, motionSeriesObject, coordinateFrameModel, motionSeriesObjectVector.labelAngle)
+    
+    //TODO: This looks like it will be very performance intensive
+    val parallelComponent = new ParallelComponent(vector, motionSeriesObject)
+    val perpComponent = new PerpendicularComponent(vector, motionSeriesObject)
+    val xComponent = new XComponent(vector, motionSeriesObject, coordinateFrameModel, vector.labelAngle)
+    val yComponent = new YComponent(vector, motionSeriesObject, coordinateFrameModel, vector.labelAngle)
     def update() = {
-      yComponent.setVisible(vectorViewModel.xyComponentsVisible && selectedVectorVisible())
-      xComponent.setVisible(vectorViewModel.xyComponentsVisible && selectedVectorVisible())
-      motionSeriesObjectVector.setVisible(vectorViewModel.originalVectors && selectedVectorVisible())
       parallelComponent.setVisible(vectorViewModel.parallelComponents && selectedVectorVisible())
       perpComponent.setVisible(vectorViewModel.parallelComponents && selectedVectorVisible())
+      yComponent.setVisible(vectorViewModel.xyComponentsVisible && selectedVectorVisible())
+      xComponent.setVisible(vectorViewModel.xyComponentsVisible && selectedVectorVisible())
+      vector.setVisible(vectorViewModel.originalVectors && selectedVectorVisible())
     }
     vectorViewModel.addListener(update)
     update()
 
+    addVector(motionSeriesObject, vector, offsetFBD, offsetPlayArea, vectorDisplay)
     addVector(motionSeriesObject, xComponent, offsetFBD, offsetPlayArea, vectorDisplay)
     addVector(motionSeriesObject, yComponent, offsetFBD, offsetPlayArea, vectorDisplay)
     addVector(motionSeriesObject, parallelComponent, offsetFBD, offsetPlayArea, vectorDisplay)
@@ -75,17 +76,16 @@ trait PointOfOriginVector {
 }
 
 class PlayAreaVectorNode(transform: ModelViewTransform2D, motionSeriesObject: MotionSeriesObject, vectorViewModel: VectorViewModel) extends PNode with VectorDisplay {
-
   def addVector(vector: Vector with PointOfOriginVector, offsetFBD: Vector2DModel, maxOffset: Int, offset: Double): Unit = {
     val defaultCenter = motionSeriesObject.height / 2.0
     val myoffset = new Vector2DModel(motionSeriesObject.position2D + new Vector2D(motionSeriesObject.getAngle + java.lang.Math.PI / 2) *
             (offset + (if (vectorViewModel.centered) defaultCenter else vector.getPointOfOriginOffset(defaultCenter))))
-    motionSeriesObject.addListener(()=>{
+    motionSeriesObject.addListener(() => {
       myoffset.setValue(motionSeriesObject.position2D + new Vector2D(motionSeriesObject.getAngle + java.lang.Math.PI / 2) *
-            (offset + (if (vectorViewModel.centered) defaultCenter else vector.getPointOfOriginOffset(defaultCenter))))
+              (offset + (if (vectorViewModel.centered) defaultCenter else vector.getPointOfOriginOffset(defaultCenter))))
     })
-    addChild(new BodyVectorNode(transform, vector, myoffset, motionSeriesObject,MotionSeriesDefaults.PLAY_AREA_FORCE_VECTOR_SCALE))
+    addChild(new BodyVectorNode(transform, vector, myoffset, motionSeriesObject, MotionSeriesDefaults.PLAY_AREA_FORCE_VECTOR_SCALE))
   }
 
-  def removeVector(vector: Vector) = null//TODO: memory leak
+  def removeVector(vector: Vector) = null //TODO: memory leak
 }
