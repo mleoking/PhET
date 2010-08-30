@@ -20,7 +20,7 @@ import java.util.Properties;
  */
 public class SimulationProperties {
     
-    public static final String SIMULATION_PROPERTIES_FILENAME = "simulation.properties";
+    public static final String FILENAME = "simulation.properties";
 
     private static final String KEY_PROJECT = "project";
     private static final String KEY_SIMULATION = "simulation";
@@ -40,24 +40,32 @@ public class SimulationProperties {
     private String type; // the type of simulation
 
     public SimulationProperties() throws IOException {
-        this( Thread.currentThread().getContextClassLoader().getResourceAsStream( SIMULATION_PROPERTIES_FILENAME ) );
+        this( Thread.currentThread().getContextClassLoader().getResourceAsStream( FILENAME ) );
     }
     
     public SimulationProperties(InputStream inputStream) throws IOException {
         Properties properties = new Properties();
         properties.load( inputStream );
-        this.project = properties.getProperty( KEY_PROJECT );
-        this.simulation = properties.getProperty( KEY_SIMULATION );
-        this.language = properties.getProperty( KEY_LANGUAGE );
-        this.country = properties.getProperty( KEY_COUNTRY );
-        this.type = properties.getProperty( KEY_TYPE );
+        setProperties( properties );
     }
-
-    public SimulationProperties( String project, String simulation, Locale locale, String type ) throws IOException {
+    
+    public SimulationProperties( Properties properties ) {
+        setProperties( properties );
+    }
+    
+    public SimulationProperties( String project, String simulation, Locale locale, String type ) {
         this( project, simulation, locale.getLanguage(), locale.getCountry(), type );
     }
     
-    public SimulationProperties( String project, String simulation, String language, String country, String type ) throws IOException {
+    public SimulationProperties( String project, String simulation, String language, String country, String type )  {
+        setProperties( project, simulation, language, country, type );
+    }
+    
+    private void setProperties( Properties p ) {
+        setProperties( p.getProperty( KEY_PROJECT ), p.getProperty( KEY_SIMULATION ), p.getProperty( KEY_LANGUAGE ), p.getProperty( KEY_COUNTRY ), p.getProperty( KEY_TYPE ) );
+    }
+    
+    private void setProperties( String project, String simulation, String language, String country, String type ) {
         this.project = project;
         this.simulation = simulation;
         this.language = language;
@@ -106,5 +114,15 @@ public class SimulationProperties {
         properties.setProperty( KEY_COUNTRY, country );
         properties.setProperty( KEY_TYPE, type );
         properties.store( fileOutputStream, comments );
+    }
+    
+    public String toString() {
+        StringBuffer b = new StringBuffer();
+        b.append( KEY_PROJECT + "=" + project );
+        b.append( "," + KEY_SIMULATION + "=" + simulation );
+        b.append( "," + KEY_LANGUAGE + "=" + language );
+        b.append( "," + KEY_COUNTRY + "=" + country );
+        b.append( "," + KEY_TYPE + "=" + type );
+        return b.toString();
     }
 }
