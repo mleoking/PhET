@@ -1,5 +1,6 @@
 package edu.colorado.phet.greenhouse;
 
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -10,6 +11,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
+import edu.colorado.phet.common.phetcommon.view.PhetTitledBorder;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
 import edu.colorado.phet.greenhouse.model.Photon;
 import edu.colorado.phet.greenhouse.view.PhotonGraphic;
@@ -17,7 +19,11 @@ import edu.colorado.phet.greenhouse.view.PhotonGraphic;
 public class GreenhouseLegend extends PhetTitledPanel {
 
     GreenhouseLegend() {
-        super( GreenhouseResources.getString( "GreenhouseLegend.LegendTitle" ) );
+        this( PhetTitledBorder.DEFAULT_FONT );
+    }
+    
+    public GreenhouseLegend( Font titleFont ){
+        super( GreenhouseResources.getString( "GreenhouseLegend.LegendTitle" ), titleFont );
 
         // Draw an IR photon and a sunlight photon
         BufferedImage irPhotonBI = new BufferedImage( 15, 15, BufferedImage.TYPE_INT_ARGB );
@@ -51,7 +57,7 @@ public class GreenhouseLegend extends PhetTitledPanel {
             add(irLegend, gbc);
         }
         catch(Exception e){
-        	e.printStackTrace();
+            e.printStackTrace();
         }
     }
 }
