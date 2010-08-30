@@ -66,32 +66,6 @@ public class BlockNode extends CubeNode implements Pickable {
         updateGeometry();
     }
 
-    private function getCustomBitmap():Bitmap {
-        var wallData:BitmapData = (new customObjectTexture() as BitmapAsset).bitmapData;
-        wallData.colorTransform(new Rectangle(0, 0, wallData.width, wallData.height), block.colorTransform);
-        //        var coloredData:BitmapData = (new customObjectTexture() as BitmapAsset).bitmapData;
-        //        if (block.getColor().redMultiplier < 0.5) {
-        //            coloredData.copyChannel(wallData, imageRect, new Point(0, 0), BitmapDataChannel.GREEN, BitmapDataChannel.RED);
-        //        }
-        //        else {
-        //            coloredData.copyChannel(wallData, imageRect, new Point(0, 0), BitmapDataChannel.RED, BitmapDataChannel.RED);
-        //        }
-        //        if (block.getColor().greenMultiplier < 0.5) {
-        //            coloredData.copyChannel(wallData, imageRect, new Point(0, 0), BitmapDataChannel.GREEN, BitmapDataChannel.GREEN);
-        //        }
-        //        else {
-        //            coloredData.copyChannel(wallData, imageRect, new Point(0, 0), BitmapDataChannel.RED, BitmapDataChannel.GREEN);
-        //        }
-        //        if (block.getColor().blueMultiplier < 0.5) {
-        //            coloredData.copyChannel(wallData, imageRect, new Point(0, 0), BitmapDataChannel.GREEN, BitmapDataChannel.BLUE);
-        //        }
-        //        else {
-        //            coloredData.copyChannel(wallData, imageRect, new Point(0, 0), BitmapDataChannel.RED, BitmapDataChannel.BLUE);
-        //        }
-
-        return new Bitmap(wallData);
-    }
-
     private function createTextFormat(newSize:Number):TextFormat {
         //        trace("newsivze = "+newSize);
         var format:TextFormat = new TextFormat();
@@ -137,6 +111,12 @@ public class BlockNode extends CubeNode implements Pickable {
         // TODO: possibly change tiling for textures that are not symmetric
         var cube:PickableCube = getCube();
         cube.cubeMaterials.back = cube.cubeMaterials.left = cube.cubeMaterials.right = cube.cubeMaterials.top = cube.cubeMaterials.bottom = cube.cubeMaterials.front = sideMaterial;
+    }
+
+    private function getCustomBitmap():Bitmap {
+        var wallData:BitmapData = (new customObjectTexture() as BitmapAsset).bitmapData;
+        wallData.colorTransform(new Rectangle(0, 0, wallData.width, wallData.height), block.colorTransform);
+        return new Bitmap(wallData);
     }
 
     public override function updateGeometry():void {
