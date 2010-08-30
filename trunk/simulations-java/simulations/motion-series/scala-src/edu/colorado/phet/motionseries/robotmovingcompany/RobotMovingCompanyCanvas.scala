@@ -264,7 +264,6 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
 
     def setter(x: Double) = if (gameModel.robotEnergy > 0) motionSeriesObject.parallelAppliedForce = x else {}
 
-    //todo: why are these 2 lines necessary?
     vectorView.addAllVectors(motionSeriesObject, fbdNode)
     vectorView.addAllVectors(motionSeriesObject, windowFBDNode)
     //don't show play area vectors
