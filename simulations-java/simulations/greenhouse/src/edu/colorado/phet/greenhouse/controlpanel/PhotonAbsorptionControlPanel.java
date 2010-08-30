@@ -151,8 +151,8 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
                 GreenhouseResources.getImage( "earth.png" ), PhotonTarget.CONFIGURABLE_ATMOSPHERE, PLANET_SCALING_FACTOR);
         atmosphericGasesPanel.add(atmosphereSelector);
 
-        // Create and add a panel that will contain the buttons for selecting
-        // the atmosphere.
+        // Create and add a panel that will contain the sliders for
+        // configuring the atmosphere.
         VerticalLayoutPanel atmosphereSliderPanel = new VerticalLayoutPanel();
         atmosphericGasesPanel.add( atmosphereSliderPanel );
         
