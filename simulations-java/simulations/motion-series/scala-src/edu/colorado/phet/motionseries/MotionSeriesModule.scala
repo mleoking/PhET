@@ -59,6 +59,9 @@ class MotionSeriesModule(frame: PhetFrame,
 
     val startTime = System.currentTimeMillis
     motionSeriesModel.stepInTime(dt)
+    
+    //This debug line short circuits much of the motion series model update code in order to do performance testing
+//    motionSeriesModel.motionSeriesObject.setPosition(motionSeriesModel.motionSeriesObject.position+0.08)
 
     //There is a bug that the instantantaneous (one frame) wall force is sometimes not shown or is clipped incorrectly
     //This workaround reduces the probability of having that problem significantly

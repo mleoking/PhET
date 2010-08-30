@@ -118,7 +118,7 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
     model.rampSegments(1).addListener(listener)
   }
 
-  val tickMarkSet = new TickMarkSet(transform, model.positionMapper, compositeListener)
+  val tickMarkSet = new TickMarkSet(transform, model.toPosition2D, compositeListener)
   playAreaNode.addChild(tickMarkSet)
 
   val fbdWidth = MotionSeriesDefaults.freeBodyDiagramWidth

@@ -1,3 +1,4 @@
+Performance improvement and minor refactoring in model
 Removed colons after friction coefficients
 Converted bouncy property to MutableBoolean
 Converted frictionless property to MutableBoolean

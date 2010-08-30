@@ -26,7 +26,7 @@ class RobotGraphics(transform: ModelViewTransform2D, gameModel: RobotMovingCompa
   gameModel.model.rampSegments(0).addListener(update)
   update()
   def update() = {
-    val rampTopLeft = gameModel.model.positionMapper(-10)
+    val rampTopLeft = gameModel.model.toPosition2D(-10)
     val rampTopLeftView = transform.modelToView(rampTopLeft)
     truckTop.setOffset(rampTopLeftView.x - truckTop.getFullBounds.getWidth * 0.65, rampTopLeftView.y - truckTop.getFullBounds.getHeight)
     truckWheels.setOffset(truckTop.getFullBounds.getCenterX - truckWheels.getFullBounds.getWidth / 2, transform.modelToView(0, 0).y - truckWheels.getFullBounds.getHeight)

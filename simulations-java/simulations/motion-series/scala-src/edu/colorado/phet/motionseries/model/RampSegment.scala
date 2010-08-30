@@ -8,15 +8,15 @@ import edu.colorado.phet.scalacommon.math.Vector2D
 import edu.colorado.phet.motionseries.graphics.Rotatable
 
 case class RampSegmentState(startPoint: Vector2D, endPoint: Vector2D) { //don't use Point2D since it's not immutable
+  lazy val getUnitVector = (endPoint - startPoint).normalize
+  lazy val angle = (endPoint - startPoint).angle
+  lazy val length = (endPoint - startPoint).magnitude
+
   def setStartPoint(newStartPoint: Vector2D) = new RampSegmentState(newStartPoint, endPoint)
 
   def setEndPoint(newEndPoint: Vector2D) = new RampSegmentState(startPoint, newEndPoint)
 
-  def getUnitVector = (endPoint - startPoint).normalize
-
-  def setAngle(angle: Double) = new RampSegmentState(startPoint, new Vector2D(angle) * (endPoint - startPoint).magnitude)
-
-  def angle = (endPoint - startPoint).angle
+  def setAngle(angle: Double) = new RampSegmentState(startPoint, new Vector2D(angle) * length)
 }
 
 class RampSegment(_state: RampSegmentState) extends Observable with Rotatable {
@@ -42,7 +42,7 @@ class RampSegment(_state: RampSegmentState) extends Observable with Rotatable {
 
   def pivot = startPoint
 
-  def length = (endPoint - startPoint).magnitude
+  def length = state.length
 
   def unitVector = state.getUnitVector
 
