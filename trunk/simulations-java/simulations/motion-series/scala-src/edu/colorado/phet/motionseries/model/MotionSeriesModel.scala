@@ -70,7 +70,7 @@ class MotionSeriesModel(defaultPosition: Double,
   //This is the main object that forces are applied to
   val motionSeriesObject = new ForceMotionSeriesObject(new MotionSeriesObjectState(defaultPosition, 0, 0,
     _objectType.mass, _objectType.staticFriction, _objectType.kineticFriction, 0.0, 0.0, 0.0),
-    _objectType.height, _objectType.width, positionMapper,
+    _objectType.height, _objectType.width, toPosition2D,
     rampSegmentAccessor, rampChangeAdapter, surfaceFriction, _wallsBounce, surfaceFrictionStrategy, walls, wallRange, thermalEnergyStrategy)
 
   updateDueToObjectTypeChange()
@@ -249,10 +249,8 @@ class MotionSeriesModel(defaultPosition: Double,
     }
 
     //resolve collisions with the wall when switching objects
-    import MotionSeriesDefaults.MIN_X
-    import MotionSeriesDefaults.MAX_X
-    import MathUtil.clamp
-    motionSeriesObject.setPosition(clamp(MIN_X + motionSeriesObject.width / 2, motionSeriesObject.position, MAX_X - motionSeriesObject.width / 2))
+    motionSeriesObject.setPosition(MathUtil.clamp(MotionSeriesDefaults.MIN_X+ motionSeriesObject.width / 2, 
+      motionSeriesObject.position, MotionSeriesDefaults.MAX_X- motionSeriesObject.width / 2))
 
     notifyListeners()
   }
@@ -306,7 +304,7 @@ class MotionSeriesModel(defaultPosition: Double,
   def rampAngle = rampSegments(1).angle
 
   //TODO: this may need to be more general if/when there are more/less ramp segments
-  def positionMapper(particleLocation: Double) = {
+  def toPosition2D(particleLocation: Double) = {
     if (particleLocation <= 0) {
       val backwardsUnitVector = rampSegments(0).unitVector * -1 //go backwards since position is measure from origin
       backwardsUnitVector * (-particleLocation) + rampSegments(0).endPoint
