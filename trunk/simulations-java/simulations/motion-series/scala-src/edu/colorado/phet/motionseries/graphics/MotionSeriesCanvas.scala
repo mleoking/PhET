@@ -144,7 +144,7 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
     updateFBDLocation()
   }
 
-  val playAreaVectorNode = new PlayAreaVectorNode(transform, model.motionSeriesObject, vectorViewModel)
+  val playAreaVectorNode = new PlayAreaVectorDisplay(transform, model.motionSeriesObject, vectorViewModel)
   playAreaNode.addChild(playAreaVectorNode)
 
   val vectorView = new VectorView(model.motionSeriesObject, vectorViewModel, model.coordinateFrameModel, fbdWidth)

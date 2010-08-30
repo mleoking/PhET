@@ -64,8 +64,7 @@ class MotionSeriesModel(defaultPosition: Double,
   val wallRange = () => Range(-rampSegments(0).length, rampSegments(1).length)
 
   val surfaceFrictionStrategy = new SurfaceFrictionStrategy() {
-    //todo: allow different values for different segments
-    def getTotalFriction(objectFriction: Double) = new LinearFunction(0, 1, objectFriction, objectFriction * 0.75).evaluate(rampSegments(0).wetness)
+    def getTotalFriction(objectFriction: Double) = objectFriction
   }
   //This is the main object that forces are applied to
   val motionSeriesObject = new MotionSeriesObject(new MotionSeriesObjectState(defaultPosition, 0, 0,
@@ -89,7 +88,7 @@ class MotionSeriesModel(defaultPosition: Double,
   def step(simulationTimeChange: Double) = {
     stepRecord()
     val mode = motionSeriesObject.motionStrategy.getMemento
-    new RecordedState(new RampState(rampAngle, rampSegments(1).heat, rampSegments(1).wetness),
+    new RecordedState(new RampState(rampAngle),
       selectedObject.state, motionSeriesObject.state, manMotionSeriesObject.state, motionSeriesObject.parallelAppliedForce, walls.booleanValue, mode, getTime, frictionless)
   }
 
@@ -141,10 +140,6 @@ class MotionSeriesModel(defaultPosition: Double,
       resetObject()
       manMotionSeriesObject.setPosition(defaultManPosition)
 
-      rampSegments(0).setWetness(0.0)
-      rampSegments(0).setHeat(0.0)
-      rampSegments(1).setWetness(0.0)
-      rampSegments(1).setHeat(0.0)
       rampSegments(1).setAngle(initialAngle)
 
       resetListeners.foreach(_())
@@ -158,10 +153,6 @@ class MotionSeriesModel(defaultPosition: Double,
    * Instantly clear the heat from the ramps.
    */
   def clearHeatInstantly() {
-    rampSegments(0).setWetness(0.0)
-    rampSegments(0).setHeat(0.0)
-    rampSegments(1).setWetness(0.0)
-    rampSegments(1).setHeat(0.0)
     motionSeriesObject.thermalEnergy = 0.0
   }
 
@@ -182,8 +173,6 @@ class MotionSeriesModel(defaultPosition: Double,
   }
 
   def rainCrashed() = {
-    rampSegments(0).dropHit()
-    rampSegments(1).dropHit()
     val reducedEnergy = totalThermalEnergyOnClear / (maxDrops / 2.0)
     motionSeriesObject.thermalEnergy = motionSeriesObject.thermalEnergy - reducedEnergy
     motionSeriesObject.crashEnergy = java.lang.Math.max(motionSeriesObject.crashEnergy - reducedEnergy, 0)
@@ -193,11 +182,6 @@ class MotionSeriesModel(defaultPosition: Double,
   def setPlaybackState(state: RecordedState) = {
     rampAngle = state.rampState.angle
     frictionless = state.frictionless
-    rampSegments(0).setHeat(state.rampState.heat)
-    rampSegments(0).setWetness(state.rampState.wetness)
-
-    rampSegments(1).setHeat(state.rampState.heat)
-    rampSegments(1).setWetness(state.rampState.wetness)
 
     selectedObject = state.selectedObject.toObject
     motionSeriesObject.motionStrategy = state.motionStrategyMemento.getMotionStrategy(motionSeriesObject)
@@ -321,10 +305,6 @@ class MotionSeriesModel(defaultPosition: Double,
     for (f <- fireDogs) f.stepInTime(dt)
     for (r <- raindrops) r.stepInTime(dt)
     val rampHeat = motionSeriesObject.rampThermalEnergy
-    rampSegments(0).setHeat(rampHeat)
-    rampSegments(1).setHeat(rampHeat)
-    rampSegments(0).stepInTime(dt)
-    rampSegments(1).stepInTime(dt)
 
     notifyListeners() //signify to the Timeline that more data has been added
     recordListeners.foreach(_())

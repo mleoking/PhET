@@ -272,7 +272,7 @@ class Grounded(motionSeriesObject: MotionSeriesObject) extends MotionStrategy(mo
     motionSeriesObject.normalForce.setValue(normalForce)
     motionSeriesObject.gravityForce.setValue(motionSeriesObject.gravityForce.value)
     motionSeriesObject.totalForce.setValue(motionSeriesObject.gravityForce.value + normalForce + motionSeriesObject.appliedForce.value + frictionForce + wallForce)
-    println("new total force = "+motionSeriesObject.totalForce)
+//    println("new total force = "+motionSeriesObject.totalForce)
     
     motionSeriesObject.notificationsEnabled = true
     motionSeriesObject.notifyListeners() //do as a batch, since it's a performance problem to do this several times in this method call

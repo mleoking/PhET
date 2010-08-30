@@ -55,9 +55,7 @@ class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2
   defineInvokeAndPass(rampSegment.addListenerByName) {
     pathNode.setPathTo(mytransform.createTransformedShape(new BasicStroke(0.4f).createStrokedShape(rampSegment.toLine2D)))
   }
-  rampSegment.wetnessListeners += updateAll
   rampSegment addListener updateAll
-  rampSegment.heatListeners += updateAll
   updateAll()
 
   def paintColor_=(p: Paint) = pathNode.setPaint(p)
