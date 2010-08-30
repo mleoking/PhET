@@ -78,8 +78,16 @@ public class PropertyEditor extends GridRow {
             property.value = unit.toSI(event.value);
         }
 
+        //This different functionality is necessary to support track presses and keyboard handling
+        //Otherwise, when one slider reaches its min or max, it sets that value back on the model
+        function trackPressAndKeyboardHandler(event:SliderEvent):void {
+            if (event.value != slider.maximum && event.value != slider.minimum) {
+                sliderDragHandler(event);
+            }
+        }
+
         slider.addEventListener(SliderEvent.THUMB_DRAG, sliderDragHandler);
-        slider.addEventListener(SliderEvent.CHANGE, sliderDragHandler);
+        slider.addEventListener(SliderEvent.CHANGE, trackPressAndKeyboardHandler);
         function updateSlider():void {
             const setValue:Number = unit.fromSI(property.value);
             slider.value = setValue;
