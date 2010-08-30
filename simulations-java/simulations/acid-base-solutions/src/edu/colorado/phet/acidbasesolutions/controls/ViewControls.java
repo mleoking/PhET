@@ -18,6 +18,7 @@ import edu.colorado.phet.acidbasesolutions.model.MagnifyingGlass.MagnifyingGlass
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledBorder;
+import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 
 /**
@@ -25,7 +26,7 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ViewControls extends JPanel {
+public class ViewControls extends PhetTitledPanel {
     
     private final ABSModel model;
     private final JRadioButton magnifyingGlassRadioButton, concentrationGraphRadioButton, liquidRadioButton;
@@ -34,9 +35,7 @@ public class ViewControls extends JPanel {
     private boolean controlsEnabled;
     
     public ViewControls( final ABSModel model ) {
-        
-        // border
-        setBorder( new PhetTitledBorder( ABSStrings.VIEWS ) );
+        super( ABSStrings.VIEWS );
         
         // model
         {
