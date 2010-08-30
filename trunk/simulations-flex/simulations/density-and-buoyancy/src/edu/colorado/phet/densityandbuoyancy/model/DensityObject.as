@@ -333,8 +333,8 @@ public class DensityObject {
     public function getYProperty():NumericProperty {
         return y;
     }
-    
-    public function getXProperty():NumericProperty{
+
+    public function getXProperty():NumericProperty {
         return x;
     }
 
@@ -347,6 +347,7 @@ public class DensityObject {
     }
 
     //Abstract
-    function box2DStepped():void {}
+    function box2DStepped():void {
+    }
 }
 }

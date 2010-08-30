@@ -72,8 +72,8 @@ public class AbstractDensityModule extends UIComponent {
 
         bottle = new Bottle();
         //set the location of the bottle to be out of the way of the interactive objects
-        bottle.x = DensityConstants.POOL_WIDTH_X / 2 * DensityModel.DISPLAY_SCALE + bottle.bottleWidth*1.2;
-        bottle.y = -bottle.bottleHeight *1.5;//TODO: render artifacts when underground
+        bottle.x = DensityConstants.POOL_WIDTH_X / 2 * DensityModel.DISPLAY_SCALE + bottle.bottleWidth * 1.2;
+        bottle.y = -bottle.bottleHeight * 1.5;//TODO: render artifacts when underground
         bottle.z = DensityConstants.VERTICAL_GROUND_OFFSET_AWAY_3D;
     }
 
@@ -111,8 +111,8 @@ public class AbstractDensityModule extends UIComponent {
         camera.targettiltangle = camera.tiltangle = 8;
         camera.hover();
 
-//        renderer = Renderer.BASIC;
-//        renderer = Renderer.CORRECT_Z_ORDER;
+        //        renderer = Renderer.BASIC;
+        //        renderer = Renderer.CORRECT_Z_ORDER;
         renderer = Renderer.INTERSECTING_OBJECTS;
         //renderer = new QuadrantRenderer();
 
