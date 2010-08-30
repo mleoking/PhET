@@ -1,5 +1,7 @@
 package edu.colorado.phet.common.phetcommon.view;
 
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+
 import java.awt.*;
 import java.awt.event.ContainerAdapter;
 import java.awt.event.ContainerEvent;
@@ -46,5 +48,25 @@ public class PhetTitledPanel extends JPanel {
         if ( getPreferredSize().getWidth() < minBorderWidth ) {
             setPreferredSize( new Dimension( minBorderWidth, getPreferredSize().height ) );
         }
+    }
+    
+    /**
+     * This sample main demonstrates usage of the PhetTitledPanel
+     *
+     * @param args not used
+     */
+    public static void main( String[] args ) {
+        JFrame frame = new JFrame( "Test" );
+        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        final JPanel contentPane = new PhetTitledPanel("aoensuthasnotehuBorder");
+        contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
+        for ( int i = 0; i < 10; i++ ) {
+            contentPane.add( new JLabel( "medium sized label " + i ) );
+        }
+        contentPane.add( new JButton( "A button" ) );
+        frame.setContentPane( contentPane );
+        frame.pack();
+        SwingUtils.centerWindowOnScreen( frame );
+        frame.setVisible( true );
     }
 }
