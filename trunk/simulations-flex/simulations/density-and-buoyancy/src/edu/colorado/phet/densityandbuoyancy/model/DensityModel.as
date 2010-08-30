@@ -39,6 +39,7 @@ public class DensityModel {
 
         initWorld();
         createGround();
+        createDragBounds();
     }
 
     public function addDensityObject(densityObject:DensityObject):void {
@@ -64,8 +65,6 @@ public class DensityModel {
 
     private function createGround():void {
         var groundBodyDef:b2BodyDef = new b2BodyDef();
-        groundBodyDef.position.Set(0, 0);
-
         var groundBody:b2Body = world.CreateBody(groundBodyDef);
 
         var groundShapeDef:b2PolygonDef = new b2PolygonDef();
@@ -77,6 +76,24 @@ public class DensityModel {
 
         groundShapeDef.SetAsOrientedBox(BOUNDS / 2 * DensityConstants.SCALE_BOX2D, poolHeight * DensityConstants.SCALE_BOX2D, new b2Vec2((poolWidth / 2 + BOUNDS / 2) * DensityConstants.SCALE_BOX2D, -poolHeight * DensityConstants.SCALE_BOX2D), 0);
         groundBody.CreateShape(groundShapeDef);
+    }
+
+    private function createDragBounds():void {
+        var bodyDef:b2BodyDef = new b2BodyDef();
+        var body:b2Body = world.CreateBody(bodyDef);
+
+        var shapeDef:b2PolygonDef = new b2PolygonDef();
+
+        //100m high and 100m wide
+        const wallWidth:Number = 1 * DensityConstants.SCALE_BOX2D;
+        const wallHeight:Number = 1 * DensityConstants.SCALE_BOX2D;
+        const leftBound:Number = (-Math.abs(Scale.SCALE_X) - Scale.SCALE_WIDTH / 2) * DensityConstants.SCALE_BOX2D;
+        shapeDef.SetAsOrientedBox(wallWidth, wallHeight, new b2Vec2(-wallWidth / 2 + leftBound, 0), 0);
+        //        body.CreateShape(shapeDef);
+
+        const rightBound:Number = (Math.abs(Scale.SCALE_X) + Scale.SCALE_WIDTH / 2) * DensityConstants.SCALE_BOX2D;
+        shapeDef.SetAsOrientedBox(wallWidth, wallHeight, new b2Vec2(wallWidth / 2 + rightBound, 0), 0);
+        //        body.CreateShape(shapeDef);
     }
 
     private function initWorld():void {

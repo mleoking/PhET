@@ -260,14 +260,14 @@ class MysteryObjectsMode extends Mode {
         module.model.addDensityObject(block1);
         const block2:MysteryBlock = new MysteryBlock(Material.APPLE.getDensity(), 0.1, DensityConstants.POOL_WIDTH_X / 2, block1.getHeight() + block1.getY(), new ColorTransform(0, 0, 1), module.model, FlexSimStrings.get("mode.mysteryObjects.B", "B"));
         module.model.addDensityObject(block2);
-        const block3:MysteryBlock = new MysteryBlock(Material.GASOLINE_BALLOON.getDensity(), 0.18, -DensityConstants.POOL_WIDTH_X / 2, 0.18 / 2, new ColorTransform(0, 1, 0), module.model, FlexSimStrings.get("mode.mysteryObjects.C", "C"));
+        const block3:MysteryBlock = new MysteryBlock(Material.GASOLINE_BALLOON.getDensity(), DensityConstants.LARGE_BLOCK_WIDTH, -DensityConstants.POOL_WIDTH_X / 2, 0.18 / 2, new ColorTransform(0, 1, 0), module.model, FlexSimStrings.get("mode.mysteryObjects.C", "C"));
         module.model.addDensityObject(block3);
         const block4:MysteryBlock = new MysteryBlock(Material.ICE.getDensity(), 0.15, -DensityConstants.POOL_WIDTH_X / 2, block3.getHeight() + block3.getY(), new ColorTransform(1, 0, 0), module.model, FlexSimStrings.get("mode.mysteryObjects.D", "D"));
         module.model.addDensityObject(block4);
         const block5:MysteryBlock = new MysteryBlock(Material.DIAMOND.getDensity(), 0.1, -DensityConstants.POOL_WIDTH_X / 2, block4.getHeight() + block4.getY(), new ColorTransform(1, 0, 0), module.model, FlexSimStrings.get("mode.mysteryObjects.E", "E"));
         module.model.addDensityObject(block5);
 
-        module.model.addDensityObject(new Scale(-DensityConstants.POOL_WIDTH_X / 2 - block3.getWidth() - Scale.SCALE_WIDTH / 2, Scale.SCALE_HEIGHT / 2, module.model, 100));
+        module.model.addDensityObject(new Scale(Scale.SCALE_X, Scale.SCALE_HEIGHT / 2, module.model, 100));
 
         if (!mysteryObjectsControlPanelShowing) {
             module.getDensityCanvas().addChild(mysteryObjectsControlPanel);
