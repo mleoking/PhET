@@ -1,3 +1,6 @@
+Fixed: Pool tick marks are in the incorrect position
+Fixed: Bottle graphic causes rendering problems when the bottle is below ground
+Moved the bottle graphic below ground
 Fixed: Clicking an empty part of the slider track moves the thumb but doesn't trigger any other changes
 Fixed: Scale should start at the correct initial position, since gravity can no longer move it.
 Fixed: Two blocks can intersect without bumping each other away
