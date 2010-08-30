@@ -21,6 +21,8 @@ import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.MouseEvent;
 
+import flash.text.TextFormat;
+
 import mx.core.UIComponent;
 import mx.events.SliderEvent;
 
@@ -60,7 +62,8 @@ public class AbstractDensityModule extends UIComponent {
 
     private var waterVolumeIndicator:WaterVolumeIndicator;
     private var tickMarkSet:TickMarkSet;
-    private var bottle:Bottle;
+    
+    private var textFieldMesh:TextFieldMesh;
 
     public function AbstractDensityModule() {
         super();
@@ -69,12 +72,6 @@ public class AbstractDensityModule extends UIComponent {
         _model.addDensityObjectCreationListener(addDensityObject);
         waterVolumeIndicator = new WaterVolumeIndicator(_model);
         waterVolumeIndicator.visible = false;//only show it after its location is correct
-
-        bottle = new Bottle();
-        //set the location of the bottle to be out of the way of the interactive objects
-        bottle.x = DensityConstants.POOL_WIDTH_X / 2 * DensityModel.DISPLAY_SCALE + bottle.width * 1.2;
-        bottle.y = -bottle.height * 1.5;
-        bottle.z = DensityConstants.VERTICAL_GROUND_OFFSET_AWAY_3D;
     }
 
     public function init():void {
@@ -92,7 +89,16 @@ public class AbstractDensityModule extends UIComponent {
         addChild(tickMarkSet);
 
         addChild(waterVolumeIndicator);
+        
+        const bottle:Bottle= new Bottle();
+        //set the location of the bottle to be out of the way of the interactive objects
+        bottle.x = DensityConstants.POOL_WIDTH_X / 2 * DensityModel.DISPLAY_SCALE + bottle.width * 1.2;
+        bottle.y = -bottle.height * 1.5;
+        bottle.z = DensityConstants.VERTICAL_GROUND_OFFSET_AWAY_3D;
         scene.addChild(bottle);
+
+        textFieldMesh = new TextFieldMesh("hello",new TextFormat(null,24,null,true));
+        scene.addChild(textFieldMesh);
     }
 
     override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void {
@@ -232,7 +238,9 @@ public class AbstractDensityModule extends UIComponent {
         //        water
     }
 
+    var clickCount:Number = 1;
     public function onMouseDown(event:MouseEvent):void {
+        clickCount = clickCount*10;
         startMouseX = stage.mouseX - view.x;
         startMouseY = stage.mouseY - view.y;
         if (view.mouseObject is Pickable) {
@@ -244,6 +252,7 @@ public class AbstractDensityModule extends UIComponent {
             }
         }
         stage.addEventListener(Event.MOUSE_LEAVE, onStageMouseLeave);
+        textFieldMesh.text=clickCount.toFixed(1)
     }
 
     public function onMouseMove(event:MouseEvent):void {
