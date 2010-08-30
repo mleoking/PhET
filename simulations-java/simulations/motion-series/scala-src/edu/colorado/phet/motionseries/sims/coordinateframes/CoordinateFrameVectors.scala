@@ -32,10 +32,10 @@ class CoordinateFrameVectors {
 
   class AngleBasedComponent(target: MotionSeriesObjectVector,
                             motionSeriesObject: MotionSeriesObject,
-                            getComponentUnitVector: Vector2DModel,
+                            componentUnitVector: Vector2DModel,
                             painter: (Vector2D, Color) => Paint,
                             modifier: String,
-                            labelAngle: Double) extends VectorComponent(target, motionSeriesObject, getComponentUnitVector, painter, modifier, labelAngle) {
+                            labelAngle: Double) extends VectorComponent(target, motionSeriesObject, componentUnitVector, painter, modifier, labelAngle) {
     //TODO: When the object changes its angle, we should notify our listeners, since they depend on the angle
   }
 

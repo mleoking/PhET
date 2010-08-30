@@ -237,14 +237,6 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel,
   }
 }
 
-class ConstantVectorValue(val getValue: Vector2D) {
-  def this() = this (new Vector2D)
-
-  def addListener(listener: () => Unit) = {}
-
-  def removeListener(listener: () => Unit) = {}
-}
-
 object TestFBD extends Application {
   val frame = new JFrame
   val canvas = new PhetPCanvas

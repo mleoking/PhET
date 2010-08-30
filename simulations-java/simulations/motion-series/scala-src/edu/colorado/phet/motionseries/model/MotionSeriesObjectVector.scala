@@ -30,7 +30,7 @@ class Vector2DModel(private var _value: Vector2D) extends Observable {
 
 class MotionSeriesObjectVector(color: Color,
                                name: String,
-                               override val abbreviation: String,
+                               abbreviation: String,
                                val bottomPO: Boolean, //shows point of origin at the bottom when in that mode
                                vector2DModel: Vector2DModel,
                                painter: (Vector2D, Color) => Paint,
@@ -41,13 +41,13 @@ class MotionSeriesObjectVector(color: Color,
 
 class VectorComponent(target: MotionSeriesObjectVector,
                       motionSeriesObject: MotionSeriesObject,
-                      getComponentUnitVector: Vector2DModel,
+                      componentUnitVector: Vector2DModel, //Can change, e.g., if the ramp rotates
                       painter: (Vector2D, Color) => Paint,
                       modifier: String,
                       labelAngle: Double)
         extends MotionSeriesObjectVector(target.color, target.name, target.abbreviation + modifier, target.bottomPO, target._vector2DModel, painter, labelAngle) {
   override def vector2DModel = {
-    val d = getComponentUnitVector.value
+    val d = componentUnitVector.value
     new Vector2DModel(d * (super.vector2DModel.apply() dot d))
   }
 }
