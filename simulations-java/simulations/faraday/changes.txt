@@ -1,3 +1,5 @@
+# 2.04.00 (43650) Aug 30, 2010
+8/30/10 new production version with fixes for #2236, #2438, #2446
 8/30/10 #2236, update data/faraday/bfield/README
 8/30/10 #2236, check in MathCAD file for numerical model of bar magnet
 # 2.03.08 (43454) Aug 24, 2010
