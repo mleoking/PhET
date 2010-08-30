@@ -1,9 +1,31 @@
 package edu.colorado.phet.motionseries.model
 
-import edu.colorado.phet.motionseries.graphics.{Vector, PointOfOriginVector}
+import edu.colorado.phet.motionseries.graphics.PointOfOriginVector
 import java.awt.{Paint, Color}
 import edu.colorado.phet.scalacommon.math.Vector2D
 import edu.colorado.phet.scalacommon.util.Observable
+import edu.colorado.phet.motionseries.Predef._ 
+
+class Vector(val color: Color,
+             val name: String,
+             val abbreviation: String,
+             val _vector2DModel: Vector2DModel,
+             val painter: (Vector2D, Color) => Paint,
+             val labelAngle: Double) {
+  val visible = new SMutableBoolean(true)
+  if (_vector2DModel == null) throw new RuntimeException("null vector2d model")
+  if (painter == null) throw new RuntimeException("null painter")
+
+  def vector2DModel = _vector2DModel
+
+  def angle = vector2DModel().angle
+
+  def setVisible(vis: Boolean) = visible.setValue(vis)
+
+  def getPaint = painter(vector2DModel(), color)
+
+  def html = "force.abbreviation.html.pattern.abbrev".messageformat(abbreviation)
+}
 
 //Observable object in MVC pattern
 class Vector2DModel(private var _value: Vector2D) extends Observable {

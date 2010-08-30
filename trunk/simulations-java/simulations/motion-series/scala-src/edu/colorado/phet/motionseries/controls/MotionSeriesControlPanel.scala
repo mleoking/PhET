@@ -4,13 +4,11 @@ import edu.colorado.phet.common.phetcommon.model.Resettable
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import edu.colorado.phet.common.phetcommon.view.util.{BufferedImageUtils, PhetFont}
-import edu.colorado.phet.motionseries.graphics._
 import java.awt._
 import java.awt.geom._
 import java.awt.image._
 import javax.swing._
 import border.{LineBorder, TitledBorder}
-import edu.colorado.phet.motionseries.model._
 import edu.colorado.phet.motionseries.swing._
 import edu.colorado.phet.scalacommon.math.Vector2D
 import edu.colorado.phet.scalacommon.swing.MyRadioButton
@@ -24,6 +22,8 @@ import edu.umd.cs.piccolox.pswing.{PSwingCanvas, PSwing}
 import edu.colorado.phet.common.phetcommon.math.MathUtil
 import java.awt.event.{MouseEvent, MouseAdapter}
 import edu.colorado.phet.common.phetcommon.view.{PhetTitledBorder, ControlPanel, VerticalLayoutPanel}
+import edu.colorado.phet.motionseries.graphics.{RampSegmentNode, RampSurfaceModel, VectorNode, ObjectModel}
+import edu.colorado.phet.motionseries.model._
 
 class MotionSeriesControlPanel(model: MotionSeriesModel,
                        freeBodyDiagramModel: FreeBodyDiagramModel,

@@ -9,7 +9,7 @@ import javax.swing.{JFrame, JDialog}
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.colorado.phet.scalacommon.Predef._
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
-import edu.colorado.phet.motionseries.model.{Vector2DModel, AdjustableCoordinateModel, CoordinateFrameModel, FreeBodyDiagramModel}
+import edu.colorado.phet.motionseries.model.{Vector2DModel, AdjustableCoordinateModel, CoordinateFrameModel, FreeBodyDiagramModel,Vector}
 
 class FBDDialog(frame: JFrame,
                 freeBodyDiagramModel: FreeBodyDiagramModel,
