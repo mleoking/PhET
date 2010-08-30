@@ -88,12 +88,12 @@ public class DensityModel {
         const wallWidth:Number = 1 * DensityConstants.SCALE_BOX2D;
         const wallHeight:Number = 1 * DensityConstants.SCALE_BOX2D;
         const leftBound:Number = (-Math.abs(Scale.SCALE_X) - Scale.SCALE_WIDTH / 2) * DensityConstants.SCALE_BOX2D;
-        shapeDef.SetAsOrientedBox(wallWidth, wallHeight, new b2Vec2(-wallWidth / 2 + leftBound, 0), 0);
-        //        body.CreateShape(shapeDef);
+        shapeDef.SetAsOrientedBox(wallWidth, wallHeight, new b2Vec2(-wallWidth + leftBound, 0), 0);
+        body.CreateShape(shapeDef);
 
         const rightBound:Number = (Math.abs(Scale.SCALE_X) + Scale.SCALE_WIDTH / 2) * DensityConstants.SCALE_BOX2D;
-        shapeDef.SetAsOrientedBox(wallWidth, wallHeight, new b2Vec2(wallWidth / 2 + rightBound, 0), 0);
-        //        body.CreateShape(shapeDef);
+        shapeDef.SetAsOrientedBox(wallWidth, wallHeight, new b2Vec2(wallWidth + rightBound, 0), 0);
+        body.CreateShape(shapeDef);
     }
 
     private function initWorld():void {
