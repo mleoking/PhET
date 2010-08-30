@@ -22,27 +22,6 @@ import edu.colorado.phet.motionseries.MotionSeriesResources._
 import java.awt.{Paint, Color, Image, BasicStroke}
 import edu.colorado.phet.motionseries.model._
 
-class Vector(val color: Color,
-             val name: String,
-             val abbreviation: String,
-             val _vector2DModel: Vector2DModel,
-             val painter: (Vector2D, Color) => Paint,
-             val labelAngle: Double) {
-  val visible = new SMutableBoolean(true)
-  if (_vector2DModel == null) throw new RuntimeException("null vector2d model")
-  if (painter == null) throw new RuntimeException("null painter")
-
-  def vector2DModel = _vector2DModel
-
-  def angle = vector2DModel().angle
-
-  def setVisible(vis: Boolean) = visible.setValue(vis)
-
-  def getPaint = painter(vector2DModel(), color)
-
-  def html = "force.abbreviation.html.pattern.abbrev".messageformat(abbreviation)
-}
-
 class AxisModel(private var _angle: Double,
                 val length: Double,
                 tail: Boolean)
