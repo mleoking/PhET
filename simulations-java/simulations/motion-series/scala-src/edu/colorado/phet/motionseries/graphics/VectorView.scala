@@ -12,7 +12,7 @@ class VectorView(motionSeriesObject: MotionSeriesObject,
                  fbdWidth: Int) {
   def addVectorAllComponents(motionSeriesObject: MotionSeriesObject,
                              motionSeriesObjectVector: MotionSeriesObjectVector with PointOfOriginVector,
-                             offsetFBD: VectorValue,
+                             offsetFBD: Vector2DModel,
                              offsetPlayArea: Double,
                              selectedVectorVisible: () => Boolean,
                              vectorDisplay: VectorDisplay) = {
@@ -23,11 +23,11 @@ class VectorView(motionSeriesObject: MotionSeriesObject,
     val xComponent = new XComponent(motionSeriesObjectVector, motionSeriesObject, coordinateFrameModel, motionSeriesObjectVector.labelAngle)
     val yComponent = new YComponent(motionSeriesObjectVector, motionSeriesObject, coordinateFrameModel, motionSeriesObjectVector.labelAngle)
     def update() = {
-      yComponent.visible = vectorViewModel.xyComponentsVisible && selectedVectorVisible()
-      xComponent.visible = vectorViewModel.xyComponentsVisible && selectedVectorVisible()
-      motionSeriesObjectVector.visible = vectorViewModel.originalVectors && selectedVectorVisible()
-      parallelComponent.visible = vectorViewModel.parallelComponents && selectedVectorVisible()
-      perpComponent.visible = vectorViewModel.parallelComponents && selectedVectorVisible()
+      yComponent.setVisible(vectorViewModel.xyComponentsVisible && selectedVectorVisible())
+      xComponent.setVisible(vectorViewModel.xyComponentsVisible && selectedVectorVisible())
+      motionSeriesObjectVector.setVisible(vectorViewModel.originalVectors && selectedVectorVisible())
+      parallelComponent.setVisible(vectorViewModel.parallelComponents && selectedVectorVisible())
+      perpComponent.setVisible(vectorViewModel.parallelComponents && selectedVectorVisible())
     }
     vectorViewModel.addListener(update)
     update()
@@ -38,7 +38,7 @@ class VectorView(motionSeriesObject: MotionSeriesObject,
     addVector(motionSeriesObject, perpComponent, offsetFBD, offsetPlayArea, vectorDisplay)
   }
 
-  def addVector(motionSeriesObject: MotionSeriesObject, vector: Vector with PointOfOriginVector, offsetFBD: VectorValue,
+  def addVector(motionSeriesObject: MotionSeriesObject, vector: Vector with PointOfOriginVector, offsetFBD: Vector2DModel,
                 offsetPlayArea: Double,
                 vectorDisplay: VectorDisplay) = {
     vectorDisplay.addVector(vector, offsetFBD, MotionSeriesDefaults.FBD_LABEL_MAX_OFFSET, offsetPlayArea)
@@ -49,7 +49,7 @@ class VectorView(motionSeriesObject: MotionSeriesObject,
   }
 
   def addVectorAllComponents(motionSeriesObject: MotionSeriesObject, a: MotionSeriesObjectVector, vectorDisplay: VectorDisplay): Unit =
-    addVectorAllComponents(motionSeriesObject, a, new ConstantVectorValue, 0, () => true, vectorDisplay)
+    addVectorAllComponents(motionSeriesObject, a, new Vector2DModel, 0, () => true, vectorDisplay)
 
   def addAllVectors(motionSeriesObject: MotionSeriesObject, vectorDisplay: VectorDisplay) = {
     addVectorAllComponents(motionSeriesObject, motionSeriesObject.appliedForceVector, vectorDisplay)
@@ -58,13 +58,13 @@ class VectorView(motionSeriesObject: MotionSeriesObject,
     addVectorAllComponents(motionSeriesObject, motionSeriesObject.frictionForceVector, vectorDisplay)
     addVectorAllComponents(motionSeriesObject, motionSeriesObject.wallForceVector, vectorDisplay)
     addVectorAllComponents(motionSeriesObject, motionSeriesObject.totalForceVector,
-      new ConstantVectorValue(new Vector2D(0, fbdWidth / 4)), 2,
+      new Vector2DModel(new Vector2D(0, fbdWidth / 4)), 2,
       () => vectorViewModel.sumOfForcesVector, vectorDisplay) //no need to add a separate listener, since it is already contained in vectorviewmodel
   }
 }
 
 trait VectorDisplay {
-  def addVector(vector: Vector with PointOfOriginVector, offsetFBD: VectorValue, maxOffset: Int, offsetPlayArea: Double): Unit
+  def addVector(vector: Vector with PointOfOriginVector, offsetFBD: Vector2DModel, maxOffset: Int, offsetPlayArea: Double): Unit
 
   def removeVector(vector: Vector): Unit
 }
@@ -74,41 +74,17 @@ trait PointOfOriginVector {
 }
 
 class PlayAreaVectorNode(transform: ModelViewTransform2D, motionSeriesObject: MotionSeriesObject, vectorViewModel: VectorViewModel) extends PNode with VectorDisplay {
-  def addVector(a: Vector, offset: VectorValue): Unit = addChild(new BodyVectorNode(transform, a, offset, motionSeriesObject))
 
-  def addVector(vector: Vector with PointOfOriginVector, offsetFBD: VectorValue, maxOffset: Int, offsetPlayArea: Double): Unit = {
-    addVector(new PlayAreaVector(vector, MotionSeriesDefaults.PLAY_AREA_FORCE_VECTOR_SCALE), new PlayAreaOffset(motionSeriesObject, vectorViewModel, offsetPlayArea, vector))
-  }
-
-  def removeVector(vector: Vector) = null
-}
-
-//todo: make sure this adapter overrides other methods as well such as addListener
-class PlayAreaVector(vector: Vector, scale: Double)
-        extends Vector(vector.color, vector.name, vector.abbreviation, () => vector.getValue * scale, vector.painter, vector.labelAngle) {
-  vector.addListener(notifyListeners)
-  override def visible = vector.visible
-
-  override def visible_=(vis: Boolean) = vector.visible = vis
-
-  override def getPaint = vector.getPaint
-}
-
-class PlayAreaOffset(motionSeriesObject: MotionSeriesObject, vectorViewModel: VectorViewModel, offsetPlayArea: Double, offset: PointOfOriginVector)
-        extends VectorValue {
-  def addListener(listener: () => Unit) = {
-    motionSeriesObject.addListener(listener)
-    vectorViewModel.addListener(listener)
-  }
-
-  def getValue = {
+  def addVector(vector: Vector with PointOfOriginVector, offsetFBD: Vector2DModel, maxOffset: Int, offset: Double): Unit = {
     val defaultCenter = motionSeriesObject.height / 2.0
-    motionSeriesObject.position2D + new Vector2D(motionSeriesObject.getAngle + java.lang.Math.PI / 2) *
-            (offsetPlayArea + (if (vectorViewModel.centered) defaultCenter else offset.getPointOfOriginOffset(defaultCenter)))
+    val myoffset = new Vector2DModel(motionSeriesObject.position2D + new Vector2D(motionSeriesObject.getAngle + java.lang.Math.PI / 2) *
+            (offset + (if (vectorViewModel.centered) defaultCenter else vector.getPointOfOriginOffset(defaultCenter))))
+    motionSeriesObject.addListener(()=>{
+      myoffset.setValue(motionSeriesObject.position2D + new Vector2D(motionSeriesObject.getAngle + java.lang.Math.PI / 2) *
+            (offset + (if (vectorViewModel.centered) defaultCenter else vector.getPointOfOriginOffset(defaultCenter))))
+    })
+    addChild(new BodyVectorNode(transform, vector, myoffset, motionSeriesObject,MotionSeriesDefaults.PLAY_AREA_FORCE_VECTOR_SCALE))
   }
 
-  def removeListener(listener: () => Unit) = {
-    motionSeriesObject.removeListener(listener)
-    vectorViewModel.removeListener(listener)
-  }
+  def removeVector(vector: Vector) = null//TODO: memory leak
 }

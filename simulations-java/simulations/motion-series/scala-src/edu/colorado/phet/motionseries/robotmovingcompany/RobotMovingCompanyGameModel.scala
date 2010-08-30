@@ -122,9 +122,9 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
         val pushing = motionSeriesObject.parallelAppliedForce.abs > 0
         val atRest = motionSeriesObject.velocity.abs < 1E-6
 
-        val netForce = motionSeriesObject.totalForce
+        val totalForce = motionSeriesObject.totalForce
         //        println("net force mag = "+netForce.magnitude)
-        if (pushing && netForce.magnitude < 1E-8 && lastPushTime == 0) {
+        if (pushing && totalForce.magnitude < 1E-8 && lastPushTime == 0) {
           lastPushTime = System.currentTimeMillis
           println("started timer")
         }

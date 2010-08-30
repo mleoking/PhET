@@ -1,3 +1,4 @@
+Refactored MotionSeriesObject to use explicit Vector2DModel paradigm instead of lazy computation paradigm
 Merged ForceMotionSeriesObject into MotionSeriesObject
 Performance improvement and minor refactoring in model
 Removed colons after friction coefficients

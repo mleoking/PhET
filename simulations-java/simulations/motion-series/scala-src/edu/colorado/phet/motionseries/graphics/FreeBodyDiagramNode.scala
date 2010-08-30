@@ -25,23 +25,20 @@ import edu.colorado.phet.motionseries.model._
 class Vector(val color: Color,
              val name: String,
              val abbreviation: String,
-             val valueAccessor: () => Vector2D,
+             val _vector2DModel: Vector2DModel,
              val painter: (Vector2D, Color) => Paint,
-             val labelAngle: Double) extends Observable with VectorValue {
-  private var _visible = true
+             val labelAngle: Double) {
+  val visible = new SMutableBoolean(true)
+  if (_vector2DModel == null) throw new RuntimeException("null vector2d model")
+  if (painter == null) throw new RuntimeException("null painter")
 
-  def getValue = valueAccessor()
+  def vector2DModel = _vector2DModel
 
-  def angle = getValue.angle
+  def angle = vector2DModel().angle
 
-  def visible = _visible
+  def setVisible(vis: Boolean) = visible.setValue(vis)
 
-  def visible_=(vis: Boolean) = {
-    _visible = vis
-    notifyListeners()
-  }
-
-  def getPaint = painter(getValue, color)
+  def getPaint = painter(vector2DModel(), color)
 
   def html = "force.abbreviation.html.pattern.abbrev".messageformat(abbreviation)
 }
@@ -96,7 +93,7 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel,
     removeInputEventListener(cursorHandler)
   }
 
-  def addVector(vector: Vector with PointOfOriginVector, offsetFBD: VectorValue, maxOffset: Int, offsetPlayArea: Double): Unit =
+  def addVector(vector: Vector with PointOfOriginVector, offsetFBD: Vector2DModel, maxOffset: Int, offsetPlayArea: Double): Unit =
     addVector(vector, offsetFBD, maxOffset)
 
   val transform = new ModelViewTransform2D(new Rectangle2D.Double(-modelWidth / 2, -modelHeight / 2, modelWidth, modelHeight),
@@ -166,11 +163,9 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel,
 
   updateSize()
 
-  def addVector(vector: Vector, maxDistToLabel: Double): Unit = addVector(vector, new ConstantVectorValue, maxDistToLabel: Double)
+  def addVector(vector: Vector, maxDistToLabel: Double): Unit = addVector(vector, new Vector2DModel, maxDistToLabel: Double)
 
-  def addVector(vector: Vector, offset: VectorValue, maxDistToLabel: Double) = {
-    addChild(new VectorNode(transform, vector, offset, maxDistToLabel))
-  }
+  def addVector(vector: Vector, offset: Vector2DModel, maxDistToLabel: Double) = addChild(new VectorNode(transform, vector, offset, maxDistToLabel, 1))
 
   def removeVector(vector: Vector) = {
     clearVectors(vector eq _)
@@ -242,7 +237,7 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel,
   }
 }
 
-class ConstantVectorValue(val getValue: Vector2D) extends VectorValue {
+class ConstantVectorValue(val getValue: Vector2D) {
   def this() = this (new Vector2D)
 
   def addListener(listener: () => Unit) = {}
@@ -250,20 +245,10 @@ class ConstantVectorValue(val getValue: Vector2D) extends VectorValue {
   def removeListener(listener: () => Unit) = {}
 }
 
-trait VectorValue {
-  def getValue: Vector2D
-
-  def addListener(listener: () => Unit): Unit
-
-  def removeListener(listener: () => Unit): Unit
-
-  def apply() = getValue
-}
-
 object TestFBD extends Application {
   val frame = new JFrame
   val canvas = new PhetPCanvas
-  val vector = new Vector(Color.blue, "Test Vector".literal, "Fv".literal, () => new Vector2D(5, 5), (a, b) => b, PI / 2)
+  val vector = new Vector(Color.blue, "Test Vector".literal, "Fv".literal, new Vector2DModel(5, 5), (a, b) => b, PI / 2)
   canvas.addScreenChild(new FreeBodyDiagramNode(new FreeBodyDiagramModel(false), 200, 200, 20, 20, new CoordinateFrameModel(new RampSegment(new Point2D.Double(0, 0), new Point2D.Double(10, 10))), new AdjustableCoordinateModel,
     PhetCommonResources.getImage("buttons/maximizeButton.png".literal), () => PI / 4, vector))
   frame.setContentPane(canvas)

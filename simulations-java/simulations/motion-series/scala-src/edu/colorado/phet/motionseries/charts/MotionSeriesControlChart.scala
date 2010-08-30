@@ -138,13 +138,13 @@ abstract class MotionSeriesControlChart(motionSeriesModel: MotionSeriesModel, fo
 
   val temporalChart = new TemporalChart(new java.awt.geom.Rectangle2D.Double(0, -2000, 20, 4000), new Rectangle2D.Double(0, -5, 2, 10), new Rectangle2D.Double(0, -10000, 20, 20000), motionSeriesModel.chartCursor)
 
-  def parallelFriction = motionSeriesModel.motionSeriesObject.frictionForceVector.getValue dot motionSeriesModel.motionSeriesObject.rampUnitVector
+  def parallelFriction = motionSeriesModel.motionSeriesObject.frictionForceVector.vector2DModel() dot motionSeriesModel.motionSeriesObject.rampUnitVector
 
-  def parallelGravity = motionSeriesModel.motionSeriesObject.gravityForceVector.getValue dot motionSeriesModel.motionSeriesObject.rampUnitVector
+  def parallelGravity = motionSeriesModel.motionSeriesObject.gravityForceVector.vector2DModel() dot motionSeriesModel.motionSeriesObject.rampUnitVector
 
-  def parallelWall = motionSeriesModel.motionSeriesObject.wallForceVector.getValue dot motionSeriesModel.motionSeriesObject.rampUnitVector
+  def parallelWall = motionSeriesModel.motionSeriesObject.wallForceVector.vector2DModel() dot motionSeriesModel.motionSeriesObject.rampUnitVector
 
-  def parallelTotalForce = motionSeriesModel.motionSeriesObject.totalForceVector.getValue dot motionSeriesModel.motionSeriesObject.rampUnitVector
+  def parallelTotalForce = motionSeriesModel.motionSeriesObject.totalForceVector.vector2DModel() dot motionSeriesModel.motionSeriesObject.rampUnitVector
 
   val parallelAppliedForceVariable = new MutableDouble(motionSeriesModel.motionSeriesObject.parallelAppliedForce) {
     motionSeriesModel.motionSeriesObject.parallelAppliedForceListeners += (() => {value = motionSeriesModel.motionSeriesObject.parallelAppliedForce})

@@ -87,7 +87,7 @@ class MotionSeriesObject(private var _state: MotionSeriesObjectState,
   def getVelocityVectorDirection: Double = getVelocityVectorDirection(velocity)
 
   def getVelocityVectorDirection(v: Double): Double = (positionMapper(position + v * 1E-6) - positionMapper(position - v * 1E-6)).angle
-
+//
   def getVelocityVectorUnitVector: Vector2D = new Vector2D(getVelocityVectorDirection)
 
   def getVelocityVectorUnitVector(v: Double): Vector2D = new Vector2D(getVelocityVectorDirection(v))
@@ -189,38 +189,22 @@ class MotionSeriesObject(private var _state: MotionSeriesObjectState,
 
   //This method allows MotionSeriesObject subclasses to avoid thermal energy by overriding this to return 0.0
   def getThermalEnergy(x: Double) = thermalEnergyStrategy(x)
+  
+  //values updated in the MotionStrategy
+  val totalForce = new Vector2DModel()
+  val wallForce = new Vector2DModel()
+  val frictionForce = new Vector2DModel()
+  val normalForce = new Vector2DModel() 
+  val gravityForce = new Vector2DModel(new Vector2D(0, gravity * mass))//TODO: Update if mass changes
+  val appliedForce = new Vector2DModel()
 
-  private var _parallelAppliedForce = 0.0
-  val gravityForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.gravityForceColor, "Gravity Force".literal, "force.abbrev.gravity".translate, false, () => gravityForce, (a, b) => b, PI / 2)
-  val normalForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.normalForceColor, "Normal Force".literal, "force.abbrev.normal".translate, true, () => normalForce, (a, b) => b, PI / 2)
-  val totalForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.sumForceColor, "Sum of Forces".literal, "force.abbrev.total".translate, false, () => totalForce, (a, b) => b, 0) ////Net force vector label should always be above
-  val appliedForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.appliedForceColor, "Applied Force".literal, "force.abbrev.applied".translate, false, () => appliedForce, (a, b) => b, PI / 2)
-  val frictionForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.frictionForceColor, "Friction Force".literal, "force.abbrev.friction".translate, true, () => frictionForce, (a, b) => b, -PI / 2)
-  val wallForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.wallForceColor, "Wall Force".literal, "force.abbrev.wall".translate, false, () => wallForce, (a, b) => b, PI / 2)
-  val velocityVector = new MotionSeriesObjectVector(MotionSeriesDefaults.velocityColor, "Velocity".literal, "properties.velocity".translate, false, () => rampUnitVector * velocity, (a, b) => b, PI / 2)
-  val accelerationVector = new MotionSeriesObjectVector(MotionSeriesDefaults.accelerationColor, "Acceleration".literal, "properties.acceleration".translate, false, () => rampUnitVector * acceleration, (a, b) => b, PI / 2)
-  //chain listeners
-  normalForceVector.addListenerByName(frictionForceVector.notifyListeners())
-  //todo: add normalForceVector notification when changing friction coefficients
-
-  appliedForceVector.addListenerByName(totalForceVector.notifyListeners())
-  gravityForceVector.addListenerByName(totalForceVector.notifyListeners())
-  normalForceVector.addListenerByName(totalForceVector.notifyListeners())
-  frictionForceVector.addListenerByName(totalForceVector.notifyListeners())
-
-  addListenerByName(appliedForceVector.notifyListeners()) //todo: just listen for changes to applied force parallel component
-
-  rampChangeAdapter.addListenerByName(frictionForceVector.notifyListeners())
-
-  def totalForce = gravityForce + normalForce + appliedForce + frictionForce + wallForce
-
-  def wallForce = motionStrategy.wallForce
-
-  def frictionForce = motionStrategy.frictionForce
-
-  def normalForce = motionStrategy.normalForce
-
-  def gravityForce = new Vector2D(0, gravity * mass)
+  private var _parallelAppliedForce = 0.0//TODO: convert to mutableDouble
+  val gravityForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.gravityForceColor, "Gravity Force".literal, "force.abbrev.gravity".translate, false, gravityForce, (a, b) => b, PI / 2)
+  val normalForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.normalForceColor, "Normal Force".literal, "force.abbrev.normal".translate, true, normalForce, (a, b) => b, PI / 2)
+  val totalForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.sumForceColor, "Sum of Forces".literal, "force.abbrev.total".translate, false, totalForce, (a, b) => b, 0) ////Net force vector label should always be above
+  val appliedForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.appliedForceColor, "Applied Force".literal, "force.abbrev.applied".translate, false, appliedForce, (a, b) => b, PI / 2)
+  val frictionForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.frictionForceColor, "Friction Force".literal, "force.abbrev.friction".translate, true, frictionForce, (a, b) => b, -PI / 2)
+  val wallForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.wallForceColor, "Wall Force".literal, "force.abbrev.wall".translate, false, wallForce, (a, b) => b, PI / 2)
 
   def parallelAppliedForce = _parallelAppliedForce
 
@@ -230,12 +214,9 @@ class MotionSeriesObject(private var _state: MotionSeriesObjectState,
     if (value != _parallelAppliedForce) {
       _parallelAppliedForce = value
       parallelAppliedForceListeners.foreach(_())
-      appliedForceVector.notifyListeners()
       notifyListeners()
     }
   }
-
-  def appliedForce = rampUnitVector * _parallelAppliedForce
 
   private var _surfaceFrictionStrategy = __surfaceFrictionStrategy
 
@@ -243,7 +224,6 @@ class MotionSeriesObject(private var _state: MotionSeriesObjectState,
 
   def surfaceFrictionStrategy_=(x: SurfaceFrictionStrategy) = {
     _surfaceFrictionStrategy = x
-    frictionForceVector.notifyListeners()
     notifyListeners()
   }
 
@@ -253,7 +233,6 @@ class MotionSeriesObject(private var _state: MotionSeriesObjectState,
 
   def staticFriction_=(value: Double) {
     state = state.setStaticFriction(value)
-    frictionForceVector.notifyListeners()
     notifyListeners()
 
     if (kineticFriction > staticFriction)
@@ -262,7 +241,6 @@ class MotionSeriesObject(private var _state: MotionSeriesObjectState,
 
   def kineticFriction_=(value: Double) {
     state = state.setKineticFriction(value)
-    frictionForceVector.notifyListeners()
     notifyListeners()
 
     //NP says to Increase static when you increase kinetic so that static >= kinetic.
@@ -280,14 +258,11 @@ class MotionSeriesObject(private var _state: MotionSeriesObjectState,
       state = state.setVelocity(velocity)
       notifyListeners()
     }
-    frictionForceVector.notifyListeners() //todo: maybe this could be omitted during batch updates for performance
   }
 
   def mass_=(mass: Double) = {
-    state = state.setMass(mass)
+    state = state.setMass(mass)//TODO: convert mass to mutable boolean
     notifyListeners()
-    gravityForceVector.notifyListeners()
-    normalForceVector.notifyListeners()
   }
 
   def setPosition(position: Double) = {
@@ -296,21 +271,11 @@ class MotionSeriesObject(private var _state: MotionSeriesObjectState,
       state = state.setPosition(position)
       notifyListeners()
     }
-    if (position != originalPosition && notificationsEnabled) {
-      //todo: maybe this could be omitted during batch updates for performance
-      normalForceVector.notifyListeners() //since ramp segment or motion state might have changed; could improve performance on this by only sending notifications when we are sure the ramp segment has changed
-      frictionForceVector.notifyListeners() //todo: omit this call since it's probably covered by the normal force call above
-      wallForceVector.notifyListeners()
-    } else {
-      //      println("omitting setPosition notification, position was the same: "+position)
-    }
   }
 
-  def gravity_=(value: Double) = {
+  def gravity_=(value: Double) = {//TODO: convert gravity to mutabledouble
     _gravity = value
     notifyListeners()
-    normalForceVector.notifyListeners()
-    gravityForceVector.notifyListeners()
   }
 
   private var _motionStrategy: MotionStrategy = new Grounded(this)
@@ -327,7 +292,7 @@ class MotionSeriesObject(private var _state: MotionSeriesObjectState,
 
   def stepInTime(dt: Double) = motionStrategy.stepInTime(dt)
 
-  def acceleration = forceToParallelAcceleration(totalForce)
+  def acceleration = forceToParallelAcceleration(totalForce())
 
   def isCrashed = motionStrategy.isCrashed
 
@@ -347,6 +312,6 @@ class MotionSeriesObject(private var _state: MotionSeriesObjectState,
 object MotionSeriesObject {
   def apply(model: MotionSeriesModel, x: Double, width: Double, height: Double) = {
     new MotionSeriesObject(new MotionSeriesObjectState(x, 0, 0, 10, 0, 0, 0.0, 0.0, 0.0), height, width, model.toPosition2D, model.rampSegmentAccessor, model.rampChangeAdapter,
-      model.bounce, model.walls, model.wallRange, model.thermalEnergyStrategy,model.surfaceFriction, model.surfaceFrictionStrategy)
+      model.bounce, model.walls, model.wallRange, model.thermalEnergyStrategy, model.surfaceFriction, model.surfaceFrictionStrategy)
   }
 }
