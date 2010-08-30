@@ -62,7 +62,7 @@ public class SimulationFactory {
         try {
             jarInputStream = new JarInputStream( inputStream );
             
-            // look for the properties file
+            // look for the .swf file
             JarEntry jarEntry = jarInputStream.getNextJarEntry();
             while ( jarEntry != null ) {
                 if ( jarEntry.getName().endsWith( ".swf" ) ) {
