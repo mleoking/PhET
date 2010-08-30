@@ -7,28 +7,52 @@ import java.awt.{Paint, TexturePaint, Color, Graphics2D}
 import java.awt.image.BufferedImage
 import java.lang.Math._
 import edu.colorado.phet.scalacommon.math.Vector2D
+import edu.colorado.phet.scalacommon.util.Observable
+
+//Observable object in MVC pattern
+class Vector2DModel(private var _value: Vector2D) extends Observable {
+  //Create a Vector2DModel with x=y=0
+  def this(x: Double, y: Double) = this (new Vector2D(x, y))
+
+  def this() = this (0, 0)
+
+  def value = _value
+
+  def setValue(_value: Vector2D) = {
+    if (_value != this._value) {
+      this._value = _value;
+      notifyListeners()
+    }
+  }
+
+  def magnitude = _value.magnitude
+
+  def apply() = _value
+
+  override def toString = "Vector2DModel: "+_value
+}
 
 class MotionSeriesObjectVector(color: Color,
-                 name: String,
-                 override val abbreviation: String,
-                 val bottomPO: Boolean, //shows point of origin at the bottom when in that mode
-                 private val valueGetter: () => Vector2D,
-                 painter: (Vector2D, Color) => Paint,
-                 labelAngle: Double)
-        extends Vector(color, name, abbreviation, valueGetter, painter, labelAngle) with PointOfOriginVector {
+                               name: String,
+                               override val abbreviation: String,
+                               val bottomPO: Boolean, //shows point of origin at the bottom when in that mode
+                               __vector2DModel: Vector2DModel,
+                               painter: (Vector2D, Color) => Paint,
+                               labelAngle: Double)
+        extends Vector(color, name, abbreviation, __vector2DModel, painter, labelAngle) with PointOfOriginVector {
   def getPointOfOriginOffset(defaultCenter: Double) = if (bottomPO) 0.0 else defaultCenter
 }
 
 class VectorComponent(target: MotionSeriesObjectVector,
                       motionSeriesObject: MotionSeriesObject,
-                      getComponentUnitVector: () => Vector2D,
+                      getComponentUnitVector: Vector2DModel,
                       painter: (Vector2D, Color) => Paint,
                       modifier: String,
                       labelAngle: Double)
-        extends MotionSeriesObjectVector(target.color, target.name, target.abbreviation + modifier, target.bottomPO, target.valueAccessor, painter, labelAngle) {
-  override def getValue = {
-    val d = getComponentUnitVector()
-    d * (super.getValue dot d)
+        extends MotionSeriesObjectVector(target.color, target.name, target.abbreviation + modifier, target.bottomPO, target._vector2DModel, painter, labelAngle) {
+  override def vector2DModel = {
+    val d = getComponentUnitVector.value
+    new Vector2DModel(d * (super.vector2DModel.apply() dot d))
   }
 }
 
@@ -66,23 +90,34 @@ object Paints {
 
 //Vector Components
 
-class XComponent(target: MotionSeriesObjectVector, motionSeriesObject: MotionSeriesObject, coordinateFrame: CoordinateFrameModel, labelAngle: Double) extends VectorComponent(target, motionSeriesObject, () => new Vector2D(1, 0).rotate(coordinateFrame.angle), Paints.horizontalStripes, "coordinates.x".translate, labelAngle) {
-  coordinateFrame.addListener(() => notifyListeners())
+class XComponent(target: MotionSeriesObjectVector,
+                 motionSeriesObject: MotionSeriesObject,
+                 coordinateFrame: CoordinateFrameModel,
+                 labelAngle: Double)
+        extends VectorComponent(target, motionSeriesObject, new Vector2DModel(new Vector2D(1, 0).rotate(coordinateFrame.angle)), Paints.horizontalStripes, "coordinates.x".translate, labelAngle) {
+  //TODO: When the object changes its angle, we should notify our listeners, since they depend on the angle
 }
-class YComponent(target: MotionSeriesObjectVector, motionSeriesObject: MotionSeriesObject, coordinateFrame: CoordinateFrameModel, labelAngle: Double) extends VectorComponent(target, motionSeriesObject, () => new Vector2D(0, 1).rotate(coordinateFrame.angle), Paints.verticalStripes, "coordinates.y".translate, labelAngle) {
-  coordinateFrame.addListener(() => notifyListeners())
+class YComponent(target: MotionSeriesObjectVector,
+                 motionSeriesObject: MotionSeriesObject,
+                 coordinateFrame: CoordinateFrameModel,
+                 labelAngle: Double)
+        extends VectorComponent(target, motionSeriesObject, new Vector2DModel(new Vector2D(0, 1).rotate(coordinateFrame.angle)), Paints.verticalStripes, "coordinates.y".translate, labelAngle) {
+  //TODO: When the object changes its angle, we should notify our listeners, since they depend on the angle
 }
 
 class AngleBasedComponent(target: MotionSeriesObjectVector,
                           motionSeriesObject: MotionSeriesObject,
-                          getComponentUnitVector: () => Vector2D,
+                          getComponentUnitVector: Vector2DModel,
                           painter: (Vector2D, Color) => Paint,
                           modifier: String,
                           labelAngle: Double) extends VectorComponent(target, motionSeriesObject, getComponentUnitVector, painter, modifier, labelAngle) {
-  //When the object changes its angle, we should notify our listeners, since they depend on the angle
-  motionSeriesObject.addListener(() => notifyListeners())
+  //TODO: When the object changes its angle, we should notify our listeners, since they depend on the angle
 }
 
-class ParallelComponent(target: MotionSeriesObjectVector, motionSeriesObject: MotionSeriesObject) extends AngleBasedComponent(target, motionSeriesObject, () => new Vector2D(motionSeriesObject.getAngle), (a, b) => b, "symbols.parallel".translate, target.labelAngle) //http://www.fileformat.info/info/unicode/char/2225/index.htm
+class ParallelComponent(target: MotionSeriesObjectVector,
+                        motionSeriesObject: MotionSeriesObject)
+        extends AngleBasedComponent(target, motionSeriesObject, new Vector2DModel(new Vector2D(motionSeriesObject.getAngle)), (a, b) => b, "symbols.parallel".translate, target.labelAngle) //http://www.fileformat.info/info/unicode/char/2225/index.htm
 
-class PerpendicularComponent(target: MotionSeriesObjectVector, motionSeriesObject: MotionSeriesObject) extends AngleBasedComponent(target, motionSeriesObject, () => new Vector2D(motionSeriesObject.getAngle + PI / 2), (a, b) => b, "symbols.perpendicular".translate, target.labelAngle) //http://www.fileformat.info/info/unicode/char/22a5/index.htm
+class PerpendicularComponent(target: MotionSeriesObjectVector,
+                             motionSeriesObject: MotionSeriesObject)
+        extends AngleBasedComponent(target, motionSeriesObject, new Vector2DModel(new Vector2D(motionSeriesObject.getAngle + PI / 2)), (a, b) => b, "symbols.perpendicular".translate, target.labelAngle) //http://www.fileformat.info/info/unicode/char/22a5/index.htm

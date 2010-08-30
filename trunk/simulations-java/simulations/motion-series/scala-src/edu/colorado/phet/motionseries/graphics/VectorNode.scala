@@ -21,7 +21,7 @@ import MotionSeriesConfig._
  * todo: could improve performance by passing isContainerVisible:()=>Boolean and addContainerVisibleListener:(()=>Unit)=>Unit
  * @author Sam Reid
  */
-class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val tailLocation: VectorValue, maxLabelDistance: Double) extends PNode {
+class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val tailLocation: Vector2DModel, maxLabelDistance: Double,vectorLengthScale:Double) extends PNode {
   val arrowNode = new ArrowNode(new Point2D.Double(0, 0), new Point2D.Double(0, 1), VectorHeadWidth(), VectorHeadWidth(), VectorTailWidth(), 0.5, true) {
     setPaint(vector.getPaint)
   }
@@ -50,17 +50,17 @@ class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val ta
    * to remove this callback to avoid memory leaks.
    */
   val update = () => {
-    setVisible(vector.visible)
-    if (vector.visible) { //skip expensive updates if not visible
+    setVisible(vector.visible.booleanValue)
+    if (vector.visible.booleanValue) { //skip expensive updates if not visible
 
       //Update the arrow node itself
-      val viewTail = transform.modelToViewDouble(tailLocation())
-      val viewTip = transform.modelToViewDouble(vector() + tailLocation())
+      val viewTail = transform.modelToViewDouble(tailLocation.value)
+      val viewTip = transform.modelToViewDouble(vector.vector2DModel()*vectorLengthScale + tailLocation.value)
       arrowNode.setTipAndTailLocations(viewTip, viewTail)
 
       //Update the location of the text label
       val textLocation = {
-        val proposedLabelLocation = vector() * 0.6
+        val proposedLabelLocation = vector.vector2DModel() * 0.6 * vectorLengthScale
         val minLabelDistance = maxLabelDistance / 2.0 //todo: improve heuristics for min label distance, or make it settable in the constructor
         val labelVector = if (proposedLabelLocation.magnitude > maxLabelDistance)
           new Vector2D(vector.angle) * maxLabelDistance
@@ -69,26 +69,25 @@ class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val ta
         else
           proposedLabelLocation
 
-        val viewPt = transform.modelToViewDouble(labelVector + tailLocation())
+        val viewPt = transform.modelToViewDouble(labelVector + tailLocation.value)
 
         //vector.angle is negative since the coordinate frame is flipped going from model to view
         val deltaArrow = new Vector2D(-vector.angle - vector.labelAngle) * abbreviatonTextNode.getFullBounds.getHeight * 0.56 //move orthogonal to the vector itself
         deltaArrow + viewPt
       }
-      abbreviatonTextNode.setOffset(textLocation.x - abbreviatonTextNode.getFullBounds.getWidth / 2, textLocation.y - abbreviatonTextNode.getFullBounds.getHeight / 2 + 
-              (if (vector.labelAngle==0) -abbreviatonTextNode.getFullBounds.getHeight/2 else 0))//Net force vector label should always be above, see MotionSeriesObject
+      abbreviatonTextNode.setOffset(textLocation.x - abbreviatonTextNode.getFullBounds.getWidth / 2, textLocation.y - abbreviatonTextNode.getFullBounds.getHeight / 2 +
+              (if (vector.labelAngle == 0) -abbreviatonTextNode.getFullBounds.getHeight / 2 else 0)) //Net force vector label should always be above, see MotionSeriesObject
       abbreviatonTextNode.setVisible(viewTail.distance(viewTip) > 1)
     }
   }
   update()
-  vector.addListener(update)
+  vector._vector2DModel.addListener(update)
   tailLocation.addListener(update)
 
   setPickable(false)
   setChildrenPickable(false)
 
   def deleting() {
-    vector.removeListener(update)
     tailLocation.removeListener(update)
   }
 }
@@ -98,14 +97,16 @@ class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val ta
  */
 class BodyVectorNode(transform: ModelViewTransform2D,
                      vector: Vector,
-                     offset: VectorValue,
-                     motionSeriesObject: MotionSeriesObject)
-        extends VectorNode(transform, vector, offset, MotionSeriesDefaults.BODY_LABEL_MAX_OFFSET) {
+                     offset: Vector2DModel,
+                     motionSeriesObject: MotionSeriesObject,
+                     vectorLengthScale: Double)
+        extends VectorNode(transform, vector, offset, MotionSeriesDefaults.BODY_LABEL_MAX_OFFSET,vectorLengthScale) {
   def doUpdate() = {
     setOffset(motionSeriesObject.position2D)
     update()
   }
 
+  //TODO: only listen to position of motion series object
   motionSeriesObject.addListenerByName {
     doUpdate()
   }

@@ -35,10 +35,6 @@ abstract class MotionStrategy(val motionSeriesObject: MotionSeriesObject) {
   //This class was originally designed to be an inner class of MotionSeriesObject, but IntelliJ debugger didn't support debug into inner classes at the time
   //so these classes were refactored to be top level classes to enable debugging.  They can be refactored back to inner classes when there is better debug support
 
-  def totalForce = motionSeriesObject.totalForce
-
-  def gravityForce = motionSeriesObject.gravityForce
-
   def mass = motionSeriesObject.mass
 
   def normalForceVector = motionSeriesObject.normalForceVector
@@ -50,8 +46,6 @@ abstract class MotionStrategy(val motionSeriesObject: MotionSeriesObject) {
   def wallRange = motionSeriesObject.wallRange()
 
   def position = motionSeriesObject.position
-
-  def appliedForce = motionSeriesObject.appliedForce
 
   def gravity = motionSeriesObject.gravity
 
@@ -92,7 +86,7 @@ class Crashed(_position2D: Vector2D, _angle: Double, motionSeriesObject: MotionS
 
   def stepInTime(dt: Double) = {}
 
-  override def normalForce = gravityForce * -1
+  override def normalForce = motionSeriesObject.gravityForce.value * -1
 
   def position2D = _position2D
 
@@ -116,7 +110,7 @@ class Airborne(private var _position2D: Vector2D, private var _velocity2D: Vecto
 
   override def stepInTime(dt: Double) = {
     val originalEnergy = motionSeriesObject.getTotalEnergy
-    val accel = totalForce / mass
+    val accel = motionSeriesObject.totalForce.value / mass
     _velocity2D = _velocity2D + accel * dt
     _position2D = _position2D + _velocity2D * dt
     motionSeriesObject.setTime(motionSeriesObject.time + dt)
@@ -142,9 +136,6 @@ class Airborne(private var _position2D: Vector2D, private var _velocity2D: Vecto
       val dy = (motionSeriesObject.getTotalEnergy - originalEnergy) / motionSeriesObject.mass / motionSeriesObject.gravity
       _position2D = new Vector2D(_position2D.x, _position2D.y + dy)
     }
-    normalForceVector.notifyListeners() //since ramp segment or motion state might have changed; could improve performance on this by only sending notifications when we are sure the ramp segment has changed
-    motionSeriesObject.notifyListeners() //to get the new normalforce
-
   }
 
   override def position2D = _position2D
@@ -172,7 +163,7 @@ class Grounded(motionSeriesObject: MotionSeriesObject) extends MotionStrategy(mo
   def getAngle = rampSegmentAccessor(position).unitVector.angle
 
   override def normalForce = {
-    val magnitude = (gravityForce * -1) dot getRampUnitVector.rotate(PI / 2)
+    val magnitude = (motionSeriesObject.gravityForce.value * -1) dot getRampUnitVector.rotate(PI / 2)
     val angle = getRampUnitVector.angle + PI / 2
     new Vector2D(angle) * magnitude
   }
@@ -194,7 +185,7 @@ class Grounded(motionSeriesObject: MotionSeriesObject) extends MotionStrategy(mo
     val epsilon = 1E-4 //this is a physics workaround to help reduce or resolve the flickering problem by enabling the 'pressing' wall force a bit sooner
 
     //Friction force should enter into the system before wall force, since the object would have to move before "communicating" with the wall.
-    val netForceWithoutWallForce = appliedForce + gravityForce + normalForce + frictionForce(false)
+    val netForceWithoutWallForce = motionSeriesObject.appliedForce.value + motionSeriesObject.gravityForce.value + normalForce + frictionForce(false)
     val pressingLeft = position <= leftBound + epsilon && motionSeriesObject.forceToParallelAcceleration(netForceWithoutWallForce) < 0 && wallsExist
     val pressingRight = position >= rightBound - epsilon && motionSeriesObject.forceToParallelAcceleration(netForceWithoutWallForce) > 0 && wallsExist
     val pressing = pressingLeft || pressingRight
@@ -225,7 +216,7 @@ class Grounded(motionSeriesObject: MotionSeriesObject) extends MotionStrategy(mo
         //use up to fMax in preventing the object from moving
         //see static friction discussion here: http://en.wikipedia.org/wiki/Friction
         val fMax = abs(multiBodyFriction(staticFriction) * normalForce.magnitude)
-        val netForceWithoutFriction = appliedForce + gravityForce + normalForce + (if (includeWallForce) wallForce else new Vector2D())
+        val netForceWithoutFriction = motionSeriesObject.appliedForce.value + motionSeriesObject.gravityForce.value + normalForce + (if (includeWallForce) wallForce else new Vector2D())
 
         val magnitude = if (netForceWithoutFriction.magnitude >= fMax) fMax else netForceWithoutFriction.magnitude
         new Vector2D(netForceWithoutFriction.angle + PI) * magnitude
@@ -258,6 +249,7 @@ class Grounded(motionSeriesObject: MotionSeriesObject) extends MotionStrategy(mo
   override def stepInTime(dt: Double) = {
     this.dt = dt
     motionSeriesObject.notificationsEnabled = false //make sure only to send notifications as a batch at the end; improves performance by 17%
+    motionSeriesObject.appliedForce.setValue(motionSeriesObject.rampUnitVector * motionSeriesObject.parallelAppliedForce)
     val origEnergy = getTotalEnergy
     val origState = state
     val newState = getNewState(dt, origState, origEnergy)
@@ -267,7 +259,7 @@ class Grounded(motionSeriesObject: MotionSeriesObject) extends MotionStrategy(mo
       motionSeriesObject.parallelAppliedForce = 0
     }
     val distanceVector = positionMapper(newState.position) - positionMapper(origState.position)
-    val work = appliedForce dot distanceVector
+    val work = motionSeriesObject.appliedForce.value dot distanceVector
     workListeners.foreach(_(work))
     motionSeriesObject.setTime(motionSeriesObject.time + dt)
     motionSeriesObject.setPosition(newState.position)
@@ -275,9 +267,15 @@ class Grounded(motionSeriesObject: MotionSeriesObject) extends MotionStrategy(mo
     motionSeriesObject.thermalEnergy = newState.thermalEnergy
     motionSeriesObject.crashEnergy = newState.crashEnergy
 
+    motionSeriesObject.wallForce.setValue(wallForce)
+    motionSeriesObject.frictionForce.setValue(frictionForce)
+    motionSeriesObject.normalForce.setValue(normalForce)
+    motionSeriesObject.gravityForce.setValue(motionSeriesObject.gravityForce.value)
+    motionSeriesObject.totalForce.setValue(motionSeriesObject.gravityForce.value + normalForce + motionSeriesObject.appliedForce.value + frictionForce + wallForce)
+    println("new total force = "+motionSeriesObject.totalForce)
+    
     motionSeriesObject.notificationsEnabled = true
     motionSeriesObject.notifyListeners() //do as a batch, since it's a performance problem to do this several times in this method call
-    motionSeriesObject.wallForceVector.notifyListeners()
   }
 
   def bounce = motionSeriesObject.wallsBounce.booleanValue
@@ -286,7 +284,7 @@ class Grounded(motionSeriesObject: MotionSeriesObject) extends MotionStrategy(mo
 
   def getNewState(dt: Double, origState: MotionSeriesObjectState, origEnergy: Double) = {
     val newVelocity = {
-      val desiredVel = motionSeriesObject.netForceToParallelVelocity(totalForce, dt)
+      val desiredVel = motionSeriesObject.netForceToParallelVelocity(motionSeriesObject.totalForce.value, dt)
       //stepInTime samples at least one value less than 1E-12 on direction change to handle static friction
       //see docs in static friction computation
       val newVelocityThatGoesThroughZero = if ((velocity < 0 && desiredVel > 0) || (velocity > 0 && desiredVel < 0)) 0.0 else desiredVel
@@ -310,7 +308,7 @@ class Grounded(motionSeriesObject: MotionSeriesObject) extends MotionStrategy(mo
     val dx = stateAfterCollision.position - origState.position
 
     //account for external forces, such as the applied force, which should increase the total energy
-    val appliedEnergy = (appliedForce dot motionSeriesObject.getVelocityVectorUnitVector(stateAfterCollision.velocity)) * dx.abs
+    val appliedEnergy = (motionSeriesObject.appliedForce.value dot motionSeriesObject.getVelocityVectorUnitVector(stateAfterCollision.velocity)) * dx.abs
 
     //      val thermalFromWork = getThermalEnergy + abs((frictionForce dot getVelocityVectorUnitVector(stateAfterBounds.velocity)) * dx) //work done by friction force, absolute value
     //todo: this may differ significantly from thermalFromWork

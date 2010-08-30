@@ -6,10 +6,10 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils
 import edu.colorado.phet.common.piccolophet.PhetPCanvas
 import java.awt.geom.Point2D
 import javax.swing.{JFrame, JDialog}
-import edu.colorado.phet.motionseries.model.{AdjustableCoordinateModel, CoordinateFrameModel, FreeBodyDiagramModel}
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.colorado.phet.scalacommon.Predef._
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
+import edu.colorado.phet.motionseries.model.{Vector2DModel, AdjustableCoordinateModel, CoordinateFrameModel, FreeBodyDiagramModel}
 
 class FBDDialog(frame: JFrame,
                 freeBodyDiagramModel: FreeBodyDiagramModel,
@@ -19,7 +19,7 @@ class FBDDialog(frame: JFrame,
                 adjustableCoordinateModel: AdjustableCoordinateModel,
                 fbdListener: Point2D => Unit,
                 rampAngle: () => Double) extends VectorDisplay {
-  def addVector(vector: Vector with PointOfOriginVector, offsetFBD: VectorValue, maxOffset: Int, offsetPlayArea: Double): Unit =
+  def addVector(vector: Vector with PointOfOriginVector, offsetFBD: Vector2DModel, maxOffset: Int, offsetPlayArea: Double): Unit =
     addVector(vector, offsetFBD, maxOffset)
 
   val dialog = new JDialog(frame, "display.free-body-diagram".translate, false)
@@ -64,7 +64,7 @@ class FBDDialog(frame: JFrame,
   })
   def addVector(vector: Vector, maxDistToLabel: Double): Unit = fbdNode.addVector(vector, maxDistToLabel)
 
-  def addVector(vector: Vector, offset: VectorValue, maxDistToLabel: Double) = fbdNode.addVector(vector, offset, maxDistToLabel)
+  def addVector(vector: Vector, offset: Vector2DModel, maxDistToLabel: Double) = fbdNode.addVector(vector, offset, maxDistToLabel)
 
   def clearVectors() = fbdNode.clearVectors()
 
