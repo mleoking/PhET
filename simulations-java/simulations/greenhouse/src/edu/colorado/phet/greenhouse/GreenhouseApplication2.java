@@ -43,9 +43,16 @@ public class GreenhouseApplication2 extends PiccoloPhetApplication {
 
         // modules
         PhetFrame parentFrame = getPhetFrame();
-        photonAbsorptionModule = new PhotonAbsorptionModule(parentFrame); 
-        addModule( new GlassPaneModule() );
-        addModule( new GreenhouseModule() );
+        photonAbsorptionModule = new PhotonAbsorptionModule(parentFrame);
+        
+        // There is some weird order dependency with these modules, so they
+        // are constructed in one order and added in another.  This is due to
+        // a static var in BaseGreenhouseModule that I just can't take the
+        // time to deal with right now.  jblanco, 8/30/2010.
+        GreenhouseModule greenhouseModule = new GreenhouseModule();
+        GlassPaneModule glassPaneModule = new GlassPaneModule();
+        addModule( glassPaneModule );
+        addModule( greenhouseModule );
         addModule( photonAbsorptionModule );
         
         // Developer controls.
