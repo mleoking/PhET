@@ -1,3 +1,4 @@
+Fixed: Adding handling of SliderEvent.CHANGE made it so that sliders couldn't indicate values beyond their range.
 Improved text labels for blocks, including addition of background for readability on dark objects
 Fixed: Pool tick marks are in the incorrect position
 Fixed: Bottle graphic causes rendering problems when the bottle is below ground
