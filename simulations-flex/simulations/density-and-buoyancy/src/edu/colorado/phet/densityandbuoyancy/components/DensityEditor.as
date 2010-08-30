@@ -4,8 +4,6 @@ import edu.colorado.phet.densityandbuoyancy.model.Material;
 import edu.colorado.phet.densityandbuoyancy.model.NumericProperty;
 import edu.colorado.phet.densityandbuoyancy.view.units.Unit;
 
-import mx.controls.HSlider;
-
 public class DensityEditor extends PropertyEditor {
     private var densityObject:DensityObject;
 
@@ -14,13 +12,11 @@ public class DensityEditor extends PropertyEditor {
         this.densityObject = densityObject;
     }
 
-    override protected function createSlider(property:NumericProperty, minimum:Number, maximum:Number, unit:Unit):HSlider {
-        const slider:HSlider = super.createSlider(property, minimum, maximum, unit);
-        const tickValues:Array = new Array();
+    override protected function createSlider(property:NumericProperty, minimum:Number, maximum:Number, unit:Unit):SliderDecorator {
+        const slider:SliderDecorator = super.createSlider(property, minimum, maximum, unit);
         for each (var material:Material in Material.SELECTABLE_MATERIALS) {
-            tickValues.push(unit.fromSI(material.getDensity()));
+            slider.addTick(unit.fromSI(material.getDensity()), material.tickColor)
         }
-        slider.tickValues = tickValues;
         return slider;
     }
 }
