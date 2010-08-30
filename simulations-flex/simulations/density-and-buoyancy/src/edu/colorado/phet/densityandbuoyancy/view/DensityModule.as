@@ -31,7 +31,7 @@ public class DensityModule extends AbstractDensityModule {
         setMode(customObjectMode);
 
         var box2DDebug:Box2DDebug = new Box2DDebug(model.getWorld());
-//        _densityCanvas.addChild(box2DDebug.getSprite());
+        //        _densityCanvas.addChild(box2DDebug.getSprite());
     }
 
     override public function resetAll():void {
@@ -267,7 +267,7 @@ class MysteryObjectsMode extends Mode {
         const block5:MysteryBlock = new MysteryBlock(Material.DIAMOND.getDensity(), 0.1, -DensityConstants.POOL_WIDTH_X / 2, block4.getHeight() + block4.getY(), new ColorTransform(1, 0, 0), module.model, FlexSimStrings.get("mode.mysteryObjects.E", "E"));
         module.model.addDensityObject(block5);
 
-        module.model.addDensityObject(new Scale(-DensityConstants.POOL_WIDTH_X / 2 - block3.getWidth() - Scale.SCALE_WIDTH / 2, Scale.SCALE_HEIGHT/2, module.model, 100));
+        module.model.addDensityObject(new Scale(-DensityConstants.POOL_WIDTH_X / 2 - block3.getWidth() - Scale.SCALE_WIDTH / 2, Scale.SCALE_HEIGHT / 2, module.model, 100));
 
         if (!mysteryObjectsControlPanelShowing) {
             module.getDensityCanvas().addChild(mysteryObjectsControlPanel);
