@@ -11,4 +11,4 @@ case class RecordedState(rampState: RampState,
                          time: Double,
                          frictionless: Boolean)
 
-case class RampState(angle: Double, heat: Double, wetness: Double)
+case class RampState(angle: Double)

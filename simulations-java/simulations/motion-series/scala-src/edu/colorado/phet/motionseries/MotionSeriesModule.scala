@@ -54,7 +54,7 @@ class MotionSeriesModule(frame: PhetFrame,
     //TODO: comment out debug info and frame rates
     val t = System.currentTimeMillis
     val delta = t-lastTickTime
-    println("delta = \t"+delta)
+//    println("delta = \t"+delta)
     val paintAndInputTime = System.currentTimeMillis - lastTickTime
 
     val startTime = System.currentTimeMillis
