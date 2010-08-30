@@ -42,6 +42,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 public class JARLauncher implements IProguardKeepClass {
 
     public static final String PROPERTIES_FILE_NAME = "jar-launcher.properties";
+    public static final String PROJECT_NAME_KEY = "project.name";
     public static final String FLAVOR_KEY = "flavor";
     public static final String LANGUAGE_KEY = "language";
     public static final String COUNTRY_KEY = "country";

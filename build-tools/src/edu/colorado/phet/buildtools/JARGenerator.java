@@ -82,7 +82,7 @@ public class JARGenerator {
 
         //create simulation.properties file
         SimulationProperties simulationProperities = new SimulationProperties( getProjectName( jar ), flavor, locale.getLanguage(), locale.getCountry(), SimulationProperties.TYPE_JAVA );
-        File simulationPropertiesFile = new File( workingDir, SimulationProperties.SIMULATION_PROPERTIES_FILENAME );
+        File simulationPropertiesFile = new File( workingDir, SimulationProperties.FILENAME );
         simulationProperities.store( new FileOutputStream( simulationPropertiesFile ), getSimulationProperitiesComments() );
         
         //add files created above to the jar
