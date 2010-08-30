@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.flashlauncher.util;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -21,7 +20,7 @@ import java.util.Properties;
  */
 public class SimulationProperties {
     
-    public static final String SIMULATION_PROPRTIES_FILENAME = "simulation.properties";
+    public static final String SIMULATION_PROPERTIES_FILENAME = "simulation.properties";
 
     private static final String KEY_PROJECT = "project";
     private static final String KEY_SIMULATION = "simulation";
@@ -41,7 +40,7 @@ public class SimulationProperties {
     private String type; // the type of simulation
 
     public SimulationProperties() {
-        this( Thread.currentThread().getContextClassLoader().getResourceAsStream( SIMULATION_PROPRTIES_FILENAME ) );
+        this( Thread.currentThread().getContextClassLoader().getResourceAsStream( SIMULATION_PROPERTIES_FILENAME ) );
     }
     
     public SimulationProperties(InputStream inputStream) {
