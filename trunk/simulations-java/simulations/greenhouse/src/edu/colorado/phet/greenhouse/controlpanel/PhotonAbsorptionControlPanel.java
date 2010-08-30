@@ -111,43 +111,47 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
         // Create and add a panel that will contain the buttons for selecting
         // the gas.
         VerticalLayoutPanel atmosphericGasesPanel = new VerticalLayoutPanel();
-        // TODO: i18n
-        atmosphericGasesPanel.setBorder(new PhetTitledBorder("Atmospheric Gases"));
+        atmosphericGasesPanel.setBorder(new PhetTitledBorder(GreenhouseResources.getString("PhotonAbsorptionControlPanel.AtmosphericGasesTitle")));
         addControlFullWidth(atmosphericGasesPanel);
         
         // Add buttons for selecting greenhouse gas.
-        // TODO: i18n
-        ch4Selector = createAndAttachSelectorPanel( "<html>CH<sub>4</sub></html>", "Methane",
+        ch4Selector = createAndAttachSelectorPanel( 
+                GreenhouseResources.getString("PhotonAbsorptionControlPanel.CH4"),
+                GreenhouseResources.getString("PhotonAbsorptionControlPanel.Methane"),
                 createImageFromMolecule( new CH4() ), PhotonTarget.SINGLE_CH4_MOLECULE, MOLECULE_SCALING_FACTOR );
         ch4Selector.setFont( LABEL_FONT );
         atmosphericGasesPanel.add(ch4Selector);
         
-        // TODO: i18n
-        co2Selector = createAndAttachSelectorPanel( "<html>CO<sub>2</sub></html>", "Carbon Dioxide",
+        co2Selector = createAndAttachSelectorPanel( 
+                GreenhouseResources.getString("PhotonAbsorptionControlPanel.CO2"), 
+                GreenhouseResources.getString("PhotonAbsorptionControlPanel.CarbonDioxide"),
                 createImageFromMolecule( new CO2() ), PhotonTarget.SINGLE_CO2_MOLECULE, MOLECULE_SCALING_FACTOR );
         co2Selector.setFont( LABEL_FONT );
         atmosphericGasesPanel.add(co2Selector);
         
-        // TODO: i18n
-        h2oSelector = createAndAttachSelectorPanel( "<html>H<sub>2</sub>O</html>", "Water",
+        h2oSelector = createAndAttachSelectorPanel( 
+                GreenhouseResources.getString("PhotonAbsorptionControlPanel.H2O"), 
+                GreenhouseResources.getString("PhotonAbsorptionControlPanel.Water"),
                 createImageFromMolecule( new H2O() ), PhotonTarget.SINGLE_H2O_MOLECULE, MOLECULE_SCALING_FACTOR );
         h2oSelector.setFont( LABEL_FONT );
         atmosphericGasesPanel.add(h2oSelector);
         
-        // TODO: i18n
-        n2Selector = createAndAttachSelectorPanel( "<html>N<sub>2</sub></html>", "Nitrogen",
+        n2Selector = createAndAttachSelectorPanel( 
+                GreenhouseResources.getString("PhotonAbsorptionControlPanel.N2"),
+                GreenhouseResources.getString("PhotonAbsorptionControlPanel.Nitrogen"),
                 createImageFromMolecule( new N2() ), PhotonTarget.SINGLE_N2_MOLECULE, MOLECULE_SCALING_FACTOR );
         n2Selector.setFont( LABEL_FONT );
         atmosphericGasesPanel.add(n2Selector);
         
-        // TODO: i18n
-        o2Selector = createAndAttachSelectorPanel( "<html>O<sub>2</sub></html>", "Oxygen",
+        o2Selector = createAndAttachSelectorPanel( 
+                GreenhouseResources.getString("PhotonAbsorptionControlPanel.O2"),
+                GreenhouseResources.getString("PhotonAbsorptionControlPanel.Oxygen"),
                 createImageFromMolecule( new O2() ), PhotonTarget.SINGLE_O2_MOLECULE, MOLECULE_SCALING_FACTOR );
         o2Selector.setFont( LABEL_FONT );
         atmosphericGasesPanel.add(o2Selector);
 
-        // TODO: i18n
-        atmosphereSelector = createAndAttachSelectorPanel("<html>Build<br>Atmosphere</html>", null,
+        atmosphereSelector = createAndAttachSelectorPanel(
+                GreenhouseResources.getString("PhotonAbsorptionControlPanel.BuildAtmosphere"), null,
                 GreenhouseResources.getImage( "earth.png" ), PhotonTarget.CONFIGURABLE_ATMOSPHERE, PLANET_SCALING_FACTOR);
         atmosphericGasesPanel.add(atmosphereSelector);
 
@@ -157,11 +161,21 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
         atmosphericGasesPanel.add( atmosphereSliderPanel );
         
         // Add the molecule control sliders.
-        addSliderForMolecule( "<html>CH<sub>4</sub></html>", atmosphereSliderPanel, MoleculeID.CH4 );
-        addSliderForMolecule( "<html>CO<sub>2</sub></html>", atmosphereSliderPanel, MoleculeID.CO2 );
-        addSliderForMolecule( "<html>H<sub>2</sub>O</html>", atmosphereSliderPanel, MoleculeID.H2O );
-        addSliderForMolecule( "<html>N<sub>2</sub></html>", atmosphereSliderPanel, MoleculeID.N2 );
-        addSliderForMolecule( "<html>O<sub>2</sub></html>", atmosphereSliderPanel, MoleculeID.O2 );
+        addSliderForMolecule( 
+                GreenhouseResources.getString("PhotonAbsorptionControlPanel.CH4"),
+                atmosphereSliderPanel, MoleculeID.CH4 );
+        addSliderForMolecule( 
+                GreenhouseResources.getString("PhotonAbsorptionControlPanel.CO2"),
+                atmosphereSliderPanel, MoleculeID.CO2 );
+        addSliderForMolecule( 
+                GreenhouseResources.getString("PhotonAbsorptionControlPanel.H2O"),
+                atmosphereSliderPanel, MoleculeID.H2O );
+        addSliderForMolecule( 
+                GreenhouseResources.getString("PhotonAbsorptionControlPanel.N2"),
+                atmosphereSliderPanel, MoleculeID.N2 );
+        addSliderForMolecule( 
+                GreenhouseResources.getString("PhotonAbsorptionControlPanel.O2"),
+                atmosphereSliderPanel, MoleculeID.O2 );
 
         // Put all the buttons in a button group.
         ButtonGroup buttonGroup = new ButtonGroup();
@@ -209,7 +223,8 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
     private void addSliderForMolecule( String labelText, JPanel panel, final MoleculeID moleculeID){
         
         final LinearValueControl slider = new LinearValueControl( 0,
-                model.getConfigurableAtmosphereMaxLevel( moleculeID ), labelText, "###", "Molecules");
+                model.getConfigurableAtmosphereMaxLevel( moleculeID ), labelText, "###",
+                GreenhouseResources.getString("PhotonAbsorptionControlPanel.Molecules"));
         slider.setFont( LABEL_FONT );
         slider.setUpDownArrowDelta( 1 );
         slider.setTextFieldEditable( true );
