@@ -103,8 +103,8 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
 
   val motionSeriesObjectNode = createMotionSeriesObjectNode(model.motionSeriesObject, transform, model.selectedObject.imageFilename, model.selectedObject.crashImageFilename, () => model.resume())
 
-  //todo: shouldn't assume ForcemotionSeriesObject subclass
-  def createMotionSeriesObjectNode(b: ForceMotionSeriesObject, t: ModelViewTransform2D, imageName: String, crashImageName: String, listener: () => Unit): MotionSeriesObjectNode = new ForceDragMotionSeriesObjectNode(b, t, imageName, crashImageName, listener)
+  //todo: shouldn't assume MotionSeriesObject subclass
+  def createMotionSeriesObjectNode(b: MotionSeriesObject, t: ModelViewTransform2D, imageName: String, crashImageName: String, listener: () => Unit): MotionSeriesObjectNode = new ForceDragMotionSeriesObjectNode(b, t, imageName, crashImageName, listener)
 
   //todo: this line was continually calling setImage on the imageNode
   model.addListenerByName(motionSeriesObjectNode.setImages(MotionSeriesResources.getImage(model.selectedObject.imageFilename),

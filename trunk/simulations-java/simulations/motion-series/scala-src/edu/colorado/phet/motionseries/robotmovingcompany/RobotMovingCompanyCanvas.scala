@@ -236,7 +236,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
     }
   }
 
-  def init(motionSeriesObject: ForceMotionSeriesObject, a: MotionSeriesObjectType) = {
+  def init(motionSeriesObject: MotionSeriesObject, a: MotionSeriesObjectType) = {
     val lastMotionSeriesObject = _currentMotionSeriesObject
     _currentMotionSeriesObject = motionSeriesObject
 
@@ -248,7 +248,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
     icon.setOffset(pt)
     addStageNode(icon)
 
-    val robotObject = ForceMotionSeriesObject(model, -10 - a.width / 2, 1, 3)
+    val robotObject = MotionSeriesObject(model, -10 - a.width / 2, 1, 3)
 
     val pusherNode = new RobotPusherNode(transform, motionSeriesObject, robotObject)
     addStageNode(pusherNode)

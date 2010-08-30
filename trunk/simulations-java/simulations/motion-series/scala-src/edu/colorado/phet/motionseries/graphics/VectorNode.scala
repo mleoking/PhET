@@ -76,7 +76,7 @@ class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val ta
         deltaArrow + viewPt
       }
       abbreviatonTextNode.setOffset(textLocation.x - abbreviatonTextNode.getFullBounds.getWidth / 2, textLocation.y - abbreviatonTextNode.getFullBounds.getHeight / 2 + 
-              (if (vector.labelAngle==0) -abbreviatonTextNode.getFullBounds.getHeight/2 else 0))//Net force vector label should always be above, see ForceMotionSeriesObject
+              (if (vector.labelAngle==0) -abbreviatonTextNode.getFullBounds.getHeight/2 else 0))//Net force vector label should always be above, see MotionSeriesObject
       abbreviatonTextNode.setVisible(viewTail.distance(viewTip) > 1)
     }
   }

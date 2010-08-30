@@ -7,7 +7,7 @@ import javax.swing._
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.colorado.phet.motionseries.MotionSeriesDefaults._
 import edu.colorado.phet.motionseries.swing._
-import edu.colorado.phet.motionseries.model.{MotionSeriesModel, ForceMotionSeriesObject, MotionSeriesObject}
+import edu.colorado.phet.motionseries.model.{MotionSeriesModel, MotionSeriesObject}
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.{HorizontalLayoutStrategy, AbstractValueControl}
 import java.awt.{GridBagConstraints, GridBagLayout}
 import edu.colorado.phet.motionseries.{MotionSeriesDefaults, MotionSeriesResources}
@@ -20,7 +20,7 @@ class MyValueControl(min: Double, max: Double, getter: () => Double, setter: Dou
   setBackground(MotionSeriesDefaults.EARTH_COLOR)
 }
 
-class FrictionPlayAreaControlPanel(motionSeriesObject: ForceMotionSeriesObject) extends VerticalLayoutPanel {
+class FrictionPlayAreaControlPanel(motionSeriesObject: MotionSeriesObject) extends VerticalLayoutPanel {
   setFillHorizontal()
   setBackground(MotionSeriesDefaults.EARTH_COLOR)
 

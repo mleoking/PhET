@@ -7,10 +7,9 @@ import edu.colorado.phet.scalacommon.Predef._
 import java.lang.Math._
 import edu.colorado.phet.common.phetcommon.math.MathUtil
 import edu.colorado.phet.motionseries.MotionSeriesResources
-import edu.colorado.phet.motionseries.model.{ForceMotionSeriesObject, MotionSeriesObject}
+import edu.colorado.phet.motionseries.model.{MotionSeriesObject}
 
-
-class PusherNode(transform: ModelViewTransform2D, targetObject: ForceMotionSeriesObject, manObject: MotionSeriesObject)
+class PusherNode(transform: ModelViewTransform2D, targetObject: MotionSeriesObject, manObject: MotionSeriesObject)
         extends MotionSeriesObjectNode(manObject, transform, "standing-man.png".literal) {
   defineInvokeAndPass(targetObject.addListenerByName) {
     if (targetObject.appliedForce.magnitude > 0) {
@@ -40,7 +39,7 @@ class PusherNode(transform: ModelViewTransform2D, targetObject: ForceMotionSerie
   setChildrenPickable(false)
 }
 
-class RobotPusherNode(transform: ModelViewTransform2D, targetObject: ForceMotionSeriesObject, man: MotionSeriesObject)
+class RobotPusherNode(transform: ModelViewTransform2D, targetObject: MotionSeriesObject, man: MotionSeriesObject)
         extends MotionSeriesObjectNode(man, transform, "robotmovingcompany/robot.gif".literal) {
   defineInvokeAndPass(targetObject.addListenerByName) {
     if (targetObject.appliedForce.magnitude > 0) {

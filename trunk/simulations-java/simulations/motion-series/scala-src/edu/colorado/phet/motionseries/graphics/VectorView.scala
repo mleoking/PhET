@@ -48,10 +48,10 @@ class VectorView(motionSeriesObject: MotionSeriesObject,
     })
   }
 
-  def addVectorAllComponents(motionSeriesObject: ForceMotionSeriesObject, a: MotionSeriesObjectVector, vectorDisplay: VectorDisplay): Unit =
+  def addVectorAllComponents(motionSeriesObject: MotionSeriesObject, a: MotionSeriesObjectVector, vectorDisplay: VectorDisplay): Unit =
     addVectorAllComponents(motionSeriesObject, a, new ConstantVectorValue, 0, () => true, vectorDisplay)
 
-  def addAllVectors(motionSeriesObject: ForceMotionSeriesObject, vectorDisplay: VectorDisplay) = {
+  def addAllVectors(motionSeriesObject: MotionSeriesObject, vectorDisplay: VectorDisplay) = {
     addVectorAllComponents(motionSeriesObject, motionSeriesObject.appliedForceVector, vectorDisplay)
     addVectorAllComponents(motionSeriesObject, motionSeriesObject.gravityForceVector, vectorDisplay)
     addVectorAllComponents(motionSeriesObject, motionSeriesObject.normalForceVector, vectorDisplay)
@@ -73,7 +73,7 @@ trait PointOfOriginVector {
   def getPointOfOriginOffset(defaultCenter: Double): Double
 }
 
-class PlayAreaVectorNode(transform: ModelViewTransform2D, motionSeriesObject: ForceMotionSeriesObject, vectorViewModel: VectorViewModel) extends PNode with VectorDisplay {
+class PlayAreaVectorNode(transform: ModelViewTransform2D, motionSeriesObject: MotionSeriesObject, vectorViewModel: VectorViewModel) extends PNode with VectorDisplay {
   def addVector(a: Vector, offset: VectorValue): Unit = addChild(new BodyVectorNode(transform, a, offset, motionSeriesObject))
 
   def addVector(vector: Vector with PointOfOriginVector, offsetFBD: VectorValue, maxOffset: Int, offsetPlayArea: Double): Unit = {
@@ -94,7 +94,7 @@ class PlayAreaVector(vector: Vector, scale: Double)
   override def getPaint = vector.getPaint
 }
 
-class PlayAreaOffset(motionSeriesObject: ForceMotionSeriesObject, vectorViewModel: VectorViewModel, offsetPlayArea: Double, offset: PointOfOriginVector)
+class PlayAreaOffset(motionSeriesObject: MotionSeriesObject, vectorViewModel: VectorViewModel, offsetPlayArea: Double, offset: PointOfOriginVector)
         extends VectorValue {
   def addListener(listener: () => Unit) = {
     motionSeriesObject.addListener(listener)
