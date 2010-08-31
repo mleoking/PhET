@@ -1,4 +1,6 @@
 package edu.colorado.phet.densityandbuoyancy.components {
+import edu.colorado.phet.densityandbuoyancy.model.Material;
+
 import flash.display.Sprite;
 
 import mx.controls.HSlider;
@@ -10,18 +12,21 @@ public class SliderDecorator extends UIComponent {
 
     private var tickMarkSet:Sprite;
     private var ticks:Array = new Array();
+    private const sliderY:Number = 15;
+    private const tickHeight:Number = 4;
 
     public function SliderDecorator() {
         super();
 
         slider = new HSlider();
-        slider.y = 10;
+        slider.y = sliderY;
         addChild(slider);
 
         tickMarkSet = new Sprite();
         slider.addChild(tickMarkSet);
 
         updateTicks();
+        this.height = slider.height + 20;
     }
 
     private function modelToView(x:Number):Number {
@@ -40,8 +45,15 @@ public class SliderDecorator extends UIComponent {
 
     private function drawTick(tick:Tick):void {
         tickMarkSet.graphics.lineStyle(2, tick.color);
-        tickMarkSet.graphics.moveTo(modelToView(tick.value), -10);
-        tickMarkSet.graphics.lineTo(modelToView(tick.value), -4);
+        tickMarkSet.graphics.moveTo(modelToView(tick.value), -sliderY + 7);
+        tickMarkSet.graphics.lineTo(modelToView(tick.value), -sliderY + tickHeight + 7);
+        tick.textField.x = modelToView(tick.value) - tick.textField.textWidth / 2;
+        tick.textField.y = -tick.textField.textHeight / 2 - 1;
+        //TODO: Remove workaround and respect il8n
+        //Temporary workaround to remove collision between styrofoam and wood
+        if (tick.label == Material.STYROFOAM.name) {
+            tick.textField.x = modelToView(tick.value) - tick.textField.textWidth;
+        }
     }
 
     function set sliderThumbClass(sliderThumbClass:Class):void {
@@ -77,7 +89,9 @@ public class SliderDecorator extends UIComponent {
     }
 
     function addTick(value:Number, color:uint = 0x000000, label:String = null):void {
-        ticks.push(new Tick(value, color, label));
+        var tick:Tick = new Tick(value, color, label);
+        ticks.push(tick);
+        addChild(tick.textField);
         updateTicks();
     }
 
@@ -86,6 +100,10 @@ public class SliderDecorator extends UIComponent {
         this.width = sliderWidth;
         updateTicks();
 
+    }
+
+    function addSliderEventListener(type:String, handler:Function):void {
+        slider.addEventListener(type, handler);
     }
 }
 }
