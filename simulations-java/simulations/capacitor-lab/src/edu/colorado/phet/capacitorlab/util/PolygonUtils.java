@@ -16,7 +16,7 @@ public class PolygonUtils {
     
     /**
      * Gets the area of a closed polygon.
-     * The polygon must not be self intersecting, or this give incorrect results.
+     * The polygon must not be self intersecting, or this gives incorrect results.
      * Algorithm described here: http://local.wasp.uwa.edu.au/~pbourke/geometry/polyarea/
      * 
      * @param p points that define the polygon
@@ -35,7 +35,7 @@ public class PolygonUtils {
     
     /**
      * Gets the centroid (geometric center) of a closed polygon.
-     * The polygon must not be self intersecting, or this give incorrect results.
+     * The polygon must not be self intersecting, or this gives incorrect results.
      * Algorithm described here: http://local.wasp.uwa.edu.au/~pbourke/geometry/polyarea/
      * 
      * @param p
