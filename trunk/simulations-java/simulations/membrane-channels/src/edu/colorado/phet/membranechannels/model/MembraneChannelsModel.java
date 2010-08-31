@@ -13,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 
 /**
- * This class represents the main class for modeling membrane diffusion.  It
+ * This class represents the main class for modeling membrane channels.  It
  * acts as the central location where the interactions between the membrane,
  * the particles (i.e. ions), and the gates are all governed.
  *

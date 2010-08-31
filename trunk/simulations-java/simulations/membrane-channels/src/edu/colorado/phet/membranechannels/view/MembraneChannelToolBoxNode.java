@@ -24,7 +24,7 @@ public abstract class MembraneChannelToolBoxNode extends ToolBoxItem {
 	}
 
     /* (non-Javadoc)
-     * @see edu.colorado.phet.membranediffusion.view.ToolBoxItem#releaseModelElement()
+     * @see edu.colorado.phet.membranechannels.view.ToolBoxItem#releaseModelElement()
      */
     @Override
     protected void releaseModelElement() {
@@ -35,7 +35,7 @@ public abstract class MembraneChannelToolBoxNode extends ToolBoxItem {
     }
 
     /* (non-Javadoc)
-     * @see edu.colorado.phet.membranediffusion.view.ToolBoxItem#setModelElementPosition(java.awt.geom.Point2D)
+     * @see edu.colorado.phet.membranechannels.view.ToolBoxItem#setModelElementPosition(java.awt.geom.Point2D)
      */
     @Override
     protected void setModelElementPosition( Point2D position ) {

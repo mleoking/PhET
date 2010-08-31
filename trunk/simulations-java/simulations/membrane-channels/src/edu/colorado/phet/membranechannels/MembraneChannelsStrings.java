@@ -13,7 +13,7 @@ public class MembraneChannelsStrings {
     /* not intended for instantiation */
     private MembraneChannelsStrings() {}
     
-    public static final String TITLE_MEMBRANE_DIFFUSION_MODULE = getString( "ModuleTitle.MembraneDiffusionModule" );
+    public static final String TITLE_MEMBRANE_CHANNELS_MODULE = getString( "ModuleTitle.MembraneChannelsModule" );
     public static final String SHOW_CONCENTRATIONS = getString( "controlPanel.showConcentrations" );
     public static final String CLOSE_CHANNELS = getString( "controlPanel.closeChannels" );
     public static final String OPEN_CHANNELS = getString( "controlPanel.openChannels" );

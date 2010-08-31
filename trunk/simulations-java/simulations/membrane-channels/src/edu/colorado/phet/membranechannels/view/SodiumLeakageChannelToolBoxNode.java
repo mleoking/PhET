@@ -33,7 +33,7 @@ public class SodiumLeakageChannelToolBoxNode extends MembraneChannelToolBoxNode 
     }
     
     /* (non-Javadoc)
-     * @see edu.colorado.phet.membranediffusion.view.ToolBoxItem#addElementToModel(java.awt.geom.Point2D)
+     * @see edu.colorado.phet.membranechannels.view.ToolBoxItem#addElementToModel(java.awt.geom.Point2D)
      */
     @Override
     protected void addElementToModel( Point2D positionInModelSpace ) {

@@ -18,7 +18,7 @@ import edu.colorado.phet.membranechannels.model.MembraneChannelsModel;
 import edu.colorado.phet.membranechannels.view.MembraneChannelsCanvas;
 
 /**
- * Membrane Diffusion module.
+ * Membrane Channels module.
  *
  * @author John Blanco
  */
@@ -38,9 +38,9 @@ public class MembraneChannelsModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     public MembraneChannelsModule( Frame parentFrame ) {
-        super( MembraneChannelsStrings.TITLE_MEMBRANE_DIFFUSION_MODULE, 
+        super( MembraneChannelsStrings.TITLE_MEMBRANE_CHANNELS_MODULE, 
                 new MembraneChannelsClock( MembraneChannelsDefaults.CLOCK_FRAME_RATE,
-                        MembraneChannelsDefaults.DEFAULT_MEMBRANE_DIFFUSION_CLOCK_DT ) );
+                        MembraneChannelsDefaults.DEFAULT_MEMBRANE_CHANNELS_CLOCK_DT ) );
         // Model
         MembraneChannelsClock clock = (MembraneChannelsClock) getClock();
         model = new MembraneChannelsModel(clock);
@@ -55,8 +55,8 @@ public class MembraneChannelsModule extends PiccoloModule {
         
         // Clock controls
         clockControlPanel = new PiccoloClockControlPanel( getClock() );
-    	final TimeSpeedSlider timeSpeedSlider = new TimeSpeedSlider(MembraneChannelsDefaults.MIN_MEMBRANE_DIFFUSION_CLOCK_DT, 
-    			MembraneChannelsDefaults.MAX_MEMBRANE_DIFFUSION_CLOCK_DT, "0.00", (ConstantDtClock)getClock(), null);
+    	final TimeSpeedSlider timeSpeedSlider = new TimeSpeedSlider(MembraneChannelsDefaults.MIN_MEMBRANE_CHANNELS_CLOCK_DT, 
+    			MembraneChannelsDefaults.MAX_MEMBRANE_CHANNELS_CLOCK_DT, "0.00", (ConstantDtClock)getClock(), null);
         timeSpeedSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 ((ConstantDtClock)getClock()).setDt( timeSpeedSlider.getValue() );
