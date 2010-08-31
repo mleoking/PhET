@@ -102,7 +102,7 @@ public class LaserWaveGraphic implements LaserModel.ChangeListener {
                 determineColor( atomicStates );
             }
 
-            public void meanLifetimechanged( AtomicState.Event event ) {
+            public void meanLifetimeChanged( AtomicState.Event event ) {
 
             }
         } );
@@ -111,7 +111,7 @@ public class LaserWaveGraphic implements LaserModel.ChangeListener {
                 determineColor( atomicStates );
             }
 
-            public void meanLifetimechanged( AtomicState.Event event ) {
+            public void meanLifetimeChanged( AtomicState.Event event ) {
 
             }
         } );
