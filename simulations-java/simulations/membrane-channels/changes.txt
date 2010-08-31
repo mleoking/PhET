@@ -1,3 +1,4 @@
+8/31/10 Changed name of sim from Membrane Diffusion to Membrane Channels, since this is apparently more accurate terminology.
 # 0.16.04 (43549) Aug 26, 2010
 8/26/10 Publishing a version with several changes based on review at weekly PhET meeting.
 8/26/10 Replaced dialog that was shown when particle chamber full with different behavior (button press ignored, no particles injected).
