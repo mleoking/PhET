@@ -2,16 +2,16 @@
 
 package edu.colorado.phet.lasers.view;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Container;
 
-import javax.swing.*;
-import javax.swing.border.BevelBorder;
+import javax.swing.JSlider;
+import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.lasers.LasersConfig;
-import edu.colorado.phet.lasers.view.util.DefaultGridBagConstraints;
 
 /**
  * EnergyLifetimeSlider
@@ -21,17 +21,17 @@ import edu.colorado.phet.lasers.view.util.DefaultGridBagConstraints;
  *
  * @author Ron LeMaster
  */
-public class EnergyLifetimeSlider extends JSlider implements AtomicState.Listener {
+public class EnergyLifetimeSlider extends JSlider {
     
     private final static int MAX_SLIDER_WIDTH = 60;
-    public final static int SLIDER_HEIGHT = 20;
-    private static final int SLIDER_WIDTH_PADDING = 20;
+    private final static int MIN_SLIDER_WIDTH = 45; // sliders that are too narrow are unusable on Mac, see #2190
+    public final static int SLIDER_HEIGHT = 25; // this is just plain nasty, but too difficult to fix
 
     private final AtomicState atomicState;
     private final EnergyLevelGraphic graphic;
     private final Container container;
+    private final int sliderWidth;
     
-    private int sliderWidth;
     private boolean enableNotification = true;
 
     public EnergyLifetimeSlider( final AtomicState atomicState, EnergyLevelGraphic graphic, int maxLifetime, int minLifetime, Container container ) {
@@ -43,46 +43,56 @@ public class EnergyLifetimeSlider extends JSlider implements AtomicState.Listene
         // slider properties
         setMinimum( minLifetime );
         setMaximum( maxLifetime );
-        setValue( maxLifetime / 2 );
-        setMajorTickSpacing( maxLifetime );
-        setMinorTickSpacing( maxLifetime );
+        setMajorTickSpacing( maxLifetime - minLifetime );
         setPaintTicks( true );
-        setBorder( new BevelBorder( BevelBorder.RAISED ) );
+        setBorder( new LineBorder( Color.BLACK, 1 ) ); // use a simple border to conserve space, see #2190
+        putClientProperty( "JComponent.sizeVariant", "small" );  // use a smaller knob on Mac to address usability problem, see #2190
         
         // slider width, proportional to range
-        sliderWidth = (int) ( (double) ( MAX_SLIDER_WIDTH - SLIDER_WIDTH_PADDING ) * ( (double) getMaximum() / LasersConfig.MAXIMUM_STATE_LIFETIME ) ) + SLIDER_WIDTH_PADDING;
-        sliderWidth = Math.min( sliderWidth, MAX_SLIDER_WIDTH );
+        sliderWidth = MIN_SLIDER_WIDTH + (int) ( ( MAX_SLIDER_WIDTH - MIN_SLIDER_WIDTH ) * ( (double) maxLifetime / LasersConfig.MAXIMUM_STATE_LIFETIME ) );
 
-        // listeners
-        atomicState.addListener( this );
+        // when the slider changes...
         addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                setModelValue();
+                updateModel();
             }
         } );
         
-        // layout
-        setLayout( new GridBagLayout() );
-        GridBagConstraints gbc = new DefaultGridBagConstraints();
-        gbc.anchor = GridBagConstraints.NORTH;
-        setValue( (int) atomicState.getMeanLifeTime() );
+        // when the atomic state changes...
+        atomicState.addListener( new AtomicState.Listener() {
+            
+            public void energyLevelChanged( AtomicState.Event event ) {
+                updateBounds();
+                repaint();
+            }
+
+            public void meanLifetimeChanged( AtomicState.Event event ) {
+                enableNotification = false;
+                setValue( (int) event.getMeanLifetime() );
+                enableNotification = true;
+            }
+        });
         
         // default state
-        setModelValue();
-        update();
+        setValue( (int) atomicState.getMeanLifeTime() );
+        updateModel();
+        updateBounds();
     }
 
-    private void setModelValue() {
-        atomicState.setMeanLifetime( this.getValue() );
-    }
-    
     public double getModelValue() {
         return atomicState.getMeanLifeTime();
     }
-
-    // Positions the slider on the screen, relative to its container
-    public void update() {
-        this.setBounds( container.getWidth() - MAX_SLIDER_WIDTH, (int) graphic.getPosition().getY(), sliderWidth, SLIDER_HEIGHT );
+    
+    // Positions the slider on the screen.
+    // x location is relative to its container (the energy graph).
+    // y location is vertically aligned with its associated energy level graphic.
+    public void updateBounds() {
+        this.setBounds( container.getWidth() - MAX_SLIDER_WIDTH - 2, (int) graphic.getPosition().getY(), sliderWidth, SLIDER_HEIGHT );
+    }
+    
+    // Update the model to match the slider value.
+    private void updateModel() {
+        atomicState.setMeanLifetime( this.getValue() );
     }
 
     @Override
@@ -90,19 +100,6 @@ public class EnergyLifetimeSlider extends JSlider implements AtomicState.Listene
         if ( enableNotification ) {
             super.fireStateChanged();
         }
-    }
-
-    // implements AtomicState.Listener
-    public void energyLevelChanged( AtomicState.Event event ) {
-        update();
-        repaint();
-    }
-
-    // implements AtomicState.Listener
-    public void meanLifetimeChanged( AtomicState.Event event ) {
-        enableNotification = false;
-        this.setValue( (int) event.getMeanLifetime() );
-        enableNotification = true;
     }
 }
 

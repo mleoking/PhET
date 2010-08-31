@@ -1,3 +1,5 @@
+8/31/10 #2190, misc layout tweaks in energy graph to make lifetime sliders more usable on all platforms
+8/31/10 #2190, set a min width for lifetime sliders so that level 3 slider is usable on Mac
 Switched from Vector2D.Float to Vector2D.Double, see #2467
 Removed unused code
 # 4.07.01 (42667) Jul 26, 2010

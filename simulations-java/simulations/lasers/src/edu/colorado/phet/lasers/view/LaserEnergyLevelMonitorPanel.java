@@ -139,7 +139,7 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
                                                            Color.black );
         headingText.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING,
                                                            RenderingHints.VALUE_ANTIALIAS_ON ) );
-        headingText.setLocation( 30, 5 );
+        headingText.setLocation( 25, 5 );
         this.addGraphic( headingText );
 
         // Set up the event handlers we need
@@ -301,7 +301,7 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
         // todo: these two line might be able to go somewhere they aren't called as often
         for ( int i = 1; i < numLevels; i++ ) {
             if ( lifetimeSliders[i] != null ) {
-                lifetimeSliders[i].update();
+                lifetimeSliders[i].updateBounds();
             }
         }
 
