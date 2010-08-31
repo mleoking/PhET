@@ -31,7 +31,7 @@ public class MembraneDiffusionConstants {
     // Application
     //----------------------------------------------------------------------------
     
-    public static final String PROJECT_NAME = "membrane-diffusion";
+    public static final String PROJECT_NAME = "membrane-channels";
 
     //----------------------------------------------------------------------------
     // Fonts
