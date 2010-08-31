@@ -2,8 +2,6 @@
 
 package edu.colorado.phet.capacitorlab.control;
 
-import javax.swing.border.EtchedBorder;
-
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
@@ -22,6 +20,5 @@ public class DielectricConstantControl extends LinearValueControl {
         setValue( value );
         setTickPattern( "0" );
         setTextFieldColumns( 4 );
-        setBorder( new EtchedBorder() );
     }
 }

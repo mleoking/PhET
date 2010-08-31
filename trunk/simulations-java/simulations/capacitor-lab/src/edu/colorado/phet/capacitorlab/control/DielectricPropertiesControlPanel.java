@@ -6,6 +6,7 @@ import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -69,7 +70,9 @@ public class DielectricPropertiesControlPanel extends PhetTitledPanel {
         int row = 0;
         int column = 0;
         layout.addComponent( materialControl, row++, column );
+        layout.addComponent( new BlackSeparator(), row++, column );
         layout.addComponent( constantControl, row++, column );
+        layout.addComponent( new BlackSeparator(), row++, column );
         layout.addComponent( chargesControl, row++, column );
         
         // make everything left justify when put in the main control panel
