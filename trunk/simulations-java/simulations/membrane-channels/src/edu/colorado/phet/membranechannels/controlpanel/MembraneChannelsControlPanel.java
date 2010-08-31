@@ -167,11 +167,11 @@ public class MembraneChannelsControlPanel extends ControlPanel {
 
         if (model.getGatedSodiumChannelOpenness() > 0.5){
             sodiumGatedChannelControlButton.setText( MembraneChannelsStrings.CLOSE_CHANNELS );
-            sodiumGatedChannelControlButton.setIcon( new ImageIcon( MembraneChannelsResources.getImage( "red_gate_close_icon.png" ) ) );
+            sodiumGatedChannelControlButton.setIcon( new ImageIcon( MembraneChannelsResources.getImage( "green_gate_close_icon.png" ) ) );
         }
         else{
             sodiumGatedChannelControlButton.setText( MembraneChannelsStrings.OPEN_CHANNELS );
-            sodiumGatedChannelControlButton.setIcon( new ImageIcon( MembraneChannelsResources.getImage( "red_gate_open_icon.png" ) ) );
+            sodiumGatedChannelControlButton.setIcon( new ImageIcon( MembraneChannelsResources.getImage( "green_gate_open_icon.png" ) ) );
         }
         
         if (model.getGatedPotassiumChannelOpenness() > 0.5){
