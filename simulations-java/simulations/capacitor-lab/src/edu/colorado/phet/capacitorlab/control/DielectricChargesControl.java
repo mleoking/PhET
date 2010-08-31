@@ -9,7 +9,6 @@ import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.border.EtchedBorder;
 
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
