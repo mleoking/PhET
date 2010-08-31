@@ -2,11 +2,8 @@
 
 package edu.colorado.phet.capacitorlab.control;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -18,10 +15,12 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.model.CLModel;
 import edu.colorado.phet.capacitorlab.module.dielectric.DielectricCanvas;
-import edu.colorado.phet.capacitorlab.view.*;
+import edu.colorado.phet.capacitorlab.view.CapacitanceMeterNode;
+import edu.colorado.phet.capacitorlab.view.PlateChargeMeterNode;
+import edu.colorado.phet.capacitorlab.view.StoredEnergyMeterNode;
+import edu.colorado.phet.capacitorlab.view.VoltmeterNode;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
-import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -31,18 +30,10 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class MetersControlPanel extends PhetTitledPanel {
     
-    private final Frame parentFrame;
-    private final CLModel model;
-    private final JCheckBox capacitanceCheckBox, chargeCheckBox, energyCheckBox, voltmeterCheckBox, fieldDetectorCheckBox, modelValuesCheckBox;
+    private final JCheckBox capacitanceCheckBox, chargeCheckBox, energyCheckBox, voltmeterCheckBox, fieldDetectorCheckBox;
     
-    private ModelValuesDialog modelValuesDialog;
-    private Point modelValuesDialogLocation;
-
-    public MetersControlPanel( Frame parentFrame, CLModel model, final DielectricCanvas canvas, boolean dev ) {
+    public MetersControlPanel( CLModel model, final DielectricCanvas canvas ) {
         super( CLStrings.TITLE_METERS );
-        
-        this.parentFrame = parentFrame;
-        this.model = model;
         
         // Capacitance meter
         {
@@ -125,22 +116,6 @@ public class MetersControlPanel extends PhetTitledPanel {
             fieldDetectorCheckBox = new JCheckBox( CLStrings.CHECKBOX_METER_FIELD_DETECTOR );
         }
         
-        // Model Values dialog
-        {
-            modelValuesCheckBox = new JCheckBox( "Model Values" );
-            modelValuesCheckBox.setForeground( Color.RED );
-            modelValuesCheckBox.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    if ( modelValuesCheckBox.isSelected() ) {
-                        openModelValuesDialog();
-                    }
-                    else {
-                        closeModelValuesDialog();
-                    }
-                }
-            } );
-        }
-        
         // layout
         JPanel innerPanel = new JPanel();
         EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
@@ -153,54 +128,9 @@ public class MetersControlPanel extends PhetTitledPanel {
         layout.addComponent( energyCheckBox, row++, column );
         layout.addComponent( voltmeterCheckBox, row++, column );
         layout.addComponent( fieldDetectorCheckBox, row++, column );
-        if ( dev ) {
-            layout.addComponent( modelValuesCheckBox, row++, column );
-        }
         
         // make everything left justify when put in the main control panel
         setLayout( new BorderLayout() );
         add( innerPanel, BorderLayout.WEST );
-    }
-    
-    private void openModelValuesDialog() {
-        
-        closeModelValuesDialog();
-        
-        modelValuesDialog = new ModelValuesDialog( parentFrame, model );
-        modelValuesDialog.addWindowListener( new WindowAdapter() {
-
-            // called when the close button in the dialog's window dressing is clicked
-            @Override
-            public void windowClosing( WindowEvent e ) {
-                closeModelValuesDialog();
-            }
-
-            // called by JDialog.dispose
-            @Override
-            public void windowClosed( WindowEvent e ) {
-                modelValuesDialog = null;
-                if ( modelValuesCheckBox.isSelected() ) {
-                    modelValuesCheckBox.setSelected( false );
-                }
-            }
-        } );
-        
-        if ( modelValuesDialogLocation == null ) {
-            SwingUtils.centerDialogInParent( modelValuesDialog );
-        }
-        else {
-            modelValuesDialog.setLocation( modelValuesDialogLocation );
-        }
-        
-        modelValuesDialog.setVisible( true );
-    }
-    
-    private void closeModelValuesDialog() {
-
-        if ( modelValuesDialog != null ) {
-            modelValuesDialogLocation = modelValuesDialog.getLocation();
-            modelValuesDialog.dispose();
-            modelValuesDialog = null;
-        }
     }
 }
