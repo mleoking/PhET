@@ -11,13 +11,13 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
  *
  * @author John Blanco
  */
-public class MembraneDiffusionClock extends ConstantDtClock {
+public class MembraneChannelsClock extends ConstantDtClock {
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public MembraneDiffusionClock( int framesPerSecond, double dt ) {
+    public MembraneChannelsClock( int framesPerSecond, double dt ) {
         super( 1000 / framesPerSecond, dt );
     }
     

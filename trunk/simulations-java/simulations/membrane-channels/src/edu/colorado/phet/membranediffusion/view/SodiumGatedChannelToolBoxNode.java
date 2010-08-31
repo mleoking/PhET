@@ -9,7 +9,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.membranediffusion.model.ChannelAlwaysClosedStrategy;
 import edu.colorado.phet.membranediffusion.model.GenericMembraneChannel;
 import edu.colorado.phet.membranediffusion.model.MembraneChannelTypes;
-import edu.colorado.phet.membranediffusion.model.MembraneDiffusionModel;
+import edu.colorado.phet.membranediffusion.model.MembraneChannelsModel;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -20,7 +20,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class SodiumGatedChannelToolBoxNode extends MembraneChannelToolBoxNode {
     
-	public SodiumGatedChannelToolBoxNode(MembraneDiffusionModel model, ModelViewTransform2D mvt, PhetPCanvas canvas) {
+	public SodiumGatedChannelToolBoxNode(MembraneChannelsModel model, ModelViewTransform2D mvt, PhetPCanvas canvas) {
 		super(model, mvt, canvas);
 	}
 

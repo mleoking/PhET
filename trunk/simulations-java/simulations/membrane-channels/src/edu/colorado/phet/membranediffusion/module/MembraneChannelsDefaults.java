@@ -13,10 +13,10 @@ import edu.umd.cs.piccolo.util.PDimension;
  * by the "defaults" classes for each module.  Classes that are module-specific should
  * use the class that corresponds to their module.
  */
-public class MembraneDiffusionDefaults {
+public class MembraneChannelsDefaults {
 
     /* Not intended for instantiation */
-    private MembraneDiffusionDefaults() {}
+    private MembraneChannelsDefaults() {}
     
     // Clock
     public static final int CLOCK_FRAME_RATE = 25; // fps, frames per second (wall time)

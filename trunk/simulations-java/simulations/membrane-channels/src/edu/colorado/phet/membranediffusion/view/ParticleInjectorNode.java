@@ -27,9 +27,9 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.membranediffusion.MembraneDiffusionResources;
+import edu.colorado.phet.membranediffusion.MembraneChannelsResources;
 import edu.colorado.phet.membranediffusion.model.InjectionMotionStrategy;
-import edu.colorado.phet.membranediffusion.model.MembraneDiffusionModel;
+import edu.colorado.phet.membranediffusion.model.MembraneChannelsModel;
 import edu.colorado.phet.membranediffusion.model.Particle;
 import edu.colorado.phet.membranediffusion.model.ParticleType;
 import edu.colorado.phet.membranediffusion.model.PotassiumIon;
@@ -74,7 +74,7 @@ public class ParticleInjectorNode extends PNode {
 	private final BufferedImage unpressedButtonImage;
 	private final BufferedImage pressedButtonImage;
 	private final PNode particleTypeSelector;
-	private final MembraneDiffusionModel model;
+	private final MembraneChannelsModel model;
 	private final ModelViewTransform2D mvt;
 	private ParticleType particleTypeToInject;
 	private Dimension2D injectionPointOffset = new PDimension();
@@ -92,7 +92,7 @@ public class ParticleInjectorNode extends PNode {
      * @param mvt - Model-view transform for relating view space to model space.
      * @param rotationAngle - Angle of rotation for the injection bulb.
      */
-	public ParticleInjectorNode(ParticleType initialParticleType, final MembraneDiffusionModel model,
+	public ParticleInjectorNode(ParticleType initialParticleType, final MembraneChannelsModel model,
 			ModelViewTransform2D mvt, double rotationAngle) {
 		
 		this.particleTypeToInject = initialParticleType;
@@ -107,13 +107,13 @@ public class ParticleInjectorNode extends PNode {
 		
 		// Load the graphic images for this device.  These are offset in order
 		// to make the center of rotation be the center of the bulb.
-		BufferedImage injectorBodyImage = MembraneDiffusionResources.getImage( "squeezer_background.png" );
+		BufferedImage injectorBodyImage = MembraneChannelsResources.getImage( "squeezer_background.png" );
         injectorBodyImageNode = new PImage( injectorBodyImage );
         Rectangle2D originalBodyBounds = injectorBodyImageNode.getFullBounds();
         injectorBodyImageNode.setOffset(-originalBodyBounds.getWidth() / 2, -originalBodyBounds.getHeight() / 2);
         injectorNode.addChild(injectorBodyImageNode);
-        pressedButtonImage = MembraneDiffusionResources.getImage( "button_pressed.png" );
-        unpressedButtonImage = MembraneDiffusionResources.getImage( "button_unpressed.png" );
+        pressedButtonImage = MembraneChannelsResources.getImage( "button_pressed.png" );
+        unpressedButtonImage = MembraneChannelsResources.getImage( "button_unpressed.png" );
         buttonImageNode = new PImage(unpressedButtonImage);
         buttonImageNode.setOffset(BUTTON_OFFSET);
         injectorNode.addChild(buttonImageNode);

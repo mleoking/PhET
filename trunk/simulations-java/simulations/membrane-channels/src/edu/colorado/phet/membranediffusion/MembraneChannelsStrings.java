@@ -2,16 +2,16 @@
 
 package edu.colorado.phet.membranediffusion;
 
-import static edu.colorado.phet.membranediffusion.MembraneDiffusionResources.getString;
+import static edu.colorado.phet.membranediffusion.MembraneChannelsResources.getString;
 
 /**
  * A collection of localized strings used by this simulations.
  * We load all strings as statics so that we will be warned at startup time of any missing strings.
  */
-public class MembraneDiffusionStrings {
+public class MembraneChannelsStrings {
     
     /* not intended for instantiation */
-    private MembraneDiffusionStrings() {}
+    private MembraneChannelsStrings() {}
     
     public static final String TITLE_MEMBRANE_DIFFUSION_MODULE = getString( "ModuleTitle.MembraneDiffusionModule" );
     public static final String SHOW_CONCENTRATIONS = getString( "controlPanel.showConcentrations" );

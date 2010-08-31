@@ -2,8 +2,8 @@ package edu.colorado.phet.membranediffusion.view;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.membranediffusion.MembraneDiffusionStrings;
-import edu.colorado.phet.membranediffusion.model.MembraneDiffusionModel;
+import edu.colorado.phet.membranediffusion.MembraneChannelsStrings;
+import edu.colorado.phet.membranediffusion.model.MembraneChannelsModel;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -30,7 +30,7 @@ public class GatedChannelToolBox extends ToolBox {
     // Constructor(s)
     //----------------------------------------------------------------------------
 	
-	public GatedChannelToolBox(PDimension size, final MembraneDiffusionModel model, ModelViewTransform2D mvt, PhetPCanvas canvas) {
+	public GatedChannelToolBox(PDimension size, final MembraneChannelsModel model, ModelViewTransform2D mvt, PhetPCanvas canvas) {
 	    
 	    super(size);
 		
@@ -42,7 +42,7 @@ public class GatedChannelToolBox extends ToolBox {
 		addToolBoxItem( potassiumGatedChannelToolBoxNode );
 		
 		// Set the caption.
-		setCaption( MembraneDiffusionStrings.GATED_CHANNELS );
+		setCaption( MembraneChannelsStrings.GATED_CHANNELS );
 		
 		// Finalize the layout.
 		updateLayout();

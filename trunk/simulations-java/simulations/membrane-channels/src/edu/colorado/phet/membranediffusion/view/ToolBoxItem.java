@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
-import edu.colorado.phet.membranediffusion.model.MembraneDiffusionModel;
+import edu.colorado.phet.membranediffusion.model.MembraneChannelsModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -43,7 +43,7 @@ public abstract class ToolBoxItem extends PComposite {
     // Instance Data
     //----------------------------------------------------------------------------
 
-	private final MembraneDiffusionModel model;
+	private final MembraneChannelsModel model;
 	private final PhetPCanvas canvas;
 	private final ModelViewTransform2D mvt;
 	private PNode selectionNode = null;
@@ -54,7 +54,7 @@ public abstract class ToolBoxItem extends PComposite {
     // Constructor(s)
     //----------------------------------------------------------------------------
 	
-	public ToolBoxItem(final MembraneDiffusionModel model, final ModelViewTransform2D mvt, final PhetPCanvas canvas) {
+	public ToolBoxItem(final MembraneChannelsModel model, final ModelViewTransform2D mvt, final PhetPCanvas canvas) {
 		
 		this.model = model;
 		this.mvt = mvt;
@@ -99,7 +99,7 @@ public abstract class ToolBoxItem extends PComposite {
     // Methods
     //----------------------------------------------------------------------------
 
-	protected MembraneDiffusionModel getModel() {
+	protected MembraneChannelsModel getModel() {
 		return model;
 	}
 

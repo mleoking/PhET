@@ -19,7 +19,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
  *
  * @author John Blanco
  */
-public class MembraneDiffusionModel implements IParticleCapture {
+public class MembraneChannelsModel implements IParticleCapture {
     
     //----------------------------------------------------------------------------
     // Class Data
@@ -77,7 +77,7 @@ public class MembraneDiffusionModel implements IParticleCapture {
     // Constructors
     //----------------------------------------------------------------------------
     
-	public MembraneDiffusionModel( MembraneDiffusionClock clock ) {
+	public MembraneChannelsModel( MembraneChannelsClock clock ) {
     	
         this.clock = clock;
         

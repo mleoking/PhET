@@ -18,17 +18,17 @@ import javax.swing.JPanel;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
-import edu.colorado.phet.membranediffusion.MembraneDiffusionConstants;
-import edu.colorado.phet.membranediffusion.MembraneDiffusionResources;
-import edu.colorado.phet.membranediffusion.MembraneDiffusionStrings;
-import edu.colorado.phet.membranediffusion.model.MembraneDiffusionModel;
+import edu.colorado.phet.membranediffusion.MembraneChannelsConstants;
+import edu.colorado.phet.membranediffusion.MembraneChannelsResources;
+import edu.colorado.phet.membranediffusion.MembraneChannelsStrings;
+import edu.colorado.phet.membranediffusion.model.MembraneChannelsModel;
 
 /**
  * Control panel for the membrane diffusion module.
  *
  * @author John Blanco
  */
-public class MembraneDiffusionControlPanel extends ControlPanel {
+public class MembraneChannelsControlPanel extends ControlPanel {
 
 	//----------------------------------------------------------------------------
     // Class Data
@@ -39,7 +39,7 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
     //----------------------------------------------------------------------------
 	
 	private JCheckBox showConcentrationsCheckBox;
-	private MembraneDiffusionModel model;
+	private MembraneChannelsModel model;
 
     private JButton sodiumGatedChannelControlButton;
     private JButton potassiumGatedChannelControlButton;
@@ -53,12 +53,12 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
      * 
      * @param module
      */
-    public MembraneDiffusionControlPanel( PiccoloModule module, final MembraneDiffusionModel model ) {
+    public MembraneChannelsControlPanel( PiccoloModule module, final MembraneChannelsModel model ) {
 
     	this.model = model;
     	
     	// Listen to the model for events that interest this class.
-    	model.addListener(new MembraneDiffusionModel.Adapter(){
+    	model.addListener(new MembraneChannelsModel.Adapter(){
     	    @Override
     		public void concentrationGraphVisibilityChanged() {
     			updateConcentrationsCheckBoxState();
@@ -76,7 +76,7 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
     	});
     	
     	// Set the control panel's minimum width.
-        int minimumWidth = MembraneDiffusionResources.getInt( "int.minControlPanelWidth", 215 );
+        int minimumWidth = MembraneChannelsResources.getInt( "int.minControlPanelWidth", 215 );
         setMinimumWidth( minimumWidth );
         
         // Put some space at the top of the panel.
@@ -118,7 +118,7 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
         // Add a button for removing all particles.
         addControl(createVerticalSpacingPanel(15));
         JPanel clearButtonPanel = new JPanel();
-        JButton removeAllParticlesButton = new JButton(MembraneDiffusionStrings.CLEAR_PARTICLES);
+        JButton removeAllParticlesButton = new JButton(MembraneChannelsStrings.CLEAR_PARTICLES);
         removeAllParticlesButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 model.removeAllParticles();
@@ -131,8 +131,8 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
         // is in its own panel so that it can be centered.
         addControlFullWidth(createVerticalSpacingPanel(15));
         JPanel checkBoxPanel = new JPanel();
-        showConcentrationsCheckBox = new JCheckBox(MembraneDiffusionStrings.SHOW_CONCENTRATIONS);
-        showConcentrationsCheckBox.setFont(MembraneDiffusionConstants.CONTROL_PANEL_CONTROL_FONT);
+        showConcentrationsCheckBox = new JCheckBox(MembraneChannelsStrings.SHOW_CONCENTRATIONS);
+        showConcentrationsCheckBox.setFont(MembraneChannelsConstants.CONTROL_PANEL_CONTROL_FONT);
         showConcentrationsCheckBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				model.setConcentrationGraphsVisible(showConcentrationsCheckBox.isSelected());
@@ -166,21 +166,21 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
     private void updateMembraneChannelControlButtons(){
 
         if (model.getGatedSodiumChannelOpenness() > 0.5){
-            sodiumGatedChannelControlButton.setText( MembraneDiffusionStrings.CLOSE_CHANNELS );
-            sodiumGatedChannelControlButton.setIcon( new ImageIcon( MembraneDiffusionResources.getImage( "red_gate_close_icon.png" ) ) );
+            sodiumGatedChannelControlButton.setText( MembraneChannelsStrings.CLOSE_CHANNELS );
+            sodiumGatedChannelControlButton.setIcon( new ImageIcon( MembraneChannelsResources.getImage( "red_gate_close_icon.png" ) ) );
         }
         else{
-            sodiumGatedChannelControlButton.setText( MembraneDiffusionStrings.OPEN_CHANNELS );
-            sodiumGatedChannelControlButton.setIcon( new ImageIcon( MembraneDiffusionResources.getImage( "red_gate_open_icon.png" ) ) );
+            sodiumGatedChannelControlButton.setText( MembraneChannelsStrings.OPEN_CHANNELS );
+            sodiumGatedChannelControlButton.setIcon( new ImageIcon( MembraneChannelsResources.getImage( "red_gate_open_icon.png" ) ) );
         }
         
         if (model.getGatedPotassiumChannelOpenness() > 0.5){
-            potassiumGatedChannelControlButton.setText( MembraneDiffusionStrings.CLOSE_CHANNELS );
-            potassiumGatedChannelControlButton.setIcon( new ImageIcon( MembraneDiffusionResources.getImage( "blue_gate_close_icon.png" ) ) );
+            potassiumGatedChannelControlButton.setText( MembraneChannelsStrings.CLOSE_CHANNELS );
+            potassiumGatedChannelControlButton.setIcon( new ImageIcon( MembraneChannelsResources.getImage( "blue_gate_close_icon.png" ) ) );
         }
         else{
-            potassiumGatedChannelControlButton.setText( MembraneDiffusionStrings.OPEN_CHANNELS );
-            potassiumGatedChannelControlButton.setIcon( new ImageIcon( MembraneDiffusionResources.getImage( "blue_gate_open_icon.png" ) ) );
+            potassiumGatedChannelControlButton.setText( MembraneChannelsStrings.OPEN_CHANNELS );
+            potassiumGatedChannelControlButton.setIcon( new ImageIcon( MembraneChannelsResources.getImage( "blue_gate_open_icon.png" ) ) );
         }
     }
 }

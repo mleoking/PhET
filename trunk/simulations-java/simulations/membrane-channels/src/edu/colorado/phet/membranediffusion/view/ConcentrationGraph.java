@@ -23,7 +23,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.membranediffusion.model.MembraneDiffusionModel;
+import edu.colorado.phet.membranediffusion.model.MembraneChannelsModel;
 import edu.colorado.phet.membranediffusion.model.ParticleType;
 import edu.colorado.phet.membranediffusion.model.PotassiumIon;
 import edu.colorado.phet.membranediffusion.model.SodiumIon;
@@ -53,13 +53,13 @@ public class ConcentrationGraph extends PhetPNode {
 	private static final Color POTASSIUM_BAR_COLOR = new PotassiumIon().getRepresentationColor();
 	private static final double BAR_WIDTH_PROPORTION = 0.20;
 	private static final double BAR_HEIGHT_PROPORTION = 0.75;
-	private static final double MAX_CONCENTRATION_COUNT = MembraneDiffusionModel.MAX_PARTICLES;
+	private static final double MAX_CONCENTRATION_COUNT = MembraneChannelsModel.MAX_PARTICLES;
 	
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
 
-	private MembraneDiffusionModel model;
+	private MembraneChannelsModel model;
 	private PNode background;
 	private PNode graphBaseLine;
 	private PhetPPath sodiumBar;
@@ -77,13 +77,13 @@ public class ConcentrationGraph extends PhetPNode {
     // Constructor
     //------------------------------------------------------------------------
 
-	public ConcentrationGraph(final MembraneDiffusionModel model, boolean upperChamber) {
+	public ConcentrationGraph(final MembraneChannelsModel model, boolean upperChamber) {
 		
 		this.model = model;
 		this.upperChamber = upperChamber;
 		
 		// Listen to the model for events that may matter to us.
-		model.addListener(new MembraneDiffusionModel.Adapter(){
+		model.addListener(new MembraneChannelsModel.Adapter(){
 			public void concentrationGraphVisibilityChanged() {
 				updateVisibility();
 			}
