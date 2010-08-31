@@ -24,7 +24,7 @@ import edu.colorado.phet.membranechannels.MembraneChannelsStrings;
 import edu.colorado.phet.membranechannels.model.MembraneChannelsModel;
 
 /**
- * Control panel for the membrane diffusion module.
+ * Control panel for the membrane channels module.
  *
  * @author John Blanco
  */

@@ -33,7 +33,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * This class defines a graph that shows the amount of sodium and potassium
- * in the upper and lower chambers of the membrane diffusion model.
+ * in the upper and lower chambers of the membrane channels model.
  *  
  * @author John Blanco
  */

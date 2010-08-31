@@ -28,7 +28,7 @@ public class TraverseChannelMotionStrategy2 extends MotionStrategy {
 
     private static final double DEFAULT_MAX_VELOCITY = 100; // In nanometers per second of sim time.
     private static final double POST_TRAVERSAL_WALK_TIME = 
-        MembraneChannelsDefaults.DEFAULT_MEMBRANE_DIFFUSION_CLOCK_DT * 50;  // In seconds of sim time.
+        MembraneChannelsDefaults.DEFAULT_MEMBRANE_CHANNELS_CLOCK_DT * 50;  // In seconds of sim time.
     private static final Random RAND = new Random();
     
 	private Vector2D velocityVector = new Vector2D();
