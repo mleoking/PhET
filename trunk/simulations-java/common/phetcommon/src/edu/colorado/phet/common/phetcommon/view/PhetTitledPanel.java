@@ -38,6 +38,10 @@ public class PhetTitledPanel extends JPanel {
         } );
         updateLayout();
     }
+    
+    public void setTitleColor( Color color ) {
+        titledBorder.setTitleColor( color );
+    }
 
     /**
      * Updates the preferred size to account for the titled border (if necessary).
