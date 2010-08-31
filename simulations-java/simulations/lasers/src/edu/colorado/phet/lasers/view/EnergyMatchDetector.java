@@ -61,7 +61,7 @@ public class EnergyMatchDetector implements AtomicState.Listener, Beam.Wavelengt
         return new MatchState( match, System.currentTimeMillis(), beamEnergy + e0, e0, transitionEnergy, beamEnergy );
     }
 
-    public void meanLifetimechanged( AtomicState.Event event ) {
+    public void meanLifetimeChanged( AtomicState.Event event ) {
     }
 
     public void wavelengthChanged( Beam.WavelengthChangeEvent event ) {

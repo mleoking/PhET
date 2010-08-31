@@ -97,7 +97,7 @@ public class AtomicState {
      */
     public void setMeanLifetime( double lifetime ) {
         this.meanLifetime = lifetime;
-        listenerProxy.meanLifetimechanged( new Event( this ) );
+        listenerProxy.meanLifetimeChanged( new Event( this ) );
     }
 
     /**
@@ -389,14 +389,14 @@ public class AtomicState {
     public interface Listener extends EventListener {
         void energyLevelChanged( Event event );
 
-        void meanLifetimechanged( Event event );
+        void meanLifetimeChanged( Event event );
     }
 
     static public class ChangeListenerAdapter implements Listener {
         public void energyLevelChanged( Event event ) {
         }
 
-        public void meanLifetimechanged( Event event ) {
+        public void meanLifetimeChanged( Event event ) {
         }
     }
 

@@ -118,7 +118,7 @@ public class LaserCurtainGraphic extends PhetShapeGraphic implements AtomicState
         update();
     }
 
-    public void meanLifetimechanged( AtomicState.Event event ) {
+    public void meanLifetimeChanged( AtomicState.Event event ) {
     }
 
     public void lasingPopulationChanged( LaserModel.ChangeEvent event ) {
