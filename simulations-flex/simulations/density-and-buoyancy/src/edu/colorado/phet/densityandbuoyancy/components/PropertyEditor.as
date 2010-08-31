@@ -15,7 +15,7 @@ import mx.events.SliderEvent;
 
 public class PropertyEditor extends GridRow {
     private var property:NumericProperty;
-    public static const SLIDER_WIDTH:Number = 250;
+    public static const SLIDER_WIDTH:Number = 280;
     private static const FONT_SIZE:Number = 12;
 
     public function PropertyEditor(property:NumericProperty, minimimum:Number, maximum:Number, unit:Unit) {
@@ -85,8 +85,8 @@ public class PropertyEditor extends GridRow {
             }
         }
 
-        slider.addEventListener(SliderEvent.THUMB_DRAG, sliderDragHandler);
-        slider.addEventListener(SliderEvent.CHANGE, trackPressAndKeyboardHandler);
+        slider.addSliderEventListener(SliderEvent.THUMB_DRAG, sliderDragHandler);
+        slider.addSliderEventListener(SliderEvent.CHANGE, trackPressAndKeyboardHandler);
         function updateSlider():void {
             const setValue:Number = unit.fromSI(property.value);
             slider.value = setValue;

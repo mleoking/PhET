@@ -15,7 +15,7 @@ public class DensityEditor extends PropertyEditor {
     override protected function createSlider(property:NumericProperty, minimum:Number, maximum:Number, unit:Unit):SliderDecorator {
         const slider:SliderDecorator = super.createSlider(property, minimum, maximum, unit);
         for each (var material:Material in Material.SELECTABLE_MATERIALS) {
-            slider.addTick(unit.fromSI(material.getDensity()), material.tickColor)
+            slider.addTick(unit.fromSI(material.getDensity()), material.tickColor, material.name)
         }
         return slider;
     }
