@@ -9,6 +9,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
 import edu.colorado.phet.capacitorlab.CLStrings;
+import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 
 /**
@@ -16,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ViewControlPanel extends CLTitledControlPanel {
+public class ViewControlPanel extends PhetTitledPanel {
     
     private final JCheckBox plateChargesCheckBox, electricFieldLinesCheckBox;
 

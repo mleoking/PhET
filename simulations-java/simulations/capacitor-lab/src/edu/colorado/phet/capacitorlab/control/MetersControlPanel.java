@@ -19,6 +19,7 @@ import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.model.CLModel;
 import edu.colorado.phet.capacitorlab.module.dielectric.DielectricCanvas;
 import edu.colorado.phet.capacitorlab.view.*;
+import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.umd.cs.piccolo.PNode;
@@ -28,7 +29,7 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class MetersControlPanel extends CLTitledControlPanel {
+public class MetersControlPanel extends PhetTitledPanel {
     
     private final Frame parentFrame;
     private final CLModel model;
