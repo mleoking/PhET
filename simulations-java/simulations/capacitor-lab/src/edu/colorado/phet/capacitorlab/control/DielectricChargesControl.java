@@ -24,7 +24,6 @@ public class DielectricChargesControl extends JPanel {
     private final JRadioButton hideAllRadioButton, showAllRadioButton, showExcessRadioButton;
 
     public DielectricChargesControl() {
-        setBorder( new EtchedBorder() );
         
         JLabel chargesLabel = new JLabel( CLStrings.LABEL_DIELECTRIC_CHARGES );
         
