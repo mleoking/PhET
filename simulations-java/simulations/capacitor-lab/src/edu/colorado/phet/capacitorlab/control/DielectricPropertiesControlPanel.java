@@ -6,7 +6,6 @@ import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 
 import javax.swing.JPanel;
-import javax.swing.JSeparator;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -18,6 +17,7 @@ import edu.colorado.phet.capacitorlab.model.DielectricMaterial;
 import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeAdapter;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
+import edu.colorado.phet.common.phetcommon.view.ColoredSeparator.BlackSeparator;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 
 /**
