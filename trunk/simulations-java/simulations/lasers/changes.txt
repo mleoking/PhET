@@ -1,3 +1,4 @@
+# 4.07.02 (43686) Aug 31, 2010
 > fix Lifetime sliders on Mac
 8/31/10 #2190, misc layout tweaks in energy graph to make lifetime sliders more usable on all platforms
 8/31/10 #2190, set a min width for lifetime sliders so that level 3 slider is usable on Mac
