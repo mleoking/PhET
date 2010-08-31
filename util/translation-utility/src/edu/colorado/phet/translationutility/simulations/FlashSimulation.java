@@ -303,18 +303,8 @@ public class FlashSimulation extends AbstractSimulation {
             DocumentAdapter.writeProperties( properties, "created by " + getClass().getName(), testOutputStream );
             testOutputStream.closeEntry();
             
-            /*
-             * Add flash-launcher-args.txt file, used by older FlashLauncher.
-             * Delete this block when all sims have been redeployed with simulation.properties.
-             * See #2463.
-             */
-            {
-                jarEntry = new JarEntry( FlashLauncher.ARGS_FILENAME );
-                testOutputStream.putNextEntry( jarEntry );
-                String args = createFlashLauncherArgsString( projectName, locale );
-                testOutputStream.write( args.getBytes() );
-                testOutputStream.closeEntry();
-            }
+            // add flash-launcher-args.txt
+            addFlashLauncherArgsFile( testOutputStream, projectName, locale );
             
             // add simulation.properties, see #2463
             jarEntry = new JarEntry( SimulationProperties.FILENAME );
@@ -335,6 +325,20 @@ public class FlashSimulation extends AbstractSimulation {
         }
         
         return testJarFileName;
+    }
+    
+    /*
+     * Add flash-launcher-args.txt file, used by older FlashLauncher.
+     * Delete this method when all sims have been redeployed with simulation.properties.
+     * See #2463.
+     * @deprecated
+     */
+    private void addFlashLauncherArgsFile( JarOutputStream outputStream, String projectName, Locale locale ) throws IOException {
+        JarEntry jarEntry = new JarEntry( FlashLauncher.ARGS_FILENAME );
+        outputStream.putNextEntry( jarEntry );
+        String args = createFlashLauncherArgsString( projectName, locale );
+        outputStream.write( args.getBytes() );
+        outputStream.closeEntry();
     }
     
     /*
