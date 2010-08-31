@@ -4,6 +4,7 @@ package edu.colorado.phet.capacitorlab.module.dielectric;
 
 import java.awt.Frame;
 
+import edu.colorado.phet.capacitorlab.control.DeveloperControlPanel;
 import edu.colorado.phet.capacitorlab.control.DielectricPropertiesControlPanel;
 import edu.colorado.phet.capacitorlab.control.MetersControlPanel;
 import edu.colorado.phet.capacitorlab.control.ViewControlPanel;
@@ -19,8 +20,11 @@ public class DielectricControlPanel extends CLControlPanel {
 
     public DielectricControlPanel( Frame parentFrame, DielectricModule module, CLModel model, DielectricCanvas canvas, boolean dev ) {
         addControlFullWidth( new ViewControlPanel() );
-        addControlFullWidth( new MetersControlPanel( parentFrame, model, canvas, dev ) );
+        addControlFullWidth( new MetersControlPanel( model, canvas ) );
         addControlFullWidth( new DielectricPropertiesControlPanel( model ) );
+        if ( dev ) {
+            addControlFullWidth( new DeveloperControlPanel( parentFrame, model ) );
+        }
         addResetAllButton( module );
     }
 }
