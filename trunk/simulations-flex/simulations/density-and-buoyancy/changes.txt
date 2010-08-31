@@ -1,3 +1,4 @@
+Changed mystery objects table to be sorted by density instead of alphabetically
 Added colored tick marks and labels for the density slider
 Added boundaries to prevent the user from dragging objects outside of the visible area
 Fixed: Adding handling of SliderEvent.CHANGE made it so that sliders couldn't indicate values beyond their range.
