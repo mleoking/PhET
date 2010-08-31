@@ -16,6 +16,7 @@ import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial;
 import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeAdapter;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial;
+import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 
 /**
@@ -23,7 +24,7 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DielectricPropertiesControlPanel extends CLTitledControlPanel {
+public class DielectricPropertiesControlPanel extends PhetTitledPanel {
     
     private final Capacitor capacitor;
     private final DielectricMaterialControl materialControl;

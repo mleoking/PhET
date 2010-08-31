@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 
 import edu.colorado.phet.capacitorlab.model.CLModel;
 import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeAdapter;
+import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 
 
@@ -18,12 +19,13 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DeveloperControlPanel extends CLTitledControlPanel {
+public class DeveloperControlPanel extends PhetTitledPanel {
     
     private final CLModel model;
 
     public DeveloperControlPanel( final CLModel model ) {
-        super( "Developer", Color.RED );
+        super( "Developer" );
+        setTitleColor( Color.RED );
         
         this.model = model;
         this.model.getCapacitor().addCapacitorChangeListener( new CapacitorChangeAdapter() {
