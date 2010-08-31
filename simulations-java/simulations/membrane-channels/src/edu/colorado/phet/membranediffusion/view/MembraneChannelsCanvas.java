@@ -12,13 +12,13 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.membranediffusion.MembraneDiffusionConstants;
-import edu.colorado.phet.membranediffusion.MembraneDiffusionStrings;
+import edu.colorado.phet.membranediffusion.MembraneChannelsConstants;
+import edu.colorado.phet.membranediffusion.MembraneChannelsStrings;
 import edu.colorado.phet.membranediffusion.model.MembraneChannel;
-import edu.colorado.phet.membranediffusion.model.MembraneDiffusionModel;
+import edu.colorado.phet.membranediffusion.model.MembraneChannelsModel;
 import edu.colorado.phet.membranediffusion.model.Particle;
 import edu.colorado.phet.membranediffusion.model.ParticleType;
-import edu.colorado.phet.membranediffusion.module.MembraneDiffusionDefaults;
+import edu.colorado.phet.membranediffusion.module.MembraneChannelsDefaults;
 import edu.colorado.phet.membranediffusion.view.MembraneChannelNode.Listener;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -29,7 +29,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author John Blanco
  */
-public class MembraneDiffusionCanvas extends PhetPCanvas {
+public class MembraneChannelsCanvas extends PhetPCanvas {
 
     //----------------------------------------------------------------------------
     // Class Data
@@ -40,7 +40,7 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
 
     // Reference to the model that is being viewed.
-    private MembraneDiffusionModel model;
+    private MembraneChannelsModel model;
     
     // Model-view transform.
     private ModelViewTransform2D mvt;
@@ -64,27 +64,27 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public MembraneDiffusionCanvas( MembraneDiffusionModel model ) {
+    public MembraneChannelsCanvas( MembraneChannelsModel model ) {
         
         this.model = model;
         
     	// Set up the canvas-screen transform.
-    	setWorldTransformStrategy(new PhetPCanvas.CenteringBoxStrategy(this, MembraneDiffusionDefaults.INTERMEDIATE_RENDERING_SIZE));
+    	setWorldTransformStrategy(new PhetPCanvas.CenteringBoxStrategy(this, MembraneChannelsDefaults.INTERMEDIATE_RENDERING_SIZE));
     	
     	// Set up the model-canvas transform.  The center of the chamber is at
     	// (0,0) in model space, so this can be adjusted to move the chamber
     	// to wherever it works best.
         mvt = new ModelViewTransform2D(
         		new Point2D.Double(0, 0), 
-        		new Point((int)Math.round(MembraneDiffusionDefaults.INTERMEDIATE_RENDERING_SIZE.width * 0.55 ), // Mult by 0.5 is center.
-        				(int)Math.round(MembraneDiffusionDefaults.INTERMEDIATE_RENDERING_SIZE.height * 0.35 )), // Mult by 0.5 is center.
+        		new Point((int)Math.round(MembraneChannelsDefaults.INTERMEDIATE_RENDERING_SIZE.width * 0.55 ), // Mult by 0.5 is center.
+        				(int)Math.round(MembraneChannelsDefaults.INTERMEDIATE_RENDERING_SIZE.height * 0.35 )), // Mult by 0.5 is center.
         		8,  // Scale factor - smaller numbers "zoom out", bigger ones "zoom in".
         		true);
 
-        setBackground( MembraneDiffusionConstants.CANVAS_BACKGROUND );
+        setBackground( MembraneChannelsConstants.CANVAS_BACKGROUND );
         
         // Listen to the model for events that the canvas needs to know about.
-        model.addListener(new MembraneDiffusionModel.Adapter(){
+        model.addListener(new MembraneChannelsModel.Adapter(){
     		public void particleAdded(Particle particle) {
     			addParticleNode(particle);
     		}
@@ -122,16 +122,16 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
         // Add the node the will represent the chamber where the particles can
         // move around.
         Rectangle2D transformedParticleChamberRect = 
-        	mvt.createTransformedShape(MembraneDiffusionModel.getOverallParticleChamberRect()).getBounds2D();
+        	mvt.createTransformedShape(MembraneChannelsModel.getOverallParticleChamberRect()).getBounds2D();
         PNode particleChamberNode = new PhetPPath(transformedParticleChamberRect, new Color(199, 234, 252));
         chamberLayer.addChild(particleChamberNode);
         
         // Add the node that will represent the membrane that separates the
         // upper and lower portions of the chamber.
-        Rectangle2D membraneRect = MembraneDiffusionModel.getMembraneRect();
+        Rectangle2D membraneRect = MembraneChannelsModel.getMembraneRect();
     	Rectangle2D transformedMembraneRect = mvt.createTransformedShape(membraneRect).getBounds2D();
     	PNode membraneNode = new PhetPPath(transformedMembraneRect, Color.YELLOW, new BasicStroke(1f), Color.BLACK);
-        PText membraneLabel = new PText( MembraneDiffusionStrings.MEMBRANE );
+        PText membraneLabel = new PText( MembraneChannelsStrings.MEMBRANE );
         membraneLabel.setFont(new PhetFont());
         membraneLabel.setScale(transformedMembraneRect.getHeight() * 0.7 / membraneLabel.getFullBoundsReference().height);
         membraneLabel.setOffset(transformedMembraneRect.getMinX() + 10,
@@ -210,7 +210,7 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
     	    // Handle notification of the channel's removal from the model.
 			public void removed() {
 			    channelNode.cleanup();
-			    if (!MembraneDiffusionModel.getOverallParticleChamberRect().contains( channelNode.getMembraneChannel().getCenterLocation() ) ||
+			    if (!MembraneChannelsModel.getOverallParticleChamberRect().contains( channelNode.getMembraneChannel().getCenterLocation() ) ||
 			        model.isMembraneFull()){
 			        // The membrane channel is being removed either because
 			        // it is not in the particle chamber (which means that the

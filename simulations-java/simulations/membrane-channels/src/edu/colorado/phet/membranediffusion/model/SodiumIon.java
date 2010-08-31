@@ -2,7 +2,7 @@ package edu.colorado.phet.membranediffusion.model;
 
 import java.awt.Color;
 
-import edu.colorado.phet.membranediffusion.MembraneDiffusionConstants;
+import edu.colorado.phet.membranediffusion.MembraneChannelsConstants;
 
 
 public class SodiumIon extends Particle {
@@ -14,6 +14,6 @@ public class SodiumIon extends Particle {
 
 	@Override
 	public Color getRepresentationColor() {
-		return MembraneDiffusionConstants.SODIUM_COLOR;
+		return MembraneChannelsConstants.SODIUM_COLOR;
 	}
 }

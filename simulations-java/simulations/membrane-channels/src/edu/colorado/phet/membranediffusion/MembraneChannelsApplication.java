@@ -10,12 +10,12 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
-import edu.colorado.phet.membranediffusion.module.MembraneDiffusionModule;
+import edu.colorado.phet.membranediffusion.module.MembraneChannelsModule;
 
 /**
  * The main application for this simulation.
  */
-public class MembraneDiffusionApplication extends PiccoloPhetApplication {
+public class MembraneChannelsApplication extends PiccoloPhetApplication {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -30,7 +30,7 @@ public class MembraneDiffusionApplication extends PiccoloPhetApplication {
      *
      * @param config the configuration for this application
      */
-    public MembraneDiffusionApplication( PhetApplicationConfig config )
+    public MembraneChannelsApplication( PhetApplicationConfig config )
     {
         super( config );
         initModules();
@@ -48,7 +48,7 @@ public class MembraneDiffusionApplication extends PiccoloPhetApplication {
         
         Frame parentFrame = getPhetFrame();
 
-        Module firstModule = new MembraneDiffusionModule( parentFrame );
+        Module firstModule = new MembraneChannelsModule( parentFrame );
         addModule( firstModule );
     }
 
@@ -80,6 +80,6 @@ public class MembraneDiffusionApplication extends PiccoloPhetApplication {
          * If you want to customize your application (look-&-feel, window size, etc) 
          * create your own PhetApplicationConfig and use one of the other launchSim methods
          */
-        new PhetApplicationLauncher().launchSim( args, MembraneDiffusionConstants.PROJECT_NAME, MembraneDiffusionApplication.class );
+        new PhetApplicationLauncher().launchSim( args, MembraneChannelsConstants.PROJECT_NAME, MembraneChannelsApplication.class );
     }
 }

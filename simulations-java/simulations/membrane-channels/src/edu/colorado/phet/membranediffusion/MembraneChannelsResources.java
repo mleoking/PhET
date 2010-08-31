@@ -13,12 +13,12 @@ import edu.umd.cs.piccolo.nodes.PImage;
  * If we decide to use a different technique to load resources in the 
  * future, all changes will be encapsulated here.
  */
-public class MembraneDiffusionResources {
+public class MembraneChannelsResources {
     
-    private static final PhetResources RESOURCES = new PhetResources( MembraneDiffusionConstants.PROJECT_NAME );
+    private static final PhetResources RESOURCES = new PhetResources( MembraneChannelsConstants.PROJECT_NAME );
     
     /* not intended for instantiation */
-    private MembraneDiffusionResources() {}
+    private MembraneChannelsResources() {}
 
     public static final PhetResources getResourceLoader() {
         return RESOURCES;

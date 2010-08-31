@@ -15,10 +15,10 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
  * A collection of constants that configure global properties.
  * If you change something here, it will change *everywhere* in this simulation.
  */
-public class MembraneDiffusionConstants {
+public class MembraneChannelsConstants {
 
     /* Not intended for instantiation. */
-    private MembraneDiffusionConstants() {}
+    private MembraneChannelsConstants() {}
     
     //----------------------------------------------------------------------------
     // Debugging
@@ -78,12 +78,12 @@ public class MembraneDiffusionConstants {
     public static final Color POTASSIUM_COLOR = new Color(0, 0, 240);
 
     // Colors to use when representing various membrane channels.
-    public static final Color SODIUM_GATED_EDGE_COLOR = MembraneDiffusionConstants.SODIUM_COLOR;
+    public static final Color SODIUM_GATED_EDGE_COLOR = MembraneChannelsConstants.SODIUM_COLOR;
     public static final Color SODIUM_GATED_CHANNEL_COLOR = ColorUtils.darkerColor(SODIUM_GATED_EDGE_COLOR, 0.15);
-    public static final Color SODIUM_LEAKAGE_EDGE_COLOR = ColorUtils.interpolateRBGA(MembraneDiffusionConstants.SODIUM_COLOR, Color.YELLOW, 0.7);
+    public static final Color SODIUM_LEAKAGE_EDGE_COLOR = ColorUtils.interpolateRBGA(MembraneChannelsConstants.SODIUM_COLOR, Color.YELLOW, 0.7);
     public static final Color SODIUM_LEAKAGE_CHANNEL_COLOR = ColorUtils.darkerColor(SODIUM_LEAKAGE_EDGE_COLOR, 0.15);
-    public static final Color POTASSIUM_GATED_EDGE_COLOR = MembraneDiffusionConstants.POTASSIUM_COLOR;
+    public static final Color POTASSIUM_GATED_EDGE_COLOR = MembraneChannelsConstants.POTASSIUM_COLOR;
     public static final Color POTASSIUM_GATED_CHANNEL_COLOR = ColorUtils.brighterColor(POTASSIUM_GATED_EDGE_COLOR, 0.3);
-    public static final Color POTASSIUM_LEAKAGE_EDGE_COLOR = ColorUtils.interpolateRBGA(MembraneDiffusionConstants.POTASSIUM_COLOR, new Color(00, 200, 255), 0.7);
+    public static final Color POTASSIUM_LEAKAGE_EDGE_COLOR = ColorUtils.interpolateRBGA(MembraneChannelsConstants.POTASSIUM_COLOR, new Color(00, 200, 255), 0.7);
     public static final Color POTASSIUM_LEAKAGE_CHANNEL_COLOR = ColorUtils.darkerColor(POTASSIUM_LEAKAGE_EDGE_COLOR, 0.15);
 }

@@ -9,7 +9,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.membranediffusion.model.ChannelAlwaysOpenStrategy;
 import edu.colorado.phet.membranediffusion.model.GenericMembraneChannel;
 import edu.colorado.phet.membranediffusion.model.MembraneChannelTypes;
-import edu.colorado.phet.membranediffusion.model.MembraneDiffusionModel;
+import edu.colorado.phet.membranediffusion.model.MembraneChannelsModel;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -20,7 +20,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class PotassiumLeakageChannelToolBoxNode extends MembraneChannelToolBoxNode {
 
-	public PotassiumLeakageChannelToolBoxNode(MembraneDiffusionModel model, ModelViewTransform2D mvt, PhetPCanvas canvas) {
+	public PotassiumLeakageChannelToolBoxNode(MembraneChannelsModel model, ModelViewTransform2D mvt, PhetPCanvas canvas) {
 		super(model, mvt, canvas);
 	}
 

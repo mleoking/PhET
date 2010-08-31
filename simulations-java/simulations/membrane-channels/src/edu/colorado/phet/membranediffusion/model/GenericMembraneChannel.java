@@ -5,7 +5,7 @@ package edu.colorado.phet.membranediffusion.model;
 import java.awt.Color;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.membranediffusion.MembraneDiffusionConstants;
+import edu.colorado.phet.membranediffusion.MembraneChannelsConstants;
 
 /**
  * A membrane channel that can be configured at construction with respect
@@ -20,8 +20,8 @@ public class GenericMembraneChannel extends MembraneChannel {
     // Class Data
     //----------------------------------------------------------------------------
 	
-	private static final double CHANNEL_HEIGHT = MembraneDiffusionModel.getMembraneThickness() * 1.2; // In nanometers.
-	private static final double CHANNEL_WIDTH = MembraneDiffusionModel.getMembraneThickness() * 0.50; // In nanometers.
+	private static final double CHANNEL_HEIGHT = MembraneChannelsModel.getMembraneThickness() * 1.2; // In nanometers.
+	private static final double CHANNEL_WIDTH = MembraneChannelsModel.getMembraneThickness() * 0.50; // In nanometers.
 	
     //----------------------------------------------------------------------------
     // Instance Data
@@ -89,26 +89,26 @@ public class GenericMembraneChannel extends MembraneChannel {
 
 	    switch ( channelType ){
 	    case POTASSIUM_GATED_CHANNEL:
-	        channelColor = MembraneDiffusionConstants.POTASSIUM_GATED_CHANNEL_COLOR;
-	        edgeColor = MembraneDiffusionConstants.POTASSIUM_GATED_EDGE_COLOR;
+	        channelColor = MembraneChannelsConstants.POTASSIUM_GATED_CHANNEL_COLOR;
+	        edgeColor = MembraneChannelsConstants.POTASSIUM_GATED_EDGE_COLOR;
 	        particleType = ParticleType.POTASSIUM_ION;
 	        break;
 
 	    case POTASSIUM_LEAKAGE_CHANNEL:
-	        channelColor = MembraneDiffusionConstants.POTASSIUM_LEAKAGE_CHANNEL_COLOR;
-	        edgeColor = MembraneDiffusionConstants.POTASSIUM_LEAKAGE_EDGE_COLOR;
+	        channelColor = MembraneChannelsConstants.POTASSIUM_LEAKAGE_CHANNEL_COLOR;
+	        edgeColor = MembraneChannelsConstants.POTASSIUM_LEAKAGE_EDGE_COLOR;
 	        particleType = ParticleType.POTASSIUM_ION;
 	        break;
 
 	    case SODIUM_GATED_CHANNEL:
-	        channelColor = MembraneDiffusionConstants.SODIUM_GATED_CHANNEL_COLOR;
-	        edgeColor = MembraneDiffusionConstants.SODIUM_GATED_EDGE_COLOR;
+	        channelColor = MembraneChannelsConstants.SODIUM_GATED_CHANNEL_COLOR;
+	        edgeColor = MembraneChannelsConstants.SODIUM_GATED_EDGE_COLOR;
 	        particleType = ParticleType.SODIUM_ION;
 	        break;
 
 	    case SODIUM_LEAKAGE_CHANNEL:
-	        channelColor = MembraneDiffusionConstants.SODIUM_LEAKAGE_CHANNEL_COLOR;
-	        edgeColor = MembraneDiffusionConstants.SODIUM_LEAKAGE_EDGE_COLOR;
+	        channelColor = MembraneChannelsConstants.SODIUM_LEAKAGE_CHANNEL_COLOR;
+	        edgeColor = MembraneChannelsConstants.SODIUM_LEAKAGE_EDGE_COLOR;
 	        particleType = ParticleType.SODIUM_ION;
 	        break;
 
