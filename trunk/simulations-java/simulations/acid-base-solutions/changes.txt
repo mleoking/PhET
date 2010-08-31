@@ -1,3 +1,4 @@
+8/31/10 replace local implementation of BlackSeparator with phetcommon
 8/30/10 use PhetTitledPanel instead of using PhetTitledBorder directly, #2476
 8/26/10 restore ordering of control panel
 # 0.00.25 (43537) Aug 26, 2010

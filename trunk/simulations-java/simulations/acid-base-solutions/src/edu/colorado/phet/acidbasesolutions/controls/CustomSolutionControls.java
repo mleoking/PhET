@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.acidbasesolutions.controls;
 
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -25,6 +24,7 @@ import edu.colorado.phet.acidbasesolutions.model.StrongBaseSolution.CustomStrong
 import edu.colorado.phet.acidbasesolutions.model.WeakAcidSolution.CustomWeakAcidSolution;
 import edu.colorado.phet.acidbasesolutions.model.WeakBaseSolution.CustomWeakBaseSolution;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
+import edu.colorado.phet.common.phetcommon.view.ColoredSeparator.BlackSeparator;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.AbstractValueControl;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.ILayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LogarithmicValueControl;
@@ -447,12 +447,6 @@ public class CustomSolutionControls extends PhetTitledPanel {
         
         public void doLayout( AbstractValueControl valueControl ) {
             valueControl.add( valueControl.getSlider() );
-        }
-    }
-    
-    private static class BlackSeparator extends JSeparator {
-        public BlackSeparator() {
-            setForeground( Color.BLACK );
         }
     }
 }
