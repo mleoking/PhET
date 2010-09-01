@@ -1,3 +1,4 @@
+Fixed: when I drag and object towards the corner of the base and wall of the pool I can make it disappear
 Made it so the "show table" button toggles to a "hide table" button 
 Remember the location of the mystery object density table when it is dismissed
 # 0.01.20 (43723) Aug 31, 2010
