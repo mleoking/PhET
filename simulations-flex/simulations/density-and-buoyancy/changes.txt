@@ -1,3 +1,4 @@
+Added ice
 Made minimum density object texture more white instead of gray 
 Changed slider knob to be transparent if the value is out of range, instead of continuously mapping transparency to distance out of range
 Changed mystery objects table to be sorted by density instead of alphabetically

@@ -33,6 +33,10 @@ public class BlockNode extends CubeNode implements Pickable {
     //came with away3d
     private var brickTextureClass:Class;
 
+    [Embed(source="../../../../../../data/density-and-buoyancy/images/ice.jpg")]
+    //SRR modified aluminum.jpg based on microsoft clip art
+    private var iceTextureClass:Class;
+
     // initial testing wood texture
     // public domain, see http://www.publicdomainpictures.net/view-image.php?picture=wood-texture&image=1282&large=1
     // license: " 	This image is public domain. You may use this picture for any purpose, including commercial. If you do use it, please consider linking back to us. If you are going to redistribute this image online, a hyperlink to this particular page is mandatory."
@@ -87,6 +91,7 @@ public class BlockNode extends CubeNode implements Pickable {
 
     private function updateMaterial():void {
         // update the bitmap we use as a background
+        //TODO: Object orient this
         if (block.getMaterial() == Material.WOOD) {
             textureBitmap = new woodClass();
         }
@@ -99,6 +104,9 @@ public class BlockNode extends CubeNode implements Pickable {
         else if (block.getMaterial() == Material.ALUMINUM) {
             textureBitmap = new aluminumTextureClass();
         }
+        else if (block.getMaterial() == Material.ICE) {
+            textureBitmap = new iceTextureClass();
+        }
         else {
             textureBitmap = getCustomBitmap();
         }
@@ -107,6 +115,9 @@ public class BlockNode extends CubeNode implements Pickable {
         updateText();
 
         sideMaterial = new BitmapMaterial(textureBitmap.bitmapData);
+        if (block.getMaterial() == Material.ICE) {//TODO: Object orient this
+            sideMaterial.alpha = 0.75;
+        }
 
         // TODO: possibly change tiling for textures that are not symmetric
         var cube:PickableCube = getCube();
