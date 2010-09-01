@@ -21,7 +21,9 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.membranechannels.MembraneChannelsConstants;
 import edu.colorado.phet.membranechannels.MembraneChannelsResources;
 import edu.colorado.phet.membranechannels.MembraneChannelsStrings;
+import edu.colorado.phet.membranechannels.model.MembraneChannel;
 import edu.colorado.phet.membranechannels.model.MembraneChannelsModel;
+import edu.colorado.phet.membranechannels.model.Particle;
 
 /**
  * Control panel for the membrane channels module.
@@ -33,6 +35,8 @@ public class MembraneChannelsControlPanel extends ControlPanel {
 	//----------------------------------------------------------------------------
     // Class Data
     //----------------------------------------------------------------------------
+    
+    private static final Dimension BUTTON_SIZE = new Dimension();
 	
 	//----------------------------------------------------------------------------
     // Instance Data
@@ -43,9 +47,10 @@ public class MembraneChannelsControlPanel extends ControlPanel {
 
     private JButton sodiumGatedChannelControlButton;
     private JButton potassiumGatedChannelControlButton;
+    private JButton clearParticlesButton;
     
     //----------------------------------------------------------------------------
-    // Constructors
+    // Constructor(s)
     //----------------------------------------------------------------------------
     
     /**
@@ -73,6 +78,18 @@ public class MembraneChannelsControlPanel extends ControlPanel {
             public void potassiumGateOpennessChanged() {
                 updateMembraneChannelControlButtons();
             }
+
+            @Override
+            public void channelAdded( MembraneChannel channel ) {
+                updateMembraneChannelControlButtons();
+                channel.addListener( new MembraneChannelRemovalListener( channel, MembraneChannelsControlPanel.this ) );
+            }
+
+            @Override
+            public void particleAdded( Particle particle ) {
+                updateClearParticlesButton();
+                particle.addListener( new ParticleRemovalListener( particle, MembraneChannelsControlPanel.this ) );
+            }
     	});
     	
     	// Set the control panel's minimum width.
@@ -82,8 +99,14 @@ public class MembraneChannelsControlPanel extends ControlPanel {
         // Put some space at the top of the panel.
         addControlFullWidth(createVerticalSpacingPanel(20));
 
+        // Define the size of the buttons.  This is based on the width of the
+        // control panel and a height value that just seemed to look
+        // reasonable.
+        Dimension buttonSize = new Dimension((int)Math.round( minimumWidth * 0.9 ), 40);
+        
         // Create the buttons for stimulating the channels.
         sodiumGatedChannelControlButton = new JButton();
+        sodiumGatedChannelControlButton.setPreferredSize( buttonSize );
         sodiumGatedChannelControlButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			    model.setGatedSodiumChannelsOpen( model.getGatedSodiumChannelOpenness() < 0.5 );
@@ -91,6 +114,7 @@ public class MembraneChannelsControlPanel extends ControlPanel {
 		});
         
         potassiumGatedChannelControlButton = new JButton();
+        potassiumGatedChannelControlButton.setPreferredSize( buttonSize );
         potassiumGatedChannelControlButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			    model.setGatedPotassiumChannelsOpen( model.getGatedPotassiumChannelOpenness() < 0.5 );
@@ -99,14 +123,7 @@ public class MembraneChannelsControlPanel extends ControlPanel {
         
         updateMembraneChannelControlButtons();
         
-        // Make the buttons the same size by placing them on a panel and by
-        // setting the preferred height to be equal.
-        Dimension buttonPreferredSize = new Dimension(
-        		Math.max(sodiumGatedChannelControlButton.getPreferredSize().width, potassiumGatedChannelControlButton.getPreferredSize().width),
-        		Math.max(sodiumGatedChannelControlButton.getPreferredSize().height, potassiumGatedChannelControlButton.getPreferredSize().height));
         JPanel buttonPanel = new VerticalLayoutPanel();
-        sodiumGatedChannelControlButton.setPreferredSize(buttonPreferredSize);
-        potassiumGatedChannelControlButton.setPreferredSize(buttonPreferredSize);
         buttonPanel.add(sodiumGatedChannelControlButton);
         buttonPanel.add(createVerticalSpacingPanel(15));
         buttonPanel.add(potassiumGatedChannelControlButton);
@@ -118,14 +135,16 @@ public class MembraneChannelsControlPanel extends ControlPanel {
         // Add a button for removing all particles.
         addControl(createVerticalSpacingPanel(15));
         JPanel clearButtonPanel = new JPanel();
-        JButton removeAllParticlesButton = new JButton(MembraneChannelsStrings.CLEAR_PARTICLES);
-        removeAllParticlesButton.addActionListener( new ActionListener() {
+        clearParticlesButton = new JButton(MembraneChannelsStrings.CLEAR_PARTICLES);
+        clearParticlesButton.setPreferredSize( buttonSize );
+        clearParticlesButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 model.removeAllParticles();
             }
         });
-        clearButtonPanel.add( removeAllParticlesButton );
+        clearButtonPanel.add( clearParticlesButton );
         addControlFullWidth(clearButtonPanel);
+        updateClearParticlesButton();
         
         // Add the check box for hiding/showing the concentration graphs.  It
         // is in its own panel so that it can be centered.
@@ -144,7 +163,7 @@ public class MembraneChannelsControlPanel extends ControlPanel {
         updateConcentrationsCheckBoxState();
         
         // Add the reset all button.
-        addControlFullWidth(createVerticalSpacingPanel(50));
+        addControlFullWidth(createVerticalSpacingPanel(200));
         addResetAllButton( module );
     }
     
@@ -164,7 +183,12 @@ public class MembraneChannelsControlPanel extends ControlPanel {
     }
     
     private void updateMembraneChannelControlButtons(){
+        
+        // Update the enabled/disabled state.
+        sodiumGatedChannelControlButton.setEnabled( model.getNumGatedSodiumChannels() > 0 );
+        potassiumGatedChannelControlButton.setEnabled( model.getNumGatedPotassiumChannels() > 0 );
 
+        // Update the icon and the text.
         if (model.getGatedSodiumChannelOpenness() > 0.5){
             sodiumGatedChannelControlButton.setText( MembraneChannelsStrings.CLOSE_CHANNELS );
             sodiumGatedChannelControlButton.setIcon( new ImageIcon( MembraneChannelsResources.getImage( "green_gate_close_icon.png" ) ) );
@@ -181,6 +205,57 @@ public class MembraneChannelsControlPanel extends ControlPanel {
         else{
             potassiumGatedChannelControlButton.setText( MembraneChannelsStrings.OPEN_CHANNELS );
             potassiumGatedChannelControlButton.setIcon( new ImageIcon( MembraneChannelsResources.getImage( "blue_gate_open_icon.png" ) ) );
+        }
+    }
+    
+    private void updateClearParticlesButton(){
+        clearParticlesButton.setEnabled( model.getParticles().size() > 0 );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Inner Classes and Interfaces
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Class that listens for removal of a membrane channel, updates the
+     * control panel, and removes itself as a listener.
+     */
+    private static class MembraneChannelRemovalListener extends MembraneChannel.Adapter{
+        
+        final private MembraneChannel membraneChannel;
+        final private MembraneChannelsControlPanel membraneChannelsControlPanel;
+
+        public MembraneChannelRemovalListener( MembraneChannel membraneChannel,
+                MembraneChannelsControlPanel membraneChannelsControlPanel ) {
+            this.membraneChannel = membraneChannel;
+            this.membraneChannelsControlPanel = membraneChannelsControlPanel;
+        }
+
+        @Override
+        public void removed() {
+            membraneChannelsControlPanel.updateMembraneChannelControlButtons();
+            membraneChannel.removeListener( this );
+        }
+    }
+    
+    /**
+     * Class that listens for removal of a particle from the model and updates
+     * the control panel appropriately.
+     */
+    private static class ParticleRemovalListener extends Particle.Adapter{
+        
+        final private Particle particle;
+        final private MembraneChannelsControlPanel membraneChannelsControlPanel;
+
+        public ParticleRemovalListener( Particle particle, MembraneChannelsControlPanel membraneChannelsControlPanel ) {
+            this.particle = particle;
+            this.membraneChannelsControlPanel = membraneChannelsControlPanel;
+        }
+
+        @Override
+        public void removedFromModel() {
+            particle.removeListener( this );
+            membraneChannelsControlPanel.updateClearParticlesButton();
         }
     }
 }
