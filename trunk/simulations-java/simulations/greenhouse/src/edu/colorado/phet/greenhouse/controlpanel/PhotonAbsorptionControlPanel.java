@@ -2,9 +2,7 @@
 
 package edu.colorado.phet.greenhouse.controlpanel;
 
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Point;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -23,11 +21,7 @@ import javax.swing.JRadioButton;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.view.ControlPanel;
-import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
-import edu.colorado.phet.common.phetcommon.view.PhetLineBorder;
-import edu.colorado.phet.common.phetcommon.view.PhetTitledBorder;
-import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.*;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
@@ -110,8 +104,9 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
         
         // Create and add a panel that will contain the buttons for selecting
         // the gas.
-        VerticalLayoutPanel atmosphericGasesPanel = new VerticalLayoutPanel();
-        atmosphericGasesPanel.setBorder(new PhetTitledBorder(GreenhouseResources.getString("PhotonAbsorptionControlPanel.AtmosphericGasesTitle")));
+        PhetTitledPanel atmosphericGasesPanel = new PhetTitledPanel(GreenhouseResources.getString("PhotonAbsorptionControlPanel.AtmosphericGasesTitle"));
+        atmosphericGasesPanel.setLayout(new GridBagLayout());
+        GridBagConstraints constraints=new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets( 0, 0, 0, 0 ), 0, 0 );
         addControlFullWidth(atmosphericGasesPanel);
         
         // Add buttons for selecting greenhouse gas.
@@ -120,45 +115,44 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
                 GreenhouseResources.getString("PhotonAbsorptionControlPanel.Methane"),
                 createImageFromMolecule( new CH4() ), PhotonTarget.SINGLE_CH4_MOLECULE, MOLECULE_SCALING_FACTOR );
         ch4Selector.setFont( LABEL_FONT );
-        atmosphericGasesPanel.add(ch4Selector);
+        atmosphericGasesPanel.add(ch4Selector,constraints);
         
         co2Selector = createAndAttachSelectorPanel( 
                 GreenhouseResources.getString("PhotonAbsorptionControlPanel.CO2"), 
                 GreenhouseResources.getString("PhotonAbsorptionControlPanel.CarbonDioxide"),
                 createImageFromMolecule( new CO2() ), PhotonTarget.SINGLE_CO2_MOLECULE, MOLECULE_SCALING_FACTOR );
         co2Selector.setFont( LABEL_FONT );
-        atmosphericGasesPanel.add(co2Selector);
+        atmosphericGasesPanel.add(co2Selector,constraints);
         
         h2oSelector = createAndAttachSelectorPanel( 
                 GreenhouseResources.getString("PhotonAbsorptionControlPanel.H2O"), 
                 GreenhouseResources.getString("PhotonAbsorptionControlPanel.Water"),
                 createImageFromMolecule( new H2O() ), PhotonTarget.SINGLE_H2O_MOLECULE, MOLECULE_SCALING_FACTOR );
         h2oSelector.setFont( LABEL_FONT );
-        atmosphericGasesPanel.add(h2oSelector);
+        atmosphericGasesPanel.add(h2oSelector,constraints);
         
         n2Selector = createAndAttachSelectorPanel( 
                 GreenhouseResources.getString("PhotonAbsorptionControlPanel.N2"),
                 GreenhouseResources.getString("PhotonAbsorptionControlPanel.Nitrogen"),
                 createImageFromMolecule( new N2() ), PhotonTarget.SINGLE_N2_MOLECULE, MOLECULE_SCALING_FACTOR );
         n2Selector.setFont( LABEL_FONT );
-        atmosphericGasesPanel.add(n2Selector);
+        atmosphericGasesPanel.add(n2Selector,constraints);
         
         o2Selector = createAndAttachSelectorPanel( 
                 GreenhouseResources.getString("PhotonAbsorptionControlPanel.O2"),
                 GreenhouseResources.getString("PhotonAbsorptionControlPanel.Oxygen"),
                 createImageFromMolecule( new O2() ), PhotonTarget.SINGLE_O2_MOLECULE, MOLECULE_SCALING_FACTOR );
         o2Selector.setFont( LABEL_FONT );
-        atmosphericGasesPanel.add(o2Selector);
+        atmosphericGasesPanel.add(o2Selector,constraints);
 
         atmosphereSelector = createAndAttachSelectorPanel(
                 GreenhouseResources.getString("PhotonAbsorptionControlPanel.BuildAtmosphere"), null,
                 GreenhouseResources.getImage( "earth.png" ), PhotonTarget.CONFIGURABLE_ATMOSPHERE, PLANET_SCALING_FACTOR);
-        atmosphericGasesPanel.add(atmosphereSelector);
+        atmosphericGasesPanel.add(atmosphereSelector,constraints);
 
         // Create and add a panel that will contain the sliders for
         // configuring the atmosphere.
         VerticalLayoutPanel atmosphereSliderPanel = new VerticalLayoutPanel();
-        atmosphericGasesPanel.add( atmosphereSliderPanel );
         
         // Add the molecule control sliders.
         addSliderForMolecule( 
@@ -176,6 +170,8 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
         addSliderForMolecule( 
                 GreenhouseResources.getString("PhotonAbsorptionControlPanel.O2"),
                 atmosphereSliderPanel, MoleculeID.O2 );
+        
+        atmosphericGasesPanel.add( atmosphereSliderPanel ,constraints);
 
         // Put all the buttons in a button group.
         ButtonGroup buttonGroup = new ButtonGroup();
