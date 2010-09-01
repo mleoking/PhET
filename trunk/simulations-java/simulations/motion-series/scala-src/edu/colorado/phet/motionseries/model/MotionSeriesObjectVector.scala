@@ -4,12 +4,12 @@ import edu.colorado.phet.motionseries.graphics.PointOfOriginVector
 import java.awt.{Paint, Color}
 import edu.colorado.phet.scalacommon.math.Vector2D
 import edu.colorado.phet.scalacommon.util.Observable
-import edu.colorado.phet.motionseries.Predef._ 
+import edu.colorado.phet.motionseries.Predef._
 
 class Vector(val color: Color,
              val name: String,
              val abbreviation: String,
-             val _vector2DModel: Vector2DModel,
+             private val _vector2DModel: Vector2DModel,
              val painter: (Vector2D, Color) => Paint,
              val labelAngle: Double) {
   val visible = new SMutableBoolean(true)
@@ -67,7 +67,7 @@ class VectorComponent(target: MotionSeriesObjectVector,
                       painter: (Vector2D, Color) => Paint,
                       modifier: String,
                       labelAngle: Double)
-        extends MotionSeriesObjectVector(target.color, target.name, target.abbreviation + modifier, target.bottomPO, target._vector2DModel, painter, labelAngle) {
+        extends MotionSeriesObjectVector(target.color, target.name, target.abbreviation + modifier, target.bottomPO, target.vector2DModel, painter, labelAngle) {
   override def vector2DModel = {
     val d = componentUnitVector.value
     new Vector2DModel(d * (super.vector2DModel.apply() dot d))
