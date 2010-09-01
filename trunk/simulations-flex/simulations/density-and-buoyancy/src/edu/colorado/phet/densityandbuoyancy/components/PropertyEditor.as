@@ -91,9 +91,15 @@ public class PropertyEditor extends GridRow {
             const setValue:Number = unit.fromSI(property.value);
             slider.value = setValue;
             try {
-                slider.getThumbAt(0).alpha = Math.max(0.25, //This is the minimum alpha that will be shown.  Beyond 0.25 is too hard to see anything.
-                        Math.min(1, slider.maximum / setValue) //The more the value goes above the slider's maximum, make more transparent.  But keep alpha =1 if it is in the slider range.
-                        );
+                var alphaValue:Number = 1;
+                if (setValue > slider.maximum) {
+                    alphaValue = 0.25;
+                }
+                slider.getThumbAt(0).alpha = alphaValue;
+                //Keeping around this code until discussion about continuous alpha slider knob is concluded.
+                //                        Math.max(0.25, //This is the minimum alpha that will be shown.  Beyond 0.25 is too hard to see anything.
+                //                        Math.min(1, slider.maximum / setValue) //The more the value goes above the slider's maximum, make more transparent.  But keep alpha =1 if it is in the slider range.
+                //                        );
             }
             catch(exception:Error) {
 
