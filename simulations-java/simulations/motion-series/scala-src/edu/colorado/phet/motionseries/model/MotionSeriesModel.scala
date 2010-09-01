@@ -50,10 +50,10 @@ class MotionSeriesModel(defaultPosition: Double,
   object rampChangeAdapter extends Observable //todo: perhaps we should just pass the addListener method to the MotionSeriesObjects
   rampSegments(0).addListenerByName {rampChangeAdapter.notifyListeners}
   rampSegments(1).addListenerByName {rampChangeAdapter.notifyListeners}
+  val wallRange = () => Range(-rampSegments(0).length, rampSegments(1).length)
   val surfaceFriction = () => !frictionless
 
   val defaultManPosition = defaultPosition - 1
-  val manMotionSeriesObject = MotionSeriesObject(this, defaultManPosition, 1, 3)
 
   val leftWall = MotionSeriesObject(this, -10, MotionSeriesDefaults.wall.width, MotionSeriesDefaults.wall.height)
   val rightWall = MotionSeriesObject(this, 10, MotionSeriesDefaults.wall.width, MotionSeriesDefaults.wall.height)
@@ -61,11 +61,10 @@ class MotionSeriesModel(defaultPosition: Double,
   val leftWallRightEdge = MotionSeriesObject(this, -10 + MotionSeriesDefaults.wall.width / 2, MotionSeriesDefaults.SPRING_WIDTH, MotionSeriesDefaults.SPRING_HEIGHT)
   val rightWallLeftEdge = MotionSeriesObject(this, 10 - MotionSeriesDefaults.wall.width / 2, MotionSeriesDefaults.SPRING_WIDTH, MotionSeriesDefaults.SPRING_HEIGHT)
 
-  val wallRange = () => Range(-rampSegments(0).length, rampSegments(1).length)
-
   val surfaceFrictionStrategy = new SurfaceFrictionStrategy() {
     def getTotalFriction(objectFriction: Double) = objectFriction
   }
+  val manMotionSeriesObject = MotionSeriesObject(this, defaultManPosition, 1, 3)
   //This is the main object that forces are applied to
   val motionSeriesObject = new MotionSeriesObject(new MotionSeriesObjectState(defaultPosition, 0, 0,
     _objectType.mass, _objectType.staticFriction, _objectType.kineticFriction, 0.0, 0.0, 0.0),
@@ -73,6 +72,7 @@ class MotionSeriesModel(defaultPosition: Double,
     rampSegmentAccessor, rampChangeAdapter, _wallsBounce, walls, wallRange, thermalEnergyStrategy, surfaceFriction, surfaceFrictionStrategy)
 
   updateDueToObjectTypeChange()
+  motionSeriesObject.stepInTime(0.0)//Update vectors using the motion strategy
 
   def thermalEnergyStrategy(x: Double) = x
 
@@ -113,7 +113,6 @@ class MotionSeriesModel(defaultPosition: Double,
   def motionSeriesObjectInModelViewportRange = motionSeriesObject.position2D.x < MotionSeriesDefaults.MIN_X || motionSeriesObject.position2D.x > MotionSeriesDefaults.MAX_X
 
   def returnMotionSeriesObject() = {
-    motionSeriesObject.setDesiredPosition(defaultPosition)
     motionSeriesObject.setPosition(defaultPosition)
     motionSeriesObject.parallelAppliedForce = 0
     motionSeriesObject.setVelocity(0)

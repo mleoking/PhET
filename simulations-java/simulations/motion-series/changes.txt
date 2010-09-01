@@ -1,3 +1,5 @@
+Fixed: vectors are incorrect on initialization
+Refactored MotionSeriesObject model startup sequence
 Performance improvement: skip expensive updates to VectorNode when possible
 Refactored MotionSeriesObject to use explicit Vector2DModel paradigm instead of lazy computation paradigm
 Merged ForceMotionSeriesObject into MotionSeriesObject

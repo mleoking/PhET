@@ -44,7 +44,10 @@ class MotionSeriesObject(private var _state: MotionSeriesObjectState,
                          val surfaceFriction: () => Boolean,
                          __surfaceFrictionStrategy: SurfaceFrictionStrategy)
         extends Observable {
+  private var _airborneFloor = 0.0
   private var _gravity = -9.8
+  val workListeners = new ArrayBuffer[Double => Unit]
+  private var _notificationsEnabled = true
   //This notion of crashing is only regarding falling off a cliff or off the ramp, not for crashing into a wall
   val crashListeners = new ArrayBuffer[() => Unit]
   //notified when the MotionSeriesObject is being removed
@@ -68,8 +71,10 @@ class MotionSeriesObject(private var _state: MotionSeriesObjectState,
   val wallForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.wallForceColor, "Wall Force".literal, "force.abbrev.wall".translate, false, wallForce, (a, b) => b, PI / 2)
   val parallelAppliedForceListeners = new ArrayBuffer[() => Unit]
   
+  private val wallCrashListeners = new ArrayBuffer[() => Unit]
+  private val bounceListeners = new ArrayBuffer[() => Unit]
+  
   private var _motionStrategy: MotionStrategy = new Grounded(this)
-  stepInTime(0.0)//Update vectors using the motion strategy
   
   def frictionless = state.staticFriction == 0 && state.kineticFriction == 0
 
@@ -138,19 +143,9 @@ class MotionSeriesObject(private var _state: MotionSeriesObjectState,
 
   def setTime(t: Double) = state = state.setTime(t)
 
-  private var _desiredPosition = 0.0
-
-  def desiredPosition = _desiredPosition
-  //so we can use a filter
-  def setDesiredPosition(position: Double) = _desiredPosition = position
-
-  private var _airborneFloor = 0.0
-
   def airborneFloor = _airborneFloor
 
-  def airborneFloor_=(airborneFloor: Double) = {
-    this._airborneFloor = airborneFloor
-  }
+  def airborneFloor_=(airborneFloor: Double) = this._airborneFloor = airborneFloor
 
   def getTotalEnergy = potentialEnergy + kineticEnergy + thermalEnergy
 
@@ -189,10 +184,6 @@ class MotionSeriesObject(private var _state: MotionSeriesObjectState,
   def kineticEnergy = 1.0 / 2.0 * mass * velocity * velocity
 
   def getParallelComponent(f: Vector2D) = f dot rampUnitVector
-
-  val workListeners = new ArrayBuffer[Double => Unit]
-
-  private var _notificationsEnabled = true
 
   def notificationsEnabled = _notificationsEnabled
 
@@ -296,10 +287,6 @@ class MotionSeriesObject(private var _state: MotionSeriesObjectState,
   def notifyCollidedWithWall() = for (wallCrashListener <- wallCrashListeners) wallCrashListener()
 
   def notifyBounced() = for (bounceListener <- bounceListeners) bounceListener()
-
-  private val wallCrashListeners = new ArrayBuffer[() => Unit]
-
-  private val bounceListeners = new ArrayBuffer[() => Unit]
 
   def addWallCrashListener(listener: () => Unit) = wallCrashListeners += listener
 
