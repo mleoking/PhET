@@ -4,7 +4,7 @@ import edu.colorado.phet.densityandbuoyancy.model.Material;
 
 public class DensityConstants {
     public static const MIN_MASS:Number = 1;
-    public static const MAX_MASS:Number = 12;
+    public static const MAX_MASS:Number = 10;
     public static const MIN_VOLUME:Number = litersToMetersCubed(1);
     public static const MAX_VOLUME:Number = litersToMetersCubed(10);
     public static const MIN_DENSITY:Number = kgLtoSI(0.1);
