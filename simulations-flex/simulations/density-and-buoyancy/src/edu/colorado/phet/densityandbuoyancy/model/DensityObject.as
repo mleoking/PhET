@@ -347,7 +347,7 @@ public class DensityObject {
     }
 
     //Abstract
-    function box2DStepped():void {
+    public function box2DStepped():void {
     }
 }
 }

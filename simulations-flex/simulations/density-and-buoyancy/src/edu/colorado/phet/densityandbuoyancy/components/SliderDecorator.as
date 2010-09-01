@@ -8,7 +8,7 @@ import mx.controls.sliderClasses.SliderThumb;
 import mx.core.UIComponent;
 
 public class SliderDecorator extends UIComponent {
-    var slider:HSlider;
+    private var slider:HSlider;
 
     private var tickMarkSet:Sprite;
     private var ticks:Array = new Array();
@@ -57,53 +57,53 @@ public class SliderDecorator extends UIComponent {
         }
     }
 
-    function set sliderThumbClass(sliderThumbClass:Class):void {
+    public function set sliderThumbClass(sliderThumbClass:Class):void {
         slider.sliderThumbClass = sliderThumbClass;
     }
 
-    function set minimum(minimum:Number):void {
+    public function set minimum(minimum:Number):void {
         slider.minimum = minimum;
     }
 
-    function set maximum(maximum:Number):void {
+    public function set maximum(maximum:Number):void {
         slider.maximum = maximum;
     }
 
-    function set liveDragging(liveDragging:Boolean):void {
+    public function set liveDragging(liveDragging:Boolean):void {
         slider.liveDragging = liveDragging;
     }
 
-    function get maximum():Number {
+    public function get maximum():Number {
         return slider.maximum;
     }
 
-    function get minimum():Number {
+    public function get minimum():Number {
         return slider.minimum;
     }
 
-    function set value(value:Number):void {
+    public function set value(value:Number):void {
         slider.value = value;
     }
 
-    function getThumbAt(i:int):SliderThumb {
+    public function getThumbAt(i:int):SliderThumb {
         return slider.getThumbAt(i);
     }
 
-    function addTick(value:Number, color:uint = 0x000000, label:String = null):void {
+    public function addTick(value:Number, color:uint = 0x000000, label:String = null):void {
         var tick:Tick = new Tick(value, color, label);
         ticks.push(tick);
         addChild(tick.textField);
         updateTicks();
     }
 
-    function set sliderWidth(sliderWidth:Number):void {
+    public function set sliderWidth(sliderWidth:Number):void {
         slider.width = sliderWidth;
         this.width = sliderWidth;
         updateTicks();
 
     }
 
-    function addSliderEventListener(type:String, handler:Function):void {
+    public function addSliderEventListener(type:String, handler:Function):void {
         slider.addEventListener(type, handler);
     }
 }
