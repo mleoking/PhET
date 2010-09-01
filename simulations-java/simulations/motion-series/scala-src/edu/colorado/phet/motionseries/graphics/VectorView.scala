@@ -17,7 +17,7 @@ class VectorView(motionSeriesObject: MotionSeriesObject,
                              offsetPlayArea: Double,
                              selectedVectorVisible: () => Boolean,
                              vectorDisplay: VectorDisplay) = {
-    
+
     //TODO: This looks like it will be very performance intensive
     val parallelComponent = new ParallelComponent(vector, motionSeriesObject)
     val perpComponent = new PerpendicularComponent(vector, motionSeriesObject)
@@ -78,12 +78,10 @@ trait PointOfOriginVector {
 class PlayAreaVectorDisplay(transform: ModelViewTransform2D, motionSeriesObject: MotionSeriesObject, vectorViewModel: VectorViewModel) extends PNode with VectorDisplay {
   def addVector(vector: Vector with PointOfOriginVector, offset2D: Vector2DModel, maxOffset: Int, offset: Double): Unit = {
     val defaultCenter = motionSeriesObject.height / 2.0
-    val myoffset = new Vector2DModel(motionSeriesObject.position2D + new Vector2D(motionSeriesObject.getAngle + java.lang.Math.PI / 2) *
-            (offset + (if (vectorViewModel.centered) defaultCenter else vector.getPointOfOriginOffset(defaultCenter))))
-    motionSeriesObject.addListener(() => {
-      myoffset.setValue(motionSeriesObject.position2D + new Vector2D(motionSeriesObject.getAngle + java.lang.Math.PI / 2) *
-              (offset + (if (vectorViewModel.centered) defaultCenter else vector.getPointOfOriginOffset(defaultCenter))))
-    })
+    def getValue = motionSeriesObject.position2D + new Vector2D(motionSeriesObject.getAngle + java.lang.Math.PI / 2) *
+            (offset + (if (vectorViewModel.centered) defaultCenter else vector.getPointOfOriginOffset(defaultCenter)))
+    val myoffset = new Vector2DModel(getValue)
+    motionSeriesObject.addListener(() => myoffset.setValue(getValue))
     addChild(new BodyVectorNode(transform, vector, myoffset, motionSeriesObject, MotionSeriesDefaults.PLAY_AREA_FORCE_VECTOR_SCALE))
   }
 
