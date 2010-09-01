@@ -18,7 +18,6 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 
-import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
 import edu.colorado.phet.greenhouse.GreenhouseResources;
 import edu.colorado.phet.greenhouse.common.graphics.ApparatusPanel;
@@ -27,6 +26,7 @@ import edu.colorado.phet.greenhouse.common.graphics.ImageGraphic;
 import edu.colorado.phet.greenhouse.model.Earth;
 import edu.colorado.phet.greenhouse.model.Photon;
 import edu.colorado.phet.greenhouse.model.ReflectivityAssessor;
+import edu.umd.cs.piccolo.util.PAffineTransform;
 
 /**
  * Quirks:
@@ -177,9 +177,20 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor {
         if ( backdropGraphic != null ) {
             apparatusPanel.removeGraphic( backdropGraphic );
         }
-        backdropGraphic = new ImageGraphic( 
-        		BufferedImageUtils.rescaleXMaintainAspectRatio(currentBackdropImage, (int)desiredImageWidth), 
-        		location );
+        //Scale the currentBackdropImage so that it fills the width of the apparatus panel
+        //phetgraphics API was confusing and difficult to get it right,
+        //so we just clear the AffineTransform so that we can set it up ourselves, see #2453
+        backdropGraphic = new ImageGraphic(currentBackdropImage, location ){
+            public void paint(Graphics2D g2) {
+                AffineTransform savedTransform=g2.getTransform();
+                g2.setTransform(new AffineTransform());
+                final PAffineTransform newTransform = new PAffineTransform();
+                newTransform.translate(0,apparatusPanel.getHeight()-currentBackdropImage.getHeight());
+                newTransform.scale(apparatusPanel.getWidth()/(double)currentBackdropImage.getWidth(),1);
+                g2.drawRenderedImage(currentBackdropImage, newTransform);
+                g2.setTransform(savedTransform);
+            }
+        };
         apparatusPanel.addGraphic( backdropGraphic, GreenhouseConfig.EARTH_BACKDROP_LAYER );
     }
 

@@ -1,3 +1,4 @@
+Fixed: java.lang.OutOfMemoryError when making the window large, resolves #2453
 # 2.07.14 (43677) Aug 30, 2010
 8/30/10 Fixed an issue that was preventing the reordered tabs from working properly.
 # 2.07.13 (43675) Aug 30, 2010
