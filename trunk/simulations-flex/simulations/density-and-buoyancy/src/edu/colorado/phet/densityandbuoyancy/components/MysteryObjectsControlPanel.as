@@ -21,8 +21,8 @@ public class MysteryObjectsControlPanel extends DensityVBox {
     private var firstTime:Boolean = true;
     private var titleWindow:TitleWindow;
     private var myparent:MysteryObjectsControlPanel;
-    const showTableButton:Button = new Button();
-    const hideTableButton:Button = new Button();
+    private const showTableButton:Button = new Button();
+    private const hideTableButton:Button = new Button();
 
     public function MysteryObjectsControlPanel() {
         super();
@@ -33,7 +33,7 @@ public class MysteryObjectsControlPanel extends DensityVBox {
         grid.addChild(toGridRow(FlexSimStrings.get("mysteryObject.material", "Material"), FlexSimStrings.get("mysteryObject.density", "Density (kg/L)"), DensityConstants.FLEX_UNDERLINE));
         for each (var material:Material in Material.ALL) {
             const unit:Unit = new LinearUnit(FlexSimStrings.get("mysteryObject.densityUnits", "kg/L"), 0.001);
-            grid.addChild(toGridRow(material.name, unit.fromSI(material.getDensity()).toFixed(2), DensityConstants.FLEX_NONE));
+            grid.addChild(toGridRow(material.name, unit.fromSI(material.getDensity()).toFixed(DensityConstants.NUMBER_OF_DECIMAL_PLACES), DensityConstants.FLEX_NONE));
         }
 
         titleWindow = new TitleWindow();
@@ -60,7 +60,7 @@ public class MysteryObjectsControlPanel extends DensityVBox {
         });
     }
 
-    function setTableVisible(b:Boolean):void {
+    private function setTableVisible(b:Boolean):void {
         if (b) {
             PopUpManager.addPopUp(titleWindow, myparent.parent, false);
             //Remember the dialog location in case the user wants to toggle it on and off in a specific (nondefault) location
