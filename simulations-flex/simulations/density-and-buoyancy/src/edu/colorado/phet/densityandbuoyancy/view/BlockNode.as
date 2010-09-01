@@ -16,7 +16,7 @@ import mx.core.BitmapAsset;
 public class BlockNode extends CubeNode implements Pickable {
 
     private var block:Block;
-    private var textFieldMesh:TextFieldMesh = new TextFieldMesh("hello", createTextFormat(34));
+    private var textFieldMesh:TextFieldMesh;
 
     [Embed(source="../../../../../../data/density-and-buoyancy/images/custom.jpg")]
     private var customObjectTexture:Class;
@@ -47,14 +47,13 @@ public class BlockNode extends CubeNode implements Pickable {
 
     private var textureBitmap:Bitmap; // the texture being used (wood bitmap, wall (custom) bitmap, etc.)
     private var label:StringProperty;
-    private var readoutFontScale:Number;
 
     public function BlockNode(block:Block, view:AbstractDensityModule, label:StringProperty, readoutFontScale:Number = 1):void {
         super(block, view);
-        this.readoutFontScale = readoutFontScale;
 
         this.label = label;
         this.block = block;
+        this.textFieldMesh = new TextFieldMesh("hello", createTextFormat(34 * readoutFontScale));
 
         var cube:PickableCube = getCube();
         cube.cubeMaterials.back = cube.cubeMaterials.left = cube.cubeMaterials.right = cube.cubeMaterials.top = cube.cubeMaterials.bottom = cube.cubeMaterials.front = sideMaterial;
