@@ -27,6 +27,7 @@ public class SpriteFace extends MyMesh {
         const movieMaterial:MovieMaterial = new MovieMaterial(sprite);
         movieMaterial.smooth = true;
         plane(bottomLeft, bottomRight, topRight, topLeft, movieMaterial);
+        mouseEnabled = false;
     }
 
     public function get width():Number {
