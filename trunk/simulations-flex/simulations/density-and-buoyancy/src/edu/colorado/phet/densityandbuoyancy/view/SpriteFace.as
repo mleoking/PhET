@@ -8,10 +8,10 @@ import flash.display.Sprite;
  */
 public class SpriteFace extends MyMesh {
     private var sprite:Sprite;
-    var bottomLeft:Number;
-    var bottomRight:Number;
-    var topLeft:Number;
-    var topRight:Number;
+    private var bottomLeft:Number;
+    private var bottomRight:Number;
+    private var topLeft:Number;
+    private var topRight:Number;
 
     public function SpriteFace(sprite:Sprite) {
         super();

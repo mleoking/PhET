@@ -25,7 +25,7 @@ public class TextFieldMesh extends Sprite3D {
         drawBackground();
     }
 
-    function drawBackground():void {
+    protected function drawBackground():void {
         sprite.graphics.clear();
         sprite.graphics.beginFill(DensityConstants.CONTROL_PANEL_COLOR, 0.6);
         sprite.graphics.drawRect(0, 0, _textField.width, _textField.height);

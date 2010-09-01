@@ -26,7 +26,7 @@ public class Material {
     public static var ALL:Array = [ALUMINUM, APPLE, DIAMOND, GASOLINE_BALLOON,GOLD,ICE, LEAD,WATER_BALLOON,WOOD];//sorted below
     private var _tickColor:uint;
 
-    static function sortOnDensity(a:Material, b:Material):Number {
+    private static function sortOnDensity(a:Material, b:Material):Number {
         var aPrice:Number = a.getDensity();
         var bPrice:Number = b.getDensity();
 
