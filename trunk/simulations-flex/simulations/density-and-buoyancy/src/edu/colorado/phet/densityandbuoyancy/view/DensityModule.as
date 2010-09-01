@@ -264,7 +264,7 @@ class MysteryObjectsMode extends Mode {
         module.model.addDensityObject(block3);
         const block4:MysteryBlock = new MysteryBlock(Material.ICE.getDensity(), 0.15, -DensityConstants.POOL_WIDTH_X / 2, block3.getHeight() + block3.getY(), new ColorTransform(1, 0, 0), module.model, FlexSimStrings.get("mode.mysteryObjects.D", "D"));
         module.model.addDensityObject(block4);
-        const block5:MysteryBlock = new MysteryBlock(Material.DIAMOND.getDensity(), 0.1, -DensityConstants.POOL_WIDTH_X / 2, block4.getHeight() + block4.getY(), new ColorTransform(1, 0, 0), module.model, FlexSimStrings.get("mode.mysteryObjects.E", "E"));
+        const block5:MysteryBlock = new MysteryBlock(Material.DIAMOND.getDensity(), 0.1, -DensityConstants.POOL_WIDTH_X / 2, block4.getHeight() + block4.getY(), new ColorTransform(0.75, 0, 0.75), module.model, FlexSimStrings.get("mode.mysteryObjects.E", "E"));
         module.model.addDensityObject(block5);
 
         module.model.addDensityObject(new Scale(Scale.SCALE_X, Scale.SCALE_HEIGHT / 2, module.model, 100));

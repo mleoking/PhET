@@ -1,3 +1,4 @@
+Fixed: Mystery objects should be different colors if they are different objects
 Hide styrofoam tick mark label because it intersects the density title
 Improved font for mystery blocks
 Added ice
