@@ -56,8 +56,8 @@ public class MembraneChannelsModel implements IParticleCapture {
     
     private final ConstantDtClock clock;
     private ArrayList<Particle> particles = new ArrayList<Particle>();
-    private ArrayList<MembraneChannel> membraneChannels = new ArrayList<MembraneChannel>();
-    private MembraneChannel userControlledMembraneChannel = null;
+    private ArrayList<GenericMembraneChannel> membraneChannels = new ArrayList<GenericMembraneChannel>();
+    private GenericMembraneChannel userControlledMembraneChannel = null;
     private EventListenerList listeners = new EventListenerList();
     private final ArrayList<Point2D> allowableChannelLocations = new ArrayList<Point2D>(MAX_CHANNELS_ON_MEMBRANE);
     private boolean concentrationGraphsVisible = SHOW_GRAPHS_DEFAULT;
@@ -213,6 +213,45 @@ public class MembraneChannelsModel implements IParticleCapture {
     public double getGatedPotassiumChannelOpenness(){
         return potassiumChannelOpennessStrategy.getOpenness();
     }
+    
+    public int getNumGatedSodiumChannels(){
+        // This is a little bit of a roundabout way to do this, but since
+        // each channel just has a set of attributes that govern its behavior,
+        // it is the only way it can be done.
+        return getNumUsersOfOpennessStrategy( sodiumChannelOpennessStrategy );
+    }
+    
+    public int getNumGatedPotassiumChannels(){
+        // This is a little bit of a roundabout way to do this, but since
+        // each channel just has a set of attributes that govern its behavior,
+        // it is the only way it can be done.
+        return getNumUsersOfOpennessStrategy( potassiumChannelOpennessStrategy );
+    }
+    
+    /**
+     * Get the number of channels that are using the given openness strategy.  
+     * 
+     * @param opennessStrategy - Reference to the openness strategy in
+     * question.  It is the actual instance that is compared, not the class.
+     * @return
+     */
+    private int getNumUsersOfOpennessStrategy(MembraneChannelOpennessStrategy opennessStrategy){
+        int count = 0;
+        for (GenericMembraneChannel membraneChannel : membraneChannels){
+            if (membraneChannel.getOpennessStrategy() == opennessStrategy){
+                count++;
+            }
+        }
+        // Count the user controlled channel if there is one.
+        if (userControlledMembraneChannel != null){
+            if (userControlledMembraneChannel.getOpennessStrategy() == opennessStrategy){
+                count++;
+            }
+        }
+        return count;
+    }
+    
+    
 
     public void reset(){
     	
@@ -443,6 +482,7 @@ public class MembraneChannelsModel implements IParticleCapture {
     	// listeners, including this class, should remove their references in
     	// response.
     	ArrayList<Particle> particlesCopy = new ArrayList<Particle>(particles);
+    	particles.clear();
     	for (Particle particle : particlesCopy){
     		particle.removeFromModel();
     	}
