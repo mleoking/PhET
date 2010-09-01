@@ -1,4 +1,4 @@
-Hide styrofoam tick mark because it intersects the density title
+Hide styrofoam tick mark label because it intersects the density title
 Improved font for mystery blocks
 Added ice
 Made minimum density object texture more white instead of gray 
