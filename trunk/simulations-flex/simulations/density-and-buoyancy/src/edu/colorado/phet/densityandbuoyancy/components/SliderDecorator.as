@@ -52,7 +52,8 @@ public class SliderDecorator extends UIComponent {
         //TODO: Remove workaround and respect il8n
         //Temporary workaround to remove collision between styrofoam and wood
         if (tick.label == Material.STYROFOAM.name) {
-            tick.textField.x = modelToView(tick.value) - tick.textField.textWidth;
+            //            tick.textField.x = modelToView(tick.value) - tick.textField.textWidth;
+            tick.textField.visible = false;
         }
     }
 
