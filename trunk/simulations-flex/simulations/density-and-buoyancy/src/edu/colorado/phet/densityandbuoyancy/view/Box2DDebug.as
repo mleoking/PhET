@@ -30,7 +30,7 @@ public class Box2DDebug {
         var dbgSprite:Sprite = new Sprite();
         m_sprite.addChild(dbgSprite);
         dbgDraw.m_sprite = m_sprite;
-        dbgDraw.m_drawScale = 150 * 5.0 / DensityConstants.SCALE_BOX2D;
+        dbgDraw.m_drawScale = 150 / DensityConstants.SCALE_BOX2D;
         dbgDraw.m_alpha = 1;
         dbgDraw.m_fillAlpha = 0.5;
         dbgDraw.m_lineThickness = 1;

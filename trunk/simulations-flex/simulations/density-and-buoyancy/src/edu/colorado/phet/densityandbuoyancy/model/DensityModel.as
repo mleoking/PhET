@@ -68,13 +68,17 @@ public class DensityModel {
         var groundBody:b2Body = world.CreateBody(groundBodyDef);
 
         var groundShapeDef:b2PolygonDef = new b2PolygonDef();
-        groundShapeDef.SetAsOrientedBox(poolWidth / 2 * DensityConstants.SCALE_BOX2D, 50 * DensityConstants.SCALE_BOX2D, new b2Vec2(0, -50 * DensityConstants.SCALE_BOX2D - poolHeight * DensityConstants.SCALE_BOX2D), 0);
+
+        //Bottom of the pool
+        groundShapeDef.SetAsOrientedBox(BOUNDS / 2 * DensityConstants.SCALE_BOX2D, 500 * DensityConstants.SCALE_BOX2D, new b2Vec2(0, -500 * DensityConstants.SCALE_BOX2D - poolHeight * DensityConstants.SCALE_BOX2D), 0);
         groundBody.CreateShape(groundShapeDef);
 
-        groundShapeDef.SetAsOrientedBox(BOUNDS / 2 * DensityConstants.SCALE_BOX2D, poolHeight * DensityConstants.SCALE_BOX2D, new b2Vec2(-(poolWidth / 2 + BOUNDS / 2) * DensityConstants.SCALE_BOX2D, -poolHeight * DensityConstants.SCALE_BOX2D), 0);
+        //Left side of the pool
+        groundShapeDef.SetAsOrientedBox(BOUNDS / 2 * DensityConstants.SCALE_BOX2D, BOUNDS * DensityConstants.SCALE_BOX2D, new b2Vec2(-(poolWidth / 2 + BOUNDS / 2) * DensityConstants.SCALE_BOX2D, -BOUNDS * DensityConstants.SCALE_BOX2D), 0);
         groundBody.CreateShape(groundShapeDef);
 
-        groundShapeDef.SetAsOrientedBox(BOUNDS / 2 * DensityConstants.SCALE_BOX2D, poolHeight * DensityConstants.SCALE_BOX2D, new b2Vec2((poolWidth / 2 + BOUNDS / 2) * DensityConstants.SCALE_BOX2D, -poolHeight * DensityConstants.SCALE_BOX2D), 0);
+        //Right side of the pool
+        groundShapeDef.SetAsOrientedBox(BOUNDS / 2 * DensityConstants.SCALE_BOX2D, BOUNDS * DensityConstants.SCALE_BOX2D, new b2Vec2((poolWidth / 2 + BOUNDS / 2) * DensityConstants.SCALE_BOX2D, -BOUNDS * DensityConstants.SCALE_BOX2D), 0);
         groundBody.CreateShape(groundShapeDef);
     }
 
