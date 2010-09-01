@@ -44,25 +44,42 @@ class MotionSeriesObject(private var _state: MotionSeriesObjectState,
                          val surfaceFriction: () => Boolean,
                          __surfaceFrictionStrategy: SurfaceFrictionStrategy)
         extends Observable {
-  def frictionless = state.staticFriction == 0 && state.kineticFriction == 0
-
   private var _gravity = -9.8
+  //This notion of crashing is only regarding falling off a cliff or off the ramp, not for crashing into a wall
+  val crashListeners = new ArrayBuffer[() => Unit]
+  //notified when the MotionSeriesObject is being removed
+  val removalListeners = new ArrayBuffer[() => Unit]  
+  rampChangeAdapter.addListenerByName(notifyListeners)
+  
+  //values updated in the MotionStrategy
+  val totalForce = new Vector2DModel()
+  val wallForce = new Vector2DModel()
+  val frictionForce = new Vector2DModel()
+  val normalForce = new Vector2DModel() 
+  val gravityForce = new Vector2DModel(new Vector2D(0, gravity * mass))//TODO: Update if mass changes
+  val appliedForce = new Vector2DModel()
+
+  private var _parallelAppliedForce = 0.0//TODO: convert to mutableDouble
+  val gravityForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.gravityForceColor, "Gravity Force".literal, "force.abbrev.gravity".translate, false, gravityForce, (a, b) => b, PI / 2)
+  val normalForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.normalForceColor, "Normal Force".literal, "force.abbrev.normal".translate, true, normalForce, (a, b) => b, PI / 2)
+  val totalForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.sumForceColor, "Sum of Forces".literal, "force.abbrev.total".translate, false, totalForce, (a, b) => b, 0) ////Net force vector label should always be above
+  val appliedForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.appliedForceColor, "Applied Force".literal, "force.abbrev.applied".translate, false, appliedForce, (a, b) => b, PI / 2)
+  val frictionForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.frictionForceColor, "Friction Force".literal, "force.abbrev.friction".translate, true, frictionForce, (a, b) => b, -PI / 2)
+  val wallForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.wallForceColor, "Wall Force".literal, "force.abbrev.wall".translate, false, wallForce, (a, b) => b, PI / 2)
+  val parallelAppliedForceListeners = new ArrayBuffer[() => Unit]
+  
+  private var _motionStrategy: MotionStrategy = new Grounded(this)
+  stepInTime(0.0)//Update vectors using the motion strategy
+  
+  def frictionless = state.staticFriction == 0 && state.kineticFriction == 0
 
   def gravity = _gravity
 
   def wallsExist = _wallsExist.getValue.booleanValue
 
-  //This notion of crashing is only regarding falling off a cliff or off the ramp, not for crashing into a wall
-  val crashListeners = new ArrayBuffer[() => Unit]
-
   def state = _state
 
   def state_=(s: MotionSeriesObjectState) = {_state = s; notifyListeners()}
-
-  rampChangeAdapter.addListenerByName(notifyListeners)
-
-  //notified when the MotionSeriesObject is being removed
-  val removalListeners = new ArrayBuffer[() => Unit]
 
   /**
    * Notify that the MotionSeriesObject is being removed, and clear all listeners.
@@ -190,25 +207,7 @@ class MotionSeriesObject(private var _state: MotionSeriesObjectState,
   //This method allows MotionSeriesObject subclasses to avoid thermal energy by overriding this to return 0.0
   def getThermalEnergy(x: Double) = thermalEnergyStrategy(x)
   
-  //values updated in the MotionStrategy
-  val totalForce = new Vector2DModel()
-  val wallForce = new Vector2DModel()
-  val frictionForce = new Vector2DModel()
-  val normalForce = new Vector2DModel() 
-  val gravityForce = new Vector2DModel(new Vector2D(0, gravity * mass))//TODO: Update if mass changes
-  val appliedForce = new Vector2DModel()
-
-  private var _parallelAppliedForce = 0.0//TODO: convert to mutableDouble
-  val gravityForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.gravityForceColor, "Gravity Force".literal, "force.abbrev.gravity".translate, false, gravityForce, (a, b) => b, PI / 2)
-  val normalForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.normalForceColor, "Normal Force".literal, "force.abbrev.normal".translate, true, normalForce, (a, b) => b, PI / 2)
-  val totalForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.sumForceColor, "Sum of Forces".literal, "force.abbrev.total".translate, false, totalForce, (a, b) => b, 0) ////Net force vector label should always be above
-  val appliedForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.appliedForceColor, "Applied Force".literal, "force.abbrev.applied".translate, false, appliedForce, (a, b) => b, PI / 2)
-  val frictionForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.frictionForceColor, "Friction Force".literal, "force.abbrev.friction".translate, true, frictionForce, (a, b) => b, -PI / 2)
-  val wallForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.wallForceColor, "Wall Force".literal, "force.abbrev.wall".translate, false, wallForce, (a, b) => b, PI / 2)
-
   def parallelAppliedForce = _parallelAppliedForce
-
-  val parallelAppliedForceListeners = new ArrayBuffer[() => Unit]
 
   def parallelAppliedForce_=(value: Double) = {
     if (value != _parallelAppliedForce) {
@@ -277,8 +276,6 @@ class MotionSeriesObject(private var _state: MotionSeriesObjectState,
     _gravity = value
     notifyListeners()
   }
-
-  private var _motionStrategy: MotionStrategy = new Grounded(this)
 
   def motionStrategy = _motionStrategy
 
