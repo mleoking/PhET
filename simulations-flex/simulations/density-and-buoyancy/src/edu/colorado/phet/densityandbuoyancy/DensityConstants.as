@@ -10,10 +10,9 @@ public class DensityConstants {
     public static const MIN_DENSITY:Number = kgLtoSI(0.1);
     public static const MAX_DENSITY:Number = Material.ALUMINUM.getDensity() * 1.05;//5% more than aluminum so that aluminum doesn't seem like the most dense possibility
 
-    //Pool volume =60 L
-    public static const POOL_WIDTH_X:Number = litersToMetersCubed(10) * 100;
-    public static const POOL_DEPTH_Z:Number = litersToMetersCubed(3) * 100;
-    public static const POOL_HEIGHT_Y:Number = litersToMetersCubed(4) * 100;
+    public static const POOL_WIDTH_X:Number = 1;
+    public static const POOL_DEPTH_Z:Number = 0.3;
+    public static const POOL_HEIGHT_Y:Number = 0.4;
     public static const DEFAULT_BLOCK_MASS:Number = 2;
     /**
      * Scale up all box2d computations so that they are in the sweet spot for ranges for box2d.
