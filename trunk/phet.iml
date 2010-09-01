@@ -136,12 +136,12 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d/swt/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d/swt/src/test/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/advanced-acid-base-solutions/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/membrane-diffusion/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-flash/flash-launcher/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/the-ramp/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d/examples/src/test/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d/core/src/test/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d/extras/src/test/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/membrane-channels/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/bin" />
       <excludeFolder url="file://$MODULE_DIR$/build-tools/ant_output" />
       <excludeFolder url="file://$MODULE_DIR$/simulations-java/ant_output" />
@@ -1386,15 +1386,6 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/simulations-java/simulations/membrane-diffusion/data" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
           <root url="file://$MODULE_DIR$/simulations-java/simulations/advanced-acid-base-solutions/data" />
         </CLASSES>
         <JAVADOC />
@@ -1405,24 +1396,6 @@
       <library>
         <CLASSES>
           <root url="file://$MODULE_DIR$/simulations-java/simulations/moving-man/data" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/simulations-java/simulations/ramp-ii-forces-in-2d/data" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/simulations-java/simulations/forces-and-motion/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -1467,97 +1440,16 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/simulations-java/contrib/jmol-12.0.RC25/jars/Acme.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/simulations-java/contrib/jmol-12.0.RC25/jars/ant-contrib.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/simulations-java/contrib/jmol-12.0.RC25/jars/gnujaxp.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/simulations-java/contrib/jmol-12.0.RC25/jars/itext-1.4.5.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/simulations-java/contrib/jmol-12.0.RC25/jars/commons-cli-1.0.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/simulations-java/contrib/jmol-12.0.RC25/jars/gnujaxp-onlysax.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/simulations-java/contrib/jmol-12.0.RC25/jars/saxon.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/simulations-java/contrib/jmol-12.0.RC25/jars/vecmath1.2-1.14.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/simulations-java/contrib/jmol-12.0.RC25/jars/junit.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/simulations-java/contrib/jmol-12.0.RC25/jars/netscape.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
           <root url="file://$MODULE_DIR$/simulations-java/simulations/the-ramp/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/simulations-java/simulations/membrane-channels/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
