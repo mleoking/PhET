@@ -14,6 +14,7 @@ public class Tick {
         this.label = label;
         textField = new TextField();
         textField.mouseEnabled = false;
+        textField.mouseWheelEnabled = false;
         textField.text = label;
         var textFormat:TextFormat = new TextFormat();
         textFormat.color = color;
