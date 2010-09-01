@@ -21,7 +21,7 @@ import MotionSeriesConfig._
  * todo: could improve performance by passing isContainerVisible:()=>Boolean and addContainerVisibleListener:(()=>Unit)=>Unit
  * @author Sam Reid
  */
-class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val tailLocation: Vector2DModel, maxLabelDistance: Double,vectorLengthScale:Double) extends PNode {
+class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val tailLocation: Vector2DModel, maxLabelDistance: Double, vectorLengthScale: Double) extends PNode {
   val arrowNode = new ArrowNode(new Point2D.Double(0, 0), new Point2D.Double(0, 1), VectorHeadWidth(), VectorHeadWidth(), VectorTailWidth(), 0.5, true) {
     setPaint(vector.getPaint)
   }
@@ -49,13 +49,22 @@ class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val ta
    * Note that we use val instead of def since eta-expansion makes == and array -= impossible, and we need to be able
    * to remove this callback to avoid memory leaks.
    */
-  val update = () => {
-    setVisible(vector.visible.booleanValue)
-    if (vector.visible.booleanValue) { //skip expensive updates if not visible
 
+  //This update mechanism is expensive, and there are many vectors to update.
+  //Since there are 2 dependencies that this class listens for, we bunch up the notifications
+  //so that update is only called when necessary. 
+  case class UpdateState(visible: Boolean, vector: Vector2D, offset: Vector2D)
+  private var lastUpdateState = new UpdateState(true, new Vector2D, new Vector2D(123, 456))
+
+  val update = () => {
+    val updateState = new UpdateState(vector.visible.booleanValue, vector.vector2DModel.value, tailLocation.value)
+    val stayedInvisible = !updateState.visible && !lastUpdateState.visible
+    if (updateState != lastUpdateState && !stayedInvisible) { //skip expensive updates if no change
+      //      println("Updating "+vector.abbreviation)
+      setVisible(vector.visible.booleanValue)
       //Update the arrow node itself
       val viewTail = transform.modelToViewDouble(tailLocation.value)
-      val viewTip = transform.modelToViewDouble(vector.vector2DModel()*vectorLengthScale + tailLocation.value)
+      val viewTip = transform.modelToViewDouble(vector.vector2DModel() * vectorLengthScale + tailLocation.value)
       arrowNode.setTipAndTailLocations(viewTip, viewTail)
 
       //Update the location of the text label
@@ -78,10 +87,13 @@ class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val ta
       abbreviatonTextNode.setOffset(textLocation.x - abbreviatonTextNode.getFullBounds.getWidth / 2, textLocation.y - abbreviatonTextNode.getFullBounds.getHeight / 2 +
               (if (vector.labelAngle == 0) -abbreviatonTextNode.getFullBounds.getHeight / 2 else 0)) //Net force vector label should always be above, see MotionSeriesObject
       abbreviatonTextNode.setVisible(viewTail.distance(viewTip) > 1)
+      lastUpdateState = updateState
+    } else {
+      //      println("Skipping "+vector.abbreviation)
     }
   }
   update()
-  vector._vector2DModel.addListener(update)
+  vector.vector2DModel.addListener(update)
   tailLocation.addListener(update)
 
   setPickable(false)
@@ -100,7 +112,7 @@ class BodyVectorNode(transform: ModelViewTransform2D,
                      offset: Vector2DModel,
                      motionSeriesObject: MotionSeriesObject,
                      vectorLengthScale: Double)
-        extends VectorNode(transform, vector, offset, MotionSeriesDefaults.BODY_LABEL_MAX_OFFSET,vectorLengthScale) {
+        extends VectorNode(transform, vector, offset, MotionSeriesDefaults.BODY_LABEL_MAX_OFFSET, vectorLengthScale) {
   def doUpdate() = {
     setOffset(motionSeriesObject.position2D)
     update()
