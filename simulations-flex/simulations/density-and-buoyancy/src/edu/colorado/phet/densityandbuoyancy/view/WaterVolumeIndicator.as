@@ -34,7 +34,7 @@ public class WaterVolumeIndicator extends Sprite {
 
         var readout:Number = DensityConstants.metersToLitersCubed(indicatedVolume);
 
-        textField.text = FlexSimStrings.get("properties.volumeValue", "{0} L", [String(readout.toFixed(2))]);
+        textField.text = FlexSimStrings.get("properties.volumeValue", "{0} L", [String(readout.toFixed(DensityConstants.NUMBER_OF_DECIMAL_PLACES))]);
         var textFormat:TextFormat = new TextFormat();
         textFormat.size = 24;
         textFormat.bold = true;

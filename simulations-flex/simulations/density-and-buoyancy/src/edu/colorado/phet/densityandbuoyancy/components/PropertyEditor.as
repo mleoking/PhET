@@ -35,7 +35,7 @@ public class PropertyEditor extends GridRow {
         textField.width = 50;//TODO: this is a magic number that just barely fits "00.00" with the above specified font
         textField.restrict = ".0-9";//TODO: does this handle languages that use a comma instead of a decimal place?
         function updateText():void {
-            textField.text = unit.fromSI(property.value).toFixed(2);//TODO: make sure this doesn't fire an event
+            textField.text = unit.fromSI(property.value).toFixed(DensityConstants.NUMBER_OF_DECIMAL_PLACES);//TODO: make sure this doesn't fire an event
         }
 
         function updateModelFromTextField():void {

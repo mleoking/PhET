@@ -41,7 +41,7 @@ public class TickMark extends Sprite {
 
         var readout:Number = DensityConstants.metersToLitersCubed(indicatedVolume);
 
-        textField.text = String(readout.toFixed(1));// + " L";
+        textField.text = String(readout.toFixed(DensityConstants.NUMBER_OF_DECIMAL_PLACES));// + " L";
         var textFormat:TextFormat = new TextFormat();
         textFormat.size = 14;
         textFormat.bold = true;
