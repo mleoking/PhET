@@ -9,7 +9,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.*;
+import javax.swing.ButtonGroup;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSImages;
 import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
@@ -61,7 +64,7 @@ public class TestControls extends PhetTitledPanel {
         }
         
         // icons - clicking on these selects associated radio buttons
-        JLabel pHMeterIcon = new JLabel( new ImageIcon( ABSImages.PH_METER_ICON ) );
+        JLabel pHMeterIcon = new JLabel( ABSImages.PH_METER_ICON );
         pHMeterIcon.addMouseListener( new MouseAdapter() {
             @Override 
             public void mousePressed( MouseEvent event ) {
@@ -70,7 +73,7 @@ public class TestControls extends PhetTitledPanel {
             }
         } );
         
-        JLabel pHPaperIcon = new JLabel( new ImageIcon( ABSImages.PH_PAPER_ICON ) );
+        JLabel pHPaperIcon = new JLabel( ABSImages.PH_PAPER_ICON );
         pHPaperIcon.addMouseListener( new MouseAdapter() {
             @Override 
             public void mousePressed( MouseEvent event ) {
@@ -79,7 +82,7 @@ public class TestControls extends PhetTitledPanel {
             }
         } );
         
-        JLabel conductivityTesterIcon = new JLabel( new ImageIcon( ABSImages.LIGHT_BULB_ICON ) );
+        JLabel conductivityTesterIcon = new JLabel( ABSImages.LIGHT_BULB_ICON );
         conductivityTesterIcon.addMouseListener( new MouseAdapter() {
             @Override 
             public void mousePressed( MouseEvent event ) {
