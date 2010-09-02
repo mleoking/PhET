@@ -13,7 +13,6 @@ HIGH PRIORITY
 - blue arrow and glowing sphere to represent dV/dt
 - charge and excess charge on plates (see notes)
 - charge and excess charge on dielectric (see notes)
-- voltmeter
 - field meter with dashed line around "detecting plane"
 
 MEDUIUM PRIORITY
