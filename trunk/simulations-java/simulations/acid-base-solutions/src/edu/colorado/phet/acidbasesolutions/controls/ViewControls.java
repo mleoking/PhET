@@ -80,7 +80,7 @@ public class ViewControls extends PhetTitledPanel {
         
         // icons - clicking on these selects associated buttons
         {
-            magnifyingGlassIcon = new JLabel( new ImageIcon( ABSImages.MAGNIFYING_GLASS_ICON ) );
+            magnifyingGlassIcon = new JLabel( ABSImages.MAGNIFYING_GLASS_ICON );
             magnifyingGlassIcon.addMouseListener( new MouseAdapter() {
                 @Override
                 public void mousePressed( MouseEvent event ) {
@@ -91,7 +91,7 @@ public class ViewControls extends PhetTitledPanel {
                 }
             } );
             
-            showWaterIcon = new JLabel( new ImageIcon( ABSImages.H2O_ICON ) );
+            showWaterIcon = new JLabel( ABSImages.H2O_ICON );
             showWaterIcon.addMouseListener( new MouseAdapter() {
                 @Override
                 public void mousePressed( MouseEvent event ) {
@@ -101,7 +101,7 @@ public class ViewControls extends PhetTitledPanel {
                 }
             } );
 
-            concentrationGraphIcon = new JLabel( new ImageIcon( ABSImages.CONCENTRATION_GRAPH_ICON ) );
+            concentrationGraphIcon = new JLabel( ABSImages.CONCENTRATION_GRAPH_ICON );
             concentrationGraphIcon.addMouseListener( new MouseAdapter() {
                 @Override
                 public void mousePressed( MouseEvent event ) {
@@ -112,7 +112,7 @@ public class ViewControls extends PhetTitledPanel {
                 }
             } );
             
-            liquidIcon = new JLabel( new ImageIcon( ABSImages.BEAKER_ICON ) );
+            liquidIcon = new JLabel( ABSImages.BEAKER_ICON );
             liquidIcon.addMouseListener( new MouseAdapter() {
                 @Override
                 public void mousePressed( MouseEvent event ) {
