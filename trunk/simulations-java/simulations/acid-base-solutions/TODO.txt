@@ -2,6 +2,10 @@ TODO list for acid-base-solutions
 
 MILESTONES
 
+DESIGN ISSUES
+- differentiate between initial and equilibrium concentration
+- address generic symbols in reaction equations (A,B,M)
+
 HIGH PRIORITY
 
 MEDUIUM PRIORITY
