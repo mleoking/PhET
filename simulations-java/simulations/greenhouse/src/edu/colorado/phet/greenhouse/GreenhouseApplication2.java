@@ -1,9 +1,4 @@
-/**
- * Class: GreenhouseApplication
- * Package: edu.colorado.phet.greenhouse
- * Author: Another Guy
- * Date: Oct 9, 2003
- */
+
 package edu.colorado.phet.greenhouse;
 
 import java.awt.Container;
@@ -33,6 +28,8 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
  * <p/>
  * The snow in the ice age reflects photons, but is not really in the model. Instead I do a rough estimate of where
  * it is in the background image (in the view) and use that.
+ * 
+ * @author John Blanco
  */
 public class GreenhouseApplication2 extends PiccoloPhetApplication {
     
