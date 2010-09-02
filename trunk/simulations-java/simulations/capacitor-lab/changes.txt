@@ -1,3 +1,6 @@
+9/2/10 move all drag code to new capacitorlab.drag package
+9/2/10 make dielectric directly draggable, use same handler as drag arrow 
+9/2/10 promote drag handlers from inner classes to top-level types
 8/31/10 move "Model Values" check box to Developer Controls panel
 8/31/10 migrate ColoredSeparator to phetcommon
 8/31/10 replace borders with separators in subpanels

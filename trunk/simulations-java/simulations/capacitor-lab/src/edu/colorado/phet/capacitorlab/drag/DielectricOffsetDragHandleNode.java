@@ -1,6 +1,6 @@
 /* Copyright 2010, University of Colorado */
 
-package edu.colorado.phet.capacitorlab.control;
+package edu.colorado.phet.capacitorlab.drag;
 
 import java.awt.geom.Point2D;
 
@@ -12,9 +12,6 @@ import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeAdapter;
 import edu.colorado.phet.capacitorlab.util.UnitsUtils;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
  * Drag handle for changing the dielectric offset.
@@ -98,44 +95,5 @@ public class DielectricOffsetDragHandleNode extends PhetPNode {
         double x = capacitorLocation.getX() + ( plateSize / 2 ) + dielectricOffset;
         double y = capacitorLocation.getY();
         setOffset( x, y );
-    }
-    
-    private static class DielectricOffsetDragHandler extends PDragSequenceEventHandler {
-        
-        private final PNode dragNode;
-        private final Capacitor capacitor;
-        private final ModelViewTransform mvt;
-        private final DoubleRange valueRange;
-        private double clickXOffset; // x-offset of mouse click from node's origin, in parent node's coordinate frame
-        
-        public DielectricOffsetDragHandler( PNode dragNode, Capacitor capacitor, ModelViewTransform mvt, DoubleRange valueRange ) {
-            this.dragNode = dragNode;
-            this.capacitor = capacitor;
-            this.mvt = mvt;
-            this.valueRange = valueRange;
-        }
-        
-        @Override
-        protected void startDrag( PInputEvent event ) {
-            super.startDrag( event );
-            Point2D pMouse = event.getPositionRelativeTo( dragNode.getParent() );
-            double xView = mvt.modelToView( capacitor.getDielectricOffset() );
-            clickXOffset = pMouse.getX() - xView;
-        }
-
-        @Override
-        protected void drag( final PInputEvent event ) {
-            super.drag( event );
-            Point2D pMouse = event.getPositionRelativeTo( dragNode.getParent() );
-            double xView = pMouse.getX() - clickXOffset;
-            double xModel = mvt.viewToModel( xView );
-            if ( xModel > valueRange.getMax() ) {
-                xModel = valueRange.getMax();
-            }
-            else if ( xModel < valueRange.getMin() ) {
-                xModel = valueRange.getMin();
-            }
-            capacitor.setDielectricOffset( xModel );
-        }
     }
 }

@@ -8,6 +8,9 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.control.*;
+import edu.colorado.phet.capacitorlab.drag.DielectricOffsetDragHandleNode;
+import edu.colorado.phet.capacitorlab.drag.PlateAreaDragHandleNode;
+import edu.colorado.phet.capacitorlab.drag.PlateSeparationDragHandleNode;
 import edu.colorado.phet.capacitorlab.model.CLModel;
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeAdapter;

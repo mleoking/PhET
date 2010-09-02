@@ -4,6 +4,7 @@ package edu.colorado.phet.capacitorlab.view;
 
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
 import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeAdapter;
@@ -54,7 +55,7 @@ public class CapacitorNode extends PhetPNode {
         parentNode = new PNode();
         topPlateNode = new PlateNode();
         bottomPlateNode = new PlateNode();
-        dielectricNode = new DielectricNode( capacitor.getDielectricMaterial().getColor() );
+        dielectricNode = new DielectricNode( capacitor, mvt, CLConstants.DIELECTRIC_OFFSET_RANGE );
         
         // rendering order
         addChild( parentNode );
