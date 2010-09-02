@@ -1,3 +1,4 @@
+9/2/10 #2489, move power meter up closer to laser
 # 4.07.02 (43686) Aug 31, 2010
 > fix Lifetime sliders on Mac
 8/31/10 #2190, misc layout tweaks in energy graph to make lifetime sliders more usable on all platforms
