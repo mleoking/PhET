@@ -1,6 +1,6 @@
 /* Copyright 2010, University of Colorado */
 
-package edu.colorado.phet.capacitorlab.control;
+package edu.colorado.phet.capacitorlab.drag;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -17,7 +17,7 @@ import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DragHandleArrowNode extends DoubleArrowNode {
+/* package private */ class DragHandleArrowNode extends DoubleArrowNode {
     
     private static final Color NORMAL_COLOR = CLPaints.DRAGGABLE_NORMAL;
     private static final Color HIGHLIGHT_COLOR = CLPaints.DRAGGABLE_HIGHLIGHT;

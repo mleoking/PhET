@@ -1,6 +1,6 @@
 /* Copyright 2008, University of Colorado */
 
-package edu.colorado.phet.capacitorlab.control;
+package edu.colorado.phet.capacitorlab.drag;
 
 import java.awt.Font;
 import java.text.DecimalFormat;
