@@ -1,3 +1,4 @@
+Refactored MotionSeriesObject to use MutableDouble instead of immutable State
 Fixed: vectors are incorrect on initialization
 Refactored MotionSeriesObject model startup sequence
 Performance improvement: skip expensive updates to VectorNode when possible

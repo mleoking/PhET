@@ -87,6 +87,7 @@ class GraphingModule(frame: PhetFrame)
   }
 }
 
+//TODO: Add back these modules for deployment
 class ForcesAndMotionApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
   addModule(new IntroModule(getPhetFrame))
 //  addModule(new FrictionModule(getPhetFrame))

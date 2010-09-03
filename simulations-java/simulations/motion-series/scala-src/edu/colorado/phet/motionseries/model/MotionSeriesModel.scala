@@ -2,7 +2,6 @@ package edu.colorado.phet.motionseries.model
 
 import collection.mutable.ArrayBuffer
 import edu.colorado.phet.motionseries.graphics.{RampSurfaceModel, ObjectModel}
-import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction
 import edu.colorado.phet.scalacommon.math.Vector2D
 import java.awt.geom.Point2D
 import edu.colorado.phet.scalacommon.util.Observable
@@ -13,12 +12,13 @@ import edu.colorado.phet.recordandplayback.model.{DataPoint, RecordAndPlaybackMo
 import edu.colorado.phet.common.phetcommon.model.MutableBoolean
 import edu.colorado.phet.common.phetcommon.math.MathUtil
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver
+import edu.colorado.phet.motionseries.charts.MutableDouble
 
 //Scala Mutable Boolean overcomes incompatibility between java.lang.Boolean and scala.Boolean 
 class SMutableBoolean(v: Boolean) extends MutableBoolean(v) {
   def booleanValue = super.getValue().booleanValue //to fix incompatibility between java.lang.Boolean and scala.Boolean
-  def addListener(listener:()=>Unit) = {
-    super.addObserver(new SimpleObserver{
+  def addListener(listener: () => Unit) = {
+    super.addObserver(new SimpleObserver {
       def update = listener()
     })
   }
@@ -53,7 +53,7 @@ class MotionSeriesModel(defaultPosition: Double,
   val wallRange = () => Range(-rampSegments(0).length, rampSegments(1).length)
   val surfaceFriction = () => !frictionless
 
-  val defaultManPosition = defaultPosition - 1
+  val defaultManPosition = defaultPosition - 1 //Man should start 1 meter away from the object by default
 
   val leftWall = MotionSeriesObject(this, -10, MotionSeriesDefaults.wall.width, MotionSeriesDefaults.wall.height)
   val rightWall = MotionSeriesObject(this, 10, MotionSeriesDefaults.wall.width, MotionSeriesDefaults.wall.height)
@@ -66,13 +66,13 @@ class MotionSeriesModel(defaultPosition: Double,
   }
   val manMotionSeriesObject = MotionSeriesObject(this, defaultManPosition, 1, 3)
   //This is the main object that forces are applied to
-  val motionSeriesObject = new MotionSeriesObject(new MotionSeriesObjectState(defaultPosition, 0, 0,
-    _objectType.mass, _objectType.staticFriction, _objectType.kineticFriction, 0.0, 0.0, 0.0),
+  val motionSeriesObject = new MotionSeriesObject(new MutableDouble(defaultPosition), new MutableDouble, new MutableDouble,
+    new MutableDouble(_objectType.mass), new MutableDouble(_objectType.staticFriction), new MutableDouble(_objectType.kineticFriction), 
     _objectType.height, _objectType.width, toPosition2D,
     rampSegmentAccessor, rampChangeAdapter, _wallsBounce, walls, wallRange, thermalEnergyStrategy, surfaceFriction, surfaceFrictionStrategy)
 
   updateDueToObjectTypeChange()
-  motionSeriesObject.stepInTime(0.0)//Update vectors using the motion strategy
+  motionSeriesObject.stepInTime(0.0) //Update vectors using the motion strategy
 
   def thermalEnergyStrategy(x: Double) = x
 
@@ -232,8 +232,8 @@ class MotionSeriesModel(defaultPosition: Double,
     }
 
     //resolve collisions with the wall when switching objects
-    motionSeriesObject.setPosition(MathUtil.clamp(MotionSeriesDefaults.MIN_X+ motionSeriesObject.width / 2, 
-      motionSeriesObject.position, MotionSeriesDefaults.MAX_X- motionSeriesObject.width / 2))
+    motionSeriesObject.setPosition(MathUtil.clamp(MotionSeriesDefaults.MIN_X + motionSeriesObject.width / 2,
+      motionSeriesObject.position, MotionSeriesDefaults.MAX_X - motionSeriesObject.width / 2))
 
     notifyListeners()
   }
