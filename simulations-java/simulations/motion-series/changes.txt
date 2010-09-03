@@ -1,3 +1,4 @@
+Fixed: Applied force vector doesn't update when the sim is paused
 Changed to idiomatic scala setter from javabean style setter in Vector2DModel
 Refactored MotionSeriesObject to use MutableDouble instead of immutable State
 Fixed: vectors are incorrect on initialization

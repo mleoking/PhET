@@ -19,7 +19,7 @@ import edu.umd.cs.piccolo.PNode
 import edu.colorado.phet.scalacommon.Predef._
 import java.lang.Math._
 import edu.colorado.phet.motionseries.MotionSeriesResources._
-import java.awt.{Paint, Color, Image, BasicStroke}
+import java.awt.{Color, Image, BasicStroke}
 import edu.colorado.phet.motionseries.model._
 
 class AxisModel(private var _angle: Double,
@@ -68,9 +68,7 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel,
         extends PNode with VectorDisplay {
   private val cursorHandler = new CursorHandler
   addInputEventListener(cursorHandler)
-  def removeCursorHand() = {
-    removeInputEventListener(cursorHandler)
-  }
+  def removeCursorHand() = removeInputEventListener(cursorHandler)
 
   def addVector(vector: Vector with PointOfOriginVector, offsetFBD: Vector2DModel, maxOffset: Int, offsetPlayArea: Double): Unit =
     addVector(vector, offsetFBD, maxOffset)
