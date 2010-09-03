@@ -48,9 +48,11 @@ class MotionSeriesObject(_position: MutableDouble,
   val gravityForce = new Vector2DModel
   val appliedForce = new Vector2DModel
   
+  private var _motionStrategy: MotionStrategy = new Grounded(this)
+  
   def updateGravityForce() = gravityForce.value = new Vector2D(0, gravity * mass)
   _mass.addListener(updateGravityForce)
-  _mass.addListener(()=>motionStrategy.stepInTime(0.0))//Hack to update the other vectors//TODO: remove this hack
+  _mass.addListener(motionStrategy.updateForces)//Hack to update the other vectors//TODO: remove this hack
   updateGravityForce()
 
   val _parallelAppliedForce = new MutableDouble
@@ -64,8 +66,6 @@ class MotionSeriesObject(_position: MutableDouble,
 
   private val wallCrashListeners = new ArrayBuffer[() => Unit]
   private val bounceListeners = new ArrayBuffer[() => Unit]
-
-  private var _motionStrategy: MotionStrategy = new Grounded(this)
 
   def frictionless = state.staticFriction == 0 && state.kineticFriction == 0
 
@@ -214,7 +214,7 @@ class MotionSeriesObject(_position: MutableDouble,
   def parallelAppliedForce_=(value: Double) = {
     if (value != parallelAppliedForce) {
       _parallelAppliedForce.value = value
-      stepInTime(0.0)//HACK to update the vectors//TODO: remove this hack
+      motionStrategy.updateForces()
       parallelAppliedForceListeners.foreach(_())//TODO: move listeners into mutabledouble
       notifyListeners()
     }
