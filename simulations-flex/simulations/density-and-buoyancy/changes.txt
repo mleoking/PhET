@@ -1,3 +1,4 @@
+Changed density slider maximum to 3.0 (instead of 2.835)
 Switched readouts to have 2 decimal places instead of 1 (most important for lookup in mystery object table)
 Fixed: text labels on objects block mouse events
 Changed the mass slider to have a maximum of 10kg instead of 12kg 
