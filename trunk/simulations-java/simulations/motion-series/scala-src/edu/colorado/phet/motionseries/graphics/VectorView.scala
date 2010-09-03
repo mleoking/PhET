@@ -13,8 +13,8 @@ class VectorView(motionSeriesObject: MotionSeriesObject,
                  fbdWidth: Int) {
   def addVectorAllComponents(motionSeriesObject: MotionSeriesObject,
                              vector: MotionSeriesObjectVector with PointOfOriginVector,
-                             offsetFBD: Vector2DModel,
-                             offsetPlayArea: Double,
+                             freeBodyDiagramOffset: Vector2DModel,
+                             playAreaOffset: Double,
                              selectedVectorVisible: () => Boolean,
                              vectorDisplay: VectorDisplay) = {
 
@@ -33,25 +33,19 @@ class VectorView(motionSeriesObject: MotionSeriesObject,
     vectorViewModel.addListener(update)
     update()
 
-    addVector(motionSeriesObject, vector, offsetFBD, offsetPlayArea, vectorDisplay)
-    addVector(motionSeriesObject, xComponent, offsetFBD, offsetPlayArea, vectorDisplay)
-    addVector(motionSeriesObject, yComponent, offsetFBD, offsetPlayArea, vectorDisplay)
-    addVector(motionSeriesObject, parallelComponent, offsetFBD, offsetPlayArea, vectorDisplay)
-    addVector(motionSeriesObject, perpComponent, offsetFBD, offsetPlayArea, vectorDisplay)
+    addVector(motionSeriesObject, vector, freeBodyDiagramOffset, playAreaOffset, vectorDisplay)
+    addVector(motionSeriesObject, xComponent, freeBodyDiagramOffset, playAreaOffset, vectorDisplay)
+    addVector(motionSeriesObject, yComponent, freeBodyDiagramOffset, playAreaOffset, vectorDisplay)
+    addVector(motionSeriesObject, parallelComponent, freeBodyDiagramOffset, playAreaOffset, vectorDisplay)
+    addVector(motionSeriesObject, perpComponent, freeBodyDiagramOffset, playAreaOffset, vectorDisplay)
   }
 
-  def addVector(motionSeriesObject: MotionSeriesObject, vector: Vector with PointOfOriginVector, offsetFBD: Vector2DModel,
-                offsetPlayArea: Double,
-                vectorDisplay: VectorDisplay) = {
-    vectorDisplay.addVector(vector, offsetFBD, MotionSeriesDefaults.FBD_LABEL_MAX_OFFSET, offsetPlayArea)
-
-    motionSeriesObject.removalListeners += (() => {
-      vectorDisplay.removeVector(vector)
-    })
+  def addVector(motionSeriesObject: MotionSeriesObject, vector: Vector with PointOfOriginVector, freeBodyDiagramOffset: Vector2DModel, offsetPlayArea: Double, vectorDisplay: VectorDisplay) = {
+    vectorDisplay.addVector(vector, freeBodyDiagramOffset, MotionSeriesDefaults.FBD_LABEL_MAX_OFFSET, offsetPlayArea)
+    motionSeriesObject.removalListeners += (() => vectorDisplay.removeVector(vector))
   }
 
-  def addVectorAllComponents(motionSeriesObject: MotionSeriesObject, a: MotionSeriesObjectVector, vectorDisplay: VectorDisplay): Unit =
-    addVectorAllComponents(motionSeriesObject, a, new Vector2DModel, 0, () => true, vectorDisplay)
+  def addVectorAllComponents(motionSeriesObject: MotionSeriesObject, a: MotionSeriesObjectVector, vectorDisplay: VectorDisplay):Unit = addVectorAllComponents(motionSeriesObject, a, new Vector2DModel, 0, () => true, vectorDisplay)
 
   def addAllVectors(motionSeriesObject: MotionSeriesObject, vectorDisplay: VectorDisplay) = {
     addVectorAllComponents(motionSeriesObject, motionSeriesObject.appliedForceVector, vectorDisplay)
@@ -60,7 +54,7 @@ class VectorView(motionSeriesObject: MotionSeriesObject,
     addVectorAllComponents(motionSeriesObject, motionSeriesObject.frictionForceVector, vectorDisplay)
     addVectorAllComponents(motionSeriesObject, motionSeriesObject.wallForceVector, vectorDisplay)
     addVectorAllComponents(motionSeriesObject, motionSeriesObject.totalForceVector,
-      new Vector2DModel(new Vector2D(0, fbdWidth / 4)), 2,
+      new Vector2DModel(new Vector2D(0, fbdWidth / 4)), 2,//Needs a separate offset since it should be shown above other force arrows
       () => vectorViewModel.sumOfForcesVector, vectorDisplay) //no need to add a separate listener, since it is already contained in vectorviewmodel
   }
 }
