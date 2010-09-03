@@ -70,8 +70,7 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel,
   addInputEventListener(cursorHandler)
   def removeCursorHand() = removeInputEventListener(cursorHandler)
 
-  def addVector(vector: Vector with PointOfOriginVector, offsetFBD: Vector2DModel, maxOffset: Int, offsetPlayArea: Double): Unit =
-    addVector(vector, offsetFBD, maxOffset)
+  def addVector(vector: Vector with PointOfOriginVector, offsetFBD: Vector2DModel, maxOffset: Int, offsetPlayArea: Double)= addVector(vector, offsetFBD, maxOffset)
 
   val transform = new ModelViewTransform2D(new Rectangle2D.Double(-modelWidth / 2, -modelHeight / 2, modelWidth, modelHeight),
     new Rectangle2D.Double(0, 0, _width, _height), true)

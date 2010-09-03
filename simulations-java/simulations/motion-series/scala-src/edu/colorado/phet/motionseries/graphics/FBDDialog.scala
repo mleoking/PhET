@@ -19,8 +19,7 @@ class FBDDialog(frame: JFrame,
                 adjustableCoordinateModel: AdjustableCoordinateModel,
                 fbdListener: Point2D => Unit,
                 rampAngle: () => Double) extends VectorDisplay {
-  def addVector(vector: Vector with PointOfOriginVector, offsetFBD: Vector2DModel, maxOffset: Int, offsetPlayArea: Double): Unit =
-    addVector(vector, offsetFBD, maxOffset)
+  def addVector(vector: Vector with PointOfOriginVector, freeBodyDiagramOffset: Vector2DModel, maxOffset: Int, offsetPlayArea: Double) = addVector(vector, freeBodyDiagramOffset, maxOffset)
 
   val dialog = new JDialog(frame, "display.free-body-diagram".translate, false)
   dialog.setSize(MotionSeriesDefaults.FBD_DIALOG_WIDTH, MotionSeriesDefaults.FBD_DIALOG_HEIGHT)

@@ -70,6 +70,6 @@ class VectorComponent(target: MotionSeriesObjectVector,
         extends MotionSeriesObjectVector(target.color, target.name, target.abbreviation + modifier, target.bottomPO, target.vector2DModel, painter, labelAngle) {
   override def vector2DModel = {
     val d = componentUnitVector.value
-    new Vector2DModel(d * (super.vector2DModel.apply() dot d))
+    new Vector2DModel(d * (super.vector2DModel() dot d))
   }
 }
