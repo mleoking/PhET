@@ -48,7 +48,7 @@ class MotionSeriesObject(_position: MutableDouble,
   val gravityForce = new Vector2DModel
   val appliedForce = new Vector2DModel
   
-  def updateGravityForce() = gravityForce.setValue(new Vector2D(0, gravity * mass))
+  def updateGravityForce() = gravityForce.value = new Vector2D(0, gravity * mass)
   _mass.addListener(updateGravityForce)
   _mass.addListener(()=>motionStrategy.stepInTime(0.0))//Hack to update the other vectors//TODO: remove this hack
   updateGravityForce()
@@ -88,12 +88,12 @@ class MotionSeriesObject(_position: MutableDouble,
     crashEnergy = s.crashEnergy
     setTime(s.time)
     parallelAppliedForce = s.parallelAppliedForce
-    gravityForce.setValue(s.gravityForce)
-    normalForce.setValue(s.normalForce)
-    totalForce.setValue(s.totalForce)
-    appliedForce.setValue(s.appliedForce)
-    frictionForce.setValue(s.frictionForce)
-    wallForce.setValue(s.wallForce)
+    gravityForce.value = s.gravityForce
+    normalForce.value = s.normalForce
+    totalForce.value = s.totalForce
+    appliedForce.value = s.appliedForce
+    frictionForce.value = s.frictionForce
+    wallForce.value = s.wallForce
 
     notifyListeners()
   }

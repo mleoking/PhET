@@ -36,13 +36,13 @@ class Vector2DModel(private var _value: Vector2D) extends Observable {
 
   def value = _value
 
-  def setValue(_value: Vector2D) = {
+  def value_=(_value:Vector2D) = {
     if (_value != this._value) {
       this._value = _value;
       notifyListeners()
     }
   }
-
+  
   def magnitude = _value.magnitude
 
   def apply() = _value

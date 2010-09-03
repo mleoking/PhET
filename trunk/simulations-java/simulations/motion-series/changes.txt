@@ -1,3 +1,4 @@
+Changed to idiomatic scala setter from javabean style setter in Vector2DModel
 Refactored MotionSeriesObject to use MutableDouble instead of immutable State
 Fixed: vectors are incorrect on initialization
 Refactored MotionSeriesObject model startup sequence
