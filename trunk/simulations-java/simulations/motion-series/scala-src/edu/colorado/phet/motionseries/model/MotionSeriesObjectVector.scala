@@ -1,6 +1,5 @@
 package edu.colorado.phet.motionseries.model
 
-import edu.colorado.phet.motionseries.graphics.PointOfOriginVector
 import java.awt.{Paint, Color}
 import edu.colorado.phet.scalacommon.math.Vector2D
 import edu.colorado.phet.scalacommon.util.Observable
@@ -57,7 +56,7 @@ class MotionSeriesObjectVector(color: Color,
                                vector2DModel: Vector2DModel,
                                painter: (Vector2D, Color) => Paint,
                                labelAngle: Double)
-        extends Vector(color, name, abbreviation, vector2DModel, painter, labelAngle) with PointOfOriginVector {
+        extends Vector(color, name, abbreviation, vector2DModel, painter, labelAngle) {
   def getPointOfOriginOffset(defaultCenter: Double) = if (bottomPO) 0.0 else defaultCenter
 }
 

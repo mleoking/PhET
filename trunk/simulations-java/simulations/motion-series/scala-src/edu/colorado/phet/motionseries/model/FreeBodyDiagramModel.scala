@@ -62,7 +62,6 @@ class AdjustableCoordinateModel extends Observable {
 }
 
 class VectorViewModel extends Observable {
-  private var _centered = true
   private var _originalVectors = true
   private var _parallelComponents = false
   private var _xyComponentsVisible = false
@@ -70,18 +69,10 @@ class VectorViewModel extends Observable {
 
   resetAll()
   def resetAll() = {
-    centered = true
     originalVectors = true
     parallelComponents = false
     xyComponentsVisible = false
     sumOfForcesVector = false
-  }
-
-  def centered = _centered
-
-  def centered_=(__centered: Boolean) = {
-    _centered = __centered
-    notifyListeners()
   }
 
   def originalVectors = _originalVectors

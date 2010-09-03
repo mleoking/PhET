@@ -12,7 +12,7 @@ class VectorView(motionSeriesObject: MotionSeriesObject,
                  coordinateFrameModel: CoordinateFrameModel,
                  fbdWidth: Int) {
   def addVectorAllComponents(motionSeriesObject: MotionSeriesObject,
-                             vector: MotionSeriesObjectVector with PointOfOriginVector,
+                             vector: MotionSeriesObjectVector,
                              freeBodyDiagramOffset: Vector2DModel,
                              playAreaOffset: Double,
                              selectedVectorVisible: () => Boolean,
@@ -40,7 +40,7 @@ class VectorView(motionSeriesObject: MotionSeriesObject,
     addVector(motionSeriesObject, perpComponent, freeBodyDiagramOffset, playAreaOffset, vectorDisplay)
   }
 
-  def addVector(motionSeriesObject: MotionSeriesObject, vector: Vector with PointOfOriginVector, freeBodyDiagramOffset: Vector2DModel, offsetPlayArea: Double, vectorDisplay: VectorDisplay) = {
+  def addVector(motionSeriesObject: MotionSeriesObject, vector: Vector , freeBodyDiagramOffset: Vector2DModel, offsetPlayArea: Double, vectorDisplay: VectorDisplay) = {
     vectorDisplay.addVector(vector, freeBodyDiagramOffset, MotionSeriesDefaults.FBD_LABEL_MAX_OFFSET, offsetPlayArea)
     motionSeriesObject.removalListeners += (() => vectorDisplay.removeVector(vector))
   }
@@ -60,20 +60,15 @@ class VectorView(motionSeriesObject: MotionSeriesObject,
 }
 
 trait VectorDisplay {
-  def addVector(vector: Vector with PointOfOriginVector, offsetFBD: Vector2DModel, maxOffset: Int, offsetPlayArea: Double): Unit
+  def addVector(vector: Vector, offsetFBD: Vector2DModel, maxOffset: Int, offsetPlayArea: Double): Unit
 
   def removeVector(vector: Vector): Unit
 }
 
-trait PointOfOriginVector {
-  def getPointOfOriginOffset(defaultCenter: Double): Double
-}
-
 class PlayAreaVectorDisplay(transform: ModelViewTransform2D, motionSeriesObject: MotionSeriesObject, vectorViewModel: VectorViewModel) extends PNode with VectorDisplay {
-  def addVector(vector: Vector with PointOfOriginVector, offset2D: Vector2DModel, maxOffset: Int, offset: Double): Unit = {
+  def addVector(vector: Vector, offset2D: Vector2DModel, maxOffset: Int, offset: Double): Unit = {
     val defaultCenter = motionSeriesObject.height / 2.0
-    def getValue = motionSeriesObject.position2D + new Vector2D(motionSeriesObject.getAngle + java.lang.Math.PI / 2) *
-            (offset + (if (vectorViewModel.centered) defaultCenter else vector.getPointOfOriginOffset(defaultCenter)))
+    def getValue = motionSeriesObject.position2D + new Vector2D(motionSeriesObject.getAngle + java.lang.Math.PI / 2) * (offset + defaultCenter )
     val myoffset = new Vector2DModel(getValue)
     motionSeriesObject.addListener(() => myoffset.value = getValue)
     addChild(new BodyVectorNode(transform, vector, myoffset, motionSeriesObject, MotionSeriesDefaults.PLAY_AREA_FORCE_VECTOR_SCALE))
