@@ -58,6 +58,8 @@ public class MysteryObjectsControlPanel extends DensityVBox {
         hideTableButton.addEventListener(MouseEvent.CLICK, function():void {
             setTableVisible(false)
         });
+        x = DensityConstants.CONTROL_INSET;
+        y = DensityConstants.CONTROL_INSET;
     }
 
     private function setTableVisible(b:Boolean):void {
