@@ -249,7 +249,7 @@ class Grounded(motionSeriesObject: MotionSeriesObject) extends MotionStrategy(mo
   override def stepInTime(dt: Double) = {
     this.dt = dt
     motionSeriesObject.notificationsEnabled = false //make sure only to send notifications as a batch at the end; improves performance by 17%
-    motionSeriesObject.appliedForce.setValue(motionSeriesObject.rampUnitVector * motionSeriesObject.parallelAppliedForce)
+    motionSeriesObject.appliedForce.value = motionSeriesObject.rampUnitVector * motionSeriesObject.parallelAppliedForce
     val origEnergy = getTotalEnergy
     val origState = state
     val newState = getNewState(dt, origState, origEnergy)
@@ -267,11 +267,11 @@ class Grounded(motionSeriesObject: MotionSeriesObject) extends MotionStrategy(mo
     motionSeriesObject.thermalEnergy = newState.thermalEnergy
     motionSeriesObject.crashEnergy = newState.crashEnergy
 
-    motionSeriesObject.wallForce.setValue(wallForce)
-    motionSeriesObject.frictionForce.setValue(frictionForce)
-    motionSeriesObject.normalForce.setValue(normalForce)
-    motionSeriesObject.gravityForce.setValue(motionSeriesObject.gravityForce.value)
-    motionSeriesObject.totalForce.setValue(motionSeriesObject.gravityForce.value + normalForce + motionSeriesObject.appliedForce.value + frictionForce + wallForce)
+    motionSeriesObject.wallForce.value = wallForce
+    motionSeriesObject.frictionForce.value = (frictionForce)
+    motionSeriesObject.normalForce.value = (normalForce)
+    motionSeriesObject.gravityForce.value = (motionSeriesObject.gravityForce.value)
+    motionSeriesObject.totalForce.value  = (motionSeriesObject.gravityForce.value + normalForce + motionSeriesObject.appliedForce.value + frictionForce + wallForce)
 //    println("new total force = "+motionSeriesObject.totalForce)
     
     motionSeriesObject.notificationsEnabled = true
