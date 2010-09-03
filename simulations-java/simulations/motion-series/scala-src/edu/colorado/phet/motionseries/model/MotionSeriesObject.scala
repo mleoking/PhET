@@ -9,27 +9,6 @@ import edu.colorado.phet.motionseries.Predef._
 import java.lang.Math.PI
 import edu.colorado.phet.motionseries.charts.MutableDouble
 
-/**Immutable memento for recording*/
-case class MotionSeriesObjectState(position: Double,
-                                   velocity: Double,
-                                   acceleration: Double,
-                                   mass: Double,
-                                   staticFriction: Double,
-                                   kineticFriction: Double,
-                                   thermalEnergy: Double,
-                                   crashEnergy: Double,
-                                   time: Double,
-                                   parallelAppliedForce: Double,
-                                   gravityForce: Vector2D,
-                                   normalForce: Vector2D,
-                                   totalForce: Vector2D,
-                                   appliedForce: Vector2D,
-                                   frictionForce: Vector2D,
-                                   wallForce: Vector2D) {
-}
-
-case class Range(min: Double, max: Double)
-
 class MotionSeriesObject(_position: MutableDouble,
                          _velocity: MutableDouble,
                          _acceleration: MutableDouble,
@@ -61,15 +40,20 @@ class MotionSeriesObject(_position: MutableDouble,
   val removalListeners = new ArrayBuffer[() => Unit]
   rampChangeAdapter.addListenerByName(notifyListeners)
 
-  //values updated in the MotionStrategy
-  val totalForce = new Vector2DModel()
-  val wallForce = new Vector2DModel()
-  val frictionForce = new Vector2DModel()
-  val normalForce = new Vector2DModel()
-  val gravityForce = new Vector2DModel(new Vector2D(0, gravity * mass)) //TODO: Update if mass changes
-  val appliedForce = new Vector2DModel()
+  //values initialized and updated in the MotionStrategy
+  val totalForce = new Vector2DModel
+  val wallForce = new Vector2DModel
+  val frictionForce = new Vector2DModel
+  val normalForce = new Vector2DModel
+  val gravityForce = new Vector2DModel
+  val appliedForce = new Vector2DModel
+  
+  def updateGravityForce() = gravityForce.setValue(new Vector2D(0, gravity * mass))
+  _mass.addListener(updateGravityForce)
+  _mass.addListener(()=>motionStrategy.stepInTime(0.0))//Hack to update the other vectors//TODO: remove this hack
+  updateGravityForce()
 
-  private var _parallelAppliedForce = 0.0 //TODO: convert to mutableDouble
+  val _parallelAppliedForce = new MutableDouble
   val gravityForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.gravityForceColor, "Gravity Force".literal, "force.abbrev.gravity".translate, false, gravityForce, (a, b) => b, PI / 2)
   val normalForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.normalForceColor, "Normal Force".literal, "force.abbrev.normal".translate, true, normalForce, (a, b) => b, PI / 2)
   val totalForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.sumForceColor, "Sum of Forces".literal, "force.abbrev.total".translate, false, totalForce, (a, b) => b, 0) ////Net force vector label should always be above
@@ -103,7 +87,7 @@ class MotionSeriesObject(_position: MutableDouble,
     thermalEnergy = s.thermalEnergy
     crashEnergy = s.crashEnergy
     setTime(s.time)
-    _parallelAppliedForce = s.parallelAppliedForce
+    parallelAppliedForce = s.parallelAppliedForce
     gravityForce.setValue(s.gravityForce)
     normalForce.setValue(s.normalForce)
     totalForce.setValue(s.totalForce)
@@ -225,12 +209,12 @@ class MotionSeriesObject(_position: MutableDouble,
   //This method allows MotionSeriesObject subclasses to avoid thermal energy by overriding this to return 0.0
   def getThermalEnergy(x: Double) = thermalEnergyStrategy(x)
 
-  def parallelAppliedForce = _parallelAppliedForce
-
+  def parallelAppliedForce = _parallelAppliedForce.value
+  
   def parallelAppliedForce_=(value: Double) = {
-    if (value != _parallelAppliedForce) {
-      _parallelAppliedForce = value
-      parallelAppliedForceListeners.foreach(_())
+    if (value != parallelAppliedForce) {
+      _parallelAppliedForce.value = value
+      parallelAppliedForceListeners.foreach(_())//TODO: move listeners into mutabledouble
       notifyListeners()
     }
   }
@@ -326,3 +310,23 @@ object MotionSeriesObject {
       model.bounce, model.walls, model.wallRange, model.thermalEnergyStrategy, model.surfaceFriction, model.surfaceFrictionStrategy)
   }
 }
+
+/**Immutable memento for recording*/
+case class MotionSeriesObjectState(position: Double,
+                                   velocity: Double,
+                                   acceleration: Double,
+                                   mass: Double,
+                                   staticFriction: Double,
+                                   kineticFriction: Double,
+                                   thermalEnergy: Double,
+                                   crashEnergy: Double,
+                                   time: Double,
+                                   parallelAppliedForce: Double,
+                                   gravityForce: Vector2D,
+                                   normalForce: Vector2D,
+                                   totalForce: Vector2D,
+                                   appliedForce: Vector2D,
+                                   frictionForce: Vector2D,
+                                   wallForce: Vector2D)
+
+case class Range(min: Double, max: Double)
