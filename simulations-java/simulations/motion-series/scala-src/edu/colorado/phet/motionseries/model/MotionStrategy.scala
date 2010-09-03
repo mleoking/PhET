@@ -11,6 +11,19 @@ trait MotionStrategyMemento {
 }
 
 abstract class MotionStrategy(val motionSeriesObject: MotionSeriesObject) {
+  def updateAppliedForce() {
+    motionSeriesObject.appliedForce.value = motionSeriesObject.rampUnitVector * motionSeriesObject.parallelAppliedForce
+  }
+  
+  def updateForces() {
+    updateAppliedForce()//TODO: this call is duplicated in stepintime
+    motionSeriesObject.wallForce.value = wallForce
+    motionSeriesObject.frictionForce.value = frictionForce
+    motionSeriesObject.normalForce.value = normalForce
+    motionSeriesObject.gravityForce.value = motionSeriesObject.gravityForce.value
+    motionSeriesObject.totalForce.value = motionSeriesObject.gravityForce.value + normalForce + motionSeriesObject.appliedForce.value + frictionForce + wallForce
+  }
+
   def isCrashed: Boolean
 
   def stepInTime(dt: Double)
@@ -231,25 +244,26 @@ class Grounded(motionSeriesObject: MotionSeriesObject) extends MotionStrategy(mo
   }
 
   case class SettableState(position: Double, velocity: Double, thermalEnergy: Double, crashEnergy: Double) {
-    def setPosition(p: Double) = new SettableState(p, velocity, thermalEnergy, crashEnergy)
-
-    def setVelocity(v: Double) = new SettableState(position, v, thermalEnergy, crashEnergy)
-
-    def setThermalEnergy(t: Double) = new SettableState(position, velocity, t, crashEnergy)
-
-    def setPositionAndVelocity(p: Double, v: Double) = new SettableState(p, v, thermalEnergy, crashEnergy)
-
     //todo: this is duplicated with code in MotionSeriesObject
     lazy val totalEnergy = ke + pe + thermalEnergy
     lazy val ke = mass * velocity * velocity / 2.0
     lazy val pe = mass * gravity.abs * positionMapper(position).y //assumes positionmapper doesn't change, which is true during stepintime
+    
+    def setPosition(p: Double) = copy(position = p)
+
+    def setVelocity(v: Double) = copy(velocity = v)
+
+    def setThermalEnergy(t: Double) = copy(thermalEnergy = t)
+
+    def setPositionAndVelocity(p: Double, v: Double) = copy(position = p, velocity = v)
   }
 
   private var dt = 1.0 / 30.0 //using dummy value before getting actual value in case any computations are done
+
   override def stepInTime(dt: Double) = {
     this.dt = dt
     motionSeriesObject.notificationsEnabled = false //make sure only to send notifications as a batch at the end; improves performance by 17%
-    motionSeriesObject.appliedForce.value = motionSeriesObject.rampUnitVector * motionSeriesObject.parallelAppliedForce
+    updateAppliedForce()
     val origEnergy = getTotalEnergy
     val origState = state
     val newState = getNewState(dt, origState, origEnergy)
@@ -267,13 +281,8 @@ class Grounded(motionSeriesObject: MotionSeriesObject) extends MotionStrategy(mo
     motionSeriesObject.thermalEnergy = newState.thermalEnergy
     motionSeriesObject.crashEnergy = newState.crashEnergy
 
-    motionSeriesObject.wallForce.value = wallForce
-    motionSeriesObject.frictionForce.value = (frictionForce)
-    motionSeriesObject.normalForce.value = (normalForce)
-    motionSeriesObject.gravityForce.value = (motionSeriesObject.gravityForce.value)
-    motionSeriesObject.totalForce.value  = (motionSeriesObject.gravityForce.value + normalForce + motionSeriesObject.appliedForce.value + frictionForce + wallForce)
-//    println("new total force = "+motionSeriesObject.totalForce)
-    
+    updateForces()
+
     motionSeriesObject.notificationsEnabled = true
     motionSeriesObject.notifyListeners() //do as a batch, since it's a performance problem to do this several times in this method call
   }
