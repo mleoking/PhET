@@ -121,7 +121,7 @@ class MotionSeriesObject(_position: MutableDouble,
   def getVelocityVectorDirection: Double = getVelocityVectorDirection(velocity)
 
   def getVelocityVectorDirection(v: Double): Double = (positionMapper(position + v * 1E-6) - positionMapper(position - v * 1E-6)).angle
-  //
+  
   def getVelocityVectorUnitVector: Vector2D = new Vector2D(getVelocityVectorDirection)
 
   def getVelocityVectorUnitVector(v: Double): Vector2D = new Vector2D(getVelocityVectorDirection(v))
@@ -214,6 +214,7 @@ class MotionSeriesObject(_position: MutableDouble,
   def parallelAppliedForce_=(value: Double) = {
     if (value != parallelAppliedForce) {
       _parallelAppliedForce.value = value
+      stepInTime(0.0)//HACK to update the vectors//TODO: remove this hack
       parallelAppliedForceListeners.foreach(_())//TODO: move listeners into mutabledouble
       notifyListeners()
     }
