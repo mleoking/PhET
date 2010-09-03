@@ -9,7 +9,7 @@
     <mx:Canvas width="100%" height="100%" label="Density" id="densityCanvas" fontSize="12">
         <mx:Canvas backgroundColor="0x5dc0ff" width="100%" height="100%" id="background"/>
         <view:DensityModule width="100%" height="100%" id="densityModule"/>
-        <components:DensityVBox right="20" y="20">
+        <components:DensityVBox right="{DensityConstants.CONTROL_INSET}" y="{DensityConstants.CONTROL_INSET}">
             <mx:Label text="{FlexSimStrings.get('mode.title','Objects')}" fontWeight="bold"/>
             <mx:RadioButton groupName="modes" id="customObject"
                             label="{FlexSimStrings.get('mode.customObject','Custom')}"
@@ -27,10 +27,10 @@
                             label="{FlexSimStrings.get('mode.mysteryObjects','Mystery')}"
                             click="densityModule.switchToMysteryObjects()"/>
         </components:DensityVBox>
-        <components:DensityVBox right="10" bottom="10">
+        <components:DensityVBox right="{DensityConstants.CONTROL_INSET}" bottom="{DensityConstants.CONTROL_INSET}">
             <mx:Button label="{FlexSimStrings.get('application.resetAll','Reset All')}" click="resetAll()"/>
         </components:DensityVBox>
-        <mx:Button left="10" bottom="10"
+        <mx:Button left="{DensityConstants.CONTROL_INSET}" bottom="{DensityConstants.CONTROL_INSET}"
                    icon="@Embed(source='../../../../../data/density-and-buoyancy/images/phet-logo-120x50.jpg')"
                    click="visitPhet()"/>
     </mx:Canvas>
