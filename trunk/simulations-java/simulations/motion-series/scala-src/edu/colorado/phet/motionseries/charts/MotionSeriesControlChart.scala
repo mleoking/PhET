@@ -246,6 +246,8 @@ abstract class MotionSeriesControlChart(motionSeriesModel: MotionSeriesModel, fo
 }
 
 class MutableDouble(private var _value: Double) extends Observable {
+  def this() = this(0.0)
+  
   def value = _value
 
   def value_=(x: Double) = {

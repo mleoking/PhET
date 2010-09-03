@@ -7,31 +7,35 @@ import edu.colorado.phet.common.phetcommon.model.MutableBoolean
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.colorado.phet.motionseries.Predef._
 import java.lang.Math.PI
+import edu.colorado.phet.motionseries.charts.MutableDouble
 
 /**Immutable memento for recording*/
-case class MotionSeriesObjectState(position: Double, velocity: Double, acceleration: Double, mass: Double, staticFriction: Double, kineticFriction: Double, thermalEnergy: Double, crashEnergy: Double, time: Double) {
-  def translate(dx: Double) = setPosition(position + dx)
-
-  def setPosition(pos: Double) = copy(position = pos)
-
-  def setVelocity(vel: Double) = copy(velocity = vel)
-
-  def setStaticFriction(value: Double) = copy(staticFriction = value)
-
-  def setKineticFriction(value: Double) = copy(kineticFriction = value)
-
-  def setMass(m: Double) = copy(mass = m)
-
-  def setThermalEnergy(value: Double) = copy(thermalEnergy = value)
-
-  def setCrashEnergy(value: Double) = copy(crashEnergy = value)
-
-  def setTime(value: Double) = copy(time = value)
+case class MotionSeriesObjectState(position: Double,
+                                   velocity: Double,
+                                   acceleration: Double,
+                                   mass: Double,
+                                   staticFriction: Double,
+                                   kineticFriction: Double,
+                                   thermalEnergy: Double,
+                                   crashEnergy: Double,
+                                   time: Double,
+                                   parallelAppliedForce: Double,
+                                   gravityForce: Vector2D,
+                                   normalForce: Vector2D,
+                                   totalForce: Vector2D,
+                                   appliedForce: Vector2D,
+                                   frictionForce: Vector2D,
+                                   wallForce: Vector2D) {
 }
 
 case class Range(min: Double, max: Double)
 
-class MotionSeriesObject(private var _state: MotionSeriesObjectState,
+class MotionSeriesObject(_position: MutableDouble,
+                         _velocity: MutableDouble,
+                         _acceleration: MutableDouble,
+                         _mass: MutableDouble,
+                         _staticFriction: MutableDouble,
+                         _kineticFriction: MutableDouble,
                          private var _height: Double,
                          private var _width: Double,
                          val positionMapper: Double => Vector2D,
@@ -44,6 +48,9 @@ class MotionSeriesObject(private var _state: MotionSeriesObjectState,
                          val surfaceFriction: () => Boolean,
                          __surfaceFrictionStrategy: SurfaceFrictionStrategy)
         extends Observable {
+  private val _thermalEnergy = new MutableDouble
+  private val _crashEnergy = new MutableDouble
+  private val _time = new MutableDouble
   private var _airborneFloor = 0.0
   private var _gravity = -9.8
   val workListeners = new ArrayBuffer[Double => Unit]
@@ -51,18 +58,18 @@ class MotionSeriesObject(private var _state: MotionSeriesObjectState,
   //This notion of crashing is only regarding falling off a cliff or off the ramp, not for crashing into a wall
   val crashListeners = new ArrayBuffer[() => Unit]
   //notified when the MotionSeriesObject is being removed
-  val removalListeners = new ArrayBuffer[() => Unit]  
+  val removalListeners = new ArrayBuffer[() => Unit]
   rampChangeAdapter.addListenerByName(notifyListeners)
-  
+
   //values updated in the MotionStrategy
   val totalForce = new Vector2DModel()
   val wallForce = new Vector2DModel()
   val frictionForce = new Vector2DModel()
-  val normalForce = new Vector2DModel() 
-  val gravityForce = new Vector2DModel(new Vector2D(0, gravity * mass))//TODO: Update if mass changes
+  val normalForce = new Vector2DModel()
+  val gravityForce = new Vector2DModel(new Vector2D(0, gravity * mass)) //TODO: Update if mass changes
   val appliedForce = new Vector2DModel()
 
-  private var _parallelAppliedForce = 0.0//TODO: convert to mutableDouble
+  private var _parallelAppliedForce = 0.0 //TODO: convert to mutableDouble
   val gravityForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.gravityForceColor, "Gravity Force".literal, "force.abbrev.gravity".translate, false, gravityForce, (a, b) => b, PI / 2)
   val normalForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.normalForceColor, "Normal Force".literal, "force.abbrev.normal".translate, true, normalForce, (a, b) => b, PI / 2)
   val totalForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.sumForceColor, "Sum of Forces".literal, "force.abbrev.total".translate, false, totalForce, (a, b) => b, 0) ////Net force vector label should always be above
@@ -70,21 +77,42 @@ class MotionSeriesObject(private var _state: MotionSeriesObjectState,
   val frictionForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.frictionForceColor, "Friction Force".literal, "force.abbrev.friction".translate, true, frictionForce, (a, b) => b, -PI / 2)
   val wallForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.wallForceColor, "Wall Force".literal, "force.abbrev.wall".translate, false, wallForce, (a, b) => b, PI / 2)
   val parallelAppliedForceListeners = new ArrayBuffer[() => Unit]
-  
+
   private val wallCrashListeners = new ArrayBuffer[() => Unit]
   private val bounceListeners = new ArrayBuffer[() => Unit]
-  
+
   private var _motionStrategy: MotionStrategy = new Grounded(this)
-  
+
   def frictionless = state.staticFriction == 0 && state.kineticFriction == 0
 
   def gravity = _gravity
 
   def wallsExist = _wallsExist.getValue.booleanValue
 
-  def state = _state
+  def state = {
+    new MotionSeriesObjectState(position,velocity,acceleration,mass,staticFriction,kineticFriction,thermalEnergy,crashEnergy,time,
+      parallelAppliedForce,gravityForce.value,normalForce.value,totalForce.value,appliedForce.value,frictionForce.value,wallForce.value)
+  }
 
-  def state_=(s: MotionSeriesObjectState) = {_state = s; notifyListeners()}
+  def state_=(s: MotionSeriesObjectState) = {
+    setPosition(s.position)
+    setVelocity(s.velocity)
+    mass = s.mass
+    staticFriction = s.staticFriction
+    kineticFriction = s.kineticFriction
+    thermalEnergy = s.thermalEnergy
+    crashEnergy = s.crashEnergy
+    setTime(s.time)
+    _parallelAppliedForce = s.parallelAppliedForce
+    gravityForce.setValue(s.gravityForce)
+    normalForce.setValue(s.normalForce)
+    totalForce.setValue(s.totalForce)
+    appliedForce.setValue(s.appliedForce)
+    frictionForce.setValue(s.frictionForce)
+    wallForce.setValue(s.wallForce)
+
+    notifyListeners()
+  }
 
   /**
    * Notify that the MotionSeriesObject is being removed, and clear all listeners.
@@ -109,28 +137,25 @@ class MotionSeriesObject(private var _state: MotionSeriesObjectState,
   def getVelocityVectorDirection: Double = getVelocityVectorDirection(velocity)
 
   def getVelocityVectorDirection(v: Double): Double = (positionMapper(position + v * 1E-6) - positionMapper(position - v * 1E-6)).angle
-//
+  //
   def getVelocityVectorUnitVector: Vector2D = new Vector2D(getVelocityVectorDirection)
 
   def getVelocityVectorUnitVector(v: Double): Vector2D = new Vector2D(getVelocityVectorDirection(v))
 
   def rampUnitVector = rampSegmentAccessor(position).unitVector
 
-  def mass = state.mass
+  def mass = _mass.value
 
   def width_=(w: Double) = {
     _width = w
     notifyListeners()
   }
 
-  def position = state.position
+  def position = _position.value
 
-  def velocity = state.velocity
+  def velocity = _velocity.value
 
-  def translate(dx: Double) = {
-    state = state.translate(dx)
-    notifyListeners()
-  }
+  def translate(dx: Double) = setPosition(_position.value + dx)
 
   def height_=(height: Double) = {
     _height = height
@@ -139,9 +164,11 @@ class MotionSeriesObject(private var _state: MotionSeriesObjectState,
 
   def height = _height
 
-  def time = state.time
+  def time = _time.value
 
-  def setTime(t: Double) = state = state.setTime(t)
+  def setTime(t: Double) = {
+    _time.value=t
+  }
 
   def airborneFloor = _airborneFloor
 
@@ -155,23 +182,23 @@ class MotionSeriesObject(private var _state: MotionSeriesObjectState,
 
   def crashEnergy_=(value: Double) = {
     if (value != state.crashEnergy) {
-      state = state.setCrashEnergy(value)
-      notifyListeners()
+      _crashEnergy.value = value
+      notifyListeners()        //TODO: fix listeners
     }
   }
 
   def thermalEnergy_=(value: Double) = {
     if (value != state.thermalEnergy) {
-      state = state.setThermalEnergy(value)
-      notifyListeners()
+      _thermalEnergy.value = value
+      notifyListeners()//TODO: fix listeners
     }
   }
 
-  def thermalEnergy = state.thermalEnergy
+  def thermalEnergy = _thermalEnergy.value
 
   def rampThermalEnergy = thermalEnergy - crashEnergy
 
-  def crashEnergy = state.crashEnergy
+  def crashEnergy = _crashEnergy.value
 
   def getFrictiveWork = -thermalEnergy
 
@@ -197,7 +224,7 @@ class MotionSeriesObject(private var _state: MotionSeriesObjectState,
 
   //This method allows MotionSeriesObject subclasses to avoid thermal energy by overriding this to return 0.0
   def getThermalEnergy(x: Double) = thermalEnergyStrategy(x)
-  
+
   def parallelAppliedForce = _parallelAppliedForce
 
   def parallelAppliedForce_=(value: Double) = {
@@ -217,12 +244,12 @@ class MotionSeriesObject(private var _state: MotionSeriesObjectState,
     notifyListeners()
   }
 
-  def staticFriction = state.staticFriction
+  def staticFriction = _staticFriction.value
 
-  def kineticFriction = state.kineticFriction
+  def kineticFriction = _kineticFriction.value
 
   def staticFriction_=(value: Double) {
-    state = state.setStaticFriction(value)
+    _staticFriction.value = value
     notifyListeners()
 
     if (kineticFriction > staticFriction)
@@ -230,7 +257,7 @@ class MotionSeriesObject(private var _state: MotionSeriesObjectState,
   }
 
   def kineticFriction_=(value: Double) {
-    state = state.setKineticFriction(value)
+    _kineticFriction.value = value
     notifyListeners()
 
     //NP says to Increase static when you increase kinetic so that static >= kinetic.
@@ -244,26 +271,26 @@ class MotionSeriesObject(private var _state: MotionSeriesObjectState,
 
   //todo: switch to property based notifications so we don't have to remember to do this kind of fine-grained notification
   def setVelocity(velocity: Double) = {
-    if (velocity != state.velocity) {
-      state = state.setVelocity(velocity)
-      notifyListeners()
+    if (velocity != _velocity.value) {
+      _velocity.value = velocity
+      notifyListeners()//TODO: switch notification mechanism
     }
   }
 
   def mass_=(mass: Double) = {
-    state = state.setMass(mass)//TODO: convert mass to mutable boolean
+    this._mass.value = mass //TODO: fix listeners
     notifyListeners()
   }
 
+  //TODO: remove listener notification here so listeners must listen to positionChanged property
   def setPosition(position: Double) = {
-    val originalPosition = this.position //have to record the position here since the next line changes the super.position
-    if (position != state.position) {
-      state = state.setPosition(position)
+    if (position != _position.value) {
+      _position.value = position
       notifyListeners()
     }
   }
 
-  def gravity_=(value: Double) = {//TODO: convert gravity to mutabledouble
+  def gravity_=(value: Double) = { //TODO: convert gravity to mutabledouble
     _gravity = value
     notifyListeners()
   }
@@ -295,7 +322,7 @@ class MotionSeriesObject(private var _state: MotionSeriesObjectState,
 
 object MotionSeriesObject {
   def apply(model: MotionSeriesModel, x: Double, width: Double, height: Double) = {
-    new MotionSeriesObject(new MotionSeriesObjectState(x, 0, 0, 10, 0, 0, 0.0, 0.0, 0.0), height, width, model.toPosition2D, model.rampSegmentAccessor, model.rampChangeAdapter,
+    new MotionSeriesObject(new MutableDouble(x), new MutableDouble, new MutableDouble, new MutableDouble(10), new MutableDouble, new MutableDouble, height, width, model.toPosition2D, model.rampSegmentAccessor, model.rampChangeAdapter,
       model.bounce, model.walls, model.wallRange, model.thermalEnergyStrategy, model.surfaceFriction, model.surfaceFrictionStrategy)
   }
 }
