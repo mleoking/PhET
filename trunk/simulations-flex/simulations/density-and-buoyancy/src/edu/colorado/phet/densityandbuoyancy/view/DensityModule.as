@@ -125,6 +125,8 @@ class CustomObjectMode extends Mode {
         const height:Number = Math.pow(volume, 1.0 / 3);
         customizableObject = Block.newBlockDensityMass(material.getDensity(), DensityConstants.DEFAULT_BLOCK_MASS, -DensityConstants.POOL_WIDTH_X / 2, height, new ColorTransform(0.5, 0.5, 0), module.model, material);
         customObjectPropertiesPanel = new CustomObjectPropertiesPanel(customizableObject, module.units);
+        customObjectPropertiesPanel.x = DensityConstants.CONTROL_INSET;
+        customObjectPropertiesPanel.y = DensityConstants.CONTROL_INSET;
     }
 
     override public function teardown():void {

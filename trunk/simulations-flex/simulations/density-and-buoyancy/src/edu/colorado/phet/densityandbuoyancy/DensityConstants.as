@@ -37,6 +37,7 @@ public class DensityConstants {
 
     public static const LARGE_BLOCK_WIDTH:Number = 0.18;
     public static const NUMBER_OF_DECIMAL_PLACES:Number = 2;
+    public static const CONTROL_INSET:Number = 5;
     //Color recommended by Kathy to be a pale yellow background for control panels
 
     //So that away3d faces don't overlap
