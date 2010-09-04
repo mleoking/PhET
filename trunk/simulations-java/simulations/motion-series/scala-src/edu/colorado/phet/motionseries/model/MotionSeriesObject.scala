@@ -259,7 +259,6 @@ class MotionSeriesObject(_position: MutableDouble,
 
   def netForceToParallelVelocity(f: Vector2D, dt: Double) = velocity + forceToParallelAcceleration(f) * dt
 
-  //todo: switch to property based notifications so we don't have to remember to do this kind of fine-grained notification
   def setVelocity(velocity: Double) = {
     if (velocity != _velocity.value) {
       _velocity.value = velocity
@@ -268,8 +267,8 @@ class MotionSeriesObject(_position: MutableDouble,
   }
 
   def mass_=(mass: Double) = {
-    this._mass.value = mass //TODO: fix listeners
-    notifyListeners()
+    this._mass.value = mass
+    notifyListeners()//TODO: fix listeners
   }
 
   //TODO: remove listener notification here so listeners must listen to positionChanged property

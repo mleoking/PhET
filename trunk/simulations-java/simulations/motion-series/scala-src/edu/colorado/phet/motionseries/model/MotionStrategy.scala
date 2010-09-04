@@ -319,7 +319,7 @@ class Grounded(motionSeriesObject: MotionSeriesObject) extends MotionStrategy(mo
     //account for external forces, such as the applied force, which should increase the total energy
     val appliedEnergy = (motionSeriesObject.appliedForce.value dot motionSeriesObject.getVelocityVectorUnitVector(stateAfterCollision.velocity)) * dx.abs
 
-    //      val thermalFromWork = getThermalEnergy + abs((frictionForce dot getVelocityVectorUnitVector(stateAfterBounds.velocity)) * dx) //work done by friction force, absolute value
+    //      val thermalFromWork = getThermalEnergy + abs((frictionForce dot getVelocityVectorUnitVector(stateAfterBounds.velocity)) * dx) //work done by friction force, absolute value.  Leaving this line here (commented out) in case this code is reused for WorkEnergy sim 
     //todo: this may differ significantly from thermalFromWork
     val thermalFromEnergy = if (isKineticFriction && !collide)
       origEnergy - stateAfterCollision.ke - stateAfterCollision.pe + appliedEnergy
