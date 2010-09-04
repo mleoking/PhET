@@ -32,6 +32,9 @@ class MotionSeriesModel(defaultPosition: Double,
   private val _frictionless = new SMutableBoolean(false) //FRICTIONLESS_DEFAULT
   private val _wallsBounce = new SMutableBoolean(false) //BOUNCE_DEFAULT 
   private var _objectType = MotionSeriesDefaults.objectTypes(0)
+  val surfaceFrictionStrategy = new SurfaceFrictionStrategy() {
+    def getTotalFriction(objectFriction: Double) = objectFriction
+  }
   val chartCursor = new ChartCursor()
 
   val rampSegments = new ArrayBuffer[RampSegment]
@@ -61,9 +64,6 @@ class MotionSeriesModel(defaultPosition: Double,
   val leftWallRightEdge = MotionSeriesObject(this, -10 + MotionSeriesDefaults.wall.width / 2, MotionSeriesDefaults.SPRING_WIDTH, MotionSeriesDefaults.SPRING_HEIGHT)
   val rightWallLeftEdge = MotionSeriesObject(this, 10 - MotionSeriesDefaults.wall.width / 2, MotionSeriesDefaults.SPRING_WIDTH, MotionSeriesDefaults.SPRING_HEIGHT)
 
-  val surfaceFrictionStrategy = new SurfaceFrictionStrategy() {
-    def getTotalFriction(objectFriction: Double) = objectFriction
-  }
   val manMotionSeriesObject = MotionSeriesObject(this, defaultManPosition, 1, 3)
   //This is the main object that forces are applied to
   val motionSeriesObject = new MotionSeriesObject(new MutableDouble(defaultPosition), new MutableDouble, new MutableDouble,

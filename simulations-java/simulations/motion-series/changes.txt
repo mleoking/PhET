@@ -1,3 +1,4 @@
+Fixed: When paused and changing the angle of the ramp, vectors do not update
 Fixed: FBD vector arrows don't originate at the origin, especially on resize of the FBD dialog
 Fixed: Applied force vector doesn't update when the sim is paused
 Changed to idiomatic scala setter from javabean style setter in Vector2DModel
