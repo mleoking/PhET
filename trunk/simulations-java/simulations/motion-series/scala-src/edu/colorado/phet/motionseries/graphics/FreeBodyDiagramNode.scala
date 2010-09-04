@@ -63,14 +63,13 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel,
                           coordinateFrameModel: CoordinateFrameModel,
                           adjustableCoordinateModel: AdjustableCoordinateModel,
                           toggleWindowedButton: Image,
-                          rampAngle: () => Double,
-                          vectors: Vector*)
+                          rampAngle: () => Double)
         extends PNode with VectorDisplay {
   private val cursorHandler = new CursorHandler
   addInputEventListener(cursorHandler)
   def removeCursorHand() = removeInputEventListener(cursorHandler)
 
-  def addVector(vector: Vector, offsetFBD: Vector2DModel, maxLabelDist: Int, offsetPlayArea: Double)= addVector(vector, offsetFBD, maxLabelDist)
+  def addVector(vector: Vector, tailLocation: Vector2DModel, maxLabelDist: Int, offsetPlayArea: Double) = addChild(new VectorNode(transform, vector, tailLocation, maxLabelDist, 1))
 
   val transform = new ModelViewTransform2D(new Rectangle2D.Double(-modelWidth / 2, -modelHeight / 2, modelWidth, modelHeight),
     new Rectangle2D.Double(0, 0, _width, _height), true)
@@ -135,17 +134,8 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel,
   val yAxisModel = new SynchronizedAxisModel(PI / 2, PI / 2, PI, modelWidth / 2 * 0.9, true, coordinateFrameModel)
   addChild(new AxisNodeWithModel(transform, "coordinates.x".translate, xAxisModel, adjustableCoordinateModel))
   addChild(new AxisNodeWithModel(transform, "coordinates.y".translate, yAxisModel, adjustableCoordinateModel))
-  for (vector <- vectors) addVector(vector, MotionSeriesDefaults.FBD_LABEL_MAX_OFFSET)
-
+  
   updateSize()
-
-  def addVector(vector: Vector, maxDistToLabel: Double): Unit = addVector(vector, new Vector2DModel, maxDistToLabel: Double)
-
-  def addVector(vector: Vector, offset: Vector2DModel, maxLabelDist: Double) = addChild(new VectorNode(transform, vector, offset, maxLabelDist, 1))
-
-  def removeVector(vector: Vector) = {
-    clearVectors(vector eq _)
-  }
 
   def getVectorCount = {
     var count = 0
@@ -158,6 +148,10 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel,
     count
   }
 
+  def removeVector(vector: Vector) = {
+    clearVectors(vector eq _)
+  }
+  
   def clearVectors() {
     clearVectors(x => true)
   }
@@ -217,8 +211,11 @@ object TestFBD extends Application {
   val frame = new JFrame
   val canvas = new PhetPCanvas
   val vector = new Vector(Color.blue, "Test Vector".literal, "Fv".literal, new Vector2DModel(5, 5), (a, b) => b, PI / 2)
-  canvas.addScreenChild(new FreeBodyDiagramNode(new FreeBodyDiagramModel(false), 200, 200, 20, 20, new CoordinateFrameModel(new RampSegment(new Point2D.Double(0, 0), new Point2D.Double(10, 10))), new AdjustableCoordinateModel,
-    PhetCommonResources.getImage("buttons/maximizeButton.png".literal), () => PI / 4, vector))
+  val fbdNode = new FreeBodyDiagramNode(new FreeBodyDiagramModel(false), 200, 200, 20, 20, new CoordinateFrameModel(new RampSegment(new Point2D.Double(0, 0), new Point2D.Double(10, 10))), new AdjustableCoordinateModel,
+    PhetCommonResources.getImage("buttons/maximizeButton.png".literal), () => PI / 4)
+  fbdNode.addVector(vector,new Vector2DModel, MotionSeriesDefaults.FBD_LABEL_MAX_OFFSET,10)
+  canvas.addScreenChild(fbdNode)
+  
   frame.setContentPane(canvas)
   frame.setSize(800, 600)
   frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
