@@ -65,7 +65,7 @@ class VectorView(motionSeriesObject: MotionSeriesObject,
 }
 
 trait VectorDisplay {
-  def addVector(vector: Vector, offsetFBD: Vector2DModel, maxOffset: Int, offsetPlayArea: Double): Unit
+  def addVector(vector: Vector, offsetFBD: Vector2DModel, maxLabelDist: Int, offsetPlayArea: Double): Unit
 
   def removeVector(vector: Vector): Unit
 }
