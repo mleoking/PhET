@@ -50,9 +50,9 @@ class MotionSeriesModel(defaultPosition: Double,
   val coordinateFrameModel = new CoordinateFrameModel(rampSegments(1))
 
   //Sends notification when any ramp segment changes
-  object rampChangeAdapter extends Observable //todo: perhaps we should just pass the addListener method to the MotionSeriesObjects
-  rampSegments(0).addListenerByName {rampChangeAdapter.notifyListeners}
-  rampSegments(1).addListenerByName {rampChangeAdapter.notifyListeners}
+  val rampChangeAdapter = new Object with Observable //todo: perhaps we should just pass the addListener method to the MotionSeriesObjects
+  rampSegments(0).addListener(rampChangeAdapter.notifyListeners)
+  rampSegments(1).addListener(rampChangeAdapter.notifyListeners)
   val wallRange = () => Range(-rampSegments(0).length, rampSegments(1).length)
   val surfaceFriction = () => !frictionless
 
@@ -286,7 +286,9 @@ class MotionSeriesModel(defaultPosition: Double,
 
   def rampAngle = rampSegments(1).angle
 
-  //TODO: this may need to be more general if/when there are more/less ramp segments
+  /* Computes the 2D position for an object on the RampSegments, given its 1d scalar position. 
+  This may need to be more general if/when there are more/less ramp segments
+   */
   def toPosition2D(particleLocation: Double) = {
     if (particleLocation <= 0) {
       val backwardsUnitVector = rampSegments(0).unitVector * -1 //go backwards since position is measure from origin
