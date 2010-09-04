@@ -1,6 +1,5 @@
 package edu.colorado.phet.motionseries.graphics
 
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont
 import edu.colorado.phet.common.piccolophet.nodes._
 import java.awt.geom.Point2D
@@ -14,6 +13,7 @@ import edu.colorado.phet.motionseries.MotionSeriesConfig
 import java.awt.Color
 import edu.colorado.phet.motionseries.model._
 import MotionSeriesConfig._
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.{TransformListener, ModelViewTransform2D}
 
 /**
  * The VectorNode is the PNode that draws the Vector (e.g. a force vector) either in the free body diagram or directly on the object itself.
@@ -53,18 +53,18 @@ class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val ta
   //This update mechanism is expensive, and there are many vectors to update.
   //Since there are 2 dependencies that this class listens for, we bunch up the notifications
   //so that update is only called when necessary. 
-  case class UpdateState(visible: Boolean, vector: Vector2D, offset: Vector2D)
-  private var lastUpdateState = new UpdateState(true, new Vector2D, new Vector2D(123, 456))
+  case class UpdateState(visible: Boolean, tip: Vector2D, tail: Vector2D)
+  private var lastUpdateState = new UpdateState(true, new Vector2D, new Vector2D(123, 456))//create with dummy data to ensure changed on first update()
 
   val update = () => {
-    val updateState = new UpdateState(vector.visible.booleanValue, vector.vector2DModel.value, tailLocation.value)
+    val viewTip = transform.modelToViewDouble(vector.vector2DModel() * vectorLengthScale + tailLocation.value)
+    val viewTail = transform.modelToViewDouble(tailLocation.value)
+    val updateState = new UpdateState(vector.visible.booleanValue, viewTail, viewTip)
     val stayedInvisible = !updateState.visible && !lastUpdateState.visible
     if (updateState != lastUpdateState && !stayedInvisible) { //skip expensive updates if no change
       //      println("Updating "+vector.abbreviation)
       setVisible(vector.visible.booleanValue)
       //Update the arrow node itself
-      val viewTail = transform.modelToViewDouble(tailLocation.value)
-      val viewTip = transform.modelToViewDouble(vector.vector2DModel() * vectorLengthScale + tailLocation.value)
       arrowNode.setTipAndTailLocations(viewTip, viewTail)
 
       //Update the location of the text label
@@ -95,6 +95,9 @@ class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val ta
   update()
   vector.vector2DModel.addListener(update)
   tailLocation.addListener(update)
+  transform.addTransformListener(new TransformListener() {
+    def transformChanged(mvt: ModelViewTransform2D) = update()
+  })
 
   setPickable(false)
   setChildrenPickable(false)
