@@ -264,8 +264,8 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
 
     def setter(x: Double) = if (gameModel.robotEnergy > 0) motionSeriesObject.parallelAppliedForce = x else {}
 
-    vectorView.addAllVectors(motionSeriesObject, fbdNode)
-    vectorView.addAllVectors(motionSeriesObject, windowFBDNode)
+    vectorView.addAllVectorsAllComponents(motionSeriesObject, fbdNode)
+    vectorView.addAllVectorsAllComponents(motionSeriesObject, windowFBDNode)
     //don't show play area vectors
 
     //todo: remove vector nodes when MotionSeriesObject is removed

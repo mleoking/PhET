@@ -7,12 +7,23 @@ import edu.colorado.phet.scalacommon.math.Vector2D
 import edu.umd.cs.piccolo.PNode
 import edu.colorado.phet.motionseries.sims.coordinateframes.{YComponent, XComponent, PerpendicularComponent, ParallelComponent}
 
-/**Class VectorView can inspect a MotionSeriesObject and add graphical representations of vectors onto a specified VectorDisplay
+/**Class VectorView can inspect a MotionSeriesObject and add graphical representations of its vectors onto a specified VectorDisplay
  */
 class VectorView(motionSeriesObject: MotionSeriesObject,
                  vectorViewModel: VectorViewModel,
                  coordinateFrameModel: CoordinateFrameModel,
                  fbdWidth: Int) {
+  def addAllVectorsAllComponents(motionSeriesObject: MotionSeriesObject, vectorDisplay: VectorDisplay) {
+    addVectorAllComponents(motionSeriesObject, motionSeriesObject.appliedForceVector, vectorDisplay)
+    addVectorAllComponents(motionSeriesObject, motionSeriesObject.gravityForceVector, vectorDisplay)
+    addVectorAllComponents(motionSeriesObject, motionSeriesObject.normalForceVector, vectorDisplay)
+    addVectorAllComponents(motionSeriesObject, motionSeriesObject.frictionForceVector, vectorDisplay)
+    addVectorAllComponents(motionSeriesObject, motionSeriesObject.wallForceVector, vectorDisplay)
+    addAllVectorsAllComponents(motionSeriesObject, motionSeriesObject.totalForceVector,
+      new Vector2DModel(new Vector2D(0, fbdWidth / 4)), 2, //Needs a separate offset since it should be shown above other force arrows
+      () => vectorViewModel.sumOfForcesVector, vectorDisplay) //no need to add a separate listener, since it is already contained in vectorviewmodel
+  }
+  
   def addVectorAllComponents(motionSeriesObject: MotionSeriesObject, 
                              vector: MotionSeriesObjectVector, 
                              vectorDisplay: VectorDisplay): Unit =
@@ -50,17 +61,6 @@ class VectorView(motionSeriesObject: MotionSeriesObject,
   def addVector(motionSeriesObject: MotionSeriesObject, vector: Vector, freeBodyDiagramOffset: Vector2DModel, offsetPlayArea: Double, vectorDisplay: VectorDisplay) = {
     vectorDisplay.addVector(vector, freeBodyDiagramOffset, MotionSeriesDefaults.FBD_LABEL_MAX_OFFSET, offsetPlayArea)
     motionSeriesObject.removalListeners += (() => vectorDisplay.removeVector(vector))
-  }
-
-  def addAllVectors(motionSeriesObject: MotionSeriesObject, vectorDisplay: VectorDisplay) = {
-    addVectorAllComponents(motionSeriesObject, motionSeriesObject.appliedForceVector, vectorDisplay)
-    addVectorAllComponents(motionSeriesObject, motionSeriesObject.gravityForceVector, vectorDisplay)
-    addVectorAllComponents(motionSeriesObject, motionSeriesObject.normalForceVector, vectorDisplay)
-    addVectorAllComponents(motionSeriesObject, motionSeriesObject.frictionForceVector, vectorDisplay)
-    addVectorAllComponents(motionSeriesObject, motionSeriesObject.wallForceVector, vectorDisplay)
-    addAllVectorsAllComponents(motionSeriesObject, motionSeriesObject.totalForceVector,
-      new Vector2DModel(new Vector2D(0, fbdWidth / 4)), 2, //Needs a separate offset since it should be shown above other force arrows
-      () => vectorViewModel.sumOfForcesVector, vectorDisplay) //no need to add a separate listener, since it is already contained in vectorviewmodel
   }
 }
 

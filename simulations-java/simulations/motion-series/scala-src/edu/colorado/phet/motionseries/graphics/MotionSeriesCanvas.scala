@@ -148,9 +148,9 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
   playAreaNode.addChild(playAreaVectorNode)
 
   val vectorView = new VectorView(model.motionSeriesObject, vectorViewModel, model.coordinateFrameModel, fbdWidth)
-  vectorView.addAllVectors(model.motionSeriesObject, fbdNode)
-  vectorView.addAllVectors(model.motionSeriesObject, windowFBDNode)
-  if (useVectorNodeInPlayArea) vectorView.addAllVectors(model.motionSeriesObject, playAreaVectorNode)
+  vectorView.addAllVectorsAllComponents(model.motionSeriesObject, fbdNode)
+  vectorView.addAllVectorsAllComponents(model.motionSeriesObject, windowFBDNode)
+  if (useVectorNodeInPlayArea) vectorView.addAllVectorsAllComponents(model.motionSeriesObject, playAreaVectorNode)
 
   val returnObjectButton = new ReturnObjectButton(model)
   val viewPt = transform.modelToView(5, 2) //show near the right side of the ramp, just above it so that it is visible in every sim+module
