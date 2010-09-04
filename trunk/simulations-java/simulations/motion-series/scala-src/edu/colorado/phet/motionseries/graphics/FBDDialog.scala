@@ -63,7 +63,7 @@ class FBDDialog(frame: JFrame,
   })
   def addVector(vector: Vector, maxDistToLabel: Double): Unit = fbdNode.addVector(vector, maxDistToLabel)
 
-  def addVector(vector: Vector, offset: Vector2DModel, maxDistToLabel: Double) = fbdNode.addVector(vector, offset, maxDistToLabel)
+  def addVector(vector: Vector, offset: Vector2DModel, maxLabelDist: Double) = fbdNode.addVector(vector, offset, maxLabelDist)
 
   def clearVectors() = fbdNode.clearVectors()
 
