@@ -27,6 +27,7 @@ class MotionSeriesObject(_position: MutableDouble,
                          val surfaceFriction: () => Boolean,
                          __surfaceFrictionStrategy: SurfaceFrictionStrategy)
         extends Observable {
+  if (__surfaceFrictionStrategy == null) throw new RuntimeException("Null surface friction strategy")
   private val _thermalEnergy = new MutableDouble
   private val _crashEnergy = new MutableDouble
   private val _time = new MutableDouble
@@ -38,7 +39,11 @@ class MotionSeriesObject(_position: MutableDouble,
   val crashListeners = new ArrayBuffer[() => Unit]
   //notified when the MotionSeriesObject is being removed
   val removalListeners = new ArrayBuffer[() => Unit]
-  rampChangeAdapter.addListenerByName(notifyListeners)
+  
+  rampChangeAdapter.addListener(()=>{
+    motionStrategy.updateForces()
+    notifyListeners()
+  })
 
   //values initialized and updated in the MotionStrategy
   val totalForce = new Vector2DModel
