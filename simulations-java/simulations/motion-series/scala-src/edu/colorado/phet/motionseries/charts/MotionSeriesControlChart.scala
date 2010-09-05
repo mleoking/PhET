@@ -17,20 +17,25 @@ import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel.{History
 import edu.umd.cs.piccolo.nodes.PText
 import edu.colorado.phet.common.piccolophet.nodes.{PhetPPath, ShadowHTMLNode}
 import java.awt.geom.{RoundRectangle2D, Rectangle2D}
-import java.awt.{BasicStroke, Color}
 import java.text.DecimalFormat
+import java.awt.{BasicStroke, Color}
+
+/**
+ * Component resize code to make sure the chart has the right bounds
+ */
+class ChartComponentListener(canvas: PhetPCanvas, chartProportionY: Double, node: PNode) extends ComponentAdapter {
+  val insetX = 0.6
+  val insetY = insetX
+  override def componentResized(e: ComponentEvent) = {
+    node.setBounds(0 + insetX / 2, canvas.getHeight * (1 - chartProportionY) + insetY / 2, canvas.getWidth - insetX, canvas.getHeight * chartProportionY - insetY)
+  }
+}
 
 /**
  * @author Sam Reid
  */
 class RampForceChartNode(canvas: PhetPCanvas, motionSeriesModel: MotionSeriesModel) extends MultiControlChart(Array(new RampForceMinimizableControlChart(motionSeriesModel))) {
-  canvas.addComponentListener(new ComponentAdapter {
-    override def componentResized(e: ComponentEvent) = {
-      val insetX = 6
-      val insetY = 6
-      setBounds(0 + insetX / 2, canvas.getHeight / 2 + insetY / 2, canvas.getWidth - insetX, canvas.getHeight / 2 - insetY)
-    }
-  })
+  canvas.addComponentListener(new ChartComponentListener(canvas,0.5,this))
   motionSeriesModel.resetListeners_+=(() => {resetAll()})
   motionSeriesModel.addHistoryClearListener(new HistoryClearListener() {
     def historyCleared = {
@@ -44,14 +49,7 @@ class ForcesAndMotionChartNode(canvas: PhetPCanvas, model: MotionSeriesModel) ex
   new MinimizableControlChart("properties.acceleration".translate, new SingleSeriesChart(model, () => model.motionSeriesObject.acceleration, 50, "properties.acceleration.units".translate, MotionSeriesDefaults.accelerationColor, "properties.acceleration".translate).chart, false),
   new MinimizableControlChart("properties.velocity".translate, new SingleSeriesChart(model, () => model.motionSeriesObject.state.velocity, 25, "properties.velocity.units".translate, MotionSeriesDefaults.velocityColor, "properties.velocity".translate).chart, false),
   new MinimizableControlChart("properties.position".translate, new SingleSeriesChart(model, () => model.motionSeriesObject.state.position, 10, "properties.position.units".translate, MotionSeriesDefaults.positionColor, "properties.position".translate).chart, false))) {
-  canvas.addComponentListener(new ComponentAdapter { //todo: remove duplicate code from above
-    override def componentResized(e: ComponentEvent) = {
-      val insetX = 6
-      val insetY = 6
-      val chartProportionY = 0.7;
-      setBounds(0 + insetX / 2, canvas.getHeight * (1 - chartProportionY) + insetY / 2, canvas.getWidth - insetX, canvas.getHeight * chartProportionY - insetY)
-    }
-  })
+  canvas.addComponentListener(new ChartComponentListener(canvas,0.7,this))
   model.resetListeners_+=(() => {resetAll()})
 }
 
@@ -162,7 +160,7 @@ abstract class MotionSeriesControlChart(motionSeriesModel: MotionSeriesModel, fo
   val sumForceVariable = new MutableDouble(parallelTotalForce) {
     motionSeriesModel.stepListeners += (() => {value = parallelTotalForce})
   }
-  
+
   val N = "units.abbr.newtons".translate
   val appliedForceSeries = new MotionSeriesDataSeries("force.pattern".messageformat("forces.applied".translate), MotionSeriesDefaults.appliedForceColor, N, parallelAppliedForceVariable, motionSeriesModel, true)
   val frictionForceSeries = new MotionSeriesDataSeries("force.pattern".messageformat("forces.friction".translate), MotionSeriesDefaults.frictionForceColor, N, frictionVariable, motionSeriesModel, false)
@@ -246,8 +244,8 @@ abstract class MotionSeriesControlChart(motionSeriesModel: MotionSeriesModel, fo
 }
 
 class MutableDouble(private var _value: Double) extends Observable {
-  def this() = this(0.0)
-  
+  def this() = this (0.0)
+
   def value = _value
 
   def value_=(x: Double) = {
