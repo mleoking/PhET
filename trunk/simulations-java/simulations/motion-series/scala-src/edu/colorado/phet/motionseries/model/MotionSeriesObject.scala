@@ -27,6 +27,9 @@ class MotionSeriesObject(_position: MutableDouble,
                          val surfaceFriction: () => Boolean,
                          __surfaceFrictionStrategy: SurfaceFrictionStrategy)
         extends Observable {
+  def this(model: MotionSeriesModel, x: Double, width: Double, height: Double) =  this(new MutableDouble(x), new MutableDouble, new MutableDouble, new MutableDouble(10), 
+    new MutableDouble, new MutableDouble, height, width, model.toPosition2D, model.rampSegmentAccessor, model.rampChangeAdapter,
+      model.bounce, model.walls, model.wallRange, model.thermalEnergyStrategy, model.surfaceFriction, model.surfaceFrictionStrategy)
   if (__surfaceFrictionStrategy == null) throw new RuntimeException("Null surface friction strategy")
   private val _thermalEnergy = new MutableDouble
   private val _crashEnergy = new MutableDouble
@@ -307,13 +310,6 @@ class MotionSeriesObject(_position: MutableDouble,
   def addWallCrashListener(listener: () => Unit) = wallCrashListeners += listener
 
   def addBounceListener(listener: () => Unit) = bounceListeners += listener
-}
-
-object MotionSeriesObject {
-  def apply(model: MotionSeriesModel, x: Double, width: Double, height: Double) = {
-    new MotionSeriesObject(new MutableDouble(x), new MutableDouble, new MutableDouble, new MutableDouble(10), new MutableDouble, new MutableDouble, height, width, model.toPosition2D, model.rampSegmentAccessor, model.rampChangeAdapter,
-      model.bounce, model.walls, model.wallRange, model.thermalEnergyStrategy, model.surfaceFriction, model.surfaceFrictionStrategy)
-  }
 }
 
 /**Immutable memento for recording*/
