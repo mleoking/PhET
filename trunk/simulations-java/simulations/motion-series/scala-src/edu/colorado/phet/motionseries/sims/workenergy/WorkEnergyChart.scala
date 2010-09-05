@@ -1,4 +1,4 @@
-package edu.colorado.phet.motionseries.charts.bargraphs
+package edu.colorado.phet.motionseries.sims.workenergy
 
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils
 import edu.colorado.phet.common.piccolophet.nodes.barchart.BarChartNode
