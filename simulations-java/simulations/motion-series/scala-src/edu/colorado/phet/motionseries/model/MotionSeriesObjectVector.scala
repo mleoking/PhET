@@ -17,7 +17,7 @@ class Vector(val color: Color,
 
   def vector2DModel = _vector2DModel
 
-  def angle = vector2DModel().angle
+  def angle = vector2DModel.value.angle
 
   def setVisible(vis: Boolean) = visible.setValue(vis)
 
@@ -35,13 +35,13 @@ class Vector2DModel(private var _value: Vector2D) extends Observable {
 
   def value = _value
 
-  def value_=(_value:Vector2D) = {
+  def value_=(_value: Vector2D) = {
     if (_value != this._value) {
       this._value = _value;
       notifyListeners()
     }
   }
-  
+
   def magnitude = _value.magnitude
 
   def apply() = _value
@@ -53,10 +53,10 @@ class MotionSeriesObjectVector(color: Color,
                                name: String,
                                abbreviation: String,
                                val bottomPO: Boolean, //shows point of origin at the bottom when in that mode
-                               vector2DModel: Vector2DModel,
+                               _vector2DModel: Vector2DModel,
                                painter: (Vector2D, Color) => Paint,
                                labelAngle: Double)
-        extends Vector(color, name, abbreviation, vector2DModel, painter, labelAngle) {
+        extends Vector(color, name, abbreviation, _vector2DModel, painter, labelAngle) {
   def getPointOfOriginOffset(defaultCenter: Double) = if (bottomPO) 0.0 else defaultCenter
 }
 
@@ -67,8 +67,15 @@ class VectorComponent(target: MotionSeriesObjectVector,
                       modifier: String,
                       labelAngle: Double)
         extends MotionSeriesObjectVector(target.color, target.name, target.abbreviation + modifier, target.bottomPO, target.vector2DModel, painter, labelAngle) {
-  override def vector2DModel = {
+  
+  val componentVector = new Vector2DModel
+  
+  val listener = () => {
     val d = componentUnitVector.value
-    new Vector2DModel(d * (super.vector2DModel() dot d))
+    componentVector.value = d * (super.vector2DModel() dot d)
   }
+  componentUnitVector.addListener(listener)
+  super.vector2DModel.addListener(listener)
+  
+  override def vector2DModel = componentVector
 }
