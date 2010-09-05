@@ -27,9 +27,12 @@ class MotionSeriesObject(_position: MutableDouble,
                          val surfaceFriction: () => Boolean,
                          __surfaceFrictionStrategy: SurfaceFrictionStrategy)
         extends Observable {
-  def this(model: MotionSeriesModel, x: Double, width: Double, height: Double) =  this(new MutableDouble(x), new MutableDouble, new MutableDouble, new MutableDouble(10), 
+  val _position2D = new Vector2DModel
+  _position2D.value = positionMapper(_position.value)
+  _position.addListener(() => {_position2D.value = positionMapper(_position.value)})
+  def this(model: MotionSeriesModel, x: Double, width: Double, height: Double) = this (new MutableDouble(x), new MutableDouble, new MutableDouble, new MutableDouble(10),
     new MutableDouble, new MutableDouble, height, width, model.toPosition2D, model.rampSegmentAccessor, model.rampChangeAdapter,
-      model.bounce, model.walls, model.wallRange, model.thermalEnergyStrategy, model.surfaceFriction, model.surfaceFrictionStrategy)
+    model.bounce, model.walls, model.wallRange, model.thermalEnergyStrategy, model.surfaceFriction, model.surfaceFrictionStrategy)
   if (__surfaceFrictionStrategy == null) throw new RuntimeException("Null surface friction strategy")
   private val _thermalEnergy = new MutableDouble
   private val _crashEnergy = new MutableDouble
@@ -42,8 +45,8 @@ class MotionSeriesObject(_position: MutableDouble,
   val crashListeners = new ArrayBuffer[() => Unit]
   //notified when the MotionSeriesObject is being removed
   val removalListeners = new ArrayBuffer[() => Unit]
-  
-  rampChangeAdapter.addListener(()=>{
+
+  rampChangeAdapter.addListener(() => {
     motionStrategy.updateForces()
     notifyListeners()
   })
@@ -55,12 +58,12 @@ class MotionSeriesObject(_position: MutableDouble,
   val normalForce = new Vector2DModel
   val gravityForce = new Vector2DModel
   val appliedForce = new Vector2DModel
-  
+
   private var _motionStrategy: MotionStrategy = new Grounded(this)
-  
+
   def updateGravityForce() = gravityForce.value = new Vector2D(0, gravity * mass)
   _mass.addListener(updateGravityForce)
-  _mass.addListener(motionStrategy.updateForces)//Hack to update the other vectors//TODO: remove this hack
+  _mass.addListener(motionStrategy.updateForces) //Hack to update the other vectors//TODO: remove this hack
   updateGravityForce()
 
   val _parallelAppliedForce = new MutableDouble
@@ -82,8 +85,8 @@ class MotionSeriesObject(_position: MutableDouble,
   def wallsExist = _wallsExist.getValue.booleanValue
 
   def state = {
-    new MotionSeriesObjectState(position,velocity,acceleration,mass,staticFriction,kineticFriction,thermalEnergy,crashEnergy,time,
-      parallelAppliedForce,gravityForce.value,normalForce.value,totalForce.value,appliedForce.value,frictionForce.value,wallForce.value)
+    new MotionSeriesObjectState(position, velocity, acceleration, mass, staticFriction, kineticFriction, thermalEnergy, crashEnergy, time,
+      parallelAppliedForce, gravityForce.value, normalForce.value, totalForce.value, appliedForce.value, frictionForce.value, wallForce.value)
   }
 
   def state_=(s: MotionSeriesObjectState) = {
@@ -129,7 +132,7 @@ class MotionSeriesObject(_position: MutableDouble,
   def getVelocityVectorDirection: Double = getVelocityVectorDirection(velocity)
 
   def getVelocityVectorDirection(v: Double): Double = (positionMapper(position + v * 1E-6) - positionMapper(position - v * 1E-6)).angle
-  
+
   def getVelocityVectorUnitVector: Vector2D = new Vector2D(getVelocityVectorDirection)
 
   def getVelocityVectorUnitVector(v: Double): Vector2D = new Vector2D(getVelocityVectorDirection(v))
@@ -159,7 +162,7 @@ class MotionSeriesObject(_position: MutableDouble,
   def time = _time.value
 
   def setTime(t: Double) = {
-    _time.value=t
+    _time.value = t
   }
 
   def airborneFloor = _airborneFloor
@@ -175,14 +178,14 @@ class MotionSeriesObject(_position: MutableDouble,
   def crashEnergy_=(value: Double) = {
     if (value != state.crashEnergy) {
       _crashEnergy.value = value
-      notifyListeners()        //TODO: fix listeners
+      notifyListeners() //TODO: fix listeners
     }
   }
 
   def thermalEnergy_=(value: Double) = {
     if (value != state.thermalEnergy) {
       _thermalEnergy.value = value
-      notifyListeners()//TODO: fix listeners
+      notifyListeners() //TODO: fix listeners
     }
   }
 
@@ -218,12 +221,12 @@ class MotionSeriesObject(_position: MutableDouble,
   def getThermalEnergy(x: Double) = thermalEnergyStrategy(x)
 
   def parallelAppliedForce = _parallelAppliedForce.value
-  
+
   def parallelAppliedForce_=(value: Double) = {
     if (value != parallelAppliedForce) {
       _parallelAppliedForce.value = value
       motionStrategy.updateForces()
-      parallelAppliedForceListeners.foreach(_())//TODO: move listeners into mutabledouble
+      parallelAppliedForceListeners.foreach(_()) //TODO: move listeners into mutabledouble
       notifyListeners()
     }
   }
@@ -265,13 +268,13 @@ class MotionSeriesObject(_position: MutableDouble,
   def setVelocity(velocity: Double) = {
     if (velocity != _velocity.value) {
       _velocity.value = velocity
-      notifyListeners()//TODO: switch notification mechanism
+      notifyListeners() //TODO: switch notification mechanism
     }
   }
 
   def mass_=(mass: Double) = {
     this._mass.value = mass
-    notifyListeners()//TODO: fix listeners
+    notifyListeners() //TODO: fix listeners
   }
 
   //TODO: remove listener notification here so listeners must listen to positionChanged property
@@ -293,7 +296,7 @@ class MotionSeriesObject(_position: MutableDouble,
 
   def attach() = motionStrategy = new Grounded(this)
 
-  def position2D = motionStrategy.position2D
+  def position2D = _position2D.value
 
   def getAngle = motionStrategy.getAngle
 
