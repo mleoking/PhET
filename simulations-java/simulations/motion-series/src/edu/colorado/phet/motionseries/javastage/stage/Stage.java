@@ -10,6 +10,9 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
  * <p/>
  * Normally the client code will interact with the Stage through interacting with the StageNode, 
  * but this class is left public in case custom behavior is required.
+ * 
+ * This implementation is based on a Scala implementation in trunk/simulations-java/simulations/motion-series/scala-src/edu/colorado/phet/motionseries/tests/MyCanvas.scala
+ * circa [43770].
  *
  * @see PlayArea
  * @author Sam Reid
