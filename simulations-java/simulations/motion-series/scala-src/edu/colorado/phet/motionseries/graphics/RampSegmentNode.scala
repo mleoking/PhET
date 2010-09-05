@@ -32,7 +32,7 @@ class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2
   def updateAll() = {
     //Update base color
     paintColor = if (frictionless) iceColor else woodColor
-    
+
     //Update images
     if (frictionless && !getChildrenReference.contains(icicleImageNode))
       addChild(icicleImageNode)

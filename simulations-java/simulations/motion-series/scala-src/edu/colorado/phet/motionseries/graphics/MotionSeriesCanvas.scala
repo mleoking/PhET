@@ -14,7 +14,7 @@ import edu.colorado.phet.motionseries.controls.ObjectSelectionComboBoxNode
 import edu.colorado.phet.motionseries.javastage.stage.PlayArea
 import edu.colorado.phet.motionseries.{StageContainerArea, MotionSeriesResources, MotionSeriesDefaults}
 import edu.colorado.phet.common.piccolophet.event.CursorHandler
-import java.awt.{Rectangle, BasicStroke, Color}
+import java.awt.{BasicStroke, Color}
 
 /**
  * This is the base canvas for the "Ramp" and "Forces and Motion" sims
@@ -40,18 +40,18 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
     //    setStrokePaint(Color.blue)//enable this for debugging
     setStrokePaint(null)
   }
-  
+
   playAreaNode.addChild(new SkyNode(transform))
 
-//  override def paintImmediately = {}
-//
-//  override def paintImmediately(x: Int, y: Int, w: Int, h: Int) = {}
-//
-//  override def paintImmediately(r: Rectangle) = {}
-  
+  //  override def paintImmediately = {}
+  //
+  //  override def paintImmediately(x: Int, y: Int, w: Int, h: Int) = {}
+  //
+  //  override def paintImmediately(r: Rectangle) = {}
+
   //For support of active rendering
   def doPaintImmediately() = {
-    super.paintImmediately(0,0,getWidth,getHeight)
+    super.paintImmediately(0, 0, getWidth, getHeight)
   }
 
   def useVectorNodeInPlayArea = true
@@ -92,7 +92,7 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
     })
 
     class SpringNode(motionSeriesObject: MotionSeriesObject) extends MotionSeriesObjectNode(motionSeriesObject, transform, "spring.png".literal) {
-      def updateVisibility() =setVisible(model.bounce.booleanValue && model.walls.booleanValue)
+      def updateVisibility() = setVisible(model.bounce.booleanValue && model.walls.booleanValue)
       model.bounce.addListener(updateVisibility)
       updateVisibility()
     }

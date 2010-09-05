@@ -1,6 +1,5 @@
 package edu.colorado.phet.motionseries.graphics
 
-import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import edu.colorado.phet.common.piccolophet.event.CursorHandler
 import edu.colorado.phet.motionseries.MotionSeriesResources
@@ -12,8 +11,7 @@ import edu.umd.cs.piccolo.nodes.PImage
 import java.awt.image.BufferedImage
 import edu.colorado.phet.scalacommon.math.Vector2D
 import edu.colorado.phet.scalacommon.Predef._
-import edu.colorado.phet.motionseries.model.{MotionSeriesObject}
-import edu.colorado.phet.motionseries.javastage.stage.PlayArea
+import edu.colorado.phet.motionseries.model.MotionSeriesObject
 
 class ForceDragMotionSeriesObjectNode(motionSeriesObject: MotionSeriesObject,
                                       transform: ModelViewTransform2D,
