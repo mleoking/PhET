@@ -65,6 +65,7 @@ class MotionSeriesModel(defaultPosition: Double,
   val rightWallLeftEdge = new MotionSeriesObject(this, 10 - MotionSeriesDefaults.wall.width / 2, MotionSeriesDefaults.SPRING_WIDTH, MotionSeriesDefaults.SPRING_HEIGHT)
 
   val manMotionSeriesObject = new MotionSeriesObject(this, defaultManPosition, 1, 3)
+  def thermalEnergyStrategy(x: Double) = x
   //This is the main object that forces are applied to
   val motionSeriesObject = new MotionSeriesObject(new MutableDouble(defaultPosition), new MutableDouble, new MutableDouble,
     new MutableDouble(_objectType.mass), new MutableDouble(_objectType.staticFriction), new MutableDouble(_objectType.kineticFriction), 
@@ -73,15 +74,6 @@ class MotionSeriesModel(defaultPosition: Double,
 
   updateDueToObjectTypeChange()
   motionSeriesObject.stepInTime(0.0) //Update vectors using the motion strategy
-
-  def thermalEnergyStrategy(x: Double) = x
-
-  val raindrops = new ArrayBuffer[Raindrop]
-  val fireDogs = new ArrayBuffer[FireDog]
-  val fireDogAddedListeners = new ArrayBuffer[FireDog => Unit]
-  val raindropAddedListeners = new ArrayBuffer[Raindrop => Unit]
-  private var totalThermalEnergyOnClear = 0.0
-  val maxDrops = (60 * 0.75).toInt
 
   def stepRecord(): Unit = stepRecord(MotionSeriesDefaults.DT_DEFAULT)
 
@@ -148,36 +140,6 @@ class MotionSeriesModel(defaultPosition: Double,
     }
   }
 
-  /**
-   * Instantly clear the heat from the ramps.
-   */
-  def clearHeatInstantly() {
-    motionSeriesObject.thermalEnergy = 0.0
-  }
-
-  /**
-   * Requests that the fire dog clear the heat over a period of time.
-   */
-  def clearHeat() = {
-    if (isPaused) {
-      clearHeatInstantly()
-    } else {
-      if (fireDogs.length == 0) {
-        totalThermalEnergyOnClear = motionSeriesObject.thermalEnergy
-        val fireDog = new FireDog(this) //cue the fire dog, which will eventually clear the thermal energy
-        fireDogs += fireDog //updates when clock ticks
-        fireDogAddedListeners.foreach(_(fireDog))
-      }
-    }
-  }
-
-  def rainCrashed() = {
-    val reducedEnergy = totalThermalEnergyOnClear / (maxDrops / 2.0)
-    motionSeriesObject.thermalEnergy = motionSeriesObject.thermalEnergy - reducedEnergy
-    motionSeriesObject.crashEnergy = java.lang.Math.max(motionSeriesObject.crashEnergy - reducedEnergy, 0)
-    if (motionSeriesObject.thermalEnergy < 1) motionSeriesObject.thermalEnergy = 0.0
-  }
-
   def setPlaybackState(state: RecordedState) = {
     rampAngle = state.rampState.angle
     frictionless = state.frictionless
@@ -189,13 +151,6 @@ class MotionSeriesModel(defaultPosition: Double,
     motionSeriesObject.parallelAppliedForce = state.appliedForce
     manMotionSeriesObject.state = state.manState
     walls = state.walls
-
-    //based on time constraints, decision was made to not record and playback firedogs + drops, just make sure they clear
-    while (raindrops.length > 0)
-      raindrops(0).remove()
-
-    while (fireDogs.length > 0)
-      fireDogs(0).remove()
 
     chartCursor.setTime(state.time)
     stepListeners.foreach(_())
@@ -252,7 +207,6 @@ class MotionSeriesModel(defaultPosition: Double,
   def frictionless_=(b: Boolean) = {
     _frictionless.setValue(b)
     rampChangeAdapter.notifyListeners()
-    if (_frictionless.booleanValue) clearHeatInstantly()
     notifyListeners()
   }
 
@@ -303,9 +257,6 @@ class MotionSeriesModel(defaultPosition: Double,
 
   def stepRecord(dt: Double) = {
     motionSeriesObject.stepInTime(dt)
-    for (f <- fireDogs) f.stepInTime(dt)
-    for (r <- raindrops) r.stepInTime(dt)
-    val rampHeat = motionSeriesObject.rampThermalEnergy
 
     notifyListeners() //signify to the Timeline that more data has been added
     recordListeners.foreach(_())

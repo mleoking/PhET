@@ -4,6 +4,7 @@ import collection.mutable.ArrayBuffer
 import edu.colorado.phet.common.phetcommon.math.MathUtil
 import edu.colorado.phet.scalacommon.math.Vector2D
 import java.lang.Math._
+import edu.colorado.phet.motionseries.sims.workenergy.WorkEnergyModel
 
 /**
  * The fire dog is the character that appears when the user presses "clear heat" to remove heat from the ramp and object
@@ -11,7 +12,7 @@ import java.lang.Math._
  *
  * @author Sam Reid
  */
-class FireDog(model: MotionSeriesModel) {
+class FireDog(model: WorkEnergyModel) {
   val removalListeners = new ArrayBuffer[() => Unit]
   val height = 2
   val width = 2
@@ -43,7 +44,7 @@ class FireDog(model: MotionSeriesModel) {
   }
 }
 
-class Raindrop(p: Vector2D, rainSpeed: Double, angle: Double, rampModel: MotionSeriesModel) {
+class Raindrop(p: Vector2D, rainSpeed: Double, angle: Double, rampModel: WorkEnergyModel) {
   val removedListeners = new ArrayBuffer[() => Unit]
   val motionSeriesObject = new MotionSeriesObject(rampModel, 0.0, 0.3, 0.5)
   private var _angle = 0.0

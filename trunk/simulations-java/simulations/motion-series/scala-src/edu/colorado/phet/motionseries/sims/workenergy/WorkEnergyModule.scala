@@ -39,7 +39,7 @@ class WorkEnergyModule(frame: PhetFrame) extends GraphingModule(frame, "module.e
   workEnergyChartVisibilityModel.addListener(() => showEnergyButtonPSwing.setVisible(!workEnergyChartVisibilityModel.visible))
 
   //create the work-energy chart; its visibility is determined by the visibility model
-  val workEnergyChart = new WorkEnergyChart(workEnergyChartVisibilityModel, motionSeriesModel, frame)
+  val workEnergyChart = new WorkEnergyChart(workEnergyChartVisibilityModel, motionSeriesModel.asInstanceOf[WorkEnergyModel], frame)//TODO: this will throw cast exception, but we won't invest in fixing this until we make more decisions about the work energy sim
 
   /**When the sim is reset, also reset the the chart visibility.*/
   override def resetAll() = {
