@@ -9,7 +9,6 @@ import java.awt.{BasicStroke, Color}
 import edu.colorado.phet.motionseries.MotionSeriesResources
 import edu.umd.cs.piccolo.nodes.PImage
 import edu.umd.cs.piccolo.PNode
-import edu.colorado.phet.scalacommon.Predef._
 import edu.umd.cs.piccolo.util.PBounds
 import edu.colorado.phet.motionseries.sims.rampforcesandmotion.robotmovingcompany.RobotMovingCompanyGameModel
 
@@ -27,7 +26,7 @@ class RobotGraphics(transform: ModelViewTransform2D, gameModel: RobotMovingCompa
   update()
   def update() = {
     val rampTopLeft = gameModel.model.toPosition2D(-10)
-    val rampTopLeftView = transform.modelToView(rampTopLeft)
+    val rampTopLeftView = transform.modelToView(rampTopLeft.x, rampTopLeft.y)
     truckTop.setOffset(rampTopLeftView.x - truckTop.getFullBounds.getWidth * 0.65, rampTopLeftView.y - truckTop.getFullBounds.getHeight)
     truckWheels.setOffset(truckTop.getFullBounds.getCenterX - truckWheels.getFullBounds.getWidth / 2, transform.modelToView(0, 0).y - truckWheels.getFullBounds.getHeight)
     struts.update(truckWheels.getFullBounds, truckTop.getFullBounds)

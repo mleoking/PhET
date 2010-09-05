@@ -54,7 +54,7 @@ class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val ta
   //Since there are 2 dependencies that this class listens for, we bunch up the notifications
   //so that update is only called when necessary. 
   case class UpdateState(visible: Boolean, tip: Vector2D, tail: Vector2D)
-  private var lastUpdateState = new UpdateState(true, new Vector2D, new Vector2D(123, 456))//create with dummy data to ensure changed on first update()
+  private var lastUpdateState = new UpdateState(true, new Vector2D, new Vector2D(123, 456)) //create with dummy data to ensure changed on first update()
 
   val update = () => {
     val viewTip = transform.modelToViewDouble(vector.vector2DModel() * vectorLengthScale + tailLocation.value)

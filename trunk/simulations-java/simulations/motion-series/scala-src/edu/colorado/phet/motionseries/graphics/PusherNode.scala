@@ -7,7 +7,7 @@ import edu.colorado.phet.scalacommon.Predef._
 import java.lang.Math._
 import edu.colorado.phet.common.phetcommon.math.MathUtil
 import edu.colorado.phet.motionseries.MotionSeriesResources
-import edu.colorado.phet.motionseries.model.{MotionSeriesObject}
+import edu.colorado.phet.motionseries.model.MotionSeriesObject
 
 class PusherNode(transform: ModelViewTransform2D, targetObject: MotionSeriesObject, manObject: MotionSeriesObject)
         extends MotionSeriesObjectNode(manObject, transform, "standing-man.png".literal) {

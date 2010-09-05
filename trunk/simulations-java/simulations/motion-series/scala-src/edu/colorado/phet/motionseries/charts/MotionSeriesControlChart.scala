@@ -26,6 +26,7 @@ import java.awt.{BasicStroke, Color}
 class ChartComponentListener(canvas: PhetPCanvas, chartProportionY: Double, node: PNode) extends ComponentAdapter {
   val insetX = 0.6
   val insetY = insetX
+
   override def componentResized(e: ComponentEvent) = {
     node.setBounds(0 + insetX / 2, canvas.getHeight * (1 - chartProportionY) + insetY / 2, canvas.getWidth - insetX, canvas.getHeight * chartProportionY - insetY)
   }
@@ -35,7 +36,7 @@ class ChartComponentListener(canvas: PhetPCanvas, chartProportionY: Double, node
  * @author Sam Reid
  */
 class RampForceChartNode(canvas: PhetPCanvas, motionSeriesModel: MotionSeriesModel) extends MultiControlChart(Array(new RampForceMinimizableControlChart(motionSeriesModel))) {
-  canvas.addComponentListener(new ChartComponentListener(canvas,0.5,this))
+  canvas.addComponentListener(new ChartComponentListener(canvas, 0.5, this))
   motionSeriesModel.resetListeners_+=(() => {resetAll()})
   motionSeriesModel.addHistoryClearListener(new HistoryClearListener() {
     def historyCleared = {
@@ -49,7 +50,7 @@ class ForcesAndMotionChartNode(canvas: PhetPCanvas, model: MotionSeriesModel) ex
   new MinimizableControlChart("properties.acceleration".translate, new SingleSeriesChart(model, () => model.motionSeriesObject.acceleration, 50, "properties.acceleration.units".translate, MotionSeriesDefaults.accelerationColor, "properties.acceleration".translate).chart, false),
   new MinimizableControlChart("properties.velocity".translate, new SingleSeriesChart(model, () => model.motionSeriesObject.state.velocity, 25, "properties.velocity.units".translate, MotionSeriesDefaults.velocityColor, "properties.velocity".translate).chart, false),
   new MinimizableControlChart("properties.position".translate, new SingleSeriesChart(model, () => model.motionSeriesObject.state.position, 10, "properties.position.units".translate, MotionSeriesDefaults.positionColor, "properties.position".translate).chart, false))) {
-  canvas.addComponentListener(new ChartComponentListener(canvas,0.7,this))
+  canvas.addComponentListener(new ChartComponentListener(canvas, 0.7, this))
   model.resetListeners_+=(() => {resetAll()})
 }
 

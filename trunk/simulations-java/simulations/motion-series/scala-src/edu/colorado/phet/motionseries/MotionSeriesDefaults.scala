@@ -81,7 +81,7 @@ object MotionSeriesDefaults {
   //TODO: Restore the best value after testing phase
   val DELAY = 25
   //  val DELAY = 15
-//    val DELAY = 0
+  //    val DELAY = 0
 
   val SKY_GRADIENT_BOTTOM = new Color(250, 250, 255)
   val EARTH_COLOR = new Color(200, 240, 200)
