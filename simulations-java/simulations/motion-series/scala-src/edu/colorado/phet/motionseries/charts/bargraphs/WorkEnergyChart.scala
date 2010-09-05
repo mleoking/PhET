@@ -7,7 +7,6 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas
 import java.awt.Color
 import java.awt.event.{ComponentEvent, ComponentAdapter, WindowEvent, WindowAdapter}
 import javax.swing.{JDialog, JFrame}
-import edu.colorado.phet.scalacommon.swing.MyJButton
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
 
 import edu.umd.cs.piccolox.pswing.PSwing
@@ -16,6 +15,7 @@ import edu.colorado.phet.motionseries.model.MotionSeriesModel
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 import MotionSeriesDefaults._
 import BarChartNode.Variable
+import swing.Button
 
 /**
  * Model class in MVC for determining whether the work energy chart is visible or not.
@@ -51,7 +51,7 @@ class WorkEnergyChart(visibilityModel: WorkEnergyChartVisibilityModel, model: Mo
   barChartNode.init(Array(totalEnergyVariable, kineticEnergyVariable, potentialEnergyVariable, thermalEnergyVariable))
 
   val canvas = new PhetPCanvas //canvas to show the bars in.
-  val clearButton = new PSwing(new MyJButton("controls.clear-heat".translate, () => model.clearHeat()))
+  val clearButton = new PSwing(Button("controls.clear-heat".translate){model.clearHeat()}.peer)
   val zoomButton = new ZoomControlNode(ZoomControlNode.VERTICAL) {
     addZoomListener(new ZoomControlNode.ZoomListener() {
       val zoomScale = 1.5
