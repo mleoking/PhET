@@ -36,7 +36,7 @@ class WorkEnergyChartVisibilityModel extends Observable {
 /**
  * The WorkEnergyChart is the bar graph shown in the JDialog that represents the different types of energy in the object
  */
-class WorkEnergyChart(visibilityModel: WorkEnergyChartVisibilityModel, model: MotionSeriesModel, owner: JFrame) {
+class WorkEnergyChart(visibilityModel: WorkEnergyChartVisibilityModel, model: WorkEnergyModel, owner: JFrame) {
   val dialog = new JDialog(owner, "controls.energy-chart".translate, false)
 
   def updateDialogVisible() = dialog.setVisible(visibilityModel.visible)
