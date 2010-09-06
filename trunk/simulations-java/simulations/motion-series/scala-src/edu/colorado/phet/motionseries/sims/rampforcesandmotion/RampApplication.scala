@@ -6,14 +6,11 @@ import java.awt.geom.Rectangle2D
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication
 
 import edu.colorado.phet.scalacommon.ScalaClock
-import edu.colorado.phet.motionseries.charts.bargraphs._
-import swing.Button
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.colorado.phet.recordandplayback.gui.RecordAndPlaybackControlPanel
-import edu.umd.cs.piccolox.pswing.PSwing
-import edu.colorado.phet.common.phetcommon.application.{PhetApplicationLauncher, PhetApplicationConfig, Module}
+import edu.colorado.phet.common.phetcommon.application.{PhetApplicationLauncher, PhetApplicationConfig}
 import javax.swing.JMenuItem
-import java.awt.event.{ActionListener, ActionEvent, ComponentEvent, ComponentAdapter}
+import java.awt.event.{ActionListener, ActionEvent}
 import edu.colorado.phet.motionseries.controls.{DeveloperDialog, MotionSeriesControlPanel}
 import edu.colorado.phet.motionseries.sims.rampforcesandmotion.robotmovingcompany.RobotMovingCompanyModule
 import edu.colorado.phet.motionseries.{StageContainerArea, MotionSeriesDefaults, MotionSeriesModule}
@@ -41,7 +38,7 @@ class BasicRampModule(frame: PhetFrame,
   setSimulationPanel(rampCanvas)
 
   //Create the control panel and set it as the simulation control panel
-  val rampControlPanel = new MotionSeriesControlPanel(motionSeriesModel, fbdModel, coordinateSystemModel, vectorViewModel, resetRampModule, coordinateSystemEnabled, objectComboBoxEnabled, motionSeriesModel, true, true, true,"more.controls.title".translate)
+  val rampControlPanel = new MotionSeriesControlPanel(motionSeriesModel, fbdModel, coordinateSystemModel, vectorViewModel, resetRampModule, coordinateSystemEnabled, objectComboBoxEnabled, motionSeriesModel, true, true, true, "more.controls.title".translate)
   setControlPanel(rampControlPanel)
 
   //Set the clock control panel to use one that has record and playback capabilities
