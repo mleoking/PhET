@@ -28,8 +28,6 @@ abstract class MotionStrategy(val motionSeriesObject: MotionSeriesObject) {
 
   def stepInTime(dt: Double)
 
-  def position2D: Vector2D
-
   def getAngle: Double
 
   def getMemento: MotionStrategyMemento
@@ -112,10 +110,11 @@ class Crashed(_position2D: Vector2D, _angle: Double, motionSeriesObject: MotionS
   }
 }
 
-class Airborne(private var _position2D: Vector2D, private var _velocity2D: Vector2D, _angle: Double, motionSeriesObject: MotionSeriesObject) extends MotionStrategy(motionSeriesObject: MotionSeriesObject) {
+class Airborne(private var _position2D: Vector2D, 
+               private var _velocity2D: Vector2D, 
+               _angle: Double, 
+               motionSeriesObject: MotionSeriesObject) extends MotionStrategy(motionSeriesObject: MotionSeriesObject) {
   def isCrashed = false
-
-  override def toString = "position = ".literal + position2D
 
   def getAngle = _angle
 
@@ -123,11 +122,12 @@ class Airborne(private var _position2D: Vector2D, private var _velocity2D: Vecto
 
   override def stepInTime(dt: Double) = {
     val originalEnergy = motionSeriesObject.getTotalEnergy
+    updateForces()
     val accel = motionSeriesObject.totalForce.value / mass
     _velocity2D = _velocity2D + accel * dt
     _position2D = _position2D + _velocity2D * dt
     motionSeriesObject.setTime(motionSeriesObject.time + dt)
-    if (_position2D.y <= airborneFloor) {
+    if (_position2D.y <= airborneFloor) { //Crashed
       motionSeriesObject.motionStrategy = new Crashed(new Vector2D(_position2D.x, motionSeriesObject.airborneFloor), _angle, motionSeriesObject)
       crashListeners.foreach(_())
       //todo: make sure energy conserved on crash
@@ -142,18 +142,17 @@ class Airborne(private var _position2D: Vector2D, private var _velocity2D: Vecto
         //todo: what to do here?  does this ever happen?
         println("energy gained on crash")
       }
-    } else {
+    } else { //Flying through the air
       motionSeriesObject.setVelocity(_velocity2D.magnitude)
 
       //ensure that energy is exactly conserved by fine-tuning the vertical position of the object; note that this wouldn't work in low g
       val dy = (motionSeriesObject.getTotalEnergy - originalEnergy) / motionSeriesObject.mass / motionSeriesObject.gravity
       _position2D = new Vector2D(_position2D.x, _position2D.y + dy)
     }
+    motionSeriesObject._position2D.value = _position2D
   }
 
-  override def position2D = _position2D
-
-  def getMemento = new AirborneMemento(position2D, velocity2D, getAngle)
+  def getMemento = new AirborneMemento(_position2D, velocity2D, getAngle)
 }
 
 class AirborneMemento(p: Vector2D, v: Vector2D, a: Double) extends MotionStrategyMemento {
