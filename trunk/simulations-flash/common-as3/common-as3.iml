@@ -9,6 +9,9 @@
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
+    <content url="file://$MODULE_DIR$/../../../../../dev/flash4/componentsources">
+      <sourceFolder url="file://$MODULE_DIR$/../../../../../dev/flash4/componentsources" isTestSource="false" />
+    </content>
     <content url="file://C:/dev/flash4/componentsources">
       <sourceFolder url="file://C:/dev/flash4/componentsources" isTestSource="false" />
     </content>
@@ -17,7 +20,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="flash-adobe" />
   </component>
 </module>
 
