@@ -41,25 +41,29 @@ abstract class MotionStrategy(val motionSeriesObject: MotionSeriesObject) {
   def frictionForce: Vector2D = frictionForce(true)
 
   def normalForce = new Vector2D
+  
+  def mapPosition = motionSeriesObject.positionMapper(motionSeriesObject.position)
 }
 
 //This Crashed state indicates that the object has fallen off the ramp or off a cliff, not that it has crashed into a wall.
 class Crashed(_position2D: Vector2D, _angle: Double, motionSeriesObject: MotionSeriesObject) extends MotionStrategy(motionSeriesObject) {
   def isCrashed = true
 
-  def stepInTime(dt: Double) = {}
+  def stepInTime(dt: Double) = {
+    updateForces()
+  }
 
   override def normalForce = motionSeriesObject.gravityForce.value * -1
-
-  def position2D = _position2D
 
   def getAngle = _angle
 
   def getMemento = {
     new MotionStrategyMemento {
-      def getMotionStrategy(motionSeriesObject: MotionSeriesObject) = new Crashed(position2D, getAngle, motionSeriesObject)
+      def getMotionStrategy(motionSeriesObject: MotionSeriesObject) = new Crashed(_position2D, getAngle, motionSeriesObject)
     }
   }
+
+  override def mapPosition = _position2D
 }
 
 class Airborne(private var _position2D: Vector2D, 
