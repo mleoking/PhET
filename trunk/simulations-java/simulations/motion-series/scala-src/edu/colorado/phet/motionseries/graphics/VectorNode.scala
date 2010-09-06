@@ -97,15 +97,16 @@ class VectorNode(val transform: ModelViewTransform2D,
   update()
   vector.vector2DModel.addListener(update)
   tailLocation.addListener(update)
-  transform.addTransformListener(new TransformListener() {
-    def transformChanged(mvt: ModelViewTransform2D) = update()
-  })
+  val transformListener = new TransformListener() {def transformChanged(mvt: ModelViewTransform2D) = update()}
+  transform.addTransformListener(transformListener)
 
   setPickable(false)
   setChildrenPickable(false)
 
-  def deleting() {
+  def deleting() = {
+    vector.vector2DModel.removeListener(update)
     tailLocation.removeListener(update)
+    transform.removeTransformListener(transformListener)
   }
 }
 
@@ -120,6 +121,7 @@ class BodyVectorNode(transform: ModelViewTransform2D,
         extends VectorNode(transform, vector, offset, BODY_LABEL_MAX_OFFSET, vectorLengthScale) {
   def doUpdate() = setOffset(motionSeriesObject.position2D)
   //TODO: only listen to position of motion series object
+  //But this is okay for now since MotionSeriesObject does a batch update anyways
   motionSeriesObject.addListener(doUpdate)
   doUpdate()
 }
