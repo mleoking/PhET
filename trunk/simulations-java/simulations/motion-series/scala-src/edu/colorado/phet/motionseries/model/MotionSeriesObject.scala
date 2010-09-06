@@ -25,15 +25,18 @@ class MotionSeriesObject(_position: MutableDouble,
                          val wallRange: () => Range,
                          thermalEnergyStrategy: Double => Double,
                          val surfaceFriction: () => Boolean,
-                         __surfaceFrictionStrategy: SurfaceFrictionStrategy)
+                         private var _surfaceFrictionStrategy: SurfaceFrictionStrategy)
         extends Observable {
-  val _position2D = new Vector2DModel
-  _position2D.value = positionMapper(_position.value)
-  _position.addListener(() => {_position2D.value = positionMapper(_position.value)})
   def this(model: MotionSeriesModel, x: Double, width: Double, height: Double) = this (new MutableDouble(x), new MutableDouble, new MutableDouble, new MutableDouble(10),
     new MutableDouble, new MutableDouble, height, width, model.toPosition2D, model.rampSegmentAccessor, model.rampChangeAdapter,
     model.bounce, model.walls, model.wallRange, model.thermalEnergyStrategy, model.surfaceFriction, model.surfaceFrictionStrategy)
-  if (__surfaceFrictionStrategy == null) throw new RuntimeException("Null surface friction strategy")
+
+  //This used to be lazily computed, but it detracting from performance due to the many calls to position2D, so now it is eagerly computed
+  val _position2D = new Vector2DModel
+  _position2D.value = positionMapper(_position.value)
+  _position.addListener(() => {_position2D.value = positionMapper(_position.value)})
+
+  if (_surfaceFrictionStrategy == null) throw new RuntimeException("Null surface friction strategy")
   private val _thermalEnergy = new MutableDouble
   private val _crashEnergy = new MutableDouble
   private val _time = new MutableDouble
@@ -51,7 +54,7 @@ class MotionSeriesObject(_position: MutableDouble,
     notifyListeners()
   })
 
-  //values initialized and updated in the MotionStrategy
+  //values initialized and updated in motionStrategy.updateForces()
   val totalForce = new Vector2DModel
   val wallForce = new Vector2DModel
   val frictionForce = new Vector2DModel
@@ -230,8 +233,6 @@ class MotionSeriesObject(_position: MutableDouble,
       notifyListeners()
     }
   }
-
-  private var _surfaceFrictionStrategy = __surfaceFrictionStrategy
 
   def surfaceFrictionStrategy = _surfaceFrictionStrategy
 
