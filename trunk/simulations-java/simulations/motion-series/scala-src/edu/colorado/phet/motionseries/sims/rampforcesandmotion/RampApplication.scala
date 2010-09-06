@@ -9,9 +9,7 @@ import edu.colorado.phet.scalacommon.ScalaClock
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.colorado.phet.recordandplayback.gui.RecordAndPlaybackControlPanel
 import edu.colorado.phet.common.phetcommon.application.{PhetApplicationLauncher, PhetApplicationConfig}
-import javax.swing.JMenuItem
-import java.awt.event.{ActionListener, ActionEvent}
-import edu.colorado.phet.motionseries.controls.{DeveloperDialog, MotionSeriesControlPanel}
+import edu.colorado.phet.motionseries.controls.MotionSeriesControlPanel
 import edu.colorado.phet.motionseries.sims.rampforcesandmotion.robotmovingcompany.RobotMovingCompanyModule
 import edu.colorado.phet.motionseries.{StageContainerArea, MotionSeriesDefaults, MotionSeriesModule}
 import edu.colorado.phet.motionseries.charts.RampForceChartNode
@@ -111,13 +109,6 @@ class RampApplication(config: PhetApplicationConfig) extends PiccoloPhetApplicat
   //  addModule(new WorkEnergyModule(getPhetFrame))
 
   addModule(new RobotMovingCompanyModule(getPhetFrame))
-
-  //Add a menu item that shows the developer dialog to the PhETFrame's developer menu
-  getPhetFrame.getDeveloperMenu.add(new JMenuItem("Configure Motion Series".literal) {
-    addActionListener(new ActionListener() {
-      def actionPerformed(e: ActionEvent) = new DeveloperDialog(getPhetFrame).setVisible(true)
-    })
-  })
 }
 
 /**
