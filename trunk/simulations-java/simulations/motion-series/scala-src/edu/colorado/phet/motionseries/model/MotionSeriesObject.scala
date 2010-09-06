@@ -33,8 +33,9 @@ class MotionSeriesObject(_position: MutableDouble,
 
   //This used to be lazily computed, but it detracting from performance due to the many calls to position2D, so now it is eagerly computed
   val _position2D = new Vector2DModel
+  private var _motionStrategy: MotionStrategy = new Grounded(this)
 
-  private def updatePosition2D() = _position2D.value = positionMapper(_position.value)
+  private def updatePosition2D() = _position2D.value = motionStrategy.mapPosition
   _position.addListener(updatePosition2D)
   rampChangeAdapter.addListener(updatePosition2D)
   updatePosition2D
@@ -64,8 +65,6 @@ class MotionSeriesObject(_position: MutableDouble,
   val normalForce = new Vector2DModel
   val gravityForce = new Vector2DModel
   val appliedForce = new Vector2DModel
-
-  private var _motionStrategy: MotionStrategy = new Grounded(this)
 
   def updateGravityForce() = gravityForce.value = new Vector2D(0, gravity * mass)
   _mass.addListener(updateGravityForce)
