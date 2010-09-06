@@ -18,10 +18,11 @@ abstract class MotionStrategy(val motionSeriesObject: MotionSeriesObject) {
   def updateForces() {
     updateAppliedForce()//TODO: this call is duplicated in stepintime
     motionSeriesObject.wallForce.value = wallForce
-    motionSeriesObject.frictionForce.value = frictionForce
+    motionSeriesObject.frictionForce.value = frictionForce(true)
     motionSeriesObject.normalForce.value = normalForce
     motionSeriesObject.gravityForce.value = motionSeriesObject.gravityForce.value
-    motionSeriesObject.totalForce.value = motionSeriesObject.gravityForce.value + normalForce + motionSeriesObject.appliedForce.value + frictionForce + wallForce
+    motionSeriesObject.totalForce.value = motionSeriesObject.gravityForce.value + motionSeriesObject.normalForce.value + 
+            motionSeriesObject.appliedForce.value + motionSeriesObject.frictionForce.value + motionSeriesObject.wallForce.value
   }
 
   def isCrashed: Boolean
@@ -37,8 +38,6 @@ abstract class MotionStrategy(val motionSeriesObject: MotionSeriesObject) {
   //This method has to include a parameter for whether the wall force should be included to avoid an infinite recursive loop
   //in computing the wall force
   def frictionForce(includeWallForce: Boolean): Vector2D = new Vector2D
-
-  def frictionForce: Vector2D = frictionForce(true)
 
   def normalForce = new Vector2D
   
