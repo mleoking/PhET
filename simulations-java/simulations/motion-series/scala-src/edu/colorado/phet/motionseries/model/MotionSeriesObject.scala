@@ -33,8 +33,11 @@ class MotionSeriesObject(_position: MutableDouble,
 
   //This used to be lazily computed, but it detracting from performance due to the many calls to position2D, so now it is eagerly computed
   val _position2D = new Vector2DModel
-  _position2D.value = positionMapper(_position.value)
-  _position.addListener(() => {_position2D.value = positionMapper(_position.value)})
+
+  private def updatePosition2D() = _position2D.value = positionMapper(_position.value)
+  _position.addListener(updatePosition2D)
+  rampChangeAdapter.addListener(updatePosition2D)
+  updatePosition2D
 
   if (_surfaceFrictionStrategy == null) throw new RuntimeException("Null surface friction strategy")
   private val _thermalEnergy = new MutableDouble
