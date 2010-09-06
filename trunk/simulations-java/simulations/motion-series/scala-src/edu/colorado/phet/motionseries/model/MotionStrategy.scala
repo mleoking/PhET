@@ -41,54 +41,6 @@ abstract class MotionStrategy(val motionSeriesObject: MotionSeriesObject) {
   def frictionForce: Vector2D = frictionForce(true)
 
   def normalForce = new Vector2D
-
-  //accessors/adapters for subclass convenience
-  //This class was originally designed to be an inner class of MotionSeriesObject, but IntelliJ debugger didn't support debug into inner classes at the time
-  //so these classes were refactored to be top level classes to enable debugging.  They can be refactored back to inner classes when there is better debug support
-
-  def mass = motionSeriesObject.mass
-
-  def normalForceVector = motionSeriesObject.normalForceVector
-
-  def positionMapper = motionSeriesObject.positionMapper
-
-  def rampSegmentAccessor = motionSeriesObject.rampSegmentAccessor
-
-  def wallRange = motionSeriesObject.wallRange()
-
-  def position = motionSeriesObject.position
-
-  def gravity = motionSeriesObject.gravity
-
-  def notificationsEnabled = motionSeriesObject.notificationsEnabled
-
-  def getTotalEnergy = motionSeriesObject.getTotalEnergy
-
-  def state = motionSeriesObject.state
-
-  def velocity = motionSeriesObject.velocity
-
-  def workListeners = motionSeriesObject.workListeners
-
-  def surfaceFriction = motionSeriesObject.surfaceFriction
-
-  def thermalEnergy = motionSeriesObject.thermalEnergy
-
-  def airborneFloor = motionSeriesObject.airborneFloor
-
-  def crashListeners = motionSeriesObject.crashListeners
-
-  def getRampUnitVector = motionSeriesObject.rampUnitVector
-
-  def staticFriction = motionSeriesObject.staticFriction
-
-  def kineticFriction = motionSeriesObject.kineticFriction
-
-  def width = motionSeriesObject.width
-
-  def wallsExist = motionSeriesObject.wallsExist
-
-  def getVelocityVectorDirection = motionSeriesObject.getVelocityVectorDirection
 }
 
 //This Crashed state indicates that the object has fallen off the ramp or off a cliff, not that it has crashed into a wall.
@@ -123,13 +75,13 @@ class Airborne(private var _position2D: Vector2D,
   override def stepInTime(dt: Double) = {
     val originalEnergy = motionSeriesObject.getTotalEnergy
     updateForces()
-    val accel = motionSeriesObject.totalForce.value / mass
+    val accel = motionSeriesObject.totalForce.value / motionSeriesObject.mass
     _velocity2D = _velocity2D + accel * dt
     _position2D = _position2D + _velocity2D * dt
     motionSeriesObject.setTime(motionSeriesObject.time + dt)
-    if (_position2D.y <= airborneFloor) { //Crashed
+    if (_position2D.y <= motionSeriesObject.airborneFloor) { //Crashed
       motionSeriesObject.motionStrategy = new Crashed(new Vector2D(_position2D.x, motionSeriesObject.airborneFloor), _angle, motionSeriesObject)
-      crashListeners.foreach(_())
+      motionSeriesObject.crashListeners.foreach(_())
       //todo: make sure energy conserved on crash
       val newEnergy = motionSeriesObject.getTotalEnergy
       val energyDifference = motionSeriesObject.getTotalEnergy - originalEnergy
@@ -170,26 +122,26 @@ class Grounded(motionSeriesObject: MotionSeriesObject) extends MotionStrategy(mo
     }
   }
 
-  def position2D = positionMapper(position)
+  def position2D = motionSeriesObject.positionMapper(motionSeriesObject.position)
 
-  def getAngle = rampSegmentAccessor(position).unitVector.angle
+  def getAngle = motionSeriesObject.rampSegmentAccessor(motionSeriesObject.position).unitVector.angle
 
   override def normalForce = {
-    val magnitude = (motionSeriesObject.gravityForce.value * -1) dot getRampUnitVector.rotate(PI / 2)
-    val angle = getRampUnitVector.angle + PI / 2
+    val magnitude = (motionSeriesObject.gravityForce.value * -1) dot motionSeriesObject.rampUnitVector.rotate(PI / 2)
+    val angle = motionSeriesObject.rampUnitVector.angle + PI / 2
     new Vector2D(angle) * magnitude
   }
 
   //is the block about to collide?
-  def collideLeft = position + velocity * dt < leftBound && wallsExist
+  def collideLeft = motionSeriesObject.position + motionSeriesObject.velocity * dt < leftBound && motionSeriesObject.wallsExist
 
-  def collideRight = position + velocity * dt > rightBound && wallsExist
+  def collideRight = motionSeriesObject.position + motionSeriesObject.velocity * dt > rightBound && motionSeriesObject.wallsExist
 
   def collide = collideLeft || collideRight
 
-  def leftBound = motionSeriesObject.wallRange().min + width / 2
+  def leftBound = motionSeriesObject.wallRange().min + motionSeriesObject.width / 2
 
-  def rightBound = motionSeriesObject.wallRange().max - width / 2
+  def rightBound = motionSeriesObject.wallRange().max - motionSeriesObject.width / 2
 
   //TODO: computing this lazily is very performance intensive
   override def wallForce = {
@@ -198,21 +150,21 @@ class Grounded(motionSeriesObject: MotionSeriesObject) extends MotionStrategy(mo
 
     //Friction force should enter into the system before wall force, since the object would have to move before "communicating" with the wall.
     val netForceWithoutWallForce = motionSeriesObject.appliedForce.value + motionSeriesObject.gravityForce.value + normalForce + frictionForce(false)
-    val pressingLeft = position <= leftBound + epsilon && motionSeriesObject.forceToParallelAcceleration(netForceWithoutWallForce) < 0 && wallsExist
-    val pressingRight = position >= rightBound - epsilon && motionSeriesObject.forceToParallelAcceleration(netForceWithoutWallForce) > 0 && wallsExist
+    val pressingLeft = motionSeriesObject.position <= leftBound + epsilon && motionSeriesObject.forceToParallelAcceleration(netForceWithoutWallForce) < 0 && motionSeriesObject.wallsExist
+    val pressingRight = motionSeriesObject.position >= rightBound - epsilon && motionSeriesObject.forceToParallelAcceleration(netForceWithoutWallForce) > 0 && motionSeriesObject.wallsExist
     val pressing = pressingLeft || pressingRight
 
     if (pressing)
       netForceWithoutWallForce * -1
     else if (collide) {
       //create a large instantaneous impulse force during a collision
-      val finalVelocity = if (bounce) -velocity else 0.0
-      val deltaV = finalVelocity - velocity
+      val finalVelocity = if (bounce) -motionSeriesObject.velocity else 0.0
+      val deltaV = finalVelocity - motionSeriesObject.velocity
       //Fnet = m dv/dt = Fw + F_{-w}
       val sign = if (collideRight) -1.0 else +1.0
-      val wallCollisionForce = abs(mass * deltaV / dt - netForceWithoutWallForce.magnitude) * sign
+      val wallCollisionForce = abs(motionSeriesObject.mass * deltaV / dt - netForceWithoutWallForce.magnitude) * sign
 
-      val resultWallForce = getRampUnitVector * wallCollisionForce
+      val resultWallForce = motionSeriesObject.rampUnitVector * wallCollisionForce
       resultWallForce
     } else new Vector2D
   }
@@ -221,13 +173,13 @@ class Grounded(motionSeriesObject: MotionSeriesObject) extends MotionStrategy(mo
 
   //see super notes regarding the includeWallForce
   override def frictionForce(includeWallForce: Boolean) = {
-    if (surfaceFriction()) {
+    if (motionSeriesObject.surfaceFriction()) {
       //stepInTime samples at least one value less than 1E-12 on direction change to handle static friction
-      if (velocity.abs < 1E-12) {
+      if (motionSeriesObject.velocity.abs < 1E-12) {
 
         //use up to fMax in preventing the object from moving
         //see static friction discussion here: http://en.wikipedia.org/wiki/Friction
-        val fMax = abs(multiBodyFriction(staticFriction) * normalForce.magnitude)
+        val fMax = abs(multiBodyFriction(motionSeriesObject.staticFriction) * normalForce.magnitude)
         val netForceWithoutFriction = motionSeriesObject.appliedForce.value + motionSeriesObject.gravityForce.value + normalForce + (if (includeWallForce) wallForce else new Vector2D())
 
         val magnitude = if (netForceWithoutFriction.magnitude >= fMax) fMax else netForceWithoutFriction.magnitude
@@ -235,8 +187,8 @@ class Grounded(motionSeriesObject: MotionSeriesObject) extends MotionStrategy(mo
       }
       else {
         //object is moving, just use kinetic friction
-        val vel = (positionMapper(position) - positionMapper(position - velocity * 1E-6))
-        new Vector2D(vel.angle + PI) * normalForce.magnitude * multiBodyFriction(kineticFriction)
+        val vel = (motionSeriesObject.positionMapper(motionSeriesObject.position) - motionSeriesObject.positionMapper(motionSeriesObject.position - motionSeriesObject.velocity * 1E-6))
+        new Vector2D(vel.angle + PI) * normalForce.magnitude * multiBodyFriction(motionSeriesObject.kineticFriction)
       }
     }
     else new Vector2D
@@ -245,8 +197,8 @@ class Grounded(motionSeriesObject: MotionSeriesObject) extends MotionStrategy(mo
   case class SettableState(position: Double, velocity: Double, thermalEnergy: Double, crashEnergy: Double) {
     //todo: this is duplicated with code in MotionSeriesObject
     lazy val totalEnergy = ke + pe + thermalEnergy
-    lazy val ke = mass * velocity * velocity / 2.0
-    lazy val pe = mass * gravity.abs * positionMapper(position).y //assumes positionmapper doesn't change, which is true during stepintime
+    lazy val ke = motionSeriesObject.mass * velocity * velocity / 2.0
+    lazy val pe = motionSeriesObject.mass * motionSeriesObject.gravity.abs * motionSeriesObject.positionMapper(position).y //assumes positionmapper doesn't change, which is true during stepintime
     
     def setPosition(p: Double) = copy(position = p)
 
@@ -263,17 +215,17 @@ class Grounded(motionSeriesObject: MotionSeriesObject) extends MotionStrategy(mo
     this.dt = dt
     motionSeriesObject.notificationsEnabled = false //make sure only to send notifications as a batch at the end; improves performance by 17%
     updateAppliedForce()
-    val origEnergy = getTotalEnergy
-    val origState = state
+    val origEnergy = motionSeriesObject.getTotalEnergy
+    val origState = motionSeriesObject.state
     val newState = getNewState(dt, origState, origEnergy)
 
-    if (newState.position > motionSeriesObject.wallRange().max + width / 2 && !wallsExist) {
-      motionSeriesObject.motionStrategy = new Airborne(position2D, new Vector2D(getVelocityVectorDirection) * velocity, getAngle, motionSeriesObject)
+    if (newState.position > motionSeriesObject.wallRange().max + motionSeriesObject.width / 2 && !motionSeriesObject.wallsExist) {
+      motionSeriesObject.motionStrategy = new Airborne(position2D, new Vector2D(motionSeriesObject.getVelocityVectorDirection) * motionSeriesObject.velocity, getAngle, motionSeriesObject)
       motionSeriesObject.parallelAppliedForce = 0
     }
-    val distanceVector = positionMapper(newState.position) - positionMapper(origState.position)
+    val distanceVector = motionSeriesObject.positionMapper(newState.position) - motionSeriesObject.positionMapper(origState.position)
     val work = motionSeriesObject.appliedForce.value dot distanceVector
-    workListeners.foreach(_(work))
+    motionSeriesObject.workListeners.foreach(_(work))
     motionSeriesObject.setTime(motionSeriesObject.time + dt)
     motionSeriesObject.setPosition(newState.position)
     motionSeriesObject.setVelocity(newState.velocity)
@@ -288,21 +240,21 @@ class Grounded(motionSeriesObject: MotionSeriesObject) extends MotionStrategy(mo
 
   def bounce = motionSeriesObject.wallsBounce.booleanValue
 
-  def isKineticFriction = surfaceFriction() && kineticFriction > 0
+  def isKineticFriction = motionSeriesObject.surfaceFriction() && motionSeriesObject.kineticFriction > 0
 
   def getNewState(dt: Double, origState: MotionSeriesObjectState, origEnergy: Double) = {
     val newVelocity = {
       val desiredVel = motionSeriesObject.netForceToParallelVelocity(motionSeriesObject.totalForce.value, dt)
       //stepInTime samples at least one value less than 1E-12 on direction change to handle static friction
       //see docs in static friction computation
-      val newVelocityThatGoesThroughZero = if ((velocity < 0 && desiredVel > 0) || (velocity > 0 && desiredVel < 0)) 0.0 else desiredVel
+      val newVelocityThatGoesThroughZero = if ((motionSeriesObject.velocity < 0 && desiredVel > 0) || (motionSeriesObject.velocity > 0 && desiredVel < 0)) 0.0 else desiredVel
       //make sure velocity is exactly zero or opposite after wall collision
-      if (collide && bounce) -velocity else if (collide) 0.0 else newVelocityThatGoesThroughZero
+      if (collide && bounce) -motionSeriesObject.velocity else if (collide) 0.0 else newVelocityThatGoesThroughZero
     }
 
-    val stateAfterVelocityUpdate = new SettableState(position + newVelocity * dt, newVelocity, origState.thermalEnergy, origState.crashEnergy)
+    val stateAfterVelocityUpdate = new SettableState(motionSeriesObject.position + newVelocity * dt, newVelocity, origState.thermalEnergy, origState.crashEnergy)
 
-    val crashEnergy = 0.5 * mass * velocity * velocity //this is the energy it would lose in a crash
+    val crashEnergy = 0.5 * motionSeriesObject.mass * motionSeriesObject.velocity * motionSeriesObject.velocity //this is the energy it would lose in a crash
     val stateAfterCollision = if (collideLeft && !bounce) {
       new SettableState(leftBound, 0, stateAfterVelocityUpdate.thermalEnergy + crashEnergy, origState.crashEnergy + crashEnergy)
     }
@@ -331,7 +283,7 @@ class Grounded(motionSeriesObject: MotionSeriesObject) extends MotionStrategy(mo
 
     def getVelocityToConserveEnergy(state: SettableState) = {
       val sign = MathUtil.getSign(state.velocity)
-      sign * sqrt(abs(2.0 / mass * (origEnergy + appliedEnergy - state.pe - origState.thermalEnergy)))
+      sign * sqrt(abs(2.0 / motionSeriesObject.mass * (origEnergy + appliedEnergy - state.pe - origState.thermalEnergy)))
     }
 
     //we'd like to just use thermalFromEnergy, since it guarantees conservation of energy
@@ -364,7 +316,7 @@ class Grounded(motionSeriesObject: MotionSeriesObject) extends MotionStrategy(mo
     }
 
     val stateAfterFixingPosition = if (abs(stateAfterFixingVelocity.totalEnergy - origEnergy) > 1E-8 && getAngle > 1E-8) { //todo: angle is greater than 1E-8 instead of 0 for compatibility with workaround for forces and motion game tab, see ForcesAndMotionApplication
-      val x = (origEnergy + appliedEnergy - stateAfterFixingVelocity.thermalEnergy - stateAfterFixingVelocity.ke) / mass / gravity.abs / sin(getAngle)
+      val x = (origEnergy + appliedEnergy - stateAfterFixingVelocity.thermalEnergy - stateAfterFixingVelocity.ke) / motionSeriesObject.mass / motionSeriesObject.gravity.abs / sin(getAngle)
       stateAfterFixingThermal.setPosition(x)
     } else {
       stateAfterFixingVelocity
