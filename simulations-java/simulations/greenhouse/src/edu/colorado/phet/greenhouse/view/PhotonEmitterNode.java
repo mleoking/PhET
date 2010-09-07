@@ -3,28 +3,23 @@
 package edu.colorado.phet.greenhouse.view;
 
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GradientPaint;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
+import org.apache.tools.ant.filters.EscapeUnicode;
 
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.IntensitySlider;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -167,9 +162,7 @@ public class PhotonEmitterNode extends PNode {
 		// as desired.
 		double distanceBetweeImageAndControl = emitterImageWidth * 0.6;
 		
-		JPanel emissionTypeSelectionPanel = new VerticalLayoutPanel();
-		emissionTypeSelectionPanel.setBorder(BorderFactory.createRaisedBevelBorder());
-		JPanel infraredButtonPanel = new HorizontalLayoutPanel();
+		JPanel infraredButtonPanel = new JPanel();
         infraredPhotonRadioButton = new JRadioButton( GreenhouseResources.getString( "PhotonEmitterNode.Infrared" ) );
         infraredPhotonRadioButton.setFont(LABEL_FONT);
         infraredPhotonRadioButton.addActionListener( new ActionListener() {
@@ -180,9 +173,8 @@ public class PhotonEmitterNode extends PNode {
         });
         infraredButtonPanel.add( infraredPhotonRadioButton );
         infraredButtonPanel.add( new JLabel(new ImageIcon( GreenhouseResources.getImage( "photon-660.png" ) ) ) );
-        emissionTypeSelectionPanel.add(infraredButtonPanel);
         
-        JPanel visibleButtonPanel = new HorizontalLayoutPanel();
+        JPanel visibleButtonPanel = new JPanel();
         visiblePhotonRadioButton = new JRadioButton( GreenhouseResources.getString( "PhotonEmitterNode.Visible" ) );
         visiblePhotonRadioButton.setFont(LABEL_FONT);
         visiblePhotonRadioButton.addActionListener( new ActionListener() {
@@ -193,12 +185,11 @@ public class PhotonEmitterNode extends PNode {
         });
         visibleButtonPanel.add( visiblePhotonRadioButton );
         visibleButtonPanel.add( new JLabel(new ImageIcon( GreenhouseResources.getImage( "thin2.png" ) ) ) );
-        emissionTypeSelectionPanel.add(visibleButtonPanel);
         
 		ButtonGroup buttonGroup = new ButtonGroup();
-		buttonGroup.add(infraredPhotonRadioButton);
-		buttonGroup.add(visiblePhotonRadioButton);
-		
+        buttonGroup.add( infraredPhotonRadioButton );
+        buttonGroup.add( visiblePhotonRadioButton );
+
 		// Create and add the slider that will allow the user to control the
 		// rate of photon emission.
 		int edgeMargin = 5; // Adjust as desired for best look.
@@ -222,7 +213,18 @@ public class PhotonEmitterNode extends PNode {
                 }
             }
         });
-		emissionTypeSelectionPanel.add( intensitySlider );
+		
+		// main panel, control on in a vertical column, left justified
+        JPanel emissionTypeSelectionPanel = new JPanel();
+        emissionTypeSelectionPanel.setBorder( BorderFactory.createRaisedBevelBorder() );
+        EasyGridBagLayout layout = new EasyGridBagLayout( emissionTypeSelectionPanel );
+        layout.setAnchor( GridBagConstraints.WEST ); // left justify
+        emissionTypeSelectionPanel.setLayout( layout );
+        int row = 0;
+        int column = 0;
+        layout.addComponent( infraredButtonPanel, row++, column );
+        layout.addComponent( visibleButtonPanel, row++, column );
+        layout.addComponent( intensitySlider, row++, column );
 		
 		selectionPanelPSwing = new PSwing(emissionTypeSelectionPanel);
 		selectionPanelPSwing.setOffset(
