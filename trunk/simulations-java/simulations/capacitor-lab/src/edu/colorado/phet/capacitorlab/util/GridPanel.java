@@ -104,7 +104,7 @@ public class GridPanel extends JPanel {
         super.add( component, constraints );
         
         // restore constraints
-        setConstraints( savedConstraints );
+        setConstraints( savedConstraints, constraints );
     }
     
     /**
@@ -137,28 +137,28 @@ public class GridPanel extends JPanel {
     
     /*
      * GridBagConstraints lacks a copy constructor, this method fills that void.
-     * Uses for saving state.
+     * Used for saving state.
      */
-    private GridBagConstraints copy( GridBagConstraints c ) {
+    private static GridBagConstraints copy( GridBagConstraints c ) {
         return new GridBagConstraints( c.gridx, c.gridy, c.gridwidth, c.gridheight, c.weightx, c.weighty, c.anchor, c.fill, c.insets, c.ipadx, c.ipady );
     }
     
     /*
-     * Sets out default constraints to match the specified constraints.
-     * Uses to restore state.
+     * Copies constraints from one object to another.
+     * Used to restore state.
      */
-    private void setConstraints( GridBagConstraints c ) {
-        constraints.gridx = c.gridx;
-        constraints.gridy = c.gridy;
-        constraints.gridwidth = c.gridwidth;
-        constraints.gridheight = c.gridheight;
-        constraints.weightx = c.weightx;
-        constraints.weighty = c.weighty;
-        constraints.anchor = c.anchor;
-        constraints.fill = c.fill;
-        constraints.insets = c.insets;
-        constraints.ipadx = c.ipadx;
-        constraints.ipady = c.ipady;
+    private static void setConstraints( GridBagConstraints source, GridBagConstraints destination ) {
+        destination.gridx = source.gridx;
+        destination.gridy = source.gridy;
+        destination.gridwidth = source.gridwidth;
+        destination.gridheight = source.gridheight;
+        destination.weightx = source.weightx;
+        destination.weighty = source.weighty;
+        destination.anchor = source.anchor;
+        destination.fill = source.fill;
+        destination.insets = source.insets;
+        destination.ipadx = source.ipadx;
+        destination.ipady = source.ipady;
     }
     
     /**
@@ -326,7 +326,7 @@ public class GridPanel extends JPanel {
      * Sets the minimum width for a column.
      *
      * @param column the column
-     * @param width  minimum width, in pixels
+     * @param width minimum width, in pixels
      */
     public void setMinimumWidth( int column, int width ) {
         int[] widths = layout.columnWidths;
@@ -344,7 +344,7 @@ public class GridPanel extends JPanel {
     /**
      * Sets the minimum height for a row.
      *
-     * @param row    the row
+     * @param row the row
      * @param height minimum height, in pixels
      */
     public void setMinimumHeight( int row, int height ) {
