@@ -9,14 +9,12 @@ import edu.colorado.phet.densityandbuoyancy.model.StringProperty;
 import flash.display.Bitmap;
 import flash.display.BitmapData;
 import flash.geom.Rectangle;
-import flash.text.TextFormat;
 
 import mx.core.BitmapAsset;
 
 public class BlockNode extends CubeNode implements Pickable {
 
     private var block:Block;
-    private var textFieldMesh:TextFieldMesh;
 
     [Embed(source="../../../../../../data/density-and-buoyancy/images/custom.jpg")]
     private var customObjectTexture:Class;
@@ -47,19 +45,18 @@ public class BlockNode extends CubeNode implements Pickable {
 
     private var textureBitmap:Bitmap; // the texture being used (wood bitmap, wall (custom) bitmap, etc.)
     private var label:StringProperty;
+    private var readoutFontScale:Number;
 
     public function BlockNode(block:Block, view:AbstractDensityModule, label:StringProperty, readoutFontScale:Number = 1):void {
-        super(block, view);
-
         this.label = label;
         this.block = block;
-        this.textFieldMesh = new TextFieldMesh("hello", createTextFormat(34 * readoutFontScale));
+        this.readoutFontScale = readoutFontScale;
+
+        super(block, view);
 
         var cube:PickableCube = getCube();
         cube.cubeMaterials.back = cube.cubeMaterials.left = cube.cubeMaterials.right = cube.cubeMaterials.top = cube.cubeMaterials.bottom = cube.cubeMaterials.front = sideMaterial;
         addChild(cube);
-
-        addChild(textFieldMesh);
 
         label.addListener(updateText);
         block.addMaterialListener(updateMaterial);
@@ -69,22 +66,12 @@ public class BlockNode extends CubeNode implements Pickable {
         updateGeometry();
     }
 
-    private function createTextFormat(newSize:Number):TextFormat {
-        //        trace("newsivze = "+newSize);
-        var format:TextFormat = new TextFormat();
-        format.size = newSize;
-        format.bold = true;
-        format.font = "Arial";
-        return format;
-    }
-
     public function getBlock():Block {
         return block;
     }
 
     private function updateText():void {
-        textFieldMesh.text = label.value;
-
+        setReadoutText( label.value );
         updateGeometry();
     }
 
@@ -131,9 +118,13 @@ public class BlockNode extends CubeNode implements Pickable {
 
     public override function updateGeometry():void {
         super.updateGeometry();
-        textFieldMesh.x = getCube().x - getCube().width / 2;
-        textFieldMesh.y = getCube().y - getCube().height / 2;
-        textFieldMesh.z = getCube().z - getCube().depth / 2 - DensityConstants.FUDGE_FACTOR_DZ;
+        textReadout.x = getCube().x - getCube().width / 2;
+        textReadout.y = getCube().y - getCube().height / 2;
+        textReadout.z = getCube().z - getCube().depth / 2 - DensityConstants.FUDGE_FACTOR_DZ;
+    }
+
+    override protected function getFontReadoutSize():Number {
+        return super.getFontReadoutSize() * readoutFontScale;
     }
 }
 }
