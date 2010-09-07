@@ -1,3 +1,4 @@
+9/7/10 created GridPanel, will test it here than migrate to phetcommon
 9/2/10 move all drag code to new capacitorlab.drag package
 9/2/10 make dielectric directly draggable, use same handler as drag arrow 
 9/2/10 promote drag handlers from inner classes to top-level types
