@@ -38,7 +38,7 @@ public class BlockNode extends CubeNode implements Pickable {
     // initial testing wood texture
     // public domain, see http://www.publicdomainpictures.net/view-image.php?picture=wood-texture&image=1282&large=1
     // license: " 	This image is public domain. You may use this picture for any purpose, including commercial. If you do use it, please consider linking back to us. If you are going to redistribute this image online, a hyperlink to this particular page is mandatory."
-    [Embed(source="../../../../../../data/density-and-buoyancy/images/wood4.png")]
+    [Embed(source="../../../../../../data/density-and-buoyancy/images/wood.png")]
     private var woodClass:Class;
 
     private var sideMaterial:BitmapMaterial;
@@ -71,7 +71,7 @@ public class BlockNode extends CubeNode implements Pickable {
     }
 
     private function updateText():void {
-        setReadoutText( label.value );
+        setReadoutText(label.value);
         updateGeometry();
     }
 
