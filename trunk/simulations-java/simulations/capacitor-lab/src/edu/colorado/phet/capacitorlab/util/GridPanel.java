@@ -28,10 +28,13 @@ public class GridPanel extends JPanel {
     /** @see setFill */
     public static enum Fill { HORIZONTAL, VERTICAL, BOTH, NONE };
     
+    // Define these constants to fully hide GridBagConstraints.
+    public static final int RELATIVE = GridBagConstraints.RELATIVE;
+    public static final int REMAINDER = GridBagConstraints.REMAINDER;
+    
     // maps between enums and GridBagConstraint constants
     private static final ConstraintMap CONSTRAINT_MAP = new ConstraintMap();
     
-    private final GridBagLayout layout;
     private final GridBagConstraints constraints;
     
     /**
@@ -39,7 +42,15 @@ public class GridPanel extends JPanel {
      * You can use setters to change the defaults, or specify properties when a component is added.
      */
     public GridPanel() {
-        this( GridBagConstraints.RELATIVE, GridBagConstraints.RELATIVE, 1, 1, 0, 0, Anchor.CENTER, Fill.NONE, new Insets( 0, 0, 0, 0 ), 0, 0 );
+        this( new GridBagConstraints() ); // defaults are identical to GridBagConstraints
+    }
+    
+    /*
+     * This constructor should remain private, so we don't expose GridBagConstraints.
+     * It's provides for internal use, so that we can set default to be identical to GridBagConstraints.
+     */
+    private GridPanel( GridBagConstraints c ) {
+        this( c.gridx, c.gridy, c.gridwidth, c.gridheight, c.weightx, c.weighty, CONSTRAINT_MAP.toAnchor( c.anchor ), CONSTRAINT_MAP.toFill( c.fill ), c.insets, c.ipadx, c.ipady );
     }
     
     /**
@@ -48,7 +59,7 @@ public class GridPanel extends JPanel {
      */
     public GridPanel( int gridX, int gridY, int gridWidth, int gridHeight, double weightX, double weightY, Anchor anchor, Fill fill, Insets insets, int internalPaddingX, int internalPaddingY ) {
         super( new GridBagLayout() );
-        this.layout = (GridBagLayout) getLayout();
+        
         this.constraints = new GridBagConstraints();
         
         setGridX( gridX );
@@ -163,7 +174,7 @@ public class GridPanel extends JPanel {
     
     /**
      * Specifies the column in which to place an added component.
-     * Use GridBagConstraints.RELATIVE to specifies that the component is to be placed 
+     * Use RELATIVE to specifies that the component is to be placed 
      * immediately following the previously-added component.
      * @param gridX
      */
@@ -177,7 +188,7 @@ public class GridPanel extends JPanel {
     
     /**
      * Specifies the row in which to place an added component.
-     * Use GridBagConstraints.RELATIVE to specifies that the component is to be placed 
+     * Use RELATIVE to specifies that the component is to be placed 
      * immediately following the previously-added component. 
      * @param gridY
      */
@@ -191,8 +202,8 @@ public class GridPanel extends JPanel {
     
     /**
      * Specifies how many columns a component will fill horizontally.
-     * Use GridBagConstraints.REMAINDER to fill to the end of the row.
-     * Use GridBagConstraints.RELATIVE to fill to the next occupied cell in the row.
+     * Use REMAINDER to fill to the end of the row.
+     * Use RELATIVE to fill to the next occupied cell in the row.
      * @param width
      */
     public void setGridWidth( int width ) {
@@ -205,8 +216,8 @@ public class GridPanel extends JPanel {
 
     /**
      * Specifies how many rows a component will fill vertically.
-     * Use GridBagConstraints.REMAINDER to fill to the end of the column.
-     * Use GridBagConstraints.RELATIVE to fill to the next occupied cell in the column.
+     * Use REMAINDER to fill to the end of the column.
+     * Use RELATIVE to fill to the next occupied cell in the column.
      * @param width
      */
     public void setGridHeight( int height ) {
@@ -329,6 +340,7 @@ public class GridPanel extends JPanel {
      * @param width minimum width, in pixels
      */
     public void setMinimumWidth( int column, int width ) {
+        GridBagLayout layout = (GridBagLayout) getLayout();
         int[] widths = layout.columnWidths;
         if ( widths == null ) {
             widths = new int[column + 1];
@@ -348,6 +360,7 @@ public class GridPanel extends JPanel {
      * @param height minimum height, in pixels
      */
     public void setMinimumHeight( int row, int height ) {
+        GridBagLayout layout = (GridBagLayout) getLayout();
         int[] heights = layout.rowHeights;
         if ( heights == null ) {
             heights = new int[row + 1];
