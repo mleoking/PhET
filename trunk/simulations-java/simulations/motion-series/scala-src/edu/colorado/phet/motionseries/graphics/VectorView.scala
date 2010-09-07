@@ -36,26 +36,26 @@ class VectorView(motionSeriesObject: MotionSeriesObject,
                                  selectedVectorVisible: () => Boolean,
                                  vectorDisplay: VectorDisplay) = {
 
-    //TODO: This looks like it will be very performance intensive
-    val parallelComponent = new ParallelComponent(vector, motionSeriesObject)
-    val perpComponent = new PerpendicularComponent(vector, motionSeriesObject)
-    val xComponent = new XComponent(vector, motionSeriesObject, coordinateFrameModel, vector.labelAngle)
-    val yComponent = new YComponent(vector, motionSeriesObject, coordinateFrameModel, vector.labelAngle)
+    //Since the Coordinate Frames tab has been removed, the coordinate frame vectors have been commented out for performance reasons
+//    val parallelComponent = new ParallelComponent(vector, motionSeriesObject)
+//    val perpComponent = new PerpendicularComponent(vector, motionSeriesObject)
+//    val xComponent = new XComponent(vector, motionSeriesObject, coordinateFrameModel, vector.labelAngle)
+//    val yComponent = new YComponent(vector, motionSeriesObject, coordinateFrameModel, vector.labelAngle)
     def update() = {
-      parallelComponent.setVisible(vectorViewModel.parallelComponents && selectedVectorVisible())
-      perpComponent.setVisible(vectorViewModel.parallelComponents && selectedVectorVisible())
-      yComponent.setVisible(vectorViewModel.xyComponentsVisible && selectedVectorVisible())
-      xComponent.setVisible(vectorViewModel.xyComponentsVisible && selectedVectorVisible())
+//      parallelComponent.setVisible(vectorViewModel.parallelComponents && selectedVectorVisible())
+//      perpComponent.setVisible(vectorViewModel.parallelComponents && selectedVectorVisible())
+//      yComponent.setVisible(vectorViewModel.xyComponentsVisible && selectedVectorVisible())
+//      xComponent.setVisible(vectorViewModel.xyComponentsVisible && selectedVectorVisible())
       vector.setVisible(vectorViewModel.originalVectors && selectedVectorVisible())
     }
     vectorViewModel.addListener(update)
     update()
 
     addVector(motionSeriesObject, vector, freeBodyDiagramOffset, playAreaOffset, vectorDisplay)
-    addVector(motionSeriesObject, xComponent, freeBodyDiagramOffset, playAreaOffset, vectorDisplay)
-    addVector(motionSeriesObject, yComponent, freeBodyDiagramOffset, playAreaOffset, vectorDisplay)
-    addVector(motionSeriesObject, parallelComponent, freeBodyDiagramOffset, playAreaOffset, vectorDisplay)
-    addVector(motionSeriesObject, perpComponent, freeBodyDiagramOffset, playAreaOffset, vectorDisplay)
+//    addVector(motionSeriesObject, xComponent, freeBodyDiagramOffset, playAreaOffset, vectorDisplay)
+//    addVector(motionSeriesObject, yComponent, freeBodyDiagramOffset, playAreaOffset, vectorDisplay)
+//    addVector(motionSeriesObject, parallelComponent, freeBodyDiagramOffset, playAreaOffset, vectorDisplay)
+//    addVector(motionSeriesObject, perpComponent, freeBodyDiagramOffset, playAreaOffset, vectorDisplay)
   }
 
   def addVector(motionSeriesObject: MotionSeriesObject, vector: Vector, freeBodyDiagramOffset: Vector2DModel, offsetPlayArea: Double, vectorDisplay: VectorDisplay) = {
