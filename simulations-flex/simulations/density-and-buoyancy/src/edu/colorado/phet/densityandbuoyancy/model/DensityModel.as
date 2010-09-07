@@ -123,7 +123,7 @@ public class DensityModel {
 
         for (var i:Number = 0; i < STEPS_PER_FRAME; i++) {
 
-            updateWater();
+            updateWaterHeight();
             var waterY:Number = -poolHeight + waterHeight;
             for each(var cuboid:Cuboid in getCuboids()) {
                 var body:b2Body = cuboid.getBody();
@@ -183,56 +183,52 @@ public class DensityModel {
         return cuboids;
     }
 
-    public function updateWater():void {
-        var cuboid:Cuboid;
+    public function updateWaterHeight():void {
+        waterHeight = computeWaterHeight();
+    }
+
+    //See diagram here:
+    //https://docs.google.com/drawings/edit?id=1es4N9_NNgmyZhTmRok_2VTMYCFpnztOf97Z-sOsTEnM
+    public function computeWaterHeight():Number {
+        var sortedHeights:Array = getSortedObjectMarkers();
+        var currentHeight:Number = 0;//This accumulates the water height and is eventually returned
+        var remainingVolume:Number = volume;
+        var crossSectionArea:Number = poolWidth * poolDepth;//Current cross sectional area (in y-z plane) at curHeight in the pool
+
+        for each (var objectMarker:ObjectMarker in sortedHeights) {
+            var nextY:Number = objectMarker.y + poolHeight;//Translates origin so that y=0 is at the floor
+            var proposedHeight:Number = remainingVolume / crossSectionArea + currentHeight;//Height if the current cross section
+            if (proposedHeight < nextY) {
+                currentHeight = proposedHeight;
+                remainingVolume = 0;
+                break;
+            }
+            var heightGain:Number = nextY - currentHeight;
+            remainingVolume -= crossSectionArea * heightGain;
+            currentHeight = nextY;
+            crossSectionArea += objectMarker.area;
+        }
+
+        // fill it up the rest of the way
+        currentHeight += remainingVolume / crossSectionArea;
+        return currentHeight;
+    }
+
+    private function getSortedObjectMarkers():Array {
         var sortedHeights:Array = new Array();
         for (var key:String in densityObjects) {
-            cuboid = densityObjects[key];
-            var top:Object = new Object();
+            var cuboid:Cuboid = densityObjects[key];
+            var top:ObjectMarker = new ObjectMarker();
             top.y = cuboid.getTopY();
-            top.pos = 1;
-            top.block = cuboid;
-            var bottom:Object = new Object();
+            top.area = cuboid.getWidth() * cuboid.getDepth();
+            var bottom:ObjectMarker = new ObjectMarker();
             bottom.y = cuboid.getBottomY();
-            bottom.pos = 0;
-            bottom.block = cuboid;
+            bottom.area = -top.area;
             sortedHeights.push(top);
             sortedHeights.push(bottom);
         }
         sortedHeights.sortOn(["y"], [Array.NUMERIC]);
-
-        var curHeight:Number = 0;
-        var volumeToGo:Number = volume;
-        var crossSection:Number = poolWidth * poolDepth;
-
-        for (var i:String in sortedHeights) {
-            var ob:Object = sortedHeights[i];
-            var pos:Number = ob.pos;
-            var by:Number = ob.y + poolHeight;
-            cuboid = ob.block;
-            var idealHeight:Number = volumeToGo / crossSection + curHeight;
-            if (idealHeight < by) {
-                curHeight = idealHeight;
-                volumeToGo = 0;
-                break;
-            }
-            var heightGain:Number = by - curHeight;
-            volumeToGo -= crossSection * heightGain;
-            curHeight = by;
-            if (pos == 0) {
-                // bottom of block
-                crossSection -= cuboid.getWidth() * cuboid.getDepth();
-            }
-            else {
-                // top of block
-                crossSection += cuboid.getWidth() * cuboid.getDepth();
-            }
-        }
-
-        // fill it up the rest of the way
-        curHeight += volumeToGo / crossSection;
-
-        waterHeight = curHeight;
+        return sortedHeights;
     }
 
     public function getPoolHeight():Number {
@@ -260,4 +256,9 @@ public class DensityModel {
         densityObjectCreationListeners.push(addDensityObject);
     }
 }
+}
+
+class ObjectMarker {
+    public var y:Number;
+    public var area:Number;
 }
