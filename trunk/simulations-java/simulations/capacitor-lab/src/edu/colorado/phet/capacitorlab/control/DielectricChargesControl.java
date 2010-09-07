@@ -3,7 +3,6 @@
 package edu.colorado.phet.capacitorlab.control;
 
 import java.awt.BorderLayout;
-import java.awt.GridBagConstraints;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
@@ -11,7 +10,8 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
 import edu.colorado.phet.capacitorlab.CLStrings;
-import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
+import edu.colorado.phet.capacitorlab.util.GridPanel;
+import edu.colorado.phet.capacitorlab.util.GridPanel.Anchor;
 
 /**
  * Controls related to the dielectric's charges.
@@ -38,16 +38,13 @@ public class DielectricChargesControl extends JPanel {
         group.add( showExcessRadioButton );
 
         // layout
-        JPanel innerPanel = new JPanel();
-        EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
-        innerPanel.setLayout( layout );
-        layout.setAnchor( GridBagConstraints.WEST );
-        int row = 0;
-        int column = 0;
-        layout.addComponent( chargesLabel, row++, column );
-        layout.addComponent( hideAllRadioButton, row++, column );
-        layout.addComponent( showAllRadioButton, row++, column );
-        layout.addComponent( showExcessRadioButton, row++, column );
+        GridPanel innerPanel = new GridPanel();
+        innerPanel.setAnchor( Anchor.WEST );
+        innerPanel.setGridX( 0 ); // one column
+        innerPanel.add( chargesLabel );
+        innerPanel.add( hideAllRadioButton );
+        innerPanel.add( showAllRadioButton );
+        innerPanel.add( showExcessRadioButton );
         
         // make everything left justify when put in the main control panel
         setLayout( new BorderLayout() );

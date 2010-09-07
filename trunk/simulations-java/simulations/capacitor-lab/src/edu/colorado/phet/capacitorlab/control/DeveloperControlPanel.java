@@ -2,20 +2,23 @@
 
 package edu.colorado.phet.capacitorlab.control;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Frame;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.JCheckBox;
-import javax.swing.JPanel;
 
 import edu.colorado.phet.capacitorlab.model.CLModel;
 import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeAdapter;
+import edu.colorado.phet.capacitorlab.util.GridPanel;
+import edu.colorado.phet.capacitorlab.util.GridPanel.Anchor;
 import edu.colorado.phet.capacitorlab.view.ModelValuesDialog;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
-import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 
@@ -60,13 +63,10 @@ public class DeveloperControlPanel extends PhetTitledPanel {
         }
         
         // layout
-        JPanel innerPanel = new JPanel();
-        EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
-        innerPanel.setLayout( layout );
-        layout.setAnchor( GridBagConstraints.WEST );
-        int row = 0;
-        int column = 0;
-        layout.addComponent( modelValuesCheckBox, row, column );
+        GridPanel innerPanel = new GridPanel();
+        innerPanel.setAnchor( Anchor.WEST );
+        innerPanel.setGridX( 0 ); // one column
+        innerPanel.add( modelValuesCheckBox );
         
         // make everything left justify when put in the main control panel
         setLayout( new BorderLayout() );
