@@ -189,6 +189,21 @@ public class DensityModel {
 
     //See diagram here:
     //https://docs.google.com/drawings/edit?id=1es4N9_NNgmyZhTmRok_2VTMYCFpnztOf97Z-sOsTEnM
+    /**
+     * Options discussed by SR and JO for water height computation with arbitrary objects
+     *
+     * water height calculations for spheres and arbitrary polygonal objects can be broken into a few different algorithms:
+     * 1) break everything into "cuboids", more specifically object markers with a change in cross-section-area. We can
+     * break a sphere into cuboids such that the sum of volume of the cuboids is equal to the volume of the sphere. It
+     * should be possible to break arbitrary polygonal objects into this AND keep the same volume, so JO recommends this
+     * method for its simplicity in the engine and for performance. Slight loss in precision, but can trade performance
+     * for more precision.
+     * 2) break everything into tetrahedrons. works with exact water height for cubes and polygonal objects, but would
+     * require a large number of tetrahedrons to approximate a sphere.
+     * 3) break spheres (or other objects) into layers, and assume it has a constant cross-sectional area for the entire
+     * layer. (JO: this is effectively the same as #1)
+     * 4) analytically (or with numerical integration) compute the water heights? not recommended
+     */
     public function computeWaterHeight():Number {
         var sortedHeights:Array = getSortedObjectMarkers();
         var currentHeight:Number = 0;//This accumulates the water height and is eventually returned
