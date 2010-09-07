@@ -2,7 +2,10 @@
 
 package edu.colorado.phet.capacitorlab.view;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -18,7 +21,9 @@ import edu.colorado.phet.capacitorlab.model.*;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeListener;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial.CustomDielectricChangeListener;
-import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
+import edu.colorado.phet.capacitorlab.util.GridPanel;
+import edu.colorado.phet.capacitorlab.util.GridPanel.Anchor;
+import edu.colorado.phet.capacitorlab.util.GridPanel.Fill;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 /**
@@ -330,19 +335,15 @@ public class ModelValuesPanel extends JPanel {
     
     private static class VerticalPanel extends JPanel {
         
-        private final JPanel innerPanel; // trick to get nested panels to left justify
-        private final EasyGridBagLayout layout;
-        private int row;
+        private final GridPanel innerPanel; // trick to get nested panels to left justify
         
         public VerticalPanel() {
             
             // components will be added to any inner panel
-            innerPanel = new JPanel();
-            layout = new EasyGridBagLayout( innerPanel );
-            innerPanel.setLayout( layout );
-            layout.setAnchor( GridBagConstraints.WEST );
-            layout.setFill( GridBagConstraints.HORIZONTAL );
-            row = 0;
+            innerPanel = new GridPanel();
+            innerPanel.setAnchor( Anchor.WEST );
+            innerPanel.setFill( Fill.HORIZONTAL );
+            innerPanel.setGridX( 0 );
             
             setLayout( new BorderLayout() );
             super.add( innerPanel, BorderLayout.WEST );
@@ -350,7 +351,7 @@ public class ModelValuesPanel extends JPanel {
         
         @Override
         public Component add( Component component ) {
-            layout.addComponent( component, row++, 0 );
+            innerPanel.add( component );
             return component;
         }
     }
