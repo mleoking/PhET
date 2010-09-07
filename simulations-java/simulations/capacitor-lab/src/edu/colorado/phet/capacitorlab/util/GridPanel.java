@@ -462,12 +462,14 @@ public class GridPanel extends JPanel {
     public static void main( String[] args ) {
         
         GridPanel panel = new GridPanel();
-        int row = 0;
-        int column = 0;
-        panel.add( new JLabel( "------------------------" ), row++, column );
-        panel.add( new JLabel( "WEST" ), row++, column, Anchor.WEST);
-        panel.add( new JLabel( "CENTER" ), row++, column, Anchor.CENTER );
-        panel.add( new JLabel( "EAST" ), row++, column, Anchor.EAST );
+        panel.setGridX( 0 ); // one column
+        panel.add( new JLabel( "------------------------" ) );
+        panel.setAnchor( Anchor.WEST );
+        panel.add( new JLabel( "WEST" ) );
+        panel.setAnchor( Anchor.CENTER );
+        panel.add( new JLabel( "CENTER" ) );
+        panel.setAnchor( Anchor.EAST );
+        panel.add( new JLabel( "EAST" ) );
         
         JFrame frame = new JFrame();
         frame.setContentPane( panel );
