@@ -3,24 +3,23 @@
 package edu.colorado.phet.capacitorlab.control;
 
 import java.awt.BorderLayout;
-import java.awt.GridBagConstraints;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import javax.swing.JCheckBox;
-import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.model.CLModel;
 import edu.colorado.phet.capacitorlab.module.dielectric.DielectricCanvas;
+import edu.colorado.phet.capacitorlab.util.GridPanel;
+import edu.colorado.phet.capacitorlab.util.GridPanel.Anchor;
 import edu.colorado.phet.capacitorlab.view.CapacitanceMeterNode;
 import edu.colorado.phet.capacitorlab.view.PlateChargeMeterNode;
 import edu.colorado.phet.capacitorlab.view.StoredEnergyMeterNode;
 import edu.colorado.phet.capacitorlab.view.VoltmeterNode;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
-import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -117,17 +116,14 @@ public class MetersControlPanel extends PhetTitledPanel {
         }
         
         // layout
-        JPanel innerPanel = new JPanel();
-        EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
-        innerPanel.setLayout( layout );
-        layout.setAnchor( GridBagConstraints.WEST );
-        int row = 0;
-        int column = 0;
-        layout.addComponent( capacitanceCheckBox, row++, column );
-        layout.addComponent( chargeCheckBox, row++, column );
-        layout.addComponent( energyCheckBox, row++, column );
-        layout.addComponent( voltmeterCheckBox, row++, column );
-        layout.addComponent( fieldDetectorCheckBox, row++, column );
+        GridPanel innerPanel = new GridPanel();
+        innerPanel.setAnchor( Anchor.WEST );
+        innerPanel.setGridX( 0 ); // one column
+        innerPanel.add( capacitanceCheckBox );
+        innerPanel.add( chargeCheckBox );
+        innerPanel.add( energyCheckBox );
+        innerPanel.add( voltmeterCheckBox );
+        innerPanel.add( fieldDetectorCheckBox );
         
         // make everything left justify when put in the main control panel
         setLayout( new BorderLayout() );

@@ -4,7 +4,6 @@ package edu.colorado.phet.capacitorlab.control;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.GridBagConstraints;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.geom.Rectangle2D;
@@ -18,7 +17,9 @@ import javax.swing.event.EventListenerList;
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial;
-import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
+import edu.colorado.phet.capacitorlab.util.GridPanel;
+import edu.colorado.phet.capacitorlab.util.GridPanel.Anchor;
+import edu.colorado.phet.capacitorlab.util.GridPanel.Fill;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
@@ -48,15 +49,12 @@ public class DielectricMaterialControl extends JPanel {
             }
         });
         
-        JPanel innerPanel = new JPanel();
-        EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
-        innerPanel.setLayout( layout );
-        layout.setAnchor( GridBagConstraints.WEST );
-        layout.setFill( GridBagConstraints.HORIZONTAL );
-        int row = 0;
-        int column = 0;
-        layout.addComponent( label, row++, column );
-        layout.addComponent( comboBox, row++, column );
+        GridPanel innerPanel = new GridPanel();
+        innerPanel.setAnchor( Anchor.WEST );
+        innerPanel.setFill( Fill.HORIZONTAL );
+        innerPanel.setGridX( 0 ); // one column
+        innerPanel.add( label );
+        innerPanel.add( comboBox );
         
         // make everything left justify when put in the main control panel
         setLayout( new BorderLayout() );

@@ -3,9 +3,7 @@
 package edu.colorado.phet.capacitorlab.control;
 
 import java.awt.BorderLayout;
-import java.awt.GridBagConstraints;
 
-import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -16,9 +14,11 @@ import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial;
 import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeAdapter;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial;
+import edu.colorado.phet.capacitorlab.util.GridPanel;
+import edu.colorado.phet.capacitorlab.util.GridPanel.Anchor;
+import edu.colorado.phet.capacitorlab.util.GridPanel.Fill;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
 import edu.colorado.phet.common.phetcommon.view.ColoredSeparator.BlackSeparator;
-import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 
 /**
  * Controls related to the capacitor's dielectric.
@@ -62,18 +62,15 @@ public class DielectricPropertiesControlPanel extends PhetTitledPanel {
         chargesControl = new DielectricChargesControl();
         
         // layout
-        JPanel innerPanel = new JPanel();
-        EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
-        innerPanel.setLayout( layout );
-        layout.setAnchor( GridBagConstraints.WEST );
-        layout.setFill( GridBagConstraints.HORIZONTAL );
-        int row = 0;
-        int column = 0;
-        layout.addComponent( materialControl, row++, column );
-        layout.addComponent( new BlackSeparator(), row++, column );
-        layout.addComponent( constantControl, row++, column );
-        layout.addComponent( new BlackSeparator(), row++, column );
-        layout.addComponent( chargesControl, row++, column );
+        GridPanel innerPanel = new GridPanel();
+        innerPanel.setAnchor( Anchor.WEST );
+        innerPanel.setFill( Fill.HORIZONTAL );
+        innerPanel.setGridX( 0 ); // one column
+        innerPanel.add( materialControl );
+        innerPanel.add( new BlackSeparator() );
+        innerPanel.add( constantControl );
+        innerPanel.add( new BlackSeparator() );
+        innerPanel.add( chargesControl );
         
         // make everything left justify when put in the main control panel
         setLayout( new BorderLayout() );

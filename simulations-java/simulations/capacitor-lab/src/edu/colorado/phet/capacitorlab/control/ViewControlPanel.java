@@ -3,14 +3,13 @@
 package edu.colorado.phet.capacitorlab.control;
 
 import java.awt.BorderLayout;
-import java.awt.GridBagConstraints;
 
 import javax.swing.JCheckBox;
-import javax.swing.JPanel;
 
 import edu.colorado.phet.capacitorlab.CLStrings;
+import edu.colorado.phet.capacitorlab.util.GridPanel;
+import edu.colorado.phet.capacitorlab.util.GridPanel.Anchor;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
-import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 
 /**
  * Control panel for various "View" settings.
@@ -29,14 +28,11 @@ public class ViewControlPanel extends PhetTitledPanel {
         electricFieldLinesCheckBox = new JCheckBox( CLStrings.CHECKBOX_ELECTRIC_FIELD_LINES );
         
         // layout
-        JPanel innerPanel = new JPanel();
-        EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
-        innerPanel.setLayout( layout );
-        layout.setAnchor( GridBagConstraints.WEST );
-        int row = 0;
-        int column = 0;
-        layout.addComponent( plateChargesCheckBox, row++, column );
-        layout.addComponent( electricFieldLinesCheckBox, row++, column );
+        GridPanel innerPanel = new GridPanel();
+        innerPanel.setAnchor( Anchor.WEST );
+        innerPanel.setGridX( 0 ); // one column
+        innerPanel.add( plateChargesCheckBox );
+        innerPanel.add( electricFieldLinesCheckBox );
         
         // make everything left justify when put in the main control panel
         setLayout( new BorderLayout() );
