@@ -62,9 +62,7 @@ public class BlockNode extends CubeNode implements Pickable {
         updateText();
 
         sideMaterial = new BitmapMaterial(textureBitmap.bitmapData);
-        if (block.material == Material.ICE) {//TODO: Object orient this
-            sideMaterial.alpha = 0.75;
-        }
+        sideMaterial.alpha = block.material.alpha;
 
         // TODO: possibly change tiling for textures that are not symmetric
         var cube:PickableCube = getCube();
