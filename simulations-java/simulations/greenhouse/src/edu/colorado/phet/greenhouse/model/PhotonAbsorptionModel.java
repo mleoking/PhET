@@ -15,7 +15,6 @@ import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
@@ -71,9 +70,9 @@ public class PhotonAbsorptionModel {
     // Minimum and defaults for photon emission periods.  Note that the max is
     // assumed to be infinity.
     public static final double MIN_PHOTON_EMISSION_PERIOD_SINGLE_TARGET = 200;
-    private static final double DEFAULT_PHOTON_EMISSION_PERIOD_SINGLE_TARGET = 1500; // Milliseconds of sim time.
+    private static final double DEFAULT_PHOTON_EMISSION_PERIOD_SINGLE_TARGET = Double.POSITIVE_INFINITY; // Milliseconds of sim time.
     public static final double MIN_PHOTON_EMISSION_PERIOD_MULTIPLE_TARGET = 100;
-    private static final double DEFAULT_PHOTON_EMISSION_PERIOD_MULTIPLE_TARGET = 700; // Milliseconds of sim time.
+    private static final double DEFAULT_PHOTON_EMISSION_PERIOD_MULTIPLE_TARGET = Double.POSITIVE_INFINITY; // Milliseconds of sim time.
     
     // Default values for various parameters that weren't already covered.
     private static final PhotonTarget DEFAULT_PHOTON_TARGET = PhotonTarget.SINGLE_CH4_MOLECULE;
@@ -126,8 +125,8 @@ public class PhotonAbsorptionModel {
     private PhotonTarget photonTarget = null;
     
     // Variables that control periodic photon emission.
-    private boolean periodicPhotonEmissionEnabled;
-    private double photonEmissionCountdownTimer;
+    private boolean periodicPhotonEmissionEnabled = true;
+    private double photonEmissionCountdownTimer = Double.POSITIVE_INFINITY;
     private double photonEmissionPeriodSingleTarget = DEFAULT_PHOTON_EMISSION_PERIOD_SINGLE_TARGET;
     private double photonEmissionPeriodMultipleTarget = DEFAULT_PHOTON_EMISSION_PERIOD_MULTIPLE_TARGET;
     private double previousEmissionAngle = 0;
@@ -189,7 +188,6 @@ public class PhotonAbsorptionModel {
         setPhotonEmissionPeriodMultipleTarget( DEFAULT_PHOTON_EMISSION_PERIOD_MULTIPLE_TARGET );
         setPhotonEmissionPeriodSingleTarget( DEFAULT_PHOTON_EMISSION_PERIOD_SINGLE_TARGET );
         setEmittedPhotonWavelength( DEFAULT_EMITTED_PHOTON_WAVELENGTH );
-        setPeriodicPhotonEmissionEnabled( false );
         
         resetConfigurableAtmosphere();
     }
@@ -396,7 +394,7 @@ public class PhotonAbsorptionModel {
     public void setPhotonEmissionPeriodSingleTarget( double photonEmissionPeriod ) {
         if (this.photonEmissionPeriodSingleTarget != photonEmissionPeriod){
             this.photonEmissionPeriodSingleTarget = photonEmissionPeriod;
-            notifyPeriodicPhotonEmissionEnabledChanged();
+            notifyPhotonEmissionPeriodChanged();
             if (isPeriodicPhotonEmissionEnabled() && photonEmissionCountdownTimer > photonEmissionPeriod){
                 photonEmissionCountdownTimer = photonEmissionPeriod;
             }
@@ -412,7 +410,7 @@ public class PhotonAbsorptionModel {
     public void setPhotonEmissionPeriodMultipleTarget( double photonEmissionPeriod ) {
         if (this.photonEmissionPeriodMultipleTarget != photonEmissionPeriod){
             this.photonEmissionPeriodMultipleTarget = photonEmissionPeriod;
-            notifyPeriodicPhotonEmissionEnabledChanged();
+            notifyPhotonEmissionPeriodChanged();
             if (isPeriodicPhotonEmissionEnabled() && photonEmissionCountdownTimer > photonEmissionPeriod){
                 photonEmissionCountdownTimer = photonEmissionPeriod;
             }
