@@ -43,10 +43,10 @@ public class PropertyEditor extends GridRow {
 
         const textField:TextInput = new TextInput();
         textField.setStyle(DensityConstants.FLEX_FONT_SIZE, FONT_SIZE);
-        textField.width = 50;//TODO: this is a magic number that just barely fits "00.00" with the above specified font
+        textField.width = DensityConstants.SLIDER_READOUT_TEXT_FIELD_WIDTH;
         textField.restrict = ".0-9";//TODO: does this handle languages that use a comma instead of a decimal place?
         function updateText():void {
-            textField.text = unit.fromSI(property.value).toFixed(DensityConstants.NUMBER_OF_DECIMAL_PLACES);//TODO: make sure this doesn't fire an event
+            textField.text = unit.fromSI(property.value).toFixed(DensityConstants.NUMBER_OF_DECIMAL_PLACES);
         }
 
         function updateModelFromTextField():void {
@@ -66,7 +66,6 @@ public class PropertyEditor extends GridRow {
         };
 
         textField.addEventListener(FocusEvent.FOCUS_OUT, updateModelFromTextField);
-
         textField.addEventListener(FlexEvent.VALUE_COMMIT, listener);
         textField.addEventListener(FlexEvent.ENTER, listener);
         property.addListener(updateText);
