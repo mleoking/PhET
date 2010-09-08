@@ -82,14 +82,15 @@ public abstract class BoxNode extends PhetPNode {
         double x = 0;
         double y = 0;
         frontNode.setOffset( x, y );
-        x = frontNode.getFullBoundsReference().getWidth();
+        topNode.setOffset( x, y );
+        x = frontNode.getFullBoundsReference().getMaxX();
         y = frontNode.getYOffset();
         sideNode.setOffset( x, y );
-        x = frontNode.getXOffset();
-        y = frontNode.getYOffset();
-        topNode.setOffset( x, y );
     }
     
+    /*
+     * Base class for all faces of the box.
+     */
     private abstract static class FaceNode extends PPath {
         
         private final GeneralPath path;
@@ -103,6 +104,20 @@ public abstract class BoxNode extends PhetPNode {
         
         public GeneralPath getPath() {
             return path;
+        }
+        
+        /*
+         * Gets the x-offset required to create a pseudo-3D perspective between the front and back edges of a face.
+         */
+        protected static double getXOffsetForDepth( double depth ) {
+            return CLConstants.FORESHORTENING_FACTOR * depth * Math.cos( CLConstants.YAW_VIEWING_ANGLE );
+        }
+        
+        /*
+         * Gets the y-offset required to create a pseudo-3D perspective between the front and back edges of a face.
+         */
+        protected static double getYOffsetForDepth( double depth ) {
+            return CLConstants.FORESHORTENING_FACTOR * depth * Math.sin( CLConstants.YAW_VIEWING_ANGLE );
         }
     }
     
@@ -124,14 +139,14 @@ public abstract class BoxNode extends PhetPNode {
         
 
         public void setWidthAndDepth( double width, double depth ) {
-            double xOffset = CLConstants.FORESHORTENING_FACTOR * depth * Math.cos( CLConstants.YAW_VIEWING_ANGLE );
-            double yOffset = CLConstants.FORESHORTENING_FACTOR * depth * Math.sin( CLConstants.YAW_VIEWING_ANGLE );
+            float xOffset = (float) getXOffsetForDepth( depth );
+            float yOffset = (float) getYOffsetForDepth( depth );
             GeneralPath path = getPath();
             path.reset();
-            path.moveTo( 0, 0 );
-            path.lineTo( (float) xOffset, (float) -yOffset );
-            path.lineTo( (float) ( width + xOffset ), (float) -yOffset );
-            path.lineTo( (float) width, 0 );
+            path.moveTo( 0f, 0f );
+            path.lineTo( xOffset, -yOffset );
+            path.lineTo( (float) ( width + xOffset ), -yOffset );
+            path.lineTo( (float) width, 0f );
             path.closePath();
             setPathTo( path );
         }
@@ -156,10 +171,10 @@ public abstract class BoxNode extends PhetPNode {
         public void setWidthAndHeight( double width, double height ) {
             GeneralPath path = getPath();
             path.reset();
-            path.moveTo( 0, 0 );
-            path.lineTo( (float) width, 0 );
+            path.moveTo( 0f, 0f );
+            path.lineTo( (float) width, 0f );
             path.lineTo( (float) width, (float) height );
-            path.lineTo( 0, (float) height );
+            path.lineTo( 0f, (float) height );
             path.closePath();
             setPathTo( path );
         }
@@ -187,17 +202,15 @@ public abstract class BoxNode extends PhetPNode {
             super( paint );
         }
         
-        // parallelogram, 
         public void setDepthAndHeight( double depth, double height ) {
-            //XXX refactor, duplicate of code in TopNode.setWidthAndDepth
-            double xOffset = CLConstants.FORESHORTENING_FACTOR * depth * Math.cos( CLConstants.YAW_VIEWING_ANGLE ); 
-            double yOffset = CLConstants.FORESHORTENING_FACTOR * depth * Math.sin( CLConstants.YAW_VIEWING_ANGLE );
+            float xOffset = (float) getXOffsetForDepth( depth );
+            float yOffset = (float) getYOffsetForDepth( depth );
             GeneralPath path = getPath();
             path.reset();
-            path.moveTo( 0, 0 );
-            path.lineTo( (float) xOffset, (float) -yOffset );
-            path.lineTo( (float) xOffset, (float) ( -yOffset + height ) );
-            path.lineTo( 0, (float) height );
+            path.moveTo( 0f, 0f );
+            path.lineTo( xOffset, -yOffset );
+            path.lineTo( xOffset, (float) ( -yOffset + height ) );
+            path.lineTo( 0f, (float) height );
             path.closePath();
             setPathTo( path );
         }
