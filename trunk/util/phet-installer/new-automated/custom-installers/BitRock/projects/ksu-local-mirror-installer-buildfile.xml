@@ -124,6 +124,37 @@
                                     <value>file:///${installdir}</value>
                                 </substitution>
                             </substitutionList>
+                            <ruleList>
+                                <platformTest type="windows"/>
+                            </ruleList>
+                        </substitute>
+                    </actionList>
+                    <actionList>
+                        <substitute>
+                            <files>*/*.jnlp</files>
+                            <substitutionList>
+                                <substitution>
+                                    <pattern>@@CODEBASE@@</pattern>
+                                    <value>file://${installdir}</value>
+                                </substitution>
+                            </substitutionList>
+                            <ruleList>
+                                <platformTest type="linux"/>
+                            </ruleList>
+                        </substitute>
+                    </actionList>
+                    <actionList>
+                        <substitute>
+                            <files>*/*.jnlp</files>
+                            <substitutionList>
+                                <substitution>
+                                    <pattern>@@CODEBASE@@</pattern>
+                                    <value>file://${installdir}</value>
+                                </substitution>
+                            </substitutionList>
+                            <ruleList>
+                                <platformTest type="osx"/>
+                            </ruleList>
                         </substitute>
                     </actionList>
                 </folder>
