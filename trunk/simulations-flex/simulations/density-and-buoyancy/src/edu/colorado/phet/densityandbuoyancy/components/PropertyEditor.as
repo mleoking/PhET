@@ -91,7 +91,7 @@ public class PropertyEditor extends GridRow {
         slider.liveDragging = true;
         function sliderDragHandler(event:SliderEvent):void {
             var newValue:Number = unit.toSI(event.value);
-            if (newValue > 3 && densityObject.getMaterial().equals(Material.STYROFOAM)) {
+            if (newValue > 3 && densityObject.material.equals(Material.STYROFOAM)) {
                 newValue = 3;
                 slider.value = 3;
             }
