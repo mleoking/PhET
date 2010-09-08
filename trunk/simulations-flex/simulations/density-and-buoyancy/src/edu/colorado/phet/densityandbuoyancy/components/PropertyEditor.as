@@ -4,6 +4,7 @@ import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
 import edu.colorado.phet.densityandbuoyancy.model.Material;
 import edu.colorado.phet.densityandbuoyancy.model.NumericProperty;
 import edu.colorado.phet.densityandbuoyancy.view.units.Unit;
+import edu.colorado.phet.flashcommon.MathUtil;
 
 import flash.display.DisplayObject;
 import flash.events.FocusEvent;
@@ -20,7 +21,15 @@ public class PropertyEditor extends GridRow {
     public static const SLIDER_WIDTH:Number = 280;
     private static const FONT_SIZE:Number = 12;
 
-    public function PropertyEditor(property:NumericProperty, minimimum:Number, maximum:Number, unit:Unit, densityObject:DensityObject) {
+    /**
+     *
+     * @param property
+     * @param minimum specified in SI
+     * @param maximum specified in SI
+     * @param unit
+     * @param densityObject
+     */
+    public function PropertyEditor(property:NumericProperty, minimum:Number, maximum:Number, unit:Unit, densityObject:DensityObject) {
         super();
         this.property = property;
 
@@ -30,7 +39,7 @@ public class PropertyEditor extends GridRow {
         label.setStyle(DensityConstants.FLEX_FONT_WEIGHT, DensityConstants.FLEX_FONT_BOLD);
         addGridItem(label);
 
-        addGridItem(createSlider(property, minimimum, maximum, unit, densityObject));
+        addGridItem(createSlider(property, minimum, maximum, unit, densityObject));
 
         const textField:TextInput = new TextInput();
         textField.setStyle(DensityConstants.FLEX_FONT_SIZE, FONT_SIZE);
@@ -41,7 +50,10 @@ public class PropertyEditor extends GridRow {
         }
 
         function updateModelFromTextField():void {
-            property.value = unit.toSI(Number(textField.text));
+            const number:Number = unit.toSI(Number(textField.text));
+            property.value = MathUtil.clamp(minimum, number, maximum);
+            if (number < minimum || number > maximum)
+                updateText();
         }
 
         updateText();
