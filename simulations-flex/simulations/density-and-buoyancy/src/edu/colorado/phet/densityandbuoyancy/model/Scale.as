@@ -67,9 +67,13 @@ public class Scale extends Cuboid {
 
         var topModel:DensityObject = model1.getY() > model2.getY() ? model1 : model2;
 
+        //This conditional block is meant to avoid incorporating forces from underneath the scale
         if (this == topModel) {
             // only show readings if pressed from top.
             // TODO: check whether this is acceptable, not physical! (scales can show negative numbers if accelerated from below)
+            //Maybe this block check should be skipped but it will be difficult to test when the scales can be moved
+            //The important scenario to test is when the force from below is more than the normal force (e.g. the underblock is accelerating upwards)
+            //Will need more thought once the scales are movable, and can be moved underwater.
             return;
         }
 
