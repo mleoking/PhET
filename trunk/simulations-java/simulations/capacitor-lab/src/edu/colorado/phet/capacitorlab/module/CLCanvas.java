@@ -17,14 +17,13 @@ import edu.umd.cs.piccolo.PNode;
  */
 public abstract class CLCanvas extends PhetPCanvas {
     
-    private PNode rootNode;
+    private PNode rootNode; // root node of our scenegraph, all nodes added below here
 
     public CLCanvas() {
         super( CLConstants.CANVAS_RENDERING_SIZE );
         
         setBackground( CLPaints.CANVAS_BACKGROUND );
 
-        // Root of our scene graph
         rootNode = new PNode();
         addWorldChild( rootNode );
     }
@@ -45,7 +44,7 @@ public abstract class CLCanvas extends PhetPCanvas {
     
     /*
      * Keeps a node inside the canvas.
-     * Assumes that the node is a direct parent of the canvas' root node.
+     * Assumes that the node is a direct parent of rootNode.
      */
     protected void keepInsideCanvas( PNode node ) {
         
