@@ -13,24 +13,15 @@ import edu.colorado.phet.common.phetcommon.model.MutableBoolean
 import edu.colorado.phet.common.phetcommon.math.MathUtil
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver
 import edu.colorado.phet.motionseries.charts.MutableDouble
-
-//Scala Mutable Boolean overcomes incompatibility between java.lang.Boolean and scala.Boolean 
-class SMutableBoolean(v: Boolean) extends MutableBoolean(v) {
-  def booleanValue = super.getValue().booleanValue //to fix incompatibility between java.lang.Boolean and scala.Boolean
-  def addListener(listener: () => Unit) = {
-    super.addObserver(new SimpleObserver {
-      def update = listener()
-    })
-  }
-}
+import edu.colorado.phet.motionseries.util.ScalaMutableBoolean
 
 class MotionSeriesModel(defaultPosition: Double,
                         pausedOnReset: Boolean,
                         initialAngle: Double)
         extends RecordAndPlaybackModel[RecordedState](1000) with ObjectModel with RampSurfaceModel {
-  private val _walls = new SMutableBoolean(true)
-  private val _frictionless = new SMutableBoolean(false) //FRICTIONLESS_DEFAULT
-  private val _wallsBounce = new SMutableBoolean(false) //BOUNCE_DEFAULT 
+  private val _walls = new ScalaMutableBoolean(true)
+  private val _frictionless = new ScalaMutableBoolean(false) //FRICTIONLESS_DEFAULT
+  private val _wallsBounce = new ScalaMutableBoolean(false) //BOUNCE_DEFAULT 
   private var _objectType = MotionSeriesDefaults.objectTypes(0)
   val surfaceFrictionStrategy = new SurfaceFrictionStrategy() {
     def getTotalFriction(objectFriction: Double) = objectFriction

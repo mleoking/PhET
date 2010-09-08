@@ -4,6 +4,10 @@ import edu.colorado.phet.scalacommon.util.Observable
 import edu.colorado.phet.common.phetcommon.math.MathUtil
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
 
+/**
+ * This file contains model components for MVC pattern for customizable or interactive behaviors.
+ * @author Sam Reid
+ */
 class FreeBodyDiagramModel(val popupDialogOnly: Boolean) extends Observable {
   private var _windowed = false
   private var _visible = false

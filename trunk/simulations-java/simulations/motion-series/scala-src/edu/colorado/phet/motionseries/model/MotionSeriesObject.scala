@@ -8,6 +8,7 @@ import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.colorado.phet.motionseries.Predef._
 import java.lang.Math.PI
 import edu.colorado.phet.motionseries.charts.MutableDouble
+import edu.colorado.phet.motionseries.util.ScalaMutableBoolean
 
 class MotionSeriesObject(_position: MutableDouble,
                          _velocity: MutableDouble,
@@ -20,7 +21,7 @@ class MotionSeriesObject(_position: MutableDouble,
                          val positionMapper: Double => Vector2D,
                          val rampSegmentAccessor: Double => RampSegment,
                          rampChangeAdapter: Observable,
-                         val wallsBounce: SMutableBoolean,
+                         val wallsBounce: ScalaMutableBoolean,
                          val _wallsExist: MutableBoolean,
                          val wallRange: () => Range,
                          thermalEnergyStrategy: Double => Double,
