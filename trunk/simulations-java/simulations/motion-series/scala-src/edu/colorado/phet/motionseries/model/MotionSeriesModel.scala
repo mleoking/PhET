@@ -9,9 +9,7 @@ import java.lang.Math._
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.colorado.phet.common.motion.charts.ChartCursor
 import edu.colorado.phet.recordandplayback.model.{DataPoint, RecordAndPlaybackModel}
-import edu.colorado.phet.common.phetcommon.model.MutableBoolean
 import edu.colorado.phet.common.phetcommon.math.MathUtil
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver
 import edu.colorado.phet.motionseries.charts.MutableDouble
 import edu.colorado.phet.motionseries.util.ScalaMutableBoolean
 
@@ -56,10 +54,11 @@ class MotionSeriesModel(defaultPosition: Double,
   val rightWallLeftEdge = new MotionSeriesObject(this, 10 - MotionSeriesDefaults.wall.width / 2, MotionSeriesDefaults.SPRING_WIDTH, MotionSeriesDefaults.SPRING_HEIGHT)
 
   val manMotionSeriesObject = new MotionSeriesObject(this, defaultManPosition, 1, 3)
+
   def thermalEnergyStrategy(x: Double) = x
   //This is the main object that forces are applied to
   val motionSeriesObject = new MotionSeriesObject(new MutableDouble(defaultPosition), new MutableDouble, new MutableDouble,
-    new MutableDouble(_objectType.mass), new MutableDouble(_objectType.staticFriction), new MutableDouble(_objectType.kineticFriction), 
+    new MutableDouble(_objectType.mass), new MutableDouble(_objectType.staticFriction), new MutableDouble(_objectType.kineticFriction),
     _objectType.height, _objectType.width, toPosition2D,
     rampSegmentAccessor, rampChangeAdapter, _wallsBounce, walls, wallRange, thermalEnergyStrategy, surfaceFriction, surfaceFrictionStrategy)
 
@@ -125,7 +124,7 @@ class MotionSeriesModel(defaultPosition: Double,
       rampSegments(1).setAngle(initialAngle)
 
       resetListeners.foreach(_())
-      bounce.reset()
+      wallsBounce.reset()
 
       setPaused(pausedOnReset)
     }
@@ -184,9 +183,9 @@ class MotionSeriesModel(defaultPosition: Double,
     notifyListeners()
   }
 
-  def bounce = _wallsBounce
+  def wallsBounce = _wallsBounce
 
-  def bounce_=(b: Boolean) = {
+  def wallsBounce_=(b: Boolean) = {
     _wallsBounce.setValue(b)
     rampChangeAdapter.notifyListeners()
     notifyListeners()

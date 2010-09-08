@@ -30,7 +30,7 @@ class MotionSeriesObject(_position: MutableDouble,
         extends Observable {
   def this(model: MotionSeriesModel, x: Double, width: Double, height: Double) = this (new MutableDouble(x), new MutableDouble, new MutableDouble, new MutableDouble(10),
     new MutableDouble, new MutableDouble, height, width, model.toPosition2D, model.rampSegmentAccessor, model.rampChangeAdapter,
-    model.bounce, model.walls, model.wallRange, model.thermalEnergyStrategy, model.surfaceFriction, model.surfaceFrictionStrategy)
+    model.wallsBounce, model.walls, model.wallRange, model.thermalEnergyStrategy, model.surfaceFriction, model.surfaceFrictionStrategy)
 
   //This used to be lazily computed, but it detracting from performance due to the many calls to position2D, so now it is eagerly computed
   val _position2D = new Vector2DModel
