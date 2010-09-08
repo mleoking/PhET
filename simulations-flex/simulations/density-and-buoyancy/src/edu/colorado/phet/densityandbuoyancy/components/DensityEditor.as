@@ -17,6 +17,12 @@ public class DensityEditor extends PropertyEditor {
         for each (var material:Material in Material.SELECTABLE_MATERIALS) {
             slider.addTick(unit.fromSI(material.getDensity()), material.tickColor, material.name)
         }
+        function updateEnabled():void {
+            slider.enabled = densityObject.material.isCustom();
+        }
+
+        densityObject.addMaterialListener(updateEnabled);
+        updateEnabled();
         return slider;
     }
 }
