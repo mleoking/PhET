@@ -10,6 +10,8 @@ public class Material {
     public static var ALUMINUM:Material = new Material(FlexSimStrings.get("material.aluminum", "Aluminum"), 2700, false, 0x75928d);
     public static var CUSTOM:Material = new Material(FlexSimStrings.get("material.custom", "Custom"), 1000.0, true);
     //TODO: Add back water balloon after creating geometry for it
+    //NOTE: If other materials less dense than Wood are added, then a volume-bounding solution will need to be applied, like
+    //the workaround in PropertyEditor.createSlider
     public static var SELECTABLE_MATERIALS:Array = [STYROFOAM, WOOD, ICE, BRICK, ALUMINUM];//Note that Custom is omitted from here, though it is added in some places where this list is used
 
     public static var WATER:Material = new Material(FlexSimStrings.get("material.water", "Water"), 1000.0, false);

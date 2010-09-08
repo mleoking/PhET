@@ -1,5 +1,7 @@
 package edu.colorado.phet.densityandbuoyancy.components {
 import edu.colorado.phet.densityandbuoyancy.DensityConstants;
+import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
+import edu.colorado.phet.densityandbuoyancy.model.Material;
 import edu.colorado.phet.densityandbuoyancy.model.NumericProperty;
 import edu.colorado.phet.densityandbuoyancy.view.units.Unit;
 
@@ -18,7 +20,7 @@ public class PropertyEditor extends GridRow {
     public static const SLIDER_WIDTH:Number = 280;
     private static const FONT_SIZE:Number = 12;
 
-    public function PropertyEditor(property:NumericProperty, minimimum:Number, maximum:Number, unit:Unit) {
+    public function PropertyEditor(property:NumericProperty, minimimum:Number, maximum:Number, unit:Unit, densityObject:DensityObject) {
         super();
         this.property = property;
 
@@ -28,7 +30,7 @@ public class PropertyEditor extends GridRow {
         label.setStyle(DensityConstants.FLEX_FONT_WEIGHT, DensityConstants.FLEX_FONT_BOLD);
         addGridItem(label);
 
-        addGridItem(createSlider(property, minimimum, maximum, unit));
+        addGridItem(createSlider(property, minimimum, maximum, unit, densityObject));
 
         const textField:TextInput = new TextInput();
         textField.setStyle(DensityConstants.FLEX_FONT_SIZE, FONT_SIZE);
@@ -64,7 +66,10 @@ public class PropertyEditor extends GridRow {
         addGridItem(unitsLabel);
     }
 
-    protected function createSlider(property:NumericProperty, minimum:Number, maximum:Number, unit:Unit):SliderDecorator {
+    //The density slider requires a reference to the density object in order to bound the volume when necessary.
+    //This is because when selecting Styrofoam or other non-dense objects, then moving the mass slider to maximum, 
+    //The volume increases dramatically, making the object larger than the pool size.
+    protected function createSlider(property:NumericProperty, minimum:Number, maximum:Number, unit:Unit, densityObject:DensityObject):SliderDecorator {
         const slider:SliderDecorator = new SliderDecorator();
         slider.setStyle("dataTipOffset", 0);//Without this fix, data tips appear very far from the tip of the slider thumb, see http://blog.flexexamples.com/2007/11/03/customizing-a-slider-controls-data-tip/
         slider.sliderThumbClass = MySliderThumb;
@@ -74,7 +79,12 @@ public class PropertyEditor extends GridRow {
         slider.maximum = unit.fromSI(maximum);
         slider.liveDragging = true;
         function sliderDragHandler(event:SliderEvent):void {
-            property.value = unit.toSI(event.value);
+            var newValue:Number = unit.toSI(event.value);
+            if (newValue > 3 && densityObject.getMaterial().equals(Material.STYROFOAM)) {
+                newValue = 3;
+                slider.value = 3;
+            }
+            property.value = newValue;
         }
 
         //This different functionality is necessary to support track presses and keyboard handling
