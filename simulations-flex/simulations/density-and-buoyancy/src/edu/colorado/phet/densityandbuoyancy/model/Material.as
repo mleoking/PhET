@@ -31,7 +31,7 @@ public class Material {
 
     public static var STYROFOAM:Material = new Material(FlexSimStrings.get("material.styrofoam", "Styrofoam"), 150, false, 0xcccccc, new styrofoamTextureClass());//between 25 and 200 according to http://wiki.answers.com/Q/What_is_the_density_of_styrofoam; chose 150 so it isn't too low to show on slider, but not 200 so it's not half of wood
     public static var WOOD:Material = new Material(FlexSimStrings.get("material.wood", "Wood"), 400, false, 0xd9ab5d, new woodTextureClass());
-    public static var ICE:Material = new Material(FlexSimStrings.get("material.ice", "Ice"), 919, false, 0xbfdbe6, new iceTextureClass());
+    public static var ICE:Material = new Material(FlexSimStrings.get("material.ice", "Ice"), 919, false, 0xbfdbe6, new iceTextureClass(), 0.75);
     public static var BRICK:Material = new Material(FlexSimStrings.get("material.brick", "Brick"), 1922, false, 0xab695b, new brickTextureClass());//see http://www.simetric.co.uk/si_materials.htm
     public static var ALUMINUM:Material = new Material(FlexSimStrings.get("material.aluminum", "Aluminum"), 2700, false, 0x75928d, new aluminumTextureClass());
     public static var CUSTOM:Material = new Material(FlexSimStrings.get("material.custom", "Custom"), 1000.0, true, new customObjectTexture());
@@ -56,6 +56,7 @@ public class Material {
     public static var ALL:Array = [ALUMINUM, APPLE, DIAMOND, GASOLINE_BALLOON,GOLD,ICE, LEAD,WATER_BALLOON,WOOD];//sorted below
     private var _tickColor:uint;
     private var _textureBitmap:Bitmap;
+    private var _alpha:Number = 1;
 
     private static function sortOnDensity(a:Material, b:Material):Number {
         var aPrice:Number = a.getDensity();
@@ -73,12 +74,17 @@ public class Material {
 
     ALL.sort(sortOnDensity);
 
-    public function Material(name:String, density:Number, isCustom:Boolean, tickColor:uint = 0x000000, textureBitmap:Bitmap = null) {
+    public function Material(name:String, density:Number, isCustom:Boolean, tickColor:uint = 0x000000, textureBitmap:Bitmap = null, alpha:Number = 1) {
         this.density = density;
         this._name = name;
         this._isCustom = isCustom;
         this._tickColor = tickColor;
         this._textureBitmap = textureBitmap;
+        this._alpha = alpha;
+    }
+
+    public function get alpha():Number {
+        return _alpha;
     }
 
     public function synchronizeDensity(densityObject:DensityObject):void {
