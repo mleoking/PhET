@@ -27,7 +27,7 @@ import edu.colorado.phet.flashlauncher.util.SimulationProperties;
  */
 public class FlashLauncher {
 
-    public static final String ARGS_FILENAME = "flash-launcher-args.txt";
+    public static final String ARGS_FILENAME = "flash-launcher-args.txt"; //TODO delete this when it becomes obsolete
     public static final String SOFTWARE_AGREEMENT_FILENAME = "software-agreement.htm";
 
     private String deployment;
