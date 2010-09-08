@@ -10,22 +10,23 @@ import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.colorado.phet.scalacommon.Predef._
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.colorado.phet.motionseries.model.{Vector2DModel, AdjustableCoordinateModel, CoordinateFrameModel, FreeBodyDiagramModel, Vector}
+import MotionSeriesDefaults._
 
-class FBDDialog(frame: JFrame,
-                freeBodyDiagramModel: FreeBodyDiagramModel,
-                fbdWidth: Double,
-                coordinateFrameModel: CoordinateFrameModel,
-                adjustable: Boolean,
-                adjustableCoordinateModel: AdjustableCoordinateModel,
-                fbdListener: Point2D => Unit,
-                rampAngle: () => Double) extends VectorDisplay {
-  def addVector(vector: Vector, tailLocation: Vector2DModel, maxLabelDist: Int, offsetPlayArea: Double) = fbdNode.addVector(vector, tailLocation, maxLabelDist, offsetPlayArea)
+class FreeBodyDiagramDialog(frame: JFrame,
+                            freeBodyDiagramModel: FreeBodyDiagramModel,
+                            fbdWidth: Double,
+                            coordinateFrameModel: CoordinateFrameModel,
+                            adjustable: Boolean,
+                            adjustableCoordinateModel: AdjustableCoordinateModel,
+                            fbdListener: Point2D => Unit,
+                            rampAngle: () => Double) extends VectorDisplay {
+  def addVector(vector: Vector, tailLocation: Vector2DModel, maxLabelDist: Int, offsetPlayArea: Double) = freeBodyDiagramNode.addVector(vector, tailLocation, maxLabelDist, offsetPlayArea)
 
   val dialog = new JDialog(frame, "display.free-body-diagram".translate, false)
-  dialog.setSize(MotionSeriesDefaults.FBD_DIALOG_WIDTH, MotionSeriesDefaults.FBD_DIALOG_HEIGHT)
+  dialog.setSize(FREE_BODY_DIAGRAM_DIALOG_WIDTH, FREE_BODY_DIAGRAM_DIALOG_HEIGHT)
 
-  val fbdNode = new FreeBodyDiagramNode(freeBodyDiagramModel, MotionSeriesDefaults.FBD_DIALOG_NODE_WIDTH, MotionSeriesDefaults.FBD_DIALOG_NODE_HEIGHT, fbdWidth, fbdWidth, coordinateFrameModel, adjustableCoordinateModel, PhetCommonResources.getImage("buttons/minimizeButton.png".literal), rampAngle)
-  fbdNode.addListener(fbdListener)
+  val freeBodyDiagramNode = new FreeBodyDiagramNode(freeBodyDiagramModel, FBD_DIALOG_NODE_WIDTH, FBD_DIALOG_NODE_HEIGHT, fbdWidth, fbdWidth, coordinateFrameModel, adjustableCoordinateModel, PhetCommonResources.getImage("buttons/minimizeButton.png".literal), rampAngle)
+  freeBodyDiagramNode.addListener(fbdListener)
   val canvas = new PhetPCanvas
   canvas.addComponentListener(new ComponentAdapter {
     override def componentResized(e: ComponentEvent) = updateNodeSize()
@@ -34,12 +35,11 @@ class FBDDialog(frame: JFrame,
   def updateNodeSize() = {
     if (canvas.getWidth > 0 && canvas.getHeight > 0) {
       val w = Math.min(canvas.getWidth, canvas.getHeight)
-      val inset = MotionSeriesDefaults.FBD_INSET
-      fbdNode.setSize(w - inset * 2, w - inset * 2)
-      fbdNode.setOffset(inset, inset)
+      freeBodyDiagramNode.setSize(w - FBD_INSET * 2, w - FBD_INSET * 2)
+      freeBodyDiagramNode.setOffset(FBD_INSET, FBD_INSET)
     }
   }
-  canvas.addScreenChild(fbdNode)
+  canvas.addScreenChild(freeBodyDiagramNode)
   dialog.setContentPane(canvas)
 
   private var initted = false
@@ -62,7 +62,7 @@ class FBDDialog(frame: JFrame,
     }
   })
 
-  def clearVectors() = fbdNode.clearVectors()
+  def clearVectors() = freeBodyDiagramNode.clearVectors()
 
-  def removeVector(vector: Vector) = fbdNode.removeVector(vector)
+  def removeVector(vector: Vector) = freeBodyDiagramNode.removeVector(vector)
 }

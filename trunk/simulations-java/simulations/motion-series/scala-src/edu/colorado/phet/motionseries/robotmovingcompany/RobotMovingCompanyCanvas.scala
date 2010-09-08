@@ -46,7 +46,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
   private var numClockTicksWithUserApplication = 0 //for determining if they need a wiggle me
 
   private var currentObjectNode: PNode = null //keep track of the current bead graphic for layering purposes
-  fbdNode.removeCursorHand() //User is not allowed to create forces by clicking in the FBD area
+  freeBodyDiagramNode.removeCursorHand() //User is not allowed to create forces by clicking in the FBD area
 
   gameModel.itemFinishedListeners += ((scalaRampObject: MotionSeriesObjectType, result: Result) => {
     val summaryScreen = new ItemFinishedDialog(gameModel, scalaRampObject, result, node => {
@@ -68,7 +68,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
     }
   })
 
-  updateFBDLocation()
+  updateFreeBodyDiagramLocation()
 
   val houseBackNode = new MotionSeriesObjectNode(gameModel.house, transform, MotionSeriesDefaults.houseBack.imageFilename)
   addStageNode(houseBackNode)
@@ -229,10 +229,10 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
     gameFinishedDialog.requestFocus()
   }
 
-  override def updateFBDLocation() = {
-    if (fbdNode != null) {
+  override def updateFreeBodyDiagramLocation() = {
+    if (freeBodyDiagramNode != null) {
       val pt = transform.modelToView(0, -1)
-      fbdNode.setOffset(pt.x - fbdNode.getFullBounds.getWidth / 2, pt.y)
+      freeBodyDiagramNode.setOffset(pt.x - freeBodyDiagramNode.getFullBounds.getWidth / 2, pt.y)
     }
   }
 
@@ -259,13 +259,13 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
       removeStageNode(icon)
     })
 
-    fbdNode.clearVectors()
-    windowFBDNode.clearVectors()
+    freeBodyDiagramNode.clearVectors()
+    freeBodyDiagramDialog.clearVectors()
 
     def setter(x: Double) = if (gameModel.robotEnergy > 0) motionSeriesObject.parallelAppliedForce = x else {}
 
-    vectorView.addAllVectorsAllComponents(motionSeriesObject, fbdNode)
-    vectorView.addAllVectorsAllComponents(motionSeriesObject, windowFBDNode)
+    vectorView.addAllVectorsAllComponents(motionSeriesObject, freeBodyDiagramNode)
+    vectorView.addAllVectorsAllComponents(motionSeriesObject, freeBodyDiagramDialog)
     //don't show play area vectors
 
     //todo: remove vector nodes when MotionSeriesObject is removed

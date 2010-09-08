@@ -15,6 +15,7 @@ import edu.colorado.phet.motionseries.javastage.stage.PlayArea
 import edu.colorado.phet.motionseries.{StageContainerArea, MotionSeriesResources, MotionSeriesDefaults}
 import edu.colorado.phet.common.piccolophet.event.CursorHandler
 import java.awt.{BasicStroke, Color}
+import MotionSeriesDefaults.freeBodyDiagramWidth
 
 /**
  * This is the base canvas for the "Ramp" and "Forces and Motion" sims
@@ -121,35 +122,32 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
   val tickMarkSet = new TickMarkSet(transform, model.toPosition2D, compositeListener)
   playAreaNode.addChild(tickMarkSet)
 
-  val fbdWidth = MotionSeriesDefaults.freeBodyDiagramWidth
-  val fbdNode = new FreeBodyDiagramNode(freeBodyDiagramModel, 200, 200, fbdWidth, fbdWidth, model.coordinateFrameModel, adjustableCoordinateModel, PhetCommonResources.getImage("buttons/maximizeButton.png".literal), () => model.rampAngle)
+  val freeBodyDiagramNode = new FreeBodyDiagramNode(freeBodyDiagramModel, 200, 200, freeBodyDiagramWidth, freeBodyDiagramWidth, model.coordinateFrameModel, adjustableCoordinateModel, PhetCommonResources.getImage("buttons/maximizeButton.png".literal), () => model.rampAngle)
 
-  def updateFBDLocation() = {
-    fbdNode.setOffset(50, 10)
-  }
+  def updateFreeBodyDiagramLocation() = freeBodyDiagramNode.setOffset(50, 10)
 
-  val fbdListener = (pt: Point2D) => {model.motionSeriesObject.parallelAppliedForce = pt.getX}
-  fbdNode.addListener(fbdListener)
-  addStageNode(fbdNode)
+  val freeBodyDiagramListener = (pt: Point2D) => {model.motionSeriesObject.parallelAppliedForce = pt.getX}
+  freeBodyDiagramNode.addListener(freeBodyDiagramListener)
+  addStageNode(freeBodyDiagramNode)
   defineInvokeAndPass(freeBodyDiagramModel.addListenerByName) {
-    fbdNode.setVisible(freeBodyDiagramModel.visible && !freeBodyDiagramModel.windowed)
+    freeBodyDiagramNode.setVisible(freeBodyDiagramModel.visible && !freeBodyDiagramModel.windowed)
   }
 
-  val windowFBDNode = new FBDDialog(frame, freeBodyDiagramModel, fbdWidth, model.coordinateFrameModel, adjustableCoordinateModel.adjustable, adjustableCoordinateModel, fbdListener, () => model.rampAngle)
+  val freeBodyDiagramDialog = new FreeBodyDiagramDialog(frame, freeBodyDiagramModel, freeBodyDiagramWidth, model.coordinateFrameModel, adjustableCoordinateModel.adjustable, adjustableCoordinateModel, freeBodyDiagramListener, () => model.rampAngle)
 
   addComponentListener(new ComponentAdapter() {override def componentResized(e: ComponentEvent) = {updateLayout()}})
   updateLayout()
   override def updateLayout() = {
     super.updateLayout()
-    updateFBDLocation()
+    updateFreeBodyDiagramLocation()
   }
 
   val playAreaVectorNode = new PlayAreaVectorDisplay(transform, model.motionSeriesObject, vectorViewModel)
   playAreaNode.addChild(playAreaVectorNode)
 
-  val vectorView = new VectorView(model.motionSeriesObject, vectorViewModel, model.coordinateFrameModel, fbdWidth)
-  vectorView.addAllVectorsAllComponents(model.motionSeriesObject, fbdNode)
-  vectorView.addAllVectorsAllComponents(model.motionSeriesObject, windowFBDNode)
+  val vectorView = new VectorView(model.motionSeriesObject, vectorViewModel, model.coordinateFrameModel, freeBodyDiagramWidth)
+  vectorView.addAllVectorsAllComponents(model.motionSeriesObject, freeBodyDiagramNode)
+  vectorView.addAllVectorsAllComponents(model.motionSeriesObject, freeBodyDiagramDialog)
   if (useVectorNodeInPlayArea) vectorView.addAllVectorsAllComponents(model.motionSeriesObject, playAreaVectorNode)
 
   val returnObjectButton = new ReturnObjectButton(model)
