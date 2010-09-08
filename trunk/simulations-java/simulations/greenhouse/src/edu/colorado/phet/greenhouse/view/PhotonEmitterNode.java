@@ -125,7 +125,7 @@ public class PhotonEmitterNode extends PNode {
 		updateImage( emitterImageWidth );
 		
 		// Add the slider that will control the rate of photon emission.
-		Dimension emissionControlSliderSize = new Dimension(100, 26);  // This may be adjusted as needed for best look.
+		Dimension emissionControlSliderSize = new Dimension(100, 30);  // This may be adjusted as needed for best look.
 		emissionRateControlSlider = new IntensitySlider( Color.RED, IntensitySlider.HORIZONTAL, emissionControlSliderSize );
 		emissionRateControlSlider.setMinimum( 0 );
 		emissionRateControlSlider.setMaximum( SLIDER_RANGE );
