@@ -140,7 +140,7 @@ public class DensityModel {
                         submergedVolume = (waterY - cuboid.getBottomY() ) * cuboid.getWidth() * cuboid.getDepth();
                     }
                 }
-                // TODO: add in liquid density
+                // TODO: allow liquid density to be something other than 1.00
                 cuboid.setSubmergedVolume(submergedVolume);
 
                 // Apply Forces
