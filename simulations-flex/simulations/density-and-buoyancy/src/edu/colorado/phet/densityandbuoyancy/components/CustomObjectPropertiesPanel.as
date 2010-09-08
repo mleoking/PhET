@@ -44,7 +44,7 @@ public class CustomObjectPropertiesPanel extends DensityVBox {
         function myListener():void {
             trace("comboBox.selectedItem=" + comboBox.selectedItem);
             if (comboBox.selectedItem.isCustom()) {
-                if (!densityObject.getMaterial().isCustom()) {
+                if (!densityObject.material.isCustom()) {
                     densityObject.material = new Material(FlexSimStrings.get("customObject.custom", "Custom"), densityObject.getDensity(), true);
                 }
             }
@@ -53,15 +53,15 @@ public class CustomObjectPropertiesPanel extends DensityVBox {
             }
         }
 
-        comboBox.selectedItem = densityObject.getMaterial();
+        comboBox.selectedItem = densityObject.material;
 
         comboBox.addEventListener(ListEvent.CHANGE, myListener);
         densityObject.addMaterialListener(function f():void {
-            if (densityObject.getMaterial().isCustom()) {
+            if (densityObject.material.isCustom()) {
                 comboBox.selectedItem = Material.CUSTOM;
             }
             else {
-                comboBox.selectedItem = densityObject.getMaterial();
+                comboBox.selectedItem = densityObject.material;
             }
         });
 

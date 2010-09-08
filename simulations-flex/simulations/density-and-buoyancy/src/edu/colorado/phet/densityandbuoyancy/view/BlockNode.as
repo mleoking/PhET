@@ -52,17 +52,17 @@ public class BlockNode extends CubeNode implements Pickable {
 
     private function updateMaterial():void {
         // update the bitmap we use as a background
-        if (block.getMaterial().isCustom()) {
+        if (block.material.isCustom()) {
             textureBitmap = getCustomBitmap();
         } else {
-            textureBitmap = block.getMaterial().textureBitmap;
+            textureBitmap = block.material.textureBitmap;
         }
 
         // update the text field
         updateText();
 
         sideMaterial = new BitmapMaterial(textureBitmap.bitmapData);
-        if (block.getMaterial() == Material.ICE) {//TODO: Object orient this
+        if (block.material == Material.ICE) {//TODO: Object orient this
             sideMaterial.alpha = 0.75;
         }
 

@@ -148,10 +148,6 @@ public class DensityObject {
         return density;
     }
 
-    public function getMaterial():Material {
-        return material;
-    }
-
     public function getVelocityArrowModel():ArrowModel {
         return velocityArrowModel;
     }
