@@ -1,3 +1,6 @@
+Moved the slider that controls the photon emission rate on the the emitter and removed the button.
+Added "Photon" to the caption on the box that controls the photon emitter.
+Removed borders from around the sliders that control the "Build Atmosphere" setting.
 Changed PhotonAbsorptionControlPanel to use PhetTitledPanel instead of PhetTitledBorder so it will resize as the titled text does, see #2476
 Fixed: java.lang.OutOfMemoryError when making the window large, resolves #2453
 # 2.07.14 (43677) Aug 30, 2010
