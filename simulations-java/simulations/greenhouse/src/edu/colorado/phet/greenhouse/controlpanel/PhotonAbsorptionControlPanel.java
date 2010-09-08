@@ -2,7 +2,12 @@
 
 package edu.colorado.phet.greenhouse.controlpanel;
 
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -21,7 +26,10 @@ import javax.swing.JRadioButton;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.view.*;
+import edu.colorado.phet.common.phetcommon.view.ControlPanel;
+import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
@@ -225,7 +233,6 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
         slider.setUpDownArrowDelta( 1 );
         slider.setTextFieldEditable( true );
         slider.setMajorTicksVisible( false );
-        slider.setBorder( new PhetLineBorder() );
         slider.setValue( model.getConfigurableAtmosphereGasLevel( moleculeID ) );
         slider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
