@@ -29,6 +29,16 @@ public class SliderDecorator extends UIComponent {
         this.height = slider.height + 20;
     }
 
+    override public function set enabled(value:Boolean):void {
+        super.enabled = value;
+        if (slider != null)
+            slider.enabled = value;
+        if (value)
+            alpha = 1.0;
+        else
+            alpha = 0.38;
+    }
+
     private function modelToView(x:Number):Number {
         var modelRange:Number = slider.maximum - slider.minimum;
         var viewRange:Number = slider.width - 8 * 2;//Width of the track only

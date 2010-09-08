@@ -1,3 +1,4 @@
+Made it so the density slider is only enabled in Custom object mode
 Minor changes to scale readout, to increase consistency with other readouts
 Fixed: Text boxes are unconstrained, should have same min and max as sliders.
 Added a workaround to prevent styrofoam from having an excessively large volume
