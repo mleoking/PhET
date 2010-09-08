@@ -38,7 +38,7 @@ public class DensityConstants {
     public static const LARGE_BLOCK_WIDTH:Number = 0.18;
     public static const NUMBER_OF_DECIMAL_PLACES:Number = 2;
     public static const CONTROL_INSET:Number = 5;
-    public static const SLIDER_READOUT_TEXT_FIELD_WIDTH:Number = 50;//TODO: this is a magic number that just barely fits "00.00" with the above specified font;
+    public static const SLIDER_READOUT_TEXT_FIELD_WIDTH:Number = 50;//this is a magic number that just barely fits "00.00" with the above specified font;
 
     //So that away3d faces don't overlap
     private static function kgLtoSI(number:Number):Number {
