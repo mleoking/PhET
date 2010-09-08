@@ -216,6 +216,7 @@ public class AbstractDensityModule extends UIComponent {
         renderedOnce = true;
     }
 
+    //Away3d must render at least once before we can obtain screen coordinates for vertices.
     private var renderedOnce:Boolean = false;
 
     private function updateWaterHeightIndicator():void {
