@@ -32,7 +32,7 @@ public class DensityModel {
     private var contactHandler:ContactHandler;
     private const densityObjectCreationListeners:Array = new Array();
     private const densityObjectDestructionListeners:Array = new Array();
-    private var time:Number = 0;//TODO: Reset time
+    private var time:Number = 0;//This time value is not reset, and is only used internally for debugging
 
     public function DensityModel() {
         densityObjects = new Array();

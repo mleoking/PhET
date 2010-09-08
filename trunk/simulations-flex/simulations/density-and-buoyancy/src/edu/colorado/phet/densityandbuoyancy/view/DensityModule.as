@@ -28,6 +28,7 @@ public class DensityModule extends AbstractDensityModule {
         sameVolumeMode = new SameVolumeMode(this);
         sameDensityMode = new SameDensityMode(this);
         mysteryObjectsMode = new MysteryObjectsMode(this);
+        //If other modes are added, you may need to specify a call to the Mode.reset() in resetAll()
         setMode(customObjectMode);
 
         var box2DDebug:Box2DDebug = new Box2DDebug(model.getWorld());
@@ -107,9 +108,6 @@ class Mode {
 
     public function init():void {
     }
-
-    public function reset():void {
-    }
 }
 
 class CustomObjectMode extends Mode {
@@ -150,7 +148,7 @@ class CustomObjectMode extends Mode {
         //        module.getModel().addDensityObject(new Scale(-DensityConstants.POOL_WIDTH_X/2-Scale.SCALE_WIDTH/2, 0.05, module.getModel(), 100));//For debugging the scale
     }
 
-    public override function reset():void {
+    public function reset():void {
         customizableObject.reset();
     }
 }
@@ -275,9 +273,5 @@ class MysteryObjectsMode extends Mode {
             module.getDensityCanvas().addChild(mysteryObjectsControlPanel);
             mysteryObjectsControlPanelShowing = true;
         }
-    }
-
-    override public function reset():void {
-        super.reset();
     }
 }
