@@ -471,7 +471,12 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
 
         final RenderingHints oldHints = g2.getRenderingHints();
 
-        g2.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_OFF);
+        //Disable Fractional Metrics on Mac OS because when FRACTIONAL_METRICS are enabled on Mac OS, spurious ellipses
+        // are renderer on PSwing text components. Disabling this property on Windows causes incorrect rendering of 
+        // adjacent text PSwing nodes.
+        if (System.getProperty("os.name").toLowerCase().indexOf("mac") >= 0) {
+            g2.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_OFF);
+        }
         component.paint(g2);
 
         g2.setRenderingHints(oldHints);
