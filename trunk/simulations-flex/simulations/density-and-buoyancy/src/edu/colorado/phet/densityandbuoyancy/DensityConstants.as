@@ -33,12 +33,12 @@ public class DensityConstants {
     public static const FLEX_FONT_WEIGHT:String = "fontWeight";
     public static const FLEX_FONT_BOLD:String = "bold";
     public static const FLEX_TEXT_DECORATION:String = "textDecoration";
-    public static const CONTROL_PANEL_COLOR:Number = 0xfafad7;
+    public static const CONTROL_PANEL_COLOR:Number = 0xfafad7;//Color recommended by Kathy to be a pale yellow background for control panels
 
     public static const LARGE_BLOCK_WIDTH:Number = 0.18;
     public static const NUMBER_OF_DECIMAL_PLACES:Number = 2;
     public static const CONTROL_INSET:Number = 5;
-    //Color recommended by Kathy to be a pale yellow background for control panels
+    public static const SLIDER_READOUT_TEXT_FIELD_WIDTH:Number = 50;//TODO: this is a magic number that just barely fits "00.00" with the above specified font;
 
     //So that away3d faces don't overlap
     private static function kgLtoSI(number:Number):Number {

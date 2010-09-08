@@ -20,12 +20,6 @@ public class CustomObjectPropertiesPanel extends DensityVBox {
         super();
         this.densityObject = densityObject;
 
-        //TODO: remove listeners from former density object
-        this.densityObject = densityObject;
-
-        //TODO: connect mass values
-        //        function massListener():void {densityObject.setMass(iDensityObject.getMass().value);}
-        //        iDensityObject.getMass().addListener(massListener);
         function volumeListener():void {
             densityObject.setVolume(densityObject.getVolume());
         }
