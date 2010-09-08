@@ -15,7 +15,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * Pseudo-3D representation of a box, using parallelograms.
- * Three sides are visible: front, right side, top.
+ * Three sides are visible: top, front, right.
  * The top and right-side faces are foreshortened to give the illusion of distance between front and back planes.
  * Origin is at the upper-left corner of the front face.
  * 
@@ -106,13 +106,23 @@ public abstract class BoxNode extends PhetPNode {
         }
     }
     
+    /*
+     * Top of the box is a parallelogram.
+     * Origin at lower-left point.
+     * Path specified using clockwise traversal.
+     * 
+     *        (x1,y1)----------(x2,y2)
+     *          /                /
+     *         /                /
+     *     (0,0)------------(x3,y3)
+     */
     private static class TopNode extends FaceNode {
         
         public TopNode( Paint paint ) {
             super( paint );
         }
         
-        // parallelogram, origin at lower-left point
+
         public void setWidthAndDepth( double width, double depth ) {
             double xOffset = CLConstants.FORESHORTENING_FACTOR * depth * Math.cos( CLConstants.YAW_VIEWING_ANGLE );
             double yOffset = CLConstants.FORESHORTENING_FACTOR * depth * Math.sin( CLConstants.YAW_VIEWING_ANGLE );
@@ -127,13 +137,22 @@ public abstract class BoxNode extends PhetPNode {
         }
     }
     
+    /*
+     * Front of the box is a rectangle.
+     * Origin at upper-left point.
+     * Path specified using clockwise traversal.
+     * 
+     *   (0,0)-----------(x1,y1)
+     *     |                |
+     *     |                |
+     *  (x3,y3)----------(x2,y2)
+     */
     private static class FrontNode extends FaceNode {
         
         public FrontNode( Paint paint ) {
             super( paint );
         }
         
-        // rectangle, origin at upper-left point
         public void setWidthAndHeight( double width, double height ) {
             GeneralPath path = getPath();
             path.reset();
@@ -146,13 +165,29 @@ public abstract class BoxNode extends PhetPNode {
         }
     }
     
+    /*
+     * Side of the box is a parallelogram.
+     * Original at upper-left point. 
+     * Path specified using clockwise traversal.
+     * 
+     *           (x1,y1)
+     *             / |
+     *            /  |
+     *           /   |
+     *          /   (x2,y2)
+     *       (0,0)  /
+     *         |   /
+     *         |  /
+     *         | /
+     *      (x3,y3)
+     */
     private static class SideNode extends FaceNode {
         
         public SideNode( Paint paint ) {
             super( paint );
         }
         
-        // original at upper-left point
+        // parallelogram, 
         public void setDepthAndHeight( double depth, double height ) {
             //XXX refactor, duplicate of code in TopNode.setWidthAndDepth
             double xOffset = CLConstants.FORESHORTENING_FACTOR * depth * Math.cos( CLConstants.YAW_VIEWING_ANGLE ); 
