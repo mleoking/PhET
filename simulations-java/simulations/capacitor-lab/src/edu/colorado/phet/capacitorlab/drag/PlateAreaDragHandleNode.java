@@ -3,6 +3,8 @@
 package edu.colorado.phet.capacitorlab.drag;
 
 import java.awt.geom.Point2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLStrings;
@@ -57,19 +59,27 @@ public class PlateAreaDragHandleNode extends PhetPNode {
         double millimetersSquared = UnitsUtils.metersSquaredToMillimetersSquared( capacitor.getPlateArea() );
         valueNode = new DragHandleValueNode( CLStrings.PATTERN_PLATE_AREA, millimetersSquared, CLStrings.UNITS_MILLIMETERS_SQUARED );
         
-        // update value and layout when plate size changes
+        // update value when plate size changes
         capacitor.addCapacitorChangeListener( new CapacitorChangeAdapter() {
             @Override
             public void plateSizeChanged() {
                 updateDisplay();
-                updateOffset();
-            }
-            
-            @Override
-            public void plateSeparationChanged() {
-                updateOffset();
             }
         });
+
+        /*
+         * Update offset when capacitor node changed.
+         * Our offset is dependent on information we get from the capacitor node.
+         * If we change when the model changes, then we might set our offset before the 
+         * capacitor node has updated its geometry, and might attach to an incorrect position.
+         */
+        capacitorNode.addPropertyChangeListener( new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent event ) {
+                if ( event.getPropertyName().equals( PROPERTY_FULL_BOUNDS ) ) {
+                    updateOffset();
+                }
+            }
+        } );
         
         // rendering order
         addChild( lineNode );
@@ -100,10 +110,10 @@ public class PlateAreaDragHandleNode extends PhetPNode {
     }
     
     private void updateOffset() {
-      Point2D capacitorLocation = mvt.modelToView( capacitor.getLocationReference() );
-      Point2D dragPointOffset = capacitorNode.getPlateSizeDragPointOffsetReference();
-      double x = capacitorLocation.getX() + dragPointOffset.getX();
-      double y = capacitorLocation.getY() + dragPointOffset.getY();
-      setOffset( x, y );
+        Point2D capacitorLocation = mvt.modelToView( capacitor.getLocationReference() );
+        Point2D dragPointOffset = capacitorNode.getPlateSizeDragPointOffsetReference();
+        double x = capacitorLocation.getX() + dragPointOffset.getX();
+        double y = capacitorLocation.getY() + dragPointOffset.getY();
+        setOffset( x, y );
     }
 }

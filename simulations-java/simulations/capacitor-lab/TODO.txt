@@ -3,7 +3,6 @@ TODO list for capacitor-lab
 QUESTIONS FOR NOAH
 
 HIGH PRIORITY
-- fix plate area drag handle to take into account the pseudo-3D perspective (foreshortening and yaw)
 - use phetcommon mvt
 - autoscale button with tooltip on Charge, Energy, Capacitance meters, make max value text blink red
 - add cables and drag behavior to voltmeter, see CCK's VoltmeterNode

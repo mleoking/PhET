@@ -8,7 +8,7 @@ import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PDragEventHandler;
+import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -17,20 +17,19 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-/* package private */  class PlateAreaDragHandler extends PDragEventHandler {
+/* package private */  class PlateAreaDragHandler extends PDragSequenceEventHandler {
     
     private final PNode dragNode;
     private final Capacitor capacitor;
     private final ModelViewTransform mvt;
     private final DoubleRange valueRange;
-    private PDimension clickOffset; // xy-offset of mouse click from node's origin, in parent node's coordinate frame
+    private double clickXOffset; // x-offset of mouse click from node's origin, in parent node's coordinate frame
     
     public PlateAreaDragHandler( PNode dragNode, Capacitor capacitor, ModelViewTransform mvt, DoubleRange valueRange ) {
         this.dragNode = dragNode;
         this.capacitor = capacitor;
         this.mvt = mvt;
         this.valueRange = new DoubleRange( valueRange );
-        clickOffset = new PDimension();
     }
     
     @Override
@@ -38,26 +37,27 @@ import edu.umd.cs.piccolo.util.PDimension;
         super.startDrag( event );
         Point2D pMouse = event.getPositionRelativeTo( dragNode.getParent() );
         double xView = mvt.modelToView( capacitor.getLocationReference().getX() - ( capacitor.getPlateSideLength() / 2 ) );
-        double yView = mvt.modelToView( capacitor.getLocationReference().getY() - ( capacitor.getPlateThickness() / 2 ) );
-        clickOffset.setSize( pMouse.getX() - xView, pMouse.getY() - yView );
+        clickXOffset = pMouse.getX() - xView;
     }
     
     @Override
     protected void drag( PInputEvent event ) {
+        super.drag( event );
         PDimension delta = event.getDeltaRelativeTo( dragNode.getParent() );
-        double deltaX = delta.getWidth();
-        double deltaY = delta.getHeight();
+        double dx = delta.getWidth();
+        double dy = delta.getHeight();
         // only allow dragging down to the left, or up to the right
-        if ( ( deltaX < 0 && deltaY > 0 ) || ( deltaX > 0 && deltaY < 0 ) ) {
-            double deltaSideLength = mvt.viewToModel( -deltaX );
-            double newValue = capacitor.getPlateSideLength() + deltaSideLength;
-            if ( newValue > valueRange.getMax() ) {
-                newValue = valueRange.getMax();
+        if ( ( dx < 0 && dy > 0 ) || ( dx > 0 && dy < 0 ) ) {
+            Point2D pMouse = event.getPositionRelativeTo( dragNode.getParent() );
+            double xView = pMouse.getX() - clickXOffset;
+            double xModel = 2 * mvt.viewToModel( -xView ); // use x only, y dimension is foreshortened for pseudo-3D perspective
+            if ( xModel > valueRange.getMax() ) {
+                xModel = valueRange.getMax();
             }
-            else if ( newValue < valueRange.getMin() ) {
-                newValue = valueRange.getMin();
+            else if ( xModel < valueRange.getMin() ) {
+                xModel = valueRange.getMin();
             }
-            capacitor.setPlateSideLength( newValue );
+            capacitor.setPlateSideLength( xModel );
         }
     }
 }
