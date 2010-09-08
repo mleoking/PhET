@@ -3,13 +3,21 @@
 package edu.colorado.phet.greenhouse.view;
 
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GradientPaint;
+import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -17,16 +25,14 @@ import edu.colorado.phet.common.phetcommon.view.controls.IntensitySlider;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
 import edu.colorado.phet.greenhouse.GreenhouseResources;
 import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel;
 import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel.PhotonTarget;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -56,18 +62,12 @@ public class PhotonEmitterNode extends PNode {
 	private PImage photonEmitterImage;
 	private PhotonAbsorptionModel model;
 	private PNode emitterImageLayer;
-	private PNode emissionControlButtonLayer;
+	private PNode emissionControlSliderLayer;
 	private double emitterImageWidth;
 
     private JRadioButton infraredPhotonRadioButton;
     private JRadioButton visiblePhotonRadioButton;
-    private IntensitySlider intensitySlider;
-    
-    // These two images are laid atop one another to form the button that is
-    // used to turn photon emission on and off.
-    private PImage unpressedButtonImage;
-    private PImage pressedButtonImage;
-
+    private IntensitySlider emissionRateControlSlider;
     private PSwing selectionPanelPSwing;
 
     // ------------------------------------------------------------------------
@@ -97,20 +97,19 @@ public class PhotonEmitterNode extends PNode {
             public void emittedPhotonWavelengthChanged() {
                 updateFrequencySelectButtons();
                 updateImage( emitterImageWidth );
-                updateIntensitySlider();
+                updateEmissionControlSlider();
                 // Workaround for piccolo bug.
                 selectionPanelPSwing.repaint();
             }
 
             @Override
             public void periodicPhotonEmissionEnabledChanged() {
-                updatePhotonEmissionControlButton();
-                updateIntensitySlider();
+                updateEmissionControlSlider();
             }
 
             @Override
             public void photonEmissionPeriodChanged() {
-                updateIntensitySlider();
+                updateEmissionControlSlider();
             }
 		});
 		
@@ -119,38 +118,43 @@ public class PhotonEmitterNode extends PNode {
 		addChild( everythingElseLayer );
 		emitterImageLayer = new PNode();
 		addChild( emitterImageLayer );
-		emissionControlButtonLayer = new PNode();
-		addChild( emissionControlButtonLayer );
+		emissionControlSliderLayer = new PNode();
+		addChild( emissionControlSliderLayer );
 		
 		// Add the initial image.
 		updateImage( emitterImageWidth );
 		
-		// Add the images that comprise the button that will turn photon
-		// emission on and off.  These will be positioned by the corresponding
-		// update method.
-        pressedButtonImage = new PImage(GreenhouseResources.getImage("emitterOnButton.png"));
-        pressedButtonImage.addInputEventListener(new CursorHandler());
-        pressedButtonImage.addInputEventListener(new PBasicInputEventHandler(){
-            @Override
-            public void mousePressed( PInputEvent event ) {
-                model.setPeriodicPhotonEmissionEnabled( false );
-            }
-        });
-        emissionControlButtonLayer.addChild(pressedButtonImage);
+		// Add the slider that will control the rate of photon emission.
+		Dimension emissionControlSliderSize = new Dimension(100, 26);  // This may be adjusted as needed for best look.
+		emissionRateControlSlider = new IntensitySlider( Color.RED, IntensitySlider.HORIZONTAL, emissionControlSliderSize );
+		emissionRateControlSlider.setMinimum( 0 );
+		emissionRateControlSlider.setMaximum( SLIDER_RANGE );
+		emissionRateControlSlider.addChangeListener( new ChangeListener() {
+		    public void stateChanged( ChangeEvent e ) {
+		        double sliderProportion = (double)emissionRateControlSlider.getValue() / (double)SLIDER_RANGE;
+		        if (model.getPhotonTarget() == PhotonTarget.CONFIGURABLE_ATMOSPHERE){
+		            // Note the implicit conversion from frequency to period in the following line.
+		            model.setPhotonEmissionPeriodMultipleTarget(
+		                    PhotonAbsorptionModel.MIN_PHOTON_EMISSION_PERIOD_MULTIPLE_TARGET / sliderProportion );
+		        }
+		        else{
+		            // Note the implicit conversion from frequency to period in the following line.
+		            model.setPhotonEmissionPeriodSingleTarget(
+		                    PhotonAbsorptionModel.MIN_PHOTON_EMISSION_PERIOD_SINGLE_TARGET / sliderProportion );
+		        }
+		    }
+		});
+		
+		PSwing emissionRateControlSliderPSwing = new PSwing( emissionRateControlSlider );
+		PBounds emitterImageBounds = photonEmitterImage.getFullBoundsReference();
+		emissionRateControlSliderPSwing.setOffset(
+		        emitterImageBounds.getCenterX() - emissionRateControlSliderPSwing.getFullBoundsReference().getWidth() / 2,
+		        emitterImageBounds.getCenterY() - emissionRateControlSliderPSwing.getFullBoundsReference().getHeight() / 2);
+
+        emissionControlSliderLayer.addChild( emissionRateControlSliderPSwing );
         
-        unpressedButtonImage = new PImage(GreenhouseResources.getImage("emitterOffButton.png"));
-        unpressedButtonImage.addInputEventListener(new CursorHandler());
-        unpressedButtonImage.addInputEventListener(new PBasicInputEventHandler(){
-            @Override
-            public void mousePressed( PInputEvent event ) {
-                model.setPeriodicPhotonEmissionEnabled( true );
-            }
-        });
-        emissionControlButtonLayer.addChild(unpressedButtonImage);
-        
-        // Do the initial update of the emission control button's position and
-        // state.
-        updatePhotonEmissionControlButton();
+        // Do the initial update of the emission control slider.
+        updateEmissionControlSlider();
 		
 		// Calculate the vertical distance between the center of the
 		// emitter image and the control box.  This is a function of the
@@ -186,30 +190,6 @@ public class PhotonEmitterNode extends PNode {
         buttonGroup.add( infraredPhotonRadioButton );
         buttonGroup.add( visiblePhotonRadioButton );
 
-		// Create and add the slider that will allow the user to control the
-		// rate of photon emission.
-		int edgeMargin = 5; // Adjust as desired for best look.
-		int intensitySliderWidth = Math.max( infraredButtonPanel.getPreferredSize().width - 2 * edgeMargin,
-		        visibleButtonPanel.getPreferredSize().width - 2 * edgeMargin );
-		intensitySlider = new IntensitySlider( Color.RED, IntensitySlider.HORIZONTAL, new Dimension(intensitySliderWidth, 26) );
-		intensitySlider.setMinimum( 0 );
-		intensitySlider.setMaximum( SLIDER_RANGE );
-		intensitySlider.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                double sliderProportion = (double)intensitySlider.getValue() / (double)SLIDER_RANGE;
-                if (model.getPhotonTarget() == PhotonTarget.CONFIGURABLE_ATMOSPHERE){
-                    // Note the implicit conversion from frequency to period in the following line.
-                    model.setPhotonEmissionPeriodMultipleTarget(
-                            PhotonAbsorptionModel.MIN_PHOTON_EMISSION_PERIOD_MULTIPLE_TARGET / sliderProportion );
-                }
-                else{
-                    // Note the implicit conversion from frequency to period in the following line.
-                    model.setPhotonEmissionPeriodSingleTarget(
-                            PhotonAbsorptionModel.MIN_PHOTON_EMISSION_PERIOD_SINGLE_TARGET / sliderProportion );
-                }
-            }
-        });
-		
 		// main panel, control on in a vertical column, left justified
         JPanel emissionTypeSelectionPanel = new JPanel();
         emissionTypeSelectionPanel.setBorder( BorderFactory.createRaisedBevelBorder() );
@@ -220,7 +200,7 @@ public class PhotonEmitterNode extends PNode {
         int column = 0;
         layout.addComponent( infraredButtonPanel, row++, column );
         layout.addComponent( visibleButtonPanel, row++, column );
-        layout.addComponent( intensitySlider, row++, column );
+        layout.addComponent( emissionRateControlSlider, row++, column );
 		
 		selectionPanelPSwing = new PSwing(emissionTypeSelectionPanel);
 		selectionPanelPSwing.setOffset(
@@ -243,16 +223,12 @@ public class PhotonEmitterNode extends PNode {
 		
 		// Perform any initialization that is dependent upon the model state.
 		updateFrequencySelectButtons();
-		updateIntensitySlider();
+		updateEmissionControlSlider();
 	}
 		
 	// ------------------------------------------------------------------------
 	// Methods
 	// ------------------------------------------------------------------------
-	
-	// ------------------------------------------------------------------------
-	// Inner Classes and Interfaces
-	//------------------------------------------------------------------------
 	
 	private void updateFrequencySelectButtons(){
 	    if (model.getEmittedPhotonWavelength() == GreenhouseConfig.irWavelength){
@@ -291,29 +267,10 @@ public class PhotonEmitterNode extends PNode {
         emitterImageLayer.addChild(photonEmitterImage);
 	}
 	
-    /**
-     * Update the visibility and position of the button that is used to turn
-     * photon emission on and off.
-     */
-	private void updatePhotonEmissionControlButton(){
-        double buttonDiameter = photonEmitterImage.getFullBoundsReference().height * 0.3; // Note: Adjust multiplier as needed.
-        double scalingFactor = buttonDiameter / unpressedButtonImage.getFullBoundsReference().width;
-        Point2D buttonOffset = new Point2D.Double(
-                photonEmitterImage.getFullBoundsReference().getCenterX() - buttonDiameter / 2, 
-                photonEmitterImage.getFullBoundsReference().getCenterY() - buttonDiameter / 2);
-        unpressedButtonImage.scale(scalingFactor);
-        unpressedButtonImage.setOffset(buttonOffset);
-        pressedButtonImage.scale(scalingFactor);
-        pressedButtonImage.setOffset(buttonOffset);
-        
-        // If photons are being emitted, the top button should be invisible.
-        unpressedButtonImage.setVisible( !model.isPeriodicPhotonEmissionEnabled() );
-	}
-	
-	private void updateIntensitySlider(){
+	private void updateEmissionControlSlider(){
 
 	    // Set the overall enable/disable state.
-	    intensitySlider.setEnabled( model.isPeriodicPhotonEmissionEnabled() );
+	    emissionRateControlSlider.setEnabled( model.isPeriodicPhotonEmissionEnabled() );
 	    
 	    // Adjust the position of the slider.  Note that we do a conversion
 	    // between period and frequency and map it into the slider's range.
@@ -327,14 +284,14 @@ public class PhotonEmitterNode extends PNode {
                     model.getPhotonEmissionPeriodSingleTarget() * (double) SLIDER_RANGE);
 	    }
 	    
-	    intensitySlider.setValue( mappedFrequency );
+	    emissionRateControlSlider.setValue( mappedFrequency );
 	    
 	    // Set the color of the slider.
 	    if (model.getEmittedPhotonWavelength() == GreenhouseConfig.irWavelength){
-	        intensitySlider.setColor( Color.RED );
+	        emissionRateControlSlider.setColor( Color.RED );
 	    }
 	    else if (model.getEmittedPhotonWavelength() == GreenhouseConfig.sunlightWavelength){
-	        intensitySlider.setColor( Color.YELLOW );
+	        emissionRateControlSlider.setColor( Color.YELLOW );
 	    }
 	    else{
 	        System.err.println(getClass().getName() + "- Error: Unrecognized photon.");
