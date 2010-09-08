@@ -68,9 +68,9 @@ public class PlateAreaDragHandleNode extends PhetPNode {
         });
 
         /*
-         * Update offset when capacitor node changed.
-         * Our offset is dependent on information we get from the capacitor node.
-         * If we change when the model changes, then we might set our offset before the 
+         * Update offset when capacitor node changes.
+         * The offset is dependent on information we get from the capacitor node.
+         * If set the offset when the model changes, we might set our offset before the 
          * capacitor node has updated its geometry, and might attach to an incorrect position.
          */
         capacitorNode.addPropertyChangeListener( new PropertyChangeListener() {
@@ -111,7 +111,7 @@ public class PlateAreaDragHandleNode extends PhetPNode {
     
     private void updateOffset() {
         Point2D capacitorLocation = mvt.modelToView( capacitor.getLocationReference() );
-        Point2D dragPointOffset = capacitorNode.getPlateSizeDragPointOffsetReference();
+        Point2D dragPointOffset = capacitorNode.getPlateSizeDragPointOffsetReference(); // get offset from capacitor node
         double x = capacitorLocation.getX() + dragPointOffset.getX();
         double y = capacitorLocation.getY() + dragPointOffset.getY();
         setOffset( x, y );
