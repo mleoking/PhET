@@ -4,6 +4,7 @@ import java.awt.{Paint, Color}
 import edu.colorado.phet.scalacommon.math.Vector2D
 import edu.colorado.phet.scalacommon.util.Observable
 import edu.colorado.phet.motionseries.Predef._
+import edu.colorado.phet.motionseries.util.ScalaMutableBoolean
 
 class Vector(val color: Color,
              val name: String,
@@ -11,7 +12,7 @@ class Vector(val color: Color,
              private val _vector2DModel: Vector2DModel,
              val painter: (Vector2D, Color) => Paint,
              val labelAngle: Double) {
-  val visible = new SMutableBoolean(true)
+  val visible = new ScalaMutableBoolean(true)
   if (_vector2DModel == null) throw new RuntimeException("null vector2d model")
   if (painter == null) throw new RuntimeException("null painter")
 
