@@ -16,31 +16,6 @@ public class BlockNode extends CubeNode implements Pickable {
 
     private var block:Block;
 
-    [Embed(source="../../../../../../data/density-and-buoyancy/images/custom.jpg")]
-    private var customObjectTexture:Class;
-
-    [Embed(source="../../../../../../data/density-and-buoyancy/images/styrofoam.jpg")]
-    //SRR made styrofoam.jpg
-    private var styrofoamTextureClass:Class;
-
-    [Embed(source="../../../../../../data/density-and-buoyancy/images/aluminum.jpg")]
-    //SRR modified aluminum.jpg based on microsoft clip art
-    private var aluminumTextureClass:Class;
-
-    [Embed(source="../../../../../../data/density-and-buoyancy/images/wall.jpg")]
-    //came with away3d
-    private var brickTextureClass:Class;
-
-    [Embed(source="../../../../../../data/density-and-buoyancy/images/ice.jpg")]
-    //SRR modified aluminum.jpg based on microsoft clip art
-    private var iceTextureClass:Class;
-
-    // initial testing wood texture
-    // public domain, see http://www.publicdomainpictures.net/view-image.php?picture=wood-texture&image=1282&large=1
-    // license: " 	This image is public domain. You may use this picture for any purpose, including commercial. If you do use it, please consider linking back to us. If you are going to redistribute this image online, a hyperlink to this particular page is mandatory."
-    [Embed(source="../../../../../../data/density-and-buoyancy/images/wood.png")]
-    private var woodClass:Class;
-
     private var sideMaterial:BitmapMaterial;
 
     private var textureBitmap:Bitmap; // the texture being used (wood bitmap, wall (custom) bitmap, etc.)
@@ -77,24 +52,10 @@ public class BlockNode extends CubeNode implements Pickable {
 
     private function updateMaterial():void {
         // update the bitmap we use as a background
-        //TODO: Object orient this
-        if (block.getMaterial() == Material.WOOD) {
-            textureBitmap = new woodClass();
-        }
-        else if (block.getMaterial() == Material.BRICK) {
-            textureBitmap = new brickTextureClass();
-        }
-        else if (block.getMaterial() == Material.STYROFOAM) {
-            textureBitmap = new styrofoamTextureClass();
-        }
-        else if (block.getMaterial() == Material.ALUMINUM) {
-            textureBitmap = new aluminumTextureClass();
-        }
-        else if (block.getMaterial() == Material.ICE) {
-            textureBitmap = new iceTextureClass();
-        }
-        else {
+        if (block.getMaterial().isCustom()) {
             textureBitmap = getCustomBitmap();
+        } else {
+            textureBitmap = block.getMaterial().textureBitmap;
         }
 
         // update the text field
@@ -111,7 +72,7 @@ public class BlockNode extends CubeNode implements Pickable {
     }
 
     private function getCustomBitmap():Bitmap {
-        var wallData:BitmapData = (new customObjectTexture() as BitmapAsset).bitmapData;
+        var wallData:BitmapData = (new Material.customObjectTexture() as BitmapAsset).bitmapData;
         wallData.colorTransform(new Rectangle(0, 0, wallData.width, wallData.height), block.colorTransform);
         return new Bitmap(wallData);
     }
