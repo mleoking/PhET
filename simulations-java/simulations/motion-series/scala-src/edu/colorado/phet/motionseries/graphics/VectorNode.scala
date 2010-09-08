@@ -54,18 +54,18 @@ class VectorNode(val transform: ModelViewTransform2D,
 
   //Allocate these temporary variables here for performance reasons, this update call is called a lot and is expensive
   //from allocation of Vector2D 
-  val labelDistance = 0.6*vectorLengthScale
+  val labelDistance = 0.6 * vectorLengthScale
   val minLabelDistance = maxLabelDistance / 2.0 //todo: improve heuristics for min label distance, or make it settable in the constructor
   val labelScale = labelNode.getFullBounds.getHeight * 0.56
   val labelBounds = labelNode.getFullBounds
-  
+
   val update = () => {
     val viewTip = transform.modelToViewDouble(vector.vector2DModel() * vectorLengthScale + tailLocation.value)
     val viewTail = transform.modelToViewDouble(tailLocation.value)
     val updateState = new UpdateState(vector.visible.booleanValue, viewTail, viewTip)
     val stayedInvisible = !updateState.visible && !lastUpdateState.visible
     if (updateState != lastUpdateState && !stayedInvisible) { //skip expensive updates if no change
-//      println("Updating " + vector.abbreviation)
+      //      println("Updating " + vector.abbreviation)
       setVisible(vector.visible.booleanValue)
       //Update the arrow node itself
       arrowNode.setTipAndTailLocations(viewTip, viewTail)
@@ -91,7 +91,7 @@ class VectorNode(val transform: ModelViewTransform2D,
       labelNode.setVisible(viewTail.distance(viewTip) > 1)
       lastUpdateState = updateState
     } else {
-//      println("Skipping " + vector.abbreviation)
+      //      println("Skipping " + vector.abbreviation)
     }
   }
   update()
