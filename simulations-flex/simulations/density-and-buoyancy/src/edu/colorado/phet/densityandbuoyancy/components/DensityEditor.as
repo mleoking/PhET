@@ -10,6 +10,13 @@ public class DensityEditor extends PropertyEditor {
     public function DensityEditor(property:NumericProperty, minimum:Number, maximum:Number, unit:Unit, densityObject:DensityObject) {
         super(property, minimum, maximum, unit, densityObject);
         this.densityObject = densityObject;
+
+        function updateTextBoxEnabled():void {
+            textField.enabled = densityObject.material.isCustom();
+        }
+
+        densityObject.addMaterialListener(updateTextBoxEnabled);
+        updateTextBoxEnabled();
     }
 
     override protected function createSlider(property:NumericProperty, minimum:Number, maximum:Number, unit:Unit, densityObject:DensityObject):SliderDecorator {
