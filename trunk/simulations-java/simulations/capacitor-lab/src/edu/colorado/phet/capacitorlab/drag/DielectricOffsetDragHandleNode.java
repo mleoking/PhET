@@ -15,7 +15,7 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 
 /**
  * Drag handle for changing the dielectric offset.
- * Origin is at the far end of the dashed line.
+ * Origin is at the end of the dashed line that is farthest from the arrow.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
