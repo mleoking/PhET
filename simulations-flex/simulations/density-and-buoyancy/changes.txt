@@ -1,3 +1,4 @@
+Fixed: Text boxes are unconstrained, should have same min and max as sliders.
 Added a workaround to prevent styrofoam from having an excessively large volume
 Improved scale readout to use same style as block mass readouts
 # 0.01.21 (43753) Sep 2, 2010
