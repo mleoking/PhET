@@ -1,15 +1,43 @@
 package edu.colorado.phet.densityandbuoyancy.model {
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 
+import flash.display.Bitmap;
+
 public class Material {
-    public static var STYROFOAM:Material = new Material(FlexSimStrings.get("material.styrofoam", "Styrofoam"), 150, false, 0xcccccc);//between 25 and 200 according to http://wiki.answers.com/Q/What_is_the_density_of_styrofoam; chose 150 so it isn't too low to show on slider, but not 200 so it's not half of wood
-    public static var WOOD:Material = new Material(FlexSimStrings.get("material.wood", "Wood"), 400, false, 0xd9ab5d);
-    public static var ICE:Material = new Material(FlexSimStrings.get("material.ice", "Ice"), 919, false, 0xbfdbe6);
-    public static var WATER_BALLOON:Material = new Material(FlexSimStrings.get("material.waterBalloon", "Water Balloon"), 1000.0, false);
-    public static var BRICK:Material = new Material(FlexSimStrings.get("material.brick", "Brick"), 1922, false, 0xab695b);//see http://www.simetric.co.uk/si_materials.htm
-    public static var ALUMINUM:Material = new Material(FlexSimStrings.get("material.aluminum", "Aluminum"), 2700, false, 0x75928d);
-    public static var CUSTOM:Material = new Material(FlexSimStrings.get("material.custom", "Custom"), 1000.0, true);
+    // initial testing wood texture
+    // public domain, see http://www.publicdomainpictures.net/view-image.php?picture=wood-texture&image=1282&large=1
+    // license: " 	This image is public domain. You may use this picture for any purpose, including commercial. If you do use it, please consider linking back to us. If you are going to redistribute this image online, a hyperlink to this particular page is mandatory."
+    [Embed(source="../../../../../../data/density-and-buoyancy/images/wood.png")]
+    private static var woodTextureClass:Class;
+
+    [Embed(source="../../../../../../data/density-and-buoyancy/images/custom.jpg")]
+    public static var customObjectTexture:Class;
+
+    [Embed(source="../../../../../../data/density-and-buoyancy/images/styrofoam.jpg")]
+    //SRR made styrofoam.jpg
+    private static var styrofoamTextureClass:Class;
+
+    [Embed(source="../../../../../../data/density-and-buoyancy/images/aluminum.jpg")]
+    //SRR modified aluminum.jpg based on microsoft clip art
+    private static var aluminumTextureClass:Class;
+
+    [Embed(source="../../../../../../data/density-and-buoyancy/images/wall.jpg")]
+    //came with away3d
+    private static var brickTextureClass:Class;
+
+    [Embed(source="../../../../../../data/density-and-buoyancy/images/ice.jpg")]
+    //SRR modified aluminum.jpg based on microsoft clip art
+    private static var iceTextureClass:Class;
+
+    public static var STYROFOAM:Material = new Material(FlexSimStrings.get("material.styrofoam", "Styrofoam"), 150, false, 0xcccccc, new styrofoamTextureClass());//between 25 and 200 according to http://wiki.answers.com/Q/What_is_the_density_of_styrofoam; chose 150 so it isn't too low to show on slider, but not 200 so it's not half of wood
+    public static var WOOD:Material = new Material(FlexSimStrings.get("material.wood", "Wood"), 400, false, 0xd9ab5d, new woodTextureClass());
+    public static var ICE:Material = new Material(FlexSimStrings.get("material.ice", "Ice"), 919, false, 0xbfdbe6, new iceTextureClass());
+    public static var BRICK:Material = new Material(FlexSimStrings.get("material.brick", "Brick"), 1922, false, 0xab695b, new brickTextureClass());//see http://www.simetric.co.uk/si_materials.htm
+    public static var ALUMINUM:Material = new Material(FlexSimStrings.get("material.aluminum", "Aluminum"), 2700, false, 0x75928d, new aluminumTextureClass());
+    public static var CUSTOM:Material = new Material(FlexSimStrings.get("material.custom", "Custom"), 1000.0, true, new customObjectTexture());
     //TODO: Add back water balloon after creating geometry for it
+    public static var WATER_BALLOON:Material = new Material(FlexSimStrings.get("material.waterBalloon", "Water Balloon"), 1000.0, false);
+
     //NOTE: If other materials less dense than Wood are added, then a volume-bounding solution will need to be applied, like
     //the workaround in PropertyEditor.createSlider
     public static var SELECTABLE_MATERIALS:Array = [STYROFOAM, WOOD, ICE, BRICK, ALUMINUM];//Note that Custom is omitted from here, though it is added in some places where this list is used
@@ -27,6 +55,7 @@ public class Material {
     private var _isCustom:Boolean;
     public static var ALL:Array = [ALUMINUM, APPLE, DIAMOND, GASOLINE_BALLOON,GOLD,ICE, LEAD,WATER_BALLOON,WOOD];//sorted below
     private var _tickColor:uint;
+    private var _textureBitmap:Bitmap;
 
     private static function sortOnDensity(a:Material, b:Material):Number {
         var aPrice:Number = a.getDensity();
@@ -44,11 +73,12 @@ public class Material {
 
     ALL.sort(sortOnDensity);
 
-    public function Material(name:String, density:Number, isCustom:Boolean, tickColor:uint = 0x000000) {
+    public function Material(name:String, density:Number, isCustom:Boolean, tickColor:uint = 0x000000, textureBitmap:Bitmap = null) {
         this.density = density;
         this._name = name;
         this._isCustom = isCustom;
         this._tickColor = tickColor;
+        this._textureBitmap = textureBitmap;
     }
 
     public function synchronizeDensity(densityObject:DensityObject):void {
@@ -75,6 +105,10 @@ public class Material {
 
     public function get tickColor():uint {
         return _tickColor;
+    }
+
+    public function get textureBitmap():Bitmap {
+        return _textureBitmap;
     }
 }
 }

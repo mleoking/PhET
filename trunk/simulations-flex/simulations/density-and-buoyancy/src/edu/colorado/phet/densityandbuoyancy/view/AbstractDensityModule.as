@@ -211,7 +211,6 @@ public class AbstractDensityModule extends UIComponent {
 
         updateWaterHeightIndicator();
 
-        // TODO: remove or update invalid
         view.render();
         renderedOnce = true;
     }
