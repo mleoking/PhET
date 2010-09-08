@@ -26,7 +26,6 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
   val DEFAULT_ROBOT_ENERGY = appliedForceAmount * 6
   val energyScale = MotionSeriesDefaults.rampRobotForce / appliedForceAmount / 10.0 //the scale at which to display remaining energy
   private var _robotEnergy = DEFAULT_ROBOT_ENERGY
-  private val surfaceModel = new SurfaceModel
   val airborneFloor = -9.0 //how far objects fall off the cliff before hitting ground
 
   def hasUserAppliedForce = {
@@ -112,7 +111,6 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
     motionSeriesObject.kineticFriction = sel.kineticFriction
     motionSeriesObject.height = sel.height
     motionSeriesObject.airborneFloor = airborneFloor
-    motionSeriesObject.surfaceFrictionStrategy = surfaceModel
     motionSeriesObject.crashListeners += (() => itemLostOffCliff(sel))
 
     var lastPushTime = 0L //flag to indicate push + at rest hasn't started yet
