@@ -30,14 +30,12 @@ public class Scale extends Cuboid {
     }
 
     public function getScaleReadout():String {
-        // TODO: localize
         // scaled by DT-frame because we are measuring the 'normal impulses'
         //impulse I=Fdt
         //F=I/dt
         var force:Number = totalImpulse / DensityModel.DT_PER_FRAME;
-        var massReadout:Number = force / DensityConstants.GRAVITY;
-        var roundedOff:String = String(Math.round(massReadout * 100) / 100);
-        const readoutValue:String = String(roundedOff).substr(0, 7);
+        var mass:Number = force / DensityConstants.GRAVITY;
+        const readoutValue:String = mass.toFixed(DensityConstants.NUMBER_OF_DECIMAL_PLACES);
         return FlexSimStrings.get("properties.massValue", "{0} kg", [readoutValue]);
     }
 
