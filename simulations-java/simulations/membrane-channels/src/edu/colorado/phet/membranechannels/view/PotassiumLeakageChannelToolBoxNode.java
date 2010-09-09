@@ -6,8 +6,8 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.membranechannels.model.ChannelAlwaysOpenStrategy;
 import edu.colorado.phet.membranechannels.model.MembraneChannel;
+import edu.colorado.phet.membranechannels.model.MembraneChannelOpennessStrategy;
 import edu.colorado.phet.membranechannels.model.MembraneChannelTypes;
 import edu.colorado.phet.membranechannels.model.MembraneChannelsModel;
 import edu.umd.cs.piccolo.PNode;
@@ -27,7 +27,9 @@ public class PotassiumLeakageChannelToolBoxNode extends MembraneChannelToolBoxNo
     @Override
     protected void initializeSelectionNode() {
         PNode representation = new MembraneChannelNode(MembraneChannel.createChannel( 
-                MembraneChannelTypes.POTASSIUM_LEAKAGE_CHANNEL, getModel(), new ChannelAlwaysOpenStrategy() ),
+                MembraneChannelTypes.POTASSIUM_LEAKAGE_CHANNEL, 
+                getModel(), 
+                MembraneChannelOpennessStrategy.CHANNEL_ALWAYS_OPEN ),
                 SCALING_MVT);
         setSelectionNode(representation);
     }
