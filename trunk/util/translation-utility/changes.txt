@@ -1,3 +1,4 @@
+9/9/10 #2463, use type=java in simulation.properties for Java sim test jars
 9/9/10 #2497, use better/consistent variable names in createTestJar methods
 9/9/10 remove '_' prefix in member data names for older code, so that convention is the same throughout
 9/9/10 converted ArrayLists to use generics
