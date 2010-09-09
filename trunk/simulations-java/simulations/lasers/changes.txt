@@ -1,3 +1,5 @@
+# 4.07.05 (43878) Sep 9, 2010
+9/9/10 version requested by KP: level 3 lifetime slider is narrower and has range 0-150
 9/9/10 temporarily hardcode level3 lifetime slider range to 0-150
 # 4.07.04 (43876) Sep 9, 2010
 9/9/10 version requested by KP: level 3 lifetime slider is narrower and has range 0-100
