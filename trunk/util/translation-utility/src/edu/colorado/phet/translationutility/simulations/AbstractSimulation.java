@@ -34,20 +34,20 @@ public abstract class AbstractSimulation implements ISimulation {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private final String _jarFileName;
-    private final Manifest _manifest;
-    private final String _projectName;
-    private final String _simulationName;
+    private final String jarFileName;
+    private final Manifest manifest;
+    private final String projectName;
+    private final String simulationName;
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
     public AbstractSimulation( String jarFileName, String projectName, String simulationName ) throws SimulationException {
-        _jarFileName = jarFileName;
-        _manifest = getManifest( jarFileName );
-        _projectName = projectName;
-        _simulationName = simulationName;
+        this.jarFileName = jarFileName;
+        this.manifest = getManifest( jarFileName );
+        this.projectName = projectName;
+        this.simulationName = simulationName;
     }
     
     //----------------------------------------------------------------------------
@@ -55,19 +55,19 @@ public abstract class AbstractSimulation implements ISimulation {
     //----------------------------------------------------------------------------
     
     protected String getJarFileName() {
-        return _jarFileName;
+        return jarFileName;
     }
     
     protected Manifest getManifest() {
-        return _manifest;
+        return manifest;
     }
     
     public String getProjectName() {
-        return _projectName;
+        return projectName;
     }
     
     public String getSimulationName() {
-        return _simulationName;
+        return simulationName;
     }
     
     /**

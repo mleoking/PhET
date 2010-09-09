@@ -24,10 +24,10 @@ import edu.colorado.phet.translationutility.TUStrings;
  */
 public class FindDialog extends JDialog {
     
-    private JTextField _textField;
-    private JButton _nextButton;
-    private JButton _previousButton;
-    private EventListenerList _listenerList;
+    private final JTextField textField;
+    private final JButton nextButton;
+    private final JButton previousButton;
+    private final EventListenerList listenerList;
     
     /**
      * FindListener is the interface implemented by all listeners who 
@@ -52,18 +52,18 @@ public class FindDialog extends JDialog {
         setModal( false );
         setResizable( false );
         
-        _listenerList = new EventListenerList();
+        listenerList = new EventListenerList();
         
         // create the panel where the user inputs information
         JPanel inputPanel = new JPanel();
         {
             JLabel findLabel = new JLabel( TUStrings.FIND_LABEL );
 
-            _textField = new JTextField( defaultText );
-            _textField.setFont( textFieldFont );
-            _textField.setColumns( 30 );
-            _textField.setEditable( true );
-            _textField.addKeyListener( new KeyAdapter() {
+            textField = new JTextField( defaultText );
+            textField.setFont( textFieldFont );
+            textField.setColumns( 30 );
+            textField.setEditable( true );
+            textField.addKeyListener( new KeyAdapter() {
                 public void keyReleased( KeyEvent e ) {
                     updateButtons();
                     // pressing enter in the textfield is the same as pressing the Next button
@@ -75,21 +75,21 @@ public class FindDialog extends JDialog {
             
             inputPanel.setLayout( new FlowLayout( FlowLayout.LEFT ) );
             inputPanel.add( findLabel );
-            inputPanel.add( _textField );
+            inputPanel.add( textField );
         }
         
         // create the panel that contains action buttons
         JPanel buttonPanel = new JPanel();
         {
-            _nextButton = new JButton( TUStrings.NEXT_BUTTON, TUImages.NEXT_ICON );
-            _nextButton.addActionListener( new ActionListener() {
+            nextButton = new JButton( TUStrings.NEXT_BUTTON, TUImages.NEXT_ICON );
+            nextButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent event ) {
                     fireNext();
                 }
             } );
 
-            _previousButton = new JButton( TUStrings.PREVIOUS_BUTTON, TUImages.PREVIOUS_ICON );
-            _previousButton.addActionListener( new ActionListener() {
+            previousButton = new JButton( TUStrings.PREVIOUS_BUTTON, TUImages.PREVIOUS_ICON );
+            previousButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent event ) {
                     firePrevious();
                 }
@@ -103,8 +103,8 @@ public class FindDialog extends JDialog {
             } );
             
             JPanel innerPanel = new JPanel( new GridLayout( 1, 7 ) );
-            innerPanel.add( _nextButton );
-            innerPanel.add( _previousButton );
+            innerPanel.add( nextButton );
+            innerPanel.add( previousButton );
             innerPanel.add( Box.createHorizontalStrut( 20 ) );
             innerPanel.add( closeButton );
             buttonPanel.add( innerPanel );
@@ -131,7 +131,7 @@ public class FindDialog extends JDialog {
      * @return String
      */
     public String getText() {
-        return _textField.getText();
+        return textField.getText();
     }
     
     /*
@@ -139,10 +139,10 @@ public class FindDialog extends JDialog {
      * These buttons are disabled if the text field is empty.
      */
     private void updateButtons() {
-        String s = _textField.getText();
+        String s = textField.getText();
         boolean enabled = ( s != null && s.length() != 0 );
-        _nextButton.setEnabled( enabled );
-        _previousButton.setEnabled( enabled );
+        nextButton.setEnabled( enabled );
+        previousButton.setEnabled( enabled );
     }
     
     /**
@@ -150,7 +150,7 @@ public class FindDialog extends JDialog {
      * @param listener
      */
     public void addFindListener( FindListener listener ) {
-        _listenerList.add( FindListener.class, listener );
+        listenerList.add( FindListener.class, listener );
     }
     
     /**
@@ -158,7 +158,7 @@ public class FindDialog extends JDialog {
      * @param listener
      */
     public void removeFindListener( FindListener listener ) {
-        _listenerList.remove( FindListener.class, listener );
+        listenerList.remove( FindListener.class, listener );
     }
     
     /*
@@ -167,7 +167,7 @@ public class FindDialog extends JDialog {
     private void fireNext() {
         String text = getText();
         if ( text != null && text.length() > 0 ) {
-            Object[] listeners = _listenerList.getListenerList();
+            Object[] listeners = listenerList.getListenerList();
             for ( int i = 0; i < listeners.length; i += 2 ) {
                 if ( listeners[i] == FindListener.class ) {
                     ( (FindListener) listeners[i + 1] ).findNext( text );
@@ -182,7 +182,7 @@ public class FindDialog extends JDialog {
     private void firePrevious() {
         String text = getText();
         if ( text != null && text.length() > 0 ) {
-            Object[] listeners = _listenerList.getListenerList();
+            Object[] listeners = listenerList.getListenerList();
             for ( int i = 0; i < listeners.length; i += 2 ) {
                 if ( listeners[i] == FindListener.class ) {
                     ( (FindListener) listeners[i + 1] ).findPrevious( text );

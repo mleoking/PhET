@@ -16,23 +16,23 @@ import java.util.ArrayList;
  */
 public class ComponentListFocusPolicy extends FocusTraversalPolicy {
 
-    private ArrayList<Component> _components;
+    private ArrayList<Component> components;
     
     public ComponentListFocusPolicy( ArrayList<Component> components ) {
         assert( components.size() > 0 );
-        _components = components;
+        this.components = components;
     }
     
     public Component getComponentAfter( Container focusCycleRoot, Component aComponent ) {
         Component componentAfter = null;
-        int index = _components.indexOf( aComponent );
+        int index = components.indexOf( aComponent );
         if ( index != -1 ) {
             int indexAfter = index + 1;
-            if ( indexAfter >= _components.size() ) {
+            if ( indexAfter >= components.size() ) {
                 componentAfter = getFirstComponent( focusCycleRoot );
             }
             else {
-                componentAfter = (Component) _components.get( indexAfter );
+                componentAfter = (Component) components.get( indexAfter );
             }
         }
         return componentAfter;
@@ -40,14 +40,14 @@ public class ComponentListFocusPolicy extends FocusTraversalPolicy {
 
     public Component getComponentBefore( Container focusCycleRoot, Component aComponent ) {
         Component componentAfter = null;
-        int index = _components.indexOf( aComponent );
+        int index = components.indexOf( aComponent );
         if ( index != -1 ) {
             int indexBefore = index - 1;
             if ( indexBefore < 0 ) {
                 componentAfter = getLastComponent( focusCycleRoot );
             }
             else {
-                componentAfter = (Component) _components.get( indexBefore );
+                componentAfter = (Component) components.get( indexBefore );
             }
         }
         return componentAfter;
@@ -58,11 +58,11 @@ public class ComponentListFocusPolicy extends FocusTraversalPolicy {
     }
 
     public Component getFirstComponent( Container focusCycleRoot ) {
-        return (Component) _components.get( 0 );
+        return (Component) components.get( 0 );
     }
 
     public Component getLastComponent( Container focusCycleRoot ) {
-        return (Component) _components.get( _components.size() - 1 );
+        return (Component) components.get( components.size() - 1 );
     }
     
     public Component getInitialComponent( Window window ) {

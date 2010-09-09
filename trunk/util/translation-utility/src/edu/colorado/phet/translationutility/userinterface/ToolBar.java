@@ -38,14 +38,14 @@ public class ToolBar extends JPanel {
         public void handleHelp();
     }
     
-    private EventListenerList _listenerList;
+    private EventListenerList listenerList;
     
     /**
      * Constructor.
      */
     public ToolBar() {
         
-        _listenerList = new EventListenerList();
+        listenerList = new EventListenerList();
         
         ArrayList<JButton> buttons = new ArrayList<JButton>();
         
@@ -137,7 +137,7 @@ public class ToolBar extends JPanel {
      * @param listener
      */
     public void addToolBarListener( ToolBarListener listener ) {
-        _listenerList.add( ToolBarListener.class, listener );
+        listenerList.add( ToolBarListener.class, listener );
     }
     
     /**
@@ -145,14 +145,14 @@ public class ToolBar extends JPanel {
      * @param listener
      */
     public void removeToolBarListener( ToolBarListener listener ) {
-        _listenerList.remove( ToolBarListener.class, listener );
+        listenerList.remove( ToolBarListener.class, listener );
     }
     
     /*
      * Notifies all ToolBarListener that the Test button has been pressed.
      */
     private void fireTest() {
-        Object[] listeners = _listenerList.getListenerList();
+        Object[] listeners = listenerList.getListenerList();
         for ( int i = 0; i < listeners.length; i+=2 ) {
             if ( listeners[i] == ToolBarListener.class ) {
                 ((ToolBarListener) listeners[ i + 1 ] ).handleTest();
@@ -164,7 +164,7 @@ public class ToolBar extends JPanel {
      * Notifies all ToolBarListener that the Save button has been pressed.
      */
     private void fireSave() {
-        Object[] listeners = _listenerList.getListenerList();
+        Object[] listeners = listenerList.getListenerList();
         for ( int i = 0; i < listeners.length; i+=2 ) {
             if ( listeners[i] == ToolBarListener.class ) {
                 ((ToolBarListener) listeners[ i + 1 ] ).handleSave();
@@ -176,7 +176,7 @@ public class ToolBar extends JPanel {
      * Notifies all ToolBarListener that the Load button has been pressed.
      */
     private void fireLoad() {
-        Object[] listeners = _listenerList.getListenerList();
+        Object[] listeners = listenerList.getListenerList();
         for ( int i = 0; i < listeners.length; i+=2 ) {
             if ( listeners[i] == ToolBarListener.class ) {
                 ((ToolBarListener) listeners[ i + 1 ] ).handleLoad();
@@ -188,7 +188,7 @@ public class ToolBar extends JPanel {
      * Notifies all ToolBarListener that the Submit button has been pressed.
      */
     private void fireSubmit() {
-        Object[] listeners = _listenerList.getListenerList();
+        Object[] listeners = listenerList.getListenerList();
         for ( int i = 0; i < listeners.length; i+=2 ) {
             if ( listeners[i] == ToolBarListener.class ) {
                 ((ToolBarListener) listeners[ i + 1 ] ).handleSubmit();
@@ -200,7 +200,7 @@ public class ToolBar extends JPanel {
      * Notifies all ToolBarListener that the Find button has been pressed.
      */
     private void fireFind() {
-        Object[] listeners = _listenerList.getListenerList();
+        Object[] listeners = listenerList.getListenerList();
         for ( int i = 0; i < listeners.length; i+=2 ) {
             if ( listeners[i] == ToolBarListener.class ) {
                 ((ToolBarListener) listeners[ i + 1 ] ).handleFind();
@@ -212,7 +212,7 @@ public class ToolBar extends JPanel {
      * Notifies all ToolBarListener that the Help button has been pressed.
      */
     private void fireHelp() {
-        Object[] listeners = _listenerList.getListenerList();
+        Object[] listeners = listenerList.getListenerList();
         for ( int i = 0; i < listeners.length; i+=2 ) {
             if ( listeners[i] == ToolBarListener.class ) {
                 ((ToolBarListener) listeners[ i + 1 ] ).handleHelp();

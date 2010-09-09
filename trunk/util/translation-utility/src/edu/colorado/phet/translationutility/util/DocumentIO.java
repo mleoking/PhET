@@ -20,6 +20,9 @@ import org.xml.sax.SAXException;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class DocumentIO {
+    
+    /* not intended for instantiation */
+    private DocumentIO() {}
 
     /**
      * All exceptions encountered are recast as this exception type.

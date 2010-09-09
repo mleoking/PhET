@@ -19,20 +19,20 @@ public class LocaleComboBox extends JComboBox {
     
     private static class LocaleChoice {
 
-        private final String _name;
-        private final Locale _locale;
+        private final String name;
+        private final Locale locale;
 
         public LocaleChoice( String name, Locale locale ) {
-            _name = name;
-            _locale = locale;
+            this.name = name;
+            this.locale = locale;
         }
 
         public String getName() {
-            return _name;
+            return name;
         }
         
         public Locale getLocale() {
-            return _locale;
+            return locale;
         }
     }
     
