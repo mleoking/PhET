@@ -1,4 +1,4 @@
-/* Copyright 2008-2009, University of Colorado */
+/* Copyright 2008-2010, University of Colorado */
 
 package edu.colorado.phet.translationutility.simulations;
 
@@ -17,6 +17,7 @@ import edu.colorado.phet.flashlauncher.util.SimulationProperties;
 import edu.colorado.phet.translationutility.util.Command;
 import edu.colorado.phet.translationutility.util.DocumentAdapter;
 import edu.colorado.phet.translationutility.util.FileChooserFactory;
+import edu.colorado.phet.translationutility.util.JarUtils;
 import edu.colorado.phet.translationutility.util.Command.CommandException;
 import edu.colorado.phet.translationutility.util.DocumentIO.DocumentIOException;
 
@@ -246,14 +247,13 @@ public class FlashSimulation extends AbstractSimulation {
         }
         
         // open the original JAR file
-        File jarFile = new File( originalJarFileName );
-        InputStream inputStream = null;
+        JarInputStream jarInputStream = null;
         try {
-            inputStream = new FileInputStream( jarFile );
+            jarInputStream = JarUtils.openJar( originalJarFileName );
         }
-        catch ( FileNotFoundException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
-            throw new SimulationException( "jar file not found: " + originalJarFileName, e );
+            throw new SimulationException( "error opening jar file: " + originalJarFileName, e );
         }
         
         // regular expressions for files to exclude while copying the JAR
@@ -270,9 +270,6 @@ public class FlashSimulation extends AbstractSimulation {
         File testFile = new File( testJarFileName );
         testFile.deleteOnExit(); // temporary file, delete when the VM exits
         try {
-            // input comes from the original JAR file
-            JarInputStream jarInputStream = new JarInputStream( inputStream ); // throws IOException
-            
             // output goes to test JAR file
             OutputStream outputStream = new FileOutputStream( testFile );
             Manifest manifest = getManifest();

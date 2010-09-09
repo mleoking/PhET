@@ -1,4 +1,4 @@
-/* Copyright 2008-2009, University of Colorado */
+/* Copyright 2008-2010, University of Colorado */
 
 package edu.colorado.phet.translationutility.simulations;
 
@@ -66,17 +66,26 @@ public class JavaSimulation extends AbstractSimulation {
 
     public Properties getStrings( Locale locale ) throws SimulationException {
         
-        // Load strings from a resource file.
-        String propertiesFileName = getStringsPath( getProjectName(), locale );
-        Properties properties = JarUtils.readPropertiesFromJar( getJarFileName(), propertiesFileName );
+        Properties properties = null;
         
-        // English strings may be in a fallback resource file.
-        if ( properties == null && locale.equals( TUConstants.ENGLISH_LOCALE ) ) {
-            propertiesFileName = getFallbackStringsPath( getProjectName() );
-            properties = JarUtils.readPropertiesFromJar( getJarFileName(), propertiesFileName );
+        try {
+            String propertiesFileName = getStringsPath( getProjectName(), locale );
+            if ( JarUtils.containsFile( getJarFileName(), propertiesFileName ) ) {
+                // localized strings exist, load them
+                properties = JarUtils.readProperties( getJarFileName(), propertiesFileName );
+            }
+            else {
+                // localized strings do not exist, get English strings
+                propertiesFileName = getFallbackStringsPath( getProjectName() );
+                properties = JarUtils.readProperties( getJarFileName(), propertiesFileName );
+            }
+            LOGGER.info( "loaded strings from " + propertiesFileName );
+        }
+        catch ( IOException e ) {
+            e.printStackTrace();
+            throw new SimulationException( "error reading localized strings from " + getJarFileName() );
         }
         
-        LOGGER.info( "loaded strings from " + propertiesFileName );
         return properties;
     }
 
@@ -196,7 +205,14 @@ public class JavaSimulation extends AbstractSimulation {
         }
         
         // read JARLaucher properties from JAR
-        Properties jarLauncherProperties = JarUtils.readPropertiesFromJar( originalJarFileName, JARLauncher.PROPERTIES_FILE_NAME );
+        Properties jarLauncherProperties = null;
+        try {
+            jarLauncherProperties = JarUtils.readProperties( originalJarFileName, JARLauncher.PROPERTIES_FILE_NAME );
+        }
+        catch ( IOException e ) {
+            e.printStackTrace();
+            throw new SimulationException( "error reading " + JARLauncher.PROPERTIES_FILE_NAME + " from " + originalJarFileName );
+        }
         if ( jarLauncherProperties == null ) {
             throw new SimulationException( "Cannot read " + JARLauncher.PROPERTIES_FILE_NAME + ". Are you using the most current simulation JAR from the PhET website?" );
         }
@@ -209,14 +225,13 @@ public class JavaSimulation extends AbstractSimulation {
         }
         
         // open the original JAR file
-        File jarFile = new File( originalJarFileName );
-        InputStream inputStream = null;
+        JarInputStream jarInputStream = null;
         try {
-            inputStream = new FileInputStream( jarFile );
+            jarInputStream = JarUtils.openJar( originalJarFileName );
         }
-        catch ( FileNotFoundException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
-            throw new SimulationException( "jar file not found: " + originalJarFileName, e );
+            throw new SimulationException( "error opening jar file: " + originalJarFileName, e );
         }
         
         // regular expressions for files to exclude while copying the JAR
@@ -234,9 +249,6 @@ public class JavaSimulation extends AbstractSimulation {
         File testFile = new File( testJarFileName );
         testFile.deleteOnExit(); // temporary file, delete when the VM exits
         try {
-            // input comes from the original JAR file
-            JarInputStream jarInputStream = new JarInputStream( inputStream ); // throws IOException
-            
             // output goes to test JAR file
             OutputStream outputStream = new FileOutputStream( testFile );
             Manifest manifest = getManifest();

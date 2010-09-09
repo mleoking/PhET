@@ -1,3 +1,4 @@
+9/9/10 #2492, first phase: prepare code related to jar creation for migration to phetcommon (not completed, not fully tested)
 8/30/10 #2463, add simulation.properties support for all sim, which facilitates multiple sims per Flash project
 8/30/10 change all Logger messages to level "info"
 7/13/10 #2406, ensure that main frame size doesn't exceed primary display size
