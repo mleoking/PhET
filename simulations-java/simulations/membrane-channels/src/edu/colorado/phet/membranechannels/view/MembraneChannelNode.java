@@ -253,9 +253,9 @@ public class MembraneChannelNode extends PNode {
 		float height = (float)size.getHeight();
 
 		path.moveTo(-width / 2, height / 4);
-		path.curveTo(-width / 2, height / 2, width / 2, height / 2, width / 2, height / 4);
+		path.curveTo(-width / 2, height * 0.6f, width / 2, height * 0.6f, width / 2, height / 4);
 		path.lineTo(width / 2, -height / 4);
-		path.curveTo(width / 2, -height / 2, -width / 2, -height / 2, -width / 2, -height / 4);
+		path.curveTo(width / 2, -height * 0.6f, -width / 2, -height * 0.6f, -width / 2, -height / 4);
 		path.closePath();
 
 		PPath edgeNode = new PPath(path);
@@ -267,8 +267,9 @@ public class MembraneChannelNode extends PNode {
 	
     private PPath createSquarishEdgeNode(Dimension2D size, Color color){
         
+        double arcWidthAndHeight = size.getWidth() / 2;
         RoundRectangle2D shape = new RoundRectangle2D.Double( -size.getWidth() / 2, -size.getHeight() / 2,
-                size.getWidth(), size.getHeight(), 5, 5 );
+                size.getWidth(), size.getHeight(), arcWidthAndHeight, arcWidthAndHeight );
         
         PPath edgeNode = new PPath(shape);
         edgeNode.setPaint(color);
