@@ -124,6 +124,16 @@ public class GenericMembraneChannel extends MembraneChannel {
 	    return new GenericMembraneChannel( modelContainingParticles, particleType, channelColor, edgeColor,
 	            opennessStrategy );
 	}
+	
+   /**
+     * Returns a boolean value indicating whether the channels is gated,
+     * meaning that it can open and close.  In general, a non-gated channel
+     * is a leakage channel.
+     */
+    public boolean isGated(){
+        return opennessStrategy.isDynamic();
+    }
+
 
 	@Override
 	public Color getChannelColor() {
