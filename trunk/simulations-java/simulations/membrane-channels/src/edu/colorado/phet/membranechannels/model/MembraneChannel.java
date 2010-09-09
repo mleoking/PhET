@@ -94,7 +94,7 @@ public class MembraneChannel {
 
         // Set the channel size.
         channelSize.setSize(CHANNEL_WIDTH, CHANNEL_HEIGHT);
-        overallSize.setSize(CHANNEL_WIDTH * 2.1, CHANNEL_WIDTH * SIDE_HEIGHT_TO_CHANNEL_HEIGHT_RATIO);
+        overallSize.setSize(CHANNEL_WIDTH * 2.1, CHANNEL_HEIGHT * SIDE_HEIGHT_TO_CHANNEL_HEIGHT_RATIO);
 
         // Set up the capture zones that define where particles may be
         // captured in order to move them across the membrane.
