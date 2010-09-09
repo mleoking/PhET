@@ -1,3 +1,4 @@
+9/9/10 #2190, additional tweaking requested by Kathy related to lifetime slider widths and range
 # 4.07.03 (43743) Sep 2, 2010
 9/2/10 #2489, move power meter up closer to laser
 # 4.07.02 (43686) Aug 31, 2010
