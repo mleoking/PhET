@@ -1,4 +1,4 @@
-/* Copyright 2007, University of Colorado */
+/* Copyright 2007-2010, University of Colorado */
 
 package edu.colorado.phet.translationutility.userinterface;
 
@@ -34,13 +34,12 @@ public class InitializationDialog extends JDialog {
     
     private static final Font TITLE_FONT = new PhetFont( 32, true /* bold */ );
     
-    private JTextField _jarFileTextField;
-    private LocaleComboBox _localeComboBox;
-    private JTextField _localeTextField;
-    private JCheckBox _autoTranslateCheckBox;
-    private JButton _continueButton;
-    private boolean _continue; // true if the user pressed the Continue button and their inputs contained no errors
-    private File _currentDirectory; // most recent directory visited when browsing for JAR files
+    private final JTextField jarFileTextField;
+    private final LocaleComboBox localeComboBox;
+    private final JTextField localeTextField;
+    private final JButton continueButton;
+    private boolean canContinue; // true if the user pressed the Continue button and their inputs contained no errors
+    private File currentDirectory; // most recent directory visited when browsing for JAR files
     
     /**
      * Constructs a dialog with no owner.
@@ -61,8 +60,8 @@ public class InitializationDialog extends JDialog {
         setModal( true );
         setResizable( false );
         
-        _continue = false;
-        _currentDirectory = null;
+        canContinue = false;
+        currentDirectory = null;
         
         // panel with title and PhET logo
         JPanel titlePanel = new JPanel();
@@ -82,9 +81,9 @@ public class InitializationDialog extends JDialog {
         {
             JLabel jarFileLabel = new JLabel( TUStrings.JAR_PATH_LABEL );
             
-            _jarFileTextField = new JTextField();
-            _jarFileTextField.setColumns( 30 );
-            _jarFileTextField.addKeyListener( new KeyAdapter() {
+            jarFileTextField = new JTextField();
+            jarFileTextField.setColumns( 30 );
+            jarFileTextField.addKeyListener( new KeyAdapter() {
                 public void keyReleased( KeyEvent event ) {
                     updateContinueButton();
                 }
@@ -107,7 +106,7 @@ public class InitializationDialog extends JDialog {
             } );
             
             jarFilePanel.add( jarFileLabel );
-            jarFilePanel.add( _jarFileTextField );
+            jarFilePanel.add( jarFileTextField );
             jarFilePanel.add( helpLabel );
             jarFilePanel.add( _browseButton );
         }
@@ -118,9 +117,9 @@ public class InitializationDialog extends JDialog {
         {
             JLabel localeLabel = new JLabel( TUStrings.LOCALE_LABEL );
             
-            _localeComboBox = new LocaleComboBox( sourceLocale );
-            _localeComboBox.setMaximumRowCount( 10 );
-            _localeComboBox.addItemListener( new ItemListener() {
+            localeComboBox = new LocaleComboBox( sourceLocale );
+            localeComboBox.setMaximumRowCount( 10 );
+            localeComboBox.addItemListener( new ItemListener() {
                 public void itemStateChanged( ItemEvent e ) {
                     if ( e.getStateChange() == ItemEvent.SELECTED ) {
                         updateLocaleTextField();
@@ -129,9 +128,9 @@ public class InitializationDialog extends JDialog {
                 }
             } );
             
-            _localeTextField = new JTextField();
-            _localeTextField.setColumns( 6 );
-            _localeTextField.addKeyListener( new KeyAdapter() {
+            localeTextField = new JTextField();
+            localeTextField.setColumns( 6 );
+            localeTextField.addKeyListener( new KeyAdapter() {
                 public void keyReleased( KeyEvent event ) {
                     updateContinueButton();
                 }
@@ -147,17 +146,17 @@ public class InitializationDialog extends JDialog {
             helpLabel.setCursor( new Cursor( Cursor.HAND_CURSOR ) );
             
             localePanel.add( localeLabel );
-            localePanel.add( _localeComboBox );
-            localePanel.add( _localeTextField );
+            localePanel.add( localeComboBox );
+            localePanel.add( localeTextField );
             localePanel.add( helpLabel );
         }
         
         // buttons at the bottom of the dialog
         JPanel buttonPanel = new JPanel();
         {
-            _continueButton = new JButton( TUStrings.CONTINUE_BUTTON, TUImages.CONTINUE_ICON );
-            _continueButton.setEnabled( false );
-            _continueButton.addActionListener( new ActionListener() {
+            continueButton = new JButton( TUStrings.CONTINUE_BUTTON, TUImages.CONTINUE_ICON );
+            continueButton.setEnabled( false );
+            continueButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent event ) {
                     handleContinueButton();
                 }
@@ -171,7 +170,7 @@ public class InitializationDialog extends JDialog {
             } );
 
             JPanel innerPanel = new JPanel( new GridLayout( 1, 7 ) );
-            innerPanel.add( _continueButton );
+            innerPanel.add( continueButton );
             innerPanel.add( cancelButton );
             buttonPanel.add( innerPanel );
         }
@@ -199,17 +198,17 @@ public class InitializationDialog extends JDialog {
     private void updateContinueButton() {
         String jarFileName = getJarFileName();
         Locale locale = getTargetLocale();
-        _continueButton.setEnabled( jarFileName != null && locale != null );
+        continueButton.setEnabled( jarFileName != null && locale != null );
     }
     
     /*
      * Locale text field is visible only when the locale combo box is set to "custom".
      */
     private void updateLocaleTextField() {
-        boolean isCustomSelected = _localeComboBox.isCustomSelected();
-        _localeTextField.setVisible( isCustomSelected );
+        boolean isCustomSelected = localeComboBox.isCustomSelected();
+        localeTextField.setVisible( isCustomSelected );
         if ( !isCustomSelected ) {
-            _localeTextField.setText( "" );
+            localeTextField.setText( "" );
         }
         validate();
     }
@@ -219,7 +218,7 @@ public class InitializationDialog extends JDialog {
      * @return true or false
      */
     public boolean isContinue() {
-        return _continue;
+        return canContinue;
     }
     
     /**
@@ -227,7 +226,7 @@ public class InitializationDialog extends JDialog {
      * @return String
      */
     public String getJarFileName() {
-        String jarFileName = _jarFileTextField.getText();
+        String jarFileName = jarFileTextField.getText();
         if ( jarFileName.length() == 0 ) {
             jarFileName = null;
         }
@@ -240,22 +239,14 @@ public class InitializationDialog extends JDialog {
      * @return String
      */
     public Locale getTargetLocale() {
-        Locale locale = _localeComboBox.getSelectedLocale();
+        Locale locale = localeComboBox.getSelectedLocale();
         if ( locale == null ) {
-            String text = _localeTextField.getText();
+            String text = localeTextField.getText();
             if ( text != null && text.length() != 0 ) {
-                locale = LocaleUtils.stringToLocale( _localeTextField.getText() );
+                locale = LocaleUtils.stringToLocale( localeTextField.getText() );
             }
         }
         return locale;
-    }
-    
-    /**
-     * Determines if automatic translation was selected.
-     * @return true or false
-     */
-    public boolean isAutoTranslateEnabled() { 
-        return _autoTranslateCheckBox.isSelected();
     }
     
     /*
@@ -264,12 +255,12 @@ public class InitializationDialog extends JDialog {
      */
     private void handleJarBrowse() {
         JFileChooser chooser = FileChooserFactory.createJarFileChooser();
-        chooser.setCurrentDirectory( _currentDirectory );
+        chooser.setCurrentDirectory( currentDirectory );
         int option = chooser.showOpenDialog( this );
-        _currentDirectory = chooser.getCurrentDirectory();
+        currentDirectory = chooser.getCurrentDirectory();
         if ( option == JFileChooser.APPROVE_OPTION ) {
             String fileName = chooser.getSelectedFile().getAbsolutePath();
-            _jarFileTextField.setText( fileName );
+            jarFileTextField.setText( fileName );
             updateContinueButton();
         }
     }
@@ -284,14 +275,14 @@ public class InitializationDialog extends JDialog {
         
         boolean error = false;
         
-        File jarFile = new File( _jarFileTextField.getText() );
+        File jarFile = new File( jarFileTextField.getText() );
         if ( !jarFile.exists() ) {
             error = true;
             showErrorDialog( TUStrings.ERROR_NO_SUCH_JAR );
         }
         else {
             Locale locale = getTargetLocale();
-            if ( _localeComboBox.isCustomSelected() ) {
+            if ( localeComboBox.isCustomSelected() ) {
                 // if "custom" is selected, then the locale shouldn't be one of the standard codes
                 PhetLocales lc = PhetLocales.getInstance();
                 String name = lc.getName( locale );
@@ -305,7 +296,7 @@ public class InitializationDialog extends JDialog {
         }
         
         if ( !error ) {
-            _continue = true;
+            canContinue = true;
             dispose();
         }
     }
@@ -322,7 +313,7 @@ public class InitializationDialog extends JDialog {
      * Disposes of this dialog.
      */
     private void handleCancelButton() {
-        _continue = false;
+        canContinue = false;
         dispose();
     }
     

@@ -1,3 +1,4 @@
+9/9/10 remove '_' prefix in member data names for older code, so that convention is the same throughout
 9/9/10 update screenshot to match current state of the sim
 9/9/10 change "Concentration" radio button to "Equilibrium Concentration"
 9/9/10 change "Concentration" slider label to "Initial Concentration"
