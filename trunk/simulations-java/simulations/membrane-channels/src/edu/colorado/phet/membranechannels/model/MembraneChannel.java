@@ -26,11 +26,11 @@ public class MembraneChannel {
     // Class Data
     //----------------------------------------------------------------------------
 	
-	private static final double SIDE_HEIGHT_TO_CHANNEL_HEIGHT_RATIO = 1.3;
+	private static final double SIDE_HEIGHT_TO_CHANNEL_HEIGHT_RATIO = 1.15;
 	protected static final Random RAND = new Random();
 	
 	private static final double DEFAULT_PARTICLE_VELOCITY = 100; // In nanometers per sec of sim time.
-    protected static final double CHANNEL_HEIGHT = MembraneChannelsModel.getMembraneThickness() * 1.2;
+    protected static final double CHANNEL_HEIGHT = MembraneChannelsModel.getMembraneThickness() * 1.1;
     protected static final double CHANNEL_WIDTH = MembraneChannelsModel.getMembraneThickness() * 0.50;
 
     //----------------------------------------------------------------------------
