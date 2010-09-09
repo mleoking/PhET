@@ -36,8 +36,6 @@ public class MembraneChannelsControlPanel extends ControlPanel {
     // Class Data
     //----------------------------------------------------------------------------
     
-    private static final Dimension BUTTON_SIZE = new Dimension();
-	
 	//----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
