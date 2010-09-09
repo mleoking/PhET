@@ -98,8 +98,10 @@ public class DeployProjectPage extends PhetPage {
         }
 
         File projectDir = new File( websiteProperties.getPhetDocumentRoot(), "sims/" + projectName );
-        for ( File file : projectDir.listFiles() ) {
-            file.delete();
+        if ( projectDir.exists() ) {
+            for ( File file : projectDir.listFiles() ) {
+                file.delete();
+            }
         }
 
         try {
