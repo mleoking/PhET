@@ -24,7 +24,7 @@ import edu.colorado.phet.lasers.LasersConfig;
 public class EnergyLifetimeSlider extends JSlider {
     
     private final static int MAX_SLIDER_WIDTH = 60;
-    private final static int MIN_SLIDER_WIDTH = 45; // sliders that are too narrow are unusable on Mac, see #2190
+    private final static int MIN_SLIDER_WIDTH = 34; // sliders that are too narrow are unusable on Mac, see #2190
     public final static int SLIDER_HEIGHT = 25; // this is just plain nasty, but too difficult to fix
 
     private final AtomicState atomicState;
@@ -44,7 +44,6 @@ public class EnergyLifetimeSlider extends JSlider {
         setMinimum( minLifetime );
         setMaximum( maxLifetime );
         setMajorTickSpacing( maxLifetime - minLifetime );
-        setPaintTicks( true );
         setBorder( new LineBorder( Color.BLACK, 1 ) ); // use a simple border to conserve space, see #2190
         putClientProperty( "JComponent.sizeVariant", "small" );  // use a smaller knob on Mac to address usability problem, see #2190
         
