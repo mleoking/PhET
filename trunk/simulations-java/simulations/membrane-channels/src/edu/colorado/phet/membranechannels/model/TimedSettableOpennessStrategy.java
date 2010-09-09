@@ -14,16 +14,28 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
  */
 public class TimedSettableOpennessStrategy extends MembraneChannelOpennessStrategy {
     
+    private static final double CHANGE_RATE = 4;  // Per second of sim time.
+    
+    private double targetOpennessValue = 0; // Closed by default.
+    
     /**
      * Constructor.
      */
     public TimedSettableOpennessStrategy( ConstantDtClock clock ) {
         super( clock );
     }
-
-    private static final double CHANGE_RATE = 4;  // Per second of sim time.
     
-    private double targetOpennessValue = 0; // Closed by default.
+    /**
+     * Constructor.  No clock is supplied, so instances constructed with this
+     * constructor will need to be explicitly stepped in order to get them to
+     * do anything.
+     */
+    public TimedSettableOpennessStrategy(double initialOpenness){
+        super();
+        assert initialOpenness >= 0 && initialOpenness <= 1; 
+        setOpenness( initialOpenness );
+        targetOpennessValue = initialOpenness;
+    }
 
     public void open(){
         targetOpennessValue = 1;
