@@ -15,7 +15,16 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
  * @author John Blanco
  */
 public abstract class MembraneChannelOpennessStrategy {
+    
+    // Public constant versions of the non-dynamic strategies.  These exist so
+    // that the strategy can be used without having to allocate a new one
+    // every time.
+    public static final MembraneChannelOpennessStrategy CHANNEL_ALWAYS_OPEN = new ChannelAlwaysOpenStrategy();
+    public static final MembraneChannelOpennessStrategy CHANNEL_ALWAYS_CLOSED = new ChannelAlwaysClosedStrategy();
 
+    /**
+     * Constructor.
+     */
     protected MembraneChannelOpennessStrategy(ConstantDtClock clock) {
         // Listen to clock and step this strategy with each clock tick.
         clock.addClockListener( new ClockAdapter(){

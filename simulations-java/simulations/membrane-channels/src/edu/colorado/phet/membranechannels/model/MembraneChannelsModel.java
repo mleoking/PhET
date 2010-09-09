@@ -47,9 +47,6 @@ public class MembraneChannelsModel implements IParticleCapture {
 	// Defaults for configurable parameters.
 	private static boolean SHOW_GRAPHS_DEFAULT = false;
 	
-	// Static openness strategies.
-	private static final MembraneChannelOpennessStrategy channelAlwaysOpenStrategy = new ChannelAlwaysOpenStrategy();
-	
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
@@ -522,17 +519,17 @@ public class MembraneChannelsModel implements IParticleCapture {
             opennessStrategy = potassiumChannelOpennessStrategy;
             break;
         case SODIUM_LEAKAGE_CHANNEL:
-            opennessStrategy = channelAlwaysOpenStrategy;
+            opennessStrategy = MembraneChannelOpennessStrategy.CHANNEL_ALWAYS_OPEN;
             break;
         case POTASSIUM_LEAKAGE_CHANNEL:
-            opennessStrategy = channelAlwaysOpenStrategy;
+            opennessStrategy = MembraneChannelOpennessStrategy.CHANNEL_ALWAYS_OPEN;
             break;
         default:
             System.err.println(getClass().getName() + "- Error: Invalid channel type.");
             assert false;
             // Make some arbitrary assumptions if things get this far.
             membraneChannelType = MembraneChannelTypes.SODIUM_LEAKAGE_CHANNEL;
-            opennessStrategy = channelAlwaysOpenStrategy;
+            opennessStrategy = MembraneChannelOpennessStrategy.CHANNEL_ALWAYS_OPEN;
             break;
         }
         

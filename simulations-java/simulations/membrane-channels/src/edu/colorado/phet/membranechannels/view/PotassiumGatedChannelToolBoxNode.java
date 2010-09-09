@@ -6,8 +6,8 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.membranechannels.model.ChannelAlwaysClosedStrategy;
 import edu.colorado.phet.membranechannels.model.GenericMembraneChannel;
+import edu.colorado.phet.membranechannels.model.MembraneChannelOpennessStrategy;
 import edu.colorado.phet.membranechannels.model.MembraneChannelTypes;
 import edu.colorado.phet.membranechannels.model.MembraneChannelsModel;
 import edu.umd.cs.piccolo.PNode;
@@ -27,7 +27,8 @@ public class PotassiumGatedChannelToolBoxNode extends MembraneChannelToolBoxNode
     @Override
     protected void initializeSelectionNode() {
         PNode representation = new MembraneChannelNode(GenericMembraneChannel.createChannel( 
-                MembraneChannelTypes.POTASSIUM_GATED_CHANNEL, getModel(), new ChannelAlwaysClosedStrategy() ),
+                MembraneChannelTypes.POTASSIUM_GATED_CHANNEL, getModel(), 
+                MembraneChannelOpennessStrategy.CHANNEL_ALWAYS_CLOSED ),
                 SCALING_MVT);
         setSelectionNode(representation);
     }
