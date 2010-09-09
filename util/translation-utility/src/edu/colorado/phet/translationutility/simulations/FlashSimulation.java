@@ -236,7 +236,7 @@ public class FlashSimulation extends AbstractSimulation {
      * The XML file contains localized strings.
      * The original JAR file is not modified.
      */
-    private String createTestJar( Properties properties, Locale locale ) throws SimulationException {
+    private String createTestJar( Properties stringsProperties, Locale locale ) throws SimulationException {
         
         final String testJarFileName = TEST_JAR;
         final String originalJarFileName = getJarFileName();
@@ -257,11 +257,11 @@ public class FlashSimulation extends AbstractSimulation {
         }
         
         // regular expressions for files to exclude while copying the JAR
-        String xmlFilename = getStringPath( projectName, locale );
+        String stringsFileName = getStringPath( projectName, locale );
         String[] exclude = {
                 JarFile.MANIFEST_NAME,
                 "META-INF/.*\\.SF", "META-INF/.*\\.RSA", "META-INF/.*\\.DSA", /* signing information */
-                xmlFilename,
+                stringsFileName,
                 FlashLauncher.ARGS_FILENAME,
                 SimulationProperties.FILENAME
         };
@@ -295,9 +295,9 @@ public class FlashSimulation extends AbstractSimulation {
             }
             
             // add string properties file to output
-            jarEntry = new JarEntry( xmlFilename );
+            jarEntry = new JarEntry( stringsFileName );
             testOutputStream.putNextEntry( jarEntry );
-            DocumentAdapter.writeProperties( properties, "created by " + getClass().getName(), testOutputStream );
+            DocumentAdapter.writeProperties( stringsProperties, "created by " + getClass().getName(), testOutputStream );
             testOutputStream.closeEntry();
             
             // add flash-launcher-args.txt

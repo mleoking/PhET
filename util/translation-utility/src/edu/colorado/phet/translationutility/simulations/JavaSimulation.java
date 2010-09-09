@@ -195,7 +195,7 @@ public class JavaSimulation extends AbstractSimulation {
      * 
      * The original JAR file is not modified.
      */
-    private String createTestJar( Properties properties, Locale locale ) throws SimulationException {
+    private String createTestJar( Properties stringsProperties, Locale locale ) throws SimulationException {
 
         final String testJarFileName = TEST_JAR;
         final String originalJarFileName = getJarFileName();
@@ -235,11 +235,11 @@ public class JavaSimulation extends AbstractSimulation {
         }
         
         // regular expressions for files to exclude while copying the JAR
-        String propertiesFileName = getStringsPath( getProjectName(), locale );
+        String stringsFileName = getStringsPath( getProjectName(), locale );
         String[] exclude = {
                 JarFile.MANIFEST_NAME,
                 "META-INF/.*\\.SF", "META-INF/.*\\.RSA", "META-INF/.*\\.DSA", /* signing information */
-                propertiesFileName,
+                stringsFileName,
                 JARLauncher.PROPERTIES_FILE_NAME,
                 PREFERRED_FONTS,
                 SimulationProperties.FILENAME
@@ -275,9 +275,9 @@ public class JavaSimulation extends AbstractSimulation {
             }
             
             // add properties file to output
-            jarEntry = new JarEntry( propertiesFileName );
+            jarEntry = new JarEntry( stringsFileName );
             testOutputStream.putNextEntry( jarEntry );
-            properties.store( testOutputStream, "created by " + JavaSimulation.class.getName() );
+            stringsProperties.store( testOutputStream, "created by " + JavaSimulation.class.getName() );
             testOutputStream.closeEntry();
             
             // add JARLauncher properties to output
