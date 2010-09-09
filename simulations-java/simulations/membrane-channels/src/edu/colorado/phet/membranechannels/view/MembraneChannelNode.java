@@ -12,6 +12,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
+import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 
 import javax.swing.Timer;
@@ -41,7 +42,8 @@ public class MembraneChannelNode extends PNode {
     // Class Data
     //----------------------------------------------------------------------------
     
-    // For debug.
+    // For debug.  Set this to 'true' in order to see the capture zones
+    // associated with this membrane channel.
     private static final boolean SHOW_CAPTURE_ZONES = false;
 	
     //----------------------------------------------------------------------------
@@ -121,8 +123,8 @@ public class MembraneChannelNode extends PNode {
 		Dimension2D transformedEdgeNodeSize = new PDimension(
 				Math.abs(mvt.modelToViewDifferentialXDouble(edgeNodeWidth)),
 				Math.abs(mvt.modelToViewDifferentialYDouble(edgeNodeHeight)));
-		leftEdgeNode = createEdgeNode(transformedEdgeNodeSize, membraneChannelModel.getEdgeColor());
-		rightEdgeNode = createEdgeNode(transformedEdgeNodeSize, membraneChannelModel.getEdgeColor());
+        leftEdgeNode = createRoundedEdgeNode(transformedEdgeNodeSize, membraneChannelModel.getEdgeColor());
+        rightEdgeNode = createRoundedEdgeNode(transformedEdgeNodeSize, membraneChannelModel.getEdgeColor());
 		
 		// Create the layers for the channel the edges.  This makes offsets
 		// and rotations easier.
@@ -237,7 +239,7 @@ public class MembraneChannelNode extends PNode {
 	    removalAnimationTimer.start();
 	}
 	
-	private PPath createEdgeNode(Dimension2D size, Color color){
+	private PPath createRoundedEdgeNode(Dimension2D size, Color color){
 		
 		GeneralPath path = new GeneralPath();
 		
@@ -257,6 +259,18 @@ public class MembraneChannelNode extends PNode {
 		return edgeNode;
 	}
 	
+    private PPath createSquarishEdgeNode(Dimension2D size, Color color){
+        
+        RoundRectangle2D shape = new RoundRectangle2D.Double( -size.getWidth() / 2, -size.getHeight() / 2,
+                size.getWidth(), size.getHeight(), 5, 5 );
+        
+        PPath edgeNode = new PPath(shape);
+        edgeNode.setPaint(color);
+        edgeNode.setStrokePaint(ColorUtils.darkerColor(color, 0.3));
+        
+        return edgeNode;
+    }
+    
 	private void updateLocation(){
 		channelLayer.setOffset(mvt.modelToViewDouble(membraneChannel.getCenterLocation()));
 		edgeLayer.setOffset(mvt.modelToViewDouble(membraneChannel.getCenterLocation()));
