@@ -104,10 +104,22 @@ public class Project implements Serializable, IntId {
      * @return Success (true or false)
      */
     public static boolean backupProject( final File docRoot, final String projectName ) {
+        return backupProject( docRoot, projectName, false );
+    }
+
+    /**
+     * Back up the project files to an external directory
+     *
+     * @param docRoot       Apache document root
+     * @param projectName   Project name
+     * @param ifDoesNotExit Success flag to return if the project does not exist
+     * @return Success (true or false)
+     */
+    public static boolean backupProject( final File docRoot, final String projectName, Boolean ifDoesNotExit ) {
         File projectRoot = new File( docRoot, "sims/" + projectName );
         if ( !projectRoot.exists() ) {
             logger.warn( "Unable to backup project with name: " + projectName + ", cannot find project root" );
-            return false;
+            return ifDoesNotExit;
         }
 
         ProjectPropertiesFile props = getProjectPropertiesFile( docRoot, projectName );

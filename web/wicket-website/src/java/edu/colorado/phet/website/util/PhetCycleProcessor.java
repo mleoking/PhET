@@ -2,6 +2,7 @@ package edu.colorado.phet.website.util;
 
 import org.apache.log4j.Logger;
 import org.apache.wicket.RequestCycle;
+import org.apache.wicket.protocol.http.PageExpiredException;
 import org.apache.wicket.protocol.http.WebRequestCycleProcessor;
 import org.apache.wicket.request.IRequestCodingStrategy;
 
@@ -19,10 +20,11 @@ public class PhetCycleProcessor extends WebRequestCycleProcessor {
     @Override
     public void respond( RuntimeException e, RequestCycle requestCycle ) {
 
-        logger.warn( "error encountered!", e );
-
-        if ( requestCycle instanceof PhetRequestCycle ) {
-            logger.warn( "occurred in " + ( (PhetRequestCycle) requestCycle ).getRequestURI() );
+        if ( !( e instanceof PageExpiredException ) ) {
+            logger.warn( "error encountered!", e );
+            if ( requestCycle instanceof PhetRequestCycle ) {
+                logger.warn( "occurred in " + ( (PhetRequestCycle) requestCycle ).getRequestURI() );
+            }
         }
         super.respond( e, requestCycle );
     }

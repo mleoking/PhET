@@ -66,7 +66,7 @@ public class DeployProjectPage extends PhetPage {
 
         logger.info( "backing up project " + projectName );
 
-        success = Project.backupProject( docRoot, projectName );
+        success = Project.backupProject( docRoot, projectName, true );
         if ( !success ) {
             logger.error( "error backing up project " + projectName + ", aborting deployment" );
             return;
