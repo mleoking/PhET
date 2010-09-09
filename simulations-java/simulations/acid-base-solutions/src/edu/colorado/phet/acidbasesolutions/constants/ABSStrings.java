@@ -32,7 +32,7 @@ public class ABSStrings {
     public static final String PH_PAPER = getString( "pHPaper" ); 
     public static final String PH_METER = getString( "pHMeter" ); 
     public static final String VIEW_PARTICLES = getString( "viewParticles" ); 
-    public static final String CONCENTRATION = getString( "concentration" ); 
+    public static final String INITIAL_CONCENTRATION = getString( "initialConcentration" ); 
     public static final String STRENGTH = getString( "strength" ); 
     public static final String WEAK = getString( "weak" ); 
     public static final String STRONG = getString( "strong" ); 
@@ -49,8 +49,8 @@ public class ABSStrings {
     public static final String CUSTOM_SOLUTION = getString( "customSolution" ); 
     public static final String MOLES_PER_LITER = getString( "molesPerLiter" );
     public static final String LITERS = getString( "liters" );
-    public static final String MAGNIFYING_GLASS = getString( "magnifyingGlass" );
-    public static final String CONCENTRATION_GRAPH = getString( "concentrationGraph" );
+    public static final String MOLECULES = getString( "molecules" );
+    public static final String EQUILIBRIUM_CONCENTRATION = getString( "equilibriumConcentration" );
     public static final String CONCENTRATION_GRAPH_Y_AXIS = getString( "concentrationGraph.yAxis" );
     public static final String NEGLIGIBLE = getString( "negligible" );
     public static final String PH_COLOR_KEY = getString( "pHColorKey" );
