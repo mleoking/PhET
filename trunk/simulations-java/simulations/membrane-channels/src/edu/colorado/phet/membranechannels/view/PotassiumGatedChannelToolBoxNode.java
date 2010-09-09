@@ -10,6 +10,7 @@ import edu.colorado.phet.membranechannels.model.MembraneChannel;
 import edu.colorado.phet.membranechannels.model.MembraneChannelOpennessStrategy;
 import edu.colorado.phet.membranechannels.model.MembraneChannelTypes;
 import edu.colorado.phet.membranechannels.model.MembraneChannelsModel;
+import edu.colorado.phet.membranechannels.model.TimedSettableOpennessStrategy;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -26,9 +27,13 @@ public class PotassiumGatedChannelToolBoxNode extends MembraneChannelToolBoxNode
 
     @Override
     protected void initializeSelectionNode() {
+        // Need to have a dynamic openness strategy because the representation
+        // of the node needs to be correct, but in this case the openness will
+        // not actually change.
+        MembraneChannelOpennessStrategy opennessStrategy = new TimedSettableOpennessStrategy( 1 );
         PNode representation = new MembraneChannelNode(MembraneChannel.createChannel( 
                 MembraneChannelTypes.POTASSIUM_GATED_CHANNEL, getModel(), 
-                MembraneChannelOpennessStrategy.CHANNEL_ALWAYS_CLOSED ),
+                opennessStrategy ),
                 SCALING_MVT);
         setSelectionNode(representation);
     }

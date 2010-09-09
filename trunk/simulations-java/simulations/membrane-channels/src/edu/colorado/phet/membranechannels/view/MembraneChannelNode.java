@@ -123,8 +123,14 @@ public class MembraneChannelNode extends PNode {
 		Dimension2D transformedEdgeNodeSize = new PDimension(
 				Math.abs(mvt.modelToViewDifferentialXDouble(edgeNodeWidth)),
 				Math.abs(mvt.modelToViewDifferentialYDouble(edgeNodeHeight)));
-        leftEdgeNode = createRoundedEdgeNode(transformedEdgeNodeSize, membraneChannelModel.getEdgeColor());
-        rightEdgeNode = createRoundedEdgeNode(transformedEdgeNodeSize, membraneChannelModel.getEdgeColor());
+		if (membraneChannelModel.isGated()){
+		    leftEdgeNode = createRoundedEdgeNode(transformedEdgeNodeSize, membraneChannelModel.getEdgeColor());
+		    rightEdgeNode = createRoundedEdgeNode(transformedEdgeNodeSize, membraneChannelModel.getEdgeColor());
+		}
+		else{
+		    leftEdgeNode = createSquarishEdgeNode(transformedEdgeNodeSize, membraneChannelModel.getEdgeColor());
+		    rightEdgeNode = createSquarishEdgeNode(transformedEdgeNodeSize, membraneChannelModel.getEdgeColor());
+		}
 		
 		// Create the layers for the channel the edges.  This makes offsets
 		// and rotations easier.
