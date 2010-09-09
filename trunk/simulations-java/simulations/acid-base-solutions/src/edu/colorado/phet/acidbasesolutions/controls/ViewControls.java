@@ -18,6 +18,7 @@ import edu.colorado.phet.acidbasesolutions.model.MagnifyingGlass.MagnifyingGlass
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
+import edu.colorado.phet.common.phetcommon.view.controls.HTMLRadioButton;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 
 /**
@@ -28,7 +29,8 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 public class ViewControls extends PhetTitledPanel {
     
     private final ABSModel model;
-    private final JRadioButton magnifyingGlassRadioButton, concentrationGraphRadioButton, liquidRadioButton;
+    private final JRadioButton magnifyingGlassRadioButton, liquidRadioButton;
+    private final HTMLRadioButton concentrationGraphRadioButton;
     private final JLabel magnifyingGlassIcon, concentrationGraphIcon, liquidIcon, showWaterIcon;
     private final JCheckBox showWaterCheckBox;
     private boolean controlsEnabled;
@@ -132,10 +134,10 @@ public class ViewControls extends PhetTitledPanel {
                 }
             };
             
-            magnifyingGlassRadioButton = new JRadioButton( ABSStrings.MAGNIFYING_GLASS );
+            magnifyingGlassRadioButton = new JRadioButton( ABSStrings.MOLECULES );
             magnifyingGlassRadioButton.addActionListener( actionListener );
 
-            concentrationGraphRadioButton = new JRadioButton( ABSStrings.CONCENTRATION_GRAPH );
+            concentrationGraphRadioButton = new HTMLRadioButton( ABSStrings.EQUILIBRIUM_CONCENTRATION );
             concentrationGraphRadioButton.addActionListener( actionListener );
             
             liquidRadioButton = new JRadioButton( ABSStrings.LIQUID );

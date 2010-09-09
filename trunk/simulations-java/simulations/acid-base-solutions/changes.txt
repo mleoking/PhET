@@ -1,3 +1,5 @@
+9/9/10 change "Concentration" radio button to "Equilibrium Concentration"
+9/9/10 change "Concentration" slider label to "Initial Concentration"
 9/2/10 create all icons staticly in ABSImages, delete duplicate H2O image file
 9/2/10 move Views above Tests in control panel, liked this in interviews
 8/31/10 replace local implementation of BlackSeparator with phetcommon

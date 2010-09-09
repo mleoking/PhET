@@ -277,7 +277,7 @@ public class CustomSolutionControls extends PhetTitledPanel {
                 double min = ABSConstants.CONCENTRATION_RANGE.getMin();
                 double max = ABSConstants.CONCENTRATION_RANGE.getMax();
                 double value = ABSConstants.CONCENTRATION_RANGE.getDefault();
-                String label = ABSStrings.CONCENTRATION;
+                String label = ABSStrings.INITIAL_CONCENTRATION;
                 String textFieldPattern = "0.000";
                 String units = ABSStrings.MOLES_PER_LITER;
                 concentrationControl = new LogarithmicValueControl( min, max, label, textFieldPattern, units );
