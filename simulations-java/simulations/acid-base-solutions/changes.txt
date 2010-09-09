@@ -1,4 +1,3 @@
-# 1.00.00 (43887) Sep 9, 2010
 9/9/10 update screenshot to match current state of the sim
 9/9/10 change "Concentration" radio button to "Equilibrium Concentration"
 9/9/10 change "Concentration" slider label to "Initial Concentration"
