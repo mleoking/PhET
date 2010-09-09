@@ -2,15 +2,12 @@
 
 package edu.colorado.phet.translationutility.util;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.Properties;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
 
-import edu.colorado.phet.translationutility.simulations.ISimulation.SimulationException;
+import edu.colorado.phet.flashlauncher.util.SimulationProperties;
 
 /**
  * Utility methods related to JAR files.
@@ -23,109 +20,160 @@ public class JarUtils {
     private JarUtils() {}
     
     /**
+     * Opens a jar.
+     * 
+     * @param jarFileName
+     * @return JarInputStream
+     * @throws IOException
+     */
+    public static JarInputStream openJar( String jarFileName ) throws IOException {
+        return new JarInputStream( new FileInputStream( jarFileName ) );
+    }
+    
+    /**
      * Does a JAR contain a specified file?
+     * 
      * @param jarFileName
      * @param fileName
      * @return true or false
-     * @throws SimulationException
+     * @throws IOException
      */
-    public static boolean containsFile( String jarFileName, String fileName ) throws SimulationException {
+    public static boolean containsFile( String jarFileName, String fileName ) throws IOException {
         
         boolean found = false;
         
         // open the jar file
-        InputStream inputStream = null;
-        try {
-            inputStream = new FileInputStream( jarFileName );
-        }
-        catch ( FileNotFoundException e ) {
-            e.printStackTrace();
-            throw new SimulationException( "jar file not found: " + jarFileName, e );
-        }
+        JarInputStream jarInputStream = openJar( jarFileName );
         
-        // look for file
-        JarInputStream jarInputStream = null;
-        try {
-            jarInputStream = new JarInputStream( inputStream );
-            JarEntry jarEntry = jarInputStream.getNextJarEntry();
-            while ( jarEntry != null ) {
-                if ( jarEntry.getName().equals( fileName ) ) {
-                    found = true;
-                    break;
-                }
-                else {
-                    jarEntry = jarInputStream.getNextJarEntry();
-                }
+        // look for the specified file
+        JarEntry jarEntry = jarInputStream.getNextJarEntry();
+        while ( jarEntry != null ) {
+            if ( jarEntry.getName().equals( fileName ) ) {
+                found = true;
+                break;
+            }
+            else {
+                jarEntry = jarInputStream.getNextJarEntry();
             }
         }
-        catch ( IOException e ) {
-            e.printStackTrace();
-            throw new SimulationException( "error reading jar file: " + jarFileName, e );
-        }
         
+        // close the jar file
+        jarInputStream.close();
+
         return found;
     }
     
     /**
-     * Reads a properties file from the specified JAR file.
+     * Reads a properties file from a jar.
      * 
      * @param jarFileName
-     * @param propertiesFileName
+     * @param fileName
      * @return Properties
+     * @throws IOException
      */
-    public static Properties readPropertiesFromJar( String jarFileName, String propertiesFileName ) throws SimulationException {
+    public static Properties readProperties( String jarFileName, String fileName ) throws IOException {
         
-        InputStream inputStream = null;
-        try {
-            inputStream = new FileInputStream( jarFileName );
-        }
-        catch ( FileNotFoundException e ) {
-            e.printStackTrace();
-            throw new SimulationException( "jar file not found: " + jarFileName, e );
-        }
-        
-        JarInputStream jarInputStream = null;
+        // open the jar file
+        JarInputStream jarInputStream = openJar( jarFileName );
+
+        // look for the properties file
         boolean found = false;
-        try {
-            jarInputStream = new JarInputStream( inputStream );
-            
-            // look for the properties file
-            JarEntry jarEntry = jarInputStream.getNextJarEntry();
-            while ( jarEntry != null ) {
-                if ( jarEntry.getName().equals( propertiesFileName ) ) {
-                    found = true;
-                    break;
-                }
-                else {
-                    jarEntry = jarInputStream.getNextJarEntry();
-                }
+        JarEntry jarEntry = jarInputStream.getNextJarEntry();
+        while ( jarEntry != null ) {
+            if ( jarEntry.getName().equals( fileName ) ) {
+                found = true;
+                break;
+            }
+            else {
+                jarEntry = jarInputStream.getNextJarEntry();
             }
         }
-        catch ( IOException e ) {
-            e.printStackTrace();
-            throw new SimulationException( "error reading jar file: " + jarFileName, e );
-        }
         
+        // read the properties file into a Properties object
         Properties properties = null;
         if ( found ) {
             properties = new Properties();
-            try {
-                properties.load( jarInputStream );
+            properties.load( jarInputStream );
+        }
+        else {
+            throw new IOException( "file not found: " + fileName );
+        }
+
+        // close the jar file
+        jarInputStream.close();
+
+        return properties;
+    }
+    
+    /**
+     * Reads SimulationProperties from a jar.
+     * 
+     * @param jarFileName
+     * @param locale
+     * @return SimulationProperties
+     * @throws IOException
+     */
+    public static SimulationProperties readSimulationProperties( String jarFileName ) throws IOException {
+        return SimulationPropertiesFactory.createSimulationProperties( jarFileName );
+    }
+    
+    /**
+     * Reads a text file from a jar, using a default buffer size.
+     * 
+     * @param jarFileName
+     * @param fileName
+     * @return
+     * @throws IOException
+     */
+    public static String readText( String jarFileName, String fileName ) throws IOException {
+        return readText( jarFileName, fileName, 1024 );
+    }
+    
+    /**
+     * Reads a text file from a jar.
+     * 
+     * @param jarFileName
+     * @param fileName
+     * @param bufferSize size of the buffer used for reading
+     * @return String
+     * @throws IOException
+     */
+    public static String readText( String jarFileName, String fileName, int bufferSize ) throws IOException {
+        
+        // open the jar file
+        JarInputStream jarInputStream = openJar( jarFileName );
+
+        // look for the text file
+        boolean found = false;
+        JarEntry jarEntry = jarInputStream.getNextJarEntry();
+        while ( jarEntry != null ) {
+            if ( jarEntry.getName().equals( fileName ) ) {
+                found = true;
+                break;
             }
-            catch ( IOException e ) {
-                e.printStackTrace();
-                throw new SimulationException( "cannot read properties file from jar: " + propertiesFileName, e );
+            else {
+                jarEntry = jarInputStream.getNextJarEntry();
             }
         }
         
-        try {
-            jarInputStream.close();
+        // read the file's contents into a String buffer
+        StringBuffer stringBuffer = null;
+        if ( found ) {
+            stringBuffer = new StringBuffer( bufferSize );
+            BufferedReader reader = new BufferedReader( new InputStreamReader( jarInputStream ) );
+            char[] buffer = new char[bufferSize];
+            int numRead = 0;
+            while ( ( numRead = reader.read( buffer ) ) != -1 ) {
+                stringBuffer.append( buffer, 0, numRead );
+            }
         }
-        catch ( IOException e ) {
-            e.printStackTrace();
-            throw new SimulationException( "error closing jar file: " + jarFileName, e );
+        else {
+            throw new IOException( "file not found: " + fileName );
         }
-    
-        return properties;
+
+        // close the jar file
+        jarInputStream.close();
+        
+        return stringBuffer.toString();
     }
 }

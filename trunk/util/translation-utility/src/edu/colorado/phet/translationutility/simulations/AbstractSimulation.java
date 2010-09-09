@@ -1,4 +1,4 @@
-/* Copyright 2008-2009, University of Colorado */
+/* Copyright 2008-2010, University of Colorado */
 
 package edu.colorado.phet.translationutility.simulations;
 
@@ -77,14 +77,27 @@ public abstract class AbstractSimulation implements ISimulation {
      * @throws SimulationException
      */
     protected String getProjectVersion( String propertiesFileName ) throws SimulationException {
-        Properties projectProperties = JarUtils.readPropertiesFromJar( getJarFileName(), propertiesFileName );
+        
+        // read properties file that contains the version info
+        Properties projectProperties = null;
+        try {
+            projectProperties = JarUtils.readProperties( getJarFileName(), propertiesFileName );
+        }
+        catch ( IOException e ) {
+            e.printStackTrace();
+            throw new SimulationException( "error reading " + propertiesFileName + " from " + getJarFileName() );
+        }
         if ( projectProperties == null ) {
             throw new SimulationException( "cannot find the version info file: " + propertiesFileName );
         }
+        
+        // extract the version info
         String major = projectProperties.getProperty( "version.major" );
         String minor = projectProperties.getProperty( "version.minor" );
         String dev = projectProperties.getProperty( "version.dev" );
         String revision = projectProperties.getProperty( "version.revision" );
+        
+        // format the version name
         Object[] args = { major, minor, dev, revision };
         return MessageFormat.format( "{0}.{1}.{2} ({3})", args );
     }
@@ -95,11 +108,11 @@ public abstract class AbstractSimulation implements ISimulation {
     
     /*
      * Gets the manifest from a jar file.
-     * If there is no manifest, this will throw IOException.
      * All JAR files for PhET simulations must have a manifest.
      * 
      * @param jarFileName
      * @return Manifest
+     * @throws SimulationException if there was no manifest
      */
     private static Manifest getManifest( String jarFileName ) throws SimulationException {
         Manifest manifest = null;
