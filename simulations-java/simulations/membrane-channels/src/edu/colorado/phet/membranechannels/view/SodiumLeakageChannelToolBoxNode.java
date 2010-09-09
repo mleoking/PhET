@@ -8,8 +8,10 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.membranechannels.model.ChannelAlwaysOpenStrategy;
 import edu.colorado.phet.membranechannels.model.MembraneChannel;
+import edu.colorado.phet.membranechannels.model.MembraneChannelOpennessStrategy;
 import edu.colorado.phet.membranechannels.model.MembraneChannelTypes;
 import edu.colorado.phet.membranechannels.model.MembraneChannelsModel;
+import edu.colorado.phet.membranechannels.model.TimedSettableOpennessStrategy;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -26,8 +28,12 @@ public class SodiumLeakageChannelToolBoxNode extends MembraneChannelToolBoxNode 
 
     @Override
     protected void initializeSelectionNode() {
+        // Need to have a dynamic motion strategy because the representation
+        // of the node needs to be correct, but in this case the openness will
+        // not actually change.
+        MembraneChannelOpennessStrategy opennessStrategy = new TimedSettableOpennessStrategy( 1 );
         PNode representation = new MembraneChannelNode(MembraneChannel.createChannel( 
-                MembraneChannelTypes.SODIUM_LEAKAGE_CHANNEL, getModel(), new ChannelAlwaysOpenStrategy() ),
+                MembraneChannelTypes.SODIUM_LEAKAGE_CHANNEL, getModel(), opennessStrategy ),
                 SCALING_MVT);
         setSelectionNode(representation);
     }
