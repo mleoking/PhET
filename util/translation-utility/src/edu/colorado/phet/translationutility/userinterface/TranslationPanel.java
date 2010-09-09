@@ -2,10 +2,7 @@
 
 package edu.colorado.phet.translationutility.userinterface;
 
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -124,7 +121,7 @@ public class TranslationPanel extends JPanel implements FindListener {
         
         // create the table
         Iterator<String> i = sortedSet.iterator();
-        ArrayList<TargetTextArea> targetTextAreas = new ArrayList<TargetTextArea>();
+        ArrayList<Component> targetTextAreas = new ArrayList<Component>();
         while ( i.hasNext() ) {
 
             String key = i.next();
