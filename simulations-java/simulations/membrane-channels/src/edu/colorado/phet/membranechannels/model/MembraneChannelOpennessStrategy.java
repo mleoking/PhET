@@ -67,6 +67,14 @@ public abstract class MembraneChannelOpennessStrategy {
         // time-dependent behavior.
     }
     
+    /**
+     * Returns a boolean value that indicates whether or not this strategy
+     * is dynamic, meaning that the value of openness may change at some point
+     * in time.  This must be implemented by each sub class.
+     * @return
+     */
+    protected abstract boolean isDynamic();
+    
     public void addListener(Listener listener){
         listeners.add(listener);
     }
