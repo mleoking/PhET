@@ -1,3 +1,4 @@
+9/9/10 #2497, use better/consistent variable names in createTestJar methods
 9/9/10 converted ArrayLists to use generics
 9/9/10 #2492, first phase: prepare code related to jar creation for migration to phetcommon (not completed, not fully tested)
 8/30/10 #2463, add simulation.properties support for all sim, which facilitates multiple sims per Flash project
