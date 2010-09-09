@@ -16,9 +16,9 @@ import java.util.ArrayList;
  */
 public class ComponentListFocusPolicy extends FocusTraversalPolicy {
 
-    private ArrayList _components; // array of Component
+    private ArrayList<Component> _components;
     
-    public ComponentListFocusPolicy( ArrayList components ) {
+    public ComponentListFocusPolicy( ArrayList<Component> components ) {
         assert( components.size() > 0 );
         _components = components;
     }
