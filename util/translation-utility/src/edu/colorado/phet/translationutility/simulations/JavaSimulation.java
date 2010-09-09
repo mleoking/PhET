@@ -296,7 +296,7 @@ public class JavaSimulation extends AbstractSimulation {
             // add simulation.properties, see #2463
             jarEntry = new JarEntry( SimulationProperties.FILENAME );
             testOutputStream.putNextEntry( jarEntry );
-            SimulationProperties sp = new SimulationProperties( getProjectName(), getSimulationName(), locale, SimulationProperties.TYPE_FLASH );
+            SimulationProperties sp = new SimulationProperties( getProjectName(), getSimulationName(), locale, SimulationProperties.TYPE_JAVA );
             sp.store( testOutputStream, "created by " + getClass().getName() );
             testOutputStream.closeEntry();
             
