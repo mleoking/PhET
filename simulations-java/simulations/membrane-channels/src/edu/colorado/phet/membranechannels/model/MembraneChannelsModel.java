@@ -53,8 +53,8 @@ public class MembraneChannelsModel implements IParticleCapture {
     
     private final ConstantDtClock clock;
     private ArrayList<Particle> particles = new ArrayList<Particle>();
-    private ArrayList<GenericMembraneChannel> membraneChannels = new ArrayList<GenericMembraneChannel>();
-    private GenericMembraneChannel userControlledMembraneChannel = null;
+    private ArrayList<MembraneChannel> membraneChannels = new ArrayList<MembraneChannel>();
+    private MembraneChannel userControlledMembraneChannel = null;
     private EventListenerList listeners = new EventListenerList();
     private final ArrayList<Point2D> allowableChannelLocations = new ArrayList<Point2D>(MAX_CHANNELS_ON_MEMBRANE);
     private boolean concentrationGraphsVisible = SHOW_GRAPHS_DEFAULT;
@@ -234,7 +234,7 @@ public class MembraneChannelsModel implements IParticleCapture {
      */
     private int getNumUsersOfOpennessStrategy(MembraneChannelOpennessStrategy opennessStrategy){
         int count = 0;
-        for (GenericMembraneChannel membraneChannel : membraneChannels){
+        for (MembraneChannel membraneChannel : membraneChannels){
             if (membraneChannel.getOpennessStrategy() == opennessStrategy){
                 count++;
             }
@@ -533,7 +533,7 @@ public class MembraneChannelsModel implements IParticleCapture {
             break;
         }
         
-        final GenericMembraneChannel membraneChannel = GenericMembraneChannel.createChannel( membraneChannelType, 
+        final MembraneChannel membraneChannel = MembraneChannel.createChannel( membraneChannelType, 
                 this, opennessStrategy );
         membraneChannel.setCenterLocation( position );
 
@@ -666,11 +666,9 @@ public class MembraneChannelsModel implements IParticleCapture {
     private boolean isOpennessStrategyInUse( MembraneChannelOpennessStrategy strategy){
         boolean strategyIsUsed = false;
         for (MembraneChannel membraneChannel : membraneChannels){
-            if (membraneChannel instanceof GenericMembraneChannel){
-                if (((GenericMembraneChannel)membraneChannel).getOpennessStrategy() == strategy){
-                    strategyIsUsed = true;
-                    break;
-                }
+            if ((membraneChannel).getOpennessStrategy() == strategy){
+                strategyIsUsed = true;
+                break;
             }
         }
         return strategyIsUsed;

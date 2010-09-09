@@ -10,16 +10,17 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Random;
 
+import edu.colorado.phet.membranechannels.MembraneChannelsConstants;
 import edu.umd.cs.piccolo.util.PDimension;
 
 
 /**
- * Abstract base class for membrane channels, which represent any channel
- * through which atoms can go through to cross a membrane.
+ * Class for membrane channels, which represent any channel through which
+ * atoms can go through to cross a membrane.
  * 
  * @author John Blanco
  */
-public abstract class MembraneChannel {
+public class MembraneChannel {
 
     //----------------------------------------------------------------------------
     // Class Data
@@ -29,12 +30,14 @@ public abstract class MembraneChannel {
 	protected static final Random RAND = new Random();
 	
 	private static final double DEFAULT_PARTICLE_VELOCITY = 100; // In nanometers per sec of sim time.
+    protected static final double CHANNEL_HEIGHT = MembraneChannelsModel.getMembraneThickness() * 1.2;
+    protected static final double CHANNEL_WIDTH = MembraneChannelsModel.getMembraneThickness() * 0.50;
 
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
 	
-	// Reference to the model that contains that particles that will be moving
+    // Reference to the model that contains that particles that will be moving
 	// through this channel.
 	private IParticleCapture modelContainingParticles;
 	
@@ -70,10 +73,107 @@ public abstract class MembraneChannel {
 	// needed for handling collisions and for aborting traversals if the user
 	// grabs the channel.
 	private ArrayList<Particle> particlesTraversingChannel = new ArrayList<Particle>();
+    protected final Color channelColor;
+    protected final Color edgeColor;
+    protected final ParticleType particleTypeToCapture;
+    protected final MembraneChannelOpennessStrategy opennessStrategy;
 	
-	// Handler for notifications of particles that have completed the traversal
-	// of this membrane channel.
-	private MotionStrategy.Listener channelTraversalListener = new MotionStrategy.Adapter(){
+    //----------------------------------------------------------------------------
+    // Constructor
+    //----------------------------------------------------------------------------
+
+    public MembraneChannel(IParticleCapture modelContainingParticles, ParticleType particleTypeToCapture,
+            Color channelColor, Color edgeColor, MembraneChannelOpennessStrategy opennessStrategy,
+            Point2D initialPositon) {
+
+        this.modelContainingParticles = modelContainingParticles;
+        this.particleTypeToCapture = particleTypeToCapture;
+        this.channelColor = channelColor;
+        this.edgeColor = edgeColor;
+        this.opennessStrategy = opennessStrategy;
+
+        // Set the channel size.
+        channelSize.setSize(CHANNEL_WIDTH, CHANNEL_HEIGHT);
+        overallSize.setSize(CHANNEL_WIDTH * 2.1, CHANNEL_WIDTH * SIDE_HEIGHT_TO_CHANNEL_HEIGHT_RATIO);
+
+        // Set up the capture zones that define where particles may be
+        // captured in order to move them across the membrane.
+        setUpperCaptureZone(new PieSliceShapedCaptureZone(getCenterLocation(), CHANNEL_WIDTH * 4, -Math.PI / 2, Math.PI * 0.3));
+        setLowerCaptureZone(new PieSliceShapedCaptureZone(getCenterLocation(), CHANNEL_WIDTH * 4, Math.PI / 2, Math.PI * 0.3));
+        
+        // Initialize the openness level.
+        setOpenness( opennessStrategy.getOpenness() );
+        
+        // Initialize the position.
+        setCenterLocation( initialPositon );
+        
+        // Listen for updates to the openness.
+        opennessStrategy.addListener( new MembraneChannelOpennessStrategy.Listener() {
+            public void opennessChanged() {
+                setOpenness( MembraneChannel.this.opennessStrategy.getOpenness() );
+            }
+        });
+    }
+    
+    public MembraneChannel(IParticleCapture modelContainingParticles, ParticleType particleTypeToCapture,
+            Color channelColor, Color edgeColor, MembraneChannelOpennessStrategy opennessStrategy) {
+
+        this(modelContainingParticles, particleTypeToCapture, channelColor, edgeColor, opennessStrategy, 
+                new Point2D.Double(0, 0));
+    }
+	
+    //----------------------------------------------------------------------------
+    // Methods
+    //----------------------------------------------------------------------------
+	
+    /**
+     * Static factory method for creating a channel when given a channel type ID.
+     */
+    public static MembraneChannel createChannel( MembraneChannelTypes channelType, IParticleCapture modelContainingParticles, MembraneChannelOpennessStrategy opennessStrategy ) {
+    
+        Color channelColor, edgeColor;
+        ParticleType particleType;
+    
+        switch ( channelType ){
+        case POTASSIUM_GATED_CHANNEL:
+            channelColor = MembraneChannelsConstants.POTASSIUM_GATED_CHANNEL_COLOR;
+            edgeColor = MembraneChannelsConstants.POTASSIUM_GATED_EDGE_COLOR;
+            particleType = ParticleType.POTASSIUM_ION;
+            break;
+    
+        case POTASSIUM_LEAKAGE_CHANNEL:
+            channelColor = MembraneChannelsConstants.POTASSIUM_LEAKAGE_CHANNEL_COLOR;
+            edgeColor = MembraneChannelsConstants.POTASSIUM_LEAKAGE_EDGE_COLOR;
+            particleType = ParticleType.POTASSIUM_ION;
+            break;
+    
+        case SODIUM_GATED_CHANNEL:
+            channelColor = MembraneChannelsConstants.SODIUM_GATED_CHANNEL_COLOR;
+            edgeColor = MembraneChannelsConstants.SODIUM_GATED_EDGE_COLOR;
+            particleType = ParticleType.SODIUM_ION;
+            break;
+    
+        case SODIUM_LEAKAGE_CHANNEL:
+            channelColor = MembraneChannelsConstants.SODIUM_LEAKAGE_CHANNEL_COLOR;
+            edgeColor = MembraneChannelsConstants.SODIUM_LEAKAGE_EDGE_COLOR;
+            particleType = ParticleType.SODIUM_ION;
+            break;
+    
+        default:
+            System.err.println( MembraneChannel.class.getCanonicalName() + " - Error: Unknown channel type." );
+            assert false;
+            channelColor = Color.white;;
+            edgeColor = Color.pink;
+            particleType = ParticleType.POTASSIUM_ION;
+            break;
+        }
+        
+        return new MembraneChannel( modelContainingParticles, particleType, channelColor, edgeColor, opennessStrategy );
+    }
+
+    // Handler for notifications of particles that have completed the traversal
+    // of this membrane channel.
+    private MotionStrategy.Listener channelTraversalListener = new MotionStrategy.Adapter(){
         @Override
         public void strategyComplete( IMovable movableElement ) {
             assert particlesTraversingChannel.contains( movableElement );
@@ -83,24 +183,8 @@ public abstract class MembraneChannel {
             // Don't need to listen anymore.
             movableElement.getMotionStrategy().removeListener( channelTraversalListener );
         }
-	};
-	
-    //----------------------------------------------------------------------------
-    // Constructor
-    //----------------------------------------------------------------------------
-
-	public MembraneChannel(double channelWidth, double channelHeight, IParticleCapture modelContainingParticles){
-		channelSize.setSize(channelWidth, channelHeight);
-		overallSize.setSize(channelWidth * 2.1, channelHeight * SIDE_HEIGHT_TO_CHANNEL_HEIGHT_RATIO);
-		this.modelContainingParticles = modelContainingParticles;
-	}
-	
-    //----------------------------------------------------------------------------
-    // Methods
-    //----------------------------------------------------------------------------
-	
-	abstract protected ParticleType getParticleTypeToCapture();
-	
+    };
+    
 	/**
 	 * Returns a boolean value that says whether or not the channel should be
 	 * considered open.
@@ -301,14 +385,6 @@ public abstract class MembraneChannel {
 		}
 	}
 	
-	public Color getChannelColor(){
-		return Color.MAGENTA;
-	}
-	
-	public Color getEdgeColor(){
-		return Color.RED;
-	}
-	
 	public void addListener(Listener listener){
 		listeners.add(listener);
 	}
@@ -360,7 +436,32 @@ public abstract class MembraneChannel {
         }
     }
 	
-	public static interface Listener{
+	/**
+         * Returns a boolean value indicating whether the channels is gated,
+         * meaning that it can open and close.  In general, a non-gated channel
+         * is a leakage channel.
+         */
+    public boolean isGated() {
+        return opennessStrategy.isDynamic();
+    }
+
+    public Color getChannelColor() {
+    	return channelColor;
+    }
+
+    public Color getEdgeColor() {
+    	return edgeColor;
+    }
+
+    protected ParticleType getParticleTypeToCapture() {
+    	return particleTypeToCapture;
+    }
+
+    public MembraneChannelOpennessStrategy getOpennessStrategy() {
+        return opennessStrategy;
+    }
+
+    public static interface Listener{
 		void removed();
 		void opennessChanged();
 		void positionChanged();
