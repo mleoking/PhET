@@ -10,8 +10,8 @@ import edu.colorado.phet.membranechannels.model.MembraneChannel;
 import edu.colorado.phet.membranechannels.model.MembraneChannelsModel;
 
 /**
- * Node that goes in the membrane channel tool box and allows users to add
- * gated potassium channels to the membrane.
+ * Base class for the nodes that go in the tool box and allow the user to
+ * add membrane channels to the model.
  * 
  * @author John Blanco
  */
