@@ -15,4 +15,12 @@ public class ChannelAlwaysOpenStrategy extends MembraneChannelOpennessStrategy {
     public ChannelAlwaysOpenStrategy() {
         setOpenness( 1 );
     }
+
+    /* (non-Javadoc)
+     * @see edu.colorado.phet.membranechannels.model.MembraneChannelOpennessStrategy#isDynamic()
+     */
+    @Override
+    protected boolean isDynamic() {
+        return false;
+    }
 }

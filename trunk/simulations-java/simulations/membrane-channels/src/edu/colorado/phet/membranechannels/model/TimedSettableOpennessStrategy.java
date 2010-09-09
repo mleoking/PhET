@@ -42,4 +42,12 @@ public class TimedSettableOpennessStrategy extends MembraneChannelOpennessStrate
             setOpenness( Math.max( getOpenness() - CHANGE_RATE * dt, targetOpennessValue ) );
         }
     }
+
+    /* (non-Javadoc)
+     * @see edu.colorado.phet.membranechannels.model.MembraneChannelOpennessStrategy#isDynamic()
+     */
+    @Override
+    protected boolean isDynamic() {
+        return true;
+    }
 }
