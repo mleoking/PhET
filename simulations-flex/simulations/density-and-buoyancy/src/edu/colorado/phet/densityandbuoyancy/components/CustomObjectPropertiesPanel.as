@@ -31,9 +31,19 @@ public class CustomObjectPropertiesPanel extends DensityVBox {
 
         densityObject.getDensityProperty().addListener(densityListener);
 
-        grid.addChild(new PropertyEditor(densityObject.getMassProperty(), DensityConstants.MIN_MASS, DensityConstants.MAX_MASS, units.massUnit, densityObject));
-        grid.addChild(new PropertyEditor(densityObject.getVolumeProperty(), DensityConstants.MIN_VOLUME, DensityConstants.MAX_VOLUME, units.volumeUnit, densityObject));
-        grid.addChild(new DensityEditor(densityObject.getDensityProperty(), DensityConstants.MIN_DENSITY, DensityConstants.MAX_DENSITY, units.densityUnit, densityObject));
+        function noClamp(n:Number):Number {
+            return n;
+        }
+
+        //TODO: See related workaround PropertyEditor
+        function clampStyrofoamMass(n:Number):Number {
+            if (densityObject.material.equals(Material.STYROFOAM) && n > 3) return 3;
+            else return n;
+        }
+
+        grid.addChild(new PropertyEditor(densityObject.getMassProperty(), DensityConstants.MIN_MASS, DensityConstants.MAX_MASS, units.massUnit, densityObject, clampStyrofoamMass));
+        grid.addChild(new PropertyEditor(densityObject.getVolumeProperty(), DensityConstants.MIN_VOLUME, DensityConstants.MAX_VOLUME, units.volumeUnit, densityObject, noClamp));
+        grid.addChild(new DensityEditor(densityObject.getDensityProperty(), DensityConstants.MIN_DENSITY, DensityConstants.MAX_DENSITY, units.densityUnit, densityObject, noClamp));
 
         comboBox = new ComboBox();
         const items:Array = Material.SELECTABLE_MATERIALS.concat([Material.CUSTOM]);
