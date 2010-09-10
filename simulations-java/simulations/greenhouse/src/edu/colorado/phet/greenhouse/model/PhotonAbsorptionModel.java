@@ -175,11 +175,12 @@ public class PhotonAbsorptionModel {
         for (Molecule molecule : activeMolecules){
             molecule.reset();
         }
-
+        
         // Set default values.
         setPhotonTarget( DEFAULT_PHOTON_TARGET );
         setEmittedPhotonWavelength( DEFAULT_EMITTED_PHOTON_WAVELENGTH );
         
+        // Reset the configurable atmosphere.
         resetConfigurableAtmosphere();
     }
 
@@ -793,10 +794,11 @@ public class PhotonAbsorptionModel {
         
         assert photonTarget != PhotonTarget.CONFIGURABLE_ATMOSPHERE; // See method header comment if this assertion is hit.
         
-        setConfigurableAtmosphereInitialLevel( MoleculeID.N2);
-        setConfigurableAtmosphereInitialLevel( MoleculeID.O2);
+        setConfigurableAtmosphereInitialLevel( MoleculeID.CH4);
         setConfigurableAtmosphereInitialLevel( MoleculeID.CO2);
         setConfigurableAtmosphereInitialLevel( MoleculeID.H2O);
+        setConfigurableAtmosphereInitialLevel( MoleculeID.N2);
+        setConfigurableAtmosphereInitialLevel( MoleculeID.O2);
     }
     
     private void notifyPhotonAdded(Photon photon){
