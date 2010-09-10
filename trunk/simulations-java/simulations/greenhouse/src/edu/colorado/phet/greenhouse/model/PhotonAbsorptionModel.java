@@ -76,6 +76,7 @@ public class PhotonAbsorptionModel {
     // Default values for various parameters that weren't already covered.
     private static final PhotonTarget DEFAULT_PHOTON_TARGET = PhotonTarget.SINGLE_CH4_MOLECULE;
     private static final double DEFAULT_EMITTED_PHOTON_WAVELENGTH = GreenhouseConfig.irWavelength;
+    private static final double INITIAL_COUNTDOWN_WHEN_EMISSION_ENABLED = 300;
     
     // Initial and max values for the numbers of molecules in the configurable
     // atmosphere.
@@ -366,20 +367,24 @@ public class PhotonAbsorptionModel {
     public void setPhotonEmissionPeriod( double photonEmissionPeriod ) {
         assert photonEmissionPeriod >= 0;
         if (this.photonEmissionPeriodTarget != photonEmissionPeriod){
-            this.photonEmissionPeriodTarget = photonEmissionPeriod;
-            notifyPhotonEmissionPeriodChanged();
-            // Handle the case where the new value is smaller than the current countdown.
-            if (photonEmissionPeriod < photonEmissionCountdownTimer){
+            // If we are transitioning from off to on, set the countdown timer
+            // such that a photon will be emitted right away so that the user
+            // doesn't have to wait too long in order to see something come
+            // out.
+            if (this.photonEmissionPeriodTarget == Double.POSITIVE_INFINITY && photonEmissionPeriod != Double.POSITIVE_INFINITY){
+                photonEmissionCountdownTimer = INITIAL_COUNTDOWN_WHEN_EMISSION_ENABLED;
+            }
+            // Handle the case where the new value is smaller than the current countdown value.
+            else if (photonEmissionPeriod < photonEmissionCountdownTimer){
                 photonEmissionCountdownTimer = photonEmissionPeriod;
             }
-            // If the new value for the period is greater than the existing
-            // countdown, we don't reset the counter so that the last one can
-            // go ahead an finish UNLESS the new value is infinity, in which
-            // case we also set the countdown to infinity, which essentially
-            // turns off emissions.
-            if (photonEmissionPeriod == Double.POSITIVE_INFINITY){
+            // If the new value is infinity, it means that emissions are being
+            // turned off, so set the period to infinity right away.
+            else if (photonEmissionPeriod == Double.POSITIVE_INFINITY){
                 photonEmissionCountdownTimer = photonEmissionPeriod; // Turn off emissions.
             }
+            this.photonEmissionPeriodTarget = photonEmissionPeriod;
+            notifyPhotonEmissionPeriodChanged();
         }
     }
     
