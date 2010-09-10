@@ -117,5 +117,9 @@ public class SliderDecorator extends UIComponent {
     public function addSliderEventListener(type:String, handler:Function):void {
         slider.addEventListener(type, handler);
     }
+
+    function set sliderDataTipClass(sliderDataTipClass:Class):void {
+        slider.sliderDataTipClass = sliderDataTipClass;
+    }
 }
 }
