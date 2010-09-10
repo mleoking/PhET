@@ -161,7 +161,7 @@ public class MembraneChannelsControlPanel extends ControlPanel {
         updateConcentrationsCheckBoxState();
         
         // Add the reset all button.
-        addControlFullWidth(createVerticalSpacingPanel(200));
+        addControlFullWidth(createVerticalSpacingPanel(70));
         addResetAllButton( module );
     }
     
