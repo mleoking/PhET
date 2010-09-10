@@ -125,7 +125,6 @@ public class PhotonAbsorptionModel {
     private PhotonTarget photonTarget = null;
     
     // Variables that control periodic photon emission.
-    private boolean periodicPhotonEmissionEnabled = true;
     private double photonEmissionCountdownTimer = Double.POSITIVE_INFINITY;
     private double photonEmissionPeriodSingleTarget = DEFAULT_PHOTON_EMISSION_PERIOD_SINGLE_TARGET;
     private double photonEmissionPeriodMultipleTarget = DEFAULT_PHOTON_EMISSION_PERIOD_MULTIPLE_TARGET;
@@ -195,7 +194,7 @@ public class PhotonAbsorptionModel {
     public void stepInTime(double dt){
         
         // Check if it is time to emit any photons.
-        if (periodicPhotonEmissionEnabled){
+        if (photonEmissionCountdownTimer > 0){
             photonEmissionCountdownTimer -= dt;
             if (photonEmissionCountdownTimer <= 0){
                 // Time to emit.
@@ -269,27 +268,6 @@ public class PhotonAbsorptionModel {
         return distanceVector.getScaledInstance(1.0 / distance / distance);
     }
 
-    /**
-     * Turn on periodic emission of photons.
-     * 
-     * @param periodicPhotonEmissionEnabled
-     */
-    public void setPeriodicPhotonEmissionEnabled( boolean periodicPhotonEmissionEnabled ) {
-        if (this.periodicPhotonEmissionEnabled != periodicPhotonEmissionEnabled){
-            this.periodicPhotonEmissionEnabled = periodicPhotonEmissionEnabled;
-            notifyPeriodicPhotonEmissionEnabledChanged();
-            if (periodicPhotonEmissionEnabled == true){
-                // Set the emission counter to zero so that one photon is
-                // emitted right away.
-                photonEmissionCountdownTimer = 0;
-            }
-        }
-    }
-    
-    public boolean isPeriodicPhotonEmissionEnabled() {
-        return periodicPhotonEmissionEnabled;
-    }
-    
     public void setPhotonTarget( PhotonTarget photonTarget ){
         if (this.photonTarget != photonTarget){
 
@@ -395,7 +373,7 @@ public class PhotonAbsorptionModel {
         if (this.photonEmissionPeriodSingleTarget != photonEmissionPeriod){
             this.photonEmissionPeriodSingleTarget = photonEmissionPeriod;
             notifyPhotonEmissionPeriodChanged();
-            if (isPeriodicPhotonEmissionEnabled() && photonEmissionCountdownTimer > photonEmissionPeriod){
+            if (photonEmissionCountdownTimer > photonEmissionPeriod){
                 photonEmissionCountdownTimer = photonEmissionPeriod;
             }
         }
@@ -411,7 +389,7 @@ public class PhotonAbsorptionModel {
         if (this.photonEmissionPeriodMultipleTarget != photonEmissionPeriod){
             this.photonEmissionPeriodMultipleTarget = photonEmissionPeriod;
             notifyPhotonEmissionPeriodChanged();
-            if (isPeriodicPhotonEmissionEnabled() && photonEmissionCountdownTimer > photonEmissionPeriod){
+            if (photonEmissionCountdownTimer > photonEmissionPeriod){
                 photonEmissionCountdownTimer = photonEmissionPeriod;
             }
         }
@@ -866,12 +844,6 @@ public class PhotonAbsorptionModel {
         }
     }
 
-    private void notifyPeriodicPhotonEmissionEnabledChanged() {
-        for (Listener listener : listeners.getListeners(Listener.class)){
-            listener.periodicPhotonEmissionEnabledChanged();
-        }
-    }
-
     private void notifyConfigurableAtmospherCompositionChanged() {
         for (Listener listener : listeners.getListeners(Listener.class)){
             listener.configurableAtmosphereCompositionChanged();
@@ -989,7 +961,6 @@ public class PhotonAbsorptionModel {
         void moleculeRemoved(Molecule molecule);
         void emittedPhotonWavelengthChanged();
         void photonTargetChanged();
-        void periodicPhotonEmissionEnabledChanged();
         void photonEmissionPeriodChanged();
         void configurableAtmosphereCompositionChanged();
     }
@@ -1001,7 +972,6 @@ public class PhotonAbsorptionModel {
         public void photonTargetChanged() {}
         public void moleculeAdded( Molecule molecule ) {}
         public void moleculeRemoved( Molecule molecule ) {}
-        public void periodicPhotonEmissionEnabledChanged() {}
         public void configurableAtmosphereCompositionChanged() {}
         public void photonEmissionPeriodChanged() {}
     }

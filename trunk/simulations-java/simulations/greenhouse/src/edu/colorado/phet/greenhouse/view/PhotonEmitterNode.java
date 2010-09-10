@@ -103,11 +103,6 @@ public class PhotonEmitterNode extends PNode {
             }
 
             @Override
-            public void periodicPhotonEmissionEnabledChanged() {
-                updateEmissionControlSlider();
-            }
-
-            @Override
             public void photonEmissionPeriodChanged() {
                 updateEmissionControlSlider();
             }
@@ -269,9 +264,6 @@ public class PhotonEmitterNode extends PNode {
 	
 	private void updateEmissionControlSlider(){
 
-	    // Set the overall enable/disable state.
-	    emissionRateControlSlider.setEnabled( model.isPeriodicPhotonEmissionEnabled() );
-	    
 	    // Adjust the position of the slider.  Note that we do a conversion
 	    // between period and frequency and map it into the slider's range.
 	    int mappedFrequency;
