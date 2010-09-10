@@ -272,6 +272,17 @@ public class PhotonAbsorptionModel {
                 notifyMoleculeRemoved( molecule );
             }
             
+            // Remove any photons that are in transit.
+            ArrayList<Photon> copyOfPhotons = new ArrayList<Photon>(photons);
+            photons.clear();
+            for (Photon photon : copyOfPhotons){
+                photons.remove( photon );
+                notifyPhotonRemoved( photon );
+            }
+            
+            // Turn off photon emissions.
+            setPhotonEmissionPeriod( Double.POSITIVE_INFINITY );
+            
             // Add the new photon target(s).
             Molecule newMolecule;
             switch (photonTarget){
