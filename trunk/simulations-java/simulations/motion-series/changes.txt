@@ -1,3 +1,4 @@
+# 1.03.78 (43921) Sep 9, 2010
 Fixed: In the game modes, the house is floating
 Fixed: Return object button doesn't work after launching an object off the ramp and crashing it
 # 1.03.77 (43917) Sep 9, 2010
