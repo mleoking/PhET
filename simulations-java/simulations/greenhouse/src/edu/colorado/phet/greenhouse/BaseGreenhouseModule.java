@@ -359,11 +359,16 @@ public abstract class BaseGreenhouseModule extends Module {
             if ( photonToGraphicsMap.get( photon ) != null ) {
                 ScatterEvent se = new ScatterEvent( photon, BaseGreenhouseModule.this );
                 model.addModelElement( se );
-                if ( ( (PhotonGraphic) photonToGraphicsMap.get( photon ) ).isVisible() ) {
-                    ScatterEventGraphic seg = new ScatterEventGraphic( se );
-                    getApparatusPanel().addGraphic( seg, GreenhouseConfig.SUNLIGHT_PHOTON_GRAPHIC_LAYER - 1 );
-                    scatterToGraphicMap.put( se, seg );
-                }
+                // TODO: The scatter event graphic was commented out on 9/10/2010
+                // prior to some interviewing.  The flash has been seen to confuse
+                // people somewhat, so we want to try the sim without this.  If
+                // this change is approved, this code and that associated variables
+                // should be permanently removed. - jblanco
+//                if ( ( (PhotonGraphic) photonToGraphicsMap.get( photon ) ).isVisible() ) {
+//                    ScatterEventGraphic seg = new ScatterEventGraphic( se );
+//                    getApparatusPanel().addGraphic( seg, GreenhouseConfig.SUNLIGHT_PHOTON_GRAPHIC_LAYER - 1 );
+//                    scatterToGraphicMap.put( se, seg );
+//                }
             }
         }
     }
