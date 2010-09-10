@@ -1,3 +1,4 @@
+Fixed odd layout of Friction control panel
 Added a sound on/off control
 Fixed: gravity force slider is broken
 Added a friction tab to Ramp:Forces and Motion

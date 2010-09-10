@@ -8,7 +8,6 @@ import java.awt._
 import java.awt.geom._
 import java.awt.image._
 import javax.swing._
-import border.{LineBorder, TitledBorder}
 import edu.colorado.phet.motionseries.swing._
 import edu.colorado.phet.scalacommon.math.Vector2D
 import edu.colorado.phet.scalacommon.swing.MyRadioButton
@@ -27,21 +26,21 @@ import edu.colorado.phet.motionseries.model._
 import edu.colorado.phet.motionseries.util.ScalaMutableBoolean
 
 class MotionSeriesControlPanel(model: MotionSeriesModel,
-                       freeBodyDiagramModel: FreeBodyDiagramModel,
-                       coordinateSystemModel: AdjustableCoordinateModel,
-                       vectorViewModel: VectorViewModel,
-                       resetHandler: () => Unit,
-                       coordinateSystemFeaturesEnabled: Boolean,
-                       useObjectComboBox: Boolean,
-                       objectModel: ObjectModel,
-                       showAngleSlider: Boolean,
-                       showFrictionControl: Boolean,
-                       showBounceControl: Boolean,
-                       subControlPanelTitle:String,
-                       audioEnabled:ScalaMutableBoolean)
+                               freeBodyDiagramModel: FreeBodyDiagramModel,
+                               coordinateSystemModel: AdjustableCoordinateModel,
+                               vectorViewModel: VectorViewModel,
+                               resetHandler: () => Unit,
+                               coordinateSystemFeaturesEnabled: Boolean,
+                               useObjectComboBox: Boolean,
+                               objectModel: ObjectModel,
+                               showAngleSlider: Boolean,
+                               showFrictionControl: Boolean,
+                               showBounceControl: Boolean,
+                               subControlPanelTitle: String,
+                               audioEnabled: ScalaMutableBoolean)
         extends ControlPanel {
   val body = new RampControlPanelBody(model, freeBodyDiagramModel, coordinateSystemModel, vectorViewModel, resetHandler,
-    coordinateSystemFeaturesEnabled, useObjectComboBox, objectModel, showAngleSlider, showFrictionControl, showBounceControl,subControlPanelTitle)
+    coordinateSystemFeaturesEnabled, useObjectComboBox, objectModel, showAngleSlider, showFrictionControl, showBounceControl, subControlPanelTitle)
 
   addControl(body)
   addControl(new AudioEnabledCheckBox(audioEnabled))
@@ -63,7 +62,7 @@ class RampControlPanelBody(model: MotionSeriesModel,
                            showAngleSlider: Boolean,
                            showFrictionControl: Boolean,
                            showBounceControl: Boolean,
-                           subControlPanelTitle:String) extends ControlPanel {
+                           subControlPanelTitle: String) extends ControlPanel {
   getContentPanel.setAnchor(GridBagConstraints.WEST)
   getContentPanel.setFill(GridBagConstraints.HORIZONTAL)
   override def add(comp: Component) = {
@@ -78,11 +77,11 @@ class RampControlPanelBody(model: MotionSeriesModel,
     panel
   }
 
-  val fbdPanel =new SubControlPanel("display.free-body-diagram".translate){
+  val fbdPanel = new SubControlPanel("display.free-body-diagram".translate) {
     add(boxLayout(
-    new MyRadioButton("controls.show".translate, freeBodyDiagramModel.visible = true, freeBodyDiagramModel.visible, freeBodyDiagramModel.addListener).peer,
-    new MyRadioButton("controls.hide".translate, freeBodyDiagramModel.visible = false, !freeBodyDiagramModel.visible, freeBodyDiagramModel.addListener).peer
-    ))
+      new MyRadioButton("controls.show".translate, freeBodyDiagramModel.visible = true, freeBodyDiagramModel.visible, freeBodyDiagramModel.addListener).peer,
+      new MyRadioButton("controls.hide".translate, freeBodyDiagramModel.visible = false, !freeBodyDiagramModel.visible, freeBodyDiagramModel.addListener).peer
+      ))
   }
   add(fbdPanel)
 
@@ -124,7 +123,7 @@ class RampControlPanelBody(model: MotionSeriesModel,
     def createSumForceIcon = {
       val rect = new Rectangle2D.Double(0, 0, 1, 1)
       val vector = new Vector(MotionSeriesDefaults.sumForceColor, "total-force".literal, "force.abbrev.total".translate, new Vector2DModel(42, 0), (v: Vector2D, c: Color) => {c}, 0.0)
-      val vectorNode = new VectorNode(new ModelViewTransform2D(rect, rect), vector, new Vector2DModel(-42, 0), 75,1)
+      val vectorNode = new VectorNode(new ModelViewTransform2D(rect, rect), vector, new Vector2DModel(-42, 0), 75, 1)
       val bufIm = BufferedImageUtils.toBufferedImage(vectorNode.toImage)
       BufferedImageUtils.multiScaleToHeight(bufIm, 35)
     }
@@ -139,32 +138,35 @@ class RampControlPanelBody(model: MotionSeriesModel,
       val surfaceModel = new RampSurfaceModel {def frictionless = _frictionless}
 
       val segment = new RampSegment(new Point2D.Double(0, 0), new Point2D.Double(3, 0))
-      val node = new RampSegmentNode(segment, new ModelViewTransform2D(dummyModelBounds, dummyViewBounds, false), surfaceModel,model.motionSeriesObject)
+      val node = new RampSegmentNode(segment, new ModelViewTransform2D(dummyModelBounds, dummyViewBounds, false), surfaceModel, model.motionSeriesObject)
       node.toImage(75, (75.0 / node.getFullBounds.getWidth * node.getFullBounds.getHeight).toInt, new Color(255, 255, 255, 0))
     }
 
-    def iceIcon = getSegmentIcon(true)
+    val gridPanel = new JPanel {
+      def iceIcon = getSegmentIcon(true)
 
-    def woodIcon = getSegmentIcon(false)
+      def woodIcon = getSegmentIcon(false)
 
-    val onButton = new MyRadioButton("surface.ice-no-friction".translate, model.frictionless = true, model.frictionless, model.addListener)
+      val iceButton = (new MyRadioButton("surface.ice-no-friction".translate, model.frictionless = true, model.frictionless, model.addListener).peer)
+      val iceLabel = (new JLabel(new ImageIcon(iceIcon)))
 
-    val onButtonPanel = new JPanel() {
-      add(onButton.peer)
-      add(new JLabel(new ImageIcon(iceIcon)))
+      val woodButton = (new MyRadioButton("surface.wood".translate, model.frictionless = false, !model.frictionless, model.addListener).peer)
+      val woodLabel = (new JLabel(new ImageIcon(woodIcon)))
+
+      val constraints = new GridBagConstraints{
+        anchor = GridBagConstraints.WEST
+      }
+      def addElement(c:Component) = add(c,constraints)
+      setLayout(new GridBagLayout)
+      constraints.gridy = 0
+      addElement(iceButton)
+      addElement(iceLabel)
+      constraints.gridy = 1
+      addElement(woodButton)
+      addElement(woodLabel)
     }
 
-    val offButton = new MyRadioButton("surface.wood".translate, model.frictionless = false, !model.frictionless, model.addListener)
-
-    val offButtonPanel = new JPanel() {
-      add(offButton.peer)
-      add(new JLabel(new ImageIcon(woodIcon)))
-    }
-
-    val panel = new VerticalLayoutPanel
-    panel.add(onButtonPanel)
-    panel.add(offButtonPanel)
-    frictionPanel.add(panel)
+    frictionPanel.add(gridPanel)
     add(frictionPanel)
   }
 
@@ -189,18 +191,18 @@ class RampControlPanelBody(model: MotionSeriesModel,
   import MotionSeriesDefaults.MIN_X
   import MotionSeriesDefaults.MAX_X
   //The slider can only go from MIN_X to MAX_X even though if the walls are disabled the object might go further
-  val positionSlider:ScalaValueControl = new ScalaValueControl(MIN_X, MAX_X, "object.position".translate, "0.0".literal, "units.meters".translate,
-    () => model.motionSeriesObject.position, 
+  val positionSlider: ScalaValueControl = new ScalaValueControl(MIN_X, MAX_X, "object.position".translate, "0.0".literal, "units.meters".translate,
+    () => model.motionSeriesObject.position,
     x => {
       //Use the wallRange() for determining the max locaiton of the object, which accounts for whether walls are enabled or disabled
       val clampedValue = if (model.walls.booleanValue) MathUtil.clamp(
-        model.wallRange().min + model.motionSeriesObject.width / 2, 
-        x, 
-        model.wallRange().max - model.motionSeriesObject.width / 2 )
-      else x//only clamp if there are walls
+        model.wallRange().min + model.motionSeriesObject.width / 2,
+        x,
+        model.wallRange().max - model.motionSeriesObject.width / 2)
+      else x //only clamp if there are walls
       model.motionSeriesObject.setPosition(clampedValue)
       if (clampedValue != x) positionSlider.setValue(clampedValue) //Have to make sure the readout indicates the model value, not the requested user value
-    }, 
+    },
     model.motionSeriesObject.addListener)
   positionSlider.getSlider.addMouseListener(new MouseAdapter() {
     override def mousePressed(e: MouseEvent) = {
@@ -224,14 +226,14 @@ class RampControlPanelBody(model: MotionSeriesModel,
 
   //Embed in its own PhetPCanvas so we can easily reuse the PComboBox code
   class EmbeddedObjectSelectionPanel extends PhetPCanvas {
-    val boxNode = new ObjectSelectionComboBoxNode(objectModel, this,false)
+    val boxNode = new ObjectSelectionComboBoxNode(objectModel, this, false)
     addScreenChild(boxNode)
     setPreferredSize(new Dimension(boxNode.getFullBounds.getWidth.toInt, boxNode.getFullBounds.getHeight.toInt))
     setBackground(new TitleLabel("hello".literal).getBackground)
-    setBorder(null)//get rid of black outline
+    setBorder(null) //get rid of black outline
   }
 
-  if (useObjectComboBox) add(new SubControlPanel("controls.choose-object".translate){
+  if (useObjectComboBox) add(new SubControlPanel("controls.choose-object".translate) {
     add(new EmbeddedObjectSelectionPanel)
   })
 
@@ -239,23 +241,23 @@ class RampControlPanelBody(model: MotionSeriesModel,
   getContentPanel.setAnchor(GridBagConstraints.CENTER)
 }
 
-class ObjectSelectionComboBoxNode(objectModel: ObjectModel, canvas: PSwingCanvas,showTitle:Boolean = true) extends PNode {
-  var text:PNode=null
-  if (showTitle){
+class ObjectSelectionComboBoxNode(objectModel: ObjectModel, canvas: PSwingCanvas, showTitle: Boolean = true) extends PNode {
+  var text: PNode = null
+  if (showTitle) {
     val text = new PSwing(new TitleLabel("controls.choose-object".translate))
     addChild(text)
   }
-  
+
   val boxPanel = new ObjectSelectionComboBox(objectModel)
   val pswing = new PSwing(boxPanel)
-  if (text!=null){
+  if (text != null) {
     pswing.setOffset(0, text.getFullBounds.getHeight)
   }
   boxPanel.setEnvironment(pswing, canvas)
   addChild(pswing)
 }
 
-class SubControlPanel(title:String) extends SubControlPanelTitledBorder(title)
+class SubControlPanel(title: String) extends SubControlPanelTitledBorder(title)
 
 //This versions uses raised bevel border
 class SubControlPanelRaisedBevelBorder(title: String) extends VerticalLayoutPanel {
