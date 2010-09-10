@@ -33,7 +33,7 @@ public class MysteryObjectsControlPanel extends DensityVBox {
         grid.addChild(toGridRow(FlexSimStrings.get("mysteryObject.material", "Material"), FlexSimStrings.get("mysteryObject.density", "Density (kg/L)"), DensityConstants.FLEX_UNDERLINE));
         for each (var material:Material in Material.ALL) {
             const unit:Unit = new LinearUnit(FlexSimStrings.get("mysteryObject.densityUnits", "kg/L"), 0.001);
-            grid.addChild(toGridRow(material.name, unit.fromSI(material.getDensity()).toFixed(DensityConstants.NUMBER_OF_DECIMAL_PLACES), DensityConstants.FLEX_NONE));
+            grid.addChild(toGridRow(material.name, DensityConstants.format(unit.fromSI(material.getDensity())), DensityConstants.FLEX_NONE));
         }
 
         titleWindow = new TitleWindow();

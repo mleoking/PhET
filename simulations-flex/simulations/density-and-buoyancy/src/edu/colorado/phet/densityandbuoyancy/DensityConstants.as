@@ -3,6 +3,9 @@ import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
 
 import flash.geom.ColorTransform;
 
+import mx.formatters.NumberBaseRoundType;
+import mx.formatters.NumberFormatter;
+
 public class DensityConstants {
     public static const MIN_MASS:Number = 1;
     public static const MAX_MASS:Number = 10;
@@ -38,7 +41,6 @@ public class DensityConstants {
     public static const CONTROL_PANEL_COLOR:Number = 0xfafad7;//Color recommended by Kathy to be a pale yellow background for control panels
 
     public static const LARGE_BLOCK_WIDTH:Number = 0.18;
-    public static const NUMBER_OF_DECIMAL_PLACES:Number = 2;
     public static const CONTROL_INSET:Number = 5;
     public static const SLIDER_READOUT_TEXT_FIELD_WIDTH:Number = 50;
     public static const YELLOW:ColorTransform = new ColorTransform(1, 1, 0);
@@ -59,6 +61,14 @@ public class DensityConstants {
 
     public static function metersToLitersCubed(v:Number):Number {
         return v / 0.001;
+    }
+
+    static const formatter:NumberFormatter = new NumberFormatter();
+    formatter.rounding = NumberBaseRoundType.NEAREST;//otherwise high frequency fluctuations around 1.00 and 0.99
+    formatter.precision = 2;
+
+    public static function format(number:Number):String {
+        return formatter.format(number);
     }
 }
 }

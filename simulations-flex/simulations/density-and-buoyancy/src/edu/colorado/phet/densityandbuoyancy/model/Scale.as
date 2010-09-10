@@ -35,8 +35,7 @@ public class Scale extends Cuboid {
         //F=I/dt
         var force:Number = totalImpulse / DensityModel.DT_PER_FRAME;
         var mass:Number = force / DensityConstants.GRAVITY;
-        const readoutValue:String = mass.toFixed(DensityConstants.NUMBER_OF_DECIMAL_PLACES);
-        return FlexSimStrings.get("properties.massValue", "{0} kg", [readoutValue]);
+        return FlexSimStrings.get("properties.massValue", "{0} kg", [DensityConstants.format(mass)]);
     }
 
     override public function modelStepped():void {

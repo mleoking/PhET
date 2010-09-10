@@ -47,7 +47,7 @@ public class PropertyEditor extends GridRow {
         textField.width = DensityConstants.SLIDER_READOUT_TEXT_FIELD_WIDTH;
         textField.restrict = ".0-9";//TODO: does this handle languages that use a comma instead of a decimal place?
         function updateText():void {
-            textField.text = unit.fromSI(property.value).toFixed(DensityConstants.NUMBER_OF_DECIMAL_PLACES);
+            textField.text = DensityConstants.format(unit.fromSI(property.value));
         }
 
         function updateModelFromTextField():void {
@@ -86,7 +86,7 @@ public class PropertyEditor extends GridRow {
         const slider:SliderDecorator = new SliderDecorator();
         slider.sliderThumbClass = MySliderThumb;
         slider.sliderWidth = SLIDER_WIDTH;
-        slider.sliderDataTipClass = InvisibleDataTip;//Hide the data tip since it can become disassociated from the model value
+        //        slider.sliderDataTipClass = InvisibleDataTip;//Hide the data tip since it can become disassociated from the model value
 
         slider.minimum = unit.fromSI(minimum);
         slider.maximum = unit.fromSI(maximum);

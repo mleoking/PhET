@@ -1,3 +1,5 @@
+Re-enabled slider data tip readouts
+Converted from Number.toFixed() to NumberFormatter for readouts
 # 0.01.26 (43945) Sep 10, 2010
 Removed the 120L tick mark because it is too crowded next to other objects
 # 0.01.25 (43937) Sep 10, 2010
