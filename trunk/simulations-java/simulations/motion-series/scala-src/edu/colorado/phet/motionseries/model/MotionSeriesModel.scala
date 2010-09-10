@@ -11,7 +11,7 @@ import edu.colorado.phet.common.motion.charts.ChartCursor
 import edu.colorado.phet.recordandplayback.model.{DataPoint, RecordAndPlaybackModel}
 import edu.colorado.phet.common.phetcommon.math.MathUtil
 import edu.colorado.phet.motionseries.charts.MutableDouble
-import edu.colorado.phet.motionseries.util.ScalaMutableBoolean
+import edu.colorado.phet.motionseries.util.{MutableRange, ScalaMutableBoolean}
 
 class MotionSeriesModel(defaultPosition: Double,
                         pausedOnReset: Boolean,
@@ -40,9 +40,10 @@ class MotionSeriesModel(defaultPosition: Double,
 
   //Sends notification when any ramp segment changes
   val rampChangeAdapter = new Object with Observable //todo: perhaps we should just pass the addListener method to the MotionSeriesObjects
-  rampSegments(0).addListener(rampChangeAdapter.notifyListeners)
-  rampSegments(1).addListener(rampChangeAdapter.notifyListeners)
-  val wallRange = () => Range(-rampSegments(0).length, rampSegments(1).length)
+  val wallRange = new MutableRange(edu.colorado.phet.motionseries.util.Range(-rampSegments(0).length,rampSegments(1).length))
+  def updateWallRange() = wallRange.setValue(edu.colorado.phet.motionseries.util.Range(-rampSegments(0).length,rampSegments(1).length))
+  rampSegments(0).addListener(updateWallRange)
+  rampSegments(1).addListener(updateWallRange)
   val surfaceFriction = () => !frictionless
 
   val defaultManPosition = defaultPosition - 1 //Man should start 1 meter away from the object by default
