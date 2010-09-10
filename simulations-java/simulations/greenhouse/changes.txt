@@ -1,3 +1,5 @@
+Fixed bug where photons could go under the slider.
+Fixed bug where CH4 level in configurable atmosphere was not being reset on a Reset All.
 Moved the slider that controls the photon emission rate on the the emitter and removed the button.
 Added "Photon" to the caption on the box that controls the photon emitter.
 Removed borders from around the sliders that control the "Build Atmosphere" setting.
