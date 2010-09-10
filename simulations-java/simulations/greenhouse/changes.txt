@@ -1,3 +1,6 @@
+Changed that canvas transform just enough so that the chamber fits on more monitors.
+Changed that tab order to Greenhouse Effect, Glass Panes, Photon Absorption.
+Removed the flash that occurs when photons are re-emitted in the atmosphere.
 Fixed bug where photons could go under the slider.
 Fixed bug where CH4 level in configurable atmosphere was not being reset on a Reset All.
 Moved the slider that controls the photon emission rate on the the emitter and removed the button.
