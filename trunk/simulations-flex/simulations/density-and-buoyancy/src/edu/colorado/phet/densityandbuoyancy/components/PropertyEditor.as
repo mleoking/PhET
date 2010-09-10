@@ -119,10 +119,6 @@ public class PropertyEditor extends GridRow {
                     alphaValue = 0.25;
                 }
                 slider.getThumbAt(0).alpha = alphaValue;
-                //Keeping around this code until discussion about continuous alpha slider knob is concluded.
-                //                        Math.max(0.25, //This is the minimum alpha that will be shown.  Beyond 0.25 is too hard to see anything.
-                //                        Math.min(1, slider.maximum / setValue) //The more the value goes above the slider's maximum, make more transparent.  But keep alpha =1 if it is in the slider range.
-                //                        );
             }
             catch(exception:Error) {
 
@@ -132,14 +128,6 @@ public class PropertyEditor extends GridRow {
         updateSlider();
         property.addListener(updateSlider);
 
-
-        //        var firstThumb:SliderThumb = SliderThumb(slider.getThumbAt(0));
-        //        var t= firstThumb.getExplicitOrMeasuredWidth()/2;
-        //        const textField:TextField = new TextField();
-        //        textField.text="hello";
-        //        textField.y=-20;
-        //        slider.addChild(textField);
-        //        
         return slider;
     }
 

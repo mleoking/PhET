@@ -1,4 +1,5 @@
 package edu.colorado.phet.densityandbuoyancy.components {
+import edu.colorado.phet.densityandbuoyancy.DensityConstants;
 import edu.colorado.phet.densityandbuoyancy.model.Material;
 
 import flash.display.Sprite;
@@ -20,6 +21,20 @@ public class SliderDecorator extends UIComponent {
 
         slider = new HSlider();
         slider.setStyle("dataTipOffset", 0);//Without this fix, data tips appear very far from the tip of the slider thumb, see http://blog.flexexamples.com/2007/11/03/customizing-a-slider-controls-data-tip/
+
+        //The default NumberFormatter on slider uses Rounding.NONE, so to make sure it is compatible with the 
+        //numberformatter required in the rest of the sim, use full precision on the dataTipPrecision,
+        //then pass the number through our own numberformatter
+        //Otherwise, the readouts often differ by 0.01
+        slider.setStyle("dataTipPrecision", 10);
+        function doFormat(s:String):String {
+            var number:Number = Number(s);
+            return DensityConstants.format(number);
+        }
+
+        slider.dataTipFormatFunction = doFormat;
+
+
         slider.y = sliderY;
         addChild(slider);
 

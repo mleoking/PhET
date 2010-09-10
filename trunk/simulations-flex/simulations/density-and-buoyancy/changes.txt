@@ -1,3 +1,4 @@
+Fixed: Slider data tip readouts are often off by 0.01
 Re-enabled slider data tip readouts
 Converted from Number.toFixed() to NumberFormatter for readouts
 # 0.01.26 (43945) Sep 10, 2010
