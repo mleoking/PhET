@@ -1,3 +1,4 @@
+Removed the 120L tick mark because it is too crowded next to other objects
 # 0.01.25 (43937) Sep 10, 2010
 Removed the slider data tip readouts since they can become disassociated from the model value, and since the value already appears in 2 other places on the screen.
 # 0.01.24 (43934) Sep 10, 2010
