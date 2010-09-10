@@ -1,3 +1,4 @@
+Removed unused images
 Fixed odd layout of Friction control panel
 Added a sound on/off control
 Fixed: gravity force slider is broken
