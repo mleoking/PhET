@@ -21,8 +21,6 @@ object MotionSeriesResources extends PhetResources("motion-series".literal) {
   implicit def toMyRichString(s: String) = new TranslatableString(s)
 
   val forcePattern = "force.pattern".translate
-  val energyPattern = "energy.pattern".translate
-  val workPattern = "work.pattern".translate
 
   def formatForce(force: String) = MessageFormat.format(forcePattern, force)
 
