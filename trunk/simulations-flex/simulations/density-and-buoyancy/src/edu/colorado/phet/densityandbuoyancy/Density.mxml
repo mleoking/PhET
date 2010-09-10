@@ -5,88 +5,10 @@
                 xmlns:flexcommon="edu.colorado.phet.flexcommon.*"
                 layout="absolute" width="100%" height="100%" applicationComplete="onApplicationComplete()"
                 frameRate="30">
-    <mx:Canvas width="100%" height="100%" label="Density" id="densityCanvas" fontSize="12">
-        <mx:Canvas backgroundColor="0x5dc0ff" width="100%" height="100%" id="background"/>
-        <view:DensityModule width="100%" height="100%" id="densityModule"/>
-        <components:DensityVBox right="{DensityConstants.CONTROL_INSET}" y="{DensityConstants.CONTROL_INSET}">
-            <mx:Label text="{FlexSimStrings.get('mode.title','Objects')}" fontWeight="bold"/>
-            <mx:RadioButton groupName="modes" id="customObject"
-                            label="{FlexSimStrings.get('mode.customObject','Custom')}"
-                            click="densityModule.switchToCustomObject()" selected="true"/>
-            <mx:RadioButton groupName="modes" id="sameMass"
-                            label="{FlexSimStrings.get('mode.objectsOfSameMass','Same Mass')}"
-                            click="densityModule.switchToSameMass()"/>
-            <mx:RadioButton groupName="modes" id="sameVolume"
-                            label="{FlexSimStrings.get('mode.objectsOfSameVolume','Same Volume')}"
-                            click="densityModule.switchToSameVolume()"/>
-            <mx:RadioButton groupName="modes" id="sameDensity"
-                            label="{FlexSimStrings.get('mode.objectsOfSameDensity','Same Density')}"
-                            click="densityModule.switchToSameDensity()"/>
-            <mx:RadioButton groupName="modes" id="mysteryObjects"
-                            label="{FlexSimStrings.get('mode.mysteryObjects','Mystery')}"
-                            click="densityModule.switchToMysteryObjects()"/>
-        </components:DensityVBox>
-        <components:DensityVBox right="{DensityConstants.CONTROL_INSET}" bottom="{DensityConstants.CONTROL_INSET}">
-            <mx:Button label="{FlexSimStrings.get('application.resetAll','Reset All')}" click="resetAll()"/>
-        </components:DensityVBox>
-        <flexcommon:PhetLogoButton left="{DensityConstants.CONTROL_INSET}" bottom="{DensityConstants.CONTROL_INSET}"/>
-    </mx:Canvas>
-    <view:DebugText id="debug" height="100" x="0" y="0" text="" color="#FFFFFF" click="DebugText.clear();"/>
+    <view:DensityCanvas id="myDensityCanvas"/>
     <mx:Script><![CDATA[
-        import edu.colorado.phet.densityandbuoyancy.view.AbstractDensityModule;
-        import edu.colorado.phet.flexcommon.FlexCommon;
-        import edu.colorado.phet.flexcommon.FlexSimStrings;
-
-        import mx.controls.TextInput;
-
-        private var oldIndex:Number = 0;
-        private var common:FlexCommon = new FlexCommon();
-
-        private function getAllTabs():Array {
-            return new Array(densityModule);
-        }
-
         private function onApplicationComplete():void {
-            for each (var module:AbstractDensityModule in getAllTabs()) {
-                module.init();
-                module.pause();
-            }
-            getAllTabs()[0].start();
-
-            densityModule.doInit(densityCanvas);
-            densityModule.switchToCustomObject();
-
-            //Text fields should lose focus when the user clicks outside of them, so they will accept their value if the user was editing them
-            const refocuser:Function = function():void {
-                if (focusManager.getFocus() is TextInput) {
-                    focusManager.setFocus(focusManager.getNextFocusManagerComponent())
-                }
-            };
-            densityModule.addEventListener(MouseEvent.MOUSE_DOWN, refocuser);
-            background.addEventListener(MouseEvent.MOUSE_DOWN, refocuser);
+            myDensityCanvas.onApplicationComplete();
         }
-
-        private function onSwitch(e:Event):void {
-            var newIndex:Number = e.currentTarget.selectedIndex;
-            if (oldIndex == newIndex) {
-                return;
-            }
-
-            const tabList:Array = getAllTabs();
-            const oldTab:AbstractDensityModule = tabList[oldIndex];
-            const newTab:AbstractDensityModule = tabList[newIndex];
-
-            oldTab.pause();
-            newTab.start();
-
-            oldIndex = newIndex;
-        }
-
-        private function resetAll():void {
-            customObject.selected = true;
-            densityModule.resetAll();
-        }
-
         ]]></mx:Script>
-
 </mx:Application>
