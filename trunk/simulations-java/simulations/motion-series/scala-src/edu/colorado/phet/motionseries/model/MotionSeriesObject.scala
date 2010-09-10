@@ -36,7 +36,7 @@ class MotionSeriesObject(_position: MutableDouble,
   val _position2D = new Vector2DModel
   private var _motionStrategy: MotionStrategy = new Grounded(this)
 
-  private def updatePosition2D() = _position2D.value = motionStrategy.mapPosition
+  def updatePosition2D() = _position2D.value = motionStrategy.mapPosition
   _position.addListener(updatePosition2D)
   rampChangeAdapter.addListener(updatePosition2D)
   updatePosition2D()
