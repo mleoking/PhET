@@ -142,6 +142,7 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d/core/src/test/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d/extras/src/test/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/membrane-channels/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/work-energy/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/bin" />
       <excludeFolder url="file://$MODULE_DIR$/build-tools/ant_output" />
       <excludeFolder url="file://$MODULE_DIR$/simulations-java/ant_output" />
@@ -1450,6 +1451,15 @@
       <library>
         <CLASSES>
           <root url="file://$MODULE_DIR$/simulations-java/simulations/membrane-channels/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/simulations-java/simulations/work-energy/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
