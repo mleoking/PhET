@@ -127,7 +127,10 @@ public class PhotonEmitterNode extends PNode {
 		emissionRateControlSlider.addChangeListener( new ChangeListener() {
 		    public void stateChanged( ChangeEvent e ) {
 		        double sliderProportion = (double)emissionRateControlSlider.getValue() / (double)SLIDER_RANGE;
-		        if (model.getPhotonTarget() == PhotonTarget.CONFIGURABLE_ATMOSPHERE){
+		        if (sliderProportion == 0){
+		            model.setPhotonEmissionPeriod( Double.POSITIVE_INFINITY );
+		        }
+		        else if (model.getPhotonTarget() == PhotonTarget.CONFIGURABLE_ATMOSPHERE){
 		            // Note the implicit conversion from frequency to period in the following line.
 		            model.setPhotonEmissionPeriod(
 		                    PhotonAbsorptionModel.MIN_PHOTON_EMISSION_PERIOD_MULTIPLE_TARGET / sliderProportion );
