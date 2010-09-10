@@ -74,7 +74,7 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
         		new Point2D.Double(0, 0), 
         		new Point((int)Math.round(GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE.width * 0.65), 
         				(int)Math.round(GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE.height * 0.5 )),
-        				0.25,  // Scale factor - smaller numbers "zoom out", bigger ones "zoom in".
+        				0.23,  // Scale factor - smaller numbers "zoom out", bigger ones "zoom in".
         				true);
 
         setBackground( Color.BLACK );
