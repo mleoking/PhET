@@ -1,3 +1,4 @@
+Added a friction tab to Ramp:Forces and Motion
 # 1.03.76 (43868) Sep 8, 2010
 Fixed: When paused and changing the angle of the ramp, vectors do not update
 Fixed: FBD vector arrows don't originate at the origin, especially on resize of the FBD dialog
