@@ -86,6 +86,7 @@ public class PropertyEditor extends GridRow {
         const slider:SliderDecorator = new SliderDecorator();
         slider.sliderThumbClass = MySliderThumb;
         slider.sliderWidth = SLIDER_WIDTH;
+        slider.sliderDataTipClass = InvisibleDataTip;//Hide the data tip since it can become disassociated from the model value
 
         slider.minimum = unit.fromSI(minimum);
         slider.maximum = unit.fromSI(maximum);
