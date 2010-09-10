@@ -1,3 +1,4 @@
+Fixed: Return object button doesn't work after launching an object off the ramp and crashing it
 # 1.03.77 (43917) Sep 9, 2010
 Removed unused images
 Fixed odd layout of Friction control panel
