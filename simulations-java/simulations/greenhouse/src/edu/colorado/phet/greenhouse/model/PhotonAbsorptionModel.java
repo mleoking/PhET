@@ -194,7 +194,7 @@ public class PhotonAbsorptionModel {
     public void stepInTime(double dt){
         
         // Check if it is time to emit any photons.
-        if (photonEmissionCountdownTimer > 0){
+        if (photonEmissionCountdownTimer > 0 && photonEmissionCountdownTimer != Double.POSITIVE_INFINITY){
             photonEmissionCountdownTimer -= dt;
             if (photonEmissionCountdownTimer <= 0){
                 // Time to emit.
@@ -373,8 +373,17 @@ public class PhotonAbsorptionModel {
         if (this.photonEmissionPeriodSingleTarget != photonEmissionPeriod){
             this.photonEmissionPeriodSingleTarget = photonEmissionPeriod;
             notifyPhotonEmissionPeriodChanged();
-            if (photonEmissionCountdownTimer > photonEmissionPeriod){
+            // Handle the case where the new value is smaller than the current countdown.
+            if (photonEmissionPeriod < photonEmissionCountdownTimer){
                 photonEmissionCountdownTimer = photonEmissionPeriod;
+            }
+            // If the new value for the period is greater than the existing
+            // countdown, we don't reset the counter so that the last one can
+            // go ahead an finish UNLESS the new value is infinity, in which
+            // case we also set the countdown to infinity, which essentially
+            // turns off emissions.
+            if (photonEmissionPeriod == Double.POSITIVE_INFINITY){
+                photonEmissionCountdownTimer = photonEmissionPeriod; // Turn off emissions.
             }
         }
     }
