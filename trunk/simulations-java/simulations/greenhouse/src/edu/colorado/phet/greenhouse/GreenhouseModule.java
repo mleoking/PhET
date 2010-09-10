@@ -11,7 +11,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import javax.swing.*;
+import javax.swing.JPanel;
 
 import edu.colorado.phet.greenhouse.common.graphics.ApparatusPanel;
 import edu.colorado.phet.greenhouse.common.graphics.Graphic;
