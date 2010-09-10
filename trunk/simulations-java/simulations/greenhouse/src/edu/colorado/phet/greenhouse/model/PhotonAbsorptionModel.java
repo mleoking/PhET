@@ -70,9 +70,8 @@ public class PhotonAbsorptionModel {
     // Minimum and defaults for photon emission periods.  Note that the max is
     // assumed to be infinity.
     public static final double MIN_PHOTON_EMISSION_PERIOD_SINGLE_TARGET = 200;
-    private static final double DEFAULT_PHOTON_EMISSION_PERIOD_SINGLE_TARGET = Double.POSITIVE_INFINITY; // Milliseconds of sim time.
+    private static final double DEFAULT_PHOTON_EMISSION_PERIOD = Double.POSITIVE_INFINITY; // Milliseconds of sim time.
     public static final double MIN_PHOTON_EMISSION_PERIOD_MULTIPLE_TARGET = 100;
-    private static final double DEFAULT_PHOTON_EMISSION_PERIOD_MULTIPLE_TARGET = Double.POSITIVE_INFINITY; // Milliseconds of sim time.
     
     // Default values for various parameters that weren't already covered.
     private static final PhotonTarget DEFAULT_PHOTON_TARGET = PhotonTarget.SINGLE_CH4_MOLECULE;
@@ -126,8 +125,7 @@ public class PhotonAbsorptionModel {
     
     // Variables that control periodic photon emission.
     private double photonEmissionCountdownTimer = Double.POSITIVE_INFINITY;
-    private double photonEmissionPeriodSingleTarget = DEFAULT_PHOTON_EMISSION_PERIOD_SINGLE_TARGET;
-    private double photonEmissionPeriodMultipleTarget = DEFAULT_PHOTON_EMISSION_PERIOD_MULTIPLE_TARGET;
+    private double photonEmissionPeriodTarget = DEFAULT_PHOTON_EMISSION_PERIOD;
     private double previousEmissionAngle = 0;
     
     // Collection that contains the molecules that comprise the configurable
@@ -184,8 +182,6 @@ public class PhotonAbsorptionModel {
 
         // Set default values.
         setPhotonTarget( DEFAULT_PHOTON_TARGET );
-        setPhotonEmissionPeriodMultipleTarget( DEFAULT_PHOTON_EMISSION_PERIOD_MULTIPLE_TARGET );
-        setPhotonEmissionPeriodSingleTarget( DEFAULT_PHOTON_EMISSION_PERIOD_SINGLE_TARGET );
         setEmittedPhotonWavelength( DEFAULT_EMITTED_PHOTON_WAVELENGTH );
         
         resetConfigurableAtmosphere();
@@ -194,17 +190,12 @@ public class PhotonAbsorptionModel {
     public void stepInTime(double dt){
         
         // Check if it is time to emit any photons.
-        if (photonEmissionCountdownTimer > 0 && photonEmissionCountdownTimer != Double.POSITIVE_INFINITY){
+        if (photonEmissionCountdownTimer != Double.POSITIVE_INFINITY){
             photonEmissionCountdownTimer -= dt;
             if (photonEmissionCountdownTimer <= 0){
                 // Time to emit.
                 emitPhoton();
-                if (photonTarget == PhotonTarget.CONFIGURABLE_ATMOSPHERE){
-                    photonEmissionCountdownTimer = photonEmissionPeriodMultipleTarget;
-                }
-                else{
-                    photonEmissionCountdownTimer = photonEmissionPeriodSingleTarget;
-                }
+                photonEmissionCountdownTimer = photonEmissionPeriodTarget;
             }
         }
         
@@ -351,27 +342,23 @@ public class PhotonAbsorptionModel {
      * 
      * @return - Period between photons in milliseconds.
      */
-    public double getPhotonEmissionPeriodSingleTarget() {
-        return photonEmissionPeriodSingleTarget;
+    public double getPhotonEmissionPeriod() {
+        return photonEmissionPeriodTarget;
     }
     
     /**
-     * 
-     * @return - Period between photons in milliseconds.
-     */
-    public double getPhotonEmissionPeriodMultipleTarget() {
-        return photonEmissionPeriodMultipleTarget;
-    }
-    
-    /**
-     * Set the emission period, i.e. the time between photons, for the case
-     * where there is a single target for the photons.
+     * Set the emission period, i.e. the time between photons.
      * 
      * @param photonEmissionPeriod - Period between photons in milliseconds.
      */
-    public void setPhotonEmissionPeriodSingleTarget( double photonEmissionPeriod ) {
-        if (this.photonEmissionPeriodSingleTarget != photonEmissionPeriod){
-            this.photonEmissionPeriodSingleTarget = photonEmissionPeriod;
+    public void setPhotonEmissionPeriod( double photonEmissionPeriod ) {
+        if (photonEmissionPeriod < 0){
+            System.out.println("Yow!");
+        }
+        assert photonEmissionPeriod >= 0;
+        System.out.println("photonEmissionPeriod = " + photonEmissionPeriod);
+        if (this.photonEmissionPeriodTarget != photonEmissionPeriod){
+            this.photonEmissionPeriodTarget = photonEmissionPeriod;
             notifyPhotonEmissionPeriodChanged();
             // Handle the case where the new value is smaller than the current countdown.
             if (photonEmissionPeriod < photonEmissionCountdownTimer){
@@ -384,22 +371,6 @@ public class PhotonAbsorptionModel {
             // turns off emissions.
             if (photonEmissionPeriod == Double.POSITIVE_INFINITY){
                 photonEmissionCountdownTimer = photonEmissionPeriod; // Turn off emissions.
-            }
-        }
-    }
-    
-    /**
-     * Set the emission period, i.e. the time between photons, for the case
-     * where there is are multiple targets for the photons.
-     * 
-     * @param photonEmissionPeriod - Period between photons in milliseconds.
-     */
-    public void setPhotonEmissionPeriodMultipleTarget( double photonEmissionPeriod ) {
-        if (this.photonEmissionPeriodMultipleTarget != photonEmissionPeriod){
-            this.photonEmissionPeriodMultipleTarget = photonEmissionPeriod;
-            notifyPhotonEmissionPeriodChanged();
-            if (photonEmissionCountdownTimer > photonEmissionPeriod){
-                photonEmissionCountdownTimer = photonEmissionPeriod;
             }
         }
     }
@@ -951,16 +922,6 @@ public class PhotonAbsorptionModel {
             return returnSegment;
             
         }
-        
-        /**
-         * Reduce the size of this segment by the amount of overlap with the
-         * provided segment.
-         * 
-         * @param overlappingSegment
-         */
-//        public removeOverlap(Segment1D overlappingSegment){
-            
-            
     }
     
     public interface Listener extends EventListener {
