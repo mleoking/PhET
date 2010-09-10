@@ -29,34 +29,55 @@ public class SmoothMotionTest {
         final PhetPPath node = new PhetPPath( new Rectangle2D.Double( 0, 0, 100, 100 ), Color.yellow, new BasicStroke( 0.5f ), Color.black );
         contentPane.getLayer().addChild( node );
 
-        int delay = 25;
+        final int delay = 25;
         final double VELOCITY = 5 / 30.0 * delay;//try to keep a nice velocity independent of the delay
-        Timer timer = new Timer( delay, new ActionListener() {
-            double velocity = VELOCITY;
-            int count = 0;
 
-            public void actionPerformed( ActionEvent e ) {
+        frame.setContentPane( contentPane );
+
+
+        ( new Thread() {
+            @Override
+            public void run() {
+                double velocity = VELOCITY;
+                int count = 0;
+
+                while ( true ) {
+                    try {
+                        Thread.sleep( delay );
+
+
 //                if ( count % 5 == 0 ) {
 //                    doWork();
 //                    Runtime.getRuntime().gc();
 //                }
-                doWork();
-
-                if ( node.getFullBounds().getMaxX() > contentPane.getWidth() ) {
-                    velocity = -VELOCITY;
-                }
-                else if ( node.getFullBounds().getMinX() < 0 ) {
-                    velocity = VELOCITY;
-                }
-                node.setX( node.getX() + velocity );
-                node.setY( contentPane.getHeight() / 2 - node.getFullBounds().getHeight() / 2 );
-//                contentPane.paintImmediately( 0, 0, contentPane.getWidth(), contentPane.getHeight() );
+                        doWork();
 //                Runtime.getRuntime().gc();
-                count = count + 1;
+
+                        if ( node.getFullBounds().getMaxX() > contentPane.getWidth() ) {
+                            velocity = -VELOCITY;
+                        }
+                        else if ( node.getFullBounds().getMinX() < 0 ) {
+                            velocity = VELOCITY;
+                        }
+                        node.setX( node.getX() + velocity );
+                        node.setY( contentPane.getHeight() / 2 - node.getFullBounds().getHeight() / 2 );
+//                        SwingUtilities.invokeLater( new Runnable() {
+//                            public void run() {
+//                                contentPane.paintImmediately( 0, 0, contentPane.getWidth(), contentPane.getHeight() );
+//                            }
+//                        } );
+
+//                Runtime.getRuntime().gc();
+                        count = count + 1;
+                    }
+                    catch( InterruptedException e ) {
+                        e.printStackTrace();
+                    }
+                }
             }
-        } );
-        timer.start();
-        frame.setContentPane( contentPane );
+        } ).start();
+
+
     }
 
     private void doWork() {
@@ -66,7 +87,7 @@ public class SmoothMotionTest {
             Point2D.Double pt = new Point2D.Double( i, i / 2.0 );
             string.append( pt.toString() );
         }
-        Exception e = new Exception( string.toString() );
+        //Exception e = new Exception( string.toString() );
     }
 
     public static void main( String[] args ) throws InvocationTargetException, InterruptedException {
