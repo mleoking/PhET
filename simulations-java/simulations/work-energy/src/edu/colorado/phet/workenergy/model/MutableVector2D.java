@@ -14,4 +14,13 @@ public class MutableVector2D extends Observable<ImmutableVector2D> {
     public MutableVector2D(ImmutableVector2D value) {
         super(value);
     }
+
+    public ImmutableVector2D times(double scale) {
+        return getValue().getScaledInstance(scale);
+    }
+
+    @Override
+    public String toString() {
+        return getValue().toString();
+    }
 }
