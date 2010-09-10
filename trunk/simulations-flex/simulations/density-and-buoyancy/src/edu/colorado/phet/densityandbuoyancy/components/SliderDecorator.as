@@ -16,7 +16,7 @@ public class SliderDecorator extends UIComponent {
     private const sliderY:Number = 15;
     private const tickHeight:Number = 4;
 
-    public function SliderDecorator() {
+    public function SliderDecorator(dataTipClamp:Function/*Number=>Number*/) {
         super();
 
         slider = new HSlider();
@@ -29,6 +29,7 @@ public class SliderDecorator extends UIComponent {
         slider.setStyle("dataTipPrecision", 10);
         function doFormat(s:String):String {
             var number:Number = Number(s);
+            number = dataTipClamp(number);
             return DensityConstants.format(number);
         }
 

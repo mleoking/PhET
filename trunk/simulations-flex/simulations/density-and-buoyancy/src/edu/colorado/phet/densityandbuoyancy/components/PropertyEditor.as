@@ -31,7 +31,7 @@ public class PropertyEditor extends GridRow {
      * @param unit
      * @param densityObject
      */
-    public function PropertyEditor(property:NumericProperty, minimum:Number, maximum:Number, unit:Unit, densityObject:DensityObject) {
+    public function PropertyEditor(property:NumericProperty, minimum:Number, maximum:Number, unit:Unit, densityObject:DensityObject, dataTipClamp:Function) {
         super();
         this.property = property;
 
@@ -41,7 +41,7 @@ public class PropertyEditor extends GridRow {
         label.setStyle(DensityConstants.FLEX_FONT_WEIGHT, DensityConstants.FLEX_FONT_BOLD);
         addGridItem(label);
 
-        addGridItem(createSlider(property, minimum, maximum, unit, densityObject));
+        addGridItem(createSlider(property, minimum, maximum, unit, densityObject, dataTipClamp));
 
         textField.setStyle(DensityConstants.FLEX_FONT_SIZE, FONT_SIZE);
         textField.width = DensityConstants.SLIDER_READOUT_TEXT_FIELD_WIDTH;
@@ -82,8 +82,8 @@ public class PropertyEditor extends GridRow {
     //The density slider requires a reference to the density object in order to bound the volume when necessary.
     //This is because when selecting Styrofoam or other non-dense objects, then moving the mass slider to maximum, 
     //The volume increases dramatically, making the object larger than the pool size.
-    protected function createSlider(property:NumericProperty, minimum:Number, maximum:Number, unit:Unit, densityObject:DensityObject):SliderDecorator {
-        const slider:SliderDecorator = new SliderDecorator();
+    protected function createSlider(property:NumericProperty, minimum:Number, maximum:Number, unit:Unit, densityObject:DensityObject, dataTipClamp:Function):SliderDecorator {
+        const slider:SliderDecorator = new SliderDecorator(dataTipClamp);
         slider.sliderThumbClass = MySliderThumb;
         slider.sliderWidth = SLIDER_WIDTH;
         //        slider.sliderDataTipClass = InvisibleDataTip;//Hide the data tip since it can become disassociated from the model value
@@ -91,9 +91,10 @@ public class PropertyEditor extends GridRow {
         slider.minimum = unit.fromSI(minimum);
         slider.maximum = unit.fromSI(maximum);
         slider.liveDragging = true;
+
         function sliderDragHandler(event:SliderEvent):void {
             var newValue:Number = unit.toSI(event.value);
-            if (newValue > 3 && densityObject.material.equals(Material.STYROFOAM)) {
+            if (newValue > 3 && densityObject.material.equals(Material.STYROFOAM)) {//TODO: See related workaround in CustomObjectPropertiesPanel
                 newValue = 3;
                 slider.value = 3;
             }
