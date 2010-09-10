@@ -46,6 +46,7 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
     
     // Layers for the canvas.
     private PNode moleculeLayer;
+    private PNode photonLayer;
     private PNode photonEmitterLayer;
     
     // Data structures that match model objects to their representations in
@@ -82,7 +83,7 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
         photonAbsorptionModel.addListener( new PhotonAbsorptionModel.Adapter() {
             
             public void photonRemoved( Photon photon ) {
-                if (moleculeLayer.removeChild( photonMap.get( photon ) ) == null){
+                if (photonLayer.removeChild( photonMap.get( photon ) ) == null){
                     System.out.println( getClass().getName() + " - Error: PhotonNode not found for photon." );
                 }
                 photonMap.remove( photon );
@@ -90,7 +91,7 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
             
             public void photonAdded( Photon photon ) {
                 PhotonNode photonNode = new PhotonNode(photon, mvt); 
-                moleculeLayer.addChild( photonNode );
+                photonLayer.addChild( photonNode );
                 photonMap.put( photon, photonNode );
             }
             
@@ -115,6 +116,8 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
         // Add the layers.
         moleculeLayer = new PNode();
         myWorldNode.addChild( moleculeLayer );
+        photonLayer = new PNode();
+        myWorldNode.addChild( photonLayer );
         photonEmitterLayer = new PNode();
         myWorldNode.addChild( photonEmitterLayer );
         
