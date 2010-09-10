@@ -30,7 +30,7 @@ public class SodiumGatedChannelToolBoxNode extends MembraneChannelToolBoxNode {
         // Need to have a dynamic openness strategy because the representation
         // of the node needs to be correct, but in this case the openness will
         // not actually change.
-        MembraneChannelOpennessStrategy opennessStrategy = new TimedSettableOpennessStrategy( 1 );
+        MembraneChannelOpennessStrategy opennessStrategy = new TimedSettableOpennessStrategy( 0 );
 
         PNode representation = new MembraneChannelNode(MembraneChannel.createChannel( 
                 MembraneChannelTypes.SODIUM_GATED_CHANNEL, getModel(),
