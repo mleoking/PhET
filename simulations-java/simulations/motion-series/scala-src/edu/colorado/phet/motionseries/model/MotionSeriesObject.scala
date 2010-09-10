@@ -8,7 +8,7 @@ import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.colorado.phet.motionseries.Predef._
 import java.lang.Math.PI
 import edu.colorado.phet.motionseries.charts.MutableDouble
-import edu.colorado.phet.motionseries.util.ScalaMutableBoolean
+import edu.colorado.phet.motionseries.util.{MutableRange, ScalaMutableBoolean}
 
 class MotionSeriesObject(_position: MutableDouble,
                          _velocity: MutableDouble,
@@ -23,7 +23,7 @@ class MotionSeriesObject(_position: MutableDouble,
                          rampChangeAdapter: Observable,
                          val wallsBounce: ScalaMutableBoolean,
                          val _wallsExist: MutableBoolean,
-                         val wallRange: () => Range,
+                         val wallRange: MutableRange,
                          thermalEnergyStrategy: Double => Double,
                          val surfaceFriction: () => Boolean,
                          private var _surfaceFrictionStrategy: SurfaceFrictionStrategy)
@@ -40,13 +40,20 @@ class MotionSeriesObject(_position: MutableDouble,
   _position.addListener(updatePosition2D)
   rampChangeAdapter.addListener(updatePosition2D)
   updatePosition2D
+  
+  //Resolves: When turning on walls while objects are out of bounds and bouncy is enabled, can bounce infinitely.
+  def clampBounds() = {
+    if (position < wallRange().min) setPosition(wallRange().min + _width/2)
+    if (position > wallRange().max) setPosition(position = wallRange().max - _width/2)
+  }
+  wallRange.addListener(clampBounds)
 
   if (_surfaceFrictionStrategy == null) throw new RuntimeException("Null surface friction strategy")
   private val _thermalEnergy = new MutableDouble
   private val _crashEnergy = new MutableDouble
   private val _time = new MutableDouble
   private var _airborneFloor = 0.0
-  private var _gravity = new MutableDouble(-9.8)
+  private val _gravity = new MutableDouble(-9.8)
   val workListeners = new ArrayBuffer[Double => Unit]
   private var _notificationsEnabled = true
   //This notion of crashing is only regarding falling off a cliff or off the ramp, not for crashing into a wall
@@ -339,5 +346,3 @@ case class MotionSeriesObjectState(position: Double,
                                    appliedForce: Vector2D,
                                    frictionForce: Vector2D,
                                    wallForce: Vector2D)
-
-case class Range(min: Double, max: Double)

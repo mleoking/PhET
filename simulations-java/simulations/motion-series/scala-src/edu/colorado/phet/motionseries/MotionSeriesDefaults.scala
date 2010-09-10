@@ -111,9 +111,6 @@ object MotionSeriesDefaults {
 
   val objectsForForce1DGame = cabinet :: ollie :: book :: Nil
 
-  lazy val movingMan = new MotionSeriesObjectType("object.moving-man".translate, 85, 0.3, 0.5, 2.8, //is some empty padding in the image? looks better at large size, with a 20m wide play area
-    "moving-man/moving-man-standing.gif".literal, 1000)
-
   val wall = new MotionSeriesObjectType("wall".literal, 1000, 1000, 1000, 3.5, "wall.jpg".literal, 100)
   val SPRING_HEIGHT = 0.6
   val SPRING_WIDTH = 1.0
