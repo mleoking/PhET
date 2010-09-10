@@ -96,10 +96,10 @@ class MotionSeriesModel(defaultPosition: Double,
   def motionSeriesObjectInModelViewportRange = motionSeriesObject.position2D.x < MotionSeriesDefaults.MIN_X || motionSeriesObject.position2D.x > MotionSeriesDefaults.MAX_X
 
   def returnMotionSeriesObject() = {
+    motionSeriesObject.attach()
     motionSeriesObject.setPosition(defaultPosition)
     motionSeriesObject.parallelAppliedForce = 0
     motionSeriesObject.setVelocity(0)
-    motionSeriesObject.attach()
   }
 
   def resetObject() = {
