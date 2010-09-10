@@ -129,12 +129,12 @@ public class PhotonEmitterNode extends PNode {
 		        double sliderProportion = (double)emissionRateControlSlider.getValue() / (double)SLIDER_RANGE;
 		        if (model.getPhotonTarget() == PhotonTarget.CONFIGURABLE_ATMOSPHERE){
 		            // Note the implicit conversion from frequency to period in the following line.
-		            model.setPhotonEmissionPeriodMultipleTarget(
+		            model.setPhotonEmissionPeriod(
 		                    PhotonAbsorptionModel.MIN_PHOTON_EMISSION_PERIOD_MULTIPLE_TARGET / sliderProportion );
 		        }
 		        else{
 		            // Note the implicit conversion from frequency to period in the following line.
-		            model.setPhotonEmissionPeriodSingleTarget(
+		            model.setPhotonEmissionPeriod(
 		                    PhotonAbsorptionModel.MIN_PHOTON_EMISSION_PERIOD_SINGLE_TARGET / sliderProportion );
 		        }
 		    }
@@ -269,11 +269,11 @@ public class PhotonEmitterNode extends PNode {
 	    int mappedFrequency;
 	    if (model.getPhotonTarget() == PhotonTarget.CONFIGURABLE_ATMOSPHERE){
 	        mappedFrequency = (int)Math.round( PhotonAbsorptionModel.MIN_PHOTON_EMISSION_PERIOD_MULTIPLE_TARGET / 
-	                model.getPhotonEmissionPeriodMultipleTarget() * (double) SLIDER_RANGE);
+	                model.getPhotonEmissionPeriod() * (double) SLIDER_RANGE);
 	    }
 	    else{
             mappedFrequency = (int)Math.round( PhotonAbsorptionModel.MIN_PHOTON_EMISSION_PERIOD_SINGLE_TARGET / 
-                    model.getPhotonEmissionPeriodSingleTarget() * (double) SLIDER_RANGE);
+                    model.getPhotonEmissionPeriod() * (double) SLIDER_RANGE);
 	    }
 	    
 	    emissionRateControlSlider.setValue( mappedFrequency );
