@@ -167,13 +167,8 @@ public class PhotonAbsorptionModel {
      */
     public void reset() {
         
-        // Remove any existing photons.
-        ArrayList<Photon> copyOfPhotons = new ArrayList<Photon>(photons);
-        photons.clear();
-        for (Photon photon : copyOfPhotons){
-            photons.remove( photon );
-            notifyPhotonRemoved( photon );
-        }
+        // Remove any photons that are currently in transit.
+        removeAllPhotons();
         
         // Reset all molecules, which will stop any oscillations.
         for (Molecule molecule : activeMolecules){
@@ -273,12 +268,7 @@ public class PhotonAbsorptionModel {
             }
             
             // Remove any photons that are in transit.
-            ArrayList<Photon> copyOfPhotons = new ArrayList<Photon>(photons);
-            photons.clear();
-            for (Photon photon : copyOfPhotons){
-                photons.remove( photon );
-                notifyPhotonRemoved( photon );
-            }
+            removeAllPhotons();
             
             // Turn off photon emissions.
             setPhotonEmissionPeriod( Double.POSITIVE_INFINITY );
@@ -330,6 +320,15 @@ public class PhotonAbsorptionModel {
             
             // Send out general notification about the change.
             notifyPhotonTargetChanged();
+        }
+    }
+
+    private void removeAllPhotons() {
+        ArrayList<Photon> copyOfPhotons = new ArrayList<Photon>(photons);
+        photons.clear();
+        for (Photon photon : copyOfPhotons){
+            photons.remove( photon );
+            notifyPhotonRemoved( photon );
         }
     }
     
@@ -407,6 +406,10 @@ public class PhotonAbsorptionModel {
     
     public void setEmittedPhotonWavelength(double freq){
         if (this.photonWavelength != freq){
+            // Set the emission rate to zero.
+            setPhotonEmissionPeriod( Double.POSITIVE_INFINITY );
+            
+            // Set the new value and send out notification of change to listeners.
             this.photonWavelength = freq;
             notifyEmittedPhotonWavelengthChanged();
         }
