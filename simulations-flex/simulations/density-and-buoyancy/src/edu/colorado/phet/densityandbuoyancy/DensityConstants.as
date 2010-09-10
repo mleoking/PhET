@@ -1,6 +1,8 @@
 package edu.colorado.phet.densityandbuoyancy {
 import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
 
+import flash.geom.ColorTransform;
+
 public class DensityConstants {
     public static const MIN_MASS:Number = 1;
     public static const MAX_MASS:Number = 10;
@@ -38,7 +40,13 @@ public class DensityConstants {
     public static const LARGE_BLOCK_WIDTH:Number = 0.18;
     public static const NUMBER_OF_DECIMAL_PLACES:Number = 2;
     public static const CONTROL_INSET:Number = 5;
-    public static const SLIDER_READOUT_TEXT_FIELD_WIDTH:Number = 50;//this is a magic number that just barely fits "00.00" with the above specified font;
+    public static const SLIDER_READOUT_TEXT_FIELD_WIDTH:Number = 50;
+    public static const YELLOW:ColorTransform = new ColorTransform(1, 1, 0);
+    public static const RED:ColorTransform = new ColorTransform(1, 0, 0);
+    public static const GREEN:ColorTransform = new ColorTransform(0, 0.9, 0);
+    public static const BLUE:ColorTransform = new ColorTransform(0, 0, 1);
+    public static const PURPLE:ColorTransform = new ColorTransform(0.75, 0, 0.75);
+    //this is a magic number that just barely fits "00.00" with the above specified font;
 
     //So that away3d faces don't overlap
     private static function kgLtoSI(number:Number):Number {
