@@ -44,7 +44,7 @@ class BasicRampModule(frame: PhetFrame,
   setSimulationPanel(rampCanvas)
 
   //Create the control panel and set it as the simulation control panel
-  val rampControlPanel = new MotionSeriesControlPanel(motionSeriesModel, fbdModel, coordinateSystemModel, vectorViewModel, resetRampModule, coordinateSystemEnabled, controlPanelObjectComboBox, motionSeriesModel, true, true, true, "more.controls.title".translate)
+  val rampControlPanel = new MotionSeriesControlPanel(motionSeriesModel, fbdModel, coordinateSystemModel, vectorViewModel, resetRampModule, coordinateSystemEnabled, controlPanelObjectComboBox, motionSeriesModel, true, true, true, "more.controls.title".translate,audioEnabled)
   setControlPanel(rampControlPanel)
 
   //Set the clock control panel to use one that has record and playback capabilities

@@ -7,6 +7,8 @@ import edu.colorado.phet.motionseries.model._
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver
 import edu.colorado.phet.common.motion.charts.{TemporalChart, ChartCursor}
 import edu.colorado.phet.motionseries.Predef._
+import util.ScalaMutableBoolean
+import edu.colorado.phet.common.phetcommon.audio.PhetAudioClip
 //TODO: improve inheritance/composition scheme for different applications/modules/canvases/models
 class MotionSeriesModule(frame: PhetFrame,
                          val clock: ScalaClock,
@@ -16,6 +18,7 @@ class MotionSeriesModule(frame: PhetFrame,
                          initialAngle: Double,
                          fbdPopupOnly: Boolean)
         extends Module(name, clock) {
+  val audioEnabled = new ScalaMutableBoolean(true)
   TemporalChart.SEC_TEXT = "units.sec".translate; //see doc in SEC_TEXT
   def createMotionSeriesModel(defaultObjectPosition: Double, pausedOnReset: Boolean, initialAngle: Double) =
     new MotionSeriesModel(defaultObjectPosition, pausedOnReset, initialAngle)
@@ -107,15 +110,19 @@ class MotionSeriesModule(frame: PhetFrame,
   //    })
   //    t.start()
 
-  motionSeriesModel.motionSeriesObject.addWallCrashListener(() => MotionSeriesResources.crashSound.play())
-  motionSeriesModel.motionSeriesObject.addBounceListener(() => MotionSeriesResources.bounceSound.play())
-  motionSeriesModel.motionSeriesObject.crashListeners += (() => MotionSeriesResources.crashSound.play())
+  def play(audioClip: PhetAudioClip) = {
+    if (audioEnabled.booleanValue) audioClip.play()
+  }
+  motionSeriesModel.motionSeriesObject.addWallCrashListener(() => play(MotionSeriesResources.crashSound))
+  motionSeriesModel.motionSeriesObject.addBounceListener(() => play(MotionSeriesResources.bounceSound))
+  motionSeriesModel.motionSeriesObject.crashListeners += (() => play(MotionSeriesResources.crashSound))
 
   //pause on start/reset, and unpause (and start recording) when the user applies a force
   def resetPauseValue() = motionSeriesModel.setPaused(true)
   resetPauseValue()
 
   def resetRampModule(): Unit = {
+    audioEnabled.reset()
     motionSeriesModel.resetAll()
     fbdModel.resetAll()
     coordinateSystemModel.resetAll()

@@ -9,9 +9,8 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver
  */
 class ScalaMutableBoolean(v: Boolean) extends MutableBoolean(v) {
   def booleanValue = super.getValue().booleanValue //to fix incompatibility between java.lang.Boolean and scala.Boolean
-  def addListener(listener: () => Unit) = {
-    super.addObserver(new SimpleObserver {
-      def update = listener()
-    })
-  }
+  def value_=(v:Boolean) = setValue(v)
+  def value = getValue()
+  def apply() = getValue()
+  def addListener(listener: () => Unit) = addObserver(new SimpleObserver {def update() = listener()})
 }

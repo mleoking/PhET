@@ -1,3 +1,4 @@
+Added a sound on/off control
 Fixed: gravity force slider is broken
 Added a friction tab to Ramp:Forces and Motion
 # 1.03.76 (43868) Sep 8, 2010

@@ -24,6 +24,7 @@ import java.awt.event.{MouseEvent, MouseAdapter}
 import edu.colorado.phet.common.phetcommon.view.{PhetTitledBorder, ControlPanel, VerticalLayoutPanel}
 import edu.colorado.phet.motionseries.graphics.{RampSegmentNode, RampSurfaceModel, VectorNode, ObjectModel}
 import edu.colorado.phet.motionseries.model._
+import edu.colorado.phet.motionseries.util.ScalaMutableBoolean
 
 class MotionSeriesControlPanel(model: MotionSeriesModel,
                        freeBodyDiagramModel: FreeBodyDiagramModel,
@@ -36,12 +37,14 @@ class MotionSeriesControlPanel(model: MotionSeriesModel,
                        showAngleSlider: Boolean,
                        showFrictionControl: Boolean,
                        showBounceControl: Boolean,
-        subControlPanelTitle:String)
+                       subControlPanelTitle:String,
+                       audioEnabled:ScalaMutableBoolean)
         extends ControlPanel {
   val body = new RampControlPanelBody(model, freeBodyDiagramModel, coordinateSystemModel, vectorViewModel, resetHandler,
     coordinateSystemFeaturesEnabled, useObjectComboBox, objectModel, showAngleSlider, showFrictionControl, showBounceControl,subControlPanelTitle)
 
   addControl(body)
+  addControl(new AudioEnabledCheckBox(audioEnabled))
   addResetAllButton(new Resettable {def reset = resetHandler()})
 
   def addPrimaryControl(component: JComponent): Unit = body.add(component)
