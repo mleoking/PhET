@@ -46,7 +46,7 @@ class MotionSeriesObject(_position: MutableDouble,
   private val _crashEnergy = new MutableDouble
   private val _time = new MutableDouble
   private var _airborneFloor = 0.0
-  private var _gravity = -9.8
+  private var _gravity = new MutableDouble(-9.8)
   val workListeners = new ArrayBuffer[Double => Unit]
   private var _notificationsEnabled = true
   //This notion of crashing is only regarding falling off a cliff or off the ramp, not for crashing into a wall
@@ -66,13 +66,16 @@ class MotionSeriesObject(_position: MutableDouble,
   val normalForce = new Vector2DModel
   val gravityForce = new Vector2DModel
   val appliedForce = new Vector2DModel
-
-  def updateGravityForce() = gravityForce.value = new Vector2D(0, gravity * mass)
+  val _parallelAppliedForce = new MutableDouble
+  
+  def updateGravityForce() = {
+    gravityForce.value = new Vector2D(0, gravity * mass)
+    motionStrategy.updateForces()
+  }
+  _gravity.addListener(updateGravityForce)
   _mass.addListener(updateGravityForce)
-  _mass.addListener(motionStrategy.updateForces) //Hack to update the other vectors//TODO: remove this hack
   updateGravityForce()
 
-  val _parallelAppliedForce = new MutableDouble
   val gravityForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.gravityForceColor, "Gravity Force".literal, "force.abbrev.gravity".translate, false, gravityForce, (a, b) => b, PI / 2)
   val normalForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.normalForceColor, "Normal Force".literal, "force.abbrev.normal".translate, true, normalForce, (a, b) => b, PI / 2)
   val totalForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.sumForceColor, "Sum of Forces".literal, "force.abbrev.total".translate, false, totalForce, (a, b) => b, 0) ////Net force vector label should always be above
@@ -86,7 +89,7 @@ class MotionSeriesObject(_position: MutableDouble,
 
   def frictionless = state.staticFriction == 0 && state.kineticFriction == 0
 
-  def gravity = _gravity
+  def gravity = _gravity.value
 
   def wallsExist = _wallsExist.getValue.booleanValue
 
@@ -290,7 +293,7 @@ class MotionSeriesObject(_position: MutableDouble,
   }
 
   def gravity_=(value: Double) = { //TODO: convert gravity to mutabledouble
-    _gravity = value
+    _gravity.value= value
     notifyListeners()
   }
 
