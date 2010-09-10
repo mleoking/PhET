@@ -352,11 +352,7 @@ public class PhotonAbsorptionModel {
      * @param photonEmissionPeriod - Period between photons in milliseconds.
      */
     public void setPhotonEmissionPeriod( double photonEmissionPeriod ) {
-        if (photonEmissionPeriod < 0){
-            System.out.println("Yow!");
-        }
         assert photonEmissionPeriod >= 0;
-        System.out.println("photonEmissionPeriod = " + photonEmissionPeriod);
         if (this.photonEmissionPeriodTarget != photonEmissionPeriod){
             this.photonEmissionPeriodTarget = photonEmissionPeriod;
             notifyPhotonEmissionPeriodChanged();
