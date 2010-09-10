@@ -1,3 +1,5 @@
+# 2.07.15 (43968) Sep 10, 2010
+9/10/10 Publishing new version to dev site for review and feedback.
 Changed that canvas transform just enough so that the chamber fits on more monitors.
 Changed that tab order to Greenhouse Effect, Glass Panes, Photon Absorption.
 Removed the flash that occurs when photons are re-emitted in the atmosphere.
