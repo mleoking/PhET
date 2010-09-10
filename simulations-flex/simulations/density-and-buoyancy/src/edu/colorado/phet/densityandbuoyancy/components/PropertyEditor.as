@@ -84,7 +84,6 @@ public class PropertyEditor extends GridRow {
     //The volume increases dramatically, making the object larger than the pool size.
     protected function createSlider(property:NumericProperty, minimum:Number, maximum:Number, unit:Unit, densityObject:DensityObject):SliderDecorator {
         const slider:SliderDecorator = new SliderDecorator();
-        slider.setStyle("dataTipOffset", 0);//Without this fix, data tips appear very far from the tip of the slider thumb, see http://blog.flexexamples.com/2007/11/03/customizing-a-slider-controls-data-tip/
         slider.sliderThumbClass = MySliderThumb;
         slider.sliderWidth = SLIDER_WIDTH;
 

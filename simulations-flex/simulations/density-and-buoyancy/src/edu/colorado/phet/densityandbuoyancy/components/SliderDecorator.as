@@ -19,6 +19,7 @@ public class SliderDecorator extends UIComponent {
         super();
 
         slider = new HSlider();
+        slider.setStyle("dataTipOffset", 0);//Without this fix, data tips appear very far from the tip of the slider thumb, see http://blog.flexexamples.com/2007/11/03/customizing-a-slider-controls-data-tip/
         slider.y = sliderY;
         addChild(slider);
 
