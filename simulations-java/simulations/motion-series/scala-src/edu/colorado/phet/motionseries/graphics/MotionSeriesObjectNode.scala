@@ -48,6 +48,8 @@ class MotionSeriesObjectNode(motionSeriesObject: MotionSeriesObject,
 
   val imageNode = new PImage(image)
 
+  motionSeriesObject.updatePosition2D()//Workaround for the robot moving company game module, since the ramp is mutated and the MotionSeriesObject doesn't have a proper listener for it 
+  
   //This is to support showing crash images during game mode
   //todo: refactor game mode to use the motionSeriesObject.isCrashed model value
   motionSeriesObject.crashListeners += (() => {
