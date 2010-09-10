@@ -1,3 +1,4 @@
+# 0.01.27 (43953) Sep 10, 2010
 Fixed: Slider data tip continues to change even when the slider thumb and text field reach maximum
 Fixed: Slider data tip readouts are often off by 0.01
 Re-enabled slider data tip readouts
