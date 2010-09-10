@@ -1,3 +1,4 @@
+# 0.01.24 (43934) Sep 10, 2010
 Fixed: The readout labels as you drag the sliders are now back to being far above the slider
 # 0.01.23 (43928) Sep 10, 2010
 Improved colors for blocks
