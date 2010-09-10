@@ -39,7 +39,7 @@ class MotionSeriesObject(_position: MutableDouble,
   private def updatePosition2D() = _position2D.value = motionStrategy.mapPosition
   _position.addListener(updatePosition2D)
   rampChangeAdapter.addListener(updatePosition2D)
-  updatePosition2D
+  updatePosition2D()
   
   //Resolves: When turning on walls while objects are out of bounds and bouncy is enabled, can bounce infinitely.
   def clampBounds() = {
