@@ -185,8 +185,10 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor {
                 AffineTransform savedTransform=g2.getTransform();
                 g2.setTransform(new AffineTransform());
                 final PAffineTransform newTransform = new PAffineTransform();
-                newTransform.translate(0,apparatusPanel.getHeight()-currentBackdropImage.getHeight());
-                newTransform.scale(apparatusPanel.getWidth()/(double)currentBackdropImage.getWidth(),1);
+                double xScale = (double)apparatusPanel.getWidth() / (double)currentBackdropImage.getWidth();
+                double yScale = (double)apparatusPanel.getHeight() / (double)currentBackdropImage.getHeight();
+                newTransform.translate(0, apparatusPanel.getHeight() - currentBackdropImage.getHeight() * yScale);
+                newTransform.scale(xScale, yScale);
                 g2.drawRenderedImage(currentBackdropImage, newTransform);
                 g2.setTransform(savedTransform);
             }
