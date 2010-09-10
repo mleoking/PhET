@@ -256,6 +256,14 @@ public class PhotonAbsorptionModel {
 
     public void setPhotonTarget( PhotonTarget photonTarget ){
         if (this.photonTarget != photonTarget){
+            
+            // If switching to the configurable atmosphere, photon emission
+            // is turned off (if it is happening).  This is done because it
+            // just looks better.
+            if (photonTarget == PhotonTarget.CONFIGURABLE_ATMOSPHERE || this.photonTarget == PhotonTarget.CONFIGURABLE_ATMOSPHERE){
+                setPhotonEmissionPeriod( Double.POSITIVE_INFINITY );
+                removeAllPhotons();
+            }
 
             // Update to the new value.
             this.photonTarget = photonTarget;
@@ -266,12 +274,6 @@ public class PhotonAbsorptionModel {
             for (Molecule molecule : copyOfMolecules){
                 notifyMoleculeRemoved( molecule );
             }
-            
-            // Remove any photons that are in transit.
-            removeAllPhotons();
-            
-            // Turn off photon emissions.
-            setPhotonEmissionPeriod( Double.POSITIVE_INFINITY );
             
             // Add the new photon target(s).
             Molecule newMolecule;
