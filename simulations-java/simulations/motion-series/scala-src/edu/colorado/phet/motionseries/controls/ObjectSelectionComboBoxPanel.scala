@@ -12,6 +12,7 @@ import edu.umd.cs.piccolox.pswing.{PSwingCanvas, PComboBox, PSwing}
 import java.awt.Color
 
 class ObjectSelectionComboBox(objectModel: ObjectModel) extends PComboBox {
+  if (objectModel == null) throw new RuntimeException("Null object model")
   val vec = new Vector[ObjectItem]
 
   val itemList = for (o <- MotionSeriesDefaults.objectTypes) yield {
@@ -27,17 +28,25 @@ class ObjectSelectionComboBox(objectModel: ObjectModel) extends PComboBox {
 
   objectModel.addListener(() => setSelectedIndex(MotionSeriesDefaults.objectTypes.indexOf(objectModel.selectedObject)))
   addItemListener(new ItemListener() {
-    def itemStateChanged(e: ItemEvent) = objectModel.selectedObject = itemList(getSelectedIndex).rampObject
+    def itemStateChanged(e: ItemEvent) = {
+      if (itemList.indices.contains(getSelectedIndex))
+        objectModel.selectedObject = itemList(getSelectedIndex).rampObject
+      else {
+        println("could not select item : " + getSelectedIndex)
+      }
+    }
   })
   setRenderer(new JLabel with ListCellRenderer {
     setOpaque(true)
     setBorder(BorderFactory.createLineBorder(Color.gray))
 
     def getListCellRendererComponent(list: JList, value: Any, index: Int, isSelected: Boolean, cellHasFocus: Boolean) = {
-      setIcon(new ImageIcon(BufferedImageUtils.multiScaleToHeight(value.asInstanceOf[ObjectItem].rampObject.iconImage, 30)))
-      setText(value.asInstanceOf[ObjectItem].rampObject.getDisplayTextHTML)
-      setBackground(if (isSelected) list.getSelectionBackground else list.getBackground)
-      setForeground(if (isSelected) list.getSelectionForeground else list.getForeground)
+      if (value != null) {
+        setIcon(new ImageIcon(BufferedImageUtils.multiScaleToHeight(value.asInstanceOf[ObjectItem].rampObject.iconImage, 30)))
+        setText(value.asInstanceOf[ObjectItem].rampObject.getDisplayTextHTML)
+        setBackground(if (isSelected) list.getSelectionBackground else list.getBackground)
+        setForeground(if (isSelected) list.getSelectionForeground else list.getForeground)
+      }
       this
     }
   })
