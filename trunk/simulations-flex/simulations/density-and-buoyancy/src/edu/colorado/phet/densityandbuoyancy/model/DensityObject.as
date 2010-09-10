@@ -93,11 +93,10 @@ public class DensityObject {
 
         this.model = model;
         this.density.value = density;
-        //        this.listeners = new Array();
     }
 
     private function getLabelString():String {
-        return FlexSimStrings.get("properties.massValue", "{0} kg", [getMass().toFixed(DensityConstants.NUMBER_OF_DECIMAL_PLACES)]);
+        return FlexSimStrings.get("properties.massValue", "{0} kg", [DensityConstants.format(getMass())]);
     }
 
     protected function getLabelProperty():StringProperty {
