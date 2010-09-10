@@ -1,3 +1,4 @@
+Improved colors for blocks
 # 0.01.22 (43860) Sep 8, 2010
 Made it so the density slider is only enabled in Custom object mode
 Minor changes to scale readout, to increase consistency with other readouts
