@@ -43,10 +43,10 @@ public class GreenhouseApplication extends PiccoloPhetApplication {
 
         // modules
         PhetFrame parentFrame = getPhetFrame();
-        photonAbsorptionModule = new PhotonAbsorptionModule(parentFrame); 
-        addModule( photonAbsorptionModule );
         addModule( new GreenhouseModule() );
         addModule( new GlassPaneModule() );
+        photonAbsorptionModule = new PhotonAbsorptionModule(parentFrame); 
+        addModule( photonAbsorptionModule );
         
         // Developer controls.
         JMenu developerMenu = parentFrame.getDeveloperMenu();
