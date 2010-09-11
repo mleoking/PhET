@@ -14,6 +14,7 @@ import mx.controls.RadioButton;
 public class DensityCanvas extends AbstractDensityAndBuoyancyCanvas {
 
     private var densityModule:DensityModule;
+    private var customButton:RadioButton;
 
     public function DensityCanvas() {
         super();
@@ -32,7 +33,7 @@ public class DensityCanvas extends AbstractDensityAndBuoyancyCanvas {
         label.setStyle( "fontWeight", "bold" );
         modeControlPanel.addChild( label );
 
-        var customButton:RadioButton = new RadioButton();
+        customButton = new RadioButton();
         customButton.groupName = "modes";
         customButton.label = FlexSimStrings.get( 'mode.customObject', 'Custom' );
         customButton.addEventListener( MouseEvent.CLICK, function():void {
@@ -75,10 +76,7 @@ public class DensityCanvas extends AbstractDensityAndBuoyancyCanvas {
 
         addChild( modeControlPanel );
 
-        addResetAll( function():void {
-            customButton.selected = true;
-            densityModule.resetAll();
-        } );
+        addResetAll();
 
         addLogo();
     }
@@ -99,6 +97,8 @@ public class DensityCanvas extends AbstractDensityAndBuoyancyCanvas {
 
     override public function resetAll():void {
         super.resetAll();
+        customButton.selected = true;
+            densityModule.resetAll();
     }
 }
 }

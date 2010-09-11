@@ -14,6 +14,7 @@ import mx.controls.RadioButton;
 public class BuoyancyCanvas extends AbstractDensityAndBuoyancyCanvas {
 
     private var densityModule:DensityModule;
+    private var customButton:RadioButton;
 
     public function BuoyancyCanvas() {
         super();
@@ -32,7 +33,7 @@ public class BuoyancyCanvas extends AbstractDensityAndBuoyancyCanvas {
         label.setStyle( "fontWeight", "bold" );
         modeControlPanel.addChild( label );
 
-        var customButton:RadioButton = new RadioButton();
+        customButton = new RadioButton();
         customButton.groupName = "modes";
         customButton.label = FlexSimStrings.get( 'mode.customObject', 'Custom' );
         customButton.addEventListener( MouseEvent.CLICK, function():void {
@@ -65,12 +66,17 @@ public class BuoyancyCanvas extends AbstractDensityAndBuoyancyCanvas {
         } );
         modeControlPanel.addChild( sameDensityButton );
 
+        var mysteryObjectsButton:RadioButton = new RadioButton();
+        mysteryObjectsButton.groupName = "modes";
+        mysteryObjectsButton.label = FlexSimStrings.get( 'mode.mysteryObjects', 'Mystery' );
+        mysteryObjectsButton.addEventListener( MouseEvent.CLICK, function():void {
+            densityModule.switchToMysteryObjects()
+        } );
+        modeControlPanel.addChild( mysteryObjectsButton );
+
         addChild( modeControlPanel );
 
-        addResetAll( function():void {
-            customButton.selected = true;
-            densityModule.resetAll();
-        } );
+        addResetAll();
 
         addLogo();
     }
@@ -91,6 +97,8 @@ public class BuoyancyCanvas extends AbstractDensityAndBuoyancyCanvas {
 
     override public function resetAll():void {
         super.resetAll();
+        customButton.selected = true;
+            densityModule.resetAll();
     }
 }
 }
