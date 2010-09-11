@@ -10,9 +10,9 @@ import edu.colorado.phet.densityandbuoyancy.view.units.Units;
 
 import mx.containers.Canvas;
 
-public class DensityModule extends AbstractDensityModule {
+public class BuoyancyModule extends AbstractDensityModule {
 
-    private var _densityCanvas:DensityCanvas;
+    private var _densityCanvas:BuoyancyCanvas;
 
     private var customObjectMode:CustomObjectMode;
     private var sameMassMode:SameMassMode;
@@ -21,13 +21,13 @@ public class DensityModule extends AbstractDensityModule {
     private var mysteryObjectsMode:MysteryObjectsMode;
     private var mode:Mode;
 
-    public function DensityModule() {
+    public function BuoyancyModule() {
         super();
         percentWidth = 100;
         percentHeight = 100;
     }
 
-    public function doInit(densityCanvas:DensityCanvas):void {
+    public function doInit(densityCanvas:BuoyancyCanvas):void {
         this._densityCanvas = densityCanvas;
         customObjectMode = new CustomObjectMode(this);
         sameMassMode = new SameMassMode(this);

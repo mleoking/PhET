@@ -22,9 +22,14 @@ import edu.colorado.phet.densityandbuoyancy.view.away3d.DensityObjectNode;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.GroundNode;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.Pickable;
 
+import edu.colorado.phet.densityandbuoyancy.view.units.LinearUnit;
+import edu.colorado.phet.densityandbuoyancy.view.units.Units;
+
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.MouseEvent;
+
+import flash.sampler._getInvocationCount;
 
 import mx.core.UIComponent;
 import mx.events.SliderEvent;
@@ -58,13 +63,12 @@ public class AbstractDensityModule extends UIComponent {
     private var backgroundSprite:Sprite;
     private var groundNode:GroundNode;
 
-    [Embed(source="../../../../../../data/density-and-buoyancy/images/spheretex.png")]
-    private var spheretex:Class;
-
     protected var densityObjectNodeList:Array = new Array();
 
     private var waterVolumeIndicator:WaterVolumeIndicator;
     private var tickMarkSet:TickMarkSet;
+
+    private var _units:Units = new Units("kg/L", new LinearUnit("kg", 1.0), new LinearUnit("L", 1000.0), new LinearUnit("kg/L", 1.0 / 1000.0));
 
     public function AbstractDensityModule() {
         super();
@@ -328,6 +332,14 @@ public class AbstractDensityModule extends UIComponent {
 
     public function get model():DensityModel {
         return _model;
+    }
+
+    public function get canvas() : AbstractDensityAndBuoyancyCanvas {
+        throw new Error( "called canvas() on abstract module" );
+    }
+    
+    public function get units():Units {
+        return _units;
     }
 }
 }
