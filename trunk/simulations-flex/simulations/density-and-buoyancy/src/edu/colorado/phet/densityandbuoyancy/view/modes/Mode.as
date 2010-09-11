@@ -18,6 +18,9 @@ public class Mode {
         addScales();
     }
 
+    /**
+     * Currently overridden whenever we need to add a scale for the Density sim
+     */
     public function addScales() : void {
         if ( module.showScales() ) {
             module.model.addDensityObject( new BuoyancyScale( Scale.GROUND_SCALE_X, Scale.GROUND_SCALE_Y, module.model ) );
