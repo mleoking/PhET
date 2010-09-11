@@ -18,9 +18,9 @@ public class Scale extends Cuboid {
     public static var SCALE_DENSITY:Number = 2.0 * 1000;
 
     private static const SCALE_SCALE:Number = 1.7;
-    public static var SCALE_WIDTH:Number = 1.0 / 10 * SCALE_SCALE;
-    public static var SCALE_HEIGHT:Number = 1 / 3.0 / 10 * SCALE_SCALE;
-    public static var SCALE_DEPTH:Number = 1.0 / 10 * SCALE_SCALE;
+    public static var SCALE_WIDTH:Number = 0.1 * SCALE_SCALE;
+    public static var SCALE_HEIGHT:Number = 0.05 * SCALE_SCALE;
+    public static var SCALE_DEPTH:Number = 0.1 * SCALE_SCALE;
 
     private const scaleReadoutListeners:Array = new Array();
     public static const GROUND_SCALE_X:Number = -DensityConstants.POOL_WIDTH_X / 2 - DensityConstants.LARGE_BLOCK_WIDTH - Scale.SCALE_WIDTH / 2;
