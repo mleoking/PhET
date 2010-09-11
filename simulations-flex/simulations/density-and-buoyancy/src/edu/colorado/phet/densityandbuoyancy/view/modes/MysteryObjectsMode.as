@@ -37,12 +37,16 @@ public class MysteryObjectsMode extends Mode {
         const block5:MysteryBlock = new MysteryBlock( Material.DIAMOND.getDensity(), 0.1, -DensityConstants.POOL_WIDTH_X / 2, block4.getHeight() + block4.getY(), DensityConstants.PURPLE, module.model, FlexSimStrings.get( "mode.mysteryObjects.E", "E" ) );
         module.model.addDensityObject( block5 );
 
-        module.model.addDensityObject( new Scale( Scale.SCALE_X, Scale.SCALE_HEIGHT / 2, module.model, 100 ) );
+//        module.model.addDensityObject( new Scale( Scale.SCALE_X, Scale.SCALE_HEIGHT / 2, module.model, 100 ) );
 
         if ( !mysteryObjectsControlPanelShowing ) {
             module.canvas.addChild( mysteryObjectsControlPanel );
             mysteryObjectsControlPanelShowing = true;
         }
+    }
+
+    override public function addScales():void {
+        module.model.addDensityObject( new Scale( Scale.SCALE_X, Scale.SCALE_HEIGHT / 2, module.model, 100 ) );
     }
 }
 }

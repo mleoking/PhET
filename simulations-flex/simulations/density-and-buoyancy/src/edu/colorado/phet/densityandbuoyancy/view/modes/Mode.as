@@ -1,4 +1,5 @@
 package edu.colorado.phet.densityandbuoyancy.view.modes {
+import edu.colorado.phet.densityandbuoyancy.model.Scale;
 import edu.colorado.phet.densityandbuoyancy.view.AbstractDensityModule;
 
 public class Mode {
@@ -13,6 +14,13 @@ public class Mode {
     }
 
     public function init():void {
+        addScales();
+    }
+
+    public function addScales() : void {
+        if ( module.showScales() ) {
+            module.model.addDensityObject( new Scale( Scale.SCALE_X, Scale.SCALE_HEIGHT / 2, module.model, 100 ) );
+        }
     }
 }
 }

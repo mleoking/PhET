@@ -341,5 +341,9 @@ public class AbstractDensityModule extends UIComponent {
     public function get units():Units {
         return _units;
     }
+
+    public function showScales():Boolean {
+        return false;
+    }
 }
 }
