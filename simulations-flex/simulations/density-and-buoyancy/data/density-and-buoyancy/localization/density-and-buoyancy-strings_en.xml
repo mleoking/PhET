@@ -19,8 +19,8 @@
     <string key="customObject.name" value="name"/>
     <string key="customObject.custom" value="Custom"/>
     <string key="mysteryObject.material" value="Material"/>
-    <string key="mysteryObject.density" value="Density (kg/L)"/>
-    <string key="mysteryObject.densityUnits" value="kg/L"/>
+    <string key="mysteryObject.densityColumnHeader" value="Density ({0})"/>
+    <string key="mysteryObject.densityUnitsKgL" value="kg/L"/>
     <string key="mysteryObject.table.title" value="Densities of Various Materials"/>
     <string key="mysteryObject.table.showTable" value="Show Table"/>
     <string key="material.wood" value="Wood"/>
@@ -36,10 +36,13 @@
     <string key="material.ice" value="Ice"/>
     <string key="material.apple" value="Apple"/>
     <string key="properties.volume" value="Volume"/>
-    <string key="properties.volumeValue" value="{0} L"/>
+    <string key="properties.volumeLiterValue" value="{0} L"/>
+    <string key="properties.volumeMilliLiterValue" value="{0} mL"/>
     <string key="properties.mass" value="Mass"/>
-    <string key="properties.massValue" value="{0} kg"/>
-    <string key="properties.weightValue" value="{0} N"/>
+    <string key="properties.massKilogramValue" value="{0} kg"/>
+    <string key="properties.massGramValue" value="{0} g"/>
+    <string key="properties.weightNewtonValue" value="{0} N"/>
+    <string key="properties.weightPoundValue" value="{0} lb"/>
     <string key="properties.density" value="Density"/>
     <string key="application.resetAll" value="Reset All"/>
 </SimStrings>

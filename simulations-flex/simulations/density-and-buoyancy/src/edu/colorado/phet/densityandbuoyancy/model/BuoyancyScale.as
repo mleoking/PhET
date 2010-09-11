@@ -12,7 +12,7 @@ public class BuoyancyScale extends Scale {
         //impulse I=Fdt
         //F=I/dt
         var force:Number = totalImpulse / DensityModel.DT_PER_FRAME;
-        return FlexSimStrings.get("properties.weightValue", "{0} N", [DensityConstants.format(force)]);
+        return FlexSimStrings.get("properties.weightNewtonValue", "{0} N", [DensityConstants.format(force)]);
     }
 }
 }
