@@ -46,7 +46,10 @@ public class MysteryObjectsMode extends Mode {
     }
 
     override public function addScales():void {
-        module.model.addDensityObject( new Scale( Scale.SCALE_X, Scale.SCALE_HEIGHT / 2, module.model, 100 ) );
+        module.model.addDensityObject( new Scale( Scale.GROUND_SCALE_X, Scale.GROUND_SCALE_Y, module.model ) );
+        if( module.showScales() ) {
+            module.model.addDensityObject( new Scale( Scale.POOL_SCALE_X, Scale.POOL_SCALE_Y, module.model ) );
+        }
     }
 }
 }

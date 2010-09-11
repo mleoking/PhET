@@ -21,10 +21,15 @@ public class Scale extends Cuboid {
     public static var SCALE_WIDTH:Number = 1.0 / 10 * SCALE_SCALE;
     public static var SCALE_HEIGHT:Number = 1 / 3.0 / 10 * SCALE_SCALE;
     public static var SCALE_DEPTH:Number = 1.0 / 10 * SCALE_SCALE;
-    private const scaleReadoutListeners:Array = new Array();
-    public static const SCALE_X:Number = -DensityConstants.POOL_WIDTH_X / 2 - DensityConstants.LARGE_BLOCK_WIDTH - Scale.SCALE_WIDTH / 2;
 
-    public function Scale(x:Number, y:Number, model:DensityModel, mass:Number):void {
+    private const scaleReadoutListeners:Array = new Array();
+    public static const GROUND_SCALE_X:Number = -DensityConstants.POOL_WIDTH_X / 2 - DensityConstants.LARGE_BLOCK_WIDTH - Scale.SCALE_WIDTH / 2;
+    public static const GROUND_SCALE_Y:Number = Scale.SCALE_HEIGHT / 2;
+
+    public static const POOL_SCALE_X:Number = DensityConstants.POOL_WIDTH_X / 2 - Scale.SCALE_WIDTH * 1.5;
+    public static const POOL_SCALE_Y:Number = Scale.SCALE_HEIGHT / 2 - DensityConstants.POOL_HEIGHT_Y;
+
+    public function Scale(x:Number, y:Number, model:DensityModel):void {
         super(SCALE_DENSITY, SCALE_WIDTH, SCALE_HEIGHT, SCALE_DEPTH, x, y, model, Material.CUSTOM);
         setMass(0);//Mass has to be zero so that it is immobile
     }

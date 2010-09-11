@@ -19,7 +19,8 @@ public class Mode {
 
     public function addScales() : void {
         if ( module.showScales() ) {
-            module.model.addDensityObject( new Scale( Scale.SCALE_X, Scale.SCALE_HEIGHT / 2, module.model, 100 ) );
+            module.model.addDensityObject( new Scale( Scale.GROUND_SCALE_X, Scale.GROUND_SCALE_Y, module.model ) );
+            module.model.addDensityObject( new Scale( Scale.POOL_SCALE_X, Scale.POOL_SCALE_Y, module.model ) );
         }
     }
 }
