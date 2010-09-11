@@ -7,6 +7,8 @@ import away3d.core.draw.ScreenVertex;
 import edu.colorado.phet.densityandbuoyancy.DensityConstants;
 import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
 
+import edu.colorado.phet.densityandbuoyancy.view.away3d.GroundNode;
+
 import flash.display.Sprite;
 import flash.text.TextField;
 import flash.text.TextFieldAutoSize;

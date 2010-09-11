@@ -98,7 +98,7 @@ public class BuoyancyCanvas extends AbstractDensityAndBuoyancyCanvas {
     override public function resetAll():void {
         super.resetAll();
         customButton.selected = true;
-            densityModule.resetAll();
+        densityModule.resetAll();
     }
 }
 }

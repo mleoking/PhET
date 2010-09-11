@@ -5,6 +5,8 @@ import away3d.containers.View3D;
 import edu.colorado.phet.densityandbuoyancy.DensityConstants;
 import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
 
+import edu.colorado.phet.densityandbuoyancy.view.away3d.GroundNode;
+
 import flash.display.Sprite;
 
 public class TickMarkSet extends Sprite {

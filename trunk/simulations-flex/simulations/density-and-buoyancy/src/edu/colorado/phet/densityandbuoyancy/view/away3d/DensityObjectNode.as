@@ -1,10 +1,16 @@
-package edu.colorado.phet.densityandbuoyancy.view {
+package edu.colorado.phet.densityandbuoyancy.view.away3d {
+import edu.colorado.phet.densityandbuoyancy.view.*;
+
 import Box2D.Dynamics.b2Body;
 
 import away3d.containers.ObjectContainer3D;
 
 import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
 import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
+
+import edu.colorado.phet.densityandbuoyancy.view.away3d.ArrowNode;
+
+import edu.colorado.phet.densityandbuoyancy.view.away3d.Pickable;
 
 import flash.text.TextFormat;
 

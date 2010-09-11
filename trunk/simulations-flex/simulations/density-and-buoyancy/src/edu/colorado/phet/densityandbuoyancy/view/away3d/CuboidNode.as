@@ -1,4 +1,6 @@
-package edu.colorado.phet.densityandbuoyancy.view {
+package edu.colorado.phet.densityandbuoyancy.view.away3d {
+import edu.colorado.phet.densityandbuoyancy.view.*;
+
 import Box2D.Dynamics.b2Body;
 
 import edu.colorado.phet.densityandbuoyancy.model.Cuboid;

@@ -1,7 +1,7 @@
 package edu.colorado.phet.densityandbuoyancy.model {
 import edu.colorado.phet.densityandbuoyancy.view.AbstractDensityModule;
-import edu.colorado.phet.densityandbuoyancy.view.BlockNode;
-import edu.colorado.phet.densityandbuoyancy.view.DensityObjectNode;
+import edu.colorado.phet.densityandbuoyancy.view.away3d.BlockNode;
+import edu.colorado.phet.densityandbuoyancy.view.away3d.DensityObjectNode;
 
 import flash.geom.ColorTransform;
 
