@@ -96,7 +96,7 @@ public class DensityObject {
     }
 
     private function getLabelString():String {
-        return FlexSimStrings.get("properties.massValue", "{0} kg", [DensityConstants.format(getMass())]);
+        return FlexSimStrings.get("properties.massKilogramValue", "{0} kg", [DensityConstants.format(getMass())]);
     }
 
     protected function getLabelProperty():StringProperty {
