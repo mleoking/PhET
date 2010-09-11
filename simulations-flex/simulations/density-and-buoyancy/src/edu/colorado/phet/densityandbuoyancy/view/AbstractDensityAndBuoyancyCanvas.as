@@ -18,6 +18,12 @@ public class AbstractDensityAndBuoyancyCanvas extends Canvas {
     var densityModule:DensityModule;
     var background:Canvas;
 
+    public function resetAll():void {
+    }
+
+    public function init():void {
+    }
+
     public function AbstractDensityAndBuoyancyCanvas() {
         super();
         percentWidth = 100;
