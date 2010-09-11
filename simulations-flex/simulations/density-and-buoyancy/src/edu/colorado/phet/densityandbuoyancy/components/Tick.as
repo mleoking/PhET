@@ -1,5 +1,6 @@
 package edu.colorado.phet.densityandbuoyancy.components {
 import flash.text.TextField;
+import flash.text.TextFieldAutoSize;
 import flash.text.TextFormat;
 
 public class Tick {
@@ -13,6 +14,7 @@ public class Tick {
         this.color = color;
         this.label = label;
         textField = new TextField();
+        textField.autoSize = TextFieldAutoSize.CENTER; // make sure the text field is as small as the text is. otherwise it overlaps outside of the panel and steals mouse events. NOM NOM.
         textField.mouseEnabled = false;
         textField.mouseWheelEnabled = false;
         textField.text = label;
