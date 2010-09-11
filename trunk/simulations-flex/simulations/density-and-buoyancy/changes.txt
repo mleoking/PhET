@@ -1,3 +1,4 @@
+Fixed one bug that caused the blocks to be unmovable in certain areas
 Increased scale size (and font size)
 Started refactoring density to support buoyancy sim
 # 0.01.27 (43953) Sep 10, 2010
