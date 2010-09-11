@@ -14,11 +14,11 @@ import mx.controls.Label;
 import mx.controls.RadioButton;
 import mx.controls.TextInput;
 
-public class DensityCanvas extends Canvas {
+public class AbstractDensityAndBuoyancyCanvas extends Canvas {
     var densityModule:DensityModule;
     var background:Canvas;
 
-    public function DensityCanvas() {
+    public function AbstractDensityAndBuoyancyCanvas() {
         super();
         percentWidth = 100;
         percentHeight = 100;
