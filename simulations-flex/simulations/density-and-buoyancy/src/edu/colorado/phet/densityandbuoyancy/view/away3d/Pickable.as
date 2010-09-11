@@ -1,4 +1,4 @@
-package edu.colorado.phet.densityandbuoyancy.view {
+package edu.colorado.phet.densityandbuoyancy.view.away3d {
 import Box2D.Dynamics.b2Body;
 
 /**

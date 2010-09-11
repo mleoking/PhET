@@ -1,5 +1,7 @@
-package edu.colorado.phet.densityandbuoyancy.view {
+package edu.colorado.phet.densityandbuoyancy.view.away3d {
 import edu.colorado.phet.densityandbuoyancy.DensityConstants;
+
+import edu.colorado.phet.densityandbuoyancy.view.away3d.Sprite3D;
 
 import flash.display.Sprite;
 import flash.text.TextField;

@@ -1,10 +1,13 @@
-package edu.colorado.phet.densityandbuoyancy.view {
+package edu.colorado.phet.densityandbuoyancy.view.away3d {
+import edu.colorado.phet.densityandbuoyancy.view.*;
+
 import away3d.core.base.Vertex;
 import away3d.materials.ITriangleMaterial;
 import away3d.materials.ShadingColorMaterial;
 
 import edu.colorado.phet.densityandbuoyancy.DensityConstants;
 import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
+import edu.colorado.phet.densityandbuoyancy.view.away3d.MyMesh;
 
 public class GroundNode extends MyMesh {
     public function GroundNode(model:DensityModel) {
@@ -87,7 +90,7 @@ public class GroundNode extends MyMesh {
         plane(GROUND_RIGHT_FAR, GROUND_LEFT_FAR, GROUND_LEFT_BACK, GROUND_RIGHT_BACK, grassMaterial);
         plane(GROUND_RIGHT_FAR, GROUND_LEFT_FAR, GROUND_LEFT_BACK, GROUND_RIGHT_BACK, grassMaterial);
 
-        type = "GroundNode";
+        type = "edu.colorado.phet.densityandbuoyancy.view.away3d.GroundNode";
         url = "density";
     }
 

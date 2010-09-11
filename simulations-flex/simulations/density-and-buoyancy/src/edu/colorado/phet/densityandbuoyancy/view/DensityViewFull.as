@@ -1,5 +1,6 @@
 package edu.colorado.phet.densityandbuoyancy.view {
 import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
+import edu.colorado.phet.densityandbuoyancy.view.away3d.DensityObjectNode;
 
 public class DensityViewFull extends AbstractDensityModule {
     public function DensityViewFull() {

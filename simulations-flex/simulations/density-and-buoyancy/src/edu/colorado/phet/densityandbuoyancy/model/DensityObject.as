@@ -5,7 +5,7 @@ import Box2D.Dynamics.b2Body;
 
 import edu.colorado.phet.densityandbuoyancy.DensityConstants;
 import edu.colorado.phet.densityandbuoyancy.view.AbstractDensityModule;
-import edu.colorado.phet.densityandbuoyancy.view.DensityObjectNode;
+import edu.colorado.phet.densityandbuoyancy.view.away3d.DensityObjectNode;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 
 public class DensityObject {

@@ -9,6 +9,11 @@ import edu.colorado.phet.densityandbuoyancy.model.Block;
 import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
 import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
 
+import edu.colorado.phet.densityandbuoyancy.view.away3d.BlockNode;
+
+import edu.colorado.phet.densityandbuoyancy.view.away3d.CuboidNode;
+import edu.colorado.phet.densityandbuoyancy.view.away3d.PickableCube;
+
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.MouseEvent;

@@ -1,4 +1,6 @@
-package edu.colorado.phet.densityandbuoyancy.view {
+package edu.colorado.phet.densityandbuoyancy.view.away3d {
+import edu.colorado.phet.densityandbuoyancy.view.*;
+
 import away3d.materials.*;
 
 import edu.colorado.phet.densityandbuoyancy.DensityConstants;

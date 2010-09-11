@@ -1,5 +1,6 @@
-package edu.colorado.phet.densityandbuoyancy.view {
+package edu.colorado.phet.densityandbuoyancy.view.away3d {
 import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
+import edu.colorado.phet.densityandbuoyancy.view.away3d.SpriteFace;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 
 import flash.display.Bitmap;
@@ -10,7 +11,7 @@ import flash.text.TextField;
 import flash.text.TextFormat;
 
 public class Bottle extends SpriteFace {
-    [Embed(source="../../../../../../data/density-and-buoyancy/images/bottle.png")]
+    [Embed(source="../../../../../../../data/density-and-buoyancy/images/bottle.png")]
     private var imageClass:Class;
 
     public function Bottle() {

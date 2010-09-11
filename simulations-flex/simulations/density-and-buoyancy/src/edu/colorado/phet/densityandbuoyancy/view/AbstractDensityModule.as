@@ -17,6 +17,11 @@ import edu.colorado.phet.densityandbuoyancy.DensityConstants;
 import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
 import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
 
+import edu.colorado.phet.densityandbuoyancy.view.away3d.Bottle;
+import edu.colorado.phet.densityandbuoyancy.view.away3d.DensityObjectNode;
+import edu.colorado.phet.densityandbuoyancy.view.away3d.GroundNode;
+import edu.colorado.phet.densityandbuoyancy.view.away3d.Pickable;
+
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.MouseEvent;

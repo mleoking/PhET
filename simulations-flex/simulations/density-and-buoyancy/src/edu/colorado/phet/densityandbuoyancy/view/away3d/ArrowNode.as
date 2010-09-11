@@ -1,4 +1,4 @@
-package edu.colorado.phet.densityandbuoyancy.view {
+package edu.colorado.phet.densityandbuoyancy.view.away3d {
 import away3d.materials.ColorMaterial;
 
 import edu.colorado.phet.densityandbuoyancy.model.ArrowModel;
@@ -64,7 +64,7 @@ public class ArrowNode extends MyMesh {
         //        addSegment(new Segment(getVertexArray()[5], getVertexArray()[6], new WireframeMaterial(0xFF0000,{width:5})));
         //        addSegment(new Segment(getVertexArray()[6], getVertexArray()[4], new WireframeMaterial(0x000000)));
 
-        type = "ArrowNode";
+        type = "edu.colorado.phet.densityandbuoyancy.view.away3d.ArrowNode";
         url = "density";
     }
 }
