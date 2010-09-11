@@ -63,7 +63,7 @@ public class DensityConstants {
         return v / 0.001;
     }
 
-    static const formatter:NumberFormatter = new NumberFormatter();
+    public static const formatter:NumberFormatter = new NumberFormatter();
     formatter.rounding = NumberBaseRoundType.NEAREST;//otherwise high frequency fluctuations around 1.00 and 0.99
     formatter.precision = 2;
 
