@@ -89,7 +89,7 @@ public class ScaleNode extends CuboidNode {
     }
 
     override protected function getFontReadoutSize():Number {
-        return 20;
+        return 36;
     }
 }
 }
