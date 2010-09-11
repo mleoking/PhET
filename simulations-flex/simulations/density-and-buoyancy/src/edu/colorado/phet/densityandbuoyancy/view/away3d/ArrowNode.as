@@ -7,14 +7,13 @@ import edu.colorado.phet.densityandbuoyancy.model.BooleanProperty;
 public class ArrowNode extends MyMesh {
     private var arrowModel:ArrowModel;
     private const ARROW_HEIGHT:Number = 200;
-    private var scaleFromModelToView:Number;
+    private const scaleFromModelToView:Number = 2;
     private var visibilityProperty:BooleanProperty;
 
-    public function ArrowNode(arrowModel:ArrowModel, scaleFromModelToView:Number, color:*, visibilityProperty: BooleanProperty, init:Object = null) {
+    public function ArrowNode(arrowModel:ArrowModel, color:*, visibilityProperty: BooleanProperty, init:Object = null) {
         super(combine({material:new ColorMaterial(color, {alpha: 0.75})}, init));
         //        super(combine({material:new WireColorMaterial(color, {alpha: 0.75})}, init));//useful for debugging objects that may have the same z-coordinate
         this.arrowModel = arrowModel;
-        this.scaleFromModelToView = scaleFromModelToView;
         this.visibilityProperty = visibilityProperty;
         this.mouseEnabled = false; // don't want to click on arrows, but instead the objects behind them
         arrowModel.addListener(doUpdate);

@@ -234,12 +234,15 @@ public class DensityObject {
         //        trace("Force element: " + contactImpulseMap[other].x + ", " + contactImpulseMap[other].y);
     }
 
+    /**
+     * @return In model scale (SI)
+     */
     private function getNetContactForce():b2Vec2 {
         var sum:b2Vec2 = new b2Vec2();
         for each (var object:Object in contactImpulseMap) {
             sum.Add(object as b2Vec2);
         }
-        sum.Multiply(1.0 / DensityModel.DT_PER_FRAME);//to convert to force
+        sum.Multiply(1.0 / DensityModel.DT_PER_FRAME / DensityConstants.SCALE_BOX2D);//to convert to force
         //        trace("Force sum: " + sum.x + ", " + sum.y);
         return sum;
     }
@@ -253,12 +256,12 @@ public class DensityObject {
     }
 
     public function modelStepped():void {
-        velocityArrowModel.setValue(body.GetLinearVelocity().x / DensityConstants.SCALE_BOX2D, body.GetLinearVelocity().y / DensityConstants.SCALE_BOX2D);
-        gravityForceArrowModel.setValue(getGravityForce().x / DensityConstants.SCALE_BOX2D, getGravityForce().y / DensityConstants.SCALE_BOX2D);
+        velocityArrowModel.setValue(body.GetLinearVelocity().x , body.GetLinearVelocity().y );
+        gravityForceArrowModel.setValue(getGravityForce().x , getGravityForce().y );
         //        trace("Gravity y = " + getGravityForce().y);
-        buoyancyForceArrowModel.setValue(getBuoyancyForce().x / DensityConstants.SCALE_BOX2D, getBuoyancyForce().y / DensityConstants.SCALE_BOX2D);
-        dragForceArrowModel.setValue(getDragForce().x / DensityConstants.SCALE_BOX2D, getDragForce().y / DensityConstants.SCALE_BOX2D);
-        contactForceArrowModel.setValue(getNetContactForce().x / DensityConstants.SCALE_BOX2D, getNetContactForce().y / DensityConstants.SCALE_BOX2D);
+        buoyancyForceArrowModel.setValue(getBuoyancyForce().x , getBuoyancyForce().y );
+        dragForceArrowModel.setValue(getDragForce().x , getDragForce().y );
+        contactForceArrowModel.setValue(getNetContactForce().x , getNetContactForce().y );
     }
 
     public function getMass():Number {
