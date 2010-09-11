@@ -65,7 +65,7 @@ public class AbstractDensityAndBuoyancyCanvas extends Canvas {
         addChild( phetLogoButton );
     }
 
-    protected function refocusCallback():void {
+    protected function refocusCallback( event: MouseEvent ):void {
         //Text fields should lose focus when the user clicks outside of them, so they will accept their value if the user was editing them
         if ( focusManager.getFocus() is TextInput ) {
             focusManager.setFocus( focusManager.getNextFocusManagerComponent() )

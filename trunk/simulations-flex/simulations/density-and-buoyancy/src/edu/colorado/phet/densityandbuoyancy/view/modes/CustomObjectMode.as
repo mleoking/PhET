@@ -4,6 +4,7 @@ import edu.colorado.phet.densityandbuoyancy.components.CustomObjectPropertiesPan
 import edu.colorado.phet.densityandbuoyancy.model.Block;
 import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
 import edu.colorado.phet.densityandbuoyancy.model.Material;
+import edu.colorado.phet.densityandbuoyancy.model.Scale;
 import edu.colorado.phet.densityandbuoyancy.view.AbstractDensityModule;
 
 import flash.geom.ColorTransform;
