@@ -1,4 +1,8 @@
 package edu.colorado.phet.densityandbuoyancy.view {
+import edu.colorado.phet.densityandbuoyancy.model.BooleanProperty;
+import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
+import edu.colorado.phet.densityandbuoyancy.view.away3d.ArrowNode;
+import edu.colorado.phet.densityandbuoyancy.view.away3d.DensityObjectNode;
 import edu.colorado.phet.densityandbuoyancy.view.modes.CustomObjectMode;
 import edu.colorado.phet.densityandbuoyancy.view.modes.Mode;
 import edu.colorado.phet.densityandbuoyancy.view.modes.MysteryObjectsMode;
@@ -18,6 +22,11 @@ public class BuoyancyModule extends AbstractDensityModule {
     private var sameDensityMode:SameDensityMode;
     private var mysteryObjectsMode:MysteryObjectsMode;
     private var mode:Mode;
+
+    private var gravityArrowsVisible:BooleanProperty = new BooleanProperty( false );
+    private var buoyancyArrowsVisible:BooleanProperty = new BooleanProperty( false );
+    private var contactArrowsVisible:BooleanProperty = new BooleanProperty( false );
+    private var fluidDragArrowsVisible:BooleanProperty = new BooleanProperty( false );
 
     public function BuoyancyModule() {
         super();
@@ -85,6 +94,35 @@ public class BuoyancyModule extends AbstractDensityModule {
 
     override public function showScales():Boolean {
         return true;
+    }
+
+    override protected function createDensityObjectNode(densityObject:DensityObject):DensityObjectNode {
+        var densityObjectNode:DensityObjectNode = super.createDensityObjectNode(densityObject);
+        addArrowNodes(densityObjectNode);
+        return densityObjectNode;
+    }
+
+    private function addArrowNodes( densityObjectNode:DensityObjectNode ):void {
+        densityObjectNode.addArrowNode( new ArrowNode( densityObjectNode.getDensityObject().getGravityForceArrowModel(), 2, 0x0000FF, gravityArrowsVisible ) );
+        densityObjectNode.addArrowNode( new ArrowNode( densityObjectNode.getDensityObject().getBuoyancyForceArrowModel(), 2, 0xFF00FF, buoyancyArrowsVisible ) );
+        densityObjectNode.addArrowNode( new ArrowNode( densityObjectNode.getDensityObject().getContactForceArrowModel(), 2, 0xFF8800, contactArrowsVisible ) );
+        densityObjectNode.addArrowNode( new ArrowNode( densityObjectNode.getDensityObject().getDragForceArrowModel(), 2, 0xFF0000, fluidDragArrowsVisible ) );
+    }
+
+    public function setGravityForceVisible(selected:Boolean):void {
+        gravityArrowsVisible.value = selected;
+    }
+
+    public function setBuoyancyForceVisible(selected:Boolean):void {
+        buoyancyArrowsVisible.value = selected;
+    }
+
+    public function setContactForceVisible(selected:Boolean):void {
+        contactArrowsVisible.value = selected;
+    }
+
+    public function setFluidDragForceVisible(selected:Boolean):void {
+        fluidDragArrowsVisible.value = selected;
     }
 }
 }

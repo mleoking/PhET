@@ -4,6 +4,8 @@ public class ArrowModel {
     private var y:Number;
     private const listeners:Array = new Array();
 
+    // TODO: use observable pattern here?
+
     public function ArrowModel(x:Number, y:Number) {
         this.x = x;
         this.y = y;

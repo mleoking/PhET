@@ -23,6 +23,10 @@
     <string key="mysteryObject.densityUnitsKgL" value="kg/L"/>
     <string key="mysteryObject.table.title" value="Densities of Various Materials"/>
     <string key="mysteryObject.table.showTable" value="Show Table"/>
+    <string key="forceArrows.gravity" value="Gravity"/>
+    <string key="forceArrows.buoyancy" value="Buoyancy"/>
+    <string key="forceArrows.contact" value="Contact"/>
+    <string key="forceArrows.fluidDrag" value="Fluid Drag"/>
     <string key="material.wood" value="Wood"/>
     <string key="material.lead" value="Lead"/>
     <string key="material.aluminum" value="Aluminum"/>
