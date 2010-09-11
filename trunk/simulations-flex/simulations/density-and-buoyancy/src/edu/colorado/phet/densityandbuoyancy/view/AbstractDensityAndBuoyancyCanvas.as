@@ -43,14 +43,14 @@ public class AbstractDensityAndBuoyancyCanvas extends Canvas {
         addChild( background );
     }
 
-    protected function addResetAll( callback:Function ):void {
+    protected function addResetAll():void {
         var resetAllControlPanel:DensityVBox = new DensityVBox();
         resetAllControlPanel.setStyle( "right", DensityConstants.CONTROL_INSET );
         resetAllControlPanel.setStyle( "bottom", DensityConstants.CONTROL_INSET );
 
         var resetAllButton:Button = new Button();
         resetAllButton.label = FlexSimStrings.get( 'application.resetAll', 'Reset All' );
-        resetAllButton.addEventListener( MouseEvent.CLICK, callback );
+        resetAllButton.addEventListener( MouseEvent.CLICK, resetAll );
         resetAllControlPanel.addChild( resetAllButton );
         addChild( resetAllControlPanel );
     }
