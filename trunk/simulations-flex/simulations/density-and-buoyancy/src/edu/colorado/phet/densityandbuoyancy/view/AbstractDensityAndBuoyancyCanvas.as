@@ -16,6 +16,8 @@ import mx.controls.TextInput;
 public class AbstractDensityAndBuoyancyCanvas extends Canvas {
     protected var background:Canvas;
 
+    protected var phetLogoButton:PhetLogoButton
+
     /**
      * Override in sub-classes
      */
@@ -59,7 +61,7 @@ public class AbstractDensityAndBuoyancyCanvas extends Canvas {
     }
 
     protected function addLogo():void {
-        const phetLogoButton:PhetLogoButton = new PhetLogoButton();
+        phetLogoButton = new PhetLogoButton();
         phetLogoButton.setStyle( "left", DensityConstants.CONTROL_INSET );
         phetLogoButton.setStyle( "bottom", DensityConstants.CONTROL_INSET );
         addChild( phetLogoButton );

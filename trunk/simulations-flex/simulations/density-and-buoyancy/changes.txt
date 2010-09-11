@@ -1,3 +1,4 @@
+Added force arrows back into buoyancy
 Fixed one bug that caused the blocks to be unmovable in certain areas
 Increased scale size (and font size)
 Started refactoring density to support buoyancy sim
