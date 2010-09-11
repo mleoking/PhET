@@ -13,7 +13,7 @@ import edu.colorado.phet.flexcommon.FlexSimStrings;
  */
 public class Scale extends Cuboid {
 
-    private var totalImpulse:Number = 0;//in SI
+    protected var totalImpulse:Number = 0;//in SI
 
     public static var SCALE_DENSITY:Number = 2.0 * 1000;
 

@@ -1,6 +1,7 @@
 package edu.colorado.phet.densityandbuoyancy.view.modes {
 import edu.colorado.phet.densityandbuoyancy.DensityConstants;
 import edu.colorado.phet.densityandbuoyancy.components.MysteryObjectsControlPanel;
+import edu.colorado.phet.densityandbuoyancy.model.BuoyancyScale;
 import edu.colorado.phet.densityandbuoyancy.model.Material;
 import edu.colorado.phet.densityandbuoyancy.model.MysteryBlock;
 import edu.colorado.phet.densityandbuoyancy.model.Scale;
@@ -46,9 +47,11 @@ public class MysteryObjectsMode extends Mode {
     }
 
     override public function addScales():void {
-        module.model.addDensityObject( new Scale( Scale.GROUND_SCALE_X, Scale.GROUND_SCALE_Y, module.model ) );
         if( module.showScales() ) {
-            module.model.addDensityObject( new Scale( Scale.POOL_SCALE_X, Scale.POOL_SCALE_Y, module.model ) );
+            module.model.addDensityObject( new BuoyancyScale( Scale.GROUND_SCALE_X, Scale.GROUND_SCALE_Y, module.model ) );
+            module.model.addDensityObject( new BuoyancyScale( Scale.POOL_SCALE_X, Scale.POOL_SCALE_Y, module.model ) );
+        } else {
+            module.model.addDensityObject( new Scale( Scale.GROUND_SCALE_X, Scale.GROUND_SCALE_Y, module.model ) );
         }
     }
 }
