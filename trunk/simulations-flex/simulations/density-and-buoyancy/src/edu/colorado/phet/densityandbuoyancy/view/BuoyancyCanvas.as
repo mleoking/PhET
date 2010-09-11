@@ -9,13 +9,13 @@ import mx.controls.Label;
 import mx.controls.RadioButton;
 
 /**
- * Main canvas for the density sim. Contains all of the sim-related UI
+ * Main canvas for the buoyancy sim. Contains all of the sim-related UI
  */
-public class DensityCanvas extends AbstractDensityAndBuoyancyCanvas {
+public class BuoyancyCanvas extends AbstractDensityAndBuoyancyCanvas {
 
     private var densityModule:DensityModule;
 
-    public function DensityCanvas() {
+    public function BuoyancyCanvas() {
         super();
 
         addBackground();
@@ -64,14 +64,6 @@ public class DensityCanvas extends AbstractDensityAndBuoyancyCanvas {
             densityModule.switchToSameDensity()
         } );
         modeControlPanel.addChild( sameDensityButton );
-
-        var mysteryObjectsButton:RadioButton = new RadioButton();
-        mysteryObjectsButton.groupName = "modes";
-        mysteryObjectsButton.label = FlexSimStrings.get( 'mode.mysteryObjects', 'Mystery' );
-        mysteryObjectsButton.addEventListener( MouseEvent.CLICK, function():void {
-            densityModule.switchToMysteryObjects()
-        } );
-        modeControlPanel.addChild( mysteryObjectsButton );
 
         addChild( modeControlPanel );
 
