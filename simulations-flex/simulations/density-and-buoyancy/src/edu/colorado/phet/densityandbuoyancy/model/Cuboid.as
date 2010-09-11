@@ -70,6 +70,7 @@ public class Cuboid extends DensityObject {
         updateShapeDef();
     }
 
+    // TODO: move this up to DensityObject
     public function addShapeChangeListener(shapeChangeListener:Function):void {
         shapeChangeListeners.push(shapeChangeListener);
     }

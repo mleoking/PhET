@@ -3,6 +3,7 @@ import edu.colorado.phet.densityandbuoyancy.model.BooleanProperty;
 import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.ArrowNode;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.DensityObjectNode;
+import edu.colorado.phet.densityandbuoyancy.view.away3d.ScaleNode;
 import edu.colorado.phet.densityandbuoyancy.view.modes.CustomObjectMode;
 import edu.colorado.phet.densityandbuoyancy.view.modes.Mode;
 import edu.colorado.phet.densityandbuoyancy.view.modes.MysteryObjectsMode;
@@ -103,10 +104,12 @@ public class BuoyancyModule extends AbstractDensityModule {
     }
 
     private function addArrowNodes( densityObjectNode:DensityObjectNode ):void {
-        densityObjectNode.addArrowNode( new ArrowNode( densityObjectNode.getDensityObject().getGravityForceArrowModel(), 0x0000FF, gravityArrowsVisible ) );
-        densityObjectNode.addArrowNode( new ArrowNode( densityObjectNode.getDensityObject().getBuoyancyForceArrowModel(), 0xFF00FF, buoyancyArrowsVisible ) );
-        densityObjectNode.addArrowNode( new ArrowNode( densityObjectNode.getDensityObject().getContactForceArrowModel(), 0xFF8800, contactArrowsVisible ) );
-        densityObjectNode.addArrowNode( new ArrowNode( densityObjectNode.getDensityObject().getDragForceArrowModel(), 0xFF0000, fluidDragArrowsVisible ) );
+        if( !(densityObjectNode is ScaleNode) ) {
+            densityObjectNode.addArrowNode( new ArrowNode( densityObjectNode.getDensityObject().getGravityForceArrowModel(), 0x0000FF, gravityArrowsVisible ) );
+            densityObjectNode.addArrowNode( new ArrowNode( densityObjectNode.getDensityObject().getBuoyancyForceArrowModel(), 0xFF00FF, buoyancyArrowsVisible ) );
+            densityObjectNode.addArrowNode( new ArrowNode( densityObjectNode.getDensityObject().getContactForceArrowModel(), 0xFF8800, contactArrowsVisible ) );
+            densityObjectNode.addArrowNode( new ArrowNode( densityObjectNode.getDensityObject().getDragForceArrowModel(), 0xFF0000, fluidDragArrowsVisible ) );
+        }
     }
 
     public function setGravityForceVisible(selected:Boolean):void {

@@ -1,23 +1,22 @@
 package edu.colorado.phet.densityandbuoyancy.view.away3d {
-import edu.colorado.phet.densityandbuoyancy.view.*;
-
 import Box2D.Dynamics.b2Body;
 
 import away3d.containers.ObjectContainer3D;
 
-import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
 import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
-
-import edu.colorado.phet.densityandbuoyancy.view.away3d.ArrowNode;
-
-import edu.colorado.phet.densityandbuoyancy.view.away3d.Pickable;
+import edu.colorado.phet.densityandbuoyancy.model.NumericProperty;
+import edu.colorado.phet.densityandbuoyancy.view.*;
 
 import flash.text.TextFormat;
 
 public class DensityObjectNode extends ObjectContainer3D implements Pickable {
     private var densityObject:DensityObject;
-    private static var numArrowNodes:Number = 0;
 
+    /**
+     * the depth of the object so arrows will render just outside of the object
+     * this is in the away3d scale
+     */
+    protected var frontZProperty:NumericProperty = new NumericProperty( "ZZZZ", "FakeUnits, FIX ME", 0 ); // TODO refactor so we can opt out of units
 
     private var _view:AbstractDensityModule;
 
@@ -32,21 +31,20 @@ public class DensityObjectNode extends ObjectContainer3D implements Pickable {
         densityObject.addRemovalListener( remove );
 
         this.textReadout = new TextFieldMesh( "hello", createLabelTextFormat() );
-        addChild(textReadout);
+        addChild( textReadout );
     }
 
     public function get view():AbstractDensityModule {
         return _view;
     }
 
-    //Override to specify the depth of the object so arrows will render just outside of the object
-    public function getArrowOriginZ():Number {
-        return 0;
-    }
-
     public function addArrowNode( arrowNode:ArrowNode ):void {
-        numArrowNodes = numArrowNodes + 1;
-        arrowNode.z = -getArrowOriginZ() * DensityModel.DISPLAY_SCALE - 1E-6 * numArrowNodes;//Offset so they don't overlap in z
+        var listener:Function = function():void {
+            arrowNode.z = frontZProperty.value - 1E-6 * arrowNode.offset;//Offset so they don't overlap in z
+            trace( frontZProperty.value );
+        };
+        frontZProperty.addListener( listener );
+        listener();
         addChild( arrowNode );
     }
 
@@ -70,7 +68,7 @@ public class DensityObjectNode extends ObjectContainer3D implements Pickable {
         throw new Error( "Abstract method error" );
     }
 
-    protected function setReadoutText( str : String ):void {
+    protected function setReadoutText( str:String ):void {
         textReadout.text = str;
     }
 

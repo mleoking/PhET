@@ -9,9 +9,15 @@ public class ArrowNode extends MyMesh {
     private const ARROW_HEIGHT:Number = 200;
     private const scaleFromModelToView:Number = 2;
     private var visibilityProperty:BooleanProperty;
+    private static var numArrowNodes:Number = 0;
+    public var offset:Number;
 
     public function ArrowNode(arrowModel:ArrowModel, color:*, visibilityProperty: BooleanProperty, init:Object = null) {
         super(combine({material:new ColorMaterial(color, {alpha: 0.75})}, init));
+
+        offset = numArrowNodes + 1;
+        numArrowNodes += 1;
+
         //        super(combine({material:new WireColorMaterial(color, {alpha: 0.75})}, init));//useful for debugging objects that may have the same z-coordinate
         this.arrowModel = arrowModel;
         this.visibilityProperty = visibilityProperty;

@@ -19,10 +19,6 @@ public class CuboidNode extends DensityObjectNode implements Pickable {
         cuboid.addShapeChangeListener(updateGeometry);
     }
 
-    override public function getArrowOriginZ():Number {
-        return cuboid.getDepth() / 2.0;
-    }
-
     public override function setPosition(x:Number, y:Number):void {
         cuboid.setPosition(x / DensityModel.DISPLAY_SCALE, y / DensityModel.DISPLAY_SCALE);
     }
@@ -39,6 +35,7 @@ public class CuboidNode extends DensityObjectNode implements Pickable {
         this.x = cuboid.getX() * DensityModel.DISPLAY_SCALE;
         this.y = cuboid.getY() * DensityModel.DISPLAY_SCALE;
         this.z = cuboid.getZ() * DensityModel.DISPLAY_SCALE;
+        frontZProperty.value = -(cuboid.getDepth() * DensityModel.DISPLAY_SCALE) / 2.0;
     }
 }
 }
