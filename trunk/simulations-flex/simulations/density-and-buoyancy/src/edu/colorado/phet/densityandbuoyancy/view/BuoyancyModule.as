@@ -103,10 +103,10 @@ public class BuoyancyModule extends AbstractDensityModule {
     }
 
     private function addArrowNodes( densityObjectNode:DensityObjectNode ):void {
-        densityObjectNode.addArrowNode( new ArrowNode( densityObjectNode.getDensityObject().getGravityForceArrowModel(), 2, 0x0000FF, gravityArrowsVisible ) );
-        densityObjectNode.addArrowNode( new ArrowNode( densityObjectNode.getDensityObject().getBuoyancyForceArrowModel(), 2, 0xFF00FF, buoyancyArrowsVisible ) );
-        densityObjectNode.addArrowNode( new ArrowNode( densityObjectNode.getDensityObject().getContactForceArrowModel(), 2, 0xFF8800, contactArrowsVisible ) );
-        densityObjectNode.addArrowNode( new ArrowNode( densityObjectNode.getDensityObject().getDragForceArrowModel(), 2, 0xFF0000, fluidDragArrowsVisible ) );
+        densityObjectNode.addArrowNode( new ArrowNode( densityObjectNode.getDensityObject().getGravityForceArrowModel(), 0x0000FF, gravityArrowsVisible ) );
+        densityObjectNode.addArrowNode( new ArrowNode( densityObjectNode.getDensityObject().getBuoyancyForceArrowModel(), 0xFF00FF, buoyancyArrowsVisible ) );
+        densityObjectNode.addArrowNode( new ArrowNode( densityObjectNode.getDensityObject().getContactForceArrowModel(), 0xFF8800, contactArrowsVisible ) );
+        densityObjectNode.addArrowNode( new ArrowNode( densityObjectNode.getDensityObject().getDragForceArrowModel(), 0xFF0000, fluidDragArrowsVisible ) );
     }
 
     public function setGravityForceVisible(selected:Boolean):void {
