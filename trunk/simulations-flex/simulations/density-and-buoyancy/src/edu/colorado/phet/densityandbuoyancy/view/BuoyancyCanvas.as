@@ -13,7 +13,7 @@ import mx.controls.RadioButton;
  */
 public class BuoyancyCanvas extends AbstractDensityAndBuoyancyCanvas {
 
-    private var densityModule:DensityModule;
+    private var densityModule:BuoyancyModule;
     private var customButton:RadioButton;
 
     public function BuoyancyCanvas() {
@@ -21,7 +21,7 @@ public class BuoyancyCanvas extends AbstractDensityAndBuoyancyCanvas {
 
         addBackground();
 
-        densityModule = new DensityModule();
+        densityModule = new BuoyancyModule();
         addChild( densityModule );
 
         var modeControlPanel:DensityVBox = new DensityVBox();
