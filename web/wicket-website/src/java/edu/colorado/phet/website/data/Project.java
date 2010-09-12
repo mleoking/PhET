@@ -306,7 +306,7 @@ public class Project implements Serializable, IntId {
                                 simulation.setUnderConstruction( false );
                                 simulation.setGuidanceRecommended( false );
                                 simulation.setClassroomTested( false );
-                                simulation.setSimulationVisible( true );
+                                simulation.setSimulationVisible( false );
                                 createdSims.add( simulation );
                                 simulationCache.put( simName, simulation );
                             }
