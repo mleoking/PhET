@@ -1,3 +1,5 @@
+# 1.00.00 (44000) Sep 12, 2010
+9/12/10 First public deploy of density simulation
 # 0.01.28 (43991) Sep 12, 2010
 9/12/10 Test version before production deployment
 Added force arrows back into buoyancy
