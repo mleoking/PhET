@@ -379,6 +379,9 @@ public class HibernateUtils {
         logger.debug( "2" );
         for ( Object sim : sims ) {
             Simulation simulation = (Simulation) sim;
+            if ( !simulation.isVisible() ) {
+                continue;
+            }
             lsims.add( pickBestTranslation( simulation, locale ) );
         }
         logger.debug( "3" );
