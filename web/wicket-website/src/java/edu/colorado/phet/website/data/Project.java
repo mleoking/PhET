@@ -1,6 +1,7 @@
 package edu.colorado.phet.website.data;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -184,7 +185,13 @@ public class Project implements Serializable, IntId {
                         return false;
                     }
 
-                    boolean hasSWF = ( new File( projectRoot, projectName + ".swf" ) ).exists();
+//                    boolean hasSWF = ( new File( projectRoot, projectName + ".swf" ) ).exists();
+                    // this is changed to check for ANY existance of a SWF. If a SWF exists, we are assuming the project is a Flash/Flex project
+                    boolean hasSWF = projectRoot.listFiles( new FilenameFilter() {
+                        public boolean accept( File file, String s ) {
+                            return s.endsWith( ".swf" );
+                        }
+                    } ).length > 0;
 
                     int type = hasSWF ? TYPE_FLASH : TYPE_JAVA;
                     syncLogger.debug( "detecting project type as: " + ( type == TYPE_JAVA ? "java" : "flash" ) );
