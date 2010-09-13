@@ -1,3 +1,4 @@
+Updated credits to reflect recent changes and additions.
 Indented the Build Atmosphere sliders.
 Got the Build Atmosphere sliders to gray out entirely when not enabled.
 # 2.07.15 (43968) Sep 10, 2010
