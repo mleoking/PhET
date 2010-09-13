@@ -1,3 +1,4 @@
+# 1.00.01 (44009) Sep 13, 2010
 > Changed the mass of blocks in the "objects of same volume" mode so that some objects sink and some float
 # 1.00.00 (44000) Sep 12, 2010
 9/12/10 First public deploy of density simulation
