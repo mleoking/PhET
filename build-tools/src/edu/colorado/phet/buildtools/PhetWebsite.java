@@ -133,6 +133,13 @@ public abstract class PhetWebsite {
     }
 
     /**
+     * @return A temporary directory that is not guaranteed to exist on the website
+     */
+    public String getTemporaryPath() {
+        return getRootStagingPath() + "/tmp";
+    }
+
+    /**
      * @return The server side translations staging path
      */
     public String getTranslationStagingPath() {

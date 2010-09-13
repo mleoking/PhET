@@ -8,22 +8,24 @@ import org.rev6.scf.SshCommand;
 import org.rev6.scf.SshConnection;
 import org.rev6.scf.SshException;
 
-import edu.colorado.phet.buildtools.AuthenticationInfo;
 import edu.colorado.phet.buildtools.BuildLocalProperties;
-import edu.colorado.phet.buildtools.OldPhetServer;
+import edu.colorado.phet.buildtools.PhetWebsite;
 import edu.colorado.phet.buildtools.util.ScpTo;
 import edu.colorado.phet.buildtools.util.SshUtils;
 
 import com.jcraft.jsch.JSchException;
 
+/**
+ * TODO: thorough audit to see whether we still need this class. -JO
+ */
 public class TestSshCommand {
-    private static void sendSSH( OldPhetServer server, AuthenticationInfo authenticationInfo ) {
-        String remotePathDir = server.getServerDeployPath() + "/test-permissions/0.00.03";
-        SshUtils.executeCommand( "mkdir -p -m 775 " + remotePathDir, server.getHost(), authenticationInfo );
+    private static void sendSSH( PhetWebsite website ) {
+        String remotePathDir = website.getTemporaryPath() + "/test-permissions/0.00.03";
+        SshUtils.executeCommand( website, "mkdir -p -m 775 " + remotePathDir );
 
         try {
             File tmpFile = File.createTempFile( "prefix", ".suffix" );
-            ScpTo.uploadFile( tmpFile, authenticationInfo.getUsername(), server.getHost(), remotePathDir + "/" + "unknowndir/prefix.suffix", authenticationInfo.getPassword() );
+            ScpTo.uploadFile( website, BuildLocalProperties.getInstance(), tmpFile, remotePathDir + "/" + "unknowndir/prefix.suffix" );
         }
         catch( JSchException e ) {
             e.printStackTrace();
@@ -88,6 +90,7 @@ public class TestSshCommand {
 
     public static void main( String[] args ) {
         File trunk = new File( args[0] );
-        sendSSH( OldPhetServer.DEVELOPMENT, BuildLocalProperties.getInstanceRelativeToTrunk( trunk ).getDevAuthenticationInfo() );
+        BuildLocalProperties.getInstanceRelativeToTrunk( trunk );
+        sendSSH( PhetWebsite.FIGARO );
     }
 }
