@@ -29,6 +29,7 @@ import javax.swing.event.EventListenerList;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
 
+import edu.colorado.phet.common.phetcommon.view.controls.HTMLLabel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 
@@ -69,7 +70,7 @@ public abstract class AbstractValueControl extends JPanel {
     // View
     private AbstractSlider _slider; // slider that supports model coordinates
     private JFormattedTextField _textField;
-    private JLabel _valueLabel, _unitsLabel;
+    private HTMLLabel _valueLabel, _unitsLabel;
     private Font _font; // font used for all components
     private NumberFormat _textFieldFormat; // format for the text field
     private DecimalFormat _tickFormat; // format for the tick mark labels
@@ -125,8 +126,8 @@ public abstract class AbstractValueControl extends JPanel {
         _listenerList = new EventListenerList();
 
         // Labels
-        _valueLabel = new JLabel(label);
-        _unitsLabel = new JLabel(units);
+        _valueLabel = new HTMLLabel(label);
+        _unitsLabel = new HTMLLabel(units);
 
         // Textfield
         _textField = new JFormattedTextField(_textFieldFormat);
