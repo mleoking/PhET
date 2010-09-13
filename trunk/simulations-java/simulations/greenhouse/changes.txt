@@ -1,3 +1,5 @@
+Indented the Build Atmosphere sliders.
+Got the Build Atmosphere sliders to gray out entirely when not enabled.
 # 2.07.15 (43968) Sep 10, 2010
 9/10/10 Publishing new version to dev site for review and feedback.
 Changed that canvas transform just enough so that the chamber fits on more monitors.
