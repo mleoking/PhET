@@ -4,6 +4,10 @@ package edu.colorado.phet.buildtools.util;
 
 import java.io.*;
 
+import edu.colorado.phet.buildtools.AuthenticationInfo;
+import edu.colorado.phet.buildtools.BuildLocalProperties;
+import edu.colorado.phet.buildtools.PhetWebsite;
+
 import com.jcraft.jsch.*;
 
 public class ScpTo {
@@ -21,6 +25,17 @@ public class ScpTo {
         String password = arg[2];
 
         uploadFile( new File( lfile ), user, host, rfile, password );
+    }
+
+    public static void uploadFile( PhetWebsite website, BuildLocalProperties buildLocalProperties, File localFile, String remoteFilePath ) throws JSchException, IOException {
+        AuthenticationInfo credentials = website.getServerAuthenticationInfo( buildLocalProperties );
+        uploadFile(
+                localFile,
+                credentials.getUsername(),
+                website.getServerHost(),
+                remoteFilePath,
+                credentials.getPassword()
+        );
     }
 
     public static void uploadFile( File localFile, String user, String host, String remoteFilePath, String password ) throws JSchException, IOException {
