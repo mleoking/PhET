@@ -231,8 +231,8 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
         // can be enclosed in a border.  Also, it needs to be indented
         // slightly to convey the idea that it is a sub-function of the "Build
         // Atmosphere" selection.
-        int overallWidth = GreenhouseResources.getInt( "int.minControlPanelWidth", 215 );
-        int indent = 30; // Arbitrary value, adjust as needed for optimal appearance.
+        int overallWidth = GreenhouseResources.getInt( "int.minControlPanelWidth", 215 ) - 8;
+        int indent = 20; // Arbitrary value, adjust as needed for optimal appearance.
         JPanel sliderPanel = new JPanel();
         JPanel spacerPanel = new JPanel();
         spacerPanel.setLayout( new BoxLayout( spacerPanel, BoxLayout.X_AXIS ) );
