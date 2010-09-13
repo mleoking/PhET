@@ -23,6 +23,10 @@ jarsigner.tsa-url=
 # Flash executable location (Flash builders only)
 flash=C:\\Program Files\\Macromedia\\Flash 8\\Flash.exe
 
+# Flash (Mac)
+mac.flash.name=Adobe Flash CS4
+mac.trunk.volume=Macintosh HD
+
 # Path to Flex SDK
 flex=/home/jon/dev/flex-3.4.1.10084
 
