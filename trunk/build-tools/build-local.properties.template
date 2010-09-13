@@ -1,4 +1,4 @@
-# Figaro SSH credentials
+# Figaro SSH credentials (should be your Identikey)
 figaro.username=
 figaro.password=
 
