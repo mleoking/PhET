@@ -1,0 +1,50 @@
+
+# spot credentials (will be removed )
+dev.username=
+dev.password=
+
+# SVN credentials
+repository.username=
+repository.password=
+
+# browser executable
+browser=firefox
+
+# wine flag and trunk (LINUX ONLY)
+wine=true
+wine.trunk=C:\\svn\\trunk
+
+# Flash executable location (Flash builders only)
+flash=C:\\Program Files\\Macromedia\\Flash 8\\Flash.exe
+
+# JAR signing info
+jarsigner.path=
+jarsigner.keystore=
+jarsigner.password=
+jarsigner.alias=
+jarsigner.tsa-url=
+
+# Path to Flex SDK
+flex=/home/jon/dev/flex-3.4.1.10084
+
+# Figaro SSH credentials
+figaro.username=
+figaro.password=
+
+# Figaro Tomcat Manager credentials
+figaro.tomcatmanager.username=
+figaro.tomcatmanager.password=
+
+# Phet-server SSH Credentials
+phet-server.username=
+phet-server.password=
+
+# Phet-server Tomcat Manager credentials
+phet-server.tomcatmanager.username=
+phet-server.tomcatmanager.password=
+
+# Local website development credentials
+jondev.username=
+jondev.password=
+jondev.tomcatmanager.username=
+jondev.tomcatmanager.password=
