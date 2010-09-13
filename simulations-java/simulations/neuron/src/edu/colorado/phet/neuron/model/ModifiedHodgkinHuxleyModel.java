@@ -76,8 +76,8 @@ public class ModifiedHodgkinHuxleyModel implements IHodgkinHuxleyModel
 		v = 0;
 		vna = -115;
 		vk = 12;
-		vl = 0; // TODO: Modified from -10.613 by jblanco on 3/12/2010 in order to make potential stay steady
-		        // at the desired resting potential.  Need to determine if this is OK long term.
+		vl = 0; // NOTE: Modified from -10.613 by jblanco on 3/12/2010 in order to make potential stay steady
+		        // at the desired resting potential.
 		gna = perNaChannels * 120 / 100;
 		gk = perKChannels * 36 / 100;
 		gl = 0.3;
