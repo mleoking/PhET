@@ -30,14 +30,21 @@ public class HTMLRadioButton extends JRadioButton {
         this.foreground = getForeground();
     }
     
+    @Override
     public void setForeground( Color foreground ) {
         this.foreground = foreground;
         update();
     }
     
+    @Override
     public void setEnabled( boolean enabled ) {
         super.setEnabled( enabled );
         update();
+    }
+    
+    @Override
+    public void setText( String text ) {
+        super.setText( HTMLUtils.toHTMLString( text ) );
     }
 
     private void update() {

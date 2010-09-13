@@ -29,14 +29,21 @@ public class HTMLLabel extends JLabel {
         this.foreground = getForeground();
     }
     
+    @Override
     public void setForeground( Color foreground ) {
         this.foreground = foreground;
         update();
     }
     
+    @Override
     public void setEnabled( boolean enabled ) {
         super.setEnabled( enabled );
         update();
+    }
+    
+    @Override
+    public void setText( String text ) {
+        super.setText( HTMLUtils.toHTMLString( text ) );
     }
 
     private void update() {
@@ -54,8 +61,9 @@ public class HTMLLabel extends JLabel {
     // test
     public static void main( String[] args ) {
        
-        HTMLLabel label1 = new HTMLLabel( "<html>label1</html>" );
-        HTMLLabel label2 = new HTMLLabel( "<html>label2</html>" );
+        HTMLLabel label1 = new HTMLLabel( "label<sub>1" );
+        HTMLLabel label2 = new HTMLLabel( "label<sub>2</sub>" );
+        label2.setText( "label<sub>two</sub>"); // test setText
         label2.setEnabled( false );
         
         JPanel panel = new JPanel();
