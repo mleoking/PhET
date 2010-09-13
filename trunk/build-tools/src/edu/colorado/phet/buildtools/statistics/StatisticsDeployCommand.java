@@ -23,11 +23,7 @@ public class StatisticsDeployCommand {
 
     private BuildLocalProperties buildLocalProperties;
 
-    private String remoteDeployServer = "tigercat.colorado.edu";
-
-    private OldPhetServer server = OldPhetServer.PRODUCTION;
-
-    private String remoteDeployDir = BuildToolsPaths.TIGERCAT_HTDOCS + "/statistics";
+    private PhetWebsite website = PhetWebsite.FIGARO;
 
     /**
      * List of file names that should not be uploaded to the server
@@ -69,9 +65,9 @@ public class StatisticsDeployCommand {
 
         // SCP all of the files to tigercat
         // TODO: bad design for adding more directories! improve it!
-        for ( int i = 0; i < statisticsFiles.length; i++ ) {
+        for ( File statisticsFile : statisticsFiles ) {
             try {
-                ScpTo.uploadFile( statisticsFiles[i], authenticationInfo.getUsername(), remoteDeployServer, deployFileName( statisticsFiles[i], "/" ), authenticationInfo.getPassword() );
+                ScpTo.uploadFile( statisticsFile, authenticationInfo.getUsername(), website.getServerHost(), deployFileName( statisticsFile, "/" ), authenticationInfo.getPassword() );
             }
             catch( JSchException e ) {
                 e.printStackTrace();
@@ -83,9 +79,9 @@ public class StatisticsDeployCommand {
             }
         }
 
-        for ( int i = 0; i < reportFiles.length; i++ ) {
+        for ( File reportFile : reportFiles ) {
             try {
-                ScpTo.uploadFile( reportFiles[i], authenticationInfo.getUsername(), remoteDeployServer, deployFileName( reportFiles[i], "/report/" ), authenticationInfo.getPassword() );
+                ScpTo.uploadFile( reportFile, authenticationInfo.getUsername(), website.getServerHost(), deployFileName( reportFile, "/report/" ), authenticationInfo.getPassword() );
             }
             catch( JSchException e ) {
                 e.printStackTrace();
@@ -97,9 +93,9 @@ public class StatisticsDeployCommand {
             }
         }
 
-        for ( int i = 0; i < adminFiles.length; i++ ) {
+        for ( File adminFile : adminFiles ) {
             try {
-                ScpTo.uploadFile( adminFiles[i], authenticationInfo.getUsername(), remoteDeployServer, deployFileName( adminFiles[i], "/admin/" ), authenticationInfo.getPassword() );
+                ScpTo.uploadFile( adminFile, authenticationInfo.getUsername(), website.getServerHost(), deployFileName( adminFile, "/admin/" ), authenticationInfo.getPassword() );
             }
             catch( JSchException e ) {
                 e.printStackTrace();
@@ -112,7 +108,7 @@ public class StatisticsDeployCommand {
         }
 
         // set the permissions of the server-side files
-        success = success && SshUtils.executeCommand( "cd " + remoteDeployDir + "; chmod ug+x set_permissions; ./set_permissions", server.getHost(), authenticationInfo );
+        success = success && SshUtils.executeCommand( website, "cd " + website.getOfflineStatisticsPath() + "; chmod ug+x set_permissions; ./set_permissions" );
 
         return success;
     }
@@ -154,17 +150,16 @@ public class StatisticsDeployCommand {
     }
 
     public static boolean ignoreFile( File file ) {
-        String fileName = null;
         try {
-            fileName = file.getCanonicalFile().getName();
+            String fileName = file.getCanonicalFile().getName();
+            for ( String ignoreFileName : ignoreFileNames ) {
+                if ( fileName.equals( ignoreFileName ) ) {
+                    return true;
+                }
+            }
         }
         catch( IOException e ) {
             e.printStackTrace();
-        }
-        for ( int i = 0; i < ignoreFileNames.length; i++ ) {
-            if ( fileName.equals( ignoreFileNames[i] ) ) {
-                return true;
-            }
         }
         return false;
     }
@@ -187,7 +182,7 @@ public class StatisticsDeployCommand {
             resultName = ".htaccess";
         }
 
-        return remoteDeployDir + deployDir + resultName;
+        return website.getOfflineStatisticsPath() + deployDir + resultName;
     }
 
     /**

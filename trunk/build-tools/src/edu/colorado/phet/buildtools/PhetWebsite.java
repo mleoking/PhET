@@ -120,6 +120,10 @@ public abstract class PhetWebsite {
         return "http://" + getWebHost();
     }
 
+    /*---------------------------------------------------------------------------*
+    * Paths used in the server
+    *----------------------------------------------------------------------------*/
+
     public String getRootStagingPath() {
         return getDocumentRoot() + "/staging";
     }
@@ -148,6 +152,10 @@ public abstract class PhetWebsite {
 
     public String getResourceStagingPath() {
         return getRootStagingPath() + "/resources";
+    }
+
+    public String getOfflineStatisticsPath() {
+        return getDocumentRoot() + "/statistics";
     }
 
     /*---------------------------------------------------------------------------*
