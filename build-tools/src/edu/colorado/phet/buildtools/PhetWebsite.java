@@ -113,11 +113,20 @@ public abstract class PhetWebsite {
         }
     }
 
+    /*---------------------------------------------------------------------------*
+    * URLs in the server
+    *----------------------------------------------------------------------------*/
+
     /**
      * @return The URL where the front page (base) of the website can be accessed
      */
     public String getWebBaseURL() {
         return "http://" + getWebHost();
+    }
+
+    public String getProjectDevUrl( PhetProject project ) {
+        // TODO: simplify path locations so we don't duplicate them in URL and Path queries
+        return "http://" + getWebHost() + "/files/dev/" + project.getName() + "/" + project.getDevDirectoryBasename();
     }
 
     /*---------------------------------------------------------------------------*
@@ -166,6 +175,11 @@ public abstract class PhetWebsite {
      */
     public String getDevFilesPath() {
         return getDocumentRoot() + "/files/dev";
+    }
+
+    public String getProjectDevPath( PhetProject project ) {
+        // TODO: simplify path locations so we don't duplicate them in URL and Path queries
+        return "/files/dev/" + project.getName() + "/" + project.getDevDirectoryBasename();
     }
 
     /*---------------------------------------------------------------------------*
