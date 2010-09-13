@@ -13,8 +13,6 @@ import java.util.Random;
 
 import javax.swing.event.EventListenerList;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
@@ -223,37 +221,6 @@ public class PhotonAbsorptionModel {
         for (Molecule molecule : activeMolecules){
             molecule.stepInTime( dt );
         }
-    }
-
-    // TODO: Part of an experiment, keep if needed.
-    private ImmutableVector2D getNetForce(Molecule molecule) {
-        ImmutableVector2D netForce= new Vector2D();
-        for (Molecule activeMolecule : activeMolecules) {
-            if (activeMolecule!=molecule){
-            netForce = netForce.getAddedInstance(getForce(activeMolecule,molecule));
-            }
-        }
-
-        //Left Wall
-        double dxLeft = Math.abs(getContainmentAreaRect().getMinX() - molecule.getCenterOfGravityPos().getX());
-        double dxRight = Math.abs(getContainmentAreaRect().getMaxX() - molecule.getCenterOfGravityPos().getX());
-        double dyTop = Math.abs(getContainmentAreaRect().getMinY() - molecule.getCenterOfGravityPos().getY());
-        double dyBottom = Math.abs(getContainmentAreaRect().getMaxY() - molecule.getCenterOfGravityPos().getY());
-        netForce = netForce.getAddedInstance(new Vector2D(1.0 / dxLeft / dxLeft, 0));
-        netForce = netForce.getAddedInstance(new Vector2D(-1.0 / dxRight/ dxRight, 0));
-        netForce = netForce.getAddedInstance(new Vector2D(0,-1.0 / dyBottom/ dyBottom));
-        netForce = netForce.getAddedInstance(new Vector2D(0,1.0 / dyTop/ dyTop));
-
-        double dragForce = 0.01;
-        netForce = netForce.getAddedInstance(molecule.getVelocity().getScaledInstance(-1*dragForce));
-
-        return netForce;
-    }
-
-    private ImmutableVector2D getForce(Molecule source, Molecule target) {
-        double distance = source.getCenterOfGravityPos().distance(target.getCenterOfGravityPos());
-        Vector2D distanceVector = new Vector2D(source.getCenterOfGravityPos(), target.getCenterOfGravityPos()).normalize();
-        return distanceVector.getScaledInstance(1.0 / distance / distance);
     }
 
     public void setPhotonTarget( PhotonTarget photonTarget ){
@@ -479,7 +446,7 @@ public class PhotonAbsorptionModel {
             // Add the necessary number of the specified molecule.
             for (int i = 0; i < numMoleculesToAdd; i++){
                 Molecule moleculeToAdd = Molecule.createMolecule( moleculeID );
-                moleculeToAdd.setCenterOfGravityPos( findLocationInAtmosphereForMolecule2( moleculeToAdd ) );
+                moleculeToAdd.setCenterOfGravityPos( findLocationInAtmosphereForMolecule( moleculeToAdd ) );
                 configurableAtmosphereMolecules.add( moleculeToAdd );
                 moleculeToAdd.addListener( moleculePhotonEmissionListener );
             }
@@ -579,10 +546,6 @@ public class PhotonAbsorptionModel {
     // Constants used when trying to find an open location in the atmosphere.
     private static final double MIN_DIST_FROM_WALL_X = 20; // In picometers.
     private static final double MIN_DIST_FROM_WALL_Y = 20; // In picometers.
-    private static final double MOLECULE_POS_MIN_X = CONTAINMENT_AREA_RECT.getMinX() + MIN_DIST_FROM_WALL_X;
-    private static final double MOLECULE_POS_RANGE_X = CONTAINMENT_AREA_WIDTH - 2 * MIN_DIST_FROM_WALL_X;
-    private static final double MOLECULE_POS_MIN_Y = CONTAINMENT_AREA_RECT.getMinY() + MIN_DIST_FROM_WALL_Y;
-    private static final double MOLECULE_POS_RANGE_Y = CONTAINMENT_AREA_HEIGHT - 2 * MIN_DIST_FROM_WALL_Y;
     private static final double EMITTER_AVOIDANCE_COMP_X = 300;
     private static final double EMITTER_AVOIDANCE_COMP_Y = 800;
     
@@ -591,6 +554,9 @@ public class PhotonAbsorptionModel {
      * with other molecules.  This is assumed to be used only when multiple
      * molecules are being shown.
      * 
+     * IMPORTANT: This assumes that the molecule in question is not already on
+     * the list of molecules, and may return weird results if it is.
+     * 
      * @return - A Point2D that is relatively free of other molecules.
      */
     private Point2D findLocationInAtmosphereForMolecule( Molecule molecule ){
@@ -598,46 +564,6 @@ public class PhotonAbsorptionModel {
         // Generate a set of random location.
         ArrayList<Point2D> possibleLocations = new ArrayList<Point2D>();
         
-        for (int i = 0; i < 100; i++){
-            // Randomly generate a position.
-            double proposedYPos = MOLECULE_POS_MIN_Y + RAND.nextDouble() * MOLECULE_POS_RANGE_Y;
-            double minXPos = MOLECULE_POS_MIN_X;
-            double xRange = MOLECULE_POS_RANGE_X;
-            if (Math.abs( proposedYPos - getContainmentAreaRect().getCenterY() ) < EMITTER_AVOIDANCE_COMP_Y / 2){
-                // Compensate in the X direction so that this position is not
-                // too close to the photon emitter.
-                minXPos = MOLECULE_POS_MIN_X + EMITTER_AVOIDANCE_COMP_X;
-                xRange = MOLECULE_POS_RANGE_X - EMITTER_AVOIDANCE_COMP_X;
-            }
-            double proposedXPos = minXPos + RAND.nextDouble() * xRange;
-            possibleLocations.add( new Point2D.Double(proposedXPos, proposedYPos ) );
-        }
-        
-        // Figure out which point is furthest from all others.
-        Collections.sort( possibleLocations, new Comparator<Point2D>() {
-            public int compare( Point2D p1, Point2D p2 ) {
-                return Double.compare( getMinDistanceToOtherMolecules(p1), getMinDistanceToOtherMolecules(p2) );
-            }
-        });
-        
-        return possibleLocations.get( possibleLocations.size() - 1 );
-    }
-    
-    /**
-     * Find a location in the atmosphere that has a minimal amount of overlap
-     * with other molecules.  This is assumed to be used only when multiple
-     * molecules are being shown.
-     * 
-     * IMPORTANT: This assumes that the molecule in question is not already on
-     * the list of molecules, and may return weird results if it is.
-     * 
-     * @return - A Point2D that is relatively free of other molecules.
-     */
-    private Point2D findLocationInAtmosphereForMolecule2( Molecule molecule ){
-        
-        // Generate a set of random location.
-        ArrayList<Point2D> possibleLocations = new ArrayList<Point2D>();
-        
         double minDistWallToMolCenterX = MIN_DIST_FROM_WALL_X + molecule.getBoundingRect().getWidth() / 2;
         double minXPos = CONTAINMENT_AREA_RECT.getMinX() + minDistWallToMolCenterX;
         double xRange = CONTAINMENT_AREA_RECT.getWidth() - 2 * minDistWallToMolCenterX;
@@ -665,65 +591,6 @@ public class PhotonAbsorptionModel {
         
         // Figure out which point would position the molecule such that it had
         // the least overlap with other molecules.
-        Collections.sort( possibleLocations, new Comparator<Point2D>() {
-            public int compare( Point2D p1, Point2D p2 ) {
-                return Double.compare( getOverlapWithOtherMolecules(p1, molRectWidth, molRectHeight),
-                        getOverlapWithOtherMolecules(p2, molRectWidth, molRectHeight) );
-            }
-        });
-        
-        Point2D pt = possibleLocations.get( 0 );
-        if (pt.getX() + molRectWidth / 2 > CONTAINMENT_AREA_RECT.getMaxX()){
-            System.out.println("Whoa! " + pt);
-        }
-        
-        return possibleLocations.get( 0 );
-    }
-    
-    /**
-     * Find a location in the atmosphere that has a minimal amount of overlap
-     * with other molecules.  This is assumed to be used only when multiple
-     * molecules are being shown.
-     * 
-     * IMPORTANT: This assumes that the molecule in question is not already on
-     * the list of molecules, and may return weird results if it is.
-     * 
-     * @return - A Point2D that is relatively free of other molecules.
-     */
-    private Point2D findLocationInAtmosphereForMolecule3( Molecule molecule ){
-        
-        ArrayList<Point2D> possibleLocations = new ArrayList<Point2D>();
-        
-        double minDistWallToMolCenterX = MIN_DIST_FROM_WALL_X + molecule.getBoundingRect().getWidth() / 2;
-        double minXPos = CONTAINMENT_AREA_RECT.getMinX() + minDistWallToMolCenterX;
-        double xRange = CONTAINMENT_AREA_RECT.getWidth() - 2 * minDistWallToMolCenterX;
-        double minDistWallToMolCenterY = MIN_DIST_FROM_WALL_Y + molecule.getBoundingRect().getHeight() / 2;
-        double minYPos = CONTAINMENT_AREA_RECT.getMinY() + minDistWallToMolCenterY;
-        double yRange = CONTAINMENT_AREA_RECT.getHeight() - 2 * minDistWallToMolCenterY;
-        
-        for (int i = 0; i < 20; i++){
-            // Randomly generate a position.
-            double proposedYPos = minYPos + RAND.nextDouble() * yRange;
-            double proposedXPos;
-            if (Math.abs( proposedYPos - getContainmentAreaRect().getCenterY() ) < EMITTER_AVOIDANCE_COMP_Y / 2){
-                // Compensate in the X direction so that this position is not
-                // too close to the photon emitter.
-                proposedXPos = minXPos + EMITTER_AVOIDANCE_COMP_X + RAND.nextDouble() * (xRange - EMITTER_AVOIDANCE_COMP_X);
-            }
-            else{
-                proposedXPos = minXPos + RAND.nextDouble() * xRange;
-            }
-            possibleLocations.add( new Point2D.Double(proposedXPos, proposedYPos ) );
-        }
-
-        // Add some pre-computed points to this list of possibilities in case
-        // none of the random points are workable.
-        possibleLocations.addAll( GRID_POINTS );
-        
-        // Figure out which point would position the molecule such that it had
-        // the least overlap with other molecules.
-        final double molRectWidth = molecule.getBoundingRect().getWidth();
-        final double molRectHeight = molecule.getBoundingRect().getHeight();
         Collections.sort( possibleLocations, new Comparator<Point2D>() {
             public int compare( Point2D p1, Point2D p2 ) {
                 return Double.compare( getOverlapWithOtherMolecules(p1, molRectWidth, molRectHeight),
@@ -852,96 +719,6 @@ public class PhotonAbsorptionModel {
     //----------------------------------------------------------------------------
     // Inner Classes and Interfaces
     //----------------------------------------------------------------------------
-    
-    private class Segment1D {
-        private double min, max;
-
-        public Segment1D( double min, double max ) {
-            assert max >= min;
-            this.min = min;
-            this.max = max;
-        }
-
-        /**
-         * @return
-         */
-        public double getLength() {
-            return max - min;
-        }
-
-        public double getMin() {
-            return min;
-        }
-        
-        public double getMax() {
-            return max;
-        }
-        
-        public void setSize(double min, double max) {
-            assert max >= min;
-            this.min = min;
-            this.max = max;
-        }
-        
-        /**
-         * Subtract the supplied segment from this segment.  In general, this
-         * can have four different outcomes:
-         * 1. If there is no overlap between this segment and the passed-in
-         * segment, this segment will remain unchanged.
-         * 2. If the passed-in segment overlaps with one end of this segment,
-         * this segment will be reduced in length.
-         * 3. If the passed-in segment is larger than and completely overlaps
-         * this segment, the size of this segment will be reduced to zero.
-         * 4. If the passed-in segment is smaller than this segment and is
-         * completely contained within it, this segment will essentially be
-         * split into two smaller segments.  In this case, one of the
-         * segments will be returned and this segment will take on the size
-         * of the other.  This is the only case where the return value is non-
-         * null.
-         *
-         * @param segmentToSubtract
-         * @return
-         */
-        public Segment1D subtractSegment(Segment1D segmentToSubtract){
-            
-            Segment1D returnSegment = null;
-            
-            double overlapMin = Math.max( this.min, segmentToSubtract.getMin() );
-            double overlapMax = Math.min( this.max, segmentToSubtract.getMax() );
-
-            if (overlapMax > overlapMin){
-                if (overlapMin == this.min && overlapMax == this.max){
-                    // This segment is completely contained within the passed-
-                    // in segment, so subtracting the passed-in segment
-                    // essentially obliterates this one.
-                    setSize( 0, 0 );
-                }
-                else if (overlapMin == segmentToSubtract.getMin() && overlapMax == segmentToSubtract.getMax()){
-                    // The passed-in segment is completely contained within
-                    // this segment.  In this case, this segment must be split
-                    // in two, and one of the resulting segments is returned.
-                    returnSegment = new Segment1D( this.min, overlapMin );
-                    this.min = overlapMax;
-                }
-                else{
-                    // The passed in segment partially overlaps this segment.
-                    if (this.min < overlapMin){
-                        this.max = overlapMin;
-                    }
-                    else{
-                        this.min = overlapMin;
-                    }
-                }
-            }
-            else{
-                // No overlap, so no change to this segment and no split-off
-                // portion to return.
-            }
-            
-            return returnSegment;
-            
-        }
-    }
     
     public interface Listener extends EventListener {
         void photonAdded(Photon photon);
