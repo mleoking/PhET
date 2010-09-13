@@ -23,7 +23,7 @@ public class StatisticsDeployCommand {
 
     private BuildLocalProperties buildLocalProperties;
 
-    private PhetWebsite website = PhetWebsite.FIGARO;
+    private PhetWebsite website;
 
     /**
      * List of file names that should not be uploaded to the server
@@ -39,8 +39,9 @@ public class StatisticsDeployCommand {
             "db-auth.php"
     };
 
-    public StatisticsDeployCommand( File trunkFile ) {
+    public StatisticsDeployCommand( File trunkFile, PhetWebsite website ) {
         trunk = trunkFile;
+        this.website = website;
 
         buildLocalProperties = BuildLocalProperties.getInstanceRelativeToTrunk( trunk );
     }
@@ -232,7 +233,7 @@ public class StatisticsDeployCommand {
 
             // make sure SVN of statistics is up to date before deploying
             if ( checker.isUpToDate( project ) ) {
-                StatisticsDeployCommand command = new StatisticsDeployCommand( trunk );
+                StatisticsDeployCommand command = new StatisticsDeployCommand( trunk, PhetWebsite.FIGARO );
 
                 // actually deploy everything
                 command.deploy();

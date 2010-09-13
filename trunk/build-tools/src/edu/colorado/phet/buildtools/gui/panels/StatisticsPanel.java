@@ -10,6 +10,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.buildtools.BuildToolsPaths;
 import edu.colorado.phet.buildtools.OldPhetServer;
+import edu.colorado.phet.buildtools.PhetWebsite;
 import edu.colorado.phet.buildtools.SVNStatusChecker;
 import edu.colorado.phet.buildtools.gui.PhetBuildGUI;
 import edu.colorado.phet.buildtools.statistics.StatisticsDeployCommand;
@@ -63,7 +64,7 @@ public class StatisticsPanel extends JPanel {
             boolean success = true;
 
             if ( checker.isUpToDate( project ) ) {
-                StatisticsDeployCommand command = new StatisticsDeployCommand( trunk );
+                StatisticsDeployCommand command = new StatisticsDeployCommand( trunk, PhetWebsite.FIGARO );
 
                 success = command.deploy();
             }
