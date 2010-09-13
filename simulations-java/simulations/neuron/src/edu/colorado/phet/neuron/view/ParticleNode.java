@@ -13,7 +13,6 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
 import edu.colorado.phet.neuron.model.IViewableParticle;
 import edu.colorado.phet.neuron.model.ParticleListenerAdapter;
 import edu.umd.cs.piccolo.PNode;
