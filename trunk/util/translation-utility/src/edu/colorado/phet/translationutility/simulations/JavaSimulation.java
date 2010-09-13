@@ -74,10 +74,13 @@ public class JavaSimulation extends AbstractSimulation {
                 // localized strings exist, load them
                 properties = JarUtils.readProperties( getJarFileName(), propertiesFileName );
             }
-            else {
-                // localized strings do not exist, get English strings
+            else if ( properties == null && locale.equals( TUConstants.ENGLISH_LOCALE ) ) {
+                // English strings are in a fallback resource file.
                 propertiesFileName = getFallbackStringsPath( getProjectName() );
                 properties = JarUtils.readProperties( getJarFileName(), propertiesFileName );
+            }
+            else {
+                properties = new Properties();
             }
             LOGGER.info( "loaded strings from " + propertiesFileName );
         }
