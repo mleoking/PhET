@@ -225,7 +225,19 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
      * @param moleculeID
      */
     private void addSliderForMolecule( String labelText, JPanel panel, final MoleculeID moleculeID){
-        
+       
+        // The overall width of the control that is created by this method
+        // needs to be a little less that the total control panel so that it
+        // can be enclosed in a border.  Also, it needs to be indented
+        // slightly to convey the idea that it is a sub-function of the "Build
+        // Atmosphere" selection.
+        int overallWidth = GreenhouseResources.getInt( "int.minControlPanelWidth", 215 );
+        int indent = 30; // Arbitrary value, adjust as needed for optimal appearance.
+        JPanel sliderPanel = new JPanel();
+        JPanel spacerPanel = new JPanel();
+        spacerPanel.setLayout( new BoxLayout( spacerPanel, BoxLayout.X_AXIS ) );
+        spacerPanel.add( Box.createHorizontalStrut( indent ) );
+
         final LinearValueControl slider = new LinearValueControl( 0,
                 model.getConfigurableAtmosphereMaxLevel( moleculeID ), labelText, "###",
                 GreenhouseResources.getString("PhotonAbsorptionControlPanel.Molecules"));
@@ -234,6 +246,7 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
         slider.setTextFieldEditable( true );
         slider.setMajorTicksVisible( false );
         slider.setValue( model.getConfigurableAtmosphereGasLevel( moleculeID ) );
+        slider.setSliderWidth( overallWidth - indent );
         slider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 int currentLevel = model.getConfigurableAtmosphereGasLevel( moleculeID );
@@ -244,7 +257,9 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
             }
         });
         moleculeToSliderMap.put(moleculeID, slider);
-        panel.add( slider );
+        sliderPanel.add( spacerPanel );
+        sliderPanel.add( slider );
+        panel.add( sliderPanel );
     }
     
     /**
