@@ -1,3 +1,4 @@
+Removed the flavor that had been added for tab order testing.
 Updated credits to reflect recent changes and additions.
 Indented the Build Atmosphere sliders.
 Got the Build Atmosphere sliders to gray out entirely when not enabled.
