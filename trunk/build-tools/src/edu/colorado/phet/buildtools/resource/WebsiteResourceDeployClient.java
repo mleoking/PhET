@@ -93,7 +93,8 @@ public class WebsiteResourceDeployClient {
      * @throws java.io.IOException
      */
     public boolean uploadResourceFile() throws JSchException, IOException {
-        AuthenticationInfo authenticationInfo = BuildLocalProperties.getInstance().getWebsiteProdAuthenticationInfo();
+        BuildLocalProperties buildLocalProperties = BuildLocalProperties.getInstance();
+        AuthenticationInfo authenticationInfo = PhetWebsite.FIGARO.getServerAuthenticationInfo( buildLocalProperties );
         String temporaryDirPath = getTemporaryDirPath();
 
         boolean success = dirtyExecute( "mkdir -p -m 775 " + temporaryDirPath + "/resource" );
@@ -122,7 +123,8 @@ public class WebsiteResourceDeployClient {
      * @throws java.io.IOException
      */
     public boolean uploadExtraFile( File extraFile, String sim ) throws JSchException, IOException {
-        AuthenticationInfo authenticationInfo = BuildLocalProperties.getInstance().getWebsiteProdAuthenticationInfo();
+        BuildLocalProperties buildLocalProperties = BuildLocalProperties.getInstance();
+        AuthenticationInfo authenticationInfo = PhetWebsite.FIGARO.getServerAuthenticationInfo( buildLocalProperties );
         String temporaryDirPath = getTemporaryDirPath();
 
         String temporarySimExtrasDir = temporaryDirPath + "/extras/" + sim;

@@ -65,7 +65,7 @@ public class StatisticsDeployCommand {
         File[] reportFiles = getReportDir().listFiles( new StatisticsFileFilter() );
         File[] adminFiles = getAdminDir().listFiles( new StatisticsFileFilter() );
 
-        AuthenticationInfo authenticationInfo = buildLocalProperties.getWebsiteProdAuthenticationInfo();
+        AuthenticationInfo authenticationInfo = PhetWebsite.FIGARO.getServerAuthenticationInfo( buildLocalProperties );
 
         // SCP all of the files to tigercat
         // TODO: bad design for adding more directories! improve it!

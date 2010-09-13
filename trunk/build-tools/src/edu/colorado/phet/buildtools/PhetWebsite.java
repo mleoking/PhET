@@ -51,14 +51,35 @@ public abstract class PhetWebsite {
     public abstract String getDocumentRoot();
 
     /**
+     * @return Short identifier for the website used in property keys and other places
+     */
+    public abstract String getName();
+
+    /**
+     * @return Short description of the server
+     */
+    public abstract String getDescription();
+
+    /**
+     * @return Either "http" or "https" depending on how to contact Tomcat Manager
+     */
+    public String getTomcatManagerProtocol() {
+        return "http";
+    }
+
+    /**
      * @return SSH credentials
      */
-    public abstract AuthenticationInfo getServerAuthenticationInfo( BuildLocalProperties properties );
+    public AuthenticationInfo getServerAuthenticationInfo( BuildLocalProperties properties ) {
+        return properties.getWebsiteAuthenticationInfo( this );
+    }
 
     /**
      * @return Tomcat manager credentials
      */
-    public abstract AuthenticationInfo getTomcatAuthenticationInfo( BuildLocalProperties properties );
+    public AuthenticationInfo getTomcatManagerAuthenticationInfo( BuildLocalProperties properties ) {
+        return properties.getWebsiteTomcatManagerAuthenticationInfo( this );
+    }
 
     /*---------------------------------------------------------------------------*
     * default getters (that used the provided abstract methods)
@@ -128,6 +149,16 @@ public abstract class PhetWebsite {
 
     public static PhetWebsite FIGARO = new PhetWebsite() {
         @Override
+        public String getName() {
+            return "figaro";
+        }
+
+        @Override
+        public String getDescription() {
+            return "The production website figaro.colorado.edu, available at phet.colorado.edu";
+        }
+
+        @Override
         public String getServerHost() {
             return "figaro.colorado.edu";
         }
@@ -148,18 +179,22 @@ public abstract class PhetWebsite {
         }
 
         @Override
-        public AuthenticationInfo getServerAuthenticationInfo( BuildLocalProperties properties ) {
-            return properties.getWebsiteProdAuthenticationInfo();
+        public String getTomcatManagerProtocol() {
+            return "https";
         }
-
-        @Override
-        public AuthenticationInfo getTomcatAuthenticationInfo( BuildLocalProperties properties ) {
-            return properties.getWebsiteProdManagerAuthenticationInfo();
-        }
-
     };
 
     public static PhetWebsite PHET_SERVER = new PhetWebsite() {
+        @Override
+        public String getName() {
+            return "phet-server";
+        }
+
+        @Override
+        public String getDescription() {
+            return "The development website phet-server.colorado.edu";
+        }
+
         @Override
         public String getServerHost() {
             return "phet-server.colorado.edu";
@@ -179,15 +214,37 @@ public abstract class PhetWebsite {
         public String getDocumentRoot() {
             return "/var/www/wicket";
         }
+    };
 
+    public static PhetWebsite JON_DEV = new PhetWebsite() {
         @Override
-        public AuthenticationInfo getServerAuthenticationInfo( BuildLocalProperties properties ) {
-            return properties.getWebsiteDevAuthenticationInfo();
+        public String getName() {
+            return "jondev";
         }
 
         @Override
-        public AuthenticationInfo getTomcatAuthenticationInfo( BuildLocalProperties properties ) {
-            return properties.getWebsiteDevManagerAuthenticationInfo();
+        public String getDescription() {
+            return "Jonathan Olson's Website Development Server";
+        }
+
+        @Override
+        public String getServerHost() {
+            return "192.168.1.64";
+        }
+
+        @Override
+        public String getWebHost() {
+            return "192.168.1.64";
+        }
+
+        @Override
+        public String getBuildLocalPropertiesLocation() {
+            return "/etc/tomcat6/build-local.properties";
+        }
+
+        @Override
+        public String getDocumentRoot() {
+            return "/var/phet";
         }
     };
 

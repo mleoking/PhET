@@ -7,10 +7,7 @@ import java.io.File;
 
 import javax.swing.*;
 
-import edu.colorado.phet.buildtools.BuildLocalProperties;
-import edu.colorado.phet.buildtools.BuildScript;
-import edu.colorado.phet.buildtools.OldPhetServer;
-import edu.colorado.phet.buildtools.VersionIncrement;
+import edu.colorado.phet.buildtools.*;
 import edu.colorado.phet.buildtools.gui.ChangesPanel;
 import edu.colorado.phet.buildtools.gui.PhetBuildGUI;
 import edu.colorado.phet.buildtools.java.JavaProject;
@@ -135,7 +132,7 @@ public class MiscJavaPanel extends JPanel {
             versionIncrement = new VersionIncrement.UpdateProdMajor();
         }
 
-        new BuildScript( trunk, project ).deployToDevelopmentAndProductionServers( buildLocalProperties.getDevAuthenticationInfo(), buildLocalProperties.getWebsiteProdAuthenticationInfo(), versionIncrement );
+        new BuildScript( trunk, project ).deployToDevelopmentAndProductionServers( buildLocalProperties.getDevAuthenticationInfo(), PhetWebsite.FIGARO.getServerAuthenticationInfo( buildLocalProperties ), versionIncrement );
     }
 
 }

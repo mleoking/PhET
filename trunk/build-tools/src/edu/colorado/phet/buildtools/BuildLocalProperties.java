@@ -95,6 +95,7 @@ public class BuildLocalProperties {
     private final Properties properties;
 
     /* singleton */
+
     private BuildLocalProperties( File propertiesFile ) {
         properties = new Properties();
         load( propertiesFile );
@@ -130,34 +131,6 @@ public class BuildLocalProperties {
      */
     public AuthenticationInfo getDevAuthenticationInfo() {
         return new AuthenticationInfo( getDevUsername(), getDevPassword() );
-    }
-
-    /**
-     * @return Authentication for the user/ssh account of the website development server (possibly local)
-     */
-    public AuthenticationInfo getWebsiteDevAuthenticationInfo() {
-        return new AuthenticationInfo( getWebsiteDevUsername(), getWebsiteDevPassword() );
-    }
-
-    /**
-     * @return Authentication for the Tomcat manager account of the website development server (possibly local)
-     */
-    public AuthenticationInfo getWebsiteDevManagerAuthenticationInfo() {
-        return new AuthenticationInfo( getWebsiteDevManagerUsername(), getWebsiteDevManagerPassword() );
-    }
-
-    /**
-     * @return Authentication for the user/ssh account of the website production server
-     */
-    public AuthenticationInfo getWebsiteProdAuthenticationInfo() {
-        return new AuthenticationInfo( getWebsiteProdUsername(), getWebsiteProdPassword() );
-    }
-
-    /**
-     * @return Authentication for the Tomcat manager account of the website production server
-     */
-    public AuthenticationInfo getWebsiteProdManagerAuthenticationInfo() {
-        return new AuthenticationInfo( getWebsiteProdManagerUsername(), getWebsiteProdManagerPassword() );
     }
 
     /**
@@ -301,38 +274,12 @@ public class BuildLocalProperties {
         return getRequiredString( "mac.trunk.volume", "name of the volume where your trunk directory resides (Mac)" );
     }
 
-    public String getWebsiteDevHost() {
-        return getRequiredString( "website.dev.host", "hostname of the dev (local or remote) website" );
-    }
-
-    public String getWebsiteProdHost() {
-        // separate for now, since tigercat is the other production server
-        return getRequiredString( "website.prod.host", "hostname of the production (figaro) website" );
-    }
-
-    public String getWebsiteDevProtocol() {
-        return getRequiredString( "website.dev.protocol", "protocol (http or https) for the dev website" );
-    }
-
-    public String getWebsiteProdProtocol() {
-        // separate for now, since tigercat is the other production server
-        return getRequiredString( "website.prod.protocol", "protocol (http or https) for the production (figaro) website" );
-    }
-
     private String getDevUsername() {
         return getRequiredString( "dev.username", "Development server username" );
     }
 
     private String getDevPassword() {
         return getRequiredString( "dev.password", "Development server password" );
-    }
-
-    private String getProdUsername() {
-        return getRequiredString( "prod.username", "Production server username" );
-    }
-
-    private String getProdPassword() {
-        return getRequiredString( "prod.password", "Production server password" );
     }
 
     private String getRepositoryUsername() {
@@ -347,40 +294,21 @@ public class BuildLocalProperties {
     * Wicket website authentication
     *----------------------------------------------------------------------------*/
 
-    private String getWebsiteDevUsername() {
-        return getRequiredString( "website.dev.username", "Website dev (local or remote) server user/ssh username" );
+    private String getWebsiteUsername( PhetWebsite website ) {
+        return getRequiredString( website.getName() + ".username", "Username for " + website.getName() + ": " + website.getDescription() );
     }
 
-    private String getWebsiteDevPassword() {
-        return getRequiredString( "website.dev.password", "Website dev (local or remote) server user/ssh password" );
+    private String getWebsitePassword( PhetWebsite website ) {
+        return getRequiredString( website.getName() + ".password", "Password for " + website.getName() + ": " + website.getDescription() );
     }
 
-    private String getWebsiteDevManagerUsername() {
-        return getRequiredString( "website.dev.manager.username", "Website dev (local or remote) server Tomcat manager username" );
+    private String getWebsiteTomcatManagerUsername( PhetWebsite website ) {
+        return getRequiredString( website.getName() + ".tomcatmanager.username", "Tomcat Manager Username for " + website.getName() + ": " + website.getDescription() );
     }
 
-    private String getWebsiteDevManagerPassword() {
-        return getRequiredString( "website.dev.manager.password", "Website dev (local or remote) server Tomcat manager password" );
+    private String getWebsiteTomcatManagerPassword( PhetWebsite website ) {
+        return getRequiredString( website.getName() + ".tomcatmanager.password", "Tomcat Manager Password for " + website.getName() + ": " + website.getDescription() );
     }
-
-    private String getWebsiteProdUsername() {
-        // separate for now, since tigercat is the other production server
-        return getRequiredString( "website.prod.username", "Website production (figaro) server username" );
-    }
-
-    private String getWebsiteProdPassword() {
-        // separate for now, since tigercat is the other production server
-        return getRequiredString( "website.prod.password", "Website production (figaro) server password" );
-    }
-
-    private String getWebsiteProdManagerUsername() {
-        return getRequiredString( "website.prod.manager.username", "Website production (figaro) server Tomcat manager username" );
-    }
-
-    private String getWebsiteProdManagerPassword() {
-        return getRequiredString( "website.prod.manager.password", "Website production (figaro) server Tomcat manager password" );
-    }
-
 
     /*---------------------------------------------------------------------------*
     * Jarsigner authentication
@@ -406,6 +334,7 @@ public class BuildLocalProperties {
     /*
     * Gets a boolean value.
     */
+
     private boolean getBoolean( String key, boolean defaultValue ) {
         boolean value = defaultValue;
         String s = properties.getProperty( key );
@@ -420,11 +349,12 @@ public class BuildLocalProperties {
     * If the value is not specified, the user is prompted for the value,
     * and the value is saved for the next time it is requested.
     */
+
     private String getRequiredString( String key, String prompt ) {
         String value = properties.getProperty( key );
         if ( value == null || value.length() == 0 ) {
             value = prompt( prompt +
-                    " ("+key+")" );//report the missing key name, not just the description, to facilitate adding it to a build-local.properties file
+                            " (" + key + ")" );//report the missing key name, not just the description, to facilitate adding it to a build-local.properties file
             properties.setProperty( key, value );
         }
         return value;
@@ -433,6 +363,7 @@ public class BuildLocalProperties {
     /*
     * Prompts the user for a value via a modal dialog.
     */
+
     private static String prompt( String label ) {
         if ( !label.endsWith( ":" ) ) {
             label += ":";
@@ -463,6 +394,14 @@ public class BuildLocalProperties {
      * @return true if the user should be prompted for a change message; defaults to true
      */
     public boolean isPromptUserForChangeMessage() {
-        return getBoolean(GUI_PROMPT_USER_FOR_CHANGE_MESSAGE, true);
+        return getBoolean( GUI_PROMPT_USER_FOR_CHANGE_MESSAGE, true );
+    }
+
+    public AuthenticationInfo getWebsiteAuthenticationInfo( PhetWebsite website ) {
+        return new AuthenticationInfo( getWebsiteUsername( website ), getWebsitePassword( website ) );
+    }
+
+    public AuthenticationInfo getWebsiteTomcatManagerAuthenticationInfo( PhetWebsite website ) {
+        return new AuthenticationInfo( getWebsiteTomcatManagerUsername( website ), getWebsiteTomcatManagerPassword( website ) );
     }
 }
