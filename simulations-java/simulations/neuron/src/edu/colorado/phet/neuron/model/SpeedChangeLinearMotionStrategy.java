@@ -3,7 +3,6 @@
 package edu.colorado.phet.neuron.model;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
  * This is a very specialized motion strategy that is basically a linear
