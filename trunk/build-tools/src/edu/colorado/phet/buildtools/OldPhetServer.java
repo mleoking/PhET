@@ -193,11 +193,14 @@ public abstract class OldPhetServer {
         //TODO: refactor getting server side path, should be specified in PhetProject
         public String getServerDeployPath( PhetProject project ) {
             if ( project.getProdServerDeployPath() != null ) {
-                String path = project.getProdServerDeployPath();
+                // temporary workaround to specify an absolute path on figaro
+                // TODO: refactor this out so we don't rely on OldPhetServer, and don't use getServerDeployPath (points to sim root)
+                String path = "/data/web/htdocs/phet" + project.getProdServerDeployPath();
                 System.out.println( "getServerDeployPath()<override>:" + path );
                 return path;
             }
             else {
+                // this means we are deploying to the sims staging location. this should only happen for simulation projects
                 String path = getServerDeployPath() + "/" + project.getName();
                 System.out.println( "getServerDeployPath():" + path );
                 return path;
