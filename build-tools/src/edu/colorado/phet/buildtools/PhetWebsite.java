@@ -154,8 +154,18 @@ public abstract class PhetWebsite {
         return getRootStagingPath() + "/resources";
     }
 
+    /**
+     * @return The location of the PHP offline statistics code
+     */
     public String getOfflineStatisticsPath() {
         return getDocumentRoot() + "/statistics";
+    }
+
+    /**
+     * @return The location of stored development versions of simulations (and other files moved over from spot.colorado.edu)
+     */
+    public String getDevFilesPath() {
+        return getDocumentRoot() + "/files/dev";
     }
 
     /*---------------------------------------------------------------------------*

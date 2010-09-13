@@ -578,11 +578,6 @@ public class FlashSimulationProject extends PhetProject implements SimulationPhe
         return "html";
     }
 
-    public void buildLaunchFiles( String URL, boolean dev ) {
-//        super.buildLaunchFiles( URL, dev );
-        System.out.println( "What to do for building Flash launch files?  Are these HTML?" );
-    }
-
     public boolean isTestable() {
         return true;
     }
