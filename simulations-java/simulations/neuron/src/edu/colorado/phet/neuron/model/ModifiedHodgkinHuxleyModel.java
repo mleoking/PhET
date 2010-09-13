@@ -233,7 +233,7 @@ public class ModifiedHodgkinHuxleyModel implements IHodgkinHuxleyModel
 
 	final private double resting_v = 65;  
 	// remember that H&H voltages are -1 * present convention
-	// TODO: should eventually calculate this instead of setting it
+	// should eventually calculate this instead of setting it
     
 	// convert between internal use of V and the user's expectations
 	// the V will be membrane voltage using present day conventions
