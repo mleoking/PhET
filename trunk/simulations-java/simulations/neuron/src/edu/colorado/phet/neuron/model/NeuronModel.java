@@ -20,6 +20,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.neuron.model.AxonMembrane.AxonMembraneState;
 import edu.colorado.phet.neuron.model.MembraneChannel.MembraneChannelState;
 import edu.colorado.phet.neuron.module.NeuronDefaults;
+import edu.colorado.phet.neuron.view.MembranePotentialChart;
 import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel;
 
 /**
@@ -115,13 +116,24 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
-    
-    private final ConstantDtClock clock;
-    private final AxonMembrane axonMembrane = new AxonMembrane();
+
+	// List of the particles that come and go when the simulation is working
+	// in real time.
     private ArrayList<Particle> transientParticles = new ArrayList<Particle>();
+    
+    // Backup of the transient particles, used to restore them when returning
+    // to live mode after doing playback.
     private ArrayList<Particle> transientParticlesBackup = new ArrayList<Particle>();
+    
+    // Particles that are "in the background", meaning that they are always
+    // present and they don't cross the membrane.
     private ArrayList<Particle> backgroundParticles = new ArrayList<Particle>();
+    
+    // List of particles that are shown during playback.
     private ArrayList<PlaybackParticle> playbackParticles = new ArrayList<PlaybackParticle>();
+    
+    private final AxonMembrane axonMembrane = new AxonMembrane();
+    private final ConstantDtClock clock;
     private ArrayList<MembraneChannel> membraneChannels = new ArrayList<MembraneChannel>();
     private final double crossSectionInnerRadius;
     private final double crossSectionOuterRadius;
@@ -145,9 +157,9 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
     //----------------------------------------------------------------------------
     
     public NeuronModel( NeuronClock clock ) {
-    	// TODO: Should derive the max points based on the chart and the
-    	// min clock speed.
-    	super(Integer.MAX_VALUE);
+    	// The max recording points based on the time span of the chart and
+        // the minimum clock speed.
+    	super((int)Math.ceil( MembranePotentialChart.TIME_SPAN * 1000 / NeuronDefaults.MIN_ACTION_POTENTIAL_CLOCK_DT ));
     	
         this.clock = clock;
         
@@ -183,9 +195,10 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
             }
             
             public void delayChanged( ConstantDtClockEvent event ) {
-                // TODO: Printout is temporary while I figure out if this
-                // notification needs to be handled.
-                System.out.println("Delay changed called, what should be done about it?");
+                // This is not expected to occur.  If it does, code will need
+                // to be hadded to handle it.
+                assert false;
+                System.err.println( getClass().getName() + " - Error: delayChanged called, which was unexpected." );
                 // Ignored.
             }
         });
@@ -526,7 +539,6 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
      * There are two sets of particles in this simulation, one that is used
      * when actually simulating, and one that is used when playing back.  This
      * routine updates which set is visible based on state information.
-     * 
      */
     private void updateSimAndPlaybackParticleVisibility(){
         if (isRecord() || isLive()){
@@ -562,9 +574,9 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
                     particle.removeFromModel();
                 }
                 
-                // Show the playback particles.
-                // TODO
-                // Update the state variable.
+                // Note that we don't explicitly add the playback particles
+                // here.  That is taken care of when the playback state is
+                // set.  Here we only set the flag.
                 playbackParticlesVisible = true;
             }
         }
@@ -1243,6 +1255,11 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
         }
     }
     
+    /**
+     * Set the playback state, which is the state that is presented to the
+     * user during playback.  The provided state variable defines the state
+     * of the simulation that is being set.
+     */
 	@Override
 	public void setPlaybackState(NeuronModelState state) {
 	    
