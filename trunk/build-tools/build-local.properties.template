@@ -45,8 +45,8 @@ phet-server.tomcatmanager.password=
 ### Properties mostly used by Jon
 
 # wine flag and trunk (LINUX ONLY)
-wine=true
-wine.trunk=C:\\svn\\trunk
+#wine=true
+#wine.trunk=C:\\svn\\trunk
 
 # Local website development credentials
 jondev.username=
