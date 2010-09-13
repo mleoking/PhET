@@ -110,15 +110,13 @@ public class AxonMembrane {
 	public void setState(AxonMembraneState axonMembraneState){
 		if (axonMembraneState.getTravelingActionPotentialState() == null && travelingActionPotential != null){
 			// Get rid of the existing TAP.
-			// TODO: Clean up the asymmetry between adding and removing action potential.
-			travelingActionPotential.removeAllListeners();
-			travelingActionPotential = null;
-			notifyTravelingActionPotentialEnded();
+		    removeTravelingActionPotential();
 		}
 		else if (axonMembraneState.getTravelingActionPotentialState() != null && travelingActionPotential == null){
 			// A traveling action potential needs to be added.
 			initiateTravelingActionPotential();
 		}
+		
 		if (travelingActionPotential != null){
 			// Set the state to match the new given state.
 			travelingActionPotential.setState(axonMembraneState.getTravelingActionPotentialState());
@@ -230,11 +228,21 @@ public class AxonMembrane {
     			notifyTravelingActionPotentialReachedCrossSection();
     		}
 			public void lingeringCompleted() {
-				notifyTravelingActionPotentialEnded();
-				travelingActionPotential = null;
+			    removeTravelingActionPotential();
 			}
     	});
     	notifyTravelingActionPotentialStarted();
+    }
+    
+    /**
+     * Remove the traveling action potential, either because it has reached
+     * the cross section and is done existing, or for some other reason (such
+     * as a reset or jump in the playback state).
+     */
+    private void removeTravelingActionPotential(){
+        travelingActionPotential.removeAllListeners();
+        travelingActionPotential = null;
+        notifyTravelingActionPotentialEnded();
     }
     
     /**
@@ -248,8 +256,7 @@ public class AxonMembrane {
     public void reset(){
     	if (travelingActionPotential != null){
     		// Force premature termination of the action potential.
-    		travelingActionPotential = null;
-    		notifyTravelingActionPotentialEnded();
+    	    removeTravelingActionPotential();
     	}
     }
     
@@ -462,19 +469,22 @@ public class AxonMembrane {
     	}
     	
     	private void notifyLingeringCompleted(){
-    		for (Listener listener : listeners){
+    	    ArrayList<Listener> listenersCopy = new ArrayList<Listener>(listeners);
+    		for (Listener listener : listenersCopy){
     			listener.lingeringCompleted();
     		}
     	}
         
     	private void notifyCrossSectionReached(){
-    		for (Listener listener : listeners){
+    	    ArrayList<Listener> listenersCopy = new ArrayList<Listener>(listeners);
+    	    for (Listener listener : listenersCopy){
     			listener.crossSectionReached();
     		}
     	}
         
     	private void notifyShapeChanged(){
-    		for (Listener listener : listeners){
+    	    ArrayList<Listener> listenersCopy = new ArrayList<Listener>(listeners);
+    	    for (Listener listener : listenersCopy){
     			listener.shapeChanged();
     		}
     	}
