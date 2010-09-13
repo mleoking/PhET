@@ -1,3 +1,6 @@
+# Figaro SSH credentials
+figaro.username=
+figaro.password=
 
 # spot credentials (will be removed )
 dev.username=
@@ -10,13 +13,6 @@ repository.password=
 # browser executable
 browser=firefox
 
-# wine flag and trunk (LINUX ONLY)
-wine=true
-wine.trunk=C:\\svn\\trunk
-
-# Flash executable location (Flash builders only)
-flash=C:\\Program Files\\Macromedia\\Flash 8\\Flash.exe
-
 # JAR signing info
 jarsigner.path=
 jarsigner.keystore=
@@ -24,12 +20,14 @@ jarsigner.password=
 jarsigner.alias=
 jarsigner.tsa-url=
 
+# Flash executable location (Flash builders only)
+flash=C:\\Program Files\\Macromedia\\Flash 8\\Flash.exe
+
 # Path to Flex SDK
 flex=/home/jon/dev/flex-3.4.1.10084
 
-# Figaro SSH credentials
-figaro.username=
-figaro.password=
+
+### Properties used for deploying website code
 
 # Figaro Tomcat Manager credentials
 figaro.tomcatmanager.username=
@@ -42,6 +40,13 @@ phet-server.password=
 # Phet-server Tomcat Manager credentials
 phet-server.tomcatmanager.username=
 phet-server.tomcatmanager.password=
+
+
+### Properties mostly used by Jon
+
+# wine flag and trunk (LINUX ONLY)
+wine=true
+wine.trunk=C:\\svn\\trunk
 
 # Local website development credentials
 jondev.username=
