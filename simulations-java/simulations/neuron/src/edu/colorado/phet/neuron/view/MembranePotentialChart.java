@@ -67,7 +67,7 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
 	// Class Data
 	//----------------------------------------------------------------------------
 	
-	private static final double TIME_SPAN = 25; // In seconds.
+	public static final double TIME_SPAN = 25; // In seconds.
 	
 	// This value sets the frequency of chart updates, which helps to reduce
 	// the processor consumption.
