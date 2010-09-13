@@ -20,10 +20,10 @@ jarsigner.password=
 jarsigner.alias=
 jarsigner.tsa-url=
 
-# Flash executable location (Flash builders only)
+# Flash executable location (Windows only)
 flash=C:\\Program Files\\Macromedia\\Flash 8\\Flash.exe
 
-# Flash (Mac)
+# Flash (Mac only)
 mac.flash.name=Adobe Flash CS4
 mac.trunk.volume=Macintosh HD
 
