@@ -53,8 +53,6 @@ public class AdminProjectPage extends AdminPage {
         projectForm = new ProjectForm( "edit-form" );
         add( projectForm );
 
-        add( new AddSimulationForm( "simulations-form" ) );
-
         ProjectPropertiesFile projectPropertiesFile = project.getProjectPropertiesFile( ( (PhetWicketApplication) getApplication() ).getWebsiteProperties().getPhetDocumentRoot() );
 
         RawLabel projectChecks = null;
@@ -213,35 +211,6 @@ public class AdminProjectPage extends AdminPage {
             }
             statusString = project.consistencyCheck( ( (PhetWicketApplication) getApplication() ).getWebsiteProperties().getPhetDocumentRoot() );
             return true;
-        }
-    }
-
-    private class AddSimulationForm extends Form {
-
-        private TextField nameField;
-
-        public AddSimulationForm( String id ) {
-            super( id );
-
-            nameField = new StringTextField( "name", new Model( project.getName() ) );
-            add( nameField );
-        }
-
-        @Override
-        protected void onSubmit() {
-            final String name = nameField.getModelObject().toString();
-
-            HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
-                public boolean run( Session session ) {
-                    Simulation simulation = new Simulation();
-                    simulation.setSimulationVisible( true );
-                    simulation.setName( name );
-                    Project p = (Project) session.load( Project.class, project.getId() );
-                    simulation.setProject( p );
-                    session.save( simulation );
-                    return true;
-                }
-            } );
         }
     }
 }
