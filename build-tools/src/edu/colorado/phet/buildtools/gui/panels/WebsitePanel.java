@@ -9,6 +9,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.buildtools.BuildScript;
+import edu.colorado.phet.buildtools.PhetWebsite;
 import edu.colorado.phet.buildtools.gui.ChangesPanel;
 import edu.colorado.phet.buildtools.java.projects.WebsiteProject;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
@@ -113,7 +114,13 @@ public class WebsitePanel extends JPanel {
             return;
         }
 
-        success = project.deploy( props.getWebsiteDevHost(), props.getWebsiteDevProtocol(), props.getWebsiteDevAuthenticationInfo(), props.getWebsiteDevManagerAuthenticationInfo(), true );
+        PhetWebsite website = PhetWebsite.JON_DEV;
+
+        success = project.deploy(
+                website.getServerHost(),
+                website.getTomcatManagerProtocol(),
+                website.getServerAuthenticationInfo( props ),
+                website.getTomcatManagerAuthenticationInfo( props ) );
 
         if ( !success ) {
             System.out.println( "Errors on deploy" );
@@ -148,7 +155,13 @@ public class WebsitePanel extends JPanel {
             return;
         }
 
-        success = project.deploy( props.getWebsiteProdHost(), props.getWebsiteProdProtocol(), props.getWebsiteProdAuthenticationInfo(), props.getWebsiteProdManagerAuthenticationInfo(), true );
+        PhetWebsite website = PhetWebsite.FIGARO;
+
+        success = project.deploy(
+                website.getServerHost(),
+                website.getTomcatManagerProtocol(),
+                website.getServerAuthenticationInfo( props ),
+                website.getTomcatManagerAuthenticationInfo( props ) );
 
         if ( !success ) {
             System.out.println( "Errors on deploy" );

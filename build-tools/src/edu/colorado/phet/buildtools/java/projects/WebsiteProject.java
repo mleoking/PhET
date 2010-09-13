@@ -76,7 +76,7 @@ public class WebsiteProject extends JavaProject {
         return new File( getDeployDir(), "ROOT.war" );
     }
 
-    public boolean deploy( String host, String protocol, AuthenticationInfo userInfo, AuthenticationInfo managerInfo, boolean dev ) {
+    public boolean deploy( String host, String protocol, AuthenticationInfo userInfo, AuthenticationInfo managerInfo ) {
         String webHost = host.equals( "figaro.colorado.edu" ) ? "phet.colorado.edu" : host; //Have to use public web url for curling, or it will fail 
         boolean success = false;
         try {

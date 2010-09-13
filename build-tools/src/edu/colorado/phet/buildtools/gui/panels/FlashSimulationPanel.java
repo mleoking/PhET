@@ -7,10 +7,7 @@ import java.io.File;
 
 import javax.swing.*;
 
-import edu.colorado.phet.buildtools.BuildLocalProperties;
-import edu.colorado.phet.buildtools.BuildScript;
-import edu.colorado.phet.buildtools.OldPhetServer;
-import edu.colorado.phet.buildtools.VersionIncrement;
+import edu.colorado.phet.buildtools.*;
 import edu.colorado.phet.buildtools.flash.FlashBuildCommand;
 import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
 import edu.colorado.phet.buildtools.gui.ChangesPanel;
@@ -188,7 +185,7 @@ public class FlashSimulationPanel extends JPanel {
 
         new BuildScript( trunk, project ).deployToDevelopmentAndProductionServers(
                 buildLocalProperties.getDevAuthenticationInfo(),
-                buildLocalProperties.getWebsiteProdAuthenticationInfo(),
+                PhetWebsite.FIGARO.getServerAuthenticationInfo( buildLocalProperties ),
                 versionIncrement
         );
     }
@@ -211,6 +208,6 @@ public class FlashSimulationPanel extends JPanel {
             versionIncrement = new VersionIncrement.UpdateProdMajor();
         }
 
-        new BuildScript( trunk, project ).deployToDevelopmentAndProductionServers( buildLocalProperties.getDevAuthenticationInfo(), buildLocalProperties.getWebsiteProdAuthenticationInfo(), versionIncrement );
+        new BuildScript( trunk, project ).deployToDevelopmentAndProductionServers( buildLocalProperties.getDevAuthenticationInfo(), PhetWebsite.FIGARO.getServerAuthenticationInfo( buildLocalProperties ), versionIncrement );
     }
 }

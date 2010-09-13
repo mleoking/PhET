@@ -270,8 +270,10 @@ public class MiscMenu extends JMenu {
 
     public static class DeployProd implements DeployStrategy {
         public void deploy( BuildScript buildScript ) {
-            buildScript.deployProd( BuildLocalProperties.getInstance().getDevAuthenticationInfo(),
-                                    BuildLocalProperties.getInstance().getWebsiteProdAuthenticationInfo() );
+            BuildLocalProperties props = BuildLocalProperties.getInstance();
+            buildScript.deployProd(
+                    props.getDevAuthenticationInfo(),
+                    PhetWebsite.FIGARO.getServerAuthenticationInfo( props ) );
         }
 
         public String toString() {
