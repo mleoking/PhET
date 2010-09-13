@@ -9,12 +9,12 @@ import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
-import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
 import edu.colorado.phet.buildtools.java.JavaProject;
 import edu.colorado.phet.buildtools.java.projects.BuildToolsProject;
 import edu.colorado.phet.buildtools.util.FileUtils;
@@ -299,6 +299,40 @@ public class BuildScript {
         }
     }
 
+    private boolean sendDevCopyTo( PhetWebsite website ) {
+        String remotePathDir = website.getProjectDevPath( project );
+        // if the directory does not exist on the server, it will be created.
+        boolean success = SshUtils.executeCommand( website, "mkdir -p -m 775 " + remotePathDir );
+        if ( !success ) {
+            System.out.println( "Warning: failed to create or verify the existence of the deploy directory" );
+            return false;
+        }
+
+        //for some reason, the securechannelfacade fails with a "server didn't expect this file" error
+        //the failure is on tigercat, but scf works properly on spot
+        //but our code works on both; therefore there is probably a problem with the handshaking in securechannelfacade
+        File[] f = project.getDeployDir().listFiles(); //TODO: should handle recursive for future use (if we ever want to support nested directories)
+        for ( File file : f ) {
+            if ( file.getName().startsWith( "." ) ) {
+                //ignore
+            }
+            else {
+                try {
+                    ScpTo.uploadFile( website, buildLocalProperties, file, remotePathDir + "/" + file.getName() );
+                }
+                catch( JSchException e ) {
+                    e.printStackTrace();
+                    return false;
+                }
+                catch( IOException e ) {
+                    e.printStackTrace();
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     private boolean sendSSH( OldPhetServer server, AuthenticationInfo authenticationInfo ) {
         String remotePathDir = server.getServerDeployPath( project );
         // if the directory does not exist on the server, it will be created.
@@ -469,7 +503,7 @@ public class BuildScript {
                 // <li>@title@ : <a href="@prodLaunchFile@">production</a> : <a href="@devLaunchFile@">dev</a></li>
                 s += "<li>";
                 s += title;
-                if (!(project instanceof FlashSimulationProject)){  //TODO: add support for the link to the prod/dev versions of flash/flex sims
+                if ( !( project instanceof FlashSimulationProject ) ) {  //TODO: add support for the link to the prod/dev versions of flash/flex sims
                     s += " : <a href=\"" + prodLaunchFile + "\">production</a>";
                 }
                 s += " : <a href=\"" + launchFile + "\">dev</a>";
@@ -558,11 +592,18 @@ public class BuildScript {
 
     private void sendCopyToDev( AuthenticationInfo devAuth ) {
         createHeader( true );
+        // TODO: remove this sending to spot once tested and confirmed. Then refactor to not pass in devAuth, but possibly use build-local props
         project.buildLaunchFiles( OldPhetServer.DEVELOPMENT.getCodebase( project ), OldPhetServer.DEVELOPMENT.isDevelopmentServer() );
         if ( !debugDryRun ) {
             sendSSH( OldPhetServer.DEVELOPMENT, devAuth );
             generateOfflineJars( project, OldPhetServer.DEVELOPMENT, devAuth );
         }
+        PhetWebsite website = PhetWebsite.FIGARO;
+//        project.buildLaunchFiles( website.getProjectDevUrl( project ), true );
+//        if ( !debugDryRun ) {
+//            sendDevCopyTo( website );
+//            generateOfflineJars( project, OldPhetServer.DEVELOPMENT, devAuth );
+//        }
         PhetWebsite.openBrowser( OldPhetServer.DEVELOPMENT.getCodebase( project ) );
         //TODO #2143, delete <project>_en.production.jnlp files, since they shouldn't go to tigercat
     }
