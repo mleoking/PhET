@@ -69,7 +69,7 @@ trait VectorDisplay {
   def removeVector(vector: Vector): Unit
 }
 
-class PlayAreaVectorDisplay(transform: ModelViewTransform2D, motionSeriesObject: MotionSeriesObject, vectorViewModel: VectorViewModel) extends PNode with VectorDisplay {
+class PlayAreaVectorDisplay(transform: ModelViewTransform2D, motionSeriesObject: MotionSeriesObject) extends PNode with VectorDisplay {
   def addVector(vector: Vector, offset2D: Vector2DModel, maxOffset: Int, offset: Double): Unit = {
     val defaultCenter = motionSeriesObject.height / 2.0
     def getValue = motionSeriesObject.position2D + new Vector2D(motionSeriesObject.getAngle + java.lang.Math.PI / 2) * (offset + defaultCenter)
