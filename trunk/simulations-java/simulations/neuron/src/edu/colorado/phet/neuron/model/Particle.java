@@ -223,15 +223,6 @@ public abstract class Particle implements IMovable, IFadable, IViewableParticle 
     	}
     }
     
-    /**
-     * Get a "memento", which is an object that is not a full-blown particle
-     * but that contains enough information for the playback feature to
-     * present a particle in the view.
-     */
-    public PlaybackParticle getMemento() {
-        return new PlaybackParticle( this );
-    }
-    
     //------------------------------------------------------------------------
     // Listener support
     //------------------------------------------------------------------------
