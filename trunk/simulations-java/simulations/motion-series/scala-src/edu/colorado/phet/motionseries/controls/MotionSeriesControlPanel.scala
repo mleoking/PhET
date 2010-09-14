@@ -93,26 +93,8 @@ class RampControlPanelBody(model: MotionSeriesModel,
   }
 
   val vectorPanel = new SubControlPanel("vectors.title".translate) with IProguardKeepClass {
-    //We decided to remove the point of origin visualization option from this sim, thinking we would
-    //add support for it in a separate sim.  I'll leave this here but commented out in case we change our minds.
-    //    add(new MyRadioButton("vectors.centered".translate, vectorViewModel.centered = true, vectorViewModel.centered, vectorViewModel.addListener).peer)
-    //    add(new MyRadioButton("vectors.point-of-origin".translate, vectorViewModel.centered = false, !vectorViewModel.centered, vectorViewModel.addListener).peer)
-    //    add(Box.createRigidArea(new Dimension(10, 10)))
-
-    if (coordinateSystemFeaturesEnabled) {
-      //in coordinates frame mode, you have to show one of the vector choices
-      def setVectorVisibility(original: Boolean, parallel: Boolean, xy: Boolean) = {
-        vectorViewModel.originalVectors = original
-        vectorViewModel.parallelComponents = parallel
-        vectorViewModel.xyComponentsVisible = xy
-      }
-      add(new MyRadioButton("vectors.force-vectors".translate, setVectorVisibility(true, false, false), vectorViewModel.originalVectors, vectorViewModel.addListener).peer)
-      addWithIcon("parallel_components_icon.gif".literal, new MyRadioButton("vectors.parallel-components".translate, setVectorVisibility(false, true, false), vectorViewModel.parallelComponents, vectorViewModel.addListener).peer)
-      addWithIcon("xy_components_icon.gif".literal, new MyRadioButton("vectors.x-y-components".translate, setVectorVisibility(false, false, true), vectorViewModel.xyComponentsVisible, vectorViewModel.addListener).peer)
-    } else {
-      //show a check box that allows you to turn off viewing the vectors
-      add(new MyCheckBox("vectors.force-vectors".translate, vectorViewModel.originalVectors_=, vectorViewModel.originalVectors, vectorViewModel.addListener).peer)
-    }
+    //show a check box that allows you to turn off viewing the vectors
+    add(new MyCheckBox("vectors.force-vectors".translate, vectorViewModel.originalVectors_=, vectorViewModel.originalVectors, vectorViewModel.addListener).peer)
     add(Box.createRigidArea(new Dimension(10, 10)))
     addWithIcon(createSumForceIcon, new MyCheckBox("vectors.sum-of-forces".translate, vectorViewModel.sumOfForcesVector_=, vectorViewModel.sumOfForcesVector, vectorViewModel.addListener).peer)
 
@@ -153,10 +135,11 @@ class RampControlPanelBody(model: MotionSeriesModel,
       val woodButton = (new MyRadioButton("surface.wood".translate, model.frictionless = false, !model.frictionless, model.addListener).peer)
       val woodLabel = (new JLabel(new ImageIcon(woodIcon)))
 
-      val constraints = new GridBagConstraints{
+      val constraints = new GridBagConstraints {
         anchor = GridBagConstraints.WEST
       }
-      def addElement(c:Component) = add(c,constraints)
+
+      def addElement(c: Component) = add(c, constraints)
       setLayout(new GridBagLayout)
       constraints.gridy = 0
       addElement(iceButton)
