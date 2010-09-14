@@ -1,4 +1,5 @@
-Moved the ramp angle readout to the right so that it is not directly under "meters" text, and beyond the Applied Force text box so that these don't get confused. 
+Fixed: "Force Vectors" checkbox is buggy--the vectors only appear to listen to the box state when the object moves.
+Moved the ramp angle readout to the right so that it is not directly under "meters" text, and beyond the Applied Force text box so that these don't get confused.
 # 1.03.78 (43921) Sep 9, 2010
 Fixed: In the game modes, the house is floating
 Fixed: Return object button doesn't work after launching an object off the ramp and crashing it
