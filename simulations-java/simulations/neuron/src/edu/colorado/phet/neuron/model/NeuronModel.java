@@ -1175,10 +1175,6 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
             return particlePlaybackMementos;
         }
         
-        protected ArrayList<ParticlePlaybackMemento> getParticlePlaybackMementos() {
-            return particlePlaybackMementos;
-        }
-        
         protected double getMembranePotential() {
             return membranePotential;
         }
