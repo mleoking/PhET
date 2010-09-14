@@ -23,11 +23,11 @@ public class SameMassMode extends Mode {
         block2.setPosition( -DensityConstants.POOL_WIDTH_X / 2 - block1.getWidth(), block2.getHeight() / 2 );
         model.addDensityObject( block2 );
 
-        var block3:Block = Block.newBlockVolumeMass( DensityConstants.litersToMetersCubed( 3 ), 5, 0, 0, DensityConstants.GREEN, model, Material.CUSTOM );
+        var block3:Block = Block.newBlockVolumeMass( DensityConstants.litersToMetersCubed( 2.5 ), 5, 0, 0, DensityConstants.GREEN, model, Material.CUSTOM );
         block3.setPosition( DensityConstants.POOL_WIDTH_X / 2, block3.getHeight() / 2 );
         model.addDensityObject( block3 );
 
-        var block4:Block = Block.newBlockVolumeMass( DensityConstants.litersToMetersCubed( 1 ), 5, 0, 0, DensityConstants.RED, model, Material.CUSTOM );
+        var block4:Block = Block.newBlockVolumeMass( DensityConstants.litersToMetersCubed( 1.25 ), 5, 0, 0, DensityConstants.RED, model, Material.CUSTOM );
         block4.setPosition( DensityConstants.POOL_WIDTH_X / 2 + block3.getWidth(), block4.getHeight() / 2 );
         model.addDensityObject( block4 );
     }
