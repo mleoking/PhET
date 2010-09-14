@@ -1,3 +1,5 @@
+Updated the value of CO2 concentration in today's atmosphere (it has gone up since the sim was originally published).
+Changed the concentration indications to all be in PPM rather than a combination of PPM and PPB.
 # 2.07.16 (44029) Sep 13, 2010
 9/13/10 Published to dev for review.
 Removed the flavor that had been added for tab order testing.
