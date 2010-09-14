@@ -356,9 +356,9 @@ public class AdminSimPage extends AdminPage {
             super( id );
             this.simKeywords = simKeywords;
 
-            add( new ListView( "keywords", simKeywords ) {
-                protected void populateItem( final ListItem item ) {
-                    final Keyword keyword = (Keyword) item.getModel().getObject();
+            add( new ListView<Keyword>( "keywords", simKeywords ) {
+                protected void populateItem( final ListItem<Keyword> item ) {
+                    final Keyword keyword = item.getModelObject();
                     item.add( new RawLabel( "keyword-english", new ResourceModel( keyword.getKey() ) ) );//Have to use RawLabel instead of Label eg. because apostrophes render as the unescaped "&#039;"
                     item.add( new Link( "keyword-remove" ) {
                         public void onClick() {
