@@ -36,7 +36,7 @@
     <string key="material.waterBalloon" value="Water Balloon"/>
     <string key="material.custom" value="Custom"/>
     <string key="material.gold" value="Gold"/>
-    <string key="material.gasoline" value="Gasoline Balloon"/>
+    <string key="material.gasoline" value="Gasoline"/>
     <string key="material.ice" value="Ice"/>
     <string key="material.apple" value="Apple"/>
     <string key="properties.volume" value="Volume"/>
