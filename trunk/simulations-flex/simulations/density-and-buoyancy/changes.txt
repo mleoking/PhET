@@ -1,3 +1,4 @@
+> Changed densities of blocks in "objects of same mass" mode to include volumes with decimal places
 > Fixed the mass of blocks in the "objects of same density" mode so that calculations with 2 decimal points come up exactly equal
 # 1.00.01 (44009) Sep 13, 2010
 > Changed the mass of blocks in the "objects of same volume" mode so that some objects sink and some float
