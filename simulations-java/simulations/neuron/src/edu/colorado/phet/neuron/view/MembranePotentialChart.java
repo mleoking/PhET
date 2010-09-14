@@ -393,10 +393,6 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
     	updateChartCursorVisibility();
     }
     
-    public JFreeChartNode getJFreeChartNode() {
-        return jFreeChartNode;
-    }
-    
     private void updateChartCursorVisibility(){
     	// Deciding whether or not the chart cursor should be visible is a
     	// little tricky, so I've tried to make the logic very explicit for
