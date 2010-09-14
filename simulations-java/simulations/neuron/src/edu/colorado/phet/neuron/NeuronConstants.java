@@ -38,9 +38,6 @@ public class NeuronConstants {
     public static final Font CONTROL_PANEL_TITLE_FONT = new PhetFont( Font.BOLD, 14 );
     public static final Font CONTROL_PANEL_CONTROL_FONT = new PhetFont( Font.PLAIN, 14 );
     
-    public static final Font PLAY_AREA_TITLE_FONT = new PhetFont( Font.BOLD, 16 );
-    public static final Font PLAY_AREA_CONTROL_FONT = new PhetFont( Font.PLAIN, 16 );
-    
     //----------------------------------------------------------------------------
     // Strokes
     //----------------------------------------------------------------------------
