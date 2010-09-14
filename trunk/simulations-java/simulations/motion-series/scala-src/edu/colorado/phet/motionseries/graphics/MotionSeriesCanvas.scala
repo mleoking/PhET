@@ -142,7 +142,7 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
     updateFreeBodyDiagramLocation()
   }
 
-  val playAreaVectorNode = new PlayAreaVectorDisplay(transform, model.motionSeriesObject, vectorViewModel)
+  val playAreaVectorNode = new PlayAreaVectorDisplay(transform, model.motionSeriesObject)
   playAreaNode.addChild(playAreaVectorNode)
 
   val vectorView = new VectorView(model.motionSeriesObject, vectorViewModel, model.coordinateFrameModel, freeBodyDiagramWidth)
@@ -178,7 +178,7 @@ abstract class MotionSeriesCanvasDecorator(model: MotionSeriesModel,
                                            stageContainerArea: StageContainerArea)
         extends MotionSeriesCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame, modelViewport, stageContainerArea) {
   val pusherNode = new PusherNode(transform, model.motionSeriesObject, model.manMotionSeriesObject)
-  playAreaNode.addChild(playAreaNode.indexOfChild(playAreaVectorNode) - 1, pusherNode) //put the pusher behind the vector nodes because otherwise he gets in the way 
+  playAreaNode.addChild(playAreaNode.indexOfChild(playAreaVectorNode) - 1, pusherNode) //put the pusher behind the vector nodes because otherwise he gets in the way
 
   if (showAppliedForceSlider) {
     val appliedForceSliderNode = new AppliedForceSliderNode(model.motionSeriesObject, () => model.resume())
