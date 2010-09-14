@@ -7,6 +7,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.workenergy.model.WorkEnergyModel;
 import edu.colorado.phet.workenergy.model.WorkEnergyObject;
 import edu.colorado.phet.workenergy.view.WorkEnergyObjectNode;
 
@@ -18,9 +19,9 @@ import java.awt.geom.Rectangle2D;
 public class IntroModule extends Module {
     public IntroModule(PhetFrame phetFrame) {
         super("Work Energy", new ConstantDtClock(30, 1.0));
-        final WorkEnergyObject workEnergyObject = new WorkEnergyObject();
+        final WorkEnergyModel model =new WorkEnergyModel();
         ModelViewTransform2D transform = new ModelViewTransform2D(new Rectangle2D.Double(0, 0, 1, 1), new Rectangle2D.Double(0, 0, 1, 1));
-        WorkEnergyObjectNode node = new WorkEnergyObjectNode(workEnergyObject, transform);
+        WorkEnergyObjectNode node = new WorkEnergyObjectNode(model.getObject(), transform);
         final PhetPCanvas panel = new PhetPCanvas();
         panel.addScreenChild(node);
         setSimulationPanel(panel);
@@ -30,7 +31,7 @@ public class IntroModule extends Module {
             @Override
             public void simulationTimeChanged(ClockEvent clockEvent) {
                 super.simulationTimeChanged(clockEvent);
-                workEnergyObject.stepInTime(clockEvent.getSimulationTimeChange());
+                model.stepInTime(clockEvent.getSimulationTimeChange());
             }
         });
     }
