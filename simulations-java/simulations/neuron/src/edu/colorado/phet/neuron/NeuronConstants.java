@@ -25,9 +25,6 @@ public class NeuronConstants {
     // Debugging
     //----------------------------------------------------------------------------
     
-    // Enable debug output for canvas layout updates.
-    public static final boolean DEBUG_CANVAS_UPDATE_LAYOUT = false;
-    
     //----------------------------------------------------------------------------
     // Application
     //----------------------------------------------------------------------------
@@ -38,10 +35,6 @@ public class NeuronConstants {
     // Fonts
     //----------------------------------------------------------------------------
 
-    // Default font properties
-    public static final int DEFAULT_FONT_STYLE = Font.PLAIN;
-    public static final int DEFAULT_FONT_SIZE = 16;
-    
     public static final Font CONTROL_PANEL_TITLE_FONT = new PhetFont( Font.BOLD, 14 );
     public static final Font CONTROL_PANEL_CONTROL_FONT = new PhetFont( Font.PLAIN, 14 );
     
@@ -51,9 +44,6 @@ public class NeuronConstants {
     //----------------------------------------------------------------------------
     // Strokes
     //----------------------------------------------------------------------------
-
-    public static final Stroke DASHED_STROKE = 
-        new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {3,3}, 0 );
 
     //----------------------------------------------------------------------------
     // Paints
