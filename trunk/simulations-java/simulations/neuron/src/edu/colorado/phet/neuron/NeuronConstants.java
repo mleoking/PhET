@@ -2,10 +2,8 @@
 
 package edu.colorado.phet.neuron;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Stroke;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
