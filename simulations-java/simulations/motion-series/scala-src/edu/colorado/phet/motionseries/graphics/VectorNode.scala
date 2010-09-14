@@ -48,12 +48,12 @@ class VectorNode(val transform: ModelViewTransform2D,
 
   //This update mechanism is expensive, and there are many vectors to update.
   //Since there are 2 dependencies that this class listens for, we bunch up the notifications
-  //so that update is only called when necessary. 
+  //so that update is only called when necessary.
   case class UpdateState(visible: Boolean, tip: Vector2D, tail: Vector2D)
   private var lastUpdateState = new UpdateState(true, new Vector2D, new Vector2D(123, 456)) //create with dummy data to ensure changed on first update()
 
   //Allocate these temporary variables here for performance reasons, this update call is called a lot and is expensive
-  //from allocation of Vector2D 
+  //from allocation of Vector2D
   val labelDistance = 0.6 * vectorLengthScale
   val minLabelDistance = maxLabelDistance / 2.0 //todo: improve heuristics for min label distance, or make it settable in the constructor
   val labelScale = labelNode.getFullBounds.getHeight * 0.56
@@ -99,6 +99,7 @@ class VectorNode(val transform: ModelViewTransform2D,
   tailLocation.addListener(update)
   val transformListener = new TransformListener() {def transformChanged(mvt: ModelViewTransform2D) = update()}
   transform.addTransformListener(transformListener)
+  vector.visible.addListener(update)
 
   setPickable(false)
   setChildrenPickable(false)
