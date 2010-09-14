@@ -93,7 +93,7 @@ public class PhetUtilities {
         // Get the operating system name.
         String osName = "";
         try {
-            osName = System.getProperty( "os.name" ).toLowerCase();
+            osName = System.getProperty( "os.name" );
         }
         catch( Throwable t ) {
             t.printStackTrace();
@@ -101,7 +101,7 @@ public class PhetUtilities {
 
         // Convert to one of the operating system constants.
         int os = OS_OTHER;
-        if ( osName.indexOf( "windows" ) >= 0 ) {
+        if ( osName.toLowerCase().indexOf( "windows" ) >= 0 ) {
             os = OS_WINDOWS;
         }
         else if ( osName.startsWith( "Mac OS X" ) ) {
