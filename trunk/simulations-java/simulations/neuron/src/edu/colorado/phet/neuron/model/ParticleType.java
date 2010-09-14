@@ -9,5 +9,4 @@ public enum ParticleType {
 
 	SODIUM_ION,
 	POTASSIUM_ION,
-	PROTEIN_ION
 }
