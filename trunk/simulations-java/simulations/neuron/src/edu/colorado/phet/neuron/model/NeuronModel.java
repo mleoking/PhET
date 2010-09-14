@@ -709,61 +709,6 @@ public class NeuronModel extends RecordAndPlaybackModel<NeuronModel.NeuronModelS
     }
 
     /**
-     * Starts a particle of the specified type moving through the
-     * specified channel.  If one or more particles of the needed type exist
-     * within the capture zone for this channel, one will be chosen and set to
-     * move through, and another will be created to essentially take its place
-     * (though the newly created one will probably be in a slightly different
-     * place for better visual effect).  If none of the needed particles
-     * exist, two will be created, and one will move through the channel and
-     * the other will just hang out in the zone.
-     * 
-     * Note that it is not guaranteed that the particle will make it through
-     * the channel, since it is possible that the channel could close before
-     * the particle goes through it.
-     * 
-     * @param particleType
-     * @param channel
-     * @return
-     */
-    public void requestParticleThroughChannelOld(ParticleType particleType, MembraneChannel channel, double maxVelocity,
-            MembraneCrossingDirection direction){
-
-        CaptureZone captureZone;
-        
-        if (direction == MembraneCrossingDirection.IN_TO_OUT){
-            captureZone = channel.getInteriorCaptureZone();
-        }
-        else{
-            captureZone = channel.getExteriorCaptureZone();
-        }
-            
-        // Scan the capture zone for particles of the desired type.
-        CaptureZoneScanResult czsr = scanCaptureZoneForFreeParticles(captureZone, particleType);
-        Particle particleToCapture = czsr.getClosestFreeParticle();
-        
-        if (czsr.getNumParticlesInZone() == 0){
-            // No particles available in the zone, so create a new one.
-            Particle newParticle = createTransientParticle(particleType, captureZone);
-            particleToCapture = newParticle;
-        }
-        else{
-            // We found a particle to capture, but we should replace it with
-            // another in the same zone.
-            Particle replacementParticle = createTransientParticle(particleType, captureZone);
-            replacementParticle.setMotionStrategy(new SlowBrownianMotionStrategy(replacementParticle.getPositionReference()));
-            replacementParticle.setFadeStrategy(new TimedFadeInStrategy(0.0005, FOREGROUND_PARTICLE_DEFAULT_OPAQUENESS));
-        }
-        
-        // Make the particle to capture fade in.
-        particleToCapture.setFadeStrategy(new TimedFadeInStrategy(0.0005));
-        
-        // Set a motion strategy that will cause this particle to move across
-        // the membrane.
-        channel.moveParticleThroughNeuronMembrane(particleToCapture, maxVelocity);
-    }
-
-    /**
      * Get the state of this model.  This is generally used in support of the
      * record-and-playback feature, and the return value contains just enough
      * state information to support this feature.
