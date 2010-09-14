@@ -189,7 +189,7 @@ public class AdminSimPage extends AdminPage {
         final PhetLocalizer localizer = (PhetLocalizer) getLocalizer();
         Collections.sort( allKeywords, new Comparator<Keyword>() {
             public int compare( Keyword a, Keyword b ) {
-                return localizer.getString( a.getKey(), AdminSimPage.this ).compareTo( localizer.getString( b.getKey(), AdminSimPage.this ) );
+                return localizer.getString( a.getKey(), AdminSimPage.this ).compareToIgnoreCase( localizer.getString( b.getKey(), AdminSimPage.this ) );
             }
         } );
     }
