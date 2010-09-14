@@ -53,6 +53,8 @@ public class MovingManModel {
     private ArrayList<EvalErrorListener> evalErrorListeners = new ArrayList<EvalErrorListener>();
     private MutableBoolean velocityMode;
     private MyObservableDouble timeProperty = new MyObservableDouble(0.0);
+    private final ArrayList<Double> times = new ArrayList<Double>();//A list of times used in stepInTime() for purposes of identifying points in recorded history
+    private static final int NUM_TIME_POINTS_TO_RECORD = 10;
 
     public void historyRemainderCleared(double time) {
         mouseDataModelSeries.clearPointsAfter(time);
@@ -159,6 +161,13 @@ public class MovingManModel {
 
     public void simulationTimeChanged(double dt) {
         time = time + dt;
+        
+        //Store the point in the time history
+        times.add(time);
+        //But only record a few points at a time
+        if (times.size()>NUM_TIME_POINTS_TO_RECORD)
+            times.remove(0);
+        
         updateTimeProperty();
         if (movingMan.isPositionDriven()) {
             double previousPosition = movingMan.getPosition();
@@ -178,7 +187,6 @@ public class MovingManModel {
                 try {
                     v = expressionEvaluator.evaluate(time);
                 } catch (EvalError evalError) {
-//                    evalError.printStackTrace();
                     for (EvalErrorListener evalErrorListener : evalErrorListeners)
                         evalErrorListener.errorOccurred(evalError);
                 }
@@ -192,9 +200,15 @@ public class MovingManModel {
             velocityModelSeries.setData(estimateCenteredDerivatives(positionModelSeries));
             accelerationModelSeries.setData(estimateCenteredDerivatives(velocityModelSeries));
 
+            //We have to read midpoints from the sampling regions to obtain centered derivatives.
+            //Note that this makes readouts be off by up to dt*2 = 80 milliseconds
+            //TODO: Rewrite the model to avoid the need for this workaround.
+            double time1StepsAgo = getTimeNTimeStepsAgo(1);
+            double time2StepsAgo = getTimeNTimeStepsAgo(2);
+
             positionGraphSeries.addPoint(averagePosition, time);
-            velocityGraphSeries.addPoint(getPointAtTime(velocityModelSeries, time));
-            accelerationGraphSeries.addPoint(getPointAtTime(accelerationModelSeries, time));
+            velocityGraphSeries.addPoint(getPointAtTime(velocityModelSeries, time1StepsAgo, time));
+            accelerationGraphSeries.addPoint(getPointAtTime(accelerationModelSeries, time2StepsAgo,time));
 
             //no integrals
 
@@ -281,6 +295,13 @@ public class MovingManModel {
         }
     }
 
+    private double getTimeNTimeStepsAgo(int n) {
+        int index = times.size() - 1 - n;
+        if (index < 0)
+            index = times.size() - 1;
+        return times.get(index);
+    }
+
     private boolean hitsWall(double x) {
         return range.getMax() == x || range.getMin() == x;
     }
@@ -297,16 +318,22 @@ public class MovingManModel {
         }
     }
 
-    //To get the serieses to match up, look up the value at the specified time in the derivative model
-    //Note, if interpolation is added for derivatives, a better lookup algorithm will be needed
-
-    private TimeData getPointAtTime(TemporalDataSeries series, double time) {
-        for (int i = 0; i < series.getNumPoints(); i++) {
-            if (series.getDataPoint(i).getTime() == time) {
-                return series.getDataPoint(i);
+    /**
+     * Identify a TimeData point for the specified lookupTime.  To get the serieses to match up, look up the value at the specified time in the derivative model
+     * Note, if interpolation is added for derivatives, a better lookup algorithm will be needed
+     * The reason this algorithm is so complicated is to work around flaws in the model that were exposed in #2494.
+     * @param series the series to search 
+     * @param lookupTime the time for which the value should be looked up
+     * @param reportedTime the time to substitute for the lookup time
+     * @return a TimeData point with the value obtained from the lookup, and the time specified as reportedTime.
+     */
+    private TimeData getPointAtTime( TemporalDataSeries series, double lookupTime, double reportedTime ) {
+        for ( int i = 0; i < series.getNumPoints(); i++ ) {
+            if ( series.getDataPoint( i ).getTime() == lookupTime ) {
+                return new TimeData( series.getDataPoint( i ).getValue(), reportedTime );
             }
         }
-        throw new RuntimeException("Couldn't find exact match");
+        throw new RuntimeException( "Couldn't find exact match" );
     }
 
     private TimeData[] estimateCenteredDerivatives(TemporalDataSeries series) {
