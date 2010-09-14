@@ -15,6 +15,8 @@ public class SameDensityMode extends Mode {
         super.init();
         const model:DensityModel = module.model;
         var density:Number = 800; //Showing the blocks as partially floating allows easier visualization of densities
+
+        //The masses below were selected so that calculations with 2 decimal points come up exactly equal
         var block1:Block = Block.newBlockDensityMass( density, 4, 0, 0, DensityConstants.YELLOW, model, Material.CUSTOM );
         block1.setPosition( -DensityConstants.POOL_WIDTH_X / 2, block1.getHeight() / 2 );
         model.addDensityObject( block1 );
