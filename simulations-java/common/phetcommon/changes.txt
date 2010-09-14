@@ -1,3 +1,4 @@
+9-14-2010: Improved phetcommon's test for Mac OS X, see #2505
 promoted PhetLineBorder to public top level class
 Improvements to vector classes, see #2467
 8-23-2010: simplified update logic in HTMLCheckBox

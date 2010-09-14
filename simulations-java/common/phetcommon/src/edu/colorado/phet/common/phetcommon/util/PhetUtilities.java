@@ -104,7 +104,7 @@ public class PhetUtilities {
         if ( osName.indexOf( "windows" ) >= 0 ) {
             os = OS_WINDOWS;
         }
-        else if ( osName.indexOf( "mac" ) >= 0 ) {
+        else if ( osName.startsWith( "Mac OS X" ) ) {
             os = OS_MACINTOSH;
         }
 
