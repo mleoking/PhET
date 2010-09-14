@@ -111,11 +111,6 @@ public class SodiumDualGatedChannel extends GatedChannel {
 	}
 
 	@Override
-	public MembraneChannelTypes getChannelType() {
-		return MembraneChannelTypes.SODIUM_LEAKAGE_CHANNEL;
-	}
-
-	@Override
 	public void stepInTime(double dt) {
 		
 		super.stepInTime(dt);

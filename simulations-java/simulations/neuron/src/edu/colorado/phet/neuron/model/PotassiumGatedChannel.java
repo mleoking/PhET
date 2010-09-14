@@ -75,11 +75,6 @@ public class PotassiumGatedChannel extends GatedChannel {
 	}
 
 	@Override
-	public MembraneChannelTypes getChannelType() {
-		return MembraneChannelTypes.POTASSIUM_LEAKAGE_CHANNEL;
-	}
-	
-	@Override
 	public void reset() {
 		super.reset();
 		

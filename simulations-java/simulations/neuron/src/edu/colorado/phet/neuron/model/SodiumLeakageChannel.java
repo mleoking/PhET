@@ -78,11 +78,6 @@ public class SodiumLeakageChannel extends AbstractLeakChannel {
 	}
 
 	@Override
-	public MembraneChannelTypes getChannelType() {
-		return MembraneChannelTypes.SODIUM_LEAKAGE_CHANNEL;
-	}
-	
-	@Override
 	protected ParticleType getParticleTypeToCapture() {
 		return ParticleType.SODIUM_ION;
 	}

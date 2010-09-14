@@ -260,11 +260,6 @@ public abstract class MembraneChannel {
 	}
 	
 	/**
-	 * Get the identifier for this channel type.
-	 */
-	abstract public MembraneChannelTypes getChannelType();
-	
-	/**
 	 * Set the "capture zone", which is a shape that represents the space
 	 * from which particles may be captured.  If null is returned, this
 	 * channel has no capture zone.
