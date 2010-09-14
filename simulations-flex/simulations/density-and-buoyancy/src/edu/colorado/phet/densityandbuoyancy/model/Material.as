@@ -46,14 +46,14 @@ public class Material {
     public static var LEAD:Material = new Material(FlexSimStrings.get("material.lead", "Lead"), 11340, false);
     public static var DIAMOND:Material = new Material(FlexSimStrings.get("material.diamond", "Diamond"), 3530, false);
     public static var GOLD:Material = new Material(FlexSimStrings.get("material.gold", "Gold"), 19300, false);
-    public static var GASOLINE_BALLOON:Material = new Material(FlexSimStrings.get("material.gasoline", "Gasoline Balloon"), 700, false);
+    public static var GASOLINE:Material = new Material(FlexSimStrings.get("material.gasoline", "Gasoline"), 700, false);
     public static var APPLE:Material = new Material(FlexSimStrings.get("material.apple", "Apple"), 641, false);
-    public static var MYSTERY_MATERIALS:Array = [GOLD,DIAMOND,GASOLINE_BALLOON,ICE,APPLE];
+    public static var MYSTERY_MATERIALS:Array = [GOLD,DIAMOND,GASOLINE,ICE,APPLE];
 
     private var density:Number;
     private var _name:String;
     private var _isCustom:Boolean;
-    public static var ALL:Array = [ALUMINUM, APPLE, DIAMOND, GASOLINE_BALLOON,GOLD,ICE, LEAD,WATER_BALLOON,WOOD];//sorted below
+    public static var ALL:Array = [ALUMINUM, APPLE, DIAMOND, GASOLINE,GOLD,ICE, LEAD,WATER,WOOD];//sorted below
     private var _tickColor:uint;
     private var _textureBitmap:Bitmap;
     private var _alpha:Number = 1;
