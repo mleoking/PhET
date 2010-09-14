@@ -418,10 +418,6 @@ public abstract class MembraneChannel {
 		this.maxInterCaptureTime = maxInterCaptureTime;
 	}
 
-	protected double getMinInterCaptureTime() {
-		return minInterCaptureTime;
-	}
-
 	protected void setMinInterCaptureTime(double minInterCaptureTime) {
 		this.minInterCaptureTime = minInterCaptureTime;
 	}
