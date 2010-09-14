@@ -1,3 +1,4 @@
+Moved the ramp angle readout to the right so that it is not directly under "meters" text, and beyond the Applied Force text box so that these don't get confused. 
 # 1.03.78 (43921) Sep 9, 2010
 Fixed: In the game modes, the house is floating
 Fixed: Return object button doesn't work after launching an object off the ramp and crashing it
@@ -40,7 +41,7 @@ Added screenshots
 Moved vertical applied force slider closer to the chart
 Fixed: When changing both mu_k and mu_s to zero, the ramp should turn to ice.
 Renamed 'bead' to 'motionSeriesObject'
-Fixed: Ramp no longer turns white in ice mode 
+Fixed: Ramp no longer turns white in ice mode
 Fixed: Pressing Clear in Record and Playback controls shouldn't pause the sim, see #2470
 Fixed: "Choose an Object" doesn’t have an etched border when it appears in the control panel, should make the "C" less close to the left and top border
 Fixed: "Free Body Diagram" control panel doesn’t have an etched border
@@ -57,7 +58,7 @@ Right justified the slider label in the friction tab
 Changed default crate to mass 100kg on friction tab, thus reducing its size
 Fixed: Applied force slider should snap back to zero when the user drops the slider button
 Fixed: Sim should start recording when the user drags the slider
-Removed "clear heat" button and firedog feature 
+Removed "clear heat" button and firedog feature
 Removed ramp turing blue due to water
 Removed ramp turing red due to heat
 Removed text "coefficient of"
@@ -143,7 +144,7 @@ Fixed: when dragging the rightmost wall, it snaps the ramp to be at the mouse lo
 Add energy conservation on airborne -> ground crash by dissipating extra energy into heat
 Fixed: Object remains broken after crashing when you hit playback
 Added a "sec" label to the time charts
-Show friction force below applied force when they would otherwise overlap       
+Show friction force below applied force when they would otherwise overlap
 Made it possible to set vector label offset orientations
 Added tick marks to the applied force slider to make the knob bigger
 Added a raised bevel border to the applied force slider
@@ -178,7 +179,7 @@ Added the object selection combo box to the test scenario, see #1880
 # 1.03.61 (36605) Nov 12, 2009
 Added a test for Why do Warning Java signs appear next to some ComboBoxes, see #1880
 # 1.03.60 (36580) Nov 12, 2009
-forces-and-motion: In Force Graphs tab, made it so that x,v,a readouts reset properly when Reset All is pressed. 
+forces-and-motion: In Force Graphs tab, made it so that x,v,a readouts reset properly when Reset All is pressed.
 # 1.03.59 (36577) Nov 12, 2009
 the-ramp: In Energy Graph tab, have the total energy be the only line shown as a default.
 Fixed: Reset all should reset the visibility of each chart series.
@@ -210,7 +211,7 @@ Fixed: If you go to Playback mode, then pause and grab object, it should automat
 Made it so the adjustable coordinate frame automatically moves with the ramp after snapping to it.
 Added snap-to ramp angle and canonical axes for the adjustable coordinate frame
 # 1.03.54 (36113) Oct 26, 2009
-forces-and-motion: Zoomed in acceleration and velocity graphs by a factor of 2s. 
+forces-and-motion: Zoomed in acceleration and velocity graphs by a factor of 2s.
 forces-and-motion: Changed Acceleration, Velocity, and Position graph labels so that e.g. "Acceleration=XXX m/s/s" is all on same line, now that sliders have been removed.
 Fixed: When walls removed, the "Brick/Bouncy" control should grey out.
 Fixed: Springs should not appear when walls are disabled.
@@ -310,7 +311,7 @@ Improved ramp color for ice mode
 Added a control for wall bounce independent of surface friction
 Renamed "frictionless" control to "surface"
 # 1.03.40 (34937) Sep 10, 2009
-forces-and-motion: Removed gravity and wall force from chart 
+forces-and-motion: Removed gravity and wall force from chart
 Made it so when the user changes kinetic friction, that static is changed so that static >= kinetic
 Made it so when the user changes static friction, that kinetic is changed so that static >= kinetic
 Made sim have friction by default
@@ -510,7 +511,7 @@ for game tab, set applied force to zero on slider mouse release
 # 1.03.10 (31217) May 1, 2009
 5/1/09 bugfixes for rotation
 # 1.03.09 (31213) May 1, 2009
-5/1/09 Improvements for game model and coordinate frames 
+5/1/09 Improvements for game model and coordinate frames
 # 1.03.08 (31211) May 1, 2009
 5/1/09 Improvements for game model and coordinate frames
 # 1.03.07 (31209) May 1, 2009

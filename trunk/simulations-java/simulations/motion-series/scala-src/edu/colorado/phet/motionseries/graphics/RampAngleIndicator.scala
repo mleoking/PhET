@@ -12,21 +12,25 @@ import java.text.DecimalFormat
 import edu.colorado.phet.scalacommon.Predef._
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 
-//todo: consider coalescing with RampHeightIndicator
+/**
+ * The RampAngleIndicator shows an arc and numerical readout for the ramp rotation in degrees.
+ * @author Sam Reid
+ */
 class RampAngleIndicator(rampSegment: Rotatable, transform: ModelViewTransform2D) extends PNode {
-  val line = new PhetPPath(new BasicStroke(2f), Color.black)
-  val readout = new PText
-  readout.setFont(MotionSeriesDefaults.rampIndicatorFont)
-  addChild(line)
+  val pathNode = new PhetPPath(new BasicStroke(2f), Color.black)
+  val readout = new PText {
+    setFont(MotionSeriesDefaults.rampIndicatorFont)
+  }
+  val decimalFormat = new DecimalFormat("0.0".literal)
+  addChild(pathNode)
   addChild(readout)
-  def getDegrees = rampSegment.unitVector.angle.toDegrees
+  def degrees = rampSegment.unitVector.angle.toDegrees
 
-  def getPath = new Arc2D.Double(rampSegment.startPoint.x - 3, rampSegment.startPoint.y - 3, 6, 6, 0, -getDegrees, Arc2D.OPEN)
+  def path = new Arc2D.Double(rampSegment.startPoint.x - 3, rampSegment.startPoint.y - 3, 6, 6, 0, -degrees, Arc2D.OPEN)
   defineInvokeAndPass(rampSegment.addListenerByName) {
-    line.setPathTo(transform.createTransformedShape(getPath))
-    readout.setOffset(transform.modelToView(0.7, -0.7)) //tuned to ensure it's far enough away from the "meters" readout on the ramp segment node
-    val degrees = new DecimalFormat("0.0".literal).format(getDegrees)
-    readout.setText("ramp.angle-readout".messageformat(degrees))
+    pathNode.setPathTo(transform.createTransformedShape(path))
+    readout.setOffset(transform.modelToView(5, -0.7)) //tuned to ensure it's far enough away from the "meters" readout on the ramp segment node
+    readout.setText("ramp.angle-readout".messageformat(decimalFormat.format(degrees)))
   }
   setPickable(false)
   setChildrenPickable(false)
