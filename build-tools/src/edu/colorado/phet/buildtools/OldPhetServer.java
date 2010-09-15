@@ -29,22 +29,10 @@ public abstract class OldPhetServer {
                     null, // Cache clear full URL
                     null, // Cache clear file
                     null, // Localization generation command
-                    "/Net/www/webdata/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/phet/dev/build-tools/config/build-local.properties",//todo: could just require specifying subpath from path on server, see above
+                    "/Net/www/webdata/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/phet/dev/build-tools/config/build-local.properties",
                     null
             );
 
-//    public static OldPhetServer PRODUCTION =
-//            new PhetProdServer(
-//                    "tigercat.colorado.edu", // Server host
-//                    "phet.colorado.edu",  // Web host
-//                    "/web/chroot/phet/usr/local/apache/htdocs/staging/sims", // Deploy path on server
-//                    "/sims", // Deploy path on web host
-//                    "http://phet.colorado.edu/admin/cache-clear.php?cache=all", // Cache clear full URL
-//                    "cache-clear.php", // Cache clear file
-//                    "/web/chroot/phet/usr/local/apache/htdocs/cl_utils/create-localized-jars.py --verbose ", // Localization generation command
-//                    "/web/htdocs/phet/phet-dist/build-tools-config/build-local.properties",
-//                    "/web/chroot/phet/usr/local/apache/htdocs/staging/sims"
-//            );
     public static OldPhetServer FIGARO = new PhetProdServer(
             "figaro.colorado.edu",
             "phetsims.colorado.edu",
@@ -56,18 +44,63 @@ public abstract class OldPhetServer {
             "/usr/local/tomcat/conf/build-local.properties",
             "/data/web/htdocs/phetsims/staging/sims"
     );
-    public static OldPhetServer FIGARO_DEV =
-            new PhetDevServer(
-                    "figaro.colorado.edu", // Server host
-                    "phet.colorado.edu",  // Web host
-                    "/data/web/htdocs/phetsims/files/dev", // Deploy path on server
-                    "/files/dev", // Deploy path on web host
-                    null, // Cache clear full URL
-                    null, // Cache clear file
-                    null, // Localization generation command
-                    "/web/htdocs/phet/phet-dist/build-tools-config/build-local.properties",//todo: could just require specifying subpath from path on server, see above
-                    null
-            );
+    public static OldPhetServer FIGARO_DEV = new PhetDevServer(
+            "figaro.colorado.edu", // Server host
+            "phet.colorado.edu",  // Web host
+            "/data/web/htdocs/phetsims/files/dev", // Deploy path on server
+            "/files/dev", // Deploy path on web host
+            null, // Cache clear full URL
+            null, // Cache clear file
+            null, // Localization generation command
+            "/web/htdocs/phet/phet-dist/build-tools-config/build-local.properties",
+            null
+    );
+
+    public static OldPhetServer PHET_SERVER = new PhetProdServer(
+            "phet-server.colorado.edu",
+            "phet-server.colorado.edu",
+            "/var/www/wicket/staging/sims",
+            "/sims",
+            null,
+            null,
+            null,
+            "/etc/tomcat6/build-local.properties",
+            "/data/web/htdocs/phetsims/staging/sims"
+    );
+    public static OldPhetServer PHET_SERVER_DEV = new PhetDevServer(
+            "phet-server.colorado.edu", // Server host
+            "phet-server.colorado.edu",  // Web host
+            "/var/www/wicket/dev", // Deploy path on server
+            "/dev", // Deploy path on web host
+            null, // Cache clear full URL
+            null, // Cache clear file
+            null, // Localization generation command
+            "/etc/tomcat6/build-local.properties",
+            null
+    );
+
+    public static OldPhetServer JON_DEV = new PhetProdServer(
+            "192.168.1.64",
+            "192.168.1.64",
+            "/var/phet/staging/sims",
+            "/sims",
+            null,
+            null,
+            null,
+            "/etc/tomcat6/build-local.properties",
+            "/data/web/htdocs/phetsims/staging/sims"
+    );
+    public static OldPhetServer JON_DEV_DEV = new PhetDevServer(
+            "192.168.1.64", // Server host
+            "192.168.1.64",  // Web host
+            "/var/phet/dev", // Deploy path on server
+            "/dev", // Deploy path on web host
+            null, // Cache clear full URL
+            null, // Cache clear file
+            null, // Localization generation command
+            "/etc/tomcat6/build-local.properties",
+            null
+    );
     /* Dano's test machine
     public static OldPhetServer SPOT =
         new PhetDevServer( 

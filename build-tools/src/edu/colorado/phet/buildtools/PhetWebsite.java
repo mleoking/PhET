@@ -60,6 +60,14 @@ public abstract class PhetWebsite {
      */
     public abstract String getDescription();
 
+    // will be removed after OldPhetServer is removed
+    public abstract OldPhetServer getOldProductionServer();
+    public abstract OldPhetServer getOldDevelopmentServer();
+
+    /*---------------------------------------------------------------------------*
+    * default getters (that used the provided abstract methods)
+    *----------------------------------------------------------------------------*/
+
     /**
      * @return Either "http" or "https" depending on how to contact Tomcat Manager
      */
@@ -80,10 +88,6 @@ public abstract class PhetWebsite {
     public AuthenticationInfo getTomcatManagerAuthenticationInfo( BuildLocalProperties properties ) {
         return properties.getWebsiteTomcatManagerAuthenticationInfo( this );
     }
-
-    /*---------------------------------------------------------------------------*
-    * default getters (that used the provided abstract methods)
-    *----------------------------------------------------------------------------*/
 
     /**
      * @param translationDir Directory where the translation has been prepared on the server
@@ -198,6 +202,16 @@ public abstract class PhetWebsite {
         }
 
         @Override
+        public OldPhetServer getOldProductionServer() {
+            return OldPhetServer.FIGARO;
+        }
+
+        @Override
+        public OldPhetServer getOldDevelopmentServer() {
+            return OldPhetServer.FIGARO_DEV;
+        }
+
+        @Override
         public String getServerHost() {
             return "figaro.colorado.edu";
         }
@@ -235,6 +249,16 @@ public abstract class PhetWebsite {
         }
 
         @Override
+        public OldPhetServer getOldProductionServer() {
+            return OldPhetServer.PHET_SERVER;
+        }
+
+        @Override
+        public OldPhetServer getOldDevelopmentServer() {
+            return OldPhetServer.PHET_SERVER_DEV;
+        }
+
+        @Override
         public String getServerHost() {
             return "phet-server.colorado.edu";
         }
@@ -264,6 +288,16 @@ public abstract class PhetWebsite {
         @Override
         public String getDescription() {
             return "Jonathan Olson's Website Development Server";
+        }
+
+        @Override
+        public OldPhetServer getOldProductionServer() {
+            return OldPhetServer.JON_DEV;
+        }
+
+        @Override
+        public OldPhetServer getOldDevelopmentServer() {
+            return OldPhetServer.JON_DEV_DEV;
         }
 
         @Override
