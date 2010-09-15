@@ -185,7 +185,7 @@ public class JavaSimulationPanel extends JPanel {
         new BuildScript( trunk, project ).deployToDevelopmentAndProductionServers(
                 buildLocalProperties.getDevAuthenticationInfo(),
                 PhetWebsite.FIGARO.getServerAuthenticationInfo( buildLocalProperties ),
-                versionIncrement
+                versionIncrement, PhetWebsite.FIGARO
         );
     }
 
@@ -207,7 +207,10 @@ public class JavaSimulationPanel extends JPanel {
             versionIncrement = new VersionIncrement.UpdateProdMajor();
         }
 
-        new BuildScript( trunk, project ).deployToDevelopmentAndProductionServers( buildLocalProperties.getDevAuthenticationInfo(), PhetWebsite.FIGARO.getServerAuthenticationInfo( buildLocalProperties ), versionIncrement );
+        new BuildScript( trunk, project ).deployToDevelopmentAndProductionServers(
+                buildLocalProperties.getDevAuthenticationInfo(),
+                PhetWebsite.FIGARO.getServerAuthenticationInfo( buildLocalProperties ),
+                versionIncrement, PhetWebsite.FIGARO );
     }
 
 }

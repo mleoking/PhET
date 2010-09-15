@@ -549,8 +549,10 @@ public class BuildScript {
         } );
     }
 
-    public void deployToDevelopmentAndProductionServers( final AuthenticationInfo devAuth, final AuthenticationInfo prodAuth, VersionIncrement versionIncrement ) {
-        final PhetWebsite productionSite = PhetWebsite.FIGARO;
+    public void deployToDevelopmentAndProductionServers( final AuthenticationInfo devAuth,
+                                                         final AuthenticationInfo prodAuth,
+                                                         final VersionIncrement versionIncrement,
+                                                         final PhetWebsite productionSite ) {
         deploy(
                 //send a copy to dev
                 new Task() {
@@ -576,7 +578,7 @@ public class BuildScript {
     }
 
     public void deployProd( final AuthenticationInfo devAuth, final AuthenticationInfo prodAuth ) {
-        deployToDevelopmentAndProductionServers( devAuth, prodAuth, new VersionIncrement.UpdateProdMinor() );
+        deployToDevelopmentAndProductionServers( devAuth, prodAuth, new VersionIncrement.UpdateProdMinor(), PhetWebsite.FIGARO );
     }
 
     //Run "rm" on the server to remove the phet/staging/sims/<project> directory contents, see #1529
