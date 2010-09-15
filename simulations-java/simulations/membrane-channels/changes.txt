@@ -1,3 +1,4 @@
+Made it possible to continuously inject particles by holding down the button on the injector
 # 0.16.06 (43931) Sep 10, 2010
 9/10/10 Publishing version to dev for review and possibly interviews.
 Implemented different shape for gated vs. non-gated channels.
