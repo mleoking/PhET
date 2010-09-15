@@ -299,7 +299,10 @@ public class MovingManModel {
         int index = times.size() - 1 - n;
         if (index < 0)
             index = times.size() - 1;
-        return times.get(index);
+        final double t = times.get( index );
+        if (t>time)
+            throw new RuntimeException( "Found a time n steps ago that was later than t=time");
+        else return t;
     }
 
     private boolean hitsWall(double x) {
@@ -369,6 +372,7 @@ public class MovingManModel {
 
     public void clear() {
         time = 0.0;
+        times.clear();
         updateTimeProperty();
         setMousePosition(movingMan.getPosition());
 
@@ -395,6 +399,7 @@ public class MovingManModel {
 
     public void setPlaybackState(MovingManState state) {
         this.time = state.getTime();//recording and playing back the state time ensures that the user cannot put the cursor in a time between two samples, thus we don't need to interpolate
+        this.times.clear();
         this.walls.setValue(state.getWalls());
         this.movingMan.setState(state.getMovingManState());
         setMousePosition(state.getMovingManState().getPosition());
