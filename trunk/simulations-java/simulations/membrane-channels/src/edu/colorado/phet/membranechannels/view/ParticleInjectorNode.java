@@ -24,6 +24,8 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -80,7 +82,19 @@ public class ParticleInjectorNode extends PNode {
 	private Dimension2D injectionPointOffset = new PDimension();
 	private Point2D injectionPointInModelCoords = new Point2D.Double();
 	private Vector2D nominalInjectionVelocityVector = new Vector2D(NOMINAL_ION_INJECTION_VELOCITY, 0);
-	
+    
+    // Count is incremented every time the simulation clock ticks, so that we can inject particles every ITERATIONS_BETWEEN_INJECTION steps 
+    private int count;
+    
+    // Time the user has been holding down the injection button, or Long.MAX_VALUE if the button is not currently depressed 
+    private long buttonPressedTime=Long.MAX_VALUE;
+    
+    // The time in milliseconds that the user must hold down the button before particles are continuously autoinjected
+    private static final long TIME_BEFORE_AUTOINJECT = 500;
+    
+    // The number of iterations between each injected particle, see 'count' above. 
+    private static final int ITERATIONS_BETWEEN_INJECTION = 7;
+
     //------------------------------------------------------------------------
     // Constructor
     //------------------------------------------------------------------------
@@ -98,6 +112,17 @@ public class ParticleInjectorNode extends PNode {
 		this.particleTypeToInject = initialParticleType;
 		this.model = model;
 		this.mvt = mvt;
+
+        //When the model steps in time, inject a particle if the user has been holding down the button for long enough.
+        model.getClock().addClockListener( new ClockAdapter() {
+            @Override
+            public void simulationTimeChanged( ClockEvent clockEvent ) {
+                count++;
+                if ( buttonPressedTime != Long.MAX_VALUE && ( System.currentTimeMillis() - buttonPressedTime ) > TIME_BEFORE_AUTOINJECT && count % ITERATIONS_BETWEEN_INJECTION == 0 ) {
+                    injectParticle();
+                }
+            }
+        } );
 		
 		nominalInjectionVelocityVector.rotate(rotationAngle);
 
@@ -155,6 +180,7 @@ public class ParticleInjectorNode extends PNode {
         buttonImageNode.addInputEventListener(new PBasicInputEventHandler(){
         	@Override
             public void mousePressed( PInputEvent event ) {
+                buttonPressedTime = System.currentTimeMillis();
         	    // Only inject another particle if the model can support it.
                 if (model.getRemainingParticleCapacity() > 0 ){
                     buttonImageNode.setImage(pressedButtonImage);
@@ -165,6 +191,7 @@ public class ParticleInjectorNode extends PNode {
         	@Override
             public void mouseReleased( PInputEvent event ) {
         	    buttonImageNode.setImage(unpressedButtonImage);
+                buttonPressedTime = Long.MAX_VALUE;
             }
         });
 	}
