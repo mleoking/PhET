@@ -156,9 +156,6 @@ public abstract class OldPhetServer {
         return developmentServer;
     }
 
-    public void deployFinished() {
-    }
-
     public String getJavaCommand() {
         return "java";
     }
@@ -222,15 +219,6 @@ public abstract class OldPhetServer {
         public String getWebDeployURL( PhetProject project ) {
             System.out.println( "getDeployBaseRemote():" + "http://" + getWebHost() + "/" + getWebDeployPath() + "/" + project.getName() );
             return "http://" + getWebHost() + getWebDeployPath() + "/" + project.getName();
-        }
-
-        public void deployFinished() {
-            super.deployFinished();
-            if ( OldPhetServer.showReminder ) {
-                JOptionPane.showMessageDialog( null, "Reminder:\n" +
-                                                     "Document this release in trunk/web/website/about/changes.txt.\n" +
-                                                     "Copy to tigercat:/web/htdocs/phet/about/changes.txt." );
-            }
         }
     }
 
