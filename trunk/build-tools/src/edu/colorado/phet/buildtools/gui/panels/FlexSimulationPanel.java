@@ -180,6 +180,9 @@ public class FlexSimulationPanel extends JPanel {
             versionIncrement = new VersionIncrement.UpdateProdMajor();
         }
 
-        new BuildScript( trunk, project ).deployToDevelopmentAndProductionServers( buildLocalProperties.getDevAuthenticationInfo(), PhetWebsite.FIGARO.getServerAuthenticationInfo( buildLocalProperties ), versionIncrement );
+        new BuildScript( trunk, project ).deployToDevelopmentAndProductionServers(
+                buildLocalProperties.getDevAuthenticationInfo(),
+                PhetWebsite.FIGARO.getServerAuthenticationInfo( buildLocalProperties ),
+                versionIncrement, PhetWebsite.FIGARO );
     }
 }
