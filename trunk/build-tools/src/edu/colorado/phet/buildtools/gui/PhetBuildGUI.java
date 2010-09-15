@@ -92,7 +92,7 @@ public class PhetBuildGUI {
     public static boolean confirmProdDeploy( PhetProject project, OldPhetServer server ) {
         String message = "<html>" +
                          "Are you sure you want to deploy <font color=red>" + project.getName() + "</font> to " + "<br>" +
-                         OldPhetServer.PRODUCTION.getHost() + " and " + OldPhetServer.DEVELOPMENT.getHost() + "?" + "<br>" +
+                         OldPhetServer.PRODUCTION.getHost() + " and " + OldPhetServer.SPOT.getHost() + "?" + "<br>" +
                          "<br>" +
                          "(And is your <font color=red>VPN</font> connection running?)" +
                          "</html>";

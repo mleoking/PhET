@@ -20,7 +20,7 @@ public abstract class OldPhetServer {
      *   Ex:  Yes: "/web/htdocs/phet"
      *        No:  "/web/htdocs/phet/"
      */
-    public static OldPhetServer DEVELOPMENT =
+    public static OldPhetServer SPOT =
             new PhetDevServer(
                     "spot.colorado.edu", // Server host
                     "www.colorado.edu",  // Web host
@@ -56,8 +56,20 @@ public abstract class OldPhetServer {
             "/usr/local/tomcat/conf/build-local.properties",
             "/data/web/htdocs/phetsims/staging/sims"
     );
+    public static OldPhetServer FIGARO_DEV =
+            new PhetDevServer(
+                    "figaro.colorado.edu", // Server host
+                    "phet.colorado.edu",  // Web host
+                    "/data/web/htdocs/phetsims/files/dev", // Deploy path on server
+                    "/files/dev", // Deploy path on web host
+                    null, // Cache clear full URL
+                    null, // Cache clear file
+                    null, // Localization generation command
+                    "/web/htdocs/phet/phet-dist/build-tools-config/build-local.properties",//todo: could just require specifying subpath from path on server, see above
+                    null
+            );
     /* Dano's test machine
-    public static OldPhetServer DEVELOPMENT =
+    public static OldPhetServer SPOT =
         new PhetDevServer( 
                 "192.168.42.102", // Server host
                 "192.168.42.102:80",  // Web host
