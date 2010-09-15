@@ -122,6 +122,51 @@ public class BuildScript {
 
     public void deploy( Task preDeployTask, OldPhetServer server,
                         AuthenticationInfo authenticationInfo, VersionIncrement versionIncrement, Task postDeployTask ) {
+        boolean success = prepareForDeployment( versionIncrement, server.isDevelopmentServer() );
+        if( !success ) {
+            return;
+        }
+
+        success = preDeployTask.invoke();
+        if ( !success ) {
+            notifyError( project, "Pre deploy task failed" );
+            return;
+        }
+
+        String codeBase = server.getCodebase( project );
+
+        project.buildLaunchFiles( codeBase, server.isDevelopmentServer() );
+
+        if ( !debugDryRun ) {
+            System.out.println( "Sending SSH." );
+            success = sendSSH( server, authenticationInfo );
+            if ( !success ) {
+                notifyError( project, "SCP Failure" );
+                return;
+            }
+        }
+
+        postDeployTask.invoke();
+
+        System.out.println( "Opening Browser." );
+        PhetWebsite.openBrowser( codeBase );
+
+        System.out.println( "Finished deploy to: " + server.getHost() );
+
+        for ( Listener listener : listeners ) {
+            listener.deployFinished( this, project, codeBase );
+        }
+    }
+
+    /**
+     * Build everything that is not specific to where it is being deployed, and execute checks to make sure there is
+     * nothing that would prevent a deployment.
+     * 
+     * @param versionIncrement How to increment the version number
+     * @param dev Whether this is mainly a production or development deployment. Will generate different header
+     * @return Success
+     */
+    private boolean prepareForDeployment( VersionIncrement versionIncrement, Boolean dev ) {
         if ( !BuildLocalProperties.getInstance().isJarsignerCredentialsSpecified() ) {
             throw new RuntimeException( "Jarsigner credentials must be specified for a deploy." );
         }
@@ -135,8 +180,7 @@ public class BuildScript {
         }
         else if ( !SvnUtils.isProjectUpToDate( project ) ) {
             notifyError( project, "SVN is out of sync; halting" );
-
-            return;
+            return false;
         }
 
         versionIncrement.increment( project );
@@ -155,12 +199,12 @@ public class BuildScript {
             if ( !success ) {
                 notifyError( project, "Commit of version and change file failed, stopping (see console)" );
                 // TODO: possibly roll back .properties file and changes
-                return;
+                return false;
             }
             success = SvnUtils.verifyRevision( newRevision, new String[]{project.getProjectPropertiesFile().getAbsolutePath()} );
             if ( !success ) {
                 notifyError( project, "Commit of version and change file did not result with the expected revision number. Stopping (see console)" );
-                return;
+                return false;
             }
         }
 
@@ -171,12 +215,12 @@ public class BuildScript {
             boolean success = build();
             if ( !success ) {
                 notifyError( project, "Stopping due to build failure, see console." );
-                return;
+                return false;
             }
         }
 
         System.out.println( "Creating header." );
-        createHeader( server.isDevelopmentServer() );
+        createHeader( dev );
 
         try {
             project.copyChangesFileToDeployDir();
@@ -189,35 +233,8 @@ public class BuildScript {
         copyVersionFilesToDeployDir();
         copyImageFilesToDeployDir();
 
-        boolean ok = preDeployTask.invoke();
-        if ( !ok ) {
-            notifyError( project, "Pre deploy task failed" );
-            return;
-        }
-
-        String codeBase = server.getCodebase( project );
-
-        project.buildLaunchFiles( codeBase, server.isDevelopmentServer() );
-
-        if ( !debugDryRun ) {
-            System.out.println( "Sending SSH." );
-            ok = sendSSH( server, authenticationInfo );
-            if ( !ok ) {
-                notifyError( project, "SCP Failure" );
-                return;
-            }
-        }
-
-        postDeployTask.invoke();
-
-        System.out.println( "Opening Browser." );
-        PhetWebsite.openBrowser( codeBase );
-
-        System.out.println( "Finished deploy to: " + server.getHost() );
-
-        for ( Listener listener : listeners ) {
-            listener.deployFinished( this, project, codeBase );
-        }
+        // TODO: need better checking before this point to make sure everything has succeeded
+        return true;
     }
 
     private void copyImageFilesToDeployDir() {
