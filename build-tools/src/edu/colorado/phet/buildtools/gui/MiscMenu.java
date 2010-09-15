@@ -109,7 +109,7 @@ public class MiscMenu extends JMenu {
         JMenuItem generateJNLP = new JMenuItem( "Generate Prod JNLP" );
         generateJNLP.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                selectedProject.buildLaunchFiles( OldPhetServer.PRODUCTION.getCodebase( selectedProject ), OldPhetServer.PRODUCTION.isDevelopmentServer() );
+                selectedProject.buildLaunchFiles( OldPhetServer.FIGARO.getCodebase( selectedProject ), OldPhetServer.FIGARO.isDevelopmentServer() );
                 System.out.println( "Created JNLP Files" );
             }
         } );

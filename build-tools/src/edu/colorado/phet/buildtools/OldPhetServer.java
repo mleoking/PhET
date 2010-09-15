@@ -33,18 +33,18 @@ public abstract class OldPhetServer {
                     null
             );
 
-    public static OldPhetServer PRODUCTION =
-            new PhetProdServer(
-                    "tigercat.colorado.edu", // Server host
-                    "phet.colorado.edu",  // Web host
-                    "/web/chroot/phet/usr/local/apache/htdocs/staging/sims", // Deploy path on server
-                    "/sims", // Deploy path on web host
-                    "http://phet.colorado.edu/admin/cache-clear.php?cache=all", // Cache clear full URL
-                    "cache-clear.php", // Cache clear file
-                    "/web/chroot/phet/usr/local/apache/htdocs/cl_utils/create-localized-jars.py --verbose ", // Localization generation command
-                    "/web/htdocs/phet/phet-dist/build-tools-config/build-local.properties",
-                    "/web/chroot/phet/usr/local/apache/htdocs/staging/sims"
-            );
+//    public static OldPhetServer PRODUCTION =
+//            new PhetProdServer(
+//                    "tigercat.colorado.edu", // Server host
+//                    "phet.colorado.edu",  // Web host
+//                    "/web/chroot/phet/usr/local/apache/htdocs/staging/sims", // Deploy path on server
+//                    "/sims", // Deploy path on web host
+//                    "http://phet.colorado.edu/admin/cache-clear.php?cache=all", // Cache clear full URL
+//                    "cache-clear.php", // Cache clear file
+//                    "/web/chroot/phet/usr/local/apache/htdocs/cl_utils/create-localized-jars.py --verbose ", // Localization generation command
+//                    "/web/htdocs/phet/phet-dist/build-tools-config/build-local.properties",
+//                    "/web/chroot/phet/usr/local/apache/htdocs/staging/sims"
+//            );
     public static OldPhetServer FIGARO = new PhetProdServer(
             "figaro.colorado.edu",
             "phetsims.colorado.edu",

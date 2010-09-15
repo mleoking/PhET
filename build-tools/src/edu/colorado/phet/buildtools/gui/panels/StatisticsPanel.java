@@ -51,7 +51,7 @@ public class StatisticsPanel extends JPanel {
     }
 
     private void doDeployProd() {
-        boolean confirm = PhetBuildGUI.confirmProdDeploy( project, OldPhetServer.PRODUCTION );
+        boolean confirm = PhetBuildGUI.confirmProdDeploy( project, OldPhetServer.FIGARO );
 
         if ( !confirm ) {
             System.out.println( "Cancelled" );
