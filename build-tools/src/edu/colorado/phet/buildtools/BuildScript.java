@@ -541,10 +541,16 @@ public class BuildScript {
     }
 
     public void deployDev( final AuthenticationInfo devAuth, final boolean generateOfflineJARs ) {
-        deploy( new NullTask(), OldPhetServer.DEVELOPMENT, devAuth, new VersionIncrement.UpdateDev(), new Task() {
+        deploy( new Task() {
+                    public boolean invoke() {
+                        //generate files for dev
+                        //sendCopyToDev( PhetWebsite.FIGARO.getServerAuthenticationInfo( buildLocalProperties ), OldPhetServer.FIGARO_DEV );
+                        return true;
+                    }
+                }, OldPhetServer.SPOT, devAuth, new VersionIncrement.UpdateDev(), new Task() {
             public boolean invoke() {
                 if ( generateOfflineJARs ) {
-                    generateOfflineJars( project, OldPhetServer.DEVELOPMENT, devAuth );
+                    generateOfflineJars( project, OldPhetServer.SPOT, devAuth );
                 }
                 return true;
             }
@@ -558,7 +564,8 @@ public class BuildScript {
                 new Task() {
                     public boolean invoke() {
                         //generate files for dev
-                        sendCopyToDev( devAuth );
+                        //sendCopyToDev( PhetWebsite.FIGARO.getServerAuthenticationInfo( buildLocalProperties ), OldPhetServer.FIGARO_DEV );
+                        sendCopyToDev( devAuth, OldPhetServer.SPOT );
                         return prepareStagingArea( productionSite );
                     }
                 }, OldPhetServer.FIGARO, prodAuth, versionIncrement, new Task() {
@@ -590,21 +597,21 @@ public class BuildScript {
         } );
     }
 
-    private void sendCopyToDev( AuthenticationInfo devAuth ) {
+    private void sendCopyToDev( AuthenticationInfo devAuth, OldPhetServer server ) {
         createHeader( true );
         // TODO: remove this sending to spot once tested and confirmed. Then refactor to not pass in devAuth, but possibly use build-local props
-        project.buildLaunchFiles( OldPhetServer.DEVELOPMENT.getCodebase( project ), OldPhetServer.DEVELOPMENT.isDevelopmentServer() );
+        project.buildLaunchFiles( server.getCodebase( project ), server.isDevelopmentServer() );
         if ( !debugDryRun ) {
-            sendSSH( OldPhetServer.DEVELOPMENT, devAuth );
-            generateOfflineJars( project, OldPhetServer.DEVELOPMENT, devAuth );
+            sendSSH( server, devAuth );
+            generateOfflineJars( project, server, devAuth );
         }
-        PhetWebsite website = PhetWebsite.FIGARO;
+//        PhetWebsite website = PhetWebsite.FIGARO;
 //        project.buildLaunchFiles( website.getProjectDevUrl( project ), true );
 //        if ( !debugDryRun ) {
 //            sendDevCopyTo( website );
-//            generateOfflineJars( project, OldPhetServer.DEVELOPMENT, devAuth );
+//            generateOfflineJars( project, OldPhetServer.SPOT, devAuth );
 //        }
-        PhetWebsite.openBrowser( OldPhetServer.DEVELOPMENT.getCodebase( project ) );
+        PhetWebsite.openBrowser( server.getCodebase( project ) );
         //TODO #2143, delete <project>_en.production.jnlp files, since they shouldn't go to tigercat
     }
 
