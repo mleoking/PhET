@@ -227,8 +227,6 @@ public class BuildScript {
 
         System.out.println( "Finished deploy to: " + server.getHost() );
 
-        server.deployFinished();
-
         for ( Listener listener : listeners ) {
             listener.deployFinished( this, project, server.getCodebase( project ) );
         }
