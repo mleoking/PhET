@@ -6,19 +6,11 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import javax.swing.*;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
 import edu.colorado.phet.buildtools.java.JavaProject;
 import edu.colorado.phet.buildtools.java.projects.BuildToolsProject;
 import edu.colorado.phet.buildtools.util.*;
-import edu.colorado.phet.common.phetcommon.view.util.XMLUtils;
 
 import com.jcraft.jsch.JSchException;
 
@@ -153,7 +145,7 @@ public class BuildScript {
         System.out.println( "Setting SVN Version" );
         int newRevision = svnNumber + 1;
         project.setSVNVersion( newRevision );
-        setVersionTimestamp();
+        project.setVersionTimestamp( System.currentTimeMillis() / 1000 ); // convert from ms to sec
         System.out.println( "Adding message to change file" );
         addMessagesToChangeFile();
 
@@ -165,7 +157,7 @@ public class BuildScript {
                 // TODO: possibly roll back .properties file and changes
                 return;
             }
-            success = verifyRevision( newRevision, new String[]{project.getProjectPropertiesFile().getAbsolutePath()} );
+            success = SvnUtils.verifyRevision( newRevision, new String[]{project.getProjectPropertiesFile().getAbsolutePath()} );
             if ( !success ) {
                 notifyError( project, "Commit of version and change file did not result with the expected revision number. Stopping (see console)" );
                 return;
@@ -259,16 +251,12 @@ public class BuildScript {
             prependChange( getChangeLogEntryDateStamp() + " " + message );
         }
 
-        prependChange( "# " + getFullVersionStr() );
+        prependChange( "# " + project.getFullVersionString() );
     }
 
     private String getChangeLogEntryDateStamp() {
         SimpleDateFormat format = new SimpleDateFormat( "M/d/yy" ); // eg, 3/5/09
         return format.format( new Date() );
-    }
-
-    private String getFullVersionStr() {
-        return project.getFullVersionString();
     }
 
     private void prependChange( String message ) {
@@ -300,13 +288,13 @@ public class BuildScript {
         //the failure is on tigercat, but scf works properly on spot
         //but our code works on both; therefore there is probably a problem with the handshaking in securechannelfacade
         File[] f = project.getDeployDir().listFiles(); //TODO: should handle recursive for future use (if we ever want to support nested directories)
-        for ( File file : f ) {
-            if ( file.getName().startsWith( "." ) ) {
+        for ( File fileToUpload : f ) {
+            if ( fileToUpload.getName().startsWith( "." ) ) {
                 //ignore
             }
             else {
                 try {
-                    ScpTo.uploadFile( website, buildLocalProperties, file, remotePathDir + "/" + file.getName() );
+                    ScpTo.uploadFile( website, buildLocalProperties, fileToUpload, remotePathDir + "/" + fileToUpload.getName() );
                 }
                 catch( JSchException e ) {
                     e.printStackTrace();
@@ -334,14 +322,14 @@ public class BuildScript {
         //the failure is on tigercat, but scf works properly on spot
         //but our code works on both; therefore there is probably a problem with the handshaking in securechannelfacade
         File[] f = project.getDeployDir().listFiles(); //TODO: should handle recursive for future use (if we ever want to support nested directories)
-        for ( int i = 0; i < f.length; i++ ) {
-            if ( f[i].getName().startsWith( "." ) ) {
+        for ( File fileToUpload : f ) {
+            if ( fileToUpload.getName().startsWith( "." ) ) {
                 //ignore
             }
             else {
                 //server.getHost(), authenticationInfo.getUsername(), authenticationInfo.getPassword()
                 try {
-                    ScpTo.uploadFile( f[i], authenticationInfo.getUsername(), server.getHost(), remotePathDir + "/" + f[i].getName(), authenticationInfo.getPassword() );
+                    ScpTo.uploadFile( fileToUpload, authenticationInfo.getUsername(), server.getHost(), remotePathDir + "/" + fileToUpload.getName(), authenticationInfo.getPassword() );
                 }
                 catch( JSchException e ) {
                     e.printStackTrace();
@@ -355,18 +343,6 @@ public class BuildScript {
             }
         }
         return true;
-    }
-
-    private String getParentDir( String remotePathDir ) {
-        if ( remotePathDir.endsWith( "/" ) ) {
-            remotePathDir = remotePathDir.substring( 0, remotePathDir.length() - 1 );
-        }
-        int x = remotePathDir.lastIndexOf( '/' );
-        return remotePathDir.substring( 0, x );
-    }
-
-    private void setVersionTimestamp() {
-        project.setVersionTimestamp( System.currentTimeMillis() / 1000 ); // convert from ms to sec
     }
 
     public int getRevisionOnTrunkREADME() {
@@ -401,37 +377,6 @@ public class BuildScript {
         }
     }
 
-    public void runSim() {
-        Locale locale = (Locale) prompt( "Choose locale: ", project.getLocales() );
-        String simulationName = project.getSimulationNames()[0];
-        if ( project.getSimulationNames().length > 1 ) {
-            simulationName = (String) prompt( "Choose simulation: ", project.getSimulationNames() );
-        }
-
-        project.runSim( locale, simulationName );
-    }
-
-    private Object prompt( String msg, Object[] locales ) {
-
-        Object[] possibilities = locales;
-        Object s = JOptionPane.showInputDialog(
-                null,
-                msg,
-                msg,
-                JOptionPane.PLAIN_MESSAGE,
-                null,
-                possibilities,
-                possibilities[0] );
-
-        if ( s == null ) {
-            System.out.println( "Canceled" );
-            return null;
-        }
-        else {
-            return s;
-        }
-    }
-
     public void createHeader( boolean dev ) {
         try {
             FileUtils.filter( new File( trunk, "build-tools/templates/header-template.html" ), project.getDeployHeaderFile(), createHeaderFilterMap( dev ), "UTF-8" );
@@ -441,10 +386,10 @@ public class BuildScript {
         }
     }
 
-    private HashMap createHeaderFilterMap( boolean dev ) {
-        HashMap map = new HashMap();
+    private HashMap<String,String> createHeaderFilterMap( boolean dev ) {
+        HashMap<String,String> map = new HashMap<String,String>();
         map.put( "project-name", project.getName() );
-        map.put( "version", getFullVersionStr() );
+        map.put( "version", project.getFullVersionString() );
         map.put( "sim-list", getSimListHTML( project, dev ) );
         map.put( "new-summary", getNewSummary() );
         return map;
@@ -607,62 +552,6 @@ public class BuildScript {
         String pathToBuildLocalProperties = server.getBuildLocalPropertiesFile();
         String command = javaCmd + " -classpath " + buildScriptDir + "/" + jarName + " " + JARGenerator.class.getName() + " " + projectDir + "/" + project.getDefaultDeployJar().getName() + " " + jarCmd + " " + pathToBuildLocalProperties;
         return command;
-    }
-
-    /**
-     * Returns whether or not each path is up to the particular revision
-     *
-     * @param revision The revision we need the entries to be
-     * @param paths    Various paths to check together
-     * @return Whether or not all of the path's revisions were the same as the specified revision
-     */
-    public static boolean verifyRevision( int revision, String[] paths ) {
-        String out = null;
-        try {
-            AuthenticationInfo auth = BuildLocalProperties.getInstance().getRespositoryAuthenticationInfo();
-            List<String> args = new LinkedList<String>();
-            args.add( "svn" );
-            args.add( "info" );
-            args.add( "--xml" ); // so we can easily parse the XML
-            args.add( "--non-interactive" ); // so it doesn't pause for input
-            args.add( "--username" );
-            args.add( auth.getUsername() );
-            args.add( "--password" );
-            args.add( auth.getPassword() );
-            for ( String path : paths ) {
-                args.add( path );
-            }
-            ProcessOutputReader.ProcessExecResult result = ProcessOutputReader.exec( args.toArray( new String[0] ) );
-
-            out = result.getOut();
-            Document document = XMLUtils.toDocument( out );
-            NodeList entries = document.getElementsByTagName( "entry" );
-
-            for ( int i = 0; i < entries.getLength(); i++ ) {
-                Node entryNode = entries.item( i );
-                Element entryElement = (Element) entryNode;
-                String revisionString = entryElement.getAttribute( "revision" );
-                if ( Integer.parseInt( revisionString ) == revision ) {
-                    System.out.println( entryElement.getAttribute( "path" ) + " has the correct revision " + revisionString );
-                }
-                else {
-                    System.out.println( "Warning: " + entryElement.getAttribute( "path" ) + " has the incorrect revision "
-                                        + revisionString + ", it should be " + revision );
-                    return false;
-                }
-            }
-        }
-        catch( TransformerException e ) {
-            e.printStackTrace();
-            System.out.println( "Caused by the XML:\n" + out );
-            return false;
-        }
-        catch( ParserConfigurationException e ) {
-            e.printStackTrace();
-            System.out.println( "Caused by the XML:\n" + out );
-            return false;
-        }
-        return true;
     }
 
 }
