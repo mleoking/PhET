@@ -36,13 +36,25 @@ public class BuildScript {
     private final PhetProject project;
     private final File trunk;
     private final BuildLocalProperties buildLocalProperties;
-    private final ArrayList listeners;
+    private final ArrayList<Listener> listeners;
 
     private String batchMessage;
     private RevisionStrategy revisionStrategy = new DynamicRevisionStrategy();
 
     //TODO: refactor to not be public static
     public static boolean generateJARs = true;//AND'ed with project setting
+
+    public BuildScript( File trunk, PhetProject project ) {
+        this.trunk = trunk;
+        this.project = project;
+        this.buildLocalProperties = BuildLocalProperties.getInstance();
+        this.listeners = new ArrayList<Listener>();
+
+        debugDryRun = this.buildLocalProperties.getDebugDryRun();
+        debugSkipBuild = this.buildLocalProperties.getDebugSkipBuild();
+        debugSkipStatus = this.buildLocalProperties.getDebugSkipStatus();
+        debugSkipCommit = this.buildLocalProperties.getDebugSkipCommit();
+    }
 
     public static void setGenerateJARs( boolean _generateJARs ) {
         generateJARs = _generateJARs;
@@ -92,18 +104,6 @@ public class BuildScript {
 
     }
 
-    public BuildScript( File trunk, PhetProject project ) {
-        this.trunk = trunk;
-        this.project = project;
-        this.buildLocalProperties = BuildLocalProperties.getInstance();
-        this.listeners = new ArrayList();
-
-        debugDryRun = this.buildLocalProperties.getDebugDryRun();
-        debugSkipBuild = this.buildLocalProperties.getDebugSkipBuild();
-        debugSkipStatus = this.buildLocalProperties.getDebugSkipStatus();
-        debugSkipCommit = this.buildLocalProperties.getDebugSkipCommit();
-    }
-
     public void setDebugSkipStatus( boolean debugSkipStatus ) {
         this.debugSkipStatus = debugSkipStatus;
     }
@@ -133,10 +133,6 @@ public class BuildScript {
             return true;
         }
 
-    }
-
-    public void deploy( OldPhetServer server, AuthenticationInfo authenticationInfo, VersionIncrement versionIncrement ) {
-        deploy( new NullTask(), server, authenticationInfo, versionIncrement, new NullTask() );
     }
 
     public void deploy( Task preDeployTask, OldPhetServer server,
@@ -233,8 +229,7 @@ public class BuildScript {
 
         server.deployFinished();
 
-        for ( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener) listeners.get( i );
+        for ( Listener listener : listeners ) {
             listener.deployFinished( this, project, server.getCodebase( project ) );
         }
     }
@@ -250,8 +245,7 @@ public class BuildScript {
 
     private void notifyError( PhetProject project, String error ) {
         System.out.println( "error: " + error );
-        for ( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener) listeners.get( i );
+        for ( Listener listener : listeners ) {
             listener.deployErrorOccurred( this, project, error );
         }
     }
@@ -542,12 +536,12 @@ public class BuildScript {
 
     public void deployDev( final AuthenticationInfo devAuth, final boolean generateOfflineJARs ) {
         deploy( new Task() {
-                    public boolean invoke() {
-                        //generate files for dev
-                        //sendCopyToDev( PhetWebsite.FIGARO.getServerAuthenticationInfo( buildLocalProperties ), OldPhetServer.FIGARO_DEV );
-                        return true;
-                    }
-                }, OldPhetServer.SPOT, devAuth, new VersionIncrement.UpdateDev(), new Task() {
+            public boolean invoke() {
+                //generate files for dev
+                //sendCopyToDev( PhetWebsite.FIGARO.getServerAuthenticationInfo( buildLocalProperties ), OldPhetServer.FIGARO_DEV );
+                return true;
+            }
+        }, OldPhetServer.SPOT, devAuth, new VersionIncrement.UpdateDev(), new Task() {
             public boolean invoke() {
                 if ( generateOfflineJARs ) {
                     generateOfflineJars( project, OldPhetServer.SPOT, devAuth );
