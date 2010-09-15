@@ -134,17 +134,7 @@ public class BuildScript {
         }
 
         String codeBase = server.getCodebase( project );
-
-        project.buildLaunchFiles( codeBase, server.isDevelopmentServer() );
-
-        if ( !debugDryRun ) {
-            System.out.println( "Sending SSH." );
-            success = sendSSH( server, authenticationInfo );
-            if ( !success ) {
-                notifyError( project, "SCP Failure" );
-                return;
-            }
-        }
+        deployPreparedToServer(server, authenticationInfo);
 
         postDeployTask.invoke();
 
@@ -159,9 +149,105 @@ public class BuildScript {
     }
 
     /**
+     * Deploy a project just to a development server
+     *
+     * @param devServer           The development server
+     * @param devAuth             Authentication for the server
+     * @param generateOfflineJARs Whether to generate Offline JARs
+     */
+    public void newDeployToDev( final OldPhetServer devServer, final AuthenticationInfo devAuth, final boolean generateOfflineJARs ) {
+        boolean success = prepareForDeployment( new VersionIncrement.UpdateDev(), true );
+        if ( !success ) {
+            return;
+        }
+
+        String codeBase = devServer.getCodebase( project );
+        deployPreparedToServer( devServer, devAuth );
+
+        if ( generateOfflineJARs ) {
+            generateOfflineJars( project, devServer, devAuth );
+        }
+
+        System.out.println( "Opening Browser to " + codeBase );
+        PhetWebsite.openBrowser( codeBase );
+
+        System.out.println( "Finished deploy to: " + devServer.getHost() );
+
+        for ( Listener listener : listeners ) {
+            listener.deployFinished( this, project, codeBase );
+        }
+    }
+
+    public void newDeployToProductionAndDevelopment( final PhetWebsite productionWebsite,
+                                                     final OldPhetServer devServer,
+                                                     final AuthenticationInfo devAuth,
+                                                     final boolean generateOfflineJARs,
+                                                     VersionIncrement versionIncrement ) {
+        boolean success = prepareForDeployment( versionIncrement, false );
+        if ( !success ) {
+            return;
+        }
+
+        // deploy a copy to dev
+        String devCodebase = devServer.getCodebase( project );
+        deployPreparedToServer( devServer, devAuth );
+        if ( generateOfflineJARs ) {
+            generateOfflineJars( project, devServer, devAuth );
+        }
+        System.out.println( "Opening Browser to " + devCodebase );
+        PhetWebsite.openBrowser( devCodebase );
+
+        // deploy a copy to production
+        String codebase = productionWebsite.getProjectBaseUrl( project );
+        deployPreparedToServer( productionWebsite, false );
+        if ( generateOfflineJARs ) {
+            generateOfflineJars( project, productionWebsite.getOldProductionServer(), productionWebsite.getServerAuthenticationInfo(buildLocalProperties ));
+        }
+        System.out.println( "Opening Browser to " + codebase );
+        PhetWebsite.openBrowser( codebase );
+
+        System.out.println( "Finished deploy to: " + productionWebsite.getServerHost() );
+
+        for ( Listener listener : listeners ) {
+            listener.deployFinished( this, project, codebase );
+        }
+    }
+
+    private boolean deployPreparedToServer( OldPhetServer server, AuthenticationInfo auth ) {
+        boolean success = true;
+        String codeBase = server.getCodebase( project );
+        project.buildLaunchFiles( codeBase, server.isDevelopmentServer() );
+        if ( !debugDryRun ) {
+            System.out.println( "Sending SSH." );
+            success = sendSSH( server, auth );
+            if ( !success ) {
+                notifyError( project, "SCP Failure" );
+            }
+        }
+        return success;
+    }
+
+    private boolean deployPreparedToServer( PhetWebsite website, Boolean dev ) {
+        boolean success = true;
+        String codeBase = website.getProjectBaseUrl( project );
+        project.buildLaunchFiles( codeBase, dev );
+        if ( !debugDryRun ) {
+            System.out.println( "Sending SSH." );
+            success = uploadProject(
+                    website.getServerAuthenticationInfo( buildLocalProperties ),
+                    website.getProjectBasePath( project ),
+                    website.getServerHost());
+            if ( !success ) {
+                notifyError( project, "SCP Failure" );
+            }
+        }
+        return success;
+    }
+
+    /**
      * Build everything that is not specific to where it is being deployed, and execute checks to make sure there is
      * nothing that would prevent a deployment.
-     * 
+     *
      * @param versionIncrement How to increment the version number
      * @param dev Whether this is mainly a production or development deployment. Will generate different header
      * @return Success
@@ -292,44 +378,15 @@ public class BuildScript {
         }
     }
 
-    private boolean sendDevCopyTo( PhetWebsite website ) {
-        String remotePathDir = website.getProjectDevPath( project );
-        // if the directory does not exist on the server, it will be created.
-        boolean success = SshUtils.executeCommand( website, "mkdir -p -m 775 " + remotePathDir );
-        if ( !success ) {
-            System.out.println( "Warning: failed to create or verify the existence of the deploy directory" );
-            return false;
-        }
-
-        //for some reason, the securechannelfacade fails with a "server didn't expect this file" error
-        //the failure is on tigercat, but scf works properly on spot
-        //but our code works on both; therefore there is probably a problem with the handshaking in securechannelfacade
-        File[] f = project.getDeployDir().listFiles(); //TODO: should handle recursive for future use (if we ever want to support nested directories)
-        for ( File fileToUpload : f ) {
-            if ( fileToUpload.getName().startsWith( "." ) ) {
-                //ignore
-            }
-            else {
-                try {
-                    ScpTo.uploadFile( website, buildLocalProperties, fileToUpload, remotePathDir + "/" + fileToUpload.getName() );
-                }
-                catch( JSchException e ) {
-                    e.printStackTrace();
-                    return false;
-                }
-                catch( IOException e ) {
-                    e.printStackTrace();
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
     private boolean sendSSH( OldPhetServer server, AuthenticationInfo authenticationInfo ) {
         String remotePathDir = server.getServerDeployPath( project );
+        String host = server.getHost();
+        return uploadProject( authenticationInfo, remotePathDir, host );
+    }
+
+    private boolean uploadProject( AuthenticationInfo authenticationInfo, String remotePathDir, String host ) {
         // if the directory does not exist on the server, it will be created.
-        boolean success = SshUtils.executeCommand( "mkdir -p -m 775 " + remotePathDir, server.getHost(), authenticationInfo );
+        boolean success = SshUtils.executeCommand( "mkdir -p -m 775 " + remotePathDir, host, authenticationInfo );
         if ( !success ) {
             System.out.println( "Warning: failed to create or verify the existence of the deploy directory" );
             return false;
@@ -346,7 +403,7 @@ public class BuildScript {
             else {
                 //server.getHost(), authenticationInfo.getUsername(), authenticationInfo.getPassword()
                 try {
-                    ScpTo.uploadFile( fileToUpload, authenticationInfo.getUsername(), server.getHost(), remotePathDir + "/" + fileToUpload.getName(), authenticationInfo.getPassword() );
+                    ScpTo.uploadFile( fileToUpload, authenticationInfo.getUsername(), host, remotePathDir + "/" + fileToUpload.getName(), authenticationInfo.getPassword() );
                 }
                 catch( JSchException e ) {
                     e.printStackTrace();

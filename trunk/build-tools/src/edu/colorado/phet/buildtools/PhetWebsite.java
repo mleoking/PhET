@@ -130,7 +130,11 @@ public abstract class PhetWebsite {
 
     public String getProjectDevUrl( PhetProject project ) {
         // TODO: simplify path locations so we don't duplicate them in URL and Path queries
-        return "http://" + getWebHost() + "/files/dev/" + project.getName() + "/" + project.getDevDirectoryBasename();
+        return "http://" + getWebHost() + "/dev/" + project.getName() + "/" + project.getDevDirectoryBasename();
+    }
+
+    public String getProjectBaseUrl( PhetProject project ) {
+        return "http://" + getWebHost() + project.getProdServerDeployPath();
     }
 
     /*---------------------------------------------------------------------------*
@@ -178,12 +182,16 @@ public abstract class PhetWebsite {
      * @return The location of stored development versions of simulations (and other files moved over from spot.colorado.edu)
      */
     public String getDevFilesPath() {
-        return getDocumentRoot() + "/files/dev";
+        return getDocumentRoot() + "/dev";
     }
 
     public String getProjectDevPath( PhetProject project ) {
         // TODO: simplify path locations so we don't duplicate them in URL and Path queries
-        return "/files/dev/" + project.getName() + "/" + project.getDevDirectoryBasename();
+        return getDocumentRoot() + "/dev/" + project.getName() + "/" + project.getDevDirectoryBasename();
+    }
+
+    public String getProjectBasePath( PhetProject project ) {
+        return getDocumentRoot() + project.getProdServerDeployPath();
     }
 
     /*---------------------------------------------------------------------------*
