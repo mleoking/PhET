@@ -57,6 +57,7 @@ class MotionSeriesModel(defaultPosition: Double,
   val manMotionSeriesObject = new MotionSeriesObject(this, defaultManPosition, 1, 3)
 
   def thermalEnergyStrategy(x: Double) = x
+  
   //This is the main object that forces are applied to
   val motionSeriesObject = new MotionSeriesObject(new MutableDouble(defaultPosition), new MutableDouble, new MutableDouble,
     new MutableDouble(_objectType.mass), new MutableDouble(_objectType.staticFriction), new MutableDouble(_objectType.kineticFriction),

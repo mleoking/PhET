@@ -41,6 +41,11 @@ class MotionSeriesObject(_position: MutableDouble,
   rampChangeAdapter.addListener(updatePosition2D)
   updatePosition2D()
   
+  def updateForces() = motionStrategy.updateForces()
+  
+  //Recompute the forces when the position changes
+  _position.addListener(updateForces)
+  
   //Resolves: When turning on walls while objects are out of bounds and bouncy is enabled, can bounce infinitely.
   def clampBounds() = {
     if (position < wallRange().min) setPosition(wallRange().min + _width/2)
@@ -62,7 +67,7 @@ class MotionSeriesObject(_position: MutableDouble,
   val removalListeners = new ArrayBuffer[() => Unit]
 
   rampChangeAdapter.addListener(() => {
-    motionStrategy.updateForces()
+    updateForces()
     notifyListeners()
   })
 
@@ -77,7 +82,7 @@ class MotionSeriesObject(_position: MutableDouble,
   
   def updateGravityForce() = {
     gravityForce.value = new Vector2D(0, gravity * mass)
-    motionStrategy.updateForces()
+    updateForces()
   }
   _gravity.addListener(updateGravityForce)
   _mass.addListener(updateGravityForce)
@@ -241,7 +246,7 @@ class MotionSeriesObject(_position: MutableDouble,
   def parallelAppliedForce_=(value: Double) = {
     if (value != parallelAppliedForce) {
       _parallelAppliedForce.value = value
-      motionStrategy.updateForces()
+      updateForces()
       parallelAppliedForceListeners.foreach(_()) //TODO: move listeners into mutabledouble
       notifyListeners()
     }
