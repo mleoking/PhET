@@ -17,10 +17,7 @@ import org.w3c.dom.NodeList;
 import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
 import edu.colorado.phet.buildtools.java.JavaProject;
 import edu.colorado.phet.buildtools.java.projects.BuildToolsProject;
-import edu.colorado.phet.buildtools.util.FileUtils;
-import edu.colorado.phet.buildtools.util.ProcessOutputReader;
-import edu.colorado.phet.buildtools.util.ScpTo;
-import edu.colorado.phet.buildtools.util.SshUtils;
+import edu.colorado.phet.buildtools.util.*;
 import edu.colorado.phet.common.phetcommon.view.util.XMLUtils;
 
 import com.jcraft.jsch.JSchException;
@@ -117,10 +114,6 @@ public class BuildScript {
         }
     }
 
-    public boolean isSVNInSync() {
-        return new SVNStatusChecker().isUpToDate( project );
-    }
-
     static interface Task {
 
         boolean invoke();
@@ -148,7 +141,7 @@ public class BuildScript {
         if ( debugSkipStatus ) {
             System.out.println( "Skipping SVN status" );
         }
-        else if ( !isSVNInSync() ) {
+        else if ( !SvnUtils.isProjectUpToDate( project ) ) {
             notifyError( project, "SVN is out of sync; halting" );
 
             return;
@@ -159,14 +152,14 @@ public class BuildScript {
         System.out.println( "Current SVN: " + svnNumber );
         System.out.println( "Setting SVN Version" );
         int newRevision = svnNumber + 1;
-        setSVNVersion( newRevision );
+        project.setSVNVersion( newRevision );
         setVersionTimestamp();
         System.out.println( "Adding message to change file" );
         addMessagesToChangeFile();
 
         if ( !debugDryRun && !debugSkipCommit ) {
             System.out.println( "Committing changes to version and change file." );
-            boolean success = commitProject();//commits both changes to version and change file
+            boolean success = SvnUtils.commitProject( project, buildLocalProperties.getRespositoryAuthenticationInfo() );//commits both changes to version and change file
             if ( !success ) {
                 notifyError( project, "Commit of version and change file failed, stopping (see console)" );
                 // TODO: possibly roll back .properties file and changes
@@ -210,7 +203,9 @@ public class BuildScript {
             return;
         }
 
-        project.buildLaunchFiles( server.getCodebase( project ), server.isDevelopmentServer() );
+        String codeBase = server.getCodebase( project );
+
+        project.buildLaunchFiles( codeBase, server.isDevelopmentServer() );
 
         if ( !debugDryRun ) {
             System.out.println( "Sending SSH." );
@@ -224,12 +219,12 @@ public class BuildScript {
         postDeployTask.invoke();
 
         System.out.println( "Opening Browser." );
-        PhetWebsite.openBrowser( server.getCodebase( project ) );
+        PhetWebsite.openBrowser( codeBase );
 
         System.out.println( "Finished deploy to: " + server.getHost() );
 
         for ( Listener listener : listeners ) {
-            listener.deployFinished( this, project, server.getCodebase( project ) );
+            listener.deployFinished( this, project, codeBase );
         }
     }
 
@@ -370,10 +365,6 @@ public class BuildScript {
         return remotePathDir.substring( 0, x );
     }
 
-    private void setSVNVersion( int svnVersion ) {
-        project.setSVNVersion( svnVersion );
-    }
-
     private void setVersionTimestamp() {
         project.setVersionTimestamp( System.currentTimeMillis() / 1000 ); // convert from ms to sec
     }
@@ -396,26 +387,6 @@ public class BuildScript {
             }
         }
         throw new RuntimeException( "No svn version information found: " + output.getOut() );
-    }
-
-    private boolean commitProject() {
-        AuthenticationInfo auth = buildLocalProperties.getRespositoryAuthenticationInfo();
-        String message = project.getName() + ": deployed version " + project.getFullVersionString();
-        String path = project.getProjectDir().getAbsolutePath();
-        String[] args = new String[]{"svn", "commit", "--non-interactive", "--username", auth.getUsername(), "--password", auth.getPassword(), "--message", message, path};
-        //TODO: verify that SVN repository revision number now matches what we wrote to the project properties file
-        ProcessOutputReader.ProcessExecResult a = ProcessOutputReader.exec( args );
-        if ( a.getTerminatedNormally() ) {
-            System.out.println( "Finished committing new version file with message: " + message + " output/err=" );
-            System.out.println( a.getOut() );
-            System.out.println( a.getErr() );
-            System.out.println( "Finished committing new version file with message: " + message );
-            return true;
-        }
-        else {
-            System.out.println( "Abnormal termination: " + a );
-            return false;
-        }
     }
 
     public boolean build() {

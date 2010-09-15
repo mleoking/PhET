@@ -2,14 +2,11 @@
 
 package edu.colorado.phet.buildtools.scripts;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Arrays;
 
 import edu.colorado.phet.buildtools.PhetProject;
-import edu.colorado.phet.common.phetcommon.util.StreamReaderThread;
+import edu.colorado.phet.buildtools.util.SvnUtils;
 
 /**
  * AddSVNIgnoreToDeployDirectories is a utility for adding the svn:ignore property to all deploy directories.
@@ -38,33 +35,9 @@ public class SetSVNIgnoreToDeployDirectories {
         for ( int k = 0; k < projects.length; k++ ) {
             File dir = projects[k].getDeployDir();
             String[] ignorePatterns = new String[]{"*"};
-            setIgnorePatternsOnDir( dir, ignorePatterns );
+            SvnUtils.setIgnorePatternsOnDir( dir, ignorePatterns );
             System.out.println( "Updated properties on: " + dir.getAbsolutePath() );
         }
     }
 
-    public static void setIgnorePatternsOnDir( File dir, String[] ignorePatterns ) throws IOException, InterruptedException {
-        // Write the svn:ignore property value to the temporary file
-        // Create a temporary file
-        File propFile = File.createTempFile( "deploy-svn-ignore.", ".tmp" );
-        propFile.deleteOnExit();
-        BufferedWriter out = new BufferedWriter( new FileWriter( propFile ) );
-
-        for ( int i = 0; i < ignorePatterns.length; i++ ) {
-            out.write( ignorePatterns[i] );
-            out.newLine();
-        }
-        out.close();
-
-        // For each project directory, set the svn:ignore property for its deploy directory
-        String propFilename = propFile.getAbsolutePath();
-
-        //use a command array for non-windows platforms
-        String[] svnCommand = new String[]{"svn", "propset", "svn:ignore", "--file", propFilename, dir.getAbsolutePath()};
-        System.out.println( "Running: " + Arrays.asList( svnCommand ) );
-        Process p = Runtime.getRuntime().exec( svnCommand );
-        new StreamReaderThread( p.getErrorStream(), "err" ).start();
-        new StreamReaderThread( p.getInputStream(), "out" ).start();
-        p.waitFor();
-    }
 }

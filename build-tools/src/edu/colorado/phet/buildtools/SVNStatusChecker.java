@@ -22,8 +22,8 @@ public class SVNStatusChecker {
         args.add( "--password" );
         args.add( auth.getPassword() );
         PhetProject[] projects = project.getAllDependencies();
-        for ( int i = 0; i < projects.length; i++ ) {
-            args.add( projects[i].getProjectDir().getAbsolutePath() );
+        for ( PhetProject otherProject : projects ) {
+            args.add( otherProject.getProjectDir().getAbsolutePath() );
         }
         try {
             String[] cmd = (String[]) args.toArray( new String[0] );
@@ -86,9 +86,8 @@ public class SVNStatusChecker {
 
     private String toString( String[] cmd ) {
         String s = "";
-        for ( int i = 0; i < cmd.length; i++ ) {
-            String s1 = cmd[i];
-            s = s + " " + s1;
+        for ( String str : cmd ) {
+            s = s + " " + str;
         }
         return s;
     }

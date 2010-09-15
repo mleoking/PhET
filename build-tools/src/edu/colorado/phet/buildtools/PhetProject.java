@@ -8,7 +8,6 @@ import edu.colorado.phet.buildtools.flex.FlexSimulationProject;
 import edu.colorado.phet.buildtools.java.JavaBuildCommand;
 import edu.colorado.phet.buildtools.java.JavaProject;
 import edu.colorado.phet.buildtools.java.projects.*;
-import edu.colorado.phet.buildtools.scripts.SetSVNIgnoreToDeployDirectories;
 import edu.colorado.phet.buildtools.statistics.StatisticsProject;
 import edu.colorado.phet.buildtools.util.*;
 import edu.colorado.phet.common.phetcommon.resources.PhetProperties;
@@ -16,8 +15,6 @@ import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.util.AnnotationParser;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
-import edu.colorado.phet.flashlauncher.FlashLauncher;
-import edu.colorado.phet.flashlauncher.util.SimulationProperties;
 
 /**
  * Author: Sam Reid
@@ -759,7 +756,7 @@ public abstract class PhetProject {
         }
 
         try {
-            SetSVNIgnoreToDeployDirectories.setIgnorePatternsOnDir( contribLicensesDir.getParentFile(), new String[]{contribLicensesDir.getName()} );
+            SvnUtils.setIgnorePatternsOnDir( contribLicensesDir.getParentFile(), new String[]{contribLicensesDir.getName()} );
             //TODO: redirect system.out and system.err
         }
         catch( IOException e ) {
