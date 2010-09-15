@@ -198,6 +198,7 @@ public class BuildScript {
         }
         catch( IOException e ) {
             e.printStackTrace();
+            // TODO: why are we not failing on this? is there a project where this is unimportant?
         }
         System.out.println( "Copying version files to deploy dir." );
         copyVersionFilesToDeployDir();
