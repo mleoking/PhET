@@ -1,3 +1,4 @@
+# 2.00.02 (44082) Sep 14, 2010
 > Fixed a bug that caused the sim to crash when switching from record to playback.
 # 2.00.01 (44065) Sep 14, 2010
 > Fixed a bug that caused the acceleration to be off by a factor of 2 when controlling the position directly, see #2494
