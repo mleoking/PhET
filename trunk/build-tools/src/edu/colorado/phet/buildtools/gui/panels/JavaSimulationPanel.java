@@ -107,11 +107,11 @@ public class JavaSimulationPanel extends JPanel {
         controlPanel.add( deployProdPanel );
 
         JPanel testProdPanel = new VerticalLayoutPanel();
-        testProdPanel.setBorder( BorderFactory.createTitledBorder( "Wicket production" ) );
-        JButton testProdButton = new JButton( "Test Wicket Deploy" );
+        testProdPanel.setBorder( BorderFactory.createTitledBorder( "Test" ) );
+        JButton testProdButton = new JButton( "Test Deploy" );
         testProdPanel.add( testProdButton );
 //see #2290
-        //controlPanel.add( testProdPanel );
+        controlPanel.add( testProdPanel );
 
         add( controlPanel, BorderLayout.SOUTH );
 
@@ -190,27 +190,29 @@ public class JavaSimulationPanel extends JPanel {
     }
 
     private void doWicketTest() {
-        boolean confirm = PhetBuildGUI.confirmProdDeploy( project, OldPhetServer.FIGARO );
-
-        if ( !confirm ) {
-            System.out.println( "Cancelled" );
-            return;
-        }
+//        boolean confirm = PhetBuildGUI.confirmProdDeploy( project, OldPhetServer.FIGARO );
+//
+//        if ( !confirm ) {
+//            System.out.println( "Cancelled" );
+//            return;
+//        }
 
         BuildLocalProperties buildLocalProperties = BuildLocalProperties.getInstance();
 
-        VersionIncrement versionIncrement = null;
-        if ( incrementMinor.isSelected() ) {
-            versionIncrement = new VersionIncrement.UpdateProdMinor();
-        }
-        else if ( incrementMajor.isSelected() ) {
-            versionIncrement = new VersionIncrement.UpdateProdMajor();
-        }
+//        VersionIncrement versionIncrement = null;
+//        if ( incrementMinor.isSelected() ) {
+//            versionIncrement = new VersionIncrement.UpdateProdMinor();
+//        }
+//        else if ( incrementMajor.isSelected() ) {
+//            versionIncrement = new VersionIncrement.UpdateProdMajor();
+//        }
 
-        new BuildScript( trunk, project ).deployToDevelopmentAndProductionServers(
-                buildLocalProperties.getDevAuthenticationInfo(),
-                PhetWebsite.FIGARO.getServerAuthenticationInfo( buildLocalProperties ),
-                versionIncrement, PhetWebsite.FIGARO );
+//        new BuildScript( trunk, project ).deployToDevelopmentAndProductionServers(
+//                buildLocalProperties.getDevAuthenticationInfo(),
+//                PhetWebsite.FIGARO.getServerAuthenticationInfo( buildLocalProperties ),
+//                versionIncrement, PhetWebsite.FIGARO );
+
+        new BuildScript( trunk, project ).newDeployToDev( OldPhetServer.PHET_SERVER_DEV, buildLocalProperties.getDevAuthenticationInfo(), true );
     }
 
 }

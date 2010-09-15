@@ -77,6 +77,13 @@ public class MiscJavaPanel extends JPanel {
 
         controlPanel.add( deployProdPanel );
 
+        JPanel testProdPanel = new VerticalLayoutPanel();
+        testProdPanel.setBorder( BorderFactory.createTitledBorder( "Test" ) );
+        JButton testProdButton = new JButton( "Test Deploy" );
+        testProdPanel.add( testProdButton );
+//see #2290
+        controlPanel.add( testProdPanel );
+
         add( controlPanel, BorderLayout.SOUTH );
 
         deployDevButton.addActionListener( new ActionListener() {
@@ -88,6 +95,12 @@ public class MiscJavaPanel extends JPanel {
         deployProdButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent actionEvent ) {
                 doDeployProd();
+            }
+        } );
+
+        testProdButton.addActionListener( new ActionListener(){
+            public void actionPerformed( ActionEvent actionEvent ) {
+                doDeployTest();
             }
         } );
     }
@@ -136,6 +149,12 @@ public class MiscJavaPanel extends JPanel {
                 buildLocalProperties.getDevAuthenticationInfo(),
                 PhetWebsite.FIGARO.getServerAuthenticationInfo( buildLocalProperties ),
                 versionIncrement, PhetWebsite.FIGARO );
+    }
+
+    private void doDeployTest() {
+        BuildLocalProperties buildLocalProperties = BuildLocalProperties.getInstance();
+
+        new BuildScript( trunk, project ).newDeployToDev( OldPhetServer.PHET_SERVER_DEV, buildLocalProperties.getDevAuthenticationInfo(), true );
     }
 
 }
