@@ -562,7 +562,7 @@ public class BuildScript {
                         sendCopyToDev( devAuth, OldPhetServer.SPOT );
                         return prepareStagingArea( productionSite );
                     }
-                }, OldPhetServer.FIGARO, prodAuth, versionIncrement, new Task() {
+                }, productionSite.getOldProductionServer(), prodAuth, versionIncrement, new Task() {
                     public boolean invoke() {
                         System.out.println( "Executing website post-upload deployment process" );
 
