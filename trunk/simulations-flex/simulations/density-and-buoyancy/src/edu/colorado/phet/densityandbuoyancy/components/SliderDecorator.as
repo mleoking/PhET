@@ -35,7 +35,6 @@ public class SliderDecorator extends UIComponent {
 
         slider.dataTipFormatFunction = doFormat;
 
-
         slider.y = sliderY;
         addChild(slider);
 
@@ -44,12 +43,24 @@ public class SliderDecorator extends UIComponent {
 
         updateTicks();
         this.height = slider.height + 20;
+
+        enabled = true; // set the enabled style, and default to enabled
     }
 
-    override public function set enabled(value:Boolean):void {
+    override public function set enabled( value:Boolean ):void {
         super.enabled = value;
-        if (slider != null)
+        if ( slider != null ) {
             slider.enabled = value;
+            // this modifies the appearance in the current "Halo" Theme. Flex 4 will have a different theme
+            if ( value ) {
+                slider.setStyle( "fillAlphas", [ 0.60, 0.40 ] );
+                slider.setStyle( "fillColors", [ 0xAAFFAA, 0x00FF00] );
+            }
+            else {
+                slider.setStyle( "fillAlphas", [ 0.40, 0.20 ] ); // it seems like these alpha values are ignored?
+                slider.setStyle( "fillColors", [ 0x666666, 0x333333] );
+            }
+        }
         if (value)
             alpha = 1.0;
         else
