@@ -1,4 +1,4 @@
-/* Copyright 2008, University of Colorado */
+/* Copyright 2008-2010, University of Colorado */
 
 package edu.colorado.phet.translationutility.simulations;
 
@@ -40,11 +40,11 @@ public interface ISimulation {
     /**
      * Tests a set of localized strings by running the simulation.
      * 
-     * @param properties the localized strings
      * @param locale
+     * @param localizedStrings the localized strings for the locale
      * @throws SimulationException
      */
-    public void testStrings( Properties properties, Locale locale ) throws SimulationException;
+    public void testStrings( Locale locale, Properties localizedStrings ) throws SimulationException;
 
     /**
      * Gets the localized strings for a specified locale.
@@ -79,16 +79,16 @@ public interface ISimulation {
      * @param locale
      * @return
      */
-    public String getStringFileName( Locale locale );
+    public String getStringsFileName( Locale locale );
     
     /**
      * Gets the suffix used for string files.
      * @return
      */
-    public String getStringFileSuffix();
+    public String getStringsFileSuffix();
     
     /**
      * Gets a file chooser that is appropriate for the simulations string files.
      */
-    public JFileChooser getStringFileChooser();
+    public JFileChooser getStringsFileChooser();
 }
