@@ -212,7 +212,11 @@ public class JavaSimulationPanel extends JPanel {
 //                PhetWebsite.FIGARO.getServerAuthenticationInfo( buildLocalProperties ),
 //                versionIncrement, PhetWebsite.FIGARO );
 
-        new BuildScript( trunk, project ).newDeployToDev( OldPhetServer.PHET_SERVER_DEV, buildLocalProperties.getDevAuthenticationInfo(), true );
+        // NOT WORKING!
+        new BuildScript( trunk, project ).newDeployToProductionAndDevelopment(
+                PhetWebsite.PHET_SERVER,
+                OldPhetServer.SPOT, buildLocalProperties.getDevAuthenticationInfo(), true, new VersionIncrement.UpdateProdMinor() );
+        //new BuildScript( trunk, project ).newDeployToDev( OldPhetServer.PHET_SERVER_DEV, buildLocalProperties.getDevAuthenticationInfo(), true );
     }
 
 }
