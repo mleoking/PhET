@@ -14,8 +14,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import edu.colorado.phet.translationutility.util.DocumentIO.DocumentIOException;
-
 /**
  * Converts between Java Properties and the XML Document format required for Flash sims.
  * Flash sims require an XML file.
@@ -62,7 +60,7 @@ public class DocumentAdapter {
      * @return Document
      * @throws PropertiesFlashAdapterException
      */
-    private static final Document propertiesToDocument( Properties properties, String header ) throws DocumentIOException {
+    private static final Document propertiesToDocument( Properties properties, String header ) throws DocumentIO.DocumentIOException {
         Document document = null;
         try {
             // create a document
@@ -90,7 +88,7 @@ public class DocumentAdapter {
             }
         }
         catch ( ParserConfigurationException e ) {
-            throw new DocumentIOException( "failed to create XML document builder", e );
+            throw new DocumentIO.DocumentIOException( "failed to create XML document builder", e );
         }
         return document;
     }
@@ -102,7 +100,7 @@ public class DocumentAdapter {
      * @return Properties
      * @throws DocumentIOException
      */
-    public static final Properties readProperties( InputStream inputStream ) throws DocumentIOException {
+    public static final Properties readProperties( InputStream inputStream ) throws DocumentIO.DocumentIOException {
         Document document = DocumentIO.readDocument( inputStream );
         return documentToProperties( document );
     }
@@ -116,7 +114,7 @@ public class DocumentAdapter {
      * @throws IOException
      * @throws DocumentIOException 
      */
-    public static final void writeProperties( Properties properties, String header, OutputStream outputStream ) throws DocumentIOException {
+    public static final void writeProperties( Properties properties, String header, OutputStream outputStream ) throws DocumentIO.DocumentIOException {
         Document document = propertiesToDocument( properties, header );
         DocumentIO.writeDocument( document, outputStream, ENCODING );
     }
@@ -125,7 +123,7 @@ public class DocumentAdapter {
      * Test program.
      * @throws DocumentIOException 
      */
-    public static void main( String[] args ) throws DocumentIOException, IOException {
+    public static void main( String[] args ) throws DocumentIO.DocumentIOException, IOException {
 
         String tmpDir = System.getProperty( "java.io.tmpdir" );
         String fileSeparator = System.getProperty( "file.separator" );

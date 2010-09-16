@@ -17,8 +17,6 @@ import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.common.phetcommon.view.util.StringUtil;
 import edu.colorado.phet.flashlauncher.FlashLauncher;
 import edu.colorado.phet.flashlauncher.util.SimulationProperties;
-import edu.colorado.phet.translationutility.TUConstants;
-import edu.colorado.phet.translationutility.util.DocumentIO.DocumentIOException;
 
 /**
  * Creates jar files for PhET sims.
@@ -112,7 +110,7 @@ public class JarFactory {
             try {
                 DocumentAdapter.writeProperties( localizedStrings, header, jarOutputStream );
             }
-            catch ( DocumentIOException e ) {
+            catch ( DocumentIO.DocumentIOException e ) {
                 throw new IOException( "problem converting strings to XML", e );
             }
             jarOutputStream.closeEntry();
@@ -311,7 +309,7 @@ public class JarFactory {
         public static String getStringsPath( String projectName, Locale locale ) {
             String dirName = getStringsBasename( projectName );
             String fileName = getStringsName( projectName, locale );
-            return dirName + TUConstants.RESOURCE_PATH_SEPARATOR + "localization" + TUConstants.RESOURCE_PATH_SEPARATOR + fileName;
+            return dirName + "/localization/" + fileName;
         }
 
         /**

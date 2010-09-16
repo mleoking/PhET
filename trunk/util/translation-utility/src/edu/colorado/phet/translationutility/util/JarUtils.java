@@ -10,7 +10,6 @@ import java.util.jar.JarInputStream;
 import java.util.jar.Manifest;
 
 import edu.colorado.phet.flashlauncher.util.SimulationProperties;
-import edu.colorado.phet.translationutility.util.DocumentIO.DocumentIOException;
 
 /**
  * Utility methods related to JAR files.
@@ -202,7 +201,7 @@ public class JarUtils {
      * Reads an XML document from the specified JAR file, and converts it to Properties.
      * The XML document contains localized strings.
      */
-    public static Properties readXMLAsProperties( String jarFileName, String xmlFilename ) throws IOException, DocumentIOException {
+    public static Properties readXMLAsProperties( String jarFileName, String xmlFilename ) throws IOException, DocumentIO.DocumentIOException {
         
         // open the jar file
         JarInputStream jarInputStream = openJar( jarFileName );
