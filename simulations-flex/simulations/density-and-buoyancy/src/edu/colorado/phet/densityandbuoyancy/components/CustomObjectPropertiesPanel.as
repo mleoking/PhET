@@ -55,7 +55,8 @@ public class CustomObjectPropertiesPanel extends DensityVBox {
             trace("comboBox.selectedItem=" + comboBox.selectedItem);
             if (comboBox.selectedItem.isCustom()) {
                 if (!densityObject.material.isCustom()) {
-                    densityObject.material = new Material(FlexSimStrings.get("customObject.custom", "Custom"), densityObject.getDensity(), true);
+                    // TODO: is customObject.cusom currently used? there is material.custom!
+                    densityObject.material = new Material(FlexSimStrings.get("customObject.custom", "My Object"), densityObject.getDensity(), true);
                 }
             }
             else {

@@ -34,7 +34,7 @@ public class Material {
     public static var ICE:Material = new Material(FlexSimStrings.get("material.ice", "Ice"), 919, false, 0xbfdbe6, new iceTextureClass(), 0.75);
     public static var BRICK:Material = new Material(FlexSimStrings.get("material.brick", "Brick"), 1922, false, 0xab695b, new brickTextureClass());//see http://www.simetric.co.uk/si_materials.htm
     public static var ALUMINUM:Material = new Material(FlexSimStrings.get("material.aluminum", "Aluminum"), 2700, false, 0x75928d, new aluminumTextureClass());
-    public static var CUSTOM:Material = new Material(FlexSimStrings.get("material.custom", "Custom"), 1000.0, true, new customObjectTexture());
+    public static var CUSTOM:Material = new Material(FlexSimStrings.get("material.custom", "My Object"), 1000.0, true, new customObjectTexture());
     //TODO: Add back water balloon after creating geometry for it
     public static var WATER_BALLOON:Material = new Material(FlexSimStrings.get("material.waterBalloon", "Water Balloon"), 1000.0, false);
 
