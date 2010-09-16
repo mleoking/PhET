@@ -17,7 +17,7 @@
     <string key="customObject.properties" value="Properties"/>
     <string key="customObject.material" value="Material"/>
     <string key="customObject.name" value="name"/>
-    <string key="customObject.custom" value="Custom"/>
+    <string key="customObject.custom" value="My Object"/>
     <string key="mysteryObject.material" value="Material"/>
     <string key="mysteryObject.densityColumnHeader" value="Density ({0})"/>
     <string key="mysteryObject.densityUnitsKgL" value="kg/L"/>
@@ -34,7 +34,7 @@
     <string key="material.diamond" value="Diamond"/>
     <string key="material.water" value="Water"/>
     <string key="material.waterBalloon" value="Water Balloon"/>
-    <string key="material.custom" value="Custom"/>
+    <string key="material.custom" value="My Object"/>
     <string key="material.gold" value="Gold"/>
     <string key="material.gasoline" value="Gasoline"/>
     <string key="material.ice" value="Ice"/>
