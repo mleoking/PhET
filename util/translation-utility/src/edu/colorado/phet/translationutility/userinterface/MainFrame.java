@@ -1,4 +1,4 @@
-/* Copyright 2007-2009, University of Colorado */
+/* Copyright 2007-2010, University of Colorado */
 
 package edu.colorado.phet.translationutility.userinterface;
 
@@ -189,7 +189,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
         
         Properties properties = translationPanel.getTargetProperties();
         try {
-            simulation.testStrings( properties, targetLocale );
+            simulation.testStrings( targetLocale, properties );
         }
         catch ( SimulationException e ) {
             ExceptionHandler.handleNonFatalException( e );
@@ -211,14 +211,14 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
             }
         }
         
-        File defaultFile = new File( saveLoadDirectory, simulation.getStringFileName( targetLocale ) );
-        JFileChooser chooser = simulation.getStringFileChooser();
+        File defaultFile = new File( saveLoadDirectory, simulation.getStringsFileName( targetLocale ) );
+        JFileChooser chooser = simulation.getStringsFileChooser();
         chooser.setSelectedFile( defaultFile );
         int option = chooser.showSaveDialog( this );
         saveLoadDirectory = chooser.getCurrentDirectory();
         if ( option == JFileChooser.APPROVE_OPTION ) {
             File outFile = chooser.getSelectedFile();
-            if ( outFile.getName().endsWith( simulation.getStringFileSuffix() ) ) {
+            if ( outFile.getName().endsWith( simulation.getStringsFileSuffix() ) ) {
                 // file suffix is appropriate, proceed with Save operation
                 Properties properties = translationPanel.getTargetProperties();
                 if ( outFile.exists() ) {
@@ -241,7 +241,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
             else {
                 // file suffix is inappropriate, tell the user and try again
                 LOGGER.info( "Save attempted with bogus filename: " + outFile.getAbsolutePath() );
-                Object[] args = { simulation.getStringFileSuffix() };
+                Object[] args = { simulation.getStringsFileSuffix() };
                 String message = MessageFormat.format( TUStrings.ERROR_SAVE_SUFFIX, args );
                 JOptionPane.showMessageDialog( this, message, TUStrings.ERROR_TITLE, JOptionPane.ERROR_MESSAGE );
                 handleSave();
@@ -266,7 +266,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
         }
         
         // load
-        JFileChooser chooser = simulation.getStringFileChooser();
+        JFileChooser chooser = simulation.getStringsFileChooser();
         chooser.setCurrentDirectory( saveLoadDirectory );
         int option = chooser.showOpenDialog( this );
         saveLoadDirectory = chooser.getCurrentDirectory();
@@ -299,7 +299,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
         Properties properties = translationPanel.getTargetProperties();
         
         // export properties to a file
-        File outFile = new File( submitDirName, simulation.getStringFileName( targetLocale ) );
+        File outFile = new File( submitDirName, simulation.getStringsFileName( targetLocale ) );
         if ( outFile.exists() ) {
             Object[] args = { outFile.getAbsolutePath() };
             String message = MessageFormat.format( TUStrings.CONFIRM_OVERWRITE_MESSAGE, args );

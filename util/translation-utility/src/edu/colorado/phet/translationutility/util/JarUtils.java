@@ -5,9 +5,12 @@ package edu.colorado.phet.translationutility.util;
 import java.io.*;
 import java.util.Properties;
 import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 import java.util.jar.JarInputStream;
+import java.util.jar.Manifest;
 
 import edu.colorado.phet.flashlauncher.util.SimulationProperties;
+import edu.colorado.phet.translationutility.util.DocumentIO.DocumentIOException;
 
 /**
  * Utility methods related to JAR files.
@@ -175,5 +178,60 @@ public class JarUtils {
         jarInputStream.close();
         
         return stringBuffer.toString();
+    }
+
+    /**
+     * Gets the manifest from a jar file.
+     * All JAR files for PhET simulations must have a manifest.
+     * 
+     * @param jarFileName
+     * @return Manifest
+     * @throws IOException
+     */
+    public static Manifest getManifest( String jarFileName ) throws IOException {
+        JarFile jarFile = new JarFile( jarFileName );
+        JarEntry jarEntry = jarFile.getJarEntry( JarFile.MANIFEST_NAME );
+        InputStream inputStream = jarFile.getInputStream( jarEntry );
+        Manifest manifest = new Manifest( inputStream ); // constructor reads the input stream
+        inputStream.close();
+        jarFile.close();
+        return manifest;
+    }
+    
+    /**
+     * Reads an XML document from the specified JAR file, and converts it to Properties.
+     * The XML document contains localized strings.
+     */
+    public static Properties readXMLAsProperties( String jarFileName, String xmlFilename ) throws IOException, DocumentIOException {
+        
+        // open the jar file
+        JarInputStream jarInputStream = openJar( jarFileName );
+        
+        // find the XML file
+        boolean found = false;
+        JarEntry jarEntry = jarInputStream.getNextJarEntry();
+        while ( jarEntry != null ) {
+            if ( jarEntry.getName().equals( xmlFilename ) ) {
+                found = true;
+                break;
+            }
+            else {
+                jarEntry = jarInputStream.getNextJarEntry();
+            }
+        }
+        
+        // convert the XML to Properties
+        Properties properties = new Properties();
+        if ( found ) {
+            properties = DocumentAdapter.readProperties( jarInputStream );
+        }
+        else {
+            throw new IOException( "file not found: " + xmlFilename );
+        }
+
+        // close the jar
+        jarInputStream.close();
+
+        return properties;
     }
 }
