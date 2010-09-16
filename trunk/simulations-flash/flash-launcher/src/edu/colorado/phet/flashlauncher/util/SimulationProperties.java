@@ -77,23 +77,59 @@ public class SimulationProperties {
     public boolean isDevelopment() {
         return false;
     }
+    
+    public void setSimulation( String simulation ) {
+        this.simulation = simulation;
+    }
 
     public String getSimulation() {
         return simulation;
+    }
+    
+    public void setProject( String project ) {
+        this.project = project;
     }
 
     public String getProject() {
         return project;
     }
 
+    public void setLanguage( String language ) {
+        this.language = language;
+    }
+    
     public String getLanguage() {
         return language;
+    }
+    
+    public void setCountry( String country ) {
+        this.country = country;
     }
 
     public String getCountry() {
         return country;
     }
+    
+    public void setLocale( Locale locale ) {
+        setLanguage( locale.getLanguage() );
+        setCountry( locale.getCountry() );
+    }
+    
+    public Locale getLocale() {
+        Locale locale = null;
+        if ( country != null ) {
+            locale = new Locale( getLanguage(), getCountry() );
+        }
+        else {
+            locale = new Locale( getLanguage() );
+        }
+        return locale;
+    }
 
+    public void setType( String type ) {
+        this.type = type;
+    }
+    
     public String getType() {
         return type;
     }
