@@ -17,6 +17,8 @@ public class DensityEditor extends PropertyEditor {
 
         densityObject.addMaterialListener(updateTextBoxEnabled);
         updateTextBoxEnabled();
+
+        setStyle( "paddingTop", 10 ); // give us a bit more padding to compensate for the labeled tickmarks
     }
 
     override protected function createSlider(property:NumericProperty, minimum:Number, maximum:Number, unit:Unit, densityObject:DensityObject, dataTipClamp:Function):SliderDecorator {
