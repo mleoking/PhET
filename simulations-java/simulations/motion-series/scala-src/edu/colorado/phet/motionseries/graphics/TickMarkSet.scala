@@ -11,8 +11,9 @@ import edu.umd.cs.piccolo.nodes.PText
 import edu.umd.cs.piccolo.PNode
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 import java.beans.{PropertyChangeEvent, PropertyChangeListener}
+import edu.colorado.phet.motionseries.model.PositionMapper
 
-class TickMarkSet(transform: ModelViewTransform2D, positionMapper: Double => Point2D, addListener: (() => Unit) => Unit) extends PNode {
+class TickMarkSet(transform: ModelViewTransform2D, positionMapper: PositionMapper, addListener: (() => Unit) => Unit) extends PNode {
   val tickLabels = for (x <- -10 to 10 by 2 if x != 0) yield {
     addTickLabel(x)
   }
@@ -42,7 +43,8 @@ class TickMarkSet(transform: ModelViewTransform2D, positionMapper: Double => Poi
     addChild(label)
     addListener(update)
     def update() = {
-      val d = transform.modelToView(positionMapper(x))
+      val vector = positionMapper(x)
+      val d = transform.modelToView(vector.x,vector.y)
       path.setPathTo(new Rectangle2D.Double(d.x, d.y, 2, 2))
       label.setOffset(path.getFullBounds.getCenterX - label.getFullBounds.width / 2, path.getFullBounds.getMaxY)
     }

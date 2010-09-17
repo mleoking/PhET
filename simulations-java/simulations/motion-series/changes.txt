@@ -1,3 +1,4 @@
+Refactored MotionSeriesObject to use observable PositionMapper instance
 Refactored ramp segments from array to named declarations for left and right segment
 Fixed: When sim is paused, dragging the "object position" slider causes incorrect normal force to point straight up.
 Fixed: In "Friction Tab", remove the Force Vectors radio buttons and replace with just checkbox for vectors as in 1st tab.

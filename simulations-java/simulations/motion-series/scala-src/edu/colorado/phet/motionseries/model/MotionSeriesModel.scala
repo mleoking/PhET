@@ -33,11 +33,12 @@ class MotionSeriesModel(defaultPosition: Double,
 
   val leftRampSegment = new RampSegment(new Point2D.Double(-rampLength, 0), new Point2D.Double(0, 0))
   val rightRampSegment = new RampSegment(new Point2D.Double(0, 0), new Point2D.Double(rampLength * cos(initialAngle), rampLength * sin(initialAngle)))
+  rightRampSegment.addListener(()=>positionMapper.notifyListeners())
+  leftRampSegment.addListener(()=>positionMapper.notifyListeners())
 
   val coordinateFrameModel = new CoordinateFrameModel(rightRampSegment)
 
   //Sends notification when any ramp segment changes
-  val rampChangeAdapter = new Object with Observable //todo: perhaps we should just pass the addListener method to the MotionSeriesObjects
   val wallRange = new MutableRange(edu.colorado.phet.motionseries.util.Range(-leftRampSegment.length, rightRampSegment.length))
 
   def updateWallRange() = wallRange.setValue(edu.colorado.phet.motionseries.util.Range(-leftRampSegment.length, rightRampSegment.length))
@@ -46,6 +47,10 @@ class MotionSeriesModel(defaultPosition: Double,
   val surfaceFriction = () => !frictionless
 
   val defaultManPosition = defaultPosition - 1 //Man should start 1 meter away from the object by default
+
+  val positionMapper = new PositionMapper{
+    def apply(particleLocation: Double) = toPosition2D(particleLocation)
+  }
 
   val leftWall = new MotionSeriesObject(this, -10, MotionSeriesDefaults.wall.width, MotionSeriesDefaults.wall.height)
   val rightWall = new MotionSeriesObject(this, 10, MotionSeriesDefaults.wall.width, MotionSeriesDefaults.wall.height)
@@ -60,8 +65,8 @@ class MotionSeriesModel(defaultPosition: Double,
   //This is the main object that forces are applied to
   val motionSeriesObject = new MotionSeriesObject(new MutableDouble(defaultPosition), new MutableDouble, new MutableDouble,
     new MutableDouble(_objectType.mass), new MutableDouble(_objectType.staticFriction), new MutableDouble(_objectType.kineticFriction),
-    _objectType.height, _objectType.width, toPosition2D,
-    rampSegmentAccessor, rampChangeAdapter, _wallsBounce, walls, wallRange, thermalEnergyStrategy, surfaceFriction, surfaceFrictionStrategy)
+    _objectType.height, _objectType.width, positionMapper,
+    rampSegmentAccessor, _wallsBounce, walls, wallRange, thermalEnergyStrategy, surfaceFriction, surfaceFrictionStrategy)
 
   updateDueToObjectTypeChange()
   motionSeriesObject.stepInTime(0.0) //Update vectors using the motion strategy
@@ -188,7 +193,6 @@ class MotionSeriesModel(defaultPosition: Double,
 
   def wallsBounce_=(b: Boolean) = {
     _wallsBounce.setValue(b)
-    rampChangeAdapter.notifyListeners()
     notifyListeners()
   }
 
@@ -197,7 +201,6 @@ class MotionSeriesModel(defaultPosition: Double,
 
   def frictionless_=(b: Boolean) = {
     _frictionless.setValue(b)
-    rampChangeAdapter.notifyListeners()
     notifyListeners()
   }
 
@@ -234,7 +237,7 @@ class MotionSeriesModel(defaultPosition: Double,
   /* Computes the 2D position for an object on the RampSegments, given its 1d scalar position. 
   This may need to be more general if/when there are more/less ramp segments
    */
-  def toPosition2D(particleLocation: Double) = {
+  private def toPosition2D(particleLocation: Double) = {
     if (particleLocation <= 0) {
       val backwardsUnitVector = leftRampSegment.unitVector * -1 //go backwards since position is measure from origin
       backwardsUnitVector * (-particleLocation) + leftRampSegment.endPoint
@@ -263,4 +266,8 @@ class MotionSeriesModel(defaultPosition: Double,
 
 trait SurfaceFrictionStrategy {
   def getTotalFriction(objectFriction: Double): Double
+}
+
+trait PositionMapper extends Observable{
+  def apply(value:Double):Vector2D
 }

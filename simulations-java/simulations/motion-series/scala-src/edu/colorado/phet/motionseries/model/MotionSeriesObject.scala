@@ -18,9 +18,8 @@ class MotionSeriesObject(_position: MutableDouble,
                          _kineticFriction: MutableDouble,
                          private var _height: Double,
                          private var _width: Double,
-                         val positionMapper: Double => Vector2D,
+                         val positionMapper: PositionMapper,
                          val rampSegmentAccessor: Double => RampSegment,
-                         rampChangeAdapter: Observable,
                          val wallsBounce: ScalaMutableBoolean,
                          val _wallsExist: MutableBoolean,
                          val wallRange: MutableRange,
@@ -29,8 +28,10 @@ class MotionSeriesObject(_position: MutableDouble,
                          private var _surfaceFrictionStrategy: SurfaceFrictionStrategy)
         extends Observable {
   def this(model: MotionSeriesModel, x: Double, width: Double, height: Double) = this (new MutableDouble(x), new MutableDouble, new MutableDouble, new MutableDouble(10),
-    new MutableDouble, new MutableDouble, height, width, model.toPosition2D, model.rampSegmentAccessor, model.rampChangeAdapter,
+    new MutableDouble, new MutableDouble, height, width, model.positionMapper, model.rampSegmentAccessor,
     model.wallsBounce, model.walls, model.wallRange, model.thermalEnergyStrategy, model.surfaceFriction, model.surfaceFrictionStrategy)
+
+  assert(positionMapper != null, "PositionMapper must be non-null")
 
   //This used to be lazily computed, but it detracting from performance due to the many calls to position2D, so now it is eagerly computed
   val _position2D = new Vector2DModel
@@ -65,7 +66,7 @@ class MotionSeriesObject(_position: MutableDouble,
   //notified when the MotionSeriesObject is being removed
   val removalListeners = new ArrayBuffer[() => Unit]
 
-  rampChangeAdapter.addListener(() => {
+  positionMapper.addListener(() => {
     updatePosition2D()
     updateForces()
     notifyListeners()
