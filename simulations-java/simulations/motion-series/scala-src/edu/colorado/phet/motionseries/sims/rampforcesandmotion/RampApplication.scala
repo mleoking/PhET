@@ -44,7 +44,7 @@ class BasicRampModule(frame: PhetFrame,
   setSimulationPanel(rampCanvas)
 
   //Create the control panel and set it as the simulation control panel
-  val rampControlPanel = new MotionSeriesControlPanel(motionSeriesModel, fbdModel, coordinateSystemModel, vectorViewModel, resetRampModule, coordinateSystemEnabled, controlPanelObjectComboBox, motionSeriesModel, true, true, true, "more.controls.title".translate,audioEnabled)
+  val rampControlPanel = new MotionSeriesControlPanel(motionSeriesModel, fbdModel, coordinateSystemModel, vectorViewModel, resetRampModule, coordinateSystemEnabled, controlPanelObjectComboBox, motionSeriesModel, true, true, true, "more.controls.title".translate, audioEnabled)
   setControlPanel(rampControlPanel)
 
   //Set the clock control panel to use one that has record and playback capabilities
@@ -106,6 +106,7 @@ class RampFrictionModule(frame: PhetFrame)
   frictionPlayAreaControlPanel.setOffset(rampCanvas.stage.getWidth / 2 - frictionPlayAreaControlPanel.getFullBounds.getWidth / 2, rampCanvas.stage.getHeight - frictionPlayAreaControlPanel.getFullBounds.getHeight)
   rampCanvas.addBehindVectorNodes(frictionPlayAreaControlPanel)
   motionSeriesModel.frictionless = false
+
 }
 
 //For debugging, just shows the force graphs tab

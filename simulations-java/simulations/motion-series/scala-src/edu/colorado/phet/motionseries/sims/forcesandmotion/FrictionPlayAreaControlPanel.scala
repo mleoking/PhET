@@ -24,7 +24,7 @@ class FrictionPlayAreaControlPanel(motionSeriesObject: MotionSeriesObject) exten
   setFillHorizontal()
   setBackground(MotionSeriesDefaults.EARTH_COLOR)
 
-  private val customObject = MotionSeriesDefaults.custom 
+  private val customObject = MotionSeriesDefaults.custom
 
   val staticFriction = new MyValueControl(0.0, 2.0, () => motionSeriesObject.staticFriction, motionSeriesObject.staticFriction = _, "property.coefficient-of-static-friction".translate, "0.0".literal, "".literal, motionSeriesObject)
   val kineticFriction = new MyValueControl(0.0, 2.0, () => motionSeriesObject.kineticFriction, motionSeriesObject.kineticFriction = _, "property.coefficient-of-kinetic-friction".translate, "0.0".literal, "".literal, motionSeriesObject)
@@ -57,15 +57,15 @@ class FrictionPlayAreaControlPanel(motionSeriesObject: MotionSeriesObject) exten
     constraints.anchor = GridBagConstraints.LINE_END
     add(s.getValueLabel, constraints)
     constraints.anchor = new GridBagConstraints().anchor
-    
+
     add(s.getSlider, constraints)
     add(s.getTextField, constraints)
-    
+
     //Left justify the units
-    constraints.anchor=GridBagConstraints.LINE_START
+    constraints.anchor = GridBagConstraints.LINE_START
     add(s.getUnitsLabel, constraints)
-    constraints.anchor=new GridBagConstraints().anchor
-    
+    constraints.anchor = new GridBagConstraints().anchor
+
     constraints.gridy = constraints.gridy + 1
   }
 }

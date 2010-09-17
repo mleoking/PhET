@@ -6,9 +6,8 @@ import java.util.Vector
 import javax.swing._
 import java.awt.event.{ItemListener, ItemEvent}
 import edu.colorado.phet.motionseries.model.MotionSeriesObjectType
-import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
-import edu.umd.cs.piccolox.pswing.{PSwingCanvas, PComboBox, PSwing}
+import edu.umd.cs.piccolox.pswing.PComboBox
 import java.awt.Color
 
 class ObjectSelectionComboBox(objectModel: ObjectModel) extends PComboBox {

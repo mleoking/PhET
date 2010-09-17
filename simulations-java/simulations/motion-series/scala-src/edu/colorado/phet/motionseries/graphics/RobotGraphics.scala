@@ -22,7 +22,7 @@ class RobotGraphics(transform: ModelViewTransform2D, gameModel: RobotMovingCompa
   val truckTop = new PImage(MotionSeriesResources.getImage("robotmovingcompany/truck_top.gif".literal))
   addChild(truckTop)
 
-  gameModel.model.rampSegments(0).addListener(update)
+  gameModel.model.leftRampSegment.addListener(update)
   update()
   def update() = {
     val rampTopLeft = gameModel.model.toPosition2D(-10)

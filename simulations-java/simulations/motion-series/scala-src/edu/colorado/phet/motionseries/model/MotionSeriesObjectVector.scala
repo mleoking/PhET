@@ -68,15 +68,14 @@ class VectorComponent(target: MotionSeriesObjectVector,
                       modifier: String,
                       labelAngle: Double)
         extends MotionSeriesObjectVector(target.color, target.name, target.abbreviation + modifier, target.bottomPO, target.vector2DModel, painter, labelAngle) {
-  
   val componentVector = new Vector2DModel
-  
+
   val listener = () => {
     val d = componentUnitVector.value
     componentVector.value = d * (super.vector2DModel() dot d)
   }
   componentUnitVector.addListener(listener)
   super.vector2DModel.addListener(listener)
-  
+
   override def vector2DModel = componentVector
 }

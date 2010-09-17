@@ -71,9 +71,9 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
   val leftSegmentNode = createLeftSegmentNode
   playAreaNode.addChild(leftSegmentNode)
 
-  def createLeftSegmentNode = new RampSegmentNode(model.rampSegments(0), transform, model, model.motionSeriesObject)
+  def createLeftSegmentNode = new RampSegmentNode(model.leftRampSegment, transform, model, model.motionSeriesObject)
 
-  def createRightSegmentNode: HasPaint = new RotatableSegmentNode(model.rampSegments(1), transform, model, model.motionSeriesObject)
+  def createRightSegmentNode: HasPaint = new RotatableSegmentNode(model.rightRampSegment, transform, model, model.motionSeriesObject)
 
   val rightSegmentNode = createRightSegmentNode
   playAreaNode.addChild(rightSegmentNode)
@@ -115,8 +115,8 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
   playAreaNode.addChild(new CoordinateFrameNode(model, adjustableCoordinateModel, transform))
 
   private def compositeListener(listener: () => Unit) = {
-    model.rampSegments(0).addListener(listener)
-    model.rampSegments(1).addListener(listener)
+    model.leftRampSegment.addListener(listener)
+    model.rightRampSegment.addListener(listener)
   }
 
   val tickMarkSet = new TickMarkSet(transform, model.toPosition2D, compositeListener)
@@ -209,12 +209,12 @@ class RampCanvas(model: MotionSeriesModel, coordinateSystemModel: AdjustableCoor
         extends MotionSeriesCanvasDecorator(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel,
           frame, showObjectSelectionNode, showAppliedForceSlider, rampAngleDraggable, modelViewport, stageContainerArea) {
   def addHeightAndAngleIndicators() = {
-    playAreaNode.addChild(new RampHeightIndicator(model.rampSegments(1), transform))
-    playAreaNode.addChild(new RampAngleIndicator(model.rampSegments(1), transform))
+    playAreaNode.addChild(new RampHeightIndicator(model.rightRampSegment, transform))
+    playAreaNode.addChild(new RampAngleIndicator(model.rightRampSegment, transform))
   }
 
   def attachListenerToRightWall(wall: PNode) = {
     wall.addInputEventListener(new CursorHandler)
-    wall.addInputEventListener(new RotationHandler(transform, wall, model.rampSegments(1), 0, MotionSeriesDefaults.MAX_ANGLE))
+    wall.addInputEventListener(new RotationHandler(transform, wall, model.rightRampSegment, 0, MotionSeriesDefaults.MAX_ANGLE))
   }
 }

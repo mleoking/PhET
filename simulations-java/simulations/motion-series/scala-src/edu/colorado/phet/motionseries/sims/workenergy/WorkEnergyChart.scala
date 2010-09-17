@@ -11,7 +11,6 @@ import edu.colorado.phet.motionseries.MotionSeriesDefaults
 
 import edu.umd.cs.piccolox.pswing.PSwing
 import edu.colorado.phet.scalacommon.util.Observable
-import edu.colorado.phet.motionseries.model.MotionSeriesModel
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 import MotionSeriesDefaults._
 import BarChartNode.Variable
@@ -51,7 +50,7 @@ class WorkEnergyChart(visibilityModel: WorkEnergyChartVisibilityModel, model: Wo
   barChartNode.init(Array(totalEnergyVariable, kineticEnergyVariable, potentialEnergyVariable, thermalEnergyVariable))
 
   val canvas = new PhetPCanvas //canvas to show the bars in.
-  val clearButton = new PSwing(Button("controls.clear-heat".translate){model.clearHeat()}.peer)
+  val clearButton = new PSwing(Button("controls.clear-heat".translate) {model.clearHeat()}.peer)
   val zoomButton = new ZoomControlNode(ZoomControlNode.VERTICAL) {
     addZoomListener(new ZoomControlNode.ZoomListener() {
       val zoomScale = 1.5

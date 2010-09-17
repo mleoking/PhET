@@ -61,7 +61,7 @@ class Raindrop(p: Vector2D, rainSpeed: Double, angle: Double, rampModel: WorkEne
     }
     val newPosition = motionSeriesObject.position2D
     import edu.colorado.phet.scalacommon.Predef._
-    val intersection = MathUtil.getLineSegmentsIntersection(origPosition, newPosition, rampModel.rampSegments(1).startPoint, rampModel.rampSegments(1).endPoint)
+    val intersection = MathUtil.getLineSegmentsIntersection(origPosition, newPosition, rampModel.rightRampSegment.startPoint, rampModel.rightRampSegment.endPoint)
     val hitRamp = if (java.lang.Double.isNaN(intersection.x) || java.lang.Double.isNaN(intersection.y)) false else true
     if (hitRamp || didCrash) {
       remove()

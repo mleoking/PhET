@@ -7,21 +7,21 @@ import edu.colorado.phet.motionseries.{MotionSeriesDefaults, MotionSeriesResourc
 
 //immutable memento for recording
 case class MotionSeriesObjectTypeState(name: String, mass: Double, kinFric: Double, statFric: Double, height: Double,
-                                   imageFilename: String, crashImageFilename: String, iconFilename: String,
-                                   customizable: Boolean, points: Int, objectType: MotionSeriesObjectTypeState => MotionSeriesObjectType) {
+                                       imageFilename: String, crashImageFilename: String, iconFilename: String,
+                                       customizable: Boolean, points: Int, objectType: MotionSeriesObjectTypeState => MotionSeriesObjectType) {
   def toObject = objectType(this)
 }
 
 class MotionSeriesObjectType(_name: String,
-                         protected var _mass: Double,
-                         protected var _kineticFriction: Double,
-                         protected var _staticFriction: Double,
-                         _height: Double,
-                         _imageFilename: String,
-                         _crashImageFilename: String,
-                         val iconFilename: String,
-                         _customizable: Boolean,
-                         val points: Int) {
+                             protected var _mass: Double,
+                             protected var _kineticFriction: Double,
+                             protected var _staticFriction: Double,
+                             _height: Double,
+                             _imageFilename: String,
+                             _crashImageFilename: String,
+                             val iconFilename: String,
+                             _customizable: Boolean,
+                             val points: Int) {
   def this(name: String, mass: Double, kineticFriction: Double, staticFriction: Double, height: Double, imageFilename: String, crashImageFilename: String, points: Int) = this (name, mass, kineticFriction, staticFriction, height, imageFilename, crashImageFilename, imageFilename, false, points)
 
   def this(name: String, mass: Double, kineticFriction: Double, staticFriction: Double, height: Double, imageFilename: String, points: Int) = this (name, mass, kineticFriction, staticFriction, height, imageFilename, imageFilename, imageFilename, false, points)

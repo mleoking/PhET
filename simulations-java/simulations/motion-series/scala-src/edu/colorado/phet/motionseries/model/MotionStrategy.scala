@@ -14,14 +14,14 @@ abstract class MotionStrategy(val motionSeriesObject: MotionSeriesObject) {
   def updateAppliedForce() {
     motionSeriesObject.appliedForce.value = motionSeriesObject.rampUnitVector * motionSeriesObject.parallelAppliedForce
   }
-  
+
   def updateForces() {
-    updateAppliedForce()//TODO: this call is duplicated in stepintime
+    updateAppliedForce() //TODO: this call is duplicated in stepintime
     motionSeriesObject.wallForce.value = wallForce
     motionSeriesObject.frictionForce.value = frictionForce(true)
     motionSeriesObject.normalForce.value = normalForce
     motionSeriesObject.gravityForce.value = motionSeriesObject.gravityForce.value
-    motionSeriesObject.totalForce.value = motionSeriesObject.gravityForce.value + motionSeriesObject.normalForce.value + 
+    motionSeriesObject.totalForce.value = motionSeriesObject.gravityForce.value + motionSeriesObject.normalForce.value +
             motionSeriesObject.appliedForce.value + motionSeriesObject.frictionForce.value + motionSeriesObject.wallForce.value
   }
 
@@ -40,7 +40,7 @@ abstract class MotionStrategy(val motionSeriesObject: MotionSeriesObject) {
   def frictionForce(includeWallForce: Boolean): Vector2D = new Vector2D
 
   def normalForce = new Vector2D
-  
+
   def mapPosition = motionSeriesObject.positionMapper(motionSeriesObject.position)
 }
 
@@ -65,9 +65,9 @@ class Crashed(_position2D: Vector2D, _angle: Double, motionSeriesObject: MotionS
   override def mapPosition = _position2D
 }
 
-class Airborne(private var _position2D: Vector2D, 
-               private var _velocity2D: Vector2D, 
-               _angle: Double, 
+class Airborne(private var _position2D: Vector2D,
+               private var _velocity2D: Vector2D,
+               _angle: Double,
                motionSeriesObject: MotionSeriesObject) extends MotionStrategy(motionSeriesObject: MotionSeriesObject) {
   def isCrashed = false
 
@@ -202,7 +202,7 @@ class Grounded(motionSeriesObject: MotionSeriesObject) extends MotionStrategy(mo
     lazy val totalEnergy = ke + pe + thermalEnergy
     lazy val ke = motionSeriesObject.mass * velocity * velocity / 2.0
     lazy val pe = motionSeriesObject.mass * motionSeriesObject.gravity.abs * motionSeriesObject.positionMapper(position).y //assumes positionmapper doesn't change, which is true during stepintime
-    
+
     def setPosition(p: Double) = copy(position = p)
 
     def setVelocity(v: Double) = copy(velocity = v)

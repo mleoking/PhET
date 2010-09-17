@@ -7,7 +7,7 @@ import edu.colorado.phet.motionseries.model.RampSegment
  * @author Sam Reid
  */
 
-class WorkEnergyRampSegment extends RampSegment(null){
+class WorkEnergyRampSegment extends RampSegment(null) {
   private var _wetness = 0.0 // 1.0 means max wetness
   def wetness = _wetness
 
