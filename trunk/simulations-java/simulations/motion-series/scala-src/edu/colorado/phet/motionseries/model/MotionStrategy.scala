@@ -226,8 +226,8 @@ class Grounded(motionSeriesObject: MotionSeriesObject) extends MotionStrategy(mo
       motionSeriesObject.parallelAppliedForce = 0
     }
     val distanceVector = motionSeriesObject.positionMapper(newState.position) - motionSeriesObject.positionMapper(origState.position)
-    val work = motionSeriesObject.appliedForce.value dot distanceVector
-    motionSeriesObject.workListeners.foreach(_(work))
+    for (listener <- motionSeriesObject.workListeners)
+      listener(motionSeriesObject.appliedForce.value dot distanceVector)
     motionSeriesObject.time = motionSeriesObject.time + dt
     motionSeriesObject.position = newState.position
     motionSeriesObject.velocity = newState.velocity
