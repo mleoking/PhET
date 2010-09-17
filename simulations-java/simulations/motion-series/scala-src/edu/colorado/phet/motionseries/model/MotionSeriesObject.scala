@@ -133,11 +133,6 @@ class MotionSeriesObject(_position: MutableDouble,
    */
   def remove() = removalListeners.foreach(_())
 
-  def removeAllListeners() = {
-    crashListeners.clear()
-    workListeners.clear()
-  }
-
   def width = _width
 
   def maxX = position + _width / 2
