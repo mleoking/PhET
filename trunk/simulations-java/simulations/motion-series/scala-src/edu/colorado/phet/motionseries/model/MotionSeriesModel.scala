@@ -33,8 +33,8 @@ class MotionSeriesModel(defaultPosition: Double,
 
   val leftRampSegment = new RampSegment(new Point2D.Double(-rampLength, 0), new Point2D.Double(0, 0))
   val rightRampSegment = new RampSegment(new Point2D.Double(0, 0), new Point2D.Double(rampLength * cos(initialAngle), rampLength * sin(initialAngle)))
-  rightRampSegment.addListener(()=>positionMapper.notifyListeners())
-  leftRampSegment.addListener(()=>positionMapper.notifyListeners())
+  rightRampSegment.addListener(() => positionMapper.notifyListeners())
+  leftRampSegment.addListener(() => positionMapper.notifyListeners())
 
   val coordinateFrameModel = new CoordinateFrameModel(rightRampSegment)
 
@@ -48,7 +48,7 @@ class MotionSeriesModel(defaultPosition: Double,
 
   val defaultManPosition = defaultPosition - 1 //Man should start 1 meter away from the object by default
 
-  val positionMapper = new PositionMapper{
+  val positionMapper = new PositionMapper {
     def apply(particleLocation: Double) = toPosition2D(particleLocation)
   }
 
@@ -234,9 +234,7 @@ class MotionSeriesModel(defaultPosition: Double,
 
   def rampAngle = rightRampSegment.angle
 
-  /* Computes the 2D position for an object on the RampSegments, given its 1d scalar position. 
-  This may need to be more general if/when there are more/less ramp segments
-   */
+  //Computes the 2D position for an object on the RampSegments, given its 1d scalar position.
   private def toPosition2D(particleLocation: Double) = {
     if (particleLocation <= 0) {
       val backwardsUnitVector = leftRampSegment.unitVector * -1 //go backwards since position is measure from origin
@@ -268,6 +266,6 @@ trait SurfaceFrictionStrategy {
   def getTotalFriction(objectFriction: Double): Double
 }
 
-trait PositionMapper extends Observable{
-  def apply(value:Double):Vector2D
+trait PositionMapper extends Observable {
+  def apply(value: Double): Vector2D
 }
