@@ -154,7 +154,10 @@ public class MiscJavaPanel extends JPanel {
     private void doDeployTest() {
         BuildLocalProperties buildLocalProperties = BuildLocalProperties.getInstance();
 
-        new BuildScript( trunk, project ).newDeployToDev( OldPhetServer.PHET_SERVER_DEV, buildLocalProperties.getDevAuthenticationInfo(), true );
+        new BuildScript( trunk, project ).newDeployToProductionAndDevelopment(
+                PhetWebsite.PHET_SERVER,
+                OldPhetServer.SPOT, buildLocalProperties.getDevAuthenticationInfo(), true, new VersionIncrement.UpdateProdMinor() );
+        //new BuildScript( trunk, project ).newDeployToDev( OldPhetServer.PHET_SERVER_DEV, buildLocalProperties.getDevAuthenticationInfo(), true );
     }
 
 }
