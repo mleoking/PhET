@@ -128,9 +128,7 @@ class MotionSeriesObject(_position: MutableDouble,
     wallForce.value = s.wallForce
   }
 
-  /**
-   * Notify that the MotionSeriesObject is being removed, and clear all listeners.
-   */
+  //Notify that the MotionSeriesObject is being removed, note this does not remove any listeners
   def remove() = removalListeners.foreach(_())
 
   def width = _width
