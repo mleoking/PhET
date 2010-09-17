@@ -51,7 +51,7 @@ public class CustomObjectPropertiesPanel extends DensityVBox {
         comboBox.rowCount = items.length;//Ensures there are no scroll bars in the combo box, see http://www.actionscript.org/forums/showthread.php3?t=218435 
 
         comboBox.labelField = "name";//uses the "name" get property on Material to identify the name
-        function myListener():void {
+        function listChangeListener():void {
             trace("comboBox.selectedItem=" + comboBox.selectedItem);
             if (comboBox.selectedItem.isCustom()) {
                 if (!densityObject.material.isCustom()) {
@@ -66,7 +66,7 @@ public class CustomObjectPropertiesPanel extends DensityVBox {
 
         comboBox.selectedItem = densityObject.material;
 
-        comboBox.addEventListener(ListEvent.CHANGE, myListener);
+        comboBox.addEventListener(ListEvent.CHANGE, listChangeListener);
         densityObject.addMaterialListener(function f():void {
             if (densityObject.material.isCustom()) {
                 comboBox.selectedItem = Material.CUSTOM;
