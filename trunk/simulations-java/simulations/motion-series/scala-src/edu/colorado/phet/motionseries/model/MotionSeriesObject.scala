@@ -119,7 +119,7 @@ class MotionSeriesObject(_position: MutableDouble,
     kineticFriction = s.kineticFriction
     thermalEnergy = s.thermalEnergy
     crashEnergy = s.crashEnergy
-    setTime(s.time)
+    time = s.time
     parallelAppliedForce = s.parallelAppliedForce
     gravityForce.value = s.gravityForce
     normalForce.value = s.normalForce
@@ -183,9 +183,7 @@ class MotionSeriesObject(_position: MutableDouble,
 
   def time = _time.value
 
-  def setTime(t: Double) = {
-    _time.value = t
-  }
+  def time_=(t: Double) = _time.value = t
 
   def airborneFloor = _airborneFloor
 

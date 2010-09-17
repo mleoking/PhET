@@ -81,7 +81,7 @@ class Airborne(private var _position2D: Vector2D,
     val accel = motionSeriesObject.totalForce.value / motionSeriesObject.mass
     _velocity2D = _velocity2D + accel * dt
     _position2D = _position2D + _velocity2D * dt
-    motionSeriesObject.setTime(motionSeriesObject.time + dt)
+    motionSeriesObject.time = motionSeriesObject.time + dt
     if (_position2D.y <= motionSeriesObject.airborneFloor) { //Crashed
       motionSeriesObject.motionStrategy = new Crashed(new Vector2D(_position2D.x, motionSeriesObject.airborneFloor), _angle, motionSeriesObject)
       motionSeriesObject.crashListeners.foreach(_())
@@ -229,7 +229,7 @@ class Grounded(motionSeriesObject: MotionSeriesObject) extends MotionStrategy(mo
     val distanceVector = motionSeriesObject.positionMapper(newState.position) - motionSeriesObject.positionMapper(origState.position)
     val work = motionSeriesObject.appliedForce.value dot distanceVector
     motionSeriesObject.workListeners.foreach(_(work))
-    motionSeriesObject.setTime(motionSeriesObject.time + dt)
+    motionSeriesObject.time = motionSeriesObject.time + dt
     motionSeriesObject.setPosition(newState.position)
     motionSeriesObject.setVelocity(newState.velocity)
     motionSeriesObject.thermalEnergy = newState.thermalEnergy
