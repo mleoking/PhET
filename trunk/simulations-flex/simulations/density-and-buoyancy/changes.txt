@@ -1,3 +1,4 @@
+> Moved the "Show Table" button
 > Tweaked the appearance of the custom object properties box
 # 1.00.02 (44071) Sep 14, 2010
 > Removed the word "balloon" from the table of material densities in "mystery objects" mode

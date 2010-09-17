@@ -20,6 +20,7 @@ public class SliderDecorator extends UIComponent {
         super();
 
         slider = new HSlider();
+        slider.showDataTip = false;
         slider.setStyle("dataTipOffset", 0);//Without this fix, data tips appear very far from the tip of the slider thumb, see http://blog.flexexamples.com/2007/11/03/customizing-a-slider-controls-data-tip/
 
         //The default NumberFormatter on slider uses Rounding.NONE, so to make sure it is compatible with the 
