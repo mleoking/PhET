@@ -37,7 +37,7 @@ class ChartComponentListener(canvas: PhetPCanvas, chartProportionY: Double, node
  */
 class RampForceChartNode(canvas: PhetPCanvas, motionSeriesModel: MotionSeriesModel) extends MultiControlChart(Array(new RampForceMinimizableControlChart(motionSeriesModel))) {
   canvas.addComponentListener(new ChartComponentListener(canvas, 0.5, this))
-  motionSeriesModel.resetListeners_+=(() => {resetAll()})
+  motionSeriesModel.addResetListener(resetAll)
   motionSeriesModel.addHistoryClearListener(new HistoryClearListener() {
     def historyCleared = {
       clear()
@@ -51,7 +51,7 @@ class ForcesAndMotionChartNode(canvas: PhetPCanvas, model: MotionSeriesModel) ex
   new MinimizableControlChart("properties.velocity".translate, new SingleSeriesChart(model, () => model.motionSeriesObject.state.velocity, 25, "properties.velocity.units".translate, MotionSeriesDefaults.velocityColor, "properties.velocity".translate).chart, false),
   new MinimizableControlChart("properties.position".translate, new SingleSeriesChart(model, () => model.motionSeriesObject.state.position, 10, "properties.position.units".translate, MotionSeriesDefaults.positionColor, "properties.position".translate).chart, false))) {
   canvas.addComponentListener(new ChartComponentListener(canvas, 0.7, this))
-  model.resetListeners_+=(() => {resetAll()})
+  model.addResetListener(resetAll)
 }
 
 class SingleSeriesChart(motionSeriesModel: MotionSeriesModel, _value: () => Double, maxY: Double, units: String, color: Color, title: String) {
@@ -94,7 +94,7 @@ class SingleSeriesChart(motionSeriesModel: MotionSeriesModel, _value: () => Doub
   val series = new MotionSeriesDataSeries(title, color, units, variable, motionSeriesModel, true)
   temporalChart.addDataSeries(series, series.color)
 
-  motionSeriesModel.resetListeners_+=(() => {series.clear()})
+  motionSeriesModel.addResetListener(() => series.clear())
   motionSeriesModel.addHistoryClearListener(new HistoryClearListener() {
     def historyCleared = {
       series.clear()
@@ -132,7 +132,7 @@ class ForcesAndMotionControlChart(motionSeriesModel: MotionSeriesModel) extends 
 }
 
 abstract class MotionSeriesControlChart(motionSeriesModel: MotionSeriesModel, forcesSum: String) {
-  motionSeriesModel.resetListeners_+=(() => {resetAll()})
+  motionSeriesModel.addResetListener(resetAll)
   def addSerieses(): Unit
 
   val temporalChart = new TemporalChart(new java.awt.geom.Rectangle2D.Double(0, -2000, 20, 4000), new Rectangle2D.Double(0, -5, 2, 10), new Rectangle2D.Double(0, -10000, 20, 20000), motionSeriesModel.chartCursor)
