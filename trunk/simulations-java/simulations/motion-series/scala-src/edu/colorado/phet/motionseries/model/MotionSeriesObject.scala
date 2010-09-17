@@ -38,7 +38,6 @@ class MotionSeriesObject(_position: MutableDouble,
 
   def updatePosition2D() = _position2D.value = motionStrategy.mapPosition
   _position.addListener(updatePosition2D)
-  rampChangeAdapter.addListener(updatePosition2D)
   updatePosition2D()
 
   def updateForces() = motionStrategy.updateForces()
@@ -67,6 +66,7 @@ class MotionSeriesObject(_position: MutableDouble,
   val removalListeners = new ArrayBuffer[() => Unit]
 
   rampChangeAdapter.addListener(() => {
+    updatePosition2D()
     updateForces()
     notifyListeners()
   })
