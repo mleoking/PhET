@@ -25,9 +25,7 @@ class MotionSeriesObject(_position: MutableDouble,
                          val wallRange: MutableRange,
                          thermalEnergyStrategy: Double => Double,
                          val surfaceFriction: () => Boolean,
-                         private var _surfaceFrictionStrategy: SurfaceFrictionStrategy)
-        extends Observable
-{
+                         private var _surfaceFrictionStrategy: SurfaceFrictionStrategy) {
   def this(model: MotionSeriesModel, x: Double, width: Double, height: Double) = this (new MutableDouble(x), new MutableDouble, new MutableDouble, new MutableDouble(10),
     new MutableDouble, new MutableDouble, height, width, model.positionMapper, model.rampSegmentAccessor,
     model.wallsBounce, model.walls, model.wallRange, model.thermalEnergyStrategy, model.surfaceFriction, model.surfaceFrictionStrategy)
@@ -70,7 +68,6 @@ class MotionSeriesObject(_position: MutableDouble,
   positionMapper.addListener(() => {
     updatePosition2D()
     updateForces()
-    notifyListeners()
   })
 
   //values initialized and updated in motionStrategy.updateForces()
@@ -85,7 +82,6 @@ class MotionSeriesObject(_position: MutableDouble,
   _parallelAppliedForce.addListener(() => {
     updateForces()
     parallelAppliedForceListeners.foreach(_()) //TODO: move listeners into _parallelAppliedForce
-    notifyListeners() //TODO: also move these listeners into _parallelAppliedForce
   })
 
   def updateGravityForce() = {
@@ -106,6 +102,7 @@ class MotionSeriesObject(_position: MutableDouble,
 
   private val wallCrashListeners = new ArrayBuffer[() => Unit]
   private val bounceListeners = new ArrayBuffer[() => Unit]
+  val stepListeners = new ArrayBuffer[() => Unit]
 
   def frictionless = state.staticFriction == 0 && state.kineticFriction == 0
 
@@ -134,20 +131,14 @@ class MotionSeriesObject(_position: MutableDouble,
     appliedForce.value = s.appliedForce
     frictionForce.value = s.frictionForce
     wallForce.value = s.wallForce
-
-    notifyListeners()
   }
 
   /**
    * Notify that the MotionSeriesObject is being removed, and clear all listeners.
    */
-  def remove() = {
-    removalListeners.foreach(_())
-    removeAllListeners()
-  }
+  def remove() = removalListeners.foreach(_())
 
-  override def removeAllListeners() = {
-    super.removeAllListeners()
+  def removeAllListeners() = {
     crashListeners.clear()
     workListeners.clear()
   }
@@ -174,23 +165,15 @@ class MotionSeriesObject(_position: MutableDouble,
 
   def gravityProperty = _gravity
 
-  def width_=(w: Double) = {
-    _width = w
-    notifyListeners()
-  }
+  def width_=(w: Double) = _width = w
 
   def position = _position.value
 
   def velocity = _velocity.value
 
-  def translate(dx: Double) {
-    position = _position.value + dx
-  }
+  def translate(dx: Double) = position = _position.value + dx
 
-  def height_=(height: Double) = {
-    _height = height
-    notifyListeners()
-  }
+  def height_=(height: Double) = _height = height
 
   def height = _height
 
@@ -230,16 +213,6 @@ class MotionSeriesObject(_position: MutableDouble,
 
   def getParallelComponent(f: Vector2D) = f dot rampUnitVector
 
-  def notificationsEnabled = _notificationsEnabled
-
-  def notificationsEnabled_=(b: Boolean) = _notificationsEnabled = b
-  //allow global disabling of notifications since they are very expensive and called many times during Grounded.stepInTime
-  override def notifyListeners() = {
-    if (notificationsEnabled) {
-      super.notifyListeners()
-    }
-  }
-
   //This method allows MotionSeriesObject subclasses to avoid thermal energy by overriding this to return 0.0
   def getThermalEnergy(x: Double) = thermalEnergyStrategy(x)
 
@@ -249,10 +222,7 @@ class MotionSeriesObject(_position: MutableDouble,
 
   def surfaceFrictionStrategy = _surfaceFrictionStrategy
 
-  def surfaceFrictionStrategy_=(x: SurfaceFrictionStrategy) = {
-    _surfaceFrictionStrategy = x
-    notifyListeners()
-  }
+  def surfaceFrictionStrategy_=(x: SurfaceFrictionStrategy) = _surfaceFrictionStrategy = x
 
   def staticFriction = _staticFriction.value
 
@@ -268,7 +238,6 @@ class MotionSeriesObject(_position: MutableDouble,
 
   def staticFriction_=(value: Double) {
     _staticFriction.value = value
-    notifyListeners()
 
     if (kineticFriction > staticFriction)
       kineticFriction = staticFriction
@@ -276,9 +245,8 @@ class MotionSeriesObject(_position: MutableDouble,
 
   def kineticFriction_=(value: Double) {
     _kineticFriction.value = value
-    notifyListeners()
 
-    //NP says to Increase static when you increase kinetic so that static >= kinetic.
+    //Increase static when you increase kinetic so that static >= kinetic.
     if (staticFriction < kineticFriction)
       staticFriction = kineticFriction
   }
@@ -305,7 +273,10 @@ class MotionSeriesObject(_position: MutableDouble,
 
   def getAngle = motionStrategy.getAngle
 
-  def stepInTime(dt: Double) = motionStrategy.stepInTime(dt)
+  def stepInTime(dt: Double) = {
+    motionStrategy.stepInTime(dt)
+    for (listener <- stepListeners) listener()
+  }
 
   def acceleration = forceToParallelAcceleration(totalForce())
 
