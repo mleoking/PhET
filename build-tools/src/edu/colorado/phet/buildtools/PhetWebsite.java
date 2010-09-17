@@ -134,7 +134,12 @@ public abstract class PhetWebsite {
     }
 
     public String getProjectBaseUrl( PhetProject project ) {
-        return "http://" + getWebHost() + project.getProdServerDeployPath();
+        String projectPath = project.getProdServerDeployPath();
+        if( projectPath == null ) {
+            // is null if the project is a simulation
+            return "http://" + getWebHost() + "/sims/" + project.getName();
+        }
+        return "http://" + getWebHost() + projectPath;
     }
 
     /*---------------------------------------------------------------------------*
@@ -191,7 +196,12 @@ public abstract class PhetWebsite {
     }
 
     public String getProjectBasePath( PhetProject project ) {
-        return getDocumentRoot() + project.getProdServerDeployPath();
+        String projectPath = project.getProdServerDeployPath();
+        if( projectPath == null ) {
+            // is null if the project is a simulation
+            return getSimsStagingPath() + "/" + project.getName();
+        }
+        return getDocumentRoot() + projectPath;
     }
 
     /*---------------------------------------------------------------------------*
