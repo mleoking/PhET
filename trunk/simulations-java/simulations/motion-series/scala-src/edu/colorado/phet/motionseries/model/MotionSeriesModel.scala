@@ -236,13 +236,10 @@ class MotionSeriesModel(defaultPosition: Double,
 
   //Computes the 2D position for an object on the RampSegments, given its 1d scalar position.
   private def toPosition2D(particleLocation: Double) = {
-    if (particleLocation <= 0) {
-      val backwardsUnitVector = leftRampSegment.unitVector * -1 //go backwards since position is measure from origin
-      backwardsUnitVector * (-particleLocation) + leftRampSegment.endPoint
-    }
-    else {
-      rightRampSegment.unitVector * (particleLocation) + rightRampSegment.startPoint
-    }
+    if (particleLocation <= 0)
+      leftRampSegment.unitVector * -1 * particleLocation.abs + leftRampSegment.endPoint
+    else
+      rightRampSegment.unitVector * particleLocation.abs + rightRampSegment.startPoint
   }
 
   def rampSegmentAccessor(particleLocation: Double) = if (particleLocation <= 0) leftRampSegment else rightRampSegment
