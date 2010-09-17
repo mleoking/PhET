@@ -216,7 +216,6 @@ class Grounded(motionSeriesObject: MotionSeriesObject) extends MotionStrategy(mo
 
   override def stepInTime(dt: Double) = {
     this.dt = dt
-    motionSeriesObject.notificationsEnabled = false //make sure only to send notifications as a batch at the end; improves performance by 17%
     updateAppliedForce()
     val origEnergy = motionSeriesObject.getTotalEnergy
     val origState = motionSeriesObject.state
@@ -236,9 +235,6 @@ class Grounded(motionSeriesObject: MotionSeriesObject) extends MotionStrategy(mo
     motionSeriesObject.crashEnergy = newState.crashEnergy
 
     updateForces()
-
-    motionSeriesObject.notificationsEnabled = true
-    motionSeriesObject.notifyListeners() //do as a batch, since it's a performance problem to do this several times in this method call
   }
 
   def bounce = motionSeriesObject.wallsBounce.booleanValue

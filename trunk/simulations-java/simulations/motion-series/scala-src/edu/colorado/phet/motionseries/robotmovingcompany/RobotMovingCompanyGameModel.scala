@@ -129,26 +129,27 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
         val stoppedAtHouse = inFrontOfDoor && atRest //okay to be pushing
         val stoppedAndOutOfEnergy = atRest && _robotEnergy == 0
         val crashed = atRest && motionSeriesObject.position2D.y < 0 //todo: won't this be wrong if the object falls off slowly?  What about checking for Crashed strategy?
+        def removeSelf() = motionSeriesObject.stepListeners -= this
         if (stoppedAtHouse) {
-          motionSeriesObject.removeListener(this) //remove listener first, in case itemDelivered causes any notifications (it currently doesn't)
+          removeSelf() //remove listener first, in case itemDelivered causes any notifications (it currently doesn't)
           itemDelivered(sel, motionSeriesObject)
         }
         //TODO: need to make sure object is not about to start sliding back down the ramp
         else if ((stoppedAndOutOfEnergy || crashed) &&
                 motionSeriesObject.acceleration <= 1E-6) { //make sure object isn't about to start sliding back down the ramp
           println("item lost, acceleration = " + motionSeriesObject.acceleration)
-          motionSeriesObject.removeListener(this) //see note above on ordering
+          removeSelf() //see note above on ordering
           itemLost(sel)
         }
         //if pushing for 1 sec and still have energy, then should be NotEnoughEnergyToPush
         if (lastPushTime != 0 && System.currentTimeMillis - lastPushTime >= 1000) {
-          motionSeriesObject.removeListener(this)
+          removeSelf()
           itemStuck(sel)
         }
       }
     }
 
-    motionSeriesObject.addListener(listener)
+    motionSeriesObject.stepListeners += listener
 
     _motionSeriesObject.workListeners += (work => {
       _robotEnergy = _robotEnergy - abs(work)
