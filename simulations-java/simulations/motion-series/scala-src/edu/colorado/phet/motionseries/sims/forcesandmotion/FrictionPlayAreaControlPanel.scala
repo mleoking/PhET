@@ -26,10 +26,14 @@ class FrictionPlayAreaControlPanel(motionSeriesObject: MotionSeriesObject) exten
 
   private val customObject = MotionSeriesDefaults.custom
 
-  val staticFriction = new MyValueControl(0.0, 2.0, () => motionSeriesObject.staticFriction, motionSeriesObject.staticFriction = _, "property.coefficient-of-static-friction".translate, "0.0".literal, "".literal, motionSeriesObject)
-  val kineticFriction = new MyValueControl(0.0, 2.0, () => motionSeriesObject.kineticFriction, motionSeriesObject.kineticFriction = _, "property.coefficient-of-kinetic-friction".translate, "0.0".literal, "".literal, motionSeriesObject)
-  val objectMass = new MyValueControl(1, 200, () => customObject.mass, customObject.mass = _, "property.object-mass".translate, "0.0".literal, "units.abbr.kg".translate, motionSeriesObject) //todo: this changes the mass for all tabs, not just this tab
-  val gravity = new MyValueControl(0.1, sliderMaxGravity, () => motionSeriesObject.gravity.abs, x => motionSeriesObject.gravity = -x, "forces.gravity".translate, "0.0".literal, "properties.acceleration.units".translate, motionSeriesObject)
+  val staticFriction = new MyValueControl(0.0, 2.0, () => motionSeriesObject.staticFriction, motionSeriesObject.staticFriction = _,
+    "property.coefficient-of-static-friction".translate, "0.0".literal, "".literal, motionSeriesObject)
+  val kineticFriction = new MyValueControl(0.0, 2.0, () => motionSeriesObject.kineticFriction, motionSeriesObject.kineticFriction = _,
+    "property.coefficient-of-kinetic-friction".translate, "0.0".literal, "".literal, motionSeriesObject)
+  val objectMass = new MyValueControl(1, 200, () => customObject.mass, customObject.mass = _,
+    "property.object-mass".translate, "0.0".literal, "units.abbr.kg".translate, motionSeriesObject) //todo: this changes the mass for all tabs, not just this tab
+  val gravity = new MyValueControl(0.1, sliderMaxGravity, () => motionSeriesObject.gravity.abs, x => motionSeriesObject.gravity = -x,
+    "forces.gravity".translate, "0.0".literal, "properties.acceleration.units".translate, motionSeriesObject)
 
   val sliderArray = Array[AbstractValueControl](staticFriction, kineticFriction, objectMass, gravity)
 
