@@ -2,7 +2,6 @@ package edu.colorado.phet.motionseries.model
 
 import collection.mutable.ArrayBuffer
 import edu.colorado.phet.scalacommon.math.Vector2D
-import edu.colorado.phet.scalacommon.util.Observable
 import edu.colorado.phet.common.phetcommon.model.MutableBoolean
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.colorado.phet.motionseries.Predef._
@@ -79,10 +78,7 @@ class MotionSeriesObject(_position: MutableDouble,
   val appliedForce = new Vector2DModel
   val _parallelAppliedForce = new MutableDouble
 
-  _parallelAppliedForce.addListener(() => {
-    updateForces()
-    parallelAppliedForceListeners.foreach(_()) //TODO: move listeners into _parallelAppliedForce
-  })
+  _parallelAppliedForce.addListener(updateForces)
 
   def updateGravityForce() = {
     gravityForce.value = new Vector2D(0, gravity * mass)
@@ -98,7 +94,6 @@ class MotionSeriesObject(_position: MutableDouble,
   val appliedForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.appliedForceColor, "Applied Force".literal, "force.abbrev.applied".translate, false, appliedForce, (a, b) => b, PI / 2)
   val frictionForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.frictionForceColor, "Friction Force".literal, "force.abbrev.friction".translate, true, frictionForce, (a, b) => b, -PI / 2)
   val wallForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.wallForceColor, "Wall Force".literal, "force.abbrev.wall".translate, false, wallForce, (a, b) => b, PI / 2)
-  val parallelAppliedForceListeners = new ArrayBuffer[() => Unit]
 
   private val wallCrashListeners = new ArrayBuffer[() => Unit]
   private val bounceListeners = new ArrayBuffer[() => Unit]
@@ -219,6 +214,8 @@ class MotionSeriesObject(_position: MutableDouble,
   def parallelAppliedForce = _parallelAppliedForce.value
 
   def parallelAppliedForce_=(value: Double) = _parallelAppliedForce.value = value
+
+  def parallelAppliedForceProperty = _parallelAppliedForce
 
   def surfaceFrictionStrategy = _surfaceFrictionStrategy
 
