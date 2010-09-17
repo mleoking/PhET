@@ -16,6 +16,8 @@ public class DensityCanvas extends AbstractDensityAndBuoyancyCanvas {
     private var densityModule:DensityModule;
     private var customButton:RadioButton;
 
+    public var modeControlPanel:DensityVBox;
+
     public function DensityCanvas() {
         super();
 
@@ -24,7 +26,7 @@ public class DensityCanvas extends AbstractDensityAndBuoyancyCanvas {
         densityModule = new DensityModule();
         addChild( densityModule );
 
-        var modeControlPanel:DensityVBox = new DensityVBox();
+        modeControlPanel = new DensityVBox();
         modeControlPanel.setStyle( "right", DensityConstants.CONTROL_INSET );
         modeControlPanel.y = DensityConstants.CONTROL_INSET;
 
