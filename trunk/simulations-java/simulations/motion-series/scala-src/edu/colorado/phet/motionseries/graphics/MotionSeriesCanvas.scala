@@ -119,7 +119,7 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
     model.rightRampSegment.addListener(listener)
   }
 
-  val tickMarkSet = new TickMarkSet(transform, model.toPosition2D, compositeListener)
+  val tickMarkSet = new TickMarkSet(transform, model.positionMapper, compositeListener)
   playAreaNode.addChild(tickMarkSet)
 
   val freeBodyDiagramNode = new FreeBodyDiagramNode(freeBodyDiagramModel, 200, 200, freeBodyDiagramWidth, freeBodyDiagramWidth, model.coordinateFrameModel, adjustableCoordinateModel, PhetCommonResources.getImage("buttons/maximizeButton.png".literal), () => model.rampAngle)
