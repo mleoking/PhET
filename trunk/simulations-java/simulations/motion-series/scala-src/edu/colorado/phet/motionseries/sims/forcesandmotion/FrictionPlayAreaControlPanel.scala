@@ -32,9 +32,9 @@ class FrictionPlayAreaControlPanel(motionSeriesObject: MotionSeriesObject) exten
   val kineticFriction = new MyValueControl(0.0, 2.0, () => motionSeriesObject.kineticFriction, motionSeriesObject.kineticFriction = _,
     "property.coefficient-of-kinetic-friction".translate, "0.0".literal, "".literal, motionSeriesObject.kineticFrictionProperty)
   val objectMass = new MyValueControl(1, 200, () => motionSeriesObject.mass, motionSeriesObject.mass = _,
-    "property.object-mass".translate, "0.0".literal, "units.abbr.kg".translate, motionSeriesObject)
+    "property.object-mass".translate, "0.0".literal, "units.abbr.kg".translate, motionSeriesObject.massProperty)
   val gravity = new MyValueControl(0.1, sliderMaxGravity, () => motionSeriesObject.gravity.abs, x => motionSeriesObject.gravity = -x,
-    "forces.gravity".translate, "0.0".literal, "properties.acceleration.units".translate, motionSeriesObject)
+    "forces.gravity".translate, "0.0".literal, "properties.acceleration.units".translate, motionSeriesObject.gravityProperty)
 
   val sliderArray = Array[AbstractValueControl](staticFriction, kineticFriction, objectMass, gravity)
 

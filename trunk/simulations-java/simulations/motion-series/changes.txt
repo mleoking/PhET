@@ -1,3 +1,4 @@
+Converted global listeners on MotionSeriesObject into fine grained property listeners
 Converted velocity and position setters from javabean to property style
 Improved setter for time on MotionSeriesObject
 Fixed: In "Friction" tab, changing mass resets the friction coefficients to default values. All sliders should be independent of each other.

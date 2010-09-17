@@ -250,8 +250,10 @@ class MutableDouble(private var _value: Double) extends Observable {
   def value = _value
 
   def value_=(x: Double) = {
-    _value = x
-    notifyListeners()
+    if (_value != x) {
+      _value = x
+      notifyListeners()
+    }
   }
 
   def apply() = value

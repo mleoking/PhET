@@ -92,6 +92,6 @@ class MotionSeriesObjectNode(motionSeriesObject: MotionSeriesObject,
       imageNode.setImage(image)
     }
   }
-  motionSeriesObject.addListener(update)
+  motionSeriesObject.position2DProperty.addListener(update)
   update()
 }

@@ -74,7 +74,7 @@ class PlayAreaVectorDisplay(transform: ModelViewTransform2D, motionSeriesObject:
     val defaultCenter = motionSeriesObject.height / 2.0
     def getValue = motionSeriesObject.position2D + new Vector2D(motionSeriesObject.getAngle + java.lang.Math.PI / 2) * (offset + defaultCenter)
     val myoffset = new Vector2DModel(getValue)
-    motionSeriesObject.addListener(() => myoffset.value = getValue)
+    motionSeriesObject.position2DProperty.addListener(() => myoffset.value = getValue)
     addChild(new BodyVectorNode(transform, vector, myoffset, motionSeriesObject, MotionSeriesDefaults.PLAY_AREA_FORCE_VECTOR_SCALE))
   }
 

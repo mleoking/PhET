@@ -11,7 +11,7 @@ import edu.colorado.phet.motionseries.model.MotionSeriesObject
 
 class PusherNode(transform: ModelViewTransform2D, targetObject: MotionSeriesObject, manObject: MotionSeriesObject)
         extends MotionSeriesObjectNode(manObject, transform, "standing-man.png".literal) {
-  defineInvokeAndPass(targetObject.addListenerByName) {
+  def doUpdate() = {
     if (targetObject.appliedForce.magnitude > 0) {
 
       //todo: use actual object widths here
@@ -35,13 +35,15 @@ class PusherNode(transform: ModelViewTransform2D, targetObject: MotionSeriesObje
       super.update()
     }
   }
+  targetObject.position2DProperty.addListener(doUpdate)
+  targetObject.appliedForce.addListener(doUpdate)
   setPickable(false)
   setChildrenPickable(false)
 }
 
 class RobotPusherNode(transform: ModelViewTransform2D, targetObject: MotionSeriesObject, man: MotionSeriesObject)
         extends MotionSeriesObjectNode(man, transform, "robotmovingcompany/robot.gif".literal) {
-  defineInvokeAndPass(targetObject.addListenerByName) {
+  def myUpdate() = {
     if (targetObject.appliedForce.magnitude > 0) {
       val dx = 1.3 * (if (targetObject.appliedForce().x > 0) -1 else 1)
       man.position = targetObject.position + dx
@@ -51,6 +53,8 @@ class RobotPusherNode(transform: ModelViewTransform2D, targetObject: MotionSerie
       setImages(realIm, realIm)
     }
   }
+  targetObject.appliedForce.addListener(myUpdate)
+  targetObject.position2DProperty.addListener(myUpdate)
   setPickable(false)
   setChildrenPickable(false)
 }

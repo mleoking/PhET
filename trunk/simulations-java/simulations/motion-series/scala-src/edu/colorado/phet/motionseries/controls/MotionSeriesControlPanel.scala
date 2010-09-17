@@ -186,7 +186,7 @@ class RampControlPanelBody(model: MotionSeriesModel,
       model.motionSeriesObject.position = clampedValue
       if (clampedValue != x) positionSlider.setValue(clampedValue) //Have to make sure the readout indicates the model value, not the requested user value
     },
-    model.motionSeriesObject.addListener)
+    model.motionSeriesObject.positionProperty.addListener)
   positionSlider.getSlider.addMouseListener(new MouseAdapter() {
     override def mousePressed(e: MouseEvent) = {
       val x: Double = if (model.motionSeriesObject.position > MotionSeriesDefaults.MAX_X) MotionSeriesDefaults.MAX_X
