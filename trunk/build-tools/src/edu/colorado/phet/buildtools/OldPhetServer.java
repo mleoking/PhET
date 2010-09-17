@@ -65,7 +65,7 @@ public abstract class OldPhetServer {
             null,
             null,
             "/etc/tomcat6/build-local.properties",
-            "/data/web/htdocs/phetsims/staging/sims"
+            "/var/www/wicket/staging/sims"
     );
     public static OldPhetServer PHET_SERVER_DEV = new PhetDevServer(
             "phet-server.colorado.edu", // Server host
@@ -88,7 +88,7 @@ public abstract class OldPhetServer {
             null,
             null,
             "/etc/tomcat6/build-local.properties",
-            "/data/web/htdocs/phetsims/staging/sims"
+            "/var/phet/staging/sims"
     );
     public static OldPhetServer JON_DEV_DEV = new PhetDevServer(
             "192.168.1.64", // Server host
