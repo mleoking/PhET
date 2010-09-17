@@ -42,7 +42,8 @@ public abstract class OldPhetServer {
             null,
             null,
             "/usr/local/tomcat/conf/build-local.properties",
-            "/data/web/htdocs/phetsims/staging/sims"
+            "/data/web/htdocs/phetsims/staging/sims",
+            "/data/web/htdocs/phet"
     );
     public static OldPhetServer FIGARO_DEV = new PhetDevServer(
             "figaro.colorado.edu", // Server host
@@ -65,7 +66,8 @@ public abstract class OldPhetServer {
             null,
             null,
             "/etc/tomcat6/build-local.properties",
-            "/var/www/wicket/staging/sims"
+            "/var/www/wicket/staging/sims",
+            "/var/www/wicket"
     );
     public static OldPhetServer PHET_SERVER_DEV = new PhetDevServer(
             "phet-server.colorado.edu", // Server host
@@ -88,7 +90,8 @@ public abstract class OldPhetServer {
             null,
             null,
             "/etc/tomcat6/build-local.properties",
-            "/var/phet/staging/sims"
+            "/var/phet/staging/sims",
+            "/var/phet"
     );
     public static OldPhetServer JON_DEV_DEV = new PhetDevServer(
             "192.168.1.64", // Server host
@@ -224,8 +227,10 @@ public abstract class OldPhetServer {
     }
 
     private static class PhetProdServer extends OldPhetServer {
-        public PhetProdServer( String serverHost, String webHost, String serverDeployPath, String webDeployPath, String cacheClearUrl, String cacheClearFile, String localizationCommand, String buildLocalPropertiesFile, String stagingArea ) {
+        private String docRoot;
+        public PhetProdServer( String serverHost, String webHost, String serverDeployPath, String webDeployPath, String cacheClearUrl, String cacheClearFile, String localizationCommand, String buildLocalPropertiesFile, String stagingArea, String docRoot ) {
             super( serverHost, webHost, serverDeployPath, webDeployPath, cacheClearUrl, cacheClearFile, localizationCommand, false, buildLocalPropertiesFile, stagingArea );
+            this.docRoot = docRoot;
         }
 
         public String getCodebase( PhetProject project ) {
@@ -237,7 +242,7 @@ public abstract class OldPhetServer {
             if ( project.getProdServerDeployPath() != null ) {
                 // temporary workaround to specify an absolute path on figaro
                 // TODO: refactor this out so we don't rely on OldPhetServer, and don't use getServerDeployPath (points to sim root)
-                String path = "/data/web/htdocs/phet" + project.getProdServerDeployPath();
+                String path = docRoot + project.getProdServerDeployPath();
                 System.out.println( "getServerDeployPath()<override>:" + path );
                 return path;
             }
