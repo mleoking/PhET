@@ -1,3 +1,5 @@
+# 1.00.04 (44136) Sep 17, 2010
+9/17/10 > Fixed bug where My Object would turn to Aluminum
 # 1.00.03 (44125) Sep 16, 2010
 > Disabled directly changing the density of the custom object
 > Moved the "Show Table" button
