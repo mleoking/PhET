@@ -1,3 +1,17 @@
+Update 9/17/2010 - This directory originally contained scripts for creating
+custom installers, then for all installers, and now for no installers.  Here
+is why: The custom installers worked off the Wicket-based site, which was
+initially hosted on phet-server and then on Figaro.  When the main PhET site
+migrated to also be a wicket-based site running on Figaro, the easiest way to
+get the installers working again was to leverage what had been the custom
+installers.  At that point, the main PhET installer was in this directory too.
+Ultimately, it made sense to move all of the installers to the main directory
+(one above this directory), and not worry about the distinction between the
+custom and non-custom installers.  --jblanco
+
+
+---- Previous README contents ------------
+
 This directory contains scripts for creating custom installers, meaning
 installers that are created specifically for some end user other than PhET.
 At the time of this writing, there are two such installers, one for King Saud
