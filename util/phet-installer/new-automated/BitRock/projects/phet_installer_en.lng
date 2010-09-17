@@ -1,3 +1,0 @@
-Installer.Ready.Text1=Setup is now ready to begin installing %1$s on your computer.  Please click "Next" to begin the installation.
-Installer.Parameter.installdir.explanation=Please specify the directory where ${product_shortname} will be installed.  If you're not sure what directory to use, click "Next" to accept the default directory.
-Installer.Welcome.Text=Welcome to the %1$s Setup Wizard.  Please click "Next" to continue.
