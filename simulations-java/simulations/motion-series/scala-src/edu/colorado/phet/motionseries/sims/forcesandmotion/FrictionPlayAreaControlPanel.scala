@@ -11,9 +11,10 @@ import edu.colorado.phet.motionseries.model.{MotionSeriesModel, MotionSeriesObje
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.{HorizontalLayoutStrategy, AbstractValueControl}
 import java.awt.{GridBagConstraints, GridBagLayout}
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
+import edu.colorado.phet.scalacommon.util.Observable
 
-class MyValueControl(min: Double, max: Double, getter: () => Double, setter: Double => Unit, title: String, numberFormat: String, units: String, motionSeriesObject: MotionSeriesObject)
-        extends ScalaValueControl(min, max, title, numberFormat, units, getter, setter, motionSeriesObject.addListener, new HorizontalLayoutStrategy) {
+class MyValueControl(min: Double, max: Double, getter: () => Double, setter: Double => Unit, title: String, numberFormat: String, units: String, observable: Observable)
+        extends ScalaValueControl(min, max, title, numberFormat, units, getter, setter, observable.addListener, new HorizontalLayoutStrategy) {
   getSlider.setPaintTicks(false)
   getSlider.setPaintLabels(false)
   getSlider.setBackground(MotionSeriesDefaults.EARTH_COLOR)
@@ -27,11 +28,11 @@ class FrictionPlayAreaControlPanel(motionSeriesObject: MotionSeriesObject) exten
   private val customObject = MotionSeriesDefaults.custom
 
   val staticFriction = new MyValueControl(0.0, 2.0, () => motionSeriesObject.staticFriction, motionSeriesObject.staticFriction = _,
-    "property.coefficient-of-static-friction".translate, "0.0".literal, "".literal, motionSeriesObject)
+    "property.coefficient-of-static-friction".translate, "0.0".literal, "".literal, motionSeriesObject.staticFrictionProperty)
   val kineticFriction = new MyValueControl(0.0, 2.0, () => motionSeriesObject.kineticFriction, motionSeriesObject.kineticFriction = _,
-    "property.coefficient-of-kinetic-friction".translate, "0.0".literal, "".literal, motionSeriesObject)
-  val objectMass = new MyValueControl(1, 200, () => customObject.mass, customObject.mass = _,
-    "property.object-mass".translate, "0.0".literal, "units.abbr.kg".translate, motionSeriesObject) //todo: this changes the mass for all tabs, not just this tab
+    "property.coefficient-of-kinetic-friction".translate, "0.0".literal, "".literal, motionSeriesObject.kineticFrictionProperty)
+  val objectMass = new MyValueControl(1, 200, () => motionSeriesObject.mass, motionSeriesObject.mass = _,
+    "property.object-mass".translate, "0.0".literal, "units.abbr.kg".translate, motionSeriesObject)
   val gravity = new MyValueControl(0.1, sliderMaxGravity, () => motionSeriesObject.gravity.abs, x => motionSeriesObject.gravity = -x,
     "forces.gravity".translate, "0.0".literal, "properties.acceleration.units".translate, motionSeriesObject)
 
