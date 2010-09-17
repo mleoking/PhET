@@ -262,6 +262,10 @@ class MotionSeriesObject(_position: MutableDouble,
 
   def staticFriction = _staticFriction.value
 
+  def staticFrictionProperty = _staticFriction
+
+  def kineticFrictionProperty = _kineticFriction
+
   def kineticFriction = _kineticFriction.value
 
   def staticFriction_=(value: Double) {
