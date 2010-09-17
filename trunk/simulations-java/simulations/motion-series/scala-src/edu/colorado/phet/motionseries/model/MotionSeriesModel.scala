@@ -102,9 +102,9 @@ class MotionSeriesModel(defaultPosition: Double,
 
   def returnMotionSeriesObject() = {
     motionSeriesObject.attach()
-    motionSeriesObject.setPosition(defaultPosition)
+    motionSeriesObject.position = defaultPosition
     motionSeriesObject.parallelAppliedForce = 0
-    motionSeriesObject.setVelocity(0)
+    motionSeriesObject.velocity = 0
   }
 
   def resetObject() = {
@@ -125,7 +125,7 @@ class MotionSeriesModel(defaultPosition: Double,
       _frictionless.reset()
       walls.reset()
       resetObject()
-      manMotionSeriesObject.setPosition(defaultManPosition)
+      manMotionSeriesObject.position = defaultManPosition
 
       rightRampSegment.setAngle(initialAngle)
 
@@ -183,8 +183,8 @@ class MotionSeriesModel(defaultPosition: Double,
     }
 
     //resolve collisions with the wall when switching objects
-    motionSeriesObject.setPosition(MathUtil.clamp(MotionSeriesDefaults.MIN_X + motionSeriesObject.width / 2,
-      motionSeriesObject.position, MotionSeriesDefaults.MAX_X - motionSeriesObject.width / 2))
+    motionSeriesObject.position = MathUtil.clamp(MotionSeriesDefaults.MIN_X + motionSeriesObject.width / 2,
+      motionSeriesObject.position, MotionSeriesDefaults.MAX_X - motionSeriesObject.width / 2)
 
     notifyListeners()
   }

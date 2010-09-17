@@ -16,7 +16,7 @@ class PusherNode(transform: ModelViewTransform2D, targetObject: MotionSeriesObje
 
       //todo: use actual object widths here
       val dx = 2.2 * (if (targetObject.appliedForce().x > 0) -1 else 1)
-      manObject.setPosition(targetObject.position + dx)
+      manObject.position = targetObject.position + dx
 
       //images go 1 to 14
       val leanAmount = MathUtil.clamp(1, (abs(targetObject.appliedForce().x) * 13.0 / 50.0).toInt + 1, 14).toInt
@@ -44,7 +44,7 @@ class RobotPusherNode(transform: ModelViewTransform2D, targetObject: MotionSerie
   defineInvokeAndPass(targetObject.addListenerByName) {
     if (targetObject.appliedForce.magnitude > 0) {
       val dx = 1.3 * (if (targetObject.appliedForce().x > 0) -1 else 1)
-      man.setPosition(targetObject.position + dx)
+      man.position = targetObject.position + dx
 
       val im = MotionSeriesResources.getImage("robotmovingcompany/robot.gif".literal)
       val realIm = if (dx > 0) BufferedImageUtils.flipX(im) else im //todo: cache instead of flipping each time

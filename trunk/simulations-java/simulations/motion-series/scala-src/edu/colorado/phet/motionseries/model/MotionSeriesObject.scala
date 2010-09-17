@@ -48,8 +48,8 @@ class MotionSeriesObject(_position: MutableDouble,
 
   //Resolves: When turning on walls while objects are out of bounds and bouncy is enabled, can bounce infinitely.
   def clampBounds() = {
-    if (position < wallRange().min) setPosition(wallRange().min + _width / 2)
-    if (position > wallRange().max) setPosition(position = wallRange().max - _width / 2)
+    if (position < wallRange().min) position = wallRange().min + _width / 2
+    if (position > wallRange().max) position = wallRange().max - _width / 2
   }
   wallRange.addListener(clampBounds)
 
@@ -112,8 +112,8 @@ class MotionSeriesObject(_position: MutableDouble,
   }
 
   def state_=(s: MotionSeriesObjectState) = {
-    setPosition(s.position)
-    setVelocity(s.velocity)
+    position = s.position
+    velocity = s.velocity
     mass = s.mass
     staticFriction = s.staticFriction
     kineticFriction = s.kineticFriction
@@ -172,7 +172,9 @@ class MotionSeriesObject(_position: MutableDouble,
 
   def velocity = _velocity.value
 
-  def translate(dx: Double) = setPosition(_position.value + dx)
+  def translate(dx: Double) {
+    position = _position.value + dx
+  }
 
   def height_=(height: Double) = {
     _height = height
@@ -287,7 +289,7 @@ class MotionSeriesObject(_position: MutableDouble,
 
   def netForceToParallelVelocity(f: Vector2D, dt: Double) = velocity + forceToParallelAcceleration(f) * dt
 
-  def setVelocity(velocity: Double) = {
+  def velocity_=(velocity: Double) = {
     if (velocity != _velocity.value) {
       _velocity.value = velocity
       notifyListeners() //TODO: switch notification mechanism
@@ -300,7 +302,7 @@ class MotionSeriesObject(_position: MutableDouble,
   }
 
   //TODO: remove listener notification here so listeners must listen to positionChanged property
-  def setPosition(position: Double) = {
+  def position_=(position: Double) = {
     if (position != _position.value) {
       _position.value = position
       notifyListeners()
