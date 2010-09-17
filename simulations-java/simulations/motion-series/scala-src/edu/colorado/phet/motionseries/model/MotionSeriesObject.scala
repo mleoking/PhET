@@ -184,8 +184,6 @@ class MotionSeriesObject(_position: MutableDouble,
 
   def potentialEnergy = mass * gravity.abs * position2D.y
 
-  def getAppliedWork = 0.0
-
   def crashEnergy_=(value: Double) = _crashEnergy.value = value
 
   def thermalEnergy_=(value: Double) = _thermalEnergy.value = value
@@ -195,14 +193,6 @@ class MotionSeriesObject(_position: MutableDouble,
   def rampThermalEnergy = thermalEnergy - crashEnergy
 
   def crashEnergy = _crashEnergy.value
-
-  def getFrictiveWork = -thermalEnergy
-
-  def getGravityWork = -potentialEnergy
-
-  def getWallWork = 0.0
-
-  def getNormalWork = 0.0
 
   def kineticEnergy = 1.0 / 2.0 * mass * velocity * velocity
 
