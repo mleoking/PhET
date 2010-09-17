@@ -25,14 +25,14 @@ class FireDog(model: WorkEnergyModel) {
 
   def stepInTime(dt: Double) = {
     if (dog.position < stoppingDist && raindropCount < model.maxDrops) {
-      dog.setPosition(dog.position + incomingSpeed)
+      dog.position = dog.position + incomingSpeed
     } else if (raindropCount < model.maxDrops) {
       val raindrop = new Raindrop(dog.position2D + new Vector2D(width / 2.0, height / 3.0), 10 + random.nextGaussian * 3, PI / 4 + random.nextGaussian() * PI / 16, model)
       model.raindrops += raindrop
       raindropCount = raindropCount + 1
       model.raindropAddedListeners.foreach(_(raindrop))
     } else if (dog.position > -15) {
-      dog.setPosition(dog.position - outgoingSpeed)
+      dog.position = dog.position - outgoingSpeed
     } else {
       remove()
     }
@@ -48,7 +48,7 @@ class Raindrop(p: Vector2D, rainSpeed: Double, angle: Double, rampModel: WorkEne
   val removedListeners = new ArrayBuffer[() => Unit]
   val motionSeriesObject = new MotionSeriesObject(rampModel, 0.0, 0.3, 0.5)
   private var _angle = 0.0
-  motionSeriesObject.setVelocity(rainSpeed) //have to set the speed here so that energy conservation in Airborne.step won't make the water drops appear underground
+  motionSeriesObject.velocity = rainSpeed //have to set the speed here so that energy conservation in Airborne.step won't make the water drops appear underground
   motionSeriesObject.motionStrategy = new Airborne(p, new Vector2D(angle) * rainSpeed, 0.0, motionSeriesObject) {
     override def getAngle = velocity2D.angle + PI / 2
   }

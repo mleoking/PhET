@@ -183,7 +183,7 @@ class RampControlPanelBody(model: MotionSeriesModel,
         x,
         model.wallRange().max - model.motionSeriesObject.width / 2)
       else x //only clamp if there are walls
-      model.motionSeriesObject.setPosition(clampedValue)
+      model.motionSeriesObject.position = clampedValue
       if (clampedValue != x) positionSlider.setValue(clampedValue) //Have to make sure the readout indicates the model value, not the requested user value
     },
     model.motionSeriesObject.addListener)
@@ -192,9 +192,9 @@ class RampControlPanelBody(model: MotionSeriesModel,
       val x: Double = if (model.motionSeriesObject.position > MotionSeriesDefaults.MAX_X) MotionSeriesDefaults.MAX_X
       else if (model.motionSeriesObject.position < MotionSeriesDefaults.MIN_X) MotionSeriesDefaults.MIN_X
       else model.motionSeriesObject.position
-      model.motionSeriesObject.setPosition(x)
+      model.motionSeriesObject.position = x
       model.motionSeriesObject.attach()
-      model.motionSeriesObject.setVelocity(0.0)
+      model.motionSeriesObject.velocity = 0
     }
   })
   moreControlsPanel.add(positionSlider)

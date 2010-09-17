@@ -282,7 +282,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
 
   def updatePosition(dy: Double) = {
     model.leftRampSegment.startPoint = changeY(dy)
-    model.motionSeriesObject.setPosition(-model.leftRampSegment.length)
+    model.motionSeriesObject.position = -model.leftRampSegment.length
   }
 
   override def addWallsAndDecorations() = {}

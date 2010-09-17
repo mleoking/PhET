@@ -210,7 +210,7 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
           val x = motionSeriesObjectRef.position
           val xf = house.position
           val vel = 0.2 * (if (xf - x > 0) 1 else -1)
-          motionSeriesObjectRef.setPosition(motionSeriesObjectRef.position + vel)
+          motionSeriesObjectRef.position = motionSeriesObjectRef.position + vel
           if ((motionSeriesObjectRef.position - house.position).abs <= vel.abs) {
             model.stepListeners -= this
             itemFinished(o, Success(o.points, robotEnergy.toInt))

@@ -98,7 +98,7 @@ class Airborne(private var _position2D: Vector2D,
         println("energy gained on crash")
       }
     } else { //Flying through the air
-      motionSeriesObject.setVelocity(_velocity2D.magnitude)
+      motionSeriesObject.velocity = _velocity2D.magnitude
 
       //ensure that energy is exactly conserved by fine-tuning the vertical position of the object; note that this wouldn't work in low g
       val dy = (motionSeriesObject.getTotalEnergy - originalEnergy) / motionSeriesObject.mass / motionSeriesObject.gravity
@@ -230,8 +230,8 @@ class Grounded(motionSeriesObject: MotionSeriesObject) extends MotionStrategy(mo
     val work = motionSeriesObject.appliedForce.value dot distanceVector
     motionSeriesObject.workListeners.foreach(_(work))
     motionSeriesObject.time = motionSeriesObject.time + dt
-    motionSeriesObject.setPosition(newState.position)
-    motionSeriesObject.setVelocity(newState.velocity)
+    motionSeriesObject.position = newState.position
+    motionSeriesObject.velocity = newState.velocity
     motionSeriesObject.thermalEnergy = newState.thermalEnergy
     motionSeriesObject.crashEnergy = newState.crashEnergy
 
