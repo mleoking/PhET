@@ -6,7 +6,12 @@ import edu.colorado.phet.densityandbuoyancy.model.Material;
 import edu.colorado.phet.densityandbuoyancy.model.MysteryBlock;
 import edu.colorado.phet.densityandbuoyancy.model.Scale;
 import edu.colorado.phet.densityandbuoyancy.view.AbstractDensityModule;
+import edu.colorado.phet.densityandbuoyancy.view.DensityCanvas;
+import edu.colorado.phet.densityandbuoyancy.view.DensityModule;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
+
+import mx.core.UIComponent;
+import mx.events.FlexEvent;
 
 public class MysteryObjectsMode extends Mode {
     private var mysteryObjectsControlPanel:MysteryObjectsControlPanel;
@@ -15,6 +20,21 @@ public class MysteryObjectsMode extends Mode {
     function MysteryObjectsMode(module:AbstractDensityModule) {
         super(module);
         mysteryObjectsControlPanel = new MysteryObjectsControlPanel();
+        mysteryObjectsControlPanel.setStyle( "right", DensityConstants.CONTROL_INSET );
+
+        // grab the panel above this panel
+        var modeControlPanel:UIComponent = ((module as DensityModule).canvas as DensityCanvas).modeControlPanel;
+
+        // set its initial value
+        mysteryObjectsControlPanel.setStyle( "top", modeControlPanel.height + 2 * DensityConstants.CONTROL_INSET );
+
+        // if the mode control panel is uninitialized, hide this panel (we have a bad height if that is the case)
+        mysteryObjectsControlPanel.visible = modeControlPanel.initialized;
+        
+        modeControlPanel.addEventListener( FlexEvent.INITIALIZE, function():void {
+            mysteryObjectsControlPanel.setStyle( "top", modeControlPanel.height + 2 * DensityConstants.CONTROL_INSET );
+            mysteryObjectsControlPanel.visible = true;
+        } );
     }
 
     override public function teardown():void {
