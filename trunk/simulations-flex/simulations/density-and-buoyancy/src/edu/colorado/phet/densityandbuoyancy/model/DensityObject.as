@@ -73,16 +73,17 @@ public class DensityObject {
             //TODO: Switch into "custom object" mode
             //This could be confusing because it will switch the behavior of the other sliders
 
-            var changed:Boolean = false;
-            for each (var s:Material in Material.SELECTABLE_MATERIALS) {
-                if (s.getDensity() == getDensity()) {
-                    material = s;
-                    changed = true;
-                }
-            }
-            if (!changed) {
-                material = new Material("Custom", getDensity(), true);
-            }
+            // We should be setting the material elsewhere. This was "snapping" to a material
+            //            var changed:Boolean = false;
+            //            for each (var s:Material in Material.SELECTABLE_MATERIALS) {
+            //                if (s.getDensity() == getDensity()) {
+            //                    material = s;
+            //                    changed = true;
+            //                }
+            //            }
+            //            if (!changed) {
+            //                material = new Material("Custom", getDensity(), true);
+            //            }
         }
 
         getDensityProperty().addListener(densityChanged);
