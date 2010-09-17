@@ -1,6 +1,5 @@
 package edu.colorado.phet.motionseries.model
 
-import collection.mutable.ArrayBuffer
 import java.awt.geom.{Point2D, Line2D}
 import edu.colorado.phet.scalacommon.util.Observable
 import edu.colorado.phet.scalacommon.Predef._

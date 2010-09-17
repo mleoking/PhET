@@ -78,10 +78,9 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
   model.stepListeners += doorHandler
 
   def resetAll() = {
-    model.rampSegments(1).setAngle(0)
+    model.rightRampSegment.setAngle(0)
     model.walls = false
-    model.rampSegments(0).startPoint = new Vector2D(-10, 0).rotate(-initAngle)
-    model.rampSegments(0).startPoint = new Vector2D(-10, 0).rotate(-initAngle)
+    model.leftRampSegment.startPoint = new Vector2D(-10, 0).rotate(-initAngle)
     _launched = false
     resultMap.clear()
     setObjectIndex(0)
@@ -104,7 +103,7 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
     val sel = selectedObject
     model.setPaused(true)
 
-    _motionSeriesObject = new MotionSeriesObject(model, -model.rampSegments(0).length + sel.width / 2.0 + model.leftWall.width / 2.0, sel.width, 3)
+    _motionSeriesObject = new MotionSeriesObject(model, -model.leftRampSegment.length + sel.width / 2.0 + model.leftWall.width / 2.0, sel.width, 3)
 
     motionSeriesObject.mass = sel.mass
     motionSeriesObject.staticFriction = sel.staticFriction

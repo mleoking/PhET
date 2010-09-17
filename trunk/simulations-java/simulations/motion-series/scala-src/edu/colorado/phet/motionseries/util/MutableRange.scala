@@ -15,5 +15,6 @@ class MutableRange(range: Range) extends Observable[Range](range) {
       def update = listener()
     })
   }
+
   def apply() = getValue
 }

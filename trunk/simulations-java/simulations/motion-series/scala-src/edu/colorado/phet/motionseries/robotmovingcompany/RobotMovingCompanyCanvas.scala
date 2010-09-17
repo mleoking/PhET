@@ -105,7 +105,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
   val energyMeter = new RobotEnergyMeter(transform, gameModel, energyScale)
   energyMeter.setOffset(scoreboard.getFullBounds.getX + 5, scoreboard.getFullBounds.getMaxY + 5)
   addStageNode(energyMeter)
-  
+
   addStageNode(new InstructionsNode {
     val helpButton = new PSwing(Button("Help") {
       val intro = new IntroDialog {
@@ -273,7 +273,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
   }
 
   def changeY(dy: Double) = {
-    val result = model.rampSegments(0).startPoint + new Vector2D(0, dy)
+    val result = model.leftRampSegment.startPoint + new Vector2D(0, dy)
     if (result.y < 1E-8)
       new Vector2D(result.x, 1E-8)
     else
@@ -281,17 +281,17 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
   }
 
   def updatePosition(dy: Double) = {
-    model.rampSegments(0).startPoint = changeY(dy)
-    model.motionSeriesObject.setPosition(-model.rampSegments(0).length)
+    model.leftRampSegment.startPoint = changeY(dy)
+    model.motionSeriesObject.setPosition(-model.leftRampSegment.length)
   }
 
   override def addWallsAndDecorations() = {}
 
-  override def createRightSegmentNode = new RampSegmentNode(model.rampSegments(1), transform, model,model.motionSeriesObject)
+  override def createRightSegmentNode = new RampSegmentNode(model.rightRampSegment, transform, model, model.motionSeriesObject)
 
   override def addHeightAndAngleIndicators() = {}
 
-  override def createEarthNode = new EarthNodeWithCliff(transform, model.rampSegments(1).length, gameModel.airborneFloor)
+  override def createEarthNode = new EarthNodeWithCliff(transform, model.rightRampSegment.length, gameModel.airborneFloor)
 
   def showWiggleMe() {
     val instructionsNode = new InstructionsNode {

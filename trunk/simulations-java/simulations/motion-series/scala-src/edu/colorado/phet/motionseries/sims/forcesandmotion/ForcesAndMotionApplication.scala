@@ -37,7 +37,7 @@ class ForcesAndMotionModule(frame: PhetFrame,
     showObjectSelectionNode, showAppliedForceSlider, initialAngle != 0.0, modelViewport, stageContainerArea)
   setSimulationPanel(canvas)
   val controlPanel = new MotionSeriesControlPanel(motionSeriesModel, fbdModel, coordinateSystemModel, vectorViewModel,
-    resetRampModule, coordinateSystemFeaturesEnabled, useObjectComboBox, motionSeriesModel, false, showFrictionControl, showBounceControl,"position.controls.title".translate,audioEnabled)
+    resetRampModule, coordinateSystemFeaturesEnabled, useObjectComboBox, motionSeriesModel, false, showFrictionControl, showBounceControl, "position.controls.title".translate, audioEnabled)
   setControlPanel(controlPanel)
   setClockControlPanel(createRecordAndPlaybackPanel)
   def createRecordAndPlaybackPanel = new RecordAndPlaybackControlPanel(motionSeriesModel, canvas, 20)
@@ -57,9 +57,9 @@ class ForcesAndMotionCanvas(model: MotionSeriesModel,
           frame, showObjectSelectionNode, showAppliedForceSlider, rampAngleDraggable, modelViewport, stageContainerArea) {
   override def addHeightAndAngleIndicators() = {}
 
-  override def createRightSegmentNode: HasPaint = new RampSegmentNode(model.rampSegments(1), transform, model,model.motionSeriesObject)
+  override def createRightSegmentNode: HasPaint = new RampSegmentNode(model.rightRampSegment, transform, model, model.motionSeriesObject)
 
-  def attachListenerToRightWall(node: PNode) = {}//cannot drag the wall to rotate the ramp in this sim
+  def attachListenerToRightWall(node: PNode) = {} //cannot drag the wall to rotate the ramp in this sim
 }
 
 class IntroModule(frame: PhetFrame) extends ForcesAndMotionModule(frame, "forces-and-motion.module.intro.title".translate, false, true, false,

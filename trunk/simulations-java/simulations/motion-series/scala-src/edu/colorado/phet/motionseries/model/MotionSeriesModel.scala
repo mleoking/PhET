@@ -26,24 +26,23 @@ class MotionSeriesModel(defaultPosition: Double,
   }
   val chartCursor = new ChartCursor()
 
-  val rampSegments = new ArrayBuffer[RampSegment]
-
   val stepListeners = new ArrayBuffer[() => Unit]
   val recordListeners = new ArrayBuffer[() => Unit]
   val rampLength = 10
   setPaused(pausedOnReset)
 
-  rampSegments += new RampSegment(new Point2D.Double(-rampLength, 0), new Point2D.Double(0, 0))
-  rampSegments += new RampSegment(new Point2D.Double(0, 0), new Point2D.Double(rampLength * cos(initialAngle), rampLength * sin(initialAngle)))
+  val leftRampSegment = new RampSegment(new Point2D.Double(-rampLength, 0), new Point2D.Double(0, 0))
+  val rightRampSegment = new RampSegment(new Point2D.Double(0, 0), new Point2D.Double(rampLength * cos(initialAngle), rampLength * sin(initialAngle)))
 
-  val coordinateFrameModel = new CoordinateFrameModel(rampSegments(1))
+  val coordinateFrameModel = new CoordinateFrameModel(rightRampSegment)
 
   //Sends notification when any ramp segment changes
   val rampChangeAdapter = new Object with Observable //todo: perhaps we should just pass the addListener method to the MotionSeriesObjects
-  val wallRange = new MutableRange(edu.colorado.phet.motionseries.util.Range(-rampSegments(0).length,rampSegments(1).length))
-  def updateWallRange() = wallRange.setValue(edu.colorado.phet.motionseries.util.Range(-rampSegments(0).length,rampSegments(1).length))
-  rampSegments(0).addListener(updateWallRange)
-  rampSegments(1).addListener(updateWallRange)
+  val wallRange = new MutableRange(edu.colorado.phet.motionseries.util.Range(-leftRampSegment.length, rightRampSegment.length))
+
+  def updateWallRange() = wallRange.setValue(edu.colorado.phet.motionseries.util.Range(-leftRampSegment.length, rightRampSegment.length))
+  leftRampSegment.addListener(updateWallRange)
+  rightRampSegment.addListener(updateWallRange)
   val surfaceFriction = () => !frictionless
 
   val defaultManPosition = defaultPosition - 1 //Man should start 1 meter away from the object by default
@@ -57,7 +56,7 @@ class MotionSeriesModel(defaultPosition: Double,
   val manMotionSeriesObject = new MotionSeriesObject(this, defaultManPosition, 1, 3)
 
   def thermalEnergyStrategy(x: Double) = x
-  
+
   //This is the main object that forces are applied to
   val motionSeriesObject = new MotionSeriesObject(new MutableDouble(defaultPosition), new MutableDouble, new MutableDouble,
     new MutableDouble(_objectType.mass), new MutableDouble(_objectType.staticFriction), new MutableDouble(_objectType.kineticFriction),
@@ -123,7 +122,7 @@ class MotionSeriesModel(defaultPosition: Double,
       resetObject()
       manMotionSeriesObject.setPosition(defaultManPosition)
 
-      rampSegments(1).setAngle(initialAngle)
+      rightRampSegment.setAngle(initialAngle)
 
       resetListeners.foreach(_())
       wallsBounce.reset()
@@ -215,37 +214,37 @@ class MotionSeriesModel(defaultPosition: Double,
   //duplicates some work with wallrange
   //todo: call this method when ramp angle changes, since it depends on ramp angle
   def updateSegmentLengths() = {
-    val seg0Length = if (rampSegments(0).angle > 0 || _walls.getValue.booleanValue) rampLength else MotionSeriesDefaults.FAR_DISTANCE
-    val seg1Length = if (rampSegments(1).angle > 0 || _walls.getValue.booleanValue) rampLength else MotionSeriesDefaults.FAR_DISTANCE
+    val seg0Length = if (leftRampSegment.angle > 0 || _walls.getValue.booleanValue) rampLength else MotionSeriesDefaults.FAR_DISTANCE
+    val seg1Length = if (rightRampSegment.angle > 0 || _walls.getValue.booleanValue) rampLength else MotionSeriesDefaults.FAR_DISTANCE
     setSegmentLengths(seg0Length, seg1Length)
   }
 
   def setSegmentLengths(seg0Length: Double, seg1Length: Double) = {
-    rampSegments(0).startPoint = new Vector2D(rampSegments(0).angle) * -seg0Length
-    rampSegments(0).endPoint = new Vector2D(0, 0)
+    leftRampSegment.startPoint = new Vector2D(leftRampSegment.angle) * -seg0Length
+    leftRampSegment.endPoint = new Vector2D(0, 0)
 
-    rampSegments(1).startPoint = new Vector2D(0, 0)
-    rampSegments(1).endPoint = new Vector2D(rampSegments(1).angle) * seg1Length
+    rightRampSegment.startPoint = new Vector2D(0, 0)
+    rightRampSegment.endPoint = new Vector2D(rightRampSegment.angle) * seg1Length
   }
 
-  def rampAngle_=(angle: Double) = rampSegments(1).setAngle(angle)
+  def rampAngle_=(angle: Double) = rightRampSegment.setAngle(angle)
 
-  def rampAngle = rampSegments(1).angle
+  def rampAngle = rightRampSegment.angle
 
   /* Computes the 2D position for an object on the RampSegments, given its 1d scalar position. 
   This may need to be more general if/when there are more/less ramp segments
    */
   def toPosition2D(particleLocation: Double) = {
     if (particleLocation <= 0) {
-      val backwardsUnitVector = rampSegments(0).unitVector * -1 //go backwards since position is measure from origin
-      backwardsUnitVector * (-particleLocation) + rampSegments(0).endPoint
+      val backwardsUnitVector = leftRampSegment.unitVector * -1 //go backwards since position is measure from origin
+      backwardsUnitVector * (-particleLocation) + leftRampSegment.endPoint
     }
     else {
-      rampSegments(1).unitVector * (particleLocation) + rampSegments(1).startPoint
+      rightRampSegment.unitVector * (particleLocation) + rightRampSegment.startPoint
     }
   }
 
-  def rampSegmentAccessor(particleLocation: Double) = if (particleLocation <= 0) rampSegments(0) else rampSegments(1)
+  def rampSegmentAccessor(particleLocation: Double) = if (particleLocation <= 0) leftRampSegment else rightRampSegment
 
   def stepRecord(dt: Double) = {
     motionSeriesObject.stepInTime(dt)
