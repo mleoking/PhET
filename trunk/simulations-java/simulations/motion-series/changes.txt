@@ -1,3 +1,4 @@
+Fixed: The right wall becomes detached from the ramp when you change the angle (either by dragging the ramp or using the control panel slider)
 Refactored MotionSeriesObject to use observable PositionMapper instance
 Refactored ramp segments from array to named declarations for left and right segment
 Fixed: When sim is paused, dragging the "object position" slider causes incorrect normal force to point straight up.
