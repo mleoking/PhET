@@ -26,7 +26,8 @@ class MotionSeriesObject(_position: MutableDouble,
                          thermalEnergyStrategy: Double => Double,
                          val surfaceFriction: () => Boolean,
                          private var _surfaceFrictionStrategy: SurfaceFrictionStrategy)
-        extends Observable {
+        extends Observable
+{
   def this(model: MotionSeriesModel, x: Double, width: Double, height: Double) = this (new MutableDouble(x), new MutableDouble, new MutableDouble, new MutableDouble(10),
     new MutableDouble, new MutableDouble, height, width, model.positionMapper, model.rampSegmentAccessor,
     model.wallsBounce, model.walls, model.wallRange, model.thermalEnergyStrategy, model.surfaceFriction, model.surfaceFrictionStrategy)
@@ -80,6 +81,12 @@ class MotionSeriesObject(_position: MutableDouble,
   val gravityForce = new Vector2DModel
   val appliedForce = new Vector2DModel
   val _parallelAppliedForce = new MutableDouble
+
+  _parallelAppliedForce.addListener(() => {
+    updateForces()
+    parallelAppliedForceListeners.foreach(_()) //TODO: move listeners into _parallelAppliedForce
+    notifyListeners() //TODO: also move these listeners into _parallelAppliedForce
+  })
 
   def updateGravityForce() = {
     gravityForce.value = new Vector2D(0, gravity * mass)
@@ -163,6 +170,10 @@ class MotionSeriesObject(_position: MutableDouble,
 
   def mass = _mass.value
 
+  def massProperty = _mass
+
+  def gravityProperty = _gravity
+
   def width_=(w: Double) = {
     _width = w
     notifyListeners()
@@ -197,19 +208,9 @@ class MotionSeriesObject(_position: MutableDouble,
 
   def getAppliedWork = 0.0
 
-  def crashEnergy_=(value: Double) = {
-    if (value != state.crashEnergy) {
-      _crashEnergy.value = value
-      notifyListeners() //TODO: fix listeners
-    }
-  }
+  def crashEnergy_=(value: Double) = _crashEnergy.value = value
 
-  def thermalEnergy_=(value: Double) = {
-    if (value != state.thermalEnergy) {
-      _thermalEnergy.value = value
-      notifyListeners() //TODO: fix listeners
-    }
-  }
+  def thermalEnergy_=(value: Double) = _thermalEnergy.value = value
 
   def thermalEnergy = _thermalEnergy.value
 
@@ -244,14 +245,7 @@ class MotionSeriesObject(_position: MutableDouble,
 
   def parallelAppliedForce = _parallelAppliedForce.value
 
-  def parallelAppliedForce_=(value: Double) = {
-    if (value != parallelAppliedForce) {
-      _parallelAppliedForce.value = value
-      updateForces()
-      parallelAppliedForceListeners.foreach(_()) //TODO: move listeners into mutabledouble
-      notifyListeners()
-    }
-  }
+  def parallelAppliedForce_=(value: Double) = _parallelAppliedForce.value = value
 
   def surfaceFrictionStrategy = _surfaceFrictionStrategy
 
@@ -263,6 +257,10 @@ class MotionSeriesObject(_position: MutableDouble,
   def staticFriction = _staticFriction.value
 
   def staticFrictionProperty = _staticFriction
+
+  def positionProperty = _position
+
+  def position2DProperty = _position2D
 
   def kineticFrictionProperty = _kineticFriction
 
@@ -289,30 +287,13 @@ class MotionSeriesObject(_position: MutableDouble,
 
   def netForceToParallelVelocity(f: Vector2D, dt: Double) = velocity + forceToParallelAcceleration(f) * dt
 
-  def velocity_=(velocity: Double) = {
-    if (velocity != _velocity.value) {
-      _velocity.value = velocity
-      notifyListeners() //TODO: switch notification mechanism
-    }
-  }
+  def velocity_=(velocity: Double) = _velocity.value = velocity
 
-  def mass_=(mass: Double) = {
-    this._mass.value = mass
-    notifyListeners() //TODO: fix listeners
-  }
+  def mass_=(mass: Double) = _mass.value = mass
 
-  //TODO: remove listener notification here so listeners must listen to positionChanged property
-  def position_=(position: Double) = {
-    if (position != _position.value) {
-      _position.value = position
-      notifyListeners()
-    }
-  }
+  def position_=(position: Double) = _position.value = position
 
-  def gravity_=(value: Double) = { //TODO: convert gravity to mutabledouble
-    _gravity.value = value
-    notifyListeners()
-  }
+  def gravity_=(value: Double) = _gravity.value = value
 
   def motionStrategy = _motionStrategy
 

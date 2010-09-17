@@ -48,7 +48,8 @@ class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2
     }
   }
 
-  motionSeriesObject.addListener(updateAll) //TODO: only update when friction coefficient changes
+  motionSeriesObject.kineticFrictionProperty.addListener(updateAll)
+  motionSeriesObject.staticFrictionProperty.addListener(updateAll)
 
   def frictionless = rampSurfaceModel.frictionless || motionSeriesObject.frictionless
 

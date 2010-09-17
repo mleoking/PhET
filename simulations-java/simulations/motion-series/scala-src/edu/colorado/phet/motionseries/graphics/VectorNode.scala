@@ -121,8 +121,6 @@ class BodyVectorNode(transform: ModelViewTransform2D,
                      vectorLengthScale: Double)
         extends VectorNode(transform, vector, offset, BODY_LABEL_MAX_OFFSET, vectorLengthScale) {
   def doUpdate() = setOffset(motionSeriesObject.position2D)
-  //TODO: only listen to position of motion series object
-  //But this is okay for now since MotionSeriesObject does a batch update anyways
-  motionSeriesObject.addListener(doUpdate)
+  motionSeriesObject.positionProperty.addListener(doUpdate)
   doUpdate()
 }
