@@ -10,7 +10,7 @@ import edu.colorado.phet.motionseries.swing._
 import edu.colorado.phet.motionseries.model.{MotionSeriesModel, MotionSeriesObject}
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.{HorizontalLayoutStrategy, AbstractValueControl}
 import java.awt.{GridBagConstraints, GridBagLayout}
-import edu.colorado.phet.motionseries.{MotionSeriesDefaults, MotionSeriesResources}
+import edu.colorado.phet.motionseries.MotionSeriesDefaults
 
 class MyValueControl(min: Double, max: Double, getter: () => Double, setter: Double => Unit, title: String, numberFormat: String, units: String, motionSeriesObject: MotionSeriesObject)
         extends ScalaValueControl(min, max, title, numberFormat, units, getter, setter, motionSeriesObject.addListener, new HorizontalLayoutStrategy) {
@@ -38,17 +38,14 @@ class FrictionPlayAreaControlPanel(motionSeriesObject: MotionSeriesObject) exten
   val sliderArray = Array[AbstractValueControl](staticFriction, kineticFriction, objectMass, gravity)
 
   val table = new Hashtable[Double, JComponent]
-  class TickLabel(name: String, imageName: String) extends JLabel(name, SwingConstants.CENTER) {
-    if (imageName != null)
-      setIcon(new ImageIcon(MotionSeriesResources.getImage(imageName)))
-    else
-      setIcon(new ImageIcon(new BufferedImage(2, 10, BufferedImage.TYPE_INT_RGB)))
+  class TickLabel(name: String) extends JLabel(name, SwingConstants.CENTER) {
+    setIcon(new ImageIcon(new BufferedImage(2, 10, BufferedImage.TYPE_INT_RGB)))
     setVerticalTextPosition(SwingConstants.BOTTOM)
     setHorizontalTextPosition(SwingConstants.CENTER)
   }
-  table.put(moonGravity, new TickLabel("bodies.moon".translate, null))
-  table.put(earthGravity, new TickLabel("bodies.earth".translate, null))
-  table.put(jupiterGravity, new TickLabel("bodies.jupiter".translate, null))
+  table.put(moonGravity, new TickLabel("bodies.moon".translate))
+  table.put(earthGravity, new TickLabel("bodies.earth".translate))
+  table.put(jupiterGravity, new TickLabel("bodies.jupiter".translate))
   gravity.getSlider.setPaintLabels(true)
   gravity.setTickLabels(table)
 
