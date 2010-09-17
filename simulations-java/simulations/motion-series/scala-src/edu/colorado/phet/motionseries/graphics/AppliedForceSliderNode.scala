@@ -20,7 +20,7 @@ class AppliedForceSliderNode(motionSeriesObject: MotionSeriesObject, dragHandler
     })
   addChild(slider)
 
-  motionSeriesObject.parallelAppliedForceListeners += (() => {
+  motionSeriesObject.parallelAppliedForceProperty.addListener(() => {
     slider.setValue(motionSeriesObject.parallelAppliedForce)
   })
 

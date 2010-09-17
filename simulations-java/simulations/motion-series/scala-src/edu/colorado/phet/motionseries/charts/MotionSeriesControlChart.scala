@@ -146,7 +146,7 @@ abstract class MotionSeriesControlChart(motionSeriesModel: MotionSeriesModel, fo
   def parallelTotalForce = motionSeriesModel.motionSeriesObject.totalForceVector.vector2DModel() dot motionSeriesModel.motionSeriesObject.rampUnitVector
 
   val parallelAppliedForceVariable = new MutableDouble(motionSeriesModel.motionSeriesObject.parallelAppliedForce) {
-    motionSeriesModel.motionSeriesObject.parallelAppliedForceListeners += (() => {value = motionSeriesModel.motionSeriesObject.parallelAppliedForce})
+    motionSeriesModel.motionSeriesObject.parallelAppliedForceProperty.addListener(() => {value = motionSeriesModel.motionSeriesObject.parallelAppliedForce})
     addListener(() => {motionSeriesModel.motionSeriesObject.parallelAppliedForce = value})
   }
   val frictionVariable = new MutableDouble(parallelFriction) {
