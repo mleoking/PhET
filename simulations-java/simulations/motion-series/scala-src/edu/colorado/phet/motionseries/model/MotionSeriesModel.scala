@@ -115,7 +115,7 @@ class MotionSeriesModel(defaultPosition: Double,
 
   private val resetListeners = new ArrayBuffer[() => Unit]
 
-  def resetListeners_+=(listener: () => Unit) = resetListeners += listener
+  def addResetListener(listener: () => Unit) = resetListeners += listener
 
   override def resetAll() = {
     super.resetAll()
