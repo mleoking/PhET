@@ -240,7 +240,7 @@ public class JarUtils {
     /**
      * Creates a localized jar file of the proper type, based on info in the input jar file.
      */
-    public static final void createLocalizedJar( String inputJarName, String outputJarName, Locale locale, Properties localizedStrings, boolean deleteOnExit ) throws IOException {
+    public static void createLocalizedJar( String inputJarName, String outputJarName, Locale locale, Properties localizedStrings, boolean deleteOnExit ) throws IOException {
         SimulationProperties properties = JarUtils.readSimulationProperties( inputJarName );
         if ( properties.isFlash() ) {
             FlashJarFactory.createLocalizedJar( inputJarName, outputJarName, locale, localizedStrings, deleteOnExit );
