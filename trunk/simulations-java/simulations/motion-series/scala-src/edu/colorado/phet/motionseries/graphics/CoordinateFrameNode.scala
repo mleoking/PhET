@@ -8,16 +8,6 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.motionseries.model.{AdjustableCoordinateModel, CoordinateFrameModel, MotionSeriesModel}
 import edu.umd.cs.piccolo.PNode
 import edu.colorado.phet.scalacommon.Predef._
-import edu.colorado.phet.scalacommon.util.Observable
-
-class RampAngleModel(private var _value: Double) extends Observable {
-  def value = _value
-
-  def setValue(value: Double) = {
-    _value = value
-    notifyListeners()
-  }
-}
 
 class SynchronizedAxisModel(val offset: Double,
                             val minAngle: Double,
