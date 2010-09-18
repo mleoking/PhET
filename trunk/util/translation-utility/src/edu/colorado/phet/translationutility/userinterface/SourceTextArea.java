@@ -9,7 +9,7 @@ import javax.swing.JPanel;
  * Source strings appear in the middle column of the interface.
  * They are searchable but not editable.
  */
-public class SourceTextArea extends TUTextArea {
+/* package private */ class SourceTextArea extends TUTextArea {
 
     private static final Color SOURCE_BACKGROUND = new JPanel().getBackground();
     

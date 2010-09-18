@@ -11,7 +11,7 @@ import javax.swing.JLabel;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class KeyLabel extends JLabel {
+/* package private */ class KeyLabel extends JLabel {
     
     private static final int MAX_LENGTH = 40;
     

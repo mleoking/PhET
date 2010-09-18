@@ -21,7 +21,7 @@ import edu.colorado.phet.translationutility.userinterface.FindDialog.FindListene
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TranslationPanel extends JPanel implements FindListener {
+/* package private */ class TranslationPanel extends JPanel implements FindListener {
    
     //----------------------------------------------------------------------------
     // Class data
