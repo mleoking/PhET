@@ -5,8 +5,8 @@ package edu.colorado.phet.translationutility.simulations;
 import java.io.IOException;
 
 import edu.colorado.phet.flashlauncher.util.SimulationProperties;
+import edu.colorado.phet.translationutility.JarUtils;
 import edu.colorado.phet.translationutility.simulations.ISimulation.SimulationException;
-import edu.colorado.phet.translationutility.util.JarUtils;
 
 /**
  * SimulationFactory creates an ISimulation based on information in the simulation JAR file.

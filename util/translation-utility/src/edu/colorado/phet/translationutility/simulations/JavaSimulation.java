@@ -10,13 +10,13 @@ import java.util.logging.Logger;
 
 import javax.swing.JFileChooser;
 
+import edu.colorado.phet.translationutility.JarUtils;
 import edu.colorado.phet.translationutility.TUConstants;
+import edu.colorado.phet.translationutility.jar.JarFactory.JavaJarFactory;
 import edu.colorado.phet.translationutility.util.Command;
 import edu.colorado.phet.translationutility.util.FileChooserFactory;
-import edu.colorado.phet.translationutility.util.JarUtils;
 import edu.colorado.phet.translationutility.util.PropertiesIO;
 import edu.colorado.phet.translationutility.util.Command.CommandException;
-import edu.colorado.phet.translationutility.util.JarFactory.JavaJarFactory;
 import edu.colorado.phet.translationutility.util.PropertiesIO.PropertiesIOException;
 
 /**
