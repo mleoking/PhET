@@ -17,7 +17,7 @@ import javax.swing.KeyStroke;
  * They are searchable and editable.
  * Pressing tab or shift-tab moves focus forward or backward.
  */
-public class TargetTextArea extends TUTextArea {
+/* package private */ class TargetTextArea extends TUTextArea {
     
     private final String key;
     private String savedValue;

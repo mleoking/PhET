@@ -22,7 +22,7 @@ import edu.colorado.phet.translationutility.TUStrings;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class FindDialog extends JDialog {
+/* package private */ class FindDialog extends JDialog {
     
     private final JTextField textField;
     private final JButton nextButton;

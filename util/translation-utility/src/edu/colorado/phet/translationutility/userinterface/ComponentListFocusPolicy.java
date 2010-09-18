@@ -14,7 +14,7 @@ import java.util.ArrayList;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ComponentListFocusPolicy extends FocusTraversalPolicy {
+/* package private */ class ComponentListFocusPolicy extends FocusTraversalPolicy {
 
     private ArrayList<Component> components;
     

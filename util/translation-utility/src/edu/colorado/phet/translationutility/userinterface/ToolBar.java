@@ -23,7 +23,7 @@ import edu.colorado.phet.translationutility.TUStrings;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ToolBar extends JPanel {
+/* package private */ class ToolBar extends JPanel {
 
     /**
      * FindListener is the interface implemented by all listeners who 

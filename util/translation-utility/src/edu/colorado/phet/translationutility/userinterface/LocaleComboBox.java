@@ -14,8 +14,14 @@ import javax.swing.ListCellRenderer;
 import edu.colorado.phet.common.phetcommon.util.PhetLocales;
 import edu.colorado.phet.translationutility.TUStrings;
 
-
-public class LocaleComboBox extends JComboBox {
+/**
+ * Combo box that shows a list of locales supported by Translation Utility.
+ * At the bottom of the list is a "CUSTOM" entry, which allows the user to
+ * enter a locale that's not in the list.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
+/* package private */ class LocaleComboBox extends JComboBox {
     
     private static class LocaleChoice {
 

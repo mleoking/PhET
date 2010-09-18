@@ -11,7 +11,7 @@ import javax.swing.border.Border;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class TUTextArea extends JTextArea {
+/* package private */ abstract class TUTextArea extends JTextArea {
     
     private static final Color SELECTION_COLOR = Color.GREEN;
     private static final int COLUMNS = 20;

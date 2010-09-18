@@ -27,7 +27,7 @@ import edu.colorado.phet.translationutility.util.MessageFormatValidator;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TargetTextPanel extends JPanel {
+/* package private */ class TargetTextPanel extends JPanel {
 
     private static final Color OK_COLOR = Color.WHITE;
     private static final Color INVALID_COLOR = Color.RED;

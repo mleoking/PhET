@@ -28,7 +28,7 @@ import edu.colorado.phet.translationutility.TUStrings;
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PreviewPanel extends JPanel {
+/* package private */ class PreviewPanel extends JPanel {
     
     private static final int MARGIN = 10;
     private static final Border BORDER = new CompoundBorder( new LineBorder( Color.BLACK, 1 ), new EmptyBorder( MARGIN, MARGIN, MARGIN, MARGIN ) );

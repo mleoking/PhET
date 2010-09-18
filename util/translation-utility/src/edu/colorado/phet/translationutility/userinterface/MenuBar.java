@@ -18,7 +18,7 @@ import edu.colorado.phet.translationutility.TUStrings;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class MenuBar extends JMenuBar {
+/* package private */ class MenuBar extends JMenuBar {
 
     public MenuBar( final MainFrame frame ) {
         
