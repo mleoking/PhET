@@ -11,9 +11,9 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
-import edu.colorado.phet.translationutility.JarUtils;
 import edu.colorado.phet.translationutility.TUConstants;
 import edu.colorado.phet.translationutility.TUResources;
+import edu.colorado.phet.translationutility.jar.JarUtils;
 
 /**
  * AbstractSimulation is the base class for all PhET simulations.

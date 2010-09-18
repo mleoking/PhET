@@ -9,8 +9,8 @@ import java.util.logging.Logger;
 
 import javax.swing.JFileChooser;
 
-import edu.colorado.phet.translationutility.JarUtils;
 import edu.colorado.phet.translationutility.TUConstants;
+import edu.colorado.phet.translationutility.jar.JarUtils;
 import edu.colorado.phet.translationutility.jar.JarFactory.JavaJarFactory;
 import edu.colorado.phet.translationutility.util.Command;
 import edu.colorado.phet.translationutility.util.FileChooserFactory;

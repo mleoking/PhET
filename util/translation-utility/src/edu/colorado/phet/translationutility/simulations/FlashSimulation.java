@@ -9,8 +9,8 @@ import java.util.logging.Logger;
 
 import javax.swing.JFileChooser;
 
-import edu.colorado.phet.translationutility.JarUtils;
 import edu.colorado.phet.translationutility.jar.DocumentAdapter;
+import edu.colorado.phet.translationutility.jar.JarUtils;
 import edu.colorado.phet.translationutility.jar.DocumentIO.DocumentIOException;
 import edu.colorado.phet.translationutility.jar.JarFactory.FlashJarFactory;
 import edu.colorado.phet.translationutility.util.Command;
