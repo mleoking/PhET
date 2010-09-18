@@ -2,8 +2,7 @@
 
 package edu.colorado.phet.translationutility.simulations;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.logging.Logger;
@@ -15,9 +14,7 @@ import edu.colorado.phet.translationutility.TUConstants;
 import edu.colorado.phet.translationutility.jar.JarFactory.JavaJarFactory;
 import edu.colorado.phet.translationutility.util.Command;
 import edu.colorado.phet.translationutility.util.FileChooserFactory;
-import edu.colorado.phet.translationutility.util.PropertiesIO;
 import edu.colorado.phet.translationutility.util.Command.CommandException;
-import edu.colorado.phet.translationutility.util.PropertiesIO.PropertiesIOException;
 
 /**
  * JavaSimulation supports of Java-based simulations.
@@ -87,11 +84,14 @@ public class JavaSimulation extends AbstractSimulation {
     }
 
     public Properties loadStrings( File file ) throws SimulationException {
-        Properties properties = null;
+        Properties properties = new Properties();
         try {
-            properties = PropertiesIO.read( file );
+            // read properties from file
+            InputStream inStream = new FileInputStream( file );
+            properties.load( inStream );
+            inStream.close();
         }
-        catch ( PropertiesIOException e ) {
+        catch ( IOException e ) {
             throw new SimulationException( e );
         }
         return properties;
@@ -106,9 +106,12 @@ public class JavaSimulation extends AbstractSimulation {
             String projectName = getProjectName();
             String projectVersion = getProjectVersion( projectName + TUConstants.RESOURCE_PATH_SEPARATOR + projectName + getStringsFileSuffix() ); // eg, faraday/faraday.properties
             String header = getTranslationFileHeader( file.getName(), projectName, projectVersion );
-            PropertiesIO.write( properties, header, file );
+            // write properties to file
+            OutputStream outputStream = new FileOutputStream( file );
+            properties.store( outputStream, header );
+            outputStream.close();
         }
-        catch ( PropertiesIOException e ) {
+        catch ( IOException e ) {
             throw new SimulationException( e );
         }
     }
