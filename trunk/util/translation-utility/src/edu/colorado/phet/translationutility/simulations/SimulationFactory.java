@@ -6,7 +6,7 @@ import java.io.IOException;
 
 import edu.colorado.phet.flashlauncher.util.SimulationProperties;
 import edu.colorado.phet.translationutility.jar.JarUtils;
-import edu.colorado.phet.translationutility.simulations.ISimulation.SimulationException;
+import edu.colorado.phet.translationutility.simulations.Simulation.SimulationException;
 
 /**
  * SimulationFactory creates an ISimulation based on information in the simulation JAR file.
@@ -25,7 +25,7 @@ public class SimulationFactory {
      * @return
      * @throws SimulationException
      */
-    public static ISimulation createSimulation( String jarFileName ) throws SimulationException {
+    public static Simulation createSimulation( String jarFileName ) throws SimulationException {
 
         // obtain the simulation's properties
         SimulationProperties properties = null;
@@ -38,7 +38,7 @@ public class SimulationFactory {
         }
 
         // create the proper type of simulation
-        ISimulation simulation = null;
+        Simulation simulation = null;
         if ( properties.isFlash() ) {
             simulation = new FlashSimulation( jarFileName, properties.getProject(), properties.getSimulation() );
         }

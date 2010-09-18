@@ -2,14 +2,18 @@
 
 package edu.colorado.phet.translationutility.simulations;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.MessageFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Properties;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
+
+import javax.swing.JFileChooser;
 
 import edu.colorado.phet.translationutility.TUConstants;
 import edu.colorado.phet.translationutility.TUResources;
@@ -21,7 +25,23 @@ import edu.colorado.phet.translationutility.jar.JarUtils;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class AbstractSimulation implements ISimulation {
+public abstract class Simulation {
+    
+    /**
+     * Exception type thrown by methods of this class.
+     * Provides a layer of abstraction for more general types of exceptions.
+     */
+    public static class SimulationException extends Exception {
+        public SimulationException( Throwable cause ) {
+            super( cause );
+        }
+        public SimulationException( String message ) {
+            super( message );
+        }
+        public SimulationException( String message, Throwable cause ) {
+            super( message, cause );
+        }
+    }
     
     //----------------------------------------------------------------------------
     // Class data
@@ -43,7 +63,7 @@ public abstract class AbstractSimulation implements ISimulation {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public AbstractSimulation( String jarFileName, String projectName, String simulationName ) throws SimulationException {
+    public Simulation( String jarFileName, String projectName, String simulationName ) throws SimulationException {
         this.jarFileName = jarFileName;
         this.manifest = getManifest( jarFileName );
         this.projectName = projectName;
@@ -101,6 +121,65 @@ public abstract class AbstractSimulation implements ISimulation {
         Object[] args = { major, minor, dev, revision };
         return MessageFormat.format( "{0}.{1}.{2} ({3})", args );
     }
+    
+    //----------------------------------------------------------------------------
+    // abstract
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Tests a set of localized strings by running the simulation.
+     * 
+     * @param locale
+     * @param localizedStrings the localized strings for the locale
+     * @throws SimulationException
+     */
+    public abstract void testStrings( Locale locale, Properties localizedStrings ) throws SimulationException;
+
+    /**
+     * Gets the localized strings for a specified locale.
+     * 
+     * @param locale
+     * @return
+     * @throws SimulationException
+     */
+    public abstract Properties getStrings( Locale locale ) throws SimulationException;
+
+    /**
+     * Loads a set of localized strings from a file.
+     * 
+     * @param file
+     * @return
+     * @throws SimulationException
+     */
+    public abstract Properties loadStrings( File file ) throws SimulationException;
+
+    /**
+     * Saves a set of localized strings to a file.
+     * 
+     * @param properties
+     * @param file
+     * @throws SimulationException
+     */
+    public abstract void saveStrings( Properties properties, File file ) throws SimulationException;
+    
+    /**
+     * Gets the name of the string file for a specified locale.
+     * 
+     * @param locale
+     * @return
+     */
+    public abstract String getStringsFileName( Locale locale );
+    
+    /**
+     * Gets the suffix used for string files.
+     * @return
+     */
+    public abstract String getStringsFileSuffix();
+    
+    /**
+     * Gets a file chooser that is appropriate for the simulations string files.
+     */
+    public abstract JFileChooser getStringsFileChooser();
     
     //----------------------------------------------------------------------------
     // Utilities

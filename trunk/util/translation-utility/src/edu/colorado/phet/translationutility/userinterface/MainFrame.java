@@ -24,8 +24,8 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.translationutility.TUConstants;
 import edu.colorado.phet.translationutility.TUResources;
 import edu.colorado.phet.translationutility.TUStrings;
-import edu.colorado.phet.translationutility.simulations.ISimulation;
-import edu.colorado.phet.translationutility.simulations.ISimulation.SimulationException;
+import edu.colorado.phet.translationutility.simulations.Simulation;
+import edu.colorado.phet.translationutility.simulations.Simulation.SimulationException;
 import edu.colorado.phet.translationutility.userinterface.FindDialog.FindListener;
 import edu.colorado.phet.translationutility.userinterface.ToolBar.ToolBarListener;
 import edu.colorado.phet.translationutility.util.ExceptionHandler;
@@ -37,7 +37,7 @@ import edu.colorado.phet.translationutility.util.ExceptionHandler;
  */
 public class MainFrame extends JFrame implements ToolBarListener, FindListener {
     
-    private final ISimulation simulation;
+    private final Simulation simulation;
     private final Locale targetLocale;
     private final String submitDirName;
     
@@ -56,7 +56,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
      * @param targetLocale
      * @param jarDirName directory where the sim JAR file resides
      */
-    public MainFrame( ISimulation simulation, Locale sourceLocale, Locale targetLocale, String jarDirName ) {
+    public MainFrame( Simulation simulation, Locale sourceLocale, Locale targetLocale, String jarDirName ) {
         super( TUResources.getTitle() );
         
         this.simulation = simulation;
