@@ -3,6 +3,7 @@
 package edu.colorado.phet.translationutility.util;
 
 import java.io.*;
+import java.util.Locale;
 import java.util.Properties;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -10,6 +11,8 @@ import java.util.jar.JarInputStream;
 import java.util.jar.Manifest;
 
 import edu.colorado.phet.flashlauncher.util.SimulationProperties;
+import edu.colorado.phet.translationutility.util.JarFactory.FlashJarFactory;
+import edu.colorado.phet.translationutility.util.JarFactory.JavaJarFactory;
 
 /**
  * Utility methods related to JAR files.
@@ -232,5 +235,18 @@ public class JarUtils {
         jarInputStream.close();
 
         return properties;
+    }
+    
+    /**
+     * Creates a localized jar file of the proper type, based on info in the input jar file.
+     */
+    public static final void createLocalizedJar( String inputJarName, String outputJarName, Locale locale, Properties localizedStrings, boolean deleteOnExit ) throws IOException {
+        SimulationProperties properties = JarUtils.readSimulationProperties( inputJarName );
+        if ( properties.isFlash() ) {
+            FlashJarFactory.createLocalizedJar( inputJarName, outputJarName, locale, localizedStrings, deleteOnExit );
+        }
+        else {
+            JavaJarFactory.createLocalizedJar( inputJarName, outputJarName, locale, localizedStrings, deleteOnExit );
+        }
     }
 }

@@ -28,19 +28,6 @@ public class JarFactory {
     private static final Logger LOGGER = Logger.getLogger( JarFactory.class.getCanonicalName() );
 
     /**
-     * Creates a localized jar file of the proper type, based on info in the input jar file.
-     */
-    public static final void createLocalizedJar( String inputJarName, String outputJarName, Locale locale, Properties localizedStrings, boolean deleteOnExit ) throws IOException {
-        SimulationProperties properties = JarUtils.readSimulationProperties( inputJarName );
-        if ( properties.isFlash() ) {
-            FlashJarFactory.createLocalizedJar( inputJarName, outputJarName, locale, localizedStrings, deleteOnExit );
-        }
-        else {
-            JavaJarFactory.createLocalizedJar( inputJarName, outputJarName, locale, localizedStrings, deleteOnExit );
-        }
-    }
-
-    /**
      * Creates jar files for Flash simulations.
      */
     public static class FlashJarFactory {
