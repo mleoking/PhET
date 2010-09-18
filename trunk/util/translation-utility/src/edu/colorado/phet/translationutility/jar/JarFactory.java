@@ -17,7 +17,6 @@ import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.common.phetcommon.view.util.StringUtil;
 import edu.colorado.phet.flashlauncher.FlashLauncher;
 import edu.colorado.phet.flashlauncher.util.SimulationProperties;
-import edu.colorado.phet.translationutility.JarUtils;
 
 /**
  * Creates jar files for PhET sims.

@@ -14,7 +14,6 @@ import java.util.logging.Logger;
 import edu.colorado.phet.common.phetcommon.application.JARLauncher;
 import edu.colorado.phet.flashlauncher.FlashLauncher;
 import edu.colorado.phet.flashlauncher.util.SimulationProperties;
-import edu.colorado.phet.translationutility.JarUtils;
 
 /**
  * Factory that extracts a SimulationProperties object from a jar.

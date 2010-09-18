@@ -5,7 +5,7 @@ package edu.colorado.phet.translationutility.simulations;
 import java.io.IOException;
 
 import edu.colorado.phet.flashlauncher.util.SimulationProperties;
-import edu.colorado.phet.translationutility.JarUtils;
+import edu.colorado.phet.translationutility.jar.JarUtils;
 import edu.colorado.phet.translationutility.simulations.ISimulation.SimulationException;
 
 /**
