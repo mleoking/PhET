@@ -23,7 +23,7 @@ import edu.colorado.phet.translationutility.util.Command.CommandException;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class JavaSimulation extends AbstractSimulation {
+public class JavaSimulation extends Simulation {
     
     //----------------------------------------------------------------------------
     // Class data

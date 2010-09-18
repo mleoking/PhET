@@ -24,7 +24,7 @@ import edu.colorado.phet.translationutility.util.Command.CommandException;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class FlashSimulation extends AbstractSimulation {
+public class FlashSimulation extends Simulation {
     
     //----------------------------------------------------------------------------
     // Class data

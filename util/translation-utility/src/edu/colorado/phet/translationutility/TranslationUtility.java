@@ -16,9 +16,9 @@ import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.StringUtil;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.translationutility.simulations.ISimulation;
+import edu.colorado.phet.translationutility.simulations.Simulation;
 import edu.colorado.phet.translationutility.simulations.SimulationFactory;
-import edu.colorado.phet.translationutility.simulations.ISimulation.SimulationException;
+import edu.colorado.phet.translationutility.simulations.Simulation.SimulationException;
 import edu.colorado.phet.translationutility.userinterface.InitializationDialog;
 import edu.colorado.phet.translationutility.userinterface.MainFrame;
 import edu.colorado.phet.translationutility.util.ExceptionHandler;
@@ -57,7 +57,7 @@ public class TranslationUtility extends JFrame {
         LOGGER.info( "targetLocale=" + targetLocale.toString() );
 
         // create a Simulation
-        ISimulation simulation = null;
+        Simulation simulation = null;
         try {
             simulation = SimulationFactory.createSimulation( jarFileName );
         }

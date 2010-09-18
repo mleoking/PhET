@@ -1,3 +1,4 @@
+9/18/10 simplify class hierarchy by removing redundant ISimulation interface
 9/18/10 get rid of PropertiesIO class, what it was doing was trivial and only used in one place
 9/18/10 #2492, move all related code to new translationutility.jar package
 9/15/10 #2492, phase 2: move jar localization code to JarFactory (lightly tested)
