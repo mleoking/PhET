@@ -6,7 +6,7 @@ import edu.colorado.phet.motionseries.util.ScalaMutableBoolean
 import edu.colorado.phet.scalacommon.swing.MyRadioButton
 import edu.colorado.phet.motionseries.Predef._
 
-/**This control allows the user to see whether audio is enabled, and to change whether it is or not.
+/**This control allows the user to see whether audio is enabled, and to change whether it is enabled or not.
  * @author Sam Reid
  */
 class AudioEnabledCheckBox(soundEnabled: ScalaMutableBoolean) extends JPanel {

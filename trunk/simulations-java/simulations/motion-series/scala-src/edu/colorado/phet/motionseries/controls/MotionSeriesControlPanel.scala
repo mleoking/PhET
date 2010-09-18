@@ -240,17 +240,7 @@ class ObjectSelectionComboBoxNode(objectModel: ObjectModel, canvas: PSwingCanvas
   addChild(pswing)
 }
 
-class SubControlPanel(title: String) extends SubControlPanelTitledBorder(title)
-
-//This versions uses raised bevel border
-class SubControlPanelRaisedBevelBorder(title: String) extends VerticalLayoutPanel {
-  val titleLabel = new TitleLabel(title)
-  add(titleLabel)
-  setBorder(BorderFactory.createRaisedBevelBorder)
-}
-
-//Test version that uses CM's recommended borders from Acid Base Solutions
-class SubControlPanelTitledBorder(title: String) extends VerticalLayoutPanel {
+class SubControlPanel(title: String) extends VerticalLayoutPanel {
   setBorder(new PhetTitledBorder(title))
 }
 
