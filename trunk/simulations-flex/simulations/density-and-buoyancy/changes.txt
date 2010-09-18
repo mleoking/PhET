@@ -1,3 +1,5 @@
+> Changed show/hide table button color
+> Hides material table when the user switches away from the mystery mode
 # 1.00.04 (44136) Sep 17, 2010
 9/17/10 > Fixed bug where My Object would turn to Aluminum
 # 1.00.03 (44125) Sep 16, 2010

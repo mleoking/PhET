@@ -23,6 +23,7 @@ public class MysteryObjectsControlPanel extends DensityVBox {
     private var myparent:MysteryObjectsControlPanel;
     private const showTableButton:Button = new Button();
     private const hideTableButton:Button = new Button();
+    private var titleWindowVisible:Boolean = false;
 
     public function MysteryObjectsControlPanel() {
         super();
@@ -54,9 +55,11 @@ public class MysteryObjectsControlPanel extends DensityVBox {
             setTableVisible(true)
         });
         showTableButton.label = FlexSimStrings.get("mysteryObject.table.showTable", "Show Table");
+        showTableButton.setStyle( "fillColors", [0x00FFFF,0x00FF00] );
         addChild(showTableButton);
 
         hideTableButton.label = FlexSimStrings.get("mysteryObject.table.hideTable", "Hide Table");
+        hideTableButton.setStyle( "fillColors", [0xFFFF00,0xFF0000] );
         hideTableButton.addEventListener(MouseEvent.CLICK, function():void {
             setTableVisible(false)
         });
@@ -64,7 +67,12 @@ public class MysteryObjectsControlPanel extends DensityVBox {
         y = DensityConstants.CONTROL_INSET;
     }
 
+    public function teardown() : void {
+        setTableVisible(false);
+    }
+
     private function setTableVisible(b:Boolean):void {
+        if( b == titleWindowVisible ) return;
         if (b) {
             PopUpManager.addPopUp(titleWindow, myparent.parent, false);
             //Remember the dialog location in case the user wants to toggle it on and off in a specific (nondefault) location
@@ -80,6 +88,7 @@ public class MysteryObjectsControlPanel extends DensityVBox {
             addChild(showTableButton);
             removeChild(hideTableButton);
         }
+        titleWindowVisible = b;
     }
 
     private function toGridRow(_name:String, density:String, textDecoration:String):GridRow {
@@ -103,5 +112,6 @@ public class MysteryObjectsControlPanel extends DensityVBox {
         gridRow.addChild(toGridItem(value));
         return gridRow;
     }
+
 }
 }
