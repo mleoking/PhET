@@ -1,5 +1,6 @@
 package edu.colorado.phet.densityandbuoyancy.components {
 import edu.colorado.phet.densityandbuoyancy.DensityConstants;
+import edu.colorado.phet.densityandbuoyancy.model.BooleanProperty;
 import edu.colorado.phet.densityandbuoyancy.model.Material;
 import edu.colorado.phet.densityandbuoyancy.view.units.LinearUnit;
 import edu.colorado.phet.densityandbuoyancy.view.units.Unit;
@@ -21,9 +22,8 @@ public class MysteryObjectsControlPanel extends DensityVBox {
     private var firstTime:Boolean = true;
     private var titleWindow:TitleWindow;
     private var myparent:MysteryObjectsControlPanel;
-    private const showTableButton:Button = new Button();
-    private const hideTableButton:Button = new Button();
-    private var titleWindowVisible:Boolean = false;
+    private const tableButton:Button = new Button();
+    private var titleWindowVisible:BooleanProperty = new BooleanProperty(false);
 
     public function MysteryObjectsControlPanel() {
         super();
@@ -47,48 +47,47 @@ public class MysteryObjectsControlPanel extends DensityVBox {
         titleWindow.width = 400;
         titleWindow.height = 400;
         titleWindow.addEventListener(CloseEvent.CLOSE, function():void {
-            setTableVisible(false);
+            titleWindowVisible.value = false;
         });
         titleWindow.addChild(grid);
 
-        showTableButton.addEventListener(MouseEvent.CLICK, function():void {
-            setTableVisible(true)
-        });
-        showTableButton.label = FlexSimStrings.get("mysteryObject.table.showTable", "Show Table");
-        showTableButton.setStyle( "fillColors", [0x00FFFF,0x00FF00] );
-        addChild(showTableButton);
-
-        hideTableButton.label = FlexSimStrings.get("mysteryObject.table.hideTable", "Hide Table");
-        hideTableButton.setStyle( "fillColors", [0xFFFF00,0xFF0000] );
-        hideTableButton.addEventListener(MouseEvent.CLICK, function():void {
-            setTableVisible(false)
-        });
+        tableButton.addEventListener( MouseEvent.CLICK, function():void{
+            titleWindowVisible.value = !titleWindowVisible.value ;
+        } );
+        addChild( tableButton );
+        
         x = DensityConstants.CONTROL_INSET;
         y = DensityConstants.CONTROL_INSET;
+
+        var visibilityChangeListener:Function = function():void {
+            if ( titleWindowVisible.value ) {
+                PopUpManager.addPopUp( titleWindow, myparent.parent, false );
+                //Remember the dialog location in case the user wants to toggle it on and off in a specific (nondefault) location
+                if ( firstTime ) {
+                    PopUpManager.centerPopUp( titleWindow );
+                    firstTime = false;
+                }
+            }
+            else {
+                PopUpManager.removePopUp( titleWindow );
+            }
+            if ( titleWindowVisible.value ) {
+                // change to hide table
+                tableButton.label = FlexSimStrings.get( "mysteryObject.table.hideTable", "Hide Table" );
+                tableButton.setStyle( "fillColors", [0xFFFF00,0xFF0000] );
+            }
+            else {
+                // change to show table
+                tableButton.label = FlexSimStrings.get( "mysteryObject.table.showTable", "Show Table" );
+                tableButton.setStyle( "fillColors", [0x00FFFF,0x00FF00] );
+            }
+        };
+        titleWindowVisible.addListener( visibilityChangeListener);
+        visibilityChangeListener();
     }
 
     public function teardown() : void {
-        setTableVisible(false);
-    }
-
-    private function setTableVisible(b:Boolean):void {
-        if( b == titleWindowVisible ) return;
-        if (b) {
-            PopUpManager.addPopUp(titleWindow, myparent.parent, false);
-            //Remember the dialog location in case the user wants to toggle it on and off in a specific (nondefault) location
-            if (firstTime) {
-                PopUpManager.centerPopUp(titleWindow);
-                firstTime = false;
-            }
-            addChild(hideTableButton);
-            removeChild(showTableButton);
-        }
-        else {
-            PopUpManager.removePopUp(titleWindow);
-            addChild(showTableButton);
-            removeChild(hideTableButton);
-        }
-        titleWindowVisible = b;
+        titleWindowVisible.value = false;
     }
 
     private function toGridRow(_name:String, density:String, textDecoration:String):GridRow {
