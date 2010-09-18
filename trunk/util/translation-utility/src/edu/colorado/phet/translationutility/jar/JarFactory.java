@@ -1,6 +1,6 @@
 /* Copyright 2010, University of Colorado */
 
-package edu.colorado.phet.translationutility.util;
+package edu.colorado.phet.translationutility.jar;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -17,6 +17,8 @@ import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.common.phetcommon.view.util.StringUtil;
 import edu.colorado.phet.flashlauncher.FlashLauncher;
 import edu.colorado.phet.flashlauncher.util.SimulationProperties;
+import edu.colorado.phet.translationutility.JarUtils;
+import edu.colorado.phet.translationutility.jar.DocumentIO.DocumentIOException;
 
 /**
  * Creates jar files for PhET sims.

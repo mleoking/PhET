@@ -9,13 +9,13 @@ import java.util.logging.Logger;
 
 import javax.swing.JFileChooser;
 
+import edu.colorado.phet.translationutility.JarUtils;
+import edu.colorado.phet.translationutility.jar.DocumentAdapter;
+import edu.colorado.phet.translationutility.jar.DocumentIO.DocumentIOException;
+import edu.colorado.phet.translationutility.jar.JarFactory.FlashJarFactory;
 import edu.colorado.phet.translationutility.util.Command;
-import edu.colorado.phet.translationutility.util.DocumentAdapter;
 import edu.colorado.phet.translationutility.util.FileChooserFactory;
-import edu.colorado.phet.translationutility.util.JarUtils;
 import edu.colorado.phet.translationutility.util.Command.CommandException;
-import edu.colorado.phet.translationutility.util.DocumentIO.DocumentIOException;
-import edu.colorado.phet.translationutility.util.JarFactory.FlashJarFactory;
 
 /**
  * FlashSimulation supports translation of Flash-based simulations.

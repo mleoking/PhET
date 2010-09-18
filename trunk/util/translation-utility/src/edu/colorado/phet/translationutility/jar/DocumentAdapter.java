@@ -1,6 +1,6 @@
 /* Copyright 2008-2010, University of Colorado */
 
-package edu.colorado.phet.translationutility.util;
+package edu.colorado.phet.translationutility.jar;
 
 import java.io.*;
 import java.util.*;
@@ -13,6 +13,8 @@ import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+
+import edu.colorado.phet.translationutility.jar.DocumentIO.DocumentIOException;
 
 /**
  * Java sims store localized strings in properties files, while Flash sims used XML files.

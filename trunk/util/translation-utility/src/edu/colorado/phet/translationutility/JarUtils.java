@@ -1,6 +1,6 @@
 /* Copyright 2010, University of Colorado */
 
-package edu.colorado.phet.translationutility.util;
+package edu.colorado.phet.translationutility;
 
 import java.io.*;
 import java.util.Locale;
@@ -11,8 +11,13 @@ import java.util.jar.JarInputStream;
 import java.util.jar.Manifest;
 
 import edu.colorado.phet.flashlauncher.util.SimulationProperties;
-import edu.colorado.phet.translationutility.util.JarFactory.FlashJarFactory;
-import edu.colorado.phet.translationutility.util.JarFactory.JavaJarFactory;
+import edu.colorado.phet.translationutility.jar.DocumentAdapter;
+import edu.colorado.phet.translationutility.jar.DocumentIO;
+import edu.colorado.phet.translationutility.jar.JarFactory;
+import edu.colorado.phet.translationutility.jar.SimulationPropertiesFactory;
+import edu.colorado.phet.translationutility.jar.DocumentIO.DocumentIOException;
+import edu.colorado.phet.translationutility.jar.JarFactory.FlashJarFactory;
+import edu.colorado.phet.translationutility.jar.JarFactory.JavaJarFactory;
 
 /**
  * Utility methods related to JAR files.

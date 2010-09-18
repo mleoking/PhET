@@ -1,6 +1,6 @@
 /* Copyright 2008, University of Colorado */
 
-package edu.colorado.phet.translationutility.util;
+package edu.colorado.phet.translationutility.jar;
 
 import java.io.*;
 
