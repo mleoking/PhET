@@ -1,4 +1,4 @@
-/* Copyright 2008, University of Colorado */
+/* Copyright 2008-2010, University of Colorado */
 
 package edu.colorado.phet.translationutility.util;
 
@@ -15,8 +15,10 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 /**
- * Converts between Java Properties and the XML Document format required for Flash sims.
- * Flash sims require an XML file.
+ * Java sims store localized strings in properties files, while Flash sims used XML files.
+ * This class converts between properties and the XML formats.
+ * <p>
+ * For Flash's localized strings files:
  * The root element is <SimStrings>.
  * The element for each localized string is <string key="key" value="value" />.
  *
