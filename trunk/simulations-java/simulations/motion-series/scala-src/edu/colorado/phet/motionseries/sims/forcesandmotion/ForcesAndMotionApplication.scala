@@ -87,17 +87,17 @@ class GraphingModule(frame: PhetFrame)
   }
 }
 
+object ForcesAndMotionApplication {
+  def main(args: Array[String]) = {
+    new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "forces-and-motion".literal, classOf[ForcesAndMotionApplication])
+  }
+}
+
 class ForcesAndMotionApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
   addModule(new IntroModule(getPhetFrame))
   addModule(new FrictionModule(getPhetFrame))
   addModule(new GraphingModule(getPhetFrame))
   addModule(new RobotMovingCompanyModule(getPhetFrame, 1E-8, MotionSeriesDefaults.forcesAndMotionRobotForce, MotionSeriesDefaults.objectsForForce1DGame)) //todo: this 1E-8 workaround seems necessary to avoid problems, we should find out why
-}
-
-object ForcesAndMotionApplication {
-  def main(args: Array[String]) = {
-    new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "forces-and-motion".literal, classOf[ForcesAndMotionApplication])
-  }
 }
 
 class TestAllApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
@@ -117,10 +117,6 @@ class TestAllApplication(config: PhetApplicationConfig) extends PiccoloPhetAppli
   addModule(new RobotMovingCompanyModule(getPhetFrame))
 }
 
-class TestOneApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
-  addModule(new IntroModule(getPhetFrame))
-}
-
 object TestAllApp {
   def main(args: Array[String]) = {
     new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "forces-and-motion".literal, classOf[TestAllApplication])
@@ -131,4 +127,8 @@ object TestOneApp {
   def main(args: Array[String]) = {
     new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "forces-and-motion".literal, classOf[TestOneApplication])
   }
+}
+
+class TestOneApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
+  addModule(new IntroModule(getPhetFrame))
 }

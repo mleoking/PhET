@@ -109,13 +109,23 @@ class RampFrictionModule(frame: PhetFrame)
 
 }
 
+object ForceGraphsApplication {
+  def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "ramp-forces-and-motion".literal, classOf[ForceGraphsApplication])
+}
+
 //For debugging, just shows the force graphs tab
 class ForceGraphsApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
   addModule(new ForceGraphsModule(getPhetFrame))
 }
 
-object ForceGraphsApplication {
-  def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "ramp-forces-and-motion".literal, classOf[ForceGraphsApplication])
+/**
+ * Main application for The Ramp simulation.
+ * @author Sam Reid
+ */
+object RampApplication {
+  def main(args: Array[String]) = {
+    new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "ramp-forces-and-motion".literal, classOf[RampApplication])
+  }
 }
 
 /**
@@ -131,16 +141,6 @@ class RampApplication(config: PhetApplicationConfig) extends PiccoloPhetApplicat
   //  addModule(new WorkEnergyModule(getPhetFrame))
 
   addModule(new RobotMovingCompanyModule(getPhetFrame))
-}
-
-/**
- * Main application for The Ramp simulation.
- * @author Sam Reid
- */
-object RampApplication {
-  def main(args: Array[String]) = {
-    new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "ramp-forces-and-motion".literal, classOf[RampApplication])
-  }
 }
 
 object Tester {
