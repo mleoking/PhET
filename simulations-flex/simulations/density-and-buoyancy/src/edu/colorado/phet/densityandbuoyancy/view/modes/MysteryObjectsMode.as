@@ -42,6 +42,8 @@ public class MysteryObjectsMode extends Mode {
         if (mysteryObjectsControlPanelShowing) {
             module.canvas.removeChild(mysteryObjectsControlPanel);
             mysteryObjectsControlPanelShowing = false;
+
+            mysteryObjectsControlPanel.teardown();
         }
     }
 
