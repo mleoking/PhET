@@ -339,4 +339,6 @@ public abstract class PhetWebsite {
         }
     };
 
+    public static PhetWebsite DEFAULT_PRODUCTION_WEBSITE = FIGARO;
+
 }

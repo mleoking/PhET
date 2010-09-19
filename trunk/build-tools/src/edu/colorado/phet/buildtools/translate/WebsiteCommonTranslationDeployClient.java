@@ -212,7 +212,7 @@ public class WebsiteCommonTranslationDeployClient {
 
         File resourceFile = fileChooser.getSelectedFile();
 
-        new WebsiteCommonTranslationDeployClient( resourceFile, trunk ).deployCommonTranslation( PhetWebsite.FIGARO );
+        new WebsiteCommonTranslationDeployClient( resourceFile, trunk ).deployCommonTranslation( PhetWebsite.DEFAULT_PRODUCTION_WEBSITE );
 
 
     }

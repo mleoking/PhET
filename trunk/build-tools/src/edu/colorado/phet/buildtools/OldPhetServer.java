@@ -260,4 +260,7 @@ public abstract class OldPhetServer {
         }
     }
 
+    public static final OldPhetServer DEFAULT_PRODUCTION_SERVER = FIGARO;
+    public static final OldPhetServer DEFAULT_DEVELOPMENT_SERVER = SPOT;
+
 }

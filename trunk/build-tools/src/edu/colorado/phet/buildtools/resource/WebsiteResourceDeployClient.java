@@ -94,7 +94,7 @@ public class WebsiteResourceDeployClient {
      */
     public boolean uploadResourceFile() throws JSchException, IOException {
         BuildLocalProperties buildLocalProperties = BuildLocalProperties.getInstance();
-        AuthenticationInfo authenticationInfo = PhetWebsite.FIGARO.getServerAuthenticationInfo( buildLocalProperties );
+        AuthenticationInfo authenticationInfo = website.getServerAuthenticationInfo( buildLocalProperties );
         String temporaryDirPath = getTemporaryDirPath();
 
         boolean success = dirtyExecute( "mkdir -p -m 775 " + temporaryDirPath + "/resource" );
@@ -124,7 +124,7 @@ public class WebsiteResourceDeployClient {
      */
     public boolean uploadExtraFile( File extraFile, String sim ) throws JSchException, IOException {
         BuildLocalProperties buildLocalProperties = BuildLocalProperties.getInstance();
-        AuthenticationInfo authenticationInfo = PhetWebsite.FIGARO.getServerAuthenticationInfo( buildLocalProperties );
+        AuthenticationInfo authenticationInfo = website.getServerAuthenticationInfo( buildLocalProperties );
         String temporaryDirPath = getTemporaryDirPath();
 
         String temporarySimExtrasDir = temporaryDirPath + "/extras/" + sim;
@@ -285,7 +285,7 @@ public class WebsiteResourceDeployClient {
 
             if ( mode.equals( "java" ) ) {
                 try {
-                    deployJavaResourceFile( PhetWebsite.FIGARO, trunk, resourceFile, resourceDestination );
+                    deployJavaResourceFile( PhetWebsite.DEFAULT_PRODUCTION_WEBSITE, trunk, resourceFile, resourceDestination );
                 }
                 catch( IOException e ) {
                     e.printStackTrace();
@@ -296,7 +296,7 @@ public class WebsiteResourceDeployClient {
             }
             else if ( mode.equals( "flash" ) ) {
                 try {
-                    deployFlashResourceFile( PhetWebsite.FIGARO, trunk, resourceFile, resourceDestination );
+                    deployFlashResourceFile( PhetWebsite.DEFAULT_PRODUCTION_WEBSITE, trunk, resourceFile, resourceDestination );
                 }
                 catch( IOException e ) {
                     e.printStackTrace();

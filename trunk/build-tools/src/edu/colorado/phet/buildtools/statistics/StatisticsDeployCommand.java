@@ -62,7 +62,7 @@ public class StatisticsDeployCommand {
         File[] reportFiles = getReportDir().listFiles( new StatisticsFileFilter() );
         File[] adminFiles = getAdminDir().listFiles( new StatisticsFileFilter() );
 
-        AuthenticationInfo authenticationInfo = PhetWebsite.FIGARO.getServerAuthenticationInfo( buildLocalProperties );
+        AuthenticationInfo authenticationInfo = website.getServerAuthenticationInfo( buildLocalProperties );
 
         // SCP all of the files to tigercat
         // TODO: bad design for adding more directories! improve it!
@@ -233,7 +233,7 @@ public class StatisticsDeployCommand {
 
             // make sure SVN of statistics is up to date before deploying
             if ( checker.isUpToDate( project ) ) {
-                StatisticsDeployCommand command = new StatisticsDeployCommand( trunk, PhetWebsite.FIGARO );
+                StatisticsDeployCommand command = new StatisticsDeployCommand( trunk, PhetWebsite.DEFAULT_PRODUCTION_WEBSITE );
 
                 // actually deploy everything
                 command.deploy();
