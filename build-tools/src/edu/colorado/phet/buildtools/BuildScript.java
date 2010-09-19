@@ -530,10 +530,10 @@ public class BuildScript {
                 //sendCopyToDev( PhetWebsite.FIGARO.getServerAuthenticationInfo( buildLocalProperties ), OldPhetServer.FIGARO_DEV );
                 return true;
             }
-        }, OldPhetServer.SPOT, devAuth, new VersionIncrement.UpdateDev(), new Task() {
+        }, OldPhetServer.DEFAULT_DEVELOPMENT_SERVER, devAuth, new VersionIncrement.UpdateDev(), new Task() {
             public boolean invoke() {
                 if ( generateOfflineJARs ) {
-                    generateOfflineJars( project, OldPhetServer.SPOT, devAuth );
+                    generateOfflineJars( project, OldPhetServer.DEFAULT_DEVELOPMENT_SERVER, devAuth );
                 }
                 return true;
             }
@@ -550,7 +550,7 @@ public class BuildScript {
                     public boolean invoke() {
                         //generate files for dev
                         //sendCopyToDev( PhetWebsite.FIGARO.getServerAuthenticationInfo( buildLocalProperties ), OldPhetServer.FIGARO_DEV );
-                        sendCopyToDev( devAuth, OldPhetServer.SPOT );
+                        sendCopyToDev( devAuth, OldPhetServer.DEFAULT_DEVELOPMENT_SERVER );
                         return prepareStagingArea( productionSite );
                     }
                 }, productionSite.getOldProductionServer(), prodAuth, versionIncrement, new Task() {
@@ -568,8 +568,8 @@ public class BuildScript {
                 } );
     }
 
-    public void deployProd( final AuthenticationInfo devAuth, final AuthenticationInfo prodAuth ) {
-        deployToDevelopmentAndProductionServers( devAuth, prodAuth, new VersionIncrement.UpdateProdMinor(), PhetWebsite.FIGARO );
+    public void deployProd( PhetWebsite productionWebsite, final AuthenticationInfo devAuth, final AuthenticationInfo prodAuth ) {
+        deployToDevelopmentAndProductionServers( devAuth, prodAuth, new VersionIncrement.UpdateProdMinor(), productionWebsite );
     }
 
     //Run "rm" on the server to remove the phet/staging/sims/<project> directory contents, see #1529

@@ -272,8 +272,9 @@ public class MiscMenu extends JMenu {
         public void deploy( BuildScript buildScript ) {
             BuildLocalProperties props = BuildLocalProperties.getInstance();
             buildScript.deployProd(
+                    PhetWebsite.DEFAULT_PRODUCTION_WEBSITE,
                     props.getDevAuthenticationInfo(),
-                    PhetWebsite.FIGARO.getServerAuthenticationInfo( props ) );
+                    PhetWebsite.DEFAULT_PRODUCTION_WEBSITE.getServerAuthenticationInfo( props ) );
         }
 
         public String toString() {

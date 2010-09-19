@@ -91,6 +91,6 @@ public class TestSshCommand {
     public static void main( String[] args ) {
         File trunk = new File( args[0] );
         BuildLocalProperties.getInstanceRelativeToTrunk( trunk );
-        sendSSH( PhetWebsite.FIGARO );
+        sendSSH( PhetWebsite.DEFAULT_PRODUCTION_WEBSITE );
     }
 }
