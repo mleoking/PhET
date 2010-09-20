@@ -10,26 +10,27 @@ import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.umd.cs.piccolox.pswing.PComboBox
 import java.awt.Color
 
-class ObjectSelectionComboBox(objectModel: ObjectSelectionModel) extends PComboBox {
-  if (objectModel == null) throw new RuntimeException("Null object model")
+class ObjectSelectionComboBox(objectSelectionModel: ObjectSelectionModel) extends PComboBox {
+  if (objectSelectionModel == null) throw new RuntimeException("Null object model")
 
   val itemList = for (o <- MotionSeriesDefaults.objectTypes) yield {
     o match {
       case m: MotionSeriesObjectType => new ObjectItem(o)
     }
   }
-  class ObjectItem(val rampObject: MotionSeriesObjectType) {
-    override def toString = rampObject.getDisplayText
+  //The ObjectItem class facilitates interoperability with swings combo box model
+  class ObjectItem(val motionSeriesObjectType: MotionSeriesObjectType) {
+    override def toString = motionSeriesObjectType.getDisplayText
   }
   super.setModel(new DefaultComboBoxModel(new Vector[ObjectItem] {
     for (elm <- itemList) add(elm)
   }))
 
-  objectModel.addListener(() => setSelectedIndex(MotionSeriesDefaults.objectTypes.indexOf(objectModel.selectedObject)))
+  objectSelectionModel.addListener(() => setSelectedIndex(MotionSeriesDefaults.objectTypes.indexOf(objectSelectionModel.selectedObject)))
   addItemListener(new ItemListener() {
     def itemStateChanged(e: ItemEvent) = {
       if (itemList.indices.contains(getSelectedIndex))
-        objectModel.selectedObject = itemList(getSelectedIndex).rampObject
+        objectSelectionModel.selectedObject = itemList(getSelectedIndex).motionSeriesObjectType
       else {
         println("could not select item : " + getSelectedIndex)
       }
@@ -41,8 +42,8 @@ class ObjectSelectionComboBox(objectModel: ObjectSelectionModel) extends PComboB
 
     def getListCellRendererComponent(list: JList, value: Any, index: Int, isSelected: Boolean, cellHasFocus: Boolean) = {
       if (value != null) {
-        setIcon(new ImageIcon(BufferedImageUtils.multiScaleToHeight(value.asInstanceOf[ObjectItem].rampObject.iconImage, 30)))
-        setText(value.asInstanceOf[ObjectItem].rampObject.getDisplayTextHTML)
+        setIcon(new ImageIcon(BufferedImageUtils.multiScaleToHeight(value.asInstanceOf[ObjectItem].motionSeriesObjectType.iconImage, 30)))
+        setText(value.asInstanceOf[ObjectItem].motionSeriesObjectType.getDisplayTextHTML)
         setBackground(if (isSelected) list.getSelectionBackground else list.getBackground)
         setForeground(if (isSelected) list.getSelectionForeground else list.getForeground)
       }
