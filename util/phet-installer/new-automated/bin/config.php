@@ -239,13 +239,8 @@
     define("BITROCK_PRODUCT_VERSION",   PHET_VERSION);
     define("BITROCK_CODEBASE_MACRO",  '@@CODEBASE@@');
 
-    // Custom Installer Note: Some of the bitrock files - such as the executable
-    // itself - are maintained in the main installer directory, and some of the
-    // custom-specific files are maintained in a separate location.  Hence, some
-    // of the constants below point to one place and some point to another.
-    define("BITROCK_DIR",               file_cleanup_local_filename(PARENT_DIR."BitRock/bin/"));
-    define("BITROCK_CUSTOM_DIR",        file_cleanup_local_filename(ROOT_DIR."BitRock/"));
-    define("BITROCK_BUILDFILE_DIR",     file_cleanup_local_filename(BITROCK_CUSTOM_DIR."projects/"));
+    define("BITROCK_DIR",               file_cleanup_local_filename(ROOT_DIR."BitRock/"));
+    define("BITROCK_BUILDFILE_DIR",     file_cleanup_local_filename(BITROCK_DIR."projects/"));
 
     // Project files for building the "web mirror installer", meaning the
     // installer that allows for installation on a server that can then serve
@@ -254,13 +249,13 @@
     define("BITROCK_KSU_WEB_MIRROR_BUILDFILE", file_cleanup_local_filename(BITROCK_BUILDFILE_DIR."ksu-web-mirror-installer-buildfile.xml"));
     define("BITROCK_KSU_LOCAL_MIRROR_BUILDFILE", file_cleanup_local_filename(BITROCK_BUILDFILE_DIR."ksu-local-mirror-installer-buildfile.xml"));
     define("BITROCK_PHET_LOCAL_MIRROR_BUILDFILE", file_cleanup_local_filename(BITROCK_BUILDFILE_DIR."phet-local-mirror-installer-buildfile.xml"));
-    define("BITROCK_EXE_DIR",           file_cleanup_local_filename(BITROCK_DIR));
+    define("BITROCK_EXE_DIR",           file_cleanup_local_filename(BITROCK_DIR."bin/"));
     define("BITROCK_EXE_Linux",         "builder");
     define("BITROCK_EXE_WINNT",         "builder.exe");
     define("BITROCK_EXE_Darwin",        "builder");
     define("BITROCK_EXE",               GET_OS_BOUND_NAME("BITROCK_EXE"));
 
-    define("BITROCK_DIST_DIR",          file_cleanup_local_filename(BITROCK_CUSTOM_DIR."output/"));
+    define("BITROCK_DIST_DIR",          file_cleanup_local_filename(BITROCK_DIR."output/"));
 
     define("BITROCK_DIST_PREFIX",       BITROCK_PRODUCT_SHORTNAME."-Installer_");
 
