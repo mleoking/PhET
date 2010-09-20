@@ -9,9 +9,11 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarOutputStream;
 
 import edu.colorado.phet.common.phetcommon.application.JARLauncher;
+import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 
 /**
- * Creates jar files for Java simulations.
+ * Creates jar files for Java simulations, and provides utility methods that encapsulate
+ * the conventions related to localized string file names.
  */
 public class JavaJarCreator extends JarCreator {
     
@@ -61,5 +63,64 @@ public class JavaJarCreator extends JarCreator {
      */
     protected String[] getCopyExclusions() {
         return new String[] { JARLauncher.PROPERTIES_FILE_NAME };
+    }
+    
+    public String getStringsFileSuffix() {
+        return ".properties";
+    }
+    
+    /**
+     * Gets the path to the JAR resource that contains localized strings for 
+     * a specified project and locale. If locale is null, the fallback resource
+     * path is returned. 
+     */
+    public String getStringsFilePath( String projectName, Locale locale ) {
+        String dirName = getStringsRootName( projectName );
+        String fileName = getStringsFileBasename( projectName, locale );
+        return dirName + "/localization/" + fileName;
+    }
+    
+    /**
+     * Gets the basename of a JAR resource that contains localized strings. 
+     * In UNIX parlance, the basename of a file is the final rightmost component of its full path.
+     * For example: faraday-strings_es.properties.
+     * <p>
+     * If locale is null, the name of the fallback resource is returned.
+     * The fallback name does not contain a locale, and contains English strings.
+     * For example: faraday-strings.properties
+     * <p>
+     * NOTE: Support for the fallback name is provided for backward compatibility.
+     * All Java simulations should migrate to the convention of including "en" in the 
+     * resource name of English localization files.
+     */
+    public String getStringsFileBasename( String projectName, Locale locale ) {
+        String rootName = getStringsRootName( projectName );
+        String basename = null;
+        if ( locale == null ) {
+            basename = rootName + "-strings" + getStringsFileSuffix(); // fallback basename contains no language code
+        }
+        else {
+            String localeString = LocaleUtils.localeToString( locale );
+            basename = rootName + "-strings_" + localeString + getStringsFileSuffix();
+        }
+        return basename;
+    }
+    
+    /*
+     * Gets the root name of the resource that contains localized strings.
+     * <p>
+     * This is typically the same as the project name, except for common strings.
+     * PhET common strings are bundled into their own JAR file for use with Translation Utility.
+     * The JAR file must be built & deployed via a dummy sim named "java-common-strings", 
+     * found in trunk/simulations-flash/simulations.  If the project name is "java-common-strings",
+     * we really want to load the common strings which are in files with root name "phetcommon".
+     * So we use "phetcommon" as the project name.
+     */
+    private String getStringsRootName( String projectName ) {
+        String rootName = projectName;
+        if ( rootName.equals( "java-common-strings" ) ) {
+            rootName = "phetcommon";
+        }
+        return rootName;
     }
 }

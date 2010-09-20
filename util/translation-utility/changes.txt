@@ -1,3 +1,4 @@
+9/20/10 #2492,#2497 move methods related to string file names into JarCreator hierarchy
 9/20/10 promote FlashJarCreator and JavaJarCreator to top-level types
 9/20/10 #2492,#2497, push duplicate code into base class for creating localized jars
 9/20/10 #2492,#2497, rename JarFactory to JarCreator, since this isn't a factory pattern (no objects are created)
