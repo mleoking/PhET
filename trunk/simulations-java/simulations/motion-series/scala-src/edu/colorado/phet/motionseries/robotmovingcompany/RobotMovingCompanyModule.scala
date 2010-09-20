@@ -32,7 +32,7 @@ class RobotMovingCompanyModule(frame: PhetFrame,
 
   override def createMotionSeriesModel(defaultPosition: Double, pausedOnReset: Boolean, initialAngle: Double) = {
     new MotionSeriesModel(defaultPosition, pausedOnReset, initialAngle) {
-      override def updateSegmentLengths() = setSegmentLengths(rampLength, rampLength)
+      override def updateSegmentLengths() = setSegmentLengths(DEFAULT_RAMP_LENGTH, DEFAULT_RAMP_LENGTH)
       frictionless = false
       //This is an unorthodox way to achieve the desired behavior.  The requested feature is that objects should not be able to be moved 
       //beyond the left edge of the leftmost ramp segment in the game modes.

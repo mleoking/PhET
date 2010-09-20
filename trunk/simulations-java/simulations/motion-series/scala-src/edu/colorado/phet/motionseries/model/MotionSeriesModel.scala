@@ -12,6 +12,7 @@ import edu.colorado.phet.recordandplayback.model.{DataPoint, RecordAndPlaybackMo
 import edu.colorado.phet.common.phetcommon.math.MathUtil
 import edu.colorado.phet.motionseries.charts.MutableDouble
 import edu.colorado.phet.motionseries.util.{MutableRange, ScalaMutableBoolean}
+import MotionSeriesDefaults._
 
 class MotionSeriesModel(defaultPosition: Double,
                         pausedOnReset: Boolean,
@@ -20,7 +21,8 @@ class MotionSeriesModel(defaultPosition: Double,
   private val _walls = new ScalaMutableBoolean(true)
   private val _frictionless = new ScalaMutableBoolean(false) //FRICTIONLESS_DEFAULT
   private val _wallsBounce = new ScalaMutableBoolean(false) //BOUNCE_DEFAULT 
-  private var _objectType = MotionSeriesDefaults.objectTypes(0)
+  private var _objectType = objectTypes(0)
+  private val resetListeners = new ArrayBuffer[() => Unit]
   val surfaceFrictionStrategy = new SurfaceFrictionStrategy() {
     def getTotalFriction(objectFriction: Double) = objectFriction
   }
@@ -28,11 +30,10 @@ class MotionSeriesModel(defaultPosition: Double,
 
   val stepListeners = new ArrayBuffer[() => Unit]
   val recordListeners = new ArrayBuffer[() => Unit]
-  val rampLength = 10
   setPaused(pausedOnReset)
 
-  val leftRampSegment = new RampSegment(new Point2D.Double(-rampLength, 0), new Point2D.Double(0, 0))
-  val rightRampSegment = new RampSegment(new Point2D.Double(0, 0), new Point2D.Double(rampLength * cos(initialAngle), rampLength * sin(initialAngle)))
+  val leftRampSegment = new RampSegment(new Point2D.Double(-DEFAULT_RAMP_LENGTH, 0), new Point2D.Double(0, 0))
+  val rightRampSegment = new RampSegment(new Point2D.Double(0, 0), new Point2D.Double(DEFAULT_RAMP_LENGTH * cos(initialAngle), DEFAULT_RAMP_LENGTH * sin(initialAngle)))
   rightRampSegment.addListener(() => positionMapper.notifyListeners())
   leftRampSegment.addListener(() => positionMapper.notifyListeners())
 
@@ -41,7 +42,7 @@ class MotionSeriesModel(defaultPosition: Double,
   //Sends notification when any ramp segment changes
   val wallRange = new MutableRange(_wallRange)
 
-  def _wallRange = edu.colorado.phet.motionseries.util.Range(-leftRampSegment.length + MotionSeriesDefaults.wall.width / 2, rightRampSegment.length - MotionSeriesDefaults.wall.width / 2)
+  def _wallRange = edu.colorado.phet.motionseries.util.Range(-leftRampSegment.length + wall.width / 2, rightRampSegment.length - wall.width / 2)
 
   def updateWallRange() = wallRange.setValue(_wallRange)
   leftRampSegment.addListener(updateWallRange)
@@ -55,11 +56,11 @@ class MotionSeriesModel(defaultPosition: Double,
     def apply(particleLocation: Double) = toPosition2D(particleLocation)
   }
 
-  val leftWall = new MotionSeriesObject(this, -10, MotionSeriesDefaults.wall.width, MotionSeriesDefaults.wall.height)
-  val rightWall = new MotionSeriesObject(this, 10, MotionSeriesDefaults.wall.width, MotionSeriesDefaults.wall.height)
+  val leftWall = new MotionSeriesObject(this, -10, wall.width, wall.height)
+  val rightWall = new MotionSeriesObject(this, 10, wall.width, wall.height)
 
-  val leftWallRightEdge = new MotionSeriesObject(this, -10 + MotionSeriesDefaults.wall.width / 2, MotionSeriesDefaults.SPRING_WIDTH, MotionSeriesDefaults.SPRING_HEIGHT)
-  val rightWallLeftEdge = new MotionSeriesObject(this, 10 - MotionSeriesDefaults.wall.width / 2, MotionSeriesDefaults.SPRING_WIDTH, MotionSeriesDefaults.SPRING_HEIGHT)
+  val leftWallRightEdge = new MotionSeriesObject(this, -10 + wall.width / 2, SPRING_WIDTH, SPRING_HEIGHT)
+  val rightWallLeftEdge = new MotionSeriesObject(this, 10 - wall.width / 2, SPRING_WIDTH, SPRING_HEIGHT)
 
   val manMotionSeriesObject = new MotionSeriesObject(this, defaultManPosition, 1, 3)
 
@@ -74,7 +75,7 @@ class MotionSeriesModel(defaultPosition: Double,
   updateDueToObjectTypeChange()
   motionSeriesObject.stepInTime(0.0) //Update vectors using the motion strategy
 
-  def stepRecord(): Unit = stepRecord(MotionSeriesDefaults.DT_DEFAULT)
+  def stepRecord(): Unit = stepRecord(DT_DEFAULT)
 
   def step(simulationTimeChange: Double) = {
     stepRecord()
@@ -92,16 +93,16 @@ class MotionSeriesModel(defaultPosition: Double,
     setPaused(false)
   }
 
-  override def isRecordingFull = getTime > MotionSeriesDefaults.MAX_RECORD_TIME
+  override def isRecordingFull = getTime > MAX_RECORD_TIME
 
   //Don't let the cursor drag past max time
   override def addRecordedPoint(point: DataPoint[RecordedState]) = {
-    if (point.getTime <= MotionSeriesDefaults.MAX_RECORD_TIME) {
+    if (point.getTime <= MAX_RECORD_TIME) {
       super.addRecordedPoint(point)
     }
   }
 
-  def motionSeriesObjectInModelViewportRange = motionSeriesObject.position2D.x < MotionSeriesDefaults.MIN_X || motionSeriesObject.position2D.x > MotionSeriesDefaults.MAX_X
+  def motionSeriesObjectInModelViewportRange = motionSeriesObject.position2D.x < MIN_X || motionSeriesObject.position2D.x > MAX_X
 
   def returnMotionSeriesObject() = {
     motionSeriesObject.attach()
@@ -116,15 +117,13 @@ class MotionSeriesModel(defaultPosition: Double,
     motionSeriesObject.thermalEnergy = 0.0
   }
 
-  private val resetListeners = new ArrayBuffer[() => Unit]
-
   def addResetListener(listener: () => Unit) = resetListeners += listener
 
   override def resetAll() = {
     super.resetAll()
     if (resetListeners != null) { //resetAll() is called from super's constructor, so have to make sure our data is inited before proceeding
       clearHistory()
-      selectedObject = MotionSeriesDefaults.objectTypes(0)
+      selectedObject = objectTypes(0)
       _frictionless.reset()
       walls.reset()
       resetObject()
@@ -186,8 +185,8 @@ class MotionSeriesModel(defaultPosition: Double,
     }
 
     //resolve collisions with the wall when switching objects
-    motionSeriesObject.position = MathUtil.clamp(MotionSeriesDefaults.MIN_X + motionSeriesObject.width / 2,
-      motionSeriesObject.position, MotionSeriesDefaults.MAX_X - motionSeriesObject.width / 2)
+    motionSeriesObject.position = MathUtil.clamp(MIN_X + motionSeriesObject.width / 2,
+      motionSeriesObject.position, MAX_X - motionSeriesObject.width / 2)
 
     notifyListeners()
   }
@@ -220,8 +219,8 @@ class MotionSeriesModel(defaultPosition: Double,
   //duplicates some work with wallrange
   //todo: call this method when ramp angle changes, since it depends on ramp angle
   def updateSegmentLengths() = {
-    val seg0Length = if (leftRampSegment.angle > 0 || _walls.getValue.booleanValue) rampLength else MotionSeriesDefaults.FAR_DISTANCE
-    val seg1Length = if (rightRampSegment.angle > 0 || _walls.getValue.booleanValue) rampLength else MotionSeriesDefaults.FAR_DISTANCE
+    val seg0Length = if (leftRampSegment.angle > 0 || _walls.getValue.booleanValue) DEFAULT_RAMP_LENGTH else FAR_DISTANCE
+    val seg1Length = if (rightRampSegment.angle > 0 || _walls.getValue.booleanValue) DEFAULT_RAMP_LENGTH else FAR_DISTANCE
     setSegmentLengths(seg0Length, seg1Length)
   }
 

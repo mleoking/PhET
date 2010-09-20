@@ -7,9 +7,6 @@
         <option name="compilerLibraryName" value="scala-compiler-2.8.0" />
       </configuration>
     </facet>
-    <facet type="Scala" name="Scala">
-      <configuration />
-    </facet>
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
