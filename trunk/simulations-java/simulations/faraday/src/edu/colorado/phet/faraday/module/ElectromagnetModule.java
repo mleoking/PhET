@@ -129,6 +129,7 @@ public class ElectromagnetModule extends FaradayModule {
         
         // Compass model
         _compassModel = new Compass( _electromagnetModel, getClock() );
+        _compassModel.setBehavior( Compass.INCREMENTAL_BEHAVIOR );
         _compassModel.setLocation( COMPASS_LOCATION );
         model.addModelElement( _compassModel );
         
@@ -244,7 +245,6 @@ public class ElectromagnetModule extends FaradayModule {
         _electromagnetModel.update();
         
         // Compass model
-        _compassModel.setBehavior( _acPowerSupplyModel.isEnabled() ? Compass.INCREMENTAL_BEHAVIOR : Compass.KINEMATIC_BEHAVIOR );
         _compassModel.setLocation( COMPASS_LOCATION );
         _compassModel.setEnabled( true );
         
