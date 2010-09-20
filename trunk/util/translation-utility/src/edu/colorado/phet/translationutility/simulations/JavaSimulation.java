@@ -12,7 +12,7 @@ import javax.swing.JFileChooser;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.translationutility.TUConstants;
 import edu.colorado.phet.translationutility.jar.JarUtils;
-import edu.colorado.phet.translationutility.jar.JarFactory.JavaJarFactory;
+import edu.colorado.phet.translationutility.jar.JarCreator.JavaJarCreator;
 import edu.colorado.phet.translationutility.util.FileChooserFactory;
 
 /**
@@ -27,7 +27,7 @@ public class JavaSimulation extends Simulation {
     private static final Logger LOGGER = Logger.getLogger( JavaSimulation.class.getCanonicalName() );
     
     public JavaSimulation( String jarFileName, String projectName, String simulationName ) throws SimulationException {
-        super( jarFileName, projectName, simulationName, new JavaJarFactory() );
+        super( jarFileName, projectName, simulationName, new JavaJarCreator() );
     }
     
     public Properties getStrings( Locale locale ) throws SimulationException {

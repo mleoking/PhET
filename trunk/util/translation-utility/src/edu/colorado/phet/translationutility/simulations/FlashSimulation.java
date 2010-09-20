@@ -13,7 +13,7 @@ import javax.swing.JFileChooser;
 import edu.colorado.phet.translationutility.jar.DocumentAdapter;
 import edu.colorado.phet.translationutility.jar.JarUtils;
 import edu.colorado.phet.translationutility.jar.DocumentIO.DocumentIOException;
-import edu.colorado.phet.translationutility.jar.JarFactory.FlashJarFactory;
+import edu.colorado.phet.translationutility.jar.JarCreator.FlashJarCreator;
 import edu.colorado.phet.translationutility.util.FileChooserFactory;
 
 /**
@@ -28,7 +28,7 @@ public class FlashSimulation extends Simulation {
     private static final Logger LOGGER = Logger.getLogger( FlashSimulation.class.getCanonicalName() );
     
     public FlashSimulation( String jarFileName, String projectName, String simulationName ) throws SimulationException {
-        super( jarFileName, projectName, simulationName, new FlashJarFactory() );
+        super( jarFileName, projectName, simulationName, new FlashJarCreator() );
     }
     
     public Properties getStrings( Locale locale ) throws SimulationException {

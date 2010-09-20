@@ -11,8 +11,8 @@ import java.util.jar.JarInputStream;
 import java.util.jar.Manifest;
 
 import edu.colorado.phet.flashlauncher.util.SimulationProperties;
-import edu.colorado.phet.translationutility.jar.JarFactory.FlashJarFactory;
-import edu.colorado.phet.translationutility.jar.JarFactory.JavaJarFactory;
+import edu.colorado.phet.translationutility.jar.JarCreator.FlashJarCreator;
+import edu.colorado.phet.translationutility.jar.JarCreator.JavaJarCreator;
 
 /**
  * Utility methods related to JAR files.
@@ -243,10 +243,10 @@ public class JarUtils {
     public static void createLocalizedJar( String inputJarName, String outputJarName, Locale locale, Properties localizedStrings, String stringResourcePath, boolean deleteOnExit ) throws IOException {
         SimulationProperties properties = JarUtils.readSimulationProperties( inputJarName );
         if ( properties.isFlash() ) {
-            new FlashJarFactory().createLocalizedJar( inputJarName, outputJarName, locale, localizedStrings, stringResourcePath, deleteOnExit );
+            new FlashJarCreator().createLocalizedJar( inputJarName, outputJarName, locale, localizedStrings, stringResourcePath, deleteOnExit );
         }
         else {
-            new JavaJarFactory().createLocalizedJar( inputJarName, outputJarName, locale, localizedStrings, stringResourcePath, deleteOnExit );
+            new JavaJarCreator().createLocalizedJar( inputJarName, outputJarName, locale, localizedStrings, stringResourcePath, deleteOnExit );
         }
     }
 }
