@@ -11,10 +11,10 @@ import java.util.Properties;
 
 import javax.swing.JFileChooser;
 
+import edu.colorado.phet.buildtools.jar.JarCreator;
+import edu.colorado.phet.buildtools.jar.JarUtils;
 import edu.colorado.phet.translationutility.TUConstants;
 import edu.colorado.phet.translationutility.TUResources;
-import edu.colorado.phet.translationutility.jar.JarCreator;
-import edu.colorado.phet.translationutility.jar.JarUtils;
 import edu.colorado.phet.translationutility.util.Command;
 import edu.colorado.phet.translationutility.util.Command.CommandException;
 

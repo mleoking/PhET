@@ -1,6 +1,6 @@
 /* Copyright 2010, University of Colorado */
 
-package edu.colorado.phet.translationutility.jar;
+package edu.colorado.phet.buildtools.jar;
 
 import java.io.File;
 import java.io.FileOutputStream;
