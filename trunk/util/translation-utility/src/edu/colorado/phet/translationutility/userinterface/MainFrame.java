@@ -211,7 +211,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
             }
         }
         
-        File defaultFile = new File( saveLoadDirectory, simulation.getStringsFileName( targetLocale ) );
+        File defaultFile = new File( saveLoadDirectory, simulation.getStringsFileBasename( targetLocale ) );
         JFileChooser chooser = simulation.getStringsFileChooser();
         chooser.setSelectedFile( defaultFile );
         int option = chooser.showSaveDialog( this );
@@ -299,7 +299,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
         Properties properties = translationPanel.getTargetProperties();
         
         // export properties to a file
-        File outFile = new File( submitDirName, simulation.getStringsFileName( targetLocale ) );
+        File outFile = new File( submitDirName, simulation.getStringsFileBasename( targetLocale ) );
         if ( outFile.exists() ) {
             Object[] args = { outFile.getAbsolutePath() };
             String message = MessageFormat.format( TUStrings.CONFIRM_OVERWRITE_MESSAGE, args );

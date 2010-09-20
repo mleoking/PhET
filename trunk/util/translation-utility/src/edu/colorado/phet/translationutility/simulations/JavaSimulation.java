@@ -33,7 +33,7 @@ public class JavaSimulation extends Simulation {
     public Properties getStrings( Locale locale ) throws SimulationException {
         
         Properties properties = null;
-        String propertiesFileName = getStringsResourcePath( locale );
+        String propertiesFileName = getStringsFilePath( locale );
         
         try {
             if ( JarUtils.containsFile( getJarFileName(), propertiesFileName ) ) {
@@ -43,7 +43,7 @@ public class JavaSimulation extends Simulation {
             }
             else if ( properties == null && locale.equals( TUConstants.ENGLISH_LOCALE ) ) {
                 // English strings are in a fallback resource file.
-                propertiesFileName = getStringsResourcePath( null /* locale */ );
+                propertiesFileName = getStringsFilePath( null /* locale */ );
                 properties = JarUtils.readProperties( getJarFileName(), propertiesFileName );
                 LOGGER.info( "loaded strings from fallback file " + propertiesFileName );
             }
@@ -97,14 +97,14 @@ public class JavaSimulation extends Simulation {
      * a specified project and locale. If locale is null, the fallback resource
      * path is returned. 
      */
-    public String getStringsResourcePath( Locale locale ) {
-        String dirName = getStringsBasename();
-        String fileName = getStringsFileName( locale );
+    public String getStringsFilePath( Locale locale ) {
+        String dirName = getStringsRootName();
+        String fileName = getStringsFileBasename( locale );
         return dirName + "/localization/" + fileName;
     }
     
     /**
-     * Gets the name of the JAR resource that contains localized strings for 
+     * Gets the basename of the JAR resource that contains localized strings for 
      * a specified project and locale. For example, faraday-strings_es.properties
      * <p>
      * If locale is null, the name of the fallback resource is returned.
@@ -115,35 +115,35 @@ public class JavaSimulation extends Simulation {
      * All Java simulations should migrate to the convention of including "en" in the 
      * resource name of English localization files.
      */
-    public String getStringsFileName( Locale locale ) {
-        String basename = getStringsBasename();
-        String filename = null;
+    public String getStringsFileBasename( Locale locale ) {
+        String rootName = getStringsRootName();
+        String basename = null;
         if ( locale == null ) {
-            filename = basename + "-strings" + getStringsFileSuffix(); // fallback basename contains no language code
+            basename = rootName + "-strings" + getStringsFileSuffix(); // fallback basename contains no language code
         }
         else {
             String localeString = LocaleUtils.localeToString( locale );
-            filename = basename + "-strings_" + localeString + getStringsFileSuffix();
+            basename = rootName + "-strings_" + localeString + getStringsFileSuffix();
         }
-        return filename;
+        return basename;
     }
     
     /*
-     * Gets the basename of the resource that contains localized strings.
+     * Gets the root name of the resource that contains localized strings.
      * <p>
      * This is typically the same as the project name, except for common strings.
      * PhET common strings are bundled into their own JAR file for use with Translation Utility.
      * The JAR file must be built & deployed via a dummy sim named "java-common-strings", 
      * found in trunk/simulations-flash/simulations.  If the project name is "java-common-strings",
-     * we really want to load the common strings which are in files with basename "phetcommon".
+     * we really want to load the common strings which are in files with root name "phetcommon".
      * So we use "phetcommon" as the project name.
      */
-    private String getStringsBasename() {
-        String basename = getProjectName();
-        if ( basename.equals( "java-common-strings" ) ) {
-            basename = "phetcommon";
+    private String getStringsRootName() {
+        String rootName = getProjectName();
+        if ( rootName.equals( "java-common-strings" ) ) {
+            rootName = "phetcommon";
         }
-        return basename;
+        return rootName;
     }
 
     public JFileChooser getStringsFileChooser() {

@@ -34,7 +34,7 @@ public class FlashSimulation extends Simulation {
     public Properties getStrings( Locale locale ) throws SimulationException {
         
         Properties properties = null;
-        String xmlFilename = getStringsResourcePath( locale );
+        String xmlFilename = getStringsFilePath( locale );
         
         try {
             if ( JarUtils.containsFile( getJarFileName(), xmlFilename ) ) {
@@ -94,37 +94,37 @@ public class FlashSimulation extends Simulation {
     /**
      * Gets the path to the JAR resource that contains localized strings.
      */
-    public String getStringsResourcePath( Locale locale ) {
+    public String getStringsFilePath( Locale locale ) {
         // XML resources are at the top-level of the JAR, so resource path is the same as resource name
-        return getStringsFileName( locale );
+        return getStringsFileBasename( locale );
     }
     
     /**
-     * Gets the name of of the JAR resource for an XML document.
+     * Gets the basename of of the JAR resource for an XML document.
      */
-    public String getStringsFileName( Locale locale ) {
-        String basename = getStringsBasename();
+    public String getStringsFileBasename( Locale locale ) {
+        String rootName = getStringsRootName();
         String format = "{0}-strings_{1}" + getStringsFileSuffix();  
-        Object[] args = { basename, locale };
+        Object[] args = { rootName, locale };
         return MessageFormat.format( format, args );
     }
     
     /*
-     * Gets the basename of the strings file.
+     * Gets the root name of the strings file.
      * <p>
      * This is typically the same as the project name, except for common strings.
      * PhET common strings are bundled into their own JAR file for use with translation utility.
      * The JAR file must be built & deployed via a dummy sim named "flash-common-strings", 
      * found in trunk/simulations-flash/simulations.  If the project name is "flash-common-strings",
-     * we really want to load the common strings which are in files with basename "common".
+     * we really want to load the common strings which are in files with root name "common".
      * So we use "common" as the project name.
      */
-    private String getStringsBasename() {
-        String basename = getProjectName();
-        if ( basename.equals( "flash-common-strings" ) ) {
-            basename = "common";
+    private String getStringsRootName() {
+        String rootName = getProjectName();
+        if ( rootName.equals( "flash-common-strings" ) ) {
+            rootName = "common";
         }
-        return basename;
+        return rootName;
     }
     
     public JFileChooser getStringsFileChooser() {
