@@ -109,7 +109,8 @@ public class MiscMenu extends JMenu {
         JMenuItem generateJNLP = new JMenuItem( "Generate Prod JNLP" );
         generateJNLP.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                selectedProject.buildLaunchFiles( OldPhetServer.FIGARO.getCodebase( selectedProject ), OldPhetServer.FIGARO.isDevelopmentServer() );
+                OldPhetServer server = PhetBuildGUI.getProductionWebsite().getOldProductionServer();
+                selectedProject.buildLaunchFiles( server.getCodebase( selectedProject ), server.isDevelopmentServer() );
                 System.out.println( "Created JNLP Files" );
             }
         } );
@@ -186,7 +187,7 @@ public class MiscMenu extends JMenu {
                 File resourceFile = fileChooser.getSelectedFile();
                 String path = JOptionPane.showInputDialog( "Please input the desired deployment path into JARs (should start and end with '/'):" );
                 try {
-                    WebsiteResourceDeployClient.deployJavaResourceFile( PhetWebsite.FIGARO, trunk, resourceFile, path );
+                    WebsiteResourceDeployClient.deployJavaResourceFile( PhetBuildGUI.getProductionWebsite(), trunk, resourceFile, path );
                 }
                 catch( IOException e1 ) {
                     e1.printStackTrace();
@@ -213,7 +214,7 @@ public class MiscMenu extends JMenu {
                 File resourceFile = fileChooser.getSelectedFile();
                 String path = JOptionPane.showInputDialog( "Please input the desired deployment path into JARs (should start and end with '/'):" );
                 try {
-                    WebsiteResourceDeployClient.deployFlashResourceFile( PhetWebsite.FIGARO, trunk, resourceFile, path );
+                    WebsiteResourceDeployClient.deployFlashResourceFile( PhetBuildGUI.getProductionWebsite(), trunk, resourceFile, path );
                 }
                 catch( IOException e1 ) {
                     e1.printStackTrace();

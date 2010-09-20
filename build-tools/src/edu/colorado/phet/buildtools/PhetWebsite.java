@@ -61,7 +61,9 @@ public abstract class PhetWebsite {
     public abstract String getDescription();
 
     // will be removed after OldPhetServer is removed
+
     public abstract OldPhetServer getOldProductionServer();
+
     public abstract OldPhetServer getOldDevelopmentServer();
 
     /*---------------------------------------------------------------------------*
@@ -135,7 +137,7 @@ public abstract class PhetWebsite {
 
     public String getProjectBaseUrl( PhetProject project ) {
         String projectPath = project.getProdServerDeployPath();
-        if( projectPath == null ) {
+        if ( projectPath == null ) {
             // is null if the project is a simulation
             return "http://" + getWebHost() + "/sims/" + project.getName();
         }
@@ -197,7 +199,7 @@ public abstract class PhetWebsite {
 
     public String getProjectBasePath( PhetProject project ) {
         String projectPath = project.getProdServerDeployPath();
-        if( projectPath == null ) {
+        if ( projectPath == null ) {
             // is null if the project is a simulation
             return getSimsStagingPath() + "/" + project.getName();
         }
@@ -340,5 +342,19 @@ public abstract class PhetWebsite {
     };
 
     public static PhetWebsite DEFAULT_PRODUCTION_WEBSITE = FIGARO;
+
+    private static final PhetWebsite[] websites = new PhetWebsite[]{FIGARO, JON_DEV, PHET_SERVER};
+
+    /**
+     * Find one of the websites with the specified name
+     */
+    public static PhetWebsite getWebsiteByName( String name ) {
+        for ( PhetWebsite website : websites ) {
+            if ( website.getName().equals( name ) ) {
+                return website;
+            }
+        }
+        throw new RuntimeException( "Website name not matched: " + name );
+    }
 
 }

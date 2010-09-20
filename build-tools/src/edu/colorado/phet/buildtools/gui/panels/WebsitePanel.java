@@ -11,6 +11,7 @@ import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.buildtools.BuildScript;
 import edu.colorado.phet.buildtools.PhetWebsite;
 import edu.colorado.phet.buildtools.gui.ChangesPanel;
+import edu.colorado.phet.buildtools.gui.PhetBuildGUI;
 import edu.colorado.phet.buildtools.java.projects.WebsiteProject;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 
@@ -155,7 +156,7 @@ public class WebsitePanel extends JPanel {
             return;
         }
 
-        PhetWebsite website = PhetWebsite.FIGARO;
+        PhetWebsite website = PhetBuildGUI.getProductionWebsite();
 
         success = project.deploy(
                 website.getServerHost(),

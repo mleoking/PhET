@@ -360,6 +360,14 @@ public class BuildLocalProperties {
         return value;
     }
 
+    private String getOptionalString( String key ) {
+        String value = properties.getProperty( key );
+        if ( value == null || value.length() == 0 ) {
+            return null;
+        }
+        return value;
+    }
+
     /*
     * Prompts the user for a value via a modal dialog.
     */
@@ -404,4 +412,14 @@ public class BuildLocalProperties {
     public AuthenticationInfo getWebsiteTomcatManagerAuthenticationInfo( PhetWebsite website ) {
         return new AuthenticationInfo( getWebsiteTomcatManagerUsername( website ), getWebsiteTomcatManagerPassword( website ) );
     }
+
+    /**
+     * Allow the user to override the production website used. The value should be one of the website names in PhetWebsite
+     *
+     * @return Null if no override, otherwise the name of the website to use
+     */
+    public String getProductionWebsiteOverride() {
+        return getOptionalString( "production-website-override" );
+    }
+
 }
