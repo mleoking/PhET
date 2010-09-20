@@ -27,6 +27,8 @@ class VectorNode(val transform: ModelViewTransform2D,
   val arrowNode = new ArrowNode(new Point2D.Double(0, 0), new Point2D.Double(0, 1), VECTOR_ARROW_HEAD_WIDTH, VECTOR_ARROW_HEAD_WIDTH, VECTOR_ARROW_TAIL_WIDTH, 0.5, true) {
     setPaint(vector.getPaint)
   }
+
+  def alwaysVisible = true //overriden in subclass to allow vectors to be hidden (based on a user selection)
   addChild(arrowNode)
   private val labelNode = {
     val html = new ShadowHTMLNode(vector.html) {
@@ -62,11 +64,11 @@ class VectorNode(val transform: ModelViewTransform2D,
   val update = () => {
     val viewTip = transform.modelToViewDouble(vector.vector2DModel() * vectorLengthScale + tailLocation.value)
     val viewTail = transform.modelToViewDouble(tailLocation.value)
-    val updateState = new UpdateState(vector.visible.booleanValue, viewTail, viewTip)
+    val updateState = new UpdateState(vector.visible.booleanValue || alwaysVisible, viewTail, viewTip)
     val stayedInvisible = !updateState.visible && !lastUpdateState.visible
     if (updateState != lastUpdateState && !stayedInvisible) { //skip expensive updates if no change
       //      println("Updating " + vector.abbreviation)
-      setVisible(vector.visible.booleanValue)
+      setVisible(vector.visible.booleanValue || alwaysVisible)
       //Update the arrow node itself
       arrowNode.setTipAndTailLocations(viewTip, viewTail)
 
@@ -123,4 +125,5 @@ class BodyVectorNode(transform: ModelViewTransform2D,
   def doUpdate() = setOffset(motionSeriesObject.position2D)
   motionSeriesObject.positionProperty.addListener(doUpdate)
   doUpdate()
+  override def alwaysVisible = false //allows the user to hide the vector nodes shown on the play area object (but not in the FBDs)
 }
