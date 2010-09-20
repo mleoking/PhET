@@ -44,9 +44,9 @@ public class PropertyEditor extends GridRow {
         addGridItem(createSlider(property, minimum, maximum, unit, densityObject, dataTipClamp));
 
         textField.setStyle(DensityConstants.FLEX_FONT_SIZE, FONT_SIZE);
-        textField.setStyle( "disabledColor", 0x000000 );
+        textField.setStyle("disabledColor", 0x000000);
 //        textField.setStyle( "fontWeight", "bold" );
-        textField.setStyle( "backgroundDisabledColor", 0xEEEEEE );
+        textField.setStyle("backgroundDisabledColor", 0xEEEEEE);
         textField.width = DensityConstants.SLIDER_READOUT_TEXT_FIELD_WIDTH;
         textField.restrict = ".0-9";//TODO: does this handle languages that use a comma instead of a decimal place?
         function updateText():void {
@@ -119,7 +119,7 @@ public class PropertyEditor extends GridRow {
             slider.value = setValue;
             try {
                 var alphaValue:Number = 1;
-                if (setValue > slider.maximum) {
+                if (setValue > slider.maximum || setValue < slider.minimum) {
                     alphaValue = 0.25;
                 }
                 slider.getThumbAt(0).alpha = alphaValue;
