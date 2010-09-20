@@ -12,9 +12,7 @@ import java.util.Properties;
 import java.util.jar.*;
 import java.util.logging.Logger;
 
-import edu.colorado.phet.common.phetcommon.application.JARLauncher;
 import edu.colorado.phet.common.phetcommon.view.util.StringUtil;
-import edu.colorado.phet.flashlauncher.FlashLauncher;
 import edu.colorado.phet.flashlauncher.util.SimulationProperties;
 
 /**
@@ -40,6 +38,7 @@ public abstract class JarCreator {
     
     /*
      * Writes subclass-specific entries to the output jar.
+     * Any files written here must also be excluded via getCopyExclusions.
      */
     protected abstract void writeJarEntries( JarOutputStream jarOutputStream, String projectName, Locale locale, String header ) throws IOException;
     
@@ -47,7 +46,7 @@ public abstract class JarCreator {
      * Regular expressions for files that should be skipped when copying a jar.
      * These exclusions are specific to the subclass, general exclusions are provided by the super class.
      */
-    protected abstract String[] getExclusions();
+    protected abstract String[] getCopyExclusions();
 
     /**
      * Creates a localized JAR file, based on an existing JAR.
@@ -84,7 +83,7 @@ public abstract class JarCreator {
         list.add( "META-INF/.*\\.DSA" ); // signing info
         list.add( SimulationProperties.FILENAME );
         list.add( stringsFilePath );
-        String[] subclassExclusions = getExclusions(); // subclass specific exclusions
+        String[] subclassExclusions = getCopyExclusions(); // subclass specific exclusions
         for ( String s : subclassExclusions ) {
             list.add( s );
         }
@@ -138,129 +137,5 @@ public abstract class JarCreator {
         // close the streams
         jarInputStream.close();
         jarOutputStream.close();
-    }
-    
-    /**
-     * Creates jar files for Flash simulations.
-     */
-    public static class FlashJarCreator extends JarCreator {
-        
-        /*
-         * Reads files from the input JAR that are required by Flash sims.
-         */
-        protected void readJarEntries( String inputJarName, Locale locale ) {
-            // nothing to read
-        }
-        
-        /*
-         * Writes localized strings to the output JAR in XML format.
-         */
-        protected void writeStringsFile( JarOutputStream jarOutputStream, Locale locale, Properties localizedStrings, String stringsFilePath, String header ) throws IOException {
-            JarEntry jarEntry = new JarEntry( stringsFilePath );
-            jarOutputStream.putNextEntry( jarEntry );
-            try {
-                DocumentAdapter.writeProperties( localizedStrings, header, jarOutputStream );
-            }
-            catch ( DocumentIO.DocumentIOException e ) {
-                throw new IOException( "problem converting strings to XML", e );
-            }
-            jarOutputStream.closeEntry();
-        }
-        
-        /*
-         * Write files to the output JAR that are required for Flash sims.
-         *  Any files written here must also be excluded in getExclusions.
-         */
-        protected void writeJarEntries( JarOutputStream jarOutputStream, String projectName, Locale locale, String header ) throws IOException {
-            // flash-launcher-args.txt
-            writeFlashLauncherArgs( jarOutputStream, projectName, locale );
-        }
-        
-        /*
-         * Regular expressions for files that should be skipped when copying the jar for a Flash sim.
-         * These exclusions are specific to Flash sims, general exclusions are provided by the super class.
-         */
-        protected String[] getExclusions() {
-            return new String[] { FlashLauncher.ARGS_FILENAME };
-        }
-
-        /*
-         * Writes flash-launcher-args.txt, used by older FlashLauncher.
-         * All sims now use simulation.properties instead of flash-launcher-args.txt, but this 
-         * we still need to generate flash-launcher-args.txt to support translation deployment for older deployed jars.
-         * Delete this method when all sims have been redeployed with simulation.properties. See #2463.
-         * @deprecated
-         */
-        private static void writeFlashLauncherArgs( JarOutputStream outputStream, String projectName, Locale locale ) throws IOException {
-            // create the args string
-            String language = locale.getLanguage();
-            String country = locale.getCountry();
-            String args = projectName + " " + language;
-            if ( country == null || country.length() == 0 ) {
-                args += " " + "null";
-            }
-            else {
-                args += " " + country;
-            }
-            // write the args string
-            JarEntry jarEntry = new JarEntry( FlashLauncher.ARGS_FILENAME );
-            outputStream.putNextEntry( jarEntry );
-            outputStream.write( args.getBytes() );
-            outputStream.closeEntry();
-        }
-    }
-
-    /**
-     * Creates jar files for Java simulations.
-     */
-    public static class JavaJarCreator extends JarCreator {
-        
-        Properties jarLauncherProperties;
-        
-        /*
-         * Reads files from the input JAR that are required by Java sims.
-         */
-        protected void readJarEntries( String inputJarName, Locale locale ) throws IOException {
-            // read jar-launcher.properties
-            jarLauncherProperties = JarUtils.readProperties( inputJarName, JARLauncher.PROPERTIES_FILE_NAME );
-            if ( jarLauncherProperties == null ) {
-                throw new IOException( "Cannot read " + JARLauncher.PROPERTIES_FILE_NAME + ". Are you using the most current simulation JAR from the PhET website?" );
-            }
-        }
-        
-        /*
-         * Writes localized strings to the output JAR in Properties format.
-         */
-        protected void writeStringsFile( JarOutputStream jarOutputStream, Locale locale, Properties localizedStrings, String stringsFilePath, String header ) throws IOException {
-            JarEntry jarEntry = new JarEntry( stringsFilePath );
-            jarOutputStream.putNextEntry( jarEntry );
-            localizedStrings.store( jarOutputStream, header );
-            jarOutputStream.closeEntry();
-        }
-        
-        /*
-         * Write files to the output JAR that are required for Java sims.
-         * Any files written here must also be excluded in getExclusions.
-         */
-        protected void writeJarEntries( JarOutputStream jarOutputStream, String projectName, Locale locale, String header ) throws IOException {
-            // add jar-lanucher.properties, after changing locale
-            jarLauncherProperties.setProperty( "language", locale.getLanguage() );
-            String country = locale.getCountry();
-            if ( country != null && country.length() > 0 ) {
-                jarLauncherProperties.setProperty( "country", country );
-            }
-            JarEntry jarEntry = new JarEntry( JARLauncher.PROPERTIES_FILE_NAME );
-            jarOutputStream.putNextEntry( jarEntry );
-            jarLauncherProperties.store( jarOutputStream, header );
-            jarOutputStream.closeEntry();
-        }
-        
-        /*
-         * Regular expressions for files that should be skipped when copying the jar for a Java sim.
-         * These exclusions are specific to Java sims, general exclusions are provided by the super class.
-         */
-        protected String[] getExclusions() {
-            return new String[] { JARLauncher.PROPERTIES_FILE_NAME };
-        }
     }
 }
