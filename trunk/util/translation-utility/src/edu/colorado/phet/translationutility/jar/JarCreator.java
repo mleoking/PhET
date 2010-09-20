@@ -42,6 +42,26 @@ public abstract class JarCreator {
      */
     protected abstract void writeJarEntries( JarOutputStream jarOutputStream, String projectName, Locale locale, String header ) throws IOException;
     
+    /**
+     * Gets the full path to the JAR resource that contains localized strings.
+     */
+    public abstract String getStringsFilePath( String projectName, Locale locale );
+    
+    /**
+     * Gets the basename of the string file for a specified locale.
+     * In UNIX parlance, the basename of a file is the final rightmost component of its full path.
+     * 
+     * @param locale
+     * @return
+     */
+    public abstract String getStringsFileBasename( String projectName, Locale locale );
+    
+    /**
+     * Gets the suffix used for string files.
+     * @return
+     */
+    public abstract String getStringsFileSuffix();
+    
     /*
      * Regular expressions for files that should be skipped when copying a jar.
      * These exclusions are specific to the subclass, general exclusions are provided by the super class.

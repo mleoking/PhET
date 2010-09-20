@@ -152,26 +152,6 @@ public abstract class Simulation {
     public abstract void saveStrings( Properties properties, File file ) throws SimulationException;
     
     /**
-     * Gets the full path to the JAR resource that contains localized strings.
-     */
-    public abstract String getStringsFilePath( Locale locale );
-    
-    /**
-     * Gets the basename of the string file for a specified locale.
-     * In UNIX parlance, the basename of a file is the final rightmost component of its full path.
-     * 
-     * @param locale
-     * @return
-     */
-    public abstract String getStringsFileBasename( Locale locale );
-    
-    /**
-     * Gets the suffix used for string files.
-     * @return
-     */
-    public abstract String getStringsFileSuffix();
-    
-    /**
      * Gets a file chooser that is appropriate for the simulations string files.
      */
     public abstract JFileChooser getStringsFileChooser();
@@ -191,7 +171,8 @@ public abstract class Simulation {
         // create the test jar
         final String testJarFileName = TEST_JAR;
         try {
-            getJarCreator().createLocalizedJar( getJarFileName(), testJarFileName, locale, localizedStrings, getStringsFilePath( locale ), true /* deleteOnExit */ );
+            String stringFilePath = getJarCreator().getStringsFilePath( getProjectName(), locale );
+            getJarCreator().createLocalizedJar( getJarFileName(), testJarFileName, locale, localizedStrings, stringFilePath, true /* deleteOnExit */ );
         }
         catch ( IOException ioe ) {
             throw new SimulationException( "failed to create test jar" );
@@ -205,6 +186,25 @@ public abstract class Simulation {
         catch ( CommandException e ) {
             throw new SimulationException( e );
         }
+    }
+    
+    /**
+     * Gets the basename of the string file for a specified locale.
+     * In UNIX parlance, the basename of a file is the final rightmost component of its full path.
+     * 
+     * @param locale
+     * @return
+     */
+    public String getStringsFileBasename( Locale locale ) {
+        return getJarCreator().getStringsFileBasename( getProjectName(), locale );
+    }
+
+    /**
+     * Gets the suffix used for string files.
+     * @return
+     */
+    public String getStringsFileSuffix() {
+        return getJarCreator().getStringsFileSuffix();
     }
     
     /**
