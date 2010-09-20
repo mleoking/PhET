@@ -177,7 +177,7 @@ class RampControlPanelBody(model: MotionSeriesModel,
   val positionSlider: ScalaValueControl = new ScalaValueControl(MIN_X, MAX_X, "object.position".translate, "0.0".literal, "units.meters".translate,
     () => model.motionSeriesObject.position,
     x => {
-      //Use the wallRange() for determining the max locaiton of the object, which accounts for whether walls are enabled or disabled
+      //Use the wallRange() for determining the max location of the object, which accounts for whether walls are enabled or disabled
       val clampedValue = if (model.walls.booleanValue) MathUtil.clamp(
         model.wallRange().min + model.motionSeriesObject.width / 2,
         x,
@@ -188,13 +188,30 @@ class RampControlPanelBody(model: MotionSeriesModel,
     },
     model.motionSeriesObject.positionProperty.addListener)
   positionSlider.getSlider.addMouseListener(new MouseAdapter() {
+    def setPosition(): Unit = {
+      val obj = model.motionSeriesObject
+      val x: Double = if (obj.position > MotionSeriesDefaults.MAX_X)
+        MotionSeriesDefaults.MAX_X
+      else if (obj.position < MotionSeriesDefaults.MIN_X)
+        MotionSeriesDefaults.MIN_X
+      else
+        obj.position
+      obj.position = x
+      obj.attach()
+      obj.velocity = 0
+      obj.userSpecifiedPosition = true
+    }
+
     override def mousePressed(e: MouseEvent) = {
-      val x: Double = if (model.motionSeriesObject.position > MotionSeriesDefaults.MAX_X) MotionSeriesDefaults.MAX_X
-      else if (model.motionSeriesObject.position < MotionSeriesDefaults.MIN_X) MotionSeriesDefaults.MIN_X
-      else model.motionSeriesObject.position
-      model.motionSeriesObject.position = x
-      model.motionSeriesObject.attach()
-      model.motionSeriesObject.velocity = 0
+      setPosition()
+    }
+
+    override def mouseDragged(e: MouseEvent) = {
+      setPosition()
+    }
+
+    override def mouseReleased(e: MouseEvent) = {
+      model.motionSeriesObject.userSpecifiedPosition = false
     }
   })
   moreControlsPanel.add(positionSlider)

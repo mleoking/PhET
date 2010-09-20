@@ -1,3 +1,4 @@
+Fixed: The object updates when the user is setting the position directly with the position slider
 Converted global listeners on MotionSeriesObject into fine grained property listeners
 Converted velocity and position setters from javabean to property style
 Improved setter for time on MotionSeriesObject
