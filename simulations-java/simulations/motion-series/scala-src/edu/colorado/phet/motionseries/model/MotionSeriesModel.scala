@@ -1,7 +1,7 @@
 package edu.colorado.phet.motionseries.model
 
 import collection.mutable.ArrayBuffer
-import edu.colorado.phet.motionseries.graphics.{RampSurfaceModel, ObjectModel}
+import edu.colorado.phet.motionseries.graphics.{RampSurfaceModel, ObjectSelectionModel}
 import edu.colorado.phet.scalacommon.math.Vector2D
 import java.awt.geom.Point2D
 import edu.colorado.phet.scalacommon.util.Observable
@@ -17,7 +17,7 @@ import MotionSeriesDefaults._
 class MotionSeriesModel(defaultPosition: Double,
                         pausedOnReset: Boolean,
                         initialAngle: Double)
-        extends RecordAndPlaybackModel[RecordedState](1000) with ObjectModel with RampSurfaceModel {
+        extends RecordAndPlaybackModel[RecordedState](1000) with ObjectSelectionModel with RampSurfaceModel {
   private val _walls = new ScalaMutableBoolean(true)
   private val _frictionless = new ScalaMutableBoolean(false) //FRICTIONLESS_DEFAULT
   private val _wallsBounce = new ScalaMutableBoolean(false) //BOUNCE_DEFAULT 

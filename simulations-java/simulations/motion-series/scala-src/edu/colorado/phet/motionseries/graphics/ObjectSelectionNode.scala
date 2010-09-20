@@ -22,17 +22,17 @@ import edu.colorado.phet.motionseries.Predef._
 import edu.colorado.phet.motionseries.swing._
 import edu.umd.cs.piccolo.util.{PPaintContext, PBounds, PDimension}
 
-trait ObjectModel {
+trait ObjectSelectionModel {
   def selectedObject: MotionSeriesObjectType
 
-  def selectedObject_=(ro: MotionSeriesObjectType): Unit
+  def selectedObject_=(objectType: MotionSeriesObjectType): Unit
 
   def addListenerByName(listener: => Unit): Unit
 
   def addListener(listener: () => Unit): Unit
 }
 
-class ObjectSelectionNode(model: ObjectModel) extends PNode {
+class ObjectSelectionNode(model: ObjectSelectionModel) extends PNode {
   val rows = new ArrayBuffer[ArrayBuffer[PNode]]
 
   val nodes = for (o <- MotionSeriesDefaults.objectTypes) yield {
