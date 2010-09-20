@@ -13,7 +13,7 @@ import javax.swing.JFileChooser;
 
 import edu.colorado.phet.translationutility.TUConstants;
 import edu.colorado.phet.translationutility.TUResources;
-import edu.colorado.phet.translationutility.jar.JarFactory;
+import edu.colorado.phet.translationutility.jar.JarCreator;
 import edu.colorado.phet.translationutility.jar.JarUtils;
 import edu.colorado.phet.translationutility.util.Command;
 import edu.colorado.phet.translationutility.util.Command.CommandException;
@@ -56,17 +56,17 @@ public abstract class Simulation {
     private final String jarFileName;
     private final String projectName;
     private final String simulationName;
-    private final JarFactory jarFactory;
+    private final JarCreator jarCreator;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public Simulation( String jarFileName, String projectName, String simulationName, JarFactory jarFactory ) throws SimulationException {
+    public Simulation( String jarFileName, String projectName, String simulationName, JarCreator jarCreator ) throws SimulationException {
         this.jarFileName = jarFileName;
         this.projectName = projectName;
         this.simulationName = simulationName;
-        this.jarFactory = jarFactory;
+        this.jarCreator = jarCreator;
     }
     
     //----------------------------------------------------------------------------
@@ -85,8 +85,8 @@ public abstract class Simulation {
         return simulationName;
     }
     
-    public JarFactory getJarFactory() {
-        return jarFactory;
+    public JarCreator getJarCreator() {
+        return jarCreator;
     }
     
     /**
@@ -191,7 +191,7 @@ public abstract class Simulation {
         // create the test jar
         final String testJarFileName = TEST_JAR;
         try {
-            getJarFactory().createLocalizedJar( getJarFileName(), testJarFileName, locale, localizedStrings, getStringsFilePath( locale ), true /* deleteOnExit */ );
+            getJarCreator().createLocalizedJar( getJarFileName(), testJarFileName, locale, localizedStrings, getStringsFilePath( locale ), true /* deleteOnExit */ );
         }
         catch ( IOException ioe ) {
             throw new SimulationException( "failed to create test jar" );
