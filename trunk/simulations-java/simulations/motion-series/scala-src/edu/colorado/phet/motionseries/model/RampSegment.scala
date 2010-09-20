@@ -11,11 +11,11 @@ case class RampSegmentState(startPoint: Vector2D, endPoint: Vector2D) { //don't 
   lazy val angle = (endPoint - startPoint).angle
   lazy val length = (endPoint - startPoint).magnitude
 
-  def setStartPoint(newStartPoint: Vector2D) = new RampSegmentState(newStartPoint, endPoint)
+  def setStartPoint(newStartPoint: Vector2D) = copy(startPoint = newStartPoint)
 
-  def setEndPoint(newEndPoint: Vector2D) = new RampSegmentState(startPoint, newEndPoint)
+  def setEndPoint(newEndPoint: Vector2D) = copy(endPoint = newEndPoint)
 
-  def setAngle(angle: Double) = new RampSegmentState(startPoint, new Vector2D(angle) * length)
+  def setAngle(angle: Double) = copy(endPoint = new Vector2D(angle) * length)
 }
 
 class RampSegment(_state: RampSegmentState) extends Observable with Rotatable {
@@ -30,13 +30,17 @@ class RampSegment(_state: RampSegmentState) extends Observable with Rotatable {
   def endPoint = state.endPoint
 
   def startPoint_=(pt: Vector2D) = {
-    state = state.setStartPoint(pt)
-    notifyListeners()
+    if (startPoint != pt) {
+      state = state.setStartPoint(pt)
+      notifyListeners()
+    }
   }
 
   def endPoint_=(pt: Vector2D) = {
-    state = state.setEndPoint(pt)
-    notifyListeners()
+    if (endPoint != pt) {
+      state = state.setEndPoint(pt)
+      notifyListeners()
+    }
   }
 
   def pivot = startPoint
@@ -46,8 +50,10 @@ class RampSegment(_state: RampSegmentState) extends Observable with Rotatable {
   def unitVector = state.getUnitVector
 
   def setAngle(angle: Double) = {
-    state = state.setAngle(angle)
-    notifyListeners()
+    if (angle != this.angle) {
+      state = state.setAngle(angle)
+      notifyListeners()
+    }
   }
 
   override def angle = state.angle

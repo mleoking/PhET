@@ -1,3 +1,4 @@
+Fixed: When the right segment is on the floor (theta=0) and the walls are removed, the segment extends to infinity.  When the user changes the angle, it should shorten again, but instead it remains infinitely long at a nonzero angle.
 Fixed: Wall changes location slightly after the ramp is rotated somewhat
 Fixed: Object can intersect halfway through wall
 Fixed: The object updates when the user is setting the position directly with the position slider
