@@ -143,4 +143,34 @@ public class XMLUtils {
         reader.close();
         return buffer.toString();
     }
+    
+    /**
+     * Reads an XML document from an input stream.
+     * 
+     * @param inputStream
+     * @return Document
+     * @throws ParserConfigurationException if we failed to creaate a document build
+     * @throws IOException if there was an input error reading the stream
+     * @throws SAXException if we couldn't parse the XML
+     */
+    public static final Document readDocument( InputStream inputStream ) throws ParserConfigurationException, IOException, SAXException {
+        DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+        return builder.parse( inputStream );
+    }
+
+    /**
+     * Writes an XML document to an output stream.
+     * 
+     * @param document
+     * @param outputStream
+     * @throws TransformerException if the output failed
+     */
+    public static void writeDocument( Document document, OutputStream outputStream, String encoding ) throws TransformerException {
+        Source source = new DOMSource( document );
+        Result result = new StreamResult( outputStream );
+        Transformer transformer = TransformerFactory.newInstance().newTransformer();
+        transformer.setOutputProperty( "indent", "yes" ); // make the output easier to read, see Transformer.getOutputProperties
+        transformer.setOutputProperty( "encoding", encoding );
+        transformer.transform( source, result );
+    }
 }

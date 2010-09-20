@@ -9,6 +9,9 @@ import java.util.Properties;
 import java.util.jar.JarEntry;
 import java.util.jar.JarOutputStream;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+
 import edu.colorado.phet.flashlauncher.FlashLauncher;
 
 /**
@@ -32,8 +35,11 @@ public class FlashJarCreator extends JarCreator {
         try {
             FlashStringsAdapter.writeProperties( localizedStrings, header, jarOutputStream );
         }
-        catch ( DocumentIO.DocumentIOException e ) {
-            throw new IOException( "problem converting strings to XML", e );
+        catch ( TransformerException e ) {
+            throw new IOException( "error configuring XML parser" );
+        }
+        catch ( ParserConfigurationException e ) {
+            throw new IOException( "error generating XML" );
         }
         jarOutputStream.closeEntry();
     }

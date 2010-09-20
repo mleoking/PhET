@@ -1,3 +1,4 @@
+9/20/10 #2492,#2497 migrate DocumentIO to phetcommon XMLUtils
 9/20/10 rename DocumentAdapter to FlashStringsAdapter
 9/20/10 move stuff out of JavaUtils that specific to Flash strings XML schema
 9/20/10 #2492,#2497 move methods related to string file names into JarCreator hierarchy
