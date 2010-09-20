@@ -8,7 +8,6 @@ import java.text.MessageFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Properties;
-import java.util.jar.Manifest;
 
 import javax.swing.JFileChooser;
 
@@ -55,7 +54,6 @@ public abstract class Simulation {
     //----------------------------------------------------------------------------
     
     private final String jarFileName;
-    private final Manifest manifest;
     private final String projectName;
     private final String simulationName;
     private final JarFactory jarFactory;
@@ -66,12 +64,6 @@ public abstract class Simulation {
     
     public Simulation( String jarFileName, String projectName, String simulationName, JarFactory jarFactory ) throws SimulationException {
         this.jarFileName = jarFileName;
-        try {
-            this.manifest = JarUtils.getManifest( jarFileName );
-        }
-        catch ( IOException e ) {
-            throw new SimulationException( "error reading manifest from " + jarFileName );
-        }
         this.projectName = projectName;
         this.simulationName = simulationName;
         this.jarFactory = jarFactory;
@@ -83,10 +75,6 @@ public abstract class Simulation {
     
     protected String getJarFileName() {
         return jarFileName;
-    }
-    
-    protected Manifest getManifest() {
-        return manifest;
     }
     
     public String getProjectName() {
