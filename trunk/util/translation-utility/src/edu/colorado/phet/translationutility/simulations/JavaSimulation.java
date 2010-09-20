@@ -12,7 +12,7 @@ import javax.swing.JFileChooser;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.translationutility.TUConstants;
 import edu.colorado.phet.translationutility.jar.JarUtils;
-import edu.colorado.phet.translationutility.jar.JarCreator.JavaJarCreator;
+import edu.colorado.phet.translationutility.jar.JavaJarCreator;
 import edu.colorado.phet.translationutility.util.FileChooserFactory;
 
 /**

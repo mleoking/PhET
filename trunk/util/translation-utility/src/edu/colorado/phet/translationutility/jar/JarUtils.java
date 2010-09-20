@@ -11,8 +11,6 @@ import java.util.jar.JarInputStream;
 import java.util.jar.Manifest;
 
 import edu.colorado.phet.flashlauncher.util.SimulationProperties;
-import edu.colorado.phet.translationutility.jar.JarCreator.FlashJarCreator;
-import edu.colorado.phet.translationutility.jar.JarCreator.JavaJarCreator;
 
 /**
  * Utility methods related to JAR files.
