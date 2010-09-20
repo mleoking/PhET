@@ -97,9 +97,14 @@ public class PropertyEditor extends GridRow {
 
         function sliderDragHandler(event:SliderEvent):void {
             var newValue:Number = unit.toSI(event.value);
-            if (newValue > 3 && densityObject.material.equals(Material.STYROFOAM)) {//TODO: See related workaround in CustomObjectPropertiesPanel
-                newValue = 3;
-                slider.value = 3;
+            //TODO: factor out this duplicated code
+            if (newValue > DensityConstants.STYROFOAM_MAX_MASS && densityObject.material.equals(Material.STYROFOAM)) {//TODO: See related workaround in CustomObjectPropertiesPanel
+                newValue = DensityConstants.STYROFOAM_MAX_MASS;
+                slider.value = DensityConstants.STYROFOAM_MAX_MASS;
+            }
+            if (newValue > DensityConstants.WOOD_MAX_MASS && densityObject.material.equals(Material.WOOD)) {//TODO: See related workaround in CustomObjectPropertiesPanel
+                newValue = DensityConstants.WOOD_MAX_MASS;
+                slider.value = DensityConstants.WOOD_MAX_MASS;
             }
             property.value = newValue;
         }

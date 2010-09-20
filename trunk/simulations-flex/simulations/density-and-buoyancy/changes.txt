@@ -1,3 +1,4 @@
+> Limited the wood mass and volume so that the pool can't be overflowed
 # 1.00.06 (44216) Sep 20, 2010
 > Fixed: Reset all broken for block texture and combo box
 > Fixed: Slider thumbs don't fade out when the value is below the slider minimum

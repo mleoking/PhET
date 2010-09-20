@@ -48,6 +48,9 @@ public class DensityConstants {
     public static const GREEN:ColorTransform = new ColorTransform(0, 0.9, 0);
     public static const BLUE:ColorTransform = new ColorTransform(0, 0, 1);
     public static const PURPLE:ColorTransform = new ColorTransform(0.75, 0, 0.75);
+    public static const STYROFOAM_MAX_MASS:Number = 3;//To keep the volume small enough so the pool doesn't overflow
+    public static const WOOD_MAX_MASS:Number = 8;//To keep the volume small enough so the pool doesn't overflow
+
     //this is a magic number that just barely fits "00.00" with the above specified font;
 
     //So that away3d faces don't overlap
