@@ -3,6 +3,7 @@
 package edu.colorado.phet.translationutility.simulations;
 
 import java.io.*;
+import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.logging.Logger;
@@ -13,9 +14,7 @@ import edu.colorado.phet.translationutility.jar.DocumentAdapter;
 import edu.colorado.phet.translationutility.jar.JarUtils;
 import edu.colorado.phet.translationutility.jar.DocumentIO.DocumentIOException;
 import edu.colorado.phet.translationutility.jar.JarFactory.FlashJarFactory;
-import edu.colorado.phet.translationutility.util.Command;
 import edu.colorado.phet.translationutility.util.FileChooserFactory;
-import edu.colorado.phet.translationutility.util.Command.CommandException;
 
 /**
  * FlashSimulation supports translation of Flash-based simulations.
@@ -26,39 +25,16 @@ import edu.colorado.phet.translationutility.util.Command.CommandException;
  */
 public class FlashSimulation extends Simulation {
     
-    //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
     private static final Logger LOGGER = Logger.getLogger( FlashSimulation.class.getCanonicalName() );
     
-    //----------------------------------------------------------------------------
-    // Constructors
-    //----------------------------------------------------------------------------
-    
     public FlashSimulation( String jarFileName, String projectName, String simulationName ) throws SimulationException {
-        super( jarFileName, projectName, simulationName );
+        super( jarFileName, projectName, simulationName, new FlashJarFactory() );
     }
     
-    //----------------------------------------------------------------------------
-    // Public interface
-    //----------------------------------------------------------------------------
-    
-    public void testStrings( Locale locale, Properties localizedStrings ) throws SimulationException {
-        String testJarFileName = createTestJar( locale, localizedStrings );
-        try {
-            String[] cmdArray = { "java", "-jar", testJarFileName };
-            Command.run( cmdArray, false /* waitForCompletion */ );
-        }
-        catch ( CommandException e ) {
-            throw new SimulationException( e );
-        }
-    }
-
     public Properties getStrings( Locale locale ) throws SimulationException {
         
         Properties properties = null;
-        String xmlFilename = FlashJarFactory.getStringsPath( getProjectName(), locale );
+        String xmlFilename = getStringsResourcePath( locale );
         
         try {
             if ( JarUtils.containsFile( getJarFileName(), xmlFilename ) ) {
@@ -95,10 +71,6 @@ public class FlashSimulation extends Simulation {
         return properties;
     }
     
-    public String getStringsFileSuffix() {
-        return FlashJarFactory.getStringsFileSuffix();
-    }
-
     public void saveStrings( Properties properties, File file ) throws SimulationException {
         try {
             String projectName = getProjectName();
@@ -114,31 +86,45 @@ public class FlashSimulation extends Simulation {
             throw new SimulationException( e );
         }
     }
-
-    public String getStringsFileName( Locale locale ) {
-        return FlashJarFactory.getStringsName( getProjectName(), locale );
+    
+    public String getStringsFileSuffix() {
+        return ".xml";
     }
     
-    //----------------------------------------------------------------------------
-    // Utilities
-    //----------------------------------------------------------------------------
+    /**
+     * Gets the path to the JAR resource that contains localized strings.
+     */
+    public String getStringsResourcePath( Locale locale ) {
+        // XML resources are at the top-level of the JAR, so resource path is the same as resource name
+        return getStringsFileName( locale );
+    }
+    
+    /**
+     * Gets the name of of the JAR resource for an XML document.
+     */
+    public String getStringsFileName( Locale locale ) {
+        String basename = getStringsBasename();
+        String format = "{0}-strings_{1}" + getStringsFileSuffix();  
+        Object[] args = { basename, locale };
+        return MessageFormat.format( format, args );
+    }
     
     /*
-     * Creates a test JAR for a specified locale.
-     * @param locale the locale
-     * @param stringsProperties strings for the locale
+     * Gets the basename of the strings file.
+     * <p>
+     * This is typically the same as the project name, except for common strings.
+     * PhET common strings are bundled into their own JAR file for use with translation utility.
+     * The JAR file must be built & deployed via a dummy sim named "flash-common-strings", 
+     * found in trunk/simulations-flash/simulations.  If the project name is "flash-common-strings",
+     * we really want to load the common strings which are in files with basename "common".
+     * So we use "common" as the project name.
      */
-    private String createTestJar( Locale locale, Properties stringsProperties ) throws SimulationException {
-        final String testJarFileName = TEST_JAR;
-        final String originalJarFileName = getJarFileName();
-        try {
-            FlashJarFactory.createLocalizedJar( originalJarFileName, testJarFileName, locale, stringsProperties, true /* deleteOnExit */ );
+    private String getStringsBasename() {
+        String basename = getProjectName();
+        if ( basename.equals( "flash-common-strings" ) ) {
+            basename = "common";
         }
-        catch ( IOException e ) {
-            e.printStackTrace();
-            throw new SimulationException( "failed to create test jar", e );
-        }
-        return testJarFileName;
+        return basename;
     }
     
     public JFileChooser getStringsFileChooser() {
