@@ -109,13 +109,17 @@ public class FaradayConstants {
     public static final double GRID_INTENSITY_SCALE_MIN = 1;
     public static final double GRID_INTENSITY_SCALE_MAX = 6;
     public static final double GRID_INTENSITY_SCALE = 2.7;
+    
     public static final int GRID_SPACING_MAX = 100;
     public static final int GRID_SPACING_MIN = 35;
     public static final int GRID_SPACING = 40;
+    
     public static final double GRID_NEEDLE_ASPECT_RATIO = 25.0/7.0; // tips:waist
+    
     public static final int GRID_NEEDLE_WIDTH_MAX = 60;
     public static final int GRID_NEEDLE_WIDTH_MIN = 20;
     private static final int GRID_NEEDLE_WIDTH = 25;
+    
     private static final int GRID_NEEDLE_HEIGHT = (int) ( GRID_NEEDLE_WIDTH / GRID_NEEDLE_ASPECT_RATIO );
     public static final Dimension GRID_NEEDLE_SIZE = new Dimension( GRID_NEEDLE_WIDTH, GRID_NEEDLE_HEIGHT );
     
@@ -128,8 +132,10 @@ public class FaradayConstants {
     
     public static final int MAX_PICKUP_LOOPS = 3;
     public static final int MIN_PICKUP_LOOPS = 1;
+    
     private static final double MAX_PICKUP_LOOP_RADIUS = 150.0;
     public static final double MIN_PICKUP_LOOP_RADIUS = 68.0;
+    
     public static final double MAX_PICKUP_LOOP_AREA = Math.PI * MAX_PICKUP_LOOP_RADIUS * MAX_PICKUP_LOOP_RADIUS;
     public static final double MIN_PICKUP_LOOP_AREA = Math.PI * MIN_PICKUP_LOOP_RADIUS * MIN_PICKUP_LOOP_RADIUS;
     public static final double DEFAULT_PICKUP_LOOP_AREA = MAX_PICKUP_LOOP_AREA / 2; 
@@ -139,6 +145,7 @@ public class FaradayConstants {
     //----------------------------------------------------------------------------
     
     public static final double BATTERY_VOLTAGE_MAX = 10;  // volts
+    
     public static final double BATTERY_AMPLITUDE_MAX = 1.0; // -1...1
     public static final double BATTERY_AMPLITUDE_MIN = -1.0; // -1...1
 
@@ -147,8 +154,10 @@ public class FaradayConstants {
     //----------------------------------------------------------------------------
     
     public static final double AC_VOLTAGE_MAX = 110.0;  // volts
+    
     public static final double AC_MAXAMPLITUDE_MAX = 1.0;  // 0...1
     public static final double AC_MAXAMPLITUDE_MIN = 0.0;  // 0...1
+    
     public static final double AC_FREQUENCY_MAX = 1.0;  // 0...1
     public static final double AC_FREQUENCY_MIN = 0.05;  // 0...1
 
