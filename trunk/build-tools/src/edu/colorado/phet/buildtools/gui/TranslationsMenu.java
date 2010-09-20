@@ -26,7 +26,7 @@ public class TranslationsMenu extends JMenu {
         deployItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 try {
-                    WebsiteTranslationDeployClient client = new WebsiteTranslationDeployClient( trunk, PhetWebsite.FIGARO );
+                    WebsiteTranslationDeployClient client = new WebsiteTranslationDeployClient( trunk, PhetBuildGUI.getProductionWebsite() );
                     client.startClient();
                 }
                 catch( Exception e1 ) {
@@ -49,7 +49,7 @@ public class TranslationsMenu extends JMenu {
 
                 File resourceFile = fileChooser.getSelectedFile();
 
-                new WebsiteCommonTranslationDeployClient( resourceFile, trunk ).deployCommonTranslation( PhetWebsite.FIGARO );
+                new WebsiteCommonTranslationDeployClient( resourceFile, trunk ).deployCommonTranslation( PhetBuildGUI.getProductionWebsite() );
             }
         } );
         add( deployCommonItem );

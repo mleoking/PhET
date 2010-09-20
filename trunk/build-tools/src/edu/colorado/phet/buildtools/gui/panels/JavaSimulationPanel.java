@@ -165,7 +165,7 @@ public class JavaSimulationPanel extends JPanel {
     }
 
     private void doDeployProd() {
-        boolean confirm = PhetBuildGUI.confirmProdDeploy( project, OldPhetServer.FIGARO );
+        boolean confirm = PhetBuildGUI.confirmProdDeploy( project, PhetBuildGUI.getProductionWebsite().getOldProductionServer() );
 
         if ( !confirm ) {
             System.out.println( "Cancelled" );
@@ -184,8 +184,8 @@ public class JavaSimulationPanel extends JPanel {
 
         new BuildScript( trunk, project ).deployToDevelopmentAndProductionServers(
                 buildLocalProperties.getDevAuthenticationInfo(),
-                PhetWebsite.FIGARO.getServerAuthenticationInfo( buildLocalProperties ),
-                versionIncrement, PhetWebsite.FIGARO
+                PhetBuildGUI.getProductionWebsite().getServerAuthenticationInfo( buildLocalProperties ),
+                versionIncrement, PhetBuildGUI.getProductionWebsite()
         );
     }
 

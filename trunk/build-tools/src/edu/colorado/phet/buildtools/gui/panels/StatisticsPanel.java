@@ -51,7 +51,7 @@ public class StatisticsPanel extends JPanel {
     }
 
     private void doDeployProd() {
-        boolean confirm = PhetBuildGUI.confirmProdDeploy( project, OldPhetServer.FIGARO );
+        boolean confirm = PhetBuildGUI.confirmProdDeploy( project, PhetBuildGUI.getProductionWebsite().getOldProductionServer() );
 
         if ( !confirm ) {
             System.out.println( "Cancelled" );
@@ -64,7 +64,7 @@ public class StatisticsPanel extends JPanel {
             boolean success = true;
 
             if ( checker.isUpToDate( project ) ) {
-                StatisticsDeployCommand command = new StatisticsDeployCommand( trunk, PhetWebsite.FIGARO );
+                StatisticsDeployCommand command = new StatisticsDeployCommand( trunk, PhetBuildGUI.getProductionWebsite() );
 
                 success = command.deploy();
             }

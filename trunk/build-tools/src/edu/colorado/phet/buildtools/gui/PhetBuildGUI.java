@@ -11,6 +11,7 @@ import javax.swing.*;
 import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.OldPhetServer;
+import edu.colorado.phet.buildtools.PhetWebsite;
 import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 
 /**
@@ -28,6 +29,7 @@ import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 public class PhetBuildGUI {
 
     private JFrame frame;
+    private BuildLocalProperties buildLocalProperties;
 
     /**
      * Constructor
@@ -36,7 +38,7 @@ public class PhetBuildGUI {
      */
     public PhetBuildGUI( final File trunk ) {
 
-        BuildLocalProperties.initRelativeToTrunk( trunk );
+        buildLocalProperties = BuildLocalProperties.initRelativeToTrunk( trunk );
 
         LoggingUtils.enableAllLogging( "edu.colorado.phet.buildtools" );
 
@@ -92,12 +94,25 @@ public class PhetBuildGUI {
     public static boolean confirmProdDeploy( PhetProject project, OldPhetServer server ) {
         String message = "<html>" +
                          "Are you sure you want to deploy <font color=red>" + project.getName() + "</font> to " + "<br>" +
-                         OldPhetServer.FIGARO.getHost() + " and " + OldPhetServer.SPOT.getHost() + "?" + "<br>" +
+                         PhetBuildGUI.getProductionWebsite().getServerHost() + " and " + OldPhetServer.SPOT.getHost() + "?" + "<br>" +
                          "<br>" +
                          "(And is your <font color=red>VPN</font> connection running?)" +
                          "</html>";
         int option = JOptionPane.showConfirmDialog( new JButton( "Deploy Dev & Prod" ), message, "Confirm", JOptionPane.YES_NO_OPTION );
         return ( option == JOptionPane.YES_OPTION );
+    }
+
+    public static PhetWebsite getProductionWebsite() {
+        return getProductionWebsite( BuildLocalProperties.getInstance() );
+    }
+
+    public static PhetWebsite getProductionWebsite( BuildLocalProperties buildLocalProperties ) {
+        String override = buildLocalProperties.getProductionWebsiteOverride();
+        if( override == null ) {
+            return PhetWebsite.DEFAULT_PRODUCTION_WEBSITE;
+        } else {
+            return PhetWebsite.getWebsiteByName( override );
+        }
     }
 
     public static void main( final String[] args ) {
