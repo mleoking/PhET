@@ -8,13 +8,15 @@ import java.util.*;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 
 import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
-import edu.colorado.phet.translationutility.jar.DocumentIO.DocumentIOException;
+import edu.colorado.phet.common.phetcommon.view.util.XMLUtils;
 
 /**
  * Java sims store localized strings in properties files, while Flash sims used XML files.
@@ -64,36 +66,31 @@ public class FlashStringsAdapter {
      * @return Document
      * @throws PropertiesFlashAdapterException
      */
-    private static final Document propertiesToDocument( Properties properties, String header ) throws DocumentIO.DocumentIOException {
-        Document document = null;
-        try {
-            // create a document
-            DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+    private static final Document propertiesToDocument( Properties properties, String header ) throws ParserConfigurationException {
+        // create a document
+        DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 
-            document = builder.newDocument();
-            
-            // Add the header as a comment
-            Comment comment = document.createComment( header );
-            document.appendChild( comment );
+        Document document = builder.newDocument();
 
-            // Insert the root element node
-            Element rootElement = document.createElement( ROOT_ELEMENT );
-            document.appendChild( rootElement );
+        // Add the header as a comment
+        Comment comment = document.createComment( header );
+        document.appendChild( comment );
 
-            // add all key-value pairs to the document
-            Enumeration<?> keys = properties.propertyNames();
-            while ( keys.hasMoreElements() ) {
-                String key = (String) keys.nextElement();
-                String value = properties.getProperty( key );
-                Element element = document.createElement( STRING_ELEMENT );
-                element.setAttribute( KEY_ATTRIBUTE, key );
-                element.setAttribute( VALUE_ATTRIBUTE, value );
-                rootElement.appendChild( element );
-            }
+        // Insert the root element node
+        Element rootElement = document.createElement( ROOT_ELEMENT );
+        document.appendChild( rootElement );
+
+        // add all key-value pairs to the document
+        Enumeration<?> keys = properties.propertyNames();
+        while ( keys.hasMoreElements() ) {
+            String key = (String) keys.nextElement();
+            String value = properties.getProperty( key );
+            Element element = document.createElement( STRING_ELEMENT );
+            element.setAttribute( KEY_ATTRIBUTE, key );
+            element.setAttribute( VALUE_ATTRIBUTE, value );
+            rootElement.appendChild( element );
         }
-        catch ( ParserConfigurationException e ) {
-            throw new DocumentIO.DocumentIOException( "failed to create XML document builder", e );
-        }
+
         return document;
     }
     
@@ -102,10 +99,13 @@ public class FlashStringsAdapter {
      * 
      * @param fileName
      * @return Properties
+     * @throws SAXException 
+     * @throws IOException 
+     * @throws ParserConfigurationException 
      * @throws DocumentIOException
      */
-    public static final Properties readProperties( InputStream inputStream ) throws DocumentIO.DocumentIOException {
-        Document document = DocumentIO.readDocument( inputStream );
+    public static final Properties readProperties( InputStream inputStream ) throws ParserConfigurationException, IOException, SAXException {
+        Document document = XMLUtils.readDocument( inputStream );
         return documentToProperties( document );
     }
     
@@ -115,19 +115,23 @@ public class FlashStringsAdapter {
      * @param properties
      * @param header comment that describes the contents of the XML file
      * @param fileName
+     * @throws ParserConfigurationException 
      * @throws IOException
      * @throws DocumentIOException 
      */
-    public static final void writeProperties( Properties properties, String header, OutputStream outputStream ) throws DocumentIO.DocumentIOException {
+    public static final void writeProperties( Properties properties, String header, OutputStream outputStream ) throws TransformerException, ParserConfigurationException {
         Document document = propertiesToDocument( properties, header );
-        DocumentIO.writeDocument( document, outputStream, ENCODING );
+        XMLUtils.writeDocument( document, outputStream, ENCODING );
     }
     
     /**
      * Test program.
+     * @throws ParserConfigurationException 
+     * @throws TransformerException 
+     * @throws SAXException 
      * @throws DocumentIOException 
      */
-    public static void main( String[] args ) throws DocumentIO.DocumentIOException, IOException {
+    public static void main( String[] args ) throws IOException, TransformerException, ParserConfigurationException, SAXException {
 
         String tmpDir = System.getProperty( "java.io.tmpdir" );
         String fileSeparator = System.getProperty( "file.separator" );

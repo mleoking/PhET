@@ -8,13 +8,15 @@ import java.util.Properties;
 import java.util.logging.Logger;
 
 import javax.swing.JFileChooser;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 
 import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
 import edu.colorado.phet.translationutility.jar.FlashJarCreator;
 import edu.colorado.phet.translationutility.jar.FlashStringsAdapter;
 import edu.colorado.phet.translationutility.jar.JarUtils;
-import edu.colorado.phet.translationutility.jar.DocumentIO.DocumentIOException;
 import edu.colorado.phet.translationutility.util.FileChooserFactory;
 
 /**
@@ -47,13 +49,14 @@ public class FlashSimulation extends Simulation {
                 properties = new Properties();
             }
         }
-        catch ( IOException ioe ) {
-            ioe.printStackTrace();
-            throw new SimulationException( ioe );
+        catch ( ParserConfigurationException e ) {
+            throw new SimulationException( "error creating XML document builder" );
         }
-        catch ( DocumentIOException dioe ) {
-            dioe.printStackTrace();
-            throw new SimulationException( dioe );
+        catch ( IOException e ) {
+            throw new SimulationException( "error reading XML document" );
+        }
+        catch ( SAXException e ) {
+            throw new SimulationException( "error parsing XML document" );
         }
         
         return properties;
@@ -65,10 +68,16 @@ public class FlashSimulation extends Simulation {
             properties = FlashStringsAdapter.readProperties( new FileInputStream( file ) );
         }
         catch ( FileNotFoundException e ) {
-            throw new SimulationException( "file not found: " + file.getAbsolutePath(), e );
+            throw new SimulationException( "file not found: " + file.getAbsolutePath() );
         }
-        catch ( DocumentIOException e ) {
-            throw new SimulationException( e );
+        catch ( ParserConfigurationException e ) {
+            throw new SimulationException( "error configuring XML parser: " + file.getAbsolutePath() );
+        }
+        catch ( IOException e ) {
+            throw new SimulationException( "error reading XML file: " + file.getAbsolutePath() );
+        }
+        catch ( SAXException e ) {
+            throw new SimulationException( "error parsing XML file: " + file.getAbsolutePath() );
         }
         return properties;
     }
@@ -82,10 +91,13 @@ public class FlashSimulation extends Simulation {
             FlashStringsAdapter.writeProperties( properties, header, outputStream );
         }
         catch ( FileNotFoundException e ) {
-            throw new SimulationException( "file not found: " + file.getAbsolutePath(), e );
+            throw new SimulationException( "file not found: " + file.getAbsolutePath() );
         }
-        catch ( DocumentIOException e ) {
-            throw new SimulationException( e );
+        catch ( TransformerException e ) {
+            throw new SimulationException( "error writing XML file: " + file.getAbsolutePath() );
+        }
+        catch ( ParserConfigurationException e ) {
+            throw new SimulationException( "error configuring XML parser: " + file.getAbsolutePath() );
         }
     }
     

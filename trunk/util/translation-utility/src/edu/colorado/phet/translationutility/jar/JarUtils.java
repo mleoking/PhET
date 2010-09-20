@@ -9,8 +9,12 @@ import java.util.jar.JarFile;
 import java.util.jar.JarInputStream;
 import java.util.jar.Manifest;
 
-import org.w3c.dom.Document;
+import javax.xml.parsers.ParserConfigurationException;
 
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
+
+import edu.colorado.phet.common.phetcommon.view.util.XMLUtils;
 import edu.colorado.phet.flashlauncher.util.SimulationProperties;
 
 /**
@@ -82,7 +86,7 @@ public class JarUtils {
      * @return Properties
      * @throws IOException
      */
-    public static Properties readProperties( String jarFileName, String fileName ) throws IOException {
+    public static Properties readProperties( String jarFileName, String fileName ) throws IOException, FileNotFoundException {
         
         // open the jar file
         JarInputStream jarInputStream = openJar( jarFileName );
@@ -97,7 +101,7 @@ public class JarUtils {
             properties.load( jarInputStream );
         }
         else {
-            throw new IOException( "file not found: " + fileName );
+            throw new FileNotFoundException( "file not found: " + fileName );
         }
 
         // close the jar file
@@ -127,7 +131,7 @@ public class JarUtils {
      * @return String
      * @throws IOException
      */
-    public static String readText( String jarFileName, String fileName, int bufferSize ) throws IOException {
+    public static String readText( String jarFileName, String fileName, int bufferSize ) throws IOException, FileNotFoundException {
         
         // open the jar file
         JarInputStream jarInputStream = openJar( jarFileName );
@@ -147,7 +151,7 @@ public class JarUtils {
             }
         }
         else {
-            throw new IOException( "file not found: " + fileName );
+            throw new FileNotFoundException( "file not found: " + fileName );
         }
 
         // close the jar file
@@ -159,7 +163,7 @@ public class JarUtils {
     /**
      * Reads an XML document from the specified JAR file.
      */
-    public static Document readDocument( String jarFileName, String fileName ) throws IOException, DocumentIO.DocumentIOException {
+    public static Document readDocument( String jarFileName, String fileName ) throws ParserConfigurationException, IOException, SAXException, FileNotFoundException {
         
         // open the jar file
         JarInputStream jarInputStream = openJar( jarFileName );
@@ -170,10 +174,10 @@ public class JarUtils {
         // read the document
         Document document = null;
         if ( jarEntry != null ) {
-            document = DocumentIO.readDocument( jarInputStream );
+            document = XMLUtils.readDocument( jarInputStream );
         }
         else {
-            throw new IOException( "file not found: " + fileName );
+            throw new FileNotFoundException( "file not found: " + fileName );
         }
 
         // close the jar
