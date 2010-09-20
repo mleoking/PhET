@@ -36,6 +36,7 @@ class MotionSeriesModel(defaultPosition: Double,
   val rightRampSegment = new RampSegment(new Point2D.Double(0, 0), new Point2D.Double(DEFAULT_RAMP_LENGTH * cos(initialAngle), DEFAULT_RAMP_LENGTH * sin(initialAngle)))
   rightRampSegment.addListener(() => positionMapper.notifyListeners())
   leftRampSegment.addListener(() => positionMapper.notifyListeners())
+  rightRampSegment.addListener(updateSegmentLengths)
 
   val coordinateFrameModel = new CoordinateFrameModel(rightRampSegment)
 
@@ -216,8 +217,7 @@ class MotionSeriesModel(defaultPosition: Double,
     }
   }
 
-  //duplicates some work with wallrange
-  //todo: call this method when ramp angle changes, since it depends on ramp angle
+  //TODO: duplicates some work with wallrange
   def updateSegmentLengths() = {
     val seg0Length = if (leftRampSegment.angle > 0 || _walls.getValue.booleanValue) DEFAULT_RAMP_LENGTH else FAR_DISTANCE
     val seg1Length = if (rightRampSegment.angle > 0 || _walls.getValue.booleanValue) DEFAULT_RAMP_LENGTH else FAR_DISTANCE
