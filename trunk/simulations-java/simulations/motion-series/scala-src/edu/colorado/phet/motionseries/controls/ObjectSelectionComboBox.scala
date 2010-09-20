@@ -1,7 +1,7 @@
 package edu.colorado.phet.motionseries.controls
 
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils
-import edu.colorado.phet.motionseries.graphics.ObjectModel
+import edu.colorado.phet.motionseries.graphics.ObjectSelectionModel
 import java.util.Vector
 import javax.swing._
 import java.awt.event.{ItemListener, ItemEvent}
@@ -10,9 +10,8 @@ import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.umd.cs.piccolox.pswing.PComboBox
 import java.awt.Color
 
-class ObjectSelectionComboBox(objectModel: ObjectModel) extends PComboBox {
+class ObjectSelectionComboBox(objectModel: ObjectSelectionModel) extends PComboBox {
   if (objectModel == null) throw new RuntimeException("Null object model")
-  val vec = new Vector[ObjectItem]
 
   val itemList = for (o <- MotionSeriesDefaults.objectTypes) yield {
     o match {
@@ -22,8 +21,9 @@ class ObjectSelectionComboBox(objectModel: ObjectModel) extends PComboBox {
   class ObjectItem(val rampObject: MotionSeriesObjectType) {
     override def toString = rampObject.getDisplayText
   }
-  for (elm <- itemList) vec.add(elm)
-  super.setModel(new DefaultComboBoxModel(vec))
+  super.setModel(new DefaultComboBoxModel(new Vector[ObjectItem] {
+    for (elm <- itemList) add(elm)
+  }))
 
   objectModel.addListener(() => setSelectedIndex(MotionSeriesDefaults.objectTypes.indexOf(objectModel.selectedObject)))
   addItemListener(new ItemListener() {

@@ -21,7 +21,7 @@ import edu.umd.cs.piccolox.pswing.{PSwingCanvas, PSwing}
 import edu.colorado.phet.common.phetcommon.math.MathUtil
 import java.awt.event.{MouseEvent, MouseAdapter}
 import edu.colorado.phet.common.phetcommon.view.{PhetTitledBorder, ControlPanel, VerticalLayoutPanel}
-import edu.colorado.phet.motionseries.graphics.{RampSegmentNode, RampSurfaceModel, VectorNode, ObjectModel}
+import edu.colorado.phet.motionseries.graphics.{RampSegmentNode, RampSurfaceModel, VectorNode, ObjectSelectionModel}
 import edu.colorado.phet.motionseries.model._
 import edu.colorado.phet.motionseries.util.ScalaMutableBoolean
 
@@ -32,7 +32,7 @@ class MotionSeriesControlPanel(model: MotionSeriesModel,
                                resetHandler: () => Unit,
                                coordinateSystemFeaturesEnabled: Boolean,
                                useObjectComboBox: Boolean,
-                               objectModel: ObjectModel,
+                               objectModel: ObjectSelectionModel,
                                showAngleSlider: Boolean,
                                showFrictionControl: Boolean,
                                showBounceControl: Boolean,
@@ -58,7 +58,7 @@ class RampControlPanelBody(model: MotionSeriesModel,
                            resetHandler: () => Unit,
                            coordinateSystemFeaturesEnabled: Boolean,
                            useObjectComboBox: Boolean,
-                           objectModel: ObjectModel,
+                           objectModel: ObjectSelectionModel,
                            showAngleSlider: Boolean,
                            showFrictionControl: Boolean,
                            showBounceControl: Boolean,
@@ -241,7 +241,7 @@ class RampControlPanelBody(model: MotionSeriesModel,
   getContentPanel.setAnchor(GridBagConstraints.CENTER)
 }
 
-class ObjectSelectionComboBoxNode(objectModel: ObjectModel, canvas: PSwingCanvas, showTitle: Boolean = true) extends PNode {
+class ObjectSelectionComboBoxNode(objectModel: ObjectSelectionModel, canvas: PSwingCanvas, showTitle: Boolean = true) extends PNode {
   var text: PNode = null
   if (showTitle) {
     val text = new PSwing(new TitleLabel("controls.choose-object".translate))
