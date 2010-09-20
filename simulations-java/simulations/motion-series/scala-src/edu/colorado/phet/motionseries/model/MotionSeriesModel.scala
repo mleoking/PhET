@@ -189,6 +189,10 @@ class MotionSeriesModel(defaultPosition: Double,
     motionSeriesObject.position = MathUtil.clamp(MIN_X + motionSeriesObject.width / 2,
       motionSeriesObject.position, MAX_X - motionSeriesObject.width / 2)
 
+    if (motionSeriesObject.isCrashed) {
+      resetObject()
+    }
+
     notifyListeners()
   }
 
