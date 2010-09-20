@@ -70,7 +70,7 @@ class MotionSeriesModel(defaultPosition: Double,
   val motionSeriesObject = new MotionSeriesObject(new MutableDouble(defaultPosition), new MutableDouble, new MutableDouble,
     new MutableDouble(_objectType.mass), new MutableDouble(_objectType.staticFriction), new MutableDouble(_objectType.kineticFriction),
     _objectType.height, _objectType.width, positionMapper,
-    rampSegmentAccessor, _wallsBounce, walls, wallRange, thermalEnergyStrategy, surfaceFriction, surfaceFrictionStrategy)
+    rampSegmentAccessor, _wallsBounce, walls, wallRange, thermalEnergyStrategy, surfaceFriction, surfaceFrictionStrategy, true)
 
   updateDueToObjectTypeChange()
   motionSeriesObject.stepInTime(0.0) //Update vectors using the motion strategy

@@ -1,3 +1,4 @@
+Fixed: Wall changes location slightly after the ramp is rotated somewhat
 Fixed: Object can intersect halfway through wall
 Fixed: The object updates when the user is setting the position directly with the position slider
 Converted global listeners on MotionSeriesObject into fine grained property listeners

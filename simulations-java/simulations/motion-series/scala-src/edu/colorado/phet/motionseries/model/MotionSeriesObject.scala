@@ -24,10 +24,22 @@ class MotionSeriesObject(_position: MutableDouble,
                          val wallRange: MutableRange,
                          thermalEnergyStrategy: Double => Double,
                          val surfaceFriction: () => Boolean,
-                         private var _surfaceFrictionStrategy: SurfaceFrictionStrategy) {
-  def this(model: MotionSeriesModel, x: Double, width: Double, height: Double) = this (new MutableDouble(x), new MutableDouble, new MutableDouble, new MutableDouble(10),
-    new MutableDouble, new MutableDouble, height, width, model.positionMapper, model.rampSegmentAccessor,
-    model.wallsBounce, model.walls, model.wallRange, model.thermalEnergyStrategy, model.surfaceFriction, model.surfaceFrictionStrategy)
+                         private var _surfaceFrictionStrategy: SurfaceFrictionStrategy,
+                         private val doClampBounds: Boolean = false) { //bounds should be clamped for mobile objects only
+  def this(model: MotionSeriesModel,
+           x: Double,
+           width: Double,
+           height: Double,
+           doClampBounds: Boolean) =
+    this (new MutableDouble(x), new MutableDouble, new MutableDouble, new MutableDouble(10),
+      new MutableDouble, new MutableDouble, height, width, model.positionMapper, model.rampSegmentAccessor,
+      model.wallsBounce, model.walls, model.wallRange, model.thermalEnergyStrategy, model.surfaceFriction, model.surfaceFrictionStrategy, doClampBounds)
+
+  def this(model: MotionSeriesModel,
+           x: Double,
+           width: Double,
+           height: Double) =
+    this (model, x, width, height, false)
 
   private var _userSpecifiedPosition = false //Prevent the object from being moved by the motionStrategy when the object's position is under the user's direct control
 
@@ -48,8 +60,10 @@ class MotionSeriesObject(_position: MutableDouble,
 
   //Resolves: When turning on walls while objects are out of bounds and bouncy is enabled, can bounce infinitely.
   def clampBounds() = {
-    if (position < wallRange().min) position = wallRange().min + _width / 2
-    if (position > wallRange().max) position = wallRange().max - _width / 2
+    if (doClampBounds) {
+      if (position < wallRange().min) position = wallRange().min + _width / 2
+      if (position > wallRange().max) position = wallRange().max - _width / 2
+    }
   }
   wallRange.addListener(clampBounds)
 
