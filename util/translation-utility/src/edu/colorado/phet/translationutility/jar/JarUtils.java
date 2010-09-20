@@ -240,13 +240,13 @@ public class JarUtils {
     /**
      * Creates a localized jar file of the proper type, based on info in the input jar file.
      */
-    public static void createLocalizedJar( String inputJarName, String outputJarName, Locale locale, Properties localizedStrings, boolean deleteOnExit ) throws IOException {
+    public static void createLocalizedJar( String inputJarName, String outputJarName, Locale locale, Properties localizedStrings, String stringResourcePath, boolean deleteOnExit ) throws IOException {
         SimulationProperties properties = JarUtils.readSimulationProperties( inputJarName );
         if ( properties.isFlash() ) {
-            FlashJarFactory.createLocalizedJar( inputJarName, outputJarName, locale, localizedStrings, deleteOnExit );
+            new FlashJarFactory().createLocalizedJar( inputJarName, outputJarName, locale, localizedStrings, stringResourcePath, deleteOnExit );
         }
         else {
-            JavaJarFactory.createLocalizedJar( inputJarName, outputJarName, locale, localizedStrings, deleteOnExit );
+            new JavaJarFactory().createLocalizedJar( inputJarName, outputJarName, locale, localizedStrings, stringResourcePath, deleteOnExit );
         }
     }
 }

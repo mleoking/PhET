@@ -4,20 +4,20 @@ package edu.colorado.phet.translationutility.simulations;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.MessageFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Properties;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
 import javax.swing.JFileChooser;
 
 import edu.colorado.phet.translationutility.TUConstants;
 import edu.colorado.phet.translationutility.TUResources;
+import edu.colorado.phet.translationutility.jar.JarFactory;
 import edu.colorado.phet.translationutility.jar.JarUtils;
+import edu.colorado.phet.translationutility.util.Command;
+import edu.colorado.phet.translationutility.util.Command.CommandException;
 
 /**
  * AbstractSimulation is the base class for all PhET simulations.
@@ -58,16 +58,23 @@ public abstract class Simulation {
     private final Manifest manifest;
     private final String projectName;
     private final String simulationName;
-
+    private final JarFactory jarFactory;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public Simulation( String jarFileName, String projectName, String simulationName ) throws SimulationException {
+    public Simulation( String jarFileName, String projectName, String simulationName, JarFactory jarFactory ) throws SimulationException {
         this.jarFileName = jarFileName;
-        this.manifest = getManifest( jarFileName );
+        try {
+            this.manifest = JarUtils.getManifest( jarFileName );
+        }
+        catch ( IOException e ) {
+            throw new SimulationException( "error reading manifest from " + jarFileName );
+        }
         this.projectName = projectName;
         this.simulationName = simulationName;
+        this.jarFactory = jarFactory;
     }
     
     //----------------------------------------------------------------------------
@@ -90,6 +97,10 @@ public abstract class Simulation {
         return simulationName;
     }
     
+    public JarFactory getJarFactory() {
+        return jarFactory;
+    }
+    
     /**
      * Gets version information from a properties file in the jar.
      * @param propertiesFileName
@@ -104,7 +115,6 @@ public abstract class Simulation {
             projectProperties = JarUtils.readProperties( getJarFileName(), propertiesFileName );
         }
         catch ( IOException e ) {
-            e.printStackTrace();
             throw new SimulationException( "error reading " + propertiesFileName + " from " + getJarFileName() );
         }
         if ( projectProperties == null ) {
@@ -126,15 +136,6 @@ public abstract class Simulation {
     // abstract
     //----------------------------------------------------------------------------
     
-    /**
-     * Tests a set of localized strings by running the simulation.
-     * 
-     * @param locale
-     * @param localizedStrings the localized strings for the locale
-     * @throws SimulationException
-     */
-    public abstract void testStrings( Locale locale, Properties localizedStrings ) throws SimulationException;
-
     /**
      * Gets the localized strings for a specified locale.
      * 
@@ -177,36 +178,38 @@ public abstract class Simulation {
     public abstract String getStringsFileSuffix();
     
     /**
+     * Gets the path to the JAR resource that contains localized strings.
+     */
+    public abstract String getStringsResourcePath( Locale locale );
+    
+    /**
      * Gets a file chooser that is appropriate for the simulations string files.
      */
     public abstract JFileChooser getStringsFileChooser();
     
     //----------------------------------------------------------------------------
-    // Utilities
+    // common
     //----------------------------------------------------------------------------
     
-    /*
-     * Gets the manifest from a jar file.
-     * All JAR files for PhET simulations must have a manifest.
-     * 
-     * @param jarFileName
-     * @return Manifest
-     * @throws SimulationException if there was no manifest
-     */
-    private static Manifest getManifest( String jarFileName ) throws SimulationException {
-        Manifest manifest = null;
+    public void testStrings( Locale locale, Properties localizedStrings ) throws SimulationException {
+        
+        // create the test jar
+        final String testJarFileName = TEST_JAR;
         try {
-            JarFile jarFile = new JarFile( jarFileName );
-            JarEntry jarEntry = jarFile.getJarEntry( JarFile.MANIFEST_NAME );
-            InputStream inputStream = jarFile.getInputStream( jarEntry );
-            manifest = new Manifest( inputStream ); // constructor reads the input stream
-            inputStream.close();
-            jarFile.close();
+            getJarFactory().createLocalizedJar( getJarFileName(), testJarFileName, locale, localizedStrings, getStringsResourcePath( locale ), true /* deleteOnExit */ );
         }
-        catch ( IOException e ) {
-            throw new SimulationException( "error reading manifest from " + jarFileName );
+        catch ( IOException ioe ) {
+            throw new SimulationException( "failed to create test jar" );
         }
-        return manifest;
+        
+        // run the test jar
+        try {
+            String[] cmdArray = { "java", "-jar", testJarFileName };
+            Command.run( cmdArray, false /* waitForCompletion */ );
+        }
+        catch ( CommandException e ) {
+            throw new SimulationException( e );
+        }
     }
     
     /**

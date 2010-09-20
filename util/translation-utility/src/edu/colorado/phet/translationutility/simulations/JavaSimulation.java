@@ -9,12 +9,11 @@ import java.util.logging.Logger;
 
 import javax.swing.JFileChooser;
 
+import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.translationutility.TUConstants;
 import edu.colorado.phet.translationutility.jar.JarUtils;
 import edu.colorado.phet.translationutility.jar.JarFactory.JavaJarFactory;
-import edu.colorado.phet.translationutility.util.Command;
 import edu.colorado.phet.translationutility.util.FileChooserFactory;
-import edu.colorado.phet.translationutility.util.Command.CommandException;
 
 /**
  * JavaSimulation supports of Java-based simulations.
@@ -25,39 +24,16 @@ import edu.colorado.phet.translationutility.util.Command.CommandException;
  */
 public class JavaSimulation extends Simulation {
     
-    //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
     private static final Logger LOGGER = Logger.getLogger( JavaSimulation.class.getCanonicalName() );
     
-    //----------------------------------------------------------------------------
-    // Constructors
-    //----------------------------------------------------------------------------
-    
     public JavaSimulation( String jarFileName, String projectName, String simulationName ) throws SimulationException {
-        super( jarFileName, projectName, simulationName );
+        super( jarFileName, projectName, simulationName, new JavaJarFactory() );
     }
     
-    //----------------------------------------------------------------------------
-    // Public interface
-    //----------------------------------------------------------------------------
-    
-    public void testStrings( Locale locale, Properties localizedStrings ) throws SimulationException {
-        String testJarFileName = createTestJar( locale, localizedStrings );
-        try {
-            String[] cmdArray = { "java", "-jar", testJarFileName };
-            Command.run( cmdArray, false /* waitForCompletion */ );
-        }
-        catch ( CommandException e ) {
-            throw new SimulationException( e );
-        }
-    }
-
     public Properties getStrings( Locale locale ) throws SimulationException {
         
         Properties properties = null;
-        String propertiesFileName = JavaJarFactory.getStringsPath( getProjectName(), locale );
+        String propertiesFileName = getStringsResourcePath( locale );
         
         try {
             if ( JarUtils.containsFile( getJarFileName(), propertiesFileName ) ) {
@@ -67,7 +43,7 @@ public class JavaSimulation extends Simulation {
             }
             else if ( properties == null && locale.equals( TUConstants.ENGLISH_LOCALE ) ) {
                 // English strings are in a fallback resource file.
-                propertiesFileName = getFallbackStringsPath( getProjectName() );
+                propertiesFileName = getStringsResourcePath( null /* locale */ );
                 properties = JarUtils.readProperties( getJarFileName(), propertiesFileName );
                 LOGGER.info( "loaded strings from fallback file " + propertiesFileName );
             }
@@ -97,10 +73,6 @@ public class JavaSimulation extends Simulation {
         return properties;
     }
     
-    public String getStringsFileSuffix() {
-        return JavaJarFactory.getStringsFileSuffix();
-    }
-
     public void saveStrings( Properties properties, File file ) throws SimulationException {
         try {
             String projectName = getProjectName();
@@ -116,40 +88,64 @@ public class JavaSimulation extends Simulation {
         }
     }
     
+    public String getStringsFileSuffix() {
+        return ".properties";
+    }
+    
+    /**
+     * Gets the path to the JAR resource that contains localized strings for 
+     * a specified project and locale. If locale is null, the fallback resource
+     * path is returned. 
+     */
+    public String getStringsResourcePath( Locale locale ) {
+        String dirName = getStringsBasename();
+        String fileName = getStringsFileName( locale );
+        return dirName + "/localization/" + fileName;
+    }
+    
+    /**
+     * Gets the name of the JAR resource that contains localized strings for 
+     * a specified project and locale. For example, faraday-strings_es.properties
+     * <p>
+     * If locale is null, the name of the fallback resource is returned.
+     * The fallback name does not contain a locale, and contains English strings.
+     * For example: faraday-strings.properties
+     * <p>
+     * NOTE: Support for the fallback name is provided for backward compatibility.
+     * All Java simulations should migrate to the convention of including "en" in the 
+     * resource name of English localization files.
+     */
     public String getStringsFileName( Locale locale ) {
-        return JavaJarFactory.getStringsName( getProjectName(), locale );
-    }
-    
-    //----------------------------------------------------------------------------
-    // Utilities
-    //----------------------------------------------------------------------------
-    
-    /*
-     * Gets the path to the fallback JAR resource that contains 
-     * English strings for a specified project.
-     */
-    private String getFallbackStringsPath( String projectName ) {
-        return JavaJarFactory.getStringsPath( projectName, null /* locale */ );
+        String basename = getStringsBasename();
+        String filename = null;
+        if ( locale == null ) {
+            filename = basename + "-strings" + getStringsFileSuffix(); // fallback basename contains no language code
+        }
+        else {
+            String localeString = LocaleUtils.localeToString( locale );
+            filename = basename + "-strings_" + localeString + getStringsFileSuffix();
+        }
+        return filename;
     }
     
     /*
-     * Creates a test JAR for a specified locale.
-     * @param locale the locale
-     * @param stringsProperties strings for the locale
+     * Gets the basename of the resource that contains localized strings.
+     * <p>
+     * This is typically the same as the project name, except for common strings.
+     * PhET common strings are bundled into their own JAR file for use with Translation Utility.
+     * The JAR file must be built & deployed via a dummy sim named "java-common-strings", 
+     * found in trunk/simulations-flash/simulations.  If the project name is "java-common-strings",
+     * we really want to load the common strings which are in files with basename "phetcommon".
+     * So we use "phetcommon" as the project name.
      */
-    private String createTestJar( Locale locale, Properties stringsProperties ) throws SimulationException {
-        final String testJarFileName = TEST_JAR;
-        final String originalJarFileName = getJarFileName();
-        try {
-            JavaJarFactory.createLocalizedJar( originalJarFileName, testJarFileName, locale, stringsProperties, true /* deleteOnExit */ );
+    private String getStringsBasename() {
+        String basename = getProjectName();
+        if ( basename.equals( "java-common-strings" ) ) {
+            basename = "phetcommon";
         }
-        catch ( IOException e ) {
-            e.printStackTrace();
-            throw new SimulationException( "failed to create test jar", e );
-        }
-        return testJarFileName;
+        return basename;
     }
-    
+
     public JFileChooser getStringsFileChooser() {
         return FileChooserFactory.createPropertiesFileChooser();
     }
