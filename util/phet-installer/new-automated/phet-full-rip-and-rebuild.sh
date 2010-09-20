@@ -36,19 +36,32 @@ echo " Rip and rebuild of standard PhET installers initiated by `whoami` on: " |
 echo " `date`" | tee --append $LOG
 echo "================================================================" | tee --append $LOG
 
+# Output logging information based on the specified parameters.
 if [ "$1" = "--deploy" -o "$2" = "--deploy" ]; then
-   echo "Installer will be deployed after they are built." | tee --append $LOG
+   echo "Installer(s) will be deployed after they are built." | tee --append $LOG
+else
+   echo "Installer(s) will NOT be deployed after they are built." | tee --append $LOG
+fi
+
+if [ "$1" = "--email" -o "$2" = "--email" ]; then
+   echo "Email notification will be sent for this build." | tee --append $LOG
+else
+   echo "Email notification will NOT be sent for this build." | tee --append $LOG
+fi
+
+# Execute the main build script, passing in the appropriate options.
+if [ "$1" = "--deploy" -o "$2" = "--deploy" ]; then
    /usr/local/php/bin/php ./bin/phet-full-rip-and-rebuild.php --deploy | tee --append $LOG
 else
-   echo "Installer will NOT be deployed after they are built." | tee --append $LOG
    /usr/local/php/bin/php ./bin/phet-full-rip-and-rebuild.php | tee --append $LOG
 fi
 
+# Send out email notification if specified on the command line.
 if [ "$1" = "--email" -o "$2" = "--email" ]; then
    echo "Sending email notification for this build." | tee --append $LOG
    send_email_notification
 else
-   echo "Email notification will NOT be sent for this build." | tee --append $LOG
+   echo "Not sending email notification for this build." | tee --append $LOG
 fi
 
 
