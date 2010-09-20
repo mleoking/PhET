@@ -9,8 +9,10 @@ import java.util.logging.Logger;
 
 import javax.swing.JFileChooser;
 
-import edu.colorado.phet.translationutility.jar.DocumentAdapter;
+import org.w3c.dom.Document;
+
 import edu.colorado.phet.translationutility.jar.FlashJarCreator;
+import edu.colorado.phet.translationutility.jar.FlashStringsAdapter;
 import edu.colorado.phet.translationutility.jar.JarUtils;
 import edu.colorado.phet.translationutility.jar.DocumentIO.DocumentIOException;
 import edu.colorado.phet.translationutility.util.FileChooserFactory;
@@ -37,7 +39,8 @@ public class FlashSimulation extends Simulation {
         
         try {
             if ( JarUtils.containsFile( getJarFileName(), xmlFilename ) ) {
-                properties = JarUtils.readXMLAsProperties( getJarFileName(), xmlFilename );
+                Document document = JarUtils.readDocument( getJarFileName(), xmlFilename );
+                properties = FlashStringsAdapter.documentToProperties( document );
                 LOGGER.info( "loaded strings from " + xmlFilename );
             }
             else {
@@ -59,7 +62,7 @@ public class FlashSimulation extends Simulation {
     public Properties loadStrings( File file ) throws SimulationException {
         Properties properties = new Properties();
         try {
-            properties = DocumentAdapter.readProperties( new FileInputStream( file ) );
+            properties = FlashStringsAdapter.readProperties( new FileInputStream( file ) );
         }
         catch ( FileNotFoundException e ) {
             throw new SimulationException( "file not found: " + file.getAbsolutePath(), e );
@@ -76,7 +79,7 @@ public class FlashSimulation extends Simulation {
             String projectVersion = getProjectVersion( projectName + ".properties" ); // eg, curve-fitting.properties
             String header = getTranslationFileHeader( file.getName(), projectName, projectVersion );
             OutputStream outputStream = new FileOutputStream( file );
-            DocumentAdapter.writeProperties( properties, header, outputStream );
+            FlashStringsAdapter.writeProperties( properties, header, outputStream );
         }
         catch ( FileNotFoundException e ) {
             throw new SimulationException( "file not found: " + file.getAbsolutePath(), e );

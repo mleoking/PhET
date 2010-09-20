@@ -26,7 +26,7 @@ import edu.colorado.phet.translationutility.jar.DocumentIO.DocumentIOException;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DocumentAdapter {
+public class FlashStringsAdapter {
 
     private static final String ENCODING = "UTF-8";
     
@@ -35,7 +35,7 @@ public class DocumentAdapter {
     private static final String KEY_ATTRIBUTE = "key";
     private static final String VALUE_ATTRIBUTE = "value";
    
-    /*
+    /**
      * Converts an XML Document object to a Properties object.
      * The XML document is in the format required for Flash simulations.
      * 
@@ -43,7 +43,7 @@ public class DocumentAdapter {
      * @return Properties
      * @throws PropertiesFlashAdapterException
      */
-    private static final Properties documentToProperties( Document document ) {
+    public static final Properties documentToProperties( Document document ) {
         Properties properties = new Properties();
         NodeList elements = document.getElementsByTagName( STRING_ELEMENT );
         int numberOfNodes = elements.getLength();
