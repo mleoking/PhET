@@ -152,23 +152,24 @@ public abstract class Simulation {
     public abstract void saveStrings( Properties properties, File file ) throws SimulationException;
     
     /**
-     * Gets the name of the string file for a specified locale.
+     * Gets the full path to the JAR resource that contains localized strings.
+     */
+    public abstract String getStringsFilePath( Locale locale );
+    
+    /**
+     * Gets the basename of the string file for a specified locale.
+     * In UNIX parlance, the basename of a file is the final rightmost component of its full path.
      * 
      * @param locale
      * @return
      */
-    public abstract String getStringsFileName( Locale locale );
+    public abstract String getStringsFileBasename( Locale locale );
     
     /**
      * Gets the suffix used for string files.
      * @return
      */
     public abstract String getStringsFileSuffix();
-    
-    /**
-     * Gets the path to the JAR resource that contains localized strings.
-     */
-    public abstract String getStringsResourcePath( Locale locale );
     
     /**
      * Gets a file chooser that is appropriate for the simulations string files.
@@ -179,12 +180,18 @@ public abstract class Simulation {
     // common
     //----------------------------------------------------------------------------
     
+    /**
+     * Tests a translation by creating a test jar file and running it.
+     * 
+     * @param locale
+     * @param localizedStrings
+     */
     public void testStrings( Locale locale, Properties localizedStrings ) throws SimulationException {
         
         // create the test jar
         final String testJarFileName = TEST_JAR;
         try {
-            getJarFactory().createLocalizedJar( getJarFileName(), testJarFileName, locale, localizedStrings, getStringsResourcePath( locale ), true /* deleteOnExit */ );
+            getJarFactory().createLocalizedJar( getJarFileName(), testJarFileName, locale, localizedStrings, getStringsFilePath( locale ), true /* deleteOnExit */ );
         }
         catch ( IOException ioe ) {
             throw new SimulationException( "failed to create test jar" );
