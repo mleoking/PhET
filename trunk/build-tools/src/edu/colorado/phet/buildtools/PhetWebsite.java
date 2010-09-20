@@ -70,6 +70,11 @@ public abstract class PhetWebsite {
     * default getters (that used the provided abstract methods)
     *----------------------------------------------------------------------------*/
 
+    @Override
+    public String toString() {
+        return getName();
+    }
+
     /**
      * @return Either "http" or "https" depending on how to contact Tomcat Manager
      */
