@@ -29,6 +29,8 @@ class MotionSeriesObject(_position: MutableDouble,
     new MutableDouble, new MutableDouble, height, width, model.positionMapper, model.rampSegmentAccessor,
     model.wallsBounce, model.walls, model.wallRange, model.thermalEnergyStrategy, model.surfaceFriction, model.surfaceFrictionStrategy)
 
+  private var _userSpecifiedPosition = false //Prevent the object from being moved by the motionStrategy when the object's position is under the user's direct control
+
   assert(positionMapper != null, "PositionMapper must be non-null")
 
   //This used to be lazily computed, but it detracting from performance due to the many calls to position2D, so now it is eagerly computed
@@ -254,7 +256,9 @@ class MotionSeriesObject(_position: MutableDouble,
   def getAngle = motionStrategy.getAngle
 
   def stepInTime(dt: Double) = {
-    motionStrategy.stepInTime(dt)
+    if (!userSpecifiedPosition) { //If the user is holding the position slider, don't let the object move to another position
+      motionStrategy.stepInTime(dt)
+    }
     for (listener <- stepListeners) listener()
   }
 
@@ -269,6 +273,10 @@ class MotionSeriesObject(_position: MutableDouble,
   def addWallCrashListener(listener: () => Unit) = wallCrashListeners += listener
 
   def addBounceListener(listener: () => Unit) = bounceListeners += listener
+
+  def userSpecifiedPosition_=(b: Boolean) = _userSpecifiedPosition = b
+
+  def userSpecifiedPosition = _userSpecifiedPosition
 }
 
 /**Immutable memento for recording*/
