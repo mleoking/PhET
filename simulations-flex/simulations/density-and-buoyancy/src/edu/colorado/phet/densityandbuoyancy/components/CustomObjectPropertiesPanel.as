@@ -36,12 +36,14 @@ public class CustomObjectPropertiesPanel extends DensityVBox {
         }
 
         //TODO: See related workaround PropertyEditor
-        function clampStyrofoamMass(n:Number):Number {
-            if (densityObject.material.equals(Material.STYROFOAM) && n > 3) return 3;
-            else return n;
+        function clampMass(mass:Number):Number {
+            //TODO: factor out this duplicated code
+            if (densityObject.material.equals(Material.STYROFOAM) && mass > DensityConstants.STYROFOAM_MAX_MASS) return DensityConstants.STYROFOAM_MAX_MASS;
+            else if (densityObject.material.equals(Material.WOOD) && mass > DensityConstants.WOOD_MAX_MASS) return DensityConstants.WOOD_MAX_MASS;
+            else return mass;
         }
 
-        grid.addChild(new PropertyEditor(densityObject.getMassProperty(), DensityConstants.MIN_MASS, DensityConstants.MAX_MASS, units.massUnit, densityObject, clampStyrofoamMass));
+        grid.addChild(new PropertyEditor(densityObject.getMassProperty(), DensityConstants.MIN_MASS, DensityConstants.MAX_MASS, units.massUnit, densityObject, clampMass));
         grid.addChild(new PropertyEditor(densityObject.getVolumeProperty(), DensityConstants.MIN_VOLUME, DensityConstants.MAX_VOLUME, units.volumeUnit, densityObject, noClamp));
         grid.addChild(new DensityEditor(densityObject.getDensityProperty(), DensityConstants.MIN_DENSITY, DensityConstants.MAX_DENSITY, units.densityUnit, densityObject, noClamp));
 
