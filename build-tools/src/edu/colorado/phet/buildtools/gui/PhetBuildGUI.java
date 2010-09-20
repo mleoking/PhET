@@ -111,6 +111,7 @@ public class PhetBuildGUI {
         if( override == null ) {
             return PhetWebsite.DEFAULT_PRODUCTION_WEBSITE;
         } else {
+            System.out.println( "Using " + override + " instead of default production server" );
             return PhetWebsite.getWebsiteByName( override );
         }
     }
