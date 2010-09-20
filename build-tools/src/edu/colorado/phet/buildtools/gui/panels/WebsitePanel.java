@@ -157,6 +157,7 @@ public class WebsitePanel extends JPanel {
         }
 
         PhetWebsite website = PhetBuildGUI.getProductionWebsite();
+        System.out.println( "deploying website to " + website );
 
         success = project.deploy(
                 website.getServerHost(),
