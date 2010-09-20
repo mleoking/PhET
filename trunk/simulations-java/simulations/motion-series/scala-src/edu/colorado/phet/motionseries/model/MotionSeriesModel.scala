@@ -39,11 +39,14 @@ class MotionSeriesModel(defaultPosition: Double,
   val coordinateFrameModel = new CoordinateFrameModel(rightRampSegment)
 
   //Sends notification when any ramp segment changes
-  val wallRange = new MutableRange(edu.colorado.phet.motionseries.util.Range(-leftRampSegment.length, rightRampSegment.length))
+  val wallRange = new MutableRange(_wallRange)
 
-  def updateWallRange() = wallRange.setValue(edu.colorado.phet.motionseries.util.Range(-leftRampSegment.length, rightRampSegment.length))
+  def _wallRange = edu.colorado.phet.motionseries.util.Range(-leftRampSegment.length + MotionSeriesDefaults.wall.width / 2, rightRampSegment.length - MotionSeriesDefaults.wall.width / 2)
+
+  def updateWallRange() = wallRange.setValue(_wallRange)
   leftRampSegment.addListener(updateWallRange)
   rightRampSegment.addListener(updateWallRange)
+  updateWallRange()
   val surfaceFriction = () => !frictionless
 
   val defaultManPosition = defaultPosition - 1 //Man should start 1 meter away from the object by default
