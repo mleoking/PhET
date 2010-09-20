@@ -30,7 +30,7 @@ public class FlashJarCreator extends JarCreator {
         JarEntry jarEntry = new JarEntry( stringsFilePath );
         jarOutputStream.putNextEntry( jarEntry );
         try {
-            DocumentAdapter.writeProperties( localizedStrings, header, jarOutputStream );
+            FlashStringsAdapter.writeProperties( localizedStrings, header, jarOutputStream );
         }
         catch ( DocumentIO.DocumentIOException e ) {
             throw new IOException( "problem converting strings to XML", e );
