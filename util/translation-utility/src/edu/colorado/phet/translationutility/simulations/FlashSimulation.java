@@ -14,9 +14,9 @@ import javax.xml.transform.TransformerException;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
-import edu.colorado.phet.translationutility.jar.FlashJarCreator;
-import edu.colorado.phet.translationutility.jar.FlashStringsAdapter;
-import edu.colorado.phet.translationutility.jar.JarUtils;
+import edu.colorado.phet.buildtools.jar.FlashJarCreator;
+import edu.colorado.phet.buildtools.jar.FlashStringsAdapter;
+import edu.colorado.phet.buildtools.jar.JarUtils;
 import edu.colorado.phet.translationutility.util.FileChooserFactory;
 
 /**
