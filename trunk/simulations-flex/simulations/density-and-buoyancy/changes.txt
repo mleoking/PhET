@@ -1,3 +1,4 @@
+> Fixed: Reset all broken for block texture and combo box
 > Fixed: Slider thumbs don't fade out when the value is below the slider minimum
 # 1.00.05 (44162) Sep 17, 2010
 > Changed show/hide table button color
