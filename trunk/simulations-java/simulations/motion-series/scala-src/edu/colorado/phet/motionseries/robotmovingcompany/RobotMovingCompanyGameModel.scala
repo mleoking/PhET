@@ -103,7 +103,7 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
     val sel = selectedObject
     model.setPaused(true)
 
-    _motionSeriesObject = new MotionSeriesObject(model, -model.leftRampSegment.length + sel.width / 2.0 + model.leftWall.width / 2.0, sel.width, 3)
+    _motionSeriesObject = new MotionSeriesObject(model, -model.leftRampSegment.length + sel.width / 2.0 + model.leftWall.width / 2.0, sel.width, 3, true)
 
     motionSeriesObject.mass = sel.mass
     motionSeriesObject.staticFriction = sel.staticFriction
