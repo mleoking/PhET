@@ -8,6 +8,7 @@ import edu.colorado.phet.common.phetcommon.view.PhetColorScheme
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat
 
 object MotionSeriesDefaults {
+  val DEFAULT_RAMP_LENGTH = 10
   val CLEAR_BUTTON_VISIBILITY_THRESHOLD_JOULES = 4000 * 1.5
   val SERIES_SELECTION_CONTROL_FORMATTER = new DefaultDecimalFormat("0.0")
 

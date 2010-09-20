@@ -42,9 +42,16 @@ class MotionSeriesObjectNode(motionSeriesObject: MotionSeriesObject,
                              private var image: BufferedImage,
                              private var crashImage: BufferedImage)
         extends PNode {
-  def this(motionSeriesObject: MotionSeriesObject, transform: ModelViewTransform2D, imageName: String, crashImageName: String) = this (motionSeriesObject, transform, MotionSeriesResources.getImage(imageName), MotionSeriesResources.getImage(crashImageName))
+  def this(motionSeriesObject: MotionSeriesObject,
+           transform: ModelViewTransform2D,
+           imageName: String,
+           crashImageName: String) =
+    this (motionSeriesObject, transform, MotionSeriesResources.getImage(imageName), MotionSeriesResources.getImage(crashImageName))
 
-  def this(motionSeriesObject: MotionSeriesObject, transform: ModelViewTransform2D, imageName: String) = this (motionSeriesObject, transform, MotionSeriesResources.getImage(imageName), MotionSeriesResources.getImage(imageName))
+  def this(motionSeriesObject: MotionSeriesObject,
+           transform: ModelViewTransform2D,
+           imageName: String) =
+    this (motionSeriesObject, transform, MotionSeriesResources.getImage(imageName), MotionSeriesResources.getImage(imageName))
 
   val imageNode = new PImage(image)
 
