@@ -15,7 +15,6 @@
     define("WEBSITE_PAGES_PATTERN", '*.htm*, *.php');
 
     define("ROOT_DIR",                  file_cleanup_local_filename(dirname(dirname(__FILE__))."/"));
-    define("PARENT_DIR",                file_cleanup_local_filename(dirname(ROOT_DIR))."/");
     define("TEMP_DIR",                  file_cleanup_local_filename(ROOT_DIR."temp/"));
     define("OUTPUT_DIR",                file_cleanup_local_filename(TEMP_DIR."installer-output/"));
     define("DEPLOY_DIR",                "/data/web/htdocs/phetsims/installer/");
@@ -56,7 +55,7 @@
 
     define("AUTORUN_FILENAME",     'autorun.inf');
     define("AUTORUN_ICON_NAME",    'phet-icon.ico');
-    define("AUTORUN_ICON_SRC",     file_cleanup_local_filename(PARENT_DIR."Installer-Resources/Install-Path/".AUTORUN_ICON_NAME));
+    define("AUTORUN_ICON_SRC",     file_cleanup_local_filename(ROOT_DIR."Installer-Resources/Install-Path/".AUTORUN_ICON_NAME));
     define("AUTORUN_ICON_DEST",    file_cleanup_local_filename(OUTPUT_DIR.AUTORUN_ICON_NAME));
     define("AUTORUN_FILE_DEST",    file_cleanup_local_filename(OUTPUT_DIR.AUTORUN_FILENAME));
 
