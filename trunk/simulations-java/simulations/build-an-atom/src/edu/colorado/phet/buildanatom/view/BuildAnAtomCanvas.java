@@ -4,11 +4,13 @@ package edu.colorado.phet.buildanatom.view;
 
 import java.awt.geom.Dimension2D;
 
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
+import edu.colorado.phet.buildanatom.BuildAnAtomResources;
 import edu.colorado.phet.buildanatom.model.BuildAnAtomModel;
 import edu.colorado.phet.buildanatom.module.BuildAnAtomDefaults;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
  * Canvas template.
@@ -23,7 +25,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
     private BuildAnAtomModel model;
     
     // View 
-    private PNode _rootNode;
+    private PNode rootNode;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -37,8 +39,14 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         setBackground( BuildAnAtomConstants.CANVAS_BACKGROUND );
         
         // Root of our scene graph
-        _rootNode = new PNode();
-        addWorldChild( _rootNode );
+        rootNode = new PNode();
+        addWorldChild( rootNode );
+        
+        // TODO: Temp - put a sketch of the tab up as a very early prototype.
+        PImage image = new PImage( BuildAnAtomResources.getImage( "tab-1-sketch-01.png" ));
+        image.scale( 2.05 );
+        image.setOffset( 50, 0 );
+        rootNode.addChild(image);
     }
 
 
