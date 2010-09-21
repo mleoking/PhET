@@ -1,3 +1,4 @@
+# 1.00.07 (44221) Sep 20, 2010
 > Limited the wood mass and volume so that the pool can't be overflowed
 # 1.00.06 (44216) Sep 20, 2010
 > Fixed: Reset all broken for block texture and combo box
