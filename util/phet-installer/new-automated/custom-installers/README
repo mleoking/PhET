@@ -3,11 +3,19 @@ custom installers, then for all installers, and now for no installers.  Here
 is why: The custom installers worked off the Wicket-based site, which was
 initially hosted on phet-server and then on Figaro.  When the main PhET site
 migrated to also be a wicket-based site running on Figaro, the easiest way to
-get the installers working again was to leverage what had been the custom
-installers.  At that point, the main PhET installer was in this directory too.
-Ultimately, it made sense to move all of the installers to the main directory
-(one above this directory), and not worry about the distinction between the
-custom and non-custom installers.  --jblanco
+get the installers working again was to leverage what had been done for the custom
+installers.  At that point, the code for the main PhET installer-builder was
+in this directory too.  Ultimately, it made sense to move all of the installers
+to the main directory (one above this directory), and not worry about the
+distinction between the custom and non-custom installers.
+
+This directory, the custom-installers directory, will be kept here for a while
+for historical purposes, and then it should be removed.  It should contain
+nothing other than this readme file.
+
+For more information on this, see Unfuddle issues 2296 & 2512
+
+--jblanco
 
 
 ---- Previous README contents ------------
