@@ -88,7 +88,7 @@ public abstract class BarMeterNode extends PhetPNode {
      * @param valueExponent exponent used in the power-of-ten display below the meter
      * @param units units
      */
-    public BarMeterNode( PNode dragBoundsNode, Color barColor, String title, String valueMantissaPattern, int valueExponent, String units ) {
+    public BarMeterNode( PNode dragBoundsNode, Color barColor, String title, String valueMantissaPattern, int valueExponent, String units, double value ) {
         
         // track
         TrackNode trackNode = new TrackNode();
@@ -96,7 +96,7 @@ public abstract class BarMeterNode extends PhetPNode {
         
         // bar
         double maxValue = Math.pow( 10, valueExponent );
-        barNode = new BarNode( barColor, maxValue );
+        barNode = new BarNode( barColor, maxValue, value );
         addChild( barNode );
         
         // ticks
@@ -120,11 +120,11 @@ public abstract class BarMeterNode extends PhetPNode {
         addChild( titleNode );
         
         // overload indicator 
-        overloadIndicatorNode = new OverloadIndicatorNode( barColor, maxValue );
+        overloadIndicatorNode = new OverloadIndicatorNode( barColor, maxValue, value );
         addChild( overloadIndicatorNode );
         
         // value
-        valueNode = new ValueNode( new DecimalFormat( valueMantissaPattern ), valueExponent, units );
+        valueNode = new ValueNode( new DecimalFormat( valueMantissaPattern ), valueExponent, units, value );
         addChild( valueNode );
         
         // close button
@@ -158,8 +158,8 @@ public abstract class BarMeterNode extends PhetPNode {
             y = trackNode.getFullBoundsReference().getMinX() - ( maxLabelNode.getFullBoundsReference().getHeight() / 2 );
             maxLabelNode.setOffset( x, y );
             // overload indicator centered above track
-            x = barNode.getFullBoundsReference().getCenterX();
-            y = barNode.getFullBoundsReference().getMinY() - overloadIndicatorNode.getFullBoundsReference().getHeight() - 1;
+            x = trackNode.getFullBoundsReference().getCenterX();
+            y = trackNode.getFullBoundsReference().getMinY() - overloadIndicatorNode.getFullBoundsReference().getHeight() - 1;
             overloadIndicatorNode.setOffset( x, y );
             // title centered below track
             x = trackNode.getFullBoundsReference().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 );
@@ -190,6 +190,10 @@ public abstract class BarMeterNode extends PhetPNode {
      * @param value
      */
     protected void setValue( double value ) {
+        
+        if ( value < 0 ) {
+            throw new IllegalArgumentException( "value must be >= 0 : " + value );
+        }
         
         // bar height
         barNode.setValue( value );
@@ -232,22 +236,38 @@ public abstract class BarMeterNode extends PhetPNode {
      */
     private static class BarNode extends PPath {
        
-        private double maxValue;
+        private double value, maxValue;
         private final Rectangle2D rectangle;
         
-        public BarNode( Color barColor, double maxValue ) {
+        public BarNode( Color barColor, double maxValue, double value ) {
+            
+            this.value = value;
             this.maxValue = maxValue;
+            
             rectangle = new Rectangle2D.Double( 0, 0, TRACK_SIZE.width, TRACK_SIZE.height );
             setPathTo( rectangle );
             setPaint( barColor );
             setStrokePaint( BAR_STROKE_COLOR );
             setStroke( BAR_STROKE );
+            
+            update();
         }
         
         public void setValue( double value ) {
-            if ( value < 0 ) {
-                throw new IllegalArgumentException( "value must be >= 0 : " + value );
+            if ( value != this.value ) {
+                this.value = value;
+                update();
             }
+        }
+        
+        public void setMaxValue( double maxValue ) {
+            if ( maxValue != this.maxValue ) {
+                this.maxValue = maxValue;
+                update();
+            }
+        }
+        
+        private void update() {
             double percent = Math.min(  1, Math.abs( value ) / maxValue );
             double y = ( 1 - percent ) * TRACK_SIZE.height;
             double height = TRACK_SIZE.height - y;
@@ -322,10 +342,11 @@ public abstract class BarMeterNode extends PhetPNode {
      */
     private static class OverloadIndicatorNode extends PComposite {
         
-        final double maxValue;
+        private double value, maxValue;
         
-        public OverloadIndicatorNode( Color fillColor, double maxValue ) {
+        public OverloadIndicatorNode( Color fillColor, double maxValue, double value ) {
             
+            this.value = value;
             this.maxValue = maxValue;
             
             Point2D tailLocation = new Point2D.Double( 0, OVERLOAD_INDICATOR_HEIGHT );
@@ -336,9 +357,25 @@ public abstract class BarMeterNode extends PhetPNode {
             ArrowNode arrowNode = new ArrowNode( tailLocation, tipLocation, headHeight, headWidth, tailWidth );
             arrowNode.setPaint( fillColor );
             addChild( arrowNode );
+            
+            update();
         }
         
         public void setValue( double value ) {
+            if ( value != this.value ) {
+                this.value = value;
+                update();
+            }
+        }
+        
+        public void setMaxValue( double maxValue ) {
+            if ( maxValue != this.maxValue ) {
+                this.maxValue = maxValue;
+                update();
+            }
+        }
+        
+        private void update() {
             setVisible( value > maxValue );
         }
     }
@@ -355,13 +392,13 @@ public abstract class BarMeterNode extends PhetPNode {
         private final int exponent;
         private final String units;
         
-        public ValueNode( NumberFormat mantissaFormat, int exponent, String units ) {
+        public ValueNode( NumberFormat mantissaFormat, int exponent, String units, double value ) {
             setFont( VALUE_FONT );
             setHTMLColor( VALUE_COLOR );
             this.mantissaFormat = mantissaFormat;
             this.exponent = exponent;
             this.units = units;
-            setValue( 0 );
+            setValue( value );
         }
         
         public void setValue( double value ) {

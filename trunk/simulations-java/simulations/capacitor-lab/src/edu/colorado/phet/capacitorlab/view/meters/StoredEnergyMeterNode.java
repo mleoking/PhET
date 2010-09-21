@@ -28,7 +28,7 @@ public class StoredEnergyMeterNode extends BarMeterNode {
     private final BatteryCapacitorCircuit circuit;    
     
     public StoredEnergyMeterNode( BatteryCapacitorCircuit circuit, PNode dragBoundsNode ) {
-        super( dragBoundsNode, BAR_COLOR, TITLE, VALUE_MANTISSA_PATTERN, VALUE_EXPONENT, UNITS );
+        super( dragBoundsNode, BAR_COLOR, TITLE, VALUE_MANTISSA_PATTERN, VALUE_EXPONENT, UNITS, 0 );
         
         this.circuit = circuit;
         circuit.addBatteryCapacitorCircuitChangeListener( new BatteryCapacitorCircuitChangeAdapter() {
