@@ -35,7 +35,7 @@ public class ImageButtonNode extends PhetPNode {
     
     private Image _unarmedImage, _armedImage;
     private PImage _imageNode;
-    private ArrayList _actionListeners;
+    private ArrayList<ActionListener> _actionListeners;
 
     //------------------------------------------------------------------------
     // Constructors
@@ -56,7 +56,7 @@ public class ImageButtonNode extends PhetPNode {
         addChild( _imageNode );
         
         // Initialize local data.
-        _actionListeners = new ArrayList();
+        _actionListeners = new ArrayList<ActionListener>();
         
         // Register a handler to watch for button state changes.
         ButtonEventHandler handler = new ButtonEventHandler();
