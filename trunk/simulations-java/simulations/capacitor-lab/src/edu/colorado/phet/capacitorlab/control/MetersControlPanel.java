@@ -15,10 +15,10 @@ import edu.colorado.phet.capacitorlab.model.CLModel;
 import edu.colorado.phet.capacitorlab.module.dielectric.DielectricCanvas;
 import edu.colorado.phet.capacitorlab.util.GridPanel;
 import edu.colorado.phet.capacitorlab.util.GridPanel.Anchor;
-import edu.colorado.phet.capacitorlab.view.CapacitanceMeterNode;
-import edu.colorado.phet.capacitorlab.view.PlateChargeMeterNode;
-import edu.colorado.phet.capacitorlab.view.StoredEnergyMeterNode;
-import edu.colorado.phet.capacitorlab.view.VoltmeterNode;
+import edu.colorado.phet.capacitorlab.view.meters.CapacitanceMeterNode;
+import edu.colorado.phet.capacitorlab.view.meters.PlateChargeMeterNode;
+import edu.colorado.phet.capacitorlab.view.meters.StoredEnergyMeterNode;
+import edu.colorado.phet.capacitorlab.view.meters.VoltmeterNode;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
 import edu.umd.cs.piccolo.PNode;
 

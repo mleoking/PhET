@@ -1,6 +1,6 @@
 /* Copyright 2010, University of Colorado */
 
-package edu.colorado.phet.capacitorlab.view;
+package edu.colorado.phet.capacitorlab.view.meters;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -13,6 +13,7 @@ import java.text.NumberFormat;
 
 import edu.colorado.phet.capacitorlab.CLImages;
 import edu.colorado.phet.capacitorlab.CLStrings;
+import edu.colorado.phet.capacitorlab.view.DoubleDisplayNode;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
