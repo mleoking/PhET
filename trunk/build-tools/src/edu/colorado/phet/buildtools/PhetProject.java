@@ -266,6 +266,7 @@ public abstract class PhetProject {
 
 
     //copied from getAllJavaSourceRoots, should use interface for different call
+
     public File[] getAllScalaSourceRoots() {
         PhetProject[] dependencies = getAllDependencies();
         ArrayList srcDirs = new ArrayList();
@@ -361,7 +362,7 @@ public abstract class PhetProject {
 
     /**
      * Returns the key values [simulation], not the titles for all simulations declared in this project.
-     * If no simulations are declared, the project name is returned as the sole simulation.
+     * If no simulations are declared, the default simulation name is returned as the sole simulation.
      *
      * @return
      */
@@ -381,10 +382,19 @@ public abstract class PhetProject {
             }
         }
         if ( simulationNames.size() == 0 ) {
-            simulationNames.add( getName() );
+            simulationNames.add( getDefaultSimulationName() );
         }
 
         return (String[]) simulationNames.toArray( new String[0] );
+    }
+
+    /**
+     * If no simulations are found in the build properties, we want to have a simulation name that is a default
+     *
+     * @return
+     */
+    protected String getDefaultSimulationName() {
+        return getName();
     }
 
     /**
@@ -422,6 +432,7 @@ public abstract class PhetProject {
     /*
     * Returns an array of the 2-character locale codes supported by this application.
     */
+
     public abstract Locale[] getLocales();
 
     protected Locale[] getLocalesImpl( String suffix ) {
@@ -505,33 +516,41 @@ public abstract class PhetProject {
         return simulation.isDirectory() && !simulation.getName().equalsIgnoreCase( "all-sims" ) && !simulation.getName().equalsIgnoreCase( ".svn" ) && BuildPropertiesFile.getBuildPropertiesFile( simulation ).exists();
     }
 
-    public static PhetProject[] getAllSimulations( File trunk ) {
+    public static PhetProject[] getAllSimulationProjects( File trunk ) {
         List phetProjects = new ArrayList();
 
-        phetProjects.addAll( Arrays.asList( JavaProject.getJavaSimulations( trunk ) ) );
-        phetProjects.addAll( Arrays.asList( FlashSimulationProject.getFlashSimulations( trunk ) ) );
-        phetProjects.addAll( Arrays.asList( FlexSimulationProject.getFlexSimulations( trunk ) ) );
+        phetProjects.addAll( Arrays.asList( JavaProject.getJavaProjects( trunk ) ) );
+        phetProjects.addAll( Arrays.asList( FlashSimulationProject.getFlashProjects( trunk ) ) );
+        phetProjects.addAll( Arrays.asList( FlexSimulationProject.getFlexProjects( trunk ) ) );
         return (PhetProject[]) phetProjects.toArray( new PhetProject[phetProjects.size()] );
     }
 
     //todo: use the factory method toProject above
-    public static PhetProject[] getAllProjects( File trunk ) {
-        List phetProjects = new ArrayList();
 
-        phetProjects.addAll( Arrays.asList( getAllSimulations( trunk ) ) );
+    public static PhetProject[] getAllProjects( File trunk ) {
+        List<PhetProject> phetProjects = getListOfAllPhetProjects( trunk );
+        return phetProjects.toArray( new PhetProject[phetProjects.size()] );
+    }
+
+    public static List<PhetProject> getListOfAllPhetProjects( File trunk ) {
+        List<PhetProject> projects = new LinkedList<PhetProject>();
+        // TODO: use getAllSimulationProjects above
+        projects.addAll( Arrays.asList( JavaSimulationProject.getJavaProjects( trunk ) ) );
+        projects.addAll( Arrays.asList( FlashSimulationProject.getFlashProjects( trunk ) ) );
+        projects.addAll( Arrays.asList( FlexSimulationProject.getFlexProjects( trunk ) ) );
+
         try {
-            //Add supplemental projects
-            //TODO: move these to a separate area
-            phetProjects.add( new TranslationUtilityProject( new File( trunk, BuildToolsPaths.TRANSLATION_UTILITY ) ) );
-            phetProjects.add( new PhetUpdaterProject( new File( trunk, BuildToolsPaths.PHET_UPDATER ) ) );
-            phetProjects.add( new BuildToolsProject( new File( trunk, BuildToolsPaths.BUILD_TOOLS_DIR ) ) );
-            phetProjects.add( new TimesheetProject( new File( trunk, BuildToolsPaths.TIMESHEET ) ) );
-            phetProjects.add( new StatisticsProject( new File( trunk, BuildToolsPaths.STATISTICS ) ) );
+            projects.add( new TranslationUtilityProject( new File( trunk, BuildToolsPaths.TRANSLATION_UTILITY ) ) );
+            projects.add( new PhetUpdaterProject( new File( trunk, BuildToolsPaths.PHET_UPDATER ) ) );
+            projects.add( new BuildToolsProject( new File( trunk, BuildToolsPaths.BUILD_TOOLS_DIR ) ) );
+            projects.add( new TimesheetProject( new File( trunk, BuildToolsPaths.TIMESHEET ) ) );
+            projects.add( new StatisticsProject( new File( trunk, BuildToolsPaths.STATISTICS ) ) );
+            projects.add( new WebsiteProject( new File( trunk, BuildToolsPaths.WEBSITE ) ) );
         }
         catch( IOException e ) {
             e.printStackTrace();
         }
-        return (PhetProject[]) phetProjects.toArray( new PhetProject[phetProjects.size()] );
+        return projects;
     }
 
     public static Collection sort( List projectList ) {
@@ -585,6 +604,7 @@ public abstract class PhetProject {
      * Licensing Information
      * ***********
      */
+
     public LicenseInfo[] getAllLicenseInfo() {
         PhetProject[] p = getAllDependencies();
         ArrayList infos = new ArrayList();
@@ -615,6 +635,7 @@ public abstract class PhetProject {
     }
 
     //Returns media info for this project and all dependencies
+
     public DataResource[] getAllMediaInfo() {
         ArrayList mediaInfo = new ArrayList();
         PhetProject[] dependencies = getAllDependencies();
@@ -625,6 +646,7 @@ public abstract class PhetProject {
     }
 
     //Returns media info for this project only (not dependencies)
+
     private DataResource[] getMediaInfo() {
         File data = getDataDirectory();
         if ( data.isDirectory() && data.exists() ) {
@@ -814,6 +836,7 @@ public abstract class PhetProject {
     }
 
     //this one includes the version, and background color for flash
+
     public File getProjectPropertiesFile() {
         return new File( getDataDirectory(), getName() + ".properties" );
     }
@@ -851,7 +874,7 @@ public abstract class PhetProject {
 
     /**
      * This allows overriding of the default simulation deploy path, see PhET Server's usage.
-     *
+     * <p/>
      * The returned path should be relative from the website document root, and should start with a '/'
      *
      * @return an optional server path for deploying the contents of the deploy directory, or null if the simulation default should be used
@@ -859,6 +882,7 @@ public abstract class PhetProject {
     public abstract String getProdServerDeployPath();
 
     /*JNLP for web start, HTML for Flash*/
+
     public abstract String getLaunchFileSuffix();
 
     public File getScreenshot( String sim ) {
@@ -919,12 +943,16 @@ public abstract class PhetProject {
                          "<project name=\"" + getName() + "\">\n" +
                          "<simulations>\n";
             for ( String simulationName : getSimulationNames() ) {
+                System.out.println( "detecting titles for simulation " + simulationName );
                 for ( Locale locale : getLocales() ) {
                     Simulation simulation = getSimulation( simulationName, locale );
                     str += "<simulation name=\"" + simulation.getName() + "\" locale=\"" + LocaleUtils.localeToString( locale ) + "\">\n";
                     String title = simulation.getTitle();
                     if ( title != null ) {
                         str += "<title><![CDATA[" + title + "]]></title>\n";
+                    }
+                    else {
+                        System.out.println( "No title found for simulation " + simulationName + " with locale " + locale );
                     }
                     str += "</simulation>\n";
                 }
@@ -969,5 +997,5 @@ public abstract class PhetProject {
     public String getClasspath() {
         return JavaBuildCommand.toClasspathString( getAllJarFiles() );
     }
-    
+
 }

@@ -84,12 +84,6 @@ public class BuildToolsPaths {
     public static final String STATISTICS = "statistics";
 
     //----------------------------------------------------------------------------
-    // website
-    //----------------------------------------------------------------------------
-
-    public static final String WEBSITE = "web/wicket-website";
-
-    //----------------------------------------------------------------------------
     // util
     //----------------------------------------------------------------------------
 
@@ -101,13 +95,12 @@ public class BuildToolsPaths {
 
 
     //----------------------------------------------------------------------------
-    // tigercat
+    // websites
     //----------------------------------------------------------------------------
 
-    // TODO: refactor these into PhetProductionServer ?
-    // TODO: remove this
-    public static final String TIGERCAT_HTDOCS = "/web/chroot/phet/usr/local/apache/htdocs";
+    public static final String WEBSITE = "web/wicket-website";
 
+    // TODO: refactor these into PhetProductionServer ?
     public static final String BUILD_TOOLS_PROD_SERVER_DEPLOY_PATH = "/files/build-tools";
     public static final String PHET_UPDATER_PROD_SERVER_DEPLOY_PATH = "/files/phet-updater";
     public static final String TRANSLATION_UTILITY_PROD_SERVER_DEPLOY_PATH = "/files/translation-utility";

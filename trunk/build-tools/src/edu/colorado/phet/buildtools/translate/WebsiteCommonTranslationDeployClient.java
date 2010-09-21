@@ -59,7 +59,7 @@ public class WebsiteCommonTranslationDeployClient {
     }
 
     public void deployCommonTranslation( PhetWebsite website ) {
-        translation = new Translation( resourceFile );
+        translation = new Translation( resourceFile, trunk );
         if ( !translation.isValid() ) {
             System.out.println( "Not a valid translation file" );
             return;

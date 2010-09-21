@@ -15,7 +15,7 @@ import edu.colorado.phet.buildtools.PhetProject;
 public class ShowDependencies {
     public static void main( String[] args ) {
         HashMap<String, ArrayList<PhetProject>> invertedMap = new HashMap<String, ArrayList<PhetProject>>();
-        PhetProject[] projects = PhetProject.getAllSimulations( new File( args[0] ) );
+        PhetProject[] projects = PhetProject.getAllSimulationProjects( new File( args[0] ) );
         for ( PhetProject project : projects ) {
             PhetProject[] dependencies = project.getAllDependencies();
             System.out.println( project.getName() );

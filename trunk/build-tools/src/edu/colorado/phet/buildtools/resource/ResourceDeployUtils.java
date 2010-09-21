@@ -7,6 +7,8 @@ import edu.colorado.phet.buildtools.BuildToolsPaths;
 
 /**
  * Utility functions for the resource deploy process
+ *
+ * NOTE: be wary of the following code. sim and project was used interchangeably!
  */
 public class ResourceDeployUtils {
 

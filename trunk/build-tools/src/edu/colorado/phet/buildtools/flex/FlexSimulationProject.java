@@ -5,18 +5,20 @@ import java.io.FileFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Locale;
 
 import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.buildtools.BuildToolsPaths;
 import edu.colorado.phet.buildtools.PhetProject;
-import edu.colorado.phet.buildtools.Simulation;
 import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
 import edu.colorado.phet.common.phetcommon.util.StreamReaderThread;
 
 public class FlexSimulationProject extends FlashSimulationProject {
     public FlexSimulationProject( File projectRoot ) throws IOException {
         super( projectRoot );
+
+        if ( !projectRoot.getParentFile().getParentFile().getName().equals( "simulations-flex" ) ) {
+            throw new RuntimeException( "Project Root of FlexSimulationProject not under simulations-flex: " + projectRoot );
+        }
     }
 
     protected boolean buildSWF( String simulationName ) throws Exception {
@@ -30,10 +32,10 @@ public class FlexSimulationProject extends FlashSimulationProject {
                 "-use-network",
                 "-output", "deploy/" + simulationName + ".swf",
                 "-compiler.source-path", "src",
-                parentDir+"/simulations-flex/contrib/away3d/fp9", 
-                parentDir+"/simulations-flex/common/src", 
-                parentDir+"/simulations-flash/contrib/box2d/src", 
-                parentDir+"/simulations-flash/common-as3/src",
+                parentDir + "/simulations-flex/contrib/away3d/fp9",
+                parentDir + "/simulations-flex/common/src",
+                parentDir + "/simulations-flash/contrib/box2d/src",
+                parentDir + "/simulations-flash/common-as3/src",
                 "-compiler.accessible", "-compiler.optimize", "-target-player", "9", getMXML( simulationName )}, null, getProjectDir() );
         new StreamReaderThread( p.getErrorStream(), "err>" ).start();
         new StreamReaderThread( p.getInputStream(), "" ).start();
@@ -58,9 +60,9 @@ public class FlexSimulationProject extends FlashSimulationProject {
         }
     }
 
-    public static PhetProject[] getFlexSimulations( File trunk ) {
-        File flashSimDir = new File( trunk, BuildToolsPaths.FLEX_SIMULATIONS_DIR );
-        File[] files = flashSimDir.listFiles( new FileFilter() {
+    public static PhetProject[] getFlexProjects( File trunk ) {
+        File flexSimDir = new File( trunk, BuildToolsPaths.FLEX_SIMULATIONS_DIR );
+        File[] files = flexSimDir.listFiles( new FileFilter() {
             public boolean accept( File pathname ) {
                 return pathname.isDirectory() && !pathname.getName().startsWith( "." );
             }
@@ -77,5 +79,10 @@ public class FlexSimulationProject extends FlashSimulationProject {
         }
         projects = PhetProject.sort( new ArrayList( projects ) );
         return (FlexSimulationProject[]) projects.toArray( new FlexSimulationProject[projects.size()] );
+    }
+
+    @Override
+    protected String getDefaultSimulationName() {
+        throw new RuntimeException( "Flex sims shouldn't have to have default simulation names" );
     }
 }

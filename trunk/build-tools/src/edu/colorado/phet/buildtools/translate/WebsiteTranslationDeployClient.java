@@ -1,8 +1,5 @@
 package edu.colorado.phet.buildtools.translate;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
@@ -14,21 +11,27 @@ import javax.swing.*;
 
 import edu.colorado.phet.buildtools.*;
 import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
-import edu.colorado.phet.buildtools.java.projects.BuildToolsProject;
 import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.buildtools.util.ScpTo;
 import edu.colorado.phet.buildtools.util.SshUtils;
 import edu.colorado.phet.common.phetcommon.application.VersionInfoQuery;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
-import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
-import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 import com.jcraft.jsch.JSchException;
 
 /*
  * This has been re-written to work with the Wicket website and has been transferred over on 6.21.10.
  * TODO: Review and redo documentation here.
+ *
+ * For Flash, as of Sep. 21st 2010, we build the following components client-side for translation deployment:
+ * - Meta XML (this contains the simulation names and titles)
+ * - HTML for each translation (for each simulation)
+ * The translation files are also directly uploaded.   
+ *
+ *
+ * ------------------------ OLDER DOCUMENTATION -----------------------------
+ *
  * This is the 3-27-2009 rewrite of translation deploying.
  * Here's the basic technique:
  * 1. Client identifies new localization files to integrate, by putting them in a directory and telling the program which directory.
@@ -89,37 +92,36 @@ public class WebsiteTranslationDeployClient {
 
     public void startClient() throws IOException {
         giveInstructions();
-        String dirname = JOptionPane.showInputDialog( "Enter the name of the directory where your localization files are:" );
+        String dirName = JOptionPane.showInputDialog( "Enter the name of the directory where your localization files are:" );
         // import the translations into the IDE workspace
-        File dir = new File( dirname );
-        if ( !dir.exists() ) {
+        File localTranslationDir = new File( dirName );
+        if ( !localTranslationDir.exists() ) {
             // added a less-ambiguous error message if the user selects a directory that does not exist
             System.err.println( "Directory was not found!" );
             return;
         }
-        new ImportTranslations( trunk ).importTranslations( dir );
+        new ImportTranslations( trunk ).importTranslations( localTranslationDir );
         instructUserToCommit();
 
-        buildMetaXML( dir );
+        buildMetaXML( localTranslationDir );
 
-        File srcDir = new File( dirname );
         String deployDirName = new SimpleDateFormat( "M-d-yyyy_h-ma" ).format( new Date() );
         System.out.println( "Deploying to: " + deployDirName );
-        String translationDir = server.getTranslationStagingPath() + "/" + deployDirName;
-        System.out.println( "Will upload to " + translationDir );
+        String remoteTranslationDirName = server.getTranslationStagingPath() + "/" + deployDirName;
+        System.out.println( "Will upload to " + remoteTranslationDirName );
 
-        boolean dirSuccess = mkdir( translationDir );
+        boolean dirSuccess = mkdir( remoteTranslationDirName );
         if ( !dirSuccess ) {
             System.out.println( "Error was encountered while trying to create dirs on the server. Stopping process, please see console output" );
             return;
         }
-        transfer( srcDir, translationDir );
+        transfer( localTranslationDir, remoteTranslationDirName );
 
-        transferFlashHTMLs( trunk, srcDir, translationDir );
+        transferFlashHTMLs( trunk, localTranslationDir, remoteTranslationDirName );
 
-        SshUtils.executeCommand( "chmod o+rw " + translationDir, server.getServerHost(), authenticationInfo );
+        SshUtils.executeCommand( "chmod o+rw " + remoteTranslationDirName, server.getServerHost(), authenticationInfo );
 
-        String url = server.getDeployTranslationUrl( translationDir );
+        String url = server.getDeployTranslationUrl( remoteTranslationDirName );
 
         PhetWebsite.openBrowser( url );
 
@@ -130,7 +132,7 @@ public class WebsiteTranslationDeployClient {
 
     private void buildMetaXML( File dir ) {
         for ( File file : dir.listFiles() ) {
-            Translation translation = new Translation( file );
+            Translation translation = new Translation( file, trunk );
             if ( !translation.isValid() ) {
                 System.out.println( "Skipping " + file.getAbsolutePath() + ", does not represent a valid translation" );
                 continue;
@@ -146,89 +148,90 @@ public class WebsiteTranslationDeployClient {
         }
     }
 
-    private void buildAndSendFlashTranslation( final String simName, final String remotePathDir, final Locale locale, final FlashSimulationProject project, final AuthenticationInfo authenticationInfo ) {
-        System.out.println( "Getting tigercat info for " + simName + " (" + LocaleUtils.localeToString( locale ) + ")" );
+    private void buildAndSendFlashTranslation( final String projectName, final String remotePathDir, final Locale locale,
+                                               final FlashSimulationProject project, final AuthenticationInfo authenticationInfo ) {
+        System.out.println( "Getting production server info for " + projectName + " (" + LocaleUtils.localeToString( locale ) + ")" );
 
         // fake info for phet-info
         PhetVersion oldVersion = new PhetVersion( "1", "00", "00", "20000", "10" );
 
-        final VersionInfoQuery query = new VersionInfoQuery( simName, simName, oldVersion, false );
+        for ( final String simulationName : project.getSimulationNames() ) {
+            final VersionInfoQuery query = new VersionInfoQuery( projectName, simulationName, oldVersion, false );
 
-        query.addListener( new VersionInfoQuery.VersionInfoQueryListener() {
+            query.addListener( new VersionInfoQuery.VersionInfoQueryListener() {
+                public void done( final VersionInfoQuery.Response result ) {
+                    PhetVersion version = result.getSimResponse().getVersion();
+                    try {
+                        System.out.println( "Obtained version information, generating HTML" );
 
-            public void done( final VersionInfoQuery.Response result ) {
-                PhetVersion version = result.getSimResponse().getVersion();
-                try {
-                    System.out.println( "Obtained version information, generating HTML" );
+                        // build the HTML into the correct deploy directory
+                        project.buildHTML( simulationName, locale, version );
 
-                    // build the HTML into the correct deploy directory
-                    project.buildHTML( simName, locale, version );
+                        String htmlFilename = simulationName + "_" + LocaleUtils.localeToString( locale ) + ".html";
 
-                    String HTMLName = project.getName() + "_" + LocaleUtils.localeToString( locale ) + ".html";
-
-                    // transfer the HTML file
-                    File LocalHTMLFile = new File( project.getDeployDir(), HTMLName );
-                    ScpTo.uploadFile( LocalHTMLFile, authenticationInfo.getUsername(), server.getServerHost(), remotePathDir + "/" + HTMLName, authenticationInfo.getPassword() );
-
-                    // transfer the sim XML (in case transfer() only copied over common-strings_XX_YY.xml)
-                    File LocalSimXMLFile = project.getLocalizationFile( locale );
-                    ScpTo.uploadFile( LocalSimXMLFile, authenticationInfo.getUsername(), server.getServerHost(), remotePathDir + "/" + LocalSimXMLFile.getName(), authenticationInfo.getPassword() );
+                        // transfer the HTML file
+                        File localHTMLFile = new File( project.getDeployDir(), htmlFilename );
+                        ScpTo.uploadFile( localHTMLFile, authenticationInfo.getUsername(), server.getServerHost(), remotePathDir + "/" + htmlFilename, authenticationInfo.getPassword() );
+                    }
+                    catch( IOException e ) {
+                        e.printStackTrace();
+                    }
+                    catch( JSchException e ) {
+                        e.printStackTrace();
+                    }
                 }
-                catch( IOException e ) {
+
+                public void exception( Exception e ) {
                     e.printStackTrace();
                 }
-                catch( JSchException e ) {
-                    e.printStackTrace();
-                }
-            }
+            } );
+            query.send(); // TODO: we only print out an exception here if the version info query fails. should we do more?
+        }
 
-            public void exception( Exception e ) {
-                e.printStackTrace();
-            }
-        } );
-        query.send();
+        // transfer the translation XML (in case transfer() only copied over common-strings_XX_YY.xml)
+        File localSimXMLFile = project.getLocalizationFile( locale );
+        try {
+            ScpTo.uploadFile( localSimXMLFile, authenticationInfo.getUsername(), server.getServerHost(), remotePathDir + "/" + localSimXMLFile.getName(), authenticationInfo.getPassword() );
+        }
+        catch( JSchException e ) {
+            e.printStackTrace();
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
     }
 
-    private void transferFlashHTMLs( File trunk, File srcDir, final String remotePathDir ) throws IOException {
-
-        File[] files = srcDir.listFiles();
-
-        for ( int i = 0; i < files.length; i++ ) {
-
-            final Translation translation = new Translation( files[i] );
+    private void transferFlashHTMLs( File trunk, File localTranslationDir, final String remoteTranslationDirName ) throws IOException {
+        for ( File file : localTranslationDir.listFiles() ) {
+            final Translation translation = new Translation( file, trunk );
 
             if ( !translation.isValid() ) {
-                System.out.println( "Invalid translation for " + files[i].getName() );
+                System.out.println( "Invalid translation for " + file.getName() );
                 continue;
             }
 
             if ( !translation.isFlashTranslation() ) {
-                //System.out.println( "WARNING: Not a Flash translation: " + files[i].getName() );
                 continue;
             }
 
             if ( translation.isSimulationTranslation() ) {
-                buildAndSendFlashTranslation( translation.getSimName(), remotePathDir, translation.getLocale(), (FlashSimulationProject) translation.getProject( trunk ), authenticationInfo );
+                buildAndSendFlashTranslation( translation.getProjectName(), remoteTranslationDirName, translation.getLocale(), (FlashSimulationProject) translation.getProject( trunk ), authenticationInfo );
             }
             else if ( translation.isCommonTranslation() ) {
                 // common strings instead, so we need to find all simulations with sim-strings for the same locale
 
-                File simsDir = new File( trunk, BuildToolsPaths.SIMULATIONS_FLASH );
-
-                File[] sims = simsDir.listFiles( new FileFilter() {
+                File[] projectDirectories = new File( trunk, BuildToolsPaths.SIMULATIONS_FLASH ).listFiles( new FileFilter() {
                     public boolean accept( File pathname ) {
                         return pathname.isDirectory() && !pathname.getName().startsWith( "." );
                     }
                 } );
 
-                for ( int j = 0; j < sims.length; j++ ) {
-                    File projectDir = sims[j];
-
+                for ( File projectDir : projectDirectories ) {
                     FlashSimulationProject project = new FlashSimulationProject( projectDir );
 
                     // for each sim with sim-strings of the same locale, we build and send the HTML like the user specified all of them individually
                     if ( project.hasLocale( translation.getLocale() ) ) {
-                        buildAndSendFlashTranslation( project.getName(), remotePathDir, translation.getLocale(), project, authenticationInfo );
+                        buildAndSendFlashTranslation( project.getName(), remoteTranslationDirName, translation.getLocale(), project, authenticationInfo );
                         // have server copy over sim XML?
                     }
                 }
@@ -264,15 +267,15 @@ public class WebsiteTranslationDeployClient {
         //for some reason, the securechannelfacade fails with a "server didn't expect this file" error
         //the failure is on tigercat, but scf works properly on spot
         //but our code works on both; therefore there is probably a problem with the handshaking in securechannelfacade
-        File[] f = srcDir.listFiles(); //TODO: should handle recursive for future use (if we ever want to support nested directories)
-        for ( int i = 0; i < f.length; i++ ) {
-            if ( f[i].getName().startsWith( "." ) ) {
+        File[] files = srcDir.listFiles(); //TODO: should handle recursive for future use (if we ever want to support nested directories)
+        for ( File file : files ) {
+            if ( file.getName().startsWith( "." ) ) {
                 //ignore
             }
             else {
                 //server.getHost(), authenticationInfo.getUsername(), authenticationInfo.getPassword()
                 try {
-                    ScpTo.uploadFile( f[i], authenticationInfo.getUsername(), server.getServerHost(), remotePathDir + "/" + f[i].getName(), authenticationInfo.getPassword() );
+                    ScpTo.uploadFile( file, authenticationInfo.getUsername(), server.getServerHost(), remotePathDir + "/" + file.getName(), authenticationInfo.getPassword() );
                 }
                 catch( JSchException e ) {
                     e.printStackTrace();

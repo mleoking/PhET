@@ -6,12 +6,12 @@ import java.util.Collection;
 import java.util.Locale;
 import java.util.Properties;
 
-import edu.colorado.phet.flashlauncher.util.SimulationProperties;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.Jar;
 import org.apache.tools.ant.taskdefs.Manifest;
 
 import edu.colorado.phet.buildtools.*;
+import edu.colorado.phet.buildtools.flex.FlexSimulationProject;
 import edu.colorado.phet.buildtools.java.JavaProject;
 import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.buildtools.util.PhetJarSigner;
@@ -20,18 +20,18 @@ import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.flashlauncher.FlashHTML;
 import edu.colorado.phet.flashlauncher.FlashLauncher;
+import edu.colorado.phet.flashlauncher.util.SimulationProperties;
 
 /**
  * Represents a Flash simulation project. Each project contains one simulation of the same name.
  */
-public class FlashSimulationProject extends PhetProject implements SimulationPhetProject{
+public class FlashSimulationProject extends PhetProject implements SimulationPhetProject {
 
     public FlashSimulationProject( File projectRoot ) throws IOException {
         super( projectRoot );
-    }
-
-    public FlashSimulationProject( File parentDir, String name ) throws IOException {
-        super( parentDir, name );
+        if ( projectRoot.getParentFile().getParentFile().getName().equals( "simulations-flex" ) && !( this instanceof FlexSimulationProject ) ) {
+            throw new RuntimeException( "trying to turn a flex simulation into just a flash simulation project: " + projectRoot );
+        }
     }
 
     public void updateProjectFiles() {
@@ -43,7 +43,7 @@ public class FlashSimulationProject extends PhetProject implements SimulationPhe
         FlashCommonProject.generateFlashSoftwareAgreement( getTrunk() );
     }
 
-    public static PhetProject[] getFlashSimulations( File trunk ) {
+    public static PhetProject[] getFlashProjects( File trunk ) {
         File flashSimDir = new File( trunk, BuildToolsPaths.FLASH_SIMULATIONS_DIR );
         File[] files = flashSimDir.listFiles( new FileFilter() {
             public boolean accept( File pathname ) {
@@ -255,7 +255,9 @@ public class FlashSimulationProject extends PhetProject implements SimulationPhe
 
             //create simulation properties file
             SimulationProperties simulationProperities = new SimulationProperties( getName(), simulationName, locale, getType() );
-            simulationProperities.store( new FileOutputStream( new File( getOfflineJARContentsDir(), SimulationProperties.FILENAME ) ), getComments() );
+            FileOutputStream simOutputStream = new FileOutputStream( new File( getOfflineJARContentsDir(), SimulationProperties.FILENAME ) );
+            simulationProperities.store( simOutputStream, getComments() );
+            simOutputStream.close();
 
             //copy project properties file
             FileUtils.copyToDir( new File( getDataDirectory(), getName() + ".properties" ), getOfflineJARContentsDir() );
@@ -540,8 +542,8 @@ public class FlashSimulationProject extends PhetProject implements SimulationPhe
     public boolean hasLocale( Locale locale ) {
         Locale[] locales = getLocales();
 
-        for ( int i = 0; i < locales.length; i++ ) {
-            if ( LocaleUtils.localeToString( locales[i] ).equals( LocaleUtils.localeToString( locale ) ) ) {
+        for ( Locale otherLocales : locales ) {
+            if ( LocaleUtils.localeToString( otherLocales ).equals( LocaleUtils.localeToString( locale ) ) ) {
                 return true;
             }
         }

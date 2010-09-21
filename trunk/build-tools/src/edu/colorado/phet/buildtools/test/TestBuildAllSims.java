@@ -12,11 +12,11 @@ public class TestBuildAllSims {
         File trunk = new File( args[0] );
         BuildLocalProperties.initRelativeToTrunk( trunk );
         try {
-            for ( PhetProject project : JavaSimulationProject.getJavaSimulations( trunk ) ) {
+            for ( PhetProject project : JavaSimulationProject.getJavaProjects( trunk ) ) {
                 project.build();
             }
 
-            for ( PhetProject project : FlashSimulationProject.getFlashSimulations( trunk ) ) {
+            for ( PhetProject project : FlashSimulationProject.getFlashProjects( trunk ) ) {
                 project.build();
             }
         }
