@@ -25,6 +25,7 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.ImageButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.ToolTipNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -150,10 +151,14 @@ public abstract class BarMeterNode extends PhetPNode {
         closeButton = new PImage( CLImages.CLOSE_BUTTON );
         addChild( closeButton );
         
-        // zoom button
+        // scale button
         scaleButton = new ScaleButtonNode();
-        scaleButton.scale( 0.2 ); //XXX scale image files
         addChild( scaleButton );
+        
+        // tooltip for the scale button
+        ToolTipNode toolTipNode = new ToolTipNode( CLStrings.TOOLTIP_SCALE_BUTTON, scaleButton );
+        toolTipNode.setFont( new PhetFont( 14 ) );
+        addChild( toolTipNode );
         
         // interactivity
         addInputEventListener( new CursorHandler() );

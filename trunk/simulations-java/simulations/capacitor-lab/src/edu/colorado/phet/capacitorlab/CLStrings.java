@@ -63,6 +63,8 @@ public class CLStrings {
     public static final String TITLE_VIEW = getString( "title.view" );
     public static final String TITLE_METERS = getString( "title.meters" );
     
+    public static final String TOOLTIP_SCALE_BUTTON = getString( "tooltip.scaleButton" );
+    
     public static final String UNITS_VOLTS = getString( "units.volts" );
     public static final String UNITS_MILLIMETERS = getString( "units.millimeters" );
     public static final String UNITS_MILLIMETERS_SQUARED = getString( "units.millimetersSquared" );
