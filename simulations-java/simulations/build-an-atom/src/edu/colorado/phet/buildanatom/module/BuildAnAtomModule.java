@@ -28,6 +28,7 @@ public class BuildAnAtomModule extends PiccoloModule {
 
     public BuildAnAtomModule( Frame parentFrame ) {
         super( BuildAnAtomStrings.TITLE_BUILD_ATOM_MODULE, new BuildAnAtomClock( BuildAnAtomDefaults.CLOCK_FRAME_RATE, BuildAnAtomDefaults.CLOCK_DT ) );
+        setClockControlPanel( null );
 
         // Model
         BuildAnAtomClock clock = (BuildAnAtomClock) getClock();
