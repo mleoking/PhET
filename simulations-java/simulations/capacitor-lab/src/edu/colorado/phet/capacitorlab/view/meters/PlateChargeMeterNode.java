@@ -29,7 +29,7 @@ public class PlateChargeMeterNode extends BarMeterNode {
     private final BatteryCapacitorCircuit circuit;
     
     public PlateChargeMeterNode( BatteryCapacitorCircuit circuit, PNode dragBoundsNode ) {
-        super( dragBoundsNode, POSITIVE_BAR_COLOR, TITLE, VALUE_MANTISSA_PATTERN, VALUE_EXPONENT, UNITS ); 
+        super( dragBoundsNode, POSITIVE_BAR_COLOR, TITLE, VALUE_MANTISSA_PATTERN, VALUE_EXPONENT, UNITS, 0 ); 
         
         this.circuit = circuit;
         circuit.addBatteryCapacitorCircuitChangeListener( new  BatteryCapacitorCircuitChangeAdapter() {
