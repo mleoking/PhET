@@ -18,6 +18,10 @@ import edu.colorado.phet.capacitorlab.module.CLCanvas;
 import edu.colorado.phet.capacitorlab.view.*;
 import edu.colorado.phet.capacitorlab.view.WireNode.BottomWireNode;
 import edu.colorado.phet.capacitorlab.view.WireNode.TopWireNode;
+import edu.colorado.phet.capacitorlab.view.meters.CapacitanceMeterNode;
+import edu.colorado.phet.capacitorlab.view.meters.PlateChargeMeterNode;
+import edu.colorado.phet.capacitorlab.view.meters.StoredEnergyMeterNode;
+import edu.colorado.phet.capacitorlab.view.meters.VoltmeterNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
