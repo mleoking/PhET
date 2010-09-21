@@ -24,8 +24,8 @@ public class CLImages {
     public static final BufferedImage VOLTMETER = getBufferedImage( "voltmeter.png" );
     public static final BufferedImage RED_PROBE = getBufferedImage( "redProbe.png" );
     public static final BufferedImage BLACK_PROBE = getBufferedImage( "blackProbe.png" );
-    public static final BufferedImage ZOOM_BUTTON_ARMED = getBufferedImage( "zoom-button-armed.png" );
-    public static final BufferedImage ZOOM_BUTTON_UNARMED = getBufferedImage( "zoom-button-unarmed.png" );
+    public static final BufferedImage SCALE_BUTTON_ARMED = getBufferedImage( "scale-button-armed.png" );
+    public static final BufferedImage SCALE_BUTTON_UNARMED = getBufferedImage( "scale-button-unarmed.png" );
     
     // common images
     public static final BufferedImage CLOSE_BUTTON = getCommonBufferedImage( PhetCommonResources.IMAGE_CLOSE_BUTTON );

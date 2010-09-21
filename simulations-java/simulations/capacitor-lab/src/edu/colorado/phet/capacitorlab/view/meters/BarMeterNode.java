@@ -6,6 +6,8 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Stroke;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -71,12 +73,18 @@ public abstract class BarMeterNode extends PhetPNode {
     private static final double OVERLOAD_INDICATOR_WIDTH = 0.75 * TRACK_SIZE.getWidth();
     private static final double OVERLOAD_INDICATOR_HEIGHT = 15;
     
+    private final TrackNode trackNode;
     private final BarNode barNode;
     private final TitleNode titleNode;
     private final ValueNode valueNode;
     private final PowerOfTenRangeLabelNode maxLabelNode;
+    private final RangeLabelNode minLabelNode;
     private final OverloadIndicatorNode overloadIndicatorNode;
-    private final ZoomButtonNode zoomButton;
+    private final ScaleButtonNode scaleButton;
+    private final PImage closeButton;
+    
+    private double value;
+    private int valueExponent;
     
     /**
      * Constructor.
@@ -85,17 +93,24 @@ public abstract class BarMeterNode extends PhetPNode {
      * @param title title displayed below the meter
      * @param barColor color used to fill the bar
      * @param valueMantissaPattern pattern used to format the mantissa of the value displayed below the meter
-     * @param valueExponent exponent used in the power-of-ten display below the meter
+     * @param valueExponent exponent of the value shown below the bar
      * @param units units
      */
     public BarMeterNode( PNode dragBoundsNode, Color barColor, String title, String valueMantissaPattern, int valueExponent, String units, double value ) {
         
+        if ( value < 0 ) {
+            throw new IllegalArgumentException( "value must be >= 0 : " + value );
+        }
+        
+        this.value = value;
+        this.valueExponent = valueExponent;
+        
         // track
-        TrackNode trackNode = new TrackNode();
+        trackNode = new TrackNode();
         addChild( trackNode );
         
         // bar
-        double maxValue = Math.pow( 10, valueExponent );
+        double maxValue = Math.pow( 10, valueExponent + 1 );
         barNode = new BarNode( barColor, maxValue, value );
         addChild( barNode );
         
@@ -108,11 +123,11 @@ public abstract class BarMeterNode extends PhetPNode {
         }
         
         // min range label
-        RangeLabelNode minLabelNode = new RangeLabelNode( "0" );
+        minLabelNode = new RangeLabelNode( "0" );
         addChild( minLabelNode );
         
         // max range label
-        maxLabelNode = new PowerOfTenRangeLabelNode( valueExponent );
+        maxLabelNode = new PowerOfTenRangeLabelNode( valueExponent + 1 );
         addChild( maxLabelNode );
         
         // title
@@ -128,60 +143,81 @@ public abstract class BarMeterNode extends PhetPNode {
         addChild( valueNode );
         
         // close button
-        PImage closeButton = new PImage( CLImages.CLOSE_BUTTON );
+        closeButton = new PImage( CLImages.CLOSE_BUTTON );
+        addChild( closeButton );
+        
+        // zoom button
+        scaleButton = new ScaleButtonNode();
+        scaleButton.scale( 0.2 ); //XXX scale image files
+        addChild( scaleButton );
+        
+        // interactivity
+        addInputEventListener( new CursorHandler() );
+        addInputEventListener( new BoundedDragHandler( this, dragBoundsNode ) );
         closeButton.addInputEventListener( new PBasicInputEventHandler() {
             @Override
             public void mouseReleased( PInputEvent event ) {
                 BarMeterNode.this.setVisible( false );
             }
         });
-        addChild( closeButton );
-        
-        // zoom button
-        zoomButton = new ZoomButtonNode();
-        zoomButton.scale( 0.2 ); //XXX scale image files
-        addChild( zoomButton );
+        scaleButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                updateValueExponent();
+            }
+        });
         
         // layout
-        {
-            double x = 0;
-            double y = 0;
-            trackNode.setOffset( x, y );
-            // bar inside track
-            barNode.setOffset( trackNode.getOffset() );
-            // min label at lower left of track
-            x = -( minLabelNode.getFullBoundsReference().width + 2 );
-            y = trackNode.getFullBoundsReference().getMaxY() - ( minLabelNode.getFullBoundsReference().getHeight() / 2 );
-            minLabelNode.setOffset( x, y );
-            // max label at upper left of track
-            x = -( maxLabelNode.getFullBoundsReference().width + 2 );
-            y = trackNode.getFullBoundsReference().getMinX() - ( maxLabelNode.getFullBoundsReference().getHeight() / 2 );
-            maxLabelNode.setOffset( x, y );
-            // overload indicator centered above track
-            x = trackNode.getFullBoundsReference().getCenterX();
-            y = trackNode.getFullBoundsReference().getMinY() - overloadIndicatorNode.getFullBoundsReference().getHeight() - 1;
-            overloadIndicatorNode.setOffset( x, y );
-            // title centered below track
-            x = trackNode.getFullBoundsReference().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 );
-            y = minLabelNode.getFullBoundsReference().getMaxY() + 2;
-            titleNode.setOffset( x, y );
-            // value centered below title
-            x = titleNode.getFullBoundsReference().getCenterX() - ( valueNode.getFullBoundsReference().getWidth() / 2 );
-            y = titleNode.getFullBoundsReference().getMaxY() + 2;
-            valueNode.setOffset( x, y );
-            // close button at upper right of track
-            x = trackNode.getFullBoundsReference().getMaxX() + 2;
-            y = trackNode.getFullBoundsReference().getMinY();
-            closeButton.setOffset( x, y );
-            // zoom button below max label
-            x = barNode.getFullBoundsReference().getMinX() - zoomButton.getFullBoundsReference().getWidth() - 8;
-            y = maxLabelNode.getFullBoundsReference().getMaxY() + 5;
-            zoomButton.setOffset( x, y );
+        updateLayout();
+    }
+    
+    private void updateLayout() {
+        double x = 0;
+        double y = 0;
+        trackNode.setOffset( x, y );
+        // bar inside track
+        barNode.setOffset( trackNode.getOffset() );
+        // min label at lower left of track
+        x = -( minLabelNode.getFullBoundsReference().width + 2 );
+        y = trackNode.getFullBoundsReference().getMaxY() - ( minLabelNode.getFullBoundsReference().getHeight() / 2 );
+        minLabelNode.setOffset( x, y );
+        // max label at upper left of track
+        x = -( maxLabelNode.getFullBoundsReference().width + 2 );
+        y = trackNode.getFullBoundsReference().getMinX() - ( maxLabelNode.getFullBoundsReference().getHeight() / 2 );
+        maxLabelNode.setOffset( x, y );
+        // overload indicator centered above track
+        x = trackNode.getFullBoundsReference().getCenterX();
+        y = trackNode.getFullBoundsReference().getMinY() - overloadIndicatorNode.getFullBoundsReference().getHeight() - 1;
+        overloadIndicatorNode.setOffset( x, y );
+        // title centered below track
+        x = trackNode.getFullBoundsReference().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 );
+        y = minLabelNode.getFullBoundsReference().getMaxY() + 2;
+        titleNode.setOffset( x, y );
+        // value centered below title
+        x = titleNode.getFullBoundsReference().getCenterX() - ( valueNode.getFullBoundsReference().getWidth() / 2 );
+        y = titleNode.getFullBoundsReference().getMaxY() + 2;
+        valueNode.setOffset( x, y );
+        // close button at upper right of track
+        x = trackNode.getFullBoundsReference().getMaxX() + 2;
+        y = trackNode.getFullBoundsReference().getMinY();
+        closeButton.setOffset( x, y );
+        // zoom button below max label
+        x = barNode.getFullBoundsReference().getMinX() - scaleButton.getFullBoundsReference().getWidth() - 8;
+        y = maxLabelNode.getFullBoundsReference().getMaxY() + 5;
+        scaleButton.setOffset( x, y );
+    }
+    
+    private void updateValueExponent() {
+        if ( value != 0 ) {
+            int exponent = 0;
+            double mantissa = value / Math.pow( 10, exponent );
+            System.out.println( "value=" + value + " exponent=" + exponent + " mantissa=" + mantissa );
+            while ( mantissa < 1 ) {
+                exponent--;
+                mantissa = value / Math.pow( 10, exponent );
+                System.out.println( "value=" + value + " exponent=" + exponent + " mantissa=" + mantissa );
+            }
+            setValueExponent( exponent );
         }
-        
-        // interactivity
-        addInputEventListener( new CursorHandler() );
-        addInputEventListener( new BoundedDragHandler( this, dragBoundsNode ) );
     }
     
     /**
@@ -190,22 +226,40 @@ public abstract class BarMeterNode extends PhetPNode {
      * @param value
      */
     protected void setValue( double value ) {
-        
         if ( value < 0 ) {
             throw new IllegalArgumentException( "value must be >= 0 : " + value );
         }
-        
-        // bar height
-        barNode.setValue( value );
-        
-        // overload indicator
-        overloadIndicatorNode.setValue( value );
-
-        // value, centered below title
-        valueNode.setValue( value );
-        double x = titleNode.getFullBoundsReference().getCenterX() - ( valueNode.getFullBoundsReference().getWidth() / 2 );
-        double y = titleNode.getFullBoundsReference().getMaxY() + 2;
-        valueNode.setOffset( x, y );
+        if ( value != this.value ) {
+            
+            this.value = value;
+            
+            // update components
+            barNode.setValue( value );
+            overloadIndicatorNode.setValue( value );
+            valueNode.setValue( value );
+            
+            updateLayout();
+        }
+    }
+    
+    /*
+     * Sets the exponent of the value displayed under the bar.
+     * The max range value becomes 1x10^(valueExponent + 1).
+     */
+    private void setValueExponent( int valueExponent ) {
+        if ( valueExponent != this.valueExponent ) {
+            
+            this.valueExponent = valueExponent;
+            
+            // update components
+            double maxValue = Math.pow( 10, valueExponent + 1 );
+            barNode.setMaxValue( maxValue );
+            overloadIndicatorNode.setMaxValue( maxValue );
+            maxLabelNode.setExponent( valueExponent + 1 );
+            valueNode.setExponent( valueExponent );
+            
+            updateLayout();
+        }
     }
     
     /**
@@ -268,7 +322,7 @@ public abstract class BarMeterNode extends PhetPNode {
         }
         
         private void update() {
-            double percent = Math.min(  1, Math.abs( value ) / maxValue );
+            double percent = Math.min( 1, Math.abs( value ) / maxValue );
             double y = ( 1 - percent ) * TRACK_SIZE.height;
             double height = TRACK_SIZE.height - y;
             rectangle.setRect( 0, y, TRACK_SIZE.width, height );
@@ -389,8 +443,9 @@ public abstract class BarMeterNode extends PhetPNode {
         private static final String PATTERN_VALUE = "<html>{0}x10<sup>{1}</sup></html>";
         
         private final NumberFormat mantissaFormat;
-        private final int exponent;
+        private int exponent;
         private final String units;
+        private double value;
         
         public ValueNode( NumberFormat mantissaFormat, int exponent, String units, double value ) {
             setFont( VALUE_FONT );
@@ -398,13 +453,28 @@ public abstract class BarMeterNode extends PhetPNode {
             this.mantissaFormat = mantissaFormat;
             this.exponent = exponent;
             this.units = units;
-            setValue( value );
+            this.value = value;
+            update();
         }
         
         public void setValue( double value ) {
+            if ( value != this.value ) {
+                this.value = value;
+                update();
+            }
+        }
+        
+        public void setExponent( int maxExponent ) {
+            if ( maxExponent != this.exponent ) {
+                this.exponent = maxExponent;
+                update();
+            }
+        }
+        
+        private void update() {
             String mantissaString = "0";
             if ( value != 0 ) {
-                double mantissa = value / ( Math.pow( 10, exponent ) / 10 );
+                double mantissa = value / Math.pow( 10, exponent );
                 mantissaString = MessageFormat.format( PATTERN_VALUE, mantissaFormat.format( mantissa ), exponent );
             }
             setHTML( MessageFormat.format( CLStrings.PATTERN_VALUE_UNITS, mantissaString, units ) );
@@ -412,13 +482,13 @@ public abstract class BarMeterNode extends PhetPNode {
     }
     
     /*
-     * Zoom button.
+     * Scale button.
      * Origin at upper-left corner of bounding box.
      */
-    private static class ZoomButtonNode extends ImageButtonNode {
+    private static class ScaleButtonNode extends ImageButtonNode {
         
-        public ZoomButtonNode() {
-            super(  CLImages.ZOOM_BUTTON_UNARMED, CLImages.ZOOM_BUTTON_ARMED );
+        public ScaleButtonNode() {
+            super(  CLImages.SCALE_BUTTON_UNARMED, CLImages.SCALE_BUTTON_ARMED );
         }
     }
 }

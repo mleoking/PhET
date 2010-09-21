@@ -23,7 +23,7 @@ public class PlateChargeMeterNode extends BarMeterNode {
     private static final Color NEGATIVE_BAR_COLOR = CLPaints.NEGATIVE_CHARGE;
     private static final String TITLE = CLStrings.METER_PLATE_CHARGE;
     private static final String VALUE_MANTISSA_PATTERN = "0.000";
-    private static final int VALUE_EXPONENT = CLConstants.PLATE_CHARGE_METER_MAX_EXPONENT;
+    private static final int VALUE_EXPONENT = CLConstants.PLATE_CHARGE_METER_VALUE_EXPONENT;
     private static final String UNITS = CLStrings.UNITS_COULOMBS;
     
     private final BatteryCapacitorCircuit circuit;
