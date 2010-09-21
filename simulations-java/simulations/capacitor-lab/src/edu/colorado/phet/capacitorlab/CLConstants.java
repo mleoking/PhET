@@ -83,6 +83,12 @@ public class CLConstants {
     public static final int PLATE_CHARGE_METER_MAX_EXPONENT = -10;
     public static final int STORED_ENERGY_METER_MAX_EXPONENT = -9;
     
+    // visibility of meters
+    public static final boolean CAPACITANCE_METER_VISIBLE = true;
+    public static final boolean CHARGE_METER_VISIBLE = false;
+    public static final boolean ENERGY_METER_VISIBLE = false;
+    public static final boolean VOLTMETER_VISIBLE = false;
+    
     //----------------------------------------------------------------------------
     // Control
     //----------------------------------------------------------------------------

@@ -5,6 +5,7 @@ QUESTIONS FOR NOAH
 HIGH PRIORITY
 - use phetcommon mvt
 - autoscale button with tooltip on Charge, Energy, Capacitance meters, make max value text blink red
+- don't allow meters to be dragged by buttons, this prevents ability to roll off buttons
 - add cables and drag behavior to voltmeter, see CCK's VoltmeterNode
 - voltmeter notifiers for moving probes or meter body
 - subclass of voltmeter that is specific to this sim, knows about model

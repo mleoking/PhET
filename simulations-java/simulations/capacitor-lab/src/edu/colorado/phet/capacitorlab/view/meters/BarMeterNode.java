@@ -21,6 +21,7 @@ import edu.colorado.phet.common.piccolophet.event.BoundedDragHandler;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
+import edu.colorado.phet.common.piccolophet.nodes.ImageButtonNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -74,6 +75,7 @@ public abstract class BarMeterNode extends PhetPNode {
     private final TitleNode titleNode;
     private final ValueNode valueNode;
     private final OverloadIndicatorNode overloadIndicatorNode;
+    private final ImageButtonNode zoomButton;
     
     /**
      * Constructor.
@@ -157,6 +159,14 @@ public abstract class BarMeterNode extends PhetPNode {
             }
         });
         addChild( closeButton );
+        
+        // zoom button
+        zoomButton = new ImageButtonNode( CLImages.ZOOM_BUTTON_UNARMED, CLImages.ZOOM_BUTTON_ARMED );
+        zoomButton.scale( 0.2 ); //XXX scale image files
+        x = barNode.getFullBoundsReference().getMinX() - zoomButton.getFullBoundsReference().getWidth() - 8;
+        y = maxLabelNode.getFullBoundsReference().getMaxY() + 5;
+        zoomButton.setOffset( x, y );
+        addChild( zoomButton );
         
         // interactivity
         addInputEventListener( new CursorHandler() );

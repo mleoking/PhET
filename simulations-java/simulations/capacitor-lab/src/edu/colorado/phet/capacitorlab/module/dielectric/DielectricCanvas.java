@@ -159,10 +159,10 @@ public class DielectricCanvas extends CLCanvas {
         
         // default state
         updateBatteryConnectivity();
-        capacitanceMeterNode.setVisible( false );
-        chargeMeterNode.setVisible( false );
-        energyMeterNode.setVisible( false );
-        voltmeterNode.setVisible( true );//XXX
+        capacitanceMeterNode.setVisible( CLConstants.CAPACITANCE_METER_VISIBLE );
+        chargeMeterNode.setVisible( CLConstants.CHARGE_METER_VISIBLE );
+        energyMeterNode.setVisible( CLConstants.ENERGY_METER_VISIBLE );
+        voltmeterNode.setVisible( CLConstants.VOLTMETER_VISIBLE );
     }
     
     public void reset() {
