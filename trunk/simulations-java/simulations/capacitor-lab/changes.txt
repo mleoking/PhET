@@ -1,3 +1,4 @@
+9/21/10 add zoom button to bar meters, flash max range label when it changes
 9/21/10 move meter nodes to new capacitorlab.view.meters package
 9/7/10 fixed plate area drag handler, use only x drag coordinate because y dimension is foreshortened for pseudo-3D perspective
 9/7/10 resolve ordering problem with plate area drag handle offset
