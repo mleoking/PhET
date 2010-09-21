@@ -1,0 +1,37 @@
+PhET Progress Report
+John Blanco
+February 25, 2009
+
+IOM Alpha Testing Preparation – 18.0 hrs
+
+•	Added a number of new test procedures, finalized the document in preparation for Thursday group testing.
+•	Worked with Marj to configure several of the PhET laptops for use as test platforms.
+•	Implemented a form to make the entry of test results easier and more reliable for the testers.
+•	Set up a web page with the necessary links for the IOM Alpha Testing.
+•	Created installers for IOM Alpha Testing.
+•	Deployed alpha test versions of Balloons (Java sim) and Charges and Fields (Flash sim).
+•	Sent out preparatory information to the individuals that will be conducting much of the alpha testing.
+
+Installer & Web Site – 6.0 hrs
+
+•	Implemented Java code for automated JAR signing that could be integrated into the build process.
+•	Worked with Sam to make sure that it was kosher to put a signed JAR on the production web site in order to enable the Software Update feature to work for alpha testing (this was for the Balloons and Static Electricity sim only), implemented the fix and tested it.
+•	Disabled weekly automatic regeneration of installers.
+
+Nuclear Physics and States of Matter - 4.0 hrs
+
+•	Redeployed these two sims to the production server in order to fix issue where downloaded JARs were prompting user for flavor of sim to be run.
+•	Deployment turned out to be problematic due to the inclusion of the unfinished software agreements, so workarounds were implemented and these sims were deployed again.
+•	Rebuilt and tested the installer to include the corrected versions.
+
+Common Code – 2.0 hrs
+
+•	Verified and closed a number of Unfuddle tickets that were fixed by other developers.
+
+Meetings & Email - 10.0 hrs
+
+•	Weekly status meeting.
+•	Conference calls to work through development and testing issues.
+•	Normal email and administrative overhead.
+•	Worked on filling out PhET feedback form.
+

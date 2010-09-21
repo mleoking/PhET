@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dataset>
+  <table name="category">
+    <column>cat_id</column>
+    <column>cat_name</column>
+    <column>cat_is_visible</column>
+    <column>cat_order</column>
+    <column>cat_parent</column>
+    <row>
+      <value><![CDATA[2]]></value>
+      <value><![CDATA[New Sims]]></value>
+      <value><![CDATA[1]]></value>
+      <value><![CDATA[1]]></value>
+      <value><![CDATA[-1]]></value>
+    </row>
+    <row>
+      <value><![CDATA[3]]></value>
+      <value><![CDATA[All Sims]]></value>
+      <value><![CDATA[1]]></value>
+      <value><![CDATA[8]]></value>
+      <value><![CDATA[-1]]></value>
+    </row>
+    <row>
+      <value><![CDATA[4]]></value>
+      <value><![CDATA[Motion]]></value>
+      <value><![CDATA[1]]></value>
+      <value><![CDATA[0]]></value>
+      <value><![CDATA[21]]></value>
+    </row>
+    <row>
+      <value><![CDATA[5]]></value>
+      <value><![CDATA[Work, Energy & Power]]></value>
+      <value><![CDATA[1]]></value>
+      <value><![CDATA[2]]></value>
+      <value><![CDATA[21]]></value>
+    </row>
+    <row>
+      <value><![CDATA[6]]></value>
+      <value><![CDATA[Sound & Waves]]></value>
+      <value><![CDATA[1]]></value>
+      <value><![CDATA[1]]></value>
+      <value><![CDATA[21]]></value>
+    </row>
+    <row>
+      <value><![CDATA[7]]></value>
+      <value><![CDATA[Heat & Thermo]]></value>
+      <value><![CDATA[1]]></value>
+      <value><![CDATA[3]]></value>
+      <value><![CDATA[21]]></value>
+    </row>
+    <row>
+      <value><![CDATA[8]]></value>
+      <value><![CDATA[Electricity, Magnets & Circuits]]></value>
+      <value><![CDATA[1]]></value>
+      <value><![CDATA[6]]></value>
+      <value><![CDATA[21]]></value>
+    </row>
+    <row>
+      <value><![CDATA[9]]></value>
+      <value><![CDATA[Light & Radiation]]></value>
+      <value><![CDATA[1]]></value>
+      <value><![CDATA[5]]></value>
+      <value><![CDATA[21]]></value>
+    </row>
+    <row>
+      <value><![CDATA[10]]></value>
+      <value><![CDATA[Quantum Phenomena]]></value>
+      <value><![CDATA[1]]></value>
+      <value><![CDATA[4]]></value>
+      <value><![CDATA[21]]></value>
+    </row>
+    <row>
+      <value><![CDATA[11]]></value>
+      <value><![CDATA[Chemistry]]></value>
+      <value><![CDATA[1]]></value>
+      <value><![CDATA[4]]></value>
+      <value><![CDATA[-1]]></value>
+    </row>
+    <row>
+      <value><![CDATA[12]]></value>
+      <value><![CDATA[Math ]]></value>
+      <value><![CDATA[1]]></value>
+      <value><![CDATA[6]]></value>
+      <value><![CDATA[-1]]></value>
+    </row>
+    <row>
+      <value><![CDATA[13]]></value>
+      <value><![CDATA[Cutting Edge Research]]></value>
+      <value><![CDATA[1]]></value>
+      <value><![CDATA[7]]></value>
+      <value><![CDATA[-1]]></value>
+    </row>
+    <row>
+      <value><![CDATA[14]]></value>
+      <value><![CDATA[Show Animated Preview on Homepage]]></value>
+      <value><![CDATA[0]]></value>
+      <value><![CDATA[100]]></value>
+      <value><![CDATA[-1]]></value>
+    </row>
+    <row>
+      <value><![CDATA[15]]></value>
+      <value><![CDATA[Show Static Preview on Homepage]]></value>
+      <value><![CDATA[0]]></value>
+      <value><![CDATA[101]]></value>
+      <value><![CDATA[-1]]></value>
+    </row>
+    <row>
+      <value><![CDATA[21]]></value>
+      <value><![CDATA[Physics]]></value>
+      <value><![CDATA[1]]></value>
+      <value><![CDATA[2]]></value>
+      <value><![CDATA[-1]]></value>
+    </row>
+    <row>
+      <value><![CDATA[23]]></value>
+      <value><![CDATA[Tools]]></value>
+      <value><![CDATA[1]]></value>
+      <value><![CDATA[0]]></value>
+      <value><![CDATA[12]]></value>
+    </row>
+    <row>
+      <value><![CDATA[24]]></value>
+      <value><![CDATA[Applications]]></value>
+      <value><![CDATA[1]]></value>
+      <value><![CDATA[1]]></value>
+      <value><![CDATA[12]]></value>
+    </row>
+    <row>
+      <value><![CDATA[25]]></value>
+      <value><![CDATA[Earth Science]]></value>
+      <value><![CDATA[1]]></value>
+      <value><![CDATA[5]]></value>
+      <value><![CDATA[-1]]></value>
+    </row>
+    <row>
+      <value><![CDATA[26]]></value>
+      <value><![CDATA[Biology]]></value>
+      <value><![CDATA[1]]></value>
+      <value><![CDATA[3]]></value>
+      <value><![CDATA[-1]]></value>
+    </row>
+  </table>
+</dataset>

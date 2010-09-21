@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--vector-addition-strings_iw.xml created Sat Jul 17 00:07:46 IDT 2010 using: vector-addition 2.01.00 (37326), translation-utility 2.08.00 (39581) Apr 2, 2010-->
+<SimStrings>
+<string key="showSum" value="הצג סכום"/>
+<string key="simTitle" value="חיבור וקטורים"/>
+<string key="grabOne" value="קח אחד"/>
+<string key="clearAll" value="נקה הכל"/>
+<string key="componentDisplay" value="תצוגת רכיבים"/>
+<string key="style3" value="סוג 3"/>
+<string key="none" value="אף אחד"/>
+<string key="showGrid" value="הצג רשת"/>
+<string key="style2" value="סוג 2"/>
+<string key="style1" value="סוג 1"/>
+</SimStrings>

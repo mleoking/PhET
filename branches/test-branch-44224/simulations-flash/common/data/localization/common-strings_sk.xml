@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--common-strings_sk.xml created Sat Mar 21 21:39:58 CET 2009 using: flash-common-strings 1.04.00 (29429), translation-utility 1.12.00 (29256)-->
+<SimStrings>
+<string key="About..." value="O programe..."/>
+<string key="SoftwareDevelopment" value="Vývoj softvéru"/>
+<string key="Cancel" value="Zrušiť"/>
+<string key="StatisticsField-host_flash_accessibility" value="Použiť dostupné zariadenie?"/>
+<string key="Privacy" value="Zabezpečenie"/>
+<string key="Version" value="Verzia"/>
+<string key="NewVersionAvailable" value="Nová verzia je prístupná"/>
+<string key="SoftwareAgreement" value="Licenčné podmienky "/>
+<string key="PhETInstallation" value="Na prevzatie novej inštalácie, obsahujúcej najnovšiu verziu simulácie, viac  informácií získate na &lt;a href='{0}'&gt;PhET stránke&lt;/a&gt;."/>
+<string key="StatisticsField-sim_version_timestamp" value="Verzia simulácie (čas)"/>
+<string key="StatisticsField-sim_dev_version" value="Verzia simulácie (dev)"/>
+<string key="AskLater" value="Spýtať sa neskôr"/>
+<string key="AcceptContinue" value="Súhlasiť a pokračovať"/>
+<string key="BuildDate" value="Dátum zostavenia"/>
+<string key="TellMore" value="Viac informácii..."/>
+<string key="FlashVersion" value="Verzia flash"/>
+<string key="PhetSoftwareAgreement" value="PhET licenčné podmienky "/>
+<string key="NoUpdatesAvailable" value="Aktualizácia nie je dostupná."/>
+<string key="StatisticsField-message_type" value="Typ správy"/>
+<string key="InstallationDated" value="Vaša PhET offline inštalácia web stránky je z dňa {0}."/>
+<string key="CheckUpdates" value="Automaticky skontrolovať aktualizáciu"/>
+<string key="StatisticsField-sim_major_version" value="Verzia simulácie (major)"/>
+<string key="StatisticsField-user_total_sessions" value="Celkový počet spustení všetkých simulácii."/>
+<string key="InstallationNewer" value="Je  prístupná novšia verzia, z dňa {0}."/>
+<string key="StatisticsField-sim_sessions_since" value="Počet spustení simulácie od posledného pripojenia."/>
+<string key="StatisticsField-sim_distribution_tag" value="Verzia simulácie (distribuovaná)"/>
+<string key="Yes!" value="Áno!"/>
+<string key="StatisticsField-host_flash_domain" value="Doména simulácie"/>
+<string key="DesignTeam" value="Dizajn tím"/>
+<string key="PhETPreferences" value="PhET predvoľby"/>
+<string key="Preferences" value="Predvoľby"/>
+<string key="AllowMessages" value="Povoliť odoslanie informácii pre PhET"/>
+<string key="Updates" value="Aktualizácia"/>
+<string key="StatisticsField-user_preference_file_creation_time" value="Čas vytvorenia súboru Predvoľby"/>
+<string key="Interviews" value="Poradcovia"/>
+<string key="StatisticsField-host_flash_time_offset" value="Časové pásmo"/>
+<string key="StatisticsField-sim_deployment" value="Typ rozmiestnenia"/>
+<string key="PrivacyRequirement" value="&lt;a href='{0}'&gt;PhET&lt;/a&gt;  je sprístupnené zadarmo vďaka grantom, ktoré požadujú od nás zbierať minimálne množstvo neosobných informácii slúžiacich k preukázaniu využívania PhET simulácii a tiež sú potrebné k zlepšeniu podpory našich užívateľov.   "/>
+<string key="StatisticsField-sim_type" value="Typ simulácie"/>
+<string key="Close" value="Zavrieť"/>
+<string key="StatisticsField-sim_dev" value="Je to vývojová verzia?"/>
+<string key="InstallerAsk" value="Chcete nainštalovať najnovšiu PhET offline web stránku?"/>
+<string key="PrivacyMessage2" value="Kliknutím na „Súhlasiť a pokračovať“ vyjadrujete súhlas s PhET licenčnou zmluvou. (Pre ďalšie podrobnosti &lt;a href='{0}'&gt;kliknite tu&lt;/a&gt;)."/>
+<string key="StatisticsField-sim_total_sessions" value="Celkový počet spustení simulácie."/>
+<string key="PrivacyMessage1" value="Vo všetkých PhET simuláciách sa zisťuje pri štarte minimálne množstvo neosobných &lt;a href='{0}'&gt;informácii&lt;/a&gt; (napr. verzia simulácie, operačný systém). Kedykoľvek môžete vypnúť posielanie týchto informácii tlačidlom Predvoľby."/>
+<string key="StatisticsField-user_installation_timestamp" value="Čas PhET inštalácie"/>
+<string key="StatisticsField-sim_name" value="Názov simulácie"/>
+<string key="UpdateOptionsAvailable" value="Voľba aktualizácie je prístupná v &lt;i&gt;Predvoľby&lt;/i&gt;."/>
+<string key="PhetDevelopmentTeam" value="PhET vývojový tím"/>
+<string key="InstallerInfo2" value="Ak chcete najnovšiu verziu, tak prehliadač otvorí PhET web stránku, kde si môžete prevziať inštalátor PhET offline web stránky. "/>
+<string key="InstallerInfo1" value="Uloženie dátumu inštalácie vašej PhET offline web stránky vám zaistí prístup k najnovším PhET simuláciám a doplňujúcim materiálom. "/>
+<string key="StatisticsField-sim_minor_version" value="Verzia simulácie (minor)"/>
+<string key="Credits" value="Tvorcovia"/>
+<string key="StatisticsField-host_flash_version" value="Verzia Flash Player"/>
+<string key="TryNow" value="Spustiť teraz"/>
+<string key="PrivacySkip" value="Vynechať túto verziu"/>
+<string key="CheckInstallationUpdates" value="Skontrolovať aktualizáciu inštalácie PhET offline web stránky..."/>
+<string key="StatisticsField-sim_locale_language" value="Jazyk"/>
+<string key="Distribution" value="Distribúcia"/>
+<string key="LicenseLibraries" value="Licenčné podmienky:"/>
+<string key="PrivacyDetails" value="Podrobnosti zabezpečenia"/>
+<string key="StatisticsField-sim_svn_revision" value="Verzia simulácie (skúšobná)"/>
+<string key="NotUpdateSim" value="Táto simulácia nemôže byť aktualizovaná automaticky."/>
+<string key="CurrentVersionIs" value="Vaša súčasná verzia {0} je {1}."/>
+<string key="StatisticsField-host_flash_os" value="Operačný systém a názov"/>
+<string key="OK" value="OK"/>
+<string key="StatisticsField-sim_project" value="Názov projektu"/>
+<string key="NewerVersionIs" value="K dispozícii je novšia verzia {0}."/>
+<string key="CheckSimUpdates" value="Skontrolovať aktualizáciu simulácie..."/>
+<string key="SentInformation" value="Informácia zobrazená nižšie bude poslaná PhET po spustení simulácie."/>
+<string key="OSVersion" value="OS"/>
+<string key="Details" value="Podrobnosti"/>
+<string key="StatisticsField-message_version" value="Verzia správy"/>
+<string key="LeadDesign" value="Vedúci dizajnu"/>
+<string key="StatisticsField-host_locale_language" value="Hlavný jazyk"/>
+<string key="AboutSim" value="O programe {0} "/>
+<string key="StatisticsField-sim_locale_country" value="Krajina"/>
+</SimStrings>

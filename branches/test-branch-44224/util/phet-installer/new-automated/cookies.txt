@@ -1,0 +1,6 @@
+# HTTrack Website Copier Cookie File
+# This file format is compatible with Netscape cookies
+phet.colorado.edu	TRUE	/	FALSE	1999999999	PHET_INSTALLER_BUILDER_RIP	1
+phet.colorado.edu	TRUE	/	FALSE	1999999999	referring_page	%2Findex2.php
+phet.colorado.edu	TRUE	/	FALSE	1999999999	PHPSESSID	931722604ef2db8d17286d9ad09da9b7
+

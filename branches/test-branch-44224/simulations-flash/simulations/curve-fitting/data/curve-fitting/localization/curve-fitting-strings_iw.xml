@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--curve-fitting-strings_iw.xml created Tue Jul 20 00:50:47 IDT 2010 using: curve-fitting 2.01.00 (37297), translation-utility 2.08.00 (39581) Apr 2, 2010-->
+<SimStrings>
+<string key="clearAll" value="נקה הכל"/>
+<string key="deviations" value="הראה  התפלגויות"/>
+<string key="quartic" value="של המעלה הרביעית"/>
+<string key="simTitle" value="התאמת עקומות"/>
+<string key="bestFit" value="התאמה מירבית"/>
+<string key="quadratic" value="ריבועי"/>
+<string key="bucketHelp2" value="או הכנס חזרה"/>
+<string key="bucketHelp1" value="הוסף נקודות"/>
+<string key="cubic" value="מעוקב"/>
+<string key="noFit" value="אין התאמה"/>
+<string key="adjustableFit2" value="התאמה מתכווננת"/>
+<string key="dataPointHelp" value="עמודות שגיאה נגררות"/>
+<string key="bestFit2" value="התאמה מירבית"/>
+<string key="hideHelp" value="הסתר עזרה"/>
+<string key="correlation" value="רווח בר סמך"/>
+<string key="chiSqHelp5" value=":   התאמה טובה מדי - עמודות השגיאה קטנות מדי"/>
+<string key="bucketLabel" value="נקודות נתונים"/>
+<string key="chiSqHelp4" value=":   התאמה טובה - אזור ירוק"/>
+<string key="chiSqHelp3" value=":   התאמה לא טובה -  אזור אדום"/>
+<string key="chiSqHelp2" value="N = מספר נקודות הנתונים \n f = מספר הפרמטרים בהתאמה  \n ( f = 4 עבור התאמה ריבועית )"/>
+<string key="help" value="עזרה"/>
+<string key="chiSqHelp1" value="סטטיסטיקת חי בריבוע"/>
+<string key="adjustableFit" value="התאמה מתכווננת"/>
+<string key="linear" value="לינארי"/>
+</SimStrings>

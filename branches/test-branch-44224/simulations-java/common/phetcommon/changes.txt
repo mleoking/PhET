@@ -1,0 +1,13 @@
+9-14-2010: Improved phetcommon's test for Mac OS X, see #2505
+promoted PhetLineBorder to public top level class
+Improvements to vector classes, see #2467
+8-23-2010: simplified update logic in HTMLCheckBox
+7-30-2010: Changed color of total force from pink to dark green, see #2452
+7-29-2010: Added colors from PhET's color scheme based on the google spreadsheet
+7-21-2010: Introduced Observable<T> class with MutableBoolean convenience subclass.
+6-14-2010: Minor documentation change in Arrow
+5-31-2010: Centralized creation of loggers and switch to anonymous loggers for use in the web start sandbox, see #2386
+5-31-2010: LoggingUtils: Added the ConsoleHandler to the Logger before configuring it to avoid security exceptions, see #2386 
+10-12-2009: Fixed a problem that caused stack overflow exception when showing Color Chooser dialog using this library
+9-30-2009 Added setters that were missing from ArrowNode, should be no change in existing behavior.
+9-29-2009 Cast to java.lang.Object[] for a non-varargs call and to suppress warning in PhetResources.format, see #1796

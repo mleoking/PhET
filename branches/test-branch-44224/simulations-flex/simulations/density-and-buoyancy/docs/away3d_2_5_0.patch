@@ -1,0 +1,94 @@
+Index: ../../../../workingcopy/phet-svn/trunk/simulations-flex/simulations/density-flex/src/edu/colorado/phet/densityflex/view/MyMesh.as
+===================================================================
+--- ../../../../workingcopy/phet-svn/trunk/simulations-flex/simulations/density-flex/src/edu/colorado/phet/densityflex/view/MyMesh.as	(revision 42506)
++++ ../../../../workingcopy/phet-svn/trunk/simulations-flex/simulations/density-flex/src/edu/colorado/phet/densityflex/view/MyMesh.as	(revision )
+@@ -1,7 +1,6 @@
+ package edu.colorado.phet.densityflex.view {
+ import away3d.core.base.*;
+-import away3d.materials.IMaterial;
+-import away3d.materials.ITriangleMaterial;
++import away3d.materials.Material;
+ 
+ /**
+  * Creates a sea turtle model (exported using asAS3Class).
+@@ -24,7 +23,7 @@
+         addFace(new Face(varr[vn0], varr[vn1], varr[vn2], null, uvarr[uvn0], uvarr[uvn1], uvarr[uvn2]));
+     }
+ 
+-    public function face(x:int, y:int, z:int, texture:ITriangleMaterial = null):void {
++    public function face(x:int, y:int, z:int, texture:Material = null):void {
+         addFace(new Face(varr[x], varr[y], varr[z], texture, uvarr[x], uvarr[y], uvarr[z]));
+     }
+ 
+Index: ../../../../workingcopy/phet-svn/trunk/simulations-flex/simulations/density-flex/src/edu/colorado/phet/densityflex/view/DensityView.as
+===================================================================
+--- ../../../../workingcopy/phet-svn/trunk/simulations-flex/simulations/density-flex/src/edu/colorado/phet/densityflex/view/DensityView.as	(revision 43007)
++++ ../../../../workingcopy/phet-svn/trunk/simulations-flex/simulations/density-flex/src/edu/colorado/phet/densityflex/view/DensityView.as	(revision )
+@@ -30,7 +30,7 @@
+ 
+     //engine variables
+     private var scene:Scene3D;
+-    private var camera:HoverCamera3D;
++    private var camera:Camera3D;
+     private var fogfilter:FogFilter;
+     private var renderer:IRenderer;
+     private var view:View3D;
+@@ -103,12 +103,11 @@
+     public function initEngine():void {
+         scene = new Scene3D();
+ 
+-        camera = new HoverCamera3D({ focus: 90, distance: 2000, mintiltangle: 0, maxtitlangle: 90 });
+-        camera.targetpanangle = camera.panangle = 180;
+-        camera.targettiltangle = camera.tiltangle = 8;
+-        camera.hover();
++        camera = new Camera3D({ focus: 90, distance: 2000, mintiltangle: 0, maxtitlangle: 90 });
++        camera.position = new Number3D(0,600,-2200);
++        camera.lookAt(new Number3D(0,0,0));
+ 
+-        //renderer = Renderer.BASIC;
++//        renderer = Renderer.BASIC;
+         //renderer = Renderer.CORRECT_Z_ORDER;
+         renderer = Renderer.INTERSECTING_OBJECTS;
+         //renderer = new QuadrantRenderer();
+@@ -144,10 +143,11 @@
+         scene.addChild(groundNode);
+ 
+         var light:DirectionalLight3D = new DirectionalLight3D({color:0xFFFFFF, ambient:0.2, diffuse:0.75, specular:0.1});
+-        light.x = 10000;
+-        light.z = -35000;
+-        light.y = 50000;
+-        scene.addChild(light);
++        light.direction=new Number3D(-10,-50,35);
++//        light.x = 10000;
++//        light.z = -35000;
++//        light.y = 50000;
++        scene.addLight(light);
+ 
+         marker = new ObjectContainer3D();
+         marker.addChild(new Cube({ z: 50, width: 20, height: 20, depth: 100, segmentsW: 1, segmentsH: 10, material: new ShadingColorMaterial(0x9999CC) }));
+Index: ../../../../workingcopy/phet-svn/trunk/simulations-flex/simulations/density-flex/src/edu/colorado/phet/densityflex/view/GroundNode.as
+===================================================================
+--- ../../../../workingcopy/phet-svn/trunk/simulations-flex/simulations/density-flex/src/edu/colorado/phet/densityflex/view/GroundNode.as	(revision 42674)
++++ ../../../../workingcopy/phet-svn/trunk/simulations-flex/simulations/density-flex/src/edu/colorado/phet/densityflex/view/GroundNode.as	(revision )
+@@ -1,7 +1,7 @@
+ package edu.colorado.phet.densityflex.view {
+ import away3d.core.base.Vertex;
+ 
+-import away3d.materials.ITriangleMaterial;
++import away3d.materials.Material;
+ import away3d.materials.ShadingColorMaterial;
+ 
+ import edu.colorado.phet.densityflex.model.DensityModel;
+@@ -55,9 +55,9 @@
+             addUV(vertex2);
+         }
+ 
+-        var grassMaterial:ITriangleMaterial = new ShadingColorMaterial(0x00AA00);
+-        var earthMaterial:ITriangleMaterial = new ShadingColorMaterial(0xAA7733);
+-        var poolMaterial:ITriangleMaterial = new ShadingColorMaterial(0xAAAAAA);
++        var grassMaterial:Material = new ShadingColorMaterial(0x00AA00);
++        var earthMaterial:Material = new ShadingColorMaterial(0xAA7733);
++        var poolMaterial:Material = new ShadingColorMaterial(0xAAAAAA);
+ 
+         face(3, 4, 5, grassMaterial);
+         face(3, 5, 2, grassMaterial);

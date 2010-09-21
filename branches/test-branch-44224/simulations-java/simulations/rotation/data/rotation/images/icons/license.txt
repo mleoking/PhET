@@ -1,0 +1,6 @@
+###################################
+# License info for rotation
+# Automatically generated on Fri Aug 08 00:08:03 MDT 2008
+###################################
+
+rulerIcon.png author=PhET 

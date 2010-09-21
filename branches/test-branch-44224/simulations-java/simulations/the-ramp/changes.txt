@@ -1,0 +1,219 @@
+# 1.03.30 (33920) Aug 5, 2009
+# 1.03.29 (33918) Aug 5, 2009
+Internationalized HTML snippets, one in FreeBodyDiagramNode, one in ObjectSelectionNode
+Provided internationalization
+Added the ability to step during recording, instead of only during playback
+Remove wall and normal work from bar chart
+Display wall force when pressing block against the wall
+Update colors for Normal force and Wall force
+Fixed: Reset all should hide the work energy bar chart
+# 1.03.28 (33887) Aug 3, 2009
+# 1.03.27 (33885) Aug 3, 2009
+Added an application for Forces & Friction
+Made the friction coefficients change when the ramp is wet
+Made it so the ramp turns blue when it is wet
+Added "clear heat" button to work/energy bar chart window
+Added support for energy conservation in the frictionless case
+Added initial support for energy conservation with friction
+Add record/playback of thermal energy for the ramp
+Refactored thermal energy into bead state memento
+Use lazy vals instead of defs where possible for vector calculations to improve performance
+Batch notifications during bead update; profiler reports a 17% performance improvement
+Replaced "Ftotal" and "Fnet" with "Fsum"
+Made it so all the tabs start motionless, instead of with the object sliding
+Made it so the stick figure starts next to the object on startup.
+Removed extraneous step button from the right hand side control panel
+# 1.03.26 (33807) Jul 31, 2009
+# 1.03.25 (33806) Jul 31, 2009
+# 1.03.24 (33804) Jul 31, 2009
+Fixed: Stick figure position should reset on Reset All
+Fixed: Vector labels should be near the tail if they will be offscreen shown near the tip (or if the vector length is longer than some threshold)
+Set colors to match old colors in the ramp, except for net force which was given in the design doc
+Fixed: Reset All causes the sim to pause
+# 1.03.23 (33790) Jul 30, 2009
+Added a series for total force
+Added support for "clear" and "reset all" in charts
+Added "click/drag-to-seek" on the time control panel timeline bar
+Fixed: Chart cursor shouldn't be draggable beyond data region.
+Fixed: Chart cursor should only be visible during playback
+Fixed: Recording progress bar should "fill up" during recording
+Made "Reset All" button appear at the very bottom of the control panel.
+Fixed: Object size is incorrect when changing objects and when object is motionless; need to switch between objects a few times to reproduce the problem; This also occurs on object change during record/playback
+Added recording of whether walls are up or down
+Added recording of the position of the stick figure
+Made it so the chart cursor controls the playback time
+Added recording for bead state
+# 1.03.22 (33735) Jul 29, 2009
+Added recording for ramp angle
+Added recording for object type
+Added series for friction work
+Added series for thermal energy
+Added series for gravitational force work
+# 1.03.21 (33712) Jul 28, 2009
+Added series for total, kinetic and potential energy
+Added buttons to open Energy/Work graph
+Removed Go and Pause buttons from Force chart control panel
+Fixed: Make sure vector arrows overlap the chart and chart control panel
+Added a control to enter applied force in the box next to label
+Fixed: Force arrow slider should have a label to its left
+Graph force labels should color match to vectors
+Applied force is now adjusted to left of graph (to coordinate with the up/down graphing of force)
+Fixed: Text readouts of values on the left shouldn't alter layout
+Graphing modules start paused, unpause when a force is applied
+Added stub for Work-Energy module
+Allow one chart to take entire available area
+# 1.03.20 (33360) Jul 15, 2009
+> force-graphs: Objects are in pull-down menu in control panel instead of the play area
+> force-graphs: Removed force control from play area
+> Fixed: Vectors should be in the topmost layer (over the applied force slider)
+> Centered the object selection panel
+> Fixed: Object falls off edge at wrong spot
+# 1.03.19 (31397) May 6, 2009
+Performance improvements
+# 1.03.18 (31395) May 6, 2009
+Made coordinate system adjustable by default in coordinate frame module
+Performance improvements
+# 1.03.17 (31391) May 6, 2009
+robotmovingcompany: Improve scoring and score dialogs
+Renamed "whole vectors" to "Force vectors"
+Made the current 1st tab into the 2nd tab - called it "Coordinates". Made a new first tab, called "Intro" with the following controls removed: Coordinate System, Parallel Components, X-Y Components.
+Fixed: Pusher graphic doesn't always update properly, for example after the block goes airborne; he updates location after the ramp is rotated.
+# 1.03.16 (31291) May 4, 2009
+removed slider labels as recommended by CM to see if this fixes the applied force slider knob problem
+# 1.03.15 (31283) May 4, 2009
+5/4/09 workaround for memory problems (not in svn)
+Removed tick marks from applied force slider to make slider knob appear on mac.
+Renamed "original" vectors to "whole vectors"
+Robot loses energy even when work done on the particle by the robot is negative.
+# 1.03.14 (31275) May 3, 2009
+set applied force to zero on slider mouse release for all tabs
+allow showing values outside the settable range for the applied force slider
+bugfix in work calculation
+robotmovingcompany: it looks like robot energy is only used up when the robot is pushing to the left.
+robotmovingcompany: additional points (up to 100) for having battery left over
+robotmovingcompany: add detection of game over and new game
+robotmovingcompany: automatically go to next object when you score or lose the object (instead of hitting "next object" button)
+robotmovingcompany: moving the applied force slider starts the game
+# 1.03.13 (31267) May 3, 2009
+Make "custom crate" text label match font for other labels.
+Layout fixes for object selection panel.
+fixed: Original forces checkbox should update when sim is paused.
+robot energy refills after each object
+for game tab, set applied force to zero on slider mouse release
+# 1.03.12 (31256) May 3, 2009
+5/3/09 Performance fixes for the game tab
+# 1.03.11 (31234) May 1, 2009
+5/1/09 minor fixes
+# 1.03.10 (31217) May 1, 2009
+5/1/09 bugfixes for rotation
+# 1.03.09 (31213) May 1, 2009
+5/1/09 Improvements for game model and coordinate frames 
+# 1.03.08 (31211) May 1, 2009
+5/1/09 Improvements for game model and coordinate frames
+# 1.03.07 (31209) May 1, 2009
+5/1/09 improvements for rotatable components and added energy model for game mode
+# 1.03.06 (31153) Apr 29, 2009
+4/29/09 Improvements for game mode.
+# 1.03.05 (31088) Apr 28, 2009
+4/28/09 Improvements to main and game modules
+# 1.03.04 (31085) Apr 28, 2009
+4/28/09 Improvements for main and game module
+# 1.03.03 (30988) Apr 27, 2009
+4/27/09 Deploy game module.
+# 1.03.02 (30914) Apr 25, 2009
+4/25/09 Many new features and bugfixes.
+# 1.03.01 (30822) Apr 23, 2009
+4/23/09 Improvements for FBD and Coordinate Frames
+# 1.03.00 (30671) Apr 21, 2009
+4/21/09 Batch deploy as part of IOM milestone with revision 30670
+# 1.02.06 (30208) Apr 1, 2009
+4/1/09 Deploy test version
+# 1.02.05 (29902) Mar 25, 2009
+3/25/09 Initial version of scala ramp
+# 1.02.04 (29629) Mar 22, 2009
+3/22/09 Batch deploy for Alpha Simulation Tests 2, svn 29628
+# 1.02.03 (29335) Mar 9, 2009
+# 1.02.02 (28823) Feb 19, 2009
+Batch deploy for alpha Simulation Tests, svn 28773
+10-13-2008: rename TheRampStrings to TheRampResources, move to top-level package, consistent with other sims
+10-13-2008: replace SimString with PhetResources
+10-13-2008: use PhetApplicationConfig launchSim
+10-13-2008: fix incorrectly named string file for language=et
+7-16-2007: Each module is given its own clock instead of sharing a reference.
+
+New in 0.00.25 (8-18-2006)
+Limited to 1 dog on screen at a time.
+Renamed "remove heat" to "cool ramp"
+Deleted extra print statements on the console on startup.
+
+New in 0.23 (1-2-2005)
+Upgraded to work with latest phetcommon
+    -includes bugfixes for the control panel.
+Fixed a bug that prevented the object combo box from being seen on a mac.
+Performance improvements
+Audio is preloaded as clips (for improved performance)
+
+New in 0.22
+.	Make applied force orange, make wall force the drab yellow.
+.	Delete the ramp-change-color feature.
+.	rename velocity to m/s (not meters/second).
+.	Redraw track for slider to look more slider-like.
+.	Scale down the mouse-applied force.
+.	Shrink the control panel width (if possible).
+.	Changing objects on the 1st panel also changes coeff. of friction.
+		We mention the coeff in the object name as multi-line.
+.	Earth should be lighter green (to make the dark fonts on it more visible).
+.	“Playback” is better than “play” on the playback panel.
+.	delete record button.  (Go/Pause is better than record)
+.	Crate should have a higher coeff than the file cabinet.
+.	Use “friction coefficient” not “friction” where applicable.
+.	Bugfix: overheated button shows up in wrong spot (low resolution).
+.	Add subscripts: F<sub>gravity, F<sub>friction, W<sub>applied, not for Energies, though.
+.	Test 2 columns for in-plot readouts.
+		>>Looks good.
+.	Abbreviate the in-plot readouts (delete "parallel", delete units repetition, etc.)
+.	Line up control buttons to the left of the graphs.
+.	Bugfix: Dragging the playback cursor doesn't change values.
+.	Bugfix: Dragging the block with friction off adds heat.
+.	Bugfix: Clear heat doesn't work while pause is on.
+		>> I think this was only clearing the heat for the ramp/block colors, now this feature has been removed.
+.	When you make a change while it is paused, the change should be immediately seen. Including changing objects.
+		>>I think this bug was in the plot readouts.
+.	Reset should reset everything (including heat, object, time, graphs, controls, friction, frictionless checkbox).
+		>>Fixed this for plot & bar graph states, and the frictionless checkbox.
+.	Improve the drawing order of the graph lines (applied on top).
+		>>I’ve simply increased the stroke size for the applied force plot.  Looks ok.
+.	Bugfix: After 30 seconds, you can still press record, but nothing records.
+.	Bugfix: On playback, sometimes the block jumps around (wrong surface data?)
+.	Friction arrows aren’t updating after time runs out.
+		>>I can’t reproduce this.
+
+
+New in 0.21
+.	Reduced size from 3.3M to 1.2M
+.	re-enabled splash screen.
+.	Fixed a bug that prevented the application from starting properly in Java 1.5.0+
+
+New in theramp 0.20
+.	Audio checkbox is on the right, titled 'Sound'.
+.	Wall force is brown.
+.	Sleepy dog is back.
+.	Different audio for run-over man.
+.	Applied force label is above applied force spinner.
+.	Moved the 'overheat message' to the bar graph area, only appears if bar graphs are up
+.	Renamed 'clear heat' to 'remove heat' in the control panel.
+.	Height readout is now halfway down, with 'height extent' lines.
+.	Changed the verify dialog text to clarify the difference between "Clear Graphs" and "Reset Everything"
+.	Added Go Pause Clear buttons to the control panel (near the position & angle controls)
+
+New in theramp 0.19 on 10-9-2005
+·	Bugfix: the ramp no longer mistakenly starts overheated on replay.
+·	Wall force color has been changed to avoid clashing with the normal force color.
+·	Colors no longer combine on the graphs, the more important lines overlap the others.
+·	The ramp starts at a slight angle.
+·	There is a checkbox to enable the draggable zero-point potential graphic, now only available in the advanced panel.
+·	The graph vertical axes are now labeled.
+·	The Advanced function of showing multiple forces now adds labels to each entry (for disambiguation).
+·	The man no longer screams.
+·	Labels and numbers no longer cover graph area.
+.	Added a mute button.

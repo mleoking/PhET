@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--wave-on-a-string-strings_cs.xml created Sun Jul 25 20:13:27 CEST 2010 using: wave-on-a-string 2.01.00 (37327), translation-utility 2.08.00 (39581) IV 1, 2010-->
+<SimStrings>
+<string key="manual" value="Ručně"/>
+<string key="resetTimer" value="reset"/>
+<string key="damping" value="Tlumení"/>
+<string key="simTitle" value="Vlnění na vlákně"/>
+<string key="showHelp" value="Ukaž nápovědu"/>
+<string key="pulse" value="Pulz "/>
+<string key="amplitude" value="Amplituda"/>
+<string key="pausePlay" value="pauza/start"/>
+<string key="step" value="krok"/>
+<string key="tension" value="Pnutí"/>
+<string key="startTimer" value="start/pauza"/>
+<string key="pulseWidth" value="Délka pulzu"/>
+<string key="rulerHelp" value="Pohyblivé měřítko"/>
+<string key="high" value="vysoké"/>
+<string key="wiggleWrench" value="Pohni klíčem!"/>
+<string key="timer" value="Stopky"/>
+<string key="oscillate" value="Oscilace"/>
+<string key="rulers" value="Měřítka"/>
+<string key="frequency" value="Frekvence"/>
+<string key="wrenchHelp" value="Pohyblivý klíč"/>
+<string key="fixedEnd" value="Pevný konec"/>
+<string key="refLineHelp" value="Pohyblivá referenční linie"/>
+<string key="hideHelp" value="Skrýt nápovědu"/>
+<string key="timerHelp" value="Pohyblivé stopky"/>
+<string key="looseEnd" value="Volný konec"/>
+<string key="noEnd" value="Bez konce"/>
+<string key="paused" value="Pauza"/>
+<string key="reset" value="Reset"/>
+<string key="pulse2" value="Pulz"/>
+<string key="low" value="nízké"/>
+</SimStrings>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--arithmetic-strings_fa.xml created Wed Jun 09 14:46:32 IRST 2010 using: arithmetic 2.02.00 (37294), translation-utility 2.08.00 (39581) Apr 2, 2010-->
+<SimStrings>
+<string key="level" value="سطح"/>
+<string key="typeAnswer" value="بزن را کلید و بنویس را جواب"/>
+<string key="clickToSelect" value="بزن را کلید"/>
+<string key="correct" value="! صحیح"/>
+<string key="end" value="پایان"/>
+<string key="isWrong" value="اشتباه "/>
+<string key="start" value="شروع"/>
+<string key="simTitle" value="حساب"/>
+<string key="time" value="زمان ( ثانیه ("/>
+<string key="finalTime" value="نهائی زمان"/>
+<string key="multiply" value="ضرب"/>
+<string key="tryAgain" value="کن امتحان دوباره"/>
+<string key="sound" value="صدا"/>
+<string key="divide" value="تقسیم"/>
+<string key="factor" value="ضریب"/>
+<string key="minute" value="دقیقه"/>
+<string key="finalScore" value="نهائی نمره"/>
+<string key="nbrRight" value="صحیح عدد"/>
+<string key="mustTypeNbr" value="کن ضرب عدد یک در"/>
+<string key="score" value="نمره"/>
+<string key="scorePer" value="نمره"/>
+<string key="nbrWrong" value="اشتباه عدد"/>
+<string key="reset" value="دوباره"/>
+<string key="clock" value="ساعت "/>
+<string key="title" value="حساب تمرین"/>
+</SimStrings>

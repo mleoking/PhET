@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SimStrings>
+<string key="cEquals" value="c ="/>
+<string key="clearAll" value="Borrar todo"/>
+<string key="deviations" value="ver desviaciones"/>
+<string key="bEquals" value="b ="/>
+<string key="aEquals" value="a ="/>
+<string key="quartic" value="Cuartico"/>
+<string key="bestFit" value="Mejor Ajuste"/>
+<string key="quadratic" value="Cuadrático"/>
+<string key="bucketHelp2" value="o volver a poner en"/>
+<string key="bucketHelp1" value="Obtener puntos..."/>
+<string key="cubic" value="Cubico"/>
+<string key="noFit" value="Sin ajuste"/>
+<string key="eEquals" value="e ="/>
+<string key="dEquals" value="d ="/>
+<string key="adjustableFit2" value="Ajuste personalizado"/>
+<string key="dataPointHelp" value="barras de error arrastrables"/>
+<string key="bestFit2" value="Mejor Ajuste"/>
+<string key="correlation" value="coeficiente de correlación"/>
+<string key="hideHelp" value="Ocultar Ayuda"/>
+<string key="bucketLabel" value="Puntos de Datos"/>
+<string key="chiSqHelp5" value=":  ajuste muy bueno (barras de error muy pequeñas)"/>
+<string key="chiSqHelp4" value=":  ajuste bueno  (zona verde)"/>
+<string key="chiSqHelp3" value=":  ajuste pobre (zona roja)"/>
+<string key="chiSqHelp2" value="N = número de puntos de datos \n f = número de parámetros en ajuste  \n ( f = 4 para un ajuste cúbico )"/>
+<string key="help" value="Ayuda"/>
+<string key="chiSqHelp1" value="La estadística del Chi cuadrado reducido es"/>
+<string key="adjustableFit" value="Ajuste personalizado"/>
+<string key="linear" value="Lineal"/>
+</SimStrings>

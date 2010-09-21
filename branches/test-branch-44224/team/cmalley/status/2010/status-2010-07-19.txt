@@ -1,0 +1,50 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: July 13-19, 2010 (Tue-Mon)
+
+ACCOMPLISHMENTS:
+
+Faraday:
+- #2236, discussions and meetings with Mike D.
+- #2236, implemented new bar magnet model based on grid files
+- #2236, added B-field visual scaling with developer control
+- #2236, investigated how to simplify scaling in view components
+- #2438, fixed collision detection to use a circle for compass
+
+Acid-Base Solutions:
+ - reviewed feedback on Acid-Base Solutions received from CAB
+
+Translation Utility:
+- #2417, verified that redirection on new website is fixed
+- #2421, changed URLs to match new website
+- #2436, encapsulated URLs in one place
+- #2406, applied fix for main frame size
+
+misc sims:
+ - #2435, investigated moving-man audio clip delay issue
+ - #2403, verified Lac Operon Save/Load removed
+ - #2190, proposed fix for Lasers lifetime sliders
+ - #2443, investigated Rotation build problem reported by customer
+ - #2397,2442, verified CCK file extension issues
+ 
+ misc:
+ - PhET status meeting
+ - RMIUG meeting "Code Wars: HTML5 vs Flash" (off the clock)
+
+WHAT'S NEXT:
+
+ - Faraday fix for dipole magnet, #2236
+ - Capacitor Lab design & implementation 
+ - Acid-Base Solutions completion (after Chem Advisory Board feedback) 
+
+ISSUES:
+
+ - none
+
+DATES UNAVAILABLE:
+
+  July 24-31
+  August 1-6
+
+--

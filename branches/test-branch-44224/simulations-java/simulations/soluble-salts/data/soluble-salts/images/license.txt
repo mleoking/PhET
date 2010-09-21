@@ -1,0 +1,13 @@
+###################################
+# License info for soluble-salts
+# Automatically generated on Fri Aug 08 00:08:03 MDT 2008
+###################################
+
+faucet-2.png notes=Google Images 
+faucet-gold-rt.gif notes=Google Images 
+flames.gif author=PhET 
+ice.gif author=PhET 
+molecule-big.gif author=PhET 
+pump.gif author=PhET 
+shaker.png author=PhET 
+stove.png author=PhET 

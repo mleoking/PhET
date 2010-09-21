@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<SimStrings>
+<string key="pause" value="pauza"/>
+<string key="earth" value="Zem"/>
+<string key="16thTime" value="1/16 času"/>
+<string key="mass1Label" value="50 g"/>
+<string key="mass3Label" value="250 g"/>
+<string key="planetX" value="Planéta X"/>
+<string key="showEnergyOf" value="Zobraziť energiu oscilátora"/>
+<string key="mass5Label" value=" "/>
+<string key="hangMe" value="Zaves závažie !"/>
+<string key="resetTimer" value="nulovať"/>
+<string key="hard" value="veľká"/>
+<string key="mass7Label" value="100 g"/>
+<string key="stopWatch" value="stopky"/>
+<string key="none" value="žiadne"/>
+<string key="realTime" value="skutočný čas"/>
+<string key="startTimer" value="štart/pauza"/>
+<string key="help4" value="presuň stopky"/>
+<string key="help3" value="Potiahnutím závažia nabok sa odpojí od pružiny "/>
+<string key="showHelp" value="Zobraz pomoc"/>
+<string key="lots" value="veľké"/>
+<string key="help2" value="presuň porovnávaciu čiaru"/>
+<string key="help1" value="presuň meter"/>
+<string key="friction" value="trenie"/>
+<string key="PEelas" value="pružnosti"/>
+<string key="jupiter" value="Jupiter"/>
+<string key="moon" value="Mesiac"/>
+<string key="energyOf" value="E oscilátora "/>
+<string key="total" value="celková"/>
+<string key="sound" value="zvuk"/>
+<string key="PEgrav" value="gravitačná"/>
+<string key="mass2Label" value="100 g"/>
+<string key="mass4Label" value=" "/>
+<string key="mass6Label" value=" "/>
+<string key="thermal" value="tepelná"/>
+<string key="quarterTime" value="1/4 času"/>
+<string key="KE" value="kinetická"/>
+<string key="gEqZero" value="g = 0"/>
+<string key="hideHelp" value="Skry pomoc"/>
+<string key="soft" value="malá"/>
+<string key="softness" value="tuhosť pružiny 3"/>
+<string key="totalE" value="celková E"/>
+<string key="noShow" value="nezobraziť"/>
+<string key="paused" value="Pauza"/>
+</SimStrings>

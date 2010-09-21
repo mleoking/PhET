@@ -1,0 +1,1 @@
+slf4j license=MIT License licensefile=slf4j-LICENSE.txt name=slf4j description=Simple Logging Facade for Java (SLF4J) copyright=QOS.ch website=http://www.slf4j.org/

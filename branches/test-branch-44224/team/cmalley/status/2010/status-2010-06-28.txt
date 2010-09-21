@@ -1,0 +1,32 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: June 22-28, 2010 (Tue-Mon)
+
+ACCOMPLISHMENTS:
+
+Acid-Base Solutions:
+- implemented Reset All
+- cleaned up a few loose ends
+- put on hold until we receive feedback from Chem Advisory Board
+
+Glaciers:
+ - #2424, fixed exception in snow patch below terminus
+  
+WHAT'S NEXT:
+
+ - Capacitor Lab design & implementation 
+ - Acid-Base Solutions completion (after Chem Advisory Board feedback) 
+ - Faraday fix for dipole magnet, #2236 (waiting for info from Mike)
+ - Lasers fix for lifetime sliders, #2190 (waiting for instructions from Kathy)
+
+ISSUES:
+
+ - none
+
+DATES UNAVAILABLE:
+
+  July 24-31
+  August 1-6
+
+--

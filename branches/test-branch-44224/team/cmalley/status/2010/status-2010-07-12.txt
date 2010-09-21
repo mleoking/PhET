@@ -1,0 +1,42 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: July 6-12, 2010 (Tue-Mon)
+
+ACCOMPLISHMENTS:
+
+Faraday:
+- #2236, more discussions about grid-based bar magnet model
+- #2236, investigated feasibility of generating grid in Java
+- #2236, wrote the parser and test app for grid files
+- #2236, kept this ticket up-to-date with important info from email thread
+
+Capacitor Lab:
+- refreshed my memory on the state of this sim and what needs to be done
+- added overload indicator to bar meters
+ 
+ misc:
+ - PhET status meeting
+ - verified PBG fix for undeclared dependencies, #2431
+ - discussed Save/Load file extensions, #2402,2397
+ - reviewed JOST paper a few times
+ - discussed complexity of Glaciers and possible Plate Tectonics sim
+ - collaborated with Sam on moving-man fixes and change requests
+  
+WHAT'S NEXT:
+
+ - Faraday fix for dipole magnet, #2236
+ - Capacitor Lab design & implementation 
+ - Acid-Base Solutions completion (after Chem Advisory Board feedback) 
+ - Lasers fix for lifetime sliders, #2190 (waiting for instructions from Kathy)
+
+ISSUES:
+
+ - none
+
+DATES UNAVAILABLE:
+
+  July 24-31
+  August 1-6
+
+--

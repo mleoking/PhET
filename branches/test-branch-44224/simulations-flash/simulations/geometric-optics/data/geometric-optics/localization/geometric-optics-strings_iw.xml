@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--geometric-optics-strings_iw.xml created Sat Jun 12 22:24:10 IDT 2010 using: geometric-optics 2.04.00 (37306), translation-utility 2.08.00 (39581) Apr 2, 2010-->
+<SimStrings>
+<string key="draggableScreen" value="מסך ניתן להזזה"/>
+<string key="draggableLens" value="עדשה ניתנת להזזה"/>
+<string key="screen" value="מסך"/>
+<string key="draggableRuler" value="סרגל ניתן להזזה"/>
+<string key="simTitle" value="אופטיקה גאומטרית"/>
+<string key="showHelp" value="הראה עזרה"/>
+<string key="moveMe" value="הזז אותי!"/>
+<string key="showGuides" value="הראה מובילים"/>
+<string key="diameter" value="קוטר (m)"/>
+<string key="ruler" value="סרגל"/>
+<string key="focalPoint" value="מוקד העדשה"/>
+<string key="curvatureRadius" value="רדיוס משטח (m)"/>
+<string key="changeObject" value="שנה עצם"/>
+<string key="principalRays" value="קרניים עיקריות"/>
+<string key="marginalRays" value="קרני שוליים"/>
+<string key="virtualImage" value="דמות"/>
+<string key="noRays" value="ללא קרניים"/>
+<string key="secondSource" value="נקודה שנייה"/>
+<string key="hideHelp" value="הסתר עזרה"/>
+<string key="refractiveIndex" value="מקדם שבירה"/>
+<string key="manyRays" value="קרניים רבות"/>
+</SimStrings>

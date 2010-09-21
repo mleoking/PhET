@@ -1,0 +1,53 @@
+<?xml version="1.0" ?>
+<SimStrings>
+  <string key="friction" value="アメリカでの日常生活に役立つ" />
+  <string key="none" value="立つ" />
+  <string key="lots" value="アメ" />
+  <string key="softness" value="アメリカでの" />
+  <string key="soft" value="の日"/>
+  <string key="hard" value="生活"/>
+  <string key="showEnergyOf" value="生活に役立つ"/>
+  <string key="noShow" value="の 日常"/>
+  <string key="realTime" value="常生活に役"/>
+  <string key="halfTime" value="に生活に"/>
+  <string key="quarterTime" value="常生活に"/>
+  <string key="16thTime" value="カ生活に"/>
+  <string key="pause" value="活に"/>
+  <string key="jupiter" value="常生活"/>
+  <string key="moon" value="常生立"/>
+  <string key="earth" value="に役立"/>
+  <string key="planetX" value="常役立"/>
+  <string key="gEqZero" value="生活に"/>
+  <string key="stopWatch" value="アメリ"/>
+  <string key="sound" value="活に"/>
+  <string key="showHelp" value="生活に役立つ"/>
+  <string key="hideHelp" value="生活に役立つ"/>
+  <string key="noHelp" value="活にに役立つ"/>
+  <string key="dontBother" value="メリカで"/>
+  <string key="nothinOK" value="に役! 立つ?"/>
+  <string key="paused" value="活に"/>
+  <string key="totalE" value="の日 常"/>
+  <string key="energyOf" value="常 生活に "/>
+  <string key="KE" value="の日"/>
+  <string key="PEgrav" value="カでの日"/>
+  <string key="PEelas" value="カでの"/>
+  <string key="thermal" value="生活に役"/>
+  <string key="total" value="活に役"/>
+  <string key="mass1Label" value="50\n生"/>
+  <string key="mass2Label" value="100\n生"/>
+  <string key="mass3Label" value="250\n生"/>
+  <string key="mass4Label" value=" "/>
+  <string key="mass5Label" value=" "/>
+  <string key="mass6Label" value=" "/>
+  <string key="mass7Label" value="100\n生"/>
+  <string key="help1" value="アメリカでの"/>
+  <string key="help2" value="アメリカでの日常 生"/>
+  <string key="help3" value="アメリカでの日常 生活に役立つ"/>
+  <string key="help4" value="日常 生活に役立つ"/>
+  <string key="resetTimer" value="アメ" />
+  <string key="startTimer" value="活に/活に" />
+  <string key="hangMe" value="メリカ での!"/>
+  <string key="resetTimer" value="生活に" />
+  <string key="startTimer" value="活に/活に" />
+ 
+</SimStrings>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--estimation-strings_iw.xml created Fri Jul 16 01:19:50 IDT 2010 using: estimation 2.01.00 (37299), translation-utility 2.08.00 (39581) Apr 2, 2010-->
+<SimStrings>
+<string key="ratioOfAreasIs" value="יחס השטחים הוא"/>
+<string key="closeEnough" value=":מספיק קרוב! \nהתשובה המדוייקת היא"/>
+<string key="levelColon" value="רמה:"/>
+<string key="score" value="ניקוד"/>
+<string key="EnterNumber" value="בחר מספר"/>
+<string key="selectTrainingOrGame" value=":בחר אימון או משחק"/>
+<string key="percentUnderOver" value=":אחוז מתחת/מעל"/>
+<string key="estimation" value="הערכה"/>
+<string key="next" value="הבא"/>
+<string key="ratioOfLengths" value="יחס האורכים עבור הקווים \nיחס השטחים עבור הריבוע והעיגולים \nrיחס הנפחים עבור הקוביות והכדורים"/>
+<string key="exactAnswer" value="תשובה מדוייקת"/>
+<string key="level" value="רמה"/>
+<string key="howMany" value="כמה קטנים \n?נכנסים בתוך גדול"/>
+<string key="noCreditIf" value=":אין ניקוד אם"/>
+<string key="home" value="חזור"/>
+<string key="whatIsRatioOfVolumes" value="?מה יחס הנפחים"/>
+<string key="tooFarOff" value=":אתה רחוק מדי! \nהתשובה המדוייקת היא"/>
+<string key="scorePerTimeColon" value=":ניקוד/זמן"/>
+<string key="PleasePickANumber" value="בחר מספר בין 1 ל- 100000 בבקשה"/>
+<string key="answerIsOutside" value="התשובה מחוץ לגבולות אלו."/>
+<string key="train" value="אימון"/>
+<string key="strategyHelp" value="(עזרה זמן (שניות"/>
+<string key="whatIsRatioOfAreas" value="?מה יחס השטחים"/>
+<string key="scorePerTime" value="ניקוד/זמן"/>
+<string key="gameOver" value="המשחק נגמר"/>
+<string key="play" value="שחק"/>
+<string key="fullCreditIf" value=":ניקוד מלא אם"/>
+<string key="back" value="חזור"/>
+<string key="levelOneColon" value="רמה 1: רק קווים \nרמה 2: קווים וצורות דו מימדיות \nרמה 3: כל העצמים"/>
+<string key="yourAnswer" value="התשובה שלך"/>
+<string key="or" value="אם"/>
+<string key="sound" value="קול"/>
+<string key="accuracyIsSmaller" value=":דיוק קטן מ"/>
+<string key="averageAccuracy" value=":דיוק ממוצע"/>
+<string key="gameRules" value="חוקי המשחק"/>
+<string key="ratioOfVolumesIs" value="יחס הנפחים הוא"/>
+<string key="time" value="(זמן (שניות"/>
+<string key="numberEstimates" value=":מספר הערכות"/>
+<string key="simTitle" value="הערכה"/>
+<string key="yourAnswerIs" value="התשובה שלך היא בין \nסדר גודל של  1.3עבור הקווים \nסדר גודל של  1.6 עבור עצמים דו מימדיים \nסדר גודל של 2.0 עבור עצמים תלת מימדיים"/>
+<string key="enter" value="הערך"/>
+<string key="endGame" value="המשחק נגמר"/>
+<string key="nextLowerCase" value="הבא"/>
+</SimStrings>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--calculus-grapher-strings_in.xml created Tue Aug 10 21:54:54 SGT 2010 using: calculus-grapher 2.03.00 (42751), translation-utility 2.08.00 (39581) Apr 2, 2010-->
+<SimStrings>
+<string key="grid" value="Kisi"/>
+<string key="smooth" value="Halus"/>
+<string key="integral" value="Integral"/>
+<string key="sine" value="Sinus"/>
+<string key="derivative" value="Turunan"/>
+<string key="offset" value="Tetap"/>
+<string key="simTitle" value="Grafik Kalkulus"/>
+<string key="hill" value="Bukit"/>
+<string key="pedestal" value="Kotak"/>
+<string key="zero" value="Nol"/>
+<string key="dragMe" value="Tarik Aku!"/>
+<string key="undo" value="Batal"/>
+<string key="parabola" value="Parabol"/>
+<string key="freeform" value="Bebas"/>
+<string key="cursor" value="Kursor"/>
+<string key="tilt" value="Lurus"/>
+<string key="line" value="Garis"/>
+</SimStrings>

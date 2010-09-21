@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--resistance-in-a-wire-strings_iw.xml created Mon May 24 21:56:04 IDT 2010 using: resistance-in-a-wire 2.01.00 (37324), translation-utility 2.08.00 (39581) Apr 2, 2010-->
+<SimStrings>
+<string key="cm" value="ס&quot;מ"/>
+<string key="resistanceEq" value="התנגדות = "/>
+<string key="ohm" value="אוהם"/>
+<string key="simTitle" value="התנגדות בתיל"/>
+</SimStrings>

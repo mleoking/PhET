@@ -1,0 +1,1 @@
+Main-class: edu.colorado.phet.atest.AccessibilityTest

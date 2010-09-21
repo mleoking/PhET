@@ -1,0 +1,52 @@
+<?xml version="1.0" ?>
+<SimStrings>
+    <string key="density.simTitle" value="Density"/>
+    <string key="buoyancy.simTitle" value="Buoyancy"/>
+    <string key="bottle.2L" value="2L"/>
+    <string key="mode.title" value="Objects"/>
+    <string key="mode.customObject" value="Custom"/>
+    <string key="mode.objectsOfSameMass" value="Same Mass"/>
+    <string key="mode.objectsOfSameVolume" value="Same Volume"/>
+    <string key="mode.objectsOfSameDensity" value="Same Density"/>
+    <string key="mode.mysteryObjects" value="Mystery"/>
+    <string key="mode.mysteryObjects.A" value="A"/>
+    <string key="mode.mysteryObjects.B" value="B"/>
+    <string key="mode.mysteryObjects.C" value="C"/>
+    <string key="mode.mysteryObjects.D" value="D"/>
+    <string key="mode.mysteryObjects.E" value="E"/>
+    <string key="customObject.properties" value="Properties"/>
+    <string key="customObject.material" value="Material"/>
+    <string key="customObject.name" value="name"/>
+    <string key="customObject.custom" value="My Object"/>
+    <string key="mysteryObject.material" value="Material"/>
+    <string key="mysteryObject.densityColumnHeader" value="Density ({0})"/>
+    <string key="mysteryObject.densityUnitsKgL" value="kg/L"/>
+    <string key="mysteryObject.table.title" value="Densities of Various Materials"/>
+    <string key="mysteryObject.table.showTable" value="Show Table"/>
+    <string key="forceArrows.gravity" value="Gravity"/>
+    <string key="forceArrows.buoyancy" value="Buoyancy"/>
+    <string key="forceArrows.contact" value="Contact"/>
+    <string key="forceArrows.fluidDrag" value="Fluid Drag"/>
+    <string key="material.wood" value="Wood"/>
+    <string key="material.lead" value="Lead"/>
+    <string key="material.aluminum" value="Aluminum"/>
+    <string key="material.brick" value="Brick"/>
+    <string key="material.diamond" value="Diamond"/>
+    <string key="material.water" value="Water"/>
+    <string key="material.waterBalloon" value="Water Balloon"/>
+    <string key="material.custom" value="My Object"/>
+    <string key="material.gold" value="Gold"/>
+    <string key="material.gasoline" value="Gasoline"/>
+    <string key="material.ice" value="Ice"/>
+    <string key="material.apple" value="Apple"/>
+    <string key="properties.volume" value="Volume"/>
+    <string key="properties.volumeLiterValue" value="{0} L"/>
+    <string key="properties.volumeMilliLiterValue" value="{0} mL"/>
+    <string key="properties.mass" value="Mass"/>
+    <string key="properties.massKilogramValue" value="{0} kg"/>
+    <string key="properties.massGramValue" value="{0} g"/>
+    <string key="properties.weightNewtonValue" value="{0} N"/>
+    <string key="properties.weightPoundValue" value="{0} lb"/>
+    <string key="properties.density" value="Density"/>
+    <string key="application.resetAll" value="Reset All"/>
+</SimStrings>

@@ -1,0 +1,64 @@
+PhET Weekly Progress Report
+John Blanco
+June 28, 2010
+
+Neuron – 20.0 hrs
+
+•	Worked on enhancing RecordAndPlaybackModel to support the paradigm used by Neuron (in collaboration with Sam).
+•	Made playback proceed from cursor location instead of from end (in collaboration with Sam).
+•	Made the stimulate button be disabled through all playback.
+•	Made cursor disappear and sim transition to record mode at end of playback.
+•	Tested list of use cases, modified code until all user interface use cases working.
+•	Published a snapshot for review and as a reference point.
+•	Added ability to save and restore membrane channel state.
+•	Part way through adding the ability to save and restore particle state.
+
+Installer Builder for Wicket-Based Web Site - 11.0 hrs
+
+•	Removed old cron job from Tigercat, put new one on Figaro.
+•	Archived the last of the non-Wicket installers on Spot, installed on my machine.
+•	Rebuilt and redeployed in order to fix broken resource links.
+•	Ran through full test plan and documented results, updated the Unfuddle ticket (#2296).
+•	Tested if Young & Freedman installer would build, found that it wouldn't, fixed the blocking issues.
+•	Tested if the KSU installer would build, found that they don't, currently working on fixing.
+•	Worked with Jonathan O. to make sure that all code signing certificates and information are sufficiently secure on Figaro.
+
+Glaciers - 0.5 hrs
+
+•	Spent some time trying to reproduce an exception that I encountered when comparing this to another sim, see #2424.
+•	Verified #2424 after Chris fixed it.
+
+Motion Series – 1.5 hrs
+
+•	Collaborated with Sam on chart issues.
+
+CCK – 1.0 hr
+
+•	Collaborated with Sam on focus issue (#2399)
+•	Collaborated with Sam on file extension issue (#2397).
+
+Miscellaneous - 1.0 hrs
+
+•	Configured Eclipse to expand tabs to spaces for style consistency between developers.
+•	Supported Kelly Reed of Putnum who is working on setting up the PhET sims for the Young and Freedman book.
+
+Meetings, Email, and Other Administrative Overhead - 5.0 hrs
+
+•	Weekly PhET meeting.
+•	Normal review and updating of Unfuddle issues.
+•	Normal email and administrative overhead.
+
+Vacation, Holiday, and Sick Leave - 0 hrs
+
+•	Taking Friday, July 2nd, as a vacation day.
+•	Monday, July 5th, is a holiday.
+
+What’s Next
+
+•	Finish record-and-playback for Neuron.
+•	Publish a version of Neuron for internal testing and review.
+•	Get KSU installers building successfully.
+•	Implement photon emission and absorption for Greenhouse.
+•	Continue port to Piccolo of existing tabs in Greenhouse.
+•	Continue work on Membrane Diffusion sim.
+

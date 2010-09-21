@@ -1,0 +1,35 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: June 29 - July 5, 2010 (Tue-Mon)
+
+ACCOMPLISHMENTS:
+
+Acid-Base Solutions:
+- collaborate with Sam on some clean up
+- publish 0.00.15
+
+Faraday:
+ - discuss bar magnet fix with Mike Dubson, provided time estimate, #2236
+ 
+ misc:
+ - moving-man: collaborate with Sam on some change requests
+ - ODF meeting to discuss ideas for new sims
+  
+WHAT'S NEXT:
+
+ - Capacitor Lab design & implementation 
+ - Acid-Base Solutions completion (after Chem Advisory Board feedback) 
+ - Faraday fix for dipole magnet, #2236 (waiting for info from Mike)
+ - Lasers fix for lifetime sliders, #2190 (waiting for instructions from Kathy)
+
+ISSUES:
+
+ - none
+
+DATES UNAVAILABLE:
+
+  July 24-31
+  August 1-6
+
+--

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--resistance-in-a-wire-strings_ar.xml created Sun Nov 15 18:37:31 AST 2009 using: resistance-in-a-wire 2.00.00 (30671), translation-utility 2.03.00 (36202) Oct 29, 2009-->
+<SimStrings>
+<string key="cm" value="سم"/>
+<string key="resistanceEq" value="المقاومة ="/>
+<string key="ohm" value="اوم"/>
+<string key="simTitle" value="مقاومة سلك"/>
+</SimStrings>

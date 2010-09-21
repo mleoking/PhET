@@ -1,0 +1,47 @@
+PhET Progress Report
+John Blanco
+February 4, 2009
+
+Installer & Web Site – 18.5 hrs
+
+•	Divided the installer code into more atomic chunks to enable generation of non-deployed versions of the installers, recreate test version of the installers more quickly, and support simplified versions of the installers (which install and uninstall more quickly and thus speed up the develop-test-fix cycle).
+•	Added the installer creation time stamp to the marker file used by Java sims.
+•	Implemented the ability to replace tags in the HTML files used to launch Flash sims in order to incorporate installation date and installer-creation date into these files.
+•	Worked with Dano on implementing the ability to save the latest installer date in the database.
+
+Code Signing Certificate - 8.0 hrs
+
+•	Ordered the code signing certificate from Comodo, worked on proving PhET's legitimacy through formal letter, phone records, etc.
+•	Tested several ways of signing JAR files and of accessing them via JNLP on a local machine.  This is the first step in automating the JAR signing process.
+
+Alpha Decay Tabbed Redesign - 2.0 hrs
+
+•	Met with Kathy, Trish, Noah P, and Wendy to review some suggested improvements based on Noah P's interviews.
+•	Found and started studying some existing code for drawing pie charts (in Rates and Reactions sim).
+
+Requirements and Test Plan for IOM Milestone – 4.0 hrs
+
+•	Added several new high-level ideas for test cases.
+•	Verified several Unfuddle issues resolved by other developers.
+
+Sim Deployment Test Plan - 1.5 hrs
+
+•	Met with Noah P about creating a simulation deployment 'checklist-style' test plan.
+•	Created an initial very rough cut and posted on Google docs, shared it, requested feedback.
+
+Meetings & Email - 6.0 hrs
+
+•	Weekly status meeting.
+•	Meetings with Sam, Chris, and Jonathon for clarifying requirements, design, and test cases for the statistics and update features.
+•	Normal email and administrative overhead.
+
+Upcoming Work
+
+•	Finish getting the code signing certificate, get manual signing process working.
+•	Circulate a version of the installer that contains signed JAR files for team members to test.
+•	Implement the ability for installer to update a single sim and redeploy.
+•	Make it possible to kick off a single-sim installer rebuild when a new version of a sim (Flash or Java) is deployed to the production web site.
+•	Get automated JAR signing process sorted out and implemented.
+•	Implement requested changes for Tabbed Alpha Decay.
+•	Start on implementation of Heterogeneous Interaction Potential.
+

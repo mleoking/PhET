@@ -1,0 +1,38 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: May 20-31, 2010 (Thu-Mon)
+
+ACCOMPLISHMENTS:
+
+ Capacitor Lab:
+ - design meeting 5/20 with Noah P.
+ - meters design with Noah P. and Sam R.
+ - factored out base class for bar meters
+ - implemented capacitance meter
+ - started work on a model-independent voltmeter, based on CCK
+
+ misc:
+ - status meeting 5/20
+ - reviewed work on logging libraries (log4j, java.util.logging) for sims and website, #1506
+ - verified advanced-acid-base-solutions with PSwing 1.3, #2171
+ - Sound issue with logging configuration, #2386
+
+WHAT'S NEXT:
+
+ - Capacitor Lab design & implementation 
+ - Acid-Base Solutions design & implementation 
+ - Faraday fix for dipole magnet, #2236 (waiting for info from Mike)
+ - Lasers fix for lifetime sliders, #2190 (waiting for instructions from Kathy)
+
+ISSUES:
+
+ - none
+
+DATES UNAVAILABLE:
+
+  June 2-9, 14-24
+  July 24-31
+  August 1-6
+
+--

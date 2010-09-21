@@ -1,0 +1,171 @@
+
+
+
+
+
+
+/*Button*/
+
+.buttonSubmit, .buttonSubmitHovered {
+width:69px;
+	height:26px;
+	color:#FFF;
+	font-weight:bold;
+	padding:0px;
+	background:url(../images/button.gif) no-repeat left top;
+	cursor:pointer;
+	border:none;
+}
+
+.buttonSubmitHovered {
+	background-position:left bottom;
+}
+
+/*Text inputs*/
+
+.textinput, .textinputHovered {
+	width:236px;
+	height:15px;
+	background:url(../images/input.gif) no-repeat left top;
+	border:none;
+	padding:0;
+}
+
+.textinputHovered {
+	background-position:left bottom;
+}
+
+
+/*Text areas*/
+
+.textarea, .textareaHovered {
+	width:336px;
+	height:125px;
+	background:url(../images/textarea.gif) no-repeat left top;
+	border:none;
+	padding:4px 8px;
+}
+
+.textareaHovered {
+	background-position:left bottom;
+}
+
+
+
+
+
+#navcontainer
+{
+margin: 50px 0px 0px 0px;
+padding: 0px;
+
+}
+
+#navcontainer ul
+{
+margin: 0px;
+padding: 0px;
+list-style-type: none;
+text-align: left;
+}
+
+#navcontainer ul li { float: left; }
+
+#navcontainer ul li a
+{
+text-decoration: none;
+background: url(../images/folderOFF.png) no-repeat top left;
+font-size: 10px/12px;
+float: left;
+margin: 0px;
+height: 67px;
+width: 75px;
+padding-top: 13px;
+padding-right: 15px;
+padding-bottom: 0px;
+padding-left: 10px;
+}
+
+#navcontainer li a:hover
+{
+background: url(../images/folderON.png) no-repeat left top;
+color: #000000;
+}
+
+
+p.indisim	{
+margin: 40px 0px 0px 0px;
+}
+
+span.burg	{
+color: #900;
+}
+
+p.indisim a.d-arrow {
+background: url(../images/double-arrow.png) 0px 2px no-repeat;
+padding: 0px 5px 0px 15px;
+font-color: #900;
+font-size: 12px;
+text-transform: none;
+}
+
+p.indisim a.d-arrow:hover {
+background: url(../images/double-arrow.png) 0px 2px no-repeat;
+padding: 0px 5px 0px 15px;
+border-bottom: 1px dotted #900;
+}
+
+
+
+/* dropOut Menu */
+
+#faq #nav	{
+margin: 20px 0px 0px 0px;
+width: 500px;
+}
+
+#faq  ul {
+margin: 0;
+padding: 0px 0px 0px 0px;
+list-style: none;
+width: 498px; /* Width of Menu Items */
+}
+
+
+#faq ul li {
+position: relative;
+border: none;
+list-style: none;
+}
+
+
+#faq li ul {
+position: relative;
+left: 0px; /* Set 1px less than menu width */
+top: 0;
+display: none;
+}
+
+
+/* Styles for Menu Items */
+
+#faq ul li a {
+display: block;
+text-decoration: none;
+color: #900;
+background: none; 
+padding: 6px 0px 6px 23px;
+background: url(../images/question.gif) no-repeat 0px 4px;
+}
+
+#faq ul li a:hover {
+display: block;
+text-decoration: none;
+color: #666;
+background: none; 
+padding: 6px 0px 6px 23px;
+background: url(../images/question.gif) no-repeat 0px 4px;
+}
+
+
+

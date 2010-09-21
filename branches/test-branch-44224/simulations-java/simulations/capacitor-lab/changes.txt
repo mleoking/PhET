@@ -1,0 +1,136 @@
+9/7/10 fixed plate area drag handler, use only x drag coordinate because y dimension is foreshortened for pseudo-3D perspective
+9/7/10 resolve ordering problem with plate area drag handle offset
+9/7/10 doc and consolidate duplicate code in BoxNode
+9/7/10 replace EasyGridBagLayout with GridPanel throughout
+9/7/10 created GridPanel, will test it here than migrate to phetcommon
+9/2/10 move all drag code to new capacitorlab.drag package
+9/2/10 make dielectric directly draggable, use same handler as drag arrow 
+9/2/10 promote drag handlers from inner classes to top-level types
+8/31/10 move "Model Values" check box to Developer Controls panel
+8/31/10 migrate ColoredSeparator to phetcommon
+8/31/10 replace borders with separators in subpanels
+8/31/10 replace CLTitledControlPanel with PhetTitledPanel
+8/26/10 add stubs for Multiple Capacitors tab
+7/9/10 attempt to fix plate area drag handle, still broken
+7/9/10 move model listener responsibilities into drag handle nodes
+7/9/10 fix drag handles for dielectric offset and plate separation 
+7/8/10 add overload indicator to bar meters
+5/21/10 started work on a model-independent voltmeter (incomplete, see TODO.txt)
+5/20/10 copy voltmeter image files from CCK, confirmed licensing with Sam R.
+5/20/10 capacitance meter
+5/20/10 create base class for bar meters, refactor existing meters
+# 0.00.05 (40913) May 19, 2010
+5/19/10 dev version to verify model changes
+5/19/10 implement new model of charge, surface charge density, and E-field, as specified by NP
+5/19/10 change variable names in ModelValuesPanel to match variable names in design doc
+5/19/10 rework model assertions and arg checking
+5/19/10 new model of surface charge density, to avoid divide-by-zero errors when area=0
+5/19/10 assert necessary model conditions
+5/19/10 add support for negative dielectric offset
+5/19/10 add Stored Energy meter
+5/19/10 consolidate meter range constants in CLConstants
+# 0.00.04 (40879) May 19, 2010
+5/19/10 new model, plate charge meter, disconnect plate charge control
+5/18/10 reorganize model to be similar to specification
+5/18/10 add dielectric offset to model values display
+5/18/10 add descriptions to model values display via tool tips
+5/18/10 display model values in a dialog, too crowded in the play area
+5/18/10 implement new model provided by NP, using "2 parallel capacitors" approach
+5/17/10 display plate charge value the same way in control and meter
+5/17/10 add background to plate charge control
+5/17/10 custom Piccolo slider for plate charge, first pass
+5/17/10 change model so that user can set either voltage or charge
+5/17/10 create spreadsheet version of model, for verification and debugging
+5/17/10 revise model description
+5/17/10 change format of values in Developer meter
+5/15/10 concise model description in doc/model.txt
+# 0.00.03 (40785) May 15, 2010
+5/15/10 add surface charge density to Developer Meter
+5/13/10 handle battery connection properly, move it out of battery and into circuit
+5/13/10 add constants to Developer meter
+5/13/10 fix Qexcess model
+5/13/10 Plate Charge meter: change label, show +- value, red/blue bar based on +-
+# 0.00.02 (40610) May 11, 2010
+5/11/10 dev version to demonstrate a couple of meters
+5/11/10 format numbers in developer meter
+5/11/10 add check box, background and close button for developer meter
+5/11/10 make meters invisible by default
+5/11/10 fix dragging of Plate Charge meter, constrain to canvas, keep visible when canvas is resized
+5/11/10 first pass at Plate Charge meter, meter works, close button works, drag behavior is broken
+5/11/10 implement questionable model for Qexcess
+5/11/10 move dielectric constant for air to Air class
+# 0.00.01 (40556) May 10, 2010
+5/10/10 dev version for verifying physical model specification
+5/10/10 implement Qexcess, but the specification appears to be wrong
+5/10/10 identified bugs in physical model specification, fixed in code
+5/10/10 add some things to DevModelDisplayNode
+5/10/10 use max plate separate for default, so that we have min model values
+5/10/10 bug fix in capacitance model
+5/10/10 set all default values to mins
+5/10/10 don't show dielectric constant in combo box for custom dielectric material, since it's mutable
+5/10/10 update DevModelDisplayNode when custom dielectric constant is modified
+5/10/10 show full precision of values in DevModelDisplayNode, so we can see which digits are changing
+5/10/10 change plate separation range to 5-10mm, so that dielectric has a substantial thickness
+5/10/10 use ranges specified by Noah P, recalibrate locations and model-view transform
+5/10/10 developer node for displaying various model values
+5/10/10 remove obsolete developer controls so I don't have to convert them from mm to meters
+5/10/10 reduce width of Dielectric Constant text field
+5/10/10 add air as a dielectric material
+5/10/10 convert model from millimeters to meters throughout, to match the specification
+5/10/10 utilities for converting between model and view units
+5/10/10 implement battery-capacitor circuit model
+5/10/10 add dielectric inside/outside area to capacitor model
+5/10/10 add arg checks to capacitor model
+5/6/10 change meter name from "Charge" to "Plate Charge"
+5/6/10 change "Disconnect/Connect" button to "Add/Remove Wires" button, center above top wire
+5/5/10 add cursor handler to disconnect/connect button
+5/5/10 make voltage slider knob larger, use same colors as drag handles
+5/5/10 remove developer control panel from Dielectric module control panel
+5/5/10 implement handlers for drag handles (still has some coordinate frame conversion issues)
+5/5/10 use strategy pattern for determining how to color the faces of a box
+5/5/10 custom renderer for combo box that provides choice of dielectric materials
+5/5/10 add wire to model
+5/5/10 fix positioning of plate area drag handle
+5/5/10 change layout of plate area drag handle to line up with plate surface diagonal
+5/4/10 add drag handles for plate area and separation (not wired up)
+5/4/10 generalize components of drag handles
+5/4/10 migrate HighlightHandler to piccolo-phet
+5/4/10 generalize the handler for highlight nodes, see HighlightHandler
+5/4/10 add offset value display to drag handle
+5/4/10 doc capacitor properties
+5/4/10 add dielectric gap to model and view
+5/3/10 first pass at drag handle for dielectric offset (not wired up)
+5/3/10 add more horizontal space between battery and capacitor
+5/3/10 add connect/disconnect button
+5/3/10 add battery connectivity to model
+5/3/10 add wires, no model, purely visual representation
+5/3/10 change origin marker to a bullseye, so it won't be confused with a positive charge
+5/3/10 align capacitor's geometric center with the origin of the model coordinate system
+5/3/10 wire up more controls to model
+5/3/10 wired up developer controls to model
+5/3/10 added developer controls for direct-manipulation properties that aren't implemented yet
+5/3/10 simplified the model, deleted Plate and Dielectric classes
+4/30/10 change viewing angle to match design document
+4/30/10 adjust mvt offsets
+4/30/10 add model origin marker to scenegraph
+4/30/10 add location to battery and capacitor models
+4/30/10 add model-view transform
+4/30/10 utilities for find the area and centroid of a polygon
+4/30/10 make custom dielectric material mutable
+4/30/10 i18n of dielectric material names
+4/29/10 quick-and-dirty first pass at pseudo-3D representation of plates and dielectric
+4/28/10 add control for selecting specific dielectric materials
+4/27/10 add control panel for dielectric properties (not wired up)
+4/27/10 make all control panels the same width
+4/27/10 add control panels for Introduction module (not wired up)
+4/27/10 add various localized strings
+4/27/10 i18n of units in voltage slider
+4/27/10 clean up and rename battery slider
+4/27/10 add interactivity to battery slider
+4/26/10 more work on battery slider (incomplete)
+4/26/10 check in battery slider knob images, copied from faraday
+4/26/10 framework for modules, canvases, control panels, etc.
+4/26/10 battery node with no slider
+4/26/10 check in battery images and assets received from Noah P.
+4/26/10 start modeling size attributes
+4/15/10 create project skeleton in SVN

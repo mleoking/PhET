@@ -1,0 +1,10 @@
+###################################
+# License info for conductivity
+# Automatically generated on Fri Aug 08 00:08:00 MDT 2008
+###################################
+
+AA-battery.gif author=PhET 
+battery.png author=PhET 
+light.gif source=microsoft notes=j0254314.wmf 
+particle-blue-sml.gif author=PhET 
+photon-comet-42.png author=PhET 

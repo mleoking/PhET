@@ -1,0 +1,33 @@
+<?xml version="1.0" ?>
+<SimStrings>
+  <string key="rulers" value="reglas" />
+  <string key="timer" value="contador" />
+  <string key="amplitude" value="amplitud" />
+  <string key="frequency" value="frecuecia" />
+  <string key="pulseWidth" value="extensión del pulso" />
+  <string key="damping" value="amortiguación" />
+  <string key="tension" value="tensión" />
+  <string key="low" value="baja" />
+  <string key="high" value="alta" />
+  <string key="showHelp" value="mostrar ayuda" />
+  <string key="hideHelp" value="ocultar ayuda" />
+  <string key="wiggleWrench" value="mueva la llave inglesa" />
+  <string key="manual" value="manual" />
+  <string key="oscillate" value="oscilación" />
+  <string key="pulse" value="pulso" />
+  <string key="reset" value="reiniciar" />
+  <string key="pulse2" value="pulso" />
+  <string key="paused" value="pausado" />
+  <string key="fixedEnd" value="final fijado" />
+  <string key="looseEnd" value="final suelto" />
+  <string key="noEnd" value="sin final" />
+  <string key="wrenchHelp" value="llave inglesa movible" />
+  <string key="rulerHelp" value="regla movible" />
+  <string key="timerHelp" value="contador movible" />
+  <string key="refLineHelp" value="linea de referecia movible" />
+  <string key="pausePlay" value="pausa/acción" />
+  <string key="step" value="un paso" />
+  <string key="resetTimer" value="reiniciar contador" />
+  <string key="startTimer" value="iniciar contador" />
+ 
+</SimStrings>

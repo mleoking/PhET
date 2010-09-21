@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--calculus-grapher-strings_ar.xml created Tue Nov 10 20:07:34 AST 2009 using: calculus-grapher 2.02.00 (34696), translation-utility 2.03.00 (36202) Oct 29, 2009-->
+<SimStrings>
+<string key="simDescription" value="وصف لراسم حساب التفاضل والتكامل"/>
+<string key="smooth" value="سلس"/>
+<string key="undo" value="تراجع"/>
+<string key="zero" value="صفر"/>
+<string key="simTitle" value="راسم حساب التفاضل والتكامل"/>
+</SimStrings>

@@ -1,0 +1,138 @@
+<html>
+<head>
+  <title>AutoSelectBox Demo with AJAX</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <style type="text/css">
+  @import url(../css/tdStyles.css);
+  </style>
+</head>
+<script type="text/javascript" src="../tdCode/tdAutoSelectDefaults.js"></script>
+<script type="text/javascript" src="../tdCode/tdAutoSelectBox.js"></script>
+
+<script language="JavaScript">
+/* processRequest
+ *  makes ajax validation request
+ *  input: thisForm - the form containing the data you need to input to the processing page
+ *         processingPage: the server-side code you are calling, an asp, aspx, php file, etc.
+
+ */
+function processRequest(thisForm, processingPage) {
+
+    var params = parameterizeFormElements(thisForm);
+
+    var req = initRequestor();
+    if (thisForm.id == "stateForm") {
+        processResponse = processCityCodes;
+    } else if (thisForm.id == "cityForm") {
+        processResponse = processZipCodes;
+    }
+
+    req.onreadystatechange = waitForReadyState(req, processResponse);
+
+    req.open("POST", processingPage, true); //opens request using GET or POST to the Processing Page
+    req.setRequestHeader("If-Modified-Since", "Sat, 1 Jan 2000 00:00:00 GMT"); //prevents cashing
+    req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    req.setRequestHeader("Connection", "close");
+    req.send(params);
+
+    return false; //return false to avoid automatical form submittal
+}
+
+// processes the response message for the city codes
+var CitySelectBox; //this must be ddeclared as a global
+function processCityCodes(resXML, resText) {
+
+    CitySelectBox = new Object();
+    CitySelectBox.name = "CitySelectBox";
+    CitySelectBox.valList = resText;
+    CitySelectBox.selectBoxID = "cityCode"
+    CitySelectBox.maxwidth = "120";
+    CitySelectBox.maxchar = "20";
+    CitySelectBox.maxheight = "90";
+    CitySelectBox.autotrunc = true;
+    CitySelectBox.freetype = false;
+    CitySelectBox.onSelect = "processRequest(document.forms.cityForm, 'AJAXprocessor.php');";
+
+    //must re-create the select box
+    createSelectBox(CitySelectBox);
+}
+
+// processes the response message for the zip codes
+var ZipSelectBox; //this must be declared as a global
+var MultiZipSelectBox; //this must be declared as a global
+function processZipCodes(resXML, resText) {
+
+    ZipSelectBox = new Object();
+    ZipSelectBox.name = "ZipSelectBox";
+    ZipSelectBox.valList = resText;
+    ZipSelectBox.selectBoxID = "zipCode"
+    ZipSelectBox.maxwidth = "60";
+    ZipSelectBox.maxchar = "5";
+    ZipSelectBox.maxheight = "115";
+    ZipSelectBox.autotrunc = true;
+    ZipSelectBox.freetype = false;
+
+    MultiZipSelectBox = new Object();
+    MultiZipSelectBox.name = "MultiZipSelectBox";
+    MultiZipSelectBox.multiBoxID = "multiZip";
+    MultiZipSelectBox.multiwidth = ZipSelectBox.maxwidth;
+
+    //must re-create the select box
+    createSelectBox(ZipSelectBox);
+
+    //if multiselectbox already exists, do not re-create it
+    if (document.getElementById(MultiZipSelectBox.multiBoxID).innerHTML=="") {
+        //if we do want to wipe-out the old select box, remove this code
+        createMultiSelectBox(MultiZipSelectBox, ZipSelectBox);
+     }
+}
+
+</script>
+
+<body>
+
+<h2>AutoSelectBox Demo with AJAX</h2>
+<p>
+This should demonstrate the AJAX call-back capability of tdAutoSelectBox.  It calls to AJAXProcessor.PHP.
+If this page is not working, it may be because your web server does not support PHP.
+</p>
+<br />
+<form id="stateForm">
+<b>Select or type in a state:</b>
+<div id="stateCode"></div>
+<script>
+var StateSelectBox = new Object();
+StateSelectBox.name = "StateSelectBox";
+
+StateSelectBox.valList = "Arizona;AZ|California;CA|Colorado;CO";
+
+StateSelectBox.selectBoxID = "stateCode";
+StateSelectBox.maxwidth = "90";
+StateSelectBox.maxchar = "13";
+StateSelectBox.maxheight = "110"; //pixels
+StateSelectBox.autotrunc = false;
+StateSelectBox.freetype = false;
+StateSelectBox.onSelect = "processRequest(document.forms.stateForm, 'AJAXprocessor.php')";
+
+createSelectBox(StateSelectBox);
+</script>
+<button type="button" onclick="processRequest(document.forms.stateForm, 'AJAXprocessor.php');">Submit</button>
+</form>
+<br />
+
+<form id="cityForm">
+<b>Choose the City</b>
+<div id="cityCode">(please select the state first)</div>
+<button type="button" onclick="processRequest(document.forms.cityForm, 'AJAXprocessor.php');">Submit</button>
+</form>
+
+<form id="zipForm">
+<b>Add Zip Codes:</b><br />
+<div id="zipCode">(please select a city first)</div>
+<div id="multiZip"></div>
+
+<button>Submit</button>
+
+</form>
+</body>
+</html>
