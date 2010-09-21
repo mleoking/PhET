@@ -168,6 +168,8 @@ public abstract class BarMeterNode extends PhetPNode {
         
         // layout
         updateLayout();
+        
+        updateScaleButtonVisibility();
     }
     
     private void updateLayout() {
@@ -206,15 +208,18 @@ public abstract class BarMeterNode extends PhetPNode {
         scaleButton.setOffset( x, y );
     }
     
+    private void updateScaleButtonVisibility() {
+        double mantissa = value / Math.pow( 10, valueExponent );
+        // if mantissa < 1, we'll be zooming in; > 10, we'll be zooming out.
+        scaleButton.setVisible( ( value != 0 ) && ( mantissa < 1 || mantissa > 10 ) );
+    }
+    
     private void updateValueExponent() {
         if ( value != 0 ) {
             int exponent = 0;
-            double mantissa = value / Math.pow( 10, exponent );
-            System.out.println( "value=" + value + " exponent=" + exponent + " mantissa=" + mantissa );
-            while ( mantissa < 1 ) {
+            // look for an exponent that make the mantissa >= 1
+            while ( ( value / Math.pow( 10, exponent ) ) < 1 ) {
                 exponent--;
-                mantissa = value / Math.pow( 10, exponent );
-                System.out.println( "value=" + value + " exponent=" + exponent + " mantissa=" + mantissa );
             }
             setValueExponent( exponent );
         }
@@ -239,6 +244,7 @@ public abstract class BarMeterNode extends PhetPNode {
             valueNode.setValue( value );
             
             updateLayout();
+            updateScaleButtonVisibility();
         }
     }
     
@@ -259,6 +265,7 @@ public abstract class BarMeterNode extends PhetPNode {
             valueNode.setExponent( valueExponent );
             
             updateLayout();
+            updateScaleButtonVisibility();
         }
     }
     
