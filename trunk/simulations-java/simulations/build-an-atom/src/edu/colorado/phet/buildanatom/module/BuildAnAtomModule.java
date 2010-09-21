@@ -4,13 +4,11 @@ package edu.colorado.phet.buildanatom.module;
 
 import java.awt.Frame;
 
-import edu.colorado.phet.common.piccolophet.PiccoloModule;
-import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
-import edu.colorado.phet.buildanatom.controlpanel.BuildAnAtomControlPanel;
 import edu.colorado.phet.buildanatom.model.BuildAnAtomClock;
 import edu.colorado.phet.buildanatom.model.BuildAnAtomModel;
 import edu.colorado.phet.buildanatom.view.BuildAnAtomCanvas;
+import edu.colorado.phet.common.piccolophet.PiccoloModule;
 
 /**
  * Module template.
@@ -23,8 +21,6 @@ public class BuildAnAtomModule extends PiccoloModule {
 
     private BuildAnAtomModel model;
     private BuildAnAtomCanvas canvas;
-    private BuildAnAtomControlPanel controlPanel;
-    private PiccoloClockControlPanel clockControlPanel;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -41,10 +37,6 @@ public class BuildAnAtomModule extends PiccoloModule {
         canvas = new BuildAnAtomCanvas( model );
         setSimulationPanel( canvas );
 
-        // Control Panel
-        controlPanel = new BuildAnAtomControlPanel( this, parentFrame, model );
-        setControlPanel( controlPanel );
-        
         // Help
         if ( hasHelp() ) {
             //XXX add help items
