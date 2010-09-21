@@ -240,7 +240,7 @@ abstract class MotionSeriesControlChart(motionSeriesModel: MotionSeriesModel, fo
   val controlPanel = new PNode {
     val visible = new MutableBoolean(false) //go button should become visible when user specifies a force by dragging the slider or typing in the text field
     addChild(new PSwing(new SeriesSelectionControl("forces.parallel-title-with-units".translate, gridSize) {
-      val editableLabel = new EditableLabel(appliedForceSeries){
+      val editableLabel = new EditableLabel(appliedForceSeries) {
         override def setValueFromText() = visible.setValue(true) //show the go button
       }
       addToGrid(appliedForceSeries, editableLabel)

@@ -44,7 +44,7 @@ class TickMarkSet(transform: ModelViewTransform2D, positionMapper: PositionMappe
     addListener(update)
     def update() = {
       val vector = positionMapper(x)
-      val d = transform.modelToView(vector.x,vector.y)
+      val d = transform.modelToView(vector.x, vector.y)
       path.setPathTo(new Rectangle2D.Double(d.x, d.y, 2, 2))
       label.setOffset(path.getFullBounds.getCenterX - label.getFullBounds.width / 2, path.getFullBounds.getMaxY)
     }
