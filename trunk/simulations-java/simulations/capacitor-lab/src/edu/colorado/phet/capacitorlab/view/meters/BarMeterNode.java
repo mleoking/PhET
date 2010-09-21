@@ -56,7 +56,8 @@ public abstract class BarMeterNode extends PhetPNode {
     
     // ticks
     private static final int NUMBER_OF_TICKS = 10;
-    private static final double TICK_MARK_LENGTH = 10;
+    private static final double MAJOR_TICK_MARK_LENGTH = 5;
+    private static final double MINOR_TICK_MARK_LENGTH = 10;
     private static final Color TICK_MARK_COLOR = TRACK_STROKE_COLOR;
     private static final Stroke TICK_MARK_STROKE = TRACK_STROKE;
     
@@ -87,6 +88,7 @@ public abstract class BarMeterNode extends PhetPNode {
     private final OverloadIndicatorNode overloadIndicatorNode;
     private final ScaleButtonNode scaleButton;
     private final PImage closeButton;
+    private final TickMarkNode maxTickMarkNode, minTickMarkNode;
     
     private double value;
     private int valueExponent;
@@ -119,13 +121,19 @@ public abstract class BarMeterNode extends PhetPNode {
         barNode = new BarNode( barColor, maxValue, value );
         addChild( barNode );
         
-        // ticks
+        // ticks inside the track
         double deltaY = TRACK_SIZE.height / NUMBER_OF_TICKS;
         for ( int i = 0; i < NUMBER_OF_TICKS; i++ ) {
-            TickMarkNode tickMarkNode = new TickMarkNode();
+            TickMarkNode tickMarkNode = new TickMarkNode( MINOR_TICK_MARK_LENGTH );
             addChild( tickMarkNode );
             tickMarkNode.setOffset( 0, ( i + 1 ) * deltaY );
         }
+        
+        // ticks outside the track, for min and max
+        maxTickMarkNode = new TickMarkNode( MAJOR_TICK_MARK_LENGTH );
+        addChild( maxTickMarkNode );
+        minTickMarkNode = new TickMarkNode( MAJOR_TICK_MARK_LENGTH );
+        addChild( minTickMarkNode );
         
         // min range label
         minLabelNode = new RangeLabelNode( "0" );
@@ -187,14 +195,22 @@ public abstract class BarMeterNode extends PhetPNode {
         trackNode.setOffset( x, y );
         // bar inside track
         barNode.setOffset( trackNode.getOffset() );
-        // min label at lower left of track
-        x = -( minLabelNode.getFullBoundsReference().width + 2 );
-        y = trackNode.getFullBoundsReference().getMaxY() - ( minLabelNode.getFullBoundsReference().getHeight() / 2 );
-        minLabelNode.setOffset( x, y );
-        // max label at upper left of track
-        x = -( maxLabelNode.getFullBoundsReference().width + 2 );
-        y = trackNode.getFullBoundsReference().getMinX() - ( maxLabelNode.getFullBoundsReference().getHeight() / 2 );
+        // max tick mark at top of track
+        x = -maxTickMarkNode.getFullBoundsReference().getWidth();
+        y = trackNode.getYOffset();
+        maxTickMarkNode.setOffset( x, y );
+        // min tick mark at bottom of track
+        x = -minTickMarkNode.getFullBoundsReference().getWidth();
+        y = trackNode.getFullBoundsReference().getMaxY() - minTickMarkNode.getFullBoundsReference().getHeight();
+        minTickMarkNode.setOffset( x, y );
+        // max label centered on max tick
+        x = maxTickMarkNode.getFullBoundsReference().getMinX() - maxLabelNode.getFullBoundsReference().width - 2;
+        y = maxTickMarkNode.getFullBoundsReference().getCenterY() - ( maxLabelNode.getFullBoundsReference().getHeight() / 2 );
         maxLabelNode.setOffset( x, y );
+        // min label centered on min tick
+        x = minTickMarkNode.getFullBoundsReference().getMinX() - minLabelNode.getFullBoundsReference().width - 2;
+        y = minTickMarkNode.getFullBoundsReference().getCenterY() - ( minLabelNode.getFullBoundsReference().getHeight() / 2 );
+        minLabelNode.setOffset( x, y );
         // overload indicator centered above track
         x = trackNode.getFullBoundsReference().getCenterX();
         y = trackNode.getFullBoundsReference().getMinY() - overloadIndicatorNode.getFullBoundsReference().getHeight() - 1;
@@ -211,8 +227,8 @@ public abstract class BarMeterNode extends PhetPNode {
         x = trackNode.getFullBoundsReference().getMaxX() + 2;
         y = trackNode.getFullBoundsReference().getMinY();
         closeButton.setOffset( x, y );
-        // zoom button below max label
-        x = barNode.getFullBoundsReference().getMinX() - scaleButton.getFullBoundsReference().getWidth() - 8;
+        // scale button below max label
+        x = maxLabelNode.getFullBoundsReference().getMaxX() - scaleButton.getFullBoundsReference().getWidth() - 8;
         y = maxLabelNode.getFullBoundsReference().getMaxY() + 5;
         scaleButton.setOffset( x, y );
     }
@@ -352,8 +368,8 @@ public abstract class BarMeterNode extends PhetPNode {
      */
     private static class TickMarkNode extends PPath {
         
-        public TickMarkNode() {
-            super( new Line2D.Double( 0, 0, TICK_MARK_LENGTH, 0 ) );
+        public TickMarkNode( double tickMarkLength ) {
+            super( new Line2D.Double( 0, 0, tickMarkLength, 0 ) );
             setStrokePaint( TICK_MARK_COLOR );
             setStroke( TICK_MARK_STROKE );
         }

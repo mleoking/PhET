@@ -4,7 +4,6 @@ QUESTIONS FOR NOAH
 
 HIGH PRIORITY
 - use phetcommon mvt
-- bar meters: add ticks outside the track for min and max labels
 - bar meters: don't allow meters to be dragged by buttons, this prevents ability to roll off buttons
 - add cables and drag behavior to voltmeter, see CCK's VoltmeterNode
 - voltmeter notifiers for moving probes or meter body
