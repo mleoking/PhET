@@ -171,8 +171,7 @@ public abstract class Simulation {
         // create the test jar
         final String testJarFileName = TEST_JAR;
         try {
-            String stringFilePath = getJarCreator().getStringsFilePath( getProjectName(), locale );
-            getJarCreator().createLocalizedJar( getJarFileName(), testJarFileName, locale, localizedStrings, stringFilePath, true /* deleteOnExit */ );
+            getJarCreator().createLocalizedJar( getJarFileName(), testJarFileName, locale, localizedStrings, true /* deleteOnExit */ );
         }
         catch ( IOException ioe ) {
             throw new SimulationException( "failed to create test jar" );

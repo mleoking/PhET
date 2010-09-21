@@ -75,11 +75,10 @@ public abstract class JarCreator {
      * @param outputJarName full path name of the output jar
      * @param locale locale for the output jar
      * @param localizedStrings localized strings, in Properties format
-     * @param stringsFilePath full path of the localized strings resource in the output jar
      * @param deleteOnExit should the output jar be automatically deleted when the JVM exits?
      * @throws IOException
      */
-    public void createLocalizedJar( String inputJarName, String outputJarName, Locale locale, Properties localizedStrings, String stringsFilePath, boolean deleteOnExit ) throws IOException {
+    public void createLocalizedJar( String inputJarName, String outputJarName, Locale locale, Properties localizedStrings, boolean deleteOnExit ) throws IOException {
         
         // don't allow the input jar to be overwritten
         if ( inputJarName.equals( outputJarName ) ) {
@@ -94,6 +93,9 @@ public abstract class JarCreator {
         
         // read subclass-specific files
         readJarEntries( inputJarName, locale );
+        
+        // path to strings file resource in output JAR
+        final String stringsFilePath = getStringsFilePath( simulationProperties.getProject(), locale );
         
         // regular expressions for files to exclude while copying the JAR
         ArrayList<String> list = new ArrayList<String>();
