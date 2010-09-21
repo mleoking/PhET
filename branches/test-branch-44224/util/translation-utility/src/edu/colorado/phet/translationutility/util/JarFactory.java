@@ -111,7 +111,7 @@ public class JarFactory {
                 DocumentAdapter.writeProperties( localizedStrings, header, jarOutputStream );
             }
             catch ( DocumentIO.DocumentIOException e ) {
-                throw new IOException( "problem converting strings to XML", e );
+                throw new IOException( "problem converting strings to XML, wrapped exception message: "+e.getMessage() );
             }
             jarOutputStream.closeEntry();
 

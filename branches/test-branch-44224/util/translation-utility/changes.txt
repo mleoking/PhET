@@ -1,3 +1,4 @@
+9/21/10 converted Java 1.6 API usage to Java 1.5
 9/15/10 #2492, phase 2: move jar localization code to JarFactory (lightly tested)
 9/15/10 #2492, move more general jar function to JarUtil
 # 2.09.00 (44031) Sep 13, 2010
