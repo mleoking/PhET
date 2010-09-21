@@ -1,6 +1,0 @@
-###################################
-# License info for motion-series
-# Automatically generated on Fri Aug 08 00:08:03 MDT 2008
-###################################
-
-robot-moving-company-us8mon.wav author=PhET notes= Sam Reid made this using SayIt
