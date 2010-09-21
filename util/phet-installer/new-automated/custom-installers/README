@@ -10,8 +10,11 @@ to the main directory (one above this directory), and not worry about the
 distinction between the custom and non-custom installers.
 
 This directory, the custom-installers directory, will be kept here for a while
-for historical purposes, and then it should be removed.  It should contain
-nothing other than this readme file.
+for historical purposes, and then it should be removed.  Let's say that we
+keep it for a year and then it should be deleted, so if you are reading this
+after 9/17/2011, feel free to remove the entire custom-installer directory
+from SVN.  The directory should contain only this README file and the logs of
+the previous installer builds.
 
 For more information on this, see Unfuddle issues 2296 & 2512
 
