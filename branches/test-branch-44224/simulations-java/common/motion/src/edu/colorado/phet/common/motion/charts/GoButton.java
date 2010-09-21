@@ -14,7 +14,7 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class GoButton extends PNode {
-    public GoButton(final RecordAndPlaybackModel recordAndPlaybackModel, final MutableBoolean modeSelected) {
+    public GoButton(final RecordAndPlaybackModel recordAndPlaybackModel, final MutableBoolean visible) {
         final PlayPauseButton button = new PlayPauseButton(30);
         SimpleObserver updateButtonState = new SimpleObserver() {
             public void update() {
@@ -30,11 +30,11 @@ public class GoButton extends PNode {
         });
         final SimpleObserver observer = new SimpleObserver() {
             public void update() {
-                button.setVisible(modeSelected.getValue());
+                button.setVisible(visible.getValue());
             }
         };
         observer.update();
-        modeSelected.addObserver(observer);
+        visible.addObserver(observer);
         recordAndPlaybackModel.addObserver(observer);
         addChild(button);
     }

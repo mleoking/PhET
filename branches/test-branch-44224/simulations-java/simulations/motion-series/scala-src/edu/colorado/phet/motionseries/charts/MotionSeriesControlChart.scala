@@ -20,6 +20,7 @@ import java.awt.geom.{RoundRectangle2D, Rectangle2D}
 import java.text.DecimalFormat
 import java.awt.{BasicStroke, Color}
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow
+import edu.umd.cs.piccolo.event.{PInputEvent, PBasicInputEventHandler}
 
 object ChartDefaults {
   val LABEL_OFFSET_DY = 5 //distance between bottom of the chart and top of the time axis label
@@ -235,17 +236,27 @@ abstract class MotionSeriesControlChart(motionSeriesModel: MotionSeriesModel, fo
 
   def gridSize = 5
 
+  val sliderNode = createSliderNode(temporalChart)
   val controlPanel = new PNode {
+    val visible = new MutableBoolean(false) //go button should become visible when user specifies a force by dragging the slider or typing in the text field
     addChild(new PSwing(new SeriesSelectionControl("forces.parallel-title-with-units".translate, gridSize) {
-      addToGrid(appliedForceSeries, createEditableLabel)
+      val editableLabel = new EditableLabel(appliedForceSeries){
+        override def setValueFromText() = visible.setValue(true) //show the go button
+      }
+      addToGrid(appliedForceSeries, editableLabel)
       for (s <- additionalSerieses) addToGrid(s)
     }))
-    val goButton = new GoButton(motionSeriesModel, new MutableBoolean(true))
+    sliderNode.addInputEventListener(new PBasicInputEventHandler() {
+      override def mouseDragged(event: PInputEvent) = {
+        visible.setValue(true)
+      }
+    })
+    val goButton = new GoButton(motionSeriesModel, visible)
     goButton.setOffset(getFullBounds.getMaxX - goButton.getFullBounds.getWidth * 2, getFullBounds.getMaxY)
     addChild(goButton)
   }
 
-  val chart = new ControlChart(controlPanel, createSliderNode(temporalChart), temporalChart, new ChartZoomControlNode(temporalChart))
+  val chart = new ControlChart(controlPanel, sliderNode, temporalChart, new ChartZoomControlNode(temporalChart))
 
   def createSliderNode(chart: TemporalChart) =
     new TemporalChartSliderNode(chart, appliedForceSeries.color) {
