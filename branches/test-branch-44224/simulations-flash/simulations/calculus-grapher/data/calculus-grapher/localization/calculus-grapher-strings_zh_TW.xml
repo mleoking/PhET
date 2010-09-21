@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--calculus-grapher-strings_zh_TW.xml created Mon Jan 04 11:19:19 CST 2010 using: calculus-grapher 2.02.00 (34696), translation-utility 2.04.00 (37830) 十二月 31, 2009-->
-<SimStrings>
-<string key="simDescription" value="有關微積分繪圖之敘述"/>
-<string key="smooth" value="平滑化"/>
-<string key="undo" value="回上一步"/>
-<string key="zero" value="歸零"/>
-<string key="simTitle" value="微積分繪圖"/>
-</SimStrings>

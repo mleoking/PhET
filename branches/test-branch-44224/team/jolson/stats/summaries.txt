@@ -1,8 +1,0 @@
-Analytics:
-	2271130 visits
-	14530695 pageviews
-Urchin:
-	3805951 sessions
-	37916888 pageviews
-	238218617 hits
-	13.89 TB transferred

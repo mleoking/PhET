@@ -1,3 +1,0 @@
-car.png source=Clker.com,"Man Driving Car" license="You may use these cliparts for any purpose you want including commercial."
-house.png source=Clker.com,"Homes Clipart" license="You may use these cliparts for any purpose you want including commercial."
-landscape.png source=pixelzoom author=pixelzoom license=free for all uses to PhET

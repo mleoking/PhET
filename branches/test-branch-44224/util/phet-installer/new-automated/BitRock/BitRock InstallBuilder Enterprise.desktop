@@ -1,9 +1,0 @@
-[Desktop Entry]
-Type=Application
-Version=0.9.4
-Name=BitRock InstallBuilder Enterprise
-Comment=BitRock InstallBuilder Enterprise
-Icon=/home/tigercat/phet/jblanco/installbuilder-5.4.6/bin/logo.png
-Exec=/home/tigercat/phet/jblanco/installbuilder-5.4.6/bin/builder
-Path=
-Terminal=false

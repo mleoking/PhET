@@ -1,1 +1,0 @@
-scala license=Scala License (BSD-Style) licensefile=license.txt

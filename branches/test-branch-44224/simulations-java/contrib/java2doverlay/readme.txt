@@ -1,8 +1,0 @@
-http://www.jmonkeyengine.com/jmeforum/index.php?action=printpage;topic=11089.0
-
-Post by: keeskist on May 03, 2009, 02:04:09 PM
-If you search the forums for the term 'HUD' you'll find quite a number of topic with people who want to create a HUD or screen overlay that is more advanced than simply displaying some text or static images. There is a tutorial that describes how to use Java 2D to paint to a BufferedImage, and use that as a texture. Java 2D is a great API for drawing things, but its performance means the entire framerate of your game is reduced by a significant amount if you use this approach.
-
-I've found that a good balance between using Java 2D and high framerates is to do the actual painting of the HUD in a separate thread. Then, after the painting has been completed, the contents of the BufferedImage are used to update the texture. This also makes it possible to have the HUD repaint at, for example, 10 fps, and have the game running as fast as possible.
-
-The idea described above has been used by me for over a year now, and it works fine. The only thing that can be tricky is that you should realize that the HUD's paint() method is called from a different thread than the game thread, and that the HUD's animations are not supposed to be extremely fluid (it tries to be good enough). I'm posting both the source of the class itself as well as a test here. If other people think this would be useful addition to JME I would be happy to contribute this, and if not maybe someone searching the forum in the future will be able to use it :)

@@ -1,4 +1,0 @@
-correctAnswer.wav source=PhET author=John B notes=copied from nuclear-physics ding.wav
-gameOver-imperfectScore.wav source=PhET author=John B notes=copied from nuclear-physics short-fanfare.wav
-gameOver-perfectScore.wav notes=copied from electric-hockey tada.WAV no license info
-wrongAnswer.wav source=2000 Sound Effects CD purchased by M Dubson notes=copied from nuclear-physics 32_83.wav

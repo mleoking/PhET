@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--friction-strings_nl.xml created Sun May 03 21:33:08 CEST 2009 using: friction 2.00.00 (30671), translation-utility 2.00.00 (31012) apr 28, 2009-->
-<SimStrings>
-<string key="rubYellowAtoms" value="Wrijf gele atomen tegen de groene"/>
-<string key="physics" value="Natuurkunde"/>
-<string key="simTitle" value="Wrijving"/>
-<string key="chemistry" value="Scheikunde"/>
-</SimStrings>

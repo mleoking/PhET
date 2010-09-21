@@ -1,1 +1,0 @@
-create a sample main application that demonstrates the functionality and usage of the record-and-playback project

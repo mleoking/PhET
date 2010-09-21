@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--ohms-law-strings_hr.xml created Thu Apr 30 20:14:31 CEST 2009 using: ohms-law 2.00.00 (30671), translation-utility 2.00.00 (31012) tra 28, 2009-->
-<SimStrings>
-<string key="currentEq" value="Struja:"/>
-<string key="resistance" value="Otpor"/>
-<string key="simTitle" value="Ohmov Zakon"/>
-<string key="sound" value="zvuk"/>
-<string key="voltage" value="Napon"/>
-</SimStrings>

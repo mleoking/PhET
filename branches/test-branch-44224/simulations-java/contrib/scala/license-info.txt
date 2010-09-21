@@ -1,1 +1,0 @@
-scala license=Scala License (BSD-Style) licensefile=license.txt name=Scala description=a general purpose programming language designed to express common programming patterns in a concise, elegant, and type-safe way copyright=2002-2009 EPFL, Lausanne website=http://www.scala-lang.org/

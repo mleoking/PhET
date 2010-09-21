@@ -1,1 +1,0 @@
-swt license=Common Public License licensefile=cpl-v10.html name=SWT description=The Standard Widget Toolkit copyright=http://www.eclipse.org/swt/ website=http://www.eclipse.org/swt/

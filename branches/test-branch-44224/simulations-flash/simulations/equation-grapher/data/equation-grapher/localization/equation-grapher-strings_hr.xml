@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--equation-grapher-strings_hr.xml created Thu Apr 30 17:41:44 CEST 2009 using: equation-grapher 2.00.00 (30671), translation-utility 2.00.00 (31012) tra 28, 2009-->
-<SimStrings>
-<string key="showYEq" value="Pokaži y="/>
-<string key="erase" value="Obriši"/>
-<string key="save" value="Spremi"/>
-<string key="zero" value="Nula"/>
-<string key="simTitle" value="Kvadratna jednadžba"/>
-</SimStrings>
