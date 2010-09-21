@@ -1,3 +1,4 @@
+9/21/10 add ticks outside the bar meter track for min and max labels
 9/21/10 add tooltip to meter scale button
 9/21/10 add scale button to bar meters, flash max range label when it changes
 9/21/10 move meter nodes to new capacitorlab.view.meters package
