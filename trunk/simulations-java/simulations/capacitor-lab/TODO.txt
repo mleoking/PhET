@@ -4,7 +4,6 @@ QUESTIONS FOR NOAH
 
 HIGH PRIORITY
 - use phetcommon mvt
-- bar meters: don't allow meters to be dragged by buttons, this prevents ability to roll off buttons
 - add cables and drag behavior to voltmeter, see CCK's VoltmeterNode
 - voltmeter notifiers for moving probes or meter body
 - subclass of voltmeter that is specific to this sim, knows about model
@@ -24,6 +23,7 @@ MEDUIUM PRIORITY
 - refactor duplicate code in *DragHandleNode
 
 LOW PRIORITY
+- don't allow bar meters to be dragged by buttons, this prevents ability to roll off buttons
 - edges where dielectric and bottom plate meet don't match up perfectly
 - gradient paint on plate top surfaces (not on edges)
 - round the end of the wire that connects to the top plate
