@@ -75,7 +75,7 @@ class FrictionPlayAreaControlPanel(motionSeriesObject: MotionSeriesObject) exten
 object TestFrictionPlayAreaControlPanel {
   def main(args: Array[String]) {
     new JFrame {
-      setContentPane(new FrictionPlayAreaControlPanel(new MotionSeriesModel(-3.0, true, 0.0).motionSeriesObject))
+      setContentPane(new FrictionPlayAreaControlPanel(new MotionSeriesModel(-3.0, 0.0).motionSeriesObject))
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
       pack()
       setVisible(true)

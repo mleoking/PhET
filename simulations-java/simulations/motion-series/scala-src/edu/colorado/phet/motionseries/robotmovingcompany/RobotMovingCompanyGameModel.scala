@@ -199,6 +199,8 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
 
   private var _inputAllowed = true
 
+  def inputAllowed_=(b: Boolean) = _inputAllowed = b
+
   def inputAllowed = _inputAllowed
 
   def itemDelivered(o: MotionSeriesObjectType, motionSeriesObjectRef: MotionSeriesObject) = {

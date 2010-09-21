@@ -26,10 +26,13 @@ class SeriesSelectionControl(title: String, numRows: Int) extends VerticalLayout
   nongrid.setBackground(EARTH_COLOR)
   add(nongrid)
 
-  def addToGrid(series: MotionSeriesDataSeries): Unit = addToGrid(series, createLabel)
+  def addToGrid(series: MotionSeriesDataSeries): Unit = addToGrid(series, createLabel _)
 
   def addToGrid(series: MotionSeriesDataSeries, labelMaker: MotionSeriesDataSeries => JComponent): Unit =
     addComponentsToGrid(new SeriesControlSelectorBox(series), labelMaker(series))
+
+  def addToGrid(series: MotionSeriesDataSeries, label: JComponent): Unit =
+    addComponentsToGrid(new SeriesControlSelectorBox(series), label)
 
   def addComponentsToGrid(component1: JComponent, component2: JComponent) = {
     grid.add(component1)
@@ -57,43 +60,43 @@ class SeriesSelectionControl(title: String, numRows: Int) extends VerticalLayout
     updateLabel()
     label
   }
+}
 
-  def createEditableLabel(series: MotionSeriesDataSeries) = {
-    val panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0))
-    val textField = new JTextField(4)
-    textField.addActionListener(new ActionListener() {
-      def actionPerformed(e: ActionEvent) = {
-        setValueFromText()
-      }
-    })
-    def setValueFromText() = try {
-      series.setValue(MotionSeriesDefaults.SERIES_SELECTION_CONTROL_FORMATTER.parse(textField.getText).doubleValue)
-    } catch {
-      case re: Exception => {}
+class EditableLabel(series: MotionSeriesDataSeries) extends JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0)) {
+  val panel = this
+  val textField = new JTextField(4)
+  textField.addActionListener(new ActionListener() {
+    def actionPerformed(e: ActionEvent) = {
+      setValueFromText()
     }
-    textField.addFocusListener(new FocusListener() {
-      def focusGained(e: FocusEvent) = {}
-
-      def focusLost(e: FocusEvent) = setValueFromText()
-    })
-
-    textField.setFont(Defaults.createFont)
-    textField.setForeground(series.color)
-    series.addValueChangeListener(() => {updateLabel()})
-    def updateLabel() = textField.setText(MotionSeriesDefaults.SERIES_SELECTION_CONTROL_FORMATTER.format(series.getValue))
-
-    updateLabel()
-
-    panel.add(textField)
-    val unitsLabel = new JLabel(series.units) {
-      setFont(Defaults.createFont)
-      setForeground(series.color)
-      setBackground(MotionSeriesDefaults.EARTH_COLOR)
-    }
-    panel.add(unitsLabel)
-    panel.setBackground(MotionSeriesDefaults.EARTH_COLOR)
-    panel
+  })
+  def setValueFromText() = try {
+    series.setValue(MotionSeriesDefaults.SERIES_SELECTION_CONTROL_FORMATTER.parse(textField.getText).doubleValue)
+  } catch {
+    case re: Exception => {}
   }
+  textField.addFocusListener(new FocusListener() {
+    def focusGained(e: FocusEvent) = {}
+
+    def focusLost(e: FocusEvent) = setValueFromText()
+  })
+
+  textField.setFont(Defaults.createFont)
+  textField.setForeground(series.color)
+  series.addValueChangeListener(() => {updateLabel()})
+  def updateLabel() = textField.setText(MotionSeriesDefaults.SERIES_SELECTION_CONTROL_FORMATTER.format(series.getValue))
+
+  updateLabel()
+
+  panel.add(textField)
+  val unitsLabel = new JLabel(series.units) {
+    setFont(Defaults.createFont)
+    setForeground(series.color)
+    setBackground(MotionSeriesDefaults.EARTH_COLOR)
+  }
+  panel.add(unitsLabel)
+  panel.setBackground(MotionSeriesDefaults.EARTH_COLOR)
+  panel
 }
 
 trait TitleElement extends JComponent {
