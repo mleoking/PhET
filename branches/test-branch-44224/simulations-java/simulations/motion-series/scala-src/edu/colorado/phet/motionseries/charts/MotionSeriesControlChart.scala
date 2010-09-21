@@ -19,40 +19,73 @@ import edu.colorado.phet.common.piccolophet.nodes.{PhetPPath, ShadowHTMLNode}
 import java.awt.geom.{RoundRectangle2D, Rectangle2D}
 import java.text.DecimalFormat
 import java.awt.{BasicStroke, Color}
+import edu.colorado.phet.common.phetcommon.view.graphics.Arrow
+
+object ChartDefaults {
+  val LABEL_OFFSET_DY = 5 //distance between bottom of the chart and top of the time axis label
+}
 
 /**
  * Component resize code to make sure the chart has the right bounds
  */
-class ChartComponentListener(canvas: PhetPCanvas, chartProportionY: Double, node: PNode) extends ComponentAdapter {
+class ChartComponentListener(canvas: PhetPCanvas, chartProportionY: Double, node: PNode, labelNode: PNode = null) extends ComponentAdapter {
   val insetX = 0.6
   val insetY = insetX
+  val reservedLabelSpaceY = ChartDefaults.LABEL_OFFSET_DY + (if (labelNode != null) labelNode.getFullBounds.height else 0)
 
   override def componentResized(e: ComponentEvent) = {
-    node.setBounds(0 + insetX / 2, canvas.getHeight * (1 - chartProportionY) + insetY / 2, canvas.getWidth - insetX, canvas.getHeight * chartProportionY - insetY)
+    node.setBounds(0 + insetX / 2, canvas.getHeight * (1 - chartProportionY) + insetY / 2, canvas.getWidth - insetX, canvas.getHeight * chartProportionY - insetY - reservedLabelSpaceY)
   }
 }
 
-/**
- * @author Sam Reid
- */
-class RampForceChartNode(canvas: PhetPCanvas, motionSeriesModel: MotionSeriesModel) extends MultiControlChart(Array(new RampForceMinimizableControlChart(motionSeriesModel))) {
-  canvas.addComponentListener(new ChartComponentListener(canvas, 0.5, this))
-  motionSeriesModel.addResetListener(resetAll)
-  motionSeriesModel.addHistoryClearListener(new HistoryClearListener() {
+class MotionSeriesMultiControlChart(canvas: PhetPCanvas, model: MotionSeriesModel, charts: Array[MinimizableControlChart], sizeFraction: Double) extends MultiControlChart(charts) {
+  val labelNode = new PNode {
+    val arrowNode = new PhetPPath(new Arrow(new java.awt.geom.Point2D.Double(0, 0), new java.awt.geom.Point2D.Double(100, 0), 10, 10, 2).getShape, Color.black, new BasicStroke(), Color.gray)
+    val textNode = new PText("chart.time-axis-label".translate) {
+      setFont(new PhetFont(14, true))
+    }
+    addChild(arrowNode)
+    addChild(textNode)
+    textNode.setOffset(arrowNode.getFullBounds.getWidth / 2 - textNode.getFullBounds.getWidth / 2, 0)
+  }
+  addChild(labelNode)
+
+  //Show the time axis label under the bottom-most maximized chart
+  val updateLabelLocation = new PropertyChangeListener() {
+    def propertyChange(evt: PropertyChangeEvent) = {
+      val maximizedCharts = for (c <- charts if c.getMaximized.getValue.booleanValue) yield c
+      labelNode.setVisible(!maximizedCharts.isEmpty) //only show the time axis label if some charts are showing
+      if (!maximizedCharts.isEmpty) {
+        val bottomChart = maximizedCharts.last
+        val bounds = bottomChart.getChartNode.getFullBounds
+        bottomChart.getChartNode.localToGlobal(bounds)
+        globalToLocal(bounds)
+        labelNode.setOffset(bottomChart.getChartNode.getFullBounds.getCenterX - labelNode.getFullBounds.getWidth / 2, bounds.getMaxY + ChartDefaults.LABEL_OFFSET_DY)
+      }
+    }
+  }
+  for (chart <- charts) {
+    chart.getChartNode.addPropertyChangeListener(PNode.PROPERTY_FULL_BOUNDS, updateLabelLocation)
+  }
+
+  canvas.addComponentListener(new ChartComponentListener(canvas, sizeFraction, this, labelNode))
+  model.addResetListener(resetAll)
+
+  model.addHistoryClearListener(new HistoryClearListener() {
     def historyCleared = {
       clear()
     }
   })
 }
 
-class ForcesAndMotionChartNode(canvas: PhetPCanvas, model: MotionSeriesModel) extends MultiControlChart(Array(
+class RampForceChartNode(canvas: PhetPCanvas, motionSeriesModel: MotionSeriesModel) extends MotionSeriesMultiControlChart(canvas, motionSeriesModel, Array(new RampForceMinimizableControlChart(motionSeriesModel)), 0.5)
+
+class ForcesAndMotionChartNode(canvas: PhetPCanvas, model: MotionSeriesModel) extends MotionSeriesMultiControlChart(canvas, model, Array(
   new ForcesAndMotionMinimizableControlChart(model),
   new MinimizableControlChart("properties.acceleration".translate, new SingleSeriesChart(model, () => model.motionSeriesObject.acceleration, 50, "properties.acceleration.units".translate, MotionSeriesDefaults.accelerationColor, "properties.acceleration".translate).chart, false),
   new MinimizableControlChart("properties.velocity".translate, new SingleSeriesChart(model, () => model.motionSeriesObject.state.velocity, 25, "properties.velocity.units".translate, MotionSeriesDefaults.velocityColor, "properties.velocity".translate).chart, false),
-  new MinimizableControlChart("properties.position".translate, new SingleSeriesChart(model, () => model.motionSeriesObject.state.position, 10, "properties.position.units".translate, MotionSeriesDefaults.positionColor, "properties.position".translate).chart, false))) {
-  canvas.addComponentListener(new ChartComponentListener(canvas, 0.7, this))
-  model.addResetListener(resetAll)
-}
+  new MinimizableControlChart("properties.position".translate, new SingleSeriesChart(model, () => model.motionSeriesObject.state.position, 10, "properties.position.units".translate, MotionSeriesDefaults.positionColor, "properties.position".translate).chart, false)),
+  0.7)
 
 class SingleSeriesChart(motionSeriesModel: MotionSeriesModel, _value: () => Double, maxY: Double, units: String, color: Color, title: String) {
   val variable = new MutableDouble(_value()) {
