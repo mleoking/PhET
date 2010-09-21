@@ -85,8 +85,8 @@ public class CLConstants {
     
     // visibility of meters
     public static final boolean CAPACITANCE_METER_VISIBLE = true;
-    public static final boolean CHARGE_METER_VISIBLE = false;
-    public static final boolean ENERGY_METER_VISIBLE = false;
+    public static final boolean CHARGE_METER_VISIBLE = true;
+    public static final boolean ENERGY_METER_VISIBLE = true;
     public static final boolean VOLTMETER_VISIBLE = false;
     
     //----------------------------------------------------------------------------
