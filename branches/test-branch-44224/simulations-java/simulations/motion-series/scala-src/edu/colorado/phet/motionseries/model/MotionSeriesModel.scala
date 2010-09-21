@@ -15,7 +15,6 @@ import edu.colorado.phet.motionseries.util.{MutableRange, ScalaMutableBoolean}
 import MotionSeriesDefaults._
 
 class MotionSeriesModel(defaultPosition: Double,
-                        pausedOnReset: Boolean,
                         initialAngle: Double)
         extends RecordAndPlaybackModel[RecordedState](1000) with ObjectSelectionModel with RampSurfaceModel {
   private val _walls = new ScalaMutableBoolean(true)
@@ -30,7 +29,6 @@ class MotionSeriesModel(defaultPosition: Double,
 
   val stepListeners = new ArrayBuffer[() => Unit]
   val recordListeners = new ArrayBuffer[() => Unit]
-  setPaused(pausedOnReset)
 
   val leftRampSegment = new RampSegment(new Point2D.Double(-DEFAULT_RAMP_LENGTH, 0), new Point2D.Double(0, 0))
   val rightRampSegment = new RampSegment(new Point2D.Double(0, 0), new Point2D.Double(DEFAULT_RAMP_LENGTH * cos(initialAngle), DEFAULT_RAMP_LENGTH * sin(initialAngle)))
@@ -134,8 +132,6 @@ class MotionSeriesModel(defaultPosition: Double,
 
       resetListeners.foreach(_())
       wallsBounce.reset()
-
-      setPaused(pausedOnReset)
     }
   }
 

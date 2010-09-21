@@ -19,7 +19,7 @@ class RobotMovingCompanyModule(frame: PhetFrame,
                                initAngle: Double = defaultRampAngle,
                                appliedForce: Double = rampRobotForce,
                                objectList: List[MotionSeriesObjectType] = objectTypes)
-        extends MotionSeriesModule(frame, new ScalaClock(MotionSeriesDefaults.DELAY, MotionSeriesDefaults.DT_DEFAULT), "ramp-forces-and-motion.module.robotMovingCompany".translate, 5, false, MotionSeriesDefaults.defaultRampAngle, false) {
+        extends MotionSeriesModule(frame, new ScalaClock(MotionSeriesDefaults.DELAY, MotionSeriesDefaults.DT_DEFAULT), "ramp-forces-and-motion.module.robotMovingCompany".translate, 5, MotionSeriesDefaults.defaultRampAngle, false) {
   override def reset() = {
     super.reset()
     motionSeriesModel.frictionless = false
@@ -30,8 +30,8 @@ class RobotMovingCompanyModule(frame: PhetFrame,
     motionSeriesModel.frictionless = false
   }
 
-  override def createMotionSeriesModel(defaultPosition: Double, pausedOnReset: Boolean, initialAngle: Double) = {
-    new MotionSeriesModel(defaultPosition, pausedOnReset, initialAngle) {
+  override def createMotionSeriesModel(defaultPosition: Double, initialAngle: Double) = {
+    new MotionSeriesModel(defaultPosition, initialAngle) {
       override def updateSegmentLengths() = setSegmentLengths(DEFAULT_RAMP_LENGTH, DEFAULT_RAMP_LENGTH)
       frictionless = false
       //This is an unorthodox way to achieve the desired behavior.  The requested feature is that objects should not be able to be moved 

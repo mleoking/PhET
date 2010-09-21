@@ -21,7 +21,7 @@ object TestComboBox {
           comboBox.setEnvironment(swing, this)
           addScreenChild(swing)
 
-          val c2 = new ObjectSelectionComboBox(new MotionSeriesModel(0.0, true, 0.0))
+          val c2 = new ObjectSelectionComboBox(new MotionSeriesModel(0.0, 0.0))
           val s2 = new PSwing(c2)
           c2.setEnvironment(s2, this)
           s2.setOffset(200, 50)

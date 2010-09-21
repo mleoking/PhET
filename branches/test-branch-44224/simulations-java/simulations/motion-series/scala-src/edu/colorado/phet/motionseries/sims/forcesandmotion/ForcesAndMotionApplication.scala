@@ -25,14 +25,13 @@ class ForcesAndMotionModule(frame: PhetFrame,
                             useObjectComboBox: Boolean,
                             showAppliedForceSlider: Boolean,
                             defaultPosition: Double,
-                            pausedOnReset: Boolean,
                             initialAngle: Double,
                             showFrictionControl: Boolean,
                             showBounceControl: Boolean,
                             modelViewport: Rectangle2D,
                             stageContainerArea: StageContainerArea,
                             fbdPopupOnly: Boolean)
-        extends MotionSeriesModule(frame, new ScalaClock(MotionSeriesDefaults.DELAY, MotionSeriesDefaults.DT_DEFAULT), name, defaultPosition, pausedOnReset, initialAngle, fbdPopupOnly) {
+        extends MotionSeriesModule(frame, new ScalaClock(MotionSeriesDefaults.DELAY, MotionSeriesDefaults.DT_DEFAULT), name, defaultPosition, initialAngle, fbdPopupOnly) {
   val canvas = new ForcesAndMotionCanvas(motionSeriesModel, coordinateSystemModel, fbdModel, vectorViewModel, frame,
     showObjectSelectionNode, showAppliedForceSlider, initialAngle != 0.0, modelViewport, stageContainerArea)
   setSimulationPanel(canvas)
@@ -63,11 +62,11 @@ class ForcesAndMotionCanvas(model: MotionSeriesModel,
 }
 
 class IntroModule(frame: PhetFrame) extends ForcesAndMotionModule(frame, "forces-and-motion.module.intro.title".translate, false, true, false,
-  true, -6, false, 0.0, true, true, MotionSeriesDefaults.forceMotionViewport, MotionSeriesDefaults.forceMotionArea, false)
+  true, -6, 0.0, true, true, MotionSeriesDefaults.forceMotionViewport, MotionSeriesDefaults.forceMotionArea, false)
 
 class FrictionModule(frame: PhetFrame)
         extends ForcesAndMotionModule(frame, "forces-and-motion.module.friction.title".translate,
-          false, false, false, true, -6.0, false, 0.0, false, true, MotionSeriesDefaults.forceMotionFrictionViewport, MotionSeriesDefaults.forceMotionFrictionArea, false) {
+          false, false, false, true, -6.0, 0.0, false, true, MotionSeriesDefaults.forceMotionFrictionViewport, MotionSeriesDefaults.forceMotionFrictionArea, false) {
   motionSeriesModel.selectedObject = MotionSeriesDefaults.custom // so that it resizes
   val frictionPlayAreaControlPanel = new PSwing(new FrictionPlayAreaControlPanel(motionSeriesModel.motionSeriesObject))
   frictionPlayAreaControlPanel.setOffset(canvas.stage.getWidth / 2 - frictionPlayAreaControlPanel.getFullBounds.getWidth / 2, canvas.stage.getHeight - frictionPlayAreaControlPanel.getFullBounds.getHeight - 2)
@@ -77,7 +76,7 @@ class FrictionModule(frame: PhetFrame)
 
 class GraphingModule(frame: PhetFrame)
         extends ForcesAndMotionModule(frame, "forces-and-motion.module.graphing.title".translate,
-          false, false, true, false, -2, false, 0.0, true, true, MotionSeriesDefaults.forceMotionGraphViewport, MotionSeriesDefaults.forceEnergyGraphArea, true) {
+          false, false, true, false, -2, 0.0, true, true, MotionSeriesDefaults.forceMotionGraphViewport, MotionSeriesDefaults.forceEnergyGraphArea, true) {
   motionSeriesModel.selectedObject = MotionSeriesDefaults.cabinet // so that force arrows don't go offscreen by default
   coordinateSystemModel.adjustable = false
   canvas.addScreenNode(new ForcesAndMotionChartNode(canvas, motionSeriesModel))

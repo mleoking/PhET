@@ -171,7 +171,7 @@ object TestDialog {
 
 object TestItemFinishedDialog {
   def main(args: Array[String]) {
-    val robotMovingCompanyGameModel = new RobotMovingCompanyGameModel(new MotionSeriesModel(5, true, MotionSeriesDefaults.defaultRampAngle), new ScalaClock(30, 30 / 1000.0), MotionSeriesDefaults.defaultRampAngle, 500.0, MotionSeriesDefaults.objectTypes)
+    val robotMovingCompanyGameModel = new RobotMovingCompanyGameModel(new MotionSeriesModel(5, MotionSeriesDefaults.defaultRampAngle), new ScalaClock(30, 30 / 1000.0), MotionSeriesDefaults.defaultRampAngle, 500.0, MotionSeriesDefaults.objectTypes)
     val itemFinishedDialog = new ItemFinishedDialog(robotMovingCompanyGameModel,
       MotionSeriesDefaults.objectTypes(0), Cliff(64, 100), a => {
         a.setVisible(false)
@@ -182,7 +182,7 @@ object TestItemFinishedDialog {
 
 object TestGameFinishedDialog {
   def main(args: Array[String]) {
-    val robotMovingCompanyGameModel = new RobotMovingCompanyGameModel(new MotionSeriesModel(5, true, MotionSeriesDefaults.defaultRampAngle), new ScalaClock(30, 30 / 1000.0), MotionSeriesDefaults.defaultRampAngle, 500.0, MotionSeriesDefaults.objectTypes)
+    val robotMovingCompanyGameModel = new RobotMovingCompanyGameModel(new MotionSeriesModel(5, MotionSeriesDefaults.defaultRampAngle), new ScalaClock(30, 30 / 1000.0), MotionSeriesDefaults.defaultRampAngle, 500.0, MotionSeriesDefaults.objectTypes)
     for (obj <- robotMovingCompanyGameModel.objectList) {
       robotMovingCompanyGameModel.resultMap(obj) = Cliff(123, 555)
     }
