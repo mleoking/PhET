@@ -70,24 +70,7 @@ public class ProjectList extends JList {
     }
 
     private void initializeProjects() {
-        // TODO: add flex support?
-        List<PhetProject> projects = new LinkedList<PhetProject>();
-        projects.addAll( Arrays.asList( JavaSimulationProject.getJavaSimulations( trunk ) ) );
-        projects.addAll( Arrays.asList( FlashSimulationProject.getFlashSimulations( trunk ) ) );
-        projects.addAll( Arrays.asList( FlexSimulationProject.getFlexSimulations( trunk ) ) );
-
-        try {
-            // TODO: consider refactoring for PhetProject.getAllProjects
-            projects.add( new TranslationUtilityProject( new File( trunk, BuildToolsPaths.TRANSLATION_UTILITY ) ) );
-            projects.add( new PhetUpdaterProject( new File( trunk, BuildToolsPaths.PHET_UPDATER ) ) );
-            projects.add( new BuildToolsProject( new File( trunk, BuildToolsPaths.BUILD_TOOLS_DIR ) ) );
-            projects.add( new TimesheetProject( new File( trunk, BuildToolsPaths.TIMESHEET ) ) );
-            projects.add( new StatisticsProject( new File( trunk, BuildToolsPaths.STATISTICS ) ) );
-            projects.add( new WebsiteProject( new File( trunk, BuildToolsPaths.WEBSITE ) ) );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
+        List<PhetProject> projects = PhetProject.getListOfAllPhetProjects( trunk );
 
         // sort by name
         Collections.sort( projects, new Comparator<PhetProject>() {

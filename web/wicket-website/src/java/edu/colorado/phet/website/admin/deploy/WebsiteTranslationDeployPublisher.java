@@ -31,10 +31,8 @@ public class WebsiteTranslationDeployPublisher {
     }
 
     public void publishTranslations( File translationDir ) throws IOException {
-        ArrayList javaProjectNameList = WebsiteTranslationDeployServer.getJavaProjectNameList( translationDir );
-        for ( int i = 0; i < javaProjectNameList.size(); i++ ) {
-            String project = (String) javaProjectNameList.get( i );
-
+        ArrayList<String> javaProjectNameList = WebsiteTranslationDeployServer.getJavaProjectNameList( translationDir );
+        for ( String project : javaProjectNameList ) {
             logger.info( "backing up " + project );
             Project.backupProject( docRoot, project );
             String[] locales = WebsiteTranslationDeployServer.getJavaTranslatedLocales( translationDir, project );
@@ -44,10 +42,8 @@ public class WebsiteTranslationDeployPublisher {
 
         }
 
-        ArrayList flashProjectNameList = WebsiteTranslationDeployServer.getFlashProjectNameList( translationDir );
-        for ( int i = 0; i < flashProjectNameList.size(); i++ ) {
-            String project = (String) flashProjectNameList.get( i );
-
+        ArrayList<String> flashProjectNameList = WebsiteTranslationDeployServer.getFlashProjectNameList( translationDir );
+        for ( String project : flashProjectNameList ) {
             if ( project.equals( "common" ) ) {
                 logger.info( "Not publishing common strings XML directly" );
                 continue;
@@ -59,7 +55,6 @@ public class WebsiteTranslationDeployPublisher {
             String[] locales = WebsiteTranslationDeployServer.getFlashTranslatedLocales( translationDir, project );
 
             copyFlashFiles( translationDir, project, locales );
-
         }
 
         copyMetaXML( translationDir, javaProjectNameList );
@@ -90,36 +85,52 @@ public class WebsiteTranslationDeployPublisher {
         }
     }
 
-    // copy the necessary flash HTML files in translationDir (with project and locales) to the main location
-
+    /**
+     * copy the necessary flash HTML files in translationDir (with project and locales) to the main location
+     */
     private void copyFlashFiles( File translationDir, String project, String[] locales ) {
-        for ( int i = 0; i < locales.length; i++ ) {
-            try {
-                // copy the JAR
-                String JARName = project + "_" + locales[i] + ".jar";
-                File fromJARFile = new File( translationDir, JARName );
-                File toJARFile = new File( sims, project + "/" + JARName );
-                FileUtils.copyTo( fromJARFile, toJARFile );
+        for ( String simName : WebsiteTranslationDeployServer.getFlashSimulations( translationDir, project ) ) {
+            for ( String localeString : locales ) {
+                try {
+                    // copy the JAR
+                    String JARName = simName + "_" + localeString + ".jar";
+                    File fromJARFile = new File( translationDir, JARName );
+                    File toJARFile = new File( sims, project + "/" + JARName );
+                    FileUtils.copyTo( fromJARFile, toJARFile );
 
-                // copy the HTML
-                String HTMLName = project + "_" + locales[i] + ".html";
-                File fromHTMLFile = new File( translationDir, HTMLName );
-                File toHTMLFile = new File( sims, project + "/" + HTMLName );
-                FileUtils.copyTo( fromHTMLFile, toHTMLFile );
+                    // copy the HTML
+                    String HTMLName = simName + "_" + localeString + ".html";
+                    File fromHTMLFile = new File( translationDir, HTMLName );
+                    File toHTMLFile = new File( sims, project + "/" + HTMLName );
+                    FileUtils.copyTo( fromHTMLFile, toHTMLFile );
+                }
+                catch( IOException e ) {
+                    e.printStackTrace();
+
+                    // this should be a failure point
+                    throw new RuntimeException( e );
+                }
+            }
+
+            // also attempt to copy over the English JARs that have the added translation(s) poked in
+            String englishJarName = simName + "_en.jar";
+            try {
+                FileUtils.copyTo( new File( translationDir, englishJarName ), new File( sims, project + "/" + englishJarName ) );
             }
             catch( IOException e ) {
-                e.printStackTrace();
+                logger.warn( "was unable to copy english JAR " + englishJarName );
             }
         }
     }
 
-    //copy new translated JARs and project_all.jar to the sims directory
-
+    /**
+     * copy new translated JARs and project_all.jar to the sims directory
+     */
     private void copyToSimsDir( File translationDir, String project, String[] locales ) throws IOException {
         String[] flavors = JARGenerator.getFlavors( getAllJAR( translationDir, project ) );
-        for ( int i = 0; i < flavors.length; i++ ) {
-            for ( int k = 0; k < locales.length; k++ ) {
-                File jar = new File( translationDir, flavors[i] + "_" + locales[k] + ".jar" );
+        for ( String flavor : flavors ) {
+            for ( String localeString : locales ) {
+                File jar = new File( translationDir, flavor + "_" + localeString + ".jar" );
                 FileUtils.copyToDir( jar, new File( sims, project ) );
             }
         }
@@ -138,12 +149,12 @@ public class WebsiteTranslationDeployPublisher {
         //might be safer to copy existing JNLP to make sure main class is right, etc.
 
         String[] flavors = JARGenerator.getFlavors( getAllJAR( translationDir, project ) );
-        for ( int i = 0; i < flavors.length; i++ ) {
+        for ( String flavor : flavors ) {
             //for now, copy english JNLP and replace value="en" with value="locale_STR"
             //also fix codebase
-            String englishJNLP = FileUtils.loadFileAsString( new File( sims, project + "/" + flavors[i] + "_en.jnlp" ), "UTF-16" );
-            for ( int j = 0; j < locales.length; j++ ) {
-                StringTokenizer stringTokenizer = new StringTokenizer( locales[j], "_ " );
+            String englishJNLP = FileUtils.loadFileAsString( new File( sims, project + "/" + flavor + "_en.jnlp" ), "UTF-16" );
+            for ( String localeString : locales ) {
+                StringTokenizer stringTokenizer = new StringTokenizer( localeString, "_ " );
                 String language = stringTokenizer.nextToken();
                 String country = stringTokenizer.hasMoreTokens() ? stringTokenizer.nextToken() : null;
 
@@ -153,8 +164,8 @@ public class WebsiteTranslationDeployPublisher {
                 }
                 String out = FileUtils.replaceFirst( englishJNLP, "<property name=\"javaws.user.language\" value=\"en\" />", replacement );
 
-                out = FileUtils.replaceAll( out, "href=\"" + flavors[i] + "_en.jnlp\"", "href=\"" + flavors[i] + "_" + locales[j] + ".jnlp\"" );
-                FileUtils.writeString( new File( sims, project + "/" + flavors[i] + "_" + locales[j] + ".jnlp" ), out, "UTF-16" );
+                out = FileUtils.replaceAll( out, "href=\"" + flavor + "_en.jnlp\"", "href=\"" + flavor + "_" + localeString + ".jnlp\"" );
+                FileUtils.writeString( new File( sims, project + "/" + flavor + "_" + localeString + ".jnlp" ), out, "UTF-16" );
             }
         }
     }

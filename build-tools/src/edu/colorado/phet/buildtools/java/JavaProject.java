@@ -36,7 +36,7 @@ public abstract class JavaProject extends PhetProject {
         return getLocalesImpl( ".properties" );
     }
 
-    public static PhetProject[] getJavaSimulations( File trunk ) {
+    public static PhetProject[] getJavaProjects( File trunk ) {
         File simulationsJava = new File( trunk, BuildToolsPaths.SIMULATIONS_JAVA );
         Collection projects = new ArrayList();
         String[] sims = getSimNames( simulationsJava );

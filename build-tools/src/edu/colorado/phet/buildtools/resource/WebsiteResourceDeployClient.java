@@ -15,6 +15,9 @@ import com.jcraft.jsch.JSchException;
 
 /**
  * TODO: update docs for new version (may be out of date)
+ *
+ * NOTE: be wary of the following code. sim and project was used interchangeably!
+ *
  * This class is used to log into a website, create the necessary temporary directory structure, and upload the necessary
  * files.
  * <p/>

@@ -93,7 +93,7 @@ public class MiscMenu extends JMenu {
         JMenuItem batchDeployAll = new JMenuItem( "Batch Deploy All Sims" );
         batchDeployAll.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                batchDeploy( select( PhetProject.getAllSimulations( trunk ) ), selectDeployStrategy() );
+                batchDeploy( select( PhetProject.getAllSimulationProjects( trunk ) ), selectDeployStrategy() );
             }
         } );
         add( batchDeployAll );
@@ -101,7 +101,7 @@ public class MiscMenu extends JMenu {
         JMenuItem batchDeployAllJava = new JMenuItem( "Batch Deploy All Java Sims" );
         batchDeployAllJava.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                batchDeploy( select( JavaProject.getJavaSimulations( trunk ) ), selectDeployStrategy() );
+                batchDeploy( select( JavaProject.getJavaProjects( trunk ) ), selectDeployStrategy() );
             }
         } );
         add( batchDeployAllJava );
@@ -121,7 +121,7 @@ public class MiscMenu extends JMenu {
         updateJavaAgreement.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
 
-                PhetProject[] projects = JavaProject.getJavaSimulations( trunk );
+                PhetProject[] projects = JavaProject.getJavaProjects( trunk );
                 new JavaBuildCommand( (JavaProject) projects[0], new MyAntTaskRunner(), true, null ).copySoftwareAgreement();
 
             }

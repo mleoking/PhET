@@ -33,7 +33,7 @@ public class WebsiteResourceDeployServer implements IProguardKeepClass {
 
     private File resourceFile;
     private String resourceDestination;
-    private String[] sims;
+    private String[] projectNames;
     private File backupDir;
     private String mode;
     private boolean onlyAllJARs;
@@ -87,11 +87,11 @@ public class WebsiteResourceDeployServer implements IProguardKeepClass {
                 }
 
                 String simsString = properties.getProperty( "sims" );
-                sims = simsString.split( "," );
+                projectNames = simsString.split( "," );
 
-                // prune sims list so it only includes sims deployed to the server
+                // prune projectNames list so it only includes projectNames deployed to the server
                 existingSims = new LinkedList<String>();
-                for ( String sim : sims ) {
+                for ( String sim : projectNames ) {
                     File simDir = new File( getLiveSimsDir(), sim );
                     if ( simDir.exists() ) {
                         existingSims.add( sim );
@@ -100,7 +100,7 @@ public class WebsiteResourceDeployServer implements IProguardKeepClass {
                         logger.warn( "project " + sim + " was not found on the production server" );
                     }
                 }
-                sims = existingSims.toArray( new String[]{} );
+                projectNames = existingSims.toArray( new String[]{} );
 
                 ready = true;
             }
@@ -201,13 +201,13 @@ public class WebsiteResourceDeployServer implements IProguardKeepClass {
     private void copyJavaJNLPs() throws IOException {
         testDir = ResourceDeployUtils.getTestDir( resourceDir );
 
-        for ( String sim : sims ) {
+        for ( String projectName : projectNames ) {
             File backupSimDir;
             if ( localBackup ) {
-                backupSimDir = new File( backupDir, sim );
+                backupSimDir = new File( backupDir, projectName );
             }
-            File testSimDir = new File( testDir, sim );
-            File simDir = new File( getLiveSimsDir(), sim );
+            File testSimDir = new File( testDir, projectName );
+            File simDir = new File( getLiveSimsDir(), projectName );
 
             File[] jarFiles = simDir.listFiles( new FilenameFilter() {
                 public boolean accept( File file, String s ) {
@@ -248,7 +248,7 @@ public class WebsiteResourceDeployServer implements IProguardKeepClass {
     }
 
     private void createBackupJARs() throws IOException {
-        for ( String sim : sims ) {
+        for ( String sim : projectNames ) {
             File simDir = new File( getLiveSimsDir(), sim );
 
             if ( !simDir.exists() ) {
@@ -282,7 +282,7 @@ public class WebsiteResourceDeployServer implements IProguardKeepClass {
         testDir.mkdir();
 
 
-        for ( String sim : sims ) {
+        for ( String sim : projectNames ) {
             logger.info( "  processing " + sim );
 
             File simDir = new File( getLiveSimsDir(), sim );
@@ -313,7 +313,7 @@ public class WebsiteResourceDeployServer implements IProguardKeepClass {
 
         FileUtils.copyToDir( resourceFile, holderDir );
 
-        for ( String sim : sims ) {
+        for ( String sim : projectNames ) {
             logger.info( "  processing " + sim );
 
             File testSimDir = new File( testDir, sim );
@@ -332,7 +332,7 @@ public class WebsiteResourceDeployServer implements IProguardKeepClass {
     }
 
     private void signJARs() {
-        for ( String sim : sims ) {
+        for ( String sim : projectNames ) {
             logger.info( "  processing " + sim );
 
             File testSimDir = new File( testDir, sim );
@@ -355,7 +355,7 @@ public class WebsiteResourceDeployServer implements IProguardKeepClass {
 
     private void generateOfflineJARs() throws IOException, InterruptedException {
         JARGenerator generator = new JARGenerator();
-        for ( String sim : sims ) {
+        for ( String sim : projectNames ) {
             logger.info( "  processing " + sim );
 
             File testSimDir = new File( testDir, sim );

@@ -560,7 +560,7 @@ public class BuildScript {
                         boolean genjars = project instanceof JavaProject && ( (JavaProject) project ).getSignJar() && generateJARs;
                         SshUtils.executeCommand( productionSite, "chmod -R a+rw " + productionSite.getSimsStagingPath() + "/" + project.getName() );
                         // this is a LOCAL connection that we are executing the curl from. TODO: move this to PhetWebsite
-                        String deployCommand = "curl 'http://phetsims.colorado.edu/admin/deploy?project=" + project.getName() + "&generate-jars=" + genjars + "'";
+                        String deployCommand = "curl '" + productionSite.getWebBaseURL() + "/admin/deploy?project=" + project.getName() + "&generate-jars=" + genjars + "'";
                         SshUtils.executeCommand( productionSite, deployCommand );
 
                         return true;

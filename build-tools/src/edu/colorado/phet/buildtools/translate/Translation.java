@@ -7,51 +7,60 @@ import java.util.Locale;
 import edu.colorado.phet.buildtools.BuildToolsPaths;
 import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
+import edu.colorado.phet.buildtools.flex.FlexSimulationProject;
 import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 
-// Handles information pertaining to a particular translation
-
+/**
+ * Handles information pertaining to a particular translation
+ */
 public class Translation {
 
     // the file where the translation is stored
     private File file;
+    private File trunk;
 
     // types of translations
     public static final String TRANSLATION_JAVA = "java";
     public static final String TRANSLATION_FLASH = "flash";
 
-    public Translation( File translationFile ) {
+    public Translation( File translationFile, File trunk ) {
         this.file = translationFile;
+        this.trunk = trunk;
     }
 
-    // does this appear to be an actual translation?
+    /**
+     * @return does this appear to be an actual translation?
+     */
     public boolean isValid() {
-        return ( getSimName() != null && getType() != null );
+        return ( getProjectName() != null && getType() != null );
     }
 
-    // get the translation file
     public File getFile() {
         return file;
     }
 
-    // sim name for the translation
-    public String getSimName() {
-        String simname = null;
+    public String getProjectName() {
+        String projectName = null;
         final int index = file.getName().indexOf( "-strings_" );
         if ( index != -1 ) {
-            simname = file.getName().substring( 0, index );
+            projectName = file.getName().substring( 0, index );
+        }
+        else {
+            System.out.println( "warning: " + getFile().getName() + " does not match the translation file pattern of -strings_" );
         }
 
         // if strings for these sims somehow appear, they are not to be thought of as valid!!!
-        if ( simname != null && ( simname.equals( "java-common-strings" ) || simname.equals( "flash-common-strings" ) ) ) {
-            simname = null;
+        if ( projectName != null && ( projectName.equals( "java-common-strings" ) || projectName.equals( "flash-common-strings" ) ) ) {
+            projectName = null;
         }
 
-        return simname;
+        return projectName;
     }
 
-    // is this a common-strings translation? (IE not a simulation translation)
+    /**
+     * @return is this a common-strings translation? (IE not a simulation translation)
+     */
     public boolean isCommonTranslation() {
         boolean ret = false;
 
@@ -67,12 +76,13 @@ public class Translation {
         return ret;
     }
 
-    // is this a sim translation? (IE not a common-string translation)
+    /**
+     * @return is this a sim translation? (IE not a common-string translation)
+     */
     public boolean isSimulationTranslation() {
         return isValid() && !isCommonTranslation();
     }
 
-    // get the locale of the translation
     public Locale getLocale() {
         Locale ret = null;
         String search = "-strings_";
@@ -87,23 +97,36 @@ public class Translation {
         return ret;
     }
 
-    // is it a translation for Java (sim or common)?
+    /**
+     * @return is it a translation for Java (sim or common)?
+     */
     public boolean isJavaTranslation() {
         String type = getType();
-        if ( type == null ) { return false; }
-        return type.equals( TRANSLATION_JAVA );
+        return type != null && type.equals( TRANSLATION_JAVA );
     }
 
-    // is it a translation for Flash (sim or common)?
+    /**
+     * @return is it a translation for Flash (sim or common)? Will respond to "true" for Flex simulations also
+     */
     public boolean isFlashTranslation() {
         String type = getType();
-        if ( type == null ) { return false; }
-        return type.equals( TRANSLATION_FLASH );
+        return type != null && type.equals( TRANSLATION_FLASH );
     }
 
-    // return the type of the translation.
-    // generally, use isJavaTranslation() or isFlashTranslation() instead.
-    // this may return null!
+    /**
+     * @return Whether this translation is for a flex simulation. If this is true, isFlashTranslation() should be true
+     */
+    public boolean isFlexTranslation() {
+        return new File( trunk, BuildToolsPaths.FLEX_SIMULATIONS_DIR + "/" + getProjectName() ).exists();
+    }
+
+    /**
+     * return the type of the translation.
+     * generally, use isJavaTranslation() or isFlashTranslation() instead.
+     * this may return null!
+     *
+     * @return
+     */
     public String getType() {
         String filename = file.getName();
 
@@ -117,36 +140,50 @@ public class Translation {
         return null;
     }
 
-    // convenience function for where simulations are stored
+    /**
+     * convenience function for where simulations are stored
+     */
     private File getSimulationsDir( File trunk ) {
         if ( isJavaTranslation() ) {
             return new File( trunk, BuildToolsPaths.JAVA_SIMULATIONS_DIR );
         }
         else if ( isFlashTranslation() ) {
-            return new File( trunk, BuildToolsPaths.FLASH_SIMULATIONS_DIR );
+            if ( isFlexTranslation() ) {
+                return new File( trunk, BuildToolsPaths.FLEX_SIMULATIONS_DIR );
+            }
+            else {
+                return new File( trunk, BuildToolsPaths.FLASH_SIMULATIONS_DIR );
+            }
         }
 
         return null;
     }
 
-    // return a new copy of the project corresponding to this translation
+    /**
+     * @return A new copy of the project corresponding to this translation
+     */
     public PhetProject getProject( File trunk ) throws IOException {
-        String simName = getSimName();
+        String projectName = getProjectName();
 
         if ( isJavaTranslation() ) {
-            return new JavaSimulationProject( new File( getSimulationsDir( trunk ), simName ) );
+            return new JavaSimulationProject( new File( getSimulationsDir( trunk ), projectName ) );
         }
         else if ( isFlashTranslation() ) {
-            return new FlashSimulationProject( new File( getSimulationsDir( trunk ), simName ) );
+            // check for the existence of the project under the flex sim root. if we find it, assume we are a flex project
+            if ( isFlexTranslation() ) {
+                return new FlexSimulationProject( new File( getSimulationsDir( trunk ), projectName ) );
+            }
+            else {
+                return new FlashSimulationProject( new File( getSimulationsDir( trunk ), projectName ) );
+            }
         }
 
         return null;
     }
 
-    // return a string about the translation
     public String toString() {
         if ( isValid() ) {
-            return file.getName() + " (" + getSimName() + ", " + getType() + ", " + LocaleUtils.localeToString( getLocale() ) + ")";
+            return file.getName() + " (" + getProjectName() + ", " + getType() + ", " + LocaleUtils.localeToString( getLocale() ) + ")";
         }
         else {
             return file.getName() + " (possibly invalid)";

@@ -185,4 +185,6 @@ public class FlexSimulationPanel extends JPanel {
                 PhetBuildGUI.getProductionWebsite().getServerAuthenticationInfo( buildLocalProperties ),
                 versionIncrement, PhetBuildGUI.getProductionWebsite() );
     }
+
+    
 }

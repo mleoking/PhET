@@ -28,28 +28,27 @@ public class ImportTranslations {
         new ImportTranslations( new File( args[0] ) ).importTranslations( new File( args[1] ) );
     }
 
-    public void importTranslations( File dir ) throws IOException {
-        ArrayList simNames = new ArrayList();
-        File[] files = dir.listFiles();
-        for ( int i = 0; i < files.length; i++ ) {
-            Translation translation = new Translation( files[i] );
+    public void importTranslations( File translationDir ) throws IOException {
+        ArrayList<String> projectNames = new ArrayList<String>();
+        File[] files = translationDir.listFiles();
+        for ( File possibleTranslationFile : files ) {
+            Translation translation = new Translation( possibleTranslationFile, trunk );
             importTranslation( translation );
-            simNames.add( translation.getSimName() );
+            projectNames.add( translation.getProjectName() );
         }
-        String s = "";
-        for ( int i = 0; i < simNames.size(); i++ ) {
-            String s1 = (String) simNames.get( i );
-            s += s1 + " ";
+        String debugString = "";
+        for ( String projectName : projectNames ) {
+            debugString += projectName + " ";
         }
-        System.out.println( "added simulations: " + s );
+        System.out.println( "added projects: " + debugString );
     }
 
     private void importTranslation( Translation translation ) throws IOException {
         File file = translation.getFile();
         System.out.println( "Attempting to import " + file.getName() );
-        String simName = translation.getSimName();
+        String projectName = translation.getProjectName();
         String simType = translation.getType();
-        System.out.println( "simname = " + simName + " (" + simType + ")" );
+        System.out.println( "projectName = " + projectName + " (simType: " + simType + ")" );
         if ( !translation.isValid() ) {
             System.out.println( "ignoring non-localization file: " + file.getName() );
         }

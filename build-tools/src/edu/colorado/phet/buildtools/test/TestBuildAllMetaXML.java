@@ -12,11 +12,11 @@ public class TestBuildAllMetaXML {
         File trunk = new File( args[0] );
         BuildLocalProperties.initRelativeToTrunk( trunk );
         try {
-            for ( PhetProject project : JavaSimulationProject.getJavaSimulations( trunk ) ) {
+            for ( PhetProject project : JavaSimulationProject.getJavaProjects( trunk ) ) {
                 project.writeMetaXML();
             }
 
-            for ( PhetProject project : FlashSimulationProject.getFlashSimulations( trunk ) ) {
+            for ( PhetProject project : FlashSimulationProject.getFlashProjects( trunk ) ) {
                 project.writeMetaXML();
             }
         }

@@ -113,7 +113,7 @@ public class ScreenshotProcessor {
             System.out.println( "Specify trunk on command line" );
         }
         else {
-            PhetProject[] projects = PhetProject.getAllSimulations( new File( args.length > 0 ? args[0] : fallbackDir ) );
+            PhetProject[] projects = PhetProject.getAllSimulationProjects( new File( args.length > 0 ? args[0] : fallbackDir ) );
             for ( int i = 0; i < projects.length; i++ ) {
                 PhetProject project = projects[i];
                 new ScreenshotProcessor().copyScreenshotsToDeployDir( project );
