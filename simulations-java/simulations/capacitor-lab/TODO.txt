@@ -14,6 +14,7 @@ HIGH PRIORITY
 - field meter with dashed line around "detecting plane"
 
 MEDUIUM PRIORITY
+- use same exponent for max and value in bar meters?
 - combine plate charge meter and slider into one thing?
 - derive PlateChargeMeterNode.MAX_EXPONENT and PlateChargeControlNode.VALUE_EXPONENT
 - use air as the dielectric material in Introduction module
