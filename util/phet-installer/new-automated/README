@@ -29,9 +29,9 @@ The general sequence of events for regenerating the installers is:
 3. Bundle it all up into the insallers (done with BitRock).
 4. Delploy the simulations to the web site.
 
-For more information on this works, it is probably best to study the various
-scripts, since they are still pretty dynamic and any detailed description of
-their functionality would soon be out of date.
+For more information on how this works, it is probably best to study the
+various scripts, since they are still pretty dynamic and any detailed
+description of their functionality would soon be out of date.
 
 J. Blanco, January 2009
 
