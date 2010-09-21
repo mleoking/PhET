@@ -27,18 +27,17 @@ class BasicRampModule(frame: PhetFrame,
                       playAreaObjectComboBox: Boolean, //true if the objects should be selectable via combo box in the play area
                       showAppliedForceSlider: Boolean, //true if the applied force should be shown as a slider in the play area
                       initialPosition: Double, //the start location of the MotionSeriesObject
-                      pausedOnReset: Boolean,
                       initialAngle: Double,
                       rampLayoutArea: Rectangle2D,
                       stageContainerArea: StageContainerArea,
                       freeBodyDiagramPopupOnly: Boolean, //should the free body diagram be available only as a popup, or also in the play area
                       controlPanelObjectComboBox: Boolean)
-        extends MotionSeriesModule(frame, new ScalaClock(MotionSeriesDefaults.DELAY, MotionSeriesDefaults.DT_DEFAULT), name, initialPosition, pausedOnReset, initialAngle, freeBodyDiagramPopupOnly) {
+        extends MotionSeriesModule(frame, new ScalaClock(MotionSeriesDefaults.DELAY, MotionSeriesDefaults.DT_DEFAULT), name, initialPosition, initialAngle, freeBodyDiagramPopupOnly) {
   //This auxiliary constructor shows the control panel object selection combo box if it is not shown in the play area and vice versa
   def this(frame: PhetFrame, name: String, coordinateSystemEnabled: Boolean, playAreaObjectComboBox: Boolean,
-           showAppliedForceSlider: Boolean, initialPosition: Double, pausedOnReset: Boolean, initialAngle: Double,
+           showAppliedForceSlider: Boolean, initialPosition: Double, initialAngle: Double,
            rampLayoutArea: Rectangle2D, stageContainerArea: StageContainerArea, freeBodyDiagramPopupOnly: Boolean) = this (frame, name, coordinateSystemEnabled, playAreaObjectComboBox, showAppliedForceSlider, initialPosition,
-    pausedOnReset, initialAngle, rampLayoutArea, stageContainerArea, freeBodyDiagramPopupOnly, !playAreaObjectComboBox)
+    initialAngle, rampLayoutArea, stageContainerArea, freeBodyDiagramPopupOnly, !playAreaObjectComboBox)
   //Create a default Ramp Canvas and set it as the simulation panel
   val rampCanvas = new RampCanvas(motionSeriesModel, coordinateSystemModel, fbdModel, vectorViewModel, frame, playAreaObjectComboBox, showAppliedForceSlider, initialAngle != 0.0, rampLayoutArea, stageContainerArea)
   setSimulationPanel(rampCanvas)
@@ -59,7 +58,6 @@ class IntroRampModule(frame: PhetFrame) extends BasicRampModule(frame, "ramp-for
   playAreaObjectComboBox = true,
   showAppliedForceSlider = true,
   initialPosition = -6.0,
-  pausedOnReset = false,
   initialAngle = MotionSeriesDefaults.defaultRampAngle,
   rampLayoutArea = MotionSeriesDefaults.rampIntroViewport,
   stageContainerArea = MotionSeriesDefaults.fullScreenArea,
@@ -69,7 +67,7 @@ class IntroRampModule(frame: PhetFrame) extends BasicRampModule(frame, "ramp-for
  * The module that focuses on coordinate frames.
  */
 class CoordinatesRampModule(frame: PhetFrame)
-        extends BasicRampModule(frame, "ramp-forces-and-motion.module.coordinates".translate, true, true, true, -3, false,
+        extends BasicRampModule(frame, "ramp-forces-and-motion.module.coordinates".translate, true, true, true, -3,
           MotionSeriesDefaults.defaultRampAngle, MotionSeriesDefaults.rampIntroViewport, MotionSeriesDefaults.fullScreenArea, false) {
   coordinateSystemModel.adjustable = true //user is allowed to reorient the coordinate frames in this tab
 }
@@ -82,7 +80,7 @@ class GraphingModule(frame: PhetFrame,
                      showEnergyGraph: Boolean,
                      rampLayoutArea: Rectangle2D,
                      stageContainerArea: StageContainerArea)
-        extends BasicRampModule(frame, name, false, false, false, -2, true, MotionSeriesDefaults.defaultRampAngle, rampLayoutArea, stageContainerArea, true) {
+        extends BasicRampModule(frame, name, false, false, false, -2, MotionSeriesDefaults.defaultRampAngle, rampLayoutArea, stageContainerArea, true) {
   coordinateSystemModel.adjustable = false //user is not allowed to reorient the coordinate frames in this tab
 }
 
@@ -99,7 +97,7 @@ class ForceGraphsModule(frame: PhetFrame) extends GraphingModule(frame, "ramp-fo
 //Copied from Forces and Motion
 class RampFrictionModule(frame: PhetFrame)
         extends BasicRampModule(frame, "ramp-forces-and-motion.module.friction.title".translate, true, false, true,
-          -6, false, MotionSeriesDefaults.defaultRampAngle, MotionSeriesDefaults.rampIntroViewport, MotionSeriesDefaults.fullScreenArea, false, false) {
+          -6, MotionSeriesDefaults.defaultRampAngle, MotionSeriesDefaults.rampIntroViewport, MotionSeriesDefaults.fullScreenArea, false, false) {
   motionSeriesModel.selectedObject = MotionSeriesDefaults.custom // so that it resizes
   val frictionPlayAreaControlPanel = new PSwing(new FrictionPlayAreaControlPanel(motionSeriesModel.motionSeriesObject))
   frictionPlayAreaControlPanel.scale(0.85) //so that the rest of the layout still fits without modification or overlap

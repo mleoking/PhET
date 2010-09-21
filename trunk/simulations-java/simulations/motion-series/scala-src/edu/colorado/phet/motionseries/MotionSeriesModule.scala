@@ -14,16 +14,15 @@ class MotionSeriesModule(frame: PhetFrame,
                          val clock: ScalaClock,
                          name: String,
                          defaultObjectPosition: Double,
-                         pausedOnReset: Boolean,
                          initialAngle: Double,
                          fbdPopupOnly: Boolean)
         extends Module(name, clock) {
   val audioEnabled = new ScalaMutableBoolean(true)
   TemporalChart.SEC_TEXT = "units.sec".translate; //see doc in SEC_TEXT
-  def createMotionSeriesModel(defaultObjectPosition: Double, pausedOnReset: Boolean, initialAngle: Double) =
-    new MotionSeriesModel(defaultObjectPosition, pausedOnReset, initialAngle)
+  def createMotionSeriesModel(defaultObjectPosition: Double, initialAngle: Double) =
+    new MotionSeriesModel(defaultObjectPosition, initialAngle)
 
-  val motionSeriesModel = createMotionSeriesModel(defaultObjectPosition, pausedOnReset, initialAngle)
+  val motionSeriesModel = createMotionSeriesModel(defaultObjectPosition, initialAngle)
 
   private def updateCursorVisibility(model: MotionSeriesModel): Unit = {
     model.chartCursor.setVisible(motionSeriesModel.isPlayback && motionSeriesModel.getNumRecordedPoints > 0)
