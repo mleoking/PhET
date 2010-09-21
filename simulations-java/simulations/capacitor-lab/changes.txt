@@ -1,3 +1,5 @@
+9/21/10 use + and - magnifying glass images to indicate what the meter scale button will do
+9/21/10 new images for the meter scale button, enable/disable button as appropriate
 9/21/10 add ticks outside the bar meter track for min and max labels
 9/21/10 add tooltip to meter scale button
 9/21/10 add scale button to bar meters, flash max range label when it changes

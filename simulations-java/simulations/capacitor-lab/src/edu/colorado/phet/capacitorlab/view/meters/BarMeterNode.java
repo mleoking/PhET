@@ -24,7 +24,6 @@ import edu.colorado.phet.common.piccolophet.event.BoundedDragHandler;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
-import edu.colorado.phet.common.piccolophet.nodes.ImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.ToolTipNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
@@ -177,16 +176,19 @@ public abstract class BarMeterNode extends PhetPNode {
                 BarMeterNode.this.setVisible( false );
             }
         });
-        scaleButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                updateValueExponent();
+        scaleButton.addInputEventListener( new PBasicInputEventHandler() {
+            @Override
+            public void mouseReleased( PInputEvent event ) {
+                if ( scaleButton.isEnabled() ) {
+                    updateValueExponent();
+                }
             }
         });
         
         // layout
         updateLayout();
         
-        updateScaleButtonVisibility();
+        updateScaleButtonEnabled();
     }
     
     private void updateLayout() {
@@ -233,10 +235,11 @@ public abstract class BarMeterNode extends PhetPNode {
         scaleButton.setOffset( x, y );
     }
     
-    private void updateScaleButtonVisibility() {
+    private void updateScaleButtonEnabled() {
         double mantissa = value / Math.pow( 10, valueExponent );
-        // if mantissa < 1, we'll be zooming in; > 10, we'll be zooming out.
-        scaleButton.setVisible( ( value != 0 ) && ( mantissa < 1 || mantissa > 10 ) );
+        boolean plusEnabled = ( mantissa < 1 );
+        boolean minusEnabled = ( mantissa > 10 );
+        scaleButton.setEnabled( ( value != 0 ) && ( plusEnabled || minusEnabled ), plusEnabled );
     }
     
     private void updateValueExponent() {
@@ -269,7 +272,7 @@ public abstract class BarMeterNode extends PhetPNode {
             valueNode.setValue( value );
             
             updateLayout();
-            updateScaleButtonVisibility();
+            updateScaleButtonEnabled();
         }
     }
     
@@ -290,7 +293,7 @@ public abstract class BarMeterNode extends PhetPNode {
             valueNode.setExponent( valueExponent );
             
             updateLayout();
-            updateScaleButtonVisibility();
+            updateScaleButtonEnabled();
         }
     }
     
@@ -528,10 +531,32 @@ public abstract class BarMeterNode extends PhetPNode {
      * Scale button.
      * Origin at upper-left corner of bounding box.
      */
-    private static class ScaleButtonNode extends ImageButtonNode {
+    private static class ScaleButtonNode extends PImage {
+        
+        private boolean enabled;
         
         public ScaleButtonNode() {
-            super(  CLImages.SCALE_BUTTON_UNARMED, CLImages.SCALE_BUTTON_ARMED );
+            super( CLImages.SCALE_BUTTON_DISABLED );
+            this.enabled = false;
+        }
+        
+        public void setEnabled( boolean enabled, boolean plus ) {
+            if ( enabled != this.enabled ) {
+                this.enabled = enabled;
+                if ( !enabled ) {
+                    setImage( CLImages.SCALE_BUTTON_DISABLED );
+                }
+                else if ( plus ) {
+                    setImage( CLImages.SCALE_BUTTON_PLUS );
+                }
+                else {
+                    setImage( CLImages.SCALE_BUTTON_MINUS );
+                }
+            }
+        }
+        
+        public boolean isEnabled() {
+            return enabled;
         }
     }
 }
