@@ -114,6 +114,8 @@
 	<classpathentry kind="src" path="simulations-java/simulations/battery-voltage/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/bound-states/src"/>
 	<classpathentry kind="src" path="simulations-java/simulations/bound-states/data"/>
+    <classpathentry kind="src" path="simulations-java/simulations/build-an-atom/src"/>
+    <classpathentry kind="src" path="simulations-java/simulations/build-an-atom/data"/>
     <classpathentry kind="src" path="simulations-java/simulations/capacitor-lab/src"/>
 	<classpathentry kind="src" path="simulations-java/simulations/capacitor-lab/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/circuit-construction-kit/src"/>
