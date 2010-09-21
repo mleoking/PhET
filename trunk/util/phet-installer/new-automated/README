@@ -35,4 +35,16 @@ description of their functionality would soon be out of date.
 
 J. Blanco, January 2009
 
+---- UPDATE ----
+
+In the 2nd half of 2009, two "custom installers" were created, one for King
+Saud University (KSU), and one for a publishing company named Pearson who
+wanted to make the sims accessible for their Young & Freedman (YF) textbook.
+Originally, the scripts to support these installers were maintained in a
+separate subdirectory.  Eventually, when the web site was republished in
+mid-2010, it made sense to consolidate the code for all of these installer
+builders.  Hence, there are now three installer builders that can be launched
+from this directory, the one for the standard PhET installers, the one for the
+KSU installers, and the one for the YF instllers.
+
 
