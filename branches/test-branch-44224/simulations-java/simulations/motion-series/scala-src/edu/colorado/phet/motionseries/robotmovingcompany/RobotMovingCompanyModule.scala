@@ -80,22 +80,26 @@ class RobotMovingCompanyModule(frame: PhetFrame,
           centerWithin(canvas.getWidth, canvas.getHeight)
         }
         canvas.addScreenNode(intro)
+        gameModel.inputAllowed = false //User is not allowed to control object until dismissing the introduction instruction screen
 
         canvas.addKeyListener(new KeyAdapter {
-          override def keyPressed(e: KeyEvent) = {
-            canvas.removeKeyListener(this)
-            canvas.removeScreenNode(intro)
-            canvas.removeScreenNode(overlayNode)
-            val wiggleMeTimer = new Timer(5000, new ActionListener {
-              def actionPerformed(e: ActionEvent) = {
-                //no keys pressed=> no energy used, remind the user they should use keyboard
-                //but the intro screen keypress may have leaked over, so use a heuristic 92%
-                if (!canvas.hasUserAppliedForce)
-                  canvas.showWiggleMe()
+          override def keyReleased(e: KeyEvent) = {
+            if (e.getKeyCode == KeyEvent.VK_LEFT || e.getKeyCode == KeyEvent.VK_RIGHT) {
+              gameModel.inputAllowed = true //allow user to control the object now that instructions have been dismissed
+              canvas.removeKeyListener(this)
+              canvas.removeScreenNode(intro)
+              canvas.removeScreenNode(overlayNode)
+              val wiggleMeTimer = new Timer(5000, new ActionListener {
+                def actionPerformed(e: ActionEvent) = {
+                  //no keys pressed=> no energy used, remind the user they should use keyboard
+                  //but the intro screen keypress may have leaked over, so use a heuristic 92%
+                  if (!canvas.hasUserAppliedForce)
+                    canvas.showWiggleMe()
+                }
+              }) {
+                setRepeats(false)
+                start()
               }
-            }) {
-              setRepeats(false)
-              start()
             }
           }
         })

@@ -1,3 +1,4 @@
+Fixed: Arrow key press that dismisses the instructions should not also start the object moving in the game modes
 Fixed: the play/pause button to the left of the applied force slider should only be shown after the slider is moved or the text box is edited
 Added a time axis label underneath the bottom-most visible chart
 Fixed: If you show the FBD and uncheck "Force Vectors", the vectors disappear from the FBD. They should still be shown in FBD, just not on object.
