@@ -125,6 +125,7 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         map.put( "/contribute/get-java-common-strings.php", "/sims/java-common-strings/java-common-strings_en.jar" );
         map.put( "/contribute/index.php", "/en/for-translators" );
         map.put( "/contribute/translation-utility.php", "/en/for-translators/translation-utility" );
+        map.put( "/dev", "/dev/" );
         map.put( "/get_phet/", "/en/get-phet" );
         map.put( "/get_phet/full_install.php", "/en/get-phet/full-install" );
         map.put( "/get_phet/index.php", "/en/get-phet" );
