@@ -11,7 +11,7 @@ import edu.colorado.phet.buildanatom.view.BuildAnAtomCanvas;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 
 /**
- * Module template.
+ * Module for the Build Atom tab.
  */
 public class BuildAnAtomModule extends PiccoloModule {
 
