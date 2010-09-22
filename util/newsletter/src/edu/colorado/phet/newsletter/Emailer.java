@@ -15,8 +15,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeBodyPart;
 
 import edu.colorado.phet.buildtools.util.FileUtils;
-import edu.colorado.phet.website.notification.NotificationHandler;
-import java.io.*;
+import edu.colorado.phet.website.util.EmailUtils;
 
 /**
  * Sends email + attachments to a list of addresses.  See example newsletter-args.properties file.
@@ -47,7 +46,7 @@ public class Emailer {
             String emailAddress = allEmails.get( i );
             ArrayList<String> sendTo = new ArrayList<String>();
             sendTo.add( emailAddress );
-            NotificationHandler.sendMessage( properties.getProperty( "mailHost" ),
+            EmailUtils.sendMessage( properties.getProperty( "mailHost" ),
                                              properties.getProperty( "mailUser" ),
                                              properties.getProperty( "mailPassword" ),
                                              sendTo,

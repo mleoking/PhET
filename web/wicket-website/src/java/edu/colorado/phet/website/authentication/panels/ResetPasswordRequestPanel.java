@@ -23,12 +23,8 @@ import edu.colorado.phet.website.constants.WebsiteConstants;
 import edu.colorado.phet.website.content.ErrorPage;
 import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.data.ResetPasswordRequest;
-import edu.colorado.phet.website.notification.NotificationHandler;
 import edu.colorado.phet.website.panels.PhetPanel;
-import edu.colorado.phet.website.util.HibernateTask;
-import edu.colorado.phet.website.util.HibernateUtils;
-import edu.colorado.phet.website.util.PageContext;
-import edu.colorado.phet.website.util.StringUtils;
+import edu.colorado.phet.website.util.*;
 
 /**
  * @author Sam Reid
@@ -113,7 +109,7 @@ public class ResetPasswordRequestPanel extends PhetPanel {
                         WebsiteProperties websiteProperties = PhetWicketApplication.get().getWebsiteProperties();
                         String body = StringUtils.messageFormat( getPhetLocalizer().getString( "resetPasswordRequest.emailBody", EnterEmailAddressForm.this ), new Object[]{"http://phet.colorado.edu" + ResetPasswordCallbackPage.getLinker( key ).getRawUrl( context, getPhetCycle() )} );
                         String subject = getPhetLocalizer().getString( "resetPasswordRequest.emailSubject", EnterEmailAddressForm.this );
-                        boolean success = NotificationHandler.sendMessage( websiteProperties.getMailHost(),
+                        boolean success = EmailUtils.sendMessage( websiteProperties.getMailHost(),
                                                                            websiteProperties.getMailUser(),
                                                                            websiteProperties.getMailPassword(),
                                                                            Arrays.asList( user.getEmail() ),
