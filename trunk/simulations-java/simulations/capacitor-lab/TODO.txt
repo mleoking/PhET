@@ -1,5 +1,9 @@
 TODO list for capacitor-lab
 
+DEADLINES
+
+Oct 9 - complete "as much as possible" per Kathy P. for Hisham
+
 QUESTIONS FOR NOAH
 
 HIGH PRIORITY
