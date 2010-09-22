@@ -43,7 +43,8 @@ public class DistributionHandler {
         if ( cycle.isOfflineInstaller() ) {
             return true;
         }
-        return cycle.isForProductionServer();
+        return false; // we are now going to show translations
+        //return cycle.isForProductionServer();
     }
 
     /**
