@@ -1,3 +1,4 @@
+9/22/10 remove tool tip and flashing max label from bar meters
 # 0.00.06 (44263) Sep 21, 2010
 9/21/10 dev version to discuss scale button on bar meters
 9/21/10 use + and - magnifying glass images to indicate what the meter scale button will do
