@@ -17,14 +17,11 @@ import edu.colorado.phet.capacitorlab.CLImages;
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.colorado.phet.common.piccolophet.activities.ToggleVisibilityActivity;
 import edu.colorado.phet.common.piccolophet.event.BoundedDragHandler;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
-import edu.colorado.phet.common.piccolophet.nodes.ToolTipNode;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -61,8 +58,6 @@ public abstract class BarMeterNode extends PhetPNode {
     // range labels
     private static final Font RANGE_LABEL_FONT = new PhetFont( 14 );
     private static final Color RANGE_LABEL_COLOR = Color.BLACK;
-    private static final long RANGE_LABEL_FLASH_DURATION = 3000; // ms
-    private static final long RANGE_LABEL_FLASH_INTERVAL = 250; // ms
     
     // title
     private static final Font TITLE_FONT = new PhetFont( 16 );
@@ -159,11 +154,6 @@ public abstract class BarMeterNode extends PhetPNode {
         // scale button
         scaleButton = new ScaleButtonNode();
         addChild( scaleButton );
-        
-        // tooltip for the scale button
-        ToolTipNode toolTipNode = new ToolTipNode( CLStrings.TOOLTIP_SCALE_BUTTON, scaleButton );
-        toolTipNode.setFont( new PhetFont( 14 ) );
-        addChild( toolTipNode );
         
         // interactivity
         addInputEventListener( new CursorHandler() );
@@ -407,17 +397,6 @@ public abstract class BarMeterNode extends PhetPNode {
         
         public void setExponent( int exponent ) {
             setHTML( MessageFormat.format( PATTERN, exponent ) );
-            doFlash();
-        }
-
-        /*
-         * Repeatedly toggles this nodes visibility so that it appears to Flash.
-         * This is done whenever the exponent is changed. The theory is that
-         * students are more likely to notice that the meter's range has changed.
-         */
-        private void doFlash() {
-            PActivity flashActivity = new ToggleVisibilityActivity( this, RANGE_LABEL_FLASH_DURATION, RANGE_LABEL_FLASH_INTERVAL );
-            getRoot().addActivity( flashActivity ); // Must schedule the activity with the root for it to run.
         }
     }
     
