@@ -5,6 +5,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.MessagingException;
+
 import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.behavior.AttributeAppender;
@@ -21,14 +23,12 @@ import edu.colorado.phet.common.phetcommon.util.PhetLocales;
 import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.authentication.PhetSession;
 import edu.colorado.phet.website.components.InvisibleComponent;
+import edu.colorado.phet.website.constants.WebsiteConstants;
 import edu.colorado.phet.website.content.IndexPage;
 import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.data.Translation;
 import edu.colorado.phet.website.panels.PhetPanel;
-import edu.colorado.phet.website.util.HibernateTask;
-import edu.colorado.phet.website.util.HibernateUtils;
-import edu.colorado.phet.website.util.PageContext;
-import edu.colorado.phet.website.util.WicketUtils;
+import edu.colorado.phet.website.util.*;
 
 public class TranslationListPanel extends PhetPanel {
 
@@ -169,6 +169,50 @@ public class TranslationListPanel extends PhetPanel {
             }
             else {
                 item.add( new InvisibleComponent( "lock-toggle" ) );
+            }
+
+            if ( translation.isVisible() || translation.isLocked() ) {
+                item.add( new InvisibleComponent( "submit-link" ) );
+            }
+            else {
+                item.add( new Link( "submit-link" ) {
+                    @Override
+                    public void onClick() {
+                        boolean success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+                            public boolean run( Session session ) {
+                                try {
+                                    Translation t = (Translation) session.load( Translation.class, translation.getId() );
+
+                                    String subject = "Website Translation Submitted: " + t.getLocale();
+                                    String from = WebsiteConstants.PHET_NO_REPLY_EMAIL_ADDRESS;
+                                    EmailUtils.GeneralEmailBuilder message = new EmailUtils.GeneralEmailBuilder( subject, from );
+
+                                    String url = TranslationMainPage.getLinker().getDefaultRawUrl();
+                                    message.addRecipient( "olsonsjc@gmail.com" );
+                                    message.setBody(
+                                            "<p>Translation submitted for the locale " + t.getLocale() + " with the ID #" + t.getId() + "</p>" +
+                                            "<p>This can be accessed at <a href=\"" + url + "\">" + url + "</a>.</p>" +
+                                            "<p>Replying to this email will send the response to the translation creator(s).</p>"
+                                    );
+                                    for ( Object u : t.getAuthorizedUsers() ) {
+                                        PhetUser user = (PhetUser) u;
+                                        message.addReplyTo( user.getEmail() );
+                                    }
+
+                                    return EmailUtils.sendMessage( message );
+                                }
+                                catch( MessagingException e ) {
+                                    e.printStackTrace();
+                                    return false; // failure
+                                }
+                            }
+                        } );
+
+                        if ( success ) {
+                            setResponsePage( TranslationSubmittedPage.class );
+                        }
+                    }
+                } );
             }
 
             if ( deleteShown ) {
