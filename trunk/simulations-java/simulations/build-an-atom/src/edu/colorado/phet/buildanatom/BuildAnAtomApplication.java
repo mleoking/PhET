@@ -6,14 +6,14 @@ import java.awt.Frame;
 
 import javax.swing.JMenu;
 
+import edu.colorado.phet.buildanatom.module.BuildAnAtomModule;
+import edu.colorado.phet.buildanatom.module.GameModule;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
-import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
-import edu.colorado.phet.buildanatom.module.BuildAnAtomModule;
 
 /**
  * The main application for this simulation.
@@ -54,7 +54,7 @@ public class BuildAnAtomApplication extends PiccoloPhetApplication {
         Module firstModule = new BuildAnAtomModule( parentFrame );
         addModule( firstModule );
 
-        Module secondModule = new BuildAnAtomModule( parentFrame );
+        Module secondModule = new GameModule( parentFrame );
         secondModule.setName( BuildAnAtomStrings.TITLE_GAME_MODULE );
         addModule( secondModule );
     }
