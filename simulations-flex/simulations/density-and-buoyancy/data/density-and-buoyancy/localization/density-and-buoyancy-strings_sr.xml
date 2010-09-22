@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--density-and-buoyancy-strings_sr.xml created Sun Sep 19 17:06:30 CEST 2010 using: density-and-buoyancy 1.00.00 (44000), translation-utility 2.09.00 (44031) Sep 14, 2010-->
+<SimStrings>
+<string key="properties.mass" value="МАСА"/>
+<string key="forceArrows.contact" value="Контакт"/>
+<string key="mode.objectsOfSameVolume" value="Иста запремина"/>
+<string key="mysteryObject.densityColumnHeader" value="Густина ({0})"/>
+<string key="material.aluminum" value="Алуминијум"/>
+<string key="material.custom" value="По жељи"/>
+<string key="material.gasoline" value="Бензин "/>
+<string key="customObject.material" value="Материјал"/>
+<string key="mode.mysteryObjects" value="Непознато"/>
+<string key="customObject.custom" value="Уреди"/>
+<string key="material.wood" value="Дрво"/>
+<string key="material.apple" value="Јабука"/>
+<string key="material.ice" value="Лед"/>
+<string key="material.diamond" value="Дијамант"/>
+<string key="mode.title" value="Објекти"/>
+<string key="material.lead" value="Проводна жица"/>
+<string key="forceArrows.buoyancy" value="ПЛУТАЊЕ"/>
+<string key="customObject.properties" value="Особине"/>
+<string key="forceArrows.gravity" value="Гравитација"/>
+<string key="mysteryObject.table.title" value="Густина различитих материјала"/>
+<string key="material.brick" value="Цигла"/>
+<string key="mysteryObject.material" value="МАТЕРИЈАЛ"/>
+<string key="properties.weightPoundValue" value="{0} lb (фунте)"/>
+<string key="properties.volumeLiterValue" value="{0} литар"/>
+<string key="mode.objectsOfSameDensity" value="Иста густина"/>
+<string key="density.simTitle" value="ГУСТИНА"/>
+<string key="properties.volumeMilliLiterValue" value="{0} милилитар"/>
+<string key="forceArrows.fluidDrag" value="Течност (превуци)"/>
+<string key="mode.customObject" value="Уреди"/>
+<string key="mode.objectsOfSameMass" value="Иста маса"/>
+<string key="material.gold" value="Злато"/>
+<string key="application.resetAll" value="На почетак све"/>
+<string key="customObject.name" value="име"/>
+<string key="material.water" value="Вода"/>
+<string key="properties.density" value="ГУСТИНА"/>
+<string key="material.waterBalloon" value="Вода"/>
+<string key="mysteryObject.table.showTable" value="Покажи таблу"/>
+<string key="properties.volume" value="ЗАПРЕМИНА"/>
+<string key="buoyancy.simTitle" value="Плутање"/>
+</SimStrings>
