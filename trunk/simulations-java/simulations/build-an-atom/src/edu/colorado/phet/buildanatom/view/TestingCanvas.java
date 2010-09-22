@@ -31,17 +31,34 @@ public class TestingCanvas extends PhetPCanvas {
     private static final double SMALL_SHELL_RADIUS = 100;
     private static final double LARGE_SHELL_RADIUS = 250;
     
-    // Color Test Set 01
+    // Color Test Set 01 - Crude example to give our team an idea of the shapes.
 //    private static final Color BACKGROUND_COLOR = Color.BLACK;
-//    private static final Color PARTICLE_BASE_COLOR = Color.YELLOW;
-//    private static final Color PARTICLE_FADE_TO_COLOR = Color.PINK;
-
-    // Color Test Set 02
-    private static final Color BACKGROUND_COLOR = Color.BLACK;
-    private static final Color INNER_SHELL_BASE_COLOR = Color.yellow;
-    private static final Color INNER_SHELL_FADE_TO_COLOR = Color.blue;
-    private static final Color OUTER_SHELL_BASE_COLOR = Color.yellow;
-    private static final Color OUTER_SHELL_FADE_TO_COLOR = Color.blue;
+//    private static final Color INNER_SHELL_BASE_COLOR = Color.yellow;
+//    private static final Color INNER_SHELL_FADE_TO_COLOR = Color.blue;
+//    private static final Color OUTER_SHELL_BASE_COLOR = Color.yellow;
+//    private static final Color OUTER_SHELL_FADE_TO_COLOR = Color.blue;
+    
+    // Color Test Set 02 - Black and white - very basic
+//    private static final Color BACKGROUND_COLOR = Color.black;
+//    private static final Color INNER_SHELL_BASE_COLOR = Color.WHITE;
+//    private static final Color INNER_SHELL_FADE_TO_COLOR = BACKGROUND_COLOR;
+//    private static final Color OUTER_SHELL_BASE_COLOR = Color.WHITE;
+//    private static final Color OUTER_SHELL_FADE_TO_COLOR = BACKGROUND_COLOR;
+    
+    // Color Test Set 03 - Blue background with gray atoms
+    private static final Color BACKGROUND_COLOR = new Color( 100, 149, 237 );
+    private static final Color INNER_SHELL_BASE_COLOR = Color.DARK_GRAY;
+    private static final Color INNER_SHELL_FADE_TO_COLOR = BACKGROUND_COLOR;
+    private static final Color OUTER_SHELL_BASE_COLOR = Color.DARK_GRAY;
+    private static final Color OUTER_SHELL_FADE_TO_COLOR = BACKGROUND_COLOR;
+    
+    // Color Test Set 04 - Blue background with darker colored atoms of contrary color.
+//    private static final Color BACKGROUND_COLOR = new Color( 100, 149, 237 );
+//    private static final Color INNER_SHELL_BASE_COLOR = new Color( 200, 69, 0 );
+//    private static final Color INNER_SHELL_FADE_TO_COLOR = BACKGROUND_COLOR;
+//    private static final Color OUTER_SHELL_BASE_COLOR = new Color( 200, 69, 0 );
+//    private static final Color OUTER_SHELL_FADE_TO_COLOR = BACKGROUND_COLOR;
+    
     private static final Color INNER_SHELL_BASE_COLOR_1_ELECTRON = new Color(
             INNER_SHELL_BASE_COLOR.getRed(), 
             INNER_SHELL_BASE_COLOR.getGreen(), 
@@ -91,7 +108,7 @@ public class TestingCanvas extends PhetPCanvas {
             OUTER_SHELL_FADE_TO_COLOR.getRed(), 
             OUTER_SHELL_FADE_TO_COLOR.getGreen(), 
             OUTER_SHELL_FADE_TO_COLOR.getBlue(),
-            255);
+            200);
     
     //----------------------------------------------------------------------------
     // Instance Data
