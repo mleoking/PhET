@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.List;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
+
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 import org.apache.log4j.WriterAppender;
@@ -23,9 +26,9 @@ import edu.colorado.phet.buildtools.util.PhetJarSigner;
 import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.components.RawLabel;
 import edu.colorado.phet.website.components.StringTextField;
+import edu.colorado.phet.website.constants.WebsiteConstants;
 import edu.colorado.phet.website.data.TranslatedString;
 import edu.colorado.phet.website.data.transfer.TransferData;
-import edu.colorado.phet.website.notification.NotificationHandler;
 import edu.colorado.phet.website.translation.PhetLocalizer;
 import edu.colorado.phet.website.util.*;
 
@@ -75,7 +78,16 @@ public class AdminMainPage extends AdminPage {
 
         add( new Link( "debug-email" ) {
             public void onClick() {
-                NotificationHandler.sendNotifications();
+                try {
+                    EmailUtils.GeneralEmailBuilder message = new EmailUtils.GeneralEmailBuilder( "Test Email", WebsiteConstants.PHET_NO_REPLY_EMAIL_ADDRESS );
+                    message.setBody( "This is the body" );
+                    message.addRecipient( "olsonsjc@gmail.com" );
+                    message.addReplyTo( "phethelp@colorado.edu" );
+                    EmailUtils.sendMessage( message );
+                }
+                catch( MessagingException e ) {
+                    e.printStackTrace();
+                }
             }
         } );
 
