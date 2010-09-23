@@ -5,6 +5,7 @@ package edu.colorado.phet.capacitorlab.module.introduction;
 import java.awt.Frame;
 
 import edu.colorado.phet.capacitorlab.CLStrings;
+import edu.colorado.phet.capacitorlab.model.CLClock;
 import edu.colorado.phet.capacitorlab.model.CLModel;
 import edu.colorado.phet.capacitorlab.module.CLModule;
 
@@ -20,9 +21,9 @@ public class IntroductionModule extends CLModule {
     private final IntroductionControlPanel controlPanel;
 
     public IntroductionModule( Frame parentFrame, boolean dev ) {
-        super( CLStrings.TAB_INTRODUCTION );
+        super( CLStrings.TAB_INTRODUCTION, new CLClock() );
         
-        model = new CLModel();
+        model = new CLModel( getClock() );
         
         canvas = new IntroductionCanvas( model, dev );
         setSimulationPanel( canvas );
