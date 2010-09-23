@@ -66,7 +66,7 @@ public class AgreementDialog extends CommonDialog {
         // add the OK button
         var panel:JPanel = new JPanel( new BoxLayout() );
         closeButton = new JButton( CommonStrings.get( "Close", "Close" ) );
-        closeButton.addEventListener( MouseEvent.CLICK, closeClicked );
+        closeButton.addEventListener( MouseEvent.CLICK, function():void {manualClose();} );
         CommonButtons.padButtonAdd( closeButton, panel );
 
         //window.getContentPane().append(panel);
