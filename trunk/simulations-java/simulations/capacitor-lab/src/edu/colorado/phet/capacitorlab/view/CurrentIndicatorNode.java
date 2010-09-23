@@ -5,13 +5,17 @@ package edu.colorado.phet.capacitorlab.view;
 import java.awt.*;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.capacitorlab.model.Battery;
-import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
+import edu.colorado.phet.capacitorlab.model.Battery.BatteryChangeAdapter;
+import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeAdapter;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.activities.PActivity;
+import edu.umd.cs.piccolo.activities.PActivity.PActivityDelegate;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
@@ -19,7 +23,8 @@ import edu.umd.cs.piccolo.nodes.PText;
  * Transparency is modulated proportional to dV/dt (change in voltage over change in time).
  * When voltage goes to zero, this node fades out over a period of time.
  * <p>
- * Origin is at the tip of the arrow.
+ * Origin is at the geometric center, so that this node can be easily 
+ * rotated when current changes direction.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -41,13 +46,18 @@ public class CurrentIndicatorNode extends PhetPNode {
     private static final Color ELECTRON_STROKE_COLOR = Color.BLACK;
     private static final Font ELECTRON_MINUS_FONT = new PhetFont( Font.BOLD, 24 );
     
-    private final Battery battery;
-    private final DoubleRange voltageRange;
+    // transparency
+    private static final float MIN_TRANSPARENCY = 0.5f; // range is 0-1f
+    private static final float MAX_TRANSPARENCY = 1.0f; // range is 0-1f
+    private static final long FADEOUT_DURATION = 1500; // ms
+    private static final long FADEOUT_STEP_RATE = 100; // ms
+    
+    private final BatteryCapacitorCircuit circuit;
+    private PActivity fadeOutActivity;
 
-    public CurrentIndicatorNode( Battery battery, DoubleRange voltageRange ) {
+    public CurrentIndicatorNode( BatteryCapacitorCircuit circuit ) {
         
-        this.battery = battery;
-        this.voltageRange = new DoubleRange( voltageRange );
+        this.circuit = circuit;
         
         ArrowNode arrowNode = new ArrowNode( ARROW_TAIL_LOCATION, ARROW_TIP_LOCATION, ARROW_HEAD_HEIGHT, ARROW_HEAD_WIDTH, ARROW_TAIL_WIDTH );
         arrowNode.setPaint( ARROW_COLOR );
@@ -63,7 +73,7 @@ public class CurrentIndicatorNode extends PhetPNode {
         addChild( minusNode );
         
         // layout
-        double x = 0;
+        double x = -arrowNode.getFullBoundsReference().getWidth() / 2;
         double y = 0;
         arrowNode.setOffset( x, y );
         x = arrowNode.getFullBoundsReference().getMaxX() - ( 0.6 * ( arrowNode.getFullBoundsReference().getWidth() - ARROW_HEAD_HEIGHT ) );
@@ -72,5 +82,92 @@ public class CurrentIndicatorNode extends PhetPNode {
         x = electronNode.getFullBoundsReference().getCenterX() - ( minusNode.getFullBoundsReference().getWidth() / 2 );
         y = electronNode.getFullBoundsReference().getCenterY() - ( minusNode.getFullBoundsReference().getHeight() / 2 ) - 1; 
         minusNode.setOffset( x, y );
+        
+        // listeners
+        circuit.addBatteryCapacitorCircuitChangeListener( new BatteryCapacitorCircuitChangeAdapter() {
+            @Override
+            public void currentChanged() {
+                updateTransparency();
+            }
+        });
+        circuit.getBattery().addBatteryChangeListener( new BatteryChangeAdapter() {
+            @Override
+            public void polarityChanged() {
+                flipOrientation();
+            }
+        });
+        
+        updateTransparency();
+    }
+    
+    private void updateTransparency() {
+        if ( fadeOutActivity != null ) {
+            fadeOutActivity.terminate();
+            fadeOutActivity = null;
+        }
+        double currentAmplitude = circuit.getCurrentAmplitude();
+        if ( currentAmplitude == 0 ) {
+            if ( getRoot() == null ) {
+                // node is not in the scenegraph, make it invisible immediately
+                setTransparency( 0f );
+            }
+            else {
+                // gradually fade out
+                fadeOutActivity = new FadeOutActivity( this, FADEOUT_DURATION, FADEOUT_STEP_RATE );
+                fadeOutActivity.setDelegate( new PActivityDelegate() {
+
+                    public void activityFinished( PActivity activity ) {
+                        fadeOutActivity = null;
+                    }
+
+                    public void activityStarted( PActivity activity ) {}
+
+                    public void activityStepped( PActivity activity ) {}
+                });
+                getRoot().addActivity( fadeOutActivity );
+            }
+        }
+        else {
+            // modulate the alpha channel
+            float transparency = (float) ( MIN_TRANSPARENCY + ( currentAmplitude * ( MAX_TRANSPARENCY - MIN_TRANSPARENCY ) ) );
+            setTransparency( transparency );
+        }
+    }
+    
+    private void flipOrientation() {
+        rotate( Math.PI );
+    }
+    
+    private static class FadeOutActivity extends PActivity {
+        
+        private final PNode node;
+        private float deltaTransparency;
+
+        /**
+         * Constructor.
+         * @param node the node whose visibility will be toggled
+         * @param duration duration of this activity, in milliseconds
+         * @param stepRate  amount of time that this activity should delay between steps, in milliseconds
+         */
+        public FadeOutActivity( PNode node, long duration, long stepRate ) {
+            super( duration );
+            this.node = node;
+            setStepRate( stepRate );
+            deltaTransparency = node.getTransparency() / ( duration / stepRate );
+        }
+        
+        @Override
+        protected void activityStep( long time ) {
+            super.activityStep( time );
+            float transparency = Math.max( 0, node.getTransparency() - deltaTransparency );
+            node.setTransparency( transparency );
+        }
+
+        @Override
+        protected void activityFinished() {
+            super.activityFinished();
+            node.setTransparency( 0 );
+        }
+
     }
 }

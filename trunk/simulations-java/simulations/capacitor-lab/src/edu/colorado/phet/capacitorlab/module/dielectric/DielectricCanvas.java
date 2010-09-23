@@ -7,7 +7,9 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
-import edu.colorado.phet.capacitorlab.control.*;
+import edu.colorado.phet.capacitorlab.control.AddWiresButtonNode;
+import edu.colorado.phet.capacitorlab.control.PlateChargeControlNode;
+import edu.colorado.phet.capacitorlab.control.RemoveWiresButtonNode;
 import edu.colorado.phet.capacitorlab.drag.DielectricOffsetDragHandleNode;
 import edu.colorado.phet.capacitorlab.drag.PlateAreaDragHandleNode;
 import edu.colorado.phet.capacitorlab.drag.PlateSeparationDragHandleNode;
@@ -15,14 +17,16 @@ import edu.colorado.phet.capacitorlab.model.CLModel;
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeAdapter;
 import edu.colorado.phet.capacitorlab.module.CLCanvas;
-import edu.colorado.phet.capacitorlab.view.*;
+import edu.colorado.phet.capacitorlab.view.BatteryNode;
+import edu.colorado.phet.capacitorlab.view.BullseyeNode;
+import edu.colorado.phet.capacitorlab.view.CapacitorNode;
+import edu.colorado.phet.capacitorlab.view.CurrentIndicatorNode;
 import edu.colorado.phet.capacitorlab.view.WireNode.BottomWireNode;
 import edu.colorado.phet.capacitorlab.view.WireNode.TopWireNode;
 import edu.colorado.phet.capacitorlab.view.meters.CapacitanceMeterNode;
 import edu.colorado.phet.capacitorlab.view.meters.PlateChargeMeterNode;
 import edu.colorado.phet.capacitorlab.view.meters.StoredEnergyMeterNode;
 import edu.colorado.phet.capacitorlab.view.meters.VoltmeterNode;
-import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
@@ -100,8 +104,8 @@ public class DielectricCanvas extends CLCanvas {
         
         plateChargeControNode = new PlateChargeControlNode( model.getCircuit() );
         
-        topCurrentIndicatorNode = new CurrentIndicatorNode( model.getBattery(), CLConstants.BATTERY_VOLTAGE_RANGE );
-        bottomCurrentIndicatorNode = new CurrentIndicatorNode( model.getBattery(), CLConstants.BATTERY_VOLTAGE_RANGE );
+        topCurrentIndicatorNode = new CurrentIndicatorNode( model.getCircuit() );
+        bottomCurrentIndicatorNode = new CurrentIndicatorNode( model.getCircuit() );
         bottomCurrentIndicatorNode.rotate( Math.PI );
         
         // rendering order
@@ -140,13 +144,13 @@ public class DielectricCanvas extends CLCanvas {
             
             // top current indicator
             double topWireThickness = mvt.modelToView( model.getTopWire().getThickness() );
-            x = topWireNode.getFullBoundsReference().getCenterX() - ( topCurrentIndicatorNode.getFullBoundsReference().getWidth() / 2 );
+            x = topWireNode.getFullBoundsReference().getCenterX();
             y = topWireNode.getFullBoundsReference().getMinY() + ( topWireThickness / 2 );
             topCurrentIndicatorNode.setOffset( x, y );
             
             // bottom current indicator
             double bottomWireThickness = mvt.modelToView( model.getBottomWire().getThickness() );
-            x = bottomWireNode.getFullBoundsReference().getCenterX() - ( bottomCurrentIndicatorNode.getFullBoundsReference().getWidth() / 2 ) - PNodeLayoutUtils.getOriginXOffset( bottomCurrentIndicatorNode );
+            x = bottomWireNode.getFullBoundsReference().getCenterX();
             y = bottomWireNode.getFullBoundsReference().getMaxY() - ( bottomWireThickness / 2 );
             bottomCurrentIndicatorNode.setOffset( x, y );
             

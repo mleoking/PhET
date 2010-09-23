@@ -90,6 +90,10 @@ public class ModelValuesPanel extends JPanel {
             public void voltageChanged() {
                 updateValues();
             }
+            
+            public void currentChanged() {
+                // do nothing, current is not shown in this panel.
+            }
         };
         model.getCircuit().addBatteryCapacitorCircuitChangeListener( circuitChangeListener );
         

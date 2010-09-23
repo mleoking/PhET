@@ -12,6 +12,8 @@ import edu.colorado.phet.capacitorlab.model.Battery.BatteryChangeAdapter;
 import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeAdapter;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial.CustomDielectricChangeListener;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 
 /**
  * Physical model of a circuit with a battery connected to a capacitor.
@@ -29,6 +31,7 @@ public class BatteryCapacitorCircuit {
     private static final double EPSILON_VACUUM = CLConstants.EPSILON_VACUUM;
     
     // immutable instance data
+    private final CLClock clock;
     private final EventListenerList listeners;
     private final Battery battery;
     private final Capacitor capacitor;
@@ -38,16 +41,21 @@ public class BatteryCapacitorCircuit {
     private double disconnectedPlateCharge; // charge set manually by the user, used when battery is disconnected
     private CustomDielectricMaterial customDielectric;
     private CustomDielectricChangeListener customDielectricChangeListener;
+    private double currentAmplitude;
+    private double previousVoltage;
 
-    public BatteryCapacitorCircuit( Battery battery, Capacitor capacitor, boolean batteryConnected, double disconnectedPlateCharge ) {
+    public BatteryCapacitorCircuit( CLClock clock, Battery battery, Capacitor capacitor, boolean batteryConnected, double disconnectedPlateCharge ) {
         
-        listeners = new EventListenerList();
-        
+        this.clock = clock;
+        this.listeners = new EventListenerList();
+        this.battery = battery;
+        this.capacitor = capacitor;
         this.batteryConnected = batteryConnected;
         this.disconnectedPlateCharge = disconnectedPlateCharge;
+        this.currentAmplitude = 0;
+        this.previousVoltage = getPlatesVoltage();
         
         // respond to battery changes
-        this.battery = battery;
         battery.addBatteryChangeListener( new BatteryChangeAdapter() {
             @Override
             public void voltageChanged() {
@@ -56,7 +64,6 @@ public class BatteryCapacitorCircuit {
         });
         
         // respond to capacitor changes
-        this.capacitor = capacitor;
         capacitor.addCapacitorChangeListener( new CapacitorChangeAdapter() {
 
             @Override
@@ -81,6 +88,13 @@ public class BatteryCapacitorCircuit {
             }
         };
         updateCustomDielectric();
+        
+        // update current amplitude on each clock tick
+        clock.addClockListener( new ClockAdapter() {
+            public void simulationTimeChanged( ClockEvent clockEvent ) {
+                updateCurrentAmplitude();
+            }
+        });
     }
     
     //----------------------------------------------------------------------------------
@@ -255,7 +269,7 @@ public class BatteryCapacitorCircuit {
                 CLConstants.PLATE_SIZE_RANGE.getMax(), CLConstants.PLATE_SEPARATION_RANGE.getMin(),
                 material, CLConstants.DIELECTRIC_OFFSET_RANGE.getMin() );
         Battery battery = new Battery( new Point2D.Double(), CLConstants.BATTERY_VOLTAGE_RANGE.getMax() );
-        BatteryCapacitorCircuit circuit = new BatteryCapacitorCircuit( battery, capacitor, true /* batteryConnected */, 0 /* manualPlateCharge, don't care */ );
+        BatteryCapacitorCircuit circuit = new BatteryCapacitorCircuit( new CLClock(), battery, capacitor, true /* batteryConnected */, 0 /* manualPlateCharge, don't care */ );
         return circuit.getTotalPlateCharge();
     }
     
@@ -380,6 +394,34 @@ public class BatteryCapacitorCircuit {
     
     //----------------------------------------------------------------------------------
     //
+    // Current
+    //
+    //----------------------------------------------------------------------------------
+    
+    public double getCurrentAmplitude() {
+        return currentAmplitude;
+    }
+    
+    private void setCurrentAmplitude( double currentAmplitude ) {
+        if ( currentAmplitude != this.getCurrentAmplitude() ) {
+            this.currentAmplitude = currentAmplitude;
+            fireCurrentChanged();
+        }
+    }
+    
+    /*
+     * Current amplitude is proportional to dV/dt, the change in voltage over time.
+     */
+    private void updateCurrentAmplitude() {
+        double V = getPlatesVoltage(); // use plates voltage so that this works when battery is disconnected
+        double dV = V - previousVoltage;
+        double dt = clock.getDt();
+        previousVoltage = V;
+        setCurrentAmplitude( Math.min( 1, Math.abs( dV / dt ) ) );
+    }
+    
+    //----------------------------------------------------------------------------------
+    //
     // Model update handlers
     //
     //----------------------------------------------------------------------------------
@@ -432,6 +474,7 @@ public class BatteryCapacitorCircuit {
         public void efieldChanged();
         public void energyChanged();
         public void batteryConnectedChanged();
+        public void currentChanged();
     }
     
     public static class BatteryCapacitorCircuitChangeAdapter implements BatteryCapacitorCircuitChangeListener {
@@ -441,6 +484,7 @@ public class BatteryCapacitorCircuit {
         public void efieldChanged() {}
         public void energyChanged() {}
         public void batteryConnectedChanged() {}
+        public void currentChanged() {}
     }
     
     public void addBatteryCapacitorCircuitChangeListener( BatteryCapacitorCircuitChangeListener listener ) {
@@ -484,6 +528,12 @@ public class BatteryCapacitorCircuit {
     private void fireBatteryConnectedChanged() {
         for ( BatteryCapacitorCircuitChangeListener listener : listeners.getListeners( BatteryCapacitorCircuitChangeListener.class ) ) {
             listener.batteryConnectedChanged();
+        }
+    }
+    
+    private void fireCurrentChanged() {
+        for ( BatteryCapacitorCircuitChangeListener listener : listeners.getListeners( BatteryCapacitorCircuitChangeListener.class ) ) {
+            listener.currentChanged();
         }
     }
 }

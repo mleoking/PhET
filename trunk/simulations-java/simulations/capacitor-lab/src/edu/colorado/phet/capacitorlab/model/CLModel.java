@@ -9,7 +9,6 @@ import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricM
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.Paper;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.Polystyrene;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.Teflon;
-import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 
 
 /**
@@ -32,15 +31,12 @@ public class CLModel {
     private static final double TOP_WIRE_EXTENT = CLConstants.TOP_WIRE_EXTENT;
     private static final double BOTTOM_WIRE_EXTENT = CLConstants.BOTTOM_WIRE_EXTENT;
     
-    private final IClock clock;
     private final DielectricMaterial[] dielectricMaterials;
     private final DielectricMaterial defaultDielectricMaterial;
     private final BatteryCapacitorCircuit circuit;
     private final Wire topWire, bottomWire;
 
-    public CLModel( IClock clock ) {
-        
-        this.clock = clock;
+    public CLModel( CLClock clock ) {
         
         DielectricMaterial custom = new CustomDielectricMaterial();
         DielectricMaterial teflon = new Teflon();
@@ -51,7 +47,7 @@ public class CLModel {
         
         Battery battery = new Battery( BATTERY_LOCATION, BATTERY_VOLTAGE );
         Capacitor capacitor = new Capacitor( CAPACITOR_LOCATION, PLATE_SIZE, PLATE_SEPARATION, defaultDielectricMaterial, DIELECTRIC_OFFSET );
-        circuit = new BatteryCapacitorCircuit( battery, capacitor, BATTERY_CONNECTED, DISCONNECTED_PLATE_CHARGE );
+        circuit = new BatteryCapacitorCircuit( clock, battery, capacitor, BATTERY_CONNECTED, DISCONNECTED_PLATE_CHARGE );
         
         topWire = new Wire( WIRE_THICKNESS, TOP_WIRE_EXTENT );
         bottomWire = new Wire( WIRE_THICKNESS, BOTTOM_WIRE_EXTENT );
