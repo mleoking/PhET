@@ -21,6 +21,7 @@ import org.aswing.JTextArea;
 import org.aswing.SoftBoxLayout;
 import org.aswing.border.EmptyBorder;
 import org.aswing.border.TitledBorder;
+import org.aswing.event.FrameEvent;
 import org.aswing.geom.IntDimension;
 
 public class PreferencesDialog extends CommonDialog {
@@ -225,7 +226,7 @@ public class PreferencesDialog extends CommonDialog {
         common.preferences.unload();
     }
 
-    override public function closeClicked( evt:MouseEvent ):void {
+    override public function closeClicked( evt:FrameEvent ):void {
         onClose();
     }
 

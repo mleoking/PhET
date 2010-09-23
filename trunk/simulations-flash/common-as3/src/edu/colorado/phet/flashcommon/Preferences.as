@@ -140,7 +140,12 @@ public class Preferences {
     // returns whether the user has accepted the latest privacy agreement needed for this sim
     // NOTE: make sure preferences are loaded before calling, and unloaded sometime soon after
     public function isPrivacyOK():Boolean {
-        return common.getAgreementVersion() <= sharedObject.data.latestPrivacyAgreementVersion;
+        var ret:Boolean = common.getAgreementVersion() <= sharedObject.data.latestPrivacyAgreementVersion;
+        if ( !ret ) {
+            debug( "agreement version: " + common.getAgreementVersion() );
+            debug( "latest agreed: " + sharedObject.data.latestPrivacyAgreementVersion );
+        }
+        return ret;
     }
 
     // saves the user's acceptance of the privacy agreement to preferences

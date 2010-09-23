@@ -14,6 +14,7 @@ import org.aswing.JSpacer;
 import org.aswing.JTextArea;
 import org.aswing.SoftBoxLayout;
 import org.aswing.border.EmptyBorder;
+import org.aswing.event.FrameEvent;
 import org.aswing.geom.IntDimension;
 
 class MessageDialog extends CommonDialog {
@@ -68,7 +69,7 @@ class MessageDialog extends CommonDialog {
     //        tabHandler.addAsWingButton( okButton );
     //    }
 
-    override public function closeClicked( evt:MouseEvent ):void {
+    override public function closeClicked( evt:FrameEvent ):void {
         manualClose();
     }
 }

@@ -12,6 +12,13 @@ import flash.text.TextFormat;
 
 import org.aswing.ASColor;
 import org.aswing.AsWingManager;
+import org.aswing.Insets;
+import org.aswing.JFrame;
+import org.aswing.JScrollPane;
+import org.aswing.JTextArea;
+import org.aswing.border.EmptyBorder;
+import org.aswing.border.LineBorder;
+import org.aswing.geom.IntDimension;
 
 public class FlashCommon {
 
@@ -81,11 +88,14 @@ public class FlashCommon {
 
     public function debug( str:String ):void {
         trace( str ); // TODO: more like flashcommon-as2?
+        debugToWindow( str );
     }
 
     public function initialize( root:Sprite ):void {
         this.root = root;
+
         AsWingManager.initAsStandard( root, false, true );
+        debugInit( root );
 
         if ( !hasFlashVars() ) {
             debug( "missing flashvars" );
@@ -136,6 +146,26 @@ public class FlashCommon {
         if ( getDev() ) {
             //            inspector = new Inspector();
         }
+    }
+
+    private function debugToWindow( str:String ):void {
+        if( debugText != null ) {
+            debugText.appendText( str + "\n" );
+        }
+    }
+
+    var debugText:JTextArea = null;
+
+    private function debugInit( root:Sprite ):void {
+        var debugFrame:JFrame = new JFrame( root, "debug" );
+        debugText = new JTextArea();
+        debugText.setText( "This is a debugging area\n" );
+        var debugScroll:JScrollPane = new JScrollPane( debugText, JScrollPane.SCROLLBAR_AS_NEEDED, JScrollPane.SCROLLBAR_AS_NEEDED );
+        debugScroll.setPreferredSize( new IntDimension( 400, 300 ) );
+        debugScroll.setBorder( new EmptyBorder( new LineBorder( null, ASColor.GRAY, 1, 0 ), new Insets( 5, 5, 5, 5 ) ) );
+        debugFrame.getContentPane().append( debugScroll );
+        debugFrame.pack();
+        debugFrame.show();
     }
 
     // this should be called from preferences when it is verified the

@@ -107,11 +107,11 @@ public class AboutDialog extends CommonDialog {
         displayMe();
     }
 
-    override public function setupTabHandler():void {
-        //        tabHandler.addAsWingButton( agreementButton );
-        //		tabHandler.addAsWingButton( creditsButton );
-        //		tabHandler.addAsWingButton( okButton );
-    }
+    //    override public function setupTabHandler():void {
+    //        //        tabHandler.addAsWingButton( agreementButton );
+    //        //		tabHandler.addAsWingButton( creditsButton );
+    //        //		tabHandler.addAsWingButton( okButton );
+    //    }
 
     public function agreementClicked( evt:MouseEvent ):void {
         CommonDialog.openAgreementDialog();

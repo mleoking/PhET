@@ -17,6 +17,7 @@ import org.aswing.JTextArea;
 import org.aswing.SoftBoxLayout;
 import org.aswing.border.EmptyBorder;
 import org.aswing.border.LineBorder;
+import org.aswing.event.FrameEvent;
 import org.aswing.geom.IntDimension;
 
 public class AgreementDialog extends CommonDialog {
@@ -103,7 +104,7 @@ public class AgreementDialog extends CommonDialog {
     //        view.setViewPosition( view.getViewPosition().move( 0, amount ) );
     //    }
 
-    override public function closeClicked( evt:MouseEvent ):void {
+    override public function closeClicked( evt:FrameEvent ):void {
         // make the window invisible
         manualClose();
     }
