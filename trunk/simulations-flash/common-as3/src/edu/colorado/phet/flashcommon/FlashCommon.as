@@ -1,4 +1,5 @@
 package edu.colorado.phet.flashcommon {
+
 import flash.display.Sprite;
 import flash.net.LocalConnection;
 import flash.net.URLRequest;
@@ -35,14 +36,16 @@ public class FlashCommon {
     // enabling/disabling updates and statistics messages. also
     // stores how many times the particular sim has
     // been run
-    //	public var preferences : Preferences;
+    public var preferences:Preferences;
 
     // handles checking for updates and handling what to do
     // if a newer version of the simulation is found
-    //	public var updateHandler : UpdateHandler;
+    public var updateHandler:UpdateHandler;
 
     // handles sending statistics messages to the server
-    //	public var statistics : Statistics;
+    public var statistics:Statistics;
+
+    private var loadListeners:Array = new Array();
 
     /////////////////////////
 
@@ -84,8 +87,6 @@ public class FlashCommon {
         this.root = root;
         AsWingManager.initAsStandard( root, false, true );
 
-        commonButtons = new CommonButtons( root );
-
         if ( !hasFlashVars() ) {
             debug( "missing flashvars" );
         }
@@ -126,10 +127,10 @@ public class FlashCommon {
         //        keyboardHandler = new KeyboardHandler();
 
         // load the statistics handler, but do not send the session-start message!!!
-        //        statistics = new Statistics();
+        statistics = new Statistics();
 
         // load preferences data
-        //        preferences = new Preferences();
+        preferences = new Preferences();
 
         // DEVELOPMENT: load the inspector
         if ( getDev() ) {
@@ -143,14 +144,18 @@ public class FlashCommon {
 
         // load update handler
         // must have preferences loaded first before loading updatehandler.
-        //        updateHandler = new UpdateHandler();
+        updateHandler = new UpdateHandler();
 
         // load statistics handler
         // must have preferences loaded first before loading Statistics.
-        //        statistics.sendSessionStart();
+        statistics.sendSessionStart();
 
         // load buttons with the position (defaults to upper left)
-        //        commonButtons = new CommonButtons( commonPosition );
+        commonButtons = new CommonButtons( root );
+
+        for each ( var listener:Function in loadListeners ) {
+            listener();
+        }
     }
 
     // returns whether the sim was run from the phet website
@@ -568,6 +573,10 @@ public class FlashCommon {
             format.font = font;
             field.setTextFormat( format );
         }
+    }
+
+    public function addLoadListener( f:Function ):void {
+        loadListeners.push( f );
     }
 }
 }

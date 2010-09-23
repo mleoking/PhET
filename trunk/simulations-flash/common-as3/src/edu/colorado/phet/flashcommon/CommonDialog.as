@@ -23,6 +23,7 @@ public class CommonDialog extends JFrame {
 
     public function CommonDialog( dialogPrefix:String, dialogTitle:String ) {
         prefix = dialogPrefix;
+        window = this;
 
         // shortcut to FlashCommon, but now with type-checking!
         common = FlashCommon.getInstance();
@@ -125,48 +126,53 @@ public class CommonDialog extends JFrame {
         }
     }
 
-    //    public static function openMessageDialog( title : String, message : String, ok : Boolean ) {
-    //        new MessageDialog( title, message, ok );
-    //    }
-    //
-    //    public static function openPreferencesDialog() {
-    //        if(_level0.preferencesWindow) {
-    //            _level0.preferencesDialog.manualOpen();
-    //		} else {
-    //            new PreferencesDialog();
-    //		}
-    //    }
-    //
-    //    public static function openStatisticsDetailsDialog() {
-    //        if(_level0.statisticsDetailsWindow) {
-    //            _level0.statisticsDetailsDialog.manualOpen();
-    //		} else {
-    //            new StatisticsDetailsDialog();
-    //		}
-    //    }
-    //
-    //    public static function openUpdateInstallationDetailsDialog() {
-    //        if(_level0.updateInstallationDetailsWindow) {
-    //            _level0.updateInstallationDetailsDialog.manualOpen();
-    //		} else {
-    //            new UpdateInstallationDetailsDialog();
-    //		}
-    //    }
-    //
-    //    public static function openUpdateInstallationDialog( installerTimestamp : Number, installerAskLaterDays : Number ) {
-    //        if(_level0.updateInstallationWindow) {
-    //            _level0.updateInstallationDialog.manualOpen();
-    //		} else {
-    //            new UpdateInstallationDialog( installerTimestamp, installerAskLaterDays );
-    //		}
-    //    }
-    //
-    //    public static function openUpdateSimDialog( versionMajor : Number, versionMinor : Number, versionDev : Number, versionRevision : Number, simAskLaterDays : Number ) {
-    //        if(_level0.updateSimWindow) {
-    //            _level0.updateSimDialog.manualOpen();
-    //		} else {
-    //            new UpdateSimDialog( versionMajor, versionMinor, versionDev, versionRevision, simAskLaterDays );
-    //		}
-    //    }
+    public static function openMessageDialog( title:String, message:String, ok:Boolean ):void {
+        new MessageDialog( title, message, ok );
+    }
+
+    public static function openPreferencesDialog():void {
+        if ( PreferencesDialog.getInstance() != null ) {
+            PreferencesDialog.getInstance().manualOpen();
+        }
+        else {
+            new PreferencesDialog();
+        }
+    }
+
+    public static function openStatisticsDetailsDialog():void {
+        if ( StatisticsDetailsDialog.getInstance() != null ) {
+            StatisticsDetailsDialog.getInstance().manualOpen();
+        }
+        else {
+            new StatisticsDetailsDialog();
+        }
+    }
+
+    public static function openUpdateInstallationDetailsDialog():void {
+        if ( UpdateInstallationDetailsDialog.getInstance() != null ) {
+            UpdateInstallationDetailsDialog.getInstance().manualOpen();
+        }
+        else {
+            new UpdateInstallationDetailsDialog();
+        }
+    }
+
+    public static function openUpdateInstallationDialog( installerTimestamp:Number, installerAskLaterDays:Number ):void {
+        if ( UpdateInstallationDialog.getInstance() != null ) {
+            UpdateInstallationDialog.getInstance().manualOpen();
+        }
+        else {
+            new UpdateInstallationDialog( installerTimestamp, installerAskLaterDays );
+        }
+    }
+
+    public static function openUpdateSimDialog( versionMajor:Number, versionMinor:Number, versionDev:Number, versionRevision:Number, simAskLaterDays:Number ):void {
+        if ( UpdateSimDialog.getInstance() != null ) {
+            UpdateSimDialog.getInstance().manualOpen();
+        }
+        else {
+            new UpdateSimDialog( versionMajor, versionMinor, versionDev, versionRevision, simAskLaterDays );
+        }
+    }
 }
 }

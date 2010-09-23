@@ -51,7 +51,7 @@ public class CommonButtons extends JWindow {
     }
 
     public function preferencesButtonClicked( evt:MouseEvent ):void {
-        //		CommonDialog.openPreferencesDialog();
+        CommonDialog.openPreferencesDialog();
     }
 
     // creates padding around the text inside a button, and allows the button
