@@ -49,7 +49,8 @@ public class CommonDialog extends JFrame {
     // only call this the first time
     public function displayMe():void {
         // fit the window to its contents
-        window.setSize( window.getPreferredSize() );
+        //        window.setSize( window.getPreferredSize() );
+        window.pack();
 
         var stage:Stage = FlashCommon.getInstance().root.stage; // override the stage so we know it is hooked up
 
