@@ -109,7 +109,7 @@ public abstract class BarMeterNode extends PhetPNode {
         addChild( trackNode );
         
         // bar
-        double maxValue = 10 * Math.pow( 10, exponent );
+        double maxValue = Math.pow( 10, exponent );
         barNode = new BarNode( barColor, maxValue, value );
         addChild( barNode );
         
@@ -226,16 +226,16 @@ public abstract class BarMeterNode extends PhetPNode {
     
     private void updateScaleButtonEnabled() {
         double mantissa = value / Math.pow( 10, exponent );
-        boolean plusEnabled = ( mantissa < 1 );
-        boolean minusEnabled = ( mantissa > 10 );
+        boolean plusEnabled = ( mantissa < 0.1 );
+        boolean minusEnabled = ( mantissa > 1 );
         scaleButton.setEnabled( ( value != 0 ) && ( plusEnabled || minusEnabled ), plusEnabled );
     }
     
     private void updateExponent() {
         if ( value != 0 ) {
             int exponent = 0;
-            // look for an exponent that make the mantissa >= 1
-            while ( ( value / Math.pow( 10, exponent ) ) < 1 ) {
+            // look for an exponent that make the mantissa >= 0.1
+            while ( ( value / Math.pow( 10, exponent ) ) < 0.1 ) {
                 exponent--;
             }
             setExponent( exponent );
@@ -274,7 +274,7 @@ public abstract class BarMeterNode extends PhetPNode {
             this.exponent = exponent;
             
             // update components
-            double maxValue = 10 * Math.pow( 10, exponent );
+            double maxValue = Math.pow( 10, exponent );
             barNode.setMaxValue( maxValue );
             overloadIndicatorNode.setMaxValue( maxValue );
             maxLabelNode.setExponent( exponent );
@@ -389,7 +389,7 @@ public abstract class BarMeterNode extends PhetPNode {
      */
     private static class PowerOfTenRangeLabelNode extends RangeLabelNode {
         
-        private static final String PATTERN = "<html>10x10<sup>{0}</sup></html>";
+        private static final String PATTERN = "<html>10<sup>{0}</sup></html>";
         
         public PowerOfTenRangeLabelNode( int exponent ) {
             super( MessageFormat.format( PATTERN, exponent ) );
