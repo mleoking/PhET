@@ -4,7 +4,13 @@ package edu.colorado.phet.flashcommon {
 //
 // Author: Jonathan Olson
 
+import flash.events.Event;
+import flash.events.IOErrorEvent;
+import flash.events.SecurityErrorEvent;
+import flash.net.URLLoader;
+import flash.net.URLRequest;
 import flash.system.Security;
+import flash.xml.XMLDocument;
 
 public class UpdateHandler {
     public static var SIM_REQUEST_VERSION:String = "1";
@@ -109,102 +115,105 @@ public class UpdateHandler {
         // under FlashCommon.as
         Security.allowDomain( FlashCommon.getMainServer() );
 
-        // create XML that will be filled in with the response
-        var xml:XML = new XML();
+        var request:URLRequest = new URLRequest( "http://" + FlashCommon.getMainServer() + "/services/phet-info" );
+        request.contentType = "text/xml";
+        request.method = "POST";
+        request.data = new XML( query );
+        var loader:URLLoader = new URLLoader();
+        loader.addEventListener( Event.COMPLETE, function( evt:Event ):void {
+            debug( "UpdateHandler (2): reply successfully received\n" );
+            var xml:XMLDocument = new XMLDocument( loader.data );
+            xml.ignoreWhite = true; // make sure that whitespace isn't treated as nodes! (DO NOT REMOVE THIS)
+            debug( String( xml ) + "\n" );
 
-        // make sure that whitespace isn't treated as nodes! (DO NOT REMOVE THIS)
-        xml.ignoreWhite = true;
+            // TODO: remove after DEVELOPMENT
+            receivedSimResponse = false;
+            receivedInstallationResponse = false;
 
-        // function that is called when the XML is either loaded or fails somehow
-        xml.onLoad = function( success:Boolean ):void {
-            if ( success ) {
-                debug( "UpdateHandler (2): reply successfully received\n" );
-                debug( String( xml ) + "\n" );
+            if ( xml.childNodes[0].attributes.success != "true" ) {
+                debug( "WARNING UpdateHandler: phet_info_response failure\n" );
+                showUpdateError();
+                return;
+            }
 
-                // TODO: remove after DEVELOPMENT
-                hand.receivedSimResponse = false;
-                hand.receivedInstallationResponse = false;
+            var children:Array = xml.childNodes[0].childNodes; // children of sim_startup_query_response
 
-                if ( xml.childNodes[0].attributes.success != "true" ) {
-                    debug( "WARNING UpdateHandler: phet_info_response failure\n" );
-                    hand.showUpdateError();
-                    return;
+            for ( var idx in children ) {
+                var child = children[idx];
+                var atts:Object = child.attributes;
+                if ( child.nodeName == "sim_version_response" ) {
+                    debug( "UpdateHandler (2): received sim_version_response\n" );
+                    // sanity checks
+                    if ( atts["success"] != "true" ) {
+                        debug( "WARNING UpdateHandler: sim_version_response failure\n" );
+
+                        // do not continue further with this child
+                        showUpdateError();
+                        continue;
+                    }
+                    if ( atts["project"] != common.getSimProject() ) {
+                        debug( "WARNING UpdateHandler (2): Project does not match\n" );
+                    }
+                    if ( atts["sim"] != common.getSimName() ) {
+                        debug( "WARNING UpdateHandler (2): Name does not match\n" );
+                    }
+
+                    receivedSimResponse = true;
+
+                    versionMajor = parseInt( atts["version_major"] );
+                    versionMinor = parseInt( atts["version_minor"] );
+                    versionDev = parseInt( atts["version_dev"] );
+                    versionRevision = parseInt( atts["version_revision"] );
+                    simTimestamp = parseInt( atts["version_timestamp"] );
+                    simAskLaterDays = parseInt( atts["ask_me_later_duration_days"] );
+
+                    debug( "   latest: " + common.zeroPadVersion( versionMajor, versionMinor, versionDev ) + " (" + String( versionRevision ) + ")\n" );
+
                 }
+                else {
+                    if ( child.nodeName == "phet_installer_update_response" ) {
+                        debug( "UpdateHandler (2): received phet_installer_update_response\n" );
 
-                var children:Array = xml.childNodes[0].childNodes; // children of sim_startup_query_response
-
-                var hand:UpdateHandler = this;
-
-                for ( var idx in children ) {
-                    var child = children[idx];
-                    var atts:Object = child.attributes;
-                    if ( child.nodeName == "sim_version_response" ) {
-                        debug( "UpdateHandler (2): received sim_version_response\n" );
-                        // sanity checks
                         if ( atts["success"] != "true" ) {
-                            debug( "WARNING UpdateHandler: sim_version_response failure\n" );
+                            debug( "WARNING UpdateHandler: phet_installer_update_response failure\n" );
 
                             // do not continue further with this child
-                            hand.showUpdateError();
+                            showUpdateError();
                             continue;
                         }
-                        if ( atts["project"] != hand.common.getSimProject() ) {
-                            debug( "WARNING UpdateHandler (2): Project does not match\n" );
-                        }
-                        if ( atts["sim"] != hand.common.getSimName() ) {
-                            debug( "WARNING UpdateHandler (2): Name does not match\n" );
-                        }
 
-                        hand.receivedSimResponse = true;
+                        receivedInstallationResponse = true;
 
-                        hand.versionMajor = parseInt( atts["version_major"] );
-                        hand.versionMinor = parseInt( atts["version_minor"] );
-                        hand.versionDev = parseInt( atts["version_dev"] );
-                        hand.versionRevision = parseInt( atts["version_revision"] );
-                        hand.simTimestamp = parseInt( atts["version_timestamp"] );
-                        hand.simAskLaterDays = parseInt( atts["ask_me_later_duration_days"] );
-
-                        hand.debug( "   latest: " + hand.common.zeroPadVersion( hand.versionMajor, hand.versionMinor, hand.versionDev ) + " (" + String( hand.versionRevision ) + ")\n" );
-
+                        installerRecommend = (atts["recommend_update"] == "true");
+                        installerTimestamp = parseInt( atts["timestamp_seconds"] );
+                        installerAskLaterDays = parseInt( atts["ask_me_later_duration_days"] );
                     }
                     else {
-                        if ( child.nodeName == "phet_installer_update_response" ) {
-                            debug( "UpdateHandler (2): received phet_installer_update_response\n" );
-
-                            if ( atts["success"] != "true" ) {
-                                debug( "WARNING UpdateHandler: phet_installer_update_response failure\n" );
-
-                                // do not continue further with this child
-                                hand.showUpdateError();
-                                continue;
-                            }
-
-                            hand.receivedInstallationResponse = true;
-
-                            hand.installerRecommend = (atts["recommend_update"] == "true");
-                            hand.installerTimestamp = parseInt( atts["timestamp_seconds"] );
-                            hand.installerAskLaterDays = parseInt( atts["ask_me_later_duration_days"] );
-                        }
-                        else {
-                            debug( "WARNING UpdateHandler (2): unknown child: " + child.nodeName + "\n" );
-                        }
+                        debug( "WARNING UpdateHandler (2): unknown child: " + child.nodeName + "\n" );
                     }
                 }
-
-                hand.handleResponse();
-
             }
-            else {
-                debug( "WARNING: UpdateHandler (2): Failure to obtain latest version information\n" );
-                hand.showUpdateError();
-            }
-        }
+
+            handleResponse();
+        } );
+
+        loader.addEventListener( IOErrorEvent.IO_ERROR, function( evt:Event ):void {
+            debug( "WARNING: UpdateHandler (2): Failure to obtain latest version information\n" );
+            showUpdateError();
+        } );
+
+        loader.addEventListener( SecurityErrorEvent.SECURITY_ERROR, function( evt:Event ):void {
+            debug( "WARNING: UpdateHandler (2): Failure to obtain latest version information\n" );
+            showUpdateError();
+        } );
+
+        loader.load( request );
 
         // send the request, wait for the response to load
         //xml.load("http://localhost/jolson/deploy/fake-sim-startup-query.php?request=" + escape(query));
-        var queryXML:XML = new XML( query );
-        queryXML.addRequestHeader( "Content-type", "text/xml" );
-        queryXML.sendAndLoad( "http://" + FlashCommon.getMainServer() + "/services/phet-info", xml );
+        //        var queryXML:XML = new XML( query );
+        //        queryXML.addRequestHeader( "Content-type", "text/xml" );
+        //        queryXML.sendAndLoad( "http://" + FlashCommon.getMainServer() + "/services/phet-info", xml );
     }
 
     public function manualCheckSim() {

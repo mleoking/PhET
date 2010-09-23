@@ -1,7 +1,6 @@
 package edu.colorado.phet.flashcommon {
 
 import flash.display.Stage;
-import flash.events.MouseEvent;
 
 import org.aswing.JFrame;
 import org.aswing.event.FrameEvent;
@@ -18,7 +17,7 @@ public class CommonDialog extends JFrame {
 
     // shorthand for debugging function
     public function debug( str:String ):void {
-        trace( str );
+        FlashCommon.getInstance().debug( str );
     }
 
     public function CommonDialog( dialogPrefix:String, dialogTitle:String ) {
@@ -58,15 +57,15 @@ public class CommonDialog extends JFrame {
         window.setLocationXY( ( stage.width - window.getWidth() ) / 2, ( stage.height - window.getHeight() ) / 2 );
         window.show();
 
-        setupTabHandler();
+        //        setupTabHandler();
 
         //        common.keyboardHandler.addTabHandler( tabHandler );
         //		common.keyboardHandler.setTabHandler( tabHandler );
     }
 
-    public function setupTabHandler():void {
-        throw new Error( "This should be overridden" );
-    }
+    //    public function setupTabHandler():void {
+    //        throw new Error( "This should be overridden" );
+    //    }
 
     public function manualClose():void {
         window.hide();
@@ -79,7 +78,7 @@ public class CommonDialog extends JFrame {
         onOpen();
     }
 
-    public function closeClicked( evt:MouseEvent ):void {
+    public function closeClicked( evt:FrameEvent ):void {
         onClose();
     }
 

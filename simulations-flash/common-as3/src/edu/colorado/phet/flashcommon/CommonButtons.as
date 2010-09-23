@@ -15,7 +15,7 @@ public class CommonButtons extends JWindow {
 
     // shorthand for debugging function
     public function debug( str:String ):void {
-        trace( str );
+        FlashCommon.getInstance().debug( str );
     }
 
     public function CommonButtons( root:Sprite ) {

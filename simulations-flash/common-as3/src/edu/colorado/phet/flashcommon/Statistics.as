@@ -1,6 +1,12 @@
 package edu.colorado.phet.flashcommon {
+import flash.events.Event;
+import flash.events.IOErrorEvent;
+import flash.events.SecurityErrorEvent;
 import flash.net.LocalConnection;
+import flash.net.URLLoader;
+import flash.net.URLRequest;
 import flash.system.Capabilities;
+import flash.xml.XMLDocument;
 import flash.xml.XMLNode;
 
 // Handles statistics messages sent directly to
@@ -162,13 +168,13 @@ public class Statistics {
             common.preferences.unload();
             return;
         }
-        if ( !common.preferences.isPrivacyOK() ) {
-            debug( "Statistics: cannot send session start message: have not accepted agreement yet\n" );
+        if ( !common.hasFlashVars() ) {
+            debug( "Statistics: flash vars were not detected, will not send message\n" );
             common.preferences.unload();
             return;
         }
-        if ( !common.hasFlashVars() ) {
-            debug( "Statistics: flash vars were not detected, will not send message\n" );
+        if ( !common.preferences.isPrivacyOK() ) {
+            debug( "Statistics: cannot send session start message: have not accepted agreement yet\n" );
             common.preferences.unload();
             return;
         }
@@ -181,84 +187,87 @@ public class Statistics {
         // wrap the message in xml tags
         var str:String = "<?xml version=\"1.0\"?><submit_message><statistics_message " + sessionStartMessage( false ) + " /></submit_message>";
         var queryXML:XML = new XML( str );
-        queryXML.addRequestHeader( "Content-type", "text/xml" );
+        //        queryXML.addRequestHeader( "Content-type", "text/xml" );
         sendXML( queryXML );
     }
 
     // this is used for all statistics messages to send the xml to the server
-    public function sendXML( xml:XML ):void {
+    public function sendXML( query:XML ):void {
 
         // if a message has previously failed, don't send more. the
         // network may be down
         if ( messageError ) { return; }
 
-        // make sure it will be recognized as XML by the server
-        xml.contentType = "text/xml";
+        var request:URLRequest = new URLRequest( "http://" + FlashCommon.getMainServer() + "/statistics/submit_message.php" );
+        request.contentType = "text/xml"; // make sure it will be recognized as XML by the server
+        request.method = "POST";
+        request.data = new XML( query );
+        var loader:URLLoader = new URLLoader();
+        loader.addEventListener( Event.COMPLETE, function( evt:Event ):void {
+            debug( "Statistics (2): reply successfully received\n" );
+            var response:XMLDocument = new XMLDocument( loader.data );
+            response.ignoreWhite = true; // make sure that whitespace isn't treated as nodes! (DO NOT REMOVE THIS)
+            debug( String( response ) + "\n" );
 
-        // allocate space for the reply message
-        var reply:XML = new XML();
+            var submitMessageResponse:XMLNode = response.childNodes[0];
+            debug( "sMR: " );
+            debug( submitMessageResponse.toString() );
+            debug( "---" );
 
-        // TODO: remove after DEVELOPMENT
-        //		_level0.statisticsReply = reply;
+            // whether the message was successful
+            var full_success:Boolean = false;
 
-        // to traverse the XML, we don't want whitespace notes in it
-        reply.ignoreWhite = true;
-
-        // callback function when we receive the reply (or when it is known to have failed)
-        reply.onLoad = function( success:Boolean ):void {
-            if ( success ) {
-                debug( "Statistics: message received:\n" );
-                debug( reply.toString() + "\n" );
-
-                // whether the message was successful
-                var full_success:Boolean = false;
-
-                var phetInfoResponse:XMLNode = reply.childNodes[0];
-
-                if ( phetInfoResponse.attributes.success == "true" ) {
-                    var responses:Array = phetInfoResponse.childNodes;
-                    for ( var idx in responses ) {
-                        var child:XMLNode = responses[idx];
-                        if ( child.nodeName == "statistics_message_response" ) {
-                            if ( child.attributes.success == "true" ) {
-                                debug( "Statistics: statistics_message_response found\n" );
-                                full_success = true;
-                            }
-                            else {
-                                debug( "Statistics: statistics_message_response FAILURE\n" );
-                            }
-                        }
+            if ( submitMessageResponse.attributes.success == "true" ) {
+                var responses:Array = submitMessageResponse.childNodes;
+                for each ( var child:XMLNode in responses ) {
+                    debug( "child: " );
+                    debug( child.toString() );
+                    debug( "---" );
+                    if ( child.nodeName == "statistics_message_response" && child.attributes.success == "true" ) {
+                        debug( "Statistics: statistics_message_response found\n" );
+                        full_success = true;
                     }
-                }
-                else {
-                    debug( "Statistics: phet_info_response FAILURE\n" );
-                }
-
-
-                if ( full_success ) {
-                    // statistics message successful
-                    debug( "Statistics: Message Handshake Successful\n" );
-                    common.preferences.resetSince();
-                }
-                else {
-                    // server could not record statistics message
-                    debug( "WARNING: Statistics: Message Handshake Failure\n" );
+                    else {
+                        debug( "Statistics: statistics_message_response FAILURE\n" );
+                    }
                 }
             }
             else {
-                debug( "Statistics: message error!\n" );
+                debug( "Statistics: phet_info_response FAILURE\n" );
             }
-        };
 
-        // send it to the URL, will store result in reply
-        xml.sendAndLoad( "http://" + FlashCommon.getMainServer() + "/statistics/submit_message.php", reply );
-        // DEVELOPMENT: send statistics message to localhost
-        //xml.sendAndLoad("http://localhost/statistics/submit_message.php", reply);
+
+            if ( full_success ) {
+                // statistics message successful
+                debug( "Statistics: Message Handshake Successful\n" );
+                common.preferences.resetSince();
+            }
+            else {
+                // server could not record statistics message
+                debug( "WARNING: Statistics: Message Handshake Failure\n" );
+            }
+        } );
+
+        loader.addEventListener( IOErrorEvent.IO_ERROR, function( evt:Event ):void {
+            debug( "Statistics: message error! (io)\n" );
+            debug( String( evt ) );
+        } );
+
+        loader.addEventListener( SecurityErrorEvent.SECURITY_ERROR, function( evt:Event ):void {
+            debug( "Statistics: message error! (security)\n" );
+            debug( String( evt ) );
+        } );
+
+        loader.load( request );
+
     }
 
     // sanitize information to be send to phet statistics: escape or turn into 'null'
     public function messageEscape( value:* ):String {
         var str:String;
+        if ( value == null ) {
+            return FlashCommon.NULLVAL;
+        }
         if ( typeof(value) == "string" ) {
             str = value;
         }
