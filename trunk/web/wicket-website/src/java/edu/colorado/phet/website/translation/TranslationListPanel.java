@@ -190,6 +190,7 @@ public class TranslationListPanel extends PhetPanel {
                                     // TODO: refactor adding the address
                                     String url = "http://phet.colorado.edu" + TranslationMainPage.getLinker().getDefaultRawUrl();
                                     message.addRecipient( "olsonsjc@gmail.com" );
+                                    message.addRecipient( "phethelp@colorado.edu" );
                                     message.setBody(
                                             "<p>Translation submitted for the locale " + t.getLocale() + " with the ID #" + t.getId() + "</p>" +
                                             "<p>This can be accessed at <a href=\"" + url + "\">" + url + "</a>.</p>" +
