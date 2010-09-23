@@ -122,7 +122,7 @@ public class AboutDialog extends CommonDialog {
     }
 
     public function creditsClicked( evt:MouseEvent ):void {
-        //		CommonDialog.openCreditsDialog();
+        CommonDialog.openCreditsDialog();
     }
 }
 }
