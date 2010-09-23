@@ -27,6 +27,7 @@ public class CLStrings {
 
     public static final String LABEL_SEPARATION = getString( "label.separation" );
     public static final String LABEL_PLATE_AREA = getString( "label.plateArea" );
+    public static final String LABEL_OFFSET = getString( "label.offset" );
     public static final String LABEL_DIELECTRIC_CHARGES = getString( "label.dielectricCharges" );
     public static final String LABEL_DIELECTRIC_CONSTANT = getString( "label.dielectricConstant" );
     public static final String LABEL_DIELECTRIC_MATERIAL = getString( "label.dielectricMaterial" );
