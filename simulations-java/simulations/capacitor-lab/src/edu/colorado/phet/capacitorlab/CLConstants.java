@@ -78,9 +78,9 @@ public class CLConstants {
     public static final double DRAG_HANDLE_ARROW_LENGTH = 35; // pixels
     
     // default exponents for the meters
-    public static final int CAPACITANCE_METER_VALUE_EXPONENT = -14;
-    public static final int PLATE_CHARGE_METER_VALUE_EXPONENT = -11;
-    public static final int STORED_ENERGY_METER_VALUE_EXPONENT = -11;
+    public static final int CAPACITANCE_METER_VALUE_EXPONENT = -13;
+    public static final int PLATE_CHARGE_METER_VALUE_EXPONENT = -10;
+    public static final int STORED_ENERGY_METER_VALUE_EXPONENT = -10;
     
     // visibility of meters
     public static final boolean CAPACITANCE_METER_VISIBLE = true;
