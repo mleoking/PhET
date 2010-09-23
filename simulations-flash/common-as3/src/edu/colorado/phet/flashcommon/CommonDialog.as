@@ -115,15 +115,16 @@ public class CommonDialog extends JFrame {
         }
     }
 
-    //
-    //    public static function openCreditsDialog() {
-    //        if(_level0.creditsWindow) {
-    //            _level0.creditsDialog.manualOpen();
-    //		} else {
-    //            new CreditsDialog();
-    //		}
-    //    }
-    //
+
+    public static function openCreditsDialog():void {
+        if ( CreditsDialog.getInstance() != null ) {
+            CreditsDialog.getInstance().manualOpen();
+        }
+        else {
+            new CreditsDialog();
+        }
+    }
+
     //    public static function openMessageDialog( title : String, message : String, ok : Boolean ) {
     //        new MessageDialog( title, message, ok );
     //    }
