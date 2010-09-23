@@ -51,7 +51,7 @@ public class BatteryCapacitorCircuit {
         battery.addBatteryChangeListener( new BatteryChangeAdapter() {
             @Override
             public void voltageChanged() {
-                handleBattertVoltageChanged();
+                handleBatteryVoltageChanged();
             }
         });
         
@@ -384,7 +384,7 @@ public class BatteryCapacitorCircuit {
     //
     //----------------------------------------------------------------------------------
     
-    private void handleBattertVoltageChanged() {
+    private void handleBatteryVoltageChanged() {
         fireVoltageChanged();
         fireChargeChanged();
         fireEfieldChanged();
