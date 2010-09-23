@@ -12,7 +12,6 @@ HIGH PRIORITY
 - voltmeter notifiers for moving probes or meter body
 - subclass of voltmeter that is specific to this sim, knows about model
 - utilities for computing important 2D points on capacitor's pseudo-3D geometry (for layout, interactivity, and connecting things)
-- blue arrow and glowing sphere to represent dV/dt
 - charge and excess charge on plates (see notes)
 - charge and excess charge on dielectric (see notes)
 - field meter with dashed line around "detecting plane"
