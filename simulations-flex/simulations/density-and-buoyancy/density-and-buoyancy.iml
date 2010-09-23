@@ -21,6 +21,7 @@
     <orderEntry type="module" module-name="box2d" />
     <orderEntry type="module" module-name="away3d-fp9" />
     <orderEntry type="module" module-name="common-as3" />
+    <orderEntry type="module" module-name="aswing-a3" />
   </component>
 </module>
 
