@@ -1,3 +1,5 @@
+9/23/10 use bold font for bar meter titles
+9/23/10 reduce number of decimal places to 2 for all bar meters
 9/23/10 use the same exponent for bar meter value and label, with max label format 10^N
 # 0.00.09 (44322) Sep 22, 2010
 9/22/10 use the same exponent for bar meter value and label, with max label format 10x10^N [44320]

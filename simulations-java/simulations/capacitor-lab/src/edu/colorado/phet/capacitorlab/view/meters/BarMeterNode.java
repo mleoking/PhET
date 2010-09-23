@@ -60,7 +60,7 @@ public abstract class BarMeterNode extends PhetPNode {
     private static final Color RANGE_LABEL_COLOR = Color.BLACK;
     
     // title
-    private static final Font TITLE_FONT = new PhetFont( 16 );
+    private static final Font TITLE_FONT = new PhetFont( Font.BOLD, 16 );
     private static final Color TITLE_COLOR = Color.BLACK;
     
     // value display
