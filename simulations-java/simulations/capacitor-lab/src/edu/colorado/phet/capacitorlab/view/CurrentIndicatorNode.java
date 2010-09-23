@@ -26,16 +26,17 @@ import edu.umd.cs.piccolo.nodes.PText;
 public class CurrentIndicatorNode extends PhetPNode {
     
     // arrow properties
-    private static final Color ARROW_COLOR = new Color( 83, 200, 236 );
-    private static final Point2D ARROW_TIP_LOCATION = new Point2D.Double( 0, 0 ); // origin at the tip
-    private static final Point2D ARROW_TAIL_LOCATION = new Point2D.Double( 200, 0 );
+    private static final double ARROW_LENGTH = 175;
     private static final double ARROW_HEAD_WIDTH = 60;
-    private static final double ARROW_HEAD_HEIGHT = 60;
+    private static final double ARROW_HEAD_HEIGHT = 50;
     private static final double ARROW_TAIL_WIDTH = 0.4 * ARROW_HEAD_WIDTH;
+    private static final Point2D ARROW_TIP_LOCATION = new Point2D.Double( 0, 0 ); // origin at the tip
+    private static final Point2D ARROW_TAIL_LOCATION = new Point2D.Double( ARROW_LENGTH, 0 );
+    private static final Color ARROW_COLOR = new Color( 83, 200, 236 );
     
     // electron properties
     private static final double ELECTRON_DIAMETER = 0.8 * ARROW_TAIL_WIDTH;
-    private static final Paint ELECTRON_PAINT = new RoundGradientPaint( 0, 0, Color.WHITE, new Point2D.Double( ELECTRON_DIAMETER / 4, ELECTRON_DIAMETER / 4 ), ARROW_COLOR );
+    private static final Paint ELECTRON_FILL_COLOR = new RoundGradientPaint( 0, 0, Color.WHITE, new Point2D.Double( ELECTRON_DIAMETER / 4, ELECTRON_DIAMETER / 4 ), ARROW_COLOR );
     private static final Stroke ELECTRON_STROKE = new BasicStroke( 1f );
     private static final Color ELECTRON_STROKE_COLOR = Color.BLACK;
     private static final Font ELECTRON_MINUS_FONT = new PhetFont( Font.BOLD, 24 );
@@ -52,7 +53,7 @@ public class CurrentIndicatorNode extends PhetPNode {
         arrowNode.setPaint( ARROW_COLOR );
         addChild( arrowNode );
         
-        SphericalNode electronNode = new SphericalNode( ELECTRON_DIAMETER, ELECTRON_PAINT, false /* convertToImage */ );
+        SphericalNode electronNode = new SphericalNode( ELECTRON_DIAMETER, ELECTRON_FILL_COLOR, false /* convertToImage */ );
         electronNode.setStroke( ELECTRON_STROKE );
         electronNode.setStrokePaint( ELECTRON_STROKE_COLOR );
         addChild( electronNode );
