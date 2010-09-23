@@ -152,12 +152,12 @@ public class DielectricCanvas extends CLCanvas {
             
             // "Add Wires" button
             x = topWireNode.getFullBoundsReference().getCenterX() - ( addWiresButtonNode.getFullBoundsReference().getWidth() / 2 );
-            y = topWireNode.getFullBoundsReference().getMinY() - addWiresButtonNode.getFullBoundsReference().getHeight() - 10;
+            y = topCurrentIndicatorNode.getFullBoundsReference().getMinY() - addWiresButtonNode.getFullBoundsReference().getHeight() - 10;
             addWiresButtonNode.setOffset( x, y );
             
             // "Remove Wires" button
             x = topWireNode.getFullBoundsReference().getCenterX() - ( removeWiresButtonNode.getFullBoundsReference().getWidth() / 2 );
-            y = topWireNode.getFullBoundsReference().getMinY() - removeWiresButtonNode.getFullBoundsReference().getHeight() - 40;
+            y = addWiresButtonNode.getYOffset();
             removeWiresButtonNode.setOffset( x, y );
             
             // Meters
