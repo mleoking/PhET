@@ -21,7 +21,7 @@ public class CapacitanceMeterNode extends BarMeterNode {
 
     private static final Color BAR_COLOR = CLPaints.CAPACITANCE;
     private static final String TITLE = CLStrings.METER_CAPACITANCE;
-    private static final String VALUE_MANTISSA_PATTERN = "0.000";
+    private static final String VALUE_MANTISSA_PATTERN = "0.00";
     private static final int VALUE_EXPONENT = CLConstants.CAPACITANCE_METER_VALUE_EXPONENT;
     private static final String UNITS = CLStrings.UNITS_FARADS;
     

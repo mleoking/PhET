@@ -21,7 +21,7 @@ public class StoredEnergyMeterNode extends BarMeterNode {
 
     private static final Color BAR_COLOR = CLPaints.ENERGY;
     private static final String TITLE = CLStrings.METER_STORED_ENERGY;
-    private static final String VALUE_MANTISSA_PATTERN = "0.000";
+    private static final String VALUE_MANTISSA_PATTERN = "0.00";
     private static final int VALUE_EXPONENT = CLConstants.STORED_ENERGY_METER_VALUE_EXPONENT;
     private static final String UNITS = CLStrings.UNITS_JOULES;
     
