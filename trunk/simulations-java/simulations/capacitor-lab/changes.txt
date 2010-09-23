@@ -1,3 +1,4 @@
+# 0.00.11 (44358) Sep 23, 2010
 9/23/10 make current indicator fade out faster (500 ms)
 9/23/10 change current indicator to use a constant transparency (0.75f) rather than proportional to dV/dt
 # 0.00.10 (44355) Sep 23, 2010
