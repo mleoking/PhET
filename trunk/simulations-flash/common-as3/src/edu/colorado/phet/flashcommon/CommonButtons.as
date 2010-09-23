@@ -11,7 +11,7 @@ import org.aswing.JButton;
 import org.aswing.JPanel;
 import org.aswing.JWindow;
 
-class CommonButtons extends JWindow {
+public class CommonButtons extends JWindow {
 
     // shorthand for debugging function
     public function debug( str:String ):void {
