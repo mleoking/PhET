@@ -47,10 +47,9 @@ public class CurrentIndicatorNode extends PhetPNode {
     private static final Font ELECTRON_MINUS_FONT = new PhetFont( Font.BOLD, 24 );
     
     // transparency
-    private static final float MIN_TRANSPARENCY = 0.25f; // range is 0-1f
-    private static final float MAX_TRANSPARENCY = 1.0f; // range is 0-1f
-    private static final long FADEOUT_DURATION = 1500; // ms
-    private static final long FADEOUT_STEP_RATE = 100; // ms
+    private static final float TRANSPARENCY = 0.75f; // range is 0-1f
+    private static final long FADEOUT_DURATION = 500; // ms
+    private static final long FADEOUT_STEP_RATE = 10; // ms
     
     private final BatteryCapacitorCircuit circuit;
     private PActivity fadeOutActivity;
@@ -131,9 +130,8 @@ public class CurrentIndicatorNode extends PhetPNode {
             }
         }
         else {
-            // modulate the alpha channel
-            float transparency = (float) ( MIN_TRANSPARENCY + ( currentAmplitude * ( MAX_TRANSPARENCY - MIN_TRANSPARENCY ) ) );
-            setTransparency( transparency );
+            // constant transparency for non-zero current amplitude
+            setTransparency( TRANSPARENCY );
         }
     }
     
