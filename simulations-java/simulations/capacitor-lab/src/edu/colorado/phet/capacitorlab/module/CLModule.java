@@ -3,7 +3,7 @@
 
 package edu.colorado.phet.capacitorlab.module;
 
-import edu.colorado.phet.capacitorlab.model.CLClock;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 
 /**
@@ -13,8 +13,8 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
  */
 public abstract class CLModule extends PiccoloModule {
     
-    public CLModule( String title ) {
-        super( title, new CLClock(), false /* startsPaused */ );
+    public CLModule( String title, IClock clock ) {
+        super( title, clock, false /* startsPaused */ );
         setLogoPanel( null );
     }
 }

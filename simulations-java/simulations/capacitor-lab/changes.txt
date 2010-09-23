@@ -1,3 +1,4 @@
+9/23/10 make sim clock accessible to model
 9/23/10 fix Add/Remove Wires button layout so that it doesn't overlap current indicator
 9/23/10 create current indicator node, place on canvas, not wired up
 9/23/10 increase value font size for bar meters
