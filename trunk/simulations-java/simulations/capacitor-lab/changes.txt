@@ -1,3 +1,4 @@
+# 0.00.08 (44318) Sep 22, 2010
 9/22/10 use the same exponent for bar meter value and label, with max label format 1x10^N
 # 0.00.07 (44315) Sep 22, 2010
 9/22/10 remove tool tip and flashing max label from bar meters
