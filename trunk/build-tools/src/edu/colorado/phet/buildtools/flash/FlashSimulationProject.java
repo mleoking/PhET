@@ -396,7 +396,7 @@ public class FlashSimulationProject extends PhetProject implements SimulationPhe
             }
         }
 
-        String html = FlashHTML.generateHTML( simulationName, locale.getLanguage(), countryCode,
+        String html = FlashHTML.generateHTML( getName(), simulationName, locale.getLanguage(), countryCode,
                                               "phet-production-website", FlashHTML.distribution_tag_dummy,
                                               FlashHTML.installation_timestamp_dummy,
                                               FlashHTML.installer_creation_timestamp_dummy,

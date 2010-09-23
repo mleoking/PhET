@@ -1,21 +1,62 @@
 package edu.colorado.phet.flashcommon {
 import flash.display.Sprite;
+import flash.net.LocalConnection;
+import flash.net.URLRequest;
+import flash.net.navigateToURL;
+import flash.system.Security;
+import flash.text.Font;
+import flash.text.StyleSheet;
+import flash.text.TextField;
+import flash.text.TextFormat;
 
+import org.aswing.ASColor;
 import org.aswing.AsWingManager;
-import org.aswing.FlowLayout;
-import org.aswing.JButton;
-import org.aswing.JFrame;
-import org.aswing.JWindow;
 
 public class FlashCommon {
 
-    private static var instance:FlashCommon = null;
+    protected static var instance:FlashCommon = null; // this will be written by subclasses
 
-    public var commonButtons : CommonButtons;
+    public var commonButtons:CommonButtons;
+
+    public var root:Sprite;
+
+    public static var NULLVAL:String = "null";
+
+    // the default background color for AsWing components (windows and text)
+    public var backgroundColor:ASColor;
+
+    // whether to dump debugging messages into the text field
+    public var debugging:Boolean = true;
+
+    // handles internationalization for common strings
+    public var strings:CommonStrings;
+
+    // handles preferences the user selects, such as
+    // enabling/disabling updates and statistics messages. also
+    // stores how many times the particular sim has
+    // been run
+    //	public var preferences : Preferences;
+
+    // handles checking for updates and handling what to do
+    // if a newer version of the simulation is found
+    //	public var updateHandler : UpdateHandler;
+
+    // handles sending statistics messages to the server
+    //	public var statistics : Statistics;
+
+    /////////////////////////
+
+    public static var DISPLAY_CSS:String =
+            "a:link{color:#0000FF;font-weight:bold;}" +
+            "a:visited{color:#0000FF;font-weight:bold;}" +
+            "a:hover{color:#0000FF;text-decoration:underline;font-weight:bold;}" +
+            "a:active{color:#0000FF;font-weight:bold;}";
+
+    public static var LINK_STYLE_SHEET:StyleSheet;
 
     public static function getInstance():FlashCommon {
         if ( instance == null ) {
-            instance = new FlashCommon();
+            throw new Error( "premature request for FlashCommon" );
         }
         return instance;
     }
@@ -26,15 +67,507 @@ public class FlashCommon {
     public function FlashCommon() {
     }
 
-    public function initialize( root: Sprite ):void {
+    public static function getArg( key:String ):String {
+        return getInstance().getFlashArg( key );
+    }
+
+    public function getFlashArg( key:String ):String {
+        // think of this as abstract
+        throw new Error( "abstract:getFlashArg" );
+    }
+
+    public function debug( str:String ):void {
+        trace( str ); // TODO: more like flashcommon-as2?
+    }
+
+    public function initialize( root:Sprite ):void {
+        this.root = root;
         AsWingManager.initAsStandard( root, false, true );
 
         commonButtons = new CommonButtons( root );
 
+        if ( !hasFlashVars() ) {
+            debug( "missing flashvars" );
+        }
+
+        if ( !hasFlashVars() && fromPhetWebsite() && getFlashArg( "backupSimName" ) ) {
+            redirect( "http://" + getMainServer() + "/sims/" + getFlashArg( "backupSimName" ) + "/" + getFlashArg( "backupSimName" ) + "_en.html" );
+        }
+
+        // DEVELOPMENT: catch key events to this object
+        //        Key.addListener( this );
+
+        // set the default background color
+        backgroundColor = ASColor.getASColor( 230, 230, 230 );
+
+        LINK_STYLE_SHEET = new StyleSheet();
+        LINK_STYLE_SHEET.parseCSS( DISPLAY_CSS );
+
+        //        _level0.highContrastFunction = defaultHighContrastFunction;
+        //        _level0.highContrast = false;
+
+        // TODO: Possibly extend this to run from other domains?
+        Security.allowDomain( getMainServer() );
+
+        debug( "Debugging information:\n" );
+        debug( "FlashCommon initializing\n" );
+
+        // display version of this simulation
+        debug( "Running " + getSimName() + " " + getFullVersionString() + "\n" );
+
+        // store the position of the common buttons for CommonButtons
+        //        commonPosition = position;
+
+        // load internationalization strings for common code
+        strings = new CommonStrings();
+
+        // initializes the TabHandler
+        //tabHandler = new TabHandler();
+        //        keyboardHandler = new KeyboardHandler();
+
+        // load the statistics handler, but do not send the session-start message!!!
+        //        statistics = new Statistics();
+
+        // load preferences data
+        //        preferences = new Preferences();
+
+        // DEVELOPMENT: load the inspector
+        if ( getDev() ) {
+            //            inspector = new Inspector();
+        }
     }
 
-    public function fromPhetWebsite() : Boolean {
-        return false;// TODO remove this, temporary to show preferences button
+    // this should be called from preferences when it is verified the
+    // privacy agreement has been accepted
+    public function postAgreement():void {
+
+        // load update handler
+        // must have preferences loaded first before loading updatehandler.
+        //        updateHandler = new UpdateHandler();
+
+        // load statistics handler
+        // must have preferences loaded first before loading Statistics.
+        //        statistics.sendSessionStart();
+
+        // load buttons with the position (defaults to upper left)
+        //        commonButtons = new CommonButtons( commonPosition );
+    }
+
+    // returns whether the sim was run from the phet website
+    public function fromPhetWebsite():Boolean {
+        var domain:String = (new LocalConnection()).domain;
+        var actually:Boolean = (domain == getMainServer() || domain == getMainServer() + "." || domain == "phet.colorado" || domain == "phet");
+
+        return actually || fromDevWebsite();
+        //return (new LocalConnection()).domain() == getMainServer();
+    }
+
+    // returns whether the sim was run from a development site
+    public function fromDevWebsite():Boolean {
+        var host:String = (new LocalConnection()).domain;
+        return (host == "www.colorado.edu");
+    }
+
+    // returns whether the sim was run from a full installation
+    public function fromFullInstallation():Boolean {
+        if ( !hasFlashVars() ) {
+            return false;
+        }
+        return (
+               !fromPhetWebsite()
+                       && !isPlaceholder( getFlashArg( "installationTimestamp" ) )
+                       && null_replace( getFlashArg( "installationTimestamp" ) ) != FlashCommon.NULLVAL
+               );
+    }
+
+    // returns whether the sim was run from a standalone jar
+    public function fromStandaloneJar():Boolean {
+        return (getFlashArg( "simDeployment" ) == "standalone-jar");
+    }
+
+    // return whether a string is a placeholder
+    public function isPlaceholder( str:String ):Boolean {
+        if ( str == null ) { return false; }
+        return (str.substr( 0, 2 ) == "@@" && str.substr( -2, 2 ) == "@@");
+    }
+
+    //    public function onKeyDown() {
+    //        if ( !getDev() ) {
+    //            return;
+    //        }
+    //        if ( (Key.getCode() == Key.PGUP || Key.getCode() == 121) && Key.isDown( Key.SHIFT ) ) {
+    //            // page up OR F10
+    //            _level0.debugs._visible = !_level0.debugs._visible;
+    //        }
+    //        if ( Key.getCode() == 120 && Key.isDown( Key.SHIFT ) ) {
+    //            // F9 was pressed
+    //            updateHandler.simUpdatesAvailable( 5, 10, 0, 0, 0 );
+    //        }
+    //        if ( Key.getCode() == 36 && Key.isDown( Key.SHIFT ) ) {
+    //            // Home was pressed
+    //            updateHandler.installationUpdatesAvailable( 1234567890, 0, 0 );
+    //        }
+    //        if ( Key.getCode() == 37 && Key.isDown( Key.SHIFT ) ) {
+    //            // left arrow
+    //            updateHandler.showUpdateError();
+    //        }
+    //        if ( Key.getCode() == 38 && Key.isDown( Key.SHIFT ) ) {
+    //            // up arrow
+    //            updateHandler.showSimUpToDate();
+    //        }
+    //        if ( Key.getCode() == 40 && Key.isDown( Key.SHIFT ) ) {
+    //            // down arrow
+    //            updateHandler.showInstallationUpToDate();
+    //        }
+    //    }
+
+    // returns the version string with minor and dev fields padded with a zero if necessary
+    public function zeroPadVersion( versionMajor:Number, versionMinor:Number, versionDev:Number = 0 ):String {
+        var ret:String = "";
+        ret += String( versionMajor ) + ".";
+        ret += (versionMinor > 9 ? String( versionMinor ) : "0" + String( versionMinor ));
+        if ( versionDev != 0 ) {
+            ret += "." + (versionDev > 9 ? String( versionDev ) : "0" + String( versionDev ));
+        }
+        return ret;
+    }
+
+    // version like "1.00"
+    public function getShortVersionString():String {
+        return zeroPadVersion( getVersionMajor(), getVersionMinor() );
+    }
+
+    // version like "1.00.00"
+    public function getVersionString():String {
+        return zeroPadVersion( getVersionMajor(), getVersionMinor(), getVersionDev() );
+    }
+
+    // version like "1.00.00 (20000)"
+    public function getFullVersionString():String {
+        return getVersionString() + " (" + String( getVersionRevision() ) + ")";
+    }
+
+    public static function getMainServer():String {
+        return "phet.colorado.edu";
+    }
+
+    // get the URL of the simulation on the website
+    public function simWebsiteURL():String {
+        return "http://" + getMainServer() + "/services/sim-website-redirect.php?project=" + getSimProject() + "&sim=" + getSimName() + "&request_version=1";
+    }
+
+    // will return the full locale string: for example 'en', 'en_CA', 'es_MX' etc.
+    public function getLocale():String {
+        var str:String = getLanguage();
+
+        // if we have a country code, add _XX to the locale
+        if ( getCountry() != NULLVAL ) {
+            str += "_" + getCountry();
+        }
+        return str;
+    }
+
+    public function null_replace( val:String ):String {
+        // TODO: possibly integrate checking for a placeholder
+        if ( val === undefined || val === null ) {
+            return NULLVAL;
+        }
+        return val;
+    }
+
+
+    // get functions for information passed through FlashVars
+
+
+    public function getSimProject():String {
+        return getFlashArg( "projectName" );
+    }
+
+    public function getSimName():String {
+        return getFlashArg( "simName" );
+    }
+
+    public function getLanguage():String {
+        return getFlashArg( "languageCode" );
+    }
+
+    public function getCountry():String {
+        return null_replace( getFlashArg( "countryCode" ) );
+    }
+
+    public function getVersionMajor():Number {
+        return parseInt( getFlashArg( "versionMajor" ) );
+    }
+
+    public function getVersionMinor():Number {
+        return parseInt( getFlashArg( "versionMinor" ) );
+    }
+
+    public function getVersionDev():Number {
+        return parseInt( getFlashArg( "versionDev" ) );
+    }
+
+    public function getVersionRevision():Number {
+        return parseInt( getFlashArg( "versionRevision" ) );
+    }
+
+    public function getSimXML():String {
+        return getFlashArg( "internationalization" );
+    }
+
+    public function getCommonXML():String {
+        return getFlashArg( "commonStrings" );
+    }
+
+    public function getDeployment():String {
+        // all phet-installation, phet-development-website and phet-production-website will have
+        // "phet-production-website" as the simDeployment FlashVar. We need to detect when this
+        // is not the case (since the same HTML is deployed in all situations, except fields are
+        // replaced in the Installation version.
+        if ( fromFullInstallation() ) {
+            return "phet-installation";
+        }
+        else {
+            if ( fromDevWebsite() ) {
+                return "phet-development-website";
+            }
+            else {
+                return getFlashArg( "simDeployment" );
+            }
+        }
+    }
+
+    public function getDev():Boolean {
+        if ( getFlashArg( "simDev" ) == "false" || getFlashArg( "simDev" ) == "0" ) {
+            return false;
+        }
+        return true;
+    }
+
+    public function getDistributionTag():String {
+        var distribTag:String = getFlashArg( "simDistributionTag" );
+        if ( isPlaceholder( distribTag ) || null_replace( distribTag ) == NULLVAL ) {
+            // if the distribution tag is null or a placeholder, it is not an actual distribution tag,
+            // so we return null
+            return null;
+        }
+        return distribTag;
+    }
+
+    public function getInstallationTimestamp():Number {
+        var timestamp:String = getFlashArg( "installationTimestamp" );
+        if ( null_replace( timestamp ) == NULLVAL || isPlaceholder( timestamp ) ) {
+            return null;
+        }
+        else {
+            return parseInt( timestamp );
+        }
+    }
+
+    public function getInstallerCreationTimestamp():Number {
+        // WARNING: Do NOT CHANGE installerCreationTimestamp's name, it is used in the installation utility
+        var timestamp:String = getFlashArg( "installerCreationTimestamp" );
+        if ( null_replace( timestamp ) == NULLVAL || isPlaceholder( timestamp ) ) {
+            return null;
+        }
+        else {
+            return parseInt( timestamp );
+        }
+    }
+
+    public function getVersionTimestamp():Number {
+        var timestamp:String = getFlashArg( "versionTimestamp" );
+        if ( null_replace( timestamp ) == NULLVAL ) {
+            return null;
+        }
+        else {
+            return parseInt( timestamp );
+        }
+    }
+
+    public function getBGColor():Number {
+        return parseInt( getFlashArg( "bgcolor" ) );
+    }
+
+    public function getAgreementVersion():Number {
+        return parseInt( getFlashArg( "agreementVersion" ) );
+    }
+
+    public function getAgreementText():String {
+        // the agreement text must be stripped of newlines because Flash's HTML rendering incorrectly
+        // considers newlines to be "<br>".
+        //var strippedText = stripNewlines(_level0.agreementText);
+        var strippedText = stripNewlines( SoftwareAgreement.agreementText );
+
+        // this replacement will make clicks call _level0.common.openExternalLink(<url>) instead of
+        // just opening the url
+        return stringReplace( strippedText, "href=\"", "href=\"asfunction:_level0.common.openExternalLink," );
+    }
+
+    public function getCreditsText():String {
+        // localize the credits test fields
+        return StringUtils.format( getFlashArg( "creditsText" ), [
+            CommonStrings.get( "SoftwareDevelopment", "Software Development" ),
+            CommonStrings.get( "DesignTeam", "Design Team" ),
+            CommonStrings.get( "LeadDesign", "Lead Design" ),
+            CommonStrings.get( "Interviews", "Interviews" )
+        ] );
+    }
+
+    public function getSimTitle():String {
+        var title:String = getFlashArg( "simTitle" );
+        if ( title == undefined ) {
+            // if sim title isn't specified, just use the sim name as a backup
+            return getSimName();
+        }
+        else {
+            return title;
+        }
+    }
+
+    // return a date like Jan 12 2009
+    public static function dateString( date:Date ):String {
+        var year:String = new String( date.getFullYear() );
+        var month:String = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][date.getMonth()];
+        return month + " " + String( date.getDate() ) + ", " + year;
+    }
+
+    public static function dateOfSeconds( seconds:Number ):Date {
+        return new Date( seconds * 1000 );
+    }
+
+    public static function dateOfMilliseconds( milliseconds:Number ):Date {
+        return new Date( milliseconds );
+    }
+
+    public function hasFlashVars():Boolean {
+        // check two flashvars variables that should always be included
+        return (getFlashArg( "languageCode" ) !== undefined && getFlashArg( "simName" ) !== undefined);
+    }
+
+    public function prepareTranslatedTextField( field:TextField ):void {
+        var format:TextFormat = field.getTextFormat();
+
+        if ( getLanguage() == "en" ) {
+            field.setTextFormat( format );
+        }
+        else {
+            if ( field.embedFonts == false ) {
+                // TODO: possibly change this to only use fonts in allowedSystemFonts
+                field.setTextFormat( format );
+            }
+            else {
+                field.embedFonts = false;
+                field.setTextFormat( format );
+            }
+        }
+
+        fixLocaleFont( field );
+    }
+
+    public function stripNewlines( str:String ):String {
+        var ret:String = "";
+
+        for ( var idx = 0; idx < str.length; idx++ ) {
+            if ( str.charCodeAt( idx ) == 10 || str.charCodeAt( idx ) == 13 ) {
+                continue;
+            }
+
+            ret += str.charAt( idx );
+        }
+
+        return ret;
+    }
+
+    public function stringReplace( str:String, pattern:String, replacement:String ):String {
+        var ret:String = "";
+        var chopped:String = str;
+
+        while ( chopped.indexOf( pattern ) != -1 ) {
+            var startIdx:Number = chopped.indexOf( pattern );
+            ret += chopped.slice( 0, startIdx );
+            ret += replacement;
+            chopped = chopped.substring( startIdx + pattern.length );
+        }
+
+        ret += chopped;
+
+        return ret;
+    }
+
+    public static function getURL( url:String, target:String ):void {
+        var request:URLRequest = new URLRequest( url );
+        try {
+            navigateToURL( request, target ); // second argument is target
+        }
+        catch ( e:Error ) {
+            trace( "Error occurred!" );
+        }
+
+    }
+
+    public function openExternalLink( str:String ):void {
+        getURL( str, "_blank" );
+    }
+
+    public function redirect( str:String ):void {
+        getURL( str, "_self" );
+    }
+
+    //    public function defaultHighContrastFunction( contrast:Boolean ) {
+    //        _level0.highContrast = contrast;
+    //        _level0.debug( "Contrast changing to: " + contrast + "\n" );
+    //        if ( contrast ) {
+    //            var stretch:Number = 3.0;
+    //            var newCenter:Number = 64;
+    //            var offset = newCenter - 128 * stretch;
+    //            _level0.transform.colorTransform = new ColorTransform( stretch, stretch, stretch, 1, offset, offset, offset, 1 );
+    //        }
+    //        else {
+    //            _level0.transform.colorTransform = new ColorTransform( 1, 1, 1, 1, 0, 0, 0, 0 );
+    //        }
+    //    }
+
+    private function existingSystemFont( preferredFonts:Array ):String {
+        throw new Error( "existingSystemFont is probably broken" );
+        var fontList:Array = Font.enumerateFonts( true );
+        for ( var pkey in preferredFonts ) {
+            var pfont:String = preferredFonts[pkey];
+            for ( var fkey in fontList ) {
+                var ffont:String = fontList[fkey];
+                if ( pfont == ffont ) {
+                    debug( "Found good system font: " + pfont + "\n" );
+                    return pfont;
+                }
+            }
+            debug( "Could not find: " + pfont + "\n" );
+        }
+        return undefined;
+    }
+
+    private var cachedOverrideFont:String = null;
+
+    public function getOverrideFont():String {
+        if ( getLocale() == "km" ) {
+            if ( cachedOverrideFont == null ) {
+                var khmerFonts:Array = ["Khmer OS", "MoolBoran", "Limon"];
+                var font:String = existingSystemFont( khmerFonts );
+                cachedOverrideFont = font;
+            }
+            return cachedOverrideFont;
+        }
+        else {
+            return null;
+        }
+    }
+
+    public function fixLocaleFont( field:TextField ):void {
+        var font:String = getOverrideFont();
+        if ( font ) {
+            var format:TextFormat = field.getTextFormat();
+            format.font = font;
+            field.setTextFormat( format );
+        }
     }
 }
 }

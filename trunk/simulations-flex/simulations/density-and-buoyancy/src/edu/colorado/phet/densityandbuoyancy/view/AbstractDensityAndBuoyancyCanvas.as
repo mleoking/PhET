@@ -2,7 +2,7 @@ package edu.colorado.phet.densityandbuoyancy.view {
 import edu.colorado.phet.densityandbuoyancy.DensityConstants;
 import edu.colorado.phet.densityandbuoyancy.components.DensityVBox;
 import edu.colorado.phet.flashcommon.CommonStrings;
-import edu.colorado.phet.flashcommon.FlashCommon;
+import edu.colorado.phet.flexcommon.FlexCommon;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.flexcommon.PhetLogoButton;
 
@@ -92,8 +92,11 @@ public class AbstractDensityAndBuoyancyCanvas extends Canvas {
         addChild( ui );
 
         // TODO: have FlexCommon initialize these types of things?
-        CommonStrings.initDocument( new XML( Application.application.parameters.commonStrings ) );
-        var common:FlashCommon = FlashCommon.getInstance();
+        var commonStrings:* = Application.application.parameters.commonStrings;
+        if ( commonStrings != null && commonStrings != undefined ) {
+            CommonStrings.initDocument( new XML( commonStrings ) );
+        }
+        var common:FlexCommon = FlexCommon.getInstance();
         common.initialize( ui );
         var height:int = common.commonButtons.getPreferredHeight();
 
