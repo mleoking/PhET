@@ -19,22 +19,24 @@
   <option name="SPACE_WITHIN_CATCH_PARENTHESES" value="true" />
   <option name="SPACE_WITHIN_SWITCH_PARENTHESES" value="true" />
   <option name="SPACE_WITHIN_SYNCHRONIZED_PARENTHESES" value="true" />
-  <option name="SPACE_BEFORE_CATCH_PARENTHESES" value="false" />
+  <option name="SPACE_WITHIN_ARRAY_INITIALIZER_BRACES" value="true" />
   <option name="SPACE_BEFORE_SWITCH_PARENTHESES" value="false" />
-  <option name="SPACE_BEFORE_SYNCHRONIZED_PARENTHESES" value="false" />
+  <option name="SPACE_BEFORE_ARRAY_INITIALIZER_LBRACE" value="true" />
   <option name="IMPORT_LAYOUT_TABLE">
     <value>
-      <package name="" withSubpackages="true" />
+      <package name="" withSubpackages="true" static="false" />
       <emptyLine />
-      <package name="java" withSubpackages="true" />
+      <package name="java" withSubpackages="true" static="false" />
       <emptyLine />
-      <package name="javax" withSubpackages="true" />
+      <package name="javax" withSubpackages="true" static="false" />
       <emptyLine />
-      <package name="org" withSubpackages="true" />
+      <package name="org" withSubpackages="true" static="false" />
       <emptyLine />
-      <package name="edu" withSubpackages="true" />
+      <package name="edu" withSubpackages="true" static="false" />
       <emptyLine />
-      <package name="com" withSubpackages="true" />
+      <package name="com" withSubpackages="true" static="false" />
+      <emptyLine />
+      <package name="" withSubpackages="true" static="true" />
     </value>
   </option>
   <option name="KEEP_SIMPLE_BLOCKS_IN_ONE_LINE" value="true" />
@@ -42,5 +44,41 @@
   <option name="DOWHILE_BRACE_FORCE" value="3" />
   <option name="WHILE_BRACE_FORCE" value="3" />
   <option name="FOR_BRACE_FORCE" value="3" />
+  <ADDITIONAL_INDENT_OPTIONS fileType="java">
+    <option name="INDENT_SIZE" value="4" />
+    <option name="CONTINUATION_INDENT_SIZE" value="8" />
+    <option name="TAB_SIZE" value="4" />
+    <option name="USE_TAB_CHARACTER" value="false" />
+    <option name="SMART_TABS" value="false" />
+    <option name="LABEL_INDENT_SIZE" value="0" />
+    <option name="LABEL_INDENT_ABSOLUTE" value="false" />
+  </ADDITIONAL_INDENT_OPTIONS>
+  <ADDITIONAL_INDENT_OPTIONS fileType="js">
+    <option name="INDENT_SIZE" value="4" />
+    <option name="CONTINUATION_INDENT_SIZE" value="8" />
+    <option name="TAB_SIZE" value="4" />
+    <option name="USE_TAB_CHARACTER" value="false" />
+    <option name="SMART_TABS" value="false" />
+    <option name="LABEL_INDENT_SIZE" value="0" />
+    <option name="LABEL_INDENT_ABSOLUTE" value="false" />
+  </ADDITIONAL_INDENT_OPTIONS>
+  <ADDITIONAL_INDENT_OPTIONS fileType="scala">
+    <option name="INDENT_SIZE" value="2" />
+    <option name="CONTINUATION_INDENT_SIZE" value="8" />
+    <option name="TAB_SIZE" value="2" />
+    <option name="USE_TAB_CHARACTER" value="false" />
+    <option name="SMART_TABS" value="false" />
+    <option name="LABEL_INDENT_SIZE" value="0" />
+    <option name="LABEL_INDENT_ABSOLUTE" value="false" />
+  </ADDITIONAL_INDENT_OPTIONS>
+  <ADDITIONAL_INDENT_OPTIONS fileType="xml">
+    <option name="INDENT_SIZE" value="4" />
+    <option name="CONTINUATION_INDENT_SIZE" value="8" />
+    <option name="TAB_SIZE" value="4" />
+    <option name="USE_TAB_CHARACTER" value="false" />
+    <option name="SMART_TABS" value="false" />
+    <option name="LABEL_INDENT_SIZE" value="0" />
+    <option name="LABEL_INDENT_ABSOLUTE" value="false" />
+  </ADDITIONAL_INDENT_OPTIONS>
 </code_scheme>
 
