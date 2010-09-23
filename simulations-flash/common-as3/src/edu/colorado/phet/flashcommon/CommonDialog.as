@@ -1,11 +1,12 @@
 package edu.colorado.phet.flashcommon {
 
 import flash.display.Stage;
+import flash.events.MouseEvent;
 
 import org.aswing.JFrame;
 import org.aswing.event.FrameEvent;
 
-class CommonDialog extends JFrame {
+public class CommonDialog extends JFrame {
 
     public var prefix:String;
 
@@ -77,7 +78,7 @@ class CommonDialog extends JFrame {
         onOpen();
     }
 
-    public function closeClicked( src:Object ):void {
+    public function closeClicked( evt:MouseEvent ):void {
         onClose();
     }
 
@@ -96,7 +97,7 @@ class CommonDialog extends JFrame {
     }
 
 
-    public static function openAboutDialog() {
+    public static function openAboutDialog():void {
         if ( AboutDialog.getInstance() != null ) {
             AboutDialog.getInstance().manualOpen();
         }
@@ -105,13 +106,15 @@ class CommonDialog extends JFrame {
         }
     }
 
-    //    public static function openAgreementDialog() {
-    //        if(_level0.agreementWindow) {
-    //            _level0.agreementDialog.manualOpen();
-    //		} else {
-    //            new AgreementDialog();
-    //		}
-    //    }
+    public static function openAgreementDialog():void {
+        if ( AgreementDialog.getInstance() != null ) {
+            AgreementDialog.getInstance().manualOpen();
+        }
+        else {
+            new AgreementDialog();
+        }
+    }
+
     //
     //    public static function openCreditsDialog() {
     //        if(_level0.creditsWindow) {

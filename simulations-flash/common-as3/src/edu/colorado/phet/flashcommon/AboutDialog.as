@@ -14,7 +14,7 @@ import org.aswing.SoftBoxLayout;
 import org.aswing.border.EmptyBorder;
 import org.aswing.geom.IntDimension;
 
-class AboutDialog extends CommonDialog {
+public class AboutDialog extends CommonDialog {
 
     public var agreementButton:JButton;
     public var creditsButton:JButton;
@@ -114,7 +114,7 @@ class AboutDialog extends CommonDialog {
     }
 
     public function agreementClicked( evt:MouseEvent ):void {
-        //		CommonDialog.openAgreementDialog();
+        CommonDialog.openAgreementDialog();
     }
 
     public function okClicked( evt:MouseEvent ):void {
