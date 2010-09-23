@@ -7,18 +7,16 @@ Oct 9 - complete "as much as possible" per Kathy P. for Hisham
 QUESTIONS FOR NOAH
 
 HIGH PRIORITY
-- use phetcommon mvt
-- add cables and drag behavior to voltmeter, see CCK's VoltmeterNode
-- voltmeter notifiers for moving probes or meter body
-- subclass of voltmeter that is specific to this sim, knows about model
-- utilities for computing important 2D points on capacitor's pseudo-3D geometry (for layout, interactivity, and connecting things)
 - charge and excess charge on plates (see notes)
 - charge and excess charge on dielectric (see notes)
 - field meter with dashed line around "detecting plane"
+- add cables and drag behavior to voltmeter, see CCK's VoltmeterNode
+- voltmeter notifiers for moving probes or meter body
+- subclass of voltmeter that is specific to this sim, knows about model
 
 MEDUIUM PRIORITY
+- utilities for computing important 2D points on capacitor's pseudo-3D geometry (for layout, interactivity, and connecting things)
 - combine plate charge meter and slider into one thing?
-- derive PlateChargeMeterNode.MAX_EXPONENT and PlateChargeControlNode.VALUE_EXPONENT
 - use air as the dielectric material in Introduction module
 - make air dielectric invisible
 - fake curvature in E-field?
@@ -26,6 +24,7 @@ MEDUIUM PRIORITY
 - refactor duplicate code in *DragHandleNode
 
 LOW PRIORITY
+- use phetcommon mvt
 - don't allow bar meters to be dragged by buttons, this prevents ability to roll off buttons
 - edges where dielectric and bottom plate meet don't match up perfectly
 - gradient paint on plate top surfaces (not on edges)
