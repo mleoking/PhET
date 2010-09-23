@@ -41,7 +41,7 @@ public class AgreementDialog extends CommonDialog {
         // get the string to display
         var str:String = "";
         var defaultString:String = "";
-        //str += "<font size='17'>" + SimStrings.get("PhetSoftwareAgreement", "PhET Software Agreement") + "</font>\n";
+        //str += "<font size='17'>" + CommonStrings.get("PhetSoftwareAgreement", "PhET Software Agreement") + "</font>\n";
         str += common.getAgreementText();
         str += "\n\n";
 

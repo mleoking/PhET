@@ -98,12 +98,14 @@ public class AbstractDensityAndBuoyancyCanvas extends Canvas {
         }
         var common:FlexCommon = FlexCommon.getInstance();
         common.initialize( ui );
-        var height:int = common.commonButtons.getPreferredHeight();
 
         function positionButtons():void {
+            if( common.commonButtons == null || common.commonButtons == undefined ) return;
+            var height:int = common.commonButtons.getPreferredHeight();
             common.commonButtons.setLocationXY( DensityConstants.CONTROL_INSET, stage.stageHeight - height - 60 - DensityConstants.CONTROL_INSET );
         }
 
+        common.addLoadListener( positionButtons );
         stage.addEventListener( Event.RESIZE, positionButtons );
         positionButtons();
     }
