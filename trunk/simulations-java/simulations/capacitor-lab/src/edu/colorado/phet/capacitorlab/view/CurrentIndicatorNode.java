@@ -66,7 +66,7 @@ public class CurrentIndicatorNode extends PhetPNode {
         double x = 0;
         double y = 0;
         arrowNode.setOffset( x, y );
-        x = arrowNode.getFullBoundsReference().getMaxX() - ( ( arrowNode.getFullBoundsReference().getWidth() - ARROW_HEAD_HEIGHT ) / 2 );
+        x = arrowNode.getFullBoundsReference().getMaxX() - ( 0.6 * ( arrowNode.getFullBoundsReference().getWidth() - ARROW_HEAD_HEIGHT ) );
         y = arrowNode.getFullBoundsReference().getCenterY();
         electronNode.setOffset( x, y );
         x = electronNode.getFullBoundsReference().getCenterX() - ( minusNode.getFullBoundsReference().getWidth() / 2 );
