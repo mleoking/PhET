@@ -46,11 +46,11 @@ class CommonButtons extends JWindow {
 
     }
 
-    public function aboutButtonClicked( evt: MouseEvent ):void {
-        //		CommonDialog.openAboutDialog();
+    public function aboutButtonClicked( evt:MouseEvent ):void {
+        CommonDialog.openAboutDialog();
     }
 
-    public function preferencesButtonClicked( evt: MouseEvent ):void {
+    public function preferencesButtonClicked( evt:MouseEvent ):void {
         //		CommonDialog.openPreferencesDialog();
     }
 

@@ -23,7 +23,7 @@ public class FlashHTML {
     public static String installation_timestamp_dummy = "@@INSTALLATION_TIMESTAMP@@";
     public static String installer_creation_timestamp_dummy = "@@INSTALLER_CREATION_TIMESTAMP@@";
 
-    public static String generateHTML( String simName, String language, String country, String deployment,
+    public static String generateHTML( String projectName, String simName, String language, String country, String deployment,
                                        String distributionTag, String installationTimestamp, String installerCreationTimestamp,
                                        String versionMajor, String versionMinor, String versionDev, String versionRevision,
                                        String versionTimestamp, String simDev, String bgcolor, String encodedSimXML,
@@ -57,7 +57,7 @@ public class FlashHTML {
         // WARNING: Do NOT CHANGE installerCreationTimestamp's name, it is used in the installation utility
         String flashVars = "languageCode=@@language@@&countryCode=@@country@@&internationalization=@@encodedSimXML@@" +
                            "&commonStrings=@@encodedCommonXML@@&versionMajor=@@versionMajor@@&versionMinor=@@versionMinor@@&" +
-                           "versionDev=@@versionDev@@&versionRevision=@@versionRevision@@&simName=@@simName@@&simDeployment=@@deployment@@&" +
+                           "versionDev=@@versionDev@@&versionRevision=@@versionRevision@@&projectName=@@projectName@@&simName=@@simName@@&simDeployment=@@deployment@@&" +
                            "simDev=@@simDev@@&simDistributionTag=@@distributionTag@@&installationTimestamp=@@installationTimestamp@@&" +
                            "installerCreationTimestamp=@@installerCreationTimestamp@@&versionTimestamp=@@versionTimestamp@@&" +
                            "bgColor=@@bgcolorint@@&agreementVersion=@@agreementVersion@@&" +
@@ -66,6 +66,7 @@ public class FlashHTML {
         s = s.replaceAll( "@@flashVars@@", flashVars );
 
         s = s.replaceAll( "@@simName@@", simName );
+        s = s.replaceAll( "@@projectName@@", projectName );
         s = s.replaceAll( "@@language@@", language );
         s = s.replaceAll( "@@country@@", country );
         s = s.replaceAll( "@@deployment@@", deployment );

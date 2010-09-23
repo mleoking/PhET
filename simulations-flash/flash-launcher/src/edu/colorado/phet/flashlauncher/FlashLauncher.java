@@ -158,6 +158,7 @@ public class FlashLauncher {
         String encodedAgreement = FlashHTML.encodeXML( agreementContent );
 
         String simName = simulationProperties.getSimulation();
+        String projectName = simulationProperties.getProject();
         String titleString = FlashHTML.extractTitleFromXML( simName, simXMLFile );
         if ( titleString == null ) {
             titleString = FlashHTML.extractTitleFromXML( simName, new File( unzipDir, simName + "-strings_en.xml" ) );
@@ -167,7 +168,7 @@ public class FlashLauncher {
         }
 
         // dynamically generate an HTML file
-        String html = FlashHTML.generateHTML( simName, simulationProperties.getLanguage(), simulationProperties.getCountry(), deployment, distributionTag, installationTimestamp,
+        String html = FlashHTML.generateHTML( projectName, simName, simulationProperties.getLanguage(), simulationProperties.getCountry(), deployment, distributionTag, installationTimestamp,
                                               installerCreationTimestamp, versionMajor, versionMinor, versionDev, versionRevision, versionTimestamp, simDev, bgcolor,
                                               simEncodedXML, commonEncodedXML, "8", "flash-template.html", agreementVersion, encodedAgreement, creditsString,
                                               titleString );
