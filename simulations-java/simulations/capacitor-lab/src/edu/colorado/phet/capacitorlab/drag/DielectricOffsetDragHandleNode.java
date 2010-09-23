@@ -46,7 +46,7 @@ public class DielectricOffsetDragHandleNode extends PhetPNode {
         
         // value
         double millimeters = UnitsUtils.metersToMillimeters( capacitor.getDielectricOffset() );
-        valueNode = new DragHandleValueNode( CLStrings.PATTERN_DIELECTRIC_OFFSET, millimeters, CLStrings.UNITS_MILLIMETERS );
+        valueNode = new DragHandleValueNode( CLStrings.PATTERN_VALUE_UNITS, CLStrings.LABEL_OFFSET, millimeters, CLStrings.UNITS_MILLIMETERS );
         
         // update when related model properties change
         capacitor.addCapacitorChangeListener( new CapacitorChangeAdapter() {

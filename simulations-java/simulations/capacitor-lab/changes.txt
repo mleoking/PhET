@@ -1,3 +1,4 @@
+9/23/10 allow separate fonts for label and value on capacitor drag handles
 9/23/10 use bold font for bar meter titles
 9/23/10 reduce number of decimal places to 2 for all bar meters
 9/23/10 use the same exponent for bar meter value and label, with max label format 10^N
