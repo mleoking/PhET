@@ -187,7 +187,8 @@ public class TranslationListPanel extends PhetPanel {
                                     String from = WebsiteConstants.PHET_NO_REPLY_EMAIL_ADDRESS;
                                     EmailUtils.GeneralEmailBuilder message = new EmailUtils.GeneralEmailBuilder( subject, from );
 
-                                    String url = TranslationMainPage.getLinker().getDefaultRawUrl();
+                                    // TODO: refactor adding the address
+                                    String url = "http://phet.colorado.edu" + TranslationMainPage.getLinker().getDefaultRawUrl();
                                     message.addRecipient( "olsonsjc@gmail.com" );
                                     message.setBody(
                                             "<p>Translation submitted for the locale " + t.getLocale() + " with the ID #" + t.getId() + "</p>" +
