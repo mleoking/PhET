@@ -8,12 +8,12 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
 import edu.colorado.phet.capacitorlab.model.Battery.BatteryChangeAdapter;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeAdapter;
+import edu.colorado.phet.capacitorlab.util.FadeOutActivity;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.activities.PActivity.PActivityDelegate;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -24,7 +24,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  * When voltage goes to zero, this node fades out over a period of time.
  * <p>
  * Origin is at the geometric center, so that this node can be easily 
- * rotated when current changes direction.
+ * flipped (rotated) when current changes direction.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -47,7 +47,7 @@ public class CurrentIndicatorNode extends PhetPNode {
     private static final Font ELECTRON_MINUS_FONT = new PhetFont( Font.BOLD, 24 );
     
     // transparency
-    private static final float MIN_TRANSPARENCY = 0.5f; // range is 0-1f
+    private static final float MIN_TRANSPARENCY = 0.25f; // range is 0-1f
     private static final float MAX_TRANSPARENCY = 1.0f; // range is 0-1f
     private static final long FADEOUT_DURATION = 1500; // ms
     private static final long FADEOUT_STEP_RATE = 100; // ms
@@ -101,10 +101,13 @@ public class CurrentIndicatorNode extends PhetPNode {
     }
     
     private void updateTransparency() {
+        
+        // if a fade out is in progress, stop it without fully fading out
         if ( fadeOutActivity != null ) {
-            fadeOutActivity.terminate();
+            fadeOutActivity.terminate( PActivity.TERMINATE_WITHOUT_FINISHING );
             fadeOutActivity = null;
         }
+        
         double currentAmplitude = circuit.getCurrentAmplitude();
         if ( currentAmplitude == 0 ) {
             if ( getRoot() == null ) {
@@ -124,7 +127,7 @@ public class CurrentIndicatorNode extends PhetPNode {
 
                     public void activityStepped( PActivity activity ) {}
                 });
-                getRoot().addActivity( fadeOutActivity );
+                getRoot().addActivity( fadeOutActivity ); // schedule the activity
             }
         }
         else {
@@ -136,38 +139,5 @@ public class CurrentIndicatorNode extends PhetPNode {
     
     private void flipOrientation() {
         rotate( Math.PI );
-    }
-    
-    private static class FadeOutActivity extends PActivity {
-        
-        private final PNode node;
-        private float deltaTransparency;
-
-        /**
-         * Constructor.
-         * @param node the node whose visibility will be toggled
-         * @param duration duration of this activity, in milliseconds
-         * @param stepRate  amount of time that this activity should delay between steps, in milliseconds
-         */
-        public FadeOutActivity( PNode node, long duration, long stepRate ) {
-            super( duration );
-            this.node = node;
-            setStepRate( stepRate );
-            deltaTransparency = node.getTransparency() / ( duration / stepRate );
-        }
-        
-        @Override
-        protected void activityStep( long time ) {
-            super.activityStep( time );
-            float transparency = Math.max( 0, node.getTransparency() - deltaTransparency );
-            node.setTransparency( transparency );
-        }
-
-        @Override
-        protected void activityFinished() {
-            super.activityFinished();
-            node.setTransparency( 0 );
-        }
-
     }
 }
