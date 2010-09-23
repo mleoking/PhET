@@ -83,7 +83,7 @@ public abstract class BarMeterNode extends PhetPNode {
     private final TickMarkNode maxTickMarkNode, minTickMarkNode;
     
     private double value;
-    private int valueExponent;
+    private int exponent;
     
     /**
      * Constructor.
@@ -92,24 +92,24 @@ public abstract class BarMeterNode extends PhetPNode {
      * @param title title displayed below the meter
      * @param barColor color used to fill the bar
      * @param valueMantissaPattern pattern used to format the mantissa of the value displayed below the meter
-     * @param valueExponent exponent of the value shown below the bar
+     * @param exponent exponent of the value display and max label
      * @param units units
      */
-    public BarMeterNode( PNode dragBoundsNode, Color barColor, String title, String valueMantissaPattern, int valueExponent, String units, double value ) {
+    public BarMeterNode( PNode dragBoundsNode, Color barColor, String title, String valueMantissaPattern, int exponent, String units, double value ) {
         
         if ( value < 0 ) {
             throw new IllegalArgumentException( "value must be >= 0 : " + value );
         }
         
         this.value = value;
-        this.valueExponent = valueExponent;
+        this.exponent = exponent;
         
         // track
         trackNode = new TrackNode();
         addChild( trackNode );
         
         // bar
-        double maxValue = Math.pow( 10, valueExponent + 1 );
+        double maxValue = Math.pow( 10, exponent );
         barNode = new BarNode( barColor, maxValue, value );
         addChild( barNode );
         
@@ -132,7 +132,7 @@ public abstract class BarMeterNode extends PhetPNode {
         addChild( minLabelNode );
         
         // max range label
-        maxLabelNode = new PowerOfTenRangeLabelNode( valueExponent + 1 );
+        maxLabelNode = new PowerOfTenRangeLabelNode( exponent );
         addChild( maxLabelNode );
         
         // title
@@ -144,7 +144,7 @@ public abstract class BarMeterNode extends PhetPNode {
         addChild( overloadIndicatorNode );
         
         // value
-        valueNode = new ValueNode( new DecimalFormat( valueMantissaPattern ), valueExponent, units, value );
+        valueNode = new ValueNode( new DecimalFormat( valueMantissaPattern ), exponent, units, value );
         addChild( valueNode );
         
         // close button
@@ -168,7 +168,7 @@ public abstract class BarMeterNode extends PhetPNode {
             @Override
             public void mouseReleased( PInputEvent event ) {
                 if ( scaleButton.isEnabled() ) {
-                    updateValueExponent();
+                    updateExponent();
                 }
             }
         });
@@ -176,6 +176,7 @@ public abstract class BarMeterNode extends PhetPNode {
         // layout
         updateLayout();
         
+        updateExponent();
         updateScaleButtonEnabled();
     }
     
@@ -224,20 +225,20 @@ public abstract class BarMeterNode extends PhetPNode {
     }
     
     private void updateScaleButtonEnabled() {
-        double mantissa = value / Math.pow( 10, valueExponent );
-        boolean plusEnabled = ( mantissa < 1 );
-        boolean minusEnabled = ( mantissa > 10 );
+        double mantissa = value / Math.pow( 10, exponent );
+        boolean plusEnabled = ( mantissa < 0.1 );
+        boolean minusEnabled = ( mantissa > 1 );
         scaleButton.setEnabled( ( value != 0 ) && ( plusEnabled || minusEnabled ), plusEnabled );
     }
     
-    private void updateValueExponent() {
+    private void updateExponent() {
         if ( value != 0 ) {
             int exponent = 0;
-            // look for an exponent that make the mantissa >= 1
-            while ( ( value / Math.pow( 10, exponent ) ) < 1 ) {
+            // look for an exponent that make the mantissa >= 0.1
+            while ( ( value / Math.pow( 10, exponent ) ) < 0.1 ) {
                 exponent--;
             }
-            setValueExponent( exponent );
+            setExponent( exponent );
         }
     }
     
@@ -265,20 +266,19 @@ public abstract class BarMeterNode extends PhetPNode {
     }
     
     /*
-     * Sets the exponent of the value displayed under the bar.
-     * The max range value becomes 1x10^(valueExponent + 1).
+     * Sets the exponent used for the value and max label.
      */
-    private void setValueExponent( int valueExponent ) {
-        if ( valueExponent != this.valueExponent ) {
+    private void setExponent( int exponent ) {
+        if ( exponent != this.exponent ) {
             
-            this.valueExponent = valueExponent;
+            this.exponent = exponent;
             
             // update components
-            double maxValue = Math.pow( 10, valueExponent + 1 );
+            double maxValue = Math.pow( 10, exponent );
             barNode.setMaxValue( maxValue );
             overloadIndicatorNode.setMaxValue( maxValue );
-            maxLabelNode.setExponent( valueExponent + 1 );
-            valueNode.setExponent( valueExponent );
+            maxLabelNode.setExponent( exponent );
+            valueNode.setExponent( exponent );
             
             updateLayout();
             updateScaleButtonEnabled();
@@ -389,7 +389,7 @@ public abstract class BarMeterNode extends PhetPNode {
      */
     private static class PowerOfTenRangeLabelNode extends RangeLabelNode {
         
-        private static final String PATTERN = "<html>10<sup>{0}</sup></html>";
+        private static final String PATTERN = "<html>1x10<sup>{0}</sup></html>";
         
         public PowerOfTenRangeLabelNode( int exponent ) {
             super( MessageFormat.format( PATTERN, exponent ) );
