@@ -1,3 +1,5 @@
+9/23/10 make current indicator fade out faster (500 ms)
+9/23/10 change current indicator to use a constant transparency (0.75f) rather than proportional to dV/dt
 # 0.00.10 (44355) Sep 23, 2010
 9/23/10 modulate transparency of current indicator proportional to dV/dt, fade out when dV/dt=0
 9/23/10 hide clock control panel, this sim contains no animations that should be pausable
