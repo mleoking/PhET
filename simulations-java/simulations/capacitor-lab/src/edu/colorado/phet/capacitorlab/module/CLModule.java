@@ -16,5 +16,6 @@ public abstract class CLModule extends PiccoloModule {
     public CLModule( String title, IClock clock ) {
         super( title, clock, false /* startsPaused */ );
         setLogoPanel( null );
+        setClockControlPanel( null );
     }
 }
