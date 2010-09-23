@@ -64,7 +64,7 @@ public abstract class BarMeterNode extends PhetPNode {
     private static final Color TITLE_COLOR = Color.BLACK;
     
     // value display
-    private static final Font VALUE_FONT = new PhetFont( 14 );
+    private static final Font VALUE_FONT = new PhetFont( 16 );
     private static final Color VALUE_COLOR = Color.BLACK;
     
     // overload indicator
