@@ -35,6 +35,7 @@ public class FlexSimulationProject extends FlashSimulationProject {
                 parentDir + "/simulations-flex/contrib/away3d/fp9",
                 parentDir + "/simulations-flex/common/src",
                 parentDir + "/simulations-flash/contrib/box2d/src",
+                parentDir + "/simulations-flash/contrib/aswing-a3/src",
                 parentDir + "/simulations-flash/common-as3/src",
                 "-compiler.accessible", "-compiler.optimize", "-target-player", "9", getMXML( simulationName )}, null, getProjectDir() );
         new StreamReaderThread( p.getErrorStream(), "err>" ).start();
