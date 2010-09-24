@@ -7,8 +7,6 @@ package edu.colorado.phet.flashcommon {
 // Author: Jonathan Olson
 
 import flash.events.MouseEvent;
-import flash.text.TextFormat;
-import flash.text.TextFormatAlign;
 
 import org.aswing.BoxLayout;
 import org.aswing.CenterLayout;
@@ -27,24 +25,24 @@ import org.aswing.geom.IntDimension;
 public class PreferencesDialog extends CommonDialog {
 
     // keep track of what states would be if the user clicks OK
-    public var updateState:Boolean;
-    public var statisticsState:Boolean;
-    public var highContrastState:Boolean;
+    public var updateState: Boolean;
+    public var statisticsState: Boolean;
+    public var highContrastState: Boolean;
 
     // need references to the checkboxes
-    public var updatesCheck:JCheckBox;
-    public var statisticsCheck:JCheckBox;
-    public var highContrastCheck:JCheckBox;
+    public var updatesCheck: JCheckBox;
+    public var statisticsCheck: JCheckBox;
+    public var highContrastCheck: JCheckBox;
 
-    var updatesSimButton:JButton;
-    var updatesInstallationButton:JButton;
-    var detailsButton:JButton;
-    var okButton:JButton;
-    var cancelButton:JButton;
+    var updatesSimButton: JButton;
+    var updatesInstallationButton: JButton;
+    var detailsButton: JButton;
+    var okButton: JButton;
+    var cancelButton: JButton;
 
-    private static var instance:PreferencesDialog = null;
+    private static var instance: PreferencesDialog = null;
 
-    public static function getInstance():PreferencesDialog {
+    public static function getInstance(): PreferencesDialog {
         return instance;
     }
 
@@ -78,7 +76,7 @@ public class PreferencesDialog extends CommonDialog {
 
         if ( updateState != common.preferences.userAllowsUpdates() ) {
             // if updates are allowed, fill in the check box
-            updatesCheck.setSelected(true);
+            updatesCheck.setSelected( true );
         }
         updatesPanel.append( updatesCheck );
 
@@ -107,9 +105,9 @@ public class PreferencesDialog extends CommonDialog {
 
         // text area that displays the following string.
         // NOTE: Text area required, otherwise HTML text will not work.
-        var str:String = "";
+        var str: String = "";
 
-        var defaultStr:String = "<a href='{0}'>PhET</a> is made freely available through grants which ";
+        var defaultStr: String = "<a href='{0}'>PhET</a> is made freely available through grants which ";
         defaultStr += "require us to collect a minimal amount of anonymous information to help document the amount of use ";
         defaultStr += "of PhET sims and to better serve our users' update needs.";
         str += CommonStrings.get( "PrivacyRequirement", defaultStr, ["asfunction:_level0.common.openExternalLink,http://" + FlashCommon.getMainServer() + ""] );
@@ -131,7 +129,7 @@ public class PreferencesDialog extends CommonDialog {
         statisticsCheck.addEventListener( MouseEvent.CLICK, statisticsToggle );
         if ( statisticsState != common.preferences.userAllowsStatistics() ) {
             // if statistics messages are	 allowed, fill in the check box
-            statisticsCheck.setSelected(true);
+            statisticsCheck.setSelected( true );
         }
         privacyPanel.append( statisticsCheck );
 
@@ -144,7 +142,7 @@ public class PreferencesDialog extends CommonDialog {
 
         privacyPanel.append( new JSpacer( new IntDimension( 5, 5 ) ) );
 
-        var accessibilityPanel:JPanel = new JPanel( new SoftBoxLayout( SoftBoxLayout.Y_AXIS ) );
+        var accessibilityPanel: JPanel = new JPanel( new SoftBoxLayout( SoftBoxLayout.Y_AXIS ) );
         //accessibilityPanel.setName( CommonStrings.get( "Accessibility", "Accessibility" ) );
         //accessibilityPanel.setBorder(new TitledBorder(new EmptyBorder(null, new Insets(5, 5, 5, 5)), CommonStrings.get("Accessibility", "Accessibility")));
         accessibilityPanel.append( new JSpacer( new IntDimension( 5, 5 ) ) );
@@ -163,7 +161,7 @@ public class PreferencesDialog extends CommonDialog {
         window.getContentPane().append( bigPanel );
 
         // holds OK and Cancel buttons
-        var buttonPanel:JPanel = new JPanel( new BoxLayout() );
+        var buttonPanel: JPanel = new JPanel( new BoxLayout() );
 
         okButton = new JButton( CommonStrings.get( "OK", "OK" ) );
         okButton.addEventListener( MouseEvent.CLICK, okClicked );
@@ -176,7 +174,7 @@ public class PreferencesDialog extends CommonDialog {
         window.getContentPane().append( new JSpacer( new IntDimension( 5, 5 ) ) );
 
         //window.getContentPane().append(buttonPanel);
-        var centerPanel:JPanel = new JPanel( new CenterLayout() ); //SoftBoxLayout.X_AXIS, 0, SoftBoxLayout.CENTER
+        var centerPanel: JPanel = new JPanel( new CenterLayout() ); //SoftBoxLayout.X_AXIS, 0, SoftBoxLayout.CENTER
         centerPanel.append( buttonPanel );
         window.getContentPane().append( centerPanel );
 
@@ -208,7 +206,7 @@ public class PreferencesDialog extends CommonDialog {
     // current values of the preferences information. this is needed to handle
     // the case when the user clicks "cancel" and the check-boxes remain different
     // from the actual preferences
-    public function reCheck():void {
+    public function reCheck(): void {
         common.preferences.load();
         if ( updateState != common.preferences.userAllowsUpdates() ) {
             updatesCheck.doClick();
@@ -222,55 +220,55 @@ public class PreferencesDialog extends CommonDialog {
         common.preferences.unload();
     }
 
-    override public function closeClicked( evt:FrameEvent ):void {
+    override public function closeClicked( evt: FrameEvent ): void {
         onClose();
     }
 
     // toggle potential update state
-    public function updateToggle( src:JCheckBox ):void {
+    public function updateToggle( src: JCheckBox ): void {
         instance.updateState = !instance.updateState;
         updatesCheck.setSelected( instance.updateState );
         debug( "updateState toggled to " + instance.updateState.toString() + "\n" );
     }
 
     // toggle potential statistics state
-    public function statisticsToggle( src:JCheckBox ):void {
+    public function statisticsToggle( src: JCheckBox ): void {
         instance.statisticsState = !instance.statisticsState;
         statisticsCheck.setSelected( instance.statisticsState );
         debug( "statisticsState toggled to " + instance.statisticsState.toString() + "\n" );
     }
 
     // toggle potential high contrast state
-    public function highContrastToggle( src:JCheckBox ):void {
+    public function highContrastToggle( src: JCheckBox ): void {
         highContrastState = !highContrastState;
         highContrastCheck.setSelected( highContrastState );
         debug( "highContrastState toggled to " + highContrastState.toString() + "\n" );
     }
 
     // manually check for sim updates
-    public function updatesSimClicked( evt:MouseEvent ):void {
+    public function updatesSimClicked( evt: MouseEvent ): void {
         common.updateHandler.manualCheckSim();
     }
 
     // manually check for installation updates
-    public function updatesInstallationClicked( evt:MouseEvent ):void {
+    public function updatesInstallationClicked( evt: MouseEvent ): void {
         common.updateHandler.manualCheckInstallation();
     }
 
-    public function detailsClicked( evt:MouseEvent ):void {
+    public function detailsClicked( evt: MouseEvent ): void {
         CommonDialog.openStatisticsDetailsDialog();
     }
 
-    public function agreementClicked( evt:MouseEvent ):void {
+    public function agreementClicked( evt: MouseEvent ): void {
         CommonDialog.openAgreementDialog();
     }
 
-    public function cancelClicked( evt:MouseEvent ):void {
+    public function cancelClicked( evt: MouseEvent ): void {
         // hide the window
         manualClose();
     }
 
-    public function okClicked( evt:MouseEvent ):void {
+    public function okClicked( evt: MouseEvent ): void {
         // set the potential state (updates and privacy) to the preferences
         common.preferences.setPrivacy( instance.updateState, instance.statisticsState );
 
@@ -282,7 +280,7 @@ public class PreferencesDialog extends CommonDialog {
         manualClose();
     }
 
-    override public function manualOpen():void {
+    override public function manualOpen(): void {
         super.manualOpen();
         reCheck();
     }

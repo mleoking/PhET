@@ -21,13 +21,13 @@ import org.aswing.geom.IntDimension;
 
 class CreditsDialog extends CommonDialog {
 
-    public var closeButton:JButton;
-    public var textArea:JTextArea;
-    public var textScroll:JScrollPane;
+    public var closeButton: JButton;
+    public var textArea: JTextArea;
+    public var textScroll: JScrollPane;
 
-    private static var instance:CreditsDialog = null;
+    private static var instance: CreditsDialog = null;
 
-    public static function getInstance():CreditsDialog {
+    public static function getInstance(): CreditsDialog {
         return instance;
     }
 
@@ -39,8 +39,8 @@ class CreditsDialog extends CommonDialog {
         window.getContentPane().setLayout( new SoftBoxLayout( SoftBoxLayout.Y_AXIS ) );
 
         // get the string to display
-        var str:String = "";
-        var defaultString:String = "";
+        var str: String = "";
+        var defaultString: String = "";
         str += "<font size='17'>" + CommonStrings.get( "PhetDevelopmentTeam", "PhET Development Team " ) + "</font>\n";
         str += common.getCreditsText();
         str += "\n\n";
@@ -68,9 +68,9 @@ class CreditsDialog extends CommonDialog {
         window.getContentPane().append( new JSpacer( new IntDimension( 5, 5 ) ) );
 
         // add the OK button
-        var panel:JPanel = new JPanel( new BoxLayout() );
+        var panel: JPanel = new JPanel( new BoxLayout() );
         closeButton = new JButton( CommonStrings.get( "Close", "Close" ) );
-        closeButton.addEventListener( MouseEvent.CLICK, function():void {manualClose();} );
+        closeButton.addEventListener( MouseEvent.CLICK, function(): void {manualClose();} );
         CommonButtons.padButtonAdd( closeButton, panel );
         window.getContentPane().append( panel );
 
@@ -104,7 +104,7 @@ class CreditsDialog extends CommonDialog {
     //        view.setViewPosition( view.getViewPosition().move( 0, amount ) );
     //    }
 
-    override public function closeClicked( evt:FrameEvent ):void {
+    override public function closeClicked( evt: FrameEvent ): void {
         manualClose();
     }
 }

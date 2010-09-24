@@ -3,7 +3,7 @@ public class MathUtil {
     public function MathUtil() {
     }
 
-    public static function clamp( minimum:Number, value:Number, maximum:Number ):Number {
+    public static function clamp( minimum: Number, value: Number, maximum: Number ): Number {
         if ( value < minimum ) {
             return minimum;
         }
