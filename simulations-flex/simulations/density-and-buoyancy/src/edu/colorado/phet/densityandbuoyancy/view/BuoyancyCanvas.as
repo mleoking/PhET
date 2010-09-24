@@ -3,6 +3,7 @@ import edu.colorado.phet.densityandbuoyancy.DensityConstants;
 import edu.colorado.phet.densityandbuoyancy.components.DensityVBox;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 
+import flash.events.Event;
 import flash.events.MouseEvent;
 
 import mx.controls.CheckBox;
@@ -135,13 +136,22 @@ public class BuoyancyCanvas extends AbstractDensityAndBuoyancyCanvas {
         arrowControlPanel.addChild( fluidDragCheckbox );
 
         addChild( arrowControlPanel );
-
-        addChild( new FluidDensityControl() );
     }
 
 
     override public function init(): void {
         super.init();
+
+        const fluidDensityControl: FluidDensityControl = new FluidDensityControl();
+        fluidDensityControl.setStyle( "bottom", DensityConstants.CONTROL_INSET );
+
+        const updateFluidDensityControlLocation: Function = function(): void {
+            fluidDensityControl.x = stage.width / 2 - fluidDensityControl.width / 2;
+        };
+        stage.addEventListener( Event.RESIZE, updateFluidDensityControlLocation );
+        updateFluidDensityControlLocation();
+
+        addChild( fluidDensityControl );
 
         // TODO: why multiple initialization functions? - JO
         buoyancyModule.init();
