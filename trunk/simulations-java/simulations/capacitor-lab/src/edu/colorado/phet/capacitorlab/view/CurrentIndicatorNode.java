@@ -2,7 +2,10 @@
 
 package edu.colorado.phet.capacitorlab.view;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Paint;
+import java.awt.Stroke;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
@@ -11,7 +14,6 @@ import edu.colorado.phet.capacitorlab.model.Battery.BatteryChangeAdapter;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeAdapter;
 import edu.colorado.phet.capacitorlab.util.FadeOutActivity;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
@@ -45,7 +47,9 @@ public class CurrentIndicatorNode extends PhetPNode {
     private static final Paint ELECTRON_FILL_COLOR = new RoundGradientPaint( 0, 0, Color.WHITE, new Point2D.Double( ELECTRON_DIAMETER / 4, ELECTRON_DIAMETER / 4 ), ARROW_COLOR );
     private static final Stroke ELECTRON_STROKE = new BasicStroke( 1f );
     private static final Color ELECTRON_STROKE_COLOR = Color.BLACK;
-    private static final Font ELECTRON_MINUS_FONT = new PhetFont( Font.BOLD, 24 );
+    private static final Color ELECTRON_MINUS_COLOR = Color.BLACK;
+    private static final double ELECTRON_MINUS_WIDTH = 0.6 * ELECTRON_DIAMETER;
+    private static final double ELECTRON_MINUS_HEIGHT = 0.1 * ELECTRON_DIAMETER;
     
     // transparency
     private static final float TRANSPARENCY = 0.75f; // range is 0-1f
@@ -68,9 +72,9 @@ public class CurrentIndicatorNode extends PhetPNode {
         electronNode.setStrokePaint( ELECTRON_STROKE_COLOR );
         addChild( electronNode );
         
-        PPath minusNode = new PPath( new Rectangle2D.Double( 0, 0, 0.6 * ELECTRON_DIAMETER, 0.1 * ELECTRON_DIAMETER ) );
+        PPath minusNode = new PPath( new Rectangle2D.Double( 0, 0, ELECTRON_MINUS_WIDTH, ELECTRON_MINUS_HEIGHT ) );
         minusNode.setStroke( null );
-        minusNode.setPaint( Color.BLACK );
+        minusNode.setPaint( ELECTRON_MINUS_COLOR );
         addChild( minusNode );
         
         // layout
