@@ -15,7 +15,7 @@ public class SimStrings {
 
     public static function get( key:String, defaultString:String, formatArray:Array = null ):String {
         var value:String;
-        if ( document == undefined || document == null ) {
+        if ( document == null ) {
             value = defaultString;
         }
         else {
