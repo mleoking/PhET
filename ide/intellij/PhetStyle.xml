@@ -44,6 +44,9 @@
   <option name="DOWHILE_BRACE_FORCE" value="3" />
   <option name="WHILE_BRACE_FORCE" value="3" />
   <option name="FOR_BRACE_FORCE" value="3" />
+  <JSCodeStyleSettings>
+    <option name="SPACES_NEAR_TYPE" value="2" />
+  </JSCodeStyleSettings>
   <ADDITIONAL_INDENT_OPTIONS fileType="java">
     <option name="INDENT_SIZE" value="4" />
     <option name="CONTINUATION_INDENT_SIZE" value="8" />
