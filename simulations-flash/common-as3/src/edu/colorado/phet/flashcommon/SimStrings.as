@@ -2,7 +2,7 @@ package edu.colorado.phet.flashcommon {
 
 import flash.display.LoaderInfo;
 
-public class CommonStrings {
+public class SimStrings {
     private static var document:XML = null;
 
     public static function init( li:LoaderInfo ):void {
