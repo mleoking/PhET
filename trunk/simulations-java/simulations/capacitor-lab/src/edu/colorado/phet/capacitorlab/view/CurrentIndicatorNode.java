@@ -23,8 +23,9 @@ import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * Arrow and electron that indicates the direction of current flow.
- * Transparency is modulated proportional to dV/dt (change in voltage over change in time).
- * When voltage goes to zero, this node fades out over a period of time.
+ * Visibility of this node is handled via its transparency.
+ * The node appears while current is flowing.
+ * When current stops flowing, the node fades out over a period of time.
  * <p>
  * Origin is at the geometric center, so that this node can be easily 
  * flipped (rotated) when current changes direction.
