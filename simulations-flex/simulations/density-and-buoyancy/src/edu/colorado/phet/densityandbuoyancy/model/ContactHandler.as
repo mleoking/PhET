@@ -9,24 +9,24 @@ public class ContactHandler extends b2ContactListener {
         super();
     }
 
-    override public virtual function Add(point:b2ContactPoint):void {
-        super.Add(point);
+    override public virtual function Add( point: b2ContactPoint ): void {
+        super.Add( point );
     }
 
-    override public virtual function Persist(point:b2ContactPoint):void {
-        super.Persist(point);
+    override public virtual function Persist( point: b2ContactPoint ): void {
+        super.Persist( point );
     }
 
-    override public virtual function Remove(point:b2ContactPoint):void {
-        super.Remove(point);
+    override public virtual function Remove( point: b2ContactPoint ): void {
+        super.Remove( point );
     }
 
-    override public virtual function Result(point:b2ContactResult):void {
-        if (point.shape1.GetBody().GetUserData() is DensityObject) {
-            point.shape1.GetBody().GetUserData().registerContact(point);
+    override public virtual function Result( point: b2ContactResult ): void {
+        if ( point.shape1.GetBody().GetUserData() is DensityObject ) {
+            point.shape1.GetBody().GetUserData().registerContact( point );
         }
-        if (point.shape2.GetBody().GetUserData() is DensityObject) {
-            point.shape2.GetBody().GetUserData().registerContact(point);
+        if ( point.shape2.GetBody().GetUserData() is DensityObject ) {
+            point.shape2.GetBody().GetUserData().registerContact( point );
         }
     }
 }

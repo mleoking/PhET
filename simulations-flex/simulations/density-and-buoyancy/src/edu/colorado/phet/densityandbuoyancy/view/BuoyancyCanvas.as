@@ -15,8 +15,8 @@ import mx.events.FlexEvent;
  */
 public class BuoyancyCanvas extends AbstractDensityAndBuoyancyCanvas {
 
-    private var buoyancyModule:BuoyancyModule;
-    private var customButton:RadioButton;
+    private var buoyancyModule: BuoyancyModule;
+    private var customButton: RadioButton;
 
     public function BuoyancyCanvas() {
         super();
@@ -26,11 +26,11 @@ public class BuoyancyCanvas extends AbstractDensityAndBuoyancyCanvas {
         buoyancyModule = new BuoyancyModule();
         addChild( buoyancyModule );
 
-        var modeControlPanel:DensityVBox = new DensityVBox();
+        var modeControlPanel: DensityVBox = new DensityVBox();
         modeControlPanel.setStyle( "right", DensityConstants.CONTROL_INSET );
         modeControlPanel.y = DensityConstants.CONTROL_INSET;
 
-        var label:Label = new Label();
+        var label: Label = new Label();
         label.text = FlexSimStrings.get( 'mode.title', 'Objects' );
         label.setStyle( "fontWeight", "bold" );
         modeControlPanel.addChild( label );
@@ -38,40 +38,40 @@ public class BuoyancyCanvas extends AbstractDensityAndBuoyancyCanvas {
         customButton = new RadioButton();
         customButton.groupName = "modes";
         customButton.label = FlexSimStrings.get( 'mode.customObject', 'Custom' );
-        customButton.addEventListener( MouseEvent.CLICK, function():void {
+        customButton.addEventListener( MouseEvent.CLICK, function(): void {
             buoyancyModule.switchToCustomObject()
         } );
         customButton.selected = true;
         modeControlPanel.addChild( customButton );
 
-        var sameMassButton:RadioButton = new RadioButton();
+        var sameMassButton: RadioButton = new RadioButton();
         sameMassButton.groupName = "modes";
         sameMassButton.label = FlexSimStrings.get( 'mode.objectsOfSameMass', 'Same Mass' );
-        sameMassButton.addEventListener( MouseEvent.CLICK, function():void {
+        sameMassButton.addEventListener( MouseEvent.CLICK, function(): void {
             buoyancyModule.switchToSameMass()
         } );
         modeControlPanel.addChild( sameMassButton );
 
-        var sameVolumeButton:RadioButton = new RadioButton();
+        var sameVolumeButton: RadioButton = new RadioButton();
         sameVolumeButton.groupName = "modes";
         sameVolumeButton.label = FlexSimStrings.get( 'mode.objectsOfSameVolume', 'Same Volume' );
-        sameVolumeButton.addEventListener( MouseEvent.CLICK, function():void {
+        sameVolumeButton.addEventListener( MouseEvent.CLICK, function(): void {
             buoyancyModule.switchToSameVolume()
         } );
         modeControlPanel.addChild( sameVolumeButton );
 
-        var sameDensityButton:RadioButton = new RadioButton();
+        var sameDensityButton: RadioButton = new RadioButton();
         sameDensityButton.groupName = "modes";
         sameDensityButton.label = FlexSimStrings.get( 'mode.objectsOfSameDensity', 'Same Density' );
-        sameDensityButton.addEventListener( MouseEvent.CLICK, function():void {
+        sameDensityButton.addEventListener( MouseEvent.CLICK, function(): void {
             buoyancyModule.switchToSameDensity()
         } );
         modeControlPanel.addChild( sameDensityButton );
 
-        var mysteryObjectsButton:RadioButton = new RadioButton();
+        var mysteryObjectsButton: RadioButton = new RadioButton();
         mysteryObjectsButton.groupName = "modes";
         mysteryObjectsButton.label = FlexSimStrings.get( 'mode.mysteryObjects', 'Mystery' );
-        mysteryObjectsButton.addEventListener( MouseEvent.CLICK, function():void {
+        mysteryObjectsButton.addEventListener( MouseEvent.CLICK, function(): void {
             buoyancyModule.switchToMysteryObjects()
         } );
         modeControlPanel.addChild( mysteryObjectsButton );
@@ -105,39 +105,39 @@ public class BuoyancyCanvas extends AbstractDensityAndBuoyancyCanvas {
 
         addLogo();
 
-        var arrowControlPanel:DensityVBox = new DensityVBox();
+        var arrowControlPanel: DensityVBox = new DensityVBox();
         arrowControlPanel.setStyle( "left", DensityConstants.CONTROL_INSET );
         arrowControlPanel.visible = false; // will be made visible once we know the height of the logo
 
-        phetLogoButton.addEventListener( FlexEvent.UPDATE_COMPLETE, function():void {
+        phetLogoButton.addEventListener( FlexEvent.UPDATE_COMPLETE, function(): void {
             arrowControlPanel.setStyle( "bottom", phetLogoButton.height + 2 * DensityConstants.CONTROL_INSET );
             arrowControlPanel.visible = true;
         } );
 
-        var gravityCheckbox:CheckBox = new CheckBox();
+        var gravityCheckbox: CheckBox = new CheckBox();
         gravityCheckbox.label = FlexSimStrings.get( 'forceArrows.gravity', 'Gravity' );
-        gravityCheckbox.addEventListener( MouseEvent.CLICK, function():void {
+        gravityCheckbox.addEventListener( MouseEvent.CLICK, function(): void {
             buoyancyModule.setGravityForceVisible( gravityCheckbox.selected );
         } );
         arrowControlPanel.addChild( gravityCheckbox );
 
-        var buoyancyCheckbox:CheckBox = new CheckBox();
+        var buoyancyCheckbox: CheckBox = new CheckBox();
         buoyancyCheckbox.label = FlexSimStrings.get( 'forceArrows.buoyancy', 'Buoyancy' );
-        buoyancyCheckbox.addEventListener( MouseEvent.CLICK, function():void {
+        buoyancyCheckbox.addEventListener( MouseEvent.CLICK, function(): void {
             buoyancyModule.setBuoyancyForceVisible( buoyancyCheckbox.selected );
         } );
         arrowControlPanel.addChild( buoyancyCheckbox );
 
-        var contactCheckbox:CheckBox = new CheckBox();
+        var contactCheckbox: CheckBox = new CheckBox();
         contactCheckbox.label = FlexSimStrings.get( 'forceArrows.contact', 'Contact' );
-        contactCheckbox.addEventListener( MouseEvent.CLICK, function():void {
+        contactCheckbox.addEventListener( MouseEvent.CLICK, function(): void {
             buoyancyModule.setContactForceVisible( contactCheckbox.selected );
         } );
         arrowControlPanel.addChild( contactCheckbox );
 
-        var fluidDragCheckbox:CheckBox = new CheckBox();
+        var fluidDragCheckbox: CheckBox = new CheckBox();
         fluidDragCheckbox.label = FlexSimStrings.get( 'forceArrows.fluidDrag', 'Fluid Drag' );
-        fluidDragCheckbox.addEventListener( MouseEvent.CLICK, function():void {
+        fluidDragCheckbox.addEventListener( MouseEvent.CLICK, function(): void {
             buoyancyModule.setFluidDragForceVisible( fluidDragCheckbox.selected );
         } );
         arrowControlPanel.addChild( fluidDragCheckbox );
@@ -146,7 +146,7 @@ public class BuoyancyCanvas extends AbstractDensityAndBuoyancyCanvas {
     }
 
 
-    override public function init():void {
+    override public function init(): void {
         super.init();
 
         // TODO: why multiple initialization functions? - JO
@@ -159,7 +159,7 @@ public class BuoyancyCanvas extends AbstractDensityAndBuoyancyCanvas {
         buoyancyModule.start();
     }
 
-    override public function resetAll():void {
+    override public function resetAll(): void {
         super.resetAll();
         customButton.selected = true;
         buoyancyModule.resetAll();

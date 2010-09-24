@@ -7,7 +7,7 @@
                 frameRate="30">
     <view:BuoyancyCanvas id="buoyancyCanvas"/>
     <mx:Script><![CDATA[
-        private function onApplicationComplete():void {
+        private function onApplicationComplete(): void {
             buoyancyCanvas.onApplicationComplete();
         }
         ]]></mx:Script>

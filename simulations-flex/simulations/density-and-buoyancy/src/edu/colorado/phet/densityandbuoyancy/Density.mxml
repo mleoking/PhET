@@ -7,7 +7,7 @@
                 frameRate="30">
     <view:DensityCanvas id="myDensityCanvas"/>
     <mx:Script><![CDATA[
-        private function onApplicationComplete():void {
+        private function onApplicationComplete(): void {
             myDensityCanvas.onApplicationComplete();
         }
         ]]></mx:Script>

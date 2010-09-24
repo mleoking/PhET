@@ -19,20 +19,20 @@ import mx.core.UIComponent;
  * Base class for the main UI of the density and buoyancy sims.
  */
 public class AbstractDensityAndBuoyancyCanvas extends Canvas {
-    protected var background:Canvas;
+    protected var background: Canvas;
 
-    protected var phetLogoButton:PhetLogoButton
+    protected var phetLogoButton: PhetLogoButton
 
     /**
      * Override in sub-classes
      */
-    public function resetAll():void {
+    public function resetAll(): void {
     }
 
     /**
      * Override in sub-classes
      */
-    public function init():void {
+    public function init(): void {
     }
 
     public function AbstractDensityAndBuoyancyCanvas() {
@@ -42,7 +42,7 @@ public class AbstractDensityAndBuoyancyCanvas extends Canvas {
         setStyle( "fontSize", 12 );
     }
 
-    protected function addBackground():void {
+    protected function addBackground(): void {
         background = new Canvas();
         background.percentWidth = 100;
         background.percentHeight = 100;
@@ -50,14 +50,14 @@ public class AbstractDensityAndBuoyancyCanvas extends Canvas {
         addChild( background );
     }
 
-    protected function addResetAll():void {
-        var resetAllControlPanel:DensityVBox = new DensityVBox();
+    protected function addResetAll(): void {
+        var resetAllControlPanel: DensityVBox = new DensityVBox();
         resetAllControlPanel.setStyle( "right", DensityConstants.CONTROL_INSET );
         resetAllControlPanel.setStyle( "bottom", DensityConstants.CONTROL_INSET );
 
-        var resetAllButton:Button = new Button();
+        var resetAllButton: Button = new Button();
         resetAllButton.label = FlexSimStrings.get( 'application.resetAll', 'Reset All' );
-        resetAllButton.addEventListener( MouseEvent.CLICK, function():void {
+        resetAllButton.addEventListener( MouseEvent.CLICK, function(): void {
             // this is a separate callback because direct access to resetAll() does not select the subclass' resetAll()
             resetAll();
         } );
@@ -65,21 +65,21 @@ public class AbstractDensityAndBuoyancyCanvas extends Canvas {
         addChild( resetAllControlPanel );
     }
 
-    protected function addLogo():void {
+    protected function addLogo(): void {
         phetLogoButton = new PhetLogoButton();
         phetLogoButton.setStyle( "left", DensityConstants.CONTROL_INSET );
         phetLogoButton.setStyle( "bottom", DensityConstants.CONTROL_INSET );
         addChild( phetLogoButton );
     }
 
-    protected function refocusCallback( event:MouseEvent ):void {
+    protected function refocusCallback( event: MouseEvent ): void {
         //Text fields should lose focus when the user clicks outside of them, so they will accept their value if the user was editing them
         if ( focusManager.getFocus() is TextInput ) {
             focusManager.setFocus( focusManager.getNextFocusManagerComponent() )
         }
     }
 
-    public function onApplicationComplete():void {
+    public function onApplicationComplete(): void {
         init();
 
         background.addEventListener( MouseEvent.MOUSE_DOWN, refocusCallback );
@@ -87,21 +87,23 @@ public class AbstractDensityAndBuoyancyCanvas extends Canvas {
         addFlashCommon();
     }
 
-    private function addFlashCommon():void {
-        var ui:UIComponent = new UIComponent(); // used for FlashCommon UI
+    private function addFlashCommon(): void {
+        var ui: UIComponent = new UIComponent(); // used for FlashCommon UI
         addChild( ui );
 
         // TODO: have FlexCommon initialize these types of things?
-        var commonStrings:* = Application.application.parameters.commonStrings;
+        var commonStrings: * = Application.application.parameters.commonStrings;
         if ( commonStrings != null && commonStrings != undefined ) {
             CommonStrings.initDocument( new XML( commonStrings ) );
         }
-        var common:FlexCommon = FlexCommon.getInstance();
+        var common: FlexCommon = FlexCommon.getInstance();
         common.initialize( ui );
 
-        function positionButtons():void {
-            if( common.commonButtons == null || common.commonButtons == undefined ) return;
-            var height:int = common.commonButtons.getPreferredHeight();
+        function positionButtons(): void {
+            if ( common.commonButtons == null || common.commonButtons == undefined ) {
+                return;
+            }
+            var height: int = common.commonButtons.getPreferredHeight();
             common.commonButtons.setLocationXY( DensityConstants.CONTROL_INSET, stage.stageHeight - height - 60 - DensityConstants.CONTROL_INSET );
         }
 

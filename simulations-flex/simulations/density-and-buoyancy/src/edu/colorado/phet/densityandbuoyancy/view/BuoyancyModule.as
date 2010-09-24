@@ -15,19 +15,19 @@ import mx.containers.Canvas;
 
 public class BuoyancyModule extends AbstractDensityModule {
 
-    private var _densityCanvas:BuoyancyCanvas;
+    private var _densityCanvas: BuoyancyCanvas;
 
-    private var customObjectMode:CustomObjectMode;
-    private var sameMassMode:SameMassMode;
-    private var sameVolumeMode:SameVolumeMode;
-    private var sameDensityMode:SameDensityMode;
-    private var mysteryObjectsMode:MysteryObjectsMode;
-    private var mode:Mode;
+    private var customObjectMode: CustomObjectMode;
+    private var sameMassMode: SameMassMode;
+    private var sameVolumeMode: SameVolumeMode;
+    private var sameDensityMode: SameDensityMode;
+    private var mysteryObjectsMode: MysteryObjectsMode;
+    private var mode: Mode;
 
-    private var gravityArrowsVisible:BooleanProperty = new BooleanProperty( false );
-    private var buoyancyArrowsVisible:BooleanProperty = new BooleanProperty( false );
-    private var contactArrowsVisible:BooleanProperty = new BooleanProperty( false );
-    private var fluidDragArrowsVisible:BooleanProperty = new BooleanProperty( false );
+    private var gravityArrowsVisible: BooleanProperty = new BooleanProperty( false );
+    private var buoyancyArrowsVisible: BooleanProperty = new BooleanProperty( false );
+    private var contactArrowsVisible: BooleanProperty = new BooleanProperty( false );
+    private var fluidDragArrowsVisible: BooleanProperty = new BooleanProperty( false );
 
     public function BuoyancyModule() {
         super();
@@ -35,7 +35,7 @@ public class BuoyancyModule extends AbstractDensityModule {
         percentHeight = 100;
     }
 
-    public function doInit( densityCanvas:BuoyancyCanvas ):void {
+    public function doInit( densityCanvas: BuoyancyCanvas ): void {
         this._densityCanvas = densityCanvas;
         customObjectMode = new CustomObjectMode( this );
         sameMassMode = new SameMassMode( this );
@@ -45,17 +45,17 @@ public class BuoyancyModule extends AbstractDensityModule {
         //If other modes are added, you may need to specify a call to the Mode.reset() in resetAll()
         setMode( customObjectMode );
 
-        var box2DDebug:Box2DDebug = new Box2DDebug( model.getWorld() );
+        var box2DDebug: Box2DDebug = new Box2DDebug( model.getWorld() );
         //        _densityCanvas.addChild(box2DDebug.getSprite());
     }
 
-    override public function resetAll():void {
+    override public function resetAll(): void {
         super.resetAll();
         customObjectMode.reset();
         switchToCustomObject();
     }
 
-    public function setMode( mode:Mode ):void {
+    public function setMode( mode: Mode ): void {
         if ( this.mode != mode ) {
             if ( this.mode != null ) {
                 this.mode.teardown();
@@ -65,46 +65,46 @@ public class BuoyancyModule extends AbstractDensityModule {
         }
     }
 
-    public function switchToSameMass():void {
+    public function switchToSameMass(): void {
         setMode( sameMassMode );
     }
 
-    public function switchToSameVolume():void {
+    public function switchToSameVolume(): void {
         setMode( sameVolumeMode );
     }
 
-    public function switchToSameDensity():void {
+    public function switchToSameDensity(): void {
         setMode( sameDensityMode );
     }
 
-    public function switchToCustomObject():void {
+    public function switchToCustomObject(): void {
         setMode( customObjectMode );
     }
 
-    public function switchToMysteryObjects():void {
+    public function switchToMysteryObjects(): void {
         setMode( mysteryObjectsMode );
     }
 
-    public function getDensityCanvas():Canvas {
+    public function getDensityCanvas(): Canvas {
         return _densityCanvas;
     }
 
-    override public function get canvas():AbstractDensityAndBuoyancyCanvas {
+    override public function get canvas(): AbstractDensityAndBuoyancyCanvas {
         return _densityCanvas;
     }
 
-    override public function showScales():Boolean {
+    override public function showScales(): Boolean {
         return true;
     }
 
-    override protected function createDensityObjectNode(densityObject:DensityObject):DensityObjectNode {
-        var densityObjectNode:DensityObjectNode = super.createDensityObjectNode(densityObject);
-        addArrowNodes(densityObjectNode);
+    override protected function createDensityObjectNode( densityObject: DensityObject ): DensityObjectNode {
+        var densityObjectNode: DensityObjectNode = super.createDensityObjectNode( densityObject );
+        addArrowNodes( densityObjectNode );
         return densityObjectNode;
     }
 
-    private function addArrowNodes( densityObjectNode:DensityObjectNode ):void {
-        if( !(densityObjectNode is ScaleNode) ) {
+    private function addArrowNodes( densityObjectNode: DensityObjectNode ): void {
+        if ( !(densityObjectNode is ScaleNode) ) {
             densityObjectNode.addArrowNode( new ArrowNode( densityObjectNode.getDensityObject().getGravityForceArrowModel(), 0x0000FF, gravityArrowsVisible ) );
             densityObjectNode.addArrowNode( new ArrowNode( densityObjectNode.getDensityObject().getBuoyancyForceArrowModel(), 0xFF00FF, buoyancyArrowsVisible ) );
             densityObjectNode.addArrowNode( new ArrowNode( densityObjectNode.getDensityObject().getContactForceArrowModel(), 0xFF8800, contactArrowsVisible ) );
@@ -112,19 +112,19 @@ public class BuoyancyModule extends AbstractDensityModule {
         }
     }
 
-    public function setGravityForceVisible(selected:Boolean):void {
+    public function setGravityForceVisible( selected: Boolean ): void {
         gravityArrowsVisible.value = selected;
     }
 
-    public function setBuoyancyForceVisible(selected:Boolean):void {
+    public function setBuoyancyForceVisible( selected: Boolean ): void {
         buoyancyArrowsVisible.value = selected;
     }
 
-    public function setContactForceVisible(selected:Boolean):void {
+    public function setContactForceVisible( selected: Boolean ): void {
         contactArrowsVisible.value = selected;
     }
 
-    public function setFluidDragForceVisible(selected:Boolean):void {
+    public function setFluidDragForceVisible( selected: Boolean ): void {
         fluidDragArrowsVisible.value = selected;
     }
 }
