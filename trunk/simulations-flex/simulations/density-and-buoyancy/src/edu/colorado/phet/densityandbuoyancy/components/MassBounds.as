@@ -5,8 +5,9 @@ import edu.colorado.phet.densityandbuoyancy.model.Material;
 
 public class MassBounds implements Bounds {
     private var densityObject: DensityObject;
-    public function MassBounds(densityObject:DensityObject) {
-        this.densityObject=densityObject;
+
+    public function MassBounds( densityObject: DensityObject ) {
+        this.densityObject = densityObject;
     }
 
     public function clamp( newValue: Number ): Number {
