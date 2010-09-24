@@ -119,6 +119,7 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         map.put( "/about/who-we-are.php", "/en/about" );
         map.put( "/activities", "/en/for-teachers/browse-activities" );
         map.put( "/activities/guidelines.pdf", "/publications/activities-guide/contribution-guidelines.pdf" );
+        map.put( "/blog", "/blog/" );
         map.put( "/contribute/", "/en/for-translators" );
         map.put( "/contribute/donate.php", "/en/donate" );
         map.put( "/contribute/get-flash-common-strings.php", "/sims/flash-common-strings/flash-common-strings_en.jar" );
