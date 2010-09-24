@@ -1,3 +1,4 @@
+Fixed: all sliders are bounded by the bounds intended only for the mass slider
 # 1.01.01 (44341) Sep 23, 2010
 9/23/10 Testing AS3 FlashCommon
 # 1.01.00 (44223) Sep 20, 2010
