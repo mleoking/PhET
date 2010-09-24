@@ -136,7 +136,7 @@ public class BuoyancyCanvas extends AbstractDensityAndBuoyancyCanvas {
 
         addChild( arrowControlPanel );
 
-//        addChild( new FluidDensityControl());
+        addChild( new FluidDensityControl() );
     }
 
 
