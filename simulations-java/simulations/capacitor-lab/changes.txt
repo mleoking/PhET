@@ -1,3 +1,4 @@
+# 0.00.12 (44365) Sep 24, 2010
 9/24/10 replace PText("-") with PPath(Rectangle2D) on current indicator, so that "-" can be precisely centered
 # 0.00.11 (44358) Sep 23, 2010
 9/23/10 make current indicator fade out faster (500 ms)
