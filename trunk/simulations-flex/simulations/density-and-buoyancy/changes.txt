@@ -1,3 +1,4 @@
+Removed mystery objects mode from buoyancy sim
 Reformatted using updated PhetStyle code format
 Fixed: all sliders are bounded by the bounds intended only for the mass slider
 # 1.01.01 (44341) Sep 23, 2010
@@ -55,16 +56,16 @@ Applied consistent insets to the play area controls
 Changed density slider maximum to 3.0 (instead of 2.835)
 Switched readouts to have 2 decimal places instead of 1 (most important for lookup in mystery object table)
 Fixed: text labels on objects block mouse events
-Changed the mass slider to have a maximum of 10kg instead of 12kg 
+Changed the mass slider to have a maximum of 10kg instead of 12kg
 Fixed: when I drag and object towards the corner of the base and wall of the pool I can make it disappear
-Made it so the "show table" button toggles to a "hide table" button 
+Made it so the "show table" button toggles to a "hide table" button
 Remember the location of the mystery object density table when it is dismissed
 # 0.01.20 (43723) Aug 31, 2010
 Fixed: Mystery objects should be different colors if they are different objects
 Hide styrofoam tick mark label because it intersects the density title
 Improved font for mystery blocks
 Added ice
-Made minimum density object texture more white instead of gray 
+Made minimum density object texture more white instead of gray
 Changed slider knob to be transparent if the value is out of range, instead of continuously mapping transparency to distance out of range
 Changed mystery objects table to be sorted by density instead of alphabetically
 Added colored tick marks and labels for the density slider
@@ -113,7 +114,7 @@ Fixed: Null pointer exception once when pressing reset all on the mystery object
 # 0.01.17 (43290) Aug 19, 2010
 Fixed units for scale readouts
 Fixed: Scale readout doesn't always update
-Alphabetized mystery substance table 
+Alphabetized mystery substance table
 Fixed: One of the smaller blocks reads "0.5 k" and the "g" is cut off.
 Fixed: Visual artifacts when the block is dropped onto the ground next to the pool; its face nearest the pool flickers.
 Fixed: The pool readout should be L, not kg/L

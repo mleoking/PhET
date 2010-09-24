@@ -6,7 +6,6 @@ import edu.colorado.phet.densityandbuoyancy.view.away3d.DensityObjectNode;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.ScaleNode;
 import edu.colorado.phet.densityandbuoyancy.view.modes.CustomObjectMode;
 import edu.colorado.phet.densityandbuoyancy.view.modes.Mode;
-import edu.colorado.phet.densityandbuoyancy.view.modes.MysteryObjectsMode;
 import edu.colorado.phet.densityandbuoyancy.view.modes.SameDensityMode;
 import edu.colorado.phet.densityandbuoyancy.view.modes.SameMassMode;
 import edu.colorado.phet.densityandbuoyancy.view.modes.SameVolumeMode;
@@ -21,7 +20,6 @@ public class BuoyancyModule extends AbstractDensityModule {
     private var sameMassMode: SameMassMode;
     private var sameVolumeMode: SameVolumeMode;
     private var sameDensityMode: SameDensityMode;
-    private var mysteryObjectsMode: MysteryObjectsMode;
     private var mode: Mode;
 
     private var gravityArrowsVisible: BooleanProperty = new BooleanProperty( false );
@@ -41,7 +39,6 @@ public class BuoyancyModule extends AbstractDensityModule {
         sameMassMode = new SameMassMode( this );
         sameVolumeMode = new SameVolumeMode( this );
         sameDensityMode = new SameDensityMode( this );
-        mysteryObjectsMode = new MysteryObjectsMode( this );
         //If other modes are added, you may need to specify a call to the Mode.reset() in resetAll()
         setMode( customObjectMode );
 
@@ -79,10 +76,6 @@ public class BuoyancyModule extends AbstractDensityModule {
 
     public function switchToCustomObject(): void {
         setMode( customObjectMode );
-    }
-
-    public function switchToMysteryObjects(): void {
-        setMode( mysteryObjectsMode );
     }
 
     public function getDensityCanvas(): Canvas {
