@@ -13,33 +13,33 @@ import flash.system.Security;
 import flash.xml.XMLDocument;
 
 public class UpdateHandler {
-    public static var SIM_REQUEST_VERSION:String = "1";
-    public static var INSTALLER_REQUEST_VERSION:String = "1";
+    public static var SIM_REQUEST_VERSION: String = "1";
+    public static var INSTALLER_REQUEST_VERSION: String = "1";
 
     // the latest version information detected from the server
     // TODO: rename these to match _level0 fields
-    public var versionMajor:Number;
-    public var versionMinor:Number;
-    public var versionDev:Number;
-    public var versionRevision:Number;
-    public var simTimestamp:Number;
-    public var simAskLaterDays:Number;
+    public var versionMajor: Number;
+    public var versionMinor: Number;
+    public var versionDev: Number;
+    public var versionRevision: Number;
+    public var simTimestamp: Number;
+    public var simAskLaterDays: Number;
 
-    public var installerRecommend:Boolean;
-    public var installerTimestamp:Number;
-    public var installerAskLaterDays:Number;
+    public var installerRecommend: Boolean;
+    public var installerTimestamp: Number;
+    public var installerAskLaterDays: Number;
 
     // whether the "Check for updates now" button was clicked
     // (manual check for updates)
-    public var manual:Boolean;
+    public var manual: Boolean;
 
-    public var common:FlashCommon;
+    public var common: FlashCommon;
 
-    public var receivedSimResponse:Boolean;
-    public var receivedInstallationResponse:Boolean;
+    public var receivedSimResponse: Boolean;
+    public var receivedInstallationResponse: Boolean;
 
     // shorthand debugging function
-    public function debug( str:String ):void {
+    public function debug( str: String ): void {
         FlashCommon.getInstance().debug( str );
     }
 
@@ -74,13 +74,13 @@ public class UpdateHandler {
 
     }
 
-    public function startupQueryString( checkSim:Boolean, checkInstallation:Boolean ):String {
+    public function startupQueryString( checkSim: Boolean, checkInstallation: Boolean ): String {
         // if user isn't querying anything, return undefined
         if ( !(checkSim || (checkInstallation && common.fromFullInstallation())) ) {
             return undefined;
         }
 
-        var str:String = "<?xml version=\"1.0\"?>";
+        var str: String = "<?xml version=\"1.0\"?>";
         str += "<phet_info>";
 
         if ( checkSim ) {
@@ -98,7 +98,7 @@ public class UpdateHandler {
         return str;
     }
 
-    public function sendStartupQuery( query:String ):void {
+    public function sendStartupQuery( query: String ): void {
 
         if ( query === undefined || query == null ) {
             // must not be querying for anything, don't do anything
@@ -115,14 +115,14 @@ public class UpdateHandler {
         // under FlashCommon.as
         Security.allowDomain( FlashCommon.getMainServer() );
 
-        var request:URLRequest = new URLRequest( "http://" + FlashCommon.getMainServer() + "/services/phet-info" );
+        var request: URLRequest = new URLRequest( "http://" + FlashCommon.getMainServer() + "/services/phet-info" );
         request.contentType = "text/xml";
         request.method = "POST";
         request.data = new XML( query );
-        var loader:URLLoader = new URLLoader();
-        loader.addEventListener( Event.COMPLETE, function( evt:Event ):void {
+        var loader: URLLoader = new URLLoader();
+        loader.addEventListener( Event.COMPLETE, function( evt: Event ): void {
             debug( "UpdateHandler (2): reply successfully received\n" );
-            var xml:XMLDocument = new XMLDocument( loader.data );
+            var xml: XMLDocument = new XMLDocument( loader.data );
             xml.ignoreWhite = true; // make sure that whitespace isn't treated as nodes! (DO NOT REMOVE THIS)
             debug( String( xml ) + "\n" );
 
@@ -136,11 +136,11 @@ public class UpdateHandler {
                 return;
             }
 
-            var children:Array = xml.childNodes[0].childNodes; // children of sim_startup_query_response
+            var children: Array = xml.childNodes[0].childNodes; // children of sim_startup_query_response
 
             for ( var idx in children ) {
                 var child = children[idx];
-                var atts:Object = child.attributes;
+                var atts: Object = child.attributes;
                 if ( child.nodeName == "sim_version_response" ) {
                     debug( "UpdateHandler (2): received sim_version_response\n" );
                     // sanity checks
@@ -197,12 +197,12 @@ public class UpdateHandler {
             handleResponse();
         } );
 
-        loader.addEventListener( IOErrorEvent.IO_ERROR, function( evt:Event ):void {
+        loader.addEventListener( IOErrorEvent.IO_ERROR, function( evt: Event ): void {
             debug( "WARNING: UpdateHandler (2): Failure to obtain latest version information\n" );
             showUpdateError();
         } );
 
-        loader.addEventListener( SecurityErrorEvent.SECURITY_ERROR, function( evt:Event ):void {
+        loader.addEventListener( SecurityErrorEvent.SECURITY_ERROR, function( evt: Event ): void {
             debug( "WARNING: UpdateHandler (2): Failure to obtain latest version information\n" );
             showUpdateError();
         } );
@@ -222,7 +222,7 @@ public class UpdateHandler {
         sendStartupQuery( startupQueryString( true, false ) );
     }
 
-    public function manualCheckInstallation():void {
+    public function manualCheckInstallation(): void {
         debug( "UpdateHandler: checking manually for installation" );
         manual = true;
         sendStartupQuery( startupQueryString( false, true ) );
@@ -280,7 +280,7 @@ public class UpdateHandler {
                     }
                 }
                 else {
-                    if ( isNaN(versionMajor) || isNaN(versionMinor) ) {
+                    if ( isNaN( versionMajor ) || isNaN( versionMinor ) ) {
                         debug( "WARNING UpdateHandler: received NaN version information!\n" );
 
                         if ( manual ) {
@@ -314,37 +314,37 @@ public class UpdateHandler {
 
 
     // called if a newer version is available online
-    public function simUpdatesAvailable( versionMajor:Number, versionMinor:Number, versionDev:Number, versionRevision:Number, simAskLaterDays:Number ):void {
+    public function simUpdatesAvailable( versionMajor: Number, versionMinor: Number, versionDev: Number, versionRevision: Number, simAskLaterDays: Number ): void {
         debug( "UpdateHandler: Sim Updates Available (dialog)!\n" );
 
         CommonDialog.openUpdateSimDialog( versionMajor, versionMinor, versionDev, versionRevision, simAskLaterDays );
     }
 
     // called if a newer version is available online
-    public function installationUpdatesAvailable( installerTimestamp:Number, installerAskLaterDays:Number ):void {
+    public function installationUpdatesAvailable( installerTimestamp: Number, installerAskLaterDays: Number ): void {
         debug( "UpdateHandler: Installation Updates Available (dialog)!\n" );
 
         CommonDialog.openUpdateInstallationDialog( installerTimestamp, installerAskLaterDays );
     }
 
-    public function showUpdateError():void {
+    public function showUpdateError(): void {
         if ( !manual ) { return; }
-        var str:String = "";
+        var str: String = "";
         str += CommonStrings.get( "VersionError1", "An error was encountered while trying to obtain version information." ) + "\n";
         str += CommonStrings.get( "VersionError2", "Please try again later, or visit <a href='{0}'>http://" + FlashCommon.getMainServer() + "</a>", ["asfunction:_level0.common.openExternalLink,http://" + FlashCommon.getMainServer() + ""] );
         CommonDialog.openMessageDialog( CommonStrings.get( "Error", "Error" ), str, false );
     }
 
-    public function showSimUpToDate():void {
+    public function showSimUpToDate(): void {
         if ( !manual ) { return; }
-        var str:String = "";
+        var str: String = "";
         str += CommonStrings.get( "MostCurrentVersion", "You have the most current version ({0}) of {1}.", [common.getVersionString(), common.getSimTitle()] );
         CommonDialog.openMessageDialog( CommonStrings.get( "UpToDate", "Up To Date" ), str, true );
     }
 
-    public function showInstallationUpToDate():void {
+    public function showInstallationUpToDate(): void {
         if ( !manual ) { return; }
-        var str:String = "";
+        var str: String = "";
         str += CommonStrings.get( "MostCurrentVersion", "You have the most current version ({0}) of {1}.", [FlashCommon.dateString( FlashCommon.dateOfSeconds( common.getInstallerCreationTimestamp() ) ), "PhET Offline Website Installer"] );
         CommonDialog.openMessageDialog( CommonStrings.get( "UpToDate", "Up To Date" ), str, true );
     }

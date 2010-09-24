@@ -17,15 +17,15 @@ import flash.xml.XMLNode;
 public class Statistics {
 
     // stores whether a message send has failed. if it has, don't send more!
-    public var messageError:Boolean;
+    public var messageError: Boolean;
 
     // store the session id for all future statistics messages that need to be sent
-    public var sessionId:String;
+    public var sessionId: String;
 
-    public var common:FlashCommon;
+    public var common: FlashCommon;
 
     // shorthand for debugging function
-    public function debug( str:String ):void {
+    public function debug( str: String ): void {
         FlashCommon.getInstance().debug( str );
     }
 
@@ -48,14 +48,14 @@ public class Statistics {
         // CURRENTLY CALLED FROM ELSEWHERE sendSessionStart();
     }
 
-    public function fieldTranslate( field:String ) {
-        var str:String = CommonStrings.get( "StatisticsField-" + field, field );
+    public function fieldTranslate( field: String ) {
+        var str: String = CommonStrings.get( "StatisticsField-" + field, field );
         if ( str != field ) {
             // it was translated
             return str;
         }
         debug( "WARNING Statistics: could not translate " + field + "\n" );
-        var ob:Object = {
+        var ob: Object = {
             message_type : "Message type",
             message_version : "Message version",
             sim_type : "Simulation type",
@@ -90,7 +90,7 @@ public class Statistics {
         return field;
     }
 
-    public function fieldFormat( field:String, value:*, humanReadable:Boolean ):String {
+    public function fieldFormat( field: String, value: *, humanReadable: Boolean ): String {
         if ( humanReadable ) {
             return fieldTranslate( field ) + " " + unescape( messageEscape( value ) + "\n" );
         }
@@ -101,8 +101,8 @@ public class Statistics {
 
     // get the exact string sent to the server. this will be used to show
     // users exactly what statistics data is sent.
-    public function sessionStartMessage( humanReadable:Boolean ):String {
-        var str:String = "";
+    public function sessionStartMessage( humanReadable: Boolean ): String {
+        var str: String = "";
 
         // make data available to be read
         common.preferences.load();
@@ -158,7 +158,7 @@ public class Statistics {
     }
 
     // attempts to send a session start message
-    public function sendSessionStart():void {
+    public function sendSessionStart(): void {
         // load the user's preferences so we can see whether messages is allowed and they
         // have accepted the privacy agreement
         common.preferences.load();
@@ -185,41 +185,41 @@ public class Statistics {
         debug( "Statistics: sending session start message\n" );
 
         // wrap the message in xml tags
-        var str:String = "<?xml version=\"1.0\"?><submit_message><statistics_message " + sessionStartMessage( false ) + " /></submit_message>";
-        var queryXML:XML = new XML( str );
+        var str: String = "<?xml version=\"1.0\"?><submit_message><statistics_message " + sessionStartMessage( false ) + " /></submit_message>";
+        var queryXML: XML = new XML( str );
         //        queryXML.addRequestHeader( "Content-type", "text/xml" );
         sendXML( queryXML );
     }
 
     // this is used for all statistics messages to send the xml to the server
-    public function sendXML( query:XML ):void {
+    public function sendXML( query: XML ): void {
 
         // if a message has previously failed, don't send more. the
         // network may be down
         if ( messageError ) { return; }
 
-        var request:URLRequest = new URLRequest( "http://" + FlashCommon.getMainServer() + "/statistics/submit_message.php" );
+        var request: URLRequest = new URLRequest( "http://" + FlashCommon.getMainServer() + "/statistics/submit_message.php" );
         request.contentType = "text/xml"; // make sure it will be recognized as XML by the server
         request.method = "POST";
         request.data = new XML( query );
-        var loader:URLLoader = new URLLoader();
-        loader.addEventListener( Event.COMPLETE, function( evt:Event ):void {
+        var loader: URLLoader = new URLLoader();
+        loader.addEventListener( Event.COMPLETE, function( evt: Event ): void {
             debug( "Statistics (2): reply successfully received\n" );
-            var response:XMLDocument = new XMLDocument( loader.data );
+            var response: XMLDocument = new XMLDocument( loader.data );
             response.ignoreWhite = true; // make sure that whitespace isn't treated as nodes! (DO NOT REMOVE THIS)
             debug( String( response ) + "\n" );
 
-            var submitMessageResponse:XMLNode = response.childNodes[0];
+            var submitMessageResponse: XMLNode = response.childNodes[0];
             debug( "sMR: " );
             debug( submitMessageResponse.toString() );
             debug( "---" );
 
             // whether the message was successful
-            var full_success:Boolean = false;
+            var full_success: Boolean = false;
 
             if ( submitMessageResponse.attributes.success == "true" ) {
-                var responses:Array = submitMessageResponse.childNodes;
-                for each ( var child:XMLNode in responses ) {
+                var responses: Array = submitMessageResponse.childNodes;
+                for each ( var child: XMLNode in responses ) {
                     debug( "child: " );
                     debug( child.toString() );
                     debug( "---" );
@@ -248,12 +248,12 @@ public class Statistics {
             }
         } );
 
-        loader.addEventListener( IOErrorEvent.IO_ERROR, function( evt:Event ):void {
+        loader.addEventListener( IOErrorEvent.IO_ERROR, function( evt: Event ): void {
             debug( "Statistics: message error! (io)\n" );
             debug( String( evt ) );
         } );
 
-        loader.addEventListener( SecurityErrorEvent.SECURITY_ERROR, function( evt:Event ):void {
+        loader.addEventListener( SecurityErrorEvent.SECURITY_ERROR, function( evt: Event ): void {
             debug( "Statistics: message error! (security)\n" );
             debug( String( evt ) );
         } );
@@ -263,8 +263,8 @@ public class Statistics {
     }
 
     // sanitize information to be send to phet statistics: escape or turn into 'null'
-    public function messageEscape( value:* ):String {
-        var str:String;
+    public function messageEscape( value: * ): String {
+        var str: String;
         if ( value == null ) {
             return FlashCommon.NULLVAL;
         }

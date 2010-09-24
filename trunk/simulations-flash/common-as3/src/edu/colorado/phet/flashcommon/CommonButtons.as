@@ -14,11 +14,11 @@ import org.aswing.JWindow;
 public class CommonButtons extends JWindow {
 
     // shorthand for debugging function
-    public function debug( str:String ):void {
+    public function debug( str: String ): void {
         FlashCommon.getInstance().debug( str );
     }
 
-    public function CommonButtons( root:Sprite ) {
+    public function CommonButtons( root: Sprite ) {
         super( root, false );
         debug( "CommonButtons initializing\n" );
 
@@ -26,12 +26,12 @@ public class CommonButtons extends JWindow {
         // or if vertical layout is desired use SoftBoxLayout(SoftBoxLayout.Y_AXIS) instead
         getContentPane().setLayout( new FlowLayout( AsWingConstants.LEFT, 0, 0 ) );
 
-        var aboutButton:JButton = new JButton( CommonStrings.get( "About...", "About..." ) );
+        var aboutButton: JButton = new JButton( CommonStrings.get( "About...", "About..." ) );
         aboutButton.addEventListener( MouseEvent.CLICK, aboutButtonClicked );
         getContentPane().append( aboutButton );
 
         if ( !FlashCommon.getInstance().fromPhetWebsite() ) {
-            var preferencesButton:JButton = new JButton( CommonStrings.get( "Preferences", "Preferences..." ) );
+            var preferencesButton: JButton = new JButton( CommonStrings.get( "Preferences", "Preferences..." ) );
             preferencesButton.addEventListener( MouseEvent.CLICK, preferencesButtonClicked );
             getContentPane().append( preferencesButton );
         }
@@ -46,11 +46,11 @@ public class CommonButtons extends JWindow {
 
     }
 
-    public function aboutButtonClicked( evt:MouseEvent ):void {
+    public function aboutButtonClicked( evt: MouseEvent ): void {
         CommonDialog.openAboutDialog();
     }
 
-    public function preferencesButtonClicked( evt:MouseEvent ):void {
+    public function preferencesButtonClicked( evt: MouseEvent ): void {
         CommonDialog.openPreferencesDialog();
     }
 
@@ -58,10 +58,10 @@ public class CommonButtons extends JWindow {
     // to shrink down to the preferred size in the center of its parent location.
     // this is done by creating an anonymous panel, adding the button to it, and
     // adding the panel to the container
-    public static function padButtonAdd( button:JButton, container:Container ):void {
+    public static function padButtonAdd( button: JButton, container: Container ): void {
 
         // create panel which will center the button
-        var panel:JPanel = new JPanel( new CenterLayout() );
+        var panel: JPanel = new JPanel( new CenterLayout() );
 
         // pad the text by 10 pixels to the left and right
         button.setMargin( new Insets( 0, 10, 0, 10 ) );

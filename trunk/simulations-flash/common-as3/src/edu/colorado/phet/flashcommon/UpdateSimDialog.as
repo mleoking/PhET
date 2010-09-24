@@ -21,22 +21,22 @@ import org.aswing.geom.IntDimension;
 
 class UpdateSimDialog extends CommonDialog {
 
-    public var newMajorVersion:Number;
-    public var newMinorVersion:Number;
-    public var newSimAskLaterDays:Number;
-    public var newRevision:Number;
+    public var newMajorVersion: Number;
+    public var newMinorVersion: Number;
+    public var newSimAskLaterDays: Number;
+    public var newRevision: Number;
 
-    public var tryButton:JButton;
-    public var askLaterButton:JButton;
-    public var skipButton:JButton;
+    public var tryButton: JButton;
+    public var askLaterButton: JButton;
+    public var skipButton: JButton;
 
-    private static var instance:UpdateSimDialog = null;
+    private static var instance: UpdateSimDialog = null;
 
-    public static function getInstance():UpdateSimDialog {
+    public static function getInstance(): UpdateSimDialog {
         return instance;
     }
 
-    public function UpdateSimDialog( versionMajor:Number, versionMinor:Number, versionDev:Number, versionRevision:Number, simAskLaterDays:Number ) {
+    public function UpdateSimDialog( versionMajor: Number, versionMinor: Number, versionDev: Number, versionRevision: Number, simAskLaterDays: Number ) {
         super( "updateSim", CommonStrings.get( "NewVersionAvailable", "New Version Available" ) );
         instance = this;
 
@@ -50,11 +50,11 @@ class UpdateSimDialog extends CommonDialog {
         window.getContentPane().setLayout( new SoftBoxLayout( SoftBoxLayout.Y_AXIS ) );
 
         // construct the string of text to show
-        var str:String = "";
+        var str: String = "";
         str += CommonStrings.get( "CurrentVersionIs", "Your current version of {0} is {1}.", ["<b>" + common.getSimTitle() + "</b>", common.getShortVersionString()] ) + "\n";
         str += CommonStrings.get( "NewerVersionIs", "A newer version {0} is available.", ["(" + common.zeroPadVersion( versionMajor, versionMinor ) + ")"] ) + "\n";
 
-        var notUpdateStr:String = "<p align='center'><font color='#880000'>" + CommonStrings.get( "NotUpdateSim", "This simulation cannot be updated automatically." ) + "</font></p>";
+        var notUpdateStr: String = "<p align='center'><font color='#880000'>" + CommonStrings.get( "NotUpdateSim", "This simulation cannot be updated automatically." ) + "</font></p>";
 
         str += "\n";
 
@@ -63,7 +63,7 @@ class UpdateSimDialog extends CommonDialog {
             str += notUpdateStr;
             str += "\n";
 
-            var defaultStr:String = "To download a new installation containing the latest simulation, ";
+            var defaultStr: String = "To download a new installation containing the latest simulation, ";
             defaultStr += "please visit the <a href='{0}'>PhET installation page</a> for more information.";
 
             str += CommonStrings.get( "PhETInstallation", defaultStr, ["asfunction:_level0.common.openExternalLink,http://" + FlashCommon.getMainServer() + "/get_phet/full_install.php"] );
@@ -78,7 +78,7 @@ class UpdateSimDialog extends CommonDialog {
         str += CommonStrings.get( "UpdateOptionsAvailable", "Update options are available under <i>Preferences</i>." );
 
 
-        var textArea:JTextArea = new JTextArea( str, 0, 30 );
+        var textArea: JTextArea = new JTextArea( str, 0, 30 );
         textArea.setHtmlText( str );
         textArea.setEditable( false );
         textArea.setCSS( FlashCommon.LINK_STYLE_SHEET );
@@ -93,7 +93,7 @@ class UpdateSimDialog extends CommonDialog {
         window.getContentPane().append( new JSpacer( new IntDimension( 5, 5 ) ) );
 
         // panel to lay the buttons in
-        var panel:JPanel = new JPanel( new FlowLayout() );
+        var panel: JPanel = new JPanel( new FlowLayout() );
 
         tryButton = new JButton( CommonStrings.get( "TryNow", "Try it now" ) );
         tryButton.addEventListener( MouseEvent.CLICK, tryClicked );
@@ -111,7 +111,7 @@ class UpdateSimDialog extends CommonDialog {
         skipButton.addEventListener( MouseEvent.CLICK, skipClicked );
         CommonButtons.padButtonAdd( skipButton, panel );
 
-        var centerPanel:JPanel = new JPanel( new CenterLayout() ); //SoftBoxLayout.X_AXIS, 0, SoftBoxLayout.CENTER
+        var centerPanel: JPanel = new JPanel( new CenterLayout() ); //SoftBoxLayout.X_AXIS, 0, SoftBoxLayout.CENTER
         centerPanel.append( panel );
         window.getContentPane().append( centerPanel );
 
@@ -124,7 +124,7 @@ class UpdateSimDialog extends CommonDialog {
     //        tabHandler.addAsWingButton( skipButton );
     //    }
 
-    public function askLaterClicked( evt:MouseEvent ):void {
+    public function askLaterClicked( evt: MouseEvent ): void {
         // always ask later on if time has elapsed
         common.preferences.setSkippedRevision( 0 );
 
@@ -134,14 +134,14 @@ class UpdateSimDialog extends CommonDialog {
         manualClose()
     }
 
-    public function skipClicked( evt:MouseEvent ):void {
+    public function skipClicked( evt: MouseEvent ): void {
         // skip this update in the future
         common.preferences.setSkippedRevision( newRevision );
 
         manualClose();
     }
 
-    public function tryClicked( evt:MouseEvent ):void {
+    public function tryClicked( evt: MouseEvent ): void {
         common.openExternalLink( common.simWebsiteURL() );
     }
 }

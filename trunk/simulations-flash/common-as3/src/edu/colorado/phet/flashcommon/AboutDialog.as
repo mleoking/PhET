@@ -16,13 +16,13 @@ import org.aswing.geom.IntDimension;
 
 public class AboutDialog extends CommonDialog {
 
-    public var agreementButton:JButton;
-    public var creditsButton:JButton;
-    public var okButton:JButton;
+    public var agreementButton: JButton;
+    public var creditsButton: JButton;
+    public var okButton: JButton;
 
-    private static var instance:AboutDialog = null;
+    private static var instance: AboutDialog = null;
 
-    public static function getInstance():AboutDialog {
+    public static function getInstance(): AboutDialog {
         return instance;
     }
 
@@ -34,7 +34,7 @@ public class AboutDialog extends CommonDialog {
         window.getContentPane().setLayout( new SoftBoxLayout( SoftBoxLayout.Y_AXIS ) );
 
         // construct the string of text to show
-        var str:String = "";
+        var str: String = "";
         str += "<b>PhET Interactive Simulations</b>\n";
         str += "Copyright \u00A9 2004-2010 University of Colorado.\n";
         str += "Some rights reserved.\n";
@@ -54,7 +54,7 @@ public class AboutDialog extends CommonDialog {
         //var css : TextField.StyleSheet = new TextField.StyleSheet();
         //css.parseCSS( FlashCommon.DISPLAY_CSS );
 
-        var textArea:JTextArea = new JTextArea();
+        var textArea: JTextArea = new JTextArea();
         textArea.setHtmlText( str );
         textArea.setEditable( false );
         textArea.setCSS( FlashCommon.LINK_STYLE_SHEET );
@@ -67,7 +67,7 @@ public class AboutDialog extends CommonDialog {
         window.getContentPane().append( new JSpacer( new IntDimension( 5, 5 ) ) );
 
         // panel to lay the buttons in
-        var panel:JPanel = new JPanel( new FlowLayout() );
+        var panel: JPanel = new JPanel( new FlowLayout() );
 
         // button that will open the agreements dialog
         str = CommonStrings.get( "SoftwareAgreement", "Software Agreement" );
@@ -100,7 +100,7 @@ public class AboutDialog extends CommonDialog {
         okButton.addEventListener( MouseEvent.CLICK, okClicked );
         CommonButtons.padButtonAdd( okButton, panel );
 
-        var centerPanel:JPanel = new JPanel( new CenterLayout() ); //SoftBoxLayout.X_AXIS, 0, SoftBoxLayout.CENTER
+        var centerPanel: JPanel = new JPanel( new CenterLayout() ); //SoftBoxLayout.X_AXIS, 0, SoftBoxLayout.CENTER
         centerPanel.append( panel );
         window.getContentPane().append( centerPanel );
 
@@ -113,15 +113,15 @@ public class AboutDialog extends CommonDialog {
     //        //		tabHandler.addAsWingButton( okButton );
     //    }
 
-    public function agreementClicked( evt:MouseEvent ):void {
+    public function agreementClicked( evt: MouseEvent ): void {
         CommonDialog.openAgreementDialog();
     }
 
-    public function okClicked( evt:MouseEvent ):void {
+    public function okClicked( evt: MouseEvent ): void {
         manualClose();
     }
 
-    public function creditsClicked( evt:MouseEvent ):void {
+    public function creditsClicked( evt: MouseEvent ): void {
         CommonDialog.openCreditsDialog();
     }
 }

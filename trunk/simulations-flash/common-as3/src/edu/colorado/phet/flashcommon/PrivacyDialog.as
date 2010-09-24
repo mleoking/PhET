@@ -21,15 +21,15 @@ import org.aswing.geom.IntDimension;
 
 public class PrivacyDialog extends JFrame {
 
-    public var backgroundMC:Sprite;
+    public var backgroundMC: Sprite;
 
-    public var textArea:JTextArea;
-    public var canceled:Boolean;
+    public var textArea: JTextArea;
+    public var canceled: Boolean;
 
-    public var common:FlashCommon;
+    public var common: FlashCommon;
 
     // shorthand for debugging function
-    public function debug( str:String ):void {
+    public function debug( str: String ): void {
         FlashCommon.getInstance().debug( str );
     }
 
@@ -57,7 +57,7 @@ public class PrivacyDialog extends JFrame {
 
         // make it catch all mouse clicks, but not show the hand pointer
         backgroundMC.useHandCursor = false;
-        backgroundMC.addEventListener( MouseEvent.CLICK, function( evt:MouseEvent ):void {} );
+        backgroundMC.addEventListener( MouseEvent.CLICK, function( evt: MouseEvent ): void {} );
 
         // we don't want this window closable
         setClosable( false );
@@ -74,8 +74,8 @@ public class PrivacyDialog extends JFrame {
         getContentPane().setLayout( new SoftBoxLayout( SoftBoxLayout.Y_AXIS ) );
 
         // construct the string of text to show
-        var str:String = "";
-        var defaultString:String = "";
+        var str: String = "";
+        var defaultString: String = "";
         defaultString += "In all PhET simulations, we collect a minimal amount of anonymous <a href='{0}'>information</a> ";
         defaultString += "each time the simulation starts (e.g., simulation version, operating system). ";
         defaultString += "You can disable the sending of this information at any time via the Preferences button."
@@ -88,7 +88,7 @@ public class PrivacyDialog extends JFrame {
         //str += "\n";
 
         // create CSS to make links blue
-        var css:StyleSheet = new StyleSheet();
+        var css: StyleSheet = new StyleSheet();
         css.parseCSS( "a:link{color:#0000FF;font-weight:bold;}" +
                       "a:visited{color:#0000FF;font-weight:bold;}" +
                       "a:hover{color:#0000FF;text-decoration:underline;font-weight:bold;}" +
@@ -103,7 +103,7 @@ public class PrivacyDialog extends JFrame {
         textArea.setBorder( new EmptyBorder( null, new Insets( 5, 5, 0, 5 ) ) );
         textArea.setBackground( common.backgroundColor );
 
-        textArea.addEventListener( TextEvent.LINK, function( evt:TextEvent ):void {
+        textArea.addEventListener( TextEvent.LINK, function( evt: TextEvent ): void {
             switch( evt.text ) {
                 case "infoClicked":
                     infoClicked();
@@ -119,10 +119,10 @@ public class PrivacyDialog extends JFrame {
         getContentPane().append( new JSpacer( new IntDimension( 5, 5 ) ) );
 
         // panel to lay the buttons in
-        var panel:JPanel = new JPanel( new BoxLayout() );
+        var panel: JPanel = new JPanel( new BoxLayout() );
 
         // button that will allow us to continue
-        var continueButton:JButton = new JButton( CommonStrings.get( "AcceptContinue", "Accept and Continue" ) );
+        var continueButton: JButton = new JButton( CommonStrings.get( "AcceptContinue", "Accept and Continue" ) );
         continueButton.addEventListener( MouseEvent.CLICK, continueClicked );
         CommonButtons.padButtonAdd( continueButton, panel );
 
@@ -138,7 +138,7 @@ public class PrivacyDialog extends JFrame {
         //        Key.addListener( this );
     }
 
-    public function continueClicked( evt:MouseEvent ):void {
+    public function continueClicked( evt: MouseEvent ): void {
         // set policy as accepted
         common.preferences.agreeToPrivacy();
 
@@ -152,11 +152,11 @@ public class PrivacyDialog extends JFrame {
         common.postAgreement();
     }
 
-    public function infoClicked():void {
+    public function infoClicked(): void {
         CommonDialog.openStatisticsDetailsDialog();
     }
 
-    public function detailsClicked():void {
+    public function detailsClicked(): void {
         CommonDialog.openAgreementDialog();
     }
 

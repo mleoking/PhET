@@ -22,52 +22,52 @@ import org.aswing.geom.IntDimension;
 
 public class FlashCommon {
 
-    protected static var instance:FlashCommon = null; // this will be written by subclasses
+    protected static var instance: FlashCommon = null; // this will be written by subclasses
 
-    public var commonButtons:CommonButtons;
+    public var commonButtons: CommonButtons;
 
-    public var root:Sprite;
+    public var root: Sprite;
 
-    public static var NULLVAL:String = "null";
+    public static var NULLVAL: String = "null";
 
     // the default background color for AsWing components (windows and text)
-    public var backgroundColor:ASColor;
+    public var backgroundColor: ASColor;
 
     // whether to dump debugging messages into the text field
-    public var debugging:Boolean = true;
+    public var debugging: Boolean = true;
 
     // handles internationalization for common strings
-    public var strings:CommonStrings;
+    public var strings: CommonStrings;
 
     // handles preferences the user selects, such as
     // enabling/disabling updates and statistics messages. also
     // stores how many times the particular sim has
     // been run
-    public var preferences:Preferences;
+    public var preferences: Preferences;
 
     // handles checking for updates and handling what to do
     // if a newer version of the simulation is found
-    public var updateHandler:UpdateHandler;
+    public var updateHandler: UpdateHandler;
 
     // handles sending statistics messages to the server
-    public var statistics:Statistics;
+    public var statistics: Statistics;
 
-    private var loadListeners:Array = new Array();
+    private var loadListeners: Array = new Array();
 
     /////////////////////////
 
-    public static var DISPLAY_CSS:String =
+    public static var DISPLAY_CSS: String =
             "a:link{color:#0000FF;font-weight:bold;}" +
             "a:visited{color:#0000FF;font-weight:bold;}" +
             "a:hover{color:#0000FF;text-decoration:underline;font-weight:bold;}" +
             "a:active{color:#0000FF;font-weight:bold;}";
-    public static var CENTERED_CSS:String = "body{text-align:center}";
+    public static var CENTERED_CSS: String = "body{text-align:center}";
 
     // TODO: improvement of the stylesheets
-    public static var LINK_STYLE_SHEET:StyleSheet;
-    public static var CENTERED_LINK_STYLE_SHEET:StyleSheet;
+    public static var LINK_STYLE_SHEET: StyleSheet;
+    public static var CENTERED_LINK_STYLE_SHEET: StyleSheet;
 
-    public static function getInstance():FlashCommon {
+    public static function getInstance(): FlashCommon {
         if ( instance == null ) {
             throw new Error( "premature request for FlashCommon" );
         }
@@ -80,26 +80,26 @@ public class FlashCommon {
     public function FlashCommon() {
     }
 
-    public static function getArg( key:String ):String {
+    public static function getArg( key: String ): String {
         return getInstance().getFlashArg( key );
     }
 
-    public function getFlashArg( key:String ):String {
+    public function getFlashArg( key: String ): String {
         // think of this as abstract
         throw new Error( "abstract:getFlashArg" );
     }
 
-    public function debug( str:String ):void {
+    public function debug( str: String ): void {
         trace( str ); // TODO: more like flashcommon-as2?
         debugToWindow( str );
     }
 
-    public function initialize( root:Sprite ):void {
+    public function initialize( root: Sprite ): void {
         this.root = root;
 
         // set up AsWing so it knows about the root (where it creates all of its Sprites)
         AsWingManager.initAsStandard( root, false, true );
-        
+
         debugInit( root );
 
         if ( !hasFlashVars() ) {
@@ -156,29 +156,29 @@ public class FlashCommon {
         }
     }
 
-    private function debugToWindow( str:String ):void {
+    private function debugToWindow( str: String ): void {
         if ( debugText != null ) {
             debugText.appendText( str + "\n" );
         }
     }
 
-    var debugText:JTextArea = null;
+    var debugText: JTextArea = null;
 
-    private function debugInit( root:Sprite ):void {
-        var debugFrame:JFrame = new JFrame( root, "debug" );
+    private function debugInit( root: Sprite ): void {
+        var debugFrame: JFrame = new JFrame( root, "debug" );
         debugText = new JTextArea();
         debugText.setText( "This is a debugging area\n" );
-        var debugScroll:JScrollPane = new JScrollPane( debugText, JScrollPane.SCROLLBAR_AS_NEEDED, JScrollPane.SCROLLBAR_AS_NEEDED );
+        var debugScroll: JScrollPane = new JScrollPane( debugText, JScrollPane.SCROLLBAR_AS_NEEDED, JScrollPane.SCROLLBAR_AS_NEEDED );
         debugScroll.setPreferredSize( new IntDimension( 400, 300 ) );
         debugScroll.setBorder( new EmptyBorder( new LineBorder( null, ASColor.GRAY, 1, 0 ), new Insets( 5, 5, 5, 5 ) ) );
         debugFrame.getContentPane().append( debugScroll );
         debugFrame.pack();
-//        debugFrame.show();
+        //        debugFrame.show();
     }
 
     // this should be called from preferences when it is verified the
     // privacy agreement has been accepted
-    public function postAgreement():void {
+    public function postAgreement(): void {
 
         // load update handler
         // must have preferences loaded first before loading updatehandler.
@@ -191,28 +191,28 @@ public class FlashCommon {
         // load buttons with the position (defaults to upper left)
         commonButtons = new CommonButtons( root );
 
-        for each ( var listener:Function in loadListeners ) {
+        for each ( var listener: Function in loadListeners ) {
             listener();
         }
     }
 
     // returns whether the sim was run from the phet website
-    public function fromPhetWebsite():Boolean {
-        var domain:String = (new LocalConnection()).domain;
-        var actually:Boolean = (domain == getMainServer() || domain == getMainServer() + "." || domain == "phet.colorado" || domain == "phet");
+    public function fromPhetWebsite(): Boolean {
+        var domain: String = (new LocalConnection()).domain;
+        var actually: Boolean = (domain == getMainServer() || domain == getMainServer() + "." || domain == "phet.colorado" || domain == "phet");
 
         return actually || fromDevWebsite();
         //return (new LocalConnection()).domain() == getMainServer();
     }
 
     // returns whether the sim was run from a development site
-    public function fromDevWebsite():Boolean {
-        var host:String = (new LocalConnection()).domain;
+    public function fromDevWebsite(): Boolean {
+        var host: String = (new LocalConnection()).domain;
         return (host == "www.colorado.edu");
     }
 
     // returns whether the sim was run from a full installation
-    public function fromFullInstallation():Boolean {
+    public function fromFullInstallation(): Boolean {
         if ( !hasFlashVars() ) {
             return false;
         }
@@ -224,12 +224,12 @@ public class FlashCommon {
     }
 
     // returns whether the sim was run from a standalone jar
-    public function fromStandaloneJar():Boolean {
+    public function fromStandaloneJar(): Boolean {
         return (getFlashArg( "simDeployment" ) == "standalone-jar");
     }
 
     // return whether a string is a placeholder
-    public function isPlaceholder( str:String ):Boolean {
+    public function isPlaceholder( str: String ): Boolean {
         if ( str == null ) { return false; }
         return (str.substr( 0, 2 ) == "@@" && str.substr( -2, 2 ) == "@@");
     }
@@ -265,8 +265,8 @@ public class FlashCommon {
     //    }
 
     // returns the version string with minor and dev fields padded with a zero if necessary
-    public function zeroPadVersion( versionMajor:Number, versionMinor:Number, versionDev:Number = 0 ):String {
-        var ret:String = "";
+    public function zeroPadVersion( versionMajor: Number, versionMinor: Number, versionDev: Number = 0 ): String {
+        var ret: String = "";
         ret += String( versionMajor ) + ".";
         ret += (versionMinor > 9 ? String( versionMinor ) : "0" + String( versionMinor ));
         if ( versionDev != 0 ) {
@@ -276,32 +276,32 @@ public class FlashCommon {
     }
 
     // version like "1.00"
-    public function getShortVersionString():String {
+    public function getShortVersionString(): String {
         return zeroPadVersion( getVersionMajor(), getVersionMinor() );
     }
 
     // version like "1.00.00"
-    public function getVersionString():String {
+    public function getVersionString(): String {
         return zeroPadVersion( getVersionMajor(), getVersionMinor(), getVersionDev() );
     }
 
     // version like "1.00.00 (20000)"
-    public function getFullVersionString():String {
+    public function getFullVersionString(): String {
         return getVersionString() + " (" + String( getVersionRevision() ) + ")";
     }
 
-    public static function getMainServer():String {
+    public static function getMainServer(): String {
         return "phet.colorado.edu";
     }
 
     // get the URL of the simulation on the website
-    public function simWebsiteURL():String {
+    public function simWebsiteURL(): String {
         return "http://" + getMainServer() + "/services/sim-website-redirect.php?project=" + getSimProject() + "&sim=" + getSimName() + "&request_version=1";
     }
 
     // will return the full locale string: for example 'en', 'en_CA', 'es_MX' etc.
-    public function getLocale():String {
-        var str:String = getLanguage();
+    public function getLocale(): String {
+        var str: String = getLanguage();
 
         // if we have a country code, add _XX to the locale
         if ( getCountry() != NULLVAL ) {
@@ -310,7 +310,7 @@ public class FlashCommon {
         return str;
     }
 
-    public function null_replace( val:String ):String {
+    public function null_replace( val: String ): String {
         // TODO: possibly integrate checking for a placeholder
         if ( val == null ) {
             return NULLVAL;
@@ -322,47 +322,47 @@ public class FlashCommon {
     // get functions for information passed through FlashVars
 
 
-    public function getSimProject():String {
+    public function getSimProject(): String {
         return getFlashArg( "projectName" );
     }
 
-    public function getSimName():String {
+    public function getSimName(): String {
         return getFlashArg( "simName" );
     }
 
-    public function getLanguage():String {
+    public function getLanguage(): String {
         return getFlashArg( "languageCode" );
     }
 
-    public function getCountry():String {
+    public function getCountry(): String {
         return null_replace( getFlashArg( "countryCode" ) );
     }
 
-    public function getVersionMajor():Number {
+    public function getVersionMajor(): Number {
         return parseInt( getFlashArg( "versionMajor" ) );
     }
 
-    public function getVersionMinor():Number {
+    public function getVersionMinor(): Number {
         return parseInt( getFlashArg( "versionMinor" ) );
     }
 
-    public function getVersionDev():Number {
+    public function getVersionDev(): Number {
         return parseInt( getFlashArg( "versionDev" ) );
     }
 
-    public function getVersionRevision():Number {
+    public function getVersionRevision(): Number {
         return parseInt( getFlashArg( "versionRevision" ) );
     }
 
-    public function getSimXML():String {
+    public function getSimXML(): String {
         return getFlashArg( "internationalization" );
     }
 
-    public function getCommonXML():String {
+    public function getCommonXML(): String {
         return getFlashArg( "commonStrings" );
     }
 
-    public function getDeployment():String {
+    public function getDeployment(): String {
         // all phet-installation, phet-development-website and phet-production-website will have
         // "phet-production-website" as the simDeployment FlashVar. We need to detect when this
         // is not the case (since the same HTML is deployed in all situations, except fields are
@@ -380,15 +380,15 @@ public class FlashCommon {
         }
     }
 
-    public function getDev():Boolean {
+    public function getDev(): Boolean {
         if ( getFlashArg( "simDev" ) == "false" || getFlashArg( "simDev" ) == "0" ) {
             return false;
         }
         return true;
     }
 
-    public function getDistributionTag():String {
-        var distribTag:String = getFlashArg( "simDistributionTag" );
+    public function getDistributionTag(): String {
+        var distribTag: String = getFlashArg( "simDistributionTag" );
         if ( isPlaceholder( distribTag ) || null_replace( distribTag ) == NULLVAL ) {
             // if the distribution tag is null or a placeholder, it is not an actual distribution tag,
             // so we return null
@@ -397,8 +397,8 @@ public class FlashCommon {
         return distribTag;
     }
 
-    public function getInstallationTimestamp():Number {
-        var timestamp:String = getFlashArg( "installationTimestamp" );
+    public function getInstallationTimestamp(): Number {
+        var timestamp: String = getFlashArg( "installationTimestamp" );
         if ( null_replace( timestamp ) == NULLVAL || isPlaceholder( timestamp ) ) {
             return null;
         }
@@ -407,9 +407,9 @@ public class FlashCommon {
         }
     }
 
-    public function getInstallerCreationTimestamp():Number {
+    public function getInstallerCreationTimestamp(): Number {
         // WARNING: Do NOT CHANGE installerCreationTimestamp's name, it is used in the installation utility
-        var timestamp:String = getFlashArg( "installerCreationTimestamp" );
+        var timestamp: String = getFlashArg( "installerCreationTimestamp" );
         if ( null_replace( timestamp ) == NULLVAL || isPlaceholder( timestamp ) ) {
             return null;
         }
@@ -418,8 +418,8 @@ public class FlashCommon {
         }
     }
 
-    public function getVersionTimestamp():Number {
-        var timestamp:String = getFlashArg( "versionTimestamp" );
+    public function getVersionTimestamp(): Number {
+        var timestamp: String = getFlashArg( "versionTimestamp" );
         if ( null_replace( timestamp ) == NULLVAL ) {
             return null;
         }
@@ -428,15 +428,15 @@ public class FlashCommon {
         }
     }
 
-    public function getBGColor():Number {
+    public function getBGColor(): Number {
         return parseInt( getFlashArg( "bgcolor" ) );
     }
 
-    public function getAgreementVersion():Number {
+    public function getAgreementVersion(): Number {
         return parseInt( getFlashArg( "agreementVersion" ) );
     }
 
-    public function getAgreementText():String {
+    public function getAgreementText(): String {
         // the agreement text must be stripped of newlines because Flash's HTML rendering incorrectly
         // considers newlines to be "<br>".
         //var strippedText = stripNewlines(_level0.agreementText);
@@ -447,7 +447,7 @@ public class FlashCommon {
         return stringReplace( strippedText, "href=\"", "href=\"asfunction:_level0.common.openExternalLink," );
     }
 
-    public function getCreditsText():String {
+    public function getCreditsText(): String {
         // localize the credits test fields
         return StringUtils.format( getFlashArg( "creditsText" ), [
             CommonStrings.get( "SoftwareDevelopment", "Software Development" ),
@@ -457,8 +457,8 @@ public class FlashCommon {
         ] );
     }
 
-    public function getSimTitle():String {
-        var title:String = getFlashArg( "simTitle" );
+    public function getSimTitle(): String {
+        var title: String = getFlashArg( "simTitle" );
         if ( title == null ) {
             // if sim title isn't specified, just use the sim name as a backup
             return getSimName();
@@ -469,27 +469,27 @@ public class FlashCommon {
     }
 
     // return a date like Jan 12 2009
-    public static function dateString( date:Date ):String {
-        var year:String = new String( date.getFullYear() );
-        var month:String = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][date.getMonth()];
+    public static function dateString( date: Date ): String {
+        var year: String = new String( date.getFullYear() );
+        var month: String = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][date.getMonth()];
         return month + " " + String( date.getDate() ) + ", " + year;
     }
 
-    public static function dateOfSeconds( seconds:Number ):Date {
+    public static function dateOfSeconds( seconds: Number ): Date {
         return new Date( seconds * 1000 );
     }
 
-    public static function dateOfMilliseconds( milliseconds:Number ):Date {
+    public static function dateOfMilliseconds( milliseconds: Number ): Date {
         return new Date( milliseconds );
     }
 
-    public function hasFlashVars():Boolean {
+    public function hasFlashVars(): Boolean {
         // check two flashvars variables that should always be included
         return (getFlashArg( "languageCode" ) !== null && getFlashArg( "simName" ) !== null);
     }
 
-    public function prepareTranslatedTextField( field:TextField ):void {
-        var format:TextFormat = field.getTextFormat();
+    public function prepareTranslatedTextField( field: TextField ): void {
+        var format: TextFormat = field.getTextFormat();
 
         if ( getLanguage() == "en" ) {
             field.setTextFormat( format );
@@ -508,8 +508,8 @@ public class FlashCommon {
         fixLocaleFont( field );
     }
 
-    public function stripNewlines( str:String ):String {
-        var ret:String = "";
+    public function stripNewlines( str: String ): String {
+        var ret: String = "";
 
         for ( var idx = 0; idx < str.length; idx++ ) {
             if ( str.charCodeAt( idx ) == 10 || str.charCodeAt( idx ) == 13 ) {
@@ -522,12 +522,12 @@ public class FlashCommon {
         return ret;
     }
 
-    public function stringReplace( str:String, pattern:String, replacement:String ):String {
-        var ret:String = "";
-        var chopped:String = str;
+    public function stringReplace( str: String, pattern: String, replacement: String ): String {
+        var ret: String = "";
+        var chopped: String = str;
 
         while ( chopped.indexOf( pattern ) != -1 ) {
-            var startIdx:Number = chopped.indexOf( pattern );
+            var startIdx: Number = chopped.indexOf( pattern );
             ret += chopped.slice( 0, startIdx );
             ret += replacement;
             chopped = chopped.substring( startIdx + pattern.length );
@@ -538,22 +538,22 @@ public class FlashCommon {
         return ret;
     }
 
-    public static function getURL( url:String, target:String ):void {
-        var request:URLRequest = new URLRequest( url );
+    public static function getURL( url: String, target: String ): void {
+        var request: URLRequest = new URLRequest( url );
         try {
             navigateToURL( request, target ); // second argument is target
         }
-        catch ( e:Error ) {
+        catch ( e: Error ) {
             trace( "Error occurred!" );
         }
 
     }
 
-    public function openExternalLink( str:String ):void {
+    public function openExternalLink( str: String ): void {
         getURL( str, "_blank" );
     }
 
-    public function redirect( str:String ):void {
+    public function redirect( str: String ): void {
         getURL( str, "_self" );
     }
 
@@ -571,13 +571,13 @@ public class FlashCommon {
     //        }
     //    }
 
-    private function existingSystemFont( preferredFonts:Array ):String {
+    private function existingSystemFont( preferredFonts: Array ): String {
         throw new Error( "existingSystemFont is probably broken" );
-        var fontList:Array = Font.enumerateFonts( true );
+        var fontList: Array = Font.enumerateFonts( true );
         for ( var pkey in preferredFonts ) {
-            var pfont:String = preferredFonts[pkey];
+            var pfont: String = preferredFonts[pkey];
             for ( var fkey in fontList ) {
-                var ffont:String = fontList[fkey];
+                var ffont: String = fontList[fkey];
                 if ( pfont == ffont ) {
                     debug( "Found good system font: " + pfont + "\n" );
                     return pfont;
@@ -588,13 +588,13 @@ public class FlashCommon {
         return null;
     }
 
-    private var cachedOverrideFont:String = null;
+    private var cachedOverrideFont: String = null;
 
-    public function getOverrideFont():String {
+    public function getOverrideFont(): String {
         if ( getLocale() == "km" ) {
             if ( cachedOverrideFont == null ) {
-                var khmerFonts:Array = ["Khmer OS", "MoolBoran", "Limon"];
-                var font:String = existingSystemFont( khmerFonts );
+                var khmerFonts: Array = ["Khmer OS", "MoolBoran", "Limon"];
+                var font: String = existingSystemFont( khmerFonts );
                 cachedOverrideFont = font;
             }
             return cachedOverrideFont;
@@ -604,16 +604,16 @@ public class FlashCommon {
         }
     }
 
-    public function fixLocaleFont( field:TextField ):void {
-        var font:String = getOverrideFont();
+    public function fixLocaleFont( field: TextField ): void {
+        var font: String = getOverrideFont();
         if ( font ) {
-            var format:TextFormat = field.getTextFormat();
+            var format: TextFormat = field.getTextFormat();
             format.font = font;
             field.setTextFormat( format );
         }
     }
 
-    public function addLoadListener( f:Function ):void {
+    public function addLoadListener( f: Function ): void {
         loadListeners.push( f );
     }
 }

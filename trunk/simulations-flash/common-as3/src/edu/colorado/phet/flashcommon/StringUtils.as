@@ -12,20 +12,20 @@ public class StringUtils {
     // example:
     // format("This \{is\} a {0} of the {1} system", ["test", "emergency broadcast"])
     //     returns "This {is} a test of the emergency broadcast system"
-    public static function format( pattern:String, args:Array ):String {
+    public static function format( pattern: String, args: Array ): String {
         if ( args == null ) {
             return pattern;
         }
         // the string accumulated so far that will be returned
-        var ret:String = "";
+        var ret: String = "";
 
         // length of the pattern (in case you couldn't tell from the actual statement. Yes YOU!)
-        var len:Number = pattern.length;
+        var len: Number = pattern.length;
 
         // copy characters from pattern to ret, unless it is a brace
-        for ( var i:Number = 0; i < len; i++ ) {
+        for ( var i: Number = 0; i < len; i++ ) {
             // character at this location
-            var character:String = pattern.charAt( i );
+            var character: String = pattern.charAt( i );
 
             if ( character == "\\" && i < len - 1 && (pattern.charAt( i + 1 ) == "{" || pattern.charAt( i + 1 ) == "}") ) {
                 // escaped brace

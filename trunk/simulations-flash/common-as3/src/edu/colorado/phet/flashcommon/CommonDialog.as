@@ -7,20 +7,20 @@ import org.aswing.event.FrameEvent;
 
 public class CommonDialog extends JFrame {
 
-    public var prefix:String;
+    public var prefix: String;
 
     //    public var tabHandler : TabHandler;
 
-    public var common:FlashCommon;
+    public var common: FlashCommon;
 
-    public var window:JFrame;
+    public var window: JFrame;
 
     // shorthand for debugging function
-    public function debug( str:String ):void {
+    public function debug( str: String ): void {
         FlashCommon.getInstance().debug( str );
     }
 
-    public function CommonDialog( dialogPrefix:String, dialogTitle:String ) {
+    public function CommonDialog( dialogPrefix: String, dialogTitle: String ) {
         prefix = dialogPrefix;
         window = this;
 
@@ -47,12 +47,12 @@ public class CommonDialog extends JFrame {
     }
 
     // only call this the first time
-    public function displayMe():void {
+    public function displayMe(): void {
         // fit the window to its contents
         //        window.setSize( window.getPreferredSize() );
         window.pack();
 
-        var stage:Stage = FlashCommon.getInstance().root.stage; // override the stage so we know it is hooked up
+        var stage: Stage = FlashCommon.getInstance().root.stage; // override the stage so we know it is hooked up
 
         // center the window
         window.setLocationXY( ( stage.width - window.getWidth() ) / 2, ( stage.height - window.getHeight() ) / 2 );
@@ -68,37 +68,37 @@ public class CommonDialog extends JFrame {
     //        throw new Error( "This should be overridden" );
     //    }
 
-    public function manualClose():void {
+    public function manualClose(): void {
         window.hide();
         onClose();
     }
 
-    public function manualOpen():void {
+    public function manualOpen(): void {
         //        tabHandler.reset();
         window.show();
         onOpen();
     }
 
-    public function closeClicked( evt:FrameEvent ):void {
+    public function closeClicked( evt: FrameEvent ): void {
         onClose();
     }
 
-    public function windowClicked( src:Object ):void {
+    public function windowClicked( src: Object ): void {
         debug( "Focus changed!!!" );
         //        tabHandler.giveMeFocus();
     }
 
-    public function onClose():void {
+    public function onClose(): void {
         //		_level0.keyboardHandler.removeTabHandler( tabHandler );
     }
 
-    public function onOpen():void {
+    public function onOpen(): void {
         //        _level0.keyboardHandler.addTabHandler( tabHandler );
         //        _level0.keyboardHandler.setTabHandler( tabHandler );
     }
 
 
-    public static function openAboutDialog():void {
+    public static function openAboutDialog(): void {
         if ( AboutDialog.getInstance() != null ) {
             AboutDialog.getInstance().manualOpen();
         }
@@ -107,7 +107,7 @@ public class CommonDialog extends JFrame {
         }
     }
 
-    public static function openAgreementDialog():void {
+    public static function openAgreementDialog(): void {
         if ( AgreementDialog.getInstance() != null ) {
             AgreementDialog.getInstance().manualOpen();
         }
@@ -117,7 +117,7 @@ public class CommonDialog extends JFrame {
     }
 
 
-    public static function openCreditsDialog():void {
+    public static function openCreditsDialog(): void {
         if ( CreditsDialog.getInstance() != null ) {
             CreditsDialog.getInstance().manualOpen();
         }
@@ -126,11 +126,11 @@ public class CommonDialog extends JFrame {
         }
     }
 
-    public static function openMessageDialog( title:String, message:String, ok:Boolean ):void {
+    public static function openMessageDialog( title: String, message: String, ok: Boolean ): void {
         new MessageDialog( title, message, ok );
     }
 
-    public static function openPreferencesDialog():void {
+    public static function openPreferencesDialog(): void {
         if ( PreferencesDialog.getInstance() != null ) {
             PreferencesDialog.getInstance().manualOpen();
         }
@@ -139,7 +139,7 @@ public class CommonDialog extends JFrame {
         }
     }
 
-    public static function openStatisticsDetailsDialog():void {
+    public static function openStatisticsDetailsDialog(): void {
         if ( StatisticsDetailsDialog.getInstance() != null ) {
             StatisticsDetailsDialog.getInstance().manualOpen();
         }
@@ -148,7 +148,7 @@ public class CommonDialog extends JFrame {
         }
     }
 
-    public static function openUpdateInstallationDetailsDialog():void {
+    public static function openUpdateInstallationDetailsDialog(): void {
         if ( UpdateInstallationDetailsDialog.getInstance() != null ) {
             UpdateInstallationDetailsDialog.getInstance().manualOpen();
         }
@@ -157,7 +157,7 @@ public class CommonDialog extends JFrame {
         }
     }
 
-    public static function openUpdateInstallationDialog( installerTimestamp:Number, installerAskLaterDays:Number ):void {
+    public static function openUpdateInstallationDialog( installerTimestamp: Number, installerAskLaterDays: Number ): void {
         if ( UpdateInstallationDialog.getInstance() != null ) {
             UpdateInstallationDialog.getInstance().manualOpen();
         }
@@ -166,7 +166,7 @@ public class CommonDialog extends JFrame {
         }
     }
 
-    public static function openUpdateSimDialog( versionMajor:Number, versionMinor:Number, versionDev:Number, versionRevision:Number, simAskLaterDays:Number ):void {
+    public static function openUpdateSimDialog( versionMajor: Number, versionMinor: Number, versionDev: Number, versionRevision: Number, simAskLaterDays: Number ): void {
         if ( UpdateSimDialog.getInstance() != null ) {
             UpdateSimDialog.getInstance().manualOpen();
         }

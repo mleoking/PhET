@@ -19,18 +19,18 @@ import org.aswing.geom.IntDimension;
 
 class MessageDialog extends CommonDialog {
 
-    public var okButton:JButton;
+    public var okButton: JButton;
 
-    public function MessageDialog( title:String, message:String, ok:Boolean ) {
-        super( "message" + String( Math.round( Math.random() * 50000 ) ), title )
+    public function MessageDialog( title: String, message: String, ok: Boolean ) {
+        super( "message" + String( Math.round( Math.random() * 50000 ) ), title );
 
         // layout the window vertically
         window.getContentPane().setLayout( new SoftBoxLayout( SoftBoxLayout.Y_AXIS ) );
 
         // get the string to display
-        var str:String = message;
+        var str: String = message;
 
-        var textArea:JTextArea = new JTextArea( str, 0, 40 );
+        var textArea: JTextArea = new JTextArea( str, 0, 40 );
         textArea.setHtmlText( str );
         textArea.setEditable( false );
         textArea.setCSS( FlashCommon.LINK_STYLE_SHEET );
@@ -44,7 +44,7 @@ class MessageDialog extends CommonDialog {
 
         window.getContentPane().append( new JSpacer( new IntDimension( 5, 5 ) ) );
 
-        var panel:JPanel = new JPanel( new BoxLayout() );
+        var panel: JPanel = new JPanel( new BoxLayout() );
 
         if ( ok ) {
             okButton = new JButton( CommonStrings.get( "OK", "OK" ) );
@@ -56,7 +56,7 @@ class MessageDialog extends CommonDialog {
         okButton.addEventListener( MouseEvent.CLICK, closeClicked );
         CommonButtons.padButtonAdd( okButton, panel );
 
-        var centerPanel:JPanel = new JPanel( new CenterLayout() ); //SoftBoxLayout.X_AXIS, 0, SoftBoxLayout.CENTER
+        var centerPanel: JPanel = new JPanel( new CenterLayout() ); //SoftBoxLayout.X_AXIS, 0, SoftBoxLayout.CENTER
         centerPanel.append( panel );
         window.getContentPane().append( centerPanel );
 
@@ -69,7 +69,7 @@ class MessageDialog extends CommonDialog {
     //        tabHandler.addAsWingButton( okButton );
     //    }
 
-    override public function closeClicked( evt:FrameEvent ):void {
+    override public function closeClicked( evt: FrameEvent ): void {
         manualClose();
     }
 }

@@ -22,13 +22,13 @@ import org.aswing.geom.IntDimension;
 
 public class AgreementDialog extends CommonDialog {
 
-    public var closeButton:JButton;
-    public var agreementScroll:JScrollPane;
-    public var textArea:JTextArea;
+    public var closeButton: JButton;
+    public var agreementScroll: JScrollPane;
+    public var textArea: JTextArea;
 
-    private static var instance:AgreementDialog = null;
+    private static var instance: AgreementDialog = null;
 
-    public static function getInstance():AgreementDialog {
+    public static function getInstance(): AgreementDialog {
         return instance;
     }
 
@@ -40,8 +40,8 @@ public class AgreementDialog extends CommonDialog {
         window.getContentPane().setLayout( new SoftBoxLayout( SoftBoxLayout.Y_AXIS ) );
 
         // get the string to display
-        var str:String = "";
-        var defaultString:String = "";
+        var str: String = "";
+        var defaultString: String = "";
         //str += "<font size='17'>" + CommonStrings.get("PhetSoftwareAgreement", "PhET Software Agreement") + "</font>\n";
         str += common.getAgreementText();
         str += "\n\n";
@@ -64,13 +64,13 @@ public class AgreementDialog extends CommonDialog {
         window.getContentPane().append( new JSpacer( new IntDimension( 5, 5 ) ) );
 
         // add the OK button
-        var panel:JPanel = new JPanel( new BoxLayout() );
+        var panel: JPanel = new JPanel( new BoxLayout() );
         closeButton = new JButton( CommonStrings.get( "Close", "Close" ) );
-        closeButton.addEventListener( MouseEvent.CLICK, function():void {manualClose();} );
+        closeButton.addEventListener( MouseEvent.CLICK, function(): void {manualClose();} );
         CommonButtons.padButtonAdd( closeButton, panel );
 
         //window.getContentPane().append(panel);
-        var centerPanel:JPanel = new JPanel( new CenterLayout() ); //SoftBoxLayout.X_AXIS, 0, SoftBoxLayout.CENTER
+        var centerPanel: JPanel = new JPanel( new CenterLayout() ); //SoftBoxLayout.X_AXIS, 0, SoftBoxLayout.CENTER
         centerPanel.append( panel );
         window.getContentPane().append( centerPanel );
 
@@ -104,7 +104,7 @@ public class AgreementDialog extends CommonDialog {
     //        view.setViewPosition( view.getViewPosition().move( 0, amount ) );
     //    }
 
-    override public function closeClicked( evt:FrameEvent ):void {
+    override public function closeClicked( evt: FrameEvent ): void {
         // make the window invisible
         manualClose();
     }

@@ -20,13 +20,13 @@ import org.aswing.geom.IntDimension;
 
 class StatisticsDetailsDialog extends CommonDialog {
 
-    public var okButton:JButton;
-    public var textArea:JTextArea;
-    public var detailsScroll:JScrollPane;
+    public var okButton: JButton;
+    public var textArea: JTextArea;
+    public var detailsScroll: JScrollPane;
 
-    private static var instance:StatisticsDetailsDialog = null;
+    private static var instance: StatisticsDetailsDialog = null;
 
-    public static function getInstance():StatisticsDetailsDialog {
+    public static function getInstance(): StatisticsDetailsDialog {
         return instance;
     }
 
@@ -38,7 +38,7 @@ class StatisticsDetailsDialog extends CommonDialog {
         window.getContentPane().setLayout( new SoftBoxLayout( SoftBoxLayout.Y_AXIS ) );
 
         // get the string to display
-        var str:String = "";
+        var str: String = "";
         str += CommonStrings.get( "SentInformation", "The information shown below will be sent to PhET when the simulation starts." ) + "\n\n";
         str += "<font size=\"12\">"
         // insert what would be sent as the message. we need to unescape strings so they will be
@@ -65,7 +65,7 @@ class StatisticsDetailsDialog extends CommonDialog {
         window.getContentPane().append( new JSpacer( new IntDimension( 5, 5 ) ) );
 
         // add the OK button
-        var panel:JPanel = new JPanel( new BoxLayout() );
+        var panel: JPanel = new JPanel( new BoxLayout() );
         okButton = new JButton( CommonStrings.get( "OK", "OK" ) );
         okButton.addEventListener( MouseEvent.CLICK, okClicked );
         CommonButtons.padButtonAdd( okButton, panel );
@@ -100,7 +100,7 @@ class StatisticsDetailsDialog extends CommonDialog {
     //        view.setViewPosition( view.getViewPosition().move( 0, amount ) );
     //    }
 
-    public function okClicked( evt:MouseEvent ):void {
+    public function okClicked( evt: MouseEvent ): void {
         manualClose();
     }
 }

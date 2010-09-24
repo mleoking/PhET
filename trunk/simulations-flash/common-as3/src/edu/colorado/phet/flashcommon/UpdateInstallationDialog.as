@@ -21,19 +21,19 @@ import org.aswing.geom.IntDimension;
 
 class UpdateInstallationDialog extends CommonDialog {
 
-    public var newInstallerTimestamp:Number;
-    public var newInstallerAskLaterDays:Number;
-    public var yesButton:JButton;
-    public var askLaterButton:JButton;
-    public var tellMoreButton:JButton;
+    public var newInstallerTimestamp: Number;
+    public var newInstallerAskLaterDays: Number;
+    public var yesButton: JButton;
+    public var askLaterButton: JButton;
+    public var tellMoreButton: JButton;
 
-    private static var instance:UpdateInstallationDialog = null;
+    private static var instance: UpdateInstallationDialog = null;
 
-    public static function getInstance():UpdateInstallationDialog {
+    public static function getInstance(): UpdateInstallationDialog {
         return instance;
     }
 
-    public function UpdateInstallationDialog( installerTimestamp:Number, installerAskLaterDays:Number ) {
+    public function UpdateInstallationDialog( installerTimestamp: Number, installerAskLaterDays: Number ) {
         super( "updateInstallation", CommonStrings.get( "NewVersionAvailable", "New Version Available" ) );
         instance = this;
 
@@ -45,7 +45,7 @@ class UpdateInstallationDialog extends CommonDialog {
         window.getContentPane().setLayout( new SoftBoxLayout( SoftBoxLayout.Y_AXIS ) );
 
         // construct the string of text to show
-        var str:String = "";
+        var str: String = "";
 
         str += CommonStrings.get( "InstallationDated", "Your PhET Offline Website Installation is dated {0}.", [FlashCommon.dateString( FlashCommon.dateOfSeconds( common.getInstallerCreationTimestamp() ) )] ) + "\n";
         str += CommonStrings.get( "InstallationNewer", "A newer version is available, dated {0}.", [FlashCommon.dateString( FlashCommon.dateOfSeconds( newInstallerTimestamp ) )] ) + "\n";
@@ -70,7 +70,7 @@ class UpdateInstallationDialog extends CommonDialog {
         window.getContentPane().append( new JSpacer( new IntDimension( 5, 5 ) ) );
 
         // panel to lay the buttons in
-        var panel:JPanel = new JPanel( new FlowLayout() );
+        var panel: JPanel = new JPanel( new FlowLayout() );
 
         yesButton = new JButton( CommonStrings.get( "Yes!", "Yes!" ) );
         yesButton.addEventListener( MouseEvent.CLICK, yesClicked );
@@ -87,7 +87,7 @@ class UpdateInstallationDialog extends CommonDialog {
         tellMoreButton.addEventListener( MouseEvent.CLICK, tellMoreClicked );
         CommonButtons.padButtonAdd( tellMoreButton, panel );
 
-        var centerPanel:JPanel = new JPanel( new CenterLayout() ); //SoftBoxLayout.X_AXIS, 0, SoftBoxLayout.CENTER
+        var centerPanel: JPanel = new JPanel( new CenterLayout() ); //SoftBoxLayout.X_AXIS, 0, SoftBoxLayout.CENTER
         centerPanel.append( panel );
         window.getContentPane().append( centerPanel );
 
@@ -100,24 +100,24 @@ class UpdateInstallationDialog extends CommonDialog {
     //        tabHandler.addAsWingButton( tellMoreButton );
     //    }
 
-    override public function onClose():void {
+    override public function onClose(): void {
         super.onClose();
 
         common.updateHandler.handleResponse();
     }
 
-    public function yesClicked( evt:MouseEvent ):void {
+    public function yesClicked( evt: MouseEvent ): void {
         common.openExternalLink( "http://" + FlashCommon.getMainServer() + "/get_phet/full_install.php" );
     }
 
-    public function askLaterClicked( evt:MouseEvent ):void {
+    public function askLaterClicked( evt: MouseEvent ): void {
         manualClose();
 
         common.preferences.setInstallationAskLater( newInstallerAskLaterDays );
         common.updateHandler.handleResponse();
     }
 
-    public function tellMoreClicked( evt:MouseEvent ):void {
+    public function tellMoreClicked( evt: MouseEvent ): void {
         CommonDialog.openUpdateInstallationDetailsDialog();
     }
 }

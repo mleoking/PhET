@@ -12,24 +12,24 @@ public class Preferences {
     // current preferences version
     // this SHOULD NOT CHANGE after development, and is an
     // aid for development purposes.
-    public static var CURRENT_PREF_VERSION:Number = 1.35;
+    public static var CURRENT_PREF_VERSION: Number = 1.35;
 
-    public static var FIELD_INSTALLATION_ASK_LATER:String = "installationAskLater";
+    public static var FIELD_INSTALLATION_ASK_LATER: String = "installationAskLater";
 
     // reference to the shared object used to store preferences
-    public var sharedObject:SharedObject;
+    public var sharedObject: SharedObject;
 
     // "constant"s to refer to fields that change sim-to-sim but
     // are otherwise constant
-    public var FIELD_SKIPPED_REVISION:String;
-    public var FIELD_ASK_LATER:String;
-    public var FIELD_VISITS_SINCE:String;
-    public var FIELD_VISITS_EVER:String;
+    public var FIELD_SKIPPED_REVISION: String;
+    public var FIELD_ASK_LATER: String;
+    public var FIELD_VISITS_SINCE: String;
+    public var FIELD_VISITS_EVER: String;
 
-    public var common:FlashCommon;
+    public var common: FlashCommon;
 
     // shorthand for debugging function
-    public function debug( str:String ):void {
+    public function debug( str: String ): void {
         FlashCommon.getInstance().debug( str );
     }
 
@@ -103,7 +103,7 @@ public class Preferences {
         save();
 
         // for debugging: print out each piece of data stored in the shared object
-        for ( var i:String in sharedObject.data ) {
+        for ( var i: String in sharedObject.data ) {
             debug( "    pref: " + i + " = " + String( sharedObject.data[i] ) + "\n" );
         }
 
@@ -124,14 +124,14 @@ public class Preferences {
     }
 
     // load the preferences data into sharedObject
-    public function load():void {
+    public function load(): void {
         //debug("Preferences: Loading shared object\n");
         sharedObject = SharedObject.getLocal( "phetPrefs", "/" );
     }
 
     // unload the preferences data from sharedObject. this prevents Flash from saving
     // a possibly out-of-date version when the sim is closed
-    public function unload():void {
+    public function unload(): void {
         //debug("Preferences: Unloading shared object\n");
         sharedObject.flush();
         //        delete sharedObject;
@@ -139,8 +139,8 @@ public class Preferences {
 
     // returns whether the user has accepted the latest privacy agreement needed for this sim
     // NOTE: make sure preferences are loaded before calling, and unloaded sometime soon after
-    public function isPrivacyOK():Boolean {
-        var ret:Boolean = common.getAgreementVersion() <= sharedObject.data.latestPrivacyAgreementVersion;
+    public function isPrivacyOK(): Boolean {
+        var ret: Boolean = common.getAgreementVersion() <= sharedObject.data.latestPrivacyAgreementVersion;
         if ( !ret ) {
             debug( "agreement version: " + common.getAgreementVersion() );
             debug( "latest agreed: " + sharedObject.data.latestPrivacyAgreementVersion );
@@ -149,7 +149,7 @@ public class Preferences {
     }
 
     // saves the user's acceptance of the privacy agreement to preferences
-    public function agreeToPrivacy():void {
+    public function agreeToPrivacy(): void {
         load();
         sharedObject.data.latestPrivacyAgreementVersion = common.getAgreementVersion();
         save();
@@ -158,14 +158,14 @@ public class Preferences {
 
     // returns whether the user allows messages to be sent
     // NOTE: make sure preferences are loaded before calling, and unloaded sometime soon after
-    public function userAllowsStatistics():Boolean {
+    public function userAllowsStatistics(): Boolean {
         return sharedObject.data.allowStatistics;
     }
 
     // allow other common code/simulation to check whether
     // statistics messages can be sent
     // NOTE: make sure preferences are loaded before calling, and unloaded sometime soon after
-    public function areStatisticsMessagesAllowed():Boolean {
+    public function areStatisticsMessagesAllowed(): Boolean {
         if ( common.fromPhetWebsite() ) {
             debug( "From PhET website: no statistics allowed\n" );
             return false;
@@ -175,31 +175,31 @@ public class Preferences {
 
     // returns whether the user allows checking for updates
     // NOTE: make sure preferences are loaded before calling, and unloaded sometime soon after
-    public function userAllowsUpdates():Boolean {
+    public function userAllowsUpdates(): Boolean {
         return sharedObject.data.checkForUpdates;
     }
 
     // allow other common code/simulation to check whether
     // checking for updates is allowed
-    public function areUpdatesAllowed():Boolean {
+    public function areUpdatesAllowed(): Boolean {
         if ( common.fromPhetWebsite() ) {
             debug( "From PhET website: no updates allowed (or needed)\n" );
             return false;
         }
         load();
-        var ret:Boolean = userAllowsUpdates();
+        var ret: Boolean = userAllowsUpdates();
         unload();
         return ret;
     }
 
-    public function getSkippedRevision():Number {
+    public function getSkippedRevision(): Number {
         load();
-        var ret:Number = sharedObject.data[FIELD_SKIPPED_REVISION];
+        var ret: Number = sharedObject.data[FIELD_SKIPPED_REVISION];
         unload();
         return ret;
     }
 
-    public function setSkippedRevision( revision:Number ):void {
+    public function setSkippedRevision( revision: Number ): void {
         load();
         sharedObject.data[FIELD_SKIPPED_REVISION] = revision;
         save();
@@ -207,10 +207,10 @@ public class Preferences {
     }
 
     // set ask me later time
-    public function setSimAskLater( days:Number ):void {
+    public function setSimAskLater( days: Number ): void {
         load();
 
-        var dateMilliseconds:Number = (new Date()).valueOf() + days * 24 * 60 * 60 * 1000;
+        var dateMilliseconds: Number = (new Date()).valueOf() + days * 24 * 60 * 60 * 1000;
         sharedObject.data[FIELD_ASK_LATER] = dateMilliseconds;
 
         debug( "Preferences: sim ask later set to " + FlashCommon.dateString( FlashCommon.dateOfMilliseconds( dateMilliseconds ) ) + "\n" );
@@ -219,10 +219,10 @@ public class Preferences {
         unload();
     }
 
-    public function setInstallationAskLater( days:Number ):void {
+    public function setInstallationAskLater( days: Number ): void {
         load();
 
-        var dateMilliseconds:Number = (new Date()).valueOf() + days * 24 * 60 * 60 * 1000;
+        var dateMilliseconds: Number = (new Date()).valueOf() + days * 24 * 60 * 60 * 1000;
 
         sharedObject.data[FIELD_INSTALLATION_ASK_LATER] = dateMilliseconds;
 
@@ -233,7 +233,7 @@ public class Preferences {
     }
 
     // allow other code to set the statistics and updates values
-    public function setPrivacy( checkForUpdates:Boolean, allowStatistics:Boolean ):void {
+    public function setPrivacy( checkForUpdates: Boolean, allowStatistics: Boolean ): void {
         load();
         sharedObject.data.allowStatistics = allowStatistics;
         sharedObject.data.checkForUpdates = checkForUpdates;
@@ -246,7 +246,7 @@ public class Preferences {
     // resets (clears) any data stored on disk
     // (also resets the data in the local copy)
     // NOTE: make sure preferences are loaded before calling, and unloaded sometime soon after
-    public function reset():void {
+    public function reset(): void {
         debug( "Preferences: resetting\n" );
         sharedObject.clear();
     }
@@ -254,7 +254,7 @@ public class Preferences {
     // saves the shared object (preferences data) to the
     // user's hard drive.
     // NOTE: make sure preferences are loaded before calling, and unloaded sometime soon after
-    public function save():void {
+    public function save(): void {
         debug( "Preferences: Saving shared object\n" );
         sharedObject.flush();
     }
@@ -262,7 +262,7 @@ public class Preferences {
     // creates or increments a preferences attribute specifying
     // how many times the current simulation has been run.
     // NOTE: make sure preferences are loaded before calling, and unloaded sometime soon after
-    public function incrementVisit():void {
+    public function incrementVisit(): void {
         debug( "Preferences: Incrementing number of visits\n" );
 
         // increment total visits
@@ -286,7 +286,7 @@ public class Preferences {
     }
 
     // add sim-specific update information
-    public function initUpdateInfo():void {
+    public function initUpdateInfo(): void {
         if ( !sharedObject.data.hasOwnProperty( FIELD_SKIPPED_REVISION ) ) {
             sharedObject.data[FIELD_SKIPPED_REVISION] = 0;
         }
@@ -297,7 +297,7 @@ public class Preferences {
     }
 
     // resets the number of #'s since sent
-    public function resetSince():void {
+    public function resetSince(): void {
         debug( "Preferences: resetting visits since\n" );
         load();
         sharedObject.data[FIELD_VISITS_SINCE] = 0;
@@ -307,39 +307,39 @@ public class Preferences {
 
     // how many times the current simulation has ever been run (according to preferences)
     // NOTE: make sure preferences are loaded before calling, and unloaded sometime soon after
-    public function visitsEver():Number {
+    public function visitsEver(): Number {
         return sharedObject.data[FIELD_VISITS_EVER];
     }
 
     // how many times the current simulation has been run since last message sent (according to preferences)
     // NOTE: make sure preferences are loaded before calling, and unloaded sometime soon after
-    public function visitsSince():Number {
+    public function visitsSince(): Number {
         return sharedObject.data[FIELD_VISITS_SINCE];
     }
 
     // returns when the preferences file was created
     // NOTE: make sure preferences are loaded before calling, and unloaded sometime soon after
-    public function getUserTime():Number {
+    public function getUserTime(): Number {
         return sharedObject.data.userPreferencesFileCreationTime;
     }
 
     // returns how many total times the user has run any simulation
     // NOTE: make sure preferences are loaded before calling, and unloaded sometime soon after
-    public function getUserTotalSessions():Number {
+    public function getUserTotalSessions(): Number {
         return sharedObject.data.userTotalSessions;
     }
 
     // return number of milliseconds elapsed since ask-later was selected
-    public function simAskLaterElapsed():Number {
+    public function simAskLaterElapsed(): Number {
         load();
-        var time:Number = sharedObject.data[FIELD_ASK_LATER];
+        var time: Number = sharedObject.data[FIELD_ASK_LATER];
         unload();
         return (new Date()).valueOf() - time;
     }
 
-    public function installationAskLaterElapsed():Number {
+    public function installationAskLaterElapsed(): Number {
         load();
-        var time:Number = sharedObject.data[FIELD_INSTALLATION_ASK_LATER];
+        var time: Number = sharedObject.data[FIELD_INSTALLATION_ASK_LATER];
         unload();
         return (new Date()).valueOf() - time;
     }

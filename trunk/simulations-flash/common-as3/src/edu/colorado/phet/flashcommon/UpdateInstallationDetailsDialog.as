@@ -19,12 +19,12 @@ import org.aswing.geom.IntDimension;
 
 class UpdateInstallationDetailsDialog extends CommonDialog {
 
-    public var textArea:JTextArea;
-    public var okButton:JButton;
+    public var textArea: JTextArea;
+    public var okButton: JButton;
 
-    private static var instance:UpdateInstallationDetailsDialog = null;
+    private static var instance: UpdateInstallationDetailsDialog = null;
 
-    public static function getInstance():UpdateInstallationDetailsDialog {
+    public static function getInstance(): UpdateInstallationDetailsDialog {
         return instance;
     }
 
@@ -36,12 +36,12 @@ class UpdateInstallationDetailsDialog extends CommonDialog {
         window.getContentPane().setLayout( new SoftBoxLayout( SoftBoxLayout.Y_AXIS ) );
 
         // construct the string of text to show
-        var str:String = "";
+        var str: String = "";
 
         str += CommonStrings.get( "InstallerInfo1", "Keeping your PhET Offline Website Installation up-to-date ensures that you have access to the newest PhET simulations and supplemental materials." ) + "\n\n";
         str += CommonStrings.get( "InstallerInfo2", "If you choose to get the newest version, a web browser will open to the PhET website, where you can download the PhET Offline Website Installer." );
 
-        var textArea:JTextArea = new JTextArea( str, 0, 0 );
+        var textArea: JTextArea = new JTextArea( str, 0, 0 );
         textArea.setHtmlText( str );
         textArea.setEditable( false );
         textArea.setCSS( FlashCommon.LINK_STYLE_SHEET );
@@ -56,13 +56,13 @@ class UpdateInstallationDetailsDialog extends CommonDialog {
         window.getContentPane().append( new JSpacer( new IntDimension( 5, 5 ) ) );
 
         // panel to lay the buttons in
-        var panel:JPanel = new JPanel( new FlowLayout() );
+        var panel: JPanel = new JPanel( new FlowLayout() );
 
         okButton = new JButton( CommonStrings.get( "Close", "Close" ) );
         okButton.addEventListener( MouseEvent.CLICK, closeClicked );
         CommonButtons.padButtonAdd( okButton, panel );
 
-        var centerPanel:JPanel = new JPanel( new CenterLayout() ); //SoftBoxLayout.X_AXIS, 0, SoftBoxLayout.CENTER
+        var centerPanel: JPanel = new JPanel( new CenterLayout() ); //SoftBoxLayout.X_AXIS, 0, SoftBoxLayout.CENTER
         centerPanel.append( panel );
         window.getContentPane().append( centerPanel );
 
@@ -73,7 +73,7 @@ class UpdateInstallationDetailsDialog extends CommonDialog {
     //        tabHandler.addAsWingButton( okButton );
     //    }
 
-    override public function closeClicked( evt:FrameEvent ):void {
+    override public function closeClicked( evt: FrameEvent ): void {
         manualClose();
     }
 
