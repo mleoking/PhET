@@ -17,7 +17,7 @@
     <string key="DataTable.py" value="Py"/>
     <string key="DataTable.moreData" value="More Data"/>
     <string key="DataTable.lessData" value="Less Data"/>
-    
+
     <string key="MomentumView.momenta" value="Momenta"/>
     <string key="MomentumView.tipToTail" value="tip-to-tail"/>
     <string key="MomentumView.total" value="tot"/>
@@ -37,4 +37,7 @@
     <string key="ControlPanel.elasticity" value="elasticity"/>
     <string key="ControlPanel.zeroPercent" value="0%"/>
     <string key="ControlPanel.oneHundredPercent" value="100%"/>
+
+    <string key="TableView.kineticEnergy" value="Kinetic Energy = {0} J"/>
+    <string key="TableView.time" value="Time = {0} s"/>
 </SimStrings>

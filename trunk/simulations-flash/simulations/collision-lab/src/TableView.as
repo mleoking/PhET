@@ -1,6 +1,8 @@
-﻿//View of "Pool Table" containing balls
+//View of "Pool Table" containing balls
 package{
-	import flash.display.*;
+import edu.colorado.phet.flashcommon.SimStrings;
+
+import flash.display.*;
 	import flash.events.*;
 	import flash.text.*;
 	import flash.geom.*;
@@ -24,14 +26,6 @@ package{
 		var ballColor_arr:Array;			//array of uint for colors of balls
 		var xOffset:Number;					//x of upper left corner of canvas
 		var yOffset:Number;					//y of upper left corner of canvas
-		
-		//following 4 strings set by internationalizer
-		var KEtot_str:String;				//string "Kinetic Energy = "
-		var joules_str:String;				//string " J"
-		var time_str:String;				//string "time = "
-		var seconds_str:String;				//string " s"
-		
-		
 		
 		public function TableView(myModel:Model, myMainView:MainView){
 			this.myModel = myModel;
@@ -143,12 +137,8 @@ package{
 		
 		
 		public function makeTimeLabel():void{
-			//following two strings should be set by internationalizer
-			this.time_str = "Time = ";
-			this.seconds_str = " s";
-			//
 			this.timeText = new TextField();
-			this.timeText.text = this.time_str;
+			this.timeText.text = getTimeText(0);
 			this.timeText.selectable = false;
 			this.timeText.autoSize = TextFieldAutoSize.LEFT;
 			var tFormat:TextFormat = new TextFormat();
@@ -163,11 +153,8 @@ package{
 		
 		public function makeTotKELabel():void{
 			//following two strings should be set by internationalizer
-			this.KEtot_str = "Kinetic Energy = ";
-			this.joules_str = " J";
-			//
 			this.totKEText = new TextField();
-			this.totKEText.text = this.KEtot_str; //text is set in update
+			this.totKEText.text = getKEText(Math.round(100*this.myModel.getTotalKE())/100); //text is set in update
 			this.totKEText.selectable = false;
 			this.totKEText.autoSize = TextFieldAutoSize.RIGHT;
 			var tFormat:TextFormat = new TextFormat();
@@ -246,12 +233,19 @@ package{
 				this.myTrajectories.erasePaths();
 				//this.myModel.atInitialConfig = false;
 			}
-			this.timeText.text = this.time_str + Math.round(100*this.myModel.time)/100 + this.seconds_str;
-			this.totKEText.text = this.KEtot_str + Math.round(100*this.myModel.getTotalKE())/100 + this.joules_str;
+			this.timeText.text = getTimeText(Math.round(100*this.myModel.time)/100);
+			this.totKEText.text = getKEText(Math.round(100*this.myModel.getTotalKE())/100);
 			
 			this.CM.x = this.pixelsPerMeter*this.myModel.CM.x;
 			this.CM.y = this.pixelsPerMeter*(yMax - this.myModel.CM.y);
 		}
-		
+        function getKEText( keValue: Number ): String {
+            return SimStrings.get( "TableView.kineticEnergy", "Kinetic Energy = {0} J", [keValue] );
+        }
+
+        function getTimeText( time: Number ): String {
+            return SimStrings.get( "TableView.time", "Time = {0} s", [time] );
+        }
 	}//end of class
+
 }//end of package
