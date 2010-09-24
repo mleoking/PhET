@@ -38,5 +38,8 @@
     <string key="ControlPanel.elasticity" value="原子分裂"/>
     <string key="ControlPanel.zeroPercent" value="原子分裂%"/>
     <string key="ControlPanel.oneHundredPercent" value="原子分裂%"/>
+    
+    <string key="TableView.kineticEnergy" value="{0} is the 原子分裂 energies"/>
+    <string key="TableView.time" value="原子分裂 = {0} time units"/>
 
 </SimStrings>
