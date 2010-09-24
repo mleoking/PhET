@@ -68,14 +68,6 @@ public class BuoyancyCanvas extends AbstractDensityAndBuoyancyCanvas {
         } );
         modeControlPanel.addChild( sameDensityButton );
 
-        var mysteryObjectsButton: RadioButton = new RadioButton();
-        mysteryObjectsButton.groupName = "modes";
-        mysteryObjectsButton.label = FlexSimStrings.get( 'mode.mysteryObjects', 'Mystery' );
-        mysteryObjectsButton.addEventListener( MouseEvent.CLICK, function(): void {
-            buoyancyModule.switchToMysteryObjects()
-        } );
-        modeControlPanel.addChild( mysteryObjectsButton );
-
         addChild( modeControlPanel );
 
         /*
@@ -143,6 +135,8 @@ public class BuoyancyCanvas extends AbstractDensityAndBuoyancyCanvas {
         arrowControlPanel.addChild( fluidDragCheckbox );
 
         addChild( arrowControlPanel );
+
+//        addChild( new FluidDensityControl());
     }
 
 
