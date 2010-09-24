@@ -44,13 +44,8 @@
     define("PHET_VERSION",                      "1.0");
     define("PHET_HOSTNAME",                     "phet.colorado.edu");
     define("PHET_ROOT_URL",                     "http://".PHET_HOSTNAME."/");
-    // Note: The phetsims URL is being used for the translated sites until the
-    // time when the translated versions are hosted on the main site.  At that
-    // point in time, all of the phetsims references should be removed.
-    define("PHET_SIMS_HOSTNAME",                     "phetsims.colorado.edu");
-    define("PHET_SIMS_ROOT_URL",                     "http://".PHET_SIMS_HOSTNAME."/");
     define("PHET_ENGLISH_WEBSITE_URL",          PHET_ROOT_URL.ENGLISH_LOCALE_STRING."/");
-    define("PHET_ARABIC_WEBSITE_URL",           PHET_SIMS_ROOT_URL.ARABIC_LOCALE_STRING."/");
+    define("PHET_ARABIC_WEBSITE_URL",           PHET_ROOT_URL.ARABIC_LOCALE_STRING."/");
     define("PHET_SIMS_SUBDIR",                  "sims/");
     define("PHET_WEBSITE_ROOT_PARTIAL_PATTERN", '[^"]+colorado\.edu');
     define("PHET_WEBSITE_ROOT_PATTERN",         '/'.PHET_WEBSITE_ROOT_PARTIAL_PATTERN.'/');
