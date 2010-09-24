@@ -100,7 +100,7 @@ public class UpdateHandler {
 
     public function sendStartupQuery( query:String ):void {
 
-        if ( query === undefined ) {
+        if ( query === undefined || query == null ) {
             // must not be querying for anything, don't do anything
             return;
         }
@@ -280,8 +280,8 @@ public class UpdateHandler {
                     }
                 }
                 else {
-                    if ( versionMajor == undefined || versionMinor == undefined ) {
-                        debug( "WARNING UpdateHandler: received undefined version information!\n" );
+                    if ( isNaN(versionMajor) || isNaN(versionMinor) ) {
+                        debug( "WARNING UpdateHandler: received NaN version information!\n" );
 
                         if ( manual ) {
                             showUpdateError();

@@ -78,7 +78,7 @@ public class PreferencesDialog extends CommonDialog {
 
         if ( updateState != common.preferences.userAllowsUpdates() ) {
             // if updates are allowed, fill in the check box
-            updatesCheck.doClick();
+            updatesCheck.setSelected(true);
         }
         updatesPanel.append( updatesCheck );
 
@@ -117,14 +117,10 @@ public class PreferencesDialog extends CommonDialog {
         var textArea = new JTextArea( str, 0, 20 );
         textArea.setHtmlText( str );
         textArea.setEditable( false );
-        textArea.setCSS( FlashCommon.LINK_STYLE_SHEET );
+        textArea.setCSS( FlashCommon.CENTERED_LINK_STYLE_SHEET );
         textArea.setWordWrap( true );
         textArea.setWidth( 50 );
         textArea.setBackground( common.backgroundColor );
-
-        var textFormat:TextFormat = new TextFormat();
-        textFormat.align = TextFormatAlign.CENTER;
-        textArea.setTextFormat( textFormat );
 
         privacyPanel.append( textArea );
 
@@ -135,7 +131,7 @@ public class PreferencesDialog extends CommonDialog {
         statisticsCheck.addEventListener( MouseEvent.CLICK, statisticsToggle );
         if ( statisticsState != common.preferences.userAllowsStatistics() ) {
             // if statistics messages are	 allowed, fill in the check box
-            statisticsCheck.doClick();
+            statisticsCheck.setSelected(true);
         }
         privacyPanel.append( statisticsCheck );
 
@@ -148,7 +144,7 @@ public class PreferencesDialog extends CommonDialog {
 
         privacyPanel.append( new JSpacer( new IntDimension( 5, 5 ) ) );
 
-        var accessibilityPanel = new JPanel( new SoftBoxLayout( SoftBoxLayout.Y_AXIS ) );
+        var accessibilityPanel:JPanel = new JPanel( new SoftBoxLayout( SoftBoxLayout.Y_AXIS ) );
         //accessibilityPanel.setName( CommonStrings.get( "Accessibility", "Accessibility" ) );
         //accessibilityPanel.setBorder(new TitledBorder(new EmptyBorder(null, new Insets(5, 5, 5, 5)), CommonStrings.get("Accessibility", "Accessibility")));
         accessibilityPanel.append( new JSpacer( new IntDimension( 5, 5 ) ) );
