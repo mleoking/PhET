@@ -28,6 +28,9 @@ public class SimStrings {
                 }
             }
         }
+        if( value == null ) {
+            return defaultString;
+        }
 
         if ( formatArray != null ) {
             return StringUtils.format( value, formatArray );
