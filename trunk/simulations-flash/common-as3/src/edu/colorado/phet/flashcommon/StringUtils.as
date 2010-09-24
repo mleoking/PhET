@@ -58,9 +58,7 @@ public class StringUtils {
                                     Number = new Number( pattern.substring( i + 1, endIndex ) );
 
                             // extract the string from the arguments
-                            var str
-                                    :
-                                    String = args[num].toString();
+                            var str: String = (args[num] == null ? "null" : args[num].toString());
 
                             if ( str != null ) {
                                 // the string exists, so we append it
