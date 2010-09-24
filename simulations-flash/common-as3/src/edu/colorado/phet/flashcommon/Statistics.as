@@ -82,7 +82,7 @@ public class Statistics {
             user_preference_file_creation_time : "Preferences file creation time",
             user_total_sessions : "Total number of times all simulations have been run",
             user_installation_timestamp : "PhET installation timestamp"
-        }
+        };
         if ( ob[field] != undefined && ob[field] != null ) {
             return ob[field];
         }

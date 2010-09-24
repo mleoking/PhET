@@ -109,7 +109,7 @@ public class Preferences {
 
         // if privacy is not up-to-snuff (and user is running from a non-phet-website
         // location), present the user with a dialog
-        if ( !isPrivacyOK() && !common.fromPhetWebsite() ) {
+        if ( !isPrivacyOK() && !common.fromPhetWebsite() && common.hasFlashVars() ) {
             //			_level0.privacyDialog = new PrivacyDialog();
             new PrivacyDialog();
         }

@@ -61,8 +61,11 @@ public class FlashCommon {
             "a:visited{color:#0000FF;font-weight:bold;}" +
             "a:hover{color:#0000FF;text-decoration:underline;font-weight:bold;}" +
             "a:active{color:#0000FF;font-weight:bold;}";
+    public static var CENTERED_CSS:String = "body{text-align:center}";
 
+    // TODO: improvement of the stylesheets
     public static var LINK_STYLE_SHEET:StyleSheet;
+    public static var CENTERED_LINK_STYLE_SHEET:StyleSheet;
 
     public static function getInstance():FlashCommon {
         if ( instance == null ) {
@@ -94,7 +97,9 @@ public class FlashCommon {
     public function initialize( root:Sprite ):void {
         this.root = root;
 
+        // set up AsWing so it knows about the root (where it creates all of its Sprites)
         AsWingManager.initAsStandard( root, false, true );
+        
         debugInit( root );
 
         if ( !hasFlashVars() ) {
@@ -113,6 +118,9 @@ public class FlashCommon {
 
         LINK_STYLE_SHEET = new StyleSheet();
         LINK_STYLE_SHEET.parseCSS( DISPLAY_CSS );
+
+        CENTERED_LINK_STYLE_SHEET = new StyleSheet();
+        CENTERED_LINK_STYLE_SHEET.parseCSS( DISPLAY_CSS + CENTERED_CSS );
 
         //        _level0.highContrastFunction = defaultHighContrastFunction;
         //        _level0.highContrast = false;
@@ -304,7 +312,7 @@ public class FlashCommon {
 
     public function null_replace( val:String ):String {
         // TODO: possibly integrate checking for a placeholder
-        if ( val === undefined || val === null ) {
+        if ( val == null ) {
             return NULLVAL;
         }
         return val;
@@ -451,7 +459,7 @@ public class FlashCommon {
 
     public function getSimTitle():String {
         var title:String = getFlashArg( "simTitle" );
-        if ( title == undefined ) {
+        if ( title == null ) {
             // if sim title isn't specified, just use the sim name as a backup
             return getSimName();
         }
@@ -477,7 +485,7 @@ public class FlashCommon {
 
     public function hasFlashVars():Boolean {
         // check two flashvars variables that should always be included
-        return (getFlashArg( "languageCode" ) !== undefined && getFlashArg( "simName" ) !== undefined);
+        return (getFlashArg( "languageCode" ) !== null && getFlashArg( "simName" ) !== null);
     }
 
     public function prepareTranslatedTextField( field:TextField ):void {
@@ -577,7 +585,7 @@ public class FlashCommon {
             }
             debug( "Could not find: " + pfont + "\n" );
         }
-        return undefined;
+        return null;
     }
 
     private var cachedOverrideFont:String = null;
