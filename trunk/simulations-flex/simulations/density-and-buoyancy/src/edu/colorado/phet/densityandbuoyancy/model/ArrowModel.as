@@ -1,32 +1,32 @@
 package edu.colorado.phet.densityandbuoyancy.model {
 public class ArrowModel {
-    private var x:Number;
-    private var y:Number;
-    private const listeners:Array = new Array();
+    private var x: Number;
+    private var y: Number;
+    private const listeners: Array = new Array();
 
     // TODO: use observable pattern here?
 
-    public function ArrowModel(x:Number, y:Number) {
+    public function ArrowModel( x: Number, y: Number ) {
         this.x = x;
         this.y = y;
     }
 
-    public function addListener(listener:Function):void {
-        listeners.push(listener);
+    public function addListener( listener: Function ): void {
+        listeners.push( listener );
     }
 
-    public function getMagnitude():Number {
-        return Math.sqrt(x * x + y * y);
+    public function getMagnitude(): Number {
+        return Math.sqrt( x * x + y * y );
     }
 
-    public function getAngle():Number {
-        return Math.atan2(x, y);
+    public function getAngle(): Number {
+        return Math.atan2( x, y );
     }
 
-    public function setValue(x:Number, y:Number):void {
+    public function setValue( x: Number, y: Number ): void {
         this.x = x;
         this.y = y;
-        for each (var listener:Function in listeners) {
+        for each ( var listener: Function in listeners ) {
             listener();
         }
     }

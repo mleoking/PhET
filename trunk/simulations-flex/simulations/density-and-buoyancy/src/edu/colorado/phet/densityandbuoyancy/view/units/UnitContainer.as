@@ -1,9 +1,9 @@
 package edu.colorado.phet.densityandbuoyancy.view.units {
 public interface UnitContainer {
-    function getUnits():Units;
+    function getUnits(): Units;
 
-    function addUnitsChangeListener():Function;
+    function addUnitsChangeListener(): Function;
 
-    function removeUnitsChangeListener():Function;
+    function removeUnitsChangeListener(): Function;
 }
 }
