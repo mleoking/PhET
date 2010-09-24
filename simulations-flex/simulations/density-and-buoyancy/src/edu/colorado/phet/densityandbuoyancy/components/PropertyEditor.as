@@ -31,7 +31,7 @@ public class PropertyEditor extends GridRow {
      * @param unit
      * @param densityObject
      */
-    public function PropertyEditor(property:NumericProperty, minimum:Number, maximum:Number, unit:Unit, densityObject:DensityObject, dataTipClamp:Function) {
+    public function PropertyEditor(property:NumericProperty, minimum:Number, maximum:Number, unit:Unit, densityObject:DensityObject, dataTipClamp:Function,bounds:Bounds) {
         super();
         this.property = property;
 
@@ -41,7 +41,7 @@ public class PropertyEditor extends GridRow {
         label.setStyle(DensityConstants.FLEX_FONT_WEIGHT, DensityConstants.FLEX_FONT_BOLD);
         addGridItem(label);
 
-        addGridItem(createSlider(property, minimum, maximum, unit, densityObject, dataTipClamp));
+        addGridItem(createSlider(property, minimum, maximum, unit, densityObject, dataTipClamp,bounds));
 
         textField.setStyle(DensityConstants.FLEX_FONT_SIZE, FONT_SIZE);
         textField.setStyle("disabledColor", 0x000000);
@@ -55,7 +55,7 @@ public class PropertyEditor extends GridRow {
 
         function updateModelFromTextField():void {
             const number:Number = unit.toSI(Number(textField.text));
-            property.value = MathUtil.clamp(minimum, number, maximum);
+            property.value = bounds.clamp(MathUtil.clamp(minimum, number, maximum));
             if (number < minimum || number > maximum)
                 updateText();
         }
@@ -85,7 +85,7 @@ public class PropertyEditor extends GridRow {
     //The density slider requires a reference to the density object in order to bound the volume when necessary.
     //This is because when selecting Styrofoam or other non-dense objects, then moving the mass slider to maximum, 
     //The volume increases dramatically, making the object larger than the pool size.
-    protected function createSlider(property:NumericProperty, minimum:Number, maximum:Number, unit:Unit, densityObject:DensityObject, dataTipClamp:Function):SliderDecorator {
+    protected function createSlider(property:NumericProperty, minimum:Number, maximum:Number, unit:Unit, densityObject:DensityObject, dataTipClamp:Function, bounds:Bounds):SliderDecorator {
         const slider:SliderDecorator = new SliderDecorator(dataTipClamp);
         slider.sliderThumbClass = MySliderThumb;
         slider.sliderWidth = SLIDER_WIDTH;
@@ -97,15 +97,7 @@ public class PropertyEditor extends GridRow {
 
         function sliderDragHandler(event:SliderEvent):void {
             var newValue:Number = unit.toSI(event.value);
-            //TODO: factor out this duplicated code
-            if (newValue > DensityConstants.STYROFOAM_MAX_MASS && densityObject.material.equals(Material.STYROFOAM)) {//TODO: See related workaround in CustomObjectPropertiesPanel
-                newValue = DensityConstants.STYROFOAM_MAX_MASS;
-                slider.value = DensityConstants.STYROFOAM_MAX_MASS;
-            }
-            if (newValue > DensityConstants.WOOD_MAX_MASS && densityObject.material.equals(Material.WOOD)) {//TODO: See related workaround in CustomObjectPropertiesPanel
-                newValue = DensityConstants.WOOD_MAX_MASS;
-                slider.value = DensityConstants.WOOD_MAX_MASS;
-            }
+            newValue = bounds.clamp(newValue);
             property.value = newValue;
         }
 

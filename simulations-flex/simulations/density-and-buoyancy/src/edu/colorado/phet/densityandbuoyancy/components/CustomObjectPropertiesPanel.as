@@ -43,9 +43,9 @@ public class CustomObjectPropertiesPanel extends DensityVBox {
             else return mass;
         }
 
-        grid.addChild(new PropertyEditor(densityObject.getMassProperty(), DensityConstants.MIN_MASS, DensityConstants.MAX_MASS, units.massUnit, densityObject, clampMass));
-        grid.addChild(new PropertyEditor(densityObject.getVolumeProperty(), DensityConstants.MIN_VOLUME, DensityConstants.MAX_VOLUME, units.volumeUnit, densityObject, noClamp));
-        grid.addChild(new DensityEditor(densityObject.getDensityProperty(), DensityConstants.MIN_DENSITY, DensityConstants.MAX_DENSITY, units.densityUnit, densityObject, noClamp));
+        grid.addChild(new PropertyEditor(densityObject.getMassProperty(), DensityConstants.MIN_MASS, DensityConstants.MAX_MASS, units.massUnit, densityObject, clampMass,new MassBounds(densityObject)));
+        grid.addChild(new PropertyEditor(densityObject.getVolumeProperty(), DensityConstants.MIN_VOLUME, DensityConstants.MAX_VOLUME, units.volumeUnit, densityObject, noClamp,new Unbounded()));
+        grid.addChild(new DensityEditor(densityObject.getDensityProperty(), DensityConstants.MIN_DENSITY, DensityConstants.MAX_DENSITY, units.densityUnit, densityObject, noClamp,new Unbounded()));
 
         comboBox = new ComboBox();
         const items:Array = Material.SELECTABLE_MATERIALS.concat([Material.CUSTOM]);
