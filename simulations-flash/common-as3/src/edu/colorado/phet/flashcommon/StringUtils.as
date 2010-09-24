@@ -60,7 +60,7 @@ public class StringUtils {
                             // extract the string from the arguments
                             var str
                                     :
-                                    String = args[num];
+                                    String = args[num].toString();
 
                             if ( str != null ) {
                                 // the string exists, so we append it
