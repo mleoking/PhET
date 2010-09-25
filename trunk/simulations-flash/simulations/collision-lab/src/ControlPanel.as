@@ -12,9 +12,8 @@
 	//List of strings in this class for internationalization:
 	//This class ControlPanel associated with library movieclip controlPanel 
 	//Here are all the dynamic text strings and their english values
-	//controlPanel.nbrBallsLabel_txt = "Nbr of Balls"
-	//controlPanel.oneD_rb.label = "1D"
-	//controlPanel.twoD_rb.label = "2D"
+	//controlPanel.oneD_rb.label = "1 Dimension"
+	//controlPanel.twoD_rb.label = "2 Dimensions"
 	//controlPanel.resetButton_sp.label_txt  = "Reset All"  //This is instance of class NiceButton
 	//controlPanel.showVelocities_cb.label = "Show vlocities"
 	//controlPanel.showCM_cb.label = "Show C.M."
@@ -35,18 +34,18 @@
 		private var myModel:Model;
 		private var myMainView:MainView;
 		private var nbrBalls;
-		private var maxNbrBalls;
+		//private var maxNbrBalls;
 		private var tFormat:TextFormat;
 		private var resetButton:NiceButton;
-		private var showCMOn:Boolean;
-		//private var changeNbrBallButtons:ChangeNbrBallButtons;	//libary symbol instance
+		public var showCMOn:Boolean;
+		
 		
 		public function ControlPanel(myModel:Model, myMainView:MainView){
 			this.myModel = myModel;
 			this.myMainView = myMainView;
 			this.myMainView.addChild(this);
 			this.nbrBalls = this.myModel.nbrBalls;
-			this.maxNbrBalls = this.myModel.maxNbrBalls;
+			//this.maxNbrBalls = this.myModel.maxNbrBalls;
 			this.tFormat = new TextFormat();
 			//this.myModel.registerView(this);
 			//this.changeNbrBallButtons = new ChangeNbrBallButtons();
@@ -56,18 +55,18 @@
 		}//end of constructor
 		
 		public function initialize():void{
-			this.changeNbrBallButtons.addBallButton.addEventListener(MouseEvent.MOUSE_DOWN, addBall);
-			this.changeNbrBallButtons.removeBallButton.addEventListener(MouseEvent.MOUSE_DOWN, removeBall);
-			this.changeNbrBallButtons.addBallButton.buttonMode = true;
-			this.changeNbrBallButtons.removeBallButton.buttonMode = true;
+			//this.changeNbrBallButtons.addBallButton.addEventListener(MouseEvent.MOUSE_DOWN, addBall);
+			//this.changeNbrBallButtons.removeBallButton.addEventListener(MouseEvent.MOUSE_DOWN, removeBall);
+			//this.changeNbrBallButtons.addBallButton.buttonMode = true;
+			//this.changeNbrBallButtons.removeBallButton.buttonMode = true;
 			this.resetButton = new NiceButton(this.resetButton_sp, 80, resetAll);
-			var nbrString:String = String(this.nbrBalls);
-			this.changeNbrBallButtons.nbrReadout.text = nbrString;
+			//var nbrString:String = String(this.nbrBalls);
+			//this.changeNbrBallButtons.nbrReadout.text = nbrString;
 			this.elasticityValueLabel.text = "1.00";
 			//this.background.border.buttonMode = true;
-			if(this.myModel.nbrBalls == 1){
-				this.changeNbrBallButtons.removeBallButton.visible = false;
-			}
+			//if(this.myModel.nbrBalls == 1){
+				//this.changeNbrBallButtons.removeBallButton.visible = false;
+			//}
 			this.showCMOn = true;
 			Util.makePanelDraggableWithBorder(this, this.background.border);
 		}
@@ -102,7 +101,7 @@
 		
 		//following function does not change labels as expected (???) // JO says: this was never being called
 		public function initializeStrings():void{
-            this.changeNbrBallButtons.nbrBallsLabel_txt.text = SimStrings.get("ControlPanel.numberOfBalls","Nbr of Balls");
+//            this.changeNbrBallButtons.nbrBallsLabel_txt.text = SimStrings.get("ControlPanel.numberOfBalls","Nbr of Balls");
 //            trace( typeof this.oneD_rb );
 //            trace( typeof this.oneD_rb.label );
 
@@ -147,13 +146,13 @@
 			this.myMainView.myTableView.reDrawBorder();
 			this.twoD_rb.selected = true;
 			var nbrBalls_str:String = String(this.myModel.nbrBalls);
-			this.changeNbrBallButtons.nbrReadout.text = nbrBalls_str;
-			this.nbrBalls = this.myModel.nbrBalls;
-			this.changeNbrBallButtons.addBallButton.visible = true;
-			if(this.nbrBalls == 1){
-				this.changeNbrBallButtons.removeBallButton.visible = false;
-				this.myMainView.myTableView.CM.visible = false;
-			}
+			//this.changeNbrBallButtons.nbrReadout.text = nbrBalls_str;
+			//this.nbrBalls = this.myModel.nbrBalls;
+			//this.changeNbrBallButtons.addBallButton.visible = true;
+			//if(this.nbrBalls == 1){
+				//this.changeNbrBallButtons.removeBallButton.visible = false;
+				//this.myMainView.myTableView.CM.visible = false;
+			//}
 			this.timeRateSlider.value = 0.5;
 			this.myModel.setTimeRate(0.5);
 			this.elasticitySlider.value = 1;
@@ -207,6 +206,8 @@
 			//trace("e slider: "+evt.target.value);
 		}
 		
+		//functions addBall and removeBall are obsolete; these functions now in DataTable.as
+		/*
 		public function addBall(evt:MouseEvent):void{
 			this.myModel.addBall();
 			this.nbrBalls = this.myModel.nbrBalls;
@@ -237,6 +238,7 @@
 				this.myMainView.myTableView.CM.visible = false;
 			}
 		}//end removeBall()
+		*/
 		
 		//may not be necessary, since this is a controller, not a view
 		public function update():void{
