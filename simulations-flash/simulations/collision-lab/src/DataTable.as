@@ -1,4 +1,4 @@
-//view of table of numbers for displaying and setting initial conditions
+﻿//view of table of numbers for displaying and setting initial conditions
 //one of two data tables is displayed: full data table or partial data table
 //each has header row + row for each ball
 //partial data table has column for ball number, col for mass, and col for mass slider
@@ -9,10 +9,10 @@ import edu.colorado.phet.flashcommon.SimStrings;
 import edu.colorado.phet.flashcommon.TextFieldUtils;
 
 import flash.display.*;
-	import flash.events.*;
-	import fl.events.*;
-	import fl.controls.*;
-	import flash.text.*;
+import flash.events.*;
+import fl.events.*;
+import fl.controls.*;
+import flash.text.*;
 	
 	public class DataTable extends Sprite{
 		var myModel:Model;
@@ -27,6 +27,12 @@ import flash.display.*;
 		var rowWidth:int;			//width of row in pix, used to set borderwidth
 		var text_arr:Array;			//row of textFields, one for each of 9 columns, text must be internationalized
 		var toggleButton:Button;	//button to toggle full or partial data display
+		var addBallButton:NiceButton;		//button to add ball, originally on Control Panel
+		var removeBallButton:NiceButton; 	//button to remove ball, originally on Control Panel
+		var moreOrLessDataButton:NiceButton;//button to display more data or less data
+		var addBallButton_sp:Sprite;		//addBallButton sprite
+		var removeBallButton_sp:Sprite;		//removeBallButton sprite
+		var moreOrLessDataButton_sp:Sprite;	//moreOrLessDataButton Sprite
 		var massSlider_arr:Array;	//array of mass sliders
 		var nbrColumns:int;			//nbr of columns in full data table
 		var tFormat:TextFormat;
@@ -35,6 +41,8 @@ import flash.display.*;
 		//var testField:TextField;		//for testing purposing
 		
 		//following strings must be internationalized, see function initializeStrings() below
+		var addBall_str:String;
+		var removeBall_str:String;
 		var ball_str:String;
 		var mass_str:String;
 		var x_str:String;
@@ -89,13 +97,23 @@ import flash.display.*;
 		private function initialize():void{
 			//var colWidth = 60;
 			//var colHeight = 25;
-			this.initializeStrings();
 			this.canvas = new Sprite;
 			this.invisibleBorder = new Sprite();
 			this.toggleButton = new Button()
+			//following are symbols in Flash Library
+			this.addBallButton_sp = new DataTableButtonBody();
+			this.removeBallButton_sp = new DataTableButtonBody();
+			this.moreOrLessDataButton_sp = new DataTableButtonBody();
+			this.addBallButton = new NiceButton(this.addBallButton_sp, 90, addBall);
+			this.removeBallButton = new NiceButton(this.removeBallButton_sp, 90, removeBall);
+			this.moreOrLessDataButton = new NiceButton(this.moreOrLessDataButton_sp, 90, toggleDataButton);
+			this.initializeStrings();
 			this.addChild(this.canvas);
 			this.canvas.addChild(this.invisibleBorder);
 			this.canvas.addChild(this.toggleButton);
+			this.canvas.addChild(this.addBallButton_sp);
+			this.canvas.addChild(this.removeBallButton_sp);
+			this.canvas.addChild(this.moreOrLessDataButton_sp);
 			this.myMainView.addChild(this);
 			
 			
@@ -138,9 +156,9 @@ import flash.display.*;
 				}//for(j)
 			}//for(i)
 			this.drawBorder(this.nbrBalls);  //nbr of rows
-			//manually set rowWidth for 1st call to setupToggleButton()
+			//manually set rowWidth for 1st call to setupButtons()
 			this.rowWidth = 4.5*this.colWidth;
-			this.setupToggleButton();
+			this.setupButtons();
 			this.makeHeaderRow();
 			this.setNbrDisplayedRows();
 			this.createTextChangeListeners();
@@ -151,6 +169,13 @@ import flash.display.*;
 		
 		//following function to be altered during internationalization
 		public function initializeStrings():void{
+			this.addBall_str = "Add Ball";
+			this.removeBall_str = "Remove Ball";
+			this.addBallButton.setLabel(this.addBall_str);
+			this.removeBallButton.setLabel(this.removeBall_str);
+			this.moreData_str = SimStrings.get("DataTable.moreData","More Data");
+			this.lessData_str = SimStrings.get("DataTable.lessData","Less Data");
+			this.moreOrLessDataButton.setLabel(this.moreData_str);
 			this.ball_str = SimStrings.get("DataTable.ball","ball");
 			this.mass_str = SimStrings.get("DataTable.mass","mass");
 			this.x_str = SimStrings.get("DataTable.x","x");
@@ -159,8 +184,7 @@ import flash.display.*;
 			this.Vy_str = SimStrings.get("DataTable.vy","Vy");
 			this.Px_str = SimStrings.get("DataTable.px","Px");
 			this.Py_str = SimStrings.get("DataTable.py","Py");
-			this.moreData_str = SimStrings.get("DataTable.moreData","More Data");
-			this.lessData_str = SimStrings.get("DataTable.lessData","Less Data");
+			
 			
 		}//end of initializeString()
 		
@@ -231,7 +255,7 @@ import flash.display.*;
 		}//end makeHeaderRow
 		
 		
-		public function setupToggleButton():void{
+		public function setupButtons():void{
 			//this.canvas.addChild(this.toggleButton);
 			this.toggleButton.buttonMode = true;
 			this.toggleButton.emphasized = true;
@@ -240,6 +264,13 @@ import flash.display.*;
 			this.toggleButton.x = this.rowWidth + 0.2*this.toggleButton.width;
 			this.toggleButton.addEventListener(MouseEvent.CLICK, toggleButtonClick);
 			//this.toggleButton.buttonMode = true;  //only works with Sprites
+			
+			this.addBallButton_sp.x = 0.6*this.addBallButton_sp.width;
+			this.addBallButton_sp.y = -0.75*this.addBallButton_sp.height;
+			this.removeBallButton_sp.x = 1.7*this.addBallButton_sp.width;
+			this.removeBallButton_sp.y = -0.75*this.addBallButton_sp.height;
+			this.moreOrLessDataButton_sp.x = 2.9*this.addBallButton_sp.width;
+			this.moreOrLessDataButton_sp.y = -0.75*this.addBallButton_sp.height;
 		}
 		
 		
@@ -376,6 +407,52 @@ import flash.display.*;
 				this.displayPartialDataTable(true);
 			}
 		}//toggleButtonClick
+		
+		private function toggleDataButton():void{
+			if(this.moreOrLessDataButton.getLabel() == this.moreData_str){
+				this.moreOrLessDataButton.setLabel(this.lessData_str);
+			}else if(this.moreOrLessDataButton.getLabel() == this.lessData_str){
+				this.moreOrLessDataButton.setLabel(this.moreData_str);
+			}
+		}//end toggleDataButton()
+		
+		
+		private function addBall():void{
+			this.myModel.addBall();
+			this.nbrBalls = this.myModel.nbrBalls;
+			//var nbrBalls_str:String = String(this.myModel.nbrBalls);
+			//this.changeNbrBallButtons.nbrReadout.text = nbrBalls_str;
+			if(this.nbrBalls == this.maxNbrBalls){
+				//this.changeNbrBallButtons.addBallButton.visible = false;
+			}
+			if(this.nbrBalls > 1){
+				//this.changeNbrBallButtons.removeBallButton.visible = true;
+				if(this.myMainView.controlPanel.showCMOn){
+					this.myMainView.myTableView.CM.visible = true;
+				}
+			}
+			
+		}
+		
+		private function removeBall():void{
+			this.myModel.removeBall();
+			this.nbrBalls = this.myModel.nbrBalls;
+			//var nbrBalls_str:String = String(this.myModel.nbrBalls);
+			//this.changeNbrBallButtons.nbrReadout.text = nbrBalls_str;
+			if(this.nbrBalls == 1){
+				//this.changeNbrBallButtons.addBallButton.visible = false;
+			}
+			if(this.nbrBalls > 2){
+				//this.changeNbrBallButtons.removeBallButton.visible = true;
+				if(this.myMainView.controlPanel.showCMOn){
+					this.myMainView.myTableView.CM.visible = false;
+				}
+			}
+		}//end removeBall()
+		
+		private function testFunction():void{
+			trace("button pushed");
+		}
 		
 		public function update():void{
 			this.setNbrDisplayedRows();

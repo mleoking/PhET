@@ -18,11 +18,17 @@
 			this.makeButton();
 		}//end of constructor
 
-        public function setLabel( label : String ) : void {
+        //can we modify this function so that buttonWidth resizes to account for label text length?
+		public function setLabel( label : String ) : void {
             buttonBody.label_txt.text = label;
         }
 		
+		public function getLabel():String{
+			return buttonBody.label_txt.text;
+		}
+		
 		public function makeButton():void {
+			//trace("this.buttonBody = " , this.buttonBody);
 			this.buttonBody.background.width = this.myButtonWidth;
 			this.buttonBody.background.height = 30;
 			this.buttonBody.label_txt.mouseEnabled = false;
