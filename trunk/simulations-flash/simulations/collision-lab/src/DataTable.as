@@ -26,10 +26,10 @@ import flash.text.*;
 		var rowHeight:int;			//height of row in pix
 		var rowWidth:int;			//width of row in pix, used to set borderwidth
 		var text_arr:Array;			//row of textFields, one for each of 9 columns, text must be internationalized
-		var toggleButton:Button;	//button to toggle full or partial data display
+		//var toggleButton:Button;	//button to toggle full or partial data display
 		var addBallButton:NiceButton;		//button to add ball, originally on Control Panel
 		var removeBallButton:NiceButton; 	//button to remove ball, originally on Control Panel
-		var moreOrLessDataButton:NiceButton;//button to display more data or less data
+		var moreOrLessDataButton:NiceButton;//button to toggle full or partial data display
 		var addBallButton_sp:Sprite;		//addBallButton sprite
 		var removeBallButton_sp:Sprite;		//removeBallButton sprite
 		var moreOrLessDataButton_sp:Sprite;	//moreOrLessDataButton Sprite
@@ -43,6 +43,8 @@ import flash.text.*;
 		//following strings must be internationalized, see function initializeStrings() below
 		var addBall_str:String;
 		var removeBall_str:String;
+		var moreData_str:String;
+		var lessData_str:String;
 		var ball_str:String;
 		var mass_str:String;
 		var x_str:String;
@@ -51,8 +53,7 @@ import flash.text.*;
 		var Vy_str:String;
 		var Px_str:String;
 		var Py_str:String;
-		var moreData_str:String;
-		var lessData_str:String;
+		
 		
 		public function DataTable(myModel:Model, myMainView:MainView){
 			this.myModel = myModel;
@@ -99,7 +100,7 @@ import flash.text.*;
 			//var colHeight = 25;
 			this.canvas = new Sprite;
 			this.invisibleBorder = new Sprite();
-			this.toggleButton = new Button()
+			//this.toggleButton = new Button()
 			//following are symbols in Flash Library
 			this.addBallButton_sp = new DataTableButtonBody();
 			this.removeBallButton_sp = new DataTableButtonBody();
@@ -108,12 +109,13 @@ import flash.text.*;
 			this.removeBallButton = new NiceButton(this.removeBallButton_sp, 90, removeBall);
 			this.moreOrLessDataButton = new NiceButton(this.moreOrLessDataButton_sp, 90, toggleDataButton);
 			this.initializeStrings();
+			//don't put buttons on canvas, since want buttons stationary when canvas resizes
+			this.addChild(this.addBallButton_sp);
+			this.addChild(this.removeBallButton_sp);
+			this.addChild(this.moreOrLessDataButton_sp);
 			this.addChild(this.canvas);
 			this.canvas.addChild(this.invisibleBorder);
-			this.canvas.addChild(this.toggleButton);
-			this.canvas.addChild(this.addBallButton_sp);
-			this.canvas.addChild(this.removeBallButton_sp);
-			this.canvas.addChild(this.moreOrLessDataButton_sp);
+			//this.canvas.addChild(this.toggleButton);
 			this.myMainView.addChild(this);
 			
 			
@@ -156,11 +158,11 @@ import flash.text.*;
 				}//for(j)
 			}//for(i)
 			this.drawBorder(this.nbrBalls);  //nbr of rows
-			//manually set rowWidth for 1st call to setupButtons()
+			//manually set rowWidth for 1st call to positionButtons()
 			this.rowWidth = 4.5*this.colWidth;
-			this.setupButtons();
+			this.positionButtons();
 			this.makeHeaderRow();
-			this.setNbrDisplayedRows();
+			//this.setNbrDisplayedRows();  //not necessary, called in update()
 			this.createTextChangeListeners();
 			Util.makePanelDraggableWithBorder(this, this.invisibleBorder);
 			this.update();
@@ -205,21 +207,23 @@ import flash.text.*;
 			g.clear();
 			g.lineStyle(bWidth,0x2222ff);
 			g.beginFill(0xffff99);
-			g.moveTo(0 - del,0 - del);
-			g.lineTo(rowWidth + del, 0 - del);
-			g.lineTo(rowWidth + del, nbrRows*this.rowHeight +del);
-			g.lineTo(0 - del, nbrRows*this.rowHeight + del);
-			g.lineTo(0 - del,0 - del);
+			g.drawRect(-del, -del, this.rowWidth + 2*del, nbrRows*this.rowHeight + 2*del);
+			//g.moveTo(0 - del,0 - del);
+			//g.lineTo(rowWidth + del, 0 - del);
+			//g.lineTo(rowWidth + del, nbrRows*this.rowHeight +del);
+			//g.lineTo(0 - del, nbrRows*this.rowHeight + del);
+			//g.lineTo(0 - del,0 - del);
 			g.endFill();
 			
 			var gI:Graphics = this.invisibleBorder.graphics;
 			gI.clear();
 			gI.lineStyle(bWidth,0x000000, 0);
-			gI.moveTo(0 - del,0 - del);
-			gI.lineTo(rowWidth + del, 0 - del);
-			gI.lineTo(rowWidth + del, nbrRows*this.rowHeight +del);
-			gI.lineTo(0 - del, nbrRows*this.rowHeight + del);
-			gI.lineTo(0 - del,0 - del);
+			gI.drawRect(-del, -del, this.rowWidth + 2*del, nbrRows*this.rowHeight + 2*del);
+			//gI.moveTo(0 - del,0 - del);
+			//gI.lineTo(rowWidth + del, 0 - del);
+			//gI.lineTo(rowWidth + del, nbrRows*this.rowHeight +del);
+			//gI.lineTo(0 - del, nbrRows*this.rowHeight + del);
+			//gI.lineTo(0 - del,0 - del);
 		}//end drawBorder()
 		
 		//header row is 
@@ -255,21 +259,21 @@ import flash.text.*;
 		}//end makeHeaderRow
 		
 		
-		public function setupButtons():void{
+		public function positionButtons():void{
 			//this.canvas.addChild(this.toggleButton);
-			this.toggleButton.buttonMode = true;
-			this.toggleButton.emphasized = true;
-			this.toggleButton.width = 90;//TODO: JO: How to set the width of this button properly?
-			this.toggleButton.label = this.moreData_str;
-			this.toggleButton.x = this.rowWidth + 0.2*this.toggleButton.width;
-			this.toggleButton.addEventListener(MouseEvent.CLICK, toggleButtonClick);
+			//this.toggleButton.buttonMode = true;
+			//this.toggleButton.emphasized = true;
+			//this.toggleButton.width = 90;//TODO: JO: How to set the width of this button properly?
+			//this.toggleButton.label = this.moreData_str;
+			//this.toggleButton.x = this.rowWidth + 0.2*this.toggleButton.width;
+			//this.toggleButton.addEventListener(MouseEvent.CLICK, toggleButtonClick);
 			//this.toggleButton.buttonMode = true;  //only works with Sprites
 			
-			this.addBallButton_sp.x = 0.6*this.addBallButton_sp.width;
+			this.addBallButton_sp.x = -0.6*this.addBallButton_sp.width-0.5*this.removeBallButton_sp.width;
 			this.addBallButton_sp.y = -0.75*this.addBallButton_sp.height;
-			this.removeBallButton_sp.x = 1.7*this.addBallButton_sp.width;
+			this.removeBallButton_sp.x = 0;
 			this.removeBallButton_sp.y = -0.75*this.addBallButton_sp.height;
-			this.moreOrLessDataButton_sp.x = 2.9*this.addBallButton_sp.width;
+			this.moreOrLessDataButton_sp.x = 0.5*this.removeBallButton_sp.width + 0.8*this.moreOrLessDataButton_sp.width;
 			this.moreOrLessDataButton_sp.y = -0.75*this.addBallButton_sp.height;
 		}
 		
@@ -280,20 +284,20 @@ import flash.text.*;
 			mSlider.maximum = 3.0;
 			mSlider.snapInterval = 0.1;
 			mSlider.value = 1;
-			mSlider.width = 2*this.colWidth;
+			mSlider.width = 2.8*this.colWidth;
 			mSlider.liveDragging = true;
 			mSlider.addEventListener(Event.CHANGE, massSliderListener);
 		}//end setupMassSlider()
 		
 		public function displayPartialDataTable(tOrF:Boolean):void{
 			if(tOrF){
-				this.rowWidth = 4.5*this.colWidth;
-				this.x = 150;
+				this.rowWidth = 5.5*this.colWidth;
+				this.canvas.x = -this.rowWidth/2;
 			}else{
 				this.rowWidth = this.nbrColumns*this.colWidth;
-				this.x = 60;
+				this.canvas.x = -this.rowWidth/2;
 			}
-			this.toggleButton.x = this.rowWidth + 0.2*this.toggleButton.width;
+			//this.toggleButton.x = this.rowWidth + 0.2*this.toggleButton.width;
 			this.drawBorder(this.nbrBalls);
 			//hide all but 1st two columns for partial
 			//this.drawBorder(this.nbrBalls, 4.5*this.colWidth)
@@ -397,58 +401,56 @@ import flash.text.*;
 			trace("ball "+ballNbr + "   value: "+evt.target.value);
 		}
 		
-		private function toggleButtonClick(evt:MouseEvent):void{
-			trace(evt.target.label);
-			if(evt.target.label == this.moreData_str){
-				evt.target.label = this.lessData_str;//TODO: JO: Also need to resize the button here?
-				this.displayPartialDataTable(false);
-			}else if(evt.target.label == this.lessData_str){
-				evt.target.label = this.moreData_str;
-				this.displayPartialDataTable(true);
-			}
-		}//toggleButtonClick
+		//following function is obsolete
+//		private function toggleButtonClick(evt:MouseEvent):void{
+//			trace(evt.target.label);
+//			if(evt.target.label == this.moreData_str){
+//				evt.target.label = this.lessData_str;//TODO: JO: Also need to resize the button here?
+//				this.displayPartialDataTable(false);
+//			}else if(evt.target.label == this.lessData_str){
+//				evt.target.label = this.moreData_str;
+//				this.displayPartialDataTable(true);
+//			}
+//		}//toggleButtonClick
 		
 		private function toggleDataButton():void{
 			if(this.moreOrLessDataButton.getLabel() == this.moreData_str){
 				this.moreOrLessDataButton.setLabel(this.lessData_str);
+				this.displayPartialDataTable(false);
 			}else if(this.moreOrLessDataButton.getLabel() == this.lessData_str){
 				this.moreOrLessDataButton.setLabel(this.moreData_str);
+				this.displayPartialDataTable(true);
 			}
 		}//end toggleDataButton()
 		
 		
 		private function addBall():void{
 			this.myModel.addBall();
-			this.nbrBalls = this.myModel.nbrBalls;
-			//var nbrBalls_str:String = String(this.myModel.nbrBalls);
-			//this.changeNbrBallButtons.nbrReadout.text = nbrBalls_str;
-			if(this.nbrBalls == this.maxNbrBalls){
-				//this.changeNbrBallButtons.addBallButton.visible = false;
-			}
-			if(this.nbrBalls > 1){
-				//this.changeNbrBallButtons.removeBallButton.visible = true;
-				if(this.myMainView.controlPanel.showCMOn){
-					this.myMainView.myTableView.CM.visible = true;
-				}
-			}
-			
+			this.checkBallNbrLimits();
 		}
 		
 		private function removeBall():void{
 			this.myModel.removeBall();
-			this.nbrBalls = this.myModel.nbrBalls;
-			//var nbrBalls_str:String = String(this.myModel.nbrBalls);
-			//this.changeNbrBallButtons.nbrReadout.text = nbrBalls_str;
+			this.checkBallNbrLimits();
+		}//end removeBall()
+		
+		//if nbrBalls = max or min allowed, adjust display appropriately
+		public function checkBallNbrLimits():void{
 			if(this.nbrBalls == 1){
-				//this.changeNbrBallButtons.addBallButton.visible = false;
-			}
-			if(this.nbrBalls > 2){
-				//this.changeNbrBallButtons.removeBallButton.visible = true;
+				this.removeBallButton_sp.visible = false;
+				this.myMainView.myTableView.CM.visible = false;
+			}else{
+				this.removeBallButton_sp.visible = true;
 				if(this.myMainView.controlPanel.showCMOn){
-					this.myMainView.myTableView.CM.visible = false;
+					this.myMainView.myTableView.CM.visible = true;
 				}
 			}
-		}//end removeBall()
+			if(this.nbrBalls == this.maxNbrBalls){
+				this.addBallButton_sp.visible = false;
+			}else{
+				this.addBallButton_sp.visible = true;
+			}
+		}//end checkBallNbrLimits()
 		
 		private function testFunction():void{
 			trace("button pushed");

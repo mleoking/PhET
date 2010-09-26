@@ -35,6 +35,7 @@ package{
 			this.myModel.updateViews();
 			//this.myDataTable.x = 60;
 			this.myDataTable.y = 0.75*this.stageH;//this.myTableView.canvas.height + 1.0*this.myTableView.playButtons.height;
+			this.myDataTable.x = this.myTableView.width/2;
 			this.controlPanel.background.width = 170;
 			this.controlPanel.background.height = 350;
 			this.controlPanel.x = this.stageW - 0.75*this.controlPanel.width;

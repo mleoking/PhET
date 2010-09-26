@@ -144,8 +144,9 @@
 		private function resetAll():void{
 			this.myModel.resetAll();
 			this.myMainView.myTableView.reDrawBorder();
+			this.myMainView.myDataTable.checkBallNbrLimits();
 			this.twoD_rb.selected = true;
-			var nbrBalls_str:String = String(this.myModel.nbrBalls);
+			//var nbrBalls_str:String = String(this.myModel.nbrBalls);
 			//this.changeNbrBallButtons.nbrReadout.text = nbrBalls_str;
 			//this.nbrBalls = this.myModel.nbrBalls;
 			//this.changeNbrBallButtons.addBallButton.visible = true;
