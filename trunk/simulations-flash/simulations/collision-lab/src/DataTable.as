@@ -171,8 +171,8 @@ import flash.text.*;
 		
 		//following function to be altered during internationalization
 		public function initializeStrings():void{
-			this.addBall_str = "Add Ball";
-			this.removeBall_str = "Remove Ball";
+			this.addBall_str = SimStrings.get("DataTable.addBall","Add Ball");
+			this.removeBall_str = SimStrings.get("DataTable.removeBall","Remove Ball");
 			this.addBallButton.setLabel(this.addBall_str);
 			this.removeBallButton.setLabel(this.removeBall_str);
 			this.moreData_str = SimStrings.get("DataTable.moreData","More Data");

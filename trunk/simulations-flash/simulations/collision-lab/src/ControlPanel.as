@@ -145,6 +145,7 @@
 			this.myModel.resetAll();
 			this.myMainView.myTableView.reDrawBorder();
 			this.myMainView.myDataTable.checkBallNbrLimits();
+			this.myMainView.myTableView.playButtons.resetAllCalled();
 			this.twoD_rb.selected = true;
 			//var nbrBalls_str:String = String(this.myModel.nbrBalls);
 			//this.changeNbrBallButtons.nbrReadout.text = nbrBalls_str;

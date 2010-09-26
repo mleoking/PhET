@@ -1,4 +1,4 @@
-package{
+﻿package{
 import edu.colorado.phet.flashcommon.TextFieldUtils;
 
 import flash.display.*;
@@ -65,6 +65,16 @@ import flash.display.*;
 		    setPlayText();
 			this.myModel.initializePositions();
 		}
+		
+		//Need reset function without mouseEvent argument, to call from Reset All button in ControlPanel
+		public function resetAllCalled():void{
+			this.paused = true;
+			this.myModel.stopMotion();
+			this.buttonView.myPlayPauseButton.gotoAndStop(1);
+		    setPlayText();
+			//this.myModel.initializePositions();
+		}
+		
 		public function playPause(evt:MouseEvent):void{
 			if(paused){
 				this.paused = false;

@@ -131,7 +131,7 @@ package{
 			startingPos[3] = new TwoVector(2.2, -1.2);
 			startingPos[4] = new TwoVector(1.2, +0.8);
 			startingVel[0] = new TwoVector(1,0.3);
-			startingVel[1] = new TwoVector(-1,-0.5);
+			startingVel[1] = new TwoVector(-0.5,-0.5);
 			startingVel[2] = new TwoVector(-0.5,-0.25);
 			startingVel[3] = new TwoVector(1.1,0.2);
 			startingVel[4] = new TwoVector(-1.1,0);
@@ -166,6 +166,8 @@ package{
 				//new Ball(mass, position, velocity);
 				this.ball_arr[i].setBall(1.0, startingPos[i].clone(), startingVel[i].clone());
 			}
+			//trace("Model.resetAll() called. startingVel[0].yComponent = " + startingVel[0].getY());
+			//trace("Model.ball_arr[0].velocity.getY() = "+ this.ball_arr[0].velocity.getY());
 			this.nbrBalls = 2;
 			this.e = 1;			//set elasticity of collisions, 1 = perfectly elastic
 			this.timeRate = 0.5;
