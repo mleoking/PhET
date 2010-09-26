@@ -125,11 +125,11 @@ package{
 		public function createInitialBallData():void{
 			this.startingPos = new Array(this.maxNbrBalls);
 			this.startingVel = new Array(this.maxNbrBalls);
-			startingPos[0] = new TwoVector(0.5,0);
-			startingPos[1] = new TwoVector(1.5,-0.5);
-			startingPos[2] = new TwoVector(1,0);
-			startingPos[3] = new TwoVector(1.2, 0.2);
-			startingPos[4] = new TwoVector(1.2, -0.8);
+			startingPos[0] = new TwoVector(1.0,0);
+			startingPos[1] = new TwoVector(2.0,+0.5);
+			startingPos[2] = new TwoVector(1,-0.5);
+			startingPos[3] = new TwoVector(2.2, -1.2);
+			startingPos[4] = new TwoVector(1.2, +0.8);
 			startingVel[0] = new TwoVector(1,0.3);
 			startingVel[1] = new TwoVector(-1,-0.5);
 			startingVel[2] = new TwoVector(-0.5,-0.25);
@@ -138,7 +138,7 @@ package{
 		}
 		
 		public function initializeBalls():void{
-			this.nbrBalls = 1;		//adjustable by user
+			this.nbrBalls = 2;		//adjustable by user
 			this.atInitialConfig = true;
 			this.starting = true;
 			this.soundOn = false;
@@ -164,9 +164,9 @@ package{
 			//trace("Model.resetAll() called");
 			for (var i:int = 0; i < this.maxNbrBalls; i++){
 				//new Ball(mass, position, velocity);
-				this.ball_arr[i].setBall(1.0, initPos[i].clone(), initVel[i].clone());
+				this.ball_arr[i].setBall(1.0, startingPos[i].clone(), startingVel[i].clone());
 			}
-			this.nbrBalls = 1;
+			this.nbrBalls = 2;
 			this.e = 1;			//set elasticity of collisions, 1 = perfectly elastic
 			this.timeRate = 0.5;
 			this.setOneDMode(false);
