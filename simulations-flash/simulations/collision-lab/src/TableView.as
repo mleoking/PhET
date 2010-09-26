@@ -1,4 +1,4 @@
-//View of "Pool Table" containing balls
+﻿//View of "Pool Table" containing balls
 package{
 import edu.colorado.phet.flashcommon.SimStrings;
 
@@ -119,6 +119,7 @@ import flash.display.*;
 			this.update();
 		}
 		
+		//invisible border is grabbable
 		public function drawInvisibleBorder():void{  //grayed-out border when Reflecting Border is OFF
 			var W:Number = this.myModel.borderWidth * this.pixelsPerMeter;
 			var H:Number = this.myModel.borderHeight * this.pixelsPerMeter;

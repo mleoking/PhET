@@ -414,6 +414,9 @@ package{
 		
 		public function updateVelocityArrow():void{
 			var vel:TwoVector = this.myModel.ball_arr[this.ballIndex].velocity;
+			//if(this.ballIndex == 0){
+				//trace("ballImage.myModel.ball_arr[0].velocity.y = "+this.myModel.ball_arr[0].velocity.getY());
+			//}
 			//this.myModel.updateViews();
 			this.arrowImage.setArrow(vel);
 			var scaleFactor:Number = this.arrowImage.scale;

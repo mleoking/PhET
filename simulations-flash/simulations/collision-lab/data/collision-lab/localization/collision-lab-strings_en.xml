@@ -7,6 +7,11 @@
     <string key="PlayPauseButtons.pause" value="Pause"/>
     <string key="PlayPauseButtons.step" value="Step"/>
 
+
+    <string key="DataTable.addBall" value="Add Ball"/>
+    <string key="DataTable.removeBall" value="Remove Ball"/>  
+    <string key="DataTable.moreData" value="More Data"/>
+    <string key="DataTable.lessData" value="Less Data"/>    
     <string key="DataTable.ball" value="ball"/>
     <string key="DataTable.mass" value="mass"/>
     <string key="DataTable.x" value="x"/>
@@ -15,26 +20,24 @@
     <string key="DataTable.vy" value="Vy"/>
     <string key="DataTable.px" value="Px"/>
     <string key="DataTable.py" value="Py"/>
-    <string key="DataTable.moreData" value="More Data"/>
-    <string key="DataTable.lessData" value="Less Data"/>
+
 
     <string key="MomentumView.momenta" value="Momenta"/>
     <string key="MomentumView.tipToTail" value="tip-to-tail"/>
     <string key="MomentumView.total" value="tot"/>
 
-    <string key="ControlPanel.numberOfBalls" value="Nbr of Balls"/>
-    <string key="ControlPanel.1d" value="1D"/>
-    <string key="ControlPanel.2d" value="2D"/>
+    <string key="ControlPanel.1d" value="1 Dimension"/>
+    <string key="ControlPanel.2d" value="2 Dimenstions"/>
     <string key="ControlPanel.resetAll" value="Reset All"/>
     <string key="ControlPanel.showVelocities" value="Show velocities"/>
     <string key="ControlPanel.showCenterOfMass" value="Show C.M."/>
     <string key="ControlPanel.reflectingBorder" value="Reflecting Border"/>
     <string key="ControlPanel.showPaths" value="Show Paths"/>
     <string key="ControlPanel.sound" value="Sound"/>
-    <string key="ControlPanel.time" value="time"/>
+    <string key="ControlPanel.time" value="Time"/>
     <string key="ControlPanel.slow" value="slow"/>
     <string key="ControlPanel.fast" value="fast"/>
-    <string key="ControlPanel.elasticity" value="elasticity"/>
+    <string key="ControlPanel.elasticity" value="Elasticity"/>
     <string key="ControlPanel.zeroPercent" value="0%"/>
     <string key="ControlPanel.oneHundredPercent" value="100%"/>
 
