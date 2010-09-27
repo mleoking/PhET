@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--density-and-buoyancy-strings_el.xml created Sun Sep 26 14:01:04 EEST 2010 using: density-and-buoyancy 1.01.00 (44223), translation-utility 2.09.00 (44031) Σεπ 14, 2010-->
+<SimStrings>
+<string key="properties.mass" value="Μάζα"/>
+<string key="forceArrows.contact" value="Επαφή"/>
+<string key="mode.objectsOfSameVolume" value="Ίδιιου Όγκου"/>
+<string key="bottle.2L" value="2L"/>
+<string key="mysteryObject.densityColumnHeader" value="Πυκνότητα ({0})"/>
+<string key="material.aluminum" value="Αργίλιο"/>
+<string key="material.custom" value="Το αντικείμενο μου"/>
+<string key="material.gasoline" value="Βενζίνη"/>
+<string key="customObject.material" value="Υλικό"/>
+<string key="mode.mysteryObjects" value="Άγνωστα"/>
+<string key="customObject.custom" value="Το αντικείμενό μου"/>
+<string key="material.wood" value="Ξύλο"/>
+<string key="properties.massKilogramValue" value="{0} kg"/>
+<string key="material.apple" value="Μήλο"/>
+<string key="material.ice" value="Πάγος"/>
+<string key="mode.mysteryObjects.E" value="Ε"/>
+<string key="mode.mysteryObjects.D" value="Δ"/>
+<string key="mode.mysteryObjects.C" value="Γ"/>
+<string key="mode.mysteryObjects.B" value="Β"/>
+<string key="material.diamond" value="Διαμάντι"/>
+<string key="mode.mysteryObjects.A" value="Α"/>
+<string key="mode.title" value="Αντικείμενα"/>
+<string key="material.lead" value="Μόλυβδος"/>
+<string key="forceArrows.buoyancy" value="Άνωση"/>
+<string key="mysteryObject.densityUnitsKgL" value="kg/L"/>
+<string key="customObject.properties" value="Ιδιότητες"/>
+<string key="forceArrows.gravity" value="Βαρύτητα"/>
+<string key="mysteryObject.table.title" value="Πυκνότητες Διαφόρων Υλικών"/>
+<string key="material.brick" value="Τούβλο"/>
+<string key="mysteryObject.material" value="Υλικό"/>
+<string key="properties.weightPoundValue" value="{0} Λίβρες"/>
+<string key="properties.volumeLiterValue" value="{0} L"/>
+<string key="mode.objectsOfSameDensity" value="Ίδιας Πυκνότητας"/>
+<string key="density.simTitle" value="Πυκνότητα"/>
+<string key="properties.volumeMilliLiterValue" value="{0} mL"/>
+<string key="forceArrows.fluidDrag" value="Έκξη ρευστού"/>
+<string key="mode.objectsOfSameMass" value="Ίδιας Μάζας"/>
+<string key="mode.customObject" value="Γνωστά"/>
+<string key="application.resetAll" value="Επαναφορά "/>
+<string key="material.gold" value="Χρυσός"/>
+<string key="properties.weightNewtonValue" value="{0} N"/>
+<string key="customObject.name" value="όνομα"/>
+<string key="material.water" value="Νερό"/>
+<string key="properties.massGramValue" value="{0} g"/>
+<string key="properties.density" value="Πυκνότητα"/>
+<string key="material.waterBalloon" value="Μπαλόνι νερού"/>
+<string key="mysteryObject.table.showTable" value="Εμφάνιση Πίνακα"/>
+<string key="properties.volume" value="Όγκος"/>
+<string key="buoyancy.simTitle" value="Άνωση"/>
+</SimStrings>
