@@ -134,10 +134,16 @@
 		
 		public function oneDModeOn(evt:MouseEvent):void{
 			this.myModel.setOneDMode(true);
+			this.myMainView.myTableView.myTrajectories.setBorderHeight();
+			this.myMainView.myTableView.myTrajectories.erasePaths();
+			
 			this.myMainView.myTableView.reDrawBorder();
 		}
 		public function oneDModeOff(evt:MouseEvent):void{
 			this.myModel.setOneDMode(false);
+			this.myMainView.myTableView.myTrajectories.setBorderHeight();
+			this.myMainView.myTableView.myTrajectories.erasePaths();
+			
 			this.myMainView.myTableView.reDrawBorder();
 		}
 		

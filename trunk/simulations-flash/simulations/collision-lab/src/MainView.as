@@ -5,9 +5,7 @@ package{
 	public class MainView extends Sprite{
 		var myModel:Model;
 		var myTableView:TableView;
-		var myDataTable:DataTable;
-		//var myPlayButtons;
-		//var 
+		var myDataTable:DataTable; 
 		var controlPanel:ControlPanel;
 		var momentumView:MomentumView;
 		var mySoundMaker:SoundMaker;
@@ -32,6 +30,7 @@ package{
 			this.momentumView = new MomentumView(myModel, this);
 			this.mySoundMaker = new SoundMaker(myModel, this);
 			this.phetLogo = new PhETLogo();
+			this.addChild(this.phetLogo);
 			this.myModel.updateViews();
 			//this.myDataTable.x = 60;
 			this.myDataTable.y = 0.75*this.stageH;//this.myTableView.canvas.height + 1.0*this.myTableView.playButtons.height;
@@ -40,6 +39,8 @@ package{
 			this.controlPanel.background.height = 350;
 			this.controlPanel.x = this.stageW - 0.75*this.controlPanel.width;
 			this.controlPanel.y = 20;//0.3*this.controlPanel.height;
+			this.phetLogo.x = 0*this.phetLogo.width;
+			this.phetLogo.y = this.stageH - 1.0*this.phetLogo.height;
 			//trace("stageW: "+stageW+"   stageH: "+stageH);
 		}//end of initialize()
 	}//end of class

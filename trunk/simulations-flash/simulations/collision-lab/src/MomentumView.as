@@ -1,4 +1,4 @@
-package{
+﻿package{
 import edu.colorado.phet.flashcommon.SimStrings;
 
 import edu.colorado.phet.flashcommon.TextFieldUtils;
@@ -26,7 +26,9 @@ import flash.display.*;
 		var totMomentum:Arrow;
 		var tipToTailDisplayOn:Boolean; //true if momentum arrows displayed tip-to-tail
 		var tipToTail_cb:CheckBox;
-		var scale_slider:Slider;
+		var scale_slider:Slider;	//zoom slider
+		var plusSign:PlusSign;		//Library symbol, part of zoom slider
+		var minusSign:MinusSign;	//Libary symbol, part of zoom slider
 		
 		//following 3 strings to be internationalized, see function initializeStrings() below
 		var momenta_str:String;
@@ -44,6 +46,8 @@ import flash.display.*;
 			this.canvas.addChild(this.invisibleBorder);
 			this.tipToTail_cb = new CheckBox();
 			this.scale_slider = new Slider();
+			this.minusSign = new MinusSign();
+			this.plusSign = new PlusSign();
 			
 			//this.canvas.addChild(this.border);
 			this.initialize();
@@ -56,7 +60,7 @@ import flash.display.*;
 			this.tipToTailDisplayOn = true;
 			this.stageW = this.myMainView.stageW;
 			this.stageH = this.myMainView.stageH;
-			this.canvas.x = this.stageW - this.borderWidth;
+			this.canvas.x = this.stageW - this.borderWidth - 15;
 			this.canvas.y = this.stageH - this.borderHeight - 30;
 			this.momentum_arr = new Array(this.myModel.nbrBalls);
 			//trace("MomentumView.stageW: "+this.stageW);
@@ -152,10 +156,38 @@ import flash.display.*;
 			this.scale_slider.value = 0.2;
 			this.scale_slider.liveDragging = true;
 			this.canvas.addChild(this.scale_slider);
+			this.canvas.addChild(this.minusSign);
+			this.canvas.addChild(this.plusSign);
 			this.scale_slider.height = 0.6*this.borderHeight;
 			this.scale_slider.x = 0.93*this.borderWidth;
 			this.scale_slider.y = 0.5*this.borderHeight- this.scale_slider.height;// - this.scale_slider.height/2;
 			this.scale_slider.addEventListener(Event.CHANGE, sliderChangeListener);
+			var signSize:int = 15;
+			this.minusSign.width = this.minusSign.height = signSize;
+			this.plusSign.width = this.plusSign.height = signSize;
+			this.minusSign.x = this.plusSign.x = this.scale_slider.x - 2;
+			this.minusSign.y = this.scale_slider.y + 2*this.scale_slider.height;
+			this.plusSign.y = this.scale_slider.y - 0.8* signSize;
+			this.minusSign.buttonMode = true;
+			this.minusSign.addEventListener(MouseEvent.MOUSE_DOWN, zoomOut);
+			this.plusSign.buttonMode = true;
+			this.plusSign.addEventListener(MouseEvent.MOUSE_DOWN, zoomIn);
+		}
+		
+		private function zoomIn(evt:MouseEvent):void{
+			this.scale_slider.value += 0.1;
+			var currentValue:Number = this.scale_slider.value
+			if(currentValue > 1){this.scale_slider.value = 1;}
+			this.setScaleOfArrows(10 
+								  + this.scale_slider.value*200);
+			trace("pushed up, value = "+this.scale_slider.value);
+		}
+		private function zoomOut(evt:MouseEvent):void{
+			this.scale_slider.value -= 0.1;
+			var currentValue:Number = this.scale_slider.value
+			if (currentValue < 0){this.scale_slider.value = 0;}
+			this.setScaleOfArrows(10 + this.scale_slider.value*200);
+			trace("pushed down, value = "+this.scale_slider.value);
 		}
 		
 		private function tipToTailChangeListener(evt:MouseEvent):void{
