@@ -73,6 +73,7 @@ public class CurrentIndicatorNode extends PhetPNode {
         electronNode.setStrokePaint( ELECTRON_STROKE_COLOR );
         addChild( electronNode );
         
+        // Use a PPath, because PText("-") can't be accurately centered.
         PPath minusNode = new PPath( new Rectangle2D.Double( 0, 0, ELECTRON_MINUS_WIDTH, ELECTRON_MINUS_HEIGHT ) );
         minusNode.setStroke( null );
         minusNode.setPaint( ELECTRON_MINUS_COLOR );
