@@ -24,10 +24,10 @@ public class BuildAnAtomModel {
 
     private static final Rectangle2D MODEL_BOUNDS = new Rectangle2D.Double( -200, -150, 400, 300 );
 
-    private static final Dimension2D BUCKET_SIZE = new PDimension( 50, 30 );
-    private static final Point2D PROTON_BUCKET_POSITION = new Point2D.Double( -200, -200 );
-    private static final Point2D NEUTRON_BUCKET_POSITION = new Point2D.Double( 0, -200 );
-    private static final Point2D ELECTRON_BUCKET_POSITION = new Point2D.Double( 200, -200 );
+    private static final Dimension2D BUCKET_SIZE = new PDimension( 40, 20 );
+    private static final Point2D PROTON_BUCKET_POSITION = new Point2D.Double( -60, -80 );
+    private static final Point2D NEUTRON_BUCKET_POSITION = new Point2D.Double( 0, -80 );
+    private static final Point2D ELECTRON_BUCKET_POSITION = new Point2D.Double( 60, -80 );
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -144,7 +144,8 @@ public class BuildAnAtomModel {
             this.baseColor = baseColor;
             holeShape = new Ellipse2D.Double( -size.getWidth() / 2, -size.getHeight() / 6, size.getWidth(),
                     size.getHeight() / 3 );
-            containerShape = new Rectangle2D.Double( -size.getWidth() / 2, 0, size.getWidth(), size.getHeight() );
+            containerShape = new Rectangle2D.Double( -size.getWidth() / 2, -size.getHeight(), size.getWidth(),
+                    size.getHeight() );
         }
 
         public Point2D getPosition() {
