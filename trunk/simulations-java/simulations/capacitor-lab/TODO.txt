@@ -13,13 +13,13 @@ HIGH PRIORITY
 - add cables and drag behavior to voltmeter, see CCK's VoltmeterNode
 - voltmeter notifiers for moving probes or meter body
 - subclass of voltmeter that is specific to this sim, knows about model
+- E-field (with fake curvature?)
 
 MEDUIUM PRIORITY
 - utilities for computing important 2D points on capacitor's pseudo-3D geometry (for layout, interactivity, and connecting things)
 - combine plate charge meter and slider into one thing?
 - use air as the dielectric material in Introduction module
 - make air dielectric invisible
-- fake curvature in E-field?
 - all features in Multiple Capacitors tab
 - refactor duplicate code in *DragHandleNode
 
