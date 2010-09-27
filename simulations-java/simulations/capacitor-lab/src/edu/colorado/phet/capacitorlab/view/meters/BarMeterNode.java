@@ -153,6 +153,7 @@ public abstract class BarMeterNode extends PhetPNode {
         
         // scale button
         scaleButton = new ScaleButtonNode();
+        scaleButton.scale( 2 );
         addChild( scaleButton );
         
         // interactivity
@@ -228,7 +229,8 @@ public abstract class BarMeterNode extends PhetPNode {
         double mantissa = value / Math.pow( 10, exponent );
         boolean plusEnabled = ( mantissa < 0.1 );
         boolean minusEnabled = ( mantissa > 1 );
-        scaleButton.setEnabled( ( value != 0 ) && ( plusEnabled || minusEnabled ), plusEnabled );
+        scaleButton.setEnabled( ( value != 0 ) && ( plusEnabled || minusEnabled ) );
+        scaleButton.setPlusVisible( plusEnabled );
     }
     
     private void updateExponent() {
@@ -501,39 +503,6 @@ public abstract class BarMeterNode extends PhetPNode {
                 mantissaString = MessageFormat.format( PATTERN_VALUE, mantissaFormat.format( mantissa ), exponent );
             }
             setHTML( MessageFormat.format( CLStrings.PATTERN_VALUE_UNITS, mantissaString, units ) );
-        }
-    }
-    
-    /*
-     * Scale button.
-     * Origin at upper-left corner of bounding box.
-     */
-    private static class ScaleButtonNode extends PImage {
-        
-        private boolean enabled;
-        
-        public ScaleButtonNode() {
-            super( CLImages.SCALE_BUTTON_DISABLED );
-            this.enabled = false;
-        }
-        
-        public void setEnabled( boolean enabled, boolean plus ) {
-            if ( enabled != this.enabled ) {
-                this.enabled = enabled;
-                if ( !enabled ) {
-                    setImage( CLImages.SCALE_BUTTON_DISABLED );
-                }
-                else if ( plus ) {
-                    setImage( CLImages.SCALE_BUTTON_PLUS );
-                }
-                else {
-                    setImage( CLImages.SCALE_BUTTON_MINUS );
-                }
-            }
-        }
-        
-        public boolean isEnabled() {
-            return enabled;
         }
     }
 }

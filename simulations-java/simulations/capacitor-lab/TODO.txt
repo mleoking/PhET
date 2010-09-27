@@ -7,7 +7,6 @@ Oct 9 - complete "as much as possible" per Kathy P. for Hisham
 QUESTIONS FOR NOAH
 
 HIGH PRIORITY
-- better icons for bar meter scale button
 - charge and excess charge on plates (see notes)
 - charge and excess charge on dielectric (see notes)
 - field meter with dashed line around "detecting plane"
