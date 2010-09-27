@@ -42,11 +42,15 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         rootNode = new PNode();
         addWorldChild( rootNode );
         
+        
+        
         // TODO: Temp - put a sketch of the tab up as a very early prototype.
-        PImage image = new PImage( BuildAnAtomResources.getImage( "tab-1-sketch-01.png" ));
-        image.scale( 2.05 );
-        image.setOffset( 50, 0 );
-        rootNode.addChild(image);
+//        PImage image = new PImage( BuildAnAtomResources.getImage( "tab-1-sketch-01.png" ));
+//        image.scale( 2.05 );
+//        PImage image = new PImage( BuildAnAtomResources.getImage( "first-tab-of-build-an-atom-sim-with-color.png" ));
+//        image.scale( 1.2 );
+//        image.setOffset( 50, 0 );
+//        rootNode.addChild(image);
     }
 
 
