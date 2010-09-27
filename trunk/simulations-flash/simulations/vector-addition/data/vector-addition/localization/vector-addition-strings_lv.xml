@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--vector-addition-strings_lv.xml created Sat Sep 25 08:35:03 EEST 2010 using: vector-addition 2.01.00 (37326), translation-utility 2.09.00 (44031) Sep 14, 2010-->
+<SimStrings>
+<string key="showSum" value="Parādīt summu"/>
+<string key="simTitle" value="Vektoru saskaitīšana"/>
+<string key="grabOne" value="Paņemt"/>
+<string key="clearAll" value="Notīrīt visu"/>
+<string key="componentDisplay" value="Detaļu attēlošana"/>
+<string key="y" value="y"/>
+<string key="style3" value="Stils 3"/>
+<string key="none" value="Nav"/>
+<string key="showGrid" value="Parādīt režģi"/>
+<string key="style2" value="Stils  2"/>
+<string key="x" value="x"/>
+<string key="style1" value="Stils 1"/>
+</SimStrings>
