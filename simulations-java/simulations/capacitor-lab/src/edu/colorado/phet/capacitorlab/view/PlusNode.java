@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.capacitorlab.view;
 
-import java.awt.Color;
 import java.awt.Paint;
 
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -20,9 +19,9 @@ public class PlusNode extends PComposite {
      * @param paint
      */
     public PlusNode( double width, double height, Paint paint ) {
-        MinusNode horizontalNode = new MinusNode( width, height, Color.RED );
+        MinusNode horizontalNode = new MinusNode( width, height, paint );
         addChild( horizontalNode );
-        MinusNode verticalNode = new MinusNode( width, height, Color.RED );
+        MinusNode verticalNode = new MinusNode( width, height, paint );
         verticalNode.rotate( Math.PI / 2 );
         addChild( verticalNode );
     }
