@@ -16,7 +16,7 @@ public class BuildAnAtomModel {
     // Class Data
     //----------------------------------------------------------------------------
 
-    private static final Rectangle2D MODEL_BOUNDS = new Rectangle2D.Double(-200, -150, 400, 300);
+    private static final Rectangle2D MODEL_BOUNDS = new Rectangle2D.Double( -200, -150, 400, 300 );
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -35,7 +35,7 @@ public class BuildAnAtomModel {
 
         this.clock = clock;
 
-        atom = new Atom(new Point2D.Double(0, 0));
+        atom = new Atom( new Point2D.Double( 0, 0 ) );
     }
 
     //----------------------------------------------------------------------------
@@ -46,7 +46,7 @@ public class BuildAnAtomModel {
         return atom;
     }
 
-    public Rectangle2D getBounds(){
+    public Rectangle2D getBounds() {
         return MODEL_BOUNDS;
     }
 
@@ -69,10 +69,12 @@ public class BuildAnAtomModel {
 
         private final Point2D position = new Point2D.Double();
 
-        private final ArrayList<Double> electronShellRadii = new ArrayList<Double>(){{
-            add(new Double(50));
-            add( new Double(100));
-        }};
+        private final ArrayList<Double> electronShellRadii = new ArrayList<Double>() {
+            {
+                add( new Double( 50 ) );
+                add( new Double( 100 ) );
+            }
+        };
 
         public Atom( Point2D position ) {
             this.position.setLocation( position );
