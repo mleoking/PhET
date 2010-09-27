@@ -125,7 +125,6 @@ public class TestingCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
     
     public TestingCanvas( BuildAnAtomModel model ) {
-        super( BuildAnAtomDefaults.VIEW_SIZE );
         
         this.model = model;
         

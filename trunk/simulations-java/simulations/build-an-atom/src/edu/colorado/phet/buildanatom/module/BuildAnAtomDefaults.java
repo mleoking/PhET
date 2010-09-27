@@ -4,6 +4,8 @@ package edu.colorado.phet.buildanatom.module;
 
 import java.awt.Dimension;
 
+import edu.umd.cs.piccolo.util.PDimension;
+
 
 
 /**
@@ -25,6 +27,5 @@ public class BuildAnAtomDefaults {
     public static final int CLOCK_TIME_COLUMNS = 10;
 
     // Model-view transform
-    public static final Dimension VIEW_SIZE = new Dimension( 1500, 1500 );
-
+    public static final PDimension INTERMEDIATE_RENDERING_SIZE = new PDimension( 768, 768 );
 }

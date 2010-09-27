@@ -32,8 +32,7 @@ public class GameCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
     
     public GameCanvas( BuildAnAtomModel model ) {
-        super( BuildAnAtomDefaults.VIEW_SIZE );
-        
+
         this.model = model;
         
         setBackground( BuildAnAtomConstants.CANVAS_BACKGROUND );

@@ -32,7 +32,6 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
     
     public BuildAnAtomCanvas( BuildAnAtomModel model ) {
-        super( BuildAnAtomDefaults.VIEW_SIZE );
         
         this.model = model;
         
