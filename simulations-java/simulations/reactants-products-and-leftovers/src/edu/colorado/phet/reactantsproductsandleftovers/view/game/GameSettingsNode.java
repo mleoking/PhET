@@ -42,7 +42,7 @@ public class GameSettingsNode extends PhetPNode {
         super();
         
         // Title
-        JLabel titleLabel = new JLabel( "Game Settings" );
+        JLabel titleLabel = new JLabel( RPALStrings.TITLE_GAME_SETTINGS );
         titleLabel.setFont( TITLE_FONT );
         
         // separator
@@ -51,7 +51,7 @@ public class GameSettingsNode extends PhetPNode {
         
         // Level control
         levelRadioButtons = new JRadioButton[ GameModel.getLevelRange().getLength() + 1 ];
-        JLabel levelLabel = new JLabel( "Level:" );
+        JLabel levelLabel = new JLabel( RPALStrings.LABEL_LEVEL_CONTROL );
         ButtonGroup levelButtonGroup = new ButtonGroup();
         JPanel levelPanel = new JPanel( new FlowLayout( FlowLayout.LEFT ) );
         levelPanel.setOpaque( false );
