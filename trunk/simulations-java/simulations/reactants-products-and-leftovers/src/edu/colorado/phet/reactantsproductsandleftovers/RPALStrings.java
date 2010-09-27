@@ -24,6 +24,7 @@ public class RPALStrings {
     public static final String LABEL_PRODUCTS = RPALResources.getString( "label.products" );
     public static final String LABEL_LEFTOVERS = RPALResources.getString( "label.leftovers" );
     public static final String LABEL_LEVEL = RPALResources.getString( "label.level" );
+    public static final String LABEL_LEVEL_CONTROL = RPALResources.getString( "label.levelControl" );
     public static final String LABEL_SCORE = RPALResources.getString( "label.score" );
     public static final String LABEL_SCORE_IMPERFECT = RPALResources.getString( "label.score.max" );
     public static final String LABEL_SCORE_PERFECT = RPALResources.getString( "label.score.max.perfect" );
