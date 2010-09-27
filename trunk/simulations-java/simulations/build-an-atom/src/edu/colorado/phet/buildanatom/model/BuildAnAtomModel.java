@@ -6,10 +6,12 @@ import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.umd.cs.piccolo.util.PDimension;
 
 
@@ -129,23 +131,37 @@ public class BuildAnAtomModel {
      * it, so it has two shapes, one that is the hole, and one that is the
      * outside of the bucket.
      *
+     * IMPORTANT NOTE: The shapes that are created and that comprise the
+     * bucket are set up such that the point (0,0) is in the center of the
+     * bucket's hole.
+     *
      * @author John Blanco
      */
     public static class Bucket {
 
+        // Proportion of the total height which the ellipse that represents
+        // the hole occupies.  It is assumed that the width of the hole
+        // is the same as the width specified at construction.
+        private static final double HOLE_ELLIPSE_HEIGHT_PROPORTION = 0.3;
+
         // The position is defined to be where the center of the hole is.
         private final Point2D position = new Point2D.Double();
         private final Shape holeShape;
-        private final Shape containerShape;
+        private final DoubleGeneralPath containerShape;
         private final Color baseColor;
 
         public Bucket( Point2D position, Dimension2D size, Color baseColor ) {
             this.position.setLocation( position );
             this.baseColor = baseColor;
-            holeShape = new Ellipse2D.Double( -size.getWidth() / 2, -size.getHeight() / 6, size.getWidth(),
-                    size.getHeight() / 3 );
-            containerShape = new Rectangle2D.Double( -size.getWidth() / 2, -size.getHeight(), size.getWidth(),
-                    size.getHeight() );
+            holeShape = new Ellipse2D.Double( -size.getWidth() / 2,
+                    -size.getHeight() * HOLE_ELLIPSE_HEIGHT_PROPORTION / 2,
+                    size.getWidth(),
+                    size.getHeight() * HOLE_ELLIPSE_HEIGHT_PROPORTION );
+            containerShape = new DoubleGeneralPath();
+            containerShape.moveTo( -size.getWidth() / 2, 0 );
+            containerShape.lineTo( 0, -size.getHeight() );
+            containerShape.lineTo( size.getWidth() / 2, 0 );
+            containerShape.closePath();
         }
 
         public Point2D getPosition() {
@@ -157,7 +173,7 @@ public class BuildAnAtomModel {
         }
 
         public Shape getContainerShape() {
-            return containerShape;
+            return containerShape.getGeneralPath();
         }
 
         public Color getBaseColor() {
