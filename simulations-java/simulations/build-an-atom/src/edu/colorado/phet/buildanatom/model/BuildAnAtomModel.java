@@ -157,9 +157,12 @@ public class BuildAnAtomModel {
                     -size.getHeight() * HOLE_ELLIPSE_HEIGHT_PROPORTION / 2,
                     size.getWidth(),
                     size.getHeight() * HOLE_ELLIPSE_HEIGHT_PROPORTION );
+            double containerHeight = size.getHeight() * ( 1 - ( HOLE_ELLIPSE_HEIGHT_PROPORTION / 2 ) );
             containerShape = new DoubleGeneralPath();
             containerShape.moveTo( -size.getWidth() / 2, 0 );
-            containerShape.lineTo( 0, -size.getHeight() );
+            containerShape.lineTo( -size.getWidth() *0.4, -containerHeight * 0.8 );
+            containerShape.lineTo( 0, -containerHeight );
+            containerShape.lineTo( size.getWidth() * 0.4, -containerHeight * 0.8 );
             containerShape.lineTo( size.getWidth() / 2, 0 );
             containerShape.closePath();
         }
