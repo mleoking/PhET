@@ -9,6 +9,8 @@ import java.awt.Stroke;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.capacitorlab.view.MinusNode;
+import edu.colorado.phet.capacitorlab.view.PlusNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -39,8 +41,9 @@ public class ScaleButtonNode extends PComposite {
     private static final double PLUS_MINUS_WIDTH = 0.6 * GLASS_DIAMETER;
     private static final double PLUS_MINUS_HEIGHT = 0.1 * GLASS_DIAMETER;
     
-    private final PPath glassNode, handleNode, minusNode;
+    private final PPath glassNode, handleNode;
     private final PlusNode plusNode;
+    private final MinusNode minusNode;
     
     private boolean enabled, plusVisible;
     
@@ -57,13 +60,11 @@ public class ScaleButtonNode extends PComposite {
         handleNode.setPaint( ENABLED_COLOR );
         addChild( handleNode );
         
-        plusNode = new PlusNode();
+        plusNode = new PlusNode( PLUS_MINUS_WIDTH, PLUS_MINUS_HEIGHT, ENABLED_COLOR );
         addChild( plusNode );
         
         // Minus sign, created using PPaths because PText("-") can be accurately centered.
-        minusNode = new PPath( new Rectangle2D.Double( 0, 0, PLUS_MINUS_WIDTH, PLUS_MINUS_HEIGHT ) );
-        minusNode.setStroke( null );
-        minusNode.setPaint( ENABLED_COLOR );
+        minusNode = new MinusNode( PLUS_MINUS_WIDTH, PLUS_MINUS_HEIGHT, ENABLED_COLOR );
         addChild( minusNode );
         
         // layout
@@ -73,8 +74,8 @@ public class ScaleButtonNode extends PComposite {
         x = glassNode.getFullBoundsReference().getCenterX() - ( handleNode.getFullBoundsReference().getWidth() / 2 );
         y = glassNode.getFullBoundsReference().getMaxY() - ( GLASS_STROKE_WIDTH / 2 );
         handleNode.setOffset( x, y );
-        x = glassNode.getFullBoundsReference().getCenterX() - ( minusNode.getFullBoundsReference().getWidth() / 2 );
-        y = glassNode.getFullBoundsReference().getCenterY() - ( minusNode.getFullBoundsReference().getHeight() / 2 );
+        x = glassNode.getFullBoundsReference().getCenterX();
+        y = glassNode.getFullBoundsReference().getCenterY();
         minusNode.setOffset( x, y );
         x = glassNode.getFullBoundsReference().getCenterX();
         y = glassNode.getFullBoundsReference().getCenterY();
@@ -112,27 +113,5 @@ public class ScaleButtonNode extends PComposite {
         // visibility
         plusNode.setVisible( enabled && plusVisible );
         minusNode.setVisible( enabled && !plusVisible );
-    }
-    
-    /*
-     * Plus sign, created using PPaths because PText("+") can be accurately centered.
-     * Origin at geometric center.
-     */
-    private static class PlusNode extends PComposite {
-        
-        private final PPath horizontalNode, verticalNode;
-        
-        public PlusNode() {
-            
-            horizontalNode = new PPath( new Rectangle2D.Double( -PLUS_MINUS_WIDTH/2, -PLUS_MINUS_HEIGHT/2, PLUS_MINUS_WIDTH, PLUS_MINUS_HEIGHT ) );
-            horizontalNode.setStroke( null );
-            horizontalNode.setPaint( ENABLED_COLOR );
-            addChild( horizontalNode );
-            
-            verticalNode = new PPath( new Rectangle2D.Double( -PLUS_MINUS_HEIGHT/2, -PLUS_MINUS_WIDTH/2, PLUS_MINUS_HEIGHT, PLUS_MINUS_WIDTH ) );
-            verticalNode.setStroke( null );
-            verticalNode.setPaint( ENABLED_COLOR );
-            addChild( verticalNode );
-        }
     }
 }
