@@ -2,18 +2,15 @@
 
 package edu.colorado.phet.buildanatom.view;
 
-import java.awt.Color;
 import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomResources;
 import edu.colorado.phet.buildanatom.model.BuildAnAtomModel;
 import edu.colorado.phet.buildanatom.module.BuildAnAtomDefaults;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
-import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * Canvas for the game tab.
@@ -45,11 +42,11 @@ public class GameCanvas extends PhetPCanvas {
         rootNode = new PNode();
         addWorldChild( rootNode );
         
-        // TODO: Add at TBD note.
-        PText message = new PText("TBD");
-        message.setFont( new PhetFont( 200 ) );
-        message.setTextPaint( Color.WHITE );
-        rootNode.addChild( message );
+        // TODO: Temp - put a sketch of the tab up as a very early prototype.
+        PImage image = new PImage( BuildAnAtomResources.getImage( "tab-2-sketch-01.png" ));
+        image.scale( 1.7 );
+        image.setOffset( 50, 0 );
+        rootNode.addChild(image);
     }
 
 
