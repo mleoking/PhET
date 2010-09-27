@@ -7,6 +7,7 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.model.BuildAnAtomModel;
@@ -15,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Canvas for the tab where the user builds an atom.
@@ -43,7 +45,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         this.model = model;
 
         // Set up the canvas-screen transform.
-        setWorldTransformStrategy( new PhetPCanvas.CenteringBoxStrategy( this, BuildAnAtomDefaults.INTERMEDIATE_RENDERING_SIZE ) );
+        setWorldTransformStrategy( new PhetPCanvas.CenteringBoxStrategy( this, new PDimension( 1.47 * BuildAnAtomDefaults.INTERMEDIATE_RENDERING_SIZE.width, BuildAnAtomDefaults.INTERMEDIATE_RENDERING_SIZE.height ) ) );
 
         // Set up the model-canvas transform.
         mvt = new ModelViewTransform2D(
@@ -60,7 +62,8 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         addWorldChild( rootNode );
 
         // Put up the bounds of the model.
-        rootNode.addChild( new PhetPPath( mvt.createTransformedShape( model.getBounds() ), Color.PINK, new BasicStroke( 3f ), Color.BLACK ) );
+//        rootNode.addChild( new PhetPPath( mvt.createTransformedShape( model.getBounds() ), Color.PINK, new BasicStroke( 3f ), Color.BLACK ) );
+        rootNode.addChild( new PhetPPath( new Rectangle2D.Double(-178, 2, 1124, 764), Color.PINK, new BasicStroke( 3f ), Color.BLACK ) );
 
         // TODO: Temp - put a sketch of the tab up as a very early prototype.
         //        PImage image = new PImage( BuildAnAtomResources.getImage( "tab-1-sketch-01.png" ));
