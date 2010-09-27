@@ -1,3 +1,4 @@
+9/27/10 rename ScaleButtonNode to ZoomButtonNode, since my people are calling it a "zoom button"
 9/27/10 create nodes for positive and negative charges, use in other places that require + and -
 9/27/10 create scale button programmatically, image files looked lousy because these buttons are so small
 # 0.00.12 (44365) Sep 24, 2010

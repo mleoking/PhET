@@ -15,16 +15,16 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Button used for changing the scale on the bar meters.
+ * "Zoom" button used for changing the scale on the bar meters.
  * The button can be either disabled or enabled.
  * When disabled, it appears grayed out.
- * When enabled, it shows either a '+' or '-' to indicate how the scale will be changed.
+ * When enabled, it shows either a '+' or '-' to indicate whether we'll be zooming in or out.
  * <p>
  * Origin is at the upper-left corner of the bounding rectangle.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ScaleButtonNode extends PComposite {
+public class ZoomButtonNode extends PComposite {
     
     // all other dimensions are derived from the glass diameter
     private static final double GLASS_DIAMETER = 9;
@@ -47,7 +47,7 @@ public class ScaleButtonNode extends PComposite {
     
     private boolean enabled, plusVisible;
     
-    public ScaleButtonNode() {
+    public ZoomButtonNode() {
         
         glassNode = new PPath( new Ellipse2D.Double( 0, 0, GLASS_DIAMETER, GLASS_DIAMETER ) );
         glassNode.setPaint( new Color( 0, 0, 0, 0 ) ); // transparent, so that clicking in the center of the glass works

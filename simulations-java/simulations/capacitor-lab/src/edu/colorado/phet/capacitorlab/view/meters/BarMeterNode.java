@@ -78,7 +78,7 @@ public abstract class BarMeterNode extends PhetPNode {
     private final PowerOfTenRangeLabelNode maxLabelNode;
     private final RangeLabelNode minLabelNode;
     private final OverloadIndicatorNode overloadIndicatorNode;
-    private final ScaleButtonNode scaleButton;
+    private final ZoomButtonNode zoomButton;
     private final PImage closeButton;
     private final TickMarkNode maxTickMarkNode, minTickMarkNode;
     
@@ -151,10 +151,10 @@ public abstract class BarMeterNode extends PhetPNode {
         closeButton = new PImage( CLImages.CLOSE_BUTTON );
         addChild( closeButton );
         
-        // scale button
-        scaleButton = new ScaleButtonNode();
-        scaleButton.scale( 2 );
-        addChild( scaleButton );
+        // zoom button
+        zoomButton = new ZoomButtonNode();
+        zoomButton.scale( 2 );
+        addChild( zoomButton );
         
         // interactivity
         addInputEventListener( new CursorHandler() );
@@ -165,10 +165,10 @@ public abstract class BarMeterNode extends PhetPNode {
                 BarMeterNode.this.setVisible( false );
             }
         });
-        scaleButton.addInputEventListener( new PBasicInputEventHandler() {
+        zoomButton.addInputEventListener( new PBasicInputEventHandler() {
             @Override
             public void mouseReleased( PInputEvent event ) {
-                if ( scaleButton.isEnabled() ) {
+                if ( zoomButton.isEnabled() ) {
                     updateExponent();
                 }
             }
@@ -178,7 +178,7 @@ public abstract class BarMeterNode extends PhetPNode {
         updateLayout();
         
         updateExponent();
-        updateScaleButtonEnabled();
+        updateZoomButtonEnabled();
     }
     
     private void updateLayout() {
@@ -219,18 +219,18 @@ public abstract class BarMeterNode extends PhetPNode {
         x = trackNode.getFullBoundsReference().getMaxX() + 2;
         y = trackNode.getFullBoundsReference().getMinY();
         closeButton.setOffset( x, y );
-        // scale button below max label
-        x = maxLabelNode.getFullBoundsReference().getMaxX() - scaleButton.getFullBoundsReference().getWidth() - 8;
+        // zoom button below max label
+        x = maxLabelNode.getFullBoundsReference().getMaxX() - zoomButton.getFullBoundsReference().getWidth() - 8;
         y = maxLabelNode.getFullBoundsReference().getMaxY() + 5;
-        scaleButton.setOffset( x, y );
+        zoomButton.setOffset( x, y );
     }
     
-    private void updateScaleButtonEnabled() {
+    private void updateZoomButtonEnabled() {
         double mantissa = value / Math.pow( 10, exponent );
         boolean plusEnabled = ( mantissa < 0.1 );
         boolean minusEnabled = ( mantissa > 1 );
-        scaleButton.setEnabled( ( value != 0 ) && ( plusEnabled || minusEnabled ) );
-        scaleButton.setPlusVisible( plusEnabled );
+        zoomButton.setEnabled( ( value != 0 ) && ( plusEnabled || minusEnabled ) );
+        zoomButton.setPlusVisible( plusEnabled );
     }
     
     private void updateExponent() {
@@ -263,7 +263,7 @@ public abstract class BarMeterNode extends PhetPNode {
             valueNode.setValue( value );
             
             updateLayout();
-            updateScaleButtonEnabled();
+            updateZoomButtonEnabled();
         }
     }
     
@@ -283,7 +283,7 @@ public abstract class BarMeterNode extends PhetPNode {
             valueNode.setExponent( exponent );
             
             updateLayout();
-            updateScaleButtonEnabled();
+            updateZoomButtonEnabled();
         }
     }
     
