@@ -65,7 +65,7 @@ public class BuildAnAtomModel {
      */
     public static class Atom {
 
-        private static final double NUCLEUS_RADIUS = 20; // In picometers.
+        private static final double NUCLEUS_RADIUS = 10; // In picometers.
 
         private final Point2D position = new Point2D.Double();
 
@@ -84,7 +84,7 @@ public class BuildAnAtomModel {
             return electronShellRadii;
         }
 
-        public static double getNucleusRadius() {
+        public double getNucleusRadius() {
             return NUCLEUS_RADIUS;
         }
 

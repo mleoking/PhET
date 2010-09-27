@@ -5,9 +5,10 @@ package edu.colorado.phet.buildanatom.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Point;
+import java.awt.Shape;
 import java.awt.geom.Dimension2D;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.model.BuildAnAtomModel;
@@ -45,7 +46,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         this.model = model;
 
         // Set up the canvas-screen transform.
-        setWorldTransformStrategy( new PhetPCanvas.CenteringBoxStrategy( this, new PDimension( 1.47 * BuildAnAtomDefaults.INTERMEDIATE_RENDERING_SIZE.width, BuildAnAtomDefaults.INTERMEDIATE_RENDERING_SIZE.height ) ) );
+        setWorldTransformStrategy( new PhetPCanvas.CenteringBoxStrategy( this, BuildAnAtomDefaults.INTERMEDIATE_RENDERING_SIZE ) );
 
         // Set up the model-canvas transform.
         mvt = new ModelViewTransform2D(
@@ -53,7 +54,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
                 new Point( (int) Math.round( BuildAnAtomDefaults.INTERMEDIATE_RENDERING_SIZE.width * 0.5 ),
                 (int) Math.round( BuildAnAtomDefaults.INTERMEDIATE_RENDERING_SIZE.height * 0.5 ) ),
                 2.5, // Scale factor - smaller numbers "zoom out", bigger ones "zoom in".
-                true );
+        true );
 
         setBackground( BuildAnAtomConstants.CANVAS_BACKGROUND );
 
@@ -62,8 +63,18 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         addWorldChild( rootNode );
 
         // Put up the bounds of the model.
-//        rootNode.addChild( new PhetPPath( mvt.createTransformedShape( model.getBounds() ), Color.PINK, new BasicStroke( 3f ), Color.BLACK ) );
-        rootNode.addChild( new PhetPPath( new Rectangle2D.Double(-178, 2, 1124, 764), Color.PINK, new BasicStroke( 3f ), Color.BLACK ) );
+        //        rootNode.addChild( new PhetPPath( mvt.createTransformedShape( model.getBounds() ), Color.PINK, new BasicStroke( 3f ), Color.BLACK ) );
+        //        rootNode.addChild( new PhetPPath( new Rectangle2D.Double(-178, 2, 1124, 764), Color.PINK, new BasicStroke( 3f ), Color.BLACK ) );
+
+        // Add the atom to the canvas.
+        Shape nucleusOutlineShape = mvt.createTransformedShape( new Ellipse2D.Double(
+                -model.getAtom().getNucleusRadius(),
+                -model.getAtom().getNucleusRadius(),
+                model.getAtom().getNucleusRadius() * 2,
+                model.getAtom().getNucleusRadius() * 2 ) );
+        PNode nucleusOutlineNode = new PhetPPath( nucleusOutlineShape, Color.GREEN );
+        nucleusOutlineNode.setOffset( model.getAtom().getPosition() );
+        rootNode.addChild( nucleusOutlineNode );
 
         // TODO: Temp - put a sketch of the tab up as a very early prototype.
         //        PImage image = new PImage( BuildAnAtomResources.getImage( "tab-1-sketch-01.png" ));
