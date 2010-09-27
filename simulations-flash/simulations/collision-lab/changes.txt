@@ -1,3 +1,5 @@
+# 0.00.05 (44419) Sep 27, 2010
+9/27/10 Minor changes to user interface
 # 0.00.04 (44417) Sep 27, 2010
 9/27/10 Minor changes to user interface.
 # 0.00.03 (42701) Jul 28, 2010
