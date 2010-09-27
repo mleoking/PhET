@@ -13,6 +13,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.model.BuildAnAtomModel;
+import edu.colorado.phet.buildanatom.model.BuildAnAtomModel.Bucket;
 import edu.colorado.phet.buildanatom.module.BuildAnAtomDefaults;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -37,6 +38,10 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
     // Transform.
     private final ModelViewTransform2D mvt;
 
+    // Scale factor used in the model-view transform, larger numbers zoom in,
+    // smaller ones zoom out.
+    private static double MVT_SCALE_FACTOR = 3.5;
+
     // Stroke for drawing the electron shells.
     private final Stroke ELECTRON_SHELL_STROKE = new BasicStroke( 2f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0,
             new float[] {3,3}, 0 );
@@ -60,7 +65,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
                 new Point2D.Double( 0, 0 ),
                 new Point( (int) Math.round( BuildAnAtomDefaults.INTERMEDIATE_RENDERING_SIZE.width * 0.2 ),
                 (int) Math.round( BuildAnAtomDefaults.INTERMEDIATE_RENDERING_SIZE.height * 0.5 ) ),
-                3.5,
+                MVT_SCALE_FACTOR,
                 true );
 
         setBackground( BuildAnAtomConstants.CANVAS_BACKGROUND );
@@ -93,6 +98,13 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
             PNode electronShellNode = new PhetPPath( electronShellShape, ELECTRON_SHELL_STROKE, Color.BLACK );
 //            electronShellNode.setOffset( model.getAtom().getPosition() );
             rootNode.addChild( electronShellNode );
+        }
+
+        // Add the buckets for holding the sub-atomic particles to the canvas.
+        for (Bucket bucket : model.getBuckets()){
+            BucketNode bucketNode = new BucketNode( bucket, mvt );
+            bucketNode.setOffset( mvt.modelToViewDouble( bucket.getPosition() ) );
+            rootNode.addChild( bucketNode );
         }
         // TODO: Temp - put a sketch of the tab up as a very early prototype.
         //        PImage image = new PImage( BuildAnAtomResources.getImage( "tab-1-sketch-01.png" ));
