@@ -41,6 +41,11 @@ package{
 			}//end for()
 		}//end of initialize
 		
+		//need to reset borderHeight when switching between 1D and 2D modes
+		public function setBorderHeight():void{
+			this.borderHeight = this.myModel.borderHeight;
+		}
+		
 		public function updateNbrPaths():void{
 			this.nbrPaths = this.myModel.nbrBalls;
 			//erase high-index paths that should be invisible
