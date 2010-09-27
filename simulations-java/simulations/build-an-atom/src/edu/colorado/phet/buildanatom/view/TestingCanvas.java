@@ -46,7 +46,7 @@ public class TestingCanvas extends PhetPCanvas {
 //    private static final Color OUTER_SHELL_FADE_TO_COLOR = BACKGROUND_COLOR;
     
     // Color Test Set 03 - Blue background with gray atoms
-    private static final Color BACKGROUND_COLOR = new Color( 100, 149, 237 );
+    private static final Color BACKGROUND_COLOR = new Color( 185, 205, 229 );
     private static final Color INNER_SHELL_BASE_COLOR = Color.DARK_GRAY;
     private static final Color INNER_SHELL_FADE_TO_COLOR = BACKGROUND_COLOR;
     private static final Color OUTER_SHELL_BASE_COLOR = Color.DARK_GRAY;
