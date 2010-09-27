@@ -65,14 +65,18 @@ public class BuildAnAtomModel {
      */
     public static class Atom {
 
-        private static final double NUCLEUS_RADIUS = 10; // In picometers.
+        // Nuclear radius, in picometers.  This is not to scale - we need it
+        // to be larger than real life.
+        private static final double NUCLEUS_RADIUS = 10;
 
         private final Point2D position = new Point2D.Double();
 
+        // Radii of the electron shells.  The values used here are based on
+        // the covalent radius values found in Wikipedia.
         private final ArrayList<Double> electronShellRadii = new ArrayList<Double>() {
             {
-                add( new Double( 50 ) );
-                add( new Double( 100 ) );
+                add( new Double( 30 ) );
+                add( new Double( 58 ) );
             }
         };
 
