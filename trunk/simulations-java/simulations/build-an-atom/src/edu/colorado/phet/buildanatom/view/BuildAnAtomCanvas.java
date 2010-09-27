@@ -6,6 +6,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.Shape;
+import java.awt.Stroke;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
@@ -17,7 +18,6 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Canvas for the tab where the user builds an atom.
@@ -36,6 +36,10 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
 
     // Transform.
     private final ModelViewTransform2D mvt;
+
+    // Stroke for drawing the electron shells.
+    private final Stroke ELECTRON_SHELL_STROKE = new BasicStroke( 2f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0,
+            new float[] {3,3}, 0 );
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -86,7 +90,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
                     -shellRadius,
                     shellRadius * 2,
                     shellRadius * 2));
-            PNode electronShellNode = new PhetPPath( electronShellShape, new BasicStroke( 3f ), Color.BLACK );
+            PNode electronShellNode = new PhetPPath( electronShellShape, ELECTRON_SHELL_STROKE, Color.BLACK );
 //            electronShellNode.setOffset( model.getAtom().getPosition() );
             rootNode.addChild( electronShellNode );
         }
