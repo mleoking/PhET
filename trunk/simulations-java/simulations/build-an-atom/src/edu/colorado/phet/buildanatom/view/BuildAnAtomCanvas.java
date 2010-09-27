@@ -48,13 +48,16 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         // Set up the canvas-screen transform.
         setWorldTransformStrategy( new PhetPCanvas.CenteringBoxStrategy( this, BuildAnAtomDefaults.INTERMEDIATE_RENDERING_SIZE ) );
 
-        // Set up the model-canvas transform.
+        // Set up the model-canvas transform.  IMPORTANT NOTES: The multiplier
+        // factors for the point in the view can be adjusted to shift the
+        // center right or left, and the scale factor can be adjusted to zoom
+        // in or out (smaller numbers zoom out, larger ones zoom in).
         mvt = new ModelViewTransform2D(
                 new Point2D.Double( 0, 0 ),
-                new Point( (int) Math.round( BuildAnAtomDefaults.INTERMEDIATE_RENDERING_SIZE.width * 0.5 ),
-                (int) Math.round( BuildAnAtomDefaults.INTERMEDIATE_RENDERING_SIZE.height * 0.5 ) ),
-                2.5, // Scale factor - smaller numbers "zoom out", bigger ones "zoom in".
-        true );
+                new Point( (int) Math.round( BuildAnAtomDefaults.INTERMEDIATE_RENDERING_SIZE.width * 0.1 ),
+                (int) Math.round( BuildAnAtomDefaults.INTERMEDIATE_RENDERING_SIZE.height * 0.4 ) ),
+                2.5,
+                true );
 
         setBackground( BuildAnAtomConstants.CANVAS_BACKGROUND );
 
