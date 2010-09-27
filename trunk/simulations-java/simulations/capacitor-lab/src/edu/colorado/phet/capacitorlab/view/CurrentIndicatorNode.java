@@ -7,7 +7,6 @@ import java.awt.Color;
 import java.awt.Paint;
 import java.awt.Stroke;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
 import edu.colorado.phet.capacitorlab.model.Battery.BatteryChangeAdapter;
@@ -19,7 +18,6 @@ import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
 import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.activities.PActivity.PActivityDelegate;
-import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * Arrow and electron that indicates the direction of current flow.
@@ -74,9 +72,7 @@ public class CurrentIndicatorNode extends PhetPNode {
         addChild( electronNode );
         
         // Use a PPath, because PText("-") can't be accurately centered.
-        PPath minusNode = new PPath( new Rectangle2D.Double( 0, 0, ELECTRON_MINUS_WIDTH, ELECTRON_MINUS_HEIGHT ) );
-        minusNode.setStroke( null );
-        minusNode.setPaint( ELECTRON_MINUS_COLOR );
+        MinusNode minusNode = new MinusNode( ELECTRON_MINUS_WIDTH, ELECTRON_MINUS_HEIGHT, ELECTRON_MINUS_COLOR );
         addChild( minusNode );
         
         // layout
@@ -86,8 +82,8 @@ public class CurrentIndicatorNode extends PhetPNode {
         x = arrowNode.getFullBoundsReference().getMaxX() - ( 0.6 * ( arrowNode.getFullBoundsReference().getWidth() - ARROW_HEAD_HEIGHT ) );
         y = arrowNode.getFullBoundsReference().getCenterY();
         electronNode.setOffset( x, y );
-        x = electronNode.getFullBoundsReference().getCenterX() - ( minusNode.getFullBoundsReference().getWidth() / 2 );
-        y = electronNode.getFullBoundsReference().getCenterY() - ( minusNode.getFullBoundsReference().getHeight() / 2 ); 
+        x = electronNode.getFullBoundsReference().getCenterX();
+        y = electronNode.getFullBoundsReference().getCenterY(); 
         minusNode.setOffset( x, y );
         
         // listeners
