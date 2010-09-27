@@ -69,16 +69,27 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         //        rootNode.addChild( new PhetPPath( mvt.createTransformedShape( model.getBounds() ), Color.PINK, new BasicStroke( 3f ), Color.BLACK ) );
         //        rootNode.addChild( new PhetPPath( new Rectangle2D.Double(-178, 2, 1124, 764), Color.PINK, new BasicStroke( 3f ), Color.BLACK ) );
 
-        // Add the atom to the canvas.
+        // Add the atom's nucleus location to the canvas.
         Shape nucleusOutlineShape = mvt.createTransformedShape( new Ellipse2D.Double(
                 -model.getAtom().getNucleusRadius(),
                 -model.getAtom().getNucleusRadius(),
                 model.getAtom().getNucleusRadius() * 2,
                 model.getAtom().getNucleusRadius() * 2 ) );
         PNode nucleusOutlineNode = new PhetPPath( nucleusOutlineShape, Color.GREEN );
-        nucleusOutlineNode.setOffset( model.getAtom().getPosition() );
+//        nucleusOutlineNode.setOffset( model.getAtom().getPosition() );
         rootNode.addChild( nucleusOutlineNode );
 
+        // Add the atom's electron shells to the canvas.
+        for (Double shellRadius : model.getAtom().getElectronShellRadii()){
+            Shape electronShellShape = mvt.createTransformedShape( new Ellipse2D.Double(
+                    -shellRadius,
+                    -shellRadius,
+                    shellRadius * 2,
+                    shellRadius * 2));
+            PNode electronShellNode = new PhetPPath( electronShellShape, new BasicStroke( 3f ), Color.BLACK );
+//            electronShellNode.setOffset( model.getAtom().getPosition() );
+            rootNode.addChild( electronShellNode );
+        }
         // TODO: Temp - put a sketch of the tab up as a very early prototype.
         //        PImage image = new PImage( BuildAnAtomResources.getImage( "tab-1-sketch-01.png" ));
         //        image.scale( 2.05 );
