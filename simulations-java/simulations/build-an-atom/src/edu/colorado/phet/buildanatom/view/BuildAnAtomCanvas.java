@@ -54,9 +54,9 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         // in or out (smaller numbers zoom out, larger ones zoom in).
         mvt = new ModelViewTransform2D(
                 new Point2D.Double( 0, 0 ),
-                new Point( (int) Math.round( BuildAnAtomDefaults.INTERMEDIATE_RENDERING_SIZE.width * 0.1 ),
-                (int) Math.round( BuildAnAtomDefaults.INTERMEDIATE_RENDERING_SIZE.height * 0.4 ) ),
-                2.5,
+                new Point( (int) Math.round( BuildAnAtomDefaults.INTERMEDIATE_RENDERING_SIZE.width * 0.2 ),
+                (int) Math.round( BuildAnAtomDefaults.INTERMEDIATE_RENDERING_SIZE.height * 0.5 ) ),
+                3.5,
                 true );
 
         setBackground( BuildAnAtomConstants.CANVAS_BACKGROUND );
