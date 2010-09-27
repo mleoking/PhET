@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--equation-grapher-strings_lv.xml created Sat Sep 25 08:21:44 EEST 2010 using: equation-grapher 2.01.00 (37298), translation-utility 2.09.00 (44031) Sep 14, 2010-->
+<SimStrings>
+<string key="showYEq" value="Parādīt y="/>
+<string key="erase" value="Izdzēst"/>
+<string key="save" value="Saglabāt"/>
+<string key="zero" value="Nulle"/>
+<string key="simTitle" value="Vienādojumu zīmētājs"/>
+</SimStrings>
