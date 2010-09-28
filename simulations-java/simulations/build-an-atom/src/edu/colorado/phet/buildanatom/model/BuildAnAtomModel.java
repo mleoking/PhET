@@ -23,7 +23,7 @@ public class BuildAnAtomModel {
     // Class Data
     //----------------------------------------------------------------------------
 
-    private static final Rectangle2D MODEL_BOUNDS =
+    private static final Rectangle2D MODEL_VIEWPORT =
             new Rectangle2D.Double( -200, -150,
                                     400,
                                     400 * BuildAnAtomDefaults.STAGE_SIZE.getHeight() / BuildAnAtomDefaults.STAGE_SIZE.getWidth() );//use the same aspect ratio so circles don't become elliptical
@@ -74,8 +74,8 @@ public class BuildAnAtomModel {
         return atom;
     }
 
-    public Rectangle2D getBounds() {
-        return MODEL_BOUNDS;
+    public Rectangle2D getModelViewport() {
+        return MODEL_VIEWPORT;
     }
 
     public BuildAnAtomClock getClock() {

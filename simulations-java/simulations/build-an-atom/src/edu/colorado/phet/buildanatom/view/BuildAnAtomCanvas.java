@@ -54,7 +54,8 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         setWorldTransformStrategy( new CenteredStage( this, BuildAnAtomDefaults.STAGE_SIZE ) );
 
         
-        mvt = new ModelViewTransform2D( model.getBounds(), new Rectangle2D.Double( 0,0,BuildAnAtomDefaults.STAGE_SIZE.getWidth(),BuildAnAtomDefaults.STAGE_SIZE.getHeight() ));
+        mvt = new ModelViewTransform2D( model.getModelViewport(), new Rectangle2D.Double( 0,BuildAnAtomDefaults.STAGE_SIZE.getHeight()*(1-0.7),
+                                                                                   BuildAnAtomDefaults.STAGE_SIZE.getWidth()*0.7,BuildAnAtomDefaults.STAGE_SIZE.getHeight()*0.7 ));
         // Set up the model-canvas transform.  IMPORTANT NOTES: The multiplier
         // factors for the point in the view can be adjusted to shift the
         // center right or left, and the scale factor can be adjusted to zoom
@@ -73,7 +74,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         addWorldChild( rootNode );
 
         // Put up the bounds of the model.
-        rootNode.addChild( new PhetPPath( mvt.createTransformedShape( model.getBounds() ), Color.PINK, new BasicStroke( 3f ), Color.BLACK ) );
+        rootNode.addChild( new PhetPPath( mvt.createTransformedShape( model.getModelViewport() ), Color.PINK, new BasicStroke( 3f ), Color.BLACK ) );
 
         // Add the atom's nucleus location to the canvas.
         Shape nucleusOutlineShape = mvt.createTransformedShape( new Ellipse2D.Double(
