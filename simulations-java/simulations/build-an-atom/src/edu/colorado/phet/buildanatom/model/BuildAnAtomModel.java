@@ -29,9 +29,9 @@ public class BuildAnAtomModel {
                                     400 * BuildAnAtomDefaults.STAGE_SIZE.getHeight() / BuildAnAtomDefaults.STAGE_SIZE.getWidth() );//use the same aspect ratio so circles don't become elliptical
 
     private static final Dimension2D BUCKET_SIZE = new PDimension( 60, 30 );
-    private static final Point2D PROTON_BUCKET_POSITION = new Point2D.Double( -100, -120 );
-    private static final Point2D NEUTRON_BUCKET_POSITION = new Point2D.Double( 0, -120 );
-    private static final Point2D ELECTRON_BUCKET_POSITION = new Point2D.Double( 100, -120 );
+    private static final Point2D PROTON_BUCKET_POSITION = new Point2D.Double( -80, -140 );
+    private static final Point2D NEUTRON_BUCKET_POSITION = new Point2D.Double( 0, -140 );
+    private static final Point2D ELECTRON_BUCKET_POSITION = new Point2D.Double( 80, -140 );
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -44,7 +44,7 @@ public class BuildAnAtomModel {
     // The humor in the name "bucketList" is not lost on me.  Just in case
     // you were wondering.
     private final ArrayList<Bucket> bucketList = new ArrayList<Bucket>();
-    
+
     private final ArrayList<Electron> electrons = new ArrayList<Electron>( );
     private final ArrayList<Neutron> neutrons = new ArrayList<Neutron>( );
     private final ArrayList<Proton> protons = new ArrayList<Proton>( );
@@ -68,35 +68,35 @@ public class BuildAnAtomModel {
         bucketList.add( new Bucket( NEUTRON_BUCKET_POSITION, BUCKET_SIZE, Color.gray, "Neutrons" ) );
         // TODO: i18n
         bucketList.add( new Bucket( ELECTRON_BUCKET_POSITION, BUCKET_SIZE, Color.blue, "Electrons" ) );
-        
+
         electrons.add( new Electron(10,10) );
         protons.add( new Proton(-10,10) );
         neutrons.add( new Neutron(-10,-10) );
     }
-    
+
     public Electron getElectron(int i){
         assert i>=0 && i<numElectrons();
         return electrons.get( i );
     }
-    
+
     public int numElectrons(){
         return electrons.size();
     }
-    
+
     public Proton getProton(int i){
         assert i>=0 && i<numProtons();
         return protons.get( i );
     }
-    
+
     public int numProtons(){
         return protons.size();
     }
-    
+
     public Neutron getNeutron(int i){
         assert i>=0 && i<numNeutrons();
         return neutrons.get( i );
     }
-    
+
     public int numNeutrons(){
         return neutrons.size();
     }
@@ -134,16 +134,18 @@ public class BuildAnAtomModel {
 
         // Nuclear radius, in picometers.  This is not to scale - we need it
         // to be larger than real life.
-        private static final double NUCLEUS_RADIUS = 10;
+        private static final double NUCLEUS_RADIUS = 5;
 
         private final Point2D position = new Point2D.Double();
 
-        // Radii of the electron shells.  The values used here are based on
-        // the covalent radius values found in Wikipedia.
+        // Radii of the electron shells.  The values used for these distances
+        // are remotely related to reality (based on covalent bond radii of
+        // various molecules) but they have been tweaked significantly in
+        // order to be at a scale that works visually in the sim.
         private final ArrayList<Double> electronShellRadii = new ArrayList<Double>() {
             {
                 add( new Double( 34 ) );
-                add( new Double( 110 ) );
+                add( new Double( 102 ) );
             }
         };
 

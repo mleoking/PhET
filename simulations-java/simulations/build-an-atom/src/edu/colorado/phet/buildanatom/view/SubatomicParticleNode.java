@@ -13,10 +13,10 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
 
 public class SubatomicParticleNode extends PNode {
-    private ModelViewTransform2D mvt;
+    private final ModelViewTransform2D mvt;
     private final SphericalNode sphericalNode;
-    private SubatomicParticle subatomicParticle;
-    
+    private final SubatomicParticle subatomicParticle;
+
     public SubatomicParticleNode( final ModelViewTransform2D mvt, final SubatomicParticle subatomicParticle, final Color baseColor ) {
         this.mvt = mvt;
         this.subatomicParticle = subatomicParticle;
@@ -24,14 +24,14 @@ public class SubatomicParticleNode extends PNode {
         addChild( sphericalNode );
 
         updatePosition();
-        
+
         addInputEventListener( new CursorHandler( ) );
-        
-        subatomicParticle.addListener( new SubatomicParticle.Listener() {
-            public void positionChanged() {
-                updatePosition();
-            }
-        } );
+
+//        subatomicParticle.addListener( new SubatomicParticle.Listener() {
+//            public void positionChanged() {
+//                updatePosition();
+//            }
+//        } );
         addInputEventListener( new PBasicInputEventHandler(){
             @Override
             public void mouseDragged( PInputEvent event ) {
