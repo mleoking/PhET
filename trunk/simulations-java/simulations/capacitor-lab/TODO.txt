@@ -6,14 +6,22 @@ Oct 9 - complete "as much as possible" per Kathy P. for Hisham
 
 QUESTIONS FOR NOAH
 
+DESIGN ISSUES
+- range of plate charge is too large to make plate charges vary proportionally
+- range of dielectric charge is too large to make dielectric charges vary proportionally (all + excess)
+- range of field is too large to make number of field lines vary proportionally
+- range of field is too large to make Field Detector vector length vary proportionally
+- no visual cues to indicate 3D location of Field Detector probe 
+- no visual cues to indicate 3D location of Voltmeter probes
+
 HIGH PRIORITY
-- charge and excess charge on plates (see notes)
+- charge on plates (see notes)
 - charge and excess charge on dielectric (see notes)
-- field meter with dashed line around "detecting plane"
+- Field Detector
+- field lines (with fake curvature?)
 - add cables and drag behavior to voltmeter, see CCK's VoltmeterNode
 - voltmeter notifiers for moving probes or meter body
 - subclass of voltmeter that is specific to this sim, knows about model
-- E-field (with fake curvature?)
 
 MEDUIUM PRIORITY
 - utilities for computing important 2D points on capacitor's pseudo-3D geometry (for layout, interactivity, and connecting things)
