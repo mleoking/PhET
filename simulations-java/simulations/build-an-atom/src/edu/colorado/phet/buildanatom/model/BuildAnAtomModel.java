@@ -55,9 +55,12 @@ public class BuildAnAtomModel {
         atom = new Atom( new Point2D.Double( 0, 0 ) );
 
         // Create the buckets that hold the sub-atomic particles.
-        bucketList.add( new Bucket( PROTON_BUCKET_POSITION, BUCKET_SIZE, Color.red ) );
-        bucketList.add( new Bucket( NEUTRON_BUCKET_POSITION, BUCKET_SIZE, Color.gray ) );
-        bucketList.add( new Bucket( ELECTRON_BUCKET_POSITION, BUCKET_SIZE, Color.blue ) );
+        // TODO: i18n
+        bucketList.add( new Bucket( PROTON_BUCKET_POSITION, BUCKET_SIZE, Color.red, "Protons" ) );
+        // TODO: i18n
+        bucketList.add( new Bucket( NEUTRON_BUCKET_POSITION, BUCKET_SIZE, Color.gray, "Neutrons" ) );
+        // TODO: i18n
+        bucketList.add( new Bucket( ELECTRON_BUCKET_POSITION, BUCKET_SIZE, Color.blue, "Electrons" ) );
     }
 
     //----------------------------------------------------------------------------
@@ -145,17 +148,29 @@ public class BuildAnAtomModel {
 
         // The position is defined to be where the center of the hole is.
         private final Point2D position = new Point2D.Double();
+
+        // The two shapes that define the overall shape of the bucket.
         private final Shape holeShape;
         private final DoubleGeneralPath containerShape;
+
+        // Base color of the bucket.
         private final Color baseColor;
 
-        public Bucket( Point2D position, Dimension2D size, Color baseColor ) {
+        // Caption to be shown on the bucket.
+        private final String captionText;
+
+        public Bucket( Point2D position, Dimension2D size, Color baseColor, String caption ) {
             this.position.setLocation( position );
             this.baseColor = baseColor;
+            this.captionText = caption;
+
+            // Create the shape of the bucket's hole.
             holeShape = new Ellipse2D.Double( -size.getWidth() / 2,
                     -size.getHeight() * HOLE_ELLIPSE_HEIGHT_PROPORTION / 2,
                     size.getWidth(),
                     size.getHeight() * HOLE_ELLIPSE_HEIGHT_PROPORTION );
+
+            // Create the shape of the container.
             double containerHeight = size.getHeight() * ( 1 - ( HOLE_ELLIPSE_HEIGHT_PROPORTION / 2 ) );
             containerShape = new DoubleGeneralPath();
             containerShape.moveTo( -size.getWidth() * 0.5, 0 );
@@ -185,6 +200,10 @@ public class BuildAnAtomModel {
 
         public Color getBaseColor() {
             return baseColor;
+        }
+
+        public String getCaptionText() {
+            return captionText;
         }
     }
 }
