@@ -1,4 +1,4 @@
-﻿//View of "Pool Table" containing balls
+//View of "Pool Table" containing balls
 package{
 import edu.colorado.phet.flashcommon.SimStrings;
 
@@ -100,8 +100,12 @@ import flash.display.*;
 			//position KE and Time Labels
 			this.timeText.x = W - 1.5*this.timeText.width;
 			this.timeText.y = H + 10;
+            this.totKEText.width=165;
+            
 			this.totKEText.x = 0;//0.5*this.totKEText.width;//30; //
 			this.totKEText.y = H + 10;
+//            this.totKEText.border=true;//to help visualize layout
+            this.totKEText.width=165;//to improve support for i18n
 			trace("drawBorder() called. this.totKEText.width = "+this.totKEText.width);
 
 		}//end of drawBorder();
@@ -157,7 +161,7 @@ import flash.display.*;
 			this.totKEText = new TextField();
 			this.totKEText.text = getKEText(Math.round(100*this.myModel.getTotalKE())/100); //text is set in update
 			this.totKEText.selectable = false;
-			this.totKEText.autoSize = TextFieldAutoSize.RIGHT;
+//			this.totKEText.autoSize = TextFieldAutoSize.RIGHT;
 			var tFormat:TextFormat = new TextFormat();
 			tFormat.font = "Arial";
 			tFormat.bold = true;

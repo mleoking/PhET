@@ -111,7 +111,7 @@ package{
             TextFieldUtils.initLabelButtonI18NLeft("ControlPanel.showPaths","Show Paths",showPaths_label, showPaths_cb);
             TextFieldUtils.initLabelButtonI18NLeft("ControlPanel.sound","Sound",sound_label, sound_cb);
             
-            this.resetButton_sp.label_txt.text  = SimStrings.get("ControlPanel.resetAll","Reset All");  //controlPanel is instance of class NiceButton
+            resetButton.setLabel(SimStrings.get("ControlPanel.resetAll","Reset All"));
             this.timeLabel.text = SimStrings.get("ControlPanel.time","Time");
             this.slowLabel.text = SimStrings.get("ControlPanel.slow","slow");
             this.fastLabel.text = SimStrings.get("ControlPanel.fast","fast");

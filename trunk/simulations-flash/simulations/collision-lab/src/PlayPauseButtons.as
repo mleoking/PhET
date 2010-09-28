@@ -1,4 +1,4 @@
-﻿package{
+package{
 import edu.colorado.phet.flashcommon.TextFieldUtils;
 
 import flash.display.*;
@@ -53,9 +53,12 @@ import flash.display.*;
 			this.pauseText = SimStrings.get("PlayPauseButtons.pause","Pause");
 			this.stepText = SimStrings.get("PlayPauseButtons.step","Step");
 			this.buttonView.resetLabel.text = resetText;
+            TextFieldUtils.resizeText(this.buttonView.resetLabel,TextFieldAutoSize.RIGHT);
 			this.buttonView.stepBackLabel.text = backText;
+            TextFieldUtils.resizeText(this.buttonView.stepBackLabel,TextFieldAutoSize.RIGHT);
             setPlayText();
 			this.buttonView.stepLabel.text = stepText;
+            TextFieldUtils.resizeText(this.buttonView.stepLabel,TextFieldAutoSize.LEFT);
 		}
 		
 		public function reset(evt:MouseEvent):void{
