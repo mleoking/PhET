@@ -32,7 +32,7 @@ public class ModelViewTransform {
      * Constructor.
      * 
      * @param scale scale for mapping from model to view (x and y scale are identical)
-     * @param offset translation for mapping from model to view
+     * @param offset translation for mapping from model to view, in model coordinates
      * @param pitch rotation about the horizontal (x) axis
      * @param yaw rotation about the vertical (y) axis
      */
@@ -96,6 +96,10 @@ public class ModelViewTransform {
         double xModel = pModel.getX() + ( pModel.getZ() * Math.sin( pitch ) * Math.cos( yaw ) );
         double yModel = pModel.getY() + ( pModel.getZ() * Math.sin( pitch ) * Math.sin( yaw ) );
         return modelToView( xModel, yModel );
+    }
+    
+    public Point2D modelToView( double x, double y, double z ) {
+        return modelToView( new Point3D.Double( x, y, z ) );
     }
     
     /**

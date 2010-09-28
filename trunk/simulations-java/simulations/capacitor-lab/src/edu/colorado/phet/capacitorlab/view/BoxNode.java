@@ -110,14 +110,14 @@ public abstract class BoxNode extends PhetPNode {
          * Gets the x-offset required to create a pseudo-3D perspective between the front and back edges of a face.
          */
         protected static double getXOffsetForDepth( double depth ) {
-            return depth * Math.sin( CLConstants.PITCH_VIEWING_ANGLE ) * Math.cos( Math.PI/2 - CLConstants.YAW_VIEWING_ANGLE );
+            return depth * Math.sin( CLConstants.PITCH_VIEWING_ANGLE ) * Math.cos( Math.PI/2 + CLConstants.YAW_VIEWING_ANGLE );
         }
         
         /*
          * Gets the y-offset required to create a pseudo-3D perspective between the front and back edges of a face.
          */
         protected static double getYOffsetForDepth( double depth ) {
-            return depth * Math.sin( CLConstants.PITCH_VIEWING_ANGLE ) * Math.sin( Math.PI/2 - CLConstants.YAW_VIEWING_ANGLE );
+            return depth * Math.sin( CLConstants.PITCH_VIEWING_ANGLE ) * Math.sin( Math.PI/2 + CLConstants.YAW_VIEWING_ANGLE );
         }
     }
     

@@ -69,8 +69,8 @@ public class CLConstants {
     // reference coordinate frame size for world nodes
     public static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 1024, 768 );
     
-    public static final double YAW_VIEWING_ANGLE = Math.toRadians( 45 ); // rotation about the vertical axis
-    public static final double PITCH_VIEWING_ANGLE = Math.toRadians( 30 ); // rotation about the horizontal axis
+    public static final double YAW_VIEWING_ANGLE = Math.toRadians( -45 ); // rotation about the vertical axis, right-hand rule determines sign
+    public static final double PITCH_VIEWING_ANGLE = Math.toRadians( 30 ); // rotation about the horizontal axis, right-hand rule determines sign
     
     public static final double PSWING_SCALE = 1.5;
     
