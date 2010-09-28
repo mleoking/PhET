@@ -32,7 +32,7 @@ public class TranslationLinksPanel extends PhetPanel {
     public TranslationLinksPanel( String id, final PageContext context ) {
         super( id, context );
 
-        final String queryString = getPhetCycle().getQueryString() == null ? "" : "?" + getPhetCycle().getQueryString();
+        final String queryString = HtmlUtils.encodeForAttribute( getPhetCycle().getQueryString() == null ? "" : "?" + getPhetCycle().getQueryString() );
 
         Locale englishLocale = LocaleUtils.stringToLocale( "en" );
         PageContext englishContext = context.withNewLocale( englishLocale );
