@@ -1,3 +1,4 @@
+# 0.00.14 (44465) Sep 28, 2010
 9/28/10 display the number of plate charges, to check that this representation is going to work
 # 0.00.13 (44455) Sep 28, 2010
 9/28/10 change dielectric constant range to 1-5, per Noah P.
