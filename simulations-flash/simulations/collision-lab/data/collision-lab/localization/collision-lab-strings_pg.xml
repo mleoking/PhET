@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <SimStrings>
-
-    <string key="simTitle" value="原子分裂原子分裂原子分裂原子分裂"/>
+    <string key="simTitle" value="Collision Lab (原子分裂)"/>
     <string key="PlayPauseButtons.reset" value="原子分裂"/>
     <string key="PlayPauseButtons.back" value="原子分裂"/>
     <string key="PlayPauseButtons.play" value="原子分裂"/>
     <string key="PlayPauseButtons.pause" value="原子分裂"/>
     <string key="PlayPauseButtons.step" value="原子分裂"/>
 
+
+    <string key="DataTable.addBall" value="Add 原子分裂"/>
+    <string key="DataTable.removeBall" value="Remove 原子分裂"/>
+    <string key="DataTable.moreData" value="More 原子分裂"/>
+    <string key="DataTable.lessData" value="Less 原子分裂"/>
     <string key="DataTable.ball" value="原子分裂"/>
     <string key="DataTable.mass" value="原子分裂"/>
     <string key="DataTable.x" value="原子分裂"/>
@@ -16,14 +20,12 @@
     <string key="DataTable.vy" value="原子分裂"/>
     <string key="DataTable.px" value="原子分裂"/>
     <string key="DataTable.py" value="原子分裂"/>
-    <string key="DataTable.moreData" value="原子分裂aoesntuhasnotehua123"/>
-    <string key="DataTable.lessData" value="原子分裂"/>
+    
     
     <string key="MomentumView.momenta" value="原子分裂原子分裂原子分裂"/>
     <string key="MomentumView.tipToTail" value="原子分裂原子分裂原子分裂"/>
     <string key="MomentumView.total" value="原子分裂原子分裂"/>
 
-    <string key="ControlPanel.numberOfBalls" value="原子分裂"/>
     <string key="ControlPanel.1d" value="原子分裂"/>
     <string key="ControlPanel.2d" value="原子分裂"/>
     <string key="ControlPanel.resetAll" value="原子分裂"/>
