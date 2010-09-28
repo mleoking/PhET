@@ -96,10 +96,20 @@ package{
 			
 		}
 		
+        
+//<string key="ControlPanel.showCenterOfMass" value="Show C.M."/>
+//    <string key="ControlPanel.reflectingBorder" value="Reflecting Border"/>
+//    <string key="ControlPanel.showPaths" value="Show Paths"/>
+//    <string key="ControlPanel.sound" value="Sound"/>
+            
 		public function initializeStrings():void{
-            TextFieldUtils.initLabelButtonI18N("ControlPanel.1d","1 Dimension",this.oneD_txt, this.oneD_rb,TextFieldAutoSize.LEFT);
-            TextFieldUtils.initLabelButtonI18N("ControlPanel.2d","2 Dimensions",this.twoD_txt, this.twoD_rb,TextFieldAutoSize.LEFT);
-            TextFieldUtils.initLabelButtonI18N("ControlPanel.showVelocities","Velocity Vectors",this.showVelocities_label, this.showVelocities_cb,TextFieldAutoSize.LEFT);
+            TextFieldUtils.initLabelButtonI18N("ControlPanel.1d","1 Dimension",oneD_txt, oneD_rb,TextFieldAutoSize.LEFT);
+            TextFieldUtils.initLabelButtonI18N("ControlPanel.2d","2 Dimensions",twoD_txt, twoD_rb,TextFieldAutoSize.LEFT);
+            TextFieldUtils.initLabelButtonI18N("ControlPanel.showVelocities","Velocity Vectors",showVelocities_label, showVelocities_cb,TextFieldAutoSize.LEFT);
+            TextFieldUtils.initLabelButtonI18N("ControlPanel.showCenterOfMass","Center of Mass",showCM_label, showCM_cb,TextFieldAutoSize.LEFT);
+            TextFieldUtils.initLabelButtonI18N("ControlPanel.reflectingBorder","Reflecting Border",reflectingBorder_label, reflectingBorder_cb,TextFieldAutoSize.LEFT);
+            TextFieldUtils.initLabelButtonI18N("ControlPanel.showPaths","Show Paths",showPaths_label, showPaths_cb,TextFieldAutoSize.LEFT);
+            TextFieldUtils.initLabelButtonI18N("ControlPanel.sound","Sound",sound_label, sound_cb,TextFieldAutoSize.LEFT);
             
             this.resetButton_sp.label_txt.text  = SimStrings.get("ControlPanel.resetAll","Reset All");  //controlPanel is instance of class NiceButton
             this.timeLabel.text = SimStrings.get("ControlPanel.time","Time");
