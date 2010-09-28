@@ -170,7 +170,12 @@ public class BuildAnAtomModel {
                     size.getWidth(),
                     size.getHeight() * HOLE_ELLIPSE_HEIGHT_PROPORTION );
 
-            // Create the shape of the container.
+            // Create the shape of the container.  This code is a bit "tweaky",
+            // meaning that there are a lot of fractional multipliers in here
+            // to try to achieve the desired pseudo-3D look.  The intent is
+            // that the "tilt" of the bucket can be changed without needing to
+            // rework this code.  It may or may not work out that way, so
+            // adjust as necessary to get the look you need.
             double containerHeight = size.getHeight() * ( 1 - ( HOLE_ELLIPSE_HEIGHT_PROPORTION / 2 ) );
             containerShape = new DoubleGeneralPath();
             containerShape.moveTo( -size.getWidth() * 0.5, 0 );
