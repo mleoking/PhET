@@ -3,13 +3,16 @@
 package edu.colorado.phet.capacitorlab.view;
 
 import java.awt.Color;
+import java.awt.geom.Point2D;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
+import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeAdapter;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
@@ -21,9 +24,12 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 public abstract class PlateChargeNode extends PhetPNode {
     
+    private static final double PLUS_MINUS_WIDTH = 10;
+    private static final double PLUS_MINUS_HEIGHT = 3;
+    
     private final BatteryCapacitorCircuit circuit;
     private final ModelViewTransform mvt;
-    private final PText numberOfChargesNode; // debug, show the number of charges
+    private final PText numberOfChargesNode; // debug, shows the number of charges
     
     public PlateChargeNode( BatteryCapacitorCircuit circuit, ModelViewTransform mvt, boolean dev ) {
         
@@ -43,7 +49,7 @@ public abstract class PlateChargeNode extends PhetPNode {
         if ( dev ) {
             addChild( numberOfChargesNode );
         }
-
+        
         update();
     }
     
@@ -52,23 +58,55 @@ public abstract class PlateChargeNode extends PhetPNode {
      */
     protected abstract int getPolarity();
     
+    private boolean isPositivelyCharged() {
+        return ( getPolarity() * circuit.getBattery().getVoltage() > 0 );
+    }
+    
     private void update() {
         
         double plateCharge = circuit.getTotalPlateCharge();
         int numberOfCharges = getNumberOfCharges( plateCharge );
         
+        // numeric display
         if ( numberOfCharges == 0 ) {
             numberOfChargesNode.setText( "0 plate charges" );
         }
-        else if ( ( getPolarity() * circuit.getBattery().getVoltage() > 0 ) ) {
+        else if ( isPositivelyCharged() ) {
             numberOfChargesNode.setText( String.valueOf( numberOfCharges ) + " plate charges (+)" );
         }
         else {
             numberOfChargesNode.setText( String.valueOf( numberOfCharges ) + " plate charges (-)" );
         }
         
-        double width = mvt.modelToView( circuit.getCapacitor().getPlateSideLength() );
-        double height = mvt.modelToView( circuit.getCapacitor().getPlateSideLength() );
+        // reusable points
+        Point2D pModel = new Point2D.Double();
+        Point2D pView = new Point2D.Double();
+        
+        double plateSize = mvt.modelToView( circuit.getCapacitor().getPlateSideLength() );
+        for ( int i = 0; i < numberOfCharges; i++ ) {
+
+            // add a charge
+            PNode chargeNode = null;
+            if ( isPositivelyCharged() ) {
+                chargeNode = new PlusNode( PLUS_MINUS_WIDTH, PLUS_MINUS_HEIGHT, CLPaints.POSITIVE_CHARGE );
+            }
+            else {
+                chargeNode = new MinusNode( PLUS_MINUS_WIDTH, PLUS_MINUS_HEIGHT, CLPaints.NEGATIVE_CHARGE );
+            }
+            addChild( chargeNode );
+            
+            // randomly position the charge on the plate
+            pModel = getRandomPoint( plateSize, pModel );
+            pView = mvt.modelToView( pModel, pView );
+            setOffset( pView );
+        }
+    }
+    
+    private Point2D getRandomPoint( double range, Point2D p ) {
+        double x = Math.random() * range;
+        double y = Math.random() * range;
+        p.setLocation( x, y );
+        return p;
     }
     
     private int getNumberOfCharges( double plateCharge ) {

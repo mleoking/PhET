@@ -3,10 +3,13 @@
 package edu.colorado.phet.capacitorlab.control;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JCheckBox;
 
 import edu.colorado.phet.capacitorlab.CLStrings;
+import edu.colorado.phet.capacitorlab.module.dielectric.DielectricCanvas;
 import edu.colorado.phet.capacitorlab.util.GridPanel;
 import edu.colorado.phet.capacitorlab.util.GridPanel.Anchor;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
@@ -18,14 +21,17 @@ import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
  */
 public class ViewControlPanel extends PhetTitledPanel {
     
-    private final JCheckBox plateChargesCheckBox, electricFieldLinesCheckBox;
-
-    public ViewControlPanel() {
+    public ViewControlPanel( final DielectricCanvas canvas ) {
         super( CLStrings.TITLE_VIEW );
         
-        plateChargesCheckBox = new JCheckBox( CLStrings.CHECKBOX_PLATE_CHARGES );
+        final JCheckBox plateChargesCheckBox = new JCheckBox( CLStrings.CHECKBOX_PLATE_CHARGES );
+        plateChargesCheckBox.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                canvas.getCapacitorNode().setPlateChargeVisible( plateChargesCheckBox.isSelected() );
+            }
+        });
         
-        electricFieldLinesCheckBox = new JCheckBox( CLStrings.CHECKBOX_ELECTRIC_FIELD_LINES );
+        final JCheckBox electricFieldLinesCheckBox = new JCheckBox( CLStrings.CHECKBOX_ELECTRIC_FIELD_LINES );
         
         // layout
         GridPanel innerPanel = new GridPanel();
@@ -39,6 +45,6 @@ public class ViewControlPanel extends PhetTitledPanel {
         add( innerPanel, BorderLayout.WEST );
         
         // default state
-        //XXX
+        plateChargesCheckBox.setSelected( canvas.getCapacitorNode().isPlateChargeVisible() );
     }
 }
