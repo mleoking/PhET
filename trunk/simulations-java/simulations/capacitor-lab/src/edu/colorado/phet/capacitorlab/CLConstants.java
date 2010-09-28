@@ -36,7 +36,7 @@ public class CLConstants {
     //----------------------------------------------------------------------------
     
     public static final Point2D BATTERY_LOCATION = new Point2D.Double( -.025, 0 ); // meters
-    public static final DoubleRange BATTERY_VOLTAGE_RANGE = new DoubleRange( -10, 10, 0 ); // volts
+    public static final DoubleRange BATTERY_VOLTAGE_RANGE = new DoubleRange( -1.5, 1.5, 0 ); // volts
     public static final boolean BATTERY_CONNECTED = true;
     
     public static final Point2D CAPACITOR_LOCATION = new Point2D.Double( 0, 0 ); // meters
@@ -44,7 +44,7 @@ public class CLConstants {
     public static final DoubleRange PLATE_SEPARATION_RANGE = new DoubleRange( .005, .01, .01 ); // meters
     public static final double PLATE_THICKNESS = .0005; // meters
     
-    public static final DoubleRange DIELECTRIC_CONSTANT_RANGE = new DoubleRange( 1, 10 ); // dimensionless
+    public static final DoubleRange DIELECTRIC_CONSTANT_RANGE = new DoubleRange( 1, 5 ); // dimensionless
     public static final DoubleRange DIELECTRIC_OFFSET_RANGE = new DoubleRange( 0, PLATE_SIZE_RANGE.getMax() ); // meters
     public static final double DIELECTRIC_GAP = 0.0002; // gap between dielectric and plates, meters
     

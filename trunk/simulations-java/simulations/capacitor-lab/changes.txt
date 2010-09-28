@@ -1,3 +1,5 @@
+9/28/10 change dielectric constant range to 1-5, per Noah P.
+9/28/10 change battery voltage range to +-1.5V, per Noah P.
 9/27/10 rename ScaleButtonNode to ZoomButtonNode, since my people are calling it a "zoom button"
 9/27/10 create nodes for positive and negative charges, use in other places that require + and -
 9/27/10 create scale button programmatically, image files looked lousy because these buttons are so small
