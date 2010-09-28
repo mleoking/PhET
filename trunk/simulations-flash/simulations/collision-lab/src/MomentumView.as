@@ -1,4 +1,4 @@
-﻿package{
+package{
 import edu.colorado.phet.flashcommon.SimStrings;
 
 import edu.colorado.phet.flashcommon.TextFieldUtils;
@@ -45,6 +45,7 @@ import flash.display.*;
 			this.addChild(this.canvas);
 			this.canvas.addChild(this.invisibleBorder);
 			this.tipToTail_cb = new CheckBox();
+            tipToTail_cb.width = 300;//allow i18ned text to go further
 			this.scale_slider = new Slider();
 			this.minusSign = new MinusSign();
 			this.plusSign = new PlusSign();
