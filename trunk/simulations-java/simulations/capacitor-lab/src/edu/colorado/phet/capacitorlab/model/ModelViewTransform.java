@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.math.Point3D;
 /**
  * ModelViewTransform provides the transforms between model and view coordinate systems.
  * In both coordinate systems, +x is to the right, +y is down, +z is towards the viewer.
+ * Sign of rotation angles is specified using the right-hand rule.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -20,8 +21,8 @@ public class ModelViewTransform {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private final AffineTransform modelToViewTransform;
-    private final AffineTransform viewToModelTransform;
+    private final AffineTransform modelToViewTransform2D;
+    private final AffineTransform viewToModelTransform2D;
     private final double pitch, yaw;
     
     //----------------------------------------------------------------------------
@@ -33,18 +34,18 @@ public class ModelViewTransform {
      * 
      * @param scale scale for mapping from model to view (x and y scale are identical)
      * @param offset translation for mapping from model to view, in model coordinates
-     * @param pitch rotation about the horizontal (x) axis
-     * @param yaw rotation about the vertical (y) axis
+     * @param pitch rotation about the horizontal (x) axis, sign determined using the right-hand rule
+     * @param yaw rotation about the vertical (y) axis, sign determined using the right-hand rule
      */
     public ModelViewTransform( double scale, Point2D offset, double pitch, double yaw ) {
         
-        modelToViewTransform = new AffineTransform();
-        modelToViewTransform.scale( scale, scale );
-        modelToViewTransform.translate( offset.getX(), offset.getY() );
+        modelToViewTransform2D = new AffineTransform();
+        modelToViewTransform2D.scale( scale, scale );
+        modelToViewTransform2D.translate( offset.getX(), offset.getY() );
         
-        viewToModelTransform = new AffineTransform();
-        viewToModelTransform.translate( -offset.getX(), -offset.getY() );
-        viewToModelTransform.scale( 1d / scale, 1d / scale );
+        viewToModelTransform2D = new AffineTransform();
+        viewToModelTransform2D.translate( -offset.getX(), -offset.getY() );
+        viewToModelTransform2D.scale( 1d / scale, 1d / scale );
         
         this.pitch = pitch;
         this.yaw = yaw;
@@ -59,7 +60,7 @@ public class ModelViewTransform {
      * @param distance
      */
     public double modelToView( double distance ) {
-        return distance * modelToViewTransform.getScaleX();
+        return distance * modelToViewTransform2D.getScaleX();
     }
     
     /**
@@ -71,7 +72,7 @@ public class ModelViewTransform {
      * @return point in view coordinates
      */
     public Point2D modelToView( Point2D pModel, Point2D pView ) {
-        return modelToViewTransform.transform( pModel, pView );
+        return modelToViewTransform2D.transform( pModel, pView );
     }
     
     public Point2D modelToView( Point2D pModel ) {
@@ -87,7 +88,7 @@ public class ModelViewTransform {
     }
     
     /**
-     * Maps a point in 3D model space to a point in 2D view space.
+     * Maps a 3D model point to a 2D view point.
      * @param pModel
      * @param pView
      * @return
@@ -109,7 +110,7 @@ public class ModelViewTransform {
      * @return Rectangle2D in view coordinates
      */
     public Rectangle2D modelToView( Rectangle2D rModel ) {
-        return modelToViewTransform.createTransformedShape( rModel ).getBounds2D();
+        return modelToViewTransform2D.createTransformedShape( rModel ).getBounds2D();
     }
     
     //----------------------------------------------------------------------------
@@ -121,7 +122,7 @@ public class ModelViewTransform {
      * @param distance
      */
     public double viewToModel( double distance ) {
-        return distance * viewToModelTransform.getScaleX();
+        return distance * viewToModelTransform2D.getScaleX();
     }
     
     /**
@@ -133,7 +134,7 @@ public class ModelViewTransform {
      * @return point in model coordinates
      */
     public Point2D viewToModel( Point2D pView, Point2D pModel ) {
-        return viewToModelTransform.transform( pView, pModel );
+        return viewToModelTransform2D.transform( pView, pModel );
     }
     
     public Point2D viewToModel( Point2D pView ) {
@@ -155,6 +156,6 @@ public class ModelViewTransform {
      * @param Rectangle2D in model coordinates
      */
     public Rectangle2D viewToModel( Rectangle2D rView ) {
-        return viewToModelTransform.createTransformedShape( rView ).getBounds2D();
+        return viewToModelTransform2D.createTransformedShape( rView ).getBounds2D();
     }
 }
