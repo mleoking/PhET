@@ -89,11 +89,10 @@ public class PlateSeparationDragHandleNode extends PhetPNode {
     }
     
     private void updateOffset() {
-        Point2D capacitorLocation = mvt.modelToView( capacitor.getLocationReference() );
-        double plateSize = mvt.modelToView( capacitor.getPlateSideLength() );
-        double plateSeparation = mvt.modelToView( capacitor.getPlateSeparation() );
-        double x = capacitorLocation.getX() - ( 0.4 * plateSize );
-        double y = capacitorLocation.getY() - ( plateSeparation / 2 );
-        setOffset( x, y );
+        double x = capacitor.getLocationReference().getX() - ( 0.3 * capacitor.getPlateSideLength() );
+        double y = capacitor.getLocationReference().getY() - ( capacitor.getPlateSeparation() / 2 ) - capacitor.getPlateThickness();
+        double z = 0;
+        Point2D handleLocation = mvt.modelToView( x, y, z );
+        setOffset( handleLocation );
     }
 }

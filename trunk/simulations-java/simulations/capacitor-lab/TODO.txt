@@ -15,6 +15,7 @@ DESIGN ISSUES
 - no visual cues to indicate 3D location of Voltmeter probes
 
 HIGH PRIORITY
+- fix drag handles (plate area, plate separation) that were broken during conversion to 3D MVT
 - charge on plates (see notes)
 - charge and excess charge on dielectric (see notes)
 - Field Detector

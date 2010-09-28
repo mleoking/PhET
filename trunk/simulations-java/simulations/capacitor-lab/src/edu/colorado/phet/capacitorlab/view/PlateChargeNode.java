@@ -14,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Visual representation of charge on a capacitor plate.
@@ -30,6 +31,7 @@ public abstract class PlateChargeNode extends PhetPNode {
     private final BatteryCapacitorCircuit circuit;
     private final ModelViewTransform mvt;
     private final PText numberOfChargesNode; // debug, shows the number of charges
+    private final PNode chargesParentNode;
     
     public PlateChargeNode( BatteryCapacitorCircuit circuit, ModelViewTransform mvt, boolean dev ) {
         
@@ -42,6 +44,9 @@ public abstract class PlateChargeNode extends PhetPNode {
                 update();
             }
         });
+        
+        chargesParentNode = new PComposite();
+        addChild( chargesParentNode );
         
         numberOfChargesNode = new PText();
         numberOfChargesNode.setFont( new PhetFont( 18 ) );
@@ -82,9 +87,11 @@ public abstract class PlateChargeNode extends PhetPNode {
         Point2D pModel = new Point2D.Double();
         Point2D pView = new Point2D.Double();
         
+        // create charges
+        chargesParentNode.removeAllChildren();
         double plateSize = mvt.modelToView( circuit.getCapacitor().getPlateSideLength() );
         for ( int i = 0; i < numberOfCharges; i++ ) {
-
+            
             // add a charge
             PNode chargeNode = null;
             if ( isPositivelyCharged() ) {
@@ -93,12 +100,12 @@ public abstract class PlateChargeNode extends PhetPNode {
             else {
                 chargeNode = new MinusNode( PLUS_MINUS_WIDTH, PLUS_MINUS_HEIGHT, CLPaints.NEGATIVE_CHARGE );
             }
-            addChild( chargeNode );
+            chargesParentNode.addChild( chargeNode );
             
             // randomly position the charge on the plate
             pModel = getRandomPoint( plateSize, pModel );
             pView = mvt.modelToView( pModel, pView );
-            setOffset( pView );
+            chargeNode.setOffset( pView );
         }
     }
     

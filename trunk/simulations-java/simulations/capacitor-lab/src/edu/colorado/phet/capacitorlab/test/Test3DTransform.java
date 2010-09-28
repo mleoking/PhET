@@ -24,14 +24,13 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 public class Test3DTransform extends JFrame {
     
-    private static final double MVT_SCALE = 4;
-    private static final Point2D MVT_OFFSET = new Point2D.Double( 100, 100 ); // offset, in model coordinates
+    private static final double MVT_SCALE = 3;
     private static final double PITCH = Math.toRadians( 60 ); // rotation about horizontal axis
     private static final double YAW = Math.toRadians( -45 ); // rotation about vertical axis
     
     public Test3DTransform() {
         
-        ModelViewTransform mvt = new ModelViewTransform( MVT_SCALE, MVT_OFFSET, PITCH, YAW );
+        ModelViewTransform mvt = new ModelViewTransform( MVT_SCALE, PITCH, YAW );
         
         /*
          * Model-to-view transform that defines the top face of a capacitor plate.
@@ -41,10 +40,10 @@ public class Test3DTransform extends JFrame {
          */
         double width = 100; // model units
         double depth = 50; // model units
-        Point2D p1 = mvt.modelToView( -width / 2, 0, depth / 2 );
-        Point2D p2 = mvt.modelToView( -width / 2, 0, -depth / 2 );
-        Point2D p3 = mvt.modelToView( width / 2, 0, -depth / 2 );
-        Point2D p4 = mvt.modelToView( width / 2, 0, depth / 2 );
+        Point2D p1 = mvt.modelToView( -width / 2, 0, -depth / 2 );
+        Point2D p2 = mvt.modelToView( -width / 2, 0, depth / 2 );
+        Point2D p3 = mvt.modelToView( width / 2, 0, depth / 2 );
+        Point2D p4 = mvt.modelToView( width / 2, 0, -depth / 2 );
 
         /*
          * Create the geometry using view coordinates.
@@ -59,6 +58,7 @@ public class Test3DTransform extends JFrame {
         pathNode.setStroke( new BasicStroke( 1f ) );
         pathNode.setStrokePaint( Color.BLACK );
         pathNode.setPaint( Color.RED );
+        pathNode.setOffset( 300, 200 );
         
         // canvas
         PCanvas canvas = new PCanvas();

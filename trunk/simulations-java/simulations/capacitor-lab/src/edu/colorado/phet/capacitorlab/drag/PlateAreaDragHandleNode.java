@@ -3,8 +3,6 @@
 package edu.colorado.phet.capacitorlab.drag;
 
 import java.awt.geom.Point2D;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLStrings;
@@ -12,7 +10,6 @@ import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
 import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeAdapter;
 import edu.colorado.phet.capacitorlab.util.UnitsUtils;
-import edu.colorado.phet.capacitorlab.view.CapacitorNode;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 
@@ -34,17 +31,15 @@ public class PlateAreaDragHandleNode extends PhetPNode {
     private static final Point2D LINE_END_LOCATION = new Point2D.Double( 0, LINE_LENGTH );
     
     private final Capacitor capacitor;
-    private final CapacitorNode capacitorNode;
     private final ModelViewTransform mvt;
     private final DragHandleArrowNode arrowNode;
     private final DragHandleLineNode lineNode;
     private final DragHandleValueNode valueNode;
     private final PlateAreaDragHandler dragHandler;
     
-    public PlateAreaDragHandleNode( final Capacitor capacitor, CapacitorNode capacitorNode, ModelViewTransform mvt, DoubleRange valueRange ) {
+    public PlateAreaDragHandleNode( final Capacitor capacitor, ModelViewTransform mvt, DoubleRange valueRange ) {
         
         this.capacitor = capacitor;
-        this.capacitorNode = capacitorNode;
         this.mvt = mvt;
         
         // arrow
@@ -59,28 +54,16 @@ public class PlateAreaDragHandleNode extends PhetPNode {
         double millimetersSquared = UnitsUtils.metersSquaredToMillimetersSquared( capacitor.getPlateArea() );
         valueNode = new DragHandleValueNode( CLStrings.PATTERN_VALUE_UNITS, CLStrings.LABEL_PLATE_AREA, millimetersSquared, CLStrings.UNITS_MILLIMETERS_SQUARED );
         
-        // update value when plate size changes
+        // watch for model changes
         capacitor.addCapacitorChangeListener( new CapacitorChangeAdapter() {
+            
             @Override
             public void plateSizeChanged() {
                 updateDisplay();
+                updateOffset();
             }
         });
 
-        /*
-         * Update offset when capacitor node changes.
-         * The offset is dependent on information we get from the capacitor node.
-         * If set the offset when the model changes, we might set our offset before the 
-         * capacitor node has updated its geometry, and might attach to an incorrect position.
-         */
-        capacitorNode.addPropertyChangeListener( new PropertyChangeListener() {
-            public void propertyChange( PropertyChangeEvent event ) {
-                if ( event.getPropertyName().equals( PROPERTY_FULL_BOUNDS ) ) {
-                    updateOffset();
-                }
-            }
-        } );
-        
         // rendering order
         addChild( lineNode );
         addChild( arrowNode );
@@ -110,10 +93,10 @@ public class PlateAreaDragHandleNode extends PhetPNode {
     }
     
     private void updateOffset() {
-        Point2D capacitorLocation = mvt.modelToView( capacitor.getLocationReference() );
-        Point2D dragPointOffset = capacitorNode.getPlateSizeDragPointOffsetReference(); // get offset from capacitor node
-        double x = capacitorLocation.getX() + dragPointOffset.getX();
-        double y = capacitorLocation.getY() + dragPointOffset.getY();
-        setOffset( x, y );
+        double x = capacitor.getLocationReference().getX() - ( capacitor.getPlateSideLength() / 2 );
+        double y = capacitor.getLocationReference().getY() - ( capacitor.getPlateSeparation() / 2 ) - capacitor.getDielectricGap() - capacitor.getPlateThickness();
+        double z = capacitor.getLocationReference().getZ() - ( capacitor.getPlateSideLength() / 2 );
+        Point2D handleLocation = mvt.modelToView( x, y, z );
+        setOffset( handleLocation );
     }
 }

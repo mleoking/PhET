@@ -2,10 +2,11 @@
 
 package edu.colorado.phet.capacitorlab.model;
 
-import java.awt.geom.Point2D;
 import java.util.EventListener;
 
 import javax.swing.event.EventListenerList;
+
+import edu.colorado.phet.common.phetcommon.math.Point3D;
 
 /**
  * Simple model of a DC battery.
@@ -14,17 +15,17 @@ import javax.swing.event.EventListenerList;
  */
 public class Battery {
 
-    private final Point2D location;
+    private final Point3D location;
     private double voltage;
     private final EventListenerList listeners;
     
-    public Battery( Point2D location, double voltage ) {
-        this.location = new Point2D.Double( location.getX(), location.getY() );
+    public Battery( Point3D location, double voltage ) {
+        this.location = new Point3D.Double( location.getX(), location.getY(), location.getZ() );
         this.voltage = voltage;
         listeners = new EventListenerList();
     }
     
-    public Point2D getLocationReference() {
+    public Point3D getLocationReference() {
         return location;
     }
     

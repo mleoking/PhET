@@ -18,7 +18,7 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 public class DielectricNode extends BoxNode {
 
     public DielectricNode( final Capacitor capacitor, ModelViewTransform mvt, DoubleRange valueRange ) {
-        super( capacitor.getDielectricMaterial().getColor() );
+        super( mvt, capacitor.getDielectricMaterial().getColor() );
         addInputEventListener( new CursorHandler( Cursor.E_RESIZE_CURSOR ) );
         addInputEventListener( new DielectricOffsetDragHandler( this, capacitor, mvt, valueRange ) );
     }
