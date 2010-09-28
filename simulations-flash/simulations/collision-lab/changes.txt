@@ -1,3 +1,4 @@
+finished internationalizing the control panel
 # 0.00.06 (44421) Sep 27, 2010
 9/27/10 Minor bug fix.
 # 0.00.05 (44419) Sep 27, 2010

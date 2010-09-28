@@ -30,7 +30,7 @@
     <string key="ControlPanel.2d" value="2 Dimenstions"/>
     <string key="ControlPanel.resetAll" value="Reset All"/>
     <string key="ControlPanel.showVelocities" value="Velocity Vectors"/>
-    <string key="ControlPanel.showCenterOfMass" value="Show C.M."/>
+    <string key="ControlPanel.showCenterOfMass" value="Center of Mass"/>
     <string key="ControlPanel.reflectingBorder" value="Reflecting Border"/>
     <string key="ControlPanel.showPaths" value="Show Paths"/>
     <string key="ControlPanel.sound" value="Sound"/>
