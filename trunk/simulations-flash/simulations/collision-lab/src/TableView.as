@@ -143,7 +143,7 @@ import flash.display.*;
 		
 		public function makeTimeLabel():void{
 			this.timeText = new TextField();
-			this.timeText.text = getTimeText(0);
+			this.timeText.text = getTimeText(Number(0).toFixed(2));
 			this.timeText.selectable = false;
 			this.timeText.autoSize = TextFieldAutoSize.LEFT;
 			var tFormat:TextFormat = new TextFormat();
@@ -159,7 +159,7 @@ import flash.display.*;
 		public function makeTotKELabel():void{
 			//following two strings should be set by internationalizer
 			this.totKEText = new TextField();
-			this.totKEText.text = getKEText(Math.round(100*this.myModel.getTotalKE())/100); //text is set in update
+			this.totKEText.text = getKEText(myModel.getTotalKE().toFixed(2)); //text is set in update
 			this.totKEText.selectable = false;
 //			this.totKEText.autoSize = TextFieldAutoSize.RIGHT;
 			var tFormat:TextFormat = new TextFormat();
@@ -238,17 +238,17 @@ import flash.display.*;
 				this.myTrajectories.erasePaths();
 				//this.myModel.atInitialConfig = false;
 			}
-			this.timeText.text = getTimeText(Math.round(100*this.myModel.time)/100);
-			this.totKEText.text = getKEText(Math.round(100*this.myModel.getTotalKE())/100);
+			this.timeText.text = getTimeText(this.myModel.time.toFixed(2));
+			this.totKEText.text = getKEText(this.myModel.getTotalKE().toFixed(2));
 			
 			this.CM.x = this.pixelsPerMeter*this.myModel.CM.x;
 			this.CM.y = this.pixelsPerMeter*(yMax - this.myModel.CM.y);
 		}
-        function getKEText( keValue: Number ): String {
+        function getKEText( keValue: String ): String {
             return SimStrings.get( "TableView.kineticEnergy", "Kinetic Energy = {0} J", [keValue] );
         }
 
-        function getTimeText( time: Number ): String {
+        function getTimeText( time: String ): String {
             return SimStrings.get( "TableView.time", "Time = {0} s", [time] );
         }
 	}//end of class
