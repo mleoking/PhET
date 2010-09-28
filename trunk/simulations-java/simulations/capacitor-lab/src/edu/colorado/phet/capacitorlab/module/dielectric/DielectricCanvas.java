@@ -63,9 +63,8 @@ public class DielectricCanvas extends CLCanvas {
     // controls
     private final PlateChargeControlNode plateChargeControNode;
     
-    // drag bound
-    private final Rectangle2D dragBoundsRectangle;
-    private final PPath dragBoundsNode;
+    // bounds of the play area, for constraining dragging to within the play area
+    private final PPath playAreaBoundsNode;
     
     public DielectricCanvas( final CLModel model, boolean dev ) {
         
@@ -92,14 +91,13 @@ public class DielectricCanvas extends CLCanvas {
         plateSeparationDragHandleNode = new PlateSeparationDragHandleNode( model.getCapacitor(), mvt, CLConstants.PLATE_SEPARATION_RANGE );
         plateAreaDragHandleNode = new PlateAreaDragHandleNode( model.getCapacitor(), capacitorNode, mvt, CLConstants.PLATE_SIZE_RANGE );
         
-        dragBoundsRectangle = new Rectangle2D.Double();
-        dragBoundsNode = new PPath( dragBoundsRectangle );
-        dragBoundsNode.setStroke( null );
-        addChild( dragBoundsNode );
+        playAreaBoundsNode = new PPath();
+        playAreaBoundsNode.setStroke( null );
+        addChild( playAreaBoundsNode );
         
-        capacitanceMeterNode = new CapacitanceMeterNode( model.getCircuit(), dragBoundsNode );
-        chargeMeterNode = new PlateChargeMeterNode( model.getCircuit(), dragBoundsNode );
-        energyMeterNode = new StoredEnergyMeterNode( model.getCircuit(), dragBoundsNode );
+        capacitanceMeterNode = new CapacitanceMeterNode( model.getCircuit(), playAreaBoundsNode );
+        chargeMeterNode = new PlateChargeMeterNode( model.getCircuit(), playAreaBoundsNode );
+        energyMeterNode = new StoredEnergyMeterNode( model.getCircuit(), playAreaBoundsNode );
         voltmeterNode = new VoltmeterNode();//XXX
         
         plateChargeControNode = new PlateChargeControlNode( model.getCircuit() );
@@ -237,10 +235,9 @@ public class DielectricCanvas extends CLCanvas {
             return;
         }
         
-        // Adjust drag bounds so that things aren't dragged off the canvas.
-        double margin = 0;
-        dragBoundsRectangle.setRect( margin, margin, worldSize.getWidth() - ( 2 * margin ), worldSize.getHeight() - ( 2 * margin ) );
-        dragBoundsNode.setPathTo( dragBoundsRectangle );
+        // Adjust play area bounds so that things aren't dragged off the canvas.
+        final double margin = 0;
+        playAreaBoundsNode.setPathTo( new Rectangle2D.Double( margin, margin, worldSize.getWidth() - ( 2 * margin ), worldSize.getHeight() - ( 2 * margin ) ) );
         
         // If anything draggable is outside the canvas, move it inside.
         keepInsideCanvas( capacitanceMeterNode );
