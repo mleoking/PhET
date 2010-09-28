@@ -32,6 +32,8 @@ public class SimStrings {
         else {
             return value;
         }
+        //Uncomment this and comment the above for simple long string testing
+//        return defaultString+"x"+defaultString;
     }
 }
 }
