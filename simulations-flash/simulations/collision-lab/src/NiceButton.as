@@ -1,5 +1,7 @@
-﻿package{
-	import flash.display.*;
+package{
+import edu.colorado.phet.flashcommon.TextFieldUtils;
+
+import flash.display.*;
 	import flash.events.*;
 	import flash.text.*;
 	
@@ -21,6 +23,7 @@
         //can we modify this function so that buttonWidth resizes to account for label text length?
 		public function setLabel( label : String ) : void {
             buttonBody.label_txt.text = label;
+            TextFieldUtils.resizeText( this.buttonBody.label_txt, TextFieldAutoSize.CENTER);
         }
 		
 		public function getLabel():String{
