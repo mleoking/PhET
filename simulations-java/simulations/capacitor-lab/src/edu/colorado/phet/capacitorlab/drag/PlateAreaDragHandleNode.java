@@ -24,7 +24,7 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
  */
 public class PlateAreaDragHandleNode extends PhetPNode {
     
-    private static final double DRAG_HANDLE_ANGLE = ( ( Math.PI / 2) - CLConstants.YAW_VIEWING_ANGLE ) + ( CLConstants.YAW_VIEWING_ANGLE / 2 ); // aligned with diagonal of plate surface
+    private static final double DRAG_HANDLE_ANGLE = ( ( Math.PI / 2) + CLConstants.YAW_VIEWING_ANGLE ) - ( CLConstants.YAW_VIEWING_ANGLE / 2 ); // aligned with diagonal of plate surface
 
     private static final Point2D ARROW_TIP_LOCATION = new Point2D.Double( 0, 0 );
     private static final Point2D ARROW_TAIL_LOCATION = new Point2D.Double( 0, CLConstants.DRAG_HANDLE_ARROW_LENGTH );
