@@ -46,6 +46,8 @@ public class BuildAnAtomModel {
     private final ArrayList<Bucket> bucketList = new ArrayList<Bucket>();
     
     private final ArrayList<Electron> electrons = new ArrayList<Electron>( );
+    private final ArrayList<Neutron> neutrons = new ArrayList<Neutron>( );
+    private final ArrayList<Proton> protons = new ArrayList<Proton>( );
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -68,6 +70,8 @@ public class BuildAnAtomModel {
         bucketList.add( new Bucket( ELECTRON_BUCKET_POSITION, BUCKET_SIZE, Color.blue, "Electrons" ) );
         
         electrons.add( new Electron(10,10) );
+        protons.add( new Proton(-10,10) );
+        neutrons.add( new Neutron(-10,-10) );
     }
     
     public Electron getElectron(int i){
@@ -77,6 +81,24 @@ public class BuildAnAtomModel {
     
     public int numElectrons(){
         return electrons.size();
+    }
+    
+    public Proton getProton(int i){
+        assert i>=0 && i<numProtons();
+        return protons.get( i );
+    }
+    
+    public int numProtons(){
+        return protons.size();
+    }
+    
+    public Neutron getNeutron(int i){
+        assert i>=0 && i<numNeutrons();
+        return neutrons.get( i );
+    }
+    
+    public int numNeutrons(){
+        return neutrons.size();
     }
 
     //----------------------------------------------------------------------------
