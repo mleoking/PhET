@@ -1,3 +1,5 @@
+9/28/10 first attempt at adding 3D model to 2D view transform to MVT (untested)
+9/28/10 straighten out some things in BoxNode related to 3D perspective
 9/28/10 reset the battery slider on Reset All
 9/28/10 ensure that all meters remain in the play area when the main window is resized
 9/28/10 hook up "Plate Charges" check box
