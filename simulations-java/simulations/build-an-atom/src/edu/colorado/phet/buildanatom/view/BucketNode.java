@@ -66,13 +66,19 @@ public class BucketNode extends PNode {
         addChild( new PhetPPath( scaledHoleShape, holePaint, new BasicStroke( 1f ), Color.GRAY ) );
 
         // Create and add the caption (if provided).
-        PText caption = new PText( bucket.getCaptionText() );
-        caption.setFont( LABEL_FONT );
-        caption.setTextPaint( Color.WHITE );
-        caption.setOffset(
-                scaledContainerShape.getBounds2D().getCenterX() - caption.getFullBoundsReference().getWidth() / 2,
-                scaledContainerShape.getBounds2D().getCenterY() - caption.getFullBoundsReference().getHeight() / 2 );
-        addChild( caption );
+        if ( bucket.getCaptionText() != null ) {
+            PText caption = new PText( bucket.getCaptionText() );
+            caption.setFont( LABEL_FONT );
+            caption.setTextPaint( Color.WHITE );
+            if ( caption.getFullBoundsReference().getWidth() > scaledContainerShape.getBounds().getWidth() * 0.8 ) {
+                // The caption must be scaled in order to fit on the container.
+                caption.scale( scaledContainerShape.getBounds().getWidth() * 0.8 / caption.getFullBoundsReference().getWidth() );
+            }
+            caption.setOffset(
+                    scaledContainerShape.getBounds2D().getCenterX() - caption.getFullBoundsReference().getWidth() / 2,
+                    scaledContainerShape.getBounds2D().getCenterY() - caption.getFullBoundsReference().getHeight() / 2 );
+            addChild( caption );
+        }
     }
 
     // ------------------------------------------------------------------------
