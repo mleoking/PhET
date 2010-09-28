@@ -4,10 +4,12 @@ package edu.colorado.phet.buildanatom.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Point;
 import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
@@ -53,19 +55,19 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         // Set up the canvas-screen transform.
         setWorldTransformStrategy( new CenteredStage( this, BuildAnAtomDefaults.STAGE_SIZE ) );
 
-        
-        mvt = new ModelViewTransform2D( model.getModelViewport(), new Rectangle2D.Double( 0,BuildAnAtomDefaults.STAGE_SIZE.getHeight()*(1-0.7),
-                                                                                   BuildAnAtomDefaults.STAGE_SIZE.getWidth()*0.7,BuildAnAtomDefaults.STAGE_SIZE.getHeight()*0.7 ));
+//        mvt = new ModelViewTransform2D( model.getModelViewport(),
+//                new Rectangle2D.Double( 0, BuildAnAtomDefaults.STAGE_SIZE.getHeight() * ( 1 - 0.8 ),
+//                BuildAnAtomDefaults.STAGE_SIZE.getWidth() * 0.7, BuildAnAtomDefaults.STAGE_SIZE.getHeight() * 0.7 ) );
+
         // Set up the model-canvas transform.  IMPORTANT NOTES: The multiplier
         // factors for the point in the view can be adjusted to shift the
         // center right or left, and the scale factor can be adjusted to zoom
         // in or out (smaller numbers zoom out, larger ones zoom in).
-//        mvt = new ModelViewTransform2D(
-//                new Point2D.Double( 0, 0 ),
-//                new Point( (int) Math.round( BuildAnAtomDefaults.INTERMEDIATE_RENDERING_SIZE.width * 0.2 ),
-//                (int) Math.round( BuildAnAtomDefaults.INTERMEDIATE_RENDERING_SIZE.height * 0.5 ) ),
-//                MVT_SCALE_FACTOR,
-//                true );
+        mvt = new ModelViewTransform2D(
+                new Point2D.Double( 0, 0 ),
+                new Point( (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.width * 0.25 ), (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.height * 0.45 ) ),
+                2.0,
+                true );
 
         setBackground( BuildAnAtomConstants.CANVAS_BACKGROUND );
 
@@ -74,7 +76,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         addWorldChild( rootNode );
 
         // Put up the bounds of the model.
-        rootNode.addChild( new PhetPPath( mvt.createTransformedShape( model.getModelViewport() ), Color.PINK, new BasicStroke( 3f ), Color.BLACK ) );
+//        rootNode.addChild( new PhetPPath( mvt.createTransformedShape( model.getModelViewport() ), Color.PINK, new BasicStroke( 3f ), Color.BLACK ) );
 
         // Add the atom's nucleus location to the canvas.
         Shape nucleusOutlineShape = mvt.createTransformedShape( new Ellipse2D.Double(
@@ -82,7 +84,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
                 -model.getAtom().getNucleusRadius(),
                 model.getAtom().getNucleusRadius() * 2,
                 model.getAtom().getNucleusRadius() * 2 ) );
-        PNode nucleusOutlineNode = new PhetPPath( nucleusOutlineShape, Color.GREEN );
+        PNode nucleusOutlineNode = new PhetPPath( nucleusOutlineShape, new BasicStroke(1f), Color.RED );
 //        nucleusOutlineNode.setOffset( model.getAtom().getPosition() );
         rootNode.addChild( nucleusOutlineNode );
 
@@ -93,7 +95,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
                     -shellRadius,
                     shellRadius * 2,
                     shellRadius * 2));
-            PNode electronShellNode = new PhetPPath( electronShellShape, ELECTRON_SHELL_STROKE, Color.BLACK );
+            PNode electronShellNode = new PhetPPath( electronShellShape, ELECTRON_SHELL_STROKE, Color.BLUE );
 //            electronShellNode.setOffset( model.getAtom().getPosition() );
             rootNode.addChild( electronShellNode );
         }
@@ -115,11 +117,11 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         for ( int i = 0; i < model.numElectrons(); i++ ) {
             rootNode.addChild( new ElectronNode( mvt, model.getElectron( i ) ) );
         }
-        
+
         for ( int i = 0; i < model.numProtons(); i++ ) {
             rootNode.addChild( new ProtonNode( mvt, model.getProton( i ) ) );
         }
-        
+
         for ( int i = 0; i < model.numNeutrons(); i++ ) {
             rootNode.addChild( new NeutronNode( mvt, model.getNeutron( i ) ) );
         }
