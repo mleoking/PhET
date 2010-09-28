@@ -40,7 +40,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
 
     // Scale factor used in the model-view transform, larger numbers zoom in,
     // smaller ones zoom out.
-    private static double MVT_SCALE_FACTOR = 3.5;
+    private static double MVT_SCALE_FACTOR = 2.0;
 
     // Stroke for drawing the electron shells.
     private final Stroke ELECTRON_SHELL_STROKE = new BasicStroke( 2f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0,
