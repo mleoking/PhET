@@ -1,4 +1,4 @@
-﻿package{
+package{
     import edu.colorado.phet.flashcommon.SimStrings;	
 	import edu.colorado.phet.flashcommon.TextFieldUtils;	
 	import flash.display.*;
@@ -75,9 +75,6 @@
 			this.tFormat.size = 12;
 			this.tFormat.font = "Arial";
 			StyleManager.setStyle("textFormat",tFormat);
-			//var tField:TextField = new TextField();
-			//tField.autoSize = TextFieldAutoSize.LEFT;
-			//StyleManager.setStyle("autoSize",TextFieldAutoSize.LEFT);
 
             initializeStrings();
 
@@ -99,37 +96,20 @@
 			
 		}
 		
-		//following function does not change labels as expected (???) // JO says: this was never being called
 		public function initializeStrings():void{
-//            this.changeNbrBallButtons.nbrBallsLabel_txt.text = SimStrings.get("ControlPanel.numberOfBalls","Nbr of Balls");
-//            trace( typeof this.oneD_rb );
-//            trace( typeof this.oneD_rb.label );
-
-            this.oneD_txt.text = SimStrings.get("ControlPanel.1d","1 Dimension");
-			TextFieldUtils.emulateButton(this.oneD_txt, this.oneD_rb);
-			TextFieldUtils.resizeText(this.oneD_txt, TextFieldAutoSize.LEFT);
-			this.twoD_txt.text = SimStrings.get("ControlPanel.2d","2 Dimensions");
-			TextFieldUtils.emulateButton(this.twoD_txt, this.twoD_rb);
-			TextFieldUtils.resizeText(this.twoD_txt, TextFieldAutoSize.LEFT);
-//            this.twoD_rb.label = SimStrings.get("ControlPanel.2d","2D");
+            TextFieldUtils.initLabelButtonI18N("ControlPanel.1d","1 Dimension",this.oneD_txt, this.oneD_rb,TextFieldAutoSize.LEFT);
+            TextFieldUtils.initLabelButtonI18N("ControlPanel.2d","2 Dimensions",this.twoD_txt, this.twoD_rb,TextFieldAutoSize.LEFT);
+            TextFieldUtils.initLabelButtonI18N("ControlPanel.showVelocities","Velocity Vectors",this.showVelocities_label, this.showVelocities_cb,TextFieldAutoSize.LEFT);
+            
             this.resetButton_sp.label_txt.text  = SimStrings.get("ControlPanel.resetAll","Reset All");  //controlPanel is instance of class NiceButton
-//            this.showVelocities_cb.label = SimStrings.get("ControlPanel.showVelocities","Show velocities");
-//            myMainView.controlPanel.showCM_cb.label = SimStrings.get("ControlPanel.showCenterOfMass","Show C.M.");
-//            myMainView.controlPanel.reflectingBorder_cb.label = SimStrings.get("ControlPanel.reflectingBorder","Reflecting Border");
-//            myMainView.controlPanel.showPaths_cb.label = SimStrings.get("ControlPanel.showPaths","Show Paths");
-//            myMainView.controlPanel.sound_cb.label = SimStrings.get("ControlPanel.sound","Sound");
             this.timeLabel.text = SimStrings.get("ControlPanel.time","Time");
             this.slowLabel.text = SimStrings.get("ControlPanel.slow","slow");
             this.fastLabel.text = SimStrings.get("ControlPanel.fast","fast");
             this.elasticityLabel.text = SimStrings.get("ControlPanel.elasticity","Elasticity");
-//            //myMainView.controlPanel.elasticityValueLabel = //numeric value is set by code, do not internalize controlPanel string
             this.zeroPercentLabel.text = SimStrings.get("ControlPanel.zeroPercent","0%");
             this.oneHundredPercentLabel.text = SimStrings.get("ControlPanel.oneHundredPercent","100%");
 
             //TODO: JO: needs resizing and extracting labels of the components out
-            
-//			this.oneD_rb.label = "AA";
-//			this.showCM_cb.label = "BBShow C.M."
 		}//end of initializeStrings()
 		
 		public function oneDModeOn(evt:MouseEvent):void{
