@@ -1,3 +1,4 @@
+# 0.00.07 (44447) Sep 28, 2010
 Fixed: kinetic energy and time readouts fluctuate in their number of significant digits
 finished internationalizing the control panel
 # 0.00.06 (44421) Sep 27, 2010
