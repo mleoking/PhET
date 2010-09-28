@@ -3,22 +3,24 @@ package edu.colorado.phet.buildanatom.model;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.model.Observable;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+
 /**
  * @author Sam Reid
  * @author John Blanco
  */
 public abstract class SubatomicParticle {
-    private final Point2D.Double position;
-    private final ArrayList<Listener> listeners = new ArrayList<Listener>();
+    private final Observable<Point2D.Double> position;
     private final double radius;
 
     public SubatomicParticle( double radius, double x, double y ) {
         this.radius = radius;
-        position = new Point2D.Double( x, y );
+        position = new Observable<Point2D.Double>( new Point2D.Double( x,y) );
     }
 
     public Point2D.Double getPosition() {
-        return new Point2D.Double( position.getX(), position.getY() );
+        return position.getValue();
     }
 
     public void setPosition( Point2D.Double position ) {
@@ -26,28 +28,25 @@ public abstract class SubatomicParticle {
     }
 
     public void setPosition( double x, double y ) {
-        this.position.setLocation( x, y );
-        for ( Listener listener : listeners ) {
-            listener.positionChanged();
-        }
+        position.setValue( new Point2D.Double( x,y) );
     }
     public double getDiameter() {
         return getRadius() * 2;
     }
+    
+    
     public double getRadius() {
         return radius;
     }
     public void translate( double dx, double dy ) {
-        setPosition( position.getX() + dx, position.getY() + dy );
+        setPosition( position.getValue().getX() + dx, position.getValue().getY() + dy );
+    }
+    
+    public void reset(){
+        position.reset();
     }
 
-    public static interface Listener {
-        void positionChanged();
-    }
-    public void addListener( Listener listener ) {
-        listeners.add( listener );
-    }
-    public void removeListener( Listener listener ) {
-        listeners.remove( listener );
+    public void addPositionListener( SimpleObserver listener ) {
+        position.addObserver(  listener );
     }
 }

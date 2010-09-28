@@ -27,7 +27,7 @@ public class Observable<T> extends SimpleObservable {
     }
 
     public void setValue( T value ) {
-        if ( this.value != value ) {
+        if ( !this.value.equals(value) ) {
             this.value = value;
             notifyObservers();
         }
