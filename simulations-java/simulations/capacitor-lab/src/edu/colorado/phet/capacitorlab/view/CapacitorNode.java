@@ -76,6 +76,15 @@ public class CapacitorNode extends PhetPNode {
         updateDielectricColor();
     }
     
+    public void setPlateChargeVisible( boolean plateChargeVisible ) {
+        topPlateChargeNode.setVisible( plateChargeVisible );
+        bottomPlateChargeNode.setVisible( plateChargeVisible );
+    }
+    
+    public boolean isPlateChargeVisible() {
+        return topPlateChargeNode.isVisible();
+    }
+    
     private void updateGeometry() {
         
         // model-to-view transform

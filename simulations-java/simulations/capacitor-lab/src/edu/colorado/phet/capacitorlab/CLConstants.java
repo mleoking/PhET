@@ -89,11 +89,13 @@ public class CLConstants {
     public static final boolean VOLTMETER_VISIBLE = false;
     
     // plate charges
+    public static final boolean PLATE_CHARGES_VISIBLE = true; //XXX default should be false
     public static final int MAX_NUMBER_OF_PLATE_CHARGES = 625;
     public static final double MIN_NONZERO_PLATE_CHARGE = 8E-15; // Coulombs, all non-zero values <= MIN_NONZERO_PLATE_CHARGE are represented by 1 charge
+    
+    public static final boolean EFIELD_LINES_VISIBLE = false;
     
     //----------------------------------------------------------------------------
     // Control
     //----------------------------------------------------------------------------
-    
 }
