@@ -32,6 +32,7 @@ MEDUIUM PRIORITY
 - all features in Multiple Capacitors tab
 - refactor duplicate code in *DragHandleNode
 - should Reset All reset default locations for meters?
+- specify default locations for meters in model coordinates
 
 LOW PRIORITY
 - use phetcommon mvt
