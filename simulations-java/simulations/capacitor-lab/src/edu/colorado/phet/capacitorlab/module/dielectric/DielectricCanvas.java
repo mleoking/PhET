@@ -80,7 +80,7 @@ public class DielectricCanvas extends CLCanvas {
         mvt = new ModelViewTransform( CLConstants.MVT_SCALE, CLConstants.MVT_OFFSET );
         
         batteryNode = new BatteryNode( model.getBattery(), CLConstants.BATTERY_VOLTAGE_RANGE );
-        capacitorNode = new CapacitorNode( model.getCapacitor(), mvt );
+        capacitorNode = new CapacitorNode( model.getCircuit(), mvt, dev );
         topWireNode = new TopWireNode( model, mvt );
         bottomWireNode = new BottomWireNode( model, mvt );
         originNode = new BullseyeNode();
