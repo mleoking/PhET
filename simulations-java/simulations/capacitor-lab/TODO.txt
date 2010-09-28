@@ -30,6 +30,7 @@ MEDUIUM PRIORITY
 - make air dielectric invisible
 - all features in Multiple Capacitors tab
 - refactor duplicate code in *DragHandleNode
+- should Reset All reset default locations for meters?
 
 LOW PRIORITY
 - use phetcommon mvt
