@@ -32,6 +32,7 @@
 <string key="mode.customObject" value="Уреди"/>
 <string key="mode.objectsOfSameMass" value="Иста маса"/>
 <string key="material.gold" value="Злато"/>
+<string key="material.styrofoam" value="СТИРОПОР"/>
 <string key="application.resetAll" value="На почетак све"/>
 <string key="customObject.name" value="име"/>
 <string key="material.water" value="Вода"/>
