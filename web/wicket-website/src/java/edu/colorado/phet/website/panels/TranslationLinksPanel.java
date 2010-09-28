@@ -17,6 +17,7 @@ import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.components.LocalizedLabel;
 import edu.colorado.phet.website.components.RawLink;
 import edu.colorado.phet.website.constants.CSS;
+import edu.colorado.phet.website.util.HtmlUtils;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetRequestCycle;
 
@@ -35,7 +36,7 @@ public class TranslationLinksPanel extends PhetPanel {
 
         Locale englishLocale = LocaleUtils.stringToLocale( "en" );
         PageContext englishContext = context.withNewLocale( englishLocale );
-        String linkTo = englishContext.getPrefix() + englishContext.getPath();
+        String linkTo = englishContext.getPrefix() + HtmlUtils.encode( englishContext.getPath() );
         if ( linkTo.equals( "/en/" ) ) {
             linkTo = "/";
         }
@@ -56,7 +57,7 @@ public class TranslationLinksPanel extends PhetPanel {
                 String localeString = (String) item.getModel().getObject();
                 Locale locale = LocaleUtils.stringToLocale( localeString );
                 PageContext newContext = context.withNewLocale( locale );
-                String path = newContext.getPrefix() + newContext.getPath() + queryString;
+                String path = newContext.getPrefix() + HtmlUtils.encode( newContext.getPath() ) + queryString;
                 Link link = new RawLink( "translation-link", path );
                 LocalizedLabel label = new LocalizedLabel( "translation-label", locale, new ResourceModel( "language.name" ) );
                 link.add( label );
