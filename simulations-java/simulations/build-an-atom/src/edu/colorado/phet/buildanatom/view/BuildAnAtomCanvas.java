@@ -4,12 +4,11 @@ package edu.colorado.phet.buildanatom.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Point;
 import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.model.BuildAnAtomModel;
@@ -38,9 +37,6 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
     // Transform.
     private final ModelViewTransform2D mvt;
 
-    // Scale factor used in the model-view transform, larger numbers zoom in,
-    // smaller ones zoom out.
-    private static double MVT_SCALE_FACTOR = 2.0;
 
     // Stroke for drawing the electron shells.
     private final Stroke ELECTRON_SHELL_STROKE = new BasicStroke( 2f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0,
@@ -55,18 +51,20 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         this.model = model;
 
         // Set up the canvas-screen transform.
-        setWorldTransformStrategy( new PhetPCanvas.CenteringBoxStrategy( this, BuildAnAtomDefaults.INTERMEDIATE_RENDERING_SIZE ) );
+        setWorldTransformStrategy( new CenteredStage( this, BuildAnAtomDefaults.STAGE_SIZE ) );
 
+        
+        mvt = new ModelViewTransform2D( model.getBounds(), new Rectangle2D.Double( 0,0,BuildAnAtomDefaults.STAGE_SIZE.getWidth(),BuildAnAtomDefaults.STAGE_SIZE.getHeight() ));
         // Set up the model-canvas transform.  IMPORTANT NOTES: The multiplier
         // factors for the point in the view can be adjusted to shift the
         // center right or left, and the scale factor can be adjusted to zoom
         // in or out (smaller numbers zoom out, larger ones zoom in).
-        mvt = new ModelViewTransform2D(
-                new Point2D.Double( 0, 0 ),
-                new Point( (int) Math.round( BuildAnAtomDefaults.INTERMEDIATE_RENDERING_SIZE.width * 0.2 ),
-                (int) Math.round( BuildAnAtomDefaults.INTERMEDIATE_RENDERING_SIZE.height * 0.5 ) ),
-                MVT_SCALE_FACTOR,
-                true );
+//        mvt = new ModelViewTransform2D(
+//                new Point2D.Double( 0, 0 ),
+//                new Point( (int) Math.round( BuildAnAtomDefaults.INTERMEDIATE_RENDERING_SIZE.width * 0.2 ),
+//                (int) Math.round( BuildAnAtomDefaults.INTERMEDIATE_RENDERING_SIZE.height * 0.5 ) ),
+//                MVT_SCALE_FACTOR,
+//                true );
 
         setBackground( BuildAnAtomConstants.CANVAS_BACKGROUND );
 
@@ -75,8 +73,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         addWorldChild( rootNode );
 
         // Put up the bounds of the model.
-        //        rootNode.addChild( new PhetPPath( mvt.createTransformedShape( model.getBounds() ), Color.PINK, new BasicStroke( 3f ), Color.BLACK ) );
-        //        rootNode.addChild( new PhetPPath( new Rectangle2D.Double(-178, 2, 1124, 764), Color.PINK, new BasicStroke( 3f ), Color.BLACK ) );
+        rootNode.addChild( new PhetPPath( mvt.createTransformedShape( model.getBounds() ), Color.PINK, new BasicStroke( 3f ), Color.BLACK ) );
 
         // Add the atom's nucleus location to the canvas.
         Shape nucleusOutlineShape = mvt.createTransformedShape( new Ellipse2D.Double(
