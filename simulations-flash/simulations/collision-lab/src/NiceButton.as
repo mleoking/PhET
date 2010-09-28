@@ -25,6 +25,10 @@ import flash.display.*;
             buttonBody.label_txt.text = label;
             TextFieldUtils.resizeText( this.buttonBody.label_txt, TextFieldAutoSize.CENTER);
         }
+        
+//        public function changeLabel(label:String):void{
+//            buttonBody.label_txt.text = label;
+//        }
 		
 		public function getLabel():String{
 			return buttonBody.label_txt.text;

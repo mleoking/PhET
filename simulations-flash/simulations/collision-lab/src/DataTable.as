@@ -1,4 +1,4 @@
-﻿//view of table of numbers for displaying and setting initial conditions
+//view of table of numbers for displaying and setting initial conditions
 //one of two data tables is displayed: full data table or partial data table
 //each has header row + row for each ball
 //partial data table has column for ball number, col for mass, and col for mass slider
@@ -29,10 +29,12 @@ import flash.text.*;
 		//var toggleButton:Button;	//button to toggle full or partial data display
 		var addBallButton:NiceButton;		//button to add ball, originally on Control Panel
 		var removeBallButton:NiceButton; 	//button to remove ball, originally on Control Panel
-		var moreOrLessDataButton:NiceButton;//button to toggle full or partial data display
+		var moreDataButton:NiceButton;//button to toggle full or partial data display
+		var lessDataButton:NiceButton;//button to toggle full or partial data display
 		var addBallButton_sp:Sprite;		//addBallButton sprite
 		var removeBallButton_sp:Sprite;		//removeBallButton sprite
-		var moreOrLessDataButton_sp:Sprite;	//moreOrLessDataButton Sprite
+		var moreDataButton_sp:Sprite;	//moreOrLessDataButton Sprite
+		var lessDataButton_sp:Sprite;	//moreOrLessDataButton Sprite
 		var massSlider_arr:Array;	//array of mass sliders
 		var nbrColumns:int;			//nbr of columns in full data table
 		var tFormat:TextFormat;
@@ -104,15 +106,19 @@ import flash.text.*;
 			//following are symbols in Flash Library
 			this.addBallButton_sp = new DataTableButtonBody();
 			this.removeBallButton_sp = new DataTableButtonBody();
-			this.moreOrLessDataButton_sp = new DataTableButtonBody();
+			this.moreDataButton_sp = new DataTableButtonBody();
+			this.lessDataButton_sp = new DataTableButtonBody();
 			this.addBallButton = new NiceButton(this.addBallButton_sp, 90, addBall);
 			this.removeBallButton = new NiceButton(this.removeBallButton_sp, 90, removeBall);
-			this.moreOrLessDataButton = new NiceButton(this.moreOrLessDataButton_sp, 90, toggleDataButton);
+			this.moreDataButton = new NiceButton(this.moreDataButton_sp, 90, toggleDataButton);
+			this.lessDataButton = new NiceButton(this.lessDataButton_sp, 90, toggleDataButton);
 			this.initializeStrings();
 			//don't put buttons on canvas, since want buttons stationary when canvas resizes
 			this.addChild(this.addBallButton_sp);
 			this.addChild(this.removeBallButton_sp);
-			this.addChild(this.moreOrLessDataButton_sp);
+			this.addChild(this.moreDataButton_sp);
+			this.addChild(this.lessDataButton_sp);
+            this.lessDataButton_sp.visible=false;
 			this.addChild(this.canvas);
 			this.canvas.addChild(this.invisibleBorder);
 			//this.canvas.addChild(this.toggleButton);
@@ -177,7 +183,8 @@ import flash.text.*;
 			this.removeBallButton.setLabel(this.removeBall_str);
 			this.moreData_str = SimStrings.get("DataTable.moreData","More Data");
 			this.lessData_str = SimStrings.get("DataTable.lessData","Less Data");
-			this.moreOrLessDataButton.setLabel(this.moreData_str);
+			this.moreDataButton.setLabel(this.moreData_str);
+			this.lessDataButton.setLabel(this.lessData_str);
 			this.ball_str = SimStrings.get("DataTable.ball","ball");
 			this.mass_str = SimStrings.get("DataTable.mass","mass");
 			this.x_str = SimStrings.get("DataTable.x","x");
@@ -273,8 +280,11 @@ import flash.text.*;
 			this.addBallButton_sp.y = -0.75*this.addBallButton_sp.height;
 			this.removeBallButton_sp.x = 0;
 			this.removeBallButton_sp.y = -0.75*this.addBallButton_sp.height;
-			this.moreOrLessDataButton_sp.x = 0.5*this.removeBallButton_sp.width + 0.8*this.moreOrLessDataButton_sp.width;
-			this.moreOrLessDataButton_sp.y = -0.75*this.addBallButton_sp.height;
+			this.moreDataButton_sp.x = 0.5*this.removeBallButton_sp.width + 0.8*this.moreDataButton_sp.width;
+			this.moreDataButton_sp.y = -0.75*this.addBallButton_sp.height;
+            
+            this.lessDataButton_sp.x = moreDataButton_sp.x;
+			this.lessDataButton_sp.y = moreDataButton_sp.y;
 		}
 		
 		
@@ -414,11 +424,13 @@ import flash.text.*;
 //		}//toggleButtonClick
 		
 		private function toggleDataButton():void{
-			if(this.moreOrLessDataButton.getLabel() == this.moreData_str){
-				this.moreOrLessDataButton.setLabel(this.lessData_str);
+			if(this.moreDataButton_sp.visible){
+                this.moreDataButton_sp.visible=false;
+                this.lessDataButton_sp.visible=true;
 				this.displayPartialDataTable(false);
-			}else if(this.moreOrLessDataButton.getLabel() == this.lessData_str){
-				this.moreOrLessDataButton.setLabel(this.moreData_str);
+			}else{
+				this.moreDataButton_sp.visible=true;
+                this.lessDataButton_sp.visible=false;
 				this.displayPartialDataTable(true);
 			}
 		}//end toggleDataButton()
