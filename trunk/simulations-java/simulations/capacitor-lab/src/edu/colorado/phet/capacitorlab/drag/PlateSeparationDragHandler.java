@@ -35,7 +35,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
     protected void startDrag( PInputEvent event ) {
         super.startDrag( event );
         Point2D pMouse = event.getPositionRelativeTo( dragNode.getParent() );
-        double yView = mvt.modelToView( capacitor.getLocationReference().getY() - ( capacitor.getPlateSeparation() / 2 ) );
+        double yView = mvt.modelToView( -( capacitor.getPlateSeparation() / 2 ) - capacitor.getPlateThickness() );
         clickYOffset = pMouse.getY() - yView;
     }
 
