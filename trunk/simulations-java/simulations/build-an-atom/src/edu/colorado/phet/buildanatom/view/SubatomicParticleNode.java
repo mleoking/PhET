@@ -8,19 +8,17 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
 import edu.umd.cs.piccolo.PNode;
 
-/**
- * @author Sam Reid
- */
 public class SubatomicParticleNode extends PNode {
     private ModelViewTransform2D mvt;
     private final SphericalNode sphericalNode;
     private SubatomicParticle subatomicParticle;
-    public SubatomicParticleNode( ModelViewTransform2D mvt, SubatomicParticle subatomicParticle, final Paint paint ) {
+    
+    public SubatomicParticleNode( ModelViewTransform2D mvt, SubatomicParticle subatomicParticle, final Color baseColor ) {
         this.mvt = mvt;
         this.subatomicParticle = subatomicParticle;
-        sphericalNode = new SphericalNode( mvt.modelToViewDifferentialX( subatomicParticle.getDiameter() ), paint, false );
+        sphericalNode = new SphericalNode( mvt.modelToViewDifferentialX( subatomicParticle.getDiameter() ), new SubatomicParticleGradient( subatomicParticle.getRadius(), baseColor ), false );
         addChild( sphericalNode );
-        
+
         updatePosition();
     }
     private void updatePosition() {

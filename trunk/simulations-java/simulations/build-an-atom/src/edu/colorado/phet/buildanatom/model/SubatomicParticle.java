@@ -31,7 +31,7 @@ public abstract class SubatomicParticle {
     public double getDiameter() {
         return getRadius() * 2;
     }
-    private double getRadius() {
+    public double getRadius() {
         return radius;
     }
     public static interface Listener {
