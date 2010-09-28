@@ -27,6 +27,9 @@ public abstract class SubatomicParticle {
 
     public void setPosition( double x, double y ) {
         this.position.setLocation( x, y );
+        for ( Listener listener : listeners ) {
+            listener.positionChanged();
+        }
     }
     public double getDiameter() {
         return getRadius() * 2;
@@ -34,6 +37,10 @@ public abstract class SubatomicParticle {
     public double getRadius() {
         return radius;
     }
+    public void translate( double dx, double dy ) {
+        setPosition( position.getX() + dx, position.getY() + dy );
+    }
+
     public static interface Listener {
         void positionChanged();
     }
