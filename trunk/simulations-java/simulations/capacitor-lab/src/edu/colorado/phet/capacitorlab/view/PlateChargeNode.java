@@ -4,6 +4,7 @@ package edu.colorado.phet.capacitorlab.view;
 
 import java.awt.Color;
 
+import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeAdapter;
@@ -19,10 +20,6 @@ import edu.umd.cs.piccolo.nodes.PText;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public abstract class PlateChargeNode extends PhetPNode {
-    
-    private static final double MIN_NONZERO_CHARGE = 8E-15;
-    private static final double MAX_CHARGE = BatteryCapacitorCircuit.getMaxPlateCharge();
-    private static final int MAX_NUMBER_OF_CHARGES = 625;
     
     private final BatteryCapacitorCircuit circuit;
     private final ModelViewTransform mvt;
@@ -75,16 +72,20 @@ public abstract class PlateChargeNode extends PhetPNode {
     }
     
     private int getNumberOfCharges( double plateCharge ) {
+        
         double absolutePlateCharge = Math.abs( plateCharge );
+        double minCharge = CLConstants.MIN_NONZERO_PLATE_CHARGE;
+        double maxCharge = BatteryCapacitorCircuit.getMaxPlateCharge();
+        
         int numberOfCharges = 0;
-        if ( plateCharge == 0 ) {
+        if ( absolutePlateCharge == 0 ) {
             numberOfCharges = 0;
         }
-        else if ( absolutePlateCharge <= MIN_NONZERO_CHARGE ) {
+        else if ( absolutePlateCharge <= minCharge ) {
             numberOfCharges = 1;
         }
         else {
-            numberOfCharges = (int) ( MAX_NUMBER_OF_CHARGES * ( absolutePlateCharge - MIN_NONZERO_CHARGE ) / ( MAX_CHARGE - MIN_NONZERO_CHARGE ) );
+            numberOfCharges = (int) ( CLConstants.MAX_NUMBER_OF_PLATE_CHARGES * ( absolutePlateCharge - minCharge ) / ( maxCharge - minCharge ) );
         }
         return numberOfCharges;
     }
