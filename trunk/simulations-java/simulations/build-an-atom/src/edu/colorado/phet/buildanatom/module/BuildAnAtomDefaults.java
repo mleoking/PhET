@@ -27,5 +27,5 @@ public class BuildAnAtomDefaults {
     public static final int CLOCK_TIME_COLUMNS = 10;
 
     // Model-view transform
-    public static final PDimension INTERMEDIATE_RENDERING_SIZE = new PDimension( 768, 768 );
+    public static final PDimension STAGE_SIZE= new PDimension( 1008,679 );
 }

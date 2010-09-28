@@ -10,9 +10,9 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.buildanatom.module.BuildAnAtomDefaults;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.umd.cs.piccolo.util.PDimension;
-
 
 /**
  * Main model class.  Units are picometers (1E-12).
@@ -23,7 +23,10 @@ public class BuildAnAtomModel {
     // Class Data
     //----------------------------------------------------------------------------
 
-    private static final Rectangle2D MODEL_BOUNDS = new Rectangle2D.Double( -200, -150, 400, 300 );
+    private static final Rectangle2D MODEL_BOUNDS =
+            new Rectangle2D.Double( -200, -150,
+                                    400,
+                                    400 * BuildAnAtomDefaults.STAGE_SIZE.getHeight() / BuildAnAtomDefaults.STAGE_SIZE.getWidth() );//use the same aspect ratio so circles don't become elliptical
 
     private static final Dimension2D BUCKET_SIZE = new PDimension( 60, 30 );
     private static final Point2D PROTON_BUCKET_POSITION = new Point2D.Double( -100, -120 );
