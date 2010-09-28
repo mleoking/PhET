@@ -62,6 +62,11 @@ public class PlateAreaDragHandleNode extends PhetPNode {
                 updateDisplay();
                 updateOffset();
             }
+            
+            @Override
+            public void plateSeparationChanged() {
+                updateOffset();
+            }
         });
 
         // rendering order
@@ -94,7 +99,7 @@ public class PlateAreaDragHandleNode extends PhetPNode {
     
     private void updateOffset() {
         double x = capacitor.getLocationReference().getX() - ( capacitor.getPlateSideLength() / 2 );
-        double y = capacitor.getLocationReference().getY() - ( capacitor.getPlateSeparation() / 2 ) - capacitor.getDielectricGap() - capacitor.getPlateThickness();
+        double y = capacitor.getLocationReference().getY() - ( capacitor.getPlateSeparation() / 2 ) - capacitor.getPlateThickness();
         double z = capacitor.getLocationReference().getZ() - ( capacitor.getPlateSideLength() / 2 );
         Point2D handleLocation = mvt.modelToView( x, y, z );
         setOffset( handleLocation );

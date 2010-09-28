@@ -36,7 +36,7 @@ import edu.umd.cs.piccolo.util.PDimension;
     protected void startDrag(PInputEvent event) {
         super.startDrag( event );
         Point2D pMouse = event.getPositionRelativeTo( dragNode.getParent() );
-        double xView = mvt.modelToView( capacitor.getLocationReference().getX() - ( capacitor.getPlateSideLength() / 2 ) );
+        double xView = mvt.modelToView( -( capacitor.getPlateSideLength() / 2 ) );
         clickXOffset = pMouse.getX() - xView;
     }
     
