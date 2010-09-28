@@ -2,8 +2,6 @@
 
 package edu.colorado.phet.capacitorlab.model;
 
-import java.awt.geom.Point2D;
-
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.Paper;
@@ -17,19 +15,6 @@ import edu.colorado.phet.capacitorlab.model.DielectricMaterial.Teflon;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class CLModel {
-    
-    private static final Point2D BATTERY_LOCATION = CLConstants.BATTERY_LOCATION;
-    private static final double BATTERY_VOLTAGE = CLConstants.BATTERY_VOLTAGE_RANGE.getDefault();
-    private static final boolean BATTERY_CONNECTED = CLConstants.BATTERY_CONNECTED;
-    
-    private static final Point2D CAPACITOR_LOCATION = CLConstants.CAPACITOR_LOCATION;
-    private static final double PLATE_SIZE = CLConstants.PLATE_SIZE_RANGE.getDefault();
-    private static final double PLATE_SEPARATION = CLConstants.PLATE_SEPARATION_RANGE.getDefault();
-    private static final double DIELECTRIC_OFFSET = CLConstants.DIELECTRIC_OFFSET_RANGE.getDefault();
-    private static final double DISCONNECTED_PLATE_CHARGE = CLConstants.DISCONNECTED_PLATE_CHARGE;
-    private static final double WIRE_THICKNESS = CLConstants.WIRE_THICKNESS;
-    private static final double TOP_WIRE_EXTENT = CLConstants.TOP_WIRE_EXTENT;
-    private static final double BOTTOM_WIRE_EXTENT = CLConstants.BOTTOM_WIRE_EXTENT;
     
     private final DielectricMaterial[] dielectricMaterials;
     private final DielectricMaterial defaultDielectricMaterial;
@@ -45,12 +30,13 @@ public class CLModel {
         dielectricMaterials = new DielectricMaterial[] { custom, teflon, polystyrene, paper };
         defaultDielectricMaterial = custom;
         
-        Battery battery = new Battery( BATTERY_LOCATION, BATTERY_VOLTAGE );
-        Capacitor capacitor = new Capacitor( CAPACITOR_LOCATION, PLATE_SIZE, PLATE_SEPARATION, defaultDielectricMaterial, DIELECTRIC_OFFSET );
-        circuit = new BatteryCapacitorCircuit( clock, battery, capacitor, BATTERY_CONNECTED, DISCONNECTED_PLATE_CHARGE );
+        Battery battery = new Battery( CLConstants.BATTERY_LOCATION, CLConstants.BATTERY_VOLTAGE_RANGE.getDefault() );
+        Capacitor capacitor = new Capacitor( CLConstants.CAPACITOR_LOCATION, CLConstants.PLATE_SIZE_RANGE.getDefault(), CLConstants.PLATE_SEPARATION_RANGE.getDefault(), 
+                defaultDielectricMaterial, CLConstants.DIELECTRIC_OFFSET_RANGE.getDefault() );
+        circuit = new BatteryCapacitorCircuit( clock, battery, capacitor, CLConstants.BATTERY_CONNECTED, CLConstants.DISCONNECTED_PLATE_CHARGE );
         
-        topWire = new Wire( WIRE_THICKNESS, TOP_WIRE_EXTENT );
-        bottomWire = new Wire( WIRE_THICKNESS, BOTTOM_WIRE_EXTENT );
+        topWire = new Wire( CLConstants.WIRE_THICKNESS, CLConstants.TOP_WIRE_EXTENT );
+        bottomWire = new Wire( CLConstants.WIRE_THICKNESS, CLConstants.BOTTOM_WIRE_EXTENT );
     }
     
     public DielectricMaterial[] getDielectricMaterials() {
@@ -79,14 +65,14 @@ public class CLModel {
     
     public void reset() {
         // battery
-        getBattery().setVoltage( BATTERY_VOLTAGE );
+        getBattery().setVoltage( CLConstants.BATTERY_VOLTAGE_RANGE.getDefault() );
         // capacitor
-        getCapacitor().setPlateSideLength( PLATE_SIZE );
-        getCapacitor().setPlateSeparation( PLATE_SEPARATION );
+        getCapacitor().setPlateSideLength( CLConstants.PLATE_SIZE_RANGE.getDefault() );
+        getCapacitor().setPlateSeparation( CLConstants.PLATE_SEPARATION_RANGE.getDefault() );
         getCapacitor().setDielectricMaterial( defaultDielectricMaterial );
-        getCapacitor().setDielectricOffset( DIELECTRIC_OFFSET );
+        getCapacitor().setDielectricOffset( CLConstants.DIELECTRIC_OFFSET_RANGE.getDefault() );
         // circuit
-        getCircuit().setBatteryConnected( BATTERY_CONNECTED );
-        getCircuit().setDisconnectedPlateCharge( DISCONNECTED_PLATE_CHARGE );
+        getCircuit().setBatteryConnected( CLConstants.BATTERY_CONNECTED );
+        getCircuit().setDisconnectedPlateCharge( CLConstants.DISCONNECTED_PLATE_CHARGE );
     }
 }
