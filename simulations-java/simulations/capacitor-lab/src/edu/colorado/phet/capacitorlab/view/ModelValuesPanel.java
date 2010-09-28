@@ -162,7 +162,7 @@ public class ModelValuesPanel extends JPanel {
         C_air.setToolTipText( "capacitance due to air" );
         derivedPanel.add( C_air );
         C_dielectric = new ValueDisplay( "C_dielectric", "F", "0.000E00" );
-        C_dielectric.setToolTipText( "capacitor due to dielectric" );
+        C_dielectric.setToolTipText( "capacitance due to dielectric" );
         derivedPanel.add( C_dielectric );
         C = new ValueDisplay( "C_total", "F", "0.000E00" );
         C.setToolTipText( "total capacitance" );
