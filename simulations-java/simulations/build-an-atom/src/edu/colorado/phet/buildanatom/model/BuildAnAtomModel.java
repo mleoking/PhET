@@ -44,6 +44,8 @@ public class BuildAnAtomModel {
     // The humor in the name "bucketList" is not lost on me.  Just in case
     // you were wondering.
     private final ArrayList<Bucket> bucketList = new ArrayList<Bucket>();
+    
+    private final ArrayList<Electron> electrons = new ArrayList<Electron>( );
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -64,6 +66,17 @@ public class BuildAnAtomModel {
         bucketList.add( new Bucket( NEUTRON_BUCKET_POSITION, BUCKET_SIZE, Color.gray, "Neutrons" ) );
         // TODO: i18n
         bucketList.add( new Bucket( ELECTRON_BUCKET_POSITION, BUCKET_SIZE, Color.blue, "Electrons" ) );
+        
+        electrons.add( new Electron(10,10) );
+    }
+    
+    public Electron getElectron(int i){
+        assert i>=0 && i<numElectrons();
+        return electrons.get( i );
+    }
+    
+    public int numElectrons(){
+        return electrons.size();
     }
 
     //----------------------------------------------------------------------------

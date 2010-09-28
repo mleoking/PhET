@@ -111,6 +111,9 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         //        image.scale( 1.2 );
         //        image.setOffset( 50, 0 );
         //        rootNode.addChild(image);
+        
+        ElectronNode electronNode=new ElectronNode(mvt,model.getElectron( 0 ) );
+        rootNode.addChild( electronNode );
     }
 
 
