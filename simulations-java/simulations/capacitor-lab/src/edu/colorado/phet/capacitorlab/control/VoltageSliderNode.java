@@ -10,6 +10,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
+import java.text.NumberFormat;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -49,7 +50,8 @@ public class VoltageSliderNode extends PhetPNode {
     
     // tick label properties
     private static final Color TICK_LABEL_COLOR = TRACK_COLOR;
-    private static final DecimalFormat TICK_LABEL_FORMAT = new DecimalFormat( "0" );
+    private static final DecimalFormat TICK_LABEL_NONZERO_FORMAT = new DecimalFormat( "0.0" );
+    private static final DecimalFormat TICK_LABEL_ZERO_FORMAT = new DecimalFormat( "0" );
     private static final Font TICK_LABEL_FONT = new PhetFont( 14 );
     
     // immutable instance data
@@ -245,15 +247,11 @@ public class VoltageSliderNode extends PhetPNode {
      * Origin is at upper left of bounding rectangle.
      */
     private static class TickLabelNode extends PText {
-        
         public TickLabelNode( double value ) {
-            this( MessageFormat.format( CLStrings.PATTERN_VALUE_UNITS, TICK_LABEL_FORMAT.format( value ), CLStrings.UNITS_VOLTS ) );
-        }
-        
-        public TickLabelNode( String value ) {
-            super( value );
             setFont( TICK_LABEL_FONT );
             setTextPaint( TICK_LABEL_COLOR );
+            NumberFormat format = ( value == 0 ) ? TICK_LABEL_ZERO_FORMAT : TICK_LABEL_NONZERO_FORMAT;
+            setText( MessageFormat.format( CLStrings.PATTERN_VALUE_UNITS, format.format( value ), CLStrings.UNITS_VOLTS ) );
         }
     }
     
