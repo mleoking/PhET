@@ -59,6 +59,7 @@ public class BatteryNode extends PhetPNode {
     }
     
     private void updateNode() {
+        sliderNode.setVoltage( battery.getVoltage() );
         if ( battery.getVoltage() >= 0 ) {
             imageNode.setImage( CLImages.BATTERY_UP );
         }
