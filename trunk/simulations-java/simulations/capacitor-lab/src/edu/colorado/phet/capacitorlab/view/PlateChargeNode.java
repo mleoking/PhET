@@ -83,13 +83,9 @@ public abstract class PlateChargeNode extends PhetPNode {
             numberOfChargesNode.setText( String.valueOf( numberOfCharges ) + " plate charges (-)" );
         }
         
-        // reusable points
-        Point2D pModel = new Point2D.Double();
-        Point2D pView = new Point2D.Double();
-        
         // create charges
         chargesParentNode.removeAllChildren();
-        double plateSize = mvt.modelToView( circuit.getCapacitor().getPlateSideLength() );
+        double plateSize = circuit.getCapacitor().getPlateSideLength();
         for ( int i = 0; i < numberOfCharges; i++ ) {
             
             // add a charge
@@ -103,17 +99,12 @@ public abstract class PlateChargeNode extends PhetPNode {
             chargesParentNode.addChild( chargeNode );
             
             // randomly position the charge on the plate
-            pModel = getRandomPoint( plateSize, pModel );
-            pView = mvt.modelToView( pModel, pView );
-            chargeNode.setOffset( pView );
+            double x = -( plateSize / 2 ) + ( plateSize * Math.random() );
+            double y = 0;
+            double z = -( plateSize / 2 ) + ( plateSize * Math.random() );
+            Point2D offset = mvt.modelToView( x, y, z );
+            chargeNode.setOffset( offset );
         }
-    }
-    
-    private Point2D getRandomPoint( double range, Point2D p ) {
-        double x = Math.random() * range;
-        double y = Math.random() * range;
-        p.setLocation( x, y );
-        return p;
     }
     
     private int getNumberOfCharges( double plateCharge ) {

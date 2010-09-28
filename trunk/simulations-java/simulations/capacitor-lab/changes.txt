@@ -1,3 +1,4 @@
+9/28/10 a rough version of showing plate charges, to demonstrate that this design does not scale well
 9/28/10 converted everything to use 3D MVT to create perspective (big change, broke 2 drag handles) [44484]
 9/28/10 first attempt at adding 3D model to 2D view transform to MVT (untested)
 9/28/10 straighten out some things in BoxNode related to 3D perspective
