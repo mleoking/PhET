@@ -243,6 +243,9 @@ public class DielectricCanvas extends CLCanvas {
         dragBoundsNode.setPathTo( dragBoundsRectangle );
         
         // If anything draggable is outside the canvas, move it inside.
+        keepInsideCanvas( capacitanceMeterNode );
         keepInsideCanvas( chargeMeterNode );
+        keepInsideCanvas( energyMeterNode );
+        keepInsideCanvas( voltmeterNode );  //XXX does this work? or do we need to do this for separate draggable parts of voltmeter?
     }
 }

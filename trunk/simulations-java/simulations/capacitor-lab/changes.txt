@@ -1,3 +1,4 @@
+9/28/10 ensure that all meters remain in the play area when the main window is resized
 9/28/10 hook up "Plate Charges" check box
 # 0.00.14 (44465) Sep 28, 2010
 9/28/10 display the number of plate charges, to check that this representation is going to work
