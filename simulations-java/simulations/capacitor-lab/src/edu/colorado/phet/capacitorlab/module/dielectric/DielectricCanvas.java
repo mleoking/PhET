@@ -18,7 +18,6 @@ import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeAdapter;
 import edu.colorado.phet.capacitorlab.module.CLCanvas;
 import edu.colorado.phet.capacitorlab.view.BatteryNode;
-import edu.colorado.phet.capacitorlab.view.BullseyeNode;
 import edu.colorado.phet.capacitorlab.view.CapacitorNode;
 import edu.colorado.phet.capacitorlab.view.CurrentIndicatorNode;
 import edu.colorado.phet.capacitorlab.view.WireNode.BottomWireNode;
@@ -42,7 +41,6 @@ public class DielectricCanvas extends CLCanvas {
     // circuit
     private final CapacitorNode capacitorNode;
     private final BatteryNode batteryNode;
-    private final BullseyeNode originNode;
     private final TopWireNode topWireNode;
     private final BottomWireNode bottomWireNode;
     private final AddWiresButtonNode addWiresButtonNode;
@@ -76,20 +74,19 @@ public class DielectricCanvas extends CLCanvas {
             }
         } );
         
-        mvt = new ModelViewTransform( CLConstants.MVT_SCALE, CLConstants.MVT_OFFSET, CLConstants.PITCH_VIEWING_ANGLE, CLConstants.YAW_VIEWING_ANGLE );
+        mvt = new ModelViewTransform( CLConstants.MVT_SCALE, CLConstants.PITCH_VIEWING_ANGLE, CLConstants.YAW_VIEWING_ANGLE );
         
         batteryNode = new BatteryNode( model.getBattery(), CLConstants.BATTERY_VOLTAGE_RANGE );
         capacitorNode = new CapacitorNode( model.getCircuit(), mvt, dev );
         topWireNode = new TopWireNode( model, mvt );
         bottomWireNode = new BottomWireNode( model, mvt );
-        originNode = new BullseyeNode();
         
         addWiresButtonNode = new AddWiresButtonNode( model.getCircuit() );
         removeWiresButtonNode = new RemoveWiresButtonNode( model.getCircuit() );
         
         dielectricOffsetDragHandleNode = new DielectricOffsetDragHandleNode( model.getCapacitor(), mvt, CLConstants.DIELECTRIC_OFFSET_RANGE );
         plateSeparationDragHandleNode = new PlateSeparationDragHandleNode( model.getCapacitor(), mvt, CLConstants.PLATE_SEPARATION_RANGE );
-        plateAreaDragHandleNode = new PlateAreaDragHandleNode( model.getCapacitor(), capacitorNode, mvt, CLConstants.PLATE_SIZE_RANGE );
+        plateAreaDragHandleNode = new PlateAreaDragHandleNode( model.getCapacitor(), mvt, CLConstants.PLATE_SIZE_RANGE );
         
         playAreaBoundsNode = new PPath();
         playAreaBoundsNode.setStroke( null );
@@ -123,25 +120,19 @@ public class DielectricCanvas extends CLCanvas {
         addChild( energyMeterNode );
         addChild( voltmeterNode );
         addChild( plateChargeControNode );
-        if ( dev ) {
-            addChild( originNode );
-        }
         
         // static layout
         {
-            Point2D pModel = new Point2D.Double();
-            Point2D pView = new Point2D.Double();
+            Point2D pView = null;
             double x, y = 0;
 
-            // capacitor
-            pModel.setLocation( model.getBattery().getLocationReference().getX(), model.getBattery().getLocationReference().getY() );
-            mvt.modelToView( pModel, pView );
-            batteryNode.setOffset( pView.getX(), pView.getY() );
-
             // battery
-            pModel.setLocation( model.getCapacitor().getLocationReference().getX(), model.getCapacitor().getLocationReference().getY() );
-            mvt.modelToView( pModel, pView );
-            capacitorNode.setOffset( pView.getX(), pView.getY() );
+            pView = mvt.modelToView( model.getBattery().getLocationReference() );
+            batteryNode.setOffset( pView );
+
+            // capacitor
+            pView = mvt.modelToView( model.getCapacitor().getLocationReference() );
+            capacitorNode.setOffset( pView );
             
             // top current indicator
             double topWireThickness = mvt.modelToView( model.getTopWire().getThickness() );
@@ -171,15 +162,9 @@ public class DielectricCanvas extends CLCanvas {
             energyMeterNode.setOffset( 900, 25 ); //XXX
             voltmeterNode.setOffset( 750, 325 ); //XXX
             
-            // Charge control, above capacitor
-            x = mvt.modelToView( new Point2D.Double( 0, 0 ) ).getX();
-            y = 15; //XXX
-            plateChargeControNode.setOffset( x, 15  );
-            
-            // origin marker
-            pModel.setLocation( 0, 0 );
-            mvt.modelToView( pModel, pView );
-            originNode.setOffset( pView.getX(), pView.getY() );
+            // Plate Charge control
+            pView = mvt.modelToView( CLConstants.PLATE_CHARGE_CONTROL_LOCATION );
+            plateChargeControNode.setOffset( pView  );
         }
         
         // default state

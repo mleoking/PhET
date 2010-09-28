@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.math.Point3D;
 
 /**
  * ModelViewTransform provides the transforms between model and view coordinate systems.
- * In both coordinate systems, +x is to the right, +y is down, +z is towards the viewer.
+ * In both coordinate systems, +x is to the right, +y is down, +z is away from the viewer.
  * Sign of rotation angles is specified using the right-hand rule.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
@@ -37,14 +37,12 @@ public class ModelViewTransform {
      * @param pitch rotation about the horizontal (x) axis, sign determined using the right-hand rule
      * @param yaw rotation about the vertical (y) axis, sign determined using the right-hand rule
      */
-    public ModelViewTransform( double scale, Point2D offset, double pitch, double yaw ) {
+    public ModelViewTransform( double scale, double pitch, double yaw ) {
         
         modelToViewTransform2D = new AffineTransform();
         modelToViewTransform2D.scale( scale, scale );
-        modelToViewTransform2D.translate( offset.getX(), offset.getY() );
         
         viewToModelTransform2D = new AffineTransform();
-        viewToModelTransform2D.translate( -offset.getX(), -offset.getY() );
         viewToModelTransform2D.scale( 1d / scale, 1d / scale );
         
         this.pitch = pitch;

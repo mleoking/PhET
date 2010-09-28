@@ -89,11 +89,10 @@ public class DielectricOffsetDragHandleNode extends PhetPNode {
     }
     
     private void updateOffset() {
-        Point2D capacitorLocation = mvt.modelToView( capacitor.getLocationReference() );
-        double plateSize = mvt.modelToView( capacitor.getPlateSideLength() );
-        double dielectricOffset = mvt.modelToView( capacitor.getDielectricOffset() );
-        double x = capacitorLocation.getX() + ( plateSize / 2 ) + dielectricOffset;
-        double y = capacitorLocation.getY();
-        setOffset( x, y );
+        double x = capacitor.getLocationReference().getX() + ( capacitor.getPlateSideLength() / 2 ) + capacitor.getDielectricOffset();
+        double y = capacitor.getLocationReference().getY();
+        double z = 0;
+        Point2D handleLocation = mvt.modelToView( x, y, z );
+        setOffset( handleLocation );
     }
 }

@@ -3,6 +3,7 @@
 package edu.colorado.phet.capacitorlab.view;
 
 import edu.colorado.phet.capacitorlab.CLPaints;
+import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
 
 /**
  * Visual pseudo-3D representation of a capacitor plate.
@@ -11,7 +12,7 @@ import edu.colorado.phet.capacitorlab.CLPaints;
  */
 public class PlateNode extends BoxNode {
 
-    public PlateNode() {
-        super( CLPaints.PLATE );
+    public PlateNode( ModelViewTransform mvt ) {
+        super( mvt, CLPaints.PLATE );
     }
 }

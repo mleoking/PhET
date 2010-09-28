@@ -2,12 +2,12 @@
 
 package edu.colorado.phet.capacitorlab.model;
 
-import java.awt.geom.Point2D;
 import java.util.EventListener;
 
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
+import edu.colorado.phet.common.phetcommon.math.Point3D;
 
 /**
  * Model of a capacitor.
@@ -27,7 +27,7 @@ public class Capacitor {
     private final EventListenerList listeners;
     
     // immutable properties
-    private final Point2D location; // location of the capacitor's geometric center in the 2D plane of the camera (meters)
+    private final Point3D location; // location of the capacitor's geometric center in the 2D plane of the camera (meters)
     private final double plateThickness; // thickness of the plates (meters)
     private final double dielectricGap; // gap between the dielectric and the plates (meters)
     
@@ -37,11 +37,11 @@ public class Capacitor {
     private DielectricMaterial dielectricMaterial; // insulator between the plates
     private double dielectricOffset; // offset of dielectric's center from the axis that goes through the center of the 2 plates (meters)
 
-    public Capacitor( Point2D location, double plateSideLength, double plateSeparation, DielectricMaterial dielectricMaterial, double dielectricOffset ) {
+    public Capacitor( Point3D location, double plateSideLength, double plateSeparation, DielectricMaterial dielectricMaterial, double dielectricOffset ) {
         
         listeners = new EventListenerList();
         
-        this.location = new Point2D.Double( location.getX(), location.getY() );
+        this.location = new Point3D.Double( location.getX(), location.getY(), location.getZ() );
         this.plateThickness = CLConstants.PLATE_THICKNESS;
         this.dielectricGap = CLConstants.DIELECTRIC_GAP;
         
@@ -54,9 +54,9 @@ public class Capacitor {
     /**
      * Gets the capacitor's location in 2D model coordinates.
      * This property does not play a role in the model, but is used by the visual representation.
-     * @return location, in meters relative to (0,0)
+     * @return location, in meters relative to (0,0,0)
      */
-    public Point2D getLocationReference() {
+    public Point3D getLocationReference() {
         return location;
     }
     
@@ -155,6 +155,14 @@ public class Capacitor {
      */
     public double getDielectricGap() {
         return dielectricGap;
+    }
+    
+    /**
+     * Convenience method for getting the dielectric height.
+     * @return
+     */
+    public double getDielectricHeight() {
+        return plateSeparation - ( 2 * dielectricGap );
     }
     
     /**

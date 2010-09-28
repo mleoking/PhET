@@ -2,8 +2,6 @@
 
 package edu.colorado.phet.capacitorlab.view;
 
-import java.awt.geom.Point2D;
-
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
@@ -12,18 +10,18 @@ import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeAdapter;
 import edu.colorado.phet.capacitorlab.view.PlateChargeNode.BottomPlateChargeNode;
 import edu.colorado.phet.capacitorlab.view.PlateChargeNode.TopPlateChargeNode;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
-import edu.umd.cs.piccolo.PNode;
 
-
+/**
+ * Visual representation of a capacitor.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class CapacitorNode extends PhetPNode {
 
     private final BatteryCapacitorCircuit circuit;
     private final ModelViewTransform mvt;
-    private final PNode parentNode;
     private final PlateNode topPlateNode, bottomPlateNode;
     private final DielectricNode dielectricNode;
-    private final Point2D plateSizeDragPointOffset;
     private final PlateChargeNode topPlateChargeNode, bottomPlateChargeNode;
     
     public CapacitorNode( BatteryCapacitorCircuit circuit, ModelViewTransform mvt, boolean dev ) {
@@ -54,22 +52,19 @@ public class CapacitorNode extends PhetPNode {
         
         this.mvt = mvt;
         
-        plateSizeDragPointOffset = new Point2D.Double();
-        
-        parentNode = new PNode();
-        topPlateNode = new PlateNode();
-        bottomPlateNode = new PlateNode();
+        // child nodes
+        topPlateNode = new PlateNode( mvt );
+        bottomPlateNode = new PlateNode( mvt );
         dielectricNode = new DielectricNode( circuit.getCapacitor(), mvt, CLConstants.DIELECTRIC_OFFSET_RANGE );
         topPlateChargeNode = new TopPlateChargeNode( circuit, mvt, dev );
         bottomPlateChargeNode = new BottomPlateChargeNode( circuit, mvt, dev );
         
         // rendering order
-        addChild( parentNode );
-        parentNode.addChild( bottomPlateNode );
-        parentNode.addChild( bottomPlateChargeNode );
-        parentNode.addChild( dielectricNode ); // dielectric between the plates
-        parentNode.addChild( topPlateNode );
-        parentNode.addChild( topPlateChargeNode );
+        addChild( bottomPlateNode );
+        addChild( bottomPlateChargeNode ); // charges on top face of plate
+        addChild( dielectricNode ); // dielectric between the plates
+        addChild( topPlateNode );
+        addChild( topPlateChargeNode ); // charges on top face of plate
         
         // default state
         updateGeometry();
@@ -89,54 +84,34 @@ public class CapacitorNode extends PhetPNode {
         
         // model-to-view transform
         Capacitor capacitor = circuit.getCapacitor();
-        double plateSize = mvt.modelToView( capacitor.getPlateSideLength() );
-        double plateThickness = mvt.modelToView( capacitor.getPlateThickness() );
-        double plateSeparation = mvt.modelToView( capacitor.getPlateSeparation() );
-        double dielectricGap = mvt.modelToView( capacitor.getDielectricGap() );
+        final double plateSize = capacitor.getPlateSideLength();
+        final double plateThickness = capacitor.getPlateThickness();
+        final double plateSeparation = capacitor.getPlateSeparation();
+        final double dielectricHeight = capacitor.getDielectricHeight();
         
         // geometry
-        topPlateNode.setShape( plateSize, plateSize, plateThickness );
-        bottomPlateNode.setShape( plateSize, plateSize, plateThickness );
-        dielectricNode.setShape( plateSize, plateSize, plateSeparation - ( 2 * dielectricGap ) );
+        topPlateNode.setSize( plateSize, plateThickness, plateSize );
+        bottomPlateNode.setSize( plateSize, plateThickness, plateSize );
+        dielectricNode.setSize( plateSize, dielectricHeight, plateSize );
         
         // layout nodes with zero dielectric offset
         double x = 0;
-        double y = 0;
+        double y = mvt.modelToView( -( plateSeparation / 2 ) - plateThickness );
         topPlateNode.setOffset( x, y );
         topPlateChargeNode.setOffset( topPlateNode.getOffset() );
-        x = topPlateNode.getXOffset();
-        y = topPlateNode.getYOffset() + plateThickness + plateSeparation;
+        y = mvt.modelToView( -dielectricHeight / 2 );
+        dielectricNode.setOffset( x, y );
+        y = mvt.modelToView( plateSeparation / 2 );
         bottomPlateNode.setOffset( x, y );
         bottomPlateChargeNode.setOffset( bottomPlateNode.getOffset() );
-        x = topPlateNode.getXOffset();
-        y = topPlateNode.getYOffset() + plateThickness + dielectricGap;
-        dielectricNode.setOffset( x, y );
-        
-        // move the origin to the geometric center
-        x = -( parentNode.getFullBoundsReference().getWidth() / 2 ) - PNodeLayoutUtils.getOriginXOffset( parentNode );
-        y = -( parentNode.getFullBoundsReference().getHeight() / 2 ) - PNodeLayoutUtils.getOriginYOffset( parentNode );
-        parentNode.setOffset( x, y );
-        plateSizeDragPointOffset.setLocation( x, y );
-        
+
         // adjust the dielectric offset
         updateDielectricOffset();
     }
     
-    public Point2D getPlateSizeDragPointOffsetReference() {
-        return plateSizeDragPointOffset;
-    }
-    
     private void updateDielectricOffset() {
-        
-        // model-to-view transform
-        Capacitor capacitor = circuit.getCapacitor();
-        double dielectricOffset = mvt.modelToView( capacitor.getDielectricOffset() );
-        double plateThickness = mvt.modelToView( capacitor.getPlateThickness() );
-        double dielectricGap = mvt.modelToView( capacitor.getDielectricGap() );
-        
-        // layout
-        double x = topPlateNode.getXOffset() + dielectricOffset;
-        double y = topPlateNode.getYOffset() + plateThickness + dielectricGap;
+        double x = mvt.modelToView( circuit.getCapacitor().getDielectricOffset() );
+        double y = dielectricNode.getYOffset();
         dielectricNode.setOffset( x, y );
     }
     

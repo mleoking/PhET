@@ -3,8 +3,8 @@
 package edu.colorado.phet.capacitorlab;
 
 import java.awt.Dimension;
-import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 
 /**
@@ -35,11 +35,11 @@ public class CLConstants {
     // Model
     //----------------------------------------------------------------------------
     
-    public static final Point2D BATTERY_LOCATION = new Point2D.Double( -.025, 0 ); // meters
+    public static final Point3D BATTERY_LOCATION = new Point3D.Double( 0.005, 0.035, 0 ); // meters
     public static final DoubleRange BATTERY_VOLTAGE_RANGE = new DoubleRange( -1.5, 1.5, 0 ); // volts
     public static final boolean BATTERY_CONNECTED = true;
     
-    public static final Point2D CAPACITOR_LOCATION = new Point2D.Double( 0, 0 ); // meters
+    public static final Point3D CAPACITOR_LOCATION = new Point3D.Double( BATTERY_LOCATION.getX() + 0.025, BATTERY_LOCATION.getY(), 0 ); // meters
     public static final DoubleRange PLATE_SIZE_RANGE = new DoubleRange( .01, .02 ); // meters
     public static final DoubleRange PLATE_SEPARATION_RANGE = new DoubleRange( .005, .01, .01 ); // meters
     public static final double PLATE_THICKNESS = .0005; // meters
@@ -58,9 +58,7 @@ public class CLConstants {
     
     public static final double DISCONNECTED_PLATE_CHARGE = 0; // Coulombs
     
-    // model-view transform
-    public static final double MVT_SCALE = 15000;
-    public static final Point2D MVT_OFFSET = new Point2D.Double( Math.abs( BATTERY_LOCATION.getX() ) + .005, .0275 ); // meters
+    public static final Point3D PLATE_CHARGE_CONTROL_LOCATION = new Point3D.Double( CAPACITOR_LOCATION.getX() - 0.004, 0.001, 0 );
     
     //----------------------------------------------------------------------------
     // View
@@ -69,6 +67,8 @@ public class CLConstants {
     // reference coordinate frame size for world nodes
     public static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 1024, 768 );
     
+    // model-view transform
+    public static final double MVT_SCALE = 15000; // scale factor when going from model to view
     public static final double YAW_VIEWING_ANGLE = Math.toRadians( -45 ); // rotation about the vertical axis, right-hand rule determines sign
     public static final double PITCH_VIEWING_ANGLE = Math.toRadians( 30 ); // rotation about the horizontal axis, right-hand rule determines sign
     
