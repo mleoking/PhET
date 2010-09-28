@@ -123,6 +123,9 @@ public class DielectricCanvas extends CLCanvas {
         addChild( energyMeterNode );
         addChild( voltmeterNode );
         addChild( plateChargeControNode );
+        if ( dev ) {
+            addChild( originNode );
+        }
         
         // static layout
         {
