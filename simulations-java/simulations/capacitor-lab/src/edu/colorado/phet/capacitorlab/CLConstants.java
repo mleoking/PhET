@@ -4,6 +4,7 @@ package edu.colorado.phet.capacitorlab;
 
 import java.awt.Dimension;
 
+import edu.colorado.phet.capacitorlab.view.DielectricNode.DielectricChargeView;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 
@@ -88,10 +89,14 @@ public class CLConstants {
     public static final boolean VOLTMETER_VISIBLE = false;
     
     // plate charges
-    public static final boolean PLATE_CHARGES_VISIBLE = true; //XXX default should be false
+    public static final boolean PLATE_CHARGES_VISIBLE = false;
     public static final int MAX_NUMBER_OF_PLATE_CHARGES = 625;
     public static final double MIN_NONZERO_PLATE_CHARGE = 8E-15; // Coulombs, all non-zero values <= MIN_NONZERO_PLATE_CHARGE are represented by 1 charge
     
+    // dielectric charges
+    public static final DielectricChargeView DIELECTRIC_CHARGE_VIEW = DielectricChargeView.ALL; //XXX default should be NONE
+    
+    // e-field
     public static final boolean EFIELD_LINES_VISIBLE = false;
     
     //----------------------------------------------------------------------------

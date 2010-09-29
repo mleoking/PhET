@@ -174,6 +174,7 @@ public class DielectricCanvas extends CLCanvas {
         energyMeterNode.setVisible( CLConstants.ENERGY_METER_VISIBLE );
         voltmeterNode.setVisible( CLConstants.VOLTMETER_VISIBLE );
         capacitorNode.setPlateChargeVisible( CLConstants.PLATE_CHARGES_VISIBLE );
+        capacitorNode.setDielectricChargeView( CLConstants.DIELECTRIC_CHARGE_VIEW );
     }
     
     public void reset() {
