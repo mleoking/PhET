@@ -11,4 +11,8 @@ public class Electron extends SubatomicParticle {
     public Electron( double x, double y ) {
         super( ELECTRON_RADIUS, x, y );
     }
+
+    public Electron() {
+        this( 0, 0 );
+    }
 }
