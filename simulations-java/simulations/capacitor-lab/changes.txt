@@ -1,3 +1,5 @@
+# 0.00.16 (44502) Sep 29, 2010
+9/29/10 another dev version to demo plate charge, fixed polarity issues
 9/28/10 create infrastructure for dielectric charge views, wire up to control panel
 9/28/10 pull PlateChargeNode out of PlateNode, bad idea to merge them
 9/28/10 merge PlateChargeNode into PlateNode
