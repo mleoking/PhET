@@ -1,3 +1,5 @@
+9/28/10 keep charges fully inside the plate by taking the charge size into account
+9/28/10 reduce size of charges to match Noah's mock up
 9/28/10 fixed plate area drag handle
 9/28/10 fixed plate separation drag handle
 9/28/10 a rough version of showing plate charges, to demonstrate that this design does not scale well
