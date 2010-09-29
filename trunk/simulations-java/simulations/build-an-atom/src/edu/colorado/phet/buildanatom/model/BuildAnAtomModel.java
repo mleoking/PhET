@@ -11,6 +11,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.buildanatom.module.BuildAnAtomDefaults;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -25,8 +26,8 @@ public class BuildAnAtomModel {
 
     private static final Rectangle2D MODEL_VIEWPORT =
             new Rectangle2D.Double( -200, -150,
-                                    400,
-                                    400 * BuildAnAtomDefaults.STAGE_SIZE.getHeight() / BuildAnAtomDefaults.STAGE_SIZE.getWidth() );//use the same aspect ratio so circles don't become elliptical
+            400,
+            400 * BuildAnAtomDefaults.STAGE_SIZE.getHeight() / BuildAnAtomDefaults.STAGE_SIZE.getWidth() );//use the same aspect ratio so circles don't become elliptical
 
     private static final Dimension2D BUCKET_SIZE = new PDimension( 60, 30 );
     private static final Point2D PROTON_BUCKET_POSITION = new Point2D.Double( -80, -140 );
@@ -41,13 +42,18 @@ public class BuildAnAtomModel {
 
     private final Atom atom;
 
-    // The humor in the name "bucketList" is not lost on me.  Just in case
-    // you were wondering.
-    private final ArrayList<Bucket> bucketList = new ArrayList<Bucket>();
+    // The subatomic particles.
+    private final ArrayList<Electron> electrons = new ArrayList<Electron>();
+    private final ArrayList<Proton> protons = new ArrayList<Proton>();
+    private final ArrayList<Neutron> neutrons = new ArrayList<Neutron>();
 
-    private final ArrayList<Electron> electrons = new ArrayList<Electron>( );
-    private final ArrayList<Neutron> neutrons = new ArrayList<Neutron>( );
-    private final ArrayList<Proton> protons = new ArrayList<Proton>( );
+    // The buckets which can hold the subatomic particles.
+    // TODO: i18n
+    private final Bucket electronBucket = new Bucket( ELECTRON_BUCKET_POSITION, BUCKET_SIZE, Color.blue, "Electrons" );
+    // TODO: i18n
+    private final Bucket protonBucket = new Bucket( PROTON_BUCKET_POSITION, BUCKET_SIZE, Color.red, "Protons" );
+    // TODO: i18n
+    private final Bucket neutronBucket = new Bucket( NEUTRON_BUCKET_POSITION, BUCKET_SIZE, Color.gray, "Neutrons" );
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -61,43 +67,35 @@ public class BuildAnAtomModel {
         // Create the atom.
         atom = new Atom( new Point2D.Double( 0, 0 ) );
 
-        // Create the buckets that hold the sub-atomic particles.
-        // TODO: i18n
-        bucketList.add( new Bucket( PROTON_BUCKET_POSITION, BUCKET_SIZE, Color.red, "Protons" ) );
-        // TODO: i18n
-        bucketList.add( new Bucket( NEUTRON_BUCKET_POSITION, BUCKET_SIZE, Color.gray, "Neutrons" ) );
-        // TODO: i18n
-        bucketList.add( new Bucket( ELECTRON_BUCKET_POSITION, BUCKET_SIZE, Color.blue, "Electrons" ) );
-
-        electrons.add( new Electron(10,10) );
-        protons.add( new Proton(-10,10) );
-        neutrons.add( new Neutron(-10,-10) );
+        electrons.add( new Electron( 10, 10 ) );
+        protons.add( new Proton( -10, 10 ) );
+        neutrons.add( new Neutron( -10, -10 ) );
     }
 
-    public Electron getElectron(int i){
-        assert i>=0 && i<numElectrons();
+    public Electron getElectron( int i ) {
+        assert i >= 0 && i < numElectrons();
         return electrons.get( i );
     }
 
-    public int numElectrons(){
+    public int numElectrons() {
         return electrons.size();
     }
 
-    public Proton getProton(int i){
-        assert i>=0 && i<numProtons();
+    public Proton getProton( int i ) {
+        assert i >= 0 && i < numProtons();
         return protons.get( i );
     }
 
-    public int numProtons(){
+    public int numProtons() {
         return protons.size();
     }
 
-    public Neutron getNeutron(int i){
-        assert i>=0 && i<numNeutrons();
+    public Neutron getNeutron( int i ) {
+        assert i >= 0 && i < numNeutrons();
         return neutrons.get( i );
     }
 
-    public int numNeutrons(){
+    public int numNeutrons() {
         return neutrons.size();
     }
 
@@ -117,13 +115,23 @@ public class BuildAnAtomModel {
         return clock;
     }
 
-    public ArrayList<Bucket> getBuckets() {
-        return new ArrayList<Bucket>( bucketList );
+    public Bucket getElectronBucket() {
+        return electronBucket;
+    }
+
+    public Bucket getProtonBucket() {
+        return protonBucket;
+    }
+
+    public Bucket getNeutronBucket() {
+        return neutronBucket;
     }
 
     //----------------------------------------------------------------------------
     // Inner Classes and Interfaces
     //----------------------------------------------------------------------------
+
+
 
     /**
      * This class represents that atom in the model.  It supplies static
@@ -199,6 +207,9 @@ public class BuildAnAtomModel {
         // Caption to be shown on the bucket.
         private final String captionText;
 
+        // Particles that are in this bucket.
+        private final ArrayList<SubatomicParticle> containedParticles = new ArrayList<SubatomicParticle>();
+
         public Bucket( Point2D position, Dimension2D size, Color baseColor, String caption ) {
             this.position.setLocation( position );
             this.baseColor = baseColor;
@@ -250,5 +261,40 @@ public class BuildAnAtomModel {
         public String getCaptionText() {
             return captionText;
         }
+
+        public void addParticle( final SubatomicParticle particle, boolean moveImmediately ) {
+            // Determine an open location in the bucket.
+            // TBD: Go to center of hole for now.
+            Point2D freeParticleLocation = getPosition();
+
+            // Move the particle.
+            if ( moveImmediately ) {
+                // Move the particle instantaneously to the destination.
+                particle.setPosition( freeParticleLocation );
+            }
+            else {
+                // Set the destination and let the particle find its own way.
+                particle.setDestination( freeParticleLocation );
+            }
+
+            particle.addUserControlListener( new SimpleObserver() {
+                public void update() {
+                    if ( particle.isUserControlled() ) {
+                        // The user has picked up this particle, so we assume
+                        // that it is essentially removed from the bucket.
+                        removeParticle( particle );
+                    }
+                }
+            } );
+
+            containedParticles.add( particle );
+        }
+
+        public void removeParticle( SubatomicParticle particle ) {
+            assert containedParticles.contains( particle );
+            containedParticles.remove( particle );
+        }
+
+
     }
 }
