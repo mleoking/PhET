@@ -68,8 +68,6 @@ public class PlateChargeControlNode extends PhetPNode {
     private static final Stroke TICK_MARK_STROKE = TRACK_STROKE;
     
     // range labels
-    private static final String RANGE_LABEL_NONE = CLStrings.LABEL_NONE;
-    private static final String RANGE_LABEL_LOTS = CLStrings.LABEL_LOTS;
     private static final Font RANGE_LABEL_FONT = new PhetFont( 14 );
     private static final Color RANGE_LABEL_COLOR = Color.BLACK;
     
@@ -95,7 +93,7 @@ public class PlateChargeControlNode extends PhetPNode {
     
     public PlateChargeControlNode( final BatteryCapacitorCircuit circuit ) {
         
-        range = new DoubleRange( 0, BatteryCapacitorCircuit.getMaxPlateCharge() );
+        range = new DoubleRange( -BatteryCapacitorCircuit.getMaxPlateCharge(), BatteryCapacitorCircuit.getMaxPlateCharge() );
         
         this.circuit = circuit;
         circuit.addBatteryCapacitorCircuitChangeListener( new  BatteryCapacitorCircuitChangeAdapter() {
@@ -110,41 +108,58 @@ public class PlateChargeControlNode extends PhetPNode {
         // nodes
         trackNode = new TrackNode();
         knobNode = new KnobNode();
-        TickMarkNode lotsTickMarkNode = new TickMarkNode();
-        RangeLabelNode lotsLabelNode = new RangeLabelNode( RANGE_LABEL_LOTS );
-        TickMarkNode noneTickMarkNode = new TickMarkNode();
-        RangeLabelNode noneLabelNode = new RangeLabelNode( RANGE_LABEL_NONE );
+        TickMarkNode maxTickMarkNode = new TickMarkNode();
+        RangeLabelNode maxLabelNode = new RangeLabelNode( CLStrings.LABEL_LOTS_POSITIVE );
+        TickMarkNode zeroTickMarkNode = new TickMarkNode();
+        RangeLabelNode zeroLabelNode = new RangeLabelNode( CLStrings.LABEL_NONE );
+        TickMarkNode minTickMarkNode = new TickMarkNode();
+        RangeLabelNode minLabelNode = new RangeLabelNode( CLStrings.LABEL_LOTS_NEGATIVE );
         titleNode = new TitleNode( CLStrings.LABEL_PLATE_CHARGE );
         valueNode = new ValueNode( circuit.getTotalPlateCharge() );
         
         // parent for all nodes that are part of the slider, excluding the value
         PNode parentNode = new PNode();
         parentNode.addChild( trackNode );
-        parentNode.addChild( lotsTickMarkNode );
-        parentNode.addChild( lotsLabelNode );
-        parentNode.addChild( noneTickMarkNode );
-        parentNode.addChild( noneLabelNode );
+        parentNode.addChild( maxTickMarkNode );
+        parentNode.addChild( maxLabelNode );
+        parentNode.addChild( zeroTickMarkNode );
+        parentNode.addChild( zeroLabelNode );
+        parentNode.addChild( minTickMarkNode );
+        parentNode.addChild( minLabelNode );
         parentNode.addChild( knobNode );
         
         // layout in parentNode
         double x = 0;
         double y = 0;
-        trackNode.setOffset( x, y );
-        x = -5; // determines the overlap with the track
-        y = 0; // don't care, set by update
-        knobNode.setOffset( x, y );
-        x = -lotsTickMarkNode.getFullBoundsReference().getWidth();
-        y = trackNode.getFullBoundsReference().getMinY() + lotsTickMarkNode.getFullBoundsReference().getHeight() / 2;
-        lotsTickMarkNode.setOffset( x, y );
-        x = lotsTickMarkNode.getFullBoundsReference().getMinX() - lotsLabelNode.getFullBoundsReference().getWidth() - 2;
-        y = lotsTickMarkNode.getFullBoundsReference().getCenterY() - ( lotsLabelNode.getFullBoundsReference().getHeight() / 2 );
-        lotsLabelNode.setOffset( x, y );
-        x = -noneTickMarkNode.getFullBoundsReference().getWidth();
-        y = trackNode.getFullBoundsReference().getMaxY() - noneTickMarkNode.getFullBoundsReference().getHeight() / 2;
-        noneTickMarkNode.setOffset( x, y );
-        x = noneTickMarkNode.getFullBoundsReference().getMinX() - noneLabelNode.getFullBoundsReference().getWidth() - 2;
-        y = noneTickMarkNode.getFullBoundsReference().getCenterY() - ( noneLabelNode.getFullBoundsReference().getHeight() / 2 );
-        noneLabelNode.setOffset( x, y );
+        {
+            // track
+            trackNode.setOffset( x, y );
+            // knob
+            x = -5; // determines the overlap with the track
+            y = 0; // don't care, set by update
+            knobNode.setOffset( x, y );
+            // max tick & label
+            x = -maxTickMarkNode.getFullBoundsReference().getWidth();
+            y = trackNode.getFullBoundsReference().getMinY() + maxTickMarkNode.getFullBoundsReference().getHeight() / 2;
+            maxTickMarkNode.setOffset( x, y );
+            x = maxTickMarkNode.getFullBoundsReference().getMinX() - maxLabelNode.getFullBoundsReference().getWidth() - 2;
+            y = maxTickMarkNode.getFullBoundsReference().getCenterY() - ( maxLabelNode.getFullBoundsReference().getHeight() / 2 );
+            maxLabelNode.setOffset( x, y );
+            // zero tick & label
+            x = -zeroTickMarkNode.getFullBoundsReference().getWidth();
+            y = trackNode.getFullBoundsReference().getCenterY() - zeroTickMarkNode.getFullBoundsReference().getHeight() / 2;
+            zeroTickMarkNode.setOffset( x, y );
+            x = zeroTickMarkNode.getFullBoundsReference().getMinX() - zeroLabelNode.getFullBoundsReference().getWidth() - 2;
+            y = zeroTickMarkNode.getFullBoundsReference().getCenterY() - ( zeroLabelNode.getFullBoundsReference().getHeight() / 2 );
+            zeroLabelNode.setOffset( x, y );
+            // min tick & label
+            x = -minTickMarkNode.getFullBoundsReference().getWidth();
+            y = trackNode.getFullBoundsReference().getMaxY() - minTickMarkNode.getFullBoundsReference().getHeight() / 2;
+            minTickMarkNode.setOffset( x, y );
+            x = minTickMarkNode.getFullBoundsReference().getMinX() - minLabelNode.getFullBoundsReference().getWidth() - 2;
+            y = minTickMarkNode.getFullBoundsReference().getCenterY() - ( minLabelNode.getFullBoundsReference().getHeight() / 2 );
+            minLabelNode.setOffset( x, y );
+        }
         
         // background, sized to fit around parentNode
         double bWidth = parentNode.getFullBoundsReference().getWidth() + ( 2 * BACKGROUND_X_MARGIN );
@@ -164,18 +179,20 @@ public class PlateChargeControlNode extends PhetPNode {
         }
         
         // layout
-        x = 0;
-        y = 0;
-        backgroundNode.setOffset( x, y );
-        x = backgroundNode.getFullBoundsReference().getCenterX() - ( parentNode.getFullBoundsReference().getWidth() / 2 ) - PNodeLayoutUtils.getOriginXOffset( parentNode );
-        y = backgroundNode.getFullBoundsReference().getCenterY() - ( parentNode.getFullBoundsReference().getHeight() / 2 ) - PNodeLayoutUtils.getOriginYOffset( parentNode );
-        parentNode.setOffset( x, y );
-        x = backgroundNode.getFullBoundsReference().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 );
-        y = backgroundNode.getFullBoundsReference().getMaxY() + 2;
-        titleNode.setOffset( x, y );
-        x = titleNode.getFullBoundsReference().getCenterX() - ( valueNode.getFullBoundsReference().getWidth() / 2 );
-        y = titleNode.getFullBoundsReference().getMaxY() + 2;
-        valueNode.setOffset( x, y );
+        {
+            x = 0;
+            y = 0;
+            backgroundNode.setOffset( x, y );
+            x = backgroundNode.getFullBoundsReference().getCenterX() - ( parentNode.getFullBoundsReference().getWidth() / 2 ) - PNodeLayoutUtils.getOriginXOffset( parentNode );
+            y = backgroundNode.getFullBoundsReference().getCenterY() - ( parentNode.getFullBoundsReference().getHeight() / 2 ) - PNodeLayoutUtils.getOriginYOffset( parentNode );
+            parentNode.setOffset( x, y );
+            x = backgroundNode.getFullBoundsReference().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 );
+            y = backgroundNode.getFullBoundsReference().getMaxY() + 2;
+            titleNode.setOffset( x, y );
+            x = titleNode.getFullBoundsReference().getCenterX() - ( valueNode.getFullBoundsReference().getWidth() / 2 );
+            y = titleNode.getFullBoundsReference().getMaxY() + 2;
+            valueNode.setOffset( x, y );
+        }
         
         // interactivity
         initInteractivity();

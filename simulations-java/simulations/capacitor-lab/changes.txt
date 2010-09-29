@@ -1,3 +1,4 @@
+9/29/10 change range of Plate Charge slider to go from "lots (+)" to "lots (-)"
 # 0.00.17 (44526) Sep 29, 2010
 9/29/10 demo first pass at grid layout for plate charges
 9/29/10 layout charges in a grid using algorithm from CCK's CapacitorNode (lines 270-230)
