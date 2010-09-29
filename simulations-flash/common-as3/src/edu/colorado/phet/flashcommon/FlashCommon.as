@@ -1,6 +1,7 @@
 package edu.colorado.phet.flashcommon {
 
 import flash.display.Sprite;
+import flash.events.KeyboardEvent;
 import flash.net.LocalConnection;
 import flash.net.URLRequest;
 import flash.net.navigateToURL;
@@ -9,6 +10,7 @@ import flash.text.Font;
 import flash.text.StyleSheet;
 import flash.text.TextField;
 import flash.text.TextFormat;
+import flash.ui.Keyboard;
 
 import org.aswing.ASColor;
 import org.aswing.AsWingManager;
@@ -177,6 +179,47 @@ public class FlashCommon {
         debugFrame.pack();
         if ( DEBUG_ENABLED ) {
             debugFrame.show();
+        }
+
+        if ( getDev() ) { // so we can enable buttons for debugging
+            root.stage.addEventListener( KeyboardEvent.KEY_DOWN, function( e: KeyboardEvent ): void {
+                if ( (e.keyCode == Keyboard.PAGE_UP || e.keyCode == Keyboard.F10) && e.shiftKey ) {
+                    // page up OR F10
+                    if ( debugFrame.isVisible() ) {
+                        debugFrame.hide();
+                    }
+                    else {
+                        debugFrame.show();
+                    }
+                }
+                if ( e.keyCode == Keyboard.F9 && e.shiftKey ) {
+                    // F9 was pressed
+                    updateHandler.simUpdatesAvailable( 5, 10, 0, 0, 0 );
+                }
+                if ( e.keyCode == Keyboard.HOME && e.shiftKey ) {
+                    // Home was pressed
+                    updateHandler.installationUpdatesAvailable( 1234567890, 0 );
+                }
+                if ( e.keyCode == Keyboard.LEFT && e.shiftKey ) {
+                    // left arrow
+                    updateHandler.showUpdateError();
+                }
+                if ( e.keyCode == Keyboard.UP && e.shiftKey ) {
+                    // up arrow
+                    updateHandler.showSimUpToDate();
+                }
+                if ( e.keyCode == Keyboard.DOWN && e.shiftKey ) {
+                    // down arrow
+                    updateHandler.showInstallationUpToDate();
+                }
+                if ( e.keyCode == Keyboard.F8 && e.shiftKey ) {
+                    // F8 was pressed
+                    debug( "Preferences: Manually resetting shared data\n" );
+                    preferences.load();
+                    preferences.reset();
+                    preferences.flush();
+                }
+            } );
         }
     }
 

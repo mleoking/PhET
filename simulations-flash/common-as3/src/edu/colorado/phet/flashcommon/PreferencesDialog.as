@@ -184,7 +184,7 @@ public class PreferencesDialog extends CommonDialog {
         displayMe();
 
         // release the preferences shared object
-        common.preferences.unload();
+        common.preferences.flush();
 
         // TODO: remove after development:
 
@@ -218,7 +218,7 @@ public class PreferencesDialog extends CommonDialog {
         //        if ( highContrastState != _level0.highContrast ) {
         //            highContrastCheck.doClick();
         //        }
-        common.preferences.unload();
+        common.preferences.flush();
     }
 
     override public function closeClicked( evt: FrameEvent ): void {
