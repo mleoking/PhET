@@ -29,16 +29,16 @@ public abstract class SubatomicParticle {
         return position.getValue();
     }
 
-    public void setPosition( Point2D.Double position ) {
-        setPosition( position.x, position.y );
+    public void setPosition( Point2D position ) {
+        setPosition( position.getX(), position.getY() );
     }
 
     public void setPosition( double x, double y ) {
         position.setValue( new Point2D.Double( x, y ) );
     }
 
-    public void setDestination( Point2D.Double position ) {
-        setDestination( position.x, position.y );
+    public void setDestination( Point2D position ) {
+        setDestination( position.getX(), position.getY() );
     }
 
     public void setDestination( double x, double y ) {
