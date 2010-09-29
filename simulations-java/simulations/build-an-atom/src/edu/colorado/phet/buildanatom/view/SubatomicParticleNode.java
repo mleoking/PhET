@@ -1,9 +1,10 @@
 package edu.colorado.phet.buildanatom.view;
 
-import java.awt.*;
+import java.awt.Color;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.buildanatom.model.SubatomicParticle;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
@@ -25,19 +26,20 @@ public class SubatomicParticleNode extends PNode {
 
         updatePosition();
 
-        addInputEventListener( new CursorHandler( ) );
+        addInputEventListener( new CursorHandler() );
 
-//        subatomicParticle.addListener( new SubatomicParticle.Listener() {
-//            public void positionChanged() {
-//                updatePosition();
-//            }
-//        } );
-        addInputEventListener( new PBasicInputEventHandler(){
+        subatomicParticle.addPositionListener( new SimpleObserver() {
+            public void update() {
+                updatePosition();
+            }
+        } );
+
+        addInputEventListener( new PBasicInputEventHandler() {
             @Override
             public void mouseDragged( PInputEvent event ) {
-                PDimension delta=event.getDeltaRelativeTo( getParent() );
-                Point2D modelDelta= mvt.viewToModelDifferential( delta.width,delta.height );
-                subatomicParticle.translate(modelDelta.getX(),modelDelta.getY());
+                PDimension delta = event.getDeltaRelativeTo( getParent() );
+                Point2D modelDelta = mvt.viewToModelDifferential( delta.width, delta.height );
+                subatomicParticle.translate( modelDelta.getX(), modelDelta.getY() );
             }
         } );
     }
