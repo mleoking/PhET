@@ -51,7 +51,7 @@ public class BatteryCapacitorCircuit {
         this.battery = battery;
         this.capacitor = capacitor;
         this.batteryConnected = batteryConnected;
-        this.disconnectedPlateCharge = disconnectedPlateCharge;
+        this.disconnectedPlateCharge = getTotalPlateCharge();
         this.currentAmplitude = 0;
         this.previousVoltage = getPlatesVoltage();
         
@@ -131,6 +131,13 @@ public class BatteryCapacitorCircuit {
      */
     public void setBatteryConnected( boolean connected ) {
         if ( connected != this.batteryConnected ) {
+            /*
+             * When disconnecting the battery, set the disconnected plate charge to
+             * whatever the total plate charge was with the battery connected.
+             */
+            if ( !connected ) {
+                disconnectedPlateCharge = getTotalPlateCharge();
+            }
             this.batteryConnected = connected;
             fireBatteryConnectedChanged();
             fireChargeChanged();
@@ -175,11 +182,11 @@ public class BatteryCapacitorCircuit {
     /**
      * Sets the value used for plate charge when the battery is disconnected.
      * 
-     * @param manualPlateCharge Coulombs
+     * @param disconnectedPlateCharge Coulombs
      */
-    public void setDisconnectedPlateCharge( double manualPlateCharge ) {
-        if ( manualPlateCharge != this.disconnectedPlateCharge ) {
-            this.disconnectedPlateCharge = manualPlateCharge;
+    public void setDisconnectedPlateCharge( double disconnectedPlateCharge ) {
+        if ( disconnectedPlateCharge != this.disconnectedPlateCharge ) {
+            this.disconnectedPlateCharge = disconnectedPlateCharge;
             if ( !isBatteryConnected() ) {
                 fireChargeChanged();
                 fireVoltageChanged();

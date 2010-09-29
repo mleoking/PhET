@@ -53,8 +53,8 @@ public class CapacitorNode extends PhetPNode {
         this.mvt = mvt;
         
         // child nodes
-        topPlateNode = new TopPlateNode( circuit, mvt, dev );
-        bottomPlateNode = new BottomPlateNode( circuit, mvt, dev );
+        topPlateNode = new TopPlateNode( circuit, mvt );
+        bottomPlateNode = new BottomPlateNode( circuit, mvt );
         dielectricNode = new DielectricNode( circuit, mvt, dev, CLConstants.DIELECTRIC_OFFSET_RANGE );
         
         // rendering order
