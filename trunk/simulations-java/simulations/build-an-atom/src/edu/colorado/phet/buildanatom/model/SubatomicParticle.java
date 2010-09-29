@@ -79,7 +79,15 @@ public abstract class SubatomicParticle {
         position.addObserver( listener );
     }
 
+    public void removePositionListener( SimpleObserver listener ) {
+        position.removeObserver( listener );
+    }
+
     public void addUserControlListener( SimpleObserver listener ) {
         userControlled.addObserver( listener );
+    }
+
+    public void removeUserControlListener( SimpleObserver listener ) {
+        userControlled.removeObserver( listener );
     }
 }
