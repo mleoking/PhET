@@ -10,11 +10,9 @@ import java.awt.Stroke;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.model.BuildAnAtomModel;
-import edu.colorado.phet.buildanatom.model.BuildAnAtomModel.Bucket;
 import edu.colorado.phet.buildanatom.module.BuildAnAtomDefaults;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -96,16 +94,21 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
                     shellRadius * 2,
                     shellRadius * 2));
             PNode electronShellNode = new PhetPPath( electronShellShape, ELECTRON_SHELL_STROKE, Color.BLUE );
-//            electronShellNode.setOffset( model.getAtom().getPosition() );
+            electronShellNode.setOffset( model.getAtom().getPosition() );
             rootNode.addChild( electronShellNode );
         }
 
         // Add the buckets for holding the sub-atomic particles to the canvas.
-        for (Bucket bucket : model.getBuckets()){
-            BucketNode bucketNode = new BucketNode( bucket, mvt );
-            bucketNode.setOffset( mvt.modelToViewDouble( bucket.getPosition() ) );
-            rootNode.addChild( bucketNode );
-        }
+        BucketNode electronBucketNode = new BucketNode( model.getElectronBucket(), mvt );
+        electronBucketNode.setOffset( mvt.modelToViewDouble( model.getElectronBucket().getPosition() ) );
+        rootNode.addChild( electronBucketNode );
+        BucketNode protonBucketNode = new BucketNode( model.getProtonBucket(), mvt );
+        protonBucketNode.setOffset( mvt.modelToViewDouble( model.getProtonBucket().getPosition() ) );
+        rootNode.addChild( protonBucketNode );
+        BucketNode neutronBucketNode = new BucketNode( model.getNeutronBucket(), mvt );
+        neutronBucketNode.setOffset( mvt.modelToViewDouble( model.getNeutronBucket().getPosition() ) );
+        rootNode.addChild( neutronBucketNode );
+
         // TODO: Temp - put a sketch of the tab up as a very early prototype.
         //        PImage image = new PImage( BuildAnAtomResources.getImage( "tab-1-sketch-01.png" ));
         //        image.scale( 2.05 );
