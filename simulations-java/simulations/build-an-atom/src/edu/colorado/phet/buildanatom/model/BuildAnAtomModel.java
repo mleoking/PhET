@@ -306,12 +306,14 @@ public class BuildAnAtomModel {
                 particle.setDestination( freeParticleLocation );
             }
 
+            // Listen for when the user removes this particle from the bucket.
             particle.addUserControlListener( new SimpleObserver() {
                 public void update() {
                     if ( particle.isUserControlled() ) {
                         // The user has picked up this particle, so we assume
                         // that it is essentially removed from the bucket.
                         removeParticle( particle );
+                        particle.removeUserControlListener( this );
                     }
                 }
             } );

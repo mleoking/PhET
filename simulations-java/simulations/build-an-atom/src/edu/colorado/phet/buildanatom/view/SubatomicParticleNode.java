@@ -10,6 +10,7 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -34,12 +35,25 @@ public class SubatomicParticleNode extends PNode {
             }
         } );
 
-        addInputEventListener( new PBasicInputEventHandler() {
+        addInputEventListener( new PDragEventHandler() {
+
+            @Override
+            protected void startDrag( PInputEvent event ) {
+                super.startDrag( event );
+                subatomicParticle.setUserControlled( true );
+            }
+
             @Override
             public void mouseDragged( PInputEvent event ) {
                 PDimension delta = event.getDeltaRelativeTo( getParent() );
                 Point2D modelDelta = mvt.viewToModelDifferential( delta.width, delta.height );
                 subatomicParticle.translate( modelDelta.getX(), modelDelta.getY() );
+            }
+
+            @Override
+            protected void endDrag( PInputEvent event ) {
+                super.endDrag( event );
+                subatomicParticle.setUserControlled( false );
             }
         } );
     }
