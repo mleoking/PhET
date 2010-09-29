@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.capacitorlab.view;
 
-import java.awt.Color;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
@@ -12,10 +11,8 @@ import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeAdapter;
 import edu.colorado.phet.capacitorlab.view.PlateNode.Polarity;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
@@ -32,14 +29,15 @@ public abstract class PlateChargeNode extends PhetPNode {
     
     private final BatteryCapacitorCircuit circuit;
     private final ModelViewTransform mvt;
+    private final boolean dev;
     private final Polarity polarity;
-    private final PText numberOfChargesNode; // debug, shows the number of charges
     private final PNode chargesParentNode;
 
     public PlateChargeNode( BatteryCapacitorCircuit circuit, ModelViewTransform mvt, boolean dev, Polarity polarity ) {
         
         this.circuit = circuit;
         this.mvt = mvt;
+        this.dev = dev;
         this.polarity = polarity;
         
         circuit.addBatteryCapacitorCircuitChangeListener( new BatteryCapacitorCircuitChangeAdapter() {
@@ -51,14 +49,6 @@ public abstract class PlateChargeNode extends PhetPNode {
         
         chargesParentNode = new PComposite();
         addChild( chargesParentNode );
-        
-        numberOfChargesNode = new PText();
-        numberOfChargesNode.setFont( new PhetFont( 14 ) );
-        numberOfChargesNode.setTextPaint( Color.BLACK );
-        numberOfChargesNode.setOffset( getNumberOfChargesOffset() );
-        if ( dev ) {
-            addChild( numberOfChargesNode );
-        }
         
         update();
     }
@@ -80,17 +70,6 @@ public abstract class PlateChargeNode extends PhetPNode {
      */
     protected abstract double getContactWidth();
     
-    /*
-     * Offset of numberOfChargesNode debug node, to prevent overlap between subclass nodes.
-     * Specified in view coordinated. 
-     */
-    protected abstract Point2D getNumberOfChargesOffset();
-    
-    /*
-     * Label used on numberOfChargesNode debug node.
-     */
-    protected abstract String getNumberOfChargesLabel();
-    
     protected BatteryCapacitorCircuit getCircuit() {
         return circuit;
     }
@@ -109,18 +88,6 @@ public abstract class PlateChargeNode extends PhetPNode {
         
         double plateCharge = getPlateCharge();
         int numberOfCharges = getNumberOfCharges( plateCharge );
-        
-        // numeric display
-        String label = getNumberOfChargesLabel();
-        if ( numberOfCharges == 0 ) {
-            numberOfChargesNode.setText( "0 " + label );
-        }
-        else if ( isPositivelyCharged() ) {
-            numberOfChargesNode.setText( String.valueOf( numberOfCharges ) + " " + label + " (+)" );
-        }
-        else {
-            numberOfChargesNode.setText( String.valueOf( numberOfCharges ) + " " + label + " (-)" );
-        }
         
         // remove existing charges
         chargesParentNode.removeAllChildren();
@@ -155,8 +122,17 @@ public abstract class PlateChargeNode extends PhetPNode {
                 chargeNode.setOffset( offset );
             }
         }
+        
+        // debug output
+        if ( dev ) {
+            System.out.println( getClass().getName() + " " + numberOfCharges + " charges computed, " + ( rows * columns ) + " charges displayed" );
+        }
     }
     
+    /*
+     * Computes number of charges, linearly proportional to plate charge.
+     * All non-zero values below some minimum are mapped to 1 charge.
+     */
     private int getNumberOfCharges( double plateCharge ) {
         
         double absolutePlateCharge = Math.abs( plateCharge );
@@ -201,16 +177,6 @@ public abstract class PlateChargeNode extends PhetPNode {
             Capacitor capacitor = getCircuit().getCapacitor();
             return Math.max( 0, capacitor.getPlateSideLength() - capacitor.getDielectricOffset() );
         }
-        
-        // offset for debug node, to prevent overlap with other subclasses
-        protected Point2D getNumberOfChargesOffset() {
-            return new Point2D.Double( 10, -80 );
-        }
-        
-        // label used on debug node
-        protected String getNumberOfChargesLabel() {
-            return "charges due to dielectric";
-        }
     }
     
     /**
@@ -237,16 +203,6 @@ public abstract class PlateChargeNode extends PhetPNode {
         public double getContactWidth() {
             Capacitor capacitor = getCircuit().getCapacitor();
             return Math.min( capacitor.getDielectricOffset(), capacitor.getPlateSideLength() );
-        }
-        
-        // offset for debug node, to prevent overlap with other subclasses
-        protected Point2D getNumberOfChargesOffset() {
-            return new Point2D.Double( 10, -60 );
-        }
-        
-        // label used on debug node
-        protected String getNumberOfChargesLabel() {
-            return "charges due to air";
         }
     }
 }
