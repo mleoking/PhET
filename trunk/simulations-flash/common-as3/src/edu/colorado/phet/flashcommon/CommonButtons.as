@@ -1,4 +1,5 @@
 package edu.colorado.phet.flashcommon {
+import flash.display.DisplayObjectContainer;
 import flash.display.Sprite;
 import flash.events.MouseEvent;
 
@@ -18,7 +19,7 @@ public class CommonButtons extends JWindow {
         FlashCommon.getInstance().debug( str );
     }
 
-    public function CommonButtons( root: Sprite ) {
+    public function CommonButtons( root: DisplayObjectContainer ) {
         super( root, false );
         debug( "CommonButtons initializing\n" );
 
