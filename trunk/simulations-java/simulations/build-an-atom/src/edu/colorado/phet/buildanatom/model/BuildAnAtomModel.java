@@ -10,6 +10,7 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Random;
 
 import edu.colorado.phet.buildanatom.module.BuildAnAtomDefaults;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -42,6 +43,8 @@ public class BuildAnAtomModel {
     private static final Point2D NEUTRON_BUCKET_POSITION = new Point2D.Double( 0, -140 );
     private static final Point2D ELECTRON_BUCKET_POSITION = new Point2D.Double( 80, -140 );
 
+    protected static final double NUCLEUS_CAPTURE_DISTANCE = 50;
+
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
@@ -63,6 +66,13 @@ public class BuildAnAtomModel {
     // TODO: i18n
     private final Bucket neutronBucket = new Bucket( NEUTRON_BUCKET_POSITION, BUCKET_SIZE, Color.gray, "Neutrons", Neutron.RADIUS );
 
+    // Listeners that handle the release by the user of a subatomic particle.
+    private final SimpleObserver protonReleaseObserver = new SimpleObserver() {
+        public void update() {
+
+        }
+    };
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -83,9 +93,25 @@ public class BuildAnAtomModel {
         }
 
         for ( int i = 0; i < NUM_PROTONS; i++ ) {
-            Proton proton = new Proton();
+            final Proton proton = new Proton();
             protons.add( proton );
             protonBucket.addParticle( proton, true );
+            proton.addUserControlListener( new SimpleObserver() {
+                public void update() {
+                    if (!proton.isUserControlled()){
+                        // The user just released this proton.  If it is close
+                        // enough to the nucleus, send it there, otherwise
+                        // send it to its bucket.
+                        if (proton.getPosition().distance( atom.getPosition() ) < NUCLEUS_CAPTURE_DISTANCE){
+                            atom.addProton( proton );
+                        }
+                        else{
+                            protonBucket.addParticle( proton, false );
+                        }
+                    }
+
+                }
+            });
         }
 
         for ( int i = 0; i < NUM_NEUTRONS; i++ ) {
@@ -162,11 +188,20 @@ public class BuildAnAtomModel {
      */
     public static class Atom {
 
+        private static final Random RAND = new Random();
+
         // Nuclear radius, in picometers.  This is not to scale - we need it
         // to be larger than real life.
         private static final double NUCLEUS_RADIUS = 5;
 
+        // Position in model space.
         private final Point2D position = new Point2D.Double();
+
+        // List of the subatomic particles that are currently a part of this
+        // atom.
+        private final ArrayList<Proton> protons = new ArrayList<Proton>();
+        private final ArrayList<Neutron> neutrons = new ArrayList<Neutron>();
+        private final ArrayList<Electron> electrons = new ArrayList<Electron>();
 
         // Radii of the electron shells.  The values used for these distances
         // are remotely related to reality (based on covalent bond radii of
@@ -193,6 +228,30 @@ public class BuildAnAtomModel {
 
         public Point2D getPosition() {
             return position;
+        }
+
+        public void addProton(final Proton proton){
+            assert !protons.contains( proton );
+
+            // Add to the list of protons that are in the atom.
+            protons.add( proton );
+
+            // Set the destination so that the proton will go to the location.
+            double randAngle = RAND.nextDouble() * 2 * Math.PI;
+            double randLength = RAND.nextDouble() * NUCLEUS_RADIUS;
+            proton.setDestination( Math.cos( randAngle ) * randLength + getPosition().getX(),
+                    Math.sin( randAngle ) * randLength + getPosition().getY() );
+            proton.addUserControlListener( new SimpleObserver() {
+
+                public void update() {
+                    if ( proton.isUserControlled() ) {
+                        // The user has picked up this particle, so we assume
+                        // that it is essentially removed from the atom.
+                        protons.remove( proton );
+                        proton.removeUserControlListener( this );
+                    }
+                }
+            });
         }
     }
 
