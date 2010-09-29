@@ -25,8 +25,8 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public abstract class PlateChargeNode extends PhetPNode {
     
-    private static final double PLUS_MINUS_WIDTH = 10;
-    private static final double PLUS_MINUS_HEIGHT = 3;
+    private static final double PLUS_MINUS_WIDTH = 7;
+    private static final double PLUS_MINUS_HEIGHT = 1;
     
     private final BatteryCapacitorCircuit circuit;
     private final ModelViewTransform mvt;
@@ -99,12 +99,17 @@ public abstract class PlateChargeNode extends PhetPNode {
             chargesParentNode.addChild( chargeNode );
             
             // randomly position the charge on the plate
-            double x = -( plateSize / 2 ) + ( plateSize * Math.random() );
+            double x = getRandomCoordinate( plateSize );
             double y = 0;
-            double z = -( plateSize / 2 ) + ( plateSize * Math.random() );
+            double z = getRandomCoordinate( plateSize );;
             Point2D offset = mvt.modelToView( x, y, z );
             chargeNode.setOffset( offset );
         }
+    }
+    
+    private double getRandomCoordinate( double plateSize ) {
+        double margin = mvt.viewToModel( PLUS_MINUS_WIDTH ); // to keep charges fully inside the plate
+        return -( plateSize / 2 ) + margin + ( ( plateSize - ( 2 * margin ) ) * Math.random() );
     }
     
     private int getNumberOfCharges( double plateCharge ) {
