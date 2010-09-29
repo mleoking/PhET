@@ -53,7 +53,7 @@ class MessageDialog extends CommonDialog {
             okButton = new JButton( CommonStrings.get( "Close", "Close" ) );
         }
 
-        okButton.addEventListener( MouseEvent.CLICK, closeClicked );
+        okButton.addEventListener( MouseEvent.CLICK, function(): void {manualClose();} );
         CommonButtons.padButtonAdd( okButton, panel );
 
         var centerPanel: JPanel = new JPanel( new CenterLayout() ); //SoftBoxLayout.X_AXIS, 0, SoftBoxLayout.CENTER
