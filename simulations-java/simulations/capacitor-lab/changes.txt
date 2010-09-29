@@ -1,4 +1,5 @@
-9/28/10 merge plate charge representation into PlateNode
+9/28/10 pull PlateChargeNode out of PlateNode, bad idea to merge them
+9/28/10 merge PlateChargeNode into PlateNode
 # 0.00.15 (44492) Sep 28, 2010
 9/28/10 dev version to demonstrate problems with plate charge representation
 9/28/10 keep charges fully inside the plate by taking the charge size into account
