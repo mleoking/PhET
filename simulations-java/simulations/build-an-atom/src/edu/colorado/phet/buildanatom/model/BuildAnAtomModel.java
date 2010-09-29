@@ -4,6 +4,7 @@ package edu.colorado.phet.buildanatom.model;
 
 import java.awt.Color;
 import java.awt.Shape;
+import java.awt.geom.Area;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
@@ -220,7 +221,7 @@ public class BuildAnAtomModel {
 
         // The two shapes that define the overall shape of the bucket.
         private final Shape holeShape;
-        private final DoubleGeneralPath containerShape;
+        private final Shape containerShape;
 
         // Base color of the bucket.
         private final Color baseColor;
@@ -254,18 +255,21 @@ public class BuildAnAtomModel {
             // rework this code.  It may or may not work out that way, so
             // adjust as necessary to get the look you need.
             double containerHeight = size.getHeight() * ( 1 - ( HOLE_ELLIPSE_HEIGHT_PROPORTION / 2 ) );
-            containerShape = new DoubleGeneralPath();
-            containerShape.moveTo( -size.getWidth() * 0.5, 0 );
-            containerShape.lineTo( -size.getWidth() * 0.4, -containerHeight * 0.8 );
-            containerShape.curveTo(
+            DoubleGeneralPath containerPath = new DoubleGeneralPath();
+            containerPath.moveTo( -size.getWidth() * 0.5, 0 );
+            containerPath.lineTo( -size.getWidth() * 0.4, -containerHeight * 0.8 );
+            containerPath.curveTo(
                     -size.getWidth() * 0.3,
                     -containerHeight * 0.8 - size.getHeight() * HOLE_ELLIPSE_HEIGHT_PROPORTION * 0.6,
                     size.getWidth() * 0.3,
                     -containerHeight * 0.8 - size.getHeight() * HOLE_ELLIPSE_HEIGHT_PROPORTION * 0.6,
                     size.getWidth() * 0.4,
                     -containerHeight * 0.8 );
-            containerShape.lineTo( size.getWidth() * 0.5, 0 );
-            containerShape.closePath();
+            containerPath.lineTo( size.getWidth() * 0.5, 0 );
+            containerPath.closePath();
+            Area containerArea = new Area(containerPath.getGeneralPath());
+            containerArea.subtract( new Area(holeShape) );
+            containerShape = containerArea;
         }
 
         public Point2D getPosition() {
@@ -277,7 +281,7 @@ public class BuildAnAtomModel {
         }
 
         public Shape getContainerShape() {
-            return containerShape.getGeneralPath();
+            return containerShape;
         }
 
         public Color getBaseColor() {

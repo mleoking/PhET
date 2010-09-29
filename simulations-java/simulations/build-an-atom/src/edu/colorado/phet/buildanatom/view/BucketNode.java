@@ -35,11 +35,21 @@ public class BucketNode extends PNode {
     // Instance Data
     // ------------------------------------------------------------------------
 
+    // This node maintains two layers and makes those layers available via its
+    // API.  This is done so that its parts can be added to different layers,
+    // thus making more easy to make things look like they are in the bucket.
+    private final PNode holeLayer = new PNode();
+    private final PNode containerLayer = new PNode();
+
     // ------------------------------------------------------------------------
     // Constructor(s)
     // ------------------------------------------------------------------------
 
     public BucketNode( Bucket bucket, ModelViewTransform2D mvt ) {
+        // Add the layers.
+        addChild( containerLayer );
+        addChild( holeLayer );
+
         // Create a scaling transform based on the provided MVT, since we only
         // want the scaling portion and we want to avoid any translation.
         AffineTransform scaleTransform = AffineTransform.getScaleInstance( mvt.getAffineTransform().getScaleX(),
@@ -55,7 +65,8 @@ public class BucketNode extends PNode {
                 ColorUtils.brighterColor( bucket.getBaseColor(), 0.5 ),
                 new Point2D.Double( scaledHoleShape.getBounds2D().getMaxX(), scaledHoleShape.getBounds2D().getCenterY() ),
                 ColorUtils.darkerColor( bucket.getBaseColor(), 0.5 ) );
-        addChild( new PhetPPath( scaledContainerShape, containerPaint ) );
+        PhetPPath containerNode = new PhetPPath( scaledContainerShape, containerPaint );
+        containerLayer.addChild( containerNode );
 
         // Create and add the hole node.
         Paint holePaint = new GradientPaint(
@@ -63,7 +74,8 @@ public class BucketNode extends PNode {
                 Color.BLACK,
                 new Point2D.Double( scaledHoleShape.getBounds2D().getMaxX(), scaledHoleShape.getBounds2D().getCenterY() ),
                 Color.LIGHT_GRAY );
-        addChild( new PhetPPath( scaledHoleShape, holePaint, new BasicStroke( 1f ), Color.GRAY ) );
+        PhetPPath holeNode = new PhetPPath( scaledHoleShape, holePaint, new BasicStroke( 1f ), Color.GRAY );
+        holeLayer.addChild( holeNode );
 
         // Create and add the caption (if provided).
         if ( bucket.getCaptionText() != null ) {
@@ -77,13 +89,35 @@ public class BucketNode extends PNode {
             caption.setOffset(
                     scaledContainerShape.getBounds2D().getCenterX() - caption.getFullBoundsReference().getWidth() / 2,
                     scaledContainerShape.getBounds2D().getCenterY() - caption.getFullBoundsReference().getHeight() / 2 );
-            addChild( caption );
+            containerLayer.addChild( caption );
         }
     }
 
     // ------------------------------------------------------------------------
     // Methods
     // ------------------------------------------------------------------------
+
+    public PNode getHoleLayer() {
+        return holeLayer;
+    }
+
+    public PNode getContainerLayer() {
+        return containerLayer;
+    }
+
+    @Override
+    public void setOffset( double x, double y ) {
+        super.setOffset( x, y );
+        holeLayer.setOffset( x, y );
+        containerLayer.setOffset( x, y );
+    }
+
+    @Override
+    public void setOffset( Point2D point ) {
+        setOffset( point.getX(), point.getY() );
+    }
+
+
 
     // ------------------------------------------------------------------------
     // Inner Classes and Interfaces
