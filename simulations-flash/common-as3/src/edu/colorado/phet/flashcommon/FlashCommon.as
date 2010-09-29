@@ -45,9 +45,6 @@ public class FlashCommon {
     // whether to dump debugging messages into the text field
     public var debugging: Boolean = true;
 
-    // handles internationalization for common strings
-    public var strings: CommonStrings;
-
     // handles preferences the user selects, such as
     // enabling/disabling updates and statistics messages. also
     // stores how many times the particular sim has
@@ -154,9 +151,6 @@ public class FlashCommon {
 
         // store the position of the common buttons for CommonButtons
         //        commonPosition = position;
-
-        // load internationalization strings for common code
-        strings = new CommonStrings();
 
         // initializes the TabHandler
         //tabHandler = new TabHandler();
