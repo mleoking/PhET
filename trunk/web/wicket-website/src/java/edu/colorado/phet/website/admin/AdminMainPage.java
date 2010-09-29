@@ -79,8 +79,8 @@ public class AdminMainPage extends AdminPage {
         add( new Link( "debug-email" ) {
             public void onClick() {
                 try {
-                    EmailUtils.GeneralEmailBuilder message = new EmailUtils.GeneralEmailBuilder( "Test Email", WebsiteConstants.PHET_NO_REPLY_EMAIL_ADDRESS );
-                    message.setBody( "This is the body" );
+                    EmailUtils.GeneralEmailBuilder message = new EmailUtils.GeneralEmailBuilder( "Test Email \u8FD9\u4E2A\u7537\u5B69\u5B50\u6CA1\u6709\u53EA\u72D7", WebsiteConstants.PHET_NO_REPLY_EMAIL_ADDRESS );
+                    message.setBody( "This is the body. Here is some unicode: \u4E00\u4E2A\u82F9\u679C\u7EA2\u8272\u7684" );
                     message.addRecipient( "olsonsjc@gmail.com" );
                     message.addReplyTo( "phethelp@colorado.edu" );
                     EmailUtils.sendMessage( message );
