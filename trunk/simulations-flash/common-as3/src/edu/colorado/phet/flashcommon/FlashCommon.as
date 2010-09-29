@@ -2,6 +2,7 @@ package edu.colorado.phet.flashcommon {
 
 import flash.display.Sprite;
 import flash.events.KeyboardEvent;
+import flash.events.MouseEvent;
 import flash.net.LocalConnection;
 import flash.net.URLRequest;
 import flash.net.navigateToURL;
@@ -33,6 +34,9 @@ public class FlashCommon {
     public var root: Sprite;
 
     public static var NULLVAL: String = "null";
+
+    // blocks the user from interacting with the sim (but allows dialogs like the privacy dialog to be interacted with)
+    private var barrierSprite: Sprite;
 
     // the default background color for AsWing components (windows and text)
     public var backgroundColor: ASColor;
@@ -100,6 +104,9 @@ public class FlashCommon {
 
     public function initialize( root: Sprite ): void {
         this.root = root;
+
+        barrierSprite = new Sprite();
+        root.addChild( barrierSprite );
 
         // set up AsWing so it knows about the root (where it creates all of its Sprites)
         AsWingManager.initAsStandard( root, false, true );
@@ -662,6 +669,24 @@ public class FlashCommon {
 
     public function addLoadListener( f: Function ): void {
         loadListeners.push( f );
+    }
+
+    // shows a barrier so that the user cannot interact directly with the sim
+    public function showBarrier(): void {
+        barrierSprite.graphics.beginFill( getBGColor(), 0.5 );
+        // larger dimensions in case people resize afterwards
+        barrierSprite.graphics.drawRect( -5000, -5000, 10000, 10000 );
+        //        barrierSprite.graphics.drawRect( -500, -500, 100, 100 );
+        barrierSprite.graphics.endFill();
+
+        barrierSprite.useHandCursor = false;
+        barrierSprite.addEventListener( MouseEvent.CLICK, function( evt: MouseEvent ): void {} );
+    }
+
+    // hides the barrier. see above
+    public function hideBarrier(): void {
+        barrierSprite.graphics.clear();
+        root.removeChild( barrierSprite );
     }
 }
 }

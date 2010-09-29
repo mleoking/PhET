@@ -111,6 +111,9 @@ public class Preferences {
         // location), present the user with a dialog
         if ( !isPrivacyOK() && !common.fromPhetWebsite() && common.hasFlashVars() ) {
             //			_level0.privacyDialog = new PrivacyDialog();
+            // create the background
+            common.showBarrier();
+            debug( "Adding backgroundMC" );
             new PrivacyDialog();
         }
         else {

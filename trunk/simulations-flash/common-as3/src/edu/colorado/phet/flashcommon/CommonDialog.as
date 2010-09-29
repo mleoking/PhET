@@ -16,7 +16,7 @@ public class CommonDialog extends JFrame {
     public var window: JFrame;
 
     // shorthand for debugging function
-    public function debug( str: String ): void {
+    public static function debug( str: String ): void {
         FlashCommon.getInstance().debug( str );
     }
 
@@ -55,7 +55,7 @@ public class CommonDialog extends JFrame {
         var stage: Stage = FlashCommon.getInstance().root.stage; // override the stage so we know it is hooked up
 
         // center the window
-        window.setLocationXY( ( stage.width - window.getWidth() ) / 2, ( stage.height - window.getHeight() ) / 2 );
+        window.setLocationXY( ( stage.stageWidth - window.getWidth() ) / 2, ( stage.stageHeight - window.getHeight() ) / 2 );
         window.show();
 
         //        setupTabHandler();
@@ -99,6 +99,7 @@ public class CommonDialog extends JFrame {
 
 
     public static function openAboutDialog(): void {
+        debug( "opening about dialog" );
         if ( AboutDialog.getInstance() != null ) {
             AboutDialog.getInstance().manualOpen();
         }
@@ -108,6 +109,7 @@ public class CommonDialog extends JFrame {
     }
 
     public static function openAgreementDialog(): void {
+        debug( "opening agreement dialog" );
         if ( AgreementDialog.getInstance() != null ) {
             AgreementDialog.getInstance().manualOpen();
         }
@@ -118,6 +120,7 @@ public class CommonDialog extends JFrame {
 
 
     public static function openCreditsDialog(): void {
+        debug( "opening credits dialog" );
         if ( CreditsDialog.getInstance() != null ) {
             CreditsDialog.getInstance().manualOpen();
         }
@@ -127,10 +130,12 @@ public class CommonDialog extends JFrame {
     }
 
     public static function openMessageDialog( title: String, message: String, ok: Boolean ): void {
+        debug( "opening message dialog" );
         new MessageDialog( title, message, ok );
     }
 
     public static function openPreferencesDialog(): void {
+        debug( "opening preferences dialog" );
         if ( PreferencesDialog.getInstance() != null ) {
             PreferencesDialog.getInstance().manualOpen();
         }
@@ -140,6 +145,7 @@ public class CommonDialog extends JFrame {
     }
 
     public static function openStatisticsDetailsDialog(): void {
+        debug( "opening statistics details dialog" );
         if ( StatisticsDetailsDialog.getInstance() != null ) {
             StatisticsDetailsDialog.getInstance().manualOpen();
         }
@@ -149,6 +155,7 @@ public class CommonDialog extends JFrame {
     }
 
     public static function openUpdateInstallationDetailsDialog(): void {
+        debug( "opening installation details dialog" );
         if ( UpdateInstallationDetailsDialog.getInstance() != null ) {
             UpdateInstallationDetailsDialog.getInstance().manualOpen();
         }
@@ -158,6 +165,7 @@ public class CommonDialog extends JFrame {
     }
 
     public static function openUpdateInstallationDialog( installerTimestamp: Number, installerAskLaterDays: Number ): void {
+        debug( "opening update installation dialog" );
         if ( UpdateInstallationDialog.getInstance() != null ) {
             UpdateInstallationDialog.getInstance().manualOpen();
         }
@@ -167,6 +175,7 @@ public class CommonDialog extends JFrame {
     }
 
     public static function openUpdateSimDialog( versionMajor: Number, versionMinor: Number, versionDev: Number, versionRevision: Number, simAskLaterDays: Number ): void {
+        debug( "opening update sim dialog" );
         if ( UpdateSimDialog.getInstance() != null ) {
             UpdateSimDialog.getInstance().manualOpen();
         }
