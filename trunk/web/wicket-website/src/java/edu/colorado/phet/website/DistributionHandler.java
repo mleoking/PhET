@@ -58,7 +58,9 @@ public class DistributionHandler {
     public static boolean displayJARLink( PhetRequestCycle cycle, LocalizedSimulation lsim ) {
         String localeString = lsim.getLocaleString();
         if ( cycle.isKsuRipperRequest() ) {
-            return localeString.equals( "en" ) || localeString.equals( "ar" );
+            // we want the arabic rip to get all of the localized JARs now
+//            return localeString.equals( "en" ) || localeString.equals( "ar" );
+            return true;
         }
         else if ( cycle.isYoungAndFreedmanRipperRequest() ) {
             return localeString.equals( "en" );
@@ -104,7 +106,8 @@ public class DistributionHandler {
      * @return Whether or not to redirect links to English pages to the main PhET website phet.colorado.edu
      */
     public static boolean redirectEnglishLinkToPhetMain( PhetRequestCycle cycle ) {
-        return cycle.isKsuRipperRequest();
+        //return cycle.isKsuRipperRequest();
+        return false;
     }
 
     /**
@@ -133,7 +136,7 @@ public class DistributionHandler {
      * Pages which we want all links to them to point to phet.colorado.edu sub-sites (depend on the particular page)
      * Young & Freedman specific
      */
-    private static final Class[] yfPageRedirects = new Class[]{
+    private static final Class[] yfPageRedirects = new Class[] {
             AboutContactPanel.class,
             AboutLicensingPanel.class,
             AboutMainPanel.class,
@@ -218,7 +221,7 @@ public class DistributionHandler {
         if ( cycle.isInstaller() || cycle.getUserAgent().equals( PhetRequestCycle.HIDE_TRANSLATIONS_USER_AGENT ) ) {
             return cycle.getUserAgent();
         }
-        else if( cycle.isForProductionServer() ) {
+        else if ( cycle.isForProductionServer() ) {
             return "production";
         }
         else {
