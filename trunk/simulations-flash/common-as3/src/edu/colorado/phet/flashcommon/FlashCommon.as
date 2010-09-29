@@ -24,6 +24,8 @@ public class FlashCommon {
 
     protected static var instance: FlashCommon = null; // this will be written by subclasses
 
+    public static var DEBUG_ENABLED: Boolean = false;
+
     public var commonButtons: CommonButtons;
 
     public var root: Sprite;
@@ -173,7 +175,9 @@ public class FlashCommon {
         debugScroll.setBorder( new EmptyBorder( new LineBorder( null, ASColor.GRAY, 1, 0 ), new Insets( 5, 5, 5, 5 ) ) );
         debugFrame.getContentPane().append( debugScroll );
         debugFrame.pack();
-        //        debugFrame.show();
+        if ( DEBUG_ENABLED ) {
+            debugFrame.show();
+        }
     }
 
     // this should be called from preferences when it is verified the

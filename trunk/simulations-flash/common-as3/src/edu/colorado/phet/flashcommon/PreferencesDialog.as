@@ -20,6 +20,7 @@ import org.aswing.SoftBoxLayout;
 import org.aswing.border.EmptyBorder;
 import org.aswing.border.TitledBorder;
 import org.aswing.event.FrameEvent;
+import org.aswing.event.InteractiveEvent;
 import org.aswing.geom.IntDimension;
 
 public class PreferencesDialog extends CommonDialog {
@@ -72,11 +73,11 @@ public class PreferencesDialog extends CommonDialog {
 
         // update check box
         updatesCheck = new JCheckBox( CommonStrings.get( "CheckUpdates", "Automatically check for updates" ) );
-        updatesCheck.addEventListener( MouseEvent.CLICK, updateToggle );
+        updatesCheck.addEventListener( InteractiveEvent.STATE_CHANGED, updateToggle );
 
         if ( updateState != common.preferences.userAllowsUpdates() ) {
             // if updates are allowed, fill in the check box
-            updatesCheck.setSelected( true );
+            updatesCheck.setSelected( common.preferences.userAllowsUpdates() );
         }
         updatesPanel.append( updatesCheck );
 
@@ -126,7 +127,7 @@ public class PreferencesDialog extends CommonDialog {
 
         // statistics message check-box
         statisticsCheck = new JCheckBox( CommonStrings.get( "AllowMessages", "Allow sending of information to PhET" ) );
-        statisticsCheck.addEventListener( MouseEvent.CLICK, statisticsToggle );
+        statisticsCheck.addEventListener( InteractiveEvent.STATE_CHANGED, statisticsToggle );
         if ( statisticsState != common.preferences.userAllowsStatistics() ) {
             // if statistics messages are	 allowed, fill in the check box
             statisticsCheck.setSelected( true );
@@ -147,7 +148,7 @@ public class PreferencesDialog extends CommonDialog {
         //accessibilityPanel.setBorder(new TitledBorder(new EmptyBorder(null, new Insets(5, 5, 5, 5)), CommonStrings.get("Accessibility", "Accessibility")));
         accessibilityPanel.append( new JSpacer( new IntDimension( 5, 5 ) ) );
         highContrastCheck = new JCheckBox( CommonStrings.get( "HighContrast", "High Contrast Colors" ) );
-        highContrastCheck.addEventListener( MouseEvent.CLICK, highContrastToggle );
+        highContrastCheck.addEventListener( InteractiveEvent.STATE_CHANGED, highContrastToggle );
         //        if( _level0.highContrast ) {
         //            highContrastCheck.click();
         //        }
@@ -209,10 +210,10 @@ public class PreferencesDialog extends CommonDialog {
     public function reCheck(): void {
         common.preferences.load();
         if ( updateState != common.preferences.userAllowsUpdates() ) {
-            updatesCheck.doClick();
+            updatesCheck.setSelected( common.preferences.userAllowsUpdates() );
         }
         if ( statisticsState != common.preferences.userAllowsStatistics() ) {
-            statisticsCheck.doClick();
+            statisticsCheck.setSelected( common.preferences.userAllowsStatistics() );
         }
         //        if ( highContrastState != _level0.highContrast ) {
         //            highContrastCheck.doClick();
@@ -225,23 +226,20 @@ public class PreferencesDialog extends CommonDialog {
     }
 
     // toggle potential update state
-    public function updateToggle( src: JCheckBox ): void {
-        instance.updateState = !instance.updateState;
-        updatesCheck.setSelected( instance.updateState );
+    public function updateToggle( evt: InteractiveEvent  ): void {
+        instance.updateState = updatesCheck.isSelected();
         debug( "updateState toggled to " + instance.updateState.toString() + "\n" );
     }
 
     // toggle potential statistics state
-    public function statisticsToggle( src: JCheckBox ): void {
-        instance.statisticsState = !instance.statisticsState;
-        statisticsCheck.setSelected( instance.statisticsState );
+    public function statisticsToggle( evt: InteractiveEvent  ): void {
+        instance.statisticsState = statisticsCheck.isSelected();
         debug( "statisticsState toggled to " + instance.statisticsState.toString() + "\n" );
     }
 
     // toggle potential high contrast state
-    public function highContrastToggle( src: JCheckBox ): void {
-        highContrastState = !highContrastState;
-        highContrastCheck.setSelected( highContrastState );
+    public function highContrastToggle( evt: InteractiveEvent ): void {
+        highContrastState = highContrastCheck.isSelected();
         debug( "highContrastState toggled to " + highContrastState.toString() + "\n" );
     }
 
