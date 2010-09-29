@@ -8,6 +8,7 @@ import edu.colorado.phet.flexcommon.PhetLogoButton;
 
 import flash.events.Event;
 import flash.events.MouseEvent;
+import flash.geom.ColorTransform;
 
 import mx.containers.Canvas;
 import mx.controls.Button;
@@ -98,6 +99,18 @@ public class AbstractDensityAndBuoyancyCanvas extends Canvas {
         }
         var common: FlexCommon = FlexCommon.getInstance();
         common.initialize( ui );
+
+        common.highContrastFunction = function ( contrast: Boolean ): void {
+            if ( contrast ) {
+                var stretch: Number = 2.0;
+                var newCenter: Number = 128;
+                var offset: Number = newCenter - 128 * stretch;
+                root.stage.transform.colorTransform = new ColorTransform( stretch, stretch, stretch, 1, offset, offset, offset, 1 );
+            }
+            else {
+                root.stage.transform.colorTransform = new ColorTransform( 1, 1, 1, 1, 0, 0, 0, 0 );
+            }
+        }
 
         function positionButtons(): void {
             if ( common.commonButtons == null || common.commonButtons == undefined ) {

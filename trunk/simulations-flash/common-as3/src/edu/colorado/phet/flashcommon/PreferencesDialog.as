@@ -148,10 +148,8 @@ public class PreferencesDialog extends CommonDialog {
         //accessibilityPanel.setBorder(new TitledBorder(new EmptyBorder(null, new Insets(5, 5, 5, 5)), CommonStrings.get("Accessibility", "Accessibility")));
         accessibilityPanel.append( new JSpacer( new IntDimension( 5, 5 ) ) );
         highContrastCheck = new JCheckBox( CommonStrings.get( "HighContrast", "High Contrast Colors" ) );
-        highContrastCheck.addEventListener( InteractiveEvent.STATE_CHANGED, highContrastToggle );
-        //        if( _level0.highContrast ) {
-        //            highContrastCheck.click();
-        //        }
+        highContrastCheck.addEventListener( InteractiveEvent.SELECTION_CHANGED, highContrastToggle );
+        highContrastCheck.setSelected( common.highContrast );
         accessibilityPanel.append( highContrastCheck );
         accessibilityPanel.append( new JSpacer( new IntDimension( 5, 5 ) ) );
 
@@ -215,9 +213,9 @@ public class PreferencesDialog extends CommonDialog {
         if ( statisticsState != common.preferences.userAllowsStatistics() ) {
             statisticsCheck.setSelected( common.preferences.userAllowsStatistics() );
         }
-        //        if ( highContrastState != _level0.highContrast ) {
-        //            highContrastCheck.doClick();
-        //        }
+        if ( highContrastState != common.highContrast ) {
+            highContrastCheck.setSelected( common.highContrast );
+        }
         common.preferences.flush();
     }
 
@@ -226,13 +224,13 @@ public class PreferencesDialog extends CommonDialog {
     }
 
     // toggle potential update state
-    public function updateToggle( evt: InteractiveEvent  ): void {
+    public function updateToggle( evt: InteractiveEvent ): void {
         instance.updateState = updatesCheck.isSelected();
         debug( "updateState toggled to " + instance.updateState.toString() + "\n" );
     }
 
     // toggle potential statistics state
-    public function statisticsToggle( evt: InteractiveEvent  ): void {
+    public function statisticsToggle( evt: InteractiveEvent ): void {
         instance.statisticsState = statisticsCheck.isSelected();
         debug( "statisticsState toggled to " + instance.statisticsState.toString() + "\n" );
     }
@@ -270,9 +268,9 @@ public class PreferencesDialog extends CommonDialog {
         // set the potential state (updates and privacy) to the preferences
         common.preferences.setPrivacy( instance.updateState, instance.statisticsState );
 
-        //        if ( highContrastState != _level0.highContrast ) {
-        //            _level0.highContrastFunction( highContrastState );
-        //        }
+        if ( highContrastState != common.highContrast ) {
+            common.setHighContrast( highContrastState );
+        }
 
         // hide the window
         manualClose();

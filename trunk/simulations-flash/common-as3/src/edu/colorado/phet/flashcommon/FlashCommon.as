@@ -3,6 +3,7 @@ package edu.colorado.phet.flashcommon {
 import flash.display.Sprite;
 import flash.events.KeyboardEvent;
 import flash.events.MouseEvent;
+import flash.geom.ColorTransform;
 import flash.net.LocalConnection;
 import flash.net.URLRequest;
 import flash.net.navigateToURL;
@@ -59,6 +60,12 @@ public class FlashCommon {
 
     // handles sending statistics messages to the server
     public var statistics: Statistics;
+
+    // whether everything is displayed with high contrast
+    public var highContrast: Boolean = false;
+
+    // invoked when high contrast is changed. this can be set by a sim wishing to have a better high contrast function
+    public var highContrastFunction: Function = defaultHighContrastFunction; 
 
     private var loadListeners: Array = new Array();
 
@@ -170,6 +177,7 @@ public class FlashCommon {
     private function debugToWindow( str: String ): void {
         if ( debugText != null ) {
             debugText.appendText( str + "\n" );
+            debugText.scrollToBottomLeft();
         }
     }
 
@@ -611,19 +619,23 @@ public class FlashCommon {
         getURL( str, "_self" );
     }
 
-    //    public function defaultHighContrastFunction( contrast:Boolean ) {
-    //        _level0.highContrast = contrast;
-    //        _level0.debug( "Contrast changing to: " + contrast + "\n" );
-    //        if ( contrast ) {
-    //            var stretch:Number = 3.0;
-    //            var newCenter:Number = 64;
-    //            var offset = newCenter - 128 * stretch;
-    //            _level0.transform.colorTransform = new ColorTransform( stretch, stretch, stretch, 1, offset, offset, offset, 1 );
-    //        }
-    //        else {
-    //            _level0.transform.colorTransform = new ColorTransform( 1, 1, 1, 1, 0, 0, 0, 0 );
-    //        }
-    //    }
+    public function setHighContrast( contrast: Boolean ):void {
+        highContrast = contrast;
+        debug( "Contrast changing to: " + contrast + "\n" );
+        highContrastFunction( contrast );
+    }
+
+    public function defaultHighContrastFunction( contrast: Boolean ):void {
+        if ( contrast ) {
+            var stretch: Number = 3.0;
+            var newCenter: Number = 64;
+            var offset: Number = newCenter - 128 * stretch;
+            root.stage.transform.colorTransform = new ColorTransform( stretch, stretch, stretch, 1, offset, offset, offset, 1 );
+        }
+        else {
+            root.stage.transform.colorTransform = new ColorTransform( 1, 1, 1, 1, 0, 0, 0, 0 );
+        }
+    }
 
     private function existingSystemFont( preferredFonts: Array ): String {
         throw new Error( "existingSystemFont is probably broken" );
