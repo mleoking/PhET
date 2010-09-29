@@ -1,5 +1,6 @@
 package edu.colorado.phet.flashcommon {
 
+import flash.display.DisplayObjectContainer;
 import flash.display.Sprite;
 import flash.events.KeyboardEvent;
 import flash.events.MouseEvent;
@@ -32,7 +33,7 @@ public class FlashCommon {
 
     public var commonButtons: CommonButtons;
 
-    public var root: Sprite;
+    public var root: DisplayObjectContainer;
 
     public static var NULLVAL: String = "null";
 

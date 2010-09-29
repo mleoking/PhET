@@ -1,8 +1,12 @@
-﻿//MainView contains all views, acts as mediator, communication hub for views
+//MainView contains all views, acts as mediator, communication hub for views
 package{
-	import flash.display.*;
-	
-	public class MainView extends Sprite{
+import edu.colorado.phet.flashcommon.FlashCommonCS4;
+
+import flash.display.*;
+import flash.events.Event;
+import flash.geom.ColorTransform;
+
+public class MainView extends Sprite{
 		var myModel:Model;
 		var myTableView:TableView;
 		var myDataTable:DataTable; 
@@ -41,7 +45,29 @@ package{
 			this.controlPanel.y = 20;//0.3*this.controlPanel.height;
 			this.phetLogo.x = 0*this.phetLogo.width;
 			this.phetLogo.y = this.stageH - 1.0*this.phetLogo.height;
+            
+            addFlashCommon(); 
 			//trace("stageW: "+stageW+"   stageH: "+stageH);
 		}//end of initialize()
+
+        private function addFlashCommon():void {
+            var ui:Sprite = new Sprite(); // used for FlashCommon UI
+            addChild( ui );
+
+            var common:FlashCommonCS4 = FlashCommonCS4.getInstance( ui.stage );
+            common.initialize( ui );
+
+//            common.highContrastFunction = function ( contrast:Boolean ):void {
+//                if ( contrast ) {
+//                    var stretch:Number = 2.0;
+//                    var newCenter:Number = 128;
+//                    var offset:Number = newCenter - 128 * stretch;
+//                    root.stage.transform.colorTransform = new ColorTransform( stretch, stretch, stretch, 1, offset, offset, offset, 1 );
+//                }
+//                else {
+//                    root.stage.transform.colorTransform = new ColorTransform( 1, 1, 1, 1, 0, 0, 0, 0 );
+//                }
+//            };
+        }
 	}//end of class
 }//end of package

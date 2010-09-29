@@ -1,8 +1,8 @@
 package edu.colorado.phet.flashcommon {
-import flash.display.Sprite;
+import flash.display.DisplayObjectContainer;
 
 public class FlashCommonCS4 extends FlashCommon {
-    public function FlashCommonCS4( root:Sprite ) {
+    public function FlashCommonCS4( root:DisplayObjectContainer ) {
         trace( "FlexCommon starting up" );
         this.root = root;
 
@@ -11,7 +11,7 @@ public class FlashCommonCS4 extends FlashCommon {
 
     private static var flashInstance:FlashCommonCS4 = null;
 
-    public static function getInstance( root:Sprite ):FlashCommonCS4 {
+    public static function getInstance( root:DisplayObjectContainer ):FlashCommonCS4 {
         if ( flashInstance == null ) {
             flashInstance = new FlashCommonCS4( root );
             instance = flashInstance;
