@@ -17,6 +17,7 @@ DESIGN ISSUES
 HIGH PRIORITY
 - charge on plates (see notes)
 - charge and excess charge on dielectric (see notes)
+- handle partially-inserted dielectric for all charge views
 - Field Detector
 - field lines (with fake curvature?)
 - add cables and drag behavior to voltmeter, see CCK's VoltmeterNode
