@@ -5,7 +5,7 @@ package edu.colorado.phet.capacitorlab.view;
 import java.awt.Cursor;
 
 import edu.colorado.phet.capacitorlab.drag.DielectricOffsetDragHandler;
-import edu.colorado.phet.capacitorlab.model.Capacitor;
+import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -24,17 +24,17 @@ public class DielectricNode extends BoxNode {
     
     private DielectricChargeView dielectricChargeView;
 
-    public DielectricNode( final Capacitor capacitor, ModelViewTransform mvt, DoubleRange valueRange ) {
-        super( mvt, capacitor.getDielectricMaterial().getColor() );
+    public DielectricNode( BatteryCapacitorCircuit circuit, ModelViewTransform mvt, boolean dev, DoubleRange valueRange ) {
+        super( mvt, circuit.getCapacitor().getDielectricMaterial().getColor() );
         
         // dielectric is directly draggable
         addInputEventListener( new CursorHandler( Cursor.E_RESIZE_CURSOR ) );
-        addInputEventListener( new DielectricOffsetDragHandler( this, capacitor, mvt, valueRange ) );
+        addInputEventListener( new DielectricOffsetDragHandler( this, circuit.getCapacitor(), mvt, valueRange ) );
         
-        totalChargeNode = new DielectricTotalChargeNode();
+        totalChargeNode = new DielectricTotalChargeNode( circuit, mvt, dev );
         addChild( totalChargeNode );
         
-        excessChargeNode = new DielectricExcessChargeNode();
+        excessChargeNode = new DielectricExcessChargeNode( circuit, mvt, dev );
         addChild( excessChargeNode );
     }
     

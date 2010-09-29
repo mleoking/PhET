@@ -55,7 +55,7 @@ public class CapacitorNode extends PhetPNode {
         // child nodes
         topPlateNode = new TopPlateNode( circuit, mvt, dev );
         bottomPlateNode = new BottomPlateNode( circuit, mvt, dev );
-        dielectricNode = new DielectricNode( circuit.getCapacitor(), mvt, CLConstants.DIELECTRIC_OFFSET_RANGE );
+        dielectricNode = new DielectricNode( circuit, mvt, dev, CLConstants.DIELECTRIC_OFFSET_RANGE );
         
         // rendering order
         addChild( bottomPlateNode );
