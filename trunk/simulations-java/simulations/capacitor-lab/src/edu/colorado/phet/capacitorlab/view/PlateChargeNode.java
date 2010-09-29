@@ -61,9 +61,9 @@ public class PlateChargeNode extends PhetPNode {
     }
     
     private boolean isPositivelyCharged() {
-        return ( ( polarity == Polarity.POSITIVE && !circuit.isBatteryConnected() ) ||  
-                 ( polarity == Polarity.POSITIVE && circuit.getBattery().getVoltage() >= 0 ) ||
-                 ( polarity == Polarity.NEGATIVE && circuit.getBattery().getVoltage() < 0 ) );
+        return ( ( !circuit.isBatteryConnected() && polarity == Polarity.POSITIVE ) ||  
+                 ( circuit.isBatteryConnected() && polarity == Polarity.POSITIVE && circuit.getBattery().getVoltage() >= 0 ) ||
+                 ( circuit.isBatteryConnected() && polarity == Polarity.NEGATIVE && circuit.getBattery().getVoltage() < 0 ) );
     }
     
     private void update() {
