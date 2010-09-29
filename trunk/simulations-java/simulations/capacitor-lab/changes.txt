@@ -1,3 +1,4 @@
+9/29/10 handle partially-inserted dielectric for Plate Charges view
 9/29/10 make battery have no affect when disconnected
 9/29/10 fixed another plate charge polarity issue
 # 0.00.16 (44502) Sep 29, 2010
