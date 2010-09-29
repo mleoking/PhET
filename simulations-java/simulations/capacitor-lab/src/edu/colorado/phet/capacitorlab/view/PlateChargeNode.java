@@ -8,6 +8,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
+import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeAdapter;
 import edu.colorado.phet.capacitorlab.view.PlateNode.Polarity;
@@ -52,8 +53,9 @@ public abstract class PlateChargeNode extends PhetPNode {
         addChild( chargesParentNode );
         
         numberOfChargesNode = new PText();
-        numberOfChargesNode.setFont( new PhetFont( 18 ) );
+        numberOfChargesNode.setFont( new PhetFont( 14 ) );
         numberOfChargesNode.setTextPaint( Color.BLACK );
+        numberOfChargesNode.setOffset( getNumberOfChargesOffset() );
         if ( dev ) {
             addChild( numberOfChargesNode );
         }
@@ -61,11 +63,33 @@ public abstract class PlateChargeNode extends PhetPNode {
         update();
     }
     
+    /*
+     * Charge on the portion of the plate that this node handles.
+     */
     protected abstract double getPlateCharge();
     
-    protected abstract double getContactX();
+    /*
+     * X offset of the portion of the plate that this node handles.
+     * This is relative to the plate's origin, and specified in model coordinates.
+     */
+    protected abstract double getContactXOrigin();
     
+    /*
+     * Width of the portion of the plate that this node handles.
+     * Specified in model coordinates.
+     */
     protected abstract double getContactWidth();
+    
+    /*
+     * Offset of numberOfChargesNode debug node, to prevent overlap between subclass nodes.
+     * Specified in view coordinated. 
+     */
+    protected abstract Point2D getNumberOfChargesOffset();
+    
+    /*
+     * Label used on numberOfChargesNode debug node.
+     */
+    protected abstract String getNumberOfChargesLabel();
     
     protected BatteryCapacitorCircuit getCircuit() {
         return circuit;
@@ -77,43 +101,59 @@ public abstract class PlateChargeNode extends PhetPNode {
                  ( circuit.isBatteryConnected() && polarity == Polarity.NEGATIVE && circuit.getBattery().getVoltage() < 0 ) );
     }
     
+    /*
+     * Updates the view to match the model.
+     * Charges are arranged in a grid.
+     */
     private void update() {
         
         double plateCharge = getPlateCharge();
         int numberOfCharges = getNumberOfCharges( plateCharge );
         
         // numeric display
+        String label = getNumberOfChargesLabel();
         if ( numberOfCharges == 0 ) {
-            numberOfChargesNode.setText( "0 plate charges" );
+            numberOfChargesNode.setText( "0 " + label );
         }
         else if ( isPositivelyCharged() ) {
-            numberOfChargesNode.setText( String.valueOf( numberOfCharges ) + " plate charges (+)" );
+            numberOfChargesNode.setText( String.valueOf( numberOfCharges ) + " " + label + " (+)" );
         }
         else {
-            numberOfChargesNode.setText( String.valueOf( numberOfCharges ) + " plate charges (-)" );
+            numberOfChargesNode.setText( String.valueOf( numberOfCharges ) + " " + label + " (-)" );
         }
         
-        // create charges
+        // remove existing charges
         chargesParentNode.removeAllChildren();
-        double plateDepth = circuit.getCapacitor().getPlateSideLength();
-        for ( int i = 0; i < numberOfCharges; i++ ) {
-            
-            // add a charge
-            PNode chargeNode = null;
-            if ( isPositivelyCharged() ) {
-                chargeNode = new PlusNode( PLUS_MINUS_WIDTH, PLUS_MINUS_HEIGHT, CLPaints.POSITIVE_CHARGE );
+        
+        // compute grid dimensions
+        final double contactWidth = getContactWidth();
+        final double plateDepth = circuit.getCapacitor().getPlateSideLength();
+        final double alpha = Math.sqrt( numberOfCharges / contactWidth / plateDepth );
+        final int rows = (int) ( plateDepth * alpha ); // casting may result in some charges being thrown out, but that's OK
+        final int columns = (int) ( contactWidth * alpha );
+        
+        // populate the grid with charges
+        double dx = contactWidth / columns;
+        double dz = plateDepth / rows;
+        for ( int row = 0; row < rows; row++ ) {
+            for ( int column = 0; column < columns; column++ ) {
+                // add a charge
+                PNode chargeNode = null;
+                if ( isPositivelyCharged() ) {
+                    chargeNode = new PlusNode( PLUS_MINUS_WIDTH, PLUS_MINUS_HEIGHT, CLPaints.POSITIVE_CHARGE );
+                }
+                else {
+                    chargeNode = new MinusNode( PLUS_MINUS_WIDTH, PLUS_MINUS_HEIGHT, CLPaints.NEGATIVE_CHARGE );
+                }
+                chargesParentNode.addChild( chargeNode );
+                
+                // position the charge in cell in the grid
+                double x = getContactXOrigin() + ( column * dx );
+                double y = 0;
+                double z = -( plateDepth / 2 ) + ( row * dz );
+                Point2D offset = mvt.modelToView( x, y, z );
+                chargeNode.setOffset( offset );
             }
-            else {
-                chargeNode = new MinusNode( PLUS_MINUS_WIDTH, PLUS_MINUS_HEIGHT, CLPaints.NEGATIVE_CHARGE );
-            }
-            chargesParentNode.addChild( chargeNode );
-            
-            // randomly position the charge on the plate
-            double x = getContactX() + ( Math.random() * getContactWidth() );
-            double y = 0;
-            double z = -( plateDepth / 2 ) + ( Math.random() * plateDepth );
-            Point2D offset = mvt.modelToView( x, y, z );
-            chargeNode.setOffset( offset );
         }
     }
     
@@ -151,14 +191,25 @@ public abstract class PlateChargeNode extends PhetPNode {
             return getCircuit().getDielectricPlateCharge();
         }
         
-        // Gets the x location (relative to the plate) of the portion of the plate that is in contact with the dielectric.
-        public double getContactX() {
+        // Gets the x offset (relative to the plate's origin) of the portion of the plate that is in contact with the dielectric.
+        public double getContactXOrigin() {
             return -( getCircuit().getCapacitor().getPlateSideLength() / 2 ) + getCircuit().getCapacitor().getDielectricOffset();
         }
         
         // Gets the width of the portion of the plate that is in contact with the dielectric.
         protected double getContactWidth() {
-            return getCircuit().getCapacitor().getPlateSideLength() - getCircuit().getCapacitor().getDielectricOffset();
+            Capacitor capacitor = getCircuit().getCapacitor();
+            return Math.max( 0, capacitor.getPlateSideLength() - capacitor.getDielectricOffset() );
+        }
+        
+        // offset for debug node, to prevent overlap with other subclasses
+        protected Point2D getNumberOfChargesOffset() {
+            return new Point2D.Double( 10, -80 );
+        }
+        
+        // label used on debug node
+        protected String getNumberOfChargesLabel() {
+            return "charges due to dielectric";
         }
     }
     
@@ -177,14 +228,25 @@ public abstract class PlateChargeNode extends PhetPNode {
             return getCircuit().getAirPlateCharge();
         }
         
-        // Gets the x location (relative to the plate) of the portion of the plate that is in contact with air.
-        public double getContactX() {
+        // Gets the x offset (relative to the plate origin) of the portion of the plate that is in contact with air.
+        public double getContactXOrigin() {
             return -getCircuit().getCapacitor().getPlateSideLength() / 2;
         }
         
         // Gets the width of the portion of the plate that is in contact with air.
         public double getContactWidth() {
-            return getCircuit().getCapacitor().getDielectricOffset();
+            Capacitor capacitor = getCircuit().getCapacitor();
+            return Math.min( capacitor.getDielectricOffset(), capacitor.getPlateSideLength() );
+        }
+        
+        // offset for debug node, to prevent overlap with other subclasses
+        protected Point2D getNumberOfChargesOffset() {
+            return new Point2D.Double( 10, -60 );
+        }
+        
+        // label used on debug node
+        protected String getNumberOfChargesLabel() {
+            return "charges due to air";
         }
     }
 }

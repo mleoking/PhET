@@ -7,6 +7,7 @@ Oct 9 - complete "as much as possible" per Kathy P. for Hisham
 QUESTIONS FOR NOAH
 
 DESIGN ISSUES
+- use CCK CapacitorNode line 270-230 for charge layout algorithm
 - range of plate charge is too large to make plate charges vary proportionally
 - range of dielectric charge is too large to make dielectric charges vary proportionally (all + excess)
 - range of field is too large to make number of field lines vary proportionally
