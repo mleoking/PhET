@@ -13,6 +13,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import edu.colorado.phet.common.phetcommon.view.util.XMLUtils;
+import edu.colorado.phet.website.cache.InstallerCache;
 import edu.colorado.phet.website.components.RawBodyLabel;
 import edu.colorado.phet.website.data.Project;
 import edu.colorado.phet.website.data.Simulation;
@@ -34,11 +35,7 @@ public class PhetInfoServicePage extends WebPage {
     public static final String SIM_VERSION_RESPONSE_TAG = "sim_version_response";
     public static final String INSTALLER_UPDATE_RESPONSE_TAG = "phet_installer_update_response";
 
-    // TODO: fix when we have a system to identify which is the latest installer timestamp
-    public static final int TIMESTAMP = 1255450853;
-
     private static final Logger logger = Logger.getLogger( PhetInfoServicePage.class.getName() );
-
 
     public PhetInfoServicePage() {
 
@@ -170,12 +167,14 @@ public class PhetInfoServicePage extends WebPage {
 
         int clientInstallerTimestamp = Integer.valueOf( queryElement.getAttribute( "timestamp_seconds" ) );
 
-        boolean recommendUpdate = clientInstallerTimestamp + INSTALL_RECOMMEND_UPDATE_DAYS * 60 * 60 * 24 < TIMESTAMP;
+        int latestInstallerTimestamp = InstallerCache.getTimestampSeconds();
+
+        boolean recommendUpdate = clientInstallerTimestamp + INSTALL_RECOMMEND_UPDATE_DAYS * 60 * 60 * 24 < latestInstallerTimestamp;
 
         Element installerResponse = document.createElement( INSTALLER_UPDATE_RESPONSE_TAG );
         installerResponse.setAttribute( "success", "true" );
         installerResponse.setAttribute( "recommend_update", String.valueOf( recommendUpdate ) );
-        installerResponse.setAttribute( "timestamp_seconds", String.valueOf( TIMESTAMP ) );
+        installerResponse.setAttribute( "timestamp_seconds", String.valueOf( latestInstallerTimestamp ) );
         installerResponse.setAttribute( "ask_me_later_duration_days", String.valueOf( INSTALLER_ASK_ME_LATER_DAYS ) );
 
         root.appendChild( installerResponse );

@@ -2,7 +2,7 @@ package edu.colorado.phet.website.authentication.panels;
 
 import java.util.*;
 
-import javax.mail.BodyPart;
+import javax.mail.MessagingException;
 
 import org.apache.log4j.Logger;
 import org.apache.wicket.RestartResponseAtInterceptPageException;
@@ -66,7 +66,7 @@ public class ResetPasswordRequestPanel extends PhetPanel {
             // just validate email matching. don't bother making sure the email is in the proper form, since it won't matter anyways
             add( new AbstractFormValidator() {
                 public FormComponent[] getDependentFormComponents() {
-                    return new FormComponent[]{emailTextField};
+                    return new FormComponent[] { emailTextField };
                 }
 
                 public void validate( Form<?> form ) {
@@ -106,19 +106,19 @@ public class ResetPasswordRequestPanel extends PhetPanel {
                         session.save( resetPasswordRequest );
 
                         //send the email to the user
-                        WebsiteProperties websiteProperties = PhetWicketApplication.get().getWebsiteProperties();
-                        String body = StringUtils.messageFormat( getPhetLocalizer().getString( "resetPasswordRequest.emailBody", EnterEmailAddressForm.this ), new Object[]{"http://phet.colorado.edu" + ResetPasswordCallbackPage.getLinker( key ).getRawUrl( context, getPhetCycle() )} );
+                        String body = StringUtils.messageFormat( getPhetLocalizer().getString( "resetPasswordRequest.emailBody", EnterEmailAddressForm.this ), new Object[] { "http://phet.colorado.edu" + ResetPasswordCallbackPage.getLinker( key ).getRawUrl( context, getPhetCycle() ) } );
                         String subject = getPhetLocalizer().getString( "resetPasswordRequest.emailSubject", EnterEmailAddressForm.this );
-                        boolean success = EmailUtils.sendMessage( websiteProperties.getMailHost(),
-                                                                           websiteProperties.getMailUser(),
-                                                                           websiteProperties.getMailPassword(),
-                                                                           Arrays.asList( user.getEmail() ),
-                                                                           body,
-                                                                           WebsiteConstants.PHET_NO_REPLY_EMAIL_ADDRESS,
-                                                                           subject,
-                                                                           new ArrayList<BodyPart>() );
-
-                        return success;
+                        try {
+                            EmailUtils.GeneralEmailBuilder message = new EmailUtils.GeneralEmailBuilder( subject, WebsiteConstants.PHET_NO_REPLY_EMAIL_ADDRESS );
+                            message.setBody( body );
+                            message.addRecipient( user.getEmail() );
+                            message.addReplyTo( WebsiteConstants.PHET_NO_REPLY_EMAIL_ADDRESS );
+                            return EmailUtils.sendMessage( message );
+                        }
+                        catch ( MessagingException e ) {
+                            logger.warn( "message send error: ", e );
+                            return false;
+                        }
                     }
                     else {
                         return false;
