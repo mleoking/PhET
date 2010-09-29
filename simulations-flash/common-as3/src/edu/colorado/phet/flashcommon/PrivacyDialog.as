@@ -21,8 +21,6 @@ import org.aswing.geom.IntDimension;
 
 public class PrivacyDialog extends JFrame {
 
-    public var backgroundMC: Sprite;
-
     public var textArea: JTextArea;
     public var canceled: Boolean;
 
@@ -37,27 +35,13 @@ public class PrivacyDialog extends JFrame {
         // shortcut to FlashCommon, but now with type-checking!
         common = FlashCommon.getInstance();
 
-        // create the background
-        backgroundMC = new Sprite();
-        backgroundMC.graphics.beginFill( common.getBGColor(), 0.5 );
-        // larger dimensions in case people resize afterwards
-        backgroundMC.graphics.drawRect( -5000, -5000, 10000, 10000 );
-        backgroundMC.graphics.endFill();
-        common.root.addChild( backgroundMC );
-        debug( "Adding backgroundMC" );
-
-        super( root, CommonStrings.get( "SoftwareAgreement", "Software Agreement" ), true );
+        super( root, CommonStrings.get( "SoftwareAgreement", "Software Agreement" ), false );
 
 
         // make this accessible by the asfunction callback in the text
         //		_level0.privacyDialog = this;
 
         canceled = false;
-
-
-        // make it catch all mouse clicks, but not show the hand pointer
-        backgroundMC.useHandCursor = false;
-        backgroundMC.addEventListener( MouseEvent.CLICK, function( evt: MouseEvent ): void {} );
 
         // we don't want this window closable
         setClosable( false );
@@ -104,6 +88,7 @@ public class PrivacyDialog extends JFrame {
         textArea.setBackground( common.backgroundColor );
 
         textArea.addEventListener( TextEvent.LINK, function( evt: TextEvent ): void {
+            debug( "TextEvent.LINK fired on PrivacyDialog" );
             switch( evt.text ) {
                 case "infoClicked":
                     infoClicked();
@@ -145,8 +130,7 @@ public class PrivacyDialog extends JFrame {
         // hide this window
         this.setVisible( false );
 
-        backgroundMC.graphics.clear();
-        common.root.removeChild( backgroundMC );
+        common.hideBarrier();
 
         // continue with common code initialization
         common.postAgreement();
