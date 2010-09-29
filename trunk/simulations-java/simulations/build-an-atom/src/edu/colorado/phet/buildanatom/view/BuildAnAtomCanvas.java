@@ -37,6 +37,10 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
     // Transform.
     private final ModelViewTransform2D mvt;
 
+    // Layers on the canvas.
+    private final PNode backLayer = new PNode();
+    private final PNode particleLayer = new PNode();
+    private final PNode frontLayer = new PNode();
 
     // Stroke for drawing the electron shells.
     private final Stroke ELECTRON_SHELL_STROKE = new BasicStroke( 2f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0,
@@ -73,6 +77,11 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         rootNode = new PNode();
         addWorldChild( rootNode );
 
+        // Layers on the canvas.
+        rootNode.addChild( backLayer );
+        rootNode.addChild( particleLayer );
+        rootNode.addChild( frontLayer );
+
         // Put up the bounds of the model.
 //        rootNode.addChild( new PhetPPath( mvt.createTransformedShape( model.getModelViewport() ), Color.PINK, new BasicStroke( 3f ), Color.BLACK ) );
 
@@ -84,7 +93,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
                 model.getAtom().getNucleusRadius() * 2 ) );
         PNode nucleusOutlineNode = new PhetPPath( nucleusOutlineShape, new BasicStroke(1f), Color.RED );
 //        nucleusOutlineNode.setOffset( model.getAtom().getPosition() );
-        rootNode.addChild( nucleusOutlineNode );
+        backLayer.addChild( nucleusOutlineNode );
 
         // Add the atom's electron shells to the canvas.
         for (Double shellRadius : model.getAtom().getElectronShellRadii()){
@@ -95,19 +104,22 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
                     shellRadius * 2));
             PNode electronShellNode = new PhetPPath( electronShellShape, ELECTRON_SHELL_STROKE, Color.BLUE );
             electronShellNode.setOffset( model.getAtom().getPosition() );
-            rootNode.addChild( electronShellNode );
+            backLayer.addChild( electronShellNode );
         }
 
-        // Add the buckets for holding the sub-atomic particles to the canvas.
+        // Add the buckets that hold the sub-atomic particles.
         BucketNode electronBucketNode = new BucketNode( model.getElectronBucket(), mvt );
         electronBucketNode.setOffset( mvt.modelToViewDouble( model.getElectronBucket().getPosition() ) );
-        rootNode.addChild( electronBucketNode );
+        backLayer.addChild( electronBucketNode.getHoleLayer() );
+        frontLayer.addChild( electronBucketNode.getContainerLayer() );
         BucketNode protonBucketNode = new BucketNode( model.getProtonBucket(), mvt );
         protonBucketNode.setOffset( mvt.modelToViewDouble( model.getProtonBucket().getPosition() ) );
-        rootNode.addChild( protonBucketNode );
+        backLayer.addChild( protonBucketNode.getHoleLayer() );
+        frontLayer.addChild( protonBucketNode.getContainerLayer() );
         BucketNode neutronBucketNode = new BucketNode( model.getNeutronBucket(), mvt );
         neutronBucketNode.setOffset( mvt.modelToViewDouble( model.getNeutronBucket().getPosition() ) );
-        rootNode.addChild( neutronBucketNode );
+        backLayer.addChild( neutronBucketNode.getHoleLayer() );
+        frontLayer.addChild( neutronBucketNode.getContainerLayer() );
 
         // TODO: Temp - put a sketch of the tab up as a very early prototype.
         //        PImage image = new PImage( BuildAnAtomResources.getImage( "tab-1-sketch-01.png" ));
@@ -118,15 +130,15 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         //        rootNode.addChild(image);
 
         for ( int i = 0; i < model.numElectrons(); i++ ) {
-            rootNode.addChild( new ElectronNode( mvt, model.getElectron( i ) ) );
+            particleLayer.addChild( new ElectronNode( mvt, model.getElectron( i ) ) );
         }
 
         for ( int i = 0; i < model.numProtons(); i++ ) {
-            rootNode.addChild( new ProtonNode( mvt, model.getProton( i ) ) );
+            particleLayer.addChild( new ProtonNode( mvt, model.getProton( i ) ) );
         }
 
         for ( int i = 0; i < model.numNeutrons(); i++ ) {
-            rootNode.addChild( new NeutronNode( mvt, model.getNeutron( i ) ) );
+            particleLayer.addChild( new NeutronNode( mvt, model.getNeutron( i ) ) );
         }
     }
 
