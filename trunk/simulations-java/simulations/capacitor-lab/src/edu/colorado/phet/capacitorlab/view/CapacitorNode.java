@@ -7,8 +7,8 @@ import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
 import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeAdapter;
-import edu.colorado.phet.capacitorlab.view.PlateChargeNode.BottomPlateNode;
-import edu.colorado.phet.capacitorlab.view.PlateChargeNode.TopPlateNode;
+import edu.colorado.phet.capacitorlab.view.PlateNode.BottomPlateNode;
+import edu.colorado.phet.capacitorlab.view.PlateNode.TopPlateNode;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 
 /**
@@ -20,7 +20,7 @@ public class CapacitorNode extends PhetPNode {
 
     private final BatteryCapacitorCircuit circuit;
     private final ModelViewTransform mvt;
-    private final PlateChargeNode topPlateNode, bottomPlateNode;
+    private final PlateNode topPlateNode, bottomPlateNode;
     private final DielectricNode dielectricNode;
     
     public CapacitorNode( BatteryCapacitorCircuit circuit, ModelViewTransform mvt, boolean dev ) {
