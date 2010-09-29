@@ -32,8 +32,8 @@ public class BuildAnAtomModel {
     // Constants that define the number of sub-atomic particles that exist
     // within the sim.
     private static final int NUM_ELECTRONS = 1;
-    private static final int NUM_PROTONS = 0;
-    private static final int NUM_NEUTRONS = 0;
+    private static final int NUM_PROTONS = 1;
+    private static final int NUM_NEUTRONS = 1;
 
     // Constants that define the size, position, and appearance of the buckets.
     private static final Dimension2D BUCKET_SIZE = new PDimension( 60, 30 );
@@ -81,8 +81,17 @@ public class BuildAnAtomModel {
             electronBucket.addParticle( electron, true );
         }
 
-        protons.add( new Proton( -10, 10 ) );
-        neutrons.add( new Neutron( -10, -10 ) );
+        for (int i = 0; i < NUM_PROTONS; i++){
+            Proton proton = new Proton();
+            protons.add( proton );
+            protonBucket.addParticle( proton, true );
+        }
+
+        for (int i = 0; i < NUM_NEUTRONS; i++){
+            Neutron neutron = new Neutron();
+            neutrons.add( neutron );
+            neutronBucket.addParticle( neutron, true );
+        }
     }
 
     public Electron getElectron( int i ) {
