@@ -16,6 +16,7 @@ DESIGN ISSUES
 - no visual cues to indicate 3D location of Voltmeter probes
 
 HIGH PRIORITY
+- change range of Plate Charge slider to go from +Lots to -Lots
 - when "Remove Wires" is pressed, set Plate Charge control to the current plate charge with the battery connected
 - charge on plates (see notes)
 - charge and excess charge on dielectric (see notes)
