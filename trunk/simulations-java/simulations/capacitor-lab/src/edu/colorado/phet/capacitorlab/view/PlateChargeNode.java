@@ -11,7 +11,6 @@ import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeAdapter;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -23,20 +22,37 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class PlateChargeNode extends PhetPNode {
+public abstract class PlateChargeNode extends BoxNode {
+    
+    private static enum Polarity { POSITIVE, NEGATIVE };
     
     private static final double PLUS_MINUS_WIDTH = 7;
     private static final double PLUS_MINUS_HEIGHT = 1;
     
     private final BatteryCapacitorCircuit circuit;
     private final ModelViewTransform mvt;
+    private final Polarity polarity;
     private final PText numberOfChargesNode; // debug, shows the number of charges
     private final PNode chargesParentNode;
     
-    public PlateChargeNode( BatteryCapacitorCircuit circuit, ModelViewTransform mvt, boolean dev ) {
+    public static class TopPlateNode extends PlateChargeNode {
+        public TopPlateNode( BatteryCapacitorCircuit circuit, ModelViewTransform mvt, boolean dev ) {
+            super( circuit, mvt, dev, Polarity.POSITIVE );
+        }
+    }
+    
+    public static class BottomPlateNode extends PlateChargeNode {
+        public BottomPlateNode( BatteryCapacitorCircuit circuit, ModelViewTransform mvt, boolean dev ) {
+            super( circuit, mvt, dev, Polarity.NEGATIVE );
+        }
+    }
+    
+    public PlateChargeNode( BatteryCapacitorCircuit circuit, ModelViewTransform mvt, boolean dev, Polarity polarity ) {
+        super( mvt, CLPaints.PLATE );
         
         this.circuit = circuit;
         this.mvt = mvt;
+        this.polarity = polarity;
         
         circuit.addBatteryCapacitorCircuitChangeListener( new BatteryCapacitorCircuitChangeAdapter() {
             @Override
@@ -58,13 +74,18 @@ public abstract class PlateChargeNode extends PhetPNode {
         update();
     }
     
-    /*
-     * Subclasses indicate the polarity of their plate by returning either +1 or -1.
-     */
-    protected abstract int getPolarity();
+    public void setChargeVisible( boolean visible ) {
+        chargesParentNode.setVisible( visible );
+    }
+    
+    public boolean isChargeVisible() {
+        return chargesParentNode.getVisible();
+    }
     
     private boolean isPositivelyCharged() {
-        return ( getPolarity() * circuit.getBattery().getVoltage() > 0 );
+        return ( ( polarity == Polarity.POSITIVE && !circuit.isBatteryConnected() ) ||  
+                 ( polarity == Polarity.POSITIVE && circuit.getBattery().getVoltage() > 0 ) ||
+                 ( polarity == Polarity.NEGATIVE && circuit.getBattery().getVoltage() < 0 ) );
     }
     
     private void update() {
@@ -129,27 +150,5 @@ public abstract class PlateChargeNode extends PhetPNode {
             numberOfCharges = (int) ( CLConstants.MAX_NUMBER_OF_PLATE_CHARGES * ( absolutePlateCharge - minCharge ) / ( maxCharge - minCharge ) );
         }
         return numberOfCharges;
-    }
-    
-    public static class TopPlateChargeNode extends PlateChargeNode {
-        
-        public TopPlateChargeNode( BatteryCapacitorCircuit circuit, ModelViewTransform mvt, boolean dev ) {
-            super( circuit, mvt, dev );
-        }
-        
-        protected int getPolarity() {
-            return +1;
-        }
-    }
-    
-    public static class BottomPlateChargeNode extends PlateChargeNode {
-        
-        public BottomPlateChargeNode( BatteryCapacitorCircuit circuit, ModelViewTransform mvt, boolean dev ) {
-            super( circuit, mvt, dev );
-        }
-        
-        protected int getPolarity() {
-            return -1;
-        }
     }
 }

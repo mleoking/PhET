@@ -7,8 +7,8 @@ import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
 import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeAdapter;
-import edu.colorado.phet.capacitorlab.view.PlateChargeNode.BottomPlateChargeNode;
-import edu.colorado.phet.capacitorlab.view.PlateChargeNode.TopPlateChargeNode;
+import edu.colorado.phet.capacitorlab.view.PlateChargeNode.BottomPlateNode;
+import edu.colorado.phet.capacitorlab.view.PlateChargeNode.TopPlateNode;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 
 /**
@@ -20,9 +20,8 @@ public class CapacitorNode extends PhetPNode {
 
     private final BatteryCapacitorCircuit circuit;
     private final ModelViewTransform mvt;
-    private final PlateNode topPlateNode, bottomPlateNode;
+    private final PlateChargeNode topPlateNode, bottomPlateNode;
     private final DielectricNode dielectricNode;
-    private final PlateChargeNode topPlateChargeNode, bottomPlateChargeNode;
     
     public CapacitorNode( BatteryCapacitorCircuit circuit, ModelViewTransform mvt, boolean dev ) {
         
@@ -53,31 +52,27 @@ public class CapacitorNode extends PhetPNode {
         this.mvt = mvt;
         
         // child nodes
-        topPlateNode = new PlateNode( mvt );
-        bottomPlateNode = new PlateNode( mvt );
+        topPlateNode = new TopPlateNode( circuit, mvt, dev );
+        bottomPlateNode = new BottomPlateNode( circuit, mvt, dev );
         dielectricNode = new DielectricNode( circuit.getCapacitor(), mvt, CLConstants.DIELECTRIC_OFFSET_RANGE );
-        topPlateChargeNode = new TopPlateChargeNode( circuit, mvt, dev );
-        bottomPlateChargeNode = new BottomPlateChargeNode( circuit, mvt, dev );
         
         // rendering order
         addChild( bottomPlateNode );
-        addChild( bottomPlateChargeNode ); // charges on top face of plate
         addChild( dielectricNode ); // dielectric between the plates
         addChild( topPlateNode );
-        addChild( topPlateChargeNode ); // charges on top face of plate
         
         // default state
         updateGeometry();
         updateDielectricColor();
     }
     
-    public void setPlateChargeVisible( boolean plateChargeVisible ) {
-        topPlateChargeNode.setVisible( plateChargeVisible );
-        bottomPlateChargeNode.setVisible( plateChargeVisible );
+    public void setPlateChargeVisible( boolean visible ) {
+        topPlateNode.setChargeVisible( visible );
+        bottomPlateNode.setChargeVisible( visible );
     }
     
     public boolean isPlateChargeVisible() {
-        return topPlateChargeNode.isVisible();
+        return topPlateNode.isChargeVisible();
     }
     
     private void updateGeometry() {
@@ -98,12 +93,10 @@ public class CapacitorNode extends PhetPNode {
         double x = 0;
         double y = mvt.modelToView( -( plateSeparation / 2 ) - plateThickness );
         topPlateNode.setOffset( x, y );
-        topPlateChargeNode.setOffset( topPlateNode.getOffset() );
         y = mvt.modelToView( -dielectricHeight / 2 );
         dielectricNode.setOffset( x, y );
         y = mvt.modelToView( plateSeparation / 2 );
         bottomPlateNode.setOffset( x, y );
-        bottomPlateChargeNode.setOffset( bottomPlateNode.getOffset() );
 
         // adjust the dielectric offset
         updateDielectricOffset();
