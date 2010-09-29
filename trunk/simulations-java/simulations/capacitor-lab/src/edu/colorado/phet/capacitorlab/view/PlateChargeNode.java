@@ -24,20 +24,20 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public abstract class PlateChargeNode extends PhetPNode {
     
+    private static final boolean DEBUG_OUTPUT_ENABLED = false;
+    
     private static final double PLUS_MINUS_WIDTH = 7;
     private static final double PLUS_MINUS_HEIGHT = 1;
     
     private final BatteryCapacitorCircuit circuit;
     private final ModelViewTransform mvt;
-    private final boolean dev;
     private final Polarity polarity;
     private final PNode chargesParentNode;
 
-    public PlateChargeNode( BatteryCapacitorCircuit circuit, ModelViewTransform mvt, boolean dev, Polarity polarity ) {
+    public PlateChargeNode( BatteryCapacitorCircuit circuit, ModelViewTransform mvt, Polarity polarity ) {
         
         this.circuit = circuit;
         this.mvt = mvt;
-        this.dev = dev;
         this.polarity = polarity;
         
         circuit.addBatteryCapacitorCircuitChangeListener( new BatteryCapacitorCircuitChangeAdapter() {
@@ -122,7 +122,7 @@ public abstract class PlateChargeNode extends PhetPNode {
         }
         
         // debug output
-        if ( dev ) {
+        if ( DEBUG_OUTPUT_ENABLED ) {
             System.out.println( getClass().getName() + " " + numberOfCharges + " charges computed, " + ( rows * columns ) + " charges displayed" );
         }
     }
@@ -156,8 +156,8 @@ public abstract class PlateChargeNode extends PhetPNode {
      */
     public static class DielectricPlateChargeNode extends PlateChargeNode {
 
-        public DielectricPlateChargeNode( BatteryCapacitorCircuit circuit, ModelViewTransform mvt, boolean dev, Polarity polarity ) {
-            super( circuit, mvt, dev, polarity );
+        public DielectricPlateChargeNode( BatteryCapacitorCircuit circuit, ModelViewTransform mvt, Polarity polarity ) {
+            super( circuit, mvt, polarity );
         }
         
         // Gets the portion of the plate charge due to the dielectric.
@@ -183,8 +183,8 @@ public abstract class PlateChargeNode extends PhetPNode {
      */
     public static class AirPlateChargeNode extends PlateChargeNode {
 
-        public AirPlateChargeNode( BatteryCapacitorCircuit circuit, ModelViewTransform mvt, boolean dev, Polarity polarity ) {
-            super( circuit, mvt, dev, polarity );
+        public AirPlateChargeNode( BatteryCapacitorCircuit circuit, ModelViewTransform mvt, Polarity polarity ) {
+            super( circuit, mvt, polarity );
         }
         
         // Gets the portion of the plate charge due to air.

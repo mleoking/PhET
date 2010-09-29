@@ -21,24 +21,24 @@ public abstract class PlateNode extends BoxNode {
     private final PlateChargeNode airPlateChargeNode; // shows charge on the portion of the plate that contacts air
     
     public static class TopPlateNode extends PlateNode {
-        public TopPlateNode( BatteryCapacitorCircuit circuit, ModelViewTransform mvt, boolean dev ) {
-            super( circuit, mvt, dev, Polarity.POSITIVE );
+        public TopPlateNode( BatteryCapacitorCircuit circuit, ModelViewTransform mvt ) {
+            super( circuit, mvt, Polarity.POSITIVE );
         }
     }
     
     public static class BottomPlateNode extends PlateNode {
-        public BottomPlateNode( BatteryCapacitorCircuit circuit, ModelViewTransform mvt, boolean dev ) {
-            super( circuit, mvt, dev, Polarity.NEGATIVE );
+        public BottomPlateNode( BatteryCapacitorCircuit circuit, ModelViewTransform mvt ) {
+            super( circuit, mvt, Polarity.NEGATIVE );
         }
     }
     
-    public PlateNode( BatteryCapacitorCircuit circuit, ModelViewTransform mvt, boolean dev, Polarity polarity ) {
+    public PlateNode( BatteryCapacitorCircuit circuit, ModelViewTransform mvt, Polarity polarity ) {
         super( mvt, CLPaints.PLATE );
         
-        this.dielectricPlateChargeNode = new DielectricPlateChargeNode( circuit, mvt, dev, polarity );
+        this.dielectricPlateChargeNode = new DielectricPlateChargeNode( circuit, mvt, polarity );
         addChild( dielectricPlateChargeNode );
         
-        this.airPlateChargeNode = new AirPlateChargeNode( circuit, mvt, dev, polarity );
+        this.airPlateChargeNode = new AirPlateChargeNode( circuit, mvt, polarity );
         addChild( airPlateChargeNode );
     }
     

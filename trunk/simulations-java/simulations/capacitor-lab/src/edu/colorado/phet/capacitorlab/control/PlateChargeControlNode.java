@@ -10,9 +10,6 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.text.DecimalFormat;
-import java.text.MessageFormat;
-import java.text.NumberFormat;
 
 import javax.swing.JPanel;
 
@@ -75,20 +72,11 @@ public class PlateChargeControlNode extends PhetPNode {
     private static final Font TITLE_FONT = new PhetFont( 16 );
     private static final Color TITLE_COLOR = Color.BLACK;
     
-    // value display
-    private static final boolean VALUE_VISIBLE = false;
-    private static final int VALUE_EXPONENT = -11; //XXX compute based on range.max
-    private static final Font VALUE_FONT = new PhetFont( 14 );
-    private static final Color VALUE_COLOR = Color.BLACK;
-    private static final NumberFormat VALUE_MANTISSA_FORMAT = new DecimalFormat( "0.000" );
-    private static final String VALUE_PATTERN = "<html>{0}x10<sup>" + String.valueOf( VALUE_EXPONENT ) + "</sup>";
-    
     private final BatteryCapacitorCircuit circuit;
     
     private final TrackNode trackNode;
     private final KnobNode knobNode;
     private final TitleNode titleNode;
-    private final ValueNode valueNode;
     private final DoubleRange range;
     
     public PlateChargeControlNode( final BatteryCapacitorCircuit circuit ) {
@@ -115,7 +103,6 @@ public class PlateChargeControlNode extends PhetPNode {
         TickMarkNode minTickMarkNode = new TickMarkNode();
         RangeLabelNode minLabelNode = new RangeLabelNode( CLStrings.LABEL_LOTS_NEGATIVE );
         titleNode = new TitleNode( CLStrings.LABEL_PLATE_CHARGE );
-        valueNode = new ValueNode( circuit.getTotalPlateCharge() );
         
         // parent for all nodes that are part of the slider, excluding the value
         PNode parentNode = new PNode();
@@ -174,9 +161,6 @@ public class PlateChargeControlNode extends PhetPNode {
         addChild( backgroundNode );
         addChild( parentNode );
         addChild( titleNode );
-        if ( VALUE_VISIBLE ) {
-            addChild( valueNode );
-        }
         
         // layout
         {
@@ -189,9 +173,6 @@ public class PlateChargeControlNode extends PhetPNode {
             x = backgroundNode.getFullBoundsReference().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 );
             y = backgroundNode.getFullBoundsReference().getMaxY() + 2;
             titleNode.setOffset( x, y );
-            x = titleNode.getFullBoundsReference().getCenterX() - ( valueNode.getFullBoundsReference().getWidth() / 2 );
-            y = titleNode.getFullBoundsReference().getMaxY() + 2;
-            valueNode.setOffset( x, y );
         }
         
         // interactivity
@@ -257,12 +238,6 @@ public class PlateChargeControlNode extends PhetPNode {
         double xOffset = knobNode.getXOffset();
         double yOffset = trackNode.getFullBoundsReference().getHeight() * ( ( range.getMax() - plateCharge ) / range.getLength() );
         knobNode.setOffset( xOffset, yOffset );
-        
-        // value, centered below title
-        valueNode.setValue( plateCharge );
-        double x = titleNode.getFullBoundsReference().getCenterX() - ( valueNode.getFullBoundsReference().getWidth() / 2 );
-        double y = titleNode.getFullBoundsReference().getMaxY() + 2;
-        valueNode.setOffset( x, y );
     }
     
     /*
@@ -339,28 +314,6 @@ public class PlateChargeControlNode extends PhetPNode {
             super( label );
             setTextPaint( TITLE_COLOR );
             setFont( TITLE_FONT );
-        }
-    }
-    
-    /*
-     * Value that corresponds to the bar height.
-     * Origin is at upper-left corner of bounding box.
-     */
-    private static class ValueNode extends HTMLNode {
-        
-        public ValueNode( double value ) {
-            setFont( VALUE_FONT );
-            setHTMLColor( VALUE_COLOR );
-            setValue( value );
-        }
-        
-        public void setValue( double value ) {
-            String valueString = "0";
-            if ( value != 0 ) {
-                double mantissaString = value / Math.pow( 10, VALUE_EXPONENT );
-                valueString = MessageFormat.format( VALUE_PATTERN, VALUE_MANTISSA_FORMAT.format( mantissaString ) );
-            }
-            setHTML( MessageFormat.format( CLStrings.PATTERN_VALUE_UNITS, valueString, CLStrings.UNITS_COULOMBS ) );
         }
     }
 }
