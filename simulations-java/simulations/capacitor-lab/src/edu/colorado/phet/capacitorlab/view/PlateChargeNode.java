@@ -18,12 +18,13 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Total plate charge is represented as an integer number of '+' or '-' symbols.
- * These symbols are distributed across the top face of the plate.
+ * Base class for representation of plate charge.
+ * Plate charge is represented as an integer number of '+' or '-' symbols.
+ * These symbols are distributed across some portion of the plate's top face.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PlateChargeNode extends PhetPNode {
+public abstract class PlateChargeNode extends PhetPNode {
     
     private static final double PLUS_MINUS_WIDTH = 7;
     private static final double PLUS_MINUS_HEIGHT = 1;
@@ -60,6 +61,16 @@ public class PlateChargeNode extends PhetPNode {
         update();
     }
     
+    protected abstract double getPlateCharge();
+    
+    protected abstract double getContactX();
+    
+    protected abstract double getContactWidth();
+    
+    protected BatteryCapacitorCircuit getCircuit() {
+        return circuit;
+    }
+    
     private boolean isPositivelyCharged() {
         return ( ( !circuit.isBatteryConnected() && polarity == Polarity.POSITIVE ) ||  
                  ( circuit.isBatteryConnected() && polarity == Polarity.POSITIVE && circuit.getBattery().getVoltage() >= 0 ) ||
@@ -68,7 +79,7 @@ public class PlateChargeNode extends PhetPNode {
     
     private void update() {
         
-        double plateCharge = circuit.getTotalPlateCharge();
+        double plateCharge = getPlateCharge();
         int numberOfCharges = getNumberOfCharges( plateCharge );
         
         // numeric display
@@ -84,7 +95,7 @@ public class PlateChargeNode extends PhetPNode {
         
         // create charges
         chargesParentNode.removeAllChildren();
-        double plateSize = circuit.getCapacitor().getPlateSideLength();
+        double plateDepth = circuit.getCapacitor().getPlateSideLength();
         for ( int i = 0; i < numberOfCharges; i++ ) {
             
             // add a charge
@@ -98,17 +109,12 @@ public class PlateChargeNode extends PhetPNode {
             chargesParentNode.addChild( chargeNode );
             
             // randomly position the charge on the plate
-            double x = getRandomCoordinate( plateSize );
+            double x = getContactX() + ( Math.random() * getContactWidth() );
             double y = 0;
-            double z = getRandomCoordinate( plateSize );;
+            double z = -( plateDepth / 2 ) + ( Math.random() * plateDepth );
             Point2D offset = mvt.modelToView( x, y, z );
             chargeNode.setOffset( offset );
         }
-    }
-    
-    private double getRandomCoordinate( double plateSize ) {
-        double margin = mvt.viewToModel( PLUS_MINUS_WIDTH ); // to keep charges fully inside the plate
-        return -( plateSize / 2 ) + margin + ( ( plateSize - ( 2 * margin ) ) * Math.random() );
     }
     
     private int getNumberOfCharges( double plateCharge ) {
@@ -128,5 +134,57 @@ public class PlateChargeNode extends PhetPNode {
             numberOfCharges = (int) ( CLConstants.MAX_NUMBER_OF_PLATE_CHARGES * ( absolutePlateCharge - minCharge ) / ( maxCharge - minCharge ) );
         }
         return numberOfCharges;
+    }
+    
+    /**
+     * Portion of the plate charge due to the dielectric.
+     * Charges appear on the portion of the plate that is in contact with the dielectric.
+     */
+    public static class DielectricPlateChargeNode extends PlateChargeNode {
+
+        public DielectricPlateChargeNode( BatteryCapacitorCircuit circuit, ModelViewTransform mvt, boolean dev, Polarity polarity ) {
+            super( circuit, mvt, dev, polarity );
+        }
+        
+        // Gets the portion of the plate charge due to the dielectric.
+        protected double getPlateCharge() {
+            return getCircuit().getDielectricPlateCharge();
+        }
+        
+        // Gets the x location (relative to the plate) of the portion of the plate that is in contact with the dielectric.
+        public double getContactX() {
+            return -( getCircuit().getCapacitor().getPlateSideLength() / 2 ) + getCircuit().getCapacitor().getDielectricOffset();
+        }
+        
+        // Gets the width of the portion of the plate that is in contact with the dielectric.
+        protected double getContactWidth() {
+            return getCircuit().getCapacitor().getPlateSideLength() - getCircuit().getCapacitor().getDielectricOffset();
+        }
+    }
+    
+    /**
+     * Portion of the plate charge due to the air.
+     * Charges appear on the portion of the plate that is in contact with air (not in contact with the dielectric.)
+     */
+    public static class AirPlateChargeNode extends PlateChargeNode {
+
+        public AirPlateChargeNode( BatteryCapacitorCircuit circuit, ModelViewTransform mvt, boolean dev, Polarity polarity ) {
+            super( circuit, mvt, dev, polarity );
+        }
+        
+        // Gets the portion of the plate charge due to air.
+        public double getPlateCharge() {
+            return getCircuit().getAirPlateCharge();
+        }
+        
+        // Gets the x location (relative to the plate) of the portion of the plate that is in contact with air.
+        public double getContactX() {
+            return -getCircuit().getCapacitor().getPlateSideLength() / 2;
+        }
+        
+        // Gets the width of the portion of the plate that is in contact with air.
+        public double getContactWidth() {
+            return getCircuit().getCapacitor().getDielectricOffset();
+        }
     }
 }
