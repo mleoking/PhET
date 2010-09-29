@@ -120,7 +120,7 @@ public class Preferences {
 
         // unload the sharedObject from memory. this prevents an out-of-date version of
         // the preferences data to be saved when the sim is closed.
-        unload();
+        flush();
     }
 
     // load the preferences data into sharedObject
@@ -131,7 +131,7 @@ public class Preferences {
 
     // unload the preferences data from sharedObject. this prevents Flash from saving
     // a possibly out-of-date version when the sim is closed
-    public function unload(): void {
+    public function flush(): void {
         //debug("Preferences: Unloading shared object\n");
         sharedObject.flush();
         //        delete sharedObject;
@@ -153,7 +153,7 @@ public class Preferences {
         load();
         sharedObject.data.latestPrivacyAgreementVersion = common.getAgreementVersion();
         save();
-        unload();
+        flush();
     }
 
     // returns whether the user allows messages to be sent
@@ -188,14 +188,14 @@ public class Preferences {
         }
         load();
         var ret: Boolean = userAllowsUpdates();
-        unload();
+        flush();
         return ret;
     }
 
     public function getSkippedRevision(): Number {
         load();
         var ret: Number = sharedObject.data[FIELD_SKIPPED_REVISION];
-        unload();
+        flush();
         return ret;
     }
 
@@ -203,7 +203,7 @@ public class Preferences {
         load();
         sharedObject.data[FIELD_SKIPPED_REVISION] = revision;
         save();
-        unload();
+        flush();
     }
 
     // set ask me later time
@@ -216,7 +216,7 @@ public class Preferences {
         debug( "Preferences: sim ask later set to " + FlashCommon.dateString( FlashCommon.dateOfMilliseconds( dateMilliseconds ) ) + "\n" );
 
         save();
-        unload();
+        flush();
     }
 
     public function setInstallationAskLater( days: Number ): void {
@@ -229,7 +229,7 @@ public class Preferences {
         debug( "Preferences: installation ask later set to " + FlashCommon.dateString( FlashCommon.dateOfMilliseconds( dateMilliseconds ) ) + "\n" );
 
         save();
-        unload();
+        flush();
     }
 
     // allow other code to set the statistics and updates values
@@ -240,7 +240,7 @@ public class Preferences {
         debug( "setting statistics to " + allowStatistics.toString() + "\n" );
         debug( "setting updates to " + checkForUpdates.toString() + "\n" );
         save();
-        unload();
+        flush();
     }
 
     // resets (clears) any data stored on disk
@@ -302,7 +302,7 @@ public class Preferences {
         load();
         sharedObject.data[FIELD_VISITS_SINCE] = 0;
         save();
-        unload();
+        flush();
     }
 
     // how many times the current simulation has ever been run (according to preferences)
@@ -333,14 +333,14 @@ public class Preferences {
     public function simAskLaterElapsed(): Number {
         load();
         var time: Number = sharedObject.data[FIELD_ASK_LATER];
-        unload();
+        flush();
         return (new Date()).valueOf() - time;
     }
 
     public function installationAskLaterElapsed(): Number {
         load();
         var time: Number = sharedObject.data[FIELD_INSTALLATION_ASK_LATER];
-        unload();
+        flush();
         return (new Date()).valueOf() - time;
     }
 

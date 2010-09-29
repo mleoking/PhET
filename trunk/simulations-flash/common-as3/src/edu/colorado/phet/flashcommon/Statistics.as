@@ -152,7 +152,7 @@ public class Statistics {
         str += fieldFormat( "user_total_sessions", common.preferences.getUserTotalSessions(), humanReadable );
 
         // unload data from shared object
-        common.preferences.unload();
+        common.preferences.flush();
 
         return str;
     }
@@ -165,22 +165,22 @@ public class Statistics {
 
         if ( !common.preferences.areStatisticsMessagesAllowed() ) {
             debug( "Statistics: cannot send session start message: statistics messages disabled\n" );
-            common.preferences.unload();
+            common.preferences.flush();
             return;
         }
         if ( !common.hasFlashVars() ) {
             debug( "Statistics: flash vars were not detected, will not send message\n" );
-            common.preferences.unload();
+            common.preferences.flush();
             return;
         }
         if ( !common.preferences.isPrivacyOK() ) {
             debug( "Statistics: cannot send session start message: have not accepted agreement yet\n" );
-            common.preferences.unload();
+            common.preferences.flush();
             return;
         }
 
         // we no longer need preferences data, so we need to unload the data
-        common.preferences.unload();
+        common.preferences.flush();
 
         debug( "Statistics: sending session start message\n" );
 
