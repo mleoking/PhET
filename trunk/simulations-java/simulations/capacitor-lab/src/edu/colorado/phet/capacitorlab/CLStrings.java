@@ -32,7 +32,8 @@ public class CLStrings {
     public static final String LABEL_DIELECTRIC_CONSTANT = getString( "label.dielectricConstant" );
     public static final String LABEL_DIELECTRIC_MATERIAL = getString( "label.dielectricMaterial" );
     public static final String LABEL_NONE = getString( "label.none" );
-    public static final String LABEL_LOTS = getString( "label.lots" );
+    public static final String LABEL_LOTS_POSITIVE = getString( "label.lotsPositive" );
+    public static final String LABEL_LOTS_NEGATIVE = getString( "label.lotsNegative" );
     public static final String LABEL_PLATE_CHARGE = getString( "label.plateCharge" );
     
     public static final String MATERIAL_CUSTOM = getString( "material.custom" );
