@@ -3,6 +3,8 @@
 package edu.colorado.phet.capacitorlab.control;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
@@ -12,6 +14,8 @@ import javax.swing.JRadioButton;
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.util.GridPanel;
 import edu.colorado.phet.capacitorlab.util.GridPanel.Anchor;
+import edu.colorado.phet.capacitorlab.view.CapacitorNode;
+import edu.colorado.phet.capacitorlab.view.DielectricNode.DielectricChargeView;
 
 /**
  * Controls related to the dielectric's charges.
@@ -22,15 +26,30 @@ public class DielectricChargesControl extends JPanel {
     
     private final JRadioButton hideAllRadioButton, showAllRadioButton, showExcessRadioButton;
 
-    public DielectricChargesControl() {
+    public DielectricChargesControl( final CapacitorNode capacitorNode ) {
         
         JLabel chargesLabel = new JLabel( CLStrings.LABEL_DIELECTRIC_CHARGES );
         
         hideAllRadioButton = new JRadioButton( CLStrings.RADIOBUTTON_HIDE_ALL_CHARGES );
-        
+        hideAllRadioButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                capacitorNode.setDielectricChargeView( DielectricChargeView.NONE );
+            }
+        } );
+         
         showAllRadioButton = new JRadioButton( CLStrings.RADIOBUTTON_SHOW_ALL_CHARGES );
+        showAllRadioButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                capacitorNode.setDielectricChargeView( DielectricChargeView.ALL );
+            }
+        } );
         
         showExcessRadioButton = new JRadioButton( CLStrings.RADIOBUTTON_SHOW_EXCESS_CHARGES );
+        showExcessRadioButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                capacitorNode.setDielectricChargeView( DielectricChargeView.EXCESS );
+            }
+        } );
         
         ButtonGroup group = new ButtonGroup();
         group.add( hideAllRadioButton );
@@ -51,6 +70,8 @@ public class DielectricChargesControl extends JPanel {
         add( innerPanel, BorderLayout.WEST );
         
         // default state
-        hideAllRadioButton.setSelected( true );
+        hideAllRadioButton.setSelected( capacitorNode.getDielectricChargeView() == DielectricChargeView.NONE );
+        showAllRadioButton.setSelected( capacitorNode.getDielectricChargeView() == DielectricChargeView.ALL );
+        showExcessRadioButton.setSelected( capacitorNode.getDielectricChargeView() == DielectricChargeView.EXCESS );
     }
 }

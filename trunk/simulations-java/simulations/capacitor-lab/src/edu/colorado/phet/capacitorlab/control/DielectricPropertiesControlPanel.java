@@ -17,6 +17,7 @@ import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricM
 import edu.colorado.phet.capacitorlab.util.GridPanel;
 import edu.colorado.phet.capacitorlab.util.GridPanel.Anchor;
 import edu.colorado.phet.capacitorlab.util.GridPanel.Fill;
+import edu.colorado.phet.capacitorlab.view.CapacitorNode;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
 import edu.colorado.phet.common.phetcommon.view.ColoredSeparator.BlackSeparator;
 
@@ -32,7 +33,7 @@ public class DielectricPropertiesControlPanel extends PhetTitledPanel {
     private final DielectricConstantControl constantControl;
     private final DielectricChargesControl chargesControl;
 
-    public DielectricPropertiesControlPanel( CLModel model ) {
+    public DielectricPropertiesControlPanel( CLModel model, CapacitorNode capacitorNode ) {
         super( CLStrings.TITLE_DIELECTRIC );
         
         this.capacitor = model.getCapacitor();
@@ -59,7 +60,7 @@ public class DielectricPropertiesControlPanel extends PhetTitledPanel {
             }
         } );
         
-        chargesControl = new DielectricChargesControl();
+        chargesControl = new DielectricChargesControl( capacitorNode );
         
         // layout
         GridPanel innerPanel = new GridPanel();

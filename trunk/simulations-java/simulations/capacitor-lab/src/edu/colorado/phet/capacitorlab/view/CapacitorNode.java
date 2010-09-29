@@ -7,6 +7,7 @@ import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
 import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeAdapter;
+import edu.colorado.phet.capacitorlab.view.DielectricNode.DielectricChargeView;
 import edu.colorado.phet.capacitorlab.view.PlateNode.BottomPlateNode;
 import edu.colorado.phet.capacitorlab.view.PlateNode.TopPlateNode;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -73,6 +74,14 @@ public class CapacitorNode extends PhetPNode {
     
     public boolean isPlateChargeVisible() {
         return topPlateNode.isChargeVisible();
+    }
+    
+    public void setDielectricChargeView( DielectricChargeView view ) {
+        dielectricNode.setDielectricChargeView( view );
+    }
+    
+    public DielectricChargeView getDielectricChargeView() {
+        return dielectricNode.getDielectricChargeView();
     }
     
     private void updateGeometry() {
