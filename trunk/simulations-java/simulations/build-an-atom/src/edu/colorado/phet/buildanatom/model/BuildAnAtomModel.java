@@ -25,10 +25,17 @@ public class BuildAnAtomModel {
     //----------------------------------------------------------------------------
 
     private static final Rectangle2D MODEL_VIEWPORT =
-            new Rectangle2D.Double( -200, -150,
-            400,
-            400 * BuildAnAtomDefaults.STAGE_SIZE.getHeight() / BuildAnAtomDefaults.STAGE_SIZE.getWidth() );//use the same aspect ratio so circles don't become elliptical
+        new Rectangle2D.Double( -200, -150,
+                400,
+                400 * BuildAnAtomDefaults.STAGE_SIZE.getHeight() / BuildAnAtomDefaults.STAGE_SIZE.getWidth() );//use the same aspect ratio so circles don't become elliptical
 
+    // Constants that define the number of sub-atomic particles that exist
+    // within the sim.
+    private static final int NUM_ELECTRONS = 1;
+    private static final int NUM_PROTONS = 0;
+    private static final int NUM_NEUTRONS = 0;
+
+    // Constants that define the size, position, and appearance of the buckets.
     private static final Dimension2D BUCKET_SIZE = new PDimension( 60, 30 );
     private static final Point2D PROTON_BUCKET_POSITION = new Point2D.Double( -80, -140 );
     private static final Point2D NEUTRON_BUCKET_POSITION = new Point2D.Double( 0, -140 );
@@ -67,7 +74,13 @@ public class BuildAnAtomModel {
         // Create the atom.
         atom = new Atom( new Point2D.Double( 0, 0 ) );
 
-        electrons.add( new Electron( 10, 10 ) );
+
+        for (int i = 0; i < NUM_ELECTRONS; i++){
+            Electron electron = new Electron();
+            electrons.add( electron );
+            electronBucket.addParticle( electron, true );
+        }
+
         protons.add( new Proton( -10, 10 ) );
         neutrons.add( new Neutron( -10, -10 ) );
     }
