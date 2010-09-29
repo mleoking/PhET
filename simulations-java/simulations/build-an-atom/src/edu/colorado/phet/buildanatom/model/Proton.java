@@ -8,7 +8,7 @@ package edu.colorado.phet.buildanatom.model;
  * @author John Blanco
  */
 public class Proton extends SubatomicParticle {
-    public static final double RADIUS = 8;
+    public static final double RADIUS = 5;
 
     public Proton( double x, double y ) {
         super( RADIUS, x, y );

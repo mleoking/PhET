@@ -8,7 +8,7 @@ package edu.colorado.phet.buildanatom.model;
  * @author John Blanco
  */
 public class Electron extends SubatomicParticle {
-    public static final double RADIUS = 5;
+    public static final double RADIUS = 3;
 
     public Electron( double x, double y ) {
         super( RADIUS, x, y );

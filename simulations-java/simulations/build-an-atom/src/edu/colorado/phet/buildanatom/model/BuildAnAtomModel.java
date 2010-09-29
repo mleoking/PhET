@@ -25,15 +25,15 @@ public class BuildAnAtomModel {
     //----------------------------------------------------------------------------
 
     private static final Rectangle2D MODEL_VIEWPORT =
-        new Rectangle2D.Double( -200, -150,
-                400,
-                400 * BuildAnAtomDefaults.STAGE_SIZE.getHeight() / BuildAnAtomDefaults.STAGE_SIZE.getWidth() );//use the same aspect ratio so circles don't become elliptical
+            new Rectangle2D.Double( -200, -150,
+            400,
+            400 * BuildAnAtomDefaults.STAGE_SIZE.getHeight() / BuildAnAtomDefaults.STAGE_SIZE.getWidth() );//use the same aspect ratio so circles don't become elliptical
 
     // Constants that define the number of sub-atomic particles that exist
     // within the sim.
-    private static final int NUM_ELECTRONS = 1;
-    private static final int NUM_PROTONS = 1;
-    private static final int NUM_NEUTRONS = 1;
+    private static final int NUM_ELECTRONS = 11;
+    private static final int NUM_PROTONS = 10;
+    private static final int NUM_NEUTRONS = 11;
 
     // Constants that define the size, position, and appearance of the buckets.
     private static final Dimension2D BUCKET_SIZE = new PDimension( 60, 30 );
@@ -56,11 +56,11 @@ public class BuildAnAtomModel {
 
     // The buckets which can hold the subatomic particles.
     // TODO: i18n
-    private final Bucket electronBucket = new Bucket( ELECTRON_BUCKET_POSITION, BUCKET_SIZE, Color.blue, "Electrons" );
+    private final Bucket electronBucket = new Bucket( ELECTRON_BUCKET_POSITION, BUCKET_SIZE, Color.blue, "Electrons", Electron.RADIUS );
     // TODO: i18n
-    private final Bucket protonBucket = new Bucket( PROTON_BUCKET_POSITION, BUCKET_SIZE, Color.red, "Protons" );
+    private final Bucket protonBucket = new Bucket( PROTON_BUCKET_POSITION, BUCKET_SIZE, Color.red, "Protons", Proton.RADIUS );
     // TODO: i18n
-    private final Bucket neutronBucket = new Bucket( NEUTRON_BUCKET_POSITION, BUCKET_SIZE, Color.gray, "Neutrons" );
+    private final Bucket neutronBucket = new Bucket( NEUTRON_BUCKET_POSITION, BUCKET_SIZE, Color.gray, "Neutrons", Neutron.RADIUS );
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -75,19 +75,19 @@ public class BuildAnAtomModel {
         atom = new Atom( new Point2D.Double( 0, 0 ) );
 
 
-        for (int i = 0; i < NUM_ELECTRONS; i++){
+        for ( int i = 0; i < NUM_ELECTRONS; i++ ) {
             Electron electron = new Electron();
             electrons.add( electron );
             electronBucket.addParticle( electron, true );
         }
 
-        for (int i = 0; i < NUM_PROTONS; i++){
+        for ( int i = 0; i < NUM_PROTONS; i++ ) {
             Proton proton = new Proton();
             protons.add( proton );
             protonBucket.addParticle( proton, true );
         }
 
-        for (int i = 0; i < NUM_NEUTRONS; i++){
+        for ( int i = 0; i < NUM_NEUTRONS; i++ ) {
             Neutron neutron = new Neutron();
             neutrons.add( neutron );
             neutronBucket.addParticle( neutron, true );
@@ -152,7 +152,6 @@ public class BuildAnAtomModel {
     //----------------------------------------------------------------------------
     // Inner Classes and Interfaces
     //----------------------------------------------------------------------------
-
 
 
     /**
@@ -232,10 +231,15 @@ public class BuildAnAtomModel {
         // Particles that are in this bucket.
         private final ArrayList<SubatomicParticle> containedParticles = new ArrayList<SubatomicParticle>();
 
-        public Bucket( Point2D position, Dimension2D size, Color baseColor, String caption ) {
+        // Radius of particles that will be going into this bucket.  This is
+        // used for placing particles.
+        private final double particleRadius;
+
+        public Bucket( Point2D position, Dimension2D size, Color baseColor, String caption, double particleRadius ) {
             this.position.setLocation( position );
             this.baseColor = baseColor;
             this.captionText = caption;
+            this.particleRadius = particleRadius;
 
             // Create the shape of the bucket's hole.
             holeShape = new Ellipse2D.Double( -size.getWidth() / 2,
@@ -286,8 +290,7 @@ public class BuildAnAtomModel {
 
         public void addParticle( final SubatomicParticle particle, boolean moveImmediately ) {
             // Determine an open location in the bucket.
-            // TBD: Go to center of hole for now.
-            Point2D freeParticleLocation = getPosition();
+            Point2D freeParticleLocation = getFirstOpenLocation();
 
             // Move the particle.
             if ( moveImmediately ) {
@@ -317,6 +320,65 @@ public class BuildAnAtomModel {
             containedParticles.remove( particle );
         }
 
+        private Point2D getFirstOpenLocation() {
+            Point2D openLocation = new Point2D.Double();
+            int numParticlesInLayer = (int) Math.floor( holeShape.getBounds2D().getWidth() / ( particleRadius * 2 ) ) - 1;
+            int layer = 0;
+            int positionInLayer = 0;
+            double offset = particleRadius * 2; // Initial offset is NOT zero, since we don't want to go right up to the edge.
+            boolean found = false;
+            while ( !found ) {
+                double yPos = getPosition().getY() + layer * particleRadius * 2 * 0.866;
+                double xPos = getPosition().getX() - holeShape.getBounds2D().getWidth() / 2 + offset + positionInLayer * 2 * particleRadius;
+                if ( isPositionOpen( xPos, yPos ) ) {
+                    // We found a location that is open.
+                    openLocation.setLocation( xPos, yPos );
+                    found = true;
+                    continue;
+                }
+                else {
+                    positionInLayer++;
+                    if ( positionInLayer >= numParticlesInLayer ) {
+                        // Move to the next layer.
+                        layer++;
+                        positionInLayer = 0;
+                        numParticlesInLayer--;
+                        offset += particleRadius;
+                        if ( numParticlesInLayer == 0 ) {
+                            // This algorithm doesn't handle the situation
+                            // where more particles are added than can be
+                            // stacked into a pyramid of the needed size, but
+                            // so far it hasn't needed to.  If this
+                            // requirement changes, the algorithm will need to
+                            // change too.
+//                            assert false;
+                            numParticlesInLayer = 1;
+                            offset -= particleRadius;
+                        }
+                    }
+                }
+            }
+            return openLocation;
+        }
 
+        /**
+         * Determine whether the given particle position is open (i.e.
+         * unoccupied) in the bucket.
+         *
+         * @param x
+         * @param y
+         * @return
+         */
+        private boolean isPositionOpen( double x, double y ) {
+            boolean positionOpen = true;
+            for ( SubatomicParticle particle : containedParticles ) {
+                Point2D position = particle.getPosition();
+                if ( position.getX() == x && position.getY() == y ) {
+                    positionOpen = false;
+                    break;
+                }
+            }
+            return positionOpen;
+        }
     }
 }
