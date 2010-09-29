@@ -425,10 +425,12 @@ public class BatteryCapacitorCircuit {
     //----------------------------------------------------------------------------------
     
     private void handleBatteryVoltageChanged() {
-        fireVoltageChanged();
-        fireChargeChanged();
-        fireEfieldChanged();
-        fireEnergyChanged();
+        if ( isBatteryConnected() ) {
+            fireVoltageChanged();
+            fireChargeChanged();
+            fireEfieldChanged();
+            fireEnergyChanged();
+        }
     }
     
     private void handleCapacitanceChanged() {
