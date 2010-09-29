@@ -1,3 +1,5 @@
+# 0.00.15 (44492) Sep 28, 2010
+9/28/10 dev version to demonstrate problems with plate charge representation
 9/28/10 keep charges fully inside the plate by taking the charge size into account
 9/28/10 reduce size of charges to match Noah's mock up
 9/28/10 fixed plate area drag handle
