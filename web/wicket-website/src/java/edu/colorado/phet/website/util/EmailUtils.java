@@ -11,7 +11,7 @@ import edu.colorado.phet.website.WebsiteProperties;
 public class EmailUtils {
 
     public static class MessageBuilder {
-        public Message build( Session session ) throws MessagingException {
+        public MimeMessage build( Session session ) throws MessagingException {
             return new MimeMessage( session );
         }
     }
@@ -21,7 +21,7 @@ public class EmailUtils {
         private String fromAddress;
         private List<String> recipients = new LinkedList<String>();
         private List<InternetAddress> replyTos = new LinkedList<InternetAddress>();
-        private BodyPart messageBodyPart;
+        private MimeBodyPart messageBodyPart;
         private List<BodyPart> bodyParts = new LinkedList<BodyPart>(); // somewhat morbid!
 
         public GeneralEmailBuilder( String subject, String fromAddress ) {
@@ -30,11 +30,11 @@ public class EmailUtils {
         }
 
         @Override
-        public Message build( Session session ) throws MessagingException {
-            Message message = super.build( session );
+        public MimeMessage build( Session session ) throws MessagingException {
+            MimeMessage message = super.build( session );
 
             message.setFrom( new InternetAddress( fromAddress ) );
-            message.setSubject( subject );
+            message.setSubject( subject, "utf-8" );
 
             for ( String email : recipients ) {
                 message.addRecipient( Message.RecipientType.TO, new InternetAddress( email ) );
@@ -71,7 +71,8 @@ public class EmailUtils {
         public void setBody( String body ) throws MessagingException {
             messageBodyPart = new MimeBodyPart();
 
-            messageBodyPart.setContent( body, "text/html; charset=ISO-8859-1" );
+            // messageBodyPart.setContent( body, "text/html; charset=UTF-8" ); 
+            messageBodyPart.setText( body, "UTF-8", "html" );
         }
 
         public void addBodyPart( BodyPart bodyPart ) {
