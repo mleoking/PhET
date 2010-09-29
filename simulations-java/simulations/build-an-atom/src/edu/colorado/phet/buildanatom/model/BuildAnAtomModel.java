@@ -66,13 +66,6 @@ public class BuildAnAtomModel {
     // TODO: i18n
     private final Bucket neutronBucket = new Bucket( NEUTRON_BUCKET_POSITION, BUCKET_SIZE, Color.gray, "Neutrons", Neutron.RADIUS );
 
-    // Listeners that handle the release by the user of a subatomic particle.
-    private final SimpleObserver protonReleaseObserver = new SimpleObserver() {
-        public void update() {
-
-        }
-    };
-
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
