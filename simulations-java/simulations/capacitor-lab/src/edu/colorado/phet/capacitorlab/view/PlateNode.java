@@ -16,13 +16,13 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Visual representation of charge on a capacitor plate.
- * Total plate charge is mapped to an integer number of '+' or '-' symbols,
+ * Visual representation of a capacitor plate.
+ * Total plate charge is represented as an integer number of '+' or '-' symbols,
  * and these symbols are distributed across the top face of the plate.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class PlateChargeNode extends BoxNode {
+public abstract class PlateNode extends BoxNode {
     
     private static enum Polarity { POSITIVE, NEGATIVE };
     
@@ -35,19 +35,19 @@ public abstract class PlateChargeNode extends BoxNode {
     private final PText numberOfChargesNode; // debug, shows the number of charges
     private final PNode chargesParentNode;
     
-    public static class TopPlateNode extends PlateChargeNode {
+    public static class TopPlateNode extends PlateNode {
         public TopPlateNode( BatteryCapacitorCircuit circuit, ModelViewTransform mvt, boolean dev ) {
             super( circuit, mvt, dev, Polarity.POSITIVE );
         }
     }
     
-    public static class BottomPlateNode extends PlateChargeNode {
+    public static class BottomPlateNode extends PlateNode {
         public BottomPlateNode( BatteryCapacitorCircuit circuit, ModelViewTransform mvt, boolean dev ) {
             super( circuit, mvt, dev, Polarity.NEGATIVE );
         }
     }
     
-    public PlateChargeNode( BatteryCapacitorCircuit circuit, ModelViewTransform mvt, boolean dev, Polarity polarity ) {
+    public PlateNode( BatteryCapacitorCircuit circuit, ModelViewTransform mvt, boolean dev, Polarity polarity ) {
         super( mvt, CLPaints.PLATE );
         
         this.circuit = circuit;
@@ -75,6 +75,7 @@ public abstract class PlateChargeNode extends BoxNode {
     }
     
     public void setChargeVisible( boolean visible ) {
+        numberOfChargesNode.setVisible( visible );
         chargesParentNode.setVisible( visible );
     }
     
