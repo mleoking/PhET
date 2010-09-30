@@ -27,6 +27,14 @@ public class FlexCommon extends FlashCommon {
     override public function getFlashArg( key:String ):String {
         return Application.application.parameters[key];
     }
+
+    override public function getPlayAreaWidth():Number {
+        return root.stage.stageWidth;
+    }
+
+    override public function getPlayAreaHeight():Number {
+        return root.stage.stageHeight;
+    }
 }
 
 }

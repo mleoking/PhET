@@ -75,7 +75,29 @@ public class MainView extends Sprite{
         phetLogo.y = myStageHeight - 1.0 * phetLogo.height; //stage.stageHeight - 1.0*phetLogo.height;
         //this.drawStageBorder();
         this.flyInDragMe();
+        addFlashCommon();
+        //trace("stageW: "+stageW+"   stageH: "+stageH);
     }//end of initialize()
+
+    private function addFlashCommon():void {
+        var ui:Sprite = new Sprite(); // used for FlashCommon UI
+        addChild( ui );
+
+        var common:FlashCommonCS4 = FlashCommonCS4.getInstance( ui.stage,950,650 );//specified in FLA top level properties
+        common.initialize( ui );
+
+        //            common.highContrastFunction = function ( contrast:Boolean ):void {
+        //                if ( contrast ) {
+        //                    var stretch:Number = 2.0;
+        //                    var newCenter:Number = 128;
+        //                    var offset:Number = newCenter - 128 * stretch;
+        //                    root.stage.transform.colorTransform = new ColorTransform( stretch, stretch, stretch, 1, offset, offset, offset, 1 );
+        //                }
+        //                else {
+        //                    root.stage.transform.colorTransform = new ColorTransform( 1, 1, 1, 1, 0, 0, 0, 0 );
+        //                }
+        //            };
+    }
 
     public function flyInDragMe():void {
         this.dragMeSign.x = 0.45 * this.myStageWidth; //this.stage.stageWidth;
