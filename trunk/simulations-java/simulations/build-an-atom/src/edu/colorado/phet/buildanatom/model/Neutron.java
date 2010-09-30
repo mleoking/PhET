@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.buildanatom.model;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+
 /**
  * Class that represents a neutron in the model.
  *
@@ -10,11 +12,11 @@ package edu.colorado.phet.buildanatom.model;
 public class Neutron extends SubatomicParticle {
     public static final double RADIUS = 5;
 
-    public Neutron( double x, double y ) {
-        super( RADIUS, x, y );
+    public Neutron( ConstantDtClock clock, double x, double y ) {
+        super( clock, RADIUS, x, y );
     }
 
-    public Neutron() {
-        this( 0, 0 );
+    public Neutron(ConstantDtClock clock) {
+        this( clock, 0, 0 );
     }
 }

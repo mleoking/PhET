@@ -3,6 +3,9 @@ package edu.colorado.phet.buildanatom.model;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.model.Observable;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
@@ -13,16 +16,46 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  */
 public abstract class SubatomicParticle {
 
+    private static final double MOTION_VELOCITY = 120; // In picometers per second of sim time.
+
     private final Observable<Point2D.Double> position;
     private final Point2D destination = new Point2D.Double();
     private final double radius;
     private final Observable<Boolean> userControlled;
 
-    public SubatomicParticle( double radius, double x, double y ) {
+    public SubatomicParticle( ConstantDtClock clock, double radius, double x, double y ) {
         this.radius = radius;
         position = new Observable<Point2D.Double>( new Point2D.Double( x, y ) );
         this.destination.setLocation( x, y );
         userControlled = new Observable<Boolean>( Boolean.FALSE );
+        clock.addClockListener( new ClockAdapter() {
+
+            @Override
+            public void clockTicked( ClockEvent clockEvent ) {
+                stepInTime( clockEvent.getSimulationTimeChange() );
+            }
+
+        } );
+    }
+
+    /**
+     * @param simulationTimeChange
+     */
+    private void stepInTime( double dt ) {
+        if ( getPosition().distance( destination ) != 0 ) {
+            // Move towards the current destination.
+            double distanceToTravel = MOTION_VELOCITY * dt;
+            if ( distanceToTravel >= getPosition().distance( destination ) ) {
+                // Closer than one step, so just go there.
+                setPosition( destination );
+            }
+            else {
+                // Move towards the destination.
+                double angle = Math.atan2( destination.getY() - getPosition().getY(),
+                        destination.getX() - getPosition().getX() );
+                translate( distanceToTravel * Math.cos( angle ), distanceToTravel * Math.sin( angle ) );
+            }
+        }
     }
 
     public Point2D.Double getPosition() {
@@ -45,10 +78,19 @@ public abstract class SubatomicParticle {
         destination.setLocation( x, y );
     }
 
+    public void setPositionAndDestination( double x, double y ) {
+        setPosition( x, y );
+        setDestination( x, y );
+    }
+
+    public void setPositionAndDestination( Point2D p ) {
+        setPosition( p );
+        setDestination( p );
+    }
+
     public double getDiameter() {
         return getRadius() * 2;
     }
-
 
     public double getRadius() {
         return radius;
@@ -59,10 +101,10 @@ public abstract class SubatomicParticle {
     }
 
     public void setUserControlled( boolean userControlled ) {
-        if (userControlled){
+        if ( userControlled ) {
             this.userControlled.setValue( Boolean.TRUE );
         }
-        else{
+        else {
             this.userControlled.setValue( Boolean.FALSE );
         }
     }

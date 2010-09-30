@@ -47,7 +47,8 @@ public class SubatomicParticleNode extends PNode {
             public void mouseDragged( PInputEvent event ) {
                 PDimension delta = event.getDeltaRelativeTo( getParent() );
                 Point2D modelDelta = mvt.viewToModelDifferential( delta.width, delta.height );
-                subatomicParticle.translate( modelDelta.getX(), modelDelta.getY() );
+                subatomicParticle.setPositionAndDestination( subatomicParticle.getPosition().getX() + modelDelta.getX(),
+                        subatomicParticle.getPosition().getY() + modelDelta.getY() );
             }
 
             @Override
