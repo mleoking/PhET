@@ -486,7 +486,7 @@ public class FlashCommon {
     }
 
     public function getBGColor(): Number {
-        return parseInt( getFlashArg( "bgcolor" ) );
+        return parseInt( getFlashArg( "bgColor" ) );
     }
 
     public function getAgreementVersion(): Number {
@@ -683,7 +683,7 @@ public class FlashCommon {
 
     // shows a barrier so that the user cannot interact directly with the sim
     public function showBarrier(): void {
-        barrierSprite.graphics.beginFill( getBGColor(), 0.5 );
+        barrierSprite.graphics.beginFill( getBGColor(), 0.7 );
         // larger dimensions in case people resize afterwards
         barrierSprite.graphics.drawRect( -5000, -5000, 10000, 10000 );
         //        barrierSprite.graphics.drawRect( -500, -500, 100, 100 );
