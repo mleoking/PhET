@@ -1,6 +1,7 @@
 package edu.colorado.phet.flashcommon {
 
 import flash.events.MouseEvent;
+import flash.events.TextEvent;
 import flash.system.Capabilities;
 
 import org.aswing.CenterLayout;
@@ -38,7 +39,7 @@ public class AboutDialog extends CommonDialog {
         str += "<b>PhET Interactive Simulations</b>\n";
         str += "Copyright \u00A9 2004-2010 University of Colorado.\n";
         str += "Some rights reserved.\n";
-        str += "Visit <a href='asfunction:_level0.common.openExternalLink,http://" + FlashCommon.getMainServer() + "'>http://" + FlashCommon.getMainServer() + "</a>\n\n";
+        str += "Visit <a href='event:http://" + FlashCommon.getMainServer() + "'>http://" + FlashCommon.getMainServer() + "</a>\n\n";
 
         str += "<b><font size='16'>" + common.getSimTitle() + "</font></b>\n";
         str += CommonStrings.get( "Version", "Version" ) + ": " + common.getFullVersionString() + "\n";
@@ -56,6 +57,7 @@ public class AboutDialog extends CommonDialog {
 
         var textArea: JTextArea = new JTextArea();
         textArea.setHtmlText( str );
+        textArea.addEventListener(TextEvent.LINK,function(event:TextEvent):void{common.openExternalLink(event.text)});
         textArea.setEditable( false );
         textArea.setCSS( FlashCommon.LINK_STYLE_SHEET );
         textArea.setBorder( new EmptyBorder( null, new Insets( 5, 5, 5, 5 ) ) );

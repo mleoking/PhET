@@ -497,11 +497,13 @@ public class FlashCommon {
         // the agreement text must be stripped of newlines because Flash's HTML rendering incorrectly
         // considers newlines to be "<br>".
         //var strippedText = stripNewlines(_level0.agreementText);
-        var strippedText = stripNewlines( SoftwareAgreement.agreementText );
+        var strippedText:String = stripNewlines( SoftwareAgreement.agreementText );
 
         // this replacement will make clicks call _level0.common.openExternalLink(<url>) instead of
         // just opening the url
         var replacedHrefs:String = stringReplace( strippedText, "href=\"", "target=\"_blank\" href=\"" );
+        
+        //Image refs break in AS3, so omit them
         return replacedHrefs.replace(/<img.*<\/img>/g,"");
     }
 
