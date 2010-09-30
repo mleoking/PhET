@@ -571,71 +571,74 @@ public class AsWingUtils{
      * before call this method textR.width must be filled with correct value of whole text.
      */
     private static function layoutTextWidth(text:String, textR:IntRectangle, availTextWidth:Number, font:ASFont):String{
-        if (textR.width <= availTextWidth) {
-            return text;
-        }
-        var clipString:String = "...";
-        var totalWidth:int = Math.round(inter_computeStringWidth(font, clipString));
-        if(totalWidth > availTextWidth){
-            totalWidth = Math.round(inter_computeStringWidth(font, ".."));
-            if(totalWidth > availTextWidth){
-                text = ".";
-                textR.width = Math.round(inter_computeStringWidth(font, "."));
-                if(textR.width > availTextWidth){
-                    textR.width = 0;
-                    text = "";
-                }
-            }else{
-                text = "..";
-                textR.width = totalWidth;
-            }
-            return text;
-        }else{
-            var lastWidth:Number = totalWidth;
-            
-            
-            //begin binary search
-            var num:int = text.length;
-            var li:int = 0; //binary search of left index 
-            var ri:int = num; //binary search of right index
-            
-            while(li<ri){
-                var i:int = li + (ri - li)/2;
-                var subText:String = text.substring(0, i);
-                var length:int = Math.ceil(lastWidth + inter_computeStringWidth(font, subText));
-                
-                if((li == i - 1) && li>0){
-                    if(length > availTextWidth){
-                        subText = text.substring(0, li);
-                        textR.width = Math.ceil(lastWidth + inter_computeStringWidth(font, text.substring(0, li)));
-                    }else{
-                        textR.width = length;
-                    }
-                    return subText + clipString;
-                }else if(i <= 1){
-                    if(length <= availTextWidth){
-                        textR.width = length;
-                        return subText + clipString;
-                    }else{
-                        textR.width = lastWidth;
-                        return clipString;
-                    }
-                }
-                
-                if(length < availTextWidth){
-                    li = i;
-                }else if(length > availTextWidth){
-                    ri = i;
-                }else{
-                    text = subText + clipString;
-                    textR.width = length;
-                    return text;
-                }
-            }
-            //end binary search
-            textR.width = lastWidth;
-            return "";
-        }
+        return text;
+        
+        //PhET: SRR and JO commented this out since PhET never wants "..." to appear, and it was appearing spuriously and often 
+//        if (textR.width <= availTextWidth) {
+//            return text;
+//        }
+//        var clipString:String = "...";
+//        var totalWidth:int = Math.round(inter_computeStringWidth(font, clipString));
+//        if(totalWidth > availTextWidth){
+//            totalWidth = Math.round(inter_computeStringWidth(font, ".."));
+//            if(totalWidth > availTextWidth){
+//                text = ".";
+//                textR.width = Math.round(inter_computeStringWidth(font, "."));
+//                if(textR.width > availTextWidth){
+//                    textR.width = 0;
+//                    text = "";
+//                }
+//            }else{
+//                text = "..";
+//                textR.width = totalWidth;
+//            }
+//            return text;
+//        }else{
+//            var lastWidth:Number = totalWidth;
+//            
+//            
+//            //begin binary search
+//            var num:int = text.length;
+//            var li:int = 0; //binary search of left index 
+//            var ri:int = num; //binary search of right index
+//            
+//            while(li<ri){
+//                var i:int = li + (ri - li)/2;
+//                var subText:String = text.substring(0, i);
+//                var length:int = Math.ceil(lastWidth + inter_computeStringWidth(font, subText));
+//                
+//                if((li == i - 1) && li>0){
+//                    if(length > availTextWidth){
+//                        subText = text.substring(0, li);
+//                        textR.width = Math.ceil(lastWidth + inter_computeStringWidth(font, text.substring(0, li)));
+//                    }else{
+//                        textR.width = length;
+//                    }
+//                    return subText + clipString;
+//                }else if(i <= 1){
+//                    if(length <= availTextWidth){
+//                        textR.width = length;
+//                        return subText + clipString;
+//                    }else{
+//                        textR.width = lastWidth;
+//                        return clipString;
+//                    }
+//                }
+//                
+//                if(length < availTextWidth){
+//                    li = i;
+//                }else if(length > availTextWidth){
+//                    ri = i;
+//                }else{
+//                    text = subText + clipString;
+//                    textR.width = length;
+//                    return text;
+//                }
+//            }
+//            //end binary search
+//            textR.width = lastWidth;
+//            return "";
+//        }
     } 
     
     
