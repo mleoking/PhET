@@ -1,3 +1,4 @@
+# 0.00.08 (44558) Sep 30, 2010
 Added common features
 # 0.00.07 (44447) Sep 28, 2010
 Fixed: kinetic energy and time readouts fluctuate in their number of significant digits
