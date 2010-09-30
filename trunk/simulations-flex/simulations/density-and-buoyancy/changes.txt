@@ -1,3 +1,4 @@
+# 1.01.02 (44556) Sep 30, 2010
 Removed mystery objects mode from buoyancy sim
 Reformatted using updated PhetStyle code format
 Fixed: all sliders are bounded by the bounds intended only for the mass slider
