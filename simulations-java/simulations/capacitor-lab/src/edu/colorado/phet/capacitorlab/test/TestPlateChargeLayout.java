@@ -31,7 +31,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public class TestPlateChargeLayout extends JFrame {
 
     private static final Dimension CANVAS_SIZE = new Dimension( 1024, 768 );
-    private static final IntegerRange NUMBER_OF_CHARGES_RANGE = new IntegerRange( 0, 625, 100 );
+    private static final IntegerRange NUMBER_OF_CHARGES_RANGE = new IntegerRange( 0, 625, 0 );
     private static final IntegerRange PLATE_WIDTH_RANGE = new IntegerRange( 100, 500, 200 );
     private static final IntegerRange PLATE_HEIGHT_RANGE = new IntegerRange( 100, 500, 200 );
     private static final double PLUS_MINUS_WIDTH = 7;
@@ -287,27 +287,34 @@ public class TestPlateChargeLayout extends JFrame {
             final double plateWidth = model.getPlateWidth();
             final double plateHeight = model.getPlateHeight();
             
-            // compute the grid dimensions
-            final double alpha = Math.sqrt( numberOfCharges / plateWidth / plateHeight );
-            final int rows = (int) ( plateHeight * alpha ); // casting may result in some charges being thrown out, but that's OK
-            final int columns = (int) ( plateWidth * alpha );
-            
             // clear the grid of existing charges
             parentChargesNode.removeAllChildren();
             
-            // populate the grid with charges
-            double dx = plateWidth / columns;
-            double dy = plateHeight / rows;
-            for ( int row = 0; row < rows; row++ ) {
-                for ( int column = 0; column < columns; column++ ) {
-                    // add a charge
-                    PNode chargeNode = new PlusNode( PLUS_MINUS_WIDTH, PLUS_MINUS_HEIGHT, Color.RED );
-                    parentChargesNode.addChild( chargeNode );
-                    
-                    // position the charge in cell in the grid
-                    double x = -( plateWidth / 2 ) + ( column * dx );
-                    double y = -( plateHeight / 2 ) + ( row * dy );
-                    chargeNode.setOffset( x, y );
+            int rows = 0;
+            int columns = 0;
+            if ( numberOfCharges > 0 ) {
+                
+                // compute the grid dimensions
+                final double alpha = Math.sqrt( numberOfCharges / plateWidth / plateHeight );
+                rows = (int) Math.max( 1, plateHeight * alpha ); // casting may result in some charges being thrown out, but that's OK
+                columns = (int) Math.max( 1, plateWidth * alpha );
+
+                // populate the grid with charges
+                double dx = plateWidth / columns;
+                double dy = plateHeight / rows;
+                double xOffset = dx / 2;
+                double yOffset = dy / 2;
+                for ( int row = 0; row < rows; row++ ) {
+                    for ( int column = 0; column < columns; column++ ) {
+                        // add a charge
+                        PNode chargeNode = new PlusNode( PLUS_MINUS_WIDTH, PLUS_MINUS_HEIGHT, Color.RED );
+                        parentChargesNode.addChild( chargeNode );
+
+                        // position the charge in cell in the grid
+                        double x = -( plateWidth / 2 ) + xOffset + ( column * dx );
+                        double y = -( plateHeight / 2 ) + yOffset + ( row * dy );
+                        chargeNode.setOffset( x, y );
+                    }
                 }
             }
             

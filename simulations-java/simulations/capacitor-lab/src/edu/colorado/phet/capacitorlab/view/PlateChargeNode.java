@@ -91,33 +91,40 @@ public abstract class PlateChargeNode extends PhetPNode {
         chargesParentNode.removeAllChildren();
         
         // compute grid dimensions
-        final double contactWidth = getContactWidth();
-        final double plateDepth = circuit.getCapacitor().getPlateSideLength();
-        final double alpha = Math.sqrt( numberOfCharges / contactWidth / plateDepth );
-        final int rows = (int) ( plateDepth * alpha ); // casting may result in some charges being thrown out, but that's OK
-        final int columns = (int) ( contactWidth * alpha );
-        
-        // populate the grid with charges
-        double dx = contactWidth / columns;
-        double dz = plateDepth / rows;
-        for ( int row = 0; row < rows; row++ ) {
-            for ( int column = 0; column < columns; column++ ) {
-                // add a charge
-                PNode chargeNode = null;
-                if ( isPositivelyCharged() ) {
-                    chargeNode = new PlusNode( PLUS_MINUS_WIDTH, PLUS_MINUS_HEIGHT, CLPaints.POSITIVE_CHARGE );
+        int rows = 0;
+        int columns = 0;
+        if ( numberOfCharges > 0 ) {
+            
+            final double contactWidth = getContactWidth();
+            final double plateDepth = circuit.getCapacitor().getPlateSideLength();
+            final double alpha = Math.sqrt( numberOfCharges / contactWidth / plateDepth );
+            rows = (int) Math.max( 1, plateDepth * alpha ); // casting may result in some charges being thrown out, but that's OK
+            columns = (int) Math.max( 1, contactWidth * alpha );
+
+            // populate the grid with charges
+            final double dx = contactWidth / columns;
+            final double dz = plateDepth / rows;
+            final double xOffset = dx / 2;
+            final double zOffset = dz / 2;
+            for ( int row = 0; row < rows; row++ ) {
+                for ( int column = 0; column < columns; column++ ) {
+                    // add a charge
+                    PNode chargeNode = null;
+                    if ( isPositivelyCharged() ) {
+                        chargeNode = new PlusNode( PLUS_MINUS_WIDTH, PLUS_MINUS_HEIGHT, CLPaints.POSITIVE_CHARGE );
+                    }
+                    else {
+                        chargeNode = new MinusNode( PLUS_MINUS_WIDTH, PLUS_MINUS_HEIGHT, CLPaints.NEGATIVE_CHARGE );
+                    }
+                    chargesParentNode.addChild( chargeNode );
+
+                    // position the charge in cell in the grid
+                    double x = getContactXOrigin() + xOffset + ( column * dx );
+                    double y = 0;
+                    double z = -( plateDepth / 2 ) + zOffset + ( row * dz );
+                    Point2D offset = mvt.modelToView( x, y, z );
+                    chargeNode.setOffset( offset );
                 }
-                else {
-                    chargeNode = new MinusNode( PLUS_MINUS_WIDTH, PLUS_MINUS_HEIGHT, CLPaints.NEGATIVE_CHARGE );
-                }
-                chargesParentNode.addChild( chargeNode );
-                
-                // position the charge in cell in the grid
-                double x = getContactXOrigin() + ( column * dx );
-                double y = 0;
-                double z = -( plateDepth / 2 ) + ( row * dz );
-                Point2D offset = mvt.modelToView( x, y, z );
-                chargeNode.setOffset( offset );
             }
         }
         
