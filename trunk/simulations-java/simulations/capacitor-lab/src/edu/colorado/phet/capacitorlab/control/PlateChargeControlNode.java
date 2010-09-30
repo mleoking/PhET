@@ -60,9 +60,10 @@ public class PlateChargeControlNode extends PhetPNode {
     private static final Color KNOB_STROKE_COLOR = Color.BLACK;
     
     // ticks
-    private static final double TICK_MARK_LENGTH = 10;
+    private static final double TICK_MARK_LENGTH = 8;
     private static final Color TICK_MARK_COLOR = TRACK_STROKE_COLOR;
     private static final Stroke TICK_MARK_STROKE = TRACK_STROKE;
+    private static final double TICK_LABEL_X_SPACING = 3;
     
     // range labels
     private static final Font RANGE_LABEL_FONT = new PhetFont( 14 );
@@ -127,23 +128,23 @@ public class PlateChargeControlNode extends PhetPNode {
             knobNode.setOffset( x, y );
             // max tick & label
             x = -maxTickMarkNode.getFullBoundsReference().getWidth();
-            y = trackNode.getFullBoundsReference().getMinY() + maxTickMarkNode.getFullBoundsReference().getHeight() / 2;
+            y = trackNode.getFullBoundsReference().getMinY() + ( maxTickMarkNode.getFullBoundsReference().getHeight() / 2 );
             maxTickMarkNode.setOffset( x, y );
-            x = maxTickMarkNode.getFullBoundsReference().getMinX() - maxLabelNode.getFullBoundsReference().getWidth() - 2;
+            x = maxTickMarkNode.getFullBoundsReference().getMinX() - maxLabelNode.getFullBoundsReference().getWidth() - TICK_LABEL_X_SPACING;
             y = maxTickMarkNode.getFullBoundsReference().getCenterY() - ( maxLabelNode.getFullBoundsReference().getHeight() / 2 );
             maxLabelNode.setOffset( x, y );
             // zero tick & label
             x = -zeroTickMarkNode.getFullBoundsReference().getWidth();
-            y = trackNode.getFullBoundsReference().getCenterY() - zeroTickMarkNode.getFullBoundsReference().getHeight() / 2;
+            y = trackNode.getFullBoundsReference().getCenterY() - ( zeroTickMarkNode.getFullBoundsReference().getHeight() / 2 ) + 1;
             zeroTickMarkNode.setOffset( x, y );
-            x = zeroTickMarkNode.getFullBoundsReference().getMinX() - zeroLabelNode.getFullBoundsReference().getWidth() - 2;
+            x = zeroTickMarkNode.getFullBoundsReference().getMinX() - zeroLabelNode.getFullBoundsReference().getWidth() - TICK_LABEL_X_SPACING;
             y = zeroTickMarkNode.getFullBoundsReference().getCenterY() - ( zeroLabelNode.getFullBoundsReference().getHeight() / 2 );
             zeroLabelNode.setOffset( x, y );
             // min tick & label
             x = -minTickMarkNode.getFullBoundsReference().getWidth();
-            y = trackNode.getFullBoundsReference().getMaxY() - minTickMarkNode.getFullBoundsReference().getHeight() / 2;
+            y = trackNode.getFullBoundsReference().getMaxY();
             minTickMarkNode.setOffset( x, y );
-            x = minTickMarkNode.getFullBoundsReference().getMinX() - minLabelNode.getFullBoundsReference().getWidth() - 2;
+            x = minTickMarkNode.getFullBoundsReference().getMinX() - minLabelNode.getFullBoundsReference().getWidth() - TICK_LABEL_X_SPACING;
             y = minTickMarkNode.getFullBoundsReference().getCenterY() - ( minLabelNode.getFullBoundsReference().getHeight() / 2 );
             minLabelNode.setOffset( x, y );
         }
@@ -280,7 +281,7 @@ public class PlateChargeControlNode extends PhetPNode {
     
     /*
      * Horizontal tick mark line, with no label.
-     * Origin is at the left end of the line.
+     * Origin is at the left center of the line.
      */
     private static class TickMarkNode extends PPath {
         
