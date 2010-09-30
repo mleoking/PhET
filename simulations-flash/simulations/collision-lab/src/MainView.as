@@ -1,4 +1,4 @@
-//MainView contains all views, acts as mediator, communication hub for views
+﻿//MainView contains all views, acts as mediator, communication hub for views
 package{
 import edu.colorado.phet.flashcommon.FlashCommonCS4;
 
@@ -40,11 +40,12 @@ public class MainView extends Sprite{
 			this.myDataTable.y = 0.75*this.stageH;//this.myTableView.canvas.height + 1.0*this.myTableView.playButtons.height;
 			this.myDataTable.x = this.myTableView.width/2;
 			this.controlPanel.background.width = 170;
-			this.controlPanel.background.height = 350;
+			this.controlPanel.background.height = 360;
 			this.controlPanel.x = this.stageW - 0.75*this.controlPanel.width;
 			this.controlPanel.y = 20;//0.3*this.controlPanel.height;
 			this.phetLogo.x = 0*this.phetLogo.width;
 			this.phetLogo.y = this.stageH - 1.0*this.phetLogo.height;
+			this.momentumView.visible = false;
             
             addFlashCommon(); 
 			//trace("stageW: "+stageW+"   stageH: "+stageH);
@@ -53,8 +54,7 @@ public class MainView extends Sprite{
         private function addFlashCommon():void {
             var ui:Sprite = new Sprite(); // used for FlashCommon UI
             addChild( ui );
-
-            var common:FlashCommonCS4 = FlashCommonCS4.getInstance( ui.stage,950,700 );
+            var common:FlashCommonCS4 = FlashCommonCS4.getInstance( ui.stage,this.stageW, this.stageH);//950,700 );
             common.initialize( ui );
 
 //            common.highContrastFunction = function ( contrast:Boolean ):void {

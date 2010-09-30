@@ -1,4 +1,4 @@
-package{
+﻿package{
     import edu.colorado.phet.flashcommon.SimStrings;	
 	import edu.colorado.phet.flashcommon.TextFieldUtils;	
 	import flash.display.*;
@@ -18,6 +18,7 @@ package{
 	//controlPanel.showVelocities_cb.label = "Show vlocities"
 	//controlPanel.showCM_cb.label = "Show C.M."
 	//controlPanel.reflectingBorder_cb.label = "Reflecting Border"
+	//controlPane.momentaDiagram
 	//controlPanel.showPaths_cb.label = "Show Paths"
 	//controlPanel.sound_cb.label = "Sound" 
 	//controlPanel.timeLabel = "time"
@@ -89,6 +90,7 @@ package{
 			this.showVelocities_cb.addEventListener(MouseEvent.CLICK, showVelocityArrows);
 			this.showCM_cb.addEventListener(MouseEvent.CLICK, showCM);
 			this.reflectingBorder_cb.addEventListener(MouseEvent.CLICK, borderOnOrOff);
+			this.showMomenta_cb.addEventListener(MouseEvent.CLICK, momentaDiagramOnOrOff);
 			this.showPaths_cb.addEventListener(MouseEvent.CLICK, showOrErasePaths);
 			this.sound_cb.addEventListener(MouseEvent.CLICK, soundOnOrOff);
 			this.timeRateSlider.addEventListener(SliderEvent.CHANGE, setTimeRate);
@@ -108,11 +110,12 @@ package{
             TextFieldUtils.initLabelButtonI18NLeft("ControlPanel.showVelocities","Velocity Vectors",showVelocities_label, showVelocities_cb);
             TextFieldUtils.initLabelButtonI18NLeft("ControlPanel.showCenterOfMass","Center of Mass",showCM_label, showCM_cb);
             TextFieldUtils.initLabelButtonI18NLeft("ControlPanel.reflectingBorder","Reflecting Border",reflectingBorder_label, reflectingBorder_cb);
-            TextFieldUtils.initLabelButtonI18NLeft("ControlPanel.showPaths","Show Paths",showPaths_label, showPaths_cb);
+            TextFieldUtils.initLabelButtonI18NLeft("ControlPanel.momentaDiagram","Momenta Diagram",showMomenta_label, showMomenta_cb);
+			TextFieldUtils.initLabelButtonI18NLeft("ControlPanel.showPaths","Show Paths",showPaths_label, showPaths_cb);
             TextFieldUtils.initLabelButtonI18NLeft("ControlPanel.sound","Sound",sound_label, sound_cb);
             
             resetButton.setLabel(SimStrings.get("ControlPanel.resetAll","Reset All"));
-            this.timeLabel.text = SimStrings.get("ControlPanel.time","Time");
+            this.timeLabel.text = SimStrings.get("ControlPanel.timeRate","Time Rate");
             this.slowLabel.text = SimStrings.get("ControlPanel.slow","slow");
             this.fastLabel.text = SimStrings.get("ControlPanel.fast","fast");
             this.elasticityLabel.text = SimStrings.get("ControlPanel.elasticity","Elasticity");
@@ -135,6 +138,12 @@ package{
 			this.myMainView.myTableView.myTrajectories.erasePaths();
 			
 			this.myMainView.myTableView.reDrawBorder();
+		}
+		
+		public function momentaDiagramOnOrOff(evt:MouseEvent):void{
+			//trace(this.showCMOn = evt.target.selected);
+			//var momentaDiagramOnOrOff:Boolean = evt.target.selected;
+			this.myMainView.momentumView.visible = evt.target.selected;
 		}
 		
 		private function resetAll():void{

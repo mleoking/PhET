@@ -1,4 +1,4 @@
-package{
+﻿package{
 import edu.colorado.phet.flashcommon.SimStrings;
 
 import edu.colorado.phet.flashcommon.TextFieldUtils;
@@ -14,10 +14,13 @@ import flash.display.*;
 		var myMainView:MainView;	//mediator and container of views
 		var canvas:Sprite;			//background on which everything is placed
 		var border:Sprite;			//border
+		var grid:Sprite;			//background grid
 		var invisibleBorder:Sprite;	//grabbable border
+		var canvas2:Sprite;			//contain graphics in front of grid
 		var borderColor:uint;		//color of border 0xrrggbb
 		var borderWidth:Number;
 		var borderHeight:Number;
+		var borderThickness:Number;	//border thickness in pixels
 		var marquee:TextField;
 		var stageH:Number;
 		var stageW:Number;
@@ -41,9 +44,13 @@ import flash.display.*;
 			this.myModel.registerView(this);
 			this.canvas = new Sprite();
 			this.invisibleBorder = new Sprite();
+			this.grid = new Sprite();
+			this.canvas2 = new Sprite();
 			this.myMainView.addChild(this);
 			this.addChild(this.canvas);
 			this.canvas.addChild(this.invisibleBorder);
+			this.canvas.addChild(this.grid);
+			this.canvas.addChild(this.canvas2);
 			this.tipToTail_cb = new CheckBox();
             tipToTail_cb.width = 300;//allow i18ned text to go further
 			this.scale_slider = new Slider();
@@ -58,6 +65,7 @@ import flash.display.*;
 		public function initialize():void{
 			this.borderWidth = 250;
 			this.borderHeight = 250;
+			this.borderThickness = 6;
 			this.tipToTailDisplayOn = true;
 			this.stageW = this.myMainView.stageW;
 			this.stageH = this.myMainView.stageH;
@@ -72,6 +80,7 @@ import flash.display.*;
 			this.drawMarquee();
 			this.setupCheckBox();
 			this.setupSlider();
+			this.drawGrid();
 			this.drawArrows();
 			Util.makePanelDraggableWithBorder(this, this.invisibleBorder);
 			this.update();
@@ -86,12 +95,11 @@ import flash.display.*;
 		public function drawBorder():void{
 			var W:Number = this.borderWidth;
 			var H:Number = this.borderHeight;
-			var thickness:Number = 6;  //border thickness in pixels
-			var del:Number = thickness/2;
+			var del:Number = this.borderThickness/2;
 			//trace("width: "+W+"    height: "+H);
 			with(this.canvas.graphics){
 				clear();
-				lineStyle(thickness,0x0000ff);
+				lineStyle(this.borderThickness,0x0000ff);
 				var x0:Number = 0;
 				var y0:Number = 0;
 				beginFill(0xffffff);
@@ -104,15 +112,44 @@ import flash.display.*;
 			}
 		}//end of drawBorder();
 		
+		public function drawGrid():void{
+			var sliderVal:Number = this.scale_slider.value;
+			var gridSpacing:Number = 10+sliderVal*100;		//somewhat arbitrary, adjust to taste
+			var thickness:int = 2;
+			var del:Number = this.borderThickness/4;
+			var W:Number = borderWidth;
+			var H:Number = borderHeight;
+			with(this.grid.graphics){
+				clear();
+				lineStyle(thickness,0xDDDDDD);  //GRAY
+				//draw x-axis and y-axes
+				moveTo(del, H/2);
+				lineTo(W - del, H/2);
+				moveTo(W/2, del);
+				lineTo(W/2, H - del);
+				//draw horizontal grid lines and vertical grid lines
+				var maxN:int = Math.floor(H/(2*gridSpacing));  //n = number of lines above x-axis
+				for(var i:int = 1; i <= maxN; i++){
+					moveTo(del, H/2 - i*gridSpacing);
+					lineTo(W - del, H/2 - i*gridSpacing); 
+					moveTo(del , H/2 + i*gridSpacing);
+					lineTo(W - del, H/2 + i*gridSpacing); 
+					moveTo(W/2 + i*gridSpacing, del);
+					lineTo(W/2 + i*gridSpacing, H - del);
+					moveTo(W/2 - i*gridSpacing, del);
+					lineTo(W/2 - i*gridSpacing, H - del);
+				}
+			}//end with()
+		}//end draw Grid
+		
 		public function drawInvisibleBorder():void{
 			var W:Number = this.borderWidth;
 			var H:Number = this.borderHeight;
-			var thickness:Number = 6;  //border thickness in pixels
-			var del:Number = thickness/2;
+			var del:Number = this.borderThickness/2;
 			//trace("width: "+W+"    height: "+H);
 			with(this.invisibleBorder.graphics){
 				clear();
-				lineStyle(thickness,0x000000,0);
+				lineStyle(this.borderThickness,0x000000,0);
 				moveTo(-del, -del);
 				lineTo(W+del, -del);
 				lineTo(W+del, +H+del);
@@ -136,7 +173,7 @@ import flash.display.*;
 			//textFormat must be applied to text, so set text property first then apply format
 			this.marquee.setTextFormat(tFormat);
             TextFieldUtils.resizeText(this.marquee,TextFieldAutoSize.CENTER);
-			this.canvas.addChild(this.marquee);
+			this.canvas2.addChild(this.marquee);
 
 		}//end of drawMarquee
 		
@@ -145,7 +182,7 @@ import flash.display.*;
 			this.tipToTail_cb.selected = true;
 			this.tipToTail_cb.textField.width = 0.7*this.borderWidth;
 			this.tipToTail_cb.y = this.borderHeight - this.tipToTail_cb.height;
-			this.canvas.addChild(this.tipToTail_cb);
+			this.canvas2.addChild(this.tipToTail_cb);
 			this.tipToTail_cb.addEventListener(MouseEvent.CLICK, tipToTailChangeListener);
 		}//end of setupCheckBox
 		
@@ -156,9 +193,9 @@ import flash.display.*;
 			this.scale_slider.snapInterval = 0.01;
 			this.scale_slider.value = 0.2;
 			this.scale_slider.liveDragging = true;
-			this.canvas.addChild(this.scale_slider);
-			this.canvas.addChild(this.minusSign);
-			this.canvas.addChild(this.plusSign);
+			this.canvas2.addChild(this.scale_slider);
+			this.canvas2.addChild(this.minusSign);
+			this.canvas2.addChild(this.plusSign);
 			this.scale_slider.height = 0.6*this.borderHeight;
 			this.scale_slider.x = 0.93*this.borderWidth;
 			this.scale_slider.y = 0.5*this.borderHeight- this.scale_slider.height;// - this.scale_slider.height/2;
@@ -181,14 +218,16 @@ import flash.display.*;
 			if(currentValue > 1){this.scale_slider.value = 1;}
 			this.setScaleOfArrows(10 
 								  + this.scale_slider.value*200);
-			trace("pushed up, value = "+this.scale_slider.value);
+			this.drawGrid();
+			//trace("pushed up, value = "+this.scale_slider.value);
 		}
 		private function zoomOut(evt:MouseEvent):void{
 			this.scale_slider.value -= 0.1;
 			var currentValue:Number = this.scale_slider.value
 			if (currentValue < 0){this.scale_slider.value = 0;}
 			this.setScaleOfArrows(10 + this.scale_slider.value*200);
-			trace("pushed down, value = "+this.scale_slider.value);
+			this.drawGrid();
+			//trace("pushed down, value = "+this.scale_slider.value);
 		}
 		
 		private function tipToTailChangeListener(evt:MouseEvent):void{
@@ -199,6 +238,7 @@ import flash.display.*;
 		
 		private function sliderChangeListener(evt:SliderEvent):void{
 			this.setScaleOfArrows(10+evt.target.value*200);
+			this.drawGrid();
 			//trace("MomentumView slider value = "+evt.target.value);
 		}
 		

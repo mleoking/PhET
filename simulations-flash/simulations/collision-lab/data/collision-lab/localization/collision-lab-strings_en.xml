@@ -32,9 +32,10 @@
     <string key="ControlPanel.showVelocities" value="Velocity Vectors"/>
     <string key="ControlPanel.showCenterOfMass" value="Center of Mass"/>
     <string key="ControlPanel.reflectingBorder" value="Reflecting Border"/>
+	<string key="ControlPanel.momentaDiagram" value="Momenta Diagram"/>
     <string key="ControlPanel.showPaths" value="Show Paths"/>
     <string key="ControlPanel.sound" value="Sound"/>
-    <string key="ControlPanel.time" value="Time"/>
+    <string key="ControlPanel.timeRate" value="Time Rate"/>
     <string key="ControlPanel.slow" value="slow"/>
     <string key="ControlPanel.fast" value="fast"/>
     <string key="ControlPanel.elasticity" value="Elasticity"/>
