@@ -43,6 +43,7 @@ LOW PRIORITY
 - gradient paint on plate top surfaces (not on edges)
 - round the end of the wire that connects to the top plate
 - use a gradient paint for wires to give them a 3D look
+- #2521, dragging HTMLNode leaves artifacts
 
 MIGRATE TO PHETCOMMON
 - PolygonUtils
