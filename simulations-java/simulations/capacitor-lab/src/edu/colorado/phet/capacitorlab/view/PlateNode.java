@@ -5,6 +5,7 @@ package edu.colorado.phet.capacitorlab.view;
 import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
+import edu.colorado.phet.capacitorlab.model.Polarity;
 import edu.colorado.phet.capacitorlab.view.PlateChargeNode.AirPlateChargeNode;
 import edu.colorado.phet.capacitorlab.view.PlateChargeNode.DielectricPlateChargeNode;
 
@@ -14,8 +15,6 @@ import edu.colorado.phet.capacitorlab.view.PlateChargeNode.DielectricPlateCharge
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public abstract class PlateNode extends BoxNode {
-    
-    public static enum Polarity { POSITIVE, NEGATIVE };
     
     private final PlateChargeNode dielectricPlateChargeNode; // shows charge on the portion of the plate that contacts the dielectric
     private final PlateChargeNode airPlateChargeNode; // shows charge on the portion of the plate that contacts air

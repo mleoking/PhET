@@ -9,7 +9,7 @@ import java.awt.Stroke;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
-import edu.colorado.phet.capacitorlab.model.Battery.BatteryChangeAdapter;
+import edu.colorado.phet.capacitorlab.model.Polarity;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeAdapter;
 import edu.colorado.phet.capacitorlab.util.FadeOutActivity;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
@@ -56,11 +56,13 @@ public class CurrentIndicatorNode extends PhetPNode {
     private static final long FADEOUT_STEP_RATE = 10; // ms
     
     private final BatteryCapacitorCircuit circuit;
+    private final Polarity polarity;
     private PActivity fadeOutActivity;
 
-    public CurrentIndicatorNode( BatteryCapacitorCircuit circuit ) {
+    public CurrentIndicatorNode( BatteryCapacitorCircuit circuit, Polarity polarity ) {
         
         this.circuit = circuit;
+        this.polarity = polarity;
         
         ArrowNode arrowNode = new ArrowNode( ARROW_TAIL_LOCATION, ARROW_TIP_LOCATION, ARROW_HEAD_HEIGHT, ARROW_HEAD_WIDTH, ARROW_TAIL_WIDTH );
         arrowNode.setPaint( ARROW_COLOR );
@@ -91,12 +93,7 @@ public class CurrentIndicatorNode extends PhetPNode {
             @Override
             public void currentChanged() {
                 updateTransparency();
-            }
-        });
-        circuit.getBattery().addBatteryChangeListener( new BatteryChangeAdapter() {
-            @Override
-            public void polarityChanged() {
-                flipOrientation();
+                updateOrientation();
             }
         });
         
@@ -112,7 +109,11 @@ public class CurrentIndicatorNode extends PhetPNode {
         }
         
         double currentAmplitude = circuit.getCurrentAmplitude();
-        if ( currentAmplitude == 0 ) {
+        if ( currentAmplitude != 0 ) {
+            // constant transparency for non-zero current amplitude
+            setTransparency( TRANSPARENCY );
+        }
+        else {
             if ( getRoot() == null ) {
                 // node is not in the scenegraph, make it invisible immediately
                 setTransparency( 0f );
@@ -133,13 +134,17 @@ public class CurrentIndicatorNode extends PhetPNode {
                 getRoot().addActivity( fadeOutActivity ); // schedule the activity
             }
         }
-        else {
-            // constant transparency for non-zero current amplitude
-            setTransparency( TRANSPARENCY );
-        }
     }
-    
-    private void flipOrientation() {
-        rotate( Math.PI );
+
+    private void updateOrientation() {
+        double currentAmplitude = circuit.getCurrentAmplitude();
+        if ( currentAmplitude != 0 ) {
+            if ( polarity == Polarity.POSITIVE ) {
+                setRotation( ( currentAmplitude > 0 ) ? 0 : Math.PI );
+            }
+            else {
+                setRotation( ( currentAmplitude > 0 ) ? Math.PI : 0 );
+            }
+        }
     }
 }
