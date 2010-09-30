@@ -78,7 +78,6 @@ public class BuildAnAtomModel {
         // Create the atom.
         atom = new Atom( new Point2D.Double( 0, 0 ) );
 
-
         for ( int i = 0; i < NUM_ELECTRONS; i++ ) {
             Electron electron = new Electron( clock );
             electrons.add( electron );
@@ -108,9 +107,25 @@ public class BuildAnAtomModel {
         }
 
         for ( int i = 0; i < NUM_NEUTRONS; i++ ) {
-            Neutron neutron = new Neutron( clock );
+            final Neutron neutron = new Neutron( clock );
             neutrons.add( neutron );
             neutronBucket.addParticle( neutron, true );
+            neutron.addUserControlListener( new SimpleObserver() {
+                public void update() {
+                    if ( !neutron.isUserControlled() ) {
+                        // The user just released this proton.  If it is close
+                        // enough to the nucleus, send it there, otherwise
+                        // send it to its bucket.
+                        if ( neutron.getPosition().distance( atom.getPosition() ) < NUCLEUS_CAPTURE_DISTANCE ) {
+                            atom.addNeutron( neutron );
+                        }
+                        else {
+                            neutronBucket.addParticle( neutron, false );
+                        }
+                    }
+
+                }
+            } );
         }
     }
 
@@ -242,6 +257,30 @@ public class BuildAnAtomModel {
                         // that it is essentially removed from the atom.
                         protons.remove( proton );
                         proton.removeUserControlListener( this );
+                    }
+                }
+            } );
+        }
+
+        public void addNeutron( final Neutron neutron ) {
+            assert !neutrons.contains( neutron );
+
+            // Add to the list of neutrons that are in the atom.
+            neutrons.add( neutron );
+
+            // Set the destination so that the neutron will go to the location.
+            double randAngle = RAND.nextDouble() * 2 * Math.PI;
+            double randLength = RAND.nextDouble() * NUCLEUS_RADIUS;
+            neutron.setDestination( Math.cos( randAngle ) * randLength + getPosition().getX(),
+                    Math.sin( randAngle ) * randLength + getPosition().getY() );
+            neutron.addUserControlListener( new SimpleObserver() {
+
+                public void update() {
+                    if ( neutron.isUserControlled() ) {
+                        // The user has picked up this particle, so we assume
+                        // that it is essentially removed from the atom.
+                        neutrons.remove( neutron );
+                        neutron.removeUserControlListener( this );
                     }
                 }
             } );
