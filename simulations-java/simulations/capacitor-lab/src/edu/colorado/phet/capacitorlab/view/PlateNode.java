@@ -11,6 +11,8 @@ import edu.colorado.phet.capacitorlab.view.PlateChargeNode.DielectricPlateCharge
 
 /**
  * Visual representation of a capacitor plate.
+ * For a partially-inserted dielectric, the portion of the plate that contacts the dielectric
+ * is charged differently than the portion of the plate that contacts air.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
