@@ -1,3 +1,4 @@
+9/30/10 add margin along z axis for plate charges, hack to keep them on the plate with 3D perspective
 9/30/10 keep plate charges from falling off the edges of the plate
 9/30/10 ensure that at least one charge is shown if number of plate charges is non-zero
 9/30/10 TestPlateChargeLayout, test harness for plate charge layout

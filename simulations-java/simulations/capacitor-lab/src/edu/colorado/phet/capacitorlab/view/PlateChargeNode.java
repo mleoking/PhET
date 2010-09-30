@@ -95,17 +95,25 @@ public abstract class PlateChargeNode extends PhetPNode {
         int columns = 0;
         if ( numberOfCharges > 0 ) {
             
+            final double zMargin = mvt.viewToModel( PLUS_MINUS_WIDTH );
+            
             final double contactWidth = getContactWidth();
-            final double plateDepth = circuit.getCapacitor().getPlateSideLength();
+            final double plateDepth = circuit.getCapacitor().getPlateSideLength() - ( 2 * zMargin );
+            
+            // number of rows and columns, at least 1 of each
             final double alpha = Math.sqrt( numberOfCharges / contactWidth / plateDepth );
             rows = (int) Math.max( 1, plateDepth * alpha ); // casting may result in some charges being thrown out, but that's OK
             columns = (int) Math.max( 1, contactWidth * alpha );
 
-            // populate the grid with charges
+            // distance between cells
             final double dx = contactWidth / columns;
             final double dz = plateDepth / rows;
+            
+            // offset to move us to the center of cells
             final double xOffset = dx / 2;
             final double zOffset = dz / 2;
+            
+            // populate the grid
             for ( int row = 0; row < rows; row++ ) {
                 for ( int column = 0; column < columns; column++ ) {
                     // add a charge
@@ -121,7 +129,7 @@ public abstract class PlateChargeNode extends PhetPNode {
                     // position the charge in cell in the grid
                     double x = getContactXOrigin() + xOffset + ( column * dx );
                     double y = 0;
-                    double z = -( plateDepth / 2 ) + zOffset + ( row * dz );
+                    double z = -( plateDepth / 2 ) + ( zMargin / 2 ) + zOffset + ( row * dz );
                     Point2D offset = mvt.modelToView( x, y, z );
                     chargeNode.setOffset( offset );
                 }
