@@ -299,7 +299,6 @@ public class BuildAnAtomModel {
                     openInnerShellPositions.add( shellPosition );
                 }
                 else {
-                    assert shellPosition.distance( getPosition() ) == OUTER_SHELL_RADIUS;
                     openOuterShellPositions.add( shellPosition );
                 }
             }
