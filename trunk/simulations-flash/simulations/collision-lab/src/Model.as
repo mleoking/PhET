@@ -32,6 +32,7 @@ package{
 		var atInitialConfig:Boolean;  //true if t = 0;
 		var starting:Boolean;	//true if playing and 1st step not yet taken, used to step time-based vs. frame-based animation;
 		var reversing:Boolean;	//false if going forward in time, true if going backward
+		var resetting:Boolean;	//true if in process of resetting all (Reset All button on Control Panel);
 		var oneDMode:Boolean;	//true if motions restricted to 1D
 		//var realTimer:Timer;	//real timer, used to maintain time-based updates
 		var timeHolder:int;		//scatch for hold results of getTimer
@@ -141,6 +142,7 @@ package{
 			this.nbrBalls = 2;		//adjustable by user
 			this.atInitialConfig = true;
 			this.starting = true;
+			this.resetting = false;
 			this.soundOn = false;
 			this.sounding = false;
 			this.initPos = new Array(this.maxNbrBalls);
@@ -162,9 +164,11 @@ package{
 		
 		public function resetAll():void{
 			//trace("Model.resetAll() called");
+			this.resetting = true;
 			for (var i:int = 0; i < this.maxNbrBalls; i++){
 				//new Ball(mass, position, velocity);
 				this.ball_arr[i].setBall(1.0, startingPos[i].clone(), startingVel[i].clone());
+				this.setMass(i, 1.0);
 			}
 			//trace("Model.resetAll() called. startingVel[0].yComponent = " + startingVel[0].getY());
 			//trace("Model.ball_arr[0].velocity.getY() = "+ this.ball_arr[0].velocity.getY());
@@ -177,6 +181,7 @@ package{
 			this.setCenterOfMass();
 			this.updateViews();
 			this.nbrBallsChanged = false;
+			this.resetting = false;
 		}//end resetAll()
 		
 		public function setOneDMode(tOrF:Boolean):void{

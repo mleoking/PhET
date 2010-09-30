@@ -1,4 +1,4 @@
-//view of table of numbers for displaying and setting initial conditions
+﻿//view of table of numbers for displaying and setting initial conditions
 //one of two data tables is displayed: full data table or partial data table
 //each has header row + row for each ball
 //partial data table has column for ball number, col for mass, and col for mass slider
@@ -408,7 +408,15 @@ import flash.text.*;
 			this.myMainView.myTableView.ball_arr[ballNbr].drawLayer1();  //redraw ballImage for new diameter
 			this.myMainView.myTableView.ball_arr[ballNbr].drawLayer4();  //redraw ballImage for new diameter
 			this.sliderUpdating = false;
-			trace("ball "+ballNbr + "   value: "+evt.target.value);
+			//trace("ball "+ballNbr + "   value: "+evt.target.value);
+		}
+		
+		private function resetMassSliders():void{  //called when reset button on Control panel
+			for (var i:int = 0; i < this.maxNbrBalls; i++){
+				this.massSlider_arr[i].value = 1.0;
+				this.myMainView.myTableView.ball_arr[i].drawLayer1();  //redraw ballImage for new diameter
+				this.myMainView.myTableView.ball_arr[i].drawLayer4();  //redraw ballImage for new diameter
+			}
 		}
 		
 		//following function is obsolete
@@ -514,6 +522,10 @@ import flash.text.*;
 					mass = this.myModel.ball_arr[i].getMass();
 					this.text_arr[i+1][1].text = this.round(mass, 1);
 				}
+			}
+			
+			if(this.myModel.resetting){
+				this.resetMassSliders();
 			}
 			
 			//update Momenta fields regardless of whether user is manually updating other fields

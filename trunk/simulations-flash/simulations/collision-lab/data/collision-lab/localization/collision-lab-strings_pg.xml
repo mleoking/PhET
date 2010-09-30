@@ -32,9 +32,10 @@
     <string key="ControlPanel.showVelocities" value="原子分裂"/>
     <string key="ControlPanel.showCenterOfMass" value="原子分裂"/>
     <string key="ControlPanel.reflectingBorder" value="原子分裂"/>
+	<string key="ControlPanel.momentaDiagram" value="原子分裂原子分裂"/>
     <string key="ControlPanel.showPaths" value="原子分裂"/>
     <string key="ControlPanel.sound" value="原子分裂"/>
-    <string key="ControlPanel.time" value="原子分裂"/>
+    <string key="ControlPanel.timeRate" value="原子分裂"/>
     <string key="ControlPanel.slow" value="原子分裂"/>
     <string key="ControlPanel.fast" value="原子分裂"/>
     <string key="ControlPanel.elasticity" value="原子分裂"/>
