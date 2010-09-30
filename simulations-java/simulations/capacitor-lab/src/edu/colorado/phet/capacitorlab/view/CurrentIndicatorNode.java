@@ -100,6 +100,13 @@ public class CurrentIndicatorNode extends PhetPNode {
         updateTransparency();
     }
     
+    /*
+     * Updates the transparency of this node based on the current amplitude.
+     * Any non-zero current amplitude results in a constant transparency.
+     * When current amplitude goes to zero, a Piccolo activity is scheduled
+     * which gradually fades this node to fully transparent, making it 
+     * effectively invisible.
+     */
     private void updateTransparency() {
         
         // if a fade out is in progress, stop it without fully fading out
@@ -136,6 +143,10 @@ public class CurrentIndicatorNode extends PhetPNode {
         }
     }
 
+    /*
+     * Updates the orientation of the current indicator.
+     * Indicates counterclockwise current flow for +dV, clockwise for -dV.
+     */
     private void updateOrientation() {
         double currentAmplitude = circuit.getCurrentAmplitude();
         if ( currentAmplitude != 0 ) {
