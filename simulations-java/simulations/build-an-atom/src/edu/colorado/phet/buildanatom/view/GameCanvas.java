@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.buildanatom.view;
 
+import java.awt.Color;
 import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
@@ -22,28 +23,28 @@ public class GameCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
 
     // Model
-    private BuildAnAtomModel model;
-    
-    // View 
-    private PNode rootNode;
-    
+    private final BuildAnAtomModel model;
+
+    // View
+    private final PNode rootNode;
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     public GameCanvas( BuildAnAtomModel model ) {
 
         this.model = model;
-        
-        setBackground( BuildAnAtomConstants.CANVAS_BACKGROUND );
-        
+
+        setBackground( Color.BLACK );
+
         // Root of our scene graph
         rootNode = new PNode();
         addWorldChild( rootNode );
-        
+
         // TODO: Temp - put a sketch of the tab up as a very early prototype.
         PImage image = new PImage( BuildAnAtomResources.getImage( "tab-2-sketch-01.png" ));
-        image.scale( 1.7 );
+        image.scale( 0.75 );
         image.setOffset( 50, 0 );
         rootNode.addChild(image);
     }
@@ -52,11 +53,11 @@ public class GameCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
-    
+
     //----------------------------------------------------------------------------
     // Canvas layout
     //----------------------------------------------------------------------------
-    
+
     /*
      * Updates the layout of stuff on the canvas.
      */
@@ -71,7 +72,7 @@ public class GameCanvas extends PhetPCanvas {
         else if ( BuildAnAtomConstants.DEBUG_CANVAS_UPDATE_LAYOUT ) {
             System.out.println( "ExampleCanvas.updateLayout worldSize=" + worldSize );//XXX
         }
-        
+
         //XXX lay out nodes
     }
 }
