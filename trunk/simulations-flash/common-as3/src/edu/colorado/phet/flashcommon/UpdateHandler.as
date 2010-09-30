@@ -331,7 +331,7 @@ public class UpdateHandler {
         if ( !manual ) { return; }
         var str: String = "";
         str += CommonStrings.get( "VersionError1", "An error was encountered while trying to obtain version information." ) + "\n";
-        str += CommonStrings.get( "VersionError2", "Please try again later, or visit <a href='{0}'>http://" + FlashCommon.getMainServer() + "</a>", ["asfunction:_level0.common.openExternalLink,http://" + FlashCommon.getMainServer() + ""] );
+        str += CommonStrings.get( "VersionError2", "Please try again later, or visit <a href='{0}'>http://" + FlashCommon.getMainServer() + "</a>", ["event:http://" + FlashCommon.getMainServer() + ""] );
         CommonDialog.openMessageDialog( CommonStrings.get( "Error", "Error" ), str, false );
     }
 

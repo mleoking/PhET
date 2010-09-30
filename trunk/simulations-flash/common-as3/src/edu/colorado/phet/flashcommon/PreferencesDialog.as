@@ -8,6 +8,8 @@ package edu.colorado.phet.flashcommon {
 
 import flash.events.MouseEvent;
 
+import flash.events.TextEvent;
+
 import org.aswing.BoxLayout;
 import org.aswing.CenterLayout;
 import org.aswing.Insets;
@@ -111,10 +113,11 @@ public class PreferencesDialog extends CommonDialog {
         var defaultStr: String = "<a href='{0}'>PhET</a> is made freely available through grants which ";
         defaultStr += "require us to collect a minimal amount of anonymous information to help document the amount of use ";
         defaultStr += "of PhET sims and to better serve our users' update needs.";
-        str += CommonStrings.get( "PrivacyRequirement", defaultStr, ["asfunction:_level0.common.openExternalLink,http://" + FlashCommon.getMainServer() + ""] );
+        str += CommonStrings.get( "PrivacyRequirement", defaultStr, ["event:http://" + FlashCommon.getMainServer() + ""] );
 
         var textArea = new JTextArea( str, 0, 20 );
         textArea.setHtmlText( str );
+        textArea.addEventListener(TextEvent.LINK,function(event:TextEvent):void{common.openExternalLink(event.text)});
         textArea.setEditable( false );
         textArea.setCSS( FlashCommon.CENTERED_LINK_STYLE_SHEET );
         textArea.setWordWrap( true );

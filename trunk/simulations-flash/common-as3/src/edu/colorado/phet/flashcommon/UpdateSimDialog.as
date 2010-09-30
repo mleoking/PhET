@@ -6,6 +6,8 @@ package edu.colorado.phet.flashcommon {
 
 import flash.events.MouseEvent;
 
+import flash.events.TextEvent;
+
 import org.aswing.ASColor;
 import org.aswing.ASFont;
 import org.aswing.CenterLayout;
@@ -66,7 +68,7 @@ class UpdateSimDialog extends CommonDialog {
             var defaultStr: String = "To download a new installation containing the latest simulation, ";
             defaultStr += "please visit the <a href='{0}'>PhET installation page</a> for more information.";
 
-            str += CommonStrings.get( "PhETInstallation", defaultStr, ["asfunction:_level0.common.openExternalLink,http://" + FlashCommon.getMainServer() + "/get_phet/full_install.php"] );
+            str += CommonStrings.get( "PhETInstallation", defaultStr, ["event:http://" + FlashCommon.getMainServer() + "/get_phet/full_install.php"] );
 
             str += "\n";
         }
@@ -80,6 +82,7 @@ class UpdateSimDialog extends CommonDialog {
 
         var textArea: JTextArea = new JTextArea( str, 0, 30 );
         textArea.setHtmlText( str );
+        textArea.addEventListener(TextEvent.LINK,function(event:TextEvent):void{common.openExternalLink(event.text)});
         textArea.setEditable( false );
         textArea.setCSS( FlashCommon.LINK_STYLE_SHEET );
         textArea.setWordWrap( true );

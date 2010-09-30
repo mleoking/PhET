@@ -5,6 +5,8 @@ package edu.colorado.phet.flashcommon {
 
 import flash.events.MouseEvent;
 
+import flash.events.TextEvent;
+
 import org.aswing.BoxLayout;
 import org.aswing.CenterLayout;
 import org.aswing.Insets;
@@ -32,6 +34,7 @@ class MessageDialog extends CommonDialog {
 
         var textArea: JTextArea = new JTextArea( str, 0, 40 );
         textArea.setHtmlText( str );
+        textArea.addEventListener(TextEvent.LINK,function(event:TextEvent):void{common.openExternalLink(event.text)});
         textArea.setEditable( false );
         textArea.setCSS( FlashCommon.LINK_STYLE_SHEET );
         textArea.setWordWrap( true );
