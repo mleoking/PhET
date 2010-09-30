@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.buildanatom.model;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+
 /**
  * Class that represents a proton in the model.
  *
@@ -10,11 +12,11 @@ package edu.colorado.phet.buildanatom.model;
 public class Proton extends SubatomicParticle {
     public static final double RADIUS = 5;
 
-    public Proton( double x, double y ) {
-        super( RADIUS, x, y );
+    public Proton( ConstantDtClock clock, double x, double y ) {
+        super( clock, RADIUS, x, y );
     }
 
-    public Proton() {
-        this( 0, 0 );
+    public Proton(ConstantDtClock clock) {
+        this( clock, 0, 0 );
     }
 }

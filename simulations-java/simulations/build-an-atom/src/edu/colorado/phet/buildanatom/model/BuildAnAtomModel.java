@@ -80,35 +80,35 @@ public class BuildAnAtomModel {
 
 
         for ( int i = 0; i < NUM_ELECTRONS; i++ ) {
-            Electron electron = new Electron();
+            Electron electron = new Electron( clock );
             electrons.add( electron );
             electronBucket.addParticle( electron, true );
         }
 
         for ( int i = 0; i < NUM_PROTONS; i++ ) {
-            final Proton proton = new Proton();
+            final Proton proton = new Proton( clock );
             protons.add( proton );
             protonBucket.addParticle( proton, true );
             proton.addUserControlListener( new SimpleObserver() {
                 public void update() {
-                    if (!proton.isUserControlled()){
+                    if ( !proton.isUserControlled() ) {
                         // The user just released this proton.  If it is close
                         // enough to the nucleus, send it there, otherwise
                         // send it to its bucket.
-                        if (proton.getPosition().distance( atom.getPosition() ) < NUCLEUS_CAPTURE_DISTANCE){
+                        if ( proton.getPosition().distance( atom.getPosition() ) < NUCLEUS_CAPTURE_DISTANCE ) {
                             atom.addProton( proton );
                         }
-                        else{
+                        else {
                             protonBucket.addParticle( proton, false );
                         }
                     }
 
                 }
-            });
+            } );
         }
 
         for ( int i = 0; i < NUM_NEUTRONS; i++ ) {
-            Neutron neutron = new Neutron();
+            Neutron neutron = new Neutron( clock );
             neutrons.add( neutron );
             neutronBucket.addParticle( neutron, true );
         }
@@ -223,7 +223,7 @@ public class BuildAnAtomModel {
             return position;
         }
 
-        public void addProton(final Proton proton){
+        public void addProton( final Proton proton ) {
             assert !protons.contains( proton );
 
             // Add to the list of protons that are in the atom.
@@ -244,7 +244,7 @@ public class BuildAnAtomModel {
                         proton.removeUserControlListener( this );
                     }
                 }
-            });
+            } );
         }
     }
 
@@ -319,8 +319,8 @@ public class BuildAnAtomModel {
                     -containerHeight * 0.8 );
             containerPath.lineTo( size.getWidth() * 0.5, 0 );
             containerPath.closePath();
-            Area containerArea = new Area(containerPath.getGeneralPath());
-            containerArea.subtract( new Area(holeShape) );
+            Area containerArea = new Area( containerPath.getGeneralPath() );
+            containerArea.subtract( new Area( holeShape ) );
             containerShape = containerArea;
         }
 
@@ -351,7 +351,7 @@ public class BuildAnAtomModel {
             // Move the particle.
             if ( moveImmediately ) {
                 // Move the particle instantaneously to the destination.
-                particle.setPosition( freeParticleLocation );
+                particle.setPositionAndDestination( freeParticleLocation );
             }
             else {
                 // Set the destination and let the particle find its own way.
@@ -409,7 +409,7 @@ public class BuildAnAtomModel {
                             // so far it hasn't needed to.  If this
                             // requirement changes, the algorithm will need to
                             // change too.
-//                            assert false;
+                            //                            assert false;
                             numParticlesInLayer = 1;
                             offset -= particleRadius;
                         }
