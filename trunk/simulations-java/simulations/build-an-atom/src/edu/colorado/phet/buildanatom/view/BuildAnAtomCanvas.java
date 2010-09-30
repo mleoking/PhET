@@ -16,6 +16,7 @@ import edu.colorado.phet.buildanatom.model.BuildAnAtomModel;
 import edu.colorado.phet.buildanatom.module.BuildAnAtomDefaults;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 
@@ -45,6 +46,9 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
     // Stroke for drawing the electron shells.
     private final Stroke ELECTRON_SHELL_STROKE = new BasicStroke( 2f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0,
             new float[] {3,3}, 0 );
+
+    // Reset button.
+    private final GradientButtonNode _resetButtonNode;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -121,14 +125,6 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         backLayer.addChild( neutronBucketNode.getHoleLayer() );
         frontLayer.addChild( neutronBucketNode.getContainerLayer() );
 
-        // TODO: Temp - put a sketch of the tab up as a very early prototype.
-        //        PImage image = new PImage( BuildAnAtomResources.getImage( "tab-1-sketch-01.png" ));
-        //        image.scale( 2.05 );
-        //        PImage image = new PImage( BuildAnAtomResources.getImage( "first-tab-of-build-an-atom-sim-with-color.png" ));
-        //        image.scale( 1.2 );
-        //        image.setOffset( 50, 0 );
-        //        rootNode.addChild(image);
-
         for ( int i = 0; i < model.numElectrons(); i++ ) {
             particleLayer.addChild( new ElectronNode( mvt, model.getElectron( i ) ) );
         }
@@ -140,6 +136,23 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         for ( int i = 0; i < model.numNeutrons(); i++ ) {
             particleLayer.addChild( new NeutronNode( mvt, model.getNeutron( i ) ) );
         }
+
+        // Add the button for resetting the nucleus to the canvas.
+        // TODO: i18n
+        _resetButtonNode = new GradientButtonNode("Reset All", 16, new Color(255, 153, 0));
+        double desiredResetButtonWidth = 100;
+        _resetButtonNode.setScale(desiredResetButtonWidth / _resetButtonNode.getFullBoundsReference().width);
+        _resetButtonNode.setOffset(750, 570);
+        rootNode.addChild(_resetButtonNode);
+
+        // TODO: Temp - put a sketch of the tab up as a very early prototype.
+        //        PImage image = new PImage( BuildAnAtomResources.getImage( "tab-1-sketch-01.png" ));
+        //        image.scale( 2.05 );
+        //        PImage image = new PImage( BuildAnAtomResources.getImage( "first-tab-of-build-an-atom-sim-with-color.png" ));
+        //        image.scale( 1.2 );
+        //        image.setOffset( 50, 0 );
+        //        rootNode.addChild(image);
+
     }
 
 
