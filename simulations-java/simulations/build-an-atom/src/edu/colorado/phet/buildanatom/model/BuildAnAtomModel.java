@@ -46,6 +46,8 @@ public class BuildAnAtomModel {
 
     protected static final double NUCLEUS_CAPTURE_DISTANCE = 50;
 
+    protected static final double ELECTRON_CAPTURE_DISTANCE = Atom.OUTER_SHELL_RADIUS + 20;
+
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
@@ -89,7 +91,7 @@ public class BuildAnAtomModel {
                         // The user just released this electron.  If it is close
                         // enough to the nucleus, send it there, otherwise
                         // send it to its bucket.
-                        if ( electron.getPosition().distance( atom.getPosition() ) < NUCLEUS_CAPTURE_DISTANCE ) {
+                        if ( electron.getPosition().distance( atom.getPosition() ) < ELECTRON_CAPTURE_DISTANCE ) {
                             atom.addElectron( electron );
                         }
                         else {
@@ -129,7 +131,7 @@ public class BuildAnAtomModel {
             neutron.addUserControlListener( new SimpleObserver() {
                 public void update() {
                     if ( !neutron.isUserControlled() ) {
-                        // The user just released this proton.  If it is close
+                        // The user just released this neutron.  If it is close
                         // enough to the nucleus, send it there, otherwise
                         // send it to its bucket.
                         if ( neutron.getPosition().distance( atom.getPosition() ) < NUCLEUS_CAPTURE_DISTANCE ) {
