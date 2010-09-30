@@ -16,6 +16,7 @@ import edu.colorado.phet.capacitorlab.util.GridPanel;
 import edu.colorado.phet.capacitorlab.view.PlusNode;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -212,7 +213,7 @@ public class TestPlateChargeLayout extends JFrame {
         private final TestModel model;
         private final PPath plateNode;
         private final PComposite parentChargesNode;
-        private final PText gridInfoNode;
+        private final HTMLNode gridInfoNode;
         
         public TestCanvas( final TestModel model ) {
             setPreferredSize( CANVAS_SIZE );
@@ -227,7 +228,7 @@ public class TestPlateChargeLayout extends JFrame {
             parentChargesNode = new PComposite();
             
             // info about the grid
-            gridInfoNode = new PText();
+            gridInfoNode = new HTMLNode();
             gridInfoNode.setFont( new PhetFont( 18 ) );
             
             // rendering order
@@ -290,14 +291,14 @@ public class TestPlateChargeLayout extends JFrame {
             // clear the grid of existing charges
             parentChargesNode.removeAllChildren();
             
-            int rows = 0;
-            int columns = 0;
-            if ( numberOfCharges > 0 ) {
-                
+            if ( numberOfCharges == 0 ) {
+                gridInfoNode.setHTML( "grid=0x0<br>charges=0" );
+            }
+            else {
                 // compute the grid dimensions
                 final double alpha = Math.sqrt( numberOfCharges / plateWidth / plateHeight );
-                rows = (int) Math.max( 1, plateHeight * alpha ); // casting may result in some charges being thrown out, but that's OK
-                columns = (int) Math.max( 1, plateWidth * alpha );
+                final int rows = (int) Math.max( 1, plateHeight * alpha ); // casting may result in some charges being thrown out, but that's OK
+                final int columns = (int) Math.max( 1, plateWidth * alpha );
 
                 // populate the grid with charges
                 double dx = plateWidth / columns;
@@ -316,10 +317,10 @@ public class TestPlateChargeLayout extends JFrame {
                         chargeNode.setOffset( x, y );
                     }
                 }
+                
+                // display grid dimensions and the actual number of charges rendered
+                gridInfoNode.setHTML( "grid=" + rows + "x" + columns + "<br>charges=" + ( rows * columns ) + "<br>alpha=" + alpha );
             }
-            
-            // display grid dimensions and the actual number of charges rendered
-            gridInfoNode.setText( rows + "x" + columns + ", " + ( rows * columns ) + " charges" );
         }
     }
     
