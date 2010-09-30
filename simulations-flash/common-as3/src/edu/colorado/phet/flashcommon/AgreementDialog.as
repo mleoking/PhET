@@ -5,6 +5,9 @@ package edu.colorado.phet.flashcommon {
 
 import flash.events.MouseEvent;
 
+import flash.events.TextEvent;
+import flash.text.TextField;
+
 import org.aswing.ASColor;
 import org.aswing.BoxLayout;
 import org.aswing.CenterLayout;
@@ -55,6 +58,7 @@ public class AgreementDialog extends CommonDialog {
         textArea.setBackground( common.backgroundColor );
         // add padding around the text
         textArea.setBorder( new EmptyBorder( null, new Insets( 5, 5, 0, 5 ) ) );
+        textArea.addEventListener(TextEvent.LINK,function(event:TextEvent):void{common.openExternalLink(event.text)});
 
         agreementScroll = new JScrollPane( textArea, JScrollPane.SCROLLBAR_AS_NEEDED, JScrollPane.SCROLLBAR_AS_NEEDED );
         agreementScroll.setPreferredSize( new IntDimension( 400, 300 ) );

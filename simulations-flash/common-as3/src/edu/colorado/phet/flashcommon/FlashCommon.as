@@ -501,7 +501,8 @@ public class FlashCommon {
 
         // this replacement will make clicks call _level0.common.openExternalLink(<url>) instead of
         // just opening the url
-        return stringReplace( strippedText, "href=\"", "href=\"asfunction:_level0.common.openExternalLink," );
+        var replacedHrefs:String = stringReplace( strippedText, "href=\"", "target=\"_blank\" href=\"" );
+        return replacedHrefs.replace(/<img.*<\/img>/g,"");
     }
 
     public function getCreditsText(): String {
@@ -694,6 +695,14 @@ public class FlashCommon {
     public function hideBarrier(): void {
         barrierSprite.graphics.clear();
         root.removeChild( barrierSprite );
+    }
+    
+    public function getPlayAreaWidth():Number {
+        throw new Error("abstract method error");
+    }
+    
+    public function getPlayAreaHeight():Number{
+        throw new Error("abstract method error");
     }
 }
 }

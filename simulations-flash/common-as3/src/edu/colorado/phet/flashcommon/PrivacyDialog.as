@@ -117,7 +117,7 @@ public class PrivacyDialog extends JFrame {
 
         pack();
         // center the window
-        setLocationXY( (common.root.stage.stageWidth - getWidth()) / 2, (common.root.stage.stageHeight - getHeight()) / 2 );
+        setLocationXY( common.getPlayAreaWidth()/2-getWidth()/2, common.getPlayAreaHeight()/2-getHeight()/2 );
         show();
 
         //        Key.addListener( this );

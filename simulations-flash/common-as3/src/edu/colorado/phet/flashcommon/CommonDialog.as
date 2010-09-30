@@ -22,7 +22,6 @@ public class CommonDialog extends JFrame {
 
     public function CommonDialog( dialogPrefix: String, dialogTitle: String ) {
         prefix = dialogPrefix;
-        window = this;
 
         // shortcut to FlashCommon, but now with type-checking!
         common = FlashCommon.getInstance();
@@ -51,11 +50,8 @@ public class CommonDialog extends JFrame {
         // fit the window to its contents
         //        window.setSize( window.getPreferredSize() );
         window.pack();
-
-        var stage: Stage = FlashCommon.getInstance().root.stage; // override the stage so we know it is hooked up
-
         // center the window
-        window.setLocationXY( ( stage.stageWidth - window.getWidth() ) / 2, ( stage.stageHeight - window.getHeight() ) / 2 );
+        window.setLocationXY( common.getPlayAreaWidth()/2-window.getWidth()/2, common.getPlayAreaHeight()/2-window.getHeight()/2 );
         window.show();
 
         //        setupTabHandler();
