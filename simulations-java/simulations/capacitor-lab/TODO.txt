@@ -20,17 +20,17 @@ HIGH PRIORITY
 - add margin to plate charge grid to keep charges from looking like they are falling off plate edges
 - investigate perceived difference between x and z spacing of plate charges
 - charge and excess charge on dielectric (see notes)
-- Field Detector
 - field lines (with fake curvature?)
+- Introduction tab, use air as the dielectric material
+
+MEDUIUM PRIORITY
+- make plates and dielectric transparent when E-field, Voltmeter or Field Detector is selected
+- how to handle look for probes being inside, outside, or partially inside the dielectric
+- collision detection of probes with battery and plates (OK to pass through wires and dielectric)
+- Field Detector
 - add cables and drag behavior to voltmeter, see CCK's VoltmeterNode
 - voltmeter notifiers for moving probes or meter body
 - subclass of voltmeter that is specific to this sim, knows about model
-
-MEDUIUM PRIORITY
-- utilities for computing important 2D points on capacitor's pseudo-3D geometry (for layout, interactivity, and connecting things)
-- combine plate charge meter and slider into one thing?
-- use air as the dielectric material in Introduction module
-- make air dielectric invisible
 - all features in Multiple Capacitors tab
 - refactor duplicate code in *DragHandleNode
 - should Reset All reset default locations for meters?
