@@ -54,7 +54,7 @@ public class MainView extends Sprite{
             var ui:Sprite = new Sprite(); // used for FlashCommon UI
             addChild( ui );
 
-            var common:FlashCommonCS4 = FlashCommonCS4.getInstance( ui.stage );
+            var common:FlashCommonCS4 = FlashCommonCS4.getInstance( ui.stage,950,700 );
             common.initialize( ui );
 
 //            common.highContrastFunction = function ( contrast:Boolean ):void {
