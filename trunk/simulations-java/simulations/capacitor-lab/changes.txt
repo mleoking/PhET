@@ -1,3 +1,5 @@
+9/30/10 keep plate charges from falling off the edges of the plate
+9/30/10 ensure that at least one charge is shown if number of plate charges is non-zero
 9/30/10 TestPlateChargeLayout, test harness for plate charge layout
 9/30/10 fix: current indicator should point counterclockwise for +dV, clockwise for -dV
 9/30/10 tweak tick marks on Plate Charge slider, make thumb line up precisely with zero
