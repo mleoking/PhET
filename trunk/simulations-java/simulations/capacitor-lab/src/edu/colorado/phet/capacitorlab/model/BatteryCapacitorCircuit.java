@@ -422,7 +422,7 @@ public class BatteryCapacitorCircuit {
         double dV = V - previousVoltage;
         double dt = clock.getDt();
         previousVoltage = V;
-        setCurrentAmplitude( Math.min( 1, Math.abs( dV / dt ) ) );
+        setCurrentAmplitude( dV / dt );
     }
     
     //----------------------------------------------------------------------------------

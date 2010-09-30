@@ -15,7 +15,6 @@ DESIGN ISSUES
 - no visual cues to indicate 3D location of Voltmeter probes
 
 HIGH PRIORITY
-- current indicator should point in the direction of dV, not direction of voltage sign
 - test plate charge grid for small numbers of charges
 - add margin to plate charge grid to keep charges from looking like they are falling off plate edges
 - investigate perceived difference between x and z spacing of plate charges
