@@ -10,6 +10,7 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 import edu.colorado.phet.buildanatom.module.BuildAnAtomDefaults;
@@ -79,9 +80,24 @@ public class BuildAnAtomModel {
         atom = new Atom( new Point2D.Double( 0, 0 ) );
 
         for ( int i = 0; i < NUM_ELECTRONS; i++ ) {
-            Electron electron = new Electron( clock );
+            final Electron electron = new Electron( clock );
             electrons.add( electron );
             electronBucket.addParticle( electron, true );
+            electron.addUserControlListener( new SimpleObserver() {
+                public void update() {
+                    if ( !electron.isUserControlled() ) {
+                        // The user just released this electron.  If it is close
+                        // enough to the nucleus, send it there, otherwise
+                        // send it to its bucket.
+                        if ( electron.getPosition().distance( atom.getPosition() ) < NUCLEUS_CAPTURE_DISTANCE ) {
+                            atom.addElectron( electron );
+                        }
+                        else {
+                            electronBucket.addParticle( electron, false );
+                        }
+                    }
+                }
+            } );
         }
 
         for ( int i = 0; i < NUM_PROTONS; i++ ) {
@@ -200,7 +216,11 @@ public class BuildAnAtomModel {
 
         // Nuclear radius, in picometers.  This is not to scale - we need it
         // to be larger than real life.
-        private static final double NUCLEUS_RADIUS = 5;
+        private static final double NUCLEUS_RADIUS = 10;
+
+        // Electron shell radii.
+        private static final double INNER_SHELL_RADIUS = 34;
+        private static final double OUTER_SHELL_RADIUS = 102;
 
         // Position in model space.
         private final Point2D position = new Point2D.Double();
@@ -221,6 +241,27 @@ public class BuildAnAtomModel {
                 add( new Double( 102 ) );
             }
         };
+
+        // Electron shell positions
+        private final ArrayList<Point2D> openInnerShellPositions = new ArrayList<Point2D>() {
+            {
+                add( new Point2D.Double(INNER_SHELL_RADIUS, 0));
+                add( new Point2D.Double(-INNER_SHELL_RADIUS, 0));
+            }
+        };
+        private final ArrayList<Point2D> openOuterShellPositions = new ArrayList<Point2D>() {
+            {
+                add( new Point2D.Double(OUTER_SHELL_RADIUS * Math.cos( 0 * Math.PI / 4 ), OUTER_SHELL_RADIUS * Math.sin( 0 * Math.PI / 4 )));
+                add( new Point2D.Double(OUTER_SHELL_RADIUS * Math.cos( 1 * Math.PI / 4 ), OUTER_SHELL_RADIUS * Math.sin( 1 * Math.PI / 4 )));
+                add( new Point2D.Double(OUTER_SHELL_RADIUS * Math.cos( 2 * Math.PI / 4 ), OUTER_SHELL_RADIUS * Math.sin( 2 * Math.PI / 4 )));
+                add( new Point2D.Double(OUTER_SHELL_RADIUS * Math.cos( 3 * Math.PI / 4 ), OUTER_SHELL_RADIUS * Math.sin( 3 * Math.PI / 4 )));
+                add( new Point2D.Double(OUTER_SHELL_RADIUS * Math.cos( 4 * Math.PI / 4 ), OUTER_SHELL_RADIUS * Math.sin( 4 * Math.PI / 4 )));
+                add( new Point2D.Double(OUTER_SHELL_RADIUS * Math.cos( 5 * Math.PI / 4 ), OUTER_SHELL_RADIUS * Math.sin( 5 * Math.PI / 4 )));
+                add( new Point2D.Double(OUTER_SHELL_RADIUS * Math.cos( 6 * Math.PI / 4 ), OUTER_SHELL_RADIUS * Math.sin( 6 * Math.PI / 4 )));
+                add( new Point2D.Double(OUTER_SHELL_RADIUS * Math.cos( 7 * Math.PI / 4 ), OUTER_SHELL_RADIUS * Math.sin( 7 * Math.PI / 4 )));
+            }
+        };
+        private final ArrayList<Point2D> occupiedShellPositions = new ArrayList<Point2D>();
 
         public Atom( Point2D position ) {
             this.position.setLocation( position );
@@ -281,6 +322,72 @@ public class BuildAnAtomModel {
                         // that it is essentially removed from the atom.
                         neutrons.remove( neutron );
                         neutron.removeUserControlListener( this );
+                    }
+                }
+            } );
+        }
+
+        public void addElectron( final Electron electron ) {
+            assert !electrons.contains( electron );
+
+            // Add to the list of electrons that are in the atom.
+            electrons.add( electron );
+
+            // Find the closest open position on a shell.
+            Point2D openShellPosition = null;
+            if ( openInnerShellPositions.size() > 0 ){
+                // There is at least one open position on the inner shell, so
+                // determine which is closest.
+                openShellPosition = openInnerShellPositions.get( 0 );
+                for (Point2D pos : openInnerShellPositions){
+                    if (pos.distance( electron.getPosition() ) < openShellPosition.distance( electron.getPosition() )){
+                        openShellPosition = pos;
+                    }
+                }
+                openInnerShellPositions.remove( openShellPosition );
+                occupiedShellPositions.add(  openShellPosition );
+            }
+            else if (openOuterShellPositions.size() > 0){
+                // Determine which position on the outer shell is closest to
+                // this electron.
+                openShellPosition = openOuterShellPositions.get( 0 );
+                for (Point2D pos : openOuterShellPositions){
+                    if (pos.distance( electron.getPosition() ) < openShellPosition.distance( electron.getPosition() )){
+                        openShellPosition = pos;
+                    }
+                }
+                openOuterShellPositions.remove( openShellPosition );
+                occupiedShellPositions.add(  openShellPosition );
+            }
+            else{
+                // There appear to be no open positions.  This should never happen,
+                // debug it if it does.
+                assert false;
+            }
+            electron.setDestination( openShellPosition );
+            electron.addUserControlListener( new SimpleObserver() {
+
+                public void update() {
+                    if ( electron.isUserControlled() ) {
+                        // The user has picked up this particle, so we assume
+                        // that it is essentially removed from the atom.
+                        electrons.remove( electron );
+                        electron.removeUserControlListener( this );
+                        Point2D shellPosition = null;
+                        for (Point2D pos : occupiedShellPositions){
+                            if (pos.equals( electron.getPosition() )){
+                                shellPosition = pos;
+                                break;
+                            }
+                        }
+                        assert shellPosition != null;
+                        if (shellPosition.distance( getPosition() ) == INNER_SHELL_RADIUS ){
+                            openInnerShellPositions.add( shellPosition );
+                        }
+                        else{
+                            assert shellPosition.distance( getPosition() ) == OUTER_SHELL_RADIUS;
+                            openOuterShellPositions.add( shellPosition );
+                        }
                     }
                 }
             } );
