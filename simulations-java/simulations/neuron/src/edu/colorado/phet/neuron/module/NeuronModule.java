@@ -8,6 +8,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.clock.TimeSpeedSlider;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
@@ -29,10 +30,10 @@ public class NeuronModule extends PiccoloModule {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private NeuronModel model;
-    private NeuronCanvas canvas;
-    private AxonCrossSectionControlPanel controlPanel;
-    private PiccoloClockControlPanel clockControlPanel;
+    private final NeuronModel model;
+    private final NeuronCanvas canvas;
+    private final AxonCrossSectionControlPanel controlPanel;
+    private final PiccoloClockControlPanel clockControlPanel;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -45,7 +46,7 @@ public class NeuronModule extends PiccoloModule {
         // Model
         NeuronClock clock = (NeuronClock) getClock();
         model = new NeuronModel( clock );
-        
+
         // Canvas
         canvas = new NeuronCanvas( model );
         setSimulationPanel( canvas );
@@ -53,21 +54,21 @@ public class NeuronModule extends PiccoloModule {
         // Control Panel
         controlPanel = new AxonCrossSectionControlPanel( this, parentFrame, model );
         setControlPanel( controlPanel );
-        
+
         // Clock controls
         clockControlPanel = new PiccoloClockControlPanel( getClock() );
-    	final TimeSpeedSlider timeSpeedSlider = new TimeSpeedSlider(NeuronDefaults.MIN_ACTION_POTENTIAL_CLOCK_DT, 
-    			NeuronDefaults.MAX_ACTION_POTENTIAL_CLOCK_DT, "0.00", (ConstantDtClock)getClock(), " ");
+    	final TimeSpeedSlider timeSpeedSlider = new TimeSpeedSlider(NeuronDefaults.MIN_ACTION_POTENTIAL_CLOCK_DT,
+    			NeuronDefaults.MAX_ACTION_POTENTIAL_CLOCK_DT, "0.00", (ConstantDtClock)getClock(), PhetCommonResources.getString( "Common.sim.speed" ));
         timeSpeedSlider.addChangeListener( new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
                 ((ConstantDtClock)getClock()).setDt( timeSpeedSlider.getValue() );
 			}
         } );
         clockControlPanel.addBetweenTimeDisplayAndButtons(timeSpeedSlider);
-        
+
         // Enable the "Step Back" button.
         clockControlPanel.setStepBackButtonVisible(true);
-    	
+
         setClockControlPanel( clockControlPanel );
 
         // Help
@@ -82,11 +83,11 @@ public class NeuronModule extends PiccoloModule {
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
-    
+
     public IHodgkinHuxleyModel getHodgkinHuxleyModel(){
     	return model.getHodgkinHuxleyModel();
     }
-    
+
     //----------------------------------------------------------------------------
     // Module overrides
     //----------------------------------------------------------------------------
@@ -94,19 +95,20 @@ public class NeuronModule extends PiccoloModule {
     /**
      * Resets the module.
      */
+    @Override
     public void reset() {
 
         // Reset the clock
         model.getClock().resetSimulationTime();
-        
+
         // Reset the model.
         model.reset();
-        
+
         // Reset the canvas.
         canvas.reset();
-        
+
         // Make sure the clock starts off running.
         setClockRunningWhenActive( true );
 
-    }    
+    }
 }
