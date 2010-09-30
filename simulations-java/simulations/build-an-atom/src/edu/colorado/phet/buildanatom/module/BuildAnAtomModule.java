@@ -19,8 +19,8 @@ public class BuildAnAtomModule extends PiccoloModule {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private BuildAnAtomModel model;
-    private BuildAnAtomCanvas canvas;
+    private final BuildAnAtomModel model;
+    private final BuildAnAtomCanvas canvas;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -54,10 +54,14 @@ public class BuildAnAtomModule extends PiccoloModule {
     /**
      * Resets the module.
      */
+    @Override
     public void reset() {
 
         // reset the clock
         BuildAnAtomClock clock = model.getClock();
         clock.resetSimulationTime();
-    }    
+
+        // reset the model
+        model.reset();
+    }
 }

@@ -10,7 +10,6 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Random;
 
 import edu.colorado.phet.buildanatom.module.BuildAnAtomDefaults;
@@ -84,7 +83,6 @@ public class BuildAnAtomModel {
         for ( int i = 0; i < NUM_ELECTRONS; i++ ) {
             final Electron electron = new Electron( clock );
             electrons.add( electron );
-            electronBucket.addParticle( electron, true );
             electron.addUserControlListener( new SimpleObserver() {
                 public void update() {
                     if ( !electron.isUserControlled() ) {
@@ -105,7 +103,6 @@ public class BuildAnAtomModel {
         for ( int i = 0; i < NUM_PROTONS; i++ ) {
             final Proton proton = new Proton( clock );
             protons.add( proton );
-            protonBucket.addParticle( proton, true );
             proton.addUserControlListener( new SimpleObserver() {
                 public void update() {
                     if ( !proton.isUserControlled() ) {
@@ -127,7 +124,6 @@ public class BuildAnAtomModel {
         for ( int i = 0; i < NUM_NEUTRONS; i++ ) {
             final Neutron neutron = new Neutron( clock );
             neutrons.add( neutron );
-            neutronBucket.addParticle( neutron, true );
             neutron.addUserControlListener( new SimpleObserver() {
                 public void update() {
                     if ( !neutron.isUserControlled() ) {
@@ -177,6 +173,26 @@ public class BuildAnAtomModel {
     //----------------------------------------------------------------------------
     // Methods
     //----------------------------------------------------------------------------
+
+    public void reset() {
+
+        // Reset the constituent model elements.
+        atom.reset();
+        electronBucket.reset();
+        neutronBucket.reset();
+        protonBucket.reset();
+
+        // Put all the particles back in the bucket.
+        for ( Electron electron : electrons ) {
+            electronBucket.addParticle( electron, true );
+        }
+        for ( Proton proton : protons ) {
+            protonBucket.addParticle( proton, true );
+        }
+        for ( Neutron neutron : neutrons ) {
+            neutronBucket.addParticle( neutron, true );
+        }
+    }
 
     public Atom getAtom() {
         return atom;
@@ -247,26 +263,47 @@ public class BuildAnAtomModel {
         // Electron shell positions
         private final ArrayList<Point2D> openInnerShellPositions = new ArrayList<Point2D>() {
             {
-                add( new Point2D.Double(INNER_SHELL_RADIUS, 0));
-                add( new Point2D.Double(-INNER_SHELL_RADIUS, 0));
+                add( new Point2D.Double( INNER_SHELL_RADIUS, 0 ) );
+                add( new Point2D.Double( -INNER_SHELL_RADIUS, 0 ) );
             }
         };
+
         private final ArrayList<Point2D> openOuterShellPositions = new ArrayList<Point2D>() {
             {
-                add( new Point2D.Double(OUTER_SHELL_RADIUS * Math.cos( 0 * Math.PI / 4 ), OUTER_SHELL_RADIUS * Math.sin( 0 * Math.PI / 4 )));
-                add( new Point2D.Double(OUTER_SHELL_RADIUS * Math.cos( 1 * Math.PI / 4 ), OUTER_SHELL_RADIUS * Math.sin( 1 * Math.PI / 4 )));
-                add( new Point2D.Double(OUTER_SHELL_RADIUS * Math.cos( 2 * Math.PI / 4 ), OUTER_SHELL_RADIUS * Math.sin( 2 * Math.PI / 4 )));
-                add( new Point2D.Double(OUTER_SHELL_RADIUS * Math.cos( 3 * Math.PI / 4 ), OUTER_SHELL_RADIUS * Math.sin( 3 * Math.PI / 4 )));
-                add( new Point2D.Double(OUTER_SHELL_RADIUS * Math.cos( 4 * Math.PI / 4 ), OUTER_SHELL_RADIUS * Math.sin( 4 * Math.PI / 4 )));
-                add( new Point2D.Double(OUTER_SHELL_RADIUS * Math.cos( 5 * Math.PI / 4 ), OUTER_SHELL_RADIUS * Math.sin( 5 * Math.PI / 4 )));
-                add( new Point2D.Double(OUTER_SHELL_RADIUS * Math.cos( 6 * Math.PI / 4 ), OUTER_SHELL_RADIUS * Math.sin( 6 * Math.PI / 4 )));
-                add( new Point2D.Double(OUTER_SHELL_RADIUS * Math.cos( 7 * Math.PI / 4 ), OUTER_SHELL_RADIUS * Math.sin( 7 * Math.PI / 4 )));
+                add( new Point2D.Double( OUTER_SHELL_RADIUS * Math.cos( 0 * Math.PI / 4 ), OUTER_SHELL_RADIUS * Math.sin( 0 * Math.PI / 4 ) ) );
+                add( new Point2D.Double( OUTER_SHELL_RADIUS * Math.cos( 1 * Math.PI / 4 ), OUTER_SHELL_RADIUS * Math.sin( 1 * Math.PI / 4 ) ) );
+                add( new Point2D.Double( OUTER_SHELL_RADIUS * Math.cos( 2 * Math.PI / 4 ), OUTER_SHELL_RADIUS * Math.sin( 2 * Math.PI / 4 ) ) );
+                add( new Point2D.Double( OUTER_SHELL_RADIUS * Math.cos( 3 * Math.PI / 4 ), OUTER_SHELL_RADIUS * Math.sin( 3 * Math.PI / 4 ) ) );
+                add( new Point2D.Double( OUTER_SHELL_RADIUS * Math.cos( 4 * Math.PI / 4 ), OUTER_SHELL_RADIUS * Math.sin( 4 * Math.PI / 4 ) ) );
+                add( new Point2D.Double( OUTER_SHELL_RADIUS * Math.cos( 5 * Math.PI / 4 ), OUTER_SHELL_RADIUS * Math.sin( 5 * Math.PI / 4 ) ) );
+                add( new Point2D.Double( OUTER_SHELL_RADIUS * Math.cos( 6 * Math.PI / 4 ), OUTER_SHELL_RADIUS * Math.sin( 6 * Math.PI / 4 ) ) );
+                add( new Point2D.Double( OUTER_SHELL_RADIUS * Math.cos( 7 * Math.PI / 4 ), OUTER_SHELL_RADIUS * Math.sin( 7 * Math.PI / 4 ) ) );
             }
         };
+
         private final ArrayList<Point2D> occupiedShellPositions = new ArrayList<Point2D>();
 
+        /**
+         * Constructor.
+         */
         public Atom( Point2D position ) {
             this.position.setLocation( position );
+        }
+
+        public void reset() {
+            protons.clear();
+            neutrons.clear();
+            electrons.clear();
+            for ( Point2D shellPosition : occupiedShellPositions ) {
+                if ( shellPosition.distance( getPosition() ) == INNER_SHELL_RADIUS ) {
+                    openInnerShellPositions.add( shellPosition );
+                }
+                else {
+                    assert shellPosition.distance( getPosition() ) == OUTER_SHELL_RADIUS;
+                    openOuterShellPositions.add( shellPosition );
+                }
+            }
+            occupiedShellPositions.clear();
         }
 
         public ArrayList<Double> getElectronShellRadii() {
@@ -337,31 +374,31 @@ public class BuildAnAtomModel {
 
             // Find the closest open position on a shell.
             Point2D openShellPosition = null;
-            if ( openInnerShellPositions.size() > 0 ){
+            if ( openInnerShellPositions.size() > 0 ) {
                 // There is at least one open position on the inner shell, so
                 // determine which is closest.
                 openShellPosition = openInnerShellPositions.get( 0 );
-                for (Point2D pos : openInnerShellPositions){
-                    if (pos.distance( electron.getPosition() ) < openShellPosition.distance( electron.getPosition() )){
+                for ( Point2D pos : openInnerShellPositions ) {
+                    if ( pos.distance( electron.getPosition() ) < openShellPosition.distance( electron.getPosition() ) ) {
                         openShellPosition = pos;
                     }
                 }
                 openInnerShellPositions.remove( openShellPosition );
-                occupiedShellPositions.add(  openShellPosition );
+                occupiedShellPositions.add( openShellPosition );
             }
-            else if (openOuterShellPositions.size() > 0){
+            else if ( openOuterShellPositions.size() > 0 ) {
                 // Determine which position on the outer shell is closest to
                 // this electron.
                 openShellPosition = openOuterShellPositions.get( 0 );
-                for (Point2D pos : openOuterShellPositions){
-                    if (pos.distance( electron.getPosition() ) < openShellPosition.distance( electron.getPosition() )){
+                for ( Point2D pos : openOuterShellPositions ) {
+                    if ( pos.distance( electron.getPosition() ) < openShellPosition.distance( electron.getPosition() ) ) {
                         openShellPosition = pos;
                     }
                 }
                 openOuterShellPositions.remove( openShellPosition );
-                occupiedShellPositions.add(  openShellPosition );
+                occupiedShellPositions.add( openShellPosition );
             }
-            else{
+            else {
                 // There appear to be no open positions.  This should never happen,
                 // debug it if it does.
                 assert false;
@@ -376,20 +413,21 @@ public class BuildAnAtomModel {
                         electrons.remove( electron );
                         electron.removeUserControlListener( this );
                         Point2D shellPosition = null;
-                        for (Point2D pos : occupiedShellPositions){
-                            if (pos.equals( electron.getPosition() )){
+                        for ( Point2D pos : occupiedShellPositions ) {
+                            if ( pos.equals( electron.getPosition() ) ) {
                                 shellPosition = pos;
                                 break;
                             }
                         }
                         assert shellPosition != null;
-                        if (shellPosition.distance( getPosition() ) == INNER_SHELL_RADIUS ){
+                        if ( shellPosition.distance( getPosition() ) == INNER_SHELL_RADIUS ) {
                             openInnerShellPositions.add( shellPosition );
                         }
-                        else{
+                        else {
                             assert shellPosition.distance( getPosition() ) == OUTER_SHELL_RADIUS;
                             openOuterShellPositions.add( shellPosition );
                         }
+                        occupiedShellPositions.remove( shellPosition );
                     }
                 }
             } );
@@ -470,6 +508,10 @@ public class BuildAnAtomModel {
             Area containerArea = new Area( containerPath.getGeneralPath() );
             containerArea.subtract( new Area( holeShape ) );
             containerShape = containerArea;
+        }
+
+        public void reset() {
+            containedParticles.clear();
         }
 
         public Point2D getPosition() {

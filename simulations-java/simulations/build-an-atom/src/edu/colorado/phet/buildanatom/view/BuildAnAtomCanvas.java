@@ -7,6 +7,8 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.Shape;
 import java.awt.Stroke;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
@@ -48,7 +50,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
             new float[] {3,3}, 0 );
 
     // Reset button.
-    private final GradientButtonNode _resetButtonNode;
+    private final GradientButtonNode resetButtonNode;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -139,11 +141,17 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
 
         // Add the button for resetting the nucleus to the canvas.
         // TODO: i18n
-        _resetButtonNode = new GradientButtonNode("Reset All", 16, new Color(255, 153, 0));
+        resetButtonNode = new GradientButtonNode("Reset All", 16, new Color(255, 153, 0));
         double desiredResetButtonWidth = 100;
-        _resetButtonNode.setScale(desiredResetButtonWidth / _resetButtonNode.getFullBoundsReference().width);
-        _resetButtonNode.setOffset(750, 570);
-        rootNode.addChild(_resetButtonNode);
+        resetButtonNode.setScale(desiredResetButtonWidth / resetButtonNode.getFullBoundsReference().width);
+        resetButtonNode.setOffset(750, 570);
+        rootNode.addChild(resetButtonNode);
+        resetButtonNode.addActionListener( new ActionListener() {
+
+            public void actionPerformed( ActionEvent e ) {
+                BuildAnAtomCanvas.this.model.reset();
+            }
+        });
 
         // TODO: Temp - put a sketch of the tab up as a very early prototype.
         //        PImage image = new PImage( BuildAnAtomResources.getImage( "tab-1-sketch-01.png" ));
