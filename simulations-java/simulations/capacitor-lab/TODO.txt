@@ -23,6 +23,8 @@ HIGH PRIORITY
 - Introduction tab, use air as the dielectric material
 
 MEDUIUM PRIORITY
+- TestPlateChargeLayout: tall narrow plate results in too many charges
+- PlateChargeNode: no charges shown when air contact area is small
 - make plates and dielectric transparent when E-field, Voltmeter or Field Detector is selected
 - how to handle look for probes being inside, outside, or partially inside the dielectric
 - collision detection of probes with battery and plates (OK to pass through wires and dielectric)
