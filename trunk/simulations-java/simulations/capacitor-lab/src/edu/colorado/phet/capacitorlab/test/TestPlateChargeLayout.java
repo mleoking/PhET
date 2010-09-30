@@ -32,8 +32,8 @@ public class TestPlateChargeLayout extends JFrame {
 
     private static final Dimension CANVAS_SIZE = new Dimension( 1024, 768 );
     private static final IntegerRange NUMBER_OF_CHARGES_RANGE = new IntegerRange( 0, 625, 0 );
-    private static final IntegerRange PLATE_WIDTH_RANGE = new IntegerRange( 100, 500, 200 );
-    private static final IntegerRange PLATE_HEIGHT_RANGE = new IntegerRange( 100, 500, 200 );
+    private static final IntegerRange PLATE_WIDTH_RANGE = new IntegerRange( 5, 500, 200 );
+    private static final IntegerRange PLATE_HEIGHT_RANGE = new IntegerRange( 5, 500, 200 );
     private static final double PLUS_MINUS_WIDTH = 7;
     private static final double PLUS_MINUS_HEIGHT = 1;
     
