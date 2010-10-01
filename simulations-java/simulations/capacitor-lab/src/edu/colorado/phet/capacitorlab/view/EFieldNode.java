@@ -53,8 +53,8 @@ public class EFieldNode extends PhetPNode {
     private void update() {
         
         // compute number of field lines
-        double efield = circuit.getEffectiveEfield();
-        int numberOfLines = getNumberOfLines( efield );
+        double effectiveEField = circuit.getEffectiveEfield();
+        int numberOfLines = getNumberOfLines( effectiveEField );
         
         // clear existing field lines
         parentNode.removeAllChildren();
@@ -83,9 +83,9 @@ public class EFieldNode extends PhetPNode {
                 for ( int column = 0; column < columns; column++ ) {
                     
                     // add a line
-                    Direction direction = ( efield >= 0 ) ? Direction.DOWN : Direction.UP;
+                    Direction direction = ( effectiveEField >= 0 ) ? Direction.DOWN : Direction.UP;
                     double length = mvt.modelToView( plateSeparation );
-                    PNode lineNode = new FieldLineNode( length, direction );
+                    PNode lineNode = new EFieldLineNode( length, direction );
                     parentNode.addChild( lineNode );
 
                     // position the line in the grid cell
@@ -112,29 +112,29 @@ public class EFieldNode extends PhetPNode {
      * Computes number of field lines, linearly proportional to effective E-field (E_effective).
      * All non-zero values below some minimum are mapped to 1 charge.
      */
-    private int getNumberOfLines( double eField ) {
+    private int getNumberOfLines( double effectiveEField ) {
         
-        double absoluteEField = Math.abs( eField );
-        double minEField = CLConstants.MIN_NONZERO_EFFECTIVE_EFIELD;
-        double maxEField = BatteryCapacitorCircuit.getMaxEffectiveEfield();
+        double absoluteEffectiveEField = Math.abs( effectiveEField );
+        double minEffectiveEField = CLConstants.MIN_NONZERO_EFFECTIVE_EFIELD;
+        double maxEffectiveEField = BatteryCapacitorCircuit.getMaxEffectiveEfield();
         
         int numberOfLines = 0;
-        if ( absoluteEField == 0 ) {
+        if ( absoluteEffectiveEField == 0 ) {
             numberOfLines = 0;
         }
-        else if ( absoluteEField <= minEField ) {
+        else if ( absoluteEffectiveEField <= minEffectiveEField ) {
             numberOfLines = 1;
         }
         else {
-            numberOfLines = (int) ( CLConstants.MAX_NUMBER_OF_FIELD_LINES * ( absoluteEField - minEField ) / ( maxEField - minEField ) );
+            numberOfLines = (int) ( CLConstants.MAX_NUMBER_OF_EFIELD_LINES * ( absoluteEffectiveEField - minEffectiveEField ) / ( maxEffectiveEField - minEffectiveEField ) );
         }
         return numberOfLines;
     }
     
     /**
-     * An e-field line.  Origin is at the top center.
+     * An E-field line.  Origin is at the top center.
      */
-    private static class FieldLineNode extends PComposite {
+    private static class EFieldLineNode extends PComposite {
         
         public static final PDimension ARROW_SIZE = new PDimension( 20, 20 );
         public static final Stroke LINE_STROKE = new BasicStroke( 2f );
@@ -143,7 +143,7 @@ public class EFieldNode extends PhetPNode {
          * @param length length of the line in view coordinates
          * @param direction
          */
-        public FieldLineNode( double length, Direction direction ) {
+        public EFieldLineNode( double length, Direction direction ) {
             
             PPath lineNode = new PPath( new Line2D.Double( 0, 0, 0, length ) );
             lineNode.setStroke( LINE_STROKE );

@@ -81,11 +81,11 @@ public class CLConstants {
     public static final int STORED_ENERGY_METER_VALUE_EXPONENT = -10;
     
     // visibility of meters
-    public static final boolean CAPACITANCE_METER_VISIBLE = true;
-    public static final boolean CHARGE_METER_VISIBLE = true;
-    public static final boolean ENERGY_METER_VISIBLE = true;
+    public static final boolean CAPACITANCE_METER_VISIBLE = false;
+    public static final boolean CHARGE_METER_VISIBLE = false;
+    public static final boolean ENERGY_METER_VISIBLE = false;
     public static final boolean VOLTMETER_VISIBLE = false;
-    public static final boolean FIELD_DETECTOR_VISIBLE = false;
+    public static final boolean EFIELD_DETECTOR_VISIBLE = false;
     
     // plate charges
     public static final boolean PLATE_CHARGES_VISIBLE = false; 
@@ -95,9 +95,9 @@ public class CLConstants {
     // dielectric charges
     public static final DielectricChargeView DIELECTRIC_CHARGE_VIEW = DielectricChargeView.NONE; //XXX default should be NONE
     
-    // e-field
-    public static final boolean EFIELD_VISIBLE = true;
-    public static final int MAX_NUMBER_OF_FIELD_LINES = 200;
+    // E-field
+    public static final boolean EFIELD_VISIBLE = false;
+    public static final int MAX_NUMBER_OF_EFIELD_LINES = 200;
     public static final double MIN_NONZERO_EFFECTIVE_EFIELD = 0.5; // V/m
     
     //----------------------------------------------------------------------------

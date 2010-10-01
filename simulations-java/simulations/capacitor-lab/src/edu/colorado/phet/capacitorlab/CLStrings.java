@@ -18,12 +18,12 @@ public class CLStrings {
     public static final String BUTTON_REMOVE_WIRES = getString( "button.removeWires" );
     
     public static final String CHECKBOX_PLATE_CHARGES = getString( "checkBox.plateCharges" );
-    public static final String CHECKBOX_ELECTRIC_FIELD_LINES = getString( "checkBox.electricFieldLines" );
+    public static final String CHECKBOX_EFIELD_LINES = getString( "checkBox.eFieldLines" );
     public static final String CHECKBOX_METER_CAPACITANCE = getString( "checkBox.meter.capacitance" );
     public static final String CHECKBOX_METER_CHARGE = getString( "checkBox.meter.charge" );
     public static final String CHECKBOX_METER_ENERGY = getString( "checkBox.meter.energy" );
     public static final String CHECKBOX_METER_VOLTMETER = getString( "checkBox.meter.voltmeter" );
-    public static final String CHECKBOX_METER_FIELD_DETECTOR = getString( "checkBox.meter.fieldDetector" );
+    public static final String CHECKBOX_METER_EFIELD_DETECTOR = getString( "checkBox.meter.eFieldDetector" );
 
     public static final String LABEL_SEPARATION = getString( "label.separation" );
     public static final String LABEL_PLATE_AREA = getString( "label.plateArea" );
