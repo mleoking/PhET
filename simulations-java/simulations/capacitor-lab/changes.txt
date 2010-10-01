@@ -1,8 +1,8 @@
+10/1/10 change "Field Detector" to "Electric Field Detector"
 # 0.00.19 (44601) Oct 1, 2010
 10/1/10 demonstrate E-field lines
 10/1/10 make capacitor plates and dielectric transparent when E-field is selected
 10/1/10 add E-field view
-10/1/10 change "Field Detector" to "Electric Field Detector"
 10/1/10 move responsibility for dielectric color into DielectricNode
 # 0.00.18 (44586) Sep 30, 2010
 9/30/10 demo fix to current indicator, and improved plate charge layout
