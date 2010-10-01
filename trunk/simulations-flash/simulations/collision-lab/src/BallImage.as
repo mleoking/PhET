@@ -182,9 +182,9 @@ package{
 			var theStage:Object = thisBallImage.myTableView.canvas;//target.parent;
 			var clickOffset:Point;
 			
-			function bringToTop(evt:MouseEvent):void{
-				thisBallImage.myTableView.canvas.addChild(thisBallImage);
-			}
+			//function bringToTop(evt:MouseEvent):void{
+				//thisBallImage.myTableView.canvas.addChild(thisBallImage);
+			//}
 			
 			function startTargetDrag(evt:MouseEvent):void{	
 				//next two lines bring selected ball to top, so velocity arrow visible
@@ -296,8 +296,11 @@ package{
 			target.addEventListener(MouseEvent.MOUSE_OUT, unshowVelocity);
 			var theStage:Object = thisBallImage;//target.parent;
 			var clickOffset:Point;
+			
+			
 			function startTargetDrag(evt:MouseEvent):void{	
 				//problem with localX, localY if sprite is rotated.
+				thisBallImage.myTableView.canvas.addChild(thisBallImage);
 				clickOffset = new Point(evt.localX, evt.localY);
 				//trace("evt.localX: "+evt.localX);
 				//trace("evt.localY: "+evt.localY);

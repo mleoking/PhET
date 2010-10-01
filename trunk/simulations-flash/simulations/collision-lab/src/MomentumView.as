@@ -284,16 +284,31 @@ import flash.display.*;
 		}
 		
 		private function arrangeArrowsTipToTail():void{
-			this.totMomentum.x = this.borderWidth/2;
-			this.totMomentum.y = this.borderHeight/2;
-			this.momentum_arr[0].x = this.borderWidth/2;
-			this.momentum_arr[0].y = this.borderHeight/2;
-			var N:int = this.myModel.nbrBalls;			
-			for(var i:int = 1; i < N; i++){
-				var arrowIM1:Arrow = this.momentum_arr[i-1];  //IM1 = "i minus 1"
-				this.momentum_arr[i].x = arrowIM1.x + arrowIM1.getTipX();
-				this.momentum_arr[i].y = arrowIM1.y + arrowIM1.getTipY();
-			}//end for
+			var N:int = this.myModel.nbrBalls;
+			var oneDMode:Boolean = this.myModel.oneDMode;
+			if(oneDMode){
+				var vertSpace:int = 20;
+				var startHeight:Number = this.borderHeight/2 - (N/2)*vertSpace;
+				this.momentum_arr[0].x = this.borderWidth/2;
+				this.momentum_arr[0].y = startHeight;
+				for(var i:int = 1; i < N; i++){
+					var arrowIM1:Arrow = this.momentum_arr[i-1];  //IM1 = "i minus 1"
+					this.momentum_arr[i].x = arrowIM1.x + arrowIM1.getTipX();
+					this.momentum_arr[i].y = startHeight+ i*vertSpace;
+				}//end for
+				this.totMomentum.x = this.borderWidth/2;
+				this.totMomentum.y =  startHeight + N*vertSpace;
+			}else{  //if 2DMode
+				this.totMomentum.x = this.borderWidth/2;
+				this.totMomentum.y = this.borderHeight/2;
+				this.momentum_arr[0].x = this.borderWidth/2;
+				this.momentum_arr[0].y = this.borderHeight/2;
+				for(var i:int = 1; i < N; i++){
+					var arrowIM1:Arrow = this.momentum_arr[i-1];  //IM1 = "i minus 1"
+					this.momentum_arr[i].x = arrowIM1.x + arrowIM1.getTipX();
+					this.momentum_arr[i].y = arrowIM1.y + arrowIM1.getTipY();
+				}//end for
+			}
 		}//end arangeArrowsTipToTail();
 		
 		

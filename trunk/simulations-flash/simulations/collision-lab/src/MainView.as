@@ -28,13 +28,13 @@ public class MainView extends Sprite{
 			//trace("myMainView initialize called");
 			//this.stageW = this.stage.stageWidth;
 			//this.stageH = this.stage.stageHeight;
+			this.phetLogo = new PhETLogo();
+			this.addChild(this.phetLogo);
 			this.myTableView = new TableView(myModel, this);
 			this.myDataTable = new DataTable(myModel, this);
 			this.controlPanel = new ControlPanel(myModel, this);
 			this.momentumView = new MomentumView(myModel, this);
 			this.mySoundMaker = new SoundMaker(myModel, this);
-			this.phetLogo = new PhETLogo();
-			this.addChild(this.phetLogo);
 			this.myModel.updateViews();
 			//this.myDataTable.x = 60;
 			this.myDataTable.y = 0.75*this.stageH;//this.myTableView.canvas.height + 1.0*this.myTableView.playButtons.height;
