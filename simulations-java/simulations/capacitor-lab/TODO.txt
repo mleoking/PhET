@@ -15,6 +15,7 @@ DESIGN ISSUES
 - no visual cues to indicate 3D location of Voltmeter probes
 
 HIGH PRIORITY
+- make plates and dielectric transparent when E-field, Voltmeter or Field Detector is selected (currently only when E-Field is selected in ViewControlPanel)
 - test plate charge grid for small numbers of charges
 - add margin to plate charge grid to keep charges from looking like they are falling off plate edges
 - investigate perceived difference between x and z spacing of plate charges
@@ -25,7 +26,6 @@ HIGH PRIORITY
 MEDUIUM PRIORITY
 - TestPlateChargeLayout & PlateChargesNode: tall narrow plate results in too many charges, alpha too large?
 - PlateChargeNode: no charges sometimes shown when air contact area is small
-- make plates and dielectric transparent when E-field, Voltmeter or Field Detector is selected
 - how to handle look for probes being inside, outside, or partially inside the dielectric
 - collision detection of probes with battery and plates (OK to pass through wires and dielectric)
 - Field Detector

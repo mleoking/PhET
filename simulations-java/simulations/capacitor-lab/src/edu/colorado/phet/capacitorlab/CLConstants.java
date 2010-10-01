@@ -85,6 +85,7 @@ public class CLConstants {
     public static final boolean CHARGE_METER_VISIBLE = true;
     public static final boolean ENERGY_METER_VISIBLE = true;
     public static final boolean VOLTMETER_VISIBLE = false;
+    public static final boolean FIELD_DETECTOR_VISIBLE = false;
     
     // plate charges
     public static final boolean PLATE_CHARGES_VISIBLE = false; 
