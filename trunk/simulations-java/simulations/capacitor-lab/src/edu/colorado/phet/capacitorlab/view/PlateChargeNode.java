@@ -224,6 +224,9 @@ public abstract class PlateChargeNode extends PhetPNode {
     // Grid size strategies
     //==============================================================================
     
+    /**
+     * This factory determines the strategy used throughout the application.
+     */
     public static class GridSizeStrategyFactory {
         public static IGridSizeStrategy createStrategy() {
             return new CCKGridSizeStrategy();
