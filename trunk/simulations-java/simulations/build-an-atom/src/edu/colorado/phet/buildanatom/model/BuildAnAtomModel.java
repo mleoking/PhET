@@ -40,7 +40,7 @@ public class BuildAnAtomModel {
 
     protected static final double NUCLEUS_CAPTURE_DISTANCE = 50;
 
-    protected static final double ELECTRON_CAPTURE_DISTANCE = Atom.OUTER_SHELL_RADIUS + 20;
+    protected static final double ELECTRON_CAPTURE_DISTANCE = Atom.ELECTRON_SHELL_2_RADIUS + 20;
 
     //----------------------------------------------------------------------------
     // Instance Data
