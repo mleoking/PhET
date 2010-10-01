@@ -145,7 +145,7 @@ public class TestPlateChargeLayout extends JFrame {
             
             // debug output
             debugNode = new HTMLNode();
-            debugNode.setFont( new PhetFont( 18 ) );
+            debugNode.setFont( new PhetFont() );
             
             // rendering order
             addChild( plateNode );
