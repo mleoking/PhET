@@ -46,7 +46,7 @@ public class TestPlateChargeLayout extends JFrame {
      */
     public static class ChargeLayoutStrategyFactory {
         public static IChargeLayoutStrategy createChargeLayoutStrategy() {
-            return new CCKLayoutStrategy();
+            return new ModifiedCCKLayoutStrategy();
         }
     }
     
@@ -122,18 +122,20 @@ public class TestPlateChargeLayout extends JFrame {
     /**
      * Workaround for one of the known issues with CCKLayoutStrategy.
      * Ensures that we don't have a grid size where exactly one of the dimensions is zero.
-     * This introduces a new problem: When the plate's aspect ration gets large, this 
-     * strategy creates too many charges when the grid is tall and narrow (eg, 5x500). 
+     * This introduces a new problem: If numberOfCharges is kept constant, a plate with smaller
+     * area but larger aspect ratio will display more charges.
+     * For example, if charges=7, a 5x200mm plate will display 7 charges,
+     * while a 200x200mm plate will only display 4 charges.
      */
     public static class ModifiedCCKLayoutStrategy extends CCKLayoutStrategy {
         @Override
         protected Dimension getGridSize( int numberOfCharges, double plateWidth, double plateHeight ) {
             Dimension gridSize = super.getGridSize( numberOfCharges, plateWidth, plateHeight );
             if ( gridSize.width == 0 && gridSize.height != 0 ) {
-                gridSize.setSize( 1, gridSize.height );
+                gridSize.setSize( 1, numberOfCharges );
             }
             else if ( gridSize.width != 0 && gridSize.height == 0 ) {
-                gridSize.setSize( gridSize.width, 1 );
+                gridSize.setSize( numberOfCharges, 1 );
             }
             return gridSize;
         }
