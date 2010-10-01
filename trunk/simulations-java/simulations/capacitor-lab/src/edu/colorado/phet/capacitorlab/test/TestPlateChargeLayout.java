@@ -27,6 +27,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Test harness for plate charge layout in Capacitor Lab simulation.
+ * The grid size strategy is determined by PlateChargeNode$GridSizeStrategyFactory.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
