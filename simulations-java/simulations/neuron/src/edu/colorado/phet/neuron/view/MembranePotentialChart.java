@@ -453,23 +453,14 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
             // "gripability".
             double indentSpacing = 0.05 * height;
             PNode grippyIndent1 = new GrippyIndentNode( width / 2, FILL_COLOR );
-            grippyIndent1.setOffset( 0, indentSpacing );
+            grippyIndent1.setOffset( 0, height / 2 - indentSpacing );
             addChild( grippyIndent1 );
             PNode grippyIndent2 = new GrippyIndentNode( width / 2, FILL_COLOR );
-            grippyIndent2.setOffset( 0, indentSpacing * 2 );
+            grippyIndent2.setOffset( 0, height / 2 );
             addChild( grippyIndent2 );
             PNode grippyIndent3 = new GrippyIndentNode( width / 2, FILL_COLOR );
-            grippyIndent3.setOffset( 0, indentSpacing * 3 );
+            grippyIndent3.setOffset( 0, height / 2 + indentSpacing );
             addChild( grippyIndent3 );
-            PNode grippyIndent4 = new GrippyIndentNode( width / 2, FILL_COLOR );
-            grippyIndent4.setOffset( 0, height - indentSpacing * 3 );
-            addChild( grippyIndent4 );
-            PNode grippyIndent5 = new GrippyIndentNode( width / 2, FILL_COLOR );
-            grippyIndent5.setOffset( 0, height - indentSpacing * 2 );
-            addChild( grippyIndent5 );
-            PNode grippyIndent6 = new GrippyIndentNode( width / 2, FILL_COLOR );
-            grippyIndent6.setOffset( 0, height - indentSpacing );
-            addChild( grippyIndent6 );
 
             // Set a cursor handler for this node.
             addInputEventListener( new CursorHandler( Cursor.E_RESIZE_CURSOR ) );
