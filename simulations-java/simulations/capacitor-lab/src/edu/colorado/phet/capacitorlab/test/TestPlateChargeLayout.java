@@ -14,22 +14,25 @@ import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.capacitorlab.util.GridPanel;
 import edu.colorado.phet.capacitorlab.view.PlusNode;
+import edu.colorado.phet.capacitorlab.view.PlateChargeNode.GridSizeStrategyFactory;
+import edu.colorado.phet.capacitorlab.view.PlateChargeNode.IGridSizeStrategy;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Test harness for plate charge layout in Capacitor Lab simulation.
- * Charges are arranged in a grid.
- * Strategy used for grid size is determined by GridSizeStrategyFactory.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class TestPlateChargeLayout extends JFrame {
+    
+    private static final IGridSizeStrategy GRID_SIZE_STRATEGY = GridSizeStrategyFactory.createStrategy();
 
     private static final Dimension CANVAS_SIZE = new Dimension( 1024, 768 );
     private static final IntegerRange NUMBER_OF_CHARGES_RANGE = new IntegerRange( 0, 625, 0 );
@@ -37,64 +40,6 @@ public class TestPlateChargeLayout extends JFrame {
     private static final IntegerRange PLATE_HEIGHT_RANGE = new IntegerRange( 5, 500, 200 );
     private static final double PLUS_MINUS_WIDTH = 7;
     private static final double PLUS_MINUS_HEIGHT = 1;
-    
-    //==============================================================================
-    // Charge layout strategies
-    //==============================================================================
-    
-    /**
-     * Change the strategy here.
-     */
-    public static class GridSizeStrategyFactory {
-        public static IGridSizeStrategy createStrategy() {
-            return new CCKGridSizeStrategy();
-        }
-    }
-    
-    /**
-     * Interface for all grid size strategies.
-     */
-    public interface IGridSizeStrategy {
-        public Dimension getGridSize( int numberOfObjects, double width, double height );
-    }
-    
-    /**
-     * Strategy borrowed from CCK's CapacitorNode.
-     * When the plate's aspect ration gets large, this strategy creates grid sizes 
-     * where one of the dimensions is zero (eg, 8x0, 0x14).
-     */
-    public static class CCKGridSizeStrategy implements IGridSizeStrategy {
-        
-        public Dimension getGridSize( int numberOfObjects, double width, double height ) {
-            double alpha = Math.sqrt( numberOfObjects / width / height );
-            // casting here may result in some charges being thrown out, but that's OK
-            int columns = (int)( width * alpha );
-            int rows = (int)( height * alpha );
-            return new Dimension( columns, rows );
-        }
-    }
-    
-    /**
-     * Workaround for one of the known issues with CCKGridSizeStrategy.
-     * Ensures that we don't have a grid size where exactly one of the dimensions is zero.
-     * This introduces a new problem: If numberOfCharges is kept constant, a plate with smaller
-     * area but larger aspect ratio will display more charges.
-     * For example, if charges=7, a 5x200mm plate will display 7 charges,
-     * while a 200x200mm plate will only display 4 charges.
-     */
-    public static class ModifiedCCKGridSizeStrategy extends CCKGridSizeStrategy {
-        
-        public Dimension getGridSize( int numberOfObjects, double width, double height ) {
-            Dimension gridSize = super.getGridSize( numberOfObjects, width, height );
-            if ( gridSize.width == 0 && gridSize.height != 0 ) {
-                gridSize.setSize( 1, numberOfObjects );
-            }
-            else if ( gridSize.width != 0 && gridSize.height == 0 ) {
-                gridSize.setSize( numberOfObjects, 1 );
-            }
-            return gridSize;
-        }
-    }
     
     //==============================================================================
     // Model
@@ -182,12 +127,9 @@ public class TestPlateChargeLayout extends JFrame {
         private final PPath plateNode;
         private final PComposite parentChargesNode;
         private final HTMLNode debugNode;
-        private final IGridSizeStrategy gridSizeStrategy;
         
         public TestCanvas( final TestModel model ) {
             setPreferredSize( CANVAS_SIZE );
-            
-            gridSizeStrategy = GridSizeStrategyFactory.createStrategy();
             
             // plate
             plateNode = new PPath();
@@ -202,15 +144,21 @@ public class TestPlateChargeLayout extends JFrame {
             debugNode = new HTMLNode();
             debugNode.setFont( new PhetFont( 18 ) );
             
+            // grid size strategy name
+            PText strategyNameNode = new PText( "grid size strategy = " + GRID_SIZE_STRATEGY.getClass().getName() );
+            strategyNameNode.setFont( new PhetFont( 12 ) );
+            
             // rendering order
             addChild( plateNode );
             addChild( parentChargesNode );
             addChild( debugNode );
+            addChild( strategyNameNode );
             
             // layout
             plateNode.setOffset( ( PLATE_WIDTH_RANGE.getMax() / 2 ) + 100, ( PLATE_HEIGHT_RANGE.getMax() / 2 ) + 100 );
             parentChargesNode.setOffset( plateNode.getOffset() );
             debugNode.setOffset( plateNode.getXOffset() + ( PLATE_WIDTH_RANGE.getMax() / 2 ) + 50, plateNode.getYOffset() );
+            strategyNameNode.setOffset( 20, 20 );
             
             // model change listener
             this.model = model;
@@ -266,7 +214,7 @@ public class TestPlateChargeLayout extends JFrame {
             
             if ( numberOfCharges != 0 ) {
                 // compute the grid dimensions
-                Dimension gridSize = gridSizeStrategy.getGridSize( numberOfCharges, plateWidth, plateHeight );
+                Dimension gridSize = GRID_SIZE_STRATEGY.getGridSize( numberOfCharges, plateWidth, plateHeight );
                 final int rows = gridSize.height;
                 final int columns = gridSize.width;
 
