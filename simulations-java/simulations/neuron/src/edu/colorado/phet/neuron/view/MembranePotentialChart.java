@@ -63,15 +63,15 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 public class MembranePotentialChart extends PNode implements SimpleObserver {
 
-	//----------------------------------------------------------------------------
-	// Class Data
-	//----------------------------------------------------------------------------
+    //----------------------------------------------------------------------------
+    // Class Data
+    //----------------------------------------------------------------------------
 
-	public static final double TIME_SPAN = 25; // In seconds.
+    public static final double TIME_SPAN = 25; // In seconds.
 
-	// This value sets the frequency of chart updates, which helps to reduce
-	// the processor consumption.
-	private static final double UPDATE_PERIOD = 1 * NeuronDefaults.DEFAULT_ACTION_POTENTIAL_CLOCK_DT; // In seconds
+    // This value sets the frequency of chart updates, which helps to reduce
+    // the processor consumption.
+    private static final double UPDATE_PERIOD = 1 * NeuronDefaults.DEFAULT_ACTION_POTENTIAL_CLOCK_DT; // In seconds
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -80,14 +80,14 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
     private final JFreeChart chart;
     private final JFreeChartNode jFreeChartNode;
     private final NeuronModel neuronModel;
-	private final XYSeries dataSeries = new XYSeries("0");
-	private final ChartCursor chartCursor;
-	private static NumberAxis xAxis;
-	private static NumberAxis yAxis;
-	private boolean chartIsFull = false;
-	private double updateCountdownTimer = 0;  // Init to zero to an update occurs right away.
-	private double timeIndexOfFirstDataPt = 0;
-	private boolean pausedWhenDragStarted = false;
+    private final XYSeries dataSeries = new XYSeries( "0" );
+    private final ChartCursor chartCursor;
+    private static NumberAxis xAxis;
+    private static NumberAxis yAxis;
+    private boolean chartIsFull = false;
+    private double updateCountdownTimer = 0; // Init to zero to an update occurs right away.
+    private double timeIndexOfFirstDataPt = 0;
+    private boolean pausedWhenDragStarted = false;
 
     //----------------------------------------------------------------------------
     // Constructor(s)
@@ -95,51 +95,51 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
 
     public MembranePotentialChart( Dimension2D size, String title, final NeuronModel neuronModel ) {
 
-    	assert neuronModel != null;
+        assert neuronModel != null;
         this.neuronModel = neuronModel;
 
-    	// Register for clock ticks so that we can update.
-    	neuronModel.getClock().addClockListener(new ClockAdapter(){
-    	    @Override
-    	    public void clockTicked( ClockEvent clockEvent ) {
-    	    	updateChart(clockEvent);
-    	    }
-    	    @Override
-    	    public void simulationTimeReset( ClockEvent clockEvent ) {
+        // Register for clock ticks so that we can update.
+        neuronModel.getClock().addClockListener( new ClockAdapter() {
+                @Override
+            public void clockTicked( ClockEvent clockEvent ) {
+                updateChart( clockEvent );
+                }
+                @Override
+            public void simulationTimeReset( ClockEvent clockEvent ) {
                 neuronModel.setModeLive();
-    	    	clearChart();
-    	    	updateChartCursorVisibility();
-    	    }
-            @Override
+                clearChart();
+                updateChartCursorVisibility();
+                }
+                @Override
             public void clockPaused( ClockEvent clockEvent ) {
                 updateChartCursorPos();
                 updateChartCursorVisibility();
-            }
-    	});
+                }
+                } );
 
-    	// Register for model events that are important to us.
-    	neuronModel.addListener(new NeuronModel.Adapter(){
+        // Register for model events that are important to us.
+        neuronModel.addListener( new NeuronModel.Adapter() {
 
-    		@Override
+            @Override
             public void stimulusPulseInitiated() {
-    			if (!MembranePotentialChart.this.neuronModel.isPotentialChartVisible()){
-    				// If the chart is not visible, we clear any previous
-    				// recording.
-    				clearChart();
-    			}
-    			// Start recording, if it isn't already happening.
-    			neuronModel.startRecording();
-    		}
-    	});
+                if ( !MembranePotentialChart.this.neuronModel.isPotentialChartVisible() ) {
+                    // If the chart is not visible, we clear any previous
+                    // recording.
+                    clearChart();
+                }
+                // Start recording, if it isn't already happening.
+                neuronModel.startRecording();
+            }
+        } );
 
-    	// Register as an observer of model events related to record and
-    	// playback.
-    	neuronModel.addObserver(this);
+        // Register as an observer of model events related to record and
+        // playback.
+        neuronModel.addObserver( this );
 
         // Create the chart itself, i.e. the place where date will be shown.
         XYDataset dataset = new XYSeriesCollection( dataSeries );
         chart = createXYLineChart( title, NeuronStrings.MEMBRANE_POTENTIAL_X_AXIS_LABEL,
-        		NeuronStrings.MEMBRANE_POTENTIAL_Y_AXIS_LABEL, dataset, PlotOrientation.VERTICAL);
+                NeuronStrings.MEMBRANE_POTENTIAL_Y_AXIS_LABEL, dataset, PlotOrientation.VERTICAL );
         chart.getXYPlot().getRangeAxis().setTickLabelsVisible( true );
         chart.getXYPlot().getRangeAxis().setRange( -100, 100 );
         jFreeChartNode = new JFreeChartNode( chart, false );
@@ -152,10 +152,10 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
 
         // Add the chart cursor, which will allow the user to move back and
         // forth through time.
-        chartCursor = new ChartCursor(jFreeChartNode);
-        addChild(chartCursor);
+        chartCursor = new ChartCursor( jFreeChartNode );
+        addChild( chartCursor );
 
-		// Add a handler to the chart cursor that will track when it is moved
+        // Add a handler to the chart cursor that will track when it is moved
         // by the user and will set the model time accordingly.
 
         chartCursor.addInputEventListener( new PBasicInputEventHandler() {
@@ -166,9 +166,9 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
             @Override
             public void mousePressed( PInputEvent event ) {
                 pressPoint = event.getPositionRelativeTo( MembranePotentialChart.this );
-                pressTime = jFreeChartNode.nodeToPlot(chartCursor.getOffset()).getX();
+                pressTime = jFreeChartNode.nodeToPlot( chartCursor.getOffset() ).getX();
                 pausedWhenDragStarted = neuronModel.getClock().isPaused();
-                if (!pausedWhenDragStarted){
+                if ( !pausedWhenDragStarted ) {
                     // The user must be trying to grab the cursor while
                     // the recorded content is being played back.  Pause the
                     // clock.
@@ -190,21 +190,21 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
 
             @Override
             public void mouseDragged( PInputEvent event ) {
-                if (!neuronModel.isPlayback()){
-                    neuronModel.setPlayback(1); // Set into playback mode.
+                if ( !neuronModel.isPlayback() ) {
+                    neuronModel.setPlayback( 1 ); // Set into playback mode.
                 }
                 Point2D d = event.getPositionRelativeTo( MembranePotentialChart.this );
                 Point2D dx = new Point2D.Double( d.getX() - pressPoint.getX(), d.getY() - pressPoint.getY() );
                 Point2D diff = localToPlotDifferential( dx.getX(), dx.getY() );
                 double recordingTimeIndex = pressTime + diff.getX();
-                recordingTimeIndex = MathUtil.clamp(0, recordingTimeIndex, getLastTimeValue());
+                recordingTimeIndex = MathUtil.clamp( 0, recordingTimeIndex, getLastTimeValue() );
                 double compensatedRecordingTimeIndex = recordingTimeIndex / 1000 + neuronModel.getMinRecordedTime();
-                neuronModel.setTime(compensatedRecordingTimeIndex);
+                neuronModel.setTime( compensatedRecordingTimeIndex );
             }
 
             @Override
             public void mouseReleased( PInputEvent event ) {
-                if (!pausedWhenDragStarted){
+                if ( !pausedWhenDragStarted ) {
                     // The clock wasn't paused when the user grabbed this
                     // cursor, so now that they are releasing the cursor we
                     // should un-pause the clock.
@@ -213,47 +213,47 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
             }
         } );
 
-		// Add the button that will allow the user to close the chart.  This
+        // Add the button that will allow the user to close the chart.  This
         // will look like a red 'x' in the corner of the chart, much like the
         // one seen on standard MS Windows apps.
-		ImageIcon imageIcon = new ImageIcon(
-				PhetCommonResources.getInstance().getImage(PhetCommonResources.IMAGE_CLOSE_BUTTON) );
-		JButton closeButton = new JButton( imageIcon );
-		closeButton.setPreferredSize(new Dimension(imageIcon.getIconWidth(), imageIcon.getIconHeight()));
-		closeButton.addActionListener( new ActionListener() {
-			public void actionPerformed( ActionEvent e ) {
-				neuronModel.setPotentialChartVisible(false);
-			}
-		} );
+        ImageIcon imageIcon = new ImageIcon(
+                PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_CLOSE_BUTTON ) );
+        JButton closeButton = new JButton( imageIcon );
+        closeButton.setPreferredSize( new Dimension( imageIcon.getIconWidth(), imageIcon.getIconHeight() ) );
+        closeButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                neuronModel.setPotentialChartVisible( false );
+            }
+        } );
 
-		PSwing closePSwing = new PSwing( closeButton );
-		closePSwing.setOffset(size.getWidth() - closeButton.getBounds().width - 2, 2);
-		closePSwing.addInputEventListener( new CursorHandler(Cursor.HAND_CURSOR) );
-		addChild(closePSwing);
+        PSwing closePSwing = new PSwing( closeButton );
+        closePSwing.setOffset( size.getWidth() - closeButton.getBounds().width - 2, 2 );
+        closePSwing.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
+        addChild( closePSwing );
 
         // Add the button for clearing the chart.
-        JButton clearButton = new JButton(NeuronStrings.MEMBRANE_POTENTIAL_CLEAR_CHART);
-        clearButton.setFont(new PhetFont(14));
-        clearButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// If an action potential is in progress, start or continue
-				// recording.
-				if (neuronModel.isActionPotentialInProgress()){
-					neuronModel.startRecording();
-				}
-				else if (neuronModel.isRecord()){
-					// Stop recording if one is in progress.
-					neuronModel.setModeLive();
-				}
-				// Clear the chart.
-				clearChart();
-			}
-		});
-        PSwing clearButtonPSwing = new PSwing(clearButton);
+        JButton clearButton = new JButton( NeuronStrings.MEMBRANE_POTENTIAL_CLEAR_CHART );
+        clearButton.setFont( new PhetFont( 14 ) );
+        clearButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                // If an action potential is in progress, start or continue
+                // recording.
+                if ( neuronModel.isActionPotentialInProgress() ) {
+                    neuronModel.startRecording();
+                }
+                else if ( neuronModel.isRecord() ) {
+                    // Stop recording if one is in progress.
+                    neuronModel.setModeLive();
+                }
+                // Clear the chart.
+                clearChart();
+            }
+        } );
+        PSwing clearButtonPSwing = new PSwing( clearButton );
         clearButtonPSwing.setOffset(
-        		closePSwing.getFullBoundsReference().getMinX() - clearButtonPSwing.getFullBoundsReference().width - 10,
-        		0);
-        addChild(clearButtonPSwing);
+                closePSwing.getFullBoundsReference().getMinX() - clearButtonPSwing.getFullBoundsReference().width - 10,
+                0 );
+        addChild( clearButtonPSwing );
 
         // Final initialization steps.
         updateChartCursorVisibility();
@@ -271,32 +271,32 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
      * @param voltage - Voltage in volts.
      * @param update - Controls if graph should be refreshed on the screen.
      */
-    private void addDataPoint(double time, double voltage, boolean update){
+    private void addDataPoint( double time, double voltage, boolean update ) {
 
-    	if (dataSeries.getItemCount() == 0){
-    		// This is the first data point added since the last time the
-    		// chart was cleared or since it was created.  Record the time
-    		// index for future reference.
-    		timeIndexOfFirstDataPt = time;
-    	}
+        if ( dataSeries.getItemCount() == 0 ) {
+            // This is the first data point added since the last time the
+            // chart was cleared or since it was created.  Record the time
+            // index for future reference.
+            timeIndexOfFirstDataPt = time;
+        }
 
-    	// If the chart isn't full, add the data point to the data series.
-    	// Note that internally we work in millivolts, not volts.
-    	assert (time - timeIndexOfFirstDataPt >= 0);
-    	if (time - timeIndexOfFirstDataPt <= TIME_SPAN){
-    		dataSeries.add(time - timeIndexOfFirstDataPt, voltage * 1000, update);
-    		chartIsFull = false;
-    	}
-    	else if (!chartIsFull){
-    	    // This is the first data point to be received that is outside of
-    	    // the chart's range.  Add it anyway so that there is no gap
-    	    // in the data shown at the end of the chart.
-            dataSeries.add(time - timeIndexOfFirstDataPt, voltage * 1000, true);
-    	    chartIsFull = true;
-    	}
-    	else{
-    	    System.out.println(getClass().getName() + " Warning: Attempt to add data to full chart, ignoring.");
-    	}
+        // If the chart isn't full, add the data point to the data series.
+        // Note that internally we work in millivolts, not volts.
+        assert ( time - timeIndexOfFirstDataPt >= 0 );
+        if ( time - timeIndexOfFirstDataPt <= TIME_SPAN ) {
+            dataSeries.add( time - timeIndexOfFirstDataPt, voltage * 1000, update );
+            chartIsFull = false;
+        }
+        else if ( !chartIsFull ) {
+            // This is the first data point to be received that is outside of
+            // the chart's range.  Add it anyway so that there is no gap
+            // in the data shown at the end of the chart.
+            dataSeries.add( time - timeIndexOfFirstDataPt, voltage * 1000, true );
+            chartIsFull = true;
+        }
+        else {
+            System.out.println( getClass().getName() + " Warning: Attempt to add data to full chart, ignoring." );
+        }
     }
 
     /**
@@ -304,12 +304,12 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
      * highest time value, since data points are expected to be added in order
      * of increasing time.  If no data is present, 0 is returned.
      */
-    private double getLastTimeValue(){
-    	double timeOfLastDataPoint = 0;
-    	if (dataSeries.getItemCount() > 0){
-    		timeOfLastDataPoint = dataSeries.getX(dataSeries.getItemCount() - 1).doubleValue();
-    	}
-    	return timeOfLastDataPoint;
+    private double getLastTimeValue() {
+        double timeOfLastDataPoint = 0;
+        if ( dataSeries.getItemCount() > 0 ) {
+            timeOfLastDataPoint = dataSeries.getX( dataSeries.getItemCount() - 1 ).doubleValue();
+        }
+        return timeOfLastDataPoint;
     }
 
     /**
@@ -323,35 +323,35 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
      * @param orientation
      * @return
      */
-    private static JFreeChart createXYLineChart(String title, String xAxisLabel, String yAxisLabel,
-    		XYDataset dataset, PlotOrientation orientation) {
+    private static JFreeChart createXYLineChart( String title, String xAxisLabel, String yAxisLabel,
+            XYDataset dataset, PlotOrientation orientation ) {
 
-    	if (orientation == null) {
-    		throw new IllegalArgumentException("Null 'orientation' argument.");
-    	}
+        if ( orientation == null ) {
+            throw new IllegalArgumentException( "Null 'orientation' argument." );
+        }
 
-    	xAxis = new NumberAxis(xAxisLabel);
-    	xAxis.setLabelFont(new PhetFont(18));
-    	yAxis = new NumberAxis(yAxisLabel);
-    	yAxis.setLabelFont(new PhetFont(18));
+        xAxis = new NumberAxis( xAxisLabel );
+        xAxis.setLabelFont( new PhetFont( 18 ) );
+        yAxis = new NumberAxis( yAxisLabel );
+        yAxis.setLabelFont( new PhetFont( 18 ) );
 
         JFreeChart chart = ChartFactory.createXYLineChart(
-            title,
-            xAxisLabel,
-            yAxisLabel,
-            dataset,
-            PlotOrientation.VERTICAL,
-            false, // legend
-            false, // tooltips
-            false  // urls
+                title,
+                xAxisLabel,
+                yAxisLabel,
+                dataset,
+                PlotOrientation.VERTICAL,
+                false, // legend
+        false, // tooltips
+        false // urls
         );
 
         // Set the stroke for the data line to be larger than the default.
         XYPlot plot = chart.getXYPlot();
         XYItemRenderer renderer = plot.getRenderer();
-        renderer.setStroke(new BasicStroke(3f, BasicStroke.JOIN_ROUND, BasicStroke.JOIN_BEVEL));
+        renderer.setStroke( new BasicStroke( 3f, BasicStroke.JOIN_ROUND, BasicStroke.JOIN_BEVEL ) );
 
-    	return chart;
+        return chart;
     }
 
     /**
@@ -360,66 +360,66 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
      *
      * @param clockEvent
      */
-    private void updateChart(ClockEvent clockEvent){
+    private void updateChart( ClockEvent clockEvent ) {
 
-    	if (neuronModel.isRecord()){
-    		if (!chartIsFull && clockEvent.getSimulationTimeChange() > 0){
-    			updateCountdownTimer -= clockEvent.getSimulationTimeChange();
+        if ( neuronModel.isRecord() ) {
+            if ( !chartIsFull && clockEvent.getSimulationTimeChange() > 0 ) {
+                updateCountdownTimer -= clockEvent.getSimulationTimeChange();
 
-    			double timeInMilliseconds = neuronModel.getTime() * 1000;
+                double timeInMilliseconds = neuronModel.getTime() * 1000;
 
-    			if (updateCountdownTimer <= 0){
-    				addDataPoint(timeInMilliseconds, neuronModel.getMembranePotential(), true);
-    				updateCountdownTimer = UPDATE_PERIOD;
-    			}
-    			else{
-    				addDataPoint(timeInMilliseconds, neuronModel.getMembranePotential(), false);
-    			}
-    		}
+                if ( updateCountdownTimer <= 0 ) {
+                    addDataPoint( timeInMilliseconds, neuronModel.getMembranePotential(), true );
+                    updateCountdownTimer = UPDATE_PERIOD;
+                }
+                else {
+                    addDataPoint( timeInMilliseconds, neuronModel.getMembranePotential(), false );
+                }
+            }
 
-    		if (chartIsFull && neuronModel.isRecord()){
-    			// The chart is full, so it is time to stop recording.
-    			neuronModel.setModeLive();
-    		}
-    	}
+            if ( chartIsFull && neuronModel.isRecord() ) {
+                // The chart is full, so it is time to stop recording.
+                neuronModel.setModeLive();
+            }
+        }
     }
 
     /**
      * Clear all data from the chart.
      */
-    private void clearChart(){
-    	dataSeries.clear();
-    	chartIsFull = false;
-    	neuronModel.clearHistory();
-    	updateChartCursorVisibility();
+    private void clearChart() {
+        dataSeries.clear();
+        chartIsFull = false;
+        neuronModel.clearHistory();
+        updateChartCursorVisibility();
     }
 
-    private void updateChartCursorVisibility(){
-    	// Deciding whether or not the chart cursor should be visible is a
-    	// little tricky, so I've tried to make the logic very explicit for
-    	// easier maintenance.  Basically, any time we are in playback mode
-    	// and we are somewhere on the chart, or when stepping and recording,
-    	// the cursor should be seen.
+    private void updateChartCursorVisibility() {
+        // Deciding whether or not the chart cursor should be visible is a
+        // little tricky, so I've tried to make the logic very explicit for
+        // easier maintenance.  Basically, any time we are in playback mode
+        // and we are somewhere on the chart, or when stepping and recording,
+        // the cursor should be seen.
 
-    	double timeOnChart = (neuronModel.getTime() - neuronModel.getMinRecordedTime()) * 1000;
-    	boolean isCurrentTimeOnChart = ( timeOnChart >= 0 ) && ( timeOnChart <= TIME_SPAN );
-    	boolean dataExists = dataSeries.getItemCount() > 0;
+        double timeOnChart = ( neuronModel.getTime() - neuronModel.getMinRecordedTime() ) * 1000;
+        boolean isCurrentTimeOnChart = ( timeOnChart >= 0 ) && ( timeOnChart <= TIME_SPAN );
+        boolean dataExists = dataSeries.getItemCount() > 0;
 
-//    	boolean chartCursorVisible = isCurrentTimeOnChart && dataExists &&
-//    	    (neuronModel.isPlayback() || (neuronModel.getClock().isPaused() && !neuronModel.isLive()));
+        //    	boolean chartCursorVisible = isCurrentTimeOnChart && dataExists &&
+        //    	    (neuronModel.isPlayback() || (neuronModel.getClock().isPaused() && !neuronModel.isLive()));
         boolean chartCursorVisible = isCurrentTimeOnChart && dataExists;
 
-    	chartCursor.setVisible(chartCursorVisible);
+        chartCursor.setVisible( chartCursorVisible );
     }
 
-    private void moveChartCursorToTime(double time){
+    private void moveChartCursorToTime( double time ) {
         Point2D cursorPos = jFreeChartNode.plotToNode( new Point2D.Double( time, jFreeChartNode.getChart().getXYPlot().getRangeAxis().getRange().getUpperBound() ) );
-        chartCursor.setOffset(cursorPos);
+        chartCursor.setOffset( cursorPos );
     }
 
-	//----------------------------------------------------------------------------
-	// Inner Classes and Interfaces
-	//----------------------------------------------------------------------------
+    //----------------------------------------------------------------------------
+    // Inner Classes and Interfaces
+    //----------------------------------------------------------------------------
 
     /**
      * This class represents the cursor that the user can grab and move around
@@ -427,34 +427,34 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
      */
     private static class ChartCursor extends PPath {
 
-    	private static final double WIDTH_PROPORTION = 0.013;
-    	private static final Color FILL_COLOR = new Color( 50, 50, 200, 80 );
-    	private static final Color STROKE_COLOR = Color.DARK_GRAY;
-    	private static final Stroke STROKE = new BasicStroke( 1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1.0f, new float[]{10.0f, 5.0f}, 0 );
+        private static final double WIDTH_PROPORTION = 0.013;
+        private static final Color FILL_COLOR = new Color( 50, 50, 200, 80 );
+        private static final Color STROKE_COLOR = Color.DARK_GRAY;
+        private static final Stroke STROKE = new BasicStroke( 1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1.0f, new float[] { 10.0f, 5.0f }, 0 );
 
-		public ChartCursor(JFreeChartNode jFreeChartNode) {
+        public ChartCursor( JFreeChartNode jFreeChartNode ) {
 
-			// Set up the general appearance.
-			setStroke(STROKE);
-			setStrokePaint(STROKE_COLOR);
-			setPaint(FILL_COLOR);
+            // Set up the general appearance.
+            setStroke( STROKE );
+            setStrokePaint( STROKE_COLOR );
+            setPaint( FILL_COLOR );
 
-	        Point2D topOfPlotArea = jFreeChartNode.plotToNode( new Point2D.Double( 0, jFreeChartNode.getChart().getXYPlot().getRangeAxis().getRange().getUpperBound() ) );
-	        Point2D bottomOfPlotArea = jFreeChartNode.plotToNode( new Point2D.Double( 0, jFreeChartNode.getChart().getXYPlot().getRangeAxis().getRange().getLowerBound() ) );
+            Point2D topOfPlotArea = jFreeChartNode.plotToNode( new Point2D.Double( 0, jFreeChartNode.getChart().getXYPlot().getRangeAxis().getRange().getUpperBound() ) );
+            Point2D bottomOfPlotArea = jFreeChartNode.plotToNode( new Point2D.Double( 0, jFreeChartNode.getChart().getXYPlot().getRangeAxis().getRange().getLowerBound() ) );
 
-			// Set the shape.  The shape is created so that it is centered
-			// around an offset of 0 in the x direction and the top edge is
-			// at 0 in the y direction.
-			double width = jFreeChartNode.getFullBoundsReference().width * WIDTH_PROPORTION;
-			double height = bottomOfPlotArea.getY() - topOfPlotArea.getY();
-			setPathTo(new Rectangle2D.Double(-width / 2, 0, width, height));
+            // Set the shape.  The shape is created so that it is centered
+            // around an offset of 0 in the x direction and the top edge is
+            // at 0 in the y direction.
+            double width = jFreeChartNode.getFullBoundsReference().width * WIDTH_PROPORTION;
+            double height = bottomOfPlotArea.getY() - topOfPlotArea.getY();
+            setPathTo( new Rectangle2D.Double( -width / 2, 0, width, height ) );
 
-			// Add the indentations that are intended to convey the idea of
-			// "gripability".
-			double indentSpacing = 0.05 * height;
-			PNode grippyIndent1 = new GrippyIndentNode( width / 2, FILL_COLOR );
-			grippyIndent1.setOffset( 0, indentSpacing );
-			addChild( grippyIndent1 );
+            // Add the indentations that are intended to convey the idea of
+            // "gripability".
+            double indentSpacing = 0.05 * height;
+            PNode grippyIndent1 = new GrippyIndentNode( width / 2, FILL_COLOR );
+            grippyIndent1.setOffset( 0, indentSpacing );
+            addChild( grippyIndent1 );
             PNode grippyIndent2 = new GrippyIndentNode( width / 2, FILL_COLOR );
             grippyIndent2.setOffset( 0, indentSpacing * 2 );
             addChild( grippyIndent2 );
@@ -471,25 +471,25 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
             grippyIndent6.setOffset( 0, height - indentSpacing );
             addChild( grippyIndent6 );
 
-			// Set a cursor handler for this node.
-			addInputEventListener(new CursorHandler(Cursor.E_RESIZE_CURSOR));
-		}
+            // Set a cursor handler for this node.
+            addInputEventListener( new CursorHandler( Cursor.E_RESIZE_CURSOR ) );
+        }
     }
 
-    private void updateChartCursorPos(){
-		double recordingStartTime = neuronModel.getMinRecordedTime();
-		double recordingCurrentTime = neuronModel.getTime();
-		moveChartCursorToTime( ( recordingCurrentTime - recordingStartTime ) * 1000 );
+    private void updateChartCursorPos() {
+        double recordingStartTime = neuronModel.getMinRecordedTime();
+        double recordingCurrentTime = neuronModel.getTime();
+        moveChartCursorToTime( ( recordingCurrentTime - recordingStartTime ) * 1000 );
     }
 
     /**
      * Handle change notifications from the record-and-playback portion of the
      * model.
      */
-	public void update() {
-		updateChartCursorVisibility();
-		if (chartCursor.getVisible()){
-			updateChartCursorPos();
-		}
-	}
+    public void update() {
+        updateChartCursorVisibility();
+        if ( chartCursor.getVisible() ) {
+            updateChartCursorPos();
+        }
+    }
 }
