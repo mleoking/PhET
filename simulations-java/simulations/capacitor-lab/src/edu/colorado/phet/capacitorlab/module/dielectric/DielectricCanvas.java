@@ -157,11 +157,12 @@ public class DielectricCanvas extends CLCanvas {
             removeWiresButtonNode.setOffset( x, y );
             
             // Meters
-            capacitanceMeterNode.setOffset( 600, 25 ); //XXX
-            chargeMeterNode.setOffset( 750, 25 ); //XXX
-            energyMeterNode.setOffset( 900, 25 ); //XXX
-            voltmeterNode.setOffset( 750, 325 ); //XXX
-            eFieldDetectorNode.setOffset( 750, 600 ); //XXX
+            //XXX specify default locations in CLConstants, in model coordinates
+            capacitanceMeterNode.setOffset( 600, 25 );
+            chargeMeterNode.setOffset( 750, 25 );
+            energyMeterNode.setOffset( 900, 25 );
+            voltmeterNode.setOffset( 750, 325 );
+            eFieldDetectorNode.setOffset( 750, 600 );
             
             // Plate Charge control
             pView = mvt.modelToView( CLConstants.PLATE_CHARGE_CONTROL_LOCATION );
