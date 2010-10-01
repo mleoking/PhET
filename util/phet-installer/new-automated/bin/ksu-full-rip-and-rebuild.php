@@ -70,6 +70,7 @@
         // Move the local mirror installers into the location within the ripped
         // web site where they need to be in order to be incorporated within
         // the web mirror installer.
+        flushing_echo("\nMoving the translated local installers into the web site rip so that they will be included in web mirror installer.");
         rename( OUTPUT_DIR.WINDOWS_INSTALLER_FILE_NAME, RIPPED_WEBSITE_INSTALLER_DIR.WINDOWS_INSTALLER_FILE_NAME );
         rename( OUTPUT_DIR.LINUX_INSTALLER_FILE_NAME, RIPPED_WEBSITE_INSTALLER_DIR.LINUX_INSTALLER_FILE_NAME );
         rename( OUTPUT_DIR.OSX_INSTALLER_FILE_NAME, RIPPED_WEBSITE_INSTALLER_DIR.OSX_INSTALLER_FILE_NAME );
