@@ -15,10 +15,7 @@ import edu.colorado.phet.capacitorlab.model.CLModel;
 import edu.colorado.phet.capacitorlab.module.dielectric.DielectricCanvas;
 import edu.colorado.phet.capacitorlab.util.GridPanel;
 import edu.colorado.phet.capacitorlab.util.GridPanel.Anchor;
-import edu.colorado.phet.capacitorlab.view.meters.CapacitanceMeterNode;
-import edu.colorado.phet.capacitorlab.view.meters.PlateChargeMeterNode;
-import edu.colorado.phet.capacitorlab.view.meters.StoredEnergyMeterNode;
-import edu.colorado.phet.capacitorlab.view.meters.VoltmeterNode;
+import edu.colorado.phet.capacitorlab.view.meters.*;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
 import edu.umd.cs.piccolo.PNode;
 
@@ -29,7 +26,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class MetersControlPanel extends PhetTitledPanel {
     
-    private final JCheckBox capacitanceCheckBox, chargeCheckBox, energyCheckBox, voltmeterCheckBox, fieldDetectorCheckBox;
+    private final JCheckBox capacitanceCheckBox, chargeCheckBox, energyCheckBox, voltmeterCheckBox, eFieldDetectorCheckBox;
     
     public MetersControlPanel( CLModel model, final DielectricCanvas canvas ) {
         super( CLStrings.TITLE_METERS );
@@ -110,9 +107,23 @@ public class MetersControlPanel extends PhetTitledPanel {
             } );
         }
         
-        // Field Detector
+        // E-field Detector
         {
-            fieldDetectorCheckBox = new JCheckBox( CLStrings.CHECKBOX_METER_FIELD_DETECTOR );
+            final EFieldDetectorNode meter = canvas.getEFieldDetectorNode();
+            eFieldDetectorCheckBox = new JCheckBox( CLStrings.CHECKBOX_METER_EFIELD_DETECTOR );
+            eFieldDetectorCheckBox.setSelected( meter.isVisible() );
+            eFieldDetectorCheckBox.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    meter.setVisible( eFieldDetectorCheckBox.isSelected() );
+                }
+            } );
+            meter.addPropertyChangeListener( new PropertyChangeListener() {
+                public void propertyChange( PropertyChangeEvent evt ) {
+                    if ( evt.getPropertyName().equals( PNode.PROPERTY_VISIBLE ) ) {
+                        eFieldDetectorCheckBox.setSelected( meter.isVisible() );
+                    }
+                }
+            } );
         }
         
         // layout
@@ -123,7 +134,7 @@ public class MetersControlPanel extends PhetTitledPanel {
         innerPanel.add( chargeCheckBox );
         innerPanel.add( energyCheckBox );
         innerPanel.add( voltmeterCheckBox );
-        innerPanel.add( fieldDetectorCheckBox );
+        innerPanel.add( eFieldDetectorCheckBox );
         
         // make everything left justify when put in the main control panel
         setLayout( new BorderLayout() );

@@ -31,7 +31,7 @@ public class ViewControlPanel extends PhetTitledPanel {
             }
         });
         
-        final JCheckBox electricFieldLinesCheckBox = new JCheckBox( CLStrings.CHECKBOX_ELECTRIC_FIELD_LINES );
+        final JCheckBox electricFieldLinesCheckBox = new JCheckBox( CLStrings.CHECKBOX_EFIELD_LINES );
         electricFieldLinesCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 canvas.getCapacitorNode().setEFieldVisible( electricFieldLinesCheckBox.isSelected() );

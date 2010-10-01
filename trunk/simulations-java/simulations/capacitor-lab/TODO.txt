@@ -15,6 +15,7 @@ DESIGN ISSUES
 - no visual cues to indicate 3D location of Voltmeter probes
 
 HIGH PRIORITY
+- bug: density (not number) of field lines is proportional to E_effective
 - make plates and dielectric transparent when E-field, Voltmeter or Field Detector is selected (currently only when E-Field is selected in ViewControlPanel)
 - test plate charge grid for small numbers of charges
 - add margin to plate charge grid to keep charges from looking like they are falling off plate edges
