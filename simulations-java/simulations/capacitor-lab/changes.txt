@@ -1,3 +1,5 @@
+# 0.00.18 (44586) Sep 30, 2010
+9/30/10 demo fix to current indicator, and improved plate charge layout
 9/30/10 add margin along z axis for plate charges, hack to keep them on the plate with 3D perspective
 9/30/10 keep plate charges from falling off the edges of the plate
 9/30/10 ensure that at least one charge is shown if number of plate charges is non-zero
