@@ -57,8 +57,6 @@ public class CLConstants {
     public static final double EPSILON_VACUUM = 1; // dielectric constant of a vacuum, dimensionless
     public static final double EPSILON_AIR = 1.0005896; // dielectric constant of air, dimensionless
     
-    public static final double DISCONNECTED_PLATE_CHARGE = 0; // Coulombs
-    
     public static final Point3D PLATE_CHARGE_CONTROL_LOCATION = new Point3D.Double( CAPACITOR_LOCATION.getX() - 0.004, 0.001, 0 );
     
     //----------------------------------------------------------------------------
@@ -89,7 +87,7 @@ public class CLConstants {
     public static final boolean VOLTMETER_VISIBLE = false;
     
     // plate charges
-    public static final boolean PLATE_CHARGES_VISIBLE = true; //XXX default should be false
+    public static final boolean PLATE_CHARGES_VISIBLE = false; 
     public static final int MAX_NUMBER_OF_PLATE_CHARGES = 625;
     public static final double MIN_NONZERO_PLATE_CHARGE = 8E-15; // Coulombs, all non-zero values <= MIN_NONZERO_PLATE_CHARGE are represented by 1 charge
     
@@ -97,7 +95,9 @@ public class CLConstants {
     public static final DielectricChargeView DIELECTRIC_CHARGE_VIEW = DielectricChargeView.NONE; //XXX default should be NONE
     
     // e-field
-    public static final boolean EFIELD_LINES_VISIBLE = false;
+    public static final boolean EFIELD_VISIBLE = true;
+    public static final int MAX_NUMBER_OF_FIELD_LINES = 200;
+    public static final double MIN_NONZERO_EFFECTIVE_EFIELD = 0.5; // V/m
     
     //----------------------------------------------------------------------------
     // Control

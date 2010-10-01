@@ -29,6 +29,9 @@ public class CLPaints {
     // capacitance
     public static final Color CAPACITANCE = Color.GREEN;
     
+    // field lines
+    public static final Color EFIELD = Color.BLACK;
+    
     // draggable things
     public static final Color DRAGGABLE_NORMAL = Color.GREEN;
     public static final Color DRAGGABLE_HIGHLIGHT = Color.YELLOW;

@@ -1,3 +1,5 @@
+10/1/10 add E-field view
+10/1/10 move responsibility for dielectric color into DielectricNode
 # 0.00.18 (44586) Sep 30, 2010
 9/30/10 demo fix to current indicator, and improved plate charge layout
 9/30/10 add margin along z axis for plate charges, hack to keep them on the plate with 3D perspective
