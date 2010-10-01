@@ -32,6 +32,11 @@ public class ViewControlPanel extends PhetTitledPanel {
         });
         
         final JCheckBox electricFieldLinesCheckBox = new JCheckBox( CLStrings.CHECKBOX_ELECTRIC_FIELD_LINES );
+        electricFieldLinesCheckBox.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                canvas.getCapacitorNode().setEFieldVisible( electricFieldLinesCheckBox.isSelected() );
+            }
+        });
         
         // layout
         GridPanel innerPanel = new GridPanel();
@@ -46,5 +51,6 @@ public class ViewControlPanel extends PhetTitledPanel {
         
         // default state
         plateChargesCheckBox.setSelected( canvas.getCapacitorNode().isPlateChargeVisible() );
+        electricFieldLinesCheckBox.setSelected( canvas.getCapacitorNode().isEFieldVisible() );
     }
 }

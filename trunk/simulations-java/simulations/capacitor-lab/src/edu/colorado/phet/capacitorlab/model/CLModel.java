@@ -33,7 +33,7 @@ public class CLModel {
         Battery battery = new Battery( CLConstants.BATTERY_LOCATION, CLConstants.BATTERY_VOLTAGE_RANGE.getDefault() );
         Capacitor capacitor = new Capacitor( CLConstants.CAPACITOR_LOCATION, CLConstants.PLATE_SIZE_RANGE.getDefault(), CLConstants.PLATE_SEPARATION_RANGE.getDefault(), 
                 defaultDielectricMaterial, CLConstants.DIELECTRIC_OFFSET_RANGE.getDefault() );
-        circuit = new BatteryCapacitorCircuit( clock, battery, capacitor, CLConstants.BATTERY_CONNECTED, CLConstants.DISCONNECTED_PLATE_CHARGE );
+        circuit = new BatteryCapacitorCircuit( clock, battery, capacitor, CLConstants.BATTERY_CONNECTED );
         
         topWire = new Wire( CLConstants.WIRE_THICKNESS, CLConstants.TOP_WIRE_EXTENT );
         bottomWire = new Wire( CLConstants.WIRE_THICKNESS, CLConstants.BOTTOM_WIRE_EXTENT );
@@ -73,6 +73,5 @@ public class CLModel {
         getCapacitor().setDielectricOffset( CLConstants.DIELECTRIC_OFFSET_RANGE.getDefault() );
         // circuit
         getCircuit().setBatteryConnected( CLConstants.BATTERY_CONNECTED );
-        getCircuit().setDisconnectedPlateCharge( CLConstants.DISCONNECTED_PLATE_CHARGE );
     }
 }

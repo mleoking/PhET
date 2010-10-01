@@ -23,16 +23,12 @@ public class CapacitorNode extends PhetPNode {
     private final ModelViewTransform mvt;
     private final PlateNode topPlateNode, bottomPlateNode;
     private final DielectricNode dielectricNode;
+    private final EFieldNode eFieldNode;
     
     public CapacitorNode( BatteryCapacitorCircuit circuit, ModelViewTransform mvt, boolean dev ) {
         
         this.circuit = circuit;
         this.circuit.getCapacitor().addCapacitorChangeListener( new CapacitorChangeAdapter() {
-
-            @Override
-            public void dielectricMaterialChanged() {
-                updateDielectricColor();
-            }
 
             @Override
             public void dielectricOffsetChanged() {
@@ -56,9 +52,11 @@ public class CapacitorNode extends PhetPNode {
         topPlateNode = new TopPlateNode( circuit, mvt );
         bottomPlateNode = new BottomPlateNode( circuit, mvt );
         dielectricNode = new DielectricNode( circuit, mvt, dev, CLConstants.DIELECTRIC_OFFSET_RANGE );
+        eFieldNode = new EFieldNode( circuit, mvt );
         
         // rendering order
         addChild( bottomPlateNode );
+        addChild( eFieldNode );
         addChild( dielectricNode ); // dielectric between the plates
         addChild( topPlateNode );
         
@@ -82,6 +80,15 @@ public class CapacitorNode extends PhetPNode {
     
     public DielectricChargeView getDielectricChargeView() {
         return dielectricNode.getDielectricChargeView();
+    }
+    
+    public void setEFieldVisible( boolean visible ) {
+        eFieldNode.setVisible( visible );
+        //XXX set transparency of plates and dielectric
+    }
+    
+    public boolean isEFieldVisible() {
+        return eFieldNode.isVisible();
     }
     
     private void updateGeometry() {

@@ -355,7 +355,6 @@ public class TestPlateChargeLayout extends JFrame {
     public TestPlateChargeLayout() {
         super( TestPlateChargeLayout.class.getName() );
         
-        // MVC
         TestModel model = new TestModel();
         TestCanvas canvas = new TestCanvas( model );
         TestControlPanel controlPanel = new TestControlPanel( model );

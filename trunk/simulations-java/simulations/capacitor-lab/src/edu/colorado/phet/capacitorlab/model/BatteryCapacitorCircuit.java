@@ -44,7 +44,7 @@ public class BatteryCapacitorCircuit {
     private double currentAmplitude;
     private double previousVoltage;
 
-    public BatteryCapacitorCircuit( CLClock clock, Battery battery, Capacitor capacitor, boolean batteryConnected, double disconnectedPlateCharge ) {
+    public BatteryCapacitorCircuit( CLClock clock, Battery battery, Capacitor capacitor, boolean batteryConnected ) {
         
         this.clock = clock;
         this.listeners = new EventListenerList();
@@ -267,6 +267,9 @@ public class BatteryCapacitorCircuit {
      * Maximum charge occurs when the battery is connected, 
      * plate separate and dielectric offset are at their minimums,
      * and all other quantities are at their maximums.
+     * <p>
+     * We compute this with the battery connected because this is used 
+     * to determine the range of the Plate Charge slider.
      * 
      * @return charge, in Coulombs
      */
@@ -274,8 +277,24 @@ public class BatteryCapacitorCircuit {
         DielectricMaterial material = new CustomDielectricMaterial( CLConstants.DIELECTRIC_CONSTANT_RANGE.getMax() );
         Capacitor capacitor = new Capacitor( new Point3D.Double(), CLConstants.PLATE_SIZE_RANGE.getMax(), CLConstants.PLATE_SEPARATION_RANGE.getMin(), material, CLConstants.DIELECTRIC_OFFSET_RANGE.getMin() );
         Battery battery = new Battery( new Point3D.Double(), CLConstants.BATTERY_VOLTAGE_RANGE.getMax() );
-        BatteryCapacitorCircuit circuit = new BatteryCapacitorCircuit( new CLClock(), battery, capacitor, true /* batteryConnected */, 0 /* manualPlateCharge, don't care */ );
+        BatteryCapacitorCircuit circuit = new BatteryCapacitorCircuit( new CLClock(), battery, capacitor, true /* batteryConnected */ );
         return circuit.getTotalPlateCharge();
+    }
+    
+    /**
+     * Gets the maximum effective E-field between the plates.
+     * The maximum occurs when the battery is disconnected, the Plate Charge control is set to its maximum,
+     * the plate area is set to its minimum, and the dielectric constant is min, and the dielectric is fully inserted. 
+     * And in this situation, plate separation is irrelevant.
+     * @return
+     */
+    public static double getMaxEffectiveEfield() {
+        DielectricMaterial material = new CustomDielectricMaterial( CLConstants.DIELECTRIC_CONSTANT_RANGE.getMin() );
+        Capacitor capacitor = new Capacitor( new Point3D.Double(), CLConstants.PLATE_SIZE_RANGE.getMin(), CLConstants.PLATE_SEPARATION_RANGE.getMin(), material, CLConstants.DIELECTRIC_OFFSET_RANGE.getMin() );
+        Battery battery = new Battery( new Point3D.Double(), 0 );
+        BatteryCapacitorCircuit circuit = new BatteryCapacitorCircuit( new CLClock(), battery, capacitor, false /* batteryConnected */ );
+        circuit.setDisconnectedPlateCharge( getMaxPlateCharge() );
+        return circuit.getEffectiveEfield();
     }
     
     //----------------------------------------------------------------------------------
