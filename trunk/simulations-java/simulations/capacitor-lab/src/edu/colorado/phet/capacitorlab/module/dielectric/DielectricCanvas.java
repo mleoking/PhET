@@ -176,6 +176,7 @@ public class DielectricCanvas extends CLCanvas {
         capacitorNode.setPlateChargeVisible( CLConstants.PLATE_CHARGES_VISIBLE );
         capacitorNode.setDielectricChargeView( CLConstants.DIELECTRIC_CHARGE_VIEW );
         capacitorNode.setEFieldVisible( CLConstants.EFIELD_VISIBLE );
+        capacitorNode.setOpaque( !( CLConstants.EFIELD_VISIBLE || CLConstants.VOLTMETER_VISIBLE || CLConstants.FIELD_DETECTOR_VISIBLE ) );
     }
     
     public void reset() {

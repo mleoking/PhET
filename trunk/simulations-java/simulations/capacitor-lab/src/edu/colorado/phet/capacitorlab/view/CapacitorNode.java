@@ -18,6 +18,8 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class CapacitorNode extends PhetPNode {
+    
+    private final static float TRANSPARENCY = 0.75f;
 
     private final BatteryCapacitorCircuit circuit;
     private final ModelViewTransform mvt;
@@ -65,6 +67,13 @@ public class CapacitorNode extends PhetPNode {
         updateDielectricColor();
     }
     
+    public void setOpaque( boolean opaque ) {
+        float transparency = ( opaque ) ? 1f : TRANSPARENCY;
+        topPlateNode.setTransparency( transparency );
+        dielectricNode.setTransparency( transparency );
+        bottomPlateNode.setTransparency( transparency );
+    }
+    
     public void setPlateChargeVisible( boolean visible ) {
         topPlateNode.setChargeVisible( visible );
         bottomPlateNode.setChargeVisible( visible );
@@ -84,7 +93,6 @@ public class CapacitorNode extends PhetPNode {
     
     public void setEFieldVisible( boolean visible ) {
         eFieldNode.setVisible( visible );
-        //XXX set transparency of plates and dielectric
     }
     
     public boolean isEFieldVisible() {
