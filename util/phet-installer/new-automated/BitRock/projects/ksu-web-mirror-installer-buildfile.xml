@@ -52,7 +52,7 @@
                     <platforms>all</platforms>
                     <distributionFileList>
                         <distributionDirectory>
-                            <origin>$RIP_BASE_DIR$/ar</origin>
+                            <origin>$RIP_BASE_DIR$/ar_SA</origin>
                         </distributionDirectory>
                         <distributionDirectory>
                             <origin>$RIP_BASE_DIR$/files</origin>

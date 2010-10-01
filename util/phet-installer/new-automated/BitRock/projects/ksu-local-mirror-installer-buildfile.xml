@@ -47,7 +47,7 @@
             <desktopShortcutList>
                 <fileShortcut>
                      <comment>Launches local mirror of the PhET website.</comment>
-                     <filePath>${installdir}/ar/index.html</filePath>
+                     <filePath>${installdir}/ar_SA/index.html</filePath>
                      <icon>${installdir}/phet-logo-48x48.png</icon>
                      <name>PhET Simulations</name>
                      <platforms>windows</platforms>
@@ -63,7 +63,7 @@
                     <platforms>all</platforms>
                     <distributionFileList>
                         <distributionDirectory>
-                            <origin>$RIP_BASE_DIR$/ar</origin>
+                            <origin>$RIP_BASE_DIR$/ar_SA</origin>
                         </distributionDirectory>
                         <distributionDirectory>
                             <origin>$RIP_BASE_DIR$/files</origin>
@@ -81,7 +81,7 @@
                             <origin>$RIP_BASE_DIR$/sims</origin>
                         </distributionDirectory>
                         <distributionDirectory>
-                            <origin>$RIP_BASE_DIR$/ar</origin>
+                            <origin>$RIP_BASE_DIR$/ar_SA</origin>
                         </distributionDirectory>
                         <distributionFile>
                             <origin>$INSTALLER_RESOURCES_DIR$/phet-icon.ico</origin>
@@ -106,7 +106,7 @@
                         </shortcut>
                         <fileShortcut>
                             <comment>Launches the local mirror of the PhET website, containing all the PhET simulations.</comment>
-                            <filePath>${installdir}/ar/index.html</filePath>
+                            <filePath>${installdir}/ar_SA/index.html</filePath>
                             <icon>${installdir}/phet-logo-48x48.png</icon>
                             <name>PhET Simulations</name>
                             <platforms>all</platforms>
@@ -192,7 +192,7 @@
                 </startMenuShortcut>
                 <startMenuFileShortcut>
                     <comment>Launches the local mirror of the PhET website, containing all the PhET simulations.</comment>
-                    <filePath>${installdir}/ar/index.html</filePath>
+                    <filePath>${installdir}/ar_SA/index.html</filePath>
                     <name>PhET Simulations</name>
                     <runInTerminal>0</runInTerminal>
                     <windowsIcon>${installdir}/phet-icon.ico</windowsIcon>
