@@ -37,6 +37,10 @@ public class TestPlateChargeLayout extends JFrame {
     private static final double PLUS_MINUS_WIDTH = 7;
     private static final double PLUS_MINUS_HEIGHT = 1;
     
+    /**
+     * Interface for all charge layout strategies.
+     * debugNode is used to display whatever HTML debug output is needed.
+     */
     public interface IChargeLayoutStrategy {
         public void doChargeLayout( TestModel model, PNode parentNode, HTMLNode debugNode );
     }
@@ -45,6 +49,7 @@ public class TestPlateChargeLayout extends JFrame {
      * Strategy borrowed from CCK's CapacitorNode.
      * Charges are arranged in a grid, whose size is adjusted dynamically.
      * This strategy creates too many charges when the grid is tall and narrow.
+     * It looks like alpha gets too big.
      * To demonstrate, set plate dimensions to 5x500.
      */
     public static class CCKChargeLayoutStrategy implements IChargeLayoutStrategy {
@@ -53,8 +58,8 @@ public class TestPlateChargeLayout extends JFrame {
             
             // get model values
             final int numberOfCharges = model.getNumberOfCharges();
-            final double plateWidth = model.getPlateWidth();
-            final double plateHeight = model.getPlateHeight();
+            final double plateWidth = model.getPlateWidth(); // use double in grid computations!
+            final double plateHeight = model.getPlateHeight(); // use double in grid computations!
             
             // clear the grid of existing charges
             parentNode.removeAllChildren();
@@ -103,12 +108,13 @@ public class TestPlateChargeLayout extends JFrame {
         
         private final EventListenerList listeners;
         private int numberOfCharges;
-        private Dimension plateSize;
+        private int plateWidth, plateHeight;
         
         public TestModel() {
             listeners = new EventListenerList();
             numberOfCharges = NUMBER_OF_CHARGES_RANGE.getDefault();
-            plateSize = new Dimension( PLATE_WIDTH_RANGE.getDefault(), PLATE_HEIGHT_RANGE.getDefault() );
+            plateWidth = PLATE_WIDTH_RANGE.getDefault();
+            plateHeight = PLATE_HEIGHT_RANGE.getDefault();
         }
         
         public void setNumberOfCharges( int numberOfCharges ) {
@@ -122,26 +128,26 @@ public class TestPlateChargeLayout extends JFrame {
             return numberOfCharges;
         }
         
-        public void setPlateWidth( int width ) {
-            if ( width != plateSize.width ) {
-                plateSize.setSize( width, plateSize.height );
+        public void setPlateWidth( int plateWidth ) {
+            if ( plateWidth != this.plateWidth ) {
+                this.plateWidth = plateWidth;
                 firePlateSizeChanged();
             }
         }
         
-        public void setPlateHeight( int height ) {
-            if ( height != plateSize.height ) {
-                plateSize.setSize( plateSize.width, height );
+        public void setPlateHeight( int plateHeight ) {
+            if ( plateHeight != this.plateHeight ) {
+                this.plateHeight = plateHeight;
                 firePlateSizeChanged();
             }
         }
         
         public int getPlateWidth() {
-            return plateSize.width;
+            return plateWidth;
         }
         
         public int getPlateHeight() {
-            return plateSize.height;
+            return plateHeight;
         }
         
         public void addModelChangeListener( ModelChangeListener listener ) {
