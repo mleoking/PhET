@@ -24,7 +24,8 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Test harness for plate charge layout in Capacitor Lab simulation.
- * Strategy used is determined by ChargeLayoutStrategyFactory.
+ * Charges are arranged in a grid.
+ * Strategy used for grid size is determined by GridSizeStrategyFactory.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -44,98 +45,52 @@ public class TestPlateChargeLayout extends JFrame {
     /**
      * Change the strategy here.
      */
-    public static class ChargeLayoutStrategyFactory {
-        public static IChargeLayoutStrategy createChargeLayoutStrategy() {
-            return new ModifiedCCKLayoutStrategy();
+    public static class GridSizeStrategyFactory {
+        public static IGridSizeStrategy createStrategy() {
+            return new CCKGridSizeStrategy();
         }
     }
     
     /**
-     * Interface for all charge layout strategies.
-     * debugNode is used to display whatever HTML debug output is needed.
+     * Interface for all grid size strategies.
      */
-    public interface IChargeLayoutStrategy {
-        public void doChargeLayout( TestModel model, PNode parentNode, HTMLNode debugNode );
+    public interface IGridSizeStrategy {
+        public Dimension getGridSize( int numberOfObjects, double width, double height );
     }
     
     /**
      * Strategy borrowed from CCK's CapacitorNode.
-     * Charges are arranged in a grid, whose size is adjusted dynamically.
      * When the plate's aspect ration gets large, this strategy creates grid sizes 
      * where one of the dimensions is zero (eg, 8x0, 0x14).
      */
-    public static class CCKLayoutStrategy implements IChargeLayoutStrategy {
+    public static class CCKGridSizeStrategy implements IGridSizeStrategy {
         
-        public void doChargeLayout( TestModel model, PNode parentNode, HTMLNode debugNode ) {
-            
-            // get model values
-            final int numberOfCharges = model.getNumberOfCharges();
-            final double plateWidth = model.getPlateWidth(); // use double in grid computations!
-            final double plateHeight = model.getPlateHeight(); // use double in grid computations!
-            
-            // clear the grid of existing charges
-            parentNode.removeAllChildren();
-            
-            // clear the debug output node
-            debugNode.setHTML( "" );
-            
-            if ( numberOfCharges != 0 ) {
-                // compute the grid dimensions
-                Dimension gridSize = getGridSize( numberOfCharges, plateWidth, plateHeight );
-                final int rows = gridSize.height;
-                final int columns = gridSize.width;
-
-                // populate the grid with charges
-                double dx = plateWidth / columns;
-                double dy = plateHeight / rows;
-                double xOffset = dx / 2;
-                double yOffset = dy / 2;
-                for ( int row = 0; row < rows; row++ ) {
-                    for ( int column = 0; column < columns; column++ ) {
-                        // add a charge
-                        PNode chargeNode = new PlusNode( PLUS_MINUS_WIDTH, PLUS_MINUS_HEIGHT, Color.RED );
-                        parentNode.addChild( chargeNode );
-
-                        // position the charge in cell in the grid
-                        double x = -( plateWidth / 2 ) + xOffset + ( column * dx );
-                        double y = -( plateHeight / 2 ) + yOffset + ( row * dy );
-                        chargeNode.setOffset( x, y );
-                    }
-                }
-                
-                // debug output
-                debugNode.setHTML( "grid=" + rows + "x" + columns + 
-                        "<br>computed charges=" + numberOfCharges + 
-                        "<br>displayed charges=" + ( rows * columns ) );
-            }
-        }
-        
-        protected Dimension getGridSize( int numberOfCharges, double plateWidth, double plateHeight ) {
-            double alpha = Math.sqrt( numberOfCharges / plateWidth / plateHeight );
+        public Dimension getGridSize( int numberOfObjects, double width, double height ) {
+            double alpha = Math.sqrt( numberOfObjects / width / height );
             // casting here may result in some charges being thrown out, but that's OK
-            int columns = (int)( plateWidth * alpha );
-            int rows = (int)( plateHeight * alpha );
+            int columns = (int)( width * alpha );
+            int rows = (int)( height * alpha );
             return new Dimension( columns, rows );
         }
     }
     
     /**
-     * Workaround for one of the known issues with CCKLayoutStrategy.
+     * Workaround for one of the known issues with CCKGridSizeStrategy.
      * Ensures that we don't have a grid size where exactly one of the dimensions is zero.
      * This introduces a new problem: If numberOfCharges is kept constant, a plate with smaller
      * area but larger aspect ratio will display more charges.
      * For example, if charges=7, a 5x200mm plate will display 7 charges,
      * while a 200x200mm plate will only display 4 charges.
      */
-    public static class ModifiedCCKLayoutStrategy extends CCKLayoutStrategy {
-        @Override
-        protected Dimension getGridSize( int numberOfCharges, double plateWidth, double plateHeight ) {
-            Dimension gridSize = super.getGridSize( numberOfCharges, plateWidth, plateHeight );
+    public static class ModifiedCCKGridSizeStrategy extends CCKGridSizeStrategy {
+        
+        public Dimension getGridSize( int numberOfObjects, double width, double height ) {
+            Dimension gridSize = super.getGridSize( numberOfObjects, width, height );
             if ( gridSize.width == 0 && gridSize.height != 0 ) {
-                gridSize.setSize( 1, numberOfCharges );
+                gridSize.setSize( 1, numberOfObjects );
             }
             else if ( gridSize.width != 0 && gridSize.height == 0 ) {
-                gridSize.setSize( numberOfCharges, 1 );
+                gridSize.setSize( numberOfObjects, 1 );
             }
             return gridSize;
         }
@@ -227,12 +182,12 @@ public class TestPlateChargeLayout extends JFrame {
         private final PPath plateNode;
         private final PComposite parentChargesNode;
         private final HTMLNode debugNode;
-        private final IChargeLayoutStrategy chargeLayoutStrategy;
+        private final IGridSizeStrategy gridSizeStrategy;
         
         public TestCanvas( final TestModel model ) {
             setPreferredSize( CANVAS_SIZE );
             
-            chargeLayoutStrategy = ChargeLayoutStrategyFactory.createChargeLayoutStrategy();
+            gridSizeStrategy = GridSizeStrategyFactory.createStrategy();
             
             // plate
             plateNode = new PPath();
@@ -297,7 +252,47 @@ public class TestPlateChargeLayout extends JFrame {
          * Updates the charges to match the model.
          */
         private void updateCharges() {
-            chargeLayoutStrategy.doChargeLayout( model, parentChargesNode, debugNode );
+            
+            // get model values
+            final int numberOfCharges = model.getNumberOfCharges();
+            final double plateWidth = model.getPlateWidth(); // use double in grid computations!
+            final double plateHeight = model.getPlateHeight(); // use double in grid computations!
+            
+            // clear the grid of existing charges
+            parentChargesNode.removeAllChildren();
+            
+            // clear the debug output node
+            debugNode.setHTML( "" );
+            
+            if ( numberOfCharges != 0 ) {
+                // compute the grid dimensions
+                Dimension gridSize = gridSizeStrategy.getGridSize( numberOfCharges, plateWidth, plateHeight );
+                final int rows = gridSize.height;
+                final int columns = gridSize.width;
+
+                // populate the grid with charges
+                double dx = plateWidth / columns;
+                double dy = plateHeight / rows;
+                double xOffset = dx / 2;
+                double yOffset = dy / 2;
+                for ( int row = 0; row < rows; row++ ) {
+                    for ( int column = 0; column < columns; column++ ) {
+                        // add a charge
+                        PNode chargeNode = new PlusNode( PLUS_MINUS_WIDTH, PLUS_MINUS_HEIGHT, Color.RED );
+                        parentChargesNode.addChild( chargeNode );
+
+                        // position the charge in cell in the grid
+                        double x = -( plateWidth / 2 ) + xOffset + ( column * dx );
+                        double y = -( plateHeight / 2 ) + yOffset + ( row * dy );
+                        chargeNode.setOffset( x, y );
+                    }
+                }
+                
+                // debug output
+                debugNode.setHTML( "grid=" + rows + "x" + columns + 
+                        "<br>computed charges=" + numberOfCharges + 
+                        "<br>displayed charges=" + ( rows * columns ) );
+            }
         }
     }
     
