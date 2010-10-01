@@ -24,7 +24,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Test harness for plate charge layout in Capacitor Lab simulation.
- * Charges are arranged in a grid.
+ * Strategy used is determined by ChargeLayoutStrategyFactory.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -37,6 +37,19 @@ public class TestPlateChargeLayout extends JFrame {
     private static final double PLUS_MINUS_WIDTH = 7;
     private static final double PLUS_MINUS_HEIGHT = 1;
     
+    //==============================================================================
+    // Charge layout strategies
+    //==============================================================================
+    
+    /**
+     * Change the strategy here.
+     */
+    public static class ChargeLayoutStrategyFactory {
+        public static IChargeLayoutStrategy createChargeLayoutStrategy() {
+            return new CCKLayoutStrategy();
+        }
+    }
+    
     /**
      * Interface for all charge layout strategies.
      * debugNode is used to display whatever HTML debug output is needed.
@@ -45,14 +58,13 @@ public class TestPlateChargeLayout extends JFrame {
         public void doChargeLayout( TestModel model, PNode parentNode, HTMLNode debugNode );
     }
     
-    /*
+    /**
      * Strategy borrowed from CCK's CapacitorNode.
      * Charges are arranged in a grid, whose size is adjusted dynamically.
-     * This strategy creates too many charges when the grid is tall and narrow.
-     * It looks like alpha gets too big.
-     * To demonstrate, set plate dimensions to 5x500.
+     * When the plate's aspect ration gets large, this strategy creates grid sizes 
+     * where one of the dimensions is zero (eg, 8x0, 0x14).
      */
-    public static class CCKChargeLayoutStrategy implements IChargeLayoutStrategy {
+    public static class CCKLayoutStrategy implements IChargeLayoutStrategy {
         
         public void doChargeLayout( TestModel model, PNode parentNode, HTMLNode debugNode ) {
             
@@ -69,9 +81,9 @@ public class TestPlateChargeLayout extends JFrame {
             
             if ( numberOfCharges != 0 ) {
                 // compute the grid dimensions
-                final double alpha = Math.sqrt( numberOfCharges / plateWidth / plateHeight );
-                final int rows = (int) Math.max( 1, plateHeight * alpha ); // casting may result in some charges being thrown out, but that's OK
-                final int columns = (int) Math.max( 1, plateWidth * alpha );
+                Dimension gridSize = getGridSize( numberOfCharges, plateWidth, plateHeight );
+                final int rows = gridSize.height;
+                final int columns = gridSize.width;
 
                 // populate the grid with charges
                 double dx = plateWidth / columns;
@@ -97,7 +109,39 @@ public class TestPlateChargeLayout extends JFrame {
                         "<br>displayed charges=" + ( rows * columns ) );
             }
         }
+        
+        protected Dimension getGridSize( int numberOfCharges, double plateWidth, double plateHeight ) {
+            double alpha = Math.sqrt( numberOfCharges / plateWidth / plateHeight );
+            // casting here may result in some charges being thrown out, but that's OK
+            int columns = (int)( plateWidth * alpha );
+            int rows = (int)( plateHeight * alpha );
+            return new Dimension( columns, rows );
+        }
     }
+    
+    /**
+     * Workaround for one of the known issues with CCKLayoutStrategy.
+     * Ensures that we don't have a grid size where exactly one of the dimensions is zero.
+     * This introduces a new problem: When the plate's aspect ration gets large, this 
+     * strategy creates too many charges when the grid is tall and narrow (eg, 5x500). 
+     */
+    public static class ModifiedCCKLayoutStrategy extends CCKLayoutStrategy {
+        @Override
+        protected Dimension getGridSize( int numberOfCharges, double plateWidth, double plateHeight ) {
+            Dimension gridSize = super.getGridSize( numberOfCharges, plateWidth, plateHeight );
+            if ( gridSize.width == 0 && gridSize.height != 0 ) {
+                gridSize.setSize( 1, gridSize.height );
+            }
+            else if ( gridSize.width != 0 && gridSize.height == 0 ) {
+                gridSize.setSize( gridSize.width, 1 );
+            }
+            return gridSize;
+        }
+    }
+    
+    //==============================================================================
+    // Model
+    //==============================================================================
     
     public interface ModelChangeListener extends EventListener {
         public void numberOfChargesChanged();
@@ -171,6 +215,94 @@ public class TestPlateChargeLayout extends JFrame {
         }
     }
     
+    //==============================================================================
+    // View
+    //==============================================================================
+
+    public static class TestCanvas extends PCanvas {
+        
+        private final TestModel model;
+        private final PPath plateNode;
+        private final PComposite parentChargesNode;
+        private final HTMLNode debugNode;
+        private final IChargeLayoutStrategy chargeLayoutStrategy;
+        
+        public TestCanvas( final TestModel model ) {
+            setPreferredSize( CANVAS_SIZE );
+            
+            chargeLayoutStrategy = ChargeLayoutStrategyFactory.createChargeLayoutStrategy();
+            
+            // plate
+            plateNode = new PPath();
+            plateNode.setPaint( Color.LIGHT_GRAY );
+            plateNode.setStroke( new BasicStroke( 1f ) );
+            plateNode.setStrokePaint( Color.BLACK );
+
+            // parent node for charges on the plate
+            parentChargesNode = new PComposite();
+            
+            // debug output
+            debugNode = new HTMLNode();
+            debugNode.setFont( new PhetFont( 18 ) );
+            
+            // rendering order
+            addChild( plateNode );
+            addChild( parentChargesNode );
+            addChild( debugNode );
+            
+            // layout
+            plateNode.setOffset( ( PLATE_WIDTH_RANGE.getMax() / 2 ) + 100, ( PLATE_HEIGHT_RANGE.getMax() / 2 ) + 100 );
+            parentChargesNode.setOffset( plateNode.getOffset() );
+            debugNode.setOffset( plateNode.getXOffset() + ( PLATE_WIDTH_RANGE.getMax() / 2 ) + 50, plateNode.getYOffset() );
+            
+            // model change listener
+            this.model = model;
+            model.addModelChangeListener( new ModelChangeListener() {
+
+                public void plateSizeChanged() {
+                    update();
+                }
+                
+                public void numberOfChargesChanged() {
+                    update();
+                }
+            });
+            
+            update();
+        }
+        
+        // convenience method for adding nodes to the canvas
+        public void addChild( PNode child ) {
+            getLayer().addChild( child );
+        }
+        
+        private void update() {
+            updatePlate();
+            updateCharges();
+        }
+        
+        /*
+         * Updates the plate geometry to match the model.
+         * Origin is at the geometric center.
+         */
+        private void updatePlate() {
+            double width = model.getPlateWidth();
+            double height = model.getPlateHeight();
+            plateNode.setPathTo( new Rectangle2D.Double( -width / 2, -height / 2, width, height ) );
+        }
+        
+        /*
+         * Updates the charges to match the model.
+         */
+        private void updateCharges() {
+            chargeLayoutStrategy.doChargeLayout( model, parentChargesNode, debugNode );
+        }
+    }
+    
+    //==============================================================================
+    // Controls
+    //==============================================================================
+
     public static class TestControlPanel extends GridPanel {
         
         public TestControlPanel( final TestModel model ) {
@@ -270,86 +402,10 @@ public class TestPlateChargeLayout extends JFrame {
         }
     }
     
-    public static class TestCanvas extends PCanvas {
-        
-        private final TestModel model;
-        private final PPath plateNode;
-        private final PComposite parentChargesNode;
-        private final HTMLNode debugNode;
-        private final IChargeLayoutStrategy chargeLayoutStrategy;
-        
-        public TestCanvas( final TestModel model ) {
-            setPreferredSize( CANVAS_SIZE );
-            
-            chargeLayoutStrategy = new CCKChargeLayoutStrategy();
-            
-            // plate
-            plateNode = new PPath();
-            plateNode.setPaint( Color.LIGHT_GRAY );
-            plateNode.setStroke( new BasicStroke( 1f ) );
-            plateNode.setStrokePaint( Color.BLACK );
+    //==============================================================================
+    // Main frame
+    //==============================================================================
 
-            // parent node for charges on the plate
-            parentChargesNode = new PComposite();
-            
-            // debug output
-            debugNode = new HTMLNode();
-            debugNode.setFont( new PhetFont( 18 ) );
-            
-            // rendering order
-            addChild( plateNode );
-            addChild( parentChargesNode );
-            addChild( debugNode );
-            
-            // layout
-            plateNode.setOffset( ( PLATE_WIDTH_RANGE.getMax() / 2 ) + 100, ( PLATE_HEIGHT_RANGE.getMax() / 2 ) + 100 );
-            parentChargesNode.setOffset( plateNode.getOffset() );
-            debugNode.setOffset( plateNode.getXOffset() + ( PLATE_WIDTH_RANGE.getMax() / 2 ) + 50, plateNode.getYOffset() );
-            
-            // model change listener
-            this.model = model;
-            model.addModelChangeListener( new ModelChangeListener() {
-
-                public void plateSizeChanged() {
-                    update();
-                }
-                
-                public void numberOfChargesChanged() {
-                    update();
-                }
-            });
-            
-            update();
-        }
-        
-        // convenience method for adding nodes to the canvas
-        public void addChild( PNode child ) {
-            getLayer().addChild( child );
-        }
-        
-        private void update() {
-            updatePlate();
-            updateCharges();
-        }
-        
-        /*
-         * Updates the plate geometry to match the model.
-         * Origin is at the geometric center.
-         */
-        private void updatePlate() {
-            double width = model.getPlateWidth();
-            double height = model.getPlateHeight();
-            plateNode.setPathTo( new Rectangle2D.Double( -width / 2, -height / 2, width, height ) );
-        }
-        
-        /*
-         * Updates the charges to match the model.
-         */
-        private void updateCharges() {
-            chargeLayoutStrategy.doChargeLayout( model, parentChargesNode, debugNode );
-        }
-    }
-    
     public TestPlateChargeLayout() {
         
         // MVC
