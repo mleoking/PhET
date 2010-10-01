@@ -353,6 +353,7 @@ public class TestPlateChargeLayout extends JFrame {
     //==============================================================================
 
     public TestPlateChargeLayout() {
+        super( TestPlateChargeLayout.class.getName() );
         
         // MVC
         TestModel model = new TestModel();
