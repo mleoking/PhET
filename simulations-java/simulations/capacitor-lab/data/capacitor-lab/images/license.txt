@@ -1,7 +1,8 @@
 battery_3D_down.png source=PhET author=Noah P
 battery_3D_up.png source=PhET author=Noah P
+blackProbe.png author=PhET notes=copied from circuit-construction-kit probeBlack.gif
+eFieldProbe.png source=PhET author=Noah P
+redProbe.png author=PhET notes=copied from circuit-construction-kit probeGreen.gif
 sliderKnob.png source=PhET notes=copied from faraday
 sliderKnobHighlight.png source=PhET notes=copied from faraday
 voltmeter.png author=PhET notes=copied from circuit-construction-kit vm3.gif
-blackProbe.png author=PhET notes=copied from circuit-construction-kit probeBlack.gif
-redProbe.png author=PhET notes=copied from circuit-construction-kit probeGreen.gif

@@ -1,3 +1,4 @@
+10/1/10 check in field detector probe image created by Noah P
 10/1/10 change "Field Detector" to "Electric Field Detector"
 # 0.00.19 (44601) Oct 1, 2010
 10/1/10 demonstrate E-field lines
