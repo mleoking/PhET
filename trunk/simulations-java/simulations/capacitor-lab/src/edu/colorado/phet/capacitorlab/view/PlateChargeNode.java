@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.capacitorlab.view;
 
+import java.awt.Dimension;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
@@ -33,12 +34,14 @@ public abstract class PlateChargeNode extends PhetPNode {
     private final ModelViewTransform mvt;
     private final Polarity polarity;
     private final PNode chargesParentNode;
+    private final IGridSizeStrategy gridSizeStrategy;
 
     public PlateChargeNode( BatteryCapacitorCircuit circuit, ModelViewTransform mvt, Polarity polarity ) {
         
         this.circuit = circuit;
         this.mvt = mvt;
         this.polarity = polarity;
+        this.gridSizeStrategy = GridSizeStrategyFactory.createStrategy();
         
         circuit.addBatteryCapacitorCircuitChangeListener( new BatteryCapacitorCircuitChangeAdapter() {
             @Override
@@ -91,8 +94,6 @@ public abstract class PlateChargeNode extends PhetPNode {
         chargesParentNode.removeAllChildren();
         
         // compute grid dimensions
-        int rows = 0;
-        int columns = 0;
         if ( numberOfCharges > 0 ) {
             
             final double zMargin = mvt.viewToModel( PLUS_MINUS_WIDTH );
@@ -100,10 +101,10 @@ public abstract class PlateChargeNode extends PhetPNode {
             final double contactWidth = getContactWidth();
             final double plateDepth = circuit.getCapacitor().getPlateSideLength() - ( 2 * zMargin );
             
-            // number of rows and columns, at least 1 of each
-            final double alpha = Math.sqrt( numberOfCharges / contactWidth / plateDepth );
-            rows = (int) ( plateDepth * alpha ); // casting may result in some charges being thrown out, but that's OK
-            columns = (int) ( contactWidth * alpha );
+            // grid dimensions
+            Dimension gridSize = gridSizeStrategy.getGridSize( numberOfCharges, contactWidth, plateDepth );
+            final int rows = gridSize.height;
+            final int columns = gridSize.width;
 
             // distance between cells
             final double dx = contactWidth / columns;
@@ -134,11 +135,11 @@ public abstract class PlateChargeNode extends PhetPNode {
                     chargeNode.setOffset( offset );
                 }
             }
-        }
-        
-        // debug output
-        if ( DEBUG_OUTPUT_ENABLED ) {
-            System.out.println( getClass().getName() + " " + numberOfCharges + " charges computed, " + ( rows * columns ) + " charges displayed" );
+            
+            // debug output
+            if ( DEBUG_OUTPUT_ENABLED ) {
+                System.out.println( getClass().getName() + " " + numberOfCharges + " charges computed, " + ( rows * columns ) + " charges displayed" );
+            }
         }
     }
     
@@ -216,6 +217,61 @@ public abstract class PlateChargeNode extends PhetPNode {
         public double getContactWidth() {
             Capacitor capacitor = getCircuit().getCapacitor();
             return Math.min( capacitor.getDielectricOffset(), capacitor.getPlateSideLength() );
+        }
+    }
+    
+    //==============================================================================
+    // Grid size strategies
+    //==============================================================================
+    
+    public static class GridSizeStrategyFactory {
+        public static IGridSizeStrategy createStrategy() {
+            return new CCKGridSizeStrategy();
+        }
+    }
+    
+    /**
+     * Interface for all grid size strategies.
+     */
+    public interface IGridSizeStrategy {
+        public Dimension getGridSize( int numberOfObjects, double width, double height );
+    }
+    
+    /**
+     * Strategy borrowed from CCK's CapacitorNode.
+     * When the plate's aspect ration gets large, this strategy creates grid sizes 
+     * where one of the dimensions is zero (eg, 8x0, 0x14).
+     */
+    public static class CCKGridSizeStrategy implements IGridSizeStrategy {
+        
+        public Dimension getGridSize( int numberOfObjects, double width, double height ) {
+            double alpha = Math.sqrt( numberOfObjects / width / height );
+            // casting here may result in some charges being thrown out, but that's OK
+            int columns = (int)( width * alpha );
+            int rows = (int)( height * alpha );
+            return new Dimension( columns, rows );
+        }
+    }
+    
+    /**
+     * Workaround for one of the known issues with CCKGridSizeStrategy.
+     * Ensures that we don't have a grid size where exactly one of the dimensions is zero.
+     * This introduces a new problem: If numberOfCharges is kept constant, a plate with smaller
+     * area but larger aspect ratio will display more charges.
+     * For example, if charges=7, a 5x200mm plate will display 7 charges,
+     * while a 200x200mm plate will only display 4 charges.
+     */
+    public static class ModifiedCCKGridSizeStrategy extends CCKGridSizeStrategy {
+        
+        public Dimension getGridSize( int numberOfObjects, double width, double height ) {
+            Dimension gridSize = super.getGridSize( numberOfObjects, width, height );
+            if ( gridSize.width == 0 && gridSize.height != 0 ) {
+                gridSize.setSize( 1, numberOfObjects );
+            }
+            else if ( gridSize.width != 0 && gridSize.height == 0 ) {
+                gridSize.setSize( numberOfObjects, 1 );
+            }
+            return gridSize;
         }
     }
 }
