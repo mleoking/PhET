@@ -1,3 +1,5 @@
+# 0.00.19 (44601) Oct 1, 2010
+10/1/10 demonstrate E-field lines
 10/1/10 make capacitor plates and dielectric transparent when E-field is selected
 10/1/10 add E-field view
 10/1/10 move responsibility for dielectric color into DielectricNode
