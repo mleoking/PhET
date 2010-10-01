@@ -22,7 +22,6 @@ import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
@@ -35,7 +34,7 @@ public class TestPlateChargeLayout extends JFrame {
     
     private static final IGridSizeStrategy GRID_SIZE_STRATEGY = GridSizeStrategyFactory.createStrategy();
 
-    private static final Dimension CANVAS_SIZE = new Dimension( 1024, 768 );
+    private static final Dimension CANVAS_SIZE = new Dimension( 800, 550 );
     private static final IntegerRange NUMBER_OF_CHARGES_RANGE = new IntegerRange( 0, 625, 0 );
     private static final IntegerRange PLATE_WIDTH_RANGE = new IntegerRange( 5, 500, 200 );
     private static final IntegerRange PLATE_HEIGHT_RANGE = new IntegerRange( 5, 500, 200 );
@@ -132,6 +131,9 @@ public class TestPlateChargeLayout extends JFrame {
         public TestCanvas( final TestModel model ) {
             setPreferredSize( CANVAS_SIZE );
             
+            removeInputEventListener( getZoomEventHandler() );
+            removeInputEventListener( getPanEventHandler() );
+            
             // plate
             plateNode = new PPath();
             plateNode.setPaint( Color.LIGHT_GRAY );
@@ -145,21 +147,15 @@ public class TestPlateChargeLayout extends JFrame {
             debugNode = new HTMLNode();
             debugNode.setFont( new PhetFont( 18 ) );
             
-            // grid size strategy name
-            PText strategyNameNode = new PText( "grid size strategy = " + GRID_SIZE_STRATEGY.getClass().getName() );
-            strategyNameNode.setFont( new PhetFont( 12 ) );
-            
             // rendering order
             addChild( plateNode );
             addChild( parentChargesNode );
             addChild( debugNode );
-            addChild( strategyNameNode );
             
             // layout
-            plateNode.setOffset( ( PLATE_WIDTH_RANGE.getMax() / 2 ) + 100, ( PLATE_HEIGHT_RANGE.getMax() / 2 ) + 100 );
+            plateNode.setOffset( ( PLATE_WIDTH_RANGE.getMax() / 2 ) + 20, ( PLATE_HEIGHT_RANGE.getMax() / 2 ) + 20 );
             parentChargesNode.setOffset( plateNode.getOffset() );
-            debugNode.setOffset( plateNode.getXOffset() + ( PLATE_WIDTH_RANGE.getMax() / 2 ) + 50, plateNode.getYOffset() );
-            strategyNameNode.setOffset( 20, 20 );
+            debugNode.setOffset( plateNode.getXOffset() + ( PLATE_WIDTH_RANGE.getMax() / 2 ) + 10, plateNode.getYOffset() );
             
             // model change listener
             this.model = model;
@@ -254,6 +250,9 @@ public class TestPlateChargeLayout extends JFrame {
         public TestControlPanel( final TestModel model ) {
             setBorder( new LineBorder( Color.BLACK ) );
             
+            // grid size strategy name
+            JLabel strategyLabel = new JLabel( "grid size strategy: " + GRID_SIZE_STRATEGY.getClass().getName() );
+            
             // number of charges
             final IntegerValueControl numberOfChargesControl = new IntegerValueControl( "# charges:", NUMBER_OF_CHARGES_RANGE.getMin(), NUMBER_OF_CHARGES_RANGE.getMax(), model.getNumberOfCharges(), "" );
             numberOfChargesControl.addChangeListener( new ChangeListener() {
@@ -283,6 +282,7 @@ public class TestPlateChargeLayout extends JFrame {
             int column = 0;
             setAnchor( Anchor.WEST );
             setInsets( new Insets( 5, 5, 5, 5 ) );
+            add( strategyLabel, row++, column );
             add( numberOfChargesControl, row++, column );
             add( plateWidthControl, row++, column );
             add( plateHeightControl, row++, column );
@@ -359,10 +359,10 @@ public class TestPlateChargeLayout extends JFrame {
         TestCanvas canvas = new TestCanvas( model );
         TestControlPanel controlPanel = new TestControlPanel( model );
         
-        // layout like a simulation
+        // layout with controls below canvas
         JPanel panel = new JPanel( new BorderLayout() );
         panel.add( canvas, BorderLayout.CENTER );
-        panel.add( controlPanel, BorderLayout.EAST );
+        panel.add( controlPanel, BorderLayout.SOUTH );
         setContentPane( panel );
         
         pack();
