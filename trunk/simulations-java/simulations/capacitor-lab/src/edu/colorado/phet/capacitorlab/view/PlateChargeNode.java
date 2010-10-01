@@ -102,8 +102,8 @@ public abstract class PlateChargeNode extends PhetPNode {
             
             // number of rows and columns, at least 1 of each
             final double alpha = Math.sqrt( numberOfCharges / contactWidth / plateDepth );
-            rows = (int) Math.max( 1, plateDepth * alpha ); // casting may result in some charges being thrown out, but that's OK
-            columns = (int) Math.max( 1, contactWidth * alpha );
+            rows = (int) ( plateDepth * alpha ); // casting may result in some charges being thrown out, but that's OK
+            columns = (int) ( contactWidth * alpha );
 
             // distance between cells
             final double dx = contactWidth / columns;
