@@ -52,27 +52,31 @@ public class EFieldNode extends PhetPNode {
     
     private void update() {
         
-        // compute number of field lines
+        // compute density (spacing) of field lines
         double effectiveEField = circuit.getEffectiveEfield();
-        int numberOfLines = getNumberOfLines( effectiveEField );
+        double lineSpacing = getLineSpacing( effectiveEField );
         
         // clear existing field lines
         parentNode.removeAllChildren();
         
-        if ( numberOfLines > 0 ) {
+        if ( lineSpacing > 0 ) {
             
             final double plateWidth = circuit.getCapacitor().getPlateSideLength();
             final double plateDepth = plateWidth;
             final double plateSeparation = circuit.getCapacitor().getPlateSeparation();
             
             // grid dimensions
-            Dimension gridSize = getGridSize( numberOfLines, plateWidth, plateDepth );
+            Dimension gridSize = getGridSize( lineSpacing, plateWidth, plateDepth );
             final int rows = gridSize.height;
             final int columns = gridSize.width;
             
+            // margin
+            double xMargin = ( plateWidth - ( columns * lineSpacing ) ) / 2;
+            double zMargin = ( plateDepth - ( rows * lineSpacing ) ) / 2;
+            
             // distance between cells
-            final double dx = plateWidth / columns;
-            final double dz = plateDepth / rows;
+            final double dx = lineSpacing;
+            final double dz = lineSpacing;
             
             // offset to move us to the center of cells
             final double xOffset = dx / 2;
@@ -89,9 +93,9 @@ public class EFieldNode extends PhetPNode {
                     parentNode.addChild( lineNode );
 
                     // position the line in the grid cell
-                    double x = -( plateWidth /2 ) + xOffset + ( column * dx );
-                    double y = -( plateSeparation / 2 );
-                    double z = -( plateDepth / 2 ) + zOffset + ( row * dz );
+                    double x = -( plateWidth /2 ) + xMargin + xOffset + ( column * dx );
+                    double y = 0;
+                    double z = -( plateDepth / 2 ) + zMargin + zOffset + ( row * dz );
                     Point2D offset = mvt.modelToView( x, y, z );
                     lineNode.setOffset( offset );
                 }
@@ -99,40 +103,41 @@ public class EFieldNode extends PhetPNode {
         }
     }
     
-    // same algorithm used in CCK CapacitorNode for plate charges
-    private Dimension getGridSize( int numberOfLines, double width, double height ) {
-        double alpha = Math.sqrt( numberOfLines / width / height );
-        // casting here may result in some charges being thrown out, but that's OK
-        int columns = (int)( width * alpha );
-        int rows = (int)( height * alpha );
-        return new Dimension( columns, rows );
-    }
-    
-    /*
-     * Computes number of field lines, linearly proportional to effective E-field (E_effective).
-     * All non-zero values below some minimum are mapped to 1 charge.
+    /**
+     * Gets the spacing of E-field lines. 
+     * Higher E-field results in higher density, therefore lower spacing.
+     * @param effectiveEField
+     * @return spacing, in model coordinates
      */
-    private int getNumberOfLines( double effectiveEField ) {
+    private double getLineSpacing( double effectiveEField ) {
         
         double absoluteEffectiveEField = Math.abs( effectiveEField );
         double minEffectiveEField = CLConstants.MIN_NONZERO_EFFECTIVE_EFIELD;
         double maxEffectiveEField = BatteryCapacitorCircuit.getMaxEffectiveEfield();
         
-        int numberOfLines = 0;
+        double lineSpacing = 0;
         if ( absoluteEffectiveEField == 0 ) {
-            numberOfLines = 0;
+            lineSpacing = 0;
         }
         else if ( absoluteEffectiveEField <= minEffectiveEField ) {
-            numberOfLines = 1;
+            lineSpacing = CLConstants.EFIELD_SPACING_RANGE.getMax();
         }
         else {
-            numberOfLines = (int) ( CLConstants.MAX_NUMBER_OF_EFIELD_LINES * ( absoluteEffectiveEField - minEffectiveEField ) / ( maxEffectiveEField - minEffectiveEField ) );
+            double percent = ( absoluteEffectiveEField - minEffectiveEField ) / ( maxEffectiveEField - minEffectiveEField );
+            lineSpacing = CLConstants.EFIELD_SPACING_RANGE.getMax() - ( percent * CLConstants.EFIELD_SPACING_RANGE.getLength() );
         }
-        return numberOfLines;
+        return lineSpacing;
+    }
+    
+    private Dimension getGridSize( double cellSpacing, double width, double height ) {
+        // casting here may result in some lines being thrown out, but that's OK
+        int columns = (int)( width / cellSpacing );
+        int rows = (int)( height / cellSpacing );
+        return new Dimension( columns, rows );
     }
     
     /**
-     * An E-field line.  Origin is at the top center.
+     * An E-field line. Origin is at the center.
      */
     private static class EFieldLineNode extends PComposite {
         
@@ -145,12 +150,13 @@ public class EFieldNode extends PhetPNode {
          */
         public EFieldLineNode( double length, Direction direction ) {
             
-            PPath lineNode = new PPath( new Line2D.Double( 0, 0, 0, length ) );
+            // line, origin at center
+            PPath lineNode = new PPath( new Line2D.Double( 0, -length / 2, 0, length / 2 ) );
             lineNode.setStroke( LINE_STROKE );
             lineNode.setStrokePaint( CLPaints.EFIELD );
             addChild( lineNode );
             
-            // arrow shape points up, with origin at center
+            // arrow, shape points "up", origin at center
             GeneralPath path = new GeneralPath();
             float w = (float) ARROW_SIZE.getWidth();
             float h = (float) ARROW_SIZE.getHeight();
@@ -166,13 +172,7 @@ public class EFieldNode extends PhetPNode {
                 arrowNode.rotate( Math.PI );
             }
             
-            // layout
-            double x = 0;
-            double y = 0;
-            lineNode.setOffset( x, y );
-            x = lineNode.getFullBoundsReference().getCenterX();
-            y = lineNode.getFullBoundsReference().getCenterY();
-            arrowNode.setOffset( x, y );
+            // no additional layout needed, handled above by geometry specification
         }
     }
 }
