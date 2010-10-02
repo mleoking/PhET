@@ -35,7 +35,6 @@ public class ViewControlPanel extends PhetTitledPanel {
         electricFieldLinesCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 canvas.getCapacitorNode().setEFieldVisible( electricFieldLinesCheckBox.isSelected() );
-                canvas.getCapacitorNode().setOpaque( !electricFieldLinesCheckBox.isSelected() ); //XXX also depends on setting of voltmeter and field detector
             }
         });
         

@@ -5,6 +5,9 @@ package edu.colorado.phet.capacitorlab.module.dielectric;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.control.AddWiresButtonNode;
@@ -24,6 +27,7 @@ import edu.colorado.phet.capacitorlab.view.CurrentIndicatorNode;
 import edu.colorado.phet.capacitorlab.view.WireNode.BottomWireNode;
 import edu.colorado.phet.capacitorlab.view.WireNode.TopWireNode;
 import edu.colorado.phet.capacitorlab.view.meters.*;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
@@ -56,6 +60,8 @@ public class DielectricCanvas extends CLCanvas {
     private final StoredEnergyMeterNode energyMeterNode;
     private final VoltmeterNode voltmeterNode;
     private final EFieldDetectorNode eFieldDetectorNode;
+    
+    private final ArrayList<PNode> capacitorTransparencyNodes; // if any of these nodes is visible, the capacitor should be transparent
     
     // controls
     private final PlateChargeControlNode plateChargeControNode;
@@ -120,6 +126,12 @@ public class DielectricCanvas extends CLCanvas {
         addChild( energyMeterNode );
         addChild( voltmeterNode );
         addChild( eFieldDetectorNode );
+        
+        // nodes whose visibility causes the capacitor to become transparent
+        capacitorTransparencyNodes = new ArrayList<PNode>();
+        addCapacitorTransparencyNode( capacitorNode.getEFieldNode() );
+        addCapacitorTransparencyNode( voltmeterNode );
+        addCapacitorTransparencyNode( eFieldDetectorNode );
         
         // static layout
         {
@@ -242,5 +254,29 @@ public class DielectricCanvas extends CLCanvas {
         keepInsideCanvas( chargeMeterNode );
         keepInsideCanvas( energyMeterNode );
         keepInsideCanvas( voltmeterNode );  //XXX does this work? or do we need to do this for separate draggable parts of voltmeter?
+    }
+    
+    /*
+     * When certain nodes are visible, the physical parts of the capacitor become transparent.
+     * Call this method add a node to the "visibility watch list".  If any one of the nodes on
+     * this list is visible, the capacitor is transparent; if none of the nodes is visible, 
+     * the capacitor is opaque.
+     */
+    private void addCapacitorTransparencyNode( PNode node ) {
+        capacitorTransparencyNodes.add( node );
+        node.addPropertyChangeListener( new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent event ) {
+                if ( event.getPropertyName().equals( PNode.PROPERTY_VISIBLE ) ) {
+                    boolean transparent = false;
+                    for ( PNode node : capacitorTransparencyNodes ) {
+                        if ( node.getVisible() ) {
+                            transparent = true;
+                            break;
+                        }
+                    }
+                    capacitorNode.setOpaque( !transparent );
+                }
+            }
+        } );
     }
 }

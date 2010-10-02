@@ -11,6 +11,7 @@ import edu.colorado.phet.capacitorlab.view.DielectricNode.DielectricChargeView;
 import edu.colorado.phet.capacitorlab.view.PlateNode.BottomPlateNode;
 import edu.colorado.phet.capacitorlab.view.PlateNode.TopPlateNode;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.umd.cs.piccolo.PNode;
 
 /**
  * Visual representation of a capacitor.
@@ -67,6 +68,13 @@ public class CapacitorNode extends PhetPNode {
         updateDielectricColor();
     }
     
+    /**
+     * Controls the opacity of the physical parts of the capacitor.
+     * This is needed because the plates and dielectric must be transparent
+     * when certain nodes (voltmeter, E-Field detector, E-field view) are visible,
+     * in order to see what's doing on inside the capacitor.
+     * @param opaque
+     */
     public void setOpaque( boolean opaque ) {
         float transparency = ( opaque ) ? 1f : TRANSPARENCY;
         topPlateNode.setTransparency( transparency );
@@ -97,6 +105,14 @@ public class CapacitorNode extends PhetPNode {
     
     public boolean isEFieldVisible() {
         return eFieldNode.isVisible();
+    }
+    
+    /**
+     * Provides so we can watch visibility using a PropertyChangeListener. 
+     * @return
+     */
+    public PNode getEFieldNode() {
+        return eFieldNode;
     }
     
     private void updateGeometry() {
