@@ -246,8 +246,11 @@ import flash.display.*;
 				this.ballImage_arr[i] = new BallImage(this.myModel, i, this);
 				ballImage_arr[i].x = this.pixelsPerMeter*this.myModel.ball_arr[i].position.getX();
 				ballImage_arr[i].y = this.pixelsPerMeter*this.myModel.ball_arr[i].position.getY();
+				if(i >= this.myModel.nbrBalls){
+					ballImage_arr[i].visible = false; 
+				}
 			}//end for
-			this.update(); //to make extra balls invisible
+			//this.update(); //to make extra balls invisible
 		}//end of createBallImages()
 		
 		//show velocity arrows on ball images
@@ -276,9 +279,9 @@ import flash.display.*;
 		
 
 		public function update():void{
-			//trace("TableView.update() called at time = "+this.myModel.time);
+			trace("TableView.update() called at time = "+this.myModel.time);
 			//trace("TableView.showingPaths: "+this.showingPaths);
-			//trace("TableView.myModel.atInitialConfig: "+this.myModel.atInitialConfig);
+			trace("TableView.myModel.atInitialConfig: "+this.myModel.atInitialConfig);
 			var nbrBalls:int = this.myModel.nbrBalls;
 			//trace("TableView.update() called. nbrBalls = "+nbrBalls);
 			var maxBalls:int = this.myModel.maxNbrBalls;
@@ -291,22 +294,26 @@ import flash.display.*;
 					this.ballImage_arr[i].visible = false; 
 				}
 				this.myTrajectories.updateNbrPaths();
+				this.myTrajectories.erasePaths();
 			}//end if()
 			
-			
+
 			var yMax:Number = this.myModel.borderHeight/2;  //recall origin is set at y = borderHeight/2 
 			for(i = 0; i < nbrBalls; i++){
 				ballImage_arr[i].x = this.pixelsPerMeter*this.myModel.ball_arr[i].position.getX();
 				ballImage_arr[i].y = this.pixelsPerMeter*(yMax - this.myModel.ball_arr[i].position.getY());
 				ballImage_arr[i].updateVelocityArrow();
 			}
+			
 			if(this.showingPaths){
 				this.myTrajectories.drawStep();
 			}
-			if(this.myModel.atInitialConfig){
+			
+			if(this.myModel.atInitialConfig || this.myModel.resetting){
 				this.myTrajectories.erasePaths();
 				//this.myModel.atInitialConfig = false;
 			}
+			
 			this.timeText.text = getTimeText(this.myModel.time.toFixed(2));
 			this.totKEText.text = getKEText(this.myModel.getTotalKE().toFixed(2));
 			
