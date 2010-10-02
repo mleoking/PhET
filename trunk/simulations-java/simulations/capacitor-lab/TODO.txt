@@ -15,9 +15,9 @@ DESIGN ISSUES
 
 HIGH PRIORITY
 - E-field lines shift around slightly when density isn't changing (drag battery slider to reproduce)
-- test plate charge grid for small numbers of charges
-- add margin to plate charge grid to keep charges from looking like they are falling off plate edges
-- investigate perceived difference between x and z spacing of plate charges
+- no change in E-field density when changing battery voltage because of order-of-magnitude issues
+- E-field lines moves around when going from 2x2 to 3x3 grid, density is the same, but looks odd
+- grid size strategy doesn't work for small numbers of plate charges
 - charge and excess charge on dielectric (see notes)
 - field lines (with fake curvature?)
 - Introduction tab, use air as the dielectric material

@@ -98,6 +98,4 @@ public class CLConstants {
     // E-field
     public static final boolean EFIELD_VISIBLE = false;
     public static final DoubleRange EFIELD_SPACING_RANGE = new DoubleRange( PLATE_SIZE_RANGE.getMin() / 15, PLATE_SIZE_RANGE.getMin() / 2 ); // meters
-    public static final double MIN_NONZERO_EFFECTIVE_EFIELD = 0.5; // V/m
-    
 }
