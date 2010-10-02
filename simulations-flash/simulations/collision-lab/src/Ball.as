@@ -8,7 +8,7 @@ package{
 		private var radius:Number;
 		var position:TwoVector;
 		var velocity:TwoVector;
-		private var momentum:TwoVector;
+		var momentum:TwoVector;
 		
 		public function Ball(mass:Number, position:TwoVector, velocity:TwoVector ){
 			this.mass = mass;
