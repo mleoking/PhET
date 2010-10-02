@@ -47,6 +47,7 @@ package{
 		}
 		
 		public function updateNbrPaths():void{
+			trace("myTrajectories.updateNbrPaths() called.");
 			this.nbrPaths = this.myModel.nbrBalls;
 			//erase high-index paths that should be invisible
 			for (var i:int = this.nbrPaths; i < this.maxNbrPaths; i++){

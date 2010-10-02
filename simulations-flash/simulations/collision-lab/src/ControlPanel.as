@@ -138,9 +138,8 @@
 		public function oneDModeOff(evt:MouseEvent):void{
 			this.myModel.setOneDMode(false);
 			this.myMainView.myTableView.myTrajectories.setBorderHeight();
-			this.myMainView.myTableView.myTrajectories.erasePaths();
-			
 			this.myMainView.myTableView.reDrawBorder();
+			this.myMainView.myTableView.myTrajectories.erasePaths();
 		}
 		
 		public function momentaDiagramOnOrOff(evt:MouseEvent):void{
@@ -155,6 +154,20 @@
 			this.myMainView.myDataTable.checkBallNbrLimits();
 			this.myMainView.myTableView.playButtons.resetAllCalled();
 			this.twoD_rb.selected = true;
+			this.showVelocities_cb.selected = true;
+			this.myMainView.myTableView.showArrowsOnBallImages(true);
+			this.showMomentumVectors_cb.selected = false;
+			this.myMainView.myTableView.showPArrowsOnBallImages(false);
+			this.showCM_cb.selected = true;
+			this.myMainView.myTableView.CM.visible = true;
+			this.reflectingBorder_cb.selected = true;
+			//this.myModel.setReflectingBorder(true); //done in Model.resetAll();
+			this.showMomenta_cb.selected = false;
+			this.myMainView.momentumView.visible = false;
+			this.showPaths_cb.selected = false;
+			this.myMainView.myTableView.myTrajectories.pathsOff();
+			this.sound_cb.selected = false;
+			this.myModel.soundOn = false;
 			//var nbrBalls_str:String = String(this.myModel.nbrBalls);
 			//this.changeNbrBallButtons.nbrReadout.text = nbrBalls_str;
 			//this.nbrBalls = this.myModel.nbrBalls;
@@ -165,8 +178,10 @@
 			//}
 			//this.timeRateSlider.value = 0.5;
 			//this.myModel.setTimeRate(0.5);
+			this.myMainView.myTableView.timeRate_slider.value = this.myModel.timeRate;
 			this.elasticitySlider.value = 1;
 			this.myModel.setElasticity(1);
+			this.elasticityValueLabel.text = this.myModel.e.toFixed(2);
 		}
 		
 		public function showVelocityArrows(evt:MouseEvent):void{
@@ -217,7 +232,7 @@
 		public function setElasticity(evt:SliderEvent):void{
 			trace("elasticity = "+evt.target.value)
 			this.myModel.setElasticity(evt.target.value);
-			var e_str:String = evt.target.value.toFixed(2);//String(evt.target.value);
+			var e_str:String = this.myModel.e.toFixed(2);//String(evt.target.value);
 			this.elasticityValueLabel.text = e_str;
 			//trace("e slider: "+evt.target.value);
 		}

@@ -167,7 +167,7 @@ package{
 				//new Ball(mass, position, velocity);
 				this.ball_arr[i] = new Ball(1.0, initPos[i].clone(), initVel[i].clone());
 			}
-			this.nbrBallsChanged = true;
+			//this.nbrBallsChanged = true;
 			var maxN:int = this.maxNbrBalls;
 			//No point in updating views, since views not created yet
 			this.separateAllBalls(); //should not be necessary, but just in case
@@ -182,6 +182,8 @@ package{
 		public function resetAll():void{
 			//trace("Model.resetAll() called");
 			this.resetting = true;
+			this.setOneDMode(false);
+			this.setReflectingBorder(true);
 			for (var i:int = 0; i < this.maxNbrBalls; i++){
 				//new Ball(mass, position, velocity);
 				this.ball_arr[i].setBall(1.0, startingPos[i].clone(), startingVel[i].clone());
@@ -192,7 +194,6 @@ package{
 			this.nbrBalls = 2;
 			this.e = 1;			//set elasticity of collisions, 1 = perfectly elastic
 			this.timeRate = 0.5;
-			this.setOneDMode(false);
 			this.nbrBallsChanged = true;
 			this.separateAllBalls();
 			this.setCenterOfMass();
@@ -220,7 +221,7 @@ package{
 		//called whenever reset button pushed by user or when nbrBalls changes
 		public function initializePositions():void{
 			//trace("Model.initializePositions() called");
-			this.atInitialConfig = false;
+			this.atInitialConfig = true;
 			this.starting = true;
 			for (var i:int = 0; i < this.nbrBalls; i++){
 				//new Ball(mass, position, velocity);

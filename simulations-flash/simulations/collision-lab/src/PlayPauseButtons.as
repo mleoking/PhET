@@ -1,4 +1,4 @@
-package{
+﻿package{
 import edu.colorado.phet.flashcommon.TextFieldUtils;
 
 import flash.display.*;
@@ -67,6 +67,7 @@ import flash.display.*;
 			this.buttonView.myPlayPauseButton.gotoAndStop(1);
 		    setPlayText();
 			this.myModel.initializePositions();
+			this.myModel.updateViews();
 		}
 		
 		//Need reset function without mouseEvent argument, to call from Reset All button in ControlPanel
