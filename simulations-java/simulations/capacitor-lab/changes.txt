@@ -1,3 +1,4 @@
+10/1/10 make physical parts of the capacitor transparent when E-field, Voltmeter or Field Detector is selected
 10/1/10 add placeholder node for E-Field Detector, wire up visibility to control panel
 10/1/10 check in field detector probe image created by Noah P
 10/1/10 change "Field Detector" to "Electric Field Detector"
