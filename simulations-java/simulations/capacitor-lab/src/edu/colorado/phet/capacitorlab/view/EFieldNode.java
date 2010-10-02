@@ -112,18 +112,14 @@ public class EFieldNode extends PhetPNode {
     private double getLineSpacing( double effectiveEField ) {
         
         double absoluteEffectiveEField = Math.abs( effectiveEField );
-        double minEffectiveEField = CLConstants.MIN_NONZERO_EFFECTIVE_EFIELD;
         double maxEffectiveEField = BatteryCapacitorCircuit.getMaxEffectiveEfield();
         
         double lineSpacing = 0;
         if ( absoluteEffectiveEField == 0 ) {
             lineSpacing = 0;
         }
-        else if ( absoluteEffectiveEField <= minEffectiveEField ) {
-            lineSpacing = CLConstants.EFIELD_SPACING_RANGE.getMax();
-        }
         else {
-            double percent = ( absoluteEffectiveEField - minEffectiveEField ) / ( maxEffectiveEField - minEffectiveEField );
+            double percent = absoluteEffectiveEField / maxEffectiveEField;
             lineSpacing = CLConstants.EFIELD_SPACING_RANGE.getMax() - ( percent * CLConstants.EFIELD_SPACING_RANGE.getLength() );
         }
         return lineSpacing;
