@@ -25,7 +25,7 @@ import flash.display.*;
 		var totKEText:TextField;			//label showing total KE of particles
 		var timeRateText:TextField;			//label above timeRate slider
 		var pixelsPerMeter:int;				//scale of view
-		var ball_arr:Array;					//array of ball images
+		var ballImage_arr:Array;					//array of ball images
 		var ballLabels:Array;				//array of ball labels: 1, 2, 3, ...
 		var ballColor_arr:Array;			//array of uint for colors of balls
 		var xOffset:Number;					//x of upper left corner of canvas
@@ -241,25 +241,38 @@ import flash.display.*;
 		//called once, at startup
 		public function createBallImages():void{
 			var maxNbrBalls:int = this.myModel.maxNbrBalls;
-			this.ball_arr = new Array(maxNbrBalls);
+			this.ballImage_arr = new Array(maxNbrBalls);
 			for(var i:int = 0; i < maxNbrBalls; i++){
-				this.ball_arr[i] = new BallImage(this.myModel, i, this);
-				ball_arr[i].x = this.pixelsPerMeter*this.myModel.ball_arr[i].position.getX();
-				ball_arr[i].y = this.pixelsPerMeter*this.myModel.ball_arr[i].position.getY();
+				this.ballImage_arr[i] = new BallImage(this.myModel, i, this);
+				ballImage_arr[i].x = this.pixelsPerMeter*this.myModel.ball_arr[i].position.getX();
+				ballImage_arr[i].y = this.pixelsPerMeter*this.myModel.ball_arr[i].position.getY();
 			}//end for
 			this.update(); //to make extra balls invisible
 		}//end of createBallImages()
 		
+		//show velocity arrows on ball images
 		public function showArrowsOnBallImages(tOrF:Boolean):void{
 			var maxNbrBalls:int = this.myModel.maxNbrBalls;
 			for(var i:int = 0; i < maxNbrBalls; i++){
 				if(tOrF){
-					this.ball_arr[i].showArrow(true);
+					this.ballImage_arr[i].showArrow(true);
 				}else{
-					this.ball_arr[i].showArrow(false);
+					this.ballImage_arr[i].showArrow(false);
 				}
 			}
 		}//end showArrowsOnBallImages()
+		
+		//show Momentum arrows on ball images
+		public function showPArrowsOnBallImages(tOrF:Boolean):void{
+			var maxNbrBalls:int = this.myModel.maxNbrBalls;
+			for(var i:int = 0; i < maxNbrBalls; i++){
+				if(tOrF){
+					this.ballImage_arr[i].showPArrow(true);
+				}else{
+					this.ballImage_arr[i].showPArrow(false);
+				}
+			}
+		}//end showPArrowsOnBallImages()
 		
 
 		public function update():void{
@@ -272,10 +285,10 @@ import flash.display.*;
 			
 			if (this.myModel.nbrBallsChanged){
 				for(var i:int = 0; i < nbrBalls; i++){
-					this.ball_arr[i].visible = true;
+					this.ballImage_arr[i].visible = true;
 				}
 				for(i = nbrBalls; i < maxBalls; i++){
-					this.ball_arr[i].visible = false; 
+					this.ballImage_arr[i].visible = false; 
 				}
 				this.myTrajectories.updateNbrPaths();
 			}//end if()
@@ -283,9 +296,9 @@ import flash.display.*;
 			
 			var yMax:Number = this.myModel.borderHeight/2;  //recall origin is set at y = borderHeight/2 
 			for(i = 0; i < nbrBalls; i++){
-				ball_arr[i].x = this.pixelsPerMeter*this.myModel.ball_arr[i].position.getX();
-				ball_arr[i].y = this.pixelsPerMeter*(yMax - this.myModel.ball_arr[i].position.getY());
-				ball_arr[i].updateVelocityArrow();
+				ballImage_arr[i].x = this.pixelsPerMeter*this.myModel.ball_arr[i].position.getX();
+				ballImage_arr[i].y = this.pixelsPerMeter*(yMax - this.myModel.ball_arr[i].position.getY());
+				ballImage_arr[i].updateVelocityArrow();
 			}
 			if(this.showingPaths){
 				this.myTrajectories.drawStep();

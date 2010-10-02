@@ -174,8 +174,8 @@
 		}
 		
 		private function showMomentumArrows(evt:MouseEvent):void{
-			trace("show Momentum Arrows is" + evt.target.selected);
-			//this.myMainView.myTableView.showArrowsOnBallImages(evt.target.selected);
+			//trace("show Momentum Arrows is " + evt.target.selected);
+			this.myMainView.myTableView.showPArrowsOnBallImages(evt.target.selected);
 		}
 		
 		private function showCM(evt:MouseEvent):void{

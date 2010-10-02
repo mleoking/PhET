@@ -363,8 +363,9 @@ import flash.text.*;
 			var ballNbr = Number(evt.target.name);  //first ball is ball 1, is Model.ball_arr[0]
 			this.myModel.setMass(ballNbr - 1, mass);
 			this.massSlider_arr[ballNbr - 1].value = mass;
-			this.myMainView.myTableView.ball_arr[ballNbr - 1].drawLayer1();  //redraw ballImage for new diameter
-			this.myMainView.myTableView.ball_arr[ballNbr - 1].drawLayer4();  //redraw ballImage for new diameter
+			this.myMainView.myTableView.ballImage_arr[ballNbr - 1].drawLayer1();  //redraw ballImage for new diameter
+			this.myMainView.myTableView.ballImage_arr[ballNbr - 1].drawLayer1a(); //redraw ballImage for new diameter
+			this.myMainView.myTableView.ballImage_arr[ballNbr - 1].drawLayer4();  //redraw ballImage for new diameter
 			this.manualUpdating = false;
 			//trace("DataTable.changeMassListener().mass:  "+mass);
 			//trace("DataTable.curretBody:"+this.currentBody);
@@ -406,8 +407,9 @@ import flash.text.*;
 			var ballNbr:int = Number(evt.target.name); 
 			var mass = Number(evt.target.value);
 			this.myModel.setMass(ballNbr, mass);
-			this.myMainView.myTableView.ball_arr[ballNbr].drawLayer1();  //redraw ballImage for new diameter
-			this.myMainView.myTableView.ball_arr[ballNbr].drawLayer4();  //redraw ballImage for new diameter
+			this.myMainView.myTableView.ballImage_arr[ballNbr].drawLayer1();  //redraw ballImage for new diameter
+			this.myMainView.myTableView.ballImage_arr[ballNbr].drawLayer1a(); //redraw ballImage for new diameter
+			this.myMainView.myTableView.ballImage_arr[ballNbr].drawLayer4();  //redraw ballImage for new diameter
 			this.sliderUpdating = false;
 			//trace("ball "+ballNbr + "   value: "+evt.target.value);
 		}
@@ -415,8 +417,9 @@ import flash.text.*;
 		private function resetMassSliders():void{  //called when reset button on Control panel
 			for (var i:int = 0; i < this.maxNbrBalls; i++){
 				this.massSlider_arr[i].value = 1.0;
-				this.myMainView.myTableView.ball_arr[i].drawLayer1();  //redraw ballImage for new diameter
-				this.myMainView.myTableView.ball_arr[i].drawLayer4();  //redraw ballImage for new diameter
+				this.myMainView.myTableView.ballImage_arr[i].drawLayer1();  //redraw ballImage for new diameter
+				this.myMainView.myTableView.ballImage_arr[i].drawLayer1a(); //redraw ballImage for new diameter
+				this.myMainView.myTableView.ballImage_arr[i].drawLayer4();  //redraw ballImage for new diameter
 			}
 		}
 		

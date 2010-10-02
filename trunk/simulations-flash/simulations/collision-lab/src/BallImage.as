@@ -1,6 +1,7 @@
 ﻿//View and Controller of ball in TableView
 //BallImage has 5 sprite layers,
 // 1: colored ball, on bottom, not grabbable
+// 1a: momentum arrow, not grabbable
 // 2: velocity arrow, not grabbable
 // 2a: ball number label
 // 3: arrowHead indicator (shows location of arrowHead when arrow length is small
@@ -20,7 +21,8 @@ package{
 		var ballIndex:int;			//index labels ball 1, 2, 3,  
 		var pixelsPerMeter:int;
 		var ballBody:Sprite;
-		var arrowImage:Arrow;
+		var pArrowImage:Arrow;				//momentum arrow, not grabable
+		var vArrowImage:Arrow;				//velocity arrow, not grabable
 		var ballHandle:Sprite;
 		var arrowHeadIndicator:Sprite; 		//shows user where tip of arrow head is
 		var arrowHeadHandle:Sprite;			//user grabs this handle to set velocity with mouse
@@ -41,14 +43,18 @@ package{
 			this.pixelsPerMeter = this.myTableView.pixelsPerMeter;
 			this.myBall = this.myModel.ball_arr[this.ballIndex];
 			this.ballBody = new Sprite();
-			this.arrowImage = new Arrow(indx);
-			this.arrowImage.setScale(100);  //normal scale is 50
-			this.arrowImage.setColor(0x00ff00);
+			this.vArrowImage = new Arrow(indx);
+			this.vArrowImage.setScale(100);  //normal scale is 50
+			this.vArrowImage.setColor(0x00ff00);
+			this.pArrowImage = new Arrow(indx);
+			this.pArrowImage.setScale(110);
+			this.pArrowImage.setColor(0xffff00);
+			this.pArrowImage.setShaftWidth(13);
+			this.pArrowImage.setMaxHeadLength(20);
+			this.showPArrow(false);
 			this.ballHandle = new Sprite();
 			this.arrowHeadIndicator = new Sprite();
 			this.arrowHeadHandle = new Sprite();
-
-			
 			this.tFieldBallNbr = new TextField();
 			//this.tFieldPosition = new TextField();
 			//this.tFieldVelocity = new TextField();
@@ -77,6 +83,7 @@ package{
 			//this.tFieldVelocity.defaultTextFormat = tFormat2;
 			this.setLayerDepths();
 			this.drawLayer1();
+			this.drawLayer1a();
 			this.drawLayer2();
 			this.drawLayer2a();
 			this.drawLayer3();
@@ -91,7 +98,8 @@ package{
 			this.myTableView.canvas.addChild(this);
 			this.addChild(this.ballBody);
 			//this.addChild(this.tFieldPosition);
-			this.addChild(this.arrowImage);
+			this.addChild(this.pArrowImage);
+			this.addChild(this.vArrowImage);
 			this.addChild(this.tFieldBallNbr);
 			this.addChild(this.ballHandle);
 			this.addChild(this.arrowHeadIndicator);
@@ -109,10 +117,16 @@ package{
 			g.endFill();
 		}//end of drawLayer1()
 		
-		public function drawLayer2():void{
-			this.arrowImage.setArrow(this.myModel.ball_arr[this.ballIndex].velocity);
+		public function drawLayer1a():void{
+			this.pArrowImage.setArrow(this.myModel.ball_arr[this.ballIndex].momentum);
 			//trace("velocityY: "+this.myModel.ball_arr[this.ballIndex].velocity.getY());
-			this.arrowImage.setText("");
+			//this.arrowImage.setText("");
+		}//end of drawLayer1a()
+		
+		public function drawLayer2():void{
+			this.vArrowImage.setArrow(this.myModel.ball_arr[this.ballIndex].velocity);
+			//trace("velocityY: "+this.myModel.ball_arr[this.ballIndex].velocity.getY());
+			this.vArrowImage.setText("");
 		}//end of drawLayer2()
 		
 		public function drawLayer2a():void{
@@ -157,8 +171,8 @@ package{
 			//g.lineStyle(1,0x000000);
 			g.drawCircle(1,0,r);
 			g.endFill();
-			this.arrowHeadHandle.x = this.arrowImage.getHeadCenterX();
-			this.arrowHeadHandle.y = this.arrowImage.getHeadCenterY();
+			this.arrowHeadHandle.x = this.vArrowImage.getHeadCenterX();
+			this.arrowHeadHandle.y = this.vArrowImage.getHeadCenterY();
 		}//end of drawLayer5()
 		
 		
@@ -282,7 +296,7 @@ package{
 		public function makeArrowDraggable():void{
 			var target:Sprite = this.arrowHeadHandle;
 			var thisBallImage:BallImage = this;
-			var thisArrowImage:Arrow = this.arrowImage;
+			var thisArrowImage:Arrow = this.vArrowImage;
 			
 			target.buttonMode = true;
 			var indx:int = ballIndex;
@@ -324,7 +338,7 @@ package{
 					target.x = theStage.mouseX;// - clickOffset.x;
 					//thisBallImage.arrowHeadHandle.x = target.x;
 					thisBallImage.arrowHeadIndicator.x = target.x;
-					var velocityX:Number = (target.x*ratio)/thisBallImage.arrowImage.scale;
+					var velocityX:Number = (target.x*ratio)/thisBallImage.vArrowImage.scale;
 					//trace("velocityX: "+velocityX);
 					
 					modelRef.setVX(indx, velocityX);
@@ -333,13 +347,13 @@ package{
 						target.y = theStage.mouseY;// - clickOffset.y;
 						//thisBallImage.arrowHeadHandle.y = target.y;
 						thisBallImage.arrowHeadIndicator.y = target.y;
-						var velocityY:Number = -(target.y*ratio)/thisBallImage.arrowImage.scale;
+						var velocityY:Number = -(target.y*ratio)/thisBallImage.vArrowImage.scale;
 						modelRef.setVY(indx, velocityY);
 					}else{
 						target.y = 0;// - clickOffset.y;
 						thisBallImage.arrowHeadHandle.y = target.y;
 						//thisBallImage.arrowHeadIndicator.y = target.y;
-						velocityY = -(target.y*ratio)/thisBallImage.arrowImage.scale;
+						velocityY = -(target.y*ratio)/thisBallImage.vArrowImage.scale;
 						modelRef.setVY(indx, velocityY);
 					}
 					thisBallImage.setVisibilityOfArrowHeadIndicator();
@@ -361,7 +375,7 @@ package{
 						modelRef.initVel[indx].setXY(velocityX, velocityY);
 					}
 					modelRef.updateViews();
-					thisBallImage.arrowImage.setArrow(modelRef.ball_arr[indx].velocity);
+					thisBallImage.vArrowImage.setArrow(modelRef.ball_arr[indx].velocity);
 					evt.updateAfterEvent();
 				}
 			}//end of dragTarget()
@@ -389,7 +403,7 @@ package{
 		
 		public function setVisibilityOfArrowHeadIndicator():void{
 				var ballRadiusInPix:Number = this.pixelsPerMeter*this.myBall.getRadius();
-				var velInPix:Number = this.arrowImage.lengthInPix//Math.sqrt(target.x*target.x + target.y*target.y); 
+				var velInPix:Number = this.vArrowImage.lengthInPix//Math.sqrt(target.x*target.x + target.y*target.y); 
 				//var rInPix:Number = thisBallImage.pixelsPerMeter*thisBallImage.myBall.getRadius();
 					//trace("distInPix: "+distInPix+"   r:"+rInPix);
 				if(velInPix < ballRadiusInPix && this.arrowShown){
@@ -404,27 +418,40 @@ package{
 		public function showArrow(tOrF:Boolean):void{
 			if(tOrF){  //if arrows shown
 				this.arrowShown = true;
-				this.arrowImage.visible = true;
+				this.vArrowImage.visible = true;
 				this.setVisibilityOfArrowHeadIndicator();
 				this.arrowHeadHandle.visible = true;
 			}else{  //if arrow not shown
 				this.arrowShown = false;
-				this.arrowImage.visible = false;
+				this.vArrowImage.visible = false;
 				this.arrowHeadIndicator.visible = false;
 				this.arrowHeadHandle.visible = false;
 			}
 		}//end showArrow()
 		
+		public function showPArrow(tOrF:Boolean):void{
+			if(tOrF){  //if arrows shown
+				//this.pArrowShown = true;
+				this.pArrowImage.visible = true;
+			}else{  //if arrow not shown
+				//this.pArrowShown = false;
+				this.pArrowImage.visible = false;
+			}
+		}
+		
+		//update both velocity and momentum arrows on ball images
 		public function updateVelocityArrow():void{
 			var vel:TwoVector = this.myModel.ball_arr[this.ballIndex].velocity;
+			var mom:TwoVector = this.myModel.ball_arr[this.ballIndex].momentum;
 			//if(this.ballIndex == 0){
 				//trace("ballImage.myModel.ball_arr[0].velocity.y = "+this.myModel.ball_arr[0].velocity.getY());
 			//}
 			//this.myModel.updateViews();
-			this.arrowImage.setArrow(vel);
-			var scaleFactor:Number = this.arrowImage.scale;
+			this.vArrowImage.setArrow(vel);
+			this.pArrowImage.setArrow(mom);
+			var scaleFactor:Number = this.vArrowImage.scale;
 			//following line is ratio of arrowHeadIndicator position to tip-of-arrow position, measured from origin at tail of arrow.
-			var thisArrowImage:Arrow = this.arrowImage;
+			var thisArrowImage:Arrow = this.vArrowImage;
 			var ratio:Number = (thisArrowImage.lengthInPix + thisArrowImage.headL)/(thisArrowImage.lengthInPix + 0.2*thisArrowImage.headL);
 			if(isNaN(ratio)){ratio = 1;}
 			//trace("on updateVelocityArrow(), ratio is "+ratio);

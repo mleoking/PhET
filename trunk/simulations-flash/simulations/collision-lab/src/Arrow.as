@@ -12,6 +12,7 @@ package{
 		private var shaftW:int;			//width of shaft in pixels
 		var shaftL:int;			//length of shaft in pixels
 		var headL:int;			//length of head in pixels
+		var maxHeadL:int;		//maximum length of head in pixels
 		var lengthInPix:Number;	//length of arrow (shaft+head) in pixels
 		var angleInDeg:Number;	//current angle in Degrees, from +x direction, CCW is +
 		var angleInRad:Number;
@@ -27,6 +28,7 @@ package{
 			this.scale = 50;			//adjustable
 			this.shaftW = 7;
 			this.headL = 12;
+			this.maxHeadL = 12;
 			this.tField = new TextField();
 			this.tFormat = new TextFormat();
 			tFormat.font = "Arial";
@@ -51,9 +53,13 @@ package{
 			this.shaftW = shaftW;
 		}
 		
+		public function setMaxHeadLength(maxHeadL:int):void{
+			this.maxHeadL = maxHeadL;
+		}
+		
 		public function drawHorizArrow():void{
-			var minArrowLength:Number = 12;
-			this.headL = Math.min(minArrowLength, this.lengthInPix);
+			//var minArrowLength:Number = 12;
+			this.headL = Math.min(maxHeadL, this.lengthInPix);
 			//following 3 lines often cause shaftW to get set to zero 
 			//if(this.lengthInPix < minArrowLength){
 				//this.shaftW = 0.7*this.headL;
