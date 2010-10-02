@@ -82,18 +82,20 @@
 			this.oneD_rb.textField.autoSize = TextFieldAutoSize.LEFT;
 			this.twoD_rb.textField.autoSize = TextFieldAutoSize.LEFT;
 			this.showVelocities_cb.textField.autoSize = TextFieldAutoSize.LEFT;
+			this.showMomentumVectors_cb.textField.autoSize = TextFieldAutoSize.LEFT;
 			this.showCM_cb.textField.autoSize = TextFieldAutoSize.LEFT;
 			this.reflectingBorder_cb.textField.autoSize = TextFieldAutoSize.LEFT;
 			this.showPaths_cb.textField.autoSize = TextFieldAutoSize.LEFT;
 			this.oneD_rb.addEventListener(MouseEvent.CLICK, oneDModeOn);
 			this.twoD_rb.addEventListener(MouseEvent.CLICK, oneDModeOff);
 			this.showVelocities_cb.addEventListener(MouseEvent.CLICK, showVelocityArrows);
+			this.showMomentumVectors_cb.addEventListener(MouseEvent.CLICK, showMomentumArrows);
 			this.showCM_cb.addEventListener(MouseEvent.CLICK, showCM);
 			this.reflectingBorder_cb.addEventListener(MouseEvent.CLICK, borderOnOrOff);
 			this.showMomenta_cb.addEventListener(MouseEvent.CLICK, momentaDiagramOnOrOff);
 			this.showPaths_cb.addEventListener(MouseEvent.CLICK, showOrErasePaths);
 			this.sound_cb.addEventListener(MouseEvent.CLICK, soundOnOrOff);
-			this.timeRateSlider.addEventListener(SliderEvent.CHANGE, setTimeRate);
+			//this.timeRateSlider.addEventListener(SliderEvent.CHANGE, setTimeRate);
 			this.elasticitySlider.addEventListener(SliderEvent.CHANGE, setElasticity);
 			
 		}
@@ -107,17 +109,18 @@
 		public function initializeStrings():void{
             TextFieldUtils.initLabelButtonI18NLeft("ControlPanel.1d","1 Dimension",oneD_txt, oneD_rb);
             TextFieldUtils.initLabelButtonI18NLeft("ControlPanel.2d","2 Dimensions",twoD_txt, twoD_rb);
-            TextFieldUtils.initLabelButtonI18NLeft("ControlPanel.showVelocities","Velocity Vectors",showVelocities_label, showVelocities_cb);
-            TextFieldUtils.initLabelButtonI18NLeft("ControlPanel.showCenterOfMass","Center of Mass",showCM_label, showCM_cb);
-            TextFieldUtils.initLabelButtonI18NLeft("ControlPanel.reflectingBorder","Reflecting Border",reflectingBorder_label, reflectingBorder_cb);
-            TextFieldUtils.initLabelButtonI18NLeft("ControlPanel.momentaDiagram","Momenta Diagram",showMomenta_label, showMomenta_cb);
+            TextFieldUtils.initLabelButtonI18NLeft("ControlPanel.showVelocities","Velocity Vectors", showVelocities_label, showVelocities_cb);
+            TextFieldUtils.initLabelButtonI18NLeft("ControlPanel.showMomentumVectors","Momentum Vectors", showMomentumVectors_label, showMomentumVectors_cb);
+			TextFieldUtils.initLabelButtonI18NLeft("ControlPanel.showCenterOfMass","Center of Mass", showCM_label, showCM_cb);
+            TextFieldUtils.initLabelButtonI18NLeft("ControlPanel.reflectingBorder","Reflecting Border", reflectingBorder_label, reflectingBorder_cb);
+            TextFieldUtils.initLabelButtonI18NLeft("ControlPanel.momentaDiagram","Momenta Diagram", showMomenta_label, showMomenta_cb);
 			TextFieldUtils.initLabelButtonI18NLeft("ControlPanel.showPaths","Show Paths",showPaths_label, showPaths_cb);
             TextFieldUtils.initLabelButtonI18NLeft("ControlPanel.sound","Sound",sound_label, sound_cb);
             
             resetButton.setLabel(SimStrings.get("ControlPanel.resetAll","Reset All"));
-            this.timeLabel.text = SimStrings.get("ControlPanel.timeRate","Time Rate");
-            this.slowLabel.text = SimStrings.get("ControlPanel.slow","slow");
-            this.fastLabel.text = SimStrings.get("ControlPanel.fast","fast");
+            // this.timeLabel.text = SimStrings.get("ControlPanel.timeRate","Time Rate");
+            //this.slowLabel.text = SimStrings.get("ControlPanel.slow","slow");
+            //this.fastLabel.text = SimStrings.get("ControlPanel.fast","fast");
             this.elasticityLabel.text = SimStrings.get("ControlPanel.elasticity","Elasticity");
             this.zeroPercentLabel.text = SimStrings.get("ControlPanel.zeroPercent","0%");
             this.oneHundredPercentLabel.text = SimStrings.get("ControlPanel.oneHundredPercent","100%");
@@ -160,14 +163,19 @@
 				//this.changeNbrBallButtons.removeBallButton.visible = false;
 				//this.myMainView.myTableView.CM.visible = false;
 			//}
-			this.timeRateSlider.value = 0.5;
-			this.myModel.setTimeRate(0.5);
+			//this.timeRateSlider.value = 0.5;
+			//this.myModel.setTimeRate(0.5);
 			this.elasticitySlider.value = 1;
 			this.myModel.setElasticity(1);
 		}
 		
 		public function showVelocityArrows(evt:MouseEvent):void{
 			this.myMainView.myTableView.showArrowsOnBallImages(evt.target.selected);
+		}
+		
+		private function showMomentumArrows(evt:MouseEvent):void{
+			trace("show Momentum Arrows is" + evt.target.selected);
+			//this.myMainView.myTableView.showArrowsOnBallImages(evt.target.selected);
 		}
 		
 		private function showCM(evt:MouseEvent):void{
@@ -200,10 +208,11 @@
 			this.myModel.soundOn = evt.target.selected;
 		}
 		
-		public function setTimeRate(evt:SliderEvent):void{
+		//Time Rate slider moved to TableView
+		//public function setTimeRate(evt:SliderEvent):void{
 			//trace("time slider: "+evt.target.value);
-			this.myModel.setTimeRate(evt.target.value);
-		}
+			//this.myModel.setTimeRate(evt.target.value);
+		//}
 		
 		public function setElasticity(evt:SliderEvent):void{
 			trace("elasticity = "+evt.target.value)

@@ -40,9 +40,9 @@ public class MainView extends Sprite{
 			this.myDataTable.y = 0.75*this.stageH;//this.myTableView.canvas.height + 1.0*this.myTableView.playButtons.height;
 			this.myDataTable.x = this.myTableView.width/2;
 			this.controlPanel.background.width = 170;
-			this.controlPanel.background.height = 360;
+			this.controlPanel.background.height = 330;
 			this.controlPanel.x = this.stageW - 0.75*this.controlPanel.width;
-			this.controlPanel.y = 20;//0.3*this.controlPanel.height;
+			this.controlPanel.y = 30;//0.3*this.controlPanel.height;
 			this.phetLogo.x = 0*this.phetLogo.width;
 			this.phetLogo.y = this.stageH - 1.0*this.phetLogo.height;
 			this.momentumView.visible = false;

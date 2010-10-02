@@ -30,19 +30,18 @@
     <string key="ControlPanel.2d" value="原子分裂"/>
     <string key="ControlPanel.resetAll" value="原子分裂"/>
     <string key="ControlPanel.showVelocities" value="原子分裂"/>
+	<string key="ControlPanel.showMomentumVectors value="原子分裂"/>
     <string key="ControlPanel.showCenterOfMass" value="原子分裂"/>
     <string key="ControlPanel.reflectingBorder" value="原子分裂"/>
 	<string key="ControlPanel.momentaDiagram" value="原子分裂原子分裂"/>
     <string key="ControlPanel.showPaths" value="原子分裂"/>
     <string key="ControlPanel.sound" value="原子分裂"/>
-    <string key="ControlPanel.timeRate" value="原子分裂"/>
-    <string key="ControlPanel.slow" value="原子分裂"/>
-    <string key="ControlPanel.fast" value="原子分裂"/>
     <string key="ControlPanel.elasticity" value="原子分裂"/>
     <string key="ControlPanel.zeroPercent" value="原子分裂%"/>
     <string key="ControlPanel.oneHundredPercent" value="原子分裂%"/>
     
     <string key="TableView.kineticEnergy" value="{0} is the 原子分裂 energies"/>
+	<string key="TableView.timeRate" value="原子分裂"/>
     <string key="TableView.time" value="原子分裂 = {0} time units"/>
 
 </SimStrings>

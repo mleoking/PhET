@@ -174,6 +174,7 @@ import flash.text.*;
 			this.update();
 		}//end of initialize1()
 		
+
 		
 		//following function to be altered during internationalization
 		public function initializeStrings():void{
@@ -489,23 +490,23 @@ import flash.text.*;
 						//do nothing
 					}else if(j == 1){			//mass in kg
 						mass = this.myModel.ball_arr[i-1].getMass();
-						this.text_arr[i][j].text = this.round(mass, 1);
+						this.text_arr[i][j].text = mass.toFixed(1); //this.round(mass, 1);
 					//}else if(j == 2){	//radius in m
 						//var radius:Number = this.myModel.ball_arr[i-1].getRadius();
 						//this.text_arr[i][j].text = this.round(radius, 2);
 					}else if(j == 2){	//x position in m
 						var xPos:Number = this.myModel.ball_arr[i-1].position.getX();
 						//trace("DataTable, xPos of ball "+ i +" = "+xPos);
-						this.text_arr[i][j].text = this.round(xPos, nbrPlaces);
+						this.text_arr[i][j].text = xPos.toFixed(3); //this.round(xPos, nbrPlaces);
 					}else if(j == 3){	//y position in m
 						var yPos:Number = this.myModel.ball_arr[i-1].position.getY();
-						this.text_arr[i][j].text = this.round(yPos, nbrPlaces);
+						this.text_arr[i][j].text = yPos.toFixed(3); //this.round(yPos, nbrPlaces);
 					}else if(j == 4){	//v_x in m/s
 						var xVel:Number = this.myModel.ball_arr[i-1].velocity.getX();
-						this.text_arr[i][j].text = this.round(xVel, nbrPlaces);
+						this.text_arr[i][j].text = xVel.toFixed(3); //this.round(xVel, nbrPlaces);
 					}else if(j == 5){	//v_y in m/s
 						var yVel:Number = this.myModel.ball_arr[i-1].velocity.getY();
-						this.text_arr[i][j].text = this.round(yVel, nbrPlaces);
+						this.text_arr[i][j].text = yVel.toFixed(3); //this.round(yVel, nbrPlaces);
 					}else if(j == 6){	//p_x in kg*m/s
 						//do nothing
 					}else if(j == 7){	//p_y in kg*m/s
@@ -536,16 +537,16 @@ import flash.text.*;
 				for(j = 0; j < this.nbrColumns; j++){
 					if(j == 6){	//p_x in kg*m/s
 						var xMom:Number = mass*xVel;
-						this.text_arr[i][j].text = this.round(xMom, nbrPlaces);
+						this.text_arr[i][j].text = xMom.toFixed(3); //this.round(xMom, nbrPlaces);
 					}else if(j == 7){	//p_y in kg*m/s
 						var yMom:Number = mass*yVel;
-						this.text_arr[i][j].text = this.round(yMom, nbrPlaces);
+						this.text_arr[i][j].text = yMom.toFixed(3); //this.round(yMom, nbrPlaces);
 					}
 				}//end for j
 			}//end for i
 		}//end update()
 		
-		//round decimal number to n places
+		//round decimal number to n places; made obsolete by toFixed() Number function
 		private function round(input:Number, nPlaces:int):Number{
 			var result:Number;
 			var factor:Number = Math.pow(10, nPlaces);
@@ -553,6 +554,7 @@ import flash.text.*;
 			return result
 		}
 		
+		//made obsolete by toFixed() Number function
 		private function padZeroes(input:Number, nPlaces):String{
 			var result:String = ""+input;
 			if(input == Math.round(input)){

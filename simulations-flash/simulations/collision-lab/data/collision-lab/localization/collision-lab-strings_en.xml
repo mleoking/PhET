@@ -30,18 +30,17 @@
     <string key="ControlPanel.2d" value="2 Dimenstions"/>
     <string key="ControlPanel.resetAll" value="Reset All"/>
     <string key="ControlPanel.showVelocities" value="Velocity Vectors"/>
+	<string key="ControlPanel.showMomentumVectors" value="Momentum Vectors"/>
     <string key="ControlPanel.showCenterOfMass" value="Center of Mass"/>
     <string key="ControlPanel.reflectingBorder" value="Reflecting Border"/>
 	<string key="ControlPanel.momentaDiagram" value="Momenta Diagram"/>
     <string key="ControlPanel.showPaths" value="Show Paths"/>
     <string key="ControlPanel.sound" value="Sound"/>
-    <string key="ControlPanel.timeRate" value="Time Rate"/>
-    <string key="ControlPanel.slow" value="slow"/>
-    <string key="ControlPanel.fast" value="fast"/>
     <string key="ControlPanel.elasticity" value="Elasticity"/>
     <string key="ControlPanel.zeroPercent" value="0%"/>
     <string key="ControlPanel.oneHundredPercent" value="100%"/>
 
     <string key="TableView.kineticEnergy" value="Kinetic Energy = {0} J"/>
+	<string key="TableView.timeRate" value="Time Rate"/>
     <string key="TableView.time" value="Time = {0} s"/>
 </SimStrings>

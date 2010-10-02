@@ -1,11 +1,13 @@
-//View of "Pool Table" containing balls
+﻿//View of "Pool Table" containing balls
 package{
 import edu.colorado.phet.flashcommon.SimStrings;
 
 import flash.display.*;
 	import flash.events.*;
+	import fl.events.*;
 	import flash.text.*;
 	import flash.geom.*;
+	import fl.controls.*;
 	
 	public class TableView extends Sprite{
 		var myModel:Model;
@@ -15,11 +17,13 @@ import flash.display.*;
 		var CM:CenterOfMass;				//library symbol
 		var showingPaths:Boolean;			//true if paths are shown
 		var playButtons:PlayPauseButtons;	//class to hold library symbol, contains dynamic text strings
+		var timeRate_slider:Slider;			//adjusts rate at which time passes
 		var border:Sprite;					//reflecting border
 		var invisibleBorder:Sprite;			//handle for dragging
 		var borderColor:uint;				//color of border 0xrrggbb
 		var timeText:TextField;				//label containing current time
 		var totKEText:TextField;			//label showing total KE of particles
+		var timeRateText:TextField;			//label above timeRate slider
 		var pixelsPerMeter:int;				//scale of view
 		var ball_arr:Array;					//array of ball images
 		var ballLabels:Array;				//array of ball labels: 1, 2, 3, ...
@@ -41,18 +45,21 @@ import flash.display.*;
 			this.border = new Sprite();
 			this.invisibleBorder = new Sprite();
 			this.playButtons = new PlayPauseButtons(this.myModel);
+			this.timeRate_slider = new Slider();
+			this.setupSlider();
 			this.canvas.addChild(this.border);
 			this.canvas.addChild(this.invisibleBorder);
 			this.canvas.addChild(this.playButtons);
+			this.makeTimeLabel();
+			this.makeTotKELabel();
+			this.makeTimeRateLabel();
+			this.canvas.addChild(this.timeRate_slider);
 			this.myModel.registerView(this);
 			this.pixelsPerMeter = 200;
 			this.showingPaths = false;
 			this.myTrajectories = new Trajectories(this.myModel, this);
 			//this.canvas.addChild(this.myTrajectories);
-			this.
-			border.addChild(this.myTrajectories);
-			this.makeTimeLabel();
-			this.makeTotKELabel();
+			this.border.addChild(this.myTrajectories);
 			this.drawBorder();  //drawBorder() also calls positionLabels() and drawInvisibleBorder()
 			this.ballColor_arr = new Array(10);  //start with 10 colors
 			this.createBallColors();
@@ -64,6 +71,7 @@ import flash.display.*;
 			}
 			Util.makePanelDraggableWithBorder(this, this.invisibleBorder);
 			this.update();
+			//this.drawBorder();
 			//this.ballImageTest = new BallImage(this.myModel, 2, this);
 			//this.myModel.startMotion();
 		}//end of constructor
@@ -95,18 +103,34 @@ import flash.display.*;
 			this.playButtons.x = W/2;
 			this.playButtons.y = H + this.playButtons.height/2;
 			
+			;
+			
 			this.drawInvisibleBorder(); 
 			
-			//position KE and Time Labels
-			this.timeText.x = W - 1.5*this.timeText.width;
+			this.timeText.text = getTimeText(this.myModel.time.toFixed(2));
+			this.totKEText.text = getKEText(this.myModel.getTotalKE().toFixed(2));
+			this.timeRateText.text = SimStrings.get( "TableView.timeRate", "Time Rate");
+			
+			//position Time Label
+			//this.timeText.width=165;//to improve support for i18n
+			this.timeText.x = W - 1.0*this.timeText.width;
 			this.timeText.y = H + 10;
-            this.totKEText.width=165;
-            
+			//trace("this.timeText.width = "+this.timeText.width);
+			
+            //position slider
+			this.timeRate_slider.x = W - this.timeRate_slider.width - 1.0*this.timeText.width - 5; ; //- 1.7*this.timeText.width;
+			this.timeRate_slider.y = H + 30;
+			
+			//position slider label
+			this.timeRateText.y = H + 10;
+			this.timeRateText.x = this.timeRate_slider.x + 0.5*this.timeRate_slider.width/2;
+			
+			//positon KE label
 			this.totKEText.x = 0;//0.5*this.totKEText.width;//30; //
 			this.totKEText.y = H + 10;
 //            this.totKEText.border=true;//to help visualize layout
             this.totKEText.width=165;//to improve support for i18n
-			trace("drawBorder() called. this.totKEText.width = "+this.totKEText.width);
+			//trace("drawBorder() called. this.totKEText.width = "+this.totKEText.width);
 
 		}//end of drawBorder();
 		
@@ -172,6 +196,38 @@ import flash.display.*;
 			this.canvas.addChild(this.totKEText);
 		}
 		
+		public function makeTimeRateLabel():void{
+			//following two strings should be set by internationalizer
+			this.timeRateText = new TextField();
+			this.timeRateText.text = SimStrings.get( "TableView.timeRate", "Time Rate");
+			this.timeRateText.selectable = false;
+//			this.timeRateText.autoSize = TextFieldAutoSize.RIGHT;
+			var tFormat:TextFormat = new TextFormat();
+			tFormat.font = "Arial";
+			tFormat.bold = true;
+			tFormat.color = 0x000000;
+			tFormat.size = 12;
+			this.timeRateText.defaultTextFormat = tFormat;
+			//this.timeText.setTextFormat(tFormat);
+			this.canvas.addChild(this.timeRateText);
+		}
+		
+		private function setupSlider():void{
+			this.timeRate_slider.direction = SliderDirection.HORIZONTAL;
+			this.timeRate_slider.minimum = 0.01;
+			this.timeRate_slider.maximum = 1;
+			this.timeRate_slider.snapInterval = 0.02;
+			this.timeRate_slider.value = 0.5;
+			this.myModel.setTimeRate(0.5);
+			this.timeRate_slider.liveDragging = true;
+			this.timeRate_slider.width = 100;
+			this.timeRate_slider.addEventListener(Event.CHANGE, setTimeRate);
+		}
+		
+		public function setTimeRate(evt:SliderEvent):void{
+			//trace("time slider: "+evt.target.value);
+			this.myModel.setTimeRate(evt.target.value);
+		}
 		
 		public function createBallColors():void{
 			this.ballColor_arr[0] = 0xff0000;
@@ -243,7 +299,8 @@ import flash.display.*;
 			
 			this.CM.x = this.pixelsPerMeter*this.myModel.CM.x;
 			this.CM.y = this.pixelsPerMeter*(yMax - this.myModel.CM.y);
-		}
+		}//end update();
+		
         function getKEText( keValue: String ): String {
             return SimStrings.get( "TableView.kineticEnergy", "Kinetic Energy = {0} J", [keValue] );
         }
