@@ -77,6 +77,9 @@ package{
 		
 		public function addBall():void{
 			//trace("Model.addBall() called");
+			if(!this.playing){
+				this.atInitialConfig = true;
+			}
 			if(this.nbrBalls < this.maxNbrBalls){
 				this.nbrBalls += 1;
 				if(this.oneDMode){
@@ -85,6 +88,7 @@ package{
 						this.setVY(i,0);
 					}
 				}
+				this.setTimeToZero();
 				//trace("Model.nbrBalls: "+this.nbrBalls);
 				this.nbrBallsChanged = true;
 				this.separateAllBalls();
@@ -98,8 +102,12 @@ package{
 		
 		public function removeBall():void{
 			//trace("Model.removeBall()");
+			if(!this.playing){
+				this.atInitialConfig = true;
+			}
 			if(this.nbrBalls > 0){
 				this.nbrBalls -= 1;
+				this.setTimeToZero();
 				this.nbrBallsChanged = true;
 				this.setCenterOfMass();
 				this.updateViews();
@@ -115,6 +123,10 @@ package{
 		
 		public function setMass(ballNbr:int, mass:Number):void{
 			//trace("Model.setMass() called. ballNbr is "+ballNbr+"   mass is "+mass);
+			if(!this.playing){
+				this.atInitialConfig = true;
+				this.time = 0;
+			}
 			this.ball_arr[ballNbr].setMass(mass);
 			this.separateAllBalls();
 			this.setCenterOfMass();
@@ -162,6 +174,11 @@ package{
 			this.setCenterOfMass();
 		}//end of initializeBalls()
 		
+		public function setTimeToZero():void{
+			this.time = 0;
+			//this.initializePositions();
+		}
+		
 		public function resetAll():void{
 			//trace("Model.resetAll() called");
 			this.resetting = true;
@@ -203,7 +220,7 @@ package{
 		//called whenever reset button pushed by user or when nbrBalls changes
 		public function initializePositions():void{
 			//trace("Model.initializePositions() called");
-			this.atInitialConfig = true;
+			this.atInitialConfig = false;
 			this.starting = true;
 			for (var i:int = 0; i < this.nbrBalls; i++){
 				//new Ball(mass, position, velocity);
@@ -253,9 +270,13 @@ package{
 				trace("ERROR: ball number " + ballNbr + ": xPos is NaN.");
 				this.setX(indx, initPos[indx].getX());
 			}
+			if(!this.playing){
+				this.atInitialConfig = true;
+			}
 			this.ball_arr[indx].position.setX(xPos);
 			if(this.atInitialConfig){
 				this.initPos[indx].setX(xPos);
+				this.setTimeToZero();
 			}
 			this.setCenterOfMass();
 			//trace("playing: " + playing);
@@ -268,9 +289,13 @@ package{
 				trace("ERROR: ball number " + ballNbr + ": yPos is NaN.");
 				this.setX(indx, initPos[indx].getY());
 			}
+			if(!this.playing){
+				this.atInitialConfig = true;
+			}
 			this.ball_arr[indx].position.setY(yPos);
 			if(this.atInitialConfig){
 				this.initPos[indx].setY(yPos);
+				this.setTimeToZero();
 			}
 			this.setCenterOfMass();
 			if(!playing){this.updateViews();}
@@ -286,17 +311,25 @@ package{
 				var ballNbr:int = indx + 1;
 				trace("ERROR: ball number " + ballNbr + ": xVel is NaN.");
 			}
+			if(!this.playing){
+				this.atInitialConfig = true;
+			}
 			this.ball_arr[indx].velocity.setX(xVel);
 			if(this.atInitialConfig){
 				this.initVel[indx].setX(xVel);
+				this.setTimeToZero();
 			}
 			if(!playing){this.updateViews();}
 		}
 		
 		public function setVY(indx:int, yVel:Number):void{
+			if(!this.playing){
+				this.atInitialConfig = true;
+			}
 			this.ball_arr[indx].velocity.setY(yVel);
 			if(this.atInitialConfig){
 				this.initVel[indx].setY(yVel);
+				this.setTimeToZero();
 			}
 			if(!playing){this.updateViews();}
 		}
