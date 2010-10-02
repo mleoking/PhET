@@ -120,7 +120,7 @@ package{
 		public function drawLayer1a():void{
 			this.pArrowImage.setArrow(this.myModel.ball_arr[this.ballIndex].momentum);
 			//trace("velocityY: "+this.myModel.ball_arr[this.ballIndex].velocity.getY());
-			//this.arrowImage.setText("");
+			this.pArrowImage.setText("");
 		}//end of drawLayer1a()
 		
 		public function drawLayer2():void{

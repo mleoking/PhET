@@ -217,7 +217,7 @@
 		public function setElasticity(evt:SliderEvent):void{
 			trace("elasticity = "+evt.target.value)
 			this.myModel.setElasticity(evt.target.value);
-			var e_str:String = String(evt.target.value);
+			var e_str:String = evt.target.value.toFixed(2);//String(evt.target.value);
 			this.elasticityValueLabel.text = e_str;
 			//trace("e slider: "+evt.target.value);
 		}
