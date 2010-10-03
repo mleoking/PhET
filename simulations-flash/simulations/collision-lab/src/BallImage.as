@@ -1,5 +1,5 @@
 ﻿//View and Controller of ball in TableView
-//BallImage has 5 sprite layers,
+//BallImage has 6 sprite layers,
 // 1: colored ball, on bottom, not grabbable
 // 1a: momentum arrow, not grabbable
 // 2: velocity arrow, not grabbable

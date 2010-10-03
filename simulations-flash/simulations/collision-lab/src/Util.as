@@ -55,15 +55,37 @@ package{
 			}//end of dragTarget()
 		}//end of makeClipDraggable
 		
+		public static function makePanelDraggableWithBorder2(panel:Sprite, border:Sprite):void{
+			border.buttonMode = true;
+			border.addEventListener(MouseEvent.MOUSE_DOWN, startTargetDrag);
+			border.stage.addEventListener(MouseEvent.MOUSE_UP, stopTargetDrag);
+			var dmz:int = 50;
+			var W:int = panel.stage.stageWidth;
+			var H:int = panel.stage.stageHeight;
+			var boundingArea:Rectangle = new Rectangle(dmz, dmz, W-2*dmz, H-2*dmz)
+			function startTargetDrag(evt:MouseEvent):void{
+				border.startDrag(false);
+				evt.updateAfterEvent();
+			}
+			function stopTargetDrag(evt:MouseEvent):void{
+				border.stopDrag();
+			}
+		}
+		
 		public static function makePanelDraggableWithBorder(panel:Sprite, border:Sprite):void{
 			border.buttonMode = true;
 			border.addEventListener(MouseEvent.MOUSE_DOWN, startTargetDrag);
 			border.stage.addEventListener(MouseEvent.MOUSE_UP, stopTargetDrag);
 			border.stage.addEventListener(MouseEvent.MOUSE_MOVE, dragTarget);
 			var clickOffset:Point;
+			var stageW:int = panel.stage.stageWidth;
+			var stageH:int = panel.stage.stageHeight;
+
 			function startTargetDrag(evt:MouseEvent):void{	
 				//problem with localX, localY if sprite is rotated.
 				clickOffset = new Point(evt.stageX - panel.x, evt.stageY - panel.y);
+				//trace("evt.stageX = " + evt.stageX + "   panel.x = " + panel.x);
+				//trace("evt.target.width = "+evt.target.width);
 			}
 			function stopTargetDrag(evt:MouseEvent):void{
 				//trace("stop dragging");
@@ -73,8 +95,15 @@ package{
 				if(clickOffset != null){  //if dragging
 					//trace("theStage.mouseX: "+theStage.mouseX);
 					//trace("theStage.mouseY: "+theStage.mouseY);
-					panel.x = evt.stageX - clickOffset.x;
-					panel.y = evt.stageY - clickOffset.y;
+					//trace("evt.stageX = "+evt.stageX);
+					//minD prevents user from dragging panel completely off Stage
+					var minD = 50;
+					if(evt.stageX > minD && evt.stageX < stageW - minD){
+						panel.x = evt.stageX - clickOffset.x;
+					}
+					if(evt.stageY > minD && evt.stageY < stageH - minD){
+						panel.y = evt.stageY - clickOffset.y;
+					}
 					evt.updateAfterEvent();
 				}
 			}//end of dragTarget()
