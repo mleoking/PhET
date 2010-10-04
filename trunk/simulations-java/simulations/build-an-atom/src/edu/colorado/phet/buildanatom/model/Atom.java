@@ -43,6 +43,17 @@ public class Atom {
             checkAndReconfigureShells();
         }
     };
+    private SubatomicParticle.Adapter particleListener = new SubatomicParticle.Adapter(){
+            @Override
+            public void grabbedByUser( SubatomicParticle particle ) {
+                // The user has picked up this particle, so we assume
+                    // that it is essentially removed from the atom.
+                    protons.remove( particle );
+                    neutrons.remove( particle );
+                    particle.removeListener( this );
+                    reconfigureNucleus();
+            }
+        };;
 
     /**
      * Constructor.
@@ -76,6 +87,12 @@ public class Atom {
     }
 
     public void reset() {
+        for ( Proton proton : protons ) {
+            proton.removeListener( particleListener );
+        }
+        for ( Neutron neutron : neutrons ) {
+            neutron.removeListener( particleListener );
+        }
         protons.clear();
         neutrons.clear();
         electronShell1.reset();
@@ -107,19 +124,7 @@ public class Atom {
         // new nucleon.
         reconfigureNucleus();
 
-        // Add observer for when this particle gets picked up by the user.
-        proton.addUserControlListener( new SimpleObserver() {
-
-            public void update() {
-                if ( proton.isUserControlled() ) {
-                    // The user has picked up this particle, so we assume
-                    // that it is essentially removed from the atom.
-                    protons.remove( proton );
-                    proton.removeUserControlListener( this );
-                    reconfigureNucleus();
-                }
-            }
-        } );
+        proton.addListener( particleListener );
     }
 
     public void addNeutron( final Neutron neutron ) {
@@ -132,19 +137,7 @@ public class Atom {
         // new nucleon.
         reconfigureNucleus();
 
-        // Add observer for when this particle gets picked up by the user.
-        neutron.addUserControlListener( new SimpleObserver() {
-
-            public void update() {
-                if ( neutron.isUserControlled() ) {
-                    // The user has picked up this particle, so we assume
-                    // that it is essentially removed from the atom.
-                    neutrons.remove( neutron );
-                    neutron.removeUserControlListener( this );
-                    reconfigureNucleus();
-                }
-            }
-        } );
+        neutron.addListener( particleListener );
     }
 
     public void addElectron( final Electron electron ) {
