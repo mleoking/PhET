@@ -22,7 +22,7 @@ public class Atom {
     private static final double NUCLEUS_RADIUS = 10;
 
     // Electron shell radii.
-    private static final double ELECTRON_SHELL_1_RADIUS = 34;
+    public static final double ELECTRON_SHELL_1_RADIUS = 34;
     public static final double ELECTRON_SHELL_2_RADIUS = 102;
 
     // Position in model space.
@@ -358,7 +358,7 @@ public class Atom {
                     // Move out to the next radius.
                     level++;
                     placementRadius += nucleonRadius * 1.5 / level;
-                    placementAngle = RAND.nextDouble() * Math.PI; // Initialize to a random angle.
+                    placementAngle = RAND.nextDouble() * Math.PI / 4; // Initialize to a random angle.
                     numAtThisRadius = (int) Math.floor( placementRadius * Math.PI / nucleonRadius );
                     placementAngleDelta = 2 * Math.PI / numAtThisRadius;
                 }
