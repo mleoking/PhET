@@ -37,6 +37,32 @@ public class IndexPanel extends PhetPanel {
         add( new StaticImage( "nsf-logo", "/images/support/nsf-logo-small.gif", null ) );
         add( new StaticImage( "hewlett-logo", "/images/support/hewlett-logo-small.jpg", null ) );
 
+        /* ADD THE FOLLOWING IN FOR THE SOCIAL MEDIA BUTTONS
+        <!--<div style="text-align: center; font-size: 11px; vertical-align:middle; position: relative; padding-bottom: 10px;">-->
+            <!--<a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fphet.colorado.edu&t=PhET%3A%20Free%20online%20physics%2C%20chemistry%2C%20biology%2C%20earth%20science%20and%20math%20simulations">-->
+            <!--Like <img wicket:id="facebook-like"-->
+            <!--src="../../../../../../../root/images/icons/social/facebook-like.gif" alt="Facebook icon"-->
+            <!--style="vertical-align: middle; border: none;"/>-->
+            <!--</a> &nbsp;|&nbsp;-->
+            <!--<a href="https://www.facebook.com/pages/PhET-Interactive-Simulations/87753699983">-->
+            <!--Join us on <img wicket:id="facebook-image"-->
+            <!--src="../../../../../../../root/images/icons/social/facebook.png" alt="Facebook icon"-->
+            <!--style="vertical-align: middle; border: none;"/>-->
+            <!--</a> &nbsp;|&nbsp;-->
+            <!--<a href="http://www.twitter.com">-->
+            <!--Follow us on <img wicket:id="twitter-image"-->
+            <!--src="../../../../../../../root/images/icons/social/twitter.png" alt="Twitter icon"-->
+            <!--style="vertical-align: middle; border: none;"/>-->
+            <!--</a> &nbsp;|&nbsp;-->
+            <!--<a href="http://phet.colorado.edu/blog/">-->
+            <!--Read our blog-->
+            <!--</a>-->
+            <!--</div>-->
+         */
+//        add( new StaticImage( "facebook-like", "/images/icons/social/facebook-like.gif", null));
+//        add( new StaticImage( "facebook-image", "/images/icons/social/facebook.png", null));
+//        add( new StaticImage( "twitter-image", "/images/icons/social/twitter.png", null));
+
         add( new LocalizedText( "index-main-text", "home.subheader", new Object[]{
                 ResearchPanel.getLinker().getHref( context, getPhetCycle() )
         } ) );
