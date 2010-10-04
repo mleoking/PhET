@@ -1,3 +1,4 @@
+10/4/10 add convenience method for getting dielectric width, use in views
 # 0.00.24 (44686) Oct 4, 2010
 10/4/10 use the same min/max for representing top plate charge and dielectric excess charge
 10/4/10 make number of excess charges on dielectric proportional to sqrt(Q_excess_dielectric)

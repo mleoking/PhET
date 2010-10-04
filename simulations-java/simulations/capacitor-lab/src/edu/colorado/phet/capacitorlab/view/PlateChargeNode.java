@@ -112,7 +112,7 @@ public abstract class PlateChargeNode extends PhetPNode {
             
             final double zMargin = mvt.viewToModel( new PositiveChargeNode().getFullBoundsReference().getWidth() );
             
-            final double contactWidth = getContactWidth();
+            final double contactWidth = getContactWidth(); // contact between plate and dielectric
             final double plateDepth = circuit.getCapacitor().getPlateSideLength() - ( 2 * zMargin );
             
             // grid dimensions
