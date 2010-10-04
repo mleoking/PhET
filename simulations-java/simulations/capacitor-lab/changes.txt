@@ -1,3 +1,4 @@
+10/4/10 increase max field lines to 900, per Noah P
 10/4/10 first working version of excess dielectric charge view
 10/4/10 use better plate charge layout strategy, developed by Sam Reid
 10/4/10 factor out nodes for positive and negative charges
