@@ -91,9 +91,11 @@ public class CLConstants {
     // plate charges
     public static final boolean PLATE_CHARGES_VISIBLE = false; 
     public static final IntegerRange NUMBER_OF_PLATE_CHARGES = new IntegerRange( 1, 625 );
+    public static final Dimension MINUS_CHARGE_SIZE = new Dimension( 7, 1 );
     
     // dielectric charges
     public static final DielectricChargeView DIELECTRIC_CHARGE_VIEW = DielectricChargeView.NONE; //XXX default should be NONE
+    public static final IntegerRange NUMBER_OF_EXCESS_DIELECTRIC_CHARGES = new IntegerRange( 1, 100 );
     
     // E-field
     public static final boolean EFIELD_VISIBLE = false;
