@@ -33,6 +33,7 @@ MEDUIUM PRIORITY
 
 LOW PRIORITY
 - Save/Load feature?
+- only update meters when they are visible
 - use phetcommon mvt
 - don't allow bar meters to be dragged by buttons, this prevents ability to roll off buttons
 - edges where dielectric and bottom plate meet don't match up perfectly
