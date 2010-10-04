@@ -15,7 +15,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Shows the excess dielectric charge (Q_excess_dielectric).
- * The number of charges is proportional to Q_excess. 
+ * The number of charges is proportional to sqrt( Q_excess ). 
  * Charges appear on the surface of the dielectric where it contacts the plates,
  * so charges appear on the right face only when the dielectric is fully inserted.
  * <p>
@@ -139,16 +139,16 @@ public class DielectricExcessChargeNode extends PhetPNode {
     }
     
     /*
-     * Gets the number of charges, proportional to Q_excess_dielectric.
+     * Gets the number of charges, proportional to sqrt( Q_excess_dielectric ).
+     * We use NUMBER_OF_PLATE_CHARGES as the range so that this view is related
+     * to the plate charges view.
      */
-    private int getNumberOfCharges( double excessDielectricCharge ) {
-        
-        double absCharge = Math.abs( excessDielectricCharge );
+    private int getNumberOfCharges( double excessCharge ) {
+        double absCharge = Math.abs( excessCharge );
         double maxCharge = BatteryCapacitorCircuit.getMaxExcessDielectricPlateCharge();
-        
-        int numberOfCharges = (int) ( CLConstants.NUMBER_OF_EXCESS_DIELECTRIC_CHARGES.getMax() * absCharge / maxCharge );
-        if ( absCharge > 0 && numberOfCharges < CLConstants.NUMBER_OF_EXCESS_DIELECTRIC_CHARGES.getMin() ) {
-            numberOfCharges = CLConstants.NUMBER_OF_EXCESS_DIELECTRIC_CHARGES.getMin();
+        int numberOfCharges = (int) Math.sqrt( CLConstants.NUMBER_OF_PLATE_CHARGES.getMax() * absCharge / maxCharge );
+        if ( absCharge > 0 && numberOfCharges < CLConstants.NUMBER_OF_PLATE_CHARGES.getMin() ) {
+            numberOfCharges = CLConstants.NUMBER_OF_PLATE_CHARGES.getMin();
         }
         return numberOfCharges;
     }
