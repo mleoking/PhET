@@ -7,6 +7,7 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Random;
 
 import edu.colorado.phet.buildanatom.module.BuildAnAtomDefaults;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -64,7 +65,7 @@ public class BuildAnAtomModel {
     private final SubatomicParticleBucket neutronBucket = new SubatomicParticleBucket( NEUTRON_BUCKET_POSITION, BUCKET_SIZE, Color.gray, "Neutrons", Neutron.RADIUS );
 
     //----------------------------------------------------------------------------
-    // Constructors
+    // Constructor(s)
     //----------------------------------------------------------------------------
 
     public BuildAnAtomModel( BuildAnAtomClock clock ) {
@@ -138,6 +139,10 @@ public class BuildAnAtomModel {
         }
     }
 
+    //----------------------------------------------------------------------------
+    // Methods
+    //----------------------------------------------------------------------------
+
     public Electron getElectron( int i ) {
         assert i >= 0 && i < numElectrons();
         return electrons.get( i );
@@ -164,10 +169,6 @@ public class BuildAnAtomModel {
     public int numNeutrons() {
         return neutrons.size();
     }
-
-    //----------------------------------------------------------------------------
-    // Methods
-    //----------------------------------------------------------------------------
 
     public void reset() {
 
