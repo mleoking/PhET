@@ -16,6 +16,7 @@ HIGH PRIORITY
 - Reset All feature
 - Introduction tab, use air as the dielectric material
 - grid size strategy doesn't work for small numbers of plate charges (asked SR to look at this)
+- increase plate charge grid size in even-sized increments (2x2, 4x4,...) so that grid doesn't jerk around
 
 MEDUIUM PRIORITY
 - get voltmeter and field detector working without 3D perspective, then work on 3D
