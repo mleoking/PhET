@@ -1,6 +1,8 @@
 package edu.colorado.phet.buildanatom.model;
 
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.HashSet;
 
 import edu.colorado.phet.common.phetcommon.model.Observable;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -15,6 +17,27 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  * @author John Blanco
  */
 public abstract class SubatomicParticle {
+
+    public static interface Listener{
+        void grabbedByUser(SubatomicParticle particle);
+        void droppedByUser(SubatomicParticle particle);
+    }
+    public static class Adapter implements Listener{
+
+        public void grabbedByUser( SubatomicParticle particle ) {
+        }
+
+        public void droppedByUser( SubatomicParticle particle ) {
+        }
+    }
+
+    private final HashSet<Listener> listeners =new HashSet<Listener>( );
+    public void addListener(Listener listener) {
+        listeners.add( listener );
+    }
+    public void removeListener(Listener listener){
+        listeners.remove( listener );
+    }
 
     private static final double MOTION_VELOCITY = 120; // In picometers per second of sim time.
 
