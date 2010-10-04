@@ -1,3 +1,4 @@
+10/4/10 compute field density based on minimum plate area, not based on plate side length
 10/4/10 simplify PlateChargeNode.getNumberOfCharges
 10/4/10 remove Multiple Capacitors tab, will be included in a future (post 1.0?) version
 10/4/10 check in new (larger) e-field probe image created by Noah P

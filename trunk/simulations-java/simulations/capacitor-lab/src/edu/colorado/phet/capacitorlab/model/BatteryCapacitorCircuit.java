@@ -297,6 +297,14 @@ public class BatteryCapacitorCircuit {
         return circuit.getEffectiveEfield();
     }
     
+    /**
+     * Gets the minimum plate size, used for computing E-field density.
+     * @return
+     */
+    public static double getMinPlateSideLength() {
+        return CLConstants.PLATE_SIZE_RANGE.getMin();
+    }
+    
     //----------------------------------------------------------------------------------
     //
     // Surface Charge Density (sigma)
