@@ -30,7 +30,7 @@
     <string key="ControlPanel.2d" value="原子分裂"/>
     <string key="ControlPanel.resetAll" value="原子分裂"/>
     <string key="ControlPanel.showVelocities" value="原子分裂"/>
-	<string key="ControlPanel.showMomentumVectors value="原子分裂"/>
+	<string key="ControlPanel.showMomentumVectors" value="原子分裂"/>
     <string key="ControlPanel.showCenterOfMass" value="原子分裂"/>
     <string key="ControlPanel.reflectingBorder" value="原子分裂"/>
 	<string key="ControlPanel.momentaDiagram" value="原子分裂原子分裂"/>
