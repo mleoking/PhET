@@ -53,4 +53,8 @@ public class DielectricExcessChargeNode extends PhetPNode {
         Point2D pView = mvt.modelToView( x, y, z );
         debugNode.setOffset( pView.getX() - ( debugNode.getFullBoundsReference().getWidth() / 2 ), pView.getY() - ( debugNode.getFullBoundsReference().getHeight() / 2 ) );
     }
+    
+    private int getNumberOfCharges( double excessDielectricCharge ) {
+        return 5;
+    }
 }

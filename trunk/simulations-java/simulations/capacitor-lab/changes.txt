@@ -1,3 +1,4 @@
+10/4/10 make spacing between e-field lines change continuously as E_effective changes
 10/4/10 only update views (charges, field) when visible
 # 0.00.21 (44648) Oct 4, 2010
 10/4/10 demo new field density algorithm
