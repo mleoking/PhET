@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import edu.colorado.phet.capacitorlab.view.DielectricNode.DielectricChargeView;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 
 /**
  * A collection of constants that configure global properties.
@@ -89,7 +90,7 @@ public class CLConstants {
     
     // plate charges
     public static final boolean PLATE_CHARGES_VISIBLE = false; 
-    public static final int MAX_NUMBER_OF_PLATE_CHARGES = 625;
+    public static final IntegerRange NUMBER_OF_PLATE_CHARGES = new IntegerRange( 1, 625 );
     public static final double MIN_NONZERO_PLATE_CHARGE = 8E-15; // Coulombs, all non-zero values <= MIN_NONZERO_PLATE_CHARGE are represented by 1 charge
     
     // dielectric charges
@@ -98,4 +99,5 @@ public class CLConstants {
     // E-field
     public static final boolean EFIELD_VISIBLE = false;
     public static final DoubleRange EFIELD_SPACING_RANGE = new DoubleRange( PLATE_SIZE_RANGE.getMin() / 15, PLATE_SIZE_RANGE.getMin() / 2 ); // meters
+    public static final IntegerRange NUMBER_OF_EFIELD_LINES = new IntegerRange( 4, 625 );
 }
