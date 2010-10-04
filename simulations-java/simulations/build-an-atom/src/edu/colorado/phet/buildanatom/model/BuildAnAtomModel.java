@@ -7,7 +7,6 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import java.util.Random;
 
 import edu.colorado.phet.buildanatom.module.BuildAnAtomDefaults;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
