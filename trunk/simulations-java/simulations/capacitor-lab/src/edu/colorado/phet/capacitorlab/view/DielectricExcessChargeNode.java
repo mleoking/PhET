@@ -144,9 +144,9 @@ public class DielectricExcessChargeNode extends PhetPNode {
      * to the plate charges view.
      */
     private int getNumberOfCharges( double excessCharge ) {
-        double absCharge = Math.abs( excessCharge );
+        double absCharge = Math.abs( excessCharge ); // don't take sqrt of absCharge, it's something like 1E-14 and will result in a *larger* number
         double maxCharge = BatteryCapacitorCircuit.getMaxExcessDielectricPlateCharge();
-        int numberOfCharges = (int) Math.sqrt( CLConstants.NUMBER_OF_PLATE_CHARGES.getMax() * absCharge / maxCharge );
+        int numberOfCharges = (int) Math.sqrt( CLConstants.NUMBER_OF_PLATE_CHARGES.getMax() * absCharge / maxCharge ); // take sqrt here instead
         if ( absCharge > 0 && numberOfCharges < CLConstants.NUMBER_OF_PLATE_CHARGES.getMin() ) {
             numberOfCharges = CLConstants.NUMBER_OF_PLATE_CHARGES.getMin();
         }
