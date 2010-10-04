@@ -116,6 +116,7 @@ public class Atom {
                     // that it is essentially removed from the atom.
                     protons.remove( proton );
                     proton.removeUserControlListener( this );
+                    reconfigureNucleus();
                 }
             }
         } );
@@ -140,6 +141,7 @@ public class Atom {
                     // that it is essentially removed from the atom.
                     neutrons.remove( neutron );
                     neutron.removeUserControlListener( this );
+                    reconfigureNucleus();
                 }
             }
         } );
