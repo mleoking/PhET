@@ -26,10 +26,10 @@ public class GrippyIndentNode extends PNode {
      * Constructor.
      */
     public GrippyIndentNode( double diameter, Color baseColor ) {
-        Color baseDarkerColor = ColorUtils.darkerColor( baseColor, 0.8 );
+        Color baseDarkerColor = ColorUtils.darkerColor( baseColor, 0.9 );
         Color translucentDarkerColor = new Color( baseDarkerColor.getRed(), baseDarkerColor.getGreen(),
                 baseDarkerColor.getBlue(), baseColor.getAlpha() );
-        Color baseLighterColor = ColorUtils.brighterColor( baseColor, 0.8 );
+        Color baseLighterColor = ColorUtils.brighterColor( baseColor, 0.9 );
         Color translucentBrighterColor = new Color( baseLighterColor.getRed(), baseLighterColor.getGreen(),
                 baseLighterColor.getBlue(), baseColor.getAlpha() );
         addChild( new PhetPPath( new Ellipse2D.Double( -diameter / 2, -diameter / 2, diameter, diameter ),
