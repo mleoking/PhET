@@ -149,19 +149,19 @@ public abstract class PlateChargeNode extends PhetPNode {
      */
     private int getNumberOfCharges( double plateCharge ) {
         
-        double absolutePlateCharge = Math.abs( plateCharge );
+        double absCharge = Math.abs( plateCharge );
         double minCharge = CLConstants.MIN_NONZERO_PLATE_CHARGE;
         double maxCharge = BatteryCapacitorCircuit.getMaxPlateCharge();
         
         int numberOfCharges = 0;
-        if ( absolutePlateCharge == 0 ) {
+        if ( absCharge == 0 ) {
             numberOfCharges = 0;
         }
-        else if ( absolutePlateCharge <= minCharge ) {
+        else if ( absCharge <= minCharge ) {
             numberOfCharges = CLConstants.NUMBER_OF_PLATE_CHARGES.getMin();
         }
         else {
-            numberOfCharges = (int) ( CLConstants.NUMBER_OF_PLATE_CHARGES.getMax() * ( absolutePlateCharge - minCharge ) / ( maxCharge - minCharge ) );
+            numberOfCharges = (int) ( CLConstants.NUMBER_OF_PLATE_CHARGES.getMax() * ( absCharge - minCharge ) / ( maxCharge - minCharge ) );
         }
         return numberOfCharges;
     }
