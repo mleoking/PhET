@@ -19,15 +19,15 @@ public abstract class SubatomicParticle {
     private static final double MOTION_VELOCITY = 120; // In picometers per second of sim time.
 
     private final Observable<Point2D.Double> position;
+    private final Observable<Boolean> userControlled;
     private final Point2D destination = new Point2D.Double();
     private final double radius;
-    private final Observable<Boolean> userControlled;
 
     public SubatomicParticle( ConstantDtClock clock, double radius, double x, double y ) {
         this.radius = radius;
         position = new Observable<Point2D.Double>( new Point2D.Double( x, y ) );
         this.destination.setLocation( x, y );
-        userControlled = new Observable<Boolean>( Boolean.FALSE );
+        userControlled = new Observable<Boolean>( false );
         clock.addClockListener( new ClockAdapter() {
 
             @Override
@@ -101,12 +101,7 @@ public abstract class SubatomicParticle {
     }
 
     public void setUserControlled( boolean userControlled ) {
-        if ( userControlled ) {
-            this.userControlled.setValue( Boolean.TRUE );
-        }
-        else {
-            this.userControlled.setValue( Boolean.FALSE );
-        }
+        this.userControlled.setValue( userControlled );
     }
 
     public void translate( double dx, double dy ) {
