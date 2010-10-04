@@ -144,7 +144,7 @@ public class EFieldNode extends PhetPNode {
      */
     private static class EFieldLineNode extends PComposite {
         
-        public static final PDimension ARROW_SIZE = new PDimension( 20, 20 );
+        public static final PDimension ARROW_SIZE = new PDimension( 10, 15 );
         public static final Stroke LINE_STROKE = new BasicStroke( 2f );
         
         /**

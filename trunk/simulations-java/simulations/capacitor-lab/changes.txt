@@ -1,4 +1,5 @@
 10/4/10 demo new field density algorithm
+10/4/10 smaller arrows on field lines
 10/4/10 compute field density based on minimum plate area, not based on plate side length
 10/4/10 simplify PlateChargeNode.getNumberOfCharges
 10/4/10 remove Multiple Capacitors tab, will be included in a future (post 1.0?) version
