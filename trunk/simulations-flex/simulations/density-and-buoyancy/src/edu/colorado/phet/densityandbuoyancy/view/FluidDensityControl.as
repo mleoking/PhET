@@ -1,6 +1,7 @@
 package edu.colorado.phet.densityandbuoyancy.view {
 import edu.colorado.phet.densityandbuoyancy.DensityConstants;
 import edu.colorado.phet.densityandbuoyancy.components.DensityVBox;
+import edu.colorado.phet.densityandbuoyancy.components.FluidDensityEditor;
 import edu.colorado.phet.densityandbuoyancy.components.MassBounds;
 import edu.colorado.phet.densityandbuoyancy.components.PropertyEditor;
 import edu.colorado.phet.densityandbuoyancy.components.Unbounded;
@@ -18,8 +19,10 @@ public class FluidDensityControl extends DensityVBox {
     }
 
     public function FluidDensityControl(fluidDensity:NumericProperty, units:Units) {
-        grid.addChild(new PropertyEditor(fluidDensity, DensityConstants.MIN_FLUID_DENSITY, DensityConstants.MAX_FLUID_DENSITY, units.densityUnit, noClamp, new Unbounded()));
+        grid.addChild(new FluidDensityEditor(fluidDensity, DensityConstants.MIN_FLUID_DENSITY, DensityConstants.MAX_FLUID_DENSITY, units.densityUnit, noClamp, new Unbounded()));
         addChild(grid);
+
+        setStyle( "paddingTop", 10 );
     }
 }
 }
