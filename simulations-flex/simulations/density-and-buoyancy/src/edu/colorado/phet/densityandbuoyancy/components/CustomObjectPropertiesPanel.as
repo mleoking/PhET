@@ -51,9 +51,9 @@ public class CustomObjectPropertiesPanel extends DensityVBox {
             }
         }
 
-        grid.addChild( new PropertyEditor( densityObject.getMassProperty(), DensityConstants.MIN_MASS, DensityConstants.MAX_MASS, units.massUnit, densityObject, clampMass, new MassBounds( densityObject ) ) );
-        grid.addChild( new PropertyEditor( densityObject.getVolumeProperty(), DensityConstants.MIN_VOLUME, DensityConstants.MAX_VOLUME, units.volumeUnit, densityObject, noClamp, new Unbounded() ) );
-        grid.addChild( new DensityEditor( densityObject.getDensityProperty(), DensityConstants.MIN_DENSITY, DensityConstants.MAX_DENSITY, units.densityUnit, densityObject, noClamp, new Unbounded() ) );
+        grid.addChild( new PropertyEditor( densityObject.getMassProperty(), DensityConstants.MIN_MASS, DensityConstants.MAX_MASS, units.massUnit, clampMass, new MassBounds( densityObject ) ) );
+        grid.addChild( new PropertyEditor( densityObject.getVolumeProperty(), DensityConstants.MIN_VOLUME, DensityConstants.MAX_VOLUME, units.volumeUnit, noClamp, new Unbounded() ) );
+        grid.addChild( new DensityEditor( densityObject.getDensityProperty(), DensityConstants.MIN_DENSITY, DensityConstants.MAX_DENSITY, units.densityUnit, noClamp, new Unbounded() ) );
 
         comboBox = new ComboBox();
         const items: Array = Material.SELECTABLE_MATERIALS.concat( [Material.CUSTOM] );

@@ -1,6 +1,8 @@
 package edu.colorado.phet.densityandbuoyancy.view {
 import edu.colorado.phet.densityandbuoyancy.DensityConstants;
 import edu.colorado.phet.densityandbuoyancy.components.DensityVBox;
+import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
+import edu.colorado.phet.densityandbuoyancy.view.units.Units;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 
 import flash.events.Event;
@@ -142,7 +144,7 @@ public class BuoyancyCanvas extends AbstractDensityAndBuoyancyCanvas {
     override public function init(): void {
         super.init();
 
-        const fluidDensityControl: FluidDensityControl = new FluidDensityControl();
+        const fluidDensityControl: FluidDensityControl = new FluidDensityControl(buoyancyModule.liquidDensityModel,buoyancyModule.units);
         fluidDensityControl.setStyle( "bottom", DensityConstants.CONTROL_INSET );
 
         const updateFluidDensityControlLocation: Function = function(): void {
