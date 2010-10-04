@@ -58,9 +58,9 @@ public class DistributionHandler {
     public static boolean displayJARLink( PhetRequestCycle cycle, LocalizedSimulation lsim ) {
         String localeString = lsim.getLocaleString();
         if ( cycle.isKsuRipperRequest() ) {
-            // we want the arabic rip to get all of the localized JARs now
-//            return localeString.equals( "en" ) || localeString.equals( "ar" );
-            return true;
+            // we want the arabic rip to get all of the localized JARs now --- cancelled: size increase breaks httrack
+            return localeString.equals( "en" ) || localeString.equals( "ar" );
+            // return true;
         }
         else if ( cycle.isYoungAndFreedmanRipperRequest() ) {
             return localeString.equals( "en" );
