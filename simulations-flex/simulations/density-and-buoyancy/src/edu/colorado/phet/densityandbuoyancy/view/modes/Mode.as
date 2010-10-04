@@ -11,7 +11,7 @@ public class Mode {
     }
 
     public function teardown(): void {
-        module.model.clearDensityObjects();
+        module.model.teardown();
     }
 
     public function init(): void {

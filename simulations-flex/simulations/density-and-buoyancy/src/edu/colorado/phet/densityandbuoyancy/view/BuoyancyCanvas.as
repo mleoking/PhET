@@ -103,7 +103,7 @@ public class BuoyancyCanvas extends AbstractDensityAndBuoyancyCanvas {
         arrowControlPanel.visible = false; // will be made visible once we know the height of the logo
 
         phetLogoButton.addEventListener( FlexEvent.UPDATE_COMPLETE, function(): void {
-            arrowControlPanel.setStyle( "bottom", phetLogoButton.height + 2 * DensityConstants.CONTROL_INSET );
+            arrowControlPanel.setStyle( "bottom", phetLogoButton.height + 2 * DensityConstants.CONTROL_INSET + 35 );
             arrowControlPanel.visible = true;
         } );
 
@@ -142,7 +142,7 @@ public class BuoyancyCanvas extends AbstractDensityAndBuoyancyCanvas {
     override public function init(): void {
         super.init();
 
-        const fluidDensityControl: FluidDensityControl = new FluidDensityControl( buoyancyModule.liquidDensityModel, buoyancyModule.units );
+        const fluidDensityControl: FluidDensityControl = new FluidDensityControl( buoyancyModule.model.fluidDensity, buoyancyModule.units );
         fluidDensityControl.setStyle( "bottom", DensityConstants.CONTROL_INSET );
 
         const updateFluidDensityControlLocation: Function = function(): void {

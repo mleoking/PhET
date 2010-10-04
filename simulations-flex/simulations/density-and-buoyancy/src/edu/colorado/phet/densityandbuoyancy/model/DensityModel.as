@@ -8,6 +8,7 @@ import Box2D.Dynamics.b2World;
 
 import edu.colorado.phet.densityandbuoyancy.DensityConstants;
 import edu.colorado.phet.densityandbuoyancy.view.DebugText;
+import edu.colorado.phet.flexcommon.FlexSimStrings;
 
 public class DensityModel {
     private var densityObjects: Array;
@@ -16,6 +17,9 @@ public class DensityModel {
     private var poolHeight: Number = DensityConstants.POOL_HEIGHT_Y;
     private var poolDepth: Number = DensityConstants.POOL_DEPTH_Z;
     private var waterHeight: Number = 5.0 / 6.0 * poolHeight;
+
+    public var fluidDensity: NumericProperty = new NumericProperty( FlexSimStrings.get( "properties.fluidDensity", "Fluid Density" ), "kg/m\u00b3", Material.WATER.getDensity() );
+
     public static var DISPLAY_SCALE: Number = 1000.0;
 
     private static var BOUNDS: Number = 50;
@@ -47,6 +51,11 @@ public class DensityModel {
         for each ( var listener: Function in densityObjectCreationListeners ) {
             listener( densityObject );
         }
+    }
+
+    public function teardown(): void {
+        clearDensityObjects();
+        fluidDensity.reset();
     }
 
     public function clearDensityObjects(): void {

@@ -275,7 +275,7 @@ public class DensityObject {
 
     //Set the submerged volume before calling this
     public function getBuoyancyForce(): b2Vec2 {
-        return new b2Vec2( 0, DensityConstants.GRAVITY * submergedVolume * Material.WATER.getDensity() );
+        return new b2Vec2( 0, DensityConstants.GRAVITY * submergedVolume * model.fluidDensity.value );
     }
 
     public function setSubmergedVolume( submergedVolume: Number ): void {
@@ -284,7 +284,7 @@ public class DensityObject {
 
     public function getDragForce(): b2Vec2 {
         var dragForce: b2Vec2 = body.GetLinearVelocity().Copy();
-        dragForce.Multiply( -800 * submergedVolume );
+        dragForce.Multiply( -800 * submergedVolume * (model.fluidDensity.value / Material.WATER.getDensity()) );
         return dragForce;
     }
 
