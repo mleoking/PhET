@@ -26,16 +26,11 @@ public class BuoyancyModule extends AbstractDensityModule {
     private var buoyancyArrowsVisible: BooleanProperty = new BooleanProperty( false );
     private var contactArrowsVisible: BooleanProperty = new BooleanProperty( false );
     private var fluidDragArrowsVisible: BooleanProperty = new BooleanProperty( false );
-    private const _liquidDensityModel: LiquidDensityModel = new LiquidDensityModel();
 
     public function BuoyancyModule() {
         super();
         percentWidth = 100;
         percentHeight = 100;
-    }
-
-    public function get liquidDensityModel():LiquidDensityModel{
-        return _liquidDensityModel;
     }
 
     public function doInit( densityCanvas: BuoyancyCanvas ): void {

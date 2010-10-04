@@ -107,7 +107,7 @@ public class AbstractDensityAndBuoyancyCanvas extends Canvas {
         }
 
         function positionButtons(): void {
-            if ( common.commonButtons == null || common.commonButtons == undefined ) {
+            if ( common.commonButtons == null ) {
                 return;
             }
             var height: int = common.commonButtons.getPreferredHeight();

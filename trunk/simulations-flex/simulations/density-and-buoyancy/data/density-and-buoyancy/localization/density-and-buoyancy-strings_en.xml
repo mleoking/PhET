@@ -49,5 +49,6 @@
     <string key="properties.weightNewtonValue" value="{0} N"/>
     <string key="properties.weightPoundValue" value="{0} lb"/>
     <string key="properties.density" value="Density"/>
+    <string key="properties.fluidDensity" value="Fluid Density"/>
     <string key="application.resetAll" value="Reset All"/>
 </SimStrings>
