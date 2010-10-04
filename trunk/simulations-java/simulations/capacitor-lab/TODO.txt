@@ -21,6 +21,7 @@ HIGH PRIORITY
 - charge and excess charge on dielectric (see notes)
 - field lines (with fake curvature?)
 - Introduction tab, use air as the dielectric material
+- Reset All feature
 
 MEDUIUM PRIORITY
 - TestPlateChargeLayout & PlateChargesNode: tall narrow plate results in too many charges, alpha too large?
@@ -37,6 +38,7 @@ MEDUIUM PRIORITY
 - specify default locations for meters in model coordinates
 
 LOW PRIORITY
+- Save/Load feature?
 - use phetcommon mvt
 - don't allow bar meters to be dragged by buttons, this prevents ability to roll off buttons
 - edges where dielectric and bottom plate meet don't match up perfectly
