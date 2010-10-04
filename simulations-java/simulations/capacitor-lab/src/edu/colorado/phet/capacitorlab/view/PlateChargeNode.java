@@ -19,6 +19,8 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * Base class for representation of plate charge.
  * Plate charge is represented as an integer number of '+' or '-' symbols.
  * These symbols are distributed across some portion of the plate's top face.
+ * <p>
+ * All model coordinates are relative to the capacitor's local coordinate frame.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
