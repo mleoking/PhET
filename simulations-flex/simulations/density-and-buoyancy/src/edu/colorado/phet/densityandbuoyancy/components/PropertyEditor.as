@@ -99,6 +99,7 @@ public class PropertyEditor extends GridRow {
             var newValue: Number = unit.toSI( event.value );
             newValue = bounds.clamp( newValue );
             property.value = newValue;
+            slider.value = newValue;//Make sure the slider thumb does not move beyond the clamped value (none of the other indicators move beyond the clamped value either)
         }
 
         //This different functionality is necessary to support track presses and keyboard handling
