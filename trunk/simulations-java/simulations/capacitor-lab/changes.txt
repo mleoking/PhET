@@ -1,4 +1,3 @@
-# 0.00.21 (44644) Oct 4, 2010
 10/4/10 demo new field density algorithm
 10/4/10 compute field density based on minimum plate area, not based on plate side length
 10/4/10 simplify PlateChargeNode.getNumberOfCharges
