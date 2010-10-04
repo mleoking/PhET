@@ -304,8 +304,10 @@ public abstract class PlateChargeNode extends PhetPNode {
                 if ( err2 < err1 ) {
                     rows = oldrows; // choose whichever had the better behavior
                 }
-//                  boolean err1Wins = err1 < err2;
-//                  System.out.println( "err1Wins: " + err1Wins + ", rows = " + rows + ", oldrows = " + oldrows + " err1 = " + err1 + " err2 = " + err2 );
+                if ( DEBUG_OUTPUT_ENABLED ) {
+                    boolean err1Wins = err1 < err2;
+                    System.out.println( "CCKGridSizeStrategyWithRounding.getGridSize err1Wins=" + err1Wins + " rows=" + rows + " oldrows=" + oldrows + " err1=" + err1 + " err2=" + err2 );
+                }
             }
             if ( columns == 0 ) {
                 columns = 1;
