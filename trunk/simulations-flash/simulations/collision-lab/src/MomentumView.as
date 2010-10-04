@@ -83,6 +83,7 @@ import flash.display.*;
 			this.drawGrid();
 			this.drawArrows();
 			Util.makePanelDraggableWithBorder(this, this.invisibleBorder);
+			this.startUp();
 			this.update();
 		}
 		
@@ -311,6 +312,19 @@ import flash.display.*;
 			}
 		}//end arangeArrowsTipToTail();
 		
+		
+		//needed to set initial visibility of momentum arrows
+		private function startUp():void{
+			var maxN:int = this.myModel.maxNbrBalls;
+			var N:int = this.myModel.nbrBalls;
+			var i:int;
+				for(i = 0; i < N; i++){
+					this.momentum_arr[i].visible = true;
+				}
+				for(i = N; i < maxN; i++){
+					this.momentum_arr[i].visible = false
+				}
+		}
 		
 		public function dragListener(evt:MouseEvent):void{
 			this.tipToTailDisplayOn = false;

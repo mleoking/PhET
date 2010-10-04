@@ -72,6 +72,7 @@ package{
 			//this.realTimer = new Timer(1000);  //argument 1000 is irrelevant
 			this.view_arr = new Array(0);
 			this.nbrViews = 0;
+			//this.resetAll();
 			
 		}//end of constructor
 		
