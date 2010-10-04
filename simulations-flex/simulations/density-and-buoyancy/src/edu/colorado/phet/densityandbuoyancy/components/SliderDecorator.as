@@ -126,6 +126,10 @@ public class SliderDecorator extends UIComponent {
         slider.value = value;
     }
 
+    public function get value(): Number {
+        return slider.value;
+    }
+
     public function getThumbAt( i: int ): SliderThumb {
         return slider.getThumbAt( i );
     }
