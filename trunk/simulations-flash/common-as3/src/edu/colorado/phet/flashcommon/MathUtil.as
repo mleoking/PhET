@@ -16,5 +16,9 @@ public class MathUtil {
             }
         }
     }
+
+    public static function scale( val: Number, fromMin: Number, fromMax: Number, toMin: Number, toMax: Number ): Number {
+        return ((val - fromMin) / (fromMax - fromMin)) * (toMax - toMin) + toMin;
+    }
 }
 }
