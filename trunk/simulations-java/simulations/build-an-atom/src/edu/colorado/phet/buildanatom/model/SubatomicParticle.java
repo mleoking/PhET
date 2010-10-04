@@ -110,6 +110,8 @@ public abstract class SubatomicParticle {
 
     public void reset() {
         position.reset();
+        destination.setLocation( position.getValue() );
+        userControlled.reset();
     }
 
     public void addPositionListener( SimpleObserver listener ) {
