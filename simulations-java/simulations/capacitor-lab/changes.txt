@@ -1,3 +1,4 @@
+# 0.00.23 (44668) Oct 4, 2010
 10/4/10 increase max field lines to 900, per Noah P
 10/4/10 first working version of excess dielectric charge view
 10/4/10 use better plate charge layout strategy, developed by Sam Reid
