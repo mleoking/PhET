@@ -60,8 +60,18 @@ public class Atom {
      */
     protected void checkAndReconfigureShells() {
         if ( !electronShell1.isFull() && !electronShell2.isEmpty() ) {
+
             // Need to move an electron from shell 2 to shell 1.
-            System.err.println( getClass().getName() + "Reconfigure not yet implemented." );
+            ArrayList<Point2D> openLocations = electronShell1.getOpenShellLocations();
+
+            // We expect there to be one and only one open location, so test that this is true.
+            assert openLocations.size() == 1;
+
+            // Get the electron that is nearest to this location in shell 2
+            // and move it to shell 1.
+            Electron electronToMove = electronShell2.getClosestElectron( openLocations.get( 0 ));
+            electronShell2.removeElectron( electronToMove );
+            electronShell1.addElectron( electronToMove );
         }
     }
 
@@ -93,11 +103,11 @@ public class Atom {
         // Add to the list of protons that are in the atom.
         protons.add( proton );
 
-        // Set the destination so that the proton will go to the location.
-        double randAngle = RAND.nextDouble() * 2 * Math.PI;
-        double randLength = RAND.nextDouble() * NUCLEUS_RADIUS;
-        proton.setDestination( Math.cos( randAngle ) * randLength + getPosition().getX(),
-                Math.sin( randAngle ) * randLength + getPosition().getY() );
+        // Reconfigure the nucleus.  This will set the destination for this
+        // new nucleon.
+        reorganizeNucleus();
+
+        // Add observer for when this particle gets picked up by the user.
         proton.addUserControlListener( new SimpleObserver() {
 
             public void update() {
@@ -117,11 +127,11 @@ public class Atom {
         // Add to the list of neutrons that are in the atom.
         neutrons.add( neutron );
 
-        // Set the destination so that the neutron will go to the location.
-        double randAngle = RAND.nextDouble() * 2 * Math.PI;
-        double randLength = RAND.nextDouble() * NUCLEUS_RADIUS;
-        neutron.setDestination( Math.cos( randAngle ) * randLength + getPosition().getX(),
-                Math.sin( randAngle ) * randLength + getPosition().getY() );
+        // Reconfigure the nucleus.  This will set the destination for this
+        // new nucleon.
+        reorganizeNucleus();
+
+        // Add observer for when this particle gets picked up by the user.
         neutron.addUserControlListener( new SimpleObserver() {
 
             public void update() {
@@ -178,6 +188,31 @@ public class Atom {
             }
         }
 
+        /**
+         * @param point2d
+         * @return
+         */
+        public Electron getClosestElectron( Point2D point2d ) {
+            Electron closestElectron = null;
+            for (Electron candidateElectron : occupiedShellLocations.keySet()){
+                if (closestElectron == null){
+                    closestElectron = candidateElectron;
+                }
+                else if (candidateElectron.getPosition().distance( point2d ) < closestElectron.getPosition().distance( point2d )){
+                    // This electron is closer.
+                    closestElectron = candidateElectron;
+                }
+            }
+            return closestElectron;
+        }
+
+        /**
+         * @return
+         */
+        public ArrayList<Point2D> getOpenShellLocations() {
+            return new ArrayList<Point2D>(openShellLocations);
+        }
+
         protected double getRadius() {
             return radius;
         }
@@ -220,6 +255,9 @@ public class Atom {
         }
 
         private void removeElectron( Electron electronToRemove ) {
+            if (!occupiedShellLocations.containsKey( electronToRemove )){
+                System.out.println("Error!!!");
+            }
             assert occupiedShellLocations.containsKey( electronToRemove );
             Point2D newlyFreedShellLocation = occupiedShellLocations.get( electronToRemove );
             openShellLocations.add( newlyFreedShellLocation );
@@ -239,6 +277,60 @@ public class Atom {
                 }
             }
             return closestPoint;
+        }
+    }
+
+
+    /**
+     * Distribute the nucleons in the nucleus in such a way that the nucleus
+     * will look good when shown in the view.
+     */
+    private void reorganizeNucleus() {
+
+        double nucleonRadius = Proton.RADIUS;
+
+        // Get all the nucleons onto one list.
+        ArrayList<SubatomicParticle> nucleons = new ArrayList<SubatomicParticle>();
+        for ( SubatomicParticle nucleon : protons ) {
+            nucleons.add( nucleon );
+        }
+        for ( SubatomicParticle nucleon : neutrons ) {
+            nucleons.add( nucleon );
+        }
+
+        if ( nucleons.size() == 0 ) {
+            // Nothing to do.
+            return;
+        }
+        else if ( nucleons.size() == 1 ) {
+            // There is only one nucleon present, so place it in the center
+            // of the atom.
+            nucleons.get( 0 ).setDestination( getPosition() );
+        }
+        else if ( nucleons.size() == 2 ) {
+            double angle = RAND.nextDouble() * 2 * Math.PI;
+            nucleons.get( 0 ).setDestination( nucleonRadius * Math.cos( angle ), nucleonRadius * Math.sin( angle ) );
+            nucleons.get( 1 ).setDestination( -nucleonRadius * Math.cos( angle ), -nucleonRadius * Math.sin( angle ) );
+        }
+        else if ( nucleons.size() == 3 ) {
+            // Form a triangle where they all touch.
+            double angle = RAND.nextDouble() * 2 * Math.PI;
+            double distFromCenter = nucleonRadius * 1.155;
+            nucleons.get( 0 ).setDestination( distFromCenter * Math.cos( angle ), distFromCenter * Math.sin( angle ) );
+            nucleons.get( 1 ).setDestination( distFromCenter * Math.cos( angle + 2 * Math.PI / 3 ),
+                    distFromCenter * Math.sin( angle + 2 * Math.PI / 3 ) );
+            nucleons.get( 2 ).setDestination( distFromCenter * Math.cos( angle + 4 * Math.PI / 3 ),
+                    distFromCenter * Math.sin( angle + 4 * Math.PI / 3 ) );
+        }
+        else if ( nucleons.size() == 4 ) {
+            double angle = RAND.nextDouble() * 2 * Math.PI;
+            nucleons.get( 0 ).setDestination( nucleonRadius * Math.cos( angle ), nucleonRadius * Math.sin( angle ) );
+            nucleons.get( 1 ).setDestination( -nucleonRadius * Math.cos( angle ), -nucleonRadius * Math.sin( angle ) );
+            double distFromCenter = nucleonRadius * 2 * Math.cos(Math.PI / 3);
+            nucleons.get( 2 ).setDestination( distFromCenter * Math.cos( angle + Math.PI / 2 ),
+                    distFromCenter * Math.sin( angle + Math.PI / 2 ) );
+            nucleons.get( 3 ).setDestination( -distFromCenter * Math.cos( angle + Math.PI / 2 ),
+                    -distFromCenter * Math.sin( angle + Math.PI / 2 ) );
         }
     }
 }
