@@ -1,3 +1,4 @@
+10/4/10 simplify PlateChargeNode.getNumberOfCharges
 10/4/10 remove Multiple Capacitors tab, will be included in a future (post 1.0?) version
 10/4/10 check in new (larger) e-field probe image created by Noah P
 10/1/10 get rid of "non-zero minimum" for E-field lines, it's not doing anything but complicating computations
