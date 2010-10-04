@@ -10,6 +10,7 @@ DESIGN ISSUES
 - range of field is too large to make Field Detector vector length vary proportionally
 
 HIGH PRIORITY
+- fix listeners for Capacitor and BatteryCapacitorCircuit, notification is incomplete and incorrect
 - charge and excess charge on dielectric (see notes)
 - field lines (with fake curvature?)
 - Reset All feature
