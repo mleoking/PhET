@@ -42,13 +42,16 @@ public class Material {
     //the workaround in PropertyEditor.createSlider
     public static var SELECTABLE_MATERIALS: Array = [STYROFOAM, WOOD, ICE, BRICK, ALUMINUM];//Note that Custom is omitted from here, though it is added in some places where this list is used
 
-    public static var WATER: Material = new Material( FlexSimStrings.get( "material.water", "Water" ), 1000.0, false );
+    public static var WATER: Material = new Material( FlexSimStrings.get( "material.water", "Water" ), 1000.0, false, 0x0088FF );
+    public static var AIR: Material = new Material( FlexSimStrings.get( "material.air", "Air" ), 1.2, false, 0x666666 );
     public static var LEAD: Material = new Material( FlexSimStrings.get( "material.lead", "Lead" ), 11340, false );
     public static var DIAMOND: Material = new Material( FlexSimStrings.get( "material.diamond", "Diamond" ), 3530, false );
     public static var GOLD: Material = new Material( FlexSimStrings.get( "material.gold", "Gold" ), 19300, false );
-    public static var GASOLINE: Material = new Material( FlexSimStrings.get( "material.gasoline", "Gasoline" ), 700, false );
+    public static var GASOLINE: Material = new Material( FlexSimStrings.get( "material.gasoline", "Gasoline" ), 700, false, 0x444400 );
     public static var APPLE: Material = new Material( FlexSimStrings.get( "material.apple", "Apple" ), 641, false );
     public static var MYSTERY_MATERIALS: Array = [GOLD,DIAMOND,GASOLINE,ICE,APPLE];
+
+    public static var LABELED_LIQUID_MATERIALS: Array = [AIR,GASOLINE,WATER];
 
     private var density: Number;
     private var _name: String;
