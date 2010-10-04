@@ -1,3 +1,4 @@
+Fixed: you can drag the mass slider all the way to the right for styrofoam & wood, even though the mass maxes out before the end of the slider.
 # 1.01.02 (44556) Sep 30, 2010
 Removed mystery objects mode from buoyancy sim
 Reformatted using updated PhetStyle code format
