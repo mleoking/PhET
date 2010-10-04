@@ -19,7 +19,8 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * Charges appear on the surface of the dielectric where it contacts the plates,
  * so charges appear on the right face only when the dielectric is fully inserted.
  * <p>
- * All model coordinates are relative to the dielectric's local coordinate frame.
+ * All model coordinates are relative to the dielectric's local coordinate frame,
+ * where the origin is at the 3D geometric center of the dielectric.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -75,9 +76,9 @@ public class DielectricExcessChargeNode extends PhetPNode {
         
         Capacitor capacitor = circuit.getCapacitor();
         final double excessCharge = circuit.getExcessDielectricPlateCharge();
-        final double plateWidth = capacitor.getPlateSideLength();
-        final double plateDepth = capacitor.getPlateSideLength();
-        final double contactWidth = Math.max( 0, plateWidth - capacitor.getDielectricOffset() );
+        final double dielectricWidth = capacitor.getDiectricWidth();
+        final double dielectricDepth = dielectricWidth;
+        final double contactWidth = Math.max( 0, dielectricWidth - capacitor.getDielectricOffset() ); // contact between plate and dielectric
 
         if ( excessCharge != 0 && contactWidth > 0 ) {
 
@@ -87,7 +88,7 @@ public class DielectricExcessChargeNode extends PhetPNode {
 
             // distance between charges
             final double dx = contactWidth / numberOfCharges;
-            final double dz = plateDepth / numberOfCharges;
+            final double dz = dielectricDepth / numberOfCharges;
 
             // offset to move us to the center of columns
             final double xOffset = dx / 2;
@@ -103,9 +104,9 @@ public class DielectricExcessChargeNode extends PhetPNode {
                 parentNode.addChild( bottomChargeNode );
                 
                 // position the charges at the top and bottom edges of the dielectric's front face
-                double x = ( -plateWidth / 2 ) +  xOffset + ( i * dx );
+                double x = ( -dielectricWidth / 2 ) +  xOffset + ( i * dx );
                 double y = yMargin;
-                double z = -( plateDepth / 2 );
+                double z = -( dielectricDepth / 2 );
                 Point2D topOffset = mvt.modelToView( x, y, z );
                 topChargeNode.setOffset( topOffset );
                 y = capacitor.getDielectricHeight() - yMargin;
@@ -125,9 +126,9 @@ public class DielectricExcessChargeNode extends PhetPNode {
                     parentNode.addChild( bottomChargeNode );
 
                     // position the charges at the top and bottom edges of the dielectric's side face
-                    double x = plateWidth / 2;
+                    double x = dielectricWidth / 2;
                     double y = yMargin;
-                    double z = ( -plateDepth / 2 ) + zOffset + ( i * dz );
+                    double z = ( -dielectricDepth / 2 ) + zOffset + ( i * dz );
                     Point2D topOffset = mvt.modelToView( x, y, z );
                     topChargeNode.setOffset( topOffset );
                     y = capacitor.getDielectricHeight() - yMargin;

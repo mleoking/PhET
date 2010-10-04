@@ -166,6 +166,14 @@ public class Capacitor {
     }
     
     /**
+     * Convenience method for getting the dielectric width;
+     * @return
+     */
+    public double getDiectricWidth() {
+        return plateSideLength;
+    }
+    
+    /**
      * Sets the offset of the dielectric.
      * When the dielectric is fully inserted between the plates, its offset is zero.
      * @param dielectricOffset offset, in meters.
