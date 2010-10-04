@@ -15,7 +15,6 @@ HIGH PRIORITY
 - field lines (with fake curvature?)
 - Reset All feature
 - Introduction tab, use air as the dielectric material
-- grid size strategy doesn't work for small numbers of plate charges (asked SR to look at this)
 - increase plate charge grid size in even-sized increments (2x2, 4x4,...) so that grid doesn't jerk around
 
 MEDUIUM PRIORITY
@@ -34,6 +33,7 @@ MEDUIUM PRIORITY
 - specify default locations for meters in model coordinates
 
 LOW PRIORITY
+- delete IPlateChargeGridSizeStrategy when we settle on a strategy
 - Save/Load feature?
 - only update meters when they are visible
 - use phetcommon mvt
