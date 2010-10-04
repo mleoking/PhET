@@ -14,17 +14,14 @@ DESIGN ISSUES
 - no visual cues to indicate 3D location of Voltmeter probes
 
 HIGH PRIORITY
-- E-field lines shift around slightly when density isn't changing (drag battery slider to reproduce)
-- no change in E-field density when changing battery voltage because of order-of-magnitude issues
-- E-field lines moves around when going from 2x2 to 3x3 grid, density is the same, but looks odd
 - grid size strategy doesn't work for small numbers of plate charges
 - charge and excess charge on dielectric (see notes)
 - field lines (with fake curvature?)
 - Introduction tab, use air as the dielectric material
 - Reset All feature
-- only update views (charges, field) if visible
 
 MEDUIUM PRIORITY
+- get voltmeter and field detector working without 3D perspective, then work on 3D
 - TestPlateChargeLayout & PlateChargesNode: tall narrow plate results in too many charges, alpha too large?
 - PlateChargeNode: no charges sometimes shown when air contact area is small
 - how to handle look for probes being inside, outside, or partially inside the dielectric

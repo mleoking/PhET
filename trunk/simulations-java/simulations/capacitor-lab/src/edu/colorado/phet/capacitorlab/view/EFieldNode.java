@@ -40,7 +40,9 @@ public class EFieldNode extends PhetPNode {
         circuit.addBatteryCapacitorCircuitChangeListener( new BatteryCapacitorCircuitChangeAdapter() {
             @Override
             public void efieldChanged() {
-                update();
+                if ( isVisible() ) {
+                    update();
+                }
             }
         } );
         
@@ -48,6 +50,19 @@ public class EFieldNode extends PhetPNode {
         addChild( parentNode );
         
         update();
+    }
+    
+    /**
+     * Update the node when it becomes visible.
+     */
+    @Override
+    public void setVisible( boolean visible ) {
+        if ( visible != isVisible() ) {
+            super.setVisible( visible );
+            if ( visible ) {
+                update();
+            }
+        }
     }
     
     private void update() {

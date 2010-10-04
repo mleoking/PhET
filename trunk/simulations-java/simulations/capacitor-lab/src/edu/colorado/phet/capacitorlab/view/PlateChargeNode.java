@@ -46,7 +46,9 @@ public abstract class PlateChargeNode extends PhetPNode {
         circuit.addBatteryCapacitorCircuitChangeListener( new BatteryCapacitorCircuitChangeAdapter() {
             @Override
             public void chargeChanged() {
-                update();
+                if ( isVisible() ) {
+                    update();
+                }
             }
         });
         
@@ -79,6 +81,19 @@ public abstract class PlateChargeNode extends PhetPNode {
     
     private boolean isPositivelyCharged() {
         return ( getPlateCharge() >= 0 && polarity == Polarity.POSITIVE ) || ( getPlateCharge() < 0 && polarity == Polarity.NEGATIVE );
+    }
+    
+    /**
+     * Update the node when it becomes visible.
+     */
+    @Override
+    public void setVisible( boolean visible ) {
+        if ( visible != isVisible() ) {
+            super.setVisible( visible );
+            if ( visible ) {
+                update();
+            }
+        }
     }
     
     /*
