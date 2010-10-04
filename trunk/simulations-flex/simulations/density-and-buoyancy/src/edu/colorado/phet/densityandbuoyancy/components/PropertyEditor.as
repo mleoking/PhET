@@ -1,6 +1,5 @@
 package edu.colorado.phet.densityandbuoyancy.components {
 import edu.colorado.phet.densityandbuoyancy.DensityConstants;
-import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
 import edu.colorado.phet.densityandbuoyancy.model.NumericProperty;
 import edu.colorado.phet.densityandbuoyancy.view.units.Unit;
 import edu.colorado.phet.flashcommon.MathUtil;
@@ -99,7 +98,7 @@ public class PropertyEditor extends GridRow {
             var newValue: Number = unit.toSI( event.value );
             newValue = bounds.clamp( newValue );
             property.value = newValue;
-            slider.value = newValue;//Make sure the slider thumb does not move beyond the clamped value (none of the other indicators move beyond the clamped value either)
+            slider.value = unit.fromSI( newValue );//Make sure the slider thumb does not move beyond the clamped value (none of the other indicators move beyond the clamped value either)
         }
 
         //This different functionality is necessary to support track presses and keyboard handling

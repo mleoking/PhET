@@ -1,8 +1,6 @@
 package edu.colorado.phet.densityandbuoyancy.view {
 import edu.colorado.phet.densityandbuoyancy.DensityConstants;
 import edu.colorado.phet.densityandbuoyancy.components.DensityVBox;
-import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
-import edu.colorado.phet.densityandbuoyancy.view.units.Units;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 
 import flash.events.Event;
@@ -144,13 +142,14 @@ public class BuoyancyCanvas extends AbstractDensityAndBuoyancyCanvas {
     override public function init(): void {
         super.init();
 
-        const fluidDensityControl: FluidDensityControl = new FluidDensityControl(buoyancyModule.liquidDensityModel,buoyancyModule.units);
+        const fluidDensityControl: FluidDensityControl = new FluidDensityControl( buoyancyModule.liquidDensityModel, buoyancyModule.units );
         fluidDensityControl.setStyle( "bottom", DensityConstants.CONTROL_INSET );
 
         const updateFluidDensityControlLocation: Function = function(): void {
             fluidDensityControl.x = stage.width / 2 - fluidDensityControl.width / 2;
         };
         stage.addEventListener( Event.RESIZE, updateFluidDensityControlLocation );
+        fluidDensityControl.addEventListener( FlexEvent.UPDATE_COMPLETE, updateFluidDensityControlLocation ); // listen to when our fluid control gets its size
         updateFluidDensityControlLocation();
 
         addChild( fluidDensityControl );
