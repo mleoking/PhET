@@ -263,7 +263,7 @@ public class BatteryCapacitorCircuit {
     }
     
     /**
-     * Gets the maximum charge on the top plate.
+     * Gets the maximum charge on the top plate (Q_total).
      * Maximum charge occurs when the battery is connected, 
      * plate separate and dielectric offset are at their minimums,
      * and all other quantities are at their maximums.
@@ -282,7 +282,7 @@ public class BatteryCapacitorCircuit {
     }
     
     /**
-     * Gets the maximum effective E-field between the plates.
+     * Gets the maximum effective E-field between the plates (E_effective).
      * The maximum occurs when the battery is disconnected, the Plate Charge control is set to its maximum,
      * the plate area is set to its minimum, and the dielectric constant is min, and the dielectric is fully inserted. 
      * And in this situation, plate separation is irrelevant.
@@ -298,11 +298,23 @@ public class BatteryCapacitorCircuit {
     }
     
     /**
-     * Gets the minimum plate size, used for computing E-field density.
+     * Gets the minimum plate size (L), used for computing E-field density.
      * @return
      */
     public static double getMinPlateSideLength() {
         return CLConstants.PLATE_SIZE_RANGE.getMin();
+    }
+    
+    /**
+     * Gets the maximum excess charge for the dielectric area (Q_exess_dielectric).
+     * @return
+     */
+    public static double getMaxExcessDielectricPlateCharge() {
+        DielectricMaterial material = new CustomDielectricMaterial( CLConstants.DIELECTRIC_CONSTANT_RANGE.getMax() );
+        Capacitor capacitor = new Capacitor( new Point3D.Double(), CLConstants.PLATE_SIZE_RANGE.getMax(), CLConstants.PLATE_SEPARATION_RANGE.getMin(), material, CLConstants.DIELECTRIC_OFFSET_RANGE.getMin() );
+        Battery battery = new Battery( new Point3D.Double(), CLConstants.BATTERY_VOLTAGE_RANGE.getMax() );
+        BatteryCapacitorCircuit circuit = new BatteryCapacitorCircuit( new CLClock(), battery, capacitor, true /* batteryConnected */ );
+        return circuit.getExcessDielectricPlateCharge();
     }
     
     //----------------------------------------------------------------------------------

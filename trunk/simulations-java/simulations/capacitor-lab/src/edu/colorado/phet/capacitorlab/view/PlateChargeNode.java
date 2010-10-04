@@ -6,7 +6,6 @@ import java.awt.Dimension;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
-import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
@@ -27,13 +26,10 @@ public abstract class PlateChargeNode extends PhetPNode {
     
     private static final boolean DEBUG_OUTPUT_ENABLED = false;
     
-    private static final double PLUS_MINUS_WIDTH = 7;
-    private static final double PLUS_MINUS_HEIGHT = 1;
-    
     private final BatteryCapacitorCircuit circuit;
     private final ModelViewTransform mvt;
     private final Polarity polarity;
-    private final PNode chargesParentNode;
+    private final PNode parentNode; // parent node for charges
     private final IGridSizeStrategy gridSizeStrategy;
 
     public PlateChargeNode( BatteryCapacitorCircuit circuit, ModelViewTransform mvt, Polarity polarity ) {
@@ -52,8 +48,8 @@ public abstract class PlateChargeNode extends PhetPNode {
             }
         });
         
-        chargesParentNode = new PComposite();
-        addChild( chargesParentNode );
+        parentNode = new PComposite();
+        addChild( parentNode );
         
         update();
     }
@@ -106,12 +102,12 @@ public abstract class PlateChargeNode extends PhetPNode {
         int numberOfCharges = getNumberOfCharges( plateCharge );
         
         // remove existing charges
-        chargesParentNode.removeAllChildren();
+        parentNode.removeAllChildren();
         
         // compute grid dimensions
         if ( numberOfCharges > 0 ) {
             
-            final double zMargin = mvt.viewToModel( PLUS_MINUS_WIDTH );
+            final double zMargin = mvt.viewToModel( new PositiveChargeNode().getFullBoundsReference().getWidth() );
             
             final double contactWidth = getContactWidth();
             final double plateDepth = circuit.getCapacitor().getPlateSideLength() - ( 2 * zMargin );
@@ -133,14 +129,8 @@ public abstract class PlateChargeNode extends PhetPNode {
             for ( int row = 0; row < rows; row++ ) {
                 for ( int column = 0; column < columns; column++ ) {
                     // add a charge
-                    PNode chargeNode = null;
-                    if ( isPositivelyCharged() ) {
-                        chargeNode = new PlusNode( PLUS_MINUS_WIDTH, PLUS_MINUS_HEIGHT, CLPaints.POSITIVE_CHARGE );
-                    }
-                    else {
-                        chargeNode = new MinusNode( PLUS_MINUS_WIDTH, PLUS_MINUS_HEIGHT, CLPaints.NEGATIVE_CHARGE );
-                    }
-                    chargesParentNode.addChild( chargeNode );
+                    PNode chargeNode = isPositivelyCharged() ? new PositiveChargeNode() : new NegativeChargeNode();
+                    parentNode.addChild( chargeNode );
 
                     // position the charge in cell in the grid
                     double x = getContactXOrigin() + xOffset + ( column * dx );
