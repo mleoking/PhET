@@ -15,8 +15,10 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.model.BuildAnAtomModel;
+import edu.colorado.phet.buildanatom.model.Proton;
 import edu.colorado.phet.buildanatom.module.BuildAnAtomDefaults;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -92,14 +94,26 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
 //        rootNode.addChild( new PhetPPath( mvt.createTransformedShape( model.getModelViewport() ), Color.PINK, new BasicStroke( 3f ), Color.BLACK ) );
 
         // Add the atom's nucleus location to the canvas.
-        Shape nucleusOutlineShape = mvt.createTransformedShape( new Ellipse2D.Double(
-                -model.getAtom().getNucleusRadius(),
-                -model.getAtom().getNucleusRadius(),
-                model.getAtom().getNucleusRadius() * 2,
-                model.getAtom().getNucleusRadius() * 2 ) );
-        PNode nucleusOutlineNode = new PhetPPath( nucleusOutlineShape, new BasicStroke(1f), Color.RED );
-//        nucleusOutlineNode.setOffset( model.getAtom().getPosition() );
-        backLayer.addChild( nucleusOutlineNode );
+//        Shape nucleusOutlineShape = mvt.createTransformedShape( new Ellipse2D.Double(
+//                -model.getAtom().getNucleusRadius(),
+//                -model.getAtom().getNucleusRadius(),
+//                model.getAtom().getNucleusRadius() * 2,
+//                model.getAtom().getNucleusRadius() * 2 ) );
+//        PNode nucleusOutlineNode = new PhetPPath( nucleusOutlineShape, new BasicStroke(1f), Color.RED );
+//        backLayer.addChild( nucleusOutlineNode );
+        DoubleGeneralPath nucleusXMarkerModelCoords = new DoubleGeneralPath();
+        double xMarkerSize = Proton.RADIUS; // Arbitrary, adjust as desired.
+        nucleusXMarkerModelCoords.moveTo( model.getAtom().getPosition().getX() - xMarkerSize / 2,
+                model.getAtom().getPosition().getY() - xMarkerSize / 2 );
+        nucleusXMarkerModelCoords.lineTo( model.getAtom().getPosition().getX() + xMarkerSize / 2,
+                model.getAtom().getPosition().getY() + xMarkerSize / 2 );
+        nucleusXMarkerModelCoords.moveTo( model.getAtom().getPosition().getX() - xMarkerSize / 2,
+                model.getAtom().getPosition().getY() + xMarkerSize / 2 );
+        nucleusXMarkerModelCoords.lineTo( model.getAtom().getPosition().getX() + xMarkerSize / 2,
+                model.getAtom().getPosition().getY() - xMarkerSize / 2 );
+        Shape nucleusXMarkerShape = mvt.createTransformedShape( nucleusXMarkerModelCoords.getGeneralPath() );
+        PNode nucleusXMarkerNode = new PhetPPath( nucleusXMarkerShape, new BasicStroke(4f), new Color(255, 0, 0, 75) );
+        backLayer.addChild( nucleusXMarkerNode );
 
         // Add the atom's electron shells to the canvas.
         for (Double shellRadius : model.getAtom().getElectronShellRadii()){
