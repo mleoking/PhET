@@ -15,7 +15,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Shows the excess dielectric charge (Q_excess_dielectric).
- * The number of charges is proportional to sqrt( Q_excess ). 
+ * The number of charges is proportional to sqrt( Q_excess_dielectric ). 
  * Charges appear on the surface of the dielectric where it contacts the plates,
  * so charges appear on the right face only when the dielectric is fully inserted.
  * <p>
