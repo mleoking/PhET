@@ -16,12 +16,14 @@ import away3d.primitives.*;
 import edu.colorado.phet.densityandbuoyancy.DensityConstants;
 import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
 import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
+import edu.colorado.phet.densityandbuoyancy.model.Material;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.Bottle;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.DensityObjectNode;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.GroundNode;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.Pickable;
 import edu.colorado.phet.densityandbuoyancy.view.units.LinearUnit;
 import edu.colorado.phet.densityandbuoyancy.view.units.Units;
+import edu.colorado.phet.flashcommon.MathUtil;
 
 import flash.display.Sprite;
 import flash.events.Event;
@@ -136,6 +138,24 @@ public class AbstractDensityModule extends UIComponent {
         waterTop = new Plane( { y: -poolHeight + waterHeight + DensityConstants.VERTICAL_GROUND_OFFSET_AWAY_3D, z: poolDepth / 2, width: poolWidth, height: poolDepth, material: new ShadingColorMaterial( 0x0088FF, {alpha: 0.4} ) } );
         scene.addChild( waterTop );
         waterTop.mouseEnabled = false;
+
+        model.fluidDensity.addListener( function(): void {
+            // when the fluid density changes, let's change the water color.
+            var waterMaterial: ShadingColorMaterial;
+            var density: Number = model.fluidDensity.value;
+            if ( density <= Material.WATER.getDensity() ) {
+                //                waterMaterial = new ShadingColorMaterial( 0x0088FF, {alpha: 0.15 + 0.25 * density / Material.WATER.getDensity() } );
+                waterMaterial = new ShadingColorMaterial( 0x0088FF, {alpha: 0.4 * Math.sqrt( density / Material.WATER.getDensity() )} );
+            }
+            else {
+                var green: uint = Math.round( MathUtil.scale( density, Material.WATER.getDensity(), DensityConstants.MAX_FLUID_DENSITY, 0x88, 0x33 ) );
+                var blue: uint = Math.round( MathUtil.scale( density, Material.WATER.getDensity(), DensityConstants.MAX_FLUID_DENSITY, 0xFF, 0x33 ) );
+                var alpha: Number = MathUtil.scale( density, Material.WATER.getDensity(), DensityConstants.MAX_FLUID_DENSITY, 0.4, 0.8 );
+                waterMaterial = new ShadingColorMaterial( uint( (green << 8) + blue ), {alpha: alpha} );
+            }
+            waterFront.material = waterMaterial;
+            waterTop.material = waterMaterial;
+        } );
 
         // add grass, earth and pool inside
         groundNode = new GroundNode( _model );
@@ -313,6 +333,7 @@ public class AbstractDensityModule extends UIComponent {
     }
 
     public function resetAll(): void {
+        model.fluidDensity.reset(); // TODO: better reset functionality!
         running = true;
         if ( moving ) {
             moving = false;

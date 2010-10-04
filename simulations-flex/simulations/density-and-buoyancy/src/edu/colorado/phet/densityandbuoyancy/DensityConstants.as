@@ -51,7 +51,7 @@ public class DensityConstants {
     public static const STYROFOAM_MAX_MASS: Number = 3;//To keep the volume small enough so the pool doesn't overflow
     public static const WOOD_MAX_MASS: Number = 8;
     public static const MIN_FLUID_DENSITY: Number = kgLtoSI(0);
-    public static const MAX_FLUID_DENSITY: Number = kgLtoSI(5);
+    public static const MAX_FLUID_DENSITY: Number = kgLtoSI(3);
     //To keep the volume small enough so the pool doesn't overflow
 
     //this is a magic number that just barely fits "00.00" with the above specified font;
