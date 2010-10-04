@@ -38,7 +38,7 @@ public class BuildAnAtomModel {
     private static final Point2D NEUTRON_BUCKET_POSITION = new Point2D.Double( 0, -140 );
     private static final Point2D ELECTRON_BUCKET_POSITION = new Point2D.Double( 80, -140 );
 
-    protected static final double NUCLEUS_CAPTURE_DISTANCE = 50;
+    protected static final double NUCLEUS_CAPTURE_DISTANCE = Atom.ELECTRON_SHELL_1_RADIUS;
 
     protected static final double ELECTRON_CAPTURE_DISTANCE = Atom.ELECTRON_SHELL_2_RADIUS + 20;
 
