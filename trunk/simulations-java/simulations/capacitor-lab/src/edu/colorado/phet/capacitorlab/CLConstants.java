@@ -91,7 +91,6 @@ public class CLConstants {
     // plate charges
     public static final boolean PLATE_CHARGES_VISIBLE = false; 
     public static final IntegerRange NUMBER_OF_PLATE_CHARGES = new IntegerRange( 1, 625 );
-    public static final double MIN_NONZERO_PLATE_CHARGE = 8E-15; // Coulombs, all non-zero values <= MIN_NONZERO_PLATE_CHARGE are represented by 1 charge
     
     // dielectric charges
     public static final DielectricChargeView DIELECTRIC_CHARGE_VIEW = DielectricChargeView.NONE; //XXX default should be NONE
