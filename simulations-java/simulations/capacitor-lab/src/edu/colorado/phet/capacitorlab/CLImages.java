@@ -24,7 +24,7 @@ public class CLImages {
     public static final BufferedImage VOLTMETER = getBufferedImage( "voltmeter.png" );
     public static final BufferedImage RED_PROBE = getBufferedImage( "redProbe.png" );
     public static final BufferedImage BLACK_PROBE = getBufferedImage( "blackProbe.png" );
-    public static final BufferedImage EFIELD_PROBE = getBufferedImage( "eFieldProbe.png" );
+    public static final BufferedImage EFIELD_PROBE = getBufferedImage( "e-field_probe.png" );
     
     // common images
     public static final BufferedImage CLOSE_BUTTON = getCommonBufferedImage( PhetCommonResources.IMAGE_CLOSE_BUTTON );
