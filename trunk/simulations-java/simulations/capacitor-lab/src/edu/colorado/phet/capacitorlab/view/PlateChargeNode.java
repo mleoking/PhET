@@ -158,10 +158,10 @@ public abstract class PlateChargeNode extends PhetPNode {
             numberOfCharges = 0;
         }
         else if ( absolutePlateCharge <= minCharge ) {
-            numberOfCharges = 1;
+            numberOfCharges = CLConstants.NUMBER_OF_PLATE_CHARGES.getMin();
         }
         else {
-            numberOfCharges = (int) ( CLConstants.MAX_NUMBER_OF_PLATE_CHARGES * ( absolutePlateCharge - minCharge ) / ( maxCharge - minCharge ) );
+            numberOfCharges = (int) ( CLConstants.NUMBER_OF_PLATE_CHARGES.getMax() * ( absolutePlateCharge - minCharge ) / ( maxCharge - minCharge ) );
         }
         return numberOfCharges;
     }
