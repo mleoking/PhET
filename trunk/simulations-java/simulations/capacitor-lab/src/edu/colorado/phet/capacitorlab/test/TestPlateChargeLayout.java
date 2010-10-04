@@ -13,9 +13,9 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.capacitorlab.util.GridPanel;
+import edu.colorado.phet.capacitorlab.view.IPlateChargeGridSizeStrategy;
 import edu.colorado.phet.capacitorlab.view.PlusNode;
-import edu.colorado.phet.capacitorlab.view.PlateChargeNode.GridSizeStrategyFactory;
-import edu.colorado.phet.capacitorlab.view.PlateChargeNode.IGridSizeStrategy;
+import edu.colorado.phet.capacitorlab.view.IPlateChargeGridSizeStrategy.GridSizeStrategyFactory;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
@@ -32,7 +32,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class TestPlateChargeLayout extends JFrame {
     
-    private static final IGridSizeStrategy GRID_SIZE_STRATEGY = GridSizeStrategyFactory.createStrategy();
+    private static final IPlateChargeGridSizeStrategy GRID_SIZE_STRATEGY = GridSizeStrategyFactory.createStrategy();
 
     private static final Dimension CANVAS_SIZE = new Dimension( 800, 550 );
     private static final IntegerRange NUMBER_OF_CHARGES_RANGE = new IntegerRange( 0, 625, 0 );

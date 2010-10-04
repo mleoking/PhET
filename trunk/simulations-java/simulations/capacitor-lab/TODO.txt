@@ -11,7 +11,7 @@ DESIGN ISSUES
 
 HIGH PRIORITY
 - fix listeners for Capacitor and BatteryCapacitorCircuit, notification is incomplete and incorrect
-- charge and excess charge on dielectric (see notes)
+- "all charge" view for dielectric
 - field lines (with fake curvature?)
 - Reset All feature
 - Introduction tab, use air as the dielectric material
