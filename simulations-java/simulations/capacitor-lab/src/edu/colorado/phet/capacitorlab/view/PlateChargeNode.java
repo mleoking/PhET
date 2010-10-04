@@ -301,11 +301,11 @@ public abstract class PlateChargeNode extends PhetPNode {
             if ( oldrows != rows ) {
                 int err1 = Math.abs( numberOfObjects - rows * columns );
                 int err2 = Math.abs( numberOfObjects - oldrows * columns );
-                boolean err1Wins = err1 < err2;
                 if ( err2 < err1 ) {
                     rows = oldrows; // choose whichever had the better behavior
                 }
-                // System.out.println( "err1Wins: " + err1Wins + ", rows = " + rows + ", oldrows = " + oldrows + " err1 = " + err1 + " err2 = " + err2 );
+//                  boolean err1Wins = err1 < err2;
+//                  System.out.println( "err1Wins: " + err1Wins + ", rows = " + rows + ", oldrows = " + oldrows + " err1 = " + err1 + " err2 = " + err2 );
             }
             if ( columns == 0 ) {
                 columns = 1;
