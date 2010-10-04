@@ -227,7 +227,7 @@ public abstract class PlateChargeNode extends PhetPNode {
      */
     public static class GridSizeStrategyFactory {
         public static IGridSizeStrategy createStrategy() {
-            return new CCKGridSizeStrategy();
+            return new CCKGridSizeStrategyWithRounding();
         }
     }
     
@@ -273,6 +273,47 @@ public abstract class PlateChargeNode extends PhetPNode {
                 gridSize.setSize( numberOfObjects, 1 );
             }
             return gridSize;
+        }
+    }
+
+    /**
+     * Strategy developed by Sam Reid, here's how he described it:
+     * The main change is to use rounding instead of clamping to get the rows and columns.  
+     * Also, for one row or column, it should be exact (similar to the intent of the ModifiedCCKGridSizeStrategy subclass).
+     * It looks like it exhibits better (though understandably imperfect) behavior in the problem cases.  
+     * Also, as opposed to the previous versions, the visible number of objects can exceed the specified numberOfObjects.
+     * This may be the best we can do if we are showing a rectangular grid of charges.  We could get the count exactly 
+     * right if we show some (or one) of the columns having different numbers of charges than the others, but then 
+     * it may look nonuniform (and would require more extensive changes to the sim).
+     *
+     * @author Sam Reid
+     */
+    public static class CCKGridSizeStrategyWithRounding implements IGridSizeStrategy {
+
+        public Dimension getGridSize( int numberOfObjects, double width, double height ) {
+            double alpha = Math.sqrt( numberOfObjects / width / height );
+            // casting here may result in some charges being thrown out, but that's OK
+            int columns = (int) ( Math.round( width * alpha ) );
+            int oldrows = (int) ( Math.round( height * alpha ) );
+            int rows = (int) Math.round( numberOfObjects / (double) columns );
+            if ( oldrows != rows ) {
+                int err1 = Math.abs( numberOfObjects - rows * columns );
+                int err2 = Math.abs( numberOfObjects - oldrows * columns );
+                boolean err1Wins = err1 < err2;
+                if ( err2 < err1 ) {
+                    rows = oldrows; // choose whichever had the better behavior
+                }
+                // System.out.println( "err1Wins: " + err1Wins + ", rows = " + rows + ", oldrows = " + oldrows + " err1 = " + err1 + " err2 = " + err2 );
+            }
+            if ( columns == 0 ) {
+                columns = 1;
+                rows = numberOfObjects;
+            }
+            else if ( rows <= 1 ) {
+                rows = 1;
+                columns = numberOfObjects;
+            }
+            return new Dimension( columns, rows );
         }
     }
 }
