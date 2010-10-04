@@ -22,6 +22,7 @@ HIGH PRIORITY
 - field lines (with fake curvature?)
 - Introduction tab, use air as the dielectric material
 - Reset All feature
+- only update views (charges, field) if visible
 
 MEDUIUM PRIORITY
 - TestPlateChargeLayout & PlateChargesNode: tall narrow plate results in too many charges, alpha too large?
