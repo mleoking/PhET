@@ -103,26 +103,33 @@ public class EFieldNode extends PhetPNode {
         }
     }
     
-    /**
-     * Gets the spacing of E-field lines. 
+    /*
+     * Gets the spacing of E-field lines.
      * Higher E-field results in higher density, therefore lower spacing.
+     * Density is computed for the minimum plate size.
+     * 
      * @param effectiveEField
      * @return spacing, in model coordinates
      */
     private double getLineSpacing( double effectiveEField ) {
+        final int numberOfLines = getNumberOfLines( effectiveEField );
+        final int numberOfLinesOnEdge = (int) Math.sqrt( numberOfLines ); // assumes a square plate!
+        return BatteryCapacitorCircuit.getMinPlateSideLength() / numberOfLinesOnEdge;
+    }
+    
+    /*
+     * Computes number of lines to put on the smallest plate, linearly proportional to plate charge.
+     */
+    private int getNumberOfLines( double effectiveEField ) {
         
-        double absoluteEffectiveEField = Math.abs( effectiveEField );
-        double maxEffectiveEField = BatteryCapacitorCircuit.getMaxEffectiveEfield();
+        double absEField = Math.abs( effectiveEField );
+        double maxEField = BatteryCapacitorCircuit.getMaxEffectiveEfield();
         
-        double lineSpacing = 0;
-        if ( absoluteEffectiveEField == 0 ) {
-            lineSpacing = 0;
+        int numberOfLines = (int)( CLConstants.NUMBER_OF_EFIELD_LINES.getMax() * absEField / maxEField );
+        if ( absEField > 0 && numberOfLines < CLConstants.NUMBER_OF_EFIELD_LINES.getMin() ) {
+            numberOfLines = CLConstants.NUMBER_OF_EFIELD_LINES.getMin();
         }
-        else {
-            double percent = absoluteEffectiveEField / maxEffectiveEField;
-            lineSpacing = CLConstants.EFIELD_SPACING_RANGE.getMax() - ( percent * CLConstants.EFIELD_SPACING_RANGE.getLength() );
-        }
-        return lineSpacing;
+        return numberOfLines;
     }
     
     private Dimension getGridSize( double cellSpacing, double width, double height ) {
