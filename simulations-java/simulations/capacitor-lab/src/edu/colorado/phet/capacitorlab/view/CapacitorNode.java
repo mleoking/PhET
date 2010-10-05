@@ -2,6 +2,10 @@
 
 package edu.colorado.phet.capacitorlab.view;
 
+import java.util.EventListener;
+
+import javax.swing.event.EventListenerList;
+
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
@@ -27,6 +31,7 @@ public class CapacitorNode extends PhetPNode {
     private final PlateNode topPlateNode, bottomPlateNode;
     private final DielectricNode dielectricNode;
     private final EFieldNode eFieldNode;
+    private final EventListenerList listeners;
     
     public CapacitorNode( BatteryCapacitorCircuit circuit, ModelViewTransform mvt, boolean dev ) {
         
@@ -50,6 +55,7 @@ public class CapacitorNode extends PhetPNode {
         });
         
         this.mvt = mvt;
+        this.listeners = new EventListenerList();
         
         // child nodes
         topPlateNode = new TopPlateNode( circuit, mvt );
@@ -92,7 +98,10 @@ public class CapacitorNode extends PhetPNode {
     }
     
     public void setDielectricChargeView( DielectricChargeView view ) {
-        dielectricNode.setDielectricChargeView( view );
+        if ( !view.equals( dielectricNode.getDielectricChargeView() ) ) {
+            dielectricNode.setDielectricChargeView( view );
+            fireDielectricChargeViewChanged();
+        }
     }
     
     public DielectricChargeView getDielectricChargeView() {
@@ -150,5 +159,23 @@ public class CapacitorNode extends PhetPNode {
     
     private void updateDielectricColor() {
         dielectricNode.setColor( circuit.getCapacitor().getDielectricMaterial().getColor() );
+    }
+    
+    public interface CapacitorNodeChangeListener extends EventListener {
+        public void dielectricChargeViewChanged();
+    }
+    
+    public void addCapacitorNodeChangeListener( CapacitorNodeChangeListener listener ) {
+        listeners.add( CapacitorNodeChangeListener.class, listener );
+    }
+    
+    public void removeCapacitorNodeChangeListener( CapacitorNodeChangeListener listener ) {
+        listeners.remove( CapacitorNodeChangeListener.class, listener );
+    }
+    
+    private void fireDielectricChargeViewChanged() {
+        for ( CapacitorNodeChangeListener listener : listeners.getListeners( CapacitorNodeChangeListener.class ) ) {
+            listener.dielectricChargeViewChanged();
+        }
     }
 }

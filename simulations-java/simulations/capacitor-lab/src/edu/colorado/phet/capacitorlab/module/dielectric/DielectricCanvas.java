@@ -168,34 +168,35 @@ public class DielectricCanvas extends CLCanvas {
             y = addWiresButtonNode.getYOffset();
             removeWiresButtonNode.setOffset( x, y );
             
-            // Meters
-            //XXX specify default locations in CLConstants, in model coordinates
-            capacitanceMeterNode.setOffset( 600, 25 );
-            chargeMeterNode.setOffset( 750, 25 );
-            energyMeterNode.setOffset( 900, 25 );
-            voltmeterNode.setOffset( 750, 325 );
-            eFieldDetectorNode.setOffset( 750, 600 );
-            
             // Plate Charge control
             pView = mvt.modelToView( CLConstants.PLATE_CHARGE_CONTROL_LOCATION );
             plateChargeControNode.setOffset( pView  );
         }
         
         // default state
+        reset();
+    }
+    
+    public void reset() {
+        // battery connectivity
         updateBatteryConnectivity();
+        /// visibility of various nodes
         capacitanceMeterNode.setVisible( CLConstants.CAPACITANCE_METER_VISIBLE );
         chargeMeterNode.setVisible( CLConstants.CHARGE_METER_VISIBLE );
         energyMeterNode.setVisible( CLConstants.ENERGY_METER_VISIBLE );
         voltmeterNode.setVisible( CLConstants.VOLTMETER_VISIBLE );
         eFieldDetectorNode.setVisible( CLConstants.EFIELD_DETECTOR_VISIBLE );
         capacitorNode.setPlateChargeVisible( CLConstants.PLATE_CHARGES_VISIBLE );
-        capacitorNode.setDielectricChargeView( CLConstants.DIELECTRIC_CHARGE_VIEW );
         capacitorNode.setEFieldVisible( CLConstants.EFIELD_VISIBLE );
-        capacitorNode.setOpaque( !( CLConstants.EFIELD_VISIBLE || CLConstants.VOLTMETER_VISIBLE || CLConstants.EFIELD_DETECTOR_VISIBLE ) );
-    }
-    
-    public void reset() {
-        //XXX
+        // dielectric charge view
+        capacitorNode.setDielectricChargeView( CLConstants.DIELECTRIC_CHARGE_VIEW );
+        // meter locations
+        //XXX specify default meter locations in CLConstants, in model coordinates
+        capacitanceMeterNode.setOffset( 600, 25 );
+        chargeMeterNode.setOffset( 750, 25 );
+        energyMeterNode.setOffset( 900, 25 );
+        voltmeterNode.setOffset( 750, 325 );
+        eFieldDetectorNode.setOffset( 750, 600 );
     }
     
     public CapacitorNode getCapacitorNode() {
