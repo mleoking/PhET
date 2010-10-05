@@ -4,7 +4,7 @@ package edu.colorado.phet.capacitorlab.view;
 
 import java.awt.Frame;
 
-import edu.colorado.phet.capacitorlab.model.CLModel;
+import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModel;
 import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 
 /**
@@ -17,7 +17,7 @@ public class ModelValuesDialog extends PaintImmediateDialog {
     
     private final ModelValuesPanel panel;
     
-    public ModelValuesDialog( Frame owner, CLModel model ) {
+    public ModelValuesDialog( Frame owner, DielectricModel model ) {
         super( owner );
         setTitle( "Model Values" );
         setResizable( false );

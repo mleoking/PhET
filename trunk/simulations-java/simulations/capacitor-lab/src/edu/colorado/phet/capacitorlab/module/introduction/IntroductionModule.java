@@ -5,35 +5,30 @@ package edu.colorado.phet.capacitorlab.module.introduction;
 import java.awt.Frame;
 
 import edu.colorado.phet.capacitorlab.CLStrings;
-import edu.colorado.phet.capacitorlab.model.CLModel;
-import edu.colorado.phet.capacitorlab.module.CLModule;
+import edu.colorado.phet.capacitorlab.model.DielectricMaterial.Air;
+import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModule;
 
 /**
  * The "Introduction" module.
+ * <p>
+ * This module is identical to the "Dielectric" module, except that:
+ * <ul>
+ * <li>the dielectric is air
+ * <li>the dielectric is not visible
+ * <li>the dielectric controls are not visible
+ * </ul>
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class IntroductionModule extends CLModule {
+public class IntroductionModule extends DielectricModule {
     
-    private final CLModel model;
-    private final IntroductionCanvas canvas;
-    private final IntroductionControlPanel controlPanel;
-
     public IntroductionModule( Frame parentFrame, boolean dev ) {
-        super( CLStrings.TAB_INTRODUCTION );
-        
-        model = new CLModel( getCLClock() );
-        
-        canvas = new IntroductionCanvas( model, dev );
-        setSimulationPanel( canvas );
-        
-        controlPanel = new IntroductionControlPanel( this );
-        setControlPanel( controlPanel );
+        super( CLStrings.TAB_INTRODUCTION, parentFrame, false /* hasDielectricPropertiesControl */, dev );  // no dielectric properties control
+        getDielectricCanvas().setDielectricVisible( false ); // dielectric and its drag handle are not visible
     }
     
-    @Override
     public void reset() {
-        model.reset();
-        canvas.reset();
+        super.reset();
+        getDielectricModel().getCapacitor().setDielectricMaterial( new Air() );  // dielectric is air
     }
 }

@@ -5,7 +5,6 @@ package edu.colorado.phet.capacitorlab.module.multiplecapacitors;
 import java.awt.Frame;
 
 import edu.colorado.phet.capacitorlab.CLStrings;
-import edu.colorado.phet.capacitorlab.model.CLModel;
 import edu.colorado.phet.capacitorlab.module.CLModule;
 
 /**
@@ -15,14 +14,14 @@ import edu.colorado.phet.capacitorlab.module.CLModule;
  */
 public class MultipleCapacitorsModule extends CLModule {
     
-    private final CLModel model;
+    private final MultipleCapacitorsModel model;
     private final MultipleCapacitorsCanvas canvas;
     private final MultipleCapacitorsControlPanel controlPanel;
 
     public MultipleCapacitorsModule( Frame parentFrame, boolean dev ) {
         super( CLStrings.TAB_MULTIPLE_CAPACITORS );
         
-        model = new CLModel( getCLClock() );
+        model = new MultipleCapacitorsModel( getCLClock() );
         
         canvas = new MultipleCapacitorsCanvas( model, dev );
         setSimulationPanel( canvas );
@@ -33,6 +32,7 @@ public class MultipleCapacitorsModule extends CLModule {
     
     @Override
     public void reset() {
+        super.reset();
         model.reset();
         canvas.reset();
     }

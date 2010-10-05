@@ -1,3 +1,4 @@
+10/5/10 implemented Introduction tab (subclass of Dielectric tab)
 10/5/10 implemented Reset All feature
 10/5/10 fix: knob on voltage slider and Plate Charge slider jumps to center when you mouseDown on it
 10/5/10 decided not to add curvature to field lines on perimeter of plates

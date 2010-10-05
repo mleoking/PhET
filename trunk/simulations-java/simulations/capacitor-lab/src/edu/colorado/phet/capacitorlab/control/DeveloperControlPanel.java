@@ -13,8 +13,8 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.JCheckBox;
 
-import edu.colorado.phet.capacitorlab.model.CLModel;
 import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeAdapter;
+import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModel;
 import edu.colorado.phet.capacitorlab.util.GridPanel;
 import edu.colorado.phet.capacitorlab.util.GridPanel.Anchor;
 import edu.colorado.phet.capacitorlab.view.ModelValuesDialog;
@@ -30,13 +30,13 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 public class DeveloperControlPanel extends PhetTitledPanel {
     
     private final Frame parentFrame;
-    private final CLModel model;
+    private final DielectricModel model;
     private final JCheckBox modelValuesCheckBox;
     
     private ModelValuesDialog modelValuesDialog;
     private Point modelValuesDialogLocation;
 
-    public DeveloperControlPanel( Frame parentFrame, final CLModel model ) {
+    public DeveloperControlPanel( Frame parentFrame, final DielectricModel model ) {
         super( "Developer" );
         setTitleColor( Color.RED );
         

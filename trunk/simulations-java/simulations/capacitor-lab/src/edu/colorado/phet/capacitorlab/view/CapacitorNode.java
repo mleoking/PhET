@@ -88,6 +88,10 @@ public class CapacitorNode extends PhetPNode {
         bottomPlateNode.setTransparency( transparency );
     }
     
+    public void setDielectricVisible( boolean visible ) {
+        dielectricNode.setVisible( visible );
+    }
+    
     public void setPlateChargeVisible( boolean visible ) {
         topPlateNode.setChargeVisible( visible );
         bottomPlateNode.setChargeVisible( visible );

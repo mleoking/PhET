@@ -11,6 +11,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.capacitorlab.model.*;
 import edu.colorado.phet.capacitorlab.model.Battery.BatteryChangeAdapter;
 import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeAdapter;
+import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModel;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -102,7 +103,7 @@ public abstract class WireNode extends PComposite {
      * Wire that connects the top of the battery to the top of the capacitor.
      */
     public static class TopWireNode extends WireNode {
-        public TopWireNode( CLModel model, ModelViewTransform mvt ) {
+        public TopWireNode( DielectricModel model, ModelViewTransform mvt ) {
             super( model.getTopWire(), model.getCapacitor(), model.getBattery(), mvt );
         }
         
@@ -146,7 +147,7 @@ public abstract class WireNode extends PComposite {
      */
     public static class BottomWireNode extends WireNode {
         
-        public BottomWireNode( CLModel model, ModelViewTransform mvt ) {
+        public BottomWireNode( DielectricModel model, ModelViewTransform mvt ) {
             super( model.getBottomWire(), model.getCapacitor(), model.getBattery(), mvt );
         }
         
