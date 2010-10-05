@@ -173,14 +173,18 @@ public class BuildAnAtomModel {
 
         // Put all the particles back in the bucket.
         for ( Electron electron : electrons ) {
-            electronBucket.addParticle( electron, true );
+            atom.addElectron( electron);
+//            electronBucket.addParticle( electron, true );
         }
         for ( Proton proton : protons ) {
-            protonBucket.addParticle( proton, true );
+            atom.addProton( proton );
+//            protonBucket.addParticle( proton, true );
         }
         for ( Neutron neutron : neutrons ) {
-            neutronBucket.addParticle( neutron, true );
+            atom.addNeutron( neutron );
+//            neutronBucket.addParticle( neutron, true );
         }
+
     }
 
     public Atom getAtom() {

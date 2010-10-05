@@ -1,9 +1,7 @@
 package edu.colorado.phet.buildanatom.model;
 
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Random;
+import java.util.*;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
@@ -242,6 +240,59 @@ public class Atom {
                     placementAngleDelta = 2 * Math.PI / numAtThisRadius;
                 }
             }
+            double origClump = getClumpiness(nucleons );
+            for (int i=0;i<1000;i++){
+                double clumpiness = getClumpiness(nucleons );
+                int particle1 = random.nextInt(nucleons.size() );
+                int particle2 = random.nextInt(nucleons.size() );
+                swap(nucleons,particle1,particle2);
+                double newClumpiness = getClumpiness(nucleons );
+                if (newClumpiness< clumpiness){
+                    //keep it
+                }
+                else{
+                    swap(nucleons,particle1,particle2);
+                }
+            }
+            double finalClump = getClumpiness(nucleons );
+            System.out.println( "origClump = " + origClump +", final clump = "+finalClump);
         }
+    }
+
+    private double getClumpiness(ArrayList<SubatomicParticle> nucleons) {
+        double error =0;
+        for ( SubatomicParticle nucleon : nucleons ) {
+            error+= getClumpiness(nucleons,nucleon);
+        }
+        return error;
+    }
+
+    private double getClumpiness( ArrayList<SubatomicParticle> n, SubatomicParticle nucleon ) {
+        ArrayList<SubatomicParticle> nucleons = new ArrayList<SubatomicParticle>( n );
+        nucleons.remove( nucleon );
+        final HashMap<SubatomicParticle, Double> distances = new HashMap<SubatomicParticle, Double>();
+        for ( SubatomicParticle subatomicParticle : nucleons ) {
+            distances.put( subatomicParticle, nucleon.getPosition().distance( subatomicParticle.getPosition() ) );
+        }
+        Collections.sort( nucleons, new Comparator<SubatomicParticle>() {
+            public int compare( SubatomicParticle o1, SubatomicParticle o2 ) {
+                return Double.compare( distances.get( o1 ), distances.get( o2 ) );
+            }
+        } );
+        //take the top N particles
+        int N=2;
+        int error =0;
+        for (int i=0;i<N && i<nucleons.size();i++){
+            if (nucleon.getClass().equals( nucleons.get(i).getClass() )){
+                error++;
+            }
+        }
+        return error;
+    }
+
+    private void swap( ArrayList<SubatomicParticle> nucleons, int particle1, int particle2 ) {
+        Point2D point1 = nucleons.get( particle1 ).getPosition();
+        nucleons.get( particle1 ).setPosition( nucleons.get(particle2 ).getPosition() );
+        nucleons.get( particle2 ).setPosition( point1 );
     }
 }
