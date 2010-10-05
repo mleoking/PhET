@@ -145,12 +145,14 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
             particleLayer.addChild( new ElectronNode( mvt, model.getElectron( i ) ) );
         }
 
-        for ( int i = 0; i < model.numProtons(); i++ ) {
-            particleLayer.addChild( new ProtonNode( mvt, model.getProton( i ) ) );
-        }
 
-        for ( int i = 0; i < model.numNeutrons(); i++ ) {
-            particleLayer.addChild( new NeutronNode( mvt, model.getNeutron( i ) ) );
+        for ( int i = 0; i < Math.max( model.numProtons(), model.numNeutrons() ); i++ ) {
+            if ( i < model.numProtons() ) {
+                particleLayer.addChild( new ProtonNode( mvt, model.getProton( i ) ) );
+            }
+            if ( i < model.numNeutrons() ) {
+                particleLayer.addChild( new NeutronNode( mvt, model.getNeutron( i ) ) );
+            }
         }
 
         // Add the button for resetting the nucleus to the canvas.

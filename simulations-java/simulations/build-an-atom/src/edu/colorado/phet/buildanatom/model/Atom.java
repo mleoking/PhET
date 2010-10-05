@@ -2,6 +2,7 @@ package edu.colorado.phet.buildanatom.model;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -55,6 +56,7 @@ public class Atom {
             reconfigureNucleus();
         }
     };
+    private final Random random = new Random( );
 
     /**
      * Constructor.
@@ -178,6 +180,8 @@ public class Atom {
                 nucleons.add( neutrons.get( i ) );
             }
         }
+//        Collections.reverse( nucleons );
+        Collections.shuffle( nucleons );
 
         if ( nucleons.size() == 0 ) {
             // Nothing to do.
