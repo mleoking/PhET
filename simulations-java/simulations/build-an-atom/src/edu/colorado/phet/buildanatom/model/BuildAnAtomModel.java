@@ -79,6 +79,7 @@ public class BuildAnAtomModel {
             final Electron electron = new Electron( clock );
             electrons.add( electron );
             electron.addListener( new SubatomicParticle.Adapter(){
+                @Override
                 public void droppedByUser( SubatomicParticle particle ) {
                     // The user just released this electron.  If it is close
                     // enough to the nucleus, send it there, otherwise
@@ -173,16 +174,19 @@ public class BuildAnAtomModel {
 
         // Put all the particles back in the bucket.
         for ( Electron electron : electrons ) {
-            atom.addElectron( electron);
-//            electronBucket.addParticle( electron, true );
+            // TODO: Get rid of commented out code when done debugging nucleus reconfiguration algorithm.
+//            atom.addElectron( electron);
+            electronBucket.addParticle( electron, true );
         }
         for ( Proton proton : protons ) {
-            atom.addProton( proton );
-//            protonBucket.addParticle( proton, true );
+            // TODO: Get rid of commented out code when done debugging nucleus reconfiguration algorithm.
+//            atom.addProton( proton );
+            protonBucket.addParticle( proton, true );
         }
         for ( Neutron neutron : neutrons ) {
-            atom.addNeutron( neutron );
-//            neutronBucket.addParticle( neutron, true );
+            // TODO: Get rid of commented out code when done debugging nucleus reconfiguration algorithm.
+//            atom.addNeutron( neutron );
+            neutronBucket.addParticle( neutron, true );
         }
 
     }
