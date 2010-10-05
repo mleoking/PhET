@@ -68,6 +68,7 @@ public class SubatomicParticleBucket {
             assert containedParticles.contains( particle );
             containedParticles.remove( particle );
             particle.removeListener( this );
+            relayoutBucketParticles();
         }
     };
 
@@ -141,6 +142,14 @@ public class SubatomicParticleBucket {
         return captionText;
     }
 
+    public void removeParticle( SubatomicParticle particle ) {
+        if (!containedParticles.contains( particle )){
+           System.err.println( getClass().getName() + " - Error: Particle not here, can't remove." );
+        }
+        assert containedParticles.contains( particle );
+        containedParticles.remove( particle );
+    }
+
     public void addParticle( final SubatomicParticle particle, boolean moveImmediately ) {
         // Determine an open location in the bucket.
         Point2D freeParticleLocation = getFirstOpenLocation();
@@ -159,14 +168,6 @@ public class SubatomicParticleBucket {
         particle.addListener( particleRemovalListener );
 
         containedParticles.add( particle );
-    }
-
-    public void removeParticle( SubatomicParticle particle ) {
-        if (!containedParticles.contains( particle )){
-           System.err.println( getClass().getName() + " - Error: Particle not here, can't remove." );
-        }
-        assert containedParticles.contains( particle );
-        containedParticles.remove( particle );
     }
 
     private Point2D getFirstOpenLocation() {
@@ -211,6 +212,16 @@ public class SubatomicParticleBucket {
         return openLocation;
     }
 
+    private void relayoutBucketParticles() {
+        ArrayList<SubatomicParticle> copy = new ArrayList<SubatomicParticle>( containedParticles );
+        for ( SubatomicParticle subatomicParticle : copy ) {
+            removeParticle( subatomicParticle );
+        }
+        for ( SubatomicParticle subatomicParticle : copy ) {
+            addParticle( subatomicParticle, false);
+        }
+    }
+
     /**
      * Determine whether the given particle position is open (i.e.
      * unoccupied) in the bucket.
@@ -222,7 +233,7 @@ public class SubatomicParticleBucket {
     private boolean isPositionOpen( double x, double y ) {
         boolean positionOpen = true;
         for ( SubatomicParticle particle : containedParticles ) {
-            Point2D position = particle.getPosition();
+            Point2D position = particle.getDestination();
             if ( position.getX() == x && position.getY() == y ) {
                 positionOpen = false;
                 break;
