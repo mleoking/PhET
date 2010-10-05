@@ -46,7 +46,7 @@ public class Atom {
 
     // Listener for events where the user grabs the particle, which is interpreted as
     // removal from the atom.
-    private final SubatomicParticle.Adapter particleListener = new SubatomicParticle.Adapter() {
+    private final SubatomicParticle.Adapter particleRemovalListener = new SubatomicParticle.Adapter() {
         @Override
         public void grabbedByUser( SubatomicParticle particle ) {
             // The user has picked up this particle, so we assume
@@ -91,10 +91,10 @@ public class Atom {
 
     public void reset() {
         for ( Proton proton : protons ) {
-            proton.removeListener( particleListener );
+            proton.removeListener( particleRemovalListener );
         }
         for ( Neutron neutron : neutrons ) {
-            neutron.removeListener( particleListener );
+            neutron.removeListener( particleRemovalListener );
         }
         protons.clear();
         neutrons.clear();
@@ -127,7 +127,7 @@ public class Atom {
         // new nucleon.
         reconfigureNucleus();
 
-        proton.addListener( particleListener );
+        proton.addListener( particleRemovalListener );
     }
 
     public void addNeutron( final Neutron neutron ) {
@@ -140,7 +140,7 @@ public class Atom {
         // new nucleon.
         reconfigureNucleus();
 
-        neutron.addListener( particleListener );
+        neutron.addListener( particleRemovalListener );
     }
 
     public void addElectron( final Electron electron ) {
@@ -155,24 +155,28 @@ public class Atom {
             // does not occur.  If it does, it should be debugged.
             assert false;
         }
-
-        electron.addListener( new SubatomicParticle.Adapter() {
-            @Override
-            public void grabbedByUser( SubatomicParticle particle ) {
-                // This electron is being removed.  Do we need to reconfigure?
-                if ( !electronShell1.isFull() && !electronShell2.isEmpty() ) {
-                    // Yes we do.  Move an electron from the shell 2 to
-                    // shell 1.
-                }
-            }
-        } );
     }
 
     private static class ElectronShell extends SimpleObservable {
+
         private final double radius;
         private final int electronCapacity;
         private final ArrayList<Point2D> openShellLocations = new ArrayList<Point2D>();
         private final HashMap<Electron, Point2D> occupiedShellLocations = new HashMap<Electron, Point2D>();
+
+        // Listener for events where the user grabs the particle, which is interpreted as
+        // removal from the bucket.
+        private final SubatomicParticle.Adapter particleRemovalListener = new SubatomicParticle.Adapter() {
+            @Override
+            public void grabbedByUser( SubatomicParticle particle ) {
+                // The user has picked up this particle, so we assume
+                // that they want to remove it.
+                assert occupiedShellLocations.containsKey( particle );
+                openShellLocations.add( occupiedShellLocations.get( particle ) );
+                occupiedShellLocations.remove( particle );
+                particle.removeListener( this );
+            }
+        };
 
         protected ElectronShell( double radius, int electronCapacity ) {
             this.radius = radius;
@@ -227,6 +231,9 @@ public class Atom {
                 assert !openShellLocations.contains( occupiedLocation );
                 openShellLocations.add( occupiedLocation );
             }
+            for ( Electron electron : occupiedShellLocations.keySet() ){
+                electron.removeListener( particleRemovalListener );
+            }
             occupiedShellLocations.clear();
         }
 
@@ -236,16 +243,7 @@ public class Atom {
             electronToAdd.setDestination( shellLocation );
             openShellLocations.remove( shellLocation );
             occupiedShellLocations.put( electronToAdd, shellLocation );
-            electronToAdd.addListener( new SubatomicParticle.Adapter() {
-                @Override
-                public void grabbedByUser( SubatomicParticle particle ) {
-                    // The user has picked up this electron, so consider
-                    // it to be removed from the shell.
-                    removeElectron( electronToAdd );
-                    electronToAdd.removeListener( this );
-                    notifyObservers();
-                }
-            } );
+            electronToAdd.addListener( particleRemovalListener );
             notifyObservers();
         }
 
