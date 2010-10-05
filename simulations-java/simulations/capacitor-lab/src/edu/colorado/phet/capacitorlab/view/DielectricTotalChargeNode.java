@@ -27,7 +27,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public class DielectricTotalChargeNode extends PhetPNode {
     
     private static final int SPACING_BETWEEN_PAIRS = 30; // view coordinates
-    private static final DoubleRange SPACING_BETWEEN_CHARGES = new DoubleRange( 4, 0.45 * SPACING_BETWEEN_PAIRS ); // view coordinates
+    private static final DoubleRange SPACING_BETWEEN_CHARGES = new DoubleRange( 0, 0.45 * SPACING_BETWEEN_PAIRS ); // view coordinates
     
     private final BatteryCapacitorCircuit circuit;
     private final ModelViewTransform mvt;
@@ -161,7 +161,7 @@ public class DielectricTotalChargeNode extends PhetPNode {
             positiveNode = new PositiveChargeNode();
             addChild( positiveNode );
             negativeNode = new NegativeChargeNode();
-            addChild( negativeNode );
+            addChild( negativeNode ); // put negative charge on top, so we can see it when they overlap
         }
         
         public void setSpacing( double spacing, Polarity polarity ) {
