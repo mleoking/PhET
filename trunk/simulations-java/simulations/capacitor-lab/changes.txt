@@ -1,3 +1,4 @@
+10/5/10 decided not to add curvature to field lines on perimeter of plates
 10/5/10 make battery voltage slider and Plate Charge slider snap to zero
 10/5/10 when E_effective is zero, use zero spacing between +- pairs on dielectric
 # 0.00.25 (44692) Oct 4, 2010
