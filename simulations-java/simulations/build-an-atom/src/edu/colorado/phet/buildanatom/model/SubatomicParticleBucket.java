@@ -8,7 +8,6 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 /**
@@ -50,6 +49,19 @@ public class SubatomicParticleBucket {
     // Radius of particles that will be going into this bucket.  This is
     // used for placing particles.
     private final double particleRadius;
+
+    // Listener for events where the user grabs the particle, which is interpreted as
+    // removal from the bucket.
+    private final SubatomicParticle.Adapter particleRemovalListener = new SubatomicParticle.Adapter() {
+        @Override
+        public void grabbedByUser( SubatomicParticle particle ) {
+            // The user has picked up this particle, so we assume
+            // that they want to remove it.
+            assert containedParticles.contains( particle );
+            containedParticles.remove( particle );
+            particle.removeListener( this );
+        }
+    };
 
     public SubatomicParticleBucket( Point2D position, Dimension2D size, Color baseColor, String caption, double particleRadius ) {
         this.position.setLocation( position );
@@ -126,20 +138,15 @@ public class SubatomicParticleBucket {
         }
 
         // Listen for when the user removes this particle from the bucket.
-        particle.addListener( new SubatomicParticle.Adapter(){
-            @Override
-            public void grabbedByUser( SubatomicParticle particle ) {
-                // The user has picked up this particle, so we assume
-                // that it is essentially removed from the bucket.
-                removeParticle( particle );
-                particle.removeListener( this );
-            }
-        } );
+        particle.addListener( particleRemovalListener );
 
         containedParticles.add( particle );
     }
 
     public void removeParticle( SubatomicParticle particle ) {
+        if (!containedParticles.contains( particle )){
+           System.err.println( getClass().getName() + " - Error: Particle not here, can't remove." );
+        }
         assert containedParticles.contains( particle );
         containedParticles.remove( particle );
     }
