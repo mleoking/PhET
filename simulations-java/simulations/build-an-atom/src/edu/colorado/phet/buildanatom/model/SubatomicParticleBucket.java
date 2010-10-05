@@ -50,6 +50,10 @@ public class SubatomicParticleBucket {
     // used for placing particles.
     private final double particleRadius;
 
+    // Proportion of the width of the bucket to use for particle placement.
+    // A value of 1 means that the entire bucket should be used.
+    private final double usableWidthProportion;
+
     // Listener for events where the user grabs the particle, which is interpreted as
     // removal from the bucket.
     private final SubatomicParticle.Adapter particleRemovalListener = new SubatomicParticle.Adapter() {
@@ -63,11 +67,12 @@ public class SubatomicParticleBucket {
         }
     };
 
-    public SubatomicParticleBucket( Point2D position, Dimension2D size, Color baseColor, String caption, double particleRadius ) {
+    public SubatomicParticleBucket( Point2D position, Dimension2D size, Color baseColor, String caption, double particleRadius, double usableWidthProportion ) {
         this.position.setLocation( position );
         this.baseColor = baseColor;
         this.captionText = caption;
         this.particleRadius = particleRadius;
+        this.usableWidthProportion = usableWidthProportion;
 
         // Create the shape of the bucket's hole.
         holeShape = new Ellipse2D.Double( -size.getWidth() / 2,
@@ -97,6 +102,14 @@ public class SubatomicParticleBucket {
         Area containerArea = new Area( containerPath.getGeneralPath() );
         containerArea.subtract( new Area( holeShape ) );
         containerShape = containerArea;
+    }
+
+    /**
+     * Constructor that assumes that the entire width of the bucket should be
+     * used for particle placement.
+     */
+    public SubatomicParticleBucket( Point2D position, Dimension2D size, Color baseColor, String caption, double particleRadius ) {
+        this(position, size, baseColor, caption, particleRadius, 1);
     }
 
     public void reset() {
@@ -153,14 +166,15 @@ public class SubatomicParticleBucket {
 
     private Point2D getFirstOpenLocation() {
         Point2D openLocation = new Point2D.Double();
-        int numParticlesInLayer = (int) Math.floor( holeShape.getBounds2D().getWidth() / ( particleRadius * 2 ) ) - 1;
+        double placeableWidth = holeShape.getBounds2D().getWidth() * usableWidthProportion - 2 * particleRadius;
+        double offsetFromBucketEdge = (holeShape.getBounds2D().getWidth() - placeableWidth) / 2 + particleRadius;
+        int numParticlesInLayer = (int) Math.floor( placeableWidth / ( particleRadius * 2 ) );
         int layer = 0;
         int positionInLayer = 0;
-        double offset = particleRadius * 2; // Initial offset is NOT zero, since we don't want to go right up to the edge.
         boolean found = false;
         while ( !found ) {
             double yPos = getPosition().getY() + layer * particleRadius * 2 * 0.866;
-            double xPos = getPosition().getX() - holeShape.getBounds2D().getWidth() / 2 + offset + positionInLayer * 2 * particleRadius;
+            double xPos = getPosition().getX() - holeShape.getBounds2D().getWidth() / 2 + offsetFromBucketEdge + positionInLayer * 2 * particleRadius;
             if ( isPositionOpen( xPos, yPos ) ) {
                 // We found a location that is open.
                 openLocation.setLocation( xPos, yPos );
@@ -174,7 +188,7 @@ public class SubatomicParticleBucket {
                     layer++;
                     positionInLayer = 0;
                     numParticlesInLayer--;
-                    offset += particleRadius;
+                    offsetFromBucketEdge += particleRadius;
                     if ( numParticlesInLayer == 0 ) {
                         // This algorithm doesn't handle the situation
                         // where more particles are added than can be
@@ -184,7 +198,7 @@ public class SubatomicParticleBucket {
                         // change too.
                         //                            assert false;
                         numParticlesInLayer = 1;
-                        offset -= particleRadius;
+                        offsetFromBucketEdge -= particleRadius;
                     }
                 }
             }
