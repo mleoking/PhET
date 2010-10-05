@@ -1,20 +1,18 @@
 package edu.colorado.phet.buildanatom.model;
 
-import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
-
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
+
 /**
-* @author John Blanco
-*/
+ * @author John Blanco
+ */
 public class ElectronShell extends SimpleObservable {
 
     private final double radius;
-    private final int electronCapacity;
-    private final ArrayList<Point2D> openShellLocations = new ArrayList<Point2D>();
-    private final HashMap<Electron, Point2D> occupiedShellLocations = new HashMap<Electron, Point2D>();
+    private final HashMap<Point2D, Electron> occupiedShellLocations = new HashMap<Point2D, Electron>();
 
     // Listener for events where the user grabs the particle, which is interpreted as
     // removal from the bucket.
@@ -23,21 +21,37 @@ public class ElectronShell extends SimpleObservable {
         public void grabbedByUser( SubatomicParticle particle ) {
             // The user has picked up this particle, so we assume
             // that they want to remove it.
-            assert occupiedShellLocations.containsKey( particle );
-            openShellLocations.add( occupiedShellLocations.get( particle ) );
-            occupiedShellLocations.remove( particle );
+            assert occupiedShellLocations.containsValue( particle );
+            Point2D point2D = getKey( particle );
+            assert point2D != null;
+            occupiedShellLocations.put( point2D, null );
             particle.removeListener( this );
         }
     };
 
+    /**
+     * Return the first Point2D key associated with the specified particle.
+     *
+     * @param particle the particle value for which to look up the key
+     * @return the first Point2D key associated with the specified particle, or null if no such value.
+     */
+    private Point2D getKey( SubatomicParticle particle ) {
+        assert particle != null;
+        for ( Point2D point2D : occupiedShellLocations.keySet() ) {
+            if ( occupiedShellLocations.get( point2D ) == particle ) {
+                return point2D;
+            }
+        }
+        return null;
+    }
+
     ElectronShell( double radius, int electronCapacity ) {
         this.radius = radius;
-        this.electronCapacity = electronCapacity;
         // Initialize the open shell locations.
         double angleBetweenElectrons = 2 * Math.PI / electronCapacity;
         for ( int i = 0; i < electronCapacity; i++ ) {
             double angle = i * angleBetweenElectrons;
-            openShellLocations.add( new Point2D.Double( this.radius * Math.cos( angle ), this.radius * Math.sin( angle ) ) );
+            occupiedShellLocations.put( new Point2D.Double( this.radius * Math.cos( angle ), this.radius * Math.sin( angle ) ), null );
         }
     }
 
@@ -45,15 +59,17 @@ public class ElectronShell extends SimpleObservable {
      * @param point2d
      * @return
      */
-    public Electron getClosestElectron( Point2D point2d ) {
+    public Electron getClosestElectron( Point2D point2d ) {//TODO: Consider sorting a list to attain closest electron
         Electron closestElectron = null;
-        for ( Electron candidateElectron : occupiedShellLocations.keySet() ) {
-            if ( closestElectron == null ) {
-                closestElectron = candidateElectron;
-            }
-            else if ( candidateElectron.getPosition().distance( point2d ) < closestElectron.getPosition().distance( point2d ) ) {
-                // This electron is closer.
-                closestElectron = candidateElectron;
+        for ( Electron candidateElectron : occupiedShellLocations.values() ) {
+            if ( candidateElectron != null ) {
+                if ( closestElectron == null ) {
+                    closestElectron = candidateElectron;
+                }
+                else if ( candidateElectron.getPosition().distance( point2d ) < closestElectron.getPosition().distance( point2d ) ) {
+                    // This electron is closer.
+                    closestElectron = candidateElectron;
+                }
             }
         }
         return closestElectron;
@@ -63,7 +79,13 @@ public class ElectronShell extends SimpleObservable {
      * @return
      */
     public ArrayList<Point2D> getOpenShellLocations() {
-        return new ArrayList<Point2D>( openShellLocations );
+        ArrayList<Point2D> list = new ArrayList<Point2D>();
+        for ( Point2D point2D : occupiedShellLocations.keySet() ) {
+            if ( occupiedShellLocations.get( point2D ) == null ) {
+                list.add( point2D );
+            }
+        }
+        return list;
     }
 
     protected double getRadius() {
@@ -71,45 +93,40 @@ public class ElectronShell extends SimpleObservable {
     }
 
     protected boolean isFull() {
-        return occupiedShellLocations.size() == electronCapacity;
+        return getOpenShellLocations().size() == 0;
     }
 
     protected boolean isEmpty() {
-        return occupiedShellLocations.size() == 0;
+        return getOpenShellLocations().size() == occupiedShellLocations.size();
     }
 
     protected void reset() {
-        for ( Point2D occupiedLocation : occupiedShellLocations.values() ) {
-            assert !openShellLocations.contains( occupiedLocation );
-            openShellLocations.add( occupiedLocation );
+        for ( Electron electron : occupiedShellLocations.values() ) {
+            if ( electron != null ) {
+                electron.removeListener( particleRemovalListener );
+            }
         }
-        for ( Electron electron : occupiedShellLocations.keySet() ){
-            electron.removeListener( particleRemovalListener );
+        for ( Point2D point2D : occupiedShellLocations.keySet() ) {
+            occupiedShellLocations.put( point2D, null );
         }
-        occupiedShellLocations.clear();
     }
 
     protected void addElectron( final Electron electronToAdd ) {
         Point2D shellLocation = findClosestOpenLocation( electronToAdd.getPosition() );
         assert shellLocation != null;
         electronToAdd.setDestination( shellLocation );
-        openShellLocations.remove( shellLocation );
-        occupiedShellLocations.put( electronToAdd, shellLocation );
+        occupiedShellLocations.put( shellLocation, electronToAdd );
         electronToAdd.addListener( particleRemovalListener );
         notifyObservers();
     }
 
     public void removeElectron( Electron electronToRemove ) {
-        if ( !occupiedShellLocations.containsKey( electronToRemove ) ) {
-            System.out.println( "Error!!!" );
-        }
-        assert occupiedShellLocations.containsKey( electronToRemove );
-        Point2D newlyFreedShellLocation = occupiedShellLocations.get( electronToRemove );
-        openShellLocations.add( newlyFreedShellLocation );
-        occupiedShellLocations.remove( electronToRemove );
+        assert occupiedShellLocations.containsValue( electronToRemove );
+        occupiedShellLocations.put( getKey( electronToRemove ), null );
     }
 
     private Point2D findClosestOpenLocation( Point2D comparisonPt ) {
+        ArrayList<Point2D> openShellLocations = getOpenShellLocations();
         if ( openShellLocations.size() == 0 ) {
             return null;
         }
