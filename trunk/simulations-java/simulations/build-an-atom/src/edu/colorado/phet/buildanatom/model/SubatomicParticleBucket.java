@@ -2,15 +2,11 @@ package edu.colorado.phet.buildanatom.model;
 
 import java.awt.Color;
 import java.awt.Shape;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.geom.Area;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
-
-import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
@@ -242,31 +238,8 @@ public class SubatomicParticleBucket {
         }
     }
 
-    private void relayoutBucketParticlesOrig() {
-        if ( needsRelayout() ) {
-            ArrayList<SubatomicParticle> copy = new ArrayList<SubatomicParticle>( containedParticles );
-            for ( SubatomicParticle subatomicParticle : copy ) {
-                removeParticle( subatomicParticle );
-            }
-            for ( SubatomicParticle subatomicParticle : copy ) {
-                addParticle( subatomicParticle, true );
-            }
-        }
-    }
-
-    private boolean needsRelayout() {
-        //if any particle is 'dangling'
-        for ( SubatomicParticle containedParticle : containedParticles ) {
-            if (isDangling(containedParticle)){
-                return true;
-            }
-        }
-        return false;
-    }
-
     private boolean isDangling( SubatomicParticle containedParticle ) {
         boolean upperLayer = containedParticle.getDestination().getY() > getYPositionForLayer( 0 );
-//        System.out.println( "upperLayer = " + upperLayer +", isAnyParticleNearbyUnderneath(containedParticle)="+countSupportingParticles(containedParticle));
         return upperLayer && countSupportingParticles(containedParticle)<2;
     }
 
