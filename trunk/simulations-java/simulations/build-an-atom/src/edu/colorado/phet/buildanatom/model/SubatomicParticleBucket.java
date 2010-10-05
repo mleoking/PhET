@@ -2,12 +2,17 @@ package edu.colorado.phet.buildanatom.model;
 
 import java.awt.Color;
 import java.awt.Shape;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Area;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
+import javax.swing.*;
+
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 /**
@@ -62,13 +67,22 @@ public class SubatomicParticleBucket {
     // removal from the bucket.
     private final SubatomicParticle.Adapter particleRemovalListener = new SubatomicParticle.Adapter() {
         @Override
-        public void grabbedByUser( SubatomicParticle particle ) {
+        public void grabbedByUser( final SubatomicParticle particle ) {
             // The user has picked up this particle, so we assume
             // that they want to remove it.
             assert containedParticles.contains( particle );
             containedParticles.remove( particle );
             particle.removeListener( this );
-            relayoutBucketParticles();
+
+            final Point2D initialPosition = particle.getDestination();
+            particle.addPositionListener( new SimpleObserver() {
+                public void update() {
+                    if (initialPosition.distance( particle.getDestination() )>particle.getRadius()*10){
+                        relayoutBucketParticles();
+                        particle.removePositionListener( this );
+                    }
+                }
+            } );
         }
     };
 
@@ -218,6 +232,17 @@ public class SubatomicParticleBucket {
     }
 
     private void relayoutBucketParticles() {
+        ArrayList<SubatomicParticle> p = new ArrayList<SubatomicParticle>( containedParticles );
+        for ( SubatomicParticle containedParticle : p) {
+            if (isDangling(containedParticle)){
+                removeParticle( containedParticle );
+                addParticle( containedParticle, false);
+                relayoutBucketParticles();
+            }
+        }
+    }
+
+    private void relayoutBucketParticlesOrig() {
         if ( needsRelayout() ) {
             ArrayList<SubatomicParticle> copy = new ArrayList<SubatomicParticle>( containedParticles );
             for ( SubatomicParticle subatomicParticle : copy ) {
