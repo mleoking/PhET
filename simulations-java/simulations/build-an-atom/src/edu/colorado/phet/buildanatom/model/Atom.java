@@ -43,17 +43,20 @@ public class Atom {
             checkAndReconfigureShells();
         }
     };
-    private SubatomicParticle.Adapter particleListener = new SubatomicParticle.Adapter(){
-            @Override
-            public void grabbedByUser( SubatomicParticle particle ) {
-                // The user has picked up this particle, so we assume
-                    // that it is essentially removed from the atom.
-                    protons.remove( particle );
-                    neutrons.remove( particle );
-                    particle.removeListener( this );
-                    reconfigureNucleus();
-            }
-        };;
+
+    // Listener for events where the user grabs the particle, which is interpreted as
+    // removal from the atom.
+    private final SubatomicParticle.Adapter particleListener = new SubatomicParticle.Adapter() {
+        @Override
+        public void grabbedByUser( SubatomicParticle particle ) {
+            // The user has picked up this particle, so we assume
+            // that it is essentially removed from the atom.
+            protons.remove( particle );
+            neutrons.remove( particle );
+            particle.removeListener( this );
+            reconfigureNucleus();
+        }
+    };
 
     /**
      * Constructor.
@@ -153,7 +156,7 @@ public class Atom {
             assert false;
         }
 
-        electron.addListener( new SubatomicParticle.Adapter(){
+        electron.addListener( new SubatomicParticle.Adapter() {
             @Override
             public void grabbedByUser( SubatomicParticle particle ) {
                 // This electron is being removed.  Do we need to reconfigure?
@@ -233,7 +236,7 @@ public class Atom {
             electronToAdd.setDestination( shellLocation );
             openShellLocations.remove( shellLocation );
             occupiedShellLocations.put( electronToAdd, shellLocation );
-            electronToAdd.addListener( new SubatomicParticle.Adapter(){
+            electronToAdd.addListener( new SubatomicParticle.Adapter() {
                 @Override
                 public void grabbedByUser( SubatomicParticle particle ) {
                     // The user has picked up this electron, so consider
@@ -285,11 +288,11 @@ public class Atom {
         // they don't get clustered together by type when distributed in the
         // nucleus.
         ArrayList<SubatomicParticle> nucleons = new ArrayList<SubatomicParticle>();
-        for (int i = 0; i < Math.max( protons.size(), neutrons.size() ); i++){
-            if (i < protons.size()){
+        for ( int i = 0; i < Math.max( protons.size(), neutrons.size() ); i++ ) {
+            if ( i < protons.size() ) {
                 nucleons.add( protons.get( i ) );
             }
-            if (i < neutrons.size()){
+            if ( i < neutrons.size() ) {
                 nucleons.add( neutrons.get( i ) );
             }
         }
