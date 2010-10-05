@@ -26,6 +26,7 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.event.HighlightHandler.ImageHighlightHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
+import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -142,7 +143,7 @@ public class VoltageSliderNode extends PhetPNode {
         knobNode.addInputEventListener( new CursorHandler() );
         
         // Constrain the knob to be dragged vertically within the track
-        knobNode.addInputEventListener( new PDragEventHandler() {
+        knobNode.addInputEventListener( new PDragSequenceEventHandler() {
             
             private double globalClickYOffset; // y offset of mouse click from knob's origin, in global coordinates
             
@@ -158,12 +159,14 @@ public class VoltageSliderNode extends PhetPNode {
 
             @Override
             protected void drag( PInputEvent event ) {
+               super.drag( event );
                updateVoltage( event, true /* isDragging */ );
             }
             
             @Override
             protected void endDrag( PInputEvent event ) {
                 updateVoltage( event, false /* isDragging */ );
+                super.endDrag( event );
             }
             
             private void updateVoltage( PInputEvent event, boolean isDragging ) {
