@@ -54,6 +54,10 @@ public class SubatomicParticleBucket {
     // A value of 1 means that the entire bucket should be used.
     private final double usableWidthProportion;
 
+    // Offset, in picometers, of the particles in the y direction.  This helps
+    // to avoid the appearance of particles floating in the bucket.
+    private final double yOffset;
+
     // Listener for events where the user grabs the particle, which is interpreted as
     // removal from the bucket.
     private final SubatomicParticle.Adapter particleRemovalListener = new SubatomicParticle.Adapter() {
@@ -67,12 +71,13 @@ public class SubatomicParticleBucket {
         }
     };
 
-    public SubatomicParticleBucket( Point2D position, Dimension2D size, Color baseColor, String caption, double particleRadius, double usableWidthProportion ) {
+    public SubatomicParticleBucket( Point2D position, Dimension2D size, Color baseColor, String caption, double particleRadius, double usableWidthProportion, double yOffset ) {
         this.position.setLocation( position );
         this.baseColor = baseColor;
         this.captionText = caption;
         this.particleRadius = particleRadius;
         this.usableWidthProportion = usableWidthProportion;
+        this.yOffset = yOffset;
 
         // Create the shape of the bucket's hole.
         holeShape = new Ellipse2D.Double( -size.getWidth() / 2,
@@ -109,7 +114,7 @@ public class SubatomicParticleBucket {
      * used for particle placement.
      */
     public SubatomicParticleBucket( Point2D position, Dimension2D size, Color baseColor, String caption, double particleRadius ) {
-        this(position, size, baseColor, caption, particleRadius, 1);
+        this(position, size, baseColor, caption, particleRadius, 1, 0);
     }
 
     public void reset() {
@@ -173,7 +178,7 @@ public class SubatomicParticleBucket {
         int positionInLayer = 0;
         boolean found = false;
         while ( !found ) {
-            double yPos = getPosition().getY() + layer * particleRadius * 2 * 0.866;
+            double yPos = getPosition().getY() + layer * particleRadius * 2 * 0.866 + yOffset;
             double xPos = getPosition().getX() - holeShape.getBounds2D().getWidth() / 2 + offsetFromBucketEdge + positionInLayer * 2 * particleRadius;
             if ( isPositionOpen( xPos, yPos ) ) {
                 // We found a location that is open.
