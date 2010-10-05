@@ -57,7 +57,7 @@ public class BuildAnAtomModel {
 
     // The buckets which can hold the subatomic particles.
     // TODO: i18n
-    private final SubatomicParticleBucket electronBucket = new SubatomicParticleBucket( ELECTRON_BUCKET_POSITION, BUCKET_SIZE, Color.blue, "Electrons", Electron.RADIUS, 0.5 );
+    private final SubatomicParticleBucket electronBucket = new SubatomicParticleBucket( ELECTRON_BUCKET_POSITION, BUCKET_SIZE, Color.blue, "Electrons", Electron.RADIUS, 0.5, -Electron.RADIUS );
     // TODO: i18n
     private final SubatomicParticleBucket protonBucket = new SubatomicParticleBucket( PROTON_BUCKET_POSITION, BUCKET_SIZE, Color.red, "Protons", Proton.RADIUS );
     // TODO: i18n
