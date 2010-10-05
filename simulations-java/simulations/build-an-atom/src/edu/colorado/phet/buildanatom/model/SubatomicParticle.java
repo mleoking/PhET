@@ -42,7 +42,7 @@ public abstract class SubatomicParticle {
     private static final double MOTION_VELOCITY = 120; // In picometers per second of sim time.
 
     private final Observable<Point2D.Double> position;
-    private final Observable<Boolean> userControlled;
+    private final Observable<Boolean> userControlled=new Observable<Boolean>( false );//Just used internally to send messages through the inner Listener interface 
     private final Point2D destination = new Point2D.Double();
     private final double radius;
 
@@ -50,7 +50,6 @@ public abstract class SubatomicParticle {
         this.radius = radius;
         position = new Observable<Point2D.Double>( new Point2D.Double( x, y ) );
         this.destination.setLocation( x, y );
-        userControlled = new Observable<Boolean>( false );
         clock.addClockListener( new ClockAdapter() {
 
             @Override
@@ -59,10 +58,24 @@ public abstract class SubatomicParticle {
             }
 
         } );
+        userControlled.addObserver( new SimpleObserver() {
+            public void update() {
+                ArrayList<Listener> copy = new ArrayList<Listener>( listeners );//ConcurrentModificationException if listener removed while iterating, so use a copy
+                if (userControlled.getValue()){
+                    for ( Listener listener : copy ) {
+                        listener.grabbedByUser( SubatomicParticle.this );
+                    }
+                }else{
+                    for ( Listener listener : copy ) {
+                        listener.droppedByUser( SubatomicParticle.this );
+                    }
+                }
+            }
+        } );
     }
 
     /**
-     * @param simulationTimeChange
+     * @param dt
      */
     private void stepInTime( double dt ) {
         if ( getPosition().distance( destination ) != 0 ) {
@@ -143,13 +156,5 @@ public abstract class SubatomicParticle {
 
     public void removePositionListener( SimpleObserver listener ) {
         position.removeObserver( listener );
-    }
-
-    public void addUserControlListener( SimpleObserver listener ) {
-        userControlled.addObserver( listener );
-    }
-
-    public void removeUserControlListener( SimpleObserver listener ) {
-        userControlled.removeObserver( listener );
     }
 }
