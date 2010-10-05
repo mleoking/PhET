@@ -61,8 +61,9 @@ public class Atom {
      */
     public Atom( Point2D position ) {
         this.position.setLocation( position );
+        //Only need to listen for 'removal' notifications on the inner shell
+        //to decide when an outer electron should fall
         electronShell1.addObserver( electronShellChangeObserver );
-        electronShell2.addObserver( electronShellChangeObserver );
     }
 
     /**
@@ -83,10 +84,8 @@ public class Atom {
             // and move it to shell 1.
             Electron electronToMove = electronShell2.getClosestElectron( openLocations.get( 0 ) );
 
-            //Have to add the inner shell electron first, because this could potentially fill the inner shell
-            //And prevent recursive calls to this method.
-            electronShell1.addElectron( electronToMove );
             electronShell2.removeElectron( electronToMove );
+            electronShell1.addElectron( electronToMove );
         }
     }
 
