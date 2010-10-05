@@ -54,7 +54,7 @@ public class Atom {
             reconfigureNucleus();
         }
     };
-    private final Random random = new Random( );
+    private final Random random = new Random();
 
     /**
      * Constructor.
@@ -169,7 +169,7 @@ public class Atom {
         // Get all the nucleons onto one list.  Add them alternately so that
         // they don't get clustered together by type when distributed in the
         // nucleus.
-        ArrayList<SubatomicParticle> nucleons = new ArrayList<SubatomicParticle>();
+        final ArrayList<SubatomicParticle> nucleons = new ArrayList<SubatomicParticle>();
         for ( int i = 0; i < Math.max( protons.size(), neutrons.size() ); i++ ) {
             if ( i < protons.size() ) {
                 nucleons.add( protons.get( i ) );
@@ -178,8 +178,7 @@ public class Atom {
                 nucleons.add( neutrons.get( i ) );
             }
         }
-//        Collections.reverse( nucleons );
-        Collections.shuffle( nucleons );
+        Collections.reverse( nucleons );
 
         if ( nucleons.size() == 0 ) {
             // Nothing to do.
@@ -234,56 +233,130 @@ public class Atom {
                 else {
                     // Move out to the next radius.
                     level++;
-                    placementRadius += nucleonRadius * 1.5 / level;
-                    placementAngle = RAND.nextDouble() * Math.PI / 4; // Initialize to a random angle.
+                    placementRadius += nucleonRadius * 1.3 / level;
+                    //                    placementAngle = RAND.nextDouble() * Math.PI / 4; // Initialize to a random angle.
+                    placementAngle += Math.PI / 8; // Arbitrary value chosen based on looks.
                     numAtThisRadius = (int) Math.floor( placementRadius * Math.PI / nucleonRadius );
                     placementAngleDelta = 2 * Math.PI / numAtThisRadius;
                 }
             }
-            double origClump = getClumpiness(nucleons );
-            for (int i=0;i<1000;i++){
-                double clumpiness = getClumpiness(nucleons );
-                int particle1 = random.nextInt(nucleons.size() );
-                int particle2 = random.nextInt(nucleons.size() );
-                swap(nucleons,particle1,particle2);
-                double newClumpiness = getClumpiness(nucleons );
-                if (newClumpiness< clumpiness){
-                    //keep it
+
+            // TODO: Comment this.
+            System.out.println("----------- Entering swapping loop -------------");
+            for ( int i = 0; i < nucleons.size() / 2; i++ ) {
+                Proton mostClumpedProton = null;
+                for ( Proton proton : protons ) {
+                    if ( mostClumpedProton == null || getClumpFactor( proton, nucleons ) > getClumpFactor( mostClumpedProton, nucleons ) ) {
+                        // This nucleon is more "clumpy".
+                        mostClumpedProton = proton;
+                    }
                 }
-                else{
-                    swap(nucleons,particle1,particle2);
+                Neutron mostClumpedNeutron = null;
+                for ( Neutron neutron : neutrons ) {
+                    if ( mostClumpedNeutron == null || getClumpFactor( neutron, nucleons ) > getClumpFactor( mostClumpedNeutron, nucleons ) ) {
+                        // This nucleon is more "clumpy".
+                        mostClumpedNeutron = neutron;
+                    }
+                }
+                if (mostClumpedProton != null && mostClumpedNeutron != null){
+                    // Swap the two most clumped.
+                    System.out.println("Swapping proton & neutron, clump factors are: " + getClumpFactor( mostClumpedProton, nucleons ) + " and " + getClumpFactor( mostClumpedNeutron, nucleons ));
+                    swap(nucleons, nucleons.indexOf( mostClumpedProton ), nucleons.indexOf( mostClumpedNeutron ) );
                 }
             }
-            double finalClump = getClumpiness(nucleons );
-            System.out.println( "origClump = " + origClump +", final clump = "+finalClump);
+
+            //            if (nucleons.size() > 10){
+            //                // Swap some particles in order to create a more random and
+            //                // less clumpy appearance.
+            //                for (int i = 0; i < nucleons.size() / 2; i++){
+            //                    int index1 = RAND.nextInt( nucleons.size() );
+            //                    int index2 = RAND.nextInt( nucleons.size() );
+            //                    if (index1 == index2){
+            //                        // Some thing, don't bother swapping.
+            //                        continue;
+            //                    }
+            //                    swap(nucleons, index1, index2);
+            //                    System.out.println("Swapping " + index1 + " and " + index2);
+            //                }
+            //            }
+
+            // Move the nucleons around a bit in order to avoid looking too "clumpy".
+            //            ArrayList<Proton> sortedProtons = new ArrayList<Proton>( protons );
+            //            ArrayList<Neutron> sortedNeutrons = new ArrayList<Neutron>( neutrons );
+            //            Collections.sort( sortedProtons, new Comparator<SubatomicParticle>(){
+            //                public int compare( SubatomicParticle p1, SubatomicParticle p2 ) {
+            //                    return Double.compare( getClumpFactor( p2, nucleons ), getClumpFactor( p1, nucleons ));
+            //                }
+            //            });
+            //            Collections.sort( sortedNeutrons, new Comparator<SubatomicParticle>(){
+            //                public int compare( SubatomicParticle p1, SubatomicParticle p2 ) {
+            //                    return Double.compare( getClumpFactor( p2, nucleons ), getClumpFactor( p1, nucleons ));
+            //                }
+            //            });
+            //            System.out.println("Sorted neutrons:");
+            //            for ( Neutron neutron : sortedNeutrons ) {
+            //                System.out.println("Clump factor: " + getClumpFactor( neutron, nucleons ));
+            //            }
+            //            System.out.println("Sorted protons:");
+            //            for ( Proton proton : sortedProtons ) {
+            //                System.out.println("Clump factor: " + getClumpFactor( proton, nucleons ));
+            //            }
+            //            for (int i = 0; i < Math.min( 3, Math.min( protons.size(), neutrons.size() ) ); i++){
+            //                Proton proton = sortedProtons.get( i );
+            //                Neutron neutron = sortedNeutrons.get( i );
+            //                if (getClumpFactor( proton, nucleons ) > (double)MAX_CLUMP_FACTOR / 3 || getClumpFactor( neutron, nucleons ) > (double)MAX_CLUMP_FACTOR / 3){
+            //                    // Swap these two locations to reduce the "clumpiness".
+            //                    System.out.println("Swapping a proton & and neutron, clump factors are: " + getClumpFactor( proton, nucleons ) + " and "+ getClumpFactor( neutron, nucleons ));
+            //                    swap( nucleons, nucleons.indexOf( proton ), nucleons.indexOf( neutron ) );
+            //                }
+            //            }
+
+
+            //            double origClump = getClumpiness( nucleons );
+            //            for ( int i = 0; i < 10; i++ ) {
+            //                double clumpiness = getClumpiness( nucleons );
+            //                int particle1 = random.nextInt( nucleons.size() );
+            //                int particle2 = random.nextInt( nucleons.size() );
+            //                swap( nucleons, particle1, particle2 );
+            //                double newClumpiness = getClumpiness( nucleons );
+            //                if ( newClumpiness < clumpiness ) {
+            //                    //keep it
+            //                }
+            //                else {
+            //                    swap( nucleons, particle1, particle2 );
+            //                }
+            //            }
+            //            double finalClump = getClumpiness( nucleons );
+            //            System.out.println( "origClump = " + origClump + ", final clump = " + finalClump );
         }
     }
 
-    private double getClumpiness(ArrayList<SubatomicParticle> nucleons) {
-        double error =0;
+    private double getClumpiness( ArrayList<SubatomicParticle> nucleons ) {
+        double error = 0;
         for ( SubatomicParticle nucleon : nucleons ) {
-            error+= getClumpiness(nucleons,nucleon);
+            error += getClumpFactor( nucleon, nucleons );
         }
         return error;
     }
 
-    private double getClumpiness( ArrayList<SubatomicParticle> n, SubatomicParticle nucleon ) {
+    int MAX_CLUMP_FACTOR = 5;
+
+    private double getClumpFactor( SubatomicParticle nucleon, ArrayList<SubatomicParticle> n ) {
         ArrayList<SubatomicParticle> nucleons = new ArrayList<SubatomicParticle>( n );
         nucleons.remove( nucleon );
         final HashMap<SubatomicParticle, Double> distances = new HashMap<SubatomicParticle, Double>();
         for ( SubatomicParticle subatomicParticle : nucleons ) {
-            distances.put( subatomicParticle, nucleon.getPosition().distance( subatomicParticle.getPosition() ) );
+            distances.put( subatomicParticle, nucleon.getDestination().distance( subatomicParticle.getDestination() ) );
         }
         Collections.sort( nucleons, new Comparator<SubatomicParticle>() {
-            public int compare( SubatomicParticle o1, SubatomicParticle o2 ) {
+                public int compare( SubatomicParticle o1, SubatomicParticle o2 ) {
                 return Double.compare( distances.get( o1 ), distances.get( o2 ) );
-            }
-        } );
+                }
+                } );
         //take the top N particles
-        int N=2;
-        int error =0;
-        for (int i=0;i<N && i<nucleons.size();i++){
-            if (nucleon.getClass().equals( nucleons.get(i).getClass() )){
+        int error = 0;
+        for ( int i = 0; i < MAX_CLUMP_FACTOR && i < nucleons.size(); i++ ) {
+            if ( nucleon.getClass().equals( nucleons.get( i ).getClass() ) ) {
                 error++;
             }
         }
@@ -291,8 +364,8 @@ public class Atom {
     }
 
     private void swap( ArrayList<SubatomicParticle> nucleons, int particle1, int particle2 ) {
-        Point2D point1 = nucleons.get( particle1 ).getPosition();
-        nucleons.get( particle1 ).setPosition( nucleons.get(particle2 ).getPosition() );
-        nucleons.get( particle2 ).setPosition( point1 );
+        Point2D point1 = nucleons.get( particle1 ).getDestination();
+        nucleons.get( particle1 ).setDestination( nucleons.get( particle2 ).getDestination() );
+        nucleons.get( particle2 ).setDestination( point1 );
     }
 }
