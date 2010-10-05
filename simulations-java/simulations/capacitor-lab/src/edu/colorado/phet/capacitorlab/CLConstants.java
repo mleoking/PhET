@@ -38,7 +38,8 @@ public class CLConstants {
     //----------------------------------------------------------------------------
     
     public static final Point3D BATTERY_LOCATION = new Point3D.Double( 0.005, 0.035, 0 ); // meters
-    public static final DoubleRange BATTERY_VOLTAGE_RANGE = new DoubleRange( -1.5, 1.5, 0 ); // volts
+    public static final DoubleRange BATTERY_VOLTAGE_RANGE = new DoubleRange( -1.5, 1.5, 0 ); // Volts
+    public static final double BATTERY_VOLTAGE_SNAP_TO_ZERO_THRESHOLD = 0.1; // Volts
     public static final boolean BATTERY_CONNECTED = true;
     
     public static final Point3D CAPACITOR_LOCATION = new Point3D.Double( BATTERY_LOCATION.getX() + 0.025, BATTERY_LOCATION.getY(), 0 ); // meters
@@ -59,6 +60,7 @@ public class CLConstants {
     public static final double EPSILON_AIR = 1.0005896; // dielectric constant of air, dimensionless
     
     public static final Point3D PLATE_CHARGE_CONTROL_LOCATION = new Point3D.Double( CAPACITOR_LOCATION.getX() - 0.004, 0.001, 0 );
+    public static final double PLATE_CHARGE_SNAP_TO_ZERO_THRESHOLD = 1.5E-13;
     
     //----------------------------------------------------------------------------
     // View
@@ -94,7 +96,7 @@ public class CLConstants {
     public static final Dimension MINUS_CHARGE_SIZE = new Dimension( 7, 1 );
     
     // dielectric charges
-    public static final DielectricChargeView DIELECTRIC_CHARGE_VIEW = DielectricChargeView.NONE; //XXX default should be NONE
+    public static final DielectricChargeView DIELECTRIC_CHARGE_VIEW = DielectricChargeView.NONE;
     
     // E-field
     public static final boolean EFIELD_VISIBLE = false;

@@ -16,6 +16,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
+import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLImages;
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
@@ -42,6 +43,9 @@ public class VoltageSliderNode extends PhetPNode {
     private static final double TRACK_LENGTH = 125;
     private static final Color TRACK_COLOR = Color.BLACK;
     private static final Stroke TRACK_STROKE = new BasicStroke( 2f );
+    
+    // knob properties
+    private static final boolean KNOB_SNAP_TO_ZERO_ENABLED = true;
     
     // tick mark properties
     private static final double TICK_MARK_LENGTH = 10;
@@ -142,6 +146,7 @@ public class VoltageSliderNode extends PhetPNode {
             
             private double globalClickYOffset; // y offset of mouse click from knob's origin, in global coordinates
             
+            @Override
             protected void startDrag( PInputEvent event ) {
                 super.startDrag( event );
                 // note the offset between the mouse click and the knob's origin
@@ -151,7 +156,17 @@ public class VoltageSliderNode extends PhetPNode {
                 globalClickYOffset = pMouseGlobal.getY() - pKnobGlobal.getY();
             }
 
-            protected void drag(PInputEvent event) {
+            @Override
+            protected void drag( PInputEvent event ) {
+               updateVoltage( event, true /* isDragging */ );
+            }
+            
+            @Override
+            protected void endDrag( PInputEvent event ) {
+                updateVoltage( event, false /* isDragging */ );
+            }
+            
+            private void updateVoltage( PInputEvent event, boolean isDragging ) {
                 
                 // determine the knob's new offset
                 Point2D pMouseLocal = event.getPositionRelativeTo( VoltageSliderNode.this );
@@ -169,10 +184,16 @@ public class VoltageSliderNode extends PhetPNode {
                 else if ( voltage > voltageRange.getMax() ) {
                     voltage = voltageRange.getMax();
                 }
+
+                // snap to zero if knob is release and value is close enough to zero
+                if ( !isDragging && KNOB_SNAP_TO_ZERO_ENABLED && Math.abs( voltage ) <= CLConstants.BATTERY_VOLTAGE_SNAP_TO_ZERO_THRESHOLD ) {
+                    voltage = 0;
+                }
                 
                 // set the voltage (this will move the knob)
                 setVoltage( voltage );
             }
+            
         } );
     }
     

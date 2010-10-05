@@ -13,6 +13,7 @@ import java.awt.geom.Rectangle2D;
 
 import javax.swing.JPanel;
 
+import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
@@ -58,6 +59,7 @@ public class PlateChargeControlNode extends PhetPNode {
     private static final Color KNOB_NORMAL_COLOR = CLPaints.DRAGGABLE_NORMAL;
     private static final Color KNOB_HIGHLIGHT_COLOR = CLPaints.DRAGGABLE_HIGHLIGHT;
     private static final Color KNOB_STROKE_COLOR = Color.BLACK;
+    private static final boolean KNOB_SNAP_TO_ZERO_ENABLED = true;
     
     // ticks
     private static final double TICK_MARK_LENGTH = 8;
@@ -197,6 +199,7 @@ public class PlateChargeControlNode extends PhetPNode {
             
             private double _globalClickYOffset; // y offset of mouse click from knob's origin, in global coordinates
             
+            @Override
             protected void startDrag( PInputEvent event ) {
                 super.startDrag( event );
                 // note the offset between the mouse click and the knob's origin
@@ -206,27 +209,41 @@ public class PlateChargeControlNode extends PhetPNode {
                 _globalClickYOffset = pMouseGlobal.getY() - pKnobGlobal.getY();
             }
 
-            protected void drag(PInputEvent event) {
-                
+            @Override
+            protected void drag( PInputEvent event ) {
+                updateVoltage( event, true /* isDragging */);
+            }
+            
+            @Override
+            protected void endDrag( PInputEvent event ) {
+                updateVoltage( event, false /* isDragging */ );
+            }
+            
+            private void updateVoltage( PInputEvent event, boolean isDragging ) {
                 // determine the knob's new offset
                 Point2D pMouseLocal = event.getPositionRelativeTo( PlateChargeControlNode.this );
                 Point2D pMouseGlobal = PlateChargeControlNode.this.localToGlobal( pMouseLocal );
                 Point2D pKnobGlobal = new Point2D.Double( pMouseGlobal.getX(), pMouseGlobal.getY() - _globalClickYOffset );
                 Point2D pKnobLocal = PlateChargeControlNode.this.globalToLocal( pKnobGlobal );
                 
-                // convert the offset to a pH value
+                // convert the offset to a charge value
                 double yOffset = pKnobLocal.getY();
                 double trackLength = trackNode.getFullBoundsReference().getHeight();
-                double value = range.getMin() + range.getLength() * ( trackLength - yOffset ) / trackLength;
-                if ( value < range.getMin() ) {
-                    value = range.getMin();
+                double charge = range.getMin() + range.getLength() * ( trackLength - yOffset ) / trackLength;
+                if ( charge < range.getMin() ) {
+                    charge = range.getMin();
                 }
-                else if ( value > range.getMax() ) {
-                    value = range.getMax();
+                else if ( charge > range.getMax() ) {
+                    charge = range.getMax();
+                }
+                
+                // snap to zero if knob is release and value is close enough to zero
+                if ( !isDragging && KNOB_SNAP_TO_ZERO_ENABLED && Math.abs( charge ) <= CLConstants.PLATE_CHARGE_SNAP_TO_ZERO_THRESHOLD ) {
+                    charge = 0;
                 }
                 
                 // set the model
-                circuit.setDisconnectedPlateCharge( value );
+                circuit.setDisconnectedPlateCharge( charge );
             }
         } );
     }
