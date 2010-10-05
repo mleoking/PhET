@@ -21,11 +21,7 @@ public class ElectronShell extends SimpleObservable {
         public void grabbedByUser( SubatomicParticle particle ) {
             // The user has picked up this particle, so we assume
             // that they want to remove it.
-            assert occupiedShellLocations.containsValue( particle );
-            Point2D point2D = getKey( particle );
-            assert point2D != null;
-            occupiedShellLocations.put( point2D, null );
-            particle.removeListener( this );
+            removeElectron( (Electron)particle );
         }
     };
 
@@ -113,6 +109,9 @@ public class ElectronShell extends SimpleObservable {
 
     protected void addElectron( final Electron electronToAdd ) {
         Point2D shellLocation = findClosestOpenLocation( electronToAdd.getPosition() );
+        if (shellLocation == null){
+            System.err.println( getClass().getName() + " - Error: No space in shell." );
+        }
         assert shellLocation != null;
         electronToAdd.setDestination( shellLocation );
         occupiedShellLocations.put( shellLocation, electronToAdd );
@@ -123,6 +122,8 @@ public class ElectronShell extends SimpleObservable {
     public void removeElectron( Electron electronToRemove ) {
         assert occupiedShellLocations.containsValue( electronToRemove );
         occupiedShellLocations.put( getKey( electronToRemove ), null );
+        electronToRemove.removeListener( particleRemovalListener );
+        notifyObservers();
     }
 
     private Point2D findClosestOpenLocation( Point2D comparisonPt ) {
