@@ -82,8 +82,11 @@ public class Atom {
             // Get the electron that is nearest to this location in shell 2
             // and move it to shell 1.
             Electron electronToMove = electronShell2.getClosestElectron( openLocations.get( 0 ) );
-            electronShell2.removeElectron( electronToMove );
+
+            //Have to add the inner shell electron first, because this could potentially fill the inner shell
+            //And prevent recursive calls to this method.
             electronShell1.addElectron( electronToMove );
+            electronShell2.removeElectron( electronToMove );
         }
     }
 
