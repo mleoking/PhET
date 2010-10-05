@@ -1,6 +1,7 @@
 package edu.colorado.phet.buildanatom.model;
 
 import java.awt.geom.Point2D;
+import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -42,7 +43,7 @@ public abstract class SubatomicParticle {
     private static final double MOTION_VELOCITY = 120; // In picometers per second of sim time.
 
     private final Observable<Point2D.Double> position;
-    private final Observable<Boolean> userControlled=new Observable<Boolean>( false );//Just used internally to send messages through the inner Listener interface 
+    private final Observable<Boolean> userControlled=new Observable<Boolean>( false );//Just used internally to send messages through the inner Listener interface
     private final Point2D destination = new Point2D.Double();
     private final double radius;
 
@@ -94,8 +95,12 @@ public abstract class SubatomicParticle {
         }
     }
 
-    public Point2D.Double getPosition() {
+    public Point2D getPosition() {
         return position.getValue();
+    }
+
+    public Point2D getDestination() {
+        return new Point2D.Double( destination.getX(), destination.getY() );
     }
 
     public void setPosition( Point2D position ) {
