@@ -41,6 +41,8 @@
     <string key="material.ice" value="Ice"/>
     <string key="material.apple" value="Apple"/>
     <string key="material.air" value="Air"/>
+    <string key="material.oliveOil" value="Olive Oil"/>
+    <string key="material.honey" value="Honey"/>
     <string key="properties.volume" value="Volume"/>
     <string key="properties.volumeLiterValue" value="{0} L"/>
     <string key="properties.volumeMilliLiterValue" value="{0} mL"/>
