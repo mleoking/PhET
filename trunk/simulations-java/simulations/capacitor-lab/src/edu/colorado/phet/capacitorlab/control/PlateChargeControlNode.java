@@ -27,6 +27,7 @@ import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
+import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -195,7 +196,7 @@ public class PlateChargeControlNode extends PhetPNode {
         knobNode.addInputEventListener( new PaintHighlightHandler( knobNode, KNOB_NORMAL_COLOR, KNOB_HIGHLIGHT_COLOR ) );
         
         // Constrain the knob to be dragged vertically within the track
-        knobNode.addInputEventListener( new PDragEventHandler() {
+        knobNode.addInputEventListener( new PDragSequenceEventHandler() {
             
             private double _globalClickYOffset; // y offset of mouse click from knob's origin, in global coordinates
             
@@ -211,12 +212,14 @@ public class PlateChargeControlNode extends PhetPNode {
 
             @Override
             protected void drag( PInputEvent event ) {
+                super.drag( event );
                 updateVoltage( event, true /* isDragging */);
             }
             
             @Override
             protected void endDrag( PInputEvent event ) {
                 updateVoltage( event, false /* isDragging */ );
+                super.endDrag( event );
             }
             
             private void updateVoltage( PInputEvent event, boolean isDragging ) {
