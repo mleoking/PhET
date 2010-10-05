@@ -3,6 +3,7 @@ import edu.colorado.phet.densityandbuoyancy.DensityConstants;
 import edu.colorado.phet.densityandbuoyancy.model.Material;
 
 import flash.display.Sprite;
+import flash.text.TextField;
 
 import mx.controls.HSlider;
 import mx.controls.sliderClasses.SliderThumb;
@@ -82,14 +83,68 @@ public class SliderDecorator extends UIComponent {
         for each ( var tick: Tick in ticks ) {
             drawTick( tick );
         }
+        var tickPadding: Number = 5;
+        var ok: Boolean = false;
+        while ( !ok ) {
+            ok = true;
+            // loop through all pairs (order wasn't guaranteed)
+            for ( var ix: * in ticks ) {
+                var idx: Number = new Number( ix );
+                for ( var jx: * in ticks ) {
+                    var jdx: Number = new Number( jx );
+                    if ( jdx != idx ) {
+                        var i: Number, j: Number;
+
+                        // make sure i.density < j.density
+                        if ( ix < jx ) {
+                            i = ix;
+                            j = jx;
+                        }
+                        else {
+                            i = jx;
+                            j = ix;
+                        }
+
+                        var iText: TextField = ticks[i].textField;
+                        var jText: TextField = ticks[j].textField;
+
+                        // skip moving if the left one is styrofoam
+                        if ( (ticks[i] as Tick).label == Material.STYROFOAM.name ) {
+                            continue;
+                        }
+                        if ( jText.x < iText.x + iText.textWidth + tickPadding ) {
+                            ok = false;
+                            iText.x -= 1;
+                            jText.x += 1;
+                        }
+                    }
+                }
+            }
+        }
+        for each( tick in ticks ) {
+            drawTickLines( tick );
+        }
+    }
+
+    private function drawTickLines( tick: Tick ): void {
+        tickMarkSet.graphics.lineStyle( 1, tick.color );
+        tickMarkSet.graphics.moveTo( modelToView( tick.value ), -sliderY + tickHeight + 7 );
+        tickMarkSet.graphics.lineTo( modelToView( tick.value ), -sliderY + 7 );
+        var topX: Number = modelToView( tick.value );
+        var leftBound: Number = tick.textField.x + 3;
+        var rightBound: Number = tick.textField.x + tick.textField.textWidth;
+        if ( topX < leftBound ) {
+            topX = leftBound;
+        }
+        if ( topX > rightBound ) {
+            topX = rightBound;
+        }
+        tickMarkSet.graphics.lineTo( topX, -sliderY + 5 );
     }
 
     private function drawTick( tick: Tick ): void {
-        tickMarkSet.graphics.lineStyle( 2, tick.color );
-        tickMarkSet.graphics.moveTo( modelToView( tick.value ), -sliderY + 7 );
-        tickMarkSet.graphics.lineTo( modelToView( tick.value ), -sliderY + tickHeight + 7 );
         tick.textField.x = modelToView( tick.value ) - tick.textField.textWidth / 2;
-        tick.textField.y = -tick.textField.textHeight / 2 - 1;
+        tick.textField.y = -tick.textField.textHeight / 2 - 3;
         //TODO: Remove workaround and respect il8n
         //Temporary workaround to remove collision between styrofoam and wood
         if ( tick.label == Material.STYROFOAM.name ) {

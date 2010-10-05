@@ -48,10 +48,12 @@ public class Material {
     public static var DIAMOND: Material = new Material( FlexSimStrings.get( "material.diamond", "Diamond" ), 3530, false );
     public static var GOLD: Material = new Material( FlexSimStrings.get( "material.gold", "Gold" ), 19300, false );
     public static var GASOLINE: Material = new Material( FlexSimStrings.get( "material.gasoline", "Gasoline" ), 700, false, 0x444400 );
+    public static var OLIVE_OIL: Material = new Material( FlexSimStrings.get( "material.oliveOil", "Olive Oil" ), 918, false, 0xAAAA00 );
+    public static var HONEY: Material = new Material( FlexSimStrings.get( "material.honey", "Honey" ), 1420, false, 0xCC8800 );
     public static var APPLE: Material = new Material( FlexSimStrings.get( "material.apple", "Apple" ), 641, false );
     public static var MYSTERY_MATERIALS: Array = [GOLD,DIAMOND,GASOLINE,ICE,APPLE];
 
-    public static var LABELED_LIQUID_MATERIALS: Array = [AIR,GASOLINE,WATER];
+    public static var LABELED_LIQUID_MATERIALS: Array = [AIR,GASOLINE,OLIVE_OIL,WATER,HONEY];
 
     private var density: Number;
     private var _name: String;
