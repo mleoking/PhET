@@ -15,6 +15,7 @@ import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.util.GridPanel;
 import edu.colorado.phet.capacitorlab.util.GridPanel.Anchor;
 import edu.colorado.phet.capacitorlab.view.CapacitorNode;
+import edu.colorado.phet.capacitorlab.view.CapacitorNode.CapacitorNodeChangeListener;
 import edu.colorado.phet.capacitorlab.view.DielectricNode.DielectricChargeView;
 
 /**
@@ -24,9 +25,17 @@ import edu.colorado.phet.capacitorlab.view.DielectricNode.DielectricChargeView;
  */
 public class DielectricChargesControl extends JPanel {
     
+    private final CapacitorNode capacitorNode;
     private final JRadioButton hideAllRadioButton, showAllRadioButton, showExcessRadioButton;
 
     public DielectricChargesControl( final CapacitorNode capacitorNode ) {
+        
+        this.capacitorNode = capacitorNode;
+        capacitorNode.addCapacitorNodeChangeListener( new CapacitorNodeChangeListener() {
+            public void dielectricChargeViewChanged() {
+                update();
+            }
+        });
         
         JLabel chargesLabel = new JLabel( CLStrings.LABEL_DIELECTRIC_CHARGES );
         
@@ -70,6 +79,10 @@ public class DielectricChargesControl extends JPanel {
         add( innerPanel, BorderLayout.WEST );
         
         // default state
+        update();
+    }
+    
+    private void update() {
         hideAllRadioButton.setSelected( capacitorNode.getDielectricChargeView() == DielectricChargeView.NONE );
         showAllRadioButton.setSelected( capacitorNode.getDielectricChargeView() == DielectricChargeView.ALL );
         showExcessRadioButton.setSelected( capacitorNode.getDielectricChargeView() == DielectricChargeView.EXCESS );

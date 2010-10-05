@@ -11,7 +11,6 @@ DESIGN ISSUES
 
 HIGH PRIORITY
 - fix listeners for Capacitor and BatteryCapacitorCircuit, notification is incomplete and incorrect
-- Reset All feature
 - Introduction tab, use air as the dielectric material
 - increase plate charge grid size in even-sized increments (2x2, 4x4,...) so that grid doesn't jerk around
 

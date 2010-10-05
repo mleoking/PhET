@@ -17,18 +17,19 @@ import edu.colorado.phet.capacitorlab.model.DielectricMaterial.Teflon;
 public class CLModel {
     
     private final DielectricMaterial[] dielectricMaterials;
+    private final CustomDielectricMaterial customDielectricMaterial;
     private final DielectricMaterial defaultDielectricMaterial;
     private final BatteryCapacitorCircuit circuit;
     private final Wire topWire, bottomWire;
 
     public CLModel( CLClock clock ) {
         
-        DielectricMaterial custom = new CustomDielectricMaterial();
+        customDielectricMaterial = new CustomDielectricMaterial( CLConstants.DIELECTRIC_CONSTANT_RANGE.getDefault() );
         DielectricMaterial teflon = new Teflon();
         DielectricMaterial polystyrene = new Polystyrene();
         DielectricMaterial paper = new Paper();
-        dielectricMaterials = new DielectricMaterial[] { custom, teflon, polystyrene, paper };
-        defaultDielectricMaterial = custom;
+        dielectricMaterials = new DielectricMaterial[] { customDielectricMaterial, teflon, polystyrene, paper };
+        defaultDielectricMaterial = customDielectricMaterial;
         
         Battery battery = new Battery( CLConstants.BATTERY_LOCATION, CLConstants.BATTERY_VOLTAGE_RANGE.getDefault() );
         Capacitor capacitor = new Capacitor( CLConstants.CAPACITOR_LOCATION, CLConstants.PLATE_SIZE_RANGE.getDefault(), CLConstants.PLATE_SEPARATION_RANGE.getDefault(), 
@@ -37,6 +38,9 @@ public class CLModel {
         
         topWire = new Wire( CLConstants.WIRE_THICKNESS, CLConstants.TOP_WIRE_EXTENT );
         bottomWire = new Wire( CLConstants.WIRE_THICKNESS, CLConstants.BOTTOM_WIRE_EXTENT );
+        
+        // default state
+        reset();
     }
     
     public DielectricMaterial[] getDielectricMaterials() {
@@ -69,6 +73,7 @@ public class CLModel {
         // capacitor
         getCapacitor().setPlateSideLength( CLConstants.PLATE_SIZE_RANGE.getDefault() );
         getCapacitor().setPlateSeparation( CLConstants.PLATE_SEPARATION_RANGE.getDefault() );
+        customDielectricMaterial.setDielectricConstant( CLConstants.DIELECTRIC_CONSTANT_RANGE.getDefault() );
         getCapacitor().setDielectricMaterial( defaultDielectricMaterial );
         getCapacitor().setDielectricOffset( CLConstants.DIELECTRIC_OFFSET_RANGE.getDefault() );
         // circuit
