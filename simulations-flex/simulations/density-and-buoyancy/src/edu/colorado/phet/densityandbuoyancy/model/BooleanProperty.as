@@ -1,6 +1,9 @@
 package edu.colorado.phet.densityandbuoyancy.model {
 import edu.colorado.phet.densityandbuoyancy.components.*;
 
+/**
+ * An observable boolean property. Used when we want a mutable observable boolean value.
+ */
 public class BooleanProperty extends Observable {
     private var _value: Boolean;
     private var _initialValue: Boolean;
@@ -19,6 +22,14 @@ public class BooleanProperty extends Observable {
             _value = value;
             super.notifyObservers();
         }
+    }
+
+    /**
+     * Same as setting the value, except that when reset it will revert to this value.
+     */
+    public function set initialValue( value: Boolean ): void {
+        _initialValue = value;
+        this.value = value;
     }
 
     public function reset(): void {

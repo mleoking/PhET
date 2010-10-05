@@ -3,6 +3,7 @@ import Box2D.Dynamics.b2Body;
 
 import away3d.containers.ObjectContainer3D;
 
+import edu.colorado.phet.densityandbuoyancy.model.BooleanProperty;
 import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
 import edu.colorado.phet.densityandbuoyancy.model.NumericProperty;
 import edu.colorado.phet.densityandbuoyancy.view.*;
@@ -21,6 +22,11 @@ public class DensityObjectNode extends ObjectContainer3D implements Pickable {
     private var _view: AbstractDensityModule;
 
     protected var textReadout: TextFieldMesh;
+
+    /**
+     * Whether this object is currently movable (and thus pickable), or not
+     */
+    private var pickable: BooleanProperty = new BooleanProperty( true );
 
     public function DensityObjectNode( densityObject: DensityObject, view: AbstractDensityModule ) {
         super();
@@ -82,6 +88,10 @@ public class DensityObjectNode extends ObjectContainer3D implements Pickable {
 
     protected function getFontReadoutSize(): Number {
         return 34;
+    }
+
+    public function isPickableProperty(): BooleanProperty {
+        return pickable;
     }
 }
 }

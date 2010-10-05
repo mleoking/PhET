@@ -38,6 +38,12 @@ public class DensityModel {
     private const densityObjectDestructionListeners: Array = new Array();
     private var time: Number = 0;//This time value is not reset, and is only used internally for debugging
 
+    /**
+     * Whether we should enable scales to move with the geometry (or not). Setting this to true will cause scales to
+     * move according to forces from other objects
+     */
+    public var scalesMovableProperty: BooleanProperty = new BooleanProperty( false );
+
     public function DensityModel() {
         densityObjects = new Array();
 

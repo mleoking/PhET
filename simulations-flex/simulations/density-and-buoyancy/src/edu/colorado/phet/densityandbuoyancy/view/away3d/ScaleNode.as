@@ -1,6 +1,5 @@
 package edu.colorado.phet.densityandbuoyancy.view.away3d {
 import away3d.materials.*;
-import away3d.primitives.Cube;
 
 import edu.colorado.phet.densityandbuoyancy.DensityConstants;
 import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
@@ -11,9 +10,9 @@ public class ScaleNode extends CuboidNode {
 
     private var _scale: Scale;
 
-    private var base: Cube;
-    private var top: Cube;
-    private var stand: Cube;
+    private var base: PickableCube;
+    private var top: PickableCube;
+    private var stand: PickableCube;
 
     public function ScaleNode( scale: Scale, view: AbstractDensityModule ): void {
         super( scale, view );
@@ -23,7 +22,7 @@ public class ScaleNode extends CuboidNode {
         var totalHeight: Number = getCuboid().getHeight() * DensityModel.DISPLAY_SCALE;
         var totalDepth: Number = getCuboid().getDepth() * DensityModel.DISPLAY_SCALE;
 
-        base = new Cube();
+        base = new PickableCube( this );
         base.width = totalWidth;
         base.height = totalHeight / 2;
         base.depth = totalDepth;
@@ -32,7 +31,7 @@ public class ScaleNode extends CuboidNode {
         base.y = -totalHeight / 4;
         addChild( base );
 
-        top = new Cube();
+        top = new PickableCube( this );
         top.width = totalWidth;
         top.height = totalHeight / 8;
         top.depth = totalDepth;
@@ -41,7 +40,7 @@ public class ScaleNode extends CuboidNode {
         top.y = 7 * totalHeight / 16;
         addChild( top );
 
-        stand = new Cube();
+        stand = new PickableCube( this );
         stand.width = totalWidth / 5;
         stand.height = totalHeight - base.height - top.height;
         stand.depth = totalDepth / 5;
@@ -66,6 +65,11 @@ public class ScaleNode extends CuboidNode {
         stand.material = sideMaterial;
 
         scale.addScaleReadoutListener( updateText );
+
+        isPickableProperty().initialValue = _scale.getModel().scalesMovableProperty.value;
+        _scale.getModel().scalesMovableProperty.addListener( function(): void {
+            isPickableProperty().value = _scale.getModel().scalesMovableProperty.value;
+        } );
     }
 
     public function updateText(): void {

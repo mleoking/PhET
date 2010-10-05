@@ -3,14 +3,24 @@ import Box2D.Dynamics.b2Body;
 
 import away3d.primitives.Cube;
 
+import edu.colorado.phet.densityandbuoyancy.model.BooleanProperty;
+
+/**
+ * A cube that is possibly movable
+ */
 public class PickableCube extends Cube implements Pickable {
 
     private var picker: Pickable;
 
     public function PickableCube( picker: Pickable ) {
         super();
-        this.useHandCursor = true;
         this.picker = picker;
+        isPickableProperty().addListener( updateHandCursor );
+        updateHandCursor();
+    }
+
+    private function updateHandCursor(): void {
+        this.useHandCursor = isPickableProperty().value;
     }
 
     public function setPosition( x: Number, y: Number ): void {
@@ -23,6 +33,10 @@ public class PickableCube extends Cube implements Pickable {
 
     public function updateGeometry(): void {
         picker.updateGeometry();
+    }
+
+    public function isPickableProperty(): BooleanProperty {
+        return picker.isPickableProperty();
     }
 }
 }
