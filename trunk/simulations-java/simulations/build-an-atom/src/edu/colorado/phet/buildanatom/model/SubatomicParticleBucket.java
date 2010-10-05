@@ -179,7 +179,7 @@ public class SubatomicParticleBucket {
         int positionInLayer = 0;
         boolean found = false;
         while ( !found ) {
-            double yPos = getPosition().getY() + layer * particleRadius * 2 * 0.866 + yOffset;
+            double yPos = getYPositionForLayer( layer );
             double xPos = getPosition().getX() - holeShape.getBounds2D().getWidth() / 2 + offsetFromBucketEdge + positionInLayer * 2 * particleRadius;
             if ( isPositionOpen( xPos, yPos ) ) {
                 // We found a location that is open.
@@ -212,14 +212,49 @@ public class SubatomicParticleBucket {
         return openLocation;
     }
 
+    private double getYPositionForLayer( int layer ) {
+        double yPos = getPosition().getY() + layer * particleRadius * 2 * 0.866 + yOffset;
+        return yPos;
+    }
+
     private void relayoutBucketParticles() {
-        ArrayList<SubatomicParticle> copy = new ArrayList<SubatomicParticle>( containedParticles );
-        for ( SubatomicParticle subatomicParticle : copy ) {
-            removeParticle( subatomicParticle );
+        if ( needsRelayout() ) {
+            ArrayList<SubatomicParticle> copy = new ArrayList<SubatomicParticle>( containedParticles );
+            for ( SubatomicParticle subatomicParticle : copy ) {
+                removeParticle( subatomicParticle );
+            }
+            for ( SubatomicParticle subatomicParticle : copy ) {
+                addParticle( subatomicParticle, true );
+            }
         }
-        for ( SubatomicParticle subatomicParticle : copy ) {
-            addParticle( subatomicParticle, false);
+    }
+
+    private boolean needsRelayout() {
+        //if any particle is 'dangling'
+        for ( SubatomicParticle containedParticle : containedParticles ) {
+            if (isDangling(containedParticle)){
+                return true;
+            }
         }
+        return false;
+    }
+
+    private boolean isDangling( SubatomicParticle containedParticle ) {
+        boolean upperLayer = containedParticle.getDestination().getY() > getYPositionForLayer( 0 );
+//        System.out.println( "upperLayer = " + upperLayer +", isAnyParticleNearbyUnderneath(containedParticle)="+countSupportingParticles(containedParticle));
+        return upperLayer && countSupportingParticles(containedParticle)<2;
+    }
+
+    private int countSupportingParticles( SubatomicParticle p ) {
+        int count =0 ;
+        for ( SubatomicParticle particle : containedParticles ) {
+            if ( particle != p &&//not ourself
+                 particle.getDestination().getY() < p.getDestination().getY() && //must be in a lower layer
+                 particle.getDestination().distance( p.getDestination() ) < p.getRadius() * 3 ) {
+                count++;
+            }
+        }
+        return count;
     }
 
     /**
