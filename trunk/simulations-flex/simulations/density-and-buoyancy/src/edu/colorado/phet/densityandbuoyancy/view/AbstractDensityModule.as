@@ -5,7 +5,6 @@ import away3d.cameras.*;
 import away3d.containers.*;
 import away3d.core.base.*;
 import away3d.core.draw.*;
-import away3d.core.filter.*;
 import away3d.core.geom.*;
 import away3d.core.math.*;
 import away3d.core.render.*;
@@ -25,7 +24,6 @@ import edu.colorado.phet.densityandbuoyancy.view.units.LinearUnit;
 import edu.colorado.phet.densityandbuoyancy.view.units.Units;
 import edu.colorado.phet.flashcommon.MathUtil;
 
-import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.MouseEvent;
 
@@ -39,7 +37,6 @@ public class AbstractDensityModule extends UIComponent {
     //engine variables
     private var scene: Scene3D;
     private var camera: HoverCamera3D;
-    private var fogfilter: FogFilter;
     private var renderer: IRenderer;
     private var view: View3D;
 
@@ -58,7 +55,6 @@ public class AbstractDensityModule extends UIComponent {
     private var running: Boolean = true;
     private var invalid: Boolean = true;
     private var marker: ObjectContainer3D;
-    private var backgroundSprite: Sprite;
     private var groundNode: GroundNode;
 
     protected var densityObjectNodeList: Array = new Array();
@@ -82,11 +78,6 @@ public class AbstractDensityModule extends UIComponent {
         initObjects();
         initListeners();
 
-        backgroundSprite = new Sprite();
-        backgroundSprite.graphics.beginFill( 0x000000 );
-        backgroundSprite.graphics.drawRect( 0, 0, 5000, 5000 );
-        backgroundSprite.graphics.endFill();
-        //addChild(backgroundSprite);
         addChild( view );
         tickMarkSet = new TickMarkSet( _model );
         addChild( tickMarkSet );
@@ -117,10 +108,11 @@ public class AbstractDensityModule extends UIComponent {
         camera.targettiltangle = camera.tiltangle = 8;
         camera.hover();
 
+        // alternative renderers
         //        renderer = Renderer.BASIC;
         //        renderer = Renderer.CORRECT_Z_ORDER;
+        //        renderer = new QuadrantRenderer();
         renderer = Renderer.INTERSECTING_OBJECTS;
-        //renderer = new QuadrantRenderer();
 
         view = new View3D( {scene:scene, camera:camera, renderer:renderer} );
     }
@@ -139,8 +131,8 @@ public class AbstractDensityModule extends UIComponent {
         scene.addChild( waterTop );
         waterTop.mouseEnabled = false;
 
+        // when the fluid density changes, let's change the water color.
         model.fluidDensity.addListener( function(): void {
-            // when the fluid density changes, let's change the water color.
             var waterMaterial: ShadingColorMaterial;
             var density: Number = model.fluidDensity.value;
             if ( density <= Material.WATER.getDensity() ) {
@@ -256,10 +248,17 @@ public class AbstractDensityModule extends UIComponent {
         //        water
     }
 
+    /**
+     * @return Whether the object can be selected by the mouse and moved
+     */
+    private function canCurrentlyMoveObject( ob: Object3D ): Boolean {
+        return ob is Pickable && (ob as Pickable).isPickableProperty().value;
+    }
+
     public function onMouseDown( event: MouseEvent ): void {
         startMouseX = stage.mouseX - view.x;
         startMouseY = stage.mouseY - view.y;
-        if ( view.mouseObject is Pickable ) {
+        if ( canCurrentlyMoveObject( view.mouseObject ) ) {
             moving = true;
             startMiddle = medianFrontScreenPoint( view.mouseObject as AbstractPrimitive );
             selectedObject = view.mouseObject as AbstractPrimitive;

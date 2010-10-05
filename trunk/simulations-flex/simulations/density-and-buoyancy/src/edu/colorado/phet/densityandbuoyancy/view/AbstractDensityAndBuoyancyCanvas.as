@@ -21,7 +21,7 @@ import mx.core.UIComponent;
 public class AbstractDensityAndBuoyancyCanvas extends Canvas {
     protected var background: Canvas;
 
-    protected var phetLogoButton: PhetLogoButton
+    protected var phetLogoButton: PhetLogoButton;
 
     /**
      * Override in sub-classes

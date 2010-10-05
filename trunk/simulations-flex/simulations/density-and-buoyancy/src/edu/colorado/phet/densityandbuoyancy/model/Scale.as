@@ -31,7 +31,19 @@ public class Scale extends Cuboid {
 
     public function Scale( x: Number, y: Number, model: DensityModel ): void {
         super( SCALE_DENSITY, SCALE_WIDTH, SCALE_HEIGHT, SCALE_DEPTH, x, y, model, Material.CUSTOM );
-        setMass( 0 );//Mass has to be zero so that it is immobile
+
+        // set mass to make this mobile / immobile, and then listen to it
+        updateMobility();
+        getModel().scalesMovableProperty.addListener( updateMobility );
+    }
+
+    private function updateMobility(): void {
+        if ( getModel().scalesMovableProperty.value ) {
+            setMass( SCALE_WIDTH * SCALE_HEIGHT * SCALE_DEPTH * SCALE_DENSITY );
+        }
+        else {
+            setMass( 0 );//Mass has to be zero so that it is immobile
+        }
     }
 
     public function getScaleReadout(): String {
